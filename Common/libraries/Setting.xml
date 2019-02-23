@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Setting>
+  <Database>
+    <!--交易資訊系統資料庫-->
+    <CiUserAp>
+      <ConnectionName>CIN_USER_AP</ConnectionName>
+      <InitialCatalog>CI</InitialCatalog>
+    </CiUserAp>
+
+    <!--交易資訊系統資料庫-CI帳號-->
+    <Ci>
+      <ConnectionName>CIN_CI</ConnectionName>
+      <InitialCatalog>CI</InitialCatalog>
+    </Ci>
+    
+    <!--交易資訊系統資料庫-期貨日盤-->
+    <CiFut>
+      <ConnectionName>CIN_FUT</ConnectionName>
+      <InitialCatalog>CI</InitialCatalog>
+    </CiFut>
+
+    <!--交易資訊系統資料庫-選擇權日盤-->
+    <CiOpt>
+      <ConnectionName>CIN_OPT</ConnectionName>
+      <InitialCatalog>CI</InitialCatalog>
+    </CiOpt>
+
+    <!--交易資訊系統資料庫-期貨夜盤-->
+    <CiFutAH>
+      <ConnectionName>CIN_FUT_AH</ConnectionName>
+      <InitialCatalog>CI</InitialCatalog>
+    </CiFutAH>
+
+    <!--交易資訊系統資料庫-選擇權夜盤-->
+    <CiOptAH>
+      <ConnectionName>CIN_OPT_AH</ConnectionName>
+      <InitialCatalog>CI</InitialCatalog>
+    </CiOptAH>
+
+    <!--交易資訊系統資料庫-監視-->
+    <CiMonit>
+      <ConnectionName>CIN_MONIT</ConnectionName>
+      <InitialCatalog>CI</InitialCatalog>
+    </CiMonit>
+  </Database>
+  
+  <Log>
+    <LogSeverity>Info</LogSeverity>
+  </Log>
+  
+  <ConnectionStrings>
+    <!--測試環境區段-->
+    <Connection>
+      <Name>CIN_USER_AP</Name>
+      <ConnectionString>Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.68.51)(PORT=1521)))(CONNECT_DATA=(SID=CI)));User Id=CI;Password=orcl;</ConnectionString>
+      <ProviderName>Oracle.ManagedDataAccess.Client</ProviderName>
+    </Connection>
+    <Connection>
+      <Name>CIN_CI</Name>
+      <ConnectionString>Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.68.51)(PORT=1521)))(CONNECT_DATA=(SID=CI)));User Id=CI;Password=orcl;</ConnectionString>
+      <ProviderName>Oracle.ManagedDataAccess.Client</ProviderName>
+    </Connection>
+    <Connection>
+      <Name>CIN_FUT</Name>
+      <ConnectionString>Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.68.51)(PORT=1521)))(CONNECT_DATA=(SID=CI)));User Id=CI;Password=orcl;</ConnectionString>
+      <ProviderName>Oracle.ManagedDataAccess.Client</ProviderName>
+    </Connection>
+    <Connection>
+      <Name>CIN_OPT</Name>
+      <ConnectionString>Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.68.51)(PORT=1521)))(CONNECT_DATA=(SID=CI)));User Id=CI;Password=orcl;</ConnectionString>
+      <ProviderName>Oracle.ManagedDataAccess.Client</ProviderName>
+    </Connection>
+    <Connection>
+      <Name>CIN_FUT_AH</Name>
+      <ConnectionString>Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.68.51)(PORT=1521)))(CONNECT_DATA=(SID=CI)));User Id=CI;Password=orcl;</ConnectionString>
+      <ProviderName>Oracle.ManagedDataAccess.Client</ProviderName>
+    </Connection>
+    <Connection>
+      <Name>CIN_OPT_AH</Name>
+      <ConnectionString>Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.68.51)(PORT=1521)))(CONNECT_DATA=(SID=CI)));User Id=CI;Password=orcl;</ConnectionString>
+      <ProviderName>Oracle.ManagedDataAccess.Client</ProviderName>
+    </Connection>
+    <Connection>
+      <Name>CIN_MONIT</Name>
+      <ConnectionString>Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.68.51)(PORT=1521)))(CONNECT_DATA=(SID=CI)));User Id=CI;Password=orcl;</ConnectionString>
+      <ProviderName>Oracle.ManagedDataAccess.Client</ProviderName>
+    </Connection>
+    <!--正式環境區段-->
+    <!--待填-->
+  </ConnectionStrings>
+
+  <!--下載程式用-->
+  <Download>
+    <FileName>version.xml</FileName>
+    <Type>XML</Type>
+    <!--這裡要填的是上面Setting的Database的Tag的Name-->
+    <Database>Futures</Database>
+    <PBcodeType>O</PBcodeType>
+    <StartFileName>future.exe</StartFileName>
+  </Download>
+  
+  <!--Upload上傳程式的下拉選單用-->
+  <SysCode>
+    <Sys>
+      <Database>Futures</Database>
+      <Name>FutureDay</Name>
+      <PBcodeType>O</PBcodeType>
+    </Sys>
+    <Sys>
+      <Database>Options</Database>
+      <Name>option_online</Name>
+      <PBcodeType>O</PBcodeType>
+    </Sys>
+    <Sys>
+      <Database>Futures_AH</Database>
+      <Name>FutureDay_night</Name>
+      <PBcodeType>O</PBcodeType>
+    </Sys>
+    <Sys>
+      <Database>Options_AH</Database>
+      <Name>option_online_night</Name>
+      <PBcodeType>O</PBcodeType>
+    </Sys>
+  </SysCode>
+</Setting>

@@ -1,0 +1,1369 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D04C47FA-3580-41D2-BFD2-1C7AC7FE6292}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>PhoenixCI</RootNamespace>
+    <AssemblyName>PhoenixCI</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Charts.v18.2.Core, Version=18.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Data.v18.2, Version=18.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Docs.v18.2, Version=18.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Office.v18.2.Core, Version=18.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Pdf.v18.2.Core, Version=18.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.PivotGrid.v18.2.Core, Version=18.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v18.2.Core, Version=18.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v18.2.Core, Version=18.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.RichEdit.v18.2.Export, Version=18.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Sparkline.v18.2.Core, Version=18.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Spreadsheet.v18.2.Core, Version=18.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v18.2, Version=18.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v18.2.UI, Version=18.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Xpo.v18.2, Version=18.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraBars.v18.2, Version=18.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.XtraCharts.v18.2, Version=18.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.XtraEditors.v18.2, Version=18.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.XtraGauges.v18.2.Core, Version=18.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraGrid.v18.2, Version=18.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.XtraLayout.v18.2, Version=18.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.XtraPrinting.v18.2, Version=18.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.CodeParser.v18.2, Version=18.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v18.2, Version=18.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v18.2.Extensions, Version=18.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraVerticalGrid.v18.2, Version=18.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FormUI\Prefix1\W10014.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix1\W10014.designer.cs">
+      <DependentUpon>W10014.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix1\W10013.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix1\W10013.designer.cs">
+      <DependentUpon>W10013.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix1\W10012.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix1\W10012.designer.cs">
+      <DependentUpon>W10012.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix1\W10002.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix1\W10002.designer.cs">
+      <DependentUpon>W10002.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix5\W50072.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix5\W50072.Designer.cs">
+      <DependentUpon>W50072.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix5\W50073.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix5\W50073.Designer.cs">
+      <DependentUpon>W50073.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix5\W50090.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix5\W50090.Designer.cs">
+      <DependentUpon>W50090.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix5\W50120.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix5\W50120.Designer.cs">
+      <DependentUpon>W50120.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix5\W55030.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix5\W55030.Designer.cs">
+      <DependentUpon>W55030.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix5\W55040.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix5\W55040.Designer.cs">
+      <DependentUpon>W55040.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix6\W60210.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix6\W60210.designer.cs">
+      <DependentUpon>W60210.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix6\W60310.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix6\W60310.designer.cs">
+      <DependentUpon>W60310.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix6\W60311.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix6\W60311.designer.cs">
+      <DependentUpon>W60311.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix6\W60410.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix6\W60410.designer.cs">
+      <DependentUpon>W60410.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix6\W60330.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix6\W60330.designer.cs">
+      <DependentUpon>W60330.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix6\W60320.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix6\W60320.designer.cs">
+      <DependentUpon>W60320.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\PrefixZ\WZ0112.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\PrefixZ\WZ0112.designer.cs">
+      <DependentUpon>WZ0112.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\PrefixZ\WZ0910.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\PrefixZ\WZ0910.designer.cs">
+      <DependentUpon>WZ0910.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\PrefixZ\WZ0111.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\PrefixZ\WZ0111.designer.cs">
+      <DependentUpon>WZ0111.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\PrefixZ\WZ0110.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\PrefixZ\WZ0110.designer.cs">
+      <DependentUpon>WZ0110.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\PrefixZ\WZ0020.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\PrefixZ\WZ0020.designer.cs">
+      <DependentUpon>WZ0020.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\PrefixZ\WZ0019.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\PrefixZ\WZ0019.designer.cs">
+      <DependentUpon>WZ0019.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\PrefixZ\WZ0010.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\PrefixZ\WZ0010.designer.cs">
+      <DependentUpon>WZ0010.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\PrefixZ\WZ0011.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\PrefixZ\WZ0011.Designer.cs">
+      <DependentUpon>WZ0011.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix6\W60110.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix6\W60110.designer.cs">
+      <DependentUpon>W60110.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\PrefixZ\WZ0990.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\PrefixZ\WZ0990.Designer.cs">
+      <DependentUpon>WZ0990.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\PrefixZ\WZ9999.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\PrefixZ\WZ9999.designer.cs">
+      <DependentUpon>WZ9999.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Report\R55030.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Report\R55030.Designer.cs">
+      <DependentUpon>R55030.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Report\RZ0910_TXN.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Report\RZ0910_TXN.designer.cs">
+      <DependentUpon>RZ0910_TXN.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Report\RZ0011.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Report\RZ0011.designer.cs">
+      <DependentUpon>RZ0011.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\SharedFunction.cs" />
+    <Compile Include="Widget\DropDownList.cs" />
+    <Compile Include="Widget\TextDateEdit.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <EmbeddedResource Include="FormUI\Prefix1\W10014.resx">
+      <DependentUpon>W10014.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix1\W10013.resx">
+      <DependentUpon>W10013.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix1\W10012.resx">
+      <DependentUpon>W10012.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix1\W10002.resx">
+      <DependentUpon>W10002.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix5\W50072.resx">
+      <DependentUpon>W50072.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix5\W50073.resx">
+      <DependentUpon>W50073.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix5\W50090.resx">
+      <DependentUpon>W50090.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix5\W50120.resx">
+      <DependentUpon>W50120.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix5\W55030.resx">
+      <DependentUpon>W55030.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix5\W55040.resx">
+      <DependentUpon>W55040.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix6\W60210.resx">
+      <DependentUpon>W60210.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix6\W60310.resx">
+      <DependentUpon>W60310.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix6\W60311.resx">
+      <DependentUpon>W60311.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix6\W60410.resx">
+      <DependentUpon>W60410.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix6\W60330.resx">
+      <DependentUpon>W60330.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix6\W60320.resx">
+      <DependentUpon>W60320.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\PrefixZ\WZ0112.resx">
+      <DependentUpon>WZ0112.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\PrefixZ\WZ0910.resx">
+      <DependentUpon>WZ0910.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\PrefixZ\WZ0111.resx">
+      <DependentUpon>WZ0111.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\PrefixZ\WZ0110.resx">
+      <DependentUpon>WZ0110.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\PrefixZ\WZ0020.resx">
+      <DependentUpon>WZ0020.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\PrefixZ\WZ0019.resx">
+      <DependentUpon>WZ0019.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\PrefixZ\WZ0010.resx">
+      <DependentUpon>WZ0010.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\PrefixZ\WZ0011.resx">
+      <DependentUpon>WZ0011.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix6\W60110.resx">
+      <DependentUpon>W60110.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\PrefixZ\WZ0990.resx">
+      <DependentUpon>WZ0990.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\PrefixZ\WZ9999.resx">
+      <DependentUpon>WZ9999.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Report\R55030.resx">
+      <DependentUpon>R55030.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\RZ0910_TXN.resx">
+      <DependentUpon>RZ0910_TXN.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\RZ0011.resx">
+      <DependentUpon>RZ0011.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Excel_Template\20110_JTX.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30010_1.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30010_2.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30017.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30017_2.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30020.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30030.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30040.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30050.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30053.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30055_1.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30055_2.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30055_TJF.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30060.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30070.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30090.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30100.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30201.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30202.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30204.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30205.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30220.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30221.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30223.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30224.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30290.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30310.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30320.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30322.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30330.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30340.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30350.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30360.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30370.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30380.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30390.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30392.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30393.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30395.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30396.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30398.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30399.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30400.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30410.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30414.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30417.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30503.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30506.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30520.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30530.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30540.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30550.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30560.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30580.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30590.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30591.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30592.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30592_RMB.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30593.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30594.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30610.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30620.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30630.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30633.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30640.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30650.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30660.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30670_BRF.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30670_RHF.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30670_TJF.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30670_UDF.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30670_XBF.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30670_XEF.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30690.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30710.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30720.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30722.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30723.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30730.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30740.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30750.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30760.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30770.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30780.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30790.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\35010.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\35020.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\35030.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\35040.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\35050.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\35060.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\40011.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\40012.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\40013.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\40021.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\40022.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\40030.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\40040.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\40041.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\40042.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\40050.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\40060.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\40090.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\40130.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\40140.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\40150.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\40160.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\40170.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\40190.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\40200.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\40210.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\42010.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\42011.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\42012.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\42020.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\42033.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\43010.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\43020.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\43030.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\43032_future.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\43032_option.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\43032_stock.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\43033.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\48030.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\48040.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\49062.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\49062_Daily.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\50020.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\50030.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\50032.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\50034.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\50070.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\50072.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\55010.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\55010_2.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\55020.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\55030.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\55040.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\55050.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\55060.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\55060MM.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\55070.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\56010.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\60110.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\60210.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\60310.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\60320.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\60330.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\60410.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\60420.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\S0010.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\S0020.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Excel_Template\40030\40030_E1.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_E2.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_E3.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_EOF.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_H1.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_H2.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_H2_NEW.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_NewLine.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_NewRow.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_Result1.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_Subject1.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_Subject2.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_T1.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_T2.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_T3_F.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_T3_O.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_T4.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_T5.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_T6.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_T6e.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_BRF_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_BRF_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_BRF_Row1_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_BRF_Row2_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_BRF_Row3_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_BRF_RowCell_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_BRF_RowCell_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_BRF_Row_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_ETF_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_ETF_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_ETF_RowCell1_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_ETF_RowCell2_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_ETF_RowCell3_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_ETF_RowCell4_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_ETF_RowCell5_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_ETF_RowCell6_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_ETF_RowCell7_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_ETF_RowCell_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_ETF_Row_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_GOLD_1_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_GOLD_1_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_GOLD_1_Row1_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_GOLD_1_Row2_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_GOLD_1_Row3_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_GOLD_1_RowCell_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_GOLD_1_RowCell_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_GOLD_1_Row_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_GOLD_2_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_I5F_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_I5F_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_I5F_Row1_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_I5F_Row2_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_I5F_Row3_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_I5F_RowCell_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_I5F_RowCell_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_I5F_Row_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_RHF_1_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_RHF_1_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_RHF_1_Row1_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_RHF_1_Row2_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_RHF_1_Row3_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_RHF_1_RowCell_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_RHF_1_RowCell_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_RHF_1_Row_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_RHF_2_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_SPAN_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_SPAN_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_SPAN_RowCell_1_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_SPAN_RowCell_2_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_SPAN_RowCell_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_SPAN_Row_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_SPAN_Row_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_SPF_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_SPF_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_SPF_Row1_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_SPF_Row2_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_SPF_Row3_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_SPF_RowCell_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_SPF_RowCell_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_SPF_Row_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_STF_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_STF_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_STF_RowCell_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_STF_RowCell_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_STF_Row_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_STF_Row_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_TJF_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_TJF_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_TJF_Row1_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_TJF_Row2_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_TJF_Row3_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_TJF_RowCell_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_TJF_RowCell_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_TJF_Row_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_TXF_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_TXF_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_TXF_Row1_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_TXF_Row2_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_TXF_Row3_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_TXF_RowCell_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_TXF_RowCell_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_TXF_Row_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_UDF_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_UDF_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_UDF_Row1_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_UDF_Row2_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_UDF_Row3_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_UDF_RowCell_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_UDF_RowCell_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_UDF_Row_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_UNF_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_UNF_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_UNF_Row1_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_UNF_Row2_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_UNF_Row3_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_UNF_RowCell_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_UNF_RowCell_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_UNF_Row_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XAF_1_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XAF_1_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XAF_1_Row1_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XAF_1_Row2_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XAF_1_Row3_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XAF_1_RowCell_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XAF_1_RowCell_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XAF_1_Row_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XAF_2_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XBF_1_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XBF_1_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XBF_1_Row1_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XBF_1_Row2_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XBF_1_Row3_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XBF_1_RowCell_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XBF_1_RowCell_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XBF_1_Row_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XBF_2_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XEF_1_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XEF_1_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XEF_1_Row1_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XEF_1_Row2_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XEF_1_Row3_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XEF_1_RowCell_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XEF_1_RowCell_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XEF_1_Row_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XEF_2_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XJF_1_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XJF_1_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XJF_1_Row1_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XJF_1_Row2_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XJF_1_Row3_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XJF_1_RowCell_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XJF_1_RowCell_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XJF_1_Row_End.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\40030\40030_TBL_XJF_2_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\alarm_bb.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Setting.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ActionService\ActionService.csproj">
+      <Project>{f0aafa38-e246-417c-82b0-e279bb6da532}</Project>
+      <Name>ActionService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BaseGround\BaseGround.csproj">
+      <Project>{cda763b2-1ba5-446f-8000-2d23b145b2dc}</Project>
+      <Name>BaseGround</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BusinessObjects\BusinessObjects.csproj">
+      <Project>{8ec74780-ad73-42a9-ba50-4c1e48347501}</Project>
+      <Name>BusinessObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{86ebe2f6-24c2-47ed-a69a-99255cba1646}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataObjects\DataObjects.csproj">
+      <Project>{de739721-3314-4008-aeff-33b858fb4442}</Project>
+      <Name>DataObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogEx\LogEx.csproj">
+      <Project>{09c53720-c84b-4462-a2c1-604e9dd0fcbd}</Project>
+      <Name>LogEx</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

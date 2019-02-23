@@ -1,0 +1,274 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DE739721-3314-4008-AEFF-33B858FB4442}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DataObjects</RootNamespace>
+    <AssemblyName>DataObjects</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Dao\DataGate.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D11010.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D20110.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D20112.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D20140.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D20220.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D20230.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D20420.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D28110.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D28510.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D28511.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D28512.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D28610.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30020.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30201.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30310.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30320.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30321.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30322.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30590.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30591.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30592.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30593.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30594.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30610.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30620.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30630.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30633.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30640.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30650.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30660.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30686.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30690.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D43032.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D50030.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D50031.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D20130.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D50032.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D50050.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D50072.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D50073.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D50090.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D500xx.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D50120.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D51010.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D51020.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D51030.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D51040.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D51050.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D51060.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D51070.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D55010.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D55020.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D55030.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D55031.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D55040.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D50040.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D50060.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D55050.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D55060.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D50034.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D50036.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D56010.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D56090.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D60410.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D60330.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D60320.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D60310.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D60210.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D60110.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D60420.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D70010.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D70020.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D70030.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D70050.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D95140.cs" />
+    <Compile Include="Dao\Together\SpecificDao\DP0040.cs" />
+    <Compile Include="Dao\Together\SpecificDao\DS0010.cs" />
+    <Compile Include="Dao\Together\SpecificDao\DS0011.cs" />
+    <Compile Include="Dao\Together\SpecificDao\DS0012.cs" />
+    <Compile Include="Dao\Together\SpecificDao\DS0020.cs" />
+    <Compile Include="Dao\Together\SpecificDao\DS0070.cs" />
+    <Compile Include="Dao\Together\SpecificDao\DS0071.cs" />
+    <Compile Include="Dao\Together\SpecificDao\DS0072.cs" />
+    <Compile Include="Dao\Together\SpecificDao\DS0073.cs" />
+    <Compile Include="Dao\Together\SpecificDao\DZ0112.cs" />
+    <Compile Include="Dao\Together\SpecificDao\DZ9999.cs" />
+    <Compile Include="Dao\Together\SpecificDao\DZ0110.cs" />
+    <Compile Include="Dao\Together\SpecificDao\DZ0019.cs" />
+    <Compile Include="Dao\Together\TableDao\AA1.cs" />
+    <Compile Include="Dao\Together\TableDao\AB1.cs" />
+    <Compile Include="Dao\Together\TableDao\AE6.cs" />
+    <Compile Include="Dao\Together\TableDao\AI2.cs" />
+    <Compile Include="Dao\Together\TableDao\AI3.cs" />
+    <Compile Include="Dao\Together\TableDao\AI5.cs" />
+    <Compile Include="Dao\Together\TableDao\AM2.cs" />
+    <Compile Include="Dao\Together\TableDao\AM21F.cs" />
+    <Compile Include="Dao\Together\TableDao\AM22F.cs" />
+    <Compile Include="Dao\Together\TableDao\AM2F.cs" />
+    <Compile Include="Dao\Together\TableDao\AM7.cs" />
+    <Compile Include="Dao\Together\TableDao\AM7T.cs" />
+    <Compile Include="Dao\Together\TableDao\AMIF.cs" />
+    <Compile Include="Dao\Together\TableDao\DTS.cs" />
+    <Compile Include="Dao\Together\TableDao\ABRK.cs" />
+    <Compile Include="Dao\Together\TableDao\AMPD.cs" />
+    <Compile Include="Dao\Together\TableDao\APDK.cs" />
+    <Compile Include="Dao\Together\TableDao\APDK_PARAM.cs" />
+    <Compile Include="Dao\Together\TableDao\COD.cs" />
+    <Compile Include="Dao\Together\TableDao\HPDK.cs" />
+    <Compile Include="Dao\Together\TableDao\INOTC1.cs" />
+    <Compile Include="Dao\Together\TableDao\INTWSE1.cs" />
+    <Compile Include="Dao\Together\TableDao\JLOG.cs" />
+    <Compile Include="Dao\Together\TableDao\LOGSP.cs" />
+    <Compile Include="Dao\Together\TableDao\AOCF.cs" />
+    <Compile Include="Dao\Together\TableDao\LOGV.cs" />
+    <Compile Include="Dao\Together\TableDao\MMWK.cs" />
+    <Compile Include="Dao\Together\TableDao\OCFG.cs" />
+    <Compile Include="Dao\Together\TableDao\RAM1.cs" />
+    <Compile Include="Dao\Together\TableDao\REWARD\RWD_REF_OMNI.cs" />
+    <Compile Include="Dao\Together\TableDao\RPTF.cs" />
+    <Compile Include="Dao\Together\TableDao\RPT.cs" />
+    <Compile Include="Dao\Together\TableDao\DPT.cs" />
+    <Compile Include="Dao\Together\TableDao\LOGUTP.cs" />
+    <Compile Include="Dao\Together\TableDao\PDK.cs" />
+    <Compile Include="Dao\Together\TableDao\OCF.cs" />
+    <Compile Include="Dao\Together\TableDao\LOGF.cs" />
+    <Compile Include="Dao\Together\TableDao\JSW.cs" />
+    <Compile Include="Dao\Together\TableDao\RPTX.cs" />
+    <Compile Include="Dao\Together\TableDao\R_MARKET_MONTHLY.cs" />
+    <Compile Include="Dao\Together\TableDao\SPAN_PATH.cs" />
+    <Compile Include="Dao\Together\TableDao\STKOUT.cs" />
+    <Compile Include="Dao\Together\TableDao\STW.cs" />
+    <Compile Include="Dao\Together\TableDao\STWD.cs" />
+    <Compile Include="Dao\Together\TableDao\TPPINTD  .cs" />
+    <Compile Include="Dao\Together\TableDao\TXEMAIL.cs" />
+    <Compile Include="Dao\Together\TableDao\TXFP.cs" />
+    <Compile Include="Dao\Together\TableDao\TXFPARM.cs" />
+    <Compile Include="Dao\Together\TableDao\TXF.cs" />
+    <Compile Include="Dao\Together\TableDao\UPF.cs" />
+    <Compile Include="Dao\Together\TableDao\TXN.cs" />
+    <Compile Include="Dao\Together\TableDao\UTP.cs" />
+    <Compile Include="Dao\Together\TableDao\VPR.cs" />
+    <Compile Include="GlobalDaoSetting.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BusinessObjects\BusinessObjects.csproj">
+      <Project>{8ec74780-ad73-42a9-ba50-4c1e48347501}</Project>
+      <Name>BusinessObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{86EBE2F6-24C2-47ED-A69A-99255CBA1646}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OnePiece\OnePiece.csproj">
+      <Project>{9b7cee0a-e79f-4115-b96f-4dec707fb8c9}</Project>
+      <Name>OnePiece</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
