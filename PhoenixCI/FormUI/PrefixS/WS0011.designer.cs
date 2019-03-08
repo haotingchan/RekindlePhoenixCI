@@ -364,46 +364,61 @@
             // 
             // MG1_DATE
             // 
+            this.MG1_DATE.AppearanceCell.BackColor = System.Drawing.Color.Silver;
+            this.MG1_DATE.AppearanceCell.Options.UseBackColor = true;
             this.MG1_DATE.Caption = "交易日期";
             this.MG1_DATE.FieldName = "MG1_DATE";
             this.MG1_DATE.Name = "MG1_DATE";
             this.MG1_DATE.OptionsColumn.AllowEdit = false;
+            this.MG1_DATE.OptionsColumn.AllowFocus = false;
             this.MG1_DATE.Visible = true;
             this.MG1_DATE.VisibleIndex = 0;
             // 
             // MG1_KIND_ID
             // 
+            this.MG1_KIND_ID.AppearanceCell.BackColor = System.Drawing.Color.Silver;
+            this.MG1_KIND_ID.AppearanceCell.Options.UseBackColor = true;
             this.MG1_KIND_ID.Caption = "商品";
             this.MG1_KIND_ID.FieldName = "MG1_KIND_ID";
             this.MG1_KIND_ID.Name = "MG1_KIND_ID";
             this.MG1_KIND_ID.OptionsColumn.AllowEdit = false;
+            this.MG1_KIND_ID.OptionsColumn.AllowFocus = false;
             this.MG1_KIND_ID.Visible = true;
             this.MG1_KIND_ID.VisibleIndex = 1;
             // 
             // MG1_CHANGE_RANGE
             // 
+            this.MG1_CHANGE_RANGE.AppearanceCell.BackColor = System.Drawing.Color.Silver;
+            this.MG1_CHANGE_RANGE.AppearanceCell.Options.UseBackColor = true;
             this.MG1_CHANGE_RANGE.Caption = "變動幅度";
             this.MG1_CHANGE_RANGE.FieldName = "MG1_CHANGE_RANGE";
             this.MG1_CHANGE_RANGE.Name = "MG1_CHANGE_RANGE";
             this.MG1_CHANGE_RANGE.OptionsColumn.AllowEdit = false;
+            this.MG1_CHANGE_RANGE.OptionsColumn.AllowFocus = false;
             this.MG1_CHANGE_RANGE.Visible = true;
             this.MG1_CHANGE_RANGE.VisibleIndex = 2;
             // 
             // MG1_CUR_CM
             // 
+            this.MG1_CUR_CM.AppearanceCell.BackColor = System.Drawing.Color.Silver;
+            this.MG1_CUR_CM.AppearanceCell.Options.UseBackColor = true;
             this.MG1_CUR_CM.Caption = "現行結算保證金";
             this.MG1_CUR_CM.FieldName = "MG1_CUR_CM";
             this.MG1_CUR_CM.Name = "MG1_CUR_CM";
             this.MG1_CUR_CM.OptionsColumn.AllowEdit = false;
+            this.MG1_CUR_CM.OptionsColumn.AllowFocus = false;
             this.MG1_CUR_CM.Visible = true;
             this.MG1_CUR_CM.VisibleIndex = 3;
             // 
             // MG1_CM
             // 
+            this.MG1_CM.AppearanceCell.BackColor = System.Drawing.Color.Silver;
+            this.MG1_CM.AppearanceCell.Options.UseBackColor = true;
             this.MG1_CM.Caption = "調整後結算保證金";
             this.MG1_CM.FieldName = "MG1_CM";
             this.MG1_CM.Name = "MG1_CM";
             this.MG1_CM.OptionsColumn.AllowEdit = false;
+            this.MG1_CM.OptionsColumn.AllowFocus = false;
             this.MG1_CM.Visible = true;
             this.MG1_CM.VisibleIndex = 4;
             // 

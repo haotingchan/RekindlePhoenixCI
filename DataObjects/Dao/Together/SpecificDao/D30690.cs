@@ -476,7 +476,7 @@ order by kind_id2
         /// <returns></returns>
         public DataTable d_30690_mth_qnty_day_night(string as_fm,
                                                     string as_to,
-                                                    string as_day_night="A") {
+                                                    string as_day_night = "A") {
 
             object[] parms = {
                 ":as_fm", as_fm,
@@ -484,8 +484,36 @@ order by kind_id2
                 ":as_day_night",as_day_night
             };
 
-            //ken,有特別優化,原本的:as_day_night = 'D'非常非常慢
-            string sql = @"
+            //TODO 整個SQL要請期交所優化才行
+            //1.日盤會當掉(as_day_night = "D"),請優化
+            //  ken 原本的:as_day_night = 'D'非常非常慢,我特別優化,將子查詢先撈出來組SQL語法,避開自身同樣TABLE當查詢條件而造成的短暫lock現象 
+            //2.條件不對,as_day_night = "A"不等同於D + N,請確認邏輯
+            //3.日盤為什麼要從20170515開始,夜盤不用 ?
+            //4.日盤條件AI2_AH_DAY_COUNT > 0應該指的是夜盤,為什麼這邊AI2_PARAM_KEY 是要用夜盤商品來當日盤範圍?
+            string pKey = "";
+            if (as_day_night == "D") {
+                string sqlFirst = @"
+                                    select AI2_PARAM_KEY
+                                    from ci.AI2
+                                    where AI2_SUM_TYPE = 'D'
+                                    and AI2_SUM_SUBTYPE = '3'
+                                    and AI2_PROD_TYPE IN('F', 'O')
+                                    and AI2_YMD >= substr( :as_fm, 1, 4) || '0101'
+                                    and AI2_YMD <=  :as_to
+                                    and AI2_AH_DAY_COUNT > 0
+                                    group by AI2_PARAM_KEY";
+
+                DataTable dtTemp = db.GetDataTable(sqlFirst, parms);
+
+                pKey = " and AI2_PARAM_KEY in ('";
+                foreach (DataRow dr in dtTemp.Rows) {
+                    pKey += dr[0].ToString() + "','";
+                }
+                pKey += "')";
+            }//if (as_day_night == "D") {
+
+
+            string sql = string.Format(@"
 SELECT rpt_ym as data_ym,
              rpt_prod_type as prod_type,
              rpt_param_key as param_key,
@@ -503,9 +531,10 @@ SELECT rpt_ym as data_ym,
           AND AI2_PROD_TYPE IN ('F','O')
           AND AI2_YMD >= substr( :as_fm,1,4)||'0101'
           AND AI2_YMD <=  :as_to 
-          AND ( (:as_day_night = 'A') or 
-                (:as_day_night = 'N' and AI2_AH_DAY_COUNT > 0) or 
-                (:as_day_night = 'D' and AI2_AH_DAY_COUNT <= 0 and AI2_YMD >= '20170515')
+          AND ( 
+               (:as_day_night = 'A') or 
+               (:as_day_night = 'N' and AI2_AH_DAY_COUNT > 0) or 
+               (:as_day_night = 'D' and AI2_YMD >= '20170515' {0})
               )
         GROUP BY  AI2_PROD_TYPE,AI2_PARAM_KEY,SUBSTR(AI2_YMD,1,6)
         UNION ALL
@@ -519,47 +548,40 @@ SELECT rpt_ym as data_ym,
           AND AI2_PROD_TYPE IN ('F','O')
           AND AI2_YMD >= substr( :as_to,1,4)||'0101'
           AND AI2_YMD <=  :as_to 
-          AND ( (:as_day_night = 'A') or 
-                (:as_day_night = 'N' and AI2_AH_DAY_COUNT > 0) or 
-                (:as_day_night = 'D' and AI2_AH_DAY_COUNT <= 0 and AI2_YMD >= '20170515')
+          AND ( 
+               (:as_day_night = 'A') or 
+               (:as_day_night = 'N' and AI2_AH_DAY_COUNT > 0) or 
+               (:as_day_night = 'D' and AI2_YMD >= '20170515' {0})
               )
         GROUP BY  AI2_PROD_TYPE,AI2_PARAM_KEY,SUBSTR(AI2_YMD,1,4)),
 
+       (--每月資料
+        SELECT rpt_ym,rpt_col,PDK_PROD_TYPE as rpt_prod_type,trim(PDK_PARAM_KEY) as rpt_param_key
+          FROM 
+              (SELECT rpt_ym,rpt_col
+                 FROM
+                     (SELECT SUBSTR(OCF_YMD,1,6) as rpt_ym,
+                                 12 - ROW_NUMBER( ) OVER ( ORDER BY SUBSTR(OCF_YMD,1,6) desc NULLS LAST) + 1 as rpt_col
+                      FROM CI.AOCF 
+                     WHERE OCF_YMD >= substr(:as_fm,1,4)||'0101' 
+                       AND OCF_YMD <= :as_to
+                     GROUP BY SUBSTR(OCF_YMD,1,6)
+                     ORDER BY  2)
+               WHERE rpt_col > 0
+               UNION ALL
+              SELECT substr(:as_to,1,4),13 
+                FROM DUAL) R,
+             (SELECT PDK_PROD_TYPE,PDK_PARAM_KEY from ci.HPDK
+               WHERE PDK_DATE >= TO_DATE(:as_fm,'YYYYMMDD')
+                 AND PDK_DATE <= TO_DATE(:as_to,'YYYYMMDD')
+                 AND (:as_day_night <> 'N' or NOT PDK_AH_MARKET_OPEN IS NULL)
+               GROUP BY PDK_PROD_TYPE,PDK_PARAM_KEY) P )
 
-       (--把每一天加上流水號並排序列表 x 商品種類(把清單做出來,可避免上面撈取資料為空)
-        select rpt_ym,
-            rpt_col,
-            pdk_prod_type as rpt_prod_type,
-            trim(pdk_param_key) as rpt_param_key
-        from 
-            (select rpt_ym,rpt_col
-            from
-                (select substr(ocf_ymd,1,6) as rpt_ym,
-                12 - row_number( ) over ( order by substr(ocf_ymd,1,6) desc nulls last) + 1 as rpt_col
-                from ci.aocf 
-                where ocf_ymd >= substr(:as_fm,1,4)||'0101' 
-                and ocf_ymd <= :as_to
-                group by substr(ocf_ymd,1,6)
-                order by  2)
-            where rpt_col > 0
-            union all
-            select substr(:as_to,1,4),13 
-            from dual) r ,
-
-            (select pdk_prod_type,
-            pdk_param_key 
-            from ci.hpdk
-            where pdk_date >= to_date(:as_fm,'YYYYMMDD')
-            and pdk_date <= to_date(:as_to,'YYYYMMDD')
-            and (:as_day_night <> 'N' or not pdk_ah_market_open is null)
-            group by pdk_prod_type,pdk_param_key) p
-        where 1=1 )
-               
 WHERE rpt_ym = data_ym(+)
 AND rpt_prod_type = prod_type(+)
 AND rpt_param_key = param_key(+)
 order by prod_type , param_key , rpt_col
-";
+", pKey);
 
             DataTable dtResult = db.GetDataTable(sql, parms);
 

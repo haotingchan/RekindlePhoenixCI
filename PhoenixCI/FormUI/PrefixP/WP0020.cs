@@ -11,21 +11,62 @@ using DevExpress.XtraEditors;
 using BaseGround;
 using Common;
 using BusinessObjects.Enums;
-
-//TODO :資料尚未齊全，先做UI畫面
+using DataObjects.Dao.Together.SpecificDao;
+using BaseGround.Shared;
+using DevExpress.XtraEditors.Controls;
 
 /// <summary>
-/// Winni, 2019/01/05 查詢資料明細
+/// Winni, 2019/03/06 
 /// </summary>
 namespace PhoenixCI.FormUI.PrefixP {
+   /// <summary>
+   /// P0020 查詢資料明細
+   /// 功能：Retrieve, Print
+   /// </summary>
    public partial class WP0020 : FormParent {
+
+      private DP0020 daoP0020;
+      private DP0030 daoP0030; //test
+      private DP0050 daoP0050; //test
+      protected class LookupItem {
+         public string ValueMember { get; set; }
+         public string DisplayMember { get; set; }
+      }
+
       public WP0020(string programID , string programName) : base(programID , programName) {
          try {
             InitializeComponent();
+            daoP0020 = new DP0020();
+            daoP0030 = new DP0030(); //test
+            daoP0050 = new DP0050(); //test
 
             this.Text = _ProgramID + "─" + _ProgramName;
+            GridHelper.SetCommonGrid(gvMain);
+
+            txtStartDate.Text = "%";
+            txtEndDate.Text = "%";
+
+            //下拉選單(系統別)
+            List<LookupItem> ddlbGrp1 = new List<LookupItem>(){
+                                        new LookupItem() { ValueMember = "W", DisplayMember = "W：網際網路"},
+                                        new LookupItem() { ValueMember = "V", DisplayMember = "V：語音查詢" }};
+            Extension.SetDataTable(ddlbType , ddlbGrp1 , "ValueMember" , "DisplayMember" , TextEditStyles.DisableTextEditor);
+
+            //下拉選單(審查結果)
+            List<LookupItem> ddlbGrp2 = new List<LookupItem>(){
+                                        new LookupItem() { ValueMember = "S", DisplayMember = "S：審核成功"},
+                                        new LookupItem() { ValueMember = "F", DisplayMember = "F：審核失敗"},
+                                        new LookupItem() { ValueMember = "A", DisplayMember = "A：全部" }};
+            Extension.SetDataTable(ddlbItem , ddlbGrp2 , "ValueMember" , "DisplayMember" , TextEditStyles.DisableTextEditor);
+
+            //下拉選單(類別)
+            List<LookupItem> ddlbGrp3 = new List<LookupItem>(){
+                                        new LookupItem() { ValueMember = "I", DisplayMember = "I：依交易人查明細"},
+                                        new LookupItem() { ValueMember = "F", DisplayMember = "F：依期貨商合計" }};
+            Extension.SetDataTable(ddlbCate , ddlbGrp3 , "ValueMember" , "DisplayMember" , TextEditStyles.DisableTextEditor);
+
          } catch (Exception ex) {
-            MessageDisplay.Error(ex.ToString());
+            WriteLog(ex);
          }
       }
 
@@ -35,22 +76,6 @@ namespace PhoenixCI.FormUI.PrefixP {
       /// <returns></returns>
       protected override ResultStatus Open() {
          base.Open();
-
-//integer li_y
-//li_y = 116
-//dw_1.move(0 , 244 + li_y)
-//if    gs_screen_type = '1' then
-////800 * 600
-//dw_1.height = 1662 - li_y
-
-//dw_1.width = 3584
-//else
-////1024 * 768
-//dw_1.height = 2315 - li_y
-
-//dw_1.width = 4594
-//end   if
-
          return ResultStatus.Success;
       }
 
@@ -59,13 +84,12 @@ namespace PhoenixCI.FormUI.PrefixP {
       /// </summary>
       /// <returns></returns>
       protected override ResultStatus AfterOpen() {
-//its_db = create transaction
-////中華電信
-//its_db = f_get_exec_oth(its_db , "POS")
-//if    not isvalid(its_db) then
-
-//return
-//end   if
+         //Db db = GlobalDaoSetting.DB;
+         //DbConnection dc = PbFunc.f_get_exec_oth(db.CreateConnection() , "POS"); //中華電信
+         //if (dc.State == ConnectionState.Open) {
+         //   return ResultStatus.Success;
+         //}
+         //return ResultStatus.Fail;
          return ResultStatus.Success;
       }
 
@@ -80,12 +104,12 @@ namespace PhoenixCI.FormUI.PrefixP {
          _ToolBtnSave.Enabled = false;//儲存(把新增/刪除/修改)多筆的結果一次更新到資料庫
          _ToolBtnDel.Enabled = false;//先選定刪除grid上面的其中一筆,然後按下此刪除按鈕(還未存檔都是暫時的)
 
-         _ToolBtnRetrieve.Enabled = false;//畫面查詢條件選定之後,按下此按鈕,讀取資料 to Grid
+         _ToolBtnRetrieve.Enabled = true;//畫面查詢條件選定之後,按下此按鈕,讀取資料 to Grid
          _ToolBtnRun.Enabled = false;//執行,跑job專用按鈕
 
          _ToolBtnImport.Enabled = false;//匯入
-         _ToolBtnExport.Enabled = true;//匯出,格式可以為 pdf/xls/txt/csv, 看功能
-         _ToolBtnPrintAll.Enabled = false;//列印
+         _ToolBtnExport.Enabled = false;//匯出,格式可以為 pdf/xls/txt/csv, 看功能
+         _ToolBtnPrintAll.Enabled = true;//列印
 
          return ResultStatus.Success;
       }
@@ -96,29 +120,54 @@ namespace PhoenixCI.FormUI.PrefixP {
       /// <returns></returns>
       protected override ResultStatus Retrieve() {
          base.Retrieve();
+         DataTable dtContent = new DataTable();
+         string type = ddlbType.EditValue.AsString();
+         string item = ddlbItem.EditValue.AsString();
+         string cate = ddlbCate.EditValue.AsString();
+         dtContent = daoP0020.ExecuteStoredProcedure(txtStartDate.Text , txtEndDate.Text , type , item , cate);
+         DataTable dtContent2 = new DataTable();
+         dtContent2 = daoP0030.ExecuteStoredProcedure(txtStartDate.Text , txtEndDate.Text , type , cate);
+         DataTable dtContent3 = new DataTable();
+         dtContent3 = daoP0050.ExecuteStoredProcedure(txtStartDate.Text , txtEndDate.Text);
 
-////Retrieve
-//is_arg = "查詢條件：交易日期："
-//if    sle_fm.text = '%' and sle_to.text = '%' then
-//is_arg = is_arg + '全部'
-//else
+         //這段不知用在哪，先照翻
+         string isArg = "查詢條件：交易日期：";
+         if (txtStartDate.Text == "%" && txtEndDate.Text == "%") {
+            isArg += "全部";
+         } else {
+            isArg += txtStartDate.Text + "-" + txtEndDate.Text;
+         }
+         isArg += " ,查詢系統別：" + ddlbType.Text + " ,審查結果：" + ddlbItem.Text + " ,查詢類別：" + ddlbCate.Text;
 
-//is_arg = is_arg + sle_fm.text + "-" + sle_to.text
-//end   if
-//is_arg = is_arg + " ,查詢系統別：" + mid(trim(ddlb_1.text) , 3 , 90) + " ,審查結果：" + mid(trim(ddlb_2.text) , 3 , 90) + " ,查詢類別：" + mid(trim(ddlb_3.text) , 3 , 90)
+         string searchType = ddlbCate.Text.Substring(0 , 1);
+         if (searchType == "F") {
+            //grid長的會有點不一樣
+         } else { //searchType == "I"
 
-//string ls_type
-//ls_type = left(ddlb_3.text , 1)
-//if    ls_type = 'F' then
+            DataTable dtTmp = dtContent.Clone(); //先將dtContent複製結構給dtTmp
+            DataTable dtName = dtContent.DefaultView.ToTable(true, "FCM_NAME"); //依期貨商(FCM_NAME)判別
+            //循環分組求和
+            for(int w = 0 ; w < dtName.Rows.Count ; w++) {
+               DataRow[] rows = dtContent.Select("FCM_NAME='" + dtName.Rows[w][0] + "'");
+               DataTable dt = dtTmp.Clone();
+               foreach (DataRow row in rows) {
+                  dt.Rows.Add(row.ItemArray);
+               }
+               DataRow dr = dtTmp.NewRow();
+               dr[3] = dtName.Rows[w][0].ToString();
+               dr[4] = dt.Compute("Count(APPLYDATE)" , "");//compute 是一个函数用于计算，只有两个参数
+               dtTmp.Rows.Add(dr);
 
-//dw_1.dataobject = "d_" + is_txn_id + "_f"
-//else
-//dw_1.dataobject = "d_" + is_txn_id + "_i"
-//end   if
-//dw_1.settransobject(its_db)
-//dw_1.retrieve(sle_fm.text , sle_to.text , left(ddlb_1.text , 1) , left(ddlb_2.text , 1) , left(ddlb_3.text , 1))
+            }
+
+
+            gcMain.DataSource = dtTmp;
+            gcMain.Visible = true;
+            gcMain.Focus();
+         }
 
          return ResultStatus.Success;
       }
+
    }
 }

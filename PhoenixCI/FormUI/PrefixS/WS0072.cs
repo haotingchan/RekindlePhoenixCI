@@ -9,36 +9,30 @@ using System.Data;
 using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraGrid.Views.Grid;
 using System.Drawing;
-using DevExpress.Utils.Drawing;
 using DevExpress.XtraGrid.Columns;
 using System.ComponentModel;
-using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraGrid;
 using System.Windows.Forms;
 using BusinessObjects;
-using static DataObjects.Dao.DataGate;
-using DataObjects.Dao;
 using System.Linq;
 
 /// <summary>
 /// david,2019/1/17
 /// </summary>
-namespace PhoenixCI.FormUI.PrefixS
-{
+namespace PhoenixCI.FormUI.PrefixS {
     /// <summary>
     /// SPAN參數檔案調整模組
     /// </summary>
-    public partial class WS0072 : FormParent
-    {
+    public partial class WS0072 : FormParent {
         protected DS0072 daoS0072;
         protected COD daoCod;
         protected string is_fm_ymd;
         protected string is_to_ymd;
         protected DateTime is_max_ymd;
-        protected string[] modules = { "PSR", "VSR", "INTERMONTH", "SOM" };
-
+        protected string[] modules1 = { "PSR", "VSR", "INTERMONTH", "SOM" };
+        protected string[] module2 = { "ZISP" };
 
         public WS0072(string programID, string programName) : base(programID, programName) {
             InitializeComponent();
@@ -46,29 +40,16 @@ namespace PhoenixCI.FormUI.PrefixS
             txtStartDate.EnterMoveNextControl = true;
             txtEndDate.EnterMoveNextControl = true;
             GridHelper.SetCommonGrid(gv_ZISP);
-            for (int i = 0; i < modules.Length; i++) {
-                Control[] gridControls = this.Controls.Find("gc_" + modules[i], true);
-                GridControl gc = (GridControl)gridControls[0];
+            for (int i = 0; i < modules1.Length; i++) {
+                GridView gv = GetGridView(modules1[i]);
 
-                GridHelper.SetCommonGrid(gc.MainView as GridView);
+                GridHelper.SetCommonGrid(gv);
             }
             daoS0072 = new DS0072();
             daoCod = new COD();
 
-            //1.設定初始年月yyyy/MM
-            DataTable dtSPN = daoS0072.d_s0070_1("SPN", GlobalInfo.USER_ID);
-            if (dtSPN.Rows.Count <= 0) {
-                is_fm_ymd = DateTime.Now.AddDays(-60).ToString("yyyyMMdd");
-                is_to_ymd = DateTime.Now.ToString("yyyyMMdd");
-                is_max_ymd = new AOCF().GetMaxDate(is_fm_ymd, is_to_ymd);
-
-                txtStartDate.DateTimeValue = DateTime.ParseExact(is_fm_ymd, "yyyyMMdd", null);
-                txtEndDate.DateTimeValue = DateTime.ParseExact(is_to_ymd, "yyyyMMdd", null);
-            }
-            else {
-                txtStartDate.DateTimeValue = DateTime.ParseExact(dtSPN.Rows[0]["SPAN_PERIOD_START_DATE"].AsString(), "yyyyMMdd", null);
-                txtEndDate.DateTimeValue = DateTime.ParseExact(dtSPN.Rows[0]["SPAN_PERIOD_END_DATE"].AsString(), "yyyyMMdd", null);
-            }
+            //設定初始年月
+            setDatePeriod();
 
             ////2.設定下拉選單
             DataTable dtProdType = daoS0072.dddw_zparm_comb_prod(txtEndDate.DateTimeValue.ToString("yyyyMMdd"));
@@ -76,7 +57,6 @@ namespace PhoenixCI.FormUI.PrefixS
             cbxProdType.SetColumnLookUp(dtProdType, "PROD_GROUP", "PROD_GROUP", TextEditStyles.DisableTextEditor);
             gc_ZISP.RepositoryItems.Add(cbxProdType);
             SPAN_ZISP_PROD_ID.ColumnEdit = cbxProdType;
-
 
             DataTable dtProd = daoS0072.dddw_zparm_comb_prod_by_group(txtEndDate.DateTimeValue.ToString("yyyyMMdd"), "%%", "%%");
             RepositoryItemLookUpEdit cbxProd = new RepositoryItemLookUpEdit();
@@ -102,8 +82,8 @@ namespace PhoenixCI.FormUI.PrefixS
             //gv_ZISP.CustomDrawColumnHeader += gvZISP_CustomDrawColumnHeader;
 
             //製作連動下拉選單(觸發事件)
-            for (int i = 0; i < modules.Length; i++) {
-                Control[] gridControls = this.Controls.Find("gc_" + modules[i], true);
+            for (int i = 0; i < modules1.Length; i++) {
+                Control[] gridControls = this.Controls.Find("gc_" + modules1[i], true);
                 GridControl gc = (GridControl)gridControls[0];
                 GridView gv = gc.MainView as GridView;
 
@@ -117,26 +97,23 @@ namespace PhoenixCI.FormUI.PrefixS
             cbxProdType.EditValueChanged += cbxProdType_EditValueChanged;
         }
 
-        /// <summary>
-        /// 按下[讀取/預覽]按鈕時,去資料庫撈資料
-        /// </summary>
-        /// <returns></returns>
         protected override ResultStatus Retrieve() {
-            if (txtEndDate.DateTimeValue.Subtract(txtStartDate.DateTimeValue).Days > 31) {
-                MessageDisplay.Info("請輸入正確的日期區間，勿超過31天");
+            base.Retrieve();
+
+            setDatePeriod();
+
+            for (int i = 0; i < modules1.Length; i++) {
+                DataTable dt = daoS0072.ListSpanContentByModule(modules1[i], GlobalInfo.USER_ID);
+                GridView gv = GetGridView(modules1[i]);
+
+                gv.GridControl.DataSource = dt;
             }
-            else {
-                base.Retrieve();
-                DataTable dtZISP = daoS0072.zisp(GlobalInfo.USER_ID);
-                gc_ZISP.DataSource = dtZISP;
 
-                for (int i = 0; i < modules.Length; i++) {
-                    DataTable dt = daoS0072.ListSpanContentByModule(modules[i], GlobalInfo.USER_ID);
-                    Control[] gridControls = this.Controls.Find("gc_" + modules[i], true);
-                    GridControl gc = (GridControl)gridControls[0];
+            for (int i = 0; i < module2.Length; i++) {
+                DataTable dt = daoS0072.zisp(GlobalInfo.USER_ID, "CFO.SPAN_ZISP");
+                GridView gv = GetGridView(module2[i]);
 
-                    gc.DataSource = dt;
-                }
+                gv.GridControl.DataSource = dt;
             }
             return ResultStatus.Success;
         }
@@ -160,54 +137,76 @@ namespace PhoenixCI.FormUI.PrefixS
 
         protected override ResultStatus Save(PokeBall args) {
             _IsPreventFlowPrint = true;
+            _IsPreventFlowExport = true;
             ResultStatus resultStatus = ResultStatus.Fail;
-            //儲存VSR PSR InterMonth SOM 
-            if (checkComplete()) {
-                if (checkChanged()) {
-                    for (int i = 0; i < modules.Length; i++) {
-                        Control[] gridControls = this.Controls.Find("gc_" + modules[i], true);
-                        GridControl gc = (GridControl)gridControls[0];
-                        GridView gv = gc.MainView as GridView;
 
-                        gv.CloseEditor();
-                        gv.UpdateCurrentRow();
-
-                        DataTable dt = (DataTable)gc.DataSource;
-                        for (int j = 0; j < dt.Rows.Count; j++) {
-                            if (dt.Rows[j].RowState != DataRowState.Deleted) {
-                                dt.Rows[j][6] = DateTime.Now; //更新寫入時間
-                            }
-                        }
-                        resultStatus = base.Save_Override(dt, "SPAN_CONTENT", DBName.CFO);
-                    }
-
-                    gv_ZISP.CloseEditor();
-                    gv_ZISP.UpdateCurrentRow();
-
-                    DataTable dtZISP = (DataTable)gc_ZISP.DataSource;
-                    for (int i = 0; i < dtZISP.Rows.Count; i++) {
-                        if (dtZISP.Rows[i].RowState != DataRowState.Deleted) {
-                            dtZISP.Rows[i][7] = GlobalInfo.USER_ID;
-                            dtZISP.Rows[i][8] = DateTime.Now; //更新寫入時間
-                        }
-                    }
-                    string tableName = "CFO.SPAN_ZISP";
-                    string keysColumnList = "SPAN_ZISP_PROD_ID,SPAN_ZISP_COM_PROD1,SPAN_ZISP_COM_PROD2,SPAN_ZISP_USER_ID";
-                    string insertColumnList = "SPAN_ZISP_PROD_ID,SPAN_ZISP_PRIORITY,SPAN_ZISP_COM_PROD1,SPAN_ZISP_COM_PROD2," +
-                        "SPAN_ZISP_CREDIT,SPAN_ZISP_DPSR1,  SPAN_ZISP_DPSR2, SPAN_ZISP_USER_ID,SPAN_ZISP_W_TIME";
-                    string updateColumnList = insertColumnList;
-
-                    resultStatus = serviceCommon.SaveForChanged(dtZISP, tableName, insertColumnList, updateColumnList, keysColumnList, args).Status;
-                }
-                else {
-                    MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    resultStatus = ResultStatus.FailButNext;
-                }
+            if (!checkChanged()) {
+                MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return ResultStatus.FailButNext;
             }
-            else {
+
+            //儲存日期區間
+            if (savePeriod() != ResultStatus.Success) return resultStatus;
+                       
+            //儲存VSR PSR InterMonth SOM 
+            if (!checkComplete()) return ResultStatus.FailButNext;
+
+            for (int i = 0; i < modules1.Length; i++) {
+                GridView gv = GetGridView(modules1[i]);
+
+                gv.CloseEditor();
+                gv.UpdateCurrentRow();
+
+                DataTable dt = (DataTable)gv.GridControl.DataSource;
+                resultStatus = daoS0072.udpateSpanContentData(dt).Status;
+            }
+
+            for (int i = 0; i < module2.Length; i++) {
+                GridView gv = GetGridView(module2[i]);
+
+                gv.CloseEditor();
+                gv.UpdateCurrentRow();
+
+                DataTable dtZISP = (DataTable)gv.GridControl.DataSource;
+
+                resultStatus = daoS0072.udpateZIPData(dtZISP).Status;//base.Save_Override(dtZISP, "SPAN_ZISP", DBName.CFO);
+            }
+
+            return resultStatus;
+        }
+
+        protected override ResultStatus RunBefore(PokeBall args) {
+            ResultStatus resultStatus = ResultStatus.Fail;
+
+            if (checkChanged()) {
+                MessageDisplay.Info("資料有變更, 請先存檔!");
                 resultStatus = ResultStatus.FailButNext;
             }
+            else {
+                Run(args);
+            }
             return resultStatus;
+        }
+
+        protected override ResultStatus Run(PokeBall args) {
+            if (!checkChanged()) {
+                PbFunc.f_bat_span("S0072", "SPN", GlobalInfo.USER_ID);
+            }
+            return base.Run(args);
+        }
+
+        private ResultStatus savePeriod() {
+            DataTable periodTable = daoS0072.d_s0070_1("SPN", GlobalInfo.USER_ID);
+            periodTable.Rows[0].SetField("span_period_start_date", txtStartDate.DateTimeValue.ToString("yyyyMMdd"));
+            periodTable.Rows[0].SetField("span_period_end_date", txtEndDate.DateTimeValue.ToString("yyyyMMdd"));
+            periodTable.Rows[0].SetField("span_period_w_time", DateTime.Now);
+
+            if (checkPeriod()) {
+                return daoS0072.updatePeriodData(periodTable).Status;//base.Save_Override(periodTable, "SPAN_PERIOD", DBName.CFO);
+            }
+            else {
+                return ResultStatus.FailButNext;
+            }
         }
 
         private void btnLoad_Click(object sender, EventArgs e) {
@@ -217,27 +216,23 @@ namespace PhoenixCI.FormUI.PrefixS
         private void btnAdd_Click(object sender, EventArgs e) {
             BaseButton btn = (BaseButton)sender;
             string module = btn.Name.Split('_')[0];
-            Control[] gridControls = this.Controls.Find("gc_" + module, true);
-            GridControl gc = (GridControl)gridControls[0];
+            GridView gv = GetGridView(module);
 
-            base.InsertRow(gc.MainView as GridView);
+            base.InsertRow(gv);
         }
 
         private void btnDel_Click(object sender, EventArgs e) {
             BaseButton btn = (BaseButton)sender;
             string module = btn.Name.Split('_')[0];
-            Control[] gridControls = this.Controls.Find("gc_" + module, true);
-            GridControl gc = (GridControl)gridControls[0];
+            GridView gv = GetGridView(module);
 
-            base.DeleteRow(gc.MainView as GridView);
+            base.DeleteRow(gv);
         }
 
         private void btnClear_Click(object sender, EventArgs e) {
             BaseButton btn = (BaseButton)sender;
             string module = btn.Name.Split('_')[0];
-            Control[] gridControls = this.Controls.Find("gc_" + module, true);
-            GridControl gc = (GridControl)gridControls[0];
-            GridView gv = gc.MainView as GridView;
+            GridView gv = GetGridView(module);
 
             if (MessageDisplay.Choose("確定刪除" + module + "設定所有資料?").AsBool()) {
                 while (gv.DataRowCount != 0)
@@ -284,6 +279,7 @@ namespace PhoenixCI.FormUI.PrefixS
             GridView gv = sender as GridView;
             string module = gv.Name.Split('_')[1];
 
+            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["IS_NEWROW"], 1);
             gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["SPAN_CONTENT_MODULE"], module);
             gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["SPAN_CONTENT_USER_ID"], GlobalInfo.USER_ID);
         }
@@ -378,8 +374,8 @@ namespace PhoenixCI.FormUI.PrefixS
             GridView gv = (GridView)gc.MainView;
             gv.PostEditor();
             if (gv.Name == "gv_ZISP") {
-                gv.SetFocusedRowCellValue("SPAN_ZISP_COM_PROD1", null);
-                gv.SetFocusedRowCellValue("SPAN_ZISP_COM_PROD2", null);
+                gv.SetFocusedRowCellValue(SpanZispColumn.SPAN_ZISP_COM_PROD1.ToString(), null);
+                gv.SetFocusedRowCellValue(SpanZispColumn.SPAN_ZISP_COM_PROD2.ToString(), null);
             }
             else {
                 gv.SetFocusedRowCellValue("SPAN_CONTENT_CC", null);
@@ -398,20 +394,14 @@ namespace PhoenixCI.FormUI.PrefixS
                 DataTable dtHZISP = daoS0072.hzisp(txtStartDate.DateTimeValue.ToString("yyyyMMdd"), txtEndDate.DateTimeValue.ToString("yyyyMMdd"));
 
                 gv_ZISP.UpdateCurrentRow();
+
                 for (int i = 0; i < dtHZISP.Rows.Count; i++) {
                     gv_ZISP.AddNewRow();
                     gv_ZISP.UpdateCurrentRow();
 
-                    gv_ZISP.SetRowCellValue(i, "SPAN_ZISP_PROD_ID", dtHZISP.Rows[i]["SPAN_ZISP_PROD_ID"]);
-                    gv_ZISP.SetRowCellValue(i, "SPAN_ZISP_COM_PROD1", dtHZISP.Rows[i]["SPAN_ZISP_COM_PROD1"]);
-                    gv_ZISP.SetRowCellValue(i, "SPAN_ZISP_COM_PROD2", dtHZISP.Rows[i]["SPAN_ZISP_COM_PROD2"]);
-                    gv_ZISP.SetRowCellValue(i, "SPAN_ZISP_CREDIT", dtHZISP.Rows[i]["SPAN_ZISP_CREDIT"]);
-                    gv_ZISP.SetRowCellValue(i, "SPAN_ZISP_DPSR1", dtHZISP.Rows[i]["SPAN_ZISP_DPSR1"]);
-                    gv_ZISP.SetRowCellValue(i, "SPAN_ZISP_DPSR2", dtHZISP.Rows[i]["SPAN_ZISP_DPSR2"]);
-                    gv_ZISP.SetRowCellValue(i, "SPAN_ZISP_PRIORITY", dtHZISP.Rows[i]["SPAN_ZISP_PRIORITY"]);
-                    gv_ZISP.SetRowCellValue(i, "SPAN_ZISP_USER_ID", dtHZISP.Rows[i]["SPAN_ZISP_USER_ID"]);
-                    gv_ZISP.SetRowCellValue(i, "SPAN_ZISP_W_TIME", dtHZISP.Rows[i]["SPAN_ZISP_W_TIME"]);
-                    gv_ZISP.SetRowCellValue(i, "IS_NEWROW", dtHZISP.Rows[i]["IS_NEWROW"]);
+                    foreach (string column in Enum.GetNames(typeof(SpanZispColumn))) {
+                        gv_ZISP.SetRowCellValue(i, column, dtHZISP.Rows[i][column]);
+                    }
                 }
             }
         }
@@ -425,87 +415,169 @@ namespace PhoenixCI.FormUI.PrefixS
                 RepositoryItemLookUpEdit cbxContentType = new RepositoryItemLookUpEdit();
                 cbxContentType.SetColumnLookUp(dtContentType, "COD_ID", "COD_DESC", TextEditStyles.DisableTextEditor);
 
-                Control[] gridControls = this.Controls.Find("gc_" + module, true);
-                GridControl gc = (GridControl)gridControls[0];
-                GridView gv = gc.MainView as GridView;
+                GridView gv = GetGridView(module);
                 GridColumn column = gv.Columns[3]; //設定方式欄位
-                gc.RepositoryItems.Add(cbxContentType);
+                gv.GridControl.RepositoryItems.Add(cbxContentType);
                 column.ColumnEdit = cbxContentType;
             }
         }
 
+        /// <summary>
+        /// Get grid View by module Name 
+        /// </summary>
+        /// <param name="modeuleName"></param>
+        /// <returns></returns>
+        private GridView GetGridView(string modeuleName) {
+            Control[] gridControls = this.Controls.Find("gc_" + modeuleName, true);
+            GridControl gc = (GridControl)gridControls[0];
+            return gc.MainView as GridView;
+        }
+
+        private void setDatePeriod() {
+            DataTable dtSPN = daoS0072.d_s0070_1("SPN", GlobalInfo.USER_ID);
+            if (dtSPN.Rows.Count <= 0) {
+                is_fm_ymd = DateTime.Now.AddDays(-60).ToString("yyyyMMdd");
+                is_to_ymd = DateTime.Now.ToString("yyyyMMdd");
+                is_max_ymd = new AOCF().GetMaxDate(is_fm_ymd, is_to_ymd);
+
+                txtStartDate.DateTimeValue = dtSPN.Rows[0]["SPAN_PERIOD_START_DATE"].AsDateTime("yyyyMMdd");
+                txtEndDate.DateTimeValue = dtSPN.Rows[0]["SPAN_PERIOD_END_DATE"].AsDateTime("yyyyMMdd");
+            }
+            else {
+                txtStartDate.DateTimeValue = dtSPN.Rows[0]["SPAN_PERIOD_START_DATE"].AsDateTime("yyyyMMdd");
+                txtEndDate.DateTimeValue = dtSPN.Rows[0]["SPAN_PERIOD_END_DATE"].AsDateTime("yyyyMMdd");
+            }
+        }
+
         private bool checkChanged() {
-            bool hasChange = false;
-            int changeCount = 0;
-            for (int i = 0; i < modules.Length; i++) {
-                Control[] gridControls = this.Controls.Find("gc_" + modules[i], true);
-                GridControl gc = (GridControl)gridControls[0];
-                GridView gv = gc.MainView as GridView;
+            for (int i = 0; i < modules1.Length; i++) {
+                GridView gv = GetGridView(modules1[i]);
 
                 gv.CloseEditor();
                 gv.UpdateCurrentRow();
 
-                DataTable dt = (DataTable)gc.DataSource;
+                DataTable dt = (DataTable)gv.GridControl.DataSource;
                 DataTable dtChange = dt.GetChanges();
 
                 if (dtChange != null) {
                     if (dtChange.Rows.Count != 0) {
-                        changeCount++;
+                        return true;
                     }
                 }
             }
 
-            gv_ZISP.CloseEditor();
-            gv_ZISP.UpdateCurrentRow();
+            for (int i = 0; i < module2.Length; i++) {
+                GridView gv = GetGridView(module2[i]);
 
-            DataTable dtZISP = (DataTable)gc_ZISP.DataSource;
-            DataTable dtZISPchange = dtZISP.GetChanges();
+                gv.CloseEditor();
+                gv.UpdateCurrentRow();
 
-            if (dtZISPchange != null) {
-                if (dtZISPchange.Rows.Count != 0) {
-                    changeCount++;
+                DataTable dtZISP = (DataTable)gv.GridControl.DataSource;
+                DataTable dtZISPchange = dtZISP.GetChanges();
+
+                if (dtZISPchange != null) {
+                    if (dtZISPchange.Rows.Count != 0) {
+                        return true;
+                    }
                 }
             }
 
-            if (changeCount != 0) {
-                hasChange = true;
+            DataTable periodTable = daoS0072.d_s0070_1("SPN", GlobalInfo.USER_ID);
+            if (periodTable != null) {
+                if (periodTable.Rows.Count != 0) {
+                    string sartDate = periodTable.Rows[0]["span_period_start_date"].ToString();
+                    string endDate = periodTable.Rows[0]["span_period_end_date"].ToString();
+
+                    if (txtStartDate.DateTimeValue.ToString("yyyyMMdd") != sartDate ||
+                        txtEndDate.DateTimeValue.ToString("yyyyMMdd") != endDate) {
+                        return true;
+                    }
+                }
+            }
+            else {
+                return true;
             }
 
-            return hasChange;
+            return false;
         }
 
         private bool checkComplete() {
             bool completed = true;
 
-            for (int i = 0; i < modules.Length; i++) {
-                Control[] gridControls = this.Controls.Find("gc_" + modules[i], true);
-                GridControl gc = (GridControl)gridControls[0];
-                GridView gv = gc.MainView as GridView;
+            for (int i = 0; i < modules1.Length; i++) {
+                GridView gv = GetGridView(modules1[i]);
 
                 gv.CloseEditor();
                 gv.UpdateCurrentRow();
-                DataTable dt = (DataTable)gc.DataSource;
+                DataTable dt = (DataTable)gv.GridControl.DataSource;
+
+                for (int j = 0; j < dt.Rows.Count; j++) {
+                    if (dt.Rows[j].RowState != DataRowState.Deleted) {
+                        dt.Rows[j][6] = DateTime.Now; //更新寫入時間
+                    }
+                }
 
                 foreach (DataColumn column in dt.Columns) {
                     if (dt.Rows.OfType<DataRow>().Where(r => r.RowState != DataRowState.Deleted).Any(r => r.IsNull(column))) {
-                        MessageDisplay.Error(modules[i] + "尚未填寫完成");
+                        MessageDisplay.Error(modules1[i] + "尚未填寫完成");
                         return false;
                     }
                 }
             }
 
-            gv_ZISP.CloseEditor();
-            gv_ZISP.UpdateCurrentRow();
-            DataTable dtZISP = (DataTable)gc_ZISP.DataSource;
+            for (int i = 0; i < module2.Length; i++) {
+                GridView gv = GetGridView(module2[i]);
 
-            foreach (DataColumn column in dtZISP.Columns) {
-                if (dtZISP.Rows.OfType<DataRow>().Where(r => r.RowState != DataRowState.Deleted).Any(r => r.IsNull(column))) {
-                    MessageDisplay.Error("跨商品價差設定尚未填寫完成");
-                    return false;
+                gv.CloseEditor();
+                gv.UpdateCurrentRow();
+
+                DataTable dtZISP = (DataTable)gv.GridControl.DataSource;
+                for (int j = 0; j < dtZISP.Rows.Count; j++) {
+                    if (dtZISP.Rows[j].RowState != DataRowState.Deleted) {
+                        dtZISP.Rows[j][7] = GlobalInfo.USER_ID;
+                        dtZISP.Rows[j][8] = DateTime.Now; //更新寫入時間
+                    }
+                }
+
+                foreach (DataColumn column in dtZISP.Columns) {
+                    if (dtZISP.Rows.OfType<DataRow>().Where(r => r.RowState != DataRowState.Deleted).Any(r => r.IsNull(column) ||
+                    string.IsNullOrEmpty(r["SPAN_ZISP_PRIORITY"].ToString()))) {
+                        MessageDisplay.Error("跨商品價差設定尚未填寫完成");
+                        return false;
+                    }
                 }
             }
 
             return completed;
+        }
+
+        private bool checkPeriod() {
+            bool check = true;
+
+            if (txtEndDate.DateTimeValue.Subtract(txtStartDate.DateTimeValue).Days > 31) {
+                MessageDisplay.Info("日期區間不可超過31天!");
+                txtEndDate.Select();
+                check = false;
+            }
+            else if (txtStartDate.DateTimeValue > txtEndDate.DateTimeValue) {
+                MessageDisplay.Info("起始值不可大於迄止值!");
+                txtStartDate.Select();
+                check = false;
+            }
+            return check;
+        }
+
+        private enum SpanZispColumn
+        {
+            SPAN_ZISP_PROD_ID = 0,
+            SPAN_ZISP_COM_PROD1,
+            SPAN_ZISP_COM_PROD2,
+            SPAN_ZISP_USER_ID,
+            SPAN_ZISP_PRIORITY,
+            SPAN_ZISP_CREDIT,
+            SPAN_ZISP_DPSR1,
+            SPAN_ZISP_DPSR2,
+            SPAN_ZISP_W_TIME
         }
     }
 }

@@ -172,10 +172,10 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 //update to DB
                 foreach (DataRow dr in dtChange.Rows) {
                     if (dr.RowState != DataRowState.Deleted) {
-                        string am12_ymd = dr["AM12_YMD"].ToString();
-                        string am12_f_id = dr["AM12_F_ID"].ToString();
-                        string am12_kind_id = dr["AM12_KIND_ID"].ToString();
-                        bool rtn = dao20130.InsertAM12L(am12_ymd, am12_f_id, am12_kind_id);
+                        string am12Ymd = dr["AM12_YMD"].ToString();
+                        string am12FId = dr["AM12_F_ID"].ToString();
+                        string am12KindId = dr["AM12_KIND_ID"].ToString();
+                        bool rtn = dao20130.InsertAM12L(am12Ymd, am12FId, am12KindId);
                     }
                 }
             }

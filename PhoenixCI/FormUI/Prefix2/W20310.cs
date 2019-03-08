@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using DevExpress.XtraEditors;
 using BaseGround;
 using DevExpress.XtraGrid.Views.Grid;
-using Common;
 using BusinessObjects.Enums;
 using BaseGround.Report;
 using BusinessObjects;
@@ -36,6 +30,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             txtStartDate.EditValue = PbFunc.f_ocf_date(0).SubStr(0, 4) + "/01";
             txtEndDate.EditValue = PbFunc.f_ocf_date(0).SubStr(0, 7);
         }
+
         protected override ResultStatus Open() {
             base.Open();
             AA1_YM.Caption = Environment.NewLine + "年月";

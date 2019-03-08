@@ -25,14 +25,14 @@
         private void InitializeComponent() {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lblRange1 = new System.Windows.Forms.Label();
-            this.shl_1 = new System.Windows.Forms.LinkLabel();
+            this.shl1 = new System.Windows.Forms.LinkLabel();
             this.btnPath1 = new System.Windows.Forms.Button();
             this.txtPath1 = new DevExpress.XtraEditors.TextEdit();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lblRange2 = new System.Windows.Forms.Label();
-            this.shl_2 = new System.Windows.Forms.LinkLabel();
+            this.shl2 = new System.Windows.Forms.LinkLabel();
             this.btnPath2 = new System.Windows.Forms.Button();
             this.txtPath2 = new DevExpress.XtraEditors.TextEdit();
             this.label3 = new System.Windows.Forms.Label();
@@ -80,7 +80,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.lblRange1);
-            this.groupBox1.Controls.Add(this.shl_1);
+            this.groupBox1.Controls.Add(this.shl1);
             this.groupBox1.Controls.Add(this.btnPath1);
             this.groupBox1.Controls.Add(this.txtPath1);
             this.groupBox1.Controls.Add(this.label2);
@@ -101,16 +101,16 @@
             this.lblRange1.TabIndex = 5;
             this.lblRange1.Text = "             ";
             // 
-            // shl_1
+            // shl1
             // 
-            this.shl_1.AutoSize = true;
-            this.shl_1.Location = new System.Drawing.Point(713, 30);
-            this.shl_1.Name = "shl_1";
-            this.shl_1.Size = new System.Drawing.Size(89, 20);
-            this.shl_1.TabIndex = 4;
-            this.shl_1.TabStop = true;
-            this.shl_1.Text = "櫃買成交值";
-            this.shl_1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.shl_1_LinkClicked);
+            this.shl1.AutoSize = true;
+            this.shl1.Location = new System.Drawing.Point(713, 30);
+            this.shl1.Name = "shl1";
+            this.shl1.Size = new System.Drawing.Size(89, 20);
+            this.shl1.TabIndex = 4;
+            this.shl1.TabStop = true;
+            this.shl1.Text = "櫃買成交值";
+            this.shl1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.shl1_LinkClicked);
             // 
             // btnPath1
             // 
@@ -153,7 +153,7 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.lblRange2);
-            this.groupBox2.Controls.Add(this.shl_2);
+            this.groupBox2.Controls.Add(this.shl2);
             this.groupBox2.Controls.Add(this.btnPath2);
             this.groupBox2.Controls.Add(this.txtPath2);
             this.groupBox2.Controls.Add(this.label3);
@@ -174,16 +174,16 @@
             this.lblRange2.TabIndex = 10;
             this.lblRange2.Text = "             ";
             // 
-            // shl_2
+            // shl2
             // 
-            this.shl_2.AutoSize = true;
-            this.shl_2.Location = new System.Drawing.Point(713, 32);
-            this.shl_2.Name = "shl_2";
-            this.shl_2.Size = new System.Drawing.Size(105, 20);
-            this.shl_2.TabIndex = 9;
-            this.shl_2.TabStop = true;
-            this.shl_2.Text = "證交所成交值";
-            this.shl_2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.shl_2_LinkClicked);
+            this.shl2.AutoSize = true;
+            this.shl2.Location = new System.Drawing.Point(713, 32);
+            this.shl2.Name = "shl2";
+            this.shl2.Size = new System.Drawing.Size(105, 20);
+            this.shl2.TabIndex = 9;
+            this.shl2.TabStop = true;
+            this.shl2.Text = "證交所成交值";
+            this.shl2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.shl2_LinkClicked);
             // 
             // btnPath2
             // 
@@ -450,12 +450,12 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.LinkLabel shl_1;
+        private System.Windows.Forms.LinkLabel shl1;
         private System.Windows.Forms.Button btnPath1;
         private DevExpress.XtraEditors.TextEdit txtPath1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.LinkLabel shl_2;
+        private System.Windows.Forms.LinkLabel shl2;
         private System.Windows.Forms.Button btnPath2;
         private DevExpress.XtraEditors.TextEdit txtPath2;
         private System.Windows.Forms.Label label3;

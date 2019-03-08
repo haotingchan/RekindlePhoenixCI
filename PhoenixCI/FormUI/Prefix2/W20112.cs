@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using DevExpress.XtraEditors;
 using BaseGround;
 using System.Diagnostics;
 using BaseGround.Shared;
@@ -63,8 +58,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void shl_1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-            shl_1.LinkVisited = true;
+        private void shl1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            shl1.LinkVisited = true;
             Process.Start("IExplore", "http://www.tpex.org.tw/web/stock/aftertrading/daily_trading_index/st41rpk.php");
         }
 
@@ -73,8 +68,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void shl_2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-            shl_2.LinkVisited = true;
+        private void shl2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            shl2.LinkVisited = true;
             Process.Start("IExplore", "http://www.twse.com.tw/zh/page/trading/exchange/FMTQIK.html");
         }
         #endregion
@@ -87,10 +82,10 @@ namespace PhoenixCI.FormUI.Prefix2 {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void btnPath1_Click(object sender, EventArgs e) {
-            int i, j, li_row;
-            string ls_start_ymd, ls_end_ymd, ls_ym;
-            string ls_ymd, ls_val, ls_type;
-            ls_ym = "";
+            int i, j, row;
+            string startYMD, endYMD, lsYM;
+            string lsYMD, val, type;
+            lsYM = "";
 
             OpenFileDialog open = new OpenFileDialog();
             open.Filter = "*.csv (*.csv)|*.csv";
@@ -106,49 +101,49 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 DataTable csvDt = OpenCSV(txtPath1.Text, dt, Encoding.Default);
                 daoINOTC1 = new INOTC1();
                 DataTable targetDt = daoINOTC1.ListAll();
-                ls_type = csvDt.Rows[2]["Col5"].AsString();
-                if (ls_type == null || ls_type.SubStr(0, 2) != "櫃買") {
+                type = csvDt.Rows[2]["Col5"].AsString();
+                if (type == null || type.SubStr(0, 2) != "櫃買") {
                     MessageBox.Show("轉入資料來源錯誤!", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                     txtPath1.BackColor = Color.Red;
                     return;
                 }
-                li_row = 0;
-                ls_end_ymd = "";
-                ls_start_ymd = "";
+                row = 0;
+                endYMD = "";
+                startYMD = "";
                 for (i = 0; i < csvDt.Rows.Count; i++) {
                     DataRow csvDr = csvDt.Rows[i];
-                    ls_ymd = csvDr["Col1"].AsString();
-                    ls_ymd = (ls_ymd.SubStr(0, 3).AsInt() + 1911).AsString() + ls_ymd.SubStr(4, 2) + ls_ymd.SubStr(ls_ymd.Length - 2, 2);
+                    lsYMD = csvDr["Col1"].AsString();
+                    lsYMD = (lsYMD.SubStr(0, 3).AsInt() + 1911).AsString() + lsYMD.SubStr(4, 2) + lsYMD.SubStr(lsYMD.Length - 2, 2);
                     int n;
-                    if (ls_ymd == null || int.TryParse(ls_ymd, out n) == false) {
+                    if (lsYMD == null || int.TryParse(lsYMD, out n) == false) {
                         continue;
                     }
-                    li_row = li_row + 1;
-                    if (li_row == 1) {
-                        ls_start_ymd = ls_ymd.SubStr(0, 6) + "01";
+                    row = row + 1;
+                    if (row == 1) {
+                        startYMD = lsYMD.SubStr(0, 6) + "01";
                     }
-                    ls_end_ymd = ls_ymd;
+                    endYMD = lsYMD;
                     DataRow newDr = targetDt.NewRow();
                     targetDt.Rows.Add(newDr);
-                    targetDt.Rows[targetDt.Rows.Count - 1][0] = ls_ymd;
+                    targetDt.Rows[targetDt.Rows.Count - 1][0] = lsYMD;
                     for (j = 1; j < 6; j++) {
-                        ls_val = csvDt.Rows[i][j].AsString();
-                        if (ls_val.IndexOf(",") > 0) {
-                            ls_val.Replace(",", "");
+                        val = csvDt.Rows[i][j].AsString();
+                        if (val.IndexOf(",") > 0) {
+                            val.Replace(",", "");
                         }
                         if (j == 3) {
-                            ls_val = (ls_val.AsDecimal() * 1000).AsString();
+                            val = (val.AsDecimal() * 1000).AsString();
                         }
-                        targetDt.Rows[targetDt.Rows.Count - 1][j] = ls_val.AsDecimal();
+                        targetDt.Rows[targetDt.Rows.Count - 1][j] = val.AsDecimal();
                     }
                     targetDt.Rows[targetDt.Rows.Count - 1][6] = GlobalInfo.USER_ID;
                     targetDt.Rows[targetDt.Rows.Count - 1][7] = DateTime.Now;
                 }
-                ls_ym = ls_end_ymd.SubStr(0, 6);
+                lsYM = endYMD.SubStr(0, 6);
 
                 //刪除資料
-                daoINOTC1.DeleteByDate(ls_start_ymd, ls_end_ymd);
-                lblRange1.Text = ls_start_ymd.Insert(4, "/").Insert(7, "/") + "~" + ls_end_ymd.Insert(4, "/").Insert(7, "/");
+                daoINOTC1.DeleteByDate(startYMD, endYMD);
+                lblRange1.Text = startYMD.Insert(4, "/").Insert(7, "/") + "~" + endYMD.Insert(4, "/").Insert(7, "/");
 
                 //更新資料
                 ResultStatus result = base.Save_Override(targetDt, "INOTC1");
@@ -157,11 +152,11 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     txtPath1.BackColor = Color.LightGray;
                 }
                 else {
-                    MessageBox.Show(ls_ym + " 轉入資料庫失敗!", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    MessageBox.Show(lsYM + " 轉入資料庫失敗!", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 }
             }
             else {
-                MessageBox.Show(ls_ym + " 轉入資料庫失敗!", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                MessageBox.Show(lsYM + " 轉入資料庫失敗!", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
         }
 
@@ -171,10 +166,10 @@ namespace PhoenixCI.FormUI.Prefix2 {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void btnPath2_Click(object sender, EventArgs e) {
-            int i, j, li_row;
-            string ls_start_ymd, ls_end_ymd, ls_ym;
-            string ls_ymd, ls_val, ls_type;
-            ls_ym = "";
+            int i, j, row;
+            string startYMD, endYMD, lsYM;
+            string lsYMD, val, type;
+            lsYM = "";
 
             OpenFileDialog open = new OpenFileDialog();
             open.Filter = "*.csv (*.csv)|*.csv";
@@ -190,46 +185,46 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 DataTable csvDt = OpenCSV(txtPath2.Text, dt, Encoding.Default);
                 daoINTWSE1 = new INTWSE1();
                 DataTable targetDt = daoINTWSE1.ListAll();
-                ls_type = csvDt.Rows[1]["Col5"].AsString();
-                if (ls_type == null || ls_type.SubStr(0, 2) != "發行") {
+                type = csvDt.Rows[1]["Col5"].AsString();
+                if (type == null || type.SubStr(0, 2) != "發行") {
                     MessageBox.Show("轉入資料來源錯誤!", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                     txtPath2.BackColor = Color.Red;
                     return;
                 }
-                li_row = 0;
-                ls_end_ymd = "";
-                ls_start_ymd = "";
+                row = 0;
+                endYMD = "";
+                startYMD = "";
                 for (i = 0; i < csvDt.Rows.Count; i++) {
                     DataRow csvDr = csvDt.Rows[i];
-                    ls_ymd = csvDr["Col1"].AsString();
-                    ls_ymd = (ls_ymd.SubStr(0, 3).AsInt() + 1911).AsString() + ls_ymd.SubStr(4, 2) + ls_ymd.SubStr(ls_ymd.Length - 2, 2);
+                    lsYMD = csvDr["Col1"].AsString();
+                    lsYMD = (lsYMD.SubStr(0, 3).AsInt() + 1911).AsString() + lsYMD.SubStr(4, 2) + lsYMD.SubStr(lsYMD.Length - 2, 2);
                     int n;
-                    if (ls_ymd == null || int.TryParse(ls_ymd, out n) == false) {
+                    if (lsYMD == null || int.TryParse(lsYMD, out n) == false) {
                         continue;
                     }
-                    li_row = li_row + 1;
-                    if (li_row == 1) {
-                        ls_start_ymd = ls_ymd.SubStr(0, 6) + "01";
+                    row = row + 1;
+                    if (row == 1) {
+                        startYMD = lsYMD.SubStr(0, 6) + "01";
                     }
-                    ls_end_ymd = ls_ymd;
+                    endYMD = lsYMD;
                     DataRow newDr = targetDt.NewRow();
                     targetDt.Rows.Add(newDr);
-                    targetDt.Rows[targetDt.Rows.Count - 1][0] = ls_ymd;
+                    targetDt.Rows[targetDt.Rows.Count - 1][0] = lsYMD;
                     for (j = 1; j < 6; j++) {
-                        ls_val = csvDt.Rows[i][j].AsString();
-                        if (ls_val.IndexOf(",") > 0) {
-                            ls_val.Replace(",", "");
+                        val = csvDt.Rows[i][j].AsString();
+                        if (val.IndexOf(",") > 0) {
+                            val.Replace(",", "");
                         }
-                        targetDt.Rows[targetDt.Rows.Count - 1][j] = ls_val.AsDecimal();
+                        targetDt.Rows[targetDt.Rows.Count - 1][j] = val.AsDecimal();
                     }
                     targetDt.Rows[targetDt.Rows.Count - 1][6] = GlobalInfo.USER_ID;
                     targetDt.Rows[targetDt.Rows.Count - 1][7] = DateTime.Now;
                 }
-                ls_ym = ls_end_ymd.SubStr(0, 6);
+                lsYM = endYMD.SubStr(0, 6);
 
                 //刪除資料
-                daoINTWSE1.DeleteByDate(ls_start_ymd, ls_end_ymd);
-                lblRange2.Text = ls_start_ymd.Insert(4, "/").Insert(7, "/") + "~" + ls_end_ymd.Insert(4, "/").Insert(7, "/");
+                daoINTWSE1.DeleteByDate(startYMD, endYMD);
+                lblRange2.Text = startYMD.Insert(4, "/").Insert(7, "/") + "~" + endYMD.Insert(4, "/").Insert(7, "/");
 
                 //更新資料
                 ResultStatus result = base.Save_Override(targetDt, "INTWSE1");
@@ -238,18 +233,18 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     txtPath2.BackColor = Color.LightGray;
                 }
                 else {
-                    MessageBox.Show(ls_ym + " 轉入資料庫失敗!", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    MessageBox.Show(lsYM + " 轉入資料庫失敗!", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 }
             }
             else {
-                MessageBox.Show(ls_ym + " 轉入資料庫失敗!", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                MessageBox.Show(lsYM + " 轉入資料庫失敗!", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
         }
 
         private void btnSearch_Click(object sender, EventArgs e) {
             dao20112 = new D20112();
-            string as_year = txtYear.Text;
-            DataTable returnTable = dao20112.ListAllByDate(as_year);
+            string asYear = txtYear.Text;
+            DataTable returnTable = dao20112.ListAllByDate(asYear);
             if (returnTable.Rows.Count == 0) {
                 MessageBox.Show("無任何資料", "訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }

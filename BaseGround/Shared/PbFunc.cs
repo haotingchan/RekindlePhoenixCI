@@ -102,13 +102,14 @@ namespace BaseGround.Shared {
 
             //先排除六日
             for (int k = 0; k <= 30; k++) {
-                if (ldt_fm_date.AddDays(k) >= ldt_to_date) {
+                if (ldt_fm_date >= ldt_to_date) {
                     break;
                 }
                 if (ldt_fm_date.DayOfWeek != DayOfWeek.Saturday && ldt_fm_date.DayOfWeek != DayOfWeek.Sunday) {
                     tradyDayCount++;
                 }
-            }//for(int k = 0;k <= 31;k++) {
+                ldt_fm_date = ldt_fm_date.AddDays(1);
+            }//for(int k = 0;k <= 30;k++) {
 
             //該月份額外減少的交易日 = 輸出颱風天數-假日補上班天數
             DTS dts = new DTS();
@@ -469,7 +470,6 @@ namespace BaseGround.Shared {
             return "";
         }
 
-
         public static string f_chk_mg5(string as_txn_id, string ls_ymd, string is_osw_grp, string ls_choose) {
             /***************************************
             有加f_chk_mg5的作業代號：
@@ -509,8 +509,6 @@ namespace BaseGround.Shared {
 
             return "";
         }
-
-
 
         /// <summary>
         /// 檢查今日盤後轉檔作業是否都完成,但這邊都回傳true
@@ -619,7 +617,6 @@ namespace BaseGround.Shared {
             if (!File.Exists(excelFilePath)) {
                 throw new Exception("無此檔案「" + excelFilePath + "」!");
             }
-
 
             string tmpDate1 = DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss");
             string targetFileName = excelFileName + "_" + tmpDate1 + ls_excel_ext;
@@ -822,21 +819,20 @@ namespace BaseGround.Shared {
                 throw new Exception("");
             }
 
-         return lastTradeDate;
-      }
+            return lastTradeDate;
+        }
 
-      /// <summary>
-      /// 月份完整英文 或 英文月份縮寫
-      /// </summary>
-      /// <param name="ai_mm"></param>
-      /// <param name="as_type">1=英文月份縮寫,other=月份完整英文</param>
-      /// <returns></returns>
-      public static string f_get_month_eng_name(int ai_mm, string as_type = "0")
-      {
-         //c#有函數可以直接輸出月份的完整英文
-         DateTime tmp = DateTime.ParseExact(DateTime.Now.Year + ai_mm.ToString().PadLeft(2, '0'), "yyyyMM", null, DateTimeStyles.AllowWhiteSpaces);
-         CultureInfo ci = new CultureInfo("en-US");
-         var monthEngName = "";
+        /// <summary>
+        /// 月份完整英文 或 英文月份縮寫
+        /// </summary>
+        /// <param name="ai_mm"></param>
+        /// <param name="as_type">1=英文月份縮寫,other=月份完整英文</param>
+        /// <returns></returns>
+        public static string f_get_month_eng_name(int ai_mm, string as_type = "0") {
+            //c#有函數可以直接輸出月份的完整英文
+            DateTime tmp = DateTime.ParseExact(DateTime.Now.Year + ai_mm.ToString().PadLeft(2, '0'), "yyyyMM", null, DateTimeStyles.AllowWhiteSpaces);
+            CultureInfo ci = new CultureInfo("en-US");
+            var monthEngName = "";
 
             if (as_type == "1") {
                 //ken,要英文月份縮寫應該是用MMM才對,怎麼是擷取前面三個字呢?
@@ -1185,25 +1181,25 @@ namespace BaseGround.Shared {
         }
 
         /// <summary>
-        /// 寫Log至LOGF
+        /// 此func 已移至 Form Parent WriteLog()
         /// </summary>
         /// <param name="gs_txn_id"></param>
         /// <param name="as_type"></param>
         /// <param name="as_text"></param>
         /// <returns>正常回傳0,失敗回傳-1</returns>
-        public static int f_write_logf(string gs_txn_id, string as_type, string as_text) {
-            try {
-                as_text = as_text.SubStr(0, 100);//取前100字元
+        public static void f_write_logf(string gs_txn_id, string as_type, string as_text) {
+            //try {
+            //    as_text = as_text.SubStr(0, 100);//取前100字元
 
-                LOGF logf = new LOGF();
-                logf.Insert(gs_user_id, gs_txn_id, as_text, as_type);
-                return 0;
-            }
-            catch (Exception ex) {
-                //寫db log失敗,只好寫入本地端的file
-                //這段再找時間補
-                return -1;
-            }
+            //    LOGF logf = new LOGF();
+            //    logf.Insert(gs_user_id, gs_txn_id, as_text, as_type);
+            //    return 0;
+            //}
+            //catch (Exception ex) {
+            //    //寫db log失敗,只好寫入本地端的file
+            //    //這段再找時間補
+            //    return -1;
+            //}
         }
         /// <summary>
         /// 彈出選擇存檔的系統視窗
@@ -1365,6 +1361,11 @@ namespace BaseGround.Shared {
             return "";
         }
 
+        /// <summary>
+        /// 解密方法
+        /// </summary>
+        /// <param name="as_data"></param>
+        /// <returns></returns>
         public static string f_decode(string as_data) {
             string is_out = "";
             long il_x = 0, il_y = 0, il_len;
@@ -1386,6 +1387,12 @@ namespace BaseGround.Shared {
 
         }
 
+        /// <summary>
+        /// 變更連線DB
+        /// </summary>
+        /// <param name="dc"></param>
+        /// <param name="ini_key"></param>
+        /// <returns></returns>
         public static DbConnection f_get_exec_oth(DbConnection dc, string ini_key) {
             TXFP dao = new TXFP();
             DataTable dt = dao.ListDataByKey(ini_key);
@@ -1407,6 +1414,13 @@ namespace BaseGround.Shared {
             return dc;
         }
 
+        /// <summary>
+        /// 呼叫並執行bat
+        /// </summary>
+        /// <param name="as_txn_id"></param>
+        /// <param name="as_module"></param>
+        /// <param name="as_user_id"></param>
+        /// <returns></returns>
         public static string f_bat_span(string as_txn_id, string as_module, string as_user_id) {
             SPAN_PATH dao = new SPAN_PATH();
             DataTable dtSpanPath = dao.GetPathByModule(as_module);

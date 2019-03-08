@@ -103,24 +103,24 @@ namespace PhoenixCI.FormUI.Prefix5 {
         private void ManipulateExcel(string excelDestinationPath) {
 
             try {
-                string ls_rpt_name, ls_rpt_id;
-                int i, li_ole_col;
+                string rptName, rptId;
+                int i, colNum;
                 /*************************************
                 ls_rpt_name = 報表名稱
                 ls_rpt_id = 報表代號
                 li_ole_col = 欄位位置
                 ls_param_key = 契約
                 *************************************/
-                ls_rpt_name = "STF報價每月獎勵活動成績得獎名單月報表";
-                ls_rpt_id = "50070";
-                lblProcessing.Text = ls_rpt_id + "－" + ls_rpt_name + " 轉檔中...";
+                rptName = "STF報價每月獎勵活動成績得獎名單月報表";
+                rptId = "50070";
+                lblProcessing.Text = rptId + "－" + rptName + " 轉檔中...";
 
                 //讀取資料
                 daoRMM = new R_MARKET_MONTHLY();
-                string as_ym = txtMonth.Text.Replace("/", "");
-                DataTable dt50070 = daoRMM.ListAllByDate(as_ym);
+                string asYM = txtMonth.Text.Replace("/", "");
+                DataTable dt50070 = daoRMM.ListAllByDate(asYM);
                 if (dt50070.Rows.Count == 0) {
-                    MessageDisplay.Info(string.Format("{0},{1},無任何資料!", as_ym, ls_rpt_name));
+                    MessageDisplay.Info(string.Format("{0},{1},無任何資料!", asYM, rptName));
                 }
 
                 //切換Sheet
@@ -129,18 +129,18 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 Worksheet ws50070 = workbook.Worksheets[0];
 
                 //填資料
-                int ii_ole_row = 5;
+                int rowNum = 5;
                 for (i = 0; i < dt50070.Rows.Count; i++) {
                     DataRow dr50070 = dt50070.Rows[i];
-                    ii_ole_row = i + 2;
-                    ws50070.Cells[ii_ole_row, 0].Value = dr50070["mc_month"].AsString();
-                    ws50070.Cells[ii_ole_row, 1].Value = dr50070["fut_id"].AsString();
-                    ws50070.Cells[ii_ole_row, 2].Value = dr50070["fut_name"].AsString();
-                    ws50070.Cells[ii_ole_row, 3].Value = dr50070["reward_type"].AsDecimal();
-                    ws50070.Cells[ii_ole_row, 4].Value = dr50070["reward"].AsDecimal();
-                    ws50070.Cells[ii_ole_row, 5].Value = dr50070["detail"].AsString();
-                    ws50070.Cells[ii_ole_row, 6].Value = dr50070["acctno"].AsString();
-                    ws50070.Cells[ii_ole_row, 7].Value = dr50070["prod_type"].AsString();
+                    rowNum = i + 2;
+                    ws50070.Cells[rowNum, 0].Value = dr50070["mc_month"].AsString();
+                    ws50070.Cells[rowNum, 1].Value = dr50070["fut_id"].AsString();
+                    ws50070.Cells[rowNum, 2].Value = dr50070["fut_name"].AsString();
+                    ws50070.Cells[rowNum, 3].Value = dr50070["reward_type"].AsDecimal();
+                    ws50070.Cells[rowNum, 4].Value = dr50070["reward"].AsDecimal();
+                    ws50070.Cells[rowNum, 5].Value = dr50070["detail"].AsString();
+                    ws50070.Cells[rowNum, 6].Value = dr50070["acctno"].AsString();
+                    ws50070.Cells[rowNum, 7].Value = dr50070["prod_type"].AsString();
                 }
 
                 //存檔

@@ -376,64 +376,85 @@
             // 
             // SP1_DATE
             // 
+            this.SP1_DATE.AppearanceCell.BackColor = System.Drawing.Color.Silver;
+            this.SP1_DATE.AppearanceCell.Options.UseBackColor = true;
             this.SP1_DATE.Caption = "日期";
             this.SP1_DATE.FieldName = "SP1_DATE";
             this.SP1_DATE.Name = "SP1_DATE";
             this.SP1_DATE.OptionsColumn.AllowEdit = false;
+            this.SP1_DATE.OptionsColumn.AllowFocus = false;
             this.SP1_DATE.Visible = true;
             this.SP1_DATE.VisibleIndex = 0;
             // 
             // CP_TYPE
             // 
+            this.CP_TYPE.AppearanceCell.BackColor = System.Drawing.Color.Silver;
+            this.CP_TYPE.AppearanceCell.Options.UseBackColor = true;
             this.CP_TYPE.Caption = "資料類別";
             this.CP_TYPE.FieldName = "CP_TYPE";
             this.CP_TYPE.Name = "CP_TYPE";
             this.CP_TYPE.OptionsColumn.AllowEdit = false;
+            this.CP_TYPE.OptionsColumn.AllowFocus = false;
             this.CP_TYPE.Visible = true;
             this.CP_TYPE.VisibleIndex = 1;
             // 
             // SP1_KIND_ID1
             // 
+            this.SP1_KIND_ID1.AppearanceCell.BackColor = System.Drawing.Color.Silver;
+            this.SP1_KIND_ID1.AppearanceCell.Options.UseBackColor = true;
             this.SP1_KIND_ID1.Caption = "商品1";
             this.SP1_KIND_ID1.FieldName = "SP1_KIND_ID1";
             this.SP1_KIND_ID1.Name = "SP1_KIND_ID1";
             this.SP1_KIND_ID1.OptionsColumn.AllowEdit = false;
+            this.SP1_KIND_ID1.OptionsColumn.AllowFocus = false;
             this.SP1_KIND_ID1.Visible = true;
             this.SP1_KIND_ID1.VisibleIndex = 2;
             // 
             // SP1_KIND_ID2
             // 
+            this.SP1_KIND_ID2.AppearanceCell.BackColor = System.Drawing.Color.Silver;
+            this.SP1_KIND_ID2.AppearanceCell.Options.UseBackColor = true;
             this.SP1_KIND_ID2.Caption = "商品2";
             this.SP1_KIND_ID2.FieldName = "SP1_KIND_ID2";
             this.SP1_KIND_ID2.Name = "SP1_KIND_ID2";
             this.SP1_KIND_ID2.OptionsColumn.AllowEdit = false;
+            this.SP1_KIND_ID2.OptionsColumn.AllowFocus = false;
             this.SP1_KIND_ID2.Visible = true;
             this.SP1_KIND_ID2.VisibleIndex = 3;
             // 
             // SP1_CUR_RATE
             // 
+            this.SP1_CUR_RATE.AppearanceCell.BackColor = System.Drawing.Color.Silver;
+            this.SP1_CUR_RATE.AppearanceCell.Options.UseBackColor = true;
             this.SP1_CUR_RATE.Caption = "現行結算保證金";
             this.SP1_CUR_RATE.FieldName = "SP1_CUR_RATE";
             this.SP1_CUR_RATE.Name = "SP1_CUR_RATE";
             this.SP1_CUR_RATE.OptionsColumn.AllowEdit = false;
+            this.SP1_CUR_RATE.OptionsColumn.AllowFocus = false;
             this.SP1_CUR_RATE.Visible = true;
             this.SP1_CUR_RATE.VisibleIndex = 5;
             // 
             // SP1_RATE
             // 
+            this.SP1_RATE.AppearanceCell.BackColor = System.Drawing.Color.Silver;
+            this.SP1_RATE.AppearanceCell.Options.UseBackColor = true;
             this.SP1_RATE.Caption = "調整後結算保證金";
             this.SP1_RATE.FieldName = "SP1_RATE";
             this.SP1_RATE.Name = "SP1_RATE";
             this.SP1_RATE.OptionsColumn.AllowEdit = false;
+            this.SP1_RATE.OptionsColumn.AllowFocus = false;
             this.SP1_RATE.Visible = true;
             this.SP1_RATE.VisibleIndex = 6;
             // 
             // SP1_CHANGE_RANGE
             // 
+            this.SP1_CHANGE_RANGE.AppearanceCell.BackColor = System.Drawing.Color.Silver;
+            this.SP1_CHANGE_RANGE.AppearanceCell.Options.UseBackColor = true;
             this.SP1_CHANGE_RANGE.Caption = "變動幅度";
             this.SP1_CHANGE_RANGE.FieldName = "SP1_CHANGE_RANGE";
             this.SP1_CHANGE_RANGE.Name = "SP1_CHANGE_RANGE";
             this.SP1_CHANGE_RANGE.OptionsColumn.AllowEdit = false;
+            this.SP1_CHANGE_RANGE.OptionsColumn.AllowFocus = false;
             this.SP1_CHANGE_RANGE.Visible = true;
             this.SP1_CHANGE_RANGE.VisibleIndex = 4;
             // 

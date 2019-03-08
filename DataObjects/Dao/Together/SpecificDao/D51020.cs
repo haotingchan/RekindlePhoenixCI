@@ -1,4 +1,5 @@
-﻿using OnePiece;
+﻿using BusinessObjects;
+using OnePiece;
 using System.Data;
 
 /// <summary>
@@ -81,6 +82,31 @@ order by mmft_prod_type , mmft_kind_id , mmft_id
             DataTable dtResult = db.GetDataTable(sql, null);
 
             return dtResult;
+        }
+
+        public ResultData updateData(DataTable inputData) {
+
+            string sql = @"SELECT ' ' as OP_TYPE,   
+MMFT_ID,   
+MMFT_KIND_ID,   
+MMFT_MTH_CNT,   
+MMFT_BEGIN_MTH,  
+
+MMFT_END_S,   
+MMFT_END_E,   
+MMFT_IN_CNT,   
+MMFT_OUT_CNT,   
+MMFT_AVG_CNT,
+
+MMFT_PROD_TYPE,
+MMFT_REF_KIND_ID ,
+MMFT_AVG_MTH_CNT ,
+MMFT_MARKET_CODE ,
+MMFT_CP_KIND 
+
+FROM CI.MMFT ";
+
+            return db.UpdateOracleDB(inputData, sql);
         }
     }
 }

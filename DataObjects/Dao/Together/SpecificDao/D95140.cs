@@ -3,6 +3,7 @@ using System.Data;
 
 /// <summary>
 /// winni,2019/1/16
+/// 已廢除
 /// </summary>
 namespace DataObjects.Dao.Together.SpecificDao {
    /// <summary>

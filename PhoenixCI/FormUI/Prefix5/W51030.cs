@@ -88,9 +88,9 @@ namespace PhoenixCI.FormUI.Prefix5
          MMF_MARKET_CODE.ColumnEdit = MARKET_CODE_LookUpEdit;
          //期貨/選擇權
          dic = new Dictionary<string, string>() { { "F", "F" }, { "O", "O" } };
-         DataTable mmf_Type = setcolItem(dic);
+         DataTable mmfType = setcolItem(dic);
          PROD_TYPE_LookUpEdit = new RepositoryItemLookUpEdit();
-         PROD_TYPE_LookUpEdit.SetColumnLookUp(mmf_Type, "ID", "Desc");
+         PROD_TYPE_LookUpEdit.SetColumnLookUp(mmfType, "ID", "Desc");
          MMF_PROD_TYPE.ColumnEdit = PROD_TYPE_LookUpEdit;
          //商品類別
          daoAPDK = new APDK();
@@ -113,9 +113,9 @@ namespace PhoenixCI.FormUI.Prefix5
             }
             dic.Add(codid, string.Format("({0}){1}", codid, dr["COD_DESC"].AsString()));
          }
-         DataTable mmf_KIND = setcolItem(dic);
+         DataTable mmfKIND = setcolItem(dic);
          CP_KIND_LookUpEdit = new RepositoryItemLookUpEdit();
-         CP_KIND_LookUpEdit.SetColumnLookUp(mmf_KIND, "ID", "Desc");
+         CP_KIND_LookUpEdit.SetColumnLookUp(mmfKIND, "ID", "Desc");
          MMF_CP_KIND.ColumnEdit = CP_KIND_LookUpEdit;
       }
       /// <summary>
@@ -198,13 +198,13 @@ namespace PhoenixCI.FormUI.Prefix5
       private void gvMain_RowCellStyle(object sender, RowCellStyleEventArgs e)
       {
          GridView gv = sender as GridView;
-         string Is_NewRow = gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
+         string isNewRow = gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
               gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]).ToString();
 
          if (e.Column.FieldName == MARKET_CODE ||
              e.Column.FieldName == PROD_TYPE ||
              e.Column.FieldName == PARAM_KEY) {
-            e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.Silver;
+            e.Appearance.BackColor = isNewRow == "1" ? Color.White : Color.Silver;
          }
          if (e.Column.FieldName == CP_KIND) {
             int value = gv.GetRowCellValue(e.RowHandle, MMF_CP_KIND).AsInt();
@@ -213,76 +213,76 @@ namespace PhoenixCI.FormUI.Prefix5
          }
       }
 
-      private bool SaveBefore(DataTable dw_1)
+      private bool SaveBefore(DataTable dt)
       {
-         string ls_type, ls_val1, ls_val2, ls_val3, ls_val4, ls_val5;
+         string lsType, lsVal1, lsVal2, lsVal3, lsVal4, lsVal5;
          try {
             //只檢查變動的部分
-            foreach (DataRow dr in dw_1.GetChanges().Rows) {
+            foreach (DataRow dr in dt.GetChanges().Rows) {
                if (dr["op_type"].AsString() == " ") {
                   continue;
                }
                //key值不能為null
                if (string.IsNullOrEmpty(dr[MARKET_CODE].AsString())) {
-                  PbFunc.messageBox(GlobalInfo.gs_t_err, "「交易時段」必須要選取值！", MessageBoxIcon.Stop);
+                  PbFunc.messageBox(GlobalInfo.ErrorText, "「交易時段」必須要選取值！", MessageBoxIcon.Stop);
                   //set Focused
-                  setFocused(dw_1, dr, MARKET_CODE);
+                  setFocused(dt, dr, MARKET_CODE);
                   return false;
                }
                if (string.IsNullOrEmpty(dr[PARAM_KEY].AsString())) {
-                  PbFunc.messageBox(GlobalInfo.gs_t_err, "「商品類別」必須要選取值！", MessageBoxIcon.Stop);
+                  PbFunc.messageBox(GlobalInfo.ErrorText, "「商品類別」必須要選取值！", MessageBoxIcon.Stop);
                   //set Focused
-                  setFocused(dw_1, dr, PARAM_KEY);
+                  setFocused(dt, dr, PARAM_KEY);
                   return false;
                }
                //必須回應詢價比
                if (string.IsNullOrEmpty(dr["mmf_resp_ratio"].AsString())) {
-                  PbFunc.messageBox(GlobalInfo.gs_t_err, "「必須回應詢價比(%)」必須要輸入值！", MessageBoxIcon.Stop);
+                  PbFunc.messageBox(GlobalInfo.ErrorText, "「必須回應詢價比(%)」必須要輸入值！", MessageBoxIcon.Stop);
                   //set Focused
-                  setFocused(dw_1, dr, "MMF_RESP_RATIO");
+                  setFocused(dt, dr, "MMF_RESP_RATIO");
                   return false;
                }
                //最低造市量
                if (string.IsNullOrEmpty(dr["mmf_qnty_low"].AsString())) {
-                  PbFunc.messageBox(GlobalInfo.gs_t_err, "「最低造市量」必須要輸入值！", MessageBoxIcon.Stop);
+                  PbFunc.messageBox(GlobalInfo.ErrorText, "「最低造市量」必須要輸入值！", MessageBoxIcon.Stop);
                   //set Focused
-                  setFocused(dw_1, dr, "MMF_QNTY_LOW");
+                  setFocused(dt, dr, "MMF_QNTY_LOW");
                   return false;
                }
                //報價有效量比率
                if (string.IsNullOrEmpty(dr["mmf_quote_valid_rate"].AsString())) {
-                  PbFunc.messageBox(GlobalInfo.gs_t_err, "「報價有效量比率」必須要輸入值！", MessageBoxIcon.Stop);
+                  PbFunc.messageBox(GlobalInfo.ErrorText, "「報價有效量比率」必須要輸入值！", MessageBoxIcon.Stop);
                   //set Focused
-                  setFocused(dw_1, dr, "MMF_QUOTE_VALID_RATE");
+                  setFocused(dt, dr, "MMF_QUOTE_VALID_RATE");
                   return false;
                }
                //報價每日平均維持分鐘
                if (string.IsNullOrEmpty(dr["mmf_avg_time"].AsString())) {
-                  PbFunc.messageBox(GlobalInfo.gs_t_err, "「報價每日平均維持分鐘」必須要輸入值！", MessageBoxIcon.Stop);
+                  PbFunc.messageBox(GlobalInfo.ErrorText, "「報價每日平均維持分鐘」必須要輸入值！", MessageBoxIcon.Stop);
                   //set Focused
-                  setFocused(dw_1, dr, "MMF_AVG_TIME");
+                  setFocused(dt, dr, "MMF_AVG_TIME");
                   return false;
                }
                //寫LOGV
-               ls_type = "I";
-               ls_val1 = dr["mmf_param_key"].AsString();
-               ls_val2 = dr["mmf_resp_ratio"].AsString();
-               ls_val3 = dr["mmf_qnty_low"].AsString();
-               ls_val4 = dr["mmf_quote_valid_rate"].AsString();
-               ls_val5 = dr["mmf_avg_time"].AsString();
-               new LOGV().Insert(_ProgramID, GlobalInfo.USER_ID, ls_type, ls_val1, ls_val2, ls_val3, ls_val4, ls_val5);
+               lsType = "I";
+               lsVal1 = dr["mmf_param_key"].AsString();
+               lsVal2 = dr["mmf_resp_ratio"].AsString();
+               lsVal3 = dr["mmf_qnty_low"].AsString();
+               lsVal4 = dr["mmf_quote_valid_rate"].AsString();
+               lsVal5 = dr["mmf_avg_time"].AsString();
+               new LOGV().Insert(_ProgramID, GlobalInfo.USER_ID, lsType, lsVal1, lsVal2, lsVal3, lsVal4, lsVal5);
             }
          }
          catch (Exception ex) {
-            MessageBox.Show(ex.Message);
+            WriteLog(ex);
             return false;
          }
          return true;
       }
 
-      private void setFocused(DataTable dw_1, DataRow dr, string colName)
+      private void setFocused(DataTable dt, DataRow dr, string colName)
       {
-         gvMain.FocusedRowHandle = dw_1.Rows.IndexOf(dr);
+         gvMain.FocusedRowHandle = dt.Rows.IndexOf(dr);
          gvMain.FocusedColumn = gvMain.Columns[colName];
          gvMain.ShowEditor();
       }

@@ -28,16 +28,16 @@ namespace Common {
 
         public static string DEFAULT_BATCH_ErrSP_DIRECTORY_PATH;
 
-        public static string gs_sys = "CI";
-        public static string gs_t_result = "處理結果";  //Information!
-        public static string gs_t_warning = "警告訊息";    //Exclamation!
-        public static string gs_t_err = "錯誤訊息";//StopSign!
-        public static string gs_t_question = "請選擇";       //Question!
-        public static string gs_m_ok = "處理完成";
-        public static string gs_m_no_data = "無此筆資料!";
-        public static string gs_m_field_err = "欄位資料輸入錯誤!";
-        public static string gs_m_no_auth = "無此權限，執行此交易";
-        public static string gs_m_not_allow_exec = "時點不允許執行此交易,視窗即將關閉.";
+        public static string SYS = "CI";
+        public static string ResultText = "處理結果";  //Information!
+        public static string WarningText = "警告訊息";    //Exclamation!
+        public static string ErrorText = "錯誤訊息";//StopSign!
+        public static string QuestionText = "請選擇";       //Question!
+        public static string MsgOK = "處理完成";
+        public static string MsgNoData = "無此筆資料!";
+        public static string MsgFieldError = "欄位資料輸入錯誤!";
+        public static string MsgNoAuth = "無此權限，執行此交易";
+        public static string MsgNotAllowExec = "時點不允許執行此交易,視窗即將關閉.";
 
         /// <summary>
         /// 存放像是FO或OO

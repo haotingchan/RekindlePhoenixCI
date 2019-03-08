@@ -118,7 +118,6 @@
             this.txtStartDate.Size = new System.Drawing.Size(100, 26);
             this.txtStartDate.TabIndex = 15;
             this.txtStartDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-            this.txtStartDate.Leave += new System.EventHandler(this.txtStartDate_Leave);
             // 
             // labDate
             // 
@@ -160,7 +159,6 @@
             this.txtEndDate.Size = new System.Drawing.Size(100, 26);
             this.txtEndDate.TabIndex = 18;
             this.txtEndDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-            this.txtEndDate.Leave += new System.EventHandler(this.txtEndDate_Leave);
             // 
             // lbl1
             // 

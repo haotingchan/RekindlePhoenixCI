@@ -140,7 +140,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             }
             //Update to DB
             else {
-                string ls_val1, ls_val2, ls_val3, ls_val4;
+                string val1, val2, val3, val4;
                 string prodType, subProdType;
                 //隱藏欄位賦值
                 foreach (DataRow dr in dt.Rows) {
@@ -158,11 +158,11 @@ namespace PhoenixCI.FormUI.Prefix2 {
                         dr["AM7T_W_TIME"] = DateTime.Now;
                         dr["AM7T_W_USER_ID"] = GlobalInfo.USER_ID;
                         //寫LOGV
-                        ls_val1 = dr["AM7T_Y"].AsString();
-                        ls_val2 = dr["AM7T_PARAM_KEY"].AsString();
-                        ls_val3 = dr["ORG_DAY_COUNT"].AsString() + "->" + dr["AM7T_DAY_COUNT"].AsString();
-                        ls_val4 = dr["ORG_AVG_QNTY"].AsString() + "->" + dr["AM7T_AVG_QNTY"].AsString();
-                        daoLOGV.Insert(_ProgramID, GlobalInfo.USER_ID, "U", ls_val1, ls_val2, ls_val3, ls_val4,"");
+                        val1 = dr["AM7T_Y"].AsString();
+                        val2 = dr["AM7T_PARAM_KEY"].AsString();
+                        val3 = dr["ORG_DAY_COUNT"].AsString() + "->" + dr["AM7T_DAY_COUNT"].AsString();
+                        val4 = dr["ORG_AVG_QNTY"].AsString() + "->" + dr["AM7T_AVG_QNTY"].AsString();
+                        daoLOGV.Insert(_ProgramID, GlobalInfo.USER_ID, "U", val1, val2, val3, val4,"");
                     }
                 }
                 ResultStatus status = base.Save_Override(dt, "AM7T");

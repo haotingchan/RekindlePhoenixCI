@@ -25,21 +25,39 @@ namespace PhoenixCI.FormUI.Prefix2 {
       protected STWD daoSTWD;
       protected AMIF daoAMIF;
       protected D28110 dao28110;
-      protected bool flagTest = true;
-      string as_ym;
+      protected D20110 dao20110;
+
+      string dateYmd; //as_ym
+      ResultStatus resultStatus = ResultStatus.Fail;
 
       public W28110(string programID , string programName) : base(programID , programName) {
-         InitializeComponent();
-         GridHelper.SetCommonGrid(gvMain);
-         GridHelper.SetCommonGrid(gvMain2);
-         daoSTW = new STW();
-         daoSTWD = new STWD();
-         daoAMIF = new AMIF();
-         dao28110 = new D28110();
-         this.Text = _ProgramID + "─" + _ProgramName;
-         txtDate.DateTimeValue = GlobalInfo.OCF_DATE;
+         try {
+            InitializeComponent();
+
+            this.Text = _ProgramID + "─" + _ProgramName;
+            txtDate.DateTimeValue = GlobalInfo.OCF_DATE;
+            GridHelper.SetCommonGrid(gvMain);
+            GridHelper.SetCommonGrid(gvMain2);
+
+            labMsg.Visible = false;
+
+            //string as_ym = txtDate.Text.Replace("/" , "");
+
+            daoSTW = new STW();
+            daoSTWD = new STWD();
+            daoAMIF = new AMIF();
+            dao28110 = new D28110();
+            dao20110 = new D20110();
+         } catch (Exception ex) {
+            WriteLog(ex);
+         }
+
       }
 
+      /// <summary>
+      /// 先判斷帳號是否為FlagAdmin
+      /// </summary>
+      /// <returns></returns>
       protected override ResultStatus Open() {
          base.Open();
 
@@ -51,6 +69,10 @@ namespace PhoenixCI.FormUI.Prefix2 {
          return ResultStatus.Success;
       }
 
+      /// <summary>
+      /// 有用到的Icon
+      /// </summary>
+      /// <returns></returns>
       protected override ResultStatus ActivatedForm() {
          base.ActivatedForm();
 
@@ -69,16 +91,35 @@ namespace PhoenixCI.FormUI.Prefix2 {
       }
 
       /// <summary>
+      /// 刪除當日 CI.STW資料 (需再retrieve才會顯示資料庫最新資料)
+      /// </summary>
+      /// <returns></returns>
+      protected override ResultStatus DeleteRow() {
+         DialogResult msgResult = MessageBox.Show("請問確定要刪除 " + txtDate.Text + " 資料嗎?" , "注意" , MessageBoxButtons.YesNo , MessageBoxIcon.Question);
+         if (msgResult == DialogResult.Yes) {
+            DataTable dtTmp = daoSTW.GetDataByDate(dateYmd);
+            if (dtTmp.Rows.Count <= 0) {
+               MessageDisplay.Error("刪除 " + txtDate.Text + " 資料失敗! ");
+               return ResultStatus.Fail;
+            }
+            daoSTW.DeleteByDate(dateYmd);
+            MessageDisplay.Info("刪除完成!");
+         }
+
+         return ResultStatus.Success;
+      }
+
+      /// <summary>
       /// 讀取查詢日期資料
+      /// return STW datatable
       /// </summary>
       /// <returns></returns>
       protected override ResultStatus Retrieve() {
          base.Retrieve();
-         daoSTW = new STW();
-         string as_ym = txtDate.Text.Replace("/" , "");
-         DataTable returnTable = daoSTW.d_28110(as_ym);
+         dateYmd = txtDate.Text.Replace("/" , ""); //yyyyMMdd
+         DataTable returnTable = daoSTW.GetDataByDate(dateYmd);
          if (returnTable.Rows.Count <= 0) {
-            MessageBox.Show("無任何資料" , "訊息" , MessageBoxButtons.OK , MessageBoxIcon.Information);
+            MessageDisplay.Info("無任何資料");
          }
 
          gcMain.DataSource = returnTable;
@@ -90,17 +131,21 @@ namespace PhoenixCI.FormUI.Prefix2 {
          return ResultStatus.Success;
       }
 
+      /// <summary>
+      /// 匯入資料
+      /// </summary>
+      /// <returns></returns>
       protected override ResultStatus Import() {
 
-         string ls_stw_open_1, ls_stw_open_2, ls_stw_high, ls_stw_low, ls_stw_clse_1, ls_stw_clse_2;
-         string ls_stw_settle, ls_stw_volumn, ls_stw_oint, ls_min_month;
-         string ls_pathname, ls_rtn, ls_year, ls_month, ls_ymd;
-         int li_return, li_rtn;
-         bool lb_last_trade_day = false;
+         string year, month;
+         int reIndex; //li_rtn
+
+         bool LastTradeDay = false; //lb_last_trade_day
 
          try {
-            //1.讀檔並寫入DataTable
-            lblProcessing.Visible = true;
+
+            #region 1.讀檔並寫入DataTable
+            labMsg.Visible = true;
             DataTable dtReadTxt = new DataTable();
             OpenFileDialog open = new OpenFileDialog();
             open.Filter = "*.csv (*.csv)|*.csv";
@@ -109,336 +154,470 @@ namespace PhoenixCI.FormUI.Prefix2 {
             DialogResult openResult = open.ShowDialog();
             if (openResult == DialogResult.OK) {
                using (StreamReader sr = new StreamReader(open.FileName , System.Text.Encoding.Default)) {
+
                   string line;
                   while ((line = sr.ReadLine()) != null) {
                      string[] items = line.Split(',');
-                     as_ym = txtDate.Text.Replace("/" , "");
-                     DataTable returnTable = daoSTW.d_28110(as_ym);
+                     DataTable returnTable = daoSTW.GetDataByDate(dateYmd); //只有要用到colume
 
                      //填入欄位名稱
-                     if (dtReadTxt.Columns.Count <= 0) {
+                     if (dtReadTxt.Columns.Count == 0) {
                         foreach (DataColumn column in returnTable.Columns) {
                            dtReadTxt.Columns.Add(column.ColumnName , typeof(string));
                         }
                      }
                      dtReadTxt.Rows.Add(items);
-                  }
+                  } //while ((line = sr.ReadLine()) != null)
                }
             } else {
-               lblProcessing.Visible = false;
+               labMsg.Visible = false;
                return ResultStatus.Fail;
-            }
+            } //if
+            #endregion
 
-            //刪除非TW的
+            #region 2.刪除非TW的
             DataView dv = dtReadTxt.AsDataView();
-            //stw_com <> 'TW' or isnull(stw_com)
             dv.RowFilter = "STW_COM IN ('TW')"; //改成只選擇為TW的
             DataTable dt = dv.ToTable();
-            //直接選擇TW的資料，此段不用執行
-            //do {
-            //   dt.Rows.RemoveAt(0);
-            //   } while (dt.Rows.Count != 0) ;
 
             if (dt.Rows.Count <= 0) {
-               MessageBox.Show("沒有TW的資料" , "訊息" , MessageBoxButtons.OK , MessageBoxIcon.Information);
+               MessageDisplay.Error("沒有TW的資料");
                return ResultStatus.Fail;
             }
+            #endregion
 
-            //3.確認資料年月&畫面年月(讀取資料)
-            string tmp = dt.Rows[0][0].AsString();
-            string dataDate = tmp.Substring(0 , 4) + "/" + tmp.Substring(4 , 2) + "/" + tmp.Substring(6 , 2);
+            #region 3.確認資料年月&畫面年月(讀取資料)
+            string tmp = dt.Rows[0][0].AsString(); //yyyyMMdd
+            string dataDate = tmp.Substring(0 , 4) + "/" + tmp.Substring(4 , 2) + "/" + tmp.Substring(6 , 2); //yyyy/MM/dd
             if (dataDate != txtDate.Text) {
-               DialogResult result = MessageBox.Show("資料年月(" + dataDate + ")與畫面年月不同,是否將畫面改為資料年月?" , "注意" , MessageBoxButtons.YesNo , MessageBoxIcon.Question);
+               DialogResult result = MessageBox.Show("資料日期(" + dataDate + ")與畫面年月不同,是否將畫面改為資料年月?" , "注意" , MessageBoxButtons.YesNo , MessageBoxIcon.Question);
                if (result == DialogResult.No) {
-                  lblProcessing.Visible = false;
+                  labMsg.Visible = false;
                   return ResultStatus.Fail;
                } else {
                   txtDate.Text = dataDate;
-                  Retrieve();
                }
             }
+            #endregion
 
-            //4.刪除舊有資料
+            #region 4.刪除舊有資料
             if (gvMain.DataRowCount > 0) {
-               DialogResult result = MessageBox.Show("資料年月(" + dataDate + ")資料已存在,是否刪除?" , "注意" , MessageBoxButtons.YesNo , MessageBoxIcon.Question);
+               DialogResult result = MessageBox.Show("資料日期(" + dataDate + ")資料已存在,是否刪除?" , "注意" , MessageBoxButtons.YesNo , MessageBoxIcon.Question);
                if (result == DialogResult.No) {
                   return ResultStatus.Fail;
                } else {
-                  dao28110.DeleteByDate(tmp);
+                  daoSTW.DeleteByDate(tmp);
                }
             }
+            #endregion
 
-            int li_fill = 10, li_shift = 0;
-            for (int i = 0 ; i < dt.Rows.Count ; i++) {
+            #region 5.整理資料
+            int fillZero = 10;
+            foreach (DataRow dr in dt.Rows) {
+
                //彙總資料,直接匯入,不需做移位處理	
-               if (String.IsNullOrEmpty(dt.Rows[i]["STW_SETTLE_M"].AsString())) {
-                  dt.Rows[i]["STW_OPEN_1"] = dt.Rows[i]["STW_OPEN_1"].AsString().Trim();
-                  dt.Rows[i]["STW_HIGH"] = dt.Rows[i]["STW_HIGH"].AsString().Trim();
-                  dt.Rows[i]["STW_LOW"] = dt.Rows[i]["STW_LOW"].AsString().Trim();
-                  dt.Rows[i]["STW_CLSE_1"] = dt.Rows[i]["STW_CLSE_1"].AsString().Trim();
+               if (String.IsNullOrEmpty(dr["STW_SETTLE_M"].AsString())) {
+                  dr["STW_OPEN_1"] = dr["STW_OPEN_1"].AsString();
+                  dr["STW_HIGH"] = dr["STW_HIGH"].AsString();
+                  dr["STW_LOW"] = dr["STW_LOW"].AsString();
+                  dr["STW_CLSE_1"] = dr["STW_CLSE_1"].AsString();
                } else {
                   //防止使用者用excel編輯後格式跑掉,先將值固定格式化為9位文字,未滿9位前面補0 	
-                  if (!String.IsNullOrEmpty(dt.Rows[i]["STW_OPEN_1"].AsString().Trim())) {
-                     int addZero = li_fill - dt.Rows[i]["STW_OPEN_1"].AsString().Trim().Length; //要補0的長度
-                     dt.Rows[i]["STW_OPEN_1"] = dt.Rows[i]["STW_OPEN_1"].AsString().Trim().PadLeft(li_fill , '0');
+                  if (!String.IsNullOrEmpty(dr["STW_OPEN_1"].AsString())) {
+                     dr["STW_OPEN_1"] = dr["STW_OPEN_1"].AsString().PadLeft(fillZero , '0');
                   }
-                  if (!String.IsNullOrEmpty(dt.Rows[i]["STW_OPEN_2"].AsString().Trim())) {
-                     dt.Rows[i]["STW_OPEN_2"] = dt.Rows[i]["STW_OPEN_2"].AsString().Trim().PadLeft(li_fill , '0');
+                  if (!String.IsNullOrEmpty(dr["STW_OPEN_2"].AsString())) {
+                     dr["STW_OPEN_2"] = dr["STW_OPEN_2"].AsString().PadLeft(fillZero , '0');
                   }
-                  if (!String.IsNullOrEmpty(dt.Rows[i]["STW_HIGH"].AsString().Trim())) {
-                     dt.Rows[i]["STW_HIGH"] = dt.Rows[i]["STW_HIGH"].AsString().Trim().PadLeft(li_fill , '0');
+                  if (!String.IsNullOrEmpty(dr["STW_HIGH"].AsString())) {
+                     dr["STW_HIGH"] = dr["STW_HIGH"].AsString().PadLeft(fillZero , '0');
                   }
-                  if (!String.IsNullOrEmpty(dt.Rows[i]["STW_LOW"].AsString().Trim())) {
-                     dt.Rows[i]["STW_LOW"] = dt.Rows[i]["STW_LOW"].AsString().Trim().PadLeft(li_fill , '0');
+                  if (!String.IsNullOrEmpty(dr["STW_LOW"].AsString())) {
+                     dr["STW_LOW"] = dr["STW_LOW"].AsString().PadLeft(fillZero , '0');
                   }
-                  if (!String.IsNullOrEmpty(dt.Rows[i]["STW_CLSE_1"].AsString().Trim())) {
-                     dt.Rows[i]["STW_CLSE_1"] = dt.Rows[i]["STW_CLSE_1"].AsString().Trim().PadLeft(li_fill , '0');
+                  if (!String.IsNullOrEmpty(dr["STW_CLSE_1"].AsString())) {
+                     dr["STW_CLSE_1"] = dr["STW_CLSE_1"].AsString().PadLeft(fillZero , '0');
                   }
-                  if (!String.IsNullOrEmpty(dt.Rows[i]["STW_CLSE_2"].AsString().Trim())) {
-                     dt.Rows[i]["STW_CLSE_2"] = dt.Rows[i]["STW_CLSE_2"].AsString().Trim().PadLeft(li_fill , '0');
+                  if (!String.IsNullOrEmpty(dr["STW_CLSE_2"].AsString())) {
+                     dr["STW_CLSE_2"] = dr["STW_CLSE_2"].AsString().PadLeft(fillZero , '0');
                   }
-                  if (!String.IsNullOrEmpty(dt.Rows[i]["STW_SETTLE"].AsString().Trim())) {
-                     dt.Rows[i]["STW_SETTLE"] = dt.Rows[i]["STW_SETTLE"].AsString().Trim().PadLeft(li_fill - 1 , '0');
-                     if (dt.Rows[i]["STW_SETTLE"].AsInt() == 0) {
-                        lb_last_trade_day = true;
+                  if (!String.IsNullOrEmpty(dr["STW_SETTLE"].AsString())) {
+                     dr["STW_SETTLE"] = dr["STW_SETTLE"].AsString().PadLeft(fillZero - 1 , '0');
+                     if (dr["STW_SETTLE"].AsInt() == 0) {
+                        LastTradeDay = true;
                      }
                   }
-               }
+               }//if (String.IsNullOrEmpty(dr["STW_SETTLE_M"].AsString())) {
 
-               //需求9800451
-               //全部往前移1位
-               if (String.IsNullOrEmpty(dt.Rows[i]["STW_SETTLE_M"].AsString())) {
-                  dt.Rows[i]["STW_SETTLE_M"] = "99";
+               #region 需求9800451(全部往前移1位)
+               if (String.IsNullOrEmpty(dr["STW_SETTLE_M"].AsString())) {
+                  dr["STW_SETTLE_M"] = "99";
                }
+               #endregion
 
-               //需求9700259
-               //月份通通為2位格式,前面補0
-               if (dt.Rows[i]["STW_SETTLE_M"].AsString().Length == 1) {
-                  dt.Rows[i]["STW_SETTLE_M"] = ("00" + dt.Rows[i]["STW_SETTLE_M"].AsString().Trim()).Substring(1 , 2);
+               #region 需求9700259(月份通通為2位格式,前面補0)
+               if (dr["STW_SETTLE_M"].AsString().Length == 1) {
+                  dr["STW_SETTLE_M"] = ("00" + dr["STW_SETTLE_M"].AsString()).Substring(1 , 2);
                }
-               if (String.IsNullOrEmpty(dt.Rows[i]["STW_SETTLE_Y"].AsString())) {
-                  dt.Rows[i]["STW_SETTLE_Y"] = "9999";
+               if (String.IsNullOrEmpty(dr["STW_SETTLE_Y"].AsString())) {
+                  dr["STW_SETTLE_Y"] = "9999";
                }
-               if (String.IsNullOrEmpty(dt.Rows[i]["STW_RECTYP"].AsString())) {
-                  if (dt.Rows[i]["STW_SETTLE_M"].AsString().Trim() == "") {
-                     dt.Rows[i]["STW_RECTYP"] = " ";
+               if (String.IsNullOrEmpty(dr["STW_RECTYP"].AsString())) {
+                  if (dr["STW_SETTLE_M"].AsString() == "") {
+                     dr["STW_RECTYP"] = " ";
                   } else {
-                     dt.Rows[i]["STW_RECTYP"] = "A";
+                     dr["STW_RECTYP"] = "A";
                   }
                }
-               if (String.IsNullOrEmpty(dt.Rows[i]["STW_VOLUMN"].AsString())) {
-                  dt.Rows[i]["STW_VOLUMN"] = "0";
+               if (String.IsNullOrEmpty(dr["STW_VOLUMN"].AsString())) {
+                  dr["STW_VOLUMN"] = "0";
                }
-               if (String.IsNullOrEmpty(dt.Rows[i]["STW_OINT"].AsString())) {
-                  dt.Rows[i]["STW_OINT"] = "0";
+               if (String.IsNullOrEmpty(dr["STW_OINT"].AsString())) {
+                  dr["STW_OINT"] = "0";
+               }
+               #endregion
+
+               #region 需求單9800144(當結算價=0,則OI=0)
+               if (String.IsNullOrEmpty(dr["STW_SETTLE"].AsString())) {
+                  dr["STW_SETTLE"] = "0";
                }
 
-               //需求單9800144
-               //當結算價=0,則OI=0
-               if (String.IsNullOrEmpty(dt.Rows[i]["STW_SETTLE"].AsString())) {
-                  dt.Rows[i]["STW_SETTLE"] = "0";
+               if (dr["STW_SETTLE"].AsDecimal() == 0) {
+                  dr["STW_OINT"] = "0";
                }
-               if (dt.Rows[i]["STW_SETTLE"].AsDecimal() == 0) {
-                  dt.Rows[i]["STW_OINT"] = "0";
+               #endregion
+
+            }//foreach (DataRow dr in dt.Rows) { 
+            #endregion
+
+            #region 6.if ids_1.update() > 0  then commit
+            if (dt.GetChanges().Rows!= null) {
+               if (dt.GetChanges().Rows.Count <= 0) {
+                  WriteLog("寫入STW錯誤!" , "Error" , "I");
+                  MessageDisplay.Error("寫入STW錯誤!");
+                  return ResultStatus.Fail;
                }
+
+               resultStatus = daoSTW.UpdateData(dt).Status;
+               Retrieve();
             }
 
-            //if ids_1.update() > 0  then
-            if (dt.Rows.Count > 0) {
-               //20100402 最後交易日OI清為0(當日若出現一筆結算價為0,有可能是最後結算日,將履約年月最小的一筆資料OI清為0)
-               if (lb_last_trade_day) {
-                  DataTable dtYM = new DataTable();
-                  dtYM = daoSTW.getSettleYM(as_ym);
-                  ls_min_month = Convert.ToString(dtYM.Compute("Min(A)" , "2323"));
-                  DialogResult result = MessageBox.Show("最後交易日之OI應為0,是否要將契約月份" + ls_min_month + "之OI清為0?" , "注意" , MessageBoxButtons.YesNo , MessageBoxIcon.Question);
-                  if (result == DialogResult.No) {
+            //20100402 最後交易日OI清為0(當日若出現一筆結算價為0,有可能是最後結算日,將履約年月最小的一筆資料OI清為0)
+            if (LastTradeDay) {
+               string minMonth = daoSTW.GetSettleYM(tmp); //ls_min_month
+
+               DialogResult result = MessageBox.Show("最後交易日之OI應為0,是否要將契約月份" + minMonth + "之OI清為0?" , "注意" , MessageBoxButtons.YesNo , MessageBoxIcon.Question);
+               if (result == DialogResult.Yes) {
+                  year = minMonth.SubStr(0 , 4);
+                  month = minMonth.SubStr(4 , 2);
+                  int updateNum = daoSTW.updateOI(tmp , year , month);
+                  if (updateNum == -1) {
+                     WriteLog("SQL error!" , "Error" , "I");
+                     MessageDisplay.Error("SQL error!");
                      return ResultStatus.Fail;
-                  } else {
-                     ls_year = ls_min_month.Substring(0 , 4);
-                     ls_month = ls_min_month.Substring(4 , 2);
-                     int updateNum = daoSTW.updateOI(as_ym , ls_year , ls_month);
-                     if (updateNum == -1) {
-                        DialogResult Message = MessageBox.Show("SQL error" , "注意" , MessageBoxButtons.YesNo , MessageBoxIcon.Question);
-                     }
                   }
                }
-            } else {
-               DialogResult Message = MessageBox.Show("寫入STW錯誤!" , "注意" , MessageBoxButtons.YesNo , MessageBoxIcon.Question);
+            }
+            #endregion
+
+            #region 7.update/delete amif data
+            //需求單10000275 (更新STW 作業:20110資料)
+            int tmpDiv; //tmpDiv
+            DataTable dtAmif = new DataTable();
+            dtAmif = dao28110.getAmifData(txtDate.DateTimeValue);
+            if (String.IsNullOrEmpty(dtAmif.Rows.Count.AsString())) {
+               return ResultStatus.Fail;
             }
 
-            //需求單10000275 (更新STW 作業:20110資料)
-            int li_div;
-            string ls_prev_ym;
-            DataTable dtAmit = dao28110.d_28110_amif(txtDate.DateTimeValue);
-            for (int i = 0 ; i < dtAmit.Rows.Count ; i++) {
-               if (dtAmit.Rows[i]["AMIF_SETTLE_DATE"].AsString() == "000000") {
-                  //30650 參考用 看懂後刪掉
-                  //dtTmp.PrimaryKey = new DataColumn[] { dtTmp.Columns["ABRK_NO"] };
-                  //ll_found = dtTmp.Rows.IndexOf(dtTmp.Rows.Find(dtContent.Rows[i]["ABRK_NO"])).AsInt();               
-                  //ll_found = ids_tmp.find("abrk_no='" + ids_1.getitemstring(i , "abrk_no") + "'" , 1 , ids_tmp.rowcount())
+            for (int w = 0 ; w < dtAmif.Rows.Count ; w++) {
+               DataRow drAmif = dtAmif.Rows[w];
 
-                  //li_rtn = ids_1.find("stw_settle_m = '' and  stw_settle_y = ''" , 1 , ids_1.rowcount())
-                  li_rtn = dt.Rows.IndexOf(dt.Select("STW_SETTLE_M = '' and  STW_SETTLE_Y = ''").FirstOrDefault());
-                  li_div = 1;
+               if (drAmif["AMIF_SETTLE_DATE"].AsString() == "000000") {
+
+                  reIndex = dt.Rows.IndexOf(dt.Select("STW_SETTLE_M = '' and  STW_SETTLE_Y = ''").FirstOrDefault());
+                  DataView dvTemp = dt.AsDataView();
+                  dvTemp.RowFilter = "STW_SETTLE_M = '' and  STW_SETTLE_Y = ''";
+                  DataTable dtSub = dvTemp.ToTable();
+
+                  tmpDiv = 1;
                } else {
-                  li_rtn = dt.Rows.IndexOf(dt.Select("stw_settle_y='" + dtAmit.Rows[i]["AMIF_SETTLE_DATE"].AsString().Substring(0 , 4) +
-                           "' and stw_settle_m='" + dtAmit.Rows[i]["AMIF_SETTLE_DATE"].AsString().Substring(4 , 2) + "'").FirstOrDefault());
-                  li_div = 1;
+                  reIndex = dt.Rows.IndexOf(dt.Select("stw_settle_y='" + drAmif["AMIF_SETTLE_DATE"].AsString().Substring(0 , 4) +
+                           "' and stw_settle_m='" + drAmif["AMIF_SETTLE_DATE"].AsString().Substring(4 , 2) + "'").FirstOrDefault());
+                  tmpDiv = 1;
                }
 
-               if (li_rtn > 0) {
+               if (reIndex > 0) {
+                  DataRow drSTW = dt.Rows[reIndex - 1];
                   //Open
-                  if (dtAmit.Rows[i]["AMIF_OPEN_PRICE"].AsDecimal() != dt.Rows[li_rtn - 1]["STW_OPEN_1"].AsDecimal() / li_div) {
-                     PbFunc.f_write_logf(_ProgramID , "E" , "更新20110,open:" + dtAmit.Rows[i]["AMIF_OPEN_PRICE"].AsString().Trim() + "," +
-                                              String.Format("#0.0#" , dt.Rows[li_rtn - 1]["STW_OPEN_1"].AsDecimal() / li_div).Trim());
+                  if (drAmif["AMIF_OPEN_PRICE"].AsDecimal() != drSTW["STW_OPEN_1"].AsDecimal() / tmpDiv) {
+                     string temp = "更新20110,open:" + drAmif["AMIF_OPEN_PRICE"].AsString() + "," +
+                                              String.Format("#0.0#" , drSTW["STW_OPEN_1"].AsDecimal() / tmpDiv).Trim();
+                     WriteLog(temp , "Info" , "E");
                   }
-                  dtAmit.Rows[i]["AMIF_OPEN_PRICE"] = dt.Rows[li_rtn - 1]["STW_OPEN_1"].AsDecimal() / li_div;
+                  drAmif["AMIF_OPEN_PRICE"] = drSTW["STW_OPEN_1"].AsDecimal() / tmpDiv;
 
-                  //high
-                  if (dtAmit.Rows[i]["AMIF_HIGH_PRICE"].AsDecimal() != dt.Rows[li_rtn - 1]["STW_HIGH"].AsDecimal() / li_div) {
-                     PbFunc.f_write_logf(_ProgramID , "E" , "更新20110,high:" + dtAmit.Rows[i]["AMIF_HIGH_PRICE"].AsString().Trim() + "," +
-                                              String.Format("#0.0#" , dt.Rows[li_rtn - 1]["STW_HIGH"].AsDecimal() / li_div).Trim());
+                  //High
+                  if (drAmif["AMIF_HIGH_PRICE"].AsDecimal() != drSTW["STW_HIGH"].AsDecimal() / tmpDiv) {
+                     string temp = "更新20110,high:" + drAmif["AMIF_HIGH_PRICE"].AsString() + "," +
+                                              String.Format("#0.0#" , drSTW["STW_HIGH"].AsDecimal() / tmpDiv).Trim();
+                     WriteLog(temp , "Info" , "E");
                   }
-                  dtAmit.Rows[i]["AMIF_HIGH_PRICE"] = dt.Rows[li_rtn - 1]["STW_HIGH"].AsDecimal() / li_div;
+                  drAmif["AMIF_HIGH_PRICE"] = drSTW["STW_HIGH"].AsDecimal() / tmpDiv;
 
-                  //low
-                  if (dtAmit.Rows[i]["AMIF_LOW_PRICE"].AsDecimal() != dt.Rows[li_rtn - 1]["STW_LOW"].AsDecimal() / li_div) {
-                     PbFunc.f_write_logf(_ProgramID , "E" , "更新20110,low:" + dtAmit.Rows[i]["AMIF_LOW_PRICE"].AsString().Trim() + "," +
-                                              String.Format("#0.0#" , dt.Rows[li_rtn - 1]["STW_LOW"].AsDecimal() / li_div).Trim());
+                  //Low
+                  if (drAmif["AMIF_LOW_PRICE"].AsDecimal() != drSTW["STW_LOW"].AsDecimal() / tmpDiv) {
+                     string temp = "更新20110,low:" + drAmif["AMIF_LOW_PRICE"].AsString() + "," +
+                                              String.Format("#0.0#" , drSTW["STW_LOW"].AsDecimal() / tmpDiv).Trim();
+                     WriteLog(temp , "Info" , "E");
                   }
-                  dtAmit.Rows[i]["AMIF_LOW_PRICE"] = dt.Rows[li_rtn - 1]["STW_LOW"].AsDecimal() / li_div;
+                  drAmif["AMIF_LOW_PRICE"] = drSTW["STW_LOW"].AsDecimal() / tmpDiv;
 
-                  //close
-                  if (dtAmit.Rows[i]["AMIF_CLOSE_PRICE"].AsDecimal() != dt.Rows[li_rtn - 1]["STW_CLSE_1"].AsDecimal() / li_div) {
-                     PbFunc.f_write_logf(_ProgramID , "E" , "更新20110,close:" + dtAmit.Rows[i]["AMIF_CLOSE_PRICE"].AsString().Trim() + "," +
-                                              String.Format("#0.0#" , dt.Rows[li_rtn - 1]["STW_CLSE_1"].AsDecimal() / li_div).Trim());
+                  //Close
+                  if (drAmif["AMIF_CLOSE_PRICE"].AsDecimal() != drSTW["STW_CLSE_1"].AsDecimal() / tmpDiv) {
+                     string temp = "更新20110,close:" + drAmif["AMIF_CLOSE_PRICE"].AsString() + "," +
+                                              String.Format("#0.0#" , drSTW["STW_CLSE_1"].AsDecimal() / tmpDiv).Trim();
+                     WriteLog(temp , "Info" , "E");
                   }
-                  dtAmit.Rows[i]["AMIF_CLOSE_PRICE"] = dt.Rows[li_rtn - 1]["STW_CLSE_1"].AsDecimal() / li_div;
+                  drAmif["AMIF_CLOSE_PRICE"] = drSTW["STW_CLSE_1"].AsDecimal() / tmpDiv;
 
                   //up_down_val
                   //一般 = 本日收盤價 - 昨日收盤價
                   //只要STW = 本日收盤價 - 昨日結算價
                   //若本日收盤 = 0 ,則漲跌=0
-                  if (dtAmit.Rows[i]["AMIF_SETTLE_DATE"].AsString() == "000000") {
-                     dtAmit.Rows[i]["AMIF_UP_DOWN_VAL"] = dtAmit.Rows[i]["AMIF_CLOSE_PRICE"].AsDecimal() - dtAmit.Rows[i]["Y_CLOSE_PRICE"].AsDecimal();
+                  if (drAmif["AMIF_SETTLE_DATE"].AsString() == "000000") {
+                     drAmif["AMIF_UP_DOWN_VAL"] = drAmif["AMIF_CLOSE_PRICE"].AsDecimal() - drAmif["Y_CLOSE_PRICE"].AsDecimal();
                   } else {
-                     if (dtAmit.Rows[i]["AMIF_CLOSE_PRICE"].AsDecimal() == 0) {
-                        dtAmit.Rows[i]["AMIF_UP_DOWN_VAL"] = 0;
+                     if (drAmif["AMIF_CLOSE_PRICE"].AsDecimal() == 0) {
+                        drAmif["AMIF_UP_DOWN_VAL"] = 0;
                      } else {
-                        dtAmit.Rows[i]["AMIF_UP_DOWN_VAL"] = dtAmit.Rows[i]["AMIF_CLOSE_PRICE"].AsDecimal() - dtAmit.Rows[i]["Y_SETTLE_PRICE"].AsDecimal();
+                        drAmif["AMIF_UP_DOWN_VAL"] = drAmif["AMIF_CLOSE_PRICE"].AsDecimal() - drAmif["Y_SETTLE_PRICE"].AsDecimal();
                      }
                   }
 
-                  //settle
-                  if (dtAmit.Rows[i]["AMIF_SETTLE_PRICE"].AsDecimal() != dt.Rows[li_rtn - 1]["STW_SETTLE"].AsDecimal() / li_div) {
-                     PbFunc.f_write_logf(_ProgramID , "E" , "更新20110,settle:" + dtAmit.Rows[i]["AMIF_SETTLE_PRICE"].AsString().Trim() + "," +
-                                              String.Format("#0.0#" , dt.Rows[li_rtn - 1]["STW_SETTLE"].AsDecimal() / li_div).Trim());
+                  //Settle
+                  if (drAmif["AMIF_SETTLE_PRICE"].AsDecimal() != drSTW["STW_SETTLE"].AsDecimal() / tmpDiv) {
+                     string temp = "更新20110,settle:" + drAmif["AMIF_SETTLE_PRICE"].AsString() + "," +
+                                              String.Format("#0.0#" , drSTW["STW_SETTLE"].AsDecimal() / tmpDiv).Trim();
+                     WriteLog(temp , "Info" , "E");
                   }
-                  dtAmit.Rows[i]["AMIF_SETTLE_PRICE"] = dt.Rows[li_rtn - 1]["STW_SETTLE"].AsDecimal() / li_div;
+                  drAmif["AMIF_SETTLE_PRICE"] = drSTW["STW_SETTLE"].AsDecimal() / tmpDiv;
 
-                  //qnty
-                  if (dtAmit.Rows[i]["AMIF_M_QNTY_TAL"].AsDecimal() != dt.Rows[li_rtn - 1]["STW_VOLUMN"].AsDecimal() / li_div) {
-                     PbFunc.f_write_logf(_ProgramID , "E" , "更新20110,qnty:" + dtAmit.Rows[i]["AMIF_M_QNTY_TAL"].AsString().Trim() + "," +
-                                              String.Format("#0" , dt.Rows[li_rtn - 1]["STW_VOLUMN"].AsDecimal() / li_div).Trim());
+                  //Qnty
+                  if (drAmif["AMIF_M_QNTY_TAL"].AsDecimal() != drSTW["STW_VOLUMN"].AsDecimal() / tmpDiv) {
+                     string temp = "更新20110,qnty:" + drAmif["AMIF_M_QNTY_TAL"].AsString() + "," +
+                                              String.Format("#0" , drSTW["STW_VOLUMN"].AsDecimal() / tmpDiv).Trim();
+                     WriteLog(temp , "Info" , "E");
                   }
-                  dtAmit.Rows[i]["AMIF_M_QNTY_TAL"] = dt.Rows[li_rtn - 1]["STW_VOLUMN"].AsDecimal();
+                  drAmif["AMIF_M_QNTY_TAL"] = drSTW["STW_VOLUMN"].AsDecimal();
 
-                  // oi
-                  if (dtAmit.Rows[i]["AMIF_OPEN_INTEREST"].AsDecimal() != dt.Rows[li_rtn - 1]["STW_OINT"].AsDecimal()) {
-                     PbFunc.f_write_logf(_ProgramID , "E" , "更新20110,oi:" + dtAmit.Rows[i]["AMIF_OPEN_INTEREST"].AsString().Trim() + "," +
-                                              String.Format("#0" , dt.Rows[li_rtn - 1]["STW_OINT"].AsDecimal()).Trim());
+                  //Oi
+                  if (drAmif["AMIF_OPEN_INTEREST"].AsDecimal() != drSTW["STW_OINT"].AsDecimal()) {
+                     string temp = "更新20110,oi:" + drAmif["AMIF_OPEN_INTEREST"].AsString() + "," +
+                                              String.Format("#0" , drSTW["STW_OINT"].AsDecimal()).Trim();
+                     WriteLog(temp , "Info" , "E");
                   }
-                  dtAmit.Rows[i]["AMIF_OPEN_INTEREST"] = dt.Rows[li_rtn - 1]["STW_OINT"].AsDecimal();
+                  drAmif["AMIF_OPEN_INTEREST"] = drSTW["STW_OINT"].AsDecimal();
                } else {
-                  PbFunc.f_write_logf(_ProgramID , "E" , "更新20110,刪除" + dtAmit.Rows[i]["AMIF_SETTLE_DATE"].AsString().Trim());
-                  dt.Rows.RemoveAt(i);
-                  i--;
+                  string temp = "更新20110,刪除" + drAmif["AMIF_SETTLE_DATE"].AsString();
+                  WriteLog(temp , "Info" , "E");
+
+                  if (w != 0) {
+                     dtAmif.Rows[w].Delete();
+                  }
+
                }
-            }
+            } //for
 
             //if    lds_amif.update() > 0  then
-            if (dtAmit.Rows.Count > 0) {
-               //
-            } else {
-               DialogResult Message = MessageBox.Show("更新28110資料錯誤!" , "注意" , MessageBoxButtons.YesNo , MessageBoxIcon.Question);
-            }
-            PbFunc.f_write_logf(_ProgramID , "E" , "更新20110資料");
-
-            //轉統計資料ci.STWD
-            daoSTWD.DeleteByDate(tmp);
-            PbFunc.f_write_logf(_ProgramID , "E" , "刪STWD資料");
-
-            li_div = 1;
-            DataTable dtStwd = dao28110.InsertData("I0001" , li_div , tmp);
-            PbFunc.f_write_logf(_ProgramID , "E" , "新增STWD資料");
-
-            //轉完資料後執行SP
-            string ls_prod_type = "M";
-            DateTime ldt_date = txtDate.DateTimeValue;
-            //if (f_20110_SP(ldt_date , "28110") != "") {
-            //   //
-            //}
-
-            //轉統計資料AI2
-            DataTable resDay = dao28110.ExecuteStoredProcedure(ldt_date , ls_prod_type , "sp_U_stt_H_AI2_Day");
-            if (resDay.Rows.Count < 0) {
-               MessageBox.Show("執行SP(sp_U_stt_H_AI2_Day)錯誤! " , "注意" , MessageBoxButtons.OK , MessageBoxIcon.Exclamation);
-            } else {
-               lblProcessing.Text = "轉檔完成!";
-               MessageBox.Show("轉檔完成" , "訊息" , MessageBoxButtons.OK , MessageBoxIcon.Information);
-            }
-            PbFunc.f_write_logf(_ProgramID , "E" , "執行sp_U_stt_H_AI2_Day");
-
-            DataTable resMon = dao28110.ExecuteStoredProcedure(ldt_date , ls_prod_type , "sp_U_stt_H_AI2_Month");
-            if (resMon.Rows.Count < 0) {
-               MessageBox.Show("執行SP(sp_U_stt_H_AI2_Month)錯誤! " , "注意" , MessageBoxButtons.OK , MessageBoxIcon.Exclamation);
-            } else {
-               lblProcessing.Text = "轉檔完成!";
-               MessageBox.Show("轉檔完成" , "訊息" , MessageBoxButtons.OK , MessageBoxIcon.Information);
-            }
-            PbFunc.f_write_logf(_ProgramID , "E" , "執行sp_U_stt_H_AI2_Month");
-
-            //轉統計資料ci.STW1
-            DataTable resStw1 = dao28110.ExecuteStoredProcedure(ldt_date , ls_prod_type , "sp_M_stt_H_STW1");
-            if (resStw1.Rows.Count < 0) {
-               MessageBox.Show("執行SP(sp_M_stt_H_STW1)錯誤! " , "注意" , MessageBoxButtons.OK , MessageBoxIcon.Exclamation);
-            } else {
-               lblProcessing.Text = "轉檔完成!";
-               MessageBox.Show("轉檔完成" , "訊息" , MessageBoxButtons.OK , MessageBoxIcon.Information);
-            }
-
-
-
-            PokeBall pb = new PokeBall();
-            dtReadTxt.Columns.Remove("ACC_NAME");
-
-            gcMain.DataSource = dtReadTxt;
-
-            try {
-               //insert to DB
-               foreach (DataRow dr in dtReadTxt.Rows) {
-                  if (dr.RowState == DataRowState.Added) {
-                     string ab1_acc_type = dr["AB1_ACC_TYPE"].AsString();
-                     string ab1_count = dr["AB1_COUNT"].AsString();
-                     string ab1_accu_count = dr["AB1_ACCU_COUNT"].AsString();
-                     string ab1_trade_count = dr["AB1_TRADE_COUNT"].AsString();
-                     DateTime ab1_date = dr["AB1_DATE"].AsDateTime();
-                     //bool rtn = dao28610.InsertAB1(ab1_acc_type , ab1_count , ab1_accu_count , ab1_trade_count , ab1_date);
-                  }
+            if (dtAmif.GetChanges() != null) {
+               if (dtAmif.GetChanges().Rows.Count > 0) {
+                  resultStatus = daoAMIF.UpdateData(dtAmif).Status; //commit
+               } else {
+                  MessageDisplay.Error("更新28110資料錯誤!");
+                  return ResultStatus.Fail;
                }
-            } catch (Exception ex) {
-               MessageBox.Show(ex.Message);
+               WriteLog("更新20110資料" , "Info" , "E");
             }
+            #endregion
 
-            lblProcessing.Visible = false;
+            #region 8.add/delete STWD data (轉統計資料ci.STWD)
+            daoSTWD.DeleteByDate(dateYmd);
+            WriteLog("刪STWD資料" , "Info" , "E");
+
+            //8.1
+            tmpDiv = 1;
+            DataTable dtStwd = dao28110.InsertData("I0001" , tmpDiv , tmp); //"I0001"先寫死
+            WriteLog("新增STWD資料" , "Info" , "E");
+            #endregion
+
+            #region 9.SP
+
+            #region 9.1轉完資料後執行SP
+            string prodType = "M";
+            int rtn;
+            DateTime dateTime = txtDate.DateTimeValue;
+            if (RunSP(dateTime , "28110") != "") {
+               return ResultStatus.Fail;
+            }
+            #endregion
+
+            #region 9.2轉統計資料AI2
+            if (dao28110.ExecuteSP(dateTime , prodType , "sp_U_stt_H_AI2_Day").Status != ResultStatus.Success) {
+               MessageBox.Show("執行SP(sp_U_stt_H_AI2_Day)錯誤! " , "注意" , MessageBoxButtons.OK , MessageBoxIcon.Stop);
+               WriteLog("執行SP(sp_U_stt_H_AI2_Day)錯誤!" , "Error");
+               return ResultStatus.Fail;
+            } else {
+               rtn = 0;
+            }
+            WriteLog("執行sp_U_gen_H_TDT(" + prodType + ")");
+
+            if (dao28110.ExecuteSP(dateTime , prodType , "sp_U_stt_H_AI2_Month").Status != ResultStatus.Success) {
+               MessageBox.Show("執行SP(sp_U_stt_H_AI2_Month)錯誤! " , "注意" , MessageBoxButtons.OK , MessageBoxIcon.Stop);
+               WriteLog("執行SP(sp_U_stt_H_AI2_Month)錯誤!" , "Error");
+               return ResultStatus.Fail;
+            } else {
+               rtn = 0;
+            }
+            WriteLog("sp_U_stt_H_AI2_Month(" + prodType + ")");
+            #endregion
+
+            #region 9.3轉統計資料ci.STW1
+            if (dao28110.ExecuteSP(dateTime , prodType , "sp_M_stt_H_STW1").Status != ResultStatus.Success) {
+               MessageBox.Show("執行SP(sp_M_stt_H_STW1)錯誤! " , "注意" , MessageBoxButtons.OK , MessageBoxIcon.Stop);
+               WriteLog("執行SP(sp_M_stt_H_STW1)錯誤!" , "Error");
+               return ResultStatus.Fail;
+            } else {
+               rtn = 0;
+            }
+            WriteLog("sp_M_stt_H_STW1(" + prodType + ")");
+            #endregion
+
+            #endregion
+
+            labMsg.Visible = false;
             return ResultStatus.Success;
 
          } catch (Exception ex) {
+            WriteLog(ex);
             MessageBox.Show(ex.Message);
          }
 
          return ResultStatus.Success;
       }
 
+      /// <summary>
+      /// f_20110_SP (同20110的f_20110_SP)
+      /// </summary>
+      /// <param name="date"></param>
+      /// <param name="txnId"></param>
+      /// <returns></returns>
+      private string RunSP(DateTime date , string txnId) {
+         string prodType = "M"; //ls_prod_type
+         int rtn; //li_return
+
+         //轉統計資料TDT
+         if (dao20110.sp_U_gen_H_TDT(date , prodType).Status != ResultStatus.Success) {
+            MessageBox.Show("執行SP(sp_U_gen_H_TDT(" + prodType + "))錯誤! " , "錯誤訊息" , MessageBoxButtons.OK , MessageBoxIcon.Stop);
+            return "E";
+         } else {
+            rtn = 0;
+         }
+         PbFunc.f_write_logf(_ProgramID , "E" , "執行sp_U_gen_H_TDT(" + prodType + ")");
+
+         if (txnId == "20110") {
+            prodType = "J";
+            if (dao20110.sp_U_gen_H_TDT(date , prodType).Status != ResultStatus.Success) {
+               MessageBox.Show("執行SP(sp_U_gen_H_TDT(" + prodType + "))錯誤! " , "錯誤訊息" , MessageBoxButtons.OK , MessageBoxIcon.Stop);
+               return "E";
+            } else {
+               rtn = 0;
+            }
+            PbFunc.f_write_logf(_ProgramID , "E" , "執行sp_U_gen_H_TDT(" + prodType + ")");
+
+            //JTX 日統計AI2
+            if (dao20110.sp_U_stt_H_AI2_Day(date , prodType).Status != ResultStatus.Success) {
+               MessageBox.Show("執行SP(sp_U_stt_H_AI2_Day)錯誤! " , "錯誤訊息" , MessageBoxButtons.OK , MessageBoxIcon.Stop);
+               return "E";
+            } else {
+               rtn = 0;
+            }
+            PbFunc.f_write_logf(_ProgramID , "E" , "執行sp_U_stt_H_AI2_Day");
+
+            //JTX 月統計AI2
+            if (dao20110.sp_U_stt_H_AI2_Month(date , prodType).Status != ResultStatus.Success) {
+               MessageBox.Show("執行SP(sp_U_stt_H_AI2_Month)錯誤! " , "錯誤訊息" , MessageBoxButtons.OK , MessageBoxIcon.Stop);
+               return "E";
+            } else {
+               rtn = 0;
+            }
+            PbFunc.f_write_logf(_ProgramID , "E" , "執行sp_U_stt_H_AI2_Month");
+         }
+         /*******************
+         轉統計資料AI3
+         *******************/
+         if (dao20110.sp_H_stt_AI3(date).Status != ResultStatus.Success) {
+            MessageBox.Show("執行SP(sp_H_stt_AI3)錯誤! " , "錯誤訊息" , MessageBoxButtons.OK , MessageBoxIcon.Stop);
+            return "E";
+         } else {
+            rtn = 0;
+         }
+         PbFunc.f_write_logf(_ProgramID , "E" , "執行sp_H_stt_AI3");
+         /*******************
+         更新AI6 (震幅波動度)
+         *******************/
+         if (dao20110.sp_H_gen_AI6(date).Status != ResultStatus.Success) {
+            MessageBox.Show("執行SP(sp_H_gen_AI6)錯誤! " , "錯誤訊息" , MessageBoxButtons.OK , MessageBoxIcon.Stop);
+            return "E";
+         } else {
+            rtn = 0;
+         }
+         PbFunc.f_write_logf(_ProgramID , "E" , "執行sp_H_gen_AI6");
+         /*******************
+         更新AA3
+         *******************/
+         if (dao20110.sp_H_upd_AA3(date).Status != ResultStatus.Success) {
+            MessageBox.Show("執行SP(sp_H_upd_AA3)錯誤! " , "錯誤訊息" , MessageBoxButtons.OK , MessageBoxIcon.Stop);
+            return "E";
+         } else {
+            rtn = 0;
+         }
+         PbFunc.f_write_logf(_ProgramID , "E" , "執行sp_H_upd_AA3");
+         /*******************
+         更新AI8
+         *******************/
+         if (dao20110.sp_H_gen_H_AI8(date).Status != ResultStatus.Success) {
+            MessageBox.Show("執行SP(sp_H_gen_H_AI8)錯誤! " , "錯誤訊息" , MessageBoxButtons.OK , MessageBoxIcon.Stop);
+            return "E";
+         } else {
+            rtn = 0;
+         }
+         PbFunc.f_write_logf(_ProgramID , "E" , "執行sp_H_gen_H_AI8");
+
+         return "";
+      }
+
+      #region Click Event
+      private void btnStwd_Click(object sender , EventArgs e) {
+         daoSTWD.DeleteByDate(dateYmd);
+         dao28110.InsertDataByUser("I0001" , dateYmd); // userId "I0001" 暫時使用
+      }
+
+      private void btnSp_Click(object sender , EventArgs e) {
+         //轉完資料後執行SP
+         string prodType = "M";
+         DateTime dateTime = txtDate.DateTimeValue;
+         int rtn;
+
+         if (dao28110.ExecuteSP(dateTime , prodType , "sp_H_stt_AI3").Status != ResultStatus.Success) {
+            MessageBox.Show("執行SP(sp_H_stt_AI3)錯誤! " , "注意" , MessageBoxButtons.OK , MessageBoxIcon.Stop);
+            WriteLog("執行SP(sp_H_stt_AI3)錯誤!" , "Error");
+         } else {
+            rtn = 0;
+         }
+         WriteLog("執行sp_H_stt_AI3");
+      }
+      #endregion
+
    }
+
 }

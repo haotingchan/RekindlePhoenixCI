@@ -99,24 +99,23 @@ namespace PhoenixCI.FormUI.Prefix5 {
             try {
                 #region wf_55040 造市者TXO交易經手費折減比率結構表
 
-                string ls_rpt_name, ls_rpt_id, ls_brk_no, ls_acc_no;
-                int i, li_ole_col, li_datacount, li_ole_row_tol, ll_found;
+                string rptName, rptId, brkNo, accNo;
+                int i, colNum, datacount, rowTol, found;
                 /*************************************
                 ls_rpt_name = 報表名稱
                 ls_rpt_id = 報表代號
                 li_ole_col = 欄位位置
                 ls_param_key = 契約
                 *************************************/
-                ls_rpt_name = "造市者TXO交易經手費折減比率結構表";
-                ls_rpt_id = "55040";
-                //st_msg_txt.text = ls_rpt_id + '－' + ls_rpt_name + ' 轉檔中...';
+                rptName = "造市者TXO交易經手費折減比率結構表";
+                rptId = "55040";
 
                 /******************
                 讀取資料
                 ******************/
                 DataTable dtContent = dao55040.ListByDate(txtMonth.Text.Replace("/", ""));
                 if (dtContent.Rows.Count == 0) {
-                    MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtMonth.Text, ls_rpt_name));
+                    MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtMonth.Text, rptName));
                 }
                 //TXO詢報價比
                 DataTable dtAMM0 = dao55040.ListByDate_AMM0(txtMonth.Text.Replace("/", ""));
@@ -130,51 +129,51 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
                 //填資料
                 int ii_ole_row = 5;
-                li_datacount = int.Parse(worksheet.Cells[0, 0].Value.ToString());
-                if (li_datacount == null || li_datacount == 0) {
-                    li_datacount = dtContent.Rows.Count;
+                datacount = int.Parse(worksheet.Cells[0, 0].Value.ToString());
+                if (datacount == null || datacount == 0) {
+                    datacount = dtContent.Rows.Count;
                 }
-                li_ole_row_tol = ii_ole_row + li_datacount;
+                rowTol = ii_ole_row + datacount;
                 worksheet.Cells[3, 0].Value = worksheet.Cells[3, 0].Value + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
                 worksheet.Cells[3, 4].Value = worksheet.Cells[3, 4].Value + txtMonth.Text.Replace("/", "");
 
-                ls_brk_no = "";
-                ls_acc_no = "";
+                brkNo = "";
+                accNo = "";
                 //TODO: dataobject.ToString 如果為null會報錯，在跑for迴圈之前要拉出來處理。
                 for (i = 0; i < dtContent.Rows.Count; i++) {
                     DataRow drContent = dtContent.Rows[i];
 
-                    if (ls_brk_no != drContent["feetxo_fcm_no"].ToString() || ls_acc_no != drContent["feetxo_acc_no"].ToString()) {
+                    if (brkNo != drContent["feetxo_fcm_no"].ToString() || accNo != drContent["feetxo_acc_no"].ToString()) {
                         ii_ole_row = ii_ole_row + 1;
-                        ls_brk_no = drContent["feetxo_fcm_no"].ToString();
-                        ls_acc_no = drContent["feetxo_acc_no"].ToString();
-                        worksheet.Cells[ii_ole_row, 0].Value = ls_brk_no;
+                        brkNo = drContent["feetxo_fcm_no"].ToString();
+                        accNo = drContent["feetxo_acc_no"].ToString();
+                        worksheet.Cells[ii_ole_row, 0].Value = brkNo;
                         worksheet.Cells[ii_ole_row, 1].Value = drContent["brk_abbr_name"].ToString();
-                        worksheet.Cells[ii_ole_row, 2].Value = ls_acc_no;
+                        worksheet.Cells[ii_ole_row, 2].Value = accNo;
                         //ll_found = lds_mm.find("amm0_brk_no='" + ls_brk_no + "' and amm0_acc_no='" + ls_acc_no + "'", 1, lds_mm.rowcount());
-                        DataRow[] dtAMM0_find = dtAMM0.Select("amm0_brk_no='" + ls_brk_no + "' and amm0_acc_no='" + ls_acc_no + "'");
+                        DataRow[] dtAMM0_find = dtAMM0.Select("amm0_brk_no='" + brkNo + "' and amm0_acc_no='" + accNo + "'");
                         if (dtAMM0_find.Length == 0) {
-                            ll_found = 0;
+                            found = 0;
                         }
                         else {
-                            ll_found = dtAMM0.Rows.IndexOf(dtAMM0_find[0]) + 1;
+                            found = dtAMM0.Rows.IndexOf(dtAMM0_find[0]) + 1;
                         }
 
-                        if (ll_found > 0) {
-                            worksheet.Cells[ii_ole_row, 20].Value = decimal.Parse(dtAMM0.Rows[ll_found]["mmk_rate"].ToString());
+                        if (found > 0) {
+                            worksheet.Cells[ii_ole_row, 20].Value = decimal.Parse(dtAMM0.Rows[found]["mmk_rate"].ToString());
                         }
                     }
-                    li_ole_col = int.Parse(drContent["rpt_seq_no"].ToString());
-                    if (ii_ole_row > 0 && li_ole_col > 0) {
-                        worksheet.Cells[ii_ole_row, li_ole_col].Value = decimal.Parse(drContent["feetxo_rate"].ToString());
+                    colNum = int.Parse(drContent["rpt_seq_no"].ToString());
+                    if (ii_ole_row > 0 && colNum > 0) {
+                        worksheet.Cells[ii_ole_row, colNum].Value = decimal.Parse(drContent["feetxo_rate"].ToString());
                     }
                 }
 
                 /*******************
                 刪除空白列
                 *******************/
-                if (li_ole_row_tol > ii_ole_row) {
-                    worksheet.Rows.Remove(ii_ole_row + 1, li_ole_row_tol - ii_ole_row);
+                if (rowTol > ii_ole_row) {
+                    worksheet.Rows.Remove(ii_ole_row + 1, rowTol - ii_ole_row);
                 }
                 worksheet.ScrollToRow(0);
                 //存檔

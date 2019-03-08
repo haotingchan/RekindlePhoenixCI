@@ -148,7 +148,7 @@ namespace BaseGround.Widget
             is_ebrkno = ebrkno;
          }
          if ((string.Compare(dw_sbrkno.SelectedText,dw_ebrkno.SelectedText)>0) && !string.IsNullOrEmpty(is_ebrkno)) {
-            PbFunc.messageBox(GlobalInfo.gs_t_err, "造市者代號起始不可大於迄止", MessageBoxIcon.Stop);
+            PbFunc.messageBox(GlobalInfo.ErrorText, "造市者代號起始不可大於迄止", MessageBoxIcon.Stop);
 
             dw_sbrkno.Focus();
             is_chk = "Y";
@@ -240,7 +240,7 @@ namespace BaseGround.Widget
          DataTable dt = new DataTable();
          is_dw_name.Fill(dt);
          if (dt.Rows.Count <= 0) {
-            PbFunc.messageBox(GlobalInfo.gs_t_result,"無任何資料!",MessageBoxIcon.Information);
+            PbFunc.messageBox(GlobalInfo.ResultText,"無任何資料!",MessageBoxIcon.Information);
             return false;
          }
          return true;
@@ -476,7 +476,7 @@ namespace BaseGround.Widget
             return dw_1;
          }
          catch (Exception ex) {
-            PbFunc.messageBox(GlobalInfo.gs_t_err + " DataWindow sqlsyntax Modify Failed ", ex.Message, MessageBoxIcon.Warning);
+            PbFunc.messageBox(GlobalInfo.ErrorText + " DataWindow sqlsyntax Modify Failed ", ex.Message, MessageBoxIcon.Warning);
             return dw_1;
             throw;
          }
@@ -558,7 +558,7 @@ namespace BaseGround.Widget
             dw_1.SelectCommand.CommandText = ls_select;
          }
          catch (Exception ex) {
-            PbFunc.messageBox(GlobalInfo.gs_t_err + " DataWindow sqlsyntax Modify Failed ", ex.Message, MessageBoxIcon.Warning);
+            PbFunc.messageBox(GlobalInfo.ErrorText + " DataWindow sqlsyntax Modify Failed ", ex.Message, MessageBoxIcon.Warning);
             return;
             throw;
          }
@@ -708,7 +708,7 @@ namespace BaseGround.Widget
       {
          string originalFilePath = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH, as_filename + ".xls");
          if (!File.Exists(originalFilePath)) {
-            PbFunc.messageBox(GlobalInfo.gs_t_err, "無此檔案「" + originalFilePath + "」!", MessageBoxIcon.Stop);
+            PbFunc.messageBox(GlobalInfo.ErrorText, "無此檔案「" + originalFilePath + "」!", MessageBoxIcon.Stop);
             return "";
          }
          string ls_filename;

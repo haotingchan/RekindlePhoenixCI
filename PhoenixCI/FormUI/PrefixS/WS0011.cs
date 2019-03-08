@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using BaseGround;
 using BusinessObjects.Enums;
@@ -13,15 +7,14 @@ using Common;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.XtraEditors;
 using BusinessObjects;
-using static DataObjects.Dao.DataGate;
 using BaseGround.Report;
+using PhoenixCI.Widget;
 
-namespace PhoenixCI.FormUI.PrefixS
-{
-    public partial class WS0011 : FormParent
-    {
+namespace PhoenixCI.FormUI.PrefixS {
+    public partial class WS0011 : FormParent {
         private ReportHelper _ReportHelper;
         private DS0011 daoS0011;
+        private int countGroup = 3;//設定群組數
 
         public WS0011(string programID, string programName) : base(programID, programName) {
             InitializeComponent();
@@ -30,59 +23,51 @@ namespace PhoenixCI.FormUI.PrefixS
             this.Text = _ProgramID + "─" + _ProgramName;
             _IsPreventFlowPrint = true;
             daoS0011 = new DS0011();
-            txtCountDate.DateTimeValue = DateTime.Now;
-            txtDate1.DateTimeValue = DateTime.Now;
-            txtDate2.DateTimeValue = DateTime.Now;
-            txtDate3.DateTimeValue = DateTime.Now;
 
-            radioGroup1.SelectedIndex = 0;
-            radioGroup2.SelectedIndex = 0;
-            radioGroup3.SelectedIndex = 0;
+            txtCountDate.DateTimeValue = DateTime.Now;
             adjustmentRadioGroup.SelectedIndex = 0;
+
+            for (int i = 1; i <= countGroup; i++) {
+
+                Control[] formControls = this.Controls.Find("txtDate" + i, true);
+                TextDateEdit txt = (TextDateEdit)formControls[0];
+                txt.DateTimeValue = DateTime.Now;
+
+                formControls = this.Controls.Find("radioGroup" + i, true);
+                RadioGroup radioGroup = (RadioGroup)formControls[0];
+                radioGroup.SelectedIndex = 0;
+
+            }
         }
 
         protected override ResultStatus Retrieve() {
             base.Retrieve(gcMain);
-            DateTime searchDate1 = txtCountDate.DateTimeValue;
-            DateTime searchDate2 = txtCountDate.DateTimeValue;
-            DateTime searchDate3 = txtCountDate.DateTimeValue;
+            DataTable dt = new DataTable();
 
-            #region Get User Select
-            for (int i = 1; i <= 3; i++) {
+            for (int i = 1; i <= countGroup; i++) {
                 string radioSelect = "";
                 RadioGroup radios = new RadioGroup();
+                Control[] formControls = this.Controls.Find("radioGroup" + i, true);
+                RadioGroup radioGroup = (RadioGroup)formControls[0];
 
-                switch (i) {
-                    case 1: {
-                            radioSelect = radioGroup1.Properties.Items[radioGroup1.SelectedIndex].Value.AsString().Substring(1);
-                            searchDate1 = GetDateByUserSelect(radioSelect);
-                            break;
-                        }
-                    case 2: {
-                            radioSelect = radioGroup2.Properties.Items[radioGroup2.SelectedIndex].Value.AsString().Substring(1);
-                            searchDate2 = GetDateByUserSelect(radioSelect);
-                            break;
-                        }
-                    case 3: {
-                            radioSelect = radioGroup3.Properties.Items[radioGroup3.SelectedIndex].Value.AsString().Substring(1);
-                            searchDate3 = GetDateByUserSelect(radioSelect);
-                            break;
-                        }
+                //取得user所選的是第幾列
+                radioSelect = radioGroup.Properties.Items[radioGroup.SelectedIndex].Value.AsString().Substring(1);
+                DateTime searchDate = GetDateByUserSelect(radioSelect);
+                if (dt.Rows.Count == 0) {
+                    dt = daoS0011.GetMG1Data(searchDate.ToShortDateString(), i.ToString());
+                }
+
+                //不是群組1時進行資料合併
+                if (i != 1) {
+                    DataTable dtTmp = daoS0011.GetMG1Data(searchDate.ToShortDateString(), i.ToString());
+                    dt.Merge(dtTmp);
                 }
             }
-            #endregion
 
-            DataTable returnTable1 = daoS0011.GetMG1Data(searchDate1.ToShortDateString(), "1");
-            DataTable returnTable2 = daoS0011.GetMG1Data(searchDate2.ToShortDateString(), "2");
-            DataTable returnTable3 = daoS0011.GetMG1Data(searchDate3.ToShortDateString(), "3");
-
-            returnTable1.Merge(returnTable2);
-            returnTable1.Merge(returnTable3);
-
-            if (returnTable1.Rows.Count == 0) {
+            if (dt.Rows.Count == 0) {
                 MessageBox.Show("無任何資料", "訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            gcMain.DataSource = returnTable1;
+            gcMain.DataSource = dt;
             gvMain.ExpandAllGroups();
 
             return ResultStatus.Success;
@@ -116,7 +101,7 @@ namespace PhoenixCI.FormUI.PrefixS
                             insertMG2SData.Rows[i]["MG2S_SPAN_CODE"] = dt.Rows[i]["MG2_SPAN_CODE"];
                             insertMG2SData.Rows[i]["MG2S_USER_CM"] = dt.Rows[i]["USER_CM"].AsDecimal() == 0 ? DBNull.Value : dt.Rows[i]["USER_CM"];
                         }
-                        resultStatus= base.Save_Override(insertMG2SData, "MG2S", DBName.CFO);
+                        resultStatus = daoS0011.updateData(insertMG2SData).Status;//base.Save_Override(insertMG2SData, "MG2S", DBName.CFO);
                         if (resultStatus == ResultStatus.Success) {
                             PrintableComponent = gcMain;
                         }
@@ -158,94 +143,88 @@ namespace PhoenixCI.FormUI.PrefixS
             #region Set SPAN CODE 
             switch (radios.Properties.Items[radios.SelectedIndex].Value.ToString()) {
                 case "Clear": {
-                        for (int i = 0; i < gvMain.DataRowCount; i++) {
-                            gvMain.SetRowCellValue(i, "MG2_SPAN_CODE", " ");
-                        }
-                        break;
+                    for (int i = 0; i < gvMain.DataRowCount; i++) {
+                        gvMain.SetRowCellValue(i, "MG2_SPAN_CODE", " ");
                     }
+                    break;
+                }
                 case "AllSelect": {
-                        for (int i = 0; i < gvMain.DataRowCount; i++) {
+                    for (int i = 0; i < gvMain.DataRowCount; i++) {
+                        gvMain.SetRowCellValue(i, "MG2_SPAN_CODE", "Y");
+                    }
+                    break;
+                }
+                case "1": {
+                    for (int i = 0; i < gvMain.DataRowCount; i++) {
+                        if (gvMain.GetRowCellValue(i, "GROUP_TYPE").AsString() == "1") {
                             gvMain.SetRowCellValue(i, "MG2_SPAN_CODE", "Y");
                         }
-                        break;
-                    }
-                case "1": {
-                        for (int i = 0; i < gvMain.DataRowCount; i++) {
-                            if (gvMain.GetRowCellValue(i, "GROUP_TYPE").AsString() == "1") {
-                                gvMain.SetRowCellValue(i, "MG2_SPAN_CODE", "Y");
-                            }
-                            else {
-                                gvMain.SetRowCellValue(i, "MG2_SPAN_CODE", " ");
-                            }
+                        else {
+                            gvMain.SetRowCellValue(i, "MG2_SPAN_CODE", " ");
                         }
-                        break;
                     }
+                    break;
+                }
                 case "2": {
-                        for (int i = 0; i < gvMain.DataRowCount; i++) {
-                            if (gvMain.GetRowCellValue(i, "GROUP_TYPE").AsString() == "2") {
-                                gvMain.SetRowCellValue(i, "MG2_SPAN_CODE", "Y");
-                            }
-                            else {
-                                gvMain.SetRowCellValue(i, "MG2_SPAN_CODE", " ");
-                            }
+                    for (int i = 0; i < gvMain.DataRowCount; i++) {
+                        if (gvMain.GetRowCellValue(i, "GROUP_TYPE").AsString() == "2") {
+                            gvMain.SetRowCellValue(i, "MG2_SPAN_CODE", "Y");
                         }
-                        break;
+                        else {
+                            gvMain.SetRowCellValue(i, "MG2_SPAN_CODE", " ");
+                        }
                     }
+                    break;
+                }
                 case "3": {
-                        for (int i = 0; i < gvMain.DataRowCount; i++) {
-                            if (gvMain.GetRowCellValue(i, "GROUP_TYPE").AsString() == "3") {
-                                gvMain.SetRowCellValue(i, "MG2_SPAN_CODE", "Y");
-                            }
-                            else {
-                                gvMain.SetRowCellValue(i, "MG2_SPAN_CODE", " ");
-                            }
+                    for (int i = 0; i < gvMain.DataRowCount; i++) {
+                        if (gvMain.GetRowCellValue(i, "GROUP_TYPE").AsString() == "3") {
+                            gvMain.SetRowCellValue(i, "MG2_SPAN_CODE", "Y");
                         }
-                        break;
+                        else {
+                            gvMain.SetRowCellValue(i, "MG2_SPAN_CODE", " ");
+                        }
                     }
+                    break;
+                }
                 case "ETF": {
-                        for (int i = 0; i < gvMain.DataRowCount; i++) {
-                            if (gvMain.GetRowCellValue(i, "MG1_PROD_SUBTYPE").AsString() == "S") {
-                                gvMain.SetRowCellValue(i, "MG2_SPAN_CODE", "Y");
-                            }
-                            else {
-                                gvMain.SetRowCellValue(i, "MG2_SPAN_CODE", " ");
-                            }
+                    for (int i = 0; i < gvMain.DataRowCount; i++) {
+                        if (gvMain.GetRowCellValue(i, "MG1_PROD_SUBTYPE").AsString() == "S") {
+                            gvMain.SetRowCellValue(i, "MG2_SPAN_CODE", "Y");
                         }
-                        break;
+                        else {
+                            gvMain.SetRowCellValue(i, "MG2_SPAN_CODE", " ");
+                        }
                     }
+                    break;
+                }
                 case "Index": {
-                        for (int i = 0; i < gvMain.DataRowCount; i++) {
-                            if (gvMain.GetRowCellValue(i, "MG1_PROD_SUBTYPE").AsString() == "I") {
-                                gvMain.SetRowCellValue(i, "MG2_SPAN_CODE", "Y");
-                            }
-                            else {
-                                gvMain.SetRowCellValue(i, "MG2_SPAN_CODE", " ");
-                            }
+                    for (int i = 0; i < gvMain.DataRowCount; i++) {
+                        if (gvMain.GetRowCellValue(i, "MG1_PROD_SUBTYPE").AsString() == "I") {
+                            gvMain.SetRowCellValue(i, "MG2_SPAN_CODE", "Y");
                         }
-                        break;
+                        else {
+                            gvMain.SetRowCellValue(i, "MG2_SPAN_CODE", " ");
+                        }
                     }
+                    break;
+                }
             }
             #endregion
         }
 
+        /// <summary>
+        /// 根據user所選列來確定search Date
+        /// </summary>
+        /// <param name="userSelect"></param>
+        /// <returns></returns>
         private DateTime GetDateByUserSelect(string userSelect) {
 
             DateTime txtDate = new DateTime();
+            Control[] formControls = this.Controls.Find("txtDate" + userSelect, true);
+            TextDateEdit txt = (TextDateEdit)formControls[0];
+            txtDate = txt.DateTimeValue;
 
-            switch (userSelect) {
-                case "1": {
-                        txtDate = txtDate1.DateTimeValue;
-                        break;
-                    }
-                case "2": {
-                        txtDate = txtDate2.DateTimeValue;
-                        break;
-                    }
-                case "3": {
-                        txtDate = txtDate3.DateTimeValue;
-                        break;
-                    }
-            }
             return txtDate;
         }
     }

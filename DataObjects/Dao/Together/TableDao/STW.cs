@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using BusinessObjects;
+using Common;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,16 +14,15 @@ namespace DataObjects.Dao.Together.TableDao {
    public class STW : DataGate {
 
       /// <summary>
-      /// for W28110
+      /// for W28110 retrieve (讀取選取的日期資料)
       /// </summary>
-      /// <param name="ls_date"></param>
-      /// <param name="ls_m"></param>
+      /// <param name="dateYmd">yyyyMMdd</param>
       /// <returns></returns>
-      public DataTable d_28110(string as_ymd) {
+      public DataTable GetDataByDate(string dateYmd) {
 
          object[] parms =
          {
-                ":as_ymd", as_ymd
+                ":dateYmd", dateYmd
             };
 
          string sql = @"
@@ -49,7 +49,7 @@ SELECT STW_YMD,
          STW_CLSE_2,   
          STW_CLSE_I2  
 FROM ci.STW   
-WHERE STW_YMD = :as_ymd
+WHERE STW_YMD = :dateYmd
 ";
 
          DataTable dtResult = db.GetDataTable(sql , parms);
@@ -58,51 +58,109 @@ WHERE STW_YMD = :as_ymd
       }
 
       /// <summary>
-      /// 取得履約年月排序 (for W28110)
+      /// for W28110 delete (刪除被選取的日期資料)
       /// </summary>
-      /// <param name="as_ymd">yyyyMMdd</param>
+      /// <param name="dateYmd">yyyyMMdd</param>
       /// <returns></returns>
-      public DataTable getSettleYM(string as_ymd) {
+      public bool DeleteByDate(string dateYmd) {
+
+         object[] parms = {
+                "@dateYmd", dateYmd
+            };
+
+         string sql = @"DELETE FROM CI.STW WHERE STW_YMD = :dateYmd";
+         int executeResult = db.ExecuteSQL(sql , parms);
+
+         if (executeResult >= 0) {
+            return true;
+         } else {
+            throw new Exception("刪除失敗");
+         }
+      }
+
+      /// <summary>
+      /// GetSettleYM return yyyyMM (取得最小履約年月yyyyMM)
+      /// </summary>
+      /// <param name="dateYmd">yyyyMMdd</param>
+      /// <returns></returns>
+      public string GetSettleYM(string dateYmd) {
 
          object[] parms =
          {
-                ":as_ymd", as_ymd
-            };
+               ":dateYmd", dateYmd
+         };
 
          string sql = @"
-SELECT  TRIM(STW_SETTLE_Y || STW_SETTLE_M)  A   
-FROM CI.STW
-WHERE STW_YMD = :ls_ymd 
+select min(a) as ls_min_month
+from  (select  trim(stw_settle_y || stw_settle_m)  a   
+         from ci.STW
+         where STW_YMD = :dateYmd )
+where a is not null or a <> '' 
 ";
 
-         DataTable dtResult = db.GetDataTable(sql , parms);
-
-         return dtResult;
+         return db.ExecuteScalar(sql , CommandType.Text , parms);
       }
 
       /// <summary>
       /// 當日若出現一筆結算價為0,有可能是最後結算日,將履約年月最小的一筆資料OI清為0
       /// </summary>
-      /// <param name="as_ymd"></param>
+      /// <param name="dateYmd">yyyyMMdd</param>
+      /// <param name="year">yyyy</param>
+      /// <param name="month">MM</param>
       /// <returns></returns>
-      public int updateOI(string ls_ymd , string ls_year , string ls_month) {
+      public int updateOI(string dateYmd , string year , string month) {
 
          object[] parms =
          {
-                ":ls_ymd", ls_ymd,
-                ":ls_year", ls_year,
-                ":ls_month", ls_month
+                ":dateYmd", dateYmd,
+                ":year", year,
+                ":month", month
             };
 
          string sql = @"
 UPDATE CI.STW
 SET STW_OINT = '0'
-WHERE STW_YMD = :ls_ymd
+WHERE STW_YMD = :dateYmd
 AND STW_COM = 'TW'
-AND STW_SETTLE_Y = :ls_year
-AND STW_SETTLE_M = :ls_month
+AND STW_SETTLE_Y = :year
+AND STW_SETTLE_M = :month
 ";
-         return db.ExecuteSQL(sql , null);
+         return db.ExecuteSQL(sql , parms);
+      }
+
+      /// <summary>
+      /// Update CI.STW
+      /// </summary>
+      /// <param name="inputData"></param>
+      /// <returns></returns>
+      public ResultData UpdateData(DataTable inputData) {
+
+         string sql = @"
+SELECT STW_YMD,   
+         STW_COM,   
+         STW_SETTLE_M,   
+         STW_SETTLE_Y,   
+         STW_OPEN_1,  
+         STW_HIGH,     
+         STW_LOW,    
+         STW_CLSE_1,    
+         STW_SETTLE,   
+         STW_VOLUMN,   
+         STW_OINT, 
+         --多  
+         STW_DEL,   
+         STW_RECTYP,   
+         STW_OPEN_I1,   
+         STW_OPEN_2,   
+         STW_OPEN_I2, 
+         STW_HIGH_I,  
+         STW_LOW_I,   
+         STW_CLSE_I1,   
+         STW_CLSE_2,   
+         STW_CLSE_I2 　
+FROM CI.STW
+";
+         return db.UpdateOracleDB(inputData , sql);
       }
 
    }

@@ -97,41 +97,6 @@ namespace PhoenixCI.FormUI.Prefix5
             return ResultStatus.Success;
         }
 
-        private void gvMain_ShowingEditor(object sender, CancelEventArgs e)
-        {
-            GridView gv = sender as GridView;
-            string Is_NewRow = gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
-                 gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"]).ToString();
-
-            if (gv.IsNewItemRow(gv.FocusedRowHandle) || Is_NewRow == "1")
-            {            
-                e.Cancel = false;
-                gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"], 1);
-            }
-            else if (gv.FocusedColumn.FieldName == disableCol)
-            {
-                e.Cancel = true;
-            }
-        }
-
-        private void gvMain_RowCellStyle(object sender, RowCellStyleEventArgs e)
-        {
-            GridView gv = sender as GridView;
-            string Is_NewRow = gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
-                 gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]).ToString();
-
-            if (e.Column.FieldName == disableCol)
-            {
-                e.Appearance.BackColor = Is_NewRow=="1" ? Color.White : Color.Silver;
-            }
-        }
-
-        private void gvMain_InitNewRow(object sender, InitNewRowEventArgs e)
-        {
-            GridView gv = sender as GridView;
-            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"], 1);        
-        }
-
         protected override ResultStatus Save(PokeBall poke)
         {
             gvMain.CloseEditor();
@@ -147,21 +112,13 @@ namespace PhoenixCI.FormUI.Prefix5
             }
             else
             {
-                ResultStatus status = base.Save_Override(dt, "DTS");
-                if (status == ResultStatus.Fail)
+                ResultData result = dao51010.UpdateData(dt);//base.Save_Override(dt, "DTS");
+                if (result.Status == ResultStatus.Fail)
                 {
                     return ResultStatus.Fail;
                 }
             }
             _IsPreventFlowPrint = true;
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus CheckShield()
-        {
-            base.CheckShield(gcMain);
-            if (!IsDataModify(gcMain)) { return ResultStatus.Fail; }
-
             return ResultStatus.Success;
         }
 
@@ -196,40 +153,33 @@ namespace PhoenixCI.FormUI.Prefix5
             return ResultStatus.Success;
         }
 
-        public override ResultStatus BeforeOpen()
-        {
-            base.BeforeOpen();
+        private void gvMain_ShowingEditor(object sender, CancelEventArgs e) {
+            GridView gv = sender as GridView;
+            string Is_NewRow = gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
+                 gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"]).ToString();
 
-            return ResultStatus.Success;
+            if (gv.IsNewItemRow(gv.FocusedRowHandle) || Is_NewRow == "1") {
+                e.Cancel = false;
+                gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"], 1);
+            }
+            else if (gv.FocusedColumn.FieldName == disableCol) {
+                e.Cancel = true;
+            }
         }
 
-        protected override ResultStatus Open()
-        {
-            base.Open();
+        private void gvMain_RowCellStyle(object sender, RowCellStyleEventArgs e) {
+            GridView gv = sender as GridView;
+            string Is_NewRow = gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
+                 gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]).ToString();
 
-            //直接讀取資料
-            //Retrieve();
-
-            return ResultStatus.Success;
+            if (e.Column.FieldName == disableCol) {
+                e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.Silver;
+            }
         }
 
-        protected override ResultStatus AfterOpen()
-        {
-            base.AfterOpen();
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus BeforeClose()
-        {
-            return base.BeforeClose();
-        }
-
-        protected override ResultStatus COMPLETE()
-        {
-            MessageDisplay.Info(MessageDisplay.MSG_OK);
-            Retrieve();
-            return ResultStatus.Success;
+        private void gvMain_InitNewRow(object sender, InitNewRowEventArgs e) {
+            GridView gv = sender as GridView;
+            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"], 1);
         }
     }
 }

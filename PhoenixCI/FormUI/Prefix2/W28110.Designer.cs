@@ -26,8 +26,10 @@
          this.grpxDescription = new System.Windows.Forms.GroupBox();
          this.txtDate = new PhoenixCI.Widget.TextDateEdit();
          this.lblDate = new System.Windows.Forms.Label();
-         this.lblProcessing = new System.Windows.Forms.Label();
+         this.labMsg = new System.Windows.Forms.Label();
          this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
+         this.btnSp = new System.Windows.Forms.Button();
+         this.btnStwd = new System.Windows.Forms.Button();
          this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
          this.gcMain = new DevExpress.XtraGrid.GridControl();
          this.gvMain = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -54,8 +56,6 @@
          this.STW_CLSE_I1 = new DevExpress.XtraGrid.Columns.GridColumn();
          this.STW_CLSE_2 = new DevExpress.XtraGrid.Columns.GridColumn();
          this.STW_CLSE_I2 = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.btnStwd = new System.Windows.Forms.Button();
-         this.btnSp = new System.Windows.Forms.Button();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          this.grpxDescription.SuspendLayout();
@@ -73,13 +73,13 @@
          // 
          this.panParent.Controls.Add(this.gcMain2);
          this.panParent.Controls.Add(this.gcMain);
-         this.panParent.Location = new System.Drawing.Point(0, 169);
-         this.panParent.Size = new System.Drawing.Size(1249, 534);
+         this.panParent.Location = new System.Drawing.Point(0, 167);
+         this.panParent.Size = new System.Drawing.Size(1249, 536);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(1249, 32);
+         this.ribbonControl.Size = new System.Drawing.Size(1249, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // grpxDescription
@@ -121,35 +121,57 @@
          this.lblDate.TabIndex = 2;
          this.lblDate.Text = "日期：";
          // 
-         // lblProcessing
+         // labMsg
          // 
-         this.lblProcessing.AutoSize = true;
-         this.lblProcessing.ForeColor = System.Drawing.Color.Blue;
-         this.lblProcessing.Location = new System.Drawing.Point(12, 108);
-         this.lblProcessing.Name = "lblProcessing";
-         this.lblProcessing.Size = new System.Drawing.Size(85, 20);
-         this.lblProcessing.TabIndex = 10;
-         this.lblProcessing.Text = "開始轉檔...";
-         this.lblProcessing.Visible = false;
+         this.labMsg.AutoSize = true;
+         this.labMsg.ForeColor = System.Drawing.Color.Blue;
+         this.labMsg.Location = new System.Drawing.Point(12, 108);
+         this.labMsg.Name = "labMsg";
+         this.labMsg.Size = new System.Drawing.Size(85, 20);
+         this.labMsg.TabIndex = 10;
+         this.labMsg.Text = "開始轉檔...";
+         this.labMsg.Visible = false;
          // 
          // panelControl1
          // 
          this.panelControl1.Controls.Add(this.btnSp);
          this.panelControl1.Controls.Add(this.btnStwd);
          this.panelControl1.Controls.Add(this.grpxDescription);
-         this.panelControl1.Controls.Add(this.lblProcessing);
+         this.panelControl1.Controls.Add(this.labMsg);
          this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
-         this.panelControl1.Location = new System.Drawing.Point(0, 32);
+         this.panelControl1.Location = new System.Drawing.Point(0, 30);
          this.panelControl1.Name = "panelControl1";
          this.panelControl1.Size = new System.Drawing.Size(1249, 137);
          this.panelControl1.TabIndex = 11;
          // 
+         // btnSp
+         // 
+         this.btnSp.Location = new System.Drawing.Point(510, 33);
+         this.btnSp.Name = "btnSp";
+         this.btnSp.Size = new System.Drawing.Size(86, 41);
+         this.btnSp.TabIndex = 12;
+         this.btnSp.Text = "SP";
+         this.btnSp.UseVisualStyleBackColor = true;
+         this.btnSp.Visible = false;
+         this.btnSp.Click += new System.EventHandler(this.btnSp_Click);
+         // 
+         // btnStwd
+         // 
+         this.btnStwd.Location = new System.Drawing.Point(402, 33);
+         this.btnStwd.Name = "btnStwd";
+         this.btnStwd.Size = new System.Drawing.Size(86, 41);
+         this.btnStwd.TabIndex = 11;
+         this.btnStwd.Text = "STWD";
+         this.btnStwd.UseVisualStyleBackColor = true;
+         this.btnStwd.Visible = false;
+         this.btnStwd.Click += new System.EventHandler(this.btnStwd_Click);
+         // 
          // panelControl2
          // 
          this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.panelControl2.Location = new System.Drawing.Point(0, 32);
+         this.panelControl2.Location = new System.Drawing.Point(0, 30);
          this.panelControl2.Name = "panelControl2";
-         this.panelControl2.Size = new System.Drawing.Size(1249, 671);
+         this.panelControl2.Size = new System.Drawing.Size(1249, 673);
          this.panelControl2.TabIndex = 12;
          // 
          // gcMain
@@ -160,7 +182,7 @@
          this.gcMain.MainView = this.gvMain;
          this.gcMain.MenuManager = this.ribbonControl;
          this.gcMain.Name = "gcMain";
-         this.gcMain.Size = new System.Drawing.Size(930, 510);
+         this.gcMain.Size = new System.Drawing.Size(930, 512);
          this.gcMain.TabIndex = 0;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -291,7 +313,7 @@
          this.gcMain2.MainView = this.gvMain2;
          this.gcMain2.MenuManager = this.ribbonControl;
          this.gcMain2.Name = "gcMain2";
-         this.gcMain2.Size = new System.Drawing.Size(248, 510);
+         this.gcMain2.Size = new System.Drawing.Size(248, 512);
          this.gcMain2.TabIndex = 1;
          this.gcMain2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain2});
@@ -387,24 +409,6 @@
          this.STW_CLSE_I2.Visible = true;
          this.STW_CLSE_I2.VisibleIndex = 8;
          // 
-         // btnStwd
-         // 
-         this.btnStwd.Location = new System.Drawing.Point(402, 33);
-         this.btnStwd.Name = "btnStwd";
-         this.btnStwd.Size = new System.Drawing.Size(86, 41);
-         this.btnStwd.TabIndex = 11;
-         this.btnStwd.Text = "STWD";
-         this.btnStwd.UseVisualStyleBackColor = true;
-         // 
-         // btnSp
-         // 
-         this.btnSp.Location = new System.Drawing.Point(510, 33);
-         this.btnSp.Name = "btnSp";
-         this.btnSp.Size = new System.Drawing.Size(86, 41);
-         this.btnSp.TabIndex = 12;
-         this.btnSp.Text = "SP";
-         this.btnSp.UseVisualStyleBackColor = true;
-         // 
          // W28110
          // 
          this.Appearance.Options.UseFont = true;
@@ -442,7 +446,7 @@
       private System.Windows.Forms.GroupBox grpxDescription;
       private Widget.TextDateEdit txtDate;
       private System.Windows.Forms.Label lblDate;
-      private System.Windows.Forms.Label lblProcessing;
+      private System.Windows.Forms.Label labMsg;
       private DevExpress.XtraGrid.GridControl gcMain;
       private DevExpress.XtraGrid.Views.Grid.GridView gvMain;
       private DevExpress.XtraEditors.PanelControl panelControl1;

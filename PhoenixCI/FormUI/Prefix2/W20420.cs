@@ -149,14 +149,14 @@ namespace PhoenixCI.FormUI.Prefix2 {
             }
 
             //取得idfg_table_id
-            string idfg_table_id = dt.Rows[0]["IDFG_TABLE_ID"].AsString();
+            string idfgTableId = dt.Rows[0]["IDFG_TABLE_ID"].AsString();
 
             //賦值
             foreach (DataRow dr in dt.Rows) {
                 if (dr.RowState == DataRowState.Added) {
                     dr["IDFG_W_TIME"] = DateTime.Now;
                     dr["IDFG_W_USER_ID"] = GlobalInfo.USER_ID;
-                    dr["IDFG_TABLE_ID"] = idfg_table_id;
+                    dr["IDFG_TABLE_ID"] = idfgTableId;
                 }
             }
 
@@ -184,13 +184,13 @@ namespace PhoenixCI.FormUI.Prefix2 {
             /*******************
             點選儲存檔案之目錄
             *******************/
-            string ls_rpt;
-            ls_rpt = dw_txn_id.EditValue.AsString();
+            string rpt;
+            rpt = dw_txn_id.EditValue.AsString();
             SaveFileDialog save = new SaveFileDialog();
             save.Filter = "*.csv (*.csv)|*.csv";
             save.Title = "請點選儲存檔案之目錄";
             save.InitialDirectory = GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH;
-            save.FileName = _ProgramID + "_" + ls_rpt + "_" + DateTime.Now.ToString("yyyy.MM.dd-hh.mm.ss") + ".csv";
+            save.FileName = _ProgramID + "_" + rpt + "_" + DateTime.Now.ToString("yyyy.MM.dd-hh.mm.ss") + ".csv";
             DialogResult saveResult = save.ShowDialog();
             if (saveResult == DialogResult.Cancel) {
                 return ResultStatus.Fail;

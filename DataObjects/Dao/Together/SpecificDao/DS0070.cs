@@ -1,4 +1,5 @@
-﻿using OnePiece;
+﻿using BusinessObjects;
+using OnePiece;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -194,6 +195,64 @@ order by comb_prod desc
 
             DataTable result = db.GetDataTable(sql, parms);
             return result;
+        }
+
+        public ResultData updatePeriodData(DataTable inputData) {
+
+            string sql = @"SELECT SPAN_PERIOD_MODULE,
+	SPAN_PERIOD_START_DATE,
+	SPAN_PERIOD_END_DATE,
+	SPAN_PERIOD_USER_ID,
+	SPAN_PERIOD_W_TIME
+FROM CFO.SPAN_PERIOD";
+
+            return db.UpdateOracleDB(inputData, sql);
+
+        }
+
+        public ResultData updateREQData(DataTable inputData) {
+
+            string sql = @"SELECT 
+                                    SPAN_REQ_MODULE,   
+                                    SPAN_REQ_TYPE,   
+                                    SPAN_REQ_VALUE,   
+                                    SPAN_REQ_USER_ID,   
+                                    SPAN_REQ_W_TIME 
+                                    FROM CFO.SPAN_REQ";
+
+            return db.UpdateOracleDB(inputData, sql);
+
+        }
+
+        public ResultData updateEXAccountData(DataTable inputData) {
+
+            string sql = @"SELECT 
+                                    SPAN_ACCT_MODULE,     
+                                    SPAN_ACCT_FCM_NO,
+                                    SPAN_ACCT_ACC_NO,
+                                    SPAN_ACCT_USER_ID,     
+                                    SPAN_ACCT_W_TIME
+                                    FROM CFO.SPAN_ACCT";
+
+            return db.UpdateOracleDB(inputData, sql);
+        }
+
+        public ResultData updatePreTestData(DataTable inputData) {
+
+            string sql = @"SELECT 
+                                    SPAN_PARAM_MODULE,     
+                                    SPAN_PARAM_CLASS,     
+                                    SPAN_PARAM_CC,     
+                                    SPAN_PARAM_TYPE,     
+                                    SPAN_PARAM_VALUE,     
+                                    SPAN_PARAM_EXPIRY,     
+                                    SPAN_PARAM_VOL_TYPE,     
+                                    SPAN_PARAM_VOL_VALUE,     
+                                    SPAN_PARAM_USER_ID,    
+                                    SPAN_PARAM_W_TIME
+                                    FROM CFO.SPAN_PARAM";
+
+            return db.UpdateOracleDB(inputData, sql);
         }
     }
 }

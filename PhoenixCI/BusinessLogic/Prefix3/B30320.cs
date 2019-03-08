@@ -22,7 +22,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    public class B30320
    {
       private D30320 dao30320;
-      private string ls_file;
+      private string lsFile;
       private string emMonthText;
 
       /// <summary>
@@ -33,112 +33,133 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       public B30320(string FilePath,string datetime)
       {
          dao30320 = new D30320();
-         ls_file = FilePath;
+         lsFile = FilePath;
          emMonthText = datetime;
       }
-
-      public bool wf_30321()
+      /// <summary>
+      /// 寫入 30320 sheet
+      /// </summary>
+      /// <returns></returns>
+      public bool Wf30321()
       {
          /*************************************
          ls_rpt_name = 報表名稱
          ls_rpt_id = 報表代號
-         li_ole_col = Excel的Column位置
-         li_ole_row_tol = Excel的Column預留數
-         ls_ymd = 日期
+         rowIndex = Excel的Row位置
+         columnIndex = Excel的Column位置
+         RowTotal = Excel的Column預留數
+         lsYMD = 日期
          *************************************/
-         //前月倒數1天交易日
-         DateTime LastTradeDate = dao30320.GetLastTradeDate(emMonthText.AsDateTime().ToString("yyyyMM01"));
-         //讀取資料
-         DataTable ids_1 = new D30321().GetData(LastTradeDate.ToString("yyyyMMdd"), emMonthText.AsDateTime().ToString("yyyyMM31"));
-         ids_1 = ids_1.Filter("RPT_SEQ_NO > 0");
-         if (ids_1.Rows.Count <= 0) {
-            MessageDisplay.Info($"{LastTradeDate.ToShortDateString()}～{emMonthText.AsDateTime().ToString("yyyy/MM/31")},30321－指數期貨價量資料,無任何資料!");
+         try {
+            //前月倒數1天交易日
+            DateTime LastTradeDate = dao30320.GetLastTradeDate(emMonthText.AsDateTime().ToString("yyyyMM01"));
+            //讀取資料
+            DataTable dt = dao30320.Get30321Data(LastTradeDate.ToString("yyyyMMdd"), emMonthText.AsDateTime().ToString("yyyyMM31"));
+            dt = dt.Filter("RPT_SEQ_NO > 0");
+            if (dt.Rows.Count <= 0) {
+               MessageDisplay.Info($"{LastTradeDate.ToShortDateString()}～{emMonthText.AsDateTime().ToString("yyyy/MM/31")},30321－指數期貨價量資料,無任何資料!");
+               return true;
+            }
+            //切換Sheet
+            Workbook workbook = new Workbook();
+            workbook.LoadDocument(lsFile);
+            Worksheet worksheet = workbook.Worksheets[0];
+            string lsYMD = "";
+            worksheet.Range["A1"].Select();
+
+            int rowIndex = 1;
+            int RowTotal = 32 + 1;//Excel的Column預留數 預留顯示32行加上隱藏的1行
+            int addRowCount = 0;//總計寫入的行數
+            foreach (DataRow row in dt.Rows) {
+               if (lsYMD != row["AI2_YMD"].AsString()) {
+                  lsYMD = row["AI2_YMD"].AsString();
+                  rowIndex = rowIndex + 1;
+                  addRowCount++;
+                  worksheet.Rows[rowIndex][1 - 1].Value = lsYMD.AsDateTime("yyyyMMdd").ToString("MM/dd");
+               }
+               int columnIndex = row["RPT_SEQ_NO"].AsInt();
+               worksheet.Rows[rowIndex][columnIndex - 1].Value = row["AI2_M_QNTY"].AsDecimal();
+               worksheet.Rows[rowIndex][columnIndex + 1 - 1].Value = row["AI2_OI"].AsDecimal();
+            }
+            //刪除空白列
+            if (RowTotal > addRowCount) {
+               worksheet.Rows.Remove(rowIndex + 1, RowTotal - addRowCount);
+            }
+            workbook.SaveDocument(lsFile);
+            return true;
+         }
+         catch (Exception ex) {
+            MessageDisplay.Error(ex.Message, "wf_30321");
             return false;
          }
-         //切換Sheet
-         Workbook workbook = new Workbook();
-         workbook.LoadDocument(ls_file);
-         Worksheet worksheet = workbook.Worksheets["30320"];
-         string ls_ymd = "";
-         worksheet.Range["A1"].Select();
-
-         int rowIndex = 1;
-         int li_ole_row_tol = rowIndex + 1 + 32;
-         foreach (DataRow row in ids_1.Rows) {
-            if (ls_ymd != row["AI2_YMD"].AsString()) {
-               ls_ymd = row["AI2_YMD"].AsString();
-               rowIndex = rowIndex + 1;
-               worksheet.Rows[rowIndex][1 - 1].Value = ls_ymd.AsDateTime("yyyyMMdd").ToString("MM/dd");
-            }
-            int li_ole_col = row["RPT_SEQ_NO"].AsInt();
-            worksheet.Rows[rowIndex][li_ole_col-1].Value = row["AI2_M_QNTY"].AsDecimal();
-            worksheet.Rows[rowIndex][li_ole_col+1-1].Value = row["AI2_OI"].AsDecimal();
-         }
-         //刪除空白列
-         if (li_ole_row_tol > rowIndex) {
-            worksheet[$"{rowIndex + 2}:{li_ole_row_tol}"].Select();//選取刪除範圍,先多留一行不然公式會出錯
-            worksheet.Selection.Delete();
-            worksheet.Rows.Remove(rowIndex + 1);//移除多留的那一行
-         }
-         workbook.SaveDocument(ls_file);
-         return true;
       }
-
-      public bool wf_30322()
+      /// <summary>
+      /// 寫入 Data_30322ab sheet
+      /// </summary>
+      /// <returns></returns>
+      public bool Wf30322()
       {
          /*************************************
          ls_rpt_name = 報表名稱
          ls_rpt_id = 報表代號
-         li_ole_col = Excel的Column位置
-         li_ole_row_tol = Excel的Column預留數
-         ls_ymd = 日期
+         rowIndex = Excel的Row位置
+         columnIndex = Excel的Column位置
+         RowTotal = Excel的Column預留數
+         lsYMD = 日期
          *************************************/
-         //前月倒數1天交易日
-         DateTime ldt_sdate = dao30320.GetLastTradeDate(emMonthText.AsDateTime().ToString("yyyyMM01"));
-         //月底
-         string ls_ymd = string.Empty;
-         if (PbFunc.Right(emMonthText, 2) == "12") {
-            ls_ymd = $"{PbFunc.Left(emMonthText,4).AsInt()+1}01";
+         string SheetName = "Data_30322ab";
+         try {
+            DateTime emMonthDate = emMonthText.AsDateTime();//輸入日期轉時間格式
+            //前月倒數1天交易日
+            DateTime ldtSdate = dao30320.GetLastTradeDate(emMonthDate.ToString("yyyyMM01"));
+            //月底
+            string lsYMD = string.Empty;
+            if (emMonthDate.Month == 12) {
+               lsYMD = $"{emMonthDate.AddYears(1)}01";
+            }
+            else {
+               lsYMD = emMonthDate.AddMonths(1).ToString("yyyyMM");
+            }
+            DateTime ldtEdate = PbFunc.relativedate(lsYMD.AsDateTime("yyyyMM"), -1);
+            //讀取資料
+            DataTable dt = dao30320.Get30322Data(ldtSdate, ldtEdate);
+            dt = dt.Filter("RPT_SEQ_NO > 0");
+            if (dt.Rows.Count <= 0) {
+               MessageDisplay.Info($"{ldtSdate.ToShortDateString()}～{emMonthText.AsDateTime().ToString("yyyy/MM/31")},30322－指數期貨價量資料,無任何資料!");
+               return true;
+            }
+            //切換Sheet
+            Workbook workbook = new Workbook();
+            workbook.LoadDocument(lsFile);
+            Worksheet worksheet = workbook.Worksheets[SheetName];
+            worksheet.Range["A1"].Select();
+
+            int rowIndex = 1;
+            int RowTotal = 32;//Excel的Column預留數32
+            int addRowCount = 0;//總計寫入的行數
+            lsYMD = "";
+            foreach (DataRow row in dt.Rows) {
+               if (lsYMD != row["AI3_DATE"].AsString()) {
+                  lsYMD = row["AI3_DATE"].AsString();
+                  rowIndex = rowIndex + 1;
+                  addRowCount++;
+                  worksheet.Rows[rowIndex][1 - 1].Value = row["AI3_DATE"].AsDateTime().ToString("MM/dd");
+               }
+               int columnIndex = 0;
+               columnIndex = row["RPT_SEQ_NO"].AsInt();
+               worksheet.Rows[rowIndex][columnIndex - 1].Value = row["AI3_CLOSE_PRICE"].AsDecimal();
+            }
+            //刪除空白列
+            if (RowTotal > addRowCount) {
+               worksheet.Rows.Remove(rowIndex + 1, RowTotal - addRowCount);
+            }
+            workbook.SaveDocument(lsFile);
+            return true;
          }
-         else {
-            ls_ymd = $"{PbFunc.Left(emMonthText, 4)}{PbFunc.Right($"0{PbFunc.Right(emMonthText,2).AsInt()+1}",2)}";
-         }
-         DateTime.TryParseExact(ls_ymd, "yyyyMM", null, DateTimeStyles.AllowWhiteSpaces, out DateTime DT);
-         DateTime ldt_edate = PbFunc.relativedate(new DateTime(DT.Year,DT.Month,01), -1);
-         //讀取資料
-         DataTable ids_1 = new D30322().GetData(ldt_sdate, ldt_edate);
-         ids_1 = ids_1.Filter("RPT_SEQ_NO > 0");
-         if (ids_1.Rows.Count <= 0) {
-            MessageDisplay.Info($"{ldt_sdate.ToShortDateString()}～{emMonthText.AsDateTime().ToString("yyyy/MM/31")},30322－指數期貨價量資料,無任何資料!");
+         catch (Exception ex) {
+            MessageDisplay.Error(ex.Message,"wf_30322");
             return false;
          }
-         //切換Sheet
-         Workbook workbook = new Workbook();
-         workbook.LoadDocument(ls_file);
-         Worksheet worksheet = workbook.Worksheets["Data_30322ab"];
-         worksheet.Range["A1"].Select();
-
-         int rowIndex = 1;
-         int li_ole_row_tol = rowIndex + 1 + 32;
-         ls_ymd = "";
-         foreach (DataRow row in ids_1.Rows) {
-            if (ls_ymd != row["AI3_DATE"].AsString()) {
-               ls_ymd = row["AI3_DATE"].AsString();
-               rowIndex = rowIndex + 1;
-               worksheet.Rows[rowIndex][1 - 1].Value = row["AI3_DATE"].AsDateTime().ToString("MM/dd");
-            }
-            int li_ole_col = 0;
-            li_ole_col = row["RPT_SEQ_NO"].AsInt();
-            worksheet.Rows[rowIndex][li_ole_col-1].Value = row["AI3_CLOSE_PRICE"].AsDecimal();
-         }
-         //刪除空白列
-         if (li_ole_row_tol > rowIndex) {
-            worksheet[$"{rowIndex + 2}:{li_ole_row_tol - 1}"].Select();//選取刪除範圍,先多留一行不然公式會出錯
-            worksheet.Selection.Delete();
-            worksheet.Rows.Remove(rowIndex + 1);//移除多留的那一行
-         }
-         workbook.SaveDocument(ls_file);
-         return true;
       }
    }
 }

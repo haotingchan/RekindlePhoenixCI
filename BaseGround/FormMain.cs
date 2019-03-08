@@ -1,5 +1,4 @@
-﻿
-using ActionService.DbDirect;
+﻿using ActionService.DbDirect;
 using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
@@ -79,8 +78,7 @@ namespace BaseGround
         private void FormMain_MdiChildActivate(object sender, EventArgs e)
         {
             // 當ActiveMdiChild為null時，代表已經都沒有MdiChild了
-            if (this.ActiveMdiChild == null)
-            {
+            if (this.ActiveMdiChild == null) {
                 toolStripButtonSave.Enabled = false;
                 toolStripButtonInsert.Enabled = false;
                 toolStripButtonDelete.Enabled = false;
@@ -167,6 +165,9 @@ namespace BaseGround
                 formInstance.MdiParent = this;
                 formInstance.FormClosed += new FormClosedEventHandler(Child_FormClosed);
                 formInstance.Icon = (Icon)Icon.Clone();
+                formInstance.BackColor = Color.FromArgb(192, 220, 192);
+                formInstance.Location = new Point(Left + 9, Top + 9);
+                formInstance.StartPosition = FormStartPosition.Manual;
 
                 formInstance.Show();
             }

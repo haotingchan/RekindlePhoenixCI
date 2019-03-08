@@ -29,10 +29,10 @@
       {
          this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
-         this.st_msg_txt = new System.Windows.Forms.Label();
+         this.stMsgTxt = new System.Windows.Forms.Label();
          this.gb1_label = new System.Windows.Forms.Label();
          this.gb_1 = new DevExpress.XtraEditors.PanelControl();
-         this.em_month = new DevExpress.XtraEditors.TextEdit();
+         this.emMonth = new DevExpress.XtraEditors.TextEdit();
          this.st_3 = new System.Windows.Forms.Label();
          this.textEdit1 = new DevExpress.XtraEditors.TextEdit();
          this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
@@ -45,7 +45,7 @@
          this.r_frame.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gb_1)).BeginInit();
          this.gb_1.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.em_month.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.emMonth.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
@@ -76,7 +76,7 @@
          this.r_frame.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
          this.r_frame.Appearance.Options.UseBackColor = true;
          this.r_frame.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-         this.r_frame.Controls.Add(this.st_msg_txt);
+         this.r_frame.Controls.Add(this.stMsgTxt);
          this.r_frame.Controls.Add(this.gb1_label);
          this.r_frame.Controls.Add(this.gb_1);
          this.r_frame.Location = new System.Drawing.Point(30, 27);
@@ -86,15 +86,15 @@
          // 
          // st_msg_txt
          // 
-         this.st_msg_txt.AutoSize = true;
-         this.st_msg_txt.Font = new System.Drawing.Font("微軟正黑體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.st_msg_txt.ForeColor = System.Drawing.Color.Blue;
-         this.st_msg_txt.Location = new System.Drawing.Point(24, 135);
-         this.st_msg_txt.Name = "st_msg_txt";
-         this.st_msg_txt.Size = new System.Drawing.Size(153, 19);
-         this.st_msg_txt.TabIndex = 1;
-         this.st_msg_txt.Text = "訊息：資料轉出中........";
-         this.st_msg_txt.Visible = false;
+         this.stMsgTxt.AutoSize = true;
+         this.stMsgTxt.Font = new System.Drawing.Font("微軟正黑體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.stMsgTxt.ForeColor = System.Drawing.Color.Blue;
+         this.stMsgTxt.Location = new System.Drawing.Point(24, 135);
+         this.stMsgTxt.Name = "st_msg_txt";
+         this.stMsgTxt.Size = new System.Drawing.Size(153, 19);
+         this.stMsgTxt.TabIndex = 1;
+         this.stMsgTxt.Text = "訊息：資料轉出中........";
+         this.stMsgTxt.Visible = false;
          // 
          // gb1_label
          // 
@@ -111,7 +111,7 @@
          // 
          this.gb_1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
          this.gb_1.Appearance.Options.UseBackColor = true;
-         this.gb_1.Controls.Add(this.em_month);
+         this.gb_1.Controls.Add(this.emMonth);
          this.gb_1.Controls.Add(this.st_3);
          this.gb_1.Location = new System.Drawing.Point(28, 25);
          this.gb_1.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
@@ -122,18 +122,18 @@
          // 
          // em_month
          // 
-         this.em_month.CausesValidation = false;
-         this.em_month.EditValue = "2019/01";
-         this.em_month.Location = new System.Drawing.Point(99, 36);
-         this.em_month.Name = "em_month";
-         this.em_month.Properties.DisplayFormat.FormatString = "yyyy/MM";
-         this.em_month.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-         this.em_month.Properties.Mask.EditMask = "\\d\\d\\d\\d/\\d\\d";
-         this.em_month.Properties.Mask.IgnoreMaskBlank = false;
-         this.em_month.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
-         this.em_month.Properties.Mask.PlaceHolder = '0';
-         this.em_month.Size = new System.Drawing.Size(71, 22);
-         this.em_month.TabIndex = 4;
+         this.emMonth.CausesValidation = false;
+         this.emMonth.EditValue = "2019/01";
+         this.emMonth.Location = new System.Drawing.Point(99, 36);
+         this.emMonth.Name = "em_month";
+         this.emMonth.Properties.DisplayFormat.FormatString = "yyyy/MM";
+         this.emMonth.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+         this.emMonth.Properties.Mask.EditMask = "\\d\\d\\d\\d/\\d\\d";
+         this.emMonth.Properties.Mask.IgnoreMaskBlank = false;
+         this.emMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
+         this.emMonth.Properties.Mask.PlaceHolder = '0';
+         this.emMonth.Size = new System.Drawing.Size(71, 22);
+         this.emMonth.TabIndex = 4;
          // 
          // st_3
          // 
@@ -200,7 +200,7 @@
          ((System.ComponentModel.ISupportInitialize)(this.gb_1)).EndInit();
          this.gb_1.ResumeLayout(false);
          this.gb_1.PerformLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.em_month.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.emMonth.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
@@ -213,7 +213,7 @@
       #endregion
       private DevExpress.XtraEditors.PanelControl panelControl2;
       private DevExpress.XtraEditors.PanelControl r_frame;
-      private System.Windows.Forms.Label st_msg_txt;
+      private System.Windows.Forms.Label stMsgTxt;
       private System.Windows.Forms.Label gb1_label;
       private DevExpress.XtraEditors.PanelControl gb_1;
       private System.Windows.Forms.Label st_3;
@@ -221,6 +221,6 @@
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
       private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup1;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
-      private DevExpress.XtraEditors.TextEdit em_month;
+      private DevExpress.XtraEditors.TextEdit emMonth;
    }
 }

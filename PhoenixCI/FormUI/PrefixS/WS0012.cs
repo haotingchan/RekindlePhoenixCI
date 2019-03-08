@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using BaseGround;
 using BusinessObjects.Enums;
@@ -13,8 +7,8 @@ using Common;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.XtraEditors;
 using BusinessObjects;
-using static DataObjects.Dao.DataGate;
 using BaseGround.Report;
+using PhoenixCI.Widget;
 
 namespace PhoenixCI.FormUI.PrefixS
 {
@@ -22,6 +16,7 @@ namespace PhoenixCI.FormUI.PrefixS
     {
         private ReportHelper _ReportHelper;
         private DS0012 daoS0012;
+        private int countGroup = 3;//設定群組數
 
         public WS0012(string programID, string programName) : base(programID, programName) {
             InitializeComponent();
@@ -31,58 +26,49 @@ namespace PhoenixCI.FormUI.PrefixS
             _IsPreventFlowPrint = true;
             daoS0012 = new DS0012();
             txtCountDate.DateTimeValue = DateTime.Now;
-            txtDate1.DateTimeValue = DateTime.Now;
-            txtDate2.DateTimeValue = DateTime.Now;
-            txtDate3.DateTimeValue = DateTime.Now;
-
-            radioGroup1.SelectedIndex = 0;
-            radioGroup2.SelectedIndex = 0;
-            radioGroup3.SelectedIndex = 0;
             adjustmentRadioGroup.SelectedIndex = 0;
+
+            for (int i = 1; i <= countGroup; i++) {
+
+                Control[] formControls = this.Controls.Find("txtDate" + i, true);
+                TextDateEdit txt = (TextDateEdit)formControls[0];
+                txt.DateTimeValue = DateTime.Now;
+
+                formControls = this.Controls.Find("radioGroup" + i, true);
+                RadioGroup radioGroup = (RadioGroup)formControls[0];
+                radioGroup.SelectedIndex = 0;
+
+            }
         }
 
         protected override ResultStatus Retrieve() {
             base.Retrieve(gcMain);
-            DateTime searchDate1 = txtCountDate.DateTimeValue;
-            DateTime searchDate2 = txtCountDate.DateTimeValue;
-            DateTime searchDate3 = txtCountDate.DateTimeValue;
+            DataTable dt = new DataTable();
 
-            #region Get User Select
-            for (int i = 1; i <= 3; i++) {
+            for (int i = 1; i <= countGroup; i++) {
                 string radioSelect = "";
                 RadioGroup radios = new RadioGroup();
+                Control[] formControls = this.Controls.Find("radioGroup" + i, true);
+                RadioGroup radioGroup = (RadioGroup)formControls[0];
 
-                switch (i) {
-                    case 1: {
-                            radioSelect = radioGroup1.Properties.Items[radioGroup1.SelectedIndex].Value.AsString().Substring(1);
-                            searchDate1 = GetDateByUserSelect(radioSelect);
-                            break;
-                        }
-                    case 2: {
-                            radioSelect = radioGroup2.Properties.Items[radioGroup2.SelectedIndex].Value.AsString().Substring(1);
-                            searchDate2 = GetDateByUserSelect(radioSelect);
-                            break;
-                        }
-                    case 3: {
-                            radioSelect = radioGroup3.Properties.Items[radioGroup3.SelectedIndex].Value.AsString().Substring(1);
-                            searchDate3 = GetDateByUserSelect(radioSelect);
-                            break;
-                        }
+                //取得user所選的是第幾列
+                radioSelect = radioGroup.Properties.Items[radioGroup.SelectedIndex].Value.AsString().Substring(1);
+                DateTime searchDate = GetDateByUserSelect(radioSelect);
+                if (dt.Rows.Count == 0) {
+                    dt = daoS0012.GetSP1Data(searchDate.ToShortDateString(), i.ToString());
+                }
+
+                //不是群組1時進行資料合併
+                if (i != 1) {
+                    DataTable dtTmp = daoS0012.GetSP1Data(searchDate.ToShortDateString(), i.ToString());
+                    dt.Merge(dtTmp);
                 }
             }
-            #endregion
 
-            DataTable returnTable1 = daoS0012.GetSP1Data(searchDate1.ToShortDateString(), "1");
-            DataTable returnTable2 = daoS0012.GetSP1Data(searchDate2.ToShortDateString(), "2");
-            DataTable returnTable3 = daoS0012.GetSP1Data(searchDate3.ToShortDateString(), "3");
-
-            returnTable1.Merge(returnTable2);
-            returnTable1.Merge(returnTable3);
-
-            if (returnTable1.Rows.Count == 0) {
+            if (dt.Rows.Count == 0) {
                 MessageBox.Show("無任何資料", "訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            gcMain.DataSource = returnTable1;
+            gcMain.DataSource = dt;
             gvMain.ExpandAllGroups();
 
             return ResultStatus.Success;
@@ -118,9 +104,9 @@ namespace PhoenixCI.FormUI.PrefixS
                             insertSP2SData.Rows[i]["SP2S_W_USER_ID"] = GlobalInfo.USER_ID;
                             insertSP2SData.Rows[i]["SP2S_USER_CM"] = dt.Rows[i]["SP1_USER_RATE"].AsDecimal() == 0 ? DBNull.Value : dt.Rows[i]["SP1_USER_RATE"];
                         }
-                        resultStatus = base.Save_Override(insertSP2SData, "SP2S", DBName.CFO);
+                        resultStatus = daoS0012.updateData(insertSP2SData).Status;//base.Save_Override(insertSP2SData, "SP2S", DBName.CFO);
                         if (resultStatus == ResultStatus.Success) {
-                            
+
                             PrintableComponent = gcMain;
                         }
                     }
@@ -225,24 +211,18 @@ namespace PhoenixCI.FormUI.PrefixS
             #endregion
         }
 
+        /// <summary>
+        /// 根據user所選列來確定search Date
+        /// </summary>
+        /// <param name="userSelect"></param>
+        /// <returns></returns>
         private DateTime GetDateByUserSelect(string userSelect) {
 
             DateTime txtDate = new DateTime();
+            Control[] formControls = this.Controls.Find("txtDate" + userSelect, true);
+            TextDateEdit txt = (TextDateEdit)formControls[0];
+            txtDate = txt.DateTimeValue;
 
-            switch (userSelect) {
-                case "1": {
-                        txtDate = txtDate1.DateTimeValue;
-                        break;
-                    }
-                case "2": {
-                        txtDate = txtDate2.DateTimeValue;
-                        break;
-                    }
-                case "3": {
-                        txtDate = txtDate3.DateTimeValue;
-                        break;
-                    }
-            }
             return txtDate;
         }
     }

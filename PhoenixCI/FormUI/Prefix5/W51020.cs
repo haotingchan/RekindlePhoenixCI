@@ -83,45 +83,6 @@ namespace PhoenixCI.FormUI.Prefix5
             return ResultStatus.Success;
         }
 
-        private void gvMain_ShowingEditor(object sender, CancelEventArgs e)
-        {
-            GridView gv = sender as GridView;
-            string Is_NewRow = gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
-                gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"]).ToString();
-
-            if (gv.IsNewItemRow(gv.FocusedRowHandle) || Is_NewRow == "1")
-            {
-                e.Cancel = false;
-                gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"], 1);
-            }
-            else if (gv.FocusedColumn.FieldName == disableCol ||
-               gv.FocusedColumn.FieldName == disableCol2)
-            {
-                e.Cancel = true;
-            }
-            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["MMFT_END_S"], 0);
-            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["MMFT_END_E"], 0);
-        }
-
-        private void gvMain_RowCellStyle(object sender, RowCellStyleEventArgs e)
-        {
-            GridView gv = sender as GridView;
-            string Is_NewRow = gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
-                 gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]).ToString();
-
-            if (e.Column.FieldName == disableCol ||
-                e.Column.FieldName == disableCol2)
-            {
-                e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.Silver;
-            }
-        }
-
-        private void gvMain_InitNewRow(object sender, InitNewRowEventArgs e)
-        {
-            GridView gv = sender as GridView;
-            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"], 1);
-        }
-
         protected override ResultStatus Save(PokeBall poke)
         {
             gvMain.CloseEditor();
@@ -144,7 +105,8 @@ namespace PhoenixCI.FormUI.Prefix5
             }
             else
             {
-                ResultStatus status = base.Save_Override(dt, "MMFT");
+                ResultStatus status = dao51020.updateData(dt).Status;//base.Save_Override(dt, "MMFT");
+           
                 if (status == ResultStatus.Fail)
                 {
                     return ResultStatus.Fail;
@@ -214,6 +176,39 @@ namespace PhoenixCI.FormUI.Prefix5
             MessageDisplay.Info(MessageDisplay.MSG_OK);
             Retrieve();
             return ResultStatus.Success;
+        }
+
+        private void gvMain_ShowingEditor(object sender, CancelEventArgs e) {
+            GridView gv = sender as GridView;
+            string Is_NewRow = gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
+                gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"]).ToString();
+
+            if (gv.IsNewItemRow(gv.FocusedRowHandle) || Is_NewRow == "1") {
+                e.Cancel = false;
+                gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"], 1);
+            }
+            else if (gv.FocusedColumn.FieldName == disableCol ||
+               gv.FocusedColumn.FieldName == disableCol2) {
+                e.Cancel = true;
+            }
+            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["MMFT_END_S"], 0);
+            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["MMFT_END_E"], 0);
+        }
+
+        private void gvMain_RowCellStyle(object sender, RowCellStyleEventArgs e) {
+            GridView gv = sender as GridView;
+            string Is_NewRow = gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
+                 gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]).ToString();
+
+            if (e.Column.FieldName == disableCol ||
+                e.Column.FieldName == disableCol2) {
+                e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.Silver;
+            }
+        }
+
+        private void gvMain_InitNewRow(object sender, InitNewRowEventArgs e) {
+            GridView gv = sender as GridView;
+            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"], 1);
         }
     }
 }

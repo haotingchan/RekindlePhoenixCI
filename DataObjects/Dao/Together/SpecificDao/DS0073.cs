@@ -1,4 +1,5 @@
-﻿using OnePiece;
+﻿using BusinessObjects;
+using OnePiece;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -48,5 +49,34 @@ namespace DataObjects.Dao.Together.SpecificDao {
 
             return dtResult;
         }
+
+        public ResultData updatePeriodData(DataTable inputData) {
+
+            string sql = @"SELECT SPAN_PERIOD_MODULE,
+	SPAN_PERIOD_START_DATE,
+	SPAN_PERIOD_END_DATE,
+	SPAN_PERIOD_USER_ID,
+	SPAN_PERIOD_W_TIME
+FROM CFO.SPAN_PERIOD";
+
+            return db.UpdateOracleDB(inputData, sql);
+
+        }
+
+        public ResultData updateMarginData(DataTable inputData) {
+
+            string sql = @"SELECT   
+                                        SPAN_MARGIN_SPN_PATH  ,
+                                        SPAN_MARGIN_SPN,
+                                        SPAN_MARGIN_POS,
+                                        SPAN_MARGIN_RATIO,
+                                        SPAN_MARGIN_USER_ID,
+                                        SPAN_MARGIN_W_TIME 
+                                   FROM CFO.SPAN_MARGIN";
+
+            return db.UpdateOracleDB(inputData, sql);
+
+        }
+
     }
 }

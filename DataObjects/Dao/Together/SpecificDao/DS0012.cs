@@ -1,4 +1,5 @@
-﻿using OnePiece;
+﻿using BusinessObjects;
+using OnePiece;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,6 +12,20 @@ namespace DataObjects.Dao.Together.SpecificDao
     public class DS0012
     {
         private Db db;
+        private string SP2SColumn = @"
+                                    SELECT 
+                                        SP2S_DATE, 
+                                        SP2S_TYPE, 
+                                        SP2S_KIND_ID1, 
+                                        SP2S_KIND_ID2, 
+                                        SP2S_VALUE_DATE, 
+                                        SP2S_W_TIME, 
+                                        SP2S_W_USER_ID, 
+                                        SP2S_OSW_GRP, 
+                                        SP2S_SPAN_CODE, 
+                                        SP2S_ADJ_CODE, 
+                                        SP2S_USER_CM 
+	                                    FROM CFO.SP2S";
 
         public DS0012() {
             db = GlobalDaoSetting.DB;
@@ -68,23 +83,11 @@ namespace DataObjects.Dao.Together.SpecificDao
         }
 
         public DataTable GetSP2SColumns() {
+           return db.GetDataTable(SP2SColumn, null);
+        }
 
-            string sql = @"
-                                    SELECT 
-                                        SP2S_DATE, 
-                                        SP2S_TYPE, 
-                                        SP2S_KIND_ID1, 
-                                        SP2S_KIND_ID2, 
-                                        SP2S_VALUE_DATE, 
-                                        SP2S_W_TIME, 
-                                        SP2S_W_USER_ID, 
-                                        SP2S_OSW_GRP, 
-                                        SP2S_SPAN_CODE, 
-                                        SP2S_ADJ_CODE, 
-                                        SP2S_USER_CM 
-	                                    FROM CFO.SP2S";
-
-            return db.GetDataTable(sql, null);
+        public ResultData updateData(DataTable inputData) {
+            return db.UpdateOracleDB(inputData, SP2SColumn);
         }
     }
 }

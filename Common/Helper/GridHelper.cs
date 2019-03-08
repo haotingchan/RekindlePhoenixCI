@@ -41,6 +41,7 @@ namespace Common
 
             // 設定列印出來Grid的Header的字體和大小
             gv.AppearancePrint.HeaderPanel.Font = new Font(gv.Appearance.HeaderPanel.Font.Name, gv.Appearance.HeaderPanel.Font.Size);
+            gv.Appearance.Empty.BackColor = Color.FromArgb(192, 220, 192);
             gv.AppearancePrint.HeaderPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
             gv.AppearancePrint.HeaderPanel.Options.UseTextOptions = true;
             gv.OptionsPrint.AllowMultilineHeaders = true;

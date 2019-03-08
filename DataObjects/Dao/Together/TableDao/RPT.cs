@@ -26,7 +26,7 @@ namespace DataObjects.Dao.Together
                 @"
                     SELECT  *
                     FROM    CI.RPT
-                    WHERE   RPT_TXD_ID = @RPT_TXD_ID
+                    WHERE   RPT_TXD_ID like @RPT_TXD_ID
                 ";
 
             #endregion sql

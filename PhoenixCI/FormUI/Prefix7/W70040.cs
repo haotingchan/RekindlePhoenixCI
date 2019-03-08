@@ -1,19 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using DevExpress.XtraEditors;
 using BaseGround;
-using DataObjects.Dao.Together;
 using BusinessObjects.Enums;
 using BaseGround.Report;
 using PhoenixCI.Shared;
-using DataObjects.Dao.Together.SpecificDao;
 using Common;
 using BaseGround.Shared;
 using System.Threading;
@@ -29,7 +19,7 @@ namespace PhoenixCI.FormUI.Prefix7
    public partial class W70040 : FormParent
    {
       private B700xxFunc B700xxFunc;
-      string is_log_txt, is_save_file, is_symd, is_eymd, is_sum_type, is_prod_type, is_kind_id2, is_param_key;
+      string logText, saveFilePath, startYMD, endYMD, sumType, isProdType, isKindId2, isParamKey;
       public W70040(string programID, string programName) : base(programID, programName)
       {
          InitializeComponent();
@@ -47,17 +37,17 @@ namespace PhoenixCI.FormUI.Prefix7
       protected override ResultStatus Open()
       {
          base.Open();
-         em_sdate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/") + "01";
-         em_edate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
+         emStartDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/") + "01";
+         emEndDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
 
-         em_sdate1.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/") + "01";
-         em_edate1.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
+         emStartDate1.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/") + "01";
+         emEndDate1.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
 
-         em_smth.Text = GlobalInfo.OCF_DATE.ToString("yyyy/") + "01";
-         em_emth.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
+         emStartMth.Text = GlobalInfo.OCF_DATE.ToString("yyyy/") + "01";
+         emEndMth.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
 
-         em_syear.Text = GlobalInfo.OCF_DATE.ToString("yyyy");
-         em_eyear.Text = GlobalInfo.OCF_DATE.ToString("yyyy");
+         emStartYear.Text = GlobalInfo.OCF_DATE.ToString("yyyy");
+         emEndYear.Text = GlobalInfo.OCF_DATE.ToString("yyyy");
          return ResultStatus.Success;
       }
 
@@ -86,101 +76,101 @@ namespace PhoenixCI.FormUI.Prefix7
       private bool ExportBefore()
       {
          /* 條件值檢核*/
-         DateTime ld_s, ld_e;
-         string ls_type = "";
+         DateTime ldStart, ldEnd;
+         string lsType = "";
          switch (rgDate.EditValue) {
             case "rb_day":
                //週
-               if (!em_sdate.IsDate(em_sdate.Text, CheckDate.Start)
-                  || !em_edate.IsDate(em_edate.Text, CheckDate.End)) {
+               if (!emStartDate.IsDate(emStartDate.Text, CheckDate.Start)
+                  || !emEndDate.IsDate(emEndDate.Text, CheckDate.End)) {
                   return false;
                }
-               if (string.Compare(em_sdate.Text, em_edate.Text) > 0) {
-                  MessageDisplay.Error(GlobalInfo.gs_t_err, CheckDate.Datedif);
+               if (string.Compare(emStartDate.Text, emEndDate.Text) > 0) {
+                  MessageDisplay.Error(GlobalInfo.ErrorText, CheckDate.Datedif);
                   return false;
                }
-               ld_s = Convert.ToDateTime(em_sdate.Text);
-               ld_e = Convert.ToDateTime(em_edate.Text);
+               ldStart = Convert.ToDateTime(emStartDate.Text);
+               ldEnd = Convert.ToDateTime(emEndDate.Text);
 
-               is_symd = em_sdate.Text.Replace("/", "").SubStr(0, 8);
-               is_eymd = em_edate.Text.Replace("/", "").SubStr(0, 8);
-               ls_type = "Day";
-               is_sum_type = "D";
+               startYMD = emStartDate.Text.Replace("/", "").SubStr(0, 8);
+               endYMD = emEndDate.Text.Replace("/", "").SubStr(0, 8);
+               lsType = "Day";
+               sumType = "D";
 
-               is_log_txt = ld_s.ToString("yyyy.MM.dd") + "至" + ld_e.ToString("yyyy.MM.dd") + " 交易量";
+               logText = ldStart.ToString("yyyy.MM.dd") + "至" + ldEnd.ToString("yyyy.MM.dd") + " 交易量";
                break;
             case "rb_week":
                //週
-               if (!em_sdate1.IsDate(em_sdate1.Text, CheckDate.Start)
-                  || !em_edate1.IsDate(em_edate1.Text, CheckDate.End)) {
+               if (!emStartDate1.IsDate(emStartDate1.Text, CheckDate.Start)
+                  || !emEndDate1.IsDate(emEndDate1.Text, CheckDate.End)) {
                   return false;
                }
-               if (string.Compare(em_sdate1.Text, em_edate1.Text) > 0) {
-                  MessageDisplay.Error(GlobalInfo.gs_t_err, CheckDate.Datedif);
+               if (string.Compare(emStartDate1.Text, emEndDate1.Text) > 0) {
+                  MessageDisplay.Error(GlobalInfo.ErrorText, CheckDate.Datedif);
                   return false;
                }
-               ld_s = Convert.ToDateTime(em_sdate1.Text);
-               ld_e = Convert.ToDateTime(em_edate1.Text);
+               ldStart = Convert.ToDateTime(emStartDate1.Text);
+               ldEnd = Convert.ToDateTime(emEndDate1.Text);
 
-               is_symd = em_sdate1.Text.Replace("/", "").SubStr(0, 8);
-               is_eymd = em_edate1.Text.Replace("/", "").SubStr(0, 8);
-               ls_type = "Week";
-               is_sum_type = "D";
+               startYMD = emStartDate1.Text.Replace("/", "").SubStr(0, 8);
+               endYMD = emEndDate1.Text.Replace("/", "").SubStr(0, 8);
+               lsType = "Week";
+               sumType = "D";
 
-               is_log_txt = ld_s.ToString("yyyy.MM.dd") + "至" + ld_e.ToString("yyyy.MM.dd") + " 交易量";
+               logText = ldStart.ToString("yyyy.MM.dd") + "至" + ldEnd.ToString("yyyy.MM.dd") + " 交易量";
                break;
             case "rb_month":
                //月
-               string emSmth = em_smth.Text + "/01";
-               string emEmth = em_emth.Text + "/01";
-               if (!em_smth.IsDate(emSmth, CheckDate.Start)
-                  || !em_emth.IsDate(emEmth, CheckDate.End)) {
+               string emSmth = emStartMth.Text + "/01";
+               string emEmth = emEndMth.Text + "/01";
+               if (!emStartMth.IsDate(emSmth, CheckDate.Start)
+                  || !emEndMth.IsDate(emEmth, CheckDate.End)) {
                   return false;
                }
-               ld_s = Convert.ToDateTime(emSmth);
-               ld_e = PbFunc.relativedate(Convert.ToDateTime(emEmth), 31);
-               if (ld_e.Month != PbFunc.Right(em_smth.Text, 2).AsInt()) {
-                  ld_e = PbFunc.relativedate(ld_e, -ld_e.Day);
+               ldStart = Convert.ToDateTime(emSmth);
+               ldEnd = PbFunc.relativedate(Convert.ToDateTime(emEmth), 31);
+               if (ldEnd.Month != PbFunc.Right(emStartMth.Text, 2).AsInt()) {
+                  ldEnd = PbFunc.relativedate(ldEnd, -ldEnd.Day);
                }
-               is_symd = em_smth.Text.Replace("/", "").SubStr(0, 6);
-               is_eymd = em_emth.Text.Replace("/", "").SubStr(0, 6);
-               ls_type = "Month";
-               is_sum_type = "M";
+               startYMD = emStartMth.Text.Replace("/", "").SubStr(0, 6);
+               endYMD = emEndMth.Text.Replace("/", "").SubStr(0, 6);
+               lsType = "Month";
+               sumType = "M";
 
-               is_log_txt = is_symd + "至" + is_eymd + " 交易量";
+               logText = startYMD + "至" + endYMD + " 交易量";
                break;
             case "rb_year":
                //年
-               is_symd = em_syear.Text;
-               is_eymd = em_eyear.Text;
-               ls_type = "Year";
-               is_sum_type = "Y";
-               is_log_txt = is_symd + "至" + is_eymd + " 交易量";
+               startYMD = emStartYear.Text;
+               endYMD = emEndYear.Text;
+               lsType = "Year";
+               sumType = "Y";
+               logText = startYMD + "至" + endYMD + " 交易量";
                break;
             default:
                break;
          }
 
-         is_save_file = _ProgramID + "_" + ls_type + "(" + is_symd + "-" + is_eymd + ")";
+         saveFilePath = _ProgramID + "_" + lsType + "(" + startYMD + "-" + endYMD + ")";
          //商品別
          switch (rgPeriod.EditValue) {
             case "rb_txw":
-               is_kind_id2 = "TXW%";
-               is_save_file = is_save_file + "W";
+               isKindId2 = "TXW%";
+               saveFilePath = saveFilePath + "W";
                break;
             case "rb_txo":
-               is_kind_id2 = "TXO%";
-               is_save_file = is_save_file + "S";
+               isKindId2 = "TXO%";
+               saveFilePath = saveFilePath + "S";
                break;
             default:
-               is_kind_id2 = "%";
+               isKindId2 = "%";
                break;
          }
-         is_param_key = "TXO";
-         is_prod_type = "O";
+         isParamKey = "TXO";
+         isProdType = "O";
          /*點選儲存檔案之目錄*/
-         is_save_file = ReportExportFunc.wf_GetFileSaveName(is_save_file + ".csv");
-         if (string.IsNullOrEmpty(is_save_file)) {
+         saveFilePath = ReportExportFunc.wf_GetFileSaveName(saveFilePath + ".csv");
+         if (string.IsNullOrEmpty(saveFilePath)) {
             return false;
          }
          /*******************
@@ -188,7 +178,7 @@ namespace PhoenixCI.FormUI.Prefix7
          *******************/
          st_msg_txt.Visible = true;
          st_msg_txt.Text = "開始轉檔...";
-         st_msg_txt.Text = is_log_txt + " 轉檔中...";
+         st_msg_txt.Text = logText + " 轉檔中...";
          this.Cursor = Cursors.WaitCursor;
          this.Refresh();
          Thread.Sleep(5);
@@ -211,15 +201,15 @@ namespace PhoenixCI.FormUI.Prefix7
          }
          try {
             if (rgDate.EditValue.Equals("rb_week")) {
-               B700xxFunc.f_70010_week_w(is_save_file, is_symd, is_eymd, is_sum_type, is_kind_id2, is_param_key, is_prod_type);
+               B700xxFunc.F70010WeekW(saveFilePath, startYMD, endYMD, sumType, isKindId2, isParamKey, isProdType);
             }//if (rgDate.EditValue.Equals("rb_week"))
             else {
-               B700xxFunc.f_70010_ymd_w(is_save_file, is_symd, is_eymd, is_sum_type, is_kind_id2, is_param_key, is_prod_type);
+               B700xxFunc.F70010YmdW(saveFilePath, startYMD, endYMD, sumType, isKindId2, isParamKey, isProdType);
             }
             ExportAfter();
          }
          catch (Exception ex) {
-            PbFunc.messageBox(GlobalInfo.gs_t_err, ex.Message, MessageBoxIcon.Stop);
+            PbFunc.messageBox(GlobalInfo.ErrorText, ex.Message, MessageBoxIcon.Stop);
             return ResultStatus.Fail;
          }
          return ResultStatus.Success;
@@ -248,32 +238,32 @@ namespace PhoenixCI.FormUI.Prefix7
          if (rb == null) return;
          switch (rb.EditValue.ToString()) {
             case "rb_day"://日期
-               st_date.Visible = true;//日期
-               st_date.FocusHelper.FocusFirst();
-               st_week.Visible = false;//週期
-               st_month.Visible = false;//月份
-               st_year.Visible = false;//年度
+               stDate.Visible = true;//日期
+               stDate.FocusHelper.FocusFirst();
+               stWeek.Visible = false;//週期
+               stMonth.Visible = false;//月份
+               stYear.Visible = false;//年度
                break;
             case "rb_week"://週期
-               st_date.Visible = false;//日期
-               st_week.Visible = true;//週期
-               st_week.FocusHelper.FocusFirst();
-               st_month.Visible = false;//月份
-               st_year.Visible = false;//年度
+               stDate.Visible = false;//日期
+               stWeek.Visible = true;//週期
+               stWeek.FocusHelper.FocusFirst();
+               stMonth.Visible = false;//月份
+               stYear.Visible = false;//年度
                break;
             case "rb_month"://月份
-               st_date.Visible = false;//日期
-               st_week.Visible = false;//週期
-               st_month.Visible = true;//月份
-               st_month.FocusHelper.FocusFirst();
-               st_year.Visible = false;//年度
+               stDate.Visible = false;//日期
+               stWeek.Visible = false;//週期
+               stMonth.Visible = true;//月份
+               stMonth.FocusHelper.FocusFirst();
+               stYear.Visible = false;//年度
                break;
             case "rb_year"://年度
-               st_date.Visible = false;//日期
-               st_week.Visible = false;//週期
-               st_month.Visible = false;//月份
-               st_year.Visible = true;//年度
-               st_year.FocusHelper.FocusFirst();
+               stDate.Visible = false;//日期
+               stWeek.Visible = false;//週期
+               stMonth.Visible = false;//月份
+               stYear.Visible = true;//年度
+               stYear.FocusHelper.FocusFirst();
                break;
             default:
                break;

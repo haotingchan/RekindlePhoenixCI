@@ -1,4 +1,6 @@
-﻿using OnePiece;
+﻿using BusinessObjects;
+using OnePiece;
+using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -34,18 +36,30 @@ namespace DataObjects.Dao.Together.SpecificDao
             return dtResult;
         }
 
-        public DataTable ExecuteStoredProcedure(string Is_ym)
-        {
-            object[] parms ={
-                "@ls_ym",Is_ym,
-                "@RETURNPARAMETER",0
-            };
+        public string ExecuteStoredProcedure(string Is_ym) {
+            List<DbParameterEx> parms = new List<DbParameterEx>() {
+            new DbParameterEx("ls_ym",Is_ym),
+            //new DbParameterEx("RETURNPARAMETER",0)
+         };
 
-            string sql = "SP_H_UPD_AMM0_MONTH";
+            string sql = "CI.SP_H_UPD_AMM0_MONTH";
 
-            DataTable dtResult = db.ExecuteStoredProcedure_Override(sql, parms);
+            return db.ExecuteStoredProcedureReturnString(sql, parms, true, OracleDbType.Int32);            
+        }
 
-            return dtResult;
+        public ResultData updateData(DataTable inputData) {
+            string sql = @"
+                        SELECT 
+                            CI.MMIQ.MMIQ_YM,
+                            CI.MMIQ.MMIQ_FCM_NO,   
+                            CI.MMIQ.MMIQ_ACC_NO,   
+                            CI.MMIQ.MMIQ_KIND_ID,   
+                            CI.MMIQ.MMIQ_INVALID_QNTY,   
+                            CI.MMIQ.MMIQ_W_TIME,   
+                            CI.MMIQ.MMIQ_W_USER_ID
+                        FROM CI.MMIQ";
+
+            return db.UpdateOracleDB(inputData, sql);
         }
     }
 }

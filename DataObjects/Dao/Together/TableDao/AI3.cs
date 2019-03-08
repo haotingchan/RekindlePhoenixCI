@@ -114,13 +114,13 @@ where rownum=1", interval);
                             FROM ci.AI3  ,
                                 (select TFXMMD_YMD,TFXMMD_PX
                                    from ci.TFXMMD
-                                  where TFXMMD_YMD >= TO_CHAR(:as_sdate,'YYYYMMDD')
-                                    and TFXMMD_YMD <= TO_CHAR(:as_edate,'YYYYMMDD')
+                                  where trim(TFXMMD_YMD) >= TO_CHAR(:as_sdate,'YYYYMMDD')
+                                    and trim(TFXMMD_YMD) <= TO_CHAR(:as_edate,'YYYYMMDD')
                                     and TFXMMD_MTH_SEQ_NO = 1
                                     and TFXMMD_KIND_ID = :as_kind_id  )
-                           WHERE AI3_KIND_ID = :as_kind_id  
-                             AND AI3_DATE >= :as_sdate   
-                             AND AI3_DATE <= :as_edate     
+                           WHERE trim(AI3_KIND_ID) = :as_kind_id  
+                             AND trim(AI3_DATE) >= :as_sdate   
+                             AND trim(AI3_DATE) <= :as_edate     
                              AND AI3_DATE = TO_DATE(TFXMMD_YMD(+),'YYYYMMDD')
                            ORDER BY AI3_DATE";
 

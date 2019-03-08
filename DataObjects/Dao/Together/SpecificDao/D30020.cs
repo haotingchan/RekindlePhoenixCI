@@ -20,26 +20,22 @@ namespace DataObjects.Dao.Together.SpecificDao {
 
             string sql =
 @"
-SELECT A.*
-FROM
-(SELECT  AB1_DATE,   
+SELECT   AB1_DATE,   
          AB1_ACC_TYPE,   
-         SUM(AB1_TRADE_COUNT) AS AB1_COUNT,   
-         SUM(AB1_ACCU_COUNT) AS AB1_ACCU_COUNT
+         AB1_TRADE_COUNT AS AB1_COUNT,   
+         AB1_ACCU_COUNT
     FROM ci.AB1  
    WHERE AB1_DATE >= :adt_sdate  AND  
          AB1_DATE <= :adt_edate  AND 
         (AB1_TRADE_COUNT > 0  OR AB1_ACCU_COUNT > 0)
-GROUP BY ROLLUP (AB1_DATE, AB1_ACC_TYPE)
-ORDER BY AB1_DATE Desc, AB1_ACC_TYPE) A
-WHERE AB1_DATE is not null;
+ORDER BY AB1_DATE Desc, AB1_ACC_TYPE
 ";
             DataTable dtResult = db.GetDataTable(sql, parms);
 
             return dtResult;
         }
 
-        public DataTable d_30021_acc_type(DateTime adt_sdate, DateTime adt_edate) {
+        public DataTable d_30021_acc_type(DateTime? adt_sdate, DateTime? adt_edate) {
 
             object[] parms = {
                 ":adt_sdate", adt_sdate,
@@ -53,7 +49,7 @@ FROM ci.AB1
 WHERE AB1_DATE >= :adt_sdate  AND  
       AB1_DATE <= :adt_edate 
 GROUP BY AB1_ACC_TYPE
-ORDER BY AB1_ACC_TYPE;
+ORDER BY AB1_ACC_TYPE
 ";
             DataTable dtResult = db.GetDataTable(sql, parms);
 
@@ -90,7 +86,7 @@ FROM
          AB1_DATE <= :adt_edate  
    GROUP BY AB1_DATE ) B
 WHERE A.AB1_DATE = B.AB1_DATE
-ORDER BY AB1_DATE;
+ORDER BY AB1_DATE
 ";
             DataTable dtResult = db.GetDataTable(sql, parms);
 

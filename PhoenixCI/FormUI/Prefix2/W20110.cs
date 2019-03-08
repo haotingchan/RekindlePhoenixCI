@@ -173,55 +173,55 @@ namespace PhoenixCI.FormUI.Prefix2 {
 
         protected override ResultStatus InsertRow() {
             daoRPT = new RPT();
-            int i, li_cnt, ll_found = 0;
-            string ls_kind_id = "I5F";
+            int i, cnt, found = 0;
+            string kindId = "I5F";
             if (gvMain.RowCount == 0) {
                 DialogResult result = MessageBox.Show("請問要新增「" + txtDate.Text + "」所有商品資料?", "請選擇", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes) {
-                    ll_found = 0;
+                    found = 0;
                 }
                 else {
-                    ll_found = 99;
+                    found = 99;
                 }
             }
             else {
                 //應該要有的個數
-                ll_found = daoRPT.RowCount();
-                li_cnt = 0;
+                found = daoRPT.RowCount();
+                cnt = 0;
                 for (i = 0; i < gvMain.RowCount; i++) {
                     if (gvMain.GetRowCellValue(i, gvMain.Columns["AMIF_SETTLE_DATE"]).AsString() == "指數") {
-                        li_cnt = li_cnt + 1;
+                        cnt = cnt + 1;
                     }
                 }
-                if (ll_found != li_cnt) {
+                if (found != cnt) {
                     DialogResult result = MessageBox.Show("請問要新增「" + txtDate.Text + "」有缺少的商品資料?", "請選擇", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (result == DialogResult.Yes) {
-                        ll_found = 0;
+                        found = 0;
                     }
                     else {
-                        ll_found = 99;
+                        found = 99;
                     }
                 }
             }
 
             //自動新增
-            if (ll_found == 0) {
+            if (found == 0) {
                 //PB: wf_insert_all()
                 DataTable dtAMIFU = dao20110.d_20110_amifu(txtDate.DateTimeValue);
                 DataTable dtRPT = daoRPT.ListAllByTXD_ID("20110");
-                int li_row, li_seq_no, li_return;
-                string ls_sub_type, ls_settle_date, ls_rtn;
+                int rowNum, seqNo, rtn;
+                string subType, settleDate, rtnStr;
                 //如果資料表(AMIFU)沒資料
                 if (dtAMIFU.Rows.Count == 0) {
                     //PB: wf_insert_all_zero()
                     for (i = 0; i < dtRPT.Rows.Count; i++) {
-                        ls_kind_id = dtRPT.Rows[i]["RPT_VALUE"].AsString();
-                        ls_settle_date = dtRPT.Rows[i]["RPT_VALUE_2"].AsString();
-                        li_seq_no = dtRPT.Rows[i]["RPT_SEQ_NO"].AsInt();
-                        if (ls_settle_date == "000000") {
-                            ls_settle_date = "指數";
+                        kindId = dtRPT.Rows[i]["RPT_VALUE"].AsString();
+                        settleDate = dtRPT.Rows[i]["RPT_VALUE_2"].AsString();
+                        seqNo = dtRPT.Rows[i]["RPT_SEQ_NO"].AsInt();
+                        if (settleDate == "000000") {
+                            settleDate = "指數";
                         }
-                        wf_insert_row(ls_kind_id, ls_settle_date, li_seq_no);
+                        InsertRow(kindId, settleDate, seqNo);
                     }
                     gvMain.BeginSort();
                     try {
@@ -236,7 +236,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     }
                     //要Focus新資料列以外的地方Sort才會生效。
                     gvMain.FocusedRowHandle = 0;
-                    wf_close_price();
+                    ClosePrice();
                     return ResultStatus.Success;
                 }
                 //如果有資料，就copy到Grid
@@ -253,17 +253,17 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     dtRPT = dv.ToTable();
                 }
                 for (i = 0; i < dtRPT.Rows.Count; i++) {
-                    ls_kind_id = dtRPT.Rows[i]["RPT_VALUE"].AsString();
-                    ls_settle_date = dtRPT.Rows[i]["RPT_VALUE_2"].AsString();
-                    if (ls_settle_date != "000000") {
-                        ls_settle_date = f_get_20110_settle_date(ls_settle_date, txtDate.DateTimeValue);
+                    kindId = dtRPT.Rows[i]["RPT_VALUE"].AsString();
+                    settleDate = dtRPT.Rows[i]["RPT_VALUE_2"].AsString();
+                    if (settleDate != "000000") {
+                        settleDate = Get20110SettleDate(settleDate, txtDate.DateTimeValue);
                     }
                     else {
-                        ls_settle_date = "指數";
+                        settleDate = "指數";
                     }
                     //應該要用gridview的資料判斷，但在這個階段其資料等於dtAMIFU，故利用後者做判斷是否要新增資料列
-                    if (dtAMIFU.Select("AMIF_KIND_ID='" + ls_kind_id + "' and AMIF_SETTLE_DATE='" + ls_settle_date + "'").Length == 0) {
-                        wf_insert_row(ls_kind_id, ls_settle_date, dtRPT.Rows[i]["RPT_SEQ_NO"].AsInt());
+                    if (dtAMIFU.Select("AMIF_KIND_ID='" + kindId + "' and AMIF_SETTLE_DATE='" + settleDate + "'").Length == 0) {
+                        InsertRow(kindId, settleDate, dtRPT.Rows[i]["RPT_SEQ_NO"].AsInt());
                     }
                 }
                 gvMain.BeginSort();
@@ -280,22 +280,22 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 //要Focus新資料列以外的地方Sort才會生效。
                 gvMain.FocusedRowHandle = 0;
                 //前日收盤價
-                wf_close_price();
+                ClosePrice();
 
                 //JPX下載檔案檢核
                 DataTable dtJTW = (DataTable)gcMain.DataSource;
                 if (dtJTW.Select("AMIF_KIND_ID = 'JTW'").Length > 0) {
-                    li_return = dtJTW.Rows.IndexOf(dtJTW.Select("AMIF_KIND_ID = 'JTW'")[0]);
+                    rtn = dtJTW.Rows.IndexOf(dtJTW.Select("AMIF_KIND_ID = 'JTW'")[0]);
                 }
                 else {
-                    li_return = -1;
+                    rtn = -1;
                 }
-                if (li_return >= 0) {
-                    if (gvMain.GetRowCellValue(li_return, gvMain.Columns["Is_NewRow"]).AsString() == "1") {
+                if (rtn >= 0) {
+                    if (gvMain.GetRowCellValue(rtn, gvMain.Columns["Is_NewRow"]).AsString() == "1") {
                         DialogResult result = MessageBox.Show("請問是否要下載JPX網頁「http://www.jpx.co.jp/english/markets/derivatives/trading-volume/index.html」資料？",
                                                               "請選擇", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (result == DialogResult.Yes) {
-                            wf_jpx_get_file();
+                            JpxGetFile();
                         }
                     }
                 }
@@ -338,7 +338,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 return ResultStatus.Fail;
             }
             else {
-                DateTime id_last_date;
+                DateTime lastDate;
                 #region ue_save_before
                 /******************************
                 判斷是否讀取資料後直接改日期
@@ -346,22 +346,22 @@ namespace PhoenixCI.FormUI.Prefix2 {
                    然後將交易日期改成2008/1/30
                     結果會變成1/29資料刪除,新增1/30
                 *******************************/
-                DateTime ldt_date, ldt_org;
-                ldt_org = gvMain.GetRowCellValue(0, "AMIF_DATE").AsDateTime();
-                ldt_date = txtDate.DateTimeValue;
-                if (ldt_date != ldt_org) {
-                    DialogResult result = MessageBox.Show(ldt_org.ToString("yyyy/MM/dd") + "原有資料將全部刪除,是否繼續存檔?",
+                DateTime date, org;
+                org = gvMain.GetRowCellValue(0, "AMIF_DATE").AsDateTime();
+                date = txtDate.DateTimeValue;
+                if (date != org) {
+                    DialogResult result = MessageBox.Show(org.ToString("yyyy/MM/dd") + "原有資料將全部刪除,是否繼續存檔?",
                                                           "警告訊息", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (result == DialogResult.No) {
                         return ResultStatus.Fail;
                     }
                 }
                 Cursor.Current = Cursors.WaitCursor;
-                int i, li_seq_no = 0;
-                string ls_rtn, ls_kind_id = "", ls_settle_date = "";
-                DateTime ldt_upd_time;
-                id_last_date = txtDate.DateTimeValue;
-                ldt_upd_time = DateTime.Now;
+                int i, seqNo = 0;
+                string rtnStr, kindId = "", settleDate = "";
+                DateTime updTime;
+                lastDate = txtDate.DateTimeValue;
+                updTime = DateTime.Now;
                 //重新排序 應該不用排，因為Grid無法任意插入列
                 //DataView dv = dt.AsDataView();
                 //dv.Sort = "RPT_SEQ_NO ASC, AMIF_KIND_ID ASC, AMIF_SETTLE_DATE ASC";
@@ -370,14 +370,14 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 for (i = 0; i < dt.Rows.Count; i++) {
                     DataRow dr = dt.Rows[i];
                     dr["AMIF_DATE"] = txtDate.DateTimeValue;
-                    if (ls_kind_id != dr["AMIF_KIND_ID"].AsString()) {
-                        ls_kind_id = dr["AMIF_KIND_ID"].AsString() + "    ";
-                        ls_settle_date = dr["AMIF_SETTLE_DATE"].AsString();
-                        li_seq_no = 1;
+                    if (kindId != dr["AMIF_KIND_ID"].AsString()) {
+                        kindId = dr["AMIF_KIND_ID"].AsString() + "    ";
+                        settleDate = dr["AMIF_SETTLE_DATE"].AsString();
+                        seqNo = 1;
                     }
-                    else if (ls_settle_date != dr["AMIF_SETTLE_DATE"].AsString()) {
-                        ls_settle_date = dr["AMIF_SETTLE_DATE"].AsString();
-                        li_seq_no = li_seq_no + 1;
+                    else if (settleDate != dr["AMIF_SETTLE_DATE"].AsString()) {
+                        settleDate = dr["AMIF_SETTLE_DATE"].AsString();
+                        seqNo = seqNo + 1;
                     }
                     if (dr.RowState == DataRowState.Unchanged) {
                         continue;
@@ -388,7 +388,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                         dr["AMIF_CLOSE_PRICE"] = 0;
                     }
                     if (dr["AMIF_CLOSE_PRICE"].AsDecimal() == 0) {
-                        DialogResult result = MessageBox.Show(ls_kind_id + " 收盤價為0，是否要繼續存檔?",
+                        DialogResult result = MessageBox.Show(kindId + " 收盤價為0，是否要繼續存檔?",
                                                           "錯誤訊息", MessageBoxButtons.OKCancel, MessageBoxIcon.Stop);
                         if (result == DialogResult.Cancel) {
                             return ResultStatus.Fail;
@@ -397,54 +397,54 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     dr["AMIF_YEAR"] = txtDate.Text.SubStr(0, 4);
 
                     //契約基本資料
-                    DataTable dtAPDK = daoAPDK.ListAllByKindId(ls_kind_id);
+                    DataTable dtAPDK = daoAPDK.ListAllByKindId(kindId);
                     dr["AMIF_PROD_TYPE"] = dtAPDK.Rows[0]["APDK_PROD_TYPE"].AsString();
                     dr["AMIF_PROD_SUBTYPE"] = dtAPDK.Rows[0]["APDK_PROD_SUBTYPE"].AsString();
                     dr["AMIF_PARAM_KEY"] = dtAPDK.Rows[0]["APDK_PARAM_KEY"].AsString();
-                    dr["AMIF_M_TIME"] = ldt_upd_time;
-                    if (ls_settle_date == "指數") {
-                        dr["AMIF_MTH_SEQ_NO"] = li_seq_no;
+                    dr["AMIF_M_TIME"] = updTime;
+                    if (settleDate == "指數") {
+                        dr["AMIF_MTH_SEQ_NO"] = seqNo;
                     }
 
                     //商品3碼+月2碼
-                    if (ls_settle_date != "指數" && ls_settle_date.SubStr(ls_settle_date.Length - 2, 2) != "00") {
+                    if (settleDate != "指數" && settleDate.SubStr(settleDate.Length - 2, 2) != "00") {
                         dr["AMIF_PROD_ID"] = dtAPDK.Rows[0]["APDK_KIND_ID"].AsString() +
-                                             ((ls_settle_date.SubStr(ls_settle_date.Length - 2, 2)).AsInt() + 64).AsString() +
-                                             ls_settle_date.SubStr(3, 1);
+                                             ((settleDate.SubStr(settleDate.Length - 2, 2)).AsInt() + 64).AsString() +
+                                             settleDate.SubStr(3, 1);
                     }
                     else {
                         dr["AMIF_PROD_ID"] = dtAPDK.Rows[0]["APDK_KIND_ID"].AsString() + "00";
                     }
                     if (dr["AMIF_CLOSE_PRICE"].AsDecimal() != dr["AMIF_CLOSE_PRICE_ORIG"].AsDecimal()) {
-                        id_last_date = PbFunc.relativedate(id_last_date, -1);
+                        lastDate = PbFunc.relativedate(lastDate, -1);
                     }
                 }
                 #endregion
 
                 #region ue_save
-                int li_return;
+                int rtn;
                 /*******************
                 轉完資料後執行SP
                 *******************/
-                string ls_prod_type = "M";
-                ldt_date = txtDate.DateTimeValue;
-                if (f_20110_SP(ldt_date, "20110") != "") {
+                string prodType = "M";
+                date = txtDate.DateTimeValue;
+                if (F20110SP(date, "20110") != "") {
                     return ResultStatus.Fail;
                 }
                 /*******************
                 轉統計資料AI6
                 異動歷史資料時,當日收盤價影響隔日的前日收盤價計算,所以重新計算隔日AI6
                 *******************/
-                if (ldt_date != id_last_date) {
-                    id_last_date = dao20110.nextDay(ldt_date).AsDateTime();
-                    if (ldt_date != id_last_date) {
-                        ldt_date = id_last_date;
-                        if (dao20110.sp_H_gen_AI6(ldt_date).Status != ResultStatus.Success) {
-                            MessageBox.Show("執行SP(sp_H_gen_AI6)-" + ldt_date.ToString("yyyy/MM/dd") + "錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                if (date != lastDate) {
+                    lastDate = dao20110.nextDay(date).AsDateTime();
+                    if (date != lastDate) {
+                        date = lastDate;
+                        if (dao20110.sp_H_gen_AI6(date).Status != ResultStatus.Success) {
+                            MessageBox.Show("執行SP(sp_H_gen_AI6)-" + date.ToString("yyyy/MM/dd") + "錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                             return ResultStatus.Fail;
                         }
                         else {
-                            li_return = 0;
+                            rtn = 0;
                         }
                     }
                 }
@@ -551,14 +551,14 @@ namespace PhoenixCI.FormUI.Prefix2 {
             GridView gv = sender as GridView;
             string Is_NewRow = gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
                                gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]).ToString();
-            string amifu_err_text = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIFU_ERR_TEXT"]).AsString();
-            decimal amif_open_price = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_OPEN_PRICE"]).AsDecimal();
-            decimal amif_high_price = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_HIGH_PRICE"]).AsDecimal();
-            decimal amif_m_qnty_tal = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_M_QNTY_TAL"]).AsDecimal();
-            decimal amif_low_price = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_LOW_PRICE"]).AsDecimal();
-            decimal amif_close_price = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_CLOSE_PRICE"]).AsDecimal();
-            decimal amif_up_down_val = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_UP_DOWN_VAL"]).AsDecimal();
-            decimal amif_open_interest = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_OPEN_INTEREST"]).AsDecimal();
+            string amifuErrText = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIFU_ERR_TEXT"]).AsString();
+            decimal amifOpenPrice = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_OPEN_PRICE"]).AsDecimal();
+            decimal amifHighPrice = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_HIGH_PRICE"]).AsDecimal();
+            decimal amifMQntyTal = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_M_QNTY_TAL"]).AsDecimal();
+            decimal amifLowPrice = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_LOW_PRICE"]).AsDecimal();
+            decimal amifClosePrice = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_CLOSE_PRICE"]).AsDecimal();
+            decimal amifUpDownVal = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_UP_DOWN_VAL"]).AsDecimal();
+            decimal amifOpenInterest = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_OPEN_INTEREST"]).AsDecimal();
 
             //描述每個欄位,在is_newRow時候要顯示的顏色
             //當該欄位不可編輯時,設定為灰色 Color.FromArgb(192,192,192)
@@ -568,8 +568,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.FromArgb(192, 192, 192);
                     break;
                 case ("AMIF_OPEN_PRICE"):
-                    if (amifu_err_text == null || amifu_err_text == "") {
-                        if (amif_open_price != gv.GetRowCellValue(e.RowHandle, gv.Columns["R_OPEN_PRICE"]).AsDecimal() ||
+                    if (amifuErrText == null || amifuErrText == "") {
+                        if (amifOpenPrice != gv.GetRowCellValue(e.RowHandle, gv.Columns["R_OPEN_PRICE"]).AsDecimal() ||
                             gv.GetRowCellValue(e.RowHandle, gv.Columns["R_OPEN_PRICE"]).AsString() == null) {
                             e.Appearance.BackColor = Color.FromArgb(255, 168, 255);
                         }
@@ -579,8 +579,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     }
                     break;
                 case ("AMIF_HIGH_PRICE"):
-                    if (amifu_err_text == null || amifu_err_text == "") {
-                        if (amif_high_price != gv.GetRowCellValue(e.RowHandle, gv.Columns["R_HIGH_PRICE"]).AsDecimal() ||
+                    if (amifuErrText == null || amifuErrText == "") {
+                        if (amifHighPrice != gv.GetRowCellValue(e.RowHandle, gv.Columns["R_HIGH_PRICE"]).AsDecimal() ||
                             gv.GetRowCellValue(e.RowHandle, gv.Columns["R_HIGH_PRICE"]).AsString() == null) {
                             e.Appearance.BackColor = Color.FromArgb(255, 168, 255);
                         }
@@ -590,8 +590,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     }
                     break;
                 case ("AMIF_M_QNTY_TAL"):
-                    if (amifu_err_text == null || amifu_err_text == "") {
-                        if (amif_m_qnty_tal != gv.GetRowCellValue(e.RowHandle, gv.Columns["R_M_QNTY_TAL"]).AsDecimal() ||
+                    if (amifuErrText == null || amifuErrText == "") {
+                        if (amifMQntyTal != gv.GetRowCellValue(e.RowHandle, gv.Columns["R_M_QNTY_TAL"]).AsDecimal() ||
                             gv.GetRowCellValue(e.RowHandle, gv.Columns["R_M_QNTY_TAL"]).AsString() == null) {
                             e.Appearance.BackColor = Color.FromArgb(255, 168, 255);
                         }
@@ -601,8 +601,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     }
                     break;
                 case ("AMIF_LOW_PRICE"):
-                    if (amifu_err_text == null || amifu_err_text == "") {
-                        if (amif_low_price != gv.GetRowCellValue(e.RowHandle, gv.Columns["R_LOW_PRICE"]).AsDecimal() ||
+                    if (amifuErrText == null || amifuErrText == "") {
+                        if (amifLowPrice != gv.GetRowCellValue(e.RowHandle, gv.Columns["R_LOW_PRICE"]).AsDecimal() ||
                             gv.GetRowCellValue(e.RowHandle, gv.Columns["R_LOW_PRICE"]).AsString() == null) {
                             e.Appearance.BackColor = Color.FromArgb(255, 168, 255);
                         }
@@ -612,8 +612,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     }
                     break;
                 case ("AMIF_CLOSE_PRICE"):
-                    if (amifu_err_text == null || amifu_err_text == "") {
-                        if (amif_close_price != gv.GetRowCellValue(e.RowHandle, gv.Columns["R_CLOSE_PRICE"]).AsDecimal() ||
+                    if (amifuErrText == null || amifuErrText == "") {
+                        if (amifClosePrice != gv.GetRowCellValue(e.RowHandle, gv.Columns["R_CLOSE_PRICE"]).AsDecimal() ||
                             gv.GetRowCellValue(e.RowHandle, gv.Columns["R_CLOSE_PRICE"]).AsString() == null) {
                             e.Appearance.BackColor = Color.FromArgb(255, 168, 255);
                         }
@@ -623,8 +623,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     }
                     break;
                 case ("AMIF_UP_DOWN_VAL"):
-                    if (amifu_err_text == null || amifu_err_text == "") {
-                        if (amif_up_down_val != gv.GetRowCellValue(e.RowHandle, gv.Columns["R_UP_DOWN_VAL"]).AsDecimal() ||
+                    if (amifuErrText == null || amifuErrText == "") {
+                        if (amifUpDownVal != gv.GetRowCellValue(e.RowHandle, gv.Columns["R_UP_DOWN_VAL"]).AsDecimal() ||
                             gv.GetRowCellValue(e.RowHandle, gv.Columns["R_UP_DOWN_VAL"]).AsString() == null) {
                             e.Appearance.BackColor = Color.FromArgb(255, 168, 255);
                         }
@@ -634,8 +634,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     }
                     break;
                 case ("AMIF_OPEN_INTEREST"):
-                    if (amifu_err_text == null || amifu_err_text == "") {
-                        if (amif_open_interest != gv.GetRowCellValue(e.RowHandle, gv.Columns["R_OPEN_INTEREST"]).AsDecimal() ||
+                    if (amifuErrText == null || amifuErrText == "") {
+                        if (amifOpenInterest != gv.GetRowCellValue(e.RowHandle, gv.Columns["R_OPEN_INTEREST"]).AsDecimal() ||
                             gv.GetRowCellValue(e.RowHandle, gv.Columns["R_OPEN_INTEREST"]).AsString() == null) {
                             e.Appearance.BackColor = Color.FromArgb(255, 168, 255);
                         }
@@ -667,7 +667,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
 
         private void gvMain_CellValueChanged(object sender, CellValueChangedEventArgs e) {
             GridView gv = sender as GridView;
-            string cp_err_text = "";
+            string cpErrText = "";
             if (e.Column.Name == "AMIF_OPEN_PRICE" ||
                 e.Column.Name == "AMIF_HIGH_PRICE" ||
                 e.Column.Name == "AMIF_LOW_PRICE" ||
@@ -677,27 +677,27 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIFU_ERR_TEXT"]).AsString() == "") {
 
                     if (gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_OPEN_PRICE"]).AsDecimal() != gv.GetRowCellValue(e.RowHandle, gv.Columns["R_OPEN_PRICE"]).AsDecimal()) {
-                        cp_err_text += "開盤價與現貨(" + gv.GetRowCellValue(e.RowHandle, gv.Columns["R_OPEN_PRICE"]).AsString() + ")資料不同,";
+                        cpErrText += "開盤價與現貨(" + gv.GetRowCellValue(e.RowHandle, gv.Columns["R_OPEN_PRICE"]).AsString() + ")資料不同,";
                     }
                     if (gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_HIGH_PRICE"]).AsDecimal() != gv.GetRowCellValue(e.RowHandle, gv.Columns["R_HIGH_PRICE"]).AsDecimal()) {
-                        cp_err_text += "最高價價與現貨(" + gv.GetRowCellValue(e.RowHandle, gv.Columns["R_HIGH_PRICE"]).AsString() + ")資料不同,";
+                        cpErrText += "最高價價與現貨(" + gv.GetRowCellValue(e.RowHandle, gv.Columns["R_HIGH_PRICE"]).AsString() + ")資料不同,";
                     }
                     if (gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_LOW_PRICE"]).AsDecimal() != gv.GetRowCellValue(e.RowHandle, gv.Columns["R_LOW_PRICE"]).AsDecimal()) {
-                        cp_err_text += "最低價與現貨(" + gv.GetRowCellValue(e.RowHandle, gv.Columns["R_LOW_PRICE"]).AsString() + ")資料不同,";
+                        cpErrText += "最低價與現貨(" + gv.GetRowCellValue(e.RowHandle, gv.Columns["R_LOW_PRICE"]).AsString() + ")資料不同,";
                     }
                     if (gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_CLOSE_PRICE"]).AsDecimal() != gv.GetRowCellValue(e.RowHandle, gv.Columns["R_CLOSE_PRICE"]).AsDecimal()) {
-                        cp_err_text += "收盤價與現貨(" + gv.GetRowCellValue(e.RowHandle, gv.Columns["R_CLOSE_PRICE"]).AsString() + ")資料不同,";
+                        cpErrText += "收盤價與現貨(" + gv.GetRowCellValue(e.RowHandle, gv.Columns["R_CLOSE_PRICE"]).AsString() + ")資料不同,";
                     }
-                    gv.SetRowCellValue(e.RowHandle, gv.Columns["CP_ERR"], cp_err_text);
+                    gv.SetRowCellValue(e.RowHandle, gv.Columns["CP_ERR"], cpErrText);
                 }
                 else {
                     if (gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIFU_ERR_TEXT"]).AsString() == "0") {
-                        cp_err_text = "無資料轉入來源";
+                        cpErrText = "無資料轉入來源";
                     }
                     else {
-                        cp_err_text = "原始現貨接收檔案筆數" + gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIFU_ERR_TEXT"]).AsString() + "筆(有少)";
+                        cpErrText = "原始現貨接收檔案筆數" + gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIFU_ERR_TEXT"]).AsString() + "筆(有少)";
                     }
-                    gv.SetRowCellValue(e.RowHandle, gv.Columns["CP_ERR"], cp_err_text);
+                    gv.SetRowCellValue(e.RowHandle, gv.Columns["CP_ERR"], cpErrText);
                 }
             }
             if (e.Column.FieldName == "AMIF_CLOSE_PRICE") {
@@ -720,84 +720,95 @@ namespace PhoenixCI.FormUI.Prefix2 {
             ***************/
             if (gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_KIND_ID"]).AsString() == "GDF" &&
                 e.Column.FieldName == "AMIF_CLOSE_PRICE" || e.Column.FieldName == "AMIF_EXCHANGE_RATE") {
-                int ll_found;
-                decimal ld_close_price, ld_rate;
+                int found;
+                decimal closePrice, rate;
                 if (e.Column.FieldName == "AMIF_CLOSE_PRICE") {
-                    ld_close_price = e.Value.AsDecimal();
-                    ld_rate = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_EXCHANGE_RATE"]).AsDecimal();
+                    closePrice = e.Value.AsDecimal();
+                    rate = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_EXCHANGE_RATE"]).AsDecimal();
                 }
                 else {
-                    ld_close_price = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_CLOSE_PRICE"]).AsDecimal();
-                    ld_rate = e.Value.AsDecimal();
+                    closePrice = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_CLOSE_PRICE"]).AsDecimal();
+                    rate = e.Value.AsDecimal();
                 }
                 DataTable dtFind = (DataTable)gcMain.DataSource;
                 if (dtFind.Select("trim(amif_kind_id)='TGF'").Length != 0) {
-                    ll_found = dtFind.Rows.IndexOf(dtFind.Select("trim(amif_kind_id)='TGF'")[0]);
+                    found = dtFind.Rows.IndexOf(dtFind.Select("trim(amif_kind_id)='TGF'")[0]);
                 }
                 else {
-                    ll_found = -1;
+                    found = -1;
                 }
-                if (ll_found >= 0) {
-                    gv.SetRowCellValue(ll_found, gv.Columns["AMIF_CLOSE_PRICE"], Math.Round(ld_close_price / 31.1035m * 3.75m * 0.9999m / 0.995m * ld_rate, 1));
-                    gv.SetRowCellValue(ll_found, gv.Columns["AMIF_UP_DOWN_VAL"], Math.Round(ld_close_price / 31.1035m * 3.75m * 0.9999m / 0.995m * ld_rate, 1) - gv.GetRowCellValue(ll_found, gv.Columns["AMIF_CLOSE_PRICE_Y"]).AsDecimal());
+                if (found >= 0) {
+                    gv.SetRowCellValue(found, gv.Columns["AMIF_CLOSE_PRICE"], Math.Round(closePrice / 31.1035m * 3.75m * 0.9999m / 0.995m * rate, 1));
+                    gv.SetRowCellValue(found, gv.Columns["AMIF_UP_DOWN_VAL"], Math.Round(closePrice / 31.1035m * 3.75m * 0.9999m / 0.995m * rate, 1) - gv.GetRowCellValue(found, gv.Columns["AMIF_CLOSE_PRICE_Y"]).AsDecimal());
                 }
             }
         }
 
         #endregion
 
-        private string f_get_20110_settle_date(string as_type, DateTime ad_date) {
+        /// <summary>
+        /// f_get_20110_settle_date
+        /// 取得日期
+        /// </summary>
+        /// <param name="asType"></param>
+        /// <param name="adDate"></param>
+        /// <returns></returns>
+        private string Get20110SettleDate(string asType, DateTime adDate) {
             daoAMIF = new AMIF();
-            string ls_settle_date = "";
-            switch (as_type) {
+            string settleDate = "";
+            switch (asType) {
                 case ("YYYYMM"):
-                    ls_settle_date = ad_date.ToString("yyyyMM");
+                    settleDate = adDate.ToString("yyyyMM");
                     break;
                 case ("YYYYMM+1"):
-                    int li_year, li_month;
-                    li_year = ad_date.Year;
-                    li_month = ad_date.Month;
-                    li_month = li_month + 1;
-                    if (li_month > 12) {
-                        li_year = li_year + 1;
-                        li_month = 1;
+                    int year, month;
+                    year = adDate.Year;
+                    month = adDate.Month;
+                    month = month + 1;
+                    if (month > 12) {
+                        year = year + 1;
+                        month = 1;
                     }
-                    ls_settle_date = li_year.ToString("0000") + li_month.ToString("00");
+                    settleDate = year.ToString("0000") + month.ToString("00");
                     break;
                 case ("TX"):
-                    ls_settle_date = daoAMIF.MinSettleDate(ad_date);
-                    if (ls_settle_date == null) {
-                        ls_settle_date = ad_date.ToString("yyyyMM");
+                    settleDate = daoAMIF.MinSettleDate(adDate);
+                    if (settleDate == null) {
+                        settleDate = adDate.ToString("yyyyMM");
                     }
                     break;
                 default:
-                    ls_settle_date = as_type;
+                    settleDate = asType;
                     break;
 
             }
-            return ls_settle_date;
+            return settleDate;
         }
 
-        private void wf_close_price() {
+        /// <summary>
+        /// wf_close_price
+        /// 取得收盤價
+        /// </summary>
+        private void ClosePrice() {
             //設定AMIF日期區間,以改善效能
             daoSTWD = new STWD();
-            DateTime ldt_date = txtDate.DateTimeValue;
-            DateTime ldt_bef_date = PbFunc.relativedate(ldt_date, -30);
-            ldt_date = daoAMIF.MaxAMIF_DATE(ldt_bef_date, ldt_date);
-            DataTable dt20110_y = dao20110.d_20110_y(ldt_date);
-            int i, ll_found;
+            DateTime date = txtDate.DateTimeValue;
+            DateTime befDate = PbFunc.relativedate(date, -30);
+            date = daoAMIF.MaxAMIF_DATE(befDate, date);
+            DataTable dt20110_y = dao20110.d_20110_y(date);
+            int i, found;
             for (i = 0; i < dt20110_y.Rows.Count; i++) {
                 DataRow dr = dt20110_y.Rows[i];
                 if (dt20110_y.Select("AMIF_KIND_ID ='" + gvMain.GetRowCellValue(i, gvMain.Columns["AMIF_KIND_ID"]).AsString() +
                     "' and AMIF_SETTLE_DATE ='" + gvMain.GetRowCellValue(i, gvMain.Columns["AMIF_SETTLE_DATE"]).AsString() + "'").Length > 0) {
-                    ll_found = dt20110_y.Rows.IndexOf(dt20110_y.Select("AMIF_KIND_ID ='" + gvMain.GetRowCellValue(i, gvMain.Columns["AMIF_KIND_ID"]).AsString() +
+                    found = dt20110_y.Rows.IndexOf(dt20110_y.Select("AMIF_KIND_ID ='" + gvMain.GetRowCellValue(i, gvMain.Columns["AMIF_KIND_ID"]).AsString() +
                                                                        "' and AMIF_SETTLE_DATE ='" + gvMain.GetRowCellValue(i, gvMain.Columns["AMIF_SETTLE_DATE"]).AsString() + "'")[0]);
                 }
                 else {
-                    ll_found = -1;
+                    found = -1;
                 }
-                if (ll_found >= 0) {
-                    gvMain.SetRowCellValue(i, gvMain.Columns["AMIF_CLOSE_PRICE_Y"], dr["AMIF_CLOSE_PRICE"].AsDecimal());
+                if (found >= 0) {
+                    gvMain.SetRowCellValue(i, gvMain.Columns["AMIF_CLOSE_PRICE_Y"], dt20110_y.Rows[found]["AMIF_CLOSE_PRICE"].AsDecimal());
                     gvMain.SetRowCellValue(i, gvMain.Columns["AMIF_UP_DOWN_VAL"],
                                               gvMain.GetRowCellValue(i, gvMain.Columns["AMIF_CLOSE_PRICE"]).AsDecimal() -
                                               gvMain.GetRowCellValue(i, gvMain.Columns["AMIF_CLOSE_PRICE_Y"]).AsDecimal());
@@ -806,9 +817,9 @@ namespace PhoenixCI.FormUI.Prefix2 {
                                               gvMain.GetRowCellValue(i, gvMain.Columns["AMIF_CLOSE_PRICE_Y"]).AsDecimal());
                 }
             }
-            string ls_date, ls_m, ls_y;
-            decimal ld_value;
-            ls_date = ldt_date.ToString("yyyyMMdd");
+            string dateStr, monthStr, yearStr;
+            decimal value;
+            dateStr = date.ToString("yyyyMMdd");
             for (i = 0; i < gvMain.RowCount; i++) {
                 if (gvMain.GetRowCellValue(i, gvMain.Columns["AMIF_KIND_ID"]).AsString() != "STW") {
                     continue;
@@ -818,10 +829,10 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 只要STW = 本日收盤價 - 昨日結算價
                 若本日收盤 = 0 ,則漲跌=0
                 *****************/
-                ls_m = gvMain.GetRowCellValue(i, gvMain.Columns["AMIF_SETTLE_DATE"]).AsString();
-                ld_value = daoSTWD.GetSettlePrice(ls_date, ls_m);
-                if (ld_value != 0) {
-                    gvMain.SetRowCellValue(i, gvMain.Columns["AMIF_CLOSE_PRICE_Y"], ld_value);
+                monthStr = gvMain.GetRowCellValue(i, gvMain.Columns["AMIF_SETTLE_DATE"]).AsString();
+                value = daoSTWD.GetSettlePrice(dateStr, monthStr);
+                if (value != 0) {
+                    gvMain.SetRowCellValue(i, gvMain.Columns["AMIF_CLOSE_PRICE_Y"], value);
                     gvMain.SetRowCellValue(i, gvMain.Columns["AMIF_UP_DOWN_VAL"],
                                               gvMain.GetRowCellValue(i, gvMain.Columns["AMIF_CLOSE_PRICE"]).AsDecimal() -
                                               gvMain.GetRowCellValue(i, gvMain.Columns["AMIF_CLOSE_PRICE_Y"]).AsDecimal());
@@ -832,7 +843,14 @@ namespace PhoenixCI.FormUI.Prefix2 {
             }
         }
 
-        private void wf_insert_row(string ls_kind_id, string ls_settle_date, int li_seq_no) {
+        /// <summary>
+        /// wf_insert_row
+        /// 新增資料列(值為零)
+        /// </summary>
+        /// <param name="ls_kind_id"></param>
+        /// <param name="ls_settle_date"></param>
+        /// <param name="li_seq_no"></param>
+        private void InsertRow(string ls_kind_id, string ls_settle_date, int li_seq_no) {
             try {
                 gvMain.AddNewRow();
                 int i = gvMain.RowCount - 1;
@@ -840,7 +858,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 gvMain.SelectRow(i);
                 //參數
                 if (ls_settle_date != "指數") {
-                    ls_settle_date = f_get_20110_settle_date(ls_settle_date, txtDate.DateTimeValue);
+                    ls_settle_date = Get20110SettleDate(ls_settle_date, txtDate.DateTimeValue);
                 }
                 gvMain.SetRowCellValue(gvMain.FocusedRowHandle, gvMain.Columns["AMIF_KIND_ID"], (ls_kind_id + "       ").SubStr(0, 7));
                 gvMain.SetRowCellValue(gvMain.FocusedRowHandle, gvMain.Columns["AMIF_SETTLE_DATE"], ls_settle_date);
@@ -871,49 +889,53 @@ namespace PhoenixCI.FormUI.Prefix2 {
             }
         }
 
-        private void wf_jpx_get_file() {
+        /// <summary>
+        /// wf_jpx_get_file
+        /// 取得JTW商品的日本網站資料
+        /// </summary>
+        private void JpxGetFile() {
             daoCOD = new COD();
             //下載
-            string ls_ymd = txtDate.DateTimeValue.ToString("yyyyMMdd");
+            string ymd = txtDate.DateTimeValue.ToString("yyyyMMdd");
             //執行批次檔
-            run_bat("20110", "20110_JTX", ls_ymd, Application.StartupPath + "\\");
+            RunBat("20110", "20110_JTX", ymd, Application.StartupPath + "\\");
 
-            string ls_sender, ls_recipient, ls_cc, ls_title, ls_context;
-            string ls_file, ls_file_oi, ls_pathname, ls_pathname_oi;
+            string sender, recipient, lsCC, title, context;
+            string file, fileOI, pathName, pathNameOI;
             DataTable dtCOD = daoCOD.W20110_filename();
-            ls_file = dtCOD.Rows[0]["ls_file"].AsString();
-            ls_file_oi = dtCOD.Rows[0]["ls_file_oi"].AsString();
-            ls_file = ls_ymd + ls_file;
-            ls_file_oi = ls_ymd + ls_file_oi;
+            file = dtCOD.Rows[0]["ls_file"].AsString();
+            fileOI = dtCOD.Rows[0]["ls_file_oi"].AsString();
+            file = ymd + file;
+            fileOI = ymd + fileOI;
             //這邊WIN Form預設路徑跟PB不同，所以修改了batch檔裡的路徑
-            ls_pathname = GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH + "\\" + ls_file;
-            ls_pathname_oi = GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH + "\\" + ls_file_oi;
+            pathName = GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH + "\\" + file;
+            pathNameOI = GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH + "\\" + fileOI;
 
             //Check檔案Exist
-            if (!File.Exists(ls_pathname)) {
-                MessageBox.Show("無法下載 " + ls_file + " 檔案比對價格，請自行上網取得！", "警告訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ls_pathname = "";
+            if (!File.Exists(pathName)) {
+                MessageBox.Show("無法下載 " + file + " 檔案比對價格，請自行上網取得！", "警告訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                pathName = "";
             }
-            if (!File.Exists(ls_pathname_oi)) {
-                MessageBox.Show("無法下載 " + ls_file_oi + " 檔案比對OI，請自行上網取得！", "警告訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ls_pathname_oi = "";
+            if (!File.Exists(pathNameOI)) {
+                MessageBox.Show("無法下載 " + fileOI + " 檔案比對OI，請自行上網取得！", "警告訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                pathNameOI = "";
             }
 
             //開啟Excel
-            Workbook wbJTW_M = new Workbook();
-            Workbook wbJTW_OI = new Workbook();
+            Workbook wbJTWM = new Workbook();
+            Workbook wbJTWOI = new Workbook();
             //價格,成交量
-            if (ls_pathname != "") {
-                bool ll_rtn = wbJTW_M.LoadDocument(ls_pathname);
-                if (ll_rtn == false) {
-                    MessageBox.Show("下載東證交易所檔案後開啟失敗，請自行上網取得！", ls_pathname, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (pathName != "") {
+                bool rtn = wbJTWM.LoadDocument(pathName);
+                if (rtn == false) {
+                    MessageBox.Show("下載東證交易所檔案後開啟失敗，請自行上網取得！", pathName, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
                 else {
-                    Worksheet wsJTW_M = wbJTW_M.Worksheets[0];
+                    Worksheet wsJTWM = wbJTWM.Worksheets[0];
                     #region wf_jtw_m()
-                    string ls_rpt_name, ls_rpt_id;
-                    int ll_found, i;
+                    string rptName, rptId;
+                    int found, i;
                     /*************************************
                     Excel:
                     rpt_level_1:sheet
@@ -925,16 +947,16 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     rpt_value_2 : Table column
                     rpt_value_3 : prod_type
                     *************************************/
-                    ls_rpt_id = "20110JM";
-                    ls_rpt_name = "JPX Derivatives Market Report";
+                    rptId = "20110JM";
+                    rptName = "JPX Derivatives Market Report";
 
                     /******************
                     讀取基本資料
                     ******************/
                     //報表位置
-                    DataTable dt20110JM = daoRPT.ListAllByTXD_ID(ls_rpt_id);
+                    DataTable dt20110JM = daoRPT.ListAllByTXD_ID(rptId);
                     if (dt20110JM.Rows.Count == 0) {
-                        MessageBox.Show(ls_rpt_id + '－' + ls_rpt_name + ",讀取「報表檔」無任何資料!", "處理結果", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show(rptId + '－' + rptName + ",讀取「報表檔」無任何資料!", "處理結果", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         return;
                     }
                     DataView dv = dt20110JM.AsDataView();
@@ -943,51 +965,51 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     /******************
                     擷取結果值
                     ******************/
-                    int li_sheet, li_sheet_l = 0, li_ole_row, li_ole_col, li_row = 0, li_col;
-                    string ls_settle_date, ls_str;
-                    decimal ld_value;
+                    int sheet, lastSheet = 0, rowNum, colNum, row = 0, col;
+                    string settleDate, str;
+                    decimal value;
                     gvMain.CloseEditor();
                     for (i = 0; i < dt20110JM.Rows.Count; i++) {
                         DataRow dr = dt20110JM.Rows[i];
-                        li_sheet = dr["RPT_LEVEL_1"].AsInt();
-                        if (li_sheet != li_sheet_l) {
-                            li_sheet_l = li_sheet;
+                        sheet = dr["RPT_LEVEL_1"].AsInt();
+                        if (sheet != lastSheet) {
+                            lastSheet = sheet;
                             //切換Sheet
-                            wsJTW_M = wbJTW_M.Worksheets[li_sheet_l - 1];
+                            wsJTWM = wbJTWM.Worksheets[lastSheet - 1];
                         }
-                        li_ole_col = dr["RPT_LEVEL_2"].AsInt() - 1;
-                        li_ole_row = dr["RPT_LEVEL_3"].AsInt() - 1;
+                        colNum = dr["RPT_LEVEL_2"].AsInt() - 1;
+                        rowNum = dr["RPT_LEVEL_3"].AsInt() - 1;
                         //GridView Column
-                        li_col = dr["RPT_VALUE_2"].AsString().AsInt() - 1;
-                        ls_settle_date = wf_conv_settle_date(wsJTW_M.Cells[li_ole_row, 1].Value.AsString());
+                        col = dr["RPT_VALUE_2"].AsString().AsInt() - 1;
+                        settleDate = ConvSettleDate(wsJTWM.Cells[rowNum, 1].Value.AsString());
                         DataTable dtJTW = (DataTable)gcMain.DataSource;
-                        if (dtJTW.Select("AMIF_KIND_ID = 'JTW' and amif_settle_date='" + ls_settle_date + "'").Length > 0) {
-                            li_row = dtJTW.Rows.IndexOf(dtJTW.Select("AMIF_KIND_ID = 'JTW' and amif_settle_date='" + ls_settle_date + "'")[0]);
+                        if (dtJTW.Select("AMIF_KIND_ID = 'JTW' and amif_settle_date='" + settleDate + "'").Length > 0) {
+                            row = dtJTW.Rows.IndexOf(dtJTW.Select("AMIF_KIND_ID = 'JTW' and amif_settle_date='" + settleDate + "'")[0]);
                         }
-                        if (li_row >= 0) {
-                            ld_value = wf_conv_price(wsJTW_M.Cells[li_ole_row, li_ole_col].Value.AsString());
-                            if (ld_value > 0) {
-                                gvMain.SetRowCellValue(li_row, ((ColName)li_col).AsString(), ld_value);
+                        if (row >= 0) {
+                            value = ConvPrice(wsJTWM.Cells[rowNum, colNum].Value.AsString());
+                            if (value > 0) {
+                                gvMain.SetRowCellValue(row, ((ColName)col).AsString(), value);
                             }
                         }
                     }
 
                     #endregion
-                    wbJTW_M.Dispose();
+                    wbJTWM.Dispose();
                 }
             }
             //OI
-            if (ls_pathname_oi != "") {
-                bool ll_rtn = wbJTW_OI.LoadDocument(ls_pathname_oi);
-                if (ll_rtn == false) {
-                    MessageBox.Show("下載東證交易所檔案後開啟失敗，請自行上網取得！", ls_pathname_oi, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (pathNameOI != "") {
+                bool rtn = wbJTWOI.LoadDocument(pathNameOI);
+                if (rtn == false) {
+                    MessageBox.Show("下載東證交易所檔案後開啟失敗，請自行上網取得！", pathNameOI, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
                 else {
-                    Worksheet wsJTW_OI = wbJTW_OI.Worksheets[0];
+                    Worksheet wsJTWOI = wbJTWOI.Worksheets[0];
                     #region wf_jtw_oi()
-                    string ls_rpt_name, ls_rpt_id;
-                    int ll_found, i;
+                    string rptName, rptId;
+                    int found, i;
                     /*************************************
                     Excel:
                     rpt_level_1:sheet
@@ -999,15 +1021,15 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     rpt_value_2 : Table column
                     rpt_value_3 : prod_type
                     *************************************/
-                    ls_rpt_id = "20110JO";
-                    ls_rpt_name = "JPX open_interest";
+                    rptId = "20110JO";
+                    rptName = "JPX open_interest";
                     /******************
                     讀取基本資料
                     ******************/
                     //報表位置
-                    DataTable dt20110JO = daoRPT.ListAllByTXD_ID(ls_rpt_id);
+                    DataTable dt20110JO = daoRPT.ListAllByTXD_ID(rptId);
                     if (dt20110JO.Rows.Count == 0) {
-                        MessageBox.Show(ls_rpt_id + '－' + ls_rpt_name + ",讀取「報表檔」無任何資料!", "處理結果", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show(rptId + '－' + rptName + ",讀取「報表檔」無任何資料!", "處理結果", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         return;
                     }
                     DataView dv = dt20110JO.AsDataView();
@@ -1016,40 +1038,40 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     /******************
                     擷取結果值
                     ******************/
-                    int li_sheet, li_sheet_l = 0, li_ole_row, li_ole_col, li_row = 0;
-                    string ls_settle_date, ls_str;
-                    decimal ld_value;
+                    int sheet, lastSheet = 0, rowNum, colNum, row = 0;
+                    string settleDate, str;
+                    decimal value;
                     gvMain.CloseEditor();
                     for (i = 0; i < dt20110JO.Rows.Count; i++) {
                         DataRow dr = dt20110JO.Rows[i];
-                        li_sheet = dr["RPT_LEVEL_1"].AsInt();
-                        if (li_sheet != li_sheet_l) {
-                            li_sheet_l = li_sheet;
+                        sheet = dr["RPT_LEVEL_1"].AsInt();
+                        if (sheet != lastSheet) {
+                            lastSheet = sheet;
                             //切換Sheet
-                            wsJTW_OI = wbJTW_OI.Worksheets[li_sheet_l - 1];
+                            wsJTWOI = wbJTWOI.Worksheets[lastSheet - 1];
                         }
-                        li_ole_col = dr["RPT_LEVEL_2"].AsInt() - 1;
-                        li_ole_row = dr["RPT_LEVEL_3"].AsInt() - 1;
-                        ls_settle_date = wf_conv_settle_date(wsJTW_OI.Cells[li_ole_row, li_ole_col - 1].Value.AsString());
+                        colNum = dr["RPT_LEVEL_2"].AsInt() - 1;
+                        rowNum = dr["RPT_LEVEL_3"].AsInt() - 1;
+                        settleDate = ConvSettleDate(wsJTWOI.Cells[rowNum, colNum - 1].Value.AsString());
                         DataTable dtJTW = (DataTable)gcMain.DataSource;
-                        if (dtJTW.Select("AMIF_KIND_ID = 'JTW' and amif_settle_date='" + ls_settle_date + "'").Length > 0) {
-                            li_row = dtJTW.Rows.IndexOf(dtJTW.Select("AMIF_KIND_ID = 'JTW' and amif_settle_date='" + ls_settle_date + "'")[0]);
+                        if (dtJTW.Select("AMIF_KIND_ID = 'JTW' and amif_settle_date='" + settleDate + "'").Length > 0) {
+                            row = dtJTW.Rows.IndexOf(dtJTW.Select("AMIF_KIND_ID = 'JTW' and amif_settle_date='" + settleDate + "'")[0]);
                         }
-                        if (li_row >= 0) {
+                        if (row >= 0) {
                             //Vol
-                            ld_value = wf_conv_price(wsJTW_OI.Cells[li_ole_row, li_ole_col].Value.AsString());
-                            if (ld_value > 0) {
-                                gvMain.SetRowCellValue(li_row, "AMIF_M_QNTY_TAL", ld_value);
+                            value = ConvPrice(wsJTWOI.Cells[rowNum, colNum].Value.AsString());
+                            if (value > 0) {
+                                gvMain.SetRowCellValue(row, "AMIF_M_QNTY_TAL", value);
                             }
                             //OI
-                            ld_value = wf_conv_price(wsJTW_OI.Cells[li_ole_row, li_ole_col + 1].Value.AsString());
-                            if (ld_value > 0) {
-                                gvMain.SetRowCellValue(li_row, "AMIF_OPEN_INTEREST", ld_value);
+                            value = ConvPrice(wsJTWOI.Cells[rowNum, colNum + 1].Value.AsString());
+                            if (value > 0) {
+                                gvMain.SetRowCellValue(row, "AMIF_OPEN_INTEREST", value);
                             }
                         }
                     }
                     #endregion
-                    wbJTW_OI.Dispose();
+                    wbJTWOI.Dispose();
                 }
             }
 
@@ -1067,17 +1089,25 @@ namespace PhoenixCI.FormUI.Prefix2 {
             }
         }
 
-        private void run_bat(string as_txn_id, string as_bat_filename, string as_param1, string as_param2) {
-            string is_err, is_chk, ls_flag, ls_oper_bat;
+        /// <summary>
+        /// run_bat
+        /// 執行Batch檔
+        /// </summary>
+        /// <param name="as_txn_id"></param>
+        /// <param name="as_bat_filename"></param>
+        /// <param name="as_param1"></param>
+        /// <param name="as_param2"></param>
+        private void RunBat(string as_txn_id, string as_bat_filename, string as_param1, string as_param2) {
+            string err, chk, flag, operBat;
             int k;
-            ls_oper_bat = GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH + "\\" + as_bat_filename + ".bat";
-            ls_flag = GlobalInfo.DEFAULT_BATCH_ErrSP_DIRECTORY_PATH + "\\" + as_bat_filename + "_flag.txt";
+            operBat = GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH + "\\" + as_bat_filename + ".bat";
+            flag = GlobalInfo.DEFAULT_BATCH_ErrSP_DIRECTORY_PATH + "\\" + as_bat_filename + "_flag.txt";
 
             //先刪掉既有的flag
-            File.Delete(ls_flag);
+            File.Delete(flag);
 
             Process process = new Process();
-            process.StartInfo.FileName = ls_oper_bat;
+            process.StartInfo.FileName = operBat;
             process.StartInfo.CreateNoWindow = true;
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.Arguments = string.Format(@"{0} {1}", as_param1, as_param2);
@@ -1089,125 +1119,143 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 MessageBox.Show("Run " + as_bat_filename + " 執行失敗!", "處理結果" + " 作業代號：" + as_txn_id, MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return;
             }
-            while (!File.Exists(ls_flag)) { };
-            if (File.Exists(ls_flag)) {
-                File.Delete(ls_flag);
+            while (!File.Exists(flag)) { };
+            if (File.Exists(flag)) {
+                File.Delete(flag);
             }
             return;
         }
 
-        private string wf_conv_settle_date(string ls_settle_date) {
-            ls_settle_date = ls_settle_date.SubStr(0, ls_settle_date.IndexOf(" "));
+        /// <summary>
+        /// wf_cond_settle_date
+        /// 設定日期
+        /// </summary>
+        /// <param name="settleDate"></param>
+        /// <returns></returns>
+        private string ConvSettleDate(string settleDate) {
+            settleDate = settleDate.SubStr(0, settleDate.IndexOf(" "));
             DateTime rtnDate;
-            if (DateTime.TryParse(ls_settle_date, out rtnDate)) {
-                ls_settle_date = rtnDate.ToString("yyyyMM");
+            if (DateTime.TryParse(settleDate, out rtnDate)) {
+                settleDate = rtnDate.ToString("yyyyMM");
             }
             else {
-                ls_settle_date = ls_settle_date.SubStr(0, 5);
+                settleDate = settleDate.SubStr(0, 5);
             }
-            return ls_settle_date;
+            return settleDate;
         }
 
-        private decimal wf_conv_price(string ls_str) {
-            decimal ld_value = 0;
-            if (ls_str == "-") {
-                ls_str = "0";
+        /// <summary>
+        /// wf_conv_price
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        private decimal ConvPrice(string str) {
+            decimal value = 0;
+            if (str == "-") {
+                str = "0";
             }
             else {
-                ld_value = ls_str.AsDecimal();
+                value = str.AsDecimal();
             }
 
-            return ld_value;
+            return value;
         }
 
-        private string f_20110_SP(DateTime ldt_date, string as_txn_id) {
-            string ls_prod_type = "M";
-            int li_return;
+        /// <summary>
+        /// f_20110_sp
+        /// save時跑7張sp
+        /// </summary>
+        /// <param name="date"></param>
+        /// <param name="txnId"></param>
+        /// <returns></returns>
+        private string F20110SP(DateTime date, string txnId) {
+            string prodType = "M";
+            int rtn;
             /*******************
             轉統計資料TDT
             *******************/
-            if (dao20110.sp_U_gen_H_TDT(ldt_date, ls_prod_type).Status != ResultStatus.Success) {
-                MessageBox.Show("執行SP(sp_U_gen_H_TDT(" + ls_prod_type + "))錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            if (dao20110.sp_U_gen_H_TDT(date, prodType).Status != ResultStatus.Success) {
+                MessageBox.Show("執行SP(sp_U_gen_H_TDT(" + prodType + "))錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return "E";
             }
             else {
-                li_return = 0;
+                rtn = 0;
             }
-            PbFunc.f_write_logf(_ProgramID, "E", "執行sp_U_gen_H_TDT(" + ls_prod_type + ")");
+            PbFunc.f_write_logf(_ProgramID, "E", "執行sp_U_gen_H_TDT(" + prodType + ")");
 
-            if (as_txn_id == "20110") {
-                ls_prod_type = "J";
-                if (dao20110.sp_U_gen_H_TDT(ldt_date, ls_prod_type).Status != ResultStatus.Success) {
-                    MessageBox.Show("執行SP(sp_U_gen_H_TDT(" + ls_prod_type + "))錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            if (txnId == "20110") {
+                prodType = "J";
+                if (dao20110.sp_U_gen_H_TDT(date, prodType).Status != ResultStatus.Success) {
+                    MessageBox.Show("執行SP(sp_U_gen_H_TDT(" + prodType + "))錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                     return "E";
                 }
                 else {
-                    li_return = 0;
+                    rtn = 0;
                 }
-                PbFunc.f_write_logf(_ProgramID, "E", "執行sp_U_gen_H_TDT(" + ls_prod_type + ")");
+                PbFunc.f_write_logf(_ProgramID, "E", "執行sp_U_gen_H_TDT(" + prodType + ")");
 
                 //JTX 日統計AI2
-                if (dao20110.sp_U_stt_H_AI2_Day(ldt_date, ls_prod_type).Status != ResultStatus.Success) {
+                if (dao20110.sp_U_stt_H_AI2_Day(date, prodType).Status != ResultStatus.Success) {
                     MessageBox.Show("執行SP(sp_U_stt_H_AI2_Day)錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                     return "E";
                 }
                 else {
-                    li_return = 0;
+                    rtn = 0;
                 }
                 PbFunc.f_write_logf(_ProgramID, "E", "執行sp_U_stt_H_AI2_Day");
 
                 //JTX 月統計AI2
-                if (dao20110.sp_U_stt_H_AI2_Month(ldt_date, ls_prod_type).Status != ResultStatus.Success) {
+                if (dao20110.sp_U_stt_H_AI2_Month(date, prodType).Status != ResultStatus.Success) {
                     MessageBox.Show("執行SP(sp_U_stt_H_AI2_Month)錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                     return "E";
                 }
                 else {
-                    li_return = 0;
+                    rtn = 0;
                 }
                 PbFunc.f_write_logf(_ProgramID, "E", "執行sp_U_stt_H_AI2_Month");
             }
             /*******************
             轉統計資料AI3
             *******************/
-            if (dao20110.sp_H_stt_AI3(ldt_date).Status != ResultStatus.Success) {
+            if (dao20110.sp_H_stt_AI3(date).Status != ResultStatus.Success) {
                 MessageBox.Show("執行SP(sp_H_stt_AI3)錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return "E";
             }
             else {
-                li_return = 0;
+                rtn = 0;
             }
             PbFunc.f_write_logf(_ProgramID, "E", "執行sp_H_stt_AI3");
             /*******************
             更新AI6 (震幅波動度)
             *******************/
-            if (dao20110.sp_H_gen_AI6(ldt_date).Status != ResultStatus.Success) {
+            if (dao20110.sp_H_gen_AI6(date).Status != ResultStatus.Success) {
                 MessageBox.Show("執行SP(sp_H_gen_AI6)錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return "E";
             }
             else {
-                li_return = 0;
+                rtn = 0;
             }
             PbFunc.f_write_logf(_ProgramID, "E", "執行sp_H_gen_AI6");
             /*******************
             更新AA3
             *******************/
-            if (dao20110.sp_H_upd_AA3(ldt_date).Status != ResultStatus.Success) {
+            if (dao20110.sp_H_upd_AA3(date).Status != ResultStatus.Success) {
                 MessageBox.Show("執行SP(sp_H_upd_AA3)錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return "E";
             }
             else {
-                li_return = 0;
+                rtn = 0;
             }
             PbFunc.f_write_logf(_ProgramID, "E", "執行sp_H_upd_AA3");
             /*******************
             更新AI8
             *******************/
-            if (dao20110.sp_H_gen_H_AI8(ldt_date).Status != ResultStatus.Success) {
+            if (dao20110.sp_H_gen_H_AI8(date).Status != ResultStatus.Success) {
                 MessageBox.Show("執行SP(sp_H_gen_H_AI8)錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return "E";
             }
             else {
-                li_return = 0;
+                rtn = 0;
             }
             PbFunc.f_write_logf(_ProgramID, "E", "執行sp_H_gen_H_AI8");
 
@@ -1224,8 +1272,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
             AMIF_SUM_AMT
         }
 
-        private void cb_jpx_Click(object sender, EventArgs e) {
-            wf_jpx_get_file();
+        private void cbJpx_Click(object sender, EventArgs e) {
+            JpxGetFile();
         }
     }
 }

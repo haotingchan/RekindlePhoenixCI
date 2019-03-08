@@ -19,7 +19,6 @@ using DevExpress.XtraEditors;
 using BusinessObjects.Enums;
 using DevExpress.XtraGrid.Views.Grid;
 using BusinessObjects;
-using static DataObjects.Dao.DataGate;
 
 namespace PhoenixCI.FormUI.PrefixS
 {
@@ -27,10 +26,10 @@ namespace PhoenixCI.FormUI.PrefixS
     {
         protected DS0070 daoS0070;
         protected COD daoCod;
-        protected string is_fm_ymd;
-        protected string is_to_ymd;
+        protected string fmYmd;
+        protected string toYmd;
         protected string oldREQValue;
-        protected DateTime is_max_ymd;
+        protected DateTime maxYmd;
         protected DateTime startDateOldValue;
         protected DateTime endDateOldValue;
         protected DataTable periodTable;
@@ -53,12 +52,12 @@ namespace PhoenixCI.FormUI.PrefixS
             //save 後替換新值
             DataTable dtSPN = daoS0070.GetPeriodByUserId("ST", GlobalInfo.USER_ID);
             if (dtSPN.Rows.Count <= 0) {
-                is_fm_ymd = DateTime.Now.AddDays(-60).ToString("yyyyMMdd");
-                is_to_ymd = DateTime.Now.ToString("yyyyMMdd");
-                is_max_ymd = new AOCF().GetMaxDate(is_fm_ymd, is_to_ymd);
+                fmYmd = DateTime.Now.AddDays(-60).ToString("yyyyMMdd");
+                toYmd = DateTime.Now.ToString("yyyyMMdd");
+                maxYmd = new AOCF().GetMaxDate(fmYmd, toYmd);
 
-                txtStartDate.DateTimeValue = DateTime.ParseExact(is_max_ymd.ToString("yyyy/MM/dd"), "yyyy/MM/dd", null);
-                txtEndDate.DateTimeValue = DateTime.ParseExact(is_max_ymd.ToString("yyyy/MM/dd"), "yyyy/MM/dd", null);
+                txtStartDate.DateTimeValue = DateTime.ParseExact(maxYmd.ToString("yyyy/MM/dd"), "yyyy/MM/dd", null);
+                txtEndDate.DateTimeValue = DateTime.ParseExact(maxYmd.ToString("yyyy/MM/dd"), "yyyy/MM/dd", null);
                 startDateOldValue = txtStartDate.DateTimeValue;
                 endDateOldValue = txtEndDate.DateTimeValue;
             }
@@ -135,7 +134,7 @@ namespace PhoenixCI.FormUI.PrefixS
             if (dtREQ.Rows.Count > 0) {
                 SPAN_REQ_TYPE.EditValue = dtREQ.Rows[0]["SPAN_REQ_TYPE"].AsString();
                 txtREQValue.Text = dtREQ.Rows[0]["SPAN_REQ_VALUE"].AsString();
-                oldREQValue = SPAN_REQ_TYPE.EditValue.ToString();
+                oldREQValue = txtREQValue.EditValue.ToString();
             }
             #endregion
 
@@ -163,58 +162,48 @@ namespace PhoenixCI.FormUI.PrefixS
             _IsPreventFlowPrint = true;
             ResultStatus resultStatus = ResultStatus.Fail;
 
-            if (GridHasModified() != "") {
+            if (checkChanged()) {
                 //更新四部份資料 先更新日期區間
-                if (CheckPeriod()) {
-                    resultStatus = savePeriod();
-                }
-                else {
-                    return ResultStatus.FailButNext;
-                }
-                //更新測試保證金設定
-                if (CheckREQValue()) {
+                resultStatus = savePeriod();
+                if (resultStatus == ResultStatus.Success) {
+                    //更新測試保證金設定
                     resultStatus = saveREQ();
-                }
-                else {
-                    return ResultStatus.FailButNext;
                 }
                 if (resultStatus == ResultStatus.Success) {
                     //更新特定帳號排除設定
                     resultStatus = saveExAccount();
                     if (resultStatus == ResultStatus.Success) {
                         //更新測試變化設定
-                        return savePresTest();
-                    }
-                    else {
-                        return resultStatus;
+                        resultStatus = savePresTest();
+
                     }
                 }
-                else {
-                    return resultStatus;
-                }
             }
-            else if (txtStartDate.DateTimeValue == startDateOldValue
-                    && txtEndDate.DateTimeValue == endDateOldValue
-                    && txtREQValue.EditValue.ToString() == oldREQValue) {
-                MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return ResultStatus.FailButNext;
+            else {
+                MessageDisplay.Info("沒有變更資料,不需要存檔!");
+                resultStatus = ResultStatus.FailButNext;
             }
-            else //只更新日期區間 & 壓力測試保證金
-            {
-                if (CheckPeriod()) {
-                    resultStatus = savePeriod();
-                }
-                else {
-                    return ResultStatus.FailButNext;
-                }
-                if (CheckREQValue()) {
-                    resultStatus = saveREQ();
-                }
-                else {
-                    return ResultStatus.FailButNext;
-                }
+            return resultStatus;
+        }
+
+        protected override ResultStatus RunBefore(PokeBall args) {
+            ResultStatus resultStatus = ResultStatus.Fail;
+
+            if (checkChanged()) {
+                MessageDisplay.Info("資料有變更, 請先存檔!");
+                resultStatus = ResultStatus.FailButNext;
             }
-            return ResultStatus.Success;
+            else {
+                Run(args);
+            }
+            return resultStatus;
+        }
+
+        protected override ResultStatus Run(PokeBall args) {
+            if (!checkChanged()) {
+                PbFunc.f_bat_span("S0070", "ST", GlobalInfo.USER_ID);
+            }
+            return base.Run(args);
         }
 
         private ResultStatus savePeriod() {
@@ -223,7 +212,12 @@ namespace PhoenixCI.FormUI.PrefixS
             periodTable.Rows[0].SetField("span_period_end_date", txtEndDate.DateTimeValue.ToString("yyyyMMdd"));
             periodTable.Rows[0].SetField("span_period_w_time", DateTime.Now);
 
-            return base.Save_Override(periodTable, "SPAN_PERIOD", DBName.CFO);
+            if (CheckPeriod()) {
+                return daoS0070.updatePeriodData(periodTable).Status;//base.Save_Override(periodTable, "SPAN_PERIOD", DBName.CFO);
+            }
+            else {
+                return ResultStatus.FailButNext;
+            }
         }
 
         private ResultStatus saveREQ() {
@@ -233,34 +227,39 @@ namespace PhoenixCI.FormUI.PrefixS
             REQTable.Rows[0].SetField("SPAN_REQ_VALUE", txtREQValue.Text);
             REQTable.Rows[0].SetField("SPAN_REQ_W_TIME", DateTime.Now);
 
-            return base.Save_Override(REQTable, "SPAN_REQ", DBName.CFO);
+            if (CheckREQValue()) {
+                return daoS0070.updateREQData(REQTable).Status;//base.Save_Override(REQTable, "SPAN_REQ", DBName.CFO);
+            }
+            else {
+                return ResultStatus.FailButNext;
+            }
         }
 
         private ResultStatus saveExAccount() {
             DataTable dtExAccount = (DataTable)gcExAccount.DataSource;
 
-            for (int i = 0; i < dtExAccount.Rows.Count; i++) {
-                if (dtExAccount.Rows[i].RowState != DataRowState.Deleted) {
-                    dtExAccount.Rows[i].SetField("span_acct_w_time", DateTime.Now);
+            foreach (DataRow r in dtExAccount.Rows) {
+                if (r.RowState != DataRowState.Deleted) {
+                    r.SetField("span_acct_w_time", DateTime.Now);
 
-                    if (dtExAccount.Rows[i]["SPAN_ACCT_FCM_NO"].AsString().SubStr(4, 3) == "999") {
+                    if (r["SPAN_ACCT_FCM_NO"].AsString().SubStr(4, 3) == "999") {
                         MessageDisplay.Info("期貨商代號欄位必須為7碼，末3碼不為999");
                         return ResultStatus.FailButNext;
                     }
                 }
             }
-            return base.Save_Override(dtExAccount, "SPAN_ACCT", DBName.CFO);
+            return daoS0070.updateEXAccountData(dtExAccount).Status;//base.Save_Override(dtExAccount, "SPAN_ACCT", DBName.CFO);
         }
 
         private ResultStatus savePresTest() {
             DataTable dtPresTest = (DataTable)gcPresTest.DataSource;
 
-            for (int i = 0; i < dtPresTest.Rows.Count; i++) {
-                if (dtPresTest.Rows[i].RowState != DataRowState.Deleted) {
-                    dtPresTest.Rows[i].SetField("SPAN_PARAM_W_TIME", DateTime.Now);
+            foreach (DataRow r in dtPresTest.Rows) {
+                if (r.RowState != DataRowState.Deleted) {
+                    r.SetField("SPAN_PARAM_W_TIME", DateTime.Now);
 
-                    if (dtPresTest.Rows[i]["span_param_type"].AsString() == "2") {
-                        switch (dtPresTest.Rows[i]["span_param_value"].AsString()) {
+                    if (r["span_param_type"].AsString() == "2") {
+                        switch (r["span_param_value"].AsString()) {
                             case "1":
                             case "2":
                             case "3":
@@ -275,7 +274,7 @@ namespace PhoenixCI.FormUI.PrefixS
                     }
                 }
             }
-            return base.Save_Override(dtPresTest, "SPAN_PARAM", DBName.CFO);
+            return daoS0070.updatePreTestData(dtPresTest).Status;//base.Save_Override(dtPresTest, "SPAN_PARAM", DBName.CFO);
         }
 
         protected override ResultStatus AfterOpen() {
@@ -376,20 +375,12 @@ namespace PhoenixCI.FormUI.PrefixS
             }
         }
 
-        private void txtStartDate_Leave(object sender, EventArgs e) {
-            CheckPeriod();
-        }
-
-        private void txtEndDate_Leave(object sender, EventArgs e) {
-            CheckPeriod();
-        }
-
         private void txtREQValue_Leave(object sender, EventArgs e) {
             CheckREQValue();
         }
 
-        private void repositoryItemTextEdit3_Leave(object sender,EventArgs e) {
-            TextEdit editor= sender as TextEdit;
+        private void repositoryItemTextEdit3_Leave(object sender, EventArgs e) {
+            TextEdit editor = sender as TextEdit;
             string check = editor.Text.SubStr(4, 3);
             if (check == "999") {
                 MessageDisplay.Info("期貨商代號欄位必須為7碼，末3碼不為999");
@@ -422,25 +413,29 @@ namespace PhoenixCI.FormUI.PrefixS
             return true;
         }
 
-        private string GridHasModified() {
+        private bool checkChanged() {
             DataTable dtExAccount = (DataTable)gcExAccount.DataSource;
             DataTable dtPresTest = (DataTable)gcPresTest.DataSource;
             DataTable dtExAccountChange = dtExAccount.GetChanges();
             DataTable dtPresTestChange = dtPresTest.GetChanges();
 
-            string changeGrid = "";
-
             if (dtExAccountChange != null) {
                 if (dtExAccountChange.Rows.Count > 0) {
-                    changeGrid = "ExAccount";
+                    return true;
                 }
             }
             if (dtPresTestChange != null) {
                 if (dtPresTestChange.Rows.Count > 0) {
-                    changeGrid += " PresTest";
+                    return true;
                 }
             }
-            return changeGrid;
+
+            if (txtStartDate.DateTimeValue != startDateOldValue
+                    || txtEndDate.DateTimeValue != endDateOldValue
+                    || txtREQValue.EditValue.ToString() != oldREQValue) {
+                return true;
+            }
+            return false;
         }
     }
 }

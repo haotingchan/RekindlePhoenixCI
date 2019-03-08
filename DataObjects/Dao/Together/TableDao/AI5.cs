@@ -16,14 +16,15 @@ namespace DataObjects.Dao.Together {
             db = GlobalDaoSetting.DB;
         }
 
-       
 
-        /// <summary>
-        /// Get 1 AI5_name by AI5_no
-        /// </summary>
-        /// <param name="AI5_NO">7位數</param>
-        /// <returns>AI5_name</returns>
-        public string GetNameByNo(DateTime ldt_date) {
+
+      /// <summary>
+      /// Get 1 AI5_name by AI5_no (取得AI5最大日期)
+      /// f_get_ai5_date(datetime(date(em_edate.text)))
+      /// </summary>
+      /// <param name="AI5_NO">7位數</param>
+      /// <returns>AI5_name</returns>
+      public string GetNameByNo(DateTime ldt_date) {
             object[] parms =
             {
                 ":ldt_date", ldt_date

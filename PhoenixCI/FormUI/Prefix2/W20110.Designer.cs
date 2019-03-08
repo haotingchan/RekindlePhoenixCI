@@ -24,7 +24,7 @@
         /// </summary>
         private void InitializeComponent() {
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
-            this.cb_jpx = new System.Windows.Forms.Button();
+            this.cbJpx = new System.Windows.Forms.Button();
             this.ddlType = new DevExpress.XtraEditors.LookUpEdit();
             this.lblType = new System.Windows.Forms.Label();
             this.txtDate = new PhoenixCI.Widget.TextDateEdit();
@@ -80,7 +80,7 @@
             // 
             // panelControl1
             // 
-            this.panelControl1.Controls.Add(this.cb_jpx);
+            this.panelControl1.Controls.Add(this.cbJpx);
             this.panelControl1.Controls.Add(this.ddlType);
             this.panelControl1.Controls.Add(this.lblType);
             this.panelControl1.Controls.Add(this.txtDate);
@@ -91,15 +91,15 @@
             this.panelControl1.Size = new System.Drawing.Size(1170, 70);
             this.panelControl1.TabIndex = 0;
             // 
-            // cb_jpx
+            // cbJpx
             // 
-            this.cb_jpx.Location = new System.Drawing.Point(414, 21);
-            this.cb_jpx.Name = "cb_jpx";
-            this.cb_jpx.Size = new System.Drawing.Size(173, 27);
-            this.cb_jpx.TabIndex = 12;
-            this.cb_jpx.Text = "手動下載JPX檔案檢核";
-            this.cb_jpx.UseVisualStyleBackColor = true;
-            this.cb_jpx.Click += new System.EventHandler(this.cb_jpx_Click);
+            this.cbJpx.Location = new System.Drawing.Point(414, 21);
+            this.cbJpx.Name = "cbJpx";
+            this.cbJpx.Size = new System.Drawing.Size(173, 27);
+            this.cbJpx.TabIndex = 12;
+            this.cbJpx.Text = "手動下載JPX檔案檢核";
+            this.cbJpx.UseVisualStyleBackColor = true;
+            this.cbJpx.Click += new System.EventHandler(this.cbJpx_Click);
             // 
             // ddlType
             // 
@@ -447,7 +447,7 @@
             this.Controls.Add(this.panelControl2);
             this.Controls.Add(this.panelControl1);
             this.Name = "W20110";
-            this.Text = "W20110";
+            this.Text = "";
             this.Controls.SetChildIndex(this.ribbonControl, 0);
             this.Controls.SetChildIndex(this.panelControl1, 0);
             this.Controls.SetChildIndex(this.panelControl2, 0);
@@ -498,7 +498,7 @@
         private DevExpress.XtraGrid.Columns.GridColumn R_CLOSE_PRICE;
         private DevExpress.XtraGrid.Columns.GridColumn R_UP_DOWN_VAL;
         private DevExpress.XtraGrid.Columns.GridColumn R_OPEN_INTEREST;
-        private System.Windows.Forms.Button cb_jpx;
+        private System.Windows.Forms.Button cbJpx;
         private DevExpress.XtraGrid.Columns.GridColumn CP_ERR;
         private DevExpress.XtraGrid.Columns.GridColumn AMIFU_ERR_TEXT;
     }

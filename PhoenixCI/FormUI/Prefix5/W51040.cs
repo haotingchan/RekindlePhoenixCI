@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using DevExpress.XtraEditors;
 using Common;
 using BusinessObjects.Enums;
 using BaseGround.Report;
@@ -23,6 +18,10 @@ using DataObjects.Dao.Together.SpecificDao;
 /// Lukas, 2019/1/4
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix5 {
+
+    /// <summary>
+    /// 51040 造市標的權數維護
+    /// </summary>
     public partial class W51040 : BaseGround.FormParent {
 
         private D51040 dao51040;
@@ -100,8 +99,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
             //測試資料: 2016/10
             base.Retrieve(gcMain);
             daoMMWK = new MMWK();
-            string as_ym = txtMonth.Text.Replace("/", "");
-            DataTable returnTable = daoMMWK.ListAllByDate(as_ym);
+            string asYM = txtMonth.Text.Replace("/", "");
+            DataTable returnTable = daoMMWK.ListAllByDate(asYM);
             if (returnTable.Rows.Count == 0) {
                 MessageBox.Show("無任何資料", "訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }

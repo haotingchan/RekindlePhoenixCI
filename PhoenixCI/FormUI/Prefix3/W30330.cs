@@ -1,28 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using DevExpress.XtraEditors;
 using BaseGround;
 using BusinessObjects.Enums;
 using BaseGround.Report;
-using PhoenixCI.Shared;
-using DataObjects.Dao.Together.SpecificDao;
 using System.Threading;
 using BaseGround.Shared;
 using Common;
-using DataObjects.Dao.Together;
-using DevExpress.Spreadsheet;
-using DevExpress.XtraReports.UI;
-using System.IO;
-using PhoenixCI.BusinessLogic.Prefix7;
+using PhoenixCI.BusinessLogic.Prefix3;
 /// <summary>
-/// john,20190218,十年期公債期貨契約價量資料
+/// john,20190221,十年期公債期貨契約價量資料
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix3
 {
@@ -31,14 +17,11 @@ namespace PhoenixCI.FormUI.Prefix3
    /// </summary>
    public partial class W30330 : FormParent
    {
-      private D70030 dao70030;
-      string is_save_file;
+      private B30330 b30330;
       public W30330(string programID, string programName) : base(programID, programName)
       {
          InitializeComponent();
-
          this.Text = _ProgramID + "─" + _ProgramName;
-         dao70030 = new D70030();
       }
       public override ResultStatus BeforeOpen()
       {
@@ -50,15 +33,19 @@ namespace PhoenixCI.FormUI.Prefix3
       protected override ResultStatus Open()
       {
          base.Open();
-         em_month.Focus();
+         emMonth.Focus();
          return ResultStatus.Success;
       }
 
       protected override ResultStatus AfterOpen()
       {
          base.AfterOpen();
-         em_month.Text= GlobalInfo.OCF_DATE.ToString("yyyy/MM"); 
-         em_month.Focus();
+#if DEBUG
+         emMonth.Text = "2005/12";
+#else
+            em_month.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
+#endif
+         emMonth.Focus();
          return ResultStatus.Success;
       }
 
@@ -80,18 +67,10 @@ namespace PhoenixCI.FormUI.Prefix3
       private bool ExportBefore()
       {
          /*******************
-         點選儲存檔案之目錄
-         *******************/
-         //檔名	= 報表型態(起-迄).xls
-         is_save_file = ReportExportFunc.wf_GetFileSaveName($"dgbas({em_month.Text.Replace("/", "").SubStr(0, 6)}).xls");
-         if (string.IsNullOrEmpty(is_save_file)) {
-            return false;
-         }
-         /*******************
          Messagebox
          *******************/
-         st_msg_txt.Visible = true;
-         st_msg_txt.Text = "開始轉檔...";
+         stMsgtxt.Visible = true;
+         stMsgtxt.Text = "開始轉檔...";
          this.Cursor = Cursors.WaitCursor;
          this.Refresh();
          Thread.Sleep(5);
@@ -100,55 +79,44 @@ namespace PhoenixCI.FormUI.Prefix3
 
       protected void ExportAfter()
       {
-         st_msg_txt.Text = "轉檔完成!";
+         stMsgtxt.Text = "轉檔完成!";
          this.Cursor = Cursors.Arrow;
          this.Refresh();
          Thread.Sleep(5);
-         st_msg_txt.Visible = false;
+         stMsgtxt.Visible = false;
+      }
+
+      protected void ShowMsg(string msg)
+      {
+         stMsgtxt.Text = msg;
+         this.Refresh();
+         Thread.Sleep(5);
       }
 
       protected override ResultStatus Export()
       {
-         if (!ExportBefore()) {
-            return ResultStatus.Fail;
-         }
          try {
-            string ls_ym= em_month.Text.Replace("/", "").SubStr(0, 6);
-            DataTable ids_1 = dao70030.ListAll(ls_ym);
-            /*******************
-            轉統計資料RAM1
-            *******************/
-            DataTable reResult = dao70030.sp_H_stt_RAM1(ls_ym);
-            if (reResult.Rows.Count >= 0) {
-               saveExcel(ids_1, is_save_file, DocumentFormat.Xls);
-               ExportAfter();
-               return ResultStatus.Success;
+            if (!ExportBefore()) {
+               return ResultStatus.Fail;
             }
-            else {
-               PbFunc.messageBox(GlobalInfo.gs_t_err, "執行SP(sp_H_stt_RAM1)錯誤!", MessageBoxIcon.Stop);
-            }
-            
+
+            bool isChk = false;//判斷是否執行成功
+            string lsFile = PbFunc.wf_copy_file(_ProgramID, "30330");
+            b30330 = new B30330(lsFile, emMonth.Text);
+
+            ShowMsg("30330－「十年期公債」期貨契約價量資料 轉檔中...");
+            isChk = b30330.Wf30331();
+            ShowMsg("30333－「十年期公債」期貨契約價量資料(買賣方比重) 轉檔中...");
+            isChk = b30330.Wf30333();
+            ExportAfter();
+            if (!isChk) return ResultStatus.Fail;//Exception
          }
          catch (Exception ex) {
-            PbFunc.messageBox(GlobalInfo.gs_t_err, ex.Message, MessageBoxIcon.Stop);
+            ExportAfter();
+            WriteLog(ex);
             return ResultStatus.Fail;
          }
          return ResultStatus.Success;
-      }
-
-      private void saveExcel(DataTable dt,string filePath,DocumentFormat documentFormat, bool addHeader=true, int firstRowIndex=0, int firstColumnIndex=0)
-      {
-         Workbook wb = new Workbook();
-         wb.Worksheets[0].Import(dt, addHeader, firstRowIndex, firstColumnIndex);
-         wb.Worksheets[0].Name = sheetName(filePath);
-         wb.SaveDocument(filePath, documentFormat);
-      }
-
-      private string sheetName(string is_save_file)
-      {
-         string filename = Path.GetFileNameWithoutExtension(is_save_file);
-         int nameLen = filename.Length > 31 ? 31 : filename.Length;//sheetName不能超過31字
-         return filename.Substring(0, nameLen);
       }
 
       protected override ResultStatus Export(ReportHelper reportHelper)

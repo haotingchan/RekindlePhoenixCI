@@ -107,11 +107,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
             /**********************
             轉檔後資訊
             **********************/
-            string ls_ym;
-            ls_ym = txtToMonth.Text.Replace("/", "");
-            DataTable dt_55060_after_export = dao55060.d_55060_after_export(ls_ym);
+            string lsYM;
+            lsYM = txtToMonth.Text.Replace("/", "");
+            DataTable dt_55060_after_export = dao55060.d_55060_after_export(lsYM);
             if (dt_55060_after_export.Rows[0]["ld_disc_qnty"].AsString() == "0") {
-                MessageBox.Show(ls_ym + "「結算手續費」的可折抵口數皆為０，"+ Environment.NewLine +"請確認結算手續費作業是否已完成！", "警告", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(lsYM + "「結算手續費」的可折抵口數皆為０，"+ Environment.NewLine +"請確認結算手續費作業是否已完成！", "警告", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return ResultStatus.Success;
             }
             lblProcessing.Visible = false;
@@ -123,24 +123,23 @@ namespace PhoenixCI.FormUI.Prefix5 {
            
             try {
                 #region wf_55060_1
-                string ls_rpt_name, ls_rpt_id;
+                string rptName, rptId;
                 int i;
                 /*************************************
                 ls_rpt_name = 報表名稱
                 ls_rpt_id = 報表代號
                 *************************************/
-                ls_rpt_name = "交易量(單邊)";
-                ls_rpt_id = "55060_1";
-                //st_msg_txt.text = ls_rpt_id + '－' + ls_rpt_name + ' 轉檔中...';
+                rptName = "交易量(單邊)";
+                rptId = "55060_1";
 
                 /******************
                 讀取資料
                 ******************/
-                string as_symd = txtFromMonth.Text.Replace("/", "")+"01";
-                string as_eymd = txtToMonth.Text.Replace("/", "")+"31";
-                DataTable dt55060_1 = dao55060.d_55060_1(as_symd, as_eymd);
+                string asSymd = txtFromMonth.Text.Replace("/", "")+"01";
+                string asEymd = txtToMonth.Text.Replace("/", "")+"31";
+                DataTable dt55060_1 = dao55060.d_55060_1(asSymd, asEymd);
                 if (dt55060_1.Rows.Count == 0) {
-                    MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromMonth.Text + "-" + txtToMonth.Text, ls_rpt_name));
+                    MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromMonth.Text + "-" + txtToMonth.Text, rptName));
                 }
 
                 /******************
@@ -150,14 +149,14 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 workbook.LoadDocument(excelDestinationPath);
                 Worksheet worksheet = workbook.Worksheets[1];
 
-                int ii_ole_row = 4;
+                int rowNum = 4;
                 for (i = 0; i < dt55060_1.Rows.Count; i++) {
                     DataRow dr55060_1 = dt55060_1.Rows[i];
 
-                    ii_ole_row = ii_ole_row + 1;
-                    worksheet.Cells[ii_ole_row, 0].Value = dr55060_1["data_date"].AsString();
-                    worksheet.Cells[ii_ole_row, 1].Value = dr55060_1["udf_qnty"].AsDecimal();
-                    worksheet.Cells[ii_ole_row, 2].Value = dr55060_1["spf_qnty"].AsDecimal();
+                    rowNum = rowNum + 1;
+                    worksheet.Cells[rowNum, 0].Value = dr55060_1["data_date"].AsString();
+                    worksheet.Cells[rowNum, 1].Value = dr55060_1["udf_qnty"].AsDecimal();
+                    worksheet.Cells[rowNum, 2].Value = dr55060_1["spf_qnty"].AsDecimal();
                 }
 
                 #endregion
@@ -169,23 +168,22 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 ls_rpt_name = 報表名稱
                 ls_rpt_id = 報表代號
                 *************************************/
-                ls_rpt_name = "到期結算OI";
-                ls_rpt_id = "55060_2";
-                //st_msg_txt.text = ls_rpt_id + '－' + ls_rpt_name + ' 轉檔中...';
+                rptName = "到期結算OI";
+                rptId = "55060_2";
 
                 /******************
                 讀取資料
                 ******************/
                 //計算月底日期
-                DateTime ldt_date;
-                ldt_date = Convert.ToDateTime(txtToMonth.Text + "/01").AddDays(31);
-                ldt_date = ldt_date.AddDays(ldt_date.Day * -1);
-                string as_sdate = Convert.ToDateTime(txtFromMonth.Text + "/01").ToString("yyyy/M/d tt hh:mm:ss");
-                string as_edate = ldt_date.ToString("yyyy/M/d tt hh:mm:ss");
+                DateTime date;
+                date = Convert.ToDateTime(txtToMonth.Text + "/01").AddDays(31);
+                date = date.AddDays(date.Day * -1);
+                string asSdate = Convert.ToDateTime(txtFromMonth.Text + "/01").ToString("yyyy/M/d tt hh:mm:ss");
+                string asEdate = date.ToString("yyyy/M/d tt hh:mm:ss");
 
-                DataTable dt55060_2 = dao55060.d_55060_2(as_sdate, as_edate);
+                DataTable dt55060_2 = dao55060.d_55060_2(asSdate, asEdate);
                 if (dt55060_2.Rows.Count == 0) {
-                    MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromMonth.Text + "-" + txtToMonth.Text, ls_rpt_name));
+                    MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromMonth.Text + "-" + txtToMonth.Text, rptName));
                 }
 
                 /******************
@@ -194,38 +192,36 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 Worksheet worksheet2 = workbook.Worksheets[2];
 
                 //填資料
-                ii_ole_row = 4;
+                rowNum = 4;
                 for (i = 0; i < dt55060_2.Rows.Count; i++) {
                     DataRow dr55060_2 = dt55060_2.Rows[i];
 
-                    ii_ole_row = ii_ole_row + 1;
-                    worksheet2.Cells[ii_ole_row, 0].Value = dr55060_2["data_date"].AsString();
-                    worksheet2.Cells[ii_ole_row, 1].Value = dr55060_2["spf_oi"].AsDecimal();
-                    worksheet2.Cells[ii_ole_row, 2].Value = dr55060_2["udf_oi"].AsDecimal();
+                    rowNum = rowNum + 1;
+                    worksheet2.Cells[rowNum, 0].Value = dr55060_2["data_date"].AsString();
+                    worksheet2.Cells[rowNum, 1].Value = dr55060_2["spf_oi"].AsDecimal();
+                    worksheet2.Cells[rowNum, 2].Value = dr55060_2["udf_oi"].AsDecimal();
                 }
 
                 #endregion
 
                 #region wf_55060_3
-                string ls_kind_id;
-                int j, li_add_col, li_num;
+                string kindId;
+                int j, addCol, num;
                 /*************************************
                 ls_rpt_name = 報表名稱
                 ls_rpt_id = 報表代號
                 *************************************/
-                ls_rpt_name = "造市折減";
-                ls_rpt_id = "55060_3";
-                //st_msg_txt.text = ls_rpt_id + '－' + ls_rpt_name + ' 轉檔中...';
-
+                rptName = "造市折減";
+                rptId = "55060_3";
 
                 /******************
                 讀取資料
                 ******************/
-                string as_sym = txtFromMonth.Text.Replace("/", "");
-                string as_eym = txtToMonth.Text.Replace("/", "");
-                DataTable dt55060_3 = dao55060.d_55060_3(as_sym, as_eym);
+                string asSym = txtFromMonth.Text.Replace("/", "");
+                string asEym = txtToMonth.Text.Replace("/", "");
+                DataTable dt55060_3 = dao55060.d_55060_3(asSym, asEym);
                 if (dt55060_3.Rows.Count == 0) {
-                    MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromMonth.Text + "-" + txtToMonth.Text, ls_rpt_name));
+                    MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromMonth.Text + "-" + txtToMonth.Text, rptName));
                 }
 
                 /******************
@@ -234,32 +230,32 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 Worksheet worksheet3 = workbook.Worksheets[3];
 
                 //填資料
-                ls_kind_id = "";
-                li_num = 0;
-                li_add_col = 0;
+                kindId = "";
+                num = 0;
+                addCol = 0;
                 for (i = 0; i < dt55060_3.Rows.Count; i++) {
                     DataRow dr55060_3 = dt55060_3.Rows[i];
-                    if (ls_kind_id != dr55060_3["kind_id"].AsString().Trim()) {
-                        ii_ole_row = 6;
-                        ls_kind_id = dr55060_3["kind_id"].AsString().Trim();
-                        if (ls_kind_id == "UDF") {
-                            li_add_col = 8;
+                    if (kindId != dr55060_3["kind_id"].AsString().Trim()) {
+                        rowNum = 6;
+                        kindId = dr55060_3["kind_id"].AsString().Trim();
+                        if (kindId == "UDF") {
+                            addCol = 8;
                         }
                         else {
-                            li_add_col = 0;
+                            addCol = 0;
                         }
-                        li_num = 0;
+                        num = 0;
                     }
 
-                    ii_ole_row = ii_ole_row + 1;
-                    li_num = li_num + 1;
-                    worksheet3.Cells[ii_ole_row, 0 + li_add_col].Value = dr55060_3["data_ym"].AsString();
-                    worksheet3.Cells[ii_ole_row, 1 + li_add_col].Value = li_num;
-                    worksheet3.Cells[ii_ole_row, 2 + li_add_col].Value = ls_kind_id;
-                    worksheet3.Cells[ii_ole_row, 3 + li_add_col].Value = dr55060_3["trd_ar_amt"].AsDecimal();
-                    worksheet3.Cells[ii_ole_row, 4 + li_add_col].Value = dr55060_3["trd_rec_amt"].AsDecimal();
-                    worksheet3.Cells[ii_ole_row, 5 + li_add_col].Value = dr55060_3["cm_ar_amt"].AsDecimal();
-                    worksheet3.Cells[ii_ole_row, 6 + li_add_col].Value = dr55060_3["cm_rec_amt"].AsDecimal();
+                    rowNum = rowNum + 1;
+                    num = num + 1;
+                    worksheet3.Cells[rowNum, 0 + addCol].Value = dr55060_3["data_ym"].AsString();
+                    worksheet3.Cells[rowNum, 1 + addCol].Value = num;
+                    worksheet3.Cells[rowNum, 2 + addCol].Value = kindId;
+                    worksheet3.Cells[rowNum, 3 + addCol].Value = dr55060_3["trd_ar_amt"].AsDecimal();
+                    worksheet3.Cells[rowNum, 4 + addCol].Value = dr55060_3["trd_rec_amt"].AsDecimal();
+                    worksheet3.Cells[rowNum, 5 + addCol].Value = dr55060_3["cm_ar_amt"].AsDecimal();
+                    worksheet3.Cells[rowNum, 6 + addCol].Value = dr55060_3["cm_rec_amt"].AsDecimal();
                 }
 
                 #endregion
@@ -277,25 +273,24 @@ namespace PhoenixCI.FormUI.Prefix5 {
             
             try {
                 #region wf_55060_3_trd
-                string ls_rpt_name, ls_rpt_id, ls_kind_id;
-                int i, j, li_add_col;
+                string rptName, rptId, kindId;
+                int i, j, addCol;
                 //long i;
                 /*************************************
                 ls_rpt_name = 報表名稱
                 ls_rpt_id = 報表代號
                 *************************************/
-                ls_rpt_name = "造市折減";
-                ls_rpt_id = "55060_3MM";
-                //st_msg_txt.text = ls_rpt_id + '－' + ls_rpt_name + ' 轉檔中...';
+                rptName = "造市折減";
+                rptId = "55060_3MM";
 
                 /******************
                 讀取資料
                 ******************/
-                string as_sym = txtFromMonth.Text.Replace("/", "");
-                string as_eym = txtToMonth.Text.Replace("/", "");
-                DataTable dt55060_3_trd = dao55060.d_55060_3_trd(as_sym, as_eym);
+                string asSym = txtFromMonth.Text.Replace("/", "");
+                string asEym = txtToMonth.Text.Replace("/", "");
+                DataTable dt55060_3_trd = dao55060.d_55060_3_trd(asSym, asEym);
                 if (dt55060_3_trd.Rows.Count == 0) {
-                    MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromMonth.Text + "-" + txtToMonth.Text, ls_rpt_name));
+                    MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromMonth.Text + "-" + txtToMonth.Text, rptName));
                 }
 
                 //切換Sheet
@@ -305,36 +300,36 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 Worksheet worksheet = workbook.Worksheets[1];
 
                 //填資料
-                ls_kind_id = "";
-                int ii_ole_row = 0;
-                li_add_col = 0;
+                kindId = "";
+                int rowNum = 0;
+                addCol = 0;
                 for (i = 0; i < dt55060_3_trd.Rows.Count; i++) {
                     DataRow dr55060_3_trd = dt55060_3_trd.Rows[i];
-                    if (ls_kind_id != dr55060_3_trd["feetrd_kind_id"].AsString()) {
-                        ii_ole_row = 6;
-                        ls_kind_id = dr55060_3_trd["feetrd_kind_id"].AsString();
+                    if (kindId != dr55060_3_trd["feetrd_kind_id"].AsString()) {
+                        rowNum = 6;
+                        kindId = dr55060_3_trd["feetrd_kind_id"].AsString();
                         if (dr55060_3_trd["feetrd_kind_id"].AsString() == "UDF") {
-                            li_add_col = 14;
+                            addCol = 14;
                         }
                         else {
-                            li_add_col = 0;
+                            addCol = 0;
                         }
                     }
 
-                    ii_ole_row = ii_ole_row + 1;
-                    worksheet.Cells[ii_ole_row, 0 + li_add_col].Value = dr55060_3_trd["feetrd_ym"].AsString();
-                    worksheet.Cells[ii_ole_row, 1 + li_add_col].Value = dr55060_3_trd["feetrd_fcm_no"].AsString();
-                    worksheet.Cells[ii_ole_row, 2 + li_add_col].Value = dr55060_3_trd["feetrd_kind_id"].AsString();
-                    worksheet.Cells[ii_ole_row, 3 + li_add_col].Value = dr55060_3_trd["feetrd_disc_qnty"].AsDecimal();
-                    worksheet.Cells[ii_ole_row, 4 + li_add_col].Value = dr55060_3_trd["disc_rate"].AsInt();
-                    worksheet.Cells[ii_ole_row, 5 + li_add_col].Value = dr55060_3_trd["feetrd_ar"].AsDecimal();
-                    worksheet.Cells[ii_ole_row, 6 + li_add_col].Value = dr55060_3_trd["disc_amt"].AsDecimal();
-                    worksheet.Cells[ii_ole_row, 7 + li_add_col].Value = dr55060_3_trd["feetrd_rec_amt"].AsDecimal();
-                    worksheet.Cells[ii_ole_row, 8 + li_add_col].Value = dr55060_3_trd["feetrd_m_qnty"].AsDecimal();
-                    worksheet.Cells[ii_ole_row, 9 + li_add_col].Value = dr55060_3_trd["feetrd_fcm_kind"].AsString();
-                    worksheet.Cells[ii_ole_row, 10 + li_add_col].Value = dr55060_3_trd["feetrd_param_key"].AsString();
-                    worksheet.Cells[ii_ole_row, 11 + li_add_col].Value = dr55060_3_trd["feetrd_acc_no"].AsString();
-                    worksheet.Cells[ii_ole_row, 12 + li_add_col].Value = dr55060_3_trd["feetrd_session"].AsString();
+                    rowNum = rowNum + 1;
+                    worksheet.Cells[rowNum, 0 + addCol].Value = dr55060_3_trd["feetrd_ym"].AsString();
+                    worksheet.Cells[rowNum, 1 + addCol].Value = dr55060_3_trd["feetrd_fcm_no"].AsString();
+                    worksheet.Cells[rowNum, 2 + addCol].Value = dr55060_3_trd["feetrd_kind_id"].AsString();
+                    worksheet.Cells[rowNum, 3 + addCol].Value = dr55060_3_trd["feetrd_disc_qnty"].AsDecimal();
+                    worksheet.Cells[rowNum, 4 + addCol].Value = dr55060_3_trd["disc_rate"].AsInt();
+                    worksheet.Cells[rowNum, 5 + addCol].Value = dr55060_3_trd["feetrd_ar"].AsDecimal();
+                    worksheet.Cells[rowNum, 6 + addCol].Value = dr55060_3_trd["disc_amt"].AsDecimal();
+                    worksheet.Cells[rowNum, 7 + addCol].Value = dr55060_3_trd["feetrd_rec_amt"].AsDecimal();
+                    worksheet.Cells[rowNum, 8 + addCol].Value = dr55060_3_trd["feetrd_m_qnty"].AsDecimal();
+                    worksheet.Cells[rowNum, 9 + addCol].Value = dr55060_3_trd["feetrd_fcm_kind"].AsString();
+                    worksheet.Cells[rowNum, 10 + addCol].Value = dr55060_3_trd["feetrd_param_key"].AsString();
+                    worksheet.Cells[rowNum, 11 + addCol].Value = dr55060_3_trd["feetrd_acc_no"].AsString();
+                    worksheet.Cells[rowNum, 12 + addCol].Value = dr55060_3_trd["feetrd_session"].AsString();
                     //PB的寫法，但打內沒辦法自動分辨型別
                     //for (j = 0; j < 13; j++) {
                     //    worksheet.Cells[ii_ole_row, j + li_add_col].Value = dr55060_3_trd[j].ToString();
@@ -345,9 +340,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
                 #region wf_55060_3_cm
                 //讀取資料
-                DataTable dt55060_3_cm = dao55060.d_55060_3_cm(as_sym, as_eym);
+                DataTable dt55060_3_cm = dao55060.d_55060_3_cm(asSym, asEym);
                 if (dt55060_3_cm.Rows.Count == 0) {
-                    MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromMonth.Text + "-" + txtToMonth.Text, ls_rpt_name));
+                    MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromMonth.Text + "-" + txtToMonth.Text, rptName));
                 }
 
                 //切換Sheet
@@ -355,32 +350,32 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 Worksheet worksheet2 = workbook.Worksheets[2];
 
                 //填資料
-                ls_kind_id = "";
+                kindId = "";
                 for (i = 0; i < dt55060_3_cm.Rows.Count; i++) {
                     DataRow dr55060_3_cm = dt55060_3_cm.Rows[i];
-                    if (ls_kind_id != dr55060_3_cm["feetdcc_kind_id"].AsString()) {
-                        ii_ole_row = 6;
-                        ls_kind_id = dr55060_3_cm["feetdcc_kind_id"].AsString();
+                    if (kindId != dr55060_3_cm["feetdcc_kind_id"].AsString()) {
+                        rowNum = 6;
+                        kindId = dr55060_3_cm["feetdcc_kind_id"].AsString();
                         if (dr55060_3_cm["feetdcc_kind_id"].AsString() == "UDF") {
-                            li_add_col = 11;
+                            addCol = 11;
                         }
                         else {
-                            li_add_col = 0;
+                            addCol = 0;
                         }
                     }
 
-                    ii_ole_row = ii_ole_row + 1;
+                    rowNum = rowNum + 1;
 
-                    worksheet2.Cells[ii_ole_row, 0 + li_add_col].Value = dr55060_3_cm["feetdcc_ym"].AsString();
-                    worksheet2.Cells[ii_ole_row, 1 + li_add_col].Value = dr55060_3_cm["feetdcc_fcm_no"].AsString();
-                    worksheet2.Cells[ii_ole_row, 2 + li_add_col].Value = dr55060_3_cm["feetdcc_kind_id"].AsString();
-                    worksheet2.Cells[ii_ole_row, 3 + li_add_col].Value = dr55060_3_cm["feetdcc_disc_qnty"].AsDecimal();
-                    worksheet2.Cells[ii_ole_row, 4 + li_add_col].Value = dr55060_3_cm["disc_rate"].AsDecimal();
-                    worksheet2.Cells[ii_ole_row, 5 + li_add_col].Value = dr55060_3_cm["feetdcc_org_ar"].AsDecimal();
-                    worksheet2.Cells[ii_ole_row, 6 + li_add_col].Value = dr55060_3_cm["feetdcc_disc_amt"].AsDecimal();
-                    worksheet2.Cells[ii_ole_row, 7 + li_add_col].Value = dr55060_3_cm["rec_amt"].AsDecimal();
-                    worksheet2.Cells[ii_ole_row, 8 + li_add_col].Value = dr55060_3_cm["feetdcc_acc_no"].AsString();
-                    worksheet2.Cells[ii_ole_row, 9 + li_add_col].Value = dr55060_3_cm["feetdcc_session"].AsString();
+                    worksheet2.Cells[rowNum, 0 + addCol].Value = dr55060_3_cm["feetdcc_ym"].AsString();
+                    worksheet2.Cells[rowNum, 1 + addCol].Value = dr55060_3_cm["feetdcc_fcm_no"].AsString();
+                    worksheet2.Cells[rowNum, 2 + addCol].Value = dr55060_3_cm["feetdcc_kind_id"].AsString();
+                    worksheet2.Cells[rowNum, 3 + addCol].Value = dr55060_3_cm["feetdcc_disc_qnty"].AsDecimal();
+                    worksheet2.Cells[rowNum, 4 + addCol].Value = dr55060_3_cm["disc_rate"].AsDecimal();
+                    worksheet2.Cells[rowNum, 5 + addCol].Value = dr55060_3_cm["feetdcc_org_ar"].AsDecimal();
+                    worksheet2.Cells[rowNum, 6 + addCol].Value = dr55060_3_cm["feetdcc_disc_amt"].AsDecimal();
+                    worksheet2.Cells[rowNum, 7 + addCol].Value = dr55060_3_cm["rec_amt"].AsDecimal();
+                    worksheet2.Cells[rowNum, 8 + addCol].Value = dr55060_3_cm["feetdcc_acc_no"].AsString();
+                    worksheet2.Cells[rowNum, 9 + addCol].Value = dr55060_3_cm["feetdcc_session"].AsString();
                     //for (j = 0; j < 10; j++) {
                     //    worksheet2.Cells[ii_ole_row, j + li_add_col].Value = dr55060_3_cm[j].ToString();
                     //}
@@ -390,9 +385,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
                 #region wf_55060_3_all
                 //讀取資料
-                DataTable dt55060_3_all = dao55060.d_55060_3_all(as_sym, as_eym);
+                DataTable dt55060_3_all = dao55060.d_55060_3_all(asSym, asEym);
                 if (dt55060_3_all.Rows.Count == 0) {
-                    MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromMonth.Text + "-" + txtToMonth.Text, ls_rpt_name));
+                    MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromMonth.Text + "-" + txtToMonth.Text, rptName));
                 }
 
                 //切換Sheet
@@ -400,34 +395,34 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 Worksheet worksheet3 = workbook.Worksheets[0];
 
                 //填資料
-                ls_kind_id = "";
+                kindId = "";
                 for (i = 0; i < dt55060_3_all.Rows.Count; i++) {
                     DataRow dr55060_3_all = dt55060_3_all.Rows[i];
-                    if (ls_kind_id != dr55060_3_all["feetrd_kind_id"].AsString()) {
-                        ii_ole_row = 6;
-                        ls_kind_id = dr55060_3_all["feetrd_kind_id"].AsString();
+                    if (kindId != dr55060_3_all["feetrd_kind_id"].AsString()) {
+                        rowNum = 6;
+                        kindId = dr55060_3_all["feetrd_kind_id"].AsString();
                         if (dr55060_3_all["feetrd_kind_id"].AsString() == "UDF") {
-                            li_add_col = 14;
+                            addCol = 14;
                         }
                         else {
-                            li_add_col = 0;
+                            addCol = 0;
                         }
                     }
 
-                    ii_ole_row = ii_ole_row + 1;
-                    worksheet3.Cells[ii_ole_row, 0 + li_add_col].Value = dr55060_3_all["feetrd_feetrd_ym"].AsString();
-                    worksheet3.Cells[ii_ole_row, 1 + li_add_col].Value = dr55060_3_all["feetrd_feetrd_fcm_no"].AsString();
-                    worksheet3.Cells[ii_ole_row, 2 + li_add_col].Value = dr55060_3_all["feetrd_kind_id"].AsString();
-                    worksheet3.Cells[ii_ole_row, 3 + li_add_col].Value = dr55060_3_all["feetrd_feetrd_disc_qnty"].AsDecimal();
-                    worksheet3.Cells[ii_ole_row, 4 + li_add_col].Value = dr55060_3_all["disc_rate"].AsId();
-                    worksheet3.Cells[ii_ole_row, 5 + li_add_col].Value = dr55060_3_all["ar"].AsDecimal();
-                    worksheet3.Cells[ii_ole_row, 6 + li_add_col].Value = dr55060_3_all["disc_amt"].AsDecimal();
-                    worksheet3.Cells[ii_ole_row, 7 + li_add_col].Value = dr55060_3_all["rec_amt"].AsDecimal();
-                    worksheet3.Cells[ii_ole_row, 8 + li_add_col].Value = dr55060_3_all["feetrd_feetrd_m_qnty"].AsDecimal();
-                    worksheet3.Cells[ii_ole_row, 9 + li_add_col].Value = dr55060_3_all["feetrd_feetrd_fcm_kind"].AsString();
-                    worksheet3.Cells[ii_ole_row, 10 + li_add_col].Value = dr55060_3_all["feetrd_feetrd_param_key"].AsString();
-                    worksheet3.Cells[ii_ole_row, 11 + li_add_col].Value = dr55060_3_all["feetrd_feetrd_acc_no"].AsString();
-                    worksheet3.Cells[ii_ole_row, 12 + li_add_col].Value = dr55060_3_all["feetrd_feetrd_session"].AsString();
+                    rowNum = rowNum + 1;
+                    worksheet3.Cells[rowNum, 0 + addCol].Value = dr55060_3_all["feetrd_feetrd_ym"].AsString();
+                    worksheet3.Cells[rowNum, 1 + addCol].Value = dr55060_3_all["feetrd_feetrd_fcm_no"].AsString();
+                    worksheet3.Cells[rowNum, 2 + addCol].Value = dr55060_3_all["feetrd_kind_id"].AsString();
+                    worksheet3.Cells[rowNum, 3 + addCol].Value = dr55060_3_all["feetrd_feetrd_disc_qnty"].AsDecimal();
+                    worksheet3.Cells[rowNum, 4 + addCol].Value = dr55060_3_all["disc_rate"].AsId();
+                    worksheet3.Cells[rowNum, 5 + addCol].Value = dr55060_3_all["ar"].AsDecimal();
+                    worksheet3.Cells[rowNum, 6 + addCol].Value = dr55060_3_all["disc_amt"].AsDecimal();
+                    worksheet3.Cells[rowNum, 7 + addCol].Value = dr55060_3_all["rec_amt"].AsDecimal();
+                    worksheet3.Cells[rowNum, 8 + addCol].Value = dr55060_3_all["feetrd_feetrd_m_qnty"].AsDecimal();
+                    worksheet3.Cells[rowNum, 9 + addCol].Value = dr55060_3_all["feetrd_feetrd_fcm_kind"].AsString();
+                    worksheet3.Cells[rowNum, 10 + addCol].Value = dr55060_3_all["feetrd_feetrd_param_key"].AsString();
+                    worksheet3.Cells[rowNum, 11 + addCol].Value = dr55060_3_all["feetrd_feetrd_acc_no"].AsString();
+                    worksheet3.Cells[rowNum, 12 + addCol].Value = dr55060_3_all["feetrd_feetrd_session"].AsString();
                     //for (j = 0; j < 13; j++) {
                     //    worksheet3.Cells[ii_ole_row, j + li_add_col].Value = dr55060_3_all[j].ToString();
                     //}

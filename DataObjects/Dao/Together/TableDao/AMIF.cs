@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using BusinessObjects;
+using Common;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -97,6 +98,32 @@ where amif_date = :as_date
          DataTable dtResult = db.GetDataTable(sql , parms);
 
          return dtResult;
+      }
+
+      /// <summary>
+      /// Update CI.AMIF
+      /// </summary>
+      /// <param name="inputData"></param>
+      /// <returns></returns>
+      public ResultData UpdateData(DataTable inputData) {
+
+         string sql = @"
+SELECT AMIF_YEAR,   
+         AMIF_DATE,   
+         AMIF_PROD_ID,   
+         AMIF_HIGH_PRICE,   
+         AMIF_LOW_PRICE,   
+         AMIF_OPEN_PRICE,   
+         AMIF_CLOSE_PRICE, 
+         AMIF_SETTLE_PRICE,
+         AMIF_OPEN_INTEREST,
+         AMIF_UP_DOWN_VAL,
+         AMIF_M_QNTY_TAL,  
+         AMIF_KIND_ID,   
+         AMIF_SETTLE_DATE
+FROM CI.AMIF
+";
+         return db.UpdateOracleDB(inputData , sql);
       }
    }
 }

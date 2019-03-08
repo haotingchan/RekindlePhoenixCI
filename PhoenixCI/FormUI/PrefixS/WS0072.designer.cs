@@ -175,7 +175,7 @@
             this.panFilter.Controls.Add(this.lbl1);
             this.panFilter.Controls.Add(this.labDate);
             this.panFilter.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panFilter.Font = new System.Drawing.Font("PMingLiU", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.panFilter.Font = new System.Drawing.Font("新細明體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.panFilter.Location = new System.Drawing.Point(12, 12);
             this.panFilter.Name = "panFilter";
             this.panFilter.Size = new System.Drawing.Size(1123, 93);
@@ -260,7 +260,7 @@
             // 
             this.panMain.Controls.Add(this.SpanTabControl);
             this.panMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panMain.Font = new System.Drawing.Font("PMingLiU", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.panMain.Font = new System.Drawing.Font("新細明體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.panMain.Location = new System.Drawing.Point(12, 105);
             this.panMain.Name = "panMain";
             this.panMain.Size = new System.Drawing.Size(1123, 464);
@@ -773,7 +773,7 @@
             this.tab_VSR.Controls.Add(this.gc_VSR);
             this.tab_VSR.Controls.Add(this.panel3);
             this.tab_VSR.Name = "tab_VSR";
-            this.tab_VSR.Size = new System.Drawing.Size(800, 368);
+            this.tab_VSR.Size = new System.Drawing.Size(1111, 405);
             this.tab_VSR.Text = "D. VSR設定";
             // 
             // gc_VSR
@@ -785,7 +785,7 @@
             this.gc_VSR.Name = "gc_VSR";
             this.gc_VSR.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit3});
-            this.gc_VSR.Size = new System.Drawing.Size(800, 291);
+            this.gc_VSR.Size = new System.Drawing.Size(1111, 328);
             this.gc_VSR.TabIndex = 9;
             this.gc_VSR.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_VSR});
@@ -877,7 +877,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(800, 77);
+            this.panel3.Size = new System.Drawing.Size(1111, 77);
             this.panel3.TabIndex = 8;
             // 
             // VSR_btnClear

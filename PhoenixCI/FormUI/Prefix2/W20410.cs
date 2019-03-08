@@ -134,31 +134,31 @@ namespace PhoenixCI.FormUI.Prefix2 {
             }
             //Update to DB
             else {
-                string ls_type, ls_val1, ls_val2, ls_val3, ls_val4, ls_val5;
+                string type, val1, val2, val3, val4, val5;
                 //隱藏欄位賦值
                 foreach (DataRow dr in dt.Rows) {
                     if (dr.RowState == DataRowState.Added) {
                         dr["AM7_FC_QNTY"] = 0;
                         dr["OP_TYPE"] = "I";
                         //寫LOGV
-                        ls_type = dr["OP_TYPE"].AsString();
-                        ls_val1 = dr["AM7_Y"].AsString();
-                        ls_val2 = dr["AM7_DAY_COUNT"].AsString();
-                        ls_val3 = dr["AM7_FUT_AVG_QNTY"].AsString();
-                        ls_val4 = dr["AM7_OPT_AVG_QNTY"].AsString();
-                        ls_val5 = dr["AM7_FC_TAX"].AsString();
-                        daoLOGV.Insert(_ProgramID, GlobalInfo.USER_ID, ls_type, ls_val1, ls_val2, ls_val3, ls_val4, ls_val5);
+                        type = dr["OP_TYPE"].AsString();
+                        val1 = dr["AM7_Y"].AsString();
+                        val2 = dr["AM7_DAY_COUNT"].AsString();
+                        val3 = dr["AM7_FUT_AVG_QNTY"].AsString();
+                        val4 = dr["AM7_OPT_AVG_QNTY"].AsString();
+                        val5 = dr["AM7_FC_TAX"].AsString();
+                        daoLOGV.Insert(_ProgramID, GlobalInfo.USER_ID, type, val1, val2, val3, val4, val5);
                     }
                     if (dr.RowState == DataRowState.Modified) {
                         dr["OP_TYPE"] = "U";
                         //寫LOGV
-                        ls_type = dr["OP_TYPE"].AsString();
-                        ls_val1 = dr["AM7_Y"].AsString();
-                        ls_val2 = dr["AM7_DAY_COUNT"].AsString();
-                        ls_val3 = dr["AM7_FUT_AVG_QNTY"].AsString();
-                        ls_val4 = dr["AM7_OPT_AVG_QNTY"].AsString();
-                        ls_val5 = dr["AM7_FC_TAX"].AsString();
-                        daoLOGV.Insert(_ProgramID, GlobalInfo.USER_ID, ls_type, ls_val1, ls_val2, ls_val3, ls_val4, ls_val5);
+                        type = dr["OP_TYPE"].AsString();
+                        val1 = dr["AM7_Y"].AsString();
+                        val2 = dr["AM7_DAY_COUNT"].AsString();
+                        val3 = dr["AM7_FUT_AVG_QNTY"].AsString();
+                        val4 = dr["AM7_OPT_AVG_QNTY"].AsString();
+                        val5 = dr["AM7_FC_TAX"].AsString();
+                        daoLOGV.Insert(_ProgramID, GlobalInfo.USER_ID, type, val1, val2, val3, val4, val5);
                     }
                 }
                 ResultStatus status = base.Save_Override(dt, "AM7");

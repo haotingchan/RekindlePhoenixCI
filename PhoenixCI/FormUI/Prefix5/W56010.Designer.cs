@@ -24,10 +24,10 @@
         /// </summary>
         private void InitializeComponent() {
             this.grpxDescription = new System.Windows.Forms.GroupBox();
-            this.dw_prod_cond = new DevExpress.XtraEditors.LookUpEdit();
-            this.dw_ebrkno = new DevExpress.XtraEditors.LookUpEdit();
+            this.dwProdCond = new DevExpress.XtraEditors.LookUpEdit();
+            this.dwEbrkno = new DevExpress.XtraEditors.LookUpEdit();
             this.rdoGroup = new DevExpress.XtraEditors.RadioGroup();
-            this.dw_sbrkno = new DevExpress.XtraEditors.LookUpEdit();
+            this.dwSbrkno = new DevExpress.XtraEditors.LookUpEdit();
             this.label2 = new System.Windows.Forms.Label();
             this.lblCondition = new System.Windows.Forms.Label();
             this.lblFCM = new System.Windows.Forms.Label();
@@ -39,10 +39,10 @@
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             this.grpxDescription.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dw_prod_cond.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dw_ebrkno.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dwProdCond.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dwEbrkno.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rdoGroup.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dw_sbrkno.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dwSbrkno.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtToMonth.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFromMonth.Properties)).BeginInit();
             this.SuspendLayout();
@@ -60,10 +60,10 @@
             // grpxDescription
             // 
             this.grpxDescription.AutoSize = true;
-            this.grpxDescription.Controls.Add(this.dw_prod_cond);
-            this.grpxDescription.Controls.Add(this.dw_ebrkno);
+            this.grpxDescription.Controls.Add(this.dwProdCond);
+            this.grpxDescription.Controls.Add(this.dwEbrkno);
             this.grpxDescription.Controls.Add(this.rdoGroup);
-            this.grpxDescription.Controls.Add(this.dw_sbrkno);
+            this.grpxDescription.Controls.Add(this.dwSbrkno);
             this.grpxDescription.Controls.Add(this.label2);
             this.grpxDescription.Controls.Add(this.lblCondition);
             this.grpxDescription.Controls.Add(this.lblFCM);
@@ -78,25 +78,25 @@
             this.grpxDescription.TabStop = false;
             this.grpxDescription.Text = "請輸入交易日期";
             // 
-            // dw_prod_cond
+            // dwProdCond
             // 
-            this.dw_prod_cond.Location = new System.Drawing.Point(135, 193);
-            this.dw_prod_cond.MenuManager = this.ribbonControl;
-            this.dw_prod_cond.Name = "dw_prod_cond";
-            this.dw_prod_cond.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.dwProdCond.Location = new System.Drawing.Point(135, 193);
+            this.dwProdCond.MenuManager = this.ribbonControl;
+            this.dwProdCond.Name = "dwProdCond";
+            this.dwProdCond.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.dw_prod_cond.Size = new System.Drawing.Size(187, 26);
-            this.dw_prod_cond.TabIndex = 11;
+            this.dwProdCond.Size = new System.Drawing.Size(187, 26);
+            this.dwProdCond.TabIndex = 11;
             // 
-            // dw_ebrkno
+            // dwEbrkno
             // 
-            this.dw_ebrkno.Location = new System.Drawing.Point(359, 91);
-            this.dw_ebrkno.MenuManager = this.ribbonControl;
-            this.dw_ebrkno.Name = "dw_ebrkno";
-            this.dw_ebrkno.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.dwEbrkno.Location = new System.Drawing.Point(359, 91);
+            this.dwEbrkno.MenuManager = this.ribbonControl;
+            this.dwEbrkno.Name = "dwEbrkno";
+            this.dwEbrkno.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.dw_ebrkno.Size = new System.Drawing.Size(182, 26);
-            this.dw_ebrkno.TabIndex = 10;
+            this.dwEbrkno.Size = new System.Drawing.Size(182, 26);
+            this.dwEbrkno.TabIndex = 10;
             // 
             // rdoGroup
             // 
@@ -111,15 +111,15 @@
             this.rdoGroup.Size = new System.Drawing.Size(237, 42);
             this.rdoGroup.TabIndex = 14;
             // 
-            // dw_sbrkno
+            // dwSbrkno
             // 
-            this.dw_sbrkno.Location = new System.Drawing.Point(135, 91);
-            this.dw_sbrkno.MenuManager = this.ribbonControl;
-            this.dw_sbrkno.Name = "dw_sbrkno";
-            this.dw_sbrkno.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.dwSbrkno.Location = new System.Drawing.Point(135, 91);
+            this.dwSbrkno.MenuManager = this.ribbonControl;
+            this.dwSbrkno.Name = "dwSbrkno";
+            this.dwSbrkno.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.dw_sbrkno.Size = new System.Drawing.Size(187, 26);
-            this.dw_sbrkno.TabIndex = 9;
+            this.dwSbrkno.Size = new System.Drawing.Size(187, 26);
+            this.dwSbrkno.TabIndex = 9;
             // 
             // label2
             // 
@@ -226,10 +226,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
             this.grpxDescription.ResumeLayout(false);
             this.grpxDescription.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dw_prod_cond.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dw_ebrkno.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dwProdCond.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dwEbrkno.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.rdoGroup.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dw_sbrkno.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dwSbrkno.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtToMonth.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFromMonth.Properties)).EndInit();
             this.ResumeLayout(false);
@@ -240,10 +240,10 @@
         #endregion
 
         private System.Windows.Forms.GroupBox grpxDescription;
-        private DevExpress.XtraEditors.LookUpEdit dw_prod_cond;
-        private DevExpress.XtraEditors.LookUpEdit dw_ebrkno;
+        private DevExpress.XtraEditors.LookUpEdit dwProdCond;
+        private DevExpress.XtraEditors.LookUpEdit dwEbrkno;
         private DevExpress.XtraEditors.RadioGroup rdoGroup;
-        private DevExpress.XtraEditors.LookUpEdit dw_sbrkno;
+        private DevExpress.XtraEditors.LookUpEdit dwSbrkno;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lblCondition;
         private System.Windows.Forms.Label lblFCM;

@@ -33,15 +33,15 @@ namespace PhoenixCI.FormUI.Prefix3
       protected override ResultStatus Open()
       {
          base.Open();
-         em_month.Focus();
+         emMonth.Focus();
          return ResultStatus.Success;
       }
 
       protected override ResultStatus AfterOpen()
       {
          base.AfterOpen();
-         em_month.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
-         em_month.Focus();
+         emMonth.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
+         emMonth.Focus();
          return ResultStatus.Success;
       }
 
@@ -65,8 +65,8 @@ namespace PhoenixCI.FormUI.Prefix3
          /*******************
          Messagebox
          *******************/
-         st_msg_txt.Visible = true;
-         st_msg_txt.Text = "開始轉檔...";
+         stMsgtxt.Visible = true;
+         stMsgtxt.Text = "開始轉檔...";
          this.Cursor = Cursors.WaitCursor;
          this.Refresh();
          Thread.Sleep(5);
@@ -75,45 +75,44 @@ namespace PhoenixCI.FormUI.Prefix3
 
       protected void ExportAfter()
       {
-         st_msg_txt.Text = "轉檔完成!";
+         stMsgtxt.Text = "轉檔完成!";
          this.Cursor = Cursors.Arrow;
          this.Refresh();
          Thread.Sleep(5);
-         st_msg_txt.Visible = false;
+         stMsgtxt.Visible = false;
       }
 
       protected void ShowMsg(string msg)
       {
-         st_msg_txt.Text = msg;
+         stMsgtxt.Text = msg;
          this.Refresh();
          Thread.Sleep(5);
       }
 
       protected override ResultStatus Export()
       {
-         if (!ExportBefore()) {
-            return ResultStatus.Fail;
-         }
          try {
-            bool isComply=false;//判斷是否執行成功
-            string ls_file = PbFunc.wf_copy_file(_ProgramID, "30310");
-            b30310 = new B30310(ls_file, em_month.Text);
+            if (!ExportBefore()) {
+               return ResultStatus.Fail;
+            }
 
-            ShowMsg("30310－我國臺股期貨契約價量資料 轉檔中...");
-            isComply = b30310.wf_30310_1("TXF", "30311_1");
-            if(!isComply) return ResultStatus.Fail;
-            isComply = b30310.wf_30310_2("EXF", "30311_2(EXF)");
-            if (!isComply) return ResultStatus.Fail;
-            isComply = b30310.wf_30310_2("FXF", "30311_3(FXF)");
-            if (!isComply) return ResultStatus.Fail;
+            string lsFile = PbFunc.wf_copy_file(_ProgramID, "30310");
+            b30310 = new B30310(lsFile, emMonth.Text);
+            bool isChk = false;//判斷是否執行成功
+            ShowMsg("30310－我國臺股期貨契約價量資料30311_1 轉檔中...");
+            isChk = b30310.Wf30310one("TXF", "30311_1");
+            ShowMsg("30310－我國臺股期貨契約價量資料30311_2(EXF) 轉檔中...");
+            isChk = b30310.Wf30310two("EXF", "30311_2(EXF)");
+            ShowMsg("30310－我國臺股期貨契約價量資料30311_3(FXF) 轉檔中...");
+            isChk = b30310.Wf30310two("FXF", "30311_3(FXF)");
             ShowMsg("30313－當年每月日均量統計表 轉檔中...");
-            isComply = b30310.wf_30310_4();
-            if (!isComply) return ResultStatus.Fail;
+            isChk = b30310.Wf30310four();
             ExportAfter();
+            if (!isChk) return ResultStatus.Fail;//if Exception
          }
          catch (Exception ex) {
             ExportAfter();
-            PbFunc.messageBox(GlobalInfo.gs_t_err, ex.Message, MessageBoxIcon.Stop);
+            WriteLog(ex);
             return ResultStatus.Fail;
          }
          return ResultStatus.Success;

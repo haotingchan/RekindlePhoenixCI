@@ -1,4 +1,6 @@
-﻿using OnePiece;
+﻿using BusinessObjects;
+using BusinessObjects.Enums;
+using OnePiece;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -36,6 +38,16 @@ namespace DataObjects.Dao.Together.SpecificDao
             DataTable dtResult = db.GetDataTable(sql, parms);
 
             return dtResult;
+        }
+
+        public ResultData UpdateData(DataTable inputData) {
+            string sql = @"select  
+                                dts_date,
+                                dts_date_type,                              
+                                dts_work
+                                from ci.dts";
+
+            return db.UpdateOracleDB(inputData, sql);
         }
     }
 }

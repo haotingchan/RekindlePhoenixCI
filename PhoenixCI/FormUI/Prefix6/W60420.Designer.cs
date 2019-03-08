@@ -25,31 +25,31 @@
         private void InitializeComponent() {
             this.lblProcessing = new System.Windows.Forms.Label();
             this.grpxDescription = new System.Windows.Forms.GroupBox();
+            this.cbx2 = new System.Windows.Forms.CheckBox();
+            this.cbx3 = new System.Windows.Forms.CheckBox();
+            this.cbx4 = new System.Windows.Forms.CheckBox();
+            this.cbx5 = new System.Windows.Forms.CheckBox();
+            this.cbx1 = new System.Windows.Forms.CheckBox();
+            this.lblCheck = new System.Windows.Forms.Label();
+            this.dw_index = new DevExpress.XtraEditors.LookUpEdit();
+            this.lblIndex = new System.Windows.Forms.Label();
             this.txtStartDate = new PhoenixCI.Widget.TextDateEdit();
             this.label1 = new System.Windows.Forms.Label();
             this.txtEndDate = new PhoenixCI.Widget.TextDateEdit();
             this.lblDate = new System.Windows.Forms.Label();
-            this.lblIndex = new System.Windows.Forms.Label();
-            this.dw_index = new DevExpress.XtraEditors.LookUpEdit();
-            this.lblCheck = new System.Windows.Forms.Label();
-            this.cbx_1 = new System.Windows.Forms.CheckBox();
-            this.cbx_5 = new System.Windows.Forms.CheckBox();
-            this.cbx_4 = new System.Windows.Forms.CheckBox();
-            this.cbx_3 = new System.Windows.Forms.CheckBox();
-            this.cbx_2 = new System.Windows.Forms.CheckBox();
             this.grpxTest = new System.Windows.Forms.GroupBox();
-            this.sle_cond1 = new System.Windows.Forms.TextBox();
-            this.sle_cond2 = new System.Windows.Forms.TextBox();
-            this.sle_cond3 = new System.Windows.Forms.TextBox();
-            this.sle_cond4_1 = new System.Windows.Forms.TextBox();
-            this.sle_cond5_2 = new System.Windows.Forms.TextBox();
-            this.sle_cond4_2 = new System.Windows.Forms.TextBox();
+            this.sleCond42 = new System.Windows.Forms.TextBox();
+            this.sleCond52 = new System.Windows.Forms.TextBox();
+            this.sleCond41 = new System.Windows.Forms.TextBox();
+            this.sleCond3 = new System.Windows.Forms.TextBox();
+            this.sleCond2 = new System.Windows.Forms.TextBox();
+            this.sleCond1 = new System.Windows.Forms.TextBox();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             this.grpxDescription.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dw_index.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dw_index.Properties)).BeginInit();
             this.grpxTest.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -80,11 +80,11 @@
             // grpxDescription
             // 
             this.grpxDescription.AutoSize = true;
-            this.grpxDescription.Controls.Add(this.cbx_2);
-            this.grpxDescription.Controls.Add(this.cbx_3);
-            this.grpxDescription.Controls.Add(this.cbx_4);
-            this.grpxDescription.Controls.Add(this.cbx_5);
-            this.grpxDescription.Controls.Add(this.cbx_1);
+            this.grpxDescription.Controls.Add(this.cbx2);
+            this.grpxDescription.Controls.Add(this.cbx3);
+            this.grpxDescription.Controls.Add(this.cbx4);
+            this.grpxDescription.Controls.Add(this.cbx5);
+            this.grpxDescription.Controls.Add(this.cbx1);
             this.grpxDescription.Controls.Add(this.lblCheck);
             this.grpxDescription.Controls.Add(this.dw_index);
             this.grpxDescription.Controls.Add(this.lblIndex);
@@ -98,6 +98,96 @@
             this.grpxDescription.TabIndex = 12;
             this.grpxDescription.TabStop = false;
             this.grpxDescription.Text = "請輸入交易日期";
+            // 
+            // cbx2
+            // 
+            this.cbx2.AutoSize = true;
+            this.cbx2.Checked = true;
+            this.cbx2.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbx2.Location = new System.Drawing.Point(132, 217);
+            this.cbx2.Name = "cbx2";
+            this.cbx2.Size = new System.Drawing.Size(246, 24);
+            this.cbx2.TabIndex = 5;
+            this.cbx2.Text = "2. 權重最大之成份股權重≦30%";
+            this.cbx2.UseVisualStyleBackColor = true;
+            // 
+            // cbx3
+            // 
+            this.cbx3.AutoSize = true;
+            this.cbx3.Checked = true;
+            this.cbx3.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbx3.Location = new System.Drawing.Point(132, 247);
+            this.cbx3.Name = "cbx3";
+            this.cbx3.Size = new System.Drawing.Size(278, 24);
+            this.cbx3.TabIndex = 6;
+            this.cbx3.Text = "3. 權重前五大成份股合計權重≦60%";
+            this.cbx3.UseVisualStyleBackColor = true;
+            // 
+            // cbx4
+            // 
+            this.cbx4.AutoSize = true;
+            this.cbx4.Checked = true;
+            this.cbx4.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbx4.Location = new System.Drawing.Point(132, 261);
+            this.cbx4.Name = "cbx4";
+            this.cbx4.Size = new System.Drawing.Size(404, 64);
+            this.cbx4.TabIndex = 7;
+            this.cbx4.Text = "\r\n4. 最低25%權重之成份股，檔數在15檔(含)以上，\r\n    過去半年每日合計成交值之平均值＞3,000萬美元」";
+            this.cbx4.UseVisualStyleBackColor = true;
+            // 
+            // cbx5
+            // 
+            this.cbx5.AutoSize = true;
+            this.cbx5.Checked = true;
+            this.cbx5.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbx5.Location = new System.Drawing.Point(132, 312);
+            this.cbx5.Name = "cbx5";
+            this.cbx5.Size = new System.Drawing.Size(404, 64);
+            this.cbx5.TabIndex = 8;
+            this.cbx5.Text = "\r\n5. 最低25%權重之成份股，檔數低於15檔，\r\n    過去半年每日合計成交值之平均值＞5,000萬美元」";
+            this.cbx5.UseVisualStyleBackColor = true;
+            // 
+            // cbx1
+            // 
+            this.cbx1.AutoSize = true;
+            this.cbx1.Checked = true;
+            this.cbx1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbx1.Location = new System.Drawing.Point(132, 187);
+            this.cbx1.Name = "cbx1";
+            this.cbx1.Size = new System.Drawing.Size(152, 24);
+            this.cbx1.TabIndex = 4;
+            this.cbx1.Text = "1. 成份股檔數≧10";
+            this.cbx1.UseVisualStyleBackColor = true;
+            // 
+            // lblCheck
+            // 
+            this.lblCheck.AutoSize = true;
+            this.lblCheck.BackColor = System.Drawing.Color.Transparent;
+            this.lblCheck.Location = new System.Drawing.Point(69, 155);
+            this.lblCheck.Name = "lblCheck";
+            this.lblCheck.Size = new System.Drawing.Size(89, 20);
+            this.lblCheck.TabIndex = 16;
+            this.lblCheck.Text = "檢核標準：";
+            // 
+            // dw_index
+            // 
+            this.dw_index.Location = new System.Drawing.Point(132, 45);
+            this.dw_index.MenuManager = this.ribbonControl;
+            this.dw_index.Name = "dw_index";
+            this.dw_index.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.dw_index.Size = new System.Drawing.Size(178, 26);
+            this.dw_index.TabIndex = 1;
+            // 
+            // lblIndex
+            // 
+            this.lblIndex.AutoSize = true;
+            this.lblIndex.BackColor = System.Drawing.Color.Transparent;
+            this.lblIndex.Location = new System.Drawing.Point(69, 48);
+            this.lblIndex.Name = "lblIndex";
+            this.lblIndex.Size = new System.Drawing.Size(57, 20);
+            this.lblIndex.TabIndex = 14;
+            this.lblIndex.Text = "指數：";
             // 
             // txtStartDate
             // 
@@ -155,104 +245,14 @@
             this.lblDate.TabIndex = 12;
             this.lblDate.Text = "日期：";
             // 
-            // lblIndex
-            // 
-            this.lblIndex.AutoSize = true;
-            this.lblIndex.BackColor = System.Drawing.Color.Transparent;
-            this.lblIndex.Location = new System.Drawing.Point(69, 48);
-            this.lblIndex.Name = "lblIndex";
-            this.lblIndex.Size = new System.Drawing.Size(57, 20);
-            this.lblIndex.TabIndex = 14;
-            this.lblIndex.Text = "指數：";
-            // 
-            // dw_index
-            // 
-            this.dw_index.Location = new System.Drawing.Point(132, 45);
-            this.dw_index.MenuManager = this.ribbonControl;
-            this.dw_index.Name = "dw_index";
-            this.dw_index.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.dw_index.Size = new System.Drawing.Size(178, 26);
-            this.dw_index.TabIndex = 1;
-            // 
-            // lblCheck
-            // 
-            this.lblCheck.AutoSize = true;
-            this.lblCheck.BackColor = System.Drawing.Color.Transparent;
-            this.lblCheck.Location = new System.Drawing.Point(69, 155);
-            this.lblCheck.Name = "lblCheck";
-            this.lblCheck.Size = new System.Drawing.Size(89, 20);
-            this.lblCheck.TabIndex = 16;
-            this.lblCheck.Text = "檢核標準：";
-            // 
-            // cbx_1
-            // 
-            this.cbx_1.AutoSize = true;
-            this.cbx_1.Checked = true;
-            this.cbx_1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbx_1.Location = new System.Drawing.Point(132, 187);
-            this.cbx_1.Name = "cbx_1";
-            this.cbx_1.Size = new System.Drawing.Size(152, 24);
-            this.cbx_1.TabIndex = 4;
-            this.cbx_1.Text = "1. 成份股檔數≧10";
-            this.cbx_1.UseVisualStyleBackColor = true;
-            // 
-            // cbx_5
-            // 
-            this.cbx_5.AutoSize = true;
-            this.cbx_5.Checked = true;
-            this.cbx_5.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbx_5.Location = new System.Drawing.Point(132, 312);
-            this.cbx_5.Name = "cbx_5";
-            this.cbx_5.Size = new System.Drawing.Size(404, 64);
-            this.cbx_5.TabIndex = 8;
-            this.cbx_5.Text = "\r\n5. 最低25%權重之成份股，檔數低於15檔，\r\n    過去半年每日合計成交值之平均值＞5,000萬美元」";
-            this.cbx_5.UseVisualStyleBackColor = true;
-            // 
-            // cbx_4
-            // 
-            this.cbx_4.AutoSize = true;
-            this.cbx_4.Checked = true;
-            this.cbx_4.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbx_4.Location = new System.Drawing.Point(132, 261);
-            this.cbx_4.Name = "cbx_4";
-            this.cbx_4.Size = new System.Drawing.Size(404, 64);
-            this.cbx_4.TabIndex = 7;
-            this.cbx_4.Text = "\r\n4. 最低25%權重之成份股，檔數在15檔(含)以上，\r\n    過去半年每日合計成交值之平均值＞3,000萬美元」";
-            this.cbx_4.UseVisualStyleBackColor = true;
-            // 
-            // cbx_3
-            // 
-            this.cbx_3.AutoSize = true;
-            this.cbx_3.Checked = true;
-            this.cbx_3.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbx_3.Location = new System.Drawing.Point(132, 247);
-            this.cbx_3.Name = "cbx_3";
-            this.cbx_3.Size = new System.Drawing.Size(278, 24);
-            this.cbx_3.TabIndex = 6;
-            this.cbx_3.Text = "3. 權重前五大成份股合計權重≦60%";
-            this.cbx_3.UseVisualStyleBackColor = true;
-            // 
-            // cbx_2
-            // 
-            this.cbx_2.AutoSize = true;
-            this.cbx_2.Checked = true;
-            this.cbx_2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbx_2.Location = new System.Drawing.Point(132, 217);
-            this.cbx_2.Name = "cbx_2";
-            this.cbx_2.Size = new System.Drawing.Size(246, 24);
-            this.cbx_2.TabIndex = 5;
-            this.cbx_2.Text = "2. 權重最大之成份股權重≦30%";
-            this.cbx_2.UseVisualStyleBackColor = true;
-            // 
             // grpxTest
             // 
-            this.grpxTest.Controls.Add(this.sle_cond4_2);
-            this.grpxTest.Controls.Add(this.sle_cond5_2);
-            this.grpxTest.Controls.Add(this.sle_cond4_1);
-            this.grpxTest.Controls.Add(this.sle_cond3);
-            this.grpxTest.Controls.Add(this.sle_cond2);
-            this.grpxTest.Controls.Add(this.sle_cond1);
+            this.grpxTest.Controls.Add(this.sleCond42);
+            this.grpxTest.Controls.Add(this.sleCond52);
+            this.grpxTest.Controls.Add(this.sleCond41);
+            this.grpxTest.Controls.Add(this.sleCond3);
+            this.grpxTest.Controls.Add(this.sleCond2);
+            this.grpxTest.Controls.Add(this.sleCond1);
             this.grpxTest.Location = new System.Drawing.Point(665, 186);
             this.grpxTest.Name = "grpxTest";
             this.grpxTest.Size = new System.Drawing.Size(202, 231);
@@ -261,53 +261,53 @@
             this.grpxTest.Text = "測試";
             this.grpxTest.Visible = false;
             // 
-            // sle_cond1
+            // sleCond42
             // 
-            this.sle_cond1.Location = new System.Drawing.Point(31, 28);
-            this.sle_cond1.Name = "sle_cond1";
-            this.sle_cond1.Size = new System.Drawing.Size(62, 29);
-            this.sle_cond1.TabIndex = 0;
-            this.sle_cond1.Text = "10";
+            this.sleCond42.Location = new System.Drawing.Point(99, 133);
+            this.sleCond42.Name = "sleCond42";
+            this.sleCond42.Size = new System.Drawing.Size(76, 29);
+            this.sleCond42.TabIndex = 5;
+            this.sleCond42.Text = "3000";
             // 
-            // sle_cond2
+            // sleCond52
             // 
-            this.sle_cond2.Location = new System.Drawing.Point(31, 63);
-            this.sle_cond2.Name = "sle_cond2";
-            this.sle_cond2.Size = new System.Drawing.Size(62, 29);
-            this.sle_cond2.TabIndex = 1;
-            this.sle_cond2.Text = "0.3";
+            this.sleCond52.Location = new System.Drawing.Point(31, 184);
+            this.sleCond52.Name = "sleCond52";
+            this.sleCond52.Size = new System.Drawing.Size(79, 29);
+            this.sleCond52.TabIndex = 4;
+            this.sleCond52.Text = "5000";
             // 
-            // sle_cond3
+            // sleCond41
             // 
-            this.sle_cond3.Location = new System.Drawing.Point(31, 98);
-            this.sle_cond3.Name = "sle_cond3";
-            this.sle_cond3.Size = new System.Drawing.Size(62, 29);
-            this.sle_cond3.TabIndex = 2;
-            this.sle_cond3.Text = "0.6";
+            this.sleCond41.Location = new System.Drawing.Point(31, 133);
+            this.sleCond41.Name = "sleCond41";
+            this.sleCond41.Size = new System.Drawing.Size(62, 29);
+            this.sleCond41.TabIndex = 3;
+            this.sleCond41.Text = "15";
             // 
-            // sle_cond4_1
+            // sleCond3
             // 
-            this.sle_cond4_1.Location = new System.Drawing.Point(31, 133);
-            this.sle_cond4_1.Name = "sle_cond4_1";
-            this.sle_cond4_1.Size = new System.Drawing.Size(62, 29);
-            this.sle_cond4_1.TabIndex = 3;
-            this.sle_cond4_1.Text = "15";
+            this.sleCond3.Location = new System.Drawing.Point(31, 98);
+            this.sleCond3.Name = "sleCond3";
+            this.sleCond3.Size = new System.Drawing.Size(62, 29);
+            this.sleCond3.TabIndex = 2;
+            this.sleCond3.Text = "0.6";
             // 
-            // sle_cond5_2
+            // sleCond2
             // 
-            this.sle_cond5_2.Location = new System.Drawing.Point(31, 184);
-            this.sle_cond5_2.Name = "sle_cond5_2";
-            this.sle_cond5_2.Size = new System.Drawing.Size(79, 29);
-            this.sle_cond5_2.TabIndex = 4;
-            this.sle_cond5_2.Text = "5000";
+            this.sleCond2.Location = new System.Drawing.Point(31, 63);
+            this.sleCond2.Name = "sleCond2";
+            this.sleCond2.Size = new System.Drawing.Size(62, 29);
+            this.sleCond2.TabIndex = 1;
+            this.sleCond2.Text = "0.3";
             // 
-            // sle_cond4_2
+            // sleCond1
             // 
-            this.sle_cond4_2.Location = new System.Drawing.Point(99, 133);
-            this.sle_cond4_2.Name = "sle_cond4_2";
-            this.sle_cond4_2.Size = new System.Drawing.Size(76, 29);
-            this.sle_cond4_2.TabIndex = 5;
-            this.sle_cond4_2.Text = "3000";
+            this.sleCond1.Location = new System.Drawing.Point(31, 28);
+            this.sleCond1.Name = "sleCond1";
+            this.sleCond1.Size = new System.Drawing.Size(62, 29);
+            this.sleCond1.TabIndex = 0;
+            this.sleCond1.Text = "10";
             // 
             // W60420
             // 
@@ -322,9 +322,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
             this.grpxDescription.ResumeLayout(false);
             this.grpxDescription.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dw_index.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dw_index.Properties)).EndInit();
             this.grpxTest.ResumeLayout(false);
             this.grpxTest.PerformLayout();
             this.ResumeLayout(false);
@@ -340,20 +340,20 @@
         private System.Windows.Forms.Label label1;
         private Widget.TextDateEdit txtEndDate;
         private System.Windows.Forms.Label lblDate;
-        private System.Windows.Forms.CheckBox cbx_2;
-        private System.Windows.Forms.CheckBox cbx_3;
-        private System.Windows.Forms.CheckBox cbx_4;
-        private System.Windows.Forms.CheckBox cbx_5;
-        private System.Windows.Forms.CheckBox cbx_1;
+        private System.Windows.Forms.CheckBox cbx2;
+        private System.Windows.Forms.CheckBox cbx3;
+        private System.Windows.Forms.CheckBox cbx4;
+        private System.Windows.Forms.CheckBox cbx5;
+        private System.Windows.Forms.CheckBox cbx1;
         private System.Windows.Forms.Label lblCheck;
         private DevExpress.XtraEditors.LookUpEdit dw_index;
         private System.Windows.Forms.Label lblIndex;
         private System.Windows.Forms.GroupBox grpxTest;
-        private System.Windows.Forms.TextBox sle_cond4_2;
-        private System.Windows.Forms.TextBox sle_cond5_2;
-        private System.Windows.Forms.TextBox sle_cond4_1;
-        private System.Windows.Forms.TextBox sle_cond3;
-        private System.Windows.Forms.TextBox sle_cond2;
-        private System.Windows.Forms.TextBox sle_cond1;
+        private System.Windows.Forms.TextBox sleCond42;
+        private System.Windows.Forms.TextBox sleCond52;
+        private System.Windows.Forms.TextBox sleCond41;
+        private System.Windows.Forms.TextBox sleCond3;
+        private System.Windows.Forms.TextBox sleCond2;
+        private System.Windows.Forms.TextBox sleCond1;
     }
 }

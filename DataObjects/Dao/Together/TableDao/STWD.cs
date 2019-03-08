@@ -47,20 +47,20 @@ where STWD_YMD = :ls_date
         }
 
       /// <summary>
-      /// 刪除被選取的日期資料
+      /// 刪除被選取的日期資料 (for 28110 /winni)
       /// </summary>
-      /// <param name="as_date">yyyyMMdd</param>
+      /// <param name="dateYmd">yyyyMMdd</param>
       /// <returns></returns>
-      public bool DeleteByDate(string as_date) {
+      public bool DeleteByDate(string dateYmd) {
 
          object[] parms = {
-                "@as_date", as_date
+                "@dateYmd", dateYmd
             };
 
-         string sql = @"DELETE FROM CI.STWD WHERE STWD_YMD = :as_date";
+         string sql = @"DELETE FROM CI.STWD WHERE STWD_YMD = :dateYmd";
          int executeResult = db.ExecuteSQL(sql , parms);
 
-         if (executeResult > 0) {
+         if (executeResult >= 0) {
             return true;
          } else {
             throw new Exception("刪除失敗");

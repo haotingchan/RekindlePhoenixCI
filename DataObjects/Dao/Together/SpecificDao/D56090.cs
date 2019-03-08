@@ -1,4 +1,5 @@
-﻿using BusinessObjects.Enums;
+﻿using BusinessObjects;
+using BusinessObjects.Enums;
 using OnePiece;
 using System;
 using System.Collections.Generic;
@@ -25,21 +26,39 @@ namespace DataObjects.Dao.Together.SpecificDao {
             return dtResult;
         }
 
-        public ResultStatus DeleteByYM(string feetdcc_ym) {
+        public int DeleteByYM(string feetdcc_ym) {
             object[] parms = {
                 "@feetdcc_ym", feetdcc_ym
             };
 
-            string sql = @"DELETE FROM CI.FEETDCC
+            try {
+                string sql = @"DELETE FROM CI.FEETDCC
                            WHERE FEETDCC_YM = :feetdcc_ym";
-            int executeResult = db.ExecuteSQL(sql, parms);
+                return db.ExecuteSQL(sql, parms);
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
 
-            if (executeResult >= 0) {
-                return ResultStatus.Success;
-            }
-            else {
-                throw new Exception("刪除失敗");
-            }
+        public ResultData updateData(DataTable inputData) {
+
+            string sql = @"SELECT 
+feetdcc_ym,
+feetdcc_fcm_no,
+feetdcc_kind_id, 
+feetdcc_disc_qnty, 
+feetdcc_disc_rate, 
+feetdcc_org_ar, 
+feetdcc_disc_amt, 
+feetdcc_w_user_id, 
+feetdcc_w_time, 
+feetdcc_acc_no, 
+feetdcc_session
+from ci.feetdcc";
+
+            return db.UpdateOracleDB(inputData, sql);
+
         }
     }
 }

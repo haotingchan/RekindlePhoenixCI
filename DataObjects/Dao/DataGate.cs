@@ -481,8 +481,15 @@ namespace DataObjects.Dao {
             return db.ExecuteStoredProcedure(sql, dbParmsEx, hasReturnParameter);
         }
 
+        /// <summary>
+        ///即將廢除, 轉至各隻功能之DAO update Data by David
+        /// </summary>
+        /// <param name="inputDT"></param>
+        /// <param name="tableName"></param>
+        /// <param name="dBName"></param>
+        /// <returns></returns>
         public ResultData Save_Override(DataTable inputDT, string tableName, DBName dBName = DBName.CI) {
-            return db.UpdateOracleDB(inputDT, tableName, dBName);
+            return db.UpdateOracleDB(inputDT, "");
         }
     }
 }

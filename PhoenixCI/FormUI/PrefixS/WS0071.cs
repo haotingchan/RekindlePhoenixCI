@@ -16,13 +16,12 @@ using DevExpress.XtraEditors;
 using DevExpress.XtraGrid.Views.Base;
 
 namespace PhoenixCI.FormUI.PrefixS {
-    public partial class WS0071 : FormParent
-    {
+    public partial class WS0071 : FormParent {
         protected DS0071 daoS0071;
         protected COD daoCod;
-        protected string is_fm_ymd;
-        protected string is_to_ymd;
-        protected DateTime is_max_ymd;
+        protected string fmYmd;
+        protected string toYmd;
+        protected DateTime maxYmd;
         protected DateTime startDateOldValue;
         protected DateTime endDateOldValue;
         protected DataTable periodTable;
@@ -38,12 +37,12 @@ namespace PhoenixCI.FormUI.PrefixS {
             //設定初始年月yyyy/MM/dd
             DataTable dtSPN = daoS0071.GetPeriodByUserId("PL", GlobalInfo.USER_ID);
             if (dtSPN.Rows.Count <= 0) {
-                is_fm_ymd = DateTime.Now.AddDays(-60).ToString("yyyyMMdd");
-                is_to_ymd = DateTime.Now.ToString("yyyyMMdd");
-                is_max_ymd = new AOCF().GetMaxDate(is_fm_ymd, is_to_ymd);
+                fmYmd = DateTime.Now.AddDays(-60).ToString("yyyyMMdd");
+                toYmd = DateTime.Now.ToString("yyyyMMdd");
+                maxYmd = new AOCF().GetMaxDate(fmYmd, toYmd);
 
-                txtEndDate.DateTimeValue = DateTime.ParseExact(is_max_ymd.ToString("yyyy/MM/dd"), "yyyy/MM/dd", null);
-                txtStartDate.DateTimeValue = DateTime.ParseExact(is_max_ymd.ToString("yyyy/MM/dd"), "yyyy/MM/dd", null);
+                txtEndDate.DateTimeValue = DateTime.ParseExact(maxYmd.ToString("yyyy/MM/dd"), "yyyy/MM/dd", null);
+                txtStartDate.DateTimeValue = DateTime.ParseExact(maxYmd.ToString("yyyy/MM/dd"), "yyyy/MM/dd", null);
                 startDateOldValue = txtStartDate.DateTimeValue;
                 endDateOldValue = txtEndDate.DateTimeValue;
             }
@@ -119,12 +118,12 @@ namespace PhoenixCI.FormUI.PrefixS {
             //save 後替換新值
             DataTable dtSPN = daoS0071.GetPeriodByUserId("PL", GlobalInfo.USER_ID);
             if (dtSPN.Rows.Count <= 0) {
-                is_fm_ymd = DateTime.Now.AddDays(-60).ToString("yyyyMMdd");
-                is_to_ymd = DateTime.Now.ToString("yyyyMMdd");
-                is_max_ymd = new AOCF().GetMaxDate(is_fm_ymd, is_to_ymd);
+                fmYmd = DateTime.Now.AddDays(-60).ToString("yyyyMMdd");
+                toYmd = DateTime.Now.ToString("yyyyMMdd");
+                maxYmd = new AOCF().GetMaxDate(fmYmd, toYmd);
 
-                txtStartDate.DateTimeValue = DateTime.ParseExact(is_max_ymd.ToString("yyyy/MM/dd"), "yyyy/MM/dd", null);
-                txtEndDate.DateTimeValue = DateTime.ParseExact(is_max_ymd.ToString("yyyy/MM/dd"), "yyyy/MM/dd", null);
+                txtStartDate.DateTimeValue = DateTime.ParseExact(maxYmd.ToString("yyyy/MM/dd"), "yyyy/MM/dd", null);
+                txtEndDate.DateTimeValue = DateTime.ParseExact(maxYmd.ToString("yyyy/MM/dd"), "yyyy/MM/dd", null);
                 startDateOldValue = txtStartDate.DateTimeValue;
                 endDateOldValue = txtEndDate.DateTimeValue;
             }
@@ -157,66 +156,34 @@ namespace PhoenixCI.FormUI.PrefixS {
             ResultStatus resultStatus = ResultStatus.Fail;
 
             DataTable dt = (DataTable)gcMain.DataSource;
-            DataTable dtChange = dt.GetChanges();
 
-            if (dtChange != null) {
-                if (dtChange.Rows.Count == 0) {
-                    MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    return ResultStatus.FailButNext;
-                }
-                else //日期區間及資料都更新
-                {
-                    if (txtEndDate.DateTimeValue.Subtract(txtStartDate.DateTimeValue).Days > 31) {
-                        MessageBox.Show("日期區間不可超過31天!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                        return ResultStatus.FailButNext;
-                    }
-                    else {
-                        resultStatus = savePeriod();
-                        if (resultStatus == ResultStatus.Success) {
-                            for (int i = 0; i < dt.Rows.Count; i++) {
-                                if (dt.Rows[i].RowState != DataRowState.Deleted) {
-                                    dt.Rows[i].SetField("span_param_w_time", DateTime.Now);
-                                }
-                                if (dt.Rows[i]["span_param_type"].AsString() == "2") {
-                                    switch (dt.Rows[i]["span_param_value"].AsString()) {
-                                        case "1":
-                                        case "2":
-                                        case "3":
-                                        case "4": {//最大漲跌停
-                                                break;
-                                            }
-                                        default: {
-                                                MessageBox.Show("設定方式選漲跌停價格, 則設定值請選擇1, 2, 3或最大漲跌停", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                                                return ResultStatus.FailButNext;
-                                            }
-                                    }
+            if (checkChanged()) {
+                resultStatus = savePeriod();
+                if (resultStatus == ResultStatus.Success) {
+                    foreach (DataRow r in dt.Rows) {
+                        if (r.RowState != DataRowState.Deleted) {
+                            r.SetField("span_param_w_time", DateTime.Now);
+                            if (r["span_param_type"].AsString() == "2") {
+                                switch (r["span_param_value"].AsString()) {
+                                    case "1":
+                                    case "2":
+                                    case "3":
+                                    case "4": {//最大漲跌停
+                                            break;
+                                        }
+                                    default: {
+                                            MessageDisplay.Info("設定方式選漲跌停價格, 則設定值請選擇1, 2, 3或最大漲跌停");
+                                            return ResultStatus.FailButNext;
+                                        }
                                 }
                             }
-                            resultStatus = base.Save_Override(dt, "SPAN_PARAM", DBName.CFO);
-                        }
-                        else {
-                            return ResultStatus.Fail;
                         }
                     }
+                    resultStatus = daoS0071.updateParamData(dt).Status;//base.Save_Override(dt, "SPAN_PARAM", DBName.CFO);
                 }
+                _IsPreventFlowPrint = true;
             }
-            else if (txtStartDate.DateTimeValue == startDateOldValue
-                    && txtEndDate.DateTimeValue == endDateOldValue) {
-                MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return ResultStatus.FailButNext;
-            }
-            else //只更新日期區間
-            {
-                if (txtEndDate.DateTimeValue.Subtract(txtStartDate.DateTimeValue).Days <= 31) {
-                    resultStatus = savePeriod();
-                }
-                else {
-                    MessageBox.Show("日期區間不可超過31天!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    return ResultStatus.FailButNext;
-                }
-            }
-            _IsPreventFlowPrint = true;
-            return ResultStatus.Success;
+            return resultStatus;
         }
 
         protected override ResultStatus ActivatedForm() {
@@ -229,6 +196,26 @@ namespace PhoenixCI.FormUI.PrefixS {
             _ToolBtnDel.Enabled = true;
 
             return ResultStatus.Success;
+        }
+
+        protected override ResultStatus RunBefore(PokeBall args) {
+            ResultStatus resultStatus = ResultStatus.Fail;
+
+            if (checkChanged()) {
+                MessageDisplay.Info("資料有變更, 請先存檔!");
+                resultStatus = ResultStatus.FailButNext;
+            }
+            else {
+                Run(args);
+            }
+            return resultStatus;
+        }
+
+        protected override ResultStatus Run(PokeBall args) {
+            if (!checkChanged()) {
+                PbFunc.f_bat_span("S0071", "PL", GlobalInfo.USER_ID);
+            }
+            return base.Run(args);
         }
 
         protected override ResultStatus InsertRow() {
@@ -251,7 +238,12 @@ namespace PhoenixCI.FormUI.PrefixS {
             periodTable.Rows[0].SetField("span_period_end_date", txtEndDate.DateTimeValue.ToString("yyyyMMdd"));
             periodTable.Rows[0].SetField("span_period_w_time", DateTime.Now);
 
-            return base.Save_Override(periodTable, "SPAN_PERIOD", DBName.CFO);
+            if (checkPeriod()) {
+                return daoS0071.updatePeriodData(periodTable).Status;//base.Save_Override(periodTable, "SPAN_PERIOD", DBName.CFO);
+            }
+            else {
+                return ResultStatus.FailButNext;
+            }
         }
 
         private void gvMain_InitNewRow(object sender, InitNewRowEventArgs e) {
@@ -263,24 +255,9 @@ namespace PhoenixCI.FormUI.PrefixS {
         }
 
         private void btnClear_Click(object sender, EventArgs e) {
-            DialogResult dialog = MessageDisplay.Choose("確定刪除所有資料?");
-
-            if (dialog == DialogResult.Yes) {
-                gcMain.DataSource = null;
-            }
-        }
-
-        private void txtStartDate_Leave(object sender, EventArgs e) {
-            if (txtStartDate.DateTimeValue > txtEndDate.DateTimeValue) {
-                MessageDisplay.Info("起始值不可大於迄止值!");
-                txtStartDate.Select();
-            }
-        }
-
-        private void txtEndDate_Leave(object sender, EventArgs e) {
-            if (txtEndDate.DateTimeValue.Subtract(txtStartDate.DateTimeValue).Days > 31) {
-                MessageDisplay.Info("日期區間不可超過31天!");
-                txtEndDate.Select();
+            if (MessageDisplay.Choose("確定刪除所有資料?").AsBool()) {
+                while (gvMain.DataRowCount != 0)
+                    gvMain.DeleteRow(0);
             }
         }
 
@@ -325,5 +302,45 @@ namespace PhoenixCI.FormUI.PrefixS {
             e.Handled = true;
         }
 
+        private bool checkPeriod() {
+            bool check = true;
+
+            if (txtEndDate.DateTimeValue.Subtract(txtStartDate.DateTimeValue).Days > 31) {
+                MessageDisplay.Info("日期區間不可超過31天!");
+                txtEndDate.Select();
+                check = false;
+            }
+            else if (txtStartDate.DateTimeValue > txtEndDate.DateTimeValue) {
+                MessageDisplay.Info("起始值不可大於迄止值!");
+                txtStartDate.Select();
+                check = false;
+            }
+            return check;
+        }
+
+        private bool checkChanged(){
+            int changeCount = 0;
+            bool hasChanged = false;
+
+            DataTable dt = (DataTable)gcMain.DataSource;
+            DataTable dtChange = dt.GetChanges();
+
+            if (dtChange != null) {
+                if (dtChange.Rows.Count != 0) {
+                    changeCount ++;
+                }
+            }
+
+            if (txtStartDate.DateTimeValue != startDateOldValue
+                    || txtEndDate.DateTimeValue != endDateOldValue) {
+                changeCount++;
+            }
+
+            if (changeCount != 0) {
+                hasChanged = true;
+            }
+
+            return hasChanged;
+        }
     }
 }

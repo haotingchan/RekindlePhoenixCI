@@ -105,18 +105,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
             try {
                 #region wf_55030 造市者各商品交易經手費折減比率月計表
 
-                string ls_rpt_name, ls_rpt_id, ls_brk_no, ls_acc_no, ls_session;
-                int i, li_ole_col, li_datacount, li_ole_row_tol, ii_ole_row;
-                /*************************************
-                ls_rpt_name = 報表名稱
-                ls_rpt_id = 報表代號
-                li_ole_col = 欄位位置
-                ls_param_key = 契約
-                *************************************/
-                ls_rpt_name = "造市者各商品交易經手費折減比率月計表";
-                ls_rpt_id = "55030";
-                //st_msg_txt.text = ls_rpt_id + '－' + ls_rpt_name + ' 轉檔中...';
-                ls_session = "0";
+                string brkNo, accNo, session = "0";
+                int i, colNum, datacount, rowTol, rowNum;
 
                 //讀取資料
                 DataTable dtContent = dao55030.ListByDate(txtMonth.Text.Replace("/", ""));
@@ -130,56 +120,47 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 Worksheet worksheet = workbook.Worksheets[0];
 
                 //填資料
-                ii_ole_row = 5;
-                li_datacount = int.Parse(worksheet.Cells[0, 0].Value.ToString());
+                rowNum = 5;
+                datacount = int.Parse(worksheet.Cells[0, 0].Value.ToString());
 
-                if (li_datacount == null || li_datacount == 0) {
-                    li_datacount = dtContent.Rows.Count;
+                if (datacount == null || datacount == 0) {
+                    datacount = dtContent.Rows.Count;
                 }
-                li_ole_row_tol = ii_ole_row + li_datacount;
+                rowTol = rowNum + datacount;
                 worksheet.Cells[3, 0].Value = worksheet.Cells[3, 0].Value + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
                 worksheet.Cells[3, 7].Value = worksheet.Cells[3, 7].Value + txtMonth.Text.Replace("/", "");
 
-                ls_brk_no = "";
-                ls_acc_no = "";
+                brkNo = "";
+                accNo = "";
                 for (i = 0; i < dtContent.Rows.Count; i++) {
 
-                    if (ls_brk_no != dtContent.Rows[i]["feetrd_fcm_no"].ToString() || ls_acc_no != dtContent.Rows[i]["feetrd_acc_no"].ToString()) {
-                        ii_ole_row = ii_ole_row + 1;
-                        ls_brk_no = dtContent.Rows[i]["feetrd_fcm_no"].ToString();
-                        ls_acc_no = dtContent.Rows[i]["feetrd_acc_no"].ToString();
-                        worksheet.Cells[ii_ole_row, 0].Value = ls_brk_no;
-                        worksheet.Cells[ii_ole_row, 1].Value = dtContent.Rows[i]["brk_abbr_name"].ToString();
-                        worksheet.Cells[ii_ole_row, 2].Value = ls_acc_no;
+                    if (brkNo != dtContent.Rows[i]["feetrd_fcm_no"].ToString() || accNo != dtContent.Rows[i]["feetrd_acc_no"].ToString()) {
+                        rowNum = rowNum + 1;
+                        brkNo = dtContent.Rows[i]["feetrd_fcm_no"].ToString();
+                        accNo = dtContent.Rows[i]["feetrd_acc_no"].ToString();
+                        worksheet.Cells[rowNum, 0].Value = brkNo;
+                        worksheet.Cells[rowNum, 1].Value = dtContent.Rows[i]["brk_abbr_name"].ToString();
+                        worksheet.Cells[rowNum, 2].Value = accNo;
                     }
-                    li_ole_col = int.Parse(dtContent.Rows[i]["rpt_seq_no"].ToString());
-                    if (ii_ole_row > 0 && li_ole_col > 0) {
-                        worksheet.Cells[ii_ole_row, li_ole_col].Value = decimal.Parse(dtContent.Rows[i]["feetrd_rate"].ToString());
+                    colNum = int.Parse(dtContent.Rows[i]["rpt_seq_no"].ToString());
+                    if (rowNum > 0 && colNum > 0) {
+                        worksheet.Cells[rowNum, colNum].Value = decimal.Parse(dtContent.Rows[i]["feetrd_rate"].ToString());
                     }
                 }
 
                 /*******************
                 刪除空白列
                 *******************/
-                if (li_ole_row_tol > ii_ole_row) {
+                if (rowTol > rowNum) {
 
-                    worksheet.Rows.Remove(ii_ole_row + 1, li_ole_row_tol - ii_ole_row);
+                    worksheet.Rows.Remove(rowNum + 1, rowTol - rowNum);
                 }
 
                 #endregion
 
                 #region wf_55031
-                string ls_kind_id;
-                /*************************************
-                ls_rpt_name = 報表名稱
-                ls_rpt_id = 報表代號
-                li_ole_col = 欄位位置
-                ls_param_key = 契約
-                *************************************/
-                ls_rpt_name = "造市者各商品交易經手費折減比率月計表";
-                ls_rpt_id = "55031";
-                //st_msg_txt.text = ls_rpt_id + '－' + ls_rpt_name + ' 轉檔中...';
-                ls_session = "0";
+                string kindId;
+                session = "0";
 
                 /******************
                 讀取資料
@@ -196,52 +177,52 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 ******************/
                 Worksheet worksheet2 = workbook.Worksheets[1];
 
-                ii_ole_row = 5;
-                li_datacount = int.Parse(worksheet2.Cells[0, 0].Value.ToString());
-                if (li_datacount == null || li_datacount == 0) {
-                    li_datacount = dtContent2.Rows.Count;
+                rowNum = 5;
+                datacount = int.Parse(worksheet2.Cells[0, 0].Value.ToString());
+                if (datacount == null || datacount == 0) {
+                    datacount = dtContent2.Rows.Count;
                 }
-                li_ole_row_tol = ii_ole_row + li_datacount;
+                rowTol = rowNum + datacount;
                 worksheet2.Cells[3, 0].Value = worksheet2.Cells[3, 0].Value + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
                 worksheet2.Cells[3, 7].Value = worksheet2.Cells[3, 7].Value + txtMonth.Text.Replace("/", "");
                 //契約檔
                 for (i = 0; i < dtAPDK.Rows.Count; i++) {
-                    ls_kind_id = dtAPDK.Rows[i]["apdk_kind_id"].ToString();
-                    if (ls_kind_id.Trim() == "STO") {
-                        ls_kind_id = "平均";
+                    kindId = dtAPDK.Rows[i]["apdk_kind_id"].ToString();
+                    if (kindId.Trim() == "STO") {
+                        kindId = "平均";
                     }
-                    worksheet2.Cells[5, i + 3].Value = ls_kind_id;
+                    worksheet2.Cells[5, i + 3].Value = kindId;
                 }
 
-                ls_brk_no = "";
+                brkNo = "";
                 i = 0;
                 for (i = 0; i < dtContent2.Rows.Count; i++) {
-                    if (ls_brk_no != dtContent2.Rows[i]["feetrd_fcm_no"].ToString() || ls_acc_no != dtContent2.Rows[i]["feetrd_acc_no"].ToString()) {
-                        ii_ole_row = ii_ole_row + 1;
-                        ls_brk_no = dtContent2.Rows[i]["feetrd_fcm_no"].ToString();
-                        ls_acc_no = dtContent2.Rows[i]["feetrd_acc_no"].ToString();
-                        worksheet2.Cells[ii_ole_row, 0].Value = ls_brk_no;
-                        worksheet2.Cells[ii_ole_row, 1].Value = dtContent2.Rows[i]["brk_abbr_name"].ToString();
-                        worksheet2.Cells[ii_ole_row, 2].Value = ls_acc_no;
+                    if (brkNo != dtContent2.Rows[i]["feetrd_fcm_no"].ToString() || accNo != dtContent2.Rows[i]["feetrd_acc_no"].ToString()) {
+                        rowNum = rowNum + 1;
+                        brkNo = dtContent2.Rows[i]["feetrd_fcm_no"].ToString();
+                        accNo = dtContent2.Rows[i]["feetrd_acc_no"].ToString();
+                        worksheet2.Cells[rowNum, 0].Value = brkNo;
+                        worksheet2.Cells[rowNum, 1].Value = dtContent2.Rows[i]["brk_abbr_name"].ToString();
+                        worksheet2.Cells[rowNum, 2].Value = accNo;
                     }
                     //long datastore.Find ( stringexpression, longstart, longend )找該值位於資料表的第幾筆
                     if (dtAPDK.Select("apdk_kind_id='" + dtContent2.Rows[i]["feetrd_kind_id"].ToString().Trim() + "'").Length == 0) {
-                        li_ole_col = 0;
+                        colNum = 0;
                     }
                     else {
-                        li_ole_col = dtAPDK.Rows.IndexOf(dtAPDK.Select("apdk_kind_id='" + dtContent2.Rows[i]["feetrd_kind_id"].ToString().Trim() + "'")[0]) + 1;
+                        colNum = dtAPDK.Rows.IndexOf(dtAPDK.Select("apdk_kind_id='" + dtContent2.Rows[i]["feetrd_kind_id"].ToString().Trim() + "'")[0]) + 1;
                     }
-                    if (ii_ole_row > 0 && li_ole_col > 0) {
-                        worksheet2.Cells[ii_ole_row, li_ole_col + 2].Value = decimal.Parse(dtContent2.Rows[i]["feetrd_rate"].ToString());
+                    if (rowNum > 0 && colNum > 0) {
+                        worksheet2.Cells[rowNum, colNum + 2].Value = decimal.Parse(dtContent2.Rows[i]["feetrd_rate"].ToString());
                     }
                 }
 
                 /*******************
                 刪除空白列
                 *******************/
-                if (li_ole_row_tol > ii_ole_row) {
+                if (rowTol > rowNum) {
 
-                    worksheet2.Rows.Remove(ii_ole_row + 1, li_ole_row_tol - ii_ole_row);
+                    worksheet2.Rows.Remove(rowNum + 1, rowTol - rowNum);
                 }
 
                 //存檔

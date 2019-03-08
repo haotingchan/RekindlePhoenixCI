@@ -29,12 +29,12 @@
       {
          this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
-         this.st_msg_txt = new System.Windows.Forms.Label();
+         this.stMsgTxt = new System.Windows.Forms.Label();
          this.gb1_label = new System.Windows.Forms.Label();
          this.gb_1 = new DevExpress.XtraEditors.PanelControl();
          this.st_date = new DevExpress.XtraLayout.LayoutControl();
-         this.em_sdate = new DevExpress.XtraEditors.TextEdit();
-         this.em_edate = new DevExpress.XtraEditors.TextEdit();
+         this.emStartDate = new DevExpress.XtraEditors.TextEdit();
+         this.emEndDate = new DevExpress.XtraEditors.TextEdit();
          this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
          this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
          this.layoutControlItem4 = new DevExpress.XtraLayout.LayoutControlItem();
@@ -56,8 +56,8 @@
          this.gb_1.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.st_date)).BeginInit();
          this.st_date.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.em_sdate.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.em_edate.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.emStartDate.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.emEndDate.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.Root)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).BeginInit();
@@ -93,7 +93,7 @@
          this.r_frame.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
          this.r_frame.Appearance.Options.UseBackColor = true;
          this.r_frame.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-         this.r_frame.Controls.Add(this.st_msg_txt);
+         this.r_frame.Controls.Add(this.stMsgTxt);
          this.r_frame.Controls.Add(this.gb1_label);
          this.r_frame.Controls.Add(this.gb_1);
          this.r_frame.Location = new System.Drawing.Point(30, 27);
@@ -103,15 +103,15 @@
          // 
          // st_msg_txt
          // 
-         this.st_msg_txt.AutoSize = true;
-         this.st_msg_txt.Font = new System.Drawing.Font("微軟正黑體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.st_msg_txt.ForeColor = System.Drawing.Color.Blue;
-         this.st_msg_txt.Location = new System.Drawing.Point(24, 272);
-         this.st_msg_txt.Name = "st_msg_txt";
-         this.st_msg_txt.Size = new System.Drawing.Size(153, 19);
-         this.st_msg_txt.TabIndex = 1;
-         this.st_msg_txt.Text = "訊息：資料轉出中........";
-         this.st_msg_txt.Visible = false;
+         this.stMsgTxt.AutoSize = true;
+         this.stMsgTxt.Font = new System.Drawing.Font("微軟正黑體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.stMsgTxt.ForeColor = System.Drawing.Color.Blue;
+         this.stMsgTxt.Location = new System.Drawing.Point(24, 272);
+         this.stMsgTxt.Name = "st_msg_txt";
+         this.stMsgTxt.Size = new System.Drawing.Size(153, 19);
+         this.stMsgTxt.TabIndex = 1;
+         this.stMsgTxt.Text = "訊息：資料轉出中........";
+         this.stMsgTxt.Visible = false;
          // 
          // gb1_label
          // 
@@ -143,8 +143,8 @@
          // 
          // st_date
          // 
-         this.st_date.Controls.Add(this.em_sdate);
-         this.st_date.Controls.Add(this.em_edate);
+         this.st_date.Controls.Add(this.emStartDate);
+         this.st_date.Controls.Add(this.emEndDate);
          this.st_date.Location = new System.Drawing.Point(109, 184);
          this.st_date.Name = "st_date";
          this.st_date.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(666, 57, 650, 400);
@@ -155,35 +155,35 @@
          // 
          // em_sdate
          // 
-         this.em_sdate.CausesValidation = false;
-         this.em_sdate.EditValue = "2019/01/01";
-         this.em_sdate.Location = new System.Drawing.Point(2, 2);
-         this.em_sdate.Name = "em_sdate";
-         this.em_sdate.Properties.DisplayFormat.FormatString = "yyyy/MM/dd";
-         this.em_sdate.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-         this.em_sdate.Properties.Mask.EditMask = "\\d\\d\\d\\d/\\d\\d/\\d\\d";
-         this.em_sdate.Properties.Mask.IgnoreMaskBlank = false;
-         this.em_sdate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
-         this.em_sdate.Properties.Mask.PlaceHolder = '0';
-         this.em_sdate.Size = new System.Drawing.Size(102, 28);
-         this.em_sdate.StyleController = this.st_date;
-         this.em_sdate.TabIndex = 4;
+         this.emStartDate.CausesValidation = false;
+         this.emStartDate.EditValue = "2019/01/01";
+         this.emStartDate.Location = new System.Drawing.Point(2, 2);
+         this.emStartDate.Name = "em_sdate";
+         this.emStartDate.Properties.DisplayFormat.FormatString = "yyyy/MM/dd";
+         this.emStartDate.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+         this.emStartDate.Properties.Mask.EditMask = "\\d\\d\\d\\d/\\d\\d/\\d\\d";
+         this.emStartDate.Properties.Mask.IgnoreMaskBlank = false;
+         this.emStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
+         this.emStartDate.Properties.Mask.PlaceHolder = '0';
+         this.emStartDate.Size = new System.Drawing.Size(102, 28);
+         this.emStartDate.StyleController = this.st_date;
+         this.emStartDate.TabIndex = 4;
          // 
          // em_edate
          // 
-         this.em_edate.CausesValidation = false;
-         this.em_edate.EditValue = "2019/01/01";
-         this.em_edate.Location = new System.Drawing.Point(125, 2);
-         this.em_edate.Name = "em_edate";
-         this.em_edate.Properties.DisplayFormat.FormatString = "yyyy/MM/dd";
-         this.em_edate.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-         this.em_edate.Properties.Mask.EditMask = "\\d\\d\\d\\d/\\d\\d/\\d\\d";
-         this.em_edate.Properties.Mask.IgnoreMaskBlank = false;
-         this.em_edate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
-         this.em_edate.Properties.Mask.PlaceHolder = '0';
-         this.em_edate.Size = new System.Drawing.Size(102, 28);
-         this.em_edate.StyleController = this.st_date;
-         this.em_edate.TabIndex = 5;
+         this.emEndDate.CausesValidation = false;
+         this.emEndDate.EditValue = "2019/01/01";
+         this.emEndDate.Location = new System.Drawing.Point(125, 2);
+         this.emEndDate.Name = "em_edate";
+         this.emEndDate.Properties.DisplayFormat.FormatString = "yyyy/MM/dd";
+         this.emEndDate.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+         this.emEndDate.Properties.Mask.EditMask = "\\d\\d\\d\\d/\\d\\d/\\d\\d";
+         this.emEndDate.Properties.Mask.IgnoreMaskBlank = false;
+         this.emEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
+         this.emEndDate.Properties.Mask.PlaceHolder = '0';
+         this.emEndDate.Size = new System.Drawing.Size(102, 28);
+         this.emEndDate.StyleController = this.st_date;
+         this.emEndDate.TabIndex = 5;
          // 
          // Root
          // 
@@ -201,7 +201,7 @@
          // 
          // layoutControlItem2
          // 
-         this.layoutControlItem2.Control = this.em_sdate;
+         this.layoutControlItem2.Control = this.emStartDate;
          this.layoutControlItem2.CustomizationFormText = "layoutControlItem1";
          this.layoutControlItem2.Location = new System.Drawing.Point(0, 0);
          this.layoutControlItem2.Name = "layoutControlItem2";
@@ -214,7 +214,7 @@
          // 
          // layoutControlItem4
          // 
-         this.layoutControlItem4.Control = this.em_edate;
+         this.layoutControlItem4.Control = this.emEndDate;
          this.layoutControlItem4.CustomizationFormText = "layoutControlItem2";
          this.layoutControlItem4.Location = new System.Drawing.Point(106, 0);
          this.layoutControlItem4.Name = "layoutControlItem4";
@@ -350,8 +350,8 @@
          this.gb_1.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.st_date)).EndInit();
          this.st_date.ResumeLayout(false);
-         ((System.ComponentModel.ISupportInitialize)(this.em_sdate.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.em_edate.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.emStartDate.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.emEndDate.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).EndInit();
@@ -369,7 +369,7 @@
       #endregion
       private DevExpress.XtraEditors.PanelControl panelControl2;
       private DevExpress.XtraEditors.PanelControl r_frame;
-      private System.Windows.Forms.Label st_msg_txt;
+      private System.Windows.Forms.Label stMsgTxt;
       private System.Windows.Forms.Label gb1_label;
       private DevExpress.XtraEditors.PanelControl gb_1;
       private DevExpress.XtraEditors.RadioGroup rgTime;
@@ -377,8 +377,8 @@
       private DevExpress.XtraEditors.RadioGroup rgData;
       private DevExpress.XtraEditors.TextEdit textEdit1;
       private DevExpress.XtraLayout.LayoutControl st_date;
-      private DevExpress.XtraEditors.TextEdit em_sdate;
-      private DevExpress.XtraEditors.TextEdit em_edate;
+      private DevExpress.XtraEditors.TextEdit emStartDate;
+      private DevExpress.XtraEditors.TextEdit emEndDate;
       private DevExpress.XtraLayout.LayoutControlGroup Root;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem4;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;

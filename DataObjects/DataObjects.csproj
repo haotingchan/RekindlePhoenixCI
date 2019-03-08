@@ -52,6 +52,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.122.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -83,12 +84,19 @@
     <Compile Include="Dao\Together\SpecificDao\D28511.cs" />
     <Compile Include="Dao\Together\SpecificDao\D28512.cs" />
     <Compile Include="Dao\Together\SpecificDao\D28610.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30017.cs" />
     <Compile Include="Dao\Together\SpecificDao\D30020.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30030.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30040.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30050.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30060.cs" />
     <Compile Include="Dao\Together\SpecificDao\D30201.cs" />
     <Compile Include="Dao\Together\SpecificDao\D30310.cs" />
     <Compile Include="Dao\Together\SpecificDao\D30320.cs" />
-    <Compile Include="Dao\Together\SpecificDao\D30321.cs" />
-    <Compile Include="Dao\Together\SpecificDao\D30322.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30350.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30360.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30370.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30380.cs" />
     <Compile Include="Dao\Together\SpecificDao\D30590.cs" />
     <Compile Include="Dao\Together\SpecificDao\D30591.cs" />
     <Compile Include="Dao\Together\SpecificDao\D30592.cs" />
@@ -101,9 +109,15 @@
     <Compile Include="Dao\Together\SpecificDao\D30640.cs" />
     <Compile Include="Dao\Together\SpecificDao\D30650.cs" />
     <Compile Include="Dao\Together\SpecificDao\D30660.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30670.cs" />
     <Compile Include="Dao\Together\SpecificDao\D30686.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30687.cs" />
     <Compile Include="Dao\Together\SpecificDao\D30690.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30740.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30750.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30730.cs" />
     <Compile Include="Dao\Together\SpecificDao\D43032.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D48040.cs" />
     <Compile Include="Dao\Together\SpecificDao\D50030.cs" />
     <Compile Include="Dao\Together\SpecificDao\D50031.cs" />
     <Compile Include="Dao\Together\SpecificDao\D20130.cs" />
@@ -146,7 +160,10 @@
     <Compile Include="Dao\Together\SpecificDao\D70030.cs" />
     <Compile Include="Dao\Together\SpecificDao\D70050.cs" />
     <Compile Include="Dao\Together\SpecificDao\D95140.cs" />
+    <Compile Include="Dao\Together\SpecificDao\DP0020.cs" />
+    <Compile Include="Dao\Together\SpecificDao\DP0030.cs" />
     <Compile Include="Dao\Together\SpecificDao\DP0040.cs" />
+    <Compile Include="Dao\Together\SpecificDao\DP0050.cs" />
     <Compile Include="Dao\Together\SpecificDao\DS0010.cs" />
     <Compile Include="Dao\Together\SpecificDao\DS0011.cs" />
     <Compile Include="Dao\Together\SpecificDao\DS0012.cs" />
@@ -187,6 +204,7 @@
     <Compile Include="Dao\Together\TableDao\LOGV.cs" />
     <Compile Include="Dao\Together\TableDao\MMWK.cs" />
     <Compile Include="Dao\Together\TableDao\OCFG.cs" />
+    <Compile Include="Dao\Together\TableDao\RAMM1.cs" />
     <Compile Include="Dao\Together\TableDao\RAM1.cs" />
     <Compile Include="Dao\Together\TableDao\REWARD\RWD_REF_OMNI.cs" />
     <Compile Include="Dao\Together\TableDao\RPTF.cs" />
@@ -211,6 +229,10 @@
     <Compile Include="Dao\Together\TableDao\UPF.cs" />
     <Compile Include="Dao\Together\TableDao\TXN.cs" />
     <Compile Include="Dao\Together\TableDao\UTP.cs" />
+    <Compile Include="Dao\Together\TableDao\VIX.cs" />
+    <Compile Include="Dao\Together\TableDao\VIXS.cs" />
+    <Compile Include="Dao\Together\TableDao\VOLD.cs" />
+    <Compile Include="Dao\Together\TableDao\VOLS.cs" />
     <Compile Include="Dao\Together\TableDao\VPR.cs" />
     <Compile Include="GlobalDaoSetting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

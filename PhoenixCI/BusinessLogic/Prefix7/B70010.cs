@@ -21,26 +21,26 @@ namespace PhoenixCI.BusinessLogic.Prefix7
       /// <param name="saveFilePath">存檔位置</param>
       /// <param name="symd">起始日期</param>
       /// <param name="eymd">終止日期</param>
-      /// <param name="sum_type">日期型態 D/M/Y</param>
-      /// <param name="prod_type">商品別</param>
-      /// <param name="market_code">交易時段</param>
+      /// <param name="SumType">日期型態 D/M/Y</param>
+      /// <param name="ProdType">商品別</param>
+      /// <param name="MarketCode">交易時段</param>
       /// <param name="isEnglish">是否轉換英文版</param>
-      public void f70010ByMarketCodeExport(string rgDateSelected, string saveFilePath, string symd, string eymd, string sum_type, string prod_type, string market_code,bool isEnglish)
+      public void F70010ByMarketCodeExport(string rgDateSelected, string saveFilePath, string symd, string eymd, string SumType, string ProdType, string MarketCode,bool isEnglish)
       {
          if (rgDateSelected.Equals("rb_week")) {
             if (!isEnglish) {
-               b700xxFunc.f_70010_week_by_market_code(saveFilePath, symd, eymd, sum_type, prod_type, market_code);
+               b700xxFunc.F70010WeekByMarketCode(saveFilePath, symd, eymd, SumType, ProdType, MarketCode);
             }
             else {
-               b700xxFunc.f_70010_week_eng_by_market_code(saveFilePath, symd, eymd, sum_type, prod_type, market_code);
+               b700xxFunc.F70010WeekEngByMarketCode(saveFilePath, symd, eymd, SumType, ProdType, MarketCode);
             }
          }//if (rgDate.EditValue.Equals("rb_week"))
          else {
             if (!isEnglish) {
-               b700xxFunc.f_70010_ymd_by_market_code(saveFilePath, symd, eymd, sum_type, prod_type, market_code);
+               b700xxFunc.F70010YmdByMarketCode(saveFilePath, symd, eymd, SumType, ProdType, MarketCode);
             }
             else {
-               b700xxFunc.f_70010_ymd_eng_by_market_code(saveFilePath, symd, eymd, sum_type, prod_type, market_code);
+               b700xxFunc.F70010YmdEngByMarketCode(saveFilePath, symd, eymd, SumType, ProdType, MarketCode);
             }
          }
       }

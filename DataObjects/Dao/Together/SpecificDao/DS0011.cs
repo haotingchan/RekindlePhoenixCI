@@ -1,4 +1,5 @@
-﻿using OnePiece;
+﻿using BusinessObjects;
+using OnePiece;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,6 +12,19 @@ namespace DataObjects.Dao.Together.SpecificDao
     public class DS0011
     {
         private Db db;
+        private string MGS2Column = @"
+                                    SELECT 
+                                        MG2S_DATE, 
+                                        MG2S_KIND_ID, 
+                                        MG2S_VALUE_DATE, 
+                                        MG2S_W_TIME, 
+                                        MG2S_W_USER_ID, 
+                                        MG2S_OSW_GRP, 
+                                        MG2S_SPAN_CODE, 
+                                        MG2S_ADJ_CODE, 
+                                        MG2S_USER_CM 
+                                        FROM CFO.MG2S";
+
 
         public DS0011() {
             db = GlobalDaoSetting.DB;
@@ -63,21 +77,11 @@ namespace DataObjects.Dao.Together.SpecificDao
         }
 
         public DataTable GetMG2SColumns() {
+            return db.GetDataTable(MGS2Column, null);
+        }
 
-            string sql = @"
-                                    SELECT 
-                                        MG2S_DATE, 
-                                        MG2S_KIND_ID, 
-                                        MG2S_VALUE_DATE, 
-                                        MG2S_W_TIME, 
-                                        MG2S_W_USER_ID, 
-                                        MG2S_OSW_GRP, 
-                                        MG2S_SPAN_CODE, 
-                                        MG2S_ADJ_CODE, 
-                                        MG2S_USER_CM 
-                                        FROM CFO.MG2S";
-
-            return db.GetDataTable(sql, null);
+        public ResultData updateData(DataTable inputData) {
+            return db.UpdateOracleDB(inputData, MGS2Column);
         }
     }
 }

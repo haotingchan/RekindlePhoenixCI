@@ -13,10 +13,11 @@ using DevExpress.XtraEditors.Repository;
 
 /// <summary>
 /// Winni, 2019/1/16
+/// 已廢除
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix9 {
    /// <summary>
-   /// 95140 Eurex商品OI轉入帳號檢核錯誤(訊息代碼9514)統計表 
+   /// 95140 Eurex商品OI轉入帳號檢核錯誤(訊息代碼9514)統計表
    /// </summary>
    public partial class W95140 : FormParent {
 

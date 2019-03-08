@@ -28,32 +28,32 @@
       private void InitializeComponent()
       {
          this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
-         this.cbx_eng = new DevExpress.XtraEditors.CheckEdit();
+         this.cbxEng = new DevExpress.XtraEditors.CheckEdit();
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
-         this.st_msg_txt = new System.Windows.Forms.Label();
+         this.stMsgTxt = new System.Windows.Forms.Label();
          this.gb1_label = new System.Windows.Forms.Label();
          this.gb_1 = new DevExpress.XtraEditors.PanelControl();
-         this.st_year = new DevExpress.XtraLayout.LayoutControl();
-         this.em_syear = new DevExpress.XtraEditors.TextEdit();
-         this.em_eyear = new DevExpress.XtraEditors.TextEdit();
+         this.stYear = new DevExpress.XtraLayout.LayoutControl();
+         this.emStartYear = new DevExpress.XtraEditors.TextEdit();
+         this.emEndYear = new DevExpress.XtraEditors.TextEdit();
          this.layoutControlGroup4 = new DevExpress.XtraLayout.LayoutControlGroup();
          this.layoutControlItem9 = new DevExpress.XtraLayout.LayoutControlItem();
          this.layoutControlItem10 = new DevExpress.XtraLayout.LayoutControlItem();
-         this.st_month = new DevExpress.XtraLayout.LayoutControl();
-         this.em_smth = new DevExpress.XtraEditors.TextEdit();
-         this.em_emth = new DevExpress.XtraEditors.TextEdit();
+         this.stMonth = new DevExpress.XtraLayout.LayoutControl();
+         this.emStartMth = new DevExpress.XtraEditors.TextEdit();
+         this.emEndMth = new DevExpress.XtraEditors.TextEdit();
          this.layoutControlGroup3 = new DevExpress.XtraLayout.LayoutControlGroup();
          this.layoutControlItem7 = new DevExpress.XtraLayout.LayoutControlItem();
          this.layoutControlItem8 = new DevExpress.XtraLayout.LayoutControlItem();
-         this.st_week = new DevExpress.XtraLayout.LayoutControl();
-         this.em_sdate1 = new DevExpress.XtraEditors.TextEdit();
-         this.em_edate1 = new DevExpress.XtraEditors.TextEdit();
+         this.stWeek = new DevExpress.XtraLayout.LayoutControl();
+         this.emStartDate1 = new DevExpress.XtraEditors.TextEdit();
+         this.emEndDate1 = new DevExpress.XtraEditors.TextEdit();
          this.layoutControlGroup2 = new DevExpress.XtraLayout.LayoutControlGroup();
          this.layoutControlItem5 = new DevExpress.XtraLayout.LayoutControlItem();
          this.layoutControlItem6 = new DevExpress.XtraLayout.LayoutControlItem();
-         this.st_date = new DevExpress.XtraLayout.LayoutControl();
-         this.em_sdate = new DevExpress.XtraEditors.TextEdit();
-         this.em_edate = new DevExpress.XtraEditors.TextEdit();
+         this.stDate = new DevExpress.XtraLayout.LayoutControl();
+         this.emStartDate = new DevExpress.XtraEditors.TextEdit();
+         this.emEndDate = new DevExpress.XtraEditors.TextEdit();
          this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
          this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
          this.layoutControlItem4 = new DevExpress.XtraLayout.LayoutControlItem();
@@ -70,36 +70,36 @@
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
          this.panelControl2.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.cbx_eng.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.cbxEng.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
          this.r_frame.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gb_1)).BeginInit();
          this.gb_1.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.st_year)).BeginInit();
-         this.st_year.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.em_syear.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.em_eyear.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.stYear)).BeginInit();
+         this.stYear.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.emStartYear.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.emEndYear.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup4)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.st_month)).BeginInit();
-         this.st_month.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.em_smth.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.em_emth.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.stMonth)).BeginInit();
+         this.stMonth.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.emStartMth.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.emEndMth.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup3)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem8)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.st_week)).BeginInit();
-         this.st_week.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.em_sdate1.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.em_edate1.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.stWeek)).BeginInit();
+         this.stWeek.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.emStartDate1.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.emEndDate1.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup2)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.st_date)).BeginInit();
-         this.st_date.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.em_sdate.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.em_edate.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.stDate)).BeginInit();
+         this.stDate.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.emStartDate.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.emEndDate.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.Root)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).BeginInit();
@@ -126,7 +126,7 @@
          // 
          // panelControl2
          // 
-         this.panelControl2.Controls.Add(this.cbx_eng);
+         this.panelControl2.Controls.Add(this.cbxEng);
          this.panelControl2.Controls.Add(this.r_frame);
          this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
          this.panelControl2.Location = new System.Drawing.Point(0, 27);
@@ -136,19 +136,19 @@
          // 
          // cbx_eng
          // 
-         this.cbx_eng.Location = new System.Drawing.Point(508, 76);
-         this.cbx_eng.MenuManager = this.ribbonControl;
-         this.cbx_eng.Name = "cbx_eng";
-         this.cbx_eng.Properties.Caption = "英文版";
-         this.cbx_eng.Size = new System.Drawing.Size(75, 19);
-         this.cbx_eng.TabIndex = 2;
+         this.cbxEng.Location = new System.Drawing.Point(508, 76);
+         this.cbxEng.MenuManager = this.ribbonControl;
+         this.cbxEng.Name = "cbx_eng";
+         this.cbxEng.Properties.Caption = "英文版";
+         this.cbxEng.Size = new System.Drawing.Size(75, 19);
+         this.cbxEng.TabIndex = 2;
          // 
          // r_frame
          // 
          this.r_frame.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
          this.r_frame.Appearance.Options.UseBackColor = true;
          this.r_frame.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-         this.r_frame.Controls.Add(this.st_msg_txt);
+         this.r_frame.Controls.Add(this.stMsgTxt);
          this.r_frame.Controls.Add(this.gb1_label);
          this.r_frame.Controls.Add(this.gb_1);
          this.r_frame.Location = new System.Drawing.Point(30, 27);
@@ -158,15 +158,15 @@
          // 
          // st_msg_txt
          // 
-         this.st_msg_txt.AutoSize = true;
-         this.st_msg_txt.Font = new System.Drawing.Font("微軟正黑體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.st_msg_txt.ForeColor = System.Drawing.Color.Blue;
-         this.st_msg_txt.Location = new System.Drawing.Point(28, 315);
-         this.st_msg_txt.Name = "st_msg_txt";
-         this.st_msg_txt.Size = new System.Drawing.Size(153, 19);
-         this.st_msg_txt.TabIndex = 1;
-         this.st_msg_txt.Text = "訊息：資料轉出中........";
-         this.st_msg_txt.Visible = false;
+         this.stMsgTxt.AutoSize = true;
+         this.stMsgTxt.Font = new System.Drawing.Font("微軟正黑體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.stMsgTxt.ForeColor = System.Drawing.Color.Blue;
+         this.stMsgTxt.Location = new System.Drawing.Point(28, 315);
+         this.stMsgTxt.Name = "st_msg_txt";
+         this.stMsgTxt.Size = new System.Drawing.Size(153, 19);
+         this.stMsgTxt.TabIndex = 1;
+         this.stMsgTxt.Text = "訊息：資料轉出中........";
+         this.stMsgTxt.Visible = false;
          // 
          // gb1_label
          // 
@@ -183,10 +183,10 @@
          // 
          this.gb_1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
          this.gb_1.Appearance.Options.UseBackColor = true;
-         this.gb_1.Controls.Add(this.st_year);
-         this.gb_1.Controls.Add(this.st_month);
-         this.gb_1.Controls.Add(this.st_week);
-         this.gb_1.Controls.Add(this.st_date);
+         this.gb_1.Controls.Add(this.stYear);
+         this.gb_1.Controls.Add(this.stMonth);
+         this.gb_1.Controls.Add(this.stWeek);
+         this.gb_1.Controls.Add(this.stDate);
          this.gb_1.Controls.Add(this.rgDate);
          this.gb_1.Controls.Add(this.rgTime);
          this.gb_1.Controls.Add(this.st_5);
@@ -200,50 +200,50 @@
          // 
          // st_year
          // 
-         this.st_year.Controls.Add(this.em_syear);
-         this.st_year.Controls.Add(this.em_eyear);
-         this.st_year.Location = new System.Drawing.Point(104, 236);
-         this.st_year.Name = "st_year";
-         this.st_year.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(666, 57, 650, 400);
-         this.st_year.Root = this.layoutControlGroup4;
-         this.st_year.Size = new System.Drawing.Size(175, 33);
-         this.st_year.TabIndex = 4;
-         this.st_year.Text = "layoutControl1";
-         this.st_year.Visible = false;
+         this.stYear.Controls.Add(this.emStartYear);
+         this.stYear.Controls.Add(this.emEndYear);
+         this.stYear.Location = new System.Drawing.Point(104, 236);
+         this.stYear.Name = "st_year";
+         this.stYear.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(666, 57, 650, 400);
+         this.stYear.Root = this.layoutControlGroup4;
+         this.stYear.Size = new System.Drawing.Size(175, 33);
+         this.stYear.TabIndex = 4;
+         this.stYear.Text = "layoutControl1";
+         this.stYear.Visible = false;
          // 
          // em_syear
          // 
-         this.em_syear.CausesValidation = false;
-         this.em_syear.EditValue = "2019";
-         this.em_syear.Location = new System.Drawing.Point(2, 2);
-         this.em_syear.Name = "em_syear";
-         this.em_syear.Properties.DisplayFormat.FormatString = "yyyy";
-         this.em_syear.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-         this.em_syear.Properties.Mask.EditMask = "\\d\\d\\d\\d";
-         this.em_syear.Properties.Mask.IgnoreMaskBlank = false;
-         this.em_syear.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
-         this.em_syear.Properties.Mask.PlaceHolder = '0';
-         this.em_syear.Properties.MaxLength = 4;
-         this.em_syear.Size = new System.Drawing.Size(71, 22);
-         this.em_syear.StyleController = this.st_year;
-         this.em_syear.TabIndex = 4;
+         this.emStartYear.CausesValidation = false;
+         this.emStartYear.EditValue = "2019";
+         this.emStartYear.Location = new System.Drawing.Point(2, 2);
+         this.emStartYear.Name = "em_syear";
+         this.emStartYear.Properties.DisplayFormat.FormatString = "yyyy";
+         this.emStartYear.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+         this.emStartYear.Properties.Mask.EditMask = "\\d\\d\\d\\d";
+         this.emStartYear.Properties.Mask.IgnoreMaskBlank = false;
+         this.emStartYear.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
+         this.emStartYear.Properties.Mask.PlaceHolder = '0';
+         this.emStartYear.Properties.MaxLength = 4;
+         this.emStartYear.Size = new System.Drawing.Size(71, 22);
+         this.emStartYear.StyleController = this.stYear;
+         this.emStartYear.TabIndex = 4;
          // 
          // em_eyear
          // 
-         this.em_eyear.CausesValidation = false;
-         this.em_eyear.EditValue = "2019";
-         this.em_eyear.Location = new System.Drawing.Point(91, 2);
-         this.em_eyear.Name = "em_eyear";
-         this.em_eyear.Properties.DisplayFormat.FormatString = "yyyy";
-         this.em_eyear.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-         this.em_eyear.Properties.Mask.EditMask = "\\d\\d\\d\\d";
-         this.em_eyear.Properties.Mask.IgnoreMaskBlank = false;
-         this.em_eyear.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
-         this.em_eyear.Properties.Mask.PlaceHolder = '0';
-         this.em_eyear.Properties.MaxLength = 4;
-         this.em_eyear.Size = new System.Drawing.Size(82, 22);
-         this.em_eyear.StyleController = this.st_year;
-         this.em_eyear.TabIndex = 5;
+         this.emEndYear.CausesValidation = false;
+         this.emEndYear.EditValue = "2019";
+         this.emEndYear.Location = new System.Drawing.Point(91, 2);
+         this.emEndYear.Name = "em_eyear";
+         this.emEndYear.Properties.DisplayFormat.FormatString = "yyyy";
+         this.emEndYear.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+         this.emEndYear.Properties.Mask.EditMask = "\\d\\d\\d\\d";
+         this.emEndYear.Properties.Mask.IgnoreMaskBlank = false;
+         this.emEndYear.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
+         this.emEndYear.Properties.Mask.PlaceHolder = '0';
+         this.emEndYear.Properties.MaxLength = 4;
+         this.emEndYear.Size = new System.Drawing.Size(82, 22);
+         this.emEndYear.StyleController = this.stYear;
+         this.emEndYear.TabIndex = 5;
          // 
          // layoutControlGroup4
          // 
@@ -261,7 +261,7 @@
          // 
          // layoutControlItem9
          // 
-         this.layoutControlItem9.Control = this.em_syear;
+         this.layoutControlItem9.Control = this.emStartYear;
          this.layoutControlItem9.CustomizationFormText = "layoutControlItem1";
          this.layoutControlItem9.Location = new System.Drawing.Point(0, 0);
          this.layoutControlItem9.Name = "layoutControlItem2";
@@ -274,7 +274,7 @@
          // 
          // layoutControlItem10
          // 
-         this.layoutControlItem10.Control = this.em_eyear;
+         this.layoutControlItem10.Control = this.emEndYear;
          this.layoutControlItem10.CustomizationFormText = "layoutControlItem2";
          this.layoutControlItem10.Location = new System.Drawing.Point(75, 0);
          this.layoutControlItem10.Name = "layoutControlItem4";
@@ -286,48 +286,48 @@
          // 
          // st_month
          // 
-         this.st_month.Controls.Add(this.em_smth);
-         this.st_month.Controls.Add(this.em_emth);
-         this.st_month.Location = new System.Drawing.Point(104, 197);
-         this.st_month.Name = "st_month";
-         this.st_month.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(666, 57, 650, 400);
-         this.st_month.Root = this.layoutControlGroup3;
-         this.st_month.Size = new System.Drawing.Size(175, 33);
-         this.st_month.TabIndex = 4;
-         this.st_month.Text = "layoutControl1";
-         this.st_month.Visible = false;
+         this.stMonth.Controls.Add(this.emStartMth);
+         this.stMonth.Controls.Add(this.emEndMth);
+         this.stMonth.Location = new System.Drawing.Point(104, 197);
+         this.stMonth.Name = "st_month";
+         this.stMonth.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(666, 57, 650, 400);
+         this.stMonth.Root = this.layoutControlGroup3;
+         this.stMonth.Size = new System.Drawing.Size(175, 33);
+         this.stMonth.TabIndex = 4;
+         this.stMonth.Text = "layoutControl1";
+         this.stMonth.Visible = false;
          // 
          // em_smth
          // 
-         this.em_smth.CausesValidation = false;
-         this.em_smth.EditValue = "2019/01";
-         this.em_smth.Location = new System.Drawing.Point(2, 2);
-         this.em_smth.Name = "em_smth";
-         this.em_smth.Properties.DisplayFormat.FormatString = "yyyy/MM";
-         this.em_smth.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-         this.em_smth.Properties.Mask.EditMask = "\\d\\d\\d\\d/\\d\\d";
-         this.em_smth.Properties.Mask.IgnoreMaskBlank = false;
-         this.em_smth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
-         this.em_smth.Properties.Mask.PlaceHolder = '0';
-         this.em_smth.Size = new System.Drawing.Size(71, 22);
-         this.em_smth.StyleController = this.st_month;
-         this.em_smth.TabIndex = 4;
+         this.emStartMth.CausesValidation = false;
+         this.emStartMth.EditValue = "2019/01";
+         this.emStartMth.Location = new System.Drawing.Point(2, 2);
+         this.emStartMth.Name = "em_smth";
+         this.emStartMth.Properties.DisplayFormat.FormatString = "yyyy/MM";
+         this.emStartMth.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+         this.emStartMth.Properties.Mask.EditMask = "\\d\\d\\d\\d/\\d\\d";
+         this.emStartMth.Properties.Mask.IgnoreMaskBlank = false;
+         this.emStartMth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
+         this.emStartMth.Properties.Mask.PlaceHolder = '0';
+         this.emStartMth.Size = new System.Drawing.Size(71, 22);
+         this.emStartMth.StyleController = this.stMonth;
+         this.emStartMth.TabIndex = 4;
          // 
          // em_emth
          // 
-         this.em_emth.CausesValidation = false;
-         this.em_emth.EditValue = "2019/01";
-         this.em_emth.Location = new System.Drawing.Point(91, 2);
-         this.em_emth.Name = "em_emth";
-         this.em_emth.Properties.DisplayFormat.FormatString = "yyyy/MM";
-         this.em_emth.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-         this.em_emth.Properties.Mask.EditMask = "\\d\\d\\d\\d/\\d\\d";
-         this.em_emth.Properties.Mask.IgnoreMaskBlank = false;
-         this.em_emth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
-         this.em_emth.Properties.Mask.PlaceHolder = '0';
-         this.em_emth.Size = new System.Drawing.Size(82, 22);
-         this.em_emth.StyleController = this.st_month;
-         this.em_emth.TabIndex = 5;
+         this.emEndMth.CausesValidation = false;
+         this.emEndMth.EditValue = "2019/01";
+         this.emEndMth.Location = new System.Drawing.Point(91, 2);
+         this.emEndMth.Name = "em_emth";
+         this.emEndMth.Properties.DisplayFormat.FormatString = "yyyy/MM";
+         this.emEndMth.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+         this.emEndMth.Properties.Mask.EditMask = "\\d\\d\\d\\d/\\d\\d";
+         this.emEndMth.Properties.Mask.IgnoreMaskBlank = false;
+         this.emEndMth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
+         this.emEndMth.Properties.Mask.PlaceHolder = '0';
+         this.emEndMth.Size = new System.Drawing.Size(82, 22);
+         this.emEndMth.StyleController = this.stMonth;
+         this.emEndMth.TabIndex = 5;
          // 
          // layoutControlGroup3
          // 
@@ -345,7 +345,7 @@
          // 
          // layoutControlItem7
          // 
-         this.layoutControlItem7.Control = this.em_smth;
+         this.layoutControlItem7.Control = this.emStartMth;
          this.layoutControlItem7.CustomizationFormText = "layoutControlItem1";
          this.layoutControlItem7.Location = new System.Drawing.Point(0, 0);
          this.layoutControlItem7.Name = "layoutControlItem2";
@@ -358,7 +358,7 @@
          // 
          // layoutControlItem8
          // 
-         this.layoutControlItem8.Control = this.em_emth;
+         this.layoutControlItem8.Control = this.emEndMth;
          this.layoutControlItem8.CustomizationFormText = "layoutControlItem2";
          this.layoutControlItem8.Location = new System.Drawing.Point(75, 0);
          this.layoutControlItem8.Name = "layoutControlItem4";
@@ -370,48 +370,48 @@
          // 
          // st_week
          // 
-         this.st_week.Controls.Add(this.em_sdate1);
-         this.st_week.Controls.Add(this.em_edate1);
-         this.st_week.Location = new System.Drawing.Point(104, 158);
-         this.st_week.Name = "st_week";
-         this.st_week.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(666, 57, 650, 400);
-         this.st_week.Root = this.layoutControlGroup2;
-         this.st_week.Size = new System.Drawing.Size(243, 33);
-         this.st_week.TabIndex = 4;
-         this.st_week.Text = "layoutControl1";
-         this.st_week.Visible = false;
+         this.stWeek.Controls.Add(this.emStartDate1);
+         this.stWeek.Controls.Add(this.emEndDate1);
+         this.stWeek.Location = new System.Drawing.Point(104, 158);
+         this.stWeek.Name = "st_week";
+         this.stWeek.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(666, 57, 650, 400);
+         this.stWeek.Root = this.layoutControlGroup2;
+         this.stWeek.Size = new System.Drawing.Size(243, 33);
+         this.stWeek.TabIndex = 4;
+         this.stWeek.Text = "layoutControl1";
+         this.stWeek.Visible = false;
          // 
          // em_sdate1
          // 
-         this.em_sdate1.CausesValidation = false;
-         this.em_sdate1.EditValue = "2019/01/01";
-         this.em_sdate1.Location = new System.Drawing.Point(2, 2);
-         this.em_sdate1.Name = "em_sdate1";
-         this.em_sdate1.Properties.DisplayFormat.FormatString = "yyyy/MM/dd";
-         this.em_sdate1.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-         this.em_sdate1.Properties.Mask.EditMask = "\\d\\d\\d\\d/\\d\\d/\\d\\d";
-         this.em_sdate1.Properties.Mask.IgnoreMaskBlank = false;
-         this.em_sdate1.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
-         this.em_sdate1.Properties.Mask.PlaceHolder = '0';
-         this.em_sdate1.Size = new System.Drawing.Size(109, 22);
-         this.em_sdate1.StyleController = this.st_week;
-         this.em_sdate1.TabIndex = 4;
+         this.emStartDate1.CausesValidation = false;
+         this.emStartDate1.EditValue = "2019/01/01";
+         this.emStartDate1.Location = new System.Drawing.Point(2, 2);
+         this.emStartDate1.Name = "em_sdate1";
+         this.emStartDate1.Properties.DisplayFormat.FormatString = "yyyy/MM/dd";
+         this.emStartDate1.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+         this.emStartDate1.Properties.Mask.EditMask = "\\d\\d\\d\\d/\\d\\d/\\d\\d";
+         this.emStartDate1.Properties.Mask.IgnoreMaskBlank = false;
+         this.emStartDate1.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
+         this.emStartDate1.Properties.Mask.PlaceHolder = '0';
+         this.emStartDate1.Size = new System.Drawing.Size(109, 22);
+         this.emStartDate1.StyleController = this.stWeek;
+         this.emStartDate1.TabIndex = 4;
          // 
          // em_edate1
          // 
-         this.em_edate1.CausesValidation = false;
-         this.em_edate1.EditValue = "2019/01/01";
-         this.em_edate1.Location = new System.Drawing.Point(129, 2);
-         this.em_edate1.Name = "em_edate1";
-         this.em_edate1.Properties.DisplayFormat.FormatString = "yyyy/MM/dd";
-         this.em_edate1.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-         this.em_edate1.Properties.Mask.EditMask = "\\d\\d\\d\\d/\\d\\d/\\d\\d";
-         this.em_edate1.Properties.Mask.IgnoreMaskBlank = false;
-         this.em_edate1.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
-         this.em_edate1.Properties.Mask.PlaceHolder = '0';
-         this.em_edate1.Size = new System.Drawing.Size(112, 22);
-         this.em_edate1.StyleController = this.st_week;
-         this.em_edate1.TabIndex = 5;
+         this.emEndDate1.CausesValidation = false;
+         this.emEndDate1.EditValue = "2019/01/01";
+         this.emEndDate1.Location = new System.Drawing.Point(129, 2);
+         this.emEndDate1.Name = "em_edate1";
+         this.emEndDate1.Properties.DisplayFormat.FormatString = "yyyy/MM/dd";
+         this.emEndDate1.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+         this.emEndDate1.Properties.Mask.EditMask = "\\d\\d\\d\\d/\\d\\d/\\d\\d";
+         this.emEndDate1.Properties.Mask.IgnoreMaskBlank = false;
+         this.emEndDate1.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
+         this.emEndDate1.Properties.Mask.PlaceHolder = '0';
+         this.emEndDate1.Size = new System.Drawing.Size(112, 22);
+         this.emEndDate1.StyleController = this.stWeek;
+         this.emEndDate1.TabIndex = 5;
          // 
          // layoutControlGroup2
          // 
@@ -429,7 +429,7 @@
          // 
          // layoutControlItem5
          // 
-         this.layoutControlItem5.Control = this.em_sdate1;
+         this.layoutControlItem5.Control = this.emStartDate1;
          this.layoutControlItem5.CustomizationFormText = "layoutControlItem1";
          this.layoutControlItem5.Location = new System.Drawing.Point(0, 0);
          this.layoutControlItem5.Name = "layoutControlItem2";
@@ -442,7 +442,7 @@
          // 
          // layoutControlItem6
          // 
-         this.layoutControlItem6.Control = this.em_edate1;
+         this.layoutControlItem6.Control = this.emEndDate1;
          this.layoutControlItem6.CustomizationFormText = "layoutControlItem2";
          this.layoutControlItem6.Location = new System.Drawing.Point(113, 0);
          this.layoutControlItem6.Name = "layoutControlItem4";
@@ -454,47 +454,47 @@
          // 
          // st_date
          // 
-         this.st_date.Controls.Add(this.em_sdate);
-         this.st_date.Controls.Add(this.em_edate);
-         this.st_date.Location = new System.Drawing.Point(104, 119);
-         this.st_date.Name = "st_date";
-         this.st_date.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(666, 57, 650, 400);
-         this.st_date.Root = this.Root;
-         this.st_date.Size = new System.Drawing.Size(243, 33);
-         this.st_date.TabIndex = 4;
-         this.st_date.Text = "layoutControl1";
+         this.stDate.Controls.Add(this.emStartDate);
+         this.stDate.Controls.Add(this.emEndDate);
+         this.stDate.Location = new System.Drawing.Point(104, 119);
+         this.stDate.Name = "st_date";
+         this.stDate.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(666, 57, 650, 400);
+         this.stDate.Root = this.Root;
+         this.stDate.Size = new System.Drawing.Size(243, 33);
+         this.stDate.TabIndex = 4;
+         this.stDate.Text = "layoutControl1";
          // 
          // em_sdate
          // 
-         this.em_sdate.CausesValidation = false;
-         this.em_sdate.EditValue = "2019/01/01";
-         this.em_sdate.Location = new System.Drawing.Point(2, 2);
-         this.em_sdate.Name = "em_sdate";
-         this.em_sdate.Properties.DisplayFormat.FormatString = "yyyy/MM/dd";
-         this.em_sdate.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-         this.em_sdate.Properties.Mask.EditMask = "\\d\\d\\d\\d/\\d\\d/\\d\\d";
-         this.em_sdate.Properties.Mask.IgnoreMaskBlank = false;
-         this.em_sdate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
-         this.em_sdate.Properties.Mask.PlaceHolder = '0';
-         this.em_sdate.Size = new System.Drawing.Size(109, 22);
-         this.em_sdate.StyleController = this.st_date;
-         this.em_sdate.TabIndex = 4;
+         this.emStartDate.CausesValidation = false;
+         this.emStartDate.EditValue = "2019/01/01";
+         this.emStartDate.Location = new System.Drawing.Point(2, 2);
+         this.emStartDate.Name = "em_sdate";
+         this.emStartDate.Properties.DisplayFormat.FormatString = "yyyy/MM/dd";
+         this.emStartDate.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+         this.emStartDate.Properties.Mask.EditMask = "\\d\\d\\d\\d/\\d\\d/\\d\\d";
+         this.emStartDate.Properties.Mask.IgnoreMaskBlank = false;
+         this.emStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
+         this.emStartDate.Properties.Mask.PlaceHolder = '0';
+         this.emStartDate.Size = new System.Drawing.Size(109, 22);
+         this.emStartDate.StyleController = this.stDate;
+         this.emStartDate.TabIndex = 4;
          // 
          // em_edate
          // 
-         this.em_edate.CausesValidation = false;
-         this.em_edate.EditValue = "2019/01/01";
-         this.em_edate.Location = new System.Drawing.Point(129, 2);
-         this.em_edate.Name = "em_edate";
-         this.em_edate.Properties.DisplayFormat.FormatString = "yyyy/MM/dd";
-         this.em_edate.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-         this.em_edate.Properties.Mask.EditMask = "\\d\\d\\d\\d/\\d\\d/\\d\\d";
-         this.em_edate.Properties.Mask.IgnoreMaskBlank = false;
-         this.em_edate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
-         this.em_edate.Properties.Mask.PlaceHolder = '0';
-         this.em_edate.Size = new System.Drawing.Size(112, 22);
-         this.em_edate.StyleController = this.st_date;
-         this.em_edate.TabIndex = 5;
+         this.emEndDate.CausesValidation = false;
+         this.emEndDate.EditValue = "2019/01/01";
+         this.emEndDate.Location = new System.Drawing.Point(129, 2);
+         this.emEndDate.Name = "em_edate";
+         this.emEndDate.Properties.DisplayFormat.FormatString = "yyyy/MM/dd";
+         this.emEndDate.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+         this.emEndDate.Properties.Mask.EditMask = "\\d\\d\\d\\d/\\d\\d/\\d\\d";
+         this.emEndDate.Properties.Mask.IgnoreMaskBlank = false;
+         this.emEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
+         this.emEndDate.Properties.Mask.PlaceHolder = '0';
+         this.emEndDate.Size = new System.Drawing.Size(112, 22);
+         this.emEndDate.StyleController = this.stDate;
+         this.emEndDate.TabIndex = 5;
          // 
          // Root
          // 
@@ -512,7 +512,7 @@
          // 
          // layoutControlItem2
          // 
-         this.layoutControlItem2.Control = this.em_sdate;
+         this.layoutControlItem2.Control = this.emStartDate;
          this.layoutControlItem2.CustomizationFormText = "layoutControlItem1";
          this.layoutControlItem2.Location = new System.Drawing.Point(0, 0);
          this.layoutControlItem2.Name = "layoutControlItem2";
@@ -525,7 +525,7 @@
          // 
          // layoutControlItem4
          // 
-         this.layoutControlItem4.Control = this.em_edate;
+         this.layoutControlItem4.Control = this.emEndDate;
          this.layoutControlItem4.CustomizationFormText = "layoutControlItem2";
          this.layoutControlItem4.Location = new System.Drawing.Point(113, 0);
          this.layoutControlItem4.Name = "layoutControlItem4";
@@ -678,38 +678,38 @@
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
          this.panelControl2.ResumeLayout(false);
-         ((System.ComponentModel.ISupportInitialize)(this.cbx_eng.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.cbxEng.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).EndInit();
          this.r_frame.ResumeLayout(false);
          this.r_frame.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gb_1)).EndInit();
          this.gb_1.ResumeLayout(false);
          this.gb_1.PerformLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.st_year)).EndInit();
-         this.st_year.ResumeLayout(false);
-         ((System.ComponentModel.ISupportInitialize)(this.em_syear.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.em_eyear.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.stYear)).EndInit();
+         this.stYear.ResumeLayout(false);
+         ((System.ComponentModel.ISupportInitialize)(this.emStartYear.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.emEndYear.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup4)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.st_month)).EndInit();
-         this.st_month.ResumeLayout(false);
-         ((System.ComponentModel.ISupportInitialize)(this.em_smth.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.em_emth.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.stMonth)).EndInit();
+         this.stMonth.ResumeLayout(false);
+         ((System.ComponentModel.ISupportInitialize)(this.emStartMth.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.emEndMth.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup3)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem8)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.st_week)).EndInit();
-         this.st_week.ResumeLayout(false);
-         ((System.ComponentModel.ISupportInitialize)(this.em_sdate1.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.em_edate1.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.stWeek)).EndInit();
+         this.stWeek.ResumeLayout(false);
+         ((System.ComponentModel.ISupportInitialize)(this.emStartDate1.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.emEndDate1.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup2)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.st_date)).EndInit();
-         this.st_date.ResumeLayout(false);
-         ((System.ComponentModel.ISupportInitialize)(this.em_sdate.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.em_edate.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.stDate)).EndInit();
+         this.stDate.ResumeLayout(false);
+         ((System.ComponentModel.ISupportInitialize)(this.emStartDate.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.emEndDate.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).EndInit();
@@ -731,8 +731,8 @@
       #endregion
       private DevExpress.XtraEditors.PanelControl panelControl2;
       private DevExpress.XtraEditors.PanelControl r_frame;
-      private DevExpress.XtraEditors.CheckEdit cbx_eng;
-      private System.Windows.Forms.Label st_msg_txt;
+      private DevExpress.XtraEditors.CheckEdit cbxEng;
+      private System.Windows.Forms.Label stMsgTxt;
       private System.Windows.Forms.Label gb1_label;
       private DevExpress.XtraEditors.PanelControl gb_1;
       private DevExpress.XtraEditors.PanelControl gb_2;
@@ -742,30 +742,30 @@
       private System.Windows.Forms.Label st_5;
       private DevExpress.XtraEditors.RadioGroup rgDate;
       private DevExpress.XtraEditors.TextEdit textEdit1;
-      private DevExpress.XtraLayout.LayoutControl st_date;
-      private DevExpress.XtraEditors.TextEdit em_sdate;
-      private DevExpress.XtraEditors.TextEdit em_edate;
+      private DevExpress.XtraLayout.LayoutControl stDate;
+      private DevExpress.XtraEditors.TextEdit emStartDate;
+      private DevExpress.XtraEditors.TextEdit emEndDate;
       private DevExpress.XtraLayout.LayoutControlGroup Root;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem2;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem4;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
       private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup1;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
-      private DevExpress.XtraLayout.LayoutControl st_year;
-      private DevExpress.XtraEditors.TextEdit em_syear;
-      private DevExpress.XtraEditors.TextEdit em_eyear;
+      private DevExpress.XtraLayout.LayoutControl stYear;
+      private DevExpress.XtraEditors.TextEdit emStartYear;
+      private DevExpress.XtraEditors.TextEdit emEndYear;
       private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup4;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem9;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem10;
-      private DevExpress.XtraLayout.LayoutControl st_month;
-      private DevExpress.XtraEditors.TextEdit em_smth;
-      private DevExpress.XtraEditors.TextEdit em_emth;
+      private DevExpress.XtraLayout.LayoutControl stMonth;
+      private DevExpress.XtraEditors.TextEdit emStartMth;
+      private DevExpress.XtraEditors.TextEdit emEndMth;
       private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup3;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem7;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem8;
-      private DevExpress.XtraLayout.LayoutControl st_week;
-      private DevExpress.XtraEditors.TextEdit em_sdate1;
-      private DevExpress.XtraEditors.TextEdit em_edate1;
+      private DevExpress.XtraLayout.LayoutControl stWeek;
+      private DevExpress.XtraEditors.TextEdit emStartDate1;
+      private DevExpress.XtraEditors.TextEdit emEndDate1;
       private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup2;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem5;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem6;

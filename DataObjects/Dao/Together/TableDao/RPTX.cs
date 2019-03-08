@@ -33,8 +33,8 @@ select trim(RPTX_SUBPATH) as ls_sub_path,
 trim(RPTX_FILENAME_EXT) as ls_excel_ext,
 trim(RPTX_RENAME) as ls_rename
 from ci.RPTX
-where RPTX_TXN_ID = :is_txn_id
-and RPTX_FILENAME = :as_filename
+where TRIM(RPTX_TXN_ID) = :is_txn_id
+and TRIM(RPTX_FILENAME) = :as_filename
 ";
 
             DataTable dtResult = db.GetDataTable(sql, parms);

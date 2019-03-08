@@ -98,11 +98,10 @@ namespace PhoenixCI.FormUI.Prefix5 {
             點選儲存檔案之目錄
             *******************/
             //檔名	= 報表型態(起-迄).xls
-            string is_save_file = txtMonth.Text.Replace("/", "") + "_MMONTH.txt";
-            if (is_save_file == "") {
+            string saveFile = txtMonth.Text.Replace("/", "") + "_MMONTH.txt";
+            if (saveFile == "") {
                 return ResultStatus.Fail;
             }
-            bool ib_title = false;
             /******************************
             (01).char(6)年月 
             (02).char(7)期貨商代號 
@@ -119,9 +118,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
                    2013.07.30 新增交易部認定不合理交易量欄位
             (11).char(1)交易時段:0日盤/1夜盤
             ******************************/
-            int i, li_day_count, li_avg_time;
-            string ls_text, ls_prod_type, ls_kind_id;
-            decimal ll_time;
+            int i, dayCount;
+            string text, prodType, kindId;
             DataTable dtContent = dao50090.GetData(txtMonth.Text.Replace("/", ""));
             //PB的D50090有兩個運算欄位(computed fields)
             //運算條件：if(amm0_day_count > 0 , truncate(IF( amm0_qnty1 >  amm0_qnty2  , amm0_qnty2 , amm0_qnty1 )/  amm0_day_count,0) ,0)
@@ -140,12 +138,10 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 SaveFileDialog save = new SaveFileDialog();
                 save.Filter = "*.txt (*.txt)|*.txt";
                 save.Title = "請點選儲存檔案之目錄";
-                save.FileName = is_save_file;
+                save.FileName = saveFile;
                 save.ShowDialog();
                 Stream fs = (FileStream)save.OpenFile();
                 StreamWriter wr = new StreamWriter(fs);
-                string txtData = "";
-                int rowNum = 0;
 
                 for (i = 0; i < dtContent.Rows.Count; i++) {
                     DataRow dr = dtContent.Rows[i];
@@ -169,24 +165,24 @@ namespace PhoenixCI.FormUI.Prefix5 {
                     else {
                         dr["cp_qnty_flag"] = "N";
                     }
-                    ls_prod_type = dr["amm0_prod_type"].AsString();
-                    ls_text = dr["amm0_ymd"].AsString().Replace("/", "").SubStr(0, 6);
-                    ls_text = ls_text + dr["amm0_brk_no"].AsString().SubStr(0, 7);
+                    prodType = dr["amm0_prod_type"].AsString();
+                    text = dr["amm0_ymd"].AsString().Replace("/", "").SubStr(0, 6);
+                    text = text + dr["amm0_brk_no"].AsString().SubStr(0, 7);
                     //商品2碼時,第3碼加上F/O
-                    ls_kind_id = dr["amm0_kind_id2"].AsString().Trim();
-                    if (ls_kind_id.Length == 2) {
-                        ls_kind_id = ls_kind_id + ls_prod_type;
+                    kindId = dr["amm0_kind_id2"].AsString().Trim();
+                    if (kindId.Length == 2) {
+                        kindId = kindId + prodType;
                     }
-                    ls_text = ls_text + ls_kind_id.PadRight(4, ' ');
+                    text = text + kindId.PadRight(4, ' ');
 
                     //期貨不判斷有效詢報價比例
                     if (dr["amm0_prod_type"].AsString() == "O") {
-                        ls_text = ls_text + string.Format("{0:000.0000}", dr["amm0_rate"]);
+                        text = text + string.Format("{0:000.0000}", dr["amm0_rate"]);
                     }
                     else {
-                        ls_text = ls_text + "000.0000";
+                        text = text + "000.0000";
                     }
-                    ls_text = ls_text + dr["amm0_acc_no"].AsString().SubStr(0, 7);
+                    text = text + dr["amm0_acc_no"].AsString().SubStr(0, 7);
                     //符合維持時間
                     //		ll_time = lds_1.getitemdecimal(i,"amm0_keep_time")
                     //		li_day_count = lds_1.getitemdecimal(i,"amm0_day_count")
@@ -211,51 +207,51 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
                     //20091225 modify by Jack
                     if (dr["amm0_keep_flag"].AsString() == "Y") {
-                        ls_text = ls_text + "Y";
+                        text = text + "Y";
                     }
                     else {
-                        ls_text = ls_text + "N";
+                        text = text + "N";
                     }
                     // end of Jack modify
 
                     //ls_text = ls_text + string(lds_1.getitemstring(i,"amm0_keep_flag"),"@")
                     //判斷最低口數
-                    ls_text = ls_text + dr["cp_qnty_flag"];
+                    text = text + dr["cp_qnty_flag"];
 
                     //2009.12.17 add		
                     //2011.05.03 add AMM0_RESULT
                     //2011.07.01 改成AMM0_VALID_RESULT
-                    li_day_count = dr["amm0_day_count"].AsInt();
-                    if (li_day_count > 0) {
-                        ls_text = ls_text + string.Format("{0:0000}", Math.Ceiling(dr["amm0_keep_time"].AsDecimal() / 60 / li_day_count));
+                    dayCount = dr["amm0_day_count"].AsInt();
+                    if (dayCount > 0) {
+                        text = text + string.Format("{0:0000}", Math.Ceiling(dr["amm0_keep_time"].AsDecimal() / 60 / dayCount));
                         //			if		isnull(lds_1.getitemdecimal(i,"amm0_result"))  then
                         //					ls_text = ls_text + "00000000"
                         //			else
                         //					ls_text = ls_text + string( ceiling(lds_1.getitemdecimal(i,"amm0_result") / li_day_count), "00000000")
                         //			end	if		
                         if (dr["amm0_valid_result"] == null) {
-                            ls_text = ls_text + "00000000";
+                            text = text + "00000000";
                         }
                         else {
-                            ls_text = ls_text + string.Format("{0:00000000}", Math.Ceiling(dr["amm0_valid_result"].AsDecimal() / li_day_count));
+                            text = text + string.Format("{0:00000000}", Math.Ceiling(dr["amm0_valid_result"].AsDecimal() / dayCount));
                         }
                     }
                     else {
-                        ls_text = ls_text + "0000";
-                        ls_text = ls_text + "00000000";
+                        text = text + "0000";
+                        text = text + "00000000";
                     }
                     //不合理交易量
                     if (dr["amm0_trd_invalid_qnty"] == null) {
-                        ls_text = ls_text + "00000000";
+                        text = text + "00000000";
                     }
                     else {
-                        ls_text = ls_text + string.Format("{0:00000000}", dr["amm0_trd_invalid_qnty"]);
+                        text = text + string.Format("{0:00000000}", dr["amm0_trd_invalid_qnty"]);
                     }
                     //交易時段:0日盤/1夜盤
-                    ls_text = ls_text + dr["market_code"];
+                    text = text + dr["market_code"];
 
                     //寫檔
-                    wr.WriteLine(ls_text);
+                    wr.WriteLine(text);
 
                 }
 

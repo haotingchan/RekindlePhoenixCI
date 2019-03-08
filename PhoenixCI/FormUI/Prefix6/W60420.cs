@@ -72,10 +72,10 @@ namespace PhoenixCI.FormUI.Prefix6 {
 
             #region 檢查
             //要先call f_get_jsw
-            string ls_rtn = "";
-            ls_rtn = PbFunc.f_get_jsw("60420","E", PbFunc.f_ocf_date(0));
+            string rtn = "";
+            rtn = PbFunc.f_get_jsw("60420","E", PbFunc.f_ocf_date(0));
             //ls_rtn = f_get_jsw(is_txn_id,'E',em_date.text)
-            if (ls_rtn != "Y") {
+            if (rtn != "Y") {
                 DialogResult result = MessageBox.Show(txtEndDate.Text + " 統計資料未轉入完畢,是否要繼續?",
                                                       "注意", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.No) {
@@ -96,22 +96,22 @@ namespace PhoenixCI.FormUI.Prefix6 {
             workbook.LoadDocument(excelDestinationPath);
 
             #region wf_60410a (sheet 1/4/5)
-            string ls_rpt_name, ls_rpt_id;
-            int i, j, ii_ole_row;
-            decimal ld_value;
+            string rptName, rptId;
+            int i, j, rowNum;
+            decimal value;
             /*************************************
             ls_rpt_name = 報表名稱
             ls_rpt_id = 報表代號
             *************************************/
-            ls_rpt_name = "檢查表";
-            ls_rpt_id = "60410_1a";
-            lblProcessing.Text = ls_rpt_id + "－" + ls_rpt_name + " 轉檔中...";
+            rptName = "檢查表";
+            rptId = "60410_1a";
+            lblProcessing.Text = rptId + "－" + rptName + " 轉檔中...";
             this.Refresh();
             Thread.Sleep(5);
             //讀取資料
             DataTable dt60410_1a = dao60420.d_60410_1a(txtStartDate.DateTimeValue, txtEndDate.DateTimeValue);
             if (dt60410_1a.Rows.Count == 0) {
-                MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtEndDate.EditValue, ls_rpt_id + "－" + ls_rpt_name));
+                MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtEndDate.EditValue, rptId + "－" + rptName));
             }
 
             //切換Sheet
@@ -119,17 +119,17 @@ namespace PhoenixCI.FormUI.Prefix6 {
             Worksheet sheet1 = workbook.Worksheets[0];
 
             //填資料
-            if (cbx_1.Checked == false) {
+            if (cbx1.Checked == false) {
                 sheet1.Cells[2, 0].Value = "標準1. 全部「成份股檔數」";
             }
-            ii_ole_row = 3;
+            rowNum = 3;
             for (i = 0; i < dt60410_1a.Rows.Count; i++) {
                 DataRow dr60410_1a = dt60410_1a.Rows[i];
-                if (cbx_1.Checked == false || dr60410_1a["tot_cnt"].AsInt() < sle_cond1.Text.AsInt()) {
-                    ii_ole_row = ii_ole_row + 1;
-                    sheet1.Cells[ii_ole_row, 0].Value = dr60410_1a["cod_name"].AsString();
-                    sheet1.Cells[ii_ole_row, 1].Value = (DateTime.ParseExact(dr60410_1a["ymd"].AsString(), "yyyyMMdd", CultureInfo.InvariantCulture)).ToString("yyyy/M/d").AsDateTime();
-                    sheet1.Cells[ii_ole_row, 2].Value = dr60410_1a["tot_cnt"].AsInt();
+                if (cbx1.Checked == false || dr60410_1a["tot_cnt"].AsInt() < sleCond1.Text.AsInt()) {
+                    rowNum = rowNum + 1;
+                    sheet1.Cells[rowNum, 0].Value = dr60410_1a["cod_name"].AsString();
+                    sheet1.Cells[rowNum, 1].Value = (DateTime.ParseExact(dr60410_1a["ymd"].AsString(), "yyyyMMdd", CultureInfo.InvariantCulture)).ToString("yyyy/M/d").AsDateTime();
+                    sheet1.Cells[rowNum, 2].Value = dr60410_1a["tot_cnt"].AsInt();
                 }
             }
             sheet1.ScrollTo(0, 0);
@@ -137,28 +137,28 @@ namespace PhoenixCI.FormUI.Prefix6 {
             //4. 未符合「最低25%權重之成份股，檔數在15檔(含)以上，過去半年每日合計成交值之平均值＞3,000萬美元」
             Worksheet sheet4 = workbook.Worksheets[3];
             //填資料
-            if (cbx_4.Checked == false) {
+            if (cbx4.Checked == false) {
                 sheet4.Cells[2, 0].Value = "標準4. 全部「最低25%權重之成份股，檔數在15檔(含)以上，過去半年每日合計成交值」";
             }
-            ii_ole_row = 4;
+            rowNum = 4;
             for (i = 0; i < dt60410_1a.Rows.Count; i++) {
                 DataRow dr60410_1a = dt60410_1a.Rows[i];
-                if (dr60410_1a["cnt25"].AsInt() >= sle_cond4_1.Text.AsInt() &&
-                    Math.Round(dr60410_1a["avg_amt_mth_usd"].AsDecimal() / 10000, 0) <= sle_cond4_2.Text.AsDecimal() ||
-                    cbx_4.Checked == false) {
-                    ii_ole_row = ii_ole_row + 1;
-                    sheet4.Cells[ii_ole_row, 0].Value = dr60410_1a["cod_name"].AsString();
-                    sheet4.Cells[ii_ole_row, 1].Value = (DateTime.ParseExact(dr60410_1a["ymd"].AsString(), "yyyyMMdd", CultureInfo.InvariantCulture)).ToString("yyyy/M/d").AsDateTime();
-                    sheet4.Cells[ii_ole_row, 2].Value = dr60410_1a["cnt25"].AsInt();
-                    sheet4.Cells[ii_ole_row, 3].Value = dr60410_1a["weight25"].AsDecimal();
-                    sheet4.Cells[ii_ole_row, 4].Value = dr60410_1a["avg_amt_cls_usd"].AsDecimal();
-                    sheet4.Cells[ii_ole_row, 5].Value = dr60410_1a["avg_amt_cls_tw"].AsDecimal();
-                    sheet4.Cells[ii_ole_row, 6].Value = dr60410_1a["avg_amt_mth_usd"].AsDecimal();
-                    sheet4.Cells[ii_ole_row, 7].Value = dr60410_1a["avg_amt_mth_tw"].AsDecimal();
-                    sheet4.Cells[ii_ole_row, 8].Value = dr60410_1a["day_amt_cls_usd"].AsDecimal();
-                    sheet4.Cells[ii_ole_row, 9].Value = dr60410_1a["day_amt_cls_tw"].AsDecimal();
-                    sheet4.Cells[ii_ole_row, 10].Value = dr60410_1a["day_amt_mth_usd"].AsDecimal();
-                    sheet4.Cells[ii_ole_row, 11].Value = dr60410_1a["day_amt_mth_tw"].AsDecimal();
+                if (dr60410_1a["cnt25"].AsInt() >= sleCond41.Text.AsInt() &&
+                    Math.Round(dr60410_1a["avg_amt_mth_usd"].AsDecimal() / 10000, 0) <= sleCond42.Text.AsDecimal() ||
+                    cbx4.Checked == false) {
+                    rowNum = rowNum + 1;
+                    sheet4.Cells[rowNum, 0].Value = dr60410_1a["cod_name"].AsString();
+                    sheet4.Cells[rowNum, 1].Value = (DateTime.ParseExact(dr60410_1a["ymd"].AsString(), "yyyyMMdd", CultureInfo.InvariantCulture)).ToString("yyyy/M/d").AsDateTime();
+                    sheet4.Cells[rowNum, 2].Value = dr60410_1a["cnt25"].AsInt();
+                    sheet4.Cells[rowNum, 3].Value = dr60410_1a["weight25"].AsDecimal();
+                    sheet4.Cells[rowNum, 4].Value = dr60410_1a["avg_amt_cls_usd"].AsDecimal();
+                    sheet4.Cells[rowNum, 5].Value = dr60410_1a["avg_amt_cls_tw"].AsDecimal();
+                    sheet4.Cells[rowNum, 6].Value = dr60410_1a["avg_amt_mth_usd"].AsDecimal();
+                    sheet4.Cells[rowNum, 7].Value = dr60410_1a["avg_amt_mth_tw"].AsDecimal();
+                    sheet4.Cells[rowNum, 8].Value = dr60410_1a["day_amt_cls_usd"].AsDecimal();
+                    sheet4.Cells[rowNum, 9].Value = dr60410_1a["day_amt_cls_tw"].AsDecimal();
+                    sheet4.Cells[rowNum, 10].Value = dr60410_1a["day_amt_mth_usd"].AsDecimal();
+                    sheet4.Cells[rowNum, 11].Value = dr60410_1a["day_amt_mth_tw"].AsDecimal();
                 }
             }
             sheet4.ScrollTo(0, 0);
@@ -166,43 +166,43 @@ namespace PhoenixCI.FormUI.Prefix6 {
             //5. 未符合「最低25%權重之成份股，檔數低於15檔，過去半年每日合計成交值之平均值＞5,000萬美元」
             Worksheet sheet5 = workbook.Worksheets[4];
             //填資料
-            if (cbx_5.Checked == false) {
+            if (cbx5.Checked == false) {
                 sheet5.Cells[2, 0].Value = "標準5. 全部「最低25%權重之成份股，檔數低於15檔，過去半年每日合計成交值」";
             }
-            ii_ole_row = 4;
+            rowNum = 4;
             for (i = 0; i < dt60410_1a.Rows.Count; i++) {
                 DataRow dr60410_1a = dt60410_1a.Rows[i];
-                if (dr60410_1a["cnt25"].AsInt() < sle_cond4_1.Text.AsInt() &&
-                    (Math.Round(dr60410_1a["avg_amt_mth_usd"].AsDecimal() / 10000, 0) <= sle_cond5_2.Text.AsDecimal() ||
-                    cbx_5.Checked == false)) {
-                    ii_ole_row = ii_ole_row + 1;
-                    sheet5.Cells[ii_ole_row, 0].Value = dr60410_1a["cod_name"].AsString();
-                    sheet5.Cells[ii_ole_row, 1].Value = (DateTime.ParseExact(dr60410_1a["ymd"].AsString(), "yyyyMMdd", CultureInfo.InvariantCulture)).ToString("yyyy/M/d").AsDateTime();
-                    sheet5.Cells[ii_ole_row, 2].Value = dr60410_1a["cnt25"].AsInt();
-                    sheet5.Cells[ii_ole_row, 3].Value = dr60410_1a["weight25"].AsDecimal();
-                    sheet5.Cells[ii_ole_row, 4].Value = dr60410_1a["avg_amt_cls_usd"].AsDecimal();
-                    sheet5.Cells[ii_ole_row, 5].Value = dr60410_1a["avg_amt_cls_tw"].AsDecimal();
-                    sheet5.Cells[ii_ole_row, 6].Value = dr60410_1a["avg_amt_mth_usd"].AsDecimal();
-                    sheet5.Cells[ii_ole_row, 7].Value = dr60410_1a["avg_amt_mth_tw"].AsDecimal();
-                    sheet5.Cells[ii_ole_row, 8].Value = dr60410_1a["day_amt_cls_usd"].AsDecimal();
-                    sheet5.Cells[ii_ole_row, 9].Value = dr60410_1a["day_amt_cls_tw"].AsDecimal();
-                    sheet5.Cells[ii_ole_row, 10].Value = dr60410_1a["day_amt_mth_usd"].AsDecimal();
-                    sheet5.Cells[ii_ole_row, 11].Value = dr60410_1a["day_amt_mth_tw"].AsDecimal();
+                if (dr60410_1a["cnt25"].AsInt() < sleCond41.Text.AsInt() &&
+                    (Math.Round(dr60410_1a["avg_amt_mth_usd"].AsDecimal() / 10000, 0) <= sleCond52.Text.AsDecimal() ||
+                    cbx5.Checked == false)) {
+                    rowNum = rowNum + 1;
+                    sheet5.Cells[rowNum, 0].Value = dr60410_1a["cod_name"].AsString();
+                    sheet5.Cells[rowNum, 1].Value = (DateTime.ParseExact(dr60410_1a["ymd"].AsString(), "yyyyMMdd", CultureInfo.InvariantCulture)).ToString("yyyy/M/d").AsDateTime();
+                    sheet5.Cells[rowNum, 2].Value = dr60410_1a["cnt25"].AsInt();
+                    sheet5.Cells[rowNum, 3].Value = dr60410_1a["weight25"].AsDecimal();
+                    sheet5.Cells[rowNum, 4].Value = dr60410_1a["avg_amt_cls_usd"].AsDecimal();
+                    sheet5.Cells[rowNum, 5].Value = dr60410_1a["avg_amt_cls_tw"].AsDecimal();
+                    sheet5.Cells[rowNum, 6].Value = dr60410_1a["avg_amt_mth_usd"].AsDecimal();
+                    sheet5.Cells[rowNum, 7].Value = dr60410_1a["avg_amt_mth_tw"].AsDecimal();
+                    sheet5.Cells[rowNum, 8].Value = dr60410_1a["day_amt_cls_usd"].AsDecimal();
+                    sheet5.Cells[rowNum, 9].Value = dr60410_1a["day_amt_cls_tw"].AsDecimal();
+                    sheet5.Cells[rowNum, 10].Value = dr60410_1a["day_amt_mth_usd"].AsDecimal();
+                    sheet5.Cells[rowNum, 11].Value = dr60410_1a["day_amt_mth_tw"].AsDecimal();
                 }
             }
             sheet5.ScrollTo(0, 0);
             #endregion
 
             #region wf_60410_2 (sheet 2)
-            ls_rpt_name = "2. 未符合「權重最大之成份股權重≦30%」";
-            ls_rpt_id = "60410_2";
-            lblProcessing.Text = ls_rpt_id + "－" + ls_rpt_name + " 轉檔中...";
+            rptName = "2. 未符合「權重最大之成份股權重≦30%」";
+            rptId = "60410_2";
+            lblProcessing.Text = rptId + "－" + rptName + " 轉檔中...";
             this.Refresh();
             Thread.Sleep(5);
             //讀取資料
             DataTable dt60410_2;
-            if (cbx_2.Checked == true) {
-                dt60410_2 = dao60420.d_60410_2(txtStartDate.DateTimeValue, txtEndDate.DateTimeValue, sle_cond2.Text.AsDecimal());
+            if (cbx2.Checked == true) {
+                dt60410_2 = dao60420.d_60410_2(txtStartDate.DateTimeValue, txtEndDate.DateTimeValue, sleCond2.Text.AsDecimal());
             }
             else {
                 dt60410_2 = dao60420.d_60410_2(txtStartDate.DateTimeValue, txtEndDate.DateTimeValue, -1.AsDecimal());
@@ -216,35 +216,35 @@ namespace PhoenixCI.FormUI.Prefix6 {
             //2. 未符合「權重最大之成份股權重≦30%」
             Worksheet sheet2 = workbook.Worksheets[1];
             //填資料
-            if (cbx_2.Checked == false) {
+            if (cbx2.Checked == false) {
                 sheet2.Cells[2, 0].Value = "標準2. 全部「權重最大之成份股權重%」";
             }
-            ii_ole_row = 3;
+            rowNum = 3;
             for (i = 0; i < dt60410_2.Rows.Count; i++) {
                 DataRow dr60410_2 = dt60410_2.Rows[i];
-                if (cbx_2.Checked == true && dr60410_2["index_weight"].AsDecimal() <= 0.3.AsDecimal()) {
+                if (cbx2.Checked == true && dr60410_2["index_weight"].AsDecimal() <= 0.3.AsDecimal()) {
                     continue;
                 }
-                ii_ole_row = ii_ole_row + 1;
-                sheet2.Cells[ii_ole_row, 0].Value = dr60410_2["cod_name"].AsString();
-                sheet2.Cells[ii_ole_row, 1].Value = dr60410_2["TSE3_YMD"].AsDateTime().ToString("yyyy/M/d").AsDateTime();
-                sheet2.Cells[ii_ole_row, 2].Value = dr60410_2["TSE3_SID"].AsInt();
-                sheet2.Cells[ii_ole_row, 3].Value = dr60410_2["TFXMS_SNAME"].AsString();
-                sheet2.Cells[ii_ole_row, 4].Value = dr60410_2["INDEX_WEIGHT"].AsDecimal();
+                rowNum = rowNum + 1;
+                sheet2.Cells[rowNum, 0].Value = dr60410_2["cod_name"].AsString();
+                sheet2.Cells[rowNum, 1].Value = dr60410_2["TSE3_YMD"].AsDateTime().ToString("yyyy/M/d").AsDateTime();
+                sheet2.Cells[rowNum, 2].Value = dr60410_2["TSE3_SID"].AsInt();
+                sheet2.Cells[rowNum, 3].Value = dr60410_2["TFXMS_SNAME"].AsString();
+                sheet2.Cells[rowNum, 4].Value = dr60410_2["INDEX_WEIGHT"].AsDecimal();
             }
             sheet2.ScrollTo(0, 0);
             #endregion
 
             #region wf_60410_3 (sheet 3)
-            ls_rpt_name = "3. 未符合「權重前五大成份股合計權重≦60%」";
-            ls_rpt_id = "60412_3"; //PB就是這樣寫
-            lblProcessing.Text = ls_rpt_id + "－" + ls_rpt_name + " 轉檔中...";
+            rptName = "3. 未符合「權重前五大成份股合計權重≦60%」";
+            rptId = "60412_3"; //PB就是這樣寫
+            lblProcessing.Text = rptId + "－" + rptName + " 轉檔中...";
             this.Refresh();
             Thread.Sleep(5);
             //讀取資料
             DataTable dt60412_3;
-            if (cbx_3.Checked == true) {
-                dt60412_3 = dao60420.d_60412_3(txtStartDate.DateTimeValue, txtEndDate.DateTimeValue, sle_cond3.Text.AsDecimal());
+            if (cbx3.Checked == true) {
+                dt60412_3 = dao60420.d_60412_3(txtStartDate.DateTimeValue, txtEndDate.DateTimeValue, sleCond3.Text.AsDecimal());
             }
             else {
                 dt60412_3 = dao60420.d_60412_3(txtStartDate.DateTimeValue, txtEndDate.DateTimeValue, -1.AsDecimal());
@@ -258,17 +258,17 @@ namespace PhoenixCI.FormUI.Prefix6 {
             //3. 未符合「權重前五大成份股合計權重≦60%」
             Worksheet sheet3 = workbook.Worksheets[2];
             //填資料
-            ii_ole_row = 3;
+            rowNum = 3;
             for (i = 0; i < dt60412_3.Rows.Count; i++) {
                 DataRow dr60412_3 = dt60412_3.Rows[i];
-                ii_ole_row = ii_ole_row + 1;
-                sheet3.Cells[ii_ole_row, 0].Value = dr60412_3["cod_name"].AsString();
-                sheet3.Cells[ii_ole_row, 1].Value = dr60412_3["TSE3_DATE"].AsDateTime().ToString("yyyy/M/d").AsDateTime();
-                sheet3.Cells[ii_ole_row, 2].Value = dr60412_3["TSE5_25_WEIGHT"].AsDecimal();
-                sheet3.Cells[ii_ole_row, 3].Value = dr60412_3["TSE3_DESC_SEQ"].AsInt();
-                sheet3.Cells[ii_ole_row, 4].Value = dr60412_3["TSE3_SID"].AsInt();
-                sheet3.Cells[ii_ole_row, 5].Value = dr60412_3["TFXMS_SNAME"].AsString();
-                sheet3.Cells[ii_ole_row, 6].Value = dr60412_3["INDEX_WEIGHT"].AsDecimal();
+                rowNum = rowNum + 1;
+                sheet3.Cells[rowNum, 0].Value = dr60412_3["cod_name"].AsString();
+                sheet3.Cells[rowNum, 1].Value = dr60412_3["TSE3_DATE"].AsDateTime().ToString("yyyy/M/d").AsDateTime();
+                sheet3.Cells[rowNum, 2].Value = dr60412_3["TSE5_25_WEIGHT"].AsDecimal();
+                sheet3.Cells[rowNum, 3].Value = dr60412_3["TSE3_DESC_SEQ"].AsInt();
+                sheet3.Cells[rowNum, 4].Value = dr60412_3["TSE3_SID"].AsInt();
+                sheet3.Cells[rowNum, 5].Value = dr60412_3["TFXMS_SNAME"].AsString();
+                sheet3.Cells[rowNum, 6].Value = dr60412_3["INDEX_WEIGHT"].AsDecimal();
             }
             sheet3.ScrollTo(0, 0);
             #endregion

@@ -20,9 +20,9 @@ namespace PhoenixCI.FormUI.PrefixS
     {
         protected DS0073 daoS0073;
         protected COD daoCod;
-        protected string is_fm_ymd;
-        protected string is_to_ymd;
-        protected DateTime is_max_ymd;
+        protected string fmYmd;
+        protected string toYmd;
+        protected DateTime maxYmd;
         protected DateTime startDateOldValue;
         protected DateTime endDateOldValue;
         protected DataTable periodTable;
@@ -110,60 +110,26 @@ namespace PhoenixCI.FormUI.PrefixS
             #endregion
         }
 
-        protected override ResultStatus Save(PokeBall pokeBall)
-        {
+        protected override ResultStatus Save(PokeBall pokeBall) {
             gvMain.CloseEditor();
             gvMain.UpdateCurrentRow();
 
             DataTable dt = (DataTable)gcMain.DataSource;
+            ResultStatus resultStatus = ResultStatus.Fail;
 
-            DataTable dtChange = dt.GetChanges();
-            if (dtChange != null) {
-                if (dtChange.Rows.Count == 0 && txtStartDate.DateTimeValue == startDateOldValue
-                    && txtEndDate.DateTimeValue == endDateOldValue) {
-                    MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                }
-                else //日期區間及欄位都更新
-                {
-                    periodTable = daoS0073.GetPeriodData("MARGIN", GlobalInfo.USER_ID);
-                    if (periodTable.Rows.Count == 0) {
-                        periodTable.Rows.Add();
-                    }
-                    periodTable.Rows[0].SetField("span_period_module", "MARGIN");
-                    periodTable.Rows[0].SetField("span_period_start_date", txtStartDate.DateTimeValue.ToString("yyyyMMdd"));
-                    periodTable.Rows[0].SetField("span_period_end_date", txtEndDate.DateTimeValue.ToString("yyyyMMdd"));
-                    periodTable.Rows[0].SetField("span_period_w_time", DateTime.Now);
-                    periodTable.Rows[0].SetField("span_period_user_id", GlobalInfo.USER_ID);
-
+            if (checkChanged()) {
+                resultStatus = savePeriod();
+                if (resultStatus == ResultStatus.Success) {
                     dt.Rows[0].SetField("span_margin_w_time", DateTime.Now);
-
-                    ResultStatus resultStatus = base.Save_Override(dt, "SPAN_MARGIN", DBName.CFO);
-                    resultStatus = base.Save_Override(periodTable, "SPAN_PERIOD", DBName.CFO);
-                    if (resultStatus == ResultStatus.Fail) {
-                        return ResultStatus.Fail;
-                    }
+                    resultStatus = daoS0073.updateMarginData(dt).Status;//base.Save_Override(dt, "SPAN_MARGIN", DBName.CFO);
                 }
             }
-            else if (txtStartDate.DateTimeValue == startDateOldValue
-                    && txtEndDate.DateTimeValue == endDateOldValue) {
-                MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }
-            else//只更新日期區間
-            {
-                periodTable = daoS0073.GetPeriodData("MARGIN", GlobalInfo.USER_ID);
-                if (periodTable.Rows.Count == 0) {
-                    periodTable.Rows.Add();
-                }
-                periodTable.Rows[0].SetField("span_period_module", "MARGIN");
-                periodTable.Rows[0].SetField("span_period_start_date", txtStartDate.DateTimeValue.ToString("yyyyMMdd"));
-                periodTable.Rows[0].SetField("span_period_end_date", txtEndDate.DateTimeValue.ToString("yyyyMMdd"));
-                periodTable.Rows[0].SetField("span_period_w_time", DateTime.Now);
-                periodTable.Rows[0].SetField("span_period_user_id", GlobalInfo.USER_ID);
-
-                base.Save_Override(periodTable, "SPAN_PERIOD", DBName.CFO);
+            else {
+                MessageDisplay.Info("沒有變更資料,不需要存檔!");
+                resultStatus = ResultStatus.FailButNext;
             }
             _IsPreventFlowPrint = true;
-            return ResultStatus.Success;
+            return resultStatus;
         }
 
         protected override ResultStatus Retrieve()
@@ -174,12 +140,12 @@ namespace PhoenixCI.FormUI.PrefixS
             periodTable =daoS0073.GetPeriodData("MARGIN", GlobalInfo.USER_ID);
             if (periodTable.Rows.Count <= 0)
             {
-                is_fm_ymd = DateTime.Now.AddDays(-60).ToString("yyyyMMdd");
-                is_to_ymd = DateTime.Now.ToString("yyyyMMdd");
-                is_max_ymd = new AOCF().GetMaxDate(is_fm_ymd, is_to_ymd);
+                fmYmd = DateTime.Now.AddDays(-60).ToString("yyyyMMdd");
+                toYmd = DateTime.Now.ToString("yyyyMMdd");
+                maxYmd = new AOCF().GetMaxDate(fmYmd, toYmd);
 
-                txtStartDate.DateTimeValue = DateTime.ParseExact(is_max_ymd.ToString("yyyy/MM/dd"), "yyyy/MM/dd", null);
-                txtEndDate.DateTimeValue = DateTime.ParseExact(is_max_ymd.ToString("yyyy/MM/dd"), "yyyy/MM/dd", null);
+                txtStartDate.DateTimeValue = DateTime.ParseExact(maxYmd.ToString("yyyy/MM/dd"), "yyyy/MM/dd", null);
+                txtEndDate.DateTimeValue = DateTime.ParseExact(maxYmd.ToString("yyyy/MM/dd"), "yyyy/MM/dd", null);
                 startDateOldValue = txtStartDate.DateTimeValue;
                 endDateOldValue = txtEndDate.DateTimeValue;
             }
@@ -203,6 +169,40 @@ namespace PhoenixCI.FormUI.PrefixS
             gcMain.DataSource = marginTable;
 
             return ResultStatus.Success;
+        }
+
+        protected override ResultStatus RunBefore(PokeBall args) {
+            ResultStatus resultStatus = ResultStatus.Fail;
+
+            if (checkChanged()) {
+                MessageDisplay.Info("資料有變更, 請先存檔!");
+                resultStatus = ResultStatus.FailButNext;
+            }
+            else {
+                if (base.RunBefore(args) == ResultStatus.Success) Run(args);
+            }
+            return resultStatus;
+        }
+
+        protected override ResultStatus Run(PokeBall args) {
+            if (!checkChanged()) {
+                PbFunc.f_bat_span("S0073", "MARGIN", GlobalInfo.USER_ID);
+            }
+            return base.Run(args);
+        }
+
+        private ResultStatus savePeriod() {
+            periodTable = daoS0073.GetPeriodData("SPN", GlobalInfo.USER_ID);
+            periodTable.Rows[0].SetField("span_period_start_date", txtStartDate.DateTimeValue.ToString("yyyyMMdd"));
+            periodTable.Rows[0].SetField("span_period_end_date", txtEndDate.DateTimeValue.ToString("yyyyMMdd"));
+            periodTable.Rows[0].SetField("span_period_w_time", DateTime.Now);
+
+            if (checkPeriod()) {
+                return daoS0073.updatePeriodData(periodTable).Status;//base.Save_Override(periodTable, "SPAN_PERIOD", DBName.CFO);
+            }
+            else {
+                return ResultStatus.FailButNext;
+            }
         }
 
         protected override ResultStatus AfterOpen()
@@ -232,6 +232,41 @@ namespace PhoenixCI.FormUI.PrefixS
             table.AcceptChanges();
             e.DisplayValue = value;
             e.Handled = true;
+        }
+
+        private bool checkPeriod() {
+            bool check = true;
+
+            if (txtEndDate.DateTimeValue.Subtract(txtStartDate.DateTimeValue).Days > 31) {
+                MessageDisplay.Info("日期區間不可超過31天!");
+                txtEndDate.Select();
+                check = false;
+            }
+            else if (txtStartDate.DateTimeValue > txtEndDate.DateTimeValue) {
+                MessageDisplay.Info("起始值不可大於迄止值!");
+                txtStartDate.Select();
+                check = false;
+            }
+            return check;
+        }
+
+        private bool checkChanged() {
+
+            DataTable dt = (DataTable)gcMain.DataSource;
+            DataTable dtChange = dt.GetChanges();
+
+            if (dtChange != null) {
+                if (dtChange.Rows.Count != 0) {
+                    return true;
+                }
+            }
+
+            if (txtStartDate.DateTimeValue != startDateOldValue
+                    || txtEndDate.DateTimeValue != endDateOldValue) {
+                return true;
+            }
+
+            return false;
         }
     }
 }

@@ -451,13 +451,11 @@ namespace OnePiece {
             OracleDataAdapter da = new OracleDataAdapter(command);//ken
             DataTable dtResult = new DataTable();
             da.Fill(dtResult);
-            
+
             //ken,如果有多個output cursor,則需要用以下寫法
-            //DataTable dtResult = (DataTable)command.Parameters[2].Value;
+           //DataTable dtResult = (DataTable)command.Parameters[2];
 
             return dtResult;
-
-
          } catch (Exception ex) {
             string errorStr = "";
 
@@ -478,20 +476,78 @@ namespace OnePiece {
       }
 
         /// <summary>
-        /// use oraclecommand update DB
+        /// call StoredProcedure 但是參數可有output( not RefCursor )
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="parameters"></param>
+        /// <param name="hasReturnParameter"></param>
+        /// <returns></returns>
+        public string ExecuteStoredProcedureReturnString(string sql, List<DbParameterEx> parameters, bool hasReturnParameter,OracleDbType returnType) {
+            string result = "";
+
+            try {
+                var connection = CreateConnection();
+                OracleCommand command = new OracleCommand(sql, (OracleConnection)connection);//ken
+                command.CommandType = CommandType.StoredProcedure;//ken
+
+                if (parameters != null) {
+                    foreach (DbParameterEx everyPara in parameters) {
+                        DbParameter dbParam = command.CreateParameter();
+
+                        dbParam = TransformToDbParameter(dbParam, everyPara);
+
+                        command.Parameters.Add(dbParam);
+                    }
+                }
+
+                DbParameter dbParamReturn = null;
+
+                if (hasReturnParameter) {
+                    if (command is OracleCommand) {
+                        dbParamReturn = command.CreateParameter();
+                        dbParamReturn.ParameterName = "RETURNPARAMETER";
+                        dbParamReturn.Direction = ParameterDirection.Output;
+                        ((OracleParameter)dbParamReturn).OracleDbType = returnType;//David
+                        command.Parameters.Add(dbParamReturn);
+                    }
+                }
+
+                command.ExecuteNonQuery();
+                result= command.Parameters["RETURNPARAMETER"].Value.ToString();
+
+                return result;
+            }
+            catch (Exception ex) {
+                string errorStr = "";
+
+                if (ex is AseException) {
+                    AseException aseEx = ((AseException)ex);
+
+                    foreach (AseError error in aseEx.Errors) {
+                        errorStr += Environment.NewLine + error.ProcName + Environment.NewLine +
+                                    error.MessageNumber + Environment.NewLine +
+                                    "LineNum:" + error.LineNum;
+                    }
+                }
+
+                Exception exNew = new Exception(ExceptionHelper.TranformException(ex).Message + errorStr);
+
+                throw exNew;
+            }
+        }
+
+        /// <summary>
+        /// use oraclecommand update DB by sql string and update column
         /// </summary>
         /// <param name="inputDT"></param>
-        /// <param name="tableName"></param>
-        /// <param name="dBName"></param>
-        /// <returns> ResultData </returns>
-        public ResultData UpdateOracleDB(DataTable inputDT, string tableName, DBName dBName = DBName.CI) {
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        public ResultData UpdateOracleDB(DataTable inputDT, string sql) {
             var connection = CreateConnection();
-            string sql = "SELECT * FROM " + dBName + "." + tableName;
 
             OracleCommand command = new OracleCommand(sql, (OracleConnection)connection);
             ResultData resultData = new ResultData();
             resultData.Status = ResultStatus.Fail;
-
 
             try {
                 OracleDataAdapter DataAdapter = new OracleDataAdapter();
@@ -516,10 +572,10 @@ namespace OnePiece {
                 //#if DEBUG
                 //            MessageBox.Show(ex.Message);
                 //#endif
-                resultData.returnString = ex.Message;
-                return resultData;
+                throw ex;
             }
         }
+
     }
 
    public static class DbExtentions {

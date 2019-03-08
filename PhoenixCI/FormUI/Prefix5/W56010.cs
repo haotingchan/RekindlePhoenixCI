@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using DevExpress.XtraEditors;
 using BaseGround;
 using DataObjects.Dao.Together;
 using Common;
@@ -50,45 +43,45 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
             #region 處理下拉選單
 
-            dw_sbrkno.Properties.DataSource = daoABRK.ListAll2();
-            dw_sbrkno.Properties.ValueMember = "ABRK_NO";
-            dw_sbrkno.Properties.DisplayMember = "CP_DISPLAY";
-            dw_sbrkno.Properties.ShowHeader = false;
-            dw_sbrkno.Properties.ShowFooter = false;
-            dw_sbrkno.Properties.NullText = "";
-            dw_sbrkno.Properties.SearchMode = SearchMode.OnlyInPopup;
-            dw_sbrkno.Properties.TextEditStyle = TextEditStyles.Standard;
+            dwSbrkno.Properties.DataSource = daoABRK.ListAll2();
+            dwSbrkno.Properties.ValueMember = "ABRK_NO";
+            dwSbrkno.Properties.DisplayMember = "CP_DISPLAY";
+            dwSbrkno.Properties.ShowHeader = false;
+            dwSbrkno.Properties.ShowFooter = false;
+            dwSbrkno.Properties.NullText = "";
+            dwSbrkno.Properties.SearchMode = SearchMode.OnlyInPopup;
+            dwSbrkno.Properties.TextEditStyle = TextEditStyles.Standard;
             //讓下拉選單只剩單一欄位
-            LookUpColumnInfoCollection singleCol = dw_sbrkno.Properties.Columns;
+            LookUpColumnInfoCollection singleCol = dwSbrkno.Properties.Columns;
             singleCol.Add(new LookUpColumnInfo("CP_DISPLAY"));
-            dw_sbrkno.Properties.BestFitMode = BestFitMode.BestFitResizePopup;
+            dwSbrkno.Properties.BestFitMode = BestFitMode.BestFitResizePopup;
 
-            dw_ebrkno.Properties.DataSource = daoABRK.ListAll2();
-            dw_ebrkno.Properties.ValueMember = "ABRK_NO";
-            dw_ebrkno.Properties.DisplayMember = "CP_DISPLAY";
-            dw_ebrkno.Properties.ShowHeader = false;
-            dw_ebrkno.Properties.ShowFooter = false;
-            dw_ebrkno.Properties.NullText = "";
-            dw_ebrkno.Properties.SearchMode = SearchMode.OnlyInPopup;
-            dw_ebrkno.Properties.TextEditStyle = TextEditStyles.Standard;
+            dwEbrkno.Properties.DataSource = daoABRK.ListAll2();
+            dwEbrkno.Properties.ValueMember = "ABRK_NO";
+            dwEbrkno.Properties.DisplayMember = "CP_DISPLAY";
+            dwEbrkno.Properties.ShowHeader = false;
+            dwEbrkno.Properties.ShowFooter = false;
+            dwEbrkno.Properties.NullText = "";
+            dwEbrkno.Properties.SearchMode = SearchMode.OnlyInPopup;
+            dwEbrkno.Properties.TextEditStyle = TextEditStyles.Standard;
             //讓下拉選單只剩單一欄位
-            LookUpColumnInfoCollection singleCol2 = dw_ebrkno.Properties.Columns;
+            LookUpColumnInfoCollection singleCol2 = dwEbrkno.Properties.Columns;
             singleCol2.Add(new LookUpColumnInfo("CP_DISPLAY"));
-            dw_ebrkno.Properties.BestFitMode = BestFitMode.BestFitResizePopup;
+            dwEbrkno.Properties.BestFitMode = BestFitMode.BestFitResizePopup;
 
-            dw_prod_cond.Properties.DataSource = dao56010.dw_prod_cond();
-            dw_prod_cond.Properties.ValueMember = "PARAM_KEY";
-            dw_prod_cond.Properties.DisplayMember = "CP_DISPLAY";
-            dw_prod_cond.Properties.ShowHeader = false;
-            dw_prod_cond.Properties.ShowFooter = false;
-            dw_prod_cond.Properties.NullText = "";
-            dw_prod_cond.Properties.SearchMode = SearchMode.OnlyInPopup;
-            dw_prod_cond.Properties.TextEditStyle = TextEditStyles.Standard;
+            dwProdCond.Properties.DataSource = dao56010.dw_prod_cond();
+            dwProdCond.Properties.ValueMember = "PARAM_KEY";
+            dwProdCond.Properties.DisplayMember = "CP_DISPLAY";
+            dwProdCond.Properties.ShowHeader = false;
+            dwProdCond.Properties.ShowFooter = false;
+            dwProdCond.Properties.NullText = "";
+            dwProdCond.Properties.SearchMode = SearchMode.OnlyInPopup;
+            dwProdCond.Properties.TextEditStyle = TextEditStyles.Standard;
             //讓下拉選單只剩單一欄位
-            LookUpColumnInfoCollection singleCol3 = dw_prod_cond.Properties.Columns;
+            LookUpColumnInfoCollection singleCol3 = dwProdCond.Properties.Columns;
             singleCol3.Add(new LookUpColumnInfo("CP_DISPLAY"));
-            dw_prod_cond.Properties.BestFitMode = BestFitMode.BestFitResizePopup;
-            dw_prod_cond.EditValue = "全部";
+            dwProdCond.Properties.BestFitMode = BestFitMode.BestFitResizePopup;
+            dwProdCond.EditValue = "全部";
 
             #endregion
 
@@ -144,16 +137,16 @@ namespace PhoenixCI.FormUI.Prefix5 {
             #region 檢查
             //期貨商後面號碼不能小於前面號碼
             //PB可以用字串直接比較但打內不行，只好用Index來比大小
-            string is_sbrkno, is_ebrkno;
-            is_sbrkno = dw_sbrkno.ItemIndex.ToString();
-            if (is_sbrkno == null) {
-                is_sbrkno = "";
+            string isSbrkno, isEbrkno;
+            isSbrkno = dwSbrkno.ItemIndex.ToString();
+            if (isSbrkno == null) {
+                isSbrkno = "";
             }
-            is_ebrkno = dw_ebrkno.ItemIndex.ToString();
-            if (is_ebrkno == null) {
-                is_ebrkno = "";
+            isEbrkno = dwEbrkno.ItemIndex.ToString();
+            if (isEbrkno == null) {
+                isEbrkno = "";
             }
-            if (int.Parse(is_sbrkno) > int.Parse(is_ebrkno) && is_sbrkno != "") {
+            if (int.Parse(isSbrkno) > int.Parse(isEbrkno) && isSbrkno != "") {
                 MessageBox.Show("造市者代號起始不可大於迄止!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return ResultStatus.Fail;
             }
@@ -176,9 +169,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
         private void wf_56011(string excelDestinationPath) {
 
             try {
-                string ls_rpt_name, ls_rpt_id, ls_session;
-                int i, li_ole_row_tol, li_datacount;
-                long ll_found;
+                string rptName, rptId, session;
+                int i, rowTol, datacount;
+                long found;
                 /*************************************
                 ls_rpt_name = 報表名稱
                 ls_rpt_id = 報表代號
@@ -186,21 +179,20 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 li_ole_row_tol = Excel的Column預留數
                 li_datacount = 資料空白列筆數
                 *************************************/
-                ls_rpt_name = "交易經手費收費明細表－依期貨商別";
-                ls_rpt_id = "56011";
-                //st_msg_txt.text = ls_rpt_id + '－' + ls_rpt_name + ' 轉檔中...';
-                ls_session = "0";
+                rptName = "交易經手費收費明細表－依期貨商別";
+                rptId = "56011";
+                session = "0";
 
                 //讀取資料
-                string as_sym = txtFromMonth.Text.Replace("/", "");
-                string as_eym = txtToMonth.Text.Replace("/", "");
-                string startFcmNo = dw_sbrkno.EditValue.ToString().Trim();
-                string endFcmNo = dw_ebrkno.EditValue.ToString().Trim();
-                string prodType = dw_prod_cond.EditValue.ToString().Trim();
+                string asSym = txtFromMonth.Text.Replace("/", "");
+                string asEym = txtToMonth.Text.Replace("/", "");
+                string startFcmNo = dwSbrkno.EditValue.ToString().Trim();
+                string endFcmNo = dwEbrkno.EditValue.ToString().Trim();
+                string prodType = dwProdCond.EditValue.ToString().Trim();
 
-                DataTable dt56011 = dao56010.D56011(as_sym, as_eym, prodType, startFcmNo, endFcmNo);
+                DataTable dt56011 = dao56010.D56011(asSym, asEym, prodType, startFcmNo, endFcmNo);
                 if (dt56011.Rows.Count == 0) {
-                    MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtToMonth.Text.Replace("/", ""), ls_rpt_name));
+                    MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtToMonth.Text.Replace("/", ""), rptName));
                 }
 
                 //切換sheet
@@ -209,31 +201,31 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 Worksheet ws56011 = workbook.Worksheets[0];
 
                 //填資料
-                int ii_ole_row = 6;
-                li_datacount = int.Parse(ws56011.Cells[0, 0].Value.ToString());
-                if (li_datacount == null || li_datacount == 0) {
-                    li_datacount = dt56011.Rows.Count;
+                int rowNum = 6;
+                datacount = int.Parse(ws56011.Cells[0, 0].Value.ToString());
+                if (datacount == null || datacount == 0) {
+                    datacount = dt56011.Rows.Count;
                 }
-                li_ole_row_tol = ii_ole_row + li_datacount;
+                rowTol = rowNum + datacount;
                 ws56011.Cells[3, 0].Value = ws56011.Cells[3, 0].Value + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
-                ws56011.Cells[3, 3].Value = ws56011.Cells[3, 3].Value + as_sym;
-                ws56011.Cells[3, 6].Value = ws56011.Cells[3, 6].Value + as_eym;
+                ws56011.Cells[3, 3].Value = ws56011.Cells[3, 3].Value + asSym;
+                ws56011.Cells[3, 6].Value = ws56011.Cells[3, 6].Value + asEym;
 
                 for (i = 0; i < dt56011.Rows.Count; i++) {
                     DataRow dr56011 = dt56011.Rows[i];
-                    ii_ole_row = ii_ole_row + 1;
-                    ws56011.Cells[ii_ole_row, 0].Value = dr56011["feetdcc_fcm_no"].AsString();
-                    ws56011.Cells[ii_ole_row, 1].Value = dr56011["brk_abbr_name"].AsString();
-                    ws56011.Cells[ii_ole_row, 2].Value = dr56011["feetdcc_acc_no"].AsString();
-                    ws56011.Cells[ii_ole_row, 3].Value = dr56011["feetdcc_kind_id"].AsString();
-                    ws56011.Cells[ii_ole_row, 4].Value = dr56011["feetrd_m_qnty"].AsDecimal();
-                    ws56011.Cells[ii_ole_row, 5].Value = dr56011["feetdcc_org_ar"].AsDecimal();
-                    ws56011.Cells[ii_ole_row, 6].Value = dr56011["feetdcc_disc_amt"].AsDecimal();
+                    rowNum = rowNum + 1;
+                    ws56011.Cells[rowNum, 0].Value = dr56011["feetdcc_fcm_no"].AsString();
+                    ws56011.Cells[rowNum, 1].Value = dr56011["brk_abbr_name"].AsString();
+                    ws56011.Cells[rowNum, 2].Value = dr56011["feetdcc_acc_no"].AsString();
+                    ws56011.Cells[rowNum, 3].Value = dr56011["feetdcc_kind_id"].AsString();
+                    ws56011.Cells[rowNum, 4].Value = dr56011["feetrd_m_qnty"].AsDecimal();
+                    ws56011.Cells[rowNum, 5].Value = dr56011["feetdcc_org_ar"].AsDecimal();
+                    ws56011.Cells[rowNum, 6].Value = dr56011["feetdcc_disc_amt"].AsDecimal();
                 }
 
                 //刪除空白列
-                if (li_ole_row_tol > ii_ole_row) {
-                    ws56011.Rows.Remove(ii_ole_row + 1, li_ole_row_tol - ii_ole_row);
+                if (rowTol > rowNum) {
+                    ws56011.Rows.Remove(rowNum + 1, rowTol - rowNum);
                 }
                 ws56011.ScrollToRow(0);
 
@@ -249,9 +241,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
         private void wf_56012(string excelDestinationPath) {
 
             try {
-                string ls_rpt_name, ls_rpt_id, ls_session;
-                int i, li_ole_row_tol, li_datacount;
-                long ll_found;
+                string rptName, rptId, session;
+                int i, rowTol, datacount;
+                long found;
                 /*************************************
                 ls_rpt_name = 報表名稱
                 ls_rpt_id = 報表代號
@@ -259,20 +251,19 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 li_ole_row_tol = Excel的Column預留數
                 li_datacount = 資料空白列筆數
                 *************************************/
-                ls_rpt_name = "交易經手費收費明細表－依商品別";
-                ls_rpt_id = "56012";
-                //st_msg_txt.text = ls_rpt_id + '－' + ls_rpt_name + ' 轉檔中...';
-                ls_session = "0";
+                rptName = "交易經手費收費明細表－依商品別";
+                rptId = "56012";
+                session = "0";
 
                 //讀取資料
-                string as_sym = txtFromMonth.Text.Replace("/", "");
-                string as_eym = txtToMonth.Text.Replace("/", "");
-                string startFcmNo = dw_sbrkno.EditValue.ToString().Trim();
-                string endFcmNo = dw_ebrkno.EditValue.ToString().Trim();
+                string asSym = txtFromMonth.Text.Replace("/", "");
+                string asEym = txtToMonth.Text.Replace("/", "");
+                string startFcmNo = dwSbrkno.EditValue.ToString().Trim();
+                string endFcmNo = dwEbrkno.EditValue.ToString().Trim();
 
-                DataTable dt56012 = dao56010.D56012(as_sym, as_eym, startFcmNo, endFcmNo);
+                DataTable dt56012 = dao56010.D56012(asSym, asEym, startFcmNo, endFcmNo);
                 if (dt56012.Rows.Count == 0) {
-                    MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtToMonth.Text.Replace("/", ""), ls_rpt_name));
+                    MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtToMonth.Text.Replace("/", ""), rptName));
                 }
 
                 //切換Sheet
@@ -281,28 +272,28 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 Worksheet ws56012 = workbook.Worksheets[1];
 
                 //填資料
-                int ii_ole_row = 6;
-                li_datacount = int.Parse(ws56012.Cells[0, 0].Value.ToString());
-                if (li_datacount == null || li_datacount == 0) {
-                    li_datacount = dt56012.Rows.Count;
+                int rowNum = 6;
+                datacount = int.Parse(ws56012.Cells[0, 0].Value.ToString());
+                if (datacount == null || datacount == 0) {
+                    datacount = dt56012.Rows.Count;
                 }
-                li_ole_row_tol = ii_ole_row + li_datacount;
+                rowTol = rowNum + datacount;
                 ws56012.Cells[3, 0].Value = ws56012.Cells[3, 0].Value + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
-                ws56012.Cells[3, 3].Value = ws56012.Cells[3, 3].Value + as_sym;
-                ws56012.Cells[3, 6].Value = ws56012.Cells[3, 6].Value + as_eym;
+                ws56012.Cells[3, 3].Value = ws56012.Cells[3, 3].Value + asSym;
+                ws56012.Cells[3, 6].Value = ws56012.Cells[3, 6].Value + asEym;
 
                 for (i = 0; i < dt56012.Rows.Count; i++) {
                     DataRow dr56012 = dt56012.Rows[i];
-                    ii_ole_row = ii_ole_row + 1;
-                    ws56012.Cells[ii_ole_row, 0].Value = dr56012["feetdcc_kind_id"].AsString();
-                    ws56012.Cells[ii_ole_row, 1].Value = dr56012["feetrd_m_qnty"].AsDecimal();
-                    ws56012.Cells[ii_ole_row, 2].Value = dr56012["feetdcc_org_ar"].AsDecimal();
-                    ws56012.Cells[ii_ole_row, 3].Value = dr56012["feetdcc_disc_amt"].AsDecimal();
+                    rowNum = rowNum + 1;
+                    ws56012.Cells[rowNum, 0].Value = dr56012["feetdcc_kind_id"].AsString();
+                    ws56012.Cells[rowNum, 1].Value = dr56012["feetrd_m_qnty"].AsDecimal();
+                    ws56012.Cells[rowNum, 2].Value = dr56012["feetdcc_org_ar"].AsDecimal();
+                    ws56012.Cells[rowNum, 3].Value = dr56012["feetdcc_disc_amt"].AsDecimal();
                 }
 
                 //刪除空白列
-                if (li_ole_row_tol > ii_ole_row) {
-                    ws56012.Rows.Remove(ii_ole_row + 1, li_ole_row_tol - ii_ole_row);
+                if (rowTol > rowNum) {
+                    ws56012.Rows.Remove(rowNum + 1, rowTol - rowNum);
                 }
                 ws56012.ScrollToRow(0);
 
@@ -339,11 +330,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
         private void rdoGroup_Properties_EditValueChanged(object sender, EventArgs e) {
             if (rdoGroup.EditValue.ToString() == "True") {
                 lblCondition.Visible = true;
-                dw_prod_cond.Visible = true;
+                dwProdCond.Visible = true;
             }
             else {
                 lblCondition.Visible = false;
-                dw_prod_cond.Visible = false;
+                dwProdCond.Visible = false;
             }
         }
     }

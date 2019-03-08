@@ -1,4 +1,5 @@
-﻿using OnePiece;
+﻿using BusinessObjects;
+using OnePiece;
 using System;
 using System.Data;
 
@@ -43,12 +44,12 @@ AND SPAN_PERIOD_USER_ID like :userId
         /// </summary>
         /// <param name="user_id"></param>
         /// <returns></returns>
-        public DataTable zisp(string user_id) {
+        public DataTable zisp(string user_id,string tableName) {
             object[] parms = {
                 ":user_id",user_id
             };
 
-            string sql = @"
+            string sql = string.Format(@"
 SELECT trim(SPAN_ZISP_PROD_ID) as SPAN_ZISP_PROD_ID,
     trim(SPAN_ZISP_COM_PROD1) as SPAN_ZISP_COM_PROD1,
     trim(SPAN_ZISP_COM_PROD2) as SPAN_ZISP_COM_PROD2,
@@ -59,9 +60,9 @@ SELECT trim(SPAN_ZISP_PROD_ID) as SPAN_ZISP_PROD_ID,
     SPAN_ZISP_USER_ID,
     SPAN_ZISP_W_TIME,
     '0' as IS_NEWROW
-FROM CFO.SPAN_ZISP
+FROM {0}
 WHERE SPAN_ZISP_USER_ID like :user_id
-";
+", tableName);
             DataTable dtResult = db.GetDataTable(sql, parms);
 
             return dtResult;
@@ -202,5 +203,52 @@ order by comb_prod
 
             return dtResult;
         }
+
+        public ResultData updatePeriodData(DataTable inputData) {
+
+            string sql = @"SELECT SPAN_PERIOD_MODULE,
+	SPAN_PERIOD_START_DATE,
+	SPAN_PERIOD_END_DATE,
+	SPAN_PERIOD_USER_ID,
+	SPAN_PERIOD_W_TIME
+FROM CFO.SPAN_PERIOD";
+
+            return db.UpdateOracleDB(inputData, sql);
+
+        }
+
+        public ResultData udpateSpanContentData(DataTable inputData) {
+
+            string sql= @"
+SELECT SPAN_CONTENT_MODULE,
+	SPAN_CONTENT_CLASS,
+	SPAN_CONTENT_CC,
+	SPAN_CONTENT_TYPE,
+	SPAN_CONTENT_VALUE,
+	SPAN_CONTENT_USER_ID,
+	SPAN_CONTENT_W_TIME
+FROM CFO.SPAN_CONTENT
+";
+            return db.UpdateOracleDB(inputData, sql);
+        }
+
+        public ResultData udpateZIPData(DataTable inputData) {
+
+            string sql = @"
+SELECT 
+    SPAN_ZISP_PROD_ID,
+    SPAN_ZISP_COM_PROD1,
+    SPAN_ZISP_COM_PROD2,
+    SPAN_ZISP_CREDIT,
+    SPAN_ZISP_DPSR1,
+    SPAN_ZISP_DPSR2,
+    SPAN_ZISP_PRIORITY,
+    SPAN_ZISP_USER_ID,
+    SPAN_ZISP_W_TIME
+FROM CFO.SPAN_ZISP
+";
+            return db.UpdateOracleDB(inputData, sql);
+        }
+
     }
 }
