@@ -7,10 +7,10 @@ using System.Data;
 /// ken 2018/12/20
 /// </summary>
 namespace DataObjects.Dao.Together {
-    /// <summary>
-    /// OCFG券商資訊?
-    /// </summary>
-    public class OCFG {
+   /// <summary>
+   /// 設定4種營業時段(日盤/夜盤)
+   /// </summary>
+   public class OCFG {
         private Db db;
 
         public OCFG() {
@@ -59,13 +59,37 @@ order by sort_key";
             return dtResult;
         }
 
-        /// <summary>
-        /// return to_char(OCFG_CLOSE_TIME,'hh24:mi') as ls_rtn
-        /// </summary>
-        /// <param name="OCFG_OSW_GRP"></param>
-        /// <param name="OCFG_MARKET_CODE"></param>
-        /// <returns></returns>
-        public string GetCloseTime(string OCFG_OSW_GRP, string OCFG_MARKET_CODE="0") {
+      /// <summary>
+      /// list by OCFG_OSW_GRP , return all max(OCFG_CLOSE_TIME) by Ken
+      /// </summary>
+      /// <param name="OCFG_OSW_GRP"></param>
+      /// <returns>OCFG_OSW_GRP/OCFG_CLOSE_TIME</returns>
+      public DataTable ListCloseTime(string OCFG_OSW_GRP) {
+         object[] parms =
+         {
+                ":as_osw_grp", OCFG_OSW_GRP
+            };
+
+         string sql = @"
+select trim(ocfg_osw_grp) as ocfg_osw_grp,
+max(ocfg_close_time) as ocfg_close_time
+from ci.ocfg
+group by ocfg_osw_grp
+having trim(ocfg_osw_grp)= :as_osw_grp
+order by to_number(ocfg_osw_grp)";
+
+         DataTable dtResult = db.GetDataTable(sql , parms);
+
+         return dtResult;
+      }
+
+      /// <summary>
+      /// return to_char(OCFG_CLOSE_TIME,'hh24:mi') as ls_rtn
+      /// </summary>
+      /// <param name="OCFG_OSW_GRP"></param>
+      /// <param name="OCFG_MARKET_CODE"></param>
+      /// <returns></returns>
+      public string GetCloseTime(string OCFG_OSW_GRP, string OCFG_MARKET_CODE="0") {
             object[] parms =
 {
                 ":as_osw_grp", OCFG_OSW_GRP,
@@ -85,6 +109,7 @@ AND OCFG_OSW_GRP = :as_osw_grp;
         /// <summary>
         /// Lukas, 2019/1/30
         /// f_get_txn_osw_grp 依作業代號，決定畫面中盤別的預設值
+        /// 只有四個作業會用到(30010, 30053, 30055, 20110)
         /// </summary>
         /// <param name="as_txn_id">_ProgramID</param>
         /// <returns>ls_rtn</returns>
@@ -100,23 +125,31 @@ from ci.OCFG
 
             DataTable dtResult = db.GetDataTable(sql, null);
 
-            switch (as_txn_id) {
-                case ("30010"):
-                case ("30053"):
-                case ("30055"):
-                case ("20110"):
-                    //16:15 / 全部
-                    if (DateTime.Now <= dtResult.Rows[0]["LDT_GRP7"].AsDateTime()) {
-                        ls_rtn = "5";
-                    }
-                    else {
-                        ls_rtn = "%";
-                    }
-                    break;
-                default:
-                    ls_rtn = "%";
-                    break;
+            //16:15 / 全部
+            if (DateTime.Now <= dtResult.Rows[0]["LDT_GRP7"].AsDateTime()) {
+                ls_rtn = "5";
             }
+            else {
+                ls_rtn = "%";
+            }
+
+            //switch (as_txn_id) {
+            //    case ("30010"):
+            //    case ("30053"):
+            //    case ("30055"):
+            //    case ("20110"):
+            //        //16:15 / 全部
+            //        if (DateTime.Now <= dtResult.Rows[0]["LDT_GRP7"].AsDateTime()) {
+            //            ls_rtn = "5";
+            //        }
+            //        else {
+            //            ls_rtn = "%";
+            //        }
+            //        break;
+            //    default:
+            //        ls_rtn = "%";
+            //        break;
+            //}
 
             return ls_rtn;
         }

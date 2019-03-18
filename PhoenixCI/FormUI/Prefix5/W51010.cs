@@ -14,10 +14,8 @@ using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraEditors.Controls;
 using System.Drawing;
 
-namespace PhoenixCI.FormUI.Prefix5
-{
-    public partial class W51010 : FormParent
-    {
+namespace PhoenixCI.FormUI.Prefix5 {
+    public partial class W51010 : FormParent {
         private string disableCol = "DTS_DATE";
 
         private ReportHelper _ReportHelper;
@@ -26,8 +24,7 @@ namespace PhoenixCI.FormUI.Prefix5
         private RepositoryItemLookUpEdit _RepLookUpEdit;
         private RepositoryItemLookUpEdit _RepLookUpEdit2;
 
-        public W51010(string programID, string programName) : base(programID, programName)
-        {
+        public W51010(string programID, string programName) : base(programID, programName) {
             InitializeComponent();
 
             dao51010 = new D51010();
@@ -71,13 +68,12 @@ namespace PhoenixCI.FormUI.Prefix5
             _RepLookUpEdit2.BestFitMode = BestFitMode.BestFitResizePopup;
         }
 
-        protected override ResultStatus Retrieve()
-        {
+        protected override ResultStatus Retrieve() {
             base.Retrieve(gcMain);
             DataTable returnTable = new DataTable();
+
             returnTable = dao51010.GetData(TXTStartDate.Text.Replace("/", "-"), TXTEndDate.Text.Replace("/", "-"));
-            if (returnTable.Rows.Count == 0)
-            {
+            if (returnTable.Rows.Count == 0) {
                 MessageBox.Show("無任何資料", "訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             returnTable.Columns.Add("Is_NewRow", typeof(string));
@@ -88,8 +84,7 @@ namespace PhoenixCI.FormUI.Prefix5
             return ResultStatus.Success;
         }
 
-        protected override ResultStatus InsertRow()
-        {
+        protected override ResultStatus InsertRow() {
             base.InsertRow(gvMain);
             //gvMain.Focus();
             gvMain.FocusedColumn = gvMain.Columns[0];
@@ -97,8 +92,7 @@ namespace PhoenixCI.FormUI.Prefix5
             return ResultStatus.Success;
         }
 
-        protected override ResultStatus Save(PokeBall poke)
-        {
+        protected override ResultStatus Save(PokeBall poke) {
             gvMain.CloseEditor();
             gvMain.UpdateCurrentRow();
 
@@ -106,15 +100,12 @@ namespace PhoenixCI.FormUI.Prefix5
 
             DataTable dtChange = dt.GetChanges();
 
-            if (dtChange.Rows.Count == 0)
-            {
+            if (dtChange.Rows.Count == 0) {
                 MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-            else
-            {
+            else {
                 ResultData result = dao51010.UpdateData(dt);//base.Save_Override(dt, "DTS");
-                if (result.Status == ResultStatus.Fail)
-                {
+                if (result.Status == ResultStatus.Fail) {
                     return ResultStatus.Fail;
                 }
             }
@@ -122,8 +113,7 @@ namespace PhoenixCI.FormUI.Prefix5
             return ResultStatus.Success;
         }
 
-        protected override ResultStatus Print(ReportHelper reportHelper)
-        {
+        protected override ResultStatus Print(ReportHelper reportHelper) {
             _ReportHelper = reportHelper;
             CommonReportPortraitA4 report = new CommonReportPortraitA4();
             report.printableComponentContainerMain.PrintableComponent = gcMain;
@@ -133,15 +123,13 @@ namespace PhoenixCI.FormUI.Prefix5
             return ResultStatus.Success;
         }
 
-        protected override ResultStatus DeleteRow()
-        {
+        protected override ResultStatus DeleteRow() {
             base.DeleteRow(gvMain);
 
             return ResultStatus.Success;
         }
 
-        protected override ResultStatus ActivatedForm()
-        {
+        protected override ResultStatus ActivatedForm() {
             base.ActivatedForm();
 
             _ToolBtnInsert.Enabled = true;

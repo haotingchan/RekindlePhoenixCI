@@ -185,6 +185,153 @@ where AI2_YMD > to_char(:ldt_date,'yyyymmdd')
 
         }
 
+        public DataTable W20110_filename() {
+
+            string sql =
+@"
+SELECT MAX(CASE WHEN COD_ID = 'MARKET' THEN TRIM(COD_DESC) ELSE '' END) as ls_file,
+       MAX(CASE WHEN COD_ID = 'OI' THEN TRIM(COD_DESC) ELSE '' END) as ls_file_oi
+FROM CI.COD 
+WHERE COD_TXN_ID = '20110' 
+  AND COD_COL_ID = 'JPX'
+";
+
+            DataTable dtResult = db.GetDataTable(sql, null);
+
+            return dtResult;
+        }
+
+        /// <summary>
+        /// Lukas, 2019/1/30
+        /// for W20110
+        /// </summary>
+        /// <returns></returns>
+        public int RowCount() {
+
+            string sql =
+@"
+SELECT count(*) as ll_found
+FROM CI.RPT   
+WHERE RPT_TXD_ID = '20110'
+ AND  RPT_VALUE_2 = '000000'
+";
+
+            DataTable dtResult = db.GetDataTable(sql, null);
+
+            return dtResult.Rows[0]["LL_FOUND"].AsInt();
+        }
+
+        /// <summary>
+        /// for W20110
+        /// </summary>
+        /// <param name="ad_date"></param>
+        /// <returns></returns>
+        public string MinSettleDate(DateTime ad_date) {
+
+            string ls_settle_date;
+            object[] parms =
+            {
+                ":ad_date", ad_date
+            };
+
+            string sql =
+@"
+select min(AMIF_SETTLE_DATE) as ls_settle_date
+from ci.AMIF
+where AMIF_DATE = :ad_date
+  and AMIF_KIND_ID = 'TXF' 
+  and AMIF_DATA_SOURCE = 'T'
+  and AMIF_MTH_SEQ_NO = 1
+";
+
+            DataTable dtResult = db.GetDataTable(sql, parms);
+            ls_settle_date = dtResult.Rows[0]["LS_SETTLE_DATE"].AsString();
+            return ls_settle_date;
+        }
+
+        /// <summary>
+        /// for W20110
+        /// </summary>
+        /// <param name="ldt_bef_date"></param>
+        /// <param name="ldt_date"></param>
+        /// <returns></returns>
+        public DateTime MaxAMIF_DATE(DateTime ldt_bef_date, DateTime ldt_date) {
+
+            DateTime rtnDate;
+            object[] parms =
+            {
+                ":ldt_bef_date", ldt_bef_date,
+                ":ldt_date", ldt_date,
+            };
+
+            string sql =
+@"
+SELECT max(AMIF_DATE) as ldt_date
+  FROM ci.AMIF
+WHERE AMIF_DATE >= :ldt_bef_date
+  and AMIF_DATE < :ldt_date
+  and AMIF_DATA_SOURCE = 'U'
+";
+
+            DataTable dtResult = db.GetDataTable(sql, parms);
+            rtnDate = dtResult.Rows[0]["LDT_DATE"].AsDateTime();
+            return rtnDate;
+        }
+
+        /// <summary>
+        /// for W20110
+        /// </summary>
+        /// <param name="ls_date"></param>
+        /// <param name="ls_m"></param>
+        /// <returns></returns>
+        public decimal GetSettlePrice(string ls_date, string ls_m) {
+
+            decimal ld_value = 0;
+            object[] parms =
+            {
+                ":ls_date", ls_date,
+                ":ls_m", ls_m
+            };
+
+            string sql =
+@"
+select STWD_SETTLE_PRICE
+from ci.STWD
+where STWD_YMD = :ls_date
+  and STWD_SETTLE_DATE = :ls_m
+";
+
+            DataTable dtResult = db.GetDataTable(sql, parms);
+            if (dtResult.Rows.Count == 0) {
+                return ld_value;
+            }
+            else {
+                ld_value = dtResult.Rows[0]["STWD_SETTLE_PRICE"].AsDecimal();
+                return ld_value;
+            }
+
+        }
+
+        /// <summary>
+        /// Lukas, for W20110
+        /// dddw_pdk_kind_id_f
+        /// </summary>
+        /// <returns>PDK_KIND_ID</returns>
+        public DataTable ListAllF_20110() {
+
+            string sql = @"
+SELECT APDK_KIND_ID as PDK_KIND_ID 
+FROM ci.APDK  
+WHERE APDK_PROD_TYPE = 'F'    
+GROUP BY APDK_KIND_ID
+ORDER BY PDK_KIND_ID
+";
+
+            DataTable dtResult = db.GetDataTable(sql, null);
+
+            return dtResult;
+        }
+
         #region SP
 
         public ResultData sp_U_gen_H_TDT(DateTime ldt_date, string ls_prod_type) {

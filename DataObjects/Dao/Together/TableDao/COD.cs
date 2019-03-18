@@ -109,20 +109,5 @@ order by cod_seq_no";
             return dtResult;
         }
 
-        public DataTable W20110_filename() {
-
-            string sql = 
-@"
-SELECT MAX(CASE WHEN COD_ID = 'MARKET' THEN TRIM(COD_DESC) ELSE '' END) as ls_file,
-       MAX(CASE WHEN COD_ID = 'OI' THEN TRIM(COD_DESC) ELSE '' END) as ls_file_oi
-FROM CI.COD 
-WHERE COD_TXN_ID = '20110' 
-  AND COD_COL_ID = 'JPX'
-";
-
-            DataTable dtResult = db.GetDataTable(sql, null);
-
-            return dtResult;
-        }
     }
 }

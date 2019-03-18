@@ -136,8 +136,6 @@ namespace PhoenixCI.FormUI.PrefixS {
         }
 
         protected override ResultStatus Save(PokeBall args) {
-            _IsPreventFlowPrint = true;
-            _IsPreventFlowExport = true;
             ResultStatus resultStatus = ResultStatus.Fail;
 
             if (!checkChanged()) {

@@ -333,24 +333,5 @@ order by p_kind_id2";
             return dtResult;
         }
 
-        /// <summary>
-        /// Lukas, for W20110
-        /// dddw_pdk_kind_id_f
-        /// </summary>
-        /// <returns>PDK_KIND_ID</returns>
-        public DataTable ListAllF_20110() {
-
-            string sql = @"
-SELECT APDK_KIND_ID as PDK_KIND_ID 
-FROM ci.APDK  
-WHERE APDK_PROD_TYPE = 'F'    
-GROUP BY APDK_KIND_ID
-ORDER BY PDK_KIND_ID
-";
-
-            DataTable dtResult = db.GetDataTable(sql, null);
-
-            return dtResult;
-        }
     }
 }

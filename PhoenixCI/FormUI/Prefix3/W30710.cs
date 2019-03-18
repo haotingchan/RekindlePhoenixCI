@@ -10,30 +10,27 @@ using BaseGround.Shared;
 using DataObjects.Dao.Together;
 using DevExpress.Spreadsheet.Charts;
 
-namespace PhoenixCI.FormUI.Prefix3
-{
-    public partial class W30710 : FormParent
-    {
+namespace PhoenixCI.FormUI.Prefix3 {
+    public partial class W30710 : FormParent {
         private AI3 daoAI3;
 
-        public W30710(string programID, string programName) : base(programID, programName)
-        {
+        public W30710(string programID, string programName) : base(programID, programName) {
             daoAI3 = new AI3();
             InitializeComponent();
             this.Text = _ProgramID + "─" + _ProgramName;
+            txtDate.DateTimeValue = GlobalInfo.OCF_DATE;
 
             ExportShow.Hide();
         }
 
-        protected override ResultStatus Export()
-        {
+        protected override ResultStatus Export() {
             ExportShow.Text = "轉檔中...";
             ExportShow.Show();
 
             Workbook workbook = new Workbook();
             DataTable dt = new DataTable();
 
-            string kindId="TXF";
+            string kindId = "TXF";
             string destinationFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);//Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, ls_filename);
             DateTime sdate = PbFunc.f_get_last_day("AI3", kindId, txtDate.DateTimeValue.ToString("yyyy/MM"), 1);
             DateTime edate = PbFunc.f_get_end_day("AI3", kindId, txtDate.DateTimeValue.ToString("yyyy/MM"));
@@ -83,16 +80,14 @@ namespace PhoenixCI.FormUI.Prefix3
                 workbook.SaveDocument(destinationFilePath);
             }
             catch (Exception ex) {
-                WriteLog(ex);
                 ExportShow.Text = "轉檔失敗";
-                return ResultStatus.Fail;
+                throw ex;
             }
             ExportShow.Text = "轉檔成功!";
             return ResultStatus.Success;
         }
 
-        protected override ResultStatus ActivatedForm()
-        {
+        protected override ResultStatus ActivatedForm() {
             base.ActivatedForm();
             _ToolBtnExport.Enabled = true;
 

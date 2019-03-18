@@ -64,7 +64,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             #region 處理下拉選單
             //商品下拉選單
             RepositoryItemLookUpEdit ddlProd = new RepositoryItemLookUpEdit();
-            dtProd = daoAPDK.ListAllF_20110();
+            dtProd = dao20110.ListAllF_20110();
 
             #region 資料表內的資料不乾淨,比下拉選單項目還多,必須先做資料合併再設定到下拉選單中
             DataView view = new DataView(dtCheck);
@@ -186,7 +186,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             }
             else {
                 //應該要有的個數
-                found = daoRPT.RowCount();
+                found = dao20110.RowCount();
                 cnt = 0;
                 for (i = 0; i < gvMain.RowCount; i++) {
                     if (gvMain.GetRowCellValue(i, gvMain.Columns["AMIF_SETTLE_DATE"]).AsString() == "指數") {
@@ -772,7 +772,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     settleDate = year.ToString("0000") + month.ToString("00");
                     break;
                 case ("TX"):
-                    settleDate = daoAMIF.MinSettleDate(adDate);
+                    settleDate = dao20110.MinSettleDate(adDate);
                     if (settleDate == null) {
                         settleDate = adDate.ToString("yyyyMM");
                     }
@@ -794,7 +794,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             daoSTWD = new STWD();
             DateTime date = txtDate.DateTimeValue;
             DateTime befDate = PbFunc.relativedate(date, -30);
-            date = daoAMIF.MaxAMIF_DATE(befDate, date);
+            date = dao20110.MaxAMIF_DATE(befDate, date);
             DataTable dt20110_y = dao20110.d_20110_y(date);
             int i, found;
             for (i = 0; i < dt20110_y.Rows.Count; i++) {
@@ -830,7 +830,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 若本日收盤 = 0 ,則漲跌=0
                 *****************/
                 monthStr = gvMain.GetRowCellValue(i, gvMain.Columns["AMIF_SETTLE_DATE"]).AsString();
-                value = daoSTWD.GetSettlePrice(dateStr, monthStr);
+                value = dao20110.GetSettlePrice(dateStr, monthStr);
                 if (value != 0) {
                     gvMain.SetRowCellValue(i, gvMain.Columns["AMIF_CLOSE_PRICE_Y"], value);
                     gvMain.SetRowCellValue(i, gvMain.Columns["AMIF_UP_DOWN_VAL"],
@@ -902,7 +902,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
 
             string sender, recipient, lsCC, title, context;
             string file, fileOI, pathName, pathNameOI;
-            DataTable dtCOD = daoCOD.W20110_filename();
+            DataTable dtCOD = dao20110.W20110_filename();
             file = dtCOD.Rows[0]["ls_file"].AsString();
             fileOI = dtCOD.Rows[0]["ls_file_oi"].AsString();
             file = ymd + file;

@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using BaseGround;
 using BaseGround.Report;
-using DataObjects.Dao.Together;
 using Common;
 using DataObjects.Dao.Together.SpecificDao;
 using BusinessObjects.Enums;
@@ -25,6 +20,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
         public W51060(string programID, string programName) : base(programID, programName) {
             InitializeComponent();
+            _IsPreventFlowPrint = false;
+            GridHelper.SetCommonGrid(gvMain);
             dao51060 = new D51060();
             this.Text = _ProgramID + "─" + _ProgramName;
 
@@ -32,19 +29,16 @@ namespace PhoenixCI.FormUI.Prefix5 {
         }
 
         protected override ResultStatus Retrieve() {
-            bool check = CheckDate();
-            if (check) {
-                base.Retrieve(gcMain);
-                DataTable returnTable = new DataTable();
-                returnTable = dao51060.GetData(txtYM.Text.Replace("/", ""));
-                if (returnTable.Rows.Count == 0) {
-                    MessageBox.Show("無任何資料", "訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                returnTable.Columns.Add("Is_NewRow", typeof(string));
-                gcMain.DataSource = returnTable;
-
-                gcMain.Focus();
+            base.Retrieve(gcMain);
+            DataTable returnTable = new DataTable();
+            returnTable = dao51060.GetData(txtYM.DateTimeValue.ToString("yyyyMM"));
+            if (returnTable.Rows.Count == 0) {
+                MessageDisplay.Info("無任何資料");
             }
+            returnTable.Columns.Add("Is_NewRow", typeof(string));
+            gcMain.DataSource = returnTable;
+
+            gcMain.Focus();
 
             return ResultStatus.Success;
         }
@@ -127,39 +121,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
             return ResultStatus.Success;
         }
 
-        public override ResultStatus BeforeOpen() {
-            base.BeforeOpen();
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus Open() {
-            base.Open();
-
-            //直接讀取資料
-            Retrieve();
-            //Header上色
-            //CustomDrawColumnHeader(gcMain,gvMain);
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus AfterOpen() {
-            base.AfterOpen();
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus BeforeClose() {
-            return base.BeforeClose();
-        }
-
-        protected override ResultStatus COMPLETE() {
-            MessageDisplay.Info(MessageDisplay.MSG_OK);
-            Retrieve();
-            return ResultStatus.Success;
-        }
-
         private void gvMain_ShowingEditor(object sender, CancelEventArgs e) {
             GridView gv = sender as GridView;
             string Is_NewRow = gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
@@ -194,17 +155,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
             if (e.Column.FieldName == disableCol) {
                 e.Appearance.BackColor = Color.Silver;
             }
-        }
-
-        private bool CheckDate() {
-            try {
-                DateTime YM = DateTime.Parse(txtYM.Text);
-            }
-            catch (Exception ex) {
-                MessageBox.Show("請確認輸入的日期");
-                return false;
-            }
-            return true;
         }
     }
 }

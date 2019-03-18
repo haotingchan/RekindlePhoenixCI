@@ -2,13 +2,10 @@
 using System.Data;
 using BaseGround;
 using BusinessObjects.Enums;
-using System.IO;
 using Common;
 using DevExpress.Spreadsheet;
-using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using System.Globalization;
-using DevExpress.Spreadsheet.Charts;
 using BaseGround.Shared;
 
 namespace PhoenixCI.FormUI.Prefix3 {
@@ -20,6 +17,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             InitializeComponent();
             this.Text = _ProgramID + "─" + _ProgramName;
+            txtSDate.DateTimeValue = GlobalInfo.OCF_DATE.ToString("yyyy/01").AsDateTime();
+            txtEDate.DateTimeValue = GlobalInfo.OCF_DATE;
 
             ExportShow.Hide();
         }
@@ -102,7 +101,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                         }
                     }
                     if (dtAI2.Select("ai2_ymd=" + r["ai2_ymd"].ToString()).Length != 0) {
-                        DataTable dtAI2ByYmd = dtAI2.Select("ai2_ymd=" + r["ai2_ymd"].ToString()).CopyToDataTable();
+                        DataTable dtAI2ByYmd = dtAI2.Filter("ai2_ymd=" + r["ai2_ymd"].ToString());
                         foreach (DataRow row in dtAI2ByYmd.Rows) {
                             //月總量
                             int col = row["rpt_seq_no"].AsInt();

@@ -51,18 +51,20 @@ namespace PhoenixCI.FormUI.Prefix5
 
             //1.讀檔並寫入DataTable
             try {
-                OpenFileDialog open = new OpenFileDialog();
+                //OpenFileDialog open = new OpenFileDialog();
 
-                open.Filter = "*.txt (*.txt)|*.txt";
-                open.Title = "請點選儲存檔案之目錄";
-                open.FileName = "56090.txt";
+                //open.Filter = "*.txt (*.txt)|*.txt";
+                //open.Title = "請點選儲存檔案之目錄";
+                //open.FileName = "56090.txt";
 
-                if (open.ShowDialog() != DialogResult.OK) {
-                    ImportShow.Hide();
-                    return ResultStatus.Fail;
-                }
+                //if (open.ShowDialog() != DialogResult.OK) {
+                //    ImportShow.Hide();
+                //    return ResultStatus.Fail;
+                //}
 
-                using (TextReader tr = File.OpenText(open.FileName)) {
+                Stream openFile = PbFunc.wf_getfileopenname("56090.txt", "*.txt (*.txt)|*.txt");
+
+                using (TextReader tr = new StreamReader(openFile)) {
                     string line;
                     while ((line = tr.ReadLine()) != null) {
                         DataRow d = dtReadTxt.NewRow();
@@ -156,18 +158,6 @@ namespace PhoenixCI.FormUI.Prefix5
             _ToolBtnImport.Enabled = true;
             _ToolBtnRetrieve.Enabled = true;
 
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus BeforeClose()
-        {
-            return base.BeforeClose();
-        }
-
-        protected override ResultStatus COMPLETE()
-        {
-            MessageDisplay.Info(MessageDisplay.MSG_OK);
-            Retrieve();
             return ResultStatus.Success;
         }
 

@@ -20,10 +20,8 @@ using BusinessObjects.Enums;
 using DevExpress.XtraGrid.Views.Grid;
 using BusinessObjects;
 
-namespace PhoenixCI.FormUI.PrefixS
-{
-    public partial class WS0070 : FormParent
-    {
+namespace PhoenixCI.FormUI.PrefixS {
+    public partial class WS0070 : FormParent {
         protected DS0070 daoS0070;
         protected COD daoCod;
         protected string fmYmd;
@@ -159,7 +157,6 @@ namespace PhoenixCI.FormUI.PrefixS
             gvExAccount.UpdateCurrentRow();
             gvPresTest.CloseEditor();
             gvPresTest.UpdateCurrentRow();
-            _IsPreventFlowPrint = true;
             ResultStatus resultStatus = ResultStatus.Fail;
 
             if (checkChanged()) {
@@ -264,12 +261,12 @@ namespace PhoenixCI.FormUI.PrefixS
                             case "2":
                             case "3":
                             case "4": {//最大漲跌停
-                                    break;
-                                }
+                                break;
+                            }
                             default: {
-                                    MessageDisplay.Info("設定方式選漲跌停價格, 則設定值請選擇1, 2, 3或最大漲跌停");
-                                    return ResultStatus.FailButNext;
-                                }
+                                MessageDisplay.Info("設定方式選漲跌停價格, 則設定值請選擇1, 2, 3或最大漲跌停");
+                                return ResultStatus.FailButNext;
+                            }
                         }
                     }
                 }
@@ -304,14 +301,14 @@ namespace PhoenixCI.FormUI.PrefixS
                 switch (prodType) {
                     case "EQT-STF":
                     case "EQT-ETF": {
-                            string[] prodEQT = prodType.Split('-');
-                            dtProd = daoS0070.dddw_zparm_comb_prod_by_group(txtEndDate.DateTimeValue.ToString("yyyyMMdd"), "%" + prodEQT[0] + "%", "%" + prodEQT[1] + "%");
-                            break;
-                        }
+                        string[] prodEQT = prodType.Split('-');
+                        dtProd = daoS0070.dddw_zparm_comb_prod_by_group(txtEndDate.DateTimeValue.ToString("yyyyMMdd"), "%" + prodEQT[0] + "%", "%" + prodEQT[1] + "%");
+                        break;
+                    }
                     default: {
-                            dtProd = daoS0070.dddw_zparm_comb_prod_by_group(txtEndDate.DateTimeValue.ToString("yyyyMMdd"), "%" + prodType + "%", "%%");
-                            break;
-                        }
+                        dtProd = daoS0070.dddw_zparm_comb_prod_by_group(txtEndDate.DateTimeValue.ToString("yyyyMMdd"), "%" + prodType + "%", "%%");
+                        break;
+                    }
                 }
                 cbxProd.SetColumnLookUp(dtProd, "COMB_PROD_VALUE", "COMB_PROD");
                 edit.Properties.DataSource = cbxProd.DataSource;

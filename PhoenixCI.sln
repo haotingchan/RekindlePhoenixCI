@@ -91,4 +91,42 @@ Global
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {48C92969-701C-42D5-BC12-F25DAC0F61DE}
 	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 9
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://dev.azure.com/jobassistant
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ActionService\\ActionService.csproj
+		SccProjectTopLevelParentUniqueName1 = PhoenixCI.sln
+		SccProjectName1 = ActionService
+		SccLocalPath1 = ActionService
+		SccProjectUniqueName2 = BaseGround\\BaseGround.csproj
+		SccProjectTopLevelParentUniqueName2 = PhoenixCI.sln
+		SccProjectName2 = BaseGround
+		SccLocalPath2 = BaseGround
+		SccProjectUniqueName3 = BusinessObjects\\BusinessObjects.csproj
+		SccProjectTopLevelParentUniqueName3 = PhoenixCI.sln
+		SccProjectName3 = BusinessObjects
+		SccLocalPath3 = BusinessObjects
+		SccProjectUniqueName4 = Common\\Common.csproj
+		SccProjectTopLevelParentUniqueName4 = PhoenixCI.sln
+		SccProjectName4 = Common
+		SccLocalPath4 = Common
+		SccProjectUniqueName5 = DataObjects\\DataObjects.csproj
+		SccProjectTopLevelParentUniqueName5 = PhoenixCI.sln
+		SccProjectName5 = DataObjects
+		SccLocalPath5 = DataObjects
+		SccProjectUniqueName6 = LogEx\\LogEx.csproj
+		SccProjectTopLevelParentUniqueName6 = PhoenixCI.sln
+		SccProjectName6 = LogEx
+		SccLocalPath6 = LogEx
+		SccProjectUniqueName7 = OnePiece\\OnePiece.csproj
+		SccProjectTopLevelParentUniqueName7 = PhoenixCI.sln
+		SccProjectName7 = OnePiece
+		SccLocalPath7 = OnePiece
+		SccProjectUniqueName8 = PhoenixCI\\PhoenixCI.csproj
+		SccProjectTopLevelParentUniqueName8 = PhoenixCI.sln
+		SccProjectName8 = PhoenixCI
+		SccLocalPath8 = PhoenixCI
+	EndGlobalSection
 EndGlobal

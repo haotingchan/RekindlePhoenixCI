@@ -14,10 +14,8 @@ using Common;
 using System.Drawing;
 using BaseGround.Shared;
 
-namespace PhoenixCI.FormUI.Prefix5
-{
-    public partial class W51020 : FormParent
-    {
+namespace PhoenixCI.FormUI.Prefix5 {
+    public partial class W51020 : FormParent {
         private string disableCol = "MMFT_MARKET_CODE";
         private string disableCol2 = "MMFT_ID";
 
@@ -28,10 +26,9 @@ namespace PhoenixCI.FormUI.Prefix5
         private RepositoryItemLookUpEdit _RepLookUpEdit2;
         private DataTable dtForDeleted;
 
-        public W51020(string programID, string programName) : base(programID, programName)
-        {
+        public W51020(string programID, string programName) : base(programID, programName) {
             InitializeComponent();
-
+            _IsPreventFlowPrint = false;
             dao51020 = new D51020();
             dtForDeleted = new DataTable();
             daoCOD = new COD();
@@ -55,14 +52,12 @@ namespace PhoenixCI.FormUI.Prefix5
             #endregion
         }
 
-        protected override ResultStatus Retrieve()
-        {
+        protected override ResultStatus Retrieve() {
             base.Retrieve(gcMain);
             DataTable returnTable = new DataTable();
             returnTable = dao51020.ListAll();
-            if (returnTable.Rows.Count == 0)
-            {
-                MessageBox.Show("無任何資料", "訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (returnTable.Rows.Count == 0) {
+                MessageDisplay.Info("無任何資料");
             }
             returnTable.Columns.Add("Is_NewRow", typeof(string));
             dtForDeleted = returnTable.Clone();
@@ -74,8 +69,7 @@ namespace PhoenixCI.FormUI.Prefix5
             return ResultStatus.Success;
         }
 
-        protected override ResultStatus InsertRow()
-        {
+        protected override ResultStatus InsertRow() {
             base.InsertRow(gvMain);
             //gvMain.Focus();
             gvMain.FocusedColumn = gvMain.Columns[0];
@@ -83,8 +77,7 @@ namespace PhoenixCI.FormUI.Prefix5
             return ResultStatus.Success;
         }
 
-        protected override ResultStatus Save(PokeBall poke)
-        {
+        protected override ResultStatus Save(PokeBall poke) {
             gvMain.CloseEditor();
             gvMain.UpdateCurrentRow();
 
@@ -99,16 +92,13 @@ namespace PhoenixCI.FormUI.Prefix5
             resultData.ChangedDataViewForDeleted = dtForDeleted == null ? new DataView() : dtForDeleted.DefaultView;
             resultData.ChangedDataViewForModified = dtForModified == null ? new DataView() : dtForModified.DefaultView;
 
-            if (dtChange.Rows.Count == 0)
-            {
+            if (dtChange.Rows.Count == 0) {
                 MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-            else
-            {
+            else {
                 ResultStatus status = dao51020.updateData(dt).Status;//base.Save_Override(dt, "MMFT");
-           
-                if (status == ResultStatus.Fail)
-                {
+
+                if (status == ResultStatus.Fail) {
                     return ResultStatus.Fail;
                 }
             }
@@ -118,8 +108,7 @@ namespace PhoenixCI.FormUI.Prefix5
             return ResultStatus.Success;
         }
 
-        protected override ResultStatus Print(ReportHelper reportHelper)
-        {
+        protected override ResultStatus Print(ReportHelper reportHelper) {
             _ReportHelper = reportHelper;
             CommonReportPortraitA4 report = new CommonReportPortraitA4();
             report.printableComponentContainerMain.PrintableComponent = gcMain;
@@ -129,18 +118,16 @@ namespace PhoenixCI.FormUI.Prefix5
             return ResultStatus.Success;
         }
 
-        protected override ResultStatus CheckShield()
-        {
+        protected override ResultStatus CheckShield() {
             base.CheckShield(gcMain);
             if (!IsDataModify(gcMain)) { return ResultStatus.Fail; }
 
             return ResultStatus.Success;
         }
 
-        protected override ResultStatus DeleteRow()
-        {
+        protected override ResultStatus DeleteRow() {
             GridView gv = gvMain as GridView;
-            DataRowView deleteRowView = (DataRowView) gv.GetFocusedRow();
+            DataRowView deleteRowView = (DataRowView)gv.GetFocusedRow();
             dtForDeleted.ImportRow(deleteRowView.Row);
 
             base.DeleteRow(gvMain);
@@ -148,8 +135,7 @@ namespace PhoenixCI.FormUI.Prefix5
             return ResultStatus.Success;
         }
 
-        protected override ResultStatus ActivatedForm()
-        {
+        protected override ResultStatus ActivatedForm() {
             base.ActivatedForm();
 
             _ToolBtnInsert.Enabled = true;
@@ -161,8 +147,7 @@ namespace PhoenixCI.FormUI.Prefix5
             return ResultStatus.Success;
         }
 
-        protected override ResultStatus Open()
-        {
+        protected override ResultStatus Open() {
             base.Open();
 
             //直接讀取資料
@@ -171,8 +156,7 @@ namespace PhoenixCI.FormUI.Prefix5
             return ResultStatus.Success;
         }
 
-        protected override ResultStatus COMPLETE()
-        {
+        protected override ResultStatus COMPLETE() {
             MessageDisplay.Info(MessageDisplay.MSG_OK);
             Retrieve();
             return ResultStatus.Success;

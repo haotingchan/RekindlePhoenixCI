@@ -52,12 +52,12 @@ namespace BaseGround {
         /// <summary>
         /// 防止接下來的Print事件觸發
         /// </summary>
-        protected bool _IsPreventFlowPrint = false;
+        protected bool _IsPreventFlowPrint = true;
 
         /// <summary>
         /// 防止接下來的Export事件觸發
         /// </summary>
-        protected bool _IsPreventFlowExport = false;
+        protected bool _IsPreventFlowExport = true;
         protected ServiceCommon serviceCommon;
         protected ServicePrefix1 servicePrefix1 = new ServicePrefix1();
         /// <summary>

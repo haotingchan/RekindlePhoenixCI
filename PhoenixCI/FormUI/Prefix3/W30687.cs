@@ -9,6 +9,7 @@ using Common;
 using BaseGround.Shared;
 using System.Threading;
 using PhoenixCI.BusinessLogic.Prefix7;
+using PhoenixCI.BusinessLogic.Prefix3;
 /// <summary>
 /// john,20190227,動態價格穩定措施基準價查詢
 /// </summary>
@@ -19,15 +20,13 @@ namespace PhoenixCI.FormUI.Prefix7
    /// </summary>
    public partial class W30687 : FormParent
    {
-      private B70020 b70020;
-      private D70020 dao70020;
+      private B30687 b30687;
       string saveFilePath;
       public W30687(string programID, string programName) : base(programID, programName)
       {
          InitializeComponent();
 
          this.Text = _ProgramID + "─" + _ProgramName;
-         dao70020 = new D70020();
       }
 
       public override ResultStatus BeforeOpen()
@@ -131,7 +130,7 @@ namespace PhoenixCI.FormUI.Prefix7
                   break;
             }
             //資料來源
-            b70020 = new B70020(saveFilePath);
+            b30687 = new B30687(saveFilePath);
 
             ShowMsg("30687_ru_new－RU筆數統計 轉檔中...");
             ExportAfter();

@@ -1029,6 +1029,22 @@ namespace BaseGround.Shared {
         }
 
         /// <summary>
+        /// 比對現在時間,如果小於晚上6:15(時段7),則回傳"5", 否則回傳"%"
+        /// </summary>
+        /// <returns></returns>
+        public static string f_get_txn_osw_grp() {
+
+            DataTable dtTemp = new OCFG().ListCloseTime("7");
+            DateTime grp7 = dtTemp.Rows[0]["ocfg_close_time"].AsDateTime();
+            if (DateTime.Now <= grp7) {
+                return "5";
+            }
+            else {
+                return "%";
+            }
+        }
+
+        /// <summary>
         /// 先把操作(file)的子menu都enable=false,視需要再enable=true
         /// Call By	: 每個window的Activate
         /// </summary>
@@ -1222,6 +1238,24 @@ namespace BaseGround.Shared {
             }
             return "";
         }
+
+        public static Stream wf_getfileopenname(string as_filename,string fileExtension) {
+
+            if (!Directory.Exists(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH)) {
+                Directory.CreateDirectory(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH);
+            }
+
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Title = "請點選儲存檔案之目錄";
+            dialog.InitialDirectory = GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH;
+            dialog.FileName = as_filename;
+            dialog.Filter = fileExtension;
+            if (dialog.ShowDialog() == DialogResult.OK) {
+                return dialog.OpenFile();
+            }
+            return null;
+        }
+
         #region pb內建函數
         /// <summary>
         /// 功能得到字符串左部指定個數的字符。

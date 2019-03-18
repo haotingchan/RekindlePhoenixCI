@@ -68,7 +68,7 @@ namespace ActionService.DbDirect
       /// <param name="updateOrDeleteKeysColumnList">KEY的欄位</param>
       public ResultData SaveForAll(DataTable inputDT, string tableName, string insertColumnList, string updateColumnList, string updateOrDeleteKeysColumnList, PokeBall pokeBall)
       {
-         return daoDataGate.SaveForAll(inputDT, tableName, insertColumnList, updateColumnList, updateOrDeleteKeysColumnList, pokeBall);
+         return daoDataGate.SaveForAll(inputDT, tableName, insertColumnList, updateColumnList, updateOrDeleteKeysColumnList);
       }
       /// <summary>
       /// 傳入一個DataTable，如果該列已存在DB會下UPDATE語法，如果不存在會下INSERT語法
@@ -82,7 +82,7 @@ namespace ActionService.DbDirect
       public ResultData SaveForAll(ConnectionInfo connInfo, DataTable inputDT, string tableName, string insertColumnList, string updateColumnList, string updateOrDeleteKeysColumnList, PokeBall pokeBall)
       {
          DataGate dataGate = new DataGate(connInfo);
-         return dataGate.SaveForAll(inputDT, tableName, insertColumnList, updateColumnList, updateOrDeleteKeysColumnList, pokeBall);
+         return dataGate.SaveForAll(inputDT, tableName, insertColumnList, updateColumnList, updateOrDeleteKeysColumnList);
       }
       /// <summary>
       /// 根據DataTable的改變，會下不同的SQL去異動DB，並傳回各異動的資料集

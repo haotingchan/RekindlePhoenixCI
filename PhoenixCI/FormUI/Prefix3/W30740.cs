@@ -20,6 +20,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             InitializeComponent();
             this.Text = _ProgramID + "─" + _ProgramName;
+            txtDate.DateTimeValue = GlobalInfo.OCF_DATE;
 
             ExportShow.Hide();
         }

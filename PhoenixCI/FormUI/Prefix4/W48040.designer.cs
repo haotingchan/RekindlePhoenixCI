@@ -221,6 +221,8 @@
             this.DAY_CNT});
             this.gvDate.GridControl = this.gcDate;
             this.gvDate.Name = "gvDate";
+            this.gvDate.OptionsSelection.EnableAppearanceFocusedCell = false;
+            this.gvDate.OptionsSelection.EnableAppearanceFocusedRow = false;
             // 
             // AI2_SELECT
             // 
@@ -276,6 +278,8 @@
             // 
             // EDATE
             // 
+            this.EDATE.AppearanceCell.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.EDATE.AppearanceCell.Options.UseForeColor = true;
             this.EDATE.AppearanceCell.Options.UseTextOptions = true;
             this.EDATE.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.EDATE.AppearanceHeader.BackColor = System.Drawing.Color.Cyan;
@@ -423,6 +427,8 @@
             this.CPR_PRICE_RISK_RATE_ORG});
             this.gvKind.GridControl = this.gcKind;
             this.gvKind.Name = "gvKind";
+            this.gvKind.OptionsSelection.EnableAppearanceFocusedCell = false;
+            this.gvKind.OptionsSelection.EnableAppearanceFocusedRow = false;
             // 
             // CPR_SELECT
             // 

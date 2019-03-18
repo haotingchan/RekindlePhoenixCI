@@ -4,6 +4,7 @@ using System.Data;
 
 /// <summary>
 /// ken,2019/3/5
+/// GetMaxDate/ListDateArea/ListKind 這三個函數與48030完全相同,之後可考慮合併
 /// </summary>
 namespace DataObjects.Dao.Together.SpecificDao {
     /// <summary>
@@ -161,9 +162,6 @@ order by mg1_date";
 
             return dtResult;
         }
-
-
-
-
+                     
     }
 }

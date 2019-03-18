@@ -128,7 +128,6 @@ namespace PhoenixCI.FormUI.PrefixS
                 MessageDisplay.Info("沒有變更資料,不需要存檔!");
                 resultStatus = ResultStatus.FailButNext;
             }
-            _IsPreventFlowPrint = true;
             return resultStatus;
         }
 

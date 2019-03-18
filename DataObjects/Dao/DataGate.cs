@@ -252,10 +252,10 @@ namespace DataObjects.Dao {
             return myResultData;
         }
 
-        public ResultData SaveForAll(DataTable inputDT, string tableName, string insertColumnList, string updateColumnList, string updateOrDeleteKeysColumnList, PokeBall pokeBall) {
+        public ResultData SaveForAll(DataTable inputDT, string tableName, string insertColumnList, string updateColumnList, string updateOrDeleteKeysColumnList) {
             ResultData myResultData = new ResultData();
 
-            pokeBall.TrackedDataTables.Add(inputDT);
+            //pokeBall.TrackedDataTables.Add(inputDT);
 
             int myReturnValue = 0;
 

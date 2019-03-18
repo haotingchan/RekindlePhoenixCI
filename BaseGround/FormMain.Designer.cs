@@ -413,7 +413,7 @@
             this.barTool.FloatLocation = new System.Drawing.Point(664, 240);
             this.barTool.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
             new DevExpress.XtraBars.LinkPersistInfo(this.toolStripButtonInsert),
-            new DevExpress.XtraBars.LinkPersistInfo(this.toolStripButtonSave),
+            new DevExpress.XtraBars.LinkPersistInfo(DevExpress.XtraBars.BarLinkUserDefines.KeyTip, this.toolStripButtonSave, "", false, true, true, 0, null, DevExpress.XtraBars.BarItemPaintStyle.Standard, "", ""),
             new DevExpress.XtraBars.LinkPersistInfo(this.toolStripButtonDelete),
             new DevExpress.XtraBars.LinkPersistInfo(this.barStaticItemSeparator1),
             new DevExpress.XtraBars.LinkPersistInfo(this.toolStripButtonRetrieve),
@@ -439,6 +439,7 @@
             this.toolStripButtonInsert.Enabled = false;
             this.toolStripButtonInsert.Id = 0;
             this.toolStripButtonInsert.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonInsert.ImageOptions.Image")));
+            this.toolStripButtonInsert.ItemShortcut = new DevExpress.XtraBars.BarShortcut((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I));
             this.toolStripButtonInsert.Name = "toolStripButtonInsert";
             this.toolStripButtonInsert.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.ToolStripButtonInsert_Click);
             // 
@@ -448,6 +449,7 @@
             this.toolStripButtonSave.Enabled = false;
             this.toolStripButtonSave.Id = 1;
             this.toolStripButtonSave.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonSave.ImageOptions.Image")));
+            this.toolStripButtonSave.ItemShortcut = new DevExpress.XtraBars.BarShortcut((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S));
             this.toolStripButtonSave.Name = "toolStripButtonSave";
             this.toolStripButtonSave.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.ToolStripButtonSave_Click);
             // 
@@ -457,6 +459,7 @@
             this.toolStripButtonDelete.Enabled = false;
             this.toolStripButtonDelete.Id = 3;
             this.toolStripButtonDelete.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonDelete.ImageOptions.Image")));
+            this.toolStripButtonDelete.ItemShortcut = new DevExpress.XtraBars.BarShortcut((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D));
             this.toolStripButtonDelete.Name = "toolStripButtonDelete";
             this.toolStripButtonDelete.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.ToolStripButtonDelete_Click);
             // 
@@ -473,6 +476,7 @@
             this.toolStripButtonRetrieve.Enabled = false;
             this.toolStripButtonRetrieve.Id = 24;
             this.toolStripButtonRetrieve.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonRetrieve.ImageOptions.Image")));
+            this.toolStripButtonRetrieve.ItemShortcut = new DevExpress.XtraBars.BarShortcut((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H));
             this.toolStripButtonRetrieve.Name = "toolStripButtonRetrieve";
             this.toolStripButtonRetrieve.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.ToolStripButtonRetrieve_Click);
             // 
@@ -489,6 +493,7 @@
             this.toolStripButtonRun.Enabled = false;
             this.toolStripButtonRun.Id = 25;
             this.toolStripButtonRun.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonRun.ImageOptions.Image")));
+            this.toolStripButtonRun.ItemShortcut = new DevExpress.XtraBars.BarShortcut((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R));
             this.toolStripButtonRun.Name = "toolStripButtonRun";
             this.toolStripButtonRun.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.toolStripButtonRun_Click);
             // 
@@ -505,6 +510,7 @@
             this.toolStripButtonImport.Enabled = false;
             this.toolStripButtonImport.Id = 26;
             this.toolStripButtonImport.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonImport.ImageOptions.Image")));
+            this.toolStripButtonImport.ItemShortcut = new DevExpress.XtraBars.BarShortcut((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O));
             this.toolStripButtonImport.Name = "toolStripButtonImport";
             this.toolStripButtonImport.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.toolStripButtonImport_Click);
             // 
@@ -514,6 +520,7 @@
             this.toolStripButtonExport.Enabled = false;
             this.toolStripButtonExport.Id = 27;
             this.toolStripButtonExport.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonExport.ImageOptions.Image")));
+            this.toolStripButtonExport.ItemShortcut = new DevExpress.XtraBars.BarShortcut((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E));
             this.toolStripButtonExport.Name = "toolStripButtonExport";
             this.toolStripButtonExport.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.toolStripButtonExport_Click);
             // 
@@ -530,6 +537,7 @@
             this.toolStripButtonPrintAll.Enabled = false;
             this.toolStripButtonPrintAll.Id = 17;
             this.toolStripButtonPrintAll.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonPrintAll.ImageOptions.Image")));
+            this.toolStripButtonPrintAll.ItemShortcut = new DevExpress.XtraBars.BarShortcut((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P));
             this.toolStripButtonPrintAll.Name = "toolStripButtonPrintAll";
             this.toolStripButtonPrintAll.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.ToolStripButtonPrintAll_Click);
             // 
@@ -545,6 +553,7 @@
             this.toolStripButtonQuit.Caption = "離開程式";
             this.toolStripButtonQuit.Id = 22;
             this.toolStripButtonQuit.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonQuit.ImageOptions.Image")));
+            this.toolStripButtonQuit.ItemShortcut = new DevExpress.XtraBars.BarShortcut((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q));
             this.toolStripButtonQuit.Name = "toolStripButtonQuit";
             this.toolStripButtonQuit.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.ToolStripButtonQuit_Click);
             // 

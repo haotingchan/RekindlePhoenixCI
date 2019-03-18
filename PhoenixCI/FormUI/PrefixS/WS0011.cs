@@ -21,7 +21,6 @@ namespace PhoenixCI.FormUI.PrefixS {
             GridHelper.SetCommonGrid(gvMain);
 
             this.Text = _ProgramID + "─" + _ProgramName;
-            _IsPreventFlowPrint = true;
             daoS0011 = new DS0011();
 
             txtCountDate.DateTimeValue = DateTime.Now;

@@ -23,7 +23,6 @@ namespace PhoenixCI.FormUI.PrefixS
             GridHelper.SetCommonGrid(gvMain);
 
             this.Text = _ProgramID + "─" + _ProgramName;
-            _IsPreventFlowPrint = true;
             daoS0012 = new DS0012();
             txtCountDate.DateTimeValue = DateTime.Now;
             adjustmentRadioGroup.SelectedIndex = 0;
