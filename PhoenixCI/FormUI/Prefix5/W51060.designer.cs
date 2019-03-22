@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
+            this.txtYM = new PhoenixCI.Widget.TextDateEdit();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -43,20 +44,19 @@
             this.MMIQ_KIND_ID = new DevExpress.XtraGrid.Columns.GridColumn();
             this.MMIQ_INVALID_QNTY = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.Is_NewRow = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.IS_NEWROW = new DevExpress.XtraGrid.Columns.GridColumn();
             this.MMIQ_W_TIME = new DevExpress.XtraGrid.Columns.GridColumn();
             this.MMIQ_W_USER_ID = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.txtYM = new PhoenixCI.Widget.TextDateEdit();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtYM.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
             this.panelControl2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtYM.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // panParent
@@ -81,6 +81,24 @@
             this.panelControl1.Name = "panelControl1";
             this.panelControl1.Size = new System.Drawing.Size(1055, 147);
             this.panelControl1.TabIndex = 0;
+            // 
+            // txtYM
+            // 
+            this.txtYM.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+            this.txtYM.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtYM.EditValue = "2018/12";
+            this.txtYM.EnterMoveNextControl = true;
+            this.txtYM.Location = new System.Drawing.Point(59, 10);
+            this.txtYM.MenuManager = this.ribbonControl;
+            this.txtYM.Name = "txtYM";
+            this.txtYM.Properties.Appearance.Options.UseTextOptions = true;
+            this.txtYM.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtYM.Properties.Mask.EditMask = "yyyy/MM";
+            this.txtYM.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtYM.Properties.Mask.UseMaskAsDisplayFormat = true;
+            this.txtYM.Size = new System.Drawing.Size(144, 26);
+            this.txtYM.TabIndex = 16;
+            this.txtYM.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // label3
             // 
@@ -150,7 +168,7 @@
             this.MMIQ_ACC_NO,
             this.MMIQ_KIND_ID,
             this.MMIQ_INVALID_QNTY,
-            this.Is_NewRow,
+            this.IS_NEWROW,
             this.MMIQ_W_TIME,
             this.MMIQ_W_USER_ID});
             this.gvMain.GridControl = this.gcMain;
@@ -197,7 +215,7 @@
             // repositoryItemTextEdit2
             // 
             this.repositoryItemTextEdit2.AutoHeight = false;
-            this.repositoryItemTextEdit2.MaxLength = 7;
+            this.repositoryItemTextEdit2.MaxLength = 3;
             this.repositoryItemTextEdit2.Name = "repositoryItemTextEdit2";
             // 
             // MMIQ_ACC_NO
@@ -250,13 +268,13 @@
             this.repositoryItemTextEdit1.EditFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
             // 
-            // Is_NewRow
+            // IS_NEWROW
             // 
-            this.Is_NewRow.Caption = "Is_NewRow";
-            this.Is_NewRow.FieldName = "Is_NewRow";
-            this.Is_NewRow.MinWidth = 30;
-            this.Is_NewRow.Name = "Is_NewRow";
-            this.Is_NewRow.Width = 112;
+            this.IS_NEWROW.Caption = "IS_NEWROW";
+            this.IS_NEWROW.FieldName = "IS_NEWROW";
+            this.IS_NEWROW.MinWidth = 30;
+            this.IS_NEWROW.Name = "IS_NEWROW";
+            this.IS_NEWROW.Width = 112;
             // 
             // MMIQ_W_TIME
             // 
@@ -273,24 +291,6 @@
             this.MMIQ_W_USER_ID.MinWidth = 30;
             this.MMIQ_W_USER_ID.Name = "MMIQ_W_USER_ID";
             this.MMIQ_W_USER_ID.Width = 112;
-            // 
-            // txtYM
-            // 
-            this.txtYM.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtYM.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
-            this.txtYM.EditValue = "2018/12";
-            this.txtYM.EnterMoveNextControl = true;
-            this.txtYM.Location = new System.Drawing.Point(59, 10);
-            this.txtYM.MenuManager = this.ribbonControl;
-            this.txtYM.Name = "txtYM";
-            this.txtYM.Properties.Appearance.Options.UseTextOptions = true;
-            this.txtYM.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.txtYM.Properties.Mask.EditMask = "yyyy/MM";
-            this.txtYM.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-            this.txtYM.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtYM.Size = new System.Drawing.Size(144, 26);
-            this.txtYM.TabIndex = 16;
-            this.txtYM.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // W51060
             // 
@@ -310,13 +310,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
             this.panelControl1.ResumeLayout(false);
             this.panelControl1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtYM.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
             this.panelControl2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtYM.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -337,7 +337,7 @@
         private DevExpress.XtraGrid.Columns.GridColumn MMIQ_ACC_NO;
         private DevExpress.XtraGrid.Columns.GridColumn MMIQ_KIND_ID;
         private DevExpress.XtraGrid.Columns.GridColumn MMIQ_INVALID_QNTY;
-        private DevExpress.XtraGrid.Columns.GridColumn Is_NewRow;
+        private DevExpress.XtraGrid.Columns.GridColumn IS_NEWROW;
         private DevExpress.XtraGrid.Columns.GridColumn MMIQ_W_TIME;
         private DevExpress.XtraGrid.Columns.GridColumn MMIQ_W_USER_ID;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit2;

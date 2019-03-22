@@ -43,7 +43,7 @@ namespace PhoenixCI.FormUI.Prefix3
 #if DEBUG
          emMonth.Text = "2005/12";
 #else
-            em_month.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
+         emMonth.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
 #endif
          emMonth.Focus();
          return ResultStatus.Success;

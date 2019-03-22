@@ -153,5 +153,31 @@ from ci.OCFG
 
             return ls_rtn;
         }
+
+        /// <summary>
+        /// 取得商品交易時段(決定畫面中下拉選單的值)
+        /// 用到的程式: 40030, 40040, 40041, 40050, 40060, 43010, 43020
+        /// </summary>
+        /// <returns></returns>
+        public string f_gen_osw_grp() {
+
+
+            string sql = @"
+select case when to_char(OCFG_CLOSE_TIME,'yyyymmdd') <> to_char(sysdate,'yyyymmdd') then '1' 
+                   else  case when OCFG_CLOSE_TIME = max_all  then '%' else OCFG_OSW_GRP end end as ls_osw_grp
+  from ci.OCFG,
+      (select max(OCFG_CLOSE_TIME) as max_all,min(OCFG_CLOSE_TIME) as min_all from ci.OCFG where OCFG_MARKET_CODE = '0'),
+      (select max(OCFG_CLOSE_TIME) as max_now
+         from ci.OCFG,(select sysdate as dtime from dual)
+        where OCFG_CLOSE_TIME <=  dtime
+         and OCFG_MARKET_CODE = '0')
+ where OCFG_CLOSE_TIME = case when max_now is null then min_all else max_now end
+";
+            DataTable dtResult = db.GetDataTable(sql, null);
+            if (dtResult.Rows.Count > 0)
+                return dtResult.Rows[0]["LS_OSW_GRP"].AsString();
+            else
+                return "";
+        }
     }
 }

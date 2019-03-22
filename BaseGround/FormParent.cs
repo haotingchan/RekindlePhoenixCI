@@ -98,6 +98,9 @@ namespace BaseGround {
                 //if (GlobalInfo.USER_ID == sqlca.servername)
                 //   return true;
                 //else
+#if DEBUG
+                return true;
+#endif
                 return false;
             }
         }
@@ -145,12 +148,20 @@ namespace BaseGround {
 
         private void FormParent_Shown(object sender, EventArgs e) {
             AfterOpen();
+
+            FormParent_Activated(sender, e);
         }
 
         private void FormParent_Activated(object sender, EventArgs e) {
-            SetAllToolBtnDisable();
 
-            ActivatedForm();
+            // 當PB要直接呼叫.NET打開某隻程式時，會先觸發到Activated再觸發Load，所以要判斷
+            // 正常的點擊程式開啟是先觸發Load再觸發Activated
+            if(_ToolBtnInsert != null)
+            {
+                SetAllToolBtnDisable();
+
+                ActivatedForm();
+            }
         }
 
         private void FormParent_FormClosing(object sender, FormClosingEventArgs e) {
@@ -197,8 +208,14 @@ namespace BaseGround {
 
                     WriteLog("Save", "Operation", "I");//儲存成功log
                 }
+                else if(myResultStatus == ResultStatus.Fail) {
+                    //MessageDisplay.Error("儲存失敗");
+                    WriteLog("Save", "Operation", "I");
+                    Retrieve();
+                }
                 return myResultStatus;
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 WriteLog(ex);//各支程式之save error 由這裡紀錄log
                 return ResultStatus.Fail;
             }
@@ -444,7 +461,7 @@ namespace BaseGround {
                         }
                     }
 
-                    #region 開始執行
+#region 開始執行
 
                     LOGSP_BEGIN_TIME = DateTime.Now;
 
@@ -538,14 +555,14 @@ namespace BaseGround {
 
                     servicePrefix1.SaveLogsp(LOGSP_DATE, LOGSP_TXN_ID, LOGSP_SEQ_NO, LOGSP_TID, LOGSP_TID_NAME, LOGSP_BEGIN_TIME, LOGSP_END_TIME, LOGSP_MSG);
 
-                    #endregion
+#endregion
 
-                    #region 執行特別的程式
+#region 執行特別的程式
 
                     args.TXF_TID = TXF_TID;
                     this.Invoke(new MethodInvoker(() => { RunAfterEveryItem(args); }));
 
-                    #endregion
+#endregion
                 } else {
                     // 沒勾選項目的話清空狀態
                     this.Invoke(new MethodInvoker(() => { gv.SetRowCellValue(i, "ERR_MSG", ""); }));
@@ -673,10 +690,12 @@ namespace BaseGround {
         }
 
         protected virtual ResultStatus DeleteRow(object gridObject) {
+
             if (gridObject != null) {
                 if (gridObject is GridView) {
                     GridView gv = (GridView)gridObject;
-
+                    gv.UpdateCurrentRow();
+                    gv.CloseEditor();
                     if (!ConfirmToDelete(gv.FocusedRowHandle + 1)) { return ResultStatus.Fail; }
 
                     gv.DeleteSelectedRows();
@@ -758,44 +777,33 @@ namespace BaseGround {
         protected void PrintOrExportChanged(GridControl gridControl, ResultData resultData) {
             GridControl gridControlPrint = GridHelper.CloneGrid(gridControl);
 
-            string originReportTitle = _ReportTitle;
-
-            ReportHelper reportHelper;
+            ReportHelper reportHelper = new ReportHelper(gridControl, _ProgramID, _ReportTitle);
 
             if (resultData.ChangedDataViewForAdded.Count != 0) {
                 gridControlPrint.DataSource = resultData.ChangedDataViewForAdded;
-                PrintableComponent = gridControlPrint;
-                _ReportTitle += "─" + "新增";
-                reportHelper = PrintOrExportSetting();
-                reportHelper.ReportTitle = _ReportTitle;
+                reportHelper.PrintableComponent = gridControlPrint;
+                reportHelper.ReportTitle += "─" + "新增";
 
-                Print(reportHelper);
-                Export(reportHelper);
-                _ReportTitle = originReportTitle;
+                reportHelper.Print();
+                reportHelper.Export(FileType.PDF, reportHelper.FilePath);
             }
 
             if (resultData.ChangedDataViewForDeleted.Count != 0) {
                 gridControlPrint.DataSource = resultData.ChangedDataViewForDeleted;
-                PrintableComponent = gridControlPrint;
-                _ReportTitle += "─" + "刪除";
-                reportHelper = PrintOrExportSetting();
-                reportHelper.ReportTitle = _ReportTitle;
+                reportHelper.PrintableComponent = gridControlPrint;
+                reportHelper.ReportTitle += "─" + "刪除";
 
-                Print(reportHelper);
-                Export(reportHelper);
-                _ReportTitle = originReportTitle;
+                reportHelper.Print();
+                reportHelper.Export(FileType.PDF, reportHelper.FilePath);
             }
 
             if (resultData.ChangedDataViewForModified.Count != 0) {
                 gridControlPrint.DataSource = resultData.ChangedDataViewForModified;
-                PrintableComponent = gridControlPrint;
-                _ReportTitle += "─" + "變更";
-                reportHelper = PrintOrExportSetting();
-                reportHelper.ReportTitle = _ReportTitle;
+                reportHelper.PrintableComponent = gridControlPrint;
+                reportHelper.ReportTitle += "─" + "變更";
 
-                Print(reportHelper);
-                Export(reportHelper);
-                _ReportTitle = originReportTitle;
+                reportHelper.Print();
+                reportHelper.Export(FileType.PDF, reportHelper.FilePath);
             }
         }
 

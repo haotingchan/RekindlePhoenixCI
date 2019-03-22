@@ -14,10 +14,8 @@ using DataObjects.Dao.Together;
 using DevExpress.XtraEditors;
 using static DataObjects.Dao.DataGate;
 
-namespace PhoenixCI.FormUI.PrefixS
-{
-    public partial class WS0073 : FormParent
-    {
+namespace PhoenixCI.FormUI.PrefixS {
+    public partial class WS0073 : FormParent {
         protected DS0073 daoS0073;
         protected COD daoCod;
         protected string fmYmd;
@@ -27,8 +25,7 @@ namespace PhoenixCI.FormUI.PrefixS
         protected DateTime endDateOldValue;
         protected DataTable periodTable;
 
-        public WS0073(string programID, string programName) : base(programID, programName)
-        {
+        public WS0073(string programID, string programName) : base(programID, programName) {
             InitializeComponent();
             daoS0073 = new DS0073();
             daoCod = new COD();
@@ -52,16 +49,14 @@ namespace PhoenixCI.FormUI.PrefixS
             DataTable dtTempSpnPath = dtSpnPath.Clone();
             //參數設定下拉選單
             string[] spnParms = { "D:\\SPAN_TEST\\SPN\\", "D:\\SPAN_TEST\\UNZIP\\" };
-            for (int i = 0; i < spnParms.Count(); i++)
-            {
+            for (int i = 0; i < spnParms.Count(); i++) {
                 dtSpnPath.Rows.Add();
                 dtSpnPath.Rows[i].SetField("COD_ID", spnParms[i]);
                 dtSpnPath.Rows[i].SetField("COD_DESC", spnParms[i]);
                 dtSpnPath.Rows[i].SetField("CP_DISPLAY", spnParms[i]);
-            }        
+            }
 
-            for (int i = 0; i < dtParamData.Rows.Count; i++)
-            {
+            for (int i = 0; i < dtParamData.Rows.Count; i++) {
                 //參數檔案
                 dtTempParam.Rows.Add();
                 dtTempParam.Rows[i].SetField("COD_ID", dtParamData.Rows[i]["span_margin_spn"]);
@@ -117,28 +112,38 @@ namespace PhoenixCI.FormUI.PrefixS
             DataTable dt = (DataTable)gcMain.DataSource;
             ResultStatus resultStatus = ResultStatus.Fail;
 
-            if (checkChanged()) {
+            try {
+                if (!checkChanged()) {
+                    MessageDisplay.Info("沒有變更資料,不需要存檔!");
+                    return ResultStatus.FailButNext;
+                }
+
+                dt.Rows[0].SetField("span_margin_w_time", DateTime.Now);
+                if (!checkComplete(dt)) return ResultStatus.FailButNext;
+
                 resultStatus = savePeriod();
-                if (resultStatus == ResultStatus.Success) {
-                    dt.Rows[0].SetField("span_margin_w_time", DateTime.Now);
-                    resultStatus = daoS0073.updateMarginData(dt).Status;//base.Save_Override(dt, "SPAN_MARGIN", DBName.CFO);
+                if (resultStatus != ResultStatus.Success) {
+                    MessageDisplay.Error("儲存錯誤!");
+                    return ResultStatus.Fail;
+                }
+                resultStatus = daoS0073.updateMarginData(dt).Status;//base.Save_Override(dt, "SPAN_MARGIN", DBName.CFO);
+                if (resultStatus != ResultStatus.Success) {
+                    MessageDisplay.Error("儲存錯誤!");
+                    return ResultStatus.Fail;
                 }
             }
-            else {
-                MessageDisplay.Info("沒有變更資料,不需要存檔!");
-                resultStatus = ResultStatus.FailButNext;
+            catch (Exception ex) {
+                throw ex;
             }
             return resultStatus;
         }
 
-        protected override ResultStatus Retrieve()
-        {
+        protected override ResultStatus Retrieve() {
             base.Retrieve(gcMain);
             DataTable marginTable = new DataTable();
 
-            periodTable =daoS0073.GetPeriodData("MARGIN", GlobalInfo.USER_ID);
-            if (periodTable.Rows.Count <= 0)
-            {
+            periodTable = daoS0073.GetPeriodData("MARGIN", GlobalInfo.USER_ID);
+            if (periodTable.Rows.Count <= 0) {
                 fmYmd = DateTime.Now.AddDays(-60).ToString("yyyyMMdd");
                 toYmd = DateTime.Now.ToString("yyyyMMdd");
                 maxYmd = new AOCF().GetMaxDate(fmYmd, toYmd);
@@ -148,8 +153,7 @@ namespace PhoenixCI.FormUI.PrefixS
                 startDateOldValue = txtStartDate.DateTimeValue;
                 endDateOldValue = txtEndDate.DateTimeValue;
             }
-            else
-            {
+            else {
                 txtStartDate.DateTimeValue = DateTime.ParseExact(periodTable.Rows[0]["SPAN_PERIOD_START_DATE"].AsString(), "yyyyMMdd", null);
                 txtEndDate.DateTimeValue = DateTime.ParseExact(periodTable.Rows[0]["SPAN_PERIOD_END_DATE"].AsString(), "yyyyMMdd", null);
                 startDateOldValue = txtStartDate.DateTimeValue;
@@ -158,8 +162,7 @@ namespace PhoenixCI.FormUI.PrefixS
 
             marginTable = daoS0073.GetMarginData();
 
-            if (marginTable.Rows.Count == 0)
-            {
+            if (marginTable.Rows.Count == 0) {
                 marginTable.Rows.Add();
                 marginTable.Rows[0].SetField("span_margin_ratio", 1.35);
                 marginTable.Rows[0].SetField("span_margin_user_id", GlobalInfo.USER_ID);
@@ -191,7 +194,7 @@ namespace PhoenixCI.FormUI.PrefixS
         }
 
         private ResultStatus savePeriod() {
-            periodTable = daoS0073.GetPeriodData("SPN", GlobalInfo.USER_ID);
+            periodTable = daoS0073.GetPeriodData("MARGIN", GlobalInfo.USER_ID);
             periodTable.Rows[0].SetField("span_period_start_date", txtStartDate.DateTimeValue.ToString("yyyyMMdd"));
             periodTable.Rows[0].SetField("span_period_end_date", txtEndDate.DateTimeValue.ToString("yyyyMMdd"));
             periodTable.Rows[0].SetField("span_period_w_time", DateTime.Now);
@@ -204,15 +207,13 @@ namespace PhoenixCI.FormUI.PrefixS
             }
         }
 
-        protected override ResultStatus AfterOpen()
-        {
+        protected override ResultStatus AfterOpen() {
             base.AfterOpen();
             Retrieve();
             return ResultStatus.Success;
         }
 
-        protected override ResultStatus ActivatedForm()
-        {
+        protected override ResultStatus ActivatedForm() {
             base.ActivatedForm();
 
             _ToolBtnSave.Enabled = true;
@@ -222,8 +223,7 @@ namespace PhoenixCI.FormUI.PrefixS
             return ResultStatus.Success;
         }
 
-        private void cbxParam_ProcessNewValue(object sender, ProcessNewValueEventArgs e)
-        {
+        private void cbxParam_ProcessNewValue(object sender, ProcessNewValueEventArgs e) {
             LookUpEdit lookUpEdit = sender as LookUpEdit;
             DataTable table = lookUpEdit.Properties.DataSource as DataTable;
             string value = e.DisplayValue.ToString();
@@ -234,19 +234,18 @@ namespace PhoenixCI.FormUI.PrefixS
         }
 
         private bool checkPeriod() {
-            bool check = true;
 
             if (txtEndDate.DateTimeValue.Subtract(txtStartDate.DateTimeValue).Days > 31) {
                 MessageDisplay.Info("日期區間不可超過31天!");
                 txtEndDate.Select();
-                check = false;
+                return false;
             }
             else if (txtStartDate.DateTimeValue > txtEndDate.DateTimeValue) {
                 MessageDisplay.Info("起始值不可大於迄止值!");
                 txtStartDate.Select();
-                check = false;
+                return false;
             }
-            return check;
+            return true;
         }
 
         private bool checkChanged() {
@@ -266,6 +265,17 @@ namespace PhoenixCI.FormUI.PrefixS
             }
 
             return false;
+        }
+
+        private bool checkComplete(DataTable dtSource) {
+
+            foreach (DataColumn column in dtSource.Columns) {
+                if (dtSource.Rows.OfType<DataRow>().Where(r => r.RowState != DataRowState.Deleted).Any(r => string.IsNullOrEmpty(r[column].ToString()))) {
+                    MessageDisplay.Error("尚未填寫完成");
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

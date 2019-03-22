@@ -350,15 +350,19 @@
             this.gvMain.GridControl = this.gcMain;
             this.gvMain.GroupCount = 1;
             this.gvMain.Name = "gvMain";
+            this.gvMain.OptionsView.AllowCellMerge = true;
             this.gvMain.SortInfo.AddRange(new DevExpress.XtraGrid.Columns.GridColumnSortInfo[] {
             new DevExpress.XtraGrid.Columns.GridColumnSortInfo(this.GROUP_TYPE, DevExpress.Data.ColumnSortOrder.Ascending)});
             // 
             // GROUP_TYPE
             // 
+            this.GROUP_TYPE.AppearanceCell.Options.UseTextOptions = true;
+            this.GROUP_TYPE.AppearanceCell.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
             this.GROUP_TYPE.Caption = "群組";
             this.GROUP_TYPE.FieldName = "GROUP_TYPE";
             this.GROUP_TYPE.Name = "GROUP_TYPE";
             this.GROUP_TYPE.OptionsColumn.AllowEdit = false;
+            this.GROUP_TYPE.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.True;
             this.GROUP_TYPE.Visible = true;
             this.GROUP_TYPE.VisibleIndex = 0;
             // 
@@ -366,11 +370,14 @@
             // 
             this.MG1_DATE.AppearanceCell.BackColor = System.Drawing.Color.Silver;
             this.MG1_DATE.AppearanceCell.Options.UseBackColor = true;
+            this.MG1_DATE.AppearanceCell.Options.UseTextOptions = true;
+            this.MG1_DATE.AppearanceCell.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
             this.MG1_DATE.Caption = "交易日期";
             this.MG1_DATE.FieldName = "MG1_DATE";
             this.MG1_DATE.Name = "MG1_DATE";
             this.MG1_DATE.OptionsColumn.AllowEdit = false;
             this.MG1_DATE.OptionsColumn.AllowFocus = false;
+            this.MG1_DATE.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.True;
             this.MG1_DATE.Visible = true;
             this.MG1_DATE.VisibleIndex = 0;
             // 
@@ -378,11 +385,14 @@
             // 
             this.MG1_KIND_ID.AppearanceCell.BackColor = System.Drawing.Color.Silver;
             this.MG1_KIND_ID.AppearanceCell.Options.UseBackColor = true;
+            this.MG1_KIND_ID.AppearanceCell.Options.UseTextOptions = true;
+            this.MG1_KIND_ID.AppearanceCell.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
             this.MG1_KIND_ID.Caption = "商品";
             this.MG1_KIND_ID.FieldName = "MG1_KIND_ID";
             this.MG1_KIND_ID.Name = "MG1_KIND_ID";
             this.MG1_KIND_ID.OptionsColumn.AllowEdit = false;
             this.MG1_KIND_ID.OptionsColumn.AllowFocus = false;
+            this.MG1_KIND_ID.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.True;
             this.MG1_KIND_ID.Visible = true;
             this.MG1_KIND_ID.VisibleIndex = 1;
             // 
@@ -395,6 +405,7 @@
             this.MG1_CHANGE_RANGE.Name = "MG1_CHANGE_RANGE";
             this.MG1_CHANGE_RANGE.OptionsColumn.AllowEdit = false;
             this.MG1_CHANGE_RANGE.OptionsColumn.AllowFocus = false;
+            this.MG1_CHANGE_RANGE.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
             this.MG1_CHANGE_RANGE.Visible = true;
             this.MG1_CHANGE_RANGE.VisibleIndex = 2;
             // 
@@ -407,6 +418,7 @@
             this.MG1_CUR_CM.Name = "MG1_CUR_CM";
             this.MG1_CUR_CM.OptionsColumn.AllowEdit = false;
             this.MG1_CUR_CM.OptionsColumn.AllowFocus = false;
+            this.MG1_CUR_CM.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
             this.MG1_CUR_CM.Visible = true;
             this.MG1_CUR_CM.VisibleIndex = 3;
             // 
@@ -419,6 +431,7 @@
             this.MG1_CM.Name = "MG1_CM";
             this.MG1_CM.OptionsColumn.AllowEdit = false;
             this.MG1_CM.OptionsColumn.AllowFocus = false;
+            this.MG1_CM.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
             this.MG1_CM.Visible = true;
             this.MG1_CM.VisibleIndex = 4;
             // 
@@ -428,6 +441,7 @@
             this.USER_CM.ColumnEdit = this.repositoryItemTextEdit1;
             this.USER_CM.FieldName = "USER_CM";
             this.USER_CM.Name = "USER_CM";
+            this.USER_CM.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
             this.USER_CM.Visible = true;
             this.USER_CM.VisibleIndex = 5;
             // 
@@ -444,6 +458,7 @@
             this.MG2_SPAN_CODE.ColumnEdit = this.repositoryItemCheckEdit1;
             this.MG2_SPAN_CODE.FieldName = "MG2_SPAN_CODE";
             this.MG2_SPAN_CODE.Name = "MG2_SPAN_CODE";
+            this.MG2_SPAN_CODE.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
             this.MG2_SPAN_CODE.Visible = true;
             this.MG2_SPAN_CODE.VisibleIndex = 6;
             // 
@@ -460,6 +475,7 @@
             this.MG1_SEQ_NO.Caption = "SP1_SEQ_NO";
             this.MG1_SEQ_NO.FieldName = "MG1_SEQ_NO";
             this.MG1_SEQ_NO.Name = "MG1_SEQ_NO";
+            this.MG1_SEQ_NO.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
             // 
             // MG1_PROD_TYPE
             // 
@@ -467,24 +483,28 @@
             this.MG1_PROD_TYPE.FieldName = "MG1_PROD_TYPE";
             this.MG1_PROD_TYPE.Name = "MG1_PROD_TYPE";
             this.MG1_PROD_TYPE.OptionsColumn.AllowEdit = false;
+            this.MG1_PROD_TYPE.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
             // 
             // MG1_OSW_GRP
             // 
             this.MG1_OSW_GRP.Caption = "MG1_OSW_GRP";
             this.MG1_OSW_GRP.FieldName = "MG1_OSW_GRP";
             this.MG1_OSW_GRP.Name = "MG1_OSW_GRP";
+            this.MG1_OSW_GRP.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
             // 
             // MG2_VALUE_DATE
             // 
             this.MG2_VALUE_DATE.Caption = "MG2_VALUE_DATE";
             this.MG2_VALUE_DATE.FieldName = "MG2_VALUE_DATE";
             this.MG2_VALUE_DATE.Name = "MG2_VALUE_DATE";
+            this.MG2_VALUE_DATE.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
             // 
             // MG1_CHANGE_COND
             // 
             this.MG1_CHANGE_COND.Caption = "MG1_CHANGE_COND";
             this.MG1_CHANGE_COND.FieldName = "MG1_CHANGE_COND";
             this.MG1_CHANGE_COND.Name = "MG1_CHANGE_COND";
+            this.MG1_CHANGE_COND.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
             // 
             // WS0011
             // 

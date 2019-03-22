@@ -35,10 +35,21 @@ namespace PhoenixCI.FormUI.Prefix3 {
         }
 
         protected override ResultStatus Open() {
-            base.Open();
-            txtEDate.EditValue = PbFunc.f_ocf_date(0);
-            txtSDate.EditValue = txtEDate.Text.SubStr(0, 8) + "01";
-            txtSDate.Focus();
+
+            try {
+                base.Open();
+                txtEDate.EditValue = PbFunc.f_ocf_date(0);
+                txtSDate.EditValue = txtEDate.Text.SubStr(0, 8) + "01";
+#if DEBUG
+                txtSDate.Text = "2014/01/01";
+                txtEDate.Text = "2017/12/31";
+#endif
+
+                txtSDate.Focus();
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
             return ResultStatus.Success;
         }
 
@@ -61,98 +72,105 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
         protected override ResultStatus Export() {
 
-            dao30090 = new D30090();
-            string rptId, file;
-            rptId = "30090";
+            try {
+                lblProcessing.Visible = true;
+                dao30090 = new D30090();
+                string rptId, file, rptName, kindId, kindIdName;
+                int rowNum, colNum;
+                rptId = "30090";
+                rptName = "Position-Transfer to TAIFEX by Investor Group";
+                lblProcessing.Text = rptId + "－" + rptName + " 轉檔中...";
 
-            //複製檔案
-            file = PbFunc.wf_copy_file(rptId, rptId);
-            if (file == "") return ResultStatus.Fail;
-            logTxt = file;
+                //讀取資料
+                DataTable dt30090 = dao30090.d_30090(txtSDate.Text.Replace("/", ""), txtEDate.Text.Replace("/", ""));
+                if (dt30090.Rows.Count == 0) {
+                    MessageDisplay.Info(PbFunc.f_ocf_date(1).SubStr(0, 6) + "," + rptId + '－' + rptName + ",無任何資料!");
+                    lblProcessing.Visible = false;
+                    return ResultStatus.Fail;
+                }
 
-            //開啟檔案
-            Workbook workbook = new Workbook();
-            workbook.LoadDocument(file);
+                //複製檔案
+                file = PbFunc.wf_copy_file(rptId, rptId);
+                if (file == "") return ResultStatus.Fail;
+                logTxt = file;
 
-            #region wf_30090
-            string rptName, kindId, kindIdName;
-            int rowNum, colNum;
-            rptName = "Position-Transfer to TAIFEX by Investor Group";
-            rptId = "30090";
+                //開啟檔案
+                Workbook workbook = new Workbook();
+                workbook.LoadDocument(file);
 
-            //讀取資料
-            DataTable dt30090 = dao30090.d_30090(txtSDate.Text.Replace("/", ""), txtEDate.Text.Replace("/", ""));
-            if (dt30090.Rows.Count == 0) {
-                MessageDisplay.Info(PbFunc.f_ocf_date(1).SubStr(0, 6) + "," + rptId + '－' + rptName + ",無任何資料!");
-                return ResultStatus.Fail;
-            }
+                #region wf_30090
+                
+                //切換sheet
+                Worksheet ws30090 = workbook.Worksheets[0];
+                ws30090.Cells[1, 1].Value = "Date:" + txtSDate.Text + "～" + txtEDate.Text; //填寫搜尋日期
 
-            //切換sheet
-            Worksheet ws30090 = workbook.Worksheets[0];
-            ws30090.Cells[1, 1].Value = "Date:" + txtSDate.Text + "～" + txtEDate.Text; //填寫搜尋日期
-
-            //填入資料
-            kindId = "";
-            rowNum = 2;
-            foreach (DataRow dr in dt30090.Rows) {
-                if (kindId != dr["AE1_PARAM_KEY"].AsString()) {
-                    kindId = dr["AE1_PARAM_KEY"].AsString();
-                    rowNum = rowNum + 1;
-                    switch (kindId) {
-                        case "TXF":
-                            kindIdName = "TXF";
+                //填入資料
+                kindId = "";
+                rowNum = 2;
+                foreach (DataRow dr in dt30090.Rows) {
+                    if (kindId != dr["AE1_PARAM_KEY"].AsString()) {
+                        kindId = dr["AE1_PARAM_KEY"].AsString();
+                        rowNum = rowNum + 1;
+                        switch (kindId) {
+                            case "TXF":
+                                kindIdName = "FTX";
+                                break;
+                            case "TXO":
+                                kindIdName = "OTX";
+                                break;
+                            case "ZZZ":
+                                kindIdName = "合計";
+                                break;
+                            default:
+                                kindIdName = kindId;
+                                break;
+                        }
+                        ws30090.Cells[rowNum, 1].Value = kindIdName;
+                    }
+                    colNum = 0;
+                    switch (dr["AE1_IDFG_TYPE"].AsString()) {
+                        case "1"://證券自營
+                            colNum = 3;
                             break;
-                        case "TXO":
-                            kindIdName = "TXO";
+                        case "2"://證券投信
+                            colNum = 4;
                             break;
-                        case "ZZZ":
-                            kindIdName = "合計";
+                        case "3"://外資
+                            colNum = 5;
+                            break;
+                        case "4"://期貨經理事業
+                            colNum = 6;
+                            break;
+                        case "5"://一般法人
+                            colNum = 7;
+                            break;
+                        case "6"://期貨自營商
+                            colNum = 9;
+                            break;
+                        case "7"://自然人
+                            colNum = 2;
+                            break;
+                        case "8"://一般法人
+                            colNum = 8;
                             break;
                         default:
-                            kindIdName = kindId;
-                            break;
+                            continue;
                     }
-                    ws30090.Cells[rowNum, 1].Value = kindIdName;
+                    if (rowNum > 0 && colNum > 0) {
+                        if (dr["AE1_ACCEPTED_OI"] != DBNull.Value) ws30090.Cells[rowNum, colNum].Value = dr["AE1_ACCEPTED_OI"].AsDecimal();
+                    }
                 }
-                colNum = 0;
-                switch (dr["AE1_IDFG_TYPE"].AsString()) {
-                    case "1"://證券自營
-                        colNum = 3;
-                        break;
-                    case "2"://證券投信
-                        colNum = 4;
-                        break;
-                    case "3"://外資
-                        colNum = 5;
-                        break;
-                    case "4"://期貨經理事業
-                        colNum = 6;
-                        break;
-                    case "5"://一般法人
-                        colNum = 7;
-                        break;
-                    case "6"://期貨自營商
-                        colNum = 9;
-                        break;
-                    case "7"://自然人
-                        colNum = 2;
-                        break;
-                    case "8"://一般法人
-                        colNum = 8;
-                        break;
-                    default:
-                        continue;
-                }
-                if (rowNum > 0 && colNum > 0) {
-                    if (dr["AE1_ACCEPTED_OI"] != DBNull.Value) ws30090.Cells[rowNum, colNum].Value = dr["AE1_ACCEPTED_OI"].AsDecimal();
-                }
+                #endregion
+
+                //存檔
+                ws30090.ScrollToRow(0);
+                workbook.SaveDocument(file);
+                lblProcessing.Text = "轉檔成功";
             }
-            #endregion
-
-            //存檔
-            ws30090.ScrollToRow(0);
-            workbook.SaveDocument(file);
-
+            catch (Exception ex) {
+                MessageDisplay.Error("輸出錯誤");
+                throw ex;
+            }
             return ResultStatus.Success;
         }
     }

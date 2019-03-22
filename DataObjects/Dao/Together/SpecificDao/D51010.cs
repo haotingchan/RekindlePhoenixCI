@@ -29,7 +29,8 @@ namespace DataObjects.Dao.Together.SpecificDao
             string sql = @"select  
                                 dts_date,
                                 dts_date_type,                              
-                                dts_work
+                                dts_work,
+                                '0' as Is_NewRow
                                 from ci.dts
                                 where dts_date>=to_date(:adt_sdate, 'YYYY-MM-DD')
                                 and dts_date<=to_date(:adt_edate, 'YYYY-MM-DD')

@@ -272,7 +272,7 @@ where PL2_YMD = :ls_ymd
         }
 
         /// <summary>
-        /// 刪除PL2的資料
+        /// 刪除PL2B的資料
         /// </summary>
         /// <param name="ls_ymd">yyyyMMdd</param>
         /// <returns></returns>

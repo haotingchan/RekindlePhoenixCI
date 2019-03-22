@@ -1,6 +1,7 @@
 ﻿using Common;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
+using DevExpress.XtraEditors;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -8,18 +9,33 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+/// <summary>
+/// 20190320,john,動態價格穩定措施基準價查詢
+/// </summary>
 namespace PhoenixCI.BusinessLogic.Prefix3
 {
+   /// <summary>
+   /// 動態價格穩定措施基準價查詢
+   /// </summary>
    public class B30687
    {
       private D30687 dao30687;
-      private string saveFilePath;
+      private readonly string _saveFilePath;
+      private readonly int _rgTimeSelIndex;
+      private readonly int _rgMarketSelIndex;
+      private readonly string _startDateTxt;
+      private readonly string _endDateTxt;
+      private readonly string _PridIDTxt;
 
-      public B30687(string path)
+      public B30687(string path, string StartDate, string EndDate, string AsPridID, int rgMarket, int rgTime)
       {
          dao30687 = new D30687();
-         saveFilePath = path;
+         _saveFilePath = CreateCsvFile(path);
+         _startDateTxt = StartDate;
+         _endDateTxt = EndDate;
+         _PridIDTxt = AsPridID;
+         _rgMarketSelIndex = rgMarket;
+         _rgTimeSelIndex = rgTime;
       }
       /// <summary>
       /// WF30687RuNew輸出CSV
@@ -29,10 +45,38 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="AsPridID">商品</param>
       /// <param name="IsMarketCode">盤別</param>
       /// <param name="IsDataType">時段</param>
-      public bool WF30687RuNew(string StartDate, string EndDate,string AsPridID, string IsMarketCode,string IsDataType)
+      public string WF30687RuNew()
       {
          try {
-            DataTable dt = dao30687.ListRuNewData(StartDate, EndDate, AsPridID, IsMarketCode, IsDataType);
+            //盤別
+            string lsMarketCode = string.Empty;
+            switch (_rgMarketSelIndex) {
+               case 0://日盤
+                  lsMarketCode = "0";
+                  break;
+               case 1://夜盤
+                  lsMarketCode = "1";
+                  break;
+               default://全部
+                  lsMarketCode = "%";
+                  break;
+            }
+            //時段
+            string lsDataType = string.Empty;
+            switch (_rgTimeSelIndex) {
+               case 0://盤前
+                  lsDataType = "B";
+                  break;
+               case 1://交易時段
+                  lsDataType = "";
+                  break;
+               default://全部
+                  lsDataType = "A";
+                  break;
+            }
+            //資料來源
+            DataTable dt = dao30687.ListRuNewData(_startDateTxt.Replace("/", ""), _endDateTxt.Replace("/", ""), $"%{_PridIDTxt}%", lsMarketCode, lsDataType);
+
             dt.Columns["FTPRICELOGS_MARKET_CODE"].ColumnName = "盤別:0一般/1夜盤";
             dt.Columns["FTPRICELOGS_YMD"].ColumnName = "日期";
             dt.Columns["FTPRICELOGS_KIND_ID1"].ColumnName = "商品1";
@@ -40,36 +84,57 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             dt.Columns["FTPRICELOGS_KIND_ID2"].ColumnName = "商品2";
             dt.Columns["FTPRICELOGS_SEQ_NO2"].ColumnName = "月份序2";
             dt.Columns["SUM(FTPRICELOGS_CNT)"].ColumnName = "總筆數";
-            SaveExcel(dt);
-            return true;
+            return SaveExcel(dt);
          }
          catch (Exception ex) {
-            MessageDisplay.Error(ex.Message, GlobalInfo.ErrorText + "-exportListM");
-            return false;
+#if DEBUG
+            throw new Exception(ex.Message + "-exportListM");
+#else
+            throw ex;
+#endif
          }
       }
       /// <summary>
       /// 存檔(csv)
       /// </summary>
       /// <param name="dataTable">要輸出的資料</param>
-      private void SaveExcel(DataTable dataTable)
+      private string SaveExcel(DataTable dataTable)
       {
          try {
             if (dataTable.Rows.Count <= 0) {
-               MessageDisplay.Error("轉出筆數為０!", GlobalInfo.ErrorText);
+               return "轉出筆數為０!";
             }
 
             Workbook wb = new Workbook();
             wb.Options.Export.Csv.WritePreamble = true;
             wb.Worksheets[0].Import(dataTable, true, 0, 0);
-            wb.Worksheets[0].Name = SheetName(saveFilePath);
+            wb.Worksheets[0].Name = SheetName(_saveFilePath);
             //存檔
-            wb.SaveDocument(saveFilePath, DocumentFormat.Csv);
+            wb.SaveDocument(_saveFilePath, DocumentFormat.Csv);
          }
          catch (Exception ex) {
-            MessageDisplay.Error(ex.Message, GlobalInfo.ErrorText + "-saveExcel");
-            return;
+#if DEBUG
+            throw new Exception(ex.Message + "-saveExcel");
+#else
+            throw ex;
+#endif
          }
+         return MessageDisplay.MSG_OK;
+      }
+
+      private string CreateCsvFile(string saveFilePath)
+      {
+         //避免重複寫入
+         try {
+            if (File.Exists(saveFilePath)) {
+               File.Delete(saveFilePath);
+            }
+            File.Create(saveFilePath).Close();
+         }
+         catch (Exception ex) {
+            throw ex;
+         }
+         return saveFilePath;
       }
 
       private string SheetName(string filePath)

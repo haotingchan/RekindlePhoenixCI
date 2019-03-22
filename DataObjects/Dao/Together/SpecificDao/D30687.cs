@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Common;
 
 namespace DataObjects.Dao.Together.SpecificDao {
    //John, 20190227
@@ -115,7 +116,10 @@ SELECT '','',NULL,NULL,NULL,NULL,NULL,
 ";
 
          DataTable dtResult = db.GetDataTable(sql , parms);
-
+         //PB排序如果有空格會排在前面，所以把順序調一下
+         //DataTable dtHasMarketCode = dtResult.AsEnumerable().Where(x => !string.IsNullOrEmpty(x.Field<string>("FTPRICELOGS_MARKET_CODE").AsString())).CopyToDataTable();//FTPRICELOGS_MARKET_CODE不含空格
+         //dtResult = dtResult.AsEnumerable().Where(x => string.IsNullOrEmpty(x.Field<string>("FTPRICELOGS_MARKET_CODE").AsString())).CopyToDataTable();//只搜尋有空格的FTPRICELOGS_MARKET_CODE
+         //dtResult.Merge(dtHasMarketCode, true);
          return dtResult;
       }
 

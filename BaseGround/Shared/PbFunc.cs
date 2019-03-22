@@ -1232,7 +1232,7 @@ namespace BaseGround.Shared {
             dialog.Title = "請點選儲存檔案之目錄";
             dialog.InitialDirectory = GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH;
             dialog.FileName = as_filename;
-            dialog.Filter = "Excel(*.*)|*.xls;*.xlsx";
+            dialog.Filter = "Excel(*.*)|*.xlsx;*.xls";
             if (dialog.ShowDialog() == DialogResult.OK) {
                 return dialog.FileName;
             }

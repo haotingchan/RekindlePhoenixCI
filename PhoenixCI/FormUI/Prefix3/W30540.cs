@@ -66,10 +66,6 @@ namespace PhoenixCI.FormUI.Prefix3
 
       private bool StartExport()
       {
-         if (!emMonth.IsDate(emMonth.Text, "日期輸入錯誤")) {
-            //is_chk = "Y";
-            return false;
-         }
          if (!emMonth.IsDate(emMonth.Text+"/01", "月份輸入錯誤")) {
             //is_chk = "Y";
             return false;

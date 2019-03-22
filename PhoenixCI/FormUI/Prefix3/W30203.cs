@@ -252,6 +252,17 @@ namespace PhoenixCI.FormUI.Prefix3 {
             return ResultStatus.Success;
         }
 
+        protected override ResultStatus DeleteRow() {
+            try {
+                base.DeleteRow(gvMain);
+            }
+            catch (Exception ex) {
+                MessageDisplay.Error("刪除資料列錯誤");
+                throw ex;
+            }
+            return ResultStatus.Success;
+        }
+
         protected override ResultStatus Save(PokeBall pokeBall) {
 
             //PB不管資料有無異動都會存檔

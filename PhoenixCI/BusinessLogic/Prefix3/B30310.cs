@@ -3,6 +3,7 @@ using Common;
 using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
+using DevExpress.Spreadsheet.Charts;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -40,6 +41,24 @@ namespace PhoenixCI.BusinessLogic.Prefix3
          lsFile = FilePath;
          emMonthText = datetime;
       }
+
+      /// <summary>
+      /// 重新選取圖表資料範圍
+      /// </summary>
+      /// <param name="RowIndex">選取到第幾列</param>
+      /// <param name="chartName">圖表sheet名稱</param>
+      private static void ResetChartData(int RowIndex, Workbook workbook, Worksheet worksheet, string chartName)
+      {
+         //期貨交易量/期貨指數/現貨指數
+         string[] data = new string[] { $@"B5:B", "F5:F" , "D5:D" };
+         int count = 0;
+         foreach (var item in data) {
+            workbook.ChartSheets[chartName].Chart.Series[count++].Values = new ChartData {
+               RangeValue = worksheet.Range[item + RowIndex.ToString()]
+            };
+         }
+      }
+
       /// <summary>
       /// 寫入 30311_1 sheet
       /// </summary>
@@ -95,7 +114,9 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             //刪除空白列
             if (RowTotal > addRowCount) {
                worksheet.Rows.Remove(rowIndex + 1, RowTotal - addRowCount);
-               worksheet.Range["A1"].Select();
+               //重新選取圖表範圍
+               ResetChartData(rowIndex + 1, workbook, worksheet, $"{SheetName}a");//ex:30393_1a
+               worksheet.ScrollTo(0, 0);//直接滾動到最上面，不然看起來很像少行數
             }
             //表尾
             dt = daoAI2.ListAI2ym(lsKindID, EndDate.ToString("yyyyMM"), StartDate.ToString("yyyyMM"));
@@ -187,7 +208,9 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             //刪除空白列
             if (RowTotal > addRowCount) {
                worksheet.Rows.Remove(rowIndex + 1, RowTotal - addRowCount);
-               worksheet.Range["A1"].Select();
+               //重新選取圖表範圍
+               ResetChartData(rowIndex + 1, workbook, worksheet, SheetName.Replace($"({lsKindID})", "a"));//ex:30393_1a
+               worksheet.ScrollTo(0, 0);//直接滾動到最上面，不然看起來很像少行數
             }
             //表尾
             dt = daoAI2.ListAI2ym(lsKindID, EndDate.ToString("yyyyMM"), StartDate.ToString("yyyyMM"));
@@ -269,6 +292,13 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             //刪除空白列
             if (RowTotal > addRowCount) {
                worksheet.Rows.Remove(rowIndex + 1, RowTotal - addRowCount);
+               string[] data = new string[] { "D4:D", "E4:E", $@"B4:B", $@"F4:F" };
+               int count = 0;
+               foreach (var item in data) {
+                  workbook.ChartSheets[$"{SheetName}a"].Chart.Series[count++].Values = new ChartData {
+                     RangeValue = worksheet.Range[item + rowIndex.ToString()]
+                  };
+               }
             }
             workbook.SaveDocument(lsFile);
             return true;

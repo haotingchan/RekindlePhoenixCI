@@ -63,6 +63,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
         protected override ResultStatus Export() {
 
             try {
+                lblProcessing.Visible = true;
                 dao42030 = new D42030();
                 #region ue_export_before
                 //1. 判斷資料已轉入

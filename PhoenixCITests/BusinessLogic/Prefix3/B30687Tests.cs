@@ -2,20 +2,14 @@
 using Common.Config;
 using DataObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PhoenixCI.BusinessLogic.Prefix3;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PhoenixCI.BusinessLogic.Prefix3.Tests
 {
    [TestClass()]
    public class B30687Tests
    {
-      private B30687 b30687;
       private static string reportDirectoryPath, destinationFilePath;
       [ClassInitialize]
       public static void MyClassInitialize(TestContext testContext)
@@ -26,17 +20,13 @@ namespace PhoenixCI.BusinessLogic.Prefix3.Tests
          reportDirectoryPath = Path.Combine(Environment.CurrentDirectory.Replace("PhoenixCITests", "PhoenixCI"), "Report", DateTime.Now.ToString("yyyyMMdd"));
          Directory.CreateDirectory(reportDirectoryPath);
 
-         string excelTemplateDirectoryPath = Path.Combine(Environment.CurrentDirectory.Replace("PhoenixCITests", "PhoenixCI"), "Excel_Template", "30387.xlsx");
-         destinationFilePath = Path.Combine(reportDirectoryPath, "30387_" + DateTime.Now.ToString("yyyy.MM.dd") + "-" + DateTime.Now.ToString("hh.mm.ss") + "Test.xls");
-
-         File.Copy(excelTemplateDirectoryPath, destinationFilePath, true);
+         destinationFilePath = Path.Combine(reportDirectoryPath, $@"30687_{DateTime.Now.ToString("yyyy.MM.dd")}Test.csv");
       }
-
       [TestMethod()]
-      public void WF30687RuNewTest()
+      public void WF30687RuNew全部盤別全部時段Test()
       {
-         b30687 = new B30687("");
-         Assert.Fail();
+         string msgText = new B30687(destinationFilePath, "2018/10/11", "2018/10/11","",2,2).WF30687RuNew();
+         Assert.IsNotNull(msgText);
       }
    }
 }

@@ -3,17 +3,15 @@ using System.Windows.Forms;
 using BaseGround;
 using BusinessObjects.Enums;
 using BaseGround.Report;
-using PhoenixCI.Shared;
-using DataObjects.Dao.Together.SpecificDao;
 using Common;
-using BaseGround.Shared;
 using System.Threading;
-using PhoenixCI.BusinessLogic.Prefix7;
 using PhoenixCI.BusinessLogic.Prefix3;
+using System.IO;
+using BaseGround.Shared;
 /// <summary>
 /// john,20190227,動態價格穩定措施基準價查詢
 /// </summary>
-namespace PhoenixCI.FormUI.Prefix7
+namespace PhoenixCI.FormUI.Prefix3
 {
    /// <summary>
    /// 動態價格穩定措施基準價查詢
@@ -21,7 +19,6 @@ namespace PhoenixCI.FormUI.Prefix7
    public partial class W30687 : FormParent
    {
       private B30687 b30687;
-      string saveFilePath;
       public W30687(string programID, string programName) : base(programID, programName)
       {
          InitializeComponent();
@@ -67,8 +64,16 @@ namespace PhoenixCI.FormUI.Prefix7
          return ResultStatus.Success;
       }
 
-      private bool ExportBefore()
+      private bool StartExport()
       {
+         if (!emStartDate.IsDate(emStartDate.Text, CheckDate.Start)) {
+            //is_chk = "Y";
+            return false;
+         }
+         if (!emEndDate.IsDate(emEndDate.Text, CheckDate.End)) {
+            //is_chk = "Y";
+            return false;
+         }
          /*******************
          Messagebox
          *******************/
@@ -80,9 +85,9 @@ namespace PhoenixCI.FormUI.Prefix7
          return true;
       }
 
-      protected void ExportAfter()
+      protected void EndExport()
       {
-         stMsgTxt.Text = "轉檔完成!";
+         stMsgTxt.Text = "";
          this.Cursor = Cursors.Arrow;
          this.Refresh();
          Thread.Sleep(5);
@@ -95,49 +100,33 @@ namespace PhoenixCI.FormUI.Prefix7
          this.Refresh();
          Thread.Sleep(5);
       }
+      /// <summary>
+      /// show文字訊息
+      /// </summary>
+      private string OutputShowMessage {
+         set {
+            if (value != MessageDisplay.MSG_OK)
+               MessageDisplay.Info(value);
+         }
+      }
 
       protected override ResultStatus Export()
       {
-         if (!ExportBefore()) {
+         if (!StartExport()) {
             return ResultStatus.Fail;
          }
          try {
-
-            //盤別
-            string lsMarketCode = string.Empty;
-            switch (rgMarket.SelectedIndex) {
-               case 0://日盤
-                  lsMarketCode = "0";
-                  break;
-               case 1://夜盤
-                  lsMarketCode = "1";
-                  break;
-               default://全部
-                  lsMarketCode = "%";
-                  break;
-            }
-            //時段
-            string lsDataType = string.Empty;
-            switch (rgTime.SelectedIndex) {
-               case 0://盤前
-                  lsDataType = "B";
-                  break;
-               case 1://交易時段
-                  lsDataType = "";
-                  break;
-               default://全部
-                  lsDataType = "A";
-                  break;
-            }
-            //資料來源
-            b30687 = new B30687(saveFilePath);
-
+            string saveFilePath= Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH,$"{_ProgramID}_{DateTime.Now.ToString("yyyy.MM.dd")}-{DateTime.Now.ToString("HH.mm.ss")}.csv");
+            b30687 = new B30687(saveFilePath, emStartDate.Text, emEndDate.Text, SleProdIDtxt.Text,rgMarket.SelectedIndex,rgTime.SelectedIndex);
+            OutputShowMessage=b30687.WF30687RuNew();
             ShowMsg("30687_ru_new－RU筆數統計 轉檔中...");
-            ExportAfter();
          }
          catch (Exception ex) {
-            ExportAfter();
-            throw ex;
+            WriteLog(ex);
+            return ResultStatus.Fail;
+         }
+         finally {
+            EndExport();
          }
 
          return ResultStatus.Success;

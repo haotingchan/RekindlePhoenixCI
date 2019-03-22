@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessObjects;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -33,6 +34,21 @@ ORDER BY COD_ID,RWD_REF_OMNI_PROD_TYPE, RWD_REF_OMNI_FCM_NO,RWD_REF_OMNI_ACC_NO,
             DataTable dtResult = db.GetDataTable(sql, null);
 
             return dtResult;
+        }
+
+        public ResultData update(DataTable inputData) {
+
+            string tableName = "REWARD.RWD_REF_OMNI";
+            string keysColumnList = "RWD_REF_OMNI_ACTIVITY_ID, RWD_REF_OMNI_PROD_TYPE, RWD_REF_OMNI_FCM_NO, RWD_REF_OMNI_ACC_NO, RWD_REF_OMNI_MARKET_CLOSE";
+            string insertColumnList = "RWD_REF_OMNI_ACTIVITY_ID, RWD_REF_OMNI_PROD_TYPE, RWD_REF_OMNI_FCM_NO, RWD_REF_OMNI_ACC_NO, RWD_REF_OMNI_MARKET_CLOSE";
+            string updateColumnList = insertColumnList;
+            try {
+                //update to DB
+                return SaveForAll(inputData, tableName, insertColumnList, updateColumnList, keysColumnList);
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
         }
     }
 }

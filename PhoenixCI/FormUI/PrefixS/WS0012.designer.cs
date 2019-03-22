@@ -362,11 +362,14 @@
             this.gvMain.GridControl = this.gcMain;
             this.gvMain.GroupCount = 1;
             this.gvMain.Name = "gvMain";
+            this.gvMain.OptionsView.AllowCellMerge = true;
             this.gvMain.SortInfo.AddRange(new DevExpress.XtraGrid.Columns.GridColumnSortInfo[] {
             new DevExpress.XtraGrid.Columns.GridColumnSortInfo(this.GROUP_TYPE, DevExpress.Data.ColumnSortOrder.Ascending)});
             // 
             // GROUP_TYPE
             // 
+            this.GROUP_TYPE.AppearanceCell.Options.UseTextOptions = true;
+            this.GROUP_TYPE.AppearanceCell.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
             this.GROUP_TYPE.Caption = "群組";
             this.GROUP_TYPE.FieldName = "GROUP_TYPE";
             this.GROUP_TYPE.Name = "GROUP_TYPE";
@@ -378,11 +381,14 @@
             // 
             this.SP1_DATE.AppearanceCell.BackColor = System.Drawing.Color.Silver;
             this.SP1_DATE.AppearanceCell.Options.UseBackColor = true;
+            this.SP1_DATE.AppearanceCell.Options.UseTextOptions = true;
+            this.SP1_DATE.AppearanceCell.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
             this.SP1_DATE.Caption = "日期";
             this.SP1_DATE.FieldName = "SP1_DATE";
             this.SP1_DATE.Name = "SP1_DATE";
             this.SP1_DATE.OptionsColumn.AllowEdit = false;
             this.SP1_DATE.OptionsColumn.AllowFocus = false;
+            this.SP1_DATE.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.True;
             this.SP1_DATE.Visible = true;
             this.SP1_DATE.VisibleIndex = 0;
             // 
@@ -390,11 +396,14 @@
             // 
             this.CP_TYPE.AppearanceCell.BackColor = System.Drawing.Color.Silver;
             this.CP_TYPE.AppearanceCell.Options.UseBackColor = true;
+            this.CP_TYPE.AppearanceCell.Options.UseTextOptions = true;
+            this.CP_TYPE.AppearanceCell.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
             this.CP_TYPE.Caption = "資料類別";
             this.CP_TYPE.FieldName = "CP_TYPE";
             this.CP_TYPE.Name = "CP_TYPE";
             this.CP_TYPE.OptionsColumn.AllowEdit = false;
             this.CP_TYPE.OptionsColumn.AllowFocus = false;
+            this.CP_TYPE.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.True;
             this.CP_TYPE.Visible = true;
             this.CP_TYPE.VisibleIndex = 1;
             // 
@@ -402,11 +411,14 @@
             // 
             this.SP1_KIND_ID1.AppearanceCell.BackColor = System.Drawing.Color.Silver;
             this.SP1_KIND_ID1.AppearanceCell.Options.UseBackColor = true;
+            this.SP1_KIND_ID1.AppearanceCell.Options.UseTextOptions = true;
+            this.SP1_KIND_ID1.AppearanceCell.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
             this.SP1_KIND_ID1.Caption = "商品1";
             this.SP1_KIND_ID1.FieldName = "SP1_KIND_ID1";
             this.SP1_KIND_ID1.Name = "SP1_KIND_ID1";
             this.SP1_KIND_ID1.OptionsColumn.AllowEdit = false;
             this.SP1_KIND_ID1.OptionsColumn.AllowFocus = false;
+            this.SP1_KIND_ID1.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.True;
             this.SP1_KIND_ID1.Visible = true;
             this.SP1_KIND_ID1.VisibleIndex = 2;
             // 
@@ -414,11 +426,14 @@
             // 
             this.SP1_KIND_ID2.AppearanceCell.BackColor = System.Drawing.Color.Silver;
             this.SP1_KIND_ID2.AppearanceCell.Options.UseBackColor = true;
+            this.SP1_KIND_ID2.AppearanceCell.Options.UseTextOptions = true;
+            this.SP1_KIND_ID2.AppearanceCell.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
             this.SP1_KIND_ID2.Caption = "商品2";
             this.SP1_KIND_ID2.FieldName = "SP1_KIND_ID2";
             this.SP1_KIND_ID2.Name = "SP1_KIND_ID2";
             this.SP1_KIND_ID2.OptionsColumn.AllowEdit = false;
             this.SP1_KIND_ID2.OptionsColumn.AllowFocus = false;
+            this.SP1_KIND_ID2.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.True;
             this.SP1_KIND_ID2.Visible = true;
             this.SP1_KIND_ID2.VisibleIndex = 3;
             // 
@@ -431,6 +446,7 @@
             this.SP1_CUR_RATE.Name = "SP1_CUR_RATE";
             this.SP1_CUR_RATE.OptionsColumn.AllowEdit = false;
             this.SP1_CUR_RATE.OptionsColumn.AllowFocus = false;
+            this.SP1_CUR_RATE.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
             this.SP1_CUR_RATE.Visible = true;
             this.SP1_CUR_RATE.VisibleIndex = 5;
             // 
@@ -443,6 +459,7 @@
             this.SP1_RATE.Name = "SP1_RATE";
             this.SP1_RATE.OptionsColumn.AllowEdit = false;
             this.SP1_RATE.OptionsColumn.AllowFocus = false;
+            this.SP1_RATE.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
             this.SP1_RATE.Visible = true;
             this.SP1_RATE.VisibleIndex = 6;
             // 
@@ -455,6 +472,7 @@
             this.SP1_CHANGE_RANGE.Name = "SP1_CHANGE_RANGE";
             this.SP1_CHANGE_RANGE.OptionsColumn.AllowEdit = false;
             this.SP1_CHANGE_RANGE.OptionsColumn.AllowFocus = false;
+            this.SP1_CHANGE_RANGE.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
             this.SP1_CHANGE_RANGE.Visible = true;
             this.SP1_CHANGE_RANGE.VisibleIndex = 4;
             // 
@@ -464,6 +482,7 @@
             this.SP1_USER_RATE.ColumnEdit = this.repositoryItemTextEdit1;
             this.SP1_USER_RATE.FieldName = "SP1_USER_RATE";
             this.SP1_USER_RATE.Name = "SP1_USER_RATE";
+            this.SP1_USER_RATE.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
             this.SP1_USER_RATE.Visible = true;
             this.SP1_USER_RATE.VisibleIndex = 7;
             // 
@@ -480,6 +499,7 @@
             this.SP2_SPAN_CODE.ColumnEdit = this.repositoryItemCheckEdit1;
             this.SP2_SPAN_CODE.FieldName = "SP2_SPAN_CODE";
             this.SP2_SPAN_CODE.Name = "SP2_SPAN_CODE";
+            this.SP2_SPAN_CODE.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
             this.SP2_SPAN_CODE.Visible = true;
             this.SP2_SPAN_CODE.VisibleIndex = 8;
             // 

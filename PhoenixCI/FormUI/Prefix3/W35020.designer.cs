@@ -84,7 +84,7 @@
             // 
             // exportType
             // 
-            this.exportType.Location = new System.Drawing.Point(152, 274);
+            this.exportType.Location = new System.Drawing.Point(158, 277);
             this.exportType.Name = "exportType";
             this.exportType.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.exportType.Properties.AppearanceDisabled.Options.UseBackColor = true;
@@ -98,7 +98,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(27, 280);
+            this.label2.Location = new System.Drawing.Point(33, 280);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(93, 20);
             this.label2.TabIndex = 15;

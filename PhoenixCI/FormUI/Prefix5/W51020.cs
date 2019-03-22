@@ -13,13 +13,14 @@ using System.ComponentModel;
 using Common;
 using System.Drawing;
 using BaseGround.Shared;
+using System;
+using System.Linq;
 
 namespace PhoenixCI.FormUI.Prefix5 {
     public partial class W51020 : FormParent {
         private string disableCol = "MMFT_MARKET_CODE";
         private string disableCol2 = "MMFT_ID";
 
-        private ReportHelper _ReportHelper;
         private COD daoCOD;
         private D51020 dao51020;
         private RepositoryItemLookUpEdit _RepLookUpEdit;
@@ -28,10 +29,10 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
         public W51020(string programID, string programName) : base(programID, programName) {
             InitializeComponent();
-            _IsPreventFlowPrint = false;
             dao51020 = new D51020();
             dtForDeleted = new DataTable();
             daoCOD = new COD();
+            GridHelper.SetCommonGrid(gvMain);
 
             this.Text = _ProgramID + "─" + _ProgramName;
 
@@ -59,10 +60,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
             if (returnTable.Rows.Count == 0) {
                 MessageDisplay.Info("無任何資料");
             }
-            returnTable.Columns.Add("Is_NewRow", typeof(string));
+            //returnTable.Columns.Add("Is_NewRow", typeof(string));
             dtForDeleted = returnTable.Clone();
             gcMain.DataSource = returnTable;
-
 
             gcMain.Focus();
 
@@ -71,7 +71,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
         protected override ResultStatus InsertRow() {
             base.InsertRow(gvMain);
-            //gvMain.Focus();
             gvMain.FocusedColumn = gvMain.Columns[0];
 
             return ResultStatus.Success;
@@ -81,57 +80,53 @@ namespace PhoenixCI.FormUI.Prefix5 {
             gvMain.CloseEditor();
             gvMain.UpdateCurrentRow();
 
-            DataTable dt = (DataTable)gcMain.DataSource;
+            try {
+                DataTable dt = (DataTable)gcMain.DataSource;
 
-            DataTable dtChange = dt.GetChanges();
-            DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
-            DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
+                DataTable dtChange = dt.GetChanges();
+                DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
+                DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
 
-            ResultData resultData = new ResultData();
-            resultData.ChangedDataViewForAdded = dtForAdd == null ? new DataView() : dtForAdd.DefaultView;
-            resultData.ChangedDataViewForDeleted = dtForDeleted == null ? new DataView() : dtForDeleted.DefaultView;
-            resultData.ChangedDataViewForModified = dtForModified == null ? new DataView() : dtForModified.DefaultView;
+                ResultData resultData = new ResultData();
+                resultData.ChangedDataViewForAdded = dtForAdd == null ? new DataView() : dtForAdd.DefaultView;
+                resultData.ChangedDataViewForDeleted = dtForDeleted == null ? new DataView() : dtForDeleted.DefaultView;
+                resultData.ChangedDataViewForModified = dtForModified == null ? new DataView() : dtForModified.DefaultView;
 
-            if (dtChange.Rows.Count == 0) {
-                MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }
-            else {
+                if (dtChange == null) {
+                    MessageDisplay.Info("沒有變更資料, 不需要存檔!");
+                    return ResultStatus.FailButNext;
+                }
                 ResultStatus status = dao51020.updateData(dt).Status;//base.Save_Override(dt, "MMFT");
 
                 if (status == ResultStatus.Fail) {
+                    MessageDisplay.Error("儲存失敗");
                     return ResultStatus.Fail;
                 }
-            }
 
-            PrintOrExportChanged(gcMain, resultData);
-            _IsPreventFlowPrint = true;
+                PrintOrExportChanged(gcMain, resultData);
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
             return ResultStatus.Success;
         }
 
         protected override ResultStatus Print(ReportHelper reportHelper) {
-            _ReportHelper = reportHelper;
-            CommonReportPortraitA4 report = new CommonReportPortraitA4();
-            report.printableComponentContainerMain.PrintableComponent = gcMain;
-            _ReportHelper.Create(report);
+            try {
+                ReportHelper _ReportHelper = new ReportHelper(gcMain, _ProgramID, this.Text);
+                _ReportHelper.Print();//如果有夜盤會特別標註
+                _ReportHelper.Export(FileType.PDF, _ReportHelper.FilePath);
 
-            base.Print(_ReportHelper);
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus CheckShield() {
-            base.CheckShield(gcMain);
-            if (!IsDataModify(gcMain)) { return ResultStatus.Fail; }
-
-            return ResultStatus.Success;
+                return ResultStatus.Success;
+            }
+            catch (Exception ex) {
+                WriteLog(ex);
+            }
+            return ResultStatus.Fail;
         }
 
         protected override ResultStatus DeleteRow() {
-            GridView gv = gvMain as GridView;
-            DataRowView deleteRowView = (DataRowView)gv.GetFocusedRow();
-            dtForDeleted.ImportRow(deleteRowView.Row);
-
             base.DeleteRow(gvMain);
-
             return ResultStatus.Success;
         }
 
@@ -147,29 +142,14 @@ namespace PhoenixCI.FormUI.Prefix5 {
             return ResultStatus.Success;
         }
 
-        protected override ResultStatus Open() {
-            base.Open();
-
-            //直接讀取資料
-            Retrieve();
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus COMPLETE() {
-            MessageDisplay.Info(MessageDisplay.MSG_OK);
-            Retrieve();
-            return ResultStatus.Success;
-        }
-
         private void gvMain_ShowingEditor(object sender, CancelEventArgs e) {
             GridView gv = sender as GridView;
-            string Is_NewRow = gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
-                gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"]).ToString();
+            string Is_NewRow = gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["IS_NEWROW"]) == null ? "0" :
+                gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["IS_NEWROW"]).ToString();
 
             if (gv.IsNewItemRow(gv.FocusedRowHandle) || Is_NewRow == "1") {
                 e.Cancel = false;
-                gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"], 1);
+                gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["IS_NEWROW"], 1);
             }
             else if (gv.FocusedColumn.FieldName == disableCol ||
                gv.FocusedColumn.FieldName == disableCol2) {
@@ -181,8 +161,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
         private void gvMain_RowCellStyle(object sender, RowCellStyleEventArgs e) {
             GridView gv = sender as GridView;
-            string Is_NewRow = gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
-                 gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]).ToString();
+            string Is_NewRow = gv.GetRowCellValue(e.RowHandle, gv.Columns["IS_NEWROW"]) == null ? "0" :
+                 gv.GetRowCellValue(e.RowHandle, gv.Columns["IS_NEWROW"]).ToString();
 
             if (e.Column.FieldName == disableCol ||
                 e.Column.FieldName == disableCol2) {
@@ -192,7 +172,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
         private void gvMain_InitNewRow(object sender, InitNewRowEventArgs e) {
             GridView gv = sender as GridView;
-            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"], 1);
+            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["IS_NEWROW"], 1);
         }
     }
 }

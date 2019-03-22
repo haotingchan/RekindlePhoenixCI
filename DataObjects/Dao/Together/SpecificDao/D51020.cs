@@ -26,7 +26,7 @@ namespace DataObjects.Dao.Together.SpecificDao
         public DataTable ListAll()
         {
             string sql = @"
-SELECT ' ' as OP_TYPE,   
+SELECT  
 MMFT_ID,   
 MMFT_KIND_ID,   
 MMFT_MTH_CNT,   
@@ -42,7 +42,8 @@ MMFT_PROD_TYPE,
 MMFT_REF_KIND_ID ,
 MMFT_AVG_MTH_CNT ,
 MMFT_MARKET_CODE ,
-MMFT_CP_KIND 
+MMFT_CP_KIND ,
+'0' as IS_NEWROW
 
 FROM CI.MMFT 
 order by mmft_market_code , mmft_prod_type , mmft_kind_id , mmft_id

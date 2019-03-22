@@ -74,7 +74,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          try {
 
             #region 輸入&日期檢核
-            string lsRtn = PbFunc.f_get_jsw(_ProgramID , "N" , txtEndDate.Text);
+            string lsRtn = PbFunc.f_get_jsw(_ProgramID , "E" , txtEndDate.Text);
             DialogResult liRtn;
 
             if (lsRtn != "Y") {

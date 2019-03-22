@@ -36,44 +36,45 @@
             this.label3 = new System.Windows.Forms.Label();
             this.gcMain = new DevExpress.XtraGrid.GridControl();
             this.gvMain = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridView();
+            this.gridBand1 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.PLS1_KIND_ID2 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.gridBand2 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.PLS1_FUT = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.gridBand3 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.PLS1_OPT = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.gridBand4 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.PLS1_SID = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.gridBand5 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.PLS1_QNTY = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.gridBand6 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.PLS1_STKOUT = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.gridBand7 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.PLS1_CUR_LEVEL = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.gridBand8 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.PLS1_CP_LEVEL = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.gridBand9 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+            this.gridBand10 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.PLS1_CP_NATURE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.gridBand11 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.PLS1_CP_LEGAL = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.gridBand12 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.PLS1_CP_999 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.gridBand13 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.PLS1_LEVEL_ADJ = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.gridBand14 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+            this.COMPUTE_1 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.KIND_GRP2 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.OP_TYPE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.PLS1_EFFECTIVE_YMD = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.PLS1_YMD = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.PLS1_CUR_NATURE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.PLS1_CUR_LEGAL = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.PLS1_CUR_999 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.KIND_GRP2 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.PLS1_W_TIME = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.PLS1_W_USER_ID = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.PLS1_LEVEL_ORG = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.PLS1_LEVEL_ADJ_ORG = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.Is_NewRow = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.COMPUTE_1 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.gridBand1 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-            this.gridBand2 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-            this.gridBand3 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-            this.gridBand4 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-            this.gridBand5 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-            this.gridBand6 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-            this.gridBand7 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-            this.gridBand8 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-            this.gridBand9 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-            this.gridBand10 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-            this.gridBand11 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-            this.gridBand12 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-            this.gridBand13 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-            this.gridBand14 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -127,12 +128,13 @@
             // 
             // btnPrev
             // 
-            this.btnPrev.Location = new System.Drawing.Point(839, 27);
+            this.btnPrev.Location = new System.Drawing.Point(858, 27);
             this.btnPrev.Name = "btnPrev";
             this.btnPrev.Size = new System.Drawing.Size(153, 31);
             this.btnPrev.TabIndex = 25;
             this.btnPrev.Text = "加入前次公告資料";
             this.btnPrev.UseVisualStyleBackColor = true;
+            this.btnPrev.Click += new System.EventHandler(this.btnPrev_Click);
             // 
             // label5
             // 
@@ -288,13 +290,31 @@
             this.PLS1_LEVEL_ORG,
             this.PLS1_LEVEL_ADJ_ORG,
             this.Is_NewRow,
-            this.COMPUTE_1});
+            this.COMPUTE_1,
+            this.OP_TYPE});
             this.gvMain.GridControl = this.gcMain;
             this.gvMain.Name = "gvMain";
+            this.gvMain.OptionsView.ColumnAutoWidth = false;
             this.gvMain.OptionsView.ShowColumnHeaders = false;
             this.gvMain.OptionsView.ShowGroupPanel = false;
             this.gvMain.RowCellStyle += new DevExpress.XtraGrid.Views.Grid.RowCellStyleEventHandler(this.gvMain_RowCellStyle);
             this.gvMain.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gvMain_ShowingEditor);
+            this.gvMain.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gvMain_CellValueChanged);
+            // 
+            // gridBand1
+            // 
+            this.gridBand1.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gridBand1.AppearanceHeader.Options.UseBackColor = true;
+            this.gridBand1.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand1.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridBand1.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Bottom;
+            this.gridBand1.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.gridBand1.Caption = "商品";
+            this.gridBand1.Columns.Add(this.PLS1_KIND_ID2);
+            this.gridBand1.Name = "gridBand1";
+            this.gridBand1.RowCount = 2;
+            this.gridBand1.VisibleIndex = 0;
+            this.gridBand1.Width = 75;
             // 
             // PLS1_KIND_ID2
             // 
@@ -303,26 +323,91 @@
             this.PLS1_KIND_ID2.Name = "PLS1_KIND_ID2";
             this.PLS1_KIND_ID2.Visible = true;
             // 
+            // gridBand2
+            // 
+            this.gridBand2.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gridBand2.AppearanceHeader.Options.UseBackColor = true;
+            this.gridBand2.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand2.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridBand2.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Bottom;
+            this.gridBand2.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.gridBand2.Caption = "期貨";
+            this.gridBand2.Columns.Add(this.PLS1_FUT);
+            this.gridBand2.Name = "gridBand2";
+            this.gridBand2.RowCount = 2;
+            this.gridBand2.VisibleIndex = 1;
+            this.gridBand2.Width = 75;
+            // 
             // PLS1_FUT
             // 
+            this.PLS1_FUT.AppearanceCell.Options.UseTextOptions = true;
+            this.PLS1_FUT.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.PLS1_FUT.Caption = "PLS1_FUT";
             this.PLS1_FUT.FieldName = "PLS1_FUT";
             this.PLS1_FUT.Name = "PLS1_FUT";
             this.PLS1_FUT.Visible = true;
             // 
+            // gridBand3
+            // 
+            this.gridBand3.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gridBand3.AppearanceHeader.Options.UseBackColor = true;
+            this.gridBand3.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand3.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridBand3.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Bottom;
+            this.gridBand3.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.gridBand3.Caption = "選擇權";
+            this.gridBand3.Columns.Add(this.PLS1_OPT);
+            this.gridBand3.Name = "gridBand3";
+            this.gridBand3.RowCount = 2;
+            this.gridBand3.VisibleIndex = 2;
+            this.gridBand3.Width = 75;
+            // 
             // PLS1_OPT
             // 
+            this.PLS1_OPT.AppearanceCell.Options.UseTextOptions = true;
+            this.PLS1_OPT.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.PLS1_OPT.Caption = "PLS1_OPT";
             this.PLS1_OPT.FieldName = "PLS1_OPT";
             this.PLS1_OPT.Name = "PLS1_OPT";
             this.PLS1_OPT.Visible = true;
             // 
+            // gridBand4
+            // 
+            this.gridBand4.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gridBand4.AppearanceHeader.Options.UseBackColor = true;
+            this.gridBand4.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand4.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridBand4.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.gridBand4.Caption = "標的證券代號";
+            this.gridBand4.Columns.Add(this.PLS1_SID);
+            this.gridBand4.Name = "gridBand4";
+            this.gridBand4.RowCount = 2;
+            this.gridBand4.VisibleIndex = 3;
+            this.gridBand4.Width = 75;
+            // 
             // PLS1_SID
             // 
+            this.PLS1_SID.AppearanceCell.Options.UseTextOptions = true;
+            this.PLS1_SID.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.PLS1_SID.Caption = "PLS1_SID";
             this.PLS1_SID.FieldName = "PLS1_SID";
             this.PLS1_SID.Name = "PLS1_SID";
             this.PLS1_SID.Visible = true;
+            // 
+            // gridBand5
+            // 
+            this.gridBand5.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gridBand5.AppearanceHeader.Options.UseBackColor = true;
+            this.gridBand5.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand5.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridBand5.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Bottom;
+            this.gridBand5.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.gridBand5.Caption = "總交易量";
+            this.gridBand5.Columns.Add(this.PLS1_QNTY);
+            this.gridBand5.Name = "gridBand5";
+            this.gridBand5.RowCount = 2;
+            this.gridBand5.VisibleIndex = 4;
+            this.gridBand5.Width = 75;
             // 
             // PLS1_QNTY
             // 
@@ -331,6 +416,20 @@
             this.PLS1_QNTY.Name = "PLS1_QNTY";
             this.PLS1_QNTY.Visible = true;
             // 
+            // gridBand6
+            // 
+            this.gridBand6.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gridBand6.AppearanceHeader.Options.UseBackColor = true;
+            this.gridBand6.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand6.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridBand6.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.gridBand6.Caption = "在外流通股數";
+            this.gridBand6.Columns.Add(this.PLS1_STKOUT);
+            this.gridBand6.Name = "gridBand6";
+            this.gridBand6.RowCount = 2;
+            this.gridBand6.VisibleIndex = 5;
+            this.gridBand6.Width = 75;
+            // 
             // PLS1_STKOUT
             // 
             this.PLS1_STKOUT.Caption = "PLS1_STKOUT";
@@ -338,12 +437,44 @@
             this.PLS1_STKOUT.Name = "PLS1_STKOUT";
             this.PLS1_STKOUT.Visible = true;
             // 
+            // gridBand7
+            // 
+            this.gridBand7.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gridBand7.AppearanceHeader.Options.UseBackColor = true;
+            this.gridBand7.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand7.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridBand7.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.gridBand7.Caption = "上季部位限制級距";
+            this.gridBand7.Columns.Add(this.PLS1_CUR_LEVEL);
+            this.gridBand7.Name = "gridBand7";
+            this.gridBand7.RowCount = 2;
+            this.gridBand7.VisibleIndex = 6;
+            this.gridBand7.Width = 83;
+            // 
             // PLS1_CUR_LEVEL
             // 
+            this.PLS1_CUR_LEVEL.AppearanceCell.Options.UseTextOptions = true;
+            this.PLS1_CUR_LEVEL.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.PLS1_CUR_LEVEL.Caption = "PLS1_CUR_LEVEL";
+            this.PLS1_CUR_LEVEL.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.PLS1_CUR_LEVEL.FieldName = "PLS1_CUR_LEVEL";
             this.PLS1_CUR_LEVEL.Name = "PLS1_CUR_LEVEL";
             this.PLS1_CUR_LEVEL.Visible = true;
+            this.PLS1_CUR_LEVEL.Width = 83;
+            // 
+            // gridBand8
+            // 
+            this.gridBand8.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gridBand8.AppearanceHeader.Options.UseBackColor = true;
+            this.gridBand8.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand8.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridBand8.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.gridBand8.Caption = "調整後部位限制級距";
+            this.gridBand8.Columns.Add(this.PLS1_CP_LEVEL);
+            this.gridBand8.Name = "gridBand8";
+            this.gridBand8.RowCount = 2;
+            this.gridBand8.VisibleIndex = 7;
+            this.gridBand8.Width = 101;
             // 
             // PLS1_CP_LEVEL
             // 
@@ -351,6 +482,36 @@
             this.PLS1_CP_LEVEL.FieldName = "PLS1_CP_LEVEL";
             this.PLS1_CP_LEVEL.Name = "PLS1_CP_LEVEL";
             this.PLS1_CP_LEVEL.Visible = true;
+            this.PLS1_CP_LEVEL.Width = 101;
+            // 
+            // gridBand9
+            // 
+            this.gridBand9.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gridBand9.AppearanceHeader.Options.UseBackColor = true;
+            this.gridBand9.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand9.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridBand9.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.gridBand9.Caption = "單位：契約數";
+            this.gridBand9.Children.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.GridBand[] {
+            this.gridBand10,
+            this.gridBand11,
+            this.gridBand12});
+            this.gridBand9.Name = "gridBand9";
+            this.gridBand9.VisibleIndex = 8;
+            this.gridBand9.Width = 225;
+            // 
+            // gridBand10
+            // 
+            this.gridBand10.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gridBand10.AppearanceHeader.Options.UseBackColor = true;
+            this.gridBand10.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand10.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridBand10.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.gridBand10.Caption = "自然人";
+            this.gridBand10.Columns.Add(this.PLS1_CP_NATURE);
+            this.gridBand10.Name = "gridBand10";
+            this.gridBand10.VisibleIndex = 0;
+            this.gridBand10.Width = 75;
             // 
             // PLS1_CP_NATURE
             // 
@@ -359,12 +520,38 @@
             this.PLS1_CP_NATURE.Name = "PLS1_CP_NATURE";
             this.PLS1_CP_NATURE.Visible = true;
             // 
+            // gridBand11
+            // 
+            this.gridBand11.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gridBand11.AppearanceHeader.Options.UseBackColor = true;
+            this.gridBand11.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand11.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridBand11.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.gridBand11.Caption = "法人";
+            this.gridBand11.Columns.Add(this.PLS1_CP_LEGAL);
+            this.gridBand11.Name = "gridBand11";
+            this.gridBand11.VisibleIndex = 1;
+            this.gridBand11.Width = 75;
+            // 
             // PLS1_CP_LEGAL
             // 
             this.PLS1_CP_LEGAL.Caption = "PLS1_CP_LEGAL";
             this.PLS1_CP_LEGAL.FieldName = "PLS1_CP_LEGAL";
             this.PLS1_CP_LEGAL.Name = "PLS1_CP_LEGAL";
             this.PLS1_CP_LEGAL.Visible = true;
+            // 
+            // gridBand12
+            // 
+            this.gridBand12.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gridBand12.AppearanceHeader.Options.UseBackColor = true;
+            this.gridBand12.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand12.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridBand12.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.gridBand12.Caption = "造市者";
+            this.gridBand12.Columns.Add(this.PLS1_CP_999);
+            this.gridBand12.Name = "gridBand12";
+            this.gridBand12.VisibleIndex = 2;
+            this.gridBand12.Width = 75;
             // 
             // PLS1_CP_999
             // 
@@ -373,12 +560,58 @@
             this.PLS1_CP_999.Name = "PLS1_CP_999";
             this.PLS1_CP_999.Visible = true;
             // 
+            // gridBand13
+            // 
+            this.gridBand13.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gridBand13.AppearanceHeader.Options.UseBackColor = true;
+            this.gridBand13.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand13.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridBand13.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.gridBand13.Caption = "調整情形";
+            this.gridBand13.Columns.Add(this.PLS1_LEVEL_ADJ);
+            this.gridBand13.Name = "gridBand13";
+            this.gridBand13.RowCount = 2;
+            this.gridBand13.VisibleIndex = 9;
+            this.gridBand13.Width = 75;
+            // 
             // PLS1_LEVEL_ADJ
             // 
+            this.PLS1_LEVEL_ADJ.AppearanceCell.Options.UseTextOptions = true;
+            this.PLS1_LEVEL_ADJ.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.PLS1_LEVEL_ADJ.Caption = "PLS1_LEVEL_ADJ";
             this.PLS1_LEVEL_ADJ.FieldName = "PLS1_LEVEL_ADJ";
             this.PLS1_LEVEL_ADJ.Name = "PLS1_LEVEL_ADJ";
             this.PLS1_LEVEL_ADJ.Visible = true;
+            // 
+            // gridBand14
+            // 
+            this.gridBand14.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gridBand14.AppearanceHeader.Options.UseBackColor = true;
+            this.gridBand14.Columns.Add(this.COMPUTE_1);
+            this.gridBand14.Columns.Add(this.KIND_GRP2);
+            this.gridBand14.Columns.Add(this.OP_TYPE);
+            this.gridBand14.Name = "gridBand14";
+            this.gridBand14.VisibleIndex = 10;
+            this.gridBand14.Width = 75;
+            // 
+            // COMPUTE_1
+            // 
+            this.COMPUTE_1.Caption = "COMPUTE_1";
+            this.COMPUTE_1.FieldName = "COMPUTE_1";
+            this.COMPUTE_1.Name = "COMPUTE_1";
+            this.COMPUTE_1.Visible = true;
+            // 
+            // KIND_GRP2
+            // 
+            this.KIND_GRP2.Caption = "KIND_GRP2";
+            this.KIND_GRP2.FieldName = "KIND_GRP2";
+            this.KIND_GRP2.Name = "KIND_GRP2";
+            // 
+            // OP_TYPE
+            // 
+            this.OP_TYPE.Caption = "OP_TYPE";
+            this.OP_TYPE.FieldName = "OP_TYPE";
+            this.OP_TYPE.Name = "OP_TYPE";
             // 
             // PLS1_EFFECTIVE_YMD
             // 
@@ -415,13 +648,6 @@
             this.PLS1_CUR_999.Name = "PLS1_CUR_999";
             this.PLS1_CUR_999.Visible = true;
             // 
-            // KIND_GRP2
-            // 
-            this.KIND_GRP2.Caption = "KIND_GRP2";
-            this.KIND_GRP2.FieldName = "KIND_GRP2";
-            this.KIND_GRP2.Name = "KIND_GRP2";
-            this.KIND_GRP2.Visible = true;
-            // 
             // PLS1_W_TIME
             // 
             this.PLS1_W_TIME.Caption = "PLS1_W_TIME";
@@ -455,206 +681,6 @@
             this.Is_NewRow.Caption = "Is_NewRow";
             this.Is_NewRow.FieldName = "Is_NewRow";
             this.Is_NewRow.Name = "Is_NewRow";
-            // 
-            // COMPUTE_1
-            // 
-            this.COMPUTE_1.Caption = "COMPUTE_1";
-            this.COMPUTE_1.FieldName = "COMPUTE_1";
-            this.COMPUTE_1.Name = "COMPUTE_1";
-            this.COMPUTE_1.Visible = true;
-            // 
-            // gridBand1
-            // 
-            this.gridBand1.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-            this.gridBand1.AppearanceHeader.Options.UseBackColor = true;
-            this.gridBand1.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand1.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand1.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Bottom;
-            this.gridBand1.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            this.gridBand1.Caption = "商品";
-            this.gridBand1.Columns.Add(this.PLS1_KIND_ID2);
-            this.gridBand1.Name = "gridBand1";
-            this.gridBand1.RowCount = 2;
-            this.gridBand1.VisibleIndex = 0;
-            this.gridBand1.Width = 75;
-            // 
-            // gridBand2
-            // 
-            this.gridBand2.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-            this.gridBand2.AppearanceHeader.Options.UseBackColor = true;
-            this.gridBand2.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand2.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand2.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Bottom;
-            this.gridBand2.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            this.gridBand2.Caption = "期貨";
-            this.gridBand2.Columns.Add(this.PLS1_FUT);
-            this.gridBand2.Name = "gridBand2";
-            this.gridBand2.RowCount = 2;
-            this.gridBand2.VisibleIndex = 1;
-            this.gridBand2.Width = 75;
-            // 
-            // gridBand3
-            // 
-            this.gridBand3.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-            this.gridBand3.AppearanceHeader.Options.UseBackColor = true;
-            this.gridBand3.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand3.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand3.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Bottom;
-            this.gridBand3.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            this.gridBand3.Caption = "選擇權";
-            this.gridBand3.Columns.Add(this.PLS1_OPT);
-            this.gridBand3.Name = "gridBand3";
-            this.gridBand3.RowCount = 2;
-            this.gridBand3.VisibleIndex = 2;
-            this.gridBand3.Width = 75;
-            // 
-            // gridBand4
-            // 
-            this.gridBand4.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-            this.gridBand4.AppearanceHeader.Options.UseBackColor = true;
-            this.gridBand4.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand4.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand4.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            this.gridBand4.Caption = "標的證券代號";
-            this.gridBand4.Columns.Add(this.PLS1_SID);
-            this.gridBand4.Name = "gridBand4";
-            this.gridBand4.RowCount = 2;
-            this.gridBand4.VisibleIndex = 3;
-            this.gridBand4.Width = 75;
-            // 
-            // gridBand5
-            // 
-            this.gridBand5.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-            this.gridBand5.AppearanceHeader.Options.UseBackColor = true;
-            this.gridBand5.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand5.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand5.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            this.gridBand5.Caption = "總交易量";
-            this.gridBand5.Columns.Add(this.PLS1_QNTY);
-            this.gridBand5.Name = "gridBand5";
-            this.gridBand5.RowCount = 2;
-            this.gridBand5.VisibleIndex = 4;
-            this.gridBand5.Width = 75;
-            // 
-            // gridBand6
-            // 
-            this.gridBand6.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-            this.gridBand6.AppearanceHeader.Options.UseBackColor = true;
-            this.gridBand6.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand6.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand6.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            this.gridBand6.Caption = "在外流通股數";
-            this.gridBand6.Columns.Add(this.PLS1_STKOUT);
-            this.gridBand6.Name = "gridBand6";
-            this.gridBand6.RowCount = 2;
-            this.gridBand6.VisibleIndex = 5;
-            this.gridBand6.Width = 75;
-            // 
-            // gridBand7
-            // 
-            this.gridBand7.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-            this.gridBand7.AppearanceHeader.Options.UseBackColor = true;
-            this.gridBand7.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand7.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand7.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            this.gridBand7.Caption = "上季部位限制級距";
-            this.gridBand7.Columns.Add(this.PLS1_CUR_LEVEL);
-            this.gridBand7.Name = "gridBand7";
-            this.gridBand7.RowCount = 2;
-            this.gridBand7.VisibleIndex = 6;
-            this.gridBand7.Width = 75;
-            // 
-            // gridBand8
-            // 
-            this.gridBand8.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-            this.gridBand8.AppearanceHeader.Options.UseBackColor = true;
-            this.gridBand8.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand8.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand8.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            this.gridBand8.Caption = "調整後部位限制級距";
-            this.gridBand8.Columns.Add(this.PLS1_CP_LEVEL);
-            this.gridBand8.Name = "gridBand8";
-            this.gridBand8.RowCount = 2;
-            this.gridBand8.VisibleIndex = 7;
-            this.gridBand8.Width = 75;
-            // 
-            // gridBand9
-            // 
-            this.gridBand9.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-            this.gridBand9.AppearanceHeader.Options.UseBackColor = true;
-            this.gridBand9.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand9.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand9.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            this.gridBand9.Caption = "單位：契約數";
-            this.gridBand9.Children.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.GridBand[] {
-            this.gridBand10,
-            this.gridBand11,
-            this.gridBand12});
-            this.gridBand9.Name = "gridBand9";
-            this.gridBand9.VisibleIndex = 8;
-            this.gridBand9.Width = 225;
-            // 
-            // gridBand10
-            // 
-            this.gridBand10.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-            this.gridBand10.AppearanceHeader.Options.UseBackColor = true;
-            this.gridBand10.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand10.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand10.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            this.gridBand10.Caption = "自然人";
-            this.gridBand10.Columns.Add(this.PLS1_CP_NATURE);
-            this.gridBand10.Name = "gridBand10";
-            this.gridBand10.VisibleIndex = 0;
-            this.gridBand10.Width = 75;
-            // 
-            // gridBand11
-            // 
-            this.gridBand11.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-            this.gridBand11.AppearanceHeader.Options.UseBackColor = true;
-            this.gridBand11.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand11.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand11.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            this.gridBand11.Caption = "法人";
-            this.gridBand11.Columns.Add(this.PLS1_CP_LEGAL);
-            this.gridBand11.Name = "gridBand11";
-            this.gridBand11.VisibleIndex = 1;
-            this.gridBand11.Width = 75;
-            // 
-            // gridBand12
-            // 
-            this.gridBand12.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-            this.gridBand12.AppearanceHeader.Options.UseBackColor = true;
-            this.gridBand12.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand12.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand12.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            this.gridBand12.Caption = "造市者";
-            this.gridBand12.Columns.Add(this.PLS1_CP_999);
-            this.gridBand12.Name = "gridBand12";
-            this.gridBand12.VisibleIndex = 2;
-            this.gridBand12.Width = 75;
-            // 
-            // gridBand13
-            // 
-            this.gridBand13.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-            this.gridBand13.AppearanceHeader.Options.UseBackColor = true;
-            this.gridBand13.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand13.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand13.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            this.gridBand13.Caption = "調整情形";
-            this.gridBand13.Columns.Add(this.PLS1_LEVEL_ADJ);
-            this.gridBand13.Name = "gridBand13";
-            this.gridBand13.RowCount = 2;
-            this.gridBand13.VisibleIndex = 9;
-            this.gridBand13.Width = 75;
-            // 
-            // gridBand14
-            // 
-            this.gridBand14.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-            this.gridBand14.AppearanceHeader.Options.UseBackColor = true;
-            this.gridBand14.Columns.Add(this.COMPUTE_1);
-            this.gridBand14.Name = "gridBand14";
-            this.gridBand14.VisibleIndex = 10;
-            this.gridBand14.Width = 75;
             // 
             // W30222
             // 
@@ -722,6 +748,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lblEff;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn COMPUTE_1;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn OP_TYPE;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand1;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand2;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand3;

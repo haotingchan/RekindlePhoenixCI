@@ -27,6 +27,7 @@ namespace PhoenixCI.FormUI.PrefixS {
         protected string fmYmd;
         protected string toYmd;
         protected string oldREQValue;
+        protected string oldREQType;
         protected DateTime maxYmd;
         protected DateTime startDateOldValue;
         protected DateTime endDateOldValue;
@@ -133,6 +134,7 @@ namespace PhoenixCI.FormUI.PrefixS {
                 SPAN_REQ_TYPE.EditValue = dtREQ.Rows[0]["SPAN_REQ_TYPE"].AsString();
                 txtREQValue.Text = dtREQ.Rows[0]["SPAN_REQ_VALUE"].AsString();
                 oldREQValue = txtREQValue.EditValue.ToString();
+                oldREQType = dtREQ.Rows[0]["SPAN_REQ_TYPE"].AsString();
             }
             #endregion
 
@@ -157,9 +159,21 @@ namespace PhoenixCI.FormUI.PrefixS {
             gvExAccount.UpdateCurrentRow();
             gvPresTest.CloseEditor();
             gvPresTest.UpdateCurrentRow();
-            ResultStatus resultStatus = ResultStatus.Fail;
+            ResultStatus resultStatus = ResultStatus.FailButNext;
 
-            if (checkChanged()) {
+            try {
+                if (!checkChanged()) {
+                    MessageDisplay.Info("沒有變更資料,不需要存檔!");
+                    return ResultStatus.FailButNext;
+                }
+
+                DataTable dtExAccount = (DataTable)gcExAccount.DataSource;
+                GenWTime(dtExAccount, "SPAN_ACCT_W_TIME");
+                if (!checkComplete(dtExAccount, LabEXAccount.Text.Replace(":", ""))) return ResultStatus.FailButNext;
+                DataTable dtPresTest = (DataTable)gcPresTest.DataSource;
+                GenWTime(dtPresTest, "SPAN_PARAM_W_TIME");
+                if (!checkComplete(dtPresTest, LabPressTest.Text.Replace(":", ""))) return ResultStatus.FailButNext;
+
                 //更新四部份資料 先更新日期區間
                 resultStatus = savePeriod();
                 if (resultStatus == ResultStatus.Success) {
@@ -172,13 +186,11 @@ namespace PhoenixCI.FormUI.PrefixS {
                     if (resultStatus == ResultStatus.Success) {
                         //更新測試變化設定
                         resultStatus = savePresTest();
-
                     }
                 }
             }
-            else {
-                MessageDisplay.Info("沒有變更資料,不需要存檔!");
-                resultStatus = ResultStatus.FailButNext;
+            catch (Exception ex) {
+                throw ex;
             }
             return resultStatus;
         }
@@ -235,10 +247,10 @@ namespace PhoenixCI.FormUI.PrefixS {
         private ResultStatus saveExAccount() {
             DataTable dtExAccount = (DataTable)gcExAccount.DataSource;
 
+            if (!checkComplete(dtExAccount, LabEXAccount.Text.Replace(":", ""))) return ResultStatus.FailButNext;
+
             foreach (DataRow r in dtExAccount.Rows) {
                 if (r.RowState != DataRowState.Deleted) {
-                    r.SetField("span_acct_w_time", DateTime.Now);
-
                     if (r["SPAN_ACCT_FCM_NO"].AsString().SubStr(4, 3) == "999") {
                         MessageDisplay.Info("期貨商代號欄位必須為7碼，末3碼不為999");
                         return ResultStatus.FailButNext;
@@ -250,10 +262,10 @@ namespace PhoenixCI.FormUI.PrefixS {
 
         private ResultStatus savePresTest() {
             DataTable dtPresTest = (DataTable)gcPresTest.DataSource;
+            if (!checkComplete(dtPresTest, LabPressTest.Text.Replace(":", ""))) return ResultStatus.FailButNext;
 
             foreach (DataRow r in dtPresTest.Rows) {
                 if (r.RowState != DataRowState.Deleted) {
-                    r.SetField("SPAN_PARAM_W_TIME", DateTime.Now);
 
                     if (r["span_param_type"].AsString() == "2") {
                         switch (r["span_param_value"].AsString()) {
@@ -271,6 +283,7 @@ namespace PhoenixCI.FormUI.PrefixS {
                     }
                 }
             }
+
             return daoS0070.updatePreTestData(dtPresTest).Status;//base.Save_Override(dtPresTest, "SPAN_PARAM", DBName.CFO);
         }
 
@@ -429,10 +442,31 @@ namespace PhoenixCI.FormUI.PrefixS {
 
             if (txtStartDate.DateTimeValue != startDateOldValue
                     || txtEndDate.DateTimeValue != endDateOldValue
-                    || txtREQValue.EditValue.ToString() != oldREQValue) {
+                    || txtREQValue.EditValue.ToString() != oldREQValue
+                    || SPAN_REQ_TYPE.EditValue.ToString() != oldREQType) {
                 return true;
             }
             return false;
+        }
+
+        private bool checkComplete(DataTable dtSource, string message) {
+
+            foreach (DataColumn column in dtSource.Columns) {
+                if (dtSource.Rows.OfType<DataRow>().Where(r => r.RowState != DataRowState.Deleted).Any(r => string.IsNullOrEmpty(r[column].ToString()))) {
+                    MessageDisplay.Error(message + "尚未填寫完成");
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private void GenWTime(DataTable dtSource, string colName) {
+
+            foreach (DataRow r in dtSource.Rows) {
+                if (r.RowState != DataRowState.Deleted) {
+                    r.SetField(colName, DateTime.Now);
+                }
+            }
         }
     }
 }

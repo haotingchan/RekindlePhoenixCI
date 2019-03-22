@@ -152,7 +152,19 @@
     <Compile Include="BusinessLogic\Prefix3\B30380.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30390.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30393.cs" />
+    <Compile Include="BusinessLogic\Prefix3\B30396.cs" />
+    <Compile Include="BusinessLogic\Prefix3\B30398.cs" />
+    <Compile Include="BusinessLogic\Prefix3\B30399.cs" />
+    <Compile Include="BusinessLogic\Prefix3\B30505.cs" />
+    <Compile Include="BusinessLogic\Prefix3\B30508.cs" />
+    <Compile Include="BusinessLogic\Prefix3\B30520.cs" />
+    <Compile Include="BusinessLogic\Prefix3\B30540.cs" />
+    <Compile Include="BusinessLogic\Prefix3\B30550.cs" />
+    <Compile Include="BusinessLogic\Prefix3\B30560.cs" />
+    <Compile Include="BusinessLogic\Prefix3\B30580.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30687.cs" />
+    <Compile Include="BusinessLogic\Prefix4\B40200.cs" />
+    <Compile Include="BusinessLogic\Prefix4\B43030.cs" />
     <Compile Include="BusinessLogic\Prefix7\B70010.cs" />
     <Compile Include="BusinessLogic\Prefix7\B70020.cs" />
     <Compile Include="BusinessLogic\Prefix7\B700xxFunc.cs" />
@@ -324,11 +336,47 @@
     <Compile Include="FormUI\Prefix3\W30070.Designer.cs">
       <DependentUpon>W30070.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormUI\Prefix3\W30090.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30090.Designer.cs">
+      <DependentUpon>W30090.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormUI\Prefix3\W30201.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormUI\Prefix3\W30201.Designer.cs">
       <DependentUpon>W30201.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30203.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30203.Designer.cs">
+      <DependentUpon>W30203.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30205.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30205.Designer.cs">
+      <DependentUpon>W30205.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30220.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30220.Designer.cs">
+      <DependentUpon>W30220.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30222.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30222.Designer.cs">
+      <DependentUpon>W30222.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30224.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30224.Designer.cs">
+      <DependentUpon>W30224.cs</DependentUpon>
     </Compile>
     <Compile Include="FormUI\Prefix3\W30310.cs">
       <SubType>Form</SubType>
@@ -383,6 +431,108 @@
     </Compile>
     <Compile Include="FormUI\Prefix3\W30390.Designer.cs">
       <DependentUpon>W30390.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30393.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30393.Designer.cs">
+      <DependentUpon>W30393.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30396.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30396.Designer.cs">
+      <DependentUpon>W30396.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30398.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30398.Designer.cs">
+      <DependentUpon>W30398.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30399.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30399.Designer.cs">
+      <DependentUpon>W30399.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30410.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30410.designer.cs">
+      <DependentUpon>W30410.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30414.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30414.designer.cs">
+      <DependentUpon>W30414.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30417.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30417.designer.cs">
+      <DependentUpon>W30417.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30500.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30500.designer.cs">
+      <DependentUpon>W30500.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30501.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30501.designer.cs">
+      <DependentUpon>W30501.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30505.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30505.Designer.cs">
+      <DependentUpon>W30505.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30508.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30508.Designer.cs">
+      <DependentUpon>W30508.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30520.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30520.Designer.cs">
+      <DependentUpon>W30520.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30530.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30530.designer.cs">
+      <DependentUpon>W30530.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30540.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30540.Designer.cs">
+      <DependentUpon>W30540.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30550.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30550.Designer.cs">
+      <DependentUpon>W30550.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30560.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30560.Designer.cs">
+      <DependentUpon>W30560.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30580.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30580.Designer.cs">
+      <DependentUpon>W30580.cs</DependentUpon>
     </Compile>
     <Compile Include="FormUI\Prefix3\W30590.cs">
       <SubType>Form</SubType>
@@ -468,6 +618,12 @@
     <Compile Include="FormUI\Prefix3\W30680.Designer.cs">
       <DependentUpon>W30680.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormUI\Prefix3\W30682.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30682.designer.cs">
+      <DependentUpon>W30682.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormUI\Prefix3\W30683.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -540,6 +696,138 @@
     <Compile Include="FormUI\Prefix3\W30750.designer.cs">
       <DependentUpon>W30750.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormUI\Prefix3\W30760.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30760.designer.cs">
+      <DependentUpon>W30760.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W35010.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W35010.designer.cs">
+      <DependentUpon>W35010.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W35020.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W35020.designer.cs">
+      <DependentUpon>W35020.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W35030.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W35030.designer.cs">
+      <DependentUpon>W35030.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W35050.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W35050.designer.cs">
+      <DependentUpon>W35050.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40120.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40120.designer.cs">
+      <DependentUpon>W40120.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40122.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40122.designer.cs">
+      <DependentUpon>W40122.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40140.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40140.designer.cs">
+      <DependentUpon>W40140.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40150.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40150.designer.cs">
+      <DependentUpon>W40150.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40200.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40200.Designer.cs">
+      <DependentUpon>W40200.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W41010.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W41010.Designer.cs">
+      <DependentUpon>W41010.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W41020.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W41020.Designer.cs">
+      <DependentUpon>W41020.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W42010.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W42010.Designer.cs">
+      <DependentUpon>W42010.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W42020.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W42020.Designer.cs">
+      <DependentUpon>W42020.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W42030.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W42030.Designer.cs">
+      <DependentUpon>W42030.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W42032.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W42032.Designer.cs">
+      <DependentUpon>W42032.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W42033.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W42033.Designer.cs">
+      <DependentUpon>W42033.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W43010.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W43010.Designer.cs">
+      <DependentUpon>W43010.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W43020.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W43020.Designer.cs">
+      <DependentUpon>W43020.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W43030.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W43030.Designer.cs">
+      <DependentUpon>W43030.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W48010.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W48010.designer.cs">
+      <DependentUpon>W48010.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W48020.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W48020.designer.cs">
+      <DependentUpon>W48020.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormUI\Prefix4\W48030.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -551,6 +839,18 @@
     </Compile>
     <Compile Include="FormUI\Prefix4\W48040.designer.cs">
       <DependentUpon>W48040.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W49040.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W49040.Designer.cs">
+      <DependentUpon>W49040.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W49060.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W49060.Designer.cs">
+      <DependentUpon>W49060.cs</DependentUpon>
     </Compile>
     <Compile Include="FormUI\Prefix5\W50030.cs">
       <SubType>Form</SubType>
@@ -1039,8 +1339,26 @@
     <EmbeddedResource Include="FormUI\Prefix3\W30070.resx">
       <DependentUpon>W30070.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W30090.resx">
+      <DependentUpon>W30090.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix3\W30201.resx">
       <DependentUpon>W30201.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W30203.resx">
+      <DependentUpon>W30203.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W30205.resx">
+      <DependentUpon>W30205.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W30220.resx">
+      <DependentUpon>W30220.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W30222.resx">
+      <DependentUpon>W30222.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W30224.resx">
+      <DependentUpon>W30224.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix3\W30310.resx">
       <DependentUpon>W30310.cs</DependentUpon>
@@ -1068,6 +1386,57 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix3\W30390.resx">
       <DependentUpon>W30390.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W30393.resx">
+      <DependentUpon>W30393.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W30396.resx">
+      <DependentUpon>W30396.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W30398.resx">
+      <DependentUpon>W30398.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W30399.resx">
+      <DependentUpon>W30399.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W30410.resx">
+      <DependentUpon>W30410.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W30414.resx">
+      <DependentUpon>W30414.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W30417.resx">
+      <DependentUpon>W30417.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W30500.resx">
+      <DependentUpon>W30500.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W30501.resx">
+      <DependentUpon>W30501.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W30505.resx">
+      <DependentUpon>W30505.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W30508.resx">
+      <DependentUpon>W30508.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W30520.resx">
+      <DependentUpon>W30520.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W30530.resx">
+      <DependentUpon>W30530.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W30540.resx">
+      <DependentUpon>W30540.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W30550.resx">
+      <DependentUpon>W30550.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W30560.resx">
+      <DependentUpon>W30560.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W30580.resx">
+      <DependentUpon>W30580.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix3\W30590.resx">
       <DependentUpon>W30590.cs</DependentUpon>
@@ -1111,6 +1480,9 @@
     <EmbeddedResource Include="FormUI\Prefix3\W30680.resx">
       <DependentUpon>W30680.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W30682.resx">
+      <DependentUpon>W30682.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix3\W30683.resx">
       <DependentUpon>W30683.cs</DependentUpon>
     </EmbeddedResource>
@@ -1147,11 +1519,83 @@
     <EmbeddedResource Include="FormUI\Prefix3\W30750.resx">
       <DependentUpon>W30750.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W30760.resx">
+      <DependentUpon>W30760.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W35010.resx">
+      <DependentUpon>W35010.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W35020.resx">
+      <DependentUpon>W35020.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W35030.resx">
+      <DependentUpon>W35030.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W35050.resx">
+      <DependentUpon>W35050.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W40120.resx">
+      <DependentUpon>W40120.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W40122.resx">
+      <DependentUpon>W40122.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W40140.resx">
+      <DependentUpon>W40140.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W40150.resx">
+      <DependentUpon>W40150.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W40200.resx">
+      <DependentUpon>W40200.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W41010.resx">
+      <DependentUpon>W41010.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W41020.resx">
+      <DependentUpon>W41020.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W42010.resx">
+      <DependentUpon>W42010.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W42020.resx">
+      <DependentUpon>W42020.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W42030.resx">
+      <DependentUpon>W42030.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W42032.resx">
+      <DependentUpon>W42032.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W42033.resx">
+      <DependentUpon>W42033.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W43010.resx">
+      <DependentUpon>W43010.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W43020.resx">
+      <DependentUpon>W43020.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W43030.resx">
+      <DependentUpon>W43030.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W48010.resx">
+      <DependentUpon>W48010.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W48020.resx">
+      <DependentUpon>W48020.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix4\W48030.resx">
       <DependentUpon>W48030.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix4\W48040.resx">
       <DependentUpon>W48040.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W49040.resx">
+      <DependentUpon>W49040.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W49060.resx">
+      <DependentUpon>W49060.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix5\W50030.resx">
       <DependentUpon>W50030.cs</DependentUpon>
@@ -1394,7 +1838,13 @@
     <None Include="Excel_Template\30055_1.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\30055_1.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Excel_Template\30055_2.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30055_2.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\30055_TJF.xls">
@@ -1425,6 +1875,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\30220.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30220.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\30221.xls">
@@ -1490,10 +1943,19 @@
     <None Include="Excel_Template\30396.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\30396.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Excel_Template\30398.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\30398.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Excel_Template\30399.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30399.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\30400.xls">
@@ -1655,13 +2117,22 @@
     <None Include="Excel_Template\35020.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\35020.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Excel_Template\35030.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\35030.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\35040.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\35050.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\35050.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\35060.xls">
@@ -1749,6 +2220,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\43030.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\43030.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\43032_future.xlsx">
@@ -1876,6 +2350,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Excel_Template\30500.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\30501.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Excel_Template\40030\40030_E1.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

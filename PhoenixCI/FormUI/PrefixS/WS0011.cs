@@ -12,7 +12,6 @@ using PhoenixCI.Widget;
 
 namespace PhoenixCI.FormUI.PrefixS {
     public partial class WS0011 : FormParent {
-        private ReportHelper _ReportHelper;
         private DS0011 daoS0011;
         private int countGroup = 3;//設定群組數
 
@@ -76,36 +75,37 @@ namespace PhoenixCI.FormUI.PrefixS {
             gvMain.CloseEditor();
             gvMain.UpdateCurrentRow();
             ResultStatus resultStatus = ResultStatus.Fail;
+            try {
+                DataTable dt = (DataTable)gcMain.DataSource;
+                DataTable dtChange = dt.GetChanges();
 
-            DataTable dt = (DataTable)gcMain.DataSource;
-            DataTable dtChange = dt.GetChanges();
-
-            if (dtChange != null) {
-                if (dtChange.Rows.Count == 0) {
+                if (dtChange == null) {
                     MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return ResultStatus.FailButNext;
                 }
-                else {
-                    if (daoS0011.DeleteMG2S() >= 0) {
-                        DataTable insertMG2SData = daoS0011.GetMG2SColumns();
-                        for (int i = 0; i < dt.Rows.Count; i++) {
-                            insertMG2SData.Rows.Add();
-                            insertMG2SData.Rows[i]["MG2S_DATE"] = dt.Rows[i]["MG1_DATE"];
-                            insertMG2SData.Rows[i]["MG2S_KIND_ID"] = dt.Rows[i]["MG1_KIND_ID"];
-                            insertMG2SData.Rows[i]["MG2S_VALUE_DATE"] = txtCountDate.DateTimeValue;
-                            insertMG2SData.Rows[i]["MG2S_OSW_GRP"] = dt.Rows[i]["MG1_OSW_GRP"];
-                            insertMG2SData.Rows[i]["MG2S_ADJ_CODE"] = "Y";
-                            insertMG2SData.Rows[i]["MG2S_W_TIME"] = DateTime.Now;
-                            insertMG2SData.Rows[i]["MG2S_W_USER_ID"] = GlobalInfo.USER_ID;
-                            insertMG2SData.Rows[i]["MG2S_SPAN_CODE"] = dt.Rows[i]["MG2_SPAN_CODE"];
-                            insertMG2SData.Rows[i]["MG2S_USER_CM"] = dt.Rows[i]["USER_CM"].AsDecimal() == 0 ? DBNull.Value : dt.Rows[i]["USER_CM"];
-                        }
-                        resultStatus = daoS0011.updateData(insertMG2SData).Status;//base.Save_Override(insertMG2SData, "MG2S", DBName.CFO);
-                        if (resultStatus == ResultStatus.Success) {
-                            PrintableComponent = gcMain;
-                        }
+
+                if (daoS0011.DeleteMG2S() >= 0) {
+                    DataTable insertMG2SData = daoS0011.GetMG2SColumns();
+                    for (int i = 0; i < dt.Rows.Count; i++) {
+                        insertMG2SData.Rows.Add();
+                        insertMG2SData.Rows[i]["MG2S_DATE"] = dt.Rows[i]["MG1_DATE"];
+                        insertMG2SData.Rows[i]["MG2S_KIND_ID"] = dt.Rows[i]["MG1_KIND_ID"];
+                        insertMG2SData.Rows[i]["MG2S_VALUE_DATE"] = txtCountDate.DateTimeValue;
+                        insertMG2SData.Rows[i]["MG2S_OSW_GRP"] = dt.Rows[i]["MG1_OSW_GRP"];
+                        insertMG2SData.Rows[i]["MG2S_ADJ_CODE"] = "Y";
+                        insertMG2SData.Rows[i]["MG2S_W_TIME"] = DateTime.Now;
+                        insertMG2SData.Rows[i]["MG2S_W_USER_ID"] = GlobalInfo.USER_ID;
+                        insertMG2SData.Rows[i]["MG2S_SPAN_CODE"] = dt.Rows[i]["MG2_SPAN_CODE"];
+                        insertMG2SData.Rows[i]["MG2S_USER_CM"] = dt.Rows[i]["USER_CM"].AsDecimal() == 0 ? DBNull.Value : dt.Rows[i]["USER_CM"];
+                    }
+                    resultStatus = daoS0011.updateData(insertMG2SData).Status;//base.Save_Override(insertMG2SData, "MG2S", DBName.CFO);
+                    if (resultStatus == ResultStatus.Success) {
+                        PrintableComponent = gcMain;
                     }
                 }
+            }
+            catch (Exception ex) {
+                throw ex;
             }
             return resultStatus;
         }
@@ -121,19 +121,16 @@ namespace PhoenixCI.FormUI.PrefixS {
         }
 
         protected override ResultStatus Print(ReportHelper reportHelper) {
-            _ReportHelper = reportHelper;
-            CommonReportPortraitA4 report = new CommonReportPortraitA4();
-            report.printableComponentContainerMain.PrintableComponent = gcMain;
-            _ReportHelper.Create(report);
+            try {
+                ReportHelper _ReportHelper = new ReportHelper(gcMain, _ProgramID, this.Text);
+                _ReportHelper.Print();//如果有夜盤會特別標註
 
-            base.Print(_ReportHelper);
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus COMPLETE() {
-            MessageDisplay.Info(MessageDisplay.MSG_OK);
-
-            return ResultStatus.Success;
+                return ResultStatus.Success;
+            }
+            catch (Exception ex) {
+                WriteLog(ex);
+            }
+            return ResultStatus.Fail;
         }
 
         private void adjustmentRadioGroup_SelectedIndexChanged(object sender, EventArgs e) {

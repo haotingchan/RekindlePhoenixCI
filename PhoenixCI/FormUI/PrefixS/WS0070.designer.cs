@@ -58,23 +58,23 @@
             this.btnPresTestClear = new DevExpress.XtraEditors.SimpleButton();
             this.btnPreTestAdd = new DevExpress.XtraEditors.SimpleButton();
             this.btnPreTestDel = new DevExpress.XtraEditors.SimpleButton();
-            this.label4 = new System.Windows.Forms.Label();
+            this.LabPressTest = new System.Windows.Forms.Label();
             this.panelControl4 = new DevExpress.XtraEditors.PanelControl();
             this.panel2 = new System.Windows.Forms.Panel();
             this.gcExAccount = new DevExpress.XtraGrid.GridControl();
             this.gvExAccount = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.SPAN_ACCT_MODULE = new DevExpress.XtraGrid.Columns.GridColumn();
             this.SPAN_ACCT_FCM_NO = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.repositoryItemTextEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+            this.repositoryItemTextEdit3 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.SPAN_ACCT_ACC_NO = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemTextEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.SPAN_ACCT_USER_ID = new DevExpress.XtraGrid.Columns.GridColumn();
             this.SPAN_ACCT_W_TIME = new DevExpress.XtraGrid.Columns.GridColumn();
             this.EXACCOUNT_IS_NEWROW = new DevExpress.XtraGrid.Columns.GridColumn();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnEXAccountAdd = new DevExpress.XtraEditors.SimpleButton();
             this.btnEXAccountDel = new DevExpress.XtraEditors.SimpleButton();
-            this.label3 = new System.Windows.Forms.Label();
-            this.repositoryItemTextEdit3 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+            this.LabEXAccount = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
@@ -96,9 +96,9 @@
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gcExAccount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvExAccount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).BeginInit();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit3)).BeginInit();
             this.SuspendLayout();
             // 
             // panParent
@@ -398,7 +398,7 @@
             this.panel3.Controls.Add(this.btnPresTestClear);
             this.panel3.Controls.Add(this.btnPreTestAdd);
             this.panel3.Controls.Add(this.btnPreTestDel);
-            this.panel3.Controls.Add(this.label4);
+            this.panel3.Controls.Add(this.LabPressTest);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel3.Location = new System.Drawing.Point(2, 2);
             this.panel3.Name = "panel3";
@@ -432,14 +432,14 @@
             this.btnPreTestDel.Text = "刪除";
             this.btnPreTestDel.Click += new System.EventHandler(this.btnPreTestDel_Click);
             // 
-            // label4
+            // LabPressTest
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(4, 4);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(208, 20);
-            this.label4.TabIndex = 28;
-            this.label4.Text = "(2) 壓力測試價格變化設定：";
+            this.LabPressTest.AutoSize = true;
+            this.LabPressTest.Location = new System.Drawing.Point(4, 4);
+            this.LabPressTest.Name = "LabPressTest";
+            this.LabPressTest.Size = new System.Drawing.Size(208, 20);
+            this.LabPressTest.TabIndex = 28;
+            this.LabPressTest.Text = "(2) 壓力測試價格變化設定：";
             // 
             // panelControl4
             // 
@@ -503,11 +503,11 @@
             this.SPAN_ACCT_FCM_NO.Visible = true;
             this.SPAN_ACCT_FCM_NO.VisibleIndex = 0;
             // 
-            // repositoryItemTextEdit2
+            // repositoryItemTextEdit3
             // 
-            this.repositoryItemTextEdit2.AutoHeight = false;
-            this.repositoryItemTextEdit2.MaxLength = 7;
-            this.repositoryItemTextEdit2.Name = "repositoryItemTextEdit2";
+            this.repositoryItemTextEdit3.AutoHeight = false;
+            this.repositoryItemTextEdit3.MaxLength = 7;
+            this.repositoryItemTextEdit3.Name = "repositoryItemTextEdit3";
             // 
             // SPAN_ACCT_ACC_NO
             // 
@@ -517,6 +517,17 @@
             this.SPAN_ACCT_ACC_NO.Name = "SPAN_ACCT_ACC_NO";
             this.SPAN_ACCT_ACC_NO.Visible = true;
             this.SPAN_ACCT_ACC_NO.VisibleIndex = 1;
+            // 
+            // repositoryItemTextEdit2
+            // 
+            this.repositoryItemTextEdit2.AutoHeight = false;
+            this.repositoryItemTextEdit2.Mask.EditMask = "\\d+";
+            this.repositoryItemTextEdit2.Mask.IgnoreMaskBlank = false;
+            this.repositoryItemTextEdit2.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.repositoryItemTextEdit2.Mask.SaveLiteral = false;
+            this.repositoryItemTextEdit2.Mask.ShowPlaceHolders = false;
+            this.repositoryItemTextEdit2.MaxLength = 7;
+            this.repositoryItemTextEdit2.Name = "repositoryItemTextEdit2";
             // 
             // SPAN_ACCT_USER_ID
             // 
@@ -540,7 +551,7 @@
             // 
             this.panel1.Controls.Add(this.btnEXAccountAdd);
             this.panel1.Controls.Add(this.btnEXAccountDel);
-            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.LabEXAccount);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(2, 2);
             this.panel1.Name = "panel1";
@@ -565,20 +576,14 @@
             this.btnEXAccountDel.Text = "刪除";
             this.btnEXAccountDel.Click += new System.EventHandler(this.btnEXAccountDel_Click);
             // 
-            // label3
+            // LabEXAccount
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(10, 4);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(176, 20);
-            this.label3.TabIndex = 27;
-            this.label3.Text = "(4) 特定帳號排除設定：";
-            // 
-            // repositoryItemTextEdit3
-            // 
-            this.repositoryItemTextEdit3.AutoHeight = false;
-            this.repositoryItemTextEdit3.MaxLength = 7;
-            this.repositoryItemTextEdit3.Name = "repositoryItemTextEdit3";
+            this.LabEXAccount.AutoSize = true;
+            this.LabEXAccount.Location = new System.Drawing.Point(10, 4);
+            this.LabEXAccount.Name = "LabEXAccount";
+            this.LabEXAccount.Size = new System.Drawing.Size(176, 20);
+            this.LabEXAccount.TabIndex = 27;
+            this.LabEXAccount.Text = "(4) 特定帳號排除設定：";
             // 
             // WS0070
             // 
@@ -619,10 +624,10 @@
             this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gcExAccount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvExAccount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit3)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -633,14 +638,14 @@
         private DevExpress.XtraEditors.PanelControl panelControl1;
         private DevExpress.XtraEditors.PanelControl panelControl3;
         private DevExpress.XtraEditors.PanelControl panelControl4;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label LabEXAccount;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private Widget.TextDateEdit txtEndDate;
         private Widget.TextDateEdit txtStartDate;
         private System.Windows.Forms.Label lbl1;
         private System.Windows.Forms.Label labDate;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label LabPressTest;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private DevExpress.XtraEditors.SimpleButton btnEXAccountAdd;

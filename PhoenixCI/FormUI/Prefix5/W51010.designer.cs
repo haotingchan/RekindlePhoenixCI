@@ -60,12 +60,12 @@
             // panParent
             // 
             this.panParent.BackColor = System.Drawing.Color.Transparent;
-            this.panParent.Size = new System.Drawing.Size(739, 544);
+            this.panParent.Size = new System.Drawing.Size(739, 557);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(739, 43);
+            this.ribbonControl.Size = new System.Drawing.Size(739, 30);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // panelControl1
@@ -75,7 +75,7 @@
             this.panelControl1.Controls.Add(this.TXTStartDate);
             this.panelControl1.Controls.Add(this.label2);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelControl1.Location = new System.Drawing.Point(0, 43);
+            this.panelControl1.Location = new System.Drawing.Point(0, 30);
             this.panelControl1.Name = "panelControl1";
             this.panelControl1.Size = new System.Drawing.Size(739, 61);
             this.panelControl1.TabIndex = 0;
@@ -85,7 +85,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(109, 30);
+            this.label1.Size = new System.Drawing.Size(73, 20);
             this.label1.TabIndex = 9;
             this.label1.Text = "交易日期";
             // 
@@ -101,7 +101,7 @@
             this.TXTEndDate.Properties.Mask.EditMask = "yyyy/MM/dd";
             this.TXTEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
             this.TXTEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.TXTEndDate.Size = new System.Drawing.Size(150, 38);
+            this.TXTEndDate.Size = new System.Drawing.Size(150, 26);
             this.TXTEndDate.TabIndex = 12;
             this.TXTEndDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
             // 
@@ -117,7 +117,7 @@
             this.TXTStartDate.Properties.Mask.EditMask = "yyyy/MM/dd";
             this.TXTStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
             this.TXTStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.TXTStartDate.Size = new System.Drawing.Size(150, 38);
+            this.TXTStartDate.Size = new System.Drawing.Size(150, 26);
             this.TXTStartDate.TabIndex = 11;
             this.TXTStartDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
             // 
@@ -126,7 +126,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(283, 13);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(31, 30);
+            this.label2.Size = new System.Drawing.Size(21, 20);
             this.label2.TabIndex = 10;
             this.label2.Text = "~";
             // 
@@ -136,9 +136,9 @@
             this.panelControl2.Controls.Add(this.label4);
             this.panelControl2.Controls.Add(this.label3);
             this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelControl2.Location = new System.Drawing.Point(0, 104);
+            this.panelControl2.Location = new System.Drawing.Point(0, 91);
             this.panelControl2.Name = "panelControl2";
-            this.panelControl2.Size = new System.Drawing.Size(739, 483);
+            this.panelControl2.Size = new System.Drawing.Size(739, 496);
             this.panelControl2.TabIndex = 1;
             // 
             // gcMain
@@ -225,7 +225,7 @@
             // Is_NewRow
             // 
             this.Is_NewRow.Caption = "Is_NewRow";
-            this.Is_NewRow.FieldName = "Is_NewRow";
+            this.Is_NewRow.FieldName = "IS_NEWROW";
             this.Is_NewRow.MinWidth = 30;
             this.Is_NewRow.Name = "Is_NewRow";
             this.Is_NewRow.Width = 112;
@@ -242,7 +242,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(5, 440);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(223, 30);
+            this.label4.Size = new System.Drawing.Size(149, 20);
             this.label4.TabIndex = 9;
             this.label4.Text = "上班日 : 週一至週五";
             // 
@@ -251,14 +251,14 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(5, 410);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(175, 30);
+            this.label3.Size = new System.Drawing.Size(117, 20);
             this.label3.TabIndex = 8;
             this.label3.Text = "假日 : 週六週日";
             // 
             // W51010
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(739, 587);
             this.Controls.Add(this.panelControl2);

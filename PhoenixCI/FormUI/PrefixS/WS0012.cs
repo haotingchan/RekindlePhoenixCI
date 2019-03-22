@@ -10,11 +10,8 @@ using BusinessObjects;
 using BaseGround.Report;
 using PhoenixCI.Widget;
 
-namespace PhoenixCI.FormUI.PrefixS
-{
-    public partial class WS0012 : FormParent
-    {
-        private ReportHelper _ReportHelper;
+namespace PhoenixCI.FormUI.PrefixS {
+    public partial class WS0012 : FormParent {
         private DS0012 daoS0012;
         private int countGroup = 3;//設定群組數
 
@@ -125,13 +122,16 @@ namespace PhoenixCI.FormUI.PrefixS
         }
 
         protected override ResultStatus Print(ReportHelper reportHelper) {
-            _ReportHelper = reportHelper;
-            CommonReportPortraitA4 report = new CommonReportPortraitA4();
-            report.printableComponentContainerMain.PrintableComponent = gcMain;
-            _ReportHelper.Create(report);
+            try {
+                ReportHelper _ReportHelper = new ReportHelper(gcMain, _ProgramID, this.Text);
+                _ReportHelper.Print();//如果有夜盤會特別標註
 
-            base.Print(_ReportHelper);
-            return ResultStatus.Success;
+                return ResultStatus.Success;
+            }
+            catch (Exception ex) {
+                WriteLog(ex);
+            }
+            return ResultStatus.Fail;
         }
 
         private void adjustmentRadioGroup_SelectedIndexChanged(object sender, EventArgs e) {
@@ -140,72 +140,72 @@ namespace PhoenixCI.FormUI.PrefixS
             #region Set SPAN CODE 
             switch (radios.Properties.Items[radios.SelectedIndex].Value.ToString()) {
                 case "Clear": {
-                        for (int i = 0; i < gvMain.DataRowCount; i++) {
-                            gvMain.SetRowCellValue(i, "SP2_SPAN_CODE", " ");
-                        }
-                        break;
+                    for (int i = 0; i < gvMain.DataRowCount; i++) {
+                        gvMain.SetRowCellValue(i, "SP2_SPAN_CODE", " ");
                     }
+                    break;
+                }
                 case "AllSelect": {
-                        for (int i = 0; i < gvMain.DataRowCount; i++) {
+                    for (int i = 0; i < gvMain.DataRowCount; i++) {
+                        gvMain.SetRowCellValue(i, "SP2_SPAN_CODE", "Y");
+                    }
+                    break;
+                }
+                case "1": {
+                    for (int i = 0; i < gvMain.DataRowCount; i++) {
+                        if (gvMain.GetRowCellValue(i, "GROUP_TYPE").AsString() == "1") {
                             gvMain.SetRowCellValue(i, "SP2_SPAN_CODE", "Y");
                         }
-                        break;
-                    }
-                case "1": {
-                        for (int i = 0; i < gvMain.DataRowCount; i++) {
-                            if (gvMain.GetRowCellValue(i, "GROUP_TYPE").AsString() == "1") {
-                                gvMain.SetRowCellValue(i, "SP2_SPAN_CODE", "Y");
-                            }
-                            else {
-                                gvMain.SetRowCellValue(i, "SP2_SPAN_CODE", " ");
-                            }
+                        else {
+                            gvMain.SetRowCellValue(i, "SP2_SPAN_CODE", " ");
                         }
-                        break;
                     }
+                    break;
+                }
                 case "2": {
-                        for (int i = 0; i < gvMain.DataRowCount; i++) {
-                            if (gvMain.GetRowCellValue(i, "GROUP_TYPE").AsString() == "2") {
-                                gvMain.SetRowCellValue(i, "SP2_SPAN_CODE", "Y");
-                            }
-                            else {
-                                gvMain.SetRowCellValue(i, "SP2_SPAN_CODE", " ");
-                            }
+                    for (int i = 0; i < gvMain.DataRowCount; i++) {
+                        if (gvMain.GetRowCellValue(i, "GROUP_TYPE").AsString() == "2") {
+                            gvMain.SetRowCellValue(i, "SP2_SPAN_CODE", "Y");
                         }
-                        break;
+                        else {
+                            gvMain.SetRowCellValue(i, "SP2_SPAN_CODE", " ");
+                        }
                     }
+                    break;
+                }
                 case "3": {
-                        for (int i = 0; i < gvMain.DataRowCount; i++) {
-                            if (gvMain.GetRowCellValue(i, "GROUP_TYPE").AsString() == "3") {
-                                gvMain.SetRowCellValue(i, "SP2_SPAN_CODE", "Y");
-                            }
-                            else {
-                                gvMain.SetRowCellValue(i, "SP2_SPAN_CODE", " ");
-                            }
+                    for (int i = 0; i < gvMain.DataRowCount; i++) {
+                        if (gvMain.GetRowCellValue(i, "GROUP_TYPE").AsString() == "3") {
+                            gvMain.SetRowCellValue(i, "SP2_SPAN_CODE", "Y");
                         }
-                        break;
+                        else {
+                            gvMain.SetRowCellValue(i, "SP2_SPAN_CODE", " ");
+                        }
                     }
+                    break;
+                }
                 case "ETF": {
-                        for (int i = 0; i < gvMain.DataRowCount; i++) {
-                            if (gvMain.GetRowCellValue(i, "APDK_PROD_SUBTYPE").AsString() == "S") {
-                                gvMain.SetRowCellValue(i, "SP2_SPAN_CODE", "Y");
-                            }
-                            else {
-                                gvMain.SetRowCellValue(i, "SP2_SPAN_CODE", " ");
-                            }
+                    for (int i = 0; i < gvMain.DataRowCount; i++) {
+                        if (gvMain.GetRowCellValue(i, "APDK_PROD_SUBTYPE").AsString() == "S") {
+                            gvMain.SetRowCellValue(i, "SP2_SPAN_CODE", "Y");
                         }
-                        break;
+                        else {
+                            gvMain.SetRowCellValue(i, "SP2_SPAN_CODE", " ");
+                        }
                     }
+                    break;
+                }
                 case "Index": {
-                        for (int i = 0; i < gvMain.DataRowCount; i++) {
-                            if (gvMain.GetRowCellValue(i, "APDK_PROD_SUBTYPE").AsString() == "I") {
-                                gvMain.SetRowCellValue(i, "SP2_SPAN_CODE", "Y");
-                            }
-                            else {
-                                gvMain.SetRowCellValue(i, "SP2_SPAN_CODE", " ");
-                            }
+                    for (int i = 0; i < gvMain.DataRowCount; i++) {
+                        if (gvMain.GetRowCellValue(i, "APDK_PROD_SUBTYPE").AsString() == "I") {
+                            gvMain.SetRowCellValue(i, "SP2_SPAN_CODE", "Y");
                         }
-                        break;
+                        else {
+                            gvMain.SetRowCellValue(i, "SP2_SPAN_CODE", " ");
+                        }
                     }
+                    break;
+                }
             }
             #endregion
         }

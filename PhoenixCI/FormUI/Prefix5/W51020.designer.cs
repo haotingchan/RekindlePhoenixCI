@@ -30,10 +30,11 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(W51020));
             this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.gcMain = new DevExpress.XtraGrid.GridControl();
@@ -55,11 +56,11 @@
             this.MMFT_CP_KIND = new DevExpress.XtraGrid.Columns.GridColumn();
             this.MMFT_END_S = new DevExpress.XtraGrid.Columns.GridColumn();
             this.MMFT_END_E = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.Is_NewRow = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.IS_NEWROW = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
             this.panelControl2.SuspendLayout();
+            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
@@ -68,27 +69,39 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit4)).BeginInit();
-            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panParent
             // 
-            this.panParent.Size = new System.Drawing.Size(1379, 706);
+            this.panParent.Size = new System.Drawing.Size(1379, 708);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(1379, 32);
+            this.ribbonControl.Size = new System.Drawing.Size(1379, 30);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // panelControl2
             // 
             this.panelControl2.Controls.Add(this.panel1);
             this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelControl2.Location = new System.Drawing.Point(0, 552);
+            this.panelControl2.Location = new System.Drawing.Point(0, 550);
             this.panelControl2.Name = "panelControl2";
-            this.panelControl2.Size = new System.Drawing.Size(1379, 186);
+            this.panelControl2.Size = new System.Drawing.Size(1379, 188);
             this.panelControl2.TabIndex = 1;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.label4);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(2, 2);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1375, 184);
+            this.panel1.TabIndex = 16;
             // 
             // label5
             // 
@@ -112,16 +125,6 @@
     "　(1)近月份起始月份 = 1\r\n　　(2)符合月份個數 = 99 (全部)\r\n　　(3)計算月份數 = 4 \r\n　　(4)價內個數 = 1\r\n　　(5)價外個" +
     "數 = 4\r\n　　(6)計算序列數 = 8";
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.ForeColor = System.Drawing.Color.Blue;
-            this.label3.Location = new System.Drawing.Point(949, 19);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(413, 20);
-            this.label3.TabIndex = 13;
-            this.label3.Text = "註：計算序列數 = 依價內個數&價外個數，全部取幾個序列";
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -132,6 +135,16 @@
             this.label2.TabIndex = 12;
             this.label2.Text = "註：近月份起始月份 = 1代表最近月,2最表次近月...\r\n       符合月份個數 = 99代表全部\r\n　　到期日(起),到期日(迄)  = 正負數代表到期日" +
     "加減營業日,\r\n       判斷交易日符合到期日條件才計算\r\n";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.Color.Blue;
+            this.label3.Location = new System.Drawing.Point(949, 19);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(413, 20);
+            this.label3.TabIndex = 13;
+            this.label3.Text = "註：計算序列數 = 依價內個數&價外個數，全部取幾個序列";
             // 
             // label1
             // 
@@ -148,7 +161,7 @@
             this.panelControl1.Cursor = System.Windows.Forms.Cursors.Default;
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelControl1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.panelControl1.Location = new System.Drawing.Point(0, 32);
+            this.panelControl1.Location = new System.Drawing.Point(0, 30);
             this.panelControl1.Name = "panelControl1";
             this.panelControl1.Size = new System.Drawing.Size(1379, 520);
             this.panelControl1.TabIndex = 0;
@@ -186,7 +199,7 @@
             this.MMFT_CP_KIND,
             this.MMFT_END_S,
             this.MMFT_END_E,
-            this.Is_NewRow});
+            this.IS_NEWROW});
             this.gvMain.GridControl = this.gcMain;
             this.gvMain.Name = "gvMain";
             this.gvMain.OptionsCustomization.AllowSort = false;
@@ -268,7 +281,7 @@
             this.repositoryItemTextEdit1.AutoHeight = false;
             this.repositoryItemTextEdit1.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.repositoryItemTextEdit1.EditFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.repositoryItemTextEdit1.MaxLength = 6;
+            this.repositoryItemTextEdit1.MaxLength = 5;
             this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
             // 
             // MMFT_MTH_CNT
@@ -389,26 +402,13 @@
             this.MMFT_END_E.Name = "MMFT_END_E";
             this.MMFT_END_E.Width = 112;
             // 
-            // Is_NewRow
+            // IS_NEWROW
             // 
-            this.Is_NewRow.Caption = "Is_NewRow";
-            this.Is_NewRow.FieldName = "Is_NewRow";
-            this.Is_NewRow.MinWidth = 30;
-            this.Is_NewRow.Name = "Is_NewRow";
-            this.Is_NewRow.Width = 112;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(2, 2);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1375, 182);
-            this.panel1.TabIndex = 16;
+            this.IS_NEWROW.Caption = "IS_NEWROW";
+            this.IS_NEWROW.FieldName = "IS_NEWROW";
+            this.IS_NEWROW.MinWidth = 30;
+            this.IS_NEWROW.Name = "IS_NEWROW";
+            this.IS_NEWROW.Width = 112;
             // 
             // W51020
             // 
@@ -427,6 +427,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
             this.panelControl2.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
             this.panelControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
@@ -435,8 +437,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit4)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -469,7 +469,7 @@
         private DevExpress.XtraGrid.Columns.GridColumn MMFT_CP_KIND;
         private DevExpress.XtraGrid.Columns.GridColumn MMFT_END_S;
         private DevExpress.XtraGrid.Columns.GridColumn MMFT_END_E;
-        private DevExpress.XtraGrid.Columns.GridColumn Is_NewRow;
+        private DevExpress.XtraGrid.Columns.GridColumn IS_NEWROW;
         private System.Windows.Forms.Panel panel1;
     }
 }

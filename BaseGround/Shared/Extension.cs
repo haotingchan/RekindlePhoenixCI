@@ -165,6 +165,87 @@ namespace BaseGround.Shared {
             DataTable newDT = dv.ToTable();
             return newDT;
         }
+        /// <summary>
+        /// datatable排序
+        /// </summary>
+        /// <param name="sortcondition">排序條件</param>
+        /// <returns></returns>
+        public static DataTable Sort(this DataTable dataTable, string sortcondition) {
+            DataView dv = dataTable.AsDataView();
+            dv.Sort = sortcondition;
+            DataTable newDT = dv.ToTable();
+            return newDT;
+        }
+
+        #region Grid欄位相關設定(例如欄位標題/置中/標題自動折行/內容自動折行)
+
+        /// <summary>
+        /// 設定column caption (如果沒有該column也不會出錯)
+        /// </summary>
+        /// <param name="gv"></param>
+        /// <param name="colName"></param>
+        /// <param name="colCaption"></param>
+        public static void SetColumnCaption(this DevExpress.XtraGrid.Views.Grid.GridView gv,
+                                                string colName,
+                                                string colCaption) {
+            if (gv.Columns[colName] != null) {
+                gv.Columns[colName].Caption = colCaption;
+            }
+        }
+
+        /// <summary>
+        /// 設定column HAlignment (如果沒有該column也不會出錯)
+        /// </summary>
+        /// <param name="gv"></param>
+        /// <param name="colName"></param>
+        /// <param name="colCaption"></param>
+        public static void SetColumnHAlignment(this DevExpress.XtraGrid.Views.Grid.GridView gv,
+                                                    string colName,
+                                                    DevExpress.Utils.HorzAlignment alignment) {
+            if (gv.Columns[colName] != null) {
+                gv.Columns[colName].AppearanceCell.Options.UseTextOptions = true;
+                gv.Columns[colName].AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Default;
+            }
+        }
+
+        /// <summary>
+        /// 設定column header自動折行 (如果沒有該column也不會出錯)
+        /// </summary>
+        /// <param name="gv"></param>
+        /// <param name="colName"></param>
+        /// <param name="colWidth"></param>
+        public static void SetColumnHeaderWrap(this DevExpress.XtraGrid.Views.Grid.GridView gv,
+                                                    string colName,
+                                                    int colWidth) {
+            if (gv.Columns[colName] != null) {
+                gv.OptionsView.ColumnHeaderAutoHeight = DevExpress.Utils.DefaultBoolean.True;//必須先設定全體grid的此屬性,再來才是根據每個欄位限制寬度
+                gv.Columns[colName].Width = colWidth;
+                gv.Columns[colName].OptionsColumn.FixedWidth = true;
+            }
+        }
+
+        /// <summary>
+        /// 設定column 自動折行 (如果沒有該column也不會出錯)
+        /// </summary>
+        /// <param name="gv"></param>
+        /// <param name="colName"></param>
+        /// <param name="colWidth"></param>
+        /// <param name="memoEdit">如果該欄位不可編輯,直接帶null即可</param>
+        public static void SetColumnWrap(this DevExpress.XtraGrid.Views.Grid.GridView gv,
+                                            string colName,
+                                            int colWidth,
+                                            DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit memoEdit = null) {
+            if (gv.Columns[colName] != null) {
+                gv.OptionsView.RowAutoHeight = true;//必須先設定全體grid的此屬性,再來才是根據每個欄位限制寬度
+                gv.Columns[colName].Width = colWidth;
+                gv.Columns[colName].OptionsColumn.FixedWidth = true;
+                if (memoEdit == null)
+                    memoEdit = new DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit();
+                gv.Columns[colName].ColumnEdit = memoEdit;
+            }
+        }
+
+        #endregion
     }
 }
 

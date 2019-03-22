@@ -10,17 +10,16 @@ using DataObjects.Dao.Together.SpecificDao;
 using BusinessObjects.Enums;
 using DevExpress.XtraGrid.Views.Grid;
 using BusinessObjects;
+using System.Linq;
 
 namespace PhoenixCI.FormUI.Prefix5 {
     public partial class W51060 : FormParent {
         private string allowCol = "MMIQ_INVALID_QNTY";
         private string disableCol = "MMIQ_YM";
-        private ReportHelper _ReportHelper;
         private D51060 dao51060;
 
         public W51060(string programID, string programName) : base(programID, programName) {
             InitializeComponent();
-            _IsPreventFlowPrint = false;
             GridHelper.SetCommonGrid(gvMain);
             dao51060 = new D51060();
             this.Text = _ProgramID + "─" + _ProgramName;
@@ -35,7 +34,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             if (returnTable.Rows.Count == 0) {
                 MessageDisplay.Info("無任何資料");
             }
-            returnTable.Columns.Add("Is_NewRow", typeof(string));
+            //returnTable.Columns.Add("Is_NewRow", typeof(string));
             gcMain.DataSource = returnTable;
 
             gcMain.Focus();
@@ -46,43 +45,47 @@ namespace PhoenixCI.FormUI.Prefix5 {
         protected override ResultStatus Save(PokeBall poke) {
             gvMain.CloseEditor();
             gvMain.UpdateCurrentRow();
-
-            DataTable dt = (DataTable)gcMain.DataSource;
             ResultStatus resultStatus = ResultStatus.Fail;
-            DataTable dtChange = dt.GetChanges();
-            DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
-            DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
-
-            ResultData resultData = new ResultData();
-            resultData.ChangedDataViewForAdded = dtForAdd == null ? new DataView() : dtForAdd.DefaultView;
-            resultData.ChangedDataViewForModified = dtForModified == null ? new DataView() : dtForModified.DefaultView;
 
             try {
-                if (dtChange.Rows.Count == 0) {
-                    MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                DataTable dt = (DataTable)gcMain.DataSource;
+
+                if (!checkComplete(dt)) return ResultStatus.Fail;
+
+                DataTable dtChange = dt.GetChanges();
+                DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
+                DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
+
+                ResultData resultData = new ResultData();
+                resultData.ChangedDataViewForAdded = dtForAdd == null ? new DataView() : dtForAdd.DefaultView;
+                resultData.ChangedDataViewForModified = dtForModified == null ? new DataView() : dtForModified.DefaultView;
+
+                if (dtChange == null) {
+                    MessageDisplay.Info("沒有變更資料, 不需要存檔!");
+                    return ResultStatus.FailButNext;
                 }
-                else {
-                    string result = dao51060.ExecuteStoredProcedure(txtYM.Text.Replace("/", ""));
-                    if (result == "0") {
-                        foreach (DataRow r in dt.Rows) {
-                            if (r.RowState != DataRowState.Deleted) {
-                                r["MMIQ_W_TIME"] = DateTime.Now;
-                                r["MMIQ_W_USER_ID"] = GlobalInfo.USER_ID;
-                            }
-                            if (Equals(0, r["MMIQ_INVALID_QNTY"])) {
-                                r.Delete();
-                            }
+                string result = dao51060.ExecuteStoredProcedure(txtYM.DateTimeValue.ToString("yyyyMMdd"));
+                if (result == "0") {
+                    foreach (DataRow r in dt.Rows) {
+                        if (r.RowState != DataRowState.Deleted) {
+                            r["MMIQ_W_TIME"] = DateTime.Now;
+                            r["MMIQ_W_USER_ID"] = GlobalInfo.USER_ID;
                         }
-                        resultStatus = dao51060.updateData(dt).Status;//base.Save_Override(dt, "MMIQ");
+                        if (Equals(0, r["MMIQ_INVALID_QNTY"])) {
+                            r.Delete();
+                        }
+                    }
+                    resultStatus = dao51060.updateData(dt).Status;//base.Save_Override(dt, "MMIQ");
+                    if (resultStatus == ResultStatus.Fail) {
+                        MessageDisplay.Error("儲存失敗");
+                        return ResultStatus.Fail;
                     }
                 }
                 PrintOrExportChanged(gcMain, resultData);
-                _IsPreventFlowPrint = true;
             }
             catch (Exception ex) {
-                WriteLog(ex);
+                throw ex;
             }
-
             return resultStatus;
         }
 
@@ -95,19 +98,17 @@ namespace PhoenixCI.FormUI.Prefix5 {
         }
 
         protected override ResultStatus Print(ReportHelper reportHelper) {
-            _ReportHelper = reportHelper;
-            CommonReportPortraitA4 report = new CommonReportPortraitA4();
-            report.printableComponentContainerMain.PrintableComponent = gcMain;
-            _ReportHelper.Create(report);
+            try {
+                ReportHelper _ReportHelper = new ReportHelper(gcMain, _ProgramID, this.Text);
+                _ReportHelper.Print();//如果有夜盤會特別標註
+                _ReportHelper.Export(FileType.PDF, _ReportHelper.FilePath);
 
-            base.Print(_ReportHelper);
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus DeleteRow() {
-            base.DeleteRow(gvMain);
-
-            return ResultStatus.Success;
+                return ResultStatus.Success;
+            }
+            catch (Exception ex) {
+                WriteLog(ex);
+            }
+            return ResultStatus.Fail;
         }
 
         protected override ResultStatus ActivatedForm() {
@@ -121,14 +122,30 @@ namespace PhoenixCI.FormUI.Prefix5 {
             return ResultStatus.Success;
         }
 
+        protected override ResultStatus DeleteRow() {
+            base.DeleteRow(gvMain);
+            return ResultStatus.Success;
+        }
+
+        private bool checkComplete(DataTable dtSource) {
+
+            foreach (DataColumn column in dtSource.Columns) {
+                if (dtSource.Rows.OfType<DataRow>().Where(r => r.RowState != DataRowState.Deleted).Any(r => r.IsNull(column))) {
+                    MessageDisplay.Error("尚未填寫完成");
+                    return false;
+                }
+            }
+            return true;
+        }
+
         private void gvMain_ShowingEditor(object sender, CancelEventArgs e) {
             GridView gv = sender as GridView;
-            string Is_NewRow = gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
-                 gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"]).ToString();
+            string Is_NewRow = gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["IS_NEWROW"]) == null ? "0" :
+                 gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["IS_NEWROW"]).ToString();
 
             if (gv.IsNewItemRow(gv.FocusedRowHandle) || Is_NewRow == "1") {
                 e.Cancel = false;
-                gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"], 1);
+                gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["IS_NEWROW"], 1);
             }
             else if (gv.FocusedColumn.FieldName != allowCol) {
                 e.Cancel = true;
@@ -140,13 +157,13 @@ namespace PhoenixCI.FormUI.Prefix5 {
             gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["MMIQ_YM"], txtYM.Text.Replace("/", ""));
             gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["MMIQ_W_TIME"], GlobalInfo.OCF_DATE);
             gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["MMIQ_W_USER_ID"], GlobalInfo.USER_ID);
-            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"], 1);
+            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["IS_NEWROW"], 1);
         }
 
         private void gvMain_RowCellStyle(object sender, RowCellStyleEventArgs e) {
             GridView gv = sender as GridView;
-            string Is_NewRow = gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
-                 gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]).ToString();
+            string Is_NewRow = gv.GetRowCellValue(e.RowHandle, gv.Columns["IS_NEWROW"]) == null ? "0" :
+                 gv.GetRowCellValue(e.RowHandle, gv.Columns["IS_NEWROW"]).ToString();
 
             if (e.Column.FieldName != allowCol) {
                 e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.Silver;

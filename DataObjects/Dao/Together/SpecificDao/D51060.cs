@@ -26,7 +26,15 @@ namespace DataObjects.Dao.Together.SpecificDao
             };
 
             string sql = @"
-                        SELECT * 
+                        SELECT 
+                            CI.MMIQ.MMIQ_YM,
+                            CI.MMIQ.MMIQ_FCM_NO,   
+                            CI.MMIQ.MMIQ_ACC_NO,   
+                            CI.MMIQ.MMIQ_KIND_ID,   
+                            CI.MMIQ.MMIQ_INVALID_QNTY,   
+                            CI.MMIQ.MMIQ_W_TIME,   
+                            CI.MMIQ.MMIQ_W_USER_ID,
+                            '0' as IS_NEWROW
                         FROM CI.MMIQ  
                         WHERE CI.MMIQ.MMIQ_YM = :as_ym
                         order by MMIQ_FCM_NO";

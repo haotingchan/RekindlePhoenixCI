@@ -14,6 +14,7 @@ using static DataObjects.Dao.DataGate;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraEditors;
 using DevExpress.XtraGrid.Views.Base;
+using System.Linq;
 
 namespace PhoenixCI.FormUI.PrefixS {
     public partial class WS0071 : FormParent {
@@ -62,7 +63,7 @@ namespace PhoenixCI.FormUI.PrefixS {
             gcMain.RepositoryItems.Add(cbxParamType);
             SPAN_PARAM_TYPE.ColumnEdit = cbxParamType;
 
-            //設定值
+            //設定值 要顯示user自己輸入的值
             RepositoryItemLookUpEdit cbxParamValue = new RepositoryItemLookUpEdit();
             DataTable cbxParamValueSource = daoCod.ListByCol2("S0071", "span_param_value");
             DataTable dtParamValueData = daoS0071.GetParamData("PL", GlobalInfo.USER_ID);//DB現有資料
@@ -155,33 +156,50 @@ namespace PhoenixCI.FormUI.PrefixS {
             gvMain.UpdateCurrentRow();
             ResultStatus resultStatus = ResultStatus.Fail;
 
-            DataTable dt = (DataTable)gcMain.DataSource;
+            try {
+                DataTable dt = (DataTable)gcMain.DataSource;
 
-            if (checkChanged()) {
-                resultStatus = savePeriod();
-                if (resultStatus == ResultStatus.Success) {
-                    foreach (DataRow r in dt.Rows) {
-                        if (r.RowState != DataRowState.Deleted) {
-                            r.SetField("span_param_w_time", DateTime.Now);
-                            if (r["span_param_type"].AsString() == "2") {
-                                switch (r["span_param_value"].AsString()) {
-                                    case "1":
-                                    case "2":
-                                    case "3":
-                                    case "4": {//最大漲跌停
-                                            break;
-                                        }
-                                    default: {
-                                            MessageDisplay.Info("設定方式選漲跌停價格, 則設定值請選擇1, 2, 3或最大漲跌停");
-                                            return ResultStatus.FailButNext;
-                                        }
-                                }
+                if (!checkChanged()) {
+                    MessageDisplay.Info("沒有變更資料, 不需要存檔!");
+                    return ResultStatus.FailButNext;
+                }
+
+                foreach (DataRow r in dt.Rows) {
+                    if (r.RowState == DataRowState.Deleted) continue;
+
+                    r.SetField("span_param_w_time", DateTime.Now);
+                    if (r["span_param_type"].AsString() == "2") {
+                        switch (r["span_param_value"].AsString()) {
+                            case "1":
+                            case "2":
+                            case "3":
+                            case "4": {//最大漲跌停
+                                break;
+                            }
+                            default: {
+                                MessageDisplay.Info("設定方式選漲跌停價格, 則設定值請選擇1, 2, 3或最大漲跌停");
+                                return ResultStatus.FailButNext;
                             }
                         }
                     }
-                    resultStatus = daoS0071.updateParamData(dt).Status;//base.Save_Override(dt, "SPAN_PARAM", DBName.CFO);
                 }
-                _IsPreventFlowPrint = true;
+
+                if (!checkComplete(dt)) return ResultStatus.FailButNext;
+
+                resultStatus = savePeriod();
+                if (resultStatus == ResultStatus.Fail) {
+                    MessageDisplay.Info("儲存錯誤!");
+                    return ResultStatus.Fail;
+                }
+               
+                resultStatus = daoS0071.updateParamData(dt).Status;//base.Save_Override(dt, "SPAN_PARAM", DBName.CFO);
+                if (resultStatus == ResultStatus.Fail) {
+                    MessageDisplay.Info("儲存錯誤!");
+                    return ResultStatus.Fail;
+                }
+            }
+            catch (Exception ex) {
+                throw ex;
             }
             return resultStatus;
         }
@@ -226,12 +244,6 @@ namespace PhoenixCI.FormUI.PrefixS {
             return ResultStatus.Success;
         }
 
-        protected override ResultStatus DeleteRow() {
-            base.DeleteRow(gvMain);
-
-            return ResultStatus.Success;
-        }
-
         private ResultStatus savePeriod() {
             periodTable = daoS0071.GetPeriodByUserId("PL", GlobalInfo.USER_ID);
             periodTable.Rows[0].SetField("span_period_start_date", txtStartDate.DateTimeValue.ToString("yyyyMMdd"));
@@ -244,6 +256,11 @@ namespace PhoenixCI.FormUI.PrefixS {
             else {
                 return ResultStatus.FailButNext;
             }
+        }
+
+        protected override ResultStatus DeleteRow() {
+            base.DeleteRow(gvMain);
+            return ResultStatus.Success;
         }
 
         private void gvMain_InitNewRow(object sender, InitNewRowEventArgs e) {
@@ -302,45 +319,49 @@ namespace PhoenixCI.FormUI.PrefixS {
             e.Handled = true;
         }
 
+        private bool checkComplete(DataTable dtSource) {
+
+            foreach (DataColumn column in dtSource.Columns) {
+                if (dtSource.Rows.OfType<DataRow>().Where(r => r.RowState != DataRowState.Deleted).Any(r => string.IsNullOrEmpty(r[column].ToString()))) {
+                    MessageDisplay.Error("尚未填寫完成");
+                    return false;
+                }
+            }
+            return true;
+        }
+
         private bool checkPeriod() {
-            bool check = true;
 
             if (txtEndDate.DateTimeValue.Subtract(txtStartDate.DateTimeValue).Days > 31) {
                 MessageDisplay.Info("日期區間不可超過31天!");
                 txtEndDate.Select();
-                check = false;
+                return false;
             }
             else if (txtStartDate.DateTimeValue > txtEndDate.DateTimeValue) {
                 MessageDisplay.Info("起始值不可大於迄止值!");
                 txtStartDate.Select();
-                check = false;
+                return false;
             }
-            return check;
+            return true ;
         }
 
         private bool checkChanged(){
-            int changeCount = 0;
-            bool hasChanged = false;
 
             DataTable dt = (DataTable)gcMain.DataSource;
             DataTable dtChange = dt.GetChanges();
 
             if (dtChange != null) {
-                if (dtChange.Rows.Count != 0) {
-                    changeCount ++;
+                if (dtChange.Rows.Count > 0) {
+                    return true;
                 }
             }
 
             if (txtStartDate.DateTimeValue != startDateOldValue
                     || txtEndDate.DateTimeValue != endDateOldValue) {
-                changeCount++;
+                return true;
             }
 
-            if (changeCount != 0) {
-                hasChanged = true;
-            }
-
-            return hasChanged;
+            return false;
         }
     }
 }

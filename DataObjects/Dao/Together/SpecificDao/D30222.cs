@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using BusinessObjects;
+using Common;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -52,7 +53,8 @@ SELECT PLS1_YMD AS PLS1_EFFECTIVE_YMD,
          PLS1_STKOUT,   
          PLS1_CP_LEVEL AS PLS1_LEVEL_ORG,
          PLS1_LEVEL_ADJ AS PLS1_LEVEL_ADJ_ORG,
-         CASE WHEN pls1_kind_id2 <> kind_grp2 THEN '小型' ELSE ' ' END as COMPUTE_1
+         --CASE WHEN pls1_kind_id2 <> kind_grp2 THEN '小型' ELSE ' ' END as COMPUTE_1
+         ' ' as COMPUTE_1
     FROM CI.PLS1,
         --契約基本資料
         (SELECT NVL(F.APDK_KIND_GRP2,O.APDK_KIND_GRP2) AS KIND_GRP2,
@@ -102,7 +104,7 @@ SELECT PLS1_YMD AS PLS1_EFFECTIVE_YMD,
         /// </summary>
         /// <param name="as_ymd">yyyyMMdd</param>
         /// <returns></returns>
-        public DataTable d_30203_pls2(string as_ymd) {
+        public DataTable d_30222_pls2(string as_ymd) {
 
             object[] parms = {
                 ":as_ymd", as_ymd
@@ -115,22 +117,75 @@ SELECT
     PLS2_YMD, 
     PLS2_KIND_ID2, 
     PLS2_FUT, 
-    PLS2_OPT, 
+    PLS2_OPT,
+
     PLS2_SID, 
     PLS2_LEVEL_ADJ, 
     PLS2_LEVEL, 
     PLS2_NATURE, 
     PLS2_LEGAL, 
+
     PLS2_999, 
     PLS2_PREV_LEVEL, 
     PLS2_PREV_NATURE, 
     PLS2_PREV_LEGAL, 
     PLS2_PREV_999, 
+
     PLS2_KIND_GRP2,
     PLS2_W_TIME, 
     PLS2_W_USER_ID
 FROM CI.PLS2
 WHERE PLS2_YMD = :AS_YMD
+";
+            DataTable dtResult = db.GetDataTable(sql, parms);
+
+            return dtResult;
+        }
+
+        /// <summary>
+        /// 前次公告資料 table: PLS2
+        /// </summary>
+        /// <param name="as_ymd"></param>
+        /// <returns></returns>
+        public DataTable d_30222_prev(string as_ymd) {
+
+            object[] parms = {
+                ":as_ymd", as_ymd
+            };
+
+            string sql =
+@"
+SELECT PLS2_EFFECTIVE_YMD,   
+         PLS2_YMD,   
+         PLS2_KIND_ID2,   
+         PLS2_FUT,   
+         PLS2_OPT,   
+         PLS2_SID,   
+         ' ' as PLS2_LEVEL_ADJ,   
+         PLS2_LEVEL,   
+         PLS2_NATURE,   
+         PLS2_LEGAL,   
+         PLS2_999,   
+         PLS2_LEVEL as PLS2_PREV_LEVEL,   
+         PLS2_NATURE as PLS2_PREV_NATURE,   
+         PLS2_LEGAL as PLS2_PREV_LEGAL,   
+         PLS2_999 as PLS2_PREV_999,
+         PLS2_KIND_GRP2,
+         sysdate as PLS2_W_TIME,
+         'AP' as PLS2_W_USER_ID,
+         'P' as OP_TYPE,
+         0 as PLS1_QNTY,   
+         0 as PLS1_STKOUT,   
+         PLS2_LEVEL AS PLS1_LEVEL_ORG,
+         PLS2_LEVEL_ADJ AS PLS1_LEVEL_ADJ_ORG,
+         ' ' as COMPUTE_1
+    FROM CI.PLS2 PREV,
+        (select MAX(PLS2_YMD) as MAX_YMD
+           from ci.PLS2
+          where PLS2_YMD < :as_ymd) M
+   WHERE PLS2_YMD = MAX_YMD  
+     and not exists (select 1 FROM CI.PLS1 CP  
+                      where PLS1_YMD = :as_ymd and CP.PLS1_KIND_ID2 = PREV.PLS2_KIND_ID2)
 ";
             DataTable dtResult = db.GetDataTable(sql, parms);
 
@@ -179,6 +234,97 @@ WHERE PLS2_YMD = :LS_EFF_YMD
                 return dtResult.Rows[0]["I"].AsInt();
             else
                 return 0;
+        }
+
+        /// <summary>
+        /// 刪除PLS2的資料
+        /// </summary>
+        /// <param name="ls_ymd">yyyyMMdd</param>
+        /// <returns></returns>
+        public bool DeletePLS2ByDate(string ls_ymd) {
+            object[] parms =
+            {
+                ":ls_ymd", ls_ymd
+            };
+
+            #region sql
+
+            string sql =
+@"
+delete ci.PLS2
+where PLS2_YMD = :ls_ymd
+";
+
+            #endregion sql
+            try {
+                int executeResult = db.ExecuteSQL(sql, parms);
+
+                if (executeResult >= 0) {
+                    return true;
+                }
+                else {
+                    return false;
+                    //throw new Exception("PLS2刪除失敗");
+                }
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        public ResultData updatePLS2(DataTable inputData) {
+            string sql = @"
+SELECT 
+    PLS2_EFFECTIVE_YMD, 
+    PLS2_YMD, 
+    PLS2_KIND_ID2, 
+    PLS2_FUT, 
+    PLS2_OPT,
+
+    PLS2_SID, 
+    PLS2_LEVEL_ADJ, 
+    PLS2_LEVEL, 
+    PLS2_NATURE, 
+    PLS2_LEGAL, 
+
+    PLS2_999, 
+    PLS2_PREV_LEVEL, 
+    PLS2_PREV_NATURE, 
+    PLS2_PREV_LEGAL, 
+    PLS2_PREV_999, 
+
+    PLS2_KIND_GRP2,
+    PLS2_W_TIME, 
+    PLS2_W_USER_ID
+FROM CI.PLS2
+";
+
+            return db.UpdateOracleDB(inputData, sql);
+        }
+
+        /// <summary>
+        /// gvMain_CellValueChangedg事件會用到
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public DataTable SetPLST1LevelData(int data) {
+
+            object[] parms = {
+                ":data", data
+            };
+
+            string sql =
+@"
+select  PLST1_NATURE,
+        PLST1_LEGAL,
+        PLST1_999
+--into :ld_nature,:ld_legal,:ld_999
+from ci.PLST1
+where PLST1_LEVEL = :data
+";
+            DataTable dtResult = db.GetDataTable(sql, parms);
+
+            return dtResult;
         }
     }
 }

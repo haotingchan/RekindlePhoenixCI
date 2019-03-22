@@ -74,14 +74,19 @@
     <Compile Include="BusinessLogic\Prefix3\B30360Tests.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30370Tests.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30393Tests.cs" />
+    <Compile Include="BusinessLogic\Prefix3\B30396Tests.cs" />
+    <Compile Include="BusinessLogic\Prefix3\B30398Tests.cs" />
+    <Compile Include="BusinessLogic\Prefix3\B30399Tests.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30505Tests.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30508Tests.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30520Tests.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30540Tests.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30550Tests.cs" />
+    <Compile Include="BusinessLogic\Prefix3\B30560Tests.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30580Tests.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30687Tests.cs" />
     <Compile Include="BusinessLogic\Prefix4\B40200Tests.cs" />
+    <Compile Include="BusinessLogic\Prefix4\B43030Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

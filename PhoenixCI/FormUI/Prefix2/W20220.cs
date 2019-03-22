@@ -36,66 +36,74 @@ namespace PhoenixCI.FormUI.Prefix2 {
         public W20220(string programID, string programName) : base(programID, programName) {
             InitializeComponent();
             this.Text = _ProgramID + "─" + _ProgramName;
-
+            _IsPreventFlowPrint = false;
             GridHelper.SetCommonGrid(gvMain);
             PrintableComponent = gcMain;
         }
 
         protected override ResultStatus Open() {
-            base.Open();
+            try {
+                base.Open();
 
-            #region 處理下拉選單
-            _RepLookUpEdit_Type = new RepositoryItemLookUpEdit();
-            DataTable dtProd_Type = new DataTable();
-            dtProd_Type.Columns.Add("ID");
-            dtProd_Type.Columns.Add("DESC");
-            DataRow ptRow1 = dtProd_Type.NewRow();
-            ptRow1["ID"] = "F";
-            ptRow1["DESC"] = "期貨";
-            dtProd_Type.Rows.Add(ptRow1);
-            DataRow ptRow2 = dtProd_Type.NewRow();
-            ptRow2["ID"] = "O";
-            ptRow2["DESC"] = "選擇權";
-            dtProd_Type.Rows.Add(ptRow2);
-            Extension.SetColumnLookUp(_RepLookUpEdit_Type, dtProd_Type, "ID", "DESC", TextEditStyles.DisableTextEditor, "");
-            gcMain.RepositoryItems.Add(_RepLookUpEdit_Type);
-            PLT1_PROD_TYPE.ColumnEdit = _RepLookUpEdit_Type;
+                #region 處理下拉選單
+                _RepLookUpEdit_Type = new RepositoryItemLookUpEdit();
+                DataTable dtProd_Type = new DataTable();
+                dtProd_Type.Columns.Add("ID");
+                dtProd_Type.Columns.Add("DESC");
+                DataRow ptRow1 = dtProd_Type.NewRow();
+                ptRow1["ID"] = "F";
+                ptRow1["DESC"] = "期貨";
+                dtProd_Type.Rows.Add(ptRow1);
+                DataRow ptRow2 = dtProd_Type.NewRow();
+                ptRow2["ID"] = "O";
+                ptRow2["DESC"] = "選擇權";
+                dtProd_Type.Rows.Add(ptRow2);
+                Extension.SetColumnLookUp(_RepLookUpEdit_Type, dtProd_Type, "ID", "DESC", TextEditStyles.DisableTextEditor, "");
+                gcMain.RepositoryItems.Add(_RepLookUpEdit_Type);
+                PLT1_PROD_TYPE.ColumnEdit = _RepLookUpEdit_Type;
 
-            _RepLookUpEdit_SubType = new RepositoryItemLookUpEdit();
-            DataTable dtProd_SubType = new DataTable();
-            dtProd_SubType.Columns.Add("ID");
-            dtProd_SubType.Columns.Add("DESC");
-            DataRow pstRow1 = dtProd_SubType.NewRow();
-            pstRow1["ID"] = "C";
-            pstRow1["DESC"] = "黃金類";
-            dtProd_SubType.Rows.Add(pstRow1);
-            DataRow pstRow2 = dtProd_SubType.NewRow();
-            pstRow2["ID"] = "E";
-            pstRow2["DESC"] = "匯率類";
-            dtProd_SubType.Rows.Add(pstRow2);
-            DataRow pstRow3 = dtProd_SubType.NewRow();
-            pstRow3["ID"] = "I";
-            pstRow3["DESC"] = "指數類";
-            dtProd_SubType.Rows.Add(pstRow3);
-            Extension.SetColumnLookUp(_RepLookUpEdit_SubType, dtProd_SubType, "ID", "DESC", TextEditStyles.DisableTextEditor, "");
-            gcMain.RepositoryItems.Add(_RepLookUpEdit_SubType);
-            PLT1_PROD_SUBTYPE.ColumnEdit = _RepLookUpEdit_SubType;
-            #endregion
-
+                _RepLookUpEdit_SubType = new RepositoryItemLookUpEdit();
+                DataTable dtProd_SubType = new DataTable();
+                dtProd_SubType.Columns.Add("ID");
+                dtProd_SubType.Columns.Add("DESC");
+                DataRow pstRow1 = dtProd_SubType.NewRow();
+                pstRow1["ID"] = "C";
+                pstRow1["DESC"] = "黃金類";
+                dtProd_SubType.Rows.Add(pstRow1);
+                DataRow pstRow2 = dtProd_SubType.NewRow();
+                pstRow2["ID"] = "E";
+                pstRow2["DESC"] = "匯率類";
+                dtProd_SubType.Rows.Add(pstRow2);
+                DataRow pstRow3 = dtProd_SubType.NewRow();
+                pstRow3["ID"] = "I";
+                pstRow3["DESC"] = "指數類";
+                dtProd_SubType.Rows.Add(pstRow3);
+                Extension.SetColumnLookUp(_RepLookUpEdit_SubType, dtProd_SubType, "ID", "DESC", TextEditStyles.DisableTextEditor, "");
+                gcMain.RepositoryItems.Add(_RepLookUpEdit_SubType);
+                PLT1_PROD_SUBTYPE.ColumnEdit = _RepLookUpEdit_SubType;
+                #endregion
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
             return ResultStatus.Success;
         }
 
         protected override ResultStatus AfterOpen() {
-            base.AfterOpen();
+            try {
+                base.AfterOpen();
 
-            //直接讀取資料
-            Retrieve();
+                //直接讀取資料
+                Retrieve();
 
-            //沒有新增資料時,則自動新增內容
-            if (gvMain.RowCount == 0) {
-                InsertRow();
+                //沒有新增資料時,則自動新增內容
+                if (gvMain.RowCount == 0) {
+                    InsertRow();
+                }
             }
-
+            catch (Exception ex) {
+                throw ex;
+            }
             return ResultStatus.Success;
         }
 
@@ -118,18 +126,23 @@ namespace PhoenixCI.FormUI.Prefix2 {
 
         protected override ResultStatus Retrieve() {
 
-            dao20220 = new D20220();
-            DataTable returnTable = dao20220.ListAll();
+            try {
+                dao20220 = new D20220();
+                DataTable returnTable = dao20220.ListAll();
 
-            if (returnTable.Rows.Count == 0) {
-                MessageBox.Show("無任何資料", "訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return ResultStatus.Fail;
+                if (returnTable.Rows.Count == 0) {
+                    MessageBox.Show("無任何資料", "訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return ResultStatus.Fail;
+                }
+
+                returnTable.Columns.Add("Is_NewRow", typeof(string));
+                gcMain.DataSource = returnTable;
+                gcMain.Focus();
             }
-
-            returnTable.Columns.Add("Is_NewRow", typeof(string));
-            gcMain.DataSource = returnTable;
-            gcMain.Focus();
-
+            catch (Exception ex) {
+                MessageDisplay.Error("讀取失敗");
+                throw ex;
+            }
             return ResultStatus.Success;
         }
 
@@ -145,51 +158,70 @@ namespace PhoenixCI.FormUI.Prefix2 {
         }
 
         protected override ResultStatus Save(PokeBall pokeBall) {
-            base.Save(gcMain);
+            try {
+                base.Save(gcMain);
 
-            DataTable dt = (DataTable)gcMain.DataSource;
-            DataTable dtChange = dt.GetChanges();
+                DataTable dt = (DataTable)gcMain.DataSource;
+                DataTable dtChange = dt.GetChanges();
 
-            if (dtChange == null) {
-                MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return ResultStatus.Fail;
-            }
-            if (dtChange.Rows.Count == 0) {
-                MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return ResultStatus.Fail;
-            }
-            //更新主要Table
-            else {
-                ResultStatus status = base.Save_Override(dt, "PLT1");
-                if (status == ResultStatus.Fail) {
+                if (dtChange == null) {
+                    MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return ResultStatus.Fail;
                 }
+                if (dtChange.Rows.Count == 0) {
+                    MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return ResultStatus.Fail;
+                }
+                //更新主要Table
+                else {
+                    ResultData myResultData = dao20220.updatePLT1(dt);
+                }
+            }
+            catch (Exception ex) {
+                MessageDisplay.Error("存檔失敗");
+                throw ex;
             }
             return ResultStatus.Success;
         }
 
 
         protected override ResultStatus Print(ReportHelper reportHelper) {
-            _ReportHelper = reportHelper;
-            CommonReportPortraitA4 report = new CommonReportPortraitA4();
-            report.printableComponentContainerMain.PrintableComponent = gcMain;
-            _ReportHelper.Create(report);
+            try {
+                _ReportHelper = reportHelper;
+                CommonReportPortraitA4 report = new CommonReportPortraitA4();
+                report.printableComponentContainerMain.PrintableComponent = gcMain;
+                _ReportHelper.Create(report);
 
-            base.Print(_ReportHelper);
+                base.Print(_ReportHelper);
+            }
+            catch (Exception ex) {
+                MessageDisplay.Error("列印失敗");
+                throw ex;
+            }
             return ResultStatus.Success;
         }
 
         protected override ResultStatus InsertRow() {
-            base.InsertRow(gvMain);
-            gvMain.Focus();
-            gvMain.FocusedColumn = gvMain.Columns[0];
-
+            try {
+                base.InsertRow(gvMain);
+                gvMain.Focus();
+                gvMain.FocusedColumn = gvMain.Columns[0];
+            }
+            catch (Exception ex) {
+                MessageDisplay.Error("新增資料列失敗");
+                throw ex;
+            }
             return ResultStatus.Success;
         }
 
         protected override ResultStatus DeleteRow() {
-            base.DeleteRow(gvMain);
-
+            try {
+                base.DeleteRow(gvMain);
+            }
+            catch (Exception ex) {
+                MessageDisplay.Error("刪除資料列失敗");
+                throw ex;
+            }
             return ResultStatus.Success;
         }
 

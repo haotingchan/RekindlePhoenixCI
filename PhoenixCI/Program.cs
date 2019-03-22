@@ -19,7 +19,7 @@ namespace CI {
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        private static void Main() {
+        private static void Main(string[] args) {
             // 將App.config檔裡面DevExpress的設定讀進來
             DevExpress.XtraEditors.WindowsFormsSettings.LoadApplicationSettings();
 
@@ -81,7 +81,23 @@ namespace CI {
             Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
-            Application.Run(new FormMain());
+            // 如果有傳參數進來
+            if (args.Length != 0)
+            {
+                string userID   = args[0];
+                string userName = args[1];
+                string txnID    = args[2];
+                string txnName  = args[3];
+
+                GlobalInfo.USER_ID = userID;
+                GlobalInfo.USER_NAME = userName;
+                Application.Run(new FormMain(txnID, txnName));
+            }
+            else
+            {
+                Application.Run(new FormMain());
+            }
+            
             //Application.Run(new FormLogin());
         }
 

@@ -38,42 +38,6 @@ namespace PhoenixCI.BusinessLogic.Prefix3
          workbook = new Workbook();
       }
       /// <summary>
-      /// 判斷要填入買或賣的欄位
-      /// </summary>
-      /// <param name="row">datarow AM2_BS_CODE</param>
-      /// <returns></returns>
-      private static int IDFGtype(DataRow row)
-      {
-         string drBScode = row["AM2_BS_CODE"].AsString();
-         string bsCode = "B";
-         int columnIndex = 0;
-         switch (row["AM2_IDFG_TYPE"].AsString()) {
-            case "1":
-               columnIndex = (drBScode == bsCode ? 2 : 3) - 1;
-               break;
-            case "2":
-               columnIndex = (drBScode == bsCode ? 4 : 5) - 1;
-               break;
-            case "3":
-               columnIndex = (drBScode == bsCode ? 6 : 7) - 1;
-               break;
-            case "5":
-               columnIndex = (drBScode == bsCode ? 8 : 9) - 1;
-               break;
-            case "6":
-               columnIndex = (drBScode == bsCode ? 10 : 11) - 1;
-               break;
-            case "8":
-               columnIndex = (drBScode == bsCode ? 12 : 13) - 1;
-               break;
-            case "7":
-               columnIndex = (drBScode == bsCode ? 14 : 15) - 1;
-               break;
-         }
-
-         return columnIndex;
-      }
-      /// <summary>
       /// 重新選取圖表資料範圍
       /// </summary>
       /// <param name="RowIndex">選取到第幾列</param>
@@ -145,7 +109,8 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                   addRowCount++;
                   worksheet.Rows[RowIndex][1 - 1].Value = ldtYMD.ToString("MM/dd");
                }
-
+               //if  not isnull(ld_val) then  iole_1.application.activecell(ii_ole_row, 3).value = ids_1.getitemdecimal(i, "ai3_close_price") - ids_1.getitemdecimal(i, "ai3_last_close_price")
+               //這段在PB不會執行成功 有寫跟沒寫一樣
                worksheet.Rows[RowIndex][2 - 1].Value = row["AI3_CLOSE_PRICE"].AsDecimal();
                worksheet.Rows[RowIndex][4 - 1].Value = row["AI3_M_QNTY"].AsDecimal();
                worksheet.Rows[RowIndex][5 - 1].Value = row["AI3_OI"].AsDecimal();
@@ -158,9 +123,6 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                //重新選取圖表範圍
                flowStepDesc = "重新選取圖表範圍";
                ResetChartData(RowIndex+1, workbook, worksheet, SheetName.Replace($"({IsKindID})", "a"));//ex:30393_1a
-               //int newRowIndex = RowIndex + (RowTotal - addRowCount);
-               //worksheet.Rows.Hide(RowIndex + 1, newRowIndex);
-               //RowIndex= newRowIndex;//沒有隱藏的下一行
             }
 
             //表尾
@@ -211,56 +173,13 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <returns></returns>
       public bool Wf30393abc(string IsKindID, string SheetName, int RowIndex = 3, int RowTotal = 12)
       {
-         string flowStepDesc = "開始轉出資料";
          try {
-
-            //切換Sheet
-            flowStepDesc = "切換Sheet";
-            workbook.LoadDocument(lsFile);
-            Worksheet worksheet = workbook.Worksheets[SheetName];
-            worksheet.Range["A1"].Select();
-            //總列數
-            int sumRowIndex = RowTotal + RowIndex + 1;//小計行數
-            int addRowCount = 0;//總計寫入的行數
-            worksheet.Rows[sumRowIndex][1 - 1].Value = $"{PbFunc.Left(emMonthText, 4).AsInt() - 1911}小計";
-            string lsYMD = "";
-            //讀取資料
-            flowStepDesc = "讀取資料";
-            DataTable dt = new AM2().ListAM2(IsKindID, $"{PbFunc.Left(emMonthText, 4)}01", emMonthText.Replace("/", ""));
-            //寫入資料
-            flowStepDesc = "寫入資料";
-            foreach (DataRow row in dt.Rows) {
-               if (lsYMD != row["AM2_YMD"].AsString()) {
-                  RowIndex = RowIndex + 1;
-                  lsYMD = row["AM2_YMD"].AsString();
-                  //li_month_cnt = li_month_cnt + 1;
-                  addRowCount++;
-                  worksheet.Rows[RowIndex][1 - 1].Value = $"{PbFunc.Left(lsYMD, 4).AsInt() - 1911}/{PbFunc.Right(lsYMD, 2)}";
-               }
-               //判斷欄位
-               int columnIndex = IDFGtype(row);
-
-               worksheet.Rows[RowIndex][columnIndex].Value = row["AM2_M_QNTY"].AsDecimal();
-            }
-            //刪除空白列
-            flowStepDesc = "刪除空白列";
-            if (RowTotal > addRowCount) {
-               //worksheet.Rows.Remove(RowIndex + 1, RowTotal - addRowCount);
-               worksheet.Rows.Hide(RowIndex + 1, RowIndex + (RowTotal - addRowCount));
-            }
-
-            //存檔
-            flowStepDesc = "存檔";
-            workbook.SaveDocument(lsFile);
-            return true;
+            new B30398(lsFile, emMonthText).Wf30333(IsKindID, SheetName);
          }
          catch (Exception ex) {
-#if DEBUG
-            throw new Exception($"Wf30393abc-{flowStepDesc}:" + ex.Message);
-#else
             throw ex;
-#endif
          }
+         return true;
       }
 
       

@@ -50,7 +50,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             PrintableComponent = gcMain;
             txtMonth.DateTimeValue = GlobalInfo.OCF_DATE;
             dao50120 = new D50120();
-
+            _IsPreventFlowPrint = false;
 
         }
 

@@ -15,7 +15,6 @@ namespace PhoenixCI.FormUI.Prefix1
     {
         public W10002(string programID, string programName) : base(programID, programName)
         {
-            //測試測試q
             InitializeComponent();
 
             GridHelper.SetCommonGrid(gvMain);

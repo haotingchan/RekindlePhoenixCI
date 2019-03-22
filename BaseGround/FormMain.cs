@@ -64,6 +64,12 @@ namespace BaseGround {
             }
         }
 
+        public FormMain(string txnID, string txnName) : this() {
+            OpenForm(txnID, txnName).CloseBox = false;
+            scSearch.Enabled = false;
+            sidePanelMenu.Enabled = false;
+        }
+
         /// <summary>
         /// 開啟或關閉MdiChild時會觸發此事件
         /// </summary>
@@ -125,7 +131,7 @@ namespace BaseGround {
             }
         }
 
-        public void OpenForm(string txn_id, string txn_name) {
+        public FormParent OpenForm(string txn_id, string txn_name) {
             var dllIndividual = Assembly.LoadFile(Application.ExecutablePath);
             string typeFormat = "{0}.FormUI.Prefix{1}.W{2}";
             Type myType = dllIndividual.GetType(string.Format(typeFormat, Path.GetFileNameWithoutExtension(Application.ExecutablePath), txn_id.Substring(0, 1), txn_id));
@@ -134,7 +140,7 @@ namespace BaseGround {
                 MessageDisplay.Error("無此程式");
                 accordionMenu.Focus();
                 accordionMenu.KeyNavHelperEx.SelectedElement = accordionMenu.SelectedElement;
-                return;
+                return null;
             }
 
             object myObj = Activator.CreateInstance(myType, txn_id, txn_name);
@@ -156,6 +162,8 @@ namespace BaseGround {
 
                 formInstance.Show();
             }
+
+            return formInstance;
         }
 
         private void Child_FormClosed(object sender, FormClosedEventArgs e) {

@@ -30,7 +30,6 @@
         {
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.grpxDescription = new System.Windows.Forms.GroupBox();
-            this.txtYM = new System.Windows.Forms.MaskedTextBox();
             this.lblDate = new System.Windows.Forms.Label();
             this.ImportShow = new System.Windows.Forms.Label();
             this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
@@ -48,6 +47,7 @@
             this.colFEETDCC_ACC_NO = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colFEETDCC_SESSION = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.txtYM = new PhoenixCI.Widget.TextDateEdit();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
@@ -57,16 +57,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtYM.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // panParent
             // 
-            this.panParent.Size = new System.Drawing.Size(813, 536);
+            this.panParent.Size = new System.Drawing.Size(813, 549);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(813, 43);
+            this.ribbonControl.Size = new System.Drawing.Size(813, 30);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // panelControl1
@@ -74,7 +75,7 @@
             this.panelControl1.Controls.Add(this.grpxDescription);
             this.panelControl1.Controls.Add(this.ImportShow);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelControl1.Location = new System.Drawing.Point(0, 43);
+            this.panelControl1.Location = new System.Drawing.Point(0, 30);
             this.panelControl1.Name = "panelControl1";
             this.panelControl1.Size = new System.Drawing.Size(813, 209);
             this.panelControl1.TabIndex = 0;
@@ -91,20 +92,12 @@
             this.grpxDescription.TabStop = false;
             this.grpxDescription.Text = "請輸入交易日期";
             // 
-            // txtYM
-            // 
-            this.txtYM.Location = new System.Drawing.Point(117, 43);
-            this.txtYM.Mask = "0000/00";
-            this.txtYM.Name = "txtYM";
-            this.txtYM.Size = new System.Drawing.Size(152, 39);
-            this.txtYM.TabIndex = 11;
-            // 
             // lblDate
             // 
             this.lblDate.AutoSize = true;
             this.lblDate.Location = new System.Drawing.Point(37, 46);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(85, 30);
+            this.lblDate.Size = new System.Drawing.Size(57, 20);
             this.lblDate.TabIndex = 2;
             this.lblDate.Text = "月份：";
             // 
@@ -113,7 +106,7 @@
             this.ImportShow.AutoSize = true;
             this.ImportShow.Location = new System.Drawing.Point(7, 135);
             this.ImportShow.Name = "ImportShow";
-            this.ImportShow.Size = new System.Drawing.Size(81, 30);
+            this.ImportShow.Size = new System.Drawing.Size(54, 20);
             this.ImportShow.TabIndex = 12;
             this.ImportShow.Text = "label1";
             // 
@@ -121,9 +114,9 @@
             // 
             this.panelControl2.Controls.Add(this.gcMain);
             this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelControl2.Location = new System.Drawing.Point(0, 252);
+            this.panelControl2.Location = new System.Drawing.Point(0, 239);
             this.panelControl2.Name = "panelControl2";
-            this.panelControl2.Size = new System.Drawing.Size(813, 327);
+            this.panelControl2.Size = new System.Drawing.Size(813, 340);
             this.panelControl2.TabIndex = 1;
             // 
             // gcMain
@@ -132,7 +125,7 @@
             this.gcMain.Location = new System.Drawing.Point(2, 2);
             this.gcMain.MainView = this.gvMain;
             this.gcMain.Name = "gcMain";
-            this.gcMain.Size = new System.Drawing.Size(809, 323);
+            this.gcMain.Size = new System.Drawing.Size(809, 336);
             this.gcMain.TabIndex = 10;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain,
@@ -262,10 +255,28 @@
             this.gridView1.GridControl = this.gcMain;
             this.gridView1.Name = "gridView1";
             // 
+            // txtYM
+            // 
+            this.txtYM.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+            this.txtYM.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtYM.EditValue = "2018/12";
+            this.txtYM.EnterMoveNextControl = true;
+            this.txtYM.Location = new System.Drawing.Point(100, 43);
+            this.txtYM.MenuManager = this.ribbonControl;
+            this.txtYM.Name = "txtYM";
+            this.txtYM.Properties.Appearance.Options.UseTextOptions = true;
+            this.txtYM.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtYM.Properties.Mask.EditMask = "yyyy/MM";
+            this.txtYM.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtYM.Properties.Mask.UseMaskAsDisplayFormat = true;
+            this.txtYM.Size = new System.Drawing.Size(144, 26);
+            this.txtYM.TabIndex = 17;
+            this.txtYM.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            // 
             // W56090
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(813, 579);
             this.Controls.Add(this.panelControl2);
@@ -287,6 +298,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtYM.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -311,8 +323,8 @@
         private DevExpress.XtraGrid.Columns.GridColumn colFEETDCC_SESSION;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
         private System.Windows.Forms.GroupBox grpxDescription;
-        private System.Windows.Forms.MaskedTextBox txtYM;
         private System.Windows.Forms.Label lblDate;
         private System.Windows.Forms.Label ImportShow;
+        private Widget.TextDateEdit txtYM;
     }
 }
