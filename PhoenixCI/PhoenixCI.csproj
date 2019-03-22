@@ -703,12 +703,6 @@
     <Compile Include="FormUI\Prefix3\W30760.designer.cs">
       <DependentUpon>W30760.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormUI\Prefix3\W30770.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormUI\Prefix3\W30770.designer.cs">
-      <DependentUpon>W30770.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormUI\Prefix3\W35010.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1117,19 +1111,11 @@
     <Compile Include="FormUI\PrefixP\WP0020.Designer.cs">
       <DependentUpon>WP0020.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormUI\PrefixP\WP0030.cs" />
-    <Compile Include="FormUI\PrefixP\WP0030.Designer.cs">
-      <DependentUpon>WP0030.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormUI\PrefixP\WP0040.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormUI\PrefixP\WP0040.Designer.cs">
       <DependentUpon>WP0040.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormUI\PrefixP\WP0050.cs" />
-    <Compile Include="FormUI\PrefixP\WP0050.Designer.cs">
-      <DependentUpon>WP0050.cs</DependentUpon>
     </Compile>
     <Compile Include="FormUI\PrefixS\WS0010.cs">
       <SubType>Form</SubType>
@@ -1537,9 +1523,6 @@
     <EmbeddedResource Include="FormUI\Prefix3\W30760.resx">
       <DependentUpon>W30760.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormUI\Prefix3\W30770.resx">
-      <DependentUpon>W30770.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix3\W35010.resx">
       <DependentUpon>W35010.cs</DependentUpon>
     </EmbeddedResource>
@@ -1744,14 +1727,8 @@
     <EmbeddedResource Include="FormUI\PrefixP\WP0020.resx">
       <DependentUpon>WP0020.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormUI\PrefixP\WP0030.resx">
-      <DependentUpon>WP0030.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FormUI\PrefixP\WP0040.resx">
       <DependentUpon>WP0040.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormUI\PrefixP\WP0050.resx">
-      <DependentUpon>WP0050.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\PrefixS\WS0010.resx">
       <DependentUpon>WS0010.cs</DependentUpon>

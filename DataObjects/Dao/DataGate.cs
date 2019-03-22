@@ -252,6 +252,238 @@ namespace DataObjects.Dao {
             return myResultData;
         }
 
+        public ResultData SaveForChanged(DataTable inputDT, string tableName, string insertColumnList, string updateColumnList, string updateOrDeleteKeysColumnList) {
+            ResultData myResultData = new ResultData();
+
+            //pokeBall.TrackedDataTables.Add(inputDT);
+
+            int myReturnValue = 0;
+
+            #region 參數轉換
+
+            List<string> myInsertColumnList = new List<string>();
+
+            if (!string.IsNullOrEmpty(insertColumnList)) {
+                foreach (string everyStr in insertColumnList.Split(',')) {
+                    myInsertColumnList.Add(everyStr.Trim());
+                }
+            }
+
+            List<string> myUpdateColumnList = new List<string>();
+
+            foreach (string everyStr in updateColumnList.Split(',')) {
+                myUpdateColumnList.Add(everyStr.Trim());
+            }
+
+            List<string> myUpdateOrDeleteKeysColumnList = new List<string>();
+
+            foreach (string everyStr in updateOrDeleteKeysColumnList.Split(',')) {
+                myUpdateOrDeleteKeysColumnList.Add(everyStr.Trim());
+            }
+
+            #endregion
+
+            DbConnection conn = db.CreateConnection();
+
+            try {
+                DataTable myChangeDT = inputDT.GetChanges();
+
+                myResultData.ChangedDataTable = myChangeDT;
+
+                if (myChangeDT != null) {
+                    if (myChangeDT.Rows.Count == 0) {
+                        throw new Exception("傳入的DataTable內無任何資料");
+                    }
+
+                    foreach (DataRow everyRow in myChangeDT.Rows) {
+                        switch (everyRow.RowState) {
+                            case DataRowState.Added:
+                                #region Insert
+
+                                #region params
+
+                                List<object> myParamsNameAndValue = new List<object>();
+
+                                foreach (string paramName in myInsertColumnList) {
+                                    myParamsNameAndValue.Add(paramName);
+                                    myParamsNameAndValue.Add(everyRow[paramName]);
+                                }
+
+                                object[] parms = myParamsNameAndValue.ToArray();
+
+                                #endregion
+
+                                #region sql
+
+                                string sql = "INSERT INTO " + tableName + " (";
+
+                                for (int i = 0; i < parms.Length; i = i + 2) {
+                                    sql += parms[i] + ",";
+                                }
+
+                                sql = sql.TrimEnd(',');
+
+                                sql += ") VALUES (";
+
+                                for (int i = 0; i < parms.Length; i = i + 2) {
+                                    sql += "@" + parms[i] + ",";
+                                }
+
+                                sql = sql.TrimEnd(',') + ")";
+
+                                #endregion
+
+                                myReturnValue = db.ExecuteSQL(sql, parms);
+
+                                if (myReturnValue <= 0) {
+                                    throw new Exception("INSERT失敗，" + sql);
+                                }
+
+                                #endregion
+                                break;
+
+                            case DataRowState.Deleted:
+                                #region Delete
+
+                                string myDeletedKeyAndValueStr = "";
+
+                                #region params
+
+                                myParamsNameAndValue = new List<object>();
+
+                                foreach (string paramName in myUpdateOrDeleteKeysColumnList) {
+                                    myParamsNameAndValue.Add(paramName);
+                                    myParamsNameAndValue.Add(everyRow[paramName, DataRowVersion.Original]);
+
+                                    myDeletedKeyAndValueStr += paramName + ":" + everyRow[paramName, DataRowVersion.Original].ToString().Trim() + Environment.NewLine;
+                                }
+
+                                parms = myParamsNameAndValue.ToArray();
+
+                                #endregion
+
+                                #region sql
+
+                                sql = "DELETE FROM " + tableName + " WHERE ";
+
+                                foreach (string everyKey in myUpdateOrDeleteKeysColumnList) {
+                                    sql += " " + everyKey + "=" + "@" + everyKey + " AND";
+                                }
+
+                                sql = sql.TrimEnd("AND".ToArray());
+
+                                #endregion
+
+                                myReturnValue = db.ExecuteSQL(sql, parms);
+
+                                if (myReturnValue <= 0) {
+                                    throw new Exception("DELETE失敗，找不到此筆紀錄" + Environment.NewLine + myDeletedKeyAndValueStr);
+                                }
+
+                                #endregion
+                                break;
+
+                            case DataRowState.Detached:
+                                break;
+
+                            case DataRowState.Modified:
+                                #region Update
+
+                                string myModiedKeyAndValueStr = "";
+
+                                #region params
+
+                                myParamsNameAndValue = new List<object>();
+
+                                foreach (string paramName in myUpdateColumnList) {
+                                    if (!myParamsNameAndValue.Contains(paramName)) {
+                                        myParamsNameAndValue.Add(paramName);
+                                        myParamsNameAndValue.Add(everyRow[paramName]);
+                                    }
+                                }
+
+                                foreach (string paramName in myUpdateOrDeleteKeysColumnList) {
+                                    // KEY值前面加上KEY_來判斷並給予DataTable裡面原本還沒修改的值
+                                    myParamsNameAndValue.Add("KEY_" + paramName);
+                                    myParamsNameAndValue.Add(everyRow[paramName, DataRowVersion.Original]);
+
+                                    myModiedKeyAndValueStr += paramName + ":" + everyRow[paramName].ToString().Trim() + Environment.NewLine;
+                                }
+
+                                parms = myParamsNameAndValue.ToArray();
+
+                                #endregion
+
+                                #region sql
+
+                                sql = "UPDATE " + tableName + " SET ";
+
+                                foreach (string everyKey in myUpdateColumnList) {
+                                    sql += everyKey + "=" + "@" + everyKey + ",";
+                                }
+
+                                sql = sql.TrimEnd(',') + " WHERE ";
+
+                                foreach (string everyKey in myUpdateOrDeleteKeysColumnList) {
+                                    sql += " " + everyKey + "=" + "@" + "KEY_" + everyKey + " AND";
+                                }
+
+                                sql = sql.TrimEnd("AND".ToArray());
+
+                                #endregion
+
+                                myReturnValue = db.ExecuteSQL(sql, parms);
+
+                                if (myReturnValue <= 0) {
+                                    throw new Exception("UPDATE失敗，找不到此筆紀錄" + Environment.NewLine + myModiedKeyAndValueStr);
+                                }
+
+                                #endregion
+                                break;
+
+                            case DataRowState.Unchanged:
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                    DataView dvChanged = new DataView(myChangeDT);
+                    myResultData.ChangedDataView = dvChanged;
+
+                    DataView dvAdded = new DataView(myChangeDT);
+                    dvAdded.RowStateFilter = DataViewRowState.Added;
+                    myResultData.ChangedDataViewForAdded = dvAdded;
+
+                    DataView dvDeleted = new DataView(myChangeDT);
+                    dvDeleted.RowStateFilter = DataViewRowState.Deleted;
+                    myResultData.ChangedDataViewForDeleted = dvDeleted;
+
+                    DataView dvModified = new DataView(myChangeDT);
+                    dvModified.RowStateFilter = DataViewRowState.ModifiedCurrent;
+                    myResultData.ChangedDataViewForModified = dvModified;
+                }
+                else {
+                    throw new Exception("無資料需要儲存");
+                }
+
+                myResultData.Status = ResultStatus.Success;
+            }
+            catch (Exception ex) {
+                myReturnValue = -1;
+                myResultData.Status = ResultStatus.Fail;
+
+                throw ex;
+            }
+            finally {
+
+            }
+
+            myResultData.ReturnObject = myReturnValue;
+
+            return myResultData;
+        }
+
         public ResultData SaveForAll(DataTable inputDT, string tableName, string insertColumnList, string updateColumnList, string updateOrDeleteKeysColumnList) {
             ResultData myResultData = new ResultData();
 

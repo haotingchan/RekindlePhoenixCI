@@ -8,203 +8,194 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 
-namespace ActionService.DbDirect
-{
-   public class ServiceCommon
-   {
-      private OCF daoOCF;
-      private AOCF daoAOCF;
-      private TXN daoTXN;
-      private TXFPARM daoTXFPARM;
-      private JSW daoJSW;
-      private DataGate daoDataGate;
-      private UPF daoUPF;
-      private DPT daoDPT;
-      private RPT daoRPT;
+namespace ActionService.DbDirect {
+    public class ServiceCommon {
+        private OCF daoOCF;
+        private AOCF daoAOCF;
+        private TXN daoTXN;
+        private TXFPARM daoTXFPARM;
+        private JSW daoJSW;
+        private DataGate daoDataGate;
+        private UPF daoUPF;
+        private DPT daoDPT;
+        private RPT daoRPT;
 
-      public ServiceCommon()
-      {
-         daoOCF = new OCF();
-         daoAOCF = new AOCF();
-         daoTXN = new TXN();
-         daoTXFPARM = new TXFPARM();
-         daoJSW = new JSW();
-         daoDataGate = new DataGate();
-         daoUPF = new UPF();
-         daoDPT = new DPT();
-         daoRPT = new RPT();
-      }
-      /// <summary>
-      /// 判斷在JSW這個TABLE裡面有沒有權限
-      /// </summary>
-      public bool HasJswPermission(string programID, string jswType)
-      {
-         return daoJSW.HasJswPermission(programID, jswType);
-      }
-      /// <summary>
-      /// 判斷在JSW這個TABLE裡面有沒有權限
-      /// </summary>
-      public bool HasJswPermission(string programID)
-      {
-         return daoJSW.HasJswPermission(programID);
-      }
+        public ServiceCommon() {
+            daoOCF = new OCF();
+            daoAOCF = new AOCF();
+            daoTXN = new TXN();
+            daoTXFPARM = new TXFPARM();
+            daoJSW = new JSW();
+            daoDataGate = new DataGate();
+            daoUPF = new UPF();
+            daoDPT = new DPT();
+            daoRPT = new RPT();
+        }
+        /// <summary>
+        /// 判斷在JSW這個TABLE裡面有沒有權限
+        /// </summary>
+        public bool HasJswPermission(string programID, string jswType) {
+            return daoJSW.HasJswPermission(programID, jswType);
+        }
+        /// <summary>
+        /// 判斷在JSW這個TABLE裡面有沒有權限
+        /// </summary>
+        public bool HasJswPermission(string programID) {
+            return daoJSW.HasJswPermission(programID);
+        }
 
-      public DataTable ListTxnByUser(string userID)
-      {
-         return daoTXN.ListTxnByUser(userID);
-      }
+        public DataTable ListTxnByUser(string userID) {
+            return daoTXN.ListTxnByUser(userID);
+        }
 
-      public DataTable ListAllowJswPermission(string programID)
-      {
-         return daoJSW.ListAllowJswPermission(programID);
-      }
-      /// <summary>
-      /// 傳入一個DataTable，如果該列已存在DB會下UPDATE語法，如果不存在會下INSERT語法
-      /// </summary>
-      /// <param name="inputDT">傳入的資料</param>
-      /// <param name="tableName">TABLE的名字</param>
-      /// <param name="insertColumnList">要新增的欄位</param>
-      /// <param name="updateColumnList">要更新的欄位</param>
-      /// <param name="updateOrDeleteKeysColumnList">KEY的欄位</param>
-      public ResultData SaveForAll(DataTable inputDT, string tableName, string insertColumnList, string updateColumnList, string updateOrDeleteKeysColumnList, PokeBall pokeBall)
-      {
-         return daoDataGate.SaveForAll(inputDT, tableName, insertColumnList, updateColumnList, updateOrDeleteKeysColumnList);
-      }
-      /// <summary>
-      /// 傳入一個DataTable，如果該列已存在DB會下UPDATE語法，如果不存在會下INSERT語法
-      /// </summary>
-      /// <param name="connInfo">哪個DB的連線</param>
-      /// <param name="inputDT">傳入的資料</param>
-      /// <param name="tableName">TABLE的名字</param>
-      /// <param name="insertColumnList">要新增的欄位</param>
-      /// <param name="updateColumnList">要更新的欄位</param>
-      /// <param name="updateOrDeleteKeysColumnList">KEY的欄位</param>
-      public ResultData SaveForAll(ConnectionInfo connInfo, DataTable inputDT, string tableName, string insertColumnList, string updateColumnList, string updateOrDeleteKeysColumnList, PokeBall pokeBall)
-      {
-         DataGate dataGate = new DataGate(connInfo);
-         return dataGate.SaveForAll(inputDT, tableName, insertColumnList, updateColumnList, updateOrDeleteKeysColumnList);
-      }
-      /// <summary>
-      /// 根據DataTable的改變，會下不同的SQL去異動DB，並傳回各異動的資料集
-      /// </summary>
-      /// <param name="inputDT">傳入的資料</param>
-      /// <param name="tableName">TABLE的名字</param>
-      /// <param name="insertColumnList">要新增的欄位</param>
-      /// <param name="updateColumnList">要更新的欄位</param>
-      /// <param name="updateOrDeleteKeysColumnList">KEY的欄位</param>
-      public ResultData SaveForChanged(DataTable inputDT, string tableName, string insertColumnList, string updateColumnList, string updateOrDeleteKeysColumnList, PokeBall pokeBall)
-      {
-         return daoDataGate.SaveForChanged(inputDT, tableName, insertColumnList, updateColumnList, updateOrDeleteKeysColumnList, pokeBall);
-      }
-      /// <summary>
-      /// 多個動作包成一個Transaction用
-      /// </summary>
-      /// <param name="inputFunc">傳入一個Function，所有的動作都放在裡面</param>
-      public ResultData MultiActionTransaction(Func<PokeBall, ResultStatus> inputFunc)
-      {
-         return daoDataGate.MultiActionTransaction(inputFunc);
-      }
-      /// <summary>
-      /// 抓OCF這個TABLE存到物件裡
-      /// </summary>
-      public BO_OCF GetOCF()
-      {
-         return daoOCF.GetOCF();
-      }
+        public DataTable ListAllowJswPermission(string programID) {
+            return daoJSW.ListAllowJswPermission(programID);
+        }
+        /// <summary>
+        /// 傳入一個DataTable，如果該列已存在DB會下UPDATE語法，如果不存在會下INSERT語法
+        /// </summary>
+        /// <param name="inputDT">傳入的資料</param>
+        /// <param name="tableName">TABLE的名字</param>
+        /// <param name="insertColumnList">要新增的欄位</param>
+        /// <param name="updateColumnList">要更新的欄位</param>
+        /// <param name="updateOrDeleteKeysColumnList">KEY的欄位</param>
+        public ResultData SaveForAll(DataTable inputDT, string tableName, string insertColumnList, string updateColumnList, string updateOrDeleteKeysColumnList, PokeBall pokeBall) {
+            return daoDataGate.SaveForAll(inputDT, tableName, insertColumnList, updateColumnList, updateOrDeleteKeysColumnList);
+        }
+        /// <summary>
+        /// 傳入一個DataTable，如果該列已存在DB會下UPDATE語法，如果不存在會下INSERT語法
+        /// </summary>
+        /// <param name="connInfo">哪個DB的連線</param>
+        /// <param name="inputDT">傳入的資料</param>
+        /// <param name="tableName">TABLE的名字</param>
+        /// <param name="insertColumnList">要新增的欄位</param>
+        /// <param name="updateColumnList">要更新的欄位</param>
+        /// <param name="updateOrDeleteKeysColumnList">KEY的欄位</param>
+        public ResultData SaveForAll(ConnectionInfo connInfo, DataTable inputDT, string tableName, string insertColumnList, string updateColumnList, string updateOrDeleteKeysColumnList, PokeBall pokeBall) {
+            DataGate dataGate = new DataGate(connInfo);
+            return dataGate.SaveForAll(inputDT, tableName, insertColumnList, updateColumnList, updateOrDeleteKeysColumnList);
+        }
+        /// <summary>
+        /// 根據DataTable的改變，會下不同的SQL去異動DB，並傳回各異動的資料集
+        /// </summary>
+        /// <param name="inputDT">傳入的資料</param>
+        /// <param name="tableName">TABLE的名字</param>
+        /// <param name="insertColumnList">要新增的欄位</param>
+        /// <param name="updateColumnList">要更新的欄位</param>
+        /// <param name="updateOrDeleteKeysColumnList">KEY的欄位</param>
+        public ResultData SaveForChanged(DataTable inputDT, string tableName, string insertColumnList, string updateColumnList, string updateOrDeleteKeysColumnList, PokeBall pokeBall) {
+            return daoDataGate.SaveForChanged(inputDT, tableName, insertColumnList, updateColumnList, updateOrDeleteKeysColumnList, pokeBall);
+        }
+        /// <summary>
+        /// 根據DataTable的改變，會下不同的SQL去異動DB，並傳回各異動的資料集
+        /// </summary>
+        /// <param name="inputDT">傳入的資料</param>
+        /// <param name="tableName">TABLE的名字</param>
+        /// <param name="insertColumnList">要新增的欄位</param>
+        /// <param name="updateColumnList">要更新的欄位</param>
+        /// <param name="updateOrDeleteKeysColumnList">KEY的欄位</param>
+        public ResultData SaveForChanged(DataTable inputDT, string tableName, string insertColumnList, string updateColumnList, string updateOrDeleteKeysColumnList) {
+            return daoDataGate.SaveForChanged(inputDT, tableName, insertColumnList, updateColumnList, updateOrDeleteKeysColumnList);
+        }
 
-      public int getAOCFDates(string symd, string eymd)
-      {
-         return daoAOCF.GetAOCFDates(symd, eymd);
-      }
+        /// <summary>
+        /// 多個動作包成一個Transaction用
+        /// </summary>
+        /// <param name="inputFunc">傳入一個Function，所有的動作都放在裡面</param>
+        public ResultData MultiActionTransaction(Func<PokeBall, ResultStatus> inputFunc) {
+            return daoDataGate.MultiActionTransaction(inputFunc);
+        }
+        /// <summary>
+        /// 抓OCF這個TABLE存到物件裡
+        /// </summary>
+        public BO_OCF GetOCF() {
+            return daoOCF.GetOCF();
+        }
 
-      public ResultData ExecuteStoredProcedure(string sql, List<DbParameterEx> dbParmsEx, bool hasReturnParameter)
-      {
-         return daoDataGate.ExecuteStoredProcedure(sql, dbParmsEx, hasReturnParameter);
-      }
+        public int getAOCFDates(string symd, string eymd) {
+            return daoAOCF.GetAOCFDates(symd, eymd);
+        }
 
-      public ResultData ExecuteStoredProcedure(ConnectionInfo connInfo, string sql, List<DbParameterEx> dbParmsEx, bool hasReturnParameter)
-      {
-         daoDataGate = new DataGate(connInfo);
-         return daoDataGate.ExecuteStoredProcedure(sql, dbParmsEx, hasReturnParameter);
-      }
+        public ResultData ExecuteStoredProcedure(string sql, List<DbParameterEx> dbParmsEx, bool hasReturnParameter) {
+            return daoDataGate.ExecuteStoredProcedure(sql, dbParmsEx, hasReturnParameter);
+        }
 
-      public ResultData ExecuteInfoWorkFlow(string workFlowName, UserProgInfo userProgInfo)
-      {
-         ResultData result = new ResultData();
+        public ResultData ExecuteStoredProcedure(ConnectionInfo connInfo, string sql, List<DbParameterEx> dbParmsEx, bool hasReturnParameter) {
+            daoDataGate = new DataGate(connInfo);
+            return daoDataGate.ExecuteStoredProcedure(sql, dbParmsEx, hasReturnParameter);
+        }
 
-         string workingDirectory = @"C:\infa8\server\bin\";
-         string command = "pmcmd startworkflow -service IS_Taifex -domain Domain_Taifex -user pbusr1 -password pbusr1 -folder CI -wait " + workFlowName;
+        public ResultData ExecuteInfoWorkFlow(string workFlowName, UserProgInfo userProgInfo) {
+            ResultData result = new ResultData();
 
-         ProcessStartInfo processInfo = new ProcessStartInfo("cmd.exe", "/c " + command);
+            string workingDirectory = @"C:\infa8\server\bin\";
+            string command = "pmcmd startworkflow -service IS_Taifex -domain Domain_Taifex -user pbusr1 -password pbusr1 -folder CI -wait " + workFlowName;
 
-         processInfo.WorkingDirectory = workingDirectory;
-         processInfo.RedirectStandardOutput = true;
-         processInfo.RedirectStandardError = true;
-         processInfo.RedirectStandardInput = true;
-         processInfo.UseShellExecute = false;
-         processInfo.CreateNoWindow = true;
+            ProcessStartInfo processInfo = new ProcessStartInfo("cmd.exe", "/c " + command);
 
-         string logStr = "";
-         logStr += "開始執行Workflow，指令為:" + command;
+            processInfo.WorkingDirectory = workingDirectory;
+            processInfo.RedirectStandardOutput = true;
+            processInfo.RedirectStandardError = true;
+            processInfo.RedirectStandardInput = true;
+            processInfo.UseShellExecute = false;
+            processInfo.CreateNoWindow = true;
 
-         Process process = Process.Start(processInfo);
+            string logStr = "";
+            logStr += "開始執行Workflow，指令為:" + command;
 
-         string myOutput = process.StandardOutput.ReadToEnd();
-         string myError = process.StandardError.ReadToEnd();
+            Process process = Process.Start(processInfo);
 
-         process.WaitForExit();
+            string myOutput = process.StandardOutput.ReadToEnd();
+            string myError = process.StandardError.ReadToEnd();
 
-         bool isError = false;
+            process.WaitForExit();
 
-         logStr += "Output:" + myOutput + Environment.NewLine;
+            bool isError = false;
 
-         if (myOutput.ToUpper().IndexOf("ERROR") != -1) {
-            isError = true;
-         }
+            logStr += "Output:" + myOutput + Environment.NewLine;
 
-         if (myError != "") {
-            logStr += "Error:" + myOutput + Environment.NewLine;
-            isError = true;
-         }
+            if (myOutput.ToUpper().IndexOf("ERROR") != -1) {
+                isError = true;
+            }
 
-         if (process.ExitCode != 0) {
-            logStr += "ExitCode:" + process.ExitCode;
-            isError = true;
-         }
+            if (myError != "") {
+                logStr += "Error:" + myOutput + Environment.NewLine;
+                isError = true;
+            }
 
-         if (isError) {
-            result.Status = ResultStatus.Fail;
-         }
-         else {
-            result.Status = ResultStatus.Success;
-         }
+            if (process.ExitCode != 0) {
+                logStr += "ExitCode:" + process.ExitCode;
+                isError = true;
+            }
 
-         return result;
-      }
+            if (isError) {
+                result.Status = ResultStatus.Fail;
+            }
+            else {
+                result.Status = ResultStatus.Success;
+            }
 
-      public DataTable ListDataForUserIDAndUserName()
-      {
-         return daoUPF.ListDataForUserIDAndUserName();
-      }
+            return result;
+        }
 
-      public DataTable ListDPT()
-      {
-         return daoDPT.ListData();
-      }
+        public DataTable ListDataForUserIDAndUserName() {
+            return daoUPF.ListDataForUserIDAndUserName();
+        }
 
-      public DataTable ListRPT(string RPT_TXD_ID)
-      {
-         return daoRPT.ListData(RPT_TXD_ID);
-      }
+        public DataTable ListDPT() {
+            return daoDPT.ListData();
+        }
 
-      public DataTable ListDataForTxnIdAndName()
-      {
-         return daoTXN.ListDataForTxnIdAndName();
-      }
+        public DataTable ListRPT(string RPT_TXD_ID) {
+            return daoRPT.ListData(RPT_TXD_ID);
+        }
 
-      public DataTable ListTXFPARM(string TXFPARM_SERVER, string TXFPARM_DB, string TXFPARM_TXN_ID, string TXFPARM_TID)
-      {
-         return daoTXFPARM.List(TXFPARM_SERVER, TXFPARM_DB, TXFPARM_TXN_ID, TXFPARM_TID);
-      }
-   }
+        public DataTable ListDataForTxnIdAndName() {
+            return daoTXN.ListDataForTxnIdAndName();
+        }
+
+        public DataTable ListTXFPARM(string TXFPARM_SERVER, string TXFPARM_DB, string TXFPARM_TXN_ID, string TXFPARM_TID) {
+            return daoTXFPARM.List(TXFPARM_SERVER, TXFPARM_DB, TXFPARM_TXN_ID, TXFPARM_TID);
+        }
+    }
 }
