@@ -96,7 +96,7 @@ namespace PhoenixCI.FormUI.PrefixP {
 
             foreach (DataColumn dc in dtContent.Columns) {
                 //設定欄位屬性
-                gvMain.SetGridColumnCaption(dc.ColumnName, GetColumnCaption(dc.Ordinal));
+                gvMain.SetColumnCaption(dc.ColumnName, GetColumnCaption(dc.Ordinal));
                 gvMain.Columns[dc.ColumnName].AppearanceCell.TextOptions.VAlignment = VertAlignment.Top;
                 //設定合併欄位(一樣的值不顯示)
                 gvMain.Columns[dc.ColumnName].OptionsColumn.AllowMerge = (dc.Ordinal != 0 && dc.Ordinal != 1) ? DefaultBoolean.False : DefaultBoolean.True;
