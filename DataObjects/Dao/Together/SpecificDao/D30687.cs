@@ -7,16 +7,20 @@ using System.Text;
 using System.Threading.Tasks;
 using Common;
 
-namespace DataObjects.Dao.Together.SpecificDao {
+namespace DataObjects.Dao.Together.SpecificDao
+{
    //John, 20190227
-   public class D30687 {
+   public class D30687
+   {
       private Db db;
 
-      public D30687() {
+      public D30687()
+      {
          db = GlobalDaoSetting.DB;
       }
 
-      public DataTable ListRuNewData(string startdate, string enddate,string as_prod_id,string as_market_code,string as_data_type) {
+      public DataTable ListRuNewData(string startdate, string enddate, string as_prod_id, string as_market_code, string as_data_type)
+      {
          object[] parms = {
                ":startdate",startdate,
                ":enddate",enddate,
@@ -115,11 +119,26 @@ SELECT '','',NULL,NULL,NULL,NULL,NULL,
  ORDER BY FTPRICELOGS_MARKET_CODE,FTPRICELOGS_YMD,FTPRICELOGS_KIND_ID1,FTPRICELOGS_KIND_ID2,FTPRICELOGS_SEQ_NO1,FTPRICELOGS_SEQ_NO2
 ";
 
-         DataTable dtResult = db.GetDataTable(sql , parms);
-         //PB排序如果有空格會排在前面，所以把順序調一下
-         //DataTable dtHasMarketCode = dtResult.AsEnumerable().Where(x => !string.IsNullOrEmpty(x.Field<string>("FTPRICELOGS_MARKET_CODE").AsString())).CopyToDataTable();//FTPRICELOGS_MARKET_CODE不含空格
-         //dtResult = dtResult.AsEnumerable().Where(x => string.IsNullOrEmpty(x.Field<string>("FTPRICELOGS_MARKET_CODE").AsString())).CopyToDataTable();//只搜尋有空格的FTPRICELOGS_MARKET_CODE
-         //dtResult.Merge(dtHasMarketCode, true);
+         DataTable dtResult = db.GetDataTable(sql, parms);
+         //PB sort排序
+         dtResult = dtResult.AsEnumerable().OrderBy(x => {
+            if (string.IsNullOrEmpty(x.Field<string>("FTPRICELOGS_MARKET_CODE")))
+               return 1;
+            else
+               return 2;
+         }).ThenBy(x => x.Field<string>("FTPRICELOGS_MARKET_CODE"))
+         .ThenBy(x => x.Field<string>("FTPRICELOGS_YMD"))
+         .ThenBy(x => x.Field<string>("FTPRICELOGS_KIND_ID1"))
+         .ThenBy(x=> {
+            if (string.IsNullOrEmpty(x.Field<string>("FTPRICELOGS_KIND_ID2")))
+               return 1;
+            else
+               return 2;
+         })
+         .ThenBy(x => x.Field<decimal?>("FTPRICELOGS_SEQ_NO1"))
+         .ThenBy(x => x.Field<string>("FTPRICELOGS_KIND_ID2"))
+         .ThenBy(x => x.Field<decimal?>("FTPRICELOGS_SEQ_NO2"))
+         .CopyToDataTable();
          return dtResult;
       }
 

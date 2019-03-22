@@ -1117,7 +1117,9 @@
     <Compile Include="FormUI\PrefixP\WP0020.Designer.cs">
       <DependentUpon>WP0020.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormUI\PrefixP\WP0030.cs" />
+    <Compile Include="FormUI\PrefixP\WP0030.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FormUI\PrefixP\WP0030.Designer.cs">
       <DependentUpon>WP0030.cs</DependentUpon>
     </Compile>
@@ -1127,7 +1129,9 @@
     <Compile Include="FormUI\PrefixP\WP0040.Designer.cs">
       <DependentUpon>WP0040.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormUI\PrefixP\WP0050.cs" />
+    <Compile Include="FormUI\PrefixP\WP0050.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FormUI\PrefixP\WP0050.Designer.cs">
       <DependentUpon>WP0050.cs</DependentUpon>
     </Compile>

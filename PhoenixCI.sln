@@ -36,6 +36,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document", "Document", "{DA
 		Document\統計程式用SQL.sql = Document\統計程式用SQL.sql
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoenixCITests", "PhoenixCITests\PhoenixCITests.csproj", "{34AC8741-8D6B-4AAC-8485-594D21219A23}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataObjectsTests", "DataObjectsTests\DataObjectsTests.csproj", "{DBBFCD7E-EE7C-4D07-AE05-C6BF00128177}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +78,14 @@ Global
 		{CDA763B2-1BA5-446F-8000-2D23B145B2DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDA763B2-1BA5-446F-8000-2D23B145B2DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDA763B2-1BA5-446F-8000-2D23B145B2DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34AC8741-8D6B-4AAC-8485-594D21219A23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34AC8741-8D6B-4AAC-8485-594D21219A23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34AC8741-8D6B-4AAC-8485-594D21219A23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34AC8741-8D6B-4AAC-8485-594D21219A23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBBFCD7E-EE7C-4D07-AE05-C6BF00128177}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBBFCD7E-EE7C-4D07-AE05-C6BF00128177}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBBFCD7E-EE7C-4D07-AE05-C6BF00128177}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBBFCD7E-EE7C-4D07-AE05-C6BF00128177}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,43 +102,5 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {48C92969-701C-42D5-BC12-F25DAC0F61DE}
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 9
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://dev.azure.com/jobassistant
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = ActionService\\ActionService.csproj
-		SccProjectTopLevelParentUniqueName1 = PhoenixCI.sln
-		SccProjectName1 = ActionService
-		SccLocalPath1 = ActionService
-		SccProjectUniqueName2 = BaseGround\\BaseGround.csproj
-		SccProjectTopLevelParentUniqueName2 = PhoenixCI.sln
-		SccProjectName2 = BaseGround
-		SccLocalPath2 = BaseGround
-		SccProjectUniqueName3 = BusinessObjects\\BusinessObjects.csproj
-		SccProjectTopLevelParentUniqueName3 = PhoenixCI.sln
-		SccProjectName3 = BusinessObjects
-		SccLocalPath3 = BusinessObjects
-		SccProjectUniqueName4 = Common\\Common.csproj
-		SccProjectTopLevelParentUniqueName4 = PhoenixCI.sln
-		SccProjectName4 = Common
-		SccLocalPath4 = Common
-		SccProjectUniqueName5 = DataObjects\\DataObjects.csproj
-		SccProjectTopLevelParentUniqueName5 = PhoenixCI.sln
-		SccProjectName5 = DataObjects
-		SccLocalPath5 = DataObjects
-		SccProjectUniqueName6 = LogEx\\LogEx.csproj
-		SccProjectTopLevelParentUniqueName6 = PhoenixCI.sln
-		SccProjectName6 = LogEx
-		SccLocalPath6 = LogEx
-		SccProjectUniqueName7 = OnePiece\\OnePiece.csproj
-		SccProjectTopLevelParentUniqueName7 = PhoenixCI.sln
-		SccProjectName7 = OnePiece
-		SccLocalPath7 = OnePiece
-		SccProjectUniqueName8 = PhoenixCI\\PhoenixCI.csproj
-		SccProjectTopLevelParentUniqueName8 = PhoenixCI.sln
-		SccProjectName8 = PhoenixCI
-		SccLocalPath8 = PhoenixCI
 	EndGlobalSection
 EndGlobal
