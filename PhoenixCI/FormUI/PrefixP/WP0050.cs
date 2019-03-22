@@ -20,55 +20,32 @@ using DevExpress.Utils;
 using BaseGround.Report;
 
 /// <summary>
-/// David, 2019/03/20 
+/// David, 2019/03/21
 /// </summary>
 namespace PhoenixCI.FormUI.PrefixP {
     /// <summary>
     /// P0020 查詢資料明細
     /// 功能：Retrieve, Print
     /// </summary>
-    public partial class WP0020 : FormParent {
+    public partial class WP0050 : FormParent {
 
-        private DP0020 daoP0020;
+        private DP0050 daoP0050;
 
         protected class LookupItem {
             public string ValueMember { get; set; }
             public string DisplayMember { get; set; }
         }
 
-        public WP0020(string programID, string programName) : base(programID, programName) {
+        public WP0050(string programID, string programName) : base(programID, programName) {
             try {
                 InitializeComponent();
-                daoP0020 = new DP0020();
+                daoP0050 = new DP0050();
 
                 this.Text = _ProgramID + "─" + _ProgramName;
                 gvMain.OptionsBehavior.Editable = false;
 
                 txtStartDate.Text = "%";
                 txtEndDate.Text = "%";
-
-                //下拉選單(系統別)
-                List<LookupItem> ddlbSystem = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = "W", DisplayMember = "W：網際網路"},
-                                        new LookupItem() { ValueMember = "V", DisplayMember = "V：語音查詢" }};
-                Extension.SetDataTable(ddlbType, ddlbSystem, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor, null);
-                ddlbType.EditValue = "W";
-
-                //下拉選單(審查結果)
-                List<LookupItem> ddlbApplyResult = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = "S", DisplayMember = "S：審核成功"},
-                                        new LookupItem() { ValueMember = "F", DisplayMember = "F：審核失敗"},
-                                        new LookupItem() { ValueMember = "A", DisplayMember = "A：全部" }};
-                Extension.SetDataTable(ddlbItem, ddlbApplyResult, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor, null);
-                ddlbItem.EditValue = "S";
-
-                //下拉選單(類別)
-                List<LookupItem> ddlbCatagroy = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = "I", DisplayMember = "I：依交易人查明細"},
-                                        new LookupItem() { ValueMember = "F", DisplayMember = "F：依期貨商合計" }};
-                Extension.SetDataTable(ddlbCate, ddlbCatagroy, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor, null);
-                ddlbCate.EditValue = "I";
-
             }
             catch (Exception ex) {
                 WriteLog(ex);
@@ -109,13 +86,9 @@ namespace PhoenixCI.FormUI.PrefixP {
             }
 
             DataTable dtContent = new DataTable();
-            string type = ddlbType.EditValue.AsString();
-            string item = ddlbItem.EditValue.AsString();
-            string cate = ddlbCate.EditValue.AsString();
-            string searchType = ddlbCate.Text.Substring(0, 1);
             string posconn = PbFunc.f_get_exec_oth("POS");
 
-            dtContent = daoP0020.ExecuteStoredProcedure(txtStartDate.Text, txtEndDate.Text, type, item, cate, posconn);
+            dtContent = daoP0050.ExecuteStoredProcedure(txtStartDate.Text, txtEndDate.Text, posconn);
             gcMain.DataSource = null;
             gvMain.GroupSummary.Clear();
             gvMain.Columns.Clear();//清除grid
@@ -123,32 +96,21 @@ namespace PhoenixCI.FormUI.PrefixP {
 
             foreach (DataColumn dc in dtContent.Columns) {
                 //設定欄位屬性
-                gvMain.SetColumnCaption(dc.ColumnName, GetColumnCaption(dc.Ordinal, searchType));
+                gvMain.SetGridColumnCaption(dc.ColumnName, GetColumnCaption(dc.Ordinal));
                 gvMain.Columns[dc.ColumnName].AppearanceCell.TextOptions.VAlignment = VertAlignment.Top;
                 //設定合併欄位(一樣的值不顯示)
                 gvMain.Columns[dc.ColumnName].OptionsColumn.AllowMerge = (dc.Ordinal != 0 && dc.Ordinal != 1) ? DefaultBoolean.False : DefaultBoolean.True;
             }
 
-            //依交易人查詢
-            if (searchType == "I") {
-                //設定群組 小記
-                gvMain.Columns[0].Group();
-                gvMain.OptionsView.AllowCellMerge = true;
+            //設定群組 小記          
+            gvMain.OptionsView.AllowCellMerge = true;
+            gvMain.Columns[2].GroupIndex = 0;
 
-                GridGroupSummaryItem groupSummary = new GridGroupSummaryItem();
-                groupSummary.SummaryType = DevExpress.Data.SummaryItemType.Count;
-                groupSummary.DisplayFormat = "合計{0}戶";
-                gvMain.GroupSummary.Add(groupSummary);
-                gvMain.OptionsView.ShowFooter = false;
-            }
-            else {//依期貨商合計
-                GridColumnSummaryItem columnSummary = new GridColumnSummaryItem();
-                columnSummary.FieldName = gvMain.Columns.Last().FieldName;
-                columnSummary.SummaryType = DevExpress.Data.SummaryItemType.Sum;
-                columnSummary.DisplayFormat = "總計{0}戶";                
-                gvMain.Columns.Last().Summary.Add(columnSummary);
-                gvMain.OptionsView.ShowFooter = true;
-            }
+            GridGroupSummaryItem groupSummary = new GridGroupSummaryItem();
+            groupSummary.SummaryType = DevExpress.Data.SummaryItemType.Count;
+            groupSummary.DisplayFormat = "合計{0}戶";
+            gvMain.GroupSummary.Add(groupSummary);
+            gvMain.OptionsView.ShowFooter = false;
 
             GridHelper.SetCommonGrid(gvMain);
             gcMain.Visible = true;
@@ -165,8 +127,7 @@ namespace PhoenixCI.FormUI.PrefixP {
                 ReportHelper _ReportHelper = new ReportHelper(gcMain, _ProgramID, this.Text);
 
                 //寫一行標題的註解,通常是查詢條件
-                _ReportHelper.LeftMemo = "查詢日期 : " + txtStartDate.Text + "~" + txtEndDate.Text + Environment.NewLine +
-                    "系統別 : " + ddlbType.Text + Environment.NewLine + "審查結果 : " + ddlbItem.Text + Environment.NewLine + "查詢類別 : " + ddlbCate.Text;
+                _ReportHelper.LeftMemo = "查詢日期 : " + txtStartDate.Text + "~" + txtEndDate.Text + Environment.NewLine;
 
                 _ReportHelper.Print();//如果有夜盤會特別標註
 
@@ -184,7 +145,7 @@ namespace PhoenixCI.FormUI.PrefixP {
         /// <param name="colIndex">欄位序</param>
         /// <param name="searchType"></param>
         /// <returns></returns>
-        private string GetColumnCaption(int colIndex,string searchType) {
+        private string GetColumnCaption(int colIndex) {
             string caption = "";
 
             switch (colIndex) {
@@ -197,15 +158,19 @@ namespace PhoenixCI.FormUI.PrefixP {
                     break;
                 }
                 case 2: {
-                    caption = searchType == "I" ? "流水帳號" : "審核結果";
+                    caption = "流水帳號";
                     break;
                 }
                 case 3: {
-                    caption = searchType == "I" ? "審核結果" : "申請戶數";
+                    caption = "鎖住日期";
                     break;
                 }
                 case 4: {
-                    caption = "申請日期";
+                    caption = "網際網路累積次數";
+                    break;
+                }
+                case 5: {
+                    caption = "電話語音累積次數";
                     break;
                 }
             }

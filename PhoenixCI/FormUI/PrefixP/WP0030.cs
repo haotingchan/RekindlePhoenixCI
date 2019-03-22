@@ -18,28 +18,26 @@ using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraGrid;
 using DevExpress.Utils;
 using BaseGround.Report;
+using DevExpress.XtraGrid.Views.Grid;
+using DevExpress.Data;
 
 /// <summary>
-/// David, 2019/03/20 
+/// David, 2019/03/21 
 /// </summary>
 namespace PhoenixCI.FormUI.PrefixP {
-    /// <summary>
-    /// P0020 查詢資料明細
-    /// 功能：Retrieve, Print
-    /// </summary>
-    public partial class WP0020 : FormParent {
+    public partial class WP0030 : FormParent {
 
-        private DP0020 daoP0020;
+        private DP0030 daoP0030;
 
         protected class LookupItem {
             public string ValueMember { get; set; }
             public string DisplayMember { get; set; }
         }
 
-        public WP0020(string programID, string programName) : base(programID, programName) {
+        public WP0030(string programID, string programName) : base(programID, programName) {
             try {
                 InitializeComponent();
-                daoP0020 = new DP0020();
+                daoP0030 = new DP0030();
 
                 this.Text = _ProgramID + "─" + _ProgramName;
                 gvMain.OptionsBehavior.Editable = false;
@@ -53,14 +51,6 @@ namespace PhoenixCI.FormUI.PrefixP {
                                         new LookupItem() { ValueMember = "V", DisplayMember = "V：語音查詢" }};
                 Extension.SetDataTable(ddlbType, ddlbSystem, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor, null);
                 ddlbType.EditValue = "W";
-
-                //下拉選單(審查結果)
-                List<LookupItem> ddlbApplyResult = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = "S", DisplayMember = "S：審核成功"},
-                                        new LookupItem() { ValueMember = "F", DisplayMember = "F：審核失敗"},
-                                        new LookupItem() { ValueMember = "A", DisplayMember = "A：全部" }};
-                Extension.SetDataTable(ddlbItem, ddlbApplyResult, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor, null);
-                ddlbItem.EditValue = "S";
 
                 //下拉選單(類別)
                 List<LookupItem> ddlbCatagroy = new List<LookupItem>(){
@@ -108,17 +98,29 @@ namespace PhoenixCI.FormUI.PrefixP {
                 return ResultStatus.Fail;
             }
 
+            DataTable dtContentI = new DataTable();
+            DataTable dtContentF = new DataTable();
             DataTable dtContent = new DataTable();
             string type = ddlbType.EditValue.AsString();
-            string item = ddlbItem.EditValue.AsString();
             string cate = ddlbCate.EditValue.AsString();
             string searchType = ddlbCate.Text.Substring(0, 1);
-            string posconn = PbFunc.f_get_exec_oth("POS");
+            string posconn = PbFunc.f_get_exec_oth("POS");//更換DB
 
-            dtContent = daoP0020.ExecuteStoredProcedure(txtStartDate.Text, txtEndDate.Text, type, item, cate, posconn);
+            dtContentI = daoP0030.ExecuteStoredProcedure(txtStartDate.Text, txtEndDate.Text, type, "I", posconn);
+            dtContentF = daoP0030.ExecuteStoredProcedure(txtStartDate.Text, txtEndDate.Text, type, "F", posconn);
             gcMain.DataSource = null;
             gvMain.GroupSummary.Clear();
             gvMain.Columns.Clear();//清除grid
+            dtContentF.Columns.Remove(dtContentF.Columns["0"]);
+
+            foreach (DataRow drI in dtContentI.Rows) {
+                DataRow drF = dtContentF.Select("FCM_NAME =" + "'"+drI["FCM_NAME"].ToString()+"'")[0];
+                if (drF["FCM_NAME"].AsString() == drI["FCM_NAME"].ToString()) {
+                    drI["0"] = drF[2].AsString();
+                }
+            }
+
+            dtContent = searchType == "I" ? dtContentI : dtContentF;
             gcMain.DataSource = dtContent;
 
             foreach (DataColumn dc in dtContent.Columns) {
@@ -131,27 +133,90 @@ namespace PhoenixCI.FormUI.PrefixP {
 
             //依交易人查詢
             if (searchType == "I") {
-                //設定群組 小記
                 gvMain.Columns[0].Group();
+                gvMain.Columns.Last().Visible = false;
                 gvMain.OptionsView.AllowCellMerge = true;
+                //設定群組 小記
+                GridGroupSummaryItem timesSummary = new GridGroupSummaryItem();
+                timesSummary.FieldName = gvMain.Columns[4].FieldName;
+                timesSummary.ShowInGroupColumnFooter = gvMain.Columns[4];
+                timesSummary.SummaryType = SummaryItemType.Sum;
+                timesSummary.DisplayFormat = "合計{0}次";
+                gvMain.GroupSummary.Add(timesSummary);               
 
-                GridGroupSummaryItem groupSummary = new GridGroupSummaryItem();
-                groupSummary.SummaryType = DevExpress.Data.SummaryItemType.Count;
-                groupSummary.DisplayFormat = "合計{0}戶";
-                gvMain.GroupSummary.Add(groupSummary);
-                gvMain.OptionsView.ShowFooter = false;
-            }
-            else {//依期貨商合計
+                GridGroupSummaryItem accountSummary = new GridGroupSummaryItem();
+                accountSummary.FieldName = gvMain.Columns[5].FieldName;
+                accountSummary.ShowInGroupColumnFooter = gvMain.Columns[2];
+                accountSummary.SummaryType = SummaryItemType.Max;
+                accountSummary.DisplayFormat = "合計{0}戶";
+                gvMain.GroupSummary.Add(accountSummary);
+
+                //客製化總記欄位
+                //int tolsum = 0;
+                //List<string> tolAccountNo = new List<string>();
+                //gvMain.CustomSummaryCalculate += (sender, e) => {
+                //    GridView gv = sender as GridView;
+                //    if (e.IsTotalSummary && (e.Item as GridColumnSummaryItem).FieldName == gv.Columns[2].FieldName) {
+                //        GridColumnSummaryItem item = e.Item as GridColumnSummaryItem;
+                //        if (item.FieldName == gv.Columns[2].FieldName) {
+                //            switch (e.SummaryProcess) {
+                //                case CustomSummaryProcess.Start:
+                //                    tolsum = 0;
+                //                    tolAccountNo = new List<string>();
+                //                    break;
+                //                case CustomSummaryProcess.Calculate:
+                //                    if (tolAccountNo.Where(a => a == e.GetValue(gv.Columns[2].FieldName).AsString()).Count() == 0) {
+                //                        tolAccountNo.Add(e.GetValue(gv.Columns[2].FieldName).AsString());
+                //                        tolsum += 1;
+                //                    }
+                //                    break;
+                //                case CustomSummaryProcess.Finalize:
+                //                    e.TotalValue = tolsum;
+                //                    break;
+                //            }
+                //        }
+                //    }
+                //};
+
+                GridColumnSummaryItem tolAccountSummary = new GridColumnSummaryItem();
+                tolAccountSummary.FieldName = gvMain.Columns[5].FieldName;
+                tolAccountSummary.SummaryType = SummaryItemType.Sum;
+                tolAccountSummary.DisplayFormat = "總計{0}戶";
+                gvMain.Columns[2].Summary.Add(tolAccountSummary);
+
+                //總計
                 GridColumnSummaryItem columnSummary = new GridColumnSummaryItem();
-                columnSummary.FieldName = gvMain.Columns.Last().FieldName;
-                columnSummary.SummaryType = DevExpress.Data.SummaryItemType.Sum;
-                columnSummary.DisplayFormat = "總計{0}戶";                
-                gvMain.Columns.Last().Summary.Add(columnSummary);
-                gvMain.OptionsView.ShowFooter = true;
+                columnSummary.FieldName = gvMain.Columns[4].FieldName;
+                columnSummary.SummaryType = SummaryItemType.Sum;
+                columnSummary.DisplayFormat = "總計{0}次";
+                gvMain.Columns[4].Summary.Add(columnSummary);
+            }//if searchType="I"
+            else {//searchType="F"
+
+                GridGroupSummaryItem accountSummary = new GridGroupSummaryItem();
+                accountSummary.FieldName = gvMain.Columns[2].FieldName;
+                accountSummary.ShowInGroupColumnFooter = gvMain.Columns[2];
+                accountSummary.SummaryType = SummaryItemType.Sum;
+                accountSummary.DisplayFormat = "合計{0}戶";
+                gvMain.GroupSummary.Add(accountSummary);
+
+                GridColumnSummaryItem tolAccountSummary = new GridColumnSummaryItem();
+                tolAccountSummary.FieldName = gvMain.Columns[2].FieldName;
+                tolAccountSummary.SummaryType = SummaryItemType.Sum;
+                tolAccountSummary.DisplayFormat = "總計{0}戶";
+                gvMain.Columns[2].Summary.Add(tolAccountSummary);
+
+                //總計
+                GridColumnSummaryItem columnSummary = new GridColumnSummaryItem();
+                columnSummary.FieldName = gvMain.Columns[3].FieldName;
+                columnSummary.SummaryType = SummaryItemType.Sum;
+                columnSummary.DisplayFormat = "總計{0}次";
+                gvMain.Columns[3].Summary.Add(columnSummary);
             }
 
-            GridHelper.SetCommonGrid(gvMain);
+            //GridHelper.SetCommonGrid(gvMain);
             gcMain.Visible = true;
+            gvMain.OptionsView.ShowFooter = true;
             gvMain.ExpandAllGroups();
             //設定每個column自動擴展
             gvMain.BestFitColumns();
@@ -166,7 +231,7 @@ namespace PhoenixCI.FormUI.PrefixP {
 
                 //寫一行標題的註解,通常是查詢條件
                 _ReportHelper.LeftMemo = "查詢日期 : " + txtStartDate.Text + "~" + txtEndDate.Text + Environment.NewLine +
-                    "系統別 : " + ddlbType.Text + Environment.NewLine + "審查結果 : " + ddlbItem.Text + Environment.NewLine + "查詢類別 : " + ddlbCate.Text;
+                    "系統別 : " + ddlbType.Text + Environment.NewLine + Environment.NewLine + "查詢類別 : " + ddlbCate.Text;
 
                 _ReportHelper.Print();//如果有夜盤會特別標註
 
@@ -184,7 +249,7 @@ namespace PhoenixCI.FormUI.PrefixP {
         /// <param name="colIndex">欄位序</param>
         /// <param name="searchType"></param>
         /// <returns></returns>
-        private string GetColumnCaption(int colIndex,string searchType) {
+        private string GetColumnCaption(int colIndex, string searchType) {
             string caption = "";
 
             switch (colIndex) {
@@ -197,15 +262,15 @@ namespace PhoenixCI.FormUI.PrefixP {
                     break;
                 }
                 case 2: {
-                    caption = searchType == "I" ? "流水帳號" : "審核結果";
+                    caption = searchType == "I" ? "流水帳號" : "查詢戶數";
                     break;
                 }
                 case 3: {
-                    caption = searchType == "I" ? "審核結果" : "申請戶數";
+                    caption = searchType == "I" ? "查詢日期" : "查詢次數";
                     break;
                 }
                 case 4: {
-                    caption = "申請日期";
+                    caption = "查詢次數";
                     break;
                 }
             }
@@ -219,5 +284,6 @@ namespace PhoenixCI.FormUI.PrefixP {
             }
             return false;
         }
+
     }
 }
