@@ -1427,7 +1427,7 @@ namespace BaseGround.Shared {
         /// <param name="dc"></param>
         /// <param name="ini_key"></param>
         /// <returns></returns>
-        public static DbConnection f_get_exec_oth(DbConnection dc, string ini_key) {
+        public static string f_get_exec_oth(string ini_key) {
             TXFP dao = new TXFP();
             DataTable dt = dao.ListDataByKey(ini_key);
 
@@ -1440,12 +1440,7 @@ namespace BaseGround.Shared {
             string connectionString = "Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=" + ls_srv + ")" +
                 "(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=CI)(SERVER=DEDICATED))); User Id=" + dt.Rows[0]["ls_str1"].ToString() + ";Password=" + ls_str2 + ";";
 
-            dc = dao.GetConnection(connectionString, dt.Rows[0]["ls_db"].ToString());
-
-            if (dc == null) {
-                MessageDisplay.Error("「" + ini_key + "資料庫」無法連接，無法執行交易");
-            }
-            return dc;
+            return connectionString;
         }
 
         /// <summary>
