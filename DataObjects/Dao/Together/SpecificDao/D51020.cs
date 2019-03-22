@@ -49,7 +49,7 @@ FROM CI.MMFT
 order by mmft_market_code , mmft_prod_type , mmft_kind_id , mmft_id
 ";
             DataTable dtResult = db.GetDataTable(sql, null);
-
+            
             return dtResult;
         }
 

@@ -183,6 +183,11 @@ namespace BaseGround {
             if (e.KeyCode == Keys.Enter) {
                 txnID = ((SearchControl)sender).EditValue.ToString();
 
+                if (string.IsNullOrEmpty(txnID)) {
+                    MessageDisplay.Error("請輸入文字 !");
+                    return;
+                }
+
                 var itemList = accordionMenu.Elements.Where(x => x.Tag.ToString().ToUpper() == txnID.Substring(0, 1).ToUpper()).FirstOrDefault();
 
                 if (itemList == null) {

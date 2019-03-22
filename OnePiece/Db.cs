@@ -544,10 +544,13 @@ namespace OnePiece {
         /// <returns></returns>
         public ResultData UpdateOracleDB(DataTable inputDT, string sql) {
             var connection = CreateConnection();
+            OracleConnection oracleConn = (OracleConnection)connection;
 
-            OracleCommand command = new OracleCommand(sql, (OracleConnection)connection);
+            OracleCommand command = new OracleCommand(sql, oracleConn);
+            OracleTransaction tran = oracleConn.BeginTransaction(IsolationLevel.ReadCommitted);
             ResultData resultData = new ResultData();
             resultData.Status = ResultStatus.Fail;
+            command.Transaction = tran;
 
             try {
                 OracleDataAdapter DataAdapter = new OracleDataAdapter();
@@ -572,6 +575,7 @@ namespace OnePiece {
                 //#if DEBUG
                 //            MessageBox.Show(ex.Message);
                 //#endif
+                tran.Rollback();
                 throw ex;
             }
         }

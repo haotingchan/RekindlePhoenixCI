@@ -1,6 +1,8 @@
 ﻿using BusinessObjects.Enums;
 using Common;
+using DevExpress.Data;
 using DevExpress.XtraEditors.Controls;
+using DevExpress.XtraGrid;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -243,6 +245,57 @@ namespace BaseGround.Shared {
                     memoEdit = new DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit();
                 gv.Columns[colName].ColumnEdit = memoEdit;
             }
+        }
+
+        /// <summary>
+        /// 設定column Summary (如果沒有該column也不會出錯)
+        /// </summary>
+        /// <param name="gv"></param>
+        /// <param name="showColFieldName">要在哪個欄位顯示Summary Value</param>
+        /// <param name="summaryFieldName">要Summary 哪個欄位</param>
+        /// <param name="DisplayFormat"></param>
+        /// <param name="summaryItemType"></param>
+        public static void SetGridSummary(this DevExpress.XtraGrid.Views.Grid.GridView gv,
+            string showColFieldName,
+            string summaryFieldName,
+            string DisplayFormat,
+            SummaryItemType summaryItemType) {
+            if (gv.Columns[showColFieldName] != null && gv.Columns[summaryFieldName] != null) {
+                GridColumnSummaryItem columnSummary = new GridColumnSummaryItem();
+                columnSummary.FieldName = summaryFieldName;
+                columnSummary.SummaryType = summaryItemType;
+                columnSummary.DisplayFormat = DisplayFormat;
+                gv.Columns[showColFieldName].Summary.Add(columnSummary);
+            }
+        }
+
+        /// <summary>
+        /// 設定column group Summary (如果沒有該column也不會出錯)
+        /// </summary>
+        /// <param name="gv"></param>
+        /// <param name="summaryFieldName">要Summary 哪個欄位</param>
+        /// <param name="DisplayFormat"></param>
+        /// <param name="summaryItemType"></param>
+        /// <param name="showInFooter">要不要顯示在 group footer</param>
+        /// <param name="footerColFieldName">group footer 欄位</param>
+        public static void SetGridGroupSummary(this DevExpress.XtraGrid.Views.Grid.GridView gv,
+            string summaryFieldName,
+            string DisplayFormat,
+            SummaryItemType summaryItemType,
+            bool showInFooter = false,
+            string footerColFieldName = "") {
+
+            if (gv.Columns[summaryFieldName] == null) return;
+
+            GridGroupSummaryItem groupSummary = new GridGroupSummaryItem();
+            groupSummary.FieldName = summaryFieldName;
+            groupSummary.SummaryType = summaryItemType;
+            groupSummary.DisplayFormat = DisplayFormat;
+
+            if (showInFooter) {
+                groupSummary.ShowInGroupColumnFooter = gv.Columns[footerColFieldName];
+            }
+            gv.GroupSummary.Add(groupSummary);
         }
 
         #endregion

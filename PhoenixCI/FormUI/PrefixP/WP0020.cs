@@ -1,20 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DevExpress.XtraEditors;
 using BaseGround;
 using Common;
 using BusinessObjects.Enums;
 using DataObjects.Dao.Together.SpecificDao;
 using BaseGround.Shared;
 using DevExpress.XtraEditors.Controls;
-using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraGrid;
 using DevExpress.Utils;
 using BaseGround.Report;
@@ -132,22 +125,14 @@ namespace PhoenixCI.FormUI.PrefixP {
             //依交易人查詢
             if (searchType == "I") {
                 //設定群組 小記
-                gvMain.Columns[0].Group();
+                gvMain.Columns[1].Group();
                 gvMain.OptionsView.AllowCellMerge = true;
-
-                GridGroupSummaryItem groupSummary = new GridGroupSummaryItem();
-                groupSummary.SummaryType = DevExpress.Data.SummaryItemType.Count;
-                groupSummary.DisplayFormat = "合計{0}戶";
-                gvMain.GroupSummary.Add(groupSummary);
                 gvMain.OptionsView.ShowFooter = false;
+                gvMain.SetGridGroupSummary(gvMain.Columns[1].FieldName, "合計{0}戶", DevExpress.Data.SummaryItemType.Count);
             }
             else {//依期貨商合計
-                GridColumnSummaryItem columnSummary = new GridColumnSummaryItem();
-                columnSummary.FieldName = gvMain.Columns.Last().FieldName;
-                columnSummary.SummaryType = DevExpress.Data.SummaryItemType.Sum;
-                columnSummary.DisplayFormat = "總計{0}戶";                
-                gvMain.Columns.Last().Summary.Add(columnSummary);
                 gvMain.OptionsView.ShowFooter = true;
+                gvMain.SetGridSummary(gvMain.Columns.Last().FieldName, gvMain.Columns.Last().FieldName, "總計{0}戶", DevExpress.Data.SummaryItemType.Sum);
             }
 
             GridHelper.SetCommonGrid(gvMain);
