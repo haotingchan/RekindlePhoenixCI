@@ -76,6 +76,29 @@ namespace PhoenixCI.FormUI.PrefixP {
         }
 
         /// <summary>
+        /// 視窗啟動時,設定一些UI元件初始值
+        /// </summary>
+        /// <returns></returns>
+        protected override ResultStatus Open() {
+            base.Open();
+            return ResultStatus.Success;
+        }
+
+        /// <summary>
+        /// 視窗啟動後
+        /// </summary>
+        /// <returns></returns>
+        protected override ResultStatus AfterOpen() {
+            //Db db = GlobalDaoSetting.DB;
+            //DbConnection dc = PbFunc.f_get_exec_oth(db.CreateConnection() , "POS"); //中華電信
+            //if (dc.State == ConnectionState.Open) {
+            //   return ResultStatus.Success;
+            //}
+            //return ResultStatus.Fail;
+            return ResultStatus.Success;
+        }
+
+        /// <summary>
         /// 設定此功能哪些按鈕可以按
         /// </summary>
         /// <returns></returns>
@@ -113,9 +136,8 @@ namespace PhoenixCI.FormUI.PrefixP {
             string item = ddlbItem.EditValue.AsString();
             string cate = ddlbCate.EditValue.AsString();
             string searchType = ddlbCate.Text.Substring(0, 1);
-            string posconn = PbFunc.f_get_exec_oth("POS");
 
-            dtContent = daoP0020.ExecuteStoredProcedure(txtStartDate.Text, txtEndDate.Text, type, item, cate, posconn);
+            dtContent = daoP0020.ExecuteStoredProcedure(txtStartDate.Text, txtEndDate.Text, type, item, cate);
             gcMain.DataSource = null;
             gvMain.GroupSummary.Clear();
             gvMain.Columns.Clear();//清除grid
@@ -125,29 +147,20 @@ namespace PhoenixCI.FormUI.PrefixP {
                 //設定欄位屬性
                 gvMain.SetColumnCaption(dc.ColumnName, GetColumnCaption(dc.Ordinal, searchType));
                 gvMain.Columns[dc.ColumnName].AppearanceCell.TextOptions.VAlignment = VertAlignment.Top;
-                //設定合併欄位(一樣的值不顯示)
+                //設定合併欄位
                 gvMain.Columns[dc.ColumnName].OptionsColumn.AllowMerge = (dc.Ordinal != 0 && dc.Ordinal != 1) ? DefaultBoolean.False : DefaultBoolean.True;
             }
 
             //依交易人查詢
-            if (searchType == "I") {
+            if(searchType == "I") { 
                 //設定群組 小記
                 gvMain.Columns[0].Group();
                 gvMain.OptionsView.AllowCellMerge = true;
 
-                GridGroupSummaryItem groupSummary = new GridGroupSummaryItem();
-                groupSummary.SummaryType = DevExpress.Data.SummaryItemType.Count;
-                groupSummary.DisplayFormat = "合計{0}戶";
-                gvMain.GroupSummary.Add(groupSummary);
-                gvMain.OptionsView.ShowFooter = false;
-            }
-            else {//依期貨商合計
-                GridColumnSummaryItem columnSummary = new GridColumnSummaryItem();
-                columnSummary.FieldName = gvMain.Columns.Last().FieldName;
-                columnSummary.SummaryType = DevExpress.Data.SummaryItemType.Sum;
-                columnSummary.DisplayFormat = "總計{0}戶";                
-                gvMain.Columns.Last().Summary.Add(columnSummary);
-                gvMain.OptionsView.ShowFooter = true;
+                GridGroupSummaryItem summaryItem = new GridGroupSummaryItem();
+                summaryItem.SummaryType = DevExpress.Data.SummaryItemType.Count;
+                summaryItem.DisplayFormat = "合計{0}戶";
+                gvMain.GroupSummary.Add(summaryItem);
             }
 
             GridHelper.SetCommonGrid(gvMain);
@@ -162,7 +175,12 @@ namespace PhoenixCI.FormUI.PrefixP {
 
         protected override ResultStatus Print(ReportHelper reportHelper) {
             try {
-                ReportHelper _ReportHelper = new ReportHelper(gcMain, _ProgramID, this.Text);
+                ReportHelper _ReportHelper = reportHelper;
+                CommonReportPortraitA4 report = new CommonReportPortraitA4();
+                report.printableComponentContainerMain.PrintableComponent = gcMain;
+                report.IsHandlePersonVisible = false;
+                report.IsManagerVisible = false;
+                _ReportHelper.Create(report);
 
                 //寫一行標題的註解,通常是查詢條件
                 _ReportHelper.LeftMemo = "查詢日期 : " + txtStartDate.Text + "~" + txtEndDate.Text + Environment.NewLine +
