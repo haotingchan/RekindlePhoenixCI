@@ -63,8 +63,16 @@ namespace PhoenixCI.FormUI.Prefix4
          return ResultStatus.Success;
       }
 
-      private bool ExportBefore()
+      private bool StartExport()
       {
+         if (!emStartDate.IsDate(emStartDate.Text, CheckDate.Start)) {
+            //is_chk = "Y";
+            return false;
+         }
+         if (!emEndDate.IsDate(emEndDate.Text, CheckDate.End)) {
+            //is_chk = "Y";
+            return false;
+         }
          /*******************
          Messagebox
          *******************/
@@ -76,7 +84,7 @@ namespace PhoenixCI.FormUI.Prefix4
          return true;
       }
 
-      protected void ExportAfter()
+      protected void EndExport()
       {
          stMsgTxt.Text = "轉檔完成!";
          this.Cursor = Cursors.Arrow;
@@ -94,7 +102,7 @@ namespace PhoenixCI.FormUI.Prefix4
 
       protected override ResultStatus Export()
       {
-         if (!ExportBefore()) {
+         if (!StartExport()) {
             return ResultStatus.Fail;
          }
          try {
@@ -105,11 +113,11 @@ namespace PhoenixCI.FormUI.Prefix4
             
             ShowMsg("40200－指數類期貨價格及現貨資料下載 轉檔中...");
             isChk=b40200.Wf40200();
-            ExportAfter();
+            EndExport();
             if (!isChk) return ResultStatus.Fail;//Exception
          }
          catch (Exception ex) {
-            ExportAfter();
+            EndExport();
             WriteLog(ex);
             return ResultStatus.Fail;
          }
