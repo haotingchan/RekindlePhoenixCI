@@ -57,8 +57,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             worksheet.Range["A1"].Select();
             worksheet.Cells["A1"].Value = $"{startDate.ToString("yyyy/MM/dd")}至{endDate.ToString("yyyy/MM/dd")}" + worksheet.Cells["A1"].Value.AsString();
 
-            
-            int totKindCount = dt.AsEnumerable().FirstOrDefault()["CP_TOT_KIND_CNT"].AsInt();
+            int totKindCount = dt.AsEnumerable().Select(q => q.Field<string>("KIND_ID")).Distinct().Count();//li_kind_cnt = ids_1.getitemnumber(1,"cp_tot_kind_cnt")
             //複製column
             for (int k = 2; k <= totKindCount; k++) {
                //可擺放的最大商品數 = 63 = truncate((256 - 1日期欄) / 4column)
@@ -77,10 +76,10 @@ namespace PhoenixCI.BusinessLogic.Prefix4
 		         //iole_1.application.Selection.Insert*/
 
                worksheet.Range["A1"].Select();
-               worksheet.Rows[1 - 1][(k * 4) - 2].CopyFrom(worksheet.Range["B:E"]);
+               worksheet.Rows[1 - 1][(k * 4) - 2-1].CopyFrom(worksheet.Range["B:E"]);
                //插入分頁 
                //iole_1.application.worksheets(1).VPageBreaks.add(iole_1.application.activecell(1, (i * 4) - 2))
-               worksheet.VerticalPageBreaks.Add((k * 4) - 2);
+               //worksheet.VerticalPageBreaks.Add((k * 4) - 2);
             }
 
             int rowStart = 0;
@@ -109,7 +108,8 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                      worksheet.Rows[rowStart][colStart + 3].Value = row["PID_NAME"].AsString();
                   }
                   rowStart = 6 - 1;
-               }
+               }//if (kindID != row["KIND_ID"].AsString())
+
                //Detial
                //1.期貨結算價
                //2.期貨開盤參考價
@@ -118,7 +118,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                //第1個商品才輸日期
                rowStart = rowStart + 1;
                if (kindCount == 1) {
-                  worksheet.Rows[rowStart][1-1].Value = row["DATA_DATE"].AsDateTime().ToString("yyyy/MM/dd");
+                  worksheet.Rows[rowStart][1-1].Value = row["DATA_DATE"].AsDateTime();
                }
                worksheet.Rows[rowStart][colStart].SetValue(row["F_SETTLE_PRICE"]);
                worksheet.Rows[rowStart][colStart + 1].SetValue(row["F_OPEN_REF"]);
