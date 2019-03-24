@@ -304,6 +304,12 @@ namespace PhoenixCI.FormUI.Prefix5
          if (dtChange != null) {
             try {
                // 寫入DB
+               foreach (DataRow dr in dt.Rows) {
+                  if (dr.RowState == DataRowState.Modified) {
+                     dr["MMF_W_TIME"] = DateTime.Now;
+                     dr["MMF_W_USER_ID"] = GlobalInfo.USER_ID;
+                  }
+               }
                ResultData myResultData = dao51030.UpdateMMF(dt);
             }
             catch (Exception ex) {
