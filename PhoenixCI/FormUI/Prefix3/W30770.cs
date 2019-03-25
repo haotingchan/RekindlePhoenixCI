@@ -102,7 +102,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             if (dtDate.Rows.Count <= 0) {
                 ExportShow.Text = symd + "~" + eymd + "," + _ProgramID + '－' + _ProgramName + ",無任何資料!";
                 return;
-            }
+            }           
         }
     }
 }

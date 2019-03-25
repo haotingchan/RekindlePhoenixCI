@@ -126,7 +126,17 @@ namespace PhoenixCI.FormUI.Prefix5 {
         }
 
         protected override ResultStatus DeleteRow() {
-            base.DeleteRow(gvMain);
+            try {
+                GridView gv = gvMain as GridView;
+                DataRowView deleteRowView = (DataRowView)gv.GetFocusedRow();
+                dtForDeleted.ImportRow(deleteRowView.Row);
+
+                base.DeleteRow(gvMain);
+            }
+            catch (Exception ex) {
+                MessageDisplay.Error("刪除資料列錯誤");
+                throw ex;
+            }
             return ResultStatus.Success;
         }
 
