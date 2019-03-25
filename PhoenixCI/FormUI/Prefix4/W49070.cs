@@ -114,10 +114,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             #region 1.3 設定dropdownlist       
             //商品類別
-            DataTable dtKind = new COD().ListKindByCol2("MGT8" , "MGT8_KIND_TYPE");
-            Extension.SetColumnLookUp(lupKind , dtKind , "KIND_TYPE" , "KIND_NAME" , TextEditStyles.DisableTextEditor , "");
-            gcMain.RepositoryItems.Add(lupKind);
-            gvMain.Columns["MGT8_KIND_TYPE"].ColumnEdit = lupKind;
+            //DataTable dtKind = new COD().ListKindByCol2("MGT8" , "MGT8_KIND_TYPE");
+            //Extension.SetColumnLookUp(lupKind , dtKind , "KIND_TYPE" , "KIND_NAME" , TextEditStyles.DisableTextEditor , "");
+            //gcMain.RepositoryItems.Add(lupKind);
+            //gvMain.Columns["MGT8_KIND_TYPE"].ColumnEdit = lupKind;
 
             //國內外
             //此處國內/外下拉清單 於CI.MGT8參數為(國內 : " "  國外: "Y")
@@ -128,10 +128,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gvMain.Columns["MGT8_FOREIGN"].ColumnEdit = lupForeign;
 
             //幣別
-            DataTable dtCurrency = new COD().ListCurrencyByCol2("EXRT" , "EXRT_CURRENCY_TYPE");
-            Extension.SetColumnLookUp(lupCurrency , dtCurrency , "CURRENCY_TYPE" , "CURRENCY_NAME" , TextEditStyles.DisableTextEditor , "");
-            gcMain.RepositoryItems.Add(lupCurrency);
-            gvMain.Columns["MGT8_CURRENCY_TYPE"].ColumnEdit = lupCurrency;
+            //DataTable dtCurrency = new COD().ListCurrencyByCol2("EXRT" , "EXRT_CURRENCY_TYPE");
+            //Extension.SetColumnLookUp(lupCurrency , dtCurrency , "CURRENCY_TYPE" , "CURRENCY_NAME" , TextEditStyles.DisableTextEditor , "");
+            //gcMain.RepositoryItems.Add(lupCurrency);
+            //gvMain.Columns["MGT8_CURRENCY_TYPE"].ColumnEdit = lupCurrency;
 
             //金額類型
             DataTable dtAmt = new COD().ListByCol2("49061" , "MGT8_AMT_TYPE");
