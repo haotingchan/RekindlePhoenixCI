@@ -26,7 +26,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
    /// </summary>
    public partial class W49061 : FormParent {
 
-      //protected DataTable dtForDeleted;
       RepositoryItemLookUpEdit lupKind;
       RepositoryItemLookUpEdit lupForeign;
       RepositoryItemLookUpEdit lupCurrency;

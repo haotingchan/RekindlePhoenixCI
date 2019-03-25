@@ -26,7 +26,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
    /// </summary>
    public partial class W49070 : FormParent {
 
-      protected DataTable dtForDeleted;
+      RepositoryItemLookUpEdit lupOswGrp;
+      RepositoryItemLookUpEdit lupDataType;
 
       protected class LookupItem {
          public string ValueMember { get; set; }
@@ -37,12 +38,22 @@ namespace PhoenixCI.FormUI.Prefix4 {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
          GridHelper.SetCommonGrid(gvMain);
-         dtForDeleted = new DataTable();
       }
 
       protected override ResultStatus Open() {
          base.Open();
          try {
+            lupOswGrp = new RepositoryItemLookUpEdit();
+            lupDataType = new RepositoryItemLookUpEdit();
+
+            COD cod = new COD();
+
+            //收盤群組
+
+
+
+            //商品狀態
+
             Retrieve();
             return ResultStatus.Success;
          } catch (Exception ex) {
