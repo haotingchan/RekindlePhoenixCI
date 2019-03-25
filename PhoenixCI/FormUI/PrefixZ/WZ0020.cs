@@ -137,13 +137,13 @@ namespace PhoenixCI.FormUI.PrefixZ
 
             #region 刪除作業代號
 
-            DataTable dtDelete = (DataTable)myResultData.ChangedDataViewForDeleted.ToTable();
-            foreach (DataRow row in dtDelete.Rows)
-            {
-                string txnId = row["TXN_ID"].AsString();
-                bool result = daoLOGUTP.InsertByUTPAndUPF(txnId, GlobalInfo.USER_DPT_ID, GlobalInfo.USER_ID, GlobalInfo.USER_NAME, "D");
-                result = daoUTP.DeleteUTPByTxnId(txnId);
-            }
+            //DataTable dtDelete = (DataTable)myResultData.ChangedDataViewForDeleted.ToTable();
+            //foreach (DataRow row in dtDelete.Rows)
+            //{
+            //    string txnId = row["TXN_ID"].AsString();
+            //    bool result = daoLOGUTP.InsertByUTPAndUPF(txnId, GlobalInfo.USER_DPT_ID, GlobalInfo.USER_ID, GlobalInfo.USER_NAME, "D");
+            //    result = daoUTP.DeleteUTPByTxnId(txnId);
+            //}
 
             #endregion 刪除作業代號
 

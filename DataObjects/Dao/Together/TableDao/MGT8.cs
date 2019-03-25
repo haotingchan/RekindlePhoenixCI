@@ -49,8 +49,7 @@ SELECT
    MGT8_RT_ID, 
    MGT8_KIND_TYPE,  
 
-   -- 針對49061 國內/外 下拉清單避免取空值下的判斷(存檔時需將'N'存回' '不然會影響其他table)
-   (CASE WHEN MGT8_FOREIGN = ' ' THEN 'D' ELSE 'Y' END) as MGT8_FOREIGN,          
+   MGT8_FOREIGN,
    MGT8_CURRENCY_TYPE,           
    MGT8_STRUTURE,           
    MGT8_AMT_TYPE,  

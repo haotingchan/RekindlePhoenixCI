@@ -453,7 +453,7 @@ namespace OnePiece {
             da.Fill(dtResult);
 
             //ken,如果有多個output cursor,則需要用以下寫法
-           //DataTable dtResult = (DataTable)command.Parameters[2];
+            //DataTable dtResult = (DataTable)command.Parameters[2];
 
             return dtResult;
          } catch (Exception ex) {
@@ -475,112 +475,109 @@ namespace OnePiece {
          }
       }
 
-        /// <summary>
-        /// call StoredProcedure 但是參數可有output( not RefCursor )
-        /// </summary>
-        /// <param name="sql"></param>
-        /// <param name="parameters"></param>
-        /// <param name="hasReturnParameter"></param>
-        /// <returns></returns>
-        public string ExecuteStoredProcedureReturnString(string sql, List<DbParameterEx> parameters, bool hasReturnParameter,OracleDbType returnType) {
-            string result = "";
+      /// <summary>
+      /// call StoredProcedure 但是參數可有output( not RefCursor )
+      /// </summary>
+      /// <param name="sql"></param>
+      /// <param name="parameters"></param>
+      /// <param name="hasReturnParameter"></param>
+      /// <returns></returns>
+      public string ExecuteStoredProcedureReturnString(string sql , List<DbParameterEx> parameters , bool hasReturnParameter , OracleDbType returnType) {
+         string result = "";
 
-            try {
-                var connection = CreateConnection();
-                OracleCommand command = new OracleCommand(sql, (OracleConnection)connection);//ken
-                command.CommandType = CommandType.StoredProcedure;//ken
-
-                if (parameters != null) {
-                    foreach (DbParameterEx everyPara in parameters) {
-                        DbParameter dbParam = command.CreateParameter();
-
-                        dbParam = TransformToDbParameter(dbParam, everyPara);
-
-                        command.Parameters.Add(dbParam);
-                    }
-                }
-
-                DbParameter dbParamReturn = null;
-
-                if (hasReturnParameter) {
-                    if (command is OracleCommand) {
-                        dbParamReturn = command.CreateParameter();
-                        dbParamReturn.ParameterName = "RETURNPARAMETER";
-                        dbParamReturn.Direction = ParameterDirection.Output;
-                        ((OracleParameter)dbParamReturn).OracleDbType = returnType;//David
-                        command.Parameters.Add(dbParamReturn);
-                    }
-                }
-
-                command.ExecuteNonQuery();
-                result= command.Parameters["RETURNPARAMETER"].Value.ToString();
-
-                return result;
-            }
-            catch (Exception ex) {
-                string errorStr = "";
-
-                if (ex is AseException) {
-                    AseException aseEx = ((AseException)ex);
-
-                    foreach (AseError error in aseEx.Errors) {
-                        errorStr += Environment.NewLine + error.ProcName + Environment.NewLine +
-                                    error.MessageNumber + Environment.NewLine +
-                                    "LineNum:" + error.LineNum;
-                    }
-                }
-
-                Exception exNew = new Exception(ExceptionHelper.TranformException(ex).Message + errorStr);
-
-                throw exNew;
-            }
-        }
-
-        /// <summary>
-        /// use oraclecommand update DB by sql string and update column
-        /// </summary>
-        /// <param name="inputDT"></param>
-        /// <param name="sql"></param>
-        /// <returns></returns>
-        public ResultData UpdateOracleDB(DataTable inputDT, string sql) {
+         try {
             var connection = CreateConnection();
-            OracleConnection oracleConn = (OracleConnection)connection;
+            OracleCommand command = new OracleCommand(sql , (OracleConnection)connection);//ken
+            command.CommandType = CommandType.StoredProcedure;//ken
 
-            OracleCommand command = new OracleCommand(sql, oracleConn);
-            OracleTransaction tran = oracleConn.BeginTransaction(IsolationLevel.ReadCommitted);
-            ResultData resultData = new ResultData();
-            resultData.Status = ResultStatus.Fail;
-            command.Transaction = tran;
+            if (parameters != null) {
+               foreach (DbParameterEx everyPara in parameters) {
+                  DbParameter dbParam = command.CreateParameter();
 
-            try {
-                OracleDataAdapter DataAdapter = new OracleDataAdapter();
-                DataAdapter.SelectCommand = command;
+                  dbParam = TransformToDbParameter(dbParam , everyPara);
 
-                OracleCommandBuilder commandBuilder = new OracleCommandBuilder(DataAdapter);
-                DataAdapter.InsertCommand = commandBuilder.GetInsertCommand();
-                DataAdapter.UpdateCommand = commandBuilder.GetUpdateCommand();
-                DataAdapter.DeleteCommand = commandBuilder.GetDeleteCommand();
-
-                int rows = DataAdapter.Update(inputDT);
-
-                if (rows >= 1) {
-                    resultData.Status = ResultStatus.Success;
-                    return resultData;
-                }
-                else {
-                    return resultData;
-                }
+                  command.Parameters.Add(dbParam);
+               }
             }
-            catch (Exception ex) {
-                //#if DEBUG
-                //            MessageBox.Show(ex.Message);
-                //#endif
-                tran.Rollback();
-                throw ex;
-            }
-        }
 
-    }
+            DbParameter dbParamReturn = null;
+
+            if (hasReturnParameter) {
+               if (command is OracleCommand) {
+                  dbParamReturn = command.CreateParameter();
+                  dbParamReturn.ParameterName = "RETURNPARAMETER";
+                  dbParamReturn.Direction = ParameterDirection.Output;
+                  ((OracleParameter)dbParamReturn).OracleDbType = returnType;//David
+                  command.Parameters.Add(dbParamReturn);
+               }
+            }
+
+            command.ExecuteNonQuery();
+            result = command.Parameters["RETURNPARAMETER"].Value.ToString();
+
+            return result;
+         } catch (Exception ex) {
+            string errorStr = "";
+
+            if (ex is AseException) {
+               AseException aseEx = ((AseException)ex);
+
+               foreach (AseError error in aseEx.Errors) {
+                  errorStr += Environment.NewLine + error.ProcName + Environment.NewLine +
+                              error.MessageNumber + Environment.NewLine +
+                              "LineNum:" + error.LineNum;
+               }
+            }
+
+            Exception exNew = new Exception(ExceptionHelper.TranformException(ex).Message + errorStr);
+
+            throw exNew;
+         }
+      }
+
+      /// <summary>
+      /// use oraclecommand update DB by sql string and update column
+      /// </summary>
+      /// <param name="inputDT"></param>
+      /// <param name="sql"></param>
+      /// <returns></returns>
+      public ResultData UpdateOracleDB(DataTable inputDT , string sql) {
+         var connection = CreateConnection();
+         OracleConnection oracleConn = (OracleConnection)connection;
+
+         OracleCommand command = new OracleCommand(sql , oracleConn);
+         OracleTransaction tran = oracleConn.BeginTransaction(IsolationLevel.ReadCommitted);
+         ResultData resultData = new ResultData();
+         resultData.Status = ResultStatus.Fail;
+         command.Transaction = tran;
+
+         try {
+            OracleDataAdapter DataAdapter = new OracleDataAdapter();
+            DataAdapter.SelectCommand = command;
+
+            OracleCommandBuilder commandBuilder = new OracleCommandBuilder(DataAdapter);
+            DataAdapter.InsertCommand = commandBuilder.GetInsertCommand();
+            DataAdapter.UpdateCommand = commandBuilder.GetUpdateCommand();
+            DataAdapter.DeleteCommand = commandBuilder.GetDeleteCommand();
+
+            int rows = DataAdapter.Update(inputDT);
+
+
+            if (rows >= 1) {
+               tran.Commit();
+               resultData.Status = ResultStatus.Success;
+               return resultData;
+            } else {
+               tran.Rollback();
+               return resultData;
+            }
+         } catch (Exception ex) {
+            tran.Rollback();
+            throw ex;
+         }
+      }
+
+   }
 
    public static class DbExtentions {
       public static void AddParameters(this DbCommand command , DbProviderFactory factory , object[] parms) {
