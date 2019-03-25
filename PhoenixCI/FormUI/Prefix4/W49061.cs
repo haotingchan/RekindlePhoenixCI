@@ -223,7 +223,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                if (result.Status == ResultStatus.Fail) {
                   return ResultStatus.Fail;
                }
-               PrintOrExportChangedByKen(gcMain , resultData);
+               //PrintOrExportChangedByKen(gcMain , resultData);
             }
          } catch (Exception ex) {
             throw ex;

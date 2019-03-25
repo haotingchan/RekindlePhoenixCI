@@ -353,14 +353,11 @@ namespace BaseGround {
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus Save_Override(DataTable dt , string tableName , DBName dBName = DBName.CI) {
-         DataGate DG = new DataGate();
-         ResultData resultData = DG.Save_Override(dt , tableName , dBName);
-         if (resultData.Status == ResultStatus.Fail) {
-            throw new Exception(resultData.returnString);
-         }
-         return resultData.Status;
-      }
+        protected virtual ResultStatus Save_Override(DataTable dt, string tableName, DBName dBName = DBName.CI) {
+            DataGate DG = new DataGate();
+            MessageDisplay.Info("Save_Override has been remove");
+            return ResultStatus.Fail;
+        }
 
       protected virtual ResultStatus Retrieve() {
          return ResultStatus.Success;
@@ -811,58 +808,61 @@ namespace BaseGround {
       }
 
 
-      /// <summary>
-      /// 將新增、刪除、變更的紀錄分別都列印或匯出出來
-      /// </summary>
-      /// <param name="gridControl"></param>
-      /// <param name="resultData"></param>
-      protected void PrintOrExportChangedByKen(GridControl gridControl , ResultData resultData) {
-         GridControl gridControlPrint = GridHelper.CloneGrid(gridControl);
+        /// <summary>
+        /// 將新增、刪除、變更的紀錄分別都列印或匯出出來
+        /// </summary>
+        /// <param name="gridControl"></param>
+        /// <param name="ChangedForAdded"></param>
+        /// <param name="ChangedForDeleted"></param>
+        /// <param name="ChangedForModified"></param>
+        protected void PrintOrExportChangedByKen(GridControl gridControl, DataTable ChangedForAdded, 
+            DataTable ChangedForDeleted, DataTable ChangedForModified) {
+            GridControl gridControlPrint = GridHelper.CloneGrid(gridControl);
 
-         ReportHelper reportHelper = new ReportHelper(gridControl , _ProgramID , _ReportTitle);
+            ReportHelper reportHelper = new ReportHelper(gridControl, _ProgramID, _ReportTitle);
 
-         if (resultData.ChangedDataViewForAdded != null)
-            if (resultData.ChangedDataViewForAdded.Count != 0) {
-               gridControlPrint.DataSource = resultData.ChangedDataViewForAdded;
-               reportHelper.PrintableComponent = gridControlPrint;
-               reportHelper.ReportTitle = _ReportTitle + "─" + "新增";
+            if (ChangedForAdded != null)
+                if (ChangedForAdded.Rows.Count != 0) {
+                    gridControlPrint.DataSource = ChangedForAdded;
+                    reportHelper.PrintableComponent = gridControlPrint;
+                    reportHelper.ReportTitle = _ReportTitle + "─" + "新增";
 
-               reportHelper.Print();
-               reportHelper.Export(FileType.PDF , reportHelper.FilePath);
-            }
+                    reportHelper.Print();
+                    reportHelper.Export(FileType.PDF, reportHelper.FilePath);
+                }
 
-         if (resultData.ChangedDataViewForDeleted != null)
-            if (resultData.ChangedDataViewForDeleted.Rows.Count != 0) {
-               DataTable dtTemp = resultData.ChangedDataViewForDeleted.Clone();
+            if (ChangedForDeleted != null)
+                if (ChangedForDeleted.Rows.Count != 0) {
+                    DataTable dtTemp = ChangedForDeleted.Clone();
 
-               int rowIndex = 0;
-               foreach (DataRow dr in resultData.ChangedDataViewForDeleted.Rows) {
-                  DataRow drNewDelete = dtTemp.NewRow();
-                  for (int colIndex = 0 ; colIndex < resultData.ChangedDataViewForDeleted.Columns.Count ; colIndex++) {
-                     drNewDelete[colIndex] = dr[colIndex , DataRowVersion.Original];
-                  }
-                  dtTemp.Rows.Add(drNewDelete);
-                  rowIndex++;
-               }
+                    int rowIndex = 0;
+                    foreach (DataRow dr in ChangedForDeleted.Rows) {
+                        DataRow drNewDelete = dtTemp.NewRow();
+                        for (int colIndex = 0; colIndex < ChangedForDeleted.Columns.Count; colIndex++) {
+                            drNewDelete[colIndex] = dr[colIndex, DataRowVersion.Original];
+                        }
+                        dtTemp.Rows.Add(drNewDelete);
+                        rowIndex++;
+                    }
 
-               gridControlPrint.DataSource = dtTemp.AsDataView();
-               reportHelper.PrintableComponent = gridControlPrint;
-               reportHelper.ReportTitle = _ReportTitle + "─" + "刪除";
+                    gridControlPrint.DataSource = dtTemp.AsDataView();
+                    reportHelper.PrintableComponent = gridControlPrint;
+                    reportHelper.ReportTitle = _ReportTitle + "─" + "刪除";
 
-               reportHelper.Print();
-               reportHelper.Export(FileType.PDF , reportHelper.FilePath);
-            }
+                    reportHelper.Print();
+                    reportHelper.Export(FileType.PDF, reportHelper.FilePath);
+                }
 
-         if (resultData.ChangedDataViewForModified != null)
-            if (resultData.ChangedDataViewForModified.Count != 0) {
-               gridControlPrint.DataSource = resultData.ChangedDataViewForModified;
-               reportHelper.PrintableComponent = gridControlPrint;
-               reportHelper.ReportTitle = _ReportTitle + "─" + "變更";
+            if (ChangedForModified != null)
+                if (ChangedForModified.Rows.Count != 0) {
+                    gridControlPrint.DataSource = ChangedForModified;
+                    reportHelper.PrintableComponent = gridControlPrint;
+                    reportHelper.ReportTitle = _ReportTitle + "─" + "變更";
 
-               reportHelper.Print();
-               reportHelper.Export(FileType.PDF , reportHelper.FilePath);
-            }
-      }
+                    reportHelper.Print();
+                    reportHelper.Export(FileType.PDF, reportHelper.FilePath);
+                }
+        }
 
       /// <summary>
       /// 即將廢除, 改用PBFunc wf_copy_file

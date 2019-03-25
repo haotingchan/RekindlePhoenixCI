@@ -175,7 +175,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 //resultData.ChangedDataViewForDeleted = dtForDeleted == null ? new DataView() : dtForDeleted.DefaultView;
                 resultData.ChangedDataViewForModified = dtForModified == null ? new DataView() : dtForModified.DefaultView;
                 //列印
-                PrintOrExportChangedByKen(gcMain, resultData);
+                //PrintOrExportChangedByKen(gcMain, resultData);
                 _IsPreventFlowPrint = true;
             }
             //不要自動列印
