@@ -104,8 +104,13 @@ namespace PhoenixCI.FormUI.PrefixP {
             string type = ddlbType.EditValue.AsString();
             string cate = ddlbCate.EditValue.AsString();
             string searchType = ddlbCate.Text.Substring(0, 1);
+            string groupSummaryAccount = "合計{0}戶";
+            string groupSummaryTimes = "合計{0}次";
+            string summaryAccount = "總計{0}戶";
+            string summaryTimes = "總計{0}次";
             string posconn = PbFunc.f_get_exec_oth("POS");//更換DB
 
+            //取 F 的欄位來給I加總用
             dtContentI = daoP0030.ExecuteStoredProcedure(txtStartDate.Text, txtEndDate.Text, type, "I", posconn);
             dtContentF = daoP0030.ExecuteStoredProcedure(txtStartDate.Text, txtEndDate.Text, type, "F", posconn);
             gcMain.DataSource = null;
@@ -113,9 +118,11 @@ namespace PhoenixCI.FormUI.PrefixP {
             gvMain.Columns.Clear();//清除grid
             dtContentF.Columns.Remove(dtContentF.Columns["0"]);
 
+            List<string> FcmName = new List<string>();
             foreach (DataRow drI in dtContentI.Rows) {
-                DataRow drF = dtContentF.Select("FCM_NAME =" + "'"+drI["FCM_NAME"].ToString()+"'")[0];
-                if (drF["FCM_NAME"].AsString() == drI["FCM_NAME"].ToString()) {
+                DataRow drF = dtContentF.Select("FCM_NAME =" + "'" + drI["FCM_NAME"].ToString() + "'")[0];
+                if (FcmName.Where(f => f == drI["FCM_NAME"].ToString()).Count() == 0) {
+                    FcmName.Add(drI["FCM_NAME"].ToString());
                     drI["0"] = drF[2].AsString();
                 }
             }
@@ -131,90 +138,32 @@ namespace PhoenixCI.FormUI.PrefixP {
                 gvMain.Columns[dc.ColumnName].OptionsColumn.AllowMerge = (dc.Ordinal != 0 && dc.Ordinal != 1) ? DefaultBoolean.False : DefaultBoolean.True;
             }
 
+            gvMain.Columns[1].Group();//依流水號分群
+
             //依交易人查詢
-            if (searchType == "I") {
-                gvMain.Columns[0].Group();
-                gvMain.Columns.Last().Visible = false;
+            if (searchType == "I") {             
+                gvMain.Columns.Last().Visible = false;//隱藏小記欄位
                 gvMain.OptionsView.AllowCellMerge = true;
                 //設定群組 小記
-                GridGroupSummaryItem timesSummary = new GridGroupSummaryItem();
-                timesSummary.FieldName = gvMain.Columns[4].FieldName;
-                timesSummary.ShowInGroupColumnFooter = gvMain.Columns[4];
-                timesSummary.SummaryType = SummaryItemType.Sum;
-                timesSummary.DisplayFormat = "合計{0}次";
-                gvMain.GroupSummary.Add(timesSummary);               
-
-                GridGroupSummaryItem accountSummary = new GridGroupSummaryItem();
-                accountSummary.FieldName = gvMain.Columns[5].FieldName;
-                accountSummary.ShowInGroupColumnFooter = gvMain.Columns[2];
-                accountSummary.SummaryType = SummaryItemType.Max;
-                accountSummary.DisplayFormat = "合計{0}戶";
-                gvMain.GroupSummary.Add(accountSummary);
-
-                //客製化總記欄位
-                //int tolsum = 0;
-                //List<string> tolAccountNo = new List<string>();
-                //gvMain.CustomSummaryCalculate += (sender, e) => {
-                //    GridView gv = sender as GridView;
-                //    if (e.IsTotalSummary && (e.Item as GridColumnSummaryItem).FieldName == gv.Columns[2].FieldName) {
-                //        GridColumnSummaryItem item = e.Item as GridColumnSummaryItem;
-                //        if (item.FieldName == gv.Columns[2].FieldName) {
-                //            switch (e.SummaryProcess) {
-                //                case CustomSummaryProcess.Start:
-                //                    tolsum = 0;
-                //                    tolAccountNo = new List<string>();
-                //                    break;
-                //                case CustomSummaryProcess.Calculate:
-                //                    if (tolAccountNo.Where(a => a == e.GetValue(gv.Columns[2].FieldName).AsString()).Count() == 0) {
-                //                        tolAccountNo.Add(e.GetValue(gv.Columns[2].FieldName).AsString());
-                //                        tolsum += 1;
-                //                    }
-                //                    break;
-                //                case CustomSummaryProcess.Finalize:
-                //                    e.TotalValue = tolsum;
-                //                    break;
-                //            }
-                //        }
-                //    }
-                //};
-
-                GridColumnSummaryItem tolAccountSummary = new GridColumnSummaryItem();
-                tolAccountSummary.FieldName = gvMain.Columns[5].FieldName;
-                tolAccountSummary.SummaryType = SummaryItemType.Sum;
-                tolAccountSummary.DisplayFormat = "總計{0}戶";
-                gvMain.Columns[2].Summary.Add(tolAccountSummary);
+                gvMain.SetGridGroupSummary(gvMain.Columns[4].FieldName, groupSummaryTimes, SummaryItemType.Sum, true, gvMain.Columns[4].FieldName);      
+                gvMain.SetGridGroupSummary(gvMain.Columns[5].FieldName, groupSummaryAccount, SummaryItemType.Sum, true, gvMain.Columns[2].FieldName);
 
                 //總計
-                GridColumnSummaryItem columnSummary = new GridColumnSummaryItem();
-                columnSummary.FieldName = gvMain.Columns[4].FieldName;
-                columnSummary.SummaryType = SummaryItemType.Sum;
-                columnSummary.DisplayFormat = "總計{0}次";
-                gvMain.Columns[4].Summary.Add(columnSummary);
-            }//if searchType="I"
+                gvMain.SetGridSummary(gvMain.Columns[2].FieldName, gvMain.Columns[5].FieldName, summaryAccount, SummaryItemType.Sum);
+                gvMain.SetGridSummary(gvMain.Columns[4].FieldName, gvMain.Columns[4].FieldName, summaryTimes, SummaryItemType.Sum);
+            }
             else {//searchType="F"
-
-                GridGroupSummaryItem accountSummary = new GridGroupSummaryItem();
-                accountSummary.FieldName = gvMain.Columns[2].FieldName;
-                accountSummary.ShowInGroupColumnFooter = gvMain.Columns[2];
-                accountSummary.SummaryType = SummaryItemType.Sum;
-                accountSummary.DisplayFormat = "合計{0}戶";
-                gvMain.GroupSummary.Add(accountSummary);
-
-                GridColumnSummaryItem tolAccountSummary = new GridColumnSummaryItem();
-                tolAccountSummary.FieldName = gvMain.Columns[2].FieldName;
-                tolAccountSummary.SummaryType = SummaryItemType.Sum;
-                tolAccountSummary.DisplayFormat = "總計{0}戶";
-                gvMain.Columns[2].Summary.Add(tolAccountSummary);
+                gvMain.OptionsView.AllowCellMerge = false;
+                //分群小記 
+                gvMain.SetGridGroupSummary(gvMain.Columns[2].FieldName, groupSummaryAccount, SummaryItemType.Sum, true, gvMain.Columns[2].FieldName);
+                gvMain.SetGridGroupSummary(gvMain.Columns[3].FieldName, groupSummaryTimes, SummaryItemType.Sum, true, gvMain.Columns[3].FieldName);
 
                 //總計
-                GridColumnSummaryItem columnSummary = new GridColumnSummaryItem();
-                columnSummary.FieldName = gvMain.Columns[3].FieldName;
-                columnSummary.SummaryType = SummaryItemType.Sum;
-                columnSummary.DisplayFormat = "總計{0}次";
-                gvMain.Columns[3].Summary.Add(columnSummary);
+                gvMain.SetGridSummary(gvMain.Columns[2].FieldName, gvMain.Columns[2].FieldName, summaryAccount, SummaryItemType.Sum);
+                gvMain.SetGridSummary(gvMain.Columns[3].FieldName, gvMain.Columns[3].FieldName, summaryTimes, SummaryItemType.Sum);
             }
 
-            //GridHelper.SetCommonGrid(gvMain);
+            GridHelper.SetCommonGrid(gvMain);
             gcMain.Visible = true;
             gvMain.OptionsView.ShowFooter = true;
             gvMain.ExpandAllGroups();
@@ -284,6 +233,5 @@ namespace PhoenixCI.FormUI.PrefixP {
             }
             return false;
         }
-
     }
 }

@@ -1,5 +1,6 @@
 ﻿using BusinessObjects;
 using OnePiece;
+using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -53,15 +54,15 @@ namespace DataObjects.Dao.Together.SpecificDao
       /// <param name="Is_ym"></param>
       /// <param name="RETURNPARAMETER">一開始傳null，成功回傳0</param>
       /// <returns></returns>
-      public DataTable sp_H_stt_RAM1(string Is_ym)
+      public string Sp_H_stt_RAM1(string Is_ym)
       {
          string returnparameter=string.Empty;
-         List<DbParameterEx> parms = new List<DbParameterEx>();
-         parms.Add(new DbParameterEx(":ls_ym", Is_ym));
-         parms.Add(new DbParameterEx("RETURNPARAMETER", returnparameter));
-         string sp = "sp_H_stt_RAM1";
+         List<DbParameterEx> parms = new List<DbParameterEx>() {
+            new DbParameterEx("ls_ym",Is_ym)
+         };
 
-         DataTable reResult = db.ExecuteStoredProcedureEx(sp, parms,true);
+         string sql = "CI.sp_H_stt_RAM1";
+         string reResult = db.ExecuteStoredProcedureReturnString(sql, parms, true, OracleDbType.Int32);
 
          return reResult;
       }

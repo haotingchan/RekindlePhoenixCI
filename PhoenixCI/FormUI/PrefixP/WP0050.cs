@@ -104,13 +104,12 @@ namespace PhoenixCI.FormUI.PrefixP {
 
             //設定群組 小記          
             gvMain.OptionsView.AllowCellMerge = true;
-            gvMain.Columns[2].GroupIndex = 0;
+            gvMain.Columns[1].SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
+            gvMain.Columns[2].SortOrder = DevExpress.Data.ColumnSortOrder.None;
+            gvMain.Columns[1].Group();
+            gvMain.Columns[2].Group();
 
-            GridGroupSummaryItem groupSummary = new GridGroupSummaryItem();
-            groupSummary.SummaryType = DevExpress.Data.SummaryItemType.Count;
-            groupSummary.DisplayFormat = "合計{0}戶";
-            gvMain.GroupSummary.Add(groupSummary);
-            gvMain.OptionsView.ShowFooter = false;
+            gvMain.SetGridGroupSummary(gvMain.Columns[1].FieldName, "總計{0}", DevExpress.Data.SummaryItemType.Count);
 
             GridHelper.SetCommonGrid(gvMain);
             gcMain.Visible = true;
