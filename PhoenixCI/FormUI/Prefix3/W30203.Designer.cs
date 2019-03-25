@@ -255,7 +255,7 @@
             this.gcGBF.MainView = this.gvGBF;
             this.gcGBF.MenuManager = this.ribbonControl;
             this.gcGBF.Name = "gcGBF";
-            this.gcGBF.Size = new System.Drawing.Size(1101, 146);
+            this.gcGBF.Size = new System.Drawing.Size(1101, 130);
             this.gcGBF.TabIndex = 0;
             this.gcGBF.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvGBF});
@@ -660,11 +660,11 @@
             // gcMain
             // 
             this.gcMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gcMain.Location = new System.Drawing.Point(12, 158);
+            this.gcMain.Location = new System.Drawing.Point(12, 142);
             this.gcMain.MainView = this.gvMain;
             this.gcMain.MenuManager = this.ribbonControl;
             this.gcMain.Name = "gcMain";
-            this.gcMain.Size = new System.Drawing.Size(1101, 460);
+            this.gcMain.Size = new System.Drawing.Size(1101, 476);
             this.gcMain.TabIndex = 1;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
