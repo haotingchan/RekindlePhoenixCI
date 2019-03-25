@@ -55,9 +55,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
 #if DEBUG
          //winni test
-         txtStartDate.DateTimeValue = DateTime.ParseExact("2016/01/01" , "yyyy/MM/dd" , null);
-         txtEndDate.DateTimeValue = DateTime.ParseExact("2018/11/29" , "yyyy/MM/dd" , null);
-         this.Text += "(開啟測試模式),Date=2016/01/01~2018/11/29";
+         //txtStartDate.DateTimeValue = DateTime.ParseExact("2016/01/01" , "yyyy/MM/dd" , null);
+         //txtEndDate.DateTimeValue = DateTime.ParseExact("2018/11/29" , "yyyy/MM/dd" , null);
+         //this.Text += "(開啟測試模式),Date=2016/01/01~2018/11/29";
 #endif
 
       }

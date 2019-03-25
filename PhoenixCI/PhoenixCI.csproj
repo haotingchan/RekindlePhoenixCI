@@ -229,6 +229,12 @@
     <Compile Include="FormUI\Prefix2\W20230.Designer.cs">
       <DependentUpon>W20230.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormUI\Prefix2\W20231.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix2\W20231.Designer.cs">
+      <DependentUpon>W20231.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormUI\Prefix2\W20233.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -871,6 +877,18 @@
     <Compile Include="FormUI\Prefix4\W49060.Designer.cs">
       <DependentUpon>W49060.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormUI\Prefix4\W49070.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W49070.designer.cs">
+      <DependentUpon>W49070.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W49061.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W49061.designer.cs">
+      <DependentUpon>W49061.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormUI\Prefix5\W50030.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1316,6 +1334,9 @@
     <EmbeddedResource Include="FormUI\Prefix2\W20230.resx">
       <DependentUpon>W20230.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix2\W20231.resx">
+      <DependentUpon>W20231.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix2\W20233.resx">
       <DependentUpon>W20233.cs</DependentUpon>
     </EmbeddedResource>
@@ -1636,6 +1657,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix4\W49060.resx">
       <DependentUpon>W49060.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W49070.resx">
+      <DependentUpon>W49070.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W49061.resx">
+      <DependentUpon>W49061.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix5\W50030.resx">
       <DependentUpon>W50030.cs</DependentUpon>

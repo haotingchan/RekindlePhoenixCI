@@ -24,7 +24,7 @@ FROM (
 		SELECT 
 		MGT8_F_ID,
 		MGT8_F_NAME,
-		MGT8_F_EXCHANGE
+		MGT8_F_EXCHANGE,
 		FROM CI.MGT8 
 	 ) A
 ORDER BY MGT8_F_ID
@@ -35,21 +35,62 @@ ORDER BY MGT8_F_ID
          return dtResult;
       }
 
+      /// <summary>
+      /// return 12 feild (for d49061) 
+      /// </summary>
+      /// <returns></returns>
+      public DataTable ListData() {
+
+         string sql = @"
+SELECT
+   MGT8_F_ID,  
+   MGT8_F_EXCHANGE, 
+   MGT8_F_NAME,      
+   MGT8_RT_ID, 
+   MGT8_KIND_TYPE,  
+
+   -- 針對49061 國內/外 下拉清單避免取空值下的判斷(存檔時需將'N'存回' '不然會影響其他table)
+   (CASE WHEN MGT8_FOREIGN = ' ' THEN 'D' ELSE 'Y' END) as MGT8_FOREIGN,          
+   MGT8_CURRENCY_TYPE,           
+   MGT8_STRUTURE,           
+   MGT8_AMT_TYPE,  
+   MGT8_XXX,           	     
+	      
+   MGT8_W_USER_ID,           
+   MGT8_W_TIME,
+   ' ' as IS_NEWROW
+FROM CI.MGT8
+ORDER BY MGT8_F_ID
+";
+
+         DataTable dtResult = db.GetDataTable(sql , null);
+
+         return dtResult;
+      }
+
+      /// <summary>
+      /// save data
+      /// </summary>
+      /// <param name="inputData"></param>
+      /// <returns></returns>
       public ResultData UpdateData(DataTable inputData) {
 
          string sql = @"
 SELECT 
-    MGT8_KIND_ID, 
-    MGT8_TYPE, 
-    MGT8_CUR_M_MULTI,
-    MGT8_CUR_I_MULTI, 
-    MGT8_CUR_DIGITAL, 
-    MGT8_M_MULTI, 
-    MGT8_I_MULTI, 
-    MGT8_DIGITAL, 
-    MGT8_W_TIME, 
-    MGT8_W_USER_ID,
-    MGT8_M_DIGITAL
+   MGT8_F_ID,  
+   MGT8_F_EXCHANGE, 
+   MGT8_F_NAME,      
+   MGT8_RT_ID, 
+   MGT8_KIND_TYPE, 
+
+   MGT8_FOREIGN, 
+   MGT8_CURRENCY_TYPE,           
+   MGT8_STRUTURE,           
+   MGT8_AMT_TYPE,  
+   MGT8_XXX,      
+
+   MGT8_W_USER_ID,           
+   MGT8_W_TIME
 FROM CI.MGT8
 ";
 
