@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BusinessObjects;
+using OnePiece;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -13,18 +15,15 @@ namespace DataObjects.Dao.Together.SpecificDao {
 
         public DataTable d_42033(string as_ymd_fm, string as_ymd_to) {
 
-            object[] parms = {
-                ":as_ymd_fm", as_ymd_fm,
-                ":as_ymd_to", as_ymd_to
-            };
+            List<DbParameterEx> parms = new List<DbParameterEx>() {
+            new DbParameterEx("as_ymd_fm",as_ymd_fm),
+            new DbParameterEx("as_ymd_to",as_ymd_to)
+            //new DbParameterEx("RETURNPARAMETER",0)
+         };
 
-            string sql =
-@"
+            string sql = "CI.SP_H_TXN_42033_DETL";
 
-";
-            DataTable dtResult = db.GetDataTable(sql, parms);
-
-            return dtResult;
+            return db.ExecuteStoredProcedureEx(sql, parms, true);
         }
     }
 }

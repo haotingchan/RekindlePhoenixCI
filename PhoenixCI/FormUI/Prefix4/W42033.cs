@@ -38,8 +38,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 txtEDate.DateTimeValue = DateTime.Now;
                 txtSDate.EditValue = txtEDate.DateTimeValue;
 #if DEBUG
-                //txtSDate.Text = "2014/01/01";
-                //txtEDate.Text = "2017/12/31";
+                txtSDate.Text = "2016/12/19";
+                txtEDate.Text = "2016/12/19";
 #endif
 
                 txtSDate.Focus();
@@ -72,9 +72,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
             try {
                 lblProcessing.Visible = true;
                 dao42033 = new D42033();
-                string rptId, file, rptName, kindId = "", kindIdName;
-                decimal  li_sheet_kind_cnt, li_kind_tot_cnt; //商品總個數
-                int li_row_start=0, li_col_start, f, rowNum, colNum, li_sheet_cnt;
+                string rptId, file, rptName, kindId = "";
+                decimal  sheetKindCnt, kindTotCnt; //商品總個數
+                int rowStart=0, colStart, f, colNum, sheetCnt;
                 rptId = "42033";
                 rptName = "股票類(STF)期貨價格及現貨資料";
                 lblProcessing.Text = rptId + "－" + rptName + " 轉檔中...";
@@ -86,6 +86,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     lblProcessing.Visible = false;
                     return ResultStatus.Fail;
                 }
+                DataView dv = dt42033.AsDataView();
+                dv.Sort="KIND_ID, data_date";
+                DataTable dtSorted = dv.ToTable();
 
                 //複製檔案
                 file = PbFunc.wf_copy_file(rptId, rptId);
@@ -101,63 +104,71 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 Worksheet ws42033 = workbook.Worksheets[0];
                 ws42033.Cells[0, 0].Value = txtSDate.Text + "至" + txtEDate.Text + ws42033.Cells[0, 0].Value;
 
-                li_col_start = -2;
-                li_kind_tot_cnt = dt42033.Rows[0]["CP_TOT_KIND_CNT"].AsDecimal();  //全部總商品數
+                colStart = -3;
+                //兩個運算欄位
+                //CP_KIND_SEQ_NO: if(isnull( kind_id[-1]) or  kind_id[0] <> kind_id[-1],1,0)
+                //CP_TOT_KIND_CNT: sum(cp_kind_seq_no)
+                kindTotCnt = dtSorted.AsEnumerable().Select(q => q.Field<string>("KIND_ID")).Distinct().Count().AsDecimal();  //全部總商品數
                 //複製Sheet
-                for (f = 1; f <= Math.Ceiling(li_kind_tot_cnt / 63) - 1; f++) {
+                for (f = 1; f <= Math.Ceiling(kindTotCnt / 63) - 1; f++) {
                     workbook.Worksheets.Add();
-                    Worksheet wsNew = workbook.Worksheets[0];
+                    // 新增worksheet兩種方式:
+                    // workbook.Worksheets.Add().Name="";
+                    // workbook.Worksheets.Insert(0,"");
+                    Worksheet wsNew = workbook.Worksheets[f];
                     wsNew.CopyFrom(ws42033);
                 }
-                for (f = 1; f <= Math.Ceiling(li_kind_tot_cnt / 63); f++) {
-                    workbook.Worksheets[0].Name = "42033_" + f.AsString();
+                for (f = 0; f < Math.Ceiling(kindTotCnt / 63); f++) {
+                    workbook.Worksheets[f].Name = "42033_" + (f+1).AsString();
                 }
 
                 //複製column
-                li_sheet_kind_cnt = 1;  //每個sheet商品數
-                li_sheet_cnt = 0;
-                ws42033 = workbook.Worksheets[li_sheet_cnt];
-                for (f = 2; f <= li_kind_tot_cnt; f++) {
-                    li_sheet_kind_cnt = li_sheet_kind_cnt + 1;
+                sheetKindCnt = 1;  //每個sheet商品數
+                sheetCnt = 0;
+                ws42033 = workbook.Worksheets[sheetCnt];
+                for (f = 2; f < kindTotCnt; f++) {
+                    sheetKindCnt = sheetKindCnt + 1;
                     //可擺放的最大商品數 = 63 = truncate((256 - 1日期欄) / 4column)
-                    if (li_sheet_kind_cnt > 63) {
-                        li_sheet_cnt = li_sheet_cnt + 1;
-                        ws42033 = workbook.Worksheets[li_sheet_cnt];
-                        li_sheet_kind_cnt = 0;
+                    if (sheetKindCnt > 63) {
+                        sheetCnt = sheetCnt + 1;
+                        ws42033 = workbook.Worksheets[sheetCnt];
+                        sheetKindCnt = 1;
                         continue;
                     }
+
+                    ws42033.Cells[0, (sheetKindCnt.AsInt() * 4) - 3].CopyFrom(ws42033.Range["B:E"]);
                 }
 
 
                 //填值
-                li_sheet_cnt = 0;
-                ws42033 = workbook.Worksheets[li_sheet_cnt];
-                li_sheet_kind_cnt = 0;
-                foreach (DataRow dr in dt42033.Rows) {
+                sheetCnt = 0;
+                ws42033 = workbook.Worksheets[sheetCnt];
+                sheetKindCnt = 0;
+                foreach (DataRow dr in dtSorted.Rows) {
                     if (dr["kind_id"].AsString() != kindId) {
                         kindId = dr["kind_id"].AsString();
-                        li_sheet_kind_cnt = li_sheet_kind_cnt + 1;
+                        sheetKindCnt = sheetKindCnt + 1;
                         //每4個column為一組, 若超過256限制則結束
-                        li_col_start = li_col_start + 4;
-                        if (li_col_start > 253) {
-                            li_sheet_cnt = li_sheet_cnt + 1;
-                            ws42033 = workbook.Worksheets[li_sheet_cnt];
-                            li_sheet_kind_cnt = 0;
-                            li_col_start = 2;
+                        colStart = colStart + 4;
+                        if (colStart > 252) {
+                            sheetCnt = sheetCnt + 1;
+                            ws42033 = workbook.Worksheets[sheetCnt];
+                            sheetKindCnt = 0;
+                            colStart = 1;
                         }
                         //Head
                         //1.股票期貨英文代碼
                         //2.股票期貨中文簡稱
                         //3.股票期貨標的證券代號
                         //4.上市/上櫃類別
-                        li_row_start = 5;
+                        rowStart = 4;
                         for (colNum = 2; colNum <= 5; colNum++) {
-                            ws42033.Cells[li_row_start, li_col_start].Value = dr["KIND_ID"].AsString();
-                            ws42033.Cells[li_row_start, li_col_start+1].Value = dr["APDK_NAME"].AsString();
-                            ws42033.Cells[li_row_start, li_col_start+2].Value = dr["APDK_STOCK_ID"].AsString();
-                            ws42033.Cells[li_row_start, li_col_start+3].Value = dr["PID_NAME"].AsString();
+                            ws42033.Cells[rowStart, colStart].Value = dr["KIND_ID"].AsString();
+                            ws42033.Cells[rowStart, colStart+1].Value = dr["APDK_NAME"].AsString();
+                            ws42033.Cells[rowStart, colStart+2].Value = dr["APDK_STOCK_ID"].AsString();
+                            ws42033.Cells[rowStart, colStart+3].Value = dr["PID_NAME"].AsString();
                         }
-                        li_row_start = 6;
+                        rowStart = 5;
                     }
                     //Detial
                     //1.期貨結算價
@@ -165,14 +176,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     //3.標的指數收盤價
                     //4.標的指數開盤參考價
                     //第1個商品才輸日期
-                    li_row_start = li_row_start + 1;
-                    if (li_sheet_kind_cnt == 1) {
-                        ws42033.Cells[li_row_start, 0].Value = dr["DATA_DATE"].AsDateTime().ToString("yyyy/MM/dd");
+                    rowStart = rowStart + 1;
+                    if (sheetKindCnt == 1) {
+                        ws42033.Cells[rowStart, 0].Value = dr["DATA_DATE"].AsDateTime().ToString("yyyy/MM/dd");
                     }
-                    ws42033.Cells[li_row_start, li_col_start].SetValue(dr["F_SETTLE_PRICE"]);
-                    ws42033.Cells[li_row_start, li_col_start + 1].SetValue(dr["F_OPEN_REF"]);
-                    ws42033.Cells[li_row_start, li_col_start + 2].SetValue(dr["T_PRICE"]);
-                    ws42033.Cells[li_row_start, li_col_start + 3].SetValue(dr["T_OPEN_REF"]);
+                    ws42033.Cells[rowStart, colStart].SetValue(dr["F_SETTLE_PRICE"]);
+                    ws42033.Cells[rowStart, colStart + 1].SetValue(dr["F_OPEN_REF"]);
+                    ws42033.Cells[rowStart, colStart + 2].SetValue(dr["T_PRICE"]);
+                    ws42033.Cells[rowStart, colStart + 3].SetValue(dr["T_OPEN_REF"]);
                 }
 
                 //存檔

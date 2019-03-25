@@ -141,13 +141,13 @@ namespace PhoenixCI.FormUI.PrefixZ
 
             ResultData myResultData = serviceCommon.SaveForChanged(dt, tableName, insertColumnList, updateColumnList, keysColumnList, pokeBall);
 
-            DataTable dtDelete = myResultData.ChangedDataViewForDeleted.ToTable();
+            //DataTable dtDelete = myResultData.ChangedDataViewForDeleted.ToTable();
 
-            foreach (DataRow row in dtDelete.Rows)
-            {
-                string userId = row["UPF_USER_ID"].AsString();
-                bool result = daoUTP.DeleteUTPByUserId(userId);
-            }
+            //foreach (DataRow row in dtDelete.Rows)
+            //{
+            //    string userId = row["UPF_USER_ID"].AsString();
+            //    bool result = daoUTP.DeleteUTPByUserId(userId);
+            //}
 
             PrintOrExport(gcMain, myResultData);
             _IsPreventFlowPrint = true;
@@ -178,15 +178,15 @@ namespace PhoenixCI.FormUI.PrefixZ
 
             PrintableComponent = gridControlPrint;
 
-            if (resultData.ChangedDataViewForDeleted.Count != 0)
-            {
-                reportHelper = PrintOrExportSetting();
-                gridControlPrint.DataSource = resultData.ChangedDataViewForDeleted;
-                reportHelper.ReportTitle = originReportTitle + "─" + "刪除";
+            //if (resultData.ChangedDataViewForDeleted.Count != 0)
+            //{
+            //    reportHelper = PrintOrExportSetting();
+            //    gridControlPrint.DataSource = resultData.ChangedDataViewForDeleted;
+            //    reportHelper.ReportTitle = originReportTitle + "─" + "刪除";
 
-                Print(reportHelper);
-                Export(reportHelper);
-            }
+            //    Print(reportHelper);
+            //    Export(reportHelper);
+            //}
 
             if (resultData.ChangedDataViewForModified.Count != 0)
             {

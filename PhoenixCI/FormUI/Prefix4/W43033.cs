@@ -8,18 +8,18 @@ using BaseGround.Shared;
 using System.Threading;
 using PhoenixCI.BusinessLogic.Prefix4;
 /// <summary>
-/// john,20190312,指數類期貨及現貨資料下載
+/// john,20190325,股票類(ETF)期貨價格及現貨資料下載
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix4
 {
    /// <summary>
-   /// 指數類期貨及現貨資料下載
+   /// 股票類(ETF)期貨價格及現貨資料下載
    /// </summary>
-   public partial class W40200 : FormParent
+   public partial class W43033 : FormParent
    {
-      private B40200 b40200;
+      private B43033 b43033;
 
-      public W40200(string programID, string programName) : base(programID, programName)
+      public W43033(string programID, string programName) : base(programID, programName)
       {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
@@ -37,6 +37,11 @@ namespace PhoenixCI.FormUI.Prefix4
          base.Open();
          emStartDate.Text = DateTime.Today.ToString("yyyy/MM/dd");
          emEndDate.Text = DateTime.Today.ToString("yyyy/MM/dd");
+#if DEBUG
+         emStartDate.Text = "2019/02/27";
+         emEndDate.Text = "2019/03/15";
+         this.Text += "(開啟測試模式),Date=2019/02/27~2019/03/15";
+#endif
          return ResultStatus.Success;
       }
 
@@ -100,6 +105,13 @@ namespace PhoenixCI.FormUI.Prefix4
          Thread.Sleep(5);
       }
 
+      private string OutputShowMessage {
+         set {
+            if (value != MessageDisplay.MSG_OK)
+               MessageDisplay.Info(value);
+         }
+      }
+
       protected override ResultStatus Export()
       {
          if (!StartExport()) {
@@ -107,19 +119,18 @@ namespace PhoenixCI.FormUI.Prefix4
          }
          try {
             //資料來源
-            string saveFilePath = PbFunc.wf_copy_file(_ProgramID, "40200");
-            b40200 = new B40200(saveFilePath,emStartDate.Text,emEndDate.Text);
-            bool isChk = false;//判斷是否執行成功
+            string saveFilePath = PbFunc.wf_copy_file(_ProgramID, "43033");
+            b43033 = new B43033(saveFilePath,emStartDate.Text,emEndDate.Text);
+            ShowMsg("43033－股票類(ETF)期貨價格及現貨資料 轉檔中...");
+            OutputShowMessage = b43033.Wf43033();
             
-            ShowMsg("40200－指數類期貨價格及現貨資料下載 轉檔中...");
-            isChk=b40200.Wf40200();
-            EndExport();
-            if (!isChk) return ResultStatus.Fail;//Exception
          }
          catch (Exception ex) {
-            EndExport();
             WriteLog(ex);
             return ResultStatus.Fail;
+         }
+         finally {
+            EndExport();
          }
 
          return ResultStatus.Success;

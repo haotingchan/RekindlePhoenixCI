@@ -223,9 +223,10 @@ namespace DataObjects.Dao {
                     dvAdded.RowStateFilter = DataViewRowState.Added;
                     myResultData.ChangedDataViewForAdded = dvAdded;
 
-                    DataView dvDeleted = new DataView(myChangeDT);
-                    dvDeleted.RowStateFilter = DataViewRowState.Deleted;
-                    myResultData.ChangedDataViewForDeleted = dvDeleted;
+                    //ken,架構已調整
+                    //DataView dvDeleted = new DataView(myChangeDT);
+                    //dvDeleted.RowStateFilter = DataViewRowState.Deleted;
+                    //myResultData.ChangedDataViewForDeleted = dvDeleted;
 
                     DataView dvModified = new DataView(myChangeDT);
                     dvModified.RowStateFilter = DataViewRowState.ModifiedCurrent;
@@ -455,9 +456,10 @@ namespace DataObjects.Dao {
                     dvAdded.RowStateFilter = DataViewRowState.Added;
                     myResultData.ChangedDataViewForAdded = dvAdded;
 
-                    DataView dvDeleted = new DataView(myChangeDT);
-                    dvDeleted.RowStateFilter = DataViewRowState.Deleted;
-                    myResultData.ChangedDataViewForDeleted = dvDeleted;
+               //ken,架構已調整
+               //DataView dvDeleted = new DataView(myChangeDT);
+               //dvDeleted.RowStateFilter = DataViewRowState.Deleted;
+               //myResultData.ChangedDataViewForDeleted = dvDeleted;
 
                     DataView dvModified = new DataView(myChangeDT);
                     dvModified.RowStateFilter = DataViewRowState.ModifiedCurrent;

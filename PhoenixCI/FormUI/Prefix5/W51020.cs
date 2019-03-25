@@ -89,7 +89,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
                 ResultData resultData = new ResultData();
                 resultData.ChangedDataViewForAdded = dtForAdd == null ? new DataView() : dtForAdd.DefaultView;
-                resultData.ChangedDataViewForDeleted = dtForDeleted == null ? new DataView() : dtForDeleted.DefaultView;
+                //resultData.ChangedDataViewForDeleted = dtForDeleted == null ? new DataView() : dtForDeleted.DefaultView;
                 resultData.ChangedDataViewForModified = dtForModified == null ? new DataView() : dtForModified.DefaultView;
 
                 if (dtChange == null) {

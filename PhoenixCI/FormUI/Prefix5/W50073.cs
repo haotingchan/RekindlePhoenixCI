@@ -220,7 +220,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 //準備要印的資料(新增/刪除/修改)
                 ResultData resultData = new ResultData();
                 resultData.ChangedDataViewForAdded = dtForAdd == null ? new DataView() : dtForAdd.DefaultView;
-                resultData.ChangedDataViewForDeleted = dtForDeleted == null ? new DataView() : dtForDeleted.DefaultView;
+                //resultData.ChangedDataViewForDeleted = dtForDeleted == null ? new DataView() : dtForDeleted.DefaultView;
                 resultData.ChangedDataViewForModified = dtForModified == null ? new DataView() : dtForModified.DefaultView;
                 //列印
                 PrintOrExportChanged(gcMain, resultData);
