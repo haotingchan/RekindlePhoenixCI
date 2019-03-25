@@ -25,12 +25,10 @@ namespace PhoenixCI.FormUI.Prefix5 {
         private D51020 dao51020;
         private RepositoryItemLookUpEdit _RepLookUpEdit;
         private RepositoryItemLookUpEdit _RepLookUpEdit2;
-        private DataTable dtForDeleted;
 
         public W51020(string programID, string programName) : base(programID, programName) {
             InitializeComponent();
             dao51020 = new D51020();
-            dtForDeleted = new DataTable();
             daoCOD = new COD();
             GridHelper.SetCommonGrid(gvMain);
 
@@ -61,7 +59,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 MessageDisplay.Info("無任何資料");
             }
             //returnTable.Columns.Add("Is_NewRow", typeof(string));
-            dtForDeleted = returnTable.Clone();
             gcMain.DataSource = returnTable;
 
             gcMain.Focus();
@@ -86,10 +83,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 DataTable dtChange = dt.GetChanges();
                 DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
                 DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
+                DataTable dtForDeleted = dt.GetChanges(DataRowState.Deleted);
 
                 ResultData resultData = new ResultData();
                 resultData.ChangedDataViewForAdded = dtForAdd == null ? new DataView() : dtForAdd.DefaultView;
-                //resultData.ChangedDataViewForDeleted = dtForDeleted == null ? new DataView() : dtForDeleted.DefaultView;
+                resultData.ChangedDataViewForDeleted = dtForDeleted;
                 resultData.ChangedDataViewForModified = dtForModified == null ? new DataView() : dtForModified.DefaultView;
 
                 if (dtChange == null) {
@@ -103,7 +101,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                     return ResultStatus.Fail;
                 }
 
-                PrintOrExportChanged(gcMain, resultData);
+                PrintOrExportChangedByKen(gcMain, resultData);
             }
             catch (Exception ex) {
                 throw ex;
@@ -126,8 +124,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
         }
 
         protected override ResultStatus DeleteRow() {
-            base.DeleteRow(gvMain);
-            return ResultStatus.Success;
+            return base.DeleteRow(gvMain);
         }
 
         protected override ResultStatus ActivatedForm() {
