@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Data;
 
 namespace DataObjects.Dao.Together.SpecificDao {
-    public class DP0020 {
+    public class DP0020 : DataGate {
 
         public DataTable ExecuteStoredProcedure(string IN_START_DATE, string IN_END_DATE,
-           string IN_SYSTEM, string IN_KIND, string IN_GROUP_TYPE, string posConn) {
+           string IN_SYSTEM, string IN_KIND, string IN_GROUP_TYPE, string iniKey, DataTable dtTXFP) {
 
             //切換DB Connection
-            Db posDB = new Db(posConn, "Oracle.ManagedDataAccess.Client", "");
+            Db posDB = ChangeDB(dtTXFP, iniKey);
 
             List<DbParameterEx> parms = new List<DbParameterEx>() {
             new DbParameterEx("IN_START_DATE",IN_START_DATE),
@@ -25,5 +25,5 @@ namespace DataObjects.Dao.Together.SpecificDao {
 
             return posDB.ExecuteStoredProcedureEx(sql, parms, true);
         }
-   }
+    }
 }

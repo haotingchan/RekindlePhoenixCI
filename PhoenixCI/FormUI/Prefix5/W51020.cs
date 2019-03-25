@@ -85,11 +85,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
                 DataTable dtForDeleted = dt.GetChanges(DataRowState.Deleted);
 
-                ResultData resultData = new ResultData();
-                resultData.ChangedDataViewForAdded = dtForAdd == null ? new DataView() : dtForAdd.DefaultView;
-                resultData.ChangedDataViewForDeleted = dtForDeleted;
-                resultData.ChangedDataViewForModified = dtForModified == null ? new DataView() : dtForModified.DefaultView;
-
                 if (dtChange == null) {
                     MessageDisplay.Info("沒有變更資料, 不需要存檔!");
                     return ResultStatus.FailButNext;
@@ -101,7 +96,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                     return ResultStatus.Fail;
                 }
 
-                PrintOrExportChangedByKen(gcMain, resultData);
+                PrintOrExportChangedByKen(gcMain, dtForAdd, dtForDeleted, dtForModified);
             }
             catch (Exception ex) {
                 throw ex;
