@@ -44,7 +44,7 @@ ORDER BY COD_ID,RWD_REF_OMNI_PROD_TYPE, RWD_REF_OMNI_FCM_NO,RWD_REF_OMNI_ACC_NO,
             string updateColumnList = insertColumnList;
             try {
                 //update to DB
-                return SaveForAll(inputData, tableName, insertColumnList, updateColumnList, keysColumnList);
+                return SaveForChanged(inputData, tableName, insertColumnList, updateColumnList, keysColumnList);
             }
             catch (Exception ex) {
                 throw ex;

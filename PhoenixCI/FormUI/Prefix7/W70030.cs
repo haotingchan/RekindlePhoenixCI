@@ -47,7 +47,7 @@ namespace PhoenixCI.FormUI.Prefix7
       protected override ResultStatus AfterOpen()
       {
          base.AfterOpen();
-         emMonth.Text= GlobalInfo.OCF_DATE.ToString("yyyy/MM"); 
+         emMonth.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
          emMonth.Focus();
          return ResultStatus.Success;
       }
@@ -56,7 +56,6 @@ namespace PhoenixCI.FormUI.Prefix7
       {
          base.ActivatedForm();
          _ToolBtnExport.Enabled = true;
-         _ToolBtnPrintAll.Enabled = true;
          return ResultStatus.Success;
       }
 
@@ -103,13 +102,13 @@ namespace PhoenixCI.FormUI.Prefix7
             return ResultStatus.Fail;
          }
          try {
-            string lsYM= emMonth.Text.Replace("/", "").SubStr(0, 6);
+            string lsYM = emMonth.Text.Replace("/", "").SubStr(0, 6);
             DataTable dt = dao70030.ListAll(lsYM);
             /*******************
             轉統計資料RAM1
             *******************/
-            DataTable reResult = dao70030.sp_H_stt_RAM1(lsYM);
-            if (reResult.Rows.Count >= 0) {
+            string reResult = dao70030.Sp_H_stt_RAM1(lsYM);
+            if (reResult == "0") {
                SaveExcel(dt, saveFilePath, DocumentFormat.Xls);
                ExportAfter();
                return ResultStatus.Success;
@@ -117,7 +116,7 @@ namespace PhoenixCI.FormUI.Prefix7
             else {
                PbFunc.messageBox(GlobalInfo.ErrorText, "執行SP(sp_H_stt_RAM1)錯誤!", MessageBoxIcon.Stop);
             }
-            
+
          }
          catch (Exception ex) {
             PbFunc.messageBox(GlobalInfo.ErrorText, ex.Message, MessageBoxIcon.Stop);
@@ -126,7 +125,7 @@ namespace PhoenixCI.FormUI.Prefix7
          return ResultStatus.Success;
       }
 
-      private void SaveExcel(DataTable dt,string filePath,DocumentFormat documentFormat, bool addHeader=true, int firstRowIndex=0, int firstColumnIndex=0)
+      private void SaveExcel(DataTable dt, string filePath, DocumentFormat documentFormat, bool addHeader = true, int firstRowIndex = 0, int firstColumnIndex = 0)
       {
          Workbook wb = new Workbook();
          wb.Worksheets[0].Import(dt, addHeader, firstRowIndex, firstColumnIndex);

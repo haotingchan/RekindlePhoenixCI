@@ -68,7 +68,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 txtEffDate.DateTimeValue = DateTime.MinValue;
                 txtEffDateLower.DateTimeValue = DateTime.MinValue;
 #if DEBUG
-                txtDate.EditValue = "2018/10/17";
+                txtDate.EditValue = "2018/12/28";
 #endif
 
                 //「調整情形」欄位的下拉選單
@@ -203,7 +203,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
                     dtGridView.Rows[found]["PLS1_W_USER_ID"] = GlobalInfo.USER_ID;
 
                     //計算欄位COMPUTE_1: if( pls1_kind_id2 <> kind_grp2 ,'小型',' ')
-                    if (dtGridView.Rows[found]["PLS1_KIND_ID2"].AsString() != dtGridView.Rows[found]["KIND_GRP2"].AsString()) {
+                    if (dtGridView.Rows[found]["KIND_GRP2"] != DBNull.Value &&
+                        dtGridView.Rows[found]["PLS1_KIND_ID2"].AsString() != dtGridView.Rows[found]["KIND_GRP2"].AsString()) {
                         dtGridView.Rows[found]["COMPUTE_1"] = "小型";
                     }
                     else {
@@ -228,7 +229,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 gvMain.CloseEditor();
 
                 //0. 確認是否填入正確公告日期
-                if (txtEffDate.DateTimeValue==DateTime.MinValue) {
+                if (txtEffDate.DateTimeValue == DateTime.MinValue) {
                     MessageDisplay.Error("提高－公告日期非正確日期!");
                     return ResultStatus.Fail;
                 }
@@ -432,10 +433,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 //當該欄位不可編輯時,設定為Mint Color.FromArgb(192,220,192)
                 switch (e.Column.FieldName) {
                     case ("PLS1_CP_LEVEL"):
-                        if (pls1KindId != grp2) {
+                        if (grp2 != null && pls1KindId != grp2) {
                             e.Appearance.BackColor = Color.FromArgb(255, 168, 255);
                         }
-                        if (pls1LevelOrg!=null && 
+                        if (pls1LevelOrg != null &&
                             pls1LevelOrg != gv.GetRowCellValue(e.RowHandle, gv.Columns["PLS1_CP_LEVEL"]).AsString()) {
                             e.Appearance.BackColor = Color.FromArgb(255, 168, 255);
                         }
@@ -451,19 +452,19 @@ namespace PhoenixCI.FormUI.Prefix3 {
                     case ("PLS1_CP_LEGAL"):
                     case ("PLS1_CP_999"):
                     case ("PLS1_LEVEL_ADJ"):
-                        if (pls1LevelOrg != null && 
+                        if (pls1LevelOrg != null &&
                             pls1LevelOrg != gv.GetRowCellValue(e.RowHandle, gv.Columns["PLS1_CP_LEVEL"]).AsString()) {
                             e.Appearance.BackColor = Color.FromArgb(255, 168, 255);
                         }
                         else {
                             e.Appearance.BackColor = Color.FromArgb(192, 220, 192);
                         }
-                        if (pls1KindId != grp2) {
+                        if (grp2 != null && pls1KindId != grp2) {
                             e.Appearance.BackColor = Color.FromArgb(255, 168, 255);
                         }
                         break;
                     default:
-                        e.Appearance.BackColor = pls1KindId != grp2 ? Color.FromArgb(255, 168, 255) : Color.FromArgb(192, 220, 192);
+                        e.Appearance.BackColor = (grp2 != null && pls1KindId != grp2) ? Color.FromArgb(255, 168, 255) : Color.FromArgb(192, 220, 192);
                         break;
                 }//switch (e.Column.FieldName) {
             }
@@ -581,7 +582,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
                     drNew["PLS1_LEVEL_ADJ_ORG"] = dr["PLS1_LEVEL_ADJ_ORG"];
 
                     //計算欄位COMPUTE_1: if( pls1_kind_id2 <> kind_grp2 ,'小型',' ')
-                    if (dr["PLS2_KIND_ID2"].AsString() != dr["PLS2_KIND_GRP2"].AsString()) {
+                    if (dr["PLS2_KIND_GRP2"] != DBNull.Value &&
+                        dr["PLS2_KIND_ID2"].AsString() != dr["PLS2_KIND_GRP2"].AsString()) {
                         drNew["COMPUTE_1"] = "小型";
                     }
                     else {
