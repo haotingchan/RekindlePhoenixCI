@@ -139,6 +139,7 @@ namespace PhoenixCI.FormUI.PrefixP {
 
             GridHelper.SetCommonGrid(gvMain);
             gcMain.Visible = true;
+            gvMain.OptionsBehavior.AllowFixedGroups = DefaultBoolean.True;
             gvMain.ExpandAllGroups();
             //設定每個column自動擴展
             gvMain.BestFitColumns();

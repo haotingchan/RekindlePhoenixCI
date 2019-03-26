@@ -21,7 +21,7 @@ namespace OnePiece {
 
       public bool IsTransaction { get; set; } = false;
 
-      public Db(string connectionString , string providerName , string database) {
+      public Db(string connectionString, string providerName, string database) {
          gDatabaseName = database;
 
          gConnectionString = connectionString;
@@ -30,7 +30,11 @@ namespace OnePiece {
          factory = DbProviderFactoriesEx.GetFactory(providerName);
       }
 
-      public void StartTransaction(DbConnection connection , DbTransaction tran) {
+      public Db(DbConnection conn) {
+         dbConnection = conn;
+      }
+
+      public void StartTransaction(DbConnection connection, DbTransaction tran) {
          dbConnection = connection;
          dbTransaction = tran;
          IsTransaction = true;
@@ -43,12 +47,12 @@ namespace OnePiece {
          IsTransaction = false;
       }
 
-      public DataTable GetDataTable(string sql , params object[] parms) {
+      public DataTable GetDataTable(string sql, params object[] parms) {
          DataTable dt = new DataTable();
 
          var connection = CreateConnection();
 
-         using (var command = CreateCommand(sql , connection , CommandType.Text , parms)) {
+         using (var command = CreateCommand(sql, connection, CommandType.Text, parms)) {
             // dt.Load會把來源的Table的Schema都寫到DataTable裡面
             // 像是某個欄位AllowDbNull為False
             //using (var reader = command.ExecuteReader())
@@ -72,14 +76,14 @@ namespace OnePiece {
          return dt;
       }
 
-      public DataTable GetDataTableForTransaction(string sql , params object[] parms) {
+      public DataTable GetDataTableForTransaction(string sql, params object[] parms) {
          DataTable dt = new DataTable();
 
          using (var connection = CreateConnection()) {
             DbTransaction tran = connection.BeginTransaction();
 
             try {
-               using (DbCommand command = CreateCommand(sql , connection , CommandType.Text , parms)) {
+               using (DbCommand command = CreateCommand(sql, connection, CommandType.Text, parms)) {
                   command.Transaction = tran;
 
                   // dt.Load會把來源的Table的Schema都寫到DataTable裡面
@@ -107,9 +111,9 @@ namespace OnePiece {
          }
       }
 
-      public DbDataAdapter GetDataAdapter(string sql , params object[] parms) {
+      public DbDataAdapter GetDataAdapter(string sql, params object[] parms) {
          var connection = CreateConnection();
-         var command = CreateCommand(sql , connection , CommandType.Text , parms);
+         var command = CreateCommand(sql, connection, CommandType.Text, parms);
          var adapter = CreateAdapter(command);
          return adapter;
       }
@@ -119,11 +123,11 @@ namespace OnePiece {
          return builder;
       }
 
-      public int ExecuteSQL(string sql , params object[] parms) {
+      public int ExecuteSQL(string sql, params object[] parms) {
          try {
             var connection = CreateConnection();
 
-            using (var command = CreateCommand(sql , connection , CommandType.Text , parms)) {
+            using (var command = CreateCommand(sql, connection, CommandType.Text, parms)) {
                int myResult = command.ExecuteNonQuery();
 
                // 如果是外部Transaction的話這裡會有值，就先不要關閉連線
@@ -138,14 +142,14 @@ namespace OnePiece {
          }
       }
 
-      public int ExecuteSQLForTransaction(string sql , params object[] parms) {
+      public int ExecuteSQLForTransaction(string sql, params object[] parms) {
          int myResult = 0;
 
          using (var connection = CreateConnection()) {
             DbTransaction tran = connection.BeginTransaction();
 
             try {
-               using (var command = CreateCommand(sql , connection , CommandType.Text , parms)) {
+               using (var command = CreateCommand(sql, connection, CommandType.Text, parms)) {
                   command.Transaction = tran;
                   myResult = command.ExecuteNonQuery();
                }
@@ -166,19 +170,19 @@ namespace OnePiece {
       /// <param name="parameters"></param>
       /// <param name="hasReturnParameter"></param>
       /// <returns></returns>
-      public ResultData ExecuteStoredProcedure(string sql , List<DbParameterEx> parameters , bool hasReturnParameter) {
+      public ResultData ExecuteStoredProcedure(string sql, List<DbParameterEx> parameters, bool hasReturnParameter) {
          ResultData resultData = new ResultData();
          resultData.Status = ResultStatus.Fail;
 
          try {
             var connection = CreateConnection();
 
-            using (var command = CreateCommand(sql , connection , CommandType.StoredProcedure)) {
+            using (var command = CreateCommand(sql, connection, CommandType.StoredProcedure)) {
                if (parameters != null) {
                   foreach (DbParameterEx everyPara in parameters) {
                      DbParameter dbParam = command.CreateParameter();
 
-                     dbParam = TransformToDbParameter(dbParam , everyPara);
+                     dbParam = TransformToDbParameter(dbParam, everyPara);
 
                      command.Parameters.Add(dbParam);
                   }
@@ -212,7 +216,7 @@ namespace OnePiece {
                }
 
                int returnValueInt = 0;
-               int.TryParse((resultData.ReturnObject is null) ? "0" : resultData.ReturnObject.ToString() , out returnValueInt);
+               int.TryParse((resultData.ReturnObject is null) ? "0" : resultData.ReturnObject.ToString(), out returnValueInt);
 
                if (returnValueInt == 0) {
                   resultData.Status = ResultStatus.Success;
@@ -246,9 +250,9 @@ namespace OnePiece {
          }
       }
 
-      public IEnumerable<T> Read<T>(string sql , Func<IDataReader , T> make , params object[] parms) {
+      public IEnumerable<T> Read<T>(string sql, Func<IDataReader, T> make, params object[] parms) {
          using (var connection = CreateConnection()) {
-            using (var command = CreateCommand(sql , connection , CommandType.Text , parms)) {
+            using (var command = CreateCommand(sql, connection, CommandType.Text, parms)) {
                using (var reader = command.ExecuteReader()) {
                   while (reader.Read()) {
                      yield return make(reader);
@@ -280,7 +284,7 @@ namespace OnePiece {
          return connection;
       }
 
-      private DbCommand CreateCommand(string sql , DbConnection conn , CommandType cmdType , params object[] parms) {
+      private DbCommand CreateCommand(string sql, DbConnection conn, CommandType cmdType, params object[] parms) {
          var command = factory.CreateCommand();
          command.Connection = conn;
 
@@ -288,17 +292,17 @@ namespace OnePiece {
             if ((factory is OracleClientFactory)) {
                ((OracleCommand)command).BindByName = true;
 
-               sql = sql.Replace("@" , ":");
+               sql = sql.Replace("@", ":");
 
-               for (int i = 0 ; i < parms.Length ; i += 2) {
-                  parms[i] = parms[i].ToString().Replace("@" , "");
+               for (int i = 0; i < parms.Length; i += 2) {
+                  parms[i] = parms[i].ToString().Replace("@", "");
                }
             }
          }
 
          command.CommandText = sql;
          command.CommandType = cmdType;
-         command.AddParameters(factory , parms);
+         command.AddParameters(factory, parms);
 
          if (dbTransaction != null) {
             command.Transaction = dbTransaction;
@@ -307,7 +311,7 @@ namespace OnePiece {
          return command;
       }
 
-      private DbCommand CreateCommand(string sql , DbConnection conn , CommandType cmdType) {
+      private DbCommand CreateCommand(string sql, DbConnection conn, CommandType cmdType) {
          var command = factory.CreateCommand();
          command.Connection = conn;
          command.CommandText = sql;
@@ -332,7 +336,7 @@ namespace OnePiece {
          return builder;
       }
 
-      private DbParameter TransformToDbParameter(DbParameter para , DbParameterEx paraEx) {
+      private DbParameter TransformToDbParameter(DbParameter para, DbParameterEx paraEx) {
          para.ParameterName = paraEx.Name;
          para.Value = paraEx.Value;
          para.Direction = paraEx.Direction;
@@ -340,7 +344,7 @@ namespace OnePiece {
          if (paraEx.DbType == DbTypeEx.RefCursor) {
             ((OracleParameter)para).OracleDbType = OracleDbType.RefCursor;
          } else if (paraEx.DbType == DbTypeEx.None) {
-            para.DbType = DbExtentions.TransformDbTypeByValue(factory , para.Value);
+            para.DbType = DbExtentions.TransformDbTypeByValue(factory, para.Value);
          } else {
             switch (paraEx.DbType) {
                case DbTypeEx.String:
@@ -378,10 +382,10 @@ namespace OnePiece {
       /// <param name="commandType"></param>
       /// <param name="parms"></param>
       /// <returns></returns>
-      public string ExecuteScalar(string sql , CommandType commandType = CommandType.Text , params object[] parms) {
+      public string ExecuteScalar(string sql, CommandType commandType = CommandType.Text, params object[] parms) {
          try {
             var connection = CreateConnection();
-            var command = CreateCommand(sql , connection , commandType , parms);
+            var command = CreateCommand(sql, connection, commandType, parms);
             var objReturn = command.ExecuteScalar();
 
             return (objReturn == null ? "" : objReturn.ToString());
@@ -396,11 +400,11 @@ namespace OnePiece {
       /// <param name="sql"></param>
       /// <param name="parms"></param>
       /// <returns></returns>
-      public DataTable ExecuteStoredProcedure_Override(string sql , params object[] parms) {
+      public DataTable ExecuteStoredProcedure_Override(string sql, params object[] parms) {
          DataTable dt = new DataTable();
          try {
             var conn = CreateConnection();
-            DbCommand command = CreateCommand(sql , conn , CommandType.StoredProcedure , parms);
+            DbCommand command = CreateCommand(sql, conn, CommandType.StoredProcedure, parms);
             DbDataAdapter adapter = CreateAdapter(command);
             adapter.Fill(dt);
          } catch (Exception ex) {
@@ -416,20 +420,20 @@ namespace OnePiece {
       /// <param name="parameters"></param>
       /// <param name="hasReturnParameter"></param>
       /// <returns></returns>
-      public DataTable ExecuteStoredProcedureEx(string sql , List<DbParameterEx> parameters , bool hasReturnParameter) {
+      public DataTable ExecuteStoredProcedureEx(string sql, List<DbParameterEx> parameters, bool hasReturnParameter) {
          ResultData resultData = new ResultData();
          resultData.Status = ResultStatus.Fail;
 
          try {
             var connection = CreateConnection();
-            OracleCommand command = new OracleCommand(sql , (OracleConnection)connection);//ken
+            OracleCommand command = new OracleCommand(sql, (OracleConnection)connection);//ken
             command.CommandType = CommandType.StoredProcedure;//ken
 
             if (parameters != null) {
                foreach (DbParameterEx everyPara in parameters) {
                   DbParameter dbParam = command.CreateParameter();
 
-                  dbParam = TransformToDbParameter(dbParam , everyPara);
+                  dbParam = TransformToDbParameter(dbParam, everyPara);
 
                   command.Parameters.Add(dbParam);
                }
@@ -482,19 +486,19 @@ namespace OnePiece {
       /// <param name="parameters"></param>
       /// <param name="hasReturnParameter"></param>
       /// <returns></returns>
-      public string ExecuteStoredProcedureReturnString(string sql , List<DbParameterEx> parameters , bool hasReturnParameter , OracleDbType returnType) {
+      public string ExecuteStoredProcedureReturnString(string sql, List<DbParameterEx> parameters, bool hasReturnParameter, OracleDbType returnType) {
          string result = "";
 
          try {
             var connection = CreateConnection();
-            OracleCommand command = new OracleCommand(sql , (OracleConnection)connection);//ken
+            OracleCommand command = new OracleCommand(sql, (OracleConnection)connection);//ken
             command.CommandType = CommandType.StoredProcedure;//ken
 
             if (parameters != null) {
                foreach (DbParameterEx everyPara in parameters) {
                   DbParameter dbParam = command.CreateParameter();
 
-                  dbParam = TransformToDbParameter(dbParam , everyPara);
+                  dbParam = TransformToDbParameter(dbParam, everyPara);
 
                   command.Parameters.Add(dbParam);
                }
@@ -541,27 +545,26 @@ namespace OnePiece {
       /// <param name="inputDT"></param>
       /// <param name="sql"></param>
       /// <returns></returns>
-      public ResultData UpdateOracleDB(DataTable inputDT , string sql) {
+      public ResultData UpdateOracleDB(DataTable inputDT, string sql) {
          var connection = CreateConnection();
          OracleConnection oracleConn = (OracleConnection)connection;
 
-         OracleCommand command = new OracleCommand(sql , oracleConn);
+         OracleCommand command = new OracleCommand(sql, oracleConn);
          OracleTransaction tran = oracleConn.BeginTransaction(IsolationLevel.ReadCommitted);
          ResultData resultData = new ResultData();
          resultData.Status = ResultStatus.Fail;
          command.Transaction = tran;
 
          try {
-            OracleDataAdapter DataAdapter = new OracleDataAdapter();
-            DataAdapter.SelectCommand = command;
+            OracleDataAdapter dataAdapter = new OracleDataAdapter();
+            dataAdapter.SelectCommand = command;
 
-            OracleCommandBuilder commandBuilder = new OracleCommandBuilder(DataAdapter);
-            DataAdapter.InsertCommand = commandBuilder.GetInsertCommand();
-            DataAdapter.UpdateCommand = commandBuilder.GetUpdateCommand();
-            DataAdapter.DeleteCommand = commandBuilder.GetDeleteCommand();
+            OracleCommandBuilder commandBuilder = new OracleCommandBuilder(dataAdapter);
+            dataAdapter.InsertCommand = commandBuilder.GetInsertCommand();
+            dataAdapter.UpdateCommand = commandBuilder.GetUpdateCommand();
+            dataAdapter.DeleteCommand = commandBuilder.GetDeleteCommand();
 
-            int rows = DataAdapter.Update(inputDT);
-
+            int rows = dataAdapter.Update(inputDT);
 
             if (rows >= 1) {
                tran.Commit();
@@ -576,13 +579,12 @@ namespace OnePiece {
             throw ex;
          }
       }
-
    }
 
    public static class DbExtentions {
-      public static void AddParameters(this DbCommand command , DbProviderFactory factory , object[] parms) {
+      public static void AddParameters(this DbCommand command, DbProviderFactory factory, object[] parms) {
          if (parms != null && parms.Length > 0) {
-            for (int i = 0 ; i < parms.Length ; i += 2) {
+            for (int i = 0; i < parms.Length; i += 2) {
                string name = parms[i].ToString();
 
                // if null, set to DbNull
@@ -591,14 +593,14 @@ namespace OnePiece {
                var dbParameter = command.CreateParameter();
                dbParameter.ParameterName = name;
                dbParameter.Value = value;
-               dbParameter.DbType = TransformDbTypeByValue(factory , parms[i + 1]);
+               dbParameter.DbType = TransformDbTypeByValue(factory, parms[i + 1]);
 
                command.Parameters.Add(dbParameter);
             }
          }
       }
 
-      public static DbType TransformDbTypeByValue(DbProviderFactory factory , object val) {
+      public static DbType TransformDbTypeByValue(DbProviderFactory factory, object val) {
          if (val is Byte) {
             return DbType.Byte;
          } else if (val is Int16) {
@@ -625,9 +627,5 @@ namespace OnePiece {
             }
          }
       }
-
-
    }
-
-
 }

@@ -174,20 +174,24 @@ namespace PhoenixCI.FormUI.PrefixS {
                 GenWTime(dtPresTest, "SPAN_PARAM_W_TIME");
                 if (!checkComplete(dtPresTest, LabPressTest.Text.Replace(":", ""))) return ResultStatus.FailButNext;
 
-                //更新四部份資料 先更新日期區間
-                resultStatus = savePeriod();
-                if (resultStatus == ResultStatus.Success) {
-                    //更新測試保證金設定
-                    resultStatus = saveREQ();
-                }
-                if (resultStatus == ResultStatus.Success) {
-                    //更新特定帳號排除設定
-                    resultStatus = saveExAccount();
-                    if (resultStatus == ResultStatus.Success) {
-                        //更新測試變化設定
-                        resultStatus = savePresTest();
-                    }
-                }
+            //更新四部份資料 先更新日期區間
+            //resultStatus = savePeriod();
+            //if (resultStatus == ResultStatus.Success) {
+            //    //更新測試保證金設定
+            //    resultStatus = saveREQ();
+            //}
+            //if (resultStatus == ResultStatus.Success) {
+            //    //更新特定帳號排除設定
+            //    resultStatus = saveExAccount();
+            //    if (resultStatus == ResultStatus.Success) {
+            //        //更新測試變化設定
+            //        resultStatus = savePresTest();
+            //    }
+            //}
+            daoS0070.EXAccountData(dtExAccount);
+            daoS0070.PreTestData(dtPresTest);
+            resultStatus = daoS0070.UpdateAllDB();
+
             }
             catch (Exception ex) {
                 throw ex;

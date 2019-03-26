@@ -19,6 +19,7 @@ using DevExpress.XtraGrid;
 using DevExpress.Utils;
 using BaseGround.Report;
 using DataObjects.Dao.Together;
+using DevExpress.Data;
 
 /// <summary>
 /// David, 2019/03/21
@@ -106,15 +107,17 @@ namespace PhoenixCI.FormUI.PrefixP {
 
             //設定群組 小記          
             gvMain.OptionsView.AllowCellMerge = true;
-            gvMain.Columns[1].SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
-            gvMain.Columns[2].SortOrder = DevExpress.Data.ColumnSortOrder.None;
-            gvMain.Columns[1].Group();
-            gvMain.Columns[2].Group();
+            gvMain.OptionsCustomization.AllowMergedGrouping = DefaultBoolean.True;
+            //設定 平行group
+            gvMain.SortInfo.ClearAndAddRange(new[]
+            { new GridMergedColumnSortInfo (new[] { gvMain.Columns[1],gvMain.Columns[2] },
+            new [] {ColumnSortOrder.Ascending,ColumnSortOrder.Ascending})},2);
 
             gvMain.SetGridGroupSummary(gvMain.Columns[1].FieldName, "總計{0}", DevExpress.Data.SummaryItemType.Count);
 
             GridHelper.SetCommonGrid(gvMain);
             gcMain.Visible = true;
+            gvMain.OptionsBehavior.AllowFixedGroups = DefaultBoolean.True;
             gvMain.ExpandAllGroups();
             //設定每個column自動擴展
             gvMain.BestFitColumns();

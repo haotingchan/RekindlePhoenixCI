@@ -1,4 +1,5 @@
 ﻿using BusinessObjects;
+using BusinessObjects.Enums;
 using OnePiece;
 using System;
 using System.Collections.Generic;
@@ -7,31 +8,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataObjects.Dao.Together.SpecificDao
-{
-    public class DS0070
-    {
-        private Db db;
+namespace DataObjects.Dao.Together.SpecificDao {
+   public class DS0070 : UpdateMultiTable {
 
-        public DS0070()
-        {
-            db = GlobalDaoSetting.DB;
-        }
+      private List<DataTable> dtList = new List<DataTable>();
+      private List<string> sqlList = new List<string>();
 
-        /// <summary>
-        /// Get SPAN_PERIOD data, return SPAN_PERIOD_MODULE/SPAN_PERIOD_START_DATE/SPAN_PERIOD_END_DATE/SPAN_PERIOD_USER_ID/SPAN_PERIOD_W_TIME/OP_TYPE
-        /// </summary>
-        /// <param name="module">SPAN_PERIOD_MODULE</param>
-        /// <param name="userId">SPAN_PERIOD_USER_ID</param>
-        /// <returns></returns>
-        public DataTable GetPeriodByUserId(string module, string userId)
-        {
-            object[] parms = {
+      /// <summary>
+      /// Get SPAN_PERIOD data, return SPAN_PERIOD_MODULE/SPAN_PERIOD_START_DATE/SPAN_PERIOD_END_DATE/SPAN_PERIOD_USER_ID/SPAN_PERIOD_W_TIME/OP_TYPE
+      /// </summary>
+      /// <param name="module">SPAN_PERIOD_MODULE</param>
+      /// <param name="userId">SPAN_PERIOD_USER_ID</param>
+      /// <returns></returns>
+      public DataTable GetPeriodByUserId(string module, string userId) {
+         object[] parms = {
                 ":module",module,
                 ":userId",userId
             };
 
-            string sql = @"
+         string sql = @"
 SELECT SPAN_PERIOD_MODULE,
 	SPAN_PERIOD_START_DATE,
 	SPAN_PERIOD_END_DATE,
@@ -42,22 +37,22 @@ FROM CFO.SPAN_PERIOD
 WHERE SPAN_PERIOD_MODULE = :module
 AND SPAN_PERIOD_USER_ID like :userId
 ";
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql, parms);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        /// <summary>
-        /// 類別 return prod_group
-        /// </summary>
-        /// <param name="as_ymd">yyyyMMdd</param>
-        /// <returns></returns>
-        public DataTable dddw_zparm_comb_prod(string as_ymd) {
-            object[] parms = {
+      /// <summary>
+      /// 類別 return prod_group
+      /// </summary>
+      /// <param name="as_ymd">yyyyMMdd</param>
+      /// <returns></returns>
+      public DataTable dddw_zparm_comb_prod(string as_ymd) {
+         object[] parms = {
                 ":as_ymd",as_ymd
             };
 
-            string sql = @"
+         string sql = @"
 select prod_group from (
     select '2' as sort, trim(ZPARM_PROD_GROUP) as prod_group ,
         trim(ZPARM_PROD_GROUP) as prod_group_value
@@ -78,26 +73,26 @@ select prod_group from (
 ) a
 order by sort,prod_group
 ";
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql, parms);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        /// <summary>
-        /// 商品組合 (先選類別,在連動到此下拉選單) return comb_prod/comb_prod_value/prod_group
-        /// </summary>
-        /// <param name="as_ymd"></param>
-        /// <param name="group_org"></param>
-        /// <param name="param_key"></param>
-        /// <returns></returns>
-        public DataTable dddw_zparm_comb_prod_by_group(string as_ymd, string group_org, string param_key) {
-            object[] parms = {
+      /// <summary>
+      /// 商品組合 (先選類別,在連動到此下拉選單) return comb_prod/comb_prod_value/prod_group
+      /// </summary>
+      /// <param name="as_ymd"></param>
+      /// <param name="group_org"></param>
+      /// <param name="param_key"></param>
+      /// <returns></returns>
+      public DataTable dddw_zparm_comb_prod_by_group(string as_ymd, string group_org, string param_key) {
+         object[] parms = {
                 ":as_ymd",as_ymd,
                 ":group_org",group_org,
                 ":param_key",param_key
             };
 
-            string sql = @"
+         string sql = @"
 select trim(ZPARM_COMB_PROD) as comb_prod, 
     trim(ZPARM_COMB_PROD) as comb_prod_value,
     trim(ZPARM_PROD_GROUP) as prod_group
@@ -114,22 +109,22 @@ union all
 select '全部','ALL', '全部' from dual
 order by comb_prod desc
 ";
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql, parms);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        /// <summary>
-        ///Get SPAN_ACCT_MODULE return SPAN_ACCT_MODULE/SPAN_ACCT_FCM_NO/SPAN_ACCT_ACC_NO/SPAN_ACCT_USER_ID/SPAN_ACCT_W_TIME    
-        /// </summary>
-        /// <param name="module">SPAN_ACCT_MODULE</param>
-        /// <returns></returns>
-        public DataTable GetExAccountData(string module) {
-            object[] parms = {
+      /// <summary>
+      ///Get SPAN_ACCT_MODULE return SPAN_ACCT_MODULE/SPAN_ACCT_FCM_NO/SPAN_ACCT_ACC_NO/SPAN_ACCT_USER_ID/SPAN_ACCT_W_TIME    
+      /// </summary>
+      /// <param name="module">SPAN_ACCT_MODULE</param>
+      /// <returns></returns>
+      public DataTable GetExAccountData(string module) {
+         object[] parms = {
                 ":module",module
             };
 
-            string sql = @"
+         string sql = @"
                                  SELECT 
                                     SPAN_ACCT_MODULE,     
                                     trim(SPAN_ACCT_FCM_NO) as SPAN_ACCT_FCM_NO,
@@ -139,23 +134,23 @@ order by comb_prod desc
                                     '0' AS EXACCOUNT_IS_NEWROW
                                     FROM CFO.SPAN_ACCT
                                     WHERE SPAN_ACCT_MODULE=:module";
-            DataTable result = db.GetDataTable(sql, parms);
-            return result;
-        }
+         DataTable result = db.GetDataTable(sql, parms);
+         return result;
+      }
 
-        /// <summary>
-        /// Get SPAN_PARAM_MODULE return SPAN_PARAM_MODULE/SPAN_PARAM_CLASS/SPAN_PARAM_CC/SPAN_PARAM_TYPE/SPAN_PARAM_VALUE/SPAN_PARAM_EXPIRY/SPAN_PARAM_VOL_TYPE/SPAN_PARAM_VOL_VALUE/SPAN_PARAM_USER_ID/SPAN_PARAM_W_TIME
-        /// </summary>
-        /// <param name="module">SPAN_PARAM_MODULE</param>
-        /// <param name="userId">SPAN_PARAM_USER_ID</param>
-        /// <returns></returns>
-        public DataTable GetParamData(string module, string userId) {
-            object[] parms = {
+      /// <summary>
+      /// Get SPAN_PARAM_MODULE return SPAN_PARAM_MODULE/SPAN_PARAM_CLASS/SPAN_PARAM_CC/SPAN_PARAM_TYPE/SPAN_PARAM_VALUE/SPAN_PARAM_EXPIRY/SPAN_PARAM_VOL_TYPE/SPAN_PARAM_VOL_VALUE/SPAN_PARAM_USER_ID/SPAN_PARAM_W_TIME
+      /// </summary>
+      /// <param name="module">SPAN_PARAM_MODULE</param>
+      /// <param name="userId">SPAN_PARAM_USER_ID</param>
+      /// <returns></returns>
+      public DataTable GetParamData(string module, string userId) {
+         object[] parms = {
                 ":module",module,
                 ":userId",userId
             };
 
-            string sql = @" 
+         string sql = @" 
                                 SELECT 
                                     trim(SPAN_PARAM_MODULE) as SPAN_PARAM_MODULE,     
                                     trim(SPAN_PARAM_CLASS) as SPAN_PARAM_CLASS,     
@@ -172,17 +167,17 @@ order by comb_prod desc
                                     WHERE SPAN_PARAM_MODULE=:module
                                     AND SPAN_PARAM_USER_ID=:userId";
 
-            DataTable result = db.GetDataTable(sql, parms);
-            return result;
-        }
+         DataTable result = db.GetDataTable(sql, parms);
+         return result;
+      }
 
-        public DataTable GetREQDataByUser(string module, string userId) {
-            object[] parms = {
+      public DataTable GetREQDataByUser(string module, string userId) {
+         object[] parms = {
                 ":module",module,
                 ":userId",userId
             };
 
-            string sql = @"
+         string sql = @"
                                 SELECT 
                                     CFO.SPAN_REQ.SPAN_REQ_MODULE,   
                                     CFO.SPAN_REQ.SPAN_REQ_TYPE,   
@@ -193,26 +188,26 @@ order by comb_prod desc
 	                                WHERE SPAN_REQ_MODULE = :module
 	                                AND SPAN_REQ_USER_ID =:userId";
 
-            DataTable result = db.GetDataTable(sql, parms);
-            return result;
-        }
+         DataTable result = db.GetDataTable(sql, parms);
+         return result;
+      }
 
-        public ResultData updatePeriodData(DataTable inputData) {
+      public ResultData updatePeriodData(DataTable inputData) {
 
-            string sql = @"SELECT SPAN_PERIOD_MODULE,
+         string sql = @"SELECT SPAN_PERIOD_MODULE,
 	SPAN_PERIOD_START_DATE,
 	SPAN_PERIOD_END_DATE,
 	SPAN_PERIOD_USER_ID,
 	SPAN_PERIOD_W_TIME
 FROM CFO.SPAN_PERIOD";
 
-            return db.UpdateOracleDB(inputData, sql);
+         return db.UpdateOracleDB(inputData, sql);
 
-        }
+      }
 
-        public ResultData updateREQData(DataTable inputData) {
+      public ResultData updateREQData(DataTable inputData) {
 
-            string sql = @"SELECT 
+         string sql = @"SELECT 
                                     SPAN_REQ_MODULE,   
                                     SPAN_REQ_TYPE,   
                                     SPAN_REQ_VALUE,   
@@ -220,13 +215,13 @@ FROM CFO.SPAN_PERIOD";
                                     SPAN_REQ_W_TIME 
                                     FROM CFO.SPAN_REQ";
 
-            return db.UpdateOracleDB(inputData, sql);
+         return db.UpdateOracleDB(inputData, sql);
 
-        }
+      }
 
-        public ResultData updateEXAccountData(DataTable inputData) {
+      public ResultData updateEXAccountData(DataTable inputData) {
 
-            string sql = @"SELECT 
+         string sql = @"SELECT 
                                     SPAN_ACCT_MODULE,     
                                     SPAN_ACCT_FCM_NO,
                                     SPAN_ACCT_ACC_NO,
@@ -234,12 +229,12 @@ FROM CFO.SPAN_PERIOD";
                                     SPAN_ACCT_W_TIME
                                     FROM CFO.SPAN_ACCT";
 
-            return db.UpdateOracleDB(inputData, sql);
-        }
+         return db.UpdateOracleDB(inputData, sql);
+      }
 
-        public ResultData updatePreTestData(DataTable inputData) {
+      public ResultData updatePreTestData(DataTable inputData) {
 
-            string sql = @"SELECT 
+         string sql = @"SELECT 
                                     SPAN_PARAM_MODULE,     
                                     SPAN_PARAM_CLASS,     
                                     SPAN_PARAM_CC,     
@@ -252,7 +247,41 @@ FROM CFO.SPAN_PERIOD";
                                     SPAN_PARAM_W_TIME
                                     FROM CFO.SPAN_PARAM";
 
-            return db.UpdateOracleDB(inputData, sql);
-        }
-    }
+         return db.UpdateOracleDB(inputData, sql);
+      }
+
+      public void EXAccountData(DataTable inputData) {
+         string sql = @"SELECT 
+                                    SPAN_ACCT_MODULE,     
+                                    SPAN_ACCT_FCM_NO,
+                                    SPAN_ACCT_ACC_NO,
+                                    SPAN_ACCT_USER_ID,     
+                                    SPAN_ACCT_W_TIME
+                                    FROM CFO.SPAN_ACCT";
+         sqlList.Add(sql);
+         dtList.Add(inputData);
+      }
+
+      public void PreTestData(DataTable inputData) {
+         string sql = @"SELECT 
+                                    SPAN_PARAM_MODULE,     
+                                    SPAN_PARAM_CLASS,     
+                                    SPAN_PARAM_CC,     
+                                    SPAN_PARAM_TYPE,     
+                                    SPAN_PARAM_VALUE,     
+                                    SPAN_PARAM_EXPIRY,     
+                                    SPAN_PARAM_VOL_TYPE,     
+                                    SPAN_PARAM_VOL_VALUE,     
+                                    SPAN_PARAM_USER_ID,    
+                                    SPAN_PARAM_W_TIME
+                                    FROM CFO.SPAN_PARAM";
+
+         sqlList.Add(sql);
+         dtList.Add(inputData);
+      }
+
+      public ResultStatus UpdateAllDB() {
+         return base.UpdateDB(dtList, sqlList);
+      }
+   }
 }
