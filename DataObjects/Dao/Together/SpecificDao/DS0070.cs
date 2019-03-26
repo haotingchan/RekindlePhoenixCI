@@ -9,10 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataObjects.Dao.Together.SpecificDao {
-   public class DS0070 : UpdateMultiTable {
-
-      private List<DataTable> dtList = new List<DataTable>();
-      private List<string> sqlList = new List<string>();
+   public class DS0070 : DataGate {
 
       /// <summary>
       /// Get SPAN_PERIOD data, return SPAN_PERIOD_MODULE/SPAN_PERIOD_START_DATE/SPAN_PERIOD_END_DATE/SPAN_PERIOD_USER_ID/SPAN_PERIOD_W_TIME/OP_TYPE
@@ -192,22 +189,19 @@ order by comb_prod desc
          return result;
       }
 
-      public ResultData updatePeriodData(DataTable inputData) {
+      public ResultStatus UpdateAllDB(DataTable periodData,DataTable reqData, DataTable exAccountData, DataTable presTestData) {
 
-         string sql = @"SELECT SPAN_PERIOD_MODULE,
+         List<string> sqlList = new List<string>();
+         List<DataTable> dtList = new List<DataTable>();
+
+         string periodSql = @"SELECT SPAN_PERIOD_MODULE,
 	SPAN_PERIOD_START_DATE,
 	SPAN_PERIOD_END_DATE,
 	SPAN_PERIOD_USER_ID,
 	SPAN_PERIOD_W_TIME
 FROM CFO.SPAN_PERIOD";
 
-         return db.UpdateOracleDB(inputData, sql);
-
-      }
-
-      public ResultData updateREQData(DataTable inputData) {
-
-         string sql = @"SELECT 
+         string reqSql = @"SELECT 
                                     SPAN_REQ_MODULE,   
                                     SPAN_REQ_TYPE,   
                                     SPAN_REQ_VALUE,   
@@ -215,13 +209,8 @@ FROM CFO.SPAN_PERIOD";
                                     SPAN_REQ_W_TIME 
                                     FROM CFO.SPAN_REQ";
 
-         return db.UpdateOracleDB(inputData, sql);
 
-      }
-
-      public ResultData updateEXAccountData(DataTable inputData) {
-
-         string sql = @"SELECT 
+         string exAccountSql = @"SELECT 
                                     SPAN_ACCT_MODULE,     
                                     SPAN_ACCT_FCM_NO,
                                     SPAN_ACCT_ACC_NO,
@@ -229,12 +218,7 @@ FROM CFO.SPAN_PERIOD";
                                     SPAN_ACCT_W_TIME
                                     FROM CFO.SPAN_ACCT";
 
-         return db.UpdateOracleDB(inputData, sql);
-      }
-
-      public ResultData updatePreTestData(DataTable inputData) {
-
-         string sql = @"SELECT 
+         string presTestSql = @"SELECT 
                                     SPAN_PARAM_MODULE,     
                                     SPAN_PARAM_CLASS,     
                                     SPAN_PARAM_CC,     
@@ -247,41 +231,19 @@ FROM CFO.SPAN_PERIOD";
                                     SPAN_PARAM_W_TIME
                                     FROM CFO.SPAN_PARAM";
 
-         return db.UpdateOracleDB(inputData, sql);
-      }
+         //sql
+         sqlList.Add(periodSql);
+         sqlList.Add(reqSql);
+         sqlList.Add(exAccountSql);
+         sqlList.Add(presTestSql);
 
-      public void EXAccountData(DataTable inputData) {
-         string sql = @"SELECT 
-                                    SPAN_ACCT_MODULE,     
-                                    SPAN_ACCT_FCM_NO,
-                                    SPAN_ACCT_ACC_NO,
-                                    SPAN_ACCT_USER_ID,     
-                                    SPAN_ACCT_W_TIME
-                                    FROM CFO.SPAN_ACCT";
-         sqlList.Add(sql);
-         dtList.Add(inputData);
-      }
+         //Update Data
+         dtList.Add(periodData);
+         dtList.Add(reqData);
+         dtList.Add(exAccountData);
+         dtList.Add(presTestData);
 
-      public void PreTestData(DataTable inputData) {
-         string sql = @"SELECT 
-                                    SPAN_PARAM_MODULE,     
-                                    SPAN_PARAM_CLASS,     
-                                    SPAN_PARAM_CC,     
-                                    SPAN_PARAM_TYPE,     
-                                    SPAN_PARAM_VALUE,     
-                                    SPAN_PARAM_EXPIRY,     
-                                    SPAN_PARAM_VOL_TYPE,     
-                                    SPAN_PARAM_VOL_VALUE,     
-                                    SPAN_PARAM_USER_ID,    
-                                    SPAN_PARAM_W_TIME
-                                    FROM CFO.SPAN_PARAM";
-
-         sqlList.Add(sql);
-         dtList.Add(inputData);
-      }
-
-      public ResultStatus UpdateAllDB() {
-         return base.UpdateDB(dtList, sqlList);
+         return db.UpdateMultiTable(dtList, sqlList).Status;
       }
    }
 }

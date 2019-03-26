@@ -228,7 +228,6 @@
     <Compile Include="Dao\Together\SpecificDao\DZ9999.cs" />
     <Compile Include="Dao\Together\SpecificDao\DZ0110.cs" />
     <Compile Include="Dao\Together\SpecificDao\DZ0019.cs" />
-    <Compile Include="Dao\Together\SpecificDao\UpdateMultiTable.cs" />
     <Compile Include="Dao\Together\TableDao\AA1.cs" />
     <Compile Include="Dao\Together\TableDao\AB1.cs" />
     <Compile Include="Dao\Together\TableDao\AE6.cs" />

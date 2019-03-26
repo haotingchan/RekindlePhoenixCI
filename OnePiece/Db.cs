@@ -30,10 +30,6 @@ namespace OnePiece {
          factory = DbProviderFactoriesEx.GetFactory(providerName);
       }
 
-      public Db(DbConnection conn) {
-         dbConnection = conn;
-      }
-
       public void StartTransaction(DbConnection connection, DbTransaction tran) {
          dbConnection = connection;
          dbTransaction = tran;
@@ -579,52 +575,96 @@ namespace OnePiece {
             throw ex;
          }
       }
-   }
 
-   public static class DbExtentions {
-      public static void AddParameters(this DbCommand command, DbProviderFactory factory, object[] parms) {
-         if (parms != null && parms.Length > 0) {
-            for (int i = 0; i < parms.Length; i += 2) {
-               string name = parms[i].ToString();
+      /// <summary>
+      /// Update Multi Table
+      /// </summary>
+      /// <param name="ds">Multi Update Data</param>
+      /// <param name="sqlList">Multi Select sql</param>
+      /// <returns></returns>
+      public ResultData UpdateMultiTable(List<DataTable> ds, List<string> sqlList) {
+         var connection = CreateConnection();
+         OracleConnection oracleConn = (OracleConnection)connection;
 
-               // if null, set to DbNull
-               object value = parms[i + 1] ?? DBNull.Value;
+         OracleTransaction tran = oracleConn.BeginTransaction(IsolationLevel.ReadCommitted);
+         ResultData resultData = new ResultData();
+         resultData.Status = ResultStatus.Fail;
 
-               var dbParameter = command.CreateParameter();
-               dbParameter.ParameterName = name;
-               dbParameter.Value = value;
-               dbParameter.DbType = TransformDbTypeByValue(factory, parms[i + 1]);
+         try {
+            foreach (DataTable inputDt in ds) {
+               OracleCommand command = new OracleCommand(sqlList[ds.IndexOf(inputDt)], oracleConn);
+               OracleDataAdapter dataAdapter = new OracleDataAdapter();
+               dataAdapter.SelectCommand = command;
 
-               command.Parameters.Add(dbParameter);
+               OracleCommandBuilder commandBuilder = new OracleCommandBuilder(dataAdapter);
+               dataAdapter.InsertCommand = commandBuilder.GetInsertCommand();
+               dataAdapter.UpdateCommand = commandBuilder.GetUpdateCommand();
+               dataAdapter.DeleteCommand = commandBuilder.GetDeleteCommand();
+               command.Transaction = tran;
+
+               int rows = dataAdapter.Update(inputDt);
+
+               if (rows >= 1) {
+                  resultData.Status = ResultStatus.Success;
+               } else {
+                  tran.Rollback();
+                  return resultData;
+               }
             }
+            tran.Commit();
+
+         } catch (Exception ex) {
+            tran.Rollback();
+            throw ex;
+         }
+         return resultData;
+      }
+   }
+}
+
+public static class DbExtentions {
+   public static void AddParameters(this DbCommand command, DbProviderFactory factory, object[] parms) {
+      if (parms != null && parms.Length > 0) {
+         for (int i = 0; i < parms.Length; i += 2) {
+            string name = parms[i].ToString();
+
+            // if null, set to DbNull
+            object value = parms[i + 1] ?? DBNull.Value;
+
+            var dbParameter = command.CreateParameter();
+            dbParameter.ParameterName = name;
+            dbParameter.Value = value;
+            dbParameter.DbType = TransformDbTypeByValue(factory, parms[i + 1]);
+
+            command.Parameters.Add(dbParameter);
          }
       }
+   }
 
-      public static DbType TransformDbTypeByValue(DbProviderFactory factory, object val) {
-         if (val is Byte) {
-            return DbType.Byte;
-         } else if (val is Int16) {
-            return DbType.Int16;
-         } else if (val is Int32) {
-            return DbType.Int32;
-         } else if (val is Int64) {
-            return DbType.Int64;
-         } else if (val is DateTime) {
-            if (factory is OracleClientFactory) {
-               return DbType.Date;
-            } else {
-               return DbType.DateTime;
-            }
-         } else if (val is Decimal) {
-            return DbType.Decimal;
-         } else if (val is Boolean) {
-            return DbType.Boolean;
+   public static DbType TransformDbTypeByValue(DbProviderFactory factory, object val) {
+      if (val is Byte) {
+         return DbType.Byte;
+      } else if (val is Int16) {
+         return DbType.Int16;
+      } else if (val is Int32) {
+         return DbType.Int32;
+      } else if (val is Int64) {
+         return DbType.Int64;
+      } else if (val is DateTime) {
+         if (factory is OracleClientFactory) {
+            return DbType.Date;
          } else {
-            if (factory is OracleClientFactory) {
-               return DbType.StringFixedLength;
-            } else {
-               return DbType.AnsiString;
-            }
+            return DbType.DateTime;
+         }
+      } else if (val is Decimal) {
+         return DbType.Decimal;
+      } else if (val is Boolean) {
+         return DbType.Boolean;
+      } else {
+         if (factory is OracleClientFactory) {
+            return DbType.StringFixedLength;
+         } else {
+            return DbType.AnsiString;
          }
       }
    }
