@@ -25,9 +25,15 @@ namespace PhoenixCI.FormUI.Prefix3 {
          this.Text = _ProgramID + "─" + _ProgramName;
          txtStartDate.DateTimeValue = GlobalInfo.OCF_DATE;
          txtEndDate.DateTimeValue = GlobalInfo.OCF_DATE;
+         txtStartDate.Focus();
 
+#if DEBUG
          //winni test
-         //2017/06/01-2017/06/30
+         //txtStartDate.DateTimeValue = DateTime.ParseExact("2017/06/01" , "yyyy/MM/dd" , null);
+         //txtEndDate.DateTimeValue = DateTime.ParseExact("2017/06/30" , "yyyy/MM/dd" , null);
+         //this.Text += "(開啟測試模式),Date=2017/06/01~2017/06/30";
+#endif
+
       }
 
       protected override ResultStatus ActivatedForm() {
@@ -44,10 +50,14 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             int li_mth_seq1, li_mth_seq2 = 0;
 
-            lblProcessing.Visible = true;
+            //ready
+            panFilter.Enabled = false;
+            labMsg.Visible = true;
+            labMsg.Text = "開始轉檔...";
+            this.Refresh();
 
             //期貨日盤
-            string ls_prod_type = "F";
+            //string ls_prod_type = "F";
             if (txtFirstMon.Text.Trim() == "") {
                li_mth_seq1 = 99;
             } else {
@@ -78,7 +88,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
                dt.Rows[i]["TPPINTD_DATE"] = Convert.ToDateTime(dtContent.Rows[i]["TPPINTD_DATE"]).ToString("yyyy/MM/dd HH:mm:ss");
             }
 
-
             //存CSV (ps:輸出csv 都用ascii)
             string etfFileName = "30683_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".csv";
             etfFileName = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , etfFileName);
@@ -87,15 +96,18 @@ namespace PhoenixCI.FormUI.Prefix3 {
             csvref.Encoding = System.Text.Encoding.GetEncoding(950);//ASCII
             Common.Helper.ExportHelper.ToCsv(dt , etfFileName , csvref);
 
-            lblProcessing.Visible = false;
+            labMsg.Visible = false;
             return ResultStatus.Success;
 
          } catch (Exception ex) {
             PbFunc.f_write_logf(_ProgramID , "error" , ex.Message);
-            lblProcessing.Visible = false;
             return ResultStatus.Fail;
-         }
 
+         } finally {
+            panFilter.Enabled = true;
+            labMsg.Text = "";
+            labMsg.Visible = false;
+         }
       }
    }
 }
