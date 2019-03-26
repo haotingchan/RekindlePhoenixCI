@@ -26,7 +26,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
    /// </summary>
    public partial class W49061 : FormParent {
 
-      protected DataTable dtForDeleted;
+      RepositoryItemLookUpEdit lupKind;
+      RepositoryItemLookUpEdit lupForeign;
+      RepositoryItemLookUpEdit lupCurrency;
+      RepositoryItemLookUpEdit lupAmt;
 
       protected class LookupItem {
          public string ValueMember { get; set; }
@@ -37,12 +40,41 @@ namespace PhoenixCI.FormUI.Prefix4 {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
          GridHelper.SetCommonGrid(gvMain);
-         dtForDeleted = new DataTable();
       }
 
       protected override ResultStatus Open() {
          base.Open();
          try {
+            lupKind = new RepositoryItemLookUpEdit();
+            lupForeign = new RepositoryItemLookUpEdit();
+            lupCurrency = new RepositoryItemLookUpEdit();
+            lupAmt = new RepositoryItemLookUpEdit();
+
+            COD cod = new COD();
+
+            //商品類別
+            DataTable dtKind = cod.ListByCol("MGT8" , "MGT8_KIND_TYPE" , " " , "  ");
+            Extension.SetColumnLookUp(lupKind , dtKind , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
+            gcMain.RepositoryItems.Add(lupKind);
+
+            //國內外
+            //此處國內/外下拉清單 於CI.MGT8參數為(國內 : " "  國外: "Y")
+            //避免取空值有問題於SQL中判斷" " -> "D"(切記存檔時需將'D'存回' '不然會影響其他table)
+            DataTable dtForeign = cod.ListByCol("49061" , "MGT8_FOREIGN" , "國內" , " ");
+            Extension.SetColumnLookUp(lupForeign , dtForeign , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
+            gcMain.RepositoryItems.Add(lupForeign);
+
+            //幣別
+            DataTable dtCurrency = cod.ListByCol2("EXRT" , "EXRT_CURRENCY_TYPE");
+            Extension.SetColumnLookUp(lupCurrency , dtCurrency , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
+            gcMain.RepositoryItems.Add(lupCurrency);
+
+            //金額類型
+            DataTable dtAmt = cod.ListByCol2("49061" , "MGT8_AMT_TYPE");
+            Extension.SetColumnLookUp(lupAmt , dtAmt , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
+            gcMain.RepositoryItems.Add(lupAmt);
+
+
             Retrieve();
             return ResultStatus.Success;
          } catch (Exception ex) {
@@ -69,15 +101,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       protected override ResultStatus Retrieve() {
-         RepositoryItemLookUpEdit lupKind = new RepositoryItemLookUpEdit();
-         RepositoryItemLookUpEdit lupForeign = new RepositoryItemLookUpEdit();
-         RepositoryItemLookUpEdit lupCurrency = new RepositoryItemLookUpEdit();
-         RepositoryItemLookUpEdit lupAmt = new RepositoryItemLookUpEdit();
+
 
          try {
 
             DataTable dt = new MGT8().ListData();
-            dtForDeleted = dt.Clone();
+            //dtForDeleted = dt.Clone();
 
             //0.check (沒有資料時,則自動新增一筆)
             if (dt.Rows.Count <= 0) {
@@ -113,30 +142,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gvMain.Columns["IS_NEWROW"].Visible = false;
 
             #region 1.3 設定dropdownlist       
-            //商品類別
-            DataTable dtKind = new COD().ListKindByCol2("MGT8" , "MGT8_KIND_TYPE");
-            Extension.SetColumnLookUp(lupKind , dtKind , "KIND_TYPE" , "KIND_NAME" , TextEditStyles.DisableTextEditor , "");
-            gcMain.RepositoryItems.Add(lupKind);
             gvMain.Columns["MGT8_KIND_TYPE"].ColumnEdit = lupKind;
-
-            //國內外
-            //此處國內/外下拉清單 於CI.MGT8參數為(國內 : " "  國外: "Y")
-            //避免取空值有問題於SQL中判斷" " -> "D"(切記存檔時需將'D'存回' '不然會影響其他table)
-            DataTable dtForeign = new COD().ListByCol2("49061" , "MGT8_FOREIGN");
-            Extension.SetColumnLookUp(lupForeign , dtForeign , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
-            gcMain.RepositoryItems.Add(lupForeign);
             gvMain.Columns["MGT8_FOREIGN"].ColumnEdit = lupForeign;
-
-            //幣別
-            DataTable dtCurrency = new COD().ListCurrencyByCol2("EXRT" , "EXRT_CURRENCY_TYPE");
-            Extension.SetColumnLookUp(lupCurrency , dtCurrency , "CURRENCY_TYPE" , "CURRENCY_NAME" , TextEditStyles.DisableTextEditor , "");
-            gcMain.RepositoryItems.Add(lupCurrency);
             gvMain.Columns["MGT8_CURRENCY_TYPE"].ColumnEdit = lupCurrency;
-
-            //金額類型
-            DataTable dtAmt = new COD().ListByCol2("49061" , "MGT8_AMT_TYPE");
-            Extension.SetColumnLookUp(lupAmt , dtAmt , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
-            gcMain.RepositoryItems.Add(lupAmt);
             gvMain.Columns["MGT8_AMT_TYPE"].ColumnEdit = lupAmt;
             #endregion
 
@@ -150,19 +158,22 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       protected override ResultStatus Save(PokeBall poke) {
-         gvMain.CloseEditor();
-         gvMain.UpdateCurrentRow();
          ResultStatus resultStatus = ResultStatus.Fail;
 
          try {
             DataTable dtCurrent = (DataTable)gcMain.DataSource;
+            gvMain.CloseEditor();
+            gvMain.UpdateCurrentRow();
+
             DataTable dtChange = dtCurrent.GetChanges();
             DataTable dtForAdd = dtCurrent.GetChanges(DataRowState.Added);
             DataTable dtForModified = dtCurrent.GetChanges(DataRowState.Modified);
+            DataTable dtForDeleted = dtCurrent.GetChanges(DataRowState.Deleted);
 
             ResultData resultData = new ResultData();
             resultData.ChangedDataViewForAdded = dtForAdd == null ? new DataView() : dtForAdd.DefaultView;
             resultData.ChangedDataViewForModified = dtForModified == null ? new DataView() : dtForModified.DefaultView;
+            resultData.ChangedDataViewForDeleted = dtForDeleted;
 
             if (dtChange == null) {
                MessageDisplay.Choose("沒有變更資料,不需要存檔!");
@@ -185,14 +196,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         continue;
                      } else if (string.IsNullOrEmpty(dr["MGT8_KIND_TYPE"].AsString())) {
                         dr["MGT8_KIND_TYPE"] = " ";
-                     } else if (string.IsNullOrEmpty(dr["MGT8_STRUTURE"].AsString())) {
-                        dr["MGT8_STRUTURE"] = " "; //此欄位未顯示於grid，但先照PB翻
-                     } else {
-                        MessageDisplay.Info("新增資料欄位不可為空!");
-                        return ResultStatus.FailButNext;
                      }
 
-                     if(dr["MGT8_FOREIGN"].AsString() == "D") {
+                     //else {
+                     //   MessageDisplay.Info("新增資料欄位不可為空!");
+                     //   return ResultStatus.FailButNext;
+                     //}
+
+                     if (dr["MGT8_FOREIGN"].AsString() == "D") {
                         dr["MGT8_FOREIGN"] = " ";
                      }
                   }
@@ -204,17 +215,20 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      }
                   }
                }
-               dtCurrent.Columns.Remove("IS_NEWROW");
-               ResultData result = new MGT8().UpdateData(dtCurrent);//base.Save_Override(dt, "MGT8");
+
+               //dtCurrent.AcceptChanges();
+               //dtCurrent.Columns.Remove("IS_NEWROW");
+               dtChange = dtCurrent.GetChanges();
+               ResultData result = new MGT8().UpdateData(dtChange);//base.Save_Override(dt, "MGT8");
                if (result.Status == ResultStatus.Fail) {
                   return ResultStatus.Fail;
                }
-               PrintOrExportChanged(gcMain , resultData);
+               //PrintOrExportChangedByKen(gcMain , resultData);
             }
          } catch (Exception ex) {
             throw ex;
          }
-         return resultStatus;
+         return ResultStatus.Success;
       }
 
       protected override ResultStatus Print(ReportHelper reportHelper) {
@@ -233,9 +247,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
       protected override ResultStatus InsertRow() {
          DataTable dt = (DataTable)gcMain.DataSource;
          gvMain.AddNewRow();
-         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MGT8_FOREIGN"] , dt.Rows[0]["MGT8_FOREIGN"]);
-         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MGT8_CURRENCY_TYPE"] , dt.Rows[0]["MGT8_CURRENCY_TYPE"]);
-         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MGT8_AMT_TYPE"] , dt.Rows[0]["MGT8_AMT_TYPE"]);
+
+         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MGT8_KIND_TYPE"] , " ");
+         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MGT8_FOREIGN"] , " ");
+         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MGT8_CURRENCY_TYPE"] , "1");
+         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MGT8_AMT_TYPE"] , "A");
+         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MGT8_STRUTURE"] , " ");
          gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["IS_NEWROW"] , 1);
 
          gvMain.Focus();

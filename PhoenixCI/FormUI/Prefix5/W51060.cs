@@ -81,7 +81,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                         return ResultStatus.Fail;
                     }
                 }
-                PrintOrExportChanged(gcMain, resultData);
+                PrintOrExportChangedByKen(gcMain, dtForAdd, null, dtForModified);
             }
             catch (Exception ex) {
                 throw ex;

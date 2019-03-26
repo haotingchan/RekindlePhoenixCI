@@ -91,7 +91,7 @@ order by cod_seq_no" , FirstRowValue , FirstRowText);
 
          string sql = @"
 select a.COD_ID as COD_ID,
-a.COD_DESC as COD_DESC,
+TRIM(a.COD_DESC) as COD_DESC,
 a.COD_SEQ_NO,
 '('||COD_ID||')'||COD_DESC as cp_display
 from (
@@ -103,66 +103,6 @@ from (
     AND COD_COL_ID = :COD_COL_ID
 ) a   
 order by cod_seq_no";
-
-         DataTable dtResult = db.GetDataTable(sql , parms);
-
-         return dtResult;
-      }
-
-      /// <summary>
-      /// dddw_mgt8_kind_type
-      /// 商品類別(目前 for 49061,若有相似的可帶入參數或改寫)
-      /// </summary>
-      /// <param name="COD_TXN_ID"></param>
-      /// <param name="COD_COL_ID"></param>
-      /// <returns>cod_id/cod_desc/cp_display</returns>
-      public DataTable ListKindByCol2(string COD_TXN_ID = "MGT8" , string COD_COL_ID = "MGT8_KIND_TYPE") {
-         object[] parms =
-         {
-                ":COD_TXN_ID", COD_TXN_ID,
-                ":COD_COL_ID", COD_COL_ID
-            };
-
-         string sql = @"
-SELECT 
-  TRIM(COD_ID)AS KIND_TYPE,   
-  TRIM(COD_DESC) AS KIND_NAME,   
-  COD_SEQ_NO 
-FROM CI.COD  
-WHERE COD_TXN_ID = :COD_TXN_ID   
-AND COD_COL_ID = :COD_COL_ID 
-ORDER BY COD_SEQ_NO
-";
-
-         DataTable dtResult = db.GetDataTable(sql , parms);
-
-         return dtResult;
-      }
-
-      /// <summary>
-      /// dddw_mgt8_currency_type
-      /// 幣別(目前 for 49061,若有相似的可帶入參數或改寫)
-      /// </summary>
-      /// <param name="COD_TXN_ID"></param>
-      /// <param name="COD_COL_ID"></param>
-      /// <returns>cod_id/cod_desc/cp_display</returns>
-      public DataTable ListCurrencyByCol2(string COD_TXN_ID = "EXRT" , string COD_COL_ID = "EXRT_CURRENCY_TYPE") {
-         object[] parms =
-         {
-                ":COD_TXN_ID", COD_TXN_ID,
-                ":COD_COL_ID", COD_COL_ID
-            };
-
-         string sql = @"
-SELECT 
-  TRIM(COD_ID)AS CURRENCY_TYPE,   
-  TRIM(COD_DESC) AS CURRENCY_NAME,   
-  COD_SEQ_NO  
-FROM CI.COD  
-WHERE COD_TXN_ID = 'EXRT'   
-AND COD_COL_ID = 'EXRT_CURRENCY_TYPE'
-ORDER BY COD_SEQ_NO
-";
 
          DataTable dtResult = db.GetDataTable(sql , parms);
 

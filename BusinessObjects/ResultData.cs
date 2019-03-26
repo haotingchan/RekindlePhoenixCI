@@ -1,78 +1,29 @@
 ﻿using BusinessObjects.Enums;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BusinessObjects
-{
-    public class ResultData
-    {
-        private object _ReturnObject;
-        private DataTable _ReturnData;
-        private DataTable _ChangedDataTable = new DataTable();
-        private DataView _ChangedDataView = new DataView();
-        private string _returnString;
+namespace BusinessObjects {
+   public class ResultData {
+      public DbTransaction DbTransaction;
 
-        private DataView _ChangedDataViewForAdded    = new DataView();
-        private DataView _ChangedDataViewForDeleted  = new DataView();
-        private DataView _ChangedDataViewForModified = new DataView();
+      public ResultStatus Status { get; set; }
 
-        public DbTransaction DbTransaction;
+      public string returnString { get; set; }
 
-        public ResultStatus Status
-        {
-            get;set;
-        }
+      public object ReturnObject { get; set; }
 
-        public string returnString {
-            get { return _returnString; }
-            set { _returnString = value; }
-        }
+      public DataTable ReturnData { get; set; }
 
-        public object ReturnObject
-        {
-            get { return _ReturnObject; }
-            set { _ReturnObject = value; }
-        }
+      public DataTable ChangedDataTable { get; set; } = new DataTable();
 
-        public DataTable ReturnData
-        {
-            get { return _ReturnData; }
-            set { _ReturnData = value; }
-        }
+      public DataView ChangedDataView { get; set; } = new DataView();
 
-        public DataTable ChangedDataTable
-        {
-            get { return _ChangedDataTable; }
-            set { _ChangedDataTable = value; }
-        }
 
-        public DataView ChangedDataView
-        {
-            get { return _ChangedDataView; }
-            set { _ChangedDataView = value; }
-        }
+      public DataView ChangedDataViewForAdded { get; set; } = new DataView();
 
-        public DataView ChangedDataViewForAdded
-        {
-            get { return _ChangedDataViewForAdded; }
-            set { _ChangedDataViewForAdded = value; }
-        }
+      public DataView ChangedDataViewForModified { get; set; } = new DataView();
 
-        public DataView ChangedDataViewForDeleted
-        {
-            get { return _ChangedDataViewForDeleted; }
-            set { _ChangedDataViewForDeleted = value; }
-        }
+      public DataTable ChangedDataViewForDeleted { get; set; } = new DataTable();
 
-        public DataView ChangedDataViewForModified
-        {
-            get { return _ChangedDataViewForModified; }
-            set { _ChangedDataViewForModified = value; }
-        }
-    }
+   }
 }

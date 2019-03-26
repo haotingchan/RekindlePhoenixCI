@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Data;
 /// <summary>
-/// Winni, 2019/3/19
+/// Winni, 2019/3/25
 /// </summary>
 namespace DataObjects.Dao.Together.SpecificDao {
-   public class D49060 : DataGate {
+   public class D49061 : DataGate {
       /// <summary>
       /// get CI.MGT8,CI.MG8 data return 12 feild (d49060_txt)
       /// </summary>
