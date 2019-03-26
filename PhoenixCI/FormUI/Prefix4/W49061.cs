@@ -74,7 +74,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
             Extension.SetColumnLookUp(lupAmt , dtAmt , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
             gcMain.RepositoryItems.Add(lupAmt);
 
-
             Retrieve();
             return ResultStatus.Success;
          } catch (Exception ex) {
@@ -101,12 +100,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       protected override ResultStatus Retrieve() {
-
-
          try {
-
             DataTable dt = new MGT8().ListData();
-            //dtForDeleted = dt.Clone();
 
             //0.check (沒有資料時,則自動新增一筆)
             if (dt.Rows.Count <= 0) {
@@ -141,12 +136,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gvMain.Columns["MGT8_W_TIME"].Visible = false;
             gvMain.Columns["IS_NEWROW"].Visible = false;
 
-            #region 1.3 設定dropdownlist       
+            //1.3 設定dropdownlist       
             gvMain.Columns["MGT8_KIND_TYPE"].ColumnEdit = lupKind;
             gvMain.Columns["MGT8_FOREIGN"].ColumnEdit = lupForeign;
             gvMain.Columns["MGT8_CURRENCY_TYPE"].ColumnEdit = lupCurrency;
             gvMain.Columns["MGT8_AMT_TYPE"].ColumnEdit = lupAmt;
-            #endregion
 
             gcMain.Focus();
 
@@ -158,8 +152,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       protected override ResultStatus Save(PokeBall poke) {
-         ResultStatus resultStatus = ResultStatus.Fail;
-
          try {
             DataTable dtCurrent = (DataTable)gcMain.DataSource;
             gvMain.CloseEditor();
@@ -170,11 +162,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dtForModified = dtCurrent.GetChanges(DataRowState.Modified);
             DataTable dtForDeleted = dtCurrent.GetChanges(DataRowState.Deleted);
 
-            ResultData resultData = new ResultData();
-            resultData.ChangedDataViewForAdded = dtForAdd == null ? new DataView() : dtForAdd.DefaultView;
-            resultData.ChangedDataViewForModified = dtForModified == null ? new DataView() : dtForModified.DefaultView;
-            resultData.ChangedDataViewForDeleted = dtForDeleted;
-
             if (dtChange == null) {
                MessageDisplay.Choose("沒有變更資料,不需要存檔!");
                return ResultStatus.Fail;
@@ -183,48 +170,44 @@ namespace PhoenixCI.FormUI.Prefix4 {
                MessageDisplay.Choose("沒有變更資料,不需要存檔!");
                return ResultStatus.Fail;
             }
-            //Update to DB
-            else {
 
-               //隱藏欄位賦值
-               foreach (DataRow dr in dtCurrent.Rows) {
-                  if (dr.RowState == DataRowState.Added) {
-                     dr["MGT8_W_TIME"] = DateTime.Now;
-                     dr["MGT8_W_USER_ID"] = GlobalInfo.USER_ID;
+            //隱藏欄位賦值
+            foreach (DataRow dr in dtCurrent.Rows) {
+               if (dr.RowState == DataRowState.Added) {
+                  dr["MGT8_W_TIME"] = DateTime.Now;
+                  dr["MGT8_W_USER_ID"] = GlobalInfo.USER_ID;
 
-                     if (string.IsNullOrEmpty(dr["MGT8_RT_ID"].AsString())) {
-                        continue;
-                     } else if (string.IsNullOrEmpty(dr["MGT8_KIND_TYPE"].AsString())) {
-                        dr["MGT8_KIND_TYPE"] = " ";
-                     }
-
-                     //else {
-                     //   MessageDisplay.Info("新增資料欄位不可為空!");
-                     //   return ResultStatus.FailButNext;
-                     //}
-
-                     if (dr["MGT8_FOREIGN"].AsString() == "D") {
-                        dr["MGT8_FOREIGN"] = " ";
-                     }
+                  if (string.IsNullOrEmpty(dr["MGT8_RT_ID"].AsString())) {
+                     continue;
+                  } else if (string.IsNullOrEmpty(dr["MGT8_KIND_TYPE"].AsString())) {
+                     dr["MGT8_KIND_TYPE"] = " ";
                   }
-                  if (dr.RowState == DataRowState.Modified) {
-                     dr["MGT8_W_TIME"] = DateTime.Now;
-                     dr["MGT8_W_USER_ID"] = GlobalInfo.USER_ID;
-                     if (dr["MGT8_FOREIGN"].AsString() == "D") {
-                        dr["MGT8_FOREIGN"] = " ";
-                     }
+
+                  //else {
+                  //   MessageDisplay.Info("新增資料欄位不可為空!");
+                  //   return ResultStatus.FailButNext;
+                  //}
+
+                  if (dr["MGT8_FOREIGN"].AsString() == "D") {
+                     dr["MGT8_FOREIGN"] = " ";
                   }
                }
-
-               //dtCurrent.AcceptChanges();
-               //dtCurrent.Columns.Remove("IS_NEWROW");
-               dtChange = dtCurrent.GetChanges();
-               ResultData result = new MGT8().UpdateData(dtChange);//base.Save_Override(dt, "MGT8");
-               if (result.Status == ResultStatus.Fail) {
-                  return ResultStatus.Fail;
+               if (dr.RowState == DataRowState.Modified) {
+                  dr["MGT8_W_TIME"] = DateTime.Now;
+                  dr["MGT8_W_USER_ID"] = GlobalInfo.USER_ID;
+                  if (dr["MGT8_FOREIGN"].AsString() == "D") {
+                     dr["MGT8_FOREIGN"] = " ";
+                  }
                }
-               //PrintOrExportChangedByKen(gcMain , resultData);
             }
+
+            dtChange = dtCurrent.GetChanges();
+            ResultData result = new MGT8().UpdateData(dtChange);
+            if (result.Status == ResultStatus.Fail) {
+               return ResultStatus.Fail;
+            }
+            //PrintOrExportChangedByKen(gcMain , resultData);
+
          } catch (Exception ex) {
             throw ex;
          }
