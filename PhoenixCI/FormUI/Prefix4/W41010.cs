@@ -56,6 +56,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 statusLookUpEdit = new RepositoryItemLookUpEdit();
                 statusLookUpEdit.SetColumnLookUp(dtStatus, "ID", "Desc");
                 PDK_STATUS_CODE.ColumnEdit = statusLookUpEdit;
+                PDK_STATUS_CODE_E.ColumnEdit = statusLookUpEdit;
 
 
             }
@@ -115,8 +116,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 //讀取資料
                 DataTable dt41010 = dao41010.d_41010(prodType, txtSDate.DateTimeValue, txtEDate.DateTimeValue, kindId);
                 gcMain.DataSource = dt41010;
+                DataTable dt41010e = dao41010.d_41010e(prodType, txtSDate.DateTimeValue, txtEDate.DateTimeValue, kindId);
+                gcMainE.DataSource = dt41010e;
                 //自動調整欄寬
                 gvMain.BestFitColumns();
+                gvMainE.BestFitColumns();
             }
             catch (Exception ex) {
                 MessageDisplay.Error("讀取錯誤");

@@ -10,6 +10,7 @@ using BaseGround.Report;
 using BusinessObjects;
 using DataObjects.Dao.Together.TableDao;
 using BaseGround.Shared;
+using Common;
 
 /// <summary>
 /// Lukas, 2019/1/22
@@ -84,20 +85,23 @@ namespace PhoenixCI.FormUI.Prefix2 {
         }
 
         protected override ResultStatus Retrieve() {
+            try {
+                string startDate = txtStartDate.Text.Replace("/", "");
+                string endDate = txtEndDate.Text.Replace("/", "");
+                DataTable returnTable = daoAA1.ListAllByDate(startDate, endDate);
 
-            string startDate = txtStartDate.Text.Replace("/", "");
-            string endDate = txtEndDate.Text.Replace("/", "");
-            DataTable returnTable = daoAA1.ListAllByDate(startDate, endDate);
+                if (returnTable.Rows.Count == 0) {
+                    MessageBox.Show("無任何資料", "訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return ResultStatus.Fail;
+                }
 
-            if (returnTable.Rows.Count == 0) {
-                MessageBox.Show("無任何資料", "訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return ResultStatus.Fail;
+                returnTable.Columns.Add("Is_NewRow", typeof(string));
+                gcMain.DataSource = returnTable;
+                gcMain.Focus();
             }
-
-            returnTable.Columns.Add("Is_NewRow", typeof(string));
-            gcMain.DataSource = returnTable;
-            gcMain.Focus();
-
+            catch (Exception ex) {
+                throw ex;
+            }
             return ResultStatus.Success;
         }
 
@@ -113,28 +117,31 @@ namespace PhoenixCI.FormUI.Prefix2 {
         }
 
         protected override ResultStatus Save(PokeBall pokeBall) {
-            base.Save(gcMain);
+            try {
+                base.Save(gcMain);
 
-            DataTable dt = (DataTable)gcMain.DataSource;
-            DataTable dtChange = dt.GetChanges();
+                DataTable dt = (DataTable)gcMain.DataSource;
+                DataTable dtChange = dt.GetChanges();
 
-            if (dtChange == null) {
-                MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return ResultStatus.Fail;
-            }
-            if (dtChange.Rows.Count == 0) {
-                MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return ResultStatus.Fail;
-            }
-            //更新主要Table
-            else {
-                ResultStatus status = base.Save_Override(dt, "AA1");
-                if (status == ResultStatus.Fail) {
+                if (dtChange == null) {
+                    MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return ResultStatus.Fail;
                 }
+                if (dtChange.Rows.Count == 0) {
+                    MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return ResultStatus.Fail;
+                }
+                //更新主要Table
+                else {
+                    ResultData myResultData = daoAA1.updateAA1(dt);
+                }
+                //不要自動列印
+                _IsPreventFlowPrint = true;
             }
-            //不要自動列印
-            _IsPreventFlowPrint = true;
+            catch (Exception ex) {
+                MessageDisplay.Error("儲存錯誤");
+                throw ex;
+            }
             return ResultStatus.Success;
         }
 
