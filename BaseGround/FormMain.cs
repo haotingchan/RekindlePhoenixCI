@@ -157,7 +157,7 @@ namespace BaseGround {
                 formInstance.FormClosed += new FormClosedEventHandler(Child_FormClosed);
                 formInstance.Icon = (Icon)Icon.Clone();
                 formInstance.BackColor = Color.FromArgb(192, 220, 192);
-                formInstance.Location = new Point(Left + 9, Top + 9);
+                //formInstance.Location = new Point(Left + 9, Top + 9);
                 formInstance.StartPosition = FormStartPosition.Manual;
 
                 formInstance.Show();
