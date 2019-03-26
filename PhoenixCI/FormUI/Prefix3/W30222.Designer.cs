@@ -410,7 +410,6 @@
             this.KIND_GRP2.Caption = "KIND_GRP2";
             this.KIND_GRP2.FieldName = "KIND_GRP2";
             this.KIND_GRP2.Name = "KIND_GRP2";
-            this.KIND_GRP2.Visible = true;
             // 
             // OP_TYPE
             // 
@@ -681,7 +680,7 @@
             this.gridBand14.Columns.Add(this.OP_TYPE);
             this.gridBand14.Name = "gridBand14";
             this.gridBand14.VisibleIndex = 10;
-            this.gridBand14.Width = 150;
+            this.gridBand14.Width = 75;
             // 
             // W30222
             // 

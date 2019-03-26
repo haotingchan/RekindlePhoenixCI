@@ -39,7 +39,14 @@
             this.PDK_KIND_ID = new DevExpress.XtraGrid.Columns.GridColumn();
             this.PDK_NAME = new DevExpress.XtraGrid.Columns.GridColumn();
             this.PDK_STATUS_CODE = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.panParent.SuspendLayout();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.gcMainE = new DevExpress.XtraGrid.GridControl();
+            this.gvMainE = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.PDK_DATE_E = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.PDK_KIND_ID_E = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.PDK_NAME_E = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.PDK_STATUS_CODE_E = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
@@ -48,13 +55,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
+            this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gcMainE)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gvMainE)).BeginInit();
             this.SuspendLayout();
             // 
             // panParent
             // 
-            this.panParent.Controls.Add(this.gcMain);
-            this.panParent.Location = new System.Drawing.Point(0, 132);
-            this.panParent.Size = new System.Drawing.Size(891, 517);
+            this.panParent.Size = new System.Drawing.Size(891, 619);
             // 
             // ribbonControl
             // 
@@ -185,11 +194,11 @@
             // gcMain
             // 
             this.gcMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gcMain.Location = new System.Drawing.Point(12, 12);
+            this.gcMain.Location = new System.Drawing.Point(0, 0);
             this.gcMain.MainView = this.gvMain;
             this.gcMain.MenuManager = this.ribbonControl;
             this.gcMain.Name = "gcMain";
-            this.gcMain.Size = new System.Drawing.Size(867, 493);
+            this.gcMain.Size = new System.Drawing.Size(891, 282);
             this.gcMain.TabIndex = 0;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -258,19 +267,116 @@
             this.PDK_STATUS_CODE.VisibleIndex = 3;
             this.PDK_STATUS_CODE.Width = 99;
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.gcMain);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(0, 367);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(891, 282);
+            this.panel1.TabIndex = 1;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.gcMainE);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(0, 132);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(891, 235);
+            this.panel2.TabIndex = 0;
+            // 
+            // gcMainE
+            // 
+            this.gcMainE.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gcMainE.Location = new System.Drawing.Point(0, 0);
+            this.gcMainE.MainView = this.gvMainE;
+            this.gcMainE.MenuManager = this.ribbonControl;
+            this.gcMainE.Name = "gcMainE";
+            this.gcMainE.Size = new System.Drawing.Size(891, 235);
+            this.gcMainE.TabIndex = 1;
+            this.gcMainE.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gvMainE});
+            // 
+            // gvMainE
+            // 
+            this.gvMainE.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.PDK_DATE_E,
+            this.PDK_KIND_ID_E,
+            this.PDK_NAME_E,
+            this.PDK_STATUS_CODE_E});
+            this.gvMainE.GridControl = this.gcMainE;
+            this.gvMainE.Name = "gvMainE";
+            this.gvMainE.OptionsView.ColumnAutoWidth = false;
+            this.gvMainE.OptionsView.ShowGroupPanel = false;
+            // 
+            // PDK_DATE_E
+            // 
+            this.PDK_DATE_E.AppearanceHeader.BackColor = System.Drawing.Color.Cyan;
+            this.PDK_DATE_E.AppearanceHeader.Options.UseBackColor = true;
+            this.PDK_DATE_E.Caption = "交易日期";
+            this.PDK_DATE_E.FieldName = "PDK_DATE";
+            this.PDK_DATE_E.Name = "PDK_DATE_E";
+            this.PDK_DATE_E.OptionsColumn.AllowEdit = false;
+            this.PDK_DATE_E.OptionsColumn.ReadOnly = true;
+            this.PDK_DATE_E.Visible = true;
+            this.PDK_DATE_E.VisibleIndex = 0;
+            this.PDK_DATE_E.Width = 101;
+            // 
+            // PDK_KIND_ID_E
+            // 
+            this.PDK_KIND_ID_E.AppearanceHeader.BackColor = System.Drawing.Color.Cyan;
+            this.PDK_KIND_ID_E.AppearanceHeader.Options.UseBackColor = true;
+            this.PDK_KIND_ID_E.Caption = "契約代號";
+            this.PDK_KIND_ID_E.FieldName = "PDK_KIND_ID";
+            this.PDK_KIND_ID_E.Name = "PDK_KIND_ID_E";
+            this.PDK_KIND_ID_E.OptionsColumn.AllowEdit = false;
+            this.PDK_KIND_ID_E.OptionsColumn.ReadOnly = true;
+            this.PDK_KIND_ID_E.Visible = true;
+            this.PDK_KIND_ID_E.VisibleIndex = 1;
+            this.PDK_KIND_ID_E.Width = 88;
+            // 
+            // PDK_NAME_E
+            // 
+            this.PDK_NAME_E.AppearanceHeader.BackColor = System.Drawing.Color.Cyan;
+            this.PDK_NAME_E.AppearanceHeader.Options.UseBackColor = true;
+            this.PDK_NAME_E.Caption = "契約名稱";
+            this.PDK_NAME_E.FieldName = "PDK_NAME";
+            this.PDK_NAME_E.Name = "PDK_NAME_E";
+            this.PDK_NAME_E.OptionsColumn.AllowEdit = false;
+            this.PDK_NAME_E.OptionsColumn.ReadOnly = true;
+            this.PDK_NAME_E.Visible = true;
+            this.PDK_NAME_E.VisibleIndex = 2;
+            this.PDK_NAME_E.Width = 128;
+            // 
+            // PDK_STATUS_CODE_E
+            // 
+            this.PDK_STATUS_CODE_E.AppearanceHeader.BackColor = System.Drawing.Color.Cyan;
+            this.PDK_STATUS_CODE_E.AppearanceHeader.Options.UseBackColor = true;
+            this.PDK_STATUS_CODE_E.Caption = "狀態";
+            this.PDK_STATUS_CODE_E.FieldName = "PDK_STATUS_CODE";
+            this.PDK_STATUS_CODE_E.Name = "PDK_STATUS_CODE_E";
+            this.PDK_STATUS_CODE_E.OptionsColumn.AllowEdit = false;
+            this.PDK_STATUS_CODE_E.OptionsColumn.ReadOnly = true;
+            this.PDK_STATUS_CODE_E.Visible = true;
+            this.PDK_STATUS_CODE_E.VisibleIndex = 3;
+            this.PDK_STATUS_CODE_E.Width = 99;
+            // 
             // W41010
             // 
             this.Appearance.Options.UseFont = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(891, 649);
+            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.panelControl1);
             this.Name = "W41010";
             this.Text = "W41010";
             this.Controls.SetChildIndex(this.ribbonControl, 0);
-            this.Controls.SetChildIndex(this.panelControl1, 0);
             this.Controls.SetChildIndex(this.panParent, 0);
-            this.panParent.ResumeLayout(false);
+            this.Controls.SetChildIndex(this.panelControl1, 0);
+            this.Controls.SetChildIndex(this.panel1, 0);
+            this.Controls.SetChildIndex(this.panel2, 0);
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
             this.panelControl1.ResumeLayout(false);
@@ -280,6 +386,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gcMainE)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gvMainE)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -303,5 +413,13 @@
         private DevExpress.XtraGrid.Columns.GridColumn PDK_STATUS_CODE;
         private System.Windows.Forms.Label label4;
         private DevExpress.XtraEditors.RadioGroup rdgProdType;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel2;
+        private DevExpress.XtraGrid.GridControl gcMainE;
+        private DevExpress.XtraGrid.Views.Grid.GridView gvMainE;
+        private DevExpress.XtraGrid.Columns.GridColumn PDK_DATE_E;
+        private DevExpress.XtraGrid.Columns.GridColumn PDK_KIND_ID_E;
+        private DevExpress.XtraGrid.Columns.GridColumn PDK_NAME_E;
+        private DevExpress.XtraGrid.Columns.GridColumn PDK_STATUS_CODE_E;
     }
 }
