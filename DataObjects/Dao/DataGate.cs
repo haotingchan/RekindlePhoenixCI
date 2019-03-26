@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
 namespace DataObjects.Dao {
@@ -456,10 +457,10 @@ namespace DataObjects.Dao {
                     dvAdded.RowStateFilter = DataViewRowState.Added;
                     myResultData.ChangedDataViewForAdded = dvAdded;
 
-               //ken,架構已調整
-               //DataView dvDeleted = new DataView(myChangeDT);
-               //dvDeleted.RowStateFilter = DataViewRowState.Deleted;
-               //myResultData.ChangedDataViewForDeleted = dvDeleted;
+                    //ken,架構已調整
+                    //DataView dvDeleted = new DataView(myChangeDT);
+                    //dvDeleted.RowStateFilter = DataViewRowState.Deleted;
+                    //myResultData.ChangedDataViewForDeleted = dvDeleted;
 
                     DataView dvModified = new DataView(myChangeDT);
                     dvModified.RowStateFilter = DataViewRowState.ModifiedCurrent;
@@ -716,14 +717,58 @@ namespace DataObjects.Dao {
         }
 
         /// <summary>
-        ///即將廢除, 轉至各隻功能之DAO update Data by David
+        /// string decode
         /// </summary>
-        /// <param name="inputDT"></param>
-        /// <param name="tableName"></param>
-        /// <param name="dBName"></param>
+        /// <param name="data"></param>
         /// <returns></returns>
-        public ResultData Save_Override(DataTable inputDT, string tableName, DBName dBName = DBName.CI) {
-            return db.UpdateOracleDB(inputDT, "");
+        public string DeCode(string data) {
+            string is_out = "";
+            long il_y = 0, il_len;
+            byte[] il_bit;
+            try {
+                il_len = data.Length;
+
+                for (int i = 0; i < il_len; i += 2) {
+
+                    il_bit = Encoding.ASCII.GetBytes(data.Substring(i, 1));
+                    //取前4位值
+                    il_y = (il_bit[0] - 64) * 16;
+                    //取后4位值
+                    il_bit = Encoding.ASCII.GetBytes(data.Substring(i + 1, 1));
+                    il_y = il_y + il_bit[0] - 64;
+                    is_out = is_out + Convert.ToChar(il_y);
+                }
+                return is_out;
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// change DB
+        /// </summary>
+        /// <param name="dtTXFP">get list of TXFP</param>
+        /// <param name="iniKey">TXFP_TXN_ID</param>
+        /// <returns></returns>
+        public Db ChangeDB(DataTable dtTXFP, string iniKey) {
+            DataTable dt = dtTXFP;
+
+            try {
+                string ls_str2 = DeCode(dt.Rows[0]["ls_str2"].ToString());
+                string ls_srv = dt.Rows[0]["ls_srv"].ToString().Split('/')[0];
+
+                if (string.IsNullOrEmpty(dt.Rows[0]["ls_db"].ToString())) { dt.Rows[0]["ls_db"] = ""; }
+                if (string.IsNullOrEmpty(dt.Rows[0]["ls_dbparm"].ToString())) { dt.Rows[0]["ls_dbparm"] = ""; }
+
+                string connectionString = "Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=" + ls_srv + ")" +
+                    "(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=CI)(SERVER=DEDICATED))); User Id=" + dt.Rows[0]["ls_str1"].ToString() + ";Password=" + ls_str2 + ";";
+
+                return new Db(connectionString, "Oracle.ManagedDataAccess.Client", "");
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
         }
     }
 }

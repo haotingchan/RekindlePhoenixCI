@@ -20,6 +20,7 @@ using DevExpress.Utils;
 using BaseGround.Report;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.Data;
+using DataObjects.Dao.Together;
 
 /// <summary>
 /// David, 2019/03/21 
@@ -101,6 +102,7 @@ namespace PhoenixCI.FormUI.PrefixP {
             DataTable dtContentI = new DataTable();
             DataTable dtContentF = new DataTable();
             DataTable dtContent = new DataTable();
+            DataTable dtTXFP = new DataTable();
             string type = ddlbType.EditValue.AsString();
             string cate = ddlbCate.EditValue.AsString();
             string searchType = ddlbCate.Text.Substring(0, 1);
@@ -108,11 +110,11 @@ namespace PhoenixCI.FormUI.PrefixP {
             string groupSummaryTimes = "合計{0}次";
             string summaryAccount = "總計{0}戶";
             string summaryTimes = "總計{0}次";
-            string posconn = PbFunc.f_get_exec_oth("POS");//更換DB
 
+            dtTXFP = new TXFP().ListDataByKey("POS");
             //取 F 的欄位來給I加總用
-            dtContentI = daoP0030.ExecuteStoredProcedure(txtStartDate.Text, txtEndDate.Text, type, "I", posconn);
-            dtContentF = daoP0030.ExecuteStoredProcedure(txtStartDate.Text, txtEndDate.Text, type, "F", posconn);
+            dtContentI = daoP0030.ExecuteStoredProcedure(txtStartDate.Text, txtEndDate.Text, type, "I", "POS", dtTXFP);
+            dtContentF = daoP0030.ExecuteStoredProcedure(txtStartDate.Text, txtEndDate.Text, type, "F", "POS", dtTXFP);
             gcMain.DataSource = null;
             gvMain.GroupSummary.Clear();
             gvMain.Columns.Clear();//清除grid

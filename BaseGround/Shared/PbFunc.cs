@@ -1402,7 +1402,7 @@ namespace BaseGround.Shared {
         /// <returns></returns>
         public static string f_decode(string as_data) {
             string is_out = "";
-            long il_x = 0, il_y = 0, il_len;
+            long il_y = 0, il_len;
             byte[] il_bit;
 
             il_len = Len(as_data);
@@ -1419,28 +1419,6 @@ namespace BaseGround.Shared {
             }
             return is_out;
 
-        }
-
-        /// <summary>
-        /// 變更連線DB
-        /// </summary>
-        /// <param name="dc"></param>
-        /// <param name="ini_key"></param>
-        /// <returns></returns>
-        public static string f_get_exec_oth(string ini_key) {
-            TXFP dao = new TXFP();
-            DataTable dt = dao.ListDataByKey(ini_key);
-
-            string ls_str2 = f_decode(dt.Rows[0]["ls_str2"].ToString());
-            string ls_srv = dt.Rows[0]["ls_srv"].ToString().Split('/')[0];
-
-            if (string.IsNullOrEmpty(dt.Rows[0]["ls_db"].ToString())) { dt.Rows[0]["ls_db"] = ""; }
-            if (string.IsNullOrEmpty(dt.Rows[0]["ls_dbparm"].ToString())) { dt.Rows[0]["ls_dbparm"] = ""; }
-
-            string connectionString = "Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=" + ls_srv + ")" +
-                "(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=CI)(SERVER=DEDICATED))); User Id=" + dt.Rows[0]["ls_str1"].ToString() + ";Password=" + ls_str2 + ";";
-
-            return connectionString;
         }
 
         /// <summary>

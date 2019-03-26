@@ -320,8 +320,36 @@ where PL2B_YMD = :ls_ymd
                                         PLLOG_W_USER_ID";
             string updateColumnList = insertColumnList;
             try {
+
                 //update to DB
                 return SaveForAll(inputData, tableName, insertColumnList, updateColumnList, keysColumnList);
+
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+
+        public ResultData updatePLLOG_test(DataTable inputData) {
+
+            try {
+
+                string sql = @"select PLLOG_YMD, 
+                            PLLOG_KIND_ID, 
+                            PLLOG_DATA_TYPE,
+                            PLLOG_ORG_VALUE,
+                            PLLOG_UPD_VALUE,
+                            PLLOG_W_TIME,
+                            PLLOG_W_USER_ID from CI.PLLOG";
+
+                inputData.PrimaryKey = new DataColumn[] {inputData.Columns["PLLOG_YMD"],
+                                                        inputData.Columns["PLLOG_KIND_ID"],
+                                                        inputData.Columns["PLLOG_DATA_TYPE"],
+                                                        inputData.Columns["PLLOG_W_TIME"]};
+
+                return db.UpdateOracleDB(inputData, sql);
+
             }
             catch (Exception ex) {
                 throw ex;

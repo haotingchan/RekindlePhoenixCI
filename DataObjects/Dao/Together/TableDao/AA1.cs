@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessObjects;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -42,6 +43,21 @@ SELECT AA1.AA1_YM,
             DataTable dtResult = db.GetDataTable(sql, parms);
 
             return dtResult;
+        }
+
+        public ResultData updateAA1(DataTable inputData) {
+
+            string sql = @"
+SELECT   AA1.AA1_YM,   
+         AA1.AA1_TAIFEX,   
+         AA1.AA1_TSE,   
+         AA1.AA1_SGX_DT,   
+         AA1.AA1_DAY_COUNT,   
+         AA1.AA1_US_RATE,
+         AA1.AA1_OTC
+    FROM ci.AA1  ";
+
+            return db.UpdateOracleDB(inputData, sql);
         }
     }
 }

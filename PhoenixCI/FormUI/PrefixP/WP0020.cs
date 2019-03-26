@@ -11,6 +11,7 @@ using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraGrid;
 using DevExpress.Utils;
 using BaseGround.Report;
+using DataObjects.Dao.Together;
 
 /// <summary>
 /// David, 2019/03/20 
@@ -102,13 +103,14 @@ namespace PhoenixCI.FormUI.PrefixP {
             }
 
             DataTable dtContent = new DataTable();
+            DataTable dtTXFP = new DataTable();
             string type = ddlbType.EditValue.AsString();
             string item = ddlbItem.EditValue.AsString();
             string cate = ddlbCate.EditValue.AsString();
             string searchType = ddlbCate.Text.Substring(0, 1);
-            string posconn = PbFunc.f_get_exec_oth("POS");
 
-            dtContent = daoP0020.ExecuteStoredProcedure(txtStartDate.Text, txtEndDate.Text, type, item, cate, posconn);
+            dtTXFP = new TXFP().ListDataByKey("POS");
+            dtContent = daoP0020.ExecuteStoredProcedure(txtStartDate.Text, txtEndDate.Text, type, item, cate, "POS", dtTXFP);
             gcMain.DataSource = null;
             gvMain.GroupSummary.Clear();
             gvMain.Columns.Clear();//清除grid

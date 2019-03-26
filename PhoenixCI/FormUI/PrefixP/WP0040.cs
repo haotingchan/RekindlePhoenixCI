@@ -3,19 +3,17 @@ using BaseGround.Report;
 using BaseGround.Shared;
 using BusinessObjects.Enums;
 using Common;
-using DataObjects;
+using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
-using DevExpress.XtraGrid.Views.Grid;
 using System;
 using System.Data;
-using System.Data.Common;
 
 /// <summary>
 /// Winni, 2019/02/18 交易人帳號狀態查詢
 /// </summary>
 namespace PhoenixCI.FormUI.PrefixP {
    public partial class WP0040 : FormParent {
-      private DP0040 daoP0040;
+
       public WP0040(string programID , string programName) : base(programID , programName) {
          try {
             InitializeComponent();
@@ -28,20 +26,6 @@ namespace PhoenixCI.FormUI.PrefixP {
 
       protected override ResultStatus Open() {
          base.Open();
-         return ResultStatus.Success;
-      }
-
-      /// <summary>
-      /// 視窗啟動後(目前沒轉換資料庫還是撈得出資料?)
-      /// </summary>
-      /// <returns></returns> 
-      protected override ResultStatus AfterOpen() {
-         //Db db = GlobalDaoSetting.DB;
-         //DbConnection dc = PbFunc.f_get_exec_oth(db.CreateConnection() , "POS"); //中華電信
-         //if (dc.State == ConnectionState.Open) {
-         //   return ResultStatus.Success;
-         //}
-         //return ResultStatus.Fail;
          return ResultStatus.Success;
       }
 
@@ -74,7 +58,11 @@ namespace PhoenixCI.FormUI.PrefixP {
          base.Retrieve();
          try {
             DataTable dt = new DataTable();
-            dt = new DP0040().SP_QUERY_USER_STATUS(txtFcmNo.Text , txtAccNo.Text);
+            DataTable dtTXFP = new DataTable();
+            dtTXFP = new TXFP().ListDataByKey("POS");
+            dt = new DP0040().SP_QUERY_USER_STATUS(txtFcmNo.Text , txtAccNo.Text , "POS" , dtTXFP);
+
+
             //將datatable的Title換掉
             dt.Columns[0].ColumnName = "FCM_NAME";
             dt.Columns[1].ColumnName = "FCM_NO";
@@ -93,7 +81,11 @@ namespace PhoenixCI.FormUI.PrefixP {
                }
             }
 
+            gcMain.DataSource = null;
+            gvMain.GroupSummary.Clear();
+            gvMain.Columns.Clear();//清除grid
             gcMain.DataSource = dt;
+
             gcMain.Visible = true;
             gcMain.Focus();
 
