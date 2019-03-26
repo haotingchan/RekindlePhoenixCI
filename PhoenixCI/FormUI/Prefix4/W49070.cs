@@ -38,7 +38,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
       public W49070(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
-         GridHelper.SetCommonGrid(gvMain);
       }
 
       protected override ResultStatus Open() {
@@ -99,6 +98,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gvMain.OptionsBehavior.AutoPopulateColumns = true;
             gcMain.DataSource = dt;
             gvMain.BestFitColumns();
+            GridHelper.SetCommonGrid(gvMain);
 
             //1.1 設定欄位caption       
             gvMain.SetColumnCaption("SPT1_KIND_ID1" , "商品");
@@ -161,8 +161,20 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   dr["SPT1_W_TIME"] = DateTime.Now;
                   dr["SPT1_W_USER_ID"] = GlobalInfo.USER_ID;
 
-                  string kindId2 = dr["spt1_kind_id2"].AsString();
-                  decimal maxSpnsRate = dr["spt1_max_spns_rate"].AsDecimal();
+                  if (string.IsNullOrEmpty(dr["SPT1_OSW_GRP"].AsString())) {
+                     dr["SPT1_OSW_GRP"] = "  ";
+                  }
+
+                  if (string.IsNullOrEmpty(dr["SPT1_DATA_TYPE"].AsString())) {
+                     dr["SPT1_DATA_TYPE"] = " ";
+                  }
+
+                  if (string.IsNullOrEmpty(dr["SPT1_NAME"].AsString())) {
+                     dr["SPT1_NAME"] = " ";
+                  }
+
+                  string kindId2 = dr["SPT1_KIND_ID2"].AsString();
+                  decimal maxSpnsRate = dr["SPT1_MAX_SPNS_RATE"].AsDecimal();
 
                   if (kindId2 != "-" && string.IsNullOrEmpty(maxSpnsRate.AsString())) {
                      MessageDisplay.Info("請輸入跨商品MAX折抵比率");
@@ -176,7 +188,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             if (result.Status == ResultStatus.Fail) {
                return ResultStatus.Fail;
             }
-            //PrintOrExportChangedByKen(gcMain , resultData);
+            PrintOrExportChangedByKen(gcMain , dtForAdd , dtForDeleted , dtForModified);
 
          } catch (Exception ex) {
             throw ex;
@@ -252,8 +264,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
          //當該欄位不可編輯時,設定為灰色 Color.FromArgb(192,192,192)
          //當該欄位不可編輯時,AllowFocus為false(PB的wf_set_order方法)
          switch (e.Column.FieldName) {
-            case ("spt1_kind_id1"):
-            case ("spt1_kind_id2"):
+            case ("SPT1_KIND_ID1"):
+            case ("SPT1_KIND_ID2"):
                e.Column.OptionsColumn.AllowFocus = Is_NewRow == "1" ? true : false;
                e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.FromArgb(192 , 192 , 192);
                break;
