@@ -5,6 +5,7 @@ using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together;
+using DataObjects.Dao.Together.SpecificDao;
 using DataObjects.Dao.Together.TableDao;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraEditors.Repository;
@@ -26,7 +27,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
    /// </summary>
    public partial class W49070 : FormParent {
 
-      protected DataTable dtForDeleted;
+      RepositoryItemLookUpEdit lupOswGrp;
+      RepositoryItemLookUpEdit lupDataType;
 
       protected class LookupItem {
          public string ValueMember { get; set; }
@@ -36,13 +38,26 @@ namespace PhoenixCI.FormUI.Prefix4 {
       public W49070(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
-         GridHelper.SetCommonGrid(gvMain);
-         dtForDeleted = new DataTable();
       }
 
       protected override ResultStatus Open() {
          base.Open();
          try {
+            lupOswGrp = new RepositoryItemLookUpEdit();
+            lupDataType = new RepositoryItemLookUpEdit();
+
+            COD cod = new COD();
+
+            //收盤群組
+            DataTable dtOswGrp = cod.ListByCol("49070" , "SPT1_OSW_GRP" , " " , "  ");
+            Extension.SetColumnLookUp(lupOswGrp , dtOswGrp , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
+            gcMain.RepositoryItems.Add(lupOswGrp);
+
+            //商品狀態
+            DataTable dtDataType = cod.ListByCol("49070" , "SPT1_DATA_TYPE" , " " , " ");
+            Extension.SetColumnLookUp(lupDataType , dtDataType , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
+            gcMain.RepositoryItems.Add(lupDataType);
+
             Retrieve();
             return ResultStatus.Success;
          } catch (Exception ex) {
@@ -69,15 +84,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       protected override ResultStatus Retrieve() {
-         RepositoryItemLookUpEdit lupKind = new RepositoryItemLookUpEdit();
-         RepositoryItemLookUpEdit lupForeign = new RepositoryItemLookUpEdit();
-         RepositoryItemLookUpEdit lupCurrency = new RepositoryItemLookUpEdit();
-         RepositoryItemLookUpEdit lupAmt = new RepositoryItemLookUpEdit();
 
          try {
-
-            DataTable dt = new MGT8().ListData();
-            dtForDeleted = dt.Clone();
+            DataTable dt = new D49070().ListData();
 
             //0.check (沒有資料時,則自動新增一筆)
             if (dt.Rows.Count <= 0) {
@@ -89,56 +98,33 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gvMain.OptionsBehavior.AutoPopulateColumns = true;
             gcMain.DataSource = dt;
             gvMain.BestFitColumns();
+            GridHelper.SetCommonGrid(gvMain);
 
             //1.1 設定欄位caption       
-            gvMain.SetColumnCaption("MGT8_F_ID" , "交易所＋商品代號");
-            gvMain.SetColumnCaption("MGT8_F_EXCHANGE" , "交易所");
-            gvMain.SetColumnCaption("MGT8_F_NAME" , "商品");
-            gvMain.SetColumnCaption("MGT8_RT_ID" , "路透代號");
-            gvMain.SetColumnCaption("MGT8_KIND_TYPE" , "商品類別");
+            gvMain.SetColumnCaption("SPT1_KIND_ID1" , "商品");
+            gvMain.SetColumnCaption("SPT1_KIND_ID2" , "商品");
+            gvMain.SetColumnCaption("SPT1_KIND_ID1_OUT" , "對外商品");
+            gvMain.SetColumnCaption("SPT1_KIND_ID2_OUT" , "對外商品");
+            gvMain.SetColumnCaption("SPT1_SEQ_NO" , "順序");
 
-            gvMain.SetColumnCaption("MGT8_FOREIGN" , "國內/外");
-            gvMain.SetColumnCaption("MGT8_CURRENCY_TYPE" , "幣別");
-            gvMain.SetColumnCaption("MGT8_AMT_TYPE" , "金額類型");
-            gvMain.SetColumnCaption("MGT8_XXX" , "契約乘數");
-            gvMain.SetColumnCaption("MGT8_W_USER_ID" , "異動人員");
+            gvMain.SetColumnCaption("SPT1_COM_ID" , "適用商品組合");
+            gvMain.SetColumnCaption("SPT1_ABBR_NAME" , "簡稱");
+            gvMain.SetColumnCaption("SPT1_ADJUST_RATE" , "判斷調整標準");
+            gvMain.SetColumnCaption("SPT1_OSW_GRP" , "收盤群組");
+            gvMain.SetColumnCaption("SPT1_DATA_TYPE" , "商品狀態");
 
-            gvMain.SetColumnCaption("MGT8_W_TIME" , "異動時間");
+            gvMain.SetColumnCaption("SPT1_MAX_SPNS_RATE" , "跨商品MAX折抵比率");
             gvMain.SetColumnCaption("IS_NEWROW" , "Is_NewRow");
 
             //1.2 設定隱藏欄位
-            gvMain.Columns["MGT8_STRUTURE"].Visible = false;
-            gvMain.Columns["MGT8_W_USER_ID"].Visible = false;
-            gvMain.Columns["MGT8_W_TIME"].Visible = false;
+            gvMain.Columns["SPT1_NAME"].Visible = false;
+            gvMain.Columns["SPT1_W_TIME"].Visible = false;
+            gvMain.Columns["SPT1_W_USER_ID"].Visible = false;
             gvMain.Columns["IS_NEWROW"].Visible = false;
 
-            #region 1.3 設定dropdownlist       
-            //商品類別
-            //DataTable dtKind = new COD().ListKindByCol2("MGT8" , "MGT8_KIND_TYPE");
-            //Extension.SetColumnLookUp(lupKind , dtKind , "KIND_TYPE" , "KIND_NAME" , TextEditStyles.DisableTextEditor , "");
-            //gcMain.RepositoryItems.Add(lupKind);
-            //gvMain.Columns["MGT8_KIND_TYPE"].ColumnEdit = lupKind;
-
-            //國內外
-            //此處國內/外下拉清單 於CI.MGT8參數為(國內 : " "  國外: "Y")
-            //避免取空值有問題於SQL中判斷" " -> "D"(切記存檔時需將'D'存回' '不然會影響其他table)
-            DataTable dtForeign = new COD().ListByCol2("49061" , "MGT8_FOREIGN");
-            Extension.SetColumnLookUp(lupForeign , dtForeign , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
-            gcMain.RepositoryItems.Add(lupForeign);
-            gvMain.Columns["MGT8_FOREIGN"].ColumnEdit = lupForeign;
-
-            //幣別
-            //DataTable dtCurrency = new COD().ListCurrencyByCol2("EXRT" , "EXRT_CURRENCY_TYPE");
-            //Extension.SetColumnLookUp(lupCurrency , dtCurrency , "CURRENCY_TYPE" , "CURRENCY_NAME" , TextEditStyles.DisableTextEditor , "");
-            //gcMain.RepositoryItems.Add(lupCurrency);
-            //gvMain.Columns["MGT8_CURRENCY_TYPE"].ColumnEdit = lupCurrency;
-
-            //金額類型
-            DataTable dtAmt = new COD().ListByCol2("49061" , "MGT8_AMT_TYPE");
-            Extension.SetColumnLookUp(lupAmt , dtAmt , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
-            gcMain.RepositoryItems.Add(lupAmt);
-            gvMain.Columns["MGT8_AMT_TYPE"].ColumnEdit = lupAmt;
-            #endregion
+            //1.3 設定dropdownlist       
+            gvMain.Columns["SPT1_OSW_GRP"].ColumnEdit = lupOswGrp;
+            gvMain.Columns["SPT1_DATA_TYPE"].ColumnEdit = lupDataType;
 
             gcMain.Focus();
 
@@ -150,19 +136,15 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       protected override ResultStatus Save(PokeBall poke) {
-         gvMain.CloseEditor();
-         gvMain.UpdateCurrentRow();
-         ResultStatus resultStatus = ResultStatus.Fail;
-
          try {
             DataTable dtCurrent = (DataTable)gcMain.DataSource;
+            gvMain.CloseEditor();
+            gvMain.UpdateCurrentRow();
+
             DataTable dtChange = dtCurrent.GetChanges();
             DataTable dtForAdd = dtCurrent.GetChanges(DataRowState.Added);
             DataTable dtForModified = dtCurrent.GetChanges(DataRowState.Modified);
-
-            ResultData resultData = new ResultData();
-            resultData.ChangedDataViewForAdded = dtForAdd == null ? new DataView() : dtForAdd.DefaultView;
-            resultData.ChangedDataViewForModified = dtForModified == null ? new DataView() : dtForModified.DefaultView;
+            DataTable dtForDeleted = dtCurrent.GetChanges(DataRowState.Deleted);
 
             if (dtChange == null) {
                MessageDisplay.Choose("沒有變更資料,不需要存檔!");
@@ -172,49 +154,46 @@ namespace PhoenixCI.FormUI.Prefix4 {
                MessageDisplay.Choose("沒有變更資料,不需要存檔!");
                return ResultStatus.Fail;
             }
-            //Update to DB
-            else {
 
-               //隱藏欄位賦值
-               foreach (DataRow dr in dtCurrent.Rows) {
-                  if (dr.RowState == DataRowState.Added) {
-                     dr["MGT8_W_TIME"] = DateTime.Now;
-                     dr["MGT8_W_USER_ID"] = GlobalInfo.USER_ID;
+            //隱藏欄位賦值
+            foreach (DataRow dr in dtCurrent.Rows) {
+               if (dr.RowState == DataRowState.Added || dr.RowState == DataRowState.Modified) {
+                  dr["SPT1_W_TIME"] = DateTime.Now;
+                  dr["SPT1_W_USER_ID"] = GlobalInfo.USER_ID;
 
-                     if (string.IsNullOrEmpty(dr["MGT8_RT_ID"].AsString())) {
-                        continue;
-                     } else if (string.IsNullOrEmpty(dr["MGT8_KIND_TYPE"].AsString())) {
-                        dr["MGT8_KIND_TYPE"] = " ";
-                     } else if (string.IsNullOrEmpty(dr["MGT8_STRUTURE"].AsString())) {
-                        dr["MGT8_STRUTURE"] = " "; //此欄位未顯示於grid，但先照PB翻
-                     } else {
-                        MessageDisplay.Info("新增資料欄位不可為空!");
-                        return ResultStatus.FailButNext;
-                     }
-
-                     if(dr["MGT8_FOREIGN"].AsString() == "D") {
-                        dr["MGT8_FOREIGN"] = " ";
-                     }
+                  if (string.IsNullOrEmpty(dr["SPT1_OSW_GRP"].AsString())) {
+                     dr["SPT1_OSW_GRP"] = "  ";
                   }
-                  if (dr.RowState == DataRowState.Modified) {
-                     dr["MGT8_W_TIME"] = DateTime.Now;
-                     dr["MGT8_W_USER_ID"] = GlobalInfo.USER_ID;
-                     if (dr["MGT8_FOREIGN"].AsString() == "D") {
-                        dr["MGT8_FOREIGN"] = " ";
-                     }
+
+                  if (string.IsNullOrEmpty(dr["SPT1_DATA_TYPE"].AsString())) {
+                     dr["SPT1_DATA_TYPE"] = " ";
+                  }
+
+                  if (string.IsNullOrEmpty(dr["SPT1_NAME"].AsString())) {
+                     dr["SPT1_NAME"] = " ";
+                  }
+
+                  string kindId2 = dr["SPT1_KIND_ID2"].AsString();
+                  decimal maxSpnsRate = dr["SPT1_MAX_SPNS_RATE"].AsDecimal();
+
+                  if (kindId2 != "-" && string.IsNullOrEmpty(maxSpnsRate.AsString())) {
+                     MessageDisplay.Info("請輸入跨商品MAX折抵比率");
+                     return ResultStatus.Fail;
                   }
                }
-               dtCurrent.Columns.Remove("IS_NEWROW");
-               ResultData result = new MGT8().UpdateData(dtCurrent);//base.Save_Override(dt, "MGT8");
-               if (result.Status == ResultStatus.Fail) {
-                  return ResultStatus.Fail;
-               }
-               PrintOrExportChanged(gcMain , resultData);
             }
+
+            dtChange = dtCurrent.GetChanges();
+            ResultData result = new SPT1().UpdateData(dtChange);
+            if (result.Status == ResultStatus.Fail) {
+               return ResultStatus.Fail;
+            }
+            PrintOrExportChangedByKen(gcMain , dtForAdd , dtForDeleted , dtForModified);
+
          } catch (Exception ex) {
             throw ex;
          }
-         return resultStatus;
+         return ResultStatus.Success;
       }
 
       protected override ResultStatus Print(ReportHelper reportHelper) {
@@ -233,9 +212,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
       protected override ResultStatus InsertRow() {
          DataTable dt = (DataTable)gcMain.DataSource;
          gvMain.AddNewRow();
-         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MGT8_FOREIGN"] , dt.Rows[0]["MGT8_FOREIGN"]);
-         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MGT8_CURRENCY_TYPE"] , dt.Rows[0]["MGT8_CURRENCY_TYPE"]);
-         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MGT8_AMT_TYPE"] , dt.Rows[0]["MGT8_AMT_TYPE"]);
+
+         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["SPT1_NAME"] , " ");
+         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["SPT1_DATA_TYPE"] , " ");
+         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["SPT1_OSW_GRP"] , " ");
          gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["IS_NEWROW"] , 1);
 
          gvMain.Focus();
@@ -266,7 +246,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gv.SetRowCellValue(gv.FocusedRowHandle , gv.Columns["IS_NEWROW"] , 1);
          }
          //編輯狀態時,設定可以編輯的欄位( e.Cancel = false 等於可以編輯)
-         else if (gv.FocusedColumn.Name == "MGT8_KIND_TYPE") {
+         else if (gv.FocusedColumn.Name == "SPT1_KIND_ID1" || gv.FocusedColumn.Name == "SPT1_KIND_ID2") {
             e.Cancel = true;
          } else {
             e.Cancel = false;
@@ -284,7 +264,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
          //當該欄位不可編輯時,設定為灰色 Color.FromArgb(192,192,192)
          //當該欄位不可編輯時,AllowFocus為false(PB的wf_set_order方法)
          switch (e.Column.FieldName) {
-            case ("MGT8_F_ID"):
+            case ("SPT1_KIND_ID1"):
+            case ("SPT1_KIND_ID2"):
                e.Column.OptionsColumn.AllowFocus = Is_NewRow == "1" ? true : false;
                e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.FromArgb(192 , 192 , 192);
                break;

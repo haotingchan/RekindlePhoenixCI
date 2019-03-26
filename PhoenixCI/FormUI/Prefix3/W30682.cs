@@ -44,14 +44,15 @@ namespace PhoenixCI.FormUI.Prefix3 {
          InitializeComponent();
 
          this.Text = _ProgramID + "─" + _ProgramName;
-         txtStartDate.Text = GlobalInfo.OCF_DATE.AsString("yyyy/MM/dd");
-         txtEndDate.Text = GlobalInfo.OCF_DATE.AsString("yyyy/MM/dd");
+         txtStartDate.DateTimeValue = GlobalInfo.OCF_DATE;
+         txtEndDate.DateTimeValue = GlobalInfo.OCF_DATE;
+         txtStartDate.Focus();
 
 #if DEBUG
          //winni test
-         txtStartDate.DateTimeValue = DateTime.ParseExact("2018/10/01" , "yyyy/MM/dd" , null);
-         txtEndDate.DateTimeValue = DateTime.ParseExact("2018/10/11" , "yyyy/MM/dd" , null);
-         this.Text += "(開啟測試模式),Date=2018/10/01~2018/10/11";
+         //txtStartDate.DateTimeValue = DateTime.ParseExact("2018/10/01" , "yyyy/MM/dd" , null);
+         //txtEndDate.DateTimeValue = DateTime.ParseExact("2018/10/11" , "yyyy/MM/dd" , null);
+         //this.Text += "(開啟測試模式),Date=2018/10/01~2018/10/11";
 #endif
 
       }
@@ -84,7 +85,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //1. ready
             panFilter.Enabled = false;
             labMsg.Visible = true;
-            labMsg.Text = "訊息：資料轉出中........";
+            labMsg.Text = "開始轉檔...";
             this.Refresh();
 
             //2. 判斷 統計or明細
@@ -117,7 +118,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
                   //存CSV (ps:輸出csv 都用ascii)
                   string etfFileName = string.Format("{0}_{1}-{2}_w{3}.csv" , rptName , StartDate , EndDate , DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss"));
-                  //string etfFileName = rptName + "_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".csv";
                   etfFileName = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , etfFileName);
                   ExportOptions csvref = new ExportOptions();
                   csvref.HasHeader = true;
@@ -150,14 +150,24 @@ namespace PhoenixCI.FormUI.Prefix3 {
                      WriteLog(string.Format("{0}-{1},{2}-{3},無任何資料!" , StartDate , EndDate , _ProgramID , rptName));
                   }//if (dtS.Rows.Count < 0)
 
+                  //處理資料型態(轉換時間格式)
+                  DataTable dt = dtS.Clone(); //轉型別用的datatable
+                  dt.Columns["VOLD_DATA_TIME"].DataType = typeof(string); //將原DataType(datetime)轉為string
+                  foreach (DataRow row in dtS.Rows) {
+                     dt.ImportRow(row);
+                  }
+
+                  for (int i = 0 ; i < dt.Rows.Count ; i++) {
+                     dt.Rows[i]["VOLD_DATA_TIME"] = Convert.ToDateTime(dtS.Rows[i]["VOLD_DATA_TIME"]).ToString("yyyy/MM/dd HH:mm:ss");
+                  }
+
                   //存CSV (ps:輸出csv 都用ascii)
                   string etfFileName = string.Format("{0}_{1}-{2}_w{3}.csv" , rptName , StartDate , EndDate , DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss"));
-                  //string etfFileName = rptName + "_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".csv";
                   etfFileName = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , etfFileName);
                   ExportOptions csvref = new ExportOptions();
                   csvref.HasHeader = true;
                   csvref.Encoding = System.Text.Encoding.GetEncoding(950);//ASCII
-                  Common.Helper.ExportHelper.ToCsv(dtS , etfFileName , csvref);
+                  Common.Helper.ExportHelper.ToCsv(dt , etfFileName , csvref);
                } catch (Exception ex) {
                   WriteLog(ex);
                }

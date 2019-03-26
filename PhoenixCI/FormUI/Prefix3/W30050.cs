@@ -35,9 +35,14 @@ namespace PhoenixCI.FormUI.Prefix3 {
         }
 
         protected override ResultStatus Open() {
-            base.Open();
-            txtSDate.EditValue = PbFunc.f_ocf_date(0);
-            txtSDate.Focus();
+            try {
+                base.Open();
+                txtSDate.EditValue = PbFunc.f_ocf_date(0);
+                txtSDate.Focus();
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
             return ResultStatus.Success;
         }
 
@@ -60,167 +65,173 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
         protected override ResultStatus Export() {
 
-            dao30050 = new D30050();
-            daoRPT = new RPT();
-            string rptId = "30050", file;
-            string asYmd = txtSDate.Text.Replace("/", "");
+            try {
+                dao30050 = new D30050();
+                daoRPT = new RPT();
+                string rptId = "30050", file;
+                string asYmd = txtSDate.Text.Replace("/", "");
 
-            // 1. 複製檔案
-            file = PbFunc.wf_copy_file(rptId, rptId);
-            if (file == "") {
-                return ResultStatus.Fail;
-            }
-
-            // 2. 開啟檔案
-            Workbook workbook = new Workbook();
-            workbook.LoadDocument(file);
-
-            // 3. 匯出資料
-            int rowNum = 1;
-            string rptName, dataType, ymd;
-            int g, rowNumRPT, found, colNum;
-
-            #region wf_30051
-            rptName = "最大交易量及未平倉數";
-            rptId = "30051";
-
-            // 切換Sheet
-            Worksheet ws30050 = workbook.Worksheets[0];
-
-            // 讀取並填入資料
-            for (g = 1; g < 3; g++) {
-                if (g == 1) {
-                    dataType = "M";
-                    colNum = 1;
-                }
-                else {
-                    dataType = "OI";
-                    colNum = 3;
-                }
-                DataTable dt30051 = dao30050.d_30051(asYmd, dataType);
-                if (dt30051.Rows.Count == 0) {
-                    MessageDisplay.Info(txtSDate.Text + "," + rptId + '－' + rptName + ",無任何資料!");
+                // 1. 複製檔案
+                file = PbFunc.wf_copy_file(rptId, rptId);
+                if (file == "") {
                     return ResultStatus.Fail;
                 }
-                dt30051.Filter("RPT_SEQ_NO > 0");
 
-                foreach (DataRow dr in dt30051.Rows) {
-                    rowNumRPT = dr["RPT_SEQ_NO"].AsInt() - 1;
-                    ws30050.Cells[rowNumRPT, colNum].Value = dr["AI4_QNTY"].AsDecimal();
-                    ymd = dr["AI4_MAX_YMD"].AsString();
-                    ymd = ymd.SubStr(0, 4) + "/" + ymd.SubStr(4, 2) + "/" + ymd.SubStr(6, 2);
-                    ws30050.Cells[rowNumRPT, colNum + 1].Value = ymd;
-                }
-            }
-            #endregion
+                // 2. 開啟檔案
+                Workbook workbook = new Workbook();
+                workbook.LoadDocument(file);
 
-            rowNum = rowNum + 3;
+                // 3. 匯出資料
+                int rowNum = 1;
+                string rptName, dataType, ymd;
+                int g, rowNumRPT, found, colNum;
 
-            #region wf_30052
-            string sumType = "", sumSubtype = "", prodType = "", paramKey = "";
+                #region wf_30051
+                rptName = "最大交易量及未平倉數";
+                rptId = "30051";
 
-            rptName = "交易量及未平倉數排序";
-            rptId = "30052";
+                // 切換Sheet
+                Worksheet ws30050 = workbook.Worksheets[0];
 
-            /*******************
-            RPT
-            *******************/
-            daoRPT = new RPT();
-            DataTable dtRPT = daoRPT.ListAllByTXD_ID(rptId);
-            if (dtRPT.Rows.Count == 0) {
-                MessageDisplay.Error(rptId + '－' + "RPT無任何資料!");
-                return ResultStatus.Fail;
-            }
-
-            for (g = 1; g < 9; g++) {
-                if (g == 2 || g == 4 || g == 6) {
-                    dataType = "OI";
-                    colNum = 3;
-                }
-                else {
-                    dataType = "M";
-                    colNum = 1;
-                }
-                switch (g) {
-                    case 1:
-                    case 2:
-                        sumType = "D";
-                        sumSubtype = "1";
-                        prodType = "F%";
-                        paramKey = "%";
-                        break;
-                    case 3:
-                    case 4:
-                        sumType = "D";
-                        sumSubtype = "3";
-                        prodType = "O%";
-                        paramKey = "TXO%";
-                        break;
-                    case 5:
-                    case 6:
-                        sumType = "D";
-                        sumSubtype = "0";
-                        prodType = "%";
-                        paramKey = "%";
-                        break;
-                    case 7:
-                        sumType = "Y";
-                        sumSubtype = "0";
-                        prodType = "%";
-                        paramKey = "%";
-                        break;
-                    case 8:
-                        sumType = "M";
-                        sumSubtype = "0";
-                        prodType = "%";
-                        paramKey = "%";
-                        colNum = 3;
-                        break;
-                }
-
-                DataTable dt30052 = dao30050.d_30052(asYmd, sumType, sumSubtype, prodType, paramKey, dataType);
-                if (dt30052.Rows.Count == 0) {
-                    return ResultStatus.Fail;
-                }
-                DataRow[] find = dtRPT.Select("rpt_seq_no=" + g.AsString());
-                if (find.Length != 0) {
-                    found = dtRPT.Rows.IndexOf(find[0]);
-                }
-                else {
-                    continue;
-                }
-                rowNum = dtRPT.Rows[found]["RPT_VALUE"].AsString().AsInt() - 1;
-                rowNum = rowNum - 1;
-                foreach (DataRow dr in dt30052.Rows) {
-                    rowNum = rowNum + 1;
-                    ws30050.Cells[rowNum, colNum].Value = dr["AI4_QNTY"].AsDecimal();
-                    ymd = dr["AI4_MAX_YMD"].AsString();
-                    if (g == 7) {
-                        ymd = ymd;
-                    }
-                    else if (g == 8) {
-                        ymd = ymd.SubStr(0, 4) + "/" + ymd.SubStr(4, 2);
+                // 讀取並填入資料
+                for (g = 1; g < 3; g++) {
+                    if (g == 1) {
+                        dataType = "M";
+                        colNum = 1;
                     }
                     else {
-                        ymd = ymd.SubStr(0, 4) + "/" + ymd.SubStr(4, 2) + "/" + ymd.SubStr(6, 2);
+                        dataType = "OI";
+                        colNum = 3;
                     }
-                    ws30050.Cells[rowNum, colNum + 1].Value = ymd;
+                    DataTable dt30051 = dao30050.d_30051(asYmd, dataType);
+                    if (dt30051.Rows.Count == 0) {
+                        MessageDisplay.Info(txtSDate.Text + "," + rptId + '－' + rptName + ",無任何資料!");
+                        return ResultStatus.Fail;
+                    }
+                    dt30051.Filter("RPT_SEQ_NO > 0");
+
+                    foreach (DataRow dr in dt30051.Rows) {
+                        rowNumRPT = dr["RPT_SEQ_NO"].AsInt() - 1;
+                        ws30050.Cells[rowNumRPT, colNum].Value = dr["AI4_QNTY"].AsDecimal();
+                        ymd = dr["AI4_MAX_YMD"].AsString();
+                        ymd = ymd.SubStr(0, 4) + "/" + ymd.SubStr(4, 2) + "/" + ymd.SubStr(6, 2);
+                        ws30050.Cells[rowNumRPT, colNum + 1].Value = ymd;
+                    }
                 }
+                #endregion
+
+                rowNum = rowNum + 3;
+
+                #region wf_30052
+                string sumType = "", sumSubtype = "", prodType = "", paramKey = "";
+
+                rptName = "交易量及未平倉數排序";
+                rptId = "30052";
+
+                /*******************
+                RPT
+                *******************/
+                daoRPT = new RPT();
+                DataTable dtRPT = daoRPT.ListAllByTXD_ID(rptId);
+                if (dtRPT.Rows.Count == 0) {
+                    MessageDisplay.Error(rptId + '－' + "RPT無任何資料!");
+                    return ResultStatus.Fail;
+                }
+
+                for (g = 1; g < 9; g++) {
+                    if (g == 2 || g == 4 || g == 6) {
+                        dataType = "OI";
+                        colNum = 3;
+                    }
+                    else {
+                        dataType = "M";
+                        colNum = 1;
+                    }
+                    switch (g) {
+                        case 1:
+                        case 2:
+                            sumType = "D";
+                            sumSubtype = "1";
+                            prodType = "F%";
+                            paramKey = "%";
+                            break;
+                        case 3:
+                        case 4:
+                            sumType = "D";
+                            sumSubtype = "3";
+                            prodType = "O%";
+                            paramKey = "TXO%";
+                            break;
+                        case 5:
+                        case 6:
+                            sumType = "D";
+                            sumSubtype = "0";
+                            prodType = "%";
+                            paramKey = "%";
+                            break;
+                        case 7:
+                            sumType = "Y";
+                            sumSubtype = "0";
+                            prodType = "%";
+                            paramKey = "%";
+                            break;
+                        case 8:
+                            sumType = "M";
+                            sumSubtype = "0";
+                            prodType = "%";
+                            paramKey = "%";
+                            colNum = 3;
+                            break;
+                    }
+
+                    DataTable dt30052 = dao30050.d_30052(asYmd, sumType, sumSubtype, prodType, paramKey, dataType);
+                    if (dt30052.Rows.Count == 0) {
+                        return ResultStatus.Fail;
+                    }
+                    DataRow[] find = dtRPT.Select("rpt_seq_no=" + g.AsString());
+                    if (find.Length != 0) {
+                        found = dtRPT.Rows.IndexOf(find[0]);
+                    }
+                    else {
+                        continue;
+                    }
+                    rowNum = dtRPT.Rows[found]["RPT_VALUE"].AsString().AsInt() - 1;
+                    rowNum = rowNum - 1;
+                    foreach (DataRow dr in dt30052.Rows) {
+                        rowNum = rowNum + 1;
+                        ws30050.Cells[rowNum, colNum].Value = dr["AI4_QNTY"].AsDecimal();
+                        ymd = dr["AI4_MAX_YMD"].AsString();
+                        if (g == 7) {
+                            ymd = ymd;
+                        }
+                        else if (g == 8) {
+                            ymd = ymd.SubStr(0, 4) + "/" + ymd.SubStr(4, 2);
+                        }
+                        else {
+                            ymd = ymd.SubStr(0, 4) + "/" + ymd.SubStr(4, 2) + "/" + ymd.SubStr(6, 2);
+                        }
+                        ws30050.Cells[rowNum, colNum + 1].Value = ymd;
+                    }
+                }
+
+                // g = 9
+                DataRow[] findG9 = dtRPT.Select("rpt_seq_no=" + g.AsString());
+                if (findG9.Length != 0) {
+                    found = dtRPT.Rows.IndexOf(findG9[0]);
+                    rowNum = dtRPT.Rows[found]["RPT_VALUE"].AsString().AsInt() - 1;
+                    ws30050.Cells[rowNum, 1].Value = txtSDate.Text;
+                }
+
+                #endregion
+
+                // 4. 存檔
+                ws30050.ScrollToRow(0);
+                workbook.SaveDocument(file);
             }
-
-            // g = 9
-            DataRow[] findG9 = dtRPT.Select("rpt_seq_no=" + g.AsString());
-            if (findG9.Length != 0) {
-                found = dtRPT.Rows.IndexOf(findG9[0]);
-                rowNum = dtRPT.Rows[found]["RPT_VALUE"].AsString().AsInt() - 1;
-                ws30050.Cells[rowNum, 1].Value = txtSDate.Text;
+            catch (Exception ex) {
+                MessageDisplay.Error("輸出錯誤");
+                throw ex;
             }
-
-            #endregion
-
-            // 4. 存檔
-            ws30050.ScrollToRow(0);
-            workbook.SaveDocument(file);
             return ResultStatus.Success;
         }
     }

@@ -32,24 +32,24 @@
          this.stMsgTxt = new System.Windows.Forms.Label();
          this.gb1_label = new System.Windows.Forms.Label();
          this.gb_1 = new DevExpress.XtraEditors.PanelControl();
+         this.SleProdIDtxt = new DevExpress.XtraEditors.TextEdit();
          this.st_date = new DevExpress.XtraLayout.LayoutControl();
          this.emStartDate = new DevExpress.XtraEditors.TextEdit();
          this.emEndDate = new DevExpress.XtraEditors.TextEdit();
          this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
          this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
          this.layoutControlItem4 = new DevExpress.XtraLayout.LayoutControlItem();
+         this.rgTime = new DevExpress.XtraEditors.RadioGroup();
          this.rgMarket = new DevExpress.XtraEditors.RadioGroup();
+         this.label1 = new System.Windows.Forms.Label();
+         this.stProd = new System.Windows.Forms.Label();
+         this.stTime = new System.Windows.Forms.Label();
          this.stDate = new System.Windows.Forms.Label();
          this.st_5 = new System.Windows.Forms.Label();
          this.textEdit1 = new DevExpress.XtraEditors.TextEdit();
          this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
          this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
          this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
-         this.stTime = new System.Windows.Forms.Label();
-         this.rgTime = new DevExpress.XtraEditors.RadioGroup();
-         this.stProd = new System.Windows.Forms.Label();
-         this.SleProdIDtxt = new DevExpress.XtraEditors.TextEdit();
-         this.label1 = new System.Windows.Forms.Label();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
          this.panelControl2.SuspendLayout();
@@ -57,6 +57,7 @@
          this.r_frame.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gb_1)).BeginInit();
          this.gb_1.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.SleProdIDtxt.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.st_date)).BeginInit();
          this.st_date.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.emStartDate.Properties)).BeginInit();
@@ -64,13 +65,12 @@
          ((System.ComponentModel.ISupportInitialize)(this.Root)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.rgTime.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.rgMarket.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.rgTime.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.SleProdIDtxt.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -103,7 +103,7 @@
          this.r_frame.Location = new System.Drawing.Point(30, 27);
          this.r_frame.Name = "r_frame";
          this.r_frame.Size = new System.Drawing.Size(461, 318);
-         this.r_frame.TabIndex = 1;
+         this.r_frame.TabIndex = 6;
          // 
          // stMsgTxt
          // 
@@ -113,7 +113,7 @@
          this.stMsgTxt.Location = new System.Drawing.Point(34, 277);
          this.stMsgTxt.Name = "stMsgTxt";
          this.stMsgTxt.Size = new System.Drawing.Size(153, 19);
-         this.stMsgTxt.TabIndex = 1;
+         this.stMsgTxt.TabIndex = 5;
          this.stMsgTxt.Text = "訊息：資料轉出中........";
          this.stMsgTxt.Visible = false;
          // 
@@ -151,6 +151,14 @@
          this.gb_1.Size = new System.Drawing.Size(406, 234);
          this.gb_1.TabIndex = 0;
          // 
+         // SleProdIDtxt
+         // 
+         this.SleProdIDtxt.Location = new System.Drawing.Point(109, 183);
+         this.SleProdIDtxt.MenuManager = this.ribbonControl;
+         this.SleProdIDtxt.Name = "SleProdIDtxt";
+         this.SleProdIDtxt.Size = new System.Drawing.Size(153, 28);
+         this.SleProdIDtxt.TabIndex = 4;
+         // 
          // st_date
          // 
          this.st_date.Controls.Add(this.emStartDate);
@@ -177,7 +185,7 @@
          this.emStartDate.Properties.Mask.PlaceHolder = '0';
          this.emStartDate.Size = new System.Drawing.Size(102, 28);
          this.emStartDate.StyleController = this.st_date;
-         this.emStartDate.TabIndex = 4;
+         this.emStartDate.TabIndex = 0;
          // 
          // emEndDate
          // 
@@ -193,7 +201,7 @@
          this.emEndDate.Properties.Mask.PlaceHolder = '0';
          this.emEndDate.Size = new System.Drawing.Size(102, 28);
          this.emEndDate.StyleController = this.st_date;
-         this.emEndDate.TabIndex = 5;
+         this.emEndDate.TabIndex = 1;
          // 
          // Root
          // 
@@ -234,6 +242,24 @@
          this.layoutControlItem4.TextLocation = DevExpress.Utils.Locations.Left;
          this.layoutControlItem4.TextSize = new System.Drawing.Size(12, 20);
          // 
+         // rgTime
+         // 
+         this.rgTime.EditValue = "rbAll";
+         this.rgTime.Location = new System.Drawing.Point(109, 116);
+         this.rgTime.Name = "rgTime";
+         this.rgTime.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
+         this.rgTime.Properties.Appearance.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.rgTime.Properties.Appearance.Options.UseBackColor = true;
+         this.rgTime.Properties.Appearance.Options.UseFont = true;
+         this.rgTime.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+         this.rgTime.Properties.Columns = 2;
+         this.rgTime.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rbMarketBefore", "盤前"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rbTradeTime", "交易時段"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rbAll", "全部")});
+         this.rgTime.Size = new System.Drawing.Size(202, 60);
+         this.rgTime.TabIndex = 3;
+         // 
          // rgMarket
          // 
          this.rgMarket.EditValue = "rbAll";
@@ -252,6 +278,36 @@
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rbAll", "全部")});
          this.rgMarket.Size = new System.Drawing.Size(202, 33);
          this.rgMarket.TabIndex = 2;
+         // 
+         // label1
+         // 
+         this.label1.AutoSize = true;
+         this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
+         this.label1.Location = new System.Drawing.Point(268, 187);
+         this.label1.Name = "label1";
+         this.label1.Size = new System.Drawing.Size(80, 21);
+         this.label1.TabIndex = 1;
+         this.label1.Text = "(關鍵字）";
+         // 
+         // stProd
+         // 
+         this.stProd.AutoSize = true;
+         this.stProd.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
+         this.stProd.Location = new System.Drawing.Point(49, 187);
+         this.stProd.Name = "stProd";
+         this.stProd.Size = new System.Drawing.Size(58, 21);
+         this.stProd.TabIndex = 1;
+         this.stProd.Text = "商品：";
+         // 
+         // stTime
+         // 
+         this.stTime.AutoSize = true;
+         this.stTime.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
+         this.stTime.Location = new System.Drawing.Point(49, 123);
+         this.stTime.Name = "stTime";
+         this.stTime.Size = new System.Drawing.Size(58, 21);
+         this.stTime.TabIndex = 1;
+         this.stTime.Text = "時段：";
          // 
          // stDate
          // 
@@ -307,62 +363,6 @@
          this.layoutControlItem3.Size = new System.Drawing.Size(0, 0);
          this.layoutControlItem3.TextSize = new System.Drawing.Size(50, 20);
          // 
-         // stTime
-         // 
-         this.stTime.AutoSize = true;
-         this.stTime.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
-         this.stTime.Location = new System.Drawing.Point(49, 123);
-         this.stTime.Name = "stTime";
-         this.stTime.Size = new System.Drawing.Size(58, 21);
-         this.stTime.TabIndex = 1;
-         this.stTime.Text = "時段：";
-         // 
-         // rgTime
-         // 
-         this.rgTime.EditValue = "rbAll";
-         this.rgTime.Location = new System.Drawing.Point(109, 116);
-         this.rgTime.Name = "rgTime";
-         this.rgTime.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
-         this.rgTime.Properties.Appearance.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.rgTime.Properties.Appearance.Options.UseBackColor = true;
-         this.rgTime.Properties.Appearance.Options.UseFont = true;
-         this.rgTime.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
-         this.rgTime.Properties.Columns = 2;
-         this.rgTime.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rbMarketBefore", "盤前"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rbTradeTime", "交易時段"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rbAll", "全部")});
-         this.rgTime.Size = new System.Drawing.Size(202, 60);
-         this.rgTime.TabIndex = 2;
-         // 
-         // stProd
-         // 
-         this.stProd.AutoSize = true;
-         this.stProd.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
-         this.stProd.Location = new System.Drawing.Point(49, 187);
-         this.stProd.Name = "stProd";
-         this.stProd.Size = new System.Drawing.Size(58, 21);
-         this.stProd.TabIndex = 1;
-         this.stProd.Text = "商品：";
-         // 
-         // SleProdIDtxt
-         // 
-         this.SleProdIDtxt.Location = new System.Drawing.Point(109, 183);
-         this.SleProdIDtxt.MenuManager = this.ribbonControl;
-         this.SleProdIDtxt.Name = "SleProdIDtxt";
-         this.SleProdIDtxt.Size = new System.Drawing.Size(153, 28);
-         this.SleProdIDtxt.TabIndex = 5;
-         // 
-         // label1
-         // 
-         this.label1.AutoSize = true;
-         this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
-         this.label1.Location = new System.Drawing.Point(268, 187);
-         this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(80, 21);
-         this.label1.TabIndex = 1;
-         this.label1.Text = "(關鍵字）";
-         // 
          // W30687
          // 
          this.Appearance.Options.UseFont = true;
@@ -384,6 +384,7 @@
          ((System.ComponentModel.ISupportInitialize)(this.gb_1)).EndInit();
          this.gb_1.ResumeLayout(false);
          this.gb_1.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.SleProdIDtxt.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.st_date)).EndInit();
          this.st_date.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.emStartDate.Properties)).EndInit();
@@ -391,13 +392,12 @@
          ((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.rgTime.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.rgMarket.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.rgTime.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.SleProdIDtxt.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 

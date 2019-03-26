@@ -48,6 +48,7 @@ namespace PhoenixCI.FormUI.Prefix5
       private APDK daoAPDK;
       private COD daoCOD;
       private D51030 dao51030;
+      private DataTable dtForDeleted;
       private Dictionary<string, string> dic;
       /// <summary>
       /// 交易時段
@@ -77,6 +78,7 @@ namespace PhoenixCI.FormUI.Prefix5
 
          GridHelper.SetCommonGrid(gvMain);
          PrintableComponent = gcMain;
+         dtForDeleted = new DataTable();
 
          dao51030 = new D51030();
          //交易時段
@@ -140,6 +142,9 @@ namespace PhoenixCI.FormUI.Prefix5
          base.Retrieve(gcMain);
          DataTable returnTable = new DataTable();
          returnTable = dao51030.ListD50130();
+
+         dtForDeleted = returnTable.Clone();
+
          /*******************
          沒有新增資料時,則自動新增內容
          *******************/
@@ -221,6 +226,7 @@ namespace PhoenixCI.FormUI.Prefix5
                if (dr["op_type"].AsString() == " ") {
                   continue;
                }
+
                //key值不能為null
                if (string.IsNullOrEmpty(dr[MARKET_CODE].AsString())) {
                   PbFunc.messageBox(GlobalInfo.ErrorText, "「交易時段」必須要選取值！", MessageBoxIcon.Stop);
@@ -293,6 +299,14 @@ namespace PhoenixCI.FormUI.Prefix5
          DataTable dt = (DataTable)gcMain.DataSource;
          DataTable dtChange = dt.GetChanges();
          DataTable dtDeleteChange = dt.GetChanges(DataRowState.Deleted);
+         DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
+         DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
+
+         ResultData resultData = new ResultData();
+         resultData.ChangedDataViewForAdded = dtForAdd == null ? new DataView() : dtForAdd.DefaultView;
+         resultData.ChangedDataViewForDeleted = dtForDeleted == null ? new DataTable() : dtForDeleted;
+         resultData.ChangedDataViewForModified = dtForModified == null ? new DataView() : dtForModified.DefaultView;
+
          int getDeleteCount = dtDeleteChange != null ? dtDeleteChange.Rows.Count : 0;
          ////存檔前檢查
          if (getDeleteCount == 0 && dtChange != null)//無法經由資料列存取已刪除的資料列資訊。
@@ -300,21 +314,22 @@ namespace PhoenixCI.FormUI.Prefix5
             if (!SaveBefore(dt)) {
                return ResultStatus.Fail;
             }
+            // 寫入DB
+            foreach (DataRow dr in dt.Rows) {
+               if (dr.RowState == DataRowState.Modified) {
+                  dr["MMF_W_TIME"] = DateTime.Now;
+                  dr["MMF_W_USER_ID"] = GlobalInfo.USER_ID;
+               }
+            }
          }
          if (dtChange != null) {
             try {
-               // 寫入DB
-               foreach (DataRow dr in dt.Rows) {
-                  if (dr.RowState == DataRowState.Modified) {
-                     dr["MMF_W_TIME"] = DateTime.Now;
-                     dr["MMF_W_USER_ID"] = GlobalInfo.USER_ID;
-                  }
-               }
                ResultData myResultData = dao51030.UpdateMMF(dt);
             }
             catch (Exception ex) {
                WriteLog(ex);
             }
+            PrintOrExportChangedByKen(gcMain, resultData);
             return ResultStatus.Success;
          }
          else {

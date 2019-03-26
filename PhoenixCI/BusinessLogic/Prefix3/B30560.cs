@@ -114,7 +114,6 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             flowStepDesc = "寫入內容";
             string lsYMD = "";
             int rowCurr = 0;
-            string pcCode = "";
             string endYMD = dt.AsEnumerable().LastOrDefault()["AM2_YMD"].AsString();
             foreach (DataRow row in dt.Rows) {
                if (lsYMD != row["AM2_YMD"].AsString()) {
@@ -140,20 +139,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
 
                //判斷欄位
                int columnIndex = IDFGtype(row);
-               ////worksheet.Rows[rowCurr][columnIndex].Value = row["AM2_M_QNTY"].AsDecimal();
-               ////CellValue cellValue = worksheet.Rows[rowCurr][columnIndex].Value;
-               
-               ////if (cellValue.Type==CellValueType.None) {
-               ////   worksheet.Rows[rowCurr][columnIndex].Value = row["AM2_M_QNTY"].AsDecimal();
-               ////   pcCode = row["AM2_PC_CODE"].AsString();
-               ////}
-               ////else {
-               ////   if(cellValue.AsDecimal() > row["AM2_M_QNTY"].AsDecimal())
-               ////      worksheet.Rows[rowCurr][columnIndex].Value = row["AM2_M_QNTY"].AsDecimal();
-               ////   if(pcCode!= row["AM2_PC_CODE"].AsString())
-               ////      worksheet.Rows[rowCurr][columnIndex].Value = row["AM2_M_QNTY"].AsDecimal();
-               ////}
-               
+               worksheet.Rows[rowCurr][columnIndex].Value = row["AM2_M_QNTY"].AsDecimal();
 
             }//foreach (DataRow row in dt.Rows)
 
