@@ -73,16 +73,16 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
                 //「調整情形」欄位的下拉選單
                 dictAdj = new Dictionary<string, string>() { { " ", "不變" }, { "+", "提高" }, { "-", "降低" }, { "*", "新增" } };
-                DataTable dtStatus = setColItem(dictAdj);
+                //DataTable dtStatus = setColItem(dictAdj);
                 statusLookUpEdit = new RepositoryItemLookUpEdit();
-                statusLookUpEdit.SetColumnLookUp(dtStatus, "ID", "Desc");
+                statusLookUpEdit.SetColumnLookUp(dictAdj, "Key", "Value");
                 PLS1_LEVEL_ADJ.ColumnEdit = statusLookUpEdit;
 
                 //「調整後部位限制級距」欄位的下拉選單
                 dictLevel = new Dictionary<string, string>() { { "1", "1" }, { "2", "2" }, { "3", "3" } };
-                DataTable dtLevel = setColItem(dictLevel);
+                //DataTable dtLevel = setColItem(dictLevel);
                 levelLookUpEdit = new RepositoryItemLookUpEdit();
-                levelLookUpEdit.SetColumnLookUp(dtLevel, "ID", "Desc");
+                levelLookUpEdit.SetColumnLookUp(dictLevel, "Key", "Value");
                 PLS1_CP_LEVEL.ColumnEdit = levelLookUpEdit;
 
                 //BandedColumnCaption換行
@@ -100,31 +100,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
             return ResultStatus.Success;
         }
 
-        /// <summary>
-        /// 自訂下拉式選項
-        /// </summary>
-        /// <param name="dic">陣列</param>
-        /// <returns></returns>
-        private DataTable setColItem(Dictionary<string, string> dic) {
-            DataTable dt = new DataTable();
-            dt.Columns.Add("ID");
-            dt.Columns.Add("Desc");
-            foreach (var str in dic) {
-                DataRow rows = dt.NewRow();
-                rows["ID"] = str.Key;
-                rows["Desc"] = str.Value;
-                dt.Rows.Add(rows);
-            }
-            return dt;
-        }
-
         protected override ResultStatus Retrieve() {
 
             try {
                 //1. 讀取資料
-                string ymd;
-                int found;
-                ymd = txtDate.Text.Replace("/", "");
+                string ymd = txtDate.Text.Replace("/", "");
 
                 DataTable dt30222 = dao30222.d_30222(ymd);
                 if (dt30222.Rows.Count == 0) {
@@ -142,73 +122,66 @@ namespace PhoenixCI.FormUI.Prefix3 {
                     MessageDisplay.Info("公告日期無任何資料!");
                     return ResultStatus.Fail;
                 }
-                if (dtPostDate.Rows[0]["RAISE_YMD"].AsDateTime("yyyyMMdd") != default(DateTime)) {
-                    txtEffDate.DateTimeValue = dtPostDate.Rows[0]["RAISE_YMD"].AsDateTime("yyyyMMdd");
-                    txtEffDateLower.DateTimeValue = dtPostDate.Rows[0]["LOWER_YMD"].AsDateTime("yyyyMMdd");
+
+                DateTime raiseYmd = dtPostDate.Rows[0]["RAISE_YMD"].AsDateTime("yyyyMMdd");
+                DateTime lowerYmd = dtPostDate.Rows[0]["LOWER_YMD"].AsDateTime("yyyyMMdd");
+                int liCount = dtPostDate.Rows[0]["LI_COUNT"].AsInt();
+
+                if (raiseYmd != default(DateTime)) {
+                    txtEffDate.DateTimeValue = raiseYmd;
+                    txtEffDateLower.DateTimeValue = lowerYmd;
                     lblEff.Text = "（已確認）";
                 }
                 else {
+                    txtEffDate.DateTimeValue = DateTime.MinValue;
+                    txtEffDateLower.DateTimeValue = DateTime.MinValue;
                     lblEff.Text = "";
                 }
 
+                if (liCount <= 0) return ResultStatus.Fail;
+
                 //3. 選擇是否重新產製資料
+                DialogResult result = MessageDisplay.Choose("已確認資料，按「是」讀取已存檔資料，按「否」為重新產製資料");
+                if (result == DialogResult.No) return ResultStatus.Fail;
+
                 DataTable dt30222PLS2 = dao30222.d_30222_pls2(ymd);
                 if (dt30222PLS2.Rows.Count == 0) {
                     MessageDisplay.Info("PL2無任何資料!");
                     return ResultStatus.Fail;
                 }
-                if (dtPostDate.Rows[0]["LI_COUNT"].AsInt() <= 0) return ResultStatus.Fail;
-                DialogResult result = MessageDisplay.Choose("已確認資料，按「是」讀取已存檔資料，按「否」為重新產製資料");
-                if (result == DialogResult.No) return ResultStatus.Fail;
+
 
                 gvMain.CloseEditor();
                 DataTable dtGridView = (DataTable)gcMain.DataSource;
+                //dtGridView.PrimaryKey = new DataColumn[] { dtGridView.Columns["PLS1_KIND_ID2"] };
+                DataView dvMain = dtGridView.AsDataView();
+                dvMain.Sort = "PLS1_KIND_ID2";
                 foreach (DataRow dr in dt30222PLS2.Rows) {
                     //此時gridview的資料還沒被動過，原本要在gridview中查找(datawindow.find)的資料直接在datasource查找即可
-                    DataRow[] find = dtGridView.Select("PLS1_KIND_ID2='" + dr["PLS2_KIND_ID2"].ToString() + "'");
-                    if (find.Length > 0) {
-                        found = dtGridView.Rows.IndexOf(find[0]);
-                    }
-                    else {
-                        found = -1;
-                    }
-                    if (found == -1) {
+                    int found = dvMain.Find(dr["PLS2_KIND_ID2"].ToString());
+                    if (found < 0) {
                         dtGridView.Rows.Add();
                         found = dtGridView.Rows.Count - 1;
                     }
+                    DataRow drFound = dtGridView.Rows[found];
 
-                    if (dr["PLS2_EFFECTIVE_YMD"].AsString() == dtPostDate.Rows[0]["LOWER_YMD"].AsString()) {
-                        dtGridView.Rows[found]["PLS1_LEVEL_ADJ"] = "-";
+                    if (dr["PLS2_EFFECTIVE_YMD"].AsString() == lowerYmd.ToString("yyyyMMdd")) {
+                        drFound["PLS1_LEVEL_ADJ"] = "-";
                     }
                     //for 	j = 2 to 16
-                    dtGridView.Rows[found]["PLS1_YMD"] = dr["PLS2_YMD"].AsString();
-                    if (dr["PLS2_KIND_ID2"] != DBNull.Value) dtGridView.Rows[found]["PLS1_KIND_ID2"] = dr["PLS2_KIND_ID2"].ToString();
-                    dtGridView.Rows[found]["PLS1_FUT"] = dr["PLS2_FUT"];
-                    dtGridView.Rows[found]["PLS1_OPT"] = dr["PLS2_OPT"];
-                    if (dr["PLS2_SID"] != DBNull.Value) dtGridView.Rows[found]["PLS1_SID"] = dr["PLS2_SID"].ToString();
-
-                    if (dr["PLS2_LEVEL_ADJ"] != DBNull.Value) dtGridView.Rows[found]["PLS1_LEVEL_ADJ"] = dr["PLS2_LEVEL_ADJ"].ToString();
-                    dtGridView.Rows[found]["PLS1_CP_LEVEL"] = dr["PLS2_LEVEL"].AsString();
-                    if (dr["PLS2_NATURE"] != DBNull.Value) dtGridView.Rows[found]["PLS1_CP_NATURE"] = dr["PLS2_NATURE"].AsInt();
-                    if (dr["PLS2_LEGAL"] != DBNull.Value) dtGridView.Rows[found]["PLS1_CP_LEGAL"] = dr["PLS2_LEGAL"].AsInt();
-                    if (dr["PLS2_999"] != DBNull.Value) dtGridView.Rows[found]["PLS1_CP_999"] = dr["PLS2_999"].AsInt();
-
-                    dtGridView.Rows[found]["PLS1_CUR_LEVEL"] = dr["PLS2_PREV_LEVEL"].AsString();
-                    if (dr["PLS2_PREV_NATURE"] != DBNull.Value) dtGridView.Rows[found]["PLS1_CUR_NATURE"] = dr["PLS2_PREV_NATURE"].AsInt();
-                    if (dr["PLS2_PREV_LEGAL"] != DBNull.Value) dtGridView.Rows[found]["PLS1_CUR_LEGAL"] = dr["PLS2_PREV_LEGAL"].AsInt();
-                    if (dr["PLS2_PREV_999"] != DBNull.Value) dtGridView.Rows[found]["PLS1_CUR_999"] = dr["PLS2_PREV_999"].AsInt();
-                    if (dr["PLS2_KIND_GRP2"] != DBNull.Value) dtGridView.Rows[found]["KIND_GRP2"] = dr["PLS2_KIND_GRP2"].ToString();
-
-                    dtGridView.Rows[found]["PLS1_W_TIME"] = DateTime.Now;
-                    dtGridView.Rows[found]["PLS1_W_USER_ID"] = GlobalInfo.USER_ID;
+                    for (int k = 1; k < 16; k++) {
+                        drFound[k] = dr[k];
+                    }
+                    
+                    drFound["PLS1_W_TIME"] = DateTime.Now;
+                    drFound["PLS1_W_USER_ID"] = GlobalInfo.USER_ID;
 
                     //計算欄位COMPUTE_1: if( pls1_kind_id2 <> kind_grp2 ,'小型',' ')
-                    if (dtGridView.Rows[found]["KIND_GRP2"] != DBNull.Value &&
-                        dtGridView.Rows[found]["PLS1_KIND_ID2"].AsString() != dtGridView.Rows[found]["KIND_GRP2"].AsString()) {
-                        dtGridView.Rows[found]["COMPUTE_1"] = "小型";
+                    if (drFound["KIND_GRP2"] != DBNull.Value && drFound["PLS1_KIND_ID2"].AsString() != drFound["KIND_GRP2"].AsString()) {
+                        drFound["COMPUTE_1"] = "小型";
                     }
                     else {
-                        dtGridView.Rows[found]["COMPUTE_1"] = " ";
+                        drFound["COMPUTE_1"] = " ";
                     }
                 }
                 gcMain.DataSource = dtGridView;
@@ -259,13 +232,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 ResultData myResultData = dao30203.updatePLLOG(dtPLLOG);
                 #endregion
 
-                int i, j;
-                string ymd, ls_eff_ymd, ls_eff_ymd_lower;
+                int f;
+                string ymd, effYmd, effYmdLower;
                 bool delResult = false;
                 //3. 判斷是否有已確認之資料
                 ymd = txtDate.Text.Replace("/", "");
-                i = dao30222.checkData(ymd);
-                if (i > 0) {
+                f = dao30222.checkData(ymd);
+                if (f > 0) {
                     DialogResult result = MessageDisplay.Choose("已確認,是否刪除舊有資料?");
                     if (result == DialogResult.No) return ResultStatus.Fail;
                     //3.1 刪除PLS2
@@ -278,35 +251,39 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 }
                 //4. 新增PLS2
                 showMsg = "確認資料(PLS2)更新資料庫錯誤! ";
-                ls_eff_ymd = txtEffDate.Text.Replace("/", "");
-                ls_eff_ymd_lower = txtEffDateLower.Text.Replace("/", "");
+                effYmd = txtEffDate.Text.Replace("/", "");
+                effYmdLower = txtEffDateLower.Text.Replace("/", "");
                 DataTable dtPLS2 = dao30222.d_30222_pls2(ymd);
                 dtPLS2.Clear();
                 foreach (DataRow dr in dtGridView.Rows) {
                     DataRow drNew = dtPLS2.NewRow();
                     if (dr["PLS1_LEVEL_ADJ"].ToString() == "-") {
-                        drNew["PLS2_EFFECTIVE_YMD"] = ls_eff_ymd_lower;
+                        drNew["PLS2_EFFECTIVE_YMD"] = effYmdLower;
                     }
                     else {
-                        drNew["PLS2_EFFECTIVE_YMD"] = ls_eff_ymd;
+                        drNew["PLS2_EFFECTIVE_YMD"] = effYmd;
                     }
-                    drNew["PLS2_YMD"] = dr["PLS1_YMD"];
-                    drNew["PLS2_KIND_ID2"] = dr["PLS1_KIND_ID2"];
-                    drNew["PLS2_FUT"] = dr["PLS1_FUT"];
-                    drNew["PLS2_OPT"] = dr["PLS1_OPT"];
-                    drNew["PLS2_SID"] = dr["PLS1_SID"];
+                    //for 	j = 2 to 16
+                    for (int k = 1; k < 16; k++) {
+                        drNew[k] = dr[k];
+                    }
+                    //drNew["PLS2_YMD"] = dr["PLS1_YMD"];
+                    //drNew["PLS2_KIND_ID2"] = dr["PLS1_KIND_ID2"];
+                    //drNew["PLS2_FUT"] = dr["PLS1_FUT"];
+                    //drNew["PLS2_OPT"] = dr["PLS1_OPT"];
+                    //drNew["PLS2_SID"] = dr["PLS1_SID"];
 
-                    drNew["PLS2_LEVEL_ADJ"] = dr["PLS1_LEVEL_ADJ"];
-                    drNew["PLS2_LEVEL"] = dr["PLS1_CP_LEVEL"];
-                    drNew["PLS2_NATURE"] = dr["PLS1_CP_NATURE"];
-                    drNew["PLS2_LEGAL"] = dr["PLS1_CP_LEGAL"];
-                    drNew["PLS2_999"] = dr["PLS1_CP_999"];
+                    //drNew["PLS2_LEVEL_ADJ"] = dr["PLS1_LEVEL_ADJ"];
+                    //drNew["PLS2_LEVEL"] = dr["PLS1_CP_LEVEL"];
+                    //drNew["PLS2_NATURE"] = dr["PLS1_CP_NATURE"];
+                    //drNew["PLS2_LEGAL"] = dr["PLS1_CP_LEGAL"];
+                    //drNew["PLS2_999"] = dr["PLS1_CP_999"];
 
-                    drNew["PLS2_PREV_LEVEL"] = dr["PLS1_CUR_LEVEL"];
-                    drNew["PLS2_PREV_NATURE"] = dr["PLS1_CUR_NATURE"];
-                    drNew["PLS2_PREV_LEGAL"] = dr["PLS1_CUR_LEGAL"];
-                    drNew["PLS2_PREV_999"] = dr["PLS1_CUR_999"];
-                    drNew["PLS2_KIND_GRP2"] = dr["KIND_GRP2"];
+                    //drNew["PLS2_PREV_LEVEL"] = dr["PLS1_CUR_LEVEL"];
+                    //drNew["PLS2_PREV_NATURE"] = dr["PLS1_CUR_NATURE"];
+                    //drNew["PLS2_PREV_LEGAL"] = dr["PLS1_CUR_LEGAL"];
+                    //drNew["PLS2_PREV_999"] = dr["PLS1_CUR_999"];
+                    //drNew["PLS2_KIND_GRP2"] = dr["KIND_GRP2"];
 
                     drNew["PLS2_W_TIME"] = DateTime.Now;
                     drNew["PLS2_W_USER_ID"] = GlobalInfo.USER_ID;
