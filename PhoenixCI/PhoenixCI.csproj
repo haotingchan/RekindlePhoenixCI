@@ -1859,6 +1859,7 @@
     <EmbeddedResource Include="FormUI\PrefixZ\WZ9999.resx">
       <DependentUpon>WZ9999.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -2174,7 +2175,7 @@
     <None Include="Excel_Template\30760.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Excel_Template\30770.xls">
+    <None Include="Excel_Template\30770.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\30780.xls">
