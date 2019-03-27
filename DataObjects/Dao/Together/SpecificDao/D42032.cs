@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessObjects;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -18,17 +19,14 @@ namespace DataObjects.Dao.Together.SpecificDao {
         /// <returns></returns>
         public DataTable d_42032_scrn(string as_ymd) {
 
-            object[] parms = {
-                ":as_ymd", as_ymd
-            };
+            List<DbParameterEx> parms = new List<DbParameterEx>() {
+            new DbParameterEx("as_ymd",as_ymd)
+            //new DbParameterEx("RETURNPARAMETER",0)
+         };
 
-            string sql =
-@"
+            string sql = "CI.SP_H_TXN_42032_SCRN";
 
-";
-            DataTable dtResult = db.GetDataTable(sql, parms);
-
-            return dtResult;
+            return db.ExecuteStoredProcedureEx(sql, parms, true);
         }
 
         /// <summary>
@@ -38,21 +36,18 @@ namespace DataObjects.Dao.Together.SpecificDao {
         /// <param name="as_ymd_to">yyyyMMdd</param>
         /// <param name="as_sid"></param>
         /// <returns></returns>
-        public DataTable d_42032(string as_ymd_fm, string as_ymd_to, string as_sid) {
+        public DataTable d_42032_detl(string as_ymd_fm, string as_ymd_to, string as_sid) {
 
-            object[] parms = {
-                ":as_ymd_fm", as_ymd_fm,
-                ":as_ymd_to", as_ymd_to,
-                ":as_sid", as_sid
-            };
+            List<DbParameterEx> parms = new List<DbParameterEx>() {
+            new DbParameterEx("as_ymd_fm",as_ymd_fm),
+            new DbParameterEx("as_ymd_to",as_ymd_to),
+            new DbParameterEx("as_sid",as_sid)
+            //new DbParameterEx("RETURNPARAMETER",0)
+         };
 
-            string sql =
-@"
+            string sql = "CI.SP_H_TXN_42032_DETL";
 
-";
-            DataTable dtResult = db.GetDataTable(sql, parms);
-
-            return dtResult;
+            return db.ExecuteStoredProcedureEx(sql, parms, true);
         }
     }
 }
