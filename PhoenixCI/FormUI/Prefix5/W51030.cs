@@ -302,11 +302,6 @@ namespace PhoenixCI.FormUI.Prefix5
          DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
          DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
 
-         ResultData resultData = new ResultData();
-         resultData.ChangedDataViewForAdded = dtForAdd == null ? new DataView() : dtForAdd.DefaultView;
-         resultData.ChangedDataViewForDeleted = dtForDeleted == null ? new DataTable() : dtForDeleted;
-         resultData.ChangedDataViewForModified = dtForModified == null ? new DataView() : dtForModified.DefaultView;
-
          int getDeleteCount = dtDeleteChange != null ? dtDeleteChange.Rows.Count : 0;
          ////存檔前檢查
          if (getDeleteCount == 0 && dtChange != null)//無法經由資料列存取已刪除的資料列資訊。
@@ -329,7 +324,7 @@ namespace PhoenixCI.FormUI.Prefix5
             catch (Exception ex) {
                WriteLog(ex);
             }
-            PrintOrExportChangedByKen(gcMain, resultData);
+            PrintOrExportChangedByKen(gcMain, dtForAdd, dtForDeleted, dtForModified);
             return ResultStatus.Success;
          }
          else {
