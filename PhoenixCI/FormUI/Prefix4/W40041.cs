@@ -35,7 +35,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          string diffDays = dao40041.DiffOcfDays(txtDate.DateTimeValue);
          string changeFlag = prodLookItem.EditValue.AsString();
          string oswGrp = oswGrpLookItem.EditValue.AsString() + "%";
-         string[] colCaption = { "勾選", "契約名稱", "標的代碼", "上次調整公告日", "資料起日", "資料迄日", "資料筆數", "", "" };
+         string[] colCaption = { "勾選", "契約名稱", "標的代碼", "上次調整公告日", "資料起日", "資料迄日", "資料筆數", "", "", "","" };
 
          DataTable dt = new DataTable();
          dt = dao40041.ListData(changeFlag, txtDate.DateTimeValue, oswGrp);
@@ -70,6 +70,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
          gvMain.Columns[4].OptionsColumn.AllowEdit = true;
          gvMain.Columns[7].Visible = false;
          gvMain.Columns[8].Visible = false;
+         gvMain.Columns[9].Visible = false;
+         gvMain.Columns[10].Visible = false;
 
          _ToolBtnExport.Enabled = true;
 
@@ -91,15 +93,18 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             foreach (DataRow exportDr in exportDt.Rows) {
                string kindId = exportDr["MG1_KIND_ID"].AsString();
-               string newFileName = _ProgramID + "(" + kindId + ")_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".xls";
+               string subType = exportDr["MG1_PROD_SUBTYPE"].AsString();
+               string prodType = exportDr["MG1_PROD_TYPE"].AsString();
+               string newFileName = _ProgramID + "(" + kindId + ")_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".xlsx";
                string destinationFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID, newFileName);
-               int sheetIndex = 0;
-
-               if (exportDr["MG1_PROD_TYPE"].AsString() == "O") sheetIndex = 2;
+               int sheetIndex = prodType == "O" ? 2 : 0;
 
                destinationFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, destinationFilePath);
 
                workbook.LoadDocument(destinationFilePath);
+
+               #region Write Data
+
                Worksheet worksheet = workbook.Worksheets[sheetIndex];
 
                DataTable importData = dao40041.GetExportData(exportDr["MG1_KIND_ID"].AsString(),
@@ -117,16 +122,55 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                DataRow firstRow = importData.Select("ROWNUM =1")[0];
 
-               worksheet.Cells[2, 2].Value = kindId + "結算價";
-               if (exportDr["MG1_PROD_TYPE"].AsString() == "O") worksheet.Cells[2, 2].Value = kindId;
-
+               worksheet.Cells[2, 2].Value = prodType == "O" ? kindId : kindId + "結算價";
                worksheet.Cells[0, 1].Value = firstRow["MG6_DATE"].AsDateTime();
 
                for (int i = 2; i <= importData.Columns.Count - 1; i++) {
                   worksheet.Cells[0, i].Value = firstRow[i].AsDecimal();
                }
-
                worksheet.Import(importData, false, 3, 0);
+
+               Range emptyRa = worksheet.Range[(importData.Rows.Count + 4).ToString() + ":1003"];
+               emptyRa.Delete(DeleteMode.EntireRow);
+
+               #endregion
+
+               #region Gen Figure
+               sheetIndex = prodType == "O" ? 3 : 1;
+
+               worksheet = workbook.Worksheets[sheetIndex];
+
+               if (subType != "S") {
+                  Range ra = worksheet.Range["4:5"];
+                  ra.Delete(DeleteMode.EntireRow);
+               } else {
+                  worksheet.Cells[4, 1].Value = exportDr["APDK_NAME"].AsString();
+                  worksheet.Cells[4, 2].Value = exportDr["APDK_STOCK_ID"].AsString();
+                  worksheet.Cells[4, 3].Value = exportDr["PID_NAME"].AsString();
+
+                  Range ra = worksheet.Range["2:3"];
+                  ra.Delete(DeleteMode.EntireRow);
+               }
+
+               //表頭日期
+               worksheet.Cells[3, 8].Value = importData.Rows[importData.Rows.Count - 1]["MG6_DATE"].AsDateTime();
+
+               int count = 2;
+               for (int f = 7; f >= 6; f--) {
+                  DataRow dataRow = importData.Rows[importData.Rows.Count - count];
+                  count--;
+
+                  worksheet.Cells[f, 1].Value = dataRow[3].AsDecimal();
+                  worksheet.Cells[f, 3].Value = dataRow[2].AsDecimal();
+                  worksheet.Cells[f, 5].Value = dataRow[4].AsDecimal();
+                  worksheet.Cells[f, 6].Value = dataRow[5].AsDecimal();
+                  worksheet.Cells[f, 7].Value = dataRow[6].AsDecimal();
+                  worksheet.Cells[f, 8].Value = dataRow[7].AsDecimal();
+                  worksheet.Cells[f, 9].Value = dataRow[8].AsDecimal();
+               }
+
+               #endregion
+
                workbook.SaveDocument(destinationFilePath);
             }
          } catch (Exception ex) {

@@ -28,10 +28,10 @@ SELECT case :as_change_flag when case WHEN MG41_KIND_ID = 'CPF' OR MG41_KIND_ID 
        :as_trade_date as DATA_EDATE,
        MG41_START_DAY_CNT AS DATA_CNT,
        MG41_PROD_SUBTYPE AS MG1_PROD_SUBTYPE,
-       MG41_PROD_TYPE AS MG1_PROD_TYPE
-       --APDK_NAME as APDK_NAME,
+       MG41_PROD_TYPE AS MG1_PROD_TYPE,
+       APDK_NAME as APDK_NAME,
        --APDK_STOCK_ID as APDK_STOCK_ID,
-       --nvl(PID_NAME,' ') as PID_NAME
+       nvl(PID_NAME,' ') as PID_NAME
   FROM ci.MG41,
        --當日計算結果
        ci.MG1,
