@@ -6,7 +6,7 @@ using System.Data;
 namespace DataObjects.Dao.Together.SpecificDao.Tests
 {
    [TestClass()]
-   public class D30687Tests
+   public class D30790Tests
    {
       [ClassInitialize]
       public static void MyClassInitialize(TestContext testContext)
@@ -14,11 +14,10 @@ namespace DataObjects.Dao.Together.SpecificDao.Tests
          ConnectionInfo connectionInfo = SettingDragons.Instance.GetConnectionInfo(SettingDragons.Instance.Setting.Database.CiUserAp);
          GlobalDaoSetting.Set(connectionInfo);
       }
-
       [TestMethod()]
-      public void ListRuNewDataTest()
+      public void MaxDateTest()
       {
-         DataTable data = new D30687().ListRuNewData("20181011","20181011","%%","%","A");
+         string data = new D30790().MaxDate();
          Assert.IsNotNull(data);
       }
    }
