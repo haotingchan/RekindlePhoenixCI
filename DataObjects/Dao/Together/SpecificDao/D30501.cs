@@ -17,7 +17,7 @@ namespace DataObjects.Dao.Together.SpecificDao {
                 ":adt_edate", eymd
             };
 
-            string sql = @"SELECT D.BST1_KIND_ID AS PROD_ID,APDK_NAME,
+            string sql = @"SELECT TRIM(D.BST1_KIND_ID) AS PROD_ID,TRIM(APDK_NAME) as APDK_NAME,
          ROUND(CASE WHEN NVL(TOT_B_SEC,0) = 0 THEN 0 ELSE B_SEC/TOT_B_SEC END,2) AS B_WEIGHT_QNTY,
          ROUND(CASE WHEN NVL(TOT_S_SEC,0) = 0 THEN 0 ELSE S_SEC/TOT_S_SEC END,2) AS S_WEIGHT_QNTY,
          NVL(B_MAX_QNTY,0) AS B_MAX_QNTY, NVL(B.QNTY_B_SEC,0) AS B_MAX_SEC,
