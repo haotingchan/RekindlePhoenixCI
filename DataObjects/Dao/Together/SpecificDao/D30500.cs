@@ -17,11 +17,13 @@ namespace DataObjects.Dao.Together.SpecificDao {
                 ":adt_edate", eymd
             };
 
-            string sql = @"select D.SPRD1_KIND_ID as PROD_ID,APDK_NAME,
+            string sql = @"select TRIM(D.SPRD1_KIND_ID) as PROD_ID,TRIM(APDK_NAME) as APDK_NAME,
        D.weight_diff as WEIGHT_DIFF,
        D.simple_diff as SIMPLE_DIFF,
-       D.SPRD1_DIFF_MAX as MAX_DIFF,SPRD1_MAX_KEEP_TIME as MAX_DIFF_TIME,
-       D.SPRD1_DIFF_MIN as MIN_DIFF,SPRD1_MIN_KEEP_TIME as MIN_DIFF_TIME,
+       D.SPRD1_DIFF_MAX as MAX_DIFF,
+      SPRD1_MAX_KEEP_TIME as MAX_DIFF_TIME,
+       D.SPRD1_DIFF_MIN as MIN_DIFF,
+      SPRD1_MIN_KEEP_TIME as MIN_DIFF_TIME,
        no_time as NO_TWO_SIDE_TIME
  from  ci.APDK,
  (select SPRD1_KIND_ID,
