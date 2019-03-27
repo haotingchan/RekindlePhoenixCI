@@ -295,7 +295,7 @@ namespace BaseGround {
          Print(reportHelper);
          MessageDisplay.Info(MessageDisplay.MSG_PRINT);
 
-         Export(reportHelper);
+         //Export(reportHelper);會印空的, 要由各程式來做export pdf
       }
 
       public virtual ResultStatus BeforeOpen() {

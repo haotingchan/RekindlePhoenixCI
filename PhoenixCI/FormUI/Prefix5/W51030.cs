@@ -329,7 +329,7 @@ namespace PhoenixCI.FormUI.Prefix5
             catch (Exception ex) {
                WriteLog(ex);
             }
-            PrintOrExportChangedByKen(gcMain, resultData);
+            //PrintOrExportChangedByKen(gcMain, resultData);
             return ResultStatus.Success;
          }
          else {
