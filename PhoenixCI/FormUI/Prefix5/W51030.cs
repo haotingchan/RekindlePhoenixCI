@@ -48,7 +48,6 @@ namespace PhoenixCI.FormUI.Prefix5
       private APDK daoAPDK;
       private COD daoCOD;
       private D51030 dao51030;
-      private DataTable dtForDeleted;
       private Dictionary<string, string> dic;
       /// <summary>
       /// 交易時段
@@ -78,7 +77,6 @@ namespace PhoenixCI.FormUI.Prefix5
 
          GridHelper.SetCommonGrid(gvMain);
          PrintableComponent = gcMain;
-         dtForDeleted = new DataTable();
 
          dao51030 = new D51030();
          //交易時段
@@ -142,8 +140,6 @@ namespace PhoenixCI.FormUI.Prefix5
          base.Retrieve(gcMain);
          DataTable returnTable = new DataTable();
          returnTable = dao51030.ListD50130();
-
-         dtForDeleted = returnTable.Clone();
 
          /*******************
          沒有新增資料時,則自動新增內容
@@ -294,18 +290,14 @@ namespace PhoenixCI.FormUI.Prefix5
 
       protected override ResultStatus Save(PokeBall poke)
       {
-         base.Save(gcMain);
+         gvMain.CloseEditor();
+         gvMain.UpdateCurrentRow();
 
          DataTable dt = (DataTable)gcMain.DataSource;
          DataTable dtChange = dt.GetChanges();
          DataTable dtDeleteChange = dt.GetChanges(DataRowState.Deleted);
          DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
          DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
-
-         ResultData resultData = new ResultData();
-         resultData.ChangedDataViewForAdded = dtForAdd == null ? new DataView() : dtForAdd.DefaultView;
-         resultData.ChangedDataViewForDeleted = dtForDeleted == null ? new DataTable() : dtForDeleted;
-         resultData.ChangedDataViewForModified = dtForModified == null ? new DataView() : dtForModified.DefaultView;
 
          int getDeleteCount = dtDeleteChange != null ? dtDeleteChange.Rows.Count : 0;
          ////存檔前檢查
@@ -329,7 +321,7 @@ namespace PhoenixCI.FormUI.Prefix5
             catch (Exception ex) {
                WriteLog(ex);
             }
-            //PrintOrExportChangedByKen(gcMain, resultData);
+            PrintOrExportChangedByKen(gcMain, dtForAdd, dtDeleteChange, dtForModified);
             return ResultStatus.Success;
          }
          else {
