@@ -70,12 +70,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
         protected override ResultStatus Export() {
 
             try {
+                lblProcessing.Text= "開始轉檔...";
                 lblProcessing.Visible = true;
                 dao30204 = new D30204();
                 string rptId, file, rptName,
                     sYmd = txtSDate.DateTimeValue.ToString("yyyyMMdd"),
                     eYmd = txtEDate.DateTimeValue.ToString("yyyyMMdd");
-                int rowNum, colNum, rowTol, seq, rowUp, seqUp, rowDown, seqDown, rowMinus;
+                int rowNum, rowTol, seq, rowUp, seqUp, rowDown, seqDown, rowMinus;
                 rptId = "30204";
                 rptName = "股類指數暨黃金類交易人部位限制調整一覽表";
                 lblProcessing.Text = rptId + "－" + rptName + " 轉檔中...";
