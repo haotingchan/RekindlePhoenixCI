@@ -273,5 +273,38 @@ and ai2_prod_type in ('F','O')";
 
          return db.ExecuteScalar(sql , CommandType.Text , parms);
       }
+
+      /// <summary>
+      /// 取得(當月)日期期間最後交易日 to string [yyyyMMdd]
+      /// </summary>
+      /// <param name="AI2_SUM_TYPE"></param>
+      /// <param name="AI2_PROD_TYPE"></param>
+      /// <param name="AI2_PROD_SUBTYPE"></param>
+      /// <param name="startDate"></param>
+      /// <param name="endDate"></param>
+      /// <returns>yyyyMMdd</returns>
+      public string GetLastTradeDate(string AI2_SUM_TYPE , string AI2_PROD_TYPE , string AI2_PROD_SUBTYPE , DateTime startDate , DateTime endDate) {
+         object[] parms =
+         {
+                ":AI2_SUM_TYPE", AI2_SUM_TYPE,
+                ":AI2_PROD_TYPE", AI2_PROD_TYPE,
+                ":AI2_PROD_SUBTYPE", AI2_PROD_SUBTYPE,
+                ":startDate", startDate.ToString("yyyyMMdd"),
+                ":endDate", endDate.ToString("yyyyMMdd")
+            };
+
+         //AI2_YMD format=yyyyMMdd
+         string sql = @"
+select max(ai2_ymd) as MaxDate
+from ci.ai2
+where ai2_sum_type = :AI2_SUM_TYPE
+and ai2_prod_type = :AI2_PROD_TYPE 
+and ai2_prod_subtype = :AI2_PROD_SUBTYPE
+and ai2_ymd >= :startDate
+and ai2_ymd <= :endDate 
+";
+         string res = db.ExecuteScalar(sql , CommandType.Text , parms);
+         return res;
+      }
    }
 }

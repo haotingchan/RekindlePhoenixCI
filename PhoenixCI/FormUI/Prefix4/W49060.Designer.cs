@@ -34,12 +34,15 @@
          this.MG8_EFFECT_YMD = new DevExpress.XtraGrid.Columns.GridColumn();
          this.MG8_F_ID = new DevExpress.XtraGrid.Columns.GridColumn();
          this.MG8_CM = new DevExpress.XtraGrid.Columns.GridColumn();
+         this.MG8_CMTextEdit = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
          this.MG8_MM = new DevExpress.XtraGrid.Columns.GridColumn();
          this.MG8_IM = new DevExpress.XtraGrid.Columns.GridColumn();
          this.MG8_ISSUE_YMD = new DevExpress.XtraGrid.Columns.GridColumn();
          this.MG8_W_TIME = new DevExpress.XtraGrid.Columns.GridColumn();
          this.MG8_W_USER_ID = new DevExpress.XtraGrid.Columns.GridColumn();
          this.IS_NEWROW = new DevExpress.XtraGrid.Columns.GridColumn();
+         this.MG8_MMTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+         this.MG8_IMTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -49,6 +52,9 @@
          ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.MG8_CMTextEdit)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.MG8_MMTextEdit1)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.MG8_IMTextEdit1)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -146,6 +152,10 @@
          this.gcMain.MainView = this.gvMain;
          this.gcMain.MenuManager = this.ribbonControl;
          this.gcMain.Name = "gcMain";
+         this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.MG8_CMTextEdit,
+            this.MG8_MMTextEdit1,
+            this.MG8_IMTextEdit1});
          this.gcMain.Size = new System.Drawing.Size(875, 521);
          this.gcMain.TabIndex = 0;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -203,11 +213,12 @@
          this.MG8_CM.AppearanceHeader.Options.UseTextOptions = true;
          this.MG8_CM.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.MG8_CM.Caption = "結算保證金";
+         this.MG8_CM.ColumnEdit = this.MG8_CMTextEdit;
          this.MG8_CM.FieldName = "MG8_CM";
          this.MG8_CM.Name = "MG8_CM";
          this.MG8_CM.Visible = true;
          this.MG8_CM.VisibleIndex = 2;
-         this.MG8_CM.Width = 145;
+         this.MG8_CM.Width = 145;         
          // 
          // MG8_MM
          // 
@@ -216,6 +227,7 @@
          this.MG8_MM.AppearanceHeader.Options.UseTextOptions = true;
          this.MG8_MM.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.MG8_MM.Caption = "維持保證金";
+         this.MG8_MM.ColumnEdit = this.MG8_MMTextEdit1;
          this.MG8_MM.FieldName = "MG8_MM";
          this.MG8_MM.Name = "MG8_MM";
          this.MG8_MM.Visible = true;
@@ -229,11 +241,42 @@
          this.MG8_IM.AppearanceHeader.Options.UseTextOptions = true;
          this.MG8_IM.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.MG8_IM.Caption = "原始保證金";
+         this.MG8_IM.ColumnEdit = this.MG8_IMTextEdit1;
          this.MG8_IM.FieldName = "MG8_IM";
          this.MG8_IM.Name = "MG8_IM";
          this.MG8_IM.Visible = true;
          this.MG8_IM.VisibleIndex = 4;
          this.MG8_IM.Width = 145;
+         // 
+         // MG8_CMTextEdit
+         // 
+         this.MG8_CMTextEdit.AutoHeight = false;
+         this.MG8_CMTextEdit.DisplayFormat.FormatString = "###0.####";
+         this.MG8_CMTextEdit.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+         this.MG8_CMTextEdit.Mask.EditMask = "####0.0000";
+         this.MG8_CMTextEdit.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+         this.MG8_CMTextEdit.MaxLength = 10;
+         this.MG8_CMTextEdit.Name = "MG8_CMTextEdit";
+         // 
+         // MG8_MMTextEdit1
+         // 
+         this.MG8_MMTextEdit1.AutoHeight = false;
+         this.MG8_MMTextEdit1.DisplayFormat.FormatString = "###0.####";
+         this.MG8_MMTextEdit1.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+         this.MG8_MMTextEdit1.Mask.EditMask = "####0.0000";
+         this.MG8_MMTextEdit1.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+         this.MG8_MMTextEdit1.MaxLength = 10;
+         this.MG8_MMTextEdit1.Name = "MG8_MMTextEdit1";
+         // 
+         // MG8_IMTextEdit1
+         // 
+         this.MG8_IMTextEdit1.AutoHeight = false;
+         this.MG8_IMTextEdit1.DisplayFormat.FormatString = "###0.####";
+         this.MG8_IMTextEdit1.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+         this.MG8_IMTextEdit1.Mask.EditMask = "####0.0000";
+         this.MG8_IMTextEdit1.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+         this.MG8_IMTextEdit1.MaxLength = 10;
+         this.MG8_IMTextEdit1.Name = "MG8_IMTextEdit1";
          // 
          // MG8_ISSUE_YMD
          // 
@@ -261,7 +304,7 @@
          // 
          this.IS_NEWROW.Caption = "Is_NewRow";
          this.IS_NEWROW.FieldName = "IS_NEWROW";
-         this.IS_NEWROW.Name = "IS_NEWROW";
+         this.IS_NEWROW.Name = "IS_NEWROW";         
          // 
          // W49060
          // 
@@ -287,6 +330,9 @@
          ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.MG8_CMTextEdit)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.MG8_MMTextEdit1)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.MG8_IMTextEdit1)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -311,5 +357,8 @@
       private Widget.TextDateEdit txtStartDate;
       private DevExpress.XtraGrid.Columns.GridColumn MG8_W_TIME;
       private DevExpress.XtraGrid.Columns.GridColumn MG8_W_USER_ID;
+      private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit MG8_CMTextEdit;
+      private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit MG8_MMTextEdit1;
+      private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit MG8_IMTextEdit1;
    }
 }
