@@ -3,24 +3,25 @@ using System.Windows.Forms;
 using BaseGround;
 using BusinessObjects.Enums;
 using BaseGround.Report;
-using System.Threading;
 using BaseGround.Shared;
 using Common;
+using System.Threading;
 using PhoenixCI.BusinessLogic.Prefix3;
 /// <summary>
-/// john,20190318,國內股票選擇權交易概況表
+/// john,20190328,交易量資料轉檔作業
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix3
 {
    /// <summary>
-   /// 國內股票選擇權交易概況表
+   /// 交易量資料轉檔作業
    /// </summary>
-   public partial class W30560 : FormParent
+   public partial class W30720 : FormParent
    {
-      private B30560 b30560;
-      public W30560(string programID, string programName) : base(programID, programName)
+      private B30720 b30720;
+      public W30720(string programID, string programName) : base(programID, programName)
       {
          InitializeComponent();
+
          this.Text = _ProgramID + "─" + _ProgramName;
       }
       public override ResultStatus BeforeOpen()
@@ -33,19 +34,15 @@ namespace PhoenixCI.FormUI.Prefix3
       protected override ResultStatus Open()
       {
          base.Open();
-         emMonth.Focus();
+         emMonth.Text = GlobalInfo.OCF_DATE.ToString("yyyy/01");
+         sleYear.Text = GlobalInfo.OCF_DATE.ToString("yyyy");
+
          return ResultStatus.Success;
       }
 
       protected override ResultStatus AfterOpen()
       {
          base.AfterOpen();
-#if DEBUG
-         emMonth.Text = "2018/12";
-#else
-            emMonth.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
-#endif
-         emMonth.Focus();
          return ResultStatus.Success;
       }
 
@@ -53,6 +50,8 @@ namespace PhoenixCI.FormUI.Prefix3
       {
          base.ActivatedForm();
          _ToolBtnExport.Enabled = true;
+         //年月報選取事件
+         this.rgDate.SelectedIndexChanged += new System.EventHandler(this.rgDate_SelectedIndexChanged);
          return ResultStatus.Success;
       }
 
@@ -65,37 +64,39 @@ namespace PhoenixCI.FormUI.Prefix3
 
       private bool StartExport()
       {
-         if (!emMonth.IsDate(emMonth.Text+"/01", "月份輸入錯誤")) {
+         if (!emMonth.IsDate(emMonth.Text, "日期輸入錯誤!")) {
             //is_chk = "Y";
             return false;
          }
          /*******************
          Messagebox
          *******************/
-         stMsgtxt.Visible = true;
-         stMsgtxt.Text = "開始轉檔...";
+         stMsgTxt.Visible = true;
+         stMsgTxt.Text = "開始轉檔...";
          this.Cursor = Cursors.WaitCursor;
          this.Refresh();
          Thread.Sleep(5);
          return true;
       }
 
-      private void EndExport()
+      protected void EndExport()
       {
-         stMsgtxt.Text = "";
+         stMsgTxt.Text = "";
          this.Cursor = Cursors.Arrow;
          this.Refresh();
          Thread.Sleep(5);
-         stMsgtxt.Visible = false;
+         stMsgTxt.Visible = false;
       }
 
       protected void ShowMsg(string msg)
       {
-         stMsgtxt.Text = msg;
+         stMsgTxt.Text = msg;
          this.Refresh();
          Thread.Sleep(5);
       }
-
+      /// <summary>
+      /// show文字訊息
+      /// </summary>
       private string OutputShowMessage {
          set {
             if (value != MessageDisplay.MSG_OK)
@@ -105,14 +106,16 @@ namespace PhoenixCI.FormUI.Prefix3
 
       protected override ResultStatus Export()
       {
+         if (!StartExport()) {
+            return ResultStatus.Fail;
+         }
          try {
-            if (!StartExport()) {
-               return ResultStatus.Fail;
-            }
-            string lsFile = PbFunc.wf_copy_file(_ProgramID, "30560");
-            b30560 = new B30560(lsFile, emMonth.Text);
-            ShowMsg("30561－國內股票選擇權及黃金選擇權交易概況表 轉檔中...");
-            OutputShowMessage = b30560.Wf30561();
+            string lsFile = PbFunc.wf_copy_file(_ProgramID, "30790");
+            b30720 = new B30720(lsFile, emMonth.Text, sleYear.Text, rgTime.EditValue.ToString(), rgDate.EditValue.ToString());
+
+            ShowMsg("30720－月份交易量彙總表 轉檔中...");
+            OutputShowMessage = b30720.WF30720();
+
          }
          catch (Exception ex) {
             WriteLog(ex);
@@ -121,13 +124,13 @@ namespace PhoenixCI.FormUI.Prefix3
          finally {
             EndExport();
          }
+
          return ResultStatus.Success;
       }
 
       protected override ResultStatus Export(ReportHelper reportHelper)
       {
          base.Export(reportHelper);
-
          return ResultStatus.Success;
       }
 
@@ -139,6 +142,23 @@ namespace PhoenixCI.FormUI.Prefix3
       protected override ResultStatus COMPLETE()
       {
          return ResultStatus.Success;
+      }
+      private void rgDate_SelectedIndexChanged(object sender, EventArgs e)
+      {
+         DevExpress.XtraEditors.RadioGroup rb = sender as DevExpress.XtraEditors.RadioGroup;
+         if (rb == null) return;
+         switch (rb.EditValue.ToString()) {
+            case "rb_month"://月報
+               emMonth.Enabled = true;
+               sleYear.Enabled = false;
+               break;
+            case "rb_year"://年報
+               emMonth.Enabled = false;
+               sleYear.Enabled = true;
+               break;
+            default:
+               break;
+         }
       }
    }
 }

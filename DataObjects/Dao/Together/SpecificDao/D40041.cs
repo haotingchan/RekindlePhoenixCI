@@ -1,10 +1,5 @@
-﻿using OnePiece;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataObjects.Dao.Together.SpecificDao {
    public class D40041 : DataGate {
@@ -17,10 +12,10 @@ namespace DataObjects.Dao.Together.SpecificDao {
             };
 
          string sql = @"
+SELECT S.*, ROWNUM from (
 SELECT case :as_change_flag when case WHEN MG41_KIND_ID = 'CPF' OR MG41_KIND_ID = 'GBF' then 'N' else 'Y' end then 'Y' 
                             else 'N' end as RUN_FLAG,
        case when MG41_PROD_SUBTYPE='S' then APDK_STOCK_ID else ' ' end as  APDK_STOCK_ID,
-       --NVL(MGT2_SEQ_NO,99) as MG1_SEQ_NO,
        MG41_KIND_ID AS MG1_KIND_ID,
        MG41_LAST_MG4_DATE AS MG1_SDATE,
        MG41_START_DATE AS DATA_SDATE,
@@ -31,7 +26,8 @@ SELECT case :as_change_flag when case WHEN MG41_KIND_ID = 'CPF' OR MG41_KIND_ID 
        MG41_PROD_TYPE AS MG1_PROD_TYPE,
        APDK_NAME as APDK_NAME,
        --APDK_STOCK_ID as APDK_STOCK_ID,
-       nvl(PID_NAME,' ') as PID_NAME
+       nvl(PID_NAME,' ') as PID_NAME,
+       NVL(MGT2_SEQ_NO,99) as MG1_SEQ_NO
   FROM ci.MG41,
        --當日計算結果
        ci.MG1,
@@ -49,7 +45,8 @@ WHERE MG41_DATE = :as_trade_date
   AND MG1_OSW_GRP LIKE :as_osw_grp
   AND MG1_CHANGE_FLAG LIKE :as_change_flag
   AND MG1_KIND_ID != 'GBF' AND MG1_KIND_ID!='CPF'
-  ORDER BY  NVL(MGT2_SEQ_NO,99)";
+  ORDER BY  MG1_SEQ_NO
+) S";
     
          return db.GetDataTable(sql, parms); ;
       }
@@ -95,6 +92,33 @@ WHERE MG41_DATE = :as_trade_date
          ( MG6_DATE <= :adt_edate )";
 
          return db.GetDataTable(sql, parms); ;
+      }
+
+      public string GetReCount(string kindId, DateTime sDate, DateTime eDate) {
+
+         object[] parms = {
+                ":as_kind_id", kindId,
+                ":adt_sdate",sDate,
+                ":adt_edate",eDate
+            };
+
+         string sql = @"select count(*) from (
+SELECT ROWNUM ,MG6_DATE,   
+         case when MG6_PROD_TYPE = 'F' and MG6_PROD_SUBTYPE = 'S'  then MG6_SETTLE_PRICE else MG6_PRICE end as MG6_PRICE,   
+         --MG6_PRICE,
+         MG6_RISK,   
+         MG6_CUR_CM,   
+         MG6_CP_CM,   
+         MG6_CHANGE_RANGE,   
+         MG6_ADJ_CM,   
+         MG6_ADJ_RANGE  
+    FROM CI.MG6  
+   WHERE ( TRIM(MG6_KIND_ID) = :as_kind_id ) AND  
+         ( MG6_DATE >= :adt_sdate ) AND  
+         ( MG6_DATE <= :adt_edate )
+)";
+
+         return db.ExecuteScalar(sql, CommandType.Text, parms);
       }
    }
 }
