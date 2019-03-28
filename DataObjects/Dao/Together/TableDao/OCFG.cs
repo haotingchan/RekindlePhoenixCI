@@ -24,7 +24,7 @@ namespace DataObjects.Dao.Together {
         public DataTable ListAll() {
 
             string sql = @"
-SELECT OCFG_OSW_GRP as osw_grp,
+SELECT TRIM(OCFG_OSW_GRP) as osw_grp,
 'Group'|| (case OCFG_OSW_GRP when '1' then '1' when '5' then '2' when '7' then '3' else ' ' end) || to_char(OCFG_CLOSE_TIME,' (hh24:mi)') as osw_grp_name , 
 to_char(OCFG_CLOSE_TIME,'hh24mi') as sort_key
 from ci.OCFG

@@ -12,6 +12,7 @@ using BaseGround;
 using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together.SpecificDao;
+using System.IO;
 
 /// <summary>
 /// Lukas, 2019/3/21
@@ -34,7 +35,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 base.Open();
                 txtSDate.DateTimeValue = DateTime.Now;
 #if DEBUG
-                //txtSDate.Text = "2014/01/01";
+                txtSDate.Text = "2018/10/31";
 #endif
                 txtSDate.Focus();
             }
@@ -64,6 +65,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
         protected override ResultStatus Export() {
 
             try {
+                lblProcessing.Text = "開始轉檔...";
                 lblProcessing.Visible = true;
                 dao42032 = new D42032();
                 #region ue_export_before
@@ -72,11 +74,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     return ResultStatus.Fail;
                 }
 
-                string rptId, rptName, ls_fm_ymd, ls_to_ymd, ls_stock_id, ls_file;
-                ls_fm_ymd = txtSDate.Text.Replace("/", "");
+                string rptId, rptName, fmYmd, toYmd, stockId, file;
+                fmYmd = txtSDate.Text.Replace("/", "");
                 rptId = "42032";
                 //讀取資料
-                DataTable dt42032Scrn = dao42032.d_42032_scrn(ls_fm_ymd);
+                DataTable dt42032Scrn = dao42032.d_42032_scrn(fmYmd);
 
                 /******************
                 條件篩選
@@ -115,16 +117,16 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     return ResultStatus.Fail;
                 }
 
-                foreach (DataRow dr in dt42032Scrn.Rows) {
-                    ls_fm_ymd = dr["YMD_FM"].AsString();
-                    ls_to_ymd = dr["YMD_TO"].AsString();
+                foreach (DataRow dr in dtFiltered.Rows) {
+                    fmYmd = dr["YMD_FM"].AsString();
+                    toYmd = dr["YMD_TO"].AsString();
                     if (rdgCondition.EditValue.AsString() == "SID") {
-                        ls_stock_id = txtSID.Text.Trim();
+                        stockId = txtSID.Text.Trim();
                     }
                     else {
-                        ls_stock_id = dr["STOCK_ID"].AsString();
+                        stockId = dr["STOCK_ID"].AsString();
                     }
-                    ls_file = ls_stock_id + "_" + DateTime.Now.ToString("yyyy.MM.dd-hh.mm.ss") + ".csv";
+                    file = stockId + "_" + DateTime.Now.ToString("yyyy.MM.dd-hh.mm.ss") + ".csv";
 
                     /********************
                      參數：(1)模型S (SMA)、E (EWMA)、M (MaxVol)
@@ -134,13 +136,17 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      　　　(5)商品代號：kind_id / 空白(單一證券)
                      　　　(6)證券代號stock_id
                      *********************/
-                    DataTable dt42032 = dao42032.d_42032(ls_fm_ymd, ls_to_ymd, ls_stock_id);
-                    if (dt42032.Rows.Count == 0) continue;
+                    DataTable dt42032 = dao42032.d_42032_detl(fmYmd, toYmd, stockId);
+                    if (dt42032.Rows.Count <=4) continue;
 
-                    //存檔
-                    //ids_1.SaveAs(gs_savereport_path+ls_file,TEXT!, false)
-                    lblProcessing.Text = "轉檔成功";
+                    //存CSV (ps:輸出csv 都用ascii)
+                    string filePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, file);
+                    ExportOptions csvref = new ExportOptions();
+                    csvref.HasHeader = false;
+                    csvref.Encoding = System.Text.Encoding.GetEncoding(950);//ASCII
+                    Common.Helper.ExportHelper.ToCsv(dt42032, filePath, csvref);
                 }
+                    lblProcessing.Text = "轉檔成功";
             }
             catch (Exception ex) {
                 MessageDisplay.Error("輸出錯誤");
