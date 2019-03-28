@@ -13,6 +13,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
    public partial class W30500 : FormParent {
       private D30500 dao30500;
       private ReportHelper _ReportHelper;
+      private string FooterMemo = "";
 
       public W30500(string programID, string programName) : base(programID, programName) {
          InitializeComponent();
@@ -50,6 +51,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                int startRow = dtSource.Rows.Count + 3;
                while ((line = tr.ReadLine()) != null) {
                   worksheet.Cells[startRow, 0].Value = line;
+                  FooterMemo += line;
                   startRow++;
                }
             }
@@ -83,6 +85,15 @@ namespace PhoenixCI.FormUI.Prefix3 {
          gvMain.Columns["PROD_ID"].SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
 
          gcMain.Focus();
+
+         string txtFilePath = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH, _ProgramID + ".txt");
+         using (TextReader tr = new StreamReader(txtFilePath, System.Text.Encoding.Default)) {
+            string line = "";
+            while ((line = tr.ReadLine()) != null) {
+               FooterMemo += line + Environment.NewLine;
+            }
+         }
+
          _ToolBtnExport.Enabled = true;
          _ToolBtnPrintAll.Enabled = true;
 
@@ -97,6 +108,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          reportLandscape.IsHandlePersonVisible = false;
          reportLandscape.IsManagerVisible = false;
          _ReportHelper.LeftMemo = labTime.Text;
+         _ReportHelper.FooterMemo = FooterMemo;
          _ReportHelper.Create(reportLandscape);
 
          _ReportHelper.Print();//如果有夜盤會特別標註

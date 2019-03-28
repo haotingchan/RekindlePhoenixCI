@@ -35,6 +35,8 @@ namespace BaseGround.Report
 
       private string _LeftMemo;
 
+      private string _FooterMemo;
+
       private string _FilePath;
 
       private FileType _FileType;
@@ -153,6 +155,24 @@ namespace BaseGround.Report
                if (pLeftMemo != null) {
                   pLeftMemo.Value = value;
                   pLeftMemo.Visible = false;
+               }
+            }
+         }
+      }
+
+      public string FooterMemo {
+         get {
+            return _FooterMemo;
+         }
+
+         set {
+            _FooterMemo = value;
+
+            if (_MainReport != null) {
+               Parameter pFooterMemo = _MainReport.Parameters["FooterMemo"];
+               if (pFooterMemo != null) {
+                  pFooterMemo.Value = value;
+                  pFooterMemo.Visible = false;
                }
             }
          }
@@ -293,6 +313,18 @@ namespace BaseGround.Report
          if (pReportID != null) {
             pReportID.Value = ReportID;
             pReportID.Visible = false;
+         }
+
+         Parameter pLeftMemo = _MainReport.Parameters["LeftMemo"];
+         if (pLeftMemo != null) {
+            pLeftMemo.Value = LeftMemo;
+            pLeftMemo.Visible = false;
+         }
+
+         Parameter pFooterMemo = _MainReport.Parameters["FooterMemo"];
+         if (pFooterMemo != null) {
+            pFooterMemo.Value = FooterMemo;
+            pFooterMemo.Visible = false;
          }
 
          _MainReport.DisplayName = ReportTitle;
