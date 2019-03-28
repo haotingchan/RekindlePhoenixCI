@@ -34,9 +34,11 @@
          this.lblDate = new System.Windows.Forms.Label();
          this.ExportShow = new System.Windows.Forms.Label();
          this.panel1 = new System.Windows.Forms.Panel();
+         this.reCountBtn = new DevExpress.XtraEditors.SimpleButton();
          this.panel2 = new System.Windows.Forms.Panel();
          this.gcMain = new DevExpress.XtraGrid.GridControl();
          this.gvMain = new DevExpress.XtraGrid.Views.Grid.GridView();
+         this.repositoryItemButtonEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -49,6 +51,7 @@
          this.panel2.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemButtonEdit1)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -185,6 +188,7 @@
          // 
          // panel1
          // 
+         this.panel1.Controls.Add(this.reCountBtn);
          this.panel1.Controls.Add(this.grpxDescription);
          this.panel1.Controls.Add(this.ExportShow);
          this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -192,6 +196,15 @@
          this.panel1.Name = "panel1";
          this.panel1.Size = new System.Drawing.Size(847, 274);
          this.panel1.TabIndex = 15;
+         // 
+         // reCountBtn
+         // 
+         this.reCountBtn.Location = new System.Drawing.Point(559, 199);
+         this.reCountBtn.Name = "reCountBtn";
+         this.reCountBtn.Size = new System.Drawing.Size(135, 42);
+         this.reCountBtn.TabIndex = 15;
+         this.reCountBtn.Text = "重新計算";
+         this.reCountBtn.Visible = false;
          // 
          // panel2
          // 
@@ -209,6 +222,8 @@
          this.gcMain.MainView = this.gvMain;
          this.gcMain.MenuManager = this.ribbonControl;
          this.gcMain.Name = "gcMain";
+         this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repositoryItemButtonEdit1});
          this.gcMain.Size = new System.Drawing.Size(847, 293);
          this.gcMain.TabIndex = 0;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -219,6 +234,13 @@
          this.gvMain.GridControl = this.gcMain;
          this.gvMain.Name = "gvMain";
          // 
+         // repositoryItemButtonEdit1
+         // 
+         this.repositoryItemButtonEdit1.AutoHeight = false;
+         this.repositoryItemButtonEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton()});
+         this.repositoryItemButtonEdit1.Name = "repositoryItemButtonEdit1";
+         // 
          // W40041
          // 
          this.Appearance.Options.UseFont = true;
@@ -227,7 +249,7 @@
          this.ClientSize = new System.Drawing.Size(871, 621);
          this.Controls.Add(this.panelControl1);
          this.Name = "W40041";
-         this.Text = "30730";
+         this.Text = "40041";
          this.Controls.SetChildIndex(this.ribbonControl, 0);
          this.Controls.SetChildIndex(this.panelControl1, 0);
          this.Controls.SetChildIndex(this.panParent, 0);
@@ -245,6 +267,7 @@
          this.panel2.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemButtonEdit1)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -266,5 +289,7 @@
       private System.Windows.Forms.Label label1;
       private DevExpress.XtraEditors.LookUpEdit prodLookItem;
       private System.Windows.Forms.Label label2;
+      private DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit repositoryItemButtonEdit1;
+      private DevExpress.XtraEditors.SimpleButton reCountBtn;
    }
 }

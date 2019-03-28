@@ -30,9 +30,9 @@ namespace BaseGround.Report
 
         public void SetMemoTextInFooter(string memo)
         {
-            xrTableRowMemo.Visible = true;
-            lblMemo.Visible = true;
-            lblMemo.Text = memo;
+            //xrTableRowMemo.Visible = true;
+            //lblMemo.Visible = true;
+            //lblMemo.Text = memo;
         }
     }
 }

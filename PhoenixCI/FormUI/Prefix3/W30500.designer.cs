@@ -263,6 +263,7 @@
          // 
          // SIMPLE_DIFF
          // 
+         this.SIMPLE_DIFF.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
          this.SIMPLE_DIFF.FieldName = "SIMPLE_DIFF";
          this.SIMPLE_DIFF.MinWidth = 30;
          this.SIMPLE_DIFF.Name = "SIMPLE_DIFF";
@@ -304,6 +305,7 @@
          // MIN_DIFF_TIME
          // 
          this.MIN_DIFF_TIME.Caption = "時間(秒)";
+         this.MIN_DIFF_TIME.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
          this.MIN_DIFF_TIME.FieldName = "MIN_DIFF_TIME";
          this.MIN_DIFF_TIME.MinWidth = 30;
          this.MIN_DIFF_TIME.Name = "MIN_DIFF_TIME";
@@ -313,6 +315,8 @@
          // 
          // NO_TWO_SIDE_TIME
          // 
+         this.NO_TWO_SIDE_TIME.DisplayFormat.FormatString = "n2";
+         this.NO_TWO_SIDE_TIME.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
          this.NO_TWO_SIDE_TIME.FieldName = "NO_TWO_SIDE_TIME";
          this.NO_TWO_SIDE_TIME.MinWidth = 30;
          this.NO_TWO_SIDE_TIME.Name = "NO_TWO_SIDE_TIME";
@@ -329,6 +333,7 @@
          this.gridBand1.Caption = "股票期貨代號";
          this.gridBand1.Columns.Add(this.PROD_ID);
          this.gridBand1.Name = "gridBand1";
+         this.gridBand1.RowCount = 2;
          this.gridBand1.VisibleIndex = 0;
          this.gridBand1.Width = 125;
          // 
@@ -342,6 +347,7 @@
          this.gridBand2.Caption = "股票期貨契約名稱";
          this.gridBand2.Columns.Add(this.APDK_NAME);
          this.gridBand2.Name = "gridBand2";
+         this.gridBand2.RowCount = 2;
          this.gridBand2.VisibleIndex = 1;
          this.gridBand2.Width = 140;
          // 
@@ -354,6 +360,7 @@
          this.gridBand3.Caption = "加權平均委託買賣價差(單位:點)";
          this.gridBand3.Columns.Add(this.WEIGHT_DIFF);
          this.gridBand3.Name = "gridBand3";
+         this.gridBand3.RowCount = 3;
          this.gridBand3.VisibleIndex = 2;
          this.gridBand3.Width = 113;
          // 
@@ -366,6 +373,7 @@
          this.gridBand4.Caption = "簡單平均委託買賣價差(單位:點)";
          this.gridBand4.Columns.Add(this.SIMPLE_DIFF);
          this.gridBand4.Name = "gridBand4";
+         this.gridBand4.RowCount = 3;
          this.gridBand4.VisibleIndex = 3;
          this.gridBand4.Width = 106;
          // 
@@ -392,6 +400,7 @@
          this.gridBand9.Caption = "價差(單位:點)";
          this.gridBand9.Columns.Add(this.MAX_DIFF);
          this.gridBand9.Name = "gridBand9";
+         this.gridBand9.RowCount = 2;
          this.gridBand9.VisibleIndex = 0;
          this.gridBand9.Width = 116;
          // 
@@ -403,6 +412,7 @@
          this.gridBand10.Caption = "時間(秒)";
          this.gridBand10.Columns.Add(this.MAX_DIFF_TIME);
          this.gridBand10.Name = "gridBand10";
+         this.gridBand10.RowCount = 2;
          this.gridBand10.VisibleIndex = 1;
          this.gridBand10.Width = 76;
          // 
@@ -429,6 +439,7 @@
          this.gridBand11.Caption = "價差(單位:點)";
          this.gridBand11.Columns.Add(this.MIN_DIFF);
          this.gridBand11.Name = "gridBand11";
+         this.gridBand11.RowCount = 2;
          this.gridBand11.VisibleIndex = 0;
          this.gridBand11.Width = 116;
          // 
@@ -439,6 +450,7 @@
          this.gridBand12.Caption = "時間(秒)";
          this.gridBand12.Columns.Add(this.MIN_DIFF_TIME);
          this.gridBand12.Name = "gridBand12";
+         this.gridBand12.RowCount = 2;
          this.gridBand12.VisibleIndex = 1;
          this.gridBand12.Width = 76;
          // 
@@ -451,6 +463,7 @@
          this.gridBand7.Caption = "無雙邊買賣委託價格之累計時間(單位:秒) 註";
          this.gridBand7.Columns.Add(this.NO_TWO_SIDE_TIME);
          this.gridBand7.Name = "gridBand7";
+         this.gridBand7.RowCount = 3;
          this.gridBand7.VisibleIndex = 6;
          this.gridBand7.Width = 168;
          // 

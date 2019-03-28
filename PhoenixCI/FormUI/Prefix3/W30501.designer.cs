@@ -287,6 +287,8 @@
          // 
          // S_MAX_SEC
          // 
+         this.S_MAX_SEC.DisplayFormat.FormatString = "n4";
+         this.S_MAX_SEC.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
          this.S_MAX_SEC.FieldName = "S_MAX_SEC";
          this.S_MAX_SEC.MinWidth = 30;
          this.S_MAX_SEC.Name = "S_MAX_SEC";
@@ -337,6 +339,7 @@
          this.gridBand4.Caption = "最佳1檔揭示委託賣出之加權平均數量";
          this.gridBand4.Columns.Add(this.S_WEIGHT_QNTY);
          this.gridBand4.Name = "gridBand4";
+         this.gridBand4.RowCount = 4;
          this.gridBand4.VisibleIndex = 3;
          this.gridBand4.Width = 106;
          // 
@@ -372,6 +375,7 @@
          this.gridBand10.Caption = "出現時間累計\n(秒)";
          this.gridBand10.Columns.Add(this.B_MAX_SEC);
          this.gridBand10.Name = "gridBand10";
+         this.gridBand10.RowCount = 2;
          this.gridBand10.VisibleIndex = 1;
          this.gridBand10.Width = 76;
          // 
@@ -407,6 +411,7 @@
          this.gridBand12.Caption = "出現時間累計\n(秒)";
          this.gridBand12.Columns.Add(this.S_MAX_SEC);
          this.gridBand12.Name = "gridBand12";
+         this.gridBand12.RowCount = 2;
          this.gridBand12.VisibleIndex = 1;
          this.gridBand12.Width = 76;
          // 

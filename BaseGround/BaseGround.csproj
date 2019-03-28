@@ -170,6 +170,12 @@
     <Compile Include="Report\defReport.Designer.cs">
       <DependentUpon>defReport.cs</DependentUpon>
     </Compile>
+    <Compile Include="Report\ReportFooter.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Report\ReportFooter.Designer.cs">
+      <DependentUpon>ReportFooter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Report\ReportHeader.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -202,6 +208,7 @@
     <EmbeddedResource Include="FormParent.resx">
       <DependentUpon>FormParent.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Report\CommonReportLandscapeA4.resx">
       <DependentUpon>CommonReportLandscapeA4.cs</DependentUpon>
     </EmbeddedResource>
@@ -210,6 +217,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\defReport.resx">
       <DependentUpon>defReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ReportFooter.resx">
+      <DependentUpon>ReportFooter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\ReportHeader.resx">
       <DependentUpon>ReportHeader.cs</DependentUpon>

@@ -94,13 +94,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
         protected override ResultStatus Export() {
 
+            string showMsg = "";
             try {
-                string showMsg = "";
                 lblProcessing.Text = "開始轉檔...";
                 lblProcessing.Visible = true;
                 dao30221 = new D30221();
                 //判斷是否有檔案,決定是否要寫入DB.
-                showMsg = "判斷是否有已有計算資料";
+                showMsg = "讀取既有計算資料錯誤";
                 string cpYmd = txtDate.DateTimeValue.ToString("yyyyMMdd");
                 DataTable dtPLS1 = dao30221.d_30221_pls1(cpYmd);
                 if (dtPLS1.Rows.Count > 0) {
@@ -116,7 +116,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 rptId = "30221";
 
                 //讀取資料
-                showMsg = "讀取資料";
+                showMsg = "讀取資料錯誤";
                 DataTable dt30221 = dao30221.d_30221(cpYmd, sMonth, eMonth, stkYmd);
                 if (dt30221.Rows.Count == 0) {
                     MessageDisplay.Info(eMonth + "," + rptId + '－' + rptName + ",無任何資料!");
@@ -125,21 +125,21 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 }
 
                 //複製檔案
-                showMsg = "複製檔案";
+                showMsg = "複製檔案錯誤";
                 file = PbFunc.wf_copy_file(rptId, rptId);
                 if (file == "") return ResultStatus.Fail;
 
                 //開啟檔案
-                showMsg = "開啟檔案";
+                showMsg = "開啟檔案錯誤";
                 Workbook workbook = new Workbook();
                 workbook.LoadDocument(file);
 
                 //切換Sheet
-                showMsg = "切換Sheet";
+                showMsg = "切換Sheet錯誤";
                 Worksheet ws30221 = workbook.Worksheets[0];
 
                 //寫入資料
-                showMsg = "寫入資料";
+                showMsg = "寫入資料錯誤";
                 int rowNum = 2, rowTol;
                 #region wf_30221
 
@@ -223,14 +223,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
                     dtPLS1.Rows[dtPLS1.Rows.Count - 1][16] = DateTime.Now;
                     dtPLS1.Rows[dtPLS1.Rows.Count - 1][17] = GlobalInfo.USER_ID;
                 }
-                if (cbxWriteTxt.Checked) {
-                    //把寫入結果存成txt
-                    etfFileName = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, "30221.txt");
-                    ExportOptions txtref = new ExportOptions();
-                    txtref.HasHeader = false;
-                    txtref.Encoding = System.Text.Encoding.GetEncoding(950);//ASCII
-                    Common.Helper.ExportHelper.ToText(dtPLS1, etfFileName, txtref);
-                }
                 try {
                     ResultData myResultData = dao30221.updatePLS1(dtPLS1);
                 }
@@ -239,10 +231,18 @@ namespace PhoenixCI.FormUI.Prefix3 {
                     WriteLog(ex);
                     return ResultStatus.Fail;
                 }
+                if (cbxWriteTxt.Checked) {
+                    //把寫入結果存成txt
+                    etfFileName = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, "30221.txt");
+                    ExportOptions txtref = new ExportOptions();
+                    txtref.HasHeader = false;
+                    txtref.Encoding = System.Text.Encoding.GetEncoding(950);//ASCII
+                    Common.Helper.ExportHelper.ToText(dtPLS1, etfFileName, txtref);
+                }
                 #endregion
             }
             catch (Exception ex) {
-                MessageDisplay.Error("輸出錯誤");
+                MessageDisplay.Error(showMsg);
                 throw ex;
             }
             return ResultStatus.Success;

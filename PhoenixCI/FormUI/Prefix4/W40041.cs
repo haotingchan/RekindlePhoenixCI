@@ -10,6 +10,7 @@ using DataObjects.Dao.Together;
 using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraEditors;
 using System.IO;
+using DevExpress.XtraGrid.Views.Base;
 
 namespace PhoenixCI.FormUI.Prefix4 {
    public partial class W40041 : FormParent {
@@ -29,13 +30,15 @@ namespace PhoenixCI.FormUI.Prefix4 {
          prodLookItem.EditValue = "Y";
 
          ExportShow.Hide();
+
+         reCountBtn.Click += reCountBtn_Click;
       }
 
       protected override ResultStatus Retrieve() {
          string diffDays = dao40041.DiffOcfDays(txtDate.DateTimeValue);
          string changeFlag = prodLookItem.EditValue.AsString();
          string oswGrp = oswGrpLookItem.EditValue.AsString() + "%";
-         string[] colCaption = { "勾選", "契約名稱", "標的代碼", "上次調整公告日", "資料起日", "資料迄日", "資料筆數", "", "", "","" };
+         string[] colCaption = { "勾選", "契約名稱", "標的代碼", "上次調整公告日", "資料起日", "資料迄日", "資料筆數", "", "", "", "", "", "" };
 
          DataTable dt = new DataTable();
          dt = dao40041.ListData(changeFlag, txtDate.DateTimeValue, oswGrp);
@@ -53,6 +56,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return ResultStatus.Fail;
          }
 
+         //設定 column caption
          foreach (DataColumn dc in dt.Columns) {
             gvMain.SetColumnCaption(dc.ColumnName, colCaption[dt.Columns.IndexOf(dc)]);
             gvMain.Columns[dc.ColumnName].OptionsColumn.AllowEdit = false;
@@ -65,13 +69,17 @@ namespace PhoenixCI.FormUI.Prefix4 {
          itemCheckEditForChangeFlag.ValueUnchecked = "N";
          gcMain.RepositoryItems.Add(itemCheckEditForChangeFlag);
          gvMain.Columns[0].ColumnEdit = itemCheckEditForChangeFlag;
+
          //勾選 資料起日  可編輯
          gvMain.Columns[0].OptionsColumn.AllowEdit = true;
          gvMain.Columns[4].OptionsColumn.AllowEdit = true;
-         gvMain.Columns[7].Visible = false;
-         gvMain.Columns[8].Visible = false;
-         gvMain.Columns[9].Visible = false;
-         gvMain.Columns[10].Visible = false;
+
+         //後面的隱藏欄位 
+         for (int i = 7; i <= 12; i++) {
+            gvMain.Columns[i].Visible = false;
+         }
+
+         gvMain.CellValueChanged += gvMain_CellValueChanged;
 
          _ToolBtnExport.Enabled = true;
 
@@ -103,33 +111,32 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                workbook.LoadDocument(destinationFilePath);
 
+               DataTable importData = dao40041.GetExportData(kindId, exportDr["DATA_SDATE"].AsDateTime(), txtDate.DateTimeValue);
+               DataTable accountingData = dao40041.GetExportData(kindId, exportDr["MG1_SDATE"].AsDateTime(), exportDr["MG1_SDATE"].AsDateTime());
+
+               if (importData == null) {
+                  MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
+                  continue;
+               }
+
+               if (importData.Rows.Count < 2) {
+                  MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
+                  continue;
+               }
+
                #region Write Data
 
                Worksheet worksheet = workbook.Worksheets[sheetIndex];
 
-               DataTable importData = dao40041.GetExportData(exportDr["MG1_KIND_ID"].AsString(),
-                  exportDr["DATA_SDATE"].AsDateTime(), txtDate.DateTimeValue);
-
-               if (importData == null) {
-                  MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
-                  return ResultStatus.Fail;
-               }
-
-               if (importData.Rows.Count == 0) {
-                  MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
-                  return ResultStatus.Fail;
-               }
-
-               DataRow firstRow = importData.Select("ROWNUM =1")[0];
-
                worksheet.Cells[2, 2].Value = prodType == "O" ? kindId : kindId + "結算價";
-               worksheet.Cells[0, 1].Value = firstRow["MG6_DATE"].AsDateTime();
+               worksheet.Cells[0, 1].Value = accountingData.Rows[0]["MG6_DATE"].AsDateTime();
 
-               for (int i = 2; i <= importData.Columns.Count - 1; i++) {
-                  worksheet.Cells[0, i].Value = firstRow[i].AsDecimal();
+               for (int i = 2; i <= accountingData.Columns.Count - 1; i++) {
+                  worksheet.Cells[0, i].Value = accountingData.Rows[0][i].AsDecimal();
                }
                worksheet.Import(importData, false, 3, 0);
 
+               //delete empty Rows
                Range emptyRa = worksheet.Range[(importData.Rows.Count + 4).ToString() + ":1003"];
                emptyRa.Delete(DeleteMode.EntireRow);
 
@@ -155,6 +162,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                //表頭日期
                worksheet.Cells[3, 8].Value = importData.Rows[importData.Rows.Count - 1]["MG6_DATE"].AsDateTime();
 
+               //填寫圖表資料來源
                int count = 2;
                for (int f = 7; f >= 6; f--) {
                   DataRow dataRow = importData.Rows[importData.Rows.Count - count];
@@ -168,15 +176,15 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   worksheet.Cells[f, 8].Value = dataRow[7].AsDecimal();
                   worksheet.Cells[f, 9].Value = dataRow[8].AsDecimal();
                }
-
                #endregion
 
                workbook.SaveDocument(destinationFilePath);
             }
          } catch (Exception ex) {
             ExportShow.Text = "轉檔失敗";
-            throw ex;
+            WriteLog(ex);
          }
+
          ExportShow.Text = "轉檔成功!";
          return ResultStatus.Success;
       }
@@ -225,6 +233,34 @@ namespace PhoenixCI.FormUI.Prefix4 {
                break;
             }
          }
+      }
+
+      private void gvMain_CellValueChanged(object sender, CellValueChangedEventArgs e) {
+
+         //顯示重新計算按鈕
+         if (e.Column.FieldName == "DATA_SDATE") {
+            reCountBtn.Visible = true;
+         }
+      }
+
+      private void reCountBtn_Click(object sender, EventArgs e) {
+         gvMain.CloseEditor();
+         gvMain.UpdateCurrentRow();
+
+         DataTable dtSource = (DataTable)gcMain.DataSource;
+         DataTable dtReCount = dtSource.GetChanges(DataRowState.Modified);
+
+         if (dtReCount == null) return;
+
+         foreach (DataRow dr in dtReCount.Rows) {
+            int newCnt = dao40041.GetReCount(dr["MG1_KIND_ID"].AsString(), dr["DATA_SDATE"].AsDateTime(), dr["DATA_EDATE"].AsDateTime()).AsInt();
+
+            dtSource.Rows[dr["ROWNUM"].AsInt() - 1]["DATA_CNT"] = newCnt;
+         }
+
+         reCountBtn.Visible = false;
+         dtSource.AcceptChanges();
+         gcMain.DataSource = dtSource;
       }
    }
 }
