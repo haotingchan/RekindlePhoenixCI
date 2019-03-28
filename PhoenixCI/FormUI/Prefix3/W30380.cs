@@ -51,7 +51,6 @@ namespace PhoenixCI.FormUI.Prefix3
       {
          base.ActivatedForm();
          _ToolBtnExport.Enabled = true;
-         _ToolBtnPrintAll.Enabled = true;
          return ResultStatus.Success;
       }
 

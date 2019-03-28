@@ -257,7 +257,7 @@ where PLS2_YMD = :ls_ymd
 
             #endregion sql
             try {
-                int executeResult = db.ExecuteSQL(sql, parms);
+                int executeResult = db.ExecuteSQLForTransaction(sql, parms);
 
                 if (executeResult >= 0) {
                     return true;
