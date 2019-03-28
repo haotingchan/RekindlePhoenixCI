@@ -71,6 +71,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="BusinessLogic\Prefix3\B30340Tests.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30360Tests.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30370Tests.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30393Tests.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="BusinessLogic\Prefix3\B30560Tests.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30580Tests.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30687Tests.cs" />
+    <Compile Include="BusinessLogic\Prefix3\B30720Tests.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30790Tests.cs" />
     <Compile Include="BusinessLogic\Prefix4\B40200Tests.cs" />
     <Compile Include="BusinessLogic\Prefix4\B43030Tests.cs" />
