@@ -25,6 +25,7 @@
         private void InitializeComponent() {
             this.lblProcessing = new System.Windows.Forms.Label();
             this.grpxDescription = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.dwFcmIn = new DevExpress.XtraEditors.LookUpEdit();
             this.dwFcmKs = new DevExpress.XtraEditors.LookUpEdit();
             this.label4 = new System.Windows.Forms.Label();
@@ -35,7 +36,6 @@
             this.txtSDate = new PhoenixCI.Widget.TextDateEdit();
             this.label1 = new System.Windows.Forms.Label();
             this.lblDate = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             this.grpxDescription.SuspendLayout();
@@ -62,7 +62,7 @@
             // 
             this.lblProcessing.AutoSize = true;
             this.lblProcessing.ForeColor = System.Drawing.Color.Blue;
-            this.lblProcessing.Location = new System.Drawing.Point(57, 327);
+            this.lblProcessing.Location = new System.Drawing.Point(57, 336);
             this.lblProcessing.Name = "lblProcessing";
             this.lblProcessing.Size = new System.Drawing.Size(85, 20);
             this.lblProcessing.TabIndex = 24;
@@ -89,6 +89,16 @@
             this.grpxDescription.TabIndex = 23;
             this.grpxDescription.TabStop = false;
             this.grpxDescription.Text = "請輸入交易日期";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label5.Location = new System.Drawing.Point(134, 227);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(138, 21);
+            this.label5.TabIndex = 20;
+            this.label5.Text = "（空白代表全部）";
             // 
             // dwFcmIn
             // 
@@ -210,16 +220,6 @@
             this.lblDate.Size = new System.Drawing.Size(58, 21);
             this.lblDate.TabIndex = 2;
             this.lblDate.Text = "日期：";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label5.Location = new System.Drawing.Point(134, 227);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(138, 21);
-            this.label5.TabIndex = 20;
-            this.label5.Text = "（空白代表全部）";
             // 
             // W30100
             // 

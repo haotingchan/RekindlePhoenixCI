@@ -256,7 +256,7 @@ where PL2_YMD = :ls_ymd
             #endregion sql
 
             try {
-                int executeResult = db.ExecuteSQL(sql, parms);
+                int executeResult = db.ExecuteSQLForTransaction(sql, parms);
 
                 if (executeResult >= 0) {
                     return true;
@@ -292,7 +292,7 @@ where PL2B_YMD = :ls_ymd
 
             #endregion sql
             try {
-                int executeResult = db.ExecuteSQL(sql, parms);
+                int executeResult = db.ExecuteSQLForTransaction(sql, parms);
 
                 if (executeResult >= 0) {
                     return true;
@@ -329,7 +329,6 @@ where PL2B_YMD = :ls_ymd
                 throw ex;
             }
         }
-
 
         public ResultData updatePLLOG_test(DataTable inputData) {
 
