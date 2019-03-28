@@ -37,7 +37,9 @@
          this.MG8_MM = new DevExpress.XtraGrid.Columns.GridColumn();
          this.MG8_IM = new DevExpress.XtraGrid.Columns.GridColumn();
          this.MG8_ISSUE_YMD = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.Is_NewRow = new DevExpress.XtraGrid.Columns.GridColumn();
+         this.MG8_W_TIME = new DevExpress.XtraGrid.Columns.GridColumn();
+         this.MG8_W_USER_ID = new DevExpress.XtraGrid.Columns.GridColumn();
+         this.IS_NEWROW = new DevExpress.XtraGrid.Columns.GridColumn();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -53,12 +55,12 @@
          // 
          this.panParent.Controls.Add(this.gcMain);
          this.panParent.Location = new System.Drawing.Point(0, 100);
-         this.panParent.Size = new System.Drawing.Size(778, 498);
+         this.panParent.Size = new System.Drawing.Size(899, 545);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(778, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(899, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // panelControl1
@@ -70,7 +72,7 @@
          this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
          this.panelControl1.Location = new System.Drawing.Point(0, 30);
          this.panelControl1.Name = "panelControl1";
-         this.panelControl1.Size = new System.Drawing.Size(778, 70);
+         this.panelControl1.Size = new System.Drawing.Size(899, 70);
          this.panelControl1.TabIndex = 0;
          // 
          // txtEndDate
@@ -134,7 +136,7 @@
          this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
          this.panelControl2.Location = new System.Drawing.Point(0, 100);
          this.panelControl2.Name = "panelControl2";
-         this.panelControl2.Size = new System.Drawing.Size(778, 498);
+         this.panelControl2.Size = new System.Drawing.Size(899, 545);
          this.panelControl2.TabIndex = 1;
          // 
          // gcMain
@@ -144,7 +146,7 @@
          this.gcMain.MainView = this.gvMain;
          this.gcMain.MenuManager = this.ribbonControl;
          this.gcMain.Name = "gcMain";
-         this.gcMain.Size = new System.Drawing.Size(754, 474);
+         this.gcMain.Size = new System.Drawing.Size(875, 521);
          this.gcMain.TabIndex = 0;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -159,7 +161,9 @@
             this.MG8_MM,
             this.MG8_IM,
             this.MG8_ISSUE_YMD,
-            this.Is_NewRow});
+            this.MG8_W_TIME,
+            this.MG8_W_USER_ID,
+            this.IS_NEWROW});
          this.gvMain.GridControl = this.gcMain;
          this.gvMain.Name = "gvMain";
          this.gvMain.OptionsView.ColumnAutoWidth = false;
@@ -241,18 +245,30 @@
          this.MG8_ISSUE_YMD.Visible = true;
          this.MG8_ISSUE_YMD.VisibleIndex = 5;
          // 
-         // Is_NewRow
+         // MG8_W_TIME
          // 
-         this.Is_NewRow.Caption = "Is_NewRow";
-         this.Is_NewRow.FieldName = "Is_NewRow";
-         this.Is_NewRow.Name = "Is_NewRow";
+         this.MG8_W_TIME.Caption = "MG8_W_TIME";
+         this.MG8_W_TIME.FieldName = "MG8_W_TIME";
+         this.MG8_W_TIME.Name = "MG8_W_TIME";
+         // 
+         // MG8_W_USER_ID
+         // 
+         this.MG8_W_USER_ID.Caption = "MG8_W_USER_ID";
+         this.MG8_W_USER_ID.FieldName = "MG8_W_USER_ID";
+         this.MG8_W_USER_ID.Name = "MG8_W_USER_ID";
+         // 
+         // IS_NEWROW
+         // 
+         this.IS_NEWROW.Caption = "Is_NewRow";
+         this.IS_NEWROW.FieldName = "IS_NEWROW";
+         this.IS_NEWROW.Name = "IS_NEWROW";
          // 
          // W49060
          // 
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(778, 598);
+         this.ClientSize = new System.Drawing.Size(899, 645);
          this.Controls.Add(this.panelControl2);
          this.Controls.Add(this.panelControl1);
          this.Name = "W49060";
@@ -289,9 +305,11 @@
         private DevExpress.XtraGrid.Columns.GridColumn MG8_MM;
         private DevExpress.XtraGrid.Columns.GridColumn MG8_IM;
         private DevExpress.XtraGrid.Columns.GridColumn MG8_ISSUE_YMD;
-        private DevExpress.XtraGrid.Columns.GridColumn Is_NewRow;
+        private DevExpress.XtraGrid.Columns.GridColumn IS_NEWROW;
       private System.Windows.Forms.Label label1;
       private Widget.TextDateEdit txtEndDate;
       private Widget.TextDateEdit txtStartDate;
+      private DevExpress.XtraGrid.Columns.GridColumn MG8_W_TIME;
+      private DevExpress.XtraGrid.Columns.GridColumn MG8_W_USER_ID;
    }
 }

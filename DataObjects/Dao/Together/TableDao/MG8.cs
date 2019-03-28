@@ -30,9 +30,8 @@ SELECT
 
     MG8_ISSUE_YMD, 
     MG8_W_TIME, 
-    MG8_W_USER_ID
-    -- OPTYPE是PB寫法，這邊不加入
-    --' '  AS OP_TYPE
+    MG8_W_USER_ID,
+    '' AS IS_NEWROW
 FROM CI.MG8
 WHERE MG8_EFFECT_YMD >= :startDate
 AND MG8_EFFECT_YMD <= :endDate

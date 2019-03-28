@@ -1,4 +1,7 @@
-﻿using System;
+﻿using BusinessObjects;
+using Oracle.ManagedDataAccess.Client;
+using System;
+using System.Collections.Generic;
 using System.Data;
 /// <summary>
 /// Winni, 2019/3/19
@@ -11,7 +14,7 @@ namespace DataObjects.Dao.Together.SpecificDao {
       /// <param name="dateYmd"></param>
       /// <param name="fId">MG8_F_ID</param>
       /// <returns></returns>
-      public DataTable GetDataById(string dateYmd , string fId) {
+      public DataTable GetTxtDataById(string dateYmd , string fId) {
          object[] parms =
             {
                 ":dateYmd", dateYmd,
@@ -37,7 +40,8 @@ SELECT
 FROM CI.MGT8,
        --保證金
       (SELECT 
-            MG8_F_ID,MG8_EFFECT_YMD,
+           MG8_F_ID,
+           MG8_EFFECT_YMD,
           ROW_NUMBER( ) OVER (PARTITION BY MG8_F_ID ORDER BY MG8_F_ID,MG8_EFFECT_YMD DESC NULLS LAST) AS MG8_SEQ_NO,
           LEAD(MG8_CM) OVER (PARTITION BY MG8_F_ID ORDER BY MG8_F_ID,MG8_EFFECT_YMD DESC NULLS LAST) AS MG8_PREV_CM,
           LEAD(MG8_MM) OVER (PARTITION BY MG8_F_ID ORDER BY MG8_F_ID,MG8_EFFECT_YMD DESC NULLS LAST) AS MG8_PREV_MM,
@@ -46,8 +50,8 @@ FROM CI.MGT8,
           MG8_MM,
           MG8_IM 
        FROM CI.MG8 
-       WHERE MG8_EFFECT_YMD <= :dateYmd
-      AND MG8_F_ID = :fId
+       WHERE TRIM(MG8_EFFECT_YMD) <= :dateYmd
+      AND TRIM(MG8_F_ID) = :fId
        ORDER BY MG8_F_ID,MG8_EFFECT_YMD),
       (SELECT 
             COD_ID AS COD_CURRENCY_TYPE,
@@ -55,14 +59,34 @@ FROM CI.MGT8,
        FROM CI.COD
        WHERE COD_TXN_ID = 'MGT8' 
        AND COD_COL_ID = 'MGT8_CURRENCY_TYPE')
-WHERE MG8_F_ID = MGT8_F_ID      
+WHERE TRIM(MG8_F_ID) = TRIM(MGT8_F_ID)      
 AND MG8_SEQ_NO <= 2
-AND MGT8_CURRENCY_TYPE = COD_CURRENCY_TYPE
-ORDER BY MG8_EFFECT_YMD DESC               
+AND TRIM(MGT8_CURRENCY_TYPE) = TRIM(COD_CURRENCY_TYPE)
+ORDER BY MG8_EFFECT_YMD DESC                   
 ";
          DataTable dtResult = db.GetDataTable(sql , parms);
 
          return dtResult;
+      }
+
+      /// <summary>
+      /// 
+      /// </summary>
+      /// <param name="DATA_EFFECT_YMD">yyyyMMdd</param>
+      /// <param name="DATA_F_ID"></param>
+      /// <param name="DATA_TRADE_TYPE">I:insert</param>
+      /// <returns></returns>
+      public string ExecuteStoredProcedure(string DATA_EFFECT_YMD , string DATA_F_ID , string DATA_TRADE_TYPE) {
+         List<DbParameterEx> parms = new List<DbParameterEx>() {
+            new DbParameterEx("DATA_EFFECT_YMD",DATA_EFFECT_YMD),
+            new DbParameterEx("DATA_F_ID",DATA_F_ID),
+            new DbParameterEx("DATA_TRADE_TYPE",DATA_TRADE_TYPE)
+            //new DbParameterEx("RETURNPARAMETER",0)
+         };
+
+         string sql = "CI.SP_H_STT_MG8D";
+
+         return db.ExecuteStoredProcedureReturnString(sql , parms , true , OracleDbType.Int32);
       }
    }
 }

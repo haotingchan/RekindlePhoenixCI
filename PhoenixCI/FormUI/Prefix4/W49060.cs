@@ -20,6 +20,9 @@ using DataObjects.Dao.Together;
 using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraGrid;
+using DataObjects.Dao.Together.SpecificDao;
+using System.IO;
+using DevExpress.XtraGrid.Views.Base;
 
 /// <summary>
 /// Winni, 2019/3/19
@@ -31,9 +34,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
    /// </summary>
    public partial class W49060 : FormParent {
 
-      private ReportHelper _ReportHelper;
-      protected DataTable dtForDeleted;
-      DataTable retDt = new DataTable(); //存retrrieve後的datatable
+      DataTable retDt; //存retrieve後的datatable   
+      RepositoryItemLookUpEdit lupTradekindId;
+      private D49060 dao49060;
 
       #region 一般交易查詢條件縮寫
       /// <summary>
@@ -58,28 +61,35 @@ namespace PhoenixCI.FormUI.Prefix4 {
       public W49060(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
-         GridHelper.SetCommonGrid(gvMain);
-         dtForDeleted = new DataTable();
+         dao49060 = new D49060();
+         retDt = new DataTable();
+         lupTradekindId = new RepositoryItemLookUpEdit();
       }
 
       protected override ResultStatus Open() {
          base.Open();
-         txtStartDate.Text = GlobalInfo.OCF_DATE.AsString("yyyy/01/01");
-         txtEndDate.EditValue = GlobalInfo.OCF_DATE.AsString("yyyy/MM/dd");
+         try {
+            txtStartDate.Text = GlobalInfo.OCF_DATE.AsString("yyyy/01/01");
+            txtEndDate.EditValue = GlobalInfo.OCF_DATE.AsString("yyyy/MM/dd");
 
 #if DEBUG
-         //winni test
-         txtStartDate.DateTimeValue = DateTime.ParseExact("2019/01/01" , "yyyy/MM/dd" , null);
-         txtEndDate.DateTimeValue = DateTime.ParseExact("2019/03/20" , "yyyy/MM/dd" , null);
-         this.Text += "(開啟測試模式),Date=2019/01/01~2019/03/20";
+            //winni test
+            txtStartDate.DateTimeValue = DateTime.ParseExact("2019/03/01" , "yyyy/MM/dd" , null);
+            txtEndDate.DateTimeValue = DateTime.ParseExact("2019/03/28" , "yyyy/MM/dd" , null);
+            this.Text += "(開啟測試模式),Date=2019/03/01~2019/03/28";
 #endif
 
-         RepositoryItemLookUpEdit _RepLookUpEdit = new RepositoryItemLookUpEdit();
-         DataTable dtTradekindId = new MGT8().ListDataByMGT8(); //交易所+商品的dropdownlist
-         Extension.SetColumnLookUp(_RepLookUpEdit , dtTradekindId , "MGT8_F_ID" , "CP_DISPLAY" , TextEditStyles.DisableTextEditor , "");
-         gcMain.RepositoryItems.Add(_RepLookUpEdit);
-         MG8_F_ID.ColumnEdit = _RepLookUpEdit;
-         return ResultStatus.Success;
+            //交易所+商品清單
+            DataTable dtTradekindId = new MGT8().ListDataByMGT8();
+            Extension.SetColumnLookUp(lupTradekindId , dtTradekindId , "MGT8_F_ID" , "CP_DISPLAY" , TextEditStyles.DisableTextEditor , "");
+            gcMain.RepositoryItems.Add(lupTradekindId);
+            MG8_F_ID.ColumnEdit = lupTradekindId;
+
+            return ResultStatus.Success;
+         } catch (Exception ex) {
+            WriteLog(ex);
+         }
+         return ResultStatus.Fail;
       }
 
       protected override ResultStatus ActivatedForm() {
@@ -100,86 +110,197 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       protected override ResultStatus Retrieve() {
+         try {
+            DataTable dt = new MG8().ListData(StartDate , EndDate);
+            if (dt.Rows.Count <= 0) {
+               MessageDisplay.Info("無任何資料");
+            } else {
+               foreach (DataRow dr in dt.Rows) {
+                  dr["MG8_EFFECT_YMD"] = dr["MG8_EFFECT_YMD"].AsDateTime("yyyyMMdd").ToString("yyyy/MM/dd");
+                  dr["MG8_ISSUE_YMD"] = dr["MG8_ISSUE_YMD"].AsDateTime("yyyyMMdd").ToString("yyyy/MM/dd");
+               }
 
-         retDt = new MG8().ListData(StartDate , EndDate);
+               retDt = dt.Clone();
+               foreach (DataRow r in dt.Rows) {
+                  retDt.ImportRow(r);
+               }
+            }
 
-         if (retDt.Rows.Count == 0) {
-            MessageDisplay.Info("無任何資料");
+            //設定gvMain
+            gcMain.Visible = true;
+            //gvMain.Columns.Clear();
+            gcMain.DataSource = dt;
+            gvMain.BestFitColumns();
+            GridHelper.SetCommonGrid(gvMain);
+            gcMain.Focus();
+
+            return ResultStatus.Success;
+         } catch (Exception ex) {
+            WriteLog(ex);
          }
-
-         gcMain.Visible = true;
-         retDt.Columns.Add("Is_NewRow" , typeof(string));
-         gcMain.DataSource = retDt;
-         gcMain.Focus();
-
-         return ResultStatus.Success;
+         return ResultStatus.Fail;
       }
 
       protected override ResultStatus Save(PokeBall pokeBall) {
+         try {
+            DataTable dt = (DataTable)gcMain.DataSource; //mg8
+            gvMain.CloseEditor();
+            gvMain.UpdateCurrentRow();
 
-         gvMain.CloseEditor();
-         gvMain.UpdateCurrentRow();
-         ResultStatus resultStatus = ResultStatus.Fail;
+            DataTable dtChange = dt.GetChanges();
+            DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
+            DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
+            DataTable dtForDeleted = dt.GetChanges(DataRowState.Deleted);
 
-         DataTable dt = (DataTable)gcMain.DataSource; //抓取目前gcMain
-         DataTable dtKindId = new MGT8().ListDataByMGT8(); //取得dropdownlist資料
-         DataTable dtChange = dt.GetChanges();
-         DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
-         DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
-
-         if (dtChange != null) {
-            if (dtChange.Rows.Count == 0) {
-               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
-               return ResultStatus.Fail;
-            }
-         //Update to DB
-         else {
-               //隱藏欄位賦值
-               foreach (DataRow dr in dt.Rows) {
-                  if (dr.RowState == DataRowState.Added) {
+            #region save
+            foreach (DataRow dr in dt.Rows) {
+               switch (dr.RowState) {
+                  case DataRowState.Added:
+                  case DataRowState.Modified:
                      dr["MG8_W_TIME"] = DateTime.Now;
                      dr["MG8_W_USER_ID"] = GlobalInfo.USER_ID;
-                  }
+                     break;
+                  case DataRowState.Unchanged:
+                     if (dr["MG8_W_TIME"] == null) {
+                        dr["MG8_W_TIME"] = " ";
+                     }
+                     if (dr["MG8_W_USER_ID"] == null) {
+                        dr["MG8_W_USER_ID"] = " ";
+                     }
+                     break;
+               }
+            }
+
+            dtChange = dt.GetChanges();
+            ResultData res = new MG8().UpdateData(dtChange);
+            if (res.Status == ResultStatus.Fail) {
+               return ResultStatus.Fail;
+            } else {
+               //save成功才寫異動LOG: 紀錄異動前後的值
+               foreach (DataRow dr in dt.Rows) {
+
+
                   if (dr.RowState == DataRowState.Modified) {
-                     dr["AM7T_W_TIME"] = DateTime.Now;
-                     dr["AM7T_W_USER_ID"] = GlobalInfo.USER_ID;
+                     string effectYmd = dr["MG8_EFFECT_YMD"].AsString();
+                     string fId = dr["MG8_F_ID"].AsString();
 
-                     string effectYmd = dr["mg8_effect_ymd"].AsString();
-                     string fId = dr["mg8_f_id"].AsString();
-                     int found = retDt.Rows.IndexOf(retDt.Rows.Find(string.Format("mg8_effect_ymd='{0}' and mg8_f_id='{1}'" , effectYmd , fId)));
+                     DataView dv = retDt.AsDataView();
+                     dv.Sort = "MG8_EFFECT_YMD,MG8_F_ID";
+                     object[] filter = new object[2];
+                     filter[0] = effectYmd;
+                     filter[1] = fId;
 
-                     ////寫異動LOG: 紀錄異動前後的值
+                     int found = dv.Find(filter);
                      if (found < 0) continue;
-                     for (int w = 2 ; 2 <= 5 ; w++) {
-                        if (dr[w] != retDt.Rows[found][w]) {
+                     for (int w = 2 ; w <= 5 ; w++) {
+                        if (dr[w].AsString() != retDt.Rows[found][w].AsString()) { //沒有轉string比對會變成true(?)
                            string befChange = dr[w].AsString();
                            string aftChange = retDt.Rows[found][w].AsString();
                            WriteLog(string.Format("變更後:{0},原始:{1}" , aftChange , befChange) , "Info" , "U");
                         }
                      }
                   }
+               }//foreach (DataRow dr in dt.Rows) {
+            }
+            #endregion
+
+            //呼叫SP
+            foreach (DataRow dr in dt.Rows) {
+               int pos = 0;
+               if (dr.RowState != DataRowState.Added) continue;
+
+               string effectYmd = dr["MG8_EFFECT_YMD"].AsString();
+               string fId = dr["MG8_F_ID"].AsString();
+
+               #region 寫txt檔(for insert)
+               DataTable dtTxt = dao49060.GetTxtDataById(effectYmd , fId);
+               DataRow drTxt = dtTxt.Rows[pos];
+               string fExchange = drTxt["MGT8_F_EXCHANGE"].AsString();
+               string issueYmd = dr["MG8_ISSUE_YMD"].AsDateTime("yyyyMMdd").ToString("yyyy/MM/dd");
+               decimal mg8Im_1 = drTxt["MG8_IM"].AsDecimal();
+               //decimal mg8Im_2 = dtTxt.Rows[pos + 1]["mg8_im"].AsDecimal();
+               string fName = drTxt["MGT8_F_NAME"].AsString();
+               string currencyName = drTxt["COD_CURRENCY_NAME"].AsString();
+               string amtType = drTxt["MGT8_AMT_TYPE"].AsString();
+               decimal imRate = drTxt["IM_RATE"].AsDecimal();
+
+               string txt = string.Format("{0}於{1}公告" , fExchange , issueYmd);
+               string flag = "";
+               if (dtTxt.Rows.Count == 2) {
+                  if (mg8Im_1 < dtTxt.Rows[1]["MG8_IM"].AsDecimal()) {
+                     flag = "調降";
+                  } else {
+                     flag = "調升";
+                  }
                }
-               //dt.Columns.Remove("OP_TYPE");
-               //dt.Columns.Remove("Is_NewRow");
-               ResultData result = new MG8().UpdateData(dt);//base.Save_Override(dt, "MG8");
-               if (result.Status == ResultStatus.Fail) {
+
+               txt += string.Format("{0}{1}保證金，原始保證金" , flag , fName);
+
+               if (!string.IsNullOrEmpty(flag)) {
+                  txt += string.Format("由{0}" , currencyName);
+                  if (amtType == "A") {
+                     txt += string.Format("{0:N0}{1}至{2:N0}" , dtTxt.Rows[1]["MG8_IM"].AsDecimal() , flag , mg8Im_1);
+                  } else {
+                     txt += string.Format("{0:0.00%}{1}至{2:0.00%}" , dtTxt.Rows[1]["MG8_IM"].AsDecimal() , flag , mg8Im_1);
+                  }
+                  txt += string.Format("，調幅{0:0.00%}，" , imRate);
+               } else {
+                  txt += currencyName;
+                  if (amtType == "A") {
+                     txt += string.Format("{0:N0}" , mg8Im_1);
+                  } else {
+                     txt += string.Format("{0:0.00%}" , mg8Im_1);
+                  }
+                  txt += "，";
+               }
+
+               txt += string.Format("自{0}起生效。{1}" , issueYmd , Environment.NewLine);
+
+               string fileName = _ProgramID + "_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".txt";
+               string filePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , fileName);
+
+               bool IsSuccess = ToText(txt , filePath , System.Text.Encoding.GetEncoding(950));
+               if (!IsSuccess) {
+                  MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!");
                   return ResultStatus.Fail;
                }
-            }
-            if (resultStatus == ResultStatus.Success) {
+               #endregion
 
-               PrintableComponent = gcMain;
-            }
+               //轉ci.MG8D (執行ci.sp_H_stt_MG8D)
+               string resInsert = dao49060.ExecuteStoredProcedure(effectYmd , fId , "I");
+               if (resInsert != "0") {
+                  MessageDisplay.Error("執行SP(ci.sp_H_stt_MG8D)錯誤!");
+                  WriteLog("執行SP(ci.sp_H_stt_MG8D)-(I)錯誤!" , "Error" , "Z" , false);
+               }
+               WriteLog("執行ci.sp_H_stt_MG8D(I)" , "Info" , "X" , false);
+            }//foreach (DataRow dr in dt.Rows)
+
+            //刪除資料
+            if (dtForDeleted != null) {
+               foreach (DataRow dr in dtForDeleted.Rows) {
+                  //轉ci.MG8D
+                  string effectYmd = dr["MG8_EFFECT_YMD" , DataRowVersion.Original].AsString();
+                  string fId = dr["MG8_F_ID" , DataRowVersion.Original].AsString();
+
+                  string resDelete = dao49060.ExecuteStoredProcedure(effectYmd , fId , "D");
+                  if (resDelete != "0") {
+                     MessageDisplay.Error("執行SP(ci.sp_H_stt_MG8D)錯誤!");
+                     WriteLog("執行SP(ci.sp_H_stt_MG8D)-(D)錯誤!" , "Error" , "Z" , false);
+                  }
+                  WriteLog("執行ci.sp_H_stt_MG8D(D)" , "Info" , "X" , false);
+               }
+            }//if (dtForDeleted != null)
+
+         } catch (Exception ex) {
+            WriteLog(ex);
+            //throw ex;
          }
-
-         //不要自動列印
-         _IsPreventFlowPrint = true;
+         _IsPreventFlowPrint = true; //不要自動列印
          return ResultStatus.Success;
       }
 
-
       protected override ResultStatus Print(ReportHelper reportHelper) {
-         _ReportHelper = reportHelper;
+         ReportHelper _ReportHelper = reportHelper;
          CommonReportPortraitA4 report = new CommonReportPortraitA4();
          report.printableComponentContainerMain.PrintableComponent = gcMain;
          _ReportHelper.Create(report);
@@ -189,13 +310,15 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       protected override ResultStatus InsertRow() {
+         DataTable dt = (DataTable)gcMain.DataSource;
          gvMain.AddNewRow();
-         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MG8_EFFECT_YMD"] , DateTime.Now.ToString("yyyyMMdd"));
-         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MG8_ISSUE_YMD"] , DateTime.Now.ToString("yyyyMMdd"));
+
+         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MG8_EFFECT_YMD"] , DateTime.Now.ToString("yyyy/MM/dd"));
+         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MG8_ISSUE_YMD"] , DateTime.Now.ToString("yyyy/MM/dd"));
          gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MG8_CM"] , 0);
          gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MG8_MM"] , 0);
          gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MG8_IM"] , 0);
-         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["Is_NewRow"] , 1);
+         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["IS_NEWROW"] , 1);
 
          gvMain.Focus();
          gvMain.FocusedColumn = gvMain.Columns[0];
@@ -204,11 +327,30 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       protected override ResultStatus DeleteRow() {
-         GridView gv = gvMain as GridView;
-         DataRowView deleteRowView = (DataRowView)gv.GetFocusedRow();
-         dtForDeleted.ImportRow(deleteRowView.Row);
          base.DeleteRow(gvMain);
          return ResultStatus.Success;
+      }
+
+      /// <summary>
+      /// write string to txt
+      /// </summary>
+      /// <param name="source"></param>
+      /// <param name="filePath"></param>
+      /// <param name="encoding">System.Text.Encoding.GetEncoding(950)</param>
+      /// <returns></returns>
+      protected bool ToText(string source , string filePath , System.Text.Encoding encoding) {
+         try {
+            FileStream fs = new FileStream(filePath , FileMode.Create);
+            StreamWriter str = new StreamWriter(fs , encoding);
+            str.Write(source);
+
+            str.Flush();
+            str.Close();
+            return true;
+         } catch (Exception ex) {
+            WriteLog(ex);
+         }
+         return false;
       }
 
       #region GridControl事件
@@ -220,12 +362,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
       /// <param name="e"></param>
       private void gvMain_ShowingEditor(object sender , CancelEventArgs e) {
          GridView gv = sender as GridView;
-         string Is_NewRow = gv.GetRowCellValue(gv.FocusedRowHandle , gv.Columns["Is_NewRow"]) == null ? "0" :
-              gv.GetRowCellValue(gv.FocusedRowHandle , gv.Columns["Is_NewRow"]).ToString();
+         string Is_NewRow = gv.GetRowCellValue(gv.FocusedRowHandle , gv.Columns["IS_NEWROW"]) == null ? "0" :
+              gv.GetRowCellValue(gv.FocusedRowHandle , gv.Columns["IS_NEWROW"]).ToString();
 
          if (gv.IsNewItemRow(gv.FocusedRowHandle) || Is_NewRow == "1") {
             e.Cancel = false;
-            gv.SetRowCellValue(gv.FocusedRowHandle , gv.Columns["Is_NewRow"] , 1);
+            gv.SetRowCellValue(gv.FocusedRowHandle , gv.Columns["IS_NEWROW"] , 1);
          }
          //編輯狀態時,設定可以編輯的欄位( e.Cancel = false 等於可以編輯)
          else if (gv.FocusedColumn.Name == "MG8_EFFECT_YMD" || gv.FocusedColumn.Name == "MG8_F_ID") {
@@ -233,14 +375,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
          } else {
             e.Cancel = false;
          }
-
       }
 
       private void gvMain_RowCellStyle(object sender , RowCellStyleEventArgs e) {
          //要用RowHandle不要用FocusedRowHandle
          GridView gv = sender as GridView;
-         string Is_NewRow = gv.GetRowCellValue(e.RowHandle , gv.Columns["Is_NewRow"]) == null ? "0" :
-                            gv.GetRowCellValue(e.RowHandle , gv.Columns["Is_NewRow"]).ToString();
+         string Is_NewRow = gv.GetRowCellValue(e.RowHandle , gv.Columns["IS_NEWROW"]) == null ? "0" :
+                   gv.GetRowCellValue(e.RowHandle , gv.Columns["IS_NEWROW"]).ToString();
 
          //描述每個欄位,在is_newRow時候要顯示的顏色
          //當該欄位不可編輯時,設定為灰色 Color.FromArgb(192,192,192)
@@ -254,10 +395,36 @@ namespace PhoenixCI.FormUI.Prefix4 {
             default:
                e.Appearance.BackColor = Color.White;
                break;
-         }//switch (e.Column.FieldName) {
-
+         }//switch (e.Column.FieldName) 
       }
 
+      //TODO: 目前會無限loop 之後來優化
+      //private void gvMain_CellValueChanged(object sender , CellValueChangedEventArgs e) {
+      //   GridView gv = sender as GridView;
+      //   //bool point = false;
+      //   if (gv == null) return;
+      //   int index = e.RowHandle;
+      //   //if (point) return;
+      //   if (e.Column.Name == "MG8_CM" || e.Column.Name == "MG8_MM" || e.Column.Name == "MG8_IM") {
+      //      //此三個欄位若有變動數值即顯示#.####格式
+      //      if (gv.GetRowCellValue(index , gv.Columns["MG8_CM"]).AsString() != retDt.Rows[index]["MG8_CM"].AsString()) {
+      //         decimal tmpValue = string.Format("{0:0.0000}" , e.Value).AsDecimal();
+      //         gv.SetRowCellValue(index , gv.Columns["MG8_CM"] , tmpValue);
+      //         //point = true;
+      //      }
+      //      //if (gv.GetRowCellValue(e.RowHandle , gv.Columns["MG8_MM"]).AsString() != retDt.Rows[e.RowHandle]["MG8_MM"].AsString()) {
+      //      //   decimal tmpValue = string.Format("{0:0.0000}" , e.Value).AsDecimal();
+      //      //   gv.SetRowCellValue(e.RowHandle , gv.Columns["MG8_MM"] , tmpValue);
+      //      //   //point = true;
+      //      //}
+      //      //if (gv.GetRowCellValue(e.RowHandle , gv.Columns["MG8_IM"]).AsString() != retDt.Rows[e.RowHandle]["MG8_IM"].AsString()) {
+      //      //   decimal tmpValue = string.Format("{0:0.0000}" , e.Value).AsDecimal();
+      //      //   gv.SetRowCellValue(e.RowHandle , gv.Columns["MG8_IM"] , tmpValue);
+      //      //   //point = true;
+      //      //}
+            
+      //   }
+      //}
       #endregion
 
    }
