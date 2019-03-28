@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data;
 /// <summary>
 /// john,20190318,D30560
 /// </summary>
@@ -31,53 +26,54 @@ namespace DataObjects.Dao.Together.SpecificDao
          string sql =
              @"
                SELECT AM2_YMD,
-                      AM2_IDFG_TYPE,   
-                        AM2_PC_CODE,   
-                        AM2_M_QNTY,   
-                        AM2_SUM_TYPE  
-                     FROM ci.AM2  
-                  WHERE AM2_SUM_TYPE = 'Y'  AND  
-                        AM2_YMD >= :as_syear  AND  
-                        AM2_YMD < :as_eyear  AND  
-                        AM2_PROD_TYPE = 'O'  AND  
-                        ((AM2_SUM_SUBTYPE = '2'  AND AM2_PROD_SUBTYPE = 'S') ) AND
-                        AM2_IDFG_TYPE in ('A','B') 
-               union 
-                  SELECT substr(AM2_YMD,1,4) as AM2_YMD,
-                        AM2_IDFG_TYPE,   
-                        AM2_PC_CODE,   
-                        sum(AM2_M_QNTY) as AM2_M_QNTY ,   
-                        AM2_SUM_TYPE  
-                     FROM ci.AM2  
-                  WHERE AM2_SUM_TYPE = 'M'  AND  
-                        trim(AM2_YMD)  >= :as_sym  AND  
-                        trim(AM2_YMD)  <= :as_eym  AND  
-                        AM2_PROD_TYPE = 'O'  AND  
-                        ((AM2_SUM_SUBTYPE = '2'  AND AM2_PROD_SUBTYPE = 'S')) AND
-                        AM2_IDFG_TYPE in ('A','B') 
-                  GROUP BY  AM2_IDFG_TYPE,   
-                        AM2_PC_CODE,   
-                        AM2_SUM_TYPE,   
-                        substr(AM2_YMD,1,4)   
-
-               union 
-                  SELECT AM2_YMD, 
-                        AM2_IDFG_TYPE,   
-                        AM2_PC_CODE, 
-                        sum(AM2_M_QNTY) as AM2_M_QNTY ,
-                        AM2_SUM_TYPE 
-                     FROM ci.AM2  
-                  WHERE AM2_SUM_TYPE = 'M'  AND  
-                        trim(AM2_YMD) >= :as_sym  AND  
-                        trim(AM2_YMD)  <= :as_eym  AND  
-                        AM2_PROD_TYPE = 'O'  AND  
-                        ((AM2_SUM_SUBTYPE = '2'  AND AM2_PROD_SUBTYPE = 'S') ) AND
-                        AM2_IDFG_TYPE in ('A','B') 
-                  GROUP BY  AM2_IDFG_TYPE,   
-                        AM2_PC_CODE,   
-                        AM2_SUM_TYPE,     
-                        AM2_YMD 
-                 ORDER BY AM2_YMD,AM2_IDFG_TYPE
+                      AM2_IDFG_TYPE,                                           
+                     AM2_PC_CODE,                                             
+                     sum(AM2_M_QNTY) as AM2_M_QNTY ,                    
+                     AM2_SUM_TYPE                                             
+                  FROM ci.AM2                                                   
+               WHERE AM2_SUM_TYPE = 'Y'  AND                                  
+                     AM2_YMD >= :as_syear  AND                                
+                     AM2_YMD < :as_eyear  AND                                 
+                     AM2_PROD_TYPE = 'O'  AND                                 
+                     ((AM2_SUM_SUBTYPE = '2'  AND AM2_PROD_SUBTYPE = 'S') ) AND
+                     AM2_IDFG_TYPE in ('A','B')                               
+               GROUP BY AM2_IDFG_TYPE,                                         
+                     AM2_PC_CODE,AM2_YMD,AM2_SUM_TYPE                         
+            union all                                                         
+               SELECT substr(AM2_YMD,1,4) as AM2_YMD,
+                     AM2_IDFG_TYPE,                                           
+                     AM2_PC_CODE,                                             
+                     sum(AM2_M_QNTY) as AM2_M_QNTY ,      
+                     AM2_SUM_TYPE                                             
+                  FROM ci.AM2                                                   
+               WHERE AM2_SUM_TYPE = 'M'  AND                                  
+                     AM2_YMD >= :as_sym  AND                                  
+                     AM2_YMD <= :as_eym  AND                                  
+                     AM2_PROD_TYPE = 'O'  AND                                 
+                     ((AM2_SUM_SUBTYPE = '2'  AND AM2_PROD_SUBTYPE = 'S')) AND 
+                     AM2_IDFG_TYPE in ('A','B')                               
+               GROUP BY  AM2_IDFG_TYPE,                                         
+                     AM2_PC_CODE,                                             
+                     AM2_SUM_TYPE,                                            
+                     substr(AM2_YMD,1,4)                                      
+            union all                                                         
+               SELECT AM2_YMD,
+                     AM2_IDFG_TYPE,                                           
+                     AM2_PC_CODE,                                             
+                     sum(AM2_M_QNTY) as AM2_M_QNTY ,                                    
+                     AM2_SUM_TYPE                                             
+                  FROM ci.AM2                                                   
+               WHERE AM2_SUM_TYPE = 'M'  AND                                  
+                     AM2_YMD >= :as_sym  AND                                  
+                     AM2_YMD <= :as_eym  AND                                  
+                     AM2_PROD_TYPE = 'O'  AND                                 
+                     ((AM2_SUM_SUBTYPE = '2'  AND AM2_PROD_SUBTYPE = 'S') ) AND
+                     AM2_IDFG_TYPE in ('A','B')                               
+               GROUP BY  AM2_IDFG_TYPE,                                         
+                     AM2_PC_CODE,                                             
+                     AM2_SUM_TYPE,                                            
+                     AM2_YMD 
+               ORDER BY AM2_YMD,AM2_IDFG_TYPE
                     ";
          DataTable dtResult = db.GetDataTable(sql, parms);
 
