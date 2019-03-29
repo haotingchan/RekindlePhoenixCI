@@ -168,6 +168,8 @@ select :as_data_ymd||'' as ymd,
     and AI2_PROD_SUBTYPE = R2.PLT1_PROD_SUBTYPE
     and MAX_VALUE * :ai_legal >= R2.PLT1_QNTY_MIN
     and MAX_VALUE * :ai_legal <= R2.PLT1_QNTY_MAX
+    
+    and rpt_seq_no > 0
   order by rpt_seq_no
 ";
             DataTable dtResult = db.GetDataTable(sql, parms);

@@ -13,6 +13,7 @@ using BusinessObjects.Enums;
 using BaseGround.Shared;
 using Common;
 using DataObjects.Dao.Together.SpecificDao;
+using DevExpress.Spreadsheet;
 
 /// <summary>
 /// Lukas, 2019/3/28
@@ -99,6 +100,48 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 }
                 txtPrevEymd.DateTimeValue = PbFunc.f_get_end_day("DATE","",txtEMonth.Text);
                 txtCurEymd.DateTimeValue = PbFunc.f_get_end_day("DATE", "", txtCurEMonth.Text);
+
+                string rptId = "30202", rptName = "股價指數暨黃金類商品部位限制數檢視表", file,
+                       curSMonth = txtCurSMonth.Text.Replace("/", ""),
+                       curEMonth = txtCurEMonth.Text.Replace("/", ""),
+                       sMonth = txtSMonth.Text.Replace("/", ""),
+                       eMonth = txtEMonth.Text.Replace("/", "");
+                decimal natureSdt = txtMultiNature.Text.AsDecimal() / 100;
+                decimal legalSdt = txtMultiLegal.Text.AsDecimal() / 100;
+
+                //讀取資料
+                showMsg = "讀取資料錯誤";
+                DataTable dt30202 = dao30202.d_30202(cpYmd, sMonth, eMonth, curSMonth, curEMonth, natureSdt, legalSdt);
+                if (dt30202.Rows.Count == 0) {
+                    MessageDisplay.Info(eMonth + "," + rptId + '－' + rptName + ",無任何資料!");
+                    lblProcessing.Visible = false;
+                    return ResultStatus.Fail;
+                }
+
+                //複製檔案
+                showMsg = "複製檔案錯誤";
+                file = PbFunc.wf_copy_file(rptId, rptId);
+                if (file == "") return ResultStatus.Fail;
+
+                //開啟檔案
+                showMsg = "開啟檔案錯誤";
+                Workbook workbook = new Workbook();
+                workbook.LoadDocument(file);
+
+                //切換Sheet
+                showMsg = "切換Sheet錯誤";
+                Worksheet ws30202 = workbook.Worksheets[0];
+
+                //寫入資料
+                showMsg = "寫入資料錯誤";
+                int rowNum = 2, rowTol;
+
+                #region wf_30202
+
+                #endregion
+
+                #region wf_30202_write
+                #endregion
 
             }
             catch (Exception ex) {

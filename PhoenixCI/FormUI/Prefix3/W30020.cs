@@ -84,20 +84,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             DateTime date, maxDate;
             int i, j, rowNum, colNum, accRow, accRowTol;
             long found;
-            /*************************************
-            ls_rpt_name = 報表名稱
-            ls_rpt_id = 報表代號
 
-            li_ole_row = Excel的Row位置
-            li_ole_col = Excel的Column位置
-            li_acc_row = 身份碼Row位置
-            li_acc_row_tol = 身份碼總RowCount
-            ll_found = 比對照到資料的row number
-
-            ls_acc_type = ids_1身份碼
-            ldt_date = ids_1每筆日期
-            ldt_max_date = ids_1最大日期
-            *************************************/
             rptName = "期貨交易累計開戶及交易戶數統計表";
             rptId = "30021";
             
@@ -148,6 +135,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
                     }
                 }
                 accType = dt30021.Rows[j]["AB1_ACC_TYPE"].AsString();
+                //DataTable的Select預設不分大小寫，這邊要將它開啟
+                dt30021_acc_type.CaseSensitive = true;
                 if (dt30021_acc_type.Select("AB1_ACC_TYPE = '" + accType + "'").Length > 0) {
                     rowNum = dt30021_acc_type.Rows.IndexOf(dt30021_acc_type.Select("AB1_ACC_TYPE = '" + accType + "'")[0]);
                 }
