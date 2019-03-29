@@ -8,32 +8,26 @@ namespace DataObjects.Dao.Together.SpecificDao {
    /// <summary>
    /// 造市商品單邊回應詢價價格限制設定    
    /// </summary>
-   public class D51050 {
-
-      private Db db;
-
-      public D51050() {
-
-         db = GlobalDaoSetting.DB;
-
-      }
+   public class D51050 : DataGate {
 
       /// <summary>
-      /// List mmfo data
+      /// get ci.mmfo data 
+      /// return mmfo_param_key/mmfo_min_price/mmfo_w_user_id/mmfo_w_time/mmfo_market_code 5 field
       /// </summary>
       /// <returns>' ' as OP_TYPE + all fields</returns>
-      public DataTable ListAll() {
+      public DataTable GetMmfoData() {
 
          string sql = @"
-select ' ' as OP_TYPE,
-mmfo_param_key,
-mmfo_min_price,
-mmfo_w_user_id,
-mmfo_w_time,
-mmfo_market_code
+select 
+	mmfo_param_key, 
+	mmfo_min_price, 
+	mmfo_w_user_id, 
+	mmfo_w_time, 
+	mmfo_market_code,
+	' ' as is_newrow
 from ci.mmfo
-order by mmfo_market_code , mmfo_param_key";
-
+order by mmfo_market_code,mmfo_param_key
+";
          DataTable dtResult = db.GetDataTable(sql , null);
 
          return dtResult;
