@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BusinessObjects;
+using Common;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 /// Lukas, 2019/3/28
 /// </summary>
 namespace DataObjects.Dao.Together.SpecificDao {
-    public class D30202: DataGate {
+    public class D30202 : DataGate {
 
         /// <summary>
         /// 股價指數暨黃金類商品部位限制數
@@ -22,12 +24,12 @@ namespace DataObjects.Dao.Together.SpecificDao {
         /// <param name="ai_nature"></param>
         /// <param name="ai_legal"></param>
         /// <returns></returns>
-        public DataTable d_30202(string as_data_ymd, 
-                                 string as_prev_sym, 
-                                 string as_prev_eym, 
-                                 string as_cur_sym, 
-                                 string as_cur_eym, 
-                                 decimal ai_nature, 
+        public DataTable d_30202(string as_data_ymd,
+                                 string as_prev_sym,
+                                 string as_prev_eym,
+                                 string as_cur_sym,
+                                 string as_cur_eym,
+                                 decimal ai_nature,
                                  decimal ai_legal) {
             object[] parms = {
                 ":as_data_ymd", as_data_ymd,
@@ -53,10 +55,10 @@ select :as_data_ymd||'' as ymd,
        ' ' as nature_adj, ' ' as legal_adj,' ' as p999_adj,
        greatest(nvl(C_AVG_QNTY,0),nvl(C_AVG_OI,0)) as C_MAX_VALUE,       
        RPT_SEQ_NO,
-       T1.PLT1_MULTIPLE as T1_MULTIPLE,T1.PLT1_MIN_NATURE as T1_MIN_NATURE,T1.PLT1_MIN_LEGAL as T1_MIN_LEGAL,
-       T2.PLT1_MULTIPLE as T2_MULTIPLE,T2.PLT1_MIN_NATURE as T2_MIN_NATURE,T1.PLT1_MIN_LEGAL as T2_MIN_LEGAL,
-       R1.PLT1_MULTIPLE as R1_MULTIPLE,R1.PLT1_MIN_NATURE R1_MIN_NATURE,R1.PLT1_MIN_LEGAL R1_MIN_LEGAL,
-       R2.PLT1_MULTIPLE as R2_MULTIPLE,R2.PLT1_MIN_NATURE R2_MIN_NATURE,R2.PLT1_MIN_LEGAL R2_MIN_LEGAL,
+       T1.PLT1_MULTIPLE as plt1_t1_multiple,T1.PLT1_MIN_NATURE as plt1_t1_min_nature,T1.PLT1_MIN_LEGAL as plt1_t1_min_legal,
+       T2.PLT1_MULTIPLE as plt1_t2_multiple,T2.PLT1_MIN_NATURE as plt1_t2_min_nature,T1.PLT1_MIN_LEGAL as plt1_t2_min_legal,
+       R1.PLT1_MULTIPLE as plt1_r1_multiple,R1.PLT1_MIN_NATURE plt1_r1_min_nature,R1.PLT1_MIN_LEGAL plt1_r1_min_legal,
+       R2.PLT1_MULTIPLE as plt1_r2_multiple,R2.PLT1_MIN_NATURE plt1_r2_min_nature,R2.PLT1_MIN_LEGAL plt1_r2_min_legal,
        MIN_MONTH_SEQ_NO,MIN_TYPE,MIN_VALUE
   from
       (select AI2_PROD_TYPE,AI2_PROD_SUBTYPE,C.AI2_KIND_ID,
@@ -168,6 +170,8 @@ select :as_data_ymd||'' as ymd,
     and AI2_PROD_SUBTYPE = R2.PLT1_PROD_SUBTYPE
     and MAX_VALUE * :ai_legal >= R2.PLT1_QNTY_MIN
     and MAX_VALUE * :ai_legal <= R2.PLT1_QNTY_MAX
+    
+    and rpt_seq_no > 0
   order by rpt_seq_no
 ";
             DataTable dtResult = db.GetDataTable(sql, parms);
@@ -219,6 +223,230 @@ where PL1_YMD = :as_ymd";
             DataTable dtResult = db.GetDataTable(sql, parms);
 
             return dtResult;
+        }
+
+        /// <summary>
+        /// 查出表尾應該在哪一列插入
+        /// </summary>
+        /// <returns></returns>
+        public int row_index() {
+
+
+            string sql =
+@"
+SELECT MAX(RPT_SEQ_NO) + 1 as row_index 
+ FROM CI.RPT
+WHERE RPT_TXN_ID = '30202'
+  and RPT_TXD_ID = '30202'
+";
+            DataTable dtResult = db.GetDataTable(sql, null);
+
+            if (dtResult.Rows.Count == 0) {
+                return 0;
+            }
+            else {
+                return dtResult.Rows[0]["ROW_INDEX"].AsInt();
+            }
+        }
+
+        /// <summary>
+        /// 刪除PL0的資料
+        /// </summary>
+        /// <param name="ls_ymd"></param>
+        /// <returns></returns>
+        public bool DeletePL0ByDate(string ls_ymd) {
+            object[] parms =
+            {
+                ":ls_ymd", ls_ymd
+            };
+
+            #region sql
+
+            string sql =
+@"
+delete ci.PL0 
+where PL0_TYPE = 'I' and PL0_YMD = :ls_ymd
+";
+
+            #endregion sql
+            try {
+                int executeResult = db.ExecuteSQLForTransaction(sql, parms);
+
+                if (executeResult >= 0) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// 新增PL0的資料
+        /// </summary>
+        /// <param name="ls_ymd"></param>
+        /// <returns></returns>
+        public bool InsertPL0(string ls_ymd, string ls_prev_sym, string ls_prev_eym, string ls_cur_sym, string ls_cur_eym, string gs_user_id) {
+            object[] parms =
+            {
+                ":ls_ymd", ls_ymd,
+                ":ls_prev_sym", ls_prev_sym,
+                ":ls_prev_eym", ls_prev_eym,
+                ":ls_cur_sym", ls_cur_sym,
+                ":ls_cur_eym", ls_cur_eym,
+                ":gs_user_id", gs_user_id
+            };
+
+            #region sql
+
+            string sql =
+@"
+insert into ci.PL0 
+values('I',
+       :ls_ymd,
+       :ls_prev_sym,
+       :ls_prev_eym,
+       :ls_cur_sym,
+
+       :ls_cur_eym,
+       null,
+       sysdate,
+       :gs_user_id)
+";
+
+            #endregion sql
+            try {
+                int executeResult = db.ExecuteSQLForTransaction(sql, parms);
+
+                if (executeResult >= 0) {
+                    return true;
+                }
+                else {
+                    return false;
+                    //throw new Exception("PLS2刪除失敗");
+                }
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// 刪除PL2的資料
+        /// </summary>
+        /// <param name="ls_ymd"></param>
+        /// <returns></returns>
+        public bool DeletePL2ByDate(string ls_ymd) {
+            object[] parms =
+            {
+                ":ls_ymd", ls_ymd
+            };
+
+            #region sql
+
+            string sql =
+@"
+delete ci.PL2 
+where PL2_YMD = :ls_ymd
+";
+
+            #endregion sql
+            try {
+                int executeResult = db.ExecuteSQLForTransaction(sql, parms);
+
+                if (executeResult >= 0) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// 刪除PL1的資料
+        /// </summary>
+        /// <param name="ls_ymd"></param>
+        /// <returns></returns>
+        public bool DeletePL1ByDate(string ls_ymd) {
+            object[] parms =
+            {
+                ":ls_ymd", ls_ymd
+            };
+
+            #region sql
+
+            string sql =
+@"
+delete ci.PL1 
+where PL1_YMD = :ls_ymd
+";
+
+            #endregion sql
+            try {
+                int executeResult = db.ExecuteSQLForTransaction(sql, parms);
+
+                if (executeResult >= 0) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// update PL1
+        /// </summary>
+        /// <param name="inputData"></param>
+        /// <returns></returns>
+        public ResultData updatePL1(DataTable inputData) {
+            string sql = @"
+SELECT 
+    PL1_YMD,          
+    PL1_PROD_TYPE,    
+    PL1_PROD_SUBTYPE, 
+    PL1_KIND_ID,      
+    PL1_PREV_AVG_QNTY,
+
+    PL1_PREV_AVG_OI,  
+    PL1_AVG_QNTY,     
+    PL1_AVG_OI,       
+    PL1_CHANGE_RANGE, 
+    PL1_CUR_NATURE,  
+
+    PL1_CUR_LEGAL,    
+    PL1_CUR_999,      
+    PL1_CP_NATURE,    
+    PL1_CP_LEGAL,     
+    PL1_CP_999,  
+
+    PL1_MAX_MONTH_CNT,
+    PL1_MAX_TYPE,     
+    PL1_MAX_QNTY,    
+    PL1_NATURE,       
+    PL1_LEGAL, 
+
+    PL1_999,          
+    PL1_NATURE_ADJ,   
+    PL1_LEGAL_ADJ,    
+    PL1_999_ADJ,      
+    PL1_UPD_TIME,    
+
+    PL1_UPD_USER_ID  
+FROM CI.PL1
+";
+
+            return db.UpdateOracleDB(inputData, sql);
         }
     }
 }

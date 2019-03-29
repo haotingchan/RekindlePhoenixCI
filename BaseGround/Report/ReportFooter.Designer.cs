@@ -29,20 +29,31 @@
         private void InitializeComponent()
         {
          this.Detail = new DevExpress.XtraReports.UI.DetailBand();
+         this.xrLabel1 = new DevExpress.XtraReports.UI.XRLabel();
          this.TopMargin = new DevExpress.XtraReports.UI.TopMarginBand();
          this.BottomMargin = new DevExpress.XtraReports.UI.BottomMarginBand();
          this.FooterMemo = new DevExpress.XtraReports.Parameters.Parameter();
-         this.xrLabel1 = new DevExpress.XtraReports.UI.XRLabel();
          ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
          // 
          // Detail
          // 
          this.Detail.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
             this.xrLabel1});
-         this.Detail.HeightF = 154.8335F;
+         this.Detail.HeightF = 191.7918F;
          this.Detail.Name = "Detail";
          this.Detail.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100F);
          this.Detail.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
+         // 
+         // xrLabel1
+         // 
+         this.xrLabel1.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Parameters].[FooterMemo]")});
+         this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(10.00002F, 10.00001F);
+         this.xrLabel1.Multiline = true;
+         this.xrLabel1.Name = "xrLabel1";
+         this.xrLabel1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+         this.xrLabel1.SizeF = new System.Drawing.SizeF(767.0001F, 171.7918F);
+         this.xrLabel1.Text = "xrFooter";
          // 
          // TopMargin
          // 
@@ -53,7 +64,7 @@
          // 
          // BottomMargin
          // 
-         this.BottomMargin.HeightF = 3.125F;
+         this.BottomMargin.HeightF = 0F;
          this.BottomMargin.Name = "BottomMargin";
          this.BottomMargin.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100F);
          this.BottomMargin.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
@@ -62,17 +73,6 @@
          // 
          this.FooterMemo.Name = "FooterMemo";
          // 
-         // xrLabel1
-         // 
-         this.xrLabel1.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Parameters].[FooterMemo]")});
-         this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(10.00001F, 10.00001F);
-         this.xrLabel1.Multiline = true;
-         this.xrLabel1.Name = "xrLabel1";
-         this.xrLabel1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 96F);
-         this.xrLabel1.SizeF = new System.Drawing.SizeF(767.0001F, 134.8335F);
-         this.xrLabel1.Text = "xrFooter";
-         // 
          // ReportFooter
          // 
          this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
@@ -80,7 +80,7 @@
             this.TopMargin,
             this.BottomMargin});
          this.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.Margins = new System.Drawing.Printing.Margins(20, 20, 6, 3);
+         this.Margins = new System.Drawing.Printing.Margins(20, 6, 6, 0);
          this.PageHeight = 1169;
          this.PageWidth = 827;
          this.PaperKind = System.Drawing.Printing.PaperKind.A4;

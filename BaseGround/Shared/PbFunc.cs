@@ -97,25 +97,31 @@ namespace BaseGround.Shared {
         /// <returns></returns>
         public static int f_calc_mth_trade_days(string as_ym) {
             DateTime ldt_fm_date = DateTime.ParseExact(as_ym + "01", "yyyyMMdd", null, DateTimeStyles.AllowWhiteSpaces);
-            DateTime ldt_to_date = ldt_fm_date.AddMonths(1);
-            int tradyDayCount = 0;
+            DateTime ldt_to_date = ldt_fm_date;
+            int tradeDayCount = 0;
 
             //先排除六日
-            for (int k = 0; k <= 30; k++) {
-                if (ldt_fm_date >= ldt_to_date) {
-                    break;
+            while (ldt_to_date.ToString("yyyyMM") == as_ym) {
+                if (ldt_to_date.DayOfWeek != DayOfWeek.Saturday && ldt_to_date.DayOfWeek != DayOfWeek.Sunday) {
+                    tradeDayCount++;
                 }
-                if (ldt_fm_date.DayOfWeek != DayOfWeek.Saturday && ldt_fm_date.DayOfWeek != DayOfWeek.Sunday) {
-                    tradyDayCount++;
-                }
-                ldt_fm_date = ldt_fm_date.AddDays(1);
-            }//for(int k = 0;k <= 30;k++) {
+                ldt_to_date= ldt_to_date.AddDays(1);
+            }
+            //for (int k = 0; k <= 30; k++) {
+            //    if (ldt_fm_date >= ldt_to_date) {
+            //        break;
+            //    }
+            //    if (ldt_fm_date.DayOfWeek != DayOfWeek.Saturday && ldt_fm_date.DayOfWeek != DayOfWeek.Sunday) {
+            //        tradeDayCount++;
+            //    }
+            //    ldt_to_date = ldt_to_date.AddDays(1);
+            //}//for(int k = 0;k <= 30;k++) {
 
             //該月份額外減少的交易日 = 輸出颱風天數-假日補上班天數
             DTS dts = new DTS();
             int substractDay = dts.GetSubstractDay(ldt_fm_date, ldt_to_date);
 
-            return tradyDayCount - substractDay;
+            return tradeDayCount - substractDay;
         }
 
         /// <summary>
@@ -1239,7 +1245,7 @@ namespace BaseGround.Shared {
             return "";
         }
 
-        public static Stream wf_getfileopenname(string as_filename,string fileExtension) {
+        public static Stream wf_getfileopenname(string as_filename, string fileExtension) {
 
             if (!Directory.Exists(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH)) {
                 Directory.CreateDirectory(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH);

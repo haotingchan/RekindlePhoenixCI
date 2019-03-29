@@ -30,6 +30,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
          prodLookItem.EditValue = "Y";
 
          ExportShow.Hide();
+         GridHelper.SetCommonGrid(gvMain);
+         gcMain.Visible = false;
 
          reCountBtn.Click += reCountBtn_Click;
       }
@@ -38,7 +40,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          string diffDays = dao40041.DiffOcfDays(txtDate.DateTimeValue);
          string changeFlag = prodLookItem.EditValue.AsString();
          string oswGrp = oswGrpLookItem.EditValue.AsString() + "%";
-         string[] colCaption = { "勾選", "契約名稱", "標的代碼", "上次調整公告日", "資料起日", "資料迄日", "資料筆數", "", "", "", "", "", "" };
+         string[] colCaption = { "勾選", "標的代碼", "契約名稱", "上次調整公告日", "資料起日", "資料迄日", "資料筆數", "", "", "", "", "", "" };
 
          DataTable dt = new DataTable();
          dt = dao40041.ListData(changeFlag, txtDate.DateTimeValue, oswGrp);
@@ -47,12 +49,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
          if (dt == null) {
             MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
             _ToolBtnExport.Enabled = false;
+            gcMain.Visible = false;
             return ResultStatus.Fail;
          }
 
          if (dt.Rows.Count == 0) {
             MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
             _ToolBtnExport.Enabled = false;
+            gcMain.Visible = false;
             return ResultStatus.Fail;
          }
 
@@ -82,6 +86,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          gvMain.CellValueChanged += gvMain_CellValueChanged;
 
          _ToolBtnExport.Enabled = true;
+         gcMain.Visible = true;
 
          return ResultStatus.Success;
       }

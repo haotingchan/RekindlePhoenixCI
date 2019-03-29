@@ -208,9 +208,6 @@ order by apdk_prod_type , apdk_param_key";
             return dtResult;
         }
 
-
-
-
         /// <summary>
         /// CI.APDK 契約類別 B－ C－商品類 E－匯率類 I－指數類 R－利率類 S－股票類
         /// </summary>
@@ -273,11 +270,14 @@ where APDK_KIND_ID = :as_kind_id
         /// </summary>
         /// <param name="col">欄位名稱</param>
         /// <returns></returns>
-        public DataTable dw_prod_500xx(string col) {
-            string sql = string.Format(@"
+        public DataTable dw_prod_500xx(string col,string emptycol) {
+         string sql = string.Format(@"
 SELECT distinct {0}
 FROM ci.APDK
-", col);
+union all 
+select {1} from dual
+order by {0}
+", col, emptycol);
             DataTable dtResult = db.GetDataTable(sql, null);
             return dtResult;
         }
