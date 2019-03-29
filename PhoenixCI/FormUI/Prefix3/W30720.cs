@@ -34,7 +34,7 @@ namespace PhoenixCI.FormUI.Prefix3
       protected override ResultStatus Open()
       {
          base.Open();
-         emMonth.Text = GlobalInfo.OCF_DATE.ToString("yyyy/01");
+         emMonth.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
          sleYear.Text = GlobalInfo.OCF_DATE.ToString("yyyy");
 
          return ResultStatus.Success;
@@ -110,8 +110,8 @@ namespace PhoenixCI.FormUI.Prefix3
             return ResultStatus.Fail;
          }
          try {
-            string lsFile = PbFunc.wf_copy_file(_ProgramID, "30790");
-            b30720 = new B30720(lsFile, emMonth.Text, sleYear.Text, rgTime.EditValue.ToString(), rgDate.EditValue.ToString());
+            string lsFile = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
+            b30720 = new B30720(lsFile, emMonth.Text, sleYear.Text, rgDate.EditValue.ToString(), rgTime.EditValue.ToString());
 
             ShowMsg("30720－月份交易量彙總表 轉檔中...");
             OutputShowMessage = b30720.WF30720();

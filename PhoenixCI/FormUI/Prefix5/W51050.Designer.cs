@@ -28,14 +28,15 @@
          this.MMFO_MARKET_CODE = new DevExpress.XtraGrid.Columns.GridColumn();
          this.MMFO_PARAM_KEY = new DevExpress.XtraGrid.Columns.GridColumn();
          this.MMFO_MIN_PRICE = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.Is_NewRow = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.OP_TYPE = new DevExpress.XtraGrid.Columns.GridColumn();
+         this.MMFO_MIN_PRICETextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+         this.IS_NEWROW = new DevExpress.XtraGrid.Columns.GridColumn();
          this.gcMain = new DevExpress.XtraGrid.GridControl();
          this.repositoryItemComboBox1 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
          this.behaviorManager1 = new DevExpress.Utils.Behaviors.BehaviorManager(this.components);
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.MMFO_MIN_PRICETextEdit1)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.behaviorManager1)).BeginInit();
@@ -58,15 +59,13 @@
             this.MMFO_MARKET_CODE,
             this.MMFO_PARAM_KEY,
             this.MMFO_MIN_PRICE,
-            this.Is_NewRow,
-            this.OP_TYPE});
+            this.IS_NEWROW});
          this.gvMain.GridControl = this.gcMain;
          this.gvMain.Name = "gvMain";
          this.gvMain.OptionsCustomization.AllowSort = false;
          this.gvMain.OptionsView.ShowGroupPanel = false;
          this.gvMain.RowCellStyle += new DevExpress.XtraGrid.Views.Grid.RowCellStyleEventHandler(this.gvMain_RowCellStyle);
          this.gvMain.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gvMain_ShowingEditor);
-         this.gvMain.InitNewRow += new DevExpress.XtraGrid.Views.Grid.InitNewRowEventHandler(this.gvMain_InitNewRow);
          // 
          // MMFO_MARKET_CODE
          // 
@@ -97,21 +96,26 @@
          this.MMFO_MIN_PRICE.AppearanceHeader.BackColor = System.Drawing.Color.Aqua;
          this.MMFO_MIN_PRICE.AppearanceHeader.Options.UseBackColor = true;
          this.MMFO_MIN_PRICE.Caption = "委託價格限制";
+         this.MMFO_MIN_PRICE.ColumnEdit = this.MMFO_MIN_PRICETextEdit1;
          this.MMFO_MIN_PRICE.FieldName = "MMFO_MIN_PRICE";
          this.MMFO_MIN_PRICE.Name = "MMFO_MIN_PRICE";
          this.MMFO_MIN_PRICE.Visible = true;
          this.MMFO_MIN_PRICE.VisibleIndex = 2;
          // 
-         // Is_NewRow
+         // MMFO_MIN_PRICETextEdit1
          // 
-         this.Is_NewRow.Caption = "Is_NewRow";
-         this.Is_NewRow.FieldName = "Is_NewRow";
-         this.Is_NewRow.Name = "Is_NewRow";
+         this.MMFO_MIN_PRICETextEdit1.AllowGlyphSkinning = DevExpress.Utils.DefaultBoolean.True;
+         this.MMFO_MIN_PRICETextEdit1.AutoHeight = false;
+         this.MMFO_MIN_PRICETextEdit1.ContextImageOptions.AllowGlyphSkinning = DevExpress.Utils.DefaultBoolean.True;
+         this.MMFO_MIN_PRICETextEdit1.DisplayFormat.FormatString = "##########0.####";
+         this.MMFO_MIN_PRICETextEdit1.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+         this.MMFO_MIN_PRICETextEdit1.Name = "MMFO_MIN_PRICETextEdit1";
          // 
-         // OP_TYPE
+         // IS_NEWROW
          // 
-         this.OP_TYPE.FieldName = "OP_TYPE";
-         this.OP_TYPE.Name = "OP_TYPE";
+         this.IS_NEWROW.Caption = "Is_NewRow";
+         this.IS_NEWROW.FieldName = "IS_NEWROW";
+         this.IS_NEWROW.Name = "IS_NEWROW";
          // 
          // gcMain
          // 
@@ -121,12 +125,12 @@
          this.gcMain.MenuManager = this.ribbonControl;
          this.gcMain.Name = "gcMain";
          this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
-            this.repositoryItemComboBox1});
+            this.repositoryItemComboBox1,
+            this.MMFO_MIN_PRICETextEdit1});
          this.gcMain.Size = new System.Drawing.Size(649, 431);
          this.gcMain.TabIndex = 0;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
-         this.gcMain.Visible = false;
          // 
          // repositoryItemComboBox1
          // 
@@ -146,6 +150,7 @@
          this.panParent.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.MMFO_MIN_PRICETextEdit1)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.behaviorManager1)).EndInit();
@@ -160,9 +165,9 @@
       private DevExpress.XtraGrid.Columns.GridColumn MMFO_MARKET_CODE;
       private DevExpress.XtraGrid.Columns.GridColumn MMFO_PARAM_KEY;
       private DevExpress.XtraGrid.Columns.GridColumn MMFO_MIN_PRICE;
-      private DevExpress.XtraGrid.Columns.GridColumn OP_TYPE;
       private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox1;
       private DevExpress.Utils.Behaviors.BehaviorManager behaviorManager1;
-      private DevExpress.XtraGrid.Columns.GridColumn Is_NewRow;
+      private DevExpress.XtraGrid.Columns.GridColumn IS_NEWROW;
+      private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit MMFO_MIN_PRICETextEdit1;
    }
 }
