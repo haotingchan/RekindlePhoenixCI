@@ -24,17 +24,17 @@
         /// </summary>
         private void InitializeComponent() {
          this.panFilter = new System.Windows.Forms.GroupBox();
+         this.label2 = new System.Windows.Forms.Label();
+         this.txtKindId = new DevExpress.XtraEditors.TextEdit();
+         this.label1 = new System.Windows.Forms.Label();
          this.txtMon = new PhoenixCI.Widget.TextDateEdit();
          this.lblDate = new System.Windows.Forms.Label();
          this.labMsg = new System.Windows.Forms.Label();
-         this.label1 = new System.Windows.Forms.Label();
-         this.textKindId = new DevExpress.XtraEditors.TextEdit();
-         this.label2 = new System.Windows.Forms.Label();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          this.panFilter.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.txtKindId.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtMon.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.textKindId.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -51,7 +51,7 @@
          // 
          this.panFilter.AutoSize = true;
          this.panFilter.Controls.Add(this.label2);
-         this.panFilter.Controls.Add(this.textKindId);
+         this.panFilter.Controls.Add(this.txtKindId);
          this.panFilter.Controls.Add(this.label1);
          this.panFilter.Controls.Add(this.txtMon);
          this.panFilter.Controls.Add(this.lblDate);
@@ -63,6 +63,40 @@
          this.panFilter.TabIndex = 7;
          this.panFilter.TabStop = false;
          this.panFilter.Text = "請輸入交易日期";
+         // 
+         // label2
+         // 
+         this.label2.AutoSize = true;
+         this.label2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.label2.ForeColor = System.Drawing.Color.Navy;
+         this.label2.Location = new System.Drawing.Point(220, 85);
+         this.label2.Name = "label2";
+         this.label2.Size = new System.Drawing.Size(161, 20);
+         this.label2.TabIndex = 5;
+         this.label2.Text = "(%代表全部股票期貨)";
+         // 
+         // txtKindId
+         // 
+         this.txtKindId.EditValue = "%";
+         this.txtKindId.Location = new System.Drawing.Point(153, 82);
+         this.txtKindId.MenuManager = this.ribbonControl;
+         this.txtKindId.Name = "txtKindId";
+         this.txtKindId.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtKindId.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtKindId.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtKindId.Size = new System.Drawing.Size(61, 26);
+         this.txtKindId.TabIndex = 4;
+         // 
+         // label1
+         // 
+         this.label1.AutoSize = true;
+         this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.label1.ForeColor = System.Drawing.Color.Black;
+         this.label1.Location = new System.Drawing.Point(37, 85);
+         this.label1.Name = "label1";
+         this.label1.Size = new System.Drawing.Size(122, 21);
+         this.label1.TabIndex = 3;
+         this.label1.Text = "股票期貨代號：";
          // 
          // txtMon
          // 
@@ -104,40 +138,6 @@
          this.labMsg.Text = "轉檔中...";
          this.labMsg.Visible = false;
          // 
-         // label1
-         // 
-         this.label1.AutoSize = true;
-         this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.label1.ForeColor = System.Drawing.Color.Black;
-         this.label1.Location = new System.Drawing.Point(37, 85);
-         this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(122, 21);
-         this.label1.TabIndex = 3;
-         this.label1.Text = "股票期貨代號：";
-         // 
-         // textKindId
-         // 
-         this.textKindId.EditValue = "%";
-         this.textKindId.Location = new System.Drawing.Point(153, 82);
-         this.textKindId.MenuManager = this.ribbonControl;
-         this.textKindId.Name = "textKindId";
-         this.textKindId.Properties.Appearance.Options.UseTextOptions = true;
-         this.textKindId.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.textKindId.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.textKindId.Size = new System.Drawing.Size(61, 26);
-         this.textKindId.TabIndex = 4;
-         // 
-         // label2
-         // 
-         this.label2.AutoSize = true;
-         this.label2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.label2.ForeColor = System.Drawing.Color.Navy;
-         this.label2.Location = new System.Drawing.Point(220, 85);
-         this.label2.Name = "label2";
-         this.label2.Size = new System.Drawing.Size(161, 20);
-         this.label2.TabIndex = 5;
-         this.label2.Text = "(%代表全部股票期貨)";
-         // 
          // W30400
          // 
          this.Appearance.Options.UseFont = true;
@@ -151,8 +151,8 @@
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
          this.panFilter.ResumeLayout(false);
          this.panFilter.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.txtKindId.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtMon.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.textKindId.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -165,7 +165,7 @@
         private Widget.TextDateEdit txtMon;
         private System.Windows.Forms.Label labMsg;
       private System.Windows.Forms.Label label2;
-      private DevExpress.XtraEditors.TextEdit textKindId;
+      private DevExpress.XtraEditors.TextEdit txtKindId;
       private System.Windows.Forms.Label label1;
    }
 }
