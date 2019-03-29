@@ -1,200 +1,221 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using BaseGround;
+using BaseGround.Report;
+using BaseGround.Shared;
+using BusinessObjects;
+using BusinessObjects.Enums;
+using Common;
+using DataObjects.Dao.Together;
+using DataObjects.Dao.Together.SpecificDao;
+using DataObjects.Dao.Together.TableDao;
+using DevExpress.XtraEditors.Controls;
+using DevExpress.XtraEditors.Repository;
+using DevExpress.XtraGrid;
+using DevExpress.XtraGrid.Views.Grid;
+using System;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using BaseGround;
-using Common;
-using BusinessObjects.Enums;
-using BaseGround.Report;
-using BusinessObjects;
-using DataObjects.Dao.Together.SpecificDao;
-using DataObjects.Dao.Together;
-using DevExpress.XtraEditors.Repository;
-using DevExpress.XtraEditors.Controls;
-using DevExpress.Utils;
-using DevExpress.XtraGrid.Views.Grid;
-using DevExpress.XtraGrid;
-using DevExpress.Utils.Drawing;
-using DataObjects.Dao.Together.TableDao;
 
+/// <summary>
+/// Winni, 2019/3/29 修改
+/// </summary>
 namespace PhoenixCI.FormUI.Prefix5 {
-   // winni, 2019/01/07 造市商品單邊回應詢價價格限制設定  
+   /// <summary>
+   /// 51050 造市商品單邊回應詢價價格限制設定
+   /// </summary>
    public partial class W51050 : FormParent {
 
       private ReportHelper _ReportHelper;
-      private COD daoCOD;
-      private D51050 dao51050;
       private RepositoryItemLookUpEdit _RepLookUpEdit;
 
-      public W51050(string programID , string programName) : base(programID , programName) {
+      RepositoryItemLookUpEdit lupMarketCode;
 
+      public W51050(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
-         dao51050 = new D51050();
-
-         daoCOD = new COD();
-         _RepLookUpEdit = new RepositoryItemLookUpEdit();
-         _RepLookUpEdit.DataSource = daoCOD.ListByCol2("MMFT" , "MMFT_MARKET_CODE"); //一般、夜盤
-         _RepLookUpEdit.ValueMember = "COD_ID";
-         _RepLookUpEdit.DisplayMember = "COD_DESC";
-         _RepLookUpEdit.ShowHeader = false;
-         _RepLookUpEdit.ShowFooter = false;
-         _RepLookUpEdit.NullText = "";
-         _RepLookUpEdit.SearchMode = SearchMode.AutoFilter;
-         _RepLookUpEdit.TextEditStyle = TextEditStyles.Standard;
-         //讓下拉選單只剩單一欄位
-         LookUpColumnInfoCollection singleCol2 = _RepLookUpEdit.Columns;
-         singleCol2.Add(new LookUpColumnInfo("CP_DISPLAY"));
-         gcMain.RepositoryItems.Add(_RepLookUpEdit);
-         MMFO_MARKET_CODE.ColumnEdit = _RepLookUpEdit;
-         _RepLookUpEdit.BestFitMode = BestFitMode.BestFitResizePopup;
-
       }
 
-      protected override ResultStatus Retrieve() {
-         base.Retrieve(gcMain);
-         DataTable returnTable = new DataTable();
+      protected override ResultStatus Open() {
+         base.Open();
+         try {
+            lupMarketCode = new RepositoryItemLookUpEdit();
+            DataTable dtMarketCode = new COD().ListByCol2("MMFT" , "MMFT_MARKET_CODE"); //交易時段dropdownlist
+            Extension.SetColumnLookUp(lupMarketCode , dtMarketCode , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
+            gcMain.RepositoryItems.Add(lupMarketCode);
 
-         returnTable = dao51050.ListAll();
-         if (returnTable.Rows.Count == 0) {
-            MessageBox.Show("無任何資料" , "訊息" , MessageBoxButtons.OK , MessageBoxIcon.Information);
+            Retrieve();
+            return ResultStatus.Success;
+         } catch (Exception ex) {
+            WriteLog(ex);
          }
-         returnTable.Columns.Add("Is_NewRow" , typeof(string));//新增Is_NewRow的欄位
-         gcMain.DataSource = returnTable;
-         gcMain.Visible = true;
-         gcMain.Focus();
+         return ResultStatus.Fail;
+      }
+
+      protected override ResultStatus ActivatedForm() {
+         base.ActivatedForm();
+
+         _ToolBtnInsert.Enabled = true;//當按下此按鈕時,Grid新增一筆空的(還未存檔都是暫時的)
+         _ToolBtnSave.Enabled = true;//儲存(把新增/刪除/修改)多筆的結果一次更新到資料庫
+         _ToolBtnDel.Enabled = true;//先選定刪除grid上面的其中一筆,然後按下此刪除按鈕(還未存檔都是暫時的)
+
+         _ToolBtnRetrieve.Enabled = true;//畫面查詢條件選定之後,按下此按鈕,讀取資料 to Grid
+         _ToolBtnRun.Enabled = false;//執行,跑job專用按鈕
+
+         _ToolBtnImport.Enabled = false;//匯入
+         _ToolBtnExport.Enabled = false;//匯出,格式可以為 pdf/xls/txt/csv, 看功能
+         _ToolBtnPrintAll.Enabled = true;//列印
 
          return ResultStatus.Success;
       }
 
-      /// <summary>
-      /// 新增一行 
-      /// </summary>
-      /// <returns></returns>
+      protected override ResultStatus Retrieve() {
+         try {
+            DataTable dt = new D51050().GetMmfoData();
+
+            //1.check (沒有資料時,則自動新增一筆)
+            if (dt.Rows.Count <= 0) {
+               InsertRow();
+            }
+
+            //2. 設定gvExport
+            gcMain.DataSource = dt;
+            gvMain.BestFitColumns();
+            GridHelper.SetCommonGrid(gvMain);
+
+            //3 設定dropdownlist       
+            gvMain.Columns["MMFO_MARKET_CODE"].ColumnEdit = lupMarketCode;
+
+            gcMain.Focus();
+            return ResultStatus.Success;
+
+         } catch (Exception ex) {
+            WriteLog(ex);
+         }
+         return ResultStatus.Fail;
+      }
+
+      protected override ResultStatus Save(PokeBall poke) {
+         try {
+            DataTable dtCurrent = (DataTable)gcMain.DataSource;
+            gvMain.CloseEditor();
+            gvMain.UpdateCurrentRow();
+
+            DataTable dtChange = dtCurrent.GetChanges();
+            DataTable dtForAdd = dtCurrent.GetChanges(DataRowState.Added);
+            DataTable dtForModified = dtCurrent.GetChanges(DataRowState.Modified);
+            DataTable dtForDeleted = dtCurrent.GetChanges(DataRowState.Deleted);
+
+            if (dtChange == null) {
+               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+               return ResultStatus.Fail;
+            }
+            if (dtChange.Rows.Count == 0) {
+               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+               return ResultStatus.Fail;
+            }
+
+            //隱藏欄位賦值
+            foreach (DataRow dr in dtCurrent.Rows) {
+               if (dr.RowState == DataRowState.Added || dr.RowState == DataRowState.Modified) {
+                  dr["MMFO_W_TIME"] = DateTime.Now;
+                  dr["MMFO_W_USER_ID"] = GlobalInfo.USER_ID;
+               }
+            }
+
+            dtChange = dtCurrent.GetChanges();
+            ResultData result = new MMFO().UpdateData(dtChange);
+            if (result.Status == ResultStatus.Fail) {
+               return ResultStatus.Fail;
+            }
+            PrintOrExportChangedByKen(gcMain , dtForAdd , dtForDeleted , dtForModified);
+
+         } catch (Exception ex) {
+            throw ex;
+         }
+         return ResultStatus.Success;
+
+      }
+
+      protected override ResultStatus Print(ReportHelper reportHelper) {
+         try {
+            ReportHelper _ReportHelper = new ReportHelper(gcMain , _ProgramID , this.Text);
+            _ReportHelper.Print();
+            _ReportHelper.Export(FileType.PDF , _ReportHelper.FilePath);
+
+            return ResultStatus.Success;
+         } catch (Exception ex) {
+            WriteLog(ex);
+         }
+         return ResultStatus.Fail;
+      }
+
       protected override ResultStatus InsertRow() {
-         base.InsertRow(gvMain);
+         DataTable dt = (DataTable)gcMain.DataSource;
+         gvMain.AddNewRow();
+
+         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MMFO_MARKET_CODE"] , "");
+         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MMFO_PARAM_KEY"] , "");
+         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MMFO_MIN_PRICE"] , "");
+         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["IS_NEWROW"] , 1);
+
          gvMain.Focus();
          gvMain.FocusedColumn = gvMain.Columns[0];
 
          return ResultStatus.Success;
       }
 
+      protected override ResultStatus DeleteRow() {
+         base.DeleteRow(gvMain);
+         return ResultStatus.Success;
+      }
+
+      #region GridControl事件
       //設定只有新增列可以編輯，原有資料不能編輯
       private void gvMain_ShowingEditor(object sender , CancelEventArgs e) {
          GridView gv = sender as GridView;
-         string Is_NewRow = gv.GetRowCellValue(gv.FocusedRowHandle , gv.Columns["Is_NewRow"]) == null ? "0" :
-                 gv.GetRowCellValue(gv.FocusedRowHandle , gv.Columns["Is_NewRow"]).ToString();
+         string Is_NewRow = gv.GetRowCellValue(gv.FocusedRowHandle , gv.Columns["IS_NEWROW"]) == null ? "0" :
+              gv.GetRowCellValue(gv.FocusedRowHandle , gv.Columns["IS_NEWROW"]).ToString();
 
          if (gv.IsNewItemRow(gv.FocusedRowHandle) || Is_NewRow == "1") {
             e.Cancel = false; //新增行可編輯
-            gv.SetRowCellValue(gv.FocusedRowHandle , gv.Columns["Is_NewRow"] , 1);
-            object a = gv.GetRowCellValue(gv.FocusedRowHandle , gv.Columns["Is_NewRow"]);
-         } else if (gv.FocusedColumn.Name == "MMFO_MIN_PRICE") {
-            e.Cancel = false; //委託價格限制可編輯
+            //gv.SetRowCellValue(gv.FocusedRowHandle , gv.Columns["IS_NEWROW"] , 1);
+            //object a = gv.GetRowCellValue(gv.FocusedRowHandle , gv.Columns["Is_NewRow"]); //?
+         }
+         //編輯狀態時,設定可以編輯的欄位( e.Cancel = false 等於可以編輯)
+         else if (gv.FocusedColumn.Name == "MMFO_MIN_PRICE") {
+            e.Cancel = false;
          } else {
-            e.Cancel = true; //既有資料不可編輯
+            e.Cancel = true;
          }
       }
 
       private void gvMain_RowCellStyle(object sender , RowCellStyleEventArgs e) {
          GridView gv = sender as GridView;
-         string Is_NewRow = gv.GetRowCellValue(e.RowHandle , gv.Columns["Is_NewRow"]) == null ? "0" :
-              gv.GetRowCellValue(e.RowHandle , gv.Columns["Is_NewRow"]).ToString();
+         string Is_NewRow = gv.GetRowCellValue(e.RowHandle , gv.Columns["IS_NEWROW"]) == null ? "0" :
+                            gv.GetRowCellValue(e.RowHandle , gv.Columns["IS_NEWROW"]).ToString();
 
-         if (e.Column.FieldName != "MMFO_MIN_PRICE") {
-            e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.Silver;
-         }
+         //描述每個欄位,在is_newRow時候要顯示的顏色
+         //當該欄位不可編輯時,設定為灰色 Color.FromArgb(192,192,192)
+         //當該欄位不可編輯時,AllowFocus為false(PB的wf_set_order方法)
+         switch (e.Column.FieldName) {
+            case ("MMFO_MARKET_CODE"):
+            case ("MMFO_PARAM_KEY"):
+               e.Column.OptionsColumn.AllowFocus = Is_NewRow == "1" ? true : false;
+               e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.FromArgb(192 , 192 , 192);
+               break;
+            default:
+               e.Appearance.BackColor = Color.White;
+               break;
+         }//switch (e.Column.FieldName) {
       }
 
-      // 新增一行
-      private void gvMain_InitNewRow(object sender , InitNewRowEventArgs e) {
-         GridView gv = sender as GridView;
-         gv.SetRowCellValue(gv.FocusedRowHandle , gv.Columns["Is_NewRow"] , 1);
-      }
 
-      protected override ResultStatus Save(PokeBall poke) {
-         gvMain.CloseEditor();
-         gvMain.UpdateCurrentRow();
-
-         DataTable dt = (DataTable)gcMain.DataSource;
-
-         DataTable dtChange = dt.GetChanges();
-
-         if (dtChange.Rows.Count == 0) {
-            MessageBox.Show("沒有變更資料,不需要存檔!" , "注意" , MessageBoxButtons.OK , MessageBoxIcon.Exclamation);
-         } else {
-            ResultStatus status = base.Save_Override(dt , "MMFO");
-            if (status == ResultStatus.Fail) {
-               return ResultStatus.Fail;
-            }
-         }
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus Print(ReportHelper reportHelper) {
-         _ReportHelper = reportHelper;
-         CommonReportPortraitA4 report = new CommonReportPortraitA4();
-         report.printableComponentContainerMain.PrintableComponent = gcMain;
-         _ReportHelper.Create(report);
-
-         base.Print(_ReportHelper);
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus DeleteRow() {
-         base.DeleteRow(gvMain);
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus ActivatedForm() {
-         base.ActivatedForm();
-
-         _ToolBtnInsert.Enabled = true;
-         _ToolBtnSave.Enabled = true;
-         _ToolBtnDel.Enabled = true;
-         _ToolBtnRetrieve.Enabled = true;
-         _ToolBtnPrintAll.Enabled = true;
-
-         return ResultStatus.Success;
-      }
-
-      public override ResultStatus BeforeOpen() {
-         base.BeforeOpen();
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus Open() {
-         base.Open();
-
-         //直接讀取資料
-         Retrieve();
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus AfterOpen() {
-         base.AfterOpen();
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus BeforeClose() {
-         return base.BeforeClose();
-      }
-
-      protected override ResultStatus COMPLETE() {
-         MessageDisplay.Info(MessageDisplay.MSG_OK);
-         Retrieve();
-         return ResultStatus.Success;
-      }
-
+      //// 新增一行
+      //private void gvMain_InitNewRow(object sender , InitNewRowEventArgs e) {
+      //   GridView gv = sender as GridView;
+      //   gv.SetRowCellValue(gv.FocusedRowHandle , gv.Columns["Is_NewRow"] , 1);
+      //}
+      #endregion
    }
 }

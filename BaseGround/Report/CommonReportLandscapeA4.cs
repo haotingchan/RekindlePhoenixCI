@@ -4,35 +4,28 @@ using System.Collections;
 using System.ComponentModel;
 using DevExpress.XtraReports.UI;
 
-namespace BaseGround.Report
-{
-    public partial class CommonReportLandscapeA4 : DevExpress.XtraReports.UI.XtraReport
-    {
-        public bool IsHandlePersonVisible
-        {
-            set { lblHandlingDescription.Visible = value; }
-        }
+namespace BaseGround.Report {
+   public partial class CommonReportLandscapeA4 : DevExpress.XtraReports.UI.XtraReport {
+      public bool IsHandlePersonVisible {
+         set { lblHandlingDescription.Visible = value; }
+      }
 
-        public bool IsDoubleConfirmVisible
-        {
-            set { lblDoubleConfirmDescription.Visible = value; }
-        }
+      public bool IsDoubleConfirmVisible {
+         set { lblDoubleConfirmDescription.Visible = value; }
+      }
 
-        public bool IsManagerVisible
-        {
-            set { lblManagerDescription.Visible = value; }
-        }
+      public bool IsManagerVisible {
+         set { lblManagerDescription.Visible = value; }
+      }
 
-        public CommonReportLandscapeA4()
-        {
-            InitializeComponent();
-        }
+      public CommonReportLandscapeA4() {
+         InitializeComponent();
+      }
 
-        public void SetMemoTextInFooter(string memo)
-        {
-            xrTableRowMemo.Visible = true;
-            lblMemo.Visible = true;
-            lblMemo.Text = memo;
-        }
-    }
+      public void SetMemoTextInFooter(string memo) {
+         xrTableRowMemo.Visible = true;
+         lblMemo.Visible = true;
+         lblMemo.Text = memo;
+      }
+   }
 }

@@ -170,6 +170,12 @@
     <Compile Include="Report\defReport.Designer.cs">
       <DependentUpon>defReport.cs</DependentUpon>
     </Compile>
+    <Compile Include="Report\ReportFooter.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Report\ReportFooter.Designer.cs">
+      <DependentUpon>ReportFooter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Report\ReportHeader.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -210,6 +216,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\defReport.resx">
       <DependentUpon>defReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ReportFooter.resx">
+      <DependentUpon>ReportFooter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\ReportHeader.resx">
       <DependentUpon>ReportHeader.cs</DependentUpon>

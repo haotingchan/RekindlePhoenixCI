@@ -337,3 +337,4 @@ ASALocalRun/
 
 #.csproj
 *.csproj
+/PhoenixCI/Properties/licenses.licx.rej
