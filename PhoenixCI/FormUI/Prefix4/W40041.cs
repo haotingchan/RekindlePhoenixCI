@@ -11,6 +11,9 @@ using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraEditors;
 using System.IO;
 using DevExpress.XtraGrid.Views.Base;
+using DevExpress.XtraGrid.Views.Grid;
+
+using System.Drawing;
 
 namespace PhoenixCI.FormUI.Prefix4 {
    public partial class W40041 : FormParent {
@@ -29,11 +32,17 @@ namespace PhoenixCI.FormUI.Prefix4 {
          prodLookItem.SetDataTable(new COD().ListByCol2("40041", "Prod_ID"), "COD_ID", "COD_DESC", DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor, null);
          prodLookItem.EditValue = "Y";
 
+#if DEBUG
+         txtDate.DateTimeValue=("2018/6/15").AsDateTime();
+         oswGrpLookItem.EditValue = "%";
+#endif
+
          ExportShow.Hide();
          GridHelper.SetCommonGrid(gvMain);
          gcMain.Visible = false;
 
          reCountBtn.Click += reCountBtn_Click;
+         
       }
 
       protected override ResultStatus Retrieve() {
@@ -129,7 +138,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   continue;
                }
 
-               #region Write Data
+#region Write Data
 
                Worksheet worksheet = workbook.Worksheets[sheetIndex];
 
@@ -145,9 +154,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                Range emptyRa = worksheet.Range[(importData.Rows.Count + 4).ToString() + ":1003"];
                emptyRa.Delete(DeleteMode.EntireRow);
 
-               #endregion
+#endregion
 
-               #region Gen Figure
+#region Gen Figure
                sheetIndex = prodType == "O" ? 3 : 1;
 
                worksheet = workbook.Worksheets[sheetIndex];
@@ -181,7 +190,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   worksheet.Cells[f, 8].Value = dataRow[7].AsDecimal();
                   worksheet.Cells[f, 9].Value = dataRow[8].AsDecimal();
                }
-               #endregion
+#endregion
 
                workbook.SaveDocument(destinationFilePath);
             }
@@ -241,11 +250,28 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       private void gvMain_CellValueChanged(object sender, CellValueChangedEventArgs e) {
-
+         GridView gv = sender as GridView;
+         gv.CloseEditor();
+         gv.UpdateCurrentRow();
          //顯示重新計算按鈕
          if (e.Column.FieldName == "DATA_SDATE") {
             reCountBtn.Visible = true;
+            gvMain.RowCellStyle += gvMain_RowCellStyle;
+         } else {
+            gvMain.RowCellStyle -= gvMain_RowCellStyle;
          }
+      }
+
+      private void gvMain_RowCellStyle(object sender, RowCellStyleEventArgs e) {
+         GridView gv = sender as GridView;
+
+         if (gv.GetDataRow(e.RowHandle).RowState == DataRowState.Modified) {
+            if (e.Column.FieldName == "DATA_CNT") {
+               e.Appearance.ForeColor = Color.Red;
+            }
+         } else {
+            e.Appearance.ForeColor = Color.Black;
+         }       
       }
 
       private void reCountBtn_Click(object sender, EventArgs e) {
@@ -259,7 +285,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          foreach (DataRow dr in dtReCount.Rows) {
             int newCnt = dao40041.GetReCount(dr["MG1_KIND_ID"].AsString(), dr["DATA_SDATE"].AsDateTime(), dr["DATA_EDATE"].AsDateTime()).AsInt();
-
             dtSource.Rows[dr["ROWNUM"].AsInt() - 1]["DATA_CNT"] = newCnt;
          }
 
