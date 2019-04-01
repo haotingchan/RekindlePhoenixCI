@@ -26,9 +26,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
    /// </summary>
    public partial class W51050 : FormParent {
 
-      private ReportHelper _ReportHelper;
-      private RepositoryItemLookUpEdit _RepLookUpEdit;
-
       RepositoryItemLookUpEdit lupMarketCode;
 
       public W51050(string programID , string programName) : base(programID , programName) {
@@ -209,13 +206,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
                break;
          }//switch (e.Column.FieldName) {
       }
-
-
-      //// 新增一行
-      //private void gvMain_InitNewRow(object sender , InitNewRowEventArgs e) {
-      //   GridView gv = sender as GridView;
-      //   gv.SetRowCellValue(gv.FocusedRowHandle , gv.Columns["Is_NewRow"] , 1);
-      //}
       #endregion
    }
 }

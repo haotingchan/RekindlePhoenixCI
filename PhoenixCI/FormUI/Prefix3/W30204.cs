@@ -38,7 +38,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 txtSDate.EditValue = PbFunc.f_ocf_date(0);
                 txtEDate.EditValue = txtSDate.EditValue;
 #if DEBUG
-                txtSDate.Text = "2018/03/31";
+                txtSDate.Text = "2018/12/28";
                 txtEDate.Text = txtSDate.Text;
 #endif
 

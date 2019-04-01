@@ -22,7 +22,7 @@ namespace DataObjects.Dao.Together {
         public DataTable ListByFcmAccNo() {
            
             string sql = @"
-select AMPD_FCM_NO||'--'||AMPD_ACC_NO AS ampd_fcm_no,
+select distinct AMPD_FCM_NO AS ampd_fcm_no,
 abrk_name,
 (case when trim(abrk_name) is null then trim(ampd_fcm_no)
      else trim(ampd_fcm_no)||'('||trim(abrk_name)||')' end) as cp_display
