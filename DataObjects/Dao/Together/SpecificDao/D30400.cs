@@ -13,8 +13,8 @@ namespace DataObjects.Dao.Together.SpecificDao {
    public class D30400 : DataGate {
 
       /// <summary>
-      /// get CI.AI2 data (d_30401)
-      /// return ai2_ymd/ai2_prod_subtype/ai2_pc_code/ai2_m_qnty/ai2_oi/ai2_mmk_qnty 6 field
+      /// get CI.AI2 data (d_30401) 
+      /// return AI2_YMD/AI2_PROD_SUBTYPE/AI2_PC_CODE/AI2_M_QNTY/AI2_OI/AI2_MMK_QNTY/CP_SUM_AI2_OI/CP_SUM_AI2_MMK_QNTY 6 field
       /// </summary>
       /// <param name="startDate">yyyyMMdd</param>
       /// <param name="endDate">yyyyMMdd</param>
@@ -30,22 +30,33 @@ namespace DataObjects.Dao.Together.SpecificDao {
 
          string sql = @"
 SELECT 
-   AI2_YMD,   
-   AI2_PROD_SUBTYPE,   
-   AI2_PC_CODE,   
-   SUM(AI2_M_QNTY) AS AI2_M_QNTY,   
-   SUM(AI2_OI) AS AI2_OI,   
-   SUM(AI2_MMK_QNTY) AS AI2_MMK_QNTY  
-FROM CI.AI2  
-WHERE AI2_SUM_TYPE = 'D'  
-AND AI2_YMD >= :startdate  
-AND AI2_YMD <= :enddate  
-AND AI2_SUM_SUBTYPE = '5'  
-AND AI2_PROD_TYPE = :prodtype 
-AND AI2_PROD_SUBTYPE = 'S' 
-AND AI2_PARAM_KEY <> 'STO'
-GROUP BY AI2_YMD, AI2_PROD_SUBTYPE, AI2_PC_CODE   
-ORDER BY AI2_YMD 
+	AI2_YMD,
+	AI2_PROD_SUBTYPE,
+	AI2_PC_CODE,
+	AI2_M_QNTY,
+	AI2_OI,
+
+	AI2_MMK_QNTY,
+	SUM( AI2_OI ) OVER( PARTITION BY T.AI2_YMD ) AS CP_SUM_AI2_OI,
+	SUM( AI2_MMK_QNTY ) OVER( PARTITION BY T.AI2_YMD ) AS CP_SUM_AI2_MMK_QNTY
+FROM(
+	SELECT 
+		AI2_YMD,   
+		AI2_PROD_SUBTYPE,   
+		AI2_PC_CODE,   
+		SUM(AI2_M_QNTY) AS AI2_M_QNTY,   
+		SUM(AI2_OI) AS AI2_OI,   
+		SUM(AI2_MMK_QNTY) AS AI2_MMK_QNTY  
+	FROM CI.AI2 
+	WHERE AI2_SUM_TYPE = 'D'  
+	AND AI2_YMD >= :startdate  
+	AND AI2_YMD <= :enddate  
+	AND AI2_SUM_SUBTYPE = '5'  
+	AND AI2_PROD_TYPE = :prodtype 
+	AND AI2_PROD_SUBTYPE = 'S' 
+	AND AI2_PARAM_KEY <> 'STO'
+	GROUP BY AI2_YMD, AI2_PROD_SUBTYPE, AI2_PC_CODE   
+	ORDER BY AI2_YMD  )T
 ";
 
          DataTable dtResult = db.GetDataTable(sql , parms);
@@ -68,28 +79,28 @@ ORDER BY AI2_YMD
 
          string sql = @"
 SELECT 
-    I.AI2_KIND_ID_2 AS KIND_ID_2,                      
-    I.AI2_M_QNTY AS M_QNTY ,                           
-    P.APDK_NAME  AS PDK_NAME                           
+      I.AI2_KIND_ID_2 AS KIND_ID_2,                      
+      I.AI2_M_QNTY AS M_QNTY ,                           
+      P.APDK_NAME  AS PDK_NAME                           
 FROM                                                    
-    (SELECT 
-        SUBSTR(AI2_KIND_ID,1,2) AS AI2_KIND_ID_2,     
-        SUM(AI2_M_QNTY) AS AI2_M_QNTY                
-     FROM CI.AI2                                      
-     WHERE AI2_SUM_TYPE = 'M'  
-     AND TRIM(AI2_YMD) = :startMon
-     AND AI2_SUM_SUBTYPE = '4' 
-     AND AI2_PROD_SUBTYPE = 'S' 
-     AND AI2_PROD_TYPE = :prodType               
-     GROUP BY SUBSTR(AI2_KIND_ID,1,2)) I,                  
-    (SELECT 
-        SUBSTR(APDK_KIND_ID,1,2) AS APDK_KIND_ID_2,  
-        MIN(APDK_NAME) AS APDK_NAME                 
-     FROM CI.APDK                                     
-     WHERE APDK_PROD_TYPE = 'F'                             
-     AND APDK_PROD_SUBTYPE = 'S'                      
-     GROUP BY SUBSTR(APDK_KIND_ID,1,2)) P                 
-WHERE I.AI2_KIND_ID_2 = P.APDK_KIND_ID_2                  
+      (SELECT 
+         SUBSTR(AI2_KIND_ID,1,2) AS AI2_KIND_ID_2,     
+         SUM(AI2_M_QNTY) AS AI2_M_QNTY                
+      FROM CI.AI2                                      
+      WHERE AI2_SUM_TYPE = 'M'  
+      AND TRIM(AI2_YMD) = :startMon
+      AND AI2_SUM_SUBTYPE = '4' 
+      AND AI2_PROD_SUBTYPE = 'S' 
+      AND AI2_PROD_TYPE = :prodType               
+      GROUP BY SUBSTR(AI2_KIND_ID,1,2)) I,                  
+      (SELECT 
+         SUBSTR(APDK_KIND_ID,1,2) AS APDK_KIND_ID_2,  
+         MIN(APDK_NAME) AS APDK_NAME                 
+      FROM CI.APDK                                     
+      WHERE APDK_PROD_TYPE = 'F'                             
+      AND APDK_PROD_SUBTYPE = 'S'                      
+      GROUP BY SUBSTR(APDK_KIND_ID,1,2)) P                 
+WHERE I.AI2_KIND_ID_2 = P.APDK_KIND_ID_2
 ORDER BY KIND_ID_2
 ";
          DataTable dtResult = db.GetDataTable(sql , parms);
@@ -334,39 +345,39 @@ ORDER BY AI2_YMD
 
          string sql = @"
 SELECT 
-	AMIF_DATE,
-	D.SEQ_NO,
-	A.AMIF_SETTLE_DATE,
-	AMIF_M_QNTY_TAL,
-	AMIF_OPEN_INTEREST 
+    AMIF_DATE,
+    D.SEQ_NO,
+    A.AMIF_SETTLE_DATE,
+    AMIF_M_QNTY_TAL,
+    AMIF_OPEN_INTEREST 
 FROM
    (SELECT 
-		AMIF_DATE,
-		AMIF_SETTLE_DATE,
-		SUM(AMIF_M_QNTY_TAL) AMIF_M_QNTY_TAL,
-		SUM(AMIF_OPEN_INTEREST) AMIF_OPEN_INTEREST 
-	FROM CI.AMIF A
-	WHERE AMIF_DATE >= :startDate
-	AND AMIF_DATE <= :endDate
-	AND AMIF_DATA_SOURCE  IN ('T','P')
-	AND AMIF_PROD_TYPE = 'F'
-	AND AMIF_PROD_SUBTYPE = 'S'
-	GROUP BY AMIF_DATE,AMIF_SETTLE_DATE
+        AMIF_DATE,
+        AMIF_SETTLE_DATE,
+        SUM(AMIF_M_QNTY_TAL) AMIF_M_QNTY_TAL,
+        SUM(AMIF_OPEN_INTEREST) AMIF_OPEN_INTEREST 
+    FROM CI.AMIF A
+    WHERE AMIF_DATE >= TO_DATE(:startDate,'yyyy/mm/dd')
+    AND AMIF_DATE <= TO_DATE(:endDate,'yyyy/mm/dd')
+    AND AMIF_DATA_SOURCE  IN ('T','P')
+    AND AMIF_PROD_TYPE = 'F'
+    AND AMIF_PROD_SUBTYPE = 'S'
+    GROUP BY AMIF_DATE,AMIF_SETTLE_DATE
    ) A,
    (SELECT 
-	   	AMIF_SETTLE_DATE,
-	   	ROWNUM AS SEQ_NO
-	FROM
-	   (SELECT AMIF_SETTLE_DATE 
-	    FROM CI.AMIF
-	    WHERE AMIF_DATE >= :startDate
-        AND AMIF_DATE <= :endDate
+           AMIF_SETTLE_DATE,
+           ROWNUM AS SEQ_NO
+    FROM
+       (SELECT AMIF_SETTLE_DATE 
+        FROM CI.AMIF
+        WHERE AMIF_DATE >= TO_DATE(:startDate,'yyyy/mm/dd')
+        AND AMIF_DATE <= TO_DATE(:endDate,'yyyy/mm/dd')
         AND AMIF_DATA_SOURCE  IN ('T','P')
         AND AMIF_PROD_TYPE = 'F'
         AND AMIF_PROD_SUBTYPE = 'S'
-	    GROUP BY AMIF_SETTLE_DATE
-	    ORDER BY AMIF_SETTLE_DATE)
-	   ) D
+        GROUP BY AMIF_SETTLE_DATE
+        ORDER BY AMIF_SETTLE_DATE)
+       ) D
 WHERE A.AMIF_SETTLE_DATE = D.AMIF_SETTLE_DATE
 ORDER BY AMIF_DATE , AMIF_SETTLE_DATE
 ";

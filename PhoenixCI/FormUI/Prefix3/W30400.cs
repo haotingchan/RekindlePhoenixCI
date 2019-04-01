@@ -47,8 +47,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
 #if DEBUG
          //winni test
-         //txtMon.DateTimeValue = DateTime.ParseExact("2018/11" , "yyyy/MM" , null);
-         //this.Text += "(開啟測試模式),Date=2018/11";
+         //txtMon.DateTimeValue = DateTime.ParseExact("2012/07" , "yyyy/MM" , null);
+         //this.Text += "(開啟測試模式),Date=2012/07";
 #endif
 
       }
@@ -97,7 +97,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //bool res1 = false, res2 = false, res3 = false;
             int row = 1;
             wf_30401(workbook , SheetNo.sheet1 , row);
-            wf_30402(workbook , SheetNo.sheet2 , SheetNo.sheet8 , row);
+            wf_30402(workbook , SheetNo.sheet2 , row);
+            wf_30408(workbook , SheetNo.sheet8 , row);
             row = 0;
             wf_30403(workbook , SheetNo.sheet3 , row);
             if (txtKindId.Text != "%") {
@@ -108,6 +109,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             wf_30405(workbook , SheetNo.sheet5 , row);
             row = 3;
             wf_30406(workbook , SheetNo.sheet6 , row);
+            wf_30407(workbook , SheetNo.sheet7 , row);
 
             //if(!res1 && !res2 && !res3) {
             //   //關閉檔案
@@ -147,8 +149,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
          try {
             //1. 前月倒數1天交易日(?)
-            DateTime sDate = GlobalInfo.OCF_DATE.AddDays(-GlobalInfo.OCF_DATE.Day + 1); //月份第1天
-            DateTime eDate = GlobalInfo.OCF_DATE.AddMonths(1).AddDays(-GlobalInfo.OCF_DATE.AddMonths(1).Day); //月份最後1天
+            //DateTime sDate = GlobalInfo.OCF_DATE.AddDays(-GlobalInfo.OCF_DATE.Day + 1); //月份第1天
+            //DateTime eDate = GlobalInfo.OCF_DATE.AddMonths(1).AddDays(-GlobalInfo.OCF_DATE.AddMonths(1).Day); //月份最後1天
+            DateTime sDate = txtMon.DateTimeValue.AddDays(-txtMon.DateTimeValue.Day + 1); //月份第1天
+            DateTime eDate = txtMon.DateTimeValue.AddMonths(1).AddDays(-txtMon.DateTimeValue.AddMonths(1).Day); //月份最後1天
+
             string strSDate = sDate.ToString("yyyyMMdd");
             string strEDate = eDate.ToString("yyyyMMdd");
             string lastTradeDate = daoAI2.GetLastTradeDate("D" , "O" , "S" , sDate , eDate);//抓當月最後交易日
@@ -184,7 +189,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             //5. 刪除空白列
             if (rowTotal > dt30401.Rows.Count) {
-               Range ra = ws1.Range[(dt30401.Rows.Count + 2).ToString() + ":" + rowTotal.ToString()];
+               Range ra = ws1.Range[(dt30401.Rows.Count + 3).ToString() + ":" + rowTotal.ToString()];
                ra.Delete(DeleteMode.EntireRow);
             }
 
@@ -205,12 +210,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
       /// <param name="sheetNo">SheetNo.tradeSum</param>
       /// <param name="row"> 1 </param>
       /// <returns></returns>
-      protected bool wf_30402(Workbook workbook , SheetNo sheetNoOne , SheetNo sheetNoTwo , int rowNum) {
+      protected bool wf_30402(Workbook workbook , SheetNo sheetNo , int rowNum) {
          string rptName = "股票期貨交易概況表";
          ShowMsg("30402－" + rptName + " 轉檔中...");
 
          try {
-            #region sheet2
             string strMon = txtMon.Text.Replace("/" , "");
 
             //1. 讀取資料
@@ -220,7 +224,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             } //if (dt30401.Rows.Count <= 0)
 
             //2. 切換Sheet
-            Worksheet ws2 = workbook.Worksheets[(int)sheetNoOne];
+            Worksheet ws2 = workbook.Worksheets[(int)sheetNo];
 
             //3. 處理資料
             int rowTotal = 1001;
@@ -239,41 +243,12 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             //4. 刪除空白列
             if (rowTotal > dt30402.Rows.Count) {
-               Range ra = ws2.Range[(dt30402.Rows.Count + 1).ToString() + ":" + rowTotal.ToString()];
+               Range ra = ws2.Range[(dt30402.Rows.Count + 2).ToString() + ":" + rowTotal.ToString()];
                ra.Delete(DeleteMode.EntireRow);
             }
 
             ws2.Range["A1"].Select();
             ws2.ScrollToRow(0);
-            #endregion
-
-            #region sheet8
-            rptName = "Top 30 股票期貨成交量";
-            ShowMsg("30408－" + rptName + " 轉檔中...");
-
-            //1. sort dt
-            dt30402.DefaultView.Sort = "m_qnty desc , kind_id_2 asc";
-
-            //2. 切換Sheet
-            Worksheet ws8 = workbook.Worksheets[(int)sheetNoTwo];
-
-            //3. 處理資料
-            int cnt = Math.Min(30 , dt30402.Rows.Count);
-
-            for (int w = 0 ; w < cnt ; w++) {
-               rowNum++;
-               DataRow dr = dt30402.Rows[w];
-               decimal totalQnty = dr["cp_tot_m_qnty"].AsDecimal();
-               string kindId2 = dr["kind_id_2"].AsString();
-               string pdkName = dr["pdk_name"].AsString();
-               decimal mQnty = dr["m_qnty"].AsDecimal();
-
-               ws2.Cells[rowNum , 1].Value = kindId2;
-               ws2.Cells[rowNum , 2].Value = pdkName;
-               ws2.Cells[rowNum , 3].Value = mQnty;
-               ws2.Cells[rowNum , 4].Value = mQnty / totalQnty;
-            }//for (int w = 0 ; w < cnt ; w++)
-            #endregion
 
             return true;
          } catch (Exception ex) {
@@ -298,8 +273,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             string strMon = txtMon.Text.Replace("/" , "");
             string lastTradeDate = dao30400.GetThisMonLastTradeData(strMon); //當月最後交易日(yyyyMMdd)           
             string sDate = strMon + "01"; //當月第一天
-            DateTime startDate = DateTime.ParseExact(sDate , "yyyy/MM/dd" , null);
-            DateTime lastTrade = DateTime.ParseExact(lastTradeDate , "yyyy/MM/dd" , null);
+            DateTime startDate = DateTime.ParseExact(sDate , "yyyyMMdd" , null);
+            DateTime lastTrade = DateTime.ParseExact(lastTradeDate , "yyyyMMdd" , null);
 
             //2. 讀取資料
             DataTable dt30403 = dao30400.Get30403Data(sDate , lastTradeDate);
@@ -326,10 +301,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
                int colNum = dr["seq_no"].AsInt();
                if (colNum > 0) {
                   string ymd = dr["ai2_ymd"].AsString();
-                  string tmpYmd = DateTime.ParseExact(ymd , "yyyy/MM/dd" , null).AsString("yyyy/MM/dd");
+                  string tmpYmd = DateTime.ParseExact(ymd , "yyyyMMdd" , null).ToString("yyyy/MM/dd");
                   decimal mQnty = dr["ai2_m_qnty"].AsDecimal();
                   ws3.Cells[0 , colNum + 1].Value = tmpYmd;
-                  ws3.Cells[rowNum , colNum + 1].Value = pdkName;
+                  ws3.Cells[rowNum , colNum + 1].Value = mQnty;
                }
 
             }//foreach (DataRow dr in dt30403.Rows)
@@ -357,8 +332,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
          try {
             //1. 取日期
-            string sDate = PbFunc.f_get_last_day("AI3" , strKindId , txtMon.Text , 2).AsString("yyyy/MM/dd");//前月倒數2天交易日
-            string eDate = PbFunc.f_get_end_day("AI3" , strKindId , txtMon.Text).AsString("yyyy/MM/dd"); //抓當月最後交易日
+            string sDate = PbFunc.f_get_last_day("AI3" , strKindId , txtMon.Text , 2).ToString("yyyy/MM/dd");//前月倒數2天交易日
+            string eDate = PbFunc.f_get_end_day("AI3" , strKindId , txtMon.Text).ToString("yyyy/MM/dd"); //抓當月最後交易日
 
             //2. 讀取資料
             if (strKindId != "%") {
@@ -373,13 +348,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
             Worksheet ws4 = workbook.Worksheets[(int)sheetNo];
 
             //4. 處理資料
-            int rowTotal = rowNum + 33;
+            int rowTotal = 35;
             DataTable dtAPDK = dao30400.GetAdpkData(strKindId); //好像只會有一筆資料
             if (dtAPDK.Rows.Count <= 0) {
                return false;
             } else if (dtAPDK.Rows.Count > 0) {
                ws4.Cells[0 , 0].Value = dtAPDK.Rows[0]["apdk_name"].AsString();
-               ws4.Cells[0 , 2].Value = txtKindId.Text;
+               ws4.Cells[0 , 1].Value = txtKindId.Text;
                ws4.Cells[0 , 8].Value = dtAPDK.Rows[0]["apdk_stock_id"].AsString();
             }
 
@@ -394,7 +369,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                if (ymd != ai3Date) {
                   ymd = ai3Date;
                   rowNum++;
-                  ws4.Cells[rowNum , 0].Value = ymd.AsString("MM/dd");
+                  ws4.Cells[rowNum , 0].Value = ymd.ToString("MM/dd");
                }
 
                ws4.Cells[rowNum , 1].Value = closePrice;
@@ -435,7 +410,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          try {
             //1. 取日期 (取查詢年月月份的第1天跟最後1天(string))
             string sDate = txtMon.Text.Replace("/" , "") + "01";
-            string eDate = txtMon.DateTimeValue.AddMonths(1).AddDays(-txtMon.DateTimeValue.AddMonths(1).Day).AsString("yyyy/MM/dd");
+            string eDate = txtMon.DateTimeValue.AddMonths(1).AddDays(-txtMon.DateTimeValue.AddMonths(1).Day).ToString("yyyyMMdd");
 
             //2. 讀取資料
             DataTable dt30405 = dao30400.Get30405Data(sDate , eDate);
@@ -448,26 +423,26 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             //4. 處理資料
             ws5.Cells[1 , 0].Value = txtMon.Text;
-            int rowTotal = rowNum + 31;
+            int rowTotal = 34;
             string ymd = "19000101";
             foreach (DataRow dr in dt30405.Rows) {
                string ai2Ymd = dr["ai2_ymd"].AsString();
+               string mQnty = dr["ai2_m_qnty"].AsString();
                decimal ai2Oi = dr["ai2_oi"].AsDecimal();
                decimal am10Cnt = dr["am10_cnt"].AsDecimal();
-               decimal ai3Oi = dr["ai3_oi"].AsDecimal();
                decimal cnt = dr["am9_acc_cnt"].AsDecimal();
                decimal idCnt = dr["ab4_id_cnt"].AsDecimal();
                if (ymd != ai2Ymd) {
                   ymd = ai2Ymd;
                   rowNum++;
 
-                  DateTime dTimeYmd = DateTime.ParseExact(ymd , "yyyy/MM/dd" , null);
+                  string dTimeYmd = DateTime.ParseExact(ymd , "yyyyMMdd" , null).ToString("yyyy/MM/dd");
                   ws5.Cells[rowNum , 0].Value = dTimeYmd;
                }
 
-               ws5.Cells[rowNum , 1].Value = ai2Oi;
-               ws5.Cells[rowNum , 2].Value = am10Cnt;
-               ws5.Cells[rowNum , 3].Value = ai3Oi;
+               ws5.Cells[rowNum , 1].Value = mQnty;
+               ws5.Cells[rowNum , 2].Value = ai2Oi;
+               ws5.Cells[rowNum , 3].Value = am10Cnt;
                ws5.Cells[rowNum , 5].Value = cnt;
                ws5.Cells[rowNum , 7].Value = idCnt;
 
@@ -475,7 +450,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             //5. 刪除空白列
             if (rowTotal > dt30405.Rows.Count) {
-               Range ra = ws5.Range[(dt30405.Rows.Count + 3).ToString() + ":" + rowTotal.ToString()];
+               Range ra = ws5.Range[(dt30405.Rows.Count + 4).ToString() + ":" + rowTotal.ToString()];
                ra.Delete(DeleteMode.EntireRow);
             }
 
@@ -494,7 +469,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
       /// </summary>
       /// <param name="workbook"></param>
       /// <param name="sheetNo">SheetNo.tradeSum</param>
-      /// <param name="row"> 1 </param>
+      /// <param name="row"> 3 </param>
       /// <returns></returns>
       protected bool wf_30406(Workbook workbook , SheetNo sheetNo , int rowNum) {
          string rptName = "股票期貨交易量分佈明細統計表";
@@ -502,8 +477,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
          try {
             //1. 取日期 (取查詢年月月份的第1天跟最後1天(string))
-            string sDate = txtMon.Text.Replace("/" , "") + "01";
-            string eDate = txtMon.DateTimeValue.AddMonths(1).AddDays(-txtMon.DateTimeValue.AddMonths(1).Day).AsString("yyyy/MM/dd");
+            string sDate = txtMon.Text + "/01";
+            string eDate = txtMon.DateTimeValue.AddMonths(1).AddDays(-txtMon.DateTimeValue.AddMonths(1).Day).ToString("yyyy/MM/dd");
 
             //2. 讀取資料
             DataTable dt30406 = dao30400.Get30406Data(sDate , eDate);
@@ -516,19 +491,20 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             //4. 處理資料
             ws6.Cells[1 , 0].Value = txtMon.Text;
-            int rowTotal = rowNum + 31;
+            int rowTotal = 35;
 
             //交割年月
-            int maxSeqNo = dt30406.Compute("MAX(SEQ_NO)" , "").AsInt();
+            int maxSeqNo = dt30406.Compute("MAX(seq_no)" , "").AsInt();
             int found;
-            for (int w = 0 ; w < maxSeqNo ; w++) {
+            for (int w = 1 ; w <= maxSeqNo ; w++) {
                //string settleDate = dt30406.Rows[found +１]["amif_settle_date"].AsString();
-               dt30406.PrimaryKey = new DataColumn[] { dt30406.Columns["SEQ_NO"] };
-               found = dt30406.Rows.IndexOf(dt30406.Rows.Find(string.Format("seq_no ={0}" , w.AsString())));
+               //dt30406.PrimaryKey = new DataColumn[] { dt30406.Columns["AMIF_DATE"] , dt30406.Columns["SEQ_NO"] };
+               found = dt30406.Rows.IndexOf(dt30406.Select(string.Format("seq_no ={0}" , w.AsString())).FirstOrDefault());
                if (found < 0) {
-                  return false;
+                  continue;
                } else {
-                  ws6.Cells[3 , w + 1].Value = dt30406.Rows[found + 1]["amif_settle_date"].AsString("yyyy/MM");
+                  string settleDate = dt30406.Rows[found]["amif_settle_date"].AsString();
+                  ws6.Cells[3 , w + 1].Value = DateTime.ParseExact(settleDate , "yyyyMM" , null).ToString("yyyy/MM");
                }
             }//for (int w = 0 ; w < maxSeqNo ; w++)
 
@@ -540,7 +516,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                if (baseTime != amifDate) {
                   baseTime = amifDate;
                   rowNum++;
-                  ws6.Cells[rowNum , 0].Value = baseTime.AsString("yyyy/MM/dd");
+                  ws6.Cells[rowNum , 0].Value = baseTime.ToString("yyyy/MM/dd");
                }
 
                found = seqNo;
@@ -549,13 +525,141 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }//foreach (DataRow dr in dt30406.Rows)
 
             //5. 刪除空白列
-            if (rowTotal > dt30406.Rows.Count) {
-               Range ra = ws6.Range[(dt30406.Rows.Count + 4).ToString() + ":" + rowTotal.ToString()];
+            if (rowTotal > rowNum - 3) {
+               Range ra = ws6.Range[(rowNum + 2).ToString() + ":" + rowTotal.ToString()];
                ra.Delete(DeleteMode.EntireRow);
             }
 
             ws6.Range["A1"].Select();
             ws6.ScrollToRow(0);
+
+            return true;
+         } catch (Exception ex) {
+            return false;
+            throw ex;
+         }
+      }
+
+      /// <summary>
+      /// wf_30407 (sheet7 data)
+      /// </summary>
+      /// <param name="workbook"></param>
+      /// <param name="sheetNo">SheetNo.tradeSum</param>
+      /// <param name="row"> 3 </param>
+      /// <returns></returns>
+      protected bool wf_30407(Workbook workbook , SheetNo sheetNo , int rowNum) {
+
+         string rptName = "股票期貨交易量分佈明細統計表";
+
+         try {
+            //1. 切換Sheet
+            Worksheet ws7 = workbook.Worksheets[(int)sheetNo];
+            ws7.Cells[1 , 0].Value = txtMon.Text;
+
+            int rowTotal = 35;
+
+            //2. 取日期 (取查詢年月月份的第1天跟最後1天(string))
+            string sDate = txtMon.Text + "/01";
+            string eDate = txtMon.DateTimeValue.AddMonths(1).AddDays(-txtMon.DateTimeValue.AddMonths(1).Day).ToString("yyyy/MM/dd");
+
+            //3. 讀取資料
+            DataTable dt30407 = dao30400.Get30406Data(sDate , eDate);
+            if (dt30407.Rows.Count <= 0) {
+               MessageDisplay.Info(String.Format("{0}~{1},30406 - {2},無任何資料!" , sDate , eDate , rptName));
+            }
+
+            //4. 處理資料
+            //交割年月
+            int maxSeqNo = dt30407.Compute("MAX(seq_no)" , "").AsInt();
+            for (int w = 1 ; w <= maxSeqNo ; w++) {
+               //dt30407.PrimaryKey = new DataColumn[] { dt30407.Columns["AMIF_DATE"] , dt30407.Columns["SEQ_NO"] };
+               int found = dt30407.Rows.IndexOf(dt30407.Select(string.Format("seq_no ={0}" , w.AsString())).FirstOrDefault());
+               if (found < 0) {
+                  continue;
+               } else {
+                  string settleDate = dt30407.Rows[found]["amif_settle_date"].AsString();
+                  ws7.Cells[3 , w + 1].Value = DateTime.ParseExact(settleDate , "yyyyMM" , null).ToString("yyyy/MM");
+               }
+
+            }//for (int w = 0 ; w < maxSeqNo ; w++)
+
+            DateTime baseTime = DateTime.ParseExact("1900/01/01" , "yyyy/MM/dd" , null);
+            foreach (DataRow dr in dt30407.Rows) {
+               DateTime amifDate = dr["amif_date"].AsDateTime();
+               decimal openInterest = dr["amif_open_interest"].AsDecimal();
+               if (baseTime != amifDate) {
+                  baseTime = amifDate;
+
+                  rowNum++;
+
+                  ws7.Cells[rowNum , 0].Value = baseTime.ToString("yyyy/MM/dd");
+               }
+               int found = dr["seq_no"].AsInt();
+               ws7.Cells[rowNum , found + 1].Value = openInterest;
+
+            }//foreach (DataRow dr in dt30407.Rows)
+
+            //5. 刪除空白列
+            if (rowTotal > rowNum - 3) {
+               Range ra = ws7.Range[(rowNum + 2).ToString() + ":" + rowTotal.ToString()];
+               ra.Delete(DeleteMode.EntireRow);
+            }
+
+            ws7.Range["A1"].Select();
+            ws7.ScrollToRow(0);
+
+            return true;
+         } catch (Exception ex) {
+            return false;
+            throw ex;
+         }
+      }
+
+      /// <summary>
+      /// wf_30408 (sheet8 data)
+      /// </summary>
+      /// <param name="workbook"></param>
+      /// <param name="sheetNo">SheetNo.tradeSum</param>
+      /// <param name="row"> 1 </param>
+      /// <returns></returns>
+      protected bool wf_30408(Workbook workbook , SheetNo sheetNo , int rowNum) {
+         string rptName = "Top 30 股票期貨成交量";
+
+         try {
+            string strMon = txtMon.Text.Replace("/" , "");
+
+            //1. 讀取資料
+            DataTable dt30402 = dao30400.Get30402Data(strMon , "F");
+            if (dt30402.Rows.Count <= 0) {
+               MessageDisplay.Info(String.Format("{0},30402 - {1},無任何資料!" , strMon , rptName));
+            } //if (dt30401.Rows.Count <= 0)
+
+            //1.1 sort dt
+            dt30402.DefaultView.Sort = "m_qnty desc , kind_id_2 asc";
+            dt30402 = dt30402.DefaultView.ToTable();
+
+            //2. 切換Sheet
+            Worksheet ws8 = workbook.Worksheets[(int)sheetNo];
+
+            //3. 處理資料
+            int cnt = Math.Min(30 , dt30402.Rows.Count);
+
+            for (int w = 0 ; w < cnt ; w++) {
+               rowNum++;
+               DataRow dr = dt30402.Rows[w];
+               decimal totalQnty = dt30402.Compute("SUM(m_qnty)" , "").AsDecimal();
+               string kindId2 = dr["kind_id_2"].AsString();
+               string pdkName = dr["pdk_name"].AsString();
+               decimal mQnty = dr["m_qnty"].AsDecimal();
+
+               ws8.Cells[rowNum , 1].Value = kindId2;
+               ws8.Cells[rowNum , 2].Value = pdkName;
+               ws8.Cells[rowNum , 3].Value = mQnty;
+               ws8.Cells[rowNum , 4].Value = mQnty / totalQnty;
+            }//for (int w = 0 ; w < cnt ; w++)
+
+            ws8.Range["A1"].Select();
+            ws8.ScrollToRow(0);
 
             return true;
          } catch (Exception ex) {
