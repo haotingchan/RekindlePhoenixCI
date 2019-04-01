@@ -14,6 +14,7 @@ using BusinessObjects.Enums;
 using BaseGround.Shared;
 using Common;
 using DevExpress.XtraEditors.Repository;
+using BaseGround.Report;
 
 /// <summary>
 /// Lukas, 2019/3/21
@@ -127,6 +128,33 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 throw ex;
             }
             return ResultStatus.Success;
+        }
+
+        protected override ResultStatus Print(ReportHelper reportHelper) {
+            try {
+                ReportHelper _ReportHelper = new ReportHelper(gcMain, _ProgramID, this.Text);
+                CommonReportPortraitA4 reportPortraitA4 = new CommonReportPortraitA4();
+                reportPortraitA4.printableComponentContainerMain.PrintableComponent = gcMain;
+                reportPortraitA4.IsHandlePersonVisible = false;
+                reportPortraitA4.IsManagerVisible = false;
+                _ReportHelper.Create(reportPortraitA4);
+
+                _ReportHelper.Print();
+
+                _ReportHelper = new ReportHelper(gcMainE, _ProgramID, this.Text);
+                reportPortraitA4.printableComponentContainerMain.PrintableComponent = gcMainE;
+                reportPortraitA4.IsHandlePersonVisible = false;
+                reportPortraitA4.IsManagerVisible = false;
+                _ReportHelper.Create(reportPortraitA4);
+
+                _ReportHelper.Print();
+
+                return ResultStatus.Success;
+            }
+            catch (Exception ex) {
+                WriteLog(ex);
+            }
+            return ResultStatus.Fail;
         }
     }
 }

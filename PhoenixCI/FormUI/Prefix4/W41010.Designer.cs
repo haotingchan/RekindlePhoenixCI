@@ -205,6 +205,8 @@
             // 
             // gvMain
             // 
+            this.gvMain.Appearance.ViewCaption.Options.UseTextOptions = true;
+            this.gvMain.Appearance.ViewCaption.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
             this.gvMain.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.PDK_DATE,
             this.PDK_KIND_ID,
@@ -214,12 +216,16 @@
             this.gvMain.Name = "gvMain";
             this.gvMain.OptionsView.ColumnAutoWidth = false;
             this.gvMain.OptionsView.ShowGroupPanel = false;
+            this.gvMain.OptionsView.ShowViewCaption = true;
+            this.gvMain.ViewCaption = "當日可交易商品";
             // 
             // PDK_DATE
             // 
             this.PDK_DATE.AppearanceHeader.BackColor = System.Drawing.Color.Cyan;
             this.PDK_DATE.AppearanceHeader.Options.UseBackColor = true;
             this.PDK_DATE.Caption = "交易日期";
+            this.PDK_DATE.DisplayFormat.FormatString = "yyyy/MM/dd HH:mm:ss";
+            this.PDK_DATE.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.PDK_DATE.FieldName = "PDK_DATE";
             this.PDK_DATE.Name = "PDK_DATE";
             this.PDK_DATE.OptionsColumn.AllowEdit = false;
@@ -299,6 +305,8 @@
             // 
             // gvMainE
             // 
+            this.gvMainE.Appearance.ViewCaption.Options.UseTextOptions = true;
+            this.gvMainE.Appearance.ViewCaption.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
             this.gvMainE.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.PDK_DATE_E,
             this.PDK_KIND_ID_E,
@@ -308,12 +316,16 @@
             this.gvMainE.Name = "gvMainE";
             this.gvMainE.OptionsView.ColumnAutoWidth = false;
             this.gvMainE.OptionsView.ShowGroupPanel = false;
+            this.gvMainE.OptionsView.ShowViewCaption = true;
+            this.gvMainE.ViewCaption = "下市商品";
             // 
             // PDK_DATE_E
             // 
             this.PDK_DATE_E.AppearanceHeader.BackColor = System.Drawing.Color.Cyan;
             this.PDK_DATE_E.AppearanceHeader.Options.UseBackColor = true;
             this.PDK_DATE_E.Caption = "交易日期";
+            this.PDK_DATE_E.DisplayFormat.FormatString = "yyyy/MM/dd HH:mm:ss";
+            this.PDK_DATE_E.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.PDK_DATE_E.FieldName = "PDK_DATE";
             this.PDK_DATE_E.Name = "PDK_DATE_E";
             this.PDK_DATE_E.OptionsColumn.AllowEdit = false;

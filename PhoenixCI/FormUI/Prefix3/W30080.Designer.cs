@@ -33,22 +33,22 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.txtRank = new System.Windows.Forms.TextBox();
-            this.txtSid = new System.Windows.Forms.TextBox();
+            this.txtKindID = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.grpxDescription = new System.Windows.Forms.GroupBox();
-            this.rgpMarket = new DevExpress.XtraEditors.RadioGroup();
-            this.rgpType = new DevExpress.XtraEditors.RadioGroup();
             this.rgpData = new DevExpress.XtraEditors.RadioGroup();
+            this.rgpType = new DevExpress.XtraEditors.RadioGroup();
+            this.rgpMarket = new DevExpress.XtraEditors.RadioGroup();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtEDate.Properties)).BeginInit();
             this.grpxDescription.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.rgpMarket.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.rgpType.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rgpData.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rgpType.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rgpMarket.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // panParent
@@ -178,14 +178,14 @@
             this.txtRank.TabIndex = 5;
             this.txtRank.Text = "999";
             // 
-            // txtSid
+            // txtKindID
             // 
-            this.txtSid.Location = new System.Drawing.Point(148, 262);
-            this.txtSid.MaxLength = 3;
-            this.txtSid.Name = "txtSid";
-            this.txtSid.Size = new System.Drawing.Size(61, 29);
-            this.txtSid.TabIndex = 6;
-            this.txtSid.Text = "%";
+            this.txtKindID.Location = new System.Drawing.Point(148, 262);
+            this.txtKindID.MaxLength = 3;
+            this.txtKindID.Name = "txtKindID";
+            this.txtKindID.Size = new System.Drawing.Size(61, 29);
+            this.txtKindID.TabIndex = 6;
+            this.txtKindID.Text = "%";
             // 
             // label7
             // 
@@ -224,7 +224,7 @@
             this.grpxDescription.Controls.Add(this.label9);
             this.grpxDescription.Controls.Add(this.label8);
             this.grpxDescription.Controls.Add(this.label7);
-            this.grpxDescription.Controls.Add(this.txtSid);
+            this.grpxDescription.Controls.Add(this.txtKindID);
             this.grpxDescription.Controls.Add(this.txtRank);
             this.grpxDescription.Controls.Add(this.label6);
             this.grpxDescription.Controls.Add(this.label5);
@@ -241,8 +241,35 @@
             this.grpxDescription.TabStop = false;
             this.grpxDescription.Text = "請輸入交易日期";
             // 
+            // rgpData
+            // 
+            this.rgpData.EditValue = "M_QNTY";
+            this.rgpData.Location = new System.Drawing.Point(100, 178);
+            this.rgpData.MenuManager = this.ribbonControl;
+            this.rgpData.Name = "rgpData";
+            this.rgpData.Properties.Columns = 2;
+            this.rgpData.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("M_QNTY", "交易量"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("OI", "未平倉量")});
+            this.rgpData.Size = new System.Drawing.Size(182, 32);
+            this.rgpData.TabIndex = 30;
+            // 
+            // rgpType
+            // 
+            this.rgpType.EditValue = "F";
+            this.rgpType.Location = new System.Drawing.Point(100, 135);
+            this.rgpType.MenuManager = this.ribbonControl;
+            this.rgpType.Name = "rgpType";
+            this.rgpType.Properties.Columns = 2;
+            this.rgpType.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("F", "期貨"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("O", "選擇權")});
+            this.rgpType.Size = new System.Drawing.Size(182, 31);
+            this.rgpType.TabIndex = 29;
+            // 
             // rgpMarket
             // 
+            this.rgpMarket.EditValue = "%";
             this.rgpMarket.Location = new System.Drawing.Point(100, 88);
             this.rgpMarket.MenuManager = this.ribbonControl;
             this.rgpMarket.Name = "rgpMarket";
@@ -254,30 +281,6 @@
             new DevExpress.XtraEditors.Controls.RadioGroupItem("_ETF", "ETF")});
             this.rgpMarket.Size = new System.Drawing.Size(255, 36);
             this.rgpMarket.TabIndex = 28;
-            // 
-            // rgpType
-            // 
-            this.rgpType.Location = new System.Drawing.Point(100, 135);
-            this.rgpType.MenuManager = this.ribbonControl;
-            this.rgpType.Name = "rgpType";
-            this.rgpType.Properties.Columns = 2;
-            this.rgpType.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("_期貨", "期貨"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("_選擇權", "選擇權")});
-            this.rgpType.Size = new System.Drawing.Size(182, 31);
-            this.rgpType.TabIndex = 29;
-            // 
-            // rgpData
-            // 
-            this.rgpData.Location = new System.Drawing.Point(100, 178);
-            this.rgpData.MenuManager = this.ribbonControl;
-            this.rgpData.Name = "rgpData";
-            this.rgpData.Properties.Columns = 2;
-            this.rgpData.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("交易量", "交易量"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("未平倉量", "未平倉量")});
-            this.rgpData.Size = new System.Drawing.Size(182, 32);
-            this.rgpData.TabIndex = 30;
             // 
             // W30080
             // 
@@ -294,9 +297,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtEDate.Properties)).EndInit();
             this.grpxDescription.ResumeLayout(false);
             this.grpxDescription.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.rgpMarket.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.rgpType.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.rgpData.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rgpType.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rgpMarket.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -310,7 +313,7 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox txtSid;
+        private System.Windows.Forms.TextBox txtKindID;
         private System.Windows.Forms.TextBox txtRank;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;

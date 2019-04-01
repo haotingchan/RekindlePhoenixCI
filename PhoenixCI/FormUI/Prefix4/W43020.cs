@@ -168,7 +168,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 Range ra;
                 if (rowIndex < 60) {
                     rowStart = 142;
-                    ra = ws43020.Range[(rowIndex + rowStart + 1).ToString() + ":" + (rowStart+60).ToString()];
+                    ra = ws43020.Range[(rowIndex + rowStart + 1).ToString() + ":" + (rowStart + 60).ToString()];
                     ra.Delete(DeleteMode.EntireRow);
                     //ws43020.Rows.Remove(rowIndex + rowStart, delRowCnt);
                     rowStart = 77;
