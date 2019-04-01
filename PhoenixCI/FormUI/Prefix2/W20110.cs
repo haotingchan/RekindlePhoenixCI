@@ -738,8 +738,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     found = -1;
                 }
                 if (found >= 0) {
-                    gv.SetRowCellValue(found, gv.Columns["AMIF_CLOSE_PRICE"], Math.Round(closePrice / 31.1035m * 3.75m * 0.9999m / 0.995m * rate, 1));
-                    gv.SetRowCellValue(found, gv.Columns["AMIF_UP_DOWN_VAL"], Math.Round(closePrice / 31.1035m * 3.75m * 0.9999m / 0.995m * rate, 1) - gv.GetRowCellValue(found, gv.Columns["AMIF_CLOSE_PRICE_Y"]).AsDecimal());
+                    gv.SetRowCellValue(found, gv.Columns["AMIF_CLOSE_PRICE"], Math.Round(closePrice / 31.1035m * 3.75m * 0.9999m / 0.995m * rate, 1, MidpointRounding.AwayFromZero));
+                    gv.SetRowCellValue(found, gv.Columns["AMIF_UP_DOWN_VAL"], Math.Round(closePrice / 31.1035m * 3.75m * 0.9999m / 0.995m * rate, 1, MidpointRounding.AwayFromZero) - gv.GetRowCellValue(found, gv.Columns["AMIF_CLOSE_PRICE_Y"]).AsDecimal());
                 }
             }
         }

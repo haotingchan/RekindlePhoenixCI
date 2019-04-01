@@ -172,24 +172,24 @@ namespace PhoenixCI.FormUI.Prefix3 {
             // cp_tot_avg_qnty
             decimal sumAi2MQnty = dt300402.Compute("sum(ai2_m_qnty)", "").AsDecimal();
             decimal sumAi2DayCount = dt300402.Compute("sum(ai2_day_count)", "").AsDecimal();
-            decimal cpTotAvgQnty = Math.Round(sumAi2MQnty / sumAi2DayCount);
+            decimal cpTotAvgQnty = Math.Round(sumAi2MQnty / sumAi2DayCount, MidpointRounding.AwayFromZero);
             ws30040SGX.Cells[rowTol + 1, 1].Value = cpTotAvgQnty;
             // cp_tot_avg_oi
             decimal sumAi2OI = dt300402.Compute("sum(ai2_oi)", "").AsDecimal();
-            decimal cpTotAvgOI = Math.Round(sumAi2OI / sumAi2DayCount);
+            decimal cpTotAvgOI = Math.Round(sumAi2OI / sumAi2DayCount, MidpointRounding.AwayFromZero);
             ws30040SGX.Cells[rowTol + 1, 2].Value = cpTotAvgOI;
             // cp_tot_avg_n_qnty
             decimal sumNQnty = dt300402.Compute("sum(n_qnty)", "").AsDecimal();
             decimal cpTotStwDayCount = dt300402.Compute("sum(a_day_count)", "").AsDecimal();
-            decimal cpTotAvgNQnty = Math.Round(sumNQnty / cpTotStwDayCount);
+            decimal cpTotAvgNQnty = Math.Round(sumNQnty / cpTotStwDayCount, MidpointRounding.AwayFromZero);
             ws30040SGX.Cells[rowTol + 1, 4].Value = cpTotAvgNQnty;
             // cp_tot_avg_a_qnty
             decimal sumAQnty = dt300402.Compute("sum(a_qnty)", "").AsDecimal();
-            decimal cpTotAvgAQnty = Math.Round(sumAQnty / cpTotStwDayCount);
+            decimal cpTotAvgAQnty = Math.Round(sumAQnty / cpTotStwDayCount, MidpointRounding.AwayFromZero);
             ws30040SGX.Cells[rowTol + 1, 5].Value = cpTotAvgAQnty;
             // cp_tot_avg_stw_oi
             decimal sumStwOI = dt300402.Compute("sum(stw_oi)", "").AsDecimal();
-            decimal cpTotAvgStwOI = Math.Round(sumStwOI / cpTotStwDayCount);
+            decimal cpTotAvgStwOI = Math.Round(sumStwOI / cpTotStwDayCount, MidpointRounding.AwayFromZero);
             ws30040SGX.Cells[rowTol + 1, 7].Value = cpTotAvgStwOI;
 
             // 刪除空白列
@@ -267,20 +267,20 @@ namespace PhoenixCI.FormUI.Prefix3 {
             // cp_tot_avg_qnty
             decimal sumTxQnty = dt300404.Compute("sum(tx_qnty)", "").AsDecimal();
             decimal sumAi2DayCountJPX = dt300404.Compute("sum(ai2_day_count)", "").AsDecimal();
-            decimal cpTotAvgQntyJPX = Math.Round(sumTxQnty / sumAi2DayCountJPX);
+            decimal cpTotAvgQntyJPX = Math.Round(sumTxQnty / sumAi2DayCountJPX, MidpointRounding.AwayFromZero);
             ws30040JPX.Cells[rowTol + 1, 1].Value = cpTotAvgQntyJPX;
             // cp_tot_avg_oi
             decimal sumTxOI = dt300404.Compute("sum(tx_oi)", "").AsDecimal();
-            decimal cpTotAvgOIJPX = Math.Round(sumTxOI / sumAi2DayCountJPX);
+            decimal cpTotAvgOIJPX = Math.Round(sumTxOI / sumAi2DayCountJPX, MidpointRounding.AwayFromZero);
             ws30040JPX.Cells[rowTol + 1, 2].Value = cpTotAvgOIJPX;
             // cp_tot_avg_j_qnty
             decimal sumJQnty = dt300404.Compute("sum(j_qnty)", "").AsDecimal();
             decimal sumJDayCount = dt300404.Compute("sum(j_day_count)", "").AsDecimal();
-            decimal cpTotAvgJQnty = Math.Round(sumJQnty / sumJDayCount);
+            decimal cpTotAvgJQnty = Math.Round(sumJQnty / sumJDayCount, MidpointRounding.AwayFromZero);
             ws30040JPX.Cells[rowTol + 1, 4].Value = cpTotAvgJQnty;
             // cp_tot_avg_j_oi
             decimal sumJOI = dt300404.Compute("sum(j_oi)", "").AsDecimal();
-            decimal cpTotAvgJOI = Math.Round(sumJOI / sumJDayCount);
+            decimal cpTotAvgJOI = Math.Round(sumJOI / sumJDayCount, MidpointRounding.AwayFromZero);
             ws30040JPX.Cells[rowTol + 1, 5].Value = cpTotAvgJOI;
 
             // 刪除空白列
