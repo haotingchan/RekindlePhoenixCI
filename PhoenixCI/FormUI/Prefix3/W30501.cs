@@ -13,6 +13,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
    public partial class W30501 : FormParent {
       private D30501 dao30501;
       private ReportHelper _ReportHelper;
+      private string FooterMemo = "";
 
       public W30501(string programID, string programName) : base(programID, programName) {
          InitializeComponent();
@@ -30,6 +31,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
       protected override ResultStatus Export() {
          ExportShow.Text = "轉檔中...";
          ExportShow.Show();
+         FooterMemo = "";
 
          string destinationFilePath = PbFunc.wf_GetFileSaveName(_ProgramID + "_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss"));
          string txtFilePath = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH, _ProgramID + ".txt");
@@ -50,6 +52,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                int startRow = dtSource.Rows.Count + 3;
                while ((line = tr.ReadLine()) != null) {
                   worksheet.Cells[startRow, 0].Value = line;
+                  FooterMemo += line + Environment.NewLine;
                   startRow++;
                }
             }
@@ -69,6 +72,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          DataTable returnTable = new DataTable();
          string symd = txtSDate.DateTimeValue.ToString("yyyyMMdd");
          string eymd = txtEDate.DateTimeValue.ToString("yyyyMMdd");
+         FooterMemo = "";
 
          returnTable = dao30501.ListData(symd, eymd);
          if (returnTable.Rows.Count == 0) {
@@ -82,6 +86,14 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
          gcMain.DataSource = returnTable;
          gvMain.Columns["PROD_ID"].SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
+
+         string txtFilePath = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH, _ProgramID + ".txt");
+         using (TextReader tr = new StreamReader(txtFilePath, System.Text.Encoding.Default)) {
+            string line = "";
+            while ((line = tr.ReadLine()) != null) {
+               FooterMemo += line + Environment.NewLine;
+            }
+         }
 
          gcMain.Focus();
          _ToolBtnExport.Enabled = true;
@@ -98,6 +110,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          reportLandscape.IsHandlePersonVisible = false;
          reportLandscape.IsManagerVisible = false;
          _ReportHelper.LeftMemo = labTime.Text;
+         _ReportHelper.FooterMemo = FooterMemo;
          _ReportHelper.Create(reportLandscape);
 
          _ReportHelper.Print();//如果有夜盤會特別標註
