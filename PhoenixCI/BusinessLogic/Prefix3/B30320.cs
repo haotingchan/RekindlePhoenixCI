@@ -1,16 +1,11 @@
 ﻿using BaseGround.Shared;
 using Common;
-using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
+using DevExpress.Spreadsheet.Charts;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 /// <summary>
 /// john,20190220,指數期貨價量資料
 /// </summary>
@@ -35,6 +30,22 @@ namespace PhoenixCI.BusinessLogic.Prefix3
          dao30320 = new D30320();
          lsFile = FilePath;
          emMonthText = datetime;
+      }
+      /// <summary>
+      /// 重新選取圖表資料範圍
+      /// </summary>
+      /// <param name="RowIndex">選取到第幾列</param>
+      /// <param name="chartName">圖表sheet名稱</param>
+      private static void ResetChartData(int RowIndex, Workbook workbook, Worksheet worksheet, string chartName)
+      {
+         //TX台指期貨/TE電子期貨/TF金融期貨/MTX小型台指期貨/T5F台灣50期貨/MSF摩台期貨/XIF非金電期貨/GTF櫃買指數期貨
+         string[] data = new string[] { "K3:K", "C3:C", "E3:E", "G3:G", "I3:I", "M3:M", "O3:O", "Q3:Q" };
+         int count = 0;
+         foreach (var item in data) {
+            workbook.ChartSheets[chartName].Chart.Series[count++].Values = new ChartData {
+               RangeValue = worksheet.Range[item + RowIndex.ToString()]
+            };
+         }
       }
       /// <summary>
       /// 寫入 30320 sheet
@@ -152,6 +163,8 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             //刪除空白列
             if (RowTotal > addRowCount) {
                worksheet.Rows.Remove(rowIndex + 1, RowTotal - addRowCount);
+               //重新選取圖表範圍
+               ResetChartData(rowIndex + 1, workbook, worksheet, "30320a");//ex:30320a
             }
             workbook.SaveDocument(lsFile);
             return true;
