@@ -3,6 +3,7 @@ using Common;
 using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
+using DevExpress.Spreadsheet.Charts;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -35,6 +36,22 @@ namespace PhoenixCI.BusinessLogic.Prefix3
          daoAI3 = new AI3();
          lsFile = FilePath;
          emMonthText = datetime;
+      }
+      /// <summary>
+      /// 重新選取圖表資料範圍
+      /// </summary>
+      /// <param name="RowIndex">選取到第幾列</param>
+      /// <param name="chartName">圖表sheet名稱</param>
+      private static void ResetChartData(int RowIndex, Workbook workbook, Worksheet worksheet, string chartName)
+      {
+         //公債期貨總成交量/公債期貨總未平倉量/公債期貨價格
+         string[] data = new string[] { "D4:D", "E4:E", $@"B4:B" };
+         int count = 0;
+         foreach (var item in data) {
+            workbook.ChartSheets[chartName].Chart.Series[count++].Values = new ChartData {
+               RangeValue = worksheet.Range[item + RowIndex.ToString()]
+            };
+         }
       }
       /// <summary>
       /// 寫入 30331 sheet
@@ -87,6 +104,8 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             //刪除空白列
             if (RowTotal > addRowCount) {
                worksheet.Rows.Remove(rowIndex + 1, RowTotal - addRowCount);
+               //重新選取圖表範圍
+               ResetChartData(rowIndex + 1, workbook, worksheet, "30332");
             }
             workbook.SaveDocument(lsFile);
             return true;
