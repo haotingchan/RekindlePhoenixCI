@@ -379,7 +379,11 @@ select RPT_SEQ_NO as ii_ole_row
         /// 取得30015成交值 1
         /// </summary>
         /// <returns></returns>
-        public decimal get30015Amt_1() {
+        public decimal get30015Amt_1(string ls_date) {
+
+            object[] parms = {
+                ":ls_date", ls_date
+            };
 
             string sql =
 @"
@@ -389,7 +393,7 @@ SELECT nvl(SUM(AA2_AMT),0) as ld_amt
    AND AA2_PROD_TYPE = 'F'
     AND AA2_PROD_SUBTYPE = 'I'
 ";
-            DataTable dtResult = db.GetDataTable(sql, null);
+            DataTable dtResult = db.GetDataTable(sql, parms);
 
             if (dtResult.Rows.Count == 0) {
                 return 0;
@@ -403,7 +407,11 @@ SELECT nvl(SUM(AA2_AMT),0) as ld_amt
         /// 取得30015成交值 2
         /// </summary>
         /// <returns></returns>
-        public decimal get30015Amt_2() {
+        public decimal get30015Amt_2(DateTime ldt_date) {
+
+            object[] parms = {
+                ":ldt_date", ldt_date
+            };
 
             string sql =
 @"
@@ -413,7 +421,7 @@ SELECT nvl(amif_m_qnty_tal,0) as ld_amt
    and AMIF_KIND_ID = 'TXF'
     and AMIF_SETTLE_DATE = '000000'
 ";
-            DataTable dtResult = db.GetDataTable(sql, null);
+            DataTable dtResult = db.GetDataTable(sql, parms);
 
             if (dtResult.Rows.Count == 0) {
                 return 0;
@@ -428,7 +436,7 @@ SELECT nvl(amif_m_qnty_tal,0) as ld_amt
         /// </summary>
         /// <param name="ls_date"></param>
         /// <returns></returns>
-        public DateTime? checkPreviousDay(DateTime ls_date) {
+        public DateTime checkPreviousDay(string ls_date) {
 
             object[] parms = {
                 ":ls_date", ls_date
@@ -445,7 +453,7 @@ select nvl(max(AI2_YMD),'')  as ls_date from ci.AI2
             DataTable dtResult = db.GetDataTable(sql, parms);
             if (dtResult.Rows.Count == 0) {
 
-                return null ;
+                return DateTime.MinValue;
             }
             else {
                 return dtResult.Rows[0]["LS_DATE"].AsDateTime();

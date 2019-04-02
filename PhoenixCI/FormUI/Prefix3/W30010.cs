@@ -17,6 +17,7 @@ using DataObjects.Dao.Together;
 using System.Threading;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
+using System.IO;
 
 /// <summary>
 /// Lukas, 2019/4/2
@@ -158,7 +159,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 rptId = "30010_";
 
                 //複製檔案
-                file = PbFunc.wf_copy_file(rptId + grp, rptId + grp);
+                file = wfCopy30010(rptId + grp, grp);
                 if (file == "") return ResultStatus.Fail;
 
                 //開啟檔案
@@ -237,6 +238,12 @@ namespace PhoenixCI.FormUI.Prefix3 {
             return ResultStatus.Success;
         }
 
+        /// <summary>
+        /// 期貨市場動態報導－選擇權
+        /// </summary>
+        /// <param name="rptId"></param>
+        /// <param name="rptName"></param>
+        /// <param name="ws30011"></param>
         private void wf_30012(string rptId, string rptName, Worksheet ws30011) {
             try {
                 string ls_kind_id = "", ls_settle_date = "", ls_kind_id2 = "";
@@ -306,7 +313,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                     delRange.Delete(DeleteMode.EntireRow);
                 }
                 else if (li_txw_cnt < 2) {
-                    delRange = ws30011.Range[(li_txw_row + 1).ToString()];
+                    delRange = ws30011.Rows[(li_txw_row + 1).ToString()];
                     delRange.Delete(DeleteMode.EntireRow);
                 }
             }
@@ -315,6 +322,12 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
         }
 
+        /// <summary>
+        /// 期貨市場動態報導－期貨
+        /// </summary>
+        /// <param name="rptId"></param>
+        /// <param name="rptName"></param>
+        /// <param name="ws30011"></param>
         private void wf_30011(string rptId, string rptName, Worksheet ws30011) {
             try {
                 rptName = "期貨市場動態報導－期貨";
@@ -426,7 +439,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                     delRange.Delete(DeleteMode.EntireRow);
                 }
                 else if (li_mxw_cnt < 2) {
-                    delRange = ws30011.Range[(li_mxw_row + 1).ToString()];
+                    delRange = ws30011.Rows[(li_mxw_row + 1).ToString()];
                     delRange.Delete(DeleteMode.EntireRow);
                 }
             }
@@ -435,6 +448,15 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
         }
 
+        /// <summary>
+        /// 期貨市場動態報導－股票選擇權
+        /// </summary>
+        /// <param name="ai_pdk_param_key"></param>
+        /// <param name="as_prod_type"></param>
+        /// <param name="ai_tot_rowcount"></param>
+        /// <param name="as_pdk_underlying_market"></param>
+        /// <param name="ii_ole_row"></param>
+        /// <param name="ws30013"></param>
         private void wf_30013(string ai_pdk_param_key, string as_prod_type, int ai_tot_rowcount, string as_pdk_underlying_market,
                               int ii_ole_row, Worksheet ws30013) {
             try {
@@ -497,6 +519,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
         }
 
+        /// <summary>
+        /// 期貨市場動態報導－交易量表
+        /// </summary>
+        /// <param name="ws30014"></param>
         private void wf_30014(Worksheet ws30014) {
             string rptName, rptId, ls_date;
             int li_row_cnt, ii_ole_row;
@@ -515,7 +541,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             //填資料
             foreach (DataRow dr in dt30014.Rows) {
-                ii_ole_row = dr[""].AsInt() - 1;
+                ii_ole_row = dr["RPT_SEQ_NO"].AsInt() - 1;
                 if (ii_ole_row < 0) continue;
                 ws30014.Cells[ii_ole_row, 3].Value = dr["AI1_M_QNTY"].AsDecimal();
                 ld_value = dr["M_INCREASE"].AsDecimal();
@@ -532,6 +558,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
         }
 
+        /// <summary>
+        /// 期貨市場動態報導－開戶數
+        /// </summary>
+        /// <param name="ws30014"></param>
         private void wf_30015(Worksheet ws30014) {
             string rptName, rptId, ls_date;
             int li_row_cnt, ii_ole_row;
@@ -569,14 +599,18 @@ namespace PhoenixCI.FormUI.Prefix3 {
             ldt_date = txtSDate.DateTimeValue;
             decimal ld_amt;
             ls_date = txtSDate.DateTimeValue.ToString("yyyyMMdd");
-            ld_amt = dao30010.get30015Amt_1();
+            ld_amt = dao30010.get30015Amt_1(ls_date);
             ld_amt = Math.Round(ld_amt / 100000000 / 2, 2, MidpointRounding.AwayFromZero);
             ws30014.Cells[ii_ole_row, 0].Value = ld_amt;
 
-            ld_amt = dao30010.get30015Amt_2();
+            ld_amt = dao30010.get30015Amt_2(ldt_date);
             ws30014.Cells[ii_ole_row, 3].Value = ld_amt;
         }
 
+        /// <summary>
+        /// Eurex/TAIFEX 合作商品概況
+        /// </summary>
+        /// <param name="ws30014"></param>
         private void wf_30016(Worksheet ws30014) {
             string rptName, rptId, ls_date;
             int li_row_cnt, ii_ole_row;
@@ -587,8 +621,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             //讀取前一交易日
             ls_date = txtSDate.DateTimeValue.ToString("yyyyMMdd");
-            ls_date = dao30010.checkPreviousDay(txtSDate.DateTimeValue).AsString("yyyy/MM/dd");
-            if (ls_date == null){
+            ls_date = dao30010.checkPreviousDay(ls_date).ToString("yyyy/MM/dd");
+            if (dao30010.checkPreviousDay(ls_date) == DateTime.MinValue) {
                 ls_date = txtSDate.Text;
             }
 
@@ -600,8 +634,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
 
             //填資料
-            int li_add = 55-1;
-            ws30014.Cells[li_add + 1, 9].Value = "民國" + (ls_date.SubStr(0,4).AsInt() - 1911) +"年" + ls_date.SubStr(5,2) + "月" + ls_date.SubStr(8, 2) +"日";
+            int li_add = 55 - 1;
+            ws30014.Cells[li_add + 1, 9].Value = "民國" + (ls_date.SubStr(0, 4).AsInt() - 1911) + "年" + ls_date.SubStr(5, 2) + "月" + ls_date.SubStr(8, 2) + "日";
             foreach (DataRow dr in dt30016.Rows) {
                 ii_ole_row = dr["RPT_SEQ_NO"].AsInt() + li_add;
                 if (ii_ole_row == 0) continue;
@@ -618,6 +652,45 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 ls_date = (ls_date.SubStr(0, 4).AsInt() - 1911) + ls_date.SubStr(4, 6);
                 ws30014.Cells[ii_ole_row, 10].Value = ls_date;
             }
+        }
+
+        /// <summary>
+        /// 這支功能PB覆寫公用的wf_copyfile
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="grp"></param>
+        /// <returns></returns>
+        private string wfCopy30010(string fileName, string grp) {
+
+            string template = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH, fileName + ".xls");
+            if (!File.Exists(template)) {
+                MessageDisplay.Error("無此檔案「" + template + "」!");
+                return "";
+            }
+            string lsFilename;
+            lsFilename = "動態報導" + (txtSDate.DateTimeValue.Year - 1911) + "." +
+                         txtSDate.DateTimeValue.Month + "." + txtSDate.DateTimeValue.Day + ".xls";
+            if (grp == "1") {
+                lsFilename = lsFilename + "(16時15分收盤)" + ".xls";
+            }
+            else {
+                lsFilename = lsFilename + "(全部收盤)" + ".xls";
+            }
+            bool lbChk;
+            string file = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, lsFilename);
+            lbChk = File.Exists(file);
+            if (lbChk) {
+                File.Move(file, file + "_bak_" + DateTime.Now.ToString("yyyy.MM.dd-hh.mm.ss") + ".xls");
+            }
+            try {
+                File.Copy(template, file, false);
+            }
+            catch {
+                MessageDisplay.Error("複製「" + template + "」到「" + file + "」檔案錯誤!");
+                return "";
+            }
+            lsFilename = file;
+            return lsFilename;
         }
     }
 }
