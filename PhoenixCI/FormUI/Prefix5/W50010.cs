@@ -226,7 +226,20 @@ namespace PhoenixCI.FormUI.Prefix5 {
             WriteLog(ex);
          }
 
-         return ResultStatus.Success;
+         //DataTable dtTxemail = new TXEMAIL().ListData("30055", 1);
+
+         //if (dtTxemail.Rows.Count != 0) {
+         //   string TXEMAIL_SENDER = dtTxemail.Rows[0]["TXEMAIL_SENDER"].AsString();
+         //   string TXEMAIL_RECIPIENTS = dtTxemail.Rows[0]["TXEMAIL_RECIPIENTS"].AsString();
+         //   string TXEMAIL_CC = dtTxemail.Rows[0]["TXEMAIL_CC"].AsString();
+         //   string TXEMAIL_TITLE = dtTxemail.Rows[0]["TXEMAIL_TITLE"].AsString();
+         //   string TXEMAIL_TEXT = dtTxemail.Rows[0]["TXEMAIL_TEXT"].AsString();
+
+         //   MailHelper.SendEmail(TXEMAIL_SENDER, TXEMAIL_RECIPIENTS, TXEMAIL_CC, TXEMAIL_TITLE, TXEMAIL_TEXT, filepath);
+         //}
+
+
+            return ResultStatus.Success;
       }
 
       protected override ResultStatus Print(ReportHelper reportHelper) {
