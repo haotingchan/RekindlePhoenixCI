@@ -101,5 +101,29 @@ and rpt_txd_id = :txdId
 
          return rowTotal;
       }
+
+      /// <summary>
+      /// get rpt_seq_no
+      /// </summary>
+      /// <param name="rpt_txn_id"></param>
+      /// <param name="rpt_txd_id"></param>
+      /// <returns></returns>
+      public string GetSeqNo(string rpt_txn_id, string rpt_txd_id) {
+         object[] parms =
+         {
+                ":rpt_txn_id", rpt_txn_id,
+                ":rpt_txd_id", rpt_txd_id
+            };
+
+         string sql = @"
+select rpt_seq_no as li_row_start
+from ci.rpt
+where rpt_txn_id = :rpt_txn_id
+and rpt_txd_id = :rpt_txd_id
+";
+
+         string res = db.ExecuteScalar(sql, CommandType.Text, parms);
+         return res;
+      }
    }
 }
