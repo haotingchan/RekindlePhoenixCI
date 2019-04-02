@@ -222,25 +222,28 @@ order by AI2_YMD
       }
 
       /// <summary>
-      /// 抓取前一天,return DateTime
+      /// 抓取前一天,return DateTime (ken,多增加下限時間,加快查詢效率)
       /// </summary>
       /// <param name="ai2_ymd">datetime</param>
       /// <param name="ai2_sum_type"></param>
       /// <param name="ai2_param_key"></param>
       /// <returns></returns>
-      public DateTime GetLastDate(DateTime ai2_ymd , string ai2_sum_type = "D" , string ai2_param_key = "TXF") {
+      public DateTime GetLastDate(DateTime ai2_ymd , string ai2_sum_type = "D" , string ai2_param_key = "TXF%", string ai2_prod_subtype = "%") {
          object[] parms = {
                 ":ai2_ymd", ai2_ymd,
                 ":ai2_sum_type", ai2_sum_type,
                 ":ai2_param_key", ai2_param_key,
+                ":ai2_prod_subtype", ai2_prod_subtype
             };
 
          string sql = @"
 select max(ai2_ymd) as idt_last_date
 from ci.ai2
-where ai2_ymd < to_char(:ai2_ymd,'yyyymmdd')
-and ai2_sum_type = :ai2_sum_type
-and ai2_param_key = :ai2_param_key
+where ai2_sum_type like :ai2_sum_type
+and ai2_param_key like :ai2_param_key
+and ai2_prod_subtype like :ai2_prod_subtype
+and ai2_ymd < to_char(:ai2_ymd,'yyyymmdd')
+and ai2_ymd >= to_char(:ai2_ymd-32,'yyyymmdd')
 ";
 
          string temp = db.ExecuteScalar(sql , CommandType.Text , parms);
@@ -248,6 +251,7 @@ and ai2_param_key = :ai2_param_key
          DateTime.TryParseExact(temp , "yyyyMMdd" , null , System.Globalization.DateTimeStyles.AllowWhiteSpaces , out result);
          return result;
       }
+
 
       /// <summary>
       /// 全市總成交量
