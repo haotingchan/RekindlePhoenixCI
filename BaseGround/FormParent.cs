@@ -586,11 +586,9 @@ namespace BaseGround {
                   Retrieve();
                   args.GridControlSecond.ExportToCsv(attachmentFilePath);
                }));
-
                MailHelper.SendEmail(TXEMAIL_SENDER , TXEMAIL_RECIPIENTS , TXEMAIL_CC , TXEMAIL_TITLE , TXEMAIL_TEXT , attachmentFilePath);
             }
          }
-
          return ResultStatus.Success;
       }
 

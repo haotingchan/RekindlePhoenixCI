@@ -5,23 +5,23 @@ using System.Data;
 /// ken 2018/12/20
 /// </summary>
 namespace DataObjects.Dao.Together {
-    /// <summary>
-    /// APDK商品資訊?
-    /// </summary>
-    public class APDK {
-        private Db db;
+   /// <summary>
+   /// APDK商品資訊?
+   /// </summary>
+   public class APDK {
+      private Db db;
 
-        public APDK() {
-            db = GlobalDaoSetting.DB;
-        }
+      public APDK() {
+         db = GlobalDaoSetting.DB;
+      }
 
-        /// <summary>
-        /// CI.APDK (已經固定一些過濾條件)
-        /// </summary>
-        /// <returns>前面[全部/期貨/選擇權]+APDK_PROD_TYPE/PDK_KIND_ID/cp_display</returns>
-        public DataTable ListAll() {
+      /// <summary>
+      /// CI.APDK (已經固定一些過濾條件)
+      /// </summary>
+      /// <returns>前面[全部/期貨/選擇權]+APDK_PROD_TYPE/PDK_KIND_ID/cp_display</returns>
+      public DataTable ListAll() {
 
-            string sql = @"
+         string sql = @"
 select a.APDK_PROD_TYPE,
 a.PDK_KIND_ID,
 a.PDK_KIND_ID as cp_display
@@ -43,19 +43,19 @@ from (
 ) a
 order by s ,apdk_prod_type , pdk_kind_id";
 
-            DataTable dtResult = db.GetDataTable(sql, null);
+         DataTable dtResult = db.GetDataTable(sql, null);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
 
-        /// <summary>
-        /// CI.APDK (已經固定一些過濾條件)
-        /// </summary>
-        /// <returns>前面空一行+APDK_PROD_TYPE/APDK_KIND_ID/APDK_NAME/cp_display</returns>
-        public DataTable ListAll2() {
+      /// <summary>
+      /// CI.APDK (已經固定一些過濾條件)
+      /// </summary>
+      /// <returns>前面空一行+APDK_PROD_TYPE/APDK_KIND_ID/APDK_NAME/cp_display</returns>
+      public DataTable ListAll2() {
 
-            string sql = @"
+         string sql = @"
 select a.APDK_PROD_TYPE,a.APDK_KIND_ID,a.APDK_NAME,
 (case when trim(apdk_name) is null then trim(apdk_kind_id)
      else trim(apdk_kind_id)||'('||trim(apdk_name)||')' end) as cp_display
@@ -74,19 +74,19 @@ from (
 ) a
 order by apdk_prod_type , apdk_kind_id";
 
-            DataTable dtResult = db.GetDataTable(sql, null);
+         DataTable dtResult = db.GetDataTable(sql, null);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
 
-        /// <summary>
-        /// CI.APDK (已經固定一些過濾條件)
-        /// </summary>
-        /// <returns>前面空一行+APDK_PROD_TYPE/PDK_KIND_ID/MARKET_CODE</returns>
-        public DataTable ListAll3() {
+      /// <summary>
+      /// CI.APDK (已經固定一些過濾條件)
+      /// </summary>
+      /// <returns>前面空一行+APDK_PROD_TYPE/PDK_KIND_ID/MARKET_CODE</returns>
+      public DataTable ListAll3() {
 
-            string sql = @"
+         string sql = @"
 SELECT APDK_PROD_TYPE,
 APDK_KIND_ID as PDK_KIND_ID,
 APDK_MARKET_CODE as MARKET_CODE
@@ -98,23 +98,23 @@ SELECT ' ','',' '
 FROM DUAL
 order by apdk_prod_type , pdk_kind_id";
 
-            DataTable dtResult = db.GetDataTable(sql, null);
+         DataTable dtResult = db.GetDataTable(sql, null);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        /// <summary>
-        /// CI.APDK (已經固定一些過濾條件)
-        /// </summary>
-        /// <param name="APDK_PROD_TYPE"></param>
-        /// <returns>前面空一行+APDK_PROD_TYPE/PDK_KIND_ID/MARKET_CODE</returns>
-        public DataTable ListKindByType(string APDK_PROD_TYPE = "O") {
-            object[] parms =
-            {
+      /// <summary>
+      /// CI.APDK (已經固定一些過濾條件)
+      /// </summary>
+      /// <param name="APDK_PROD_TYPE"></param>
+      /// <returns>前面空一行+APDK_PROD_TYPE/PDK_KIND_ID/MARKET_CODE</returns>
+      public DataTable ListKindByType(string APDK_PROD_TYPE = "O") {
+         object[] parms =
+         {
                 ":APDK_PROD_TYPE", APDK_PROD_TYPE
             };
 
-            string sql = @"
+         string sql = @"
 SELECT APDK_PROD_TYPE,
 APDK_KIND_ID as PDK_KIND_ID,
 MAX(APDK_MARKET_CODE) as MARKET_CODE
@@ -126,27 +126,27 @@ SELECT '','',' '
 FROM DUAL
 order by pdk_kind_id";
 
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql, parms);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
 
-        /// <summary>
-        /// CI.APDK (已經固定一些過濾條件)
-        /// </summary>
-        /// <param name="APDK_PROD_TYPE">預設 = F+O</param>
-        /// <returns>前面空一行+APDK_KIND_ID_STO/MARKET_CODE</returns>
-        public DataTable ListStockKindByType(string APDK_PROD_TYPE = "") {
-            object[] parms =
-            {
+      /// <summary>
+      /// CI.APDK (已經固定一些過濾條件)
+      /// </summary>
+      /// <param name="APDK_PROD_TYPE">預設 = F+O</param>
+      /// <returns>前面空一行+APDK_KIND_ID_STO/MARKET_CODE</returns>
+      public DataTable ListStockKindByType(string APDK_PROD_TYPE = "") {
+         object[] parms =
+         {
                 ":APDK_PROD_TYPE", APDK_PROD_TYPE
             };
 
-            //預設 = F+O
-            string filter = (APDK_PROD_TYPE == "" ? "WHERE APDK_PROD_TYPE in ('F','O')" : "WHERE APDK_PROD_TYPE = :APDK_PROD_TYPE");
+         //預設 = F+O
+         string filter = (APDK_PROD_TYPE == "" ? "WHERE APDK_PROD_TYPE in ('F','O')" : "WHERE APDK_PROD_TYPE = :APDK_PROD_TYPE");
 
-            string sql = string.Format(@"
+         string sql = string.Format(@"
 SELECT APDK_KIND_ID_STO,
 MAX(APDK_MARKET_CODE) AS MARKET_CODE
 FROM ci.APDK  
@@ -157,66 +157,89 @@ UNION
     FROM DUAL
 order by apdk_kind_id_sto", filter);
 
-            DataTable dtResult = db.GetDataTable(sql, null);
+         DataTable dtResult = db.GetDataTable(sql, null);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        /// <summary>
-        /// CI.APDK (已經固定一些過濾條件)
-        /// </summary>
-        /// <returns>前面空一行+APDK_KIND_ID_STO/MARKET_CODE</returns>
-        public DataTable ListKind2() {
+      /// <summary>
+      /// CI.APDK (已經固定一些過濾條件)
+      /// </summary>
+      /// <returns>前面空一行+APDK_KIND_ID_STO/MARKET_CODE</returns>
+      public DataTable ListKindId(string marketCode="") {
 
-            string sql = @"
+         string sql = string.Format(@"
+SELECT APDK_KIND_ID ,MAX(APDK_MARKET_CODE) AS MARKET_CODE
+    FROM ci.APDK  
+ where APDK_PROD_TYPE in ('F','O') 
+{0}
+GROUP BY APDK_KIND_ID  
+UNION
+  SELECT ' ',' '
+    FROM DUAL", marketCode);
+
+         DataTable dtResult = db.GetDataTable(sql, null);
+
+         return dtResult;
+      }
+
+      /// <summary>
+      /// CI.APDK (已經固定一些過濾條件)
+      /// </summary>
+      /// <returns>前面空一行+APDK_KIND_ID_STO/MARKET_CODE</returns>
+      public DataTable ListKind2(string marketCode ="") {
+
+         string sql = string.Format(@"
 SELECT APDK_KIND_ID2 AS APDK_KIND_ID_STO,
 MAX(APDK_MARKET_CODE) AS MARKET_CODE
 FROM ci.APDK  
-WHERE APDK_PROD_TYPE in ('O','F')    
+WHERE APDK_PROD_TYPE in ('O','F')   
+{0}
 GROUP BY APDK_KIND_ID2 
 UNION
   SELECT ' ',' '
     FROM DUAL
-order by apdk_kind_id_sto";
+order by apdk_kind_id_sto", marketCode);
 
-            DataTable dtResult = db.GetDataTable(sql, null);
+         DataTable dtResult = db.GetDataTable(sql, null);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        /// <summary>
-        /// CI.APDK (已經固定一些過濾條件)
-        /// </summary>
-        /// <returns>前面空一行+APDK_PROD_TYPE/APDK_PARAM_KEY/MARKET_CODE</returns>
-        public DataTable ListParamKey() {
+      /// <summary>
+      /// CI.APDK (已經固定一些過濾條件)
+      /// </summary>
+      /// <returns>前面空一行+APDK_PROD_TYPE/APDK_PARAM_KEY/MARKET_CODE</returns>
+      public DataTable ListParamKey(string marketCode = "") {
 
-            string sql = @"
+         string sql = string.Format(@"
 SELECT APDK_PROD_TYPE,
 APDK_PARAM_KEY,
 MAX(APDK_MARKET_CODE) MARKET_CODE
 FROM ci.APDK
 where APDK_QUOTE_CODE = 'Y'
 and APDK_PROD_TYPE in ('F','O')
+{0}
 group by APDK_PROD_TYPE,APDK_PARAM_KEY
 UNION
 SELECT ' ','',' '
 FROM DUAL
-order by apdk_prod_type , apdk_param_key";
+order by apdk_prod_type , apdk_param_key", marketCode);
 
-            DataTable dtResult = db.GetDataTable(sql, null);
+         DataTable dtResult = db.GetDataTable(sql, null);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        /// <summary>
-        /// CI.APDK 契約類別 B－ C－商品類 E－匯率類 I－指數類 R－利率類 S－股票類
-        /// </summary>
-        /// <returns>前面空一行+APDK_PROD_SUBTYPE/PROD_SUBTYPE_NAME/cp_display</returns>
-        public DataTable ListProdSubType() {
+      /// <summary>
+      /// CI.APDK 契約類別 B－ C－商品類 E－匯率類 I－指數類 R－利率類 S－股票類
+      /// </summary>
+      /// <returns>前面空一行+APDK_PROD_SUBTYPE/PROD_SUBTYPE_NAME/cp_display</returns>
+      public DataTable ListProdSubType() {
 
-            //B－ C－商品類 E－匯率類 I－指數類 R－利率類 S－股票類
+         //B－ C－商品類 E－匯率類 I－指數類 R－利率類 S－股票類
 
-            string sql = @"
+         string sql = @"
 select a.*,
 (case when prod_subtype_name is null then apdk_prod_subtype||'－ ' else apdk_prod_subtype||'－'||prod_subtype_name end) as cp_display
 from (
@@ -234,24 +257,24 @@ from (
 order by apdk_prod_subtype
 ";
 
-            DataTable dtResult = db.GetDataTable(sql, null);
+         DataTable dtResult = db.GetDataTable(sql, null);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
 
-        /// <summary>
-        /// 契約基本資料
-        /// </summary>
-        /// <param name="kindId"></param>
-        /// <returns>APDK_KIND_ID/APDK_PROD_TYPE/APDK_PROD_SUBTYPE/APDK_PARAM_KEY</returns>
-        public DataTable ListAllByKindId(string kindId) {
-            object[] parms =
-            {
+      /// <summary>
+      /// 契約基本資料
+      /// </summary>
+      /// <param name="kindId"></param>
+      /// <returns>APDK_KIND_ID/APDK_PROD_TYPE/APDK_PROD_SUBTYPE/APDK_PARAM_KEY</returns>
+      public DataTable ListAllByKindId(string kindId) {
+         object[] parms =
+         {
                 ":as_kind_id", kindId
             };
 
-            string sql = @"
+         string sql = @"
 select APDK_KIND_ID,
 APDK_PROD_TYPE,
 APDK_PROD_SUBTYPE,
@@ -260,35 +283,39 @@ from ci.APDK
 where APDK_KIND_ID = :as_kind_id
 ";
 
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql, parms);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        /// <summary>
-        /// w500xx下拉選單
-        /// </summary>
-        /// <param name="col">欄位名稱</param>
-        /// <returns></returns>
-        public DataTable dw_prod_500xx(string col,string emptycol) {
+      /// <summary>
+      /// w500xx下拉選單
+      /// </summary>
+      /// <param name="col">欄位名稱</param>
+      /// <returns></returns>
+      public DataTable dw_prod_500xx(string col, string emptycol, string marketCode = "") {
          string sql = string.Format(@"
-SELECT distinct {0}
-FROM ci.APDK
-union all 
-select {1} from dual
-order by {0}
-", col, emptycol);
-            DataTable dtResult = db.GetDataTable(sql, null);
-            return dtResult;
-        }
+SELECT {0},MAX(APDK_MARKET_CODE) MARKET_CODE  
+    FROM ci.APDK  
+ where APDK_QUOTE_CODE = 'Y'
+   and APDK_PROD_TYPE in ('F','O')
+   {2}
+group by {0}
+UNION
+  SELECT {1},' '
+    FROM DUAL
+", col, emptycol, marketCode);
+         DataTable dtResult = db.GetDataTable(sql, null);
+         return dtResult;
+      }
 
-        /// <summary>
-        /// Lukas, 2018/12/25
-        /// </summary>
-        /// <returns>apdk_kind_id</returns>
-        public DataTable ListAll_55031() {
+      /// <summary>
+      /// Lukas, 2018/12/25
+      /// </summary>
+      /// <returns>apdk_kind_id</returns>
+      public DataTable ListAll_55031() {
 
-            string sql = @"
+         string sql = @"
 SELECT SUBSTR(APDK_KIND_ID,1,2) as apdk_kind_id
   FROM ci.APDK
   where APDK_PROD_TYPE = 'O'
@@ -299,25 +326,25 @@ SELECT SUBSTR(APDK_KIND_ID,1,2) as apdk_kind_id
 union
 SELECT 'STC' from dual";
 
-            DataTable dtResult = db.GetDataTable(sql, null);
+         DataTable dtResult = db.GetDataTable(sql, null);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        /// <summary>
-        /// CI.APDK (已經固定一些過濾條件)
-        /// return CPR_SELECT / P_KIND_ID2 / P_NAME
-        /// </summary>
-        /// <param name="prodType"></param>
-        /// <param name="prodSubType"></param>
-        /// <returns>CPR_SELECT / P_KIND_ID2 / P_NAME</returns>
-        public DataTable ListAll4(string prodType = "O", string prodSubType = "S") {
-            object[] parms ={
+      /// <summary>
+      /// CI.APDK (已經固定一些過濾條件)
+      /// return CPR_SELECT / P_KIND_ID2 / P_NAME
+      /// </summary>
+      /// <param name="prodType"></param>
+      /// <param name="prodSubType"></param>
+      /// <returns>CPR_SELECT / P_KIND_ID2 / P_NAME</returns>
+      public DataTable ListAll4(string prodType = "O", string prodSubType = "S") {
+         object[] parms ={
                 ":prodType", prodType,
                 ":prodSubType", prodSubType,
             };
 
-            string sql = @"
+         string sql = @"
 select 'N' as cpr_select,
     apdk_kind_id2 as p_kind_id2,
     max(apdk_name) as p_name
@@ -328,10 +355,10 @@ and apdk_end_date is null
 group by apdk_kind_id2
 order by p_kind_id2";
 
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql, parms);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-    }
+   }
 }
