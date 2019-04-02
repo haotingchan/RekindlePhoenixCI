@@ -1,5 +1,4 @@
-﻿using Common;
-using System;
+﻿using System;
 using System.Data;
 
 /// <summary>
@@ -20,15 +19,14 @@ namespace DataObjects.Dao.Together.SpecificDao {
       /// <param name="as_ocf_ymd"></param>
       /// <param name="as_prev_ymd"></param>
       /// <returns></returns>
-      public DataTable wf_30055_b(string as_ocf_ymd , string as_prev_ymd) {
+      public DataTable wf_30055_b(string as_ocf_ymd, string as_prev_ymd) {
 
          object[] parms = {
                 ":as_ocf_ymd", as_ocf_ymd,
                 ":as_prev_ymd", as_prev_ymd
             };
 
-         string sql =
-@"
+         string sql = @"
 SELECT MIF.AMIF_KIND_ID,
     MIF.AMIF_OPEN_PRICE,
     MIF.AMIF_HIGH_PRICE,
@@ -93,7 +91,7 @@ select KIND_ID,OPEN_PRICE,HIGH_PRICE,LOW_PRICE,CLOSE_PRICE,UP_DOWN_VAL,NULL,NULL
  where kind_id = RPT_KIND_ID
  order by RPT_SEQ_NO
 ";
-         DataTable dtResult = db.GetDataTable(sql , parms);
+         DataTable dtResult = db.GetDataTable(sql, parms);
 
          return dtResult;
       }
@@ -106,7 +104,7 @@ select KIND_ID,OPEN_PRICE,HIGH_PRICE,LOW_PRICE,CLOSE_PRICE,UP_DOWN_VAL,NULL,NULL
       /// <param name="ai_txo_row_cnt"></param>
       /// <param name="ai_txw_row_cnt"></param>
       /// <returns></returns>
-      public DataTable wf_30055_tx(DateTime adt_date , decimal an_strike_price , int ai_txo_row_cnt , int ai_txw_row_cnt) {
+      public DataTable wf_30055_tx(DateTime adt_date, decimal an_strike_price, int ai_txo_row_cnt, int ai_txw_row_cnt) {
 
          object[] parms = {
                 ":adt_date", adt_date,
@@ -168,7 +166,7 @@ select AMIF_OPEN_PRICE,AMIF_HIGH_PRICE,AMIF_LOW_PRICE,AMIF_SETTLE_PRICE,AMIF_M_Q
  where AMIF_KIND_ID = RPT_KIND_ID(+)
  order by rpt_seq_no, amif_strike_price, amif_pc_code
 ";
-         DataTable dtResult = db.GetDataTable(sql , parms);
+         DataTable dtResult = db.GetDataTable(sql, parms);
 
          return dtResult;
       }
@@ -179,7 +177,7 @@ select AMIF_OPEN_PRICE,AMIF_HIGH_PRICE,AMIF_LOW_PRICE,AMIF_SETTLE_PRICE,AMIF_M_Q
       /// <param name="adt_date"></param>
       /// <param name="adt_last_date"></param>
       /// <returns></returns>
-      public DataTable wf_30055_toi1(DateTime adt_date , DateTime adt_last_date) {
+      public DataTable wf_30055_big_keep(DateTime adt_date, DateTime adt_last_date) {
 
          object[] parms = {
                 ":adt_date", adt_date,
@@ -214,6 +212,7 @@ from (
                 toi1_prod_subtype,   
                 toi1_kind_id,  
                 toi1_com_name,   
+
                 toi1_month_type as month_type,   
                 toi1_pc_code,    
                 toi1_b_10,   
@@ -246,7 +245,7 @@ from (
 where nvl(m.rpt_seq_no,'0')<>'0'
 order by rpt_seq_no , cp_seq_no , toi1_prod_type , toi1_prod_subtype , toi1_seq_no
 ";
-         DataTable dtResult = db.GetDataTable(sql , parms);
+         DataTable dtResult = db.GetDataTable(sql, parms);
 
          return dtResult;
       }
@@ -257,7 +256,7 @@ order by rpt_seq_no , cp_seq_no , toi1_prod_type , toi1_prod_subtype , toi1_seq_
       /// <param name="adt_date"></param>
       /// <param name="adt_last_date"></param>
       /// <returns></returns>
-      public DataTable wf_30055_3(DateTime adt_date , DateTime adt_last_date) {
+      public DataTable wf_30055_three_keep(DateTime adt_date, DateTime adt_last_date) {
 
          object[] parms = {
                 ":adt_date", adt_date,
@@ -270,6 +269,7 @@ select m.*,
 (case btinoivl3f_acc_type when 'C' then 1 when 'B' then 2 else 3 end) as cp_seq_no 
 
 from (
+    --期貨
     select t.btinoivl3f_prodid,
             ' ' as pc_code,
             trim(t.btinoivl3f_acc_type) as btinoivl3f_acc_type,
@@ -280,7 +280,8 @@ from (
            (t.btinoivl3f_oib_qnty - t.btinoivl3f_ois_qnty) - (y.btinoivl3f_oib_qnty - y.btinoivl3f_ois_qnty) as oi_up_down,
            (y.btinoivl3f_oib_qnty - y.btinoivl3f_ois_qnty) as oi_last_net,
            rpt_seq_no                
-      from ci.m_btinoivl3f t,ci.m_btinoivl3f y, 
+      from ci.m_btinoivl3f t,
+           ci.m_btinoivl3f y, 
           (select rpt_value as rpt_kind_id,rpt_seq_no 
              from ci.rpt
             where rpt_txn_id = '30055' and rpt_txd_id = '30055t') r
@@ -291,12 +292,18 @@ from (
        and t.btinoivl3f_prodid = y.btinoivl3f_prodid
        and t.btinoivl3f_acc_type = y.btinoivl3f_acc_type
        and t.btinoivl3f_prodid = rpt_kind_id(+)
+       
     union all
-    select t.btinoivl4_prodid,t.btinoivl4_pc_code as pc_code,t.btinoivl4_acc_type,t.btinoivl4_oib_qnty ,t.btinoivl4_ois_qnty,
-           (t.btinoivl4_oib_qnty - t.btinoivl4_ois_qnty) as oi_net,
-           (t.btinoivl4_oib_qnty - t.btinoivl4_ois_qnty) - (y.btinoivl4_oib_qnty - y.btinoivl4_ois_qnty) as oi_up_down,
-           (y.btinoivl4_oib_qnty - y.btinoivl4_ois_qnty) as oi_last_net,
-           rpt_seq_no  
+    --TXO台指選擇權
+    select t.btinoivl4_prodid,
+            t.btinoivl4_pc_code as pc_code,
+            trim(t.btinoivl4_acc_type) as btinoivl4_acc_type,
+            t.btinoivl4_oib_qnty,
+            t.btinoivl4_ois_qnty,
+            (t.btinoivl4_oib_qnty - t.btinoivl4_ois_qnty) as oi_net,
+            (t.btinoivl4_oib_qnty - t.btinoivl4_ois_qnty) - (y.btinoivl4_oib_qnty - y.btinoivl4_ois_qnty) as oi_up_down,
+            (y.btinoivl4_oib_qnty - y.btinoivl4_ois_qnty) as oi_last_net,
+            rpt_seq_no  
     from ci.m_btinoivl4 t,ci.m_btinoivl4 y, 
           (select rpt_value as rpt_kind_id,rpt_seq_no 
              from ci.rpt
@@ -311,14 +318,324 @@ from (
       and t.btinoivl4_prodid = rpt_kind_id(+)
 ) m
 where nvl(m.rpt_seq_no,'0')<>'0'
-order by rpt_seq_no , cp_seq_no , btinoivl3f_acc_type
+order by rpt_seq_no , cp_seq_no , btinoivl3f_acc_type desc , pc_code
 ";
-         DataTable dtResult = db.GetDataTable(sql , parms);
+         DataTable dtResult = db.GetDataTable(sql, parms);
+
+         return dtResult;
+      }
+
+      /// <summary>
+      /// 2.6主要股票期貨商品行情表（依未平倉量）
+      /// return 11 fields
+      /// </summary>
+      /// <param name="as_ymd"></param>
+      /// <param name="as_last_ymd"></param>
+      /// <param name="as_param_key"></param>
+      /// <returns></returns>
+      public DataTable wf_30055_stf(string as_ymd, string as_last_ymd, string as_param_key = "STF") {
+
+         object[] parms = {
+                ":as_ymd", as_ymd,
+                ":as_last_ymd", as_last_ymd,
+                ":as_param_key", as_param_key.PadRight(7,' ')
+            };
+
+         string sql = @"
+select apdk_name,
+    t.kind_id2,
+
+    amif_open_price,
+    amif_high_price,
+    amif_low_price,
+    amif_settle_price,
+
+    amif_up_down_val,
+    t.m_qnty,
+    t.oi,
+    (t.oi - y.oi) as oi_up_down,
+
+    t.seq_no  
+from ci.amif,
+    ci.apdk,
+    (select kind_id2,m_qnty,oi,rownum as seq_no
+     from
+         (select substr(ai2_kind_id,1,2) as kind_id2,sum(ai2_m_qnty) as m_qnty,sum(ai2_oi) as oi
+          from ci.ai2
+         where ai2_ymd = :as_ymd
+           and ai2_sum_type = 'D'
+           and ai2_sum_subtype = '4'
+           and ai2_prod_type = 'F'
+           and ai2_param_key = :as_param_key
+         group by substr(ai2_kind_id,1,2)
+         order by sum(ai2_oi) desc)
+    where rownum <= (case when :as_param_key = 'ETF    ' then 9 else 5 end)) t,
+    (select substr(ai2_kind_id,1,2) as kind_id2,sum(ai2_oi) as oi
+        from ci.ai2
+        where ai2_ymd = :as_last_ymd
+         and ai2_sum_type = 'D'
+         and ai2_sum_subtype = '4'
+         and ai2_prod_type = 'F'
+         and ai2_param_key = :as_param_key
+        group by substr(ai2_kind_id,1,2)) y,
+    (select amif_kind_id as m_kind_id,min(amif_settle_date) as min_settle_date 
+        from ci.amif 
+        where amif_date = to_date(:as_ymd,'yyyymmdd') 
+         and amif_prod_type = 'F' 
+         and amif_param_key = :as_param_key
+         and amif_delivery_mth_seq_no >= 1 
+        group by amif_kind_id) m
+ where t.kind_id2 = y.kind_id2
+   and amif_kind_id = m_kind_id
+   and amif_settle_date = min_settle_date
+   and amif_kind_id = apdk_kind_id
+   and trim(amif_kind_id)= t.kind_id2||'F'
+   and amif_date = to_date(:as_ymd,'yyyymmdd')
+   and amif_prod_type = 'F'
+   and amif_param_key = :as_param_key
+order by seq_no
+";
+         DataTable dtResult = db.GetDataTable(sql, parms);
+
+         return dtResult;
+      }
+
+      /// <summary>
+      /// 2.7主要ETF選擇權(近月價平)序列行情表
+      /// </summary>
+      /// <param name="adt_date"></param>
+      /// <returns></returns>
+      public DataTable wf_30055_etc(DateTime adt_date,string pdk_param_key="ETC") {
+
+         object[] parms = {
+                ":adt_date", adt_date,
+                ":pdk_param_key",pdk_param_key.PadRight(7,' ')
+            };
+
+         string sql = @"
+select * from (
+   select max(case when amif_pc_code = 'C' then amif_open_price else 0 end) as c_open_price,
+          max(case when amif_pc_code = 'C' then amif_high_price else 0 end) as c_high_price,
+          max(case when amif_pc_code = 'C' then amif_low_price else 0 end) as c_low_price,
+          max(case when amif_pc_code = 'C' then amif_settle_price else 0 end) as c_settle_price,
+          max(case when amif_pc_code = 'C' then amif_m_qnty_tal else 0 end) as c_m_qnty_tal,
+          
+          pdk_name,
+          amif_strike_price,
+
+          max(case when amif_pc_code = 'P' then amif_open_price else 0 end) as p_open_price,
+          max(case when amif_pc_code = 'P' then amif_high_price else 0 end) as p_high_price,
+          max(case when amif_pc_code = 'P' then amif_low_price else 0 end) as p_low_price,
+          max(case when amif_pc_code = 'P' then amif_settle_price else 0 end) as p_settle_price,
+          max(case when amif_pc_code = 'P' then amif_m_qnty_tal else 0 end) as p_m_qnty_tal,
+          
+          --amif_kind_id,
+          --amif_settle_date,
+          sum(amif_m_qnty_tal) as m_qnty
+     from
+         --近月價平     
+         (select amif_kind_id2,amif_kind_id,amif_settle_date,amif_open_price,amif_high_price,amif_low_price,amif_settle_price,amif_m_qnty_tal,amif_strike_price,amif_pc_code,pdk_name,
+                 row_number( ) over (partition by amif_kind_id,amif_pc_code order by amif_kind_id,amif_pc_code,amif_strike_price desc nulls last) as kind_seq_no
+            from ci.amif,
+              (select pdk_date as strike_date,pdk_kind_id as strike_kind_id ,pdk_prod_idx as an_strike_price ,pdk_name
+                 from ci.hpdk 
+                 where pdk_date = :adt_date
+                   and pdk_param_key = :pdk_param_key)
+           where amif_date = strike_date
+             and amif_kind_id = strike_kind_id
+             and amif_delivery_mth_seq_no = 1
+             and amif_strike_price <= an_strike_price)
+   where kind_seq_no = 1
+   group by pdk_name,amif_strike_price, amif_kind_id,amif_settle_date
+   order by m_qnty desc
+) where rownum < 9
+";
+         DataTable dtResult = db.GetDataTable(sql, parms);
+
+         return dtResult;
+      }
+
+      /// <summary>
+      /// 2.8人民幣匯率期貨行情表
+      /// </summary>
+      /// <param name="adt_date"></param>
+      /// <param name="as_last_ymd"></param>
+      /// <param name="as_type">C/E</param>
+      /// <returns></returns>
+      public DataTable wf_30055_prod_subtype(string as_ymd, string as_last_ymd, string as_type = "E") {
+
+         string as_txd_id = "30055" + as_type;//char(10)
+
+         object[] parms = {
+                ":as_ymd", as_ymd,
+                ":as_last_ymd",as_last_ymd,
+                ":as_type",as_type,
+                ":as_txd_id",as_txd_id.PadRight(10,' ')
+            };
+
+         string sql = @"
+select apdk_name,
+    amif_settle_date,
+    amif_open_price,
+    amif_high_price,
+    amif_low_price,
+
+    amif_settle_price,
+    amif_up_down_val,
+    t.m_qnty,
+    t.oi,
+    (t.oi - y.oi) as oi_up_down,
+
+    t.kind_id2,
+    rpt_row + row_number( ) over (partition by apdk_name order by apdk_name ,amif_settle_date nulls last)  - 1 as seq_no
+from ci.amif,
+    ci.apdk,
+    (select substr(ai2_kind_id,1,2) as kind_id2,sum(ai2_m_qnty) as m_qnty,sum(ai2_oi) as oi, 0 as seq_no,ai2_settle_date
+          from ci.ai2
+         where ai2_ymd = :as_ymd
+           and ai2_sum_type = 'D'
+           and ai2_sum_subtype = '7'
+           and ai2_prod_type = 'F'
+           and ai2_prod_subtype = :as_type
+         group by substr(ai2_kind_id,1,2) ,ai2_settle_date
+         order by substr(ai2_kind_id,1,2) desc) t,
+    (select substr(ai2_kind_id,1,2) as kind_id2,sum(ai2_oi) as oi,ai2_settle_date
+        from ci.ai2
+        where ai2_ymd = :as_last_ymd
+         and ai2_sum_type = 'D'
+         and ai2_sum_subtype = '7'
+         and ai2_prod_type = 'F'
+         and ai2_prod_subtype = :as_type
+        group by substr(ai2_kind_id,1,2),ai2_settle_date) y,
+    (select rpt_value as rpt_kind_id,rpt_level_1 as rpt_row
+        from ci.rpt
+        where rpt_txn_id = '30055' and rpt_txd_id = :as_txd_id)
+ where amif_prod_type = 'F'
+   and amif_prod_subtype = :as_type
+   and amif_delivery_mth_seq_no >= 1  
+   and amif_delivery_mth_seq_no <= 2
+   and trim(amif_kind_id)= t.kind_id2||'F'
+   and trim(amif_kind_id)= y.kind_id2(+)||'F'
+   and amif_kind_id = apdk_kind_id
+   and amif_settle_date = t.ai2_settle_date
+   and amif_settle_date = y.ai2_settle_date(+)
+   and amif_kind_id = rpt_kind_id
+   and amif_date = to_date(:as_ymd,'yyyymmdd')
+order by seq_no , kind_id2 desc, amif_settle_date
+";
+         DataTable dtResult = db.GetDataTable(sql, parms);
 
          return dtResult;
       }
 
 
+      /// <summary>
+      /// 2.9 人民幣匯率選擇權主要序列行情表(依成交量)
+      /// </summary>
+      /// <param name="adt_date"></param>
+      /// <returns></returns>
+      public DataTable wf_30055_rho(DateTime adt_date) {
+         object[] parms = {
+                ":adt_date", adt_date
+            };
+
+         string sql = @"
+select * from (
+   select max(case when amif_pc_code = 'C' then amif_open_price else 0 end) as c_open_price,
+          max(case when amif_pc_code = 'C' then amif_high_price else 0 end) as c_high_price,
+          max(case when amif_pc_code = 'C' then amif_low_price else 0 end) as c_low_price,
+          max(case when amif_pc_code = 'C' then amif_settle_price else 0 end) as c_settle_price,
+          max(case when amif_pc_code = 'C' then amif_m_qnty_tal else 0 end) as c_m_qnty_tal,
+
+          apdk_name as pdk_name,
+          amif_strike_price,
+          max(case when amif_pc_code = 'P' then amif_open_price else 0 end) as p_open_price,
+          max(case when amif_pc_code = 'P' then amif_high_price else 0 end) as p_high_price,
+          max(case when amif_pc_code = 'P' then amif_low_price else 0 end) as p_low_price,
+          max(case when amif_pc_code = 'P' then amif_settle_price else 0 end) as p_settle_price,
+          max(case when amif_pc_code = 'P' then amif_m_qnty_tal else 0 end) as p_m_qnty_tal,
+
+          amif_kind_id,
+          amif_settle_date,
+          sum(amif_m_qnty_tal) as m_qnty,
+          sum(amif_open_interest) as oi
+     from ci.apdk, ci.amif 
+   where amif_date = :adt_date
+     and amif_kind_id = apdk_kind_id
+     and amif_prod_type = 'O'
+     and amif_prod_subtype = 'E'  
+     and amif_mth_seq_no = 1
+   group by apdk_name,amif_strike_price, amif_kind_id,amif_settle_date
+   order by m_qnty desc, oi desc, amif_strike_price
+) 
+where rownum < 4
+";
+         DataTable dtResult = db.GetDataTable(sql, parms);
+
+         return dtResult;
+      }
+
+      /// <summary>
+      /// 2.12 股票期貨週
+      /// </summary>
+      /// <param name="adt_sdate"></param>
+      /// <param name="adt_edate"></param>
+      /// <returns></returns>
+      public DataTable wf_30055_weekly(DateTime adt_sdate, DateTime adt_edate) {
+         object[] parms = {
+                ":adt_sdate", adt_sdate,
+                ":adt_edate", adt_edate
+            };
+
+         string sql = @"
+select * from (
+   select row_number() over(order by ai2_m_qnty desc) row_num,
+      --AI2_KIND_ID, 
+      trim(apdk_name) as apdk_name, 
+      ai2_m_qnty
+   from ci.apdk,
+      (select trim(ai2_kind_id2)||'F' as ai2_kind_id, sum(ai2_m_qnty) as ai2_m_qnty
+      from ci.ai2
+      where ai2_ymd >= to_char(:adt_sdate,'yyyymmdd')
+        and ai2_ymd <= to_char(:adt_edate,'yyyymmdd')
+        and ai2_prod_type = 'F'
+        and ai2_param_key = 'STF'
+        and ai2_sum_type = 'D'
+        and ai2_sum_subtype = '4'
+      group by ai2_kind_id2)
+   where trim(apdk_kind_id(+)) = ai2_kind_id
+   order by ai2_m_qnty desc
+) where rownum<=10
+";
+         DataTable dtResult = db.GetDataTable(sql, parms);
+
+         return dtResult;
+      }
+
+      /// <summary>
+      /// 統一刪除多的ROW
+      /// </summary>
+      /// <returns></returns>
+      public DataTable wf_del_row(){
+         
+
+         string sql = @"
+select nvl(max(case when rpt_txd_id = '30055b'  and rpt_value = 'MXW' then rpt_seq_no else 0 end),0) as mxw_seq_no,
+       nvl(max(case when rpt_txd_id = '30055tx' and rpt_value = 'TXO' then rpt_level_1 else 0 end),0) as txo_seq_no_end,
+       nvl(max(case when rpt_txd_id = '30055tx' and rpt_value = 'TXO' then rpt_level_2 else 0 end),0) as txo_seq_no_start,
+       nvl(max(case when rpt_txd_id = '30055tx' and rpt_value = 'TXW' then rpt_level_1 else 0 end),0) as txw_seq_no_end,
+       nvl(max(case when rpt_txd_id = '30055tx' and rpt_value = 'TXW' then rpt_level_2 else 0 end),0) as txw_seq_no_start,
+       nvl(max(case when rpt_txd_id = '30055t'  and rpt_value = 'TXO' then rpt_level_1 else 0 end),0) as toi_seq_no
+  from ci.rpt
+where rpt_txn_id = '30055'
+  and (    (rpt_txd_id = '30055b'  and rpt_value = 'MXW')
+        or (rpt_txd_id = '30055tx' and rpt_value in ('TXO','TXW'))
+        or (rpt_txd_id = '30055t'  and rpt_value = 'TXO'))
+";
+         DataTable dtResult = db.GetDataTable(sql, null);
+
+         return dtResult;
+      }
 
    }
 }

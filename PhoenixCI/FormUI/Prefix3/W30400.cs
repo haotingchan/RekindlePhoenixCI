@@ -130,6 +130,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             panFilter.Enabled = true;
             labMsg.Text = "";
             labMsg.Visible = false;
+            this.Cursor = Cursors.Arrow;
          }
          return ResultStatus.Fail;
 
