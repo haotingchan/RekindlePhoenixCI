@@ -27,7 +27,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3.Tests
          File.Copy(excelTemplateDirectoryPath, destinationFilePath, true);
       }
       [TestMethod()]
-      public void WF30720Test()
+      public void WF30720月報全部Test()
       {
          b30720 = new B30720(destinationFilePath,"2018/10","2018", "rb_month", "rb_marketall");
          string msgText = b30720.WF30720();

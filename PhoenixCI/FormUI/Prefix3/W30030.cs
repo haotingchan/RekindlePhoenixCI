@@ -205,7 +205,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                             ws30030.Cells[row, colNum].Value = 0;
                         }
                         else {
-                            decimal sumAvgOI = Math.Round(sumAI2OI / sumAI2DayCount);
+                            decimal sumAvgOI = Math.Round(sumAI2OI / sumAI2DayCount, MidpointRounding.AwayFromZero);
                             ws30030.Cells[row, colNum].Value = sumAvgOI;
                         }
                     }
@@ -225,7 +225,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                                 ws30030.Cells[row, colNum].Value = 0;
                             }
                             else {
-                                decimal avgOI = Math.Round(AI2OI / AI2DayCount);
+                                decimal avgOI = Math.Round(AI2OI / AI2DayCount,MidpointRounding.AwayFromZero);
                                 ws30030.Cells[row, colNum].Value = avgOI;
                             }
                         }
@@ -235,7 +235,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                         decimal mQntyYM = dt30032.Compute($@"sum(ai2_m_qnty)", $@"AI2_YMD='{ymd}'").AsDecimal() -
                                       dt30032.Compute($@"sum(ai2_m_qnty)", $@"AI2_YMD='{ymd}' and substring(AI2_PARAM_KEY,1,3)='SUM'").AsDecimal();
                         decimal dayCountYM = dt30032.Compute("max(ai2_day_count)", $@"AI2_YMD='{ymd}'").AsDecimal();
-                        ws30030.Cells[row, colNum].Value = Math.Round(mQntyYM / dayCountYM);
+                        ws30030.Cells[row, colNum].Value = Math.Round(mQntyYM / dayCountYM, MidpointRounding.AwayFromZero);
                     }
                 }
                 kindId = dr["AI2_PARAM_KEY"].AsString();
@@ -245,7 +245,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 }
                 decimal ai2MQnty = dr["AI2_M_QNTY"].AsDecimal();
                 decimal ai2DayCount = dr["AI2_DAY_COUNT"].AsDecimal();
-                ws30030.Cells[row, colNum].Value = Math.Round(ai2MQnty / ai2DayCount);
+                ws30030.Cells[row, colNum].Value = Math.Round(ai2MQnty / ai2DayCount, MidpointRounding.AwayFromZero);
             }
             // 刪除空白列
             if (rowTol > rowNum) {

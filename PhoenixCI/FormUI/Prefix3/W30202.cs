@@ -168,7 +168,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                     ws30202.Cells[rowIndex, 4].Value = dr["C_AVG_OI"].AsDecimal();
                     //相較前次數值增減幅度
                     if (pAvgQnty > pAvgOi) value1 = pAvgQnty; else value1 = pAvgOi;
-                    if (value1 == 0) changeRange = -1; else changeRange = Math.Round(dr["C_MAX_VALUE"].AsDecimal() / value1 - 1, 4);
+                    if (value1 == 0) changeRange = -1; else changeRange = Math.Round(dr["C_MAX_VALUE"].AsDecimal() / value1 - 1, 4, MidpointRounding.AwayFromZero);
                     ws30202.Cells[rowIndex, 5].Value = changeRange;
                     dr["CHANGE_RANGE"] = changeRange;
                     //現行部位限制數

@@ -163,6 +163,7 @@
     <Compile Include="BusinessLogic\Prefix3\B30560.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30580.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30687.cs" />
+    <Compile Include="BusinessLogic\Prefix3\B30780.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30790.cs" />
     <Compile Include="BusinessLogic\Prefix4\B40200.cs" />
     <Compile Include="BusinessLogic\Prefix4\B43030.cs" />
@@ -344,6 +345,12 @@
     </Compile>
     <Compile Include="FormUI\Prefix3\W30070.Designer.cs">
       <DependentUpon>W30070.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30080.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30080.Designer.cs">
+      <DependentUpon>W30080.cs</DependentUpon>
     </Compile>
     <Compile Include="FormUI\Prefix3\W30090.cs">
       <SubType>Form</SubType>
@@ -686,6 +693,12 @@
     </Compile>
     <Compile Include="FormUI\Prefix3\W30686.Designer.cs">
       <DependentUpon>W30686.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30780.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30780.Designer.cs">
+      <DependentUpon>W30780.cs</DependentUpon>
     </Compile>
     <Compile Include="FormUI\Prefix3\W30790.cs">
       <SubType>Form</SubType>
@@ -1459,6 +1472,9 @@
     <EmbeddedResource Include="FormUI\Prefix3\W30070.resx">
       <DependentUpon>W30070.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W30080.resx">
+      <DependentUpon>W30080.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix3\W30090.resx">
       <DependentUpon>W30090.cs</DependentUpon>
     </EmbeddedResource>
@@ -1629,6 +1645,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix3\W30686.resx">
       <DependentUpon>W30686.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W30780.resx">
+      <DependentUpon>W30780.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix3\W30790.resx">
       <DependentUpon>W30790.cs</DependentUpon>
