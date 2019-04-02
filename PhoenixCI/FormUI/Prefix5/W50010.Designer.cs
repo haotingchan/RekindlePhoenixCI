@@ -28,6 +28,8 @@
       private void InitializeComponent()
       {
          this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
+         this.gcExport = new DevExpress.XtraGrid.GridControl();
+         this.gvExport = new DevExpress.XtraGrid.Views.Grid.GridView();
          this.PrintSort = new DevExpress.XtraEditors.LookUpEdit();
          this.label10 = new System.Windows.Forms.Label();
          this.MarketTime = new DevExpress.XtraEditors.LookUpEdit();
@@ -50,11 +52,11 @@
          this.panel1 = new System.Windows.Forms.Panel();
          this.gcMain = new DevExpress.XtraGrid.GridControl();
          this.gvMain = new DevExpress.XtraGrid.Views.Grid.GridView();
-         this.gcExport = new DevExpress.XtraGrid.GridControl();
-         this.gvExport = new DevExpress.XtraGrid.Views.Grid.GridView();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
          this.panelControl1.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.gcExport)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.gvExport)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.PrintSort.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.MarketTime.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.TxtDate.Properties)).BeginInit();
@@ -69,8 +71,6 @@
          this.panel1.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.gcExport)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.gvExport)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -110,9 +110,26 @@
          this.panelControl1.Size = new System.Drawing.Size(867, 258);
          this.panelControl1.TabIndex = 0;
          // 
+         // gcExport
+         // 
+         this.gcExport.Location = new System.Drawing.Point(559, 26);
+         this.gcExport.MainView = this.gvExport;
+         this.gcExport.MenuManager = this.ribbonControl;
+         this.gcExport.Name = "gcExport";
+         this.gcExport.Size = new System.Drawing.Size(303, 203);
+         this.gcExport.TabIndex = 20;
+         this.gcExport.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gvExport});
+         this.gcExport.Visible = false;
+         // 
+         // gvExport
+         // 
+         this.gvExport.GridControl = this.gcExport;
+         this.gvExport.Name = "gvExport";
+         // 
          // PrintSort
          // 
-         this.PrintSort.Location = new System.Drawing.Point(390, 203);
+         this.PrintSort.Location = new System.Drawing.Point(383, 154);
          this.PrintSort.MenuManager = this.ribbonControl;
          this.PrintSort.Name = "PrintSort";
          this.PrintSort.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
@@ -123,7 +140,7 @@
          // label10
          // 
          this.label10.AutoSize = true;
-         this.label10.Location = new System.Drawing.Point(299, 206);
+         this.label10.Location = new System.Drawing.Point(292, 157);
          this.label10.Name = "label10";
          this.label10.Size = new System.Drawing.Size(85, 20);
          this.label10.TabIndex = 18;
@@ -131,7 +148,7 @@
          // 
          // MarketTime
          // 
-         this.MarketTime.Location = new System.Drawing.Point(390, 158);
+         this.MarketTime.Location = new System.Drawing.Point(383, 109);
          this.MarketTime.MenuManager = this.ribbonControl;
          this.MarketTime.Name = "MarketTime";
          this.MarketTime.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
@@ -142,7 +159,7 @@
          // label9
          // 
          this.label9.AutoSize = true;
-         this.label9.Location = new System.Drawing.Point(299, 161);
+         this.label9.Location = new System.Drawing.Point(292, 112);
          this.label9.Name = "label9";
          this.label9.Size = new System.Drawing.Size(85, 20);
          this.label9.TabIndex = 16;
@@ -193,7 +210,7 @@
          // 
          // Kind_id_O
          // 
-         this.Kind_id_O.Location = new System.Drawing.Point(390, 111);
+         this.Kind_id_O.Location = new System.Drawing.Point(383, 62);
          this.Kind_id_O.MenuManager = this.ribbonControl;
          this.Kind_id_O.Name = "Kind_id_O";
          this.Kind_id_O.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
@@ -204,7 +221,7 @@
          // label5
          // 
          this.label5.AutoSize = true;
-         this.label5.Location = new System.Drawing.Point(299, 114);
+         this.label5.Location = new System.Drawing.Point(292, 65);
          this.label5.Name = "label5";
          this.label5.Size = new System.Drawing.Size(85, 20);
          this.label5.TabIndex = 8;
@@ -315,28 +332,12 @@
          this.gcMain.TabIndex = 0;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
+         this.gcMain.Visible = false;
          // 
          // gvMain
          // 
          this.gvMain.GridControl = this.gcMain;
          this.gvMain.Name = "gvMain";
-         // 
-         // gcExport
-         // 
-         this.gcExport.Location = new System.Drawing.Point(559, 26);
-         this.gcExport.MainView = this.gvExport;
-         this.gcExport.MenuManager = this.ribbonControl;
-         this.gcExport.Name = "gcExport";
-         this.gcExport.Size = new System.Drawing.Size(303, 203);
-         this.gcExport.TabIndex = 20;
-         this.gcExport.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gvExport});
-         this.gcExport.Visible = false;
-         // 
-         // gvExport
-         // 
-         this.gvExport.GridControl = this.gcExport;
-         this.gvExport.Name = "gvExport";
          // 
          // W50010
          // 
@@ -356,6 +357,8 @@
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
          this.panelControl1.ResumeLayout(false);
          this.panelControl1.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.gcExport)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.gvExport)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.PrintSort.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.MarketTime.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.TxtDate.Properties)).EndInit();
@@ -370,8 +373,6 @@
          this.panel1.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.gcExport)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.gvExport)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 

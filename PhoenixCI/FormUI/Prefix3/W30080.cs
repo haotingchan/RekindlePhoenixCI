@@ -175,7 +175,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 int fileNum, f = 0, found;
                 string ymd = "", tab = ",", str = "交易日", strHead = "排序", strName = "";
                 //避免重複寫入
-                file = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, rptId + file + "_" + DateTime.Now.ToString("yyyy.MM.dd-hh.mm.ss") + ".csv");
+                file = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, 
+                                    rptId + file + "_" + DateTime.Now.ToString("yyyy.MM.dd-hh.mm.ss") + ".csv");
                 if (File.Exists(file)) {
                     File.Delete(file);
                 }

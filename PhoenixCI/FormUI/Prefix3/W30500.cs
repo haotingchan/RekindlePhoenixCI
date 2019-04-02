@@ -31,6 +31,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
       protected override ResultStatus Export() {
          ExportShow.Text = "轉檔中...";
          ExportShow.Show();
+         FooterMemo = "";
 
          string destinationFilePath = PbFunc.wf_GetFileSaveName(_ProgramID + "_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss"));
          string txtFilePath = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH, _ProgramID + ".txt");
@@ -51,7 +52,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                int startRow = dtSource.Rows.Count + 3;
                while ((line = tr.ReadLine()) != null) {
                   worksheet.Cells[startRow, 0].Value = line;
-                  FooterMemo += line;
+                  FooterMemo += line + Environment.NewLine;
                   startRow++;
                }
             }
@@ -71,6 +72,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          DataTable returnTable = new DataTable();
          string symd = txtSDate.DateTimeValue.ToString("yyyyMMdd");
          string eymd = txtEDate.DateTimeValue.ToString("yyyyMMdd");
+         FooterMemo = "";
 
          returnTable = dao30500.ListData(symd, eymd);
          if (returnTable.Rows.Count == 0) {
