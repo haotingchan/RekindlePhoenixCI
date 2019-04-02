@@ -298,6 +298,12 @@
       <DependentUpon>W28610.cs</DependentUpon>
     </Compile>
     <Compile Include="BusinessLogic\Prefix3\B30720.cs" />
+    <Compile Include="FormUI\Prefix3\W30010.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30010.Designer.cs">
+      <DependentUpon>W30010.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormUI\Prefix3\W30017.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1435,6 +1441,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix2\W28610.resx">
       <DependentUpon>W28610.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W30010.resx">
+      <DependentUpon>W30010.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix3\W30017.resx">
       <DependentUpon>W30017.cs</DependentUpon>
