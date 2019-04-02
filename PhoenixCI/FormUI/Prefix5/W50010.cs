@@ -183,12 +183,15 @@ namespace PhoenixCI.FormUI.Prefix5 {
             gvMain.Columns["AMMD_PROD_ID"].VisibleIndex = 4;
          }
 
+         gvMain.ColumnPanelRowHeight = 40;
+         gvMain.AppearancePrint.Row.Font = new System.Drawing.Font("Microsoft YaHei", 10);
          gvMain.OptionsView.AllowCellMerge = true;
          gvMain.BestFitColumns();
 
          _ToolBtnExport.Enabled = true;
          _ToolBtnPrintAll.Enabled = true;
 
+         GridHelper.SetCommonGrid(gvMain);
          gcMain.Visible = true;
          return ResultStatus.Success;
       }
@@ -222,7 +225,13 @@ namespace PhoenixCI.FormUI.Prefix5 {
       protected override ResultStatus Print(ReportHelper reportHelper) {
          try {
             ReportHelper _ReportHelper = new ReportHelper(gcMain, _ProgramID, this.Text);
-            //_ReportHelper.LeftMemo = "查詢日期 : " + TXTStartDate.DateTimeValue.ToShortDateString() + "~" + TXTEndDate.DateTimeValue.ToShortDateString();
+            CommonReportLandscapeA4 reportLandscape = new CommonReportLandscapeA4();//設定為橫向列印
+            reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
+            // _ReportHelper.LeftMemo = labTime.Text;
+            reportLandscape.IsHandlePersonVisible = false;
+            reportLandscape.IsManagerVisible = false;
+            _ReportHelper.Create(reportLandscape);
+
             _ReportHelper.Print();//如果有夜盤會特別標註
             _ReportHelper.Export(FileType.PDF, _ReportHelper.FilePath);
 

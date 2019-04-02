@@ -36,11 +36,17 @@ namespace Common {
 
          gv.Appearance.HeaderPanel.Options.UseTextOptions = true;
          gv.Appearance.HeaderPanel.TextOptions.WordWrap = WordWrap.Wrap;
+
          // 設定列印出來Grid的Header的字體和大小
-         gv.AppearancePrint.HeaderPanel.Font = new Font(gv.Appearance.HeaderPanel.Font.Name, gv.Appearance.HeaderPanel.Font.Size);
+         gv.OptionsPrint.UsePrintStyles = true;
+         gv.AppearancePrint.HeaderPanel.Font = new Font("Microsoft YaHei", gv.Appearance.HeaderPanel.Font.Size);
          gv.Appearance.Empty.BackColor = Color.FromArgb(192, 220, 192);
-         gv.AppearancePrint.HeaderPanel.TextOptions.WordWrap = WordWrap.Wrap;
+         gv.OptionsView.ColumnHeaderAutoHeight = DefaultBoolean.True;
          gv.AppearancePrint.HeaderPanel.Options.UseTextOptions = true;
+         gv.AppearancePrint.Row.Options.UseTextOptions = true;
+         gv.AppearancePrint.HeaderPanel.TextOptions.WordWrap = WordWrap.Wrap;
+         gv.AppearancePrint.Row.TextOptions.WordWrap = WordWrap.Wrap;
+         
          gv.OptionsPrint.AllowMultilineHeaders = true;
 
          // 設定欄位Trim
@@ -51,6 +57,8 @@ namespace Common {
 
          // 如果Grid被Disabled的話，不要變成一片灰色
          gv.GridControl.UseDisabledStatePainter = false;
+
+         gv.BestFitColumns();
       }
 
       public static void SetCommonGrid(VGridControl gridControl) {

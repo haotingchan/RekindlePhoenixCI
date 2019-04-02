@@ -75,12 +75,12 @@
          // 
          // panParent
          // 
-         this.panParent.Size = new System.Drawing.Size(867, 642);
+         this.panParent.Size = new System.Drawing.Size(867, 644);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(867, 32);
+         this.ribbonControl.Size = new System.Drawing.Size(867, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // panelControl1
@@ -105,7 +105,7 @@
          this.panelControl1.Controls.Add(this.Fcm_SNo);
          this.panelControl1.Controls.Add(this.label1);
          this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
-         this.panelControl1.Location = new System.Drawing.Point(0, 32);
+         this.panelControl1.Location = new System.Drawing.Point(0, 30);
          this.panelControl1.Name = "panelControl1";
          this.panelControl1.Size = new System.Drawing.Size(867, 258);
          this.panelControl1.TabIndex = 0;
@@ -129,39 +129,39 @@
          // 
          // PrintSort
          // 
-         this.PrintSort.Location = new System.Drawing.Point(390, 203);
+         this.PrintSort.Location = new System.Drawing.Point(383, 154);
          this.PrintSort.MenuManager = this.ribbonControl;
          this.PrintSort.Name = "PrintSort";
          this.PrintSort.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.PrintSort.Size = new System.Drawing.Size(153, 20);
+         this.PrintSort.Size = new System.Drawing.Size(153, 26);
          this.PrintSort.TabIndex = 19;
          // 
          // label10
          // 
          this.label10.AutoSize = true;
-         this.label10.Location = new System.Drawing.Point(299, 206);
+         this.label10.Location = new System.Drawing.Point(292, 157);
          this.label10.Name = "label10";
-         this.label10.Size = new System.Drawing.Size(67, 14);
+         this.label10.Size = new System.Drawing.Size(85, 20);
          this.label10.TabIndex = 18;
          this.label10.Text = "列印順序 : ";
          // 
          // MarketTime
          // 
-         this.MarketTime.Location = new System.Drawing.Point(390, 158);
+         this.MarketTime.Location = new System.Drawing.Point(383, 109);
          this.MarketTime.MenuManager = this.ribbonControl;
          this.MarketTime.Name = "MarketTime";
          this.MarketTime.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.MarketTime.Size = new System.Drawing.Size(153, 20);
+         this.MarketTime.Size = new System.Drawing.Size(153, 26);
          this.MarketTime.TabIndex = 17;
          // 
          // label9
          // 
          this.label9.AutoSize = true;
-         this.label9.Location = new System.Drawing.Point(299, 161);
+         this.label9.Location = new System.Drawing.Point(292, 112);
          this.label9.Name = "label9";
-         this.label9.Size = new System.Drawing.Size(67, 14);
+         this.label9.Size = new System.Drawing.Size(85, 20);
          this.label9.TabIndex = 16;
          this.label9.Text = "交易時段 : ";
          // 
@@ -178,7 +178,7 @@
          this.TxtDate.Properties.Mask.EditMask = "yyyy/MM/dd";
          this.TxtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
          this.TxtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.TxtDate.Size = new System.Drawing.Size(100, 20);
+         this.TxtDate.Size = new System.Drawing.Size(100, 26);
          this.TxtDate.TabIndex = 13;
          this.TxtDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
          // 
@@ -187,7 +187,7 @@
          this.label7.AutoSize = true;
          this.label7.Location = new System.Drawing.Point(16, 206);
          this.label7.Name = "label7";
-         this.label7.Size = new System.Drawing.Size(67, 14);
+         this.label7.Size = new System.Drawing.Size(85, 20);
          this.label7.TabIndex = 12;
          this.label7.Text = "日期區間 : ";
          // 
@@ -196,7 +196,7 @@
          this.Txt_prod_sort.Location = new System.Drawing.Point(123, 155);
          this.Txt_prod_sort.MenuManager = this.ribbonControl;
          this.Txt_prod_sort.Name = "Txt_prod_sort";
-         this.Txt_prod_sort.Size = new System.Drawing.Size(153, 20);
+         this.Txt_prod_sort.Size = new System.Drawing.Size(153, 26);
          this.Txt_prod_sort.TabIndex = 11;
          // 
          // label6
@@ -204,26 +204,26 @@
          this.label6.AutoSize = true;
          this.label6.Location = new System.Drawing.Point(16, 158);
          this.label6.Name = "label6";
-         this.label6.Size = new System.Drawing.Size(67, 14);
+         this.label6.Size = new System.Drawing.Size(85, 20);
          this.label6.TabIndex = 10;
          this.label6.Text = "商品序列 : ";
          // 
          // Kind_id_O
          // 
-         this.Kind_id_O.Location = new System.Drawing.Point(390, 111);
+         this.Kind_id_O.Location = new System.Drawing.Point(383, 62);
          this.Kind_id_O.MenuManager = this.ribbonControl;
          this.Kind_id_O.Name = "Kind_id_O";
          this.Kind_id_O.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.Kind_id_O.Size = new System.Drawing.Size(153, 20);
+         this.Kind_id_O.Size = new System.Drawing.Size(153, 26);
          this.Kind_id_O.TabIndex = 9;
          // 
          // label5
          // 
          this.label5.AutoSize = true;
-         this.label5.Location = new System.Drawing.Point(299, 114);
+         this.label5.Location = new System.Drawing.Point(292, 65);
          this.label5.Name = "label5";
-         this.label5.Size = new System.Drawing.Size(67, 14);
+         this.label5.Size = new System.Drawing.Size(85, 20);
          this.label5.TabIndex = 8;
          this.label5.Text = "造市商品 : ";
          // 
@@ -234,7 +234,7 @@
          this.Kind_id_st.Name = "Kind_id_st";
          this.Kind_id_st.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.Kind_id_st.Size = new System.Drawing.Size(153, 20);
+         this.Kind_id_st.Size = new System.Drawing.Size(153, 26);
          this.Kind_id_st.TabIndex = 7;
          // 
          // label4
@@ -242,7 +242,7 @@
          this.label4.AutoSize = true;
          this.label4.Location = new System.Drawing.Point(16, 114);
          this.label4.Name = "label4";
-         this.label4.Size = new System.Drawing.Size(67, 14);
+         this.label4.Size = new System.Drawing.Size(85, 20);
          this.label4.TabIndex = 6;
          this.label4.Text = "二碼商品 : ";
          // 
@@ -253,7 +253,7 @@
          this.Prod_ct.Name = "Prod_ct";
          this.Prod_ct.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.Prod_ct.Size = new System.Drawing.Size(153, 20);
+         this.Prod_ct.Size = new System.Drawing.Size(153, 26);
          this.Prod_ct.TabIndex = 5;
          // 
          // label3
@@ -261,7 +261,7 @@
          this.label3.AutoSize = true;
          this.label3.Location = new System.Drawing.Point(16, 65);
          this.label3.Name = "label3";
-         this.label3.Size = new System.Drawing.Size(67, 14);
+         this.label3.Size = new System.Drawing.Size(85, 20);
          this.label3.TabIndex = 4;
          this.label3.Text = "商品群組 : ";
          // 
@@ -270,7 +270,7 @@
          this.label2.AutoSize = true;
          this.label2.Location = new System.Drawing.Point(283, 18);
          this.label2.Name = "label2";
-         this.label2.Size = new System.Drawing.Size(16, 14);
+         this.label2.Size = new System.Drawing.Size(21, 20);
          this.label2.TabIndex = 3;
          this.label2.Text = "~";
          // 
@@ -281,7 +281,7 @@
          this.Fcm_ENo.Name = "Fcm_ENo";
          this.Fcm_ENo.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.Fcm_ENo.Size = new System.Drawing.Size(153, 20);
+         this.Fcm_ENo.Size = new System.Drawing.Size(153, 26);
          this.Fcm_ENo.TabIndex = 2;
          // 
          // Fcm_SNo
@@ -291,7 +291,7 @@
          this.Fcm_SNo.Name = "Fcm_SNo";
          this.Fcm_SNo.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.Fcm_SNo.Size = new System.Drawing.Size(153, 20);
+         this.Fcm_SNo.Size = new System.Drawing.Size(153, 26);
          this.Fcm_SNo.TabIndex = 1;
          // 
          // label1
@@ -299,7 +299,7 @@
          this.label1.AutoSize = true;
          this.label1.Location = new System.Drawing.Point(16, 16);
          this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(79, 14);
+         this.label1.Size = new System.Drawing.Size(101, 20);
          this.label1.TabIndex = 0;
          this.label1.Text = "期貨商代號 : ";
          // 
@@ -307,9 +307,9 @@
          // 
          this.panelControl2.Controls.Add(this.panel1);
          this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.panelControl2.Location = new System.Drawing.Point(0, 290);
+         this.panelControl2.Location = new System.Drawing.Point(0, 288);
          this.panelControl2.Name = "panelControl2";
-         this.panelControl2.Size = new System.Drawing.Size(867, 384);
+         this.panelControl2.Size = new System.Drawing.Size(867, 386);
          this.panelControl2.TabIndex = 1;
          // 
          // panel1
@@ -318,7 +318,7 @@
          this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
          this.panel1.Location = new System.Drawing.Point(2, 2);
          this.panel1.Name = "panel1";
-         this.panel1.Size = new System.Drawing.Size(863, 380);
+         this.panel1.Size = new System.Drawing.Size(863, 382);
          this.panel1.TabIndex = 0;
          // 
          // gcMain
@@ -328,7 +328,7 @@
          this.gcMain.MainView = this.gvMain;
          this.gcMain.MenuManager = this.ribbonControl;
          this.gcMain.Name = "gcMain";
-         this.gcMain.Size = new System.Drawing.Size(863, 380);
+         this.gcMain.Size = new System.Drawing.Size(863, 382);
          this.gcMain.TabIndex = 0;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});

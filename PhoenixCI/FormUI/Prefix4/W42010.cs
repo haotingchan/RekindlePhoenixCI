@@ -14,6 +14,7 @@ using DataObjects.Dao.Together.SpecificDao;
 using Common;
 using DevExpress.Spreadsheet;
 using BaseGround.Shared;
+using System.Threading;
 
 /// <summary>
 /// Lukas, 2019/3/18
@@ -60,6 +61,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return ResultStatus.Success;
         }
 
+        protected void ShowMsg(string msg) {
+            lblProcessing.Text = msg;
+            this.Refresh();
+            Thread.Sleep(5);
+        }
+
         protected override ResultStatus Export() {
 
             try {
@@ -86,38 +93,40 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 rptId = "42010";
                 lblProcessing.Text = rptId + '－' + rptName + " 轉檔中...";
                 prodType = "F";
-                
-                //1. 複製檔案
+
+                //1. 讀取資料(保證金適用比例級距)
+                DataTable dt42010Mgrt1 = dao42010.d_42010_mgrt1("O");
+                if (dt42010Mgrt1.Rows.Count == 0) {
+                    ShowMsg("轉檔失敗");
+                    MessageDisplay.Info(txtSDate.Text + "," + rptId + '－' + rptName + ",讀取「保證金適用比例級距」無任何資料!");
+                    return ResultStatus.Fail;
+                }
+
+                //2. 讀取資料(當日保證金適用比例)
+                DataTable dt42010 = dao42010.d_42010(ymd, prodType);
+                if (dt42010.Rows.Count == 0) {
+                    ShowMsg("轉檔失敗");
+                    MessageDisplay.Info(txtSDate.Text + "," + rptId + '－' + rptName + ",讀取「當日保證金適用比例」無任何資料!");
+                    return ResultStatus.Fail;
+                }
+
+                //3. 複製檔案
                 file = PbFunc.wf_copy_file(rptId, rptId);
                 if (file == "") {
                     return ResultStatus.Fail;
                 }
 
-                //2. 讀取資料(保證金適用比例級距)
-                DataTable dt42010Mgrt1 = dao42010.d_42010_mgrt1("O");
-                if (dt42010Mgrt1.Rows.Count == 0) {
-                    MessageDisplay.Info(txtSDate.Text + "," + rptId + '－' + rptName + ",讀取「保證金適用比例級距」無任何資料!");
-                    return ResultStatus.Fail;
-                }
-
-                //3. 開啟檔案
+                //4. 開啟檔案
                 Workbook workbook = new Workbook();
                 workbook.LoadDocument(file);
 
-                //4. 切換Sheet
+                //5. 切換Sheet
                 Worksheet ws42010 = workbook.Worksheets[0];
                 ws42010.Cells[1, 7].Value = "資料日期：" + txtSDate.DateTimeValue.ToString("yyyy年MM月dd日");
                 rowStart = 7;
 
-                //5. 從B8 開始放資料
+                //6. 從B8 開始放資料
                 ws42010.Import(dt42010Mgrt1, false, rowStart, 1);
-
-                //6. 讀取資料(當日保證金適用比例)
-                DataTable dt42010 = dao42010.d_42010(ymd, prodType);
-                if (dt42010.Rows.Count == 0) {
-                    MessageDisplay.Info(txtSDate.Text + "," + rptId + '－' + rptName + ",讀取「當日保證金適用比例」無任何資料!");
-                    return ResultStatus.Fail;
-                }
 
                 rowStart = 21;
                 spaceRow = 500;
@@ -132,8 +141,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     MessageDisplay.Info(txtSDate.Text + "," + rptId + '－' + rptName + ",讀取「當日保證金適用比例」無任何資料!");
                     return ResultStatus.Fail;
                 }
-                status = "";
                 for (f = 0; f < dt42010Compute.Rows.Count; f++) {
+                    status = "";
                     DataRow dr = dt42010Compute.Rows[f];
                     if (dr["MGR3_CM"].AsDecimal() != dr["MGR3_CUR_CM"].AsDecimal()) {
                         chgCnt = chgCnt + 1;
