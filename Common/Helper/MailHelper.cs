@@ -33,6 +33,7 @@ namespace Common.Helper {
          smtp.EnableSsl = true;
 #endif
          // 看起來不用帳號密碼也能寄出
+         smtp= new SmtpClient("taifex.com.tw");
          //smtp.Credentials = new NetworkCredential("taifexsocial", "Taifex201511");
 
          try {
