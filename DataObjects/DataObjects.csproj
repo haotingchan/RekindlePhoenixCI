@@ -184,6 +184,7 @@
     <Compile Include="Dao\Together\SpecificDao\D48030.cs" />
     <Compile Include="Dao\Together\SpecificDao\D48040.cs" />
     <Compile Include="Dao\Together\SpecificDao\D49060.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D49020.cs" />
     <Compile Include="Dao\Together\SpecificDao\D49070.cs" />
     <Compile Include="Dao\Together\SpecificDao\D49061.cs" />
     <Compile Include="Dao\Together\SpecificDao\D49080.cs" />
@@ -272,6 +273,7 @@
     <Compile Include="Dao\Together\TableDao\LOGSP.cs" />
     <Compile Include="Dao\Together\TableDao\AOCF.cs" />
     <Compile Include="Dao\Together\TableDao\LOGV.cs" />
+    <Compile Include="Dao\Together\TableDao\MGT2.cs" />
     <Compile Include="Dao\Together\TableDao\MMFO.cs" />
     <Compile Include="Dao\Together\TableDao\MG8.cs" />
     <Compile Include="Dao\Together\TableDao\MGT4.cs" />

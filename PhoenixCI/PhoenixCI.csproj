@@ -810,6 +810,12 @@
     <Compile Include="FormUI\Prefix3\W30720.Designer.cs">
       <DependentUpon>W30720.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormUI\Prefix4\W43032.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W43032.Designer.cs">
+      <DependentUpon>W43032.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormUI\Prefix4\W40100.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -977,6 +983,12 @@
     </Compile>
     <Compile Include="FormUI\Prefix4\W49060.Designer.cs">
       <DependentUpon>W49060.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W49020.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W49020.designer.cs">
+      <DependentUpon>W49020.cs</DependentUpon>
     </Compile>
     <Compile Include="FormUI\Prefix4\W49070.cs">
       <SubType>Form</SubType>
@@ -1733,9 +1745,6 @@
     <EmbeddedResource Include="FormUI\Prefix3\W30503.resx">
       <DependentUpon>W30503.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormUI\Prefix4\W40100.resx">
-      <DependentUpon>W40100.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix4\W40170.resx">
       <DependentUpon>W40170.cs</DependentUpon>
     </EmbeddedResource>
@@ -1813,6 +1822,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix4\W49060.resx">
       <DependentUpon>W49060.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W49020.resx">
+      <DependentUpon>W49020.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix4\W49070.resx">
       <DependentUpon>W49070.cs</DependentUpon>
