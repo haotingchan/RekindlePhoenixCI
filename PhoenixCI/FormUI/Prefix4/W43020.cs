@@ -162,23 +162,23 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                     f++;
                 }
-                //6. 刪除空白列
+                //6. 刪除空白列(用Rows.remove或Range.delete都會影響到template，只好用Rows.Hide)
                 int rowIndex = dt43020.Rows.Count;
                 int delRowCnt = 60 - rowIndex;
                 Range ra;
                 if (rowIndex < 60) {
                     rowStart = 142;
-                    ra = ws43020.Range[(rowIndex + rowStart + 1).ToString() + ":" + (rowStart + 60).ToString()];
-                    ra.Delete(DeleteMode.EntireRow);
-                    //ws43020.Rows.Remove(rowIndex + rowStart, delRowCnt);
+                    //ra = ws43020.Range[(rowIndex + rowStart + 1).ToString() + ":" + (rowStart + 60).ToString()];
+                    //ra.Delete(DeleteMode.EntireRow);
+                    ws43020.Rows.Hide(rowIndex + rowStart + 1, rowStart + 60);
                     rowStart = 77;
-                    ra = ws43020.Range[(rowIndex + rowStart + 1).ToString() + ":" + (rowStart + 60).ToString()];
-                    ra.Delete(DeleteMode.EntireRow);
-                    //ws43020.Rows.Remove(rowIndex + rowStart, delRowCnt);
+                    //ra = ws43020.Range[(rowIndex + rowStart + 1).ToString() + ":" + (rowStart + 60).ToString()];
+                    //ra.Delete(DeleteMode.EntireRow);
+                    ws43020.Rows.Hide(rowIndex + rowStart + 1, rowStart + 60);
                     rowStart = 8;
-                    ra = ws43020.Range[(rowIndex + rowStart + 1).ToString() + ":" + (rowStart + 60).ToString()];
-                    ra.Delete(DeleteMode.EntireRow);
-                    //ws43020.Rows.Remove(rowIndex + rowStart, delRowCnt);
+                    //ra = ws43020.Range[(rowIndex + rowStart + 1).ToString() + ":" + (rowStart + 60).ToString()];
+                    //ra.Delete(DeleteMode.EntireRow);
+                    ws43020.Rows.Hide(rowIndex + rowStart + 1, rowStart + 60);
                 }
 
                 //7. 存檔
