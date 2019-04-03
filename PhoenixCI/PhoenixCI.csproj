@@ -810,6 +810,12 @@
     <Compile Include="FormUI\Prefix3\W30720.Designer.cs">
       <DependentUpon>W30720.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormUI\Prefix4\W40100.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40100.designer.cs">
+      <DependentUpon>W40100.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormUI\Prefix4\W40170.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1400,6 +1406,7 @@
     <Compile Include="Report\RZ0011.designer.cs">
       <DependentUpon>RZ0011.cs</DependentUpon>
     </Compile>
+    <Compile Include="Shared\IXml40xxxData.cs" />
     <Compile Include="Shared\ReportExportFunc.cs" />
     <Compile Include="Widget\DropDownList.cs" />
     <Compile Include="Widget\TextDateEdit.cs">
@@ -1725,6 +1732,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix3\W30503.resx">
       <DependentUpon>W30503.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W40100.resx">
+      <DependentUpon>W40100.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix4\W40170.resx">
       <DependentUpon>W40170.cs</DependentUpon>
@@ -2850,6 +2860,18 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\95140.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\ifd\40100_0_3.ifd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\ifd\40100_1B.ifd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\ifd\40100_1E.ifd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\ifd\40100_2B.ifd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\S0010.xls">

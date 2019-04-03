@@ -27,11 +27,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
     /// 30010 市場動態報導
     /// </summary>
     public partial class W30010 : FormParent {
-
-        protected class LookupItem {
-            public string ValueMember { get; set; }
-            public string DisplayMember { get; set; }
-        }
         private OCFG daoOCFG;
         private RPT daoRPT;
         private D30010 dao30010;

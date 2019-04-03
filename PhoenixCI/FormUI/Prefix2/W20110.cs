@@ -39,10 +39,6 @@ namespace PhoenixCI.FormUI.Prefix2 {
         private STWD daoSTWD;
         private COD daoCOD;
         private APDK daoAPDK;
-        protected class LookupItem {
-            public string ValueMember { get; set; }
-            public string DisplayMember { get; set; }
-        }
         protected DataTable dtCheck;
         protected DataTable dtProd;
 
