@@ -23,11 +23,14 @@ using DevExpress.XtraGrid;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.Utils;
 using DevExpress.Data;
+using DevExpress.XtraEditors;
+using Common.Helper;
 
 namespace PhoenixCI.FormUI.Prefix5 {
    public partial class W50010 : FormParent {
       private D50010 dao50010;
       protected DataTable dtTarget;
+      protected APDK daoAPDK;
 
       protected class LookupItem {
          public string ValueMember { get; set; }
@@ -101,21 +104,18 @@ namespace PhoenixCI.FormUI.Prefix5 {
          this.Text = _ProgramID + "─" + _ProgramName;
          dao50010 = new D50010();
          TxtDate.DateTimeValue = GlobalInfo.OCF_DATE;
-         APDK daoAPDK = new APDK();
+         daoAPDK = new APDK();
 
          //設定下拉選單
          Fcm_SNo.SetDataTable(new AMPD().ListByFcmAccNo(), "AMPD_FCM_NO", "CP_DISPLAY", TextEditStyles.DisableTextEditor, "");
          Fcm_SNo.EditValue = "";
          Fcm_ENo.SetDataTable(new AMPD().ListByFcmAccNo(), "AMPD_FCM_NO", "CP_DISPLAY", TextEditStyles.DisableTextEditor, "");
          Fcm_ENo.EditValue = "";
-         Prod_ct.SetDataTable(daoAPDK.dw_prod_500xx("APDK_PROD_TYPE,APDK_PARAM_KEY", "' ',' '"), "APDK_PARAM_KEY", "APDK_PARAM_KEY",
-            TextEditStyles.DisableTextEditor, null);
+         Prod_ct.SetDataTable(daoAPDK.ListParamKey(), "APDK_PARAM_KEY", "APDK_PARAM_KEY", TextEditStyles.DisableTextEditor, null);
          Prod_ct.EditValue = " ";
-         Kind_id_st.SetDataTable(daoAPDK.dw_prod_500xx("APDK_KIND_ID_STO", "' '"), "APDK_KIND_ID_STO", "APDK_KIND_ID_STO",
-            TextEditStyles.DisableTextEditor, null);
+         Kind_id_st.SetDataTable(daoAPDK.ListKind2(), "APDK_KIND_ID_STO", "APDK_KIND_ID_STO", TextEditStyles.DisableTextEditor, null);
          Kind_id_st.EditValue = " ";
-         Kind_id_O.SetDataTable(daoAPDK.dw_prod_500xx("APDK_PROD_TYPE,APDK_KIND_ID", "' ',' '"), "APDK_KIND_ID", "APDK_KIND_ID",
-            TextEditStyles.DisableTextEditor, null);
+         Kind_id_O.SetDataTable(daoAPDK.ListKindId(), "APDK_KIND_ID", "APDK_KIND_ID", TextEditStyles.DisableTextEditor, null);
          Kind_id_O.EditValue = " ";
 
 
@@ -131,6 +131,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
          Extension.SetDataTable(PrintSort, printSort, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor, null);
          PrintSort.EditValue = "M";
 
+
+         //加入事件
+         MarketTime.EditValueChanged += MarketTime_EditValueChanged;
       }
 
       protected override ResultStatus Retrieve() {
@@ -202,24 +205,41 @@ namespace PhoenixCI.FormUI.Prefix5 {
          string[] exportColCaption = { "期貨商", "帳號", "期貨商名稱","期貨/選擇權","商品", "報價時間", "最接近報價詢價時間",
             "最小成交回報檔時間", "r_second","m_second", "有效報價", "計入維持時間(秒)", "價差權數", "數量權數", "標的權數","績效","報價單別" ,"單號"};
 
-         gcExport.DataSource = dtTarget;
+         try {
+            gcExport.DataSource = dtTarget;
 
-         foreach (DataColumn dc in dtTarget.Columns) {
-            gvExport.SetColumnCaption(dc.ColumnName, exportColCaption[dtTarget.Columns.IndexOf(dc)]);
+            foreach (DataColumn dc in dtTarget.Columns) {
+               gvExport.SetColumnCaption(dc.ColumnName, exportColCaption[dtTarget.Columns.IndexOf(dc)]);
+            }
+
+            gvExport.Columns["AMMD_RESULT"].DisplayFormat.FormatString = "n2";
+            gvExport.Columns["AMMD_W_TIME"].DisplayFormat.FormatString = "yyyy/MM/dd HH:mm";
+            gvExport.Columns["AMMD_R_TIME"].DisplayFormat.FormatString = "yyyy/MM/dd HH:mm";
+            gvExport.Columns["AMMD_M_TIME"].DisplayFormat.FormatString = "yyyy/MM/dd HH:mm";
+
+            if (printSort == "P") {
+               gvMain.Columns["AMMD_PROD_ID"].VisibleIndex = 0;
+            }
+
+            gvExport.ExportToCsv(filepath);
+         } catch (Exception ex) {
+            WriteLog(ex);
          }
 
-         gvExport.Columns["AMMD_RESULT"].DisplayFormat.FormatString = "n2";
-         gvExport.Columns["AMMD_W_TIME"].DisplayFormat.FormatString = "yyyy/MM/dd HH:mm";
-         gvExport.Columns["AMMD_R_TIME"].DisplayFormat.FormatString = "yyyy/MM/dd HH:mm";
-         gvExport.Columns["AMMD_M_TIME"].DisplayFormat.FormatString = "yyyy/MM/dd HH:mm";
+         //DataTable dtTxemail = new TXEMAIL().ListData("30055", 1);
 
-         if (printSort == "P") {
-            gvMain.Columns["AMMD_PROD_ID"].VisibleIndex = 0;
-         }
+         //if (dtTxemail.Rows.Count != 0) {
+         //   string TXEMAIL_SENDER = dtTxemail.Rows[0]["TXEMAIL_SENDER"].AsString();
+         //   string TXEMAIL_RECIPIENTS = dtTxemail.Rows[0]["TXEMAIL_RECIPIENTS"].AsString();
+         //   string TXEMAIL_CC = dtTxemail.Rows[0]["TXEMAIL_CC"].AsString();
+         //   string TXEMAIL_TITLE = dtTxemail.Rows[0]["TXEMAIL_TITLE"].AsString();
+         //   string TXEMAIL_TEXT = dtTxemail.Rows[0]["TXEMAIL_TEXT"].AsString();
 
-         gvExport.ExportToCsv(filepath);
+         //   MailHelper.SendEmail(TXEMAIL_SENDER, TXEMAIL_RECIPIENTS, TXEMAIL_CC, TXEMAIL_TITLE, TXEMAIL_TEXT, filepath);
+         //}
 
-         return ResultStatus.Success;
+
+            return ResultStatus.Success;
       }
 
       protected override ResultStatus Print(ReportHelper reportHelper) {
@@ -249,6 +269,24 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
 
          return ResultStatus.Success;
+      }
+
+      private void MarketTime_EditValueChanged(object sender, EventArgs e) {
+         LookUpEdit lookupItem = sender as LookUpEdit;
+         string marktCodeFilter = "AND APDK_MARKET_CODE in ('1',' ')";
+
+         if (lookupItem.EditValue.AsString() == "AH") {
+            Prod_ct.SetDataTable(daoAPDK.ListParamKey(marktCodeFilter), "APDK_PARAM_KEY", "APDK_PARAM_KEY", TextEditStyles.DisableTextEditor, null);
+            Kind_id_st.SetDataTable(daoAPDK.ListKind2(marktCodeFilter), "APDK_KIND_ID_STO", "APDK_KIND_ID_STO", TextEditStyles.DisableTextEditor, null);
+            Kind_id_O.SetDataTable(daoAPDK.ListKindId(marktCodeFilter), "APDK_KIND_ID", "APDK_KIND_ID", TextEditStyles.DisableTextEditor, null);
+         } else {
+            Prod_ct.SetDataTable(daoAPDK.ListParamKey(), "APDK_PARAM_KEY", "APDK_PARAM_KEY", TextEditStyles.DisableTextEditor, null);
+            Kind_id_st.SetDataTable(daoAPDK.ListKind2(), "APDK_KIND_ID_STO", "APDK_KIND_ID_STO", TextEditStyles.DisableTextEditor, null);
+            Kind_id_O.SetDataTable(daoAPDK.ListKindId(), "APDK_KIND_ID", "APDK_KIND_ID", TextEditStyles.DisableTextEditor, null);
+         }
+         Prod_ct.EditValue = " ";
+         Kind_id_st.EditValue = " ";
+         Kind_id_O.EditValue = " ";
       }
    }
 }
