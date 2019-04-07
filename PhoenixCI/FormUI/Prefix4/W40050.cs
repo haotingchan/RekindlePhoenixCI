@@ -2,27 +2,33 @@
 using System.Windows.Forms;
 using BaseGround;
 using BusinessObjects.Enums;
-using BaseGround.Report;
-using Common;
 using BaseGround.Shared;
 using System.Threading;
 using PhoenixCI.BusinessLogic.Prefix4;
+using DataObjects.Dao.Together;
+using System.IO;
+using Common;
+using DataObjects.Dao.Together.SpecificDao;
+using System.Data;
 /// <summary>
-/// john,20190312,指數類期貨及現貨資料下載
+/// john,20190403,歷次調整保證金查詢
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix4
 {
    /// <summary>
-   /// 指數類期貨及現貨資料下載
+   /// 歷次調整保證金查詢
    /// </summary>
-   public partial class W40200 : FormParent
+   public partial class W40050 : FormParent
    {
-      private B40200 b40200;
+      private B40050 b40050;
 
-      public W40200(string programID, string programName) : base(programID, programName)
+      public W40050(string programID, string programName) : base(programID, programName)
       {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
+
+         oswGrpLookItem.SetDataTable(new OCFG().ListAll(), "OSW_GRP", "OSW_GRP_NAME", DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor, null);
+         oswGrpLookItem.ItemIndex = 0;
       }
 
       public override ResultStatus BeforeOpen()
@@ -35,15 +41,14 @@ namespace PhoenixCI.FormUI.Prefix4
       protected override ResultStatus Open()
       {
          base.Open();
-         emStartDate.Text = DateTime.Today.ToString("yyyy/MM/dd");
-         emEndDate.Text = DateTime.Today.ToString("yyyy/MM/dd");
+         emDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
          return ResultStatus.Success;
       }
 
       protected override ResultStatus AfterOpen()
       {
          base.AfterOpen();
-         emStartDate.Focus();
+         emDate.Focus();
          return ResultStatus.Success;
       }
 
@@ -57,11 +62,7 @@ namespace PhoenixCI.FormUI.Prefix4
 
       private bool StartExport()
       {
-         if (!emStartDate.IsDate(emStartDate.Text, CheckDate.Start)) {
-            //is_chk = "Y";
-            return false;
-         }
-         if (!emEndDate.IsDate(emEndDate.Text, CheckDate.End)) {
+         if (!emDate.IsDate(emDate.Text, CheckDate.Start)) {
             //is_chk = "Y";
             return false;
          }
@@ -97,21 +98,38 @@ namespace PhoenixCI.FormUI.Prefix4
          if (!StartExport()) {
             return ResultStatus.Fail;
          }
+         string saveFilePath = PbFunc.wf_copy_file(_ProgramID, "40050");
          try {
             //資料來源
-            string saveFilePath = PbFunc.wf_copy_file(_ProgramID, "40200");
-            b40200 = new B40200(saveFilePath,emStartDate.Text,emEndDate.Text);
+            DataTable dt = new D40050().GetData(emDate.Text.AsDateTime(), (emYear.Text + "/01/01").AsDateTime(), $"{oswGrpLookItem.EditValue.AsString()}%");
+            if (dt.Rows.Count <= 0) {
+               MessageDisplay.Info(emDate.Text + ",讀取「保證金歷次調整紀錄」無任何資料!");
+               return ResultStatus.Success;
+            }
+            b40050 = new B40050(saveFilePath, dt, emCount.Text.AsInt());
             bool isChk = false;//判斷是否執行成功
-            
-            ShowMsg("40200－指數類期貨價格及現貨資料下載 轉檔中...");
-            isChk=b40200.Wf40200();
-            EndExport();
+
+            /* Sheet:期貨data */
+            ShowMsg("40051－期貨資料 轉檔中...");
+            isChk = b40050.Wf40051();
+            /* Sheet:選擇權data */
+            ShowMsg("40052－選擇權資料 轉檔中...");
+            isChk = b40050.Wf40052();
+            /* Sheet:期貨股票類data */
+            ShowMsg("40053－期貨股票類資料 轉檔中...");
+            isChk = b40050.Wf40053();
+            /* Sheet:選擇權股票類data */
+            ShowMsg("40054－選擇權股票類資料 轉檔中...");
+            isChk = b40050.Wf40054();
             if (!isChk) return ResultStatus.Fail;//Exception
          }
          catch (Exception ex) {
-            EndExport();
+            File.Delete(saveFilePath);
             WriteLog(ex);
             return ResultStatus.Fail;
+         }
+         finally {
+            EndExport();
          }
 
          return ResultStatus.Success;
