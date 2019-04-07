@@ -26,11 +26,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
       protected AMIF amif;
       protected AI2 ai2;
 
-      protected class LookupItem {
-         public string ValueMember { get; set; }
-         public string DisplayMember { get; set; }
-      }
-
       public W30055(string programID, string programName) : base(programID, programName) {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;

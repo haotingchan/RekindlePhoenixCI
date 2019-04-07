@@ -36,12 +36,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
       public enum GridName { First, Second }
 
-      protected class LookupItem {
-         public string ValueMember { get; set; }
-         public string DisplayMember { get; set; }
-      }
-
-
       #region 抓取畫面元件Value(主要是縮寫)
       /// <summary>
       /// yyyyMMdd

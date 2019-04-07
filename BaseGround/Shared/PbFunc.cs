@@ -1107,7 +1107,6 @@ namespace BaseGround.Shared {
 
          string ls_rtn = "";
 
-
          OCF ocf = new OCF(dbType);
          BO_OCF boOCF = ocf.GetOCF();
          if (boOCF == null) {

@@ -2,40 +2,23 @@
 using System.Data;
 using DataObjects.Dao.Together.SpecificDao;
 using BusinessObjects.Enums;
-using DevExpress.Spreadsheet;
-using BusinessObjects;
 using Common;
 using BaseGround.Report;
 using BaseGround;
-using System.Data.Common;
-using static BaseGround.Report.ReportHelper;
-using System.Windows.Forms;
-using PhoenixCI.Report;
-using DevExpress.XtraPrinting.Caching;
 using System;
 using DataObjects.Dao.Together;
 using BaseGround.Shared;
-using System.Linq;
 using System.IO;
 using DevExpress.XtraEditors.Controls;
-using System.Reflection;
-using DevExpress.XtraGrid;
-using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.Utils;
 using DevExpress.Data;
 using DevExpress.XtraEditors;
-using Common.Helper;
 
 namespace PhoenixCI.FormUI.Prefix5 {
    public partial class W50010 : FormParent {
       private D50010 dao50010;
       protected DataTable dtTarget;
       protected APDK daoAPDK;
-
-      protected class LookupItem {
-         public string ValueMember { get; set; }
-         public string DisplayMember { get; set; }
-      }
 
       #region get UI Value
       public string paramKey {

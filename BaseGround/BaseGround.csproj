@@ -190,6 +190,7 @@
       <DependentUpon>FormWait.cs</DependentUpon>
     </Compile>
     <Compile Include="Shared\Extension.cs" />
+    <Compile Include="Shared\LookupItem.cs" />
     <Compile Include="Shared\PbFunc.cs" />
     <Compile Include="Widget\ucW500xx.cs">
       <SubType>UserControl</SubType>

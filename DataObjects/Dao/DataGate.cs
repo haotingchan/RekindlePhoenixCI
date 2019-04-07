@@ -710,7 +710,7 @@ namespace DataObjects.Dao {
       /// <param name="dtTXFP">get list of TXFP</param>
       /// <param name="iniKey">TXFP_TXN_ID</param>
       /// <returns></returns>
-      public Db ChangeDB(DataTable dtTXFP, string iniKey) {
+      public Db ChangeDB(DataTable dtTXFP) {
          DataTable dt = dtTXFP;
 
          try {
