@@ -175,7 +175,7 @@ namespace BaseGround.Shared {
       /// <returns></returns>
       public static DataTable Sort(this DataTable dataTable, string sortcondition) {
          DataView dv = dataTable.AsDataView();
-         dv.Sort.OrderBy(sortcondition);
+         dv.Sort = sortcondition;
          DataTable newDT = dv.ToTable();
          return newDT;
       }

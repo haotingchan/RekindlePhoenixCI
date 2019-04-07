@@ -1,12 +1,12 @@
 ﻿using BaseGround;
 using BaseGround.Report;
-using BaseGround.Shared;
 using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using System;
 using System.Data;
+using System.Reflection;
 
 /// <summary>
 /// Winni, 2019/02/18 交易人帳號狀態查詢
@@ -57,11 +57,15 @@ namespace PhoenixCI.FormUI.PrefixP {
       protected override ResultStatus Retrieve() {
          base.Retrieve();
          try {
+            DP00xx daoP00xx = new DP00xx();
             DataTable dt = new DataTable();
             DataTable dtTXFP = new DataTable();
             dtTXFP = new TXFP().ListDataByKey("POS");
-            dt = new DP0040().SP_QUERY_USER_STATUS(txtFcmNo.Text , txtAccNo.Text , "POS" , dtTXFP);
 
+            IGridDataP00xx gridData = daoP00xx.CreateGridData(daoP00xx.GetType(), GetType(), MethodBase.GetCurrentMethod().Name);
+            QP00xx qP00xx = new QP00xx(txtFcmNo.Text, txtAccNo.Text, dtTXFP);
+            dt = gridData.GetData(qP00xx);
+           // dt = new DP0040().SP_QUERY_USER_STATUS(txtFcmNo.Text , txtAccNo.Text , "POS" , dtTXFP);
 
             //將datatable的Title換掉
             dt.Columns[0].ColumnName = "FCM_NAME";
@@ -103,7 +107,7 @@ namespace PhoenixCI.FormUI.PrefixP {
             //F002000 1121612
             //F002000 9101809
          } catch (Exception ex) {
-            PbFunc.f_write_logf(_ProgramID , "Error" , ex.Message);
+            WriteLog(ex);
             return ResultStatus.Fail;
          }
 
