@@ -211,7 +211,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
                worksheet.Cells[ii_ole_row - 1 , 2].Value = dt.Rows[i]["APDK_EXPIRY_TYPE"].AsString();
 
                if (gbProd.EditValue.ToString() == "rbProdPC") {
-                  worksheet.Cells[ii_ole_row - 1 , 3].Value = dt.Rows[i]["APDK_PC_CODE"].AsString();
+                  if (dt.Rows[i]["APDK_PC_CODE"] != DBNull.Value)
+                     worksheet.Cells[ii_ole_row - 1 , 3].Value = dt.Rows[i]["APDK_PC_CODE"].AsString();
                   li_col = 4;
                } else {
                   li_col = 3;
@@ -219,37 +220,44 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
                if (chkGroup.Items[0].CheckState.ToString() == "Checked") {
                   li_col += 1;
-                  worksheet.Cells[ii_ole_row - 1 , li_col - 1].Value = dt.Rows[i]["AI2_M_QNTY"].AsDecimal();
+                  if (dt.Rows[i]["AI2_M_QNTY"] != DBNull.Value)
+                     worksheet.Cells[ii_ole_row - 1 , li_col - 1].Value = dt.Rows[i]["AI2_M_QNTY"].AsDecimal();
                }
 
                if (chkGroup.Items[1].CheckState.ToString() == "Checked") {
                   li_col += 1;
-                  worksheet.Cells[ii_ole_row - 1 , li_col - 1].Value = dt.Rows[i]["AI2_OI"].AsDecimal();
+                  if (dt.Rows[i]["AI2_OI"] != DBNull.Value)
+                     worksheet.Cells[ii_ole_row - 1 , li_col - 1].Value = dt.Rows[i]["AI2_OI"].AsDecimal();
                }
 
                if (chkGroup.Items[2].CheckState.ToString() == "Checked") {
                   li_col += 1;
-                  worksheet.Cells[ii_ole_row - 1 , li_col - 1].Value = dt.Rows[i]["AM10_CNT"].AsDecimal();
+                  if (dt.Rows[i]["AM10_CNT"] != DBNull.Value)
+                     worksheet.Cells[ii_ole_row - 1 , li_col - 1].Value = dt.Rows[i]["AM10_CNT"].AsDecimal();
                }
 
                if (chkGroup.Items[3].CheckState.ToString() == "Checked") {
                   li_col += 1;
-                  worksheet.Cells[ii_ole_row - 1 , li_col - 1].Value = dt.Rows[i]["AA2_AMT"].AsDecimal();
+                  if (dt.Rows[i]["AA2_AMT"] != DBNull.Value)
+                     worksheet.Cells[ii_ole_row - 1 , li_col - 1].Value = dt.Rows[i]["AA2_AMT"].AsDecimal();
                }
 
                if (chkGroup.Items[4].CheckState.ToString() == "Checked") {
                   li_col += 1;
-                  worksheet.Cells[ii_ole_row - 1 , li_col - 1].Value = dt.Rows[i]["AA2_AMT_STK"].AsDecimal();
+                  if (dt.Rows[i]["AA2_AMT_STK"] != DBNull.Value)
+                     worksheet.Cells[ii_ole_row - 1 , li_col - 1].Value = dt.Rows[i]["AA2_AMT_STK"].AsDecimal();
                }
 
                if (chkGroup.Items[5].CheckState.ToString() == "Checked") {
                   li_col += 1;
-                  worksheet.Cells[ii_ole_row - 1 , li_col - 1].Value = dt.Rows[i]["AM9_ACC_CNT"].AsDecimal();
+                  if (dt.Rows[i]["AM9_ACC_CNT"] != DBNull.Value)
+                     worksheet.Cells[ii_ole_row - 1 , li_col - 1].Value = dt.Rows[i]["AM9_ACC_CNT"].AsDecimal();
                }
 
                if (chkGroup.Items[6].CheckState.ToString() == "Checked") {
                   li_col += 1;
-                  worksheet.Cells[ii_ole_row - 1 , li_col - 1].Value = dt.Rows[i]["AB4_ID_CNT"].AsDecimal();
+                  if (dt.Rows[i]["AB4_ID_CNT"] != DBNull.Value)
+                     worksheet.Cells[ii_ole_row - 1 , li_col - 1].Value = dt.Rows[i]["AB4_ID_CNT"].AsDecimal();
                }
 
             }
