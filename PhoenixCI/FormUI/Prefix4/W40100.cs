@@ -14,6 +14,9 @@ using System.Linq;
 using System.Reflection;
 using System.Xml;
 
+/// <summary>
+/// Test Data 2B 20190102 / 1B 20190130 / 1E 20190212 / 0B 20190212
+/// </summary>
 namespace PhoenixCI.FormUI.Prefix4 {
    public partial class W40100 : FormParent {
       private static D40010 dao40010;
@@ -47,7 +50,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          //設定下拉選單
          ddlAdjType.SetDataTable(new COD().ListByCol2("400xx", "dw_adj_type"), "COD_ID", "COD_DESC", TextEditStyles.DisableTextEditor, null);
-         ddlAdjType.EditValue = "0B             ";
+         ddlAdjType.EditValue = "0B";
           
          ExportShow.Hide();
       }
@@ -61,6 +64,15 @@ namespace PhoenixCI.FormUI.Prefix4 {
             string asAdjType = AdjType.SubStr(0, 1) == "0" ? "" : AdjType.SubStr(0, 1);
 
             dt = dao40010.GetData(TxtDate, asAdjType, AdjType.SubStr(1, 1));
+
+            //一般 / 股票 要多撈一次資料
+            if (AdjType == "0B") {
+               DataTable dtTmp = dao40010.GetData(TxtDate, "3", AdjType.SubStr(1, 1));
+               foreach (DataRow r in dtTmp.Rows) {
+                  DataRow addRow = r;
+                  dt.ImportRow(r);
+               }
+            }
 
             #region Check has Data
             if (dt == null) {
@@ -198,7 +210,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                }
 
                ReplaceXmlInnterText(doc.GetElementsByTagName("主旨")[0].ChildNodes[0], "#kind_name_list#", GenArrayTxt(kindNameList_desc));
-               ReplaceXmlInnterText(doc.GetElementsByTagName("段落")[0].ChildNodes[1], "#kind_name_list#", GenArrayTxt(kindNameList));
+               ReplaceXmlInnterText(doc.GetElementsByTagName("段落")[0].ChildNodes[1].ChildNodes[0], "#kind_name_list#", GenArrayTxt(kindNameList));
 
                doc.Save(filePath);
             } catch (Exception ex) {
@@ -271,9 +283,142 @@ namespace PhoenixCI.FormUI.Prefix4 {
                //主旨裡商品
                ReplaceXmlInnterText(doc.GetElementsByTagName("主旨")[0].ChildNodes[0], "#kind_name_list#", GenArrayTxt(kindNameList_desc));
 
-               //段落 序號二
-               ReplaceXmlInnterText(doc.GetElementsByTagName("段落")[0].ChildNodes[2], "#mocf_ymd#", mocfDate);
-               ReplaceXmlInnterText(doc.GetElementsByTagName("段落")[0].ChildNodes[2], "#impl_end_ymd#", implEndDate);
+               //段落 序號三
+               ReplaceXmlInnterText(doc.GetElementsByTagName("段落")[0].ChildNodes[2].ChildNodes[0], "#mocf_ymd#", mocfDate);
+               ReplaceXmlInnterText(doc.GetElementsByTagName("段落")[0].ChildNodes[2].ChildNodes[0], "#impl_end_ymd#", implEndDate);
+
+               doc.Save(filePath);
+            } catch (Exception ex) {
+               throw ex;
+            }
+         }
+      }
+
+      /// <summary>
+      /// 長假回調 輸出xml
+      /// </summary>
+      public class ExportXml1E : IXml40xxxData {
+         public void Export(DataTable dt, string filePath) {
+            try {
+               var doc = new XmlDocument();
+               doc.Load(filePath);
+
+               dt = dt.Sort("SEQ_NO ASC, PROD_TYPE ASC, KIND_GRP2 ASC");
+
+               TaiwanCalendar tai = new TaiwanCalendar();
+               int year = tai.GetYear(DateTime.Now);
+
+               //年號
+               ReplaceXmlInnterText(doc.GetElementsByTagName("檔號")[0], "#year#", year.ToString("D4"));
+               ReplaceXmlInnterText(doc.GetElementsByTagName("年度號")[0], "#year#", year.ToString("D4"));
+
+               //說明文
+               dt.Filter("ab_type in ('A','-')");
+
+               List<string> fullNameList = new List<string>();
+               List<string> kindNameList_desc = new List<string>();
+               string prodName = "";
+
+               foreach (DataRow dr in dt.Rows) {
+                  string abbrName_desc = dr["KIND_ABBR_NAME"].AsString();
+                  string fullName = "本公司" + dr["rule_full_name"].AsString() + "交易規則";
+
+                  if (dr["prod_subtype"].AsString() == "S") {
+                     abbrName_desc = abbrName_desc + "契約(" + dr["kind_id"].AsString() + ")";
+                  }
+
+                  if (dr["prod_type"].AsString() == "F") {
+                     prodName = "期貨契約保證金及";
+                  }
+
+                  if (dr["prod_type"].AsString() == "O" && dr == dt.Rows[dt.Rows.Count - 1]) {
+                     abbrName_desc += "之" + prodName + "選擇權契約風險保證金(A值)、風險保證金最低值(B值)";
+                  }
+
+                  if (!kindNameList_desc.Exists(k => k == abbrName_desc)) {
+                     kindNameList_desc.Add(abbrName_desc);
+                  }
+
+                  if (!fullNameList.Exists(f => f == fullName)) {
+                     fullNameList.Add(fullName);
+                  }
+               }
+
+               string beginYmd = PbFunc.f_conv_date(dt.Rows[0]["issue_begin_ymd"].AsDateTime("yyyyMMdd"), 3);
+
+               ReplaceXmlInnterText(doc.GetElementsByTagName("主旨")[0].ChildNodes[0], "#kind_name_list#", GenArrayTxt(kindNameList_desc));
+               ReplaceXmlInnterText(doc.GetElementsByTagName("主旨")[0].ChildNodes[0], "#issue_begin_ymd#", beginYmd);
+               ReplaceXmlInnterText(doc.GetElementsByTagName("段落")[0].ChildNodes[0].ChildNodes[0], "#full_name_llist#", GenArrayTxt(fullNameList));
+
+               doc.Save(filePath);
+            } catch (Exception ex) {
+               throw ex;
+            }
+         }
+      }
+
+      /// <summary>
+      /// 一般 / 股票 輸出xml
+      /// </summary>
+      public class ExportXml0B : IXml40xxxData {
+         public void Export(DataTable dt, string filePath) {
+            try {
+               var doc = new XmlDocument();
+               doc.Load(filePath);
+
+               dt = dt.Sort("SEQ_NO ASC, PROD_TYPE ASC, KIND_GRP2 ASC, KIND_ID ASC, AB_TYPE ASC");
+
+               TaiwanCalendar tai = new TaiwanCalendar();
+               int year = tai.GetYear(DateTime.Now);
+
+               //年號
+               ReplaceXmlInnterText(doc.GetElementsByTagName("檔號")[0], "#year#", year.ToString("D4"));
+               ReplaceXmlInnterText(doc.GetElementsByTagName("年度號")[0], "#year#", year.ToString("D4"));
+
+               //說明文
+               dt.Filter("ab_type in ('A','-')");
+
+               List<string> fullNameList = new List<string>();
+               List<string> kindNameList = new List<string>();
+               string prodName = "";
+
+               foreach (DataRow dr in dt.Rows) {
+                  string abbrName = dr["KIND_ABBR_NAME"].AsString();
+                  string fullName = "本公司" + dr["rule_full_name"].AsString() + "交易規則";
+
+                  if (dr["prod_subtype"].AsString() == "S") {
+                     abbrName = abbrName + "契約(" + dr["kind_id"].AsString() + ")";
+                  }
+
+                  if (!kindNameList.Exists(k => k == abbrName)) {
+                     kindNameList.Add(abbrName);
+                  }
+
+                  if (dr["prod_type"].AsString() == "F") {
+                     prodName = "期貨契約保證金及";
+                  }
+
+                  if (dr["prod_type"].AsString() == "O" && dr == dt.Rows[dt.Rows.Count - 1]) {
+                     abbrName += "之" + prodName + "選擇權契約風險保證金(A值)、風險保證金最低值(B值)";
+                  }
+
+                  if (!fullNameList.Exists(f => f == fullName)) {
+                     fullNameList.Add(fullName);
+                  }
+               }
+
+               string beginDate = PbFunc.f_conv_date(dt.Rows[0]["issue_begin_ymd"].AsDateTime("yyyyMMdd"), 3);
+
+               ReplaceXmlInnterText(doc.GetElementsByTagName("主旨")[0].ChildNodes[0], "#kind_name_list#", GenArrayTxt(kindNameList));
+               ReplaceXmlInnterText(doc.GetElementsByTagName("主旨")[0].ChildNodes[0], "#issue_begin_ymd#", beginDate);
+               ReplaceXmlInnterText(doc.GetElementsByTagName("段落")[0].ChildNodes[0].ChildNodes[0], "#full_name_llist#", GenArrayTxt(fullNameList));
+               ReplaceXmlInnterText(doc.GetElementsByTagName("段落")[0].ChildNodes[1].ChildNodes[0], "#kind_name_list#", GenArrayTxt(kindNameList));
+
+               if (dt.Select("amt_type = 'F'").Count() > 0) {
+                  ReplaceXmlInnterText(doc.GetElementsByTagName("主旨")[0].ChildNodes[0], "#amt_type#", "金額");
+               } else {
+                  ReplaceXmlInnterText(doc.GetElementsByTagName("主旨")[0].ChildNodes[0], "#amt_type#", "適用比例");
+               }
 
                doc.Save(filePath);
             } catch (Exception ex) {
