@@ -4,6 +4,7 @@ using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
+using DataObjects.Dao.Together.TableDao;
 using DevExpress.XtraEditors.Controls;
 using PhoenixCI.Shared;
 using System;
@@ -19,7 +20,7 @@ using System.Xml;
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix4 {
    public partial class W40100 : FormParent {
-      private static D40010 dao40010;
+      private static D40xxx dao40xxx;
 
       #region Get UI Value
       /// <summary>
@@ -43,7 +44,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
       #endregion
 
       public W40100(string programID, string programName) : base(programID, programName) {
-         dao40010 = new D40010();
+         dao40xxx = new D40xxx();
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
          txtDate.DateTimeValue = GlobalInfo.OCF_DATE;
@@ -63,11 +64,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dt = new DataTable();
             string asAdjType = AdjType.SubStr(0, 1) == "0" ? "" : AdjType.SubStr(0, 1);
 
-            dt = dao40010.GetData(TxtDate, asAdjType, AdjType.SubStr(1, 1));
+            dt = dao40xxx.GetData(TxtDate, asAdjType, AdjType.SubStr(1, 1));
 
             //一般 / 股票 要多撈一次資料
             if (AdjType == "0B") {
-               DataTable dtTmp = dao40010.GetData(TxtDate, "3", AdjType.SubStr(1, 1));
+               DataTable dtTmp = dao40xxx.GetData(TxtDate, "3", AdjType.SubStr(1, 1));
                foreach (DataRow r in dtTmp.Rows) {
                   DataRow addRow = r;
                   dt.ImportRow(r);
@@ -145,7 +146,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
       /// <summary>
       /// 處置股票 輸出xml
       /// </summary>
-      public class ExportXml2B : IXml40xxxData {
+      private class ExportXml2B : IXml40xxxData {
          public void Export(DataTable dt, string filePath) {
             try {
                var doc = new XmlDocument();
@@ -222,7 +223,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
       /// <summary>
       /// 長假調整 輸出xml
       /// </summary>
-      public class ExportXml1B : IXml40xxxData {
+      private class ExportXml1B : IXml40xxxData {
          public void Export(DataTable dt, string filePath) {
             try {
                var doc = new XmlDocument();
@@ -271,7 +272,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                string implBeginDate = dt.Rows[0]["impl_begin_ymd"].AsString();
                string implEndDate = dt.Rows[0]["impl_end_ymd"].AsString();
-               string mocfDate = dao40010.GetMaxOcfDate(implBeginDate, implEndDate);
+               string mocfDate = new MOCF().GetMaxOcfDate(implBeginDate, implEndDate);
 
                implBeginDate = PbFunc.f_conv_date(implBeginDate.AsDateTime("yyyyMMdd"), 3);
                implEndDate = PbFunc.f_conv_date(implEndDate.AsDateTime("yyyyMMdd"), 3);
@@ -297,7 +298,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
       /// <summary>
       /// 長假回調 輸出xml
       /// </summary>
-      public class ExportXml1E : IXml40xxxData {
+      private class ExportXml1E : IXml40xxxData {
          public void Export(DataTable dt, string filePath) {
             try {
                var doc = new XmlDocument();
@@ -360,7 +361,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
       /// <summary>
       /// 一般 / 股票 輸出xml
       /// </summary>
-      public class ExportXml0B : IXml40xxxData {
+      private class ExportXml0B : IXml40xxxData {
          public void Export(DataTable dt, string filePath) {
             try {
                var doc = new XmlDocument();
