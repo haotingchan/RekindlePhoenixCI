@@ -156,6 +156,8 @@
          this.emYear.Location = new System.Drawing.Point(160, 115);
          this.emYear.Name = "emYear";
          this.emYear.Properties.EditFormat.FormatString = "####";
+         this.emYear.Properties.Mask.EditMask = "\\d\\d\\d\\d";
+         this.emYear.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
          this.emYear.Properties.MaxLength = 4;
          this.emYear.Size = new System.Drawing.Size(47, 28);
          this.emYear.TabIndex = 5;
