@@ -52,14 +52,6 @@ namespace PhoenixCI.FormUI.Prefix4
          base.ActivatedForm();
 
          _ToolBtnExport.Enabled = true;
-         _ToolBtnPrintAll.Enabled = true;
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus Print(ReportHelper reportHelper)
-      {
-         base.Print(reportHelper);
-
          return ResultStatus.Success;
       }
 
@@ -125,21 +117,5 @@ namespace PhoenixCI.FormUI.Prefix4
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Export(ReportHelper reportHelper)
-      {
-         base.Export(reportHelper);
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus CheckShield()
-      {
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus COMPLETE()
-      {
-         return ResultStatus.Success;
-      }
    }
 }

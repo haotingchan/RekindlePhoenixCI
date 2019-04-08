@@ -30,11 +30,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
       RepositoryItemLookUpEdit lupOswGrp;
       RepositoryItemLookUpEdit lupDataType;
 
-      protected class LookupItem {
-         public string ValueMember { get; set; }
-         public string DisplayMember { get; set; }
-      }
-
       public W49070(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;

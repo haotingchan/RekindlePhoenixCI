@@ -68,16 +68,36 @@ namespace PhoenixCI.FormUI.Prefix3 {
          InitializeComponent();
 
          this.Text = _ProgramID + "─" + _ProgramName;
-         txtStartDate.Text = GlobalInfo.OCF_DATE.AsString("yyyy/MM/dd");
-         txtEndDate.Text = GlobalInfo.OCF_DATE.AsString("yyyy/MM/dd");
+         txtStartDate.DateTimeValue = GlobalInfo.OCF_DATE;
+         txtEndDate.DateTimeValue = GlobalInfo.OCF_DATE;
 
 #if DEBUG
          //winni test
-         txtStartDate.DateTimeValue = DateTime.ParseExact("2018/10/01" , "yyyy/MM/dd" , null);
-         txtEndDate.DateTimeValue = DateTime.ParseExact("2018/10/11" , "yyyy/MM/dd" , null);
-         this.Text += "(開啟測試模式),Date=2018/10/01~2018/10/11";
+         //txtStartDate.DateTimeValue = DateTime.ParseExact("2018/10/01" , "yyyy/MM/dd" , null);
+         //txtEndDate.DateTimeValue = DateTime.ParseExact("2018/10/11" , "yyyy/MM/dd" , null);
+         //this.Text += "(開啟測試模式),Date=2018/10/01~2018/10/11";
 #endif
 
+      }
+
+      protected override ResultStatus Open() {
+         base.Open();
+         try {
+            
+            //設定初始年月yyyy/MM/dd          
+            txtStartDate.Text = txtStartDate.DateTimeValue.ToString("yyyy/MM/01");
+            txtStartDate.EnterMoveNextControl = true;
+            txtStartDate.Focus();
+
+            txtEndDate.Text = txtEndDate.DateTimeValue.ToString("yyyy/MM/dd");
+            txtEndDate.EnterMoveNextControl = true;
+            txtEndDate.Focus();
+
+            return ResultStatus.Success;
+         } catch (Exception ex) {
+            WriteLog(ex);
+            return ResultStatus.Fail;
+         }
       }
 
       protected override ResultStatus ActivatedForm() {

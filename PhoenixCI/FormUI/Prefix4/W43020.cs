@@ -28,10 +28,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
         private D43020 dao43020;
         private OCFG daoOCFG;
-        protected class LookupItem {
-            public string ValueMember { get; set; }
-            public string DisplayMember { get; set; }
-        }
 
         public W43020(string programID, string programName) : base(programID, programName) {
             InitializeComponent();
@@ -162,23 +158,23 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                     f++;
                 }
-                //6. 刪除空白列
-                int rowIndex = dt43020.Rows.Count;
-                int delRowCnt = 60 - rowIndex;
+                //6. 刪除空白列(用Rows.remove或Range.delete都會影響到template，只好用Rows.Hide)
+                int rowCount = dt43020.Rows.Count;
+                int delRowCnt = 60 - rowCount;
                 Range ra;
-                if (rowIndex < 60) {
-                    rowStart = 142;
-                    ra = ws43020.Range[(rowIndex + rowStart + 1).ToString() + ":" + (rowStart + 60).ToString()];
-                    ra.Delete(DeleteMode.EntireRow);
-                    //ws43020.Rows.Remove(rowIndex + rowStart, delRowCnt);
-                    rowStart = 77;
-                    ra = ws43020.Range[(rowIndex + rowStart + 1).ToString() + ":" + (rowStart + 60).ToString()];
-                    ra.Delete(DeleteMode.EntireRow);
-                    //ws43020.Rows.Remove(rowIndex + rowStart, delRowCnt);
-                    rowStart = 8;
-                    ra = ws43020.Range[(rowIndex + rowStart + 1).ToString() + ":" + (rowStart + 60).ToString()];
-                    ra.Delete(DeleteMode.EntireRow);
-                    //ws43020.Rows.Remove(rowIndex + rowStart, delRowCnt);
+                if (rowCount < 60) {
+                    rowStart = 141;
+                    //ra = ws43020.Range[(rowIndex + rowStart + 1).ToString() + ":" + (rowStart + 60).ToString()];
+                    //ra.Delete(DeleteMode.EntireRow);
+                    ws43020.Rows.Hide(rowCount + rowStart+1, rowStart + 60);
+                    rowStart = 76;
+                    //ra = ws43020.Range[(rowIndex + rowStart + 1).ToString() + ":" + (rowStart + 60).ToString()];
+                    //ra.Delete(DeleteMode.EntireRow);
+                    ws43020.Rows.Hide(rowCount + rowStart+1, rowStart + 60);
+                    rowStart = 7;
+                    //ra = ws43020.Range[(rowIndex + rowStart + 1).ToString() + ":" + (rowStart + 60).ToString()];
+                    //ra.Delete(DeleteMode.EntireRow);
+                    ws43020.Rows.Hide(rowCount + rowStart+1, rowStart + 60);
                 }
 
                 //7. 存檔

@@ -10,7 +10,7 @@ namespace DataObjects.Dao.Together.SpecificDao {
            string IN_SYSTEM, string IN_KIND, string IN_GROUP_TYPE, string iniKey, DataTable dtTXFP) {
 
             //切換DB Connection
-            Db posDB = ChangeDB(dtTXFP, iniKey);
+            Db posDB = ChangeDB(dtTXFP);
 
             List<DbParameterEx> parms = new List<DbParameterEx>() {
             new DbParameterEx("IN_START_DATE",IN_START_DATE),

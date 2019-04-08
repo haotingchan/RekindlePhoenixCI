@@ -29,10 +29,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
         private D43010 dao43010;
         private OCFG daoOCFG;
-        protected class LookupItem {
-            public string ValueMember { get; set; }
-            public string DisplayMember { get; set; }
-        }
 
         public W43010(string programID, string programName) : base(programID, programName) {
             InitializeComponent();

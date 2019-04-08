@@ -167,6 +167,8 @@
     <Compile Include="BusinessLogic\Prefix3\B30687.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30780.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30790.cs" />
+    <Compile Include="BusinessLogic\Prefix4\B40060.cs" />
+    <Compile Include="BusinessLogic\Prefix4\B40050.cs" />
     <Compile Include="BusinessLogic\Prefix4\B40200.cs" />
     <Compile Include="BusinessLogic\Prefix4\B43030.cs" />
     <Compile Include="BusinessLogic\Prefix4\B43033.cs" />
@@ -300,6 +302,12 @@
       <DependentUpon>W28610.cs</DependentUpon>
     </Compile>
     <Compile Include="BusinessLogic\Prefix3\B30720.cs" />
+    <Compile Include="FormUI\Prefix3\W30010.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30010.Designer.cs">
+      <DependentUpon>W30010.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormUI\Prefix3\W30017.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -810,6 +818,36 @@
     <Compile Include="FormUI\Prefix3\W30720.Designer.cs">
       <DependentUpon>W30720.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormUI\Prefix4\W40060.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40060.Designer.cs">
+      <DependentUpon>W40060.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W49062.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W49062.Designer.cs">
+      <DependentUpon>W49062.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40130.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40130.Designer.cs">
+      <DependentUpon>W40130.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W43032.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W43032.Designer.cs">
+      <DependentUpon>W43032.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40100.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40100.designer.cs">
+      <DependentUpon>W40100.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormUI\Prefix4\W40170.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -857,6 +895,12 @@
     </Compile>
     <Compile Include="FormUI\Prefix4\W40150.designer.cs">
       <DependentUpon>W40150.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40050.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40050.Designer.cs">
+      <DependentUpon>W40050.cs</DependentUpon>
     </Compile>
     <Compile Include="FormUI\Prefix4\W43020.cs">
       <SubType>Form</SubType>
@@ -971,6 +1015,12 @@
     </Compile>
     <Compile Include="FormUI\Prefix4\W49060.Designer.cs">
       <DependentUpon>W49060.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W49020.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W49020.designer.cs">
+      <DependentUpon>W49020.cs</DependentUpon>
     </Compile>
     <Compile Include="FormUI\Prefix4\W49070.cs">
       <SubType>Form</SubType>
@@ -1400,6 +1450,7 @@
     <Compile Include="Report\RZ0011.designer.cs">
       <DependentUpon>RZ0011.cs</DependentUpon>
     </Compile>
+    <Compile Include="Shared\IXml40xxxData.cs" />
     <Compile Include="Shared\ReportExportFunc.cs" />
     <Compile Include="Widget\DropDownList.cs" />
     <Compile Include="Widget\TextDateEdit.cs">
@@ -1467,6 +1518,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix2\W28610.resx">
       <DependentUpon>W28610.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W30010.resx">
+      <DependentUpon>W30010.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix3\W30017.resx">
       <DependentUpon>W30017.cs</DependentUpon>
@@ -1726,6 +1780,9 @@
     <EmbeddedResource Include="FormUI\Prefix3\W30503.resx">
       <DependentUpon>W30503.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W40060.resx">
+      <DependentUpon>W40060.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix4\W40170.resx">
       <DependentUpon>W40170.cs</DependentUpon>
     </EmbeddedResource>
@@ -1746,6 +1803,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix4\W40150.resx">
       <DependentUpon>W40150.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W40050.resx">
+      <DependentUpon>W40050.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix4\W43020.resx">
       <DependentUpon>W43020.cs</DependentUpon>
@@ -1803,6 +1863,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix4\W49060.resx">
       <DependentUpon>W49060.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W49020.resx">
+      <DependentUpon>W49020.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W49062.resx">
+      <DependentUpon>W49062.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix4\W49070.resx">
       <DependentUpon>W49070.cs</DependentUpon>
@@ -2417,10 +2483,16 @@
     <None Include="Excel_Template\30670_BRF.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\30670_BRF.xlsm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Excel_Template\30670_BRF.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\30670_RHF.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30670_RHF.xlsm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\30670_RHF.xlsx">
@@ -2429,10 +2501,16 @@
     <None Include="Excel_Template\30670_TJF.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\30670_TJF.xlsm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Excel_Template\30670_TJF.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\30670_UDF.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30670_UDF.xlsm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\30670_UDF.xlsx">
@@ -2441,10 +2519,16 @@
     <None Include="Excel_Template\30670_XBF.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\30670_XBF.xlsm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Excel_Template\30670_XBF.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\30670_XEF.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30670_XEF.xlsm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\30670_XEF.xlsx">
@@ -2850,6 +2934,21 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\95140.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\ifd\40100_0B.ifd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\ifd\40100_0_3.ifd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\ifd\40100_1B.ifd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\ifd\40100_1E.ifd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\ifd\40100_2B.ifd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\S0010.xls">

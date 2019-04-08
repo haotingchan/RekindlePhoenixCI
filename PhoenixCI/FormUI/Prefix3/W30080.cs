@@ -38,8 +38,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 txtEDate.EditValue = PbFunc.f_ocf_date(0);
                 txtSDate.EditValue = txtEDate.Text.SubStr(0, 8) + "01";
 #if DEBUG
-                txtSDate.Text = "2019/03/15";
-                txtEDate.Text = "2019/03/15";
+                txtSDate.Text = "2018/10/01";
+                txtEDate.Text = "2018/10/11";
 #endif
 
                 txtSDate.Focus();
@@ -160,7 +160,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 }
 
                 DataView dv = dtSort.AsDataView();
-                dv.Sort = "AI2_" + dataType + " DESC";
+                dv.Sort = "AI2_" + dataType + " DESC, AI2_KIND_ID ASC";
                 dv.RowFilter = "cp_seq_no <=" + txtRank.Text;
                 DataTable dtReSorted = dv.ToTable();
 

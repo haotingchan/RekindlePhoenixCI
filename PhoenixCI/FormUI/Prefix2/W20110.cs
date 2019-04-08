@@ -39,10 +39,6 @@ namespace PhoenixCI.FormUI.Prefix2 {
         private STWD daoSTWD;
         private COD daoCOD;
         private APDK daoAPDK;
-        protected class LookupItem {
-            public string ValueMember { get; set; }
-            public string DisplayMember { get; set; }
-        }
         protected DataTable dtCheck;
         protected DataTable dtProd;
 
@@ -378,6 +374,9 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     else if (settleDate != dr["AMIF_SETTLE_DATE"].AsString()) {
                         settleDate = dr["AMIF_SETTLE_DATE"].AsString();
                         seqNo = seqNo + 1;
+                    }
+                    if (settleDate!="000000") {
+                        dr["AMIF_MTH_SEQ_NO"] = seqNo;
                     }
                     if (dr.RowState == DataRowState.Unchanged) {
                         continue;

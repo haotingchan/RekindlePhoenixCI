@@ -99,8 +99,8 @@ from (
         COD_DESC,
         COD_SEQ_NO
     FROM CI.COD  
-    WHERE COD_TXN_ID = :COD_TXN_ID
-    AND COD_COL_ID = :COD_COL_ID
+    WHERE TRIM(COD_TXN_ID) = :COD_TXN_ID
+    AND TRIM(COD_COL_ID) = :COD_COL_ID
 ) a   
 order by cod_seq_no";
 

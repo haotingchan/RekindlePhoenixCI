@@ -28,7 +28,8 @@ namespace DataObjects.Dao.Together {
 select  txemail_sender,
    txemail_recipients,
    txemail_cc,
-   txemail_title
+   txemail_title,
+   txemail_text
 from    ci.txemail
 where   txemail_txn_id = @txemail_txn_id  
 and     txemail_seq_no = @txemail_seq_no

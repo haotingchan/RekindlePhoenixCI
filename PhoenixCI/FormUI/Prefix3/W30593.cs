@@ -84,7 +84,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
          //2.填資料
          bool result = false;
-         int ii_ole_row = 1;
+         //int ii_ole_row = 1;
          result = wf_Export(workbook , worksheet);  //function 30592
 
          if (!result) {

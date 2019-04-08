@@ -25,11 +25,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
         protected static string ChooseSingleKind = "選單一契約";
         protected DataTable dtTarget;
 
-        protected class LookupItem {
-            public string ValueMember { get; set; }
-            public string DisplayMember { get; set; }
-        }
-
         public W48020(string programID, string programName) : base(programID, programName) {
             InitializeComponent();
             this.Text = _ProgramID + "─" + _ProgramName;
