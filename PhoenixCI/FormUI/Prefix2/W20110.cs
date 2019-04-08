@@ -375,6 +375,9 @@ namespace PhoenixCI.FormUI.Prefix2 {
                         settleDate = dr["AMIF_SETTLE_DATE"].AsString();
                         seqNo = seqNo + 1;
                     }
+                    if (settleDate!="000000") {
+                        dr["AMIF_MTH_SEQ_NO"] = seqNo;
+                    }
                     if (dr.RowState == DataRowState.Unchanged) {
                         continue;
                     }
