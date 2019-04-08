@@ -30,7 +30,8 @@ namespace DataObjects.Dao.Together.SpecificDao {
 
             string sql =
     @"
-     SELECT CI.PCP.PCP_DATE,   
+    SELECT 
+         to_char(CI.PCP.PCP_DATE, 'yyyy/mm/dd hh24:mi:ss') as PCP_DATE,   
          CI.PCP.PCP_PROD_TYPE,   
          CI.PCP.PDK_KIND_ID,     
          CI.PCP.PDK_STOCK_ID,      

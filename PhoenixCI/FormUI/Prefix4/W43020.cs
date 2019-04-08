@@ -159,22 +159,22 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     f++;
                 }
                 //6. 刪除空白列(用Rows.remove或Range.delete都會影響到template，只好用Rows.Hide)
-                int rowIndex = dt43020.Rows.Count;
-                int delRowCnt = 60 - rowIndex;
+                int rowCount = dt43020.Rows.Count;
+                int delRowCnt = 60 - rowCount;
                 Range ra;
-                if (rowIndex < 60) {
-                    rowStart = 142;
+                if (rowCount < 60) {
+                    rowStart = 141;
                     //ra = ws43020.Range[(rowIndex + rowStart + 1).ToString() + ":" + (rowStart + 60).ToString()];
                     //ra.Delete(DeleteMode.EntireRow);
-                    ws43020.Rows.Hide(rowIndex + rowStart + 1, rowStart + 60);
-                    rowStart = 77;
+                    ws43020.Rows.Hide(rowCount + rowStart+1, rowStart + 60);
+                    rowStart = 76;
                     //ra = ws43020.Range[(rowIndex + rowStart + 1).ToString() + ":" + (rowStart + 60).ToString()];
                     //ra.Delete(DeleteMode.EntireRow);
-                    ws43020.Rows.Hide(rowIndex + rowStart + 1, rowStart + 60);
-                    rowStart = 8;
+                    ws43020.Rows.Hide(rowCount + rowStart+1, rowStart + 60);
+                    rowStart = 7;
                     //ra = ws43020.Range[(rowIndex + rowStart + 1).ToString() + ":" + (rowStart + 60).ToString()];
                     //ra.Delete(DeleteMode.EntireRow);
-                    ws43020.Rows.Hide(rowIndex + rowStart + 1, rowStart + 60);
+                    ws43020.Rows.Hide(rowCount + rowStart+1, rowStart + 60);
                 }
 
                 //7. 存檔

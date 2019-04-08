@@ -123,7 +123,7 @@ order by ai2_ymd
 
             string sql =
 @"
-select A.AI2_KIND_ID, A.AI2_M_QNTY, rownum as cp_seq_no, A.PDK_NAME
+select A.AI2_KIND_ID, A.AI2_M_QNTY, A.AI2_OI, rownum as cp_seq_no, A.PDK_NAME
 from
 (select substr(AI2_KIND_ID,1,2)||:as_prod_type as AI2_KIND_ID,
        sum(AI2_M_QNTY) AS AI2_M_QNTY,
