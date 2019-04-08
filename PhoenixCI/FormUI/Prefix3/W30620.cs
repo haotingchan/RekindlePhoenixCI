@@ -35,6 +35,15 @@ namespace PhoenixCI.FormUI.Prefix3 {
          //201207-201210
       }
 
+      protected override ResultStatus Open() {
+         base.Open();
+
+         txtStartMonth.Text = GlobalInfo.OCF_DATE.ToString("yyyy/01");
+         txtEndMonth.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
+
+         return ResultStatus.Success;
+      }
+
       protected override ResultStatus ActivatedForm() {
          base.ActivatedForm();
 

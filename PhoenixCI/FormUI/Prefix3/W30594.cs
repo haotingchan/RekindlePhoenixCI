@@ -170,7 +170,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             if (chkGroup.Items[3].CheckState.ToString() == "Checked") {
                li_col += 1;
-               worksheet.Cells[ii_ole_row - 1 , li_col - 1].Value = "成交金額 [(買+賣)/2]";
+               worksheet.Cells[ii_ole_row - 1 , li_col - 1].Value = "成交金額(台幣) [(買+賣)/2]";
                li_col += 1;
                worksheet.Cells[ii_ole_row - 1 , li_col - 1].Value = "成交金額(原始幣別) [(買+賣)/2]";
             }

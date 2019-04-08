@@ -167,6 +167,7 @@
     <Compile Include="BusinessLogic\Prefix3\B30687.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30780.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30790.cs" />
+    <Compile Include="BusinessLogic\Prefix4\B40050.cs" />
     <Compile Include="BusinessLogic\Prefix4\B40200.cs" />
     <Compile Include="BusinessLogic\Prefix4\B43030.cs" />
     <Compile Include="BusinessLogic\Prefix4\B43033.cs" />
@@ -810,6 +811,12 @@
     <Compile Include="FormUI\Prefix3\W30720.Designer.cs">
       <DependentUpon>W30720.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormUI\Prefix4\W40130.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40130.Designer.cs">
+      <DependentUpon>W40130.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormUI\Prefix4\W43032.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -869,6 +876,12 @@
     </Compile>
     <Compile Include="FormUI\Prefix4\W40150.designer.cs">
       <DependentUpon>W40150.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40050.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40050.Designer.cs">
+      <DependentUpon>W40050.cs</DependentUpon>
     </Compile>
     <Compile Include="FormUI\Prefix4\W43020.cs">
       <SubType>Form</SubType>
@@ -1766,6 +1779,9 @@
     <EmbeddedResource Include="FormUI\Prefix4\W40150.resx">
       <DependentUpon>W40150.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W40050.resx">
+      <DependentUpon>W40050.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix4\W43020.resx">
       <DependentUpon>W43020.cs</DependentUpon>
     </EmbeddedResource>
@@ -2439,10 +2455,16 @@
     <None Include="Excel_Template\30670_BRF.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\30670_BRF.xlsm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Excel_Template\30670_BRF.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\30670_RHF.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30670_RHF.xlsm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\30670_RHF.xlsx">
@@ -2451,10 +2473,16 @@
     <None Include="Excel_Template\30670_TJF.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\30670_TJF.xlsm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Excel_Template\30670_TJF.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\30670_UDF.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30670_UDF.xlsm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\30670_UDF.xlsx">
@@ -2463,10 +2491,16 @@
     <None Include="Excel_Template\30670_XBF.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\30670_XBF.xlsm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Excel_Template\30670_XBF.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\30670_XEF.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\30670_XEF.xlsm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\30670_XEF.xlsx">

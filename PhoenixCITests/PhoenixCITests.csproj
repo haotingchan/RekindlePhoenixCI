@@ -90,6 +90,7 @@
     <Compile Include="BusinessLogic\Prefix3\B30720Tests.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30780Tests.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30790Tests.cs" />
+    <Compile Include="BusinessLogic\Prefix4\B40050Tests.cs" />
     <Compile Include="BusinessLogic\Prefix4\B40200Tests.cs" />
     <Compile Include="BusinessLogic\Prefix4\B43030Tests.cs" />
     <Compile Include="BusinessLogic\Prefix4\B43033Tests.cs" />

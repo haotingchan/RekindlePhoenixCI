@@ -205,12 +205,14 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
                   if (chkGroup.Items[0].CheckState.ToString() == "Checked") {
                      li_col += 1;
-                     worksheet.Cells[ii_ole_row - 1 , li_col - 1].Value = dtByProd.Rows[i]["AI2_M_QNTY"].AsDecimal();
+                     if (dtByProd.Rows[i]["AI2_M_QNTY"] != DBNull.Value)
+                        worksheet.Cells[ii_ole_row - 1 , li_col - 1].Value = dtByProd.Rows[i]["AI2_M_QNTY"].AsDecimal();
                   }
 
                   if (chkGroup.Items[1].CheckState.ToString() == "Checked") {
                      li_col += 1;
-                     worksheet.Cells[ii_ole_row - 1 , li_col - 1].Value = dtByProd.Rows[i]["AI2_OI"].AsDecimal();
+                     if (dtByProd.Rows[i]["AI2_OI"] != DBNull.Value)
+                        worksheet.Cells[ii_ole_row - 1 , li_col - 1].Value = dtByProd.Rows[i]["AI2_OI"].AsDecimal();
                   }
 
                   if (chkGroup.Items[2].CheckState.ToString() == "Checked") {
@@ -249,12 +251,14 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
                   if (chkGroup.Items[0].CheckState.ToString() == "Checked") {
                      li_col += 1;
-                     worksheet.Cells[ii_ole_row - 1 , li_col - 1].Value = dt.Rows[i]["AI2_M_QNTY"].AsDecimal();
+                     if (dt.Rows[i]["AI2_M_QNTY"] != DBNull.Value)
+                        worksheet.Cells[ii_ole_row - 1 , li_col - 1].Value = dt.Rows[i]["AI2_M_QNTY"].AsDecimal();
                   }
 
                   if (chkGroup.Items[1].CheckState.ToString() == "Checked") {
                      li_col += 1;
-                     worksheet.Cells[ii_ole_row - 1 , li_col - 1].Value = dt.Rows[i]["AI2_OI"].AsDecimal();
+                     if (dt.Rows[i]["AI2_OI"] != DBNull.Value)
+                        worksheet.Cells[ii_ole_row - 1 , li_col - 1].Value = dt.Rows[i]["AI2_OI"].AsDecimal();
                   }
 
                   if (chkGroup.Items[2].CheckState.ToString() == "Checked") {
@@ -286,6 +290,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
                }           
             }
             #endregion
+
+            worksheet.Range["A1"].Select();
+            worksheet.ScrollToRow(0);
 
             return true;
          } catch (Exception ex) { //失敗寫LOG
@@ -327,8 +334,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                      else
                         worksheet.Cells[ii_ole_row - 1 , j].Value = dt.Rows[i][j].AsDecimal();
                   }
-
-                  
+               
                }
 
                //RHF,RTF沒交易
@@ -340,7 +346,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             if (dt.Rows.Count < 100) {
                worksheet.Rows.Remove(ii_ole_row + 1 , 120 - (dt.Rows.Count + 20)); //原dt的row數再留20行
             }
-            worksheet.Range["A2"].Select();
+            worksheet.Range["A1"].Select();
+            worksheet.ScrollToRow(0);
 
             //4.存檔
             workbook.SaveDocument(excelDestinationPath);
@@ -355,7 +362,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
       }
 
       private void ddlProd_EditValueChanged(object sender , EventArgs e) {
-         if (ddlProd.EditValue.ToString() == "RHF" || ddlProd.EditValue.ToString() == "RTF") {
+         if (ddlProd.EditValue.ToString() == "RHF" || ddlProd.EditValue.ToString() == "RTF" || ddlProd.EditValue.ToString() == "% (全部)") {
             chkGroup.Items[6].Enabled = true;
          } else {
             chkGroup.Items[6].Enabled = false;
