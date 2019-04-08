@@ -207,6 +207,8 @@
             // 
             this.gvMain.Appearance.ViewCaption.Options.UseTextOptions = true;
             this.gvMain.Appearance.ViewCaption.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
+            this.gvMain.AppearancePrint.HeaderPanel.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gvMain.AppearancePrint.HeaderPanel.Options.UseFont = true;
             this.gvMain.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.PDK_DATE,
             this.PDK_KIND_ID,
@@ -307,6 +309,8 @@
             // 
             this.gvMainE.Appearance.ViewCaption.Options.UseTextOptions = true;
             this.gvMainE.Appearance.ViewCaption.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
+            this.gvMainE.AppearancePrint.HeaderPanel.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gvMainE.AppearancePrint.HeaderPanel.Options.UseFont = true;
             this.gvMainE.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.PDK_DATE_E,
             this.PDK_KIND_ID_E,
@@ -322,7 +326,9 @@
             // PDK_DATE_E
             // 
             this.PDK_DATE_E.AppearanceHeader.BackColor = System.Drawing.Color.Cyan;
+            this.PDK_DATE_E.AppearanceHeader.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.PDK_DATE_E.AppearanceHeader.Options.UseBackColor = true;
+            this.PDK_DATE_E.AppearanceHeader.Options.UseFont = true;
             this.PDK_DATE_E.Caption = "交易日期";
             this.PDK_DATE_E.DisplayFormat.FormatString = "yyyy/MM/dd HH:mm:ss";
             this.PDK_DATE_E.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
@@ -337,7 +343,9 @@
             // PDK_KIND_ID_E
             // 
             this.PDK_KIND_ID_E.AppearanceHeader.BackColor = System.Drawing.Color.Cyan;
+            this.PDK_KIND_ID_E.AppearanceHeader.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.PDK_KIND_ID_E.AppearanceHeader.Options.UseBackColor = true;
+            this.PDK_KIND_ID_E.AppearanceHeader.Options.UseFont = true;
             this.PDK_KIND_ID_E.Caption = "契約代號";
             this.PDK_KIND_ID_E.FieldName = "PDK_KIND_ID";
             this.PDK_KIND_ID_E.Name = "PDK_KIND_ID_E";
@@ -350,7 +358,9 @@
             // PDK_NAME_E
             // 
             this.PDK_NAME_E.AppearanceHeader.BackColor = System.Drawing.Color.Cyan;
+            this.PDK_NAME_E.AppearanceHeader.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.PDK_NAME_E.AppearanceHeader.Options.UseBackColor = true;
+            this.PDK_NAME_E.AppearanceHeader.Options.UseFont = true;
             this.PDK_NAME_E.Caption = "契約名稱";
             this.PDK_NAME_E.FieldName = "PDK_NAME";
             this.PDK_NAME_E.Name = "PDK_NAME_E";
@@ -363,7 +373,9 @@
             // PDK_STATUS_CODE_E
             // 
             this.PDK_STATUS_CODE_E.AppearanceHeader.BackColor = System.Drawing.Color.Cyan;
+            this.PDK_STATUS_CODE_E.AppearanceHeader.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.PDK_STATUS_CODE_E.AppearanceHeader.Options.UseBackColor = true;
+            this.PDK_STATUS_CODE_E.AppearanceHeader.Options.UseFont = true;
             this.PDK_STATUS_CODE_E.Caption = "狀態";
             this.PDK_STATUS_CODE_E.FieldName = "PDK_STATUS_CODE";
             this.PDK_STATUS_CODE_E.Name = "PDK_STATUS_CODE_E";

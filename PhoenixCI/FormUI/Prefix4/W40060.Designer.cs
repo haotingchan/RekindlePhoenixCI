@@ -1,6 +1,6 @@
 ﻿namespace PhoenixCI.FormUI.Prefix4
 {
-   partial class W40050
+   partial class W40060
    {
       /// <summary>
       /// Required designer variable.
@@ -152,12 +152,13 @@
          // 
          // emYear
          // 
-         this.emYear.EditValue = "1998";
+         this.emYear.EditValue = "2007";
          this.emYear.Location = new System.Drawing.Point(160, 115);
          this.emYear.Name = "emYear";
          this.emYear.Properties.EditFormat.FormatString = "####";
          this.emYear.Properties.Mask.EditMask = "\\d\\d\\d\\d";
          this.emYear.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
+         this.emYear.Properties.Mask.PlaceHolder = '0';
          this.emYear.Properties.MaxLength = 4;
          this.emYear.Size = new System.Drawing.Size(47, 28);
          this.emYear.TabIndex = 5;
@@ -272,15 +273,15 @@
          this.layoutControlItem3.Size = new System.Drawing.Size(0, 0);
          this.layoutControlItem3.TextSize = new System.Drawing.Size(50, 20);
          // 
-         // W40050
+         // W40060
          // 
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
          this.ClientSize = new System.Drawing.Size(532, 395);
          this.Controls.Add(this.panelControl2);
-         this.Name = "W40050";
-         this.Text = "W40050";
+         this.Name = "W40060";
+         this.Text = "W40060";
          this.Controls.SetChildIndex(this.ribbonControl, 0);
          this.Controls.SetChildIndex(this.panParent, 0);
          this.Controls.SetChildIndex(this.panelControl2, 0);
