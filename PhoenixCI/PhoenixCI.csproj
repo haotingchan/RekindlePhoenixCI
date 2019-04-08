@@ -167,6 +167,7 @@
     <Compile Include="BusinessLogic\Prefix3\B30687.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30780.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30790.cs" />
+    <Compile Include="BusinessLogic\Prefix4\B40060.cs" />
     <Compile Include="BusinessLogic\Prefix4\B40050.cs" />
     <Compile Include="BusinessLogic\Prefix4\B40200.cs" />
     <Compile Include="BusinessLogic\Prefix4\B43030.cs" />
@@ -810,6 +811,12 @@
     </Compile>
     <Compile Include="FormUI\Prefix3\W30720.Designer.cs">
       <DependentUpon>W30720.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40060.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40060.Designer.cs">
+      <DependentUpon>W40060.cs</DependentUpon>
     </Compile>
     <Compile Include="FormUI\Prefix4\W40130.cs">
       <SubType>Form</SubType>
@@ -1757,6 +1764,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix3\W30503.resx">
       <DependentUpon>W30503.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W40060.resx">
+      <DependentUpon>W40060.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix4\W40170.resx">
       <DependentUpon>W40170.cs</DependentUpon>
