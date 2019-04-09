@@ -5,11 +5,8 @@ using BusinessObjects.Enums;
 using BaseGround.Shared;
 using System.Threading;
 using PhoenixCI.BusinessLogic.Prefix4;
-using DataObjects.Dao.Together;
 using System.IO;
 using Common;
-using DataObjects.Dao.Together.SpecificDao;
-using System.Data;
 /// <summary>
 /// john,20190408,每月保證金狀況表
 /// </summary>

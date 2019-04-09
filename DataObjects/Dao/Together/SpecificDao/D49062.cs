@@ -72,40 +72,6 @@ order by cod_seq_no
       }
 
       /// <summary>
-      /// get CI.AOCF data 取得資料起始日
-      /// return START_YMD (yyyyMMdd)
-      /// </summary>
-      /// <param name="endYmd">yyyyMMdd</param>
-      /// <param name="aocfYmd">yyyyMMdd</param>
-      /// <param name="days"></param>
-      /// <returns></returns>
-      public string GetStartDate(string endYmd , string aocfYmd , decimal days) {
-
-         object[] parms =
-        {
-                ":endYmd", endYmd,
-                ":aocfYmd", aocfYmd,
-                ":days", days
-            };
-
-
-         string sql = @"
-SELECT OCF_YMD AS START_YMD
-FROM(
-        SELECT OCF_YMD,DAY_NUM 
-        FROM
-                (SELECT OCF_YMD,
-                                 ROW_NUMBER() OVER (ORDER BY OCF_YMD DESC) AS DAY_NUM
-                  FROM CI.AOCF
-                  WHERE OCF_YMD <= :endYmd
-                  AND OCF_YMD >= :aocfYmd)
-       WHERE DAY_NUM = :days
-  )
-";
-         return db.ExecuteScalar(sql , CommandType.Text , parms);
-      }
-
-      /// <summary>
       /// ci.sp_h_txn_49062_stat (d_49062)
       /// </summary>
       /// <param name="startDate"></param>
