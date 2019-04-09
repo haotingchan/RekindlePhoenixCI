@@ -63,6 +63,10 @@ namespace PhoenixCI.FormUI.Prefix3
 
       private bool ExportBefore()
       {
+         if (!emMonth.IsDate(emMonth.Text + "/01", "日期輸入錯誤")) {
+            //is_chk = "Y";
+            return false;
+         }
          /*******************
          Messagebox
          *******************/
