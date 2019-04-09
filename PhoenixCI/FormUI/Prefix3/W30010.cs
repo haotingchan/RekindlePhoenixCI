@@ -225,6 +225,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 ws30013.ScrollToRow(0);
                 ws30011.ScrollToRow(0);
                 workbook.SaveDocument(file);
+                ShowMsg("轉檔完成");
             }
             catch (Exception ex) {
                 MessageDisplay.Error("輸出錯誤");
@@ -673,7 +674,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
             string lsFilename;
             lsFilename = "動態報導" + (txtSDate.DateTimeValue.Year - 1911) + "." +
-                         txtSDate.DateTimeValue.Month + "." + txtSDate.DateTimeValue.Day + ".xls";
+                         txtSDate.DateTimeValue.Month + "." + txtSDate.DateTimeValue.Day;
             if (grp == "1") {
                 lsFilename = lsFilename + "(16時15分收盤)" + ".xls";
             }

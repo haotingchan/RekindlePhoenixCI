@@ -118,6 +118,15 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
       }
 
+      private static void SetYear(XmlDocument doc) {
+         TaiwanCalendar tai = new TaiwanCalendar();
+         int year = tai.GetYear(DateTime.Now);
+
+         //年號
+         ReplaceXmlInnterText(doc.GetElementsByTagName("檔號")[0], "#year#", year.ToString("D4"));
+         ReplaceXmlInnterText(doc.GetElementsByTagName("年度號")[0], "#year#", year.ToString("D4"));
+      }
+
       private static string GenArrayTxt(List<string> kindNameList) {
          string result = "";
          int k = 1;
@@ -133,6 +142,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
             k++;
          }
+
+         result = result.TrimEnd('、');
          return result;
       }
 
@@ -154,12 +165,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                dt = dt.Sort("SEQ_NO ASC, PROD_TYPE ASC, KIND_GRP2 ASC");
 
-               TaiwanCalendar tai = new TaiwanCalendar();
-               int year = tai.GetYear(DateTime.Now);
-
-               //年號
-               ReplaceXmlInnterText(doc.GetElementsByTagName("檔號")[0], "#year#", year.ToString("D4"));
-               ReplaceXmlInnterText(doc.GetElementsByTagName("年度號")[0], "#year#", year.ToString("D4"));
+               SetYear(doc);
 
                //說明文
                dt.Filter("ab_type in ('A','-')");
@@ -231,12 +237,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                dt = dt.Sort("SEQ_NO ASC, PROD_TYPE ASC, KIND_GRP2 ASC");
 
-               TaiwanCalendar tai = new TaiwanCalendar();
-               int year = tai.GetYear(DateTime.Now);
-
-               //年號
-               ReplaceXmlInnterText(doc.GetElementsByTagName("檔號")[0], "#year#", year.ToString("D4"));
-               ReplaceXmlInnterText(doc.GetElementsByTagName("年度號")[0], "#year#", year.ToString("D4"));
+               SetYear(doc);
 
                //說明文
                dt.Filter("ab_type in ('A','-')");
@@ -306,12 +307,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                dt = dt.Sort("SEQ_NO ASC, PROD_TYPE ASC, KIND_GRP2 ASC");
 
-               TaiwanCalendar tai = new TaiwanCalendar();
-               int year = tai.GetYear(DateTime.Now);
-
-               //年號
-               ReplaceXmlInnterText(doc.GetElementsByTagName("檔號")[0], "#year#", year.ToString("D4"));
-               ReplaceXmlInnterText(doc.GetElementsByTagName("年度號")[0], "#year#", year.ToString("D4"));
+               SetYear(doc);
 
                //說明文
                dt.Filter("ab_type in ('A','-')");
@@ -369,12 +365,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                dt = dt.Sort("SEQ_NO ASC, PROD_TYPE ASC, KIND_GRP2 ASC, KIND_ID ASC, AB_TYPE ASC");
 
-               TaiwanCalendar tai = new TaiwanCalendar();
-               int year = tai.GetYear(DateTime.Now);
-
-               //年號
-               ReplaceXmlInnterText(doc.GetElementsByTagName("檔號")[0], "#year#", year.ToString("D4"));
-               ReplaceXmlInnterText(doc.GetElementsByTagName("年度號")[0], "#year#", year.ToString("D4"));
+               SetYear(doc);
 
                //說明文
                dt.Filter("ab_type in ('A','-')");
