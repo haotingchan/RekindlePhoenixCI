@@ -2,27 +2,32 @@
 using System.Windows.Forms;
 using BaseGround;
 using BusinessObjects.Enums;
-using BaseGround.Report;
-using System.Threading;
 using BaseGround.Shared;
+using System.Threading;
+using PhoenixCI.BusinessLogic.Prefix4;
+using DataObjects.Dao.Together;
+using System.IO;
 using Common;
-using PhoenixCI.BusinessLogic.Prefix3;
+using DataObjects.Dao.Together.SpecificDao;
+using System.Data;
 /// <summary>
-/// john,20190318,國內股票期貨交易概況表
+/// john,20190408,每月保證金狀況表
 /// </summary>
-namespace PhoenixCI.FormUI.Prefix3
+namespace PhoenixCI.FormUI.Prefix4
 {
    /// <summary>
-   /// 國內股票期貨交易概況表
+   /// 每月保證金狀況表
    /// </summary>
-   public partial class W30580 : FormParent
+   public partial class W40190 : FormParent
    {
-      private B30580 b30580;
-      public W30580(string programID, string programName) : base(programID, programName)
+      private B40190 b40190;
+
+      public W40190(string programID, string programName) : base(programID, programName)
       {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
       }
+
       public override ResultStatus BeforeOpen()
       {
          base.BeforeOpen();
@@ -33,65 +38,58 @@ namespace PhoenixCI.FormUI.Prefix3
       protected override ResultStatus Open()
       {
          base.Open();
-         emMonth.Focus();
+#if DEBUG
+         emDate.Text = "2018/10/12";
+#else
+            emDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
+#endif
          return ResultStatus.Success;
       }
 
       protected override ResultStatus AfterOpen()
       {
          base.AfterOpen();
-#if DEBUG
-         emMonth.Text = "2018/12";
-#else
-            emMonth.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
-#endif
-         emMonth.Focus();
+         emDate.Focus();
          return ResultStatus.Success;
       }
 
       protected override ResultStatus ActivatedForm()
       {
          base.ActivatedForm();
+
          _ToolBtnExport.Enabled = true;
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus Print(ReportHelper reportHelper)
-      {
-         base.Print(reportHelper);
-
          return ResultStatus.Success;
       }
 
       private bool StartExport()
       {
-         if (!emMonth.IsDate(emMonth.Text + "/01", "日期輸入錯誤")) {
+         if (!emDate.IsDate(emDate.Text, "日期輸入錯誤")) {
             //is_chk = "Y";
             return false;
          }
          /*******************
          Messagebox
          *******************/
-         stMsgtxt.Visible = true;
-         stMsgtxt.Text = "開始轉檔...";
+         stMsgTxt.Visible = true;
+         stMsgTxt.Text = "開始轉檔...";
          this.Cursor = Cursors.WaitCursor;
          this.Refresh();
          Thread.Sleep(5);
          return true;
       }
 
-      private void EndExport()
+      protected void EndExport()
       {
-         stMsgtxt.Text = "";
+         stMsgTxt.Text = "轉檔完成!";
          this.Cursor = Cursors.Arrow;
          this.Refresh();
          Thread.Sleep(5);
-         stMsgtxt.Visible = false;
+         stMsgTxt.Visible = false;
       }
 
       protected void ShowMsg(string msg)
       {
-         stMsgtxt.Text = msg;
+         stMsgTxt.Text = msg;
          this.Refresh();
          Thread.Sleep(5);
       }
@@ -105,40 +103,31 @@ namespace PhoenixCI.FormUI.Prefix3
 
       protected override ResultStatus Export()
       {
+         if (!StartExport()) {
+            return ResultStatus.Fail;
+         }
+         string saveFilePath = PbFunc.wf_copy_file(_ProgramID, "40190");
          try {
-            if (!StartExport()) {
-               return ResultStatus.Fail;
-            }
-            string lsFile = PbFunc.wf_copy_file(_ProgramID, "30580");
-            b30580 = new B30580(lsFile, emMonth.Text);
-            ShowMsg("30581－國內股票期貨及黃金期貨交易概況表 轉檔中...");
-            OutputShowMessage =b30580.Wf30581();
+            b40190 = new B40190(saveFilePath,emDate.Text);
+
+            ShowMsg("40190_1－期貨保證金 轉檔中...");
+            OutputShowMessage = b40190.Wf40191();
+            ShowMsg("40192－選擇權保證金 轉檔中...");
+            OutputShowMessage = b40190.Wf40192();
+            ShowMsg("40193－調整狀況 轉檔中...");
+            OutputShowMessage = b40190.Wf40193();
          }
          catch (Exception ex) {
+            File.Delete(saveFilePath);
             WriteLog(ex);
             return ResultStatus.Fail;
          }
          finally {
             EndExport();
          }
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus Export(ReportHelper reportHelper)
-      {
-         base.Export(reportHelper);
 
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus CheckShield()
-      {
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus COMPLETE()
-      {
-         return ResultStatus.Success;
-      }
    }
 }

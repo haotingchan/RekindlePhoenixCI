@@ -117,6 +117,14 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Packaging, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Packaging.4.5.0\lib\net46\System.IO.Packaging.dll</HintPath>
+    </Reference>
     <Reference Include="System.Memory, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.1\lib\netstandard2.0\System.Memory.dll</HintPath>
     </Reference>
@@ -140,6 +148,7 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BusinessLogic\Prefix3\B30310.cs" />
@@ -170,6 +179,7 @@
     <Compile Include="BusinessLogic\Prefix4\B40060.cs" />
     <Compile Include="BusinessLogic\Prefix4\B40050.cs" />
     <Compile Include="BusinessLogic\Prefix4\B40200.cs" />
+    <Compile Include="BusinessLogic\Prefix4\B40190.cs" />
     <Compile Include="BusinessLogic\Prefix4\B43030.cs" />
     <Compile Include="BusinessLogic\Prefix4\B43033.cs" />
     <Compile Include="BusinessLogic\Prefix7\B70010.cs" />
@@ -710,6 +720,12 @@
     <Compile Include="FormUI\Prefix3\W30686.Designer.cs">
       <DependentUpon>W30686.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormUI\Prefix3\W30395.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix3\W30395.designer.cs">
+      <DependentUpon>W30395.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormUI\Prefix3\W30780.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -812,6 +828,12 @@
     <Compile Include="FormUI\Prefix3\W30720.Designer.cs">
       <DependentUpon>W30720.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormUI\Prefix4\W40190.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40190.Designer.cs">
+      <DependentUpon>W40190.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormUI\Prefix3\W30392.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -829,6 +851,12 @@
     </Compile>
     <Compile Include="FormUI\Prefix4\W49062.Designer.cs">
       <DependentUpon>W49062.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40110.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40110.designer.cs">
+      <DependentUpon>W40110.cs</DependentUpon>
     </Compile>
     <Compile Include="FormUI\Prefix4\W40130.cs">
       <SubType>Form</SubType>
@@ -1723,6 +1751,9 @@
     <EmbeddedResource Include="FormUI\Prefix3\W30686.resx">
       <DependentUpon>W30686.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix3\W30395.resx">
+      <DependentUpon>W30395.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix3\W30780.resx">
       <DependentUpon>W30780.cs</DependentUpon>
     </EmbeddedResource>
@@ -1779,6 +1810,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix3\W30392.resx">
       <DependentUpon>W30392.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W40190.resx">
+      <DependentUpon>W40190.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix4\W40060.resx">
       <DependentUpon>W40060.cs</DependentUpon>
@@ -2687,6 +2721,18 @@
     <None Include="Excel_Template\40090.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\40110_新聞稿_一般_股票.rtf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\40110_新聞稿_春節回調.rtf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\40110_新聞稿_春節調整.rtf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\40110_新聞稿_處置股票.rtf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Excel_Template\40130.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -2963,7 +3009,9 @@
     <None Include="Excel_Template\S0020.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
