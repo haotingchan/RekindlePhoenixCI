@@ -323,7 +323,34 @@ namespace DataObjects.Dao.Together.SpecificDao
 
          return dtResult;
       }
+      /// <summary>
+      /// return MGR4_PROD_TYPE/MGR4_KIND_ID/APDK_NAME/MGR4_CM
+      /// </summary>
+      /// <param name="as_ymd"></param>
+      /// <returns></returns>
+      public DataTable GetStfData(DateTime as_ymd)
+      {
 
+         object[] parms = {
+                ":as_ymd",as_ymd.ToString("yyyyMMdd"),
+            };
+
+         string sql =
+            @"select * from
+            (SELECT MGR4_PROD_TYPE,MGR4_KIND_ID,APDK_NAME,
+                        nvl((select MGRT1_LEVEL from ci.MGRT1 where MGR4_PROD_TYPE = MGRT1_PROD_TYPE and MGRT1_CM_RATE = MGR4_CM),'Z') as MGRT1_LEVEL,
+                         MGR4_CM
+            FROM CI.MGR4,ci.APDK
+            where MGR4_YMD = :as_ymd   
+               and MGR4_KIND_ID = APDK_KIND_ID
+               and APDK_PROD_SUBTYPE = 'S'
+               and APDK_PARAM_KEY IN ('STF','STC')
+            order by MGR4_PROD_TYPE,substr(MGR4_KIND_ID,1,2),case when substr(MGR4_KIND_ID,3,1) = MGR4_PROD_TYPE then ' ' else substr(MGR4_KIND_ID,3,1)  end)
+            where MGRT1_LEVEL <> '1'                   
+            ";
+         DataTable dtResult = db.GetDataTable(sql, parms);
+         return dtResult;
+      }
       /// <summary>
       /// 取得起始列
       /// </summary>

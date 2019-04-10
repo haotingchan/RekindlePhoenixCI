@@ -109,5 +109,46 @@ order by cod_seq_no";
          return dtResult;
       }
 
+      /// <summary>
+      /// CI.COD return cod_id / cp_display
+      /// </summary>
+      /// <param name="COD_TXN_ID"></param>
+      /// <param name="COD_COL_ID"></param>
+      /// <param name="FirstRowText"></param>
+      /// <param name="FirstRowValue"></param>
+      /// <returns>cod_id / cp_display</returns>
+      public DataTable ListByCol3(string COD_TXN_ID, string COD_COL_ID, string FirstRowText = " ", string FirstRowValue = " ") {
+         object[] parms =
+         {
+            ":COD_TXN_ID", COD_TXN_ID,
+            ":COD_COL_ID", COD_COL_ID
+         };
+
+         //ken,簡易防止sql injection(基本上這兩個值不應該從UI傳進來)
+         string tmp = FirstRowText.Length > 20 ? FirstRowText.Substring(0, 20) : FirstRowText;
+         string firstRowText = tmp.Replace("'", "").Replace("--", "").Replace(";", "");
+         string tmp2 = FirstRowValue.Length > 20 ? FirstRowValue.Substring(0, 20) : FirstRowValue;
+         string firstRowValue = tmp2.Replace("'", "").Replace("--", "").Replace(";", "");
+
+         string sql = string.Format(@"
+select cod_id,
+    cod_id||' ('||cod_desc||')' as cp_display
+from (
+    select trim(cod_id) as cod_id,
+      trim(cod_desc) as cod_desc,
+      cod_seq_no
+      from ci.cod
+      where cod_txn_id = :cod_txn_id
+      and cod_col_id = :cod_col_id
+    union all
+    select '{0}','{1}',0 from dual
+    order by cod_seq_no
+)
+", FirstRowValue, FirstRowText);
+
+         DataTable dtResult = db.GetDataTable(sql, parms);
+
+         return dtResult;
+      }
    }
 }

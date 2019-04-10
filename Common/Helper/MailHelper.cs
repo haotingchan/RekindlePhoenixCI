@@ -33,11 +33,11 @@ namespace Common.Helper {
             SmtpClient smtp;
 #if DEBUG
             smtp = new SmtpClient("smtp.office365.com", 587);
-            smtp.Credentials = new NetworkCredential("david@kjsoft.com.tw", "");
+            smtp.Credentials = new NetworkCredential("Lukas@kjsoft.com.tw", "");
             smtp.EnableSsl = true;
 #endif
             // 看起來不用帳號密碼也能寄出
-            smtp = new SmtpClient("smtp.taifex.com.tw");
+            //smtp = new SmtpClient("smtp.taifex.com.tw");
             //smtp.Credentials = new NetworkCredential("taifexsocial", "Taifex201511");
 
 
