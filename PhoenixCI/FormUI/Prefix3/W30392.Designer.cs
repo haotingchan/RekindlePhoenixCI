@@ -25,15 +25,15 @@
       private void InitializeComponent() {
          this.labMsg = new System.Windows.Forms.Label();
          this.panFilter = new System.Windows.Forms.GroupBox();
-         this.r_frame = new DevExpress.XtraEditors.PanelControl();
-         this.txtDate = new PhoenixCI.Widget.TextDateEdit();
+         this.txtMonth = new PhoenixCI.Widget.TextDateEdit();
          this.label1 = new System.Windows.Forms.Label();
+         this.r_frame = new DevExpress.XtraEditors.PanelControl();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          this.panFilter.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.txtMonth.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
          this.r_frame.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -60,7 +60,7 @@
          // 
          // panFilter
          // 
-         this.panFilter.Controls.Add(this.txtDate);
+         this.panFilter.Controls.Add(this.txtMonth);
          this.panFilter.Controls.Add(this.label1);
          this.panFilter.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
          this.panFilter.ForeColor = System.Drawing.Color.Navy;
@@ -70,6 +70,35 @@
          this.panFilter.TabIndex = 76;
          this.panFilter.TabStop = false;
          this.panFilter.Text = "請輸入交易日期";
+         // 
+         // txtMonth
+         // 
+         this.txtMonth.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtMonth.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+         this.txtMonth.EditValue = "2018/12";
+         this.txtMonth.EnterMoveNextControl = true;
+         this.txtMonth.Location = new System.Drawing.Point(96, 42);
+         this.txtMonth.MenuManager = this.ribbonControl;
+         this.txtMonth.Name = "txtMonth";
+         this.txtMonth.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtMonth.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtMonth.Properties.Mask.EditMask = "yyyy/MM";
+         this.txtMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtMonth.Size = new System.Drawing.Size(100, 26);
+         this.txtMonth.TabIndex = 0;
+         this.txtMonth.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         // 
+         // label1
+         // 
+         this.label1.AutoSize = true;
+         this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
+         this.label1.ForeColor = System.Drawing.Color.Black;
+         this.label1.Location = new System.Drawing.Point(42, 45);
+         this.label1.Name = "label1";
+         this.label1.Size = new System.Drawing.Size(58, 21);
+         this.label1.TabIndex = 83;
+         this.label1.Text = "月份：";
          // 
          // r_frame
          // 
@@ -83,35 +112,6 @@
          this.r_frame.Size = new System.Drawing.Size(404, 169);
          this.r_frame.TabIndex = 77;
          // 
-         // txtDate
-         // 
-         this.txtDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
-         this.txtDate.EditValue = "2018/12";
-         this.txtDate.EnterMoveNextControl = true;
-         this.txtDate.Location = new System.Drawing.Point(96, 42);
-         this.txtDate.MenuManager = this.ribbonControl;
-         this.txtDate.Name = "txtDate";
-         this.txtDate.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtDate.Properties.Mask.EditMask = "yyyy/MM";
-         this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-         this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtDate.Size = new System.Drawing.Size(100, 26);
-         this.txtDate.TabIndex = 0;
-         this.txtDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-         // 
-         // label1
-         // 
-         this.label1.AutoSize = true;
-         this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
-         this.label1.ForeColor = System.Drawing.Color.Black;
-         this.label1.Location = new System.Drawing.Point(42, 45);
-         this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(58, 21);
-         this.label1.TabIndex = 83;
-         this.label1.Text = "月份：";
-         // 
          // W30392
          // 
          this.Appearance.Options.UseFont = true;
@@ -124,10 +124,10 @@
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
          this.panFilter.ResumeLayout(false);
          this.panFilter.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.txtMonth.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).EndInit();
          this.r_frame.ResumeLayout(false);
          this.r_frame.PerformLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -137,7 +137,7 @@
       private System.Windows.Forms.Label labMsg;
       private System.Windows.Forms.GroupBox panFilter;
       private DevExpress.XtraEditors.PanelControl r_frame;
-      private Widget.TextDateEdit txtDate;
+      private Widget.TextDateEdit txtMonth;
       private System.Windows.Forms.Label label1;
    }
 }

@@ -3,11 +3,14 @@ using Common;
 using DevExpress.Data;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraGrid;
+using DevExpress.XtraRichEdit.API.Native;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Windows.Forms;
 
 /// <summary>
@@ -180,6 +183,21 @@ namespace BaseGround.Shared {
          return newDT;
       }
 
+      /// <summary>
+      ///  取得 Enum 列舉 Attribute Description 設定值
+      /// </summary>
+      /// <param name="source"></param>
+      /// <returns></returns>
+      public static string GetDescriptionText(this Enum source) {
+         FieldInfo fi = source.GetType().GetField(source.ToString());
+
+         DescriptionAttribute[] attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
+
+         if (attributes.Length > 0) return attributes[0].Description;
+
+         else return source.ToString();
+      }
+
       #region Grid欄位相關設定(例如欄位標題/置中/標題自動折行/內容自動折行)
 
       /// <summary>
@@ -297,6 +315,25 @@ namespace BaseGround.Shared {
             groupSummary.ShowInGroupColumnFooter = gv.Columns[footerColFieldName];
          }
          gv.GroupSummary.Add(groupSummary);
+      }
+
+      #endregion
+
+      #region rtf 相關設定
+
+      /// <summary>
+      /// Cell 邊框設定
+      /// </summary>
+      /// <param name="cell"></param>
+      /// <param name="TopStyle"></param>
+      /// <param name="LeftStyle"></param>
+      /// <param name="RightStyle"></param>
+      public static void CellSetBorders(this TableCell cell, TableBorderLineStyle TopStyle, 
+         TableBorderLineStyle LeftStyle, TableBorderLineStyle RightStyle) {
+
+         cell.Borders.Top.LineStyle = TopStyle;
+         cell.Borders.Left.LineStyle = LeftStyle;
+         cell.Borders.Right.LineStyle = RightStyle;
       }
 
       #endregion

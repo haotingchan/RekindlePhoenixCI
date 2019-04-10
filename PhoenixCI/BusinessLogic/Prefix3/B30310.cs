@@ -25,8 +25,8 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       private AI2 daoAI2;
       private AI3 daoAI3;
       private D30310 dao30310;
-      private string lsFile;
-      private string emMonthText;
+      private readonly string _lsFile;
+      private readonly string _emMonthText;
 
       /// <summary>
       /// 
@@ -38,8 +38,8 @@ namespace PhoenixCI.BusinessLogic.Prefix3
          daoAI2 = new AI2();
          daoAI3 = new AI3();
          dao30310 = new D30310();
-         lsFile = FilePath;
-         emMonthText = datetime;
+         _lsFile = FilePath;
+         _emMonthText = datetime;
       }
 
       /// <summary>
@@ -49,14 +49,17 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="chartName">圖表sheet名稱</param>
       private static void ResetChartData(int RowIndex, Workbook workbook, Worksheet worksheet, string chartName)
       {
-         //期貨交易量/期貨指數/現貨指數
-         string[] data = new string[] { $@"B5:B", "F5:F" , "D5:D" };
-         int count = 0;
-         foreach (var item in data) {
-            workbook.ChartSheets[chartName].Chart.Series[count++].Values = new ChartData {
-               RangeValue = worksheet.Range[item + RowIndex.ToString()]
+         //期貨指數/現貨指數/期貨交易量
+         Dictionary<string, string> dic =new Dictionary<string, string>()
+        {
+            {"期貨指數", "B5:B"}, {"現貨指數", "F5:F"},{"期貨交易量", "D5:D"}
+        };
+         foreach (var item in workbook.ChartSheets[chartName].Chart.Series) {
+            item.Values= new ChartData {
+               RangeValue = worksheet.Range[dic[item.SeriesName.PlainText] + RowIndex.ToString()]
             };
          }
+         
       }
 
       /// <summary>
@@ -77,9 +80,9 @@ namespace PhoenixCI.BusinessLogic.Prefix3
          *************************************/
          try {
             //前月倒數2天交易日
-            DateTime StartDate = PbFunc.f_get_last_day("AI3", lsKindID, emMonthText, 2);
+            DateTime StartDate = PbFunc.f_get_last_day("AI3", lsKindID, _emMonthText, 2);
             //抓當月最後交易日
-            DateTime EndDate = PbFunc.f_get_end_day("AI3", lsKindID, emMonthText);
+            DateTime EndDate = PbFunc.f_get_end_day("AI3", lsKindID, _emMonthText);
             //讀取資料
             DataTable dt = dao30310.GetData(lsKindID, StartDate, EndDate);
             if (dt.Rows.Count <= 0) {
@@ -88,7 +91,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             }
             //切換Sheet
             Workbook workbook = new Workbook();
-            workbook.LoadDocument(lsFile);
+            workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets[SheetName];
             DateTime ldtYMD = new DateTime(1900, 1, 1);
             worksheet.Range["A1"].Select();
@@ -148,7 +151,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                worksheet.Rows[rowIndex][7 - 1].Value = Math.Round(dt.Rows[0]["Y_OI"].AsDecimal() / liDayCnt, 0);
             }
             
-            workbook.SaveDocument(lsFile);
+            workbook.SaveDocument(_lsFile);
          }
          catch (Exception ex) {
             MessageDisplay.Error(ex.Message, "30311_1");
@@ -174,9 +177,9 @@ namespace PhoenixCI.BusinessLogic.Prefix3
          *************************************/
          try {
             //前月倒數2天交易日
-            DateTime StartDate = PbFunc.f_get_last_day("AI3", lsKindID, emMonthText, 2);
+            DateTime StartDate = PbFunc.f_get_last_day("AI3", lsKindID, _emMonthText, 2);
             //抓當月最後交易日
-            DateTime EndDate = PbFunc.f_get_end_day("AI3", lsKindID, emMonthText);
+            DateTime EndDate = PbFunc.f_get_end_day("AI3", lsKindID, _emMonthText);
             //讀取資料
             DataTable dt = daoAI3.ListAI3(lsKindID, StartDate, EndDate);
             if (dt.Rows.Count <= 0) {
@@ -185,7 +188,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             }
             //切換Sheet
             Workbook workbook = new Workbook();
-            workbook.LoadDocument(lsFile);
+            workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets[SheetName];
             DateTime ldtYMD = new DateTime(1900, 1, 1);
             worksheet.Range["A1"].Select();
@@ -233,7 +236,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                worksheet.Rows[rowIndex][5 - 1].Value = Math.Round(dt.Rows[0]["Y_QNTY"].AsDecimal() / liDayCnt, 0);
                worksheet.Rows[rowIndex][7 - 1].Value = Math.Round(dt.Rows[0]["Y_OI"].AsDecimal() / liDayCnt, 0);
             }
-            workbook.SaveDocument(lsFile);
+            workbook.SaveDocument(_lsFile);
          }
          catch (Exception ex) {
             MessageDisplay.Error(ex.Message, "30311_2");
@@ -259,9 +262,9 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             string lsKindID = "MSF";
             string SheetName = "30311_4";
             //前月倒數2天交易日
-            DateTime StartDate = PbFunc.f_get_last_day("AI3", lsKindID, emMonthText, 2);
+            DateTime StartDate = PbFunc.f_get_last_day("AI3", lsKindID, _emMonthText, 2);
             //抓當月最後交易日
-            DateTime EndDate = PbFunc.f_get_end_day("AI3", lsKindID, emMonthText);
+            DateTime EndDate = PbFunc.f_get_end_day("AI3", lsKindID, _emMonthText);
             //讀取資料
             DataTable dt = daoAI3.ListAI3(lsKindID, StartDate, EndDate);
             if (dt.Rows.Count <= 0) {
@@ -269,7 +272,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             }
             //切換Sheet
             Workbook workbook = new Workbook();
-            workbook.LoadDocument(lsFile);
+            workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets[SheetName];
             DateTime ldtYMD = new DateTime(1900, 1, 1);
             worksheet.Range["A1"].Select();
@@ -300,7 +303,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                   };
                }
             }
-            workbook.SaveDocument(lsFile);
+            workbook.SaveDocument(_lsFile);
             return true;
          }
          catch (Exception ex) {
