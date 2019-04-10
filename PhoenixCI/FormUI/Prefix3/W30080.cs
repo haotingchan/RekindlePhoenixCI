@@ -26,6 +26,15 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
         private D30080 dao30080;
 
+        /// <summary>
+        /// xxxxx
+        /// </summary>
+        protected string DataType {
+            get {
+                return rgpData.EditValue.AsString();
+            }
+        }
+
         public W30080(string programID, string programName) : base(programID, programName) {
             InitializeComponent();
             this.Text = _ProgramID + "─" + _ProgramName;
@@ -74,7 +83,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 dao30080 = new D30080();
                 string rptId, file, rptName, symd, eymd,
                        underlyingMarket = "", paramKey = "", prodType, dataType = "", kindID;
-                int rowNum, colNum;
                 rptId = "30080";
                 rptName = "各檔股票期貨、選擇權交易量、未平倉統計";
                 lblProcessing.Text = rptId + "－" + rptName + " 轉檔中...";
@@ -101,7 +109,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                         file = file + rgpMarket.EditValue;
                         break;
                     case 3:
-                        underlyingMarket = "2%";
+                        underlyingMarket = "%";
                         paramKey = "ET%";
                         file = file + rgpMarket.EditValue;
                         break;
@@ -118,14 +126,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 }
 
                 //資料
-                if (rgpData.EditValue.AsString() == "M_QNTY") {
-                    dataType = "M_QNTY";
-                    file = file + "交易量";
-                }
-                else {
-                    dataType = "OI";
-                    file = file + "未平倉量";
-                }
+                file += (DataType == "M_QNTY" ? "交易量" : "未平倉量");
 
                 //統計前
                 if (txtRank.Text != "999") {
@@ -133,12 +134,12 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 }
 
                 //股票代號
-                if (txtKindID.Text.Trim() != "%") {
+                if (txtKindID.Text.Trim() == "%") {
                     kindID = "%";
                 }
                 else {
                     kindID = txtKindID.Text.Trim() + "%";
-                    if (PbFunc.Pos(txtKindID.Text.Trim(), "%") < 0) {
+                    if (txtKindID.Text.Trim().IndexOf("%") < 0) {
                         file = file + "_股票商品代號-" + txtKindID.Text.Trim();
                     }
                 }
@@ -172,10 +173,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
                     return ResultStatus.Fail;
                 }
 
-                int fileNum, f = 0, found;
-                string ymd = "", tab = ",", str = "交易日", strHead = "排序", strName = "";
+                int f = 0, found;
+                string ymd = "", tab = ",", content = "交易日", seq = "排序", kindName = "";
                 //避免重複寫入
-                file = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, 
+                file = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH,
                                     rptId + file + "_" + DateTime.Now.ToString("yyyy.MM.dd-hh.mm.ss") + ".csv");
                 if (File.Exists(file)) {
                     File.Delete(file);
@@ -184,19 +185,21 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 foreach (DataRow dr in dtReSorted.Rows) {
                     f++;
                     kindID = dr["AI2_KIND_ID"].ToString();
-                    strHead = strHead + tab + f.ToString();
-                    str = str + tab + kindID;
-                    strName = strName + tab + dr["PDK_NAME"].ToString();
+                    seq = seq + tab + f.ToString();
+                    content = content + tab + kindID;
+                    kindName = kindName + tab + dr["PDK_NAME"].ToString();
                 }
-                FileWrite(file, strHead);
-                FileWrite(file, str);
-                FileWrite(file, strName);
+                FileWrite(file, seq);
+                FileWrite(file, content);
+                FileWrite(file, kindName);
+                
                 foreach (DataRow drDate in dtDate.Rows) {
                     ymd = drDate["AI2_YMD"].ToString();
                     DataView dv30080 = dt30080.AsDataView();
                     dv30080.RowFilter = "AI2_YMD='" + ymd + "'";
                     DataTable dtFiltered = dv30080.ToTable();
-                    str = ymd;
+
+                    content = ymd;
                     foreach (DataRow drReSorted in dtReSorted.Rows) {
                         kindID = drReSorted["AI2_KIND_ID"].ToString();
 
@@ -208,18 +211,18 @@ namespace PhoenixCI.FormUI.Prefix3 {
                             found = -1;
                         }
                         if (found < 0) {
-                            str = str + tab + "0";
+                            content = content + tab + "0";
                         }
                         else {
                             if (dtFiltered.Rows[found]["AI2_" + dataType] != DBNull.Value) {
-                                str = str + tab + dtFiltered.Rows[found]["AI2_" + dataType].AsDecimal();
+                                content = content + tab + dtFiltered.Rows[found]["AI2_" + dataType].AsDecimal();
                             }
                             else {
-                                str = str + tab;
+                                content = content + tab;
                             }
                         }
                     }
-                    FileWrite(file, str);
+                    FileWrite(file, content);
                     lblProcessing.Text = "轉檔成功";
                 }
             }

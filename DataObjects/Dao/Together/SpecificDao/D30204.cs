@@ -83,7 +83,7 @@ where  PL2_YMD >= :as_ymd
   and trim(PL2_KIND_ID) = trim(C.RPT_VALUE)
   and trim(PL2_KIND_ID) = trim(E.RPT_VALUE)
   and PL2_KIND_ID = APDK_KIND_ID2
-  and pl2_nature_adj<>'-' and pl2_nature_adj<>' '
+  and (pl2_nature_adj<>'-' and pl2_nature_adj<>' ') or (pl2_legal_adj<>'-' and pl2_legal_adj<>' ') or (pl2_999_adj<>'-' and pl2_999_adj<>' ')
   order by PL2_EFFECTIVE_YMD
 ";
             DataTable dtResult = db.GetDataTable(sql, parms);
@@ -122,7 +122,7 @@ where  PL2_YMD >= :as_ymd
   and trim(PL2_KIND_ID) = trim(C.RPT_VALUE)
   and trim(PL2_KIND_ID) = trim(E.RPT_VALUE)
   and PL2_KIND_ID = APDK_KIND_ID2
-  and pl2_nature_adj='-'
+  and pl2_nature_adj='-' or pl2_legal_adj='-' or pl2_999_adj='-'
   order by PL2_EFFECTIVE_YMD
 ";
             DataTable dtResult = db.GetDataTable(sql, parms);
