@@ -105,7 +105,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 ShowMsg(rptId + '－' + rptName + " 轉檔中...");
                 wf_30223_eng2(dt30223, ws);
 
-                ws = workbook.Worksheets["附件6-2英文公告"];
+                ws = workbook.Worksheets["附件6-4公告附件"];
                 ShowMsg(rptId + '－' + rptName + " 轉檔中...");
                 //wf_30223_ch();
 
