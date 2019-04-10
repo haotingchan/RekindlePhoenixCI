@@ -21,15 +21,17 @@ namespace DataObjects.Dao.Together.SpecificDao {
                     @"
 SELECT   
         COD_DESC AS RWD_REF_OMNI_ACTIVITY_ID,   
-        case RWD_REF_OMNI_PROD_TYPE when 'F' then '期貨' when 'O' then '選擇權' else '' end as RWD_REF_OMNI_PROD_TYPE,   
         RWD_REF_OMNI_FCM_NO,   
-        RWD_REF_OMNI_ACC_NO,   
-        case RWD_REF_OMNI_MARKET_CLOSE when '1' then '一般交易時段' when '2' then '盤後交易時段' else '' end as RWD_REF_OMNI_MARKET_CLOSE
+        RWD_REF_OMNI_ACC_NO,
+        RWD_REF_OMNI_NAME
 FROM REWARD.RWD_REF_OMNI ,ci.COD
 where COD_TXN_ID = '50073'    
   AND COD_COL_ID = 'ACTIVITY_ID'
   and RWD_REF_OMNI_ACTIVITY_ID = TRIM(COD_ID)
-ORDER BY COD_ID,RWD_REF_OMNI_PROD_TYPE, RWD_REF_OMNI_FCM_NO,RWD_REF_OMNI_ACC_NO,RWD_REF_OMNI_MARKET_CLOSE 
+ORDER BY COD_ID,
+         RWD_REF_OMNI_FCM_NO,
+         RWD_REF_OMNI_ACC_NO,
+         RWD_REF_OMNI_NAME
 ";
             DataTable dtResult = db.GetDataTable(sql, null);
 
@@ -39,8 +41,8 @@ ORDER BY COD_ID,RWD_REF_OMNI_PROD_TYPE, RWD_REF_OMNI_FCM_NO,RWD_REF_OMNI_ACC_NO,
         public ResultData update(DataTable inputData) {
 
             string tableName = "REWARD.RWD_REF_OMNI";
-            string keysColumnList = "RWD_REF_OMNI_ACTIVITY_ID, RWD_REF_OMNI_PROD_TYPE, RWD_REF_OMNI_FCM_NO, RWD_REF_OMNI_ACC_NO, RWD_REF_OMNI_MARKET_CLOSE";
-            string insertColumnList = "RWD_REF_OMNI_ACTIVITY_ID, RWD_REF_OMNI_PROD_TYPE, RWD_REF_OMNI_FCM_NO, RWD_REF_OMNI_ACC_NO, RWD_REF_OMNI_MARKET_CLOSE";
+            string keysColumnList = "RWD_REF_OMNI_ACTIVITY_ID, RWD_REF_OMNI_FCM_NO, RWD_REF_OMNI_ACC_NO";
+            string insertColumnList = "RWD_REF_OMNI_ACTIVITY_ID, RWD_REF_OMNI_FCM_NO, RWD_REF_OMNI_ACC_NO, RWD_REF_OMNI_NAME";
             string updateColumnList = insertColumnList;
             try {
                 //update to DB
