@@ -66,8 +66,8 @@ namespace BaseGround {
 
       public FormMain(string txnID, string txnName) : this() {
          OpenForm(txnID, txnName).CloseBox = false;
-         scSearch.Enabled = false;
-         sidePanelMenu.Enabled = false;
+         scSearch.Visible = false;
+         sidePanelMenu.Visible = false;
       }
 
       /// <summary>
