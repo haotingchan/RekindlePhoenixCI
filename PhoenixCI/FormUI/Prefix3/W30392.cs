@@ -7,6 +7,7 @@ using DevExpress.Spreadsheet;
 using DevExpress.XtraEditors.Controls;
 using System;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
@@ -212,7 +213,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                row += 2;
             }
 
-            DateTime ldtDate = DateTime.ParseExact("1900/01/01" , "yyyy/MM/dd" , null);
+            DateTime ldtDate = DateTime.MinValue;
             foreach (DataRow dr in dtAi3.Rows) {
                DateTime ai3date = dr["ai3_date"].AsDateTime();
                decimal closePrice = dr["ai3_close_price"].AsDecimal();
@@ -220,7 +221,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
                decimal mQnty = dr["ai3_m_qnty"].AsDecimal();
                decimal oi = dr["ai3_oi"].AsDecimal();
                decimal index = dr["ai3_index"].AsDecimal();
-               decimal tfxmmdPx = dr["tfxmmd_px"].AsDecimal();
+               //decimal tfxmmdPx = 0;
+               //if (dr["tfxmmd_px"] != DBNull.Value) {
+               //   tfxmmdPx = dr["tfxmmd_px"].AsDecimal();
+               //}
 
                if (ldtDate != ai3date) {
                   ldtDate = ai3date;
@@ -237,8 +241,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
                ws1.Cells[row , 3].Value = mQnty;
                ws1.Cells[row , 4].Value = oi;
                ws1.Cells[row , 5].Value = index;
-               if (!tfxmmdPx.Equals(null))
-                  ws1.Cells[row , 8].Value = tfxmmdPx;
+
+               ws1.Cells[row , 8].SetValue(dr["tfxmmd_px"]);//.Value = tfxmmdPx;
 
             }//foreach (DataRow dr in dtAi3.Rows)
 
@@ -315,7 +319,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
             Worksheet ws2 = workbook.Worksheets[sheetName];
 
             //3. 內容
-            //row = 3;
             ws2.Import(dtAprf , false , row , 0);
 
             //4. 刪除空白列
@@ -359,19 +362,18 @@ namespace PhoenixCI.FormUI.Prefix3 {
             Worksheet ws3 = workbook.Worksheets[sheetName];
 
             //3. 內容
-            var taiwanCalendar = new System.Globalization.TaiwanCalendar();
+            TaiwanCalendar taiwanCalendar = new System.Globalization.TaiwanCalendar();
             ws3.Cells[16 , 0].Value = taiwanCalendar.GetYear(txtMonth.DateTimeValue).ToString().SubStr(0 , 3) + "小計";
 
-            string ymd = "";
-            int monthCnt = 0;
+            DateTime ymd = DateTime.MinValue;
             foreach (DataRow dr in dtAm2.Rows) {
-               string am2Ymd = dr["am2_ymd"].AsString();
+               DateTime am2Ymd = dr["am2_ymd"].AsDateTime("yyyyMM");
+               string temp = string.Format("{0}/{1}" , taiwanCalendar.GetYear(am2Ymd) , am2Ymd.Month.ToString().PadLeft(2 , '0'));
+               
                if (ymd != am2Ymd) {
                   row++;
                   ymd = am2Ymd;
-                  monthCnt++;
-                  ws3.Cells[row , 0].Value = taiwanCalendar.GetYear(DateTime.ParseExact(ymd , "yyyyMM" , null)).ToString().SubStr(0 , 3)
-                                                                                                                  + "/" + ymd.SubStr(4 , 2);
+                  ws3.Cells[row , 0].Value = temp;
                }
 
                #region 依條件判斷欄位
