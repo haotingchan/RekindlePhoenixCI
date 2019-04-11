@@ -27,7 +27,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
         protected RWD_REF_OMNI RRO;
         protected D50073 dao50073;
-        protected DataTable dtForDeleted;
 
         //ken,原本拉出來要使用在RepositoryItemLookUpEdit.GetNotInListValue中,但是後來沒用
         protected DataTable dtActId;
@@ -40,7 +39,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
             PrintableComponent = gcMain;
             dao50073 = new D50073();
             RRO = new RWD_REF_OMNI();
-            dtForDeleted = new DataTable();
 
         }
 
@@ -147,7 +145,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 if (returnTable.Rows.Count == 0) {
                     MessageBox.Show("無任何資料", "訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                dtForDeleted = returnTable.Clone();
                 gcMain.DataSource = returnTable;
 
                 gcMain.Focus();
@@ -178,6 +175,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 DataTable dtChange = dt.GetChanges();
                 DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
                 DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
+                DataTable dtForDeleted = dt.GetChanges(DataRowState.Deleted);
 
                 if (dtChange == null) {
                     MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -192,13 +190,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 //update to DB
                 ResultData myResultData = dao50073.update(dt);
 
-                //準備要印的資料(新增/刪除/修改)
-                ResultData resultData = new ResultData();
-                resultData.ChangedDataViewForAdded = dtForAdd == null ? new DataView() : dtForAdd.DefaultView;
-                //resultData.ChangedDataViewForDeleted = dtForDeleted == null ? new DataView() : dtForDeleted.DefaultView;
-                resultData.ChangedDataViewForModified = dtForModified == null ? new DataView() : dtForModified.DefaultView;
                 //列印
-                PrintOrExportChanged(gcMain, resultData);
+                PrintOrExportChangedByKen(gcMain, dtForAdd, dtForDeleted, dtForModified);
                 _IsPreventFlowPrint = true;
 
             }
@@ -250,8 +243,14 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
         protected override ResultStatus Print(ReportHelper ReportHelper) {
             try {
-                ReportHelper reportHelper = new ReportHelper(gcMain, _ProgramID, _ProgramID + _ProgramName);
-                reportHelper.Print();
+                ReportHelper _ReportHelper = new ReportHelper(gcMain, _ProgramID, this.Text);
+                CommonReportPortraitA4 reportPortrait = new CommonReportPortraitA4();
+                reportPortrait.printableComponentContainerMain.PrintableComponent = gcMain;
+                reportPortrait.IsHandlePersonVisible = false;
+                reportPortrait.IsManagerVisible = false;
+                _ReportHelper.Create(reportPortrait);
+
+                _ReportHelper.Print();
 
             }
             catch (Exception ex) {
@@ -277,8 +276,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
         protected override ResultStatus DeleteRow() {
             try {
                 GridView gv = gvMain as GridView;
-                DataRowView deleteRowView = (DataRowView)gv.GetFocusedRow();
-                dtForDeleted.ImportRow(deleteRowView.Row);
 
                 base.DeleteRow(gvMain);
             }
