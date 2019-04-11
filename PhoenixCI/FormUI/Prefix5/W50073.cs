@@ -64,7 +64,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 dtTemp.Merge(dtActId, false);
                 dtActId = dtTemp;
                 #endregion
-                
+
                 cbxActId = new RepositoryItemLookUpEdit();
                 //cbxActId.GetNotInListValue += CbxActId_GetNotInListValue;//假的,DevExpress沒實作
                 cbxActId.AcceptEditorTextAsNewValue = DevExpress.Utils.DefaultBoolean.True;
@@ -191,7 +191,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 ResultData myResultData = dao50073.update(dt);
 
                 //列印
-                PrintOrExportChangedByKen(gcMain, dtForAdd, dtForDeleted, dtForModified);
+                PrintOrExportChangedByKen(gcMain, dtForAdd, dtForDeleted, dtForModified, false, false);
                 _IsPreventFlowPrint = true;
 
             }
