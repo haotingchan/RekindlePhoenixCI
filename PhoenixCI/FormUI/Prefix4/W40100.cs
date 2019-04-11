@@ -119,12 +119,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       private static void SetYear(XmlDocument doc) {
-         TaiwanCalendar tai = new TaiwanCalendar();
-         int year = tai.GetYear(DateTime.Now);
 
          //年號
-         ReplaceXmlInnterText(doc.GetElementsByTagName("檔號")[0], "#year#", year.ToString("D4"));
-         ReplaceXmlInnterText(doc.GetElementsByTagName("年度號")[0], "#year#", year.ToString("D4"));
+         ReplaceXmlInnterText(doc.GetElementsByTagName("檔號")[0], "#year#", DateTime.Now.AsTaiwanDateTime("{0}", 4));
+         ReplaceXmlInnterText(doc.GetElementsByTagName("年度號")[0], "#year#", DateTime.Now.AsTaiwanDateTime("{0}", 4));
       }
 
       private static string GenArrayTxt(List<string> kindNameList) {
@@ -182,10 +180,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   string abbrName_desc = string.Format("{0}({1})", dr["KIND_ABBR_NAME"].AsString(), dr["kind_id"].AsString());
 
                   DateTime beginYmd = dr["issue_begin_ymd"].AsDateTime("yyyyMMdd");
-                  string issueBeginYmd = PbFunc.f_conv_date(beginYmd, 3);
+                  string issueBeginYmd = beginYmd.AsTaiwanDateTime("{0}年{1}月{2}日", 3);
 
                   DateTime endYmd = dr["issue_end_ymd"].AsDateTime("yyyyMMdd");
-                  string issueEndYmd = PbFunc.f_conv_date(endYmd, 3);
+                  string issueEndYmd = endYmd.AsTaiwanDateTime("{0}年{1}月{2}日", 3); 
 
                   if (!kindNameList.Exists(k => k == abbrName)) {
                      kindNameList.Add(abbrName);
@@ -253,10 +251,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   }
 
                   DateTime beginYmd = dr["issue_begin_ymd"].AsDateTime("yyyyMMdd");
-                  string issueBeginYmd = PbFunc.f_conv_date(beginYmd, 3);
+                  string issueBeginYmd = beginYmd.AsTaiwanDateTime("{0}年{1}月{2}日", 3);
 
                   DateTime endYmd = dr["issue_end_ymd"].AsDateTime("yyyyMMdd");
-                  string issueEndYmd = PbFunc.f_conv_date(endYmd, 3);
+                  string issueEndYmd = endYmd.AsTaiwanDateTime("{0}年{1}月{2}日", 3);
 
                   if (dr["prod_type"].AsString() == "F") {
                      prodName = "期貨契約保證金及";
@@ -275,9 +273,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                string implEndDate = dt.Rows[0]["impl_end_ymd"].AsString();
                string mocfDate = new MOCF().GetMaxOcfDate(implBeginDate, implEndDate);
 
-               implBeginDate = PbFunc.f_conv_date(implBeginDate.AsDateTime("yyyyMMdd"), 3);
-               implEndDate = PbFunc.f_conv_date(implEndDate.AsDateTime("yyyyMMdd"), 3);
-               mocfDate = PbFunc.f_conv_date(mocfDate.AsDateTime("yyyyMMdd"), 3);
+               implBeginDate = implBeginDate.AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
+               implEndDate = implEndDate.AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
+               mocfDate = mocfDate.AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
 
                //主旨 -> 文字
                ReplaceXmlInnterText(doc.GetElementsByTagName("主旨")[0].ChildNodes[0], "#impl_begin_ymd#", implBeginDate);
@@ -341,7 +339,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   }
                }
 
-               string beginYmd = PbFunc.f_conv_date(dt.Rows[0]["issue_begin_ymd"].AsDateTime("yyyyMMdd"), 3);
+               string beginYmd = dt.Rows[0]["issue_begin_ymd"].AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
 
                ReplaceXmlInnterText(doc.GetElementsByTagName("主旨")[0].ChildNodes[0], "#kind_name_list#", GenArrayTxt(kindNameList_desc));
                ReplaceXmlInnterText(doc.GetElementsByTagName("主旨")[0].ChildNodes[0], "#issue_begin_ymd#", beginYmd);
@@ -399,7 +397,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   }
                }
 
-               string beginDate = PbFunc.f_conv_date(dt.Rows[0]["issue_begin_ymd"].AsDateTime("yyyyMMdd"), 3);
+               string beginDate = dt.Rows[0]["issue_begin_ymd"].AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
 
                ReplaceXmlInnterText(doc.GetElementsByTagName("主旨")[0].ChildNodes[0], "#kind_name_list#", GenArrayTxt(kindNameList));
                ReplaceXmlInnterText(doc.GetElementsByTagName("主旨")[0].ChildNodes[0], "#issue_begin_ymd#", beginDate);
