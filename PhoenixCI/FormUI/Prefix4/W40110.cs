@@ -30,7 +30,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
       /// <summary>
       /// yyyyMMdd
       /// </summary>
-      public string TxtDate {
+      protected string TxtDate {
          get {
             return txtDate.DateTimeValue.ToString("yyyyMMdd");
          }
@@ -40,7 +40,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
       /// 一般/股票, 長假調整, 長假回調, 處置股票調整
       /// 0B / 1B / 1E / 2B
       /// </summary>
-      public string AdjType {
+      protected string AdjType {
          get {
             return ddlAdjType.EditValue.AsString();
          }
@@ -127,6 +127,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
          return ResultStatus.Success;
       }
 
+      /// <summary>
+      /// 直接替換 rtf 上面文字
+      /// </summary>
+      /// <param name="docSev"></param>
+      /// <param name="m40110"></param>
       private static void ReplaceWrod(RichEditDocumentServer docSev, M40110Word m40110) {
 
          //Options.MailMerge 要用List 才會有作用
@@ -138,6 +143,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
          docSev.Options.MailMerge.ViewMergedData = true;
       }
 
+      /// <summary>
+      /// set rtf table style
+      /// </summary>
+      /// <param name="doc"></param>
+      /// <param name="paragraphProps"></param>
+      /// <param name="table"></param>
       private static void SetTableStyle(Document doc, ParagraphProperties paragraphProps, Table table) {
 
          // 預設Table內容都全部置中
@@ -156,6 +167,15 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
       }
 
+      /// <summary>
+      /// 將資料寫入表格
+      /// </summary>
+      /// <param name="doc"></param>
+      /// <param name="table">要寫資料的表格</param>
+      /// <param name="rowIndedx">表格的列數</param>
+      /// <param name="dr"></param>
+      /// <param name="format">display format</param>
+      /// <param name="colList">DB data 順序</param>
       private static void SetMMValue(Document doc, Table table, int rowIndedx, DataRow dr, string format, string[] colList) {
          int i = 1;
          foreach (string col in colList) {
@@ -165,6 +185,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
          }
       }
 
+      /// <summary>
+      /// 產生 rtf 上方prod Lsit
+      /// </summary>
+      /// <param name="dt"></param>
+      /// <param name="contract">後贅字</param>
+      /// <returns></returns>
       private static string GenProdName(DataTable dt, string contract = "") {
          string result = "";
          int k = 0;
@@ -174,7 +200,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             string abbrName = dr["kind_abbr_name"].AsString();
 
             if (prodSubType == "S") {
-               result += string.Format("{0}({1})", abbrName + contract, dr["kind_id"].AsString());
+               result += $"{abbrName + contract}({dr["kind_id"].AsString()})";
             } else {
                result += abbrName;
             }
@@ -253,6 +279,22 @@ namespace PhoenixCI.FormUI.Prefix4 {
          return (IXml40xxxData)Assembly.Load(AssemblyName).CreateInstance(className);
       }
 
+      //private class ExportWord : IXml40xxxData {
+      //   protected virtual string TxtDate { get; set; }
+      //   protected virtual string AdjType { get; set; }
+      //   protected virtual string fileChName { get; set; }
+      //   protected virtual string AsAdjType {
+      //      get {
+      //         return AdjType.SubStr(0, 1) == "0" ? "" : AdjType.SubStr(0, 1);
+      //      }
+      //   }
+
+      //   protected virtual DataTable GetData() {
+
+      //   }
+      //}
+
+
       /// <summary>
       /// 一般 / 股票 輸出 rtf
       /// </summary>
@@ -262,11 +304,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
                using (RichEditDocumentServer docSev = new RichEditDocumentServer()) {
                   docSev.LoadDocument(filePath);
 
-                  string validDate = PbFunc.f_conv_date(dt.Rows[0]["ISSUE_BEGIN_YMD"].AsDateTime("yyyyMMdd"), 3);
-                  string ValidDatePrev = PbFunc.f_conv_date(new MOCF().GetValidDatePrev(dt.Rows[0]["ISSUE_BEGIN_YMD"].AsString()).AsDateTime("yyyyMMdd"), 3);
+                  string validDate = dt.Rows[0]["ISSUE_BEGIN_YMD"].AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
+                  string ValidDatePrev = new MOCF().GetValidDatePrev(dt.Rows[0]["ISSUE_BEGIN_YMD"].AsString()).
+                                          AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
+
                   string prodName = "";
 
-                  prodName = GenProdName(dt, "契約");               
+                  prodName = GenProdName(dt, "契約");
 
                   //取代 word 開頭文字
                   ReplaceWrod(docSev, new M40110Word(ValidDatePrev, validDate, prodName));
@@ -456,8 +500,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
                using (RichEditDocumentServer docSev = new RichEditDocumentServer()) {
                   docSev.LoadDocument(filePath);
 
-                  string validDate = PbFunc.f_conv_date(dt.Rows[0]["ISSUE_BEGIN_YMD"].AsDateTime("yyyyMMdd"), 3);
-                  string ValidDatePrev = PbFunc.f_conv_date(new MOCF().GetValidDatePrev(dt.Rows[0]["ISSUE_BEGIN_YMD"].AsString()).AsDateTime("yyyyMMdd"), 3);
+                  string validDate = dt.Rows[0]["ISSUE_BEGIN_YMD"].AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
+                  string ValidDatePrev = new MOCF().GetValidDatePrev(dt.Rows[0]["ISSUE_BEGIN_YMD"].AsString()).
+                                          AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
+
                   string subtypeName = "";
                   int k = 0;
 
@@ -616,8 +662,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   docSev.SaveDocument(filePath, DocumentFormat.Rtf);
                }//using 
 
+#if DEBUG
                System.Diagnostics.Process.Start(filePath);
-            } catch (Exception ex){
+#endif
+            } catch (Exception ex) {
                throw ex;
             }
          }

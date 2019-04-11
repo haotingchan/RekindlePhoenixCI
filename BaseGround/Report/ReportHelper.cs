@@ -208,6 +208,9 @@ namespace BaseGround.Report
          }
       }
 
+      public bool IsHandlePersonVisible { get; set; }
+      public bool IsManagerVisible { get; set; }
+
       #endregion 報表屬性
 
       public void Preview()
@@ -290,6 +293,13 @@ namespace BaseGround.Report
                pcc.PrintableComponent = PrintableComponent;
             }
          }
+
+         XRLabel lblHandlingDescription = (XRLabel)_MainReport.FindControl("lblHandlingDescription", true);
+         lblHandlingDescription.Visible = IsHandlePersonVisible;
+
+         XRLabel lblManagerDescription = (XRLabel)_MainReport.FindControl("lblManagerDescription", true);
+         lblManagerDescription.Visible = IsManagerVisible;
+
 
          Parameter pReportTitle = _MainReport.Parameters["ReportTitle"];
          if (pReportTitle != null) {

@@ -106,6 +106,7 @@
     <Compile Include="Dao\Together\SpecificDao\D30220.cs" />
     <Compile Include="Dao\Together\SpecificDao\D30221.cs" />
     <Compile Include="Dao\Together\SpecificDao\D30222.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30223.cs" />
     <Compile Include="Dao\Together\SpecificDao\D30290.cs" />
     <Compile Include="Dao\Together\SpecificDao\D30224.cs" />
     <Compile Include="Dao\Together\SpecificDao\D30310.cs" />
@@ -114,6 +115,7 @@
     <Compile Include="Dao\Together\SpecificDao\D30322.cs" />
     <Compile Include="Dao\Together\SpecificDao\D30350.cs" />
     <Compile Include="Dao\Together\SpecificDao\D30360.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30392.cs" />
     <Compile Include="Dao\Together\SpecificDao\D30400.cs" />
     <Compile Include="Dao\Together\SpecificDao\D30503.cs" />
     <Compile Include="Dao\Together\SpecificDao\D30506.cs" />
@@ -165,6 +167,7 @@
     <Compile Include="Dao\Together\SpecificDao\D40060.cs" />
     <Compile Include="Dao\Together\SpecificDao\D40130.cs" />
     <Compile Include="Dao\Together\SpecificDao\D40011.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D42011.cs" />
     <Compile Include="Dao\Together\SpecificDao\D49062.cs" />
     <Compile Include="Dao\Together\SpecificDao\D40170.cs" />
     <Compile Include="Dao\Together\SpecificDao\D40160.cs" />
@@ -194,6 +197,8 @@
     <Compile Include="Dao\Together\SpecificDao\D48040.cs" />
     <Compile Include="Dao\Together\SpecificDao\D49060.cs" />
     <Compile Include="Dao\Together\SpecificDao\D49020.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D49072.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D49071.cs" />
     <Compile Include="Dao\Together\SpecificDao\D49070.cs" />
     <Compile Include="Dao\Together\SpecificDao\D49061.cs" />
     <Compile Include="Dao\Together\SpecificDao\D49080.cs" />
@@ -282,12 +287,15 @@
     <Compile Include="Dao\Together\TableDao\LOGSP.cs" />
     <Compile Include="Dao\Together\TableDao\AOCF.cs" />
     <Compile Include="Dao\Together\TableDao\LOGV.cs" />
+    <Compile Include="Dao\Together\TableDao\MGR3.cs" />
     <Compile Include="Dao\Together\TableDao\MGT2.cs" />
     <Compile Include="Dao\Together\TableDao\MMFO.cs" />
     <Compile Include="Dao\Together\TableDao\MG8.cs" />
     <Compile Include="Dao\Together\TableDao\MGT4.cs" />
     <Compile Include="Dao\Together\TableDao\MOCF.cs" />
-    <Compile Include="Dao\Together\TableDao\STP1.cs" />
+    <Compile Include="Dao\Together\TableDao\SPNT1.cs" />
+    <Compile Include="Dao\Together\TableDao\SPNT2.cs" />
+    <Compile Include="Dao\Together\TableDao\SPT1.cs" />
     <Compile Include="Dao\Together\TableDao\MGT8.cs" />
     <Compile Include="Dao\Together\TableDao\MMWK.cs" />
     <Compile Include="Dao\Together\TableDao\OCFG.cs" />

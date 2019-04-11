@@ -225,7 +225,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                                 ws30030.Cells[row, colNum].Value = 0;
                             }
                             else {
-                                decimal avgOI = Math.Round(AI2OI / AI2DayCount,MidpointRounding.AwayFromZero);
+                                decimal avgOI = Math.Round(AI2OI / AI2DayCount, MidpointRounding.AwayFromZero);
                                 ws30030.Cells[row, colNum].Value = avgOI;
                             }
                         }
@@ -309,7 +309,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             else {
                 ym = eymd.SubStr(0, 4) + ("0" + (eymd.SubStr(4, 2).AsInt() + 1).AsString()).SubStr(1, 2);
             }
-            ym = PbFunc.relativedate((eymd.SubStr(0, 4) + "/" + eymd.SubStr(4, 2) + "/01").AsDateTime("yyyy/MM/dd"), -1).ToString("yyyyMMdd");
+            ym = PbFunc.relativedate((ym.SubStr(0, 4) + "/" + ym.SubStr(4, 2) + "/01").AsDateTime("yyyy/MM/dd"), -1).ToString("yyyyMMdd");
             DataTable dt30034 = dao30030.d_30034(txtSDate.Text.SubStr(0, 4) + "0101",
                                                  ym,
                                                  txtSDate.Text.SubStr(0, 4) + "01",
@@ -320,7 +320,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
 
             // 每月
-            for (f = rowNum + 1; f < rowTol; f++) {
+            for (f = rowNum + 1; f <= rowTol - 1; f++) {
                 ym = ws30030.Cells[f, 0].Value.AsString();
                 DataRow[] find = dt30034.Select("trim(stw_ymd) ='" + ym + "'");
                 if (find.Length != 0) {

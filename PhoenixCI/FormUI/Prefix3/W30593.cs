@@ -32,7 +32,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
          //商品
          DataTable dtProd = daoCod.ListByTxn("30593"); //cod_id/cod_desc/cp_display
-         ddlProd.SetDataTable(dtProd , "COD_DESC" , "COD_DESC");
+         ddlProd.SetDataTable(dtProd , "COD_DESC" , "COD_DESC",TextEditStyles.DisableTextEditor);
+         ddlProd.ItemIndex = 0;
 
          //Winni test
          //20181001-20181011

@@ -27,17 +27,10 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
         protected RWD_REF_OMNI RRO;
         protected D50073 dao50073;
-        protected DataTable dtForDeleted;
 
         //ken,原本拉出來要使用在RepositoryItemLookUpEdit.GetNotInListValue中,但是後來沒用
         protected DataTable dtActId;
         protected RepositoryItemLookUpEdit cbxActId;
-
-        protected class LookupItem {
-            public string ValueMember { get; set; }
-            public string DisplayMember { get; set; }
-        }
-
 
         public W50073(string programID, string programName) : base(programID, programName) {
             InitializeComponent();
@@ -46,7 +39,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
             PrintableComponent = gcMain;
             dao50073 = new D50073();
             RRO = new RWD_REF_OMNI();
-            dtForDeleted = new DataTable();
 
         }
 
@@ -81,28 +73,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 gcMain.RepositoryItems.Add(cbxActId);
                 RWD_REF_OMNI_ACTIVITY_ID.ColumnEdit = cbxActId;
 
-
-                //[系統別]下拉選單
-                List<LookupItem> dsProdType = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = "F", DisplayMember = "期貨"},
-                                        new LookupItem() { ValueMember = "O", DisplayMember = "選擇權" }};
-                RepositoryItemLookUpEdit cbxProdType = new RepositoryItemLookUpEdit();
-                cbxProdType.SetColumnLookUp(dsProdType, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor, "");
-                gcMain.RepositoryItems.Add(cbxProdType);
-                RWD_REF_OMNI_PROD_TYPE.ColumnEdit = cbxProdType;
-
-
-                //[盤別]下拉選單
-                List<LookupItem> dsMarket = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = "1", DisplayMember = "一般交易時段"},
-                                        new LookupItem() { ValueMember = "2", DisplayMember = "盤後交易時段" }};
-                RepositoryItemLookUpEdit cbxMarket = new RepositoryItemLookUpEdit();
-                cbxMarket.SetColumnLookUp(dsMarket, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor, "");
-                gcMain.RepositoryItems.Add(cbxMarket);
-                RWD_REF_OMNI_MARKET_CLOSE.ColumnEdit = cbxMarket;
-
-
                 Retrieve();
+                //自動調整欄寬
+                gvMain.BestFitColumns();
             }
             catch (Exception ex) {
                 throw ex;
@@ -172,7 +145,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 if (returnTable.Rows.Count == 0) {
                     MessageBox.Show("無任何資料", "訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                dtForDeleted = returnTable.Clone();
                 gcMain.DataSource = returnTable;
 
                 gcMain.Focus();
@@ -203,6 +175,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 DataTable dtChange = dt.GetChanges();
                 DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
                 DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
+                DataTable dtForDeleted = dt.GetChanges(DataRowState.Deleted);
 
                 if (dtChange == null) {
                     MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -217,13 +190,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 //update to DB
                 ResultData myResultData = dao50073.update(dt);
 
-                //準備要印的資料(新增/刪除/修改)
-                ResultData resultData = new ResultData();
-                resultData.ChangedDataViewForAdded = dtForAdd == null ? new DataView() : dtForAdd.DefaultView;
-                //resultData.ChangedDataViewForDeleted = dtForDeleted == null ? new DataView() : dtForDeleted.DefaultView;
-                resultData.ChangedDataViewForModified = dtForModified == null ? new DataView() : dtForModified.DefaultView;
                 //列印
-                PrintOrExportChanged(gcMain, resultData);
+                PrintOrExportChangedByKen(gcMain, dtForAdd, dtForDeleted, dtForModified, false, false);
                 _IsPreventFlowPrint = true;
 
             }
@@ -248,22 +216,19 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 Worksheet ws50073 = workbook.Worksheets[0];
                 ws50073.Cells[0, 0].Value = "活動名稱";
                 ws50073.Cells[0, 0].Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
-                ws50073.Cells[0, 1].Value = "系統別";
+                ws50073.Cells[0, 1].Value = "期貨商代號";
                 ws50073.Cells[0, 1].Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
-                ws50073.Cells[0, 2].Value = "期貨商代號";
+                ws50073.Cells[0, 2].Value = "交易人帳號";
                 ws50073.Cells[0, 2].Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
-                ws50073.Cells[0, 3].Value = "交易人帳號";
+                ws50073.Cells[0, 3].Value = "法人機構名稱";
                 ws50073.Cells[0, 3].Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
-                ws50073.Cells[0, 4].Value = "盤別";
-                ws50073.Cells[0, 4].Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
                 int insertRow = 1;
                 for (int i = 0; i < exportTable.Rows.Count; i++) {
                     DataRow dr = exportTable.Rows[i];
                     ws50073.Cells[insertRow, 0].Value = dr["RWD_REF_OMNI_ACTIVITY_ID"].AsString();
-                    ws50073.Cells[insertRow, 1].Value = dr["RWD_REF_OMNI_PROD_TYPE"].AsString();
-                    ws50073.Cells[insertRow, 2].Value = dr["RWD_REF_OMNI_FCM_NO"].AsString();
-                    ws50073.Cells[insertRow, 3].Value = dr["RWD_REF_OMNI_ACC_NO"].AsString();
-                    ws50073.Cells[insertRow, 4].Value = dr["RWD_REF_OMNI_MARKET_CLOSE"].AsString();
+                    ws50073.Cells[insertRow, 1].Value = dr["RWD_REF_OMNI_FCM_NO"].AsString();
+                    ws50073.Cells[insertRow, 2].Value = dr["RWD_REF_OMNI_ACC_NO"].AsString();
+                    ws50073.Cells[insertRow, 3].Value = dr["RWD_REF_OMNI_NAME"].AsString();
                     insertRow = insertRow + 1;
                 }
                 ws50073.ScrollToRow(0);
@@ -278,8 +243,14 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
         protected override ResultStatus Print(ReportHelper ReportHelper) {
             try {
-                ReportHelper reportHelper = new ReportHelper(gcMain, _ProgramID, _ProgramID + _ProgramName);
-                reportHelper.Print();
+                ReportHelper _ReportHelper = new ReportHelper(gcMain, _ProgramID, this.Text);
+                CommonReportPortraitA4 reportPortrait = new CommonReportPortraitA4();
+                reportPortrait.printableComponentContainerMain.PrintableComponent = gcMain;
+                reportPortrait.IsHandlePersonVisible = false;
+                reportPortrait.IsManagerVisible = false;
+                _ReportHelper.Create(reportPortrait);
+
+                _ReportHelper.Print();
 
             }
             catch (Exception ex) {
@@ -305,8 +276,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
         protected override ResultStatus DeleteRow() {
             try {
                 GridView gv = gvMain as GridView;
-                DataRowView deleteRowView = (DataRowView)gv.GetFocusedRow();
-                dtForDeleted.ImportRow(deleteRowView.Row);
 
                 base.DeleteRow(gvMain);
             }
