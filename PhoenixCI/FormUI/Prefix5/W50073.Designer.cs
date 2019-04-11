@@ -29,6 +29,7 @@
             this.RWD_REF_OMNI_FCM_NO = new DevExpress.XtraGrid.Columns.GridColumn();
             this.RWD_REF_OMNI_ACC_NO = new DevExpress.XtraGrid.Columns.GridColumn();
             this.RWD_REF_OMNI_NAME = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -36,10 +37,15 @@
             this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn6 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn7 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemTextEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+            this.repositoryItemTextEdit3 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit3)).BeginInit();
             this.SuspendLayout();
             // 
             // panParent
@@ -60,6 +66,10 @@
             this.gcMain.MainView = this.gvMain;
             this.gcMain.MenuManager = this.ribbonControl;
             this.gcMain.Name = "gcMain";
+            this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repositoryItemTextEdit1,
+            this.repositoryItemTextEdit2,
+            this.repositoryItemTextEdit3});
             this.gcMain.Size = new System.Drawing.Size(802, 667);
             this.gcMain.TabIndex = 0;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -94,6 +104,7 @@
             this.RWD_REF_OMNI_FCM_NO.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.RWD_REF_OMNI_FCM_NO.AppearanceHeader.Options.UseBackColor = true;
             this.RWD_REF_OMNI_FCM_NO.Caption = "期貨商代號";
+            this.RWD_REF_OMNI_FCM_NO.ColumnEdit = this.repositoryItemTextEdit3;
             this.RWD_REF_OMNI_FCM_NO.FieldName = "RWD_REF_OMNI_FCM_NO";
             this.RWD_REF_OMNI_FCM_NO.MinWidth = 25;
             this.RWD_REF_OMNI_FCM_NO.Name = "RWD_REF_OMNI_FCM_NO";
@@ -106,6 +117,7 @@
             this.RWD_REF_OMNI_ACC_NO.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.RWD_REF_OMNI_ACC_NO.AppearanceHeader.Options.UseBackColor = true;
             this.RWD_REF_OMNI_ACC_NO.Caption = "交易人帳號";
+            this.RWD_REF_OMNI_ACC_NO.ColumnEdit = this.repositoryItemTextEdit2;
             this.RWD_REF_OMNI_ACC_NO.FieldName = "RWD_REF_OMNI_ACC_NO";
             this.RWD_REF_OMNI_ACC_NO.MinWidth = 25;
             this.RWD_REF_OMNI_ACC_NO.Name = "RWD_REF_OMNI_ACC_NO";
@@ -118,12 +130,19 @@
             this.RWD_REF_OMNI_NAME.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.RWD_REF_OMNI_NAME.AppearanceHeader.Options.UseBackColor = true;
             this.RWD_REF_OMNI_NAME.Caption = "法人機構名稱";
+            this.RWD_REF_OMNI_NAME.ColumnEdit = this.repositoryItemTextEdit1;
             this.RWD_REF_OMNI_NAME.FieldName = "RWD_REF_OMNI_NAME";
             this.RWD_REF_OMNI_NAME.Name = "RWD_REF_OMNI_NAME";
             this.RWD_REF_OMNI_NAME.OptionsColumn.FixedWidth = true;
             this.RWD_REF_OMNI_NAME.Visible = true;
             this.RWD_REF_OMNI_NAME.VisibleIndex = 3;
             this.RWD_REF_OMNI_NAME.Width = 250;
+            // 
+            // repositoryItemTextEdit1
+            // 
+            this.repositoryItemTextEdit1.AutoHeight = false;
+            this.repositoryItemTextEdit1.MaxLength = 120;
+            this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
             // 
             // gridColumn1
             // 
@@ -188,6 +207,18 @@
             this.gridColumn7.VisibleIndex = 4;
             this.gridColumn7.Width = 156;
             // 
+            // repositoryItemTextEdit2
+            // 
+            this.repositoryItemTextEdit2.AutoHeight = false;
+            this.repositoryItemTextEdit2.MaxLength = 7;
+            this.repositoryItemTextEdit2.Name = "repositoryItemTextEdit2";
+            // 
+            // repositoryItemTextEdit3
+            // 
+            this.repositoryItemTextEdit3.AutoHeight = false;
+            this.repositoryItemTextEdit3.MaxLength = 7;
+            this.repositoryItemTextEdit3.Name = "repositoryItemTextEdit3";
+            // 
             // W50073
             // 
             this.Appearance.Options.UseFont = true;
@@ -200,6 +231,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit3)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -220,5 +254,8 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn6;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn7;
         private DevExpress.XtraGrid.Columns.GridColumn RWD_REF_OMNI_NAME;
+        private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit1;
+        private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit3;
+        private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit2;
     }
 }
