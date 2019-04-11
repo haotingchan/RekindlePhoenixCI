@@ -32,7 +32,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
          //商品
          DataTable dtProd = daoCod.ListByTxn("30592"); //cod_id/cod_desc/cp_display
-         ddlProd.SetDataTable(dtProd , "COD_DESC" , "COD_DESC");
+         ddlProd.SetDataTable(dtProd , "COD_DESC" , "COD_DESC" , TextEditStyles.DisableTextEditor);
+         ddlProd.ItemIndex = 0;
 
          //Winni test
          //20181001-20181011
@@ -193,7 +194,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             #endregion
 
             #region 內容
-            if(ddlProd.Text != "% (全部)") {
+            if (ddlProd.Text != "% (全部)") {
                DataView dv = dt.AsDataView();
                dv.RowFilter = "apdk_param_key ='" + ddlProd.Text.Trim() + "'";
                DataTable dtByProd = dv.ToTable();
@@ -287,7 +288,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                      if (dt.Rows[i]["AB4_ID_CNT"] != DBNull.Value)
                         worksheet.Cells[ii_ole_row - 1 , li_col - 1].Value = dt.Rows[i]["AB4_ID_CNT"].AsDecimal();
                   }
-               }           
+               }
             }
             #endregion
 
@@ -324,7 +325,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             int ii_ole_row = 4;
             for (int i = 0 ; i < dt.Rows.Count ; i++) {
-               ii_ole_row += 1;              
+               ii_ole_row += 1;
                for (int j = 0 ; j < 6 ; j++) {
                   if (j == 0) {
                      worksheet.Cells[ii_ole_row - 1 , j].Value = dt.Rows[i][j].AsString().SubStr(0 , 10);
@@ -334,7 +335,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                      else
                         worksheet.Cells[ii_ole_row - 1 , j].Value = dt.Rows[i][j].AsDecimal();
                   }
-               
+
                }
 
                //RHF,RTF沒交易
