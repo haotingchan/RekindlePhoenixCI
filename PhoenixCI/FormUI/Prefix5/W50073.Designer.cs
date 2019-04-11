@@ -120,8 +120,10 @@
             this.RWD_REF_OMNI_NAME.Caption = "法人機構名稱";
             this.RWD_REF_OMNI_NAME.FieldName = "RWD_REF_OMNI_NAME";
             this.RWD_REF_OMNI_NAME.Name = "RWD_REF_OMNI_NAME";
+            this.RWD_REF_OMNI_NAME.OptionsColumn.FixedWidth = true;
             this.RWD_REF_OMNI_NAME.Visible = true;
             this.RWD_REF_OMNI_NAME.VisibleIndex = 3;
+            this.RWD_REF_OMNI_NAME.Width = 250;
             // 
             // gridColumn1
             // 
