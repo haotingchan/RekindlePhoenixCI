@@ -598,14 +598,19 @@ namespace BaseGround.Shared {
       public static string wf_copy_file(string txnId, string excelFileName, string newExcelFileName = "") {
          string ls_excel_path = gs_excel_path;
          string ls_excel_ext = ".xlsx";//tempalte 副檔名,複製過去的副檔名也是這個
+         string ls_sub_path = ".";
 
          //1.讀取ci.RPTX設定檔 (正常只會撈出一筆資料,column = ls_sub_path/ls_excel_ext/ls_rename)
          DataTable dtRpt = new RPTX().ListByTxn(txnId, excelFileName);
-         if (dtRpt.Rows.Count <= 0) {
-            throw new Exception(string.Format("RPTX無{0}設定!", txnId));
+         //if (dtRpt.Rows.Count <= 0) {
+         //   throw new Exception(string.Format("RPTX無{0}設定!", txnId));
+         //}
+         if (dtRpt != null) {
+            if (dtRpt.Rows.Count >= 0) {
+               ls_sub_path = dtRpt.Rows[0]["ls_sub_path"].AsString();
+               ls_excel_ext = dtRpt.Rows[0]["ls_excel_ext"].AsString();
+            }
          }
-         string ls_sub_path = dtRpt.Rows[0]["ls_sub_path"].AsString();
-         ls_excel_ext = dtRpt.Rows[0]["ls_excel_ext"].AsString();
          //string ls_rename = dtRpt.Rows[0]["ls_rename"].AsString();//ken,根本沒用到,抓爽的
 
          if (ls_sub_path != ".") {
