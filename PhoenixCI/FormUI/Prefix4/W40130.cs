@@ -38,8 +38,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
 #if DEBUG
          //Winni test
-         txtDate.DateTimeValue = DateTime.ParseExact("2018/10/11" , "yyyy/MM/dd" , null);
-         this.Text += "(開啟測試模式),ocfDate=2018/10/11";
+         //txtDate.DateTimeValue = DateTime.ParseExact("2018/10/11" , "yyyy/MM/dd" , null);
+         //this.Text += "(開啟測試模式),ocfDate=2018/10/11";
 #endif
       }
 
@@ -55,7 +55,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             //2. 設定dropdownlist(商品)
             DataTable dtKindId = dao40130.GetDataList(txtDate.DateTimeValue , "%"); //第一行全部+mgt2_kind_id_out/mgt2_kind_id/apdk_name/cpr_price_risk_rate/cp_display
-            dwKindId.SetDataTable(dtKindId , "MGT2_KIND_ID");
+            dwKindId.SetDataTable(dtKindId , "MGT2_KIND_ID","CP_DISPLAY", TextEditStyles.DisableTextEditor);
+            dwKindId.ItemIndex = 0;
 
             return ResultStatus.Success;
          } catch (Exception ex) {
@@ -128,8 +129,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                originalFilePath = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH ,
                      string.Format("{0}.{1}" , _ProgramID , FileType.XLS.ToString().ToLower()));
                destinationFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH ,
-                  string.Format("{0}({1})_{2}-{3}.{4}" , _ProgramID , fileKind , DateTime.Now.ToString("yyyy.MM.dd") , DateTime.Now.ToString("HH.mm.ss") , FileType.XLS.ToString().ToLower()));
-
+                  string.Format("{0}({1})_{2}.{3}" , _ProgramID , fileKind , DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") , FileType.XLS.ToString().ToLower()));
+               
                File.Copy(originalFilePath , destinationFilePath , true);
                workbook.LoadDocument(destinationFilePath);
                kindId = dr["mgt2_kind_id"].AsString() + "%";
@@ -143,7 +144,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                //3. save
                workbook.SaveDocument(destinationFilePath);
             }//foreach (DataRow dr in dt.Rows)
-         
+
             labMsg.Visible = false;
 
             return ResultStatus.Success;
@@ -188,6 +189,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dtContent = dao40130.GetAi5Data(startDate.AddDays(-665) , startDate , kindId);
             if (dtContent.Rows.Count <= 0) {
                MessageDisplay.Info(string.Format("{0},{1},{2}-{3},無任何資料!" , txtDate.Text , kindId , rptId , rptName));
+               return;
             }
 
             int rowNum = 419;
@@ -221,6 +223,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dtMg1 = dao40130.GetMg1Data(startDate , kindId);
             if (dtMg1.Rows.Count <= 0) {
                MessageDisplay.Info(string.Format("{0},{1},{2}-{3},無「保證金狀況表」資料!" , txtDate.Text , kindId , rptId , rptName));
+               return;
             }
 
             //2.2 附表二 (分成7種類型報表)
@@ -234,24 +237,21 @@ namespace PhoenixCI.FormUI.Prefix4 {
                case "CPF%":
                   ws.Cells[11 , 3].Value = "";
                   Range range1 = ws.Range["C12:D12"];
-                  range1.Select();
                   range1.Merge();
 
                   Range range2 = ws.Range["C13:D13"];
-                  range2.Select();
                   range2.Merge();
 
                   ws.Range["A1"].Select();
 
                   ws.Cells[12 , 2].Value = "8219178"; //'=100000000*30/365'
-
-                  ws.Cells[12 , 5].Value = "=C13*E13";
+                  ws.Cells[12 , 5].Formula = "=C13*E13";
 
                   break;
                case "GBF%":
                   ws.Cells[12 , 2].Value = price;
                   ws.Cells[12 , 3].Value = mg1Xxx * 100;
-                  ws.Cells[12 , 5].Value = "=C13*D13*E13/100";
+                  ws.Cells[12 , 5].Formula = "=C13*D13*E13/100";
                   break;
                default:
                   ws.Cells[12 , 2].Value = price;
@@ -305,6 +305,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dtContent = dao40130.GetIdxfData(startDate.AddDays(-665) , startDate , kindId);
             if (dtContent.Rows.Count <= 0) {
                MessageDisplay.Info(string.Format("{0},{1},{2}-{3},無任何資料!" , txtDate.Text , kindId , rptId , rptName));
+               return;
             }
 
             int rowNum = 419;
@@ -336,6 +337,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dtMg1 = dao40130.GetMg1Data(startDate , kindId);
             if (dtMg1.Rows.Count <= 0) {
                MessageDisplay.Info(string.Format("{0},{1},{2}-{3},無「保證金狀況表」資料!" , txtDate.Text , kindId , rptId , rptName));
+               return;
             }
 
             //2.2 內容    

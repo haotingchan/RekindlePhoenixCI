@@ -39,12 +39,12 @@
          // panParent
          // 
          this.panParent.Controls.Add(this.r_frame);
-         this.panParent.Size = new System.Drawing.Size(435, 200);
+         this.panParent.Size = new System.Drawing.Size(476, 199);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(435, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(476, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // labMsg
@@ -66,7 +66,7 @@
          this.panFilter.ForeColor = System.Drawing.Color.Navy;
          this.panFilter.Location = new System.Drawing.Point(24, 23);
          this.panFilter.Name = "panFilter";
-         this.panFilter.Size = new System.Drawing.Size(355, 107);
+         this.panFilter.Size = new System.Drawing.Size(395, 107);
          this.panFilter.TabIndex = 76;
          this.panFilter.TabStop = false;
          this.panFilter.Text = "請輸入交易日期";
@@ -109,7 +109,7 @@
          this.r_frame.Controls.Add(this.labMsg);
          this.r_frame.Location = new System.Drawing.Point(15, 15);
          this.r_frame.Name = "r_frame";
-         this.r_frame.Size = new System.Drawing.Size(404, 169);
+         this.r_frame.Size = new System.Drawing.Size(446, 169);
          this.r_frame.TabIndex = 77;
          // 
          // W30392
@@ -117,7 +117,7 @@
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(435, 230);
+         this.ClientSize = new System.Drawing.Size(476, 229);
          this.Name = "W30392";
          this.Text = "W30392";
          this.panParent.ResumeLayout(false);
