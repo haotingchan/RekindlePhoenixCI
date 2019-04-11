@@ -26,10 +26,9 @@
             this.gcMain = new DevExpress.XtraGrid.GridControl();
             this.gvMain = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.RWD_REF_OMNI_ACTIVITY_ID = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.RWD_REF_OMNI_PROD_TYPE = new DevExpress.XtraGrid.Columns.GridColumn();
             this.RWD_REF_OMNI_FCM_NO = new DevExpress.XtraGrid.Columns.GridColumn();
             this.RWD_REF_OMNI_ACC_NO = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.RWD_REF_OMNI_MARKET_CLOSE = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.RWD_REF_OMNI_NAME = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -70,13 +69,13 @@
             // 
             this.gvMain.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.RWD_REF_OMNI_ACTIVITY_ID,
-            this.RWD_REF_OMNI_PROD_TYPE,
             this.RWD_REF_OMNI_FCM_NO,
             this.RWD_REF_OMNI_ACC_NO,
-            this.RWD_REF_OMNI_MARKET_CLOSE});
+            this.RWD_REF_OMNI_NAME});
             this.gvMain.CustomizationFormBounds = new System.Drawing.Rectangle(476, 341, 322, 375);
             this.gvMain.GridControl = this.gcMain;
             this.gvMain.Name = "gvMain";
+            this.gvMain.OptionsView.ColumnAutoWidth = false;
             // 
             // RWD_REF_OMNI_ACTIVITY_ID
             // 
@@ -90,18 +89,6 @@
             this.RWD_REF_OMNI_ACTIVITY_ID.VisibleIndex = 0;
             this.RWD_REF_OMNI_ACTIVITY_ID.Width = 148;
             // 
-            // RWD_REF_OMNI_PROD_TYPE
-            // 
-            this.RWD_REF_OMNI_PROD_TYPE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.RWD_REF_OMNI_PROD_TYPE.AppearanceHeader.Options.UseBackColor = true;
-            this.RWD_REF_OMNI_PROD_TYPE.Caption = "系統別";
-            this.RWD_REF_OMNI_PROD_TYPE.FieldName = "RWD_REF_OMNI_PROD_TYPE";
-            this.RWD_REF_OMNI_PROD_TYPE.MinWidth = 25;
-            this.RWD_REF_OMNI_PROD_TYPE.Name = "RWD_REF_OMNI_PROD_TYPE";
-            this.RWD_REF_OMNI_PROD_TYPE.Visible = true;
-            this.RWD_REF_OMNI_PROD_TYPE.VisibleIndex = 1;
-            this.RWD_REF_OMNI_PROD_TYPE.Width = 81;
-            // 
             // RWD_REF_OMNI_FCM_NO
             // 
             this.RWD_REF_OMNI_FCM_NO.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
@@ -111,7 +98,7 @@
             this.RWD_REF_OMNI_FCM_NO.MinWidth = 25;
             this.RWD_REF_OMNI_FCM_NO.Name = "RWD_REF_OMNI_FCM_NO";
             this.RWD_REF_OMNI_FCM_NO.Visible = true;
-            this.RWD_REF_OMNI_FCM_NO.VisibleIndex = 2;
+            this.RWD_REF_OMNI_FCM_NO.VisibleIndex = 1;
             this.RWD_REF_OMNI_FCM_NO.Width = 136;
             // 
             // RWD_REF_OMNI_ACC_NO
@@ -123,20 +110,20 @@
             this.RWD_REF_OMNI_ACC_NO.MinWidth = 25;
             this.RWD_REF_OMNI_ACC_NO.Name = "RWD_REF_OMNI_ACC_NO";
             this.RWD_REF_OMNI_ACC_NO.Visible = true;
-            this.RWD_REF_OMNI_ACC_NO.VisibleIndex = 3;
+            this.RWD_REF_OMNI_ACC_NO.VisibleIndex = 2;
             this.RWD_REF_OMNI_ACC_NO.Width = 136;
             // 
-            // RWD_REF_OMNI_MARKET_CLOSE
+            // RWD_REF_OMNI_NAME
             // 
-            this.RWD_REF_OMNI_MARKET_CLOSE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.RWD_REF_OMNI_MARKET_CLOSE.AppearanceHeader.Options.UseBackColor = true;
-            this.RWD_REF_OMNI_MARKET_CLOSE.Caption = "盤別";
-            this.RWD_REF_OMNI_MARKET_CLOSE.FieldName = "RWD_REF_OMNI_MARKET_CLOSE";
-            this.RWD_REF_OMNI_MARKET_CLOSE.MinWidth = 25;
-            this.RWD_REF_OMNI_MARKET_CLOSE.Name = "RWD_REF_OMNI_MARKET_CLOSE";
-            this.RWD_REF_OMNI_MARKET_CLOSE.Visible = true;
-            this.RWD_REF_OMNI_MARKET_CLOSE.VisibleIndex = 4;
-            this.RWD_REF_OMNI_MARKET_CLOSE.Width = 149;
+            this.RWD_REF_OMNI_NAME.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.RWD_REF_OMNI_NAME.AppearanceHeader.Options.UseBackColor = true;
+            this.RWD_REF_OMNI_NAME.Caption = "法人機構名稱";
+            this.RWD_REF_OMNI_NAME.FieldName = "RWD_REF_OMNI_NAME";
+            this.RWD_REF_OMNI_NAME.Name = "RWD_REF_OMNI_NAME";
+            this.RWD_REF_OMNI_NAME.OptionsColumn.FixedWidth = true;
+            this.RWD_REF_OMNI_NAME.Visible = true;
+            this.RWD_REF_OMNI_NAME.VisibleIndex = 3;
+            this.RWD_REF_OMNI_NAME.Width = 250;
             // 
             // gridColumn1
             // 
@@ -223,10 +210,8 @@
         private DevExpress.XtraGrid.GridControl gcMain;
         private DevExpress.XtraGrid.Views.Grid.GridView gvMain;
         private DevExpress.XtraGrid.Columns.GridColumn RWD_REF_OMNI_ACTIVITY_ID;
-        private DevExpress.XtraGrid.Columns.GridColumn RWD_REF_OMNI_PROD_TYPE;
         private DevExpress.XtraGrid.Columns.GridColumn RWD_REF_OMNI_FCM_NO;
         private DevExpress.XtraGrid.Columns.GridColumn RWD_REF_OMNI_ACC_NO;
-        private DevExpress.XtraGrid.Columns.GridColumn RWD_REF_OMNI_MARKET_CLOSE;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
@@ -234,5 +219,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn5;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn6;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn7;
+        private DevExpress.XtraGrid.Columns.GridColumn RWD_REF_OMNI_NAME;
     }
 }

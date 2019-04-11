@@ -35,17 +35,17 @@ SELECT PL2_YMD,
          PL2_PREV_NATURE,
          PL2_PREV_LEGAL,
          PL2_PREV_999
-    FROM ci.PL2,
-        (select RPT_VALUE,RPT_SEQ_NO from ci.RPT where RPT_TXN_ID = '30204' and RPT_TXD_ID = '30204c') C,
-        (select RPT_VALUE,RPT_SEQ_NO from ci.RPT where RPT_TXN_ID = '30204' and RPT_TXD_ID = '30204e') E ,
-        (select APDK_KIND_ID2,nvl(max(case when APDK_PROD_TYPE = 'F' then APDK_NAME else '' end),max(case when APDK_PROD_TYPE = 'O' then APDK_NAME else '' end)) AS APDK_NAME 
-           from ci.APDK GROUP BY APDK_KIND_ID2) P
-where PL2_YMD >= :as_ymd 
-  and PL2_YMD <= :as_to_ymd
-  and trim(PL2_KIND_ID) = trim(C.RPT_VALUE)
-  and trim(PL2_KIND_ID) = trim(E.RPT_VALUE)
-  and PL2_KIND_ID = APDK_KIND_ID2
-order by pl2_effective_ymd
+    FROM CI.PL2,
+        (SELECT RPT_VALUE,RPT_SEQ_NO FROM CI.RPT WHERE RPT_TXN_ID = '30204' AND RPT_TXD_ID = '30204C') C,
+        (SELECT RPT_VALUE,RPT_SEQ_NO FROM CI.RPT WHERE RPT_TXN_ID = '30204' AND RPT_TXD_ID = '30204E') E ,
+        (SELECT APDK_KIND_ID2,NVL(MAX(CASE WHEN APDK_PROD_TYPE = 'F' THEN APDK_NAME ELSE '' END),MAX(CASE WHEN APDK_PROD_TYPE = 'O' THEN APDK_NAME ELSE '' END)) AS APDK_NAME 
+           FROM CI.APDK GROUP BY APDK_KIND_ID2) P
+WHERE PL2_YMD >= :AS_YMD 
+  AND PL2_YMD <= :AS_TO_YMD
+  AND TRIM(PL2_KIND_ID) = TRIM(C.RPT_VALUE)
+  AND TRIM(PL2_KIND_ID) = TRIM(E.RPT_VALUE)
+  AND PL2_KIND_ID = APDK_KIND_ID2
+ORDER BY PL2_EFFECTIVE_YMD
 ";
             DataTable dtResult = db.GetDataTable(sql, parms);
 
@@ -67,24 +67,24 @@ order by pl2_effective_ymd
 
             string sql =
 @"
-SELECT   ROW_NUMBER() over (order by PL2_EFFECTIVE_YMD) as NO,
+SELECT   ROW_NUMBER() OVER (ORDER BY PL2_EFFECTIVE_YMD) AS NO,
          APDK_NAME,    
          PL2_KIND_ID,   
          PL2_NATURE,   
          PL2_LEGAL,   
          PL2_999
-    FROM ci.PL2,
-        (select RPT_VALUE,RPT_SEQ_NO from ci.RPT where RPT_TXN_ID = '30204' and RPT_TXD_ID = '30204c') C,
-        (select RPT_VALUE,RPT_SEQ_NO from ci.RPT where RPT_TXN_ID = '30204' and RPT_TXD_ID = '30204e') E ,
-        (select APDK_KIND_ID2,nvl(max(case when APDK_PROD_TYPE = 'F' then APDK_NAME else '' end),max(case when APDK_PROD_TYPE = 'O' then APDK_NAME else '' end)) AS APDK_NAME 
-           from ci.APDK GROUP BY APDK_KIND_ID2) P
-where  PL2_YMD >= :as_ymd 
-  and PL2_YMD <= :as_to_ymd
-  and trim(PL2_KIND_ID) = trim(C.RPT_VALUE)
-  and trim(PL2_KIND_ID) = trim(E.RPT_VALUE)
-  and PL2_KIND_ID = APDK_KIND_ID2
-  and pl2_nature_adj<>'-' and pl2_nature_adj<>' '
-  order by PL2_EFFECTIVE_YMD
+    FROM CI.PL2,
+        (SELECT RPT_VALUE,RPT_SEQ_NO FROM CI.RPT WHERE RPT_TXN_ID = '30204' AND RPT_TXD_ID = '30204C') C,
+        (SELECT RPT_VALUE,RPT_SEQ_NO FROM CI.RPT WHERE RPT_TXN_ID = '30204' AND RPT_TXD_ID = '30204E') E ,
+        (SELECT APDK_KIND_ID2,NVL(MAX(CASE WHEN APDK_PROD_TYPE = 'F' THEN APDK_NAME ELSE '' END),MAX(CASE WHEN APDK_PROD_TYPE = 'O' THEN APDK_NAME ELSE '' END)) AS APDK_NAME 
+           FROM CI.APDK GROUP BY APDK_KIND_ID2) P
+WHERE  PL2_YMD >= :AS_YMD 
+  AND PL2_YMD <= :AS_TO_YMD
+  AND TRIM(PL2_KIND_ID) = TRIM(C.RPT_VALUE)
+  AND TRIM(PL2_KIND_ID) = TRIM(E.RPT_VALUE)
+  AND PL2_KIND_ID = APDK_KIND_ID2
+  AND ((PL2_NATURE_ADJ<>'-' AND PL2_NATURE_ADJ<>' ') OR (PL2_LEGAL_ADJ<>'-' AND PL2_LEGAL_ADJ<>' ') OR (PL2_999_ADJ<>'-' AND PL2_999_ADJ<>' '))
+  ORDER BY PL2_EFFECTIVE_YMD
 ";
             DataTable dtResult = db.GetDataTable(sql, parms);
 
@@ -106,24 +106,24 @@ where  PL2_YMD >= :as_ymd
 
             string sql =
 @"
-SELECT   ROW_NUMBER() over (order by PL2_EFFECTIVE_YMD) as NO,
+SELECT   ROW_NUMBER() OVER (ORDER BY PL2_EFFECTIVE_YMD) AS NO,
          APDK_NAME,    
          PL2_KIND_ID,   
          PL2_NATURE,   
          PL2_LEGAL,   
          PL2_999
-    FROM ci.PL2,
-        (select RPT_VALUE,RPT_SEQ_NO from ci.RPT where RPT_TXN_ID = '30204' and RPT_TXD_ID = '30204c') C,
-        (select RPT_VALUE,RPT_SEQ_NO from ci.RPT where RPT_TXN_ID = '30204' and RPT_TXD_ID = '30204e') E ,
-        (select APDK_KIND_ID2,nvl(max(case when APDK_PROD_TYPE = 'F' then APDK_NAME else '' end),max(case when APDK_PROD_TYPE = 'O' then APDK_NAME else '' end)) AS APDK_NAME 
-           from ci.APDK GROUP BY APDK_KIND_ID2) P
-where  PL2_YMD >= :as_ymd 
-  and PL2_YMD <= :as_to_ymd
-  and trim(PL2_KIND_ID) = trim(C.RPT_VALUE)
-  and trim(PL2_KIND_ID) = trim(E.RPT_VALUE)
-  and PL2_KIND_ID = APDK_KIND_ID2
-  and pl2_nature_adj='-'
-  order by PL2_EFFECTIVE_YMD
+    FROM CI.PL2,
+        (SELECT RPT_VALUE,RPT_SEQ_NO FROM CI.RPT WHERE RPT_TXN_ID = '30204' AND RPT_TXD_ID = '30204C') C,
+        (SELECT RPT_VALUE,RPT_SEQ_NO FROM CI.RPT WHERE RPT_TXN_ID = '30204' AND RPT_TXD_ID = '30204E') E ,
+        (SELECT APDK_KIND_ID2,NVL(MAX(CASE WHEN APDK_PROD_TYPE = 'F' THEN APDK_NAME ELSE '' END),MAX(CASE WHEN APDK_PROD_TYPE = 'O' THEN APDK_NAME ELSE '' END)) AS APDK_NAME 
+           FROM CI.APDK GROUP BY APDK_KIND_ID2) P
+WHERE  PL2_YMD >= :AS_YMD 
+  AND PL2_YMD <= :AS_TO_YMD
+  AND TRIM(PL2_KIND_ID) = TRIM(C.RPT_VALUE)
+  AND TRIM(PL2_KIND_ID) = TRIM(E.RPT_VALUE)
+  AND PL2_KIND_ID = APDK_KIND_ID2
+  AND (PL2_NATURE_ADJ='-' OR PL2_LEGAL_ADJ='-' OR PL2_999_ADJ='-')
+  ORDER BY PL2_EFFECTIVE_YMD
 ";
             DataTable dtResult = db.GetDataTable(sql, parms);
 
@@ -160,17 +160,17 @@ SELECT   PL2B_YMD,
          PL2B_PREV_999_MTH,
          PL2B_PREV_999_NEARBY_MTH,
          PL2B_PREV_999_TOT
-    FROM ci.PL2B,
-        (select RPT_VALUE,RPT_SEQ_NO from ci.RPT where RPT_TXN_ID = '30204' and RPT_TXD_ID = '30204c') C,
-        (select RPT_VALUE,RPT_SEQ_NO from ci.RPT where RPT_TXN_ID = '30204' and RPT_TXD_ID = '30204e') E ,
-        (select APDK_KIND_ID2,nvl(max(case when APDK_PROD_TYPE = 'F' then APDK_NAME else '' end),max(case when APDK_PROD_TYPE = 'O' then APDK_NAME else '' end)) AS APDK_NAME 
-           from ci.APDK GROUP BY APDK_KIND_ID2) P
-where PL2B_YMD >= :as_ymd 
-  and PL2B_YMD <= :as_to_ymd
-  and trim(PL2B_KIND_ID) = trim(C.RPT_VALUE)
-  and trim(PL2B_KIND_ID) = trim(E.RPT_VALUE)
-  and PL2B_KIND_ID = APDK_KIND_ID2
-order by pl2b_effective_ymd
+    FROM CI.PL2B,
+        (SELECT RPT_VALUE,RPT_SEQ_NO FROM CI.RPT WHERE RPT_TXN_ID = '30204' AND RPT_TXD_ID = '30204C') C,
+        (SELECT RPT_VALUE,RPT_SEQ_NO FROM CI.RPT WHERE RPT_TXN_ID = '30204' AND RPT_TXD_ID = '30204E') E ,
+        (SELECT APDK_KIND_ID2,NVL(MAX(CASE WHEN APDK_PROD_TYPE = 'F' THEN APDK_NAME ELSE '' END),MAX(CASE WHEN APDK_PROD_TYPE = 'O' THEN APDK_NAME ELSE '' END)) AS APDK_NAME 
+           FROM CI.APDK GROUP BY APDK_KIND_ID2) P
+WHERE PL2B_YMD >= :AS_YMD 
+  AND PL2B_YMD <= :AS_TO_YMD
+  AND TRIM(PL2B_KIND_ID) = TRIM(C.RPT_VALUE)
+  AND TRIM(PL2B_KIND_ID) = TRIM(E.RPT_VALUE)
+  AND PL2B_KIND_ID = APDK_KIND_ID2
+ORDER BY PL2B_EFFECTIVE_YMD
 ";
             DataTable dtResult = db.GetDataTable(sql, parms);
 
@@ -192,28 +192,28 @@ order by pl2b_effective_ymd
 
             string sql =
 @"
-SELECT   ROW_NUMBER() over (order by PL2B_EFFECTIVE_YMD) as NO,
+SELECT   ROW_NUMBER() OVER (ORDER BY PL2B_EFFECTIVE_YMD) AS NO,
          APDK_NAME,   
          PL2B_KIND_ID,
-         '單一月份'||ltrim(to_char(PL2B_NATURE_LEGAL_MTH, '9,999,999,990'))||
-         '，各月份合計'||ltrim(to_char(PL2B_NATURE_LEGAL_TOT, '9,999,999,990')) as total_1,
-         '單一月份'||ltrim(to_char(PL2B_NATURE_LEGAL_MTH, '9,999,999,990'))||
-         '，各月份合計'||ltrim(to_char(PL2B_NATURE_LEGAL_TOT, '9,999,999,990')) as total_2,
-         '單一月份'||ltrim(to_char(PL2B_999_MTH, '9,999,999,990'))||
-         '(最近到期月份'||ltrim(to_char(PL2B_999_NEARBY_MTH, '9,999,999,990'))||
-         ')，各月份合計'||ltrim(to_char(PL2B_999_TOT, '9,999,999,990')) as total_3
-    FROM ci.PL2B,
-        (select RPT_VALUE,RPT_SEQ_NO from ci.RPT where RPT_TXN_ID = '30204' and RPT_TXD_ID = '30204c') C,
-        (select RPT_VALUE,RPT_SEQ_NO from ci.RPT where RPT_TXN_ID = '30204' and RPT_TXD_ID = '30204e') E ,
-        (select APDK_KIND_ID2,nvl(max(case when APDK_PROD_TYPE = 'F' then APDK_NAME else '' end),max(case when APDK_PROD_TYPE = 'O' then APDK_NAME else '' end)) AS APDK_NAME 
-           from ci.APDK GROUP BY APDK_KIND_ID2) P
-where PL2B_YMD >= :as_ymd 
-  and PL2B_YMD <= :as_to_ymd
-  and trim(PL2B_KIND_ID) = trim(C.RPT_VALUE)
-  and trim(PL2B_KIND_ID) = trim(E.RPT_VALUE)
-  and PL2B_KIND_ID = APDK_KIND_ID2
-  and pl2b_adj<>'-' and pl2b_adj<>' '
-order by pl2b_effective_ymd
+         '單一月份'||LTRIM(TO_CHAR(PL2B_NATURE_LEGAL_MTH, '9,999,999,990'))||
+         '，各月份合計'||LTRIM(TO_CHAR(PL2B_NATURE_LEGAL_TOT, '9,999,999,990')) AS TOTAL_1,
+         '單一月份'||LTRIM(TO_CHAR(PL2B_NATURE_LEGAL_MTH, '9,999,999,990'))||
+         '，各月份合計'||LTRIM(TO_CHAR(PL2B_NATURE_LEGAL_TOT, '9,999,999,990')) AS TOTAL_2,
+         '單一月份'||LTRIM(TO_CHAR(PL2B_999_MTH, '9,999,999,990'))||
+         '(最近到期月份'||LTRIM(TO_CHAR(PL2B_999_NEARBY_MTH, '9,999,999,990'))||
+         ')，各月份合計'||LTRIM(TO_CHAR(PL2B_999_TOT, '9,999,999,990')) AS TOTAL_3
+    FROM CI.PL2B,
+        (SELECT RPT_VALUE,RPT_SEQ_NO FROM CI.RPT WHERE RPT_TXN_ID = '30204' AND RPT_TXD_ID = '30204C') C,
+        (SELECT RPT_VALUE,RPT_SEQ_NO FROM CI.RPT WHERE RPT_TXN_ID = '30204' AND RPT_TXD_ID = '30204E') E ,
+        (SELECT APDK_KIND_ID2,NVL(MAX(CASE WHEN APDK_PROD_TYPE = 'F' THEN APDK_NAME ELSE '' END),MAX(CASE WHEN APDK_PROD_TYPE = 'O' THEN APDK_NAME ELSE '' END)) AS APDK_NAME 
+           FROM CI.APDK GROUP BY APDK_KIND_ID2) P
+WHERE PL2B_YMD >= :AS_YMD 
+  AND PL2B_YMD <= :AS_TO_YMD
+  AND TRIM(PL2B_KIND_ID) = TRIM(C.RPT_VALUE)
+  AND TRIM(PL2B_KIND_ID) = TRIM(E.RPT_VALUE)
+  AND PL2B_KIND_ID = APDK_KIND_ID2
+  AND (PL2B_ADJ<>'-' AND PL2B_ADJ<>' ')
+ORDER BY PL2B_EFFECTIVE_YMD
 ";
             DataTable dtResult = db.GetDataTable(sql, parms);
 
@@ -235,28 +235,28 @@ order by pl2b_effective_ymd
 
             string sql =
 @"
-SELECT   ROW_NUMBER() over (order by PL2B_EFFECTIVE_YMD) as NO,
+SELECT   ROW_NUMBER() OVER (ORDER BY PL2B_EFFECTIVE_YMD) AS NO,
          APDK_NAME,   
          PL2B_KIND_ID,
-         '單一月份'||ltrim(to_char(PL2B_NATURE_LEGAL_MTH, '9,999,999,990'))||
-         '，各月份合計'||ltrim(to_char(PL2B_NATURE_LEGAL_TOT, '9,999,999,990')) as total_1,
-         '單一月份'||ltrim(to_char(PL2B_NATURE_LEGAL_MTH, '9,999,999,990'))||
-         '，各月份合計'||ltrim(to_char(PL2B_NATURE_LEGAL_TOT, '9,999,999,990')) as total_2,
-         '單一月份'||ltrim(to_char(PL2B_999_MTH, '9,999,999,990'))||
-         '(最近到期月份'||ltrim(to_char(PL2B_999_NEARBY_MTH, '9,999,999,990'))||
-         ')，各月份合計'||ltrim(to_char(PL2B_999_TOT, '9,999,999,990')) as total_3
-    FROM ci.PL2B,
-        (select RPT_VALUE,RPT_SEQ_NO from ci.RPT where RPT_TXN_ID = '30204' and RPT_TXD_ID = '30204c') C,
-        (select RPT_VALUE,RPT_SEQ_NO from ci.RPT where RPT_TXN_ID = '30204' and RPT_TXD_ID = '30204e') E ,
-        (select APDK_KIND_ID2,nvl(max(case when APDK_PROD_TYPE = 'F' then APDK_NAME else '' end),max(case when APDK_PROD_TYPE = 'O' then APDK_NAME else '' end)) AS APDK_NAME 
-           from ci.APDK GROUP BY APDK_KIND_ID2) P
-where PL2B_YMD >= :as_ymd 
-  and PL2B_YMD <= :as_to_ymd
-  and trim(PL2B_KIND_ID) = trim(C.RPT_VALUE)
-  and trim(PL2B_KIND_ID) = trim(E.RPT_VALUE)
-  and PL2B_KIND_ID = APDK_KIND_ID2
-  and pl2b_adj='-'
-order by pl2b_effective_ymd
+         '單一月份'||LTRIM(TO_CHAR(PL2B_NATURE_LEGAL_MTH, '9,999,999,990'))||
+         '，各月份合計'||LTRIM(TO_CHAR(PL2B_NATURE_LEGAL_TOT, '9,999,999,990')) AS TOTAL_1,
+         '單一月份'||LTRIM(TO_CHAR(PL2B_NATURE_LEGAL_MTH, '9,999,999,990'))||
+         '，各月份合計'||LTRIM(TO_CHAR(PL2B_NATURE_LEGAL_TOT, '9,999,999,990')) AS TOTAL_2,
+         '單一月份'||LTRIM(TO_CHAR(PL2B_999_MTH, '9,999,999,990'))||
+         '(最近到期月份'||LTRIM(TO_CHAR(PL2B_999_NEARBY_MTH, '9,999,999,990'))||
+         ')，各月份合計'||LTRIM(TO_CHAR(PL2B_999_TOT, '9,999,999,990')) AS TOTAL_3
+    FROM CI.PL2B,
+        (SELECT RPT_VALUE,RPT_SEQ_NO FROM CI.RPT WHERE RPT_TXN_ID = '30204' AND RPT_TXD_ID = '30204C') C,
+        (SELECT RPT_VALUE,RPT_SEQ_NO FROM CI.RPT WHERE RPT_TXN_ID = '30204' AND RPT_TXD_ID = '30204E') E ,
+        (SELECT APDK_KIND_ID2,NVL(MAX(CASE WHEN APDK_PROD_TYPE = 'F' THEN APDK_NAME ELSE '' END),MAX(CASE WHEN APDK_PROD_TYPE = 'O' THEN APDK_NAME ELSE '' END)) AS APDK_NAME 
+           FROM CI.APDK GROUP BY APDK_KIND_ID2) P
+WHERE PL2B_YMD >= :AS_YMD 
+  AND PL2B_YMD <= :AS_TO_YMD
+  AND TRIM(PL2B_KIND_ID) = TRIM(C.RPT_VALUE)
+  AND TRIM(PL2B_KIND_ID) = TRIM(E.RPT_VALUE)
+  AND PL2B_KIND_ID = APDK_KIND_ID2
+  AND PL2B_ADJ='-'
+ORDER BY PL2B_EFFECTIVE_YMD
 ";
             DataTable dtResult = db.GetDataTable(sql, parms);
 

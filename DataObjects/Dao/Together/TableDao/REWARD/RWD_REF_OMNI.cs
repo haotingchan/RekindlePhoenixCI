@@ -21,18 +21,16 @@ namespace DataObjects.Dao.Together.TableDao.REWARD {
             string sql =
                 @"
                     SELECT   
-                    REWARD.RWD_REF_OMNI.RWD_REF_OMNI_ACTIVITY_ID,   
-                    REWARD.RWD_REF_OMNI.RWD_REF_OMNI_PROD_TYPE,   
-                    REWARD.RWD_REF_OMNI.RWD_REF_OMNI_FCM_NO,   
-                    REWARD.RWD_REF_OMNI.RWD_REF_OMNI_ACC_NO,   
-                    REWARD.RWD_REF_OMNI.RWD_REF_OMNI_MARKET_CLOSE,  
-		            ' ' as OP_TYPE
+                        RWD_REF_OMNI_ACTIVITY_ID,
+                        RWD_REF_OMNI_FCM_NO,     
+                        RWD_REF_OMNI_ACC_NO,     
+                        RWD_REF_OMNI_NAME,       
+		                  ' ' as OP_TYPE
                     FROM REWARD.RWD_REF_OMNI
-                    Order By rwd_ref_omni_activity_id Asc, 
-	                rwd_ref_omni_prod_type Asc, 
-	                rwd_ref_omni_fcm_no Asc, 
-	                rwd_ref_omni_acc_no Asc, 
-	                rwd_ref_omni_market_close Asc
+                    ORDER BY RWD_REF_OMNI_ACTIVITY_ID ASC, 
+	                          RWD_REF_OMNI_FCM_NO ASC, 
+	                          RWD_REF_OMNI_ACC_NO ASC, 
+	                          RWD_REF_OMNI_NAME ASC
                 ";
 
             #endregion sql

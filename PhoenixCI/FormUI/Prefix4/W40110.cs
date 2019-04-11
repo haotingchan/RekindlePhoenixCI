@@ -266,7 +266,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   string ValidDatePrev = PbFunc.f_conv_date(new MOCF().GetValidDatePrev(dt.Rows[0]["ISSUE_BEGIN_YMD"].AsString()).AsDateTime("yyyyMMdd"), 3);
                   string prodName = "";
 
-                  prodName = GenProdName(dt, "契約");               
+                  prodName = GenProdName(dt, "契約");
 
                   //取代 word 開頭文字
                   ReplaceWrod(docSev, new M40110Word(ValidDatePrev, validDate, prodName));
@@ -617,7 +617,36 @@ namespace PhoenixCI.FormUI.Prefix4 {
                }//using 
 
                System.Diagnostics.Process.Start(filePath);
-            } catch (Exception ex){
+            } catch (Exception ex) {
+               throw ex;
+            }
+         }
+      }
+
+      /// <summary>
+      /// 處置股票 輸出 rtf
+      /// </summary>
+      private class ExportWord2B : IXml40xxxData {
+         public void Export(DataTable dt, string filePath) {
+            try {
+
+               using (RichEditDocumentServer docSev = new RichEditDocumentServer()) {
+                  docSev.LoadDocument(filePath);
+
+                  string validDate = PbFunc.f_conv_date(dt.Rows[0]["ISSUE_BEGIN_YMD"].AsDateTime("yyyyMMdd"), 3);
+                  string ValidDatePrev = PbFunc.f_conv_date(new MOCF().GetValidDatePrev(dt.Rows[0]["ISSUE_BEGIN_YMD"].AsString()).AsDateTime("yyyyMMdd"), 3);
+
+                  ReplaceWrod(docSev, new M40110Word(ValidDatePrev, validDate, ""));
+
+                  Document doc = docSev.Document;
+                  doc.BeginUpdate();
+
+
+
+
+               }
+
+            } catch (Exception ex) {
                throw ex;
             }
          }

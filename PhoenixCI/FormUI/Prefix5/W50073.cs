@@ -33,12 +33,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
         protected DataTable dtActId;
         protected RepositoryItemLookUpEdit cbxActId;
 
-        protected class LookupItem {
-            public string ValueMember { get; set; }
-            public string DisplayMember { get; set; }
-        }
-
-
         public W50073(string programID, string programName) : base(programID, programName) {
             InitializeComponent();
             this.Text = _ProgramID + "─" + _ProgramName;
@@ -72,7 +66,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 dtTemp.Merge(dtActId, false);
                 dtActId = dtTemp;
                 #endregion
-
+                
                 cbxActId = new RepositoryItemLookUpEdit();
                 //cbxActId.GetNotInListValue += CbxActId_GetNotInListValue;//假的,DevExpress沒實作
                 cbxActId.AcceptEditorTextAsNewValue = DevExpress.Utils.DefaultBoolean.True;
@@ -81,28 +75,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 gcMain.RepositoryItems.Add(cbxActId);
                 RWD_REF_OMNI_ACTIVITY_ID.ColumnEdit = cbxActId;
 
-
-                //[系統別]下拉選單
-                List<LookupItem> dsProdType = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = "F", DisplayMember = "期貨"},
-                                        new LookupItem() { ValueMember = "O", DisplayMember = "選擇權" }};
-                RepositoryItemLookUpEdit cbxProdType = new RepositoryItemLookUpEdit();
-                cbxProdType.SetColumnLookUp(dsProdType, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor, "");
-                gcMain.RepositoryItems.Add(cbxProdType);
-                RWD_REF_OMNI_PROD_TYPE.ColumnEdit = cbxProdType;
-
-
-                //[盤別]下拉選單
-                List<LookupItem> dsMarket = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = "1", DisplayMember = "一般交易時段"},
-                                        new LookupItem() { ValueMember = "2", DisplayMember = "盤後交易時段" }};
-                RepositoryItemLookUpEdit cbxMarket = new RepositoryItemLookUpEdit();
-                cbxMarket.SetColumnLookUp(dsMarket, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor, "");
-                gcMain.RepositoryItems.Add(cbxMarket);
-                RWD_REF_OMNI_MARKET_CLOSE.ColumnEdit = cbxMarket;
-
-
                 Retrieve();
+                //自動調整欄寬
+                gvMain.BestFitColumns();
             }
             catch (Exception ex) {
                 throw ex;
@@ -248,22 +223,19 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 Worksheet ws50073 = workbook.Worksheets[0];
                 ws50073.Cells[0, 0].Value = "活動名稱";
                 ws50073.Cells[0, 0].Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
-                ws50073.Cells[0, 1].Value = "系統別";
+                ws50073.Cells[0, 1].Value = "期貨商代號";
                 ws50073.Cells[0, 1].Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
-                ws50073.Cells[0, 2].Value = "期貨商代號";
+                ws50073.Cells[0, 2].Value = "交易人帳號";
                 ws50073.Cells[0, 2].Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
-                ws50073.Cells[0, 3].Value = "交易人帳號";
+                ws50073.Cells[0, 3].Value = "法人機構名稱";
                 ws50073.Cells[0, 3].Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
-                ws50073.Cells[0, 4].Value = "盤別";
-                ws50073.Cells[0, 4].Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
                 int insertRow = 1;
                 for (int i = 0; i < exportTable.Rows.Count; i++) {
                     DataRow dr = exportTable.Rows[i];
                     ws50073.Cells[insertRow, 0].Value = dr["RWD_REF_OMNI_ACTIVITY_ID"].AsString();
-                    ws50073.Cells[insertRow, 1].Value = dr["RWD_REF_OMNI_PROD_TYPE"].AsString();
-                    ws50073.Cells[insertRow, 2].Value = dr["RWD_REF_OMNI_FCM_NO"].AsString();
-                    ws50073.Cells[insertRow, 3].Value = dr["RWD_REF_OMNI_ACC_NO"].AsString();
-                    ws50073.Cells[insertRow, 4].Value = dr["RWD_REF_OMNI_MARKET_CLOSE"].AsString();
+                    ws50073.Cells[insertRow, 1].Value = dr["RWD_REF_OMNI_FCM_NO"].AsString();
+                    ws50073.Cells[insertRow, 2].Value = dr["RWD_REF_OMNI_ACC_NO"].AsString();
+                    ws50073.Cells[insertRow, 3].Value = dr["RWD_REF_OMNI_NAME"].AsString();
                     insertRow = insertRow + 1;
                 }
                 ws50073.ScrollToRow(0);
