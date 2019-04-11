@@ -148,6 +148,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 lblProcessing.Visible = true;
                 ShowMsg("開始轉檔...");
 
+                //讀取資料(保證金適用比例級距)
+                //DataTable dt42011 = dao42011.d_30223(sDate, eDate);
+                //if (dt30223.Rows.Count == 0) {
+                //    MessageDisplay.Info(txtSDate.Text + "," + rptId + '－' + rptName + ",無任何資料!");
+                //    lblProcessing.Visible = false;
+                //    return ResultStatus.Fail;
+                //}
 
             }
             catch (Exception ex) {

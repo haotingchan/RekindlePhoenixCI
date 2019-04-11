@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using BusinessObjects;
+using Common;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -76,6 +77,30 @@ SELECT MGT2_ADJUST_RATE AS LD_CM_RATE1
             else {
                 return dtResult.Rows[0]["LD_CM_RATE1"].AsDecimal();
             }
+        }
+
+
+        public DataTable d_42011_detl(DateTime as_today, DateTime as_last_date, int as_30_rate_level1, 
+                                      int as_30_rate_level2, int as_30_rate_level3, int as_30_rate_levelz, 
+                                      int as_day_rate_level1, int as_day_rate_level2, int as_day_rate_level3, int as_day_rate_levelz) {
+
+            List<DbParameterEx> parms = new List<DbParameterEx>() {
+            new DbParameterEx("as_today",as_today),
+            new DbParameterEx("as_last_date",as_last_date),
+            new DbParameterEx("as_30_rate_level1",as_30_rate_level1),
+            new DbParameterEx("as_30_rate_level2",as_30_rate_level2),
+            new DbParameterEx("as_30_rate_level3",as_30_rate_level3),
+            new DbParameterEx("as_30_rate_levelz",as_30_rate_levelz),
+            new DbParameterEx("as_day_rate_level1",as_day_rate_level1),
+            new DbParameterEx("as_day_rate_level2",as_day_rate_level2),
+            new DbParameterEx("as_day_rate_level3",as_day_rate_level3),
+            new DbParameterEx("as_day_rate_levelz",as_day_rate_levelz)
+            //new DbParameterEx("RETURNPARAMETER",0)
+         };
+
+            string sql = "CI.SP_H_TXN_42011_DETL";
+
+            return db.ExecuteStoredProcedureEx(sql, parms, true);
         }
     }
 }
