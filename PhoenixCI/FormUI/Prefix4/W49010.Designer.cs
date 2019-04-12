@@ -31,11 +31,17 @@
          this.label1 = new System.Windows.Forms.Label();
          this.gcMain = new DevExpress.XtraGrid.GridControl();
          this.gvMain = new DevExpress.XtraGrid.Views.Grid.GridView();
+         this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+         this.repositoryItemMemoEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit();
+         this.repositoryItemTextEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
          this.panelControl1.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoEdit1)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -78,6 +84,10 @@
          this.gcMain.Location = new System.Drawing.Point(0, 95);
          this.gcMain.MainView = this.gvMain;
          this.gcMain.Name = "gcMain";
+         this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repositoryItemTextEdit1,
+            this.repositoryItemMemoEdit1,
+            this.repositoryItemTextEdit2});
          this.gcMain.Size = new System.Drawing.Size(806, 435);
          this.gcMain.TabIndex = 1;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -87,6 +97,19 @@
          // 
          this.gvMain.GridControl = this.gcMain;
          this.gvMain.Name = "gvMain";
+         // 
+         // repositoryItemTextEdit1
+         // 
+         this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
+         // 
+         // repositoryItemMemoEdit1
+         // 
+         this.repositoryItemMemoEdit1.Name = "repositoryItemMemoEdit1";
+         // 
+         // repositoryItemTextEdit2
+         // 
+         this.repositoryItemTextEdit2.AutoHeight = false;
+         this.repositoryItemTextEdit2.Name = "repositoryItemTextEdit2";
          // 
          // W49010
          // 
@@ -108,6 +131,9 @@
          this.panelControl1.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoEdit1)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -119,5 +145,8 @@
       private DevExpress.XtraGrid.GridControl gcMain;
       private DevExpress.XtraGrid.Views.Grid.GridView gvMain;
       private System.Windows.Forms.Label label1;
+      private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit1;
+      private DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit repositoryItemMemoEdit1;
+      private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit2;
    }
 }
