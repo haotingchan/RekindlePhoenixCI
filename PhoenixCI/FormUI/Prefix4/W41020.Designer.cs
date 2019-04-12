@@ -25,20 +25,20 @@
         private void InitializeComponent() {
             this.lblProcessing = new System.Windows.Forms.Label();
             this.grpxDescription = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.rdgProdType = new DevExpress.XtraEditors.RadioGroup();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtProd = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.txtEDate = new PhoenixCI.Widget.TextDateEdit();
             this.txtSDate = new PhoenixCI.Widget.TextDateEdit();
             this.lblDate = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtProd = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.rdgProdType = new DevExpress.XtraEditors.RadioGroup();
-            this.label3 = new System.Windows.Forms.Label();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             this.grpxDescription.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.rdgProdType.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtEDate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.rdgProdType.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // panParent
@@ -67,6 +67,7 @@
             // grpxDescription
             // 
             this.grpxDescription.AutoSize = true;
+            this.grpxDescription.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
             this.grpxDescription.Controls.Add(this.label3);
             this.grpxDescription.Controls.Add(this.rdgProdType);
             this.grpxDescription.Controls.Add(this.label1);
@@ -75,12 +76,66 @@
             this.grpxDescription.Controls.Add(this.txtEDate);
             this.grpxDescription.Controls.Add(this.txtSDate);
             this.grpxDescription.Controls.Add(this.lblDate);
+            this.grpxDescription.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.grpxDescription.ForeColor = System.Drawing.Color.Navy;
             this.grpxDescription.Location = new System.Drawing.Point(49, 56);
             this.grpxDescription.Name = "grpxDescription";
             this.grpxDescription.Size = new System.Drawing.Size(404, 215);
             this.grpxDescription.TabIndex = 21;
             this.grpxDescription.TabStop = false;
             this.grpxDescription.Text = "交易量資料轉出Excel 檔";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.label3.Location = new System.Drawing.Point(21, 51);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(74, 21);
+            this.label3.TabIndex = 13;
+            this.label3.Text = "商品別：";
+            // 
+            // rdgProdType
+            // 
+            this.rdgProdType.EditValue = "F";
+            this.rdgProdType.Location = new System.Drawing.Point(100, 39);
+            this.rdgProdType.MenuManager = this.ribbonControl;
+            this.rdgProdType.Name = "rdgProdType";
+            this.rdgProdType.Properties.Columns = 2;
+            this.rdgProdType.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("F", "期貨"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("O", "選擇權")});
+            this.rdgProdType.Size = new System.Drawing.Size(237, 43);
+            this.rdgProdType.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.label1.Location = new System.Drawing.Point(206, 134);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(135, 20);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "（%代表查全部）";
+            // 
+            // txtProd
+            // 
+            this.txtProd.Location = new System.Drawing.Point(100, 131);
+            this.txtProd.Name = "txtProd";
+            this.txtProd.Size = new System.Drawing.Size(100, 29);
+            this.txtProd.TabIndex = 4;
+            this.txtProd.Text = "%";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.label2.Location = new System.Drawing.Point(37, 134);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(58, 21);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "商品：";
             // 
             // txtEDate
             // 
@@ -121,59 +176,12 @@
             // lblDate
             // 
             this.lblDate.AutoSize = true;
+            this.lblDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.lblDate.Location = new System.Drawing.Point(37, 97);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(57, 20);
+            this.lblDate.Size = new System.Drawing.Size(58, 21);
             this.lblDate.TabIndex = 2;
             this.lblDate.Text = "日期：";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(37, 134);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(57, 20);
-            this.label2.TabIndex = 9;
-            this.label2.Text = "商品：";
-            // 
-            // txtProd
-            // 
-            this.txtProd.Location = new System.Drawing.Point(100, 131);
-            this.txtProd.Name = "txtProd";
-            this.txtProd.Size = new System.Drawing.Size(100, 29);
-            this.txtProd.TabIndex = 4;
-            this.txtProd.Text = "%";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(206, 134);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(135, 20);
-            this.label1.TabIndex = 11;
-            this.label1.Text = "（%代表查全部）";
-            // 
-            // rdgProdType
-            // 
-            this.rdgProdType.EditValue = "F";
-            this.rdgProdType.Location = new System.Drawing.Point(100, 39);
-            this.rdgProdType.MenuManager = this.ribbonControl;
-            this.rdgProdType.Name = "rdgProdType";
-            this.rdgProdType.Properties.Columns = 2;
-            this.rdgProdType.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("F", "期貨"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("O", "選擇權")});
-            this.rdgProdType.Size = new System.Drawing.Size(237, 43);
-            this.rdgProdType.TabIndex = 1;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(21, 51);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(73, 20);
-            this.label3.TabIndex = 13;
-            this.label3.Text = "商品別：";
             // 
             // W41020
             // 
@@ -188,9 +196,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
             this.grpxDescription.ResumeLayout(false);
             this.grpxDescription.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.rdgProdType.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtEDate.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.rdgProdType.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

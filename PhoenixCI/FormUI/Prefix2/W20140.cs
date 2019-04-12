@@ -24,7 +24,7 @@ using DevExpress.XtraEditors.Controls;
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix2 {
     /// <summary>
-    /// 20140 維持率資料輸入
+    /// 20140 維持率資料輸入 已廢除
     /// </summary>
     public partial class W20140 : FormParent {
 
