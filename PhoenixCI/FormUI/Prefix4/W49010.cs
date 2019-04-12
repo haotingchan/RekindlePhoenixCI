@@ -17,8 +17,10 @@ using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using DevExpress.XtraPrinting.Native;
 using PhoenixCI.Widget;
 using System;
+using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Windows.Forms;
 
 /// <summary>
 /// Winni, 2019/04/11
@@ -28,7 +30,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
    /// 49010 最小風險價格係數維護
    /// </summary>
    public partial class W49010 : FormParent {
-      private CellMerger _Helper;
+
       RepositoryItemLookUpEdit lupProdSubtype;
       RepositoryItemLookUpEdit lupKindId;
       private D49010 dao49010;
@@ -36,6 +38,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
       public W49010(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
+         gvMain.OptionsView.ShowColumnHeaders = false;
+         //gvMain.OptionsPrint.PrintBandHeader = true;
+         gvMain.OptionsPrint.PrintHeader = false;
+         this.gvMain.ShowingEditor += gvMain_ShowingEditor;
+         this.gvMain.RowCellStyle += gvMain_RowCellStyle;
       }
 
       protected override ResultStatus Open() {
@@ -53,42 +60,19 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             //契約代號
             DataTable dtProdKindId = dao49010.GetDdlKindId();
-            Extension.SetColumnLookUp(lupKindId , dtProdKindId , "MGT2_SEQ_NO" , "MGT2_KIND_ID" , TextEditStyles.DisableTextEditor);
+            Extension.SetColumnLookUp(lupKindId , dtProdKindId , "MGT2_KIND_ID" , "MGT2_KIND_ID" , TextEditStyles.DisableTextEditor);
             gcMain.RepositoryItems.Add(lupKindId);
 
             DataTable dtAll = dao49010.GetDataList();
             DataTable dt = dtAll.Clone();
 
             //1. 設定gvExport
-            gvMain.Columns.Clear();
-            gvMain.OptionsBehavior.AutoPopulateColumns = true;
             gcMain.DataSource = dt;
             gvMain.BestFitColumns();
             GridHelper.SetCommonGrid(gvMain);
 
-            //1.1 設定欄位caption       
-            gvMain.SetColumnCaption("CPR_PROD_SUBTYPE" , "契約類別");
-            gvMain.SetColumnCaption("CPR_KIND_ID" , "契約代號");
-            gvMain.SetColumnCaption("CPR_EFFECTIVE_DATE" , "系統生效日");
-            gvMain.SetColumnCaption("CPR_PRICE_RISK_RATE" , "最小風險價格係數(輸入方式：如3.5 %，則輸入0.035)");
-            gvMain.SetColumnCaption("CPR_APPROVAL_DATE" , "核定日期");
+            gridBand9.Caption = "(輸入方式：" + Environment.NewLine + "如3.5%，" + Environment.NewLine + "則輸入0.035)";
 
-            gvMain.SetColumnCaption("CPR_APPROVAL_NUMBER" , "核定文號及日期");
-            gvMain.SetColumnCaption("CPR_REMARK" , "備註");
-            gvMain.SetColumnCaption("CPR_W_TIME" , "CPR_W_TIME");
-            gvMain.SetColumnCaption("CPR_W_USER_ID" , "CPR_W_USER_ID");
-            gvMain.SetColumnCaption("CPR_DATA_NUM" , "CPR_DATA_NUM");
-
-            gvMain.SetColumnCaption("IS_NEWROW" , "Is_NewRow");
-
-            
-
-
-            //1.3 設定隱藏欄位
-            gvMain.Columns["CPR_DATA_NUM"].Visible = false;
-            gvMain.Columns["IS_NEWROW"].Visible = false;
-
-            //1.4 設定dropdownlist       
             gvMain.Columns["CPR_PROD_SUBTYPE"].ColumnEdit = lupProdSubtype;
             gvMain.Columns["CPR_KIND_ID"].ColumnEdit = lupKindId;
 
@@ -131,75 +115,75 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          _ToolBtnImport.Enabled = false;//匯入
          _ToolBtnExport.Enabled = false;//匯出,格式可以為 pdf/xls/txt/csv, 看功能
-         _ToolBtnPrintAll.Enabled = false;//列印
+         _ToolBtnPrintAll.Enabled = true;//列印
 
          return ResultStatus.Success;
       }
 
       protected override ResultStatus Save(PokeBall pokeBall) {
+         int printStep = 0;
 
-         //gvMain.CloseEditor();
-         //gvMain.UpdateCurrentRow();
-         //ResultStatus resultStatus = ResultStatus.Fail;
-
-         //DataTable dt = (DataTable)gcMain.DataSource;
-         //DataTable dtChange = dt.GetChanges();
-         //DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
-         //DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
-
-         //if (dtChange != null) {
-         //   if (dtChange.Rows.Count == 0) {
-         //      MessageDisplay.Choose("沒有變更資料,不需要存檔!");
-         //      return ResultStatus.Fail;
-         //   } else {
-         //      foreach (DataRow dr in dt.Rows) {
-         //         if (dr.RowState == DataRowState.Added) {
-
-         //            foreach (DataRow drAdd in dtForAdd.Rows) {
-         //               for (int w = 0 ; w < dtForAdd.Rows.Count ; w++) {
-         //                  if (string.IsNullOrEmpty(drAdd[w].AsString())) {
-         //                     MessageDisplay.Info("新增資料欄位不可為空!");
-         //                     return ResultStatus.Fail;
-         //                  }
-         //               }
-         //            }
-
-         //            dr["MGT4_W_TIME"] = DateTime.Now;
-         //            dr["MGT4_W_USER_ID"] = GlobalInfo.USER_ID;
-         //         }
-         //         if (dr.RowState == DataRowState.Modified) {
-         //            dr["MGT4_W_TIME"] = DateTime.Now;
-         //            dr["MGT4_W_USER_ID"] = GlobalInfo.USER_ID;
-         //         }
-         //      }
-
-         //      dt.Columns.Remove("OP_TYPE");
-         //      dt.Columns.Remove("Is_NewRow");
-         //      ResultData result = new MGT4().UpdateData(dt);//base.Save_Override(dt, "MGT4");
-         //      if (result.Status == ResultStatus.Fail) {
-         //         return ResultStatus.Fail;
-         //      }
-
-         //   }
-
-         //   if (resultStatus == ResultStatus.Success) {
-
-         //      PrintableComponent = gcMain;
-         //   }
-         //}
-
-         ////不要自動列印
-         //_IsPreventFlowPrint = true;
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus Print(ReportHelper ReportHelper) {
          try {
-            ReportHelper reportHelper = new ReportHelper(gcMain , _ProgramID , _ProgramID + _ProgramName);
-            reportHelper.Print();
+            DataTable dtCurrent = (DataTable)gcMain.DataSource;
+            gvMain.CloseEditor();
+            gvMain.UpdateCurrentRow();
+
+            DataTable dtChange = dtCurrent.GetChanges();
+
+            if (dtChange == null) {
+               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+               return ResultStatus.Fail;
+            }
+            if (dtChange.Rows.Count == 0) {
+               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+               return ResultStatus.Fail;
+            }
+
+            DialogResult liRtn;
+            foreach (DataRow dr in dtCurrent.Rows) {
+               if (dr.RowState == DataRowState.Added || dr.RowState == DataRowState.Modified) {
+                  dr["CPR_W_TIME"] = DateTime.Now;
+                  dr["CPR_W_USER_ID"] = GlobalInfo.USER_ID;
+                  dr["CPR_DATA_NUM"] = 0; //隱藏欄位賦值
+
+                  if (dr["CPR_PRICE_RISK_RATE"] == DBNull.Value) {
+                     string kind = dr["CPR_KIND_ID"].AsString();
+
+                     liRtn = MessageDisplay.Choose(string.Format("{0}最小風險價格係數欄位為空白，請確認是否為已下市契約" , kind));
+                     if (liRtn == DialogResult.No) {
+                        return ResultStatus.Fail;
+                     } else {
+                        dr["CPR_PRICE_RISK_RATE"] = DBNull.Value;
+                     }
+                  }
+               }
+            } //foreach (DataRow dr in dtCurrent.Rows)
+            dtChange = dtCurrent.GetChanges();
+
+            gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["CPR_W_TIME"] , DateTime.MinValue);
+            gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["CPR_W_USER_ID"] , GlobalInfo.USER_ID);
+            gvMain.UpdateCurrentRow();
+
+            printStep = 1; //跑儲存前確認單
+            CheckPrint(gcMain , dtChange , printStep); 
+            liRtn = MessageDisplay.Choose("已列印確認單，點選確認進行儲存資料");
+            if (liRtn == DialogResult.No) {
+               return ResultStatus.Fail;
+            } else {
+
+               ResultData result = new HCPR().UpdateData(dtChange);
+               if (result.Status == ResultStatus.Fail) {
+                  return ResultStatus.Fail;
+               }
+
+               printStep = 2; //儲存後列印已確認單
+               CheckPrint(gcMain , dtChange , printStep);
+            }
 
          } catch (Exception ex) {
             throw ex;
+         } finally {
+            this.Refresh();
          }
          return ResultStatus.Success;
       }
@@ -211,11 +195,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          RepositoryItemTextDateEdit effectiveDate = new RepositoryItemTextDateEdit();
          RepositoryItemTextDateEdit approvalDate = new RepositoryItemTextDateEdit();
+         RepositoryItemTextDateEdit wTime = new RepositoryItemTextDateEdit();
          RepositoryItemMemoEdit can = new RepositoryItemMemoEdit();
          RepositoryItemMemoEdit remark = new RepositoryItemMemoEdit();
 
          gcMain.RepositoryItems.Add(effectiveDate);
          gcMain.RepositoryItems.Add(approvalDate);
+         gcMain.RepositoryItems.Add(wTime);
          gcMain.RepositoryItems.Add(can);
          gcMain.RepositoryItems.Add(remark);
 
@@ -240,9 +226,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
          remark.MaxLength = 100;
 
          //gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["CPR_W_TIME"] , DateTime.MinValue);
+         gvMain.Columns["CPR_W_TIME"].ColumnEdit = wTime;
          //gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["CPR_W_USER_ID"] , GlobalInfo.USER_ID);
 
-         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["CPR_DATA_NUM"] , 0);
          gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["IS_NEWROW"] , 1);
 
          gvMain.Focus();
@@ -251,6 +237,37 @@ namespace PhoenixCI.FormUI.Prefix4 {
          return ResultStatus.Success;
       }
 
+      protected void CheckPrint(GridControl gridControl , DataTable dtChange , int printSetp ,
+                                         bool IsHandlePersonVisible = true , bool IsManagerVisible = true) {
+         try {
+            GridControl gridControlPrint = GridHelper.CloneGrid(gridControl);
+
+            ReportHelper reportHelper = new ReportHelper(gridControl , _ProgramID , this.Text);
+            //reportHelper.IsHandlePersonVisible = IsHandlePersonVisible;
+            //reportHelper.IsManagerVisible = IsManagerVisible;
+
+            gridControlPrint.DataSource = dtChange;
+            //reportHelper.PrintableComponent = gridControlPrint; // 加這行bands會不見
+            if (printSetp == 1) {
+               reportHelper.ReportTitle = this.Text + "─" + "(確認單)";
+            } else {
+               reportHelper.ReportTitle = this.Text + "─" + "(已確認)";
+            }
+
+            CommonReportLandscapeA4 report = new CommonReportLandscapeA4(); //設定為橫向列印
+            report.printableComponentContainerMain.PrintableComponent = gcMain;
+            reportHelper.Create(report);
+
+            //base.Print(reportHelper);
+            reportHelper.Print();
+            reportHelper.Export(FileType.PDF , reportHelper.FilePath);
+
+         } catch (Exception ex) {
+            throw ex;
+         }
+      }
+
+      #region 下拉選單連動
       private void gvMain_ShownEditor(object sender , EventArgs e) {
          ColumnView view = (ColumnView)sender;
          if (view.FocusedColumn.FieldName == "CPR_KIND_ID") {
@@ -267,7 +284,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
             } else {
                //
             }
-
             cbxKindId.SetColumnLookUp(dtFilter , "MGT2_SEQ_NO" , "MGT2_KIND_ID" , TextEditStyles.DisableTextEditor , "  ");
             edit.Properties.DataSource = cbxKindId.DataSource;
             edit.ShowPopup();
@@ -280,7 +296,35 @@ namespace PhoenixCI.FormUI.Prefix4 {
          gvMain.PostEditor();
          gvMain.SetFocusedRowCellValue("CPR_KIND_ID" , null);
       }
+      #endregion
 
+      /// <summary>
+      /// 決定哪些欄位無法編輯的事件
+      /// </summary>
+      /// <param name="sender"></param>
+      /// <param name="e"></param>
+      private void gvMain_ShowingEditor(object sender , CancelEventArgs e) {
+         GridView gv = sender as GridView;
+         if (gv.FocusedColumn.Name == "CPR_W_TIME" || gv.FocusedColumn.Name == "CPR_W_USER_ID") {
+            e.Cancel = true;
+         } else {
+            e.Cancel = false;
+         }
+      }
 
+      private void gvMain_RowCellStyle(object sender , RowCellStyleEventArgs e) {
+         GridView gv = sender as GridView;
+
+         switch (e.Column.FieldName) {
+            case ("CPR_W_TIME"):
+            case ("CPR_W_USER_ID"):
+               e.Column.OptionsColumn.AllowFocus = false;
+               e.Appearance.BackColor = Color.Transparent;
+               break;
+            default:
+               e.Appearance.BackColor = Color.White;
+               break;
+         }//switch (e.Column.FieldName) 
+      }
    }
 }
