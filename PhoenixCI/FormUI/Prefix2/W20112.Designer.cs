@@ -79,12 +79,15 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
             this.groupBox1.Controls.Add(this.lblRange1);
             this.groupBox1.Controls.Add(this.shl1);
             this.groupBox1.Controls.Add(this.btnPath1);
             this.groupBox1.Controls.Add(this.txtPath1);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.groupBox1.ForeColor = System.Drawing.Color.Navy;
             this.groupBox1.Location = new System.Drawing.Point(38, 37);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(964, 90);
@@ -97,7 +100,7 @@
             this.lblRange1.AutoSize = true;
             this.lblRange1.Location = new System.Drawing.Point(85, 61);
             this.lblRange1.Name = "lblRange1";
-            this.lblRange1.Size = new System.Drawing.Size(61, 20);
+            this.lblRange1.Size = new System.Drawing.Size(62, 21);
             this.lblRange1.TabIndex = 5;
             this.lblRange1.Text = "             ";
             // 
@@ -106,7 +109,7 @@
             this.shl1.AutoSize = true;
             this.shl1.Location = new System.Drawing.Point(713, 30);
             this.shl1.Name = "shl1";
-            this.shl1.Size = new System.Drawing.Size(89, 20);
+            this.shl1.Size = new System.Drawing.Size(90, 21);
             this.shl1.TabIndex = 4;
             this.shl1.TabStop = true;
             this.shl1.Text = "櫃買成交值";
@@ -135,6 +138,8 @@
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label2.Location = new System.Drawing.Point(6, 61);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(89, 20);
@@ -144,6 +149,8 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label1.Location = new System.Drawing.Point(7, 28);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(57, 20);
@@ -152,12 +159,15 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
             this.groupBox2.Controls.Add(this.lblRange2);
             this.groupBox2.Controls.Add(this.shl2);
             this.groupBox2.Controls.Add(this.btnPath2);
             this.groupBox2.Controls.Add(this.txtPath2);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.groupBox2.ForeColor = System.Drawing.Color.Navy;
             this.groupBox2.Location = new System.Drawing.Point(38, 185);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(964, 90);
@@ -170,7 +180,7 @@
             this.lblRange2.AutoSize = true;
             this.lblRange2.Location = new System.Drawing.Point(85, 63);
             this.lblRange2.Name = "lblRange2";
-            this.lblRange2.Size = new System.Drawing.Size(61, 20);
+            this.lblRange2.Size = new System.Drawing.Size(62, 21);
             this.lblRange2.TabIndex = 10;
             this.lblRange2.Text = "             ";
             // 
@@ -179,7 +189,7 @@
             this.shl2.AutoSize = true;
             this.shl2.Location = new System.Drawing.Point(713, 32);
             this.shl2.Name = "shl2";
-            this.shl2.Size = new System.Drawing.Size(105, 20);
+            this.shl2.Size = new System.Drawing.Size(106, 21);
             this.shl2.TabIndex = 9;
             this.shl2.TabStop = true;
             this.shl2.Text = "證交所成交值";
@@ -206,6 +216,8 @@
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label3.Location = new System.Drawing.Point(6, 63);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(89, 20);
@@ -215,6 +227,8 @@
             // label4
             // 
             this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label4.Location = new System.Drawing.Point(7, 30);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(57, 20);
@@ -223,10 +237,13 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
             this.groupBox3.Controls.Add(this.txtYear);
             this.groupBox3.Controls.Add(this.gcMain);
             this.groupBox3.Controls.Add(this.btnSearch);
             this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.groupBox3.ForeColor = System.Drawing.Color.Navy;
             this.groupBox3.Location = new System.Drawing.Point(38, 310);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(964, 409);
@@ -400,6 +417,8 @@
             // label5
             // 
             this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label5.Location = new System.Drawing.Point(7, 28);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(57, 20);

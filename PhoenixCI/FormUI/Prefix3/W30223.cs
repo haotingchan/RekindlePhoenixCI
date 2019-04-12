@@ -145,8 +145,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
         /// <param name="dt"></param>
         /// <param name="ws"></param>
         protected void wf_30223_ch2(DataTable dt, Worksheet ws) {
-            string ls_str;
-            int ii_ole_row, li_ole_row_tol, li_minus, li_seq, ll_found;
+            string str;
+            int rowIndex, rowTotal, rowMinus, seq, found;
             Range range;
 
             //寫資料
@@ -154,41 +154,41 @@ namespace PhoenixCI.FormUI.Prefix3 {
             DataView dv = dt.AsDataView();
             dv.RowFilter = "pls2_level_adj<>'-' and pls2_level_adj<>' '";
             DataTable dtFiltered = dv.ToTable();
-            ii_ole_row = 4 - 1;
-            li_ole_row_tol = 500 + ii_ole_row;
-            li_seq = 0;
+            rowIndex = 4 - 1;
+            rowTotal = 500 + rowIndex;
+            seq = 0;
 
             foreach (DataRow dr in dtFiltered.Rows) {
                 if (dr["PLS2_KIND_ID2"].AsString() != dr["APDK_KIND_GRP2"].AsString()) continue;
-                li_seq = li_seq + 1;
-                ii_ole_row = ii_ole_row + 1;
-                ws.Cells[ii_ole_row, 0].Value = li_seq.AsString();
-                ls_str = dr["APDK_NAME"].AsString();
+                seq = seq + 1;
+                rowIndex = rowIndex + 1;
+                ws.Cells[rowIndex, 0].Value = seq.AsString();
+                str = dr["APDK_NAME"].AsString();
                 if (dr["PLS2_FUT"].AsString() == "F" && dr["PLS2_OPT"].AsString() == "O") {
-                    ls_str = ls_str + "及選擇權";
+                    str = str + "及選擇權";
                 }
-                ws.Cells[ii_ole_row, 1].Value = ls_str;
-                ws.Cells[ii_ole_row, 2].Value = dr["PLS2_KIND_ID2"].AsString();
-                ws.Cells[ii_ole_row, 3].Value = dr["PLS2_SID"].AsString();
-                ws.Cells[ii_ole_row, 4].Value = dr["PLS2_LEVEL"].AsString();
-                ws.Cells[ii_ole_row, 5].SetValue(dr["PLS2_NATURE"]);
-                ws.Cells[ii_ole_row, 6].SetValue(dr["PLS2_LEGAL"]);
-                ws.Cells[ii_ole_row, 7].SetValue(dr["PLS2_999"]);
+                ws.Cells[rowIndex, 1].Value = str;
+                ws.Cells[rowIndex, 2].Value = dr["PLS2_KIND_ID2"].AsString();
+                ws.Cells[rowIndex, 3].Value = dr["PLS2_SID"].AsString();
+                ws.Cells[rowIndex, 4].Value = dr["PLS2_LEVEL"].AsString();
+                ws.Cells[rowIndex, 5].SetValue(dr["PLS2_NATURE"]);
+                ws.Cells[rowIndex, 6].SetValue(dr["PLS2_LEGAL"]);
+                ws.Cells[rowIndex, 7].SetValue(dr["PLS2_999"]);
                 //找出小型商品
                 DataRow[] find = dtFiltered.Select("apdk_kind_grp2 = '" + dr["PLS2_KIND_ID2"].AsString() + "' and pls2_kind_id2 <>  apdk_kind_grp2 ");
-                ls_str = "";
+                str = "";
                 if (find.Length > 0) {
                     foreach (DataRow drFind in find) {
-                        ls_str = ls_str + drFind["PLS2_KIND_ID2"].AsString() + ",";
+                        str = str + drFind["PLS2_KIND_ID2"].AsString() + ",";
                     }
                 }
-                ws.Cells[ii_ole_row, 8].Value = ls_str.SubStr(0, ls_str.Length - 1);
+                ws.Cells[rowIndex, 8].Value = str.SubStr(0, str.Length - 1);
             }//foreach (DataRow dr in dtFiltered.Rows)
 
             //刪除空白列
-            li_minus = li_ole_row_tol - ii_ole_row;
-            if (li_ole_row_tol > ii_ole_row) {
-                range = ws.Range[(ii_ole_row + 1 + 1).ToString() + ":" + (li_ole_row_tol + 1).ToString()];
+            rowMinus = rowTotal - rowIndex;
+            if (rowTotal > rowIndex) {
+                range = ws.Range[(rowIndex + 1 + 1).ToString() + ":" + (rowTotal + 1).ToString()];
                 range.Delete(DeleteMode.EntireRow);
             }
             //合併欄位在刪除空白列之後會跑掉，手動加回來
@@ -202,48 +202,48 @@ namespace PhoenixCI.FormUI.Prefix3 {
             dv = dt.AsDataView();
             dv.RowFilter = "pls2_level_adj='-'";
             dtFiltered = dv.ToTable();
-            ii_ole_row = 508 - li_minus - 1;
-            li_ole_row_tol = 500 + ii_ole_row;
-            li_seq = 0;
+            rowIndex = 508 - rowMinus - 1;
+            rowTotal = 500 + rowIndex;
+            seq = 0;
 
             foreach (DataRow dr in dtFiltered.Rows) {
                 if (dr["PLS2_KIND_ID2"].AsString() != dr["APDK_KIND_GRP2"].AsString()) continue;
-                li_seq++;
-                ii_ole_row++;
-                ws.Cells[ii_ole_row, 0].Value = li_seq.AsString();
-                ls_str = dr["APDK_NAME"].AsString();
+                seq++;
+                rowIndex++;
+                ws.Cells[rowIndex, 0].Value = seq.AsString();
+                str = dr["APDK_NAME"].AsString();
                 if (dr["PLS2_FUT"].AsString() == "F" && dr["PLS2_OPT"].AsString() == "O") {
-                    ls_str = ls_str + "及選擇權";
+                    str = str + "及選擇權";
                 }
-                ws.Cells[ii_ole_row, 1].Value = ls_str;
-                ws.Cells[ii_ole_row, 2].Value = dr["PLS2_KIND_ID2"].AsString();
-                ws.Cells[ii_ole_row, 3].Value = dr["PLS2_SID"].AsString();
-                ws.Cells[ii_ole_row, 4].Value = dr["PLS2_LEVEL"].AsString();
-                ws.Cells[ii_ole_row, 5].SetValue(dr["PLS2_NATURE"]);
-                ws.Cells[ii_ole_row, 6].SetValue(dr["PLS2_LEGAL"]);
-                ws.Cells[ii_ole_row, 7].SetValue(dr["PLS2_999"]);
+                ws.Cells[rowIndex, 1].Value = str;
+                ws.Cells[rowIndex, 2].Value = dr["PLS2_KIND_ID2"].AsString();
+                ws.Cells[rowIndex, 3].Value = dr["PLS2_SID"].AsString();
+                ws.Cells[rowIndex, 4].Value = dr["PLS2_LEVEL"].AsString();
+                ws.Cells[rowIndex, 5].SetValue(dr["PLS2_NATURE"]);
+                ws.Cells[rowIndex, 6].SetValue(dr["PLS2_LEGAL"]);
+                ws.Cells[rowIndex, 7].SetValue(dr["PLS2_999"]);
                 //找出小型商品
                 DataRow[] find = dtFiltered.Select("apdk_kind_grp2 = '" + dr["PLS2_KIND_ID2"].AsString() + "' and pls2_kind_id2 <>  apdk_kind_grp2 ");
-                ls_str = "";
+                str = "";
                 if (find.Length > 0) {
                     foreach (DataRow drFind in find) {
-                        ls_str = ls_str + drFind["PLS2_KIND_ID2"].AsString() + ",";
+                        str = str + drFind["PLS2_KIND_ID2"].AsString() + ",";
                     }
                 }
-                ws.Cells[ii_ole_row, 8].Value = ls_str.SubStr(0, ls_str.Length - 1);
+                ws.Cells[rowIndex, 8].Value = str.SubStr(0, str.Length - 1);
             }//foreach (DataRow dr in dtFiltered.Rows)
 
             //刪除空白列
             if (dtFiltered.Rows.Count == 0) {
                 //刪表頭
-                ii_ole_row = ii_ole_row - 4;
+                rowIndex = rowIndex - 4;
             }
-            if (li_ole_row_tol > ii_ole_row) {
-                range = ws.Range[(ii_ole_row + 1 + 1).ToString() + ":" + (li_ole_row_tol + 1).ToString()];
+            if (rowTotal > rowIndex) {
+                range = ws.Range[(rowIndex + 1 + 1).ToString() + ":" + (rowTotal + 1).ToString()];
                 range.Delete(DeleteMode.EntireRow);
             }
             //合併欄位在刪除空白列之後會跑掉，手動加回來
-            int mergeRowIndex = 508 - li_minus - 1;
+            int mergeRowIndex = 508 - rowMinus - 1;
             ws.MergeCells(ws.Range["A" + mergeRowIndex + ":" + "A" + (mergeRowIndex + 1)]);
             ws.MergeCells(ws.Range["B" + mergeRowIndex + ":" + "B" + (mergeRowIndex + 1)]);
             ws.MergeCells(ws.Range["C" + mergeRowIndex + ":" + "C" + (mergeRowIndex + 1)]);
@@ -259,53 +259,53 @@ namespace PhoenixCI.FormUI.Prefix3 {
         /// <param name="dt"></param>
         /// <param name="ws"></param>
         protected void wf_30223_eng2(DataTable dt, Worksheet ws) {
-            string ls_str, is_raise_ymd, is_lower_ymd;
-            int ii_ole_row, li_ole_row_tol, li_minus, li_seq;
+            string str, raiseYmd, lowerYmd;
+            int rowIndex, rowTotal, rowMinus, seq;
             Range range;
 
             //寫資料
             //Raising
-            is_raise_ymd = dt.Rows[0]["pls2_effective_ymd"].AsDateTime("yyyyMMdd").ToString("yyyy/MM/dd");
-            ws.Cells[1, 8].Value = ws.Cells[1, 8].Value.ToString() + is_raise_ymd;
+            raiseYmd = dt.Rows[0]["pls2_effective_ymd"].AsDateTime("yyyyMMdd").ToString("yyyy/MM/dd");
+            ws.Cells[1, 8].Value = ws.Cells[1, 8].Value.ToString() + raiseYmd;
 
             DataView dv = dt.AsDataView();
             dv.RowFilter = "pls2_level_adj<>'-' and pls2_level_adj<>' '";
             DataTable dtFiltered = dv.ToTable();
-            ii_ole_row = 5 - 1;
-            li_ole_row_tol = 500 + ii_ole_row;
-            li_seq = 0;
+            rowIndex = 5 - 1;
+            rowTotal = 500 + rowIndex;
+            seq = 0;
 
             foreach (DataRow dr in dtFiltered.Rows) {
                 if (dr["PLS2_KIND_ID2"].AsString() != dr["APDK_KIND_GRP2"].AsString()) continue;
-                li_seq = li_seq + 1;
-                ii_ole_row = ii_ole_row + 1;
-                ws.Cells[ii_ole_row, 0].Value = li_seq.AsString();
-                ws.Cells[ii_ole_row, 1].Value = dr["PLS2_KIND_ID2"].AsString();
+                seq = seq + 1;
+                rowIndex = rowIndex + 1;
+                ws.Cells[rowIndex, 0].Value = seq.AsString();
+                ws.Cells[rowIndex, 1].Value = dr["PLS2_KIND_ID2"].AsString();
 
-                if (dr["PLS2_FUT"].AsString() == "F") ws.Cells[ii_ole_row, 2].Value = "○";
-                if (dr["PLS2_OPT"].AsString() == "O") ws.Cells[ii_ole_row, 3].Value = "○";
-                ws.Cells[ii_ole_row, 4].Value = dr["PLS2_SID"].AsString();
-                ws.Cells[ii_ole_row, 5].Value = dr["PLS2_LEVEL"].AsString();
-                ws.Cells[ii_ole_row, 6].SetValue(dr["PLS2_NATURE"]);
-                ws.Cells[ii_ole_row, 7].SetValue(dr["PLS2_LEGAL"]);
-                ws.Cells[ii_ole_row, 8].SetValue(dr["PLS2_999"]);
+                if (dr["PLS2_FUT"].AsString() == "F") ws.Cells[rowIndex, 2].Value = "○";
+                if (dr["PLS2_OPT"].AsString() == "O") ws.Cells[rowIndex, 3].Value = "○";
+                ws.Cells[rowIndex, 4].Value = dr["PLS2_SID"].AsString();
+                ws.Cells[rowIndex, 5].Value = dr["PLS2_LEVEL"].AsString();
+                ws.Cells[rowIndex, 6].SetValue(dr["PLS2_NATURE"]);
+                ws.Cells[rowIndex, 7].SetValue(dr["PLS2_LEGAL"]);
+                ws.Cells[rowIndex, 8].SetValue(dr["PLS2_999"]);
 
                 //找出小型商品
-                ls_str = "";
+                str = "";
                 DataRow[] find = dtFiltered.Select("apdk_kind_grp2 = '" + dr["PLS2_KIND_ID2"].AsString() + "' and pls2_kind_id2 <>  apdk_kind_grp2 ");
                 if (find.Length > 0) {
                     foreach (DataRow drFind in find) {
-                        ls_str = ls_str + drFind["PLS2_KIND_ID2"].AsString() + ",";
+                        str = str + drFind["PLS2_KIND_ID2"].AsString() + ",";
                     }
                 }
-                ws.Cells[ii_ole_row, 9].Value = ls_str.SubStr(0, ls_str.Length - 1);
+                ws.Cells[rowIndex, 9].Value = str.SubStr(0, str.Length - 1);
 
             }//foreach (DataRow dr in dtFiltered.Rows)
 
             //刪除空白列
-            li_minus = li_ole_row_tol - ii_ole_row;
-            if (li_ole_row_tol > ii_ole_row) {
-                range = ws.Range[(ii_ole_row + 1 + 1).ToString() + ":" + (li_ole_row_tol + 1).ToString()];
+            rowMinus = rowTotal - rowIndex;
+            if (rowTotal > rowIndex) {
+                range = ws.Range[(rowIndex + 1 + 1).ToString() + ":" + (rowTotal + 1).ToString()];
                 range.Delete(DeleteMode.EntireRow);
             }
 
@@ -313,51 +313,51 @@ namespace PhoenixCI.FormUI.Prefix3 {
             dv = dt.AsDataView();
             dv.RowFilter = "pls2_level_adj='-'";
             dtFiltered = dv.ToTable();
-            ii_ole_row = 509 - li_minus - 1;
-            li_ole_row_tol = 500 + ii_ole_row;
-            li_seq = 0;
-            is_lower_ymd = dtFiltered.Rows[0]["PLS2_EFFECTIVE_YMD"].AsDateTime("yyyyMMdd").ToString("yyyy/MM/dd");
+            rowIndex = 509 - rowMinus - 1;
+            rowTotal = 500 + rowIndex;
+            seq = 0;
+            lowerYmd = dtFiltered.Rows[0]["PLS2_EFFECTIVE_YMD"].AsDateTime("yyyyMMdd").ToString("yyyy/MM/dd");
 
             foreach (DataRow dr in dtFiltered.Rows) {
                 if (dr["PLS2_KIND_ID2"].AsString() != dr["APDK_KIND_GRP2"].AsString()) continue;
-                li_seq = li_seq + 1;
-                ii_ole_row = ii_ole_row + 1;
+                seq = seq + 1;
+                rowIndex = rowIndex + 1;
 
-                ws.Cells[ii_ole_row, 0].Value = li_seq.AsString();
-                ws.Cells[ii_ole_row, 1].Value = dr["PLS2_KIND_ID2"].AsString();
-                if (dr["PLS2_FUT"].AsString() == "F") ws.Cells[ii_ole_row, 2].Value = "○";
-                if (dr["PLS2_OPT"].AsString() == "O") ws.Cells[ii_ole_row, 3].Value = "○";
-                ws.Cells[ii_ole_row, 4].Value = dr["PLS2_SID"].AsString();
-                ws.Cells[ii_ole_row, 5].Value = dr["PLS2_LEVEL"].AsString();
-                ws.Cells[ii_ole_row, 6].SetValue(dr["PLS2_NATURE"]);
-                ws.Cells[ii_ole_row, 7].SetValue(dr["PLS2_LEGAL"]);
-                ws.Cells[ii_ole_row, 8].SetValue(dr["PLS2_999"]);
+                ws.Cells[rowIndex, 0].Value = seq.AsString();
+                ws.Cells[rowIndex, 1].Value = dr["PLS2_KIND_ID2"].AsString();
+                if (dr["PLS2_FUT"].AsString() == "F") ws.Cells[rowIndex, 2].Value = "○";
+                if (dr["PLS2_OPT"].AsString() == "O") ws.Cells[rowIndex, 3].Value = "○";
+                ws.Cells[rowIndex, 4].Value = dr["PLS2_SID"].AsString();
+                ws.Cells[rowIndex, 5].Value = dr["PLS2_LEVEL"].AsString();
+                ws.Cells[rowIndex, 6].SetValue(dr["PLS2_NATURE"]);
+                ws.Cells[rowIndex, 7].SetValue(dr["PLS2_LEGAL"]);
+                ws.Cells[rowIndex, 8].SetValue(dr["PLS2_999"]);
 
                 //找出小型商品
-                ls_str = "";
+                str = "";
                 DataRow[] find = dtFiltered.Select("apdk_kind_grp2 = '" + dr["PLS2_KIND_ID2"].AsString() + "' and pls2_kind_id2 <>  apdk_kind_grp2 ");
                 if (find.Length > 0) {
                     foreach (DataRow drFind in find) {
-                        ls_str = ls_str + drFind["PLS2_KIND_ID2"].AsString() + ",";
+                        str = str + drFind["PLS2_KIND_ID2"].AsString() + ",";
                     }
                 }
-                ws.Cells[ii_ole_row, 9].Value = ls_str.SubStr(0, ls_str.Length - 1);
+                ws.Cells[rowIndex, 9].Value = str.SubStr(0, str.Length - 1);
             }//foreach (DataRow dr in dtFiltered.Rows)
 
             //刪除空白列
             if (dtFiltered.Rows.Count == 0) {
                 //刪表頭
-                ii_ole_row = ii_ole_row - 4;
+                rowIndex = rowIndex - 4;
             }
-            if (li_ole_row_tol > ii_ole_row) {
-                range = ws.Range[(ii_ole_row + 1 + 1).ToString() + ":" + (li_ole_row_tol + 1).ToString()];
+            if (rowTotal > rowIndex) {
+                range = ws.Range[(rowIndex + 1 + 1).ToString() + ":" + (rowTotal + 1).ToString()];
                 range.Delete(DeleteMode.EntireRow);
             }
 
-            ii_ole_row = ii_ole_row + 2;
-            ws.Cells[ii_ole_row, 0].Value = ws.Cells[ii_ole_row, 0].Value.ToString() + is_raise_ymd + ".";
-            ii_ole_row = ii_ole_row + 1;
-            ws.Cells[ii_ole_row, 0].Value = ws.Cells[ii_ole_row, 0].Value.ToString() + is_lower_ymd + ".";
+            rowIndex = rowIndex + 2;
+            ws.Cells[rowIndex, 0].Value = ws.Cells[rowIndex, 0].Value.ToString() + raiseYmd + ".";
+            rowIndex = rowIndex + 1;
+            ws.Cells[rowIndex, 0].Value = ws.Cells[rowIndex, 0].Value.ToString() + lowerYmd + ".";
 
             ws.ScrollToRow(0);
         }
@@ -368,43 +368,43 @@ namespace PhoenixCI.FormUI.Prefix3 {
         /// <param name="dt"></param>
         /// <param name="ws"></param>
         protected void wf_30223_ch(DataTable dt, Worksheet ws) {
-            string ls_str;
-            int ii_ole_row, li_ole_row_tol, li_seq;
+            string str;
+            int rowIndex, rowTotal, seq;
             Range range;
 
             //寫資料
-            ii_ole_row = 3 - 1;
-            li_ole_row_tol = 1000 + ii_ole_row;
-            li_seq = 0;
+            rowIndex = 3 - 1;
+            rowTotal = 1000 + rowIndex;
+            seq = 0;
 
             foreach (DataRow dr in dt.Rows) {
-                ii_ole_row++;
-                li_seq++;
-                ws.Cells[ii_ole_row, 0].Value = li_seq.AsString();
-                ls_str = dr["APDK_NAME"].AsString();
+                rowIndex++;
+                seq++;
+                ws.Cells[rowIndex, 0].Value = seq.AsString();
+                str = dr["APDK_NAME"].AsString();
                 if (dr["PLS2_FUT"].AsString() == "F" && dr["PLS2_OPT"].AsString() == "O") {
-                    ls_str = ls_str + "及選擇權";
+                    str = str + "及選擇權";
                 }
-                ws.Cells[ii_ole_row, 1].Value = ls_str;
-                ws.Cells[ii_ole_row, 2].Value = dr["PLS2_KIND_ID2"].AsString();
-                ws.Cells[ii_ole_row, 3].Value = dr["PLS2_SID"].AsString();
-                ws.Cells[ii_ole_row, 4].Value = dr["PLS2_LEVEL"].AsString();
+                ws.Cells[rowIndex, 1].Value = str;
+                ws.Cells[rowIndex, 2].Value = dr["PLS2_KIND_ID2"].AsString();
+                ws.Cells[rowIndex, 3].Value = dr["PLS2_SID"].AsString();
+                ws.Cells[rowIndex, 4].Value = dr["PLS2_LEVEL"].AsString();
 
                 if (dr["PLS2_KIND_ID2"].AsString() != dr["APDK_KIND_GRP2"].AsString()) {
-                    ws.Cells[ii_ole_row, 5].Value = "＊";
-                    ws.Cells[ii_ole_row, 6].Value = "＊";
-                    ws.Cells[ii_ole_row, 7].Value = "＊";
+                    ws.Cells[rowIndex, 5].Value = "＊";
+                    ws.Cells[rowIndex, 6].Value = "＊";
+                    ws.Cells[rowIndex, 7].Value = "＊";
                 }
                 else {
-                    ws.Cells[ii_ole_row, 5].SetValue(dr["PLS2_NATURE"]);
-                    ws.Cells[ii_ole_row, 6].SetValue(dr["PLS2_LEGAL"]);
-                    ws.Cells[ii_ole_row, 7].SetValue(dr["PLS2_999"]);
+                    ws.Cells[rowIndex, 5].SetValue(dr["PLS2_NATURE"]);
+                    ws.Cells[rowIndex, 6].SetValue(dr["PLS2_LEGAL"]);
+                    ws.Cells[rowIndex, 7].SetValue(dr["PLS2_999"]);
                 }
             }//foreach (DataRow dr in dt.Rows)
 
             //刪除空白列
-            if (li_ole_row_tol > ii_ole_row) {
-                range = ws.Range[(ii_ole_row + 1 + 1).ToString() + ":" + (li_ole_row_tol + 1).ToString()];
+            if (rowTotal > rowIndex) {
+                range = ws.Range[(rowIndex + 1 + 1).ToString() + ":" + (rowTotal + 1).ToString()];
                 range.Delete(DeleteMode.EntireRow);
             }
             ws.ScrollToRow(0);
@@ -416,41 +416,41 @@ namespace PhoenixCI.FormUI.Prefix3 {
         /// <param name="dt"></param>
         /// <param name="ws"></param>
         protected void wf_30223_eng(DataTable dt, Worksheet ws) {
-            int ii_ole_row, li_ole_row_tol, li_seq;
+            int rowIndex, rowTotal, seq;
             Range range;
 
             //寫資料
-            ii_ole_row = 3 - 1;
-            li_ole_row_tol = 1000 + ii_ole_row;
-            li_seq = 0;
+            rowIndex = 3 - 1;
+            rowTotal = 1000 + rowIndex;
+            seq = 0;
 
             foreach (DataRow dr in dt.Rows) {
-                ii_ole_row++;
-                li_seq++;
-                ws.Cells[ii_ole_row, 0].Value = li_seq.AsString();
-                ws.Cells[ii_ole_row, 1].Value = dr["PLS2_KIND_ID2"].AsString();
-                if (dr["PLS2_FUT"].AsString() == "F") ws.Cells[ii_ole_row, 2].Value = "○";
-                if (dr["PLS2_OPT"].AsString() == "O") ws.Cells[ii_ole_row, 3].Value = "○";
+                rowIndex++;
+                seq++;
+                ws.Cells[rowIndex, 0].Value = seq.AsString();
+                ws.Cells[rowIndex, 1].Value = dr["PLS2_KIND_ID2"].AsString();
+                if (dr["PLS2_FUT"].AsString() == "F") ws.Cells[rowIndex, 2].Value = "○";
+                if (dr["PLS2_OPT"].AsString() == "O") ws.Cells[rowIndex, 3].Value = "○";
 
-                ws.Cells[ii_ole_row, 4].Value = dr["PLS2_SID"].AsString();
-                ws.Cells[ii_ole_row, 5].Value = dr["PLS2_LEVEL"].AsString();
+                ws.Cells[rowIndex, 4].Value = dr["PLS2_SID"].AsString();
+                ws.Cells[rowIndex, 5].Value = dr["PLS2_LEVEL"].AsString();
 
                 if (dr["PLS2_KIND_ID2"].AsString() != dr["APDK_KIND_GRP2"].AsString()) {
-                    ws.Cells[ii_ole_row, 3].Value = " ";
-                    ws.Cells[ii_ole_row, 6].Value = "*";
-                    ws.Cells[ii_ole_row, 7].Value = "*";
-                    ws.Cells[ii_ole_row, 8].Value = "*";
+                    ws.Cells[rowIndex, 3].Value = " ";
+                    ws.Cells[rowIndex, 6].Value = "*";
+                    ws.Cells[rowIndex, 7].Value = "*";
+                    ws.Cells[rowIndex, 8].Value = "*";
                 }
                 else {
-                    ws.Cells[ii_ole_row, 6].SetValue(dr["PLS2_NATURE"]);
-                    ws.Cells[ii_ole_row, 7].SetValue(dr["PLS2_LEGAL"]);
-                    ws.Cells[ii_ole_row, 8].SetValue(dr["PLS2_999"]);
+                    ws.Cells[rowIndex, 6].SetValue(dr["PLS2_NATURE"]);
+                    ws.Cells[rowIndex, 7].SetValue(dr["PLS2_LEGAL"]);
+                    ws.Cells[rowIndex, 8].SetValue(dr["PLS2_999"]);
                 }
             }//foreach (DataRow dr in dt.Rows)
 
             //刪除空白列
-            if (li_ole_row_tol > ii_ole_row) {
-                range = ws.Range[(ii_ole_row + 1 + 1).ToString() + ":" + (li_ole_row_tol + 1).ToString()];
+            if (rowTotal > rowIndex) {
+                range = ws.Range[(rowIndex + 1 + 1).ToString() + ":" + (rowTotal + 1).ToString()];
                 range.Delete(DeleteMode.EntireRow);
             }
             ws.ScrollToRow(0);
@@ -462,13 +462,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
         /// <param name="dt"></param>
         /// <param name="ws"></param>
         protected void wf_30223_data(DataTable dt, Worksheet ws) {
-            int ii_ole_row = 1;
+            int rowIndex = 1;
 
             //寫資料
             foreach (DataRow dr in dt.Rows) {
-                ii_ole_row++;
+                rowIndex++;
                 for (int f = 0; f < 15; f++) {
-                    ws.Cells[ii_ole_row, f].SetValue(dr[f]);
+                    ws.Cells[rowIndex, f].SetValue(dr[f]);
                 }
             }//foreach (DataRow dr in dt.Rows)
 

@@ -11,6 +11,7 @@ namespace Common
       public const string MSG_OK = "處理完成";
       public const string MSG_PRINT = "列印完成";
       public const string MSG_IMPORT = "轉檔完成";
+      public const string MSG_IMPORT_FAIL = "轉檔失敗";
 
       public static DialogResult Normal(string content, string caption = "訊息")
       {

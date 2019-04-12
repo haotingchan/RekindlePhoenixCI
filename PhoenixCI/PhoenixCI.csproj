@@ -1521,8 +1521,10 @@
     <Compile Include="Report\RZ0011.designer.cs">
       <DependentUpon>RZ0011.cs</DependentUpon>
     </Compile>
+    <Compile Include="Shared\IExport40xxxData.cs" />
     <Compile Include="Shared\IXml40xxxData.cs" />
     <Compile Include="Shared\ReportExportFunc.cs" />
+    <Compile Include="Shared\ReturnMessageClass.cs" />
     <Compile Include="Widget\DropDownList.cs" />
     <Compile Include="Widget\TextDateEdit.cs">
       <SubType>Component</SubType>
