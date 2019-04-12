@@ -128,7 +128,7 @@ namespace BaseGround {
          PaintFormBorder();
       }
 
-      public FormParent(string program_id , string program_name) {
+      public FormParent(string program_id, string program_name) {
          InitializeComponent();
 
          PaintFormBorder();
@@ -137,22 +137,22 @@ namespace BaseGround {
          _ProgramName = program_name;
          _ReportClass = "R" + _ProgramID;
 
-         _DefaultFileNamePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , "CI_" + _ProgramID + "─" + _ProgramName + "_" + DateTime.Now.ToString("yyyyMMdd_HHmmss"));
+         _DefaultFileNamePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, "CI_" + _ProgramID + "─" + _ProgramName + "_" + DateTime.Now.ToString("yyyyMMdd_HHmmss"));
          _ReportID = GlobalInfo.SYSTEM_ALIAS + _ProgramID;
          _ReportTitle = _ProgramID + "─" + _ProgramName + GlobalInfo.REPORT_TITLE_MEMO;
       }
 
-      private void FormParent_Load(object sender , EventArgs e) {
+      private void FormParent_Load(object sender, EventArgs e) {
          Open();
       }
 
-      private void FormParent_Shown(object sender , EventArgs e) {
+      private void FormParent_Shown(object sender, EventArgs e) {
          AfterOpen();
 
-         FormParent_Activated(sender , e);
+         FormParent_Activated(sender, e);
       }
 
-      private void FormParent_Activated(object sender , EventArgs e) {
+      private void FormParent_Activated(object sender, EventArgs e) {
 
          // 當PB要直接呼叫.NET打開某隻程式時，會先觸發到Activated再觸發Load，所以要判斷
          // 正常的點擊程式開啟是先觸發Load再觸發Activated
@@ -163,7 +163,7 @@ namespace BaseGround {
          }
       }
 
-      private void FormParent_FormClosing(object sender , FormClosingEventArgs e) {
+      private void FormParent_FormClosing(object sender, FormClosingEventArgs e) {
          ResultStatus myResultStatus = ResultStatus.Fail;
 
          myResultStatus = BeforeClose();
@@ -205,10 +205,10 @@ namespace BaseGround {
             if (myResultStatus == ResultStatus.Success) {
                COMPLETE();
 
-               WriteLog("Save" , "Operation" , "I");//儲存成功log
+               WriteLog("Save", "Operation", "I");//儲存成功log
             } else if (myResultStatus == ResultStatus.Fail) {
                //MessageDisplay.Error("儲存失敗");
-               WriteLog("Save" , "Operation" , "I");
+               WriteLog("Save", "Operation", "I");
                Retrieve();
             }
             return myResultStatus;
@@ -269,7 +269,7 @@ namespace BaseGround {
             Import();
             MessageDisplay.Info(MessageDisplay.MSG_IMPORT);
 
-            WriteLog("Import" , "Operation" , "I");//處理完成log
+            WriteLog("Import", "Operation", "I");//處理完成log
          } catch (Exception ex) {
             WriteLog(ex);//各匯入檔案程式error log
          }
@@ -279,7 +279,7 @@ namespace BaseGround {
          string startTime = DateTime.Now.ToString("HH:mm:ss");
 
          try {
-            WriteLog("Export" , "Operation" , "E");
+            WriteLog("Export", "Operation", "E");
             ResultStatus result = Export();
 
             if (result == ResultStatus.Success)
@@ -318,7 +318,7 @@ namespace BaseGround {
             _ToolBtnPrintAll = ((FormMain)MdiParent).toolStripButtonPrintAll;
          }
 
-         SingletonLogger.Instance.Info(GlobalInfo.USER_ID , _ProgramID , "OPEN" , " ");
+         SingletonLogger.Instance.Info(GlobalInfo.USER_ID, _ProgramID, "OPEN", " ");
 
          return ResultStatus.Success;
       }
@@ -353,11 +353,11 @@ namespace BaseGround {
          return ResultStatus.Success;
       }
 
-        protected virtual ResultStatus Save_Override(DataTable dt, string tableName, DBName dBName = DBName.CI) {
-            DataGate DG = new DataGate();
-            MessageDisplay.Info("Save_Override has been remove");
-            return ResultStatus.Fail;
-        }
+      protected virtual ResultStatus Save_Override(DataTable dt, string tableName, DBName dBName = DBName.CI) {
+         DataGate DG = new DataGate();
+         MessageDisplay.Info("Save_Override has been remove");
+         return ResultStatus.Fail;
+      }
 
       protected virtual ResultStatus Retrieve() {
          return ResultStatus.Success;
@@ -379,7 +379,7 @@ namespace BaseGround {
             }
          }
 
-         if (servicePrefix1.HasLogspDone(Convert.ToDateTime(inputDate) , _ProgramID)) {
+         if (servicePrefix1.HasLogspDone(Convert.ToDateTime(inputDate), _ProgramID)) {
             if (MessageDisplay.Choose(_ProgramID + " 作業 " + inputDate + "「曾經」執行過，\n是否要繼續？\n\n★★★建議先執行 [預覽] 確認執行狀態") == DialogResult.No) {
                return ResultStatus.Fail;
             }
@@ -411,26 +411,26 @@ namespace BaseGround {
             pointWait.X = totalLeft + (this.Width / 2) - (formWait.Width / 2);
             pointWait.Y = totalTop + (this.Height / 2) - (formWait.Height / 2);
 
-            SplashScreenManager.ShowForm(this , typeof(FormWait) , true , true , SplashFormStartPosition.Manual , pointWait , ParentFormState.Locked);
+            SplashScreenManager.ShowForm(this, typeof(FormWait), true, true, SplashFormStartPosition.Manual, pointWait, ParentFormState.Locked);
          }));
 
 
          GridView gv = (GridView)args.GridControlMain.MainView;
 
-         DataTable dtLOGSPForRuned = servicePrefix1.ListLogspForRunned(args.OcfDate , _ProgramID);
+         DataTable dtLOGSPForRuned = servicePrefix1.ListLogspForRunned(args.OcfDate, _ProgramID);
          DataView dvLOGSPForRuned = new DataView(dtLOGSPForRuned);
 
-         for (int i = 0 ; i < gv.RowCount ; i++) {
-            string TXF_SERVER = gv.GetRowCellValue(i , "TXF_SERVER").AsString();
-            string TXF_DB = gv.GetRowCellValue(i , "TXF_DB").AsString();
-            string TXF_TXN_ID = gv.GetRowCellValue(i , "TXF_TXN_ID").AsString();
-            int TXF_SEQ_NO = gv.GetRowCellValue(i , "TXF_SEQ_NO").AsInt();
-            string TXF_TYPE = gv.GetRowCellValue(i , "TXF_TYPE").AsString();
-            string TXF_TID = gv.GetRowCellValue(i , "TXF_TID").AsString();
-            string TXF_TID_NAME = gv.GetRowCellValue(i , "TXF_TID_NAME").AsString();
-            string TXF_DEFAULT = gv.GetRowCellValue(i , "TXF_DEFAULT").AsString();
-            string TXF_REDO = gv.GetRowCellValue(i , "TXF_REDO").AsString();
-            string TXF_ARG = gv.GetRowCellValue(i , "TXF_ARG").AsString();
+         for (int i = 0; i < gv.RowCount; i++) {
+            string TXF_SERVER = gv.GetRowCellValue(i, "TXF_SERVER").AsString();
+            string TXF_DB = gv.GetRowCellValue(i, "TXF_DB").AsString();
+            string TXF_TXN_ID = gv.GetRowCellValue(i, "TXF_TXN_ID").AsString();
+            int TXF_SEQ_NO = gv.GetRowCellValue(i, "TXF_SEQ_NO").AsInt();
+            string TXF_TYPE = gv.GetRowCellValue(i, "TXF_TYPE").AsString();
+            string TXF_TID = gv.GetRowCellValue(i, "TXF_TID").AsString();
+            string TXF_TID_NAME = gv.GetRowCellValue(i, "TXF_TID_NAME").AsString();
+            string TXF_DEFAULT = gv.GetRowCellValue(i, "TXF_DEFAULT").AsString();
+            string TXF_REDO = gv.GetRowCellValue(i, "TXF_REDO").AsString();
+            string TXF_ARG = gv.GetRowCellValue(i, "TXF_ARG").AsString();
 
             if (TXF_DEFAULT == "1") {
                DateTime LOGSP_DATE = args.OcfDate;
@@ -459,14 +459,14 @@ namespace BaseGround {
 
                switch (TXF_TYPE) {
                   case "I":
-                     resultData = serviceCommon.ExecuteInfoWorkFlow(TXF_TID , UserProgInfo);
+                     resultData = serviceCommon.ExecuteInfoWorkFlow(TXF_TID, UserProgInfo);
                      break;
                   case "S":
                      List<DbParameterEx> listParams = null;
 
                      // 如果這個SP有參數的話
                      if (TXF_ARG == "Y") {
-                        DataTable dtTXFPARM = serviceCommon.ListTXFPARM(TXF_SERVER , TXF_DB , TXF_TXN_ID , TXF_TID);
+                        DataTable dtTXFPARM = serviceCommon.ListTXFPARM(TXF_SERVER, TXF_DB, TXF_TXN_ID, TXF_TID);
 
                         if (dtTXFPARM.Rows.Count > 0) {
                            listParams = new List<DbParameterEx>();
@@ -481,15 +481,15 @@ namespace BaseGround {
 
                            switch (TXFPARM_ARG) {
                               case "":
-                                 paramEx = new DbParameterEx("" , TXFPARM_DEFAULT);
+                                 paramEx = new DbParameterEx("", TXFPARM_DEFAULT);
                                  listParams.Add(paramEx);
                                  break;
                               case "em_ymd":
-                                 paramEx = new DbParameterEx("" , args.OcfDate.ToString("yyyyMMdd"));
+                                 paramEx = new DbParameterEx("", args.OcfDate.ToString("yyyyMMdd"));
                                  listParams.Add(paramEx);
                                  break;
                               case "em_ym":
-                                 paramEx = new DbParameterEx("" , args.OcfDate.ToString("yyyyMM"));
+                                 paramEx = new DbParameterEx("", args.OcfDate.ToString("yyyyMM"));
                                  listParams.Add(paramEx);
                                  break;
                               case "em_date":
@@ -508,7 +508,7 @@ namespace BaseGround {
                      ConnectionInfo connectionInfo = SettingDragons.Instance.GetConnectionInfo(TXF_DB);
 
                      try {
-                        resultData = serviceCommon.ExecuteStoredProcedure(connectionInfo , string.Format("{0}.{1}" , TXF_DB , TXF_TID) , listParams , true);
+                        resultData = serviceCommon.ExecuteStoredProcedure(connectionInfo, string.Format("{0}.{1}", TXF_DB, TXF_TID), listParams, true);
                      } catch (Exception ex) {
                         resultData.Status = ResultStatus.Fail;
                         MessageDisplay.Error(ex.Message);
@@ -529,21 +529,21 @@ namespace BaseGround {
                } else {
                   LOGSP_MSG = "作業執行失敗";
 
-                  servicePrefix1.SaveLogsp(LOGSP_DATE , LOGSP_TXN_ID , LOGSP_SEQ_NO , LOGSP_TID , LOGSP_TID_NAME , LOGSP_BEGIN_TIME , LOGSP_END_TIME , LOGSP_MSG);
+                  servicePrefix1.SaveLogsp(LOGSP_DATE, LOGSP_TXN_ID, LOGSP_SEQ_NO, LOGSP_TID, LOGSP_TID_NAME, LOGSP_BEGIN_TIME, LOGSP_END_TIME, LOGSP_MSG);
 
                   MessageDisplay.Error("序號" + LOGSP_SEQ_NO + "的" + LOGSP_TID + "," + LOGSP_MSG);
 
                   this.Invoke(new MethodInvoker(() => {
                      SplashScreenManager.CloseForm();
-                     gv.SetRowCellValue(i , "ERR_MSG" , LOGSP_MSG);
+                     gv.SetRowCellValue(i, "ERR_MSG", LOGSP_MSG);
                   }));
 
                   return ResultStatus.Fail;
                }
 
-               this.Invoke(new MethodInvoker(() => { gv.SetRowCellValue(i , "ERR_MSG" , LOGSP_MSG); }));
+               this.Invoke(new MethodInvoker(() => { gv.SetRowCellValue(i, "ERR_MSG", LOGSP_MSG); }));
 
-               servicePrefix1.SaveLogsp(LOGSP_DATE , LOGSP_TXN_ID , LOGSP_SEQ_NO , LOGSP_TID , LOGSP_TID_NAME , LOGSP_BEGIN_TIME , LOGSP_END_TIME , LOGSP_MSG);
+               servicePrefix1.SaveLogsp(LOGSP_DATE, LOGSP_TXN_ID, LOGSP_SEQ_NO, LOGSP_TID, LOGSP_TID_NAME, LOGSP_BEGIN_TIME, LOGSP_END_TIME, LOGSP_MSG);
 
                #endregion
 
@@ -555,7 +555,7 @@ namespace BaseGround {
                #endregion
             } else {
                // 沒勾選項目的話清空狀態
-               this.Invoke(new MethodInvoker(() => { gv.SetRowCellValue(i , "ERR_MSG" , ""); }));
+               this.Invoke(new MethodInvoker(() => { gv.SetRowCellValue(i, "ERR_MSG", ""); }));
             }
          }
 
@@ -570,7 +570,7 @@ namespace BaseGround {
 
       protected virtual ResultStatus RunAfterEveryItem(PokeBall args) {
          if (args.TXF_TID == "wf_CI_CIOPF") {
-            DataTable dtTxemail = servicePrefix1.ListTxemail(_ProgramID , 1);
+            DataTable dtTxemail = servicePrefix1.ListTxemail(_ProgramID, 1);
 
             if (dtTxemail.Rows.Count != 0) {
                string TXEMAIL_SENDER = dtTxemail.Rows[0]["TXEMAIL_SENDER"].AsString();
@@ -579,14 +579,14 @@ namespace BaseGround {
                string TXEMAIL_TITLE = dtTxemail.Rows[0]["TXEMAIL_TITLE"].AsString();
                string TXEMAIL_TEXT = dtTxemail.Rows[0]["TXEMAIL_TEXT"].AsString();
 
-               string attachmentFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , _ProgramID + ".csv");
+               string attachmentFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, _ProgramID + ".csv");
 
                this.Invoke(new MethodInvoker(() => {
                   // 先把結果產生出csv檔，再用成附件寄出去
                   Retrieve();
                   args.GridControlSecond.ExportToCsv(attachmentFilePath);
                }));
-               MailHelper.SendEmail(TXEMAIL_SENDER , TXEMAIL_RECIPIENTS , TXEMAIL_CC , TXEMAIL_TITLE , TXEMAIL_TEXT , attachmentFilePath);
+               MailHelper.SendEmail(TXEMAIL_SENDER, TXEMAIL_RECIPIENTS, TXEMAIL_CC, TXEMAIL_TITLE, TXEMAIL_TEXT, attachmentFilePath);
             }
          }
          return ResultStatus.Success;
@@ -619,7 +619,7 @@ namespace BaseGround {
       }
 
       protected virtual ResultStatus Export(ReportHelper reportHelper) {
-         reportHelper.Export(reportHelper.FileType , reportHelper.FilePath);
+         reportHelper.Export(reportHelper.FileType, reportHelper.FilePath);
 
          return ResultStatus.Success;
       }
@@ -627,13 +627,13 @@ namespace BaseGround {
       protected virtual ResultStatus ExportAfter(string startTime) {
          string finishTime = DateTime.Now.ToString("HH:mm:ss");
 
-         MessageDisplay.Info("轉檔完成!" , "處理結果" + " " + startTime + " ~ " + finishTime);
+         MessageDisplay.Info("轉檔完成!", "處理結果" + " " + startTime + " ~ " + finishTime);
 
          return ResultStatus.Success;
       }
 
       public virtual ReportHelper PrintOrExportSetting() {
-         ReportHelper reportHelper = new ReportHelper(PrintableComponent , _ReportID , _ReportTitle);
+         ReportHelper reportHelper = new ReportHelper(PrintableComponent, _ReportID, _ReportTitle);
          reportHelper.FilePath = _DefaultFileNamePath;
          reportHelper.FileType = FileType.PDF;
 
@@ -760,12 +760,12 @@ namespace BaseGround {
       }
 
       /// <summary>
-      /// 將新增、刪除、變更的紀錄分別都列印或匯出出來
+      /// 將新增、刪除、變更的紀錄分別都列印或匯出出來 改用PrintOrExportChangedByKen
       /// </summary>
-      protected void PrintOrExportChanged(GridControl gridControl , ResultData resultData) {
+      protected void PrintOrExportChanged(GridControl gridControl, ResultData resultData) {
          GridControl gridControlPrint = GridHelper.CloneGrid(gridControl);
 
-         ReportHelper reportHelper = new ReportHelper(gridControl , _ProgramID , _ReportTitle);
+         ReportHelper reportHelper = new ReportHelper(gridControl, _ProgramID, _ReportTitle);
 
          if (resultData.ChangedDataViewForAdded.Count != 0) {
             gridControlPrint.DataSource = resultData.ChangedDataViewForAdded;
@@ -773,7 +773,7 @@ namespace BaseGround {
             reportHelper.ReportTitle = _ReportTitle + "─" + "新增";
 
             reportHelper.Print();
-            reportHelper.Export(FileType.PDF , reportHelper.FilePath);
+            reportHelper.Export(FileType.PDF, reportHelper.FilePath);
          }
 
          if (resultData.ChangedDataViewForDeleted.Rows.Count != 0) {
@@ -781,8 +781,8 @@ namespace BaseGround {
 
             int rowIndex = 0;
             foreach (DataRow dr in resultData.ChangedDataViewForDeleted.Rows) {
-               for (int colIndex = 0 ; colIndex < resultData.ChangedDataViewForDeleted.Columns.Count ; colIndex++) {
-                  dtTemp.Rows[rowIndex][colIndex] = dr[colIndex , DataRowVersion.Original];
+               for (int colIndex = 0; colIndex < resultData.ChangedDataViewForDeleted.Columns.Count; colIndex++) {
+                  dtTemp.Rows[rowIndex][colIndex] = dr[colIndex, DataRowVersion.Original];
                }
                rowIndex++;
             }
@@ -792,7 +792,7 @@ namespace BaseGround {
             reportHelper.ReportTitle = _ReportTitle + "─" + "刪除";
 
             reportHelper.Print();
-            reportHelper.Export(FileType.PDF , reportHelper.FilePath);
+            reportHelper.Export(FileType.PDF, reportHelper.FilePath);
          }
 
          if (resultData.ChangedDataViewForModified.Count != 0) {
@@ -801,66 +801,68 @@ namespace BaseGround {
             reportHelper.ReportTitle = _ReportTitle + "─" + "變更";
 
             reportHelper.Print();
-            reportHelper.Export(FileType.PDF , reportHelper.FilePath);
+            reportHelper.Export(FileType.PDF, reportHelper.FilePath);
          }
       }
 
 
-        /// <summary>
-        /// 將新增、刪除、變更的紀錄分別都列印或匯出出來
-        /// </summary>
-        /// <param name="gridControl"></param>
-        /// <param name="ChangedForAdded"></param>
-        /// <param name="ChangedForDeleted"></param>
-        /// <param name="ChangedForModified"></param>
-        protected void PrintOrExportChangedByKen(GridControl gridControl, DataTable ChangedForAdded, 
-            DataTable ChangedForDeleted, DataTable ChangedForModified) {
-            GridControl gridControlPrint = GridHelper.CloneGrid(gridControl);
+      /// <summary>
+      /// 將新增、刪除、變更的紀錄分別都列印或匯出出來
+      /// </summary>
+      /// <param name="gridControl"></param>
+      /// <param name="ChangedForAdded"></param>
+      /// <param name="ChangedForDeleted"></param>
+      /// <param name="ChangedForModified"></param>
+      protected void PrintOrExportChangedByKen(GridControl gridControl, DataTable ChangedForAdded,
+          DataTable ChangedForDeleted, DataTable ChangedForModified, bool IsHandlePersonVisible = true, bool IsManagerVisible = true) {
+         GridControl gridControlPrint = GridHelper.CloneGrid(gridControl);
 
-            ReportHelper reportHelper = new ReportHelper(gridControl, _ProgramID, _ReportTitle);
+         ReportHelper reportHelper = new ReportHelper(gridControl, _ProgramID, _ReportTitle);
+         reportHelper.IsHandlePersonVisible = IsHandlePersonVisible;
+         reportHelper.IsManagerVisible = IsManagerVisible;
 
-            if (ChangedForAdded != null)
-                if (ChangedForAdded.Rows.Count != 0) {
-                    gridControlPrint.DataSource = ChangedForAdded;
-                    reportHelper.PrintableComponent = gridControlPrint;
-                    reportHelper.ReportTitle = _ReportTitle + "─" + "新增";
+         if (ChangedForAdded != null)
+            if (ChangedForAdded.Rows.Count != 0) {
+               gridControlPrint.DataSource = ChangedForAdded;
+               reportHelper.PrintableComponent = gridControlPrint;
+               reportHelper.ReportTitle = _ReportTitle + "─" + "新增";
 
-                    reportHelper.Print();
-                    reportHelper.Export(FileType.PDF, reportHelper.FilePath);
-                }
+               reportHelper.Print();
+               reportHelper.Export(FileType.PDF, reportHelper.FilePath);
+            }
 
-            if (ChangedForDeleted != null)
-                if (ChangedForDeleted.Rows.Count != 0) {
-                    DataTable dtTemp = ChangedForDeleted.Clone();
+         if (ChangedForDeleted != null)
+            if (ChangedForDeleted.Rows.Count != 0) {
+               DataTable dtTemp = ChangedForDeleted.Clone();
 
-                    int rowIndex = 0;
-                    foreach (DataRow dr in ChangedForDeleted.Rows) {
-                        DataRow drNewDelete = dtTemp.NewRow();
-                        for (int colIndex = 0; colIndex < ChangedForDeleted.Columns.Count; colIndex++) {
-                            drNewDelete[colIndex] = dr[colIndex, DataRowVersion.Original];
-                        }
-                        dtTemp.Rows.Add(drNewDelete);
-                        rowIndex++;
-                    }
+               int rowIndex = 0;
+               foreach (DataRow dr in ChangedForDeleted.Rows) {
+                  DataRow drNewDelete = dtTemp.NewRow();
+                  for (int colIndex = 0; colIndex < ChangedForDeleted.Columns.Count; colIndex++) {
+                     drNewDelete[colIndex] = dr[colIndex, DataRowVersion.Original];
+                  }
+                  dtTemp.Rows.Add(drNewDelete);
+                  rowIndex++;
+               }
 
-                    gridControlPrint.DataSource = dtTemp.AsDataView();
-                    reportHelper.PrintableComponent = gridControlPrint;
-                    reportHelper.ReportTitle = _ReportTitle + "─" + "刪除";
+               gridControlPrint.DataSource = dtTemp.AsDataView();
+               reportHelper.PrintableComponent = gridControlPrint;
+               reportHelper.ReportTitle = _ReportTitle + "─" + "刪除";
 
-                    reportHelper.Print();
-                    reportHelper.Export(FileType.PDF, reportHelper.FilePath);
-                }
+               reportHelper.Print();
+               reportHelper.Export(FileType.PDF, reportHelper.FilePath);
+            }
 
-            if (ChangedForModified != null)
-                if (ChangedForModified.Rows.Count != 0) {
-                    gridControlPrint.DataSource = ChangedForModified;
-                    reportHelper.PrintableComponent = gridControlPrint;
-                    reportHelper.ReportTitle = _ReportTitle + "─" + "變更";
+         if (ChangedForModified != null)
+            if (ChangedForModified.Rows.Count != 0) {
+               gridControlPrint.DataSource = ChangedForModified;
+               reportHelper.PrintableComponent = gridControlPrint;
+               reportHelper.ReportTitle = _ReportTitle + "─" + "變更";
 
-                    reportHelper.Print();
-                    reportHelper.Export(FileType.PDF, reportHelper.FilePath);
-                }
-        }
+               reportHelper.Print();
+               reportHelper.Export(FileType.PDF, reportHelper.FilePath);
+            }
+      }
 
       /// <summary>
       /// 即將廢除, 改用PBFunc wf_copy_file
@@ -868,13 +870,13 @@ namespace BaseGround {
       /// <param name="fileName"></param>
       /// <param name="fileType"></param>
       /// <returns></returns>
-      protected string CopyExcelTemplateFile(string fileName , FileType fileType) {
-         string originalFilePath = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH , fileName + "." + fileType.ToString().ToLower());
+      protected string CopyExcelTemplateFile(string fileName, FileType fileType) {
+         string originalFilePath = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH, fileName + "." + fileType.ToString().ToLower());
 
-         string destinationFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH ,
+         string destinationFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH,
              fileName + "_" + DateTime.Now.ToString("yyyy.MM.dd") + "-" + DateTime.Now.ToString("HH.mm.ss") + "." + fileType.ToString().ToLower());
 
-         File.Copy(originalFilePath , destinationFilePath , true);
+         File.Copy(originalFilePath, destinationFilePath, true);
 
          return destinationFilePath;
       }
@@ -890,31 +892,31 @@ namespace BaseGround {
          _ToolBtnPrintAll.Enabled = false;
       }
 
-      private void FormParent_KeyDown(object sender , KeyEventArgs e) {
+      private void FormParent_KeyDown(object sender, KeyEventArgs e) {
          if (e.KeyCode == Keys.Escape) {
             this.Close();
          }
       }
 
       public void PaintFormBorder() {
-         SkinElement element = SkinManager.GetSkinElement(SkinProductId.Ribbon , DevExpress.LookAndFeel.UserLookAndFeel.Default , "FormCaptionNoRibbon");
+         SkinElement element = SkinManager.GetSkinElement(SkinProductId.Ribbon, DevExpress.LookAndFeel.UserLookAndFeel.Default, "FormCaptionNoRibbon");
          Image image = element.Image.GetImages().Images[1];
          int counter = element.Image.ImageCount;
-         Bitmap bmp = new Bitmap(image.Width , image.Height * 2);
+         Bitmap bmp = new Bitmap(image.Width, image.Height * 2);
 
          using (Graphics graphics = Graphics.FromImage(bmp)) {
             int y = 0;
             while (counter-- > 0) {
-               graphics.DrawImage(image , new Rectangle(0 , y , image.Width , image.Height));
-               graphics.DrawRectangle(Pens.DarkSlateGray , 0 , y , image.Width - 1 , image.Height);
+               graphics.DrawImage(image, new Rectangle(0, y, image.Width, image.Height));
+               graphics.DrawRectangle(Pens.DarkSlateGray, 0, y, image.Width - 1, image.Height);
                y += image.Height;
             }
          }
-         element.SetActualImage(bmp , true);
+         element.SetActualImage(bmp, true);
          LookAndFeelHelper.ForceDefaultLookAndFeelChanged();
       }
 
-      private void FormParent_SizeChanged(object sender , EventArgs e) {
+      private void FormParent_SizeChanged(object sender, EventArgs e) {
          if (MdiParent != null) {
             if (this.WindowState == FormWindowState.Maximized) {
                ((FormMain)MdiParent).standaloneBarDockControlMdi.Visible = true;
@@ -930,13 +932,13 @@ namespace BaseGround {
       /// <param name="ex">最後儲存的長度為100字元</param>
       /// <param name="extraMsg">額外的資訊,顯示在最前面</param>
       /// <param name="showMsg">true=顯示錯誤訊息,false=不顯示</param>
-      public void WriteLog(Exception ex , string extraMsg = "" , bool showMsg = true) {
+      public void WriteLog(Exception ex, string extraMsg = "", bool showMsg = true) {
          //1.一旦發生非預期的Error(有產生Exception),截取目前畫面並儲存在local端的log/yyyyMM
          SaveErrorScreenshot();
 
          //2.write log to db
          string logType = "Error";
-         WriteLog(extraMsg + Environment.NewLine + ex.ToString() , logType , "Z" , false);//ken,如果要發送訊息,在本身的函數內處理,比較詳盡
+         WriteLog(extraMsg + Environment.NewLine + ex.ToString(), logType, "Z", false);//ken,如果要發送訊息,在本身的函數內處理,比較詳盡
 
          //3.show message to UI
          if (showMsg) {
@@ -946,7 +948,7 @@ namespace BaseGround {
             tmp += (extraMsg == "" ? "" : "(" + extraMsg + ")");
             tmp += (site == null ? "" : Environment.NewLine + "Error Function=" + site.Name);
             if (FlagAdmin)
-               tmp += Environment.NewLine + ex.ToString().SubStr(0 , 1000);//Msg太多字數不好,要看詳細直接去檔案看
+               tmp += Environment.NewLine + ex.ToString().SubStr(0, 1000);//Msg太多字數不好,要看詳細直接去檔案看
             MessageDisplay.Error(tmp);
          }//if (showMsg) {
       }
@@ -958,7 +960,7 @@ namespace BaseGround {
       /// <param name="logType">基本logType可定義為 Info/Operation/Error</param>
       /// <param name="operationType">logType=Info,此參數才有效(I = change data, E = export, R = query, P = print, X = execute)</param>
       /// <param name="showMsg">true=顯示錯誤訊息,false=不顯示</param>
-      public void WriteLog(string msg , string logType = "Info" , string operationType = "" , bool showMsg = false) {
+      public void WriteLog(string msg, string logType = "Info", string operationType = "", bool showMsg = false) {
          bool isNeedWriteFile = false;
          string dbErrorMsg = "";
 
@@ -977,7 +979,7 @@ namespace BaseGround {
                   break;
             }
             //ken,LOGF_KEY_DATA長度要取前100字元,但是logf.LOGF_KEY_DATA型態為VARCHAR2 (100 Byte),如果有中文會算2byte...先取前80吧
-            new LOGF().Insert(GlobalInfo.USER_ID , _ProgramID , msg.SubStr(0 , 80) , operationType);
+            new LOGF().Insert(GlobalInfo.USER_ID, _ProgramID, msg.SubStr(0, 80), operationType);
 
          } catch (Exception ex2) {
             // write log to db failed , ready write file to local
@@ -990,9 +992,9 @@ namespace BaseGround {
          if (isNeedWriteFile) {
             try {
                string filename = "log_" + DateTime.Now.ToString("yyyyMMdd") + ".log";
-               string filepath = Path.Combine(Application.StartupPath , "Log" , DateTime.Today.ToString("yyyyMM"));
+               string filepath = Path.Combine(Application.StartupPath, "Log", DateTime.Today.ToString("yyyyMM"));
                Directory.CreateDirectory(filepath);
-               filepath = Path.Combine(filepath , filename);
+               filepath = Path.Combine(filepath, filename);
                using (StreamWriter sw = File.AppendText(filepath)) {
                   sw.WriteLine("");
                   sw.WriteLine("");
@@ -1035,9 +1037,9 @@ namespace BaseGround {
       public void SaveErrorScreenshot() {
          try {
             string filename = DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + _ProgramID + ".png";
-            string filepath = Path.Combine(Application.StartupPath , "Log" , DateTime.Today.ToString("yyyyMM"));
+            string filepath = Path.Combine(Application.StartupPath, "Log", DateTime.Today.ToString("yyyyMM"));
             Directory.CreateDirectory(filepath);
-            filepath = Path.Combine(filepath , filename);
+            filepath = Path.Combine(filepath, filename);
 
             //ken,只抓此應用程式的顯示範圍,但沒有強制focus此應用程式,所以如果user自己把畫面切走,會抓錯
 
@@ -1045,12 +1047,12 @@ namespace BaseGround {
             ImageFormat format = ImageFormat.Png;
             Rectangle bounds = Screen.PrimaryScreen.Bounds;
 
-            using (Bitmap bitmap = new Bitmap(bounds.Width , bounds.Height)) {
+            using (Bitmap bitmap = new Bitmap(bounds.Width, bounds.Height)) {
                using (Graphics g = Graphics.FromImage(bitmap)) {
-                  g.CopyFromScreen(new Point(0 , 0) , Point.Empty , bounds.Size);
+                  g.CopyFromScreen(new Point(0, 0), Point.Empty, bounds.Size);
                }
 
-               bitmap.Save(filepath , format);
+               bitmap.Save(filepath, format);
             }
          } catch {
             //if error,no response

@@ -279,6 +279,22 @@ namespace PhoenixCI.FormUI.Prefix4 {
          return (IXml40xxxData)Assembly.Load(AssemblyName).CreateInstance(className);
       }
 
+      //private class ExportWord : IXml40xxxData {
+      //   protected virtual string TxtDate { get; set; }
+      //   protected virtual string AdjType { get; set; }
+      //   protected virtual string fileChName { get; set; }
+      //   protected virtual string AsAdjType {
+      //      get {
+      //         return AdjType.SubStr(0, 1) == "0" ? "" : AdjType.SubStr(0, 1);
+      //      }
+      //   }
+
+      //   protected virtual DataTable GetData() {
+
+      //   }
+      //}
+
+
       /// <summary>
       /// 一般 / 股票 輸出 rtf
       /// </summary>
@@ -646,37 +662,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   docSev.SaveDocument(filePath, DocumentFormat.Rtf);
                }//using 
 
+#if DEBUG
                System.Diagnostics.Process.Start(filePath);
-            } catch (Exception ex) {
-               throw ex;
-            }
-         }
-      }
-
-      /// <summary>
-      /// 處置股票 輸出 rtf
-      /// </summary>
-      private class ExportWord2B : IXml40xxxData {
-         public void Export(DataTable dt, string filePath) {
-            try {
-
-               using (RichEditDocumentServer docSev = new RichEditDocumentServer()) {
-                  docSev.LoadDocument(filePath);
-
-                  string validDate = dt.Rows[0]["ISSUE_BEGIN_YMD"].AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
-                  string ValidDatePrev = new MOCF().GetValidDatePrev(dt.Rows[0]["ISSUE_BEGIN_YMD"].AsString()).
-                                          AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
-
-                  ReplaceWrod(docSev, new M40110Word(ValidDatePrev, validDate, ""));
-
-                  Document doc = docSev.Document;
-                  doc.BeginUpdate();
-
-
-
-
-               }
-
+#endif
             } catch (Exception ex) {
                throw ex;
             }

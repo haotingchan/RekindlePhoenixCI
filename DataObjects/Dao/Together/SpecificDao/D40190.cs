@@ -76,11 +76,12 @@ namespace DataObjects.Dao.Together.SpecificDao
             };
 
          string sql =
-@"
-                        select MG1_CUR_CM,MG1_CUR_MM,MG1_CUR_IM,MG1_CM_RATE,MG1_MM_RATE,MG1_IM_RATE,
+@"select rpt.RPT_SEQ_NO,MG1_CUR_CM,MG1_CUR_MM,MG1_CUR_IM,MG1_CM_RATE,MG1_MM_RATE,MG1_IM_RATE,
                         CURRENCY_NAME,
                         decode(APRF_PRICE_FLUC,'P',APRF_MAX_RAISE_FALL||'%','新臺幣'||APRF_MAX_RAISE_FALL||'元') as APRF_MAX_RAISE_FALL
                         from
+    (select RPT_SEQ_NO from CI.RPT  where RPT_TXD_ID = '40191' order by RPT_SEQ_NO) rpt
+left join
                         (select * from
                         (SELECT MG1_KIND_ID,   
                                  MG1_TYPE,   
@@ -135,14 +136,18 @@ namespace DataObjects.Dao.Together.SpecificDao
                            AND MG8D_F_ID = MGT8_F_ID)
                         where mg1_prod_subtype <> 'S' and  rpt_seq_no IS NOT NULL
                         order by rpt_seq_no,mg1_type,mg1_kind_id 
-                        )
-
-";
+                        )main 
+on main.RPT_SEQ_NO = rpt.RPT_SEQ_NO
+order by RPT_SEQ_NO";
          DataTable dtResult = db.GetDataTable(sql, parms);
-         //import隱藏欄位
-         dtResult.Rows.InsertAt(dtResult.NewRow(), 8);
-         dtResult.Rows.InsertAt(dtResult.NewRow(), 14);
-         dtResult.AcceptChanges();
+         //import 商品資料行合併
+         //string sql2 = @"select RPT_SEQ_NO,
+         //               NULL as MG1_CUR_CM,NULL as MG1_CUR_MM,NULL as MG1_CUR_IM,NULL as MG1_CM_RATE,NULL as MG1_MM_RATE,NULL as MG1_IM_RATE,
+         //               NULL as CURRENCY_NAME,
+         //               NULL as APRF_MAX_RAISE_FALL from CI.RPT  where RPT_TXD_ID = '40191' order by RPT_SEQ_NO";
+         //DataTable mergeDT = db.GetDataTable(sql2, null);
+         //DataTable dt = MergeData(mergeDT, dtResult, "RPT_SEQ_NO");
+         dtResult.Columns.Remove(dtResult.Columns["RPT_SEQ_NO"]);
          return dtResult;
       }
       /// <summary>
@@ -159,7 +164,7 @@ namespace DataObjects.Dao.Together.SpecificDao
 
          string sql =
 @"
-               select trim(MG1_KIND_ID),trim(APDK_NAME),MG1_CUR_CM,MG1_CUR_MM,MG1_CUR_IM,MG1_CM_RATE,MG1_MM_RATE,MG1_IM_RATE
+               select trim(MG1_KIND_ID) as MG1_KIND_ID,trim(APDK_NAME) as APDK_NAME,MG1_CUR_CM,MG1_CUR_MM,MG1_CUR_IM,MG1_CM_RATE,MG1_MM_RATE,MG1_IM_RATE
                from
                (select * from
                (SELECT MG1_KIND_ID,   
@@ -361,6 +366,33 @@ namespace DataObjects.Dao.Together.SpecificDao
             DataTable dtResult = db.GetDataTable(sql, null);
             return dtResult.Rows[0][0].AsInt();
          }
+      }
+
+      /// <summary>
+      /// 合併資料 方便import
+      /// </summary>
+      /// <param name="dt1">主資料表</param>
+      /// <param name="dt2">要合併進來的data</param>
+      /// <param name="key">共同索引鍵</param>
+      /// <returns></returns>
+      private DataTable MergeData(DataTable dt1,DataTable dt2,string key) {
+
+         DataTable newDataTable = dt2.Clone();
+         foreach (DataRow dr in dt1.Rows)
+         {
+            DataRow newRow = dt2.Select($"{key}='{dr[key]}'").FirstOrDefault();
+            if (newRow!=null)
+            {
+               newDataTable.ImportRow(newRow);
+            }
+            else
+            {
+               newDataTable.ImportRow(dr);
+            }
+         }
+         newDataTable.Columns.Remove(newDataTable.Columns[key]);
+         newDataTable.AcceptChanges();
+         return newDataTable;
       }
 
    }

@@ -25,11 +25,11 @@
         private void InitializeComponent() {
             this.lblProcessing = new System.Windows.Forms.Label();
             this.grpxDescription = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.txtEDate = new PhoenixCI.Widget.TextDateEdit();
             this.txtSDate = new PhoenixCI.Widget.TextDateEdit();
             this.label1 = new System.Windows.Forms.Label();
             this.lblDate = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             this.grpxDescription.SuspendLayout();
@@ -63,11 +63,14 @@
             // grpxDescription
             // 
             this.grpxDescription.AutoSize = true;
+            this.grpxDescription.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
             this.grpxDescription.Controls.Add(this.label2);
             this.grpxDescription.Controls.Add(this.txtEDate);
-            this.grpxDescription.Controls.Add(this.txtSDate);
-            this.grpxDescription.Controls.Add(this.label1);
             this.grpxDescription.Controls.Add(this.lblDate);
+            this.grpxDescription.Controls.Add(this.label1);
+            this.grpxDescription.Controls.Add(this.txtSDate);
+            this.grpxDescription.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.grpxDescription.ForeColor = System.Drawing.Color.Navy;
             this.grpxDescription.Location = new System.Drawing.Point(61, 71);
             this.grpxDescription.Name = "grpxDescription";
             this.grpxDescription.Size = new System.Drawing.Size(419, 191);
@@ -75,13 +78,24 @@
             this.grpxDescription.TabStop = false;
             this.grpxDescription.Text = "請輸入交易日期";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.label2.Location = new System.Drawing.Point(41, 61);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(188, 21);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "已完成30222確認之資料";
+            // 
             // txtEDate
             // 
             this.txtEDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
             this.txtEDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
             this.txtEDate.EditValue = "2018/12";
             this.txtEDate.EnterMoveNextControl = true;
-            this.txtEDate.Location = new System.Drawing.Point(275, 110);
+            this.txtEDate.Location = new System.Drawing.Point(274, 107);
             this.txtEDate.MenuManager = this.ribbonControl;
             this.txtEDate.Name = "txtEDate";
             this.txtEDate.Properties.Appearance.Options.UseTextOptions = true;
@@ -99,7 +113,7 @@
             this.txtSDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
             this.txtSDate.EditValue = "2018/12";
             this.txtSDate.EnterMoveNextControl = true;
-            this.txtSDate.Location = new System.Drawing.Point(138, 110);
+            this.txtSDate.Location = new System.Drawing.Point(137, 107);
             this.txtSDate.MenuManager = this.ribbonControl;
             this.txtSDate.Name = "txtSDate";
             this.txtSDate.Properties.Appearance.Options.UseTextOptions = true;
@@ -114,9 +128,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(244, 110);
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.label1.Location = new System.Drawing.Point(243, 107);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(25, 20);
+            this.label1.Size = new System.Drawing.Size(26, 21);
             this.label1.TabIndex = 6;
             this.label1.Text = "～";
             // 
@@ -124,21 +139,12 @@
             // 
             this.lblDate.AutoSize = true;
             this.lblDate.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.lblDate.Location = new System.Drawing.Point(42, 113);
+            this.lblDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.lblDate.Location = new System.Drawing.Point(41, 110);
             this.lblDate.Name = "lblDate";
             this.lblDate.Size = new System.Drawing.Size(90, 21);
             this.lblDate.TabIndex = 2;
             this.lblDate.Text = "計算日期：";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label2.Location = new System.Drawing.Point(42, 64);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(188, 21);
-            this.label2.TabIndex = 9;
-            this.label2.Text = "已完成30222確認之資料";
             // 
             // W30223
             // 
