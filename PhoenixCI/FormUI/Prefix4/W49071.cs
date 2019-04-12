@@ -180,8 +180,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["SPNT2_KIND_ID"] , " ");
          gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["SPNT2_DELTA_XXX"] , 0);
-         //gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["SPNT2_W_TIME"] , " ");
-         //gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["SPNT2_W_USER_ID"] , " ");
          gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["IS_NEWROW"] , 1);
 
          gvMain.Focus();

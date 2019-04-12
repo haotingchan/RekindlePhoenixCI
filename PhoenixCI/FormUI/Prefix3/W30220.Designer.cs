@@ -68,6 +68,7 @@
             // grpxDescription
             // 
             this.grpxDescription.AutoSize = true;
+            this.grpxDescription.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
             this.grpxDescription.Controls.Add(this.txtStkoutDate);
             this.grpxDescription.Controls.Add(this.label3);
             this.grpxDescription.Controls.Add(this.txtDate);
@@ -76,6 +77,8 @@
             this.grpxDescription.Controls.Add(this.txtSMonth);
             this.grpxDescription.Controls.Add(this.label1);
             this.grpxDescription.Controls.Add(this.lblDate);
+            this.grpxDescription.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.grpxDescription.ForeColor = System.Drawing.Color.Navy;
             this.grpxDescription.Location = new System.Drawing.Point(57, 49);
             this.grpxDescription.Name = "grpxDescription";
             this.grpxDescription.Size = new System.Drawing.Size(404, 272);
@@ -104,9 +107,10 @@
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label3.Location = new System.Drawing.Point(37, 165);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(121, 20);
+            this.label3.Size = new System.Drawing.Size(122, 21);
             this.label3.TabIndex = 11;
             this.label3.Text = "流通在外股票：";
             // 
@@ -131,9 +135,10 @@
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label2.Location = new System.Drawing.Point(37, 60);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(89, 20);
+            this.label2.Size = new System.Drawing.Size(90, 21);
             this.label2.TabIndex = 9;
             this.label2.Text = "計算日期：";
             // 
@@ -178,16 +183,17 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(252, 115);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(25, 20);
+            this.label1.Size = new System.Drawing.Size(26, 21);
             this.label1.TabIndex = 6;
             this.label1.Text = "～";
             // 
             // lblDate
             // 
             this.lblDate.AutoSize = true;
+            this.lblDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.lblDate.Location = new System.Drawing.Point(37, 115);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(121, 20);
+            this.lblDate.Size = new System.Drawing.Size(122, 21);
             this.lblDate.TabIndex = 2;
             this.lblDate.Text = "總交易量月份：";
             // 

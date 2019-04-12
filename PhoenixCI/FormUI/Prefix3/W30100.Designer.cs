@@ -72,6 +72,7 @@
             // grpxDescription
             // 
             this.grpxDescription.AutoSize = true;
+            this.grpxDescription.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
             this.grpxDescription.Controls.Add(this.label5);
             this.grpxDescription.Controls.Add(this.dwFcmIn);
             this.grpxDescription.Controls.Add(this.dwFcmKs);
@@ -83,6 +84,8 @@
             this.grpxDescription.Controls.Add(this.txtSDate);
             this.grpxDescription.Controls.Add(this.label1);
             this.grpxDescription.Controls.Add(this.lblDate);
+            this.grpxDescription.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.grpxDescription.ForeColor = System.Drawing.Color.Navy;
             this.grpxDescription.Location = new System.Drawing.Point(61, 60);
             this.grpxDescription.Name = "grpxDescription";
             this.grpxDescription.Size = new System.Drawing.Size(430, 273);
@@ -94,6 +97,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label5.ForeColor = System.Drawing.Color.Navy;
             this.label5.Location = new System.Drawing.Point(134, 227);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(138, 21);
@@ -124,6 +128,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label4.Location = new System.Drawing.Point(16, 188);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(106, 21);
@@ -134,6 +139,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label2.Location = new System.Drawing.Point(16, 147);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(106, 21);
@@ -144,6 +150,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label3.Location = new System.Drawing.Point(48, 96);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(74, 21);
@@ -207,7 +214,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(244, 49);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(25, 20);
+            this.label1.Size = new System.Drawing.Size(26, 21);
             this.label1.TabIndex = 6;
             this.label1.Text = "～";
             // 
@@ -215,6 +222,7 @@
             // 
             this.lblDate.AutoSize = true;
             this.lblDate.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.lblDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.lblDate.Location = new System.Drawing.Point(64, 52);
             this.lblDate.Name = "lblDate";
             this.lblDate.Size = new System.Drawing.Size(58, 21);

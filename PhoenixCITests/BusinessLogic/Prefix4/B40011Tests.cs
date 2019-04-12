@@ -1,16 +1,17 @@
-﻿using BusinessObjects;
+﻿using PhoenixCI.BusinessLogic.Prefix4;
+using BusinessObjects;
 using Common.Config;
 using DataObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
 
-namespace PhoenixCI.BusinessLogic.Prefix3.Tests
+namespace PhoenixCI.BusinessLogic.Prefix4.Tests
 {
    [TestClass()]
-   public class B30520Tests
+   public class B40011Tests
    {
-      private B30520 b30520;
+      private B40011 b40011;
       private static string reportDirectoryPath, destinationFilePath;
       [ClassInitialize]
       public static void MyClassInitialize(TestContext testContext)
@@ -21,20 +22,29 @@ namespace PhoenixCI.BusinessLogic.Prefix3.Tests
          reportDirectoryPath = Path.Combine(Environment.CurrentDirectory.Replace("PhoenixCITests", "PhoenixCI"), "Report", DateTime.Now.ToString("yyyyMMdd"));
          Directory.CreateDirectory(reportDirectoryPath);
 
-         string excelTemplateDirectoryPath = Path.Combine(Environment.CurrentDirectory.Replace("PhoenixCITests", "PhoenixCI"), "Excel_Template", "30520.xls");
-         destinationFilePath = Path.Combine(reportDirectoryPath, "30520_" + DateTime.Now.ToString("yyyy.MM.dd") + "-" + DateTime.Now.ToString("hh.mm.ss") + "Test.xls");
+         string excelTemplateDirectoryPath = Path.Combine(Environment.CurrentDirectory.Replace("PhoenixCITests", "PhoenixCI"), "Excel_Template", "40011.xlsx");
+         destinationFilePath = Path.Combine(reportDirectoryPath, "40011_" + DateTime.Now.ToString("yyyy.MM.dd") + "-" + DateTime.Now.ToString("hh.mm.ss") + "Test.xlsx");
 
          File.Copy(excelTemplateDirectoryPath, destinationFilePath, true);
       }
       [TestInitialize]
       public void Setup()
       {
-         b30520 = new B30520(destinationFilePath, "2018/08");
+         b40011 = new B40011(destinationFilePath, "2018/10/12");
       }
+
+
       [TestMethod()]
-      public void Wf30521Test()
+      public void Wf40011FutureSheetTest()
       {
-         string msgText = b30520.Wf30521();
+         string msgText = b40011.Wf40011FutureSheet();
+         Assert.IsNotNull(msgText);
+      }
+
+      [TestMethod()]
+      public void Wf40011OptionSheetTest()
+      {
+         string msgText = b40011.Wf40011OptionSheet();
          Assert.IsNotNull(msgText);
       }
    }

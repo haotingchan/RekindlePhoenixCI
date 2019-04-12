@@ -62,10 +62,13 @@
             // grpxDescription
             // 
             this.grpxDescription.AutoSize = true;
+            this.grpxDescription.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
             this.grpxDescription.Controls.Add(this.txtEDate);
             this.grpxDescription.Controls.Add(this.txtSDate);
             this.grpxDescription.Controls.Add(this.label1);
             this.grpxDescription.Controls.Add(this.lblDate);
+            this.grpxDescription.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.grpxDescription.ForeColor = System.Drawing.Color.Navy;
             this.grpxDescription.Location = new System.Drawing.Point(48, 52);
             this.grpxDescription.Name = "grpxDescription";
             this.grpxDescription.Size = new System.Drawing.Size(404, 119);
@@ -114,16 +117,17 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(206, 50);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(25, 20);
+            this.label1.Size = new System.Drawing.Size(26, 21);
             this.label1.TabIndex = 6;
             this.label1.Text = "～";
             // 
             // lblDate
             // 
             this.lblDate.AutoSize = true;
+            this.lblDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.lblDate.Location = new System.Drawing.Point(37, 53);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(57, 20);
+            this.lblDate.Size = new System.Drawing.Size(58, 21);
             this.lblDate.TabIndex = 2;
             this.lblDate.Text = "日期：";
             // 
