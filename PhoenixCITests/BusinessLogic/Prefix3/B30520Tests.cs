@@ -29,7 +29,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3.Tests
       [TestInitialize]
       public void Setup()
       {
-         b30520 = new B30520(destinationFilePath, "2018/12");
+         b30520 = new B30520(destinationFilePath, "2018/08");
       }
       [TestMethod()]
       public void Wf30521Test()
