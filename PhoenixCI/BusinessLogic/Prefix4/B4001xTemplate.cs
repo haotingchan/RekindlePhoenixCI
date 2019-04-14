@@ -175,7 +175,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
       /// rpt_option工作表 兩筆作業項目儲存格間距
       /// </summary>
       /// <returns></returns>
-      public int OptWorkItemCellDist()
+      public virtual int OptWorkItemCellDist()
       {
          return 2;
       }
