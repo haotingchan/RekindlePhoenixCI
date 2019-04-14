@@ -27,7 +27,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
         private D30080 dao30080;
 
         /// <summary>
-        /// xxxxx
+        /// 資料別
         /// </summary>
         protected string DataType {
             get {

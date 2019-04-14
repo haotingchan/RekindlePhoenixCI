@@ -62,6 +62,7 @@
             // 
             // panFilter
             // 
+            this.panFilter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
             this.panFilter.Controls.Add(this.cbxNews);
             this.panFilter.Controls.Add(this.ddlType);
             this.panFilter.Controls.Add(this.labType);

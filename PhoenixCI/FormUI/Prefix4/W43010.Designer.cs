@@ -25,15 +25,15 @@
         private void InitializeComponent() {
             this.lblProcessing = new System.Windows.Forms.Label();
             this.grpxDescription = new System.Windows.Forms.GroupBox();
+            this.dwOswGrp = new DevExpress.XtraEditors.LookUpEdit();
+            this.label1 = new System.Windows.Forms.Label();
             this.txtSDate = new PhoenixCI.Widget.TextDateEdit();
             this.lblDate = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.dwOswGrp = new DevExpress.XtraEditors.LookUpEdit();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             this.grpxDescription.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dwOswGrp.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // panParent
@@ -62,16 +62,39 @@
             // grpxDescription
             // 
             this.grpxDescription.AutoSize = true;
+            this.grpxDescription.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
             this.grpxDescription.Controls.Add(this.dwOswGrp);
             this.grpxDescription.Controls.Add(this.label1);
             this.grpxDescription.Controls.Add(this.txtSDate);
             this.grpxDescription.Controls.Add(this.lblDate);
+            this.grpxDescription.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.grpxDescription.ForeColor = System.Drawing.Color.Navy;
             this.grpxDescription.Location = new System.Drawing.Point(52, 51);
             this.grpxDescription.Name = "grpxDescription";
             this.grpxDescription.Size = new System.Drawing.Size(392, 187);
             this.grpxDescription.TabIndex = 15;
             this.grpxDescription.TabStop = false;
             this.grpxDescription.Text = "請輸入交易日期";
+            // 
+            // dwOswGrp
+            // 
+            this.dwOswGrp.Location = new System.Drawing.Point(163, 110);
+            this.dwOswGrp.MenuManager = this.ribbonControl;
+            this.dwOswGrp.Name = "dwOswGrp";
+            this.dwOswGrp.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.dwOswGrp.Size = new System.Drawing.Size(161, 26);
+            this.dwOswGrp.TabIndex = 9;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.label1.Location = new System.Drawing.Point(36, 113);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(122, 21);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "商品交易時段：";
             // 
             // txtSDate
             // 
@@ -94,30 +117,12 @@
             // lblDate
             // 
             this.lblDate.AutoSize = true;
+            this.lblDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.lblDate.Location = new System.Drawing.Point(100, 53);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(57, 20);
+            this.lblDate.Size = new System.Drawing.Size(58, 21);
             this.lblDate.TabIndex = 2;
             this.lblDate.Text = "日期：";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(36, 113);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(121, 20);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "商品交易時段：";
-            // 
-            // dwOswGrp
-            // 
-            this.dwOswGrp.Location = new System.Drawing.Point(163, 110);
-            this.dwOswGrp.MenuManager = this.ribbonControl;
-            this.dwOswGrp.Name = "dwOswGrp";
-            this.dwOswGrp.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.dwOswGrp.Size = new System.Drawing.Size(161, 26);
-            this.dwOswGrp.TabIndex = 9;
             // 
             // W43010
             // 
@@ -132,8 +137,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
             this.grpxDescription.ResumeLayout(false);
             this.grpxDescription.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dwOswGrp.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

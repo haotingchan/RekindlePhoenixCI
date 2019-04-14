@@ -80,6 +80,7 @@
             // grpxDescription
             // 
             this.grpxDescription.AutoSize = true;
+            this.grpxDescription.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
             this.grpxDescription.Controls.Add(this.cbx2);
             this.grpxDescription.Controls.Add(this.cbx3);
             this.grpxDescription.Controls.Add(this.cbx4);
@@ -92,6 +93,8 @@
             this.grpxDescription.Controls.Add(this.label1);
             this.grpxDescription.Controls.Add(this.txtEndDate);
             this.grpxDescription.Controls.Add(this.lblDate);
+            this.grpxDescription.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.grpxDescription.ForeColor = System.Drawing.Color.Navy;
             this.grpxDescription.Location = new System.Drawing.Point(45, 41);
             this.grpxDescription.Name = "grpxDescription";
             this.grpxDescription.Size = new System.Drawing.Size(582, 404);
@@ -104,6 +107,8 @@
             this.cbx2.AutoSize = true;
             this.cbx2.Checked = true;
             this.cbx2.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbx2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.cbx2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.cbx2.Location = new System.Drawing.Point(132, 217);
             this.cbx2.Name = "cbx2";
             this.cbx2.Size = new System.Drawing.Size(246, 24);
@@ -116,6 +121,8 @@
             this.cbx3.AutoSize = true;
             this.cbx3.Checked = true;
             this.cbx3.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbx3.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.cbx3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.cbx3.Location = new System.Drawing.Point(132, 247);
             this.cbx3.Name = "cbx3";
             this.cbx3.Size = new System.Drawing.Size(278, 24);
@@ -128,6 +135,8 @@
             this.cbx4.AutoSize = true;
             this.cbx4.Checked = true;
             this.cbx4.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbx4.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.cbx4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.cbx4.Location = new System.Drawing.Point(132, 261);
             this.cbx4.Name = "cbx4";
             this.cbx4.Size = new System.Drawing.Size(404, 64);
@@ -140,6 +149,8 @@
             this.cbx5.AutoSize = true;
             this.cbx5.Checked = true;
             this.cbx5.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbx5.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.cbx5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.cbx5.Location = new System.Drawing.Point(132, 312);
             this.cbx5.Name = "cbx5";
             this.cbx5.Size = new System.Drawing.Size(404, 64);
@@ -152,6 +163,8 @@
             this.cbx1.AutoSize = true;
             this.cbx1.Checked = true;
             this.cbx1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbx1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.cbx1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.cbx1.Location = new System.Drawing.Point(132, 187);
             this.cbx1.Name = "cbx1";
             this.cbx1.Size = new System.Drawing.Size(152, 24);
@@ -163,9 +176,10 @@
             // 
             this.lblCheck.AutoSize = true;
             this.lblCheck.BackColor = System.Drawing.Color.Transparent;
+            this.lblCheck.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.lblCheck.Location = new System.Drawing.Point(69, 155);
             this.lblCheck.Name = "lblCheck";
-            this.lblCheck.Size = new System.Drawing.Size(89, 20);
+            this.lblCheck.Size = new System.Drawing.Size(90, 21);
             this.lblCheck.TabIndex = 16;
             this.lblCheck.Text = "檢核標準：";
             // 
@@ -183,9 +197,10 @@
             // 
             this.lblIndex.AutoSize = true;
             this.lblIndex.BackColor = System.Drawing.Color.Transparent;
+            this.lblIndex.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.lblIndex.Location = new System.Drawing.Point(69, 48);
             this.lblIndex.Name = "lblIndex";
-            this.lblIndex.Size = new System.Drawing.Size(57, 20);
+            this.lblIndex.Size = new System.Drawing.Size(58, 21);
             this.lblIndex.TabIndex = 14;
             this.lblIndex.Text = "指數：";
             // 
@@ -211,9 +226,10 @@
             // 
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label1.Location = new System.Drawing.Point(256, 94);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(25, 20);
+            this.label1.Size = new System.Drawing.Size(26, 21);
             this.label1.TabIndex = 13;
             this.label1.Text = "～";
             // 
@@ -239,9 +255,10 @@
             // 
             this.lblDate.AutoSize = true;
             this.lblDate.BackColor = System.Drawing.Color.Transparent;
+            this.lblDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.lblDate.Location = new System.Drawing.Point(69, 94);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(57, 20);
+            this.lblDate.Size = new System.Drawing.Size(58, 21);
             this.lblDate.TabIndex = 12;
             this.lblDate.Text = "日期：";
             // 

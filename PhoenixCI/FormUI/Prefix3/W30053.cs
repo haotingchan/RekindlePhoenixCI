@@ -288,15 +288,12 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 return false;
             }
 
-            //把table存成txt
-            etfFileName = "d:\temp\a.txt";
-#if DEBUG
-            etfFileName = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, "a.txt");
-#endif
-            ExportOptions txtref = new ExportOptions();
-            txtref.HasHeader = false;
-            txtref.Encoding = Encoding.GetEncoding(950);//ASCII
-            Common.Helper.ExportHelper.ToText(dt30053f, etfFileName, txtref);
+            //把table存成txt(先拿掉)
+            //etfFileName = "d:\temp\a.txt";
+            //ExportOptions txtref = new ExportOptions();
+            //txtref.HasHeader = false;
+            //txtref.Encoding = Encoding.GetEncoding(950);//ASCII
+            //Common.Helper.ExportHelper.ToText(dt30053f, etfFileName, txtref);
 
             //填資料
             ws.Cells[0, 7].Value = date;

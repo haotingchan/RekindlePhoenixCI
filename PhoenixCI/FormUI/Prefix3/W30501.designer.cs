@@ -37,24 +37,24 @@
          this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
          this.gcMain = new DevExpress.XtraGrid.GridControl();
          this.gvMain = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridView();
-         this.PROD_ID = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-         this.APDK_NAME = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-         this.B_WEIGHT_QNTY = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-         this.S_WEIGHT_QNTY = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-         this.B_MAX_QNTY = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-         this.B_MAX_SEC = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-         this.S_MAX_QNTY = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-         this.S_MAX_SEC = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.gridBand1 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+         this.PROD_ID = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.gridBand2 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+         this.APDK_NAME = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.gridBand3 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+         this.B_WEIGHT_QNTY = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.gridBand4 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+         this.S_WEIGHT_QNTY = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.gridBand5 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.gridBand9 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+         this.B_MAX_QNTY = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.gridBand10 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+         this.B_MAX_SEC = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.gridBand6 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.gridBand11 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+         this.S_MAX_QNTY = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.gridBand12 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+         this.S_MAX_SEC = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
          this.panelControl1.SuspendLayout();
@@ -68,12 +68,12 @@
          // 
          // panParent
          // 
-         this.panParent.Size = new System.Drawing.Size(813, 694);
+         this.panParent.Size = new System.Drawing.Size(813, 681);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(813, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(813, 43);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // panelControl1
@@ -85,7 +85,7 @@
          this.panelControl1.Controls.Add(this.txtSDate);
          this.panelControl1.Controls.Add(this.ExportShow);
          this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
-         this.panelControl1.Location = new System.Drawing.Point(0, 30);
+         this.panelControl1.Location = new System.Drawing.Point(0, 43);
          this.panelControl1.Name = "panelControl1";
          this.panelControl1.Size = new System.Drawing.Size(813, 143);
          this.panelControl1.TabIndex = 0;
@@ -95,7 +95,7 @@
          this.labTime.AutoSize = true;
          this.labTime.Location = new System.Drawing.Point(486, 120);
          this.labTime.Name = "labTime";
-         this.labTime.Size = new System.Drawing.Size(54, 20);
+         this.labTime.Size = new System.Drawing.Size(81, 30);
          this.labTime.TabIndex = 19;
          this.labTime.Text = "label2";
          this.labTime.Visible = false;
@@ -105,7 +105,7 @@
          this.label1.AutoSize = true;
          this.label1.Location = new System.Drawing.Point(254, 39);
          this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(21, 20);
+         this.label1.Size = new System.Drawing.Size(31, 30);
          this.label1.TabIndex = 18;
          this.label1.Text = "~";
          // 
@@ -114,7 +114,7 @@
          this.lblDate.AutoSize = true;
          this.lblDate.Location = new System.Drawing.Point(9, 39);
          this.lblDate.Name = "lblDate";
-         this.lblDate.Size = new System.Drawing.Size(89, 20);
+         this.lblDate.Size = new System.Drawing.Size(133, 30);
          this.lblDate.TabIndex = 2;
          this.lblDate.Text = "統計期間：";
          // 
@@ -132,7 +132,7 @@
          this.txtEDate.Properties.Mask.EditMask = "yyyy/MM/dd";
          this.txtEDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
          this.txtEDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtEDate.Size = new System.Drawing.Size(144, 26);
+         this.txtEDate.Size = new System.Drawing.Size(144, 38);
          this.txtEDate.TabIndex = 17;
          this.txtEDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
@@ -150,7 +150,7 @@
          this.txtSDate.Properties.Mask.EditMask = "yyyy/MM/dd";
          this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
          this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtSDate.Size = new System.Drawing.Size(144, 26);
+         this.txtSDate.Size = new System.Drawing.Size(144, 38);
          this.txtSDate.TabIndex = 16;
          this.txtSDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
@@ -159,7 +159,7 @@
          this.ExportShow.AutoSize = true;
          this.ExportShow.Location = new System.Drawing.Point(15, 120);
          this.ExportShow.Name = "ExportShow";
-         this.ExportShow.Size = new System.Drawing.Size(54, 20);
+         this.ExportShow.Size = new System.Drawing.Size(81, 30);
          this.ExportShow.TabIndex = 12;
          this.ExportShow.Text = "label1";
          // 
@@ -168,9 +168,9 @@
          this.panelControl2.AllowTouchScroll = true;
          this.panelControl2.Controls.Add(this.gcMain);
          this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.panelControl2.Location = new System.Drawing.Point(0, 173);
+         this.panelControl2.Location = new System.Drawing.Point(0, 186);
          this.panelControl2.Name = "panelControl2";
-         this.panelControl2.Size = new System.Drawing.Size(813, 551);
+         this.panelControl2.Size = new System.Drawing.Size(813, 538);
          this.panelControl2.TabIndex = 1;
          // 
          // gcMain
@@ -179,7 +179,7 @@
          this.gcMain.Location = new System.Drawing.Point(2, 2);
          this.gcMain.MainView = this.gvMain;
          this.gcMain.Name = "gcMain";
-         this.gcMain.Size = new System.Drawing.Size(809, 547);
+         this.gcMain.Size = new System.Drawing.Size(809, 534);
          this.gcMain.TabIndex = 10;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -215,88 +215,6 @@
          this.gvMain.OptionsView.ShowColumnHeaders = false;
          this.gvMain.OptionsView.ShowGroupPanel = false;
          // 
-         // PROD_ID
-         // 
-         this.PROD_ID.FieldName = "PROD_ID";
-         this.PROD_ID.MinWidth = 30;
-         this.PROD_ID.Name = "PROD_ID";
-         this.PROD_ID.OptionsColumn.AllowEdit = false;
-         this.PROD_ID.OptionsColumn.ShowCaption = false;
-         this.PROD_ID.Visible = true;
-         this.PROD_ID.Width = 125;
-         // 
-         // APDK_NAME
-         // 
-         this.APDK_NAME.FieldName = "APDK_NAME";
-         this.APDK_NAME.MinWidth = 30;
-         this.APDK_NAME.Name = "APDK_NAME";
-         this.APDK_NAME.OptionsColumn.AllowEdit = false;
-         this.APDK_NAME.OptionsColumn.ShowCaption = false;
-         this.APDK_NAME.Visible = true;
-         this.APDK_NAME.Width = 108;
-         // 
-         // B_WEIGHT_QNTY
-         // 
-         this.B_WEIGHT_QNTY.FieldName = "B_WEIGHT_QNTY";
-         this.B_WEIGHT_QNTY.MinWidth = 30;
-         this.B_WEIGHT_QNTY.Name = "B_WEIGHT_QNTY";
-         this.B_WEIGHT_QNTY.OptionsColumn.AllowEdit = false;
-         this.B_WEIGHT_QNTY.OptionsColumn.ShowCaption = false;
-         this.B_WEIGHT_QNTY.Visible = true;
-         this.B_WEIGHT_QNTY.Width = 113;
-         // 
-         // S_WEIGHT_QNTY
-         // 
-         this.S_WEIGHT_QNTY.FieldName = "S_WEIGHT_QNTY";
-         this.S_WEIGHT_QNTY.MinWidth = 30;
-         this.S_WEIGHT_QNTY.Name = "S_WEIGHT_QNTY";
-         this.S_WEIGHT_QNTY.OptionsColumn.AllowEdit = false;
-         this.S_WEIGHT_QNTY.OptionsColumn.ShowCaption = false;
-         this.S_WEIGHT_QNTY.Visible = true;
-         this.S_WEIGHT_QNTY.Width = 106;
-         // 
-         // B_MAX_QNTY
-         // 
-         this.B_MAX_QNTY.FieldName = "B_MAX_QNTY";
-         this.B_MAX_QNTY.MinWidth = 30;
-         this.B_MAX_QNTY.Name = "B_MAX_QNTY";
-         this.B_MAX_QNTY.OptionsColumn.AllowEdit = false;
-         this.B_MAX_QNTY.OptionsColumn.ShowCaption = false;
-         this.B_MAX_QNTY.Visible = true;
-         this.B_MAX_QNTY.Width = 116;
-         // 
-         // B_MAX_SEC
-         // 
-         this.B_MAX_SEC.FieldName = "B_MAX_SEC";
-         this.B_MAX_SEC.MinWidth = 30;
-         this.B_MAX_SEC.Name = "B_MAX_SEC";
-         this.B_MAX_SEC.OptionsColumn.AllowEdit = false;
-         this.B_MAX_SEC.OptionsColumn.ShowCaption = false;
-         this.B_MAX_SEC.Visible = true;
-         this.B_MAX_SEC.Width = 76;
-         // 
-         // S_MAX_QNTY
-         // 
-         this.S_MAX_QNTY.FieldName = "S_MAX_QNTY";
-         this.S_MAX_QNTY.MinWidth = 30;
-         this.S_MAX_QNTY.Name = "S_MAX_QNTY";
-         this.S_MAX_QNTY.OptionsColumn.AllowEdit = false;
-         this.S_MAX_QNTY.OptionsColumn.ShowCaption = false;
-         this.S_MAX_QNTY.Visible = true;
-         this.S_MAX_QNTY.Width = 116;
-         // 
-         // S_MAX_SEC
-         // 
-         this.S_MAX_SEC.DisplayFormat.FormatString = "n4";
-         this.S_MAX_SEC.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-         this.S_MAX_SEC.FieldName = "S_MAX_SEC";
-         this.S_MAX_SEC.MinWidth = 30;
-         this.S_MAX_SEC.Name = "S_MAX_SEC";
-         this.S_MAX_SEC.OptionsColumn.AllowEdit = false;
-         this.S_MAX_SEC.OptionsColumn.ShowCaption = false;
-         this.S_MAX_SEC.Visible = true;
-         this.S_MAX_SEC.Width = 76;
-         // 
          // gridBand1
          // 
          this.gridBand1.AppearanceHeader.Options.UseTextOptions = true;
@@ -307,6 +225,16 @@
          this.gridBand1.Name = "gridBand1";
          this.gridBand1.VisibleIndex = 0;
          this.gridBand1.Width = 125;
+         // 
+         // PROD_ID
+         // 
+         this.PROD_ID.FieldName = "PROD_ID";
+         this.PROD_ID.MinWidth = 30;
+         this.PROD_ID.Name = "PROD_ID";
+         this.PROD_ID.OptionsColumn.AllowEdit = false;
+         this.PROD_ID.OptionsColumn.ShowCaption = false;
+         this.PROD_ID.Visible = true;
+         this.PROD_ID.Width = 125;
          // 
          // gridBand2
          // 
@@ -320,6 +248,16 @@
          this.gridBand2.VisibleIndex = 1;
          this.gridBand2.Width = 108;
          // 
+         // APDK_NAME
+         // 
+         this.APDK_NAME.FieldName = "APDK_NAME";
+         this.APDK_NAME.MinWidth = 30;
+         this.APDK_NAME.Name = "APDK_NAME";
+         this.APDK_NAME.OptionsColumn.AllowEdit = false;
+         this.APDK_NAME.OptionsColumn.ShowCaption = false;
+         this.APDK_NAME.Visible = true;
+         this.APDK_NAME.Width = 108;
+         // 
          // gridBand3
          // 
          this.gridBand3.AppearanceHeader.Options.UseTextOptions = true;
@@ -330,6 +268,16 @@
          this.gridBand3.Name = "gridBand3";
          this.gridBand3.VisibleIndex = 2;
          this.gridBand3.Width = 113;
+         // 
+         // B_WEIGHT_QNTY
+         // 
+         this.B_WEIGHT_QNTY.FieldName = "B_WEIGHT_QNTY";
+         this.B_WEIGHT_QNTY.MinWidth = 30;
+         this.B_WEIGHT_QNTY.Name = "B_WEIGHT_QNTY";
+         this.B_WEIGHT_QNTY.OptionsColumn.AllowEdit = false;
+         this.B_WEIGHT_QNTY.OptionsColumn.ShowCaption = false;
+         this.B_WEIGHT_QNTY.Visible = true;
+         this.B_WEIGHT_QNTY.Width = 113;
          // 
          // gridBand4
          // 
@@ -342,6 +290,16 @@
          this.gridBand4.RowCount = 4;
          this.gridBand4.VisibleIndex = 3;
          this.gridBand4.Width = 106;
+         // 
+         // S_WEIGHT_QNTY
+         // 
+         this.S_WEIGHT_QNTY.FieldName = "S_WEIGHT_QNTY";
+         this.S_WEIGHT_QNTY.MinWidth = 30;
+         this.S_WEIGHT_QNTY.Name = "S_WEIGHT_QNTY";
+         this.S_WEIGHT_QNTY.OptionsColumn.AllowEdit = false;
+         this.S_WEIGHT_QNTY.OptionsColumn.ShowCaption = false;
+         this.S_WEIGHT_QNTY.Visible = true;
+         this.S_WEIGHT_QNTY.Width = 106;
          // 
          // gridBand5
          // 
@@ -367,6 +325,16 @@
          this.gridBand9.VisibleIndex = 0;
          this.gridBand9.Width = 116;
          // 
+         // B_MAX_QNTY
+         // 
+         this.B_MAX_QNTY.FieldName = "B_MAX_QNTY";
+         this.B_MAX_QNTY.MinWidth = 30;
+         this.B_MAX_QNTY.Name = "B_MAX_QNTY";
+         this.B_MAX_QNTY.OptionsColumn.AllowEdit = false;
+         this.B_MAX_QNTY.OptionsColumn.ShowCaption = false;
+         this.B_MAX_QNTY.Visible = true;
+         this.B_MAX_QNTY.Width = 116;
+         // 
          // gridBand10
          // 
          this.gridBand10.AppearanceHeader.Options.UseTextOptions = true;
@@ -378,6 +346,17 @@
          this.gridBand10.RowCount = 2;
          this.gridBand10.VisibleIndex = 1;
          this.gridBand10.Width = 76;
+         // 
+         // B_MAX_SEC
+         // 
+         this.B_MAX_SEC.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+         this.B_MAX_SEC.FieldName = "B_MAX_SEC";
+         this.B_MAX_SEC.MinWidth = 30;
+         this.B_MAX_SEC.Name = "B_MAX_SEC";
+         this.B_MAX_SEC.OptionsColumn.AllowEdit = false;
+         this.B_MAX_SEC.OptionsColumn.ShowCaption = false;
+         this.B_MAX_SEC.Visible = true;
+         this.B_MAX_SEC.Width = 76;
          // 
          // gridBand6
          // 
@@ -403,6 +382,16 @@
          this.gridBand11.VisibleIndex = 0;
          this.gridBand11.Width = 116;
          // 
+         // S_MAX_QNTY
+         // 
+         this.S_MAX_QNTY.FieldName = "S_MAX_QNTY";
+         this.S_MAX_QNTY.MinWidth = 30;
+         this.S_MAX_QNTY.Name = "S_MAX_QNTY";
+         this.S_MAX_QNTY.OptionsColumn.AllowEdit = false;
+         this.S_MAX_QNTY.OptionsColumn.ShowCaption = false;
+         this.S_MAX_QNTY.Visible = true;
+         this.S_MAX_QNTY.Width = 116;
+         // 
          // gridBand12
          // 
          this.gridBand12.AppearanceHeader.Options.UseTextOptions = true;
@@ -415,10 +404,21 @@
          this.gridBand12.VisibleIndex = 1;
          this.gridBand12.Width = 76;
          // 
+         // S_MAX_SEC
+         // 
+         this.S_MAX_SEC.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+         this.S_MAX_SEC.FieldName = "S_MAX_SEC";
+         this.S_MAX_SEC.MinWidth = 30;
+         this.S_MAX_SEC.Name = "S_MAX_SEC";
+         this.S_MAX_SEC.OptionsColumn.AllowEdit = false;
+         this.S_MAX_SEC.OptionsColumn.ShowCaption = false;
+         this.S_MAX_SEC.Visible = true;
+         this.S_MAX_SEC.Width = 76;
+         // 
          // W30501
          // 
          this.Appearance.Options.UseFont = true;
-         this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
+         this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
          this.ClientSize = new System.Drawing.Size(813, 724);
          this.Controls.Add(this.panelControl2);
