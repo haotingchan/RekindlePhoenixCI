@@ -48,8 +48,8 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       public string Wf30790()
       {
          try {
-            DateTime startDate = startDateText.AsDateTime();
-            DateTime endDate = endDateText.AsDateTime();
+            DateTime startDate = startDateText.AsDateTime("yyyy/MM/dd");
+            DateTime endDate = endDateText.AsDateTime("yyyy/MM/dd");
             //讀取資料
             DataTable dt = dao30790.Get30790Data(startDate, endDate);
             if (dt.Rows.Count <= 0) {
@@ -116,7 +116,8 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             }
             workbook.SaveDocument(lsFile);
          }
-         catch (Exception ex) {
+         catch (Exception ex)
+         {
 #if DEBUG
             throw new Exception("Wf30790:" + ex.Message);
 #else
@@ -132,8 +133,8 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       public string Wf30790four()
       {
          try {
-            DateTime startDate = txStartDateText.AsDateTime();
-            DateTime endDate = txEndDateText.AsDateTime();
+            DateTime startDate = txStartDateText.AsDateTime("yyyy/MM/dd");
+            DateTime endDate = txEndDateText.AsDateTime("yyyy/MM/dd");
             //讀取資料
             DataTable dt = dao30790.Get30790_4Data(startDate, endDate);
             if (dt.Rows.Count <= 0) {
