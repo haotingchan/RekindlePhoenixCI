@@ -188,8 +188,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 li_minus = wf_42011_3(li_minus, ws, dt42011);
 
                 //存檔
+                ws.ScrollToRow(0);
                 workbook.SaveDocument(file);
-
+                ShowMsg("轉檔成功");
             }
             catch (Exception ex) {
                 MessageDisplay.Error("輸出錯誤");
@@ -254,7 +255,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 dv.RowFilter = "rpt1_flag='Y'";
                 dt = dv.ToTable();
             }
-            dt.Sort("T_30_RATE DESC, APDK_KIND_GRP, APDK_KIND_LEVEL DESC, MGR3_KIND_ID");
+            dt = dt.Sort("T_30_RATE DESC, APDK_KIND_GRP2, APDK_KIND_LEVEL DESC, MGR3_KIND_ID");
             f = 0;
             foreach (DataRow dr in dt.Rows) {
                 ii_ole_row++;
@@ -409,7 +410,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 dv.RowFilter = "rpt3_flag='Y'";
                 dt = dv.ToTable();
             }
-            dt.Sort("MGR2_DAY_RATE DESC, APDK_KIND_GRP, APDK_KIND_LEVEL DESC, MGR3_KIND_ID");
+            dt = dt.Sort("MGR2_DAY_RATE DESC, APDK_KIND_GRP2, APDK_KIND_LEVEL DESC, MGR3_KIND_ID");
 
             f = 0;
             foreach (DataRow dr in dt.Rows) {
@@ -537,8 +538,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
             DataView dv = dt.AsDataView();
             dv.RowFilter = "ABS(YS_UPDOWN * 100) >= "+txtUpDown.Text+" or ABS(YI_UPDOWN*100) >= "+txtUpDown.Text;
-            dv.Sort = "ABS(YS_UPDOWN) DESC, APDK_KIND_GRP, APDK_KIND_LEVEL DESC, MGR3_KIND_ID";
+            //dv.Sort = "ABS(YS_UPDOWN) DESC, APDK_KIND_GRP2, APDK_KIND_LEVEL DESC, MGR3_KIND_ID";
             dt = dv.ToTable();
+            dt.AsEnumerable().OrderByDescending(x => Math.Abs(x.Field<decimal>("YS_UPDOWN")))
+                             .ThenBy(x => x.Field<string>("APDK_KIND_GRP2"))
+                             .ThenByDescending(x => x.Field<int>("APDK_KIND_LEVEL"))
+                             .ThenBy(x => x.Field<string>("MGR3_KIND_ID"));
 
             f = 0;
             foreach (DataRow dr in dt.Rows) {
