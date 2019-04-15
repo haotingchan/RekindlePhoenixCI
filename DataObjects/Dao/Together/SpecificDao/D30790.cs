@@ -18,9 +18,7 @@ namespace DataObjects.Dao.Together.SpecificDao
             ":as_fm_ymd",as_fm_ymd.ToString("yyyyMMdd"),
             ":as_to_ymd",as_to_ymd.ToString("yyyyMMdd")
             };
-
-         string sql =
-             @" SELECT AMT13_BEGIN_TIME AS BEGIN_TIME,
+         string sql = @"SELECT AMT13_BEGIN_TIME AS BEGIN_TIME,
                          CASE WHEN AMT13_BEGIN_TYPE = 'Y' THEN '含' ELSE ' ' END AS BEGIN_TYPE,
                          AMT13_END_TIME AS END_TIME,
                          CASE WHEN AMT13_END_TYPE = 'Y' THEN '含' ELSE ' ' END AS END_TYPE,
@@ -32,7 +30,7 @@ namespace DataObjects.Dao.Together.SpecificDao
                          --日均總量
                          case when nvl(DAY_CNT,0) = 0 then 0 else round(M_QNTY / DAY_CNT,0) end as AVG_QNTY,
                          --交易量比重
-                         case when nvl(TOT_QNTY,0) = 0 then 0 else M_QNTY / TOT_QNTY * 100 end as M_RATE,
+                         case when nvl(TOT_QNTY,0) = 0 then 0 else round(M_QNTY / TOT_QNTY * 100,16) end as M_RATE,
                          --
                          case when RPT_KIND_ID <> 'TXF' or nvl(DAY_CNT,0) = 0 then 0 else round(M_HIGH_LOW / DAY_CNT,0) end as AVG_TX_HIGH_LOW
                     FROM 
@@ -77,7 +75,7 @@ namespace DataObjects.Dao.Together.SpecificDao
                      AND AMT13_END_TYPE = AM13_END_TYPE(+)
                   UNION ALL
                   SELECT  '9999','','','',RPT_KIND_ID,RPT_SEQ_NO,0,M_QNTY,
-                          CASE WHEN DAY_CNT = 0 THEN 0 ELSE M_QNTY/DAY_CNT END AS AVG_QNTY ,0,null
+                          CASE WHEN DAY_CNT = 0 THEN 0 ELSE round(M_QNTY/DAY_CNT,16) END AS AVG_QNTY ,0,null
                     FROM     
                         (SELECT AI2_PROD_TYPE,AI2_SUM_SUBTYPE,AI2_PARAM_KEY,AI2_KIND_ID2,
                                 sum(CASE WHEN AI2_YMD >=  :as_fm_ymd AND AI2_ymd <=  :as_to_ymd THEN AI2_M_QNTY - NVL(AI2_AH_M_QNTY,0) ELSE 0 END) AS M_QNTY
@@ -98,7 +96,7 @@ namespace DataObjects.Dao.Together.SpecificDao
                            FROM CI.RPT,ci.AMT13 
                           WHERE RPT_TXN_ID = '30790' AND RPT_TXD_ID = '30790')R
                    WHERE R.RPT_KIND_ID = T.AI2_PARAM_KEY(+)
-                   ORDER BY seq_t_day,begin_time,begin_type,end_time,end_type,kind_id ";
+                   ORDER BY seq_t_day,begin_time,begin_type,end_time,end_type,kind_id";
          DataTable dtResult = db.GetDataTable(sql, parms);
          return dtResult;
       }
