@@ -7,20 +7,21 @@ using System.Threading;
 using PhoenixCI.BusinessLogic.Prefix4;
 using System.IO;
 using Common;
+using DataObjects.Dao.Together.SpecificDao;
 /// <summary>
-/// john,20190410,保證金狀況表 (Group1) 
+/// john,20190415,保證金狀況表 (Group2) 
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix4
 {
    /// <summary>
-   /// 保證金狀況表 (Group1) 
+   /// 保證金狀況表 (Group2) 
    /// </summary>
-   public partial class W40011 : FormParent
+   public partial class W40012 : FormParent
    {
       private I4001x b4001xTemp;
       private string _saveFilePath;
 
-      public W40011(string programID, string programName) : base(programID, programName)
+      public W40012(string programID, string programName) : base(programID, programName)
       {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
@@ -156,6 +157,5 @@ namespace PhoenixCI.FormUI.Prefix4
 
          return ResultStatus.Success;
       }
-
    }
 }

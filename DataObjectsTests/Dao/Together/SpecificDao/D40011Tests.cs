@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using DataObjects.Dao.Together.SpecificDao;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Common.Config;
 using BusinessObjects;
 using System.Data;
@@ -26,6 +27,13 @@ namespace DataObjects.Dao.Together.SpecificDao.Tests
       public void GetFutR2DataTest()
       {
          DataTable data = new D40011().GetFutR2Data(new System.DateTime(2011, 04, 11));
+         Assert.IsNotNull(data);
+      }
+
+      [TestMethod()]
+      public void GetRptLVTest()
+      {
+         int data = new D40011().GetRptLV("40011",1);
          Assert.IsNotNull(data);
       }
    }

@@ -126,7 +126,7 @@ SELECT '','',NULL,NULL,NULL,NULL,NULL,
                return 1;
             else
                return 2;
-         }).ThenBy(x => x.Field<string>("FTPRICELOGS_MARKET_CODE"))
+         }).ThenBy(x =>x.Field<string>("FTPRICELOGS_MARKET_CODE"))
          .ThenBy(x => x.Field<string>("FTPRICELOGS_YMD"))
          .ThenBy(x => x.Field<string>("FTPRICELOGS_KIND_ID1"))
          .ThenBy(x=> {
