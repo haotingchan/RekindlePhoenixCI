@@ -4,6 +4,7 @@ using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -51,7 +52,17 @@ namespace PhoenixCI.BusinessLogic.Prefix4
          return (I4001x)Assembly.Load(AssemblyName).CreateInstance(className, true, BindingFlags.CreateInstance, null, args, null, null);
       }
 
-
+      public enum SheetName:int
+      {
+         /// <summary>
+         /// rpt_future
+         /// </summary>
+         Rpt_Future = 0,
+         /// <summary>
+         /// rpt_option
+         /// </summary>
+         Rpt_Option = 1
+      }
       #region 共用方法
       /// <summary>
       /// 作業項目共用方法
@@ -192,7 +203,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             //切換Sheet
             Workbook workbook = new Workbook();
             workbook.LoadDocument(_lsFile);
-            Worksheet worksheet = workbook.Worksheets["rpt_future"];
+            Worksheet worksheet = workbook.Worksheets[(int)SheetName.Rpt_Future];
             DateTime emdate = _emDateText.AsDateTime("yyyy/MM/dd");
             worksheet.Cells["G1"].Value = "資料日期：" + emdate.ToLongDateString().ToString();
             const int SheetOne = 1;//第一張sheet
@@ -246,7 +257,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             //切換Sheet
             Workbook workbook = new Workbook();
             workbook.LoadDocument(_lsFile);
-            Worksheet worksheet = workbook.Worksheets["rpt_option"];
+            Worksheet worksheet = workbook.Worksheets[(int)SheetName.Rpt_Option];
             DateTime emdate = _emDateText.AsDateTime("yyyy/MM/dd");
             worksheet.Cells["G5"].Value = "資料日期：" + emdate.ToLongDateString().ToString();
             const int SheetTwo = 2;//第二張sheet
