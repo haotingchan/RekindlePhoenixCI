@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Oracle.ManagedDataAccess.Client;
 using Sybase.Data.AseClient;
-using System.Data.SqlClient;
-using System.Data.OleDb;
+using System.Data.Common;
 using System.Data.Odbc;
+using System.Data.OleDb;
+using System.Data.SqlClient;
 
 namespace OnePiece
 {
@@ -40,7 +36,7 @@ namespace OnePiece
                     break;
 
                 case "Oracle.ManagedDataAccess.Client":
-                    resultDbProviderFactory = DbProviderFactories.GetFactory(providerInvariantName);
+                    resultDbProviderFactory = OracleClientFactory.Instance;
                     break;
 
                 case "System.Data.SqlServerCe.3.5":

@@ -38,8 +38,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document", "Document", "{DA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoenixCITests", "PhoenixCITests\PhoenixCITests.csproj", "{34AC8741-8D6B-4AAC-8485-594D21219A23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataObjectsTests", "DataObjectsTests\DataObjectsTests.csproj", "{DBBFCD7E-EE7C-4D07-AE05-C6BF00128177}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -82,10 +80,6 @@ Global
 		{34AC8741-8D6B-4AAC-8485-594D21219A23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34AC8741-8D6B-4AAC-8485-594D21219A23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34AC8741-8D6B-4AAC-8485-594D21219A23}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DBBFCD7E-EE7C-4D07-AE05-C6BF00128177}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DBBFCD7E-EE7C-4D07-AE05-C6BF00128177}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DBBFCD7E-EE7C-4D07-AE05-C6BF00128177}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DBBFCD7E-EE7C-4D07-AE05-C6BF00128177}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -15,6 +15,7 @@ using Common;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using BusinessObjects;
+using System.Threading;
 
 /// <summary>
 /// Lukas, 2019/3/28
@@ -53,11 +54,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 date = PbFunc.relativedate(date, (date.Day * -1));
                 txtSMonth.DateTimeValue = date;
 #if DEBUG
-                txtDate.Text = "2018/03/31";
-                txtSMonth.Text = "2018/02";
-                txtEMonth.Text = "2018/02";
-                txtCurSMonth.Text = "2018/03";
-                txtCurEMonth.Text = "2018/03";
+                txtDate.Text = "2019/03/31";
+                txtSMonth.Text = "2018/10";
+                txtEMonth.Text = "2018/12";
+                txtCurSMonth.Text = "2019/01";
+                txtCurEMonth.Text = "2019/03";
 #endif
                 txtDate.Focus();
             }
@@ -84,11 +85,20 @@ namespace PhoenixCI.FormUI.Prefix3 {
             return ResultStatus.Success;
         }
 
+        protected void ShowMsg(string msg) {
+            lblProcessing.Text = msg;
+            this.Refresh();
+            Thread.Sleep(5);
+        }
+
         protected override ResultStatus Export() {
             string showMsg = "";
             try {
-                lblProcessing.Text = "開始轉檔...";
+                this.Cursor = Cursors.WaitCursor;
+                this.Refresh();
+                Thread.Sleep(5);
                 lblProcessing.Visible = true;
+                ShowMsg("開始轉檔...");
                 dao30202 = new D30202();
                 //判斷是否有檔案,決定是否要寫入DB.
                 showMsg = "讀取既有計算資料錯誤";
@@ -120,6 +130,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                     return ResultStatus.Fail;
                 }
 
+                ShowMsg(rptId + '－' + rptName + " 轉檔中...");
                 //複製檔案
                 showMsg = "複製檔案錯誤";
                 file = PbFunc.wf_copy_file(rptId, rptId);
@@ -150,10 +161,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 //(六)
                 str = txtCurEMonth.Text;
                 DateTime date = (str + "/01").AsDateTime("yyyy/MM/dd");
-                while (date.Month > txtSMonth.DateTimeValue.Month) {
+                do {
                     date = PbFunc.relativedate(date, date.Day * -1);
                     str = str + "、" + date.ToString("yyyy/MM～") + txtCurEMonth.Text;
-                }
+                } while ((date.ToString("yyyy/MM") + "/01").AsDateTime("yyyy/MM/dd") > txtSMonth.DateTimeValue);//只比年月
                 ws30202.Cells[3, 12].Value = str;
 
                 foreach (DataRow dr in dt30202.Rows) {
@@ -304,7 +315,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 //存檔
                 ws30202.ScrollToRow(0);
                 workbook.SaveDocument(file);
-                lblProcessing.Text = "轉檔成功";
+                ShowMsg("轉檔成功");
                 #endregion
 
                 if (!cbxDB.Checked) {
@@ -369,6 +380,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
             catch (Exception ex) {
                 MessageDisplay.Error(showMsg);
                 throw ex;
+            }
+            finally {
+                this.Cursor = Cursors.Arrow;
+                this.Refresh();
+                Thread.Sleep(5);
             }
             return ResultStatus.Success;
         }
