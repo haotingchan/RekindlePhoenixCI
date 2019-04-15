@@ -1,4 +1,5 @@
-﻿using OnePiece;
+﻿using BusinessObjects;
+using OnePiece;
 using System.Data;
 
 namespace DataObjects.Dao.Together
@@ -37,5 +38,24 @@ namespace DataObjects.Dao.Together
 
             return dtResult;
         }
-    }
+
+      /// <summary>
+      /// save ci.rptf data
+      /// </summary>
+      /// <param name="inputData"></param>
+      /// <returns></returns>
+      public ResultData UpdateData(DataTable inputData) {
+
+         string sql = @"
+select 
+    rptf_txn_id,
+    rptf_txd_id,
+    rptf_key,
+    rptf_seq_no,
+    rptf_text
+from ci.rptf 
+";
+         return db.UpdateOracleDB(inputData , sql);
+      }
+   }
 }
