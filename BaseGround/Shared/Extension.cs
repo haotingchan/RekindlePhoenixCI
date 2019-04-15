@@ -183,21 +183,6 @@ namespace BaseGround.Shared {
          return newDT;
       }
 
-      /// <summary>
-      ///  取得 Enum 列舉 Attribute Description 設定值
-      /// </summary>
-      /// <param name="source"></param>
-      /// <returns></returns>
-      public static string GetDescriptionText(this Enum source) {
-         FieldInfo fi = source.GetType().GetField(source.ToString());
-
-         DescriptionAttribute[] attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
-
-         if (attributes.Length > 0) return attributes[0].Description;
-
-         else return source.ToString();
-      }
-
       #region Grid欄位相關設定(例如欄位標題/置中/標題自動折行/內容自動折行)
 
       /// <summary>
