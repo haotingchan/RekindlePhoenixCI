@@ -13,17 +13,22 @@ namespace DataObjects.Dao.Together.SpecificDao
    public class D4001x : DataGate, ID4001x
    {
 
+      public virtual string FutDataCountSql()
+      {
+         return "";
+      }
+
+      public virtual string OptDataCountSql()
+      {
+         return "";
+      }
+
       public virtual string FutDataSql(SheetType R)
       {
          return "";
       }
 
-      public virtual string OptR1DataSql()
-      {
-         return "";
-      }
-
-      public virtual string OptR2DataSql()
+      public virtual string OptDataSql(SheetType R)
       {
          return "";
       }
@@ -62,6 +67,45 @@ namespace DataObjects.Dao.Together.SpecificDao
          return dtResult;
       }
 
+      private DataTable GetOptData(DateTime as_date, SheetType R)
+      {
+         object[] parms = {
+                ":as_date",as_date,
+            };
+         string sql = OptDataSql(R);
+         DataTable dtResult = db.GetDataTable(sql, parms);
+         return dtResult;
+      }
+
+      /// <summary>
+      /// 確認sheet1有無資料
+      /// </summary>
+      /// <param name="as_date"></param>
+      /// <returns></returns>
+      public int FutR1DataCount(DateTime as_date)
+      {
+         object[] parms = {
+                ":as_date",as_date,
+            };
+         string sql = FutDataCountSql();
+         DataTable dtResult = db.GetDataTable(sql, parms);
+         return dtResult.Rows[0][0].AsInt();
+      }
+
+      /// <summary>
+      /// 確認sheet2有無資料
+      /// </summary>
+      /// <param name="as_date"></param>
+      /// <returns></returns>
+      public int OptR1DataCount(DateTime as_date)
+      {
+         object[] parms = {
+                ":as_date",as_date,
+            };
+         string sql = OptDataCountSql();
+         DataTable dtResult = db.GetDataTable(sql, parms);
+         return dtResult.Rows[0][0].AsInt();
+      }
 
       /// <summary>
       /// sheet=1 現行收取保證金金額
@@ -101,14 +145,14 @@ namespace DataObjects.Dao.Together.SpecificDao
       /// <returns>MG1_CUR_CM,'',MG1_CUR_MM,'',MG1_CUR_IM</returns>
       public DataTable GetOptR1Data(DateTime as_date)
       {
-         object[] parms = {
-                ":as_date",as_date,
-            };
-         string sql = OptR1DataSql();
-         DataTable dtResult = db.GetDataTable(sql, parms);
-
+         DataTable dtResult = GetOptData(as_date, SheetType.R1);
+         //import 商品資料
          dtResult.Columns.Remove(dtResult.Columns["R1"]);
          dtResult.Columns.Remove(dtResult.Columns["MG1_TYPE"]);
+         for (int k = 5; k < 10; k++)
+         {
+            dtResult.Columns.Remove(dtResult.Columns[5].ColumnName);//刪除後面5欄
+         }
 
          return dtResult;
       }
@@ -119,14 +163,14 @@ namespace DataObjects.Dao.Together.SpecificDao
       /// <returns>MG1_PRICE,MG1_XXX,MG1_RISK,MG1_CP_RISK,MG1_CP_CM</returns>
       public DataTable GetOptR2Data(DateTime as_date)
       {
-         object[] parms = {
-                ":as_date",as_date,
-            };
-         string sql = OptR2DataSql();
-         DataTable dtResult = db.GetDataTable(sql, parms);
-
+         DataTable dtResult = GetOptData(as_date, SheetType.R2);
+         //import 商品資料
          dtResult.Columns.Remove(dtResult.Columns["R2"]);
          dtResult.Columns.Remove(dtResult.Columns["MG1_TYPE"]);
+         for (int k = 0; k < 5; k++)
+         {
+            dtResult.Columns.Remove(dtResult.Columns[0].ColumnName);//刪除前面6欄
+         }
 
          return dtResult;
       }
@@ -205,11 +249,25 @@ namespace DataObjects.Dao.Together.SpecificDao
    {
       string FutDataSql(SheetType R);
 
-      string OptR1DataSql();
+      string OptDataSql(SheetType R);
 
-      string OptR2DataSql();
+      string FutDataCountSql();
+
+      string OptDataCountSql();
 
       string WorkItemSql(int Num);
+
+      /// <summary>
+      /// 確認sheet1有無資料
+      /// </summary>
+      /// <param name="as_date"></param>
+      int FutR1DataCount(DateTime as_date);
+
+      /// <summary>
+      /// 確認sheet2有無資料
+      /// </summary>
+      /// <param name="as_date"></param>
+      int OptR1DataCount(DateTime as_date);
 
       /// <summary>
       /// sheet=1 現行收取保證金金額

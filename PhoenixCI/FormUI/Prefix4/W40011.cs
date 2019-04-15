@@ -49,10 +49,6 @@ namespace PhoenixCI.FormUI.Prefix4
          base.AfterOpen();
          emDate.Focus();
 
-         _saveFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
-         object[] args = { _ProgramID, _saveFilePath, emDate.Text };
-         b4001xTemp = new B4001xTemplate().ConcreteClass(_ProgramID, args);
-
          return ResultStatus.Success;
       }
 
@@ -71,6 +67,10 @@ namespace PhoenixCI.FormUI.Prefix4
             //is_chk = "Y";
             return false;
          }
+
+         _saveFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
+         object[] args = { _ProgramID, _saveFilePath, emDate.Text };
+         b4001xTemp = new B4001xTemplate().ConcreteClass(_ProgramID, args);
 
          stMsgTxt.Visible = true;
 

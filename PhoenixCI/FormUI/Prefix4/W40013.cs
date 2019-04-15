@@ -9,19 +9,19 @@ using System.IO;
 using Common;
 using DataObjects.Dao.Together.SpecificDao;
 /// <summary>
-/// john,20190415,保證金狀況表 (Group2) 
+/// john,20190415,保證金狀況表 (Group3) 
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix4
 {
    /// <summary>
-   /// 保證金狀況表 (Group2) 
+   /// 保證金狀況表 (Group3) 
    /// </summary>
-   public partial class W40012 : FormParent
+   public partial class W40013 : FormParent
    {
       private I4001x b4001xTemp;
       private string _saveFilePath;
 
-      public W40012(string programID, string programName) : base(programID, programName)
+      public W40013(string programID, string programName) : base(programID, programName)
       {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
@@ -140,9 +140,6 @@ namespace PhoenixCI.FormUI.Prefix4
             //Sheet : rpt_future
             ShowMsg($"{_ProgramID}_1－保證金狀況表 轉檔中...");
             OutputShowMessage = b4001xTemp.WfFutureSheet();
-            //Sheet : rpt_option
-            ShowMsg($"{_ProgramID}_2－保證金狀況表 轉檔中...");
-            OutputShowMessage = b4001xTemp.WfOptionSheet();
          }
          catch (Exception ex)
          {

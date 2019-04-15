@@ -1,6 +1,6 @@
 ﻿namespace PhoenixCI.FormUI.Prefix4
 {
-   partial class W40012
+   partial class W40013
    {
       /// <summary>
       /// Required designer variable.
