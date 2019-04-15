@@ -48,7 +48,7 @@ SELECT   KSW_DATE,
      AND KSW_GW_FCM_NO like :as_in_fcm_no 
      AND KSW_FCM_NO like :as_ks_fcm_no
      AND KSW_MARKET_CODE LIKE :as_market_code
-   ORDER BY ksw_date, ksw_market_code, ksw_w_time, ksw_fcm_no, ksw_source_fcm_no, ksw_session_id, ksw_seq_no Desc, KSW_GW_SYSTEM
+   ORDER BY ksw_date, ksw_market_code, ksw_w_time, ksw_fcm_no, ksw_source_fcm_no, ksw_session_id, ksw_seq_no Desc, KSW_GW_SYSTEM, SYS_TYPE
 ";
             DataTable dtResult = db.GetDataTable(sql, parms);
 
