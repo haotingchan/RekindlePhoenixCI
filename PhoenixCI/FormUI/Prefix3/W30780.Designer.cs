@@ -33,7 +33,7 @@
          this.gb1Label = new System.Windows.Forms.Label();
          this.gb1 = new DevExpress.XtraEditors.PanelControl();
          this.rgTime = new DevExpress.XtraEditors.RadioGroup();
-         this.emMonth = new DevExpress.XtraEditors.TextEdit();
+         this.emMonth = new PhoenixCI.Widget.TextDateEdit();
          this.st5 = new System.Windows.Forms.Label();
          this.textEdit1 = new DevExpress.XtraEditors.TextEdit();
          this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
@@ -146,16 +146,16 @@
          // 
          // emMonth
          // 
-         this.emMonth.CausesValidation = false;
+         this.emMonth.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
+         this.emMonth.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
          this.emMonth.EditValue = "2019/01";
          this.emMonth.Location = new System.Drawing.Point(104, 40);
          this.emMonth.Name = "emMonth";
-         this.emMonth.Properties.DisplayFormat.FormatString = "yyyy/MM";
-         this.emMonth.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-         this.emMonth.Properties.Mask.EditMask = "\\d\\d\\d\\d/\\d\\d";
-         this.emMonth.Properties.Mask.IgnoreMaskBlank = false;
-         this.emMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
-         this.emMonth.Properties.Mask.PlaceHolder = '0';
+         this.emMonth.Properties.Appearance.Options.UseTextOptions = true;
+         this.emMonth.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.emMonth.Properties.Mask.EditMask = "yyyy/MM";
+         this.emMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.emMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.emMonth.Size = new System.Drawing.Size(75, 28);
          this.emMonth.TabIndex = 0;
          // 
@@ -257,7 +257,7 @@
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
       private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup1;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
-      private DevExpress.XtraEditors.TextEdit emMonth;
+      private PhoenixCI.Widget.TextDateEdit  emMonth;
       private System.Windows.Forms.Label label1;
    }
 }

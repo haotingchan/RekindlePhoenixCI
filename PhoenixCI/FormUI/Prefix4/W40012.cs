@@ -98,7 +98,7 @@ namespace PhoenixCI.FormUI.Prefix4
 
       protected void EndExport()
       {
-         stMsgTxt.Text = "轉檔完成!";
+         stMsgTxt.Text = "";
          this.Cursor = Cursors.Arrow;
          this.Refresh();
          Thread.Sleep(5);
@@ -117,6 +117,7 @@ namespace PhoenixCI.FormUI.Prefix4
          DialogResult ChooseResult = MessageDisplay.Choose(str);
          if (ChooseResult == DialogResult.No)
          {
+            EndExport();
             return false;
          }
          return true;
