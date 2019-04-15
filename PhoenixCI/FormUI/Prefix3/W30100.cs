@@ -16,6 +16,7 @@ using DevExpress.XtraEditors.Controls;
 using Common;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
+using System.Threading;
 
 /// <summary>
 /// Lukas, 2019/3/27
@@ -76,11 +77,20 @@ namespace PhoenixCI.FormUI.Prefix3 {
             return ResultStatus.Success;
         }
 
+        protected void ShowMsg(string msg) {
+            lblProcessing.Text = msg;
+            this.Refresh();
+            Thread.Sleep(5);
+        }
+
         protected override ResultStatus Export() {
 
             try {
-                lblProcessing.Text = "開始轉檔...";
+                this.Cursor = Cursors.WaitCursor;
+                this.Refresh();
+                Thread.Sleep(5);
                 lblProcessing.Visible = true;
+                ShowMsg("開始轉檔...");
                 dao30100 = new D30100();
 
                 string rptId, file, rptName;
@@ -89,11 +99,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 int rowNum;
                 rptId = "30100";
                 rptName = "Kill Switch使用紀錄查詢";
-                lblProcessing.Text = rptId + "－" + rptName + " 轉檔中...";
+                ShowMsg(rptId + "－" + rptName + " 轉檔中...");
 
                 //讀取資料
                 DataTable dt30100 = dao30100.d_30100(sYmd, eYmd,
-                                                     dwFcmKs.EditValue + "%", dwFcmIn.EditValue + "%",
+                                                     dwFcmKs.EditValue.AsString() + "%", dwFcmIn.EditValue.AsString() + "%",
                                                      rdgMarketCode.EditValue.AsString());
                 if (dt30100.Rows.Count == 0) {
                     MessageDisplay.Info(txtSDate.Text + "～" + txtEDate.Text + "," + rptId + '－' + rptName + ",無任何資料!");
@@ -123,6 +133,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
             catch (Exception ex) {
                 MessageDisplay.Error("輸出錯誤");
                 throw ex;
+            }
+            finally {
+                this.Cursor = Cursors.Arrow;
+                this.Refresh();
+                Thread.Sleep(5);
             }
             return ResultStatus.Success;
         }

@@ -53,13 +53,20 @@ namespace PhoenixCI.FormUI.Prefix4 {
          this.Text = _ProgramID + "─" + _ProgramName;
          txtDate.DateTimeValue = GlobalInfo.OCF_DATE;
 
+         //設定 下拉選單
+         List<LookupItem> lstType = new List<LookupItem>(){
+                                        new LookupItem() { ValueMember = "0B", DisplayMember = "一般 / 股票"},
+                                        new LookupItem() { ValueMember = "1B", DisplayMember = "長假調整" },
+                                        new LookupItem() { ValueMember = "1E", DisplayMember = "長假回調" },
+                                        new LookupItem() { ValueMember = "2B", DisplayMember = "處置股票調整"}};
+
          //設定下拉選單
-         ddlAdjType.SetDataTable(new COD().ListByCol2("400xx", "dw_adj_type"), "COD_ID", "COD_DESC", TextEditStyles.DisableTextEditor, null);
+         ddlAdjType.SetDataTable(lstType, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor, null);
          ddlAdjType.EditValue = "0B";
 
 #if DEBUG
-         txtDate.DateTimeValue = ("20190212").AsDateTime("yyyyMMdd");
-         ddlAdjType.EditValue = "0B";
+         txtDate.DateTimeValue = ("20190130").AsDateTime("yyyyMMdd");
+         ddlAdjType.EditValue = "1B";
 #endif
 
          ExportShow.Hide();
@@ -147,6 +154,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          protected virtual TableCell WordTableCell { get; set; }
          protected virtual ParagraphProperties ParagraphProps { get; set; }
+         protected virtual CharacterProperties CharacterProps { get; set; }
 
          public ExportWord(D40xxx dao, string txtdate, string adjtype, string programId) {
             Dao = dao;
@@ -181,9 +189,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
          /// 直接替換 rtf 上面文字
          /// </summary>
          /// <param name="docSev"></param>
-         /// <param name="m40110"></param>
-         protected virtual void ReplaceWrod(RichEditDocumentServer docSev, M40110Word m40110) {
+         protected virtual void SetRtfDescText(RichEditDocumentServer docSev, string prodList) {
+            string validDate = dt.Rows[0]["ISSUE_BEGIN_YMD"].AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
+            string ValidDatePrev = new MOCF().GetValidDatePrev(dt.Rows[0]["ISSUE_BEGIN_YMD"].AsString()).
+                                    AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
 
+            M40110Word m40110 = new M40110Word(ValidDatePrev, validDate, prodList);
             //Options.MailMerge 要用List 才會有作用
             List<M40110Word> listM40110 = new List<M40110Word>();
             listM40110.Add(m40110);
@@ -340,6 +351,30 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return (I40110SubType)Assembly.Load(AssemblyName).CreateInstance(className);
          }
 
+         protected virtual RichEditDocumentServer OpenRtfFile() {
+            RichEditDocumentServer docSev = new RichEditDocumentServer();
+            docSev.LoadDocument(FilePath);
+
+            return docSev;
+         }
+
+         protected virtual void EndUpdate(RichEditDocumentServer docSev, ReturnMessageClass msg) {
+            CreateSignTable(doc);
+            doc.EndUpdate();
+            docSev.SaveDocument(FilePath, DocumentFormat.Rtf);
+            docSev.Dispose();
+            msg.Status = ResultStatus.Success;
+#if DEBUG
+            System.Diagnostics.Process.Start(FilePath);
+#endif
+         }
+
+         protected virtual void ErrorHandle(Exception ex, ReturnMessageClass msg) {
+            WriteLog(ex.ToString(), "Info", "Z");
+            msg.Status = ResultStatus.Fail;
+            msg.ReturnMessage = MessageDisplay.MSG_IMPORT_FAIL;
+         }
+
          /// <summary>
          /// 錯誤寫log
          /// </summary>
@@ -347,30 +382,16 @@ namespace PhoenixCI.FormUI.Prefix4 {
          /// <param name="logType"></param>
          /// <param name="operationType"></param>
          protected virtual void WriteLog(string msg, string logType = "Info", string operationType = "") {
-            bool isNeedWriteFile = false;
-            string dbErrorMsg = "";
+            bool isNeedWriteFile = true;
 
-            //1.write log to db
-            //ken,先把WriteLog集中,之後可根據不同的logType,存放不同的TABLE或檔案
-            //基本logType可定義為 info/operation/error
-            //logf_job_type value: I = change data, E = export, R = query, P = print, X = execute
             try {
-               switch (logType) {
-                  case ("Info"):
-                     operationType = "A";
-                     break;
-                  case ("Error"):
-                     operationType = "Z";
-                     isNeedWriteFile = true;
-                     break;
-               }
                //ken,LOGF_KEY_DATA長度要取前100字元,但是logf.LOGF_KEY_DATA型態為VARCHAR2 (100 Byte),如果有中文會算2byte...先取前80吧
                new LOGF().Insert(GlobalInfo.USER_ID, ProgramId, msg.SubStr(0, 80), operationType);
 
             } catch (Exception ex2) {
                // write log to db failed , ready write file to local
                isNeedWriteFile = true;
-               dbErrorMsg = ex2.ToString();
+               msg = ex2.ToString();
                MessageDisplay.Error("資料庫連線發生錯誤,先將錯誤訊息寫到檔案");
             }//try {
 
@@ -392,8 +413,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      sw.WriteLine("operationType=" + operationType);
                      sw.Write("msg=" + msg);
                      sw.WriteLine("");
-                     if (dbErrorMsg != "")
-                        sw.Write("dbErrorMsg=" + dbErrorMsg);
+                     if (msg != "")
+                        sw.Write("dbErrorMsg=" + msg);
                   }//using (StreamWriter sw = File.AppendText(filepath)) {
                } catch (Exception fileEx) {
                   MessageDisplay.Error("將log寫入檔案發生錯誤,請聯絡管理員" + Environment.NewLine + "msg=" + fileEx.Message);
@@ -404,6 +425,246 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
       }
 
+      private class ExportWordVacationAdjust : ExportWord {
+         protected virtual string AppendText { get; set; }
+
+         public ExportWordVacationAdjust(D40xxx dao, string txtdate, string adjtype, string programId) : base(dao, txtdate, adjtype, programId) {
+            TableTitle = new string[] { "結算", "維持", "原始" };
+            ColName = new string[] { "cur_im2", "cur_im1", "cur_im", "m_im2", "m_im1", "m_im" };
+            ColNameB = new string[] { "cur_cm_b", "cur_mm_b", "cur_im_b", "m_cm_b", "m_mm_b", "m_im_b" };
+            AppendText = "※本公司上揭契約公告之保證金收取金額，小型美元兌人民幣期貨、美元兌人民幣期貨、" +
+                        "小型美元兌人民幣選擇權及美元兌人民幣選擇權為人民幣計價；澳幣兌美元期貨、英鎊兌美元期貨、歐元兌美元期貨為美元計價；美元兌日圓期貨為日圓計價。";
+         }
+
+         public override ReturnMessageClass Export() {
+            ReturnMessageClass msg = new ReturnMessageClass();
+            msg.Status = ResultStatus.Fail;
+            try {
+               //1.0 oprne file
+               RichEditDocumentServer docSev = OpenRtfFile();
+
+               IEnumerable<IGrouping<string, DataRow>> listGroupBySubtype = dt.AsEnumerable().GroupBy(g => g.Field<string>("PROD_SUBTYPE"));
+
+               //1.1 取代rtf 開頭說明文
+               SetRtfDescText(docSev, listGroupBySubtype);
+
+               //1.2 內文
+               doc = docSev.Document;
+               doc.BeginUpdate();
+
+               foreach (var groupSubtype in listGroupBySubtype) {
+
+                  //1.2.1 Table上方的標題
+                  SetAboveTableText(groupSubtype, 14, 12);
+
+                  CreateTable(doc, 2, 7);
+
+                  //1.2.2 Table的標題
+                  SetTableColTitle();
+
+                  //1.2.3 在每一種商品類別裡面填入資料
+                  SetTableData(groupSubtype);
+
+                  //1.2.4 如果是匯率類的話，表格下方加一段註解
+                  if (groupSubtype.Key == "E") SetAppendText();
+
+               }
+
+               //1.2.5 寫完存檔
+               EndUpdate(docSev, msg);
+               return msg;
+
+            } catch (Exception ex) {
+               ErrorHandle(ex, msg);
+               return msg;
+            }
+         }
+
+         /// <summary>
+         /// Table上方的標題
+         /// </summary>
+         /// <param name="groupSubtype">分群資料</param>
+         /// <param name="titleSize">標題字體大小</param>
+         /// <param name="unitDescSize">單位字體大小</param>
+         protected virtual void SetAboveTableText(IGrouping<string, DataRow> groupSubtype, int titleSize, int unitDescSize) {
+            I40110SubType isubType = CreateI40110SubType(GetType(), "SubType" + ProgramId + groupSubtype.Key);
+
+            doc.AppendText(isubType.TableTitle);
+            ParagraphProps = doc.BeginUpdateParagraphs(doc.Paragraphs.Last().Range);
+            ParagraphProps.Alignment = ParagraphAlignment.Center;
+            doc.EndUpdateParagraphs(ParagraphProps);
+
+            CharacterProps = doc.BeginUpdateCharacters(doc.Paragraphs.Last().Range);
+            CharacterProps.FontSize = titleSize;
+            doc.EndUpdateCharacters(CharacterProps);
+
+            doc.AppendText("\n");
+
+            doc.AppendText(isubType.UnitDescription);
+            ParagraphProps = doc.BeginUpdateParagraphs(doc.Paragraphs.Last().Range);
+            ParagraphProps.Alignment = ParagraphAlignment.Left;
+            doc.EndUpdateParagraphs(ParagraphProps);
+
+            CharacterProps = doc.BeginUpdateCharacters(doc.Paragraphs.Last().Range);
+            CharacterProps.FontSize = unitDescSize;
+            doc.EndUpdateCharacters(CharacterProps);
+
+            doc.AppendText("\n");
+         }
+
+         /// <summary>
+         /// 設定欄位名稱
+         /// </summary>
+         protected virtual void SetTableColTitle() {
+            SetTableStr(0, 0, "契約名稱");
+            WordTableCell.PreferredWidthType = WidthType.Fixed;
+            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.InchesToDocumentsF(2.3f);
+            WordTableCell.VerticalAlignment = TableCellVerticalAlignment.Center;
+            WordTable.MergeCells(WordTableCell, WordTable[1, 0]);
+
+            SetTableStr(0, 1, "調整前保證金金額");
+            WordTable.MergeCells(WordTableCell, WordTable[0, 3]);
+
+            SetTableStr(0, 2, "調整後保證金金額");
+            WordTable.MergeCells(WordTableCell, WordTable[0, 4]);
+
+            SetTableTitle(TableTitle, 1, "{0}{1}保證金", Environment.NewLine);
+         }
+
+         /// <summary>
+         /// 寫入表格資料
+         /// </summary>
+         /// <param name="groupSubtype"></param>
+         protected virtual void SetTableData(IGrouping<string, DataRow> groupSubtype) {
+            foreach (DataRow dr in dt.Select(string.Format("prod_subtype ='{0}'", groupSubtype.Key))) {
+               TableRow tableRow = WordTable.Rows.Append();
+
+               string kindAbbrName = dr["kind_abbr_name"].AsString();
+
+               WordTableCell = tableRow.FirstCell;
+
+               if (dr["ab_type"].AsString() == "A") {
+                  doc.InsertSingleLineText(WordTableCell.Range.Start, kindAbbrName + "風險保證金(A值)");
+               } else {
+                  doc.InsertSingleLineText(WordTableCell.Range.Start, kindAbbrName);
+               }
+
+               ParagraphProps = doc.BeginUpdateParagraphs(WordTableCell.Range);
+               ParagraphProps.Alignment = ParagraphAlignment.Left;
+               doc.EndUpdateParagraphs(ParagraphProps);
+
+               SetMMValue(doc, WordTable, tableRow.Index, dr, "#,##0", ColName);
+
+               // 如果ab_type為A，代表有AB值，這裡加上B值的列
+               if (dr["ab_type"].AsString() == "A") {
+
+                  tableRow = WordTable.Rows.Append();
+                  WordTableCell = tableRow.FirstCell;
+
+                  if (dr["ab_type"].AsString() == "A") {
+                     doc.InsertSingleLineText(WordTableCell.Range.Start, kindAbbrName + "風險保證金最低值(B值)");
+                  } else {
+                     doc.InsertSingleLineText(WordTableCell.Range.Start, kindAbbrName);
+                  }
+
+                  SetMMValue(doc, WordTable, tableRow.Index, dr, "#,##0", ColNameB);
+               }
+
+            }// foreach
+         }
+
+         /// <summary>
+         /// 寫入下方說明文
+         /// </summary>
+         protected virtual void SetAppendText() {
+            doc.AppendText(AppendText);
+
+            ParagraphProps = doc.BeginUpdateParagraphs(doc.Paragraphs.Last().Range);
+            ParagraphProps.LineSpacingType = ParagraphLineSpacing.Single;
+
+            doc.EndUpdateParagraphs(ParagraphProps);
+
+            doc.AppendText(Environment.NewLine);
+         }
+
+         /// <summary>
+         /// 取得Subtype 說明中文
+         /// </summary>
+         /// <param name="listGroupBySubtype"></param>
+         /// <returns></returns>
+         protected virtual string GenSubName(IEnumerable<IGrouping<string, DataRow>> listGroupBySubtype) {
+            string subtypeName = "";
+            int k = 0;
+            foreach (var item in listGroupBySubtype) {
+               //取得 Enum Description
+               subtypeName += ((SubTypeName)Enum.Parse(typeof(SubTypeName), item.Key)).GetDesc();
+
+               if (k != (listGroupBySubtype.Count() - 2)) {
+                  subtypeName += "、";
+               } else {
+                  subtypeName += "及";
+               }
+
+               k++;
+            }
+            subtypeName = subtypeName.TrimEnd('、');
+
+            return subtypeName;
+         }
+
+         /// <summary>
+         /// 取代rtf 開頭說明文
+         /// </summary>
+         /// <param name="docSev">檔案本體</param>
+         /// <param name="listGroupBySubtype">分群資料</param>
+         protected virtual void SetRtfDescText(RichEditDocumentServer docSev, IEnumerable<IGrouping<string, DataRow>> listGroupBySubtype) {
+            string validDate = dt.Rows[0]["ISSUE_BEGIN_YMD"].AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
+            string ValidDatePrev = new MOCF().GetValidDatePrev(dt.Rows[0]["ISSUE_BEGIN_YMD"].AsString()).
+                                    AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
+
+            //取代 word 開頭文字
+            M40110Word m40110 = new M40110Word(ValidDatePrev, validDate, GenProdName(dt, ""), GenSubName(listGroupBySubtype));
+
+            //Options.MailMerge 要用List 才會有作用
+            List<M40110Word> listM40110 = new List<M40110Word>();
+            listM40110.Add(m40110);
+
+            //直接replace word 上面的字
+            docSev.Options.MailMerge.DataSource = listM40110;
+            docSev.Options.MailMerge.ViewMergedData = true;
+         }
+
+         /// <summary>
+         /// set rtf table style
+         /// </summary>
+         /// <param name="doc"></param>
+         /// <param name="paragraphProps"></param>
+         /// <param name="table"></param>
+         protected override void CreateTable(Document doc, int rowCount, int colCount) {
+
+            WordTable = doc.Tables.Create(doc.Range.End, rowCount, colCount);
+            ParagraphProps = doc.BeginUpdateParagraphs(WordTable.Range);
+
+            // 預設Table內容都全部置中
+            ParagraphProps = doc.BeginUpdateParagraphs(WordTable.Range);
+            ParagraphProps.Alignment = ParagraphAlignment.Center;
+            ParagraphProps.LineSpacingType = ParagraphLineSpacing.Single;
+            ParagraphProps.SpacingBefore = 0;
+            doc.EndUpdateParagraphs(ParagraphProps);
+
+            // 預設Table內的字體
+            CharacterProperties tableProp = doc.BeginUpdateCharacters(WordTable.Range);
+            tableProp.FontSize = 12;
+            doc.EndUpdateCharacters(tableProp);
+
+            // 垂直置中
+            WordTable.ForEachCell((c, i, j) => {
+               c.VerticalAlignment = TableCellVerticalAlignment.Center;
+            });
+
+         }
+
+      }
 
       /// <summary>
       /// 一般 / 股票 輸出 rtf
@@ -455,324 +716,338 @@ namespace PhoenixCI.FormUI.Prefix4 {
             msg.Status = ResultStatus.Fail;
 
             try {
-               using (RichEditDocumentServer docSev = new RichEditDocumentServer()) {
-                  docSev.LoadDocument(FilePath);
+               RichEditDocumentServer docSev = OpenRtfFile();
 
-                  string validDate = dt.Rows[0]["ISSUE_BEGIN_YMD"].AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
-                  string ValidDatePrev = new MOCF().GetValidDatePrev(dt.Rows[0]["ISSUE_BEGIN_YMD"].AsString()).
-                                          AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
+               SetRtfDescText(docSev, GenProdName(dt, "契約"));
 
-                  string prodName = "";
+               doc = docSev.Document;
+               doc.BeginUpdate();
 
-                  prodName = GenProdName(dt, "契約");
+               foreach (DataRow dr in dt.Rows) {
+                  string ampType = dr["amt_type"].AsString();
+                  object[] args = { dr };
+                  I40110AmtType iAmtType = CreateI40110AmtType(GetType(), "AmtType" + ProgramId + ampType, args);
 
-                  //取代 word 開頭文字
-                  ReplaceWrod(docSev, new M40110Word(ValidDatePrev, validDate, prodName));
+                  CreateTable(doc, 4, 7);
 
-                  doc = docSev.Document;
-                  doc.BeginUpdate();
+                  #region //3.1單位幣別或比例標題
 
-                  foreach (DataRow dr in dt.Rows) {
-                     string ampType = dr["amt_type"].AsString();
-                     object[] args = { dr };
-                     I40110AmtType iAmtType = CreateI40110AmtType(GetType(), "AmtType" + ProgramId + ampType, args);
+                  SetTableStr(0, 6, iAmtType.CurrencyName);
 
-                     CreateTable(doc, 4, 7);
+                  ParagraphProps = doc.BeginUpdateParagraphs(WordTableCell.Range);
+                  ParagraphProps.Alignment = ParagraphAlignment.Right;
+                  doc.EndUpdateParagraphs(ParagraphProps);
+                  WordTable.MergeCells(WordTable[0, 0], WordTableCell);
 
-                     #region //3.1單位幣別或比例標題
+                  WordTableCell = WordTable[0, 0];
+                  WordTableCell.CellSetBorders(TableBorderLineStyle.None, TableBorderLineStyle.None, TableBorderLineStyle.None);
+                  #endregion
 
-                     SetTableStr(0, 6, iAmtType.CurrencyName);
+                  #region //3.2商品名稱
 
-                     ParagraphProps = doc.BeginUpdateParagraphs(WordTableCell.Range);
-                     ParagraphProps.Alignment = ParagraphAlignment.Right;
-                     doc.EndUpdateParagraphs(ParagraphProps);
-                     WordTable.MergeCells(WordTable[0, 0], WordTableCell);
+                  SetTableStr(1, 0, iAmtType.ProdName);
+                  WordTableCell.VerticalAlignment = TableCellVerticalAlignment.Center;
+                  WordTable.MergeCells(WordTableCell, WordTable[2, 0]);
 
-                     WordTableCell = WordTable[0, 0];
-                     WordTableCell.CellSetBorders(TableBorderLineStyle.None, TableBorderLineStyle.None, TableBorderLineStyle.None);
-                     #endregion
+                  #endregion
 
-                     #region //3.2商品名稱
+                  #region //3.3調整前後保證金金額的標題
+                  //調整後
+                  SetTableStr(1, 1, iAmtType.AfterAdjustTitle);
+                  WordTable.MergeCells(WordTableCell, WordTable[1, 3]);
 
-                     SetTableStr(1, 0, iAmtType.ProdName);
-                     WordTableCell.VerticalAlignment = TableCellVerticalAlignment.Center;
-                     WordTable.MergeCells(WordTableCell, WordTable[2, 0]);
+                  //調整前
+                  SetTableStr(1, 2, iAmtType.BeforeAdjustTitle);
+                  WordTable.MergeCells(WordTableCell, WordTable[1, 4]);
+                  #endregion
 
-                     #endregion
+                  #region //3.4保證金相關欄位
 
-                     #region //3.3調整前後保證金金額的標題
-                     //調整後
-                     SetTableStr(1, 1, iAmtType.AfterAdjustTitle);
-                     WordTable.MergeCells(WordTableCell, WordTable[1, 3]);
+                  // 如果AB_TYPE為A代表有AB值的話長不一樣
+                  if (dr["ab_type"].AsString() == "A") {
 
-                     //調整前
-                     SetTableStr(1, 2, iAmtType.BeforeAdjustTitle);
-                     WordTable.MergeCells(WordTableCell, WordTable[1, 4]);
-                     #endregion
+                     SetTableTitle(TableTitle, 2, "計算賣出選擇權{0}保證金之適用{1}", iAmtType.MoneyOrPercent);
 
-                     #region //3.4保證金相關欄位
+                     WordTableCell = WordTable[3, 0];
+                     doc.InsertSingleLineText(WordTableCell.Range.Start, "風險保證金(A值)");
+                     WordTableCell.PreferredWidthType = WidthType.Fixed;
+                     WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.InchesToDocumentsF(1f);
 
-                     // 如果AB_TYPE為A代表有AB值的話長不一樣
-                     if (dr["ab_type"].AsString() == "A") {
+                     WordTable.Rows.Append();
 
-                        SetTableTitle(TableTitle, 2, "計算賣出選擇權{0}保證金之適用{1}", iAmtType.MoneyOrPercent);
+                     WordTableCell = WordTable[4, 0];
+                     doc.InsertSingleLineText(WordTableCell.Range.Start, "風險保證金最低值(B值)");
+                     WordTableCell.PreferredWidthType = WidthType.Fixed;
 
-                        WordTableCell = WordTable[3, 0];
-                        doc.InsertSingleLineText(WordTableCell.Range.Start, "風險保證金(A值)");
-                        WordTableCell.PreferredWidthType = WidthType.Fixed;
-                        WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.InchesToDocumentsF(1f);
+                     //填寫B資料
+                     SetMMValue(doc, WordTable, 4, dr, iAmtType.NumberFormatB, ColNameB);
+                  } else {
 
-                        WordTable.Rows.Append();
+                     SetTableTitle(TableTitle, 2, "{0}{1}保證金", Characters.LineBreak.ToString());
+                     WordTableCell = WordTable[3, 0];
+                     doc.InsertSingleLineText(WordTableCell.Range.Start, "保證金");
+                     WordTableCell.PreferredWidthType = WidthType.Fixed;
+                     WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.InchesToDocumentsF(0.7f);
+                  }
 
-                        WordTableCell = WordTable[4, 0];
-                        doc.InsertSingleLineText(WordTableCell.Range.Start, "風險保證金最低值(B值)");
-                        WordTableCell.PreferredWidthType = WidthType.Fixed;
+                  //填寫資料
+                  SetMMValue(doc, WordTable, 3, dr, iAmtType.NumberFormat, ColName);
 
-                        //填寫B資料
-                        SetMMValue(doc, WordTable, 4, dr, iAmtType.NumberFormatB, ColNameB);
-                     } else {
+                  #endregion
 
-                        SetTableTitle(TableTitle, 2, "{0}{1}保證金", Characters.LineBreak.ToString());
-                        WordTableCell = WordTable[3, 0];
-                        doc.InsertSingleLineText(WordTableCell.Range.Start, "保證金");
-                        WordTableCell.PreferredWidthType = WidthType.Fixed;
-                        WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.InchesToDocumentsF(0.7f);
-                     }
+                  doc.AppendText(Environment.NewLine);
+               }// foreach
 
-                     //填寫資料
-                     SetMMValue(doc, WordTable, 3, dr, iAmtType.NumberFormat, ColName);
-
-                     #endregion
-
-                     doc.AppendText(Environment.NewLine);
-                  }// foreach
-
-                  CreateSignTable(doc);
-                  doc.EndUpdate();
-                  docSev.SaveDocument(FilePath, DocumentFormat.Rtf);
-               }//using 
-
-               msg.Status = ResultStatus.Success;
-               System.Diagnostics.Process.Start(FilePath);
+               EndUpdate(docSev, msg);
                return msg;
 
             } catch (Exception ex) {
-               WriteLog(ex.Message);
-               msg.ReturnMessage = MessageDisplay.MSG_IMPORT_FAIL;
+               ErrorHandle(ex, msg);
                return msg;
             }
          }
       }
 
       /// <summary>
-      /// 長假回調 輸出 rtf
+      /// 處置股票 輸出 rtf
       /// </summary>
-      private class ExportWord1E : ExportWord {
-         public ExportWord1E(D40xxx dao, string txtdate, string adjtype, string programId) : base(dao, txtdate, adjtype, programId) {
-            FileChName = "40110_新聞稿_春節回調";
+      private class ExportWord2B : ExportWord {
+         public ExportWord2B(D40xxx dao, string txtdate, string adjtype, string programId) : base(dao, txtdate, adjtype, programId) {
+            FileChName = "40110_新聞稿_處置股票";
             FilePath = PbFunc.wf_copy_file(ProgramId, FileChName);
-            TableTitle = new string[] { "結算", "維持", "原始" };
-            ColName = new string[] { "cur_im2", "cur_im1", "cur_im", "m_im2", "m_im1", "m_im" };
-            ColNameB = new string[] { "cur_cm_b", "cur_mm_b", "cur_im_b", "m_cm_b", "m_mm_b", "m_im_b" };
+            TableTitle = new string[] { "原始", "維持", "結算" };
+            ColName = new string[] { "m_im", "m_mm", "m_cm", "cur_im", "cur_mm", "cur_cm" };
+            ColNameB = new string[] { "m_im_b", "m_mm_b", "m_cm_b", "cur_im_b", "cur_mm_b", "cur_cm_b" };
          }
 
          public override ReturnMessageClass Export() {
             ReturnMessageClass msg = new ReturnMessageClass();
             msg.Status = ResultStatus.Fail;
+
             try {
-               using (RichEditDocumentServer docSev = new RichEditDocumentServer()) {
-                  docSev.LoadDocument(FilePath);
+               RichEditDocumentServer docSev = OpenRtfFile();
 
-                  string validDate = dt.Rows[0]["ISSUE_BEGIN_YMD"].AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
-                  string ValidDatePrev = new MOCF().GetValidDatePrev(dt.Rows[0]["ISSUE_BEGIN_YMD"].AsString()).
-                                          AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
+               //文章上半部填值
+               SetRtfDescText(docSev, "");
 
-                  IEnumerable<IGrouping<string, DataRow>> listGroupBySubtype = dt.AsEnumerable().GroupBy(g => g.Field<string>("PROD_SUBTYPE"));
+               doc = docSev.Document;
+               doc.BeginUpdate();
 
-                  //取代 word 開頭文字
-                  ReplaceWrod(docSev, new M40110Word(ValidDatePrev, validDate, GenProdName(dt), GenSubName(listGroupBySubtype)));
+               #region 組上半部商品說明文章
+               IEnumerable<IGrouping<string, DataRow>> listGroupByStockID = dt.AsEnumerable().GroupBy(g => g.Field<string>("stock_id"));
 
-                  //內文表格
-                  doc = docSev.Document;
-                  doc.BeginUpdate();
+               string validDate = dt.Rows[0]["ISSUE_BEGIN_YMD"].AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
+               SetMainText(listGroupByStockID, validDate);
 
-                  foreach (var groupSubtype in listGroupBySubtype) {
+               doc.AppendText("參照證券市場處置措施，調整期間如遇休市、有價證券停止買賣、全日暫停交易，則恢復日順延執行。");
 
-                     #region Table上方的標題
+               CharacterProps = doc.BeginUpdateCharacters(doc.Paragraphs.Last().Range);
+               CharacterProps.FontSize = 14;
+               CharacterProps.FontName = "標楷體";
+               doc.EndUpdateCharacters(CharacterProps);
 
-                     I40110SubType isubType = CreateI40110SubType(GetType(), "SubType" + ProgramId + groupSubtype.Key);
+               doc.AppendText("\n\n");
 
-                     doc.AppendText(isubType.TableTitle);
-                     ParagraphProps = doc.BeginUpdateParagraphs(doc.Paragraphs.Last().Range);
-                     ParagraphProps.Alignment = ParagraphAlignment.Center;
-                     doc.EndUpdateParagraphs(ParagraphProps);
+               doc.AppendText("本次保證金調整情形列表如下：");
 
-                     CharacterProperties characterProps = doc.BeginUpdateCharacters(doc.Paragraphs.Last().Range);
-                     characterProps.FontSize = 14;
-                     doc.EndUpdateCharacters(characterProps);
+               doc.AppendText("\n");
 
-                     doc.AppendText("\n");
+               #endregion
 
-                     doc.AppendText(isubType.UnitDescription);
-                     ParagraphProps = doc.BeginUpdateParagraphs(doc.Paragraphs.Last().Range);
-                     ParagraphProps.Alignment = ParagraphAlignment.Left;
-                     doc.EndUpdateParagraphs(ParagraphProps);
+               foreach (DataRow dr in dt.Rows) {
+                  #region Table上方單位文字
 
-                     characterProps = doc.BeginUpdateCharacters(doc.Paragraphs.Last().Range);
-                     characterProps.FontSize = 12;
-                     doc.EndUpdateCharacters(characterProps);
+                  string unitDescription = "單位：比例(%)";
+                  doc.AppendText(unitDescription);
 
-                     doc.AppendText("\n");
+                  ParagraphProps = doc.BeginUpdateParagraphs(doc.Paragraphs.Last().Range);
+                  ParagraphProps.Alignment = ParagraphAlignment.Right;
+                  doc.EndUpdateParagraphs(ParagraphProps);
 
-                     #endregion
+                  CharacterProps = doc.BeginUpdateCharacters(doc.Paragraphs.Last().Range);
+                  CharacterProps.FontSize = 12;
+                  doc.EndUpdateCharacters(CharacterProps);
 
-                     #region Table        
+                  #endregion
 
-                     CreateTable(doc, 2, 7);
+                  #region Table
+                  CreateTable(doc, 3, 7);
 
-                     #region Table的標題
+                  #region 商品名稱
 
-                     SetTableStr(0, 0, "契約名稱");
-                     WordTableCell.PreferredWidthType = WidthType.Fixed;
-                     WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.InchesToDocumentsF(2.3f);
-                     WordTableCell.VerticalAlignment = TableCellVerticalAlignment.Center;
-                     WordTable.MergeCells(WordTableCell, WordTable[1, 0]);
+                  WordTableCell = WordTable[0, 0];
+                  string kindName = $"{dr["kind_id"].AsString()}{Characters.LineBreak}({dr["kind_abbr_name"].AsString()})";
+                  doc.InsertSingleLineText(WordTableCell.Range.Start, kindName);
+                  WordTableCell.VerticalAlignment = TableCellVerticalAlignment.Center;
+                  WordTableCell.PreferredWidthType = WidthType.Fixed;
+                  WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.InchesToDocumentsF(1.5f);
+                  WordTable.MergeCells(WordTableCell, WordTable[1, 0]);
 
-                     SetTableStr(0, 1, "調整前保證金金額");
-                     WordTable.MergeCells(WordTableCell, WordTable[0, 3]);
+                  #endregion
 
-                     SetTableStr(0, 2, "調整後保證金金額");
-                     WordTable.MergeCells(WordTableCell, WordTable[0, 4]);
+                  #region 調整後保證金適用比例的標題
 
-                     SetTableTitle(TableTitle, 1, "{0}{1}保證金", Environment.NewLine);
-                     #endregion
+                  WordTableCell = WordTable[0, 1];
+                  doc.InsertSingleLineText(WordTableCell.Range.Start, "調整後保證金適用比例");
+                  WordTable.MergeCells(WordTableCell, WordTable[0, 3]);
 
-                     #region 在每一種商品類別裡面填入資料
+                  #endregion
 
-                     foreach (DataRow dr in dt.Select(string.Format("prod_subtype ='{0}'", groupSubtype.Key))) {
-                        TableRow tableRow = WordTable.Rows.Append();
+                  #region 調整前保證金適用比例的標題
 
-                        string kindAbbrName = dr["kind_abbr_name"].AsString();
+                  WordTableCell = WordTable[0, 2];
+                  doc.InsertSingleLineText(WordTableCell.Range.Start, "調整前保證金適用比例");
+                  WordTable.MergeCells(WordTableCell, WordTable[0, 4]);
 
-                        WordTableCell = tableRow.FirstCell;
+                  #endregion
 
-                        if (dr["ab_type"].AsString() == "A") {
-                           doc.InsertSingleLineText(WordTableCell.Range.Start, kindAbbrName + "風險保證金(A值)");
-                        } else {
-                           doc.InsertSingleLineText(WordTableCell.Range.Start, kindAbbrName);
-                        }
+                  #region 保證金相關欄位
 
-                        ParagraphProps = doc.BeginUpdateParagraphs(WordTableCell.Range);
-                        ParagraphProps.Alignment = ParagraphAlignment.Left;
-                        doc.EndUpdateParagraphs(ParagraphProps);
+                  SetTableTitle(TableTitle, 1, "{0}{1}保證金", Characters.LineBreak.ToString());
 
-                        SetMMValue(doc, WordTable, tableRow.Index, dr, "#,##0", ColName);
+                  // 如果AB_TYPE為A代表有AB值的話長不一樣
+                  if (dr["ab_type"].AsString() == "A") {
+                     doc.InsertSingleLineText(WordTable[2, 0].Range.Start, "風險保證金(A值)");
 
-                        // 如果ab_type為A，代表有AB值，這裡加上B值的列
-                        if (dr["ab_type"].AsString() == "A") {
+                     TableRow newRow = WordTable.Rows.Append();
+                     doc.InsertSingleLineText(WordTable[newRow.Index, 0].Range.Start, "風險保證金最低值(B值)");
+                     SetMMValue(doc, WordTable, newRow.Index, dr, "#0.000%", ColNameB);
 
-                           tableRow = WordTable.Rows.Append();
-                           WordTableCell = tableRow.FirstCell;
+                  } else {
+                     doc.InsertSingleLineText(WordTable[2, 0].Range.Start, "保證金");
+                  }
 
-                           if (dr["ab_type"].AsString() == "A") {
-                              doc.InsertSingleLineText(WordTableCell.Range.Start, kindAbbrName + "風險保證金最低值(B值)");
-                           } else {
-                              doc.InsertSingleLineText(WordTableCell.Range.Start, kindAbbrName);
-                           }
+                  SetMMValue(doc, WordTable, 2, dr, "#0.00%", ColName);
+                  #endregion
 
-                           SetMMValue(doc, WordTable, tableRow.Index, dr, "#,##0", ColNameB);
-                        }
+                  #endregion
+               }
 
-                     }// foreach
-
-                     #endregion
-
-                     #endregion
-
-                     #region 如果是匯率類的話，表格下方加一段註解
-
-                     if (groupSubtype.Key == "E") {
-                        doc.AppendText("※本公司上揭契約公告之保證金收取金額，小型美元兌人民幣期貨、美元兌人民幣期貨、" +
-                           "小型美元兌人民幣選擇權及美元兌人民幣選擇權為人民幣計價；澳幣兌美元期貨、英鎊兌美元期貨、歐元兌美元期貨為美元計價；美元兌日圓期貨為日圓計價。");
-
-                        ParagraphProps = doc.BeginUpdateParagraphs(doc.Paragraphs.Last().Range);
-                        ParagraphProps.LineSpacingType = ParagraphLineSpacing.Single;
-                        
-                        doc.EndUpdateParagraphs(ParagraphProps);
-
-                        doc.AppendText(Environment.NewLine);
-                     }
-
-                     #endregion
-
-                  }// foreach
-
-                  CreateSignTable(doc);
-                  doc.EndUpdate();
-                  docSev.SaveDocument(FilePath, DocumentFormat.Rtf);
-               }//using 
-
-               msg.Status = ResultStatus.Success;
-#if DEBUG
-               System.Diagnostics.Process.Start(FilePath);
-#endif
+               EndUpdate(docSev, msg);
                return msg;
 
             } catch (Exception ex) {
-               WriteLog(ex.Message);
-               msg.ReturnMessage = MessageDisplay.MSG_IMPORT_FAIL;
+               ErrorHandle(ex, msg);
                return msg;
             }
          }
 
-         protected virtual string GenSubName(IEnumerable<IGrouping<string, DataRow>> listGroupBySubtype) {
-            string subtypeName = "";
-            int k = 0;
-            foreach (var item in listGroupBySubtype) {
-               //取得 Enum Description
-               subtypeName += ((SubTypeName)Enum.Parse(typeof(SubTypeName), item.Key)).GetDescriptionText();
+         protected virtual void SetMainText(IEnumerable<IGrouping<string, DataRow>> listGroupByStockID, string validDate) {
+            string mainText = "";
 
-               if (k != (listGroupBySubtype.Count() - 2)) {
-                  subtypeName += "、";
-               } else {
-                  subtypeName += "及";
+            foreach (var itemGroup in listGroupByStockID) {
+               DataRow rowAny = itemGroup.First();
+               string stockID = itemGroup.Key;
+
+               string productList = "";
+
+               foreach (DataRow dr in itemGroup.ToList()) {
+                  productList += dr["kind_abbr_name"].AsString() + "(" + dr["kind_id"].AsString() + ")" + "、";
                }
 
-               k++;
-            }
-            subtypeName = subtypeName.TrimEnd('、');
+               productList = productList.TrimEnd('、');
 
-            return subtypeName;
+               mainText += productList;
+               string str = "所有月份保證金適用比例為現行所屬級距適用比例之{0}倍，本次調高係{1}(股票代號：{2})經證交所於{3}公布為處置有價證券" +
+                  "(處置期間為{3}至{4})期交所依規定調高{5}契約所有月份保證金適用比例，自{6}(證券市場處至生效日次一營業日)該契約交易時段結束後起實施，" +
+                  "並於證券市場處置期間結束後，於{4}該契約交易時段結束後恢復為調整前之保證金。";
+
+               string kindAbbrName = rowAny["kind_abbr_name"].AsString().Replace("期貨", "").Replace("選擇權", "");
+
+               mainText += string.Format(str, rowAny["adj_rate"].AsDecimal(0) + 1, kindAbbrName, rowAny["stock_id"],
+                                       rowAny["impl_begin_ymd"].AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3),
+                                       rowAny["impl_end_ymd"].AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3),
+                                       productList, validDate);
+
+
+               doc.AppendText(mainText);
+               CharacterProperties characterProps = doc.BeginUpdateCharacters(doc.Paragraphs.Last().Range);
+               characterProps.FontSize = 14;
+               characterProps.FontName = "標楷體";
+               doc.EndUpdateCharacters(characterProps);
+
+               doc.AppendText("\n");
+               mainText = "";
+            }
+         }
+      }
+
+      /// <summary>
+      /// 長假調整 輸出 rtf
+      /// </summary>
+      private class ExportWord1B : ExportWordVacationAdjust {
+         public ExportWord1B(D40xxx dao, string txtdate, string adjtype, string programId) : base(dao, txtdate, adjtype, programId) {
+            FileChName = "40110_新聞稿_春節調整";
+            FilePath = PbFunc.wf_copy_file(ProgramId, FileChName);
+         }
+
+         public override ReturnMessageClass Export() {
+            ReturnMessageClass msg = base.Export();
+            return msg;            
          }
 
          /// <summary>
-         /// set rtf table style
+         /// 取代rtf 開頭說明文
          /// </summary>
-         /// <param name="doc"></param>
-         /// <param name="paragraphProps"></param>
-         /// <param name="table"></param>
-         protected override void CreateTable(Document doc, int rowCount, int colCount) {
+         /// <param name="docSev">檔案本體</param>
+         /// <param name="listGroupBySubtype">分群資料</param>
+         protected override void SetRtfDescText(RichEditDocumentServer docSev, IEnumerable<IGrouping<string, DataRow>> listGroupBySubtype) {
+            DateTime validDate = dt.Rows[0]["ISSUE_BEGIN_YMD"].AsDateTime("yyyyMMdd");
+            DateTime validDatePrev = new MOCF().GetValidDatePrev(dt.Rows[0]["ISSUE_BEGIN_YMD"].AsString()).AsDateTime("yyyyMMdd");
 
-            WordTable = doc.Tables.Create(doc.Range.End, rowCount, colCount);
-            ParagraphProps = doc.BeginUpdateParagraphs(WordTable.Range);
+            string validDateStr = validDate.AsTaiwanDateTime("{0}年{1}月{2}日", 3);
+            string validDatePrevStr = validDatePrev.AsTaiwanDateTime("{0}年{1}月{2}日", 3);
+            string validDateMD = validDate.ToString("M月dd日");
+            string validDatePrevMD = validDatePrev.ToString("M月dd日");
+            string validDateYear = validDate.AsTaiwanDateTime("{0}", 3);
 
-            // 預設Table內容都全部置中
-            ParagraphProps = doc.BeginUpdateParagraphs(WordTable.Range);
-            ParagraphProps.Alignment = ParagraphAlignment.Center;
-            ParagraphProps.LineSpacingType = ParagraphLineSpacing.Single;
-            ParagraphProps.SpacingBefore = 0;
-            doc.EndUpdateParagraphs(ParagraphProps);
+            //極特殊, 基本上一定會有TXF資料, 遇長假都會調整TXF
+            DataRow TXFRow = dt.Select("kind_id='TXF'")[0];
+            string adjRateTxf = TXFRow["adj_rate"].AsDecimal() != 0 ? TXFRow["adj_rate"].AsPercent(1) : string.Empty;
+            decimal curIm = TXFRow["cur_im"].AsDecimal();
+            decimal mIm = TXFRow["m_im"].AsDecimal();
+            string curImTxf = curIm.ToString("#,##0");
+            string mImTxf = mIm.ToString("#,##0");
+            string DiffRateTxf = ((mIm - curIm) / curIm).ToString("#0.0%");
 
-            // 預設Table內的字體
-            CharacterProperties tableProp = doc.BeginUpdateCharacters(WordTable.Range);
-            tableProp.FontSize = 12;
-            doc.EndUpdateCharacters(tableProp);
+            DateTime validDateEnd = TXFRow["impl_end_ymd"].AsDateTime("yyyyMMdd");
+            string validDateEndStr = validDateEnd.AsTaiwanDateTime("{0}年{1}月{2}日", 3);
+            string validDateEndMDStr = validDateEnd.ToString("M月dd日");
 
-            // 垂直置中
-            WordTable.ForEachCell((c, i, j) => {
-               c.VerticalAlignment = TableCellVerticalAlignment.Center;
-            });
+            DateTime validDateEndPrevTwoAny = validDateEnd.AddDays(-2);
+            string validDateEndPrevTwoAnyStr = validDateEndPrevTwoAny.ToString("M月dd日");
 
+            DateTime validDateNextAny = validDate.AddDays(1);
+            string validDateNextAnyMD = validDateNextAny.AsTaiwanDateTime("{0}年{1}月{2}日", 3);
+            string daysCount = ((validDateEndPrevTwoAny - validDateNextAny).TotalDays + 1).ToString();
+
+            //取代 word 開頭文字
+            M40110Word m40110 = new M40110Word(validDateStr, validDateMD, validDateEndStr, validDateEndMDStr, validDateEndPrevTwoAnyStr,
+                        validDatePrevStr, validDatePrevMD, validDateYear, validDateNextAnyMD, daysCount, GenSubName(listGroupBySubtype),
+                        adjRateTxf, DiffRateTxf, curImTxf, mImTxf);
+
+            //Options.MailMerge 要用List 才會有作用
+            List<M40110Word> listM40110 = new List<M40110Word>();
+            listM40110.Add(m40110);
+
+            //直接replace word 上面的字
+            docSev.Options.MailMerge.DataSource = listM40110;
+            docSev.Options.MailMerge.ViewMergedData = true;
+         }
+      }
+
+      /// <summary>
+      /// 長假回調 輸出 rtf
+      /// </summary>
+      private class ExportWord1E : ExportWordVacationAdjust {
+         public ExportWord1E(D40xxx dao, string txtdate, string adjtype, string programId) : base(dao, txtdate, adjtype, programId) {
+            FileChName = "40110_新聞稿_春節回調";
+            FilePath = PbFunc.wf_copy_file(ProgramId, FileChName);
+         }
+
+         public override ReturnMessageClass Export() {
+            ReturnMessageClass msg = base.Export();
+            return msg;
          }
       }
 
@@ -781,6 +1056,20 @@ namespace PhoenixCI.FormUI.Prefix4 {
          public string ValidDate { get; set; }
          public string ProductList { get; set; }
          public string SubtypeList { get; set; }
+         public string ValidDateYear { get; set; }
+
+         public string ValidDateNextAnyMD { get; set; }
+         public string ValidDateEndPrevTwoAnyMD { get; set; }
+         public string DaysCount { get; set; }
+         public string ValidDateMD { get; set; }
+         public string ValidDatePrevMD { get; set; }
+
+         public string AdjRateTxf { get; set; }
+         public string CurImTxf { get; set; }
+         public string MImTxf { get; set; }
+         public string DiffRateTxf { get; set; }
+         public string ValidDateEnd { get; set; }
+         public string ValidDateEndMD { get; set; }
 
          public M40110Word(string validdateprev, string validdate, string productlist) {
             ValidDatePrev = validdateprev;
@@ -793,6 +1082,30 @@ namespace PhoenixCI.FormUI.Prefix4 {
             ValidDate = validdate;
             ProductList = productlist;
             SubtypeList = subtypelist;
+         }
+
+         public M40110Word(string validdate, string validdatemd, string validdateend, string validdateendmd, 
+                           string validdateendprevtwoanymd, string validdateprev,string validdateprevmd, string validdateyear, 
+                           string validdatenextanymd, string dayscount, string subtypelist, string adjratetxf, string diffratetxf, 
+                           string curimtxf, string mimtxf) {
+
+            ValidDate = validdate;
+            ValidDateMD = validdatemd;
+            ValidDateEnd = validdateend;
+            ValidDateEndMD = validdateendmd;
+            ValidDateEndPrevTwoAnyMD = validdateendprevtwoanymd;
+
+            ValidDatePrev = validdateprev;
+            ValidDatePrevMD = validdateprevmd;
+            ValidDateYear = validdateyear;
+            ValidDateNextAnyMD = validdatenextanymd;
+            DaysCount = dayscount;
+
+            SubtypeList = subtypelist;
+            AdjRateTxf = adjratetxf;
+            DiffRateTxf = diffratetxf;
+            CurImTxf = curimtxf;
+            MImTxf = mimtxf;
          }
 
       }
