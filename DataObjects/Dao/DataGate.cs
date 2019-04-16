@@ -717,13 +717,14 @@ namespace DataObjects.Dao {
             string ls_str2 = DeCode(dt.Rows[0]["ls_str2"].ToString());
             string ls_srv = dt.Rows[0]["ls_srv"].ToString().Split('/')[0];
 
-            if (string.IsNullOrEmpty(dt.Rows[0]["ls_db"].ToString())) { dt.Rows[0]["ls_db"] = ""; }
-            if (string.IsNullOrEmpty(dt.Rows[0]["ls_dbparm"].ToString())) { dt.Rows[0]["ls_dbparm"] = ""; }
+            if (string.IsNullOrEmpty(dt.Rows[0]["ls_db"].ToString().Trim())) { dt.Rows[0]["ls_db"] = ""; }
+            if (string.IsNullOrEmpty(dt.Rows[0]["ls_dbparm"].ToString().Trim())) { dt.Rows[0]["ls_dbparm"] = ""; }
 
-            string connectionString = "Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=" + ls_srv + ")" +
-                "(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=CI)(SERVER=DEDICATED))); User Id=" + dt.Rows[0]["ls_str1"].ToString() + ";Password=" + ls_str2 + ";";
+            string connectionString = string.Format("Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST={0})" +
+                "(PORT=1521)))(CONNECT_DATA=(SID=CI)(SERVER=DEDICATED))); User Id={1};Password={2};",
+                ls_srv, dt.Rows[0]["ls_str1"].ToString(), ls_str2);
 
-            return new Db(connectionString, "Oracle.ManagedDataAccess.Client", "");
+            return new Db(connectionString, "Oracle.ManagedDataAccess.Client", dt.Rows[0]["ls_db"].ToString().Trim());
          } catch (Exception ex) {
             throw ex;
          }

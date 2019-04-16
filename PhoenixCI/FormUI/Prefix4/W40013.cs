@@ -2,24 +2,26 @@
 using System.Windows.Forms;
 using BaseGround;
 using BusinessObjects.Enums;
-using BaseGround.Report;
-using Common;
 using BaseGround.Shared;
 using System.Threading;
 using PhoenixCI.BusinessLogic.Prefix4;
+using System.IO;
+using Common;
+using DataObjects.Dao.Together.SpecificDao;
 /// <summary>
-/// john,20190320,標的證券為受益憑證之上市證券保證金狀況表
+/// john,20190415,保證金狀況表 (Group3) 
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix4
 {
    /// <summary>
-   /// 標的證券為受益憑證之上市證券保證金狀況表
+   /// 保證金狀況表 (Group3) 
    /// </summary>
-   public partial class W43030 : FormParent
+   public partial class W40013 : FormParent
    {
-      private B43030 b43030;
+      private I4001x b4001xTemp;
+      private string _saveFilePath;
 
-      public W43030(string programID, string programName) : base(programID, programName)
+      public W40013(string programID, string programName) : base(programID, programName)
       {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
@@ -35,10 +37,10 @@ namespace PhoenixCI.FormUI.Prefix4
       protected override ResultStatus Open()
       {
          base.Open();
-         emDate.Text = DateTime.Today.ToString("yyyy/MM/dd");
 #if DEBUG
-         emDate.Text = "2014/10/20";
-         this.Text += "(開啟測試模式),ocfDate=2014/10/20";
+         emDate.Text = "2018/10/12";
+#else
+            emDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
 #endif
          return ResultStatus.Success;
       }
@@ -47,6 +49,7 @@ namespace PhoenixCI.FormUI.Prefix4
       {
          base.AfterOpen();
          emDate.Focus();
+
          return ResultStatus.Success;
       }
 
@@ -58,23 +61,34 @@ namespace PhoenixCI.FormUI.Prefix4
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Print(ReportHelper reportHelper)
-      {
-         base.Print(reportHelper);
-
-         return ResultStatus.Success;
-      }
-
       private bool StartExport()
       {
-         if (!emDate.IsDate(emDate.Text, "日期輸入錯誤")) {
+         if (!emDate.IsDate(emDate.Text, "日期輸入錯誤"))
+         {
             //is_chk = "Y";
             return false;
          }
-         /*******************
-         Messagebox
-         *******************/
+
+         _saveFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
+         object[] args = { _ProgramID, _saveFilePath, emDate.Text };
+         b4001xTemp = new B4001xTemplate().ConcreteClass(_ProgramID, args);
+
          stMsgTxt.Visible = true;
+
+         //判斷FMIF資料已轉入
+         string chkFMIF = b4001xTemp.CheckFMIF();
+         if (chkFMIF != MessageDisplay.MSG_OK)
+         {
+            return OutputChooseMessage(chkFMIF);
+         }
+
+         //130批次作業做完
+         string strRtn = b4001xTemp.Check130Wf();
+         if (strRtn != MessageDisplay.MSG_OK)
+         {
+            return OutputChooseMessage(strRtn);
+         }
+
          stMsgTxt.Text = "開始轉檔...";
          this.Cursor = Cursors.WaitCursor;
          this.Refresh();
@@ -98,6 +112,17 @@ namespace PhoenixCI.FormUI.Prefix4
          Thread.Sleep(5);
       }
 
+      private bool OutputChooseMessage(string str)
+      {
+         DialogResult ChooseResult = MessageDisplay.Choose(str);
+         if (ChooseResult == DialogResult.No)
+         {
+            EndExport();
+            return false;
+         }
+         return true;
+      }
+
       private string OutputShowMessage {
          set {
             if (value != MessageDisplay.MSG_OK)
@@ -107,42 +132,27 @@ namespace PhoenixCI.FormUI.Prefix4
 
       protected override ResultStatus Export()
       {
-         if (!StartExport()) {
+         if (!StartExport())
+         {
             return ResultStatus.Fail;
          }
-         try {
-            //資料來源
-            string saveFilePath = PbFunc.wf_copy_file(_ProgramID, "43030");
-            b43030 = new B43030(saveFilePath,emDate.Text);
-            
-            ShowMsg("43030－上市證券保證金概況表 轉檔中...");
-            OutputShowMessage = b43030.Wf43030();
+         try
+         {
+            //Sheet : rpt_future
+            ShowMsg($"{_ProgramID}_1－保證金狀況表 轉檔中...");
+            OutputShowMessage = b4001xTemp.WfFutureSheet();
          }
-         catch (Exception ex) {
+         catch (Exception ex)
+         {
+            File.Delete(_saveFilePath);
             WriteLog(ex);
             return ResultStatus.Fail;
          }
-         finally {
+         finally
+         {
             EndExport();
          }
 
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus Export(ReportHelper reportHelper)
-      {
-         base.Export(reportHelper);
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus CheckShield()
-      {
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus COMPLETE()
-      {
          return ResultStatus.Success;
       }
    }

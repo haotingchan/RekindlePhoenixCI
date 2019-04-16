@@ -32,7 +32,7 @@
          this.stMsgTxt = new System.Windows.Forms.Label();
          this.gb1_label = new System.Windows.Forms.Label();
          this.gb_1 = new DevExpress.XtraEditors.PanelControl();
-         this.emDate = new DevExpress.XtraEditors.TextEdit();
+         this.emDate = new PhoenixCI.Widget.TextDateEdit();
          this.stDate = new System.Windows.Forms.Label();
          this.textEdit1 = new DevExpress.XtraEditors.TextEdit();
          this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
@@ -125,16 +125,16 @@
          // 
          // emDate
          // 
-         this.emDate.CausesValidation = false;
+         this.emDate.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
+         this.emDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
          this.emDate.EditValue = "2019/01/01";
          this.emDate.Location = new System.Drawing.Point(100, 33);
          this.emDate.Name = "emDate";
-         this.emDate.Properties.DisplayFormat.FormatString = "yyyy/MM/dd";
-         this.emDate.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-         this.emDate.Properties.Mask.EditMask = "\\d\\d\\d\\d/\\d\\d/\\d\\d";
-         this.emDate.Properties.Mask.IgnoreMaskBlank = false;
-         this.emDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
-         this.emDate.Properties.Mask.PlaceHolder = '0';
+         this.emDate.Properties.Appearance.Options.UseTextOptions = true;
+         this.emDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.emDate.Properties.Mask.EditMask = "yyyy/MM/dd";
+         this.emDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.emDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.emDate.Size = new System.Drawing.Size(95, 28);
          this.emDate.TabIndex = 4;
          // 
@@ -182,15 +182,15 @@
          this.layoutControlItem3.Size = new System.Drawing.Size(0, 0);
          this.layoutControlItem3.TextSize = new System.Drawing.Size(50, 20);
          // 
-         // W40011
+         // W40012
          // 
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
          this.ClientSize = new System.Drawing.Size(532, 285);
          this.Controls.Add(this.panelControl2);
-         this.Name = "W40011";
-         this.Text = "W40011";
+         this.Name = "W40012";
+         this.Text = "W40012";
          this.Controls.SetChildIndex(this.ribbonControl, 0);
          this.Controls.SetChildIndex(this.panParent, 0);
          this.Controls.SetChildIndex(this.panelControl2, 0);
@@ -220,7 +220,7 @@
       private System.Windows.Forms.Label gb1_label;
       private DevExpress.XtraEditors.PanelControl gb_1;
       private DevExpress.XtraEditors.TextEdit textEdit1;
-      private DevExpress.XtraEditors.TextEdit emDate;
+      private PhoenixCI.Widget.TextDateEdit emDate;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
       private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup1;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;

@@ -37,7 +37,7 @@
          this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
          this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
          this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
-         this.emDate = new DevExpress.XtraEditors.TextEdit();
+         this.emDate = new PhoenixCI.Widget.TextDateEdit();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
          this.panelControl2.SuspendLayout();
@@ -169,16 +169,16 @@
          // 
          // emDate
          // 
-         this.emDate.CausesValidation = false;
+         this.emDate.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
+         this.emDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
          this.emDate.EditValue = "2019/01/01";
          this.emDate.Location = new System.Drawing.Point(104, 34);
          this.emDate.Name = "emDate";
-         this.emDate.Properties.DisplayFormat.FormatString = "yyyy/MM/dd";
-         this.emDate.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-         this.emDate.Properties.Mask.EditMask = "\\d\\d\\d\\d/\\d\\d/\\d\\d";
-         this.emDate.Properties.Mask.IgnoreMaskBlank = false;
-         this.emDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
-         this.emDate.Properties.Mask.PlaceHolder = '0';
+         this.emDate.Properties.Appearance.Options.UseTextOptions = true;
+         this.emDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.emDate.Properties.Mask.EditMask = "yyyy/MM/dd";
+         this.emDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.emDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.emDate.Size = new System.Drawing.Size(102, 28);
          this.emDate.TabIndex = 5;
          // 
@@ -224,6 +224,6 @@
       private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup1;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
       private System.Windows.Forms.Label stDate;
-      private DevExpress.XtraEditors.TextEdit emDate;
+      private PhoenixCI.Widget.TextDateEdit emDate;
    }
 }

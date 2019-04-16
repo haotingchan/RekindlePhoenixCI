@@ -1,6 +1,6 @@
-﻿namespace PhoenixCI.FormUI.Prefix3
+﻿namespace PhoenixCI.FormUI.Prefix4
 {
-   partial class W30540
+   partial class W40013
    {
       /// <summary>
       /// Required designer variable.
@@ -29,11 +29,11 @@
       {
          this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
-         this.stMsgtxt = new System.Windows.Forms.Label();
+         this.stMsgTxt = new System.Windows.Forms.Label();
          this.gb1_label = new System.Windows.Forms.Label();
          this.gb_1 = new DevExpress.XtraEditors.PanelControl();
-         this.emMonth = new PhoenixCI.Widget.TextDateEdit();
-         this.st_3 = new System.Windows.Forms.Label();
+         this.emDate = new PhoenixCI.Widget.TextDateEdit();
+         this.stDate = new System.Windows.Forms.Label();
          this.textEdit1 = new DevExpress.XtraEditors.TextEdit();
          this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
          this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
@@ -45,7 +45,7 @@
          this.r_frame.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gb_1)).BeginInit();
          this.gb_1.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.emMonth.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.emDate.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
@@ -54,12 +54,12 @@
          // 
          // panParent
          // 
-         this.panParent.Size = new System.Drawing.Size(514, 220);
+         this.panParent.Size = new System.Drawing.Size(532, 255);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(514, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(532, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // panelControl2
@@ -68,7 +68,7 @@
          this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
          this.panelControl2.Location = new System.Drawing.Point(0, 30);
          this.panelControl2.Name = "panelControl2";
-         this.panelControl2.Size = new System.Drawing.Size(514, 220);
+         this.panelControl2.Size = new System.Drawing.Size(532, 255);
          this.panelControl2.TabIndex = 1;
          // 
          // r_frame
@@ -76,25 +76,25 @@
          this.r_frame.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
          this.r_frame.Appearance.Options.UseBackColor = true;
          this.r_frame.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-         this.r_frame.Controls.Add(this.stMsgtxt);
+         this.r_frame.Controls.Add(this.stMsgTxt);
          this.r_frame.Controls.Add(this.gb1_label);
          this.r_frame.Controls.Add(this.gb_1);
          this.r_frame.Location = new System.Drawing.Point(30, 27);
          this.r_frame.Name = "r_frame";
-         this.r_frame.Size = new System.Drawing.Size(456, 167);
+         this.r_frame.Size = new System.Drawing.Size(461, 193);
          this.r_frame.TabIndex = 1;
          // 
-         // stMsgtxt
+         // stMsgTxt
          // 
-         this.stMsgtxt.AutoSize = true;
-         this.stMsgtxt.Font = new System.Drawing.Font("微軟正黑體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.stMsgtxt.ForeColor = System.Drawing.Color.Blue;
-         this.stMsgtxt.Location = new System.Drawing.Point(24, 135);
-         this.stMsgtxt.Name = "stMsgtxt";
-         this.stMsgtxt.Size = new System.Drawing.Size(153, 19);
-         this.stMsgtxt.TabIndex = 1;
-         this.stMsgtxt.Text = "訊息：資料轉出中........";
-         this.stMsgtxt.Visible = false;
+         this.stMsgTxt.AutoSize = true;
+         this.stMsgTxt.Font = new System.Drawing.Font("微軟正黑體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.stMsgTxt.ForeColor = System.Drawing.Color.Blue;
+         this.stMsgTxt.Location = new System.Drawing.Point(34, 138);
+         this.stMsgTxt.Name = "stMsgTxt";
+         this.stMsgTxt.Size = new System.Drawing.Size(153, 19);
+         this.stMsgTxt.TabIndex = 1;
+         this.stMsgTxt.Text = "訊息：資料轉出中........";
+         this.stMsgTxt.Visible = false;
          // 
          // gb1_label
          // 
@@ -111,39 +111,42 @@
          // 
          this.gb_1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
          this.gb_1.Appearance.Options.UseBackColor = true;
-         this.gb_1.Controls.Add(this.emMonth);
-         this.gb_1.Controls.Add(this.st_3);
+         this.gb_1.Appearance.Options.UseTextOptions = true;
+         this.gb_1.Appearance.TextOptions.Trimming = DevExpress.Utils.Trimming.Word;
+         this.gb_1.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+         this.gb_1.Controls.Add(this.emDate);
+         this.gb_1.Controls.Add(this.stDate);
          this.gb_1.Location = new System.Drawing.Point(28, 25);
          this.gb_1.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
          this.gb_1.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gb_1.Name = "gb_1";
-         this.gb_1.Size = new System.Drawing.Size(403, 96);
+         this.gb_1.Size = new System.Drawing.Size(406, 92);
          this.gb_1.TabIndex = 0;
          // 
-         // emMonth
+         // emDate
          // 
-         this.emMonth.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
-         this.emMonth.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
-         this.emMonth.EditValue = "2019/01";
-         this.emMonth.Location = new System.Drawing.Point(99, 36);
-         this.emMonth.Name = "emMonth";
-         this.emMonth.Properties.Appearance.Options.UseTextOptions = true;
-         this.emMonth.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.emMonth.Properties.Mask.EditMask = "yyyy/MM";
-         this.emMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-         this.emMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.emMonth.Size = new System.Drawing.Size(71, 28);
-         this.emMonth.TabIndex = 4;
+         this.emDate.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
+         this.emDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+         this.emDate.EditValue = "2019/01/01";
+         this.emDate.Location = new System.Drawing.Point(100, 33);
+         this.emDate.Name = "emDate";
+         this.emDate.Properties.Appearance.Options.UseTextOptions = true;
+         this.emDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.emDate.Properties.Mask.EditMask = "yyyy/MM/dd";
+         this.emDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.emDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.emDate.Size = new System.Drawing.Size(95, 28);
+         this.emDate.TabIndex = 4;
          // 
-         // st_3
+         // stDate
          // 
-         this.st_3.AutoSize = true;
-         this.st_3.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
-         this.st_3.Location = new System.Drawing.Point(48, 40);
-         this.st_3.Name = "st_3";
-         this.st_3.Size = new System.Drawing.Size(58, 21);
-         this.st_3.TabIndex = 0;
-         this.st_3.Text = "月份：";
+         this.stDate.AutoSize = true;
+         this.stDate.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
+         this.stDate.Location = new System.Drawing.Point(45, 37);
+         this.stDate.Name = "stDate";
+         this.stDate.Size = new System.Drawing.Size(58, 21);
+         this.stDate.TabIndex = 1;
+         this.stDate.Text = "日期：";
          // 
          // textEdit1
          // 
@@ -179,15 +182,15 @@
          this.layoutControlItem3.Size = new System.Drawing.Size(0, 0);
          this.layoutControlItem3.TextSize = new System.Drawing.Size(50, 20);
          // 
-         // W30540
+         // W40013
          // 
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(514, 250);
+         this.ClientSize = new System.Drawing.Size(532, 285);
          this.Controls.Add(this.panelControl2);
-         this.Name = "W30540";
-         this.Text = "W30540";
+         this.Name = "W40013";
+         this.Text = "W40013";
          this.Controls.SetChildIndex(this.ribbonControl, 0);
          this.Controls.SetChildIndex(this.panParent, 0);
          this.Controls.SetChildIndex(this.panelControl2, 0);
@@ -200,7 +203,7 @@
          ((System.ComponentModel.ISupportInitialize)(this.gb_1)).EndInit();
          this.gb_1.ResumeLayout(false);
          this.gb_1.PerformLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.emMonth.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.emDate.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
@@ -213,14 +216,14 @@
       #endregion
       private DevExpress.XtraEditors.PanelControl panelControl2;
       private DevExpress.XtraEditors.PanelControl r_frame;
-      private System.Windows.Forms.Label stMsgtxt;
+      private System.Windows.Forms.Label stMsgTxt;
       private System.Windows.Forms.Label gb1_label;
       private DevExpress.XtraEditors.PanelControl gb_1;
-      private System.Windows.Forms.Label st_3;
       private DevExpress.XtraEditors.TextEdit textEdit1;
+      private PhoenixCI.Widget.TextDateEdit emDate;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
       private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup1;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
-      private PhoenixCI.Widget.TextDateEdit  emMonth;
+      private System.Windows.Forms.Label stDate;
    }
 }

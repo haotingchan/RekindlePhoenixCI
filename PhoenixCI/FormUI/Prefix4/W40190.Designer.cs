@@ -32,7 +32,7 @@
          this.stMsgTxt = new System.Windows.Forms.Label();
          this.gb1_label = new System.Windows.Forms.Label();
          this.gb_1 = new DevExpress.XtraEditors.PanelControl();
-         this.emDate = new DevExpress.XtraEditors.TextEdit();
+         this.emDate = new PhoenixCI.Widget.TextDateEdit();
          this.stDate = new System.Windows.Forms.Label();
          this.textEdit1 = new DevExpress.XtraEditors.TextEdit();
          this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
@@ -220,7 +220,7 @@
       private System.Windows.Forms.Label gb1_label;
       private DevExpress.XtraEditors.PanelControl gb_1;
       private DevExpress.XtraEditors.TextEdit textEdit1;
-      private DevExpress.XtraEditors.TextEdit emDate;
+      private PhoenixCI.Widget.TextDateEdit emDate;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
       private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup1;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;

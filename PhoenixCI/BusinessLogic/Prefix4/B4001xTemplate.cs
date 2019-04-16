@@ -4,6 +4,7 @@ using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -51,7 +52,17 @@ namespace PhoenixCI.BusinessLogic.Prefix4
          return (I4001x)Assembly.Load(AssemblyName).CreateInstance(className, true, BindingFlags.CreateInstance, null, args, null, null);
       }
 
-
+      public enum SheetName:int
+      {
+         /// <summary>
+         /// rpt_future
+         /// </summary>
+         Rpt_Future = 0,
+         /// <summary>
+         /// rpt_option
+         /// </summary>
+         Rpt_Option = 1
+      }
       #region 共用方法
       /// <summary>
       /// 作業項目共用方法
@@ -192,18 +203,20 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             //切換Sheet
             Workbook workbook = new Workbook();
             workbook.LoadDocument(_lsFile);
-            Worksheet worksheet = workbook.Worksheets["rpt_future"];
+            Worksheet worksheet = workbook.Worksheets[(int)SheetName.Rpt_Future];
             DateTime emdate = _emDateText.AsDateTime("yyyy/MM/dd");
             worksheet.Cells["G1"].Value = "資料日期：" + emdate.ToLongDateString().ToString();
             const int SheetOne = 1;//第一張sheet
 
-            //一、現行收取保證金金額：CDEFGH
-            DataTable dtR1 = dao.GetFutR1Data(emdate);
-            if (dtR1.Rows.Count <= 0)
+            //確認有無資料
+            int SheetFutDataCount = dao.FutR1DataCount(emdate);
+            if (SheetFutDataCount <= 0)
             {
                return $"{_emDateText},{_TxnID}_1－保證金狀況表,無任何資料!";
             }
 
+            //一、現行收取保證金金額：CDEFGH
+            DataTable dtR1 = dao.GetFutR1Data(emdate);
             WriteFutR1Data(worksheet, dtR1);
 
             //二、	本日結算保證金計算：CDEFGH
@@ -246,18 +259,20 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             //切換Sheet
             Workbook workbook = new Workbook();
             workbook.LoadDocument(_lsFile);
-            Worksheet worksheet = workbook.Worksheets["rpt_option"];
+            Worksheet worksheet = workbook.Worksheets[(int)SheetName.Rpt_Option];
             DateTime emdate = _emDateText.AsDateTime("yyyy/MM/dd");
             worksheet.Cells["G5"].Value = "資料日期：" + emdate.ToLongDateString().ToString();
             const int SheetTwo = 2;//第二張sheet
 
-            //一、現行收取保證金金額：CDEFGH
-            DataTable dtR1 = dao.GetOptR1Data(emdate);
-            if (dtR1.Rows.Count <= 0)
+            //確認有無資料
+            int SheetOptDataCount = dao.FutR1DataCount(emdate);
+            if (SheetOptDataCount <= 0)
             {
                return $"{_emDateText},{_TxnID}_2－保證金狀況表,無任何資料!";
             }
 
+            //一、現行收取保證金金額：CDEFGH
+            DataTable dtR1 = dao.GetOptR1Data(emdate);
             WriteOptR1Data(worksheet, dtR1);
 
             //二、	本日結算保證金計算：CDEFGH

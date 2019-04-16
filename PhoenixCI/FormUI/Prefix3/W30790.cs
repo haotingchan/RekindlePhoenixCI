@@ -36,8 +36,8 @@ namespace PhoenixCI.FormUI.Prefix3
       protected override ResultStatus Open()
       {
          base.Open();
-         emStartDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
-         emEndDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
+         emStartDate.Text = PbFunc.f_ocf_date(0);
+         emEndDate.Text = PbFunc.f_ocf_date(0);
          return ResultStatus.Success;
       }
 
@@ -71,11 +71,23 @@ namespace PhoenixCI.FormUI.Prefix3
 
       private bool StartExport()
       {
-         if (!emStartDate.IsDate(emStartDate.Text, CheckDate.Start)) {
+         if (!emStartDate.IsDate(emStartDate.Text, CheckDate.Start))
+         {
             //is_chk = "Y";
             return false;
          }
-         if (!emEndDate.IsDate(emEndDate.Text, CheckDate.End)) {
+         if (!emEndDate.IsDate(emEndDate.Text, CheckDate.End))
+         {
+            //is_chk = "Y";
+            return false;
+         }
+         if (!emTxStartDate.IsDate(emStartDate.Text, CheckDate.Start))
+         {
+            //is_chk = "Y";
+            return false;
+         }
+         if (!emTxEndDate.IsDate(emEndDate.Text, CheckDate.End))
+         {
             //is_chk = "Y";
             return false;
          }
@@ -83,6 +95,8 @@ namespace PhoenixCI.FormUI.Prefix3
          Messagebox
          *******************/
          stMsgTxt.Visible = true;
+
+         gb.Enabled = false;
          stMsgTxt.Text = "開始轉檔...";
          this.Cursor = Cursors.WaitCursor;
          this.Refresh();
@@ -97,6 +111,7 @@ namespace PhoenixCI.FormUI.Prefix3
          this.Refresh();
          Thread.Sleep(5);
          stMsgTxt.Visible = false;
+         gb.Enabled = true;
       }
 
       protected void ShowMsg(string msg)

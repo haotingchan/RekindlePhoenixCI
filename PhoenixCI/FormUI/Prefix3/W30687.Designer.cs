@@ -34,8 +34,8 @@
          this.gb_1 = new DevExpress.XtraEditors.PanelControl();
          this.SleProdIDtxt = new DevExpress.XtraEditors.TextEdit();
          this.st_date = new DevExpress.XtraLayout.LayoutControl();
-         this.emStartDate = new DevExpress.XtraEditors.TextEdit();
-         this.emEndDate = new DevExpress.XtraEditors.TextEdit();
+         this.emStartDate = new PhoenixCI.Widget.TextDateEdit();
+         this.emEndDate = new PhoenixCI.Widget.TextDateEdit();
          this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
          this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
          this.layoutControlItem4 = new DevExpress.XtraLayout.LayoutControlItem();
@@ -173,32 +173,32 @@
          // 
          // emStartDate
          // 
-         this.emStartDate.CausesValidation = false;
+         this.emStartDate.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
+         this.emStartDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
          this.emStartDate.EditValue = "2019/01/01";
          this.emStartDate.Location = new System.Drawing.Point(2, 2);
          this.emStartDate.Name = "emStartDate";
-         this.emStartDate.Properties.DisplayFormat.FormatString = "yyyy/MM/dd";
-         this.emStartDate.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-         this.emStartDate.Properties.Mask.EditMask = "\\d\\d\\d\\d/\\d\\d/\\d\\d";
-         this.emStartDate.Properties.Mask.IgnoreMaskBlank = false;
-         this.emStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
-         this.emStartDate.Properties.Mask.PlaceHolder = '0';
+         this.emStartDate.Properties.Appearance.Options.UseTextOptions = true;
+         this.emStartDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.emStartDate.Properties.Mask.EditMask = "yyyy/MM/dd";
+         this.emStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.emStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.emStartDate.Size = new System.Drawing.Size(102, 28);
          this.emStartDate.StyleController = this.st_date;
          this.emStartDate.TabIndex = 0;
          // 
          // emEndDate
          // 
-         this.emEndDate.CausesValidation = false;
+         this.emEndDate.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
+         this.emEndDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
          this.emEndDate.EditValue = "2019/01/01";
          this.emEndDate.Location = new System.Drawing.Point(125, 2);
          this.emEndDate.Name = "emEndDate";
-         this.emEndDate.Properties.DisplayFormat.FormatString = "yyyy/MM/dd";
-         this.emEndDate.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-         this.emEndDate.Properties.Mask.EditMask = "\\d\\d\\d\\d/\\d\\d/\\d\\d";
-         this.emEndDate.Properties.Mask.IgnoreMaskBlank = false;
-         this.emEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
-         this.emEndDate.Properties.Mask.PlaceHolder = '0';
+         this.emEndDate.Properties.Appearance.Options.UseTextOptions = true;
+         this.emEndDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.emEndDate.Properties.Mask.EditMask = "yyyy/MM/dd";
+         this.emEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.emEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.emEndDate.Size = new System.Drawing.Size(102, 28);
          this.emEndDate.StyleController = this.st_date;
          this.emEndDate.TabIndex = 1;
@@ -413,8 +413,8 @@
       private System.Windows.Forms.Label st_5;
       private DevExpress.XtraEditors.TextEdit textEdit1;
       private DevExpress.XtraLayout.LayoutControl st_date;
-      private DevExpress.XtraEditors.TextEdit emStartDate;
-      private DevExpress.XtraEditors.TextEdit emEndDate;
+      private PhoenixCI.Widget.TextDateEdit emStartDate;
+      private PhoenixCI.Widget.TextDateEdit emEndDate;
       private DevExpress.XtraLayout.LayoutControlGroup Root;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem4;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
