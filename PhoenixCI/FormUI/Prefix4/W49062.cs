@@ -70,14 +70,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //2. 設定dropdownlist
             //交易所 + 商品
             DataTable dtFId = dao49062.GetMgt8FIdList(); //mgt8_f_id/mgt8_f_name/mgt8_f_exchange/cp_display 4 fields
-            dwFId.SetDataTable(dtFId , "MGT8_F_ID");
-            dwFId.Properties.TextEditStyle = TextEditStyles.DisableTextEditor;
+            dwFId.SetDataTable(dtFId , "MGT8_F_ID" , "CP_DISPLAY" , TextEditStyles.DisableTextEditor);
             dwFId.ItemIndex = 0;
 
             //契約種類
             DataTable dtKindId = dao49062.GetMgt8KindFIdList(); //kind_type/kind_name/cod_seq_no 3 fields 
-            dwKindId.SetDataTable(dtKindId , "KIND_TYPE" , "KIND_NAME");
-            dwKindId.Properties.TextEditStyle = TextEditStyles.DisableTextEditor;
+            dwKindId.SetDataTable(dtKindId , "KIND_TYPE" , "KIND_NAME" , TextEditStyles.DisableTextEditor);
             dwKindId.ItemIndex = 0;
 
             return ResultStatus.Success;

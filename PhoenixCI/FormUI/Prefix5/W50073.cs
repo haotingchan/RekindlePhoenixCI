@@ -211,7 +211,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 if (exportTable.Rows.Count == 0) {
                     MessageBox.Show("轉出筆數為０!", "訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 }
-                string excelDestinationPath = GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH + "\\" + _ProgramID + "_" + DateTime.Now.ToString("yyyy.MM.dd-hh.mm.ss") + ".xls";
+                string excelDestinationPath = GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH + "\\" + _ProgramID + "_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".xls";
                 Workbook workbook = new Workbook();
                 Worksheet ws50073 = workbook.Worksheets[0];
                 ws50073.Cells[0, 0].Value = "活動名稱";

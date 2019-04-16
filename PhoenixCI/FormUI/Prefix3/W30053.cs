@@ -255,7 +255,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             string file = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, lsFilename);
             lbChk = File.Exists(file);
             if (lbChk) {
-                File.Move(file, file + "_bak_" + DateTime.Now.ToString("yyyy.MM.dd-hh.mm.ss") + ".xls");
+                File.Move(file, file + "_bak_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".xls");
             }
             try {
                 File.Copy(template, file, false);
