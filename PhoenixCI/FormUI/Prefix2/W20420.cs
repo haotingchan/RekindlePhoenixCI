@@ -190,7 +190,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             save.Filter = "*.csv (*.csv)|*.csv";
             save.Title = "請點選儲存檔案之目錄";
             save.InitialDirectory = GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH;
-            save.FileName = _ProgramID + "_" + rpt + "_" + DateTime.Now.ToString("yyyy.MM.dd-hh.mm.ss") + ".csv";
+            save.FileName = _ProgramID + "_" + rpt + "_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".csv";
             DialogResult saveResult = save.ShowDialog();
             if (saveResult == DialogResult.Cancel) {
                 return ResultStatus.Fail;

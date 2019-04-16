@@ -585,13 +585,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 lsFilename = txtSDate.Text.Replace("/", "") + "本日交易量彙整" + ".xls";
             }
             else {
-                lsFilename = fileName + "_" + DateTime.Now.ToString("yyyy.MM.dd-hh.mm.ss") + ".xls";
+                lsFilename = fileName + "_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".xls";
             }
             bool lbChk;
             string file = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, lsFilename);
             lbChk = File.Exists(file);
             if (lbChk) {
-                File.Move(file, file + "_bak_" + DateTime.Now.ToString("yyyy.MM.dd-hh.mm.ss") + ".xls");
+                File.Move(file, file + "_bak_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".xls");
             }
             try {
                 File.Copy(template, file, false);

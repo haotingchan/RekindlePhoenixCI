@@ -137,7 +137,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 }
                 //存CSV
                
-                string etfFileName = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH,"50072_ETF.csv");
+                string etfFileName = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH,"50072_ETF_"+DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss")+".csv");
                 File.Create(etfFileName).Close();
                 StringBuilder sbETF = new StringBuilder();
 
@@ -164,7 +164,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                     MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromDate.Text, this.Text));
                 }
                 //存CSV
-                string txfFileName = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, "50072_TXF.csv");
+                string txfFileName = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, "50072_TXF_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".csv");
                 File.Create(txfFileName).Close();
 
                 StringBuilder sbTXF = new StringBuilder();

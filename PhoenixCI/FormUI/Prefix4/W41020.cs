@@ -74,7 +74,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 prodType = rdgProdType.EditValue.AsString();
 
                 //1. 點選儲存檔案之目錄
-                saveFilePath = ReportExportFunc.wf_GetFileSaveName("41020" + "_" + DateTime.Now.ToString("yyyy.MM.dd-hh.mm.ss") + ".xls");
+                saveFilePath = ReportExportFunc.wf_GetFileSaveName("41020" + "_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".xls");
                 if (string.IsNullOrEmpty(saveFilePath)) {
                     return ResultStatus.Fail;
                 }
@@ -114,7 +114,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                 Workbook wb = new Workbook();
                 wb.Worksheets[0].Import(dt41020, true, 0, 0);
-                wb.Worksheets[0].Name = "41020" + "_" + DateTime.Now.ToString("yyyy.MM.dd-hh.mm.ss");
+                wb.Worksheets[0].Name = "41020" + "_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss");
                 //存檔
                 wb.SaveDocument(saveFilePath);
             }
