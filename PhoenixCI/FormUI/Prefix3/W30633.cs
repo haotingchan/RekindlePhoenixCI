@@ -11,15 +11,12 @@ using System.Windows.Forms;
 using DevExpress.XtraEditors.Controls;
 using System.Threading;
 
-//TODO: Filter的部分尚未轉為SQL
-
 /// <summary>
-/// Winni, 2019/01/23
+/// Winni, 2019/04/16
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix3 {
    /// <summary>
    /// 30633 期貨市場交易人結構日統計(交易量及未沖銷部位)
-   /// 有寫到的功能：Export
    /// </summary>
    public partial class W30633 : FormParent {
 
@@ -160,10 +157,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             string tempMarketCode;
             //RadioButton (gb_market_0 = 一般 / gb_market_1 = 盤後 / gb_market_All = 全部)
-            if (gbMarket.EditValue.AsString() == "gb_market_0") {
+            if (gbMarket.EditValue.AsString() == "rb_market_0") {
                ls_market_code = "0%";
                tempMarketCode = "一般";
-            } else if (gbMarket.EditValue.AsString() == "gb_market_1") {
+            } else if (gbMarket.EditValue.AsString() == "rb_market_1") {
                ls_market_code = "1%";
                tempMarketCode = "盤後";
             } else {
@@ -189,24 +186,16 @@ namespace PhoenixCI.FormUI.Prefix3 {
                return ResultStatus.Fail;
             }
 
-            // copy template xls to target path
-            string destinationFilePath = _ProgramID + "_" + tempMarketCode + "_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss.") + FileType.XLS.ToString().ToLower();
-            string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID , destinationFilePath);
+            //1.複製檔案 & 開啟檔案
+            string originalFilePath = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH , _ProgramID + "." + FileType.XLS.ToString().ToLower());
+
+            string destinationFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH ,
+                _ProgramID + "_" + tempMarketCode + "_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss.") + FileType.XLS.ToString().ToLower());
+
+            File.Copy(originalFilePath , destinationFilePath , true);
 
             Workbook workbook = new Workbook();
-            workbook.LoadDocument(excelDestinationPath);
-            //Worksheet ws = workbook.Worksheets[0];
-
-            //1.複製檔案 & 開啟檔案 (兩張報表都輸出到同一份excel,所以提出來)
-            //string originalFilePath = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH , _ProgramID + "." + FileType.XLS.ToString().ToLower());
-
-            //string destinationFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH ,
-            //    _ProgramID + "_" + tempMarketCode + "_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss.") + FileType.XLS.ToString().ToLower());
-
-            //File.Copy(originalFilePath , destinationFilePath , true);
-
-            //Workbook workbook = new Workbook();
-            //workbook.LoadDocument(destinationFilePath);
+            workbook.LoadDocument(destinationFilePath);
 
             //2.填資料
             wf_Export(workbook , SheetNo.vol , dt , "30633" , RPT_NAME_VOL);  //function 30633_1
@@ -237,22 +226,25 @@ namespace PhoenixCI.FormUI.Prefix3 {
             if (dwParamKey.EditValue.AsString() != "%") {
                worksheet.Cells[1 , 0].Value = "商品：" + dwParamKey.Text;
             }
+
             if (txtAftStartYM.Text == txtAftEndYM.Text) {
                worksheet.Cells[2 , 2].Value = PbFunc.f_conv_date(txtAftStartYM.DateTimeValue , 6);
             } else {
-               worksheet.Cells[2 , 2].Value = PbFunc.f_conv_date(txtAftStartYM.DateTimeValue , 6) + "～" + PbFunc.f_conv_date(txtAftEndYM.DateTimeValue , 6);
+               worksheet.Cells[2 , 2].Value = PbFunc.f_conv_date(txtAftStartYM.DateTimeValue , 6) + " ～ " + PbFunc.f_conv_date(txtAftEndYM.DateTimeValue , 6);
             }
+
+            int tmp = ((int)sheetNo == 0 ? 5 : 4);
             if (txtPrevStartYM.Text == txtPrevEndYM.Text) {
-               worksheet.Cells[2 , 5].Value = PbFunc.f_conv_date(txtPrevStartYM.DateTimeValue , 6);
+               worksheet.Cells[2 , tmp].Value = PbFunc.f_conv_date(txtPrevStartYM.DateTimeValue , 6);
             } else {
-               worksheet.Cells[2 , 5].Value = PbFunc.f_conv_date(txtPrevStartYM.DateTimeValue , 6) + "～" + PbFunc.f_conv_date(txtPrevEndYM.DateTimeValue , 6);
+               worksheet.Cells[2 , tmp].Value = PbFunc.f_conv_date(txtPrevStartYM.DateTimeValue , 6) + " ～ " + PbFunc.f_conv_date(txtPrevEndYM.DateTimeValue , 6);
             }
 
             //只有成交量(Sheet1)需要執行這段
             if (sheetNo == 0) {
-               if (gbMarket.EditValue.ToString() == "gb_market_0") {
+               if (gbMarket.EditValue.ToString() == "rb_market_0") {
                   worksheet.Cells[1 , 0].Value = "一般交易時段";
-               } else if (gbMarket.EditValue.ToString() == "gb_market_1") {
+               } else if (gbMarket.EditValue.ToString() == "rb_market_1") {
                   worksheet.Cells[1 , 0].Value = "盤後交易時段";
                }
 
