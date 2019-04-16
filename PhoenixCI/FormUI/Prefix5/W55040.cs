@@ -9,6 +9,7 @@ using DevExpress.Spreadsheet;
 using BusinessObjects;
 using System.Windows.Forms;
 using System.Threading;
+using BaseGround.Shared;
 /// <summary>
 /// Lukas, 2018/12/26
 /// </summary>
@@ -51,14 +52,12 @@ namespace PhoenixCI.FormUI.Prefix5 {
         protected override ResultStatus Export() {
             base.Export();
 
-            string excelDestinationPath = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
-
-            if (!ManipulateExcel(excelDestinationPath)) return ResultStatus.Fail;
+            if (!ManipulateExcel()) return ResultStatus.Fail;
             lblProcessing.Visible = false;
             return ResultStatus.Success;
         }
 
-        private bool ManipulateExcel(string excelDestinationPath) {
+        private bool ManipulateExcel() {
 
             try {
                 #region wf_55040 造市者TXO交易經手費折減比率結構表
@@ -68,7 +67,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 Thread.Sleep(5);
                 lblProcessing.Visible = true;
                 ShowMsg("開始轉檔...");
-                string rptName, rptId, brkNo, accNo;
+                string rptName, rptId, brkNo, accNo, file;
                 int i, colNum, datacount, rowTol, found;
                 /*************************************
                 ls_rpt_name = 報表名稱
@@ -90,11 +89,15 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 //TXO詢報價比
                 DataTable dtAMM0 = dao55040.ListByDate_AMM0(txtMonth.Text.Replace("/", ""));
 
+                //複製檔案
+                file = PbFunc.wf_copy_file(rptId, rptId);
+                if (file == "") return false;
+
                 /******************
                 切換Sheet
                 ******************/
                 Workbook workbook = new Workbook();
-                workbook.LoadDocument(excelDestinationPath);
+                workbook.LoadDocument(file);
                 Worksheet worksheet = workbook.Worksheets[0];
 
                 //填資料
@@ -147,7 +150,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 }
                 worksheet.ScrollToRow(0);
                 //存檔
-                workbook.SaveDocument(excelDestinationPath);
+                workbook.SaveDocument(file);
                 #endregion
                 ShowMsg("轉檔成功");
                 return true;
