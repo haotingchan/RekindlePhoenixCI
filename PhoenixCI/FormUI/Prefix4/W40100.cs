@@ -20,7 +20,6 @@ using System.Xml;
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix4 {
    public partial class W40100 : FormParent {
-      private static D40xxx dao40xxx;
 
       #region Get UI Value
       /// <summary>
@@ -44,7 +43,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
       #endregion
 
       public W40100(string programID, string programName) : base(programID, programName) {
-         dao40xxx = new D40xxx();
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
          txtDate.DateTimeValue = GlobalInfo.OCF_DATE;
@@ -68,41 +66,27 @@ namespace PhoenixCI.FormUI.Prefix4 {
          ExportShow.Show();
 
          try {
-            DataTable dt = new DataTable();
-            string asAdjType = AdjType.SubStr(0, 1) == "0" ? "" : AdjType.SubStr(0, 1);
 
-            dt = dao40xxx.GetData(TxtDate, asAdjType, AdjType.SubStr(1, 1));
+            object[] args = { new D40xxx(), TxtDate, AdjType, _ProgramID };
+            IExport40xxxData xmlData = CreateXmlData(GetType(), "ExportXml" + AdjType, args);
+            ReturnMessageClass msg = xmlData.GetData();
 
-            //一般 / 股票 要多撈一次資料
-            if (AdjType == "0B") {
-               DataTable dtTmp = dao40xxx.GetData(TxtDate, "3", AdjType.SubStr(1, 1));
-               foreach (DataRow r in dtTmp.Rows) {
-                  DataRow addRow = r;
-                  dt.ImportRow(r);
-               }
-            }
-
-            #region Check has Data
-            if (dt == null) {
-               ExportShow.Hide();
+            if (msg.Status != ResultStatus.Success) {
+               ExportShow.Text = MessageDisplay.MSG_IMPORT_FAIL;
                MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
-               return ResultStatus.Fail;
+               return msg.Status;
             }
 
-            if (dt.Rows.Count <= 0) {
-               ExportShow.Hide();
-               MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
-               return ResultStatus.Fail;
+            msg = xmlData.Export();
+
+            if (msg.Status != ResultStatus.Success) {
+               ExportShow.Text = MessageDisplay.MSG_IMPORT_FAIL;
+               MessageDisplay.Info(MessageDisplay.MSG_IMPORT_FAIL);
+               return msg.Status;
             }
-            #endregion
-
-            string destinationFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID + "_" + AdjType);
-
-            IXml40xxxData xmlData = CreateXmlData(GetType(), "ExportXml" + AdjType);
-            xmlData.Export(dt, destinationFilePath);
 
          } catch (Exception ex) {
-            ExportShow.Text = "轉檔失敗";
+            ExportShow.Text = MessageDisplay.MSG_IMPORT_FAIL;
             WriteLog(ex);
             return ResultStatus.Fail;
          }
@@ -152,11 +136,55 @@ namespace PhoenixCI.FormUI.Prefix4 {
          return result;
       }
 
-      public IXml40xxxData CreateXmlData(Type type, string name) {
+      public IExport40xxxData CreateXmlData(Type type, string name, object[] args) {
 
          string AssemblyName = type.Namespace.Split('.')[0];//最後compile出來的dll名稱
          string className = type.FullName + "+" + name;//完整的class路徑(注意,內部的class執行時其fullName是用+號連結起來)
-         return (IXml40xxxData)Assembly.Load(AssemblyName).CreateInstance(className);
+         return (IExport40xxxData)Assembly.Load(AssemblyName).CreateInstance(className, true, BindingFlags.CreateInstance, null, args, null, null);
+      }
+
+      private class ExportXml : IExport40xxxData {
+         protected D40xxx Dao { get; }
+         protected virtual string TxtDate { get; }
+         protected virtual string AdjType { get; }
+         protected string ProgramId { get; }
+         protected virtual DataTable dt { get; set; }
+
+         protected virtual string AsAdjType {
+            get {
+               return AdjType.SubStr(0, 1) == "0" ? "" : AdjType.SubStr(0, 1);
+            }
+         }
+
+         public ExportXml(D40xxx dao, string txtdate, string adjtype, string programId) {
+            Dao = dao;
+            TxtDate = txtdate;
+            AdjType = adjtype;
+            ProgramId = programId;
+         }
+
+         public virtual ReturnMessageClass GetData() {
+            ReturnMessageClass msg = new ReturnMessageClass(MessageDisplay.MSG_NO_DATA);
+            msg.Status = ResultStatus.Fail;
+
+            dt = Dao.GetData(TxtDate, AsAdjType, AdjType.SubStr(1, 1));
+
+            if (dt != null) {
+               if (dt.Rows.Count > 0) {
+                  dt = dt.Sort("SEQ_NO ASC, PROD_TYPE ASC, KIND_GRP2 ASC, KIND_ID ASC, AB_TYPE ASC");
+                  msg.Status = ResultStatus.Success;
+               }
+            }
+
+            return msg;
+         }
+
+         public virtual ReturnMessageClass Export() {
+            ReturnMessageClass msg = new ReturnMessageClass();
+
+            return msg;
+         }
+
       }
 
       /// <summary>
