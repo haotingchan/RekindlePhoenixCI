@@ -126,7 +126,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     else {
                         stockId = dr["STOCK_ID"].AsString();
                     }
-                    file = stockId + "_" + DateTime.Now.ToString("yyyy.MM.dd-hh.mm.ss") + ".csv";
+                    file = stockId + "_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".csv";
 
                     /********************
                      參數：(1)模型S (SMA)、E (EWMA)、M (MaxVol)

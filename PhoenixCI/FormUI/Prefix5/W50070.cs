@@ -65,14 +65,13 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
         protected override ResultStatus Export() {
             base.Export();
-            string excelDestinationPath = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
 
-            if (!ManipulateExcel(excelDestinationPath)) return ResultStatus.Fail;
+            if (!ManipulateExcel()) return ResultStatus.Fail;
             lblProcessing.Visible = false;
             return ResultStatus.Success;
         }
 
-        private bool ManipulateExcel(string excelDestinationPath) {
+        private bool ManipulateExcel() {
 
             try {
                 //檢查查詢日期格式是否正確
@@ -87,7 +86,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 lblProcessing.Visible = true;
                 ShowMsg("開始轉檔...");
 
-                string rptName, rptId;
+                string rptName, rptId, file;
                 int f;
                 rptName = "STF報價每月獎勵活動成績得獎名單月報表";
                 rptId = "50070";
@@ -102,9 +101,13 @@ namespace PhoenixCI.FormUI.Prefix5 {
                     return false;
                 }
 
+                //複製檔案
+                file = PbFunc.wf_copy_file(rptId, rptId);
+                if (file == "") return false;
+
                 //切換Sheet
                 Workbook workbook = new Workbook();
-                workbook.LoadDocument(excelDestinationPath);
+                workbook.LoadDocument(file);
                 Worksheet ws50070 = workbook.Worksheets[0];
 
                 //填資料
@@ -123,7 +126,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 }
 
                 //存檔
-                workbook.SaveDocument(excelDestinationPath);
+                workbook.SaveDocument(file);
                 ShowMsg("轉檔成功");
                 return true;
             }

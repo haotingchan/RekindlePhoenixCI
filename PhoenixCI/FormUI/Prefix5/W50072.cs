@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using BaseGround.Shared;
 /// <summary>
 /// Lukas, 2018/12/13
 /// </summary>
@@ -59,14 +60,13 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
         protected override ResultStatus Export() {
             base.Export();
-            string excelDestinationPath = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
-
-            if(!ManipulateExcel(excelDestinationPath))return ResultStatus.Fail;
+          
+            if(!ManipulateExcel())return ResultStatus.Fail;
             lblProcessing.Visible = false;
             return ResultStatus.Success;
         }
 
-        private bool ManipulateExcel(string excelDestinationPath) {
+        private bool ManipulateExcel() {
 
             //測試資料查詢日期:2017/12/01
             try {
@@ -78,7 +78,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 Thread.Sleep(5);
                 lblProcessing.Visible = true;
                 ShowMsg("開始轉檔...");
-                string rptName, rptId;
+                string rptName, rptId, file;
                 int i;
                 /*************************************
                 ls_rpt_name = 報表名稱
@@ -98,9 +98,13 @@ namespace PhoenixCI.FormUI.Prefix5 {
                     MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromDate.Text, this.Text));
                 }
 
+                //複製檔案
+                file = PbFunc.wf_copy_file(rptId, rptId);
+                if (file == "") return false;
+
                 //填資料
                 Workbook workbook = new Workbook();
-                workbook.LoadDocument(excelDestinationPath);
+                workbook.LoadDocument(file);
                 Worksheet worksheet = workbook.Worksheets[0];
 
                 for (i = 0; i < dtContent.Rows.Count; i++) {
@@ -137,7 +141,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 }
                 //存CSV
                
-                string etfFileName = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH,"50072_ETF.csv");
+                string etfFileName = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH,"50072_ETF_"+DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss")+".csv");
                 File.Create(etfFileName).Close();
                 StringBuilder sbETF = new StringBuilder();
 
@@ -164,7 +168,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                     MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromDate.Text, this.Text));
                 }
                 //存CSV
-                string txfFileName = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, "50072_TXF.csv");
+                string txfFileName = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, "50072_TXF_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".csv");
                 File.Create(txfFileName).Close();
 
                 StringBuilder sbTXF = new StringBuilder();
@@ -212,7 +216,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 #endregion
 
                 //Excel存檔
-                workbook.SaveDocument(excelDestinationPath);
+                workbook.SaveDocument(file);
                 ShowMsg("轉檔成功");
                 return true;
             }

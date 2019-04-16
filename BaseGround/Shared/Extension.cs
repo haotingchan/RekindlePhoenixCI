@@ -152,9 +152,14 @@ namespace BaseGround.Shared {
       /// <returns></returns>
       public static bool IsDate(this DevExpress.XtraEditors.TextEdit textEdit, string inputText, string errorText) {
          DateTime dateTime;
+         string[] YMD = inputText.Split('/');
+         string year = YMD[0].PadLeft(4, '0');
+         string month = YMD[1].PadLeft(2, '0');
+         string date = YMD[2].PadLeft(2, '0');
+         inputText = $"{year}/{month}/{date}";
          if (!DateTime.TryParse(inputText, out dateTime)) {
             MessageDisplay.Error(errorText, GlobalInfo.ErrorText);
-            textEdit.Text = GlobalInfo.OCF_DATE.ToShortDateString();
+            textEdit.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
             textEdit.Focus();
             return false;
          }
