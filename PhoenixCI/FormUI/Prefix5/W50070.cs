@@ -15,6 +15,8 @@ using BaseGround.Report;
 using BusinessObjects;
 using DataObjects.Dao.Together.TableDao;
 using DevExpress.Spreadsheet;
+using System.Threading;
+using BaseGround.Shared;
 /// <summary>
 /// Lukas, 2019/1/3
 /// </summary>
@@ -34,20 +36,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
             txtMonth.DateTimeValue = GlobalInfo.OCF_DATE;
         }
 
-        public override ResultStatus BeforeOpen() {
-            base.BeforeOpen();
-
-            return ResultStatus.Success;
-        }
 
         protected override ResultStatus Open() {
             base.Open();
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus AfterOpen() {
-            base.AfterOpen();
 
             return ResultStatus.Success;
         }
@@ -60,60 +51,47 @@ namespace PhoenixCI.FormUI.Prefix5 {
             return ResultStatus.Success;
         }
 
-        protected override ResultStatus Retrieve() {
-            base.Retrieve();
-
-            return ResultStatus.Success;
-        }
-
         protected override ResultStatus CheckShield() {
             base.CheckShield();
 
             return ResultStatus.Success;
         }
 
-        protected override ResultStatus Save(PokeBall pokeBall) {
-            base.Save(pokeBall);
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus Run(PokeBall args) {
-            base.Run(args);
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus Import() {
-            base.Import();
-
-            return ResultStatus.Success;
+        protected void ShowMsg(string msg) {
+            lblProcessing.Text = msg;
+            this.Refresh();
+            Thread.Sleep(5);
         }
 
         protected override ResultStatus Export() {
             base.Export();
-            lblProcessing.Visible = true;
             string excelDestinationPath = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
 
-            ManipulateExcel(excelDestinationPath);
+            if (!ManipulateExcel(excelDestinationPath)) return ResultStatus.Fail;
             lblProcessing.Visible = false;
             return ResultStatus.Success;
         }
 
-        private void ManipulateExcel(string excelDestinationPath) {
+        private bool ManipulateExcel(string excelDestinationPath) {
 
             try {
+                //檢查查詢日期格式是否正確
+                if (txtMonth.Text.SubStr(5, 2) == "00") {
+                    MessageDisplay.Error("月份輸入錯誤!");
+                    return false;
+                }
+                txtMonth.Enabled = false;
+                this.Cursor = Cursors.WaitCursor;
+                this.Refresh();
+                Thread.Sleep(5);
+                lblProcessing.Visible = true;
+                ShowMsg("開始轉檔...");
+
                 string rptName, rptId;
-                int i, colNum;
-                /*************************************
-                ls_rpt_name = 報表名稱
-                ls_rpt_id = 報表代號
-                li_ole_col = 欄位位置
-                ls_param_key = 契約
-                *************************************/
+                int f;
                 rptName = "STF報價每月獎勵活動成績得獎名單月報表";
                 rptId = "50070";
-                lblProcessing.Text = rptId + "－" + rptName + " 轉檔中...";
+                ShowMsg(rptId + "－" + rptName + " 轉檔中...");
 
                 //讀取資料
                 daoRMM = new R_MARKET_MONTHLY();
@@ -121,6 +99,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 DataTable dt50070 = daoRMM.ListAllByDate(asYM);
                 if (dt50070.Rows.Count == 0) {
                     MessageDisplay.Info(string.Format("{0},{1},無任何資料!", asYM, rptName));
+                    return false;
                 }
 
                 //切換Sheet
@@ -130,9 +109,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
                 //填資料
                 int rowNum = 5;
-                for (i = 0; i < dt50070.Rows.Count; i++) {
-                    DataRow dr50070 = dt50070.Rows[i];
-                    rowNum = i + 2;
+                for (f = 0; f < dt50070.Rows.Count; f++) {
+                    DataRow dr50070 = dt50070.Rows[f];
+                    rowNum = f + 2;
                     ws50070.Cells[rowNum, 0].Value = dr50070["mc_month"].AsString();
                     ws50070.Cells[rowNum, 1].Value = dr50070["fut_id"].AsString();
                     ws50070.Cells[rowNum, 2].Value = dr50070["fut_name"].AsString();
@@ -145,32 +124,19 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
                 //存檔
                 workbook.SaveDocument(excelDestinationPath);
+                ShowMsg("轉檔成功");
+                return true;
             }
             catch (Exception ex) {
-                MessageBox.Show(ex.Message);
+                MessageDisplay.Error("輸出錯誤");
+                throw ex;
             }
-        }
-
-        protected override ResultStatus Print(ReportHelper reportHelper) {
-            base.Print(reportHelper);
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus InsertRow() {
-            base.InsertRow();
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus DeleteRow() {
-            base.DeleteRow();
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus BeforeClose() {
-            return base.BeforeClose();
+            finally {
+                this.Cursor = Cursors.Arrow;
+                this.Refresh();
+                Thread.Sleep(5);
+                txtMonth.Enabled = true;
+            }
         }
     }
 }

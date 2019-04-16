@@ -30,24 +30,24 @@ namespace DataObjects.Dao.Together.TableDao {
             };
 
             string sql = @"
-SELECT mc_month, 
-       fut_id, 
-       fut_name, 
-       reward_type, 
-       reward, 
-       detail, 
-       acctno, 
-       prod_type
-FROM CI.r_market_monthly
-where mc_month = :as_ym
-order by mc_month, 
-         fut_id, 
-         fut_name, 
-         reward_type, 
-         reward, 
-         detail, 
-         acctno, 
-         prod_type
+SELECT MC_MONTH, 
+       FUT_ID, 
+       FUT_NAME, 
+       REWARD_TYPE, 
+       REWARD, 
+       DETAIL, 
+       ACCTNO, 
+       PROD_TYPE
+FROM CI.R_MARKET_MONTHLY
+WHERE MC_MONTH = :AS_YM
+--ORDER BY MC_MONTH, 
+         --FUT_ID, 
+         --FUT_NAME, 
+         --REWARD_TYPE, 
+         --REWARD, 
+         --DETAIL, 
+         --ACCTNO, 
+         --PROD_TYPE
 ";
 
             DataTable dtResult = db.GetDataTable(sql, parms);
