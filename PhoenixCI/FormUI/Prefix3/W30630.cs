@@ -4,14 +4,17 @@ using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together;
 using DevExpress.Spreadsheet;
+using DevExpress.XtraEditors.Controls;
 using System;
 using System.Data;
 using System.IO;
+using System.Threading;
+using System.Windows.Forms;
 
 //TODO: Filter的部分尚未轉為SQL
 
 /// <summary>
-/// Winni, 2019/01/23
+/// Winni, 2019/04/16
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix3 {
    /// <summary>
@@ -26,23 +29,86 @@ namespace PhoenixCI.FormUI.Prefix3 {
       }
       string ls_param_key, ls_sum_subtype, ls_market_code;
       private D30630 dao30630;
+      protected const string RPT_NAME_VOL = "期貨市場交易人結構統計(交易量)";
+      protected const string RPT_NAME_OI = "期貨市場交易人結構統計(未沖銷部位)";
+
+      #region 一般交易查詢條件縮寫
+      /// <summary>
+      /// yyyyMM
+      /// </summary>
+      public string PrevStart {
+         get {
+            return txtPrevStartYM.Text.Replace("/","");
+         }
+      }
+
+      /// <summary>
+      /// yyyyMM
+      /// </summary>
+      public string PrevEnd {
+         get {
+            return txtPrevEndYM.Text.Replace("/" , "");
+         }
+      }
+
+      /// <summary>
+      /// yyyyMM
+      /// </summary>
+      public string AftStart {
+         get {
+            return txtAftStartYM.Text.Replace("/" , "");
+         }
+      }
+
+      /// <summary>
+      /// yyyyMM
+      /// </summary>
+      public string AftEnd {
+         get {
+            return txtAftEndYM.Text.Replace("/" , "");
+         }
+      }
+      #endregion
 
       public W30630(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
-         dao30630 = new D30630();
          this.Text = _ProgramID + "─" + _ProgramName;
-         txtAftStartYM.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
-         txtAftEndYM.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
-         txtPrevStartYM.Text = DateTime.Parse(GlobalInfo.OCF_DATE.ToString("yyyy/MM/01")).AddMonths(-1).ToString("yyyy/MM");
-         txtPrevEndYM.Text = DateTime.Parse(GlobalInfo.OCF_DATE.ToString("yyyy/MM/01")).AddMonths(-1).ToString("yyyy/MM");
 
-         //商品 dropdownList
-         DataTable dtParamKey = new APDK_PARAM().ListAll2();//前面[% – 全部]+PARAM_KEY/PARAM_NAME/PARAM_PROD_TYPE/cp_display
-         dw_paramKey.SetDataTable(dtParamKey , "PARAM_KEY");
+         dao30630 = new D30630();
+      }
 
-         //Winni test
-         //201410-201411
-         //201401-201512
+      protected override ResultStatus Open() {
+         base.Open();
+         try {
+
+            //1. 設定初始年月
+            txtPrevStartYM.Text = GlobalInfo.OCF_DATE.AddMonths(-1).ToString("yyyy/MM");
+            txtPrevStartYM.EnterMoveNextControl = true;
+            txtPrevStartYM.Focus();
+
+            txtPrevEndYM.Text = GlobalInfo.OCF_DATE.AddMonths(-1).ToString("yyyy/MM");
+            txtPrevEndYM.EnterMoveNextControl = true;
+            txtPrevEndYM.Focus();
+
+            txtAftStartYM.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
+            txtAftStartYM.EnterMoveNextControl = true;
+            txtAftStartYM.Focus();
+
+            txtAftEndYM.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
+            txtAftEndYM.EnterMoveNextControl = true;
+            txtAftEndYM.Focus();
+
+            //2. 設定dropdownlist
+            //商品
+            DataTable dtParamKey = new APDK_PARAM().ListAll2();//前面[% – 全部]+PARAM_KEY/PARAM_NAME/PARAM_PROD_TYPE/cp_display
+            dwParamKey.SetDataTable(dtParamKey , "PARAM_KEY" , "CP_DISPLAY" , TextEditStyles.DisableTextEditor);
+            dwParamKey.ItemIndex = 0;
+
+            return ResultStatus.Success;
+         } catch (Exception ex) {
+            WriteLog(ex);
+            return ResultStatus.Fail;
+         }
       }
 
       protected override ResultStatus ActivatedForm() {
@@ -53,10 +119,25 @@ namespace PhoenixCI.FormUI.Prefix3 {
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Export() {
+      protected void ExportAfter() {
+         labMsg.Text = "轉檔完成!";
+         this.Cursor = Cursors.Arrow;
+         this.Refresh();
+         Thread.Sleep(5);
+         labMsg.Visible = false;
+      }
 
+      protected void ShowMsg(string msg) {
+         labMsg.Text = msg;
+         labMsg.Visible = true;
+         this.Refresh();
+         Thread.Sleep(5);
+      }
+
+      protected override ResultStatus Export() {
          base.Export();
-         lblProcessing.Visible = true;
+
+         #region 日期檢核
          if (Int32.Parse(txtAftStartYM.Text.Replace("/" , "")) > Int32.Parse(txtAftEndYM.Text.Replace("/" , ""))) {
             MessageDisplay.Info(string.Format("後期起年月({0})不可大於迄年月({1})" , txtAftStartYM.Text.Replace("/" , "") ,
                                                                                     txtAftEndYM.Text.Replace("/" , "")));
@@ -67,105 +148,107 @@ namespace PhoenixCI.FormUI.Prefix3 {
                                                                                     txtPrevEndYM.Text.Replace("/" , "")));
             return ResultStatus.Fail;
          }
-        
-         string tempMarketCode;
-         //RadioButton (gb_market_0 = 一般 / gb_market_1 = 盤後 / gb_market_All = 全部)
-         if (gb_market.EditValue.ToString() == "gb_market_0") {
-            ls_market_code = "0%";
-            tempMarketCode = "一般";
-         } else if (gb_market.EditValue.ToString() == "gb_market_1") {
-            ls_market_code = "1%";
-            tempMarketCode = "盤後";
-         } else {
-            ls_market_code = "%";
-            tempMarketCode = "全部";
-         }
-
-         // Param_Key & SUM_SUBTYPE
-         ls_param_key = dw_paramKey.EditValue.AsString().Trim();
-         if (ls_param_key == "%") {
-            ls_sum_subtype = "0";   //全部
-         } else {
-            ls_sum_subtype = "3";   //各契約
-            ls_param_key += "%";
-         }
-
-         //1.複製檔案 & 開啟檔案 (兩張報表都輸出到同一份excel,所以提出來)
-         string originalFilePath = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH , _ProgramID + "." + FileType.XLS.ToString().ToLower());
-
-         string destinationFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH ,
-             _ProgramID + "_" + tempMarketCode + "_" + DateTime.Now.ToString("yyyy.MM.dd") + "-" + DateTime.Now.ToString("HH.mm.ss") + "." + FileType.XLS.ToString().ToLower());
-
-         File.Copy(originalFilePath , destinationFilePath , true);
-
-         Workbook workbook = new Workbook();
-         workbook.LoadDocument(destinationFilePath);
-
-         //2.填資料
-         bool result1 = false, result2 = false;
-         result1 = wf_Export(workbook , SheetNo.vol);  //function 30631
-         result2 = wf_Export(workbook , SheetNo.oi);   //function 30632
-
-         if (!result1 && !result2) {
-            try {
-               workbook = null;
-               System.IO.File.Delete(destinationFilePath);
-            } catch (Exception) {
-               //
-            }
-            return ResultStatus.Fail;
-         }
-
-         //3.存檔
-         workbook.SaveDocument(destinationFilePath);
-         lblProcessing.Visible = false;
-
-         return ResultStatus.Success;
-
-      }
-
-      private bool wf_Export(Workbook workbook , SheetNo sheetNo) {
+         #endregion
 
          try {
-            string prevStartYM = txtPrevStartYM.Text.Replace("/" , "");
-            string prevEndYM = txtPrevEndYM.Text.Replace("/" , "");
-            string AftStartYM = txtAftStartYM.Text.Replace("/" , "");
-            string AftEndYM = txtAftEndYM.Text.Replace("/" , "");
+            ShowMsg("開始轉檔...");
+
+            string tempMarketCode;
+            //RadioButton (rb_market_0 = 一般 / rb_market_1 = 盤後 / rb_market_All = 全部)
+            if (gbMarket.EditValue.AsString() == "rb_market_0") {
+               ls_market_code = "0%";
+               tempMarketCode = "一般";
+            } else if (gbMarket.EditValue.AsString() == "rb_market_1") {
+               ls_market_code = "1%";
+               tempMarketCode = "盤後";
+            } else {
+               ls_market_code = "%";
+               tempMarketCode = "全部";
+            }
+
+            // Param_Key & SUM_SUBTYPE
+            ls_param_key = dwParamKey.EditValue.AsString();
+            if (ls_param_key == "%") {
+               ls_sum_subtype = "0";   //全部
+            } else {
+               ls_sum_subtype = "3";   //各契約
+               ls_param_key += "%";
+            }
 
             //讀取資料
             DataTable dt = new DataTable();
-            dt = dao30630.GetData(ls_market_code , prevStartYM , prevEndYM , ls_sum_subtype ,
-                                            ls_param_key , AftStartYM , AftEndYM);
-            if (dt.Rows.Count == 0) {
+            dt = dao30630.GetData(ls_market_code , PrevStart , PrevEnd , ls_sum_subtype , ls_param_key , AftStart , AftEnd);
+            if (dt.Rows.Count <= 0) {
                MessageDisplay.Info(string.Format("{0}-{1}~{2}-{3},{4}–無任何資料!" , txtPrevStartYM.Text , txtPrevEndYM.Text ,
-                                                                           txtAftStartYM.Text , txtAftEndYM.Text , this.Text));
-               return false;
+                                                                           txtAftStartYM.Text , txtAftEndYM.Text , _ProgramID));
+               return ResultStatus.Fail;
             }
+
+            //1.複製檔案 & 開啟檔案
+            string originalFilePath = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH , _ProgramID + "." + FileType.XLS.ToString().ToLower());
+
+            string destinationFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH ,
+                _ProgramID + "_" + tempMarketCode + "_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss.") + FileType.XLS.ToString().ToLower());
+
+            File.Copy(originalFilePath , destinationFilePath , true);
+
+            Workbook workbook = new Workbook();
+            workbook.LoadDocument(destinationFilePath);
+
+            //2.填資料        
+            wf_Export(workbook , SheetNo.vol , dt , "30631" , RPT_NAME_VOL);  //function 30631
+            wf_Export(workbook , SheetNo.oi , dt , "30632" , RPT_NAME_OI);   //function 30632
+
+            //3.存檔
+            workbook.SaveDocument(destinationFilePath);
+            labMsg.Visible = false;
+
+
+            return ResultStatus.Success;
+
+         } catch (Exception ex) {
+            WriteLog(ex);
+         } finally {
+            panFilter.Enabled = true;
+            labMsg.Text = "";
+            labMsg.Visible = false;
+            this.Cursor = Cursors.Arrow;
+         }
+
+         return ResultStatus.Fail;
+      }
+
+      private void wf_Export(Workbook workbook , SheetNo sheetNo , DataTable dt , string rptId , string rptName) {
+
+         try {
 
             //切換Sheet
             Worksheet worksheet = workbook.Worksheets[(int)sheetNo];
 
-            if (dw_paramKey.EditValue.AsString().Trim() != "%") {
-               worksheet.Cells[1 , 0].Value = "商品：" + dw_paramKey.Text;
+            if (dwParamKey.EditValue.AsString() != "%") {
+               worksheet.Cells[1 , 0].Value = "商品：" + dwParamKey.Text;
             }
+
             if (txtAftStartYM.Text == txtAftEndYM.Text) {
                worksheet.Cells[2 , 2].Value = (int.Parse(txtAftStartYM.Text.SubStr(0 , 4)) - 1911) + "年" + txtAftStartYM.Text.SubStr(5 , 2) + "月";
             } else {
                worksheet.Cells[2 , 2].Value = (int.Parse(txtAftStartYM.Text.SubStr(0 , 4)) - 1911) + "年" + txtAftStartYM.Text.SubStr(5 , 2) + "月～" +
                   (int.Parse(txtAftEndYM.Text.SubStr(0 , 4)) - 1911) + "年" + txtAftEndYM.Text.SubStr(5 , 2) + "月";
             }
+
+            int tmp = ((int)sheetNo == 0 ? 5 : 4);
             if (txtPrevStartYM.Text == txtPrevEndYM.Text) {
-               worksheet.Cells[2 , 5].Value = (int.Parse(txtPrevStartYM.Text.SubStr(0 , 4)) - 1911) + "年" + txtPrevStartYM.Text.SubStr(5 , 2) + "月";
+               worksheet.Cells[2 , tmp].Value = (int.Parse(txtPrevStartYM.Text.SubStr(0 , 4)) - 1911) + "年" + txtPrevStartYM.Text.SubStr(5 , 2) + "月";
             } else {
-               worksheet.Cells[2 , 5].Value = (int.Parse(txtPrevStartYM.Text.SubStr(0 , 4)) - 1911) + "年" + txtPrevStartYM.Text.SubStr(5 , 2) + "月～" +
+               worksheet.Cells[2 , tmp].Value = (int.Parse(txtPrevStartYM.Text.SubStr(0 , 4)) - 1911) + "年" + txtPrevStartYM.Text.SubStr(5 , 2) + "月～" +
                   (int.Parse(txtPrevEndYM.Text.SubStr(0 , 4)) - 1911) + "年" + txtPrevEndYM.Text.SubStr(5 , 2) + "月";
             }
 
             //只有成交量(Sheet1)需要執行這段
             if (sheetNo == 0) {
-               if (gb_market.EditValue.ToString() == "gb_market_0") {
+               if (gbMarket.EditValue.ToString() == "rb_market_0") {
                   worksheet.Cells[1 , 0].Value = "一般交易時段";
-               } else if (gb_market.EditValue.ToString() == "gb_market_1") {
+               } else if (gbMarket.EditValue.ToString() == "rb_market_1") {
                   worksheet.Cells[1 , 0].Value = "盤後交易時段";
                }
 
@@ -189,16 +272,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
                   worksheet.Cells[ii_ole_row - 1 , 4].Value = dt.Rows[i]["AM21_OI_QNTY_PREV"].AsDecimal() / dt.Rows[i]["TRADE_DAYS_PREV"].AsDecimal();
 
                }
-
             }
-            return true;
-         } catch (Exception ex) { //失敗寫LOG
-            PbFunc.f_write_logf(_ProgramID , "error" , ex.Message);
-            return false;
+         } catch (Exception ex) {
+            WriteLog(ex);
+            return;
          }
-
-
-
       }
 
    }
