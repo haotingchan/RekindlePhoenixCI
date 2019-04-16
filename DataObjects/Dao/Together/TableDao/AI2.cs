@@ -310,5 +310,36 @@ and ai2_ymd <= :endDate
          string res = db.ExecuteScalar(sql , CommandType.Text , parms);
          return res;
       }
+
+      /// <summary>
+      /// 判斷盤後交易項目是否完成(有join APDK)
+      /// </summary>
+      /// <param name="ls_ymd"></param>
+      /// <param name="ls_grp"></param>
+      /// <returns></returns>
+      public int GetJobStatus(string ls_ymd, string ls_grp) {
+         object[] parms =
+         {
+                ":ls_ymd", ls_ymd,
+                ":ls_grp", ls_grp
+            };
+
+
+         string sql = @"select count(distinct AI2_PROD_TYPE)
+		  into :li_cnt
+		  from ci.AI2,ci.APDK
+		 where AI2_YMD = :ls_ymd
+			and AI2_SUM_TYPE = 'D'
+			and AI2_PROD_TYPE in ('F','O')
+			and AI2_KIND_ID = APDK_KIND_ID
+			and APDK_MARKET_CLOSE like :ls_grp||'%'";
+
+         string res = db.ExecuteScalar(sql, CommandType.Text, parms);
+
+         int tmp = 0;
+         int.TryParse(res, out tmp);
+
+         return tmp;
+      }
    }
 }
