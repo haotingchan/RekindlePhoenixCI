@@ -14,9 +14,9 @@ namespace DataObjects.Dao.Together.SpecificDao {
          string sql = @"
 SELECT S.*, ROWNUM from (
 SELECT case :as_change_flag when case WHEN MG41_KIND_ID = 'CPF' OR MG41_KIND_ID = 'GBF' then 'N' else 'Y' end then 'Y' 
-                            else 'N' end as RUN_FLAG,
-       case when MG41_PROD_SUBTYPE='S' then APDK_STOCK_ID else ' ' end as  APDK_STOCK_ID,
+                            else 'N' end as RUN_FLAG,     
        MG41_KIND_ID AS MG1_KIND_ID,
+       case when MG41_PROD_SUBTYPE='S' then APDK_STOCK_ID else ' ' end as  APDK_STOCK_ID,
        MG41_LAST_MG4_DATE AS MG1_SDATE,
        MG41_START_DATE AS DATA_SDATE,
        --MG41_START_DATE AS DATA_SDATE_ORG,
