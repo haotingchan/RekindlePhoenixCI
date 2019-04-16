@@ -8,6 +8,7 @@ using BaseGround.Report;
 using DevExpress.Spreadsheet;
 using BusinessObjects;
 using System.Windows.Forms;
+using System.Threading;
 /// <summary>
 /// Lukas, 2018/12/26
 /// </summary>
@@ -27,20 +28,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
             txtMonth.DateTimeValue = GlobalInfo.OCF_DATE;
         }
 
-        public override ResultStatus BeforeOpen() {
-            base.BeforeOpen();
-
-            return ResultStatus.Success;
-        }
-
         protected override ResultStatus Open() {
             base.Open();
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus AfterOpen() {
-            base.AfterOpen();
 
             return ResultStatus.Success;
         }
@@ -53,52 +42,32 @@ namespace PhoenixCI.FormUI.Prefix5 {
             return ResultStatus.Success;
         }
 
-        protected override ResultStatus Retrieve() {
-            base.Retrieve();
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus CheckShield() {
-            base.CheckShield();
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus Save(PokeBall pokeBall) {
-            base.Save(pokeBall);
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus Run(PokeBall args) {
-            base.Run(args);
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus Import() {
-            base.Import();
-
-            return ResultStatus.Success;
+        protected void ShowMsg(string msg) {
+            lblProcessing.Text = msg;
+            this.Refresh();
+            Thread.Sleep(5);
         }
 
         protected override ResultStatus Export() {
-            lblProcessing.Visible = true;
             base.Export();
 
             string excelDestinationPath = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
 
-            ManipulateExcel(excelDestinationPath);
+            if (!ManipulateExcel(excelDestinationPath)) return ResultStatus.Fail;
             lblProcessing.Visible = false;
             return ResultStatus.Success;
         }
 
-        private void ManipulateExcel(string excelDestinationPath) {
+        private bool ManipulateExcel(string excelDestinationPath) {
 
             try {
                 #region wf_55040 造市者TXO交易經手費折減比率結構表
-
+                txtMonth.Enabled = false;
+                this.Cursor = Cursors.WaitCursor;
+                this.Refresh();
+                Thread.Sleep(5);
+                lblProcessing.Visible = true;
+                ShowMsg("開始轉檔...");
                 string rptName, rptId, brkNo, accNo;
                 int i, colNum, datacount, rowTol, found;
                 /*************************************
@@ -109,13 +78,14 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 *************************************/
                 rptName = "造市者TXO交易經手費折減比率結構表";
                 rptId = "55040";
-
+                ShowMsg(rptId + "－" + rptName + " 轉檔中...");
                 /******************
                 讀取資料
                 ******************/
                 DataTable dtContent = dao55040.ListByDate(txtMonth.Text.Replace("/", ""));
                 if (dtContent.Rows.Count == 0) {
                     MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtMonth.Text, rptName));
+                    return false;
                 }
                 //TXO詢報價比
                 DataTable dtAMM0 = dao55040.ListByDate_AMM0(txtMonth.Text.Replace("/", ""));
@@ -128,12 +98,12 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 Worksheet worksheet = workbook.Worksheets[0];
 
                 //填資料
-                int ii_ole_row = 5;
+                int rowIndex = 5;
                 datacount = int.Parse(worksheet.Cells[0, 0].Value.ToString());
                 if (datacount == null || datacount == 0) {
                     datacount = dtContent.Rows.Count;
                 }
-                rowTol = ii_ole_row + datacount;
+                rowTol = rowIndex + datacount;
                 worksheet.Cells[3, 0].Value = worksheet.Cells[3, 0].Value + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
                 worksheet.Cells[3, 4].Value = worksheet.Cells[3, 4].Value + txtMonth.Text.Replace("/", "");
 
@@ -144,12 +114,12 @@ namespace PhoenixCI.FormUI.Prefix5 {
                     DataRow drContent = dtContent.Rows[i];
 
                     if (brkNo != drContent["feetxo_fcm_no"].ToString() || accNo != drContent["feetxo_acc_no"].ToString()) {
-                        ii_ole_row = ii_ole_row + 1;
+                        rowIndex = rowIndex + 1;
                         brkNo = drContent["feetxo_fcm_no"].ToString();
                         accNo = drContent["feetxo_acc_no"].ToString();
-                        worksheet.Cells[ii_ole_row, 0].Value = brkNo;
-                        worksheet.Cells[ii_ole_row, 1].Value = drContent["brk_abbr_name"].ToString();
-                        worksheet.Cells[ii_ole_row, 2].Value = accNo;
+                        worksheet.Cells[rowIndex, 0].Value = brkNo;
+                        worksheet.Cells[rowIndex, 1].Value = drContent["brk_abbr_name"].ToString();
+                        worksheet.Cells[rowIndex, 2].Value = accNo;
                         //ll_found = lds_mm.find("amm0_brk_no='" + ls_brk_no + "' and amm0_acc_no='" + ls_acc_no + "'", 1, lds_mm.rowcount());
                         DataRow[] dtAMM0_find = dtAMM0.Select("amm0_brk_no='" + brkNo + "' and amm0_acc_no='" + accNo + "'");
                         if (dtAMM0_find.Length == 0) {
@@ -160,28 +130,37 @@ namespace PhoenixCI.FormUI.Prefix5 {
                         }
 
                         if (found > 0) {
-                            worksheet.Cells[ii_ole_row, 20].Value = decimal.Parse(dtAMM0.Rows[found]["mmk_rate"].ToString());
+                            worksheet.Cells[rowIndex, 20].Value = decimal.Parse(dtAMM0.Rows[found]["mmk_rate"].ToString());
                         }
                     }
                     colNum = int.Parse(drContent["rpt_seq_no"].ToString());
-                    if (ii_ole_row > 0 && colNum > 0) {
-                        worksheet.Cells[ii_ole_row, colNum].Value = decimal.Parse(drContent["feetxo_rate"].ToString());
+                    if (rowIndex > 0 && colNum > 0) {
+                        worksheet.Cells[rowIndex, colNum].Value = decimal.Parse(drContent["feetxo_rate"].ToString());
                     }
                 }
 
                 /*******************
                 刪除空白列
                 *******************/
-                if (rowTol > ii_ole_row) {
-                    worksheet.Rows.Remove(ii_ole_row + 1, rowTol - ii_ole_row);
+                if (rowTol > rowIndex) {
+                    worksheet.Rows.Remove(rowIndex + 1, rowTol - rowIndex);
                 }
                 worksheet.ScrollToRow(0);
                 //存檔
                 workbook.SaveDocument(excelDestinationPath);
                 #endregion
+                ShowMsg("轉檔成功");
+                return true;
             }
             catch (Exception ex) {
-                MessageBox.Show(ex.Message);
+                MessageDisplay.Error("輸出錯誤");
+                throw ex;
+            }
+            finally {
+                this.Cursor = Cursors.Arrow;
+                this.Refresh();
+                Thread.Sleep(5);
+                txtMonth.Enabled = true;
             }
         }
 

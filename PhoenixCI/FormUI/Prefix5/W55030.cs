@@ -9,6 +9,7 @@ using DevExpress.Spreadsheet;
 using DataObjects.Dao.Together.SpecificDao;
 using DataObjects.Dao.Together;
 using System.Windows.Forms;
+using System.Threading;
 /// <summary>
 /// Lukas, 2018/12/26
 /// </summary>
@@ -32,21 +33,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
             txtMonth.DateTimeValue = GlobalInfo.OCF_DATE;
         }
 
-
-        public override ResultStatus BeforeOpen() {
-            base.BeforeOpen();
-
-            return ResultStatus.Success;
-        }
-
         protected override ResultStatus Open() {
             base.Open();
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus AfterOpen() {
-            base.AfterOpen();
 
             return ResultStatus.Success;
         }
@@ -59,59 +47,44 @@ namespace PhoenixCI.FormUI.Prefix5 {
             return ResultStatus.Success;
         }
 
-        protected override ResultStatus Retrieve() {
-            base.Retrieve();
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus CheckShield() {
-            base.CheckShield();
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus Save(PokeBall pokeBall) {
-            base.Save(pokeBall);
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus Run(PokeBall args) {
-            base.Run(args);
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus Import() {
-            base.Import();
-
-            return ResultStatus.Success;
+        protected void ShowMsg(string msg) {
+            lblProcessing.Text = msg;
+            this.Refresh();
+            Thread.Sleep(5);
         }
 
         protected override ResultStatus Export() {
-            lblProcessing.Visible = true;
             base.Export();
 
             string excelDestinationPath = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
 
-            ManipulateExcel(excelDestinationPath);
+            if (!ManipulateExcel(excelDestinationPath)) return ResultStatus.Fail;
             lblProcessing.Visible = false;
             return ResultStatus.Success;
         }
 
-        private void ManipulateExcel(string excelDestinationPath) {
+        private bool ManipulateExcel(string excelDestinationPath) {
 
             try {
                 #region wf_55030 造市者各商品交易經手費折減比率月計表
-
-                string brkNo, accNo, session = "0";
+                txtMonth.Enabled = false;
+                this.Cursor = Cursors.WaitCursor;
+                this.Refresh();
+                Thread.Sleep(5);
+                lblProcessing.Visible = true;
+                ShowMsg("開始轉檔...");
+                string brkNo, accNo, session = "0", rptName, rptId;
                 int i, colNum, datacount, rowTol, rowNum;
+
+                rptName = "造市者各商品交易經手費折減比率月計表";
+                rptId = "55030";
+                ShowMsg(rptId + "－" + rptName + " 轉檔中...");
 
                 //讀取資料
                 DataTable dtContent = dao55030.ListByDate(txtMonth.Text.Replace("/", ""));
                 if (dtContent.Rows.Count == 0) {
                     MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtMonth.Text, this.Text));
+                    return false;
                 }
 
                 //切換Sheet
@@ -168,6 +141,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 DataTable dtContent2 = dao55031.ListByDate(txtMonth.Text.Replace("/", ""));
                 if (dtContent.Rows.Count == 0) {
                     MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtMonth.Text, this.Text));
+                    return false;
                 }
                 //契約檔
                 DataTable dtAPDK = daoAPDK.ListAll_55031();
@@ -228,9 +202,18 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 //存檔
                 workbook.SaveDocument(excelDestinationPath);
                 #endregion
+                ShowMsg("轉檔成功");
+                return true;
             }
             catch (Exception ex) {
-                MessageBox.Show(ex.Message);
+                MessageDisplay.Error("輸出錯誤");
+                throw ex;
+            }
+            finally {
+                this.Cursor = Cursors.Arrow;
+                this.Refresh();
+                Thread.Sleep(5);
+                txtMonth.Enabled = true;
             }
         }
 
