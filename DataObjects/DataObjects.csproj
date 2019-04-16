@@ -166,6 +166,8 @@
     <Compile Include="Dao\Together\SpecificDao\D35020.cs" />
     <Compile Include="Dao\Together\SpecificDao\D35030.cs" />
     <Compile Include="Dao\Together\SpecificDao\D35050.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D40012.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D40013.cs" />
     <Compile Include="Dao\Together\SpecificDao\D4001x.cs" />
     <Compile Include="Dao\Together\SpecificDao\D40060.cs" />
     <Compile Include="Dao\Together\SpecificDao\D40130.cs" />
@@ -207,6 +209,7 @@
     <Compile Include="Dao\Together\SpecificDao\D49071.cs" />
     <Compile Include="Dao\Together\SpecificDao\D49070.cs" />
     <Compile Include="Dao\Together\SpecificDao\D49061.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D49074.cs" />
     <Compile Include="Dao\Together\SpecificDao\D49080.cs" />
     <Compile Include="Dao\Together\SpecificDao\DP00xx.cs" />
     <Compile Include="Dao\Together\SpecificDao\D50030.cs" />
