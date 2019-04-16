@@ -1,5 +1,5 @@
 ﻿namespace PhoenixCI.FormUI.Prefix4 {
-    partial class W42011 {
+    partial class W42012 {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -32,11 +32,9 @@
             this.lblCmRateRef = new System.Windows.Forms.Label();
             this.lblCmRate = new System.Windows.Forms.Label();
             this.txtRate4 = new System.Windows.Forms.TextBox();
-            this.txtUpDown = new System.Windows.Forms.TextBox();
             this.txtRate3 = new System.Windows.Forms.TextBox();
             this.txtRate2 = new System.Windows.Forms.TextBox();
             this.txtRate1 = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -44,38 +42,42 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtRange = new System.Windows.Forms.TextBox();
             this.cbxRate = new System.Windows.Forms.CheckBox();
-            this.cbx3 = new System.Windows.Forms.CheckBox();
             this.cbx2 = new System.Windows.Forms.CheckBox();
             this.cbx1 = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.lblDate = new System.Windows.Forms.Label();
             this.txtSDate = new PhoenixCI.Widget.TextDateEdit();
+            this.label8 = new System.Windows.Forms.Label();
+            this.txtEDate = new PhoenixCI.Widget.TextDateEdit();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtSID = new System.Windows.Forms.TextBox();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             this.grpxDescription.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtEDate.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // panParent
             // 
             this.panParent.Controls.Add(this.lblProcessing);
             this.panParent.Controls.Add(this.grpxDescription);
-            this.panParent.Size = new System.Drawing.Size(1183, 681);
+            this.panParent.Size = new System.Drawing.Size(1193, 683);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(1183, 30);
+            this.ribbonControl.Size = new System.Drawing.Size(1193, 30);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // lblProcessing
             // 
             this.lblProcessing.AutoSize = true;
             this.lblProcessing.ForeColor = System.Drawing.Color.Blue;
-            this.lblProcessing.Location = new System.Drawing.Point(69, 548);
+            this.lblProcessing.Location = new System.Drawing.Point(65, 543);
             this.lblProcessing.Name = "lblProcessing";
             this.lblProcessing.Size = new System.Drawing.Size(85, 20);
-            this.lblProcessing.TabIndex = 24;
+            this.lblProcessing.TabIndex = 26;
             this.lblProcessing.Text = "開始轉檔...";
             this.lblProcessing.Visible = false;
             // 
@@ -83,6 +85,10 @@
             // 
             this.grpxDescription.AutoSize = true;
             this.grpxDescription.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+            this.grpxDescription.Controls.Add(this.txtSID);
+            this.grpxDescription.Controls.Add(this.label9);
+            this.grpxDescription.Controls.Add(this.txtEDate);
+            this.grpxDescription.Controls.Add(this.label8);
             this.grpxDescription.Controls.Add(this.txtRate4Ref);
             this.grpxDescription.Controls.Add(this.txtRate3Ref);
             this.grpxDescription.Controls.Add(this.txtRate2Ref);
@@ -90,11 +96,9 @@
             this.grpxDescription.Controls.Add(this.lblCmRateRef);
             this.grpxDescription.Controls.Add(this.lblCmRate);
             this.grpxDescription.Controls.Add(this.txtRate4);
-            this.grpxDescription.Controls.Add(this.txtUpDown);
             this.grpxDescription.Controls.Add(this.txtRate3);
             this.grpxDescription.Controls.Add(this.txtRate2);
             this.grpxDescription.Controls.Add(this.txtRate1);
-            this.grpxDescription.Controls.Add(this.label7);
             this.grpxDescription.Controls.Add(this.label6);
             this.grpxDescription.Controls.Add(this.label5);
             this.grpxDescription.Controls.Add(this.label4);
@@ -102,7 +106,6 @@
             this.grpxDescription.Controls.Add(this.label1);
             this.grpxDescription.Controls.Add(this.txtRange);
             this.grpxDescription.Controls.Add(this.cbxRate);
-            this.grpxDescription.Controls.Add(this.cbx3);
             this.grpxDescription.Controls.Add(this.cbx2);
             this.grpxDescription.Controls.Add(this.cbx1);
             this.grpxDescription.Controls.Add(this.label2);
@@ -110,10 +113,10 @@
             this.grpxDescription.Controls.Add(this.txtSDate);
             this.grpxDescription.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.grpxDescription.ForeColor = System.Drawing.Color.Navy;
-            this.grpxDescription.Location = new System.Drawing.Point(73, 73);
+            this.grpxDescription.Location = new System.Drawing.Point(69, 68);
             this.grpxDescription.Name = "grpxDescription";
             this.grpxDescription.Size = new System.Drawing.Size(1046, 472);
-            this.grpxDescription.TabIndex = 23;
+            this.grpxDescription.TabIndex = 25;
             this.grpxDescription.TabStop = false;
             this.grpxDescription.Text = "請輸入交易日期";
             // 
@@ -165,7 +168,7 @@
             // lblCmRate
             // 
             this.lblCmRate.AutoSize = true;
-            this.lblCmRate.Location = new System.Drawing.Point(321, 311);
+            this.lblCmRate.Location = new System.Drawing.Point(321, 361);
             this.lblCmRate.Name = "lblCmRate";
             this.lblCmRate.Size = new System.Drawing.Size(30, 21);
             this.lblCmRate.TabIndex = 34;
@@ -173,25 +176,16 @@
             // 
             // txtRate4
             // 
-            this.txtRate4.Location = new System.Drawing.Point(835, 311);
+            this.txtRate4.Location = new System.Drawing.Point(835, 361);
             this.txtRate4.MaxLength = 3;
             this.txtRate4.Name = "txtRate4";
             this.txtRate4.Size = new System.Drawing.Size(44, 29);
             this.txtRate4.TabIndex = 33;
             this.txtRate4.Text = "1";
             // 
-            // txtUpDown
-            // 
-            this.txtUpDown.Location = new System.Drawing.Point(343, 355);
-            this.txtUpDown.MaxLength = 3;
-            this.txtUpDown.Name = "txtUpDown";
-            this.txtUpDown.Size = new System.Drawing.Size(43, 29);
-            this.txtUpDown.TabIndex = 32;
-            this.txtUpDown.Text = "12";
-            // 
             // txtRate3
             // 
-            this.txtRate3.Location = new System.Drawing.Point(479, 272);
+            this.txtRate3.Location = new System.Drawing.Point(479, 322);
             this.txtRate3.MaxLength = 3;
             this.txtRate3.Name = "txtRate3";
             this.txtRate3.Size = new System.Drawing.Size(50, 29);
@@ -200,7 +194,7 @@
             // 
             // txtRate2
             // 
-            this.txtRate2.Location = new System.Drawing.Point(479, 232);
+            this.txtRate2.Location = new System.Drawing.Point(479, 282);
             this.txtRate2.MaxLength = 3;
             this.txtRate2.Name = "txtRate2";
             this.txtRate2.Size = new System.Drawing.Size(50, 29);
@@ -209,30 +203,19 @@
             // 
             // txtRate1
             // 
-            this.txtRate1.Location = new System.Drawing.Point(479, 191);
+            this.txtRate1.Location = new System.Drawing.Point(479, 241);
             this.txtRate1.MaxLength = 3;
             this.txtRate1.Name = "txtRate1";
             this.txtRate1.Size = new System.Drawing.Size(50, 29);
             this.txtRate1.TabIndex = 15;
             this.txtRate1.Text = "9";
             // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label7.ForeColor = System.Drawing.Color.Navy;
-            this.label7.Location = new System.Drawing.Point(119, 358);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(288, 20);
-            this.label7.TabIndex = 29;
-            this.label7.Text = "現貨或期貨連續二日漲跌幅度≧            %";
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label6.ForeColor = System.Drawing.Color.Navy;
-            this.label6.Location = new System.Drawing.Point(119, 314);
+            this.label6.Location = new System.Drawing.Point(119, 364);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(796, 20);
             this.label6.TabIndex = 28;
@@ -243,7 +226,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label5.ForeColor = System.Drawing.Color.Navy;
-            this.label5.Location = new System.Drawing.Point(119, 275);
+            this.label5.Location = new System.Drawing.Point(119, 325);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(429, 20);
             this.label5.TabIndex = 27;
@@ -254,7 +237,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label4.ForeColor = System.Drawing.Color.Navy;
-            this.label4.Location = new System.Drawing.Point(119, 235);
+            this.label4.Location = new System.Drawing.Point(119, 285);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(429, 20);
             this.label4.TabIndex = 26;
@@ -265,7 +248,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label3.ForeColor = System.Drawing.Color.Navy;
-            this.label3.Location = new System.Drawing.Point(119, 194);
+            this.label3.Location = new System.Drawing.Point(119, 244);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(429, 20);
             this.label3.TabIndex = 25;
@@ -294,8 +277,6 @@
             // cbxRate
             // 
             this.cbxRate.AutoSize = true;
-            this.cbxRate.Checked = true;
-            this.cbxRate.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbxRate.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.cbxRate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.cbxRate.Location = new System.Drawing.Point(936, 189);
@@ -305,18 +286,6 @@
             this.cbxRate.Text = "依條件";
             this.cbxRate.UseVisualStyleBackColor = true;
             // 
-            // cbx3
-            // 
-            this.cbx3.AutoSize = true;
-            this.cbx3.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.cbx3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-            this.cbx3.Location = new System.Drawing.Point(53, 358);
-            this.cbx3.Name = "cbx3";
-            this.cbx3.Size = new System.Drawing.Size(69, 24);
-            this.cbx3.TabIndex = 12;
-            this.cbx3.Text = "表3：";
-            this.cbx3.UseVisualStyleBackColor = true;
-            // 
             // cbx2
             // 
             this.cbx2.AutoSize = true;
@@ -324,7 +293,7 @@
             this.cbx2.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbx2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.cbx2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-            this.cbx2.Location = new System.Drawing.Point(53, 193);
+            this.cbx2.Location = new System.Drawing.Point(53, 243);
             this.cbx2.Name = "cbx2";
             this.cbx2.Size = new System.Drawing.Size(69, 24);
             this.cbx2.TabIndex = 11;
@@ -385,20 +354,65 @@
             this.txtSDate.TabIndex = 7;
             this.txtSDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
-            // W42011
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(219, 63);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(26, 21);
+            this.label8.TabIndex = 40;
+            this.label8.Text = "～";
+            // 
+            // txtEDate
+            // 
+            this.txtEDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+            this.txtEDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+            this.txtEDate.EditValue = "2018/12";
+            this.txtEDate.EnterMoveNextControl = true;
+            this.txtEDate.Location = new System.Drawing.Point(251, 60);
+            this.txtEDate.MenuManager = this.ribbonControl;
+            this.txtEDate.Name = "txtEDate";
+            this.txtEDate.Properties.Appearance.Options.UseTextOptions = true;
+            this.txtEDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtEDate.Properties.Mask.EditMask = "yyyy/MM/dd";
+            this.txtEDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtEDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+            this.txtEDate.Size = new System.Drawing.Size(100, 26);
+            this.txtEDate.TabIndex = 41;
+            this.txtEDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.label9.Location = new System.Drawing.Point(407, 63);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(122, 21);
+            this.label9.TabIndex = 42;
+            this.label9.Text = "標的證券代碼：";
+            // 
+            // txtSID
+            // 
+            this.txtSID.Location = new System.Drawing.Point(535, 60);
+            this.txtSID.Name = "txtSID";
+            this.txtSID.Size = new System.Drawing.Size(100, 29);
+            this.txtSID.TabIndex = 43;
+            // 
+            // W42012
             // 
             this.Appearance.Options.UseFont = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1183, 711);
-            this.Name = "W42011";
-            this.Text = "W42011";
+            this.ClientSize = new System.Drawing.Size(1193, 713);
+            this.Name = "W42012";
+            this.Text = "W42012";
             this.panParent.ResumeLayout(false);
             this.panParent.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
             this.grpxDescription.ResumeLayout(false);
             this.grpxDescription.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtEDate.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -408,15 +422,6 @@
 
         private System.Windows.Forms.Label lblProcessing;
         private System.Windows.Forms.GroupBox grpxDescription;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label lblDate;
-        private Widget.TextDateEdit txtSDate;
-        private System.Windows.Forms.TextBox txtRate1;
-        private System.Windows.Forms.TextBox txtRange;
-        private System.Windows.Forms.CheckBox cbxRate;
-        private System.Windows.Forms.CheckBox cbx3;
-        private System.Windows.Forms.CheckBox cbx2;
-        private System.Windows.Forms.CheckBox cbx1;
         private System.Windows.Forms.TextBox txtRate4Ref;
         private System.Windows.Forms.TextBox txtRate3Ref;
         private System.Windows.Forms.TextBox txtRate2Ref;
@@ -424,14 +429,24 @@
         private System.Windows.Forms.Label lblCmRateRef;
         private System.Windows.Forms.Label lblCmRate;
         private System.Windows.Forms.TextBox txtRate4;
-        private System.Windows.Forms.TextBox txtUpDown;
         private System.Windows.Forms.TextBox txtRate3;
         private System.Windows.Forms.TextBox txtRate2;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txtRate1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtRange;
+        private System.Windows.Forms.CheckBox cbxRate;
+        private System.Windows.Forms.CheckBox cbx2;
+        private System.Windows.Forms.CheckBox cbx1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblDate;
+        private Widget.TextDateEdit txtSDate;
+        private System.Windows.Forms.TextBox txtSID;
+        private System.Windows.Forms.Label label9;
+        private Widget.TextDateEdit txtEDate;
+        private System.Windows.Forms.Label label8;
     }
 }

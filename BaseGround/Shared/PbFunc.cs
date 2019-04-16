@@ -407,67 +407,29 @@ namespace BaseGround.Shared {
          return res;
       }
 
-      public static string f_chk_ai2(string as_txn_id, string ls_ymd, string is_osw_grp, string ls_choose) {
-         /***************************************
-         有加f_chk_ai2的作業代號：
-         40030,40040
-         ***************************************/
+      /// <summary>
+      /// 查看Ai2 作業 40040 / 40030
+      /// </summary>
+      /// <param name="ls_ymd"></param>
+      /// <param name="is_osw_grp">欲查詢之group 1 / 5 / %</param>
+      /// <param name="ls_choose"></param>
+      /// <param name="group_name">群組名稱 EX: group1 / group2</param>
+      /// <param name="cnt_limt">li_cnt 正常值 group1>2 / group2>1</param>
+      /// <returns></returns>
+      public static string f_chk_ai2(string ls_ymd, string is_osw_grp, string ls_choose, string group_name, int cnt_limt) {
+         int li_cnt = 0;
 
-         //////int li_cnt;
-         //////string ls_grp;
+         li_cnt = new AI2().GetJobStatus(ls_ymd, is_osw_grp);
 
-         ////////Group1;
-         //////if (is_osw_grp == "1" || is_osw_grp == "%") {
-         //////    ls_grp = "1";
-         //////    //select count(distinct AI2_PROD_TYPE);
-         //////    //into: li_cnt;
-         //////    //from ci.AI2,ci.APDK;
-         //////    //where AI2_YMD = :ls_ymd;
-         //////    //and AI2_SUM_TYPE = "D";
-         //////    //and AI2_PROD_TYPE in ("F", "O");
-         //////    //and AI2_KIND_ID = APDK_KIND_ID;
-         //////    //and APDK_MARKET_CLOSE like :ls_grp||'%'
+         if (li_cnt < cnt_limt) {
+            if (ls_choose == "N") {
+               MessageDisplay.Error($"每日行情統計檔(AI2)－{group_name}轉檔未完成，請稍候再執行!");
+               return "E";
+            } else if (MessageDisplay.Choose($"每日行情統計檔(AI2)－{group_name}轉檔未完成，是否要繼續?") == DialogResult.No) {
+               return "E";
+            }
+         }
 
-
-         //////    if (li_cnt < 2) {
-         //////        if (ls_choose == "N") {
-         //////            MessageBox.Show("每日行情統計檔(AI2)－Group1 轉檔未完成，請稍候再執行! ", gs_t_err, MessageBoxButtons.OK, MessageBoxIcon.Stop);
-         //////            //洽OP：盤後資訊管理系統「(F)10012作業第5項&(O)10022作業第5項」是否已完成?;
-         //////            return "E";
-         //////        } else {
-         //////            if (MessageBox.Show(gs_t_question, "每日行情統計檔(AI2)－Group1 轉檔未完成，是否要繼續? ", Question!, YesNo!, 2) = 2) {
-         //////                return "E";
-         //////            }
-         //////        }
-         //////    }
-         //////}//if (is_osw_grp == "1" || is_osw_grp == "%") {
-
-         ////////Group5;
-         //////if (is_osw_grp == "5" || is_osw_grp == "%") {
-
-         //////    ls_grp = "5";
-         //////    //select count(distinct AI2_PROD_TYPE);
-         //////    //into: li_cnt;
-         //////    //from ci.AI2,ci.APDK;
-         //////    //where AI2_YMD = :ls_ymd;
-         //////    //and AI2_SUM_TYPE = "D";
-         //////    //and AI2_PROD_TYPE in ("F", "O");
-         //////    //and AI2_KIND_ID = APDK_KIND_ID;
-         //////    //and APDK_MARKET_CLOSE like :ls_grp||"%";
-         //////    ;
-         //////    ;
-         //////    if (li_cnt < 1) {
-         //////        if (ls_choose == "N") {
-         //////            MessageBox.Show("每日行情統計檔(AI2)－Group2 轉檔未完成，請稍候再執行! ", gs_t_err, MessageBoxButtons.OK, MessageBoxIcon.Stop);
-         //////            //洽OP：盤後資訊管理系統「(F)10013作業第5項」是否已完成?;
-         //////            return "E";
-         //////        } else {
-         //////            if (MessageBox.Show(gs_t_question, "每日行情統計檔(AI2)－Group2 轉檔未完成，是否要繼續? ", Question!, YesNo!, 2) = 2) {
-         //////                return "E";
-         //////            }
-         //////        }
-         //////    }
-         //////}//if (is_osw_grp == "5" || is_osw_grp == "%") {
          return "";
       }
 

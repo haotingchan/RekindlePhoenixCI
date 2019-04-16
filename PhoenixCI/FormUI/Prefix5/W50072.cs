@@ -12,6 +12,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 /// <summary>
 /// Lukas, 2018/12/13
 /// </summary>
@@ -30,20 +31,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
             txtFromDate.DateTimeValue = (txtToDate.Text.Substring(0, 8) + "01").AsDateTime();
         }
 
-        public override ResultStatus BeforeOpen() {
-            base.BeforeOpen();
-
-            return ResultStatus.Success;
-        }
-
         protected override ResultStatus Open() {
             base.Open();
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus AfterOpen() {
-            base.AfterOpen();
 
             return ResultStatus.Success;
         }
@@ -56,50 +45,39 @@ namespace PhoenixCI.FormUI.Prefix5 {
             return ResultStatus.Success;
         }
 
-        protected override ResultStatus Retrieve() {
-            base.Retrieve();
-
-            return ResultStatus.Success;
-        }
-
         protected override ResultStatus CheckShield() {
             base.CheckShield();
 
             return ResultStatus.Success;
         }
 
-        protected override ResultStatus Save(PokeBall pokeBall) {
-            base.Save(pokeBall);
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus Run(PokeBall args) {
-            base.Run(args);
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus Import() {
-            base.Import();
-
-            return ResultStatus.Success;
+        protected void ShowMsg(string msg) {
+            lblProcessing.Text = msg;
+            this.Refresh();
+            Thread.Sleep(5);
         }
 
         protected override ResultStatus Export() {
             base.Export();
-            lblProcessing.Visible = true;
             string excelDestinationPath = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
 
-            ManipulateExcel(excelDestinationPath);
+            if(!ManipulateExcel(excelDestinationPath))return ResultStatus.Fail;
             lblProcessing.Visible = false;
             return ResultStatus.Success;
         }
 
-        private void ManipulateExcel(string excelDestinationPath) {
+        private bool ManipulateExcel(string excelDestinationPath) {
 
             //測試資料查詢日期:2017/12/01
             try {
+                txtFromDate.Enabled = false;
+                txtToDate.Enabled = false;
+
+                this.Cursor = Cursors.WaitCursor;
+                this.Refresh();
+                Thread.Sleep(5);
+                lblProcessing.Visible = true;
+                ShowMsg("開始轉檔...");
                 string rptName, rptId;
                 int i;
                 /*************************************
@@ -110,7 +88,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 *************************************/
                 rptName = "STF報價期貨商明細加總日報表";
                 rptId = "50072";
-                lblProcessing.Text = rptId + "－" + rptName + " 轉檔中...";
+                ShowMsg(rptId + "－" + rptName + " 轉檔中...");
 
                 #region Excel
 
@@ -158,8 +136,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
                     MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromDate.Text, this.Text));
                 }
                 //存CSV
-                string etfFileName = CopyExcelTemplateFile("50072_ETF", FileType.CSV);
-
+               
+                string etfFileName = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH,"50072_ETF.csv");
+                File.Create(etfFileName).Close();
                 StringBuilder sbETF = new StringBuilder();
 
                 IEnumerable<string> etfColumnNames = dtContentETF.Columns.Cast<DataColumn>().
@@ -185,7 +164,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
                     MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromDate.Text, this.Text));
                 }
                 //存CSV
-                string txfFileName = CopyExcelTemplateFile("50072_TXF", FileType.CSV);
+                string txfFileName = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, "50072_TXF.csv");
+                File.Create(txfFileName).Close();
 
                 StringBuilder sbTXF = new StringBuilder();
 
@@ -233,9 +213,19 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
                 //Excel存檔
                 workbook.SaveDocument(excelDestinationPath);
+                ShowMsg("轉檔成功");
+                return true;
             }
             catch (Exception ex) {
-                MessageBox.Show(ex.Message);
+                MessageDisplay.Error("輸出錯誤");
+                throw ex;
+            }
+            finally {
+                this.Cursor = Cursors.Arrow;
+                this.Refresh();
+                Thread.Sleep(5);
+                txtFromDate.Enabled = true;
+                txtToDate.Enabled = true;
             }
         }
 
