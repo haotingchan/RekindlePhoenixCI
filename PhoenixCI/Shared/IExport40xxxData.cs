@@ -19,5 +19,19 @@ namespace PhoenixCI.Shared {
       /// <returns></returns>
       ReturnMessageClass GetData();
 
+      /// <summary>
+      /// 錯誤處理
+      /// </summary>
+      /// <param name="ex"></param>
+      /// <param name="msg"></param>
+      void ErrorHandle(Exception ex, ReturnMessageClass msg);
+
+      /// <summary>
+      /// 寫錯誤log
+      /// </summary>
+      /// <param name="msg"></param>
+      /// <param name="logType"></param>
+      /// <param name="operationType"></param>
+      void WriteLog(string msg, string logType = "Info", string operationType = "");
    }
 }

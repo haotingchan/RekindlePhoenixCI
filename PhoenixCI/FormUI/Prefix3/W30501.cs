@@ -8,6 +8,7 @@ using System.IO;
 using BaseGround.Shared;
 using DevExpress.Spreadsheet;
 using BaseGround.Report;
+using DevExpress.XtraPrinting;
 
 namespace PhoenixCI.FormUI.Prefix3 {
    public partial class W30501 : FormParent {
@@ -24,6 +25,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          this.Text = _ProgramID + "─" + _ProgramName;
 
          gcMain.Hide();
+         gcExport.Hide();
          txtSDate.DateTimeValue = GlobalInfo.OCF_DATE;
          txtEDate.DateTimeValue = GlobalInfo.OCF_DATE;
       }
@@ -35,10 +37,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
          string destinationFilePath = PbFunc.wf_GetFileSaveName(_ProgramID + "_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss"));
          string txtFilePath = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH, _ProgramID + ".txt");
-         DataTable dtSource = (DataTable)gcMain.DataSource;
+         DataTable dtSource = (DataTable)gcExport.DataSource;
 
          try {
-            gcMain.ExportToXlsx(destinationFilePath);
+            gvExport.Columns["PROD_ID"].SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
+            gcExport.ExportToXlsx(destinationFilePath);
 
             Workbook workbook = new Workbook();
             workbook.LoadDocument(destinationFilePath);
@@ -60,7 +63,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             workbook.SaveDocument(destinationFilePath);
          } catch (Exception ex) {
             ExportShow.Text = "轉檔失敗";
-            throw ex;
+            WriteLog(ex);
          }
          ExportShow.Text = "轉檔成功!";
          return ResultStatus.Success;
@@ -85,6 +88,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          labTime.Show();
 
          gcMain.DataSource = returnTable;
+         gcExport.DataSource = returnTable;
          gvMain.Columns["PROD_ID"].SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
 
          string txtFilePath = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH, _ProgramID + ".txt");
@@ -95,6 +99,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
          }
 
+         GridHelper.SetCommonGrid(gvMain);
          gcMain.Focus();
          _ToolBtnExport.Enabled = true;
          _ToolBtnPrintAll.Enabled = true;
