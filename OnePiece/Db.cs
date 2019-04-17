@@ -280,7 +280,7 @@ namespace OnePiece {
          return connection;
       }
 
-      private DbCommand CreateCommand(string sql, DbConnection conn, CommandType cmdType, params object[] parms) {
+      public DbCommand CreateCommand(string sql, DbConnection conn, CommandType cmdType, params object[] parms) {
          var command = factory.CreateCommand();
          command.Connection = conn;
 
@@ -307,7 +307,7 @@ namespace OnePiece {
          return command;
       }
 
-      private DbCommand CreateCommand(string sql, DbConnection conn, CommandType cmdType) {
+      public DbCommand CreateCommand(string sql, DbConnection conn, CommandType cmdType) {
          var command = factory.CreateCommand();
          command.Connection = conn;
          command.CommandText = sql;
@@ -320,19 +320,19 @@ namespace OnePiece {
          return command;
       }
 
-      private DbDataAdapter CreateAdapter(DbCommand command) {
+      public DbDataAdapter CreateAdapter(DbCommand command) {
          var adapter = factory.CreateDataAdapter();
          adapter.SelectCommand = command;
          return adapter;
       }
 
-      private DbCommandBuilder CreateCommandBuilder(DbDataAdapter adapter) {
+      public DbCommandBuilder CreateCommandBuilder(DbDataAdapter adapter) {
          var builder = factory.CreateCommandBuilder();
          builder.DataAdapter = adapter;
          return builder;
       }
 
-      private DbParameter TransformToDbParameter(DbParameter para, DbParameterEx paraEx) {
+      public DbParameter TransformToDbParameter(DbParameter para, DbParameterEx paraEx) {
          para.ParameterName = paraEx.Name;
          para.Value = paraEx.Value;
          para.Direction = paraEx.Direction;
