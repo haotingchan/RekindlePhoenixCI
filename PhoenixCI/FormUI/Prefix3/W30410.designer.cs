@@ -24,16 +24,16 @@
         /// </summary>
         private void InitializeComponent() {
          this.panFilter = new System.Windows.Forms.GroupBox();
+         this.txtEndDate = new PhoenixCI.Widget.TextDateEdit();
+         this.label1 = new System.Windows.Forms.Label();
          this.txtStartDate = new PhoenixCI.Widget.TextDateEdit();
          this.lblDate = new System.Windows.Forms.Label();
          this.labMsg = new System.Windows.Forms.Label();
-         this.label1 = new System.Windows.Forms.Label();
-         this.txtEndDate = new PhoenixCI.Widget.TextDateEdit();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          this.panFilter.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -60,10 +60,37 @@
          this.panFilter.TabStop = false;
          this.panFilter.Text = "請輸入交易日期";
          // 
+         // txtEndDate
+         // 
+         this.txtEndDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtEndDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+         this.txtEndDate.EditValue = "2018/12";
+         this.txtEndDate.EnterMoveNextControl = true;
+         this.txtEndDate.Location = new System.Drawing.Point(224, 43);
+         this.txtEndDate.MenuManager = this.ribbonControl;
+         this.txtEndDate.Name = "txtEndDate";
+         this.txtEndDate.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtEndDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtEndDate.Properties.Mask.EditMask = "yyyy/MM/dd";
+         this.txtEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtEndDate.Size = new System.Drawing.Size(100, 26);
+         this.txtEndDate.TabIndex = 4;
+         this.txtEndDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         // 
+         // label1
+         // 
+         this.label1.AutoSize = true;
+         this.label1.Location = new System.Drawing.Point(197, 46);
+         this.label1.Name = "label1";
+         this.label1.Size = new System.Drawing.Size(21, 20);
+         this.label1.TabIndex = 3;
+         this.label1.Text = "~";
+         // 
          // txtStartDate
          // 
          this.txtStartDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtStartDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+         this.txtStartDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtStartDate.EditValue = "2018/12";
          this.txtStartDate.EnterMoveNextControl = true;
          this.txtStartDate.Location = new System.Drawing.Point(91, 43);
@@ -98,33 +125,6 @@
          this.labMsg.Text = "轉檔中...";
          this.labMsg.Visible = false;
          // 
-         // label1
-         // 
-         this.label1.AutoSize = true;
-         this.label1.Location = new System.Drawing.Point(197, 46);
-         this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(21, 20);
-         this.label1.TabIndex = 3;
-         this.label1.Text = "~";
-         // 
-         // txtEndDate
-         // 
-         this.txtEndDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtEndDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
-         this.txtEndDate.EditValue = "2018/12";
-         this.txtEndDate.EnterMoveNextControl = true;
-         this.txtEndDate.Location = new System.Drawing.Point(224, 43);
-         this.txtEndDate.MenuManager = this.ribbonControl;
-         this.txtEndDate.Name = "txtEndDate";
-         this.txtEndDate.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtEndDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtEndDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-         this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtEndDate.Size = new System.Drawing.Size(100, 26);
-         this.txtEndDate.TabIndex = 4;
-         this.txtEndDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-         // 
          // W30410
          // 
          this.Appearance.Options.UseFont = true;
@@ -138,8 +138,8 @@
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
          this.panFilter.ResumeLayout(false);
          this.panFilter.PerformLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
