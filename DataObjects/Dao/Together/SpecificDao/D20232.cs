@@ -13,7 +13,7 @@ namespace DataObjects.Dao.Together.SpecificDao {
       /// <param name="as_ym">yyyyMM</param>
       /// <param name="as_pid">1 or 2</param>
       /// <returns></returns>
-      public DataTable GetDataList(string as_ym , string as_pid) {
+      public DataTable GetDataList(string as_ym, string as_pid) {
          object[] parms = {
                 ":as_ym", as_ym,
                 ":as_pid", as_pid
@@ -34,7 +34,7 @@ where pls3_ym = :as_ym
 and pls3_pid = :as_pid
 order by pls3_pid,pls3_sid
 ";
-         DataTable dtResult = db.GetDataTable(sql , parms);
+         DataTable dtResult = db.GetDataTable(sql, parms);
 
          return dtResult;
       }
@@ -45,7 +45,7 @@ order by pls3_pid,pls3_sid
       /// <param name="as_ym">yyyyMM</param>
       /// <param name="as_pls3_pid">1 or 2</param>
       /// <returns></returns>
-      public int DeletePls3(string as_ym , string as_pls3_pid = "1") {
+      public int DeletePls3(string as_ym, string as_pls3_pid = "1") {
          object[] parms = {
                 ":as_ym", as_ym,
                 ":as_pls3_pid",as_pls3_pid
@@ -57,7 +57,7 @@ where pls3_ym = :as_ym
 and pls3_pid = :as_pls3_pid
 ";
 
-         int res = db.ExecuteSQL(sql , parms);
+         int res = db.ExecuteSQL(sql, parms);
 
          return res;
       }
@@ -70,16 +70,26 @@ and pls3_pid = :as_pls3_pid
       /// <param name="as_ym">yyyyMM</param>
       /// <param name="as_pls3_pid">1 or 2</param>
       /// <returns></returns>
-      public int ImportDataToPls3(DataTable dtSource, string as_ym , string as_pls3_pid = "1") {
+      public int ImportDataToPls3(DataTable dtSource, string as_ym, string as_pls3_pid = "1") {
 
-
+         string sql = "";
          DbConnection connection = db.CreateConnection();
+         DbCommand command;
+
+         //1.保險起見,先把temp table 刪除
+         try {
+            sql = @"drop table ci.temp_20232_2";
+            command = db.CreateCommand(sql, connection, CommandType.Text, null);
+            int dropTemp = command.ExecuteNonQuery();//有資料表刪除會回傳-1,無資料表做刪除會發生error,ErrorCode=-2147467259
+         } catch {
+            //失敗正常,無所謂,無資料表做刪除動作會產生ErrorCode=-2147467259
+         }
+
+
          DbTransaction tran = connection.BeginTransaction();
-
-
          try {
             //2.create temp table in oracle
-            string sql = @"
+            sql = @"
 create global temporary table ci.temp_20232_2 
 (
   pls3_ym    char(6 byte)                       not null,
@@ -92,7 +102,7 @@ create global temporary table ci.temp_20232_2
 ) on commit delete rows
 ";
 
-            DbCommand command = db.CreateCommand(sql , connection , CommandType.Text , null);
+            command = db.CreateCommand(sql, connection, CommandType.Text, null);
             command.Transaction = tran;
             command.ExecuteNonQuery();
 
@@ -108,18 +118,10 @@ create global temporary table ci.temp_20232_2
                                  ":pls3_pid",dr[6],
                                 };
 
-               sql = @"
-                        insert into ci.temp_20232_2 
-                        select :pls3_ym,
-                           :pls3_sid,
-                           :pls3_kind,
-                           :pls3_amt,
-                           :pls3_qnty,
-                           :pls3_cnt,
-                           :pls3_pid
-                        from dual";
+               sql = @"insert into ci.temp_20232_2 
+ select :pls3_ym,:pls3_sid,:pls3_kind,:pls3_amt,:pls3_qnty,:pls3_cnt,:pls3_pid from dual";
 
-               command = db.CreateCommand(sql , connection , CommandType.Text , parms);
+               command = db.CreateCommand(sql, connection, CommandType.Text, parms);
                command.ExecuteNonQuery();
             }
 
@@ -134,7 +136,7 @@ delete ci.pls3
 where pls3_ym = :as_ym
 and pls3_pid = :as_pls3_pid
 ";
-            command = db.CreateCommand(sql , connection , CommandType.Text , deleteParam);
+            command = db.CreateCommand(sql, connection, CommandType.Text, deleteParam);
             command.ExecuteNonQuery();
 
             //4.temp table data insert to pls3
@@ -150,25 +152,26 @@ select pls3_ym,
 from ci.temp_20232_2
 group by pls3_ym, pls3_sid, pls3_kind, pls3_pid";
 
-            command = db.CreateCommand(sql , connection , CommandType.Text , null);
+            command = db.CreateCommand(sql, connection, CommandType.Text, null);
             command.ExecuteNonQuery();
 
             //5.drop temp table
             sql = @"drop table ci.temp_20232_2";
-            command = db.CreateCommand(sql , connection , CommandType.Text , null);
+            command = db.CreateCommand(sql, connection, CommandType.Text, null);
             command.ExecuteNonQuery();
 
             //6. select pls3 , get insert count
-            object[] tempParam = { ":as_ym" , as_ym };
+            object[] tempParam = { ":as_ym", as_ym };
             sql = @"select count(0) from ci.pls3 where pls3_ym=:as_ym";
-            command = db.CreateCommand(sql , connection , CommandType.Text , tempParam);
-            int res = (int)command.ExecuteScalar();
+            command = db.CreateCommand(sql, connection, CommandType.Text, tempParam);
+            object objReturn = command.ExecuteScalar();
+            int res = (objReturn == null ? 0 : int.Parse(objReturn.ToString()));
 
             //7.commit
             tran.Commit();
 
             return res;
-         } catch(Exception ex) {
+         } catch (Exception ex) {
             tran.Rollback();
             throw ex;
          } finally {

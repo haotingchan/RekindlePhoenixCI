@@ -14,6 +14,7 @@ using DevExpress.XtraGrid.Views.Grid;
 using System.IO;
 using BaseGround.Shared;
 using DataObjects.Dao.Together.SpecificDao;
+using BaseGround;
 /// <summary>
 /// Lukas, 2019/1/4
 /// </summary>

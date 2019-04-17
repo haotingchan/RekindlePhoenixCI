@@ -240,14 +240,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 if (f > 0) rptName = rptName.SubStr(0, f - 1) + txtRange.Text + "%" + rptName.SubStr(f + 2, rptName.Length);
                 ws.Cells[2, 2].Value = rptName;
                 ws.Cells[2, 2].Font.Name = "標楷體";
-                ws.Cells[2, 2].Font.Name = "Times New Roman";
+                //ws.Cells[2, 2].Font.Name = "Times New Roman";
                 //表頭
                 rptName = ws.Cells[rowIndex - 4, 2].Value.AsString();
                 f = rptName.IndexOf("10%") + 1;
                 if (f > 0) rptName = rptName.SubStr(0, f - 1) + txtRange.Text + "%" + rptName.SubStr(f + 2, rptName.Length);
                 ws.Cells[rowIndex - 4, 2].Value = rptName;
                 ws.Cells[rowIndex - 4, 2].Font.Name = "標楷體";
-                ws.Cells[rowIndex - 4, 2].Font.Name = "Times New Roman";
+                //ws.Cells[rowIndex - 4, 2].Font.Name = "Times New Roman";
             }
 
             if (cbxRate.Checked) {
@@ -281,7 +281,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     ws.Cells[rowIndex, 10].Value = dr["DAY_CNT"].AsInt();
                 }
                 ws.Cells[rowIndex, 10].Font.Name = "標楷體";
-                ws.Cells[rowIndex, 10].Font.Name = "Times New Roman";
+                //ws.Cells[rowIndex, 10].Font.Name = "Times New Roman";
 
                 ws.Cells[rowIndex, 11].SetValue(dr["TFXM1_PRICE"]);
                 ws.Cells[rowIndex, 12].SetValue(dr["AI5_PRICE"]);
@@ -378,7 +378,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 }
                 ws.Cells[headRow, 2].Value = rptName;
                 ws.Cells[headRow, 2].Font.Name = "標楷體";
-                ws.Cells[headRow, 2].Font.Name = "Times New Roman";
+                //ws.Cells[headRow, 2].Font.Name = "Times New Roman";
                 //表頭
                 rptName = ws.Cells[rowIndex - 4, 2].Value.AsString();
                 if (txtRange.Text != "8.5") {
@@ -403,7 +403,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 }
                 ws.Cells[rowIndex - 4, 2].Value = rptName;
                 ws.Cells[rowIndex - 4, 2].Font.Name = "標楷體";
-                ws.Cells[rowIndex - 4, 2].Font.Name = "Times New Roman";
+                //ws.Cells[rowIndex - 4, 2].Font.Name = "Times New Roman";
             }
             if (cbxRate.Checked) {
                 DataView dv = dt.AsDataView();
@@ -437,7 +437,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     ws.Cells[rowIndex, 10].Value = dr["DAY_CNT_3"].AsInt();
                 }
                 ws.Cells[rowIndex, 10].Font.Name = "標楷體";
-                ws.Cells[rowIndex, 10].Font.Name = "Times New Roman";
+                //ws.Cells[rowIndex, 10].Font.Name = "Times New Roman";
 
                 ws.Cells[rowIndex, 11].SetValue(dr["TFXM1_PRICE"]);
                 ws.Cells[rowIndex, 12].SetValue(dr["AI5_PRICE"]);
@@ -524,7 +524,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     rptName = rptName.SubStr(0, f - 1) + txtUpDown.Text + "%" + rptName.SubStr(f + 2, rptName.Length);
                     ws.Cells[headRow, 2].Value = rptName;
                     ws.Cells[headRow, 2].Font.Name = "標楷體";
-                    ws.Cells[headRow, 2].Font.Name = "Times New Roman";
+                    //ws.Cells[headRow, 2].Font.Name = "Times New Roman";
                 }
                 //表頭
                 rptName = ws.Cells[rowIndex - 4, 2].Value.AsString();
@@ -533,7 +533,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     rptName = rptName.SubStr(0, f - 1) + txtUpDown.Text + "%" + rptName.SubStr(f + 2, rptName.Length);
                     ws.Cells[rowIndex - 4, 2].Value = rptName;
                     ws.Cells[rowIndex - 4, 2].Font.Name = "標楷體";
-                    ws.Cells[rowIndex - 4, 2].Font.Name = "Times New Roman";
+                    //ws.Cells[rowIndex - 4, 2].Font.Name = "Times New Roman";
                 }
             }
             //DataView dv = dt.AsDataView();
@@ -575,7 +575,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     ws.Cells[rowIndex, 14].Value = dr["MGR3_CUR_LEVEL"].AsString();
                 }
                 ws.Cells[rowIndex, 14].Font.Name = "標楷體";
-                ws.Cells[rowIndex, 14].Font.Name = "Times New Roman";
+                //ws.Cells[rowIndex, 14].Font.Name = "Times New Roman";
 
                 ws.Cells[rowIndex, 15].SetValue(dr["AI2_OI"]);
                 ws.Cells[rowIndex, 16].SetValue(dr["AI2_M_QNTY"]);

@@ -38,7 +38,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          prodLookItem.EditValue = "Y";
 
 #if DEBUG
-         txtDate.DateTimeValue=("2018/6/15").AsDateTime();
+         txtDate.DateTimeValue = ("2018/11/01").AsDateTime();
          oswGrpLookItem.EditValue = "%";
 #endif
          radioGroup1.EditValue = "ALL";
@@ -46,7 +46,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          GridHelper.SetCommonGrid(gvMain);
          gcMain.Visible = false;
 
-         reCountBtn.Click += reCountBtn_Click;       
+         reCountBtn.Click += reCountBtn_Click;
       }
 
       protected override ResultStatus Retrieve() {
@@ -118,6 +118,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          ExportShow.Text = "轉檔中...";
          ExportShow.Show();
+         ResultStatus result = ResultStatus.Fail;
 
          try {
             DataTable exportDt = (DataTable)gcMain.DataSource;
@@ -130,27 +131,29 @@ namespace PhoenixCI.FormUI.Prefix4 {
                string subType = exportDr["MG1_PROD_SUBTYPE"].AsString();
                string prodType = exportDr["MG1_PROD_TYPE"].AsString();
                string newFileName = _ProgramID + "(" + kindId + ")_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".xlsx";
-               string destinationFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID, newFileName);
                int sheetIndex = prodType == "O" ? 2 : 0;
-
-               destinationFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, destinationFilePath);
-
-               workbook.LoadDocument(destinationFilePath);
 
                DataTable importData = dao40041.GetExportData(kindId, exportDr["DATA_SDATE"].AsDateTime(), txtDate.DateTimeValue);
                DataTable accountingData = dao40041.GetExportData(kindId, exportDr["MG1_SDATE"].AsDateTime(), exportDr["MG1_SDATE"].AsDateTime());
 
                if (importData == null) {
-                  MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
+                  MessageDisplay.Info($"({kindId })資料不足2筆，無法產出報表!");
+                  result = ResultStatus.FailButNext;
                   continue;
                }
 
                if (importData.Rows.Count < 2) {
-                  MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
+                  MessageDisplay.Info($"({kindId })資料不足2筆，無法產出報表!");
+                  result = ResultStatus.FailButNext;
                   continue;
                }
 
-#region Write Data
+               string destinationFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID, newFileName);
+               destinationFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, destinationFilePath);
+
+               workbook.LoadDocument(destinationFilePath);
+
+               #region Write Data
 
                Worksheet worksheet = workbook.Worksheets[sheetIndex];
 
@@ -166,9 +169,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                Range emptyRa = worksheet.Range[(importData.Rows.Count + 4).ToString() + ":1003"];
                emptyRa.Delete(DeleteMode.EntireRow);
 
-#endregion
+               #endregion
 
-#region Gen Figure
+               #region Gen Figure
                sheetIndex = prodType == "O" ? 3 : 1;
 
                worksheet = workbook.Worksheets[sheetIndex];
@@ -202,9 +205,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   worksheet.Cells[f, 8].Value = dataRow[7].AsDecimal();
                   worksheet.Cells[f, 9].Value = dataRow[8].AsDecimal();
                }
-#endregion
+               #endregion
 
                workbook.SaveDocument(destinationFilePath);
+               result = ResultStatus.Success;
             }
          } catch (Exception ex) {
             ExportShow.Text = "轉檔失敗";
@@ -212,7 +216,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          }
 
          ExportShow.Text = "轉檔成功!";
-         return ResultStatus.Success;
+         return result;
       }
 
       protected override ResultStatus ActivatedForm() {
@@ -283,7 +287,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
          } else {
             e.Appearance.ForeColor = Color.Black;
-         }       
+         }
       }
 
       private void reCountBtn_Click(object sender, EventArgs e) {

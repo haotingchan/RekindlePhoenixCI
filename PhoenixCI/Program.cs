@@ -44,17 +44,11 @@ namespace CI {
 
             ConnectionInfo connectionInfo = SettingDragons.Instance.GetConnectionInfo(SettingDragons.Instance.Setting.Database.CiUserAp);
             GlobalDaoSetting.Set(connectionInfo);
-            ServiceCommon serviceCommon = new ServiceCommon();
-
-            BO_OCF boOCF = serviceCommon.GetOCF();
-            //user info
+            
             GlobalInfo.USER_ID = "I0001";
             GlobalInfo.USER_NAME = "菲魯特";
             GlobalInfo.USER_DPT_ID = "J";
             GlobalInfo.USER_DPT_NAME = "資訊規劃部";
-            GlobalInfo.OCF_DATE = boOCF.OCF_DATE;
-            GlobalInfo.OCF_NEXT_DATE = boOCF.OCF_NEXT_DATE;
-            GlobalInfo.OCF_PREV_DATE = boOCF.OCF_PREV_DATE;
 
             string reportDirectoryPath = "";
             reportDirectoryPath = Path.Combine(Application.StartupPath, "Report", DateTime.Now.ToString("yyyyMMdd"));

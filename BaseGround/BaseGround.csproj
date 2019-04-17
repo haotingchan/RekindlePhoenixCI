@@ -152,6 +152,7 @@
     <Compile Include="FormParent.Designer.cs">
       <DependentUpon>FormParent.cs</DependentUpon>
     </Compile>
+    <Compile Include="GlobalInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Report\CommonReportLandscapeA4.cs">
       <SubType>Component</SubType>
