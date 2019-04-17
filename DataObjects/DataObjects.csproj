@@ -330,6 +330,7 @@
     <Compile Include="Dao\Together\TableDao\TPPINTD  .cs" />
     <Compile Include="Dao\Together\TableDao\TSE1.cs" />
     <Compile Include="Dao\Together\TableDao\TXEMAIL.cs" />
+    <Compile Include="Dao\Together\TableDao\TFXMSE.cs" />
     <Compile Include="Dao\Together\TableDao\TXFP.cs" />
     <Compile Include="Dao\Together\TableDao\TXFPARM.cs" />
     <Compile Include="Dao\Together\TableDao\TXF.cs" />

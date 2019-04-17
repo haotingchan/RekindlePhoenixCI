@@ -11,15 +11,12 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 
-//TODO: Filter的部分尚未轉為SQL
-
 /// <summary>
 /// Winni, 2019/04/16
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix3 {
    /// <summary>
    /// 30630 期貨市場交易人結構統計(交易量及未沖銷部位)
-   /// 有寫到的功能：Export
    /// </summary>
    public partial class W30630 : FormParent {
 
