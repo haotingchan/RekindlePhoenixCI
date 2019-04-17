@@ -108,12 +108,31 @@ namespace PhoenixCI.FormUI.Prefix2 {
                      txt11.BackColor = Color.Red;
                   } else {
                      item.CheckState = CheckState.Unchecked;
-                     txt11.BackColor = Color.SeaGreen;
+                     txt11.BackColor = Color.FromArgb(128 , 255 , 255);
                   }
 
                }//if (item.CheckState == CheckState.Checked)
             }//foreach (CheckedListBoxItem item in chkGroup1.Items)
 
+            //上市 1
+            foreach (CheckedListBoxItem item in chkGroup2.Items) {
+               if (item.CheckState == CheckState.Checked) {
+                  if (string.IsNullOrEmpty(txt1.Text) || !File.Exists(txt1.Text)) {
+                     MessageDisplay.Info("請輸入正確資料來源路徑!");
+                     txt11.BackColor = Color.Red;
+                     return ResultStatus.Fail;
+                  }
+
+                  bool result = wf_20232_1(txt1.Text , txtDate1.DateTimeValue.ToString("yyyyMM"));
+                  if (!result) {
+                     txt1.BackColor = Color.Red;
+                  } else {
+                     item.CheckState = CheckState.Unchecked;
+                     txt1.BackColor = Color.FromArgb(128 , 255 , 255);
+                  }
+
+               }
+            }
 
             return ResultStatus.Success;
          } catch (Exception ex) {
@@ -128,7 +147,98 @@ namespace PhoenixCI.FormUI.Prefix2 {
       }
 
       /// <summary>
-      /// 
+      /// wf_20232_1
+      /// </summary>
+      /// <param name="filename"></param>
+      /// <param name="txtDate">yyyyMM</param>
+      /// <returns></returns>
+      private bool wf_20232_1(string filename , string txtDate) {
+         try {
+
+            //1. 檢查excel的年月是否跟外面txt設定的年月相同
+            Workbook workbook = new Workbook();
+            workbook.LoadDocument(filename);
+            Worksheet worksheet = workbook.Worksheets[0];
+
+            //string tmp = worksheet.Cells[0 , 1].Value.AsString().Replace("民" , "").Replace("國" , "").Replace("年" , "").Replace("月" , "");
+            //string tmpDate = (tmp.Substring(0 , 3).AsInt() - 1911).AsString() + tmp.Substring(3 , 2);
+            string tmpDate = "201810";
+            if (tmpDate != txtDate) {
+               MessageDisplay.Error(string.Format("轉檔檔案之年月= {0} ,與輸入條件= {1} 不符" , tmpDate , txtDate));
+            }
+
+            //2.把excel轉成dataTable
+            DataTable dtSource = new DataTable();
+            DataColumn[] columns = { new DataColumn("pls3_ym" , typeof(string)) ,
+                                    new DataColumn("pls3_sid" , typeof(string)) ,
+                                    new DataColumn("pls3_kind" , typeof(string)) ,
+                                    new DataColumn("pls3_amt" , typeof(decimal)) ,
+                                    new DataColumn("pls3_qnty" , typeof(decimal)) ,
+                                    new DataColumn("pls3_cnt" , typeof(decimal)) ,
+                                    new DataColumn("pls3_pid" , typeof(string)) };
+            dtSource.Columns.AddRange(columns);
+
+            int pos = 0;
+            for (int k = 8 ; k < 9999 ; k++) {
+               string sid = worksheet.Cells[k , 0].Value.AsString();
+
+               if (string.IsNullOrEmpty(sid)) {
+                  pos++;
+                  continue;
+               }
+
+               if (pos > 10 || sid == txtEnd.Text)
+                  break;
+
+               DataRow drNew = dtSource.NewRow();
+
+               if (!string.IsNullOrEmpty(worksheet.Cells[k , 1].Value.AsString()))
+                  drNew["pls3_amt"] = worksheet.Cells[k , 1].Value.AsDecimal();
+               else
+                  drNew["pls3_amt"] = 0;
+               if (!string.IsNullOrEmpty(worksheet.Cells[k , 2].Value.AsString()))
+                  drNew["pls3_qnty"] = worksheet.Cells[k , 2].Value.AsDecimal();
+               else
+                  drNew["pls3_qnty"] = 0;
+               if (!string.IsNullOrEmpty(worksheet.Cells[k , 3].Value.AsString()))
+                  drNew["pls3_cnt"] = worksheet.Cells[k , 3].Value.AsDecimal();
+               else
+                  drNew["pls3_cnt"] = 0;
+
+               if (drNew["pls3_amt"].AsDecimal() == 0 && drNew["pls3_qnty"].AsDecimal() == 0 && drNew["pls3_cnt"].AsDecimal() == 0)
+                  continue;
+
+               drNew["pls3_ym"] = tmpDate;
+               drNew["pls3_sid"] = sid.Substring(0 , 6).Trim();
+               drNew["pls3_kind"] = "";
+               drNew["pls3_pid"] = "2";
+
+               dtSource.Rows.Add(drNew);
+            }
+
+            gvMain.Columns.Clear();
+            gvMain.OptionsBehavior.AutoPopulateColumns = true;
+            gcMain.DataSource = dtSource;
+            gvMain.BestFitColumns();
+            GridHelper.SetCommonGrid(gvMain);
+
+            return true;
+
+            //3.將dataTable to db table 
+            //好幾個步驟,包含create temp table/insert temp/delete pls3/insert pls3 use group by/drop temp table
+            int rowCount = dao20232.ImportDataToPls3(dtSource , "");
+
+
+            return true;
+         } catch (Exception ex) {
+            WriteLog(ex);
+         }
+         return false;
+      }
+
+
+      /// <summary>
+      /// wf_20232_2
       /// </summary>
       /// <param name="filename"></param>
       /// <param name="txtDate">yyyyMM</param>
@@ -150,15 +260,6 @@ namespace PhoenixCI.FormUI.Prefix2 {
                MessageDisplay.Error(string.Format("轉檔檔案之年月= {0} ,與輸入條件= {1} 不符" , tmpDate , txtDate));
             }
 
-            //if    tmpDate <> txtDate11 then
-
-            //      messagebox(gs_t_err , "轉檔檔案之年月= " + tmpDate + " ,與輸入條件= " + txtDate11 + " 不符" , StopSign!)
-
-            //      is_chk = 'E'
-
-            //      return
-            //end   if
-
             //2.把excel轉成dataTable
             DataTable dtSource = new DataTable();
             DataColumn[] columns = { new DataColumn("pls3_ym" , typeof(string)) ,
@@ -176,7 +277,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                   break;
 
                DataRow drNew = dtSource.NewRow();
-               drNew["pls3_ym"] = sid;
+               drNew["pls3_ym"] = tmpDate;
                drNew["pls3_sid"] = sid;
                drNew["pls3_kind"] = "";
 
@@ -187,7 +288,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                if (!string.IsNullOrEmpty(worksheet.Cells[k , 4].Value.AsString()))
                   drNew["pls3_cnt"] = worksheet.Cells[k , 4].Value.AsDecimal();
 
-               drNew["pls3_pid"] = sid;
+               drNew["pls3_pid"] = "2";
 
                dtSource.Rows.Add(drNew);
             }
