@@ -125,14 +125,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 Thread.Sleep(5);
                 lblProcessing.Visible = true;
                 ShowMsg("開始轉檔...");
-                string rptId = "42012", file, ls_rpt_name = "股票期貨風險價格係數分析表";
+                string rptId = "42012", file, rptName = "股票期貨風險價格係數分析表";
 
                 //讀取資料(保證金適用比例級距)
                 DataTable dt42012 = dao42012.d_42012_detl(txtSDate.DateTimeValue.ToString("yyyyMMdd"), txtEDate.DateTimeValue.ToString("yyyyMMdd"), txtSID.Text.AsString(),
                                           txtRange.Text.AsDecimal() / 100, txtRate2Ref.Text.AsDecimal() / 100, txtRate3Ref.Text.AsDecimal() / 100, txtRate4Ref.Text.AsDecimal() / 100,
                                           txtRate1.Text.AsDecimal() / 100, txtRate2.Text.AsDecimal() / 100, txtRate3.Text.AsDecimal() / 100, txtRate4.Text.AsDecimal() / 100);
                 if (dt42012.Rows.Count == 0) {
-                    MessageDisplay.Info(txtSDate.Text + "～" + txtEDate.Text + "," + rptId + '－' + ls_rpt_name + ",無任何資料!");
+                    MessageDisplay.Info(txtSDate.Text + "～" + txtEDate.Text + "," + rptId + '－' + rptName + ",無任何資料!");
                     lblProcessing.Visible = false;
                     return ResultStatus.Fail;
                 }
@@ -151,86 +151,86 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                 //填資料
                 //表首
-                int f, ii_ole_row, li_start_row = 3 - 1, li_tot_row = 300, li_minus = 0;
+                int f, rowIndex, startRow = 3 - 1, totalRow = 300, minusRow = 0;
                 Range range;
                 if (cbx1.Checked) {
                     if (txtRange.Text != "10") {
                         //表首
-                        ls_rpt_name = ws.Cells[2, 2].Value.AsString();
-                        f = ls_rpt_name.IndexOf("10%") + 1;
-                        if (f > 0) ls_rpt_name = ls_rpt_name.SubStr(0, f - 1) + txtRange.Text + "%" + ls_rpt_name.SubStr(f + 2, ls_rpt_name.Length);
-                        ws.Cells[li_start_row, 2].Value = ls_rpt_name;
-                        ws.Cells[li_start_row, 2].Font.Name = "標楷體";
-                        ws.Cells[li_start_row, 2].Font.Name = "Times New Roman";
+                        rptName = ws.Cells[2, 2].Value.AsString();
+                        f = rptName.IndexOf("10%") + 1;
+                        if (f > 0) rptName = rptName.SubStr(0, f - 1) + txtRange.Text + "%" + rptName.SubStr(f + 2, rptName.Length);
+                        ws.Cells[startRow, 2].Value = rptName;
+                        ws.Cells[startRow, 2].Font.Name = "標楷體";
+                        ws.Cells[startRow, 2].Font.Name = "Times New Roman";
                     }
                 }
                 else {
-                    range = ws.Range[(li_start_row + 1).AsString()];
+                    range = ws.Range[(startRow + 1).AsString()];
                     range.Delete(DeleteMode.EntireRow);
-                    li_minus = li_minus + 1;
+                    minusRow = minusRow + 1;
                     //改編號
-                    ws.Cells[li_start_row, 1].Value = "1";
-                    ws.Cells[li_start_row + 1, 1].Value = "2";
-                    ws.Cells[li_start_row + 2, 1].Value = "3";
-                    ws.Cells[li_start_row + 3, 1].Value = "4";
+                    ws.Cells[startRow, 1].Value = "1";
+                    ws.Cells[startRow + 1, 1].Value = "2";
+                    ws.Cells[startRow + 2, 1].Value = "3";
+                    ws.Cells[startRow + 3, 1].Value = "4";
                 }
-                li_start_row = 4 - 1;
-                li_start_row = li_start_row - li_minus;
+                startRow = 4 - 1;
+                startRow = startRow - minusRow;
 
                 if (cbx2.Checked) {
                     if (txtRange.Text != "8.5" || txtRate2.Text != "10.5" || txtRate3.Text != "13.5" || txtRate4.Text != "1.0" || lblCmRate.Text != "15") {
                         //表首
-                        ls_rpt_name = ws.Cells[li_start_row, 2].Value.AsString();
+                        rptName = ws.Cells[startRow, 2].Value.AsString();
                         if (txtRange.Text != "8.5") {
-                            f = ls_rpt_name.IndexOf("8.5 %") + 1;
-                            if (f > 0) ls_rpt_name = ls_rpt_name.SubStr(0, f - 1) + txtRate1.Text + "%" + ls_rpt_name.SubStr(f + 4, ls_rpt_name.Length);
+                            f = rptName.IndexOf("8.5 %") + 1;
+                            if (f > 0) rptName = rptName.SubStr(0, f - 1) + txtRate1.Text + "%" + rptName.SubStr(f + 4, rptName.Length);
                         }
                         if (txtRate2.Text != "10.5") {
-                            f = ls_rpt_name.IndexOf("10.5 %") + 1;
-                            if (f > 0) ls_rpt_name = ls_rpt_name.SubStr(0, f - 1) + txtRate2.Text + "%" + ls_rpt_name.SubStr(f + 5, ls_rpt_name.Length);
+                            f = rptName.IndexOf("10.5 %") + 1;
+                            if (f > 0) rptName = rptName.SubStr(0, f - 1) + txtRate2.Text + "%" + rptName.SubStr(f + 5, rptName.Length);
                         }
                         if (txtRate3.Text != "13.5") {
-                            f = ls_rpt_name.IndexOf("13.5 %") + 1;
-                            if (f > 0) ls_rpt_name = ls_rpt_name.SubStr(0, f - 1) + txtRate3.Text + "%" + ls_rpt_name.SubStr(f + 5, ls_rpt_name.Length);
+                            f = rptName.IndexOf("13.5 %") + 1;
+                            if (f > 0) rptName = rptName.SubStr(0, f - 1) + txtRate3.Text + "%" + rptName.SubStr(f + 5, rptName.Length);
                         }
                         if (txtRate4.Text != "1.0") {
-                            f = ls_rpt_name.IndexOf("1.0 %") + 1;
-                            if (f > 0) ls_rpt_name = ls_rpt_name.SubStr(0, f - 1) + txtRate4.Text + "%" + ls_rpt_name.SubStr(f + 4, ls_rpt_name.Length);
+                            f = rptName.IndexOf("1.0 %") + 1;
+                            if (f > 0) rptName = rptName.SubStr(0, f - 1) + txtRate4.Text + "%" + rptName.SubStr(f + 4, rptName.Length);
                         }
                         if (lblCmRate.Text != "15") {
-                            f = ls_rpt_name.IndexOf("15%") + 1;
-                            if (f > 0) ls_rpt_name = ls_rpt_name.SubStr(0, f - 1) + lblCmRate.Text + "%" + ls_rpt_name.SubStr(f + 4, ls_rpt_name.Length);
+                            f = rptName.IndexOf("15%") + 1;
+                            if (f > 0) rptName = rptName.SubStr(0, f - 1) + lblCmRate.Text + "%" + rptName.SubStr(f + 4, rptName.Length);
                         }
-                        ws.Cells[li_start_row, 2].Value = ls_rpt_name;
-                        ws.Cells[li_start_row, 2].Font.Name = "標楷體";
-                        ws.Cells[li_start_row, 2].Font.Name = "Times New Roman";
+                        ws.Cells[startRow, 2].Value = rptName;
+                        ws.Cells[startRow, 2].Font.Name = "標楷體";
+                        ws.Cells[startRow, 2].Font.Name = "Times New Roman";
                     }
                 }
                 else {
-                    range = ws.Range[(li_start_row + 1).AsString()];
+                    range = ws.Range[(startRow + 1).AsString()];
                     range.Delete(DeleteMode.EntireRow);
-                    li_minus = li_minus + 1;
+                    minusRow = minusRow + 1;
                     //改編號
-                    ws.Cells[li_start_row, 1].Value = "2";
-                    ws.Cells[li_start_row + 1, 1].Value = "3";
-                    ws.Cells[li_start_row + 2, 1].Value = "4";
+                    ws.Cells[startRow, 1].Value = "2";
+                    ws.Cells[startRow + 1, 1].Value = "3";
+                    ws.Cells[startRow + 2, 1].Value = "4";
                 }
 
                 #region 表1
-                li_start_row = 13 - 1;
-                li_start_row = li_start_row - li_minus;
-                li_tot_row = 1000;
-                ii_ole_row = li_start_row;
+                startRow = 13 - 1;
+                startRow = startRow - minusRow;
+                totalRow = 1000;
+                rowIndex = startRow;
 
                 if (cbx1.Checked) {
                     if (txtRange.Text != "10") {
                         //表頭
-                        ls_rpt_name = ws.Cells[ii_ole_row - 3, 2].Value.AsString();
-                        f = ls_rpt_name.IndexOf("10%") + 1;
-                        if (f > 0) ls_rpt_name = ls_rpt_name.SubStr(0, f - 1) + txtRange.Text + "%" + ls_rpt_name.SubStr(f + 2, ls_rpt_name.Length);
-                        ws.Cells[ii_ole_row - 3, 2].Value = ls_rpt_name;
-                        ws.Cells[ii_ole_row - 3, 2].Font.Name = "標楷體";
-                        ws.Cells[ii_ole_row - 3, 2].Font.Name = "Times New Roman";
+                        rptName = ws.Cells[rowIndex - 3, 2].Value.AsString();
+                        f = rptName.IndexOf("10%") + 1;
+                        if (f > 0) rptName = rptName.SubStr(0, f - 1) + txtRange.Text + "%" + rptName.SubStr(f + 2, rptName.Length);
+                        ws.Cells[rowIndex - 3, 2].Value = rptName;
+                        ws.Cells[rowIndex - 3, 2].Font.Name = "標楷體";
+                        ws.Cells[rowIndex - 3, 2].Font.Name = "Times New Roman";
                     }
                     if (cbxRate.Checked) {
                         DataView dv = dt42012.AsDataView();
@@ -240,85 +240,85 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                     dt42012.Sort("MGR3_YMD");
                     foreach (DataRow dr in dt42012.Rows) {
-                        ii_ole_row++;
-                        ws.Cells[ii_ole_row, 1].Value = dr["MGR3_YMD"].AsDateTime("yyyyMMdd").ToString("yyyy/MM/dd");
-                        ws.Cells[ii_ole_row, 2].Value = dr["MGR3_KIND_ID"].AsString();
-                        ws.Cells[ii_ole_row, 3].Value = dr["APDK_NAME"].AsString();
-                        ws.Cells[ii_ole_row, 4].Value = dr["MGR3_SID"].AsString();
-                        ws.Cells[ii_ole_row, 5].Value = dr["PID_NAME"].AsString();
-                        ws.Cells[ii_ole_row, 6].SetValue(dr["T_30_RATE"]);
-                        ws.Cells[ii_ole_row, 7].SetValue(dr["MGR2_DAY_RATE"]);
+                        rowIndex++;
+                        ws.Cells[rowIndex, 1].Value = dr["MGR3_YMD"].AsDateTime("yyyyMMdd").ToString("yyyy/MM/dd");
+                        ws.Cells[rowIndex, 2].Value = dr["MGR3_KIND_ID"].AsString();
+                        ws.Cells[rowIndex, 3].Value = dr["APDK_NAME"].AsString();
+                        ws.Cells[rowIndex, 4].Value = dr["MGR3_SID"].AsString();
+                        ws.Cells[rowIndex, 5].Value = dr["PID_NAME"].AsString();
+                        ws.Cells[rowIndex, 6].SetValue(dr["T_30_RATE"]);
+                        ws.Cells[rowIndex, 7].SetValue(dr["MGR2_DAY_RATE"]);
                         if (dr["MGR3_CUR_LEVEL"].AsString() == "Z") {
-                            ws.Cells[ii_ole_row, 8].Value = "從其高(" + (dr["MGR3_CUR_CM"].AsDecimal() * 100).AsString() + "%)";
+                            ws.Cells[rowIndex, 8].Value = "從其高(" + (dr["MGR3_CUR_CM"].AsDecimal() * 100).AsString() + "%)";
                         }
                         else {
-                            ws.Cells[ii_ole_row, 8].Value = dr["MGR3_CUR_LEVEL"].AsString();
+                            ws.Cells[rowIndex, 8].Value = dr["MGR3_CUR_LEVEL"].AsString();
                         }
-                        ws.Cells[ii_ole_row, 8].Font.Name = "標楷體";
-                        ws.Cells[ii_ole_row, 8].Font.Name = "Times New Roman";
+                        ws.Cells[rowIndex, 8].Font.Name = "標楷體";
+                        ws.Cells[rowIndex, 8].Font.Name = "Times New Roman";
                         if (dr["DAY_CNT"].AsInt() == 0) {
-                            ws.Cells[ii_ole_row, 9].Value = "-";
+                            ws.Cells[rowIndex, 9].Value = "-";
                         }
                         else {
-                            ws.Cells[ii_ole_row, 9].Value = dr["DAY_CNT"].AsInt();
+                            ws.Cells[rowIndex, 9].Value = dr["DAY_CNT"].AsInt();
                         }
-                        ws.Cells[ii_ole_row, 10].SetValue(dr["TFXM1_PRICE"]);
-                        ws.Cells[ii_ole_row, 11].SetValue(dr["AI5_PRICE"]);
-                        ws.Cells[ii_ole_row, 12].SetValue(dr["TS_UPDOWN"]);
-                        ws.Cells[ii_ole_row, 13].SetValue(dr["TI_UPDOWN"]);
-                        ws.Cells[ii_ole_row, 14].SetValue(dr["YS_UPDOWN"]);
-                        ws.Cells[ii_ole_row, 15].SetValue(dr["YI_UPDOWN"]);
-                        ws.Cells[ii_ole_row, 16].SetValue(dr["AI2_OI"]);
-                        ws.Cells[ii_ole_row, 17].SetValue(dr["AI2_M_QNTY"]);
+                        ws.Cells[rowIndex, 10].SetValue(dr["TFXM1_PRICE"]);
+                        ws.Cells[rowIndex, 11].SetValue(dr["AI5_PRICE"]);
+                        ws.Cells[rowIndex, 12].SetValue(dr["TS_UPDOWN"]);
+                        ws.Cells[rowIndex, 13].SetValue(dr["TI_UPDOWN"]);
+                        ws.Cells[rowIndex, 14].SetValue(dr["YS_UPDOWN"]);
+                        ws.Cells[rowIndex, 15].SetValue(dr["YI_UPDOWN"]);
+                        ws.Cells[rowIndex, 16].SetValue(dr["AI2_OI"]);
+                        ws.Cells[rowIndex, 17].SetValue(dr["AI2_M_QNTY"]);
                     }//foreach (DataRow dr in dt42012.Rows)
 
                     //刪除空白列
-                    if (dt42012.Rows.Count < li_tot_row) {
-                        range = ws.Range[(li_start_row + dt42012.Rows.Count + 1 + 1) + ":" + (li_start_row + li_tot_row + 1)];
+                    if (dt42012.Rows.Count < totalRow) {
+                        range = ws.Range[(startRow + dt42012.Rows.Count + 1 + 1) + ":" + (startRow + totalRow + 1)];
                         range.Delete(DeleteMode.EntireRow);
-                        li_minus = li_minus + (li_tot_row - dt42012.Rows.Count);
+                        minusRow = minusRow + (totalRow - dt42012.Rows.Count);
                     }
                 }
                 else {
-                    range = ws.Range[(li_start_row - 3 + 1) + ":" + (li_start_row + li_tot_row + 1)];
+                    range = ws.Range[(startRow - 3 + 1) + ":" + (startRow + totalRow + 1)];
                     range.Delete(DeleteMode.EntireRow);
-                    li_minus = li_minus + (li_tot_row + 4);
+                    minusRow = minusRow + (totalRow + 4);
                 }
                 #endregion
 
                 #region 表2
-                li_start_row = 1018 - 1;
-                li_start_row = li_start_row - li_minus;
-                li_tot_row = 1000;
-                ii_ole_row = li_start_row;
+                startRow = 1018 - 1;
+                startRow = startRow - minusRow;
+                totalRow = 1000;
+                rowIndex = startRow;
                 if (cbx2.Checked) {
                     if (txtRange.Text != "8.5" || txtRate2.Text != "10.5" || txtRate3.Text != "13.5" || txtRate4.Text != "1.0" || lblCmRate.Text != "15") {
                         //表頭
-                        ls_rpt_name = ws.Cells[ii_ole_row - 3, 2].Value.AsString();
+                        rptName = ws.Cells[rowIndex - 3, 2].Value.AsString();
                         if (txtRange.Text != "8.5") {
-                            f = ls_rpt_name.IndexOf("8.5 %") + 1;
-                            if (f > 0) ls_rpt_name = ls_rpt_name.SubStr(0, f - 1) + txtRate1.Text + "%" + ls_rpt_name.SubStr(f + 4, ls_rpt_name.Length);
+                            f = rptName.IndexOf("8.5 %") + 1;
+                            if (f > 0) rptName = rptName.SubStr(0, f - 1) + txtRate1.Text + "%" + rptName.SubStr(f + 4, rptName.Length);
                         }
                         if (txtRate2.Text != "10.5") {
-                            f = ls_rpt_name.IndexOf("10.5 %") + 1;
-                            if (f > 0) ls_rpt_name = ls_rpt_name.SubStr(0, f - 1) + txtRate2.Text + "%" + ls_rpt_name.SubStr(f + 5, ls_rpt_name.Length);
+                            f = rptName.IndexOf("10.5 %") + 1;
+                            if (f > 0) rptName = rptName.SubStr(0, f - 1) + txtRate2.Text + "%" + rptName.SubStr(f + 5, rptName.Length);
                         }
                         if (txtRate3.Text != "13.5") {
-                            f = ls_rpt_name.IndexOf("13.5 %") + 1;
-                            if (f > 0) ls_rpt_name = ls_rpt_name.SubStr(0, f - 1) + txtRate3.Text + "%" + ls_rpt_name.SubStr(f + 5, ls_rpt_name.Length);
+                            f = rptName.IndexOf("13.5 %") + 1;
+                            if (f > 0) rptName = rptName.SubStr(0, f - 1) + txtRate3.Text + "%" + rptName.SubStr(f + 5, rptName.Length);
                         }
                         if (txtRate4.Text != "1.0") {
-                            f = ls_rpt_name.IndexOf("1.0 %") + 1;
-                            if (f > 0) ls_rpt_name = ls_rpt_name.SubStr(0, f - 1) + txtRate4.Text + "%" + ls_rpt_name.SubStr(f + 4, ls_rpt_name.Length);
+                            f = rptName.IndexOf("1.0 %") + 1;
+                            if (f > 0) rptName = rptName.SubStr(0, f - 1) + txtRate4.Text + "%" + rptName.SubStr(f + 4, rptName.Length);
                         }
                         if (lblCmRate.Text != "15") {
-                            f = ls_rpt_name.IndexOf("15%") + 1;
-                            if (f > 0) ls_rpt_name = ls_rpt_name.SubStr(0, f - 1) + lblCmRate.Text + "%" + ls_rpt_name.SubStr(f + 4, ls_rpt_name.Length);
+                            f = rptName.IndexOf("15%") + 1;
+                            if (f > 0) rptName = rptName.SubStr(0, f - 1) + lblCmRate.Text + "%" + rptName.SubStr(f + 4, rptName.Length);
                         }
-                        ws.Cells[ii_ole_row - 3, 2].Value = ls_rpt_name;
-                        ws.Cells[ii_ole_row - 3, 2].Font.Name = "標楷體";
-                        ws.Cells[ii_ole_row - 3, 2].Font.Name = "Times New Roman";
-                        if (!cbx1.Checked) ws.Cells[ii_ole_row - 3, 1].Value = "1";
+                        ws.Cells[rowIndex - 3, 2].Value = rptName;
+                        ws.Cells[rowIndex - 3, 2].Font.Name = "標楷體";
+                        ws.Cells[rowIndex - 3, 2].Font.Name = "Times New Roman";
+                        if (!cbx1.Checked) ws.Cells[rowIndex - 3, 1].Value = "1";
                     }
                     if (cbxRate.Checked) {
                         DataView dv = dt42012.AsDataView();
@@ -326,7 +326,50 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         dt42012 = dv.ToTable();
                     }
                     dt42012.Sort("MGR3_YMD");
+                    foreach (DataRow dr in dt42012.Rows) {
+                        rowIndex++;
+                        ws.Cells[rowIndex, 1].Value = dr["MGR3_YMD"].AsDateTime("yyyyMMdd").ToString("yyyy/MM/dd");
+                        ws.Cells[rowIndex, 2].Value = dr["MGR3_KIND_ID"].AsString();
+                        ws.Cells[rowIndex, 3].Value = dr["APDK_NAME"].AsString();
+                        ws.Cells[rowIndex, 4].Value = dr["MGR3_SID"].AsString();
+                        ws.Cells[rowIndex, 5].Value = dr["PID_NAME"].AsString();
+                        ws.Cells[rowIndex, 6].SetValue(dr["MGR2_DAY_RATE"]);
+                        ws.Cells[rowIndex, 7].SetValue(dr["T_30_RATE"]);
+                        if (dr["MGR3_CUR_LEVEL"].AsString() == "Z") {
+                            ws.Cells[rowIndex, 8].Value = "從其高(" + (dr["MGR3_CUR_CM"].AsDecimal() * 100).AsString() + "%)";
+                        }
+                        else {
+                            ws.Cells[rowIndex, 8].Value = dr["MGR3_CUR_LEVEL"].AsString();
+                        }
+                        ws.Cells[rowIndex, 8].Font.Name = "標楷體";
+                        ws.Cells[rowIndex, 8].Font.Name = "Times New Roman";
+                        if (dr["DAY_CNT_3"].AsInt() == 0) {
+                            ws.Cells[rowIndex, 9].Value = "-";
+                        }
+                        else {
+                            ws.Cells[rowIndex, 9].Value = dr["DAY_CNT_3"].AsInt();
+                        }
+                        ws.Cells[rowIndex, 10].SetValue(dr["TFXM1_PRICE"]);
+                        ws.Cells[rowIndex, 11].SetValue(dr["AI5_PRICE"]);
+                        ws.Cells[rowIndex, 12].SetValue(dr["TS_UPDOWN"]);
+                        ws.Cells[rowIndex, 13].SetValue(dr["TI_UPDOWN"]);
+                        ws.Cells[rowIndex, 14].SetValue(dr["YS_UPDOWN"]);
+                        ws.Cells[rowIndex, 15].SetValue(dr["YI_UPDOWN"]);
+                        ws.Cells[rowIndex, 16].SetValue(dr["AI2_OI"]);
+                        ws.Cells[rowIndex, 17].SetValue(dr["AI2_M_QNTY"]);
+                    }//foreach (DataRow dr in dt42012.Rows)
 
+                    //刪除空白列
+                    if (dt42012.Rows.Count < totalRow) {
+                        range = ws.Range[(startRow + dt42012.Rows.Count + 1 + 1) + ":" + (startRow + totalRow + 1)];
+                        range.Delete(DeleteMode.EntireRow);
+                        minusRow = minusRow + (totalRow - dt42012.Rows.Count);
+                    }
+                }
+                else {
+                    range = ws.Range[(startRow - 3 + 1) + ":" + (startRow + totalRow + 1)];
+                    range.Delete(DeleteMode.EntireRow);
+                    minusRow = minusRow + (totalRow + 4);
                 }
                 #endregion
 

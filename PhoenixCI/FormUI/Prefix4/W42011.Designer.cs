@@ -178,7 +178,7 @@
             this.txtRate4.Name = "txtRate4";
             this.txtRate4.Size = new System.Drawing.Size(44, 29);
             this.txtRate4.TabIndex = 33;
-            this.txtRate4.Text = "1";
+            this.txtRate4.Text = "5";
             // 
             // txtUpDown
             // 
@@ -187,7 +187,7 @@
             this.txtUpDown.Name = "txtUpDown";
             this.txtUpDown.Size = new System.Drawing.Size(43, 29);
             this.txtUpDown.TabIndex = 32;
-            this.txtUpDown.Text = "12";
+            this.txtUpDown.Text = "6";
             // 
             // txtRate3
             // 
@@ -196,7 +196,7 @@
             this.txtRate3.Name = "txtRate3";
             this.txtRate3.Size = new System.Drawing.Size(50, 29);
             this.txtRate3.TabIndex = 31;
-            this.txtRate3.Text = "14";
+            this.txtRate3.Text = "4";
             // 
             // txtRate2
             // 
@@ -205,7 +205,7 @@
             this.txtRate2.Name = "txtRate2";
             this.txtRate2.Size = new System.Drawing.Size(50, 29);
             this.txtRate2.TabIndex = 30;
-            this.txtRate2.Text = "11";
+            this.txtRate2.Text = "3";
             // 
             // txtRate1
             // 
@@ -214,7 +214,7 @@
             this.txtRate1.Name = "txtRate1";
             this.txtRate1.Size = new System.Drawing.Size(50, 29);
             this.txtRate1.TabIndex = 15;
-            this.txtRate1.Text = "9";
+            this.txtRate1.Text = "2";
             // 
             // label7
             // 
@@ -289,7 +289,7 @@
             this.txtRange.Name = "txtRange";
             this.txtRange.Size = new System.Drawing.Size(48, 29);
             this.txtRange.TabIndex = 14;
-            this.txtRange.Text = "10";
+            this.txtRange.Text = "1";
             // 
             // cbxRate
             // 
@@ -301,7 +301,7 @@
             this.cbxRate.Location = new System.Drawing.Point(936, 189);
             this.cbxRate.Name = "cbxRate";
             this.cbxRate.Size = new System.Drawing.Size(76, 24);
-            this.cbxRate.TabIndex = 13;
+            this.cbxRate.TabIndex = 10;
             this.cbxRate.Text = "依條件";
             this.cbxRate.UseVisualStyleBackColor = true;
             // 
@@ -313,7 +313,7 @@
             this.cbx3.Location = new System.Drawing.Point(53, 358);
             this.cbx3.Name = "cbx3";
             this.cbx3.Size = new System.Drawing.Size(69, 24);
-            this.cbx3.TabIndex = 12;
+            this.cbx3.TabIndex = 9;
             this.cbx3.Text = "表3：";
             this.cbx3.UseVisualStyleBackColor = true;
             // 
@@ -327,7 +327,7 @@
             this.cbx2.Location = new System.Drawing.Point(53, 193);
             this.cbx2.Name = "cbx2";
             this.cbx2.Size = new System.Drawing.Size(69, 24);
-            this.cbx2.TabIndex = 11;
+            this.cbx2.TabIndex = 8;
             this.cbx2.Text = "表2：";
             this.cbx2.UseVisualStyleBackColor = true;
             // 
@@ -341,7 +341,7 @@
             this.cbx1.Location = new System.Drawing.Point(53, 118);
             this.cbx1.Name = "cbx1";
             this.cbx1.Size = new System.Drawing.Size(69, 24);
-            this.cbx1.TabIndex = 10;
+            this.cbx1.TabIndex = 7;
             this.cbx1.Text = "表1：";
             this.cbx1.UseVisualStyleBackColor = true;
             // 
@@ -382,7 +382,7 @@
             this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
             this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtSDate.Size = new System.Drawing.Size(100, 26);
-            this.txtSDate.TabIndex = 7;
+            this.txtSDate.TabIndex = 0;
             this.txtSDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // W42011

@@ -68,7 +68,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 lblProcessing.Visible = true;
                 ShowMsg("開始轉檔...");
                 string rptName, rptId, brkNo, accNo, file;
-                int i, colNum, datacount, rowTol, found;
+                int f, colNum, datacount, rowTol, found;
                 /*************************************
                 ls_rpt_name = 報表名稱
                 ls_rpt_id = 報表代號
@@ -113,8 +113,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 brkNo = "";
                 accNo = "";
                 //TODO: dataobject.ToString 如果為null會報錯，在跑for迴圈之前要拉出來處理。
-                for (i = 0; i < dtContent.Rows.Count; i++) {
-                    DataRow drContent = dtContent.Rows[i];
+                for (f = 0; f < dtContent.Rows.Count; f++) {
+                    DataRow drContent = dtContent.Rows[f];
 
                     if (brkNo != drContent["feetxo_fcm_no"].ToString() || accNo != drContent["feetxo_acc_no"].ToString()) {
                         rowIndex = rowIndex + 1;
