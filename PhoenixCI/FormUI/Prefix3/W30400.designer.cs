@@ -100,7 +100,7 @@
          // 
          // txtMon
          // 
-         this.txtMon.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtMon.DateTimeValue = new System.DateTime(((long)(0)));
          this.txtMon.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
          this.txtMon.EditValue = "2018/12";
          this.txtMon.EnterMoveNextControl = true;
