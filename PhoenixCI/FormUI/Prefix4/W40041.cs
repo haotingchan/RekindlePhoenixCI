@@ -14,6 +14,7 @@ using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
 
 using System.Drawing;
+using System.Collections.Generic;
 
 namespace PhoenixCI.FormUI.Prefix4 {
    public partial class W40041 : FormParent {
@@ -29,27 +30,30 @@ namespace PhoenixCI.FormUI.Prefix4 {
          oswGrpLookItem.SetDataTable(new OCFG().ListAll(), "OSW_GRP", "OSW_GRP_NAME", DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor, null);
          oswGrpLookItem.EditValue = "1";
 
-         prodLookItem.SetDataTable(new COD().ListByCol2("40041", "Prod_ID"), "COD_ID", "COD_DESC", DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor, null);
+         //設定 下拉選單
+         List<LookupItem> prodGrp = new List<LookupItem>(){
+                                        new LookupItem() { ValueMember = "Y", DisplayMember = "1-當日達得調整標準之契約"},
+                                        new LookupItem() { ValueMember = "%", DisplayMember = "%-全部契約" }};
+         prodLookItem.SetDataTable(prodGrp, "ValueMember", "DisplayMember", DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor, null);
          prodLookItem.EditValue = "Y";
 
 #if DEBUG
          txtDate.DateTimeValue=("2018/6/15").AsDateTime();
          oswGrpLookItem.EditValue = "%";
 #endif
-
+         radioGroup1.EditValue = "ALL";
          ExportShow.Hide();
          GridHelper.SetCommonGrid(gvMain);
          gcMain.Visible = false;
 
-         reCountBtn.Click += reCountBtn_Click;
-         
+         reCountBtn.Click += reCountBtn_Click;       
       }
 
       protected override ResultStatus Retrieve() {
          string diffDays = dao40041.DiffOcfDays(txtDate.DateTimeValue);
          string changeFlag = prodLookItem.EditValue.AsString();
          string oswGrp = oswGrpLookItem.EditValue.AsString() + "%";
-         string[] colCaption = { "勾選", "標的代碼", "契約名稱", "上次調整公告日", "資料起日", "資料迄日", "資料筆數", "", "", "", "", "", "" };
+         string[] colCaption = { "勾選", "契約名稱", "標的代碼", "上次調整公告日", "資料起日", "資料迄日", "資料筆數", "", "", "", "", "", "" };
 
          DataTable dt = new DataTable();
          dt = dao40041.ListData(changeFlag, txtDate.DateTimeValue, oswGrp);
@@ -86,6 +90,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
          //勾選 資料起日  可編輯
          gvMain.Columns[0].OptionsColumn.AllowEdit = true;
          gvMain.Columns[4].OptionsColumn.AllowEdit = true;
+
+         //設定欄位格式
+         gvMain.Columns[3].DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+         gvMain.Columns[3].DisplayFormat.FormatString = "yyyy/MM/dd";
+         gvMain.Columns[4].DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+         gvMain.Columns[4].DisplayFormat.FormatString = "yyyy/MM/dd";
+         gvMain.Columns[5].DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+         gvMain.Columns[5].DisplayFormat.FormatString = "yyyy/MM/dd";
 
          //後面的隱藏欄位 
          for (int i = 7; i <= 12; i++) {
@@ -238,7 +250,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
             case "ETF": {
                for (int i = 0; i < gvMain.DataRowCount; i++) {
-                  if (gvMain.GetRowCellValue(i, "MG1_PROD_SUBTYPE").AsString() == "E") {
+                  if (gvMain.GetRowCellValue(i, "MG1_PROD_SUBTYPE").AsString() == "S") {
                      gvMain.SetRowCellValue(i, "RUN_FLAG", "Y");
                   } else {
                      gvMain.SetRowCellValue(i, "RUN_FLAG", " ");

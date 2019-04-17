@@ -14,12 +14,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
-using System.Xml;
 
 /// <summary>
 /// Test Data 2B 20190102 / 1B 20190130 / 1E 20190212 / 0B 20190212
@@ -171,7 +169,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             if (dt != null) {
                if (dt.Rows.Count > 0) {
-                  dt = dt.Sort("SEQ_NO ASC, PROD_TYPE ASC, KIND_GRP2 ASC, KIND_ID ASC, AB_TYPE ASC");
                   msg.Status = ResultStatus.Success;
                }
             }
@@ -468,6 +465,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   //1.2.4 如果是匯率類的話，表格下方加一段註解
                   if (groupSubtype.Key == "E") SetAppendText();
 
+                  doc.AppendText(Environment.NewLine);
                }
 
                //1.2.5 寫完存檔
@@ -706,7 +704,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
                return msg;
             }
 
-            dt = dt.Sort("SEQ_NO ASC, PROD_TYPE ASC, KIND_GRP2 ASC, KIND_ID ASC, AB_TYPE ASC");
             msg.Status = ResultStatus.Success;
             return msg;
          }
