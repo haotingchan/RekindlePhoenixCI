@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 
 namespace DataObjects.Dao.Together.SpecificDao {
-    public class D40xxx : DataGate {
+   public class D40xxx : DataGate {
 
       public DataTable GetData(string AS_ISSUE_YMD, string AS_ADJ_TYPE, string AS_ADJ_SUBTYPE) {
 
@@ -17,7 +17,22 @@ namespace DataObjects.Dao.Together.SpecificDao {
 
          string sql = "CI.SP_H_TXN_40090_DETL";
 
-         return db.ExecuteStoredProcedureEx(sql, parms, true);
+         DataTable dt = db.ExecuteStoredProcedureEx(sql, parms, true);
+
+         dt = dt.AsEnumerable().OrderBy(d => d.Field<int>("SEQ_NO"))
+               .ThenBy(d => d.Field<string>("PROD_TYPE"))
+               .ThenBy(d => d.Field<string>("KIND_GRP2"))
+               .ThenBy(d => {
+                  if (d.Field<string>("KIND_ID").Substring(0, 2) == d.Field<string>("KIND_GRP2"))
+                     return 0;
+                  else
+                     return 1;
+               })
+               .ThenBy(d => d.Field<string>("KIND_ID"))
+               .ThenBy(d => d.Field<string>("AB_TYPE"))
+               .CopyToDataTable();
+
+         return dt;
       }
    }
 }

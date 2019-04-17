@@ -23,12 +23,10 @@
       /// the contents of this method with the code editor.
       /// </summary>
       private void InitializeComponent() {
-         this.grpxDescription = new System.Windows.Forms.GroupBox();
+         this.panFilter = new System.Windows.Forms.GroupBox();
          this.txtPrevEndYM = new PhoenixCI.Widget.TextDateEdit();
          this.txtPrevStartYM = new PhoenixCI.Widget.TextDateEdit();
-         this.groupBox2 = new System.Windows.Forms.GroupBox();
-         this.gb_market = new DevExpress.XtraEditors.RadioGroup();
-         this.dw_paramKey = new DevExpress.XtraEditors.LookUpEdit();
+         this.dwParamKey = new DevExpress.XtraEditors.LookUpEdit();
          this.labMarket = new System.Windows.Forms.Label();
          this.labParamKey = new System.Windows.Forms.Label();
          this.label2 = new System.Windows.Forms.Label();
@@ -37,54 +35,54 @@
          this.txtAftStartYM = new PhoenixCI.Widget.TextDateEdit();
          this.label1 = new System.Windows.Forms.Label();
          this.labAftDate = new System.Windows.Forms.Label();
-         this.lblProcessing = new System.Windows.Forms.Label();
+         this.labMsg = new System.Windows.Forms.Label();
+         this.gbMarket = new DevExpress.XtraEditors.RadioGroup();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
-         this.grpxDescription.SuspendLayout();
+         this.panFilter.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.txtPrevEndYM.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtPrevStartYM.Properties)).BeginInit();
-         this.groupBox2.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.gb_market.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.dw_paramKey.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.dwParamKey.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtAftEndYM.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtAftStartYM.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
          // 
-         this.panParent.Controls.Add(this.lblProcessing);
-         this.panParent.Controls.Add(this.grpxDescription);
+         this.panParent.Controls.Add(this.labMsg);
+         this.panParent.Controls.Add(this.panFilter);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
-         // grpxDescription
+         // panFilter
          // 
-         this.grpxDescription.AutoSize = true;
-         this.grpxDescription.Controls.Add(this.txtPrevEndYM);
-         this.grpxDescription.Controls.Add(this.txtPrevStartYM);
-         this.grpxDescription.Controls.Add(this.groupBox2);
-         this.grpxDescription.Controls.Add(this.dw_paramKey);
-         this.grpxDescription.Controls.Add(this.labMarket);
-         this.grpxDescription.Controls.Add(this.labParamKey);
-         this.grpxDescription.Controls.Add(this.label2);
-         this.grpxDescription.Controls.Add(this.labPrevDate);
-         this.grpxDescription.Controls.Add(this.txtAftEndYM);
-         this.grpxDescription.Controls.Add(this.txtAftStartYM);
-         this.grpxDescription.Controls.Add(this.label1);
-         this.grpxDescription.Controls.Add(this.labAftDate);
-         this.grpxDescription.Location = new System.Drawing.Point(15, 15);
-         this.grpxDescription.Name = "grpxDescription";
-         this.grpxDescription.Size = new System.Drawing.Size(427, 196);
-         this.grpxDescription.TabIndex = 7;
-         this.grpxDescription.TabStop = false;
-         this.grpxDescription.Text = "請輸入交易日期";
+         this.panFilter.AutoSize = true;
+         this.panFilter.Controls.Add(this.gbMarket);
+         this.panFilter.Controls.Add(this.txtPrevEndYM);
+         this.panFilter.Controls.Add(this.txtPrevStartYM);
+         this.panFilter.Controls.Add(this.dwParamKey);
+         this.panFilter.Controls.Add(this.labMarket);
+         this.panFilter.Controls.Add(this.labParamKey);
+         this.panFilter.Controls.Add(this.label2);
+         this.panFilter.Controls.Add(this.labPrevDate);
+         this.panFilter.Controls.Add(this.txtAftEndYM);
+         this.panFilter.Controls.Add(this.txtAftStartYM);
+         this.panFilter.Controls.Add(this.label1);
+         this.panFilter.Controls.Add(this.labAftDate);
+         this.panFilter.Location = new System.Drawing.Point(15, 15);
+         this.panFilter.Name = "panFilter";
+         this.panFilter.Size = new System.Drawing.Size(427, 196);
+         this.panFilter.TabIndex = 7;
+         this.panFilter.TabStop = false;
+         this.panFilter.Text = "請輸入交易日期";
          // 
          // txtPrevEndYM
          // 
-         this.txtPrevEndYM.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtPrevEndYM.DateTimeValue = new System.DateTime(((long)(0)));
          this.txtPrevEndYM.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
          this.txtPrevEndYM.EditValue = "2018/12";
          this.txtPrevEndYM.EnterMoveNextControl = true;
@@ -102,7 +100,7 @@
          // 
          // txtPrevStartYM
          // 
-         this.txtPrevStartYM.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtPrevStartYM.DateTimeValue = new System.DateTime(((long)(0)));
          this.txtPrevStartYM.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
          this.txtPrevStartYM.EditValue = "2018/12";
          this.txtPrevStartYM.EnterMoveNextControl = true;
@@ -118,44 +116,18 @@
          this.txtPrevStartYM.TabIndex = 11;
          this.txtPrevStartYM.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
-         // groupBox2
+         // dwParamKey
          // 
-         this.groupBox2.Controls.Add(this.gb_market);
-         this.groupBox2.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.groupBox2.Location = new System.Drawing.Point(140, 122);
-         this.groupBox2.Name = "groupBox2";
-         this.groupBox2.Size = new System.Drawing.Size(214, 46);
-         this.groupBox2.TabIndex = 62;
-         this.groupBox2.TabStop = false;
-         // 
-         // gb_market
-         // 
-         this.gb_market.EditValue = "rb_market_All";
-         this.gb_market.Location = new System.Drawing.Point(11, 11);
-         this.gb_market.Name = "gb_market";
-         this.gb_market.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
-         this.gb_market.Properties.Appearance.Options.UseBackColor = true;
-         this.gb_market.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-         this.gb_market.Properties.Columns = 3;
-         this.gb_market.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_market_All", "全部"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_market_0", "一般"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_market_1", "盤後")});
-         this.gb_market.Size = new System.Drawing.Size(205, 35);
-         this.gb_market.TabIndex = 0;
-         // 
-         // dw_paramKey
-         // 
-         this.dw_paramKey.Location = new System.Drawing.Point(117, 33);
-         this.dw_paramKey.Name = "dw_paramKey";
-         this.dw_paramKey.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-         this.dw_paramKey.Properties.AppearanceDisabled.Options.UseBackColor = true;
-         this.dw_paramKey.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+         this.dwParamKey.Location = new System.Drawing.Point(117, 33);
+         this.dwParamKey.Name = "dwParamKey";
+         this.dwParamKey.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+         this.dwParamKey.Properties.AppearanceDisabled.Options.UseBackColor = true;
+         this.dwParamKey.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.dw_paramKey.Properties.NullText = "";
-         this.dw_paramKey.Properties.PopupSizeable = false;
-         this.dw_paramKey.Size = new System.Drawing.Size(237, 26);
-         this.dw_paramKey.TabIndex = 31;
+         this.dwParamKey.Properties.NullText = "";
+         this.dwParamKey.Properties.PopupSizeable = false;
+         this.dwParamKey.Size = new System.Drawing.Size(237, 26);
+         this.dwParamKey.TabIndex = 31;
          // 
          // labMarket
          // 
@@ -195,7 +167,7 @@
          // 
          // txtAftEndYM
          // 
-         this.txtAftEndYM.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtAftEndYM.DateTimeValue = new System.DateTime(((long)(0)));
          this.txtAftEndYM.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
          this.txtAftEndYM.EditValue = "2018/12";
          this.txtAftEndYM.EnterMoveNextControl = true;
@@ -213,7 +185,7 @@
          // 
          // txtAftStartYM
          // 
-         this.txtAftStartYM.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtAftStartYM.DateTimeValue = new System.DateTime(((long)(0)));
          this.txtAftStartYM.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
          this.txtAftStartYM.EditValue = "2018/12";
          this.txtAftStartYM.EnterMoveNextControl = true;
@@ -247,16 +219,31 @@
          this.labAftDate.TabIndex = 2;
          this.labAftDate.Text = "後期：";
          // 
-         // lblProcessing
+         // labMsg
          // 
-         this.lblProcessing.AutoSize = true;
-         this.lblProcessing.ForeColor = System.Drawing.Color.Blue;
-         this.lblProcessing.Location = new System.Drawing.Point(15, 214);
-         this.lblProcessing.Name = "lblProcessing";
-         this.lblProcessing.Size = new System.Drawing.Size(85, 20);
-         this.lblProcessing.TabIndex = 10;
-         this.lblProcessing.Text = "開始轉檔...";
-         this.lblProcessing.Visible = false;
+         this.labMsg.AutoSize = true;
+         this.labMsg.ForeColor = System.Drawing.Color.Blue;
+         this.labMsg.Location = new System.Drawing.Point(15, 214);
+         this.labMsg.Name = "labMsg";
+         this.labMsg.Size = new System.Drawing.Size(85, 20);
+         this.labMsg.TabIndex = 10;
+         this.labMsg.Text = "開始轉檔...";
+         this.labMsg.Visible = false;
+         // 
+         // gbMarket
+         // 
+         this.gbMarket.EditValue = "rb_market_All";
+         this.gbMarket.Location = new System.Drawing.Point(141, 130);
+         this.gbMarket.Name = "gbMarket";
+         this.gbMarket.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
+         this.gbMarket.Properties.Appearance.Options.UseBackColor = true;
+         this.gbMarket.Properties.Columns = 3;
+         this.gbMarket.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_market_All", "全部"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_market_0", "一般"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_market_1", "盤後")});
+         this.gbMarket.Size = new System.Drawing.Size(213, 35);
+         this.gbMarket.TabIndex = 32;
          // 
          // W30630
          // 
@@ -269,15 +256,14 @@
          this.panParent.ResumeLayout(false);
          this.panParent.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
-         this.grpxDescription.ResumeLayout(false);
-         this.grpxDescription.PerformLayout();
+         this.panFilter.ResumeLayout(false);
+         this.panFilter.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.txtPrevEndYM.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtPrevStartYM.Properties)).EndInit();
-         this.groupBox2.ResumeLayout(false);
-         ((System.ComponentModel.ISupportInitialize)(this.gb_market.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.dw_paramKey.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.dwParamKey.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtAftEndYM.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtAftStartYM.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -285,20 +271,19 @@
 
       #endregion
 
-      private System.Windows.Forms.GroupBox grpxDescription;
+      private System.Windows.Forms.GroupBox panFilter;
       private System.Windows.Forms.Label label1;
       private System.Windows.Forms.Label labAftDate;
       private Widget.TextDateEdit txtAftEndYM;
       private Widget.TextDateEdit txtAftStartYM;
-      private System.Windows.Forms.Label lblProcessing;
+      private System.Windows.Forms.Label labMsg;
       private System.Windows.Forms.Label labMarket;
       private System.Windows.Forms.Label labParamKey;
       private Widget.TextDateEdit txtPrevEndYM;
       private Widget.TextDateEdit txtPrevStartYM;
       private System.Windows.Forms.Label label2;
       private System.Windows.Forms.Label labPrevDate;
-      private DevExpress.XtraEditors.LookUpEdit dw_paramKey;
-      protected System.Windows.Forms.GroupBox groupBox2;
-      protected DevExpress.XtraEditors.RadioGroup gb_market;
+      private DevExpress.XtraEditors.LookUpEdit dwParamKey;
+      protected DevExpress.XtraEditors.RadioGroup gbMarket;
    }
 }

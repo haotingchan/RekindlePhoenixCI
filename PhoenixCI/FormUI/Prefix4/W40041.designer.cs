@@ -58,20 +58,20 @@
          // 
          this.panParent.Controls.Add(this.panel2);
          this.panParent.Controls.Add(this.panel1);
-         this.panParent.Size = new System.Drawing.Size(871, 578);
+         this.panParent.Size = new System.Drawing.Size(871, 591);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(871, 43);
+         this.ribbonControl.Size = new System.Drawing.Size(871, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // panelControl1
          // 
          this.panelControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.panelControl1.Location = new System.Drawing.Point(0, 43);
+         this.panelControl1.Location = new System.Drawing.Point(0, 30);
          this.panelControl1.Name = "panelControl1";
-         this.panelControl1.Size = new System.Drawing.Size(871, 578);
+         this.panelControl1.Size = new System.Drawing.Size(871, 591);
          this.panelControl1.TabIndex = 0;
          // 
          // grpxDescription
@@ -116,7 +116,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
          this.oswGrpLookItem.Properties.NullText = "";
          this.oswGrpLookItem.Properties.PopupSizeable = false;
-         this.oswGrpLookItem.Size = new System.Drawing.Size(150, 38);
+         this.oswGrpLookItem.Size = new System.Drawing.Size(150, 26);
          this.oswGrpLookItem.TabIndex = 72;
          // 
          // label1
@@ -124,7 +124,7 @@
          this.label1.AutoSize = true;
          this.label1.Location = new System.Drawing.Point(37, 135);
          this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(187, 30);
+         this.label1.Size = new System.Drawing.Size(125, 20);
          this.label1.TabIndex = 71;
          this.label1.Text = "商品交易時段 ：";
          // 
@@ -138,7 +138,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
          this.prodLookItem.Properties.NullText = "";
          this.prodLookItem.Properties.PopupSizeable = false;
-         this.prodLookItem.Size = new System.Drawing.Size(150, 38);
+         this.prodLookItem.Size = new System.Drawing.Size(150, 26);
          this.prodLookItem.TabIndex = 70;
          // 
          // label2
@@ -146,7 +146,7 @@
          this.label2.AutoSize = true;
          this.label2.Location = new System.Drawing.Point(37, 88);
          this.label2.Name = "label2";
-         this.label2.Size = new System.Drawing.Size(85, 30);
+         this.label2.Size = new System.Drawing.Size(57, 20);
          this.label2.TabIndex = 69;
          this.label2.Text = "商品：";
          // 
@@ -164,7 +164,7 @@
          this.txtDate.Properties.Mask.EditMask = "yyyy/MM/dd";
          this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
          this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtDate.Size = new System.Drawing.Size(150, 38);
+         this.txtDate.Size = new System.Drawing.Size(150, 26);
          this.txtDate.TabIndex = 15;
          this.txtDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
@@ -173,7 +173,7 @@
          this.lblDate.AutoSize = true;
          this.lblDate.Location = new System.Drawing.Point(37, 46);
          this.lblDate.Name = "lblDate";
-         this.lblDate.Size = new System.Drawing.Size(85, 30);
+         this.lblDate.Size = new System.Drawing.Size(57, 20);
          this.lblDate.TabIndex = 2;
          this.lblDate.Text = "月份：";
          // 
@@ -182,7 +182,7 @@
          this.ExportShow.AutoSize = true;
          this.ExportShow.Location = new System.Drawing.Point(5, 242);
          this.ExportShow.Name = "ExportShow";
-         this.ExportShow.Size = new System.Drawing.Size(81, 30);
+         this.ExportShow.Size = new System.Drawing.Size(54, 20);
          this.ExportShow.TabIndex = 14;
          this.ExportShow.Text = "label1";
          // 
@@ -192,9 +192,9 @@
          this.panel1.Controls.Add(this.grpxDescription);
          this.panel1.Controls.Add(this.ExportShow);
          this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-         this.panel1.Location = new System.Drawing.Point(18, 18);
+         this.panel1.Location = new System.Drawing.Point(12, 12);
          this.panel1.Name = "panel1";
-         this.panel1.Size = new System.Drawing.Size(835, 274);
+         this.panel1.Size = new System.Drawing.Size(847, 274);
          this.panel1.TabIndex = 15;
          // 
          // reCountBtn
@@ -210,9 +210,9 @@
          // 
          this.panel2.Controls.Add(this.gcMain);
          this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.panel2.Location = new System.Drawing.Point(18, 292);
+         this.panel2.Location = new System.Drawing.Point(12, 286);
          this.panel2.Name = "panel2";
-         this.panel2.Size = new System.Drawing.Size(835, 268);
+         this.panel2.Size = new System.Drawing.Size(847, 293);
          this.panel2.TabIndex = 16;
          // 
          // gcMain
@@ -224,7 +224,7 @@
          this.gcMain.Name = "gcMain";
          this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemButtonEdit1});
-         this.gcMain.Size = new System.Drawing.Size(835, 268);
+         this.gcMain.Size = new System.Drawing.Size(847, 293);
          this.gcMain.TabIndex = 0;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -244,7 +244,7 @@
          // W40041
          // 
          this.Appearance.Options.UseFont = true;
-         this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
+         this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
          this.ClientSize = new System.Drawing.Size(871, 621);
          this.Controls.Add(this.panelControl1);

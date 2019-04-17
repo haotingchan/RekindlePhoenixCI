@@ -131,8 +131,10 @@ namespace PhoenixCI.Widget {
             string text = Text;
             if (DateType == DateTypeItem.Year) {
                text = text + "/01/01";
+            } else if (DateType == DateTypeItem.Month) {
+               text = text + "/01";
             }
-            return text.AsDateTime("yyyy/MM/dd");//string.IsNullOrEmpty(Text) ? new DateTime() : text.AsDateTime("yyyy/MM/dd");
+            return text.AsDateTime(Properties.Mask.EditMask);//string.IsNullOrEmpty(Text) ? new DateTime() : text.AsDateTime("yyyy/MM/dd");
          }
          set {
             _DateTimeValue = value;

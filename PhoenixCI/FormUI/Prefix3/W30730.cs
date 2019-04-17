@@ -24,19 +24,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
       protected override ResultStatus Export() {
          ExportShow.Text = "轉檔中...";
          ExportShow.Show();
-
-         Workbook workbook = new Workbook();
-         DataTable dtAM6 = new DataTable();
-         DataTable dtAM0 = new DataTable();
-
-         string destinationFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);//Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, Filename);
-         DateTime date = txtDate.DateTimeValue;
-         int oleRow = 1;
-
          try {
-            workbook.LoadDocument(destinationFilePath);
 
-            #region Export
+            Workbook workbook = new Workbook();
+            DataTable dtAM6 = new DataTable();
+            DataTable dtAM0 = new DataTable();
+            DateTime date = txtDate.DateTimeValue;
+
             //交易輔助人
             dtAM6 = dao30730.GetAM6Data(date.ToString("yyyyMM"));
             dtAM0 = dao30730.GetAM0Data(date.ToString("yyyyMM"));
@@ -52,6 +46,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
                dtAM6.Rows[0]["am6_ym"] = date.ToString("yyyyMM");
                dtAM6.Rows[0]["am6_trade_aux"] = 0;
             }
+
+            string destinationFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);//Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, Filename);
+            int oleRow = 1;
+
+            workbook.LoadDocument(destinationFilePath);
+
+            #region Export
 
             foreach (DataRow r in dtAM0.Rows) {
                int v = r["am0_m_qnty"].AsInt();
