@@ -54,5 +54,38 @@ WHERE MC_MONTH = :AS_YM
 
             return dtResult;
         }
+
+        /// <summary>
+        /// for D50070 new sheet
+        /// </summary>
+        /// <param name="as_ym"></param>
+        /// <returns></returns>
+        public DataTable ListAll2ByDate(string as_ym) {
+
+            object[] parms =
+            {
+                ":as_ym", as_ym
+            };
+
+            string sql = @"
+
+select 1 as SEQ_NO, '非交易員獎' as ITEM_NAME, FUT_ID, ACCTNO, FUT_NAME, sum(REWARD) as REWARD_AMT
+  from ci.R_MARKET_MONTHLY
+where MC_MONTH=:as_ym
+   and DETAIL not like '%交易員%'
+group by FUT_ID, ACCTNO, FUT_NAME
+union all
+select 2 as SEQ_NO, '交易員獎' as ITEM_NAME, FUT_ID, ACCTNO, FUT_NAME, sum(REWARD) as REWARD_AMT
+  from ci.R_MARKET_MONTHLY
+where MC_MONTH=:as_ym
+   and DETAIL like '%交易員%'
+group by FUT_ID, ACCTNO, FUT_NAME
+order by FUT_ID, ACCTNO, SEQ_NO
+";
+
+            DataTable dtResult = db.GetDataTable(sql, parms);
+
+            return dtResult;
+        }
     }
 }
