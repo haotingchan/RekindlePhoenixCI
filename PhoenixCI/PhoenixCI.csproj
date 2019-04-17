@@ -3009,6 +3009,7 @@
     <None Include="Excel_Template\50070.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\50070.xlsx" />
     <None Include="Excel_Template\50072.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
