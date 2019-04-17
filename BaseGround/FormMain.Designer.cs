@@ -55,8 +55,6 @@
             this.toolStripStatusLabelDBName = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelUserTxt = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelUserName = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabelOCFTxt = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabelOCFDate = new System.Windows.Forms.ToolStripStatusLabel();
             this.barManagerMain = new DevExpress.XtraBars.BarManager(this.components);
             this.barTool = new DevExpress.XtraBars.Bar();
             this.toolStripButtonInsert = new DevExpress.XtraBars.BarButtonItem();
@@ -111,25 +109,25 @@
             // accordionMenu
             // 
             this.accordionMenu.AllowItemSelection = true;
-            this.accordionMenu.Appearance.AccordionControl.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.accordionMenu.Appearance.AccordionControl.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.accordionMenu.Appearance.AccordionControl.Options.UseFont = true;
-            this.accordionMenu.Appearance.Group.Disabled.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.accordionMenu.Appearance.Group.Disabled.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.accordionMenu.Appearance.Group.Disabled.Options.UseFont = true;
-            this.accordionMenu.Appearance.Group.Hovered.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.accordionMenu.Appearance.Group.Hovered.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.accordionMenu.Appearance.Group.Hovered.Options.UseFont = true;
-            this.accordionMenu.Appearance.Group.Normal.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.accordionMenu.Appearance.Group.Normal.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.accordionMenu.Appearance.Group.Normal.Options.UseFont = true;
-            this.accordionMenu.Appearance.Group.Pressed.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.accordionMenu.Appearance.Group.Pressed.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.accordionMenu.Appearance.Group.Pressed.Options.UseFont = true;
-            this.accordionMenu.Appearance.Hint.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.accordionMenu.Appearance.Hint.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.accordionMenu.Appearance.Hint.Options.UseFont = true;
-            this.accordionMenu.Appearance.Item.Disabled.Font = new System.Drawing.Font("Microsoft JhengHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.accordionMenu.Appearance.Item.Disabled.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.accordionMenu.Appearance.Item.Disabled.Options.UseFont = true;
-            this.accordionMenu.Appearance.Item.Hovered.Font = new System.Drawing.Font("Microsoft JhengHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.accordionMenu.Appearance.Item.Hovered.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.accordionMenu.Appearance.Item.Hovered.Options.UseFont = true;
-            this.accordionMenu.Appearance.Item.Normal.Font = new System.Drawing.Font("Microsoft JhengHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.accordionMenu.Appearance.Item.Normal.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.accordionMenu.Appearance.Item.Normal.Options.UseFont = true;
-            this.accordionMenu.Appearance.Item.Pressed.Font = new System.Drawing.Font("Microsoft JhengHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.accordionMenu.Appearance.Item.Pressed.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.accordionMenu.Appearance.Item.Pressed.Options.UseFont = true;
             this.accordionMenu.Cursor = System.Windows.Forms.Cursors.Default;
             this.accordionMenu.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -238,7 +236,7 @@
             this.scSearch.Location = new System.Drawing.Point(99, 8);
             this.scSearch.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.scSearch.Name = "scSearch";
-            this.scSearch.Properties.Appearance.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.scSearch.Properties.Appearance.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.scSearch.Properties.Appearance.Options.UseFont = true;
             this.scSearch.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Repository.ClearButton(),
@@ -273,7 +271,7 @@
             // lblSearch
             // 
             this.lblSearch.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblSearch.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.lblSearch.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.lblSearch.Location = new System.Drawing.Point(0, 8);
             this.lblSearch.Name = "lblSearch";
             this.lblSearch.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
@@ -285,7 +283,7 @@
             // statusStripMain
             // 
             this.statusStripMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.statusStripMain.Font = new System.Drawing.Font("Microsoft JhengHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.statusStripMain.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.statusStripMain.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabelServerTxt,
@@ -293,9 +291,7 @@
             this.toolStripStatusLabelDBTxt,
             this.toolStripStatusLabelDBName,
             this.toolStripStatusLabelUserTxt,
-            this.toolStripStatusLabelUserName,
-            this.toolStripStatusLabelOCFTxt,
-            this.toolStripStatusLabelOCFDate});
+            this.toolStripStatusLabelUserName});
             this.statusStripMain.Location = new System.Drawing.Point(0, 0);
             this.statusStripMain.Name = "statusStripMain";
             this.statusStripMain.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
@@ -346,19 +342,6 @@
             this.toolStripStatusLabelUserName.Size = new System.Drawing.Size(44, 27);
             this.toolStripStatusLabelUserName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // toolStripStatusLabelOCFTxt
-            // 
-            this.toolStripStatusLabelOCFTxt.Name = "toolStripStatusLabelOCFTxt";
-            this.toolStripStatusLabelOCFTxt.Size = new System.Drawing.Size(47, 27);
-            this.toolStripStatusLabelOCFTxt.Text = "日期：";
-            // 
-            // toolStripStatusLabelOCFDate
-            // 
-            this.toolStripStatusLabelOCFDate.Name = "toolStripStatusLabelOCFDate";
-            this.toolStripStatusLabelOCFDate.Padding = new System.Windows.Forms.Padding(0, 0, 40, 0);
-            this.toolStripStatusLabelOCFDate.Size = new System.Drawing.Size(40, 27);
-            this.toolStripStatusLabelOCFDate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // barManagerMain
             // 
             this.barManagerMain.AllowCustomization = false;
@@ -376,7 +359,7 @@
             this.barManagerMain.DockControls.Add(this.standaloneBarDockControlTool);
             this.barManagerMain.DockControls.Add(this.standaloneBarDockControlMenuStrip);
             this.barManagerMain.DockControls.Add(this.standaloneBarDockControlMdi);
-            this.barManagerMain.DockWindowTabFont = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.barManagerMain.DockWindowTabFont = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.barManagerMain.Form = this;
             this.barManagerMain.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
             this.toolStripButtonInsert,
@@ -572,7 +555,7 @@
             // 
             // barMenuStrip
             // 
-            this.barMenuStrip.BarAppearance.Normal.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.barMenuStrip.BarAppearance.Normal.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.barMenuStrip.BarAppearance.Normal.Options.UseFont = true;
             this.barMenuStrip.BarName = "Main menu";
             this.barMenuStrip.DockCol = 0;
@@ -807,7 +790,7 @@
             this.Controls.Add(this.barDockControlRight);
             this.Controls.Add(this.barDockControlBottom);
             this.Controls.Add(this.barDockControlTop);
-            this.Font = new System.Drawing.Font("Microsoft JhengHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.KeyPreview = true;
@@ -849,8 +832,6 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelDBName;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelUserTxt;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelUserName;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelOCFTxt;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelOCFDate;
         public AccordionControlEx accordionMenu;
         public DevExpress.XtraBars.Navigation.AccordionControlElement accordionElemtnt2;
         public DevExpress.XtraBars.Navigation.AccordionControlElement accordionElemtnt3;
