@@ -161,7 +161,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         if (f > 0) rptName = rptName.SubStr(0, f - 1) + txtRange.Text + "%" + rptName.SubStr(f + 2, rptName.Length);
                         ws.Cells[startRow, 2].Value = rptName;
                         ws.Cells[startRow, 2].Font.Name = "標楷體";
-                        ws.Cells[startRow, 2].Font.Name = "Times New Roman";
+                        //ws.Cells[startRow, 2].Font.Name = "Times New Roman";
                     }
                 }
                 else {
@@ -203,7 +203,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         }
                         ws.Cells[startRow, 2].Value = rptName;
                         ws.Cells[startRow, 2].Font.Name = "標楷體";
-                        ws.Cells[startRow, 2].Font.Name = "Times New Roman";
+                        //ws.Cells[startRow, 2].Font.Name = "Times New Roman";
                     }
                 }
                 else {
@@ -230,7 +230,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         if (f > 0) rptName = rptName.SubStr(0, f - 1) + txtRange.Text + "%" + rptName.SubStr(f + 2, rptName.Length);
                         ws.Cells[rowIndex - 3, 2].Value = rptName;
                         ws.Cells[rowIndex - 3, 2].Font.Name = "標楷體";
-                        ws.Cells[rowIndex - 3, 2].Font.Name = "Times New Roman";
+                        //ws.Cells[rowIndex - 3, 2].Font.Name = "Times New Roman";
                     }
                     if (cbxRate.Checked) {
                         DataView dv = dt42012.AsDataView();
@@ -316,8 +316,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                             if (f > 0) rptName = rptName.SubStr(0, f - 1) + lblCmRate.Text + "%" + rptName.SubStr(f + 4, rptName.Length);
                         }
                         ws.Cells[rowIndex - 3, 2].Value = rptName;
-                        ws.Cells[rowIndex - 3, 2].Font.Name = "標楷體";
-                        ws.Cells[rowIndex - 3, 2].Font.Name = "Times New Roman";
+                        SpreadsheetFont cellFont = ws.Cells[rowIndex - 3, 2].Font;
+                        cellFont.Name = "標楷體";
+                        //cellFont.Name = "Times New Roman";
                         if (!cbx1.Checked) ws.Cells[rowIndex - 3, 1].Value = "1";
                     }
                     if (cbxRate.Checked) {
@@ -342,7 +343,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                             ws.Cells[rowIndex, 8].Value = dr["MGR3_CUR_LEVEL"].AsString();
                         }
                         ws.Cells[rowIndex, 8].Font.Name = "標楷體";
-                        ws.Cells[rowIndex, 8].Font.Name = "Times New Roman";
+                        //ws.Cells[rowIndex, 8].Font.Name = "Times New Roman";
                         if (dr["DAY_CNT_3"].AsInt() == 0) {
                             ws.Cells[rowIndex, 9].Value = "-";
                         }
