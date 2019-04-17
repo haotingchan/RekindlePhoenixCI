@@ -93,6 +93,10 @@ namespace PhoenixCI.FormUI.Prefix2 {
          //}
          #endregion
 
+         DataTable dt = new DataTable(); //外面用的
+         DataTable dt_1 = new DataTable(); //上櫃
+         DataTable dt_2 = new DataTable(); //上市
+
          try {
             //上櫃 11 
             foreach (CheckedListBoxItem item in chkGroup1.Items) {
@@ -103,14 +107,15 @@ namespace PhoenixCI.FormUI.Prefix2 {
                      return ResultStatus.Fail;
                   }
 
-                  bool result = wf_20232_2(txt11.Text , txtDate11.DateTimeValue.ToString("yyyyMM"));
-                  if (!result) {
+                  dt_1 = wf_20232_2(txt11.Text , txtDate11.DateTimeValue.ToString("yyyyMM"));
+                  if (dt_1.Rows.Count <= 0) {
                      txt11.BackColor = Color.Red;
                   } else {
                      item.CheckState = CheckState.Unchecked;
                      txt11.BackColor = Color.FromArgb(128 , 255 , 255);
                   }
 
+                  dt.Merge(dt_1);
                }//if (item.CheckState == CheckState.Checked)
             }//foreach (CheckedListBoxItem item in chkGroup1.Items)
 
@@ -123,16 +128,24 @@ namespace PhoenixCI.FormUI.Prefix2 {
                      return ResultStatus.Fail;
                   }
 
-                  bool result = wf_20232_1(txt1.Text , txtDate1.DateTimeValue.ToString("yyyyMM"));
-                  if (!result) {
+                  dt_2 = wf_20232_1(txt1.Text , txtDate1.DateTimeValue.ToString("yyyyMM"));
+                  if (dt_2.Rows.Count <= 0) {
                      txt1.BackColor = Color.Red;
                   } else {
                      item.CheckState = CheckState.Unchecked;
                      txt1.BackColor = Color.FromArgb(128 , 255 , 255);
                   }
 
+                  dt.Merge(dt_2);
                }
             }
+
+
+            gvMain.Columns.Clear();
+            gvMain.OptionsBehavior.AutoPopulateColumns = true;
+            gcMain.DataSource = dt;
+            gvMain.BestFitColumns();
+            GridHelper.SetCommonGrid(gvMain);
 
             return ResultStatus.Success;
          } catch (Exception ex) {
@@ -152,7 +165,10 @@ namespace PhoenixCI.FormUI.Prefix2 {
       /// <param name="filename"></param>
       /// <param name="txtDate">yyyyMM</param>
       /// <returns></returns>
-      private bool wf_20232_1(string filename , string txtDate) {
+      private DataTable wf_20232_1(string filename , string txtDate) {
+
+         DataTable dtSource = new DataTable();
+
          try {
 
             //1. 檢查excel的年月是否跟外面txt設定的年月相同
@@ -168,7 +184,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             }
 
             //2.把excel轉成dataTable
-            DataTable dtSource = new DataTable();
+
             DataColumn[] columns = { new DataColumn("pls3_ym" , typeof(string)) ,
                                     new DataColumn("pls3_sid" , typeof(string)) ,
                                     new DataColumn("pls3_kind" , typeof(string)) ,
@@ -210,30 +226,20 @@ namespace PhoenixCI.FormUI.Prefix2 {
 
                drNew["pls3_ym"] = tmpDate;
                drNew["pls3_sid"] = sid.Substring(0 , 6).Trim();
-               drNew["pls3_kind"] = "";
-               drNew["pls3_pid"] = "2";
+               drNew["pls3_kind"] = " ";
+               drNew["pls3_pid"] = "1";
 
                dtSource.Rows.Add(drNew);
             }
 
-            gvMain.Columns.Clear();
-            gvMain.OptionsBehavior.AutoPopulateColumns = true;
-            gcMain.DataSource = dtSource;
-            gvMain.BestFitColumns();
-            GridHelper.SetCommonGrid(gvMain);
-
-            return true;
-
             //3.將dataTable to db table 
             //好幾個步驟,包含create temp table/insert temp/delete pls3/insert pls3 use group by/drop temp table
-            int rowCount = dao20232.ImportDataToPls3(dtSource , "");
+            int rowCount = dao20232.ImportDataToPls3(dtSource , tmpDate , "1");
 
-
-            return true;
          } catch (Exception ex) {
             WriteLog(ex);
          }
-         return false;
+         return dtSource;
       }
 
 
@@ -243,7 +249,10 @@ namespace PhoenixCI.FormUI.Prefix2 {
       /// <param name="filename"></param>
       /// <param name="txtDate">yyyyMM</param>
       /// <returns></returns>
-      private bool wf_20232_2(string filename , string txtDate) {
+      private DataTable wf_20232_2(string filename , string txtDate) {
+
+         DataTable dtSource = new DataTable();
+
          try {
 
             //1. 檢查excel的年月是否跟外面txt設定的年月相同
@@ -260,8 +269,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                MessageDisplay.Error(string.Format("轉檔檔案之年月= {0} ,與輸入條件= {1} 不符" , tmpDate , txtDate));
             }
 
-            //2.把excel轉成dataTable
-            DataTable dtSource = new DataTable();
+            //2.把excel轉成dataTable          
             DataColumn[] columns = { new DataColumn("pls3_ym" , typeof(string)) ,
                                     new DataColumn("pls3_sid" , typeof(string)) ,
                                     new DataColumn("pls3_kind" , typeof(string)) ,
@@ -279,7 +287,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
                DataRow drNew = dtSource.NewRow();
                drNew["pls3_ym"] = tmpDate;
                drNew["pls3_sid"] = sid;
-               drNew["pls3_kind"] = "";
+               drNew["pls3_kind"] = " ";
+               drNew["pls3_pid"] = "2";
 
                if (!string.IsNullOrEmpty(worksheet.Cells[k , 2].Value.AsString()))
                   drNew["pls3_amt"] = worksheet.Cells[k , 2].Value.AsDecimal();
@@ -288,29 +297,20 @@ namespace PhoenixCI.FormUI.Prefix2 {
                if (!string.IsNullOrEmpty(worksheet.Cells[k , 4].Value.AsString()))
                   drNew["pls3_cnt"] = worksheet.Cells[k , 4].Value.AsDecimal();
 
-               drNew["pls3_pid"] = "2";
+               //drNew["pls3_pid"] = "2";
 
                dtSource.Rows.Add(drNew);
             }
 
-            gvMain.Columns.Clear();
-            gvMain.OptionsBehavior.AutoPopulateColumns = true;
-            gcMain.DataSource = dtSource;
-            gvMain.BestFitColumns();
-            GridHelper.SetCommonGrid(gvMain);
-
-            return true;
-
             //3.將dataTable to db table 
             //好幾個步驟,包含create temp table/insert temp/delete pls3/insert pls3 use group by/drop temp table
-            int rowCount = dao20232.ImportDataToPls3(dtSource , "");
+            int rowCount = dao20232.ImportDataToPls3(dtSource , tmpDate , "2");
 
-
-            return true;
          } catch (Exception ex) {
             WriteLog(ex);
          }
-         return false;
+
+         return dtSource;
       }
 
 
