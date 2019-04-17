@@ -126,13 +126,13 @@ namespace PhoenixCI.FormUI.Prefix5 {
                         //ll_found = lds_mm.find("amm0_brk_no='" + ls_brk_no + "' and amm0_acc_no='" + ls_acc_no + "'", 1, lds_mm.rowcount());
                         DataRow[] dtAMM0_find = dtAMM0.Select("amm0_brk_no='" + brkNo + "' and amm0_acc_no='" + accNo + "'");
                         if (dtAMM0_find.Length == 0) {
-                            found = 0;
+                            found = -1;
                         }
                         else {
-                            found = dtAMM0.Rows.IndexOf(dtAMM0_find[0]) + 1;
+                            found = dtAMM0.Rows.IndexOf(dtAMM0_find[0]);
                         }
 
-                        if (found > 0) {
+                        if (found >= 0) {
                             worksheet.Cells[rowIndex, 20].Value = decimal.Parse(dtAMM0.Rows[found]["mmk_rate"].ToString());
                         }
                     }

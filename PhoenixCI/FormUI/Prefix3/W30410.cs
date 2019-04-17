@@ -50,8 +50,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
          InitializeComponent();
 
          this.Text = _ProgramID + "─" + _ProgramName;
-         txtStartDate.Text = GlobalInfo.OCF_DATE.AsString("yyyy/MM/01");
-         txtEndDate.Text = GlobalInfo.OCF_DATE.AsString("yyyy/MM/dd");
+         txtStartDate.DateTimeValue = DateTime.ParseExact(GlobalInfo.OCF_DATE.ToString("yyyy/MM/01") , "yyyy/MM/dd" , null);
+         txtEndDate.DateTimeValue = DateTime.ParseExact(GlobalInfo.OCF_DATE.AsString("yyyy/MM/dd") , "yyyy/MM/dd" , null);
 
 #if DEBUG
          //winni test

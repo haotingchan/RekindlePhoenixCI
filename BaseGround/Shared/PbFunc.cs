@@ -839,10 +839,12 @@ namespace BaseGround.Shared {
          string tmpDate = jsw.GetMaxDate(as_txn_id, as_job_type);
          DateTime.TryParseExact(tmpDate, "yyyy/MM/dd", null, DateTimeStyles.AllowWhiteSpaces, out DateTime maxDate);
 
-         if (maxDate < adt_value)
-            return "N";
-         else if (maxDate > adt_value)
-            return "Y";
+         if (maxDate != DateTime.MinValue) {
+            if (maxDate < adt_value)
+               return "N";
+            else if (maxDate > adt_value)
+               return "Y";
+         }
 
          string tmpCount = jsw.GetCount(as_txn_id, as_job_type, "N");
          int.TryParse(tmpCount, out int result);

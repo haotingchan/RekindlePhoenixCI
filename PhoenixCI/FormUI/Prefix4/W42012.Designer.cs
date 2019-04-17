@@ -140,7 +140,7 @@
             // txtEDate
             // 
             this.txtEDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtEDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+            this.txtEDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
             this.txtEDate.EditValue = "2018/12";
             this.txtEDate.EnterMoveNextControl = true;
             this.txtEDate.Location = new System.Drawing.Point(251, 60);
@@ -150,6 +150,7 @@
             this.txtEDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.txtEDate.Properties.Mask.EditMask = "yyyy/MM/dd";
             this.txtEDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtEDate.Properties.Mask.PlaceHolder = '0';
             this.txtEDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtEDate.Size = new System.Drawing.Size(100, 26);
             this.txtEDate.TabIndex = 1;
@@ -381,7 +382,7 @@
             // txtSDate
             // 
             this.txtSDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtSDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+            this.txtSDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
             this.txtSDate.EditValue = "2018/12";
             this.txtSDate.EnterMoveNextControl = true;
             this.txtSDate.Location = new System.Drawing.Point(113, 60);
@@ -391,6 +392,7 @@
             this.txtSDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.txtSDate.Properties.Mask.EditMask = "yyyy/MM/dd";
             this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtSDate.Properties.Mask.PlaceHolder = '0';
             this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtSDate.Size = new System.Drawing.Size(100, 26);
             this.txtSDate.TabIndex = 0;
