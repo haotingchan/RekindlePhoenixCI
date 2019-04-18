@@ -568,7 +568,7 @@ namespace BaseGround.Shared {
          //   throw new Exception(string.Format("RPTX無{0}設定!", txnId));
          //}
          if (dtRpt != null) {
-            if (dtRpt.Rows.Count >= 0) {
+            if (dtRpt.Rows.Count > 0) {
                ls_sub_path = dtRpt.Rows[0]["ls_sub_path"].AsString();
                ls_excel_ext = dtRpt.Rows[0]["ls_excel_ext"].AsString();
             }

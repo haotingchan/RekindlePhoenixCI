@@ -39,6 +39,7 @@
          this.gcMain = new DevExpress.XtraGrid.GridControl();
          this.gvMain = new DevExpress.XtraGrid.Views.Grid.GridView();
          this.repositoryItemButtonEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit();
+         this.label3 = new System.Windows.Forms.Label();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -86,7 +87,7 @@
          this.grpxDescription.Controls.Add(this.lblDate);
          this.grpxDescription.Location = new System.Drawing.Point(9, 3);
          this.grpxDescription.Name = "grpxDescription";
-         this.grpxDescription.Size = new System.Drawing.Size(544, 248);
+         this.grpxDescription.Size = new System.Drawing.Size(544, 238);
          this.grpxDescription.TabIndex = 13;
          this.grpxDescription.TabStop = false;
          this.grpxDescription.Text = "請輸入交易日期";
@@ -175,7 +176,7 @@
          this.lblDate.Name = "lblDate";
          this.lblDate.Size = new System.Drawing.Size(57, 20);
          this.lblDate.TabIndex = 2;
-         this.lblDate.Text = "月份：";
+         this.lblDate.Text = "日期：";
          // 
          // ExportShow
          // 
@@ -188,6 +189,7 @@
          // 
          // panel1
          // 
+         this.panel1.Controls.Add(this.label3);
          this.panel1.Controls.Add(this.reCountBtn);
          this.panel1.Controls.Add(this.grpxDescription);
          this.panel1.Controls.Add(this.ExportShow);
@@ -241,6 +243,15 @@
             new DevExpress.XtraEditors.Controls.EditorButton()});
          this.repositoryItemButtonEdit1.Name = "repositoryItemButtonEdit1";
          // 
+         // label3
+         // 
+         this.label3.AutoSize = true;
+         this.label3.Location = new System.Drawing.Point(503, 244);
+         this.label3.Name = "label3";
+         this.label3.Size = new System.Drawing.Size(341, 20);
+         this.label3.TabIndex = 16;
+         this.label3.Text = "註: 上次調整公告日 = 上次調整日之前一交易日";
+         // 
          // W40041
          // 
          this.Appearance.Options.UseFont = true;
@@ -291,5 +302,6 @@
       private System.Windows.Forms.Label label2;
       private DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit repositoryItemButtonEdit1;
       private DevExpress.XtraEditors.SimpleButton reCountBtn;
+      private System.Windows.Forms.Label label3;
    }
 }

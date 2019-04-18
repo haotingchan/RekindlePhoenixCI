@@ -52,7 +52,6 @@ namespace BaseGround {
          toolStripStatusLabelServerName.Text = GlobalDaoSetting.GetConnectionInfo.ConnectionName;
          toolStripStatusLabelDBName.Text = GlobalDaoSetting.Database;
          toolStripStatusLabelUserName.Text = GlobalInfo.USER_NAME;
-         toolStripStatusLabelOCFDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
 
          switch (SystemStatus.SystemType) {
             case SystemType.CI:
