@@ -14,6 +14,8 @@ using BusinessObjects.Enums;
 using BaseGround.Shared;
 using DevExpress.XtraEditors.Controls;
 using Common;
+using DevExpress.XtraEditors.Repository;
+using DevExpress.Utils;
 
 /// <summary>
 /// Lukas, 2019/4/17
@@ -42,6 +44,52 @@ namespace PhoenixCI.FormUI.Prefix4 {
                                         new LookupItem() { ValueMember = "a", DisplayMember = "任一model達調整標準" },
                                         new LookupItem() { ValueMember = "%", DisplayMember = "全部商品" }};
             Extension.SetDataTable(ddlModel, modelType, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor, "");
+            ddlModel.EditValue = "S";
+
+            #region RadioGroup
+            //設定結算保證金調整金額項目RadioGroup
+            // creating and initializing the radio group items 
+            RadioGroupItem item1 = new RadioGroupItem();
+            item1.Description = "SMA";
+            item1.Value = "S";
+            RadioGroupItem item2 = new RadioGroupItem();
+            item2.Description = "EWMA";
+            item2.Value = "E";
+            RadioGroupItem item3 = new RadioGroupItem();
+            item3.Description = "MaxVol";
+            item3.Value = "M";
+            RadioGroupItem item4 = new RadioGroupItem();
+            item4.Description = "自訂";
+            item4.Value = "U";
+
+            RepositoryItemRadioGroup repositoryItemRadioGroup = new RepositoryItemRadioGroup();
+            repositoryItemRadioGroup.Items.Add(item1);
+            repositoryItemRadioGroup.Items.Add(item2);
+            repositoryItemRadioGroup.Items.Add(item3);
+            repositoryItemRadioGroup.Items.Add(item4);
+            repositoryItemRadioGroup.Columns = 4;
+            ADJ_RSN.ColumnEdit = repositoryItemRadioGroup;
+            ADJ_RSN.ColumnEdit.Appearance.TextOptions.HAlignment = HorzAlignment.Center;
+
+            //不處理/觀察/調整 RadioGroup
+            RadioGroupItem item5 = new RadioGroupItem();
+            item5.Description = "　　";
+            item5.Value = "N";
+            RadioGroupItem item6 = new RadioGroupItem();
+            item6.Description = "　　";
+            item6.Value = " ";
+            RadioGroupItem item7 = new RadioGroupItem();
+            item7.Description = "　　";
+            item7.Value = "Y";
+
+            RepositoryItemRadioGroup repositoryItemRadioGroup2 = new RepositoryItemRadioGroup();
+            repositoryItemRadioGroup2.Items.Add(item5);
+            repositoryItemRadioGroup2.Items.Add(item6);
+            repositoryItemRadioGroup2.Items.Add(item7);
+            repositoryItemRadioGroup2.Columns = 3;
+            ADJ_CODE.ColumnEdit = repositoryItemRadioGroup2;
+            ADJ_CODE.ColumnEdit.Appearance.TextOptions.HAlignment = HorzAlignment.Center;
+            #endregion
 
 #if DEBUG
             txtSDate.EditValue = "2018/10/11";
@@ -86,6 +134,5 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             return ResultStatus.Success;
         }
-
     }
 }

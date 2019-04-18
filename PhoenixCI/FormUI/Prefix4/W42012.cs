@@ -136,6 +136,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     lblProcessing.Visible = false;
                     return ResultStatus.Fail;
                 }
+                dt42012.Sort("MGR3_YMD");
 
                 //複製檔案
                 file = PbFunc.wf_copy_file(rptId, rptId);
@@ -238,7 +239,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         dt42012 = dv.ToTable();
                     }
 
-                    dt42012.Sort("MGR3_YMD");
                     foreach (DataRow dr in dt42012.Rows) {
                         rowIndex++;
                         ws.Cells[rowIndex, 1].Value = dr["MGR3_YMD"].AsDateTime("yyyyMMdd").ToString("yyyy/MM/dd");
@@ -326,7 +326,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         dv.RowFilter = "(mgr2_level = 'Z' and mgr2_day_rate >= (MGR3_CUR_CM - " + (txtRate4.Text.AsDecimal() / 100).AsString() + "))  or (mgr2_level = '1' and mgr2_day_rate >= " + (txtRate1.Text.AsDecimal() / 100).AsString() + ") or (mgr2_level = '2' and mgr2_day_rate >= " + (txtRate2.Text.AsDecimal() / 100).AsString() + ")";
                         dt42012 = dv.ToTable();
                     }
-                    dt42012.Sort("MGR3_YMD");
+
                     foreach (DataRow dr in dt42012.Rows) {
                         rowIndex++;
                         ws.Cells[rowIndex, 1].Value = dr["MGR3_YMD"].AsDateTime("yyyyMMdd").ToString("yyyy/MM/dd");
