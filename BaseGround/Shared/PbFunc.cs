@@ -568,7 +568,7 @@ namespace BaseGround.Shared {
          //   throw new Exception(string.Format("RPTX無{0}設定!", txnId));
          //}
          if (dtRpt != null) {
-            if (dtRpt.Rows.Count >= 0) {
+            if (dtRpt.Rows.Count > 0) {
                ls_sub_path = dtRpt.Rows[0]["ls_sub_path"].AsString();
                ls_excel_ext = dtRpt.Rows[0]["ls_excel_ext"].AsString();
             }
@@ -839,10 +839,12 @@ namespace BaseGround.Shared {
          string tmpDate = jsw.GetMaxDate(as_txn_id, as_job_type);
          DateTime.TryParseExact(tmpDate, "yyyy/MM/dd", null, DateTimeStyles.AllowWhiteSpaces, out DateTime maxDate);
 
-         if (maxDate < adt_value)
-            return "N";
-         else if (maxDate > adt_value)
-            return "Y";
+         if (maxDate != DateTime.MinValue) {
+            if (maxDate < adt_value)
+               return "N";
+            else if (maxDate > adt_value)
+               return "Y";
+         }
 
          string tmpCount = jsw.GetCount(as_txn_id, as_job_type, "N");
          int.TryParse(tmpCount, out int result);

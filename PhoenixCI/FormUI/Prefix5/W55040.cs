@@ -68,7 +68,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 lblProcessing.Visible = true;
                 ShowMsg("開始轉檔...");
                 string rptName, rptId, brkNo, accNo, file;
-                int i, colNum, datacount, rowTol, found;
+                int f, colNum, datacount, rowTol, found;
                 /*************************************
                 ls_rpt_name = 報表名稱
                 ls_rpt_id = 報表代號
@@ -113,8 +113,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 brkNo = "";
                 accNo = "";
                 //TODO: dataobject.ToString 如果為null會報錯，在跑for迴圈之前要拉出來處理。
-                for (i = 0; i < dtContent.Rows.Count; i++) {
-                    DataRow drContent = dtContent.Rows[i];
+                for (f = 0; f < dtContent.Rows.Count; f++) {
+                    DataRow drContent = dtContent.Rows[f];
 
                     if (brkNo != drContent["feetxo_fcm_no"].ToString() || accNo != drContent["feetxo_acc_no"].ToString()) {
                         rowIndex = rowIndex + 1;
@@ -126,13 +126,13 @@ namespace PhoenixCI.FormUI.Prefix5 {
                         //ll_found = lds_mm.find("amm0_brk_no='" + ls_brk_no + "' and amm0_acc_no='" + ls_acc_no + "'", 1, lds_mm.rowcount());
                         DataRow[] dtAMM0_find = dtAMM0.Select("amm0_brk_no='" + brkNo + "' and amm0_acc_no='" + accNo + "'");
                         if (dtAMM0_find.Length == 0) {
-                            found = 0;
+                            found = -1;
                         }
                         else {
-                            found = dtAMM0.Rows.IndexOf(dtAMM0_find[0]) + 1;
+                            found = dtAMM0.Rows.IndexOf(dtAMM0_find[0]);
                         }
 
-                        if (found > 0) {
+                        if (found >= 0) {
                             worksheet.Cells[rowIndex, 20].Value = decimal.Parse(dtAMM0.Rows[found]["mmk_rate"].ToString());
                         }
                     }

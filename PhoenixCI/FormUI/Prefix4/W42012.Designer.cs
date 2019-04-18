@@ -25,6 +25,10 @@
         private void InitializeComponent() {
             this.lblProcessing = new System.Windows.Forms.Label();
             this.grpxDescription = new System.Windows.Forms.GroupBox();
+            this.txtSID = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtEDate = new PhoenixCI.Widget.TextDateEdit();
+            this.label8 = new System.Windows.Forms.Label();
             this.txtRate4Ref = new System.Windows.Forms.TextBox();
             this.txtRate3Ref = new System.Windows.Forms.TextBox();
             this.txtRate2Ref = new System.Windows.Forms.TextBox();
@@ -47,15 +51,11 @@
             this.label2 = new System.Windows.Forms.Label();
             this.lblDate = new System.Windows.Forms.Label();
             this.txtSDate = new PhoenixCI.Widget.TextDateEdit();
-            this.label8 = new System.Windows.Forms.Label();
-            this.txtEDate = new PhoenixCI.Widget.TextDateEdit();
-            this.label9 = new System.Windows.Forms.Label();
-            this.txtSID = new System.Windows.Forms.TextBox();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             this.grpxDescription.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtEDate.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // panParent
@@ -120,6 +120,51 @@
             this.grpxDescription.TabStop = false;
             this.grpxDescription.Text = "請輸入交易日期";
             // 
+            // txtSID
+            // 
+            this.txtSID.Location = new System.Drawing.Point(535, 60);
+            this.txtSID.Name = "txtSID";
+            this.txtSID.Size = new System.Drawing.Size(100, 29);
+            this.txtSID.TabIndex = 2;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.label9.Location = new System.Drawing.Point(407, 63);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(122, 21);
+            this.label9.TabIndex = 42;
+            this.label9.Text = "標的證券代碼：";
+            // 
+            // txtEDate
+            // 
+            this.txtEDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+            this.txtEDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtEDate.EditValue = "2018/12";
+            this.txtEDate.EnterMoveNextControl = true;
+            this.txtEDate.Location = new System.Drawing.Point(251, 60);
+            this.txtEDate.MenuManager = this.ribbonControl;
+            this.txtEDate.Name = "txtEDate";
+            this.txtEDate.Properties.Appearance.Options.UseTextOptions = true;
+            this.txtEDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtEDate.Properties.Mask.EditMask = "yyyy/MM/dd";
+            this.txtEDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtEDate.Properties.Mask.PlaceHolder = '0';
+            this.txtEDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+            this.txtEDate.Size = new System.Drawing.Size(100, 26);
+            this.txtEDate.TabIndex = 1;
+            this.txtEDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(219, 63);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(26, 21);
+            this.label8.TabIndex = 40;
+            this.label8.Text = "～";
+            // 
             // txtRate4Ref
             // 
             this.txtRate4Ref.Location = new System.Drawing.Point(936, 154);
@@ -180,7 +225,7 @@
             this.txtRate4.MaxLength = 3;
             this.txtRate4.Name = "txtRate4";
             this.txtRate4.Size = new System.Drawing.Size(44, 29);
-            this.txtRate4.TabIndex = 33;
+            this.txtRate4.TabIndex = 7;
             this.txtRate4.Text = "1";
             // 
             // txtRate3
@@ -189,7 +234,7 @@
             this.txtRate3.MaxLength = 3;
             this.txtRate3.Name = "txtRate3";
             this.txtRate3.Size = new System.Drawing.Size(50, 29);
-            this.txtRate3.TabIndex = 31;
+            this.txtRate3.TabIndex = 6;
             this.txtRate3.Text = "14";
             // 
             // txtRate2
@@ -198,7 +243,7 @@
             this.txtRate2.MaxLength = 3;
             this.txtRate2.Name = "txtRate2";
             this.txtRate2.Size = new System.Drawing.Size(50, 29);
-            this.txtRate2.TabIndex = 30;
+            this.txtRate2.TabIndex = 5;
             this.txtRate2.Text = "11";
             // 
             // txtRate1
@@ -207,7 +252,7 @@
             this.txtRate1.MaxLength = 3;
             this.txtRate1.Name = "txtRate1";
             this.txtRate1.Size = new System.Drawing.Size(50, 29);
-            this.txtRate1.TabIndex = 15;
+            this.txtRate1.TabIndex = 4;
             this.txtRate1.Text = "9";
             // 
             // label6
@@ -271,7 +316,7 @@
             this.txtRange.MaxLength = 3;
             this.txtRange.Name = "txtRange";
             this.txtRange.Size = new System.Drawing.Size(48, 29);
-            this.txtRange.TabIndex = 14;
+            this.txtRange.TabIndex = 3;
             this.txtRange.Text = "10";
             // 
             // cbxRate
@@ -282,21 +327,19 @@
             this.cbxRate.Location = new System.Drawing.Point(936, 189);
             this.cbxRate.Name = "cbxRate";
             this.cbxRate.Size = new System.Drawing.Size(76, 24);
-            this.cbxRate.TabIndex = 13;
+            this.cbxRate.TabIndex = 10;
             this.cbxRate.Text = "依條件";
             this.cbxRate.UseVisualStyleBackColor = true;
             // 
             // cbx2
             // 
             this.cbx2.AutoSize = true;
-            this.cbx2.Checked = true;
-            this.cbx2.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbx2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.cbx2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.cbx2.Location = new System.Drawing.Point(53, 243);
             this.cbx2.Name = "cbx2";
             this.cbx2.Size = new System.Drawing.Size(69, 24);
-            this.cbx2.TabIndex = 11;
+            this.cbx2.TabIndex = 9;
             this.cbx2.Text = "表2：";
             this.cbx2.UseVisualStyleBackColor = true;
             // 
@@ -310,7 +353,7 @@
             this.cbx1.Location = new System.Drawing.Point(53, 118);
             this.cbx1.Name = "cbx1";
             this.cbx1.Size = new System.Drawing.Size(69, 24);
-            this.cbx1.TabIndex = 10;
+            this.cbx1.TabIndex = 8;
             this.cbx1.Text = "表1：";
             this.cbx1.UseVisualStyleBackColor = true;
             // 
@@ -339,7 +382,7 @@
             // txtSDate
             // 
             this.txtSDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtSDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+            this.txtSDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
             this.txtSDate.EditValue = "2018/12";
             this.txtSDate.EnterMoveNextControl = true;
             this.txtSDate.Location = new System.Drawing.Point(113, 60);
@@ -349,54 +392,11 @@
             this.txtSDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.txtSDate.Properties.Mask.EditMask = "yyyy/MM/dd";
             this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtSDate.Properties.Mask.PlaceHolder = '0';
             this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtSDate.Size = new System.Drawing.Size(100, 26);
-            this.txtSDate.TabIndex = 7;
+            this.txtSDate.TabIndex = 0;
             this.txtSDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(219, 63);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(26, 21);
-            this.label8.TabIndex = 40;
-            this.label8.Text = "～";
-            // 
-            // txtEDate
-            // 
-            this.txtEDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtEDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
-            this.txtEDate.EditValue = "2018/12";
-            this.txtEDate.EnterMoveNextControl = true;
-            this.txtEDate.Location = new System.Drawing.Point(251, 60);
-            this.txtEDate.MenuManager = this.ribbonControl;
-            this.txtEDate.Name = "txtEDate";
-            this.txtEDate.Properties.Appearance.Options.UseTextOptions = true;
-            this.txtEDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.txtEDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-            this.txtEDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-            this.txtEDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtEDate.Size = new System.Drawing.Size(100, 26);
-            this.txtEDate.TabIndex = 41;
-            this.txtEDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-            this.label9.Location = new System.Drawing.Point(407, 63);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(122, 21);
-            this.label9.TabIndex = 42;
-            this.label9.Text = "標的證券代碼：";
-            // 
-            // txtSID
-            // 
-            this.txtSID.Location = new System.Drawing.Point(535, 60);
-            this.txtSID.Name = "txtSID";
-            this.txtSID.Size = new System.Drawing.Size(100, 29);
-            this.txtSID.TabIndex = 43;
             // 
             // W42012
             // 
@@ -411,8 +411,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
             this.grpxDescription.ResumeLayout(false);
             this.grpxDescription.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtEDate.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -44,8 +44,7 @@ WHERE MG41_DATE = :as_trade_date
   AND MG1_TYPE in ( '-','A' )  
   AND MG1_OSW_GRP LIKE :as_osw_grp
   AND MG1_CHANGE_FLAG LIKE :as_change_flag
-  AND MG1_KIND_ID != 'GBF' AND MG1_KIND_ID!='CPF'
-  ORDER BY  MG1_SEQ_NO
+  ORDER BY MG1_SEQ_NO
 ) S";
     
          return db.GetDataTable(sql, parms); ;

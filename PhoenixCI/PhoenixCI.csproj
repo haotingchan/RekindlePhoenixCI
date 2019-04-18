@@ -317,6 +317,12 @@
       <DependentUpon>W28610.cs</DependentUpon>
     </Compile>
     <Compile Include="BusinessLogic\Prefix3\B30720.cs" />
+    <Compile Include="FormUI\Prefix2\W20232.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix2\W20232.Designer.cs">
+      <DependentUpon>W20232.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormUI\Prefix3\W30010.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -874,6 +880,12 @@
     </Compile>
     <Compile Include="FormUI\Prefix4\W40040.Designer.cs">
       <DependentUpon>W40040.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40070.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40070.Designer.cs">
+      <DependentUpon>W40070.cs</DependentUpon>
     </Compile>
     <Compile Include="FormUI\Prefix4\W40190.cs">
       <SubType>Form</SubType>
@@ -1638,6 +1650,9 @@
     <EmbeddedResource Include="FormUI\Prefix2\W28610.resx">
       <DependentUpon>W28610.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix2\W20232.resx">
+      <DependentUpon>W20232.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix3\W30010.resx">
       <DependentUpon>W30010.cs</DependentUpon>
     </EmbeddedResource>
@@ -1922,6 +1937,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix4\W40040.resx">
       <DependentUpon>W40040.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W40070.resx">
+      <DependentUpon>W40070.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix4\W40190.resx">
       <DependentUpon>W40190.cs</DependentUpon>
@@ -3010,9 +3028,7 @@
     <None Include="Excel_Template\50070.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Excel_Template\50070.xlsx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="Excel_Template\50070.xlsx" />
     <None Include="Excel_Template\50072.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -366,7 +366,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 #endif
          }
 
-         protected virtual void ErrorHandle(Exception ex, ReturnMessageClass msg) {
+         public  virtual void ErrorHandle(Exception ex, ReturnMessageClass msg) {
             WriteLog(ex.ToString(), "Info", "Z");
             msg.Status = ResultStatus.Fail;
             msg.ReturnMessage = MessageDisplay.MSG_IMPORT_FAIL;
@@ -378,7 +378,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          /// <param name="msg"></param>
          /// <param name="logType"></param>
          /// <param name="operationType"></param>
-         protected virtual void WriteLog(string msg, string logType = "Info", string operationType = "") {
+         public virtual void WriteLog(string msg, string logType = "Info", string operationType = "") {
             bool isNeedWriteFile = true;
 
             try {
@@ -419,7 +419,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
                }
             }//if (isNeedWriteFile) 
          }
-
       }
 
       private class ExportWordVacationAdjust : ExportWord {

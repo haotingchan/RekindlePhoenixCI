@@ -105,7 +105,6 @@
     <Compile Include="MessageBoxTimeOut.cs" />
     <Compile Include="MessageDisplay.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="GlobalInfo.cs" />
     <Compile Include="Security\EncryptionLibrary.cs" />
     <Compile Include="Config\Connection.cs" />
     <Compile Include="Config\Database.cs" />
@@ -122,8 +121,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="libraries\BaseGround.dll.config" />
-    <None Include="libraries\PhoenixCI.exe.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -162,98 +159,6 @@
       <Project>{8ec74780-ad73-42a9-ba50-4c1e48347501}</Project>
       <Name>BusinessObjects</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="libraries\ActionService.dll" />
-    <Content Include="libraries\ActionService.pdb" />
-    <Content Include="libraries\BaseGround.dll" />
-    <Content Include="libraries\BaseGround.pdb" />
-    <Content Include="libraries\BusinessObjects.dll" />
-    <Content Include="libraries\BusinessObjects.pdb" />
-    <Content Include="libraries\Common.dll" />
-    <Content Include="libraries\Common.pdb" />
-    <Content Include="libraries\DataObjects.dll" />
-    <Content Include="libraries\DataObjects.pdb" />
-    <Content Include="libraries\Debug.txt" />
-    <Content Include="libraries\DevExpress.Charts.v18.2.Core.dll" />
-    <Content Include="libraries\DevExpress.CodeParser.v18.2.dll" />
-    <Content Include="libraries\DevExpress.Data.v18.2.dll" />
-    <Content Include="libraries\DevExpress.Data.v18.2.xml" />
-    <Content Include="libraries\DevExpress.DataAccess.v18.2.dll" />
-    <Content Include="libraries\DevExpress.DataAccess.v18.2.UI.dll" />
-    <Content Include="libraries\DevExpress.DataAccess.v18.2.UI.xml" />
-    <Content Include="libraries\DevExpress.DataAccess.v18.2.xml" />
-    <Content Include="libraries\DevExpress.Diagram.v18.2.Core.dll" />
-    <Content Include="libraries\DevExpress.Diagram.v18.2.Core.xml" />
-    <Content Include="libraries\DevExpress.Docs.v18.2.dll" />
-    <Content Include="libraries\DevExpress.Docs.v18.2.xml" />
-    <Content Include="libraries\DevExpress.Images.v18.2.dll" />
-    <Content Include="libraries\DevExpress.Office.v18.2.Core.dll" />
-    <Content Include="libraries\DevExpress.Office.v18.2.Core.xml" />
-    <Content Include="libraries\DevExpress.Pdf.v18.2.Core.dll" />
-    <Content Include="libraries\DevExpress.Pdf.v18.2.Core.xml" />
-    <Content Include="libraries\DevExpress.Pdf.v18.2.Drawing.dll" />
-    <Content Include="libraries\DevExpress.Pdf.v18.2.Drawing.xml" />
-    <Content Include="libraries\DevExpress.PivotGrid.v18.2.Core.dll" />
-    <Content Include="libraries\DevExpress.PivotGrid.v18.2.Core.xml" />
-    <Content Include="libraries\DevExpress.Printing.v18.2.Core.dll" />
-    <Content Include="libraries\DevExpress.Printing.v18.2.Core.xml" />
-    <Content Include="libraries\DevExpress.RichEdit.v18.2.Core.dll" />
-    <Content Include="libraries\DevExpress.RichEdit.v18.2.Core.xml" />
-    <Content Include="libraries\DevExpress.Snap.v18.2.Core.dll" />
-    <Content Include="libraries\DevExpress.Snap.v18.2.Core.xml" />
-    <Content Include="libraries\DevExpress.Sparkline.v18.2.Core.dll" />
-    <Content Include="libraries\DevExpress.Sparkline.v18.2.Core.xml" />
-    <Content Include="libraries\DevExpress.Spreadsheet.v18.2.Core.dll" />
-    <Content Include="libraries\DevExpress.Spreadsheet.v18.2.Core.xml" />
-    <Content Include="libraries\DevExpress.Utils.v18.2.dll" />
-    <Content Include="libraries\DevExpress.Utils.v18.2.UI.dll" />
-    <Content Include="libraries\DevExpress.Utils.v18.2.UI.xml" />
-    <Content Include="libraries\DevExpress.Utils.v18.2.xml" />
-    <Content Include="libraries\DevExpress.Xpo.v18.2.dll" />
-    <Content Include="libraries\DevExpress.Xpo.v18.2.xml" />
-    <Content Include="libraries\DevExpress.XtraBars.v18.2.dll" />
-    <Content Include="libraries\DevExpress.XtraBars.v18.2.xml" />
-    <Content Include="libraries\DevExpress.XtraCharts.v18.2.dll" />
-    <Content Include="libraries\DevExpress.XtraCharts.v18.2.Extensions.dll" />
-    <Content Include="libraries\DevExpress.XtraCharts.v18.2.Wizard.dll" />
-    <Content Include="libraries\DevExpress.XtraCharts.v18.2.Wizard.xml" />
-    <Content Include="libraries\DevExpress.XtraCharts.v18.2.xml" />
-    <Content Include="libraries\DevExpress.XtraDiagram.v18.2.dll" />
-    <Content Include="libraries\DevExpress.XtraDiagram.v18.2.xml" />
-    <Content Include="libraries\DevExpress.XtraEditors.v18.2.dll" />
-    <Content Include="libraries\DevExpress.XtraEditors.v18.2.xml" />
-    <Content Include="libraries\DevExpress.XtraGauges.v18.2.Core.dll" />
-    <Content Include="libraries\DevExpress.XtraGauges.v18.2.Core.xml" />
-    <Content Include="libraries\DevExpress.XtraGrid.v18.2.dll" />
-    <Content Include="libraries\DevExpress.XtraGrid.v18.2.xml" />
-    <Content Include="libraries\DevExpress.XtraLayout.v18.2.dll" />
-    <Content Include="libraries\DevExpress.XtraLayout.v18.2.xml" />
-    <Content Include="libraries\DevExpress.XtraNavBar.v18.2.dll" />
-    <Content Include="libraries\DevExpress.XtraNavBar.v18.2.xml" />
-    <Content Include="libraries\DevExpress.XtraPivotGrid.v18.2.dll" />
-    <Content Include="libraries\DevExpress.XtraPivotGrid.v18.2.xml" />
-    <Content Include="libraries\DevExpress.XtraPrinting.v18.2.dll" />
-    <Content Include="libraries\DevExpress.XtraPrinting.v18.2.xml" />
-    <Content Include="libraries\DevExpress.XtraReports.v18.2.dll" />
-    <Content Include="libraries\DevExpress.XtraReports.v18.2.Extensions.dll" />
-    <Content Include="libraries\DevExpress.XtraReports.v18.2.Extensions.xml" />
-    <Content Include="libraries\DevExpress.XtraReports.v18.2.xml" />
-    <Content Include="libraries\DevExpress.XtraRichEdit.v18.2.dll" />
-    <Content Include="libraries\DevExpress.XtraRichEdit.v18.2.xml" />
-    <Content Include="libraries\DevExpress.XtraTreeList.v18.2.dll" />
-    <Content Include="libraries\DevExpress.XtraTreeList.v18.2.xml" />
-    <Content Include="libraries\DevExpress.XtraVerticalGrid.v18.2.dll" />
-    <Content Include="libraries\DevExpress.XtraVerticalGrid.v18.2.xml" />
-    <Content Include="libraries\Log.dll" />
-    <Content Include="libraries\Log.pdb" />
-    <Content Include="libraries\OnePiece.dll" />
-    <Content Include="libraries\OnePiece.pdb" />
-    <Content Include="libraries\Oracle.ManagedDataAccess.dll" />
-    <Content Include="libraries\PhoenixCI.exe" />
-    <Content Include="libraries\PhoenixCI.pdb" />
-    <Content Include="libraries\Setting.xml" />
-    <Content Include="libraries\Sybase.AdoNet4.AseClient.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
