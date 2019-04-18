@@ -3,13 +3,8 @@ using Common.Config;
 using DataObjects;
 using DataObjects.Dao.Together.SpecificDao;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PhoenixCI.BusinessLogic.Prefix4;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PhoenixCI.BusinessLogic.Prefix4.Tests
 {

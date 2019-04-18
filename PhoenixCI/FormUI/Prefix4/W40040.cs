@@ -20,7 +20,8 @@ namespace PhoenixCI.FormUI.Prefix4
    /// </summary>
    public partial class W40040 : FormParent
    {
-      private B40050 b40050;
+      private B40040 b40040;
+      private string _saveFilePath;
 
       public W40040(string programID, string programName) : base(programID, programName)
       {
@@ -66,10 +67,26 @@ namespace PhoenixCI.FormUI.Prefix4
             //is_chk = "Y";
             return false;
          }
-         /*******************
-         Messagebox
-         *******************/
+
+         _saveFilePath = PbFunc.wf_copy_file(_ProgramID, "40040");
+         b40040 = new B40040(_saveFilePath, emDate.Text, oswGrpLookItem.EditValue.AsString());
+
          stMsgTxt.Visible = true;
+
+         //判斷FMIF資料已轉入
+         string chkFMIF = MessageDisplay.MSG_OK;
+         if (chkFMIF != MessageDisplay.MSG_OK)
+         {
+            return OutputChooseMessage(chkFMIF);
+         }
+
+         //130批次作業做完
+         string strRtn = MessageDisplay.MSG_OK;
+         if (strRtn != MessageDisplay.MSG_OK)
+         {
+            return OutputChooseMessage(strRtn);
+         }
+
          stMsgTxt.Text = "開始轉檔...";
          this.Cursor = Cursors.WaitCursor;
          this.Refresh();
@@ -93,16 +110,35 @@ namespace PhoenixCI.FormUI.Prefix4
          Thread.Sleep(5);
       }
 
+      private bool OutputChooseMessage(string str)
+      {
+         DialogResult ChooseResult = MessageDisplay.Choose(str);
+         if (ChooseResult == DialogResult.No)
+         {
+            EndExport();
+            return false;
+         }
+         return true;
+      }
+
+      private string OutputShowMessage {
+         set {
+            if (value != MessageDisplay.MSG_OK)
+               MessageDisplay.Info(value);
+         }
+      }
+
+
       protected override ResultStatus Export()
       {
          if (!StartExport()) {
             return ResultStatus.Fail;
          }
-         string saveFilePath = PbFunc.wf_copy_file(_ProgramID, "40040");
          try {
+            
          }
          catch (Exception ex) {
-            File.Delete(saveFilePath);
+            File.Delete(_saveFilePath);
             WriteLog(ex);
             return ResultStatus.Fail;
          }

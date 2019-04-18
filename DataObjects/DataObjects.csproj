@@ -172,6 +172,7 @@
     <Compile Include="Dao\Together\SpecificDao\D40060.cs" />
     <Compile Include="Dao\Together\SpecificDao\D40130.cs" />
     <Compile Include="Dao\Together\SpecificDao\D40011.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D40040.cs" />
     <Compile Include="Dao\Together\SpecificDao\D42011.cs" />
     <Compile Include="Dao\Together\SpecificDao\D42012.cs" />
     <Compile Include="Dao\Together\SpecificDao\D49050.cs" />
