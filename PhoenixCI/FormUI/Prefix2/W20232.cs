@@ -10,6 +10,11 @@ using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using BaseGround.Shared;
+using System.Data.OleDb;
+using System.Globalization;
+
+//TODO : servername登入才會看到chkTest選項(決定是否產txt檔)
 
 /// <summary>
 /// Winni, 2019/04/17
@@ -76,44 +81,44 @@ namespace PhoenixCI.FormUI.Prefix2 {
 
       protected override ResultStatus Import() {
 
-         #region 日期檢核
-         //if (gbItem.EditValue.AsString() == "rbSdateToEdate") {
-         //   if (!txtStartDate.IsDate(txtStartDate.Text , "日期輸入錯誤!") ||
-         //      !txtEndDate.IsDate(txtEndDate.Text , "日期輸入錯誤!")) {
-         //      txtEndDate.Focus();
-         //      MessageDisplay.Error("日期輸入錯誤!");
-         //      return ResultStatus.Fail;
-         //   }
-         //} else {
-         //   if (!txtDate.IsDate(txtDate.Text , "日期輸入錯誤!")) {
-         //      txtEndDate.Focus();
-         //      MessageDisplay.Error("日期輸入錯誤!");
-         //      return ResultStatus.Fail;
-         //   }
-         //}
-         #endregion
-
-         DataTable dt = new DataTable(); //外面用的
+         DataTable dt = new DataTable(); //Merge用
          DataTable dt_1 = new DataTable(); //上櫃
          DataTable dt_2 = new DataTable(); //上市
 
          try {
+
+            labMsg.Visible = true;
+            labMsg.Text = "開始轉檔...";
+            this.Cursor = Cursors.WaitCursor;
+            this.Refresh();
+            Thread.Sleep(5);
+
             //上櫃 11 
             foreach (CheckedListBoxItem item in chkGroup1.Items) {
                if (item.CheckState == CheckState.Checked) {
-                  if (string.IsNullOrEmpty(txt11.Text) || !File.Exists(txt11.Text)) {
+                  //DevExpress.XtraEditors.TextEdit txt = (DevExpress.XtraEditors.TextEdit)this.Controls["txt" + item.Value];
+                  DevExpress.XtraEditors.TextEdit txt = (DevExpress.XtraEditors.TextEdit)this.Controls.Find("txt" + item.Value , true)[0];
+                  //Widget.TextDateEdit txtDate = (Widget.TextDateEdit)this.Controls["txtDate" + item.Value];
+                  Widget.TextDateEdit txtDate = (Widget.TextDateEdit)this.Controls.Find("txtDate" + item.Value , true)[0];
+
+                  #region 11 / 22 / 33
+                  if (string.IsNullOrEmpty(txt.Text) || !File.Exists(txt.Text)) {
                      MessageDisplay.Info("請輸入正確資料來源路徑!");
-                     txt11.BackColor = Color.Red;
+                     txt.BackColor = Color.Red;
                      return ResultStatus.Fail;
                   }
 
-                  dt_1 = wf_20232_2(txt11.Text , txtDate11.DateTimeValue.ToString("yyyyMM"));
-                  if (dt_1.Rows.Count <= 0) {
-                     txt11.BackColor = Color.Red;
+                  dt_1 = wf_20232_2(txt.Text , txtDate.DateTimeValue.ToString("yyyyMM"));
+                  if (dt_1 == null) {
+                     txt.BackColor = Color.Red;
+                     continue;
+                  } else if (dt_1.Rows.Count <= 0) {
+                     txt.BackColor = Color.Red;
                   } else {
                      item.CheckState = CheckState.Unchecked;
-                     txt11.BackColor = Color.FromArgb(128 , 255 , 255);
+                     txt.BackColor = Color.FromArgb(128 , 255 , 255);
                   }
+                  #endregion
 
                   dt.Merge(dt_1);
                }//if (item.CheckState == CheckState.Checked)
@@ -122,24 +127,34 @@ namespace PhoenixCI.FormUI.Prefix2 {
             //上市 1
             foreach (CheckedListBoxItem item in chkGroup2.Items) {
                if (item.CheckState == CheckState.Checked) {
-                  if (string.IsNullOrEmpty(txt1.Text) || !File.Exists(txt1.Text)) {
+
+                  //DevExpress.XtraEditors.TextEdit txt = (DevExpress.XtraEditors.TextEdit)this.Controls["txt" + item.Value];
+                  DevExpress.XtraEditors.TextEdit txt = (DevExpress.XtraEditors.TextEdit)this.Controls.Find("txt" + item.Value , true)[0];
+                  //Widget.TextDateEdit txtDate = (Widget.TextDateEdit)this.Controls["txtDate" + item.Value];
+                  Widget.TextDateEdit txtDate = (Widget.TextDateEdit)this.Controls.Find("txtDate" + item.Value , true)[0];
+
+                  #region 1 / 2 / 3
+                  if (string.IsNullOrEmpty(txt.Text) || !File.Exists(txt.Text)) {
                      MessageDisplay.Info("請輸入正確資料來源路徑!");
-                     txt11.BackColor = Color.Red;
+                     txt.BackColor = Color.Red;
                      return ResultStatus.Fail;
                   }
 
-                  dt_2 = wf_20232_1(txt1.Text , txtDate1.DateTimeValue.ToString("yyyyMM"));
-                  if (dt_2.Rows.Count <= 0) {
-                     txt1.BackColor = Color.Red;
+                  dt_2 = wf_20232_1(txt.Text , txtDate.DateTimeValue.ToString("yyyyMM"));
+                  if (dt_2 == null) {
+                     txt.BackColor = Color.Red;
+                     continue;
+                  } else if (dt_2.Rows.Count <= 0) {
+                     txt.BackColor = Color.Red;
                   } else {
                      item.CheckState = CheckState.Unchecked;
-                     txt1.BackColor = Color.FromArgb(128 , 255 , 255);
+                     txt.BackColor = Color.FromArgb(128 , 255 , 255);
                   }
+                  #endregion
 
                   dt.Merge(dt_2);
                }
             }
-
 
             gvMain.Columns.Clear();
             gvMain.OptionsBehavior.AutoPopulateColumns = true;
@@ -176,11 +191,12 @@ namespace PhoenixCI.FormUI.Prefix2 {
             workbook.LoadDocument(filename);
             Worksheet worksheet = workbook.Worksheets[0];
 
-            //string tmp = worksheet.Cells[0 , 1].Value.AsString().Replace("民" , "").Replace("國" , "").Replace("年" , "").Replace("月" , "");
+            string tmpDate = worksheet.Cells[0 , 1].Value.AsDateTime().ToString("yyyyMM");
             //string tmpDate = (tmp.Substring(0 , 3).AsInt() - 1911).AsString() + tmp.Substring(3 , 2);
-            string tmpDate = "201810";
+            //string tmpDate = "201810";
             if (tmpDate != txtDate) {
                MessageDisplay.Error(string.Format("轉檔檔案之年月= {0} ,與輸入條件= {1} 不符" , tmpDate , txtDate));
+               return null;
             }
 
             //2.把excel轉成dataTable
@@ -194,16 +210,21 @@ namespace PhoenixCI.FormUI.Prefix2 {
                                     new DataColumn("pls3_pid" , typeof(string)) };
             dtSource.Columns.AddRange(columns);
 
+            string kind = " ";
             int pos = 0;
-            for (int k = 8 ; k < 9999 ; k++) {
+            int space = 0;
+            for (int k = 6 ; k < 9999 ; k++) {
+               pos++;
+               ShowMsg(string.Format("訊息：{0} 轉TXT，處理筆數：{1}" , filename, pos));
+
                string sid = worksheet.Cells[k , 0].Value.AsString();
 
                if (string.IsNullOrEmpty(sid)) {
-                  pos++;
+                  space++;
                   continue;
                }
 
-               if (pos > 10 || sid == txtEnd.Text)
+               if (space > 10 || sid == txtEnd.Text)
                   break;
 
                DataRow drNew = dtSource.NewRow();
@@ -221,12 +242,15 @@ namespace PhoenixCI.FormUI.Prefix2 {
                else
                   drNew["pls3_cnt"] = 0;
 
-               if (drNew["pls3_amt"].AsDecimal() == 0 && drNew["pls3_qnty"].AsDecimal() == 0 && drNew["pls3_cnt"].AsDecimal() == 0)
+               if (string.IsNullOrEmpty(sid) || drNew["pls3_amt"].AsDecimal() == 0) {
+                  if (sid.SubStr(0 , 2).AsInt() > 0)
+                     kind = sid.SubStr(0 , 2);
                   continue;
+               }
 
-               drNew["pls3_ym"] = tmpDate;
-               drNew["pls3_sid"] = sid.Substring(0 , 6).Trim();
-               drNew["pls3_kind"] = " ";
+               drNew["pls3_ym"] = txtDate;
+               drNew["pls3_sid"] = sid.SubStr(0 , 6).Trim();
+               drNew["pls3_kind"] = kind;
                drNew["pls3_pid"] = "1";
 
                dtSource.Rows.Add(drNew);
@@ -234,14 +258,20 @@ namespace PhoenixCI.FormUI.Prefix2 {
 
             //3.將dataTable to db table 
             //好幾個步驟,包含create temp table/insert temp/delete pls3/insert pls3 use group by/drop temp table
-            int rowCount = dao20232.ImportDataToPls3(dtSource , tmpDate , "1");
+            int rowCount = dao20232.ImportDataToPls3(dtSource , txtDate , "1");
+
+            //servername登入可決定是否產此txt檔
+            if (chkTest.Checked) {
+               string testFilenameTxt = string.Format("20232_1({0})_{1}.txt" , txtDate , DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss"));
+               testFilenameTxt = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , testFilenameTxt);
+               Common.Helper.ExportHelper.ToText(dtSource , testFilenameTxt);
+            }
 
          } catch (Exception ex) {
             WriteLog(ex);
          }
          return dtSource;
       }
-
 
       /// <summary>
       /// wf_20232_2
@@ -262,11 +292,11 @@ namespace PhoenixCI.FormUI.Prefix2 {
             workbook.LoadDocument(filename);
             Worksheet worksheet = workbook.Worksheets[0];
 
-            //string tmp = worksheet.Cells[1 , 0].Value.AsString().Replace("民" , "").Replace("國" , "").Replace("年" , "").Replace("月" , "");
-            //string tmpDate = (tmp.Substring(0 , 3).AsInt() - 1911).AsString() + tmp.Substring(3 , 2);
-            string tmpDate = "201810";
+            string tmp = worksheet.Cells[1 , 0].Value.AsString().Replace("民" , "").Replace("國" , "").Replace("年" , "").Replace("月" , "");
+            string tmpDate = (tmp.Substring(0 , 3).AsInt() + 1911).AsString() + tmp.Substring(3 , 2);
             if (tmpDate != txtDate) {
                MessageDisplay.Error(string.Format("轉檔檔案之年月= {0} ,與輸入條件= {1} 不符" , tmpDate , txtDate));
+               return null;
             }
 
             //2.把excel轉成dataTable          
@@ -279,16 +309,16 @@ namespace PhoenixCI.FormUI.Prefix2 {
                                     new DataColumn("pls3_pid" , typeof(string)) };
             dtSource.Columns.AddRange(columns);
 
+            int pos = 0;
             for (int k = 8 ; k < 9999 ; k++) {
+               pos++;
+               ShowMsg(string.Format("訊息：{0} 轉TXT，處理筆數：{1}" , filename , pos));
+
                string sid = worksheet.Cells[k , 0].Value.AsString();
                if (string.IsNullOrEmpty(sid))
                   break;
 
                DataRow drNew = dtSource.NewRow();
-               drNew["pls3_ym"] = tmpDate;
-               drNew["pls3_sid"] = sid;
-               drNew["pls3_kind"] = " ";
-               drNew["pls3_pid"] = "2";
 
                if (!string.IsNullOrEmpty(worksheet.Cells[k , 2].Value.AsString()))
                   drNew["pls3_amt"] = worksheet.Cells[k , 2].Value.AsDecimal();
@@ -297,22 +327,29 @@ namespace PhoenixCI.FormUI.Prefix2 {
                if (!string.IsNullOrEmpty(worksheet.Cells[k , 4].Value.AsString()))
                   drNew["pls3_cnt"] = worksheet.Cells[k , 4].Value.AsDecimal();
 
-               //drNew["pls3_pid"] = "2";
+               drNew["pls3_ym"] = txtDate;
+               drNew["pls3_sid"] = sid;
+               drNew["pls3_kind"] = " ";
+               drNew["pls3_pid"] = "2";
 
                dtSource.Rows.Add(drNew);
             }
 
             //3.將dataTable to db table 
             //好幾個步驟,包含create temp table/insert temp/delete pls3/insert pls3 use group by/drop temp table
-            int rowCount = dao20232.ImportDataToPls3(dtSource , tmpDate , "2");
+            int rowCount = dao20232.ImportDataToPls3(dtSource , txtDate , "2");
 
+            if (chkTest.Checked) {
+               string testFilenameTxt = string.Format("20232_2({0})_{1}.txt" , txtDate , DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss"));
+               testFilenameTxt = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , testFilenameTxt);
+               Common.Helper.ExportHelper.ToText(dtSource , testFilenameTxt);
+            }
          } catch (Exception ex) {
             WriteLog(ex);
          }
 
          return dtSource;
       }
-
 
 
       /// <summary>
