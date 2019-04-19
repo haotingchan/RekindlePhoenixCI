@@ -290,12 +290,15 @@ namespace BaseGround.Shared {
       public static string f_chk_130_wf(string as_txn_id, DateTime adt_date, string os_osw_grp) {
          /***************************************
          有加f_chk_130的作業代號：
-         40010, 40011, 40012, 40013, 40020, 40021
          42010, 42011, 42020, 42030 
+         40011, 40021,40012
+         40013
          43010, 43020, 43030
+         40010, 40020
          ***************************************/
 
          //ken,說有13個功能引用,下面switch只有9個功能阿(40010, 40011, 40012, 40013, 40020, 40021, 43010, 43020, 40030)
+         //john,2019/04/19因應PB更新修改(40010,40011,40012,40013,40021,40022)
 
          string res = "";
          JLOG jLOG = new JLOG();
@@ -307,26 +310,34 @@ namespace BaseGround.Shared {
 
          switch (as_txn_id) {
             case "40010":
-            case "40011":
-            case "40012":
-            case "40013":
-            case "40020":
             case "40021":
-               #region 1 time, os_osw_grp=1/5/7, 正常1和5需要跑兩次,7需要跑一次
-               if (as_txn_id == "40010" || as_txn_id == "40020" || as_txn_id == "40011") {
-                  ls_osw_grp = "1";
-               } else if (as_txn_id == "40021" || as_txn_id == "40012") {
-                  ls_osw_grp = "5";
-               } else if (as_txn_id == "40013") {
-                  ls_osw_grp = "7";
-               }
-
+            case "40011":
+               ls_osw_grp = "1";
                li_rtn = jLOG.GetJobCount(adt_date, ls_osw_grp);
 
-               if ((li_rtn < 2 && ls_osw_grp != "7") || (li_rtn < 1 && ls_osw_grp == "7")) {
+               if (li_rtn < 2) {
                   res = "機房「130C」批次作業尚未完成";
+                  break;
                }
-               #endregion
+               break;
+            case "40012":
+            case "40022":
+               ls_osw_grp = "5";
+               li_rtn = jLOG.GetJobCount(adt_date, ls_osw_grp);
+
+               if (li_rtn < 2) {
+                  res = "機房「130C」批次作業尚未完成";
+                  break;
+               }
+               break;
+            case "40013":
+               ls_osw_grp = "7";
+               li_rtn = jLOG.ListJobWorkflow(adt_date, ls_osw_grp).Select("JLOG_WORKFLOW='wf_FB_AI0130C'").Length;//Count
+
+               if (li_rtn < 1) {
+                  res = "機房「130C」批次作業尚未完成";
+                  break;
+               }
                break;
             case "43010":
             case "43020":
