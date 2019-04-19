@@ -50,7 +50,6 @@ namespace Common
             gv.AppearancePrint.HeaderPanel.Options.UseTextOptions = true;
             gv.AppearancePrint.Row.Options.UseTextOptions = true;
             gv.AppearancePrint.HeaderPanel.TextOptions.WordWrap = WordWrap.Wrap;
-            gv.AppearancePrint.Row.TextOptions.WordWrap = WordWrap.Wrap;
 
             gv.OptionsPrint.AllowMultilineHeaders = true;
 

@@ -44,20 +44,20 @@
          // 
          this.panParent.Controls.Add(this.grpxDescription);
          this.panParent.Controls.Add(this.ExportShow);
-         this.panParent.Size = new System.Drawing.Size(697, 491);
+         this.panParent.Size = new System.Drawing.Size(705, 493);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(697, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(705, 32);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // panelControl1
          // 
          this.panelControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.panelControl1.Location = new System.Drawing.Point(0, 30);
+         this.panelControl1.Location = new System.Drawing.Point(0, 32);
          this.panelControl1.Name = "panelControl1";
-         this.panelControl1.Size = new System.Drawing.Size(697, 491);
+         this.panelControl1.Size = new System.Drawing.Size(705, 493);
          this.panelControl1.TabIndex = 0;
          // 
          // grpxDescription
@@ -103,15 +103,16 @@
          // 
          this.txtDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
          this.txtDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtDate.EditValue = "2018/12";
+         this.txtDate.EditValue = "2018/12/01";
          this.txtDate.EnterMoveNextControl = true;
          this.txtDate.Location = new System.Drawing.Point(128, 42);
          this.txtDate.MenuManager = this.ribbonControl;
          this.txtDate.Name = "txtDate";
          this.txtDate.Properties.Appearance.Options.UseTextOptions = true;
          this.txtDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.txtDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtDate.Size = new System.Drawing.Size(144, 26);
          this.txtDate.TabIndex = 15;
@@ -140,7 +141,7 @@
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(697, 521);
+         this.ClientSize = new System.Drawing.Size(705, 525);
          this.Controls.Add(this.panelControl1);
          this.Name = "W40100";
          this.Text = "40100";
