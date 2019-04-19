@@ -81,12 +81,12 @@ namespace PhoenixCI.FormUI.Prefix3
             //is_chk = "Y";
             return false;
          }
-         if (!emTxStartDate.IsDate(emStartDate.Text, CheckDate.Start))
+         if (!emTxStartDate.IsDate(emTxStartDate.Text, CheckDate.Start))
          {
             //is_chk = "Y";
             return false;
          }
-         if (!emTxEndDate.IsDate(emEndDate.Text, CheckDate.End))
+         if (!emTxEndDate.IsDate(emTxEndDate.Text, CheckDate.End))
          {
             //is_chk = "Y";
             return false;
