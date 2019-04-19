@@ -104,11 +104,14 @@ namespace BaseGround.Widget
          *******************/
          //GlobalInfo.OCF_DATE = serviceCommon.GetOCF().OCF_DATE;
 
-         em_edate.EditValue = GlobalInfo.OCF_DATE;
+         em_edate.EditValue = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
          //em_sdate.EditValue = (em_edate.Text.Substring(0, 5) + "01").AsDateTime();
          em_sdate.EditValue = GlobalInfo.OCF_DATE.ToString("yyyy/MM/01");
-         em_sym.EditValue = GlobalInfo.OCF_DATE;
-         em_eym.EditValue = GlobalInfo.OCF_DATE;
+#if DEBUG
+         //em_sdate.EditValue = new DateTime(2019, 4, 15).ToString("yyyy/MM/01");
+#endif
+         em_sym.EditValue = GlobalInfo.OCF_DATE.ToString("yyyy/MM"); 
+         em_eym.EditValue = GlobalInfo.OCF_DATE.ToString("yyyy/MM"); 
          /* 造市者代號 */
          //起始選項
          dw_sbrkno.SetDataTable(daoABRK.ListAll2(), "ABRK_NO", "CP_DISPLAY",TextEditStyles.Standard,null);
@@ -1189,7 +1192,7 @@ namespace BaseGround.Widget
          this.dataLayoutControl2.Name = "dataLayoutControl2";
          this.dataLayoutControl2.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(664, 0, 650, 400);
          this.dataLayoutControl2.Root = this.layoutControlGroup2;
-         this.dataLayoutControl2.Size = new System.Drawing.Size(318, 60);
+         this.dataLayoutControl2.Size = new System.Drawing.Size(327, 70);
          this.dataLayoutControl2.TabIndex = 1;
          this.dataLayoutControl2.Text = "dataLayoutControl2";
          // 
@@ -1203,7 +1206,7 @@ namespace BaseGround.Widget
          this._dw_prod_ct.Properties.NullText = "";
          this._dw_prod_ct.Properties.PopupSizeable = false;
          this._dw_prod_ct.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
-         this._dw_prod_ct.Size = new System.Drawing.Size(89, 20);
+         this._dw_prod_ct.Size = new System.Drawing.Size(102, 20);
          this._dw_prod_ct.StyleController = this.dataLayoutControl2;
          this._dw_prod_ct.TabIndex = 4;
          // 
@@ -1217,13 +1220,13 @@ namespace BaseGround.Widget
          this._dw_prod_kd_sto.Properties.NullText = "";
          this._dw_prod_kd_sto.Properties.PopupSizeable = false;
          this._dw_prod_kd_sto.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
-         this._dw_prod_kd_sto.Size = new System.Drawing.Size(88, 20);
+         this._dw_prod_kd_sto.Size = new System.Drawing.Size(101, 20);
          this._dw_prod_kd_sto.StyleController = this.dataLayoutControl2;
          this._dw_prod_kd_sto.TabIndex = 5;
          // 
          // _dw_prod_kd
          // 
-         this._dw_prod_kd.Location = new System.Drawing.Point(211, 36);
+         this._dw_prod_kd.Location = new System.Drawing.Point(224, 36);
          this._dw_prod_kd.Name = "_dw_prod_kd";
          this._dw_prod_kd.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -1231,7 +1234,7 @@ namespace BaseGround.Widget
          this._dw_prod_kd.Properties.NullText = "";
          this._dw_prod_kd.Properties.PopupSizeable = false;
          this._dw_prod_kd.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
-         this._dw_prod_kd.Size = new System.Drawing.Size(78, 20);
+         this._dw_prod_kd.Size = new System.Drawing.Size(91, 20);
          this._dw_prod_kd.StyleController = this.dataLayoutControl2;
          this._dw_prod_kd.TabIndex = 6;
          // 
@@ -1242,7 +1245,7 @@ namespace BaseGround.Widget
          this.layoutControlGroup2.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
             this._AMM0_grp});
          this.layoutControlGroup2.Name = "Root";
-         this.layoutControlGroup2.Size = new System.Drawing.Size(301, 68);
+         this.layoutControlGroup2.Size = new System.Drawing.Size(327, 70);
          this.layoutControlGroup2.TextVisible = false;
          // 
          // _AMM0_grp
@@ -1256,14 +1259,14 @@ namespace BaseGround.Widget
             this.emptySpaceItem1});
          this._AMM0_grp.Location = new System.Drawing.Point(0, 0);
          this._AMM0_grp.Name = "_AMM0_grp";
-         this._AMM0_grp.Size = new System.Drawing.Size(281, 48);
+         this._AMM0_grp.Size = new System.Drawing.Size(307, 50);
          // 
          // _st_prod_kd_sto
          // 
          this._st_prod_kd_sto.Control = this._dw_prod_kd_sto;
          this._st_prod_kd_sto.Location = new System.Drawing.Point(0, 24);
          this._st_prod_kd_sto.Name = "_st_prod_kd_sto";
-         this._st_prod_kd_sto.Size = new System.Drawing.Size(146, 24);
+         this._st_prod_kd_sto.Size = new System.Drawing.Size(159, 26);
          this._st_prod_kd_sto.Text = "  2碼商品";
          this._st_prod_kd_sto.TextLocation = DevExpress.Utils.Locations.Left;
          this._st_prod_kd_sto.TextSize = new System.Drawing.Size(51, 14);
@@ -1272,9 +1275,9 @@ namespace BaseGround.Widget
          // 
          this._st_prod_kd.Control = this._dw_prod_kd;
          this._st_prod_kd.ControlAlignment = System.Drawing.ContentAlignment.BottomLeft;
-         this._st_prod_kd.Location = new System.Drawing.Point(146, 24);
+         this._st_prod_kd.Location = new System.Drawing.Point(159, 24);
          this._st_prod_kd.Name = "_st_prod_kd";
-         this._st_prod_kd.Size = new System.Drawing.Size(135, 24);
+         this._st_prod_kd.Size = new System.Drawing.Size(148, 26);
          this._st_prod_kd.Text = "造市商品";
          this._st_prod_kd.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.AutoSize;
          this._st_prod_kd.TextSize = new System.Drawing.Size(48, 14);
@@ -1285,7 +1288,7 @@ namespace BaseGround.Widget
          this._st_prod_ct.Control = this._dw_prod_ct;
          this._st_prod_ct.Location = new System.Drawing.Point(0, 0);
          this._st_prod_ct.Name = "_st_prod_ct";
-         this._st_prod_ct.Size = new System.Drawing.Size(146, 24);
+         this._st_prod_ct.Size = new System.Drawing.Size(159, 24);
          this._st_prod_ct.Text = "商品群組";
          this._st_prod_ct.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.AutoSize;
          this._st_prod_ct.TextLocation = DevExpress.Utils.Locations.Left;
@@ -1295,9 +1298,9 @@ namespace BaseGround.Widget
          // emptySpaceItem1
          // 
          this.emptySpaceItem1.AllowHotTrack = false;
-         this.emptySpaceItem1.Location = new System.Drawing.Point(146, 0);
+         this.emptySpaceItem1.Location = new System.Drawing.Point(159, 0);
          this.emptySpaceItem1.Name = "emptySpaceItem1";
-         this.emptySpaceItem1.Size = new System.Drawing.Size(135, 24);
+         this.emptySpaceItem1.Size = new System.Drawing.Size(148, 24);
          this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
          // 
          // dataLayoutControl1
