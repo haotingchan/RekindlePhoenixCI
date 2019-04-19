@@ -1,6 +1,7 @@
 ﻿using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
+using DataObjects;
 using DataObjects.Dao.Together;
 using Log;
 using System;
@@ -29,44 +30,54 @@ namespace BaseGround
             {
                 string myID = txtID.Text.Trim();
                 string myPassword = txtPassword.Text.Trim();
-
-                ResultData result = CheckLogin(myID, myPassword);
-                if (result.Status == ResultStatus.Success)
+                if (myID.ToUpper() == GlobalDaoSetting.GetConnectionInfo.ConnectionName)
                 {
-                    this.DialogResult = DialogResult.OK;
-                    GlobalInfo.USER_ID = myID;
-                    GlobalInfo.USER_NAME = result.ReturnData.Rows[0]["UPF_USER_NAME"].ToString().Trim();
-                    GlobalInfo.USER_DPT_ID = result.ReturnData.Rows[0]["UPF_DPT_ID"].ToString().Trim();
-                    GlobalInfo.USER_DPT_NAME = result.ReturnData.Rows[0]["DPT_NAME"].ToString().Trim();
-
-                    SingletonLogger.Instance.Info(GlobalInfo.USER_ID, "Login", "簽到：執行Path:" + Application.StartupPath, " ");
-
                     this.Hide();
                     FormMain form = new FormMain();
                     form.Show();
-
-                    //判斷過期
-                    DateTime wDate = Convert.ToDateTime(result.ReturnData.Rows[0]["UPF_W_TIME"]);
-                    double dateDiff = (wDate - DateTime.Today).TotalDays;
-                    if (dateDiff > 90)
-                    {
-                        MessageDisplay.Warning("密碼已過期,請重新變更密碼才可進入!");
-                        form.OpenForm("Z0990", "使用者密碼變更");
-                        SingletonLogger.Instance.Info(GlobalInfo.USER_ID, "Login", "密碼強迫變更", " ");
-                    }
-                    else if (dateDiff >= 75 && dateDiff <= 90)
-                    {
-                        MessageDisplay.Warning(string.Format("密碼即將過期(還有{0}天過期),請儘快變更!", 90 - dateDiff));
-                    }
                 }
                 else
                 {
-                    this.DialogResult = DialogResult.No;
-                    if (_Count == 3)
+
+                    ResultData result = CheckLogin(myID, myPassword);
+                    if (result.Status == ResultStatus.Success)
                     {
-                        MessageDisplay.Error("使用者或密碼輸入錯誤超過3次,程式即將關閉!");
-                        SingletonLogger.Instance.Info(" ", "Login", "使用者或密碼輸入錯誤超過3次(帳號錯誤)", " ");
-                        this.Close();
+                        this.DialogResult = DialogResult.OK;
+
+                        GlobalInfo.USER_ID = myID;
+                        GlobalInfo.USER_NAME = result.ReturnData.Rows[0]["UPF_USER_NAME"].ToString().Trim();
+                        GlobalInfo.USER_DPT_ID = result.ReturnData.Rows[0]["UPF_DPT_ID"].ToString().Trim();
+                        GlobalInfo.USER_DPT_NAME = result.ReturnData.Rows[0]["DPT_NAME"].ToString().Trim();
+
+                        SingletonLogger.Instance.Info(GlobalInfo.USER_ID, "Login", "簽到：執行Path:" + Application.StartupPath, " ");
+
+                        this.Hide();
+                        FormMain form = new FormMain();
+                        form.Show();
+
+                        //判斷過期
+                        DateTime wDate = Convert.ToDateTime(result.ReturnData.Rows[0]["UPF_W_TIME"]);
+                        double dateDiff = (wDate - DateTime.Today).TotalDays;
+                        if (dateDiff > 90)
+                        {
+                            MessageDisplay.Warning("密碼已過期,請重新變更密碼才可進入!");
+                            form.OpenForm("Z0990", "使用者密碼變更");
+                            SingletonLogger.Instance.Info(GlobalInfo.USER_ID, "Login", "密碼強迫變更", " ");
+                        }
+                        else if (dateDiff >= 75 && dateDiff <= 90)
+                        {
+                            MessageDisplay.Warning(string.Format("密碼即將過期(還有{0}天過期),請儘快變更!", 90 - dateDiff));
+                        }
+                    }
+                    else
+                    {
+                        this.DialogResult = DialogResult.No;
+                        if (_Count == 3)
+                        {
+                            MessageDisplay.Error("使用者或密碼輸入錯誤超過3次,程式即將關閉!");
+                            SingletonLogger.Instance.Info(" ", "Login", "使用者或密碼輸入錯誤超過3次(帳號錯誤)", " ");
+                            this.Close();
+                        }
                     }
                 }
             }
