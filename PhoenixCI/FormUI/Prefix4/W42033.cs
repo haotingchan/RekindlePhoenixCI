@@ -38,8 +38,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 txtEDate.DateTimeValue = DateTime.Now;
                 txtSDate.EditValue = txtEDate.DateTimeValue;
 #if DEBUG
-                txtSDate.Text = "2016/12/19";
-                txtEDate.Text = "2016/12/19";
+                txtSDate.Text = "2016/01/04";
+                txtEDate.Text = "2016/01/04";
 #endif
 
                 txtSDate.Focus();
@@ -126,7 +126,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 sheetKindCnt = 1;  //每個sheet商品數
                 sheetCnt = 0;
                 ws42033 = workbook.Worksheets[sheetCnt];
-                for (f = 2; f < kindTotCnt; f++) {
+                for (f = 2; f <= kindTotCnt; f++) {
                     sheetKindCnt = sheetKindCnt + 1;
                     //可擺放的最大商品數 = 63 = truncate((256 - 1日期欄) / 4column)
                     if (sheetKindCnt > 63) {
