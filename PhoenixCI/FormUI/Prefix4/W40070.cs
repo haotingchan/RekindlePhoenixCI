@@ -37,6 +37,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
             base.Open();
             //日期
             txtSDate.DateTimeValue = DateTime.Now;
+            txtDateG1.DateTimeValue = DateTime.MinValue;
+            txtDateG5.DateTimeValue = DateTime.MinValue;
+            txtDateG7.DateTimeValue = DateTime.MinValue;
 
             //設定調整商品條件下拉選單
             List<LookupItem> modelType = new List<LookupItem>(){
@@ -45,6 +48,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
                                         new LookupItem() { ValueMember = "%", DisplayMember = "全部商品" }};
             Extension.SetDataTable(ddlModel, modelType, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor, "");
             ddlModel.EditValue = "S";
+
+            //設定群組
+            GRP_NAME.GroupIndex = 0;
+            GRP_NAME.Caption = "群組";
 
             #region RadioGroup
             //設定結算保證金調整金額項目RadioGroup
@@ -118,14 +125,53 @@ namespace PhoenixCI.FormUI.Prefix4 {
         protected override ResultStatus Retrieve() {
 
             try {
+                //讀取資料
                 dao40070 = new D40070();
                 DataTable dt40070 = dao40070.d_40070_scrn(txtSDate.DateTimeValue.ToString("yyyyMMdd"),ddlModel.EditValue.AsString());
+                //排序
+                dt40070 = dt40070.Sort("OSW_GRP, SEQ_NO, PROD_TYPE, KIND_ID");
+                //過濾
+                DataView dv = dt40070.AsDataView();
+                dv.RowFilter = " ab_type in ('-','A')";
+                dt40070 = dv.ToTable();
+
                 gcMain.DataSource = dt40070;
+                //預設展開群組
+                gvMain.ExpandAllGroups();
+
                 //複製
                 //dw_1.RowsCopy(1, dw_1.rowcount(), primary!, ids_tmp, 1, primary!)
 
-                //dw_1.setfilter(" ab_type in ('-','A')")
-                //dw_1.filter()
+                //設定三個Group的生效日期
+                string validDateG1, validDateG5, validDateG7;
+                int found;
+                //Group1
+                found = dt40070.Rows.IndexOf(dt40070.Select("osw_grp='1' and issue_begin_ymd is not null ").FirstOrDefault());
+                if (found > -1) {
+                    txtDateG1.DateTimeValue = dt40070.Rows[found]["ISSUE_BEGIN_YMD"].AsDateTime("yyyyMMdd");
+                }
+                else {
+                    txtDateG1.DateTimeValue = PbFunc.f_get_ocf_next_n_day(txtSDate.DateTimeValue, 1);
+                }
+                validDateG1 = txtDateG1.Text;
+                //Group2
+                found = dt40070.Rows.IndexOf(dt40070.Select("osw_grp='5' and issue_begin_ymd is not null ").FirstOrDefault());
+                if (found > -1) {
+                    txtDateG5.DateTimeValue = dt40070.Rows[found]["ISSUE_BEGIN_YMD"].AsDateTime("yyyyMMdd");
+                }
+                else {
+                    txtDateG5.DateTimeValue = PbFunc.f_get_ocf_next_n_day(txtSDate.DateTimeValue, 2);
+                }
+                validDateG5 = txtDateG5.Text;
+                //Group2
+                found = dt40070.Rows.IndexOf(dt40070.Select("osw_grp='7' and issue_begin_ymd is not null ").FirstOrDefault());
+                if (found > -1) {
+                    txtDateG7.DateTimeValue = dt40070.Rows[found]["ISSUE_BEGIN_YMD"].AsDateTime("yyyyMMdd");
+                }
+                else {
+                    txtDateG7.DateTimeValue = PbFunc.f_get_ocf_next_n_day(txtSDate.DateTimeValue, 2);
+                }
+                validDateG7 = txtDateG7.Text;
             }
             catch (Exception ex) {
                 MessageDisplay.Error("讀取錯誤");
