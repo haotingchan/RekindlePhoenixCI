@@ -83,7 +83,7 @@ namespace DataObjects.Dao.Together.SpecificDao
 
       public override string FutDataSql(SheetType R)
       {
-         return string.Format($@"select rpt.{0},MG1_CUR_CM,MG1_CUR_MM,MG1_CUR_IM,MG1_CM_RATE,MG1_MM_RATE,MG1_IM_RATE,
+         return string.Format(@"select rpt.{0},MG1_CUR_CM,MG1_CUR_MM,MG1_CUR_IM,MG1_CM_RATE,MG1_MM_RATE,MG1_IM_RATE,
                      MG1_PRICE,MG1_XXX,MG1_RISK,MG1_CP_RISK,MG1_MIN_RISK,MG1_CP_CM
                      from
                            (select RPT_LEVEL_2 as R1,RPT_LEVEL_3 as R2 from ci.RPT
