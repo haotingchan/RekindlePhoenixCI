@@ -242,8 +242,16 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                         break;
                   }
 
-                  flag = dtMg6.Rows[dtMg6Index][colTxt + "_RETURN_RATE"] == DBNull.Value ? "" : WriteFlag(flag, row);
-                  worksheet.Cells[$"N{rowIndex}"].SetValue(updown == DBNull.Value ? "-" : flag);
+                  if (flag != "-") {
+                     if (dtMg6.Rows[dtMg6Index]["MG1_CM_LAST"] == DBNull.Value) {
+                        flag = "";
+                     }
+                     else {
+                        flag = WriteFlag(flag, row);
+                     }
+                  } 
+                  
+                  worksheet.Cells[$"N{rowIndex}"].SetValue(flag);
 
                   //期貨 
                   var fupdown = dtMg6.Rows[dtMg6Index]["F_UP_DOWN"];
