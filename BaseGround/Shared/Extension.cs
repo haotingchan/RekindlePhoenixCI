@@ -156,24 +156,26 @@ namespace BaseGround.Shared {
          string year = YMD[0].PadLeft(4, '0');
          string month = YMD[1].PadLeft(2, '0');
          string date = YMD[2].PadLeft(2, '0');
-         inputText = "";
+         string formatInputTxt = inputText;
 
          switch (YMD.Length)
          {
             case 1:
-               inputText = $"{year}/01/01";
+               formatInputTxt = $"{year}/01/01";
+               //textEdit.Text = year;
                break;
             case 2:
-               inputText = $"{year}/{month}/01";
+               formatInputTxt = $"{year}/{month}/01";
+               //textEdit.Text = $"{year}/{month}";
                break;
             case 3:
-               inputText = $"{year}/{month}/{date}"; 
+               formatInputTxt = $"{year}/{month}/{date}";
+               //textEdit.Text = $"{year}/{month}/{date}";
                break;
          }
 
-         if (!DateTime.TryParse(inputText, out dateTime)) {
+         if (!DateTime.TryParse(formatInputTxt, out dateTime)) {
             MessageDisplay.Error(errorText, GlobalInfo.ErrorText);
-            textEdit.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
             textEdit.Focus();
             return false;
          }

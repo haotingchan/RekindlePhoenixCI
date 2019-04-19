@@ -23,6 +23,7 @@
       /// the contents of this method with the code editor.
       /// </summary>
       private void InitializeComponent() {
+         this.components = new System.ComponentModel.Container();
          this.labMsg = new System.Windows.Forms.Label();
          this.panFilter = new System.Windows.Forms.GroupBox();
          this.btn33 = new DevExpress.XtraEditors.SimpleButton();
@@ -38,7 +39,7 @@
          this.label9 = new System.Windows.Forms.Label();
          this.txtEnd = new DevExpress.XtraEditors.TextEdit();
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
-         this.xtraOpenFileDialog1 = new DevExpress.XtraEditors.XtraOpenFileDialog();
+         this.xtraOpenFileDialog1 = new DevExpress.XtraEditors.XtraOpenFileDialog(this.components);
          this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
          this.groupBox1 = new System.Windows.Forms.GroupBox();
          this.lblDate = new System.Windows.Forms.Label();
@@ -252,9 +253,9 @@
          this.chkGroup1.HorzScrollStep = 9;
          this.chkGroup1.ItemPadding = new System.Windows.Forms.Padding(11);
          this.chkGroup1.Items.AddRange(new DevExpress.XtraEditors.Controls.CheckedListBoxItem[] {
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chk1", "年月1"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chk2", "年月2"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chk3", "年月3")});
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("11", "年月1"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("22", "年月2"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("33", "年月3")});
          this.chkGroup1.Location = new System.Drawing.Point(20, 22);
          this.chkGroup1.Name = "chkGroup1";
          this.chkGroup1.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
@@ -465,9 +466,9 @@
          this.chkGroup2.HorzScrollStep = 9;
          this.chkGroup2.ItemPadding = new System.Windows.Forms.Padding(11);
          this.chkGroup2.Items.AddRange(new DevExpress.XtraEditors.Controls.CheckedListBoxItem[] {
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chk1", "年月1"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chk2", "年月2"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chk3", "年月3")});
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("1", "年月1"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("2", "年月2"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("3", "年月3")});
          this.chkGroup2.Location = new System.Drawing.Point(20, 22);
          this.chkGroup2.Name = "chkGroup2";
          this.chkGroup2.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
@@ -486,12 +487,15 @@
          // chkTest
          // 
          this.chkTest.AutoSize = true;
+         this.chkTest.Checked = true;
+         this.chkTest.CheckState = System.Windows.Forms.CheckState.Checked;
          this.chkTest.Location = new System.Drawing.Point(766, 225);
          this.chkTest.Name = "chkTest";
          this.chkTest.Size = new System.Drawing.Size(140, 24);
          this.chkTest.TabIndex = 77;
          this.chkTest.Text = "存檔前轉文字檔";
          this.chkTest.UseVisualStyleBackColor = true;
+         this.chkTest.Visible = false;
          // 
          // gcMain
          // 

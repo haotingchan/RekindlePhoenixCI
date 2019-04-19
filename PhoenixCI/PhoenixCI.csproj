@@ -180,6 +180,7 @@
     <Compile Include="BusinessLogic\Prefix4\B40013.cs" />
     <Compile Include="BusinessLogic\Prefix4\B4001xTemplate.cs" />
     <Compile Include="BusinessLogic\Prefix4\B40011.cs" />
+    <Compile Include="BusinessLogic\Prefix4\B40040.cs" />
     <Compile Include="BusinessLogic\Prefix4\B40060.cs" />
     <Compile Include="BusinessLogic\Prefix4\B40050.cs" />
     <Compile Include="BusinessLogic\Prefix4\B40200.cs" />

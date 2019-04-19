@@ -847,9 +847,9 @@ namespace BaseGround.Widget
          this._gb.Controls.Add(this._gb_report_type);
          this._gb.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this._gb.Location = new System.Drawing.Point(19, 146);
-         this._gb.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this._gb.Margin = new System.Windows.Forms.Padding(2);
          this._gb.Name = "_gb";
-         this._gb.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this._gb.Padding = new System.Windows.Forms.Padding(2);
          this._gb.Size = new System.Drawing.Size(251, 70);
          this._gb.TabIndex = 10;
          this._gb.TabStop = false;
@@ -860,7 +860,7 @@ namespace BaseGround.Widget
          this.layoutControl2.Controls.Add(this._em_edate);
          this.layoutControl2.Controls.Add(this._em_sdate);
          this.layoutControl2.Location = new System.Drawing.Point(28, 41);
-         this.layoutControl2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.layoutControl2.Margin = new System.Windows.Forms.Padding(2);
          this.layoutControl2.Name = "layoutControl2";
          this.layoutControl2.Root = this.layoutControlGroup4;
          this.layoutControl2.Size = new System.Drawing.Size(212, 24);
@@ -871,8 +871,8 @@ namespace BaseGround.Widget
          // 
          this._em_edate.CausesValidation = false;
          this._em_edate.EditValue = new System.DateTime(2018, 12, 22, 10, 33, 17, 591);
-         this._em_edate.Location = new System.Drawing.Point(133, 1);
-         this._em_edate.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this._em_edate.Location = new System.Drawing.Point(134, 2);
+         this._em_edate.Margin = new System.Windows.Forms.Padding(2);
          this._em_edate.Name = "_em_edate";
          this._em_edate.Properties.DisplayFormat.FormatString = "yyyy/MM/dd";
          this._em_edate.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
@@ -880,7 +880,7 @@ namespace BaseGround.Widget
          this._em_edate.Properties.Mask.IgnoreMaskBlank = false;
          this._em_edate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
          this._em_edate.Properties.Mask.PlaceHolder = '0';
-         this._em_edate.Size = new System.Drawing.Size(78, 20);
+         this._em_edate.Size = new System.Drawing.Size(76, 20);
          this._em_edate.StyleController = this.layoutControl2;
          this._em_edate.TabIndex = 7;
          // 
@@ -888,8 +888,8 @@ namespace BaseGround.Widget
          // 
          this._em_sdate.CausesValidation = false;
          this._em_sdate.EditValue = new System.DateTime(2018, 12, 22, 10, 32, 59, 808);
-         this._em_sdate.Location = new System.Drawing.Point(39, 1);
-         this._em_sdate.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this._em_sdate.Location = new System.Drawing.Point(41, 2);
+         this._em_sdate.Margin = new System.Windows.Forms.Padding(2);
          this._em_sdate.Name = "_em_sdate";
          this._em_sdate.Properties.DisplayFormat.FormatString = "yyyy/MM/dd";
          this._em_sdate.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
@@ -897,7 +897,7 @@ namespace BaseGround.Widget
          this._em_sdate.Properties.Mask.IgnoreMaskBlank = false;
          this._em_sdate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
          this._em_sdate.Properties.Mask.PlaceHolder = '0';
-         this._em_sdate.Size = new System.Drawing.Size(78, 20);
+         this._em_sdate.Size = new System.Drawing.Size(75, 20);
          this._em_sdate.StyleController = this.layoutControl2;
          this._em_sdate.TabIndex = 6;
          // 
@@ -954,7 +954,7 @@ namespace BaseGround.Widget
          this.layoutControl1.Controls.Add(this._em_sym);
          this.layoutControl1.Controls.Add(this._em_eym);
          this.layoutControl1.Location = new System.Drawing.Point(28, 14);
-         this.layoutControl1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this.layoutControl1.Margin = new System.Windows.Forms.Padding(2);
          this.layoutControl1.Name = "layoutControl1";
          this.layoutControl1.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(1067, 0, 650, 400);
          this.layoutControl1.Root = this.layoutControlGroup3;
@@ -965,9 +965,9 @@ namespace BaseGround.Widget
          // _em_sym
          // 
          this._em_sym.CausesValidation = false;
-         this._em_sym.EditValue = new System.DateTime(2018, 12, 22, 10, 33, 52, 832);
-         this._em_sym.Location = new System.Drawing.Point(39, 1);
-         this._em_sym.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this._em_sym.EditValue = "2018/12";
+         this._em_sym.Location = new System.Drawing.Point(41, 2);
+         this._em_sym.Margin = new System.Windows.Forms.Padding(2);
          this._em_sym.Name = "_em_sym";
          this._em_sym.Properties.DisplayFormat.FormatString = "yyyy/MM";
          this._em_sym.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
@@ -975,16 +975,17 @@ namespace BaseGround.Widget
          this._em_sym.Properties.Mask.IgnoreMaskBlank = false;
          this._em_sym.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
          this._em_sym.Properties.Mask.PlaceHolder = '0';
-         this._em_sym.Size = new System.Drawing.Size(75, 20);
+         this._em_sym.Properties.MaxLength = 7;
+         this._em_sym.Size = new System.Drawing.Size(65, 20);
          this._em_sym.StyleController = this.layoutControl1;
          this._em_sym.TabIndex = 4;
          // 
          // _em_eym
          // 
          this._em_eym.CausesValidation = false;
-         this._em_eym.EditValue = new System.DateTime(2018, 12, 22, 10, 34, 16, 799);
-         this._em_eym.Location = new System.Drawing.Point(130, 1);
-         this._em_eym.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+         this._em_eym.EditValue = "2018/12";
+         this._em_eym.Location = new System.Drawing.Point(124, 2);
+         this._em_eym.Margin = new System.Windows.Forms.Padding(2);
          this._em_eym.Name = "_em_eym";
          this._em_eym.Properties.DisplayFormat.FormatString = "yyyy/MM";
          this._em_eym.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
@@ -992,7 +993,8 @@ namespace BaseGround.Widget
          this._em_eym.Properties.Mask.IgnoreMaskBlank = false;
          this._em_eym.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
          this._em_eym.Properties.Mask.PlaceHolder = '0';
-         this._em_eym.Size = new System.Drawing.Size(66, 20);
+         this._em_eym.Properties.MaxLength = 7;
+         this._em_eym.Size = new System.Drawing.Size(71, 20);
          this._em_eym.StyleController = this.layoutControl1;
          this._em_eym.TabIndex = 5;
          // 
@@ -1026,7 +1028,7 @@ namespace BaseGround.Widget
          this.layoutControlItem1.CustomizationFormText = "layoutControlItem1";
          this.layoutControlItem1.Location = new System.Drawing.Point(0, 0);
          this.layoutControlItem1.Name = "layoutControlItem1";
-         this.layoutControlItem1.Size = new System.Drawing.Size(115, 25);
+         this.layoutControlItem1.Size = new System.Drawing.Size(108, 25);
          this.layoutControlItem1.Text = "月份：";
          this.layoutControlItem1.TextLocation = DevExpress.Utils.Locations.Left;
          this.layoutControlItem1.TextSize = new System.Drawing.Size(36, 14);
@@ -1035,10 +1037,10 @@ namespace BaseGround.Widget
          // 
          this._st_month.Control = this._em_eym;
          this._st_month.CustomizationFormText = "layoutControlItem2";
-         this._st_month.Location = new System.Drawing.Point(115, 0);
+         this._st_month.Location = new System.Drawing.Point(108, 0);
          this._st_month.MinSize = new System.Drawing.Size(35, 17);
          this._st_month.Name = "_st_month";
-         this._st_month.Size = new System.Drawing.Size(82, 25);
+         this._st_month.Size = new System.Drawing.Size(89, 25);
          this._st_month.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
          this._st_month.Text = "~";
          this._st_month.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.AutoSize;
@@ -1193,7 +1195,7 @@ namespace BaseGround.Widget
          // 
          // _dw_prod_ct
          // 
-         this._dw_prod_ct.Location = new System.Drawing.Point(61, 8);
+         this._dw_prod_ct.Location = new System.Drawing.Point(65, 12);
          this._dw_prod_ct.Name = "_dw_prod_ct";
          this._dw_prod_ct.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -1201,13 +1203,13 @@ namespace BaseGround.Widget
          this._dw_prod_ct.Properties.NullText = "";
          this._dw_prod_ct.Properties.PopupSizeable = false;
          this._dw_prod_ct.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
-         this._dw_prod_ct.Size = new System.Drawing.Size(103, 20);
+         this._dw_prod_ct.Size = new System.Drawing.Size(89, 20);
          this._dw_prod_ct.StyleController = this.dataLayoutControl2;
          this._dw_prod_ct.TabIndex = 4;
          // 
          // _dw_prod_kd_sto
          // 
-         this._dw_prod_kd_sto.Location = new System.Drawing.Point(61, 30);
+         this._dw_prod_kd_sto.Location = new System.Drawing.Point(66, 36);
          this._dw_prod_kd_sto.Name = "_dw_prod_kd_sto";
          this._dw_prod_kd_sto.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -1215,13 +1217,13 @@ namespace BaseGround.Widget
          this._dw_prod_kd_sto.Properties.NullText = "";
          this._dw_prod_kd_sto.Properties.PopupSizeable = false;
          this._dw_prod_kd_sto.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
-         this._dw_prod_kd_sto.Size = new System.Drawing.Size(103, 20);
+         this._dw_prod_kd_sto.Size = new System.Drawing.Size(88, 20);
          this._dw_prod_kd_sto.StyleController = this.dataLayoutControl2;
          this._dw_prod_kd_sto.TabIndex = 5;
          // 
          // _dw_prod_kd
          // 
-         this._dw_prod_kd.Location = new System.Drawing.Point(219, 30);
+         this._dw_prod_kd.Location = new System.Drawing.Point(211, 36);
          this._dw_prod_kd.Name = "_dw_prod_kd";
          this._dw_prod_kd.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -1229,7 +1231,7 @@ namespace BaseGround.Widget
          this._dw_prod_kd.Properties.NullText = "";
          this._dw_prod_kd.Properties.PopupSizeable = false;
          this._dw_prod_kd.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
-         this._dw_prod_kd.Size = new System.Drawing.Size(91, 20);
+         this._dw_prod_kd.Size = new System.Drawing.Size(78, 20);
          this._dw_prod_kd.StyleController = this.dataLayoutControl2;
          this._dw_prod_kd.TabIndex = 6;
          // 
@@ -1240,7 +1242,7 @@ namespace BaseGround.Widget
          this.layoutControlGroup2.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
             this._AMM0_grp});
          this.layoutControlGroup2.Name = "Root";
-         this.layoutControlGroup2.Size = new System.Drawing.Size(318, 60);
+         this.layoutControlGroup2.Size = new System.Drawing.Size(301, 68);
          this.layoutControlGroup2.TextVisible = false;
          // 
          // _AMM0_grp
@@ -1254,14 +1256,14 @@ namespace BaseGround.Widget
             this.emptySpaceItem1});
          this._AMM0_grp.Location = new System.Drawing.Point(0, 0);
          this._AMM0_grp.Name = "_AMM0_grp";
-         this._AMM0_grp.Size = new System.Drawing.Size(304, 46);
+         this._AMM0_grp.Size = new System.Drawing.Size(281, 48);
          // 
          // _st_prod_kd_sto
          // 
          this._st_prod_kd_sto.Control = this._dw_prod_kd_sto;
-         this._st_prod_kd_sto.Location = new System.Drawing.Point(0, 22);
+         this._st_prod_kd_sto.Location = new System.Drawing.Point(0, 24);
          this._st_prod_kd_sto.Name = "_st_prod_kd_sto";
-         this._st_prod_kd_sto.Size = new System.Drawing.Size(158, 24);
+         this._st_prod_kd_sto.Size = new System.Drawing.Size(146, 24);
          this._st_prod_kd_sto.Text = "  2碼商品";
          this._st_prod_kd_sto.TextLocation = DevExpress.Utils.Locations.Left;
          this._st_prod_kd_sto.TextSize = new System.Drawing.Size(51, 14);
@@ -1270,9 +1272,9 @@ namespace BaseGround.Widget
          // 
          this._st_prod_kd.Control = this._dw_prod_kd;
          this._st_prod_kd.ControlAlignment = System.Drawing.ContentAlignment.BottomLeft;
-         this._st_prod_kd.Location = new System.Drawing.Point(158, 22);
+         this._st_prod_kd.Location = new System.Drawing.Point(146, 24);
          this._st_prod_kd.Name = "_st_prod_kd";
-         this._st_prod_kd.Size = new System.Drawing.Size(146, 24);
+         this._st_prod_kd.Size = new System.Drawing.Size(135, 24);
          this._st_prod_kd.Text = "造市商品";
          this._st_prod_kd.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.AutoSize;
          this._st_prod_kd.TextSize = new System.Drawing.Size(48, 14);
@@ -1283,7 +1285,7 @@ namespace BaseGround.Widget
          this._st_prod_ct.Control = this._dw_prod_ct;
          this._st_prod_ct.Location = new System.Drawing.Point(0, 0);
          this._st_prod_ct.Name = "_st_prod_ct";
-         this._st_prod_ct.Size = new System.Drawing.Size(158, 22);
+         this._st_prod_ct.Size = new System.Drawing.Size(146, 24);
          this._st_prod_ct.Text = "商品群組";
          this._st_prod_ct.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.AutoSize;
          this._st_prod_ct.TextLocation = DevExpress.Utils.Locations.Left;
@@ -1293,9 +1295,9 @@ namespace BaseGround.Widget
          // emptySpaceItem1
          // 
          this.emptySpaceItem1.AllowHotTrack = false;
-         this.emptySpaceItem1.Location = new System.Drawing.Point(158, 0);
+         this.emptySpaceItem1.Location = new System.Drawing.Point(146, 0);
          this.emptySpaceItem1.Name = "emptySpaceItem1";
-         this.emptySpaceItem1.Size = new System.Drawing.Size(146, 22);
+         this.emptySpaceItem1.Size = new System.Drawing.Size(135, 24);
          this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
          // 
          // dataLayoutControl1
@@ -1313,7 +1315,7 @@ namespace BaseGround.Widget
          // 
          // _dw_sbrkno
          // 
-         this._dw_sbrkno.Location = new System.Drawing.Point(70, 8);
+         this._dw_sbrkno.Location = new System.Drawing.Point(75, 12);
          this._dw_sbrkno.Name = "_dw_sbrkno";
          this._dw_sbrkno.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -1321,13 +1323,13 @@ namespace BaseGround.Widget
          this._dw_sbrkno.Properties.NullText = "";
          this._dw_sbrkno.Properties.PopupSizeable = false;
          this._dw_sbrkno.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
-         this._dw_sbrkno.Size = new System.Drawing.Size(196, 20);
+         this._dw_sbrkno.Size = new System.Drawing.Size(190, 20);
          this._dw_sbrkno.StyleController = this.dataLayoutControl1;
          this._dw_sbrkno.TabIndex = 4;
          // 
          // _dw_ebrkno
          // 
-         this._dw_ebrkno.Location = new System.Drawing.Point(282, 8);
+         this._dw_ebrkno.Location = new System.Drawing.Point(283, 12);
          this._dw_ebrkno.Name = "_dw_ebrkno";
          this._dw_ebrkno.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -1335,7 +1337,7 @@ namespace BaseGround.Widget
          this._dw_ebrkno.Properties.NullText = "";
          this._dw_ebrkno.Properties.PopupSizeable = false;
          this._dw_ebrkno.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
-         this._dw_ebrkno.Size = new System.Drawing.Size(198, 20);
+         this._dw_ebrkno.Size = new System.Drawing.Size(193, 20);
          this._dw_ebrkno.StyleController = this.dataLayoutControl1;
          this._dw_ebrkno.TabIndex = 4;
          // 
@@ -1358,14 +1360,14 @@ namespace BaseGround.Widget
             this._st_1});
          this._ABRK_NO_grp.Location = new System.Drawing.Point(0, 0);
          this._ABRK_NO_grp.Name = "_ABRK_NO_grp";
-         this._ABRK_NO_grp.Size = new System.Drawing.Size(474, 34);
+         this._ABRK_NO_grp.Size = new System.Drawing.Size(468, 28);
          // 
          // _st_2
          // 
          this._st_2.Control = this._dw_sbrkno;
          this._st_2.Location = new System.Drawing.Point(0, 0);
          this._st_2.Name = "_st_2";
-         this._st_2.Size = new System.Drawing.Size(260, 34);
+         this._st_2.Size = new System.Drawing.Size(257, 28);
          this._st_2.Text = "期貨商代號";
          this._st_2.TextSize = new System.Drawing.Size(60, 14);
          // 
@@ -1373,9 +1375,9 @@ namespace BaseGround.Widget
          // 
          this._st_1.Control = this._dw_ebrkno;
          this._st_1.CustomizationFormText = "ABRK_NO";
-         this._st_1.Location = new System.Drawing.Point(260, 0);
+         this._st_1.Location = new System.Drawing.Point(257, 0);
          this._st_1.Name = "_st_1";
-         this._st_1.Size = new System.Drawing.Size(214, 34);
+         this._st_1.Size = new System.Drawing.Size(211, 28);
          this._st_1.Text = "~";
          this._st_1.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.AutoSize;
          this._st_1.TextSize = new System.Drawing.Size(9, 14);
