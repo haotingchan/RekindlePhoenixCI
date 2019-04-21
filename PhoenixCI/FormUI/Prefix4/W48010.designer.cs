@@ -33,7 +33,7 @@
             this.ddlData = new DevExpress.XtraEditors.LookUpEdit();
             this.ddlKind = new DevExpress.XtraEditors.LookUpEdit();
             this.ddlSubType = new DevExpress.XtraEditors.LookUpEdit();
-            this.txtSDate = new PhoenixCI.Widget.TextDateEdit();
+            this.txtSDate = new BaseGround.Widget.TextDateEdit();
             this.labDate = new System.Windows.Forms.Label();
             this.labKind = new System.Windows.Forms.Label();
             this.labData = new System.Windows.Forms.Label();
@@ -208,7 +208,7 @@
             // txtSDate
             // 
             this.txtSDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtSDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+            this.txtSDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
             this.txtSDate.EditValue = "2018/12";
             this.txtSDate.EnterMoveNextControl = true;
             this.txtSDate.Location = new System.Drawing.Point(113, 28);
@@ -223,7 +223,7 @@
             this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtSDate.Size = new System.Drawing.Size(100, 26);
             this.txtSDate.TabIndex = 0;
-            this.txtSDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtSDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // labDate
             // 
@@ -337,7 +337,7 @@
         private System.Windows.Forms.GroupBox panFilter;
         private DevExpress.XtraEditors.LookUpEdit ddlSubType;
         private System.Windows.Forms.Label labSubType;
-        private Widget.TextDateEdit txtSDate;
+        private BaseGround.Widget.TextDateEdit txtSDate;
         private System.Windows.Forms.Label labDate;
         private System.Windows.Forms.Label labMsg;
         private DevExpress.XtraGrid.GridControl gcMain;

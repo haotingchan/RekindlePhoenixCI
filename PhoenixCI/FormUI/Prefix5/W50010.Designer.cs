@@ -35,7 +35,7 @@
          this.label10 = new System.Windows.Forms.Label();
          this.MarketTime = new DevExpress.XtraEditors.LookUpEdit();
          this.label9 = new System.Windows.Forms.Label();
-         this.TxtDate = new PhoenixCI.Widget.TextDateEdit();
+         this.TxtDate = new BaseGround.Widget.TextDateEdit();
          this.label7 = new System.Windows.Forms.Label();
          this.Txt_prod_sort = new DevExpress.XtraEditors.TextEdit();
          this.label6 = new System.Windows.Forms.Label();
@@ -171,7 +171,7 @@
          // TxtDate
          // 
          this.TxtDate.DateTimeValue = new System.DateTime(((long)(0)));
-         this.TxtDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+         this.TxtDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.TxtDate.EditValue = "0001/1/1 上午 12:00:00";
          this.TxtDate.Location = new System.Drawing.Point(123, 203);
          this.TxtDate.MenuManager = this.ribbonControl;
@@ -181,7 +181,7 @@
          this.TxtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.TxtDate.Size = new System.Drawing.Size(100, 26);
          this.TxtDate.TabIndex = 13;
-         this.TxtDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
+         this.TxtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
          // 
          // label7
          // 
@@ -392,7 +392,7 @@
       private System.Windows.Forms.Label label10;
       private DevExpress.XtraEditors.LookUpEdit MarketTime;
       private System.Windows.Forms.Label label9;
-      private Widget.TextDateEdit TxtDate;
+      private BaseGround.Widget.TextDateEdit TxtDate;
       private System.Windows.Forms.Label label7;
       private DevExpress.XtraEditors.TextEdit Txt_prod_sort;
       private System.Windows.Forms.Label label6;

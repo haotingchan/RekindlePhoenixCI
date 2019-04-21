@@ -32,7 +32,7 @@
          this.stMsgTxt = new System.Windows.Forms.Label();
          this.gb1_label = new System.Windows.Forms.Label();
          this.gb_1 = new DevExpress.XtraEditors.PanelControl();
-         this.emDate = new PhoenixCI.Widget.TextDateEdit();
+         this.emDate = new BaseGround.Widget.TextDateEdit();
          this.stDate = new System.Windows.Forms.Label();
          this.textEdit1 = new DevExpress.XtraEditors.TextEdit();
          this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
@@ -126,7 +126,7 @@
          // emDate
          // 
          this.emDate.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
-         this.emDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+         this.emDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.emDate.EditValue = "2019/01/01";
          this.emDate.Location = new System.Drawing.Point(100, 33);
          this.emDate.Name = "emDate";
@@ -220,7 +220,7 @@
       private System.Windows.Forms.Label gb1_label;
       private DevExpress.XtraEditors.PanelControl gb_1;
       private DevExpress.XtraEditors.TextEdit textEdit1;
-      private PhoenixCI.Widget.TextDateEdit emDate;
+      private BaseGround.Widget.TextDateEdit emDate;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
       private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup1;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;

@@ -38,7 +38,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.txtYear = new PhoenixCI.Widget.TextDateEdit();
+            this.txtYear = new BaseGround.Widget.TextDateEdit();
             this.gcMain = new DevExpress.XtraGrid.GridControl();
             this.gvMain = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.INTWSE1_YMD = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -254,7 +254,7 @@
             // txtYear
             // 
             this.txtYear.DateTimeValue = new System.DateTime(((long)(0)));
-            this.txtYear.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Year;
+            this.txtYear.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Year;
             this.txtYear.EditValue = "0001/1/1 上午 12:00:00";
             this.txtYear.Location = new System.Drawing.Point(70, 25);
             this.txtYear.MenuManager = this.ribbonControl;
@@ -268,7 +268,7 @@
             this.txtYear.Properties.MaxLength = 4;
             this.txtYear.Size = new System.Drawing.Size(69, 26);
             this.txtYear.TabIndex = 13;
-            this.txtYear.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
+            this.txtYear.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
             // 
             // gcMain
             // 
@@ -479,7 +479,7 @@
         private DevExpress.XtraEditors.TextEdit txtPath2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private Widget.TextDateEdit txtYear;
+        private BaseGround.Widget.TextDateEdit txtYear;
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.Label label5;
         private DevExpress.XtraGrid.GridControl gcMain;

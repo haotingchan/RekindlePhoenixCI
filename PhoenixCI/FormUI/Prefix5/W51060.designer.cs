@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
-            this.txtYM = new PhoenixCI.Widget.TextDateEdit();
+            this.txtYM = new BaseGround.Widget.TextDateEdit();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -85,7 +85,7 @@
             // txtYM
             // 
             this.txtYM.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtYM.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtYM.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
             this.txtYM.EditValue = "2018/12";
             this.txtYM.EnterMoveNextControl = true;
             this.txtYM.Location = new System.Drawing.Point(59, 10);
@@ -98,7 +98,7 @@
             this.txtYM.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtYM.Size = new System.Drawing.Size(144, 26);
             this.txtYM.TabIndex = 16;
-            this.txtYM.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtYM.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // label3
             // 
@@ -342,6 +342,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn MMIQ_W_USER_ID;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit2;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit1;
-        private Widget.TextDateEdit txtYM;
+        private BaseGround.Widget.TextDateEdit txtYM;
     }
 }

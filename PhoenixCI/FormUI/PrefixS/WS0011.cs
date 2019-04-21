@@ -8,7 +8,7 @@ using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.XtraEditors;
 using BusinessObjects;
 using BaseGround.Report;
-using PhoenixCI.Widget;
+using BaseGround.Widget;
 
 namespace PhoenixCI.FormUI.PrefixS {
    public partial class WS0011 : FormParent {

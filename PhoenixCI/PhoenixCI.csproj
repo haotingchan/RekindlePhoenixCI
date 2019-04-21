@@ -1584,9 +1584,6 @@
     <Compile Include="Shared\ReportExportFunc.cs" />
     <Compile Include="Shared\ReturnMessageClass.cs" />
     <Compile Include="Widget\DropDownList.cs" />
-    <Compile Include="Widget\TextDateEdit.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <EmbeddedResource Include="FormUI\Prefix1\W10014.resx">
       <DependentUpon>W10014.cs</DependentUpon>
     </EmbeddedResource>

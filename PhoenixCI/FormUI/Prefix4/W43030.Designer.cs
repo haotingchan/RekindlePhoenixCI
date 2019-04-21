@@ -37,7 +37,7 @@
          this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
          this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
          this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
-         this.emDate = new PhoenixCI.Widget.TextDateEdit();
+         this.emDate = new BaseGround.Widget.TextDateEdit();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
          this.panelControl2.SuspendLayout();
@@ -170,7 +170,7 @@
          // emDate
          // 
          this.emDate.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
-         this.emDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+         this.emDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.emDate.EditValue = "2019/01/01";
          this.emDate.Location = new System.Drawing.Point(104, 34);
          this.emDate.Name = "emDate";
@@ -224,6 +224,6 @@
       private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup1;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
       private System.Windows.Forms.Label stDate;
-      private PhoenixCI.Widget.TextDateEdit emDate;
+      private BaseGround.Widget.TextDateEdit emDate;
    }
 }

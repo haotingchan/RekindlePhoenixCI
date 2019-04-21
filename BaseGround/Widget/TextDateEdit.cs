@@ -8,7 +8,7 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 
-namespace PhoenixCI.Widget {
+namespace BaseGround.Widget {
    [UserRepositoryItem("RegisterTextDateEdit")]
    public class RepositoryItemTextDateEdit : RepositoryItemTextEdit {
       static RepositoryItemTextDateEdit() {
@@ -159,6 +159,8 @@ namespace PhoenixCI.Widget {
          Year,
          Time
       };
+
+      protected override bool IsMatch => Text.AsDateTime(_TextFormat) == DateTime.MinValue ? false : true;
    }
 
    public class MaskDateEditViewInfo : TextEditViewInfo {
