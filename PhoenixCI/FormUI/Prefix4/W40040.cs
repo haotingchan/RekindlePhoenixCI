@@ -120,7 +120,9 @@ namespace PhoenixCI.FormUI.Prefix4
 
       private string OutputShowMessage {
          set {
-            if (value != MessageDisplay.MSG_OK)
+            if (value == MessageDisplay.MSG_NO_DATA) {
+               value = MessageDisplay.MSG_NO_DATA;
+            }else if (value != MessageDisplay.MSG_OK)
                MessageDisplay.Info(value);
          }
       }
