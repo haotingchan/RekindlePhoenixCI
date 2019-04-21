@@ -1,4 +1,5 @@
-﻿using BusinessObjects;
+﻿using PhoenixCI.BusinessLogic.Prefix4;
+using BusinessObjects;
 using Common.Config;
 using DataObjects;
 using DataObjects.Dao.Together.SpecificDao;
@@ -30,14 +31,29 @@ namespace PhoenixCI.BusinessLogic.Prefix4.Tests
       [TestInitialize]
       public void Setup()
       {
-         b40040 = new B40040(destinationFilePath, "2018/10/12", "1%");
+         b40040 = new B40040(destinationFilePath, "2018/10/12", "%");
       }
 
       [TestMethod()]
-      public void Wf40040Test()
+      public void Wf40040_Test()
       {
          string msgText = b40040.Wf40040();
          Assert.IsNotNull(msgText);
       }
+
+      [TestMethod()]
+      public void Wf40040ETF_Test()
+      {
+         string msgText = b40040.Wf40040ETF();
+         Assert.IsNotNull(msgText);
+      }
+
+      [TestMethod()]
+      public void Wf40040SPAN_Test()
+      {
+         string msgText = b40040.Wf40040SPAN();
+         Assert.IsNotNull(msgText);
+      }
+
    }
 }
