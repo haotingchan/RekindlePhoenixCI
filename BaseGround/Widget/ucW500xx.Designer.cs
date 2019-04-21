@@ -7,7 +7,7 @@
 
       #endregion
       protected DevExpress.XtraEditors.PanelControl _r_input;
-      protected System.Windows.Forms.GroupBox _gb;
+      protected System.Windows.Forms.GroupBox _ReportType;
       protected DevExpress.XtraLayout.LayoutControl layoutControl2;
       protected DevExpress.XtraEditors.TextEdit _em_edate;
       protected DevExpress.XtraEditors.TextEdit _em_sdate;
@@ -24,13 +24,13 @@
       protected DevExpress.XtraLayout.LayoutControlItem _st_month;
       protected DevExpress.XtraEditors.RadioGroup _gb_report_type;
       protected DevExpress.XtraEditors.LabelControl _st_msg_txt;
-      protected System.Windows.Forms.GroupBox _gb4;
+      protected System.Windows.Forms.GroupBox _PrintSort;
       protected DevExpress.XtraEditors.RadioGroup _gb_print_sort;
-      protected System.Windows.Forms.GroupBox _gb3;
+      protected System.Windows.Forms.GroupBox _DetialGrp;
       protected DevExpress.XtraEditors.RadioGroup _gb_detial;
-      protected System.Windows.Forms.GroupBox _gb2;
+      protected System.Windows.Forms.GroupBox _Grp;
       protected DevExpress.XtraEditors.RadioGroup _gb_group;
-      protected System.Windows.Forms.GroupBox _gb1;
+      protected System.Windows.Forms.GroupBox _MarketGrp;
       protected DevExpress.XtraEditors.RadioGroup _gb_market;
       protected DevExpress.XtraDataLayout.DataLayoutControl dataLayoutControl2;
       public System.Windows.Forms.BindingSource aBRKBindingSource;
