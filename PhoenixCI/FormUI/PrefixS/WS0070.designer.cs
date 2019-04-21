@@ -32,8 +32,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.txtEndDate = new PhoenixCI.Widget.TextDateEdit();
-            this.txtStartDate = new PhoenixCI.Widget.TextDateEdit();
+            this.txtEndDate = new BaseGround.Widget.TextDateEdit();
+            this.txtStartDate = new BaseGround.Widget.TextDateEdit();
             this.lbl1 = new System.Windows.Forms.Label();
             this.labDate = new System.Windows.Forms.Label();
             this.panelControl3 = new DevExpress.XtraEditors.PanelControl();
@@ -183,7 +183,7 @@
             // txtEndDate
             // 
             this.txtEndDate.DateTimeValue = new System.DateTime(((long)(0)));
-            this.txtEndDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
             this.txtEndDate.EditValue = "0001/1/1 上午 12:00:00";
             this.txtEndDate.Location = new System.Drawing.Point(257, 6);
             this.txtEndDate.Name = "txtEndDate";
@@ -196,12 +196,12 @@
             this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtEndDate.Size = new System.Drawing.Size(100, 26);
             this.txtEndDate.TabIndex = 22;
-            this.txtEndDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // txtStartDate
             // 
             this.txtStartDate.DateTimeValue = new System.DateTime(((long)(0)));
-            this.txtStartDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtStartDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
             this.txtStartDate.EditValue = "0001/1/1 上午 12:00:00";
             this.txtStartDate.Location = new System.Drawing.Point(130, 6);
             this.txtStartDate.Name = "txtStartDate";
@@ -214,7 +214,7 @@
             this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtStartDate.Size = new System.Drawing.Size(100, 26);
             this.txtStartDate.TabIndex = 19;
-            this.txtStartDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // lbl1
             // 
@@ -641,8 +641,8 @@
         private System.Windows.Forms.Label LabEXAccount;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private Widget.TextDateEdit txtEndDate;
-        private Widget.TextDateEdit txtStartDate;
+        private BaseGround.Widget.TextDateEdit txtEndDate;
+        private BaseGround.Widget.TextDateEdit txtStartDate;
         private System.Windows.Forms.Label lbl1;
         private System.Windows.Forms.Label labDate;
         private System.Windows.Forms.Label LabPressTest;

@@ -30,8 +30,8 @@
         {
             this.lblDate = new System.Windows.Forms.Label();
             this.grpxDescription = new System.Windows.Forms.GroupBox();
-            this.txtEndMonth = new PhoenixCI.Widget.TextDateEdit();
-            this.txtStartMonth = new PhoenixCI.Widget.TextDateEdit();
+            this.txtEndMonth = new BaseGround.Widget.TextDateEdit();
+            this.txtStartMonth = new BaseGround.Widget.TextDateEdit();
             this.lbl1 = new System.Windows.Forms.Label();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
@@ -76,7 +76,7 @@
             // txtEndMonth
             // 
             this.txtEndMonth.DateTimeValue = new System.DateTime(((long)(0)));
-            this.txtEndMonth.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+            this.txtEndMonth.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
             this.txtEndMonth.EditValue = "0001/1/1 上午 12:00:00";
             this.txtEndMonth.Location = new System.Drawing.Point(233, 43);
             this.txtEndMonth.MenuManager = this.ribbonControl;
@@ -86,12 +86,12 @@
             this.txtEndMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtEndMonth.Size = new System.Drawing.Size(100, 26);
             this.txtEndMonth.TabIndex = 13;
-            this.txtEndMonth.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtEndMonth.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // txtStartMonth
             // 
             this.txtStartMonth.DateTimeValue = new System.DateTime(((long)(0)));
-            this.txtStartMonth.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+            this.txtStartMonth.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
             this.txtStartMonth.EditValue = "0001/1/1 上午 12:00:00";
             this.txtStartMonth.Location = new System.Drawing.Point(100, 43);
             this.txtStartMonth.MenuManager = this.ribbonControl;
@@ -101,7 +101,7 @@
             this.txtStartMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtStartMonth.Size = new System.Drawing.Size(100, 26);
             this.txtStartMonth.TabIndex = 12;
-            this.txtStartMonth.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtStartMonth.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // lbl1
             // 
@@ -134,8 +134,8 @@
         #endregion
         private System.Windows.Forms.Label lblDate;
         private System.Windows.Forms.GroupBox grpxDescription;
-        private Widget.TextDateEdit txtEndMonth;
-        private Widget.TextDateEdit txtStartMonth;
+        private BaseGround.Widget.TextDateEdit txtEndMonth;
+        private BaseGround.Widget.TextDateEdit txtStartMonth;
         private System.Windows.Forms.Label lbl1;
     }
 }

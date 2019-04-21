@@ -28,8 +28,8 @@
             this.gcMain = new DevExpress.XtraGrid.GridControl();
             this.gvMain = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.label2 = new System.Windows.Forms.Label();
-            this.txtDate = new PhoenixCI.Widget.TextDateEdit();
-            this.txtProdDate = new PhoenixCI.Widget.TextDateEdit();
+            this.txtDate = new BaseGround.Widget.TextDateEdit();
+            this.txtProdDate = new BaseGround.Widget.TextDateEdit();
             this.label3 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -141,7 +141,7 @@
             // txtDate
             // 
             this.txtDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+            this.txtDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
             this.txtDate.EditValue = "2018/12";
             this.txtDate.EnterMoveNextControl = true;
             this.txtDate.Location = new System.Drawing.Point(138, 28);
@@ -154,12 +154,12 @@
             this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtDate.Size = new System.Drawing.Size(105, 26);
             this.txtDate.TabIndex = 21;
-            this.txtDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // txtProdDate
             // 
             this.txtProdDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtProdDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+            this.txtProdDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
             this.txtProdDate.EditValue = "2018/12";
             this.txtProdDate.EnterMoveNextControl = true;
             this.txtProdDate.Location = new System.Drawing.Point(622, 28);
@@ -172,7 +172,7 @@
             this.txtProdDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtProdDate.Size = new System.Drawing.Size(105, 26);
             this.txtProdDate.TabIndex = 23;
-            this.txtProdDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtProdDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // label3
             // 
@@ -392,8 +392,8 @@
         private DevExpress.XtraGrid.GridControl gcMain;
         private DevExpress.XtraGrid.Views.Grid.GridView gvMain;
         private System.Windows.Forms.Label label2;
-        private Widget.TextDateEdit txtDate;
-        private Widget.TextDateEdit txtProdDate;
+        private BaseGround.Widget.TextDateEdit txtDate;
+        private BaseGround.Widget.TextDateEdit txtProdDate;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label1;

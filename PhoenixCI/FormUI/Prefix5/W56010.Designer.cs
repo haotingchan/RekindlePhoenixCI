@@ -31,8 +31,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.lblCondition = new System.Windows.Forms.Label();
             this.lblFCM = new System.Windows.Forms.Label();
-            this.txtToMonth = new PhoenixCI.Widget.TextDateEdit();
-            this.txtFromMonth = new PhoenixCI.Widget.TextDateEdit();
+            this.txtToMonth = new BaseGround.Widget.TextDateEdit();
+            this.txtFromMonth = new BaseGround.Widget.TextDateEdit();
             this.label1 = new System.Windows.Forms.Label();
             this.lblDate = new System.Windows.Forms.Label();
             this.lblProcessing = new System.Windows.Forms.Label();
@@ -157,7 +157,7 @@
             // txtToMonth
             // 
             this.txtToMonth.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtToMonth.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+            this.txtToMonth.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
             this.txtToMonth.EditValue = "2018/12";
             this.txtToMonth.EnterMoveNextControl = true;
             this.txtToMonth.Location = new System.Drawing.Point(272, 43);
@@ -170,12 +170,12 @@
             this.txtToMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtToMonth.Size = new System.Drawing.Size(100, 26);
             this.txtToMonth.TabIndex = 8;
-            this.txtToMonth.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtToMonth.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // txtFromMonth
             // 
             this.txtFromMonth.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtFromMonth.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+            this.txtFromMonth.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
             this.txtFromMonth.EditValue = "2018/12";
             this.txtFromMonth.EnterMoveNextControl = true;
             this.txtFromMonth.Location = new System.Drawing.Point(135, 43);
@@ -188,7 +188,7 @@
             this.txtFromMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtFromMonth.Size = new System.Drawing.Size(100, 26);
             this.txtFromMonth.TabIndex = 7;
-            this.txtFromMonth.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtFromMonth.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // label1
             // 
@@ -255,8 +255,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lblCondition;
         private System.Windows.Forms.Label lblFCM;
-        private Widget.TextDateEdit txtToMonth;
-        private Widget.TextDateEdit txtFromMonth;
+        private BaseGround.Widget.TextDateEdit txtToMonth;
+        private BaseGround.Widget.TextDateEdit txtFromMonth;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblDate;
         private System.Windows.Forms.Label lblProcessing;

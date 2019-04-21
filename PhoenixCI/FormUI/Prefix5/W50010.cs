@@ -170,7 +170,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
          }
 
          gvMain.ColumnPanelRowHeight = 40;
-         gvMain.AppearancePrint.Row.Font = new System.Drawing.Font("Microsoft YaHei", 10);
          gvMain.OptionsView.AllowCellMerge = true;
          gvMain.BestFitColumns();
 
@@ -178,6 +177,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
          _ToolBtnPrintAll.Enabled = true;
 
          GridHelper.SetCommonGrid(gvMain);
+
+         gvMain.AppearancePrint.Row.Font = new System.Drawing.Font("Microsoft YaHei", 9);
+
          gcMain.Visible = true;
          return ResultStatus.Success;
       }
@@ -195,7 +197,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
                gvExport.SetColumnCaption(dc.ColumnName, exportColCaption[dtTarget.Columns.IndexOf(dc)]);
             }
 
-            gvExport.Columns["AMMD_RESULT"].DisplayFormat.FormatString = "n2";
+            gvExport.Columns["AMMD_RESULT"].DisplayFormat.FormatType = FormatType.Numeric;
+            gvExport.Columns["AMMD_RESULT"].DisplayFormat.FormatString = "d2";
             gvExport.Columns["AMMD_W_TIME"].DisplayFormat.FormatString = "yyyy/MM/dd HH:mm";
             gvExport.Columns["AMMD_R_TIME"].DisplayFormat.FormatString = "yyyy/MM/dd HH:mm";
             gvExport.Columns["AMMD_M_TIME"].DisplayFormat.FormatString = "yyyy/MM/dd HH:mm";
@@ -216,7 +219,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             ReportHelper _ReportHelper = new ReportHelper(gcMain, _ProgramID, this.Text);
             CommonReportLandscapeA4 reportLandscape = new CommonReportLandscapeA4();//設定為橫向列印
             reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
-            // _ReportHelper.LeftMemo = labTime.Text;
+            _ReportHelper.LeftMemo = GenPrintMemo();
             reportLandscape.IsHandlePersonVisible = false;
             reportLandscape.IsManagerVisible = false;
             _ReportHelper.Create(reportLandscape);
@@ -256,6 +259,21 @@ namespace PhoenixCI.FormUI.Prefix5 {
          Prod_ct.EditValue = " ";
          Kind_id_st.EditValue = " ";
          Kind_id_O.EditValue = " ";
+      }
+
+      private string GenPrintMemo() {
+         string fcm = "造市者:" + Fcm_SNo.EditValue.AsString() + "~" + Fcm_ENo.EditValue.AsString();
+
+         string prodGroup = string.IsNullOrEmpty(Prod_ct.EditValue.AsString()) ? "" : "商品群組:" + Prod_ct.EditValue.AsString()+",";
+         string prodCt = string.IsNullOrEmpty(Kind_id_O.EditValue.AsString()) ? "" : "造市商品:" + Kind_id_O.EditValue.AsString() + ",";
+         string kindIdSt = string.IsNullOrEmpty(Kind_id_st.EditValue.AsString()) ? "" : "二碼商品:" + Kind_id_st.EditValue.AsString() + ",";
+         string marketTime = string.IsNullOrEmpty(MarketTime.EditValue.AsString()) ? "" : MarketTime.Text + "交易時段,";
+         string prodId = string.IsNullOrEmpty(Txt_prod_sort.EditValue.AsString()) ? "" : "商品序列:" + Txt_prod_sort.EditValue.AsString() + ",";
+
+         string printMemo = "報表條件: " + prodGroup + prodCt + kindIdSt + marketTime + prodId;
+         printMemo = printMemo.TrimEnd(',');
+
+         return printMemo;
       }
    }
 }

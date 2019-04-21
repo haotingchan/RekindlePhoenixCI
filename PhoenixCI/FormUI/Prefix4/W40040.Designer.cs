@@ -39,7 +39,7 @@
          this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
          this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
          this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
-         this.emDate = new PhoenixCI.Widget.TextDateEdit();
+         this.emDate = new BaseGround.Widget.TextDateEdit();
          this.gp1Label = new System.Windows.Forms.Label();
          this.gp2Label = new System.Windows.Forms.Label();
          this.gp3Label = new System.Windows.Forms.Label();
@@ -203,7 +203,7 @@
          // emDate
          // 
          this.emDate.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
-         this.emDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+         this.emDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.emDate.EditValue = "2019/01/01";
          this.emDate.Location = new System.Drawing.Point(98, 34);
          this.emDate.Name = "emDate";
@@ -214,7 +214,7 @@
          this.emDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.emDate.Size = new System.Drawing.Size(95, 28);
          this.emDate.TabIndex = 4;
-         this.emDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
+         this.emDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
          // 
          // gp1Label
          // 
@@ -305,7 +305,7 @@
       private System.Windows.Forms.Label stDate;
       private System.Windows.Forms.Label stOswGrp;
       private DevExpress.XtraEditors.LookUpEdit oswGrpLookItem;
-      private Widget.TextDateEdit emDate;
+      private BaseGround.Widget.TextDateEdit emDate;
       private System.Windows.Forms.Label allLabel;
       private System.Windows.Forms.Label gp3Label;
       private System.Windows.Forms.Label gp2Label;

@@ -8,7 +8,7 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 
-namespace PhoenixCI.Widget {
+namespace BaseGround.Widget {
    [UserRepositoryItem("RegisterTextDateEdit")]
    public class RepositoryItemTextDateEdit : RepositoryItemTextEdit {
       static RepositoryItemTextDateEdit() {
@@ -18,9 +18,10 @@ namespace PhoenixCI.Widget {
       public const string CustomEditName = "TextDateEdit";
 
       public RepositoryItemTextDateEdit() {
-         Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-         Mask.EditMask = "yyyy/MM/dd";
+         Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
          Mask.UseMaskAsDisplayFormat = true;
+         Mask.ShowPlaceHolders = false;
          Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
       }
 
@@ -51,8 +52,8 @@ namespace PhoenixCI.Widget {
       }
 
       public TextDateEdit() {
-         _TextFormat = "yyyy/MM/dd";
-         _DateType = DateTypeItem.Date;
+         //_TextFormat = "yyyy/MM/dd";
+         //_DateType = DateTypeItem.Date;
       }
 
       [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
@@ -67,30 +68,31 @@ namespace PhoenixCI.Widget {
             _DateType = value;
             switch (value) {
                case DateTypeItem.Date:
-                  Properties.Mask.EditMask = "yyyy/MM/dd";
-                  Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+                  Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+                  Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
                   Properties.MaxLength = 0;
+                  _TextFormat = "yyyy/MM/dd";
                   break;
 
                case DateTypeItem.Month:
-                  Properties.Mask.EditMask = "yyyy/MM";
-                  Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+                  Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])";
+                  Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
                   Properties.MaxLength = 0;
+                  _TextFormat = "yyyy/MM";
                   break;
 
                case DateTypeItem.Year:
-                  Properties.Mask.EditMask = "0000";
-                  Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Simple;
-                  Properties.Mask.PlaceHolder = '0';
+                  Properties.Mask.EditMask = "[1-9]\\d{3}";
+                  Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
                   Properties.MaxLength = 4;
+                  _TextFormat = "yyyy";
                   break;
-               case DateTypeItem.Time:
-                  Properties.Mask.EditMask = "HH:mm:ss";
-                  Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-                  Properties.MaxLength = 0;
-                  break;
+                  //case DateTypeItem.Time:
+                  //   Properties.Mask.EditMask = "HH:mm:ss";
+                  //   Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+                  //   Properties.MaxLength = 0;
+                  //   break;
             }
-            _TextFormat = Properties.Mask.EditMask;
          }
       }
 
@@ -102,15 +104,15 @@ namespace PhoenixCI.Widget {
          get => _TextMaskFormat;
          set {
             _TextMaskFormat = value;
-            switch (value) {
-               case TextMaskFormatItem.IncludePrompt:
-                  _TextFormat = Properties.Mask.EditMask.Replace(@"/", "").Replace(":", "");
-                  break;
+            //switch (value) {
+            //   case TextMaskFormatItem.IncludePrompt:
+            //      _TextFormat = Properties.Mask.EditMask.Replace(@"/", "").Replace(":", "");
+            //      break;
 
-               case TextMaskFormatItem.IncludePromptAndLiterals:
-                  _TextFormat = Properties.Mask.EditMask;
-                  break;
-            }
+            //   case TextMaskFormatItem.IncludePromptAndLiterals:
+            //      _TextFormat = Properties.Mask.EditMask;
+            //      break;
+            //}
          }
       }
 
@@ -134,15 +136,15 @@ namespace PhoenixCI.Widget {
             //} else if (DateType == DateTypeItem.Month) {
             //   text = text + "/01";
             //}
-            return Text.AsDateTime(Properties.Mask.EditMask);//string.IsNullOrEmpty(Text) ? new DateTime() : text.AsDateTime("yyyy/MM/dd");
+            return Text.AsDateTime(_TextFormat);//string.IsNullOrEmpty(Text) ? new DateTime() : text.AsDateTime("yyyy/MM/dd");
          }
          set {
             _DateTimeValue = value;
-            if (DateType == DateTypeItem.Year) {
-               Text = _DateTimeValue.ToString("yyyy");
-            } else {
-               Text = _DateTimeValue.ToString(Properties.Mask.EditMask);
-            }
+            //if (DateType == DateTypeItem.Year) {
+            //   Text = _DateTimeValue.ToString("yyyy");
+            //} else {
+            Text = _DateTimeValue.ToString(_TextFormat);
+            //}
          }
       }
 
@@ -157,6 +159,8 @@ namespace PhoenixCI.Widget {
          Year,
          Time
       };
+
+      protected override bool IsMatch => Text.AsDateTime(_TextFormat) == DateTime.MinValue ? false : true;
    }
 
    public class MaskDateEditViewInfo : TextEditViewInfo {
@@ -168,6 +172,5 @@ namespace PhoenixCI.Widget {
       public MaskDateEditPainter() {
       }
    }
-
 
 }

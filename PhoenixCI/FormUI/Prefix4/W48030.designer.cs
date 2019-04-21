@@ -26,7 +26,7 @@
             this.panFirst = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnFirstFilter = new System.Windows.Forms.Button();
-            this.txtEndDate = new PhoenixCI.Widget.TextDateEdit();
+            this.txtEndDate = new BaseGround.Widget.TextDateEdit();
             this.labEndDate = new System.Windows.Forms.Label();
             this.labMsg = new System.Windows.Forms.Label();
             this.panFilter = new System.Windows.Forms.GroupBox();
@@ -133,7 +133,7 @@
             // txtEndDate
             // 
             this.txtEndDate.DateTimeValue = new System.DateTime(((long)(0)));
-            this.txtEndDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+            this.txtEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
             this.txtEndDate.EditValue = "";
             this.txtEndDate.EnterMoveNextControl = true;
             this.txtEndDate.Location = new System.Drawing.Point(105, 27);
@@ -147,7 +147,7 @@
             this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtEndDate.Size = new System.Drawing.Size(121, 26);
             this.txtEndDate.TabIndex = 0;
-            this.txtEndDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             this.txtEndDate.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtEndDate_KeyDown);
             // 
             // labEndDate
@@ -590,7 +590,7 @@
         #endregion
 
         private System.Windows.Forms.GroupBox panFirst;
-        private Widget.TextDateEdit txtEndDate;
+        private BaseGround.Widget.TextDateEdit txtEndDate;
         private System.Windows.Forms.Label labEndDate;
         private System.Windows.Forms.Label labMsg;
         private System.Windows.Forms.GroupBox panFilter;

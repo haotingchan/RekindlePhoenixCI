@@ -69,7 +69,7 @@ namespace DataObjects.Dao.Together.SpecificDao {
             };
 
          string sql = string.Format(@"  SELECT AMMD_BRK_NO, 
-            AMMD_ACC_NO, BRK_ABBR_NAME, 
+            BRK_ABBR_NAME,AMMD_ACC_NO, 
           AMMD_PROD_TYPE,
         TRIM(AMMD_PROD_ID) as AMMD_PROD_ID,   
          AMMD_W_TIME,   
@@ -130,7 +130,7 @@ namespace DataObjects.Dao.Together.SpecificDao {
             };
 
          string sql = string.Format(@"  SELECT AMMD_BRK_NO, 
-            AMMD_ACC_NO, BRK_ABBR_NAME, 
+            BRK_ABBR_NAME, AMMD_ACC_NO,  
           AMMD_PROD_TYPE,
         TRIM(AMMD_PROD_ID) as AMMD_PROD_ID,   
          AMMD_W_TIME,   
@@ -173,6 +173,7 @@ namespace DataObjects.Dao.Together.SpecificDao {
          {0}
          {1}
          {2}
+         {3}
          {4}
          order by cp_group1 , cp_group2 , ammd_w_time)",
          queryArgs.ParamKey, queryArgs.KindIdSt, queryArgs.KindIdO, queryArgs.FcmRange, queryArgs.ProdSort);
