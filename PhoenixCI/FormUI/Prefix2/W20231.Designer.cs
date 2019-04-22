@@ -24,39 +24,39 @@
         /// </summary>
         private void InitializeComponent() {
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
+            this.btnAdd = new System.Windows.Forms.Button();
+            this.btnCopy = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtProdDate = new BaseGround.Widget.TextDateEdit();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtDate = new BaseGround.Widget.TextDateEdit();
             this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
             this.gcMain = new DevExpress.XtraGrid.GridControl();
             this.gvMain = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtDate = new BaseGround.Widget.TextDateEdit();
-            this.txtProdDate = new BaseGround.Widget.TextDateEdit();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.btnCopy = new System.Windows.Forms.Button();
-            this.btnAdd = new System.Windows.Forms.Button();
+            this.COMPUTE_1 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.PLS4_YMD = new DevExpress.XtraGrid.Columns.GridColumn();
             this.PLS4_SID = new DevExpress.XtraGrid.Columns.GridColumn();
             this.PLS4_KIND_ID2 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.PLS4_YMD = new DevExpress.XtraGrid.Columns.GridColumn();
             this.PLS4_FUT = new DevExpress.XtraGrid.Columns.GridColumn();
             this.PLS4_OPT = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.PLS4_STATUS_CODE = new DevExpress.XtraGrid.Columns.GridColumn();
             this.PLS4_PDK_YMD = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.PLS4_PID = new DevExpress.XtraGrid.Columns.GridColumn();
             this.PLS4_W_TIME = new DevExpress.XtraGrid.Columns.GridColumn();
             this.PLS4_W_USER_ID = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.PLS4_STATUS_CODE = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.PLS4_PID = new DevExpress.XtraGrid.Columns.GridColumn();
             this.APDK_KIND_GRP2 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.COMPUTE_1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Is_NewRow = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtProdDate.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
             this.panelControl2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtProdDate.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // panParent
@@ -84,6 +84,102 @@
             this.panelControl1.Name = "panelControl1";
             this.panelControl1.Size = new System.Drawing.Size(1069, 110);
             this.panelControl1.TabIndex = 0;
+            // 
+            // btnAdd
+            // 
+            this.btnAdd.Location = new System.Drawing.Point(251, 62);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(118, 31);
+            this.btnAdd.TabIndex = 29;
+            this.btnAdd.Text = "新增個股契約";
+            this.btnAdd.UseVisualStyleBackColor = true;
+            // 
+            // btnCopy
+            // 
+            this.btnCopy.Location = new System.Drawing.Point(733, 26);
+            this.btnCopy.Name = "btnCopy";
+            this.btnCopy.Size = new System.Drawing.Size(118, 31);
+            this.btnCopy.TabIndex = 27;
+            this.btnCopy.Text = "複製全部個股";
+            this.btnCopy.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
+            this.label1.ForeColor = System.Drawing.Color.Red;
+            this.label1.Location = new System.Drawing.Point(618, 67);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(182, 21);
+            this.label1.TabIndex = 26;
+            this.label1.Text = "(轉入商品時一定要輸入)";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
+            this.label5.ForeColor = System.Drawing.Color.Blue;
+            this.label5.Location = new System.Drawing.Point(43, 67);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(202, 21);
+            this.label5.TabIndex = 25;
+            this.label5.Text = "新上市股票期貨，需先執行";
+            // 
+            // txtProdDate
+            // 
+            this.txtProdDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+            this.txtProdDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtProdDate.EditValue = "2018/12/01";
+            this.txtProdDate.EnterMoveNextControl = true;
+            this.txtProdDate.Location = new System.Drawing.Point(622, 28);
+            this.txtProdDate.MenuManager = this.ribbonControl;
+            this.txtProdDate.Name = "txtProdDate";
+            this.txtProdDate.Properties.Appearance.Options.UseTextOptions = true;
+            this.txtProdDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtProdDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+            this.txtProdDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtProdDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+            this.txtProdDate.Size = new System.Drawing.Size(105, 26);
+            this.txtProdDate.TabIndex = 23;
+            this.txtProdDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
+            this.label3.Location = new System.Drawing.Point(375, 31);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(241, 21);
+            this.label3.TabIndex = 24;
+            this.label3.Text = "比對期貨/選擇權商品基準日期：";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
+            this.label2.Location = new System.Drawing.Point(43, 31);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(90, 21);
+            this.label2.TabIndex = 22;
+            this.label2.Text = "計算日期：";
+            // 
+            // txtDate
+            // 
+            this.txtDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+            this.txtDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtDate.EditValue = "2018/12/01";
+            this.txtDate.EnterMoveNextControl = true;
+            this.txtDate.Location = new System.Drawing.Point(138, 28);
+            this.txtDate.MenuManager = this.ribbonControl;
+            this.txtDate.Name = "txtDate";
+            this.txtDate.Properties.Appearance.Options.UseTextOptions = true;
+            this.txtDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+            this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+            this.txtDate.Size = new System.Drawing.Size(105, 26);
+            this.txtDate.TabIndex = 21;
+            this.txtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // panelControl2
             // 
@@ -128,101 +224,29 @@
             this.gvMain.Name = "gvMain";
             this.gvMain.OptionsView.ShowGroupPanel = false;
             // 
-            // label2
+            // COMPUTE_1
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
-            this.label2.Location = new System.Drawing.Point(43, 31);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(90, 21);
-            this.label2.TabIndex = 22;
-            this.label2.Text = "計算日期：";
+            this.COMPUTE_1.AppearanceHeader.BackColor = System.Drawing.Color.Transparent;
+            this.COMPUTE_1.AppearanceHeader.Options.UseBackColor = true;
+            this.COMPUTE_1.AppearanceHeader.Options.UseTextOptions = true;
+            this.COMPUTE_1.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.COMPUTE_1.Caption = "流水號";
+            this.COMPUTE_1.FieldName = "COMPUTE_1";
+            this.COMPUTE_1.Name = "COMPUTE_1";
+            this.COMPUTE_1.Visible = true;
+            this.COMPUTE_1.VisibleIndex = 0;
             // 
-            // txtDate
+            // PLS4_YMD
             // 
-            this.txtDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
-            this.txtDate.EditValue = "2018/12";
-            this.txtDate.EnterMoveNextControl = true;
-            this.txtDate.Location = new System.Drawing.Point(138, 28);
-            this.txtDate.MenuManager = this.ribbonControl;
-            this.txtDate.Name = "txtDate";
-            this.txtDate.Properties.Appearance.Options.UseTextOptions = true;
-            this.txtDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.txtDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-            this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-            this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtDate.Size = new System.Drawing.Size(105, 26);
-            this.txtDate.TabIndex = 21;
-            this.txtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-            // 
-            // txtProdDate
-            // 
-            this.txtProdDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtProdDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
-            this.txtProdDate.EditValue = "2018/12";
-            this.txtProdDate.EnterMoveNextControl = true;
-            this.txtProdDate.Location = new System.Drawing.Point(622, 28);
-            this.txtProdDate.MenuManager = this.ribbonControl;
-            this.txtProdDate.Name = "txtProdDate";
-            this.txtProdDate.Properties.Appearance.Options.UseTextOptions = true;
-            this.txtProdDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.txtProdDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-            this.txtProdDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-            this.txtProdDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtProdDate.Size = new System.Drawing.Size(105, 26);
-            this.txtProdDate.TabIndex = 23;
-            this.txtProdDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
-            this.label3.Location = new System.Drawing.Point(375, 31);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(241, 21);
-            this.label3.TabIndex = 24;
-            this.label3.Text = "比對期貨/選擇權商品基準日期：";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
-            this.label5.ForeColor = System.Drawing.Color.Blue;
-            this.label5.Location = new System.Drawing.Point(43, 67);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(202, 21);
-            this.label5.TabIndex = 25;
-            this.label5.Text = "新上市股票期貨，需先執行";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
-            this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Location = new System.Drawing.Point(618, 67);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(182, 21);
-            this.label1.TabIndex = 26;
-            this.label1.Text = "(轉入商品時一定要輸入)";
-            // 
-            // btnCopy
-            // 
-            this.btnCopy.Location = new System.Drawing.Point(733, 26);
-            this.btnCopy.Name = "btnCopy";
-            this.btnCopy.Size = new System.Drawing.Size(118, 31);
-            this.btnCopy.TabIndex = 27;
-            this.btnCopy.Text = "複製全部個股";
-            this.btnCopy.UseVisualStyleBackColor = true;
-            // 
-            // btnAdd
-            // 
-            this.btnAdd.Location = new System.Drawing.Point(251, 62);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(118, 31);
-            this.btnAdd.TabIndex = 29;
-            this.btnAdd.Text = "新增個股契約";
-            this.btnAdd.UseVisualStyleBackColor = true;
+            this.PLS4_YMD.AppearanceHeader.BackColor = System.Drawing.Color.Transparent;
+            this.PLS4_YMD.AppearanceHeader.Options.UseBackColor = true;
+            this.PLS4_YMD.AppearanceHeader.Options.UseTextOptions = true;
+            this.PLS4_YMD.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.PLS4_YMD.Caption = "計算日期";
+            this.PLS4_YMD.FieldName = "PLS4_YMD";
+            this.PLS4_YMD.Name = "PLS4_YMD";
+            this.PLS4_YMD.Visible = true;
+            this.PLS4_YMD.VisibleIndex = 1;
             // 
             // PLS4_SID
             // 
@@ -248,18 +272,6 @@
             this.PLS4_KIND_ID2.Visible = true;
             this.PLS4_KIND_ID2.VisibleIndex = 3;
             // 
-            // PLS4_YMD
-            // 
-            this.PLS4_YMD.AppearanceHeader.BackColor = System.Drawing.Color.Transparent;
-            this.PLS4_YMD.AppearanceHeader.Options.UseBackColor = true;
-            this.PLS4_YMD.AppearanceHeader.Options.UseTextOptions = true;
-            this.PLS4_YMD.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.PLS4_YMD.Caption = "計算日期";
-            this.PLS4_YMD.FieldName = "PLS4_YMD";
-            this.PLS4_YMD.Name = "PLS4_YMD";
-            this.PLS4_YMD.Visible = true;
-            this.PLS4_YMD.VisibleIndex = 1;
-            // 
             // PLS4_FUT
             // 
             this.PLS4_FUT.AppearanceHeader.BackColor = System.Drawing.Color.Aqua;
@@ -284,30 +296,6 @@
             this.PLS4_OPT.Visible = true;
             this.PLS4_OPT.VisibleIndex = 5;
             // 
-            // PLS4_PDK_YMD
-            // 
-            this.PLS4_PDK_YMD.AppearanceHeader.BackColor = System.Drawing.Color.Aqua;
-            this.PLS4_PDK_YMD.AppearanceHeader.Options.UseBackColor = true;
-            this.PLS4_PDK_YMD.AppearanceHeader.Options.UseTextOptions = true;
-            this.PLS4_PDK_YMD.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.PLS4_PDK_YMD.Caption = "商品比對日期";
-            this.PLS4_PDK_YMD.FieldName = "PLS4_PDK_YMD";
-            this.PLS4_PDK_YMD.Name = "PLS4_PDK_YMD";
-            this.PLS4_PDK_YMD.Visible = true;
-            this.PLS4_PDK_YMD.VisibleIndex = 8;
-            // 
-            // PLS4_W_TIME
-            // 
-            this.PLS4_W_TIME.Caption = "PLS4_W_TIME";
-            this.PLS4_W_TIME.FieldName = "PLS4_W_TIME";
-            this.PLS4_W_TIME.Name = "PLS4_W_TIME";
-            // 
-            // PLS4_W_USER_ID
-            // 
-            this.PLS4_W_USER_ID.Caption = "PLS4_W_USER_ID";
-            this.PLS4_W_USER_ID.FieldName = "PLS4_W_USER_ID";
-            this.PLS4_W_USER_ID.Name = "PLS4_W_USER_ID";
-            // 
             // PLS4_STATUS_CODE
             // 
             this.PLS4_STATUS_CODE.AppearanceHeader.BackColor = System.Drawing.Color.Aqua;
@@ -319,6 +307,18 @@
             this.PLS4_STATUS_CODE.Name = "PLS4_STATUS_CODE";
             this.PLS4_STATUS_CODE.Visible = true;
             this.PLS4_STATUS_CODE.VisibleIndex = 6;
+            // 
+            // PLS4_PDK_YMD
+            // 
+            this.PLS4_PDK_YMD.AppearanceHeader.BackColor = System.Drawing.Color.Aqua;
+            this.PLS4_PDK_YMD.AppearanceHeader.Options.UseBackColor = true;
+            this.PLS4_PDK_YMD.AppearanceHeader.Options.UseTextOptions = true;
+            this.PLS4_PDK_YMD.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.PLS4_PDK_YMD.Caption = "商品比對日期";
+            this.PLS4_PDK_YMD.FieldName = "PLS4_PDK_YMD";
+            this.PLS4_PDK_YMD.Name = "PLS4_PDK_YMD";
+            this.PLS4_PDK_YMD.Visible = true;
+            this.PLS4_PDK_YMD.VisibleIndex = 8;
             // 
             // PLS4_PID
             // 
@@ -332,23 +332,23 @@
             this.PLS4_PID.Visible = true;
             this.PLS4_PID.VisibleIndex = 7;
             // 
+            // PLS4_W_TIME
+            // 
+            this.PLS4_W_TIME.Caption = "PLS4_W_TIME";
+            this.PLS4_W_TIME.FieldName = "PLS4_W_TIME";
+            this.PLS4_W_TIME.Name = "PLS4_W_TIME";
+            // 
+            // PLS4_W_USER_ID
+            // 
+            this.PLS4_W_USER_ID.Caption = "PLS4_W_USER_ID";
+            this.PLS4_W_USER_ID.FieldName = "PLS4_W_USER_ID";
+            this.PLS4_W_USER_ID.Name = "PLS4_W_USER_ID";
+            // 
             // APDK_KIND_GRP2
             // 
             this.APDK_KIND_GRP2.Caption = "APDK_KIND_GRP2";
             this.APDK_KIND_GRP2.FieldName = "APDK_KIND_GRP2";
             this.APDK_KIND_GRP2.Name = "APDK_KIND_GRP2";
-            // 
-            // COMPUTE_1
-            // 
-            this.COMPUTE_1.AppearanceHeader.BackColor = System.Drawing.Color.Transparent;
-            this.COMPUTE_1.AppearanceHeader.Options.UseBackColor = true;
-            this.COMPUTE_1.AppearanceHeader.Options.UseTextOptions = true;
-            this.COMPUTE_1.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.COMPUTE_1.Caption = "流水號";
-            this.COMPUTE_1.FieldName = "COMPUTE_1";
-            this.COMPUTE_1.Name = "COMPUTE_1";
-            this.COMPUTE_1.Visible = true;
-            this.COMPUTE_1.VisibleIndex = 0;
             // 
             // Is_NewRow
             // 
@@ -374,12 +374,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
             this.panelControl1.ResumeLayout(false);
             this.panelControl1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtProdDate.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
             this.panelControl2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtProdDate.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
