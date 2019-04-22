@@ -56,21 +56,27 @@ namespace PhoenixCI.BusinessLogic.Prefix4
 
       public string Wf40012Fut()
       {
-         return b40012.WfFutureSheet();
+         return b40012.WfFutureSheet(2);
       }
 
       public string Wf40012Opt()
       {
-         return b40012.WfOptionSheet();
+         return b40012.WfOptionSheet(3);
       }
 
       public string Wf40013Fut()
       {
-         return b40013.WfFutureSheet();
+         return b40013.WfFutureSheet(4);
       }
 
       public string Wf40042()
       {
+         //切換Sheet
+         Workbook workbook = new Workbook();
+         workbook.LoadDocument(_lsFile);
+         Worksheet worksheet = workbook.Worksheets[5];
+
+
          DataTable dt = dao40042.List40042Mg1();
          return MessageDisplay.MSG_OK;
       }
