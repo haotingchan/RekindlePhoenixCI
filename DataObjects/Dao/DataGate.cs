@@ -1,5 +1,6 @@
 ﻿using BusinessObjects;
 using BusinessObjects.Enums;
+using Common.Config;
 using OnePiece;
 using System;
 using System.Collections.Generic;
@@ -713,16 +714,18 @@ namespace DataObjects.Dao {
       public Db ChangeDB(DataTable dtTXFP) {
          DataTable dt = dtTXFP;
 
+         DBInfo info = SettingDragons.Instance.GetDBInfo(dt.Rows[0]["ls_str1"].ToString().Trim());
+
          try {
             string ls_str2 = DeCode(dt.Rows[0]["ls_str2"].ToString());
-            string ls_srv = dt.Rows[0]["ls_srv"].ToString().Split('/')[0];
+            //string ls_srv = dt.Rows[0]["ls_srv"].ToString().Split('/')[0];
 
             if (string.IsNullOrEmpty(dt.Rows[0]["ls_db"].ToString().Trim())) { dt.Rows[0]["ls_db"] = ""; }
             if (string.IsNullOrEmpty(dt.Rows[0]["ls_dbparm"].ToString().Trim())) { dt.Rows[0]["ls_dbparm"] = ""; }
 
             string connectionString = string.Format("Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST={0})" +
                 "(PORT=1521)))(CONNECT_DATA=(SID=CI)(SERVER=DEDICATED))); User Id={1};Password={2};",
-                ls_srv, dt.Rows[0]["ls_str1"].ToString(), ls_str2);
+                info.InitialCatalog, dt.Rows[0]["ls_str1"].ToString(), ls_str2);
 
             return new Db(connectionString, "Oracle.ManagedDataAccess.Client", dt.Rows[0]["ls_db"].ToString().Trim());
          } catch (Exception ex) {
