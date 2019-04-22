@@ -160,7 +160,8 @@ namespace BaseGround.Widget {
          Time
       };
 
-      protected override bool IsMatch => Text.AsDateTime(_TextFormat) == DateTime.MinValue ? false : true;
+      protected override bool IsMatch => 
+         Text.AsDateTime(_TextFormat) == DateTime.MinValue ? false : true;
    }
 
    public class MaskDateEditViewInfo : TextEditViewInfo {
