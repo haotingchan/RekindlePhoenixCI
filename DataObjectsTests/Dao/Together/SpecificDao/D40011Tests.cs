@@ -17,20 +17,6 @@ namespace DataObjects.Dao.Together.SpecificDao.Tests
       }
 
       [TestMethod()]
-      public void GetFutR1DataTest()
-      {
-         DataTable data = new D40011().GetFutR1Data(new System.DateTime(2011, 04, 11));
-         Assert.IsNotNull(data);
-      }
-
-      [TestMethod()]
-      public void GetFutR2DataTest()
-      {
-         DataTable data = new D40011().GetFutR2Data(new System.DateTime(2011, 04, 11));
-         Assert.IsNotNull(data);
-      }
-
-      [TestMethod()]
       public void GetRptLVTest()
       {
          int data = new D40011().GetRptLV("40011",1);

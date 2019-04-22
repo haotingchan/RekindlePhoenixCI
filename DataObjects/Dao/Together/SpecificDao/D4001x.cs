@@ -14,27 +14,27 @@ namespace DataObjects.Dao.Together.SpecificDao
    public class D4001x : DataGate, ID4001x
    {
 
-      public virtual string FutDataCountSql()
+      protected virtual string FutDataCountSql()
       {
          return "";
       }
 
-      public virtual string OptDataCountSql()
+      protected virtual string OptDataCountSql()
       {
          return "";
       }
 
-      public virtual string FutDataSql(SheetType R)
+      protected virtual string FutDataSql(int sheet)
       {
          return "";
       }
 
-      public virtual string OptDataSql(SheetType R)
+      protected virtual string OptDataSql(int sheet)
       {
          return "";
       }
 
-      public virtual string WorkItemSql(int Num)
+      protected virtual string WorkItemSql(int Num)
       {
          return "";
       }
@@ -56,24 +56,29 @@ namespace DataObjects.Dao.Together.SpecificDao
       /// R1或R2的資料切換
       /// </summary>
       /// <param name="as_date"></param>
-      /// <param name="R">R1 or R2</param>
+      /// <param name="R">1 or 2</param>
       /// <returns>R1 or R2,MG1_CUR_CM,MG1_CUR_MM,MG1_CUR_IM,MG1_CM_RATE,MG1_MM_RATE,MG1_IM_RATE,MG1_PRICE,MG1_XXX,MG1_RISK,MG1_CP_RISK,MG1_MIN_RISK,MG1_CP_CM</returns>
-      private DataTable GetFutData(DateTime as_date, SheetType R)
+      public DataTable ListFutData(DateTime as_date, int sheet)
       {
          object[] parms = {
                 ":as_date",as_date,
             };
-         string sql = FutDataSql(R);
+         string sql = FutDataSql(sheet);
          DataTable dtResult = db.GetDataTable(sql, parms);
          return dtResult;
       }
 
-      private DataTable GetOptData(DateTime as_date, SheetType R)
+      /// <summary>
+      /// R1或R2的資料切換
+      /// </summary>
+      /// <param name="as_date"></param>
+      /// <param name="R">1 or 2</param>
+      public DataTable ListOptData(DateTime as_date, int sheet)
       {
          object[] parms = {
                 ":as_date",as_date,
             };
-         string sql = OptDataSql(R);
+         string sql = OptDataSql(sheet);
          DataTable dtResult = db.GetDataTable(sql, parms);
          return dtResult;
       }
@@ -113,74 +118,6 @@ namespace DataObjects.Dao.Together.SpecificDao
       }
 
       /// <summary>
-      /// sheet=1 現行收取保證金金額
-      /// </summary>
-      /// <returns>MG1_CUR_CM,MG1_CUR_MM,MG1_CUR_IM,MG1_CM_RATE,MG1_MM_RATE,MG1_IM_RATE</returns>
-      public DataTable GetFutR1Data(DateTime as_date)
-      {
-         DataTable dtResult = GetFutData(as_date, SheetType.R1);
-         //import 商品資料
-         dtResult.Columns.Remove(dtResult.Columns["R1"]);
-         for (int k = 6; k < 12; k++)
-         {
-            dtResult.Columns.Remove(dtResult.Columns[6].ColumnName);//刪除後面6欄
-         }
-         return dtResult;
-      }
-
-      /// <summary>
-      /// sheet=1 本日結算保證金計算
-      /// </summary>
-      /// <returns>MG1_PRICE,MG1_XXX,MG1_RISK,MG1_CP_RISK,MG1_MIN_RISK,MG1_CP_CM</returns>
-      public DataTable GetFutR2Data(DateTime as_date)
-      {
-         DataTable dtResult = GetFutData(as_date, SheetType.R2);
-         //import 商品資料
-         dtResult.Columns.Remove(dtResult.Columns["R2"]);
-         for (int k = 0; k < 6; k++)
-         {
-            dtResult.Columns.Remove(dtResult.Columns[0].ColumnName);//刪除前面6欄
-         }
-         return dtResult;
-      }
-
-      /// <summary>
-      /// sheet=2 現行收取保證金金額
-      /// </summary>
-      /// <returns>MG1_CUR_CM,'',MG1_CUR_MM,'',MG1_CUR_IM</returns>
-      public DataTable GetOptR1Data(DateTime as_date)
-      {
-         DataTable dtResult = GetOptData(as_date, SheetType.R1);
-         //import 商品資料
-         dtResult.Columns.Remove(dtResult.Columns["R1"]);
-         dtResult.Columns.Remove(dtResult.Columns["MG1_TYPE"]);
-         for (int k = 5; k < 10; k++)
-         {
-            dtResult.Columns.Remove(dtResult.Columns[5].ColumnName);//刪除後面5欄
-         }
-
-         return dtResult;
-      }
-
-      /// <summary>
-      /// sheet=2 本日結算保證金計算
-      /// </summary>
-      /// <returns>MG1_PRICE,MG1_XXX,MG1_RISK,MG1_CP_RISK,MG1_CP_CM</returns>
-      public DataTable GetOptR2Data(DateTime as_date)
-      {
-         DataTable dtResult = GetOptData(as_date, SheetType.R2);
-         //import 商品資料
-         dtResult.Columns.Remove(dtResult.Columns["R2"]);
-         dtResult.Columns.Remove(dtResult.Columns["MG1_TYPE"]);
-         for (int k = 0; k < 5; k++)
-         {
-            dtResult.Columns.Remove(dtResult.Columns[0].ColumnName);//刪除前面6欄
-         }
-
-         return dtResult;
-      }
-
-      /// <summary>
       /// 四、	作業事項 已達或未達10%
       /// </summary>
       /// <param name="as_date">datetime</param>
@@ -204,7 +141,6 @@ namespace DataObjects.Dao.Together.SpecificDao
       /// <returns></returns>
       public int GetRptLV(string TxnID, int Num)
       {
-         TxnID = TxnID.Length > 5 ? TxnID.Substring(0, 5) : TxnID;
          object[] parms = {
                 ":as_txn",TxnID,
                 ":as_txn_sheet",$"{TxnID}_{Num}"
@@ -244,28 +180,8 @@ namespace DataObjects.Dao.Together.SpecificDao
 
    }
 
-   /// <summary>
-   /// 選取R1 或 R2
-   /// </summary>
-   public enum SheetType
-   {
-      [Description("R1")]
-      R1 = 1,
-      [Description("R2")]
-      R2 = 2
-   }
-
    public interface ID4001x
    {
-      string FutDataSql(SheetType R);
-
-      string OptDataSql(SheetType R);
-
-      string FutDataCountSql();
-
-      string OptDataCountSql();
-
-      string WorkItemSql(int Num);
 
       /// <summary>
       /// 確認sheet1有無資料
@@ -280,24 +196,14 @@ namespace DataObjects.Dao.Together.SpecificDao
       int OptR1DataCount(DateTime as_date);
 
       /// <summary>
-      /// sheet=1 現行收取保證金金額
+      /// R1或R2的資料切換
       /// </summary>
-      DataTable GetFutR1Data(DateTime as_date);
+      /// <param name="as_date"></param>
+      /// <param name="R">R1 or R2</param>
+      /// <returns>R1 or R2,MG1_CUR_CM,MG1_CUR_MM,MG1_CUR_IM,MG1_CM_RATE,MG1_MM_RATE,MG1_IM_RATE,MG1_PRICE,MG1_XXX,MG1_RISK,MG1_CP_RISK,MG1_MIN_RISK,MG1_CP_CM</returns>
+      DataTable ListFutData(DateTime as_date, int sheet);
 
-      /// <summary>
-      /// sheet=1 本日結算保證金計算
-      /// </summary>
-      DataTable GetFutR2Data(DateTime as_date);
-
-      /// <summary>
-      /// sheet=2 現行收取保證金金額
-      /// </summary>
-      DataTable GetOptR1Data(DateTime as_date);
-
-      /// <summary>
-      /// sheet=2 本日結算保證金計算
-      /// </summary>
-      DataTable GetOptR2Data(DateTime as_date);
+      DataTable ListOptData(DateTime as_date, int sheet);
 
       /// <summary>
       /// 四、	作業事項 已達或未達10%
