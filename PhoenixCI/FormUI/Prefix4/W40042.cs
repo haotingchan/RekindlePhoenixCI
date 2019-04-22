@@ -17,7 +17,6 @@ namespace PhoenixCI.FormUI.Prefix4
    /// </summary>
    public partial class W40042 : FormParent
    {
-      private I4001x b4001xTemp;
       private B40042 b40042;
       private string _saveFilePath;
 
@@ -70,21 +69,20 @@ namespace PhoenixCI.FormUI.Prefix4
          }
 
          _saveFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
-         object[] args = { _ProgramID, _saveFilePath, emDate.Text };
-         b4001xTemp = new B4001xTemplate().ConcreteClass(_ProgramID, args);
-         
+         b40042 = new B40042(_ProgramID, _saveFilePath, emDate.Text);
+
 
          stMsgTxt.Visible = true;
 
          //判斷FMIF資料已轉入
-         string chkFMIF = b4001xTemp.CheckFMIF();
+         string chkFMIF = b40042.CheckFMIF();
          if (chkFMIF != MessageDisplay.MSG_OK)
          {
             return OutputChooseMessage(chkFMIF);
          }
 
          //130批次作業做完
-         string strRtn = b4001xTemp.Check130Wf();
+         string strRtn = b40042.Check130Wf();
          if (strRtn != MessageDisplay.MSG_OK)
          {
             return OutputChooseMessage(strRtn);
@@ -141,12 +139,12 @@ namespace PhoenixCI.FormUI.Prefix4
          {
             //Sheet : rpt_future
             ShowMsg($"{_ProgramID}_1－保證金狀況表 轉檔中...");
-            OutputShowMessage = b4001xTemp.WfFutureSheet();
+            OutputShowMessage = b40042.WfFutureSheet();
             //Sheet : rpt_option
             ShowMsg($"{_ProgramID}_2－保證金狀況表 轉檔中...");
-            OutputShowMessage = b4001xTemp.WfOptionSheet();
+            OutputShowMessage = b40042.WfOptionSheet();
 
-            b40042 = new B40042(_ProgramID, _saveFilePath, emDate.Text);
+            
             ShowMsg($"{_ProgramID}_mg1－股票期貨保證金狀況表－標的證券為受益憑證 轉檔中...");
             OutputShowMessage = b40042.Wf40042();
 

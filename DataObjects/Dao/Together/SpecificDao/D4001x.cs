@@ -204,6 +204,7 @@ namespace DataObjects.Dao.Together.SpecificDao
       /// <returns></returns>
       public int GetRptLV(string TxnID, int Num)
       {
+         TxnID = TxnID.Length > 5 ? TxnID.Substring(0, 5) : TxnID;
          object[] parms = {
                 ":as_txn",TxnID,
                 ":as_txn_sheet",$"{TxnID}_{Num}"
