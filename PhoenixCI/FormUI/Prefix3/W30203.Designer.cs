@@ -157,16 +157,16 @@
             // txtEffDateLower
             // 
             this.txtEffDateLower.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtEffDateLower.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
-            this.txtEffDateLower.EditValue = "2018/12";
+            this.txtEffDateLower.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtEffDateLower.EditValue = "2018/12/01";
             this.txtEffDateLower.EnterMoveNextControl = true;
             this.txtEffDateLower.Location = new System.Drawing.Point(641, 25);
             this.txtEffDateLower.MenuManager = this.ribbonControl;
             this.txtEffDateLower.Name = "txtEffDateLower";
             this.txtEffDateLower.Properties.Appearance.Options.UseTextOptions = true;
             this.txtEffDateLower.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.txtEffDateLower.Properties.Mask.EditMask = "yyyy/MM/dd";
-            this.txtEffDateLower.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtEffDateLower.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+            this.txtEffDateLower.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtEffDateLower.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtEffDateLower.Size = new System.Drawing.Size(105, 26);
             this.txtEffDateLower.TabIndex = 3;
@@ -185,16 +185,16 @@
             // txtEffDate
             // 
             this.txtEffDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtEffDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
-            this.txtEffDate.EditValue = "2018/12";
+            this.txtEffDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtEffDate.EditValue = "2018/12/01";
             this.txtEffDate.EnterMoveNextControl = true;
             this.txtEffDate.Location = new System.Drawing.Point(441, 25);
             this.txtEffDate.MenuManager = this.ribbonControl;
             this.txtEffDate.Name = "txtEffDate";
             this.txtEffDate.Properties.Appearance.Options.UseTextOptions = true;
             this.txtEffDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.txtEffDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-            this.txtEffDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtEffDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+            this.txtEffDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtEffDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtEffDate.Size = new System.Drawing.Size(105, 26);
             this.txtEffDate.TabIndex = 2;
@@ -223,16 +223,16 @@
             // txtDate
             // 
             this.txtDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
-            this.txtDate.EditValue = "2018/12";
+            this.txtDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtDate.EditValue = "2018/12/01";
             this.txtDate.EnterMoveNextControl = true;
             this.txtDate.Location = new System.Drawing.Point(117, 25);
             this.txtDate.MenuManager = this.ribbonControl;
             this.txtDate.Name = "txtDate";
             this.txtDate.Properties.Appearance.Options.UseTextOptions = true;
             this.txtDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.txtDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-            this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+            this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtDate.Size = new System.Drawing.Size(105, 26);
             this.txtDate.TabIndex = 1;
