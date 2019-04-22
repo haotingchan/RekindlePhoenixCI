@@ -47,7 +47,7 @@
             this.colFEETDCC_ACC_NO = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colFEETDCC_SESSION = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.txtYM = new PhoenixCI.Widget.TextDateEdit();
+            this.txtYM = new BaseGround.Widget.TextDateEdit();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
@@ -258,7 +258,7 @@
             // txtYM
             // 
             this.txtYM.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtYM.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtYM.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
             this.txtYM.EditValue = "2018/12";
             this.txtYM.EnterMoveNextControl = true;
             this.txtYM.Location = new System.Drawing.Point(100, 43);
@@ -271,7 +271,7 @@
             this.txtYM.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtYM.Size = new System.Drawing.Size(144, 26);
             this.txtYM.TabIndex = 17;
-            this.txtYM.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtYM.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // W56090
             // 
@@ -325,6 +325,6 @@
         private System.Windows.Forms.GroupBox grpxDescription;
         private System.Windows.Forms.Label lblDate;
         private System.Windows.Forms.Label ImportShow;
-        private Widget.TextDateEdit txtYM;
+        private BaseGround.Widget.TextDateEdit txtYM;
     }
 }

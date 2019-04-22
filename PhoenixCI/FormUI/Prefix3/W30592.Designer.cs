@@ -32,8 +32,8 @@
          this.label4 = new System.Windows.Forms.Label();
          this.label3 = new System.Windows.Forms.Label();
          this.labMarket = new System.Windows.Forms.Label();
-         this.txtEndYMD = new PhoenixCI.Widget.TextDateEdit();
-         this.txtStartYMD = new PhoenixCI.Widget.TextDateEdit();
+         this.txtEndYMD = new BaseGround.Widget.TextDateEdit();
+         this.txtStartYMD = new BaseGround.Widget.TextDateEdit();
          this.label1 = new System.Windows.Forms.Label();
          this.labAftDate = new System.Windows.Forms.Label();
          this.chkGroup = new DevExpress.XtraEditors.CheckedListBoxControl();
@@ -171,7 +171,7 @@
          // txtEndYMD
          // 
          this.txtEndYMD.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtEndYMD.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+         this.txtEndYMD.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
          this.txtEndYMD.EditValue = "2018/12";
          this.txtEndYMD.EnterMoveNextControl = true;
          this.txtEndYMD.Location = new System.Drawing.Point(241, 36);
@@ -184,12 +184,12 @@
          this.txtEndYMD.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndYMD.Size = new System.Drawing.Size(100, 26);
          this.txtEndYMD.TabIndex = 1;
-         this.txtEndYMD.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         this.txtEndYMD.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtStartYMD
          // 
          this.txtStartYMD.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtStartYMD.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+         this.txtStartYMD.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
          this.txtStartYMD.EditValue = "2018/12";
          this.txtStartYMD.EnterMoveNextControl = true;
          this.txtStartYMD.Location = new System.Drawing.Point(104, 36);
@@ -202,7 +202,7 @@
          this.txtStartYMD.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtStartYMD.Size = new System.Drawing.Size(100, 26);
          this.txtStartYMD.TabIndex = 0;
-         this.txtStartYMD.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         this.txtStartYMD.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // label1
          // 
@@ -282,8 +282,8 @@
       private System.Windows.Forms.GroupBox grpxDescription;
       private System.Windows.Forms.Label label1;
       private System.Windows.Forms.Label labAftDate;
-      private Widget.TextDateEdit txtEndYMD;
-      private Widget.TextDateEdit txtStartYMD;
+      private BaseGround.Widget.TextDateEdit txtEndYMD;
+      private BaseGround.Widget.TextDateEdit txtStartYMD;
       private System.Windows.Forms.Label lblProcessing;
       private System.Windows.Forms.Label labMarket;
       protected DevExpress.XtraEditors.RadioGroup gbMarket;

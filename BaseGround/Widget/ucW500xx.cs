@@ -25,11 +25,11 @@ namespace BaseGround.Widget
    public partial class ucW500xx : DevExpress.XtraEditors.XtraUserControl
    {
       #region 控制項存取子供外部使用
-      public GroupBox gb { get { return _gb; } set { _gb = value; } }
-      public GroupBox gb1 { get { return _gb1; } set { _gb1 = value; } }
-      public GroupBox gb2 { get { return _gb2; } set { _gb2 = value; } }
-      public GroupBox gb3 { get { return _gb3; } set { _gb3 = value; } }
-      public GroupBox gb4 { get { return _gb4; } set { _gb4 = value; } }
+      public GroupBox gb { get { return _ReportType; } set { _ReportType = value; } }
+      public GroupBox gb1 { get { return _MarketGrp; } set { _MarketGrp = value; } }
+      public GroupBox gb2 { get { return _Grp; } set { _Grp = value; } }
+      public GroupBox gb3 { get { return _DetialGrp; } set { _DetialGrp = value; } }
+      public GroupBox gb4 { get { return _PrintSort; } set { _PrintSort = value; } }
       public LayoutControlItem st_1 { get { return _st_1; } set { _st_1 = value; } }
       public LookUpEdit dw_prod_kd_sto { get { return _dw_prod_kd_sto; } set { _dw_prod_kd_sto = value; } }
       public LookUpEdit dw_prod_ct { get { return _dw_prod_ct; } set { _dw_prod_ct = value; } }
@@ -93,9 +93,6 @@ namespace BaseGround.Widget
          daoAPDK = new APDK();
       }
 
-      public void BeforeOpen()
-      {
-      }
 
       public void Open()
       {
@@ -104,11 +101,14 @@ namespace BaseGround.Widget
          *******************/
          //GlobalInfo.OCF_DATE = serviceCommon.GetOCF().OCF_DATE;
 
-         em_edate.EditValue = GlobalInfo.OCF_DATE;
+         em_edate.EditValue = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
          //em_sdate.EditValue = (em_edate.Text.Substring(0, 5) + "01").AsDateTime();
          em_sdate.EditValue = GlobalInfo.OCF_DATE.ToString("yyyy/MM/01");
-         em_sym.EditValue = GlobalInfo.OCF_DATE;
-         em_eym.EditValue = GlobalInfo.OCF_DATE;
+#if DEBUG
+         //em_sdate.EditValue = new DateTime(2019, 4, 15).ToString("yyyy/MM/01");
+#endif
+         em_sym.EditValue = GlobalInfo.OCF_DATE.ToString("yyyy/MM"); 
+         em_eym.EditValue = GlobalInfo.OCF_DATE.ToString("yyyy/MM"); 
          /* 造市者代號 */
          //起始選項
          dw_sbrkno.SetDataTable(daoABRK.ListAll2(), "ABRK_NO", "CP_DISPLAY",TextEditStyles.Standard,null);
@@ -124,13 +124,6 @@ namespace BaseGround.Widget
          is_table_name = "AMM0";
       }
 
-      public void AfterOpen()
-      {
-      }
-
-      public void ActivatedForm()
-      {
-      }
 
       public bool Retrieve(string sbrkno="",string ebrkno="")
       {
@@ -246,21 +239,6 @@ namespace BaseGround.Widget
          return true;
       }
 
-      public void CheckShield()
-      {
-      }
-
-      public void Save(PokeBall pokeBall)
-      {
-      }
-
-      public void Run(PokeBall args)
-      {
-      }
-
-      public void Import()
-      {
-      }
       /// <summary>
       /// 匯出轉檔前的狀態顯示
       /// </summary>
@@ -284,6 +262,7 @@ namespace BaseGround.Widget
          this.Refresh();
          Thread.Sleep(5);
       }
+
       /// <summary>
       /// 轉檔結束後
       /// </summary>
@@ -298,19 +277,6 @@ namespace BaseGround.Widget
          this.Cursor = Cursors.Arrow;
       }
 
-      public void BeforePrint()
-      {
-         //////ids_1.object.t_condition.text = t_conditionText();
-
-         /*******************
-         顯示條件
-         *******************/
-         //////ids_1.object.t_date.text = t_dateText();
-
-         //////ids_1.object.t_title.text = this.title;
-         //////ids_1.object.t_user.text = "作業人員：" + gs_user_id;
-         //////ids_1.object.t_print_time.text = "作業時間：" + string(datetime(today(), now()), "yyyy/mm/dd hh:mm:ss");
-      }
       public string t_conditionText()
       {
          string ls_text;
@@ -368,18 +334,6 @@ namespace BaseGround.Widget
          return ls_text;
       }
 
-      public void InsertRow()
-      {
-      }
-
-      public void DeleteRow()
-      {
-      }
-
-      public void BeforeClose()
-      {
-      }
-
       public void wf_gb_report_type(string as_type)
       {
 
@@ -417,6 +371,7 @@ namespace BaseGround.Widget
                break;
          }
       }
+
       /// <summary>
       /// 動態新增where條件(Linq)
       /// </summary>
@@ -481,6 +436,7 @@ namespace BaseGround.Widget
             throw;
          }
       }
+
       /// <summary>
       /// 動態新增where條件
       /// </summary>
@@ -615,7 +571,7 @@ namespace BaseGround.Widget
       public void wf_gb_group(bool ab_visible_value, bool ab_enable_value, string as_type)
       {
          gb_group.Visible = ab_visible_value;
-         _gb2.Visible= ab_visible_value;
+         _Grp.Visible= ab_visible_value;
          gb_group.Enabled = ab_enable_value;
 
          switch (as_type) {
@@ -638,10 +594,11 @@ namespace BaseGround.Widget
                break;
          }
       }
+
       public void wf_gb_print_sort(bool ab_visible_value, bool ab_enable_value, string as_type)
       {
          gb_print_sort.Visible = ab_visible_value;
-         _gb4.Visible = ab_visible_value;
+         _PrintSort.Visible = ab_visible_value;
          gb_print_sort.Enabled = ab_enable_value;
 
          switch (as_type) {
@@ -656,10 +613,11 @@ namespace BaseGround.Widget
                break;
          }
       }
+
       public void wf_gb_detial(bool ab_visible_value, bool ab_enable_value, string as_type)
       {
          gb_detial.Visible = ab_visible_value;
-         _gb3.Visible = ab_visible_value;
+         _DetialGrp.Visible = ab_visible_value;
          gb_detial.Enabled = ab_enable_value;
 
          switch (as_type) {
@@ -675,22 +633,6 @@ namespace BaseGround.Widget
          }
       }
 
-      public void wf_retrieve(DbDataAdapter dw_1)
-      {
-         //string ls_text;
-         ////mask 暫加 1
-         ////dw_1.settransobject(sqlca_FUT)
-         ////ls_text = dw_1.Select("Datawindow.table.select=" + '"' + is_select + '"');
-         //ls_text = is_select;
-         //dw_1.SelectCommand.CommandText = ls_text;
-         //try {
-         //   //dw_1.retrieve(is_sum_type, is_sum_subtype, is_data_type, is_sort_type, is_sdate, is_edate);
-         //}
-         //catch(Exception ex) {
-         //   PbFunc.messageBox(GlobalInfo.gs_t_err+ " DataWindow sqlsyntax Modify Failed ", ex.Message, MessageBoxIcon.Warning);
-         //   return;
-         //}
-      }
       public void wf_run_err()
       {
          /*******************
@@ -729,7 +671,7 @@ namespace BaseGround.Widget
       private void InitializeComponent()
       {
          this._r_input = new DevExpress.XtraEditors.PanelControl();
-         this._gb = new System.Windows.Forms.GroupBox();
+         this._ReportType = new System.Windows.Forms.GroupBox();
          this.layoutControl2 = new DevExpress.XtraLayout.LayoutControl();
          this._em_edate = new DevExpress.XtraEditors.TextEdit();
          this._em_sdate = new DevExpress.XtraEditors.TextEdit();
@@ -746,13 +688,13 @@ namespace BaseGround.Widget
          this._st_month = new DevExpress.XtraLayout.LayoutControlItem();
          this._gb_report_type = new DevExpress.XtraEditors.RadioGroup();
          this._st_msg_txt = new DevExpress.XtraEditors.LabelControl();
-         this._gb4 = new System.Windows.Forms.GroupBox();
+         this._PrintSort = new System.Windows.Forms.GroupBox();
          this._gb_print_sort = new DevExpress.XtraEditors.RadioGroup();
-         this._gb3 = new System.Windows.Forms.GroupBox();
+         this._DetialGrp = new System.Windows.Forms.GroupBox();
          this._gb_detial = new DevExpress.XtraEditors.RadioGroup();
-         this._gb2 = new System.Windows.Forms.GroupBox();
+         this._Grp = new System.Windows.Forms.GroupBox();
          this._gb_group = new DevExpress.XtraEditors.RadioGroup();
-         this._gb1 = new System.Windows.Forms.GroupBox();
+         this._MarketGrp = new System.Windows.Forms.GroupBox();
          this._gb_market = new DevExpress.XtraEditors.RadioGroup();
          this.dataLayoutControl2 = new DevExpress.XtraDataLayout.DataLayoutControl();
          this._dw_prod_ct = new DevExpress.XtraEditors.LookUpEdit();
@@ -773,7 +715,7 @@ namespace BaseGround.Widget
          this._st_1 = new DevExpress.XtraLayout.LayoutControlItem();
          ((System.ComponentModel.ISupportInitialize)(this._r_input)).BeginInit();
          this._r_input.SuspendLayout();
-         this._gb.SuspendLayout();
+         this._ReportType.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControl2)).BeginInit();
          this.layoutControl2.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this._em_edate.Properties)).BeginInit();
@@ -791,13 +733,13 @@ namespace BaseGround.Widget
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this._st_month)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this._gb_report_type.Properties)).BeginInit();
-         this._gb4.SuspendLayout();
+         this._PrintSort.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this._gb_print_sort.Properties)).BeginInit();
-         this._gb3.SuspendLayout();
+         this._DetialGrp.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this._gb_detial.Properties)).BeginInit();
-         this._gb2.SuspendLayout();
+         this._Grp.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this._gb_group.Properties)).BeginInit();
-         this._gb1.SuspendLayout();
+         this._MarketGrp.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this._gb_market.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.dataLayoutControl2)).BeginInit();
          this.dataLayoutControl2.SuspendLayout();
@@ -826,12 +768,12 @@ namespace BaseGround.Widget
          this._r_input.Appearance.Options.UseBackColor = true;
          this._r_input.AutoSize = true;
          this._r_input.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-         this._r_input.Controls.Add(this._gb);
+         this._r_input.Controls.Add(this._ReportType);
          this._r_input.Controls.Add(this._st_msg_txt);
-         this._r_input.Controls.Add(this._gb4);
-         this._r_input.Controls.Add(this._gb3);
-         this._r_input.Controls.Add(this._gb2);
-         this._r_input.Controls.Add(this._gb1);
+         this._r_input.Controls.Add(this._PrintSort);
+         this._r_input.Controls.Add(this._DetialGrp);
+         this._r_input.Controls.Add(this._Grp);
+         this._r_input.Controls.Add(this._MarketGrp);
          this._r_input.Controls.Add(this.dataLayoutControl2);
          this._r_input.Controls.Add(this.dataLayoutControl1);
          this._r_input.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -840,20 +782,20 @@ namespace BaseGround.Widget
          this._r_input.Size = new System.Drawing.Size(604, 282);
          this._r_input.TabIndex = 5;
          // 
-         // _gb
+         // _ReportType
          // 
-         this._gb.Controls.Add(this.layoutControl2);
-         this._gb.Controls.Add(this.layoutControl1);
-         this._gb.Controls.Add(this._gb_report_type);
-         this._gb.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this._gb.Location = new System.Drawing.Point(19, 146);
-         this._gb.Margin = new System.Windows.Forms.Padding(2);
-         this._gb.Name = "_gb";
-         this._gb.Padding = new System.Windows.Forms.Padding(2);
-         this._gb.Size = new System.Drawing.Size(251, 70);
-         this._gb.TabIndex = 10;
-         this._gb.TabStop = false;
-         this._gb.Text = "區間";
+         this._ReportType.Controls.Add(this.layoutControl2);
+         this._ReportType.Controls.Add(this.layoutControl1);
+         this._ReportType.Controls.Add(this._gb_report_type);
+         this._ReportType.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this._ReportType.Location = new System.Drawing.Point(19, 146);
+         this._ReportType.Margin = new System.Windows.Forms.Padding(2);
+         this._ReportType.Name = "_ReportType";
+         this._ReportType.Padding = new System.Windows.Forms.Padding(2);
+         this._ReportType.Size = new System.Drawing.Size(251, 70);
+         this._ReportType.TabIndex = 10;
+         this._ReportType.TabStop = false;
+         this._ReportType.Text = "區間";
          // 
          // layoutControl2
          // 
@@ -1074,16 +1016,16 @@ namespace BaseGround.Widget
          this._st_msg_txt.Text = " ";
          this._st_msg_txt.Visible = false;
          // 
-         // _gb4
+         // _PrintSort
          // 
-         this._gb4.Controls.Add(this._gb_print_sort);
-         this._gb4.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this._gb4.Location = new System.Drawing.Point(508, 146);
-         this._gb4.Name = "_gb4";
-         this._gb4.Size = new System.Drawing.Size(80, 70);
-         this._gb4.TabIndex = 7;
-         this._gb4.TabStop = false;
-         this._gb4.Text = "列印順序";
+         this._PrintSort.Controls.Add(this._gb_print_sort);
+         this._PrintSort.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this._PrintSort.Location = new System.Drawing.Point(508, 146);
+         this._PrintSort.Name = "_PrintSort";
+         this._PrintSort.Size = new System.Drawing.Size(80, 70);
+         this._PrintSort.TabIndex = 7;
+         this._PrintSort.TabStop = false;
+         this._PrintSort.Text = "列印順序";
          // 
          // _gb_print_sort
          // 
@@ -1099,16 +1041,16 @@ namespace BaseGround.Widget
          this._gb_print_sort.Size = new System.Drawing.Size(62, 53);
          this._gb_print_sort.TabIndex = 0;
          // 
-         // _gb3
+         // _DetialGrp
          // 
-         this._gb3.Controls.Add(this._gb_detial);
-         this._gb3.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this._gb3.Location = new System.Drawing.Point(508, 45);
-         this._gb3.Name = "_gb3";
-         this._gb3.Size = new System.Drawing.Size(80, 76);
-         this._gb3.TabIndex = 6;
-         this._gb3.TabStop = false;
-         this._gb3.Text = "報表內容";
+         this._DetialGrp.Controls.Add(this._gb_detial);
+         this._DetialGrp.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this._DetialGrp.Location = new System.Drawing.Point(508, 45);
+         this._DetialGrp.Name = "_DetialGrp";
+         this._DetialGrp.Size = new System.Drawing.Size(80, 76);
+         this._DetialGrp.TabIndex = 6;
+         this._DetialGrp.TabStop = false;
+         this._DetialGrp.Text = "報表內容";
          // 
          // _gb_detial
          // 
@@ -1124,16 +1066,16 @@ namespace BaseGround.Widget
          this._gb_detial.Size = new System.Drawing.Size(89, 55);
          this._gb_detial.TabIndex = 0;
          // 
-         // _gb2
+         // _Grp
          // 
-         this._gb2.Controls.Add(this._gb_group);
-         this._gb2.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this._gb2.Location = new System.Drawing.Point(381, 85);
-         this._gb2.Name = "_gb2";
-         this._gb2.Size = new System.Drawing.Size(103, 144);
-         this._gb2.TabIndex = 5;
-         this._gb2.TabStop = false;
-         this._gb2.Text = "統計依照";
+         this._Grp.Controls.Add(this._gb_group);
+         this._Grp.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this._Grp.Location = new System.Drawing.Point(381, 85);
+         this._Grp.Name = "_Grp";
+         this._Grp.Size = new System.Drawing.Size(103, 144);
+         this._Grp.TabIndex = 5;
+         this._Grp.TabStop = false;
+         this._Grp.Text = "統計依照";
          // 
          // _gb_group
          // 
@@ -1154,16 +1096,16 @@ namespace BaseGround.Widget
          this._gb_group.TabIndex = 0;
          this._gb_group.EditValueChanged += new System.EventHandler(this._gb_group_EditValueChanged);
          // 
-         // _gb1
+         // _MarketGrp
          // 
-         this._gb1.Controls.Add(this._gb_market);
-         this._gb1.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this._gb1.Location = new System.Drawing.Point(297, 160);
-         this._gb1.Name = "_gb1";
-         this._gb1.Size = new System.Drawing.Size(78, 69);
-         this._gb1.TabIndex = 4;
-         this._gb1.TabStop = false;
-         this._gb1.Text = "交易時段";
+         this._MarketGrp.Controls.Add(this._gb_market);
+         this._MarketGrp.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this._MarketGrp.Location = new System.Drawing.Point(297, 160);
+         this._MarketGrp.Name = "_MarketGrp";
+         this._MarketGrp.Size = new System.Drawing.Size(78, 69);
+         this._MarketGrp.TabIndex = 4;
+         this._MarketGrp.TabStop = false;
+         this._MarketGrp.Text = "交易時段";
          // 
          // _gb_market
          // 
@@ -1189,7 +1131,7 @@ namespace BaseGround.Widget
          this.dataLayoutControl2.Name = "dataLayoutControl2";
          this.dataLayoutControl2.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(664, 0, 650, 400);
          this.dataLayoutControl2.Root = this.layoutControlGroup2;
-         this.dataLayoutControl2.Size = new System.Drawing.Size(318, 60);
+         this.dataLayoutControl2.Size = new System.Drawing.Size(327, 70);
          this.dataLayoutControl2.TabIndex = 1;
          this.dataLayoutControl2.Text = "dataLayoutControl2";
          // 
@@ -1203,7 +1145,7 @@ namespace BaseGround.Widget
          this._dw_prod_ct.Properties.NullText = "";
          this._dw_prod_ct.Properties.PopupSizeable = false;
          this._dw_prod_ct.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
-         this._dw_prod_ct.Size = new System.Drawing.Size(89, 20);
+         this._dw_prod_ct.Size = new System.Drawing.Size(102, 20);
          this._dw_prod_ct.StyleController = this.dataLayoutControl2;
          this._dw_prod_ct.TabIndex = 4;
          // 
@@ -1217,13 +1159,13 @@ namespace BaseGround.Widget
          this._dw_prod_kd_sto.Properties.NullText = "";
          this._dw_prod_kd_sto.Properties.PopupSizeable = false;
          this._dw_prod_kd_sto.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
-         this._dw_prod_kd_sto.Size = new System.Drawing.Size(88, 20);
+         this._dw_prod_kd_sto.Size = new System.Drawing.Size(101, 20);
          this._dw_prod_kd_sto.StyleController = this.dataLayoutControl2;
          this._dw_prod_kd_sto.TabIndex = 5;
          // 
          // _dw_prod_kd
          // 
-         this._dw_prod_kd.Location = new System.Drawing.Point(211, 36);
+         this._dw_prod_kd.Location = new System.Drawing.Point(224, 36);
          this._dw_prod_kd.Name = "_dw_prod_kd";
          this._dw_prod_kd.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -1231,7 +1173,7 @@ namespace BaseGround.Widget
          this._dw_prod_kd.Properties.NullText = "";
          this._dw_prod_kd.Properties.PopupSizeable = false;
          this._dw_prod_kd.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
-         this._dw_prod_kd.Size = new System.Drawing.Size(78, 20);
+         this._dw_prod_kd.Size = new System.Drawing.Size(91, 20);
          this._dw_prod_kd.StyleController = this.dataLayoutControl2;
          this._dw_prod_kd.TabIndex = 6;
          // 
@@ -1242,7 +1184,7 @@ namespace BaseGround.Widget
          this.layoutControlGroup2.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
             this._AMM0_grp});
          this.layoutControlGroup2.Name = "Root";
-         this.layoutControlGroup2.Size = new System.Drawing.Size(301, 68);
+         this.layoutControlGroup2.Size = new System.Drawing.Size(327, 70);
          this.layoutControlGroup2.TextVisible = false;
          // 
          // _AMM0_grp
@@ -1256,14 +1198,14 @@ namespace BaseGround.Widget
             this.emptySpaceItem1});
          this._AMM0_grp.Location = new System.Drawing.Point(0, 0);
          this._AMM0_grp.Name = "_AMM0_grp";
-         this._AMM0_grp.Size = new System.Drawing.Size(281, 48);
+         this._AMM0_grp.Size = new System.Drawing.Size(307, 50);
          // 
          // _st_prod_kd_sto
          // 
          this._st_prod_kd_sto.Control = this._dw_prod_kd_sto;
          this._st_prod_kd_sto.Location = new System.Drawing.Point(0, 24);
          this._st_prod_kd_sto.Name = "_st_prod_kd_sto";
-         this._st_prod_kd_sto.Size = new System.Drawing.Size(146, 24);
+         this._st_prod_kd_sto.Size = new System.Drawing.Size(159, 26);
          this._st_prod_kd_sto.Text = "  2碼商品";
          this._st_prod_kd_sto.TextLocation = DevExpress.Utils.Locations.Left;
          this._st_prod_kd_sto.TextSize = new System.Drawing.Size(51, 14);
@@ -1272,9 +1214,9 @@ namespace BaseGround.Widget
          // 
          this._st_prod_kd.Control = this._dw_prod_kd;
          this._st_prod_kd.ControlAlignment = System.Drawing.ContentAlignment.BottomLeft;
-         this._st_prod_kd.Location = new System.Drawing.Point(146, 24);
+         this._st_prod_kd.Location = new System.Drawing.Point(159, 24);
          this._st_prod_kd.Name = "_st_prod_kd";
-         this._st_prod_kd.Size = new System.Drawing.Size(135, 24);
+         this._st_prod_kd.Size = new System.Drawing.Size(148, 26);
          this._st_prod_kd.Text = "造市商品";
          this._st_prod_kd.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.AutoSize;
          this._st_prod_kd.TextSize = new System.Drawing.Size(48, 14);
@@ -1285,7 +1227,7 @@ namespace BaseGround.Widget
          this._st_prod_ct.Control = this._dw_prod_ct;
          this._st_prod_ct.Location = new System.Drawing.Point(0, 0);
          this._st_prod_ct.Name = "_st_prod_ct";
-         this._st_prod_ct.Size = new System.Drawing.Size(146, 24);
+         this._st_prod_ct.Size = new System.Drawing.Size(159, 24);
          this._st_prod_ct.Text = "商品群組";
          this._st_prod_ct.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.AutoSize;
          this._st_prod_ct.TextLocation = DevExpress.Utils.Locations.Left;
@@ -1295,9 +1237,9 @@ namespace BaseGround.Widget
          // emptySpaceItem1
          // 
          this.emptySpaceItem1.AllowHotTrack = false;
-         this.emptySpaceItem1.Location = new System.Drawing.Point(146, 0);
+         this.emptySpaceItem1.Location = new System.Drawing.Point(159, 0);
          this.emptySpaceItem1.Name = "emptySpaceItem1";
-         this.emptySpaceItem1.Size = new System.Drawing.Size(135, 24);
+         this.emptySpaceItem1.Size = new System.Drawing.Size(148, 24);
          this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
          // 
          // dataLayoutControl1
@@ -1395,7 +1337,7 @@ namespace BaseGround.Widget
          ((System.ComponentModel.ISupportInitialize)(this._r_input)).EndInit();
          this._r_input.ResumeLayout(false);
          this._r_input.PerformLayout();
-         this._gb.ResumeLayout(false);
+         this._ReportType.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.layoutControl2)).EndInit();
          this.layoutControl2.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this._em_edate.Properties)).EndInit();
@@ -1413,13 +1355,13 @@ namespace BaseGround.Widget
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this._st_month)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this._gb_report_type.Properties)).EndInit();
-         this._gb4.ResumeLayout(false);
+         this._PrintSort.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this._gb_print_sort.Properties)).EndInit();
-         this._gb3.ResumeLayout(false);
+         this._DetialGrp.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this._gb_detial.Properties)).EndInit();
-         this._gb2.ResumeLayout(false);
+         this._Grp.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this._gb_group.Properties)).EndInit();
-         this._gb1.ResumeLayout(false);
+         this._MarketGrp.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this._gb_market.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.dataLayoutControl2)).EndInit();
          this.dataLayoutControl2.ResumeLayout(false);

@@ -33,8 +33,8 @@
          this.label3 = new System.Windows.Forms.Label();
          this.label4 = new System.Windows.Forms.Label();
          this.lblMonth = new System.Windows.Forms.Label();
-         this.txtFromDate = new PhoenixCI.Widget.TextDateEdit();
-         this.txtToDate = new PhoenixCI.Widget.TextDateEdit();
+         this.txtFromDate = new BaseGround.Widget.TextDateEdit();
+         this.txtToDate = new BaseGround.Widget.TextDateEdit();
          this.lab_Msg = new System.Windows.Forms.Label();
          this.grpxDescription = new System.Windows.Forms.GroupBox();
          this.panParent.SuspendLayout();
@@ -178,7 +178,7 @@
          // txtFromDate
          // 
          this.txtFromDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtFromDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtFromDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtFromDate.EditValue = "2018/12";
          this.txtFromDate.Location = new System.Drawing.Point(122, 38);
          this.txtFromDate.MenuManager = this.ribbonControl;
@@ -189,12 +189,12 @@
          this.txtFromDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
          this.txtFromDate.Size = new System.Drawing.Size(100, 26);
          this.txtFromDate.TabIndex = 22;
-         this.txtFromDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         this.txtFromDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtToDate
          // 
          this.txtToDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtToDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtToDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtToDate.EditValue = "2018/12";
          this.txtToDate.Location = new System.Drawing.Point(255, 38);
          this.txtToDate.MenuManager = this.ribbonControl;
@@ -205,7 +205,7 @@
          this.txtToDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
          this.txtToDate.Size = new System.Drawing.Size(100, 26);
          this.txtToDate.TabIndex = 24;
-         this.txtToDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         this.txtToDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // lab_Msg
          // 
@@ -282,8 +282,8 @@
       private System.Windows.Forms.Label label3;
       private System.Windows.Forms.Label label4;
       private System.Windows.Forms.Label lblMonth;
-      private Widget.TextDateEdit txtFromDate;
-      private Widget.TextDateEdit txtToDate;
+      private BaseGround.Widget.TextDateEdit txtFromDate;
+      private BaseGround.Widget.TextDateEdit txtToDate;
       private System.Windows.Forms.Label lab_Msg;
       private System.Windows.Forms.GroupBox grpxDescription;
    }

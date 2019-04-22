@@ -39,8 +39,8 @@
             this.lblOcfDate = new System.Windows.Forms.Label();
             this.btnSelectAll = new System.Windows.Forms.Button();
             this.btnUnselectedAll = new System.Windows.Forms.Button();
-            this.txtPrevOcfDate = new PhoenixCI.Widget.TextDateEdit();
-            this.txtOcfDate = new PhoenixCI.Widget.TextDateEdit();
+            this.txtPrevOcfDate = new BaseGround.Widget.TextDateEdit();
+            this.txtOcfDate = new BaseGround.Widget.TextDateEdit();
             this.xtraTabControl = new DevExpress.XtraTab.XtraTabControl();
             this.xtraTabPageMain = new DevExpress.XtraTab.XtraTabPage();
             this.xtraTabPageQuery = new DevExpress.XtraTab.XtraTabPage();
@@ -196,7 +196,7 @@
             // txtPrevOcfDate
             // 
             this.txtPrevOcfDate.DateTimeValue = new System.DateTime(((long)(0)));
-            this.txtPrevOcfDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtPrevOcfDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
             this.txtPrevOcfDate.EditValue = "0001/1/1 上午 12:00:00";
             this.txtPrevOcfDate.Location = new System.Drawing.Point(126, 10);
             this.txtPrevOcfDate.MenuManager = this.ribbonControl;
@@ -206,12 +206,12 @@
             this.txtPrevOcfDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtPrevOcfDate.Size = new System.Drawing.Size(100, 26);
             this.txtPrevOcfDate.TabIndex = 10;
-            this.txtPrevOcfDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
+            this.txtPrevOcfDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
             // 
             // txtOcfDate
             // 
             this.txtOcfDate.DateTimeValue = new System.DateTime(((long)(0)));
-            this.txtOcfDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtOcfDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
             this.txtOcfDate.EditValue = "0001/1/1 上午 12:00:00";
             this.txtOcfDate.Location = new System.Drawing.Point(126, 49);
             this.txtOcfDate.MenuManager = this.ribbonControl;
@@ -221,7 +221,7 @@
             this.txtOcfDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtOcfDate.Size = new System.Drawing.Size(100, 26);
             this.txtOcfDate.TabIndex = 11;
-            this.txtOcfDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
+            this.txtOcfDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
             // 
             // xtraTabControl
             // 
@@ -386,8 +386,8 @@
         private System.Windows.Forms.Button btnSelectAll;
         private System.Windows.Forms.Button btnUnselectedAll;
         public DevExpress.XtraGrid.Columns.GridColumn gcol_gcMain_ERR_MSG;
-        private Widget.TextDateEdit txtOcfDate;
-        private Widget.TextDateEdit txtPrevOcfDate;
+        private BaseGround.Widget.TextDateEdit txtOcfDate;
+        private BaseGround.Widget.TextDateEdit txtPrevOcfDate;
         private DevExpress.XtraTab.XtraTabControl xtraTabControl;
         private DevExpress.XtraTab.XtraTabPage xtraTabPageMain;
         private DevExpress.XtraTab.XtraTabPage xtraTabPageQuery;

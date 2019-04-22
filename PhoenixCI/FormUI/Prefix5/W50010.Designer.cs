@@ -27,6 +27,7 @@
       /// </summary>
       private void InitializeComponent()
       {
+         this.components = new System.ComponentModel.Container();
          this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
          this.gcExport = new DevExpress.XtraGrid.GridControl();
          this.gvExport = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -34,7 +35,7 @@
          this.label10 = new System.Windows.Forms.Label();
          this.MarketTime = new DevExpress.XtraEditors.LookUpEdit();
          this.label9 = new System.Windows.Forms.Label();
-         this.TxtDate = new PhoenixCI.Widget.TextDateEdit();
+         this.TxtDate = new BaseGround.Widget.TextDateEdit();
          this.label7 = new System.Windows.Forms.Label();
          this.Txt_prod_sort = new DevExpress.XtraEditors.TextEdit();
          this.label6 = new System.Windows.Forms.Label();
@@ -52,6 +53,7 @@
          this.panel1 = new System.Windows.Forms.Panel();
          this.gcMain = new DevExpress.XtraGrid.GridControl();
          this.gvMain = new DevExpress.XtraGrid.Views.Grid.GridView();
+         this.behaviorManager1 = new DevExpress.Utils.Behaviors.BehaviorManager(this.components);
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
          this.panelControl1.SuspendLayout();
@@ -71,16 +73,17 @@
          this.panel1.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.behaviorManager1)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
          // 
-         this.panParent.Size = new System.Drawing.Size(867, 644);
+         this.panParent.Size = new System.Drawing.Size(867, 642);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(867, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(867, 32);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // panelControl1
@@ -105,7 +108,7 @@
          this.panelControl1.Controls.Add(this.Fcm_SNo);
          this.panelControl1.Controls.Add(this.label1);
          this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
-         this.panelControl1.Location = new System.Drawing.Point(0, 30);
+         this.panelControl1.Location = new System.Drawing.Point(0, 32);
          this.panelControl1.Name = "panelControl1";
          this.panelControl1.Size = new System.Drawing.Size(867, 258);
          this.panelControl1.TabIndex = 0;
@@ -168,34 +171,35 @@
          // TxtDate
          // 
          this.TxtDate.DateTimeValue = new System.DateTime(((long)(0)));
-         this.TxtDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+         this.TxtDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.TxtDate.EditValue = "0001/1/1 上午 12:00:00";
          this.TxtDate.Location = new System.Drawing.Point(123, 203);
          this.TxtDate.MenuManager = this.ribbonControl;
          this.TxtDate.Name = "TxtDate";
          this.TxtDate.Properties.Appearance.Options.UseTextOptions = true;
          this.TxtDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.TxtDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.TxtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
          this.TxtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.TxtDate.Size = new System.Drawing.Size(100, 26);
          this.TxtDate.TabIndex = 13;
-         this.TxtDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
+         this.TxtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
          // 
          // label7
          // 
          this.label7.AutoSize = true;
          this.label7.Location = new System.Drawing.Point(16, 206);
          this.label7.Name = "label7";
-         this.label7.Size = new System.Drawing.Size(85, 20);
+         this.label7.Size = new System.Drawing.Size(53, 20);
          this.label7.TabIndex = 12;
-         this.label7.Text = "日期區間 : ";
+         this.label7.Text = "日期 : ";
          // 
          // Txt_prod_sort
          // 
          this.Txt_prod_sort.Location = new System.Drawing.Point(123, 155);
          this.Txt_prod_sort.MenuManager = this.ribbonControl;
          this.Txt_prod_sort.Name = "Txt_prod_sort";
+         this.Txt_prod_sort.Properties.Mask.EditMask = "[A-Za-z0-9]+";
+         this.Txt_prod_sort.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.Txt_prod_sort.Properties.Mask.ShowPlaceHolders = false;
          this.Txt_prod_sort.Size = new System.Drawing.Size(153, 26);
          this.Txt_prod_sort.TabIndex = 11;
          // 
@@ -307,9 +311,9 @@
          // 
          this.panelControl2.Controls.Add(this.panel1);
          this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.panelControl2.Location = new System.Drawing.Point(0, 288);
+         this.panelControl2.Location = new System.Drawing.Point(0, 290);
          this.panelControl2.Name = "panelControl2";
-         this.panelControl2.Size = new System.Drawing.Size(867, 386);
+         this.panelControl2.Size = new System.Drawing.Size(867, 384);
          this.panelControl2.TabIndex = 1;
          // 
          // panel1
@@ -318,7 +322,7 @@
          this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
          this.panel1.Location = new System.Drawing.Point(2, 2);
          this.panel1.Name = "panel1";
-         this.panel1.Size = new System.Drawing.Size(863, 382);
+         this.panel1.Size = new System.Drawing.Size(863, 380);
          this.panel1.TabIndex = 0;
          // 
          // gcMain
@@ -328,7 +332,7 @@
          this.gcMain.MainView = this.gvMain;
          this.gcMain.MenuManager = this.ribbonControl;
          this.gcMain.Name = "gcMain";
-         this.gcMain.Size = new System.Drawing.Size(863, 382);
+         this.gcMain.Size = new System.Drawing.Size(863, 380);
          this.gcMain.TabIndex = 0;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -373,6 +377,7 @@
          this.panel1.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.behaviorManager1)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -387,7 +392,7 @@
       private System.Windows.Forms.Label label10;
       private DevExpress.XtraEditors.LookUpEdit MarketTime;
       private System.Windows.Forms.Label label9;
-      private Widget.TextDateEdit TxtDate;
+      private BaseGround.Widget.TextDateEdit TxtDate;
       private System.Windows.Forms.Label label7;
       private DevExpress.XtraEditors.TextEdit Txt_prod_sort;
       private System.Windows.Forms.Label label6;
@@ -405,5 +410,6 @@
       private DevExpress.XtraGrid.Views.Grid.GridView gvMain;
       private DevExpress.XtraGrid.GridControl gcExport;
       private DevExpress.XtraGrid.Views.Grid.GridView gvExport;
+      private DevExpress.Utils.Behaviors.BehaviorManager behaviorManager1;
    }
 }

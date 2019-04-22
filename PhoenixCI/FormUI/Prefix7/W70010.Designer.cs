@@ -40,20 +40,20 @@
          this.layoutControlItem9 = new DevExpress.XtraLayout.LayoutControlItem();
          this.layoutControlItem10 = new DevExpress.XtraLayout.LayoutControlItem();
          this.stMonth = new DevExpress.XtraLayout.LayoutControl();
-         this.emStartMth = new PhoenixCI.Widget.TextDateEdit();
-         this.emEndMth = new PhoenixCI.Widget.TextDateEdit();
+         this.emStartMth = new BaseGround.Widget.TextDateEdit();
+         this.emEndMth = new BaseGround.Widget.TextDateEdit();
          this.layoutControlGroup3 = new DevExpress.XtraLayout.LayoutControlGroup();
          this.layoutControlItem7 = new DevExpress.XtraLayout.LayoutControlItem();
          this.layoutControlItem8 = new DevExpress.XtraLayout.LayoutControlItem();
          this.stWeek = new DevExpress.XtraLayout.LayoutControl();
-         this.emStartDate1 = new PhoenixCI.Widget.TextDateEdit();
-         this.emEndDate1 = new PhoenixCI.Widget.TextDateEdit();
+         this.emStartDate1 = new BaseGround.Widget.TextDateEdit();
+         this.emEndDate1 = new BaseGround.Widget.TextDateEdit();
          this.layoutControlGroup2 = new DevExpress.XtraLayout.LayoutControlGroup();
          this.layoutControlItem5 = new DevExpress.XtraLayout.LayoutControlItem();
          this.layoutControlItem6 = new DevExpress.XtraLayout.LayoutControlItem();
          this.stDate = new DevExpress.XtraLayout.LayoutControl();
-         this.emStartDate = new PhoenixCI.Widget.TextDateEdit();
-         this.emEndDate = new PhoenixCI.Widget.TextDateEdit();
+         this.emStartDate = new BaseGround.Widget.TextDateEdit();
+         this.emEndDate = new BaseGround.Widget.TextDateEdit();
          this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
          this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
          this.layoutControlItem4 = new DevExpress.XtraLayout.LayoutControlItem();
@@ -300,7 +300,7 @@
          // emStartMth
          // 
          this.emStartMth.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
-         this.emStartMth.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+         this.emStartMth.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
          this.emStartMth.EditValue = "2019/01";
          this.emStartMth.Location = new System.Drawing.Point(2, 2);
          this.emStartMth.Name = "emStartMth";
@@ -312,12 +312,12 @@
          this.emStartMth.Size = new System.Drawing.Size(71, 28);
          this.emStartMth.StyleController = this.stMonth;
          this.emStartMth.TabIndex = 4;
-         this.emStartMth.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
+         this.emStartMth.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
          // 
          // emEndMth
          // 
          this.emEndMth.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
-         this.emEndMth.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+         this.emEndMth.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
          this.emEndMth.EditValue = "2019/01";
          this.emEndMth.Location = new System.Drawing.Point(94, 2);
          this.emEndMth.Name = "emEndMth";
@@ -329,7 +329,7 @@
          this.emEndMth.Size = new System.Drawing.Size(79, 28);
          this.emEndMth.StyleController = this.stMonth;
          this.emEndMth.TabIndex = 5;
-         this.emEndMth.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
+         this.emEndMth.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
          // 
          // layoutControlGroup3
          // 
@@ -386,7 +386,7 @@
          // emStartDate1
          // 
          this.emStartDate1.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
-         this.emStartDate1.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+         this.emStartDate1.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.emStartDate1.EditValue = "2019/01/01";
          this.emStartDate1.Location = new System.Drawing.Point(2, 2);
          this.emStartDate1.Name = "emStartDate1";
@@ -398,12 +398,12 @@
          this.emStartDate1.Size = new System.Drawing.Size(109, 28);
          this.emStartDate1.StyleController = this.stWeek;
          this.emStartDate1.TabIndex = 4;
-         this.emStartDate1.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
+         this.emStartDate1.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
          // 
          // emEndDate1
          // 
          this.emEndDate1.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
-         this.emEndDate1.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+         this.emEndDate1.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.emEndDate1.EditValue = "2019/01/01";
          this.emEndDate1.Location = new System.Drawing.Point(132, 2);
          this.emEndDate1.Name = "emEndDate1";
@@ -415,7 +415,7 @@
          this.emEndDate1.Size = new System.Drawing.Size(109, 28);
          this.emEndDate1.StyleController = this.stWeek;
          this.emEndDate1.TabIndex = 5;
-         this.emEndDate1.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
+         this.emEndDate1.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
          // 
          // layoutControlGroup2
          // 
@@ -471,7 +471,7 @@
          // emStartDate
          // 
          this.emStartDate.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
-         this.emStartDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+         this.emStartDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.emStartDate.EditValue = "2019/01/01";
          this.emStartDate.Location = new System.Drawing.Point(2, 2);
          this.emStartDate.Name = "emStartDate";
@@ -483,12 +483,12 @@
          this.emStartDate.Size = new System.Drawing.Size(109, 28);
          this.emStartDate.StyleController = this.stDate;
          this.emStartDate.TabIndex = 4;
-         this.emStartDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
+         this.emStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
          // 
          // emEndDate
          // 
          this.emEndDate.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
-         this.emEndDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+         this.emEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.emEndDate.EditValue = "2019/01/01";
          this.emEndDate.Location = new System.Drawing.Point(132, 2);
          this.emEndDate.Name = "emEndDate";
@@ -500,7 +500,7 @@
          this.emEndDate.Size = new System.Drawing.Size(109, 28);
          this.emEndDate.StyleController = this.stDate;
          this.emEndDate.TabIndex = 5;
-         this.emEndDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
+         this.emEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
          // 
          // Root
          // 
@@ -749,8 +749,8 @@
       private DevExpress.XtraEditors.RadioGroup rgDate;
       private DevExpress.XtraEditors.TextEdit textEdit1;
       private DevExpress.XtraLayout.LayoutControl stDate;
-      private PhoenixCI.Widget.TextDateEdit emStartDate;
-      private PhoenixCI.Widget.TextDateEdit emEndDate;
+      private BaseGround.Widget.TextDateEdit emStartDate;
+      private BaseGround.Widget.TextDateEdit emEndDate;
       private DevExpress.XtraLayout.LayoutControlGroup Root;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem2;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem4;
@@ -764,14 +764,14 @@
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem9;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem10;
       private DevExpress.XtraLayout.LayoutControl stMonth;
-      private PhoenixCI.Widget.TextDateEdit emStartMth;
-      private PhoenixCI.Widget.TextDateEdit emEndMth;
+      private BaseGround.Widget.TextDateEdit emStartMth;
+      private BaseGround.Widget.TextDateEdit emEndMth;
       private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup3;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem7;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem8;
       private DevExpress.XtraLayout.LayoutControl stWeek;
-      private Widget.TextDateEdit emStartDate1;
-      private Widget.TextDateEdit emEndDate1;
+      private BaseGround.Widget.TextDateEdit emStartDate1;
+      private BaseGround.Widget.TextDateEdit emEndDate1;
       private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup2;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem5;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem6;

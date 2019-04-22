@@ -70,7 +70,7 @@
          // 
          this.lblLeftMemo.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Parameters].[LeftMemo]")});
-         this.lblLeftMemo.Font = new System.Drawing.Font("DFKai-SB", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.lblLeftMemo.Font = new System.Drawing.Font("DFKai-SB", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.lblLeftMemo.LocationFloat = new DevExpress.Utils.PointFloat(0.000335552F, 121.8335F);
          this.lblLeftMemo.Name = "lblLeftMemo";
          this.lblLeftMemo.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);

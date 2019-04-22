@@ -27,7 +27,7 @@
          this.label2 = new System.Windows.Forms.Label();
          this.txtKindId = new DevExpress.XtraEditors.TextEdit();
          this.label1 = new System.Windows.Forms.Label();
-         this.txtMon = new PhoenixCI.Widget.TextDateEdit();
+         this.txtMon = new BaseGround.Widget.TextDateEdit();
          this.lblDate = new System.Windows.Forms.Label();
          this.labMsg = new System.Windows.Forms.Label();
          this.panParent.SuspendLayout();
@@ -101,7 +101,7 @@
          // txtMon
          // 
          this.txtMon.DateTimeValue = new System.DateTime(((long)(0)));
-         this.txtMon.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+         this.txtMon.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
          this.txtMon.EditValue = "2018/12";
          this.txtMon.EnterMoveNextControl = true;
          this.txtMon.Location = new System.Drawing.Point(91, 43);
@@ -114,7 +114,7 @@
          this.txtMon.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtMon.Size = new System.Drawing.Size(100, 26);
          this.txtMon.TabIndex = 0;
-         this.txtMon.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         this.txtMon.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // lblDate
          // 
@@ -162,7 +162,7 @@
 
         private System.Windows.Forms.GroupBox panFilter;
         private System.Windows.Forms.Label lblDate;
-        private Widget.TextDateEdit txtMon;
+        private BaseGround.Widget.TextDateEdit txtMon;
         private System.Windows.Forms.Label labMsg;
       private System.Windows.Forms.Label label2;
       private DevExpress.XtraEditors.TextEdit txtKindId;

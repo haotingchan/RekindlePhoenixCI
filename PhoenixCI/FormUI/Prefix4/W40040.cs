@@ -42,7 +42,7 @@ namespace PhoenixCI.FormUI.Prefix4
       protected override ResultStatus Open()
       {
          base.Open();
-         emDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
+         emDate.Text = DateTime.Now.ToString("yyyy/MM/dd");
          return ResultStatus.Success;
       }
 
@@ -68,24 +68,32 @@ namespace PhoenixCI.FormUI.Prefix4
             return false;
          }
 
-         _saveFilePath = PbFunc.wf_copy_file(_ProgramID, "40040");
-         b40040 = new B40040(_saveFilePath, emDate.Text, oswGrpLookItem.EditValue.AsString());
+         
+         string oswGrp = oswGrpLookItem.EditValue.AsString();
+         
+
+         string chkAi2 ="";
+         //switch (oswGrp) {
+         //   case "1":
+         //      chkAi2 = PbFunc.f_chk_ai2(emDate.Text.Replace("/", ""), oswGrp, "N", oswGrpLookItem.SelectedText, 2);
+         //      break;
+         //   case "5":
+         //      chkAi2 = PbFunc.f_chk_ai2(emDate.Text.Replace("/", ""), oswGrp, "N", oswGrpLookItem.SelectedText, 1);
+         //      break;
+         //   default:
+         //      break;
+         //}
+
+         if (chkAi2 != "") {
+            //is_chk = "E";
+            return false;
+         }
 
          stMsgTxt.Visible = true;
 
-         //判斷FMIF資料已轉入
-         string chkFMIF = MessageDisplay.MSG_OK;
-         if (chkFMIF != MessageDisplay.MSG_OK)
-         {
-            return OutputChooseMessage(chkFMIF);
-         }
-
-         //130批次作業做完
-         string strRtn = MessageDisplay.MSG_OK;
-         if (strRtn != MessageDisplay.MSG_OK)
-         {
-            return OutputChooseMessage(strRtn);
-         }
+         
+         _saveFilePath = PbFunc.wf_copy_file(_ProgramID, "40040");
+         b40040 = new B40040(_saveFilePath, emDate.Text, oswGrp);
 
          stMsgTxt.Text = "開始轉檔...";
          this.Cursor = Cursors.WaitCursor;
@@ -110,20 +118,11 @@ namespace PhoenixCI.FormUI.Prefix4
          Thread.Sleep(5);
       }
 
-      private bool OutputChooseMessage(string str)
-      {
-         DialogResult ChooseResult = MessageDisplay.Choose(str);
-         if (ChooseResult == DialogResult.No)
-         {
-            EndExport();
-            return false;
-         }
-         return true;
-      }
-
       private string OutputShowMessage {
          set {
-            if (value != MessageDisplay.MSG_OK)
+            if (value == MessageDisplay.MSG_NO_DATA) {
+               value = MessageDisplay.MSG_NO_DATA;
+            }else if (value != MessageDisplay.MSG_OK)
                MessageDisplay.Info(value);
          }
       }
@@ -135,7 +134,13 @@ namespace PhoenixCI.FormUI.Prefix4
             return ResultStatus.Fail;
          }
          try {
-            
+            //轉檔
+            ShowMsg($"{_ProgramID}－保證金調整檢核表 轉檔中...");
+            OutputShowMessage = b40040.Wf40040();
+            ShowMsg($"{_ProgramID}－保證金調整檢核表 轉檔中...");
+            OutputShowMessage = b40040.Wf40040ETF();
+            ShowMsg($"{_ProgramID}_SPAN－SPAN參數檔檢核結果 轉檔中...");
+            OutputShowMessage = b40040.Wf40040SPAN();
          }
          catch (Exception ex) {
             File.Delete(_saveFilePath);

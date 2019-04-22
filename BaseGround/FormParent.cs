@@ -26,7 +26,8 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-using static DataObjects.Dao.DataGate;
+using BaseGround.Widget;
+using System.Linq;
 
 namespace BaseGround {
    public partial class FormParent : DevExpress.XtraBars.Ribbon.RibbonForm {
@@ -279,11 +280,16 @@ namespace BaseGround {
          string startTime = DateTime.Now.ToString("HH:mm:ss");
 
          try {
-            WriteLog("Export", "Operation", "E");
-            ResultStatus result = Export();
+            if (CheckShield() == ResultStatus.Success) {
 
-            if (result == ResultStatus.Success)
-               ExportAfter(startTime);
+               WriteLog("Export", "Operation", "E");
+               ResultStatus result = Export();
+
+               if (result == ResultStatus.Success)
+                  ExportAfter(startTime);
+            } else {
+               return;
+            }
          } catch (Exception ex) {
             WriteLog(ex);
          }

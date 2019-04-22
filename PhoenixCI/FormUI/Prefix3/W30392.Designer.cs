@@ -25,7 +25,7 @@
       private void InitializeComponent() {
          this.labMsg = new System.Windows.Forms.Label();
          this.panFilter = new System.Windows.Forms.GroupBox();
-         this.txtMonth = new PhoenixCI.Widget.TextDateEdit();
+         this.txtMonth = new BaseGround.Widget.TextDateEdit();
          this.label1 = new System.Windows.Forms.Label();
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
          this.panParent.SuspendLayout();
@@ -74,7 +74,7 @@
          // txtMonth
          // 
          this.txtMonth.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtMonth.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+         this.txtMonth.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
          this.txtMonth.EditValue = "2018/12";
          this.txtMonth.EnterMoveNextControl = true;
          this.txtMonth.Location = new System.Drawing.Point(96, 42);
@@ -87,7 +87,7 @@
          this.txtMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtMonth.Size = new System.Drawing.Size(100, 26);
          this.txtMonth.TabIndex = 0;
-         this.txtMonth.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         this.txtMonth.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // label1
          // 
@@ -137,7 +137,7 @@
       private System.Windows.Forms.Label labMsg;
       private System.Windows.Forms.GroupBox panFilter;
       private DevExpress.XtraEditors.PanelControl r_frame;
-      private Widget.TextDateEdit txtMonth;
+      private BaseGround.Widget.TextDateEdit txtMonth;
       private System.Windows.Forms.Label label1;
    }
 }

@@ -33,8 +33,8 @@
          this.gb1_label = new System.Windows.Forms.Label();
          this.gb_1 = new DevExpress.XtraEditors.PanelControl();
          this.st_date = new DevExpress.XtraLayout.LayoutControl();
-         this.emStartDate = new PhoenixCI.Widget.TextDateEdit();
-         this.emEndDate = new PhoenixCI.Widget.TextDateEdit();
+         this.emStartDate = new BaseGround.Widget.TextDateEdit();
+         this.emEndDate = new BaseGround.Widget.TextDateEdit();
          this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
          this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
          this.layoutControlItem4 = new DevExpress.XtraLayout.LayoutControlItem();
@@ -156,7 +156,7 @@
          // emStartDate
          // 
          this.emStartDate.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
-         this.emStartDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+         this.emStartDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.emStartDate.EditValue = "2019/01/01";
          this.emStartDate.Location = new System.Drawing.Point(2, 2);
          this.emStartDate.Name = "emStartDate";
@@ -168,12 +168,12 @@
          this.emStartDate.Size = new System.Drawing.Size(102, 28);
          this.emStartDate.StyleController = this.st_date;
          this.emStartDate.TabIndex = 4;
-         this.emStartDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
+         this.emStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
          // 
          // emEndDate
          // 
          this.emEndDate.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
-         this.emEndDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+         this.emEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.emEndDate.EditValue = "2019/01/01";
          this.emEndDate.Location = new System.Drawing.Point(125, 2);
          this.emEndDate.Name = "emEndDate";
@@ -185,7 +185,7 @@
          this.emEndDate.Size = new System.Drawing.Size(102, 28);
          this.emEndDate.StyleController = this.st_date;
          this.emEndDate.TabIndex = 5;
-         this.emEndDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
+         this.emEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
          // 
          // Root
          // 
@@ -379,8 +379,8 @@
       private DevExpress.XtraEditors.RadioGroup rgData;
       private DevExpress.XtraEditors.TextEdit textEdit1;
       private DevExpress.XtraLayout.LayoutControl st_date;
-      private PhoenixCI.Widget.TextDateEdit emStartDate;
-      private PhoenixCI.Widget.TextDateEdit emEndDate;
+      private BaseGround.Widget.TextDateEdit emStartDate;
+      private BaseGround.Widget.TextDateEdit emEndDate;
       private DevExpress.XtraLayout.LayoutControlGroup Root;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem4;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;

@@ -33,13 +33,13 @@
          this.gb1_label = new System.Windows.Forms.Label();
          this.gb_1 = new DevExpress.XtraEditors.PanelControl();
          this.st_date = new DevExpress.XtraLayout.LayoutControl();
-         this.emStartDate = new PhoenixCI.Widget.TextDateEdit();
-         this.emEndDate = new PhoenixCI.Widget.TextDateEdit();
+         this.emStartDate = new BaseGround.Widget.TextDateEdit();
+         this.emEndDate = new BaseGround.Widget.TextDateEdit();
          this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
          this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
          this.layoutControlItem4 = new DevExpress.XtraLayout.LayoutControlItem();
          this.stDate = new System.Windows.Forms.Label();
-         this.textEdit1 = new PhoenixCI.Widget.TextDateEdit();
+         this.textEdit1 = new BaseGround.Widget.TextDateEdit();
          this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
          this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
          this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
@@ -149,7 +149,7 @@
          // emStartDate
          // 
          this.emStartDate.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
-         this.emStartDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+         this.emStartDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.emStartDate.EditValue = "2019/01/01";
          this.emStartDate.Location = new System.Drawing.Point(2, 2);
          this.emStartDate.Name = "emStartDate";
@@ -165,7 +165,7 @@
          // emEndDate
          // 
          this.emEndDate.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
-         this.emEndDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+         this.emEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.emEndDate.EditValue = "2019/01/01";
          this.emEndDate.Location = new System.Drawing.Point(125, 2);
          this.emEndDate.Name = "emEndDate";
@@ -304,10 +304,10 @@
       private System.Windows.Forms.Label stMsgTxt;
       private System.Windows.Forms.Label gb1_label;
       private DevExpress.XtraEditors.PanelControl gb_1;
-      private PhoenixCI.Widget.TextDateEdit textEdit1;
+      private BaseGround.Widget.TextDateEdit textEdit1;
       private DevExpress.XtraLayout.LayoutControl st_date;
-      private PhoenixCI.Widget.TextDateEdit emStartDate;
-      private PhoenixCI.Widget.TextDateEdit emEndDate;
+      private BaseGround.Widget.TextDateEdit emStartDate;
+      private BaseGround.Widget.TextDateEdit emEndDate;
       private DevExpress.XtraLayout.LayoutControlGroup Root;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem4;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;

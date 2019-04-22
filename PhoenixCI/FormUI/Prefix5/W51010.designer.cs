@@ -30,14 +30,14 @@
         {
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.label1 = new System.Windows.Forms.Label();
-            this.TXTEndDate = new PhoenixCI.Widget.TextDateEdit();
-            this.TXTStartDate = new PhoenixCI.Widget.TextDateEdit();
+            this.TXTEndDate = new BaseGround.Widget.TextDateEdit();
+            this.TXTStartDate = new BaseGround.Widget.TextDateEdit();
             this.label2 = new System.Windows.Forms.Label();
             this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
             this.gcMain = new DevExpress.XtraGrid.GridControl();
             this.gvMain = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.DTS_DATE = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.repositoryItemTextDateEdit1 = new PhoenixCI.Widget.RepositoryItemTextDateEdit();
+            this.repositoryItemTextDateEdit1 = new BaseGround.Widget.RepositoryItemTextDateEdit();
             this.DTS_DATE_TYPE = new DevExpress.XtraGrid.Columns.GridColumn();
             this.DTS_WORK = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Is_NewRow = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -92,7 +92,7 @@
             // TXTEndDate
             // 
             this.TXTEndDate.DateTimeValue = new System.DateTime(((long)(0)));
-            this.TXTEndDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+            this.TXTEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
             this.TXTEndDate.EditValue = "0001/1/1 上午 12:00:00";
             this.TXTEndDate.Location = new System.Drawing.Point(320, 5);
             this.TXTEndDate.Name = "TXTEndDate";
@@ -103,12 +103,12 @@
             this.TXTEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.TXTEndDate.Size = new System.Drawing.Size(150, 26);
             this.TXTEndDate.TabIndex = 12;
-            this.TXTEndDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
+            this.TXTEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
             // 
             // TXTStartDate
             // 
             this.TXTStartDate.DateTimeValue = new System.DateTime(((long)(0)));
-            this.TXTStartDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+            this.TXTStartDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
             this.TXTStartDate.EditValue = "0001/1/1 上午 12:00:00";
             this.TXTStartDate.Location = new System.Drawing.Point(127, 5);
             this.TXTStartDate.Name = "TXTStartDate";
@@ -119,7 +119,7 @@
             this.TXTStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.TXTStartDate.Size = new System.Drawing.Size(150, 26);
             this.TXTStartDate.TabIndex = 11;
-            this.TXTStartDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
+            this.TXTStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
             // 
             // label2
             // 
@@ -294,7 +294,7 @@
         private DevExpress.XtraGrid.GridControl gcMain;
         private DevExpress.XtraGrid.Views.Grid.GridView gvMain;
         private DevExpress.XtraGrid.Columns.GridColumn DTS_DATE;
-        private Widget.RepositoryItemTextDateEdit repositoryItemTextDateEdit1;
+        private BaseGround.Widget.RepositoryItemTextDateEdit repositoryItemTextDateEdit1;
         private DevExpress.XtraGrid.Columns.GridColumn DTS_DATE_TYPE;
         private DevExpress.XtraGrid.Columns.GridColumn DTS_WORK;
         private DevExpress.XtraGrid.Columns.GridColumn Is_NewRow;
@@ -302,8 +302,8 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label1;
-        private Widget.TextDateEdit TXTEndDate;
-        private Widget.TextDateEdit TXTStartDate;
+        private BaseGround.Widget.TextDateEdit TXTEndDate;
+        private BaseGround.Widget.TextDateEdit TXTStartDate;
         private System.Windows.Forms.Label label2;
     }
 }

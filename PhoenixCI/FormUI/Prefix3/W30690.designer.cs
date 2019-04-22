@@ -24,13 +24,13 @@
         /// </summary>
         private void InitializeComponent() {
             this.panNormal = new System.Windows.Forms.GroupBox();
-            this.txtRateStartDate = new PhoenixCI.Widget.TextDateEdit();
-            this.txtThisEndDate = new PhoenixCI.Widget.TextDateEdit();
-            this.txtThisStartDate = new PhoenixCI.Widget.TextDateEdit();
+            this.txtRateStartDate = new BaseGround.Widget.TextDateEdit();
+            this.txtThisEndDate = new BaseGround.Widget.TextDateEdit();
+            this.txtThisStartDate = new BaseGround.Widget.TextDateEdit();
             this.label1 = new System.Windows.Forms.Label();
             this.labThisWeek = new System.Windows.Forms.Label();
-            this.txtLastEndDate = new PhoenixCI.Widget.TextDateEdit();
-            this.txtLastStartDate = new PhoenixCI.Widget.TextDateEdit();
+            this.txtLastEndDate = new BaseGround.Widget.TextDateEdit();
+            this.txtLastStartDate = new BaseGround.Widget.TextDateEdit();
             this.lbl1 = new System.Windows.Forms.Label();
             this.labLastWeek = new System.Windows.Forms.Label();
             this.labPercStartDate = new System.Windows.Forms.Label();
@@ -39,24 +39,24 @@
             this.panFilter = new System.Windows.Forms.GroupBox();
             this.btnCopy = new System.Windows.Forms.Button();
             this.panNight = new System.Windows.Forms.GroupBox();
-            this.txtRateStartDateN = new PhoenixCI.Widget.TextDateEdit();
-            this.txtThisEndDateN = new PhoenixCI.Widget.TextDateEdit();
-            this.txtThisStartDateN = new PhoenixCI.Widget.TextDateEdit();
+            this.txtRateStartDateN = new BaseGround.Widget.TextDateEdit();
+            this.txtThisEndDateN = new BaseGround.Widget.TextDateEdit();
+            this.txtThisStartDateN = new BaseGround.Widget.TextDateEdit();
             this.label7 = new System.Windows.Forms.Label();
             this.labThisWeekN = new System.Windows.Forms.Label();
-            this.txtLastEndDateN = new PhoenixCI.Widget.TextDateEdit();
-            this.txtLastStartDateN = new PhoenixCI.Widget.TextDateEdit();
+            this.txtLastEndDateN = new BaseGround.Widget.TextDateEdit();
+            this.txtLastStartDateN = new BaseGround.Widget.TextDateEdit();
             this.label9 = new System.Windows.Forms.Label();
             this.labLastWeekN = new System.Windows.Forms.Label();
             this.labPercStartDateN = new System.Windows.Forms.Label();
             this.labDesc2 = new System.Windows.Forms.Label();
             this.panDiff = new System.Windows.Forms.GroupBox();
-            this.txtDiffEndDateN = new PhoenixCI.Widget.TextDateEdit();
-            this.txtDiffStartDateN = new PhoenixCI.Widget.TextDateEdit();
+            this.txtDiffEndDateN = new BaseGround.Widget.TextDateEdit();
+            this.txtDiffStartDateN = new BaseGround.Widget.TextDateEdit();
             this.label4 = new System.Windows.Forms.Label();
             this.labAvgDateN = new System.Windows.Forms.Label();
-            this.txtDiffEndDate = new PhoenixCI.Widget.TextDateEdit();
-            this.txtDiffStartDate = new PhoenixCI.Widget.TextDateEdit();
+            this.txtDiffEndDate = new BaseGround.Widget.TextDateEdit();
+            this.txtDiffStartDate = new BaseGround.Widget.TextDateEdit();
             this.label12 = new System.Windows.Forms.Label();
             this.labAvgDate = new System.Windows.Forms.Label();
             this.panProd = new System.Windows.Forms.GroupBox();
@@ -145,7 +145,7 @@
             // txtRateStartDate
             // 
             this.txtRateStartDate.DateTimeValue = new System.DateTime(((long)(0)));
-            this.txtRateStartDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+            this.txtRateStartDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
             this.txtRateStartDate.EditValue = "";
             this.txtRateStartDate.EnterMoveNextControl = true;
             this.txtRateStartDate.Location = new System.Drawing.Point(232, 106);
@@ -159,12 +159,12 @@
             this.txtRateStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtRateStartDate.Size = new System.Drawing.Size(100, 22);
             this.txtRateStartDate.TabIndex = 4;
-            this.txtRateStartDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtRateStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // txtThisEndDate
             // 
             this.txtThisEndDate.DateTimeValue = new System.DateTime(((long)(0)));
-            this.txtThisEndDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+            this.txtThisEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
             this.txtThisEndDate.EditValue = "";
             this.txtThisEndDate.EnterMoveNextControl = true;
             this.txtThisEndDate.Location = new System.Drawing.Point(232, 67);
@@ -178,12 +178,12 @@
             this.txtThisEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtThisEndDate.Size = new System.Drawing.Size(100, 22);
             this.txtThisEndDate.TabIndex = 3;
-            this.txtThisEndDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtThisEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // txtThisStartDate
             // 
             this.txtThisStartDate.DateTimeValue = new System.DateTime(((long)(0)));
-            this.txtThisStartDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+            this.txtThisStartDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
             this.txtThisStartDate.EditValue = "";
             this.txtThisStartDate.EnterMoveNextControl = true;
             this.txtThisStartDate.Location = new System.Drawing.Point(105, 67);
@@ -197,7 +197,7 @@
             this.txtThisStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtThisStartDate.Size = new System.Drawing.Size(100, 22);
             this.txtThisStartDate.TabIndex = 2;
-            this.txtThisStartDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtThisStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // label1
             // 
@@ -223,7 +223,7 @@
             // txtLastEndDate
             // 
             this.txtLastEndDate.DateTimeValue = new System.DateTime(((long)(0)));
-            this.txtLastEndDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+            this.txtLastEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
             this.txtLastEndDate.EditValue = "";
             this.txtLastEndDate.EnterMoveNextControl = true;
             this.txtLastEndDate.Location = new System.Drawing.Point(232, 28);
@@ -237,12 +237,12 @@
             this.txtLastEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtLastEndDate.Size = new System.Drawing.Size(100, 22);
             this.txtLastEndDate.TabIndex = 1;
-            this.txtLastEndDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtLastEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // txtLastStartDate
             // 
             this.txtLastStartDate.DateTimeValue = new System.DateTime(((long)(0)));
-            this.txtLastStartDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+            this.txtLastStartDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
             this.txtLastStartDate.EditValue = "";
             this.txtLastStartDate.EnterMoveNextControl = true;
             this.txtLastStartDate.Location = new System.Drawing.Point(105, 28);
@@ -256,7 +256,7 @@
             this.txtLastStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtLastStartDate.Size = new System.Drawing.Size(100, 22);
             this.txtLastStartDate.TabIndex = 0;
-            this.txtLastStartDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtLastStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // lbl1
             // 
@@ -364,7 +364,7 @@
             // txtRateStartDateN
             // 
             this.txtRateStartDateN.DateTimeValue = new System.DateTime(((long)(0)));
-            this.txtRateStartDateN.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+            this.txtRateStartDateN.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
             this.txtRateStartDateN.EditValue = "";
             this.txtRateStartDateN.EnterMoveNextControl = true;
             this.txtRateStartDateN.Location = new System.Drawing.Point(228, 106);
@@ -378,12 +378,12 @@
             this.txtRateStartDateN.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtRateStartDateN.Size = new System.Drawing.Size(100, 22);
             this.txtRateStartDateN.TabIndex = 9;
-            this.txtRateStartDateN.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtRateStartDateN.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // txtThisEndDateN
             // 
             this.txtThisEndDateN.DateTimeValue = new System.DateTime(((long)(0)));
-            this.txtThisEndDateN.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+            this.txtThisEndDateN.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
             this.txtThisEndDateN.EditValue = "";
             this.txtThisEndDateN.EnterMoveNextControl = true;
             this.txtThisEndDateN.Location = new System.Drawing.Point(228, 67);
@@ -397,12 +397,12 @@
             this.txtThisEndDateN.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtThisEndDateN.Size = new System.Drawing.Size(100, 22);
             this.txtThisEndDateN.TabIndex = 8;
-            this.txtThisEndDateN.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtThisEndDateN.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // txtThisStartDateN
             // 
             this.txtThisStartDateN.DateTimeValue = new System.DateTime(((long)(0)));
-            this.txtThisStartDateN.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+            this.txtThisStartDateN.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
             this.txtThisStartDateN.EditValue = "";
             this.txtThisStartDateN.EnterMoveNextControl = true;
             this.txtThisStartDateN.Location = new System.Drawing.Point(101, 67);
@@ -416,7 +416,7 @@
             this.txtThisStartDateN.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtThisStartDateN.Size = new System.Drawing.Size(100, 22);
             this.txtThisStartDateN.TabIndex = 7;
-            this.txtThisStartDateN.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtThisStartDateN.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // label7
             // 
@@ -442,7 +442,7 @@
             // txtLastEndDateN
             // 
             this.txtLastEndDateN.DateTimeValue = new System.DateTime(((long)(0)));
-            this.txtLastEndDateN.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+            this.txtLastEndDateN.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
             this.txtLastEndDateN.EditValue = "";
             this.txtLastEndDateN.EnterMoveNextControl = true;
             this.txtLastEndDateN.Location = new System.Drawing.Point(227, 28);
@@ -456,12 +456,12 @@
             this.txtLastEndDateN.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtLastEndDateN.Size = new System.Drawing.Size(100, 22);
             this.txtLastEndDateN.TabIndex = 6;
-            this.txtLastEndDateN.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtLastEndDateN.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // txtLastStartDateN
             // 
             this.txtLastStartDateN.DateTimeValue = new System.DateTime(((long)(0)));
-            this.txtLastStartDateN.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+            this.txtLastStartDateN.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
             this.txtLastStartDateN.EditValue = "";
             this.txtLastStartDateN.EnterMoveNextControl = true;
             this.txtLastStartDateN.Location = new System.Drawing.Point(100, 28);
@@ -475,7 +475,7 @@
             this.txtLastStartDateN.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtLastStartDateN.Size = new System.Drawing.Size(100, 22);
             this.txtLastStartDateN.TabIndex = 5;
-            this.txtLastStartDateN.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtLastStartDateN.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // label9
             // 
@@ -543,7 +543,7 @@
             // txtDiffEndDateN
             // 
             this.txtDiffEndDateN.DateTimeValue = new System.DateTime(((long)(0)));
-            this.txtDiffEndDateN.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+            this.txtDiffEndDateN.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
             this.txtDiffEndDateN.EditValue = "";
             this.txtDiffEndDateN.EnterMoveNextControl = true;
             this.txtDiffEndDateN.Location = new System.Drawing.Point(227, 67);
@@ -557,12 +557,12 @@
             this.txtDiffEndDateN.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtDiffEndDateN.Size = new System.Drawing.Size(100, 22);
             this.txtDiffEndDateN.TabIndex = 13;
-            this.txtDiffEndDateN.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtDiffEndDateN.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // txtDiffStartDateN
             // 
             this.txtDiffStartDateN.DateTimeValue = new System.DateTime(((long)(0)));
-            this.txtDiffStartDateN.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+            this.txtDiffStartDateN.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
             this.txtDiffStartDateN.EditValue = "";
             this.txtDiffStartDateN.EnterMoveNextControl = true;
             this.txtDiffStartDateN.Location = new System.Drawing.Point(100, 67);
@@ -576,7 +576,7 @@
             this.txtDiffStartDateN.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtDiffStartDateN.Size = new System.Drawing.Size(100, 22);
             this.txtDiffStartDateN.TabIndex = 12;
-            this.txtDiffStartDateN.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtDiffStartDateN.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // label4
             // 
@@ -602,7 +602,7 @@
             // txtDiffEndDate
             // 
             this.txtDiffEndDate.DateTimeValue = new System.DateTime(((long)(0)));
-            this.txtDiffEndDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+            this.txtDiffEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
             this.txtDiffEndDate.EditValue = "";
             this.txtDiffEndDate.EnterMoveNextControl = true;
             this.txtDiffEndDate.Location = new System.Drawing.Point(227, 24);
@@ -616,12 +616,12 @@
             this.txtDiffEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtDiffEndDate.Size = new System.Drawing.Size(100, 22);
             this.txtDiffEndDate.TabIndex = 11;
-            this.txtDiffEndDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtDiffEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // txtDiffStartDate
             // 
             this.txtDiffStartDate.DateTimeValue = new System.DateTime(((long)(0)));
-            this.txtDiffStartDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+            this.txtDiffStartDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
             this.txtDiffStartDate.EditValue = "";
             this.txtDiffStartDate.EnterMoveNextControl = true;
             this.txtDiffStartDate.Location = new System.Drawing.Point(100, 24);
@@ -635,7 +635,7 @@
             this.txtDiffStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtDiffStartDate.Size = new System.Drawing.Size(100, 22);
             this.txtDiffStartDate.TabIndex = 10;
-            this.txtDiffStartDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtDiffStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // label12
             // 
@@ -869,8 +869,8 @@
         #endregion
 
         private System.Windows.Forms.GroupBox panNormal;
-        private Widget.TextDateEdit txtLastEndDate;
-        private Widget.TextDateEdit txtLastStartDate;
+        private BaseGround.Widget.TextDateEdit txtLastEndDate;
+        private BaseGround.Widget.TextDateEdit txtLastStartDate;
         private System.Windows.Forms.Label lbl1;
         private System.Windows.Forms.Label labLastWeek;
         private System.Windows.Forms.Label labMsg;
@@ -879,29 +879,29 @@
         private System.Windows.Forms.GroupBox panNight;
         private System.Windows.Forms.Label labDesc2;
         private System.Windows.Forms.Label labPercStartDateN;
-        private Widget.TextDateEdit txtRateStartDateN;
-        private Widget.TextDateEdit txtThisEndDateN;
-        private Widget.TextDateEdit txtThisStartDateN;
+        private BaseGround.Widget.TextDateEdit txtRateStartDateN;
+        private BaseGround.Widget.TextDateEdit txtThisEndDateN;
+        private BaseGround.Widget.TextDateEdit txtThisStartDateN;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label labThisWeekN;
-        private Widget.TextDateEdit txtLastEndDateN;
-        private Widget.TextDateEdit txtLastStartDateN;
+        private BaseGround.Widget.TextDateEdit txtLastEndDateN;
+        private BaseGround.Widget.TextDateEdit txtLastStartDateN;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label labLastWeekN;
         private System.Windows.Forms.Label labDesc1;
         private System.Windows.Forms.Label labPercStartDate;
-        private Widget.TextDateEdit txtRateStartDate;
-        private Widget.TextDateEdit txtThisEndDate;
-        private Widget.TextDateEdit txtThisStartDate;
+        private BaseGround.Widget.TextDateEdit txtRateStartDate;
+        private BaseGround.Widget.TextDateEdit txtThisEndDate;
+        private BaseGround.Widget.TextDateEdit txtThisStartDate;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label labThisWeek;
         private System.Windows.Forms.GroupBox panDiff;
-        private Widget.TextDateEdit txtDiffEndDateN;
-        private Widget.TextDateEdit txtDiffStartDateN;
+        private BaseGround.Widget.TextDateEdit txtDiffEndDateN;
+        private BaseGround.Widget.TextDateEdit txtDiffStartDateN;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label labAvgDateN;
-        private Widget.TextDateEdit txtDiffEndDate;
-        private Widget.TextDateEdit txtDiffStartDate;
+        private BaseGround.Widget.TextDateEdit txtDiffEndDate;
+        private BaseGround.Widget.TextDateEdit txtDiffStartDate;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label labAvgDate;
         private System.Windows.Forms.GroupBox panProd;
