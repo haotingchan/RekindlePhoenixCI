@@ -28,14 +28,14 @@ namespace DataObjects.Dao.Together.SpecificDao
 
          switch (sheet)
          {
-            case 1:
+            case 0:
                string sql = @"select nvl(max(mg1_date),to_date('1901/1/1','yyyy/mm/dd'))
                           from ci.mg1
                          where mg1_date < :ld_date_last";
                DataTable dtResult = db.GetDataTable(sql, parms);
                dateTime= dtResult.Rows[0][0].AsDateTime();
                break;
-            case 2:
+            case 1:
                string dateLast = new AI2().GetLastSumTypeDate("D","2","S", ld_date_last);
                dateTime = dateLast.AsDateTime();
                break;
@@ -207,10 +207,14 @@ namespace DataObjects.Dao.Together.SpecificDao
             };
 
          string sql =
-             @"select '1' as data_type,'TAIFEX'as COM ,MG1_KIND_ID,MG1_CM,MG1_PRICE ,0 as EXCHANGE_RATE,
+             @"select main.*,
+               round( MG1_CM / (MG1_PRICE * P_XXX) ,4) as CP_AFT_RATE,
+               round( CUR_CM / (MG1_PRICE * P_XXX) ,4) as CP_BEF_RATE 
+               from
+               (select '1' as data_type,'TAIFEX'as COM ,MG1_KIND_ID,MG1_CM,MG1_PRICE ,0 as EXCHANGE_RATE,
                       MG1_CM AS OUT_M,'' AS F_NAME,
                       MG1_CUR_CM as CUR_CM,
-                      MG1_XXX as P_XXX,MG1_DATE  as data_date
+                      MG1_XXX as P_XXX,MG1_DATE  as DATA_DATE
                  from ci.MG1,
                      (SELECT COD_ID as KIND_ID FROM CI.COD 
                        WHERE COD_TXN_ID  ='MGT8' 
@@ -244,7 +248,7 @@ namespace DataObjects.Dao.Together.SpecificDao
                   and MAX_F_ID = MG9_F_ID(+) 
                   AND MGT8_PDK_KIND_ID = APDK_KIND_ID
                   and APDK_MARKET_CLOSE like :as_osw_grp
-               ORDER BY data_type,com,mg1_kind_id";
+               ORDER BY data_type,com,mg1_kind_id) main";
          DataTable dtResult = db.GetDataTable(sql, parms);
 
          return dtResult;
@@ -389,7 +393,8 @@ namespace DataObjects.Dao.Together.SpecificDao
             };
 
          string sql =
-             @"SELECT T.MG1_DATE AS MG1_DATE,   
+             @"select ROWNUM as SN,main.* from
+             (SELECT T.MG1_DATE AS MG1_DATE,   
                      T.MG1_KIND_ID AS MG1_KIND_ID,  
                      T.MG1_IM AS MG1_IM,
                      T.MG1_CHANGE_RANGE as MG1_CHANGE_RANGE,
@@ -449,7 +454,7 @@ namespace DataObjects.Dao.Together.SpecificDao
                   and APDK_UNDERLYING_MARKET = COD_ID 
                   and T.MG1_KIND_ID = AI2_KIND_ID(+)
                   AND T.MG1_PARAM_KEY IN ('ETF','ETC')
-               ORDER BY apdk_prod_type,mg1_kind_id";
+               ORDER BY apdk_prod_type,mg1_kind_id) main";
          DataTable dtResult = db.GetDataTable(sql, parms);
 
          return dtResult;
@@ -471,7 +476,17 @@ namespace DataObjects.Dao.Together.SpecificDao
             };
 
          string sql =
-             @"select SP1_KIND_ID1,SP1_CHANGE_RANGE,nvl(DAY_CNT,0) as DAY_CNT,RPT_SEQ_NO ,SP1_CHANGE_FLAG
+             @"select 
+         (case when abs(SP1_CHANGE_RANGE) >= 0.1 and abs(SP1_CHANGE_RANGE) < 0.3 then SP1_CHANGE_RANGE end) as Cell3,'',
+         (case when abs(SP1_CHANGE_RANGE) >= 0.3 and abs(SP1_CHANGE_RANGE) < 0.5 then SP1_CHANGE_RANGE end) as Cell5,'',
+         (case when abs(SP1_CHANGE_RANGE) >= 0.5 and abs(SP1_CHANGE_RANGE) < 0.7 then SP1_CHANGE_RANGE end) as Cell7,'',
+         (case when abs(SP1_CHANGE_RANGE) >= 0.7 then SP1_CHANGE_RANGE end) as Cell9,'',
+         (case when DAY_CNT>0 then DAY_CNT else null end) as DAY_CNT 
+         from
+         (select main.* from
+         (SELECT RPT_VALUE,RPT_SEQ_NO FROM CI.RPT where RPT_TXN_ID = '40040' and RPT_TXD_ID = '40043' and RPT_VALUE_3 = 'SV') rpt
+         left join
+         (select SP1_KIND_ID1,SP1_CHANGE_RANGE,nvl(DAY_CNT,0) as DAY_CNT,RPT_SEQ_NO ,SP1_CHANGE_FLAG
          from ci.SP1,
              (select SP1_KIND_ID1 as D_KIND_ID1,SP1_KIND_ID2 as D_KIND_ID2,count(*) as DAY_CNT,MIN_DATE
                 from ci.SP1,
@@ -529,7 +544,11 @@ namespace DataObjects.Dao.Together.SpecificDao
           and SP1_TYPE = 'SV'
           and SP1_OSW_GRP LIKE :as_osw_grp
           and SP1_KIND_ID1 = D_KIND_ID1(+)
-          and SP1_KIND_ID1 = RPT_VALUE";
+          and SP1_KIND_ID1 = RPT_VALUE
+          and SP1_CHANGE_FLAG = 'Y'
+          ) main
+          on main.RPT_SEQ_NO = rpt.RPT_SEQ_NO
+          order by rpt.RPT_SEQ_NO)";
          DataTable dtResult = db.GetDataTable(sql, parms);
 
          return dtResult;

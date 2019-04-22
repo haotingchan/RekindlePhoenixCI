@@ -24,7 +24,7 @@
         /// </summary>
         private void InitializeComponent() {
             this.grpxDescription = new System.Windows.Forms.GroupBox();
-            this.txtMonth = new PhoenixCI.Widget.TextDateEdit();
+            this.txtMonth = new BaseGround.Widget.TextDateEdit();
             this.lblDate = new System.Windows.Forms.Label();
             this.lblProcessing = new System.Windows.Forms.Label();
             this.panParent.SuspendLayout();
@@ -61,7 +61,7 @@
             // txtMonth
             // 
             this.txtMonth.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtMonth.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+            this.txtMonth.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
             this.txtMonth.EditValue = "2018/12";
             this.txtMonth.EnterMoveNextControl = true;
             this.txtMonth.Location = new System.Drawing.Point(100, 43);
@@ -74,7 +74,7 @@
             this.txtMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtMonth.Size = new System.Drawing.Size(100, 26);
             this.txtMonth.TabIndex = 6;
-            this.txtMonth.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtMonth.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // lblDate
             // 
@@ -120,7 +120,7 @@
 
         private System.Windows.Forms.GroupBox grpxDescription;
         private System.Windows.Forms.Label lblDate;
-        private Widget.TextDateEdit txtMonth;
+        private BaseGround.Widget.TextDateEdit txtMonth;
         private System.Windows.Forms.Label lblProcessing;
     }
 }

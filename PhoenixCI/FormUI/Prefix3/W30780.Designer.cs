@@ -33,7 +33,7 @@
          this.gb1Label = new System.Windows.Forms.Label();
          this.gb1 = new DevExpress.XtraEditors.PanelControl();
          this.rgTime = new DevExpress.XtraEditors.RadioGroup();
-         this.emMonth = new PhoenixCI.Widget.TextDateEdit();
+         this.emMonth = new BaseGround.Widget.TextDateEdit();
          this.st5 = new System.Windows.Forms.Label();
          this.textEdit1 = new DevExpress.XtraEditors.TextEdit();
          this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
@@ -147,7 +147,7 @@
          // emMonth
          // 
          this.emMonth.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
-         this.emMonth.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+         this.emMonth.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
          this.emMonth.EditValue = "2019/01";
          this.emMonth.Location = new System.Drawing.Point(104, 40);
          this.emMonth.Name = "emMonth";
@@ -257,7 +257,7 @@
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
       private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup1;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
-      private PhoenixCI.Widget.TextDateEdit  emMonth;
+      private BaseGround.Widget.TextDateEdit  emMonth;
       private System.Windows.Forms.Label label1;
    }
 }

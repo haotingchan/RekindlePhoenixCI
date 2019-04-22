@@ -37,7 +37,6 @@ namespace PhoenixCI.FormUI.Prefix5
       public override ResultStatus BeforeOpen()
       {
          base.BeforeOpen();
-         w500xx.BeforeOpen();
          return ResultStatus.Success;
       }
 

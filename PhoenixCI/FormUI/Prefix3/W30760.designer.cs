@@ -28,8 +28,8 @@
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.grpxDescription = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtEDate = new PhoenixCI.Widget.TextDateEdit();
-            this.txtSDate = new PhoenixCI.Widget.TextDateEdit();
+            this.txtEDate = new BaseGround.Widget.TextDateEdit();
+            this.txtSDate = new BaseGround.Widget.TextDateEdit();
             this.lblDate = new System.Windows.Forms.Label();
             this.ExportShow = new System.Windows.Forms.Label();
             this.panParent.SuspendLayout();
@@ -86,7 +86,7 @@
             // txtEDate
             // 
             this.txtEDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtEDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtEDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
             this.txtEDate.EditValue = "2018/12";
             this.txtEDate.EnterMoveNextControl = true;
             this.txtEDate.Location = new System.Drawing.Point(277, 43);
@@ -99,12 +99,12 @@
             this.txtEDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtEDate.Size = new System.Drawing.Size(144, 26);
             this.txtEDate.TabIndex = 16;
-            this.txtEDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtEDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // txtSDate
             // 
             this.txtSDate.DateTimeValue = new System.DateTime(2018, 1, 1, 0, 0, 0, 0);
-            this.txtSDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtSDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
             this.txtSDate.EditValue = "2018/01";
             this.txtSDate.EnterMoveNextControl = true;
             this.txtSDate.Location = new System.Drawing.Point(100, 43);
@@ -117,7 +117,7 @@
             this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtSDate.Size = new System.Drawing.Size(144, 26);
             this.txtSDate.TabIndex = 15;
-            this.txtSDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtSDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // lblDate
             // 
@@ -168,8 +168,8 @@
         private System.Windows.Forms.GroupBox grpxDescription;
         private System.Windows.Forms.Label lblDate;
         private System.Windows.Forms.Label ExportShow;
-        private Widget.TextDateEdit txtSDate;
+        private BaseGround.Widget.TextDateEdit txtSDate;
         private System.Windows.Forms.Label label1;
-        private Widget.TextDateEdit txtEDate;
+        private BaseGround.Widget.TextDateEdit txtEDate;
     }
 }

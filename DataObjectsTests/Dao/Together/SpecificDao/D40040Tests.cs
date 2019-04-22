@@ -18,7 +18,7 @@ namespace DataObjects.Dao.Together.SpecificDao.Tests
       }
 
       [TestMethod()]
-      public void GetDataTest()
+      public void GetListTest()
       {
          DataTable dt = new D40040().ListData(new DateTime(2018, 10, 12), "1%");
          //2018/10/12的資料有15筆
@@ -36,7 +36,7 @@ namespace DataObjects.Dao.Together.SpecificDao.Tests
       [TestMethod()]
       public void GetDateLastSheet2Test()
       {
-         DateTime dateTime = new D40040().GetDateLast(new DateTime(2018, 10, 12), 2);
+         DateTime dateTime = new D40040().GetDateLast(new DateTime(2018, 10, 12), 1);
          //2018/10/12的前一交易日為2018/10/11
          Assert.AreEqual(new DateTime(2018, 10, 11), dateTime);
       }
@@ -44,10 +44,10 @@ namespace DataObjects.Dao.Together.SpecificDao.Tests
       [TestMethod()]
       public void ListMg6DataTest()
       {
-         DateTime dateTime = new D40040().GetDateLast(new DateTime(2018, 10, 12), 1);
-         DataTable dt = new D40040().ListMg6Data(new DateTime(2018, 10, 12), dateTime, "1%");
-         //2018/10/12的資料有10筆
-         Assert.AreEqual(10, dt.Rows.Count);
+         DateTime dateTime = new D40040().GetDateLast(new DateTime(2018, 10, 12), 0);
+         DataTable dt = new D40040().ListMg6Data(new DateTime(2018, 10, 12), dateTime, "%");
+         //2018/10/12的資料有20筆
+         Assert.AreEqual(20, dt.Rows.Count);
       }
 
       [TestMethod()]
@@ -77,7 +77,7 @@ namespace DataObjects.Dao.Together.SpecificDao.Tests
       [TestMethod()]
       public void ListEtfDataTest()
       {
-         DateTime dateTime = new D40040().GetDateLast(new DateTime(2018, 10, 12), 2);
+         DateTime dateTime = new D40040().GetDateLast(new DateTime(2018, 10, 12), 1);
          DataTable dt = new D40040().ListEtfData(new DateTime(2018, 10, 12), dateTime, "1%");
          //2018/10/12的資料有4筆
          Assert.AreEqual(4, dt.Rows.Count);

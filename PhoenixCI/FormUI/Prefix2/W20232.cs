@@ -98,8 +98,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
                if (item.CheckState == CheckState.Checked) {
                   //DevExpress.XtraEditors.TextEdit txt = (DevExpress.XtraEditors.TextEdit)this.Controls["txt" + item.Value];
                   DevExpress.XtraEditors.TextEdit txt = (DevExpress.XtraEditors.TextEdit)this.Controls.Find("txt" + item.Value , true)[0];
-                  //Widget.TextDateEdit txtDate = (Widget.TextDateEdit)this.Controls["txtDate" + item.Value];
-                  Widget.TextDateEdit txtDate = (Widget.TextDateEdit)this.Controls.Find("txtDate" + item.Value , true)[0];
+                  //BaseGround.Widget.TextDateEdit txtDate = (BaseGround.Widget.TextDateEdit)this.Controls["txtDate" + item.Value];
+                  BaseGround.Widget.TextDateEdit txtDate = (BaseGround.Widget.TextDateEdit)this.Controls.Find("txtDate" + item.Value , true)[0];
 
                   #region 11 / 22 / 33
                   if (string.IsNullOrEmpty(txt.Text) || !File.Exists(txt.Text)) {
@@ -130,8 +130,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
 
                   //DevExpress.XtraEditors.TextEdit txt = (DevExpress.XtraEditors.TextEdit)this.Controls["txt" + item.Value];
                   DevExpress.XtraEditors.TextEdit txt = (DevExpress.XtraEditors.TextEdit)this.Controls.Find("txt" + item.Value , true)[0];
-                  //Widget.TextDateEdit txtDate = (Widget.TextDateEdit)this.Controls["txtDate" + item.Value];
-                  Widget.TextDateEdit txtDate = (Widget.TextDateEdit)this.Controls.Find("txtDate" + item.Value , true)[0];
+                  //BaseGround.Widget.TextDateEdit txtDate = (BaseGround.Widget.TextDateEdit)this.Controls["txtDate" + item.Value];
+                  BaseGround.Widget.TextDateEdit txtDate = (BaseGround.Widget.TextDateEdit)this.Controls.Find("txtDate" + item.Value , true)[0];
 
                   #region 1 / 2 / 3
                   if (string.IsNullOrEmpty(txt.Text) || !File.Exists(txt.Text)) {

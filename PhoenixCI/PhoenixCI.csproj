@@ -176,6 +176,7 @@
     <Compile Include="BusinessLogic\Prefix3\B30687.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30780.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30790.cs" />
+    <Compile Include="BusinessLogic\Prefix4\B40042.cs" />
     <Compile Include="BusinessLogic\Prefix4\B40012.cs" />
     <Compile Include="BusinessLogic\Prefix4\B40013.cs" />
     <Compile Include="BusinessLogic\Prefix4\B4001xTemplate.cs" />
@@ -856,6 +857,12 @@
     </Compile>
     <Compile Include="FormUI\Prefix3\W30720.Designer.cs">
       <DependentUpon>W30720.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40042.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40042.Designer.cs">
+      <DependentUpon>W40042.cs</DependentUpon>
     </Compile>
     <Compile Include="FormUI\Prefix4\W40011.cs">
       <SubType>Form</SubType>
@@ -1584,9 +1591,6 @@
     <Compile Include="Shared\ReportExportFunc.cs" />
     <Compile Include="Shared\ReturnMessageClass.cs" />
     <Compile Include="Widget\DropDownList.cs" />
-    <Compile Include="Widget\TextDateEdit.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <EmbeddedResource Include="FormUI\Prefix1\W10014.resx">
       <DependentUpon>W10014.cs</DependentUpon>
     </EmbeddedResource>
@@ -1926,6 +1930,9 @@
     <EmbeddedResource Include="FormUI\Prefix3\W30392.resx">
       <DependentUpon>W30392.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W40042.resx">
+      <DependentUpon>W40042.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix4\W40011.resx">
       <DependentUpon>W40011.cs</DependentUpon>
     </EmbeddedResource>
@@ -1940,6 +1947,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix4\W40070.resx">
       <DependentUpon>W40070.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W40100.resx">
+      <DependentUpon>W40100.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix4\W40190.resx">
       <DependentUpon>W40190.cs</DependentUpon>
@@ -3710,6 +3720,8 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="BusinessLogic\Prefix5\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
