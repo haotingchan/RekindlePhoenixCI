@@ -1,6 +1,7 @@
 ﻿using Common;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Drawing;
+using DevExpress.XtraEditors.DXErrorProvider;
 using DevExpress.XtraEditors.Registrator;
 using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraEditors.ViewInfo;
@@ -71,6 +72,7 @@ namespace BaseGround.Widget {
                   Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
                   Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
                   Properties.MaxLength = 0;
+                  Properties.Mask.ShowPlaceHolders = false;
                   _TextFormat = "yyyy/MM/dd";
                   break;
 
@@ -78,6 +80,7 @@ namespace BaseGround.Widget {
                   Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])";
                   Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
                   Properties.MaxLength = 0;
+                  Properties.Mask.ShowPlaceHolders = false;
                   _TextFormat = "yyyy/MM";
                   break;
 
@@ -85,6 +88,7 @@ namespace BaseGround.Widget {
                   Properties.Mask.EditMask = "[1-9]\\d{3}";
                   Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
                   Properties.MaxLength = 4;
+                  Properties.Mask.ShowPlaceHolders = false;
                   _TextFormat = "yyyy";
                   break;
                   //case DateTypeItem.Time:
@@ -121,7 +125,7 @@ namespace BaseGround.Widget {
             if (DateType == DateTypeItem.Year) {
                return Text;
             } else {
-               return string.IsNullOrEmpty(Text) ? "" : Convert.ToDateTime(Text).ToString(_TextFormat);
+               return string.IsNullOrEmpty(Text) ? "" : Convert.ToDateTime(Text).ToString(Properties.EditFormat.FormatString);
             }
          }
       }
@@ -162,6 +166,15 @@ namespace BaseGround.Widget {
 
       protected override bool IsMatch => 
          Text.AsDateTime(_TextFormat) == DateTime.MinValue ? false : true;
+
+      protected override void DoIsMatchValidating(CancelEventArgs e) {
+         if (!IsMatch) {
+            MessageDisplay.Info("日期輸入錯誤 !");
+            Focus();
+            DefaultErrorImageOptions.Image = new Bitmap(1,1);
+            e.Cancel = true;
+         }
+      }
    }
 
    public class MaskDateEditViewInfo : TextEditViewInfo {
@@ -173,5 +186,4 @@ namespace BaseGround.Widget {
       public MaskDateEditPainter() {
       }
    }
-
 }
