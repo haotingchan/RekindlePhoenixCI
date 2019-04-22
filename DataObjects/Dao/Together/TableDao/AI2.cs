@@ -322,13 +322,12 @@ and ai2_ymd <= :endDate
          {
                 ":ls_ymd", ls_ymd,
                 ":ls_grp", ls_grp
-            };
+         };
 
 
          string sql = @"select count(distinct AI2_PROD_TYPE)
-		  into :li_cnt
-		  from ci.AI2,ci.APDK
-		 where AI2_YMD = :ls_ymd
+		   from ci.AI2,ci.APDK
+		   where AI2_YMD = :ls_ymd
 			and AI2_SUM_TYPE = 'D'
 			and AI2_PROD_TYPE in ('F','O')
 			and AI2_KIND_ID = APDK_KIND_ID
