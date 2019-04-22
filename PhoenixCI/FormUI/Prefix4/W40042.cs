@@ -68,26 +68,7 @@ namespace PhoenixCI.FormUI.Prefix4
             return false;
          }
 
-         _saveFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
-         b40042 = new B40042(_ProgramID, _saveFilePath, emDate.Text);
-
-
          stMsgTxt.Visible = true;
-
-         //判斷FMIF資料已轉入
-         string chkFMIF = b40042.CheckFMIF();
-         if (chkFMIF != MessageDisplay.MSG_OK)
-         {
-            return OutputChooseMessage(chkFMIF);
-         }
-
-         //130批次作業做完
-         string strRtn = b40042.Check130Wf();
-         if (strRtn != MessageDisplay.MSG_OK)
-         {
-            return OutputChooseMessage(strRtn);
-         }
-
          stMsgTxt.Text = "開始轉檔...";
          this.Cursor = Cursors.WaitCursor;
          this.Refresh();
@@ -137,16 +118,21 @@ namespace PhoenixCI.FormUI.Prefix4
          }
          try
          {
-            //Sheet : rpt_future
-            ShowMsg($"{_ProgramID}_1－保證金狀況表 轉檔中...");
-            OutputShowMessage = b40042.WfFutureSheet();
-            //Sheet : rpt_option
-            ShowMsg($"{_ProgramID}_2－保證金狀況表 轉檔中...");
-            OutputShowMessage = b40042.WfOptionSheet();
+            _saveFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
+            b40042 = new B40042(_saveFilePath, emDate.Text);
 
-            
             ShowMsg($"{_ProgramID}_mg1－股票期貨保證金狀況表－標的證券為受益憑證 轉檔中...");
             OutputShowMessage = b40042.Wf40042();
+            ShowMsg($"{_ProgramID}_40011_1－保證金狀況表 轉檔中...");
+            OutputShowMessage = b40042.Wf40011Fut();
+            ShowMsg($"{_ProgramID}_40011_2－保證金狀況表 轉檔中...");
+            OutputShowMessage = b40042.Wf40011Opt();
+            ShowMsg($"{_ProgramID}_40012_1－保證金狀況表 轉檔中...");
+            OutputShowMessage = b40042.Wf40012Fut();
+            ShowMsg($"{_ProgramID}_40012_2－保證金狀況表 轉檔中...");
+            OutputShowMessage = b40042.Wf40012Opt();
+            ShowMsg($"{_ProgramID}_40013_1－保證金狀況表 轉檔中...");
+            OutputShowMessage = b40042.Wf40013Fut();
 
          }
          catch (Exception ex)
