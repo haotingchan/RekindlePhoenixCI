@@ -231,16 +231,16 @@
             // txtDate
             // 
             this.txtDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
-            this.txtDate.EditValue = "2018/12";
+            this.txtDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtDate.EditValue = "2018/12/01";
             this.txtDate.EnterMoveNextControl = true;
             this.txtDate.Location = new System.Drawing.Point(150, 49);
             this.txtDate.MenuManager = this.ribbonControl;
             this.txtDate.Name = "txtDate";
             this.txtDate.Properties.Appearance.Options.UseTextOptions = true;
             this.txtDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.txtDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-            this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+            this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtDate.Size = new System.Drawing.Size(100, 26);
             this.txtDate.TabIndex = 0;
@@ -317,16 +317,16 @@
             // txtPrevEymd
             // 
             this.txtPrevEymd.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtPrevEymd.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
-            this.txtPrevEymd.EditValue = "2018/12";
+            this.txtPrevEymd.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtPrevEymd.EditValue = "2018/12/01";
             this.txtPrevEymd.EnterMoveNextControl = true;
             this.txtPrevEymd.Location = new System.Drawing.Point(501, 158);
             this.txtPrevEymd.MenuManager = this.ribbonControl;
             this.txtPrevEymd.Name = "txtPrevEymd";
             this.txtPrevEymd.Properties.Appearance.Options.UseTextOptions = true;
             this.txtPrevEymd.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.txtPrevEymd.Properties.Mask.EditMask = "yyyy/MM/dd";
-            this.txtPrevEymd.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtPrevEymd.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+            this.txtPrevEymd.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtPrevEymd.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtPrevEymd.Size = new System.Drawing.Size(100, 26);
             this.txtPrevEymd.TabIndex = 27;
@@ -336,16 +336,16 @@
             // txtCurEymd
             // 
             this.txtCurEymd.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtCurEymd.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
-            this.txtCurEymd.EditValue = "2018/12";
+            this.txtCurEymd.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtCurEymd.EditValue = "2018/12/01";
             this.txtCurEymd.EnterMoveNextControl = true;
             this.txtCurEymd.Location = new System.Drawing.Point(501, 201);
             this.txtCurEymd.MenuManager = this.ribbonControl;
             this.txtCurEymd.Name = "txtCurEymd";
             this.txtCurEymd.Properties.Appearance.Options.UseTextOptions = true;
             this.txtCurEymd.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.txtCurEymd.Properties.Mask.EditMask = "yyyy/MM/dd";
-            this.txtCurEymd.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtCurEymd.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+            this.txtCurEymd.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtCurEymd.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtCurEymd.Size = new System.Drawing.Size(100, 26);
             this.txtCurEymd.TabIndex = 29;

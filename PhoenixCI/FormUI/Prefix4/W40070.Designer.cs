@@ -160,16 +160,16 @@
             // txtDateG7
             // 
             this.txtDateG7.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtDateG7.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
-            this.txtDateG7.EditValue = "2018/12";
+            this.txtDateG7.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtDateG7.EditValue = "2018/12/01";
             this.txtDateG7.EnterMoveNextControl = true;
             this.txtDateG7.Location = new System.Drawing.Point(348, 74);
             this.txtDateG7.MenuManager = this.ribbonControl;
             this.txtDateG7.Name = "txtDateG7";
             this.txtDateG7.Properties.Appearance.Options.UseTextOptions = true;
             this.txtDateG7.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.txtDateG7.Properties.Mask.EditMask = "yyyy/MM/dd";
-            this.txtDateG7.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtDateG7.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+            this.txtDateG7.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtDateG7.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtDateG7.Size = new System.Drawing.Size(100, 26);
             this.txtDateG7.TabIndex = 9;
@@ -189,16 +189,16 @@
             // txtDateG5
             // 
             this.txtDateG5.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtDateG5.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
-            this.txtDateG5.EditValue = "2018/12";
+            this.txtDateG5.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtDateG5.EditValue = "2018/12/01";
             this.txtDateG5.EnterMoveNextControl = true;
             this.txtDateG5.Location = new System.Drawing.Point(348, 41);
             this.txtDateG5.MenuManager = this.ribbonControl;
             this.txtDateG5.Name = "txtDateG5";
             this.txtDateG5.Properties.Appearance.Options.UseTextOptions = true;
             this.txtDateG5.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.txtDateG5.Properties.Mask.EditMask = "yyyy/MM/dd";
-            this.txtDateG5.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtDateG5.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+            this.txtDateG5.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtDateG5.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtDateG5.Size = new System.Drawing.Size(100, 26);
             this.txtDateG5.TabIndex = 7;
@@ -218,16 +218,16 @@
             // txtDateG1
             // 
             this.txtDateG1.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtDateG1.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
-            this.txtDateG1.EditValue = "2018/12";
+            this.txtDateG1.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtDateG1.EditValue = "2018/12/01";
             this.txtDateG1.EnterMoveNextControl = true;
             this.txtDateG1.Location = new System.Drawing.Point(348, 9);
             this.txtDateG1.MenuManager = this.ribbonControl;
             this.txtDateG1.Name = "txtDateG1";
             this.txtDateG1.Properties.Appearance.Options.UseTextOptions = true;
             this.txtDateG1.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.txtDateG1.Properties.Mask.EditMask = "yyyy/MM/dd";
-            this.txtDateG1.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtDateG1.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+            this.txtDateG1.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtDateG1.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtDateG1.Size = new System.Drawing.Size(100, 26);
             this.txtDateG1.TabIndex = 5;
@@ -247,16 +247,16 @@
             // txtSDate
             // 
             this.txtSDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtSDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
-            this.txtSDate.EditValue = "2018/12";
+            this.txtSDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtSDate.EditValue = "2018/12/01";
             this.txtSDate.EnterMoveNextControl = true;
             this.txtSDate.Location = new System.Drawing.Point(95, 9);
             this.txtSDate.MenuManager = this.ribbonControl;
             this.txtSDate.Name = "txtSDate";
             this.txtSDate.Properties.Appearance.Options.UseTextOptions = true;
             this.txtSDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.txtSDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-            this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtSDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+            this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtSDate.Size = new System.Drawing.Size(100, 26);
             this.txtSDate.TabIndex = 3;

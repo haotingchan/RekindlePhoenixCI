@@ -13,10 +13,11 @@ namespace DataObjects.Dao.Together {
       }
 
       /// <summary>
-      /// Get data by CI.ABRK CI.AM10 (已經固定一些過濾條件) (ABRK_NO/ABRK_ABBR_NAME/ABRK_NO4/AM10_YM/AM10_QNTY/AM10_DT_QNTY/AM10_RATE)
+      /// Get CI.ABRK CI.AM10 data (d_30650)
+      /// return abrk_no/abrk_abbr_name/abrk_no4/am10_ym/am10_qnty/am10_dt_qnty/am10_rate/cp_tot_qnty/cp_tot_dt_qnty/cp_rate 10 field
       /// </summary>
-      /// <param name="as_symd">起始年月</param>
-      /// <param name="as_eymd">結束年月</param>
+      /// <param name="as_symd">yyyyMM01 起始年月</param>
+      /// <param name="as_eymd">yyyyMMdd 結束年月</param>
       /// <returns></returns>
       public DataTable GetData(string as_symd , string as_eymd) {
          object[] parms =
@@ -26,30 +27,34 @@ namespace DataObjects.Dao.Together {
             };
 
          string sql = @"
-SELECT ABRK_NO,
-       ABRK_ABBR_NAME,
-       ABRK_NO4,
-       AM10_YM,
-       AM10_QNTY,
-       AM10_DT_QNTY,
-       CASE WHEN AM10_QNTY = 0 THEN 0 ELSE ROUND(AM10_DT_QNTY/AM10_QNTY,4)*100 END AS AM10_RATE
-FROM 
-    (SELECT SUBSTR(ABRK_NO,1,4) AS ABRK_NO4,SUBSTR(ABRK_NO,1,4)||NVL(MAX(CASE WHEN SUBSTR(ABRK_NO,5,3) = '000' THEN '000' ELSE NULL END),'999') AS ABRK_NO7
-    FROM CI.ABRK 
-    GROUP BY SUBSTR(ABRK_NO,1,4)),
-    CI.ABRK,
-    (SELECT SUBSTR(AM10_YMD,1,6) AS AM10_YM,
-    SUBSTR(AM10_BRK_NO,1,4) AS AM10_BRK_NO4,
-    SUM(AM10_QNTY) AS AM10_QNTY,
-    SUM(AM10_DT_QNTY) AS AM10_DT_QNTY
-      FROM CI.AM10
-    WHERE AM10_YMD >= :as_symd
-    AND AM10_YMD <= :as_eymd
-    AND SUBSTR(AM10_BRK_NO,5,3) <> '999'
-     GROUP BY SUBSTR(AM10_YMD,1,6),SUBSTR(AM10_BRK_NO,1,4)) M
-WHERE ABRK_NO4 = AM10_BRK_NO4
-AND ABRK_NO7 = ABRK_NO
-ORDER BY AM10_YM , ABRK_NO
+select 
+    abrk_no,
+    abrk_abbr_name,
+    abrk_no4,
+    am10_ym,
+    am10_qnty,
+    am10_dt_qnty,
+    case when am10_qnty = 0 then 0 else round(am10_dt_qnty/am10_qnty,4)*100 end as am10_rate,
+    sum(am10_qnty) over(partition by am10_ym ) as cp_tot_qnty ,
+    sum(am10_dt_qnty) over(partition by am10_ym ) as cp_tot_dt_qnty,
+    (case when (sum(am10_qnty) over(partition by am10_ym)) = 0 then 0 else round((sum(am10_dt_qnty) over(partition by am10_ym)) / (sum(am10_qnty) over(partition by am10_ym)),4)*100 end) as cp_rate
+from 
+    (select substr(abrk_no,1,4) as abrk_no4,substr(abrk_no,1,4)||nvl(max(case when substr(abrk_no,5,3) = '000' then '000' else null end),'999') as abrk_no7
+    from ci.abrk 
+    group by substr(abrk_no,1,4)),
+    ci.abrk,
+    (select substr(am10_ymd,1,6) as am10_ym,
+    substr(am10_brk_no,1,4) as am10_brk_no4,
+    sum(am10_qnty) as am10_qnty,
+    sum(am10_dt_qnty) as am10_dt_qnty
+      from ci.am10
+    where am10_ymd >= :as_symd
+    and am10_ymd <= :as_eymd
+    and substr(am10_brk_no,5,3) <> '999'
+     group by substr(am10_ymd,1,6),substr(am10_brk_no,1,4)) m
+where abrk_no4 = am10_brk_no4
+and abrk_no7 = abrk_no
+order by am10_ym , abrk_no
 ";
 
          DataTable dtResult = db.GetDataTable(sql , parms);
@@ -58,7 +63,8 @@ ORDER BY AM10_YM , ABRK_NO
       }
 
       /// <summary>
-      /// Get data by CI.ABRK CI.AM10 (已經固定一些過濾條件) (ABRK_NO/ABRK_ABBR_NAME/ABRK_NO4/AM10_QNTY/AM10_DT_QNTY/AM10_RATE)
+      /// Get CI.ABRK CI.AM10 data (d_30650_brk)
+      /// return ABRK_NO/ABRK_ABBR_NAME/ABRK_NO4/AM10_QNTY/AM10_DT_QNTY/AM10_RATE 6 field
       /// </summary>
       /// <param name="as_symd">起始年月</param>
       /// <param name="as_eymd">結束年月</param>
@@ -71,28 +77,37 @@ ORDER BY AM10_YM , ABRK_NO
             };
 
          string sql = @"
-SELECT ABRK_NO,
-       ABRK_ABBR_NAME,
-       ABRK_NO4,
-       AM10_QNTY,
-       AM10_DT_QNTY,
-       CASE WHEN AM10_QNTY = 0 THEN 0 ELSE ROUND(AM10_DT_QNTY/AM10_QNTY,4)*100 END AS AM10_RATE
-FROM 
-    (SELECT SUBSTR(ABRK_NO,1,4) AS ABRK_NO4,
-            SUBSTR(ABRK_NO,1,4)||NVL(MAX(CASE WHEN SUBSTR(ABRK_NO,5,3) = '000' THEN '000' ELSE NULL END),'999') AS ABRK_NO7
-    FROM CI.ABRK 
-    GROUP BY SUBSTR(ABRK_NO,1,4)),
-    CI.ABRK,
-    (SELECT SUBSTR(AM10_BRK_NO,1,4) AS AM10_BRK_NO4,
-            SUM(AM10_QNTY) AS AM10_QNTY,SUM(AM10_DT_QNTY) AS AM10_DT_QNTY
-    FROM CI.AM10
-    WHERE AM10_YMD >= :as_symd
-    AND AM10_YMD <= :as_eymd
-    AND SUBSTR(AM10_BRK_NO,5,3) <> '999'
-    GROUP BY SUBSTR(AM10_BRK_NO,1,4)) M
-WHERE ABRK_NO4 = AM10_BRK_NO4
-AND ABRK_NO7 = ABRK_NO
-ORDER BY AM10_RATE DESC ,ABRK_NO ASC
+select 
+    nvl(abrk_no,'null') as abrk_no,
+    nvl(abrk_abbr_name,'null') as abrk_abbr_name,
+    nvl(abrk_no4,'null') as abrk_no4,
+    nvl(am10_qnty,0) as am10_qnty,
+    nvl(am10_dt_qnty,0) as am10_dt_qnty,
+    case when am10_qnty = 0 then 0 else round(am10_dt_qnty/am10_qnty,4)*100 end as am10_rate,             
+    sum(am10_qnty) as cp_tot_qnty,
+    sum(am10_dt_qnty) as cp_tot_dt_qnty,
+   (case when sum(am10_qnty) = 0 then 0 else round((sum(am10_dt_qnty))/( sum(am10_qnty)),4)*100 end) as cp_rate
+from 
+    (select substr(abrk_no,1,4) as abrk_no4,
+            substr(abrk_no,1,4)||nvl(max(case when substr(abrk_no,5,3) = '000' then '000' else null end),'999') as abrk_no7
+    from ci.abrk 
+    group by substr(abrk_no,1,4)),
+    ci.abrk,
+    (select substr(am10_brk_no,1,4) as am10_brk_no4,
+            sum(am10_qnty) as am10_qnty,sum(am10_dt_qnty) as am10_dt_qnty
+    from ci.am10
+    where am10_ymd >= :as_symd
+    and am10_ymd <= :as_eymd
+    and substr(am10_brk_no,5,3) <> '999'
+    group by substr(am10_brk_no,1,4)) m
+where abrk_no4 = am10_brk_no4
+and abrk_no7 = abrk_no
+group by  grouping sets( (),(abrk_no,
+    abrk_abbr_name,
+    abrk_no4,
+    am10_qnty,
+    am10_dt_qnty))
+order by nvl(am10_rate,0) desc,abrk_no asc
 ";
 
          DataTable dtResult = db.GetDataTable(sql , parms);

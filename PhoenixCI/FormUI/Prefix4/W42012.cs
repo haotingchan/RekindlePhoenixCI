@@ -238,7 +238,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     }
                     if (cbxRate.Checked) {
                         DataView dv = dt42012.AsDataView();
-                        dv.RowFilter = "(mgr2_level = 'Z' and T_30_RATE >= (MGR3_CUR_CM - " + (txtRate4Ref.Text.AsDecimal() / 100).AsString() + "))  or (mgr2_level = '1' and t_30_rate >= " + (txtRate1Ref.Text.AsDecimal() / 100).AsString() + ") or (mgr2_level = '2' and t_30_rate >= " + (txtRate2Ref.Text.AsDecimal() / 100).AsString() + ")";
+                        dv.RowFilter = "(mgr2_level = 'Z' and T_30_RATE >= (MGR3_CUR_CM - " + 
+                                        (txtRate4Ref.Text.AsDecimal() / 100).AsString() + ")) or (mgr2_level = '1' and t_30_rate >= " + 
+                                        (txtRate1Ref.Text.AsDecimal() / 100).AsString() + ") or (mgr2_level = '2' and t_30_rate >= " + 
+                                        (txtRate2Ref.Text.AsDecimal() / 100).AsString() + ")";
                         dt42012 = dv.ToTable();
                     }
 
@@ -328,7 +331,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     }
                     if (cbxRate.Checked) {
                         DataView dv = dt42012.AsDataView();
-                        dv.RowFilter = "(mgr2_level = 'Z' and mgr2_day_rate >= (MGR3_CUR_CM - " + (txtRate4.Text.AsDecimal() / 100).AsString() + "))  or (mgr2_level = '1' and mgr2_day_rate >= " + (txtRate1.Text.AsDecimal() / 100).AsString() + ") or (mgr2_level = '2' and mgr2_day_rate >= " + (txtRate2.Text.AsDecimal() / 100).AsString() + ")";
+                        dv.RowFilter = "(mgr2_level = 'Z' and mgr2_day_rate >= (MGR3_CUR_CM - " + 
+                                        (txtRate4.Text.AsDecimal() / 100).AsString() + ")) or (mgr2_level = '1' and mgr2_day_rate >= " + 
+                                        (txtRate1.Text.AsDecimal() / 100).AsString() + ") or (mgr2_level = '2' and mgr2_day_rate >= " + 
+                                        (txtRate2.Text.AsDecimal() / 100).AsString() + ")";
                         dt42012 = dv.ToTable();
                     }
 

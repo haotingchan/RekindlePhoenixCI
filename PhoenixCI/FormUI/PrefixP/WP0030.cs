@@ -180,8 +180,8 @@ namespace PhoenixCI.FormUI.PrefixP {
             ReportHelper _ReportHelper = new ReportHelper(gcMain, _ProgramID, this.Text);
 
             //寫一行標題的註解,通常是查詢條件
-            _ReportHelper.LeftMemo = "查詢日期 : " + txtStartDate.Text + "~" + txtEndDate.Text + Environment.NewLine +
-                "系統別 : " + ddlbType.Text + Environment.NewLine + Environment.NewLine + "查詢類別 : " + ddlbCate.Text;
+            _ReportHelper.LeftMemo = "查詢日期 : " + txtStartDate.Text + "~" + txtEndDate.Text + "," +
+                "系統別 : " + ddlbType.Text + ","  + "查詢類別 : " + ddlbCate.Text;
 
             _ReportHelper.Print();//如果有夜盤會特別標註
 
@@ -227,10 +227,20 @@ namespace PhoenixCI.FormUI.PrefixP {
       }
 
       private bool CheckInputText(string txtDate) {
+         string txt = txtDate.TrimEnd('%');
 
-         if (txtDate == "%" || txtDate.AsDateTime("yyyyMMdd") != default(DateTime)) {
+         if (string.IsNullOrEmpty(txt)) {
             return true;
          }
+
+         if (txt.AsDateTime("yyyyMMdd") != default(DateTime)) {
+            return true;
+         }
+
+         if (txt.AsDateTime("yyyyMM") != default(DateTime)) {
+            return true;
+         }
+
          return false;
       }
    }

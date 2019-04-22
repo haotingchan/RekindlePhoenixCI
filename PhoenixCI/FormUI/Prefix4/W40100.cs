@@ -46,7 +46,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
          txtDate.DateTimeValue = GlobalInfo.OCF_DATE;
-
          //設定 下拉選單
          List<LookupItem> lstType = new List<LookupItem>(){
                                         new LookupItem() { ValueMember = "0B", DisplayMember = "一般 / 股票"},
@@ -134,7 +133,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
             ProgramId = programId;
             AddDescElement = false;
 
-            FilePath = PbFunc.wf_copy_file(ProgramId, $"{ProgramId}_{AdjType}");
             KindNameList_Desc = new List<string>();
             KindNameList = new List<string>();
          }
@@ -160,6 +158,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             msg.Status = ResultStatus.Fail;
 
             try {
+               FilePath = PbFunc.wf_copy_file(ProgramId, $"{ProgramId}_{AdjType}");
 
                OpenFileAndSetYear();
 
@@ -373,6 +372,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             msg.Status = ResultStatus.Fail;
 
             try {
+               FilePath = PbFunc.wf_copy_file(ProgramId, $"{ProgramId}_{AdjType}");
+
                base.OpenFileAndSetYear();
 
                ////說明文
@@ -444,6 +445,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             ReturnMessageClass msg = new ReturnMessageClass();
             msg.Status = ResultStatus.Fail;
             try {
+               FilePath = PbFunc.wf_copy_file(ProgramId, $"{ProgramId}_{AdjType}");
+
                base.OpenFileAndSetYear();
 
                ////說明文
@@ -543,6 +546,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             msg.Status = ResultStatus.Fail;
 
             try {
+               FilePath = PbFunc.wf_copy_file(ProgramId, $"{ProgramId}_{AdjType}");
+
                base.OpenFileAndSetYear();
 
                string prepoStr = Dt.AsEnumerable().Any(d => d.Field<string>("prod_type") == "F") ? "期貨契約保證金及" : "";
