@@ -1,33 +1,33 @@
 ﻿namespace PhoenixCI.FormUI.Prefix3 {
-    partial class W30080 {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
+   partial class W30080 {
+      /// <summary>
+      /// Required designer variable.
+      /// </summary>
+      private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing) {
-            if (disposing && (components != null)) {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+      /// <summary>
+      /// Clean up any resources being used.
+      /// </summary>
+      /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+      protected override void Dispose(bool disposing) {
+         if (disposing && (components != null)) {
+            components.Dispose();
+         }
+         base.Dispose(disposing);
+      }
 
-        #region Windows Form Designer generated code
+      #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent() {
+      /// <summary>
+      /// Required method for Designer support - do not modify
+      /// the contents of this method with the code editor.
+      /// </summary>
+      private void InitializeComponent() {
             this.lblProcessing = new System.Windows.Forms.Label();
             this.lblDate = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtSDate = new PhoenixCI.Widget.TextDateEdit();
-            this.txtEDate = new PhoenixCI.Widget.TextDateEdit();
+            this.txtSDate = new BaseGround.Widget.TextDateEdit();
+            this.txtEDate = new BaseGround.Widget.TextDateEdit();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -88,6 +88,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label1.Location = new System.Drawing.Point(215, 52);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(26, 21);
@@ -97,38 +98,38 @@
             // txtSDate
             // 
             this.txtSDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtSDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
-            this.txtSDate.EditValue = "2018/12";
+            this.txtSDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtSDate.EditValue = "2018/12/01";
             this.txtSDate.EnterMoveNextControl = true;
             this.txtSDate.Location = new System.Drawing.Point(100, 49);
             this.txtSDate.MenuManager = this.ribbonControl;
             this.txtSDate.Name = "txtSDate";
             this.txtSDate.Properties.Appearance.Options.UseTextOptions = true;
             this.txtSDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.txtSDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-            this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtSDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+            this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtSDate.Size = new System.Drawing.Size(109, 26);
             this.txtSDate.TabIndex = 1;
-            this.txtSDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtSDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // txtEDate
             // 
             this.txtEDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtEDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
-            this.txtEDate.EditValue = "2018/12";
+            this.txtEDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtEDate.EditValue = "2018/12/01";
             this.txtEDate.EnterMoveNextControl = true;
             this.txtEDate.Location = new System.Drawing.Point(246, 49);
             this.txtEDate.MenuManager = this.ribbonControl;
             this.txtEDate.Name = "txtEDate";
             this.txtEDate.Properties.Appearance.Options.UseTextOptions = true;
             this.txtEDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.txtEDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-            this.txtEDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtEDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+            this.txtEDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtEDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtEDate.Size = new System.Drawing.Size(109, 26);
             this.txtEDate.TabIndex = 2;
-            this.txtEDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtEDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // label3
             // 
@@ -316,27 +317,27 @@
             this.ResumeLayout(false);
             this.PerformLayout();
 
-        }
+      }
 
-        #endregion
+      #endregion
 
-        private System.Windows.Forms.Label lblProcessing;
-        private System.Windows.Forms.GroupBox grpxDescription;
-        private DevExpress.XtraEditors.RadioGroup rgpMarket;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox txtKindID;
-        private System.Windows.Forms.TextBox txtRank;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private Widget.TextDateEdit txtEDate;
-        private Widget.TextDateEdit txtSDate;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label lblDate;
-        private DevExpress.XtraEditors.RadioGroup rgpData;
-        private DevExpress.XtraEditors.RadioGroup rgpType;
-    }
+      private System.Windows.Forms.Label lblProcessing;
+      private System.Windows.Forms.GroupBox grpxDescription;
+      private DevExpress.XtraEditors.RadioGroup rgpMarket;
+      private System.Windows.Forms.Label label9;
+      private System.Windows.Forms.Label label8;
+      private System.Windows.Forms.Label label7;
+      private System.Windows.Forms.TextBox txtKindID;
+      private System.Windows.Forms.TextBox txtRank;
+      private System.Windows.Forms.Label label6;
+      private System.Windows.Forms.Label label5;
+      private System.Windows.Forms.Label label2;
+      private System.Windows.Forms.Label label3;
+      private BaseGround.Widget.TextDateEdit txtEDate;
+      private BaseGround.Widget.TextDateEdit txtSDate;
+      private System.Windows.Forms.Label label1;
+      private System.Windows.Forms.Label lblDate;
+      private DevExpress.XtraEditors.RadioGroup rgpData;
+      private DevExpress.XtraEditors.RadioGroup rgpType;
+   }
 }

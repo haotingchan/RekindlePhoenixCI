@@ -25,9 +25,9 @@
         private void InitializeComponent() {
          this.panFilter = new System.Windows.Forms.GroupBox();
          this.txtSecondMon = new DevExpress.XtraEditors.TextEdit();
-         this.txtEndDate = new PhoenixCI.Widget.TextDateEdit();
+         this.txtEndDate = new BaseGround.Widget.TextDateEdit();
          this.label3 = new System.Windows.Forms.Label();
-         this.txtStartDate = new PhoenixCI.Widget.TextDateEdit();
+         this.txtStartDate = new BaseGround.Widget.TextDateEdit();
          this.label2 = new System.Windows.Forms.Label();
          this.label1 = new System.Windows.Forms.Label();
          this.lblDate = new System.Windows.Forms.Label();
@@ -88,7 +88,7 @@
          // txtEndDate
          // 
          this.txtEndDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtEndDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+         this.txtEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
          this.txtEndDate.EditValue = "2018/12";
          this.txtEndDate.EnterMoveNextControl = true;
          this.txtEndDate.Location = new System.Drawing.Point(237, 40);
@@ -101,7 +101,7 @@
          this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndDate.Size = new System.Drawing.Size(100, 26);
          this.txtEndDate.TabIndex = 12;
-         this.txtEndDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // label3
          // 
@@ -115,7 +115,7 @@
          // txtStartDate
          // 
          this.txtStartDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtStartDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+         this.txtStartDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
          this.txtStartDate.EditValue = "2018/12";
          this.txtStartDate.EnterMoveNextControl = true;
          this.txtStartDate.Location = new System.Drawing.Point(100, 40);
@@ -128,7 +128,7 @@
          this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtStartDate.Size = new System.Drawing.Size(100, 26);
          this.txtStartDate.TabIndex = 11;
-         this.txtStartDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         this.txtStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // label2
          // 
@@ -212,7 +212,7 @@
       private System.Windows.Forms.Label label2;
       private DevExpress.XtraEditors.TextEdit txtFirstMon;
       private DevExpress.XtraEditors.TextEdit txtSecondMon;
-      private Widget.TextDateEdit txtEndDate;
-      private Widget.TextDateEdit txtStartDate;
+      private BaseGround.Widget.TextDateEdit txtEndDate;
+      private BaseGround.Widget.TextDateEdit txtStartDate;
    }
 }

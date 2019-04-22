@@ -24,9 +24,9 @@
         /// </summary>
         private void InitializeComponent() {
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
-            this.txtStartDate = new PhoenixCI.Widget.TextDateEdit();
+            this.txtStartDate = new BaseGround.Widget.TextDateEdit();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtEndDate = new PhoenixCI.Widget.TextDateEdit();
+            this.txtEndDate = new BaseGround.Widget.TextDateEdit();
             this.lblDate = new System.Windows.Forms.Label();
             this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
             this.gcMain = new DevExpress.XtraGrid.GridControl();
@@ -84,20 +84,20 @@
             // txtStartDate
             // 
             this.txtStartDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtStartDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
-            this.txtStartDate.EditValue = "2018/12";
+            this.txtStartDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtStartDate.EditValue = "2018/12/ 01";
             this.txtStartDate.EnterMoveNextControl = true;
             this.txtStartDate.Location = new System.Drawing.Point(105, 21);
             this.txtStartDate.MenuManager = this.ribbonControl;
             this.txtStartDate.Name = "txtStartDate";
             this.txtStartDate.Properties.Appearance.Options.UseTextOptions = true;
             this.txtStartDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.txtStartDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-            this.txtStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtStartDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+            this.txtStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtStartDate.Size = new System.Drawing.Size(118, 26);
             this.txtStartDate.TabIndex = 1;
-            this.txtStartDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // label1
             // 
@@ -111,8 +111,8 @@
             // 
             // txtEndDate
             // 
-            this.txtEndDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtEndDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+            this.txtEndDate.DateTimeValue = new System.DateTime(((long)(0)));
+            this.txtEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
             this.txtEndDate.EditValue = "2018/12";
             this.txtEndDate.EnterMoveNextControl = true;
             this.txtEndDate.Location = new System.Drawing.Point(260, 21);
@@ -125,7 +125,7 @@
             this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtEndDate.Size = new System.Drawing.Size(118, 26);
             this.txtEndDate.TabIndex = 2;
-            this.txtEndDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // lblDate
             // 
@@ -309,7 +309,7 @@
         private DevExpress.XtraEditors.PanelControl panelControl2;
         private DevExpress.XtraGrid.GridControl gcMain;
         private DevExpress.XtraGrid.Views.Grid.GridView gvMain;
-        private Widget.TextDateEdit txtStartDate;
+        private BaseGround.Widget.TextDateEdit txtStartDate;
         private System.Windows.Forms.Label lblDate;
         private DevExpress.XtraGrid.Columns.GridColumn AM12_YMD;
         private DevExpress.XtraGrid.Columns.GridColumn AM12_F_ID;
@@ -317,7 +317,7 @@
         private DevExpress.XtraGrid.Columns.GridColumn AM12_STATUS;
         private DevExpress.XtraGrid.Columns.GridColumn Is_NewRow;
         private System.Windows.Forms.Label label1;
-        private Widget.TextDateEdit txtEndDate;
+        private BaseGround.Widget.TextDateEdit txtEndDate;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit1;
         private DevExpress.XtraGrid.Columns.GridColumn AM12_KIND_ID;
         private DevExpress.XtraGrid.Columns.GridColumn AM12_DATA_TYPE;

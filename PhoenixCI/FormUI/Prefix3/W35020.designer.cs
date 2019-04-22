@@ -30,7 +30,7 @@
             this.exportType = new DevExpress.XtraEditors.LookUpEdit();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.txtDate = new PhoenixCI.Widget.TextDateEdit();
+            this.txtDate = new BaseGround.Widget.TextDateEdit();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -119,7 +119,7 @@
             // txtDate
             // 
             this.txtDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
             this.txtDate.EditValue = "2018/12";
             this.txtDate.EnterMoveNextControl = true;
             this.txtDate.Location = new System.Drawing.Point(121, 45);
@@ -132,7 +132,7 @@
             this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtDate.Size = new System.Drawing.Size(144, 26);
             this.txtDate.TabIndex = 15;
-            this.txtDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // label3
             // 
@@ -230,7 +230,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox2;
-        private Widget.TextDateEdit txtDate;
+        private BaseGround.Widget.TextDateEdit txtDate;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label ExportShow;

@@ -20,7 +20,8 @@ namespace PhoenixCI.FormUI.Prefix4
    /// </summary>
    public partial class W40040 : FormParent
    {
-      private B40050 b40050;
+      private B40040 b40040;
+      private string _saveFilePath;
 
       public W40040(string programID, string programName) : base(programID, programName)
       {
@@ -41,7 +42,7 @@ namespace PhoenixCI.FormUI.Prefix4
       protected override ResultStatus Open()
       {
          base.Open();
-         emDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
+         emDate.Text = DateTime.Now.ToString("yyyy/MM/dd");
          return ResultStatus.Success;
       }
 
@@ -66,10 +67,34 @@ namespace PhoenixCI.FormUI.Prefix4
             //is_chk = "Y";
             return false;
          }
-         /*******************
-         Messagebox
-         *******************/
+
+         
+         string oswGrp = oswGrpLookItem.EditValue.AsString();
+         
+
+         string chkAi2 ="";
+         switch (oswGrp) {
+            case "1":
+               chkAi2 = PbFunc.f_chk_ai2(emDate.Text.Replace("/", ""), oswGrp, "N", oswGrpLookItem.SelectedText, 2);
+               break;
+            case "5":
+               chkAi2 = PbFunc.f_chk_ai2(emDate.Text.Replace("/", ""), oswGrp, "N", oswGrpLookItem.SelectedText, 1);
+               break;
+            default:
+               break;
+         }
+
+         if (chkAi2 != "") {
+            //is_chk = "E";
+            return false;
+         }
+
          stMsgTxt.Visible = true;
+
+         
+         _saveFilePath = PbFunc.wf_copy_file(_ProgramID, "40040");
+         b40040 = new B40040(_saveFilePath, emDate.Text, oswGrp);
+
          stMsgTxt.Text = "開始轉檔...";
          this.Cursor = Cursors.WaitCursor;
          this.Refresh();
@@ -93,16 +118,32 @@ namespace PhoenixCI.FormUI.Prefix4
          Thread.Sleep(5);
       }
 
+      private string OutputShowMessage {
+         set {
+            if (value == MessageDisplay.MSG_NO_DATA) {
+               value = MessageDisplay.MSG_NO_DATA;
+            }else if (value != MessageDisplay.MSG_OK)
+               MessageDisplay.Info(value);
+         }
+      }
+
+
       protected override ResultStatus Export()
       {
          if (!StartExport()) {
             return ResultStatus.Fail;
          }
-         string saveFilePath = PbFunc.wf_copy_file(_ProgramID, "40040");
          try {
+            //轉檔
+            ShowMsg($"{_ProgramID}－保證金調整檢核表 轉檔中...");
+            OutputShowMessage = b40040.Wf40040();
+            ShowMsg($"{_ProgramID}－保證金調整檢核表 轉檔中...");
+            OutputShowMessage = b40040.Wf40040ETF();
+            ShowMsg($"{_ProgramID}_SPAN－SPAN參數檔檢核結果 轉檔中...");
+            OutputShowMessage = b40040.Wf40040SPAN();
          }
          catch (Exception ex) {
-            File.Delete(saveFilePath);
+            File.Delete(_saveFilePath);
             WriteLog(ex);
             return ResultStatus.Fail;
          }

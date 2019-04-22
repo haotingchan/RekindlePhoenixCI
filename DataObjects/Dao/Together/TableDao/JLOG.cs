@@ -52,5 +52,37 @@ from (
             return iResult;
         }
 
-    }
+      /// <summary>
+      /// 因應 where JLOG_WORKFLOW的條件不同
+      /// </summary>
+      /// <param name="startDate">include</param>
+      /// <param name="oswGroup">char(1)</param>
+      /// <param name="jobId"></param>
+      /// <returns>JLOG_WORKFLOW</returns>
+      public DataTable ListJobWorkflow(DateTime startDate, string oswGroup, string jobId = "AI0130C")
+      {
+         object[] parms =
+         {
+                ":adt_date", startDate,
+                ":ls_osw_grp", oswGroup,
+                ":jobId",jobId
+            };
+
+         string sql = @"
+                  select JLOG_WORKFLOW
+                  from (
+                    select JLOG_WORKFLOW
+                    from CI.JLOG
+                    where JLOG_ID = :jobId
+                    and JLOG_DATE >= :adt_date
+                    and JLOG_OSW_GRP = :ls_osw_grp
+                    group by JLOG_WORKFLOW
+                  )
+                  ";
+         DataTable dtResult = db.GetDataTable(sql, parms);
+
+         return dtResult;
+      }
+
+   }
 }

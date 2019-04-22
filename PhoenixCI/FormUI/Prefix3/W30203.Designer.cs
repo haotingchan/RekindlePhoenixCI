@@ -25,12 +25,12 @@
         private void InitializeComponent() {
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.lblEff = new System.Windows.Forms.Label();
-            this.txtEffDateLower = new PhoenixCI.Widget.TextDateEdit();
+            this.txtEffDateLower = new BaseGround.Widget.TextDateEdit();
             this.label4 = new System.Windows.Forms.Label();
-            this.txtEffDate = new PhoenixCI.Widget.TextDateEdit();
+            this.txtEffDate = new BaseGround.Widget.TextDateEdit();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtDate = new PhoenixCI.Widget.TextDateEdit();
+            this.txtDate = new BaseGround.Widget.TextDateEdit();
             this.label2 = new System.Windows.Forms.Label();
             this.gcGBF = new DevExpress.XtraGrid.GridControl();
             this.gvGBF = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridView();
@@ -157,20 +157,20 @@
             // txtEffDateLower
             // 
             this.txtEffDateLower.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtEffDateLower.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
-            this.txtEffDateLower.EditValue = "2018/12";
+            this.txtEffDateLower.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtEffDateLower.EditValue = "2018/12/01";
             this.txtEffDateLower.EnterMoveNextControl = true;
             this.txtEffDateLower.Location = new System.Drawing.Point(641, 25);
             this.txtEffDateLower.MenuManager = this.ribbonControl;
             this.txtEffDateLower.Name = "txtEffDateLower";
             this.txtEffDateLower.Properties.Appearance.Options.UseTextOptions = true;
             this.txtEffDateLower.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.txtEffDateLower.Properties.Mask.EditMask = "yyyy/MM/dd";
-            this.txtEffDateLower.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtEffDateLower.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+            this.txtEffDateLower.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtEffDateLower.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtEffDateLower.Size = new System.Drawing.Size(105, 26);
             this.txtEffDateLower.TabIndex = 3;
-            this.txtEffDateLower.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtEffDateLower.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // label4
             // 
@@ -185,20 +185,20 @@
             // txtEffDate
             // 
             this.txtEffDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtEffDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
-            this.txtEffDate.EditValue = "2018/12";
+            this.txtEffDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtEffDate.EditValue = "2018/12/01";
             this.txtEffDate.EnterMoveNextControl = true;
             this.txtEffDate.Location = new System.Drawing.Point(441, 25);
             this.txtEffDate.MenuManager = this.ribbonControl;
             this.txtEffDate.Name = "txtEffDate";
             this.txtEffDate.Properties.Appearance.Options.UseTextOptions = true;
             this.txtEffDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.txtEffDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-            this.txtEffDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtEffDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+            this.txtEffDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtEffDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtEffDate.Size = new System.Drawing.Size(105, 26);
             this.txtEffDate.TabIndex = 2;
-            this.txtEffDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtEffDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // label3
             // 
@@ -223,20 +223,20 @@
             // txtDate
             // 
             this.txtDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
-            this.txtDate.EditValue = "2018/12";
+            this.txtDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtDate.EditValue = "2018/12/01";
             this.txtDate.EnterMoveNextControl = true;
             this.txtDate.Location = new System.Drawing.Point(117, 25);
             this.txtDate.MenuManager = this.ribbonControl;
             this.txtDate.Name = "txtDate";
             this.txtDate.Properties.Appearance.Options.UseTextOptions = true;
             this.txtDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.txtDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-            this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+            this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtDate.Size = new System.Drawing.Size(105, 26);
             this.txtDate.TabIndex = 1;
-            this.txtDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // label2
             // 
@@ -1083,11 +1083,11 @@
 
         private DevExpress.XtraEditors.PanelControl panelControl1;
         private System.Windows.Forms.Label label1;
-        private Widget.TextDateEdit txtDate;
+        private BaseGround.Widget.TextDateEdit txtDate;
         private System.Windows.Forms.Label label2;
-        private Widget.TextDateEdit txtEffDateLower;
+        private BaseGround.Widget.TextDateEdit txtEffDateLower;
         private System.Windows.Forms.Label label4;
-        private Widget.TextDateEdit txtEffDate;
+        private BaseGround.Widget.TextDateEdit txtEffDate;
         private System.Windows.Forms.Label label3;
         private DevExpress.XtraGrid.GridControl gcGBF;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridView gvGBF;

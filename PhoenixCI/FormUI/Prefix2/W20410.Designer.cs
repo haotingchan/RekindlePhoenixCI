@@ -24,9 +24,9 @@
         /// </summary>
         private void InitializeComponent() {
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
-            this.txtStartDate = new PhoenixCI.Widget.TextDateEdit();
+            this.txtStartDate = new BaseGround.Widget.TextDateEdit();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtEndDate = new PhoenixCI.Widget.TextDateEdit();
+            this.txtEndDate = new BaseGround.Widget.TextDateEdit();
             this.lblDate = new System.Windows.Forms.Label();
             this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
             this.gcMain = new DevExpress.XtraGrid.GridControl();
@@ -76,7 +76,7 @@
             // txtStartDate
             // 
             this.txtStartDate.DateTimeValue = new System.DateTime(2018, 1, 1, 0, 0, 0, 0);
-            this.txtStartDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Year;
+            this.txtStartDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Year;
             this.txtStartDate.EditValue = "2018/12";
             this.txtStartDate.EnterMoveNextControl = true;
             this.txtStartDate.Location = new System.Drawing.Point(88, 24);
@@ -91,7 +91,7 @@
             this.txtStartDate.Properties.MaxLength = 4;
             this.txtStartDate.Size = new System.Drawing.Size(71, 26);
             this.txtStartDate.TabIndex = 14;
-            this.txtStartDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // label1
             // 
@@ -106,7 +106,7 @@
             // txtEndDate
             // 
             this.txtEndDate.DateTimeValue = new System.DateTime(2018, 1, 1, 0, 0, 0, 0);
-            this.txtEndDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Year;
+            this.txtEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Year;
             this.txtEndDate.EditValue = "2018/12";
             this.txtEndDate.EnterMoveNextControl = true;
             this.txtEndDate.Location = new System.Drawing.Point(196, 24);
@@ -121,7 +121,7 @@
             this.txtEndDate.Properties.MaxLength = 4;
             this.txtEndDate.Size = new System.Drawing.Size(71, 26);
             this.txtEndDate.TabIndex = 15;
-            this.txtEndDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // lblDate
             // 
@@ -294,9 +294,9 @@
 
         private DevExpress.XtraEditors.PanelControl panelControl1;
         private DevExpress.XtraEditors.PanelControl panelControl2;
-        private Widget.TextDateEdit txtStartDate;
+        private BaseGround.Widget.TextDateEdit txtStartDate;
         private System.Windows.Forms.Label label1;
-        private Widget.TextDateEdit txtEndDate;
+        private BaseGround.Widget.TextDateEdit txtEndDate;
         private System.Windows.Forms.Label lblDate;
         private DevExpress.XtraGrid.GridControl gcMain;
         private DevExpress.XtraGrid.Views.Grid.GridView gvMain;

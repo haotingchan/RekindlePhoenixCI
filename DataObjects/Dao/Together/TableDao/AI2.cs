@@ -322,13 +322,12 @@ and ai2_ymd <= :endDate
          {
                 ":ls_ymd", ls_ymd,
                 ":ls_grp", ls_grp
-            };
+         };
 
 
          string sql = @"select count(distinct AI2_PROD_TYPE)
-		  into :li_cnt
-		  from ci.AI2,ci.APDK
-		 where AI2_YMD = :ls_ymd
+		   from ci.AI2,ci.APDK
+		   where AI2_YMD = :ls_ymd
 			and AI2_SUM_TYPE = 'D'
 			and AI2_PROD_TYPE in ('F','O')
 			and AI2_KIND_ID = APDK_KIND_ID
@@ -340,6 +339,40 @@ and ai2_ymd <= :endDate
          int.TryParse(res, out tmp);
 
          return tmp;
+      }
+
+
+      /// <summary>
+      /// 40040 前一交易日
+      /// </summary>
+      /// <param name="AI2_SUM_TYPE"></param>
+      /// <param name="AI2_PROD_TYPE"></param>
+      /// <param name="AI2_PROD_SUBTYPE"></param>
+      /// <param name="startDate"></param>
+      /// <param name="endDate"></param>
+      /// <returns>string yyyy/MM/dd</returns>
+      public string GetLastSumTypeDate(string AI2_SUM_TYPE, string AI2_SUM_SUBTYPE, string AI2_PROD_SUBTYPE, DateTime ld_date_last)
+      {
+         object[] parms =
+         {
+                ":AI2_SUM_TYPE", AI2_SUM_TYPE,
+                ":AI2_SUM_SUBTYPE", AI2_SUM_SUBTYPE,
+                ":AI2_PROD_SUBTYPE", AI2_PROD_SUBTYPE,
+                ":ld_date_last", ld_date_last
+            };
+
+         //AI2_YMD format=yyyy/MM/dd
+         string sql = @"
+                  select TO_DATE(max(AI2_YMD),'yyyymmdd') as MaxDate
+                  from ci.AI2
+                  where AI2_SUM_TYPE = :AI2_SUM_TYPE
+                  and AI2_SUM_SUBTYPE = :AI2_SUM_SUBTYPE 
+                  and AI2_PROD_SUBTYPE = :AI2_PROD_SUBTYPE
+                  and AI2_YMD < to_char(:ld_date_last,'yyyymmdd')
+                  and AI2_YMD >= to_char(:ld_date_last-32,'yyyymmdd') 
+";
+         string res = db.ExecuteScalar(sql, CommandType.Text, parms);
+         return res;
       }
    }
 }

@@ -12,7 +12,7 @@
       <ConnectionName>CIN_CI</ConnectionName>
       <InitialCatalog>CI</InitialCatalog>
     </Ci>
-    
+
     <!--交易資訊系統資料庫-期貨日盤-->
     <CiFut>
       <ConnectionName>CIN_FUT</ConnectionName>
@@ -42,12 +42,20 @@
       <ConnectionName>CIN_MONIT</ConnectionName>
       <InitialCatalog>CI</InitialCatalog>
     </CiMonit>
+
+    <POSOnwer>
+      <ConnectionName>POS_ONWER</ConnectionName>
+      <InitialCatalog>192.168.68.51</InitialCatalog>
+    </POSOnwer>
+    
   </Database>
-  
+
   <Log>
     <LogSeverity>Info</LogSeverity>
   </Log>
-  
+
+
+
   <ConnectionStrings>
     <!--測試環境區段-->
     <Connection>
@@ -98,7 +106,7 @@
     <PBcodeType>O</PBcodeType>
     <StartFileName>future.exe</StartFileName>
   </Download>
-  
+
   <!--Upload上傳程式的下拉選單用-->
   <SysCode>
     <Sys>

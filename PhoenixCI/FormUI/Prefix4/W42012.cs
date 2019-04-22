@@ -50,7 +50,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             lblCmRateRef.Visible = false;
 
 #if DEBUG
-            //txtSDate.EditValue = "2018/12/28";
+            txtSDate.EditValue = "2018/10/11";
+            txtEDate.EditValue = "2018/10/11";
+            txtSID.Text = "6488";
+            cbx2.Checked = true;
 #endif
 
             return ResultStatus.Success;
@@ -157,12 +160,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 if (cbx1.Checked) {
                     if (txtRange.Text != "10") {
                         //表首
-                        rptName = ws.Cells[2, 2].Value.AsString();
-                        f = rptName.IndexOf("10%") + 1;
-                        if (f > 0) rptName = rptName.SubStr(0, f - 1) + txtRange.Text + "%" + rptName.SubStr(f + 2, rptName.Length);
-                        ws.Cells[startRow, 2].Value = rptName;
-                        ws.Cells[startRow, 2].Font.Name = "標楷體";
-                        //ws.Cells[startRow, 2].Font.Name = "Times New Roman";
+                        //使用RichTextString才能保留原本設定的格式
+                        RichTextString richText = new RichTextString();
+                        richText = ws.Cells[2, 2].GetRichText();
+                        f = richText.Text.IndexOf("10%") + 1;
+                        if (f > 0) richText.Characters(f - 1, 3).Text = txtRange.Text + "%";
+                        ws.Cells[startRow, 2].SetRichText(richText);
                     }
                 }
                 else {
@@ -181,30 +184,30 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 if (cbx2.Checked) {
                     if (txtRange.Text != "8.5" || txtRate2.Text != "10.5" || txtRate3.Text != "13.5" || txtRate4.Text != "1.0" || lblCmRate.Text != "15") {
                         //表首
-                        rptName = ws.Cells[startRow, 2].Value.AsString();
+                        RichTextString richText = new RichTextString();
+                        richText = ws.Cells[startRow, 2].GetRichText();
+
                         if (txtRange.Text != "8.5") {
-                            f = rptName.IndexOf("8.5 %") + 1;
-                            if (f > 0) rptName = rptName.SubStr(0, f - 1) + txtRate1.Text + "%" + rptName.SubStr(f + 4, rptName.Length);
+                            f = richText.Text.IndexOf("8.5 %") + 1;
+                            if (f > 0) richText.Characters(f - 1, 5).Text = txtRate1.Text + "%";
                         }
                         if (txtRate2.Text != "10.5") {
-                            f = rptName.IndexOf("10.5 %") + 1;
-                            if (f > 0) rptName = rptName.SubStr(0, f - 1) + txtRate2.Text + "%" + rptName.SubStr(f + 5, rptName.Length);
+                            f = richText.Text.IndexOf("10.5 %") + 1;
+                            if (f > 0) richText.Characters(f - 1, 6).Text = txtRate2.Text + "%";
                         }
                         if (txtRate3.Text != "13.5") {
-                            f = rptName.IndexOf("13.5 %") + 1;
-                            if (f > 0) rptName = rptName.SubStr(0, f - 1) + txtRate3.Text + "%" + rptName.SubStr(f + 5, rptName.Length);
+                            f = richText.Text.IndexOf("13.5 %") + 1;
+                            if (f > 0) richText.Characters(f - 1, 6).Text = txtRate3.Text + "%";
                         }
                         if (txtRate4.Text != "1.0") {
-                            f = rptName.IndexOf("1.0 %") + 1;
-                            if (f > 0) rptName = rptName.SubStr(0, f - 1) + txtRate4.Text + "%" + rptName.SubStr(f + 4, rptName.Length);
+                            f = richText.Text.IndexOf("1.0 %") + 1;
+                            if (f > 0) richText.Characters(f - 1, 5).Text = txtRate4.Text + "%";
                         }
                         if (lblCmRate.Text != "15") {
-                            f = rptName.IndexOf("15%") + 1;
-                            if (f > 0) rptName = rptName.SubStr(0, f - 1) + lblCmRate.Text + "%" + rptName.SubStr(f + 4, rptName.Length);
+                            f = richText.Text.IndexOf("15%") + 1;
+                            if (f > 0) richText.Characters(f - 1, 5).Text = lblCmRate.Text + "%";
                         }
-                        ws.Cells[startRow, 2].Value = rptName;
-                        ws.Cells[startRow, 2].Font.Name = "標楷體";
-                        //ws.Cells[startRow, 2].Font.Name = "Times New Roman";
+                        ws.Cells[startRow, 2].SetRichText(richText);
                     }
                 }
                 else {
@@ -226,16 +229,19 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 if (cbx1.Checked) {
                     if (txtRange.Text != "10") {
                         //表頭
-                        rptName = ws.Cells[rowIndex - 3, 2].Value.AsString();
-                        f = rptName.IndexOf("10%") + 1;
-                        if (f > 0) rptName = rptName.SubStr(0, f - 1) + txtRange.Text + "%" + rptName.SubStr(f + 2, rptName.Length);
-                        ws.Cells[rowIndex - 3, 2].Value = rptName;
-                        ws.Cells[rowIndex - 3, 2].Font.Name = "標楷體";
-                        //ws.Cells[rowIndex - 3, 2].Font.Name = "Times New Roman";
+                        RichTextString richText = new RichTextString();
+                        richText = ws.Cells[rowIndex - 3, 2].GetRichText();
+
+                        f = richText.Text.IndexOf("10%") + 1;
+                        if (f > 0) richText.Characters(f - 1, 3).Text = txtRange.Text + "%";
+                        ws.Cells[rowIndex - 3, 2].SetRichText(richText);
                     }
                     if (cbxRate.Checked) {
                         DataView dv = dt42012.AsDataView();
-                        dv.RowFilter = "(mgr2_level = 'Z' and T_30_RATE >= (MGR3_CUR_CM - " + (txtRate4Ref.Text.AsDecimal() / 100).AsString() + "))  or (mgr2_level = '1' and t_30_rate >= " + (txtRate1Ref.Text.AsDecimal() / 100).AsString() + ") or (mgr2_level = '2' and t_30_rate >= " + (txtRate2Ref.Text.AsDecimal() / 100).AsString() + ")";
+                        dv.RowFilter = "(mgr2_level = 'Z' and T_30_RATE >= (MGR3_CUR_CM - " + 
+                                        (txtRate4Ref.Text.AsDecimal() / 100).AsString() + ")) or (mgr2_level = '1' and t_30_rate >= " + 
+                                        (txtRate1Ref.Text.AsDecimal() / 100).AsString() + ") or (mgr2_level = '2' and t_30_rate >= " + 
+                                        (txtRate2Ref.Text.AsDecimal() / 100).AsString() + ")";
                         dt42012 = dv.ToTable();
                     }
 
@@ -249,13 +255,16 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         ws.Cells[rowIndex, 6].SetValue(dr["T_30_RATE"]);
                         ws.Cells[rowIndex, 7].SetValue(dr["MGR2_DAY_RATE"]);
                         if (dr["MGR3_CUR_LEVEL"].AsString() == "Z") {
-                            ws.Cells[rowIndex, 8].Value = "從其高(" + (dr["MGR3_CUR_CM"].AsDecimal() * 100).AsString() + "%)";
+                            RichTextString richText = new RichTextString();
+                            richText.AddTextRun("從其高", new RichTextRunFont("標楷體", 12));
+                            richText.AddTextRun("(" + (dr["MGR3_CUR_CM"].AsDecimal() * 100).AsString() + "%)", new RichTextRunFont("Times New Roman", 12));
+                            ws.Cells[rowIndex, 8].SetRichText(richText);
                         }
                         else {
-                            ws.Cells[rowIndex, 8].Value = dr["MGR3_CUR_LEVEL"].AsString();
+                            RichTextString richText = new RichTextString();
+                            richText.AddTextRun(dr["MGR3_CUR_LEVEL"].AsString(), new RichTextRunFont("Times New Roman", 12));
+                            ws.Cells[rowIndex, 8].SetRichText(richText);
                         }
-                        ws.Cells[rowIndex, 8].Font.Name = "標楷體";
-                        ws.Cells[rowIndex, 8].Font.Name = "Times New Roman";
                         if (dr["DAY_CNT"].AsInt() == 0) {
                             ws.Cells[rowIndex, 9].Value = "-";
                         }
@@ -294,36 +303,38 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 if (cbx2.Checked) {
                     if (txtRange.Text != "8.5" || txtRate2.Text != "10.5" || txtRate3.Text != "13.5" || txtRate4.Text != "1.0" || lblCmRate.Text != "15") {
                         //表頭
-                        rptName = ws.Cells[rowIndex - 3, 2].Value.AsString();
+                        RichTextString richText = new RichTextString();
+                        richText = ws.Cells[rowIndex - 3, 2].GetRichText();
+
                         if (txtRange.Text != "8.5") {
-                            f = rptName.IndexOf("8.5 %") + 1;
-                            if (f > 0) rptName = rptName.SubStr(0, f - 1) + txtRate1.Text + "%" + rptName.SubStr(f + 4, rptName.Length);
+                            f = richText.Text.IndexOf("8.5 %") + 1;
+                            if (f > 0) richText.Characters(f - 1, 5).Text = txtRate1.Text + "%";
                         }
                         if (txtRate2.Text != "10.5") {
-                            f = rptName.IndexOf("10.5 %") + 1;
-                            if (f > 0) rptName = rptName.SubStr(0, f - 1) + txtRate2.Text + "%" + rptName.SubStr(f + 5, rptName.Length);
+                            f = richText.Text.IndexOf("10.5 %") + 1;
+                            if (f > 0) richText.Characters(f - 1, 6).Text = txtRate2.Text + "%";
                         }
                         if (txtRate3.Text != "13.5") {
-                            f = rptName.IndexOf("13.5 %") + 1;
-                            if (f > 0) rptName = rptName.SubStr(0, f - 1) + txtRate3.Text + "%" + rptName.SubStr(f + 5, rptName.Length);
+                            f = richText.Text.IndexOf("13.5 %") + 1;
+                            if (f > 0) richText.Characters(f - 1, 6).Text = txtRate3.Text + "%";
                         }
                         if (txtRate4.Text != "1.0") {
-                            f = rptName.IndexOf("1.0 %") + 1;
-                            if (f > 0) rptName = rptName.SubStr(0, f - 1) + txtRate4.Text + "%" + rptName.SubStr(f + 4, rptName.Length);
+                            f = richText.Text.IndexOf("1.0 %") + 1;
+                            if (f > 0) richText.Characters(f - 1, 5).Text = txtRate4.Text + "%";
                         }
                         if (lblCmRate.Text != "15") {
-                            f = rptName.IndexOf("15%") + 1;
-                            if (f > 0) rptName = rptName.SubStr(0, f - 1) + lblCmRate.Text + "%" + rptName.SubStr(f + 4, rptName.Length);
+                            f = richText.Text.IndexOf("15%") + 1;
+                            if (f > 0) richText.Characters(f - 1, 5).Text = lblCmRate.Text + "%";
                         }
-                        ws.Cells[rowIndex - 3, 2].Value = rptName;
-                        SpreadsheetFont cellFont = ws.Cells[rowIndex - 3, 2].Font;
-                        cellFont.Name = "標楷體";
-                        //cellFont.Name = "Times New Roman";
+                        ws.Cells[rowIndex - 3, 2].SetRichText(richText);
                         if (!cbx1.Checked) ws.Cells[rowIndex - 3, 1].Value = "1";
                     }
                     if (cbxRate.Checked) {
                         DataView dv = dt42012.AsDataView();
-                        dv.RowFilter = "(mgr2_level = 'Z' and mgr2_day_rate >= (MGR3_CUR_CM - " + (txtRate4.Text.AsDecimal() / 100).AsString() + "))  or (mgr2_level = '1' and mgr2_day_rate >= " + (txtRate1.Text.AsDecimal() / 100).AsString() + ") or (mgr2_level = '2' and mgr2_day_rate >= " + (txtRate2.Text.AsDecimal() / 100).AsString() + ")";
+                        dv.RowFilter = "(mgr2_level = 'Z' and mgr2_day_rate >= (MGR3_CUR_CM - " + 
+                                        (txtRate4.Text.AsDecimal() / 100).AsString() + ")) or (mgr2_level = '1' and mgr2_day_rate >= " + 
+                                        (txtRate1.Text.AsDecimal() / 100).AsString() + ") or (mgr2_level = '2' and mgr2_day_rate >= " + 
+                                        (txtRate2.Text.AsDecimal() / 100).AsString() + ")";
                         dt42012 = dv.ToTable();
                     }
 
@@ -337,13 +348,16 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         ws.Cells[rowIndex, 6].SetValue(dr["MGR2_DAY_RATE"]);
                         ws.Cells[rowIndex, 7].SetValue(dr["T_30_RATE"]);
                         if (dr["MGR3_CUR_LEVEL"].AsString() == "Z") {
-                            ws.Cells[rowIndex, 8].Value = "從其高(" + (dr["MGR3_CUR_CM"].AsDecimal() * 100).AsString() + "%)";
+                            RichTextString richText = new RichTextString();
+                            richText.AddTextRun("從其高", new RichTextRunFont("標楷體", 12));
+                            richText.AddTextRun("(" + (dr["MGR3_CUR_CM"].AsDecimal() * 100).AsString() + "%)", new RichTextRunFont("Times New Roman", 12));
+                            ws.Cells[rowIndex, 8].SetRichText(richText);
                         }
                         else {
-                            ws.Cells[rowIndex, 8].Value = dr["MGR3_CUR_LEVEL"].AsString();
+                            RichTextString richText = new RichTextString();
+                            richText.AddTextRun(dr["MGR3_CUR_LEVEL"].AsString(), new RichTextRunFont("Times New Roman", 12));
+                            ws.Cells[rowIndex, 8].SetRichText(richText);
                         }
-                        ws.Cells[rowIndex, 8].Font.Name = "標楷體";
-                        //ws.Cells[rowIndex, 8].Font.Name = "Times New Roman";
                         if (dr["DAY_CNT_3"].AsInt() == 0) {
                             ws.Cells[rowIndex, 9].Value = "-";
                         }

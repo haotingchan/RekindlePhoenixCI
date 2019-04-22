@@ -21,7 +21,6 @@ using System.Xml;
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix4 {
    public partial class W40100 : FormParent {
-
       #region Get UI Value
       /// <summary>
       /// yyyyMMdd
@@ -65,7 +64,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
       protected override ResultStatus Export() {
          ExportShow.Text = "轉檔中...";
          ExportShow.Show();
-
          try {
 
             object[] args = { new D40xxx(), TxtDate, AdjType, _ProgramID };

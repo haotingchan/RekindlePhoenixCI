@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.Data;
+using System.Linq;
 using System.Reflection;
 
 /// <summary>
@@ -89,6 +90,8 @@ namespace DataObjects.Dao.Together.SpecificDao
             };
          string sql = FutDataCountSql();
          DataTable dtResult = db.GetDataTable(sql, parms);
+         if (dtResult.Rows.Count <= 0)
+            return 0;
          return dtResult.Rows[0][0].AsInt();
       }
 
@@ -104,6 +107,8 @@ namespace DataObjects.Dao.Together.SpecificDao
             };
          string sql = OptDataCountSql();
          DataTable dtResult = db.GetDataTable(sql, parms);
+         if (dtResult.Rows.Count <= 0)
+            return 0;
          return dtResult.Rows[0][0].AsInt();
       }
 
@@ -199,6 +204,7 @@ namespace DataObjects.Dao.Together.SpecificDao
       /// <returns></returns>
       public int GetRptLV(string TxnID, int Num)
       {
+         TxnID = TxnID.Length > 5 ? TxnID.Substring(0, 5) : TxnID;
          object[] parms = {
                 ":as_txn",TxnID,
                 ":as_txn_sheet",$"{TxnID}_{Num}"
@@ -209,6 +215,8 @@ namespace DataObjects.Dao.Together.SpecificDao
                              and trim(rpt_txd_id) = :as_txn_sheet
                              and rpt_value = 'E'";
          DataTable dtResult = db.GetDataTable(sql, parms);
+         if (dtResult.Rows.Count<=0)
+            return 0;
          return dtResult.Rows[0][0].AsInt();
       }
 
@@ -229,6 +237,8 @@ namespace DataObjects.Dao.Together.SpecificDao
                             and AI5_KIND_ID = APDK_KIND_ID
                             and trim(APDK_MARKET_CLOSE) = :os_osw_grp";
          DataTable dtResult = db.GetDataTable(sql, parms);
+         if (dtResult.Rows.Count <= 0)
+            return 0;
          return dtResult.Rows[0][0].AsInt();
       }
 

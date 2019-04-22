@@ -24,7 +24,7 @@
         /// </summary>
         private void InitializeComponent() {
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
-            this.txtDate = new PhoenixCI.Widget.TextDateEdit();
+            this.txtDate = new BaseGround.Widget.TextDateEdit();
             this.lblDate = new System.Windows.Forms.Label();
             this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
             this.gcMain = new DevExpress.XtraGrid.GridControl();
@@ -72,7 +72,7 @@
             // txtDate
             // 
             this.txtDate.DateTimeValue = new System.DateTime(2018, 1, 1, 0, 0, 0, 0);
-            this.txtDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Year;
+            this.txtDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Year;
             this.txtDate.EditValue = "2018/12";
             this.txtDate.EnterMoveNextControl = true;
             this.txtDate.Location = new System.Drawing.Point(92, 23);
@@ -87,7 +87,7 @@
             this.txtDate.Properties.MaxLength = 4;
             this.txtDate.Size = new System.Drawing.Size(71, 26);
             this.txtDate.TabIndex = 17;
-            this.txtDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // lblDate
             // 
@@ -251,7 +251,7 @@
 
         private DevExpress.XtraEditors.PanelControl panelControl1;
         private DevExpress.XtraEditors.PanelControl panelControl2;
-        private Widget.TextDateEdit txtDate;
+        private BaseGround.Widget.TextDateEdit txtDate;
         private System.Windows.Forms.Label lblDate;
         private DevExpress.XtraGrid.GridControl gcMain;
         private DevExpress.XtraGrid.Views.Grid.GridView gvMain;

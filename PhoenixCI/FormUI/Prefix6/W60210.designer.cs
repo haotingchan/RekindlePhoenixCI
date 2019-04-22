@@ -30,7 +30,7 @@
         {
             this.lblDescription = new System.Windows.Forms.Label();
             this.grpxDescription = new System.Windows.Forms.GroupBox();
-            this.txtDate = new PhoenixCI.Widget.TextDateEdit();
+            this.txtDate = new BaseGround.Widget.TextDateEdit();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             this.grpxDescription.SuspendLayout();
@@ -71,7 +71,7 @@
             // txtDate
             // 
             this.txtDate.DateTimeValue = new System.DateTime(((long)(0)));
-            this.txtDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
             this.txtDate.Location = new System.Drawing.Point(100, 43);
             this.txtDate.MenuManager = this.ribbonControl;
             this.txtDate.Name = "txtDate";
@@ -82,7 +82,7 @@
             this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtDate.Size = new System.Drawing.Size(100, 26);
             this.txtDate.TabIndex = 5;
-            this.txtDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
+            this.txtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
             // 
             // W60210
             // 
@@ -105,6 +105,6 @@
         #endregion
         private System.Windows.Forms.Label lblDescription;
         private System.Windows.Forms.GroupBox grpxDescription;
-        private Widget.TextDateEdit txtDate;
+        private BaseGround.Widget.TextDateEdit txtDate;
     }
 }

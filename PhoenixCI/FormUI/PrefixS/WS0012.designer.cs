@@ -32,13 +32,13 @@
          this.radioGroup3 = new DevExpress.XtraEditors.RadioGroup();
          this.radioGroup2 = new DevExpress.XtraEditors.RadioGroup();
          this.radioGroup1 = new DevExpress.XtraEditors.RadioGroup();
-         this.txtDate3 = new PhoenixCI.Widget.TextDateEdit();
+         this.txtDate3 = new BaseGround.Widget.TextDateEdit();
          this.label3 = new System.Windows.Forms.Label();
-         this.txtDate2 = new PhoenixCI.Widget.TextDateEdit();
+         this.txtDate2 = new BaseGround.Widget.TextDateEdit();
          this.label2 = new System.Windows.Forms.Label();
-         this.txtDate1 = new PhoenixCI.Widget.TextDateEdit();
+         this.txtDate1 = new BaseGround.Widget.TextDateEdit();
          this.label1 = new System.Windows.Forms.Label();
-         this.txtCountDate = new PhoenixCI.Widget.TextDateEdit();
+         this.txtCountDate = new BaseGround.Widget.TextDateEdit();
          this.labDate = new System.Windows.Forms.Label();
          this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
          this.gcMain = new DevExpress.XtraGrid.GridControl();
@@ -205,7 +205,7 @@
          // txtDate3
          // 
          this.txtDate3.DateTimeValue = new System.DateTime(((long)(0)));
-         this.txtDate3.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtDate3.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtDate3.EditValue = "0001/1/1 上午 12:00:00";
          this.txtDate3.Location = new System.Drawing.Point(84, 74);
          this.txtDate3.Name = "txtDate3";
@@ -218,7 +218,7 @@
          this.txtDate3.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtDate3.Size = new System.Drawing.Size(100, 26);
          this.txtDate3.TabIndex = 23;
-         this.txtDate3.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         this.txtDate3.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // label3
          // 
@@ -232,7 +232,7 @@
          // txtDate2
          // 
          this.txtDate2.DateTimeValue = new System.DateTime(((long)(0)));
-         this.txtDate2.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtDate2.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtDate2.EditValue = "0001/1/1 上午 12:00:00";
          this.txtDate2.Location = new System.Drawing.Point(84, 38);
          this.txtDate2.Name = "txtDate2";
@@ -245,7 +245,7 @@
          this.txtDate2.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtDate2.Size = new System.Drawing.Size(100, 26);
          this.txtDate2.TabIndex = 21;
-         this.txtDate2.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         this.txtDate2.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // label2
          // 
@@ -259,7 +259,7 @@
          // txtDate1
          // 
          this.txtDate1.DateTimeValue = new System.DateTime(((long)(0)));
-         this.txtDate1.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtDate1.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtDate1.EditValue = "0001/1/1 上午 12:00:00";
          this.txtDate1.Location = new System.Drawing.Point(84, 5);
          this.txtDate1.Name = "txtDate1";
@@ -272,7 +272,7 @@
          this.txtDate1.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtDate1.Size = new System.Drawing.Size(100, 26);
          this.txtDate1.TabIndex = 19;
-         this.txtDate1.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         this.txtDate1.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // label1
          // 
@@ -286,7 +286,7 @@
          // txtCountDate
          // 
          this.txtCountDate.DateTimeValue = new System.DateTime(((long)(0)));
-         this.txtCountDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtCountDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtCountDate.EditValue = "0001/1/1 上午 12:00:00";
          this.txtCountDate.Location = new System.Drawing.Point(89, 15);
          this.txtCountDate.Name = "txtCountDate";
@@ -299,7 +299,7 @@
          this.txtCountDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtCountDate.Size = new System.Drawing.Size(100, 26);
          this.txtCountDate.TabIndex = 17;
-         this.txtCountDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         this.txtCountDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // labDate
          // 
@@ -636,13 +636,13 @@
         private DevExpress.XtraEditors.PanelControl panelControl1;
         private DevExpress.XtraEditors.PanelControl panelControl2;
         private DevExpress.XtraEditors.GroupControl groupControl1;
-        private Widget.TextDateEdit txtDate3;
+        private BaseGround.Widget.TextDateEdit txtDate3;
         private System.Windows.Forms.Label label3;
-        private Widget.TextDateEdit txtDate2;
+        private BaseGround.Widget.TextDateEdit txtDate2;
         private System.Windows.Forms.Label label2;
-        private Widget.TextDateEdit txtDate1;
+        private BaseGround.Widget.TextDateEdit txtDate1;
         private System.Windows.Forms.Label label1;
-        private Widget.TextDateEdit txtCountDate;
+        private BaseGround.Widget.TextDateEdit txtCountDate;
         private System.Windows.Forms.Label labDate;
         private DevExpress.XtraEditors.RadioGroup radioGroup1;
         private DevExpress.XtraEditors.RadioGroup radioGroup3;

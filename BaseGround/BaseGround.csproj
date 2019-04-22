@@ -194,6 +194,9 @@
     <Compile Include="Shared\Extension.cs" />
     <Compile Include="Shared\LookupItem.cs" />
     <Compile Include="Shared\PbFunc.cs" />
+    <Compile Include="Widget\TextDateEdit.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Widget\ucW500xx.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -211,6 +214,7 @@
     <EmbeddedResource Include="FormParent.resx">
       <DependentUpon>FormParent.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Report\CommonReportLandscapeA4.resx">
       <DependentUpon>CommonReportLandscapeA4.cs</DependentUpon>
     </EmbeddedResource>

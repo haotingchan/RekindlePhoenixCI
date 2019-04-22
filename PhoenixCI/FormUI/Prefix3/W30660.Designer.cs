@@ -25,16 +25,16 @@
         private void InitializeComponent() {
          this.grpxDescription = new System.Windows.Forms.GroupBox();
          this.chkDetail = new System.Windows.Forms.CheckBox();
-         this.txtAllEymd = new PhoenixCI.Widget.TextDateEdit();
-         this.txtAllSymd = new PhoenixCI.Widget.TextDateEdit();
+         this.txtAllEymd = new BaseGround.Widget.TextDateEdit();
+         this.txtAllSymd = new BaseGround.Widget.TextDateEdit();
          this.label4 = new System.Windows.Forms.Label();
          this.labDateAll = new System.Windows.Forms.Label();
-         this.txtAftEymd = new PhoenixCI.Widget.TextDateEdit();
-         this.txtAftSymd = new PhoenixCI.Widget.TextDateEdit();
+         this.txtAftEymd = new BaseGround.Widget.TextDateEdit();
+         this.txtAftSymd = new BaseGround.Widget.TextDateEdit();
          this.label2 = new System.Windows.Forms.Label();
          this.labDate2 = new System.Windows.Forms.Label();
-         this.txtPrevEymd = new PhoenixCI.Widget.TextDateEdit();
-         this.txtPrevSymd = new PhoenixCI.Widget.TextDateEdit();
+         this.txtPrevEymd = new BaseGround.Widget.TextDateEdit();
+         this.txtPrevSymd = new BaseGround.Widget.TextDateEdit();
          this.label1 = new System.Windows.Forms.Label();
          this.labDate1 = new System.Windows.Forms.Label();
          this.lblProcessing = new System.Windows.Forms.Label();
@@ -95,7 +95,7 @@
          // txtAllEymd
          // 
          this.txtAllEymd.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtAllEymd.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+         this.txtAllEymd.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
          this.txtAllEymd.EditValue = "2018/12";
          this.txtAllEymd.EnterMoveNextControl = true;
          this.txtAllEymd.Location = new System.Drawing.Point(237, 121);
@@ -108,12 +108,12 @@
          this.txtAllEymd.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtAllEymd.Size = new System.Drawing.Size(100, 26);
          this.txtAllEymd.TabIndex = 16;
-         this.txtAllEymd.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         this.txtAllEymd.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtAllSymd
          // 
          this.txtAllSymd.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtAllSymd.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+         this.txtAllSymd.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
          this.txtAllSymd.EditValue = "2018/12";
          this.txtAllSymd.EnterMoveNextControl = true;
          this.txtAllSymd.Location = new System.Drawing.Point(100, 121);
@@ -126,7 +126,7 @@
          this.txtAllSymd.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtAllSymd.Size = new System.Drawing.Size(100, 26);
          this.txtAllSymd.TabIndex = 15;
-         this.txtAllSymd.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         this.txtAllSymd.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // label4
          // 
@@ -149,7 +149,7 @@
          // txtAftEymd
          // 
          this.txtAftEymd.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtAftEymd.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+         this.txtAftEymd.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
          this.txtAftEymd.EditValue = "2018/12";
          this.txtAftEymd.EnterMoveNextControl = true;
          this.txtAftEymd.Location = new System.Drawing.Point(237, 82);
@@ -162,12 +162,12 @@
          this.txtAftEymd.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtAftEymd.Size = new System.Drawing.Size(100, 26);
          this.txtAftEymd.TabIndex = 12;
-         this.txtAftEymd.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         this.txtAftEymd.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtAftSymd
          // 
          this.txtAftSymd.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtAftSymd.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+         this.txtAftSymd.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
          this.txtAftSymd.EditValue = "2018/12";
          this.txtAftSymd.EnterMoveNextControl = true;
          this.txtAftSymd.Location = new System.Drawing.Point(100, 82);
@@ -180,7 +180,7 @@
          this.txtAftSymd.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtAftSymd.Size = new System.Drawing.Size(100, 26);
          this.txtAftSymd.TabIndex = 11;
-         this.txtAftSymd.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         this.txtAftSymd.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // label2
          // 
@@ -203,7 +203,7 @@
          // txtPrevEymd
          // 
          this.txtPrevEymd.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtPrevEymd.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+         this.txtPrevEymd.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
          this.txtPrevEymd.EditValue = "2018/12";
          this.txtPrevEymd.EnterMoveNextControl = true;
          this.txtPrevEymd.Location = new System.Drawing.Point(237, 43);
@@ -216,12 +216,12 @@
          this.txtPrevEymd.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtPrevEymd.Size = new System.Drawing.Size(100, 26);
          this.txtPrevEymd.TabIndex = 8;
-         this.txtPrevEymd.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         this.txtPrevEymd.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtPrevSymd
          // 
          this.txtPrevSymd.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtPrevSymd.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+         this.txtPrevSymd.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
          this.txtPrevSymd.EditValue = "2018/12";
          this.txtPrevSymd.EnterMoveNextControl = true;
          this.txtPrevSymd.Location = new System.Drawing.Point(100, 43);
@@ -234,7 +234,7 @@
          this.txtPrevSymd.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtPrevSymd.Size = new System.Drawing.Size(100, 26);
          this.txtPrevSymd.TabIndex = 7;
-         this.txtPrevSymd.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         this.txtPrevSymd.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // label1
          // 
@@ -294,15 +294,15 @@
         private System.Windows.Forms.GroupBox grpxDescription;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label labDate1;
-        private Widget.TextDateEdit txtPrevEymd;
-        private Widget.TextDateEdit txtPrevSymd;
+        private BaseGround.Widget.TextDateEdit txtPrevEymd;
+        private BaseGround.Widget.TextDateEdit txtPrevSymd;
         private System.Windows.Forms.Label lblProcessing;
-      private Widget.TextDateEdit txtAllEymd;
-      private Widget.TextDateEdit txtAllSymd;
+      private BaseGround.Widget.TextDateEdit txtAllEymd;
+      private BaseGround.Widget.TextDateEdit txtAllSymd;
       private System.Windows.Forms.Label label4;
       private System.Windows.Forms.Label labDateAll;
-      private Widget.TextDateEdit txtAftEymd;
-      private Widget.TextDateEdit txtAftSymd;
+      private BaseGround.Widget.TextDateEdit txtAftEymd;
+      private BaseGround.Widget.TextDateEdit txtAftSymd;
       private System.Windows.Forms.Label label2;
       private System.Windows.Forms.Label labDate2;
       private System.Windows.Forms.CheckBox chkDetail;

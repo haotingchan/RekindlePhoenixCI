@@ -13,6 +13,8 @@ using System.IO;
 using static BaseGround.Report.ReportHelper;
 using DevExpress.XtraReports.UI;
 using DevExpress.XtraPrinting.Caching;
+using DevExpress.XtraPrinting;
+using DevExpress.XtraEditors.Repository;
 /// <summary>
 /// John,20190129
 /// </summary>
@@ -37,7 +39,6 @@ namespace PhoenixCI.FormUI.Prefix5
       public override ResultStatus BeforeOpen()
       {
          base.BeforeOpen();
-         w500xx.BeforeOpen();
          return ResultStatus.Success;
       }
 
@@ -115,7 +116,10 @@ namespace PhoenixCI.FormUI.Prefix5
 
       protected bool BeforeRetrieve()
       {
-         if (!w500xx.Retrieve()) return false;
+         if (!w500xx.Retrieve()) {
+            _ToolBtnExport.Enabled = false;
+            return false;
+         } 
          /* 報表內容 */
          if (w500xx.gb_detial.EditValue.Equals("rb_gdate")) {
             is_dw_name = dao50036.ListAMMO(w500xx.is_sdate, w500xx.is_edate, w500xx.is_sum_type, w500xx.is_sum_subtype);
@@ -166,18 +170,13 @@ namespace PhoenixCI.FormUI.Prefix5
          w500xx.BeforeExport(ls_rpt_id, ls_rpt_name);
          BeforeRetrieve();
          string ls_filename;
-         ls_filename = _ProgramID + "_" + DateTime.Now.ToString("yyyy.MM.dd") + "-" + DateTime.Now.ToString("HH.mm.ss") + ".xls";
+         ls_filename = _ProgramID + "_" + DateTime.Now.ToString("yyyy.MM.dd") + "-" + DateTime.Now.ToString("HH.mm.ss") + ".xlsx";
          string destinationFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, ls_filename);
          /******************
          開啟檔案
          ******************/
          Workbook workbook = new Workbook();
-         //判斷檔案是否存在,不存在就開一個新檔案
-         if (!File.Exists(destinationFilePath)) {
-            File.Create(destinationFilePath).Close();
-         }
-         //reportHelper.Export(FileType.XLS, destinationFilePath);
-         workbook.LoadDocument(destinationFilePath);
+
          /******************
          讀取資料
          ******************/
@@ -187,42 +186,42 @@ namespace PhoenixCI.FormUI.Prefix5
             w500xx.AfterExport();
             return ResultStatus.Success;
          }
-         defReport.ExportToXls(destinationFilePath);
-         /******************
-         切換Sheet
-         
+
+         //// Create a report instance. 
+         //XtraReport report = defReport;
+
+         //// Get its XLSX export options. 
+         //XlsxExportOptions xlsxOptions = report.ExportOptions.Xlsx;
+
+         //// Set XLSX-specific export options. 
+         //xlsxOptions.ShowGridLines = true;
+         //xlsxOptions.TextExportMode = TextExportMode.Value;
+         //xlsxOptions.ExportHyperlinks = true;
+         //xlsxOptions.SheetName = "My Sheet";
+         //xlsxOptions.ExportMode = XlsxExportMode.DifferentFiles;
+
+         //// Export the report to XLSX. 
+         //report.ExportToXlsx(destinationFilePath);
+
+
          Worksheet worksheet = workbook.Worksheets[0];
-         
-         int rowNum = ids_1.Rows.Count;
-         int columnNum = ids_1.Columns.Count;
-         int rowIndex = 0;
-         int columnIndex = 0;
-         int k = 0;
-         worksheet.Rows[0][k++].Value = "日期";
-         worksheet.Rows[0][k++].Value = "期貨商代號";
-         worksheet.Rows[0][k++].Value = "期貨商名稱";
-         worksheet.Rows[0][k++].Value = "投資人帳號";
-         worksheet.Rows[0][k++].Value = "amm0_prod_type";
-         worksheet.Rows[0][k++].Value = "商品名稱";
-         worksheet.Rows[0][k++].Value = "造市量";
-         worksheet.Rows[0][k++].Value = "造市者總成交量";
-         worksheet.Rows[0][k++].Value = "有效報/詢價比例";
-         worksheet.Rows[0][k++].Value = "每日平均維持時間(分)";
-         worksheet.Rows[0][k++].Value = "績效分數";
-         worksheet.Rows[0][k++].Value = "合格檔數";
-         k = 0;
-         defReport.ExportToXls(destinationFilePath);
-         //將DataTable中的數據導入Excel中
-         for (int i = 0; i < rowNum; i++) {
-            rowIndex++;
-            columnIndex = 0;
-            for (int j = 0; j < columnNum; j++) {
-               worksheet.Cells[rowIndex, columnIndex].Value = ids_1.Rows[i][j].ToString();
-               columnIndex++;
-            }
-         }
+         DataTable dt = (DataTable)defReport.DataSource;
+         int k = 1;
+         dt.Columns[k++].Caption = "日期";
+         dt.Columns[k++].Caption = "期貨商代號";
+         dt.Columns[k++].Caption = "期貨商名稱";
+         dt.Columns[k++].Caption = "投資人帳號";
+         dt.Columns[k++].Caption = "amm0_prod_type";
+         dt.Columns[k++].Caption = "商品名稱";
+         dt.Columns[k++].Caption = "造市量";
+         dt.Columns[k++].Caption = "造市者總成交量";
+         dt.Columns[k++].Caption = "有效報/詢價比例";
+         dt.Columns[k++].Caption = "每日平均維持時間(分)";
+         dt.Columns[k++].Caption = "績效分數";
+         dt.Columns[k++].Caption = "合格檔數";
+         dt.Columns.Remove(dt.Columns[0]);
+         worksheet.Import(dt, true, 0, 0);
          workbook.SaveDocument(destinationFilePath);
-         ******************/
          w500xx.AfterExport();
          return ResultStatus.Success;
       }

@@ -34,8 +34,8 @@
          this.gb_1 = new DevExpress.XtraEditors.PanelControl();
          this.label1 = new System.Windows.Forms.Label();
          this.stMonth = new DevExpress.XtraLayout.LayoutControl();
-         this.emStartMth = new PhoenixCI.Widget.TextDateEdit();
-         this.emEndMth = new PhoenixCI.Widget.TextDateEdit();
+         this.emStartMth = new BaseGround.Widget.TextDateEdit();
+         this.emEndMth = new BaseGround.Widget.TextDateEdit();
          this.layoutControlGroup3 = new DevExpress.XtraLayout.LayoutControlGroup();
          this.layoutControlItem7 = new DevExpress.XtraLayout.LayoutControlItem();
          this.layoutControlItem8 = new DevExpress.XtraLayout.LayoutControlItem();
@@ -155,7 +155,7 @@
          // emStartMth
          // 
          this.emStartMth.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
-         this.emStartMth.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+         this.emStartMth.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
          this.emStartMth.EditValue = "2019/01";
          this.emStartMth.Location = new System.Drawing.Point(2, 2);
          this.emStartMth.Name = "emStartMth";
@@ -171,7 +171,7 @@
          // emEndMth
          // 
          this.emEndMth.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
-         this.emEndMth.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+         this.emEndMth.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
          this.emEndMth.EditValue = "2019/01";
          this.emEndMth.Location = new System.Drawing.Point(94, 2);
          this.emEndMth.Name = "emEndMth";
@@ -305,8 +305,8 @@
       private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup1;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
       private DevExpress.XtraLayout.LayoutControl stMonth;
-      private PhoenixCI.Widget.TextDateEdit emStartMth;
-      private PhoenixCI.Widget.TextDateEdit emEndMth;
+      private BaseGround.Widget.TextDateEdit emStartMth;
+      private BaseGround.Widget.TextDateEdit emEndMth;
       private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup3;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem7;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem8;

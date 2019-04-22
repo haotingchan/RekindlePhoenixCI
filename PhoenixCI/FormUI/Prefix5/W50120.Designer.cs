@@ -25,7 +25,7 @@
         private void InitializeComponent() {
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.lblDate = new System.Windows.Forms.Label();
-            this.txtMonth = new PhoenixCI.Widget.TextDateEdit();
+            this.txtMonth = new BaseGround.Widget.TextDateEdit();
             this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
             this.gcMain = new DevExpress.XtraGrid.GridControl();
             this.gvMain = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -86,7 +86,7 @@
             // txtMonth
             // 
             this.txtMonth.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtMonth.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Month;
+            this.txtMonth.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
             this.txtMonth.EditValue = "2018/12";
             this.txtMonth.EnterMoveNextControl = true;
             this.txtMonth.Location = new System.Drawing.Point(82, 21);
@@ -99,7 +99,7 @@
             this.txtMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtMonth.Size = new System.Drawing.Size(100, 26);
             this.txtMonth.TabIndex = 6;
-            this.txtMonth.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.txtMonth.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // panelControl2
             // 
@@ -258,7 +258,7 @@
         private DevExpress.XtraEditors.PanelControl panelControl2;
         private DevExpress.XtraGrid.GridControl gcMain;
         private DevExpress.XtraGrid.Views.Grid.GridView gvMain;
-        private Widget.TextDateEdit txtMonth;
+        private BaseGround.Widget.TextDateEdit txtMonth;
         private System.Windows.Forms.Label lblDate;
         private DevExpress.XtraGrid.Columns.GridColumn MPDF_YM;
         private DevExpress.XtraGrid.Columns.GridColumn MPDF_FCM_NO;

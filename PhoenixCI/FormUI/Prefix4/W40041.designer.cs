@@ -30,16 +30,16 @@
          this.label1 = new System.Windows.Forms.Label();
          this.prodLookItem = new DevExpress.XtraEditors.LookUpEdit();
          this.label2 = new System.Windows.Forms.Label();
-         this.txtDate = new PhoenixCI.Widget.TextDateEdit();
+         this.txtDate = new BaseGround.Widget.TextDateEdit();
          this.lblDate = new System.Windows.Forms.Label();
          this.ExportShow = new System.Windows.Forms.Label();
          this.panel1 = new System.Windows.Forms.Panel();
+         this.label3 = new System.Windows.Forms.Label();
          this.reCountBtn = new DevExpress.XtraEditors.SimpleButton();
          this.panel2 = new System.Windows.Forms.Panel();
          this.gcMain = new DevExpress.XtraGrid.GridControl();
          this.gvMain = new DevExpress.XtraGrid.Views.Grid.GridView();
          this.repositoryItemButtonEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit();
-         this.label3 = new System.Windows.Forms.Label();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -154,20 +154,21 @@
          // txtDate
          // 
          this.txtDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtDate.DateType = PhoenixCI.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtDate.EditValue = "2018/12";
+         this.txtDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtDate.EditValue = "2018/12/01";
          this.txtDate.EnterMoveNextControl = true;
          this.txtDate.Location = new System.Drawing.Point(160, 43);
          this.txtDate.MenuManager = this.ribbonControl;
          this.txtDate.Name = "txtDate";
          this.txtDate.Properties.Appearance.Options.UseTextOptions = true;
          this.txtDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.txtDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtDate.Size = new System.Drawing.Size(150, 26);
          this.txtDate.TabIndex = 15;
-         this.txtDate.TextMaskFormat = PhoenixCI.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         this.txtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // lblDate
          // 
@@ -198,6 +199,15 @@
          this.panel1.Name = "panel1";
          this.panel1.Size = new System.Drawing.Size(847, 274);
          this.panel1.TabIndex = 15;
+         // 
+         // label3
+         // 
+         this.label3.AutoSize = true;
+         this.label3.Location = new System.Drawing.Point(503, 244);
+         this.label3.Name = "label3";
+         this.label3.Size = new System.Drawing.Size(341, 20);
+         this.label3.TabIndex = 16;
+         this.label3.Text = "註: 上次調整公告日 = 上次調整日之前一交易日";
          // 
          // reCountBtn
          // 
@@ -243,15 +253,6 @@
             new DevExpress.XtraEditors.Controls.EditorButton()});
          this.repositoryItemButtonEdit1.Name = "repositoryItemButtonEdit1";
          // 
-         // label3
-         // 
-         this.label3.AutoSize = true;
-         this.label3.Location = new System.Drawing.Point(503, 244);
-         this.label3.Name = "label3";
-         this.label3.Size = new System.Drawing.Size(341, 20);
-         this.label3.TabIndex = 16;
-         this.label3.Text = "註: 上次調整公告日 = 上次調整日之前一交易日";
-         // 
          // W40041
          // 
          this.Appearance.Options.UseFont = true;
@@ -290,7 +291,7 @@
         private System.Windows.Forms.GroupBox grpxDescription;
         private System.Windows.Forms.Label lblDate;
         private System.Windows.Forms.Label ExportShow;
-        private Widget.TextDateEdit txtDate;
+        private BaseGround.Widget.TextDateEdit txtDate;
       private System.Windows.Forms.Panel panel2;
       private DevExpress.XtraGrid.GridControl gcMain;
       private DevExpress.XtraGrid.Views.Grid.GridView gvMain;
