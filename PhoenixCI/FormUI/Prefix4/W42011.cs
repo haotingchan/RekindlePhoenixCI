@@ -547,11 +547,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //                      .ThenByDescending(x => x.Field<int>("APDK_KIND_LEVEL"))
             //                      .ThenBy(x => x.Field<string>("MGR3_KIND_ID")).CopyToDataTable();
             dt = dt.AsEnumerable().Where(x => Math.Round(Math.Abs(x.Field<decimal>("YS_UPDOWN") * 100), 15) >= txtUpDown.AsDecimal() ||
-                                  Math.Round(Math.Abs(x.Field<decimal>("YI_UPDOWN") * 100), 15) >= txtUpDown.AsDecimal())
-                                  .OrderByDescending(x => Math.Abs(x.Field<decimal>("YS_UPDOWN")))
-                                  .ThenBy(x => x.Field<string>("APDK_KIND_GRP2"))
-                                  .ThenBy(x => x.Field<string>("MGR3_KIND_ID"))
-                                 .CopyToDataTable();
+                                 Math.Round(Math.Abs(x.Field<decimal>("YI_UPDOWN") * 100), 15) >= txtUpDown.AsDecimal())
+                                 .OrderByDescending(x => Math.Abs(x.Field<decimal>("YS_UPDOWN")))
+                                 .ThenBy(x => x.Field<string>("APDK_KIND_GRP2"))
+                                 .ThenByDescending(x => x.Field<Int16>("APDK_KIND_LEVEL"))
+                                 .ThenBy(x => x.Field<string>("MGR3_KIND_ID"))
+                                .CopyToDataTable();
 
             f = 0;
             foreach (DataRow dr in dt.Rows) {

@@ -136,7 +136,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 string asSymEtf = txtFromDate.Text.Replace("/", "").Substring(0, 6);
                 string asEymEtf = txtToDate.Text.Replace("/", "").Substring(0, 6);
                 DataTable dtContentETF = dao50072.ListData_etf(asSymEtf, asEymEtf);
-                if (dtContent.Rows.Count == 0) {
+                if (dtContentETF.Rows.Count == 0) {
                     MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromDate.Text, this.Text));
                 }
                 //存CSV
@@ -214,6 +214,19 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 //}
 
                 #endregion
+
+                //若所有Sheet皆無資料時，刪除檔案
+                if (dtContent.Rows.Count==0 && dtContentETF.Rows.Count==0 && dtContentTXF.Rows.Count == 0) {
+                    try {
+                        workbook = null;
+                        System.IO.File.Delete(file);
+                        System.IO.File.Delete(txfFileName);
+                    }
+                    catch (Exception) {
+                        //
+                    }
+                    return false;
+                }
 
                 //Excel存檔
                 workbook.SaveDocument(file);
