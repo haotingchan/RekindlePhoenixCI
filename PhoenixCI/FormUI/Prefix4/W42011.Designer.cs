@@ -177,8 +177,8 @@
             this.txtRate4.MaxLength = 3;
             this.txtRate4.Name = "txtRate4";
             this.txtRate4.Size = new System.Drawing.Size(44, 29);
-            this.txtRate4.TabIndex = 33;
-            this.txtRate4.Text = "5";
+            this.txtRate4.TabIndex = 5;
+            this.txtRate4.Text = "1";
             // 
             // txtUpDown
             // 
@@ -186,8 +186,8 @@
             this.txtUpDown.MaxLength = 3;
             this.txtUpDown.Name = "txtUpDown";
             this.txtUpDown.Size = new System.Drawing.Size(43, 29);
-            this.txtUpDown.TabIndex = 32;
-            this.txtUpDown.Text = "6";
+            this.txtUpDown.TabIndex = 6;
+            this.txtUpDown.Text = "12";
             // 
             // txtRate3
             // 
@@ -195,8 +195,8 @@
             this.txtRate3.MaxLength = 3;
             this.txtRate3.Name = "txtRate3";
             this.txtRate3.Size = new System.Drawing.Size(50, 29);
-            this.txtRate3.TabIndex = 31;
-            this.txtRate3.Text = "4";
+            this.txtRate3.TabIndex = 4;
+            this.txtRate3.Text = "14";
             // 
             // txtRate2
             // 
@@ -204,8 +204,8 @@
             this.txtRate2.MaxLength = 3;
             this.txtRate2.Name = "txtRate2";
             this.txtRate2.Size = new System.Drawing.Size(50, 29);
-            this.txtRate2.TabIndex = 30;
-            this.txtRate2.Text = "3";
+            this.txtRate2.TabIndex = 3;
+            this.txtRate2.Text = "11";
             // 
             // txtRate1
             // 
@@ -213,8 +213,8 @@
             this.txtRate1.MaxLength = 3;
             this.txtRate1.Name = "txtRate1";
             this.txtRate1.Size = new System.Drawing.Size(50, 29);
-            this.txtRate1.TabIndex = 15;
-            this.txtRate1.Text = "2";
+            this.txtRate1.TabIndex = 2;
+            this.txtRate1.Text = "9";
             // 
             // label7
             // 
@@ -288,8 +288,8 @@
             this.txtRange.MaxLength = 3;
             this.txtRange.Name = "txtRange";
             this.txtRange.Size = new System.Drawing.Size(48, 29);
-            this.txtRange.TabIndex = 14;
-            this.txtRange.Text = "1";
+            this.txtRange.TabIndex = 1;
+            this.txtRange.Text = "10";
             // 
             // cbxRate
             // 
