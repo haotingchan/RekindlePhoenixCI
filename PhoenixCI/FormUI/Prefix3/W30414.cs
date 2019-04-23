@@ -77,8 +77,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
                return ResultStatus.Fail;
             }
 
-            if (!txtStartMon.IsDate(txtStartMon.Text , CheckDate.Start)
-                  || !txtEndMon.IsDate(txtEndMon.Text , CheckDate.End)) {
+            if (!txtStartMon.IsDate(txtStartMon.Text + "/01" , CheckDate.Start)
+                  || !txtEndMon.IsDate(txtEndMon.Text + "/01" , CheckDate.End)) {
                return ResultStatus.Fail;
             }
 
@@ -310,7 +310,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                string nextKindId = dt30415.Rows[con]["ai2_kind_id"].AsString();
 
                if (year != nextYear || kindId != nextKindId) {
-                  
+
                   foundCol = dtTmp.Rows.IndexOf(dtTmp.Rows.Find(dr["ai2_ymd"])).AsInt();
                   decimal sumDayCount = dt30415.Compute("Sum(ai2_day_count)" , "ai2_kind_id = '" + kindId + "'").AsDecimal(); //取得ai2_day_count欄位的總和
                   decimal sumMQnty = dt30415.Compute("Sum(ai2_m_qnty)" , "ai2_kind_id = '" + kindId + "'").AsDecimal(); //ai2_m_qnty
