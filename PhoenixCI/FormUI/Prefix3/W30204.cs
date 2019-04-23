@@ -14,6 +14,7 @@ using BaseGround.Shared;
 using DataObjects.Dao.Together.SpecificDao;
 using Common;
 using DevExpress.Spreadsheet;
+using System.Threading;
 
 /// <summary>
 /// Lukas, 2019/3/27
@@ -67,26 +68,34 @@ namespace PhoenixCI.FormUI.Prefix3 {
             return ResultStatus.Success;
         }
 
+        protected void ShowMsg(string msg) {
+            lblProcessing.Text = msg;
+            this.Refresh();
+            Thread.Sleep(5);
+        }
+
         protected override ResultStatus Export() {
 
             try {
-                lblProcessing.Text= "開始轉檔...";
+                this.Cursor = Cursors.WaitCursor;
+                this.Refresh();
+                Thread.Sleep(5);
                 lblProcessing.Visible = true;
+                ShowMsg("開始轉檔...");
                 dao30204 = new D30204();
                 string rptId, file, rptName,
                     sYmd = txtSDate.DateTimeValue.ToString("yyyyMMdd"),
                     eYmd = txtEDate.DateTimeValue.ToString("yyyyMMdd");
                 int rowNum, rowTol, seq, rowUp, seqUp, rowDown, seqDown, rowMinus;
                 rptId = "30204";
-                rptName = "股類指數暨黃金類交易人部位限制調整一覽表";
-                lblProcessing.Text = rptId + "－" + rptName + " 轉檔中...";
 
                 //讀取資料
                 DataTable dt30204 = dao30204.d_30204(sYmd, eYmd);
+                rptName = "公告表－股價指數暨黃金類";
                 if (dt30204.Rows.Count == 0) {
                     MessageDisplay.Info(txtSDate.Text + "," + rptId + '－' + rptName + ",無任何資料!");
                     lblProcessing.Visible = false;
-                    return ResultStatus.Fail;
+                    //return ResultStatus.Fail;
                 }
 
                 //複製檔案
@@ -100,6 +109,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 //寫入資料
                 rowNum = 7;
                 #region wf_30204_data(9)
+                rptName = "股類指數暨黃金類交易人部位限制調整一覽表";
+                ShowMsg(rptId + "－" + rptName + " 轉檔中...");
                 //切換Sheet
                 Worksheet ws30204 = workbook.Worksheets[1];
 
@@ -128,17 +139,18 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 seqDown = dt30204.Rows.Count;
                 #endregion
 
+                //讀取資料
                 rptName = "公告表－股價指數暨黃金類(公債類)";
-                lblProcessing.Text = rptId + "－" + rptName + " 轉檔中...";
                 dt30204 = dao30204.d_30204_gbf(sYmd, eYmd);
                 if (dt30204.Rows.Count == 0) {
                     MessageDisplay.Info(txtSDate.Text + "," + rptId + '－' + rptName + ",無任何資料!");
                     lblProcessing.Visible = false;
-                    return ResultStatus.Fail;
+                    //return ResultStatus.Fail;
                 }
 
                 rowNum = 3;
                 #region wf_30204_data(13)
+                ShowMsg(rptId + "－" + rptName + " 轉檔中...");
                 //從A4開始填資料
                 ws30204 = workbook.Worksheets[1];
                 ws30204.Import(dt30204, false, rowNum, 0);
@@ -180,11 +192,16 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 //存檔
                 ws30204.ScrollToRow(0);
                 workbook.SaveDocument(file);
-                lblProcessing.Text = "轉檔成功";
+                ShowMsg("轉檔成功");
             }
             catch (Exception ex) {
                 MessageDisplay.Error("輸出錯誤");
                 throw ex;
+            }
+            finally {
+                this.Cursor = Cursors.Arrow;
+                this.Refresh();
+                Thread.Sleep(5);
             }
 
             return ResultStatus.Success;

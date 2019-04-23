@@ -25,8 +25,8 @@
         private void InitializeComponent() {
          this.panFilter = new System.Windows.Forms.GroupBox();
          this.txtEndMon = new BaseGround.Widget.TextDateEdit();
-         this.label1 = new System.Windows.Forms.Label();
          this.txtStartMon = new BaseGround.Widget.TextDateEdit();
+         this.label1 = new System.Windows.Forms.Label();
          this.lblDate = new System.Windows.Forms.Label();
          this.labMsg = new System.Windows.Forms.Label();
          this.panParent.SuspendLayout();
@@ -50,8 +50,8 @@
          // 
          this.panFilter.AutoSize = true;
          this.panFilter.Controls.Add(this.txtEndMon);
-         this.panFilter.Controls.Add(this.label1);
          this.panFilter.Controls.Add(this.txtStartMon);
+         this.panFilter.Controls.Add(this.label1);
          this.panFilter.Controls.Add(this.lblDate);
          this.panFilter.Location = new System.Drawing.Point(34, 39);
          this.panFilter.Name = "panFilter";
@@ -71,21 +71,13 @@
          this.txtEndMon.Name = "txtEndMon";
          this.txtEndMon.Properties.Appearance.Options.UseTextOptions = true;
          this.txtEndMon.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtEndMon.Properties.Mask.EditMask = "yyyy/MM";
-         this.txtEndMon.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtEndMon.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])";
+         this.txtEndMon.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.txtEndMon.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndMon.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndMon.Size = new System.Drawing.Size(100, 26);
-         this.txtEndMon.TabIndex = 4;
+         this.txtEndMon.TabIndex = 6;
          this.txtEndMon.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-         // 
-         // label1
-         // 
-         this.label1.AutoSize = true;
-         this.label1.Location = new System.Drawing.Point(197, 46);
-         this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(21, 20);
-         this.label1.TabIndex = 3;
-         this.label1.Text = "~";
          // 
          // txtStartMon
          // 
@@ -98,12 +90,22 @@
          this.txtStartMon.Name = "txtStartMon";
          this.txtStartMon.Properties.Appearance.Options.UseTextOptions = true;
          this.txtStartMon.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtStartMon.Properties.Mask.EditMask = "yyyy/MM";
-         this.txtStartMon.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtStartMon.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])";
+         this.txtStartMon.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.txtStartMon.Properties.Mask.ShowPlaceHolders = false;
          this.txtStartMon.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtStartMon.Size = new System.Drawing.Size(100, 26);
-         this.txtStartMon.TabIndex = 0;
+         this.txtStartMon.TabIndex = 5;
          this.txtStartMon.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         // 
+         // label1
+         // 
+         this.label1.AutoSize = true;
+         this.label1.Location = new System.Drawing.Point(197, 46);
+         this.label1.Name = "label1";
+         this.label1.Size = new System.Drawing.Size(21, 20);
+         this.label1.TabIndex = 3;
+         this.label1.Text = "~";
          // 
          // lblDate
          // 
@@ -149,9 +151,9 @@
 
         private System.Windows.Forms.GroupBox panFilter;
         private System.Windows.Forms.Label lblDate;
-        private BaseGround.Widget.TextDateEdit txtStartMon;
         private System.Windows.Forms.Label labMsg;
-      private BaseGround.Widget.TextDateEdit txtEndMon;
       private System.Windows.Forms.Label label1;
+      private BaseGround.Widget.TextDateEdit txtEndMon;
+      private BaseGround.Widget.TextDateEdit txtStartMon;
    }
 }

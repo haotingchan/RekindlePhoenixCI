@@ -69,7 +69,7 @@
          // txtEndMonth
          // 
          this.txtEndMonth.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtEndMonth.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtEndMonth.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
          this.txtEndMonth.EditValue = "2018/12";
          this.txtEndMonth.EnterMoveNextControl = true;
          this.txtEndMonth.Location = new System.Drawing.Point(237, 56);
@@ -77,8 +77,9 @@
          this.txtEndMonth.Name = "txtEndMonth";
          this.txtEndMonth.Properties.Appearance.Options.UseTextOptions = true;
          this.txtEndMonth.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtEndMonth.Properties.Mask.EditMask = "yyyy/MM";
-         this.txtEndMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtEndMonth.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])";
+         this.txtEndMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.txtEndMonth.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndMonth.Size = new System.Drawing.Size(100, 26);
          this.txtEndMonth.TabIndex = 1;
@@ -87,7 +88,7 @@
          // txtStartMonth
          // 
          this.txtStartMonth.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtStartMonth.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtStartMonth.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
          this.txtStartMonth.EditValue = "2018/12";
          this.txtStartMonth.EnterMoveNextControl = true;
          this.txtStartMonth.Location = new System.Drawing.Point(100, 56);
@@ -95,8 +96,9 @@
          this.txtStartMonth.Name = "txtStartMonth";
          this.txtStartMonth.Properties.Appearance.Options.UseTextOptions = true;
          this.txtStartMonth.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtStartMonth.Properties.Mask.EditMask = "yyyy/MM";
-         this.txtStartMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtStartMonth.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])";
+         this.txtStartMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.txtStartMonth.Properties.Mask.ShowPlaceHolders = false;
          this.txtStartMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtStartMonth.Size = new System.Drawing.Size(100, 26);
          this.txtStartMonth.TabIndex = 0;
