@@ -71,11 +71,12 @@
          this.txtEndMonth.Name = "txtEndMonth";
          this.txtEndMonth.Properties.Appearance.Options.UseTextOptions = true;
          this.txtEndMonth.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtEndMonth.Properties.Mask.EditMask = "yyyy/MM";
-         this.txtEndMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtEndMonth.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])";
+         this.txtEndMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.txtEndMonth.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndMonth.Size = new System.Drawing.Size(100, 26);
-         this.txtEndMonth.TabIndex = 8;
+         this.txtEndMonth.TabIndex = 10;
          this.txtEndMonth.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtStartMonth
@@ -89,11 +90,12 @@
          this.txtStartMonth.Name = "txtStartMonth";
          this.txtStartMonth.Properties.Appearance.Options.UseTextOptions = true;
          this.txtStartMonth.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtStartMonth.Properties.Mask.EditMask = "yyyy/MM";
-         this.txtStartMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtStartMonth.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])";
+         this.txtStartMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.txtStartMonth.Properties.Mask.ShowPlaceHolders = false;
          this.txtStartMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtStartMonth.Size = new System.Drawing.Size(100, 26);
-         this.txtStartMonth.TabIndex = 7;
+         this.txtStartMonth.TabIndex = 9;
          this.txtStartMonth.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // label1
@@ -150,8 +152,8 @@
         private System.Windows.Forms.GroupBox grpxDescription;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblDate;
-        private BaseGround.Widget.TextDateEdit txtEndMonth;
-        private BaseGround.Widget.TextDateEdit txtStartMonth;
         private System.Windows.Forms.Label lblProcessing;
+      private BaseGround.Widget.TextDateEdit txtEndMonth;
+      private BaseGround.Widget.TextDateEdit txtStartMonth;
    }
 }
