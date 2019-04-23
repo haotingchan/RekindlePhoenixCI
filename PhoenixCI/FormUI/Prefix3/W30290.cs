@@ -16,6 +16,7 @@ using BaseGround.Shared;
 using System.Collections.Generic;
 using System.Data.OracleClient;
 using DataObjects.Dao.Together.TableDao;
+using PhoenixCI.BusinessLogic.Prefix3;
 
 namespace PhoenixCI.FormUI.Prefix3
 {
@@ -71,6 +72,9 @@ namespace PhoenixCI.FormUI.Prefix3
       private RepositoryItemLookUpEdit CP_KIND_LookUpEdit;
       #endregion
 
+      private B30290 b30290;
+      private string _saveFilePath;
+
       public W30290(string programID, string programName) : base(programID, programName)
       {
          InitializeComponent();
@@ -79,62 +83,9 @@ namespace PhoenixCI.FormUI.Prefix3
          PrintableComponent = gcMain;
 
          dao51030 = new D51030();
-         //交易時段
-         dic = new Dictionary<string, string>() { { "0", "一般" }, { "1", "夜盤" } };
-         DataTable mk_code = setcolItem(dic);
-         MARKET_CODE_LookUpEdit = new RepositoryItemLookUpEdit();
-         MARKET_CODE_LookUpEdit.SetColumnLookUp(mk_code, "ID", "Desc");
-         PLP13_FUT.ColumnEdit = MARKET_CODE_LookUpEdit;
-         //期貨/選擇權
-         dic = new Dictionary<string, string>() { { "F", "F" }, { "O", "O" } };
-         DataTable mmfType = setcolItem(dic);
-         PROD_TYPE_LookUpEdit = new RepositoryItemLookUpEdit();
-         PROD_TYPE_LookUpEdit.SetColumnLookUp(mmfType, "ID", "Desc");
-         PLP13_OPT.ColumnEdit = PROD_TYPE_LookUpEdit;
-         //商品類別
-         daoAPDK = new APDK();
-         PARAM_KEY_LookUpEdit = new RepositoryItemLookUpEdit();
-         PARAM_KEY_LookUpEdit.SetColumnLookUp(daoAPDK.ListParamKey(), "APDK_PARAM_KEY", "APDK_PARAM_KEY");
-         PLP13_KIND_ID2.ColumnEdit = PARAM_KEY_LookUpEdit;
-         //-週六豁免造市-此功能移除 
-         /*dic = new Dictionary<string, string>() { { "", "" }, { "N", "豁免" } };
-         DataTable CP_FLAG = setcolItem(dic);
-         CP_FLAG_LookUpEdit = new RepositoryItemLookUpEdit();
-         CP_FLAG_LookUpEdit.SetColumnLookUp(CP_FLAG, "ID", "Desc");
-         MMF_SAT_CP_FLAG.ColumnEdit = CP_FLAG_LookUpEdit;*/
-         //報價規定判斷方式
          daoCOD = new COD();
-         dic = new Dictionary<string, string>();
-         foreach (DataRow dr in daoCOD.ListByCol("MMF", CP_KIND).Rows) {
-            string codid = dr["COD_ID"].AsString();
-            if (string.IsNullOrEmpty(codid)) {
-               continue;
-            }
-            dic.Add(codid, string.Format("({0}){1}", codid, dr["COD_DESC"].AsString()));
-         }
-         DataTable mmfKIND = setcolItem(dic);
-         CP_KIND_LookUpEdit = new RepositoryItemLookUpEdit();
-         CP_KIND_LookUpEdit.SetColumnLookUp(mmfKIND, "ID", "Desc");
-         PLP13_NATURE_LAST.ColumnEdit = CP_KIND_LookUpEdit;
       }
-      /// <summary>
-      /// 自訂下拉式選項
-      /// </summary>
-      /// <param name="dic">陣列</param>
-      /// <returns></returns>
-      private DataTable setcolItem(Dictionary<string, string> dic)
-      {
-         DataTable dt = new DataTable();
-         dt.Columns.Add("ID");
-         dt.Columns.Add("Desc");
-         foreach (var str in dic) {
-            DataRow rows = dt.NewRow();
-            rows["ID"] = str.Key;
-            rows["Desc"] = str.Value;
-            dt.Rows.Add(rows);
-         }
-         return dt;
-      }
+
       protected override ResultStatus Retrieve()
       {
          base.Retrieve(gcMain);
@@ -371,12 +322,9 @@ namespace PhoenixCI.FormUI.Prefix3
       protected override ResultStatus Open()
       {
          base.Open();
-
-         //直接讀取資料
-         Retrieve();
-         //Header上色
-         //CustomDrawColumnHeader(gcMain,gvMain);
-
+         _saveFilePath = PbFunc.wf_copy_file(_ProgramID, "30290");
+         //b30290 = new B30290(_saveFilePath, emDate.Text);
+         this.emDate.EditValueChanged += new System.EventHandler(this.emDate_EditValueChanged);
          return ResultStatus.Success;
       }
 
@@ -397,6 +345,11 @@ namespace PhoenixCI.FormUI.Prefix3
          MessageDisplay.Info(MessageDisplay.MSG_OK);
          Retrieve();
          return ResultStatus.Success;
+      }
+
+      private void emDate_EditValueChanged(object sender, EventArgs e)
+      {
+         YMDlookUpEdit.SetDataTable(b30290.GetEffectiveYMD(emDate.Text), "COD_ID", "COD_DESC", DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor, "");
       }
    }
 }

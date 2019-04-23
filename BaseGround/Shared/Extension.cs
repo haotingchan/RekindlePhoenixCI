@@ -153,23 +153,20 @@ namespace BaseGround.Shared {
       public static bool IsDate(this DevExpress.XtraEditors.TextEdit textEdit, string inputText, string errorText) {
          DateTime dateTime;
          string[] YMD = inputText.Split('/');
-         string year = YMD[0].PadLeft(4, '0');
-         string month = YMD[1].PadLeft(2, '0');
-         string date = YMD[2].PadLeft(2, '0');
          string formatInputTxt = inputText;
 
          switch (YMD.Length)
          {
             case 1:
-               formatInputTxt = $"{year}/01/01";
+               formatInputTxt = $"{YMD[0].PadLeft(4, '0')}/01/01";
                //textEdit.Text = year;
                break;
             case 2:
-               formatInputTxt = $"{year}/{month}/01";
+               formatInputTxt = $"{YMD[0].PadLeft(4, '0')}/{YMD[1].PadLeft(2, '0')}/01";
                //textEdit.Text = $"{year}/{month}";
                break;
             case 3:
-               formatInputTxt = $"{year}/{month}/{date}";
+               formatInputTxt = $"{YMD[0].PadLeft(4, '0')}/{YMD[1].PadLeft(2, '0')}/{YMD[2].PadLeft(2, '0')}";
                //textEdit.Text = $"{year}/{month}/{date}";
                break;
          }

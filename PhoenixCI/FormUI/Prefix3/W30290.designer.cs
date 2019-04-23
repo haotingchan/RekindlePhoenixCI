@@ -67,19 +67,19 @@
          this.PLP13_MMK_LAST = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.sidePanel1 = new DevExpress.XtraEditors.SidePanel();
          this.sidePanel2 = new DevExpress.XtraEditors.SidePanel();
+         this.YMDlookUpEdit = new DevExpress.XtraEditors.LookUpEdit();
+         this.label2 = new System.Windows.Forms.Label();
          this.emDate = new BaseGround.Widget.TextDateEdit();
          this.label1 = new System.Windows.Forms.Label();
          this.sidePanel3 = new DevExpress.XtraEditors.SidePanel();
-         this.label2 = new System.Windows.Forms.Label();
-         this.YMDlookUpEdit = new DevExpress.XtraEditors.LookUpEdit();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
          this.sidePanel1.SuspendLayout();
          this.sidePanel2.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.YMDlookUpEdit.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.emDate.Properties)).BeginInit();
          this.sidePanel3.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.YMDlookUpEdit.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -677,6 +677,25 @@
          this.sidePanel2.TabIndex = 11;
          this.sidePanel2.Text = "sidePanel2";
          // 
+         // YMDlookUpEdit
+         // 
+         this.YMDlookUpEdit.Location = new System.Drawing.Point(397, 44);
+         this.YMDlookUpEdit.MenuManager = this.ribbonControl;
+         this.YMDlookUpEdit.Name = "YMDlookUpEdit";
+         this.YMDlookUpEdit.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.YMDlookUpEdit.Size = new System.Drawing.Size(100, 26);
+         this.YMDlookUpEdit.TabIndex = 3;
+         // 
+         // label2
+         // 
+         this.label2.AutoSize = true;
+         this.label2.Location = new System.Drawing.Point(311, 47);
+         this.label2.Name = "label2";
+         this.label2.Size = new System.Drawing.Size(89, 20);
+         this.label2.TabIndex = 2;
+         this.label2.Text = "生效日期：";
+         // 
          // emDate
          // 
          this.emDate.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
@@ -715,25 +734,6 @@
          this.sidePanel3.TabIndex = 12;
          this.sidePanel3.Text = "sidePanel3";
          // 
-         // label2
-         // 
-         this.label2.AutoSize = true;
-         this.label2.Location = new System.Drawing.Point(311, 47);
-         this.label2.Name = "label2";
-         this.label2.Size = new System.Drawing.Size(89, 20);
-         this.label2.TabIndex = 2;
-         this.label2.Text = "生效日期：";
-         // 
-         // YMDlookUpEdit
-         // 
-         this.YMDlookUpEdit.Location = new System.Drawing.Point(397, 44);
-         this.YMDlookUpEdit.MenuManager = this.ribbonControl;
-         this.YMDlookUpEdit.Name = "YMDlookUpEdit";
-         this.YMDlookUpEdit.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.YMDlookUpEdit.Size = new System.Drawing.Size(100, 26);
-         this.YMDlookUpEdit.TabIndex = 3;
-         // 
          // W30290
          // 
          this.Appearance.Options.UseFont = true;
@@ -752,9 +752,9 @@
          this.sidePanel1.ResumeLayout(false);
          this.sidePanel2.ResumeLayout(false);
          this.sidePanel2.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.YMDlookUpEdit.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.emDate.Properties)).EndInit();
          this.sidePanel3.ResumeLayout(false);
-         ((System.ComponentModel.ISupportInitialize)(this.YMDlookUpEdit.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
