@@ -24,16 +24,16 @@
         /// </summary>
         private void InitializeComponent() {
          this.panFilter = new System.Windows.Forms.GroupBox();
-         this.txtEndMon = new BaseGround.Widget.TextDateEdit();
          this.label1 = new System.Windows.Forms.Label();
-         this.txtStartMon = new BaseGround.Widget.TextDateEdit();
          this.lblDate = new System.Windows.Forms.Label();
          this.labMsg = new System.Windows.Forms.Label();
+         this.txtStartMon = new BaseGround.Widget.TextDateEdit();
+         this.txtEndMon = new BaseGround.Widget.TextDateEdit();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          this.panFilter.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.txtEndMon.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtStartMon.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtEndMon.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -50,8 +50,8 @@
          // 
          this.panFilter.AutoSize = true;
          this.panFilter.Controls.Add(this.txtEndMon);
-         this.panFilter.Controls.Add(this.label1);
          this.panFilter.Controls.Add(this.txtStartMon);
+         this.panFilter.Controls.Add(this.label1);
          this.panFilter.Controls.Add(this.lblDate);
          this.panFilter.Location = new System.Drawing.Point(34, 39);
          this.panFilter.Name = "panFilter";
@@ -59,24 +59,6 @@
          this.panFilter.TabIndex = 7;
          this.panFilter.TabStop = false;
          this.panFilter.Text = "請輸入交易日期";
-         // 
-         // txtEndMon
-         // 
-         this.txtEndMon.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtEndMon.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
-         this.txtEndMon.EditValue = "2018/12";
-         this.txtEndMon.EnterMoveNextControl = true;
-         this.txtEndMon.Location = new System.Drawing.Point(224, 43);
-         this.txtEndMon.MenuManager = this.ribbonControl;
-         this.txtEndMon.Name = "txtEndMon";
-         this.txtEndMon.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtEndMon.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtEndMon.Properties.Mask.EditMask = "yyyy/MM";
-         this.txtEndMon.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-         this.txtEndMon.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtEndMon.Size = new System.Drawing.Size(100, 26);
-         this.txtEndMon.TabIndex = 4;
-         this.txtEndMon.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // label1
          // 
@@ -86,24 +68,6 @@
          this.label1.Size = new System.Drawing.Size(21, 20);
          this.label1.TabIndex = 3;
          this.label1.Text = "~";
-         // 
-         // txtStartMon
-         // 
-         this.txtStartMon.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtStartMon.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
-         this.txtStartMon.EditValue = "2018/12";
-         this.txtStartMon.EnterMoveNextControl = true;
-         this.txtStartMon.Location = new System.Drawing.Point(91, 43);
-         this.txtStartMon.MenuManager = this.ribbonControl;
-         this.txtStartMon.Name = "txtStartMon";
-         this.txtStartMon.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtStartMon.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtStartMon.Properties.Mask.EditMask = "yyyy/MM";
-         this.txtStartMon.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-         this.txtStartMon.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtStartMon.Size = new System.Drawing.Size(100, 26);
-         this.txtStartMon.TabIndex = 0;
-         this.txtStartMon.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // lblDate
          // 
@@ -125,6 +89,44 @@
          this.labMsg.Text = "轉檔中...";
          this.labMsg.Visible = false;
          // 
+         // txtStartMon
+         // 
+         this.txtStartMon.DateTimeValue = new System.DateTime(((long)(0)));
+         this.txtStartMon.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtStartMon.EditValue = "2018/12";
+         this.txtStartMon.EnterMoveNextControl = true;
+         this.txtStartMon.Location = new System.Drawing.Point(91, 43);
+         this.txtStartMon.MenuManager = this.ribbonControl;
+         this.txtStartMon.Name = "txtStartMon";
+         this.txtStartMon.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtStartMon.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtStartMon.Properties.Mask.EditMask = "yyyy/MM";
+         this.txtStartMon.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtStartMon.Properties.Mask.ShowPlaceHolders = false;
+         this.txtStartMon.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtStartMon.Size = new System.Drawing.Size(100, 26);
+         this.txtStartMon.TabIndex = 5;
+         this.txtStartMon.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         // 
+         // txtEndMon
+         // 
+         this.txtEndMon.DateTimeValue = new System.DateTime(((long)(0)));
+         this.txtEndMon.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtEndMon.EditValue = "2018/12";
+         this.txtEndMon.EnterMoveNextControl = true;
+         this.txtEndMon.Location = new System.Drawing.Point(224, 43);
+         this.txtEndMon.MenuManager = this.ribbonControl;
+         this.txtEndMon.Name = "txtEndMon";
+         this.txtEndMon.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtEndMon.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtEndMon.Properties.Mask.EditMask = "yyyy/MM";
+         this.txtEndMon.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtEndMon.Properties.Mask.ShowPlaceHolders = false;
+         this.txtEndMon.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtEndMon.Size = new System.Drawing.Size(100, 26);
+         this.txtEndMon.TabIndex = 6;
+         this.txtEndMon.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         // 
          // W30414
          // 
          this.Appearance.Options.UseFont = true;
@@ -138,8 +140,8 @@
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
          this.panFilter.ResumeLayout(false);
          this.panFilter.PerformLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.txtEndMon.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtStartMon.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtEndMon.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -149,9 +151,9 @@
 
         private System.Windows.Forms.GroupBox panFilter;
         private System.Windows.Forms.Label lblDate;
-        private BaseGround.Widget.TextDateEdit txtStartMon;
         private System.Windows.Forms.Label labMsg;
-      private BaseGround.Widget.TextDateEdit txtEndMon;
       private System.Windows.Forms.Label label1;
+      private BaseGround.Widget.TextDateEdit txtEndMon;
+      private BaseGround.Widget.TextDateEdit txtStartMon;
    }
 }

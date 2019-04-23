@@ -32,20 +32,20 @@
          this.label4 = new System.Windows.Forms.Label();
          this.label3 = new System.Windows.Forms.Label();
          this.labMarket = new System.Windows.Forms.Label();
-         this.txtEndYMD = new BaseGround.Widget.TextDateEdit();
-         this.txtStartYMD = new BaseGround.Widget.TextDateEdit();
          this.label1 = new System.Windows.Forms.Label();
          this.labAftDate = new System.Windows.Forms.Label();
          this.chkGroup = new DevExpress.XtraEditors.CheckedListBoxControl();
          this.lblProcessing = new System.Windows.Forms.Label();
+         this.txtStartYMD = new BaseGround.Widget.TextDateEdit();
+         this.txtEndYMD = new BaseGround.Widget.TextDateEdit();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          this.grpxDescription.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ddlProd.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtEndYMD.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtStartYMD.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.chkGroup)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtStartYMD.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtEndYMD.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -61,6 +61,8 @@
          // grpxDescription
          // 
          this.grpxDescription.AutoSize = true;
+         this.grpxDescription.Controls.Add(this.txtEndYMD);
+         this.grpxDescription.Controls.Add(this.txtStartYMD);
          this.grpxDescription.Controls.Add(this.ddlProd);
          this.grpxDescription.Controls.Add(this.label7);
          this.grpxDescription.Controls.Add(this.label6);
@@ -69,8 +71,6 @@
          this.grpxDescription.Controls.Add(this.label4);
          this.grpxDescription.Controls.Add(this.label3);
          this.grpxDescription.Controls.Add(this.labMarket);
-         this.grpxDescription.Controls.Add(this.txtEndYMD);
-         this.grpxDescription.Controls.Add(this.txtStartYMD);
          this.grpxDescription.Controls.Add(this.label1);
          this.grpxDescription.Controls.Add(this.labAftDate);
          this.grpxDescription.Controls.Add(this.chkGroup);
@@ -168,42 +168,6 @@
          this.labMarket.TabIndex = 14;
          this.labMarket.Text = "交易時段：";
          // 
-         // txtEndYMD
-         // 
-         this.txtEndYMD.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtEndYMD.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
-         this.txtEndYMD.EditValue = "2018/12";
-         this.txtEndYMD.EnterMoveNextControl = true;
-         this.txtEndYMD.Location = new System.Drawing.Point(241, 36);
-         this.txtEndYMD.MenuManager = this.ribbonControl;
-         this.txtEndYMD.Name = "txtEndYMD";
-         this.txtEndYMD.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtEndYMD.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtEndYMD.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtEndYMD.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-         this.txtEndYMD.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtEndYMD.Size = new System.Drawing.Size(100, 26);
-         this.txtEndYMD.TabIndex = 1;
-         this.txtEndYMD.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-         // 
-         // txtStartYMD
-         // 
-         this.txtStartYMD.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtStartYMD.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
-         this.txtStartYMD.EditValue = "2018/12";
-         this.txtStartYMD.EnterMoveNextControl = true;
-         this.txtStartYMD.Location = new System.Drawing.Point(104, 36);
-         this.txtStartYMD.MenuManager = this.ribbonControl;
-         this.txtStartYMD.Name = "txtStartYMD";
-         this.txtStartYMD.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtStartYMD.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtStartYMD.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtStartYMD.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-         this.txtStartYMD.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtStartYMD.Size = new System.Drawing.Size(100, 26);
-         this.txtStartYMD.TabIndex = 0;
-         this.txtStartYMD.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-         // 
          // label1
          // 
          this.label1.AutoSize = true;
@@ -254,6 +218,44 @@
          this.lblProcessing.Text = "開始轉檔...";
          this.lblProcessing.Visible = false;
          // 
+         // txtStartYMD
+         // 
+         this.txtStartYMD.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtStartYMD.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtStartYMD.EditValue = "2018/12";
+         this.txtStartYMD.EnterMoveNextControl = true;
+         this.txtStartYMD.Location = new System.Drawing.Point(104, 36);
+         this.txtStartYMD.MenuManager = this.ribbonControl;
+         this.txtStartYMD.Name = "txtStartYMD";
+         this.txtStartYMD.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtStartYMD.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtStartYMD.Properties.Mask.EditMask = "yyyy/MM/dd";
+         this.txtStartYMD.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtStartYMD.Properties.Mask.ShowPlaceHolders = false;
+         this.txtStartYMD.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtStartYMD.Size = new System.Drawing.Size(100, 26);
+         this.txtStartYMD.TabIndex = 75;
+         this.txtStartYMD.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         // 
+         // txtEndYMD
+         // 
+         this.txtEndYMD.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtEndYMD.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtEndYMD.EditValue = "2018/12";
+         this.txtEndYMD.EnterMoveNextControl = true;
+         this.txtEndYMD.Location = new System.Drawing.Point(241, 35);
+         this.txtEndYMD.MenuManager = this.ribbonControl;
+         this.txtEndYMD.Name = "txtEndYMD";
+         this.txtEndYMD.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtEndYMD.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtEndYMD.Properties.Mask.EditMask = "yyyy/MM/dd";
+         this.txtEndYMD.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtEndYMD.Properties.Mask.ShowPlaceHolders = false;
+         this.txtEndYMD.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtEndYMD.Size = new System.Drawing.Size(100, 26);
+         this.txtEndYMD.TabIndex = 76;
+         this.txtEndYMD.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         // 
          // W30592
          // 
          this.Appearance.Options.UseFont = true;
@@ -269,9 +271,9 @@
          this.grpxDescription.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ddlProd.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtEndYMD.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtStartYMD.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.chkGroup)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtStartYMD.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtEndYMD.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -282,8 +284,6 @@
       private System.Windows.Forms.GroupBox grpxDescription;
       private System.Windows.Forms.Label label1;
       private System.Windows.Forms.Label labAftDate;
-      private BaseGround.Widget.TextDateEdit txtEndYMD;
-      private BaseGround.Widget.TextDateEdit txtStartYMD;
       private System.Windows.Forms.Label lblProcessing;
       private System.Windows.Forms.Label labMarket;
       protected DevExpress.XtraEditors.RadioGroup gbMarket;
@@ -294,5 +294,7 @@
       private System.Windows.Forms.Label label4;
       private DevExpress.XtraEditors.CheckedListBoxControl chkGroup;
       private DevExpress.XtraEditors.LookUpEdit ddlProd;
+      private BaseGround.Widget.TextDateEdit txtEndYMD;
+      private BaseGround.Widget.TextDateEdit txtStartYMD;
    }
 }

@@ -1,7 +1,5 @@
 ﻿using BaseGround;
-using BaseGround.Report;
 using BaseGround.Shared;
-using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together;
@@ -9,8 +7,7 @@ using DataObjects.Dao.Together.TableDao;
 using DevExpress.Spreadsheet;
 using System;
 using System.Data;
-using System.Globalization;
-using System.Windows.Forms;
+using System.Threading;
 
 /// <summary>
 /// Winni, 2019/02/18
@@ -139,7 +136,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          #endregion
 
          try {
-            lblProcessing.Visible = true;
+            labMsg.Visible = true;
 
             //1.複製檔案 & 開啟檔案
             string excelDestinationPath = CopyExcelTemplateFile(_ProgramID , FileType.XLS);
@@ -166,7 +163,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             //存檔並關閉
             workbook.SaveDocument(excelDestinationPath);
-            lblProcessing.Visible = false;
+            labMsg.Visible = false;
             return ResultStatus.Success;
 
          } catch (Exception ex) {
@@ -176,8 +173,17 @@ namespace PhoenixCI.FormUI.Prefix3 {
          return ResultStatus.Fail;
       }
 
+      protected void ShowMsg(string msg) {
+         labMsg.Text = msg;
+         labMsg.Visible = true;
+         this.Refresh();
+         Thread.Sleep(5);
+      }
+
       private bool wfExport(Workbook workbook , SheetNo sheetNo) {
          try {
+            string rptName = "Eurex FTX vs TX 振幅、波動度及交易量統計(總表)";
+            ShowMsg(string.Format("{0}－{1} 轉檔中..." , _ProgramID , rptName));
 
             //1.讀取資料
             DataTable dtContent = new DataTable();
