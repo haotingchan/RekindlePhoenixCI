@@ -220,7 +220,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 minusRow = minusRow + (totalRow + 5) + 2;  //5表首,2表尾
                 //刪表頭
                 startRow = 3 - 1;
-                range = ws.Range[(startRow + 1).AsString()];
+                range = ws.Range[(startRow + 1) + ":" + (startRow + 1)];
                 range.Delete(DeleteMode.EntireRow);
                 minusRow = minusRow + 1;
                 //改編號
@@ -335,7 +335,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 range.Delete(DeleteMode.EntireRow);
                 minusRow = minusRow + (totalRow + 5) + 2;  //5表首,2表尾
                 //刪表頭
-                range = ws.Range[headRow.AsString()];
+                range = ws.Range[headRow + ":" + headRow];
                 range.Delete(DeleteMode.EntireRow);
                 minusRow = minusRow + 1;
                 //改編號
@@ -503,7 +503,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 f = 3;
                 if (!cbx1.Checked) f--;
                 if (!cbx2.Checked) f--;
-                range = ws.Range[headRow.AsString()];
+                range = ws.Range[headRow + ":" + headRow];
                 range.Delete(DeleteMode.EntireRow);
                 minusRow = minusRow + 1;
                 //改編號
@@ -540,16 +540,18 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //dv.RowFilter = "ABS(YS_UPDOWN * 100) >= " + txtUpDown.Text + " or ABS(YI_UPDOWN*100) >= " + txtUpDown.Text;
             //dv.Sort = "ABS(YS_UPDOWN) DESC, APDK_KIND_GRP2, APDK_KIND_LEVEL DESC, MGR3_KIND_ID";
             //dt = dv.ToTable();
-            dt = dt.AsEnumerable().Where(x => Math.Round(Math.Abs(x.Field<decimal>("YS_UPDOWN") * 100),16) >= txtUpDown.AsDecimal() ||
-                                    Math.Round(Math.Abs(x.Field<decimal>("YI_UPDOWN") * 100), 16) >= txtUpDown.AsDecimal())
-                                  .OrderByDescending(x => Math.Round(Math.Abs(x.Field<decimal>("YS_UPDOWN")),16))
+            //dt = dt.AsEnumerable().Where(x => Math.Round(Math.Abs(x.Field<decimal>("YS_UPDOWN") * 100),16) >= txtUpDown.AsDecimal() ||
+            //                        Math.Round(Math.Abs(x.Field<decimal>("YI_UPDOWN") * 100), 16) >= txtUpDown.AsDecimal())
+            //                      .OrderByDescending(x => Math.Round(Math.Abs(x.Field<decimal>("YS_UPDOWN")),16))
+            //                      .ThenBy(x => x.Field<string>("APDK_KIND_GRP2"))
+            //                      .ThenByDescending(x => x.Field<int>("APDK_KIND_LEVEL"))
+            //                      .ThenBy(x => x.Field<string>("MGR3_KIND_ID")).CopyToDataTable();
+            dt = dt.AsEnumerable().Where(x => Math.Round(Math.Abs(x.Field<decimal>("YS_UPDOWN") * 100), 15) >= txtUpDown.AsDecimal() ||
+                                  Math.Round(Math.Abs(x.Field<decimal>("YI_UPDOWN") * 100), 15) >= txtUpDown.AsDecimal())
+                                  .OrderByDescending(x => Math.Abs(x.Field<decimal>("YS_UPDOWN")))
                                   .ThenBy(x => x.Field<string>("APDK_KIND_GRP2"))
-                                  .ThenByDescending(x => x.Field<int>("APDK_KIND_LEVEL"))
-                                  .ThenBy(x => x.Field<string>("MGR3_KIND_ID")).CopyToDataTable();
-            //dt.AsEnumerable().OrderByDescending(x => Math.Abs(x.Field<decimal>("YS_UPDOWN")))
-            //                 .ThenBy(x => x.Field<string>("APDK_KIND_GRP2"))
-            //                 .ThenByDescending(x => x.Field<int>("APDK_KIND_LEVEL"))
-            //                 .ThenBy(x => x.Field<string>("MGR3_KIND_ID"));
+                                  .ThenBy(x => x.Field<string>("MGR3_KIND_ID"))
+                                 .CopyToDataTable();
 
             f = 0;
             foreach (DataRow dr in dt.Rows) {
