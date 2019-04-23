@@ -35,6 +35,26 @@
          this.txtSDate = new BaseGround.Widget.TextDateEdit();
          this.ExportShow = new System.Windows.Forms.Label();
          this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
+         this.gcExport = new DevExpress.XtraGrid.GridControl();
+         this.gvExport = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridView();
+         this.gridBand7 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+         this.bandedGridColumn1 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+         this.gridBand8 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+         this.bandedGridColumn2 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+         this.gridBand13 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+         this.bandedGridColumn3 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+         this.gridBand14 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+         this.bandedGridColumn4 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+         this.gridBand15 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+         this.gridBand16 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+         this.bandedGridColumn5 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+         this.gridBand17 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+         this.bandedGridColumn6 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+         this.gridBand18 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+         this.gridBand19 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+         this.bandedGridColumn7 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+         this.gridBand20 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+         this.bandedGridColumn8 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.gcMain = new DevExpress.XtraGrid.GridControl();
          this.gvMain = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridView();
          this.gridBand1 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
@@ -55,26 +75,6 @@
          this.S_MAX_QNTY = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.gridBand12 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.S_MAX_SEC = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-         this.gcExport = new DevExpress.XtraGrid.GridControl();
-         this.gvExport = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridView();
-         this.bandedGridColumn1 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-         this.bandedGridColumn2 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-         this.bandedGridColumn3 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-         this.bandedGridColumn4 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-         this.bandedGridColumn5 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-         this.bandedGridColumn6 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-         this.bandedGridColumn7 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-         this.bandedGridColumn8 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-         this.gridBand7 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand8 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand13 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand14 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand15 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand16 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand17 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand18 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand19 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand20 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
          this.panelControl1.SuspendLayout();
@@ -82,10 +82,10 @@
          ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
          this.panelControl2.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gcExport)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvExport)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -145,15 +145,16 @@
          // 
          this.txtEDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
          this.txtEDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtEDate.EditValue = "2018/12";
+         this.txtEDate.EditValue = "2018/12/01";
          this.txtEDate.EnterMoveNextControl = true;
          this.txtEDate.Location = new System.Drawing.Point(281, 36);
          this.txtEDate.MenuManager = this.ribbonControl;
          this.txtEDate.Name = "txtEDate";
          this.txtEDate.Properties.Appearance.Options.UseTextOptions = true;
          this.txtEDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtEDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtEDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtEDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtEDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.txtEDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtEDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEDate.Size = new System.Drawing.Size(144, 26);
          this.txtEDate.TabIndex = 17;
@@ -163,15 +164,16 @@
          // 
          this.txtSDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
          this.txtSDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtSDate.EditValue = "2018/12";
+         this.txtSDate.EditValue = "2018/12/01";
          this.txtSDate.EnterMoveNextControl = true;
          this.txtSDate.Location = new System.Drawing.Point(104, 36);
          this.txtSDate.MenuManager = this.ribbonControl;
          this.txtSDate.Name = "txtSDate";
          this.txtSDate.Properties.Appearance.Options.UseTextOptions = true;
          this.txtSDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtSDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtSDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.txtSDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtSDate.Size = new System.Drawing.Size(144, 26);
          this.txtSDate.TabIndex = 16;
@@ -196,6 +198,246 @@
          this.panelControl2.Name = "panelControl2";
          this.panelControl2.Size = new System.Drawing.Size(813, 551);
          this.panelControl2.TabIndex = 1;
+         // 
+         // gcExport
+         // 
+         this.gcExport.Location = new System.Drawing.Point(12, 173);
+         this.gcExport.MainView = this.gvExport;
+         this.gcExport.Name = "gcExport";
+         this.gcExport.Size = new System.Drawing.Size(438, 346);
+         this.gcExport.TabIndex = 11;
+         this.gcExport.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gvExport});
+         // 
+         // gvExport
+         // 
+         this.gvExport.Appearance.BandPanel.Options.UseTextOptions = true;
+         this.gvExport.Appearance.BandPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+         this.gvExport.AppearancePrint.BandPanel.Font = new System.Drawing.Font("Microsoft YaHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+         this.gvExport.AppearancePrint.BandPanel.Options.UseFont = true;
+         this.gvExport.AppearancePrint.BandPanel.Options.UseTextOptions = true;
+         this.gvExport.AppearancePrint.BandPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.gvExport.Bands.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.GridBand[] {
+            this.gridBand7,
+            this.gridBand8,
+            this.gridBand13,
+            this.gridBand14,
+            this.gridBand15,
+            this.gridBand18});
+         this.gvExport.Columns.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn[] {
+            this.bandedGridColumn1,
+            this.bandedGridColumn2,
+            this.bandedGridColumn3,
+            this.bandedGridColumn4,
+            this.bandedGridColumn5,
+            this.bandedGridColumn6,
+            this.bandedGridColumn7,
+            this.bandedGridColumn8});
+         this.gvExport.CustomizationFormBounds = new System.Drawing.Rectangle(599, 575, 266, 270);
+         this.gvExport.GridControl = this.gcExport;
+         this.gvExport.Name = "gvExport";
+         this.gvExport.OptionsBehavior.Editable = false;
+         this.gvExport.OptionsCustomization.AllowSort = false;
+         this.gvExport.OptionsPrint.PrintHeader = false;
+         this.gvExport.OptionsView.ShowColumnHeaders = false;
+         this.gvExport.OptionsView.ShowGroupPanel = false;
+         // 
+         // gridBand7
+         // 
+         this.gridBand7.AppearanceHeader.Options.UseTextOptions = true;
+         this.gridBand7.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.gridBand7.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+         this.gridBand7.Caption = "股票期貨代號";
+         this.gridBand7.Columns.Add(this.bandedGridColumn1);
+         this.gridBand7.Name = "gridBand7";
+         this.gridBand7.VisibleIndex = 0;
+         this.gridBand7.Width = 125;
+         // 
+         // bandedGridColumn1
+         // 
+         this.bandedGridColumn1.FieldName = "PROD_ID";
+         this.bandedGridColumn1.MinWidth = 30;
+         this.bandedGridColumn1.Name = "bandedGridColumn1";
+         this.bandedGridColumn1.OptionsColumn.AllowEdit = false;
+         this.bandedGridColumn1.OptionsColumn.ShowCaption = false;
+         this.bandedGridColumn1.Visible = true;
+         this.bandedGridColumn1.Width = 125;
+         // 
+         // gridBand8
+         // 
+         this.gridBand8.AppearanceHeader.Options.UseTextOptions = true;
+         this.gridBand8.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.gridBand8.AppearanceHeader.TextOptions.Trimming = DevExpress.Utils.Trimming.Word;
+         this.gridBand8.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+         this.gridBand8.Caption = "股票期貨契約名稱";
+         this.gridBand8.Columns.Add(this.bandedGridColumn2);
+         this.gridBand8.Name = "gridBand8";
+         this.gridBand8.VisibleIndex = 1;
+         this.gridBand8.Width = 108;
+         // 
+         // bandedGridColumn2
+         // 
+         this.bandedGridColumn2.FieldName = "APDK_NAME";
+         this.bandedGridColumn2.MinWidth = 30;
+         this.bandedGridColumn2.Name = "bandedGridColumn2";
+         this.bandedGridColumn2.OptionsColumn.AllowEdit = false;
+         this.bandedGridColumn2.OptionsColumn.ShowCaption = false;
+         this.bandedGridColumn2.Visible = true;
+         this.bandedGridColumn2.Width = 108;
+         // 
+         // gridBand13
+         // 
+         this.gridBand13.AppearanceHeader.Options.UseTextOptions = true;
+         this.gridBand13.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.gridBand13.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+         this.gridBand13.Caption = "最佳1檔揭示委託買進之加權平均數量";
+         this.gridBand13.Columns.Add(this.bandedGridColumn3);
+         this.gridBand13.Name = "gridBand13";
+         this.gridBand13.VisibleIndex = 2;
+         this.gridBand13.Width = 113;
+         // 
+         // bandedGridColumn3
+         // 
+         this.bandedGridColumn3.FieldName = "B_WEIGHT_QNTY";
+         this.bandedGridColumn3.MinWidth = 30;
+         this.bandedGridColumn3.Name = "bandedGridColumn3";
+         this.bandedGridColumn3.OptionsColumn.AllowEdit = false;
+         this.bandedGridColumn3.OptionsColumn.ShowCaption = false;
+         this.bandedGridColumn3.Visible = true;
+         this.bandedGridColumn3.Width = 113;
+         // 
+         // gridBand14
+         // 
+         this.gridBand14.AppearanceHeader.Options.UseTextOptions = true;
+         this.gridBand14.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.gridBand14.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+         this.gridBand14.Caption = "最佳1檔揭示委託賣出之加權平均數量";
+         this.gridBand14.Columns.Add(this.bandedGridColumn4);
+         this.gridBand14.Name = "gridBand14";
+         this.gridBand14.VisibleIndex = 3;
+         this.gridBand14.Width = 106;
+         // 
+         // bandedGridColumn4
+         // 
+         this.bandedGridColumn4.FieldName = "S_WEIGHT_QNTY";
+         this.bandedGridColumn4.MinWidth = 30;
+         this.bandedGridColumn4.Name = "bandedGridColumn4";
+         this.bandedGridColumn4.OptionsColumn.AllowEdit = false;
+         this.bandedGridColumn4.OptionsColumn.ShowCaption = false;
+         this.bandedGridColumn4.Visible = true;
+         this.bandedGridColumn4.Width = 106;
+         // 
+         // gridBand15
+         // 
+         this.gridBand15.AppearanceHeader.Options.UseTextOptions = true;
+         this.gridBand15.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.gridBand15.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+         this.gridBand15.Caption = "最佳1檔揭示委託買進之最大數量";
+         this.gridBand15.Children.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.GridBand[] {
+            this.gridBand16,
+            this.gridBand17});
+         this.gridBand15.Name = "gridBand15";
+         this.gridBand15.VisibleIndex = 4;
+         this.gridBand15.Width = 303;
+         // 
+         // gridBand16
+         // 
+         this.gridBand16.AppearanceHeader.Options.UseTextOptions = true;
+         this.gridBand16.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.gridBand16.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+         this.gridBand16.Caption = "數量(單位:口)";
+         this.gridBand16.Columns.Add(this.bandedGridColumn5);
+         this.gridBand16.Name = "gridBand16";
+         this.gridBand16.VisibleIndex = 0;
+         this.gridBand16.Width = 182;
+         // 
+         // bandedGridColumn5
+         // 
+         this.bandedGridColumn5.FieldName = "B_MAX_QNTY";
+         this.bandedGridColumn5.MinWidth = 30;
+         this.bandedGridColumn5.Name = "bandedGridColumn5";
+         this.bandedGridColumn5.OptionsColumn.AllowEdit = false;
+         this.bandedGridColumn5.OptionsColumn.ShowCaption = false;
+         this.bandedGridColumn5.Visible = true;
+         this.bandedGridColumn5.Width = 182;
+         // 
+         // gridBand17
+         // 
+         this.gridBand17.AppearanceHeader.Options.UseTextOptions = true;
+         this.gridBand17.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.gridBand17.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+         this.gridBand17.Caption = "出現時間累計\n(秒)";
+         this.gridBand17.Columns.Add(this.bandedGridColumn6);
+         this.gridBand17.Name = "gridBand17";
+         this.gridBand17.VisibleIndex = 1;
+         this.gridBand17.Width = 121;
+         // 
+         // bandedGridColumn6
+         // 
+         this.bandedGridColumn6.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+         this.bandedGridColumn6.FieldName = "B_MAX_SEC";
+         this.bandedGridColumn6.MinWidth = 30;
+         this.bandedGridColumn6.Name = "bandedGridColumn6";
+         this.bandedGridColumn6.OptionsColumn.AllowEdit = false;
+         this.bandedGridColumn6.OptionsColumn.ShowCaption = false;
+         this.bandedGridColumn6.Visible = true;
+         this.bandedGridColumn6.Width = 121;
+         // 
+         // gridBand18
+         // 
+         this.gridBand18.AppearanceHeader.Options.UseTextOptions = true;
+         this.gridBand18.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.gridBand18.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+         this.gridBand18.Caption = "最佳1檔揭示委託賣出之最大數量";
+         this.gridBand18.Children.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.GridBand[] {
+            this.gridBand19,
+            this.gridBand20});
+         this.gridBand18.Name = "gridBand18";
+         this.gridBand18.VisibleIndex = 5;
+         this.gridBand18.Width = 276;
+         // 
+         // gridBand19
+         // 
+         this.gridBand19.AppearanceHeader.Options.UseTextOptions = true;
+         this.gridBand19.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.gridBand19.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+         this.gridBand19.Caption = "數量(單位:口)";
+         this.gridBand19.Columns.Add(this.bandedGridColumn7);
+         this.gridBand19.Name = "gridBand19";
+         this.gridBand19.VisibleIndex = 0;
+         this.gridBand19.Width = 166;
+         // 
+         // bandedGridColumn7
+         // 
+         this.bandedGridColumn7.FieldName = "S_MAX_QNTY";
+         this.bandedGridColumn7.MinWidth = 30;
+         this.bandedGridColumn7.Name = "bandedGridColumn7";
+         this.bandedGridColumn7.OptionsColumn.AllowEdit = false;
+         this.bandedGridColumn7.OptionsColumn.ShowCaption = false;
+         this.bandedGridColumn7.Visible = true;
+         this.bandedGridColumn7.Width = 166;
+         // 
+         // gridBand20
+         // 
+         this.gridBand20.AppearanceHeader.Options.UseTextOptions = true;
+         this.gridBand20.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.gridBand20.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+         this.gridBand20.Caption = "出現時間累計\n(秒)";
+         this.gridBand20.Columns.Add(this.bandedGridColumn8);
+         this.gridBand20.Name = "gridBand20";
+         this.gridBand20.VisibleIndex = 1;
+         this.gridBand20.Width = 110;
+         // 
+         // bandedGridColumn8
+         // 
+         this.bandedGridColumn8.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+         this.bandedGridColumn8.FieldName = "S_MAX_SEC";
+         this.bandedGridColumn8.MinWidth = 30;
+         this.bandedGridColumn8.Name = "bandedGridColumn8";
+         this.bandedGridColumn8.OptionsColumn.AllowEdit = false;
+         this.bandedGridColumn8.OptionsColumn.ShowCaption = false;
+         this.bandedGridColumn8.Visible = true;
+         this.bandedGridColumn8.Width = 110;
          // 
          // gcMain
          // 
@@ -447,246 +689,6 @@
          this.S_MAX_SEC.Visible = true;
          this.S_MAX_SEC.Width = 110;
          // 
-         // gcExport
-         // 
-         this.gcExport.Location = new System.Drawing.Point(12, 173);
-         this.gcExport.MainView = this.gvExport;
-         this.gcExport.Name = "gcExport";
-         this.gcExport.Size = new System.Drawing.Size(438, 346);
-         this.gcExport.TabIndex = 11;
-         this.gcExport.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gvExport});
-         // 
-         // gvExport
-         // 
-         this.gvExport.Appearance.BandPanel.Options.UseTextOptions = true;
-         this.gvExport.Appearance.BandPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.gvExport.AppearancePrint.BandPanel.Font = new System.Drawing.Font("Microsoft YaHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-         this.gvExport.AppearancePrint.BandPanel.Options.UseFont = true;
-         this.gvExport.AppearancePrint.BandPanel.Options.UseTextOptions = true;
-         this.gvExport.AppearancePrint.BandPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.gvExport.Bands.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.GridBand[] {
-            this.gridBand7,
-            this.gridBand8,
-            this.gridBand13,
-            this.gridBand14,
-            this.gridBand15,
-            this.gridBand18});
-         this.gvExport.Columns.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn[] {
-            this.bandedGridColumn1,
-            this.bandedGridColumn2,
-            this.bandedGridColumn3,
-            this.bandedGridColumn4,
-            this.bandedGridColumn5,
-            this.bandedGridColumn6,
-            this.bandedGridColumn7,
-            this.bandedGridColumn8});
-         this.gvExport.CustomizationFormBounds = new System.Drawing.Rectangle(599, 575, 266, 270);
-         this.gvExport.GridControl = this.gcExport;
-         this.gvExport.Name = "gvExport";
-         this.gvExport.OptionsBehavior.Editable = false;
-         this.gvExport.OptionsCustomization.AllowSort = false;
-         this.gvExport.OptionsPrint.PrintHeader = false;
-         this.gvExport.OptionsView.ShowColumnHeaders = false;
-         this.gvExport.OptionsView.ShowGroupPanel = false;
-         // 
-         // bandedGridColumn1
-         // 
-         this.bandedGridColumn1.FieldName = "PROD_ID";
-         this.bandedGridColumn1.MinWidth = 30;
-         this.bandedGridColumn1.Name = "bandedGridColumn1";
-         this.bandedGridColumn1.OptionsColumn.AllowEdit = false;
-         this.bandedGridColumn1.OptionsColumn.ShowCaption = false;
-         this.bandedGridColumn1.Visible = true;
-         this.bandedGridColumn1.Width = 125;
-         // 
-         // bandedGridColumn2
-         // 
-         this.bandedGridColumn2.FieldName = "APDK_NAME";
-         this.bandedGridColumn2.MinWidth = 30;
-         this.bandedGridColumn2.Name = "bandedGridColumn2";
-         this.bandedGridColumn2.OptionsColumn.AllowEdit = false;
-         this.bandedGridColumn2.OptionsColumn.ShowCaption = false;
-         this.bandedGridColumn2.Visible = true;
-         this.bandedGridColumn2.Width = 108;
-         // 
-         // bandedGridColumn3
-         // 
-         this.bandedGridColumn3.FieldName = "B_WEIGHT_QNTY";
-         this.bandedGridColumn3.MinWidth = 30;
-         this.bandedGridColumn3.Name = "bandedGridColumn3";
-         this.bandedGridColumn3.OptionsColumn.AllowEdit = false;
-         this.bandedGridColumn3.OptionsColumn.ShowCaption = false;
-         this.bandedGridColumn3.Visible = true;
-         this.bandedGridColumn3.Width = 113;
-         // 
-         // bandedGridColumn4
-         // 
-         this.bandedGridColumn4.FieldName = "S_WEIGHT_QNTY";
-         this.bandedGridColumn4.MinWidth = 30;
-         this.bandedGridColumn4.Name = "bandedGridColumn4";
-         this.bandedGridColumn4.OptionsColumn.AllowEdit = false;
-         this.bandedGridColumn4.OptionsColumn.ShowCaption = false;
-         this.bandedGridColumn4.Visible = true;
-         this.bandedGridColumn4.Width = 106;
-         // 
-         // bandedGridColumn5
-         // 
-         this.bandedGridColumn5.FieldName = "B_MAX_QNTY";
-         this.bandedGridColumn5.MinWidth = 30;
-         this.bandedGridColumn5.Name = "bandedGridColumn5";
-         this.bandedGridColumn5.OptionsColumn.AllowEdit = false;
-         this.bandedGridColumn5.OptionsColumn.ShowCaption = false;
-         this.bandedGridColumn5.Visible = true;
-         this.bandedGridColumn5.Width = 182;
-         // 
-         // bandedGridColumn6
-         // 
-         this.bandedGridColumn6.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-         this.bandedGridColumn6.FieldName = "B_MAX_SEC";
-         this.bandedGridColumn6.MinWidth = 30;
-         this.bandedGridColumn6.Name = "bandedGridColumn6";
-         this.bandedGridColumn6.OptionsColumn.AllowEdit = false;
-         this.bandedGridColumn6.OptionsColumn.ShowCaption = false;
-         this.bandedGridColumn6.Visible = true;
-         this.bandedGridColumn6.Width = 121;
-         // 
-         // bandedGridColumn7
-         // 
-         this.bandedGridColumn7.FieldName = "S_MAX_QNTY";
-         this.bandedGridColumn7.MinWidth = 30;
-         this.bandedGridColumn7.Name = "bandedGridColumn7";
-         this.bandedGridColumn7.OptionsColumn.AllowEdit = false;
-         this.bandedGridColumn7.OptionsColumn.ShowCaption = false;
-         this.bandedGridColumn7.Visible = true;
-         this.bandedGridColumn7.Width = 166;
-         // 
-         // bandedGridColumn8
-         // 
-         this.bandedGridColumn8.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-         this.bandedGridColumn8.FieldName = "S_MAX_SEC";
-         this.bandedGridColumn8.MinWidth = 30;
-         this.bandedGridColumn8.Name = "bandedGridColumn8";
-         this.bandedGridColumn8.OptionsColumn.AllowEdit = false;
-         this.bandedGridColumn8.OptionsColumn.ShowCaption = false;
-         this.bandedGridColumn8.Visible = true;
-         this.bandedGridColumn8.Width = 110;
-         // 
-         // gridBand7
-         // 
-         this.gridBand7.AppearanceHeader.Options.UseTextOptions = true;
-         this.gridBand7.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.gridBand7.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.gridBand7.Caption = "股票期貨代號";
-         this.gridBand7.Columns.Add(this.bandedGridColumn1);
-         this.gridBand7.Name = "gridBand7";
-         this.gridBand7.VisibleIndex = 0;
-         this.gridBand7.Width = 125;
-         // 
-         // gridBand8
-         // 
-         this.gridBand8.AppearanceHeader.Options.UseTextOptions = true;
-         this.gridBand8.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.gridBand8.AppearanceHeader.TextOptions.Trimming = DevExpress.Utils.Trimming.Word;
-         this.gridBand8.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.gridBand8.Caption = "股票期貨契約名稱";
-         this.gridBand8.Columns.Add(this.bandedGridColumn2);
-         this.gridBand8.Name = "gridBand8";
-         this.gridBand8.VisibleIndex = 1;
-         this.gridBand8.Width = 108;
-         // 
-         // gridBand13
-         // 
-         this.gridBand13.AppearanceHeader.Options.UseTextOptions = true;
-         this.gridBand13.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.gridBand13.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.gridBand13.Caption = "最佳1檔揭示委託買進之加權平均數量";
-         this.gridBand13.Columns.Add(this.bandedGridColumn3);
-         this.gridBand13.Name = "gridBand13";
-         this.gridBand13.VisibleIndex = 2;
-         this.gridBand13.Width = 113;
-         // 
-         // gridBand14
-         // 
-         this.gridBand14.AppearanceHeader.Options.UseTextOptions = true;
-         this.gridBand14.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.gridBand14.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.gridBand14.Caption = "最佳1檔揭示委託賣出之加權平均數量";
-         this.gridBand14.Columns.Add(this.bandedGridColumn4);
-         this.gridBand14.Name = "gridBand14";
-         this.gridBand14.VisibleIndex = 3;
-         this.gridBand14.Width = 106;
-         // 
-         // gridBand15
-         // 
-         this.gridBand15.AppearanceHeader.Options.UseTextOptions = true;
-         this.gridBand15.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.gridBand15.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.gridBand15.Caption = "最佳1檔揭示委託買進之最大數量";
-         this.gridBand15.Children.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.GridBand[] {
-            this.gridBand16,
-            this.gridBand17});
-         this.gridBand15.Name = "gridBand15";
-         this.gridBand15.VisibleIndex = 4;
-         this.gridBand15.Width = 303;
-         // 
-         // gridBand16
-         // 
-         this.gridBand16.AppearanceHeader.Options.UseTextOptions = true;
-         this.gridBand16.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.gridBand16.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.gridBand16.Caption = "數量(單位:口)";
-         this.gridBand16.Columns.Add(this.bandedGridColumn5);
-         this.gridBand16.Name = "gridBand16";
-         this.gridBand16.VisibleIndex = 0;
-         this.gridBand16.Width = 182;
-         // 
-         // gridBand17
-         // 
-         this.gridBand17.AppearanceHeader.Options.UseTextOptions = true;
-         this.gridBand17.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.gridBand17.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.gridBand17.Caption = "出現時間累計\n(秒)";
-         this.gridBand17.Columns.Add(this.bandedGridColumn6);
-         this.gridBand17.Name = "gridBand17";
-         this.gridBand17.VisibleIndex = 1;
-         this.gridBand17.Width = 121;
-         // 
-         // gridBand18
-         // 
-         this.gridBand18.AppearanceHeader.Options.UseTextOptions = true;
-         this.gridBand18.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.gridBand18.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.gridBand18.Caption = "最佳1檔揭示委託賣出之最大數量";
-         this.gridBand18.Children.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.GridBand[] {
-            this.gridBand19,
-            this.gridBand20});
-         this.gridBand18.Name = "gridBand18";
-         this.gridBand18.VisibleIndex = 5;
-         this.gridBand18.Width = 276;
-         // 
-         // gridBand19
-         // 
-         this.gridBand19.AppearanceHeader.Options.UseTextOptions = true;
-         this.gridBand19.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.gridBand19.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.gridBand19.Caption = "數量(單位:口)";
-         this.gridBand19.Columns.Add(this.bandedGridColumn7);
-         this.gridBand19.Name = "gridBand19";
-         this.gridBand19.VisibleIndex = 0;
-         this.gridBand19.Width = 166;
-         // 
-         // gridBand20
-         // 
-         this.gridBand20.AppearanceHeader.Options.UseTextOptions = true;
-         this.gridBand20.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.gridBand20.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.gridBand20.Caption = "出現時間累計\n(秒)";
-         this.gridBand20.Columns.Add(this.bandedGridColumn8);
-         this.gridBand20.Name = "gridBand20";
-         this.gridBand20.VisibleIndex = 1;
-         this.gridBand20.Width = 110;
-         // 
          // W30501
          // 
          this.Appearance.Options.UseFont = true;
@@ -709,10 +711,10 @@
          ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
          this.panelControl2.ResumeLayout(false);
-         ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gcExport)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvExport)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 

@@ -5,7 +5,7 @@ namespace DataObjects.Dao.Together.SpecificDao
 {
    public class D40011 : D4001x
    {
-      public override string FutDataCountSql()
+      protected override string FutDataCountSql()
       {
          return @"SELECT count(*)
                   from(
@@ -43,7 +43,7 @@ namespace DataObjects.Dao.Together.SpecificDao
                   where sheet=1";
       }
 
-      public override string OptDataCountSql()
+      protected override string OptDataCountSql()
       {
          return @"SELECT count(*)
                   from(
@@ -81,7 +81,7 @@ namespace DataObjects.Dao.Together.SpecificDao
                   where sheet=2";
       }
 
-      public override string FutDataSql(SheetType R)
+      protected override string FutDataSql(int sheet)
       {
          return string.Format(@"select rpt.{0},MG1_CUR_CM,MG1_CUR_MM,MG1_CUR_IM,MG1_CM_RATE,MG1_MM_RATE,MG1_IM_RATE,
                      MG1_PRICE,MG1_XXX,MG1_RISK,MG1_CP_RISK,MG1_MIN_RISK,MG1_CP_CM
@@ -122,10 +122,10 @@ namespace DataObjects.Dao.Together.SpecificDao
                               and MG8D_F_ID = R_KIND_ID 
                            ORDER BY SHEET,R1,R2,MG1_KIND_ID,MG1_TYPE) 
                     main on main.{0} = rpt.{0}
-                     order by {0}", R);
+                     order by {0}", $"R{sheet}");
       }
 
-      public override string OptDataSql(SheetType R)
+      protected override string OptDataSql(int sheet)
       {
          return string.Format(@"select rpt.{0},rpt.MG1_TYPE,MG1_CUR_CM,'',MG1_CUR_MM,'',MG1_CUR_IM,
                         MG1_PRICE,MG1_XXX,MG1_RISK,MG1_CP_RISK,MG1_CP_CM 
@@ -174,10 +174,10 @@ namespace DataObjects.Dao.Together.SpecificDao
                         ORDER BY SHEET,R1,R2,MG1_KIND_ID,MG1_TYPE) main 
                         on main.{0} = rpt.{0}
                         and main.MG1_TYPE=rpt.MG1_TYPE
-                        order by rpt.{0},rpt.MG1_TYPE", R);
+                        order by rpt.{0},rpt.MG1_TYPE", $"R{sheet}");
       }
 
-      public override string WorkItemSql(int Num)
+      protected override string WorkItemSql(int Num)
       {
          return $@"select N10P,R10P 
                            from

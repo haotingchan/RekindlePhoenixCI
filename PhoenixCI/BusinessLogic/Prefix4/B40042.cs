@@ -15,84 +15,68 @@ namespace PhoenixCI.BusinessLogic.Prefix4
    /// <summary>
    /// 收盤前保證金試算表
    /// </summary>
-   public class B40042: B4001xTemplate
+   public class B40042
    {
 
       private readonly D40042 dao40042;
+      /// <summary>
+      /// 輸出Excel檔案路徑
+      /// </summary>
+      private readonly string _lsFile;
+      /// <summary>
+      /// 輸入的日期 yyyy/MM/dd
+      /// </summary>
+      private readonly string _emDateText;
 
-      public B40042(string ProgramID, string FilePath, string emDate)
+      private readonly B40011 b40011;
+
+      private readonly B40012 b40012;
+
+      private readonly B40013 b40013;
+
+      public B40042(string FilePath, string emDate)
       {
-         this._TxnID = ProgramID;
          this._lsFile = FilePath;
          this._emDateText = emDate;
-         this.dao = new D4001x().ConcreteDao(ProgramID);
          dao40042 = new D40042();
+         b40011 = new B40011("40042_40011", FilePath, emDate);
+         b40012 = new B40012("40042_40012", FilePath, emDate);
+         b40013 = new B40013("40042_40013", FilePath, emDate);
       }
 
-      /// <summary>
-      /// FMIF APDK_MARKET_CLOSE 值
-      /// </summary>
-      /// <returns>1 or 5 or 7</returns>
-      public override string GetOswGrp()
+      public string Wf40011Fut()
       {
-         return "1";
+         return b40011.WfFutureSheet();
       }
 
-      /// <summary>
-      /// 寫入 現行收取保證金金額 資料表
-      /// </summary>
-      /// <param name="worksheet"></param>
-      /// <param name="dtR1"></param>
-      public override void WriteFutR1Data(Worksheet worksheet, DataTable dtR1)
+      public string Wf40011Opt()
       {
-         worksheet.Import(dtR1.AsEnumerable().Take(1).CopyToDataTable(), false, 2, 2);
-         ////跳過第4行
-         worksheet.Import(dtR1.AsEnumerable().Skip(1).CopyToDataTable(), false, 4, 2);
+         return b40011.WfOptionSheet();
       }
 
-      /// <summary>
-      /// 寫入 本日結算保證金計算 資料表
-      /// </summary>
-      /// <param name="worksheet"></param>
-      /// <param name="dtR2"></param>
-      public override void WriteFutR2Data(Worksheet worksheet, DataTable dtR2)
+      public string Wf40012Fut()
       {
-         //要Take的筆數
-         int takeRow = dtR2.Rows.Count - 1;
-         //dtR2最後一筆是 excel第49行 十年期公債期貨契約結算保證金
-         worksheet.Import(dtR2.AsEnumerable().Take(takeRow).CopyToDataTable(), false, 35, 2);
-         //第46行E~H欄格式設定
-         for (int k = 4; k <= 7; k++)
-         {
-            worksheet.Rows[45][k].SetValueFromText("-");
-         }
-         //excel第49行 十年期公債期貨契約結算保證金
-         worksheet.Import(dtR2.AsEnumerable().Skip(takeRow).CopyToDataTable(), false, 48, 2);
+         return b40012.WfFutureSheet(2);
       }
 
-
-      /// <summary>
-      /// 寫入 現行金額 資料表
-      /// </summary>
-      /// <param name="worksheet"></param>
-      /// <param name="dtR1"></param>
-      public override void WriteOptR1Data(Worksheet worksheet, DataTable dtR1)
+      public string Wf40012Opt()
       {
-         worksheet.Import(dtR1, false, 8, 2);
+         return b40012.WfOptionSheet(3);
       }
 
-      /// <summary>
-      /// 寫入 本日結算保證金之適用風險保證金 資料表
-      /// </summary>
-      /// <param name="worksheet"></param>
-      /// <param name="dtR2"></param>
-      public override void WriteOptR2Data(Worksheet worksheet, DataTable dtR2)
+      public string Wf40013Fut()
       {
-         worksheet.Import(dtR2, false, 48, 3);
+         return b40013.WfFutureSheet(4);
       }
 
       public string Wf40042()
       {
+         //切換Sheet
+         Workbook workbook = new Workbook();
+         workbook.LoadDocument(_lsFile);
+         Worksheet worksheet = workbook.Worksheets[5];
+
+
          DataTable dt = dao40042.List40042Mg1();
          return MessageDisplay.MSG_OK;
       }

@@ -6,7 +6,7 @@ namespace DataObjects.Dao.Together.SpecificDao
    public class D40013 : D4001x
    {
 
-      public override string FutDataCountSql()
+      protected override string FutDataCountSql()
       {
          return @"SELECT count(*)
                     from ci.MG1,ci.MGT2,
@@ -18,7 +18,7 @@ namespace DataObjects.Dao.Together.SpecificDao
                      and MG1_KIND_ID = MGT2_KIND_ID";
       }
 
-      public override string FutDataSql(SheetType R)
+      protected override string FutDataSql(int sheet)
       {
          return string.Format(@"SELECT rpt.{0},MG1_CUR_CM,MG1_CUR_MM,MG1_CUR_IM,MG1_CM_RATE,MG1_MM_RATE,MG1_IM_RATE,
                                      MG1_PRICE,MG1_XXX,MG1_RISK,MG1_CP_RISK,MG1_MIN_RISK,MG1_CP_CM
@@ -42,10 +42,10 @@ namespace DataObjects.Dao.Together.SpecificDao
                                order by r1,r2,mg1_kind_id,mg1_type) main
                               on main.{0} = rpt.{0}
                               order by {0}
-                                 ", R);
+                                 ", $"R{sheet}");
       }
 
-      public override string WorkItemSql(int Num)
+      protected override string WorkItemSql(int Num)
       {
          return $@"select N10P,R10P 
                   from
