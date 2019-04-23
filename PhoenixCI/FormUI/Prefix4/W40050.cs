@@ -27,8 +27,9 @@ namespace PhoenixCI.FormUI.Prefix4
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
 
-         oswGrpLookItem.SetDataTable(new OCFG().ListAll(), "OSW_GRP", "OSW_GRP_NAME", DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor, null);
-         oswGrpLookItem.ItemIndex = 0;
+         OCFG daoOCFG = new OCFG();
+         oswGrpLookItem.SetDataTable(daoOCFG.ListAll(), "OSW_GRP", "OSW_GRP_NAME", DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor, null);
+         oswGrpLookItem.EditValue = daoOCFG.f_gen_osw_grp();
       }
 
       public override ResultStatus BeforeOpen()
