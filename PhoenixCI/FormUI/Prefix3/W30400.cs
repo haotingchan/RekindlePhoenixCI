@@ -428,7 +428,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             string ymd = "19000101";
             foreach (DataRow dr in dt30405.Rows) {
                string ai2Ymd = dr["ai2_ymd"].AsString();
-               string mQnty = dr["ai2_m_qnty"].AsString();
+               decimal mQnty = dr["ai2_m_qnty"].AsDecimal();
                decimal ai2Oi = dr["ai2_oi"].AsDecimal();
                decimal am10Cnt = dr["am10_cnt"].AsDecimal();
                decimal cnt = dr["am9_acc_cnt"].AsDecimal();

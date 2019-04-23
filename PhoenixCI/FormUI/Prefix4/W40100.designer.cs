@@ -25,7 +25,6 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-         this.components = new System.ComponentModel.Container();
          this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
          this.grpxDescription = new System.Windows.Forms.GroupBox();
          this.label1 = new System.Windows.Forms.Label();
@@ -33,34 +32,32 @@
          this.txtDate = new BaseGround.Widget.TextDateEdit();
          this.lblDate = new System.Windows.Forms.Label();
          this.ExportShow = new System.Windows.Forms.Label();
-         this.behaviorManager1 = new DevExpress.Utils.Behaviors.BehaviorManager(this.components);
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
          this.grpxDescription.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ddlAdjType.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.behaviorManager1)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
          // 
          this.panParent.Controls.Add(this.grpxDescription);
          this.panParent.Controls.Add(this.ExportShow);
-         this.panParent.Size = new System.Drawing.Size(713, 484);
+         this.panParent.Size = new System.Drawing.Size(713, 499);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(713, 45);
+         this.ribbonControl.Size = new System.Drawing.Size(713, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // panelControl1
          // 
          this.panelControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.panelControl1.Location = new System.Drawing.Point(0, 45);
+         this.panelControl1.Location = new System.Drawing.Point(0, 30);
          this.panelControl1.Name = "panelControl1";
-         this.panelControl1.Size = new System.Drawing.Size(713, 484);
+         this.panelControl1.Size = new System.Drawing.Size(713, 499);
          this.panelControl1.TabIndex = 0;
          // 
          // grpxDescription
@@ -82,7 +79,7 @@
          this.label1.AutoSize = true;
          this.label1.Location = new System.Drawing.Point(37, 91);
          this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(205, 30);
+         this.label1.Size = new System.Drawing.Size(137, 20);
          this.label1.TabIndex = 16;
          this.label1.Text = "保證金調整狀況：";
          // 
@@ -99,7 +96,7 @@
          this.ddlAdjType.Properties.DropDownRows = 5;
          this.ddlAdjType.Properties.NullText = "";
          this.ddlAdjType.Properties.PopupSizeable = false;
-         this.ddlAdjType.Size = new System.Drawing.Size(144, 30);
+         this.ddlAdjType.Size = new System.Drawing.Size(144, 26);
          this.ddlAdjType.TabIndex = 7;
          // 
          // txtDate
@@ -117,7 +114,7 @@
          this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtDate.Size = new System.Drawing.Size(144, 30);
+         this.txtDate.Size = new System.Drawing.Size(144, 26);
          this.txtDate.TabIndex = 15;
          this.txtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
@@ -126,7 +123,7 @@
          this.lblDate.AutoSize = true;
          this.lblDate.Location = new System.Drawing.Point(37, 46);
          this.lblDate.Name = "lblDate";
-         this.lblDate.Size = new System.Drawing.Size(85, 30);
+         this.lblDate.Size = new System.Drawing.Size(57, 20);
          this.lblDate.TabIndex = 2;
          this.lblDate.Text = "日期：";
          // 
@@ -135,14 +132,14 @@
          this.ExportShow.AutoSize = true;
          this.ExportShow.Location = new System.Drawing.Point(17, 166);
          this.ExportShow.Name = "ExportShow";
-         this.ExportShow.Size = new System.Drawing.Size(81, 30);
+         this.ExportShow.Size = new System.Drawing.Size(54, 20);
          this.ExportShow.TabIndex = 14;
          this.ExportShow.Text = "label1";
          // 
          // W40100
          // 
          this.Appearance.Options.UseFont = true;
-         this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
+         this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
          this.ClientSize = new System.Drawing.Size(713, 529);
          this.Controls.Add(this.panelControl1);
@@ -159,7 +156,6 @@
          this.grpxDescription.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ddlAdjType.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.behaviorManager1)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -174,6 +170,5 @@
       private DevExpress.XtraEditors.LookUpEdit ddlAdjType;
       private System.Windows.Forms.Label label1;
       public BaseGround.Widget.TextDateEdit txtDate;
-      private DevExpress.Utils.Behaviors.BehaviorManager behaviorManager1;
    }
 }

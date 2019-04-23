@@ -200,17 +200,18 @@
          // 
          // txtDate3
          // 
-         this.txtDate3.DateTimeValue = new System.DateTime(((long)(0)));
+         this.txtDate3.DateTimeValue = new System.DateTime(2018, 1, 1, 0, 0, 0, 0);
          this.txtDate3.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtDate3.EditValue = "0001/1/1 上午 12:00:00";
+         this.txtDate3.EditValue = "2018/01/01";
          this.txtDate3.Location = new System.Drawing.Point(84, 74);
          this.txtDate3.Name = "txtDate3";
          this.txtDate3.Properties.DisplayFormat.FormatString = "yyyyMMdd";
          this.txtDate3.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
          this.txtDate3.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtDate3.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.Custom;
-         this.txtDate3.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtDate3.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtDate3.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtDate3.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.txtDate3.Properties.Mask.ShowPlaceHolders = false;
          this.txtDate3.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtDate3.Size = new System.Drawing.Size(100, 26);
          this.txtDate3.TabIndex = 23;
@@ -227,17 +228,18 @@
          // 
          // txtDate2
          // 
-         this.txtDate2.DateTimeValue = new System.DateTime(((long)(0)));
+         this.txtDate2.DateTimeValue = new System.DateTime(2018, 1, 1, 0, 0, 0, 0);
          this.txtDate2.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtDate2.EditValue = "0001/1/1 上午 12:00:00";
+         this.txtDate2.EditValue = "2018/01/01";
          this.txtDate2.Location = new System.Drawing.Point(84, 38);
          this.txtDate2.Name = "txtDate2";
          this.txtDate2.Properties.DisplayFormat.FormatString = "yyyyMMdd";
          this.txtDate2.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
          this.txtDate2.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtDate2.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.Custom;
-         this.txtDate2.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtDate2.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtDate2.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtDate2.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.txtDate2.Properties.Mask.ShowPlaceHolders = false;
          this.txtDate2.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtDate2.Size = new System.Drawing.Size(100, 26);
          this.txtDate2.TabIndex = 21;
@@ -254,17 +256,18 @@
          // 
          // txtDate1
          // 
-         this.txtDate1.DateTimeValue = new System.DateTime(((long)(0)));
+         this.txtDate1.DateTimeValue = new System.DateTime(2018, 1, 1, 0, 0, 0, 0);
          this.txtDate1.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtDate1.EditValue = "0001/1/1 上午 12:00:00";
+         this.txtDate1.EditValue = "2018/01/01";
          this.txtDate1.Location = new System.Drawing.Point(84, 5);
          this.txtDate1.Name = "txtDate1";
          this.txtDate1.Properties.DisplayFormat.FormatString = "yyyyMMdd";
          this.txtDate1.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
          this.txtDate1.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtDate1.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.Custom;
-         this.txtDate1.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtDate1.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtDate1.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtDate1.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.txtDate1.Properties.Mask.ShowPlaceHolders = false;
          this.txtDate1.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtDate1.Size = new System.Drawing.Size(100, 26);
          this.txtDate1.TabIndex = 19;
@@ -281,17 +284,18 @@
          // 
          // txtCountDate
          // 
-         this.txtCountDate.DateTimeValue = new System.DateTime(((long)(0)));
+         this.txtCountDate.DateTimeValue = new System.DateTime(2018, 1, 1, 0, 0, 0, 0);
          this.txtCountDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtCountDate.EditValue = "0001/1/1 上午 12:00:00";
+         this.txtCountDate.EditValue = "2018/01/01";
          this.txtCountDate.Location = new System.Drawing.Point(89, 15);
          this.txtCountDate.Name = "txtCountDate";
          this.txtCountDate.Properties.DisplayFormat.FormatString = "yyyyMMdd";
          this.txtCountDate.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
          this.txtCountDate.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtCountDate.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.Custom;
-         this.txtCountDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtCountDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtCountDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtCountDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.txtCountDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtCountDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtCountDate.Size = new System.Drawing.Size(100, 26);
          this.txtCountDate.TabIndex = 17;

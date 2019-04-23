@@ -28,10 +28,10 @@
          this.dwKindId = new DevExpress.XtraEditors.LookUpEdit();
          this.grpRbDate = new System.Windows.Forms.GroupBox();
          this.txtDate = new BaseGround.Widget.TextDateEdit();
+         this.txtEndDate = new BaseGround.Widget.TextDateEdit();
          this.txtStartDate = new BaseGround.Widget.TextDateEdit();
          this.label11 = new System.Windows.Forms.Label();
          this.label12 = new System.Windows.Forms.Label();
-         this.txtEndDate = new BaseGround.Widget.TextDateEdit();
          this.txtDay = new DevExpress.XtraEditors.TextEdit();
          this.label13 = new System.Windows.Forms.Label();
          this.gbItem = new DevExpress.XtraEditors.RadioGroup();
@@ -47,8 +47,8 @@
          ((System.ComponentModel.ISupportInitialize)(this.dwKindId.Properties)).BeginInit();
          this.grpRbDate.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtDay.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gbItem.Properties)).BeginInit();
          this.grpChkModel.SuspendLayout();
@@ -115,10 +115,10 @@
          // grpRbDate
          // 
          this.grpRbDate.Controls.Add(this.txtDate);
+         this.grpRbDate.Controls.Add(this.txtEndDate);
          this.grpRbDate.Controls.Add(this.txtStartDate);
          this.grpRbDate.Controls.Add(this.label11);
          this.grpRbDate.Controls.Add(this.label12);
-         this.grpRbDate.Controls.Add(this.txtEndDate);
          this.grpRbDate.Controls.Add(this.txtDay);
          this.grpRbDate.Controls.Add(this.label13);
          this.grpRbDate.Controls.Add(this.gbItem);
@@ -132,7 +132,7 @@
          // txtDate
          // 
          this.txtDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
+         this.txtDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtDate.EditValue = "2018/12";
          this.txtDate.EnterMoveNextControl = true;
          this.txtDate.Location = new System.Drawing.Point(114, 61);
@@ -142,27 +142,48 @@
          this.txtDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.txtDate.Properties.Mask.EditMask = "yyyy/MM/dd";
          this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtDate.Size = new System.Drawing.Size(100, 26);
-         this.txtDate.TabIndex = 3;
+         this.txtDate.TabIndex = 85;
          this.txtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         // 
+         // txtEndDate
+         // 
+         this.txtEndDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtEndDate.EditValue = "2018/12";
+         this.txtEndDate.EnterMoveNextControl = true;
+         this.txtEndDate.Location = new System.Drawing.Point(252, 29);
+         this.txtEndDate.MenuManager = this.ribbonControl;
+         this.txtEndDate.Name = "txtEndDate";
+         this.txtEndDate.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtEndDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtEndDate.Properties.Mask.EditMask = "yyyy/MM/dd";
+         this.txtEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
+         this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtEndDate.Size = new System.Drawing.Size(100, 26);
+         this.txtEndDate.TabIndex = 84;
+         this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtStartDate
          // 
          this.txtStartDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtStartDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
+         this.txtStartDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtStartDate.EditValue = "2018/12";
          this.txtStartDate.EnterMoveNextControl = true;
-         this.txtStartDate.Location = new System.Drawing.Point(114, 28);
+         this.txtStartDate.Location = new System.Drawing.Point(114, 29);
          this.txtStartDate.MenuManager = this.ribbonControl;
          this.txtStartDate.Name = "txtStartDate";
          this.txtStartDate.Properties.Appearance.Options.UseTextOptions = true;
          this.txtStartDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.txtStartDate.Properties.Mask.EditMask = "yyyy/MM/dd";
          this.txtStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtStartDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtStartDate.Size = new System.Drawing.Size(100, 26);
-         this.txtStartDate.TabIndex = 1;
+         this.txtStartDate.TabIndex = 83;
          this.txtStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // label11
@@ -184,24 +205,6 @@
          this.label12.Size = new System.Drawing.Size(26, 21);
          this.label12.TabIndex = 6;
          this.label12.Text = "～";
-         // 
-         // txtEndDate
-         // 
-         this.txtEndDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
-         this.txtEndDate.EditValue = "2018/12";
-         this.txtEndDate.EnterMoveNextControl = true;
-         this.txtEndDate.Location = new System.Drawing.Point(251, 28);
-         this.txtEndDate.MenuManager = this.ribbonControl;
-         this.txtEndDate.Name = "txtEndDate";
-         this.txtEndDate.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtEndDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtEndDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-         this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtEndDate.Size = new System.Drawing.Size(100, 26);
-         this.txtEndDate.TabIndex = 2;
-         this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtDay
          // 
@@ -337,8 +340,8 @@
          this.grpRbDate.ResumeLayout(false);
          this.grpRbDate.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtDay.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gbItem.Properties)).EndInit();
          this.grpChkModel.ResumeLayout(false);
@@ -356,11 +359,8 @@
       private System.Windows.Forms.GroupBox panFilter;
       private DevExpress.XtraEditors.LookUpEdit dwKindId;
       private System.Windows.Forms.GroupBox grpRbDate;
-      private BaseGround.Widget.TextDateEdit txtDate;
-      private BaseGround.Widget.TextDateEdit txtStartDate;
       private System.Windows.Forms.Label label11;
       private System.Windows.Forms.Label label12;
-      private BaseGround.Widget.TextDateEdit txtEndDate;
       private DevExpress.XtraEditors.TextEdit txtDay;
       private System.Windows.Forms.Label label13;
       protected DevExpress.XtraEditors.RadioGroup gbItem;
@@ -370,5 +370,8 @@
       private System.Windows.Forms.GroupBox grpChkModel;
       private DevExpress.XtraEditors.CheckedListBoxControl chkModel;
       private DevExpress.XtraEditors.PanelControl r_frame;
+      private BaseGround.Widget.TextDateEdit txtDate;
+      private BaseGround.Widget.TextDateEdit txtEndDate;
+      private BaseGround.Widget.TextDateEdit txtStartDate;
    }
 }

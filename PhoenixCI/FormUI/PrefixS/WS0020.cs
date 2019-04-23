@@ -25,13 +25,11 @@ namespace PhoenixCI.FormUI.PrefixS {
          ExportShow.Text = "轉檔中...";
          ExportShow.Show();
 
-         Workbook workbook = new Workbook();
-         DataTable dtSP4 = new DataTable();
-         DataTable dtSP5 = new DataTable();
-         string destinationFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);//Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, Filename);
-
          try {
-            workbook.LoadDocument(destinationFilePath);
+            Workbook workbook = new Workbook();
+            DataTable dtSP4 = new DataTable();
+            DataTable dtSP5 = new DataTable();
+
             dtSP4 = daoS0020.GetSP4Data(txtDate.DateTimeValue.ToString("yyyy/MM/dd"));
             dtSP5 = daoS0020.GetSP5Data(txtDate.DateTimeValue.ToString("yyyy/MM/dd"));
 
@@ -40,6 +38,10 @@ namespace PhoenixCI.FormUI.PrefixS {
                MessageDisplay.Info("無任何資料");
                return ResultStatus.Fail;
             }
+
+            string destinationFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);//Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, Filename);
+
+            workbook.LoadDocument(destinationFilePath);
 
             //將SP4資料放入Excel
             Worksheet worksheet = workbook.Worksheets[0];

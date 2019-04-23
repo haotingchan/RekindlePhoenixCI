@@ -436,6 +436,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             ReturnMessageClass msg = new ReturnMessageClass();
             msg.Status = ResultStatus.Fail;
             try {
+               FilePath = PbFunc.wf_copy_file(ProgramId, FileChName);
+
                //1.0 oprne file
                RichEditDocumentServer docSev = OpenRtfFile();
 
@@ -669,7 +671,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
       private class ExportWord0B : ExportWord {
          public ExportWord0B(D40xxx dao, string txtdate, string adjtype, string programId) : base(dao, txtdate, adjtype, programId) {
             FileChName = "40110_新聞稿_一般_股票";
-            FilePath = PbFunc.wf_copy_file(ProgramId, FileChName);
             TableTitle = new string[] { "原始", "維持", "結算" };
             ColName = new string[] { "m_im", "m_mm", "m_cm", "cur_im", "cur_mm", "cur_cm" };
             ColNameB = new string[] { "m_im_b", "m_mm_b", "m_cm_b", "cur_im_b", "cur_mm_b", "cur_cm_b" };
@@ -712,6 +713,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             msg.Status = ResultStatus.Fail;
 
             try {
+               FilePath = PbFunc.wf_copy_file(ProgramId, FileChName);
+
                RichEditDocumentServer docSev = OpenRtfFile();
 
                SetRtfDescText(docSev, GenProdName(dt, "契約"));
@@ -810,7 +813,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
       private class ExportWord2B : ExportWord {
          public ExportWord2B(D40xxx dao, string txtdate, string adjtype, string programId) : base(dao, txtdate, adjtype, programId) {
             FileChName = "40110_新聞稿_處置股票";
-            FilePath = PbFunc.wf_copy_file(ProgramId, FileChName);
             TableTitle = new string[] { "原始", "維持", "結算" };
             ColName = new string[] { "m_im", "m_mm", "m_cm", "cur_im", "cur_mm", "cur_cm" };
             ColNameB = new string[] { "m_im_b", "m_mm_b", "m_cm_b", "cur_im_b", "cur_mm_b", "cur_cm_b" };
@@ -821,6 +823,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             msg.Status = ResultStatus.Fail;
 
             try {
+               FilePath = PbFunc.wf_copy_file(ProgramId, FileChName);
+
                RichEditDocumentServer docSev = OpenRtfFile();
 
                //文章上半部填值
@@ -974,7 +978,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
       private class ExportWord1B : ExportWordVacationAdjust {
          public ExportWord1B(D40xxx dao, string txtdate, string adjtype, string programId) : base(dao, txtdate, adjtype, programId) {
             FileChName = "40110_新聞稿_春節調整";
-            FilePath = PbFunc.wf_copy_file(ProgramId, FileChName);
          }
 
          public override ReturnMessageClass Export() {
@@ -1038,7 +1041,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
       private class ExportWord1E : ExportWordVacationAdjust {
          public ExportWord1E(D40xxx dao, string txtdate, string adjtype, string programId) : base(dao, txtdate, adjtype, programId) {
             FileChName = "40110_新聞稿_春節回調";
-            FilePath = PbFunc.wf_copy_file(ProgramId, FileChName);
          }
 
          public override ReturnMessageClass Export() {

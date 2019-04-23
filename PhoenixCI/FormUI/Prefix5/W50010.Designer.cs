@@ -27,7 +27,6 @@
       /// </summary>
       private void InitializeComponent()
       {
-         this.components = new System.ComponentModel.Container();
          this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
          this.gcExport = new DevExpress.XtraGrid.GridControl();
          this.gvExport = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -53,7 +52,7 @@
          this.panel1 = new System.Windows.Forms.Panel();
          this.gcMain = new DevExpress.XtraGrid.GridControl();
          this.gvMain = new DevExpress.XtraGrid.Views.Grid.GridView();
-         this.behaviorManager1 = new DevExpress.Utils.Behaviors.BehaviorManager(this.components);
+         this.behaviorManager1 = new DevExpress.Utils.Behaviors.BehaviorManager();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
          this.panelControl1.SuspendLayout();
@@ -78,12 +77,12 @@
          // 
          // panParent
          // 
-         this.panParent.Size = new System.Drawing.Size(867, 642);
+         this.panParent.Size = new System.Drawing.Size(867, 644);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(867, 32);
+         this.ribbonControl.Size = new System.Drawing.Size(867, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // panelControl1
@@ -108,7 +107,7 @@
          this.panelControl1.Controls.Add(this.Fcm_SNo);
          this.panelControl1.Controls.Add(this.label1);
          this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
-         this.panelControl1.Location = new System.Drawing.Point(0, 32);
+         this.panelControl1.Location = new System.Drawing.Point(0, 30);
          this.panelControl1.Name = "panelControl1";
          this.panelControl1.Size = new System.Drawing.Size(867, 258);
          this.panelControl1.TabIndex = 0;
@@ -170,14 +169,17 @@
          // 
          // TxtDate
          // 
-         this.TxtDate.DateTimeValue = new System.DateTime(((long)(0)));
+         this.TxtDate.DateTimeValue = new System.DateTime(2018, 1, 1, 0, 0, 0, 0);
          this.TxtDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.TxtDate.EditValue = "0001/1/1 上午 12:00:00";
+         this.TxtDate.EditValue = "2018/01/01";
          this.TxtDate.Location = new System.Drawing.Point(123, 203);
          this.TxtDate.MenuManager = this.ribbonControl;
          this.TxtDate.Name = "TxtDate";
          this.TxtDate.Properties.Appearance.Options.UseTextOptions = true;
          this.TxtDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.TxtDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.TxtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.TxtDate.Properties.Mask.ShowPlaceHolders = false;
          this.TxtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.TxtDate.Size = new System.Drawing.Size(100, 26);
          this.TxtDate.TabIndex = 13;
@@ -311,9 +313,9 @@
          // 
          this.panelControl2.Controls.Add(this.panel1);
          this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.panelControl2.Location = new System.Drawing.Point(0, 290);
+         this.panelControl2.Location = new System.Drawing.Point(0, 288);
          this.panelControl2.Name = "panelControl2";
-         this.panelControl2.Size = new System.Drawing.Size(867, 384);
+         this.panelControl2.Size = new System.Drawing.Size(867, 386);
          this.panelControl2.TabIndex = 1;
          // 
          // panel1
@@ -322,7 +324,7 @@
          this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
          this.panel1.Location = new System.Drawing.Point(2, 2);
          this.panel1.Name = "panel1";
-         this.panel1.Size = new System.Drawing.Size(863, 380);
+         this.panel1.Size = new System.Drawing.Size(863, 382);
          this.panel1.TabIndex = 0;
          // 
          // gcMain
@@ -332,7 +334,7 @@
          this.gcMain.MainView = this.gvMain;
          this.gcMain.MenuManager = this.ribbonControl;
          this.gcMain.Name = "gcMain";
-         this.gcMain.Size = new System.Drawing.Size(863, 380);
+         this.gcMain.Size = new System.Drawing.Size(863, 382);
          this.gcMain.TabIndex = 0;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});

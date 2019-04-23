@@ -18,19 +18,19 @@ namespace PhoenixCI.BusinessLogic.Prefix4
    public class B40012: B4001xTemplate
    {
 
-      public B40012(string ProgramID, string FilePath, string emDate)
+      public B40012(string daoID, string FilePath, string emDate)
       {
-         this._TxnID = ProgramID;
+         this._TxnID = "40012";
          this._lsFile = FilePath;
          this._emDateText = emDate;
-         this.dao = new D4001x().ConcreteDao(ProgramID);
+         this.dao = new D4001x().ConcreteDao(daoID);
       }
 
       /// <summary>
       /// FMIF APDK_MARKET_CLOSE 值
       /// </summary>
       /// <returns>1 or 5 or 7</returns>
-      public override string GetOswGrp()
+      protected override string GetOswGrp()
       {
          return "5";
       }
@@ -40,7 +40,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
       /// </summary>
       /// <param name="worksheet"></param>
       /// <param name="dtR1"></param>
-      public override void WriteFutR1Data(Worksheet worksheet, DataTable dtR1)
+      protected override void WriteFutR1Data(Worksheet worksheet, DataTable dtR1)
       {
          worksheet.Import(dtR1, false, 2, 2);
       }
@@ -50,7 +50,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
       /// </summary>
       /// <param name="worksheet"></param>
       /// <param name="dtR2"></param>
-      public override void WriteFutR2Data(Worksheet worksheet, DataTable dtR2)
+      protected override void WriteFutR2Data(Worksheet worksheet, DataTable dtR2)
       {
          worksheet.Import(dtR2, false, 32, 2);
       }
@@ -61,7 +61,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
       /// </summary>
       /// <param name="worksheet"></param>
       /// <param name="dtR1"></param>
-      public override void WriteOptR1Data(Worksheet worksheet, DataTable dtR1)
+      protected override void WriteOptR1Data(Worksheet worksheet, DataTable dtR1)
       {
          worksheet.Import(dtR1, false, 8, 2);
       }
@@ -71,7 +71,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
       /// </summary>
       /// <param name="worksheet"></param>
       /// <param name="dtR2"></param>
-      public override void WriteOptR2Data(Worksheet worksheet, DataTable dtR2)
+      protected override void WriteOptR2Data(Worksheet worksheet, DataTable dtR2)
       {
          worksheet.Import(dtR2, false, 48, 3);
       }
@@ -80,7 +80,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
       /// rpt_option工作表 兩筆作業項目儲存格間距
       /// </summary>
       /// <returns></returns>
-      public override int OptWorkItemCellDist()
+      protected override int OptWorkItemCellDist()
       {
          return 3;
       }
