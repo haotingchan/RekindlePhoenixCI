@@ -1,6 +1,7 @@
 ﻿using OnePiece;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,7 @@ namespace DataObjects.Dao.Together.SpecificDao
          db = GlobalDaoSetting.DB;
       }
 
-      public DbDataAdapter ListAMMOAH(string is_sdate, string is_edate, string is_sum_type, string is_sum_subtype)
+      public DataTable ListAMMOAH(string is_sdate, string is_edate, string is_sum_type, string is_sum_subtype)
       {
          object[] parms = {
                 ":as_symd",is_sdate,
@@ -59,10 +60,11 @@ namespace DataObjects.Dao.Together.SpecificDao
      and '0' = AMMF_MARKET_CODE(+)
 ORDER BY amm0_ymd , amm0_brk_no , amm0_acc_no , amm0_prod_type , amm0_prod_id 
 ";
-         DbDataAdapter adapter = db.GetDataAdapter(sql, parms);
-         return adapter;
-      }//public DbDataAdapter ListAMMOAH
-      public DbDataAdapter ListAMMO(string is_sdate, string is_edate, string is_sum_type, string is_sum_subtype)
+         DataTable dt = db.GetDataTable(sql, parms);
+         return dt;
+      }//public DataTable ListAMMOAH
+
+      public DataTable ListAMMO(string is_sdate, string is_edate, string is_sum_type, string is_sum_subtype)
       {
          object[] parms = {
                 ":as_symd",is_sdate,
@@ -104,8 +106,9 @@ SELECT AMM0_YMD,
      and '0' = AMMF_MARKET_CODE(+)
    ORDER BY amm0_ymd , amm0_brk_no , amm0_acc_no , amm0_prod_type , amm0_prod_id 
 ";
-         DbDataAdapter adapter = db.GetDataAdapter(sql, parms);
-         return adapter;
-      }//public DbDataAdapter ListAMMO
+         DataTable dt = db.GetDataTable(sql, parms);
+         return dt;
+      }//public DataTable ListAMMO
+
    }
 }

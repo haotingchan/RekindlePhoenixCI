@@ -26,7 +26,7 @@ namespace PhoenixCI.FormUI.Prefix5
    public partial class W50036 : FormParent
    {
       private D50036 dao50036;
-      private DbDataAdapter is_dw_name { get; set; }
+      private DataTable is_dw_name { get; set; }
       public W50036(string programID, string programName) : base(programID, programName)
       {
          InitializeComponent();
@@ -77,7 +77,7 @@ namespace PhoenixCI.FormUI.Prefix5
          base.Retrieve();
          _ToolBtnExport.Enabled = true;
          if (!BeforeRetrieve()) return ResultStatus.Fail;
-         w500xx.wf_select_sqlcode(is_dw_name);
+         w500xx.WfLinqSyntaxSelect(is_dw_name);
          if (w500xx.RetrieveAfter(is_dw_name)) {
             reportView();
          }
@@ -86,8 +86,7 @@ namespace PhoenixCI.FormUI.Prefix5
 
       private void reportView()
       {
-         DataTable dt = new DataTable();
-         is_dw_name.Fill(dt);
+         DataTable dt = is_dw_name;
          List<ReportProp> caption = new List<ReportProp>{
             new ReportProp{dataColumn=ExtensionCommon.rowindex,caption= "筆數",cellWidth=146} ,
             new ReportProp{dataColumn="AMM0_YMD",caption="日期",cellWidth=224} ,
@@ -180,8 +179,7 @@ namespace PhoenixCI.FormUI.Prefix5
          /******************
          讀取資料
          ******************/
-         DataTable ids_1 = new DataTable();
-         is_dw_name.Fill(ids_1);
+         DataTable ids_1 = is_dw_name;
          if (ids_1.Rows.Count <= 0) {
             w500xx.AfterExport();
             return ResultStatus.Success;

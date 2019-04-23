@@ -55,10 +55,10 @@ namespace PhoenixCI.FormUI.Prefix5
          Input Condition
          *******************/
          //GlobalInfo.OCF_DATE = serviceCommon.GetOCF().OCF_DATE;
-         em_edate.EditValue = GlobalInfo.OCF_DATE;
-         em_sdate.EditValue = (em_edate.Text.Substring(0, 5) + "01").AsDateTime();
-         em_sym.EditValue = GlobalInfo.OCF_DATE;
-         em_eym.EditValue = GlobalInfo.OCF_DATE;
+         emEndDate.EditValue = GlobalInfo.OCF_DATE;
+         emStartDate.EditValue = (emEndDate.Text.Substring(0, 5) + "01").AsDateTime();
+         emStartYM.EditValue = GlobalInfo.OCF_DATE;
+         emEndYM.EditValue = GlobalInfo.OCF_DATE;
          /* 造市者代號 */
          ////////dw_sbrkno.settransobject(sqlca);
          ////////dw_sbrkno.insertrow(0);
@@ -132,8 +132,8 @@ namespace PhoenixCI.FormUI.Prefix5
       protected override ResultStatus Export()
       {
          base.Export();
-         st_msg_txt.Visible = true;
-         st_msg_txt.Text = "開始轉檔...";
+         stMsgTxt.Visible = true;
+         stMsgTxt.Text = "開始轉檔...";
          return ResultStatus.Success;
       }
 
@@ -169,28 +169,28 @@ namespace PhoenixCI.FormUI.Prefix5
          switch (as_type) {
             case "M":
                /* 只有月份 */
-               gp_date.Visibility = LayoutVisibility.Never;
-               gb_report_type.Visible = false;
+               gpDate.Visibility = LayoutVisibility.Never;
+               rbReportType.Visible = false;
                break;
             case "m":
-               gb_report_type.Visible = false;
-               gp_date.Visibility = LayoutVisibility.Never;
+               rbReportType.Visible = false;
+               gpDate.Visibility = LayoutVisibility.Never;
                /* 無迄止值 */
-               em_eym.Visible = false;
-               st_month.Visibility = LayoutVisibility.Never;
+               emEndYM.Visible = false;
+               stMonth.Visibility = LayoutVisibility.Never;
                break;
             case "D":
                /* 只有日期 */
-               gp_month.Visibility = LayoutVisibility.Never;
-               gb_report_type.Visible = false;
+               gpMonth.Visibility = LayoutVisibility.Never;
+               rbReportType.Visible = false;
                break;
             case "d":
                /* 只有日期 */
-               gp_month.Visibility = LayoutVisibility.Never;
-               gb_report_type.Visible = false;
+               gpMonth.Visibility = LayoutVisibility.Never;
+               rbReportType.Visible = false;
                /* 無迄止值 */
-               st_date.Visibility = LayoutVisibility.Never;
-               em_edate.Visible = false;
+               stDate.Visibility = LayoutVisibility.Never;
+               emEndDate.Visible = false;
                break;
             default:
                break;
@@ -217,10 +217,10 @@ namespace PhoenixCI.FormUI.Prefix5
          /*******************
          統計類別
          *******************/
-         if (gb_report_type.EditValue.Equals("rb_month")) {
+         if (rbReportType.EditValue.Equals("rb_month")) {
             is_sum_type = "M";
          }
-         else if (gb_report_type.EditValue.Equals("rb_date")) {
+         else if (rbReportType.EditValue.Equals("rb_date")) {
             is_sum_type = "D";
          }
 
@@ -252,7 +252,7 @@ namespace PhoenixCI.FormUI.Prefix5
          /*******************
          Sort順序
          *******************/
-         if (gb_print_sort.EditValue.Equals("rb_mmk")) {
+         if (gbPrintSort.EditValue.Equals("rb_mmk")) {
             is_sort_type = "F";
          }
          else {
@@ -334,17 +334,17 @@ namespace PhoenixCI.FormUI.Prefix5
       }
       public void wf_gb_print_sort(bool ab_visible_value, bool ab_enable_value, string as_type)
       {
-         gb_print_sort.Visible = ab_visible_value;
+         gbPrintSort.Visible = ab_visible_value;
 
-         gb_print_sort.Enabled = ab_enable_value;
+         gbPrintSort.Enabled = ab_enable_value;
 
          switch (as_type) {
             case "1":
-               gb_print_sort.EditValue = "rb_mmk";
+               gbPrintSort.EditValue = "rb_mmk";
                break;
 
             case "2":
-               gb_print_sort.EditValue = "rb_prod";
+               gbPrintSort.EditValue = "rb_prod";
                break;
             default:
                break;
@@ -352,17 +352,17 @@ namespace PhoenixCI.FormUI.Prefix5
       }
       public void wf_gb_detial(bool ab_visible_value, bool ab_enable_value, string as_type)
       {
-         gb_detial.Visible = ab_visible_value;
+         gbDetial.Visible = ab_visible_value;
 
-         gb_detial.Enabled = ab_enable_value;
+         gbDetial.Enabled = ab_enable_value;
 
          switch (as_type) {
             case "1":
-               gb_detial.EditValue = "rb_gdate";
+               gbDetial.EditValue = "rb_gdate";
                break;
 
             case "2":
-               gb_detial.EditValue = "rb_gnodate";
+               gbDetial.EditValue = "rb_gnodate";
                break;
             default:
                break;

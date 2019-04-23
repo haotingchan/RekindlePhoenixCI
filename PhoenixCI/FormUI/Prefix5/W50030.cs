@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using DataObjects.Dao.Together.SpecificDao;
 using BusinessObjects.Enums;
 using DevExpress.Spreadsheet;
@@ -7,19 +6,17 @@ using BusinessObjects;
 using Common;
 using BaseGround.Report;
 using BaseGround;
-using System.Data.Common;
-using static BaseGround.Report.ReportHelper;
-using System.Windows.Forms;
 using PhoenixCI.Report;
 using DevExpress.XtraPrinting.Caching;
 using System;
+using System.Linq;
 
 namespace PhoenixCI.FormUI.Prefix5
 {
    public partial class W50030 : FormParent
    {
       private D50030 dao50030;
-      private DbDataAdapter is_dw_name { get; set; }
+      private DataTable dataTable { get; set; }
       //private DataTable is_dw_name { get; set; }
       public string ls_date_type;
       public W50030(string programID, string programName) : base(programID, programName)
@@ -68,8 +65,7 @@ namespace PhoenixCI.FormUI.Prefix5
          base.Retrieve();
          //_ToolBtnExport.Enabled = true;
          BeforeRetrieve();
-         w500xx.wf_select_sqlcode(is_dw_name);
-         //is_dw_name = w500xx.wf_select_sqlcode_linq(is_dw_name);
+         dataTable = w500xx.WfLinqSyntaxSelect(dataTable);
          //if (w500xx.RetrieveAfter(is_dw_name)) {
          //   reportView();
          //}
@@ -81,8 +77,7 @@ namespace PhoenixCI.FormUI.Prefix5
 
       private void reportView()
       {
-         DataTable dt = new DataTable();
-         is_dw_name.Fill(dt);
+         DataTable dt = dataTable;
          //dt = is_dw_name;
          //List<ReportProp> caption = new List<ReportProp>{
          //   new ReportProp{ dataColumn=ExtensionCommon.rowindex,caption= "筆數"} ,
@@ -115,23 +110,19 @@ namespace PhoenixCI.FormUI.Prefix5
          /* 報表內容 */
          //報表內容選擇分日期
          if (w500xx.gb_detial.EditValue.Equals("rb_gdate")) {
-            is_dw_name = dao50030.ListD50030(w500xx.is_sum_type, w500xx.is_sum_subtype, w500xx.is_data_type);
-            //is_dw_name = dao50030.dt50030(w500xx.is_sum_type, w500xx.is_sum_subtype, w500xx.is_data_type);
+            dataTable = dao50030.ListD50030(w500xx.is_sum_type, w500xx.is_sum_subtype, w500xx.is_data_type);
             ls_date_type = "D";//匯出Excel時需要用到的判斷
             //交易時段選盤後
             if (w500xx.gb_market.EditValue.Equals("rb_market_1")) {
-               is_dw_name = dao50030.ListAH(w500xx.is_sum_type, w500xx.is_sum_subtype, w500xx.is_data_type);
-               //is_dw_name = dao50030.AH(w500xx.is_sum_type, w500xx.is_sum_subtype, w500xx.is_data_type);
+               dataTable = dao50030.ListAH(w500xx.is_sum_type, w500xx.is_sum_subtype, w500xx.is_data_type);
             }
          }
          else {
-            is_dw_name = dao50030.ListACCU(w500xx.is_sdate, w500xx.is_edate, w500xx.is_sum_type, w500xx.is_sum_subtype, w500xx.is_data_type);
-            //is_dw_name = dao50030.ACCU(w500xx.is_sdate, w500xx.is_edate, w500xx.is_sum_type, w500xx.is_sum_subtype, w500xx.is_data_type);
+            dataTable = dao50030.ListACCU(w500xx.is_sdate, w500xx.is_edate, w500xx.is_sum_type, w500xx.is_sum_subtype, w500xx.is_data_type);
             ls_date_type = "A";//匯出Excel時需要用到的判斷
             //交易時段選盤後
             if (w500xx.gb_market.EditValue.Equals("rb_market_1")) {
-               is_dw_name = dao50030.ListACCUAH(w500xx.is_sdate, w500xx.is_edate, w500xx.is_sum_type, w500xx.is_sum_subtype, w500xx.is_data_type);
-               //is_dw_name = dao50030.ACCUAH(w500xx.is_sdate, w500xx.is_edate, w500xx.is_sum_type, w500xx.is_sum_subtype, w500xx.is_data_type);
+               dataTable = dao50030.ListACCUAH(w500xx.is_sdate, w500xx.is_edate, w500xx.is_sum_type, w500xx.is_sum_subtype, w500xx.is_data_type);
                ls_date_type = "D";//匯出Excel時需要用到的判斷
             }
          }
@@ -190,8 +181,7 @@ namespace PhoenixCI.FormUI.Prefix5
          /******************
          讀取資料
          ******************/
-         DataTable ids_1 = new DataTable();
-         is_dw_name.Fill(ids_1);
+         DataTable ids_1 = dataTable;
 
          //ids_1 = is_dw_name;
          if (ids_1.Rows.Count <= 0) {

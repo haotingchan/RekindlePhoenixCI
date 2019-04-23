@@ -12,7 +12,7 @@ namespace DataObjects.Dao.Together.SpecificDao
       {
       }
 
-      public DbDataAdapter ListD50032
+      public DataTable ListD50032
          (string is_sbrkno, string is_ebrkno, string is_prod_category, string is_prod_kind_id_sto,string is_sdate, string is_edate)
       {
          object[] parms = {
@@ -57,10 +57,11 @@ namespace DataObjects.Dao.Together.SpecificDao
      and substr(AMM0_YMD,1,6) = AMMF_YM
      and AMMF_MARKET_CODE = '0'
 ";
-         DbDataAdapter adapter = db.GetDataAdapter(sql, parms);
-         return adapter;
-      }//public DbDataAdapter ListD50032
-      public DbDataAdapter ListChk(string is_sdate, string is_edate)
+         DataTable dt = db.GetDataTable(sql, parms);
+         return dt;
+      }//public DataTable ListD50032
+
+      public DataTable ListChk(string is_sdate, string is_edate)
       {
          object[] parms = {
                 ":as_symd",is_sdate,
@@ -98,8 +99,9 @@ namespace DataObjects.Dao.Together.SpecificDao
      and '0' = AMMF_MARKET_CODE(+))  
  GROUP BY AMM0_YMD,AMM0_BRK_NO,AMM0_PROD_TYPE,AMM0_PROD_ID
 ";
-         DbDataAdapter adapter = db.GetDataAdapter(sql, parms);
-         return adapter;
-      }//public DbDataAdapter ListChk
+         DataTable dt = db.GetDataTable(sql, parms);
+         return dt;
+      }//public DataTable ListChk
+
    }
 }
