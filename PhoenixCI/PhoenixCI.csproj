@@ -1972,6 +1972,9 @@
     <EmbeddedResource Include="FormUI\Prefix4\W40110.resx">
       <DependentUpon>W40110.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W40130.resx">
+      <DependentUpon>W40130.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix4\W40190.resx">
       <DependentUpon>W40190.cs</DependentUpon>
     </EmbeddedResource>
