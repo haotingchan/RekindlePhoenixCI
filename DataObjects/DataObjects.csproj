@@ -332,6 +332,7 @@
     <Compile Include="Dao\Together\TableDao\STW.cs" />
     <Compile Include="Dao\Together\TableDao\STWD.cs" />
     <Compile Include="Dao\Together\TableDao\TPPINTD  .cs" />
+    <Compile Include="Dao\Together\TableDao\TPRICES_OPT.cs" />
     <Compile Include="Dao\Together\TableDao\TSE1.cs" />
     <Compile Include="Dao\Together\TableDao\TXEMAIL.cs" />
     <Compile Include="Dao\Together\TableDao\TFXMSE.cs" />
