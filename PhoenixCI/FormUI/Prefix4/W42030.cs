@@ -14,6 +14,7 @@ using Common;
 using DataObjects.Dao.Together.SpecificDao;
 using BaseGround.Shared;
 using DevExpress.Spreadsheet;
+using System.Threading;
 
 /// <summary>
 /// Lukas, 2019/3/18
@@ -60,10 +61,20 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return ResultStatus.Success;
         }
 
+        protected void ShowMsg(string msg) {
+            lblProcessing.Text = msg;
+            this.Refresh();
+            Thread.Sleep(5);
+        }
+
         protected override ResultStatus Export() {
 
             try {
+                this.Cursor = Cursors.WaitCursor;
+                this.Refresh();
+                Thread.Sleep(5);
                 lblProcessing.Visible = true;
+                ShowMsg("開始轉檔...");
                 dao42030 = new D42030();
                 #region ue_export_before
                 //1. 判斷資料已轉入
@@ -93,24 +104,24 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 int rowStart;
                 rptName = "上市證券保證金概況表";
                 rptId = "42030";
-                lblProcessing.Text = rptId + '－' + rptName + " 轉檔中...";
 
-                //1. 複製檔案
-                file = PbFunc.wf_copy_file(rptId, rptId);
-                if (file == "") {
-                    return ResultStatus.Fail;
-                }
-
-                //2. 讀取資料(保證金適用比例級距)
+                //1. 讀取資料(保證金適用比例級距)
                 DataTable dt42030 = dao42030.d_42030(ymd);
                 if (dt42030.Rows.Count == 0) {
                     MessageDisplay.Info(txtSDate.Text + "," + rptId + '－' + rptName + ",讀取「當日上市證券保證金適用比例」無任何資料!");
                     return ResultStatus.Fail;
                 }
 
+                //2. 複製檔案
+                file = PbFunc.wf_copy_file(rptId, rptId);
+                if (file == "") {
+                    return ResultStatus.Fail;
+                }
+
                 //3. 開啟檔案
                 Workbook workbook = new Workbook();
                 workbook.LoadDocument(file);
+                ShowMsg(rptId + '－' + rptName + " 轉檔中...");
 
                 //4. 切換Sheet
                 Worksheet ws42030 = workbook.Worksheets[0];
@@ -129,13 +140,17 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 //7. 存檔
                 ws42030.ScrollToRow(0);
                 workbook.SaveDocument(file);
+                ShowMsg("轉檔成功");
             }
             catch (Exception ex) {
-                //WriteLog(ex, "", false); 如果不用throw會繼續往下執行(?
-                lblProcessing.Text = "轉檔失敗";
+                MessageDisplay.Error("輸出錯誤");
                 throw ex;
             }
-            lblProcessing.Text = "轉檔成功";
+            finally {
+                this.Cursor = Cursors.Arrow;
+                this.Refresh();
+                Thread.Sleep(5);
+            }
             return ResultStatus.Success;
         }
     }
