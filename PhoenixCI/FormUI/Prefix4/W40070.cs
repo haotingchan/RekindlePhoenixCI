@@ -66,7 +66,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             item3.Description = "MaxVol";
             item3.Value = "M";
             RadioGroupItem item4 = new RadioGroupItem();
-            item4.Description = "自訂";
+            item4.Description = "使用者自訂";
             item4.Value = "U";
 
             RepositoryItemRadioGroup repositoryItemRadioGroup = new RepositoryItemRadioGroup();
@@ -76,7 +76,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             repositoryItemRadioGroup.Items.Add(item4);
             repositoryItemRadioGroup.Columns = 4;
             ADJ_RSN.ColumnEdit = repositoryItemRadioGroup;
-            ADJ_RSN.ColumnEdit.Appearance.TextOptions.HAlignment = HorzAlignment.Center;
+            //ADJ_RSN.ColumnEdit.Appearance.TextOptions.HAlignment = HorzAlignment.Near;
 
             //不處理/觀察/調整 RadioGroup
             RadioGroupItem item5 = new RadioGroupItem();
