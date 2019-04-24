@@ -7,6 +7,8 @@ using DevExpress.Spreadsheet;
 using System;
 using System.Data;
 using System.IO;
+using System.Threading;
+using System.Windows.Forms;
 
 /// <summary>
 /// Winni, 2019/3/13
@@ -24,7 +26,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
          txtStartDate.DateTimeValue = GlobalInfo.OCF_DATE;
 
 #if DEBUG
-         //ken test
          txtStartDate.DateTimeValue = DateTime.ParseExact("2015/04/22" , "yyyy/MM/dd" , null);
          this.Text += "(開啟測試模式),Date=2015/04/22";
 #endif
@@ -39,12 +40,28 @@ namespace PhoenixCI.FormUI.Prefix4 {
          return ResultStatus.Success;
       }
 
+      protected void ShowMsg(string msg) {
+         labMsg.Text = msg;
+         labMsg.Visible = true;
+         this.Refresh();
+         Thread.Sleep(5);
+      }
+
+
       /// <summary>
       /// Export return 1 txt & 1 excel
       /// </summary>
       /// <returns></returns>
       protected override ResultStatus Export() {
          try {
+
+            //0. ready
+            panFilter.Enabled = false;
+            labMsg.Visible = true;
+            ShowMsg("開始轉檔...");
+            this.Cursor = Cursors.WaitCursor;
+            this.Refresh();
+            Thread.Sleep(5);
 
             //1. 寫資料到文字檔
             bool isText = false;
@@ -53,21 +70,16 @@ namespace PhoenixCI.FormUI.Prefix4 {
                return ResultStatus.Fail;
             }
 
-            //2. 寫資料到excel
-            panFilter.Enabled = false;
-            labMsg.Visible = true;
-            labMsg.Text = "訊息：40140_2-保證金比較轉檔中...";
-            this.Refresh();
-
-            //2.1 複製、開啟檔案
+            //2. 複製、開啟檔案
             Workbook workbook = new Workbook();
             string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID);
             workbook.LoadDocument(excelDestinationPath);
             Worksheet worksheet = workbook.Worksheets[0];
 
+            //2.1 填資料
             DataTable dt = new D40140().ListMoneyData(txtStartDate.DateTimeValue);
-            if (dt.Rows.Count <= 0 ) {
-               MessageDisplay.Info(String.Format("{0},讀取「國外保證金資料」無任何資料!",txtStartDate.Text));
+            if (dt.Rows.Count <= 0) {
+               MessageDisplay.Info(String.Format("{0},讀取「國外保證金資料」無任何資料!" , txtStartDate.Text));
             }//if (dt.Rows.Count <= 0 )
 
             foreach (DataRow dr in dt.Rows) {
@@ -96,13 +108,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             }//foreach (DataRow dr in dt.Rows)
 
-            //2.3 關閉、儲存檔案
+            //3. 關閉、儲存檔案
             workbook.SaveDocument(excelDestinationPath);
             labMsg.Visible = false;
 
+#if DEBUG
             if (FlagAdmin)
                System.Diagnostics.Process.Start(excelDestinationPath);
-
+#endif
             return ResultStatus.Success;
 
          } catch (Exception ex) {
@@ -111,6 +124,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             panFilter.Enabled = true;
             labMsg.Text = "";
             labMsg.Visible = false;
+            this.Cursor = Cursors.Arrow;
          }
          return ResultStatus.Fail;
       }
@@ -152,7 +166,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                string com = dr["com"].AsString();
                Decimal outIm = dr["out_im"].AsDecimal();
                Decimal exchangeRate = dr["exchange_rate"].AsDecimal();
-               Decimal mg1Im = dr["mg1_im"].AsDecimal(); 
+               Decimal mg1Im = dr["mg1_im"].AsDecimal();
                dr.BeginEdit();
                if (com == "TOC01" && exchangeRate > 0) {
                   dr["out_im"] = Math.Round((mg1Im / exchangeRate * 3.11m) , 0);
@@ -318,7 +332,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   String.Format("{0:N0}" , Math.Round(exchangeRate , 0)) + "日圓對1美元計算)及重量單位(100盎司=3.11公斤)換算後，約為";
 
                if (exchangeRate > 0) {
-                  
+
                   txt += String.Format("{0:N0}" , Math.Round((mg1Im / exchangeRate * 3.11m) , 0)).AsString();
                }//if (exchangeRate > 0)
 

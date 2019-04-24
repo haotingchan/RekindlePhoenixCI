@@ -28,8 +28,6 @@
          this.sle_1 = new DevExpress.XtraEditors.TextEdit();
          this.dw_prod_kd = new DevExpress.XtraEditors.LookUpEdit();
          this.dw_sbrkno = new DevExpress.XtraEditors.LookUpEdit();
-         this.groupBox2 = new System.Windows.Forms.GroupBox();
-         this.gb_market = new DevExpress.XtraEditors.RadioGroup();
          this.ddlb_1 = new DevExpress.XtraEditors.ComboBoxEdit();
          this.label8 = new System.Windows.Forms.Label();
          this.label7 = new System.Windows.Forms.Label();
@@ -38,12 +36,8 @@
          this.label4 = new System.Windows.Forms.Label();
          this.label3 = new System.Windows.Forms.Label();
          this.label2 = new System.Windows.Forms.Label();
-         this.txtEndTime = new DevExpress.XtraEditors.TimeEdit();
-         this.txtEndDate = new DevExpress.XtraEditors.DateEdit();
-         this.txtStartTime = new DevExpress.XtraEditors.TimeEdit();
          this.label1 = new System.Windows.Forms.Label();
          this.lblDpt = new System.Windows.Forms.Label();
-         this.txtStartDate = new DevExpress.XtraEditors.DateEdit();
          this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
          this.trade_time = new System.Windows.Forms.Label();
          this.ammd_date = new System.Windows.Forms.Label();
@@ -62,6 +56,11 @@
          this.AMMD_B_QNTY = new DevExpress.XtraGrid.Columns.GridColumn();
          this.AMMD_S_QNTY = new DevExpress.XtraGrid.Columns.GridColumn();
          this.AMMD_W_TIME = new DevExpress.XtraGrid.Columns.GridColumn();
+         this.txtStartDate = new BaseGround.Widget.TextDateEdit();
+         this.txtEndDate = new BaseGround.Widget.TextDateEdit();
+         this.txtStartTime = new BaseGround.Widget.TextDateEdit();
+         this.txtEndTime = new BaseGround.Widget.TextDateEdit();
+         this.gb_market = new DevExpress.XtraEditors.RadioGroup();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -70,27 +69,25 @@
          ((System.ComponentModel.ISupportInitialize)(this.sle_1.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.dw_prod_kd.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.dw_sbrkno.Properties)).BeginInit();
-         this.groupBox2.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.gb_market.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.ddlb_1.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtEndTime.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties.CalendarTimeProperties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtStartTime.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties.CalendarTimeProperties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
          this.panelControl2.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl3)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtStartTime.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtEndTime.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.gb_market.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
          // 
          this.panParent.Controls.Add(this.gcMain);
-         this.panParent.Location = new System.Drawing.Point(0, 210);
-         this.panParent.Size = new System.Drawing.Size(802, 404);
+         this.panParent.Controls.Add(this.panelControl2);
+         this.panParent.Location = new System.Drawing.Point(0, 187);
+         this.panParent.Size = new System.Drawing.Size(802, 427);
          // 
          // ribbonControl
          // 
@@ -100,11 +97,15 @@
          // 
          // panelControl1
          // 
+         this.panelControl1.Controls.Add(this.gb_market);
+         this.panelControl1.Controls.Add(this.txtEndTime);
+         this.panelControl1.Controls.Add(this.txtStartTime);
+         this.panelControl1.Controls.Add(this.txtEndDate);
+         this.panelControl1.Controls.Add(this.txtStartDate);
          this.panelControl1.Controls.Add(this.ddlb_2);
          this.panelControl1.Controls.Add(this.sle_1);
          this.panelControl1.Controls.Add(this.dw_prod_kd);
          this.panelControl1.Controls.Add(this.dw_sbrkno);
-         this.panelControl1.Controls.Add(this.groupBox2);
          this.panelControl1.Controls.Add(this.ddlb_1);
          this.panelControl1.Controls.Add(this.label8);
          this.panelControl1.Controls.Add(this.label7);
@@ -113,22 +114,17 @@
          this.panelControl1.Controls.Add(this.label4);
          this.panelControl1.Controls.Add(this.label3);
          this.panelControl1.Controls.Add(this.label2);
-         this.panelControl1.Controls.Add(this.txtEndTime);
-         this.panelControl1.Controls.Add(this.txtEndDate);
-         this.panelControl1.Controls.Add(this.txtStartTime);
          this.panelControl1.Controls.Add(this.label1);
          this.panelControl1.Controls.Add(this.lblDpt);
-         this.panelControl1.Controls.Add(this.txtStartDate);
-         this.panelControl1.Controls.Add(this.panelControl2);
          this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
          this.panelControl1.Location = new System.Drawing.Point(0, 30);
          this.panelControl1.Name = "panelControl1";
-         this.panelControl1.Size = new System.Drawing.Size(802, 180);
+         this.panelControl1.Size = new System.Drawing.Size(802, 157);
          this.panelControl1.TabIndex = 0;
          // 
          // ddlb_2
          // 
-         this.ddlb_2.Location = new System.Drawing.Point(445, 84);
+         this.ddlb_2.Location = new System.Drawing.Point(432, 84);
          this.ddlb_2.MenuManager = this.ribbonControl;
          this.ddlb_2.Name = "ddlb_2";
          this.ddlb_2.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
@@ -153,7 +149,7 @@
          // 
          // sle_1
          // 
-         this.sle_1.Location = new System.Drawing.Point(445, 120);
+         this.sle_1.Location = new System.Drawing.Point(432, 120);
          this.sle_1.MenuManager = this.ribbonControl;
          this.sle_1.Name = "sle_1";
          this.sle_1.Properties.Mask.EditMask = "n";
@@ -162,7 +158,7 @@
          // 
          // dw_prod_kd
          // 
-         this.dw_prod_kd.Location = new System.Drawing.Point(445, 46);
+         this.dw_prod_kd.Location = new System.Drawing.Point(432, 46);
          this.dw_prod_kd.MenuManager = this.ribbonControl;
          this.dw_prod_kd.Name = "dw_prod_kd";
          this.dw_prod_kd.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
@@ -175,7 +171,7 @@
          // 
          // dw_sbrkno
          // 
-         this.dw_sbrkno.Location = new System.Drawing.Point(445, 7);
+         this.dw_sbrkno.Location = new System.Drawing.Point(432, 7);
          this.dw_sbrkno.MenuManager = this.ribbonControl;
          this.dw_sbrkno.Name = "dw_sbrkno";
          this.dw_sbrkno.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
@@ -187,34 +183,9 @@
          this.dw_sbrkno.Size = new System.Drawing.Size(260, 26);
          this.dw_sbrkno.TabIndex = 79;
          // 
-         // groupBox2
-         // 
-         this.groupBox2.Controls.Add(this.gb_market);
-         this.groupBox2.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.groupBox2.Location = new System.Drawing.Point(99, 76);
-         this.groupBox2.Name = "groupBox2";
-         this.groupBox2.Size = new System.Drawing.Size(216, 46);
-         this.groupBox2.TabIndex = 80;
-         this.groupBox2.TabStop = false;
-         // 
-         // gb_market
-         // 
-         this.gb_market.EditValue = "rb_market_0";
-         this.gb_market.Location = new System.Drawing.Point(6, 11);
-         this.gb_market.Name = "gb_market";
-         this.gb_market.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
-         this.gb_market.Properties.Appearance.Options.UseBackColor = true;
-         this.gb_market.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-         this.gb_market.Properties.Columns = 2;
-         this.gb_market.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_market_0", "一般"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_market_1", "夜盤")});
-         this.gb_market.Size = new System.Drawing.Size(204, 35);
-         this.gb_market.TabIndex = 0;
-         // 
          // ddlb_1
          // 
-         this.ddlb_1.Location = new System.Drawing.Point(674, 45);
+         this.ddlb_1.Location = new System.Drawing.Point(661, 45);
          this.ddlb_1.MenuManager = this.ribbonControl;
          this.ddlb_1.Name = "ddlb_1";
          this.ddlb_1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
@@ -229,7 +200,7 @@
          // label8
          // 
          this.label8.AutoSize = true;
-         this.label8.Location = new System.Drawing.Point(568, 123);
+         this.label8.Location = new System.Drawing.Point(555, 123);
          this.label8.Name = "label8";
          this.label8.Size = new System.Drawing.Size(81, 20);
          this.label8.TabIndex = 75;
@@ -238,7 +209,7 @@
          // label7
          // 
          this.label7.AutoSize = true;
-         this.label7.Location = new System.Drawing.Point(391, 52);
+         this.label7.Location = new System.Drawing.Point(378, 52);
          this.label7.Name = "label7";
          this.label7.Size = new System.Drawing.Size(57, 20);
          this.label7.TabIndex = 74;
@@ -247,7 +218,7 @@
          // label6
          // 
          this.label6.AutoSize = true;
-         this.label6.Location = new System.Drawing.Point(375, 13);
+         this.label6.Location = new System.Drawing.Point(362, 13);
          this.label6.Name = "label6";
          this.label6.Size = new System.Drawing.Size(73, 20);
          this.label6.TabIndex = 73;
@@ -256,7 +227,7 @@
          // label5
          // 
          this.label5.AutoSize = true;
-         this.label5.Location = new System.Drawing.Point(343, 87);
+         this.label5.Location = new System.Drawing.Point(330, 87);
          this.label5.Name = "label5";
          this.label5.Size = new System.Drawing.Size(105, 20);
          this.label5.TabIndex = 72;
@@ -265,7 +236,7 @@
          // label4
          // 
          this.label4.AutoSize = true;
-         this.label4.Location = new System.Drawing.Point(588, 49);
+         this.label4.Location = new System.Drawing.Point(575, 49);
          this.label4.Name = "label4";
          this.label4.Size = new System.Drawing.Size(89, 20);
          this.label4.TabIndex = 71;
@@ -274,7 +245,7 @@
          // label3
          // 
          this.label3.AutoSize = true;
-         this.label3.Location = new System.Drawing.Point(359, 123);
+         this.label3.Location = new System.Drawing.Point(346, 123);
          this.label3.Name = "label3";
          this.label3.Size = new System.Drawing.Size(89, 20);
          this.label3.TabIndex = 70;
@@ -288,49 +259,6 @@
          this.label2.Size = new System.Drawing.Size(89, 20);
          this.label2.TabIndex = 69;
          this.label2.Text = "交易時段：";
-         // 
-         // txtEndTime
-         // 
-         this.txtEndTime.EditValue = new System.DateTime(((long)(0)));
-         this.txtEndTime.Location = new System.Drawing.Point(238, 44);
-         this.txtEndTime.MenuManager = this.ribbonControl;
-         this.txtEndTime.Name = "txtEndTime";
-         this.txtEndTime.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.txtEndTime.Properties.Mask.EditMask = "\\d?\\d:\\d\\d";
-         this.txtEndTime.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
-         this.txtEndTime.Size = new System.Drawing.Size(77, 26);
-         this.txtEndTime.TabIndex = 68;
-         // 
-         // txtEndDate
-         // 
-         this.txtEndDate.EditValue = new System.DateTime(2018, 12, 13, 16, 16, 48, 15);
-         this.txtEndDate.Location = new System.Drawing.Point(99, 44);
-         this.txtEndDate.MenuManager = this.ribbonControl;
-         this.txtEndDate.Name = "txtEndDate";
-         this.txtEndDate.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.txtEndDate.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.txtEndDate.Properties.DisplayFormat.FormatString = "yyyy/MM/dd";
-         this.txtEndDate.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-         this.txtEndDate.Properties.Mask.EditMask = "D";
-         this.txtEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.None;
-         this.txtEndDate.Size = new System.Drawing.Size(117, 26);
-         this.txtEndDate.TabIndex = 67;
-         // 
-         // txtStartTime
-         // 
-         this.txtStartTime.EditValue = new System.DateTime(((long)(0)));
-         this.txtStartTime.Location = new System.Drawing.Point(238, 7);
-         this.txtStartTime.MenuManager = this.ribbonControl;
-         this.txtStartTime.Name = "txtStartTime";
-         this.txtStartTime.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.txtStartTime.Properties.Mask.EditMask = "\\d?\\d:\\d\\d";
-         this.txtStartTime.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
-         this.txtStartTime.Size = new System.Drawing.Size(77, 26);
-         this.txtStartTime.TabIndex = 66;
          // 
          // label1
          // 
@@ -350,34 +278,17 @@
          this.lblDpt.TabIndex = 63;
          this.lblDpt.Text = "交易時間：";
          // 
-         // txtStartDate
-         // 
-         this.txtStartDate.EditValue = new System.DateTime(2018, 12, 13, 16, 17, 13, 827);
-         this.txtStartDate.Location = new System.Drawing.Point(99, 7);
-         this.txtStartDate.MenuManager = this.ribbonControl;
-         this.txtStartDate.Name = "txtStartDate";
-         this.txtStartDate.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.txtStartDate.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.txtStartDate.Properties.DisplayFormat.FormatString = "yyyy/MM/dd";
-         this.txtStartDate.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-         this.txtStartDate.Properties.Mask.EditMask = "D";
-         this.txtStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.None;
-         this.txtStartDate.Size = new System.Drawing.Size(117, 26);
-         this.txtStartDate.TabIndex = 65;
-         // 
          // panelControl2
          // 
-         this.panelControl2.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(236)))), ((int)(((byte)(239)))));
+         this.panelControl2.Appearance.BackColor = System.Drawing.Color.White;
          this.panelControl2.Appearance.Options.UseBackColor = true;
          this.panelControl2.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.panelControl2.Controls.Add(this.trade_time);
          this.panelControl2.Controls.Add(this.ammd_date);
-         this.panelControl2.Dock = System.Windows.Forms.DockStyle.Bottom;
-         this.panelControl2.Location = new System.Drawing.Point(2, 148);
+         this.panelControl2.Dock = System.Windows.Forms.DockStyle.Top;
+         this.panelControl2.Location = new System.Drawing.Point(12, 12);
          this.panelControl2.Name = "panelControl2";
-         this.panelControl2.Size = new System.Drawing.Size(798, 30);
+         this.panelControl2.Size = new System.Drawing.Size(778, 30);
          this.panelControl2.TabIndex = 62;
          // 
          // trade_time
@@ -403,18 +314,18 @@
          // panelControl3
          // 
          this.panelControl3.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.panelControl3.Location = new System.Drawing.Point(0, 210);
+         this.panelControl3.Location = new System.Drawing.Point(0, 187);
          this.panelControl3.Name = "panelControl3";
-         this.panelControl3.Size = new System.Drawing.Size(802, 404);
+         this.panelControl3.Size = new System.Drawing.Size(802, 427);
          this.panelControl3.TabIndex = 2;
          // 
          // gcMain
          // 
          this.gcMain.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.gcMain.Location = new System.Drawing.Point(12, 12);
+         this.gcMain.Location = new System.Drawing.Point(12, 42);
          this.gcMain.MainView = this.gvMain;
          this.gcMain.Name = "gcMain";
-         this.gcMain.Size = new System.Drawing.Size(778, 380);
+         this.gcMain.Size = new System.Drawing.Size(778, 373);
          this.gcMain.TabIndex = 1;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -535,8 +446,101 @@
          this.AMMD_W_TIME.Visible = true;
          this.AMMD_W_TIME.VisibleIndex = 11;
          // 
+         // txtStartDate
+         // 
+         this.txtStartDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtStartDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtStartDate.EditValue = "2018/12";
+         this.txtStartDate.EnterMoveNextControl = true;
+         this.txtStartDate.Location = new System.Drawing.Point(99, 7);
+         this.txtStartDate.MenuManager = this.ribbonControl;
+         this.txtStartDate.Name = "txtStartDate";
+         this.txtStartDate.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtStartDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtStartDate.Properties.Mask.EditMask = "yyyy/MM/dd";
+         this.txtStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtStartDate.Properties.Mask.ShowPlaceHolders = false;
+         this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtStartDate.Size = new System.Drawing.Size(117, 26);
+         this.txtStartDate.TabIndex = 82;
+         this.txtStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         // 
+         // txtEndDate
+         // 
+         this.txtEndDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtEndDate.EditValue = "2018/12";
+         this.txtEndDate.EnterMoveNextControl = true;
+         this.txtEndDate.Location = new System.Drawing.Point(99, 45);
+         this.txtEndDate.MenuManager = this.ribbonControl;
+         this.txtEndDate.Name = "txtEndDate";
+         this.txtEndDate.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtEndDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtEndDate.Properties.Mask.EditMask = "yyyy/MM/dd";
+         this.txtEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
+         this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtEndDate.Size = new System.Drawing.Size(117, 26);
+         this.txtEndDate.TabIndex = 83;
+         this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         // 
+         // txtStartTime
+         // 
+         this.txtStartTime.DateTimeValue = new System.DateTime(((long)(0)));
+         this.txtStartTime.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtStartTime.EditValue = "08:45";
+         this.txtStartTime.EnterMoveNextControl = true;
+         this.txtStartTime.Location = new System.Drawing.Point(222, 7);
+         this.txtStartTime.MenuManager = this.ribbonControl;
+         this.txtStartTime.Name = "txtStartTime";
+         this.txtStartTime.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtStartTime.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtStartTime.Properties.Mask.EditMask = "(0?\\d|1\\d|2[0-3])\\:[0-5]\\d";
+         this.txtStartTime.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.txtStartTime.Properties.Mask.ShowPlaceHolders = false;
+         this.txtStartTime.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtStartTime.Size = new System.Drawing.Size(77, 26);
+         this.txtStartTime.TabIndex = 84;
+         this.txtStartTime.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         // 
+         // txtEndTime
+         // 
+         this.txtEndTime.DateTimeValue = new System.DateTime(((long)(0)));
+         this.txtEndTime.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtEndTime.EditValue = "13:45";
+         this.txtEndTime.EnterMoveNextControl = true;
+         this.txtEndTime.Location = new System.Drawing.Point(222, 44);
+         this.txtEndTime.MenuManager = this.ribbonControl;
+         this.txtEndTime.Name = "txtEndTime";
+         this.txtEndTime.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtEndTime.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtEndTime.Properties.Mask.EditMask = "(0?\\d|1\\d|2[0-3])\\:[0-5]\\d";
+         this.txtEndTime.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.txtEndTime.Properties.Mask.ShowPlaceHolders = false;
+         this.txtEndTime.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtEndTime.Size = new System.Drawing.Size(77, 26);
+         this.txtEndTime.TabIndex = 85;
+         this.txtEndTime.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         // 
+         // gb_market
+         // 
+         this.gb_market.EditValue = "rb_market_0";
+         this.gb_market.Location = new System.Drawing.Point(99, 79);
+         this.gb_market.Name = "gb_market";
+         this.gb_market.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
+         this.gb_market.Properties.Appearance.Options.UseBackColor = true;
+         this.gb_market.Properties.Columns = 2;
+         this.gb_market.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Default;
+         this.gb_market.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_market_0", "一般"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_market_1", "夜盤")});
+         this.gb_market.Size = new System.Drawing.Size(200, 35);
+         this.gb_market.TabIndex = 0;
+         // 
          // W50050
          // 
+         this.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.Appearance.Options.UseBackColor = true;
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -558,21 +562,18 @@
          ((System.ComponentModel.ISupportInitialize)(this.sle_1.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.dw_prod_kd.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.dw_sbrkno.Properties)).EndInit();
-         this.groupBox2.ResumeLayout(false);
-         ((System.ComponentModel.ISupportInitialize)(this.gb_market.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.ddlb_1.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtEndTime.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties.CalendarTimeProperties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtStartTime.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties.CalendarTimeProperties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
          this.panelControl2.ResumeLayout(false);
          this.panelControl2.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl3)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtStartTime.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtEndTime.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.gb_market.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -589,8 +590,6 @@
       private DevExpress.XtraEditors.TextEdit sle_1;
       private DevExpress.XtraEditors.LookUpEdit dw_prod_kd;
       private DevExpress.XtraEditors.LookUpEdit dw_sbrkno;
-      protected System.Windows.Forms.GroupBox groupBox2;
-      protected DevExpress.XtraEditors.RadioGroup gb_market;
       private DevExpress.XtraEditors.ComboBoxEdit ddlb_1;
       private System.Windows.Forms.Label label8;
       private System.Windows.Forms.Label label7;
@@ -599,12 +598,8 @@
       private System.Windows.Forms.Label label4;
       private System.Windows.Forms.Label label3;
       private System.Windows.Forms.Label label2;
-      private DevExpress.XtraEditors.TimeEdit txtEndTime;
-      private DevExpress.XtraEditors.DateEdit txtEndDate;
-      private DevExpress.XtraEditors.TimeEdit txtStartTime;
       private System.Windows.Forms.Label label1;
       private System.Windows.Forms.Label lblDpt;
-      private DevExpress.XtraEditors.DateEdit txtStartDate;
       private DevExpress.XtraGrid.GridControl gcMain;
       private DevExpress.XtraGrid.Views.Grid.GridView gvMain;
       private DevExpress.XtraGrid.Columns.GridColumn AMMD_BRK_NO;
@@ -619,5 +614,10 @@
       private DevExpress.XtraGrid.Columns.GridColumn AMMD_B_QNTY;
       private DevExpress.XtraGrid.Columns.GridColumn AMMD_S_QNTY;
       private DevExpress.XtraGrid.Columns.GridColumn AMMD_W_TIME;
+      protected DevExpress.XtraEditors.RadioGroup gb_market;
+      private BaseGround.Widget.TextDateEdit txtEndTime;
+      private BaseGround.Widget.TextDateEdit txtStartTime;
+      private BaseGround.Widget.TextDateEdit txtEndDate;
+      private BaseGround.Widget.TextDateEdit txtStartDate;
    }
 }

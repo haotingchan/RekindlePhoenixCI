@@ -69,7 +69,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             return ResultStatus.Fail;
          }
          //存CSV
-         string etfFileName = "50050_" + DateTime.Now.ToString("yyyy.MM.dd-hh.mm.ss") + ".csv";
+         string etfFileName = "50050_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".csv";
          etfFileName = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , etfFileName);
          ExportOptions csvref = new ExportOptions();
          csvref.HasHeader = true;
