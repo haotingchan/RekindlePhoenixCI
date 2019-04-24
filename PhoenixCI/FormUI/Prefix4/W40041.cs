@@ -57,7 +57,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          DataTable dt = new DataTable();
          dt = dao40041.ListData(changeFlag, txtDate.DateTimeValue, oswGrp);
-         gcMain.DataSource = dt;
 
          if (dt == null) {
             MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
@@ -72,6 +71,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gcMain.Visible = false;
             return ResultStatus.Fail;
          }
+
+         if (prodLookItem.EditValue.AsString() == "Y") {
+            dt = dt.Select("MG1_KIND_ID <> 'GBF' and MG1_KIND_ID <> 'CPF'").CopyToDataTable();
+         }
+
+         gcMain.DataSource = dt;
 
          //設定 column caption
          foreach (DataColumn dc in dt.Columns) {
@@ -104,6 +109,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gvMain.Columns[i].Visible = false;
          }
 
+         GridHelper.SetCommonGrid(gvMain);
          gvMain.CellValueChanged += gvMain_CellValueChanged;
 
          _ToolBtnExport.Enabled = true;
