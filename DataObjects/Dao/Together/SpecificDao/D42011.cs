@@ -130,10 +130,11 @@ SELECT MGT2_ADJUST_RATE AS LD_CM_RATE1
             string sql =
 @"
 SELECT TO_DATE(MAX(AI2_YMD),'YYYYMMDD') AS LD_LAST_DATE FROM CI.AI2
- WHERE AI2_YMD < TO_CHAR(:LD_LAST_DATE,'YYYYMMDD')
-   AND AI2_PROD_TYPE = 'F'
-    AND AI2_SUM_TYPE = 'D'
+ WHERE AI2_PROD_TYPE = 'F'
+   AND AI2_SUM_TYPE = 'D'
    AND AI2_SUM_SUBTYPE = '1'
+   AND AI2_YMD < to_char(:LD_LAST_DATE,'yyyymmdd')
+   AND AI2_YMD >= to_char(:LD_LAST_DATE - 32,'yyyymmdd') 
 ";
             DataTable dtResult = db.GetDataTable(sql, parms);
             if (dtResult.Rows.Count == 0) {
