@@ -206,7 +206,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
         protected int wf_42011_1(Worksheet ws, DataTable dt) {
             int rowIndex = 2 - 1, startRow, totalRow, f, minusRow = 0;
-            string rptName;
             Range range;
 
             //表1
@@ -319,7 +318,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
         protected int wf_42011_2(int minusRow, Worksheet ws, DataTable dt) {
             int rowIndex, startRow, totalRow, f, headRow;
-            string rptName;
             Range range;
 
             startRow = 322 - 1;
@@ -477,7 +475,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
         protected int wf_42011_3(int minusRow, Worksheet ws, DataTable dt) {
             int rowIndex, startRow, totalRow, f, headRow;
-            string rptName;
             Range range;
 
             //3.現貨或期貨連續二日漲跌幅度≧12%之股票期貨(以現貨連續二日漲跌幅度之絕對值由大至小排序)
@@ -532,16 +529,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 if (f > 0) richText.Characters(f - 1, 3).Text = txtUpDown.Text + "%";
                 ws.Cells[rowIndex - 4, 2].SetRichText(richText);
             }
-            //DataView dv = dt.AsDataView();
-            //dv.RowFilter = "ABS(YS_UPDOWN * 100) >= " + txtUpDown.Text + " or ABS(YI_UPDOWN*100) >= " + txtUpDown.Text;
-            //dv.Sort = "ABS(YS_UPDOWN) DESC, APDK_KIND_GRP2, APDK_KIND_LEVEL DESC, MGR3_KIND_ID";
-            //dt = dv.ToTable();
-            //dt = dt.AsEnumerable().Where(x => Math.Round(Math.Abs(x.Field<decimal>("YS_UPDOWN") * 100),16) >= txtUpDown.AsDecimal() ||
-            //                        Math.Round(Math.Abs(x.Field<decimal>("YI_UPDOWN") * 100), 16) >= txtUpDown.AsDecimal())
-            //                      .OrderByDescending(x => Math.Round(Math.Abs(x.Field<decimal>("YS_UPDOWN")),16))
-            //                      .ThenBy(x => x.Field<string>("APDK_KIND_GRP2"))
-            //                      .ThenByDescending(x => x.Field<int>("APDK_KIND_LEVEL"))
-            //                      .ThenBy(x => x.Field<string>("MGR3_KIND_ID")).CopyToDataTable();
+
             dt = dt.AsEnumerable().Where(x => Math.Round(Math.Abs(x.Field<decimal>("YS_UPDOWN") * 100), 15, MidpointRounding.AwayFromZero) >= txtUpDown.Text.AsDecimal() ||
                                  Math.Round(Math.Abs(x.Field<decimal>("YI_UPDOWN") * 100), 15, MidpointRounding.AwayFromZero) >= txtUpDown.Text.AsDecimal())
                                  .OrderByDescending(x => Math.Abs(x.Field<decimal>("YS_UPDOWN")))
