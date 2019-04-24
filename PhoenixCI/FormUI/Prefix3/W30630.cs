@@ -135,16 +135,16 @@ namespace PhoenixCI.FormUI.Prefix3 {
          base.Export();
 
          #region 日期檢核
-         if (Int32.Parse(txtAftStartYM.Text.Replace("/" , "")) > Int32.Parse(txtAftEndYM.Text.Replace("/" , ""))) {
-            MessageDisplay.Info(string.Format("後期起年月({0})不可大於迄年月({1})" , txtAftStartYM.Text.Replace("/" , "") ,
-                                                                                    txtAftEndYM.Text.Replace("/" , "")));
-            return ResultStatus.Fail;
-         }
-         if (Int32.Parse(txtPrevStartYM.Text.Replace("/" , "")) > Int32.Parse(txtPrevEndYM.Text.Replace("/" , ""))) {
-            MessageDisplay.Info(string.Format("後期起年月({0})不可大於迄年月({1})" , txtPrevStartYM.Text.Replace("/" , "") ,
-                                                                                    txtPrevEndYM.Text.Replace("/" , "")));
-            return ResultStatus.Fail;
-         }
+         //if (Int32.Parse(txtAftStartYM.Text.Replace("/" , "")) > Int32.Parse(txtAftEndYM.Text.Replace("/" , ""))) {
+         //   MessageDisplay.Info(string.Format("後期起年月({0})不可大於迄年月({1})" , txtAftStartYM.Text.Replace("/" , "") ,
+         //                                                                           txtAftEndYM.Text.Replace("/" , "")));
+         //   return ResultStatus.Fail;
+         //}
+         //if (Int32.Parse(txtPrevStartYM.Text.Replace("/" , "")) > Int32.Parse(txtPrevEndYM.Text.Replace("/" , ""))) {
+         //   MessageDisplay.Info(string.Format("後期起年月({0})不可大於迄年月({1})" , txtPrevStartYM.Text.Replace("/" , "") ,
+         //                                                                           txtPrevEndYM.Text.Replace("/" , "")));
+         //   return ResultStatus.Fail;
+         //}
          #endregion
 
          try {
