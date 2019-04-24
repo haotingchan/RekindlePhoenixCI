@@ -22,8 +22,10 @@ namespace PhoenixCI.FormUI.Prefix6
             InitializeComponent();
 
             this.Text = _ProgramID + "─" + _ProgramName;
-            txtStartDate.DateTimeValue = GlobalInfo.OCF_DATE;
+            txtStartDate.DateTimeValue = GlobalInfo.OCF_PREV_DATE;
             txtEndDate.DateTimeValue = GlobalInfo.OCF_DATE;
+            dao60310 = new D60310();
+            daoRPTF = new RPTF();
         }
 
         public override ResultStatus BeforeOpen()
@@ -176,7 +178,7 @@ namespace PhoenixCI.FormUI.Prefix6
                         rowIndex = optEndRow;
                         dayAvgQnty = optAvgQnty;
                     }
-                    worksheet.Cells[rowIndex, 1].Value = dtContent.Rows[i]["YMD"].ToString();
+                    worksheet.Cells[rowIndex, 1].Value = dtContent.Rows[i]["YMD"].AsDateTime("yyyyMMdd").ToString("yyyy/MM/dd");
                     dayCount = dtContent.Rows[i]["DAY_COUNT"].AsDouble();
                     worksheet.Cells[rowIndex, 2].Value = dayCount;
                     worksheet.Cells[rowIndex, 3].Value = dtContent.Rows[i]["DAY_QNTY"].AsDouble();

@@ -81,8 +81,10 @@
             this.txtEndDate.Location = new System.Drawing.Point(233, 43);
             this.txtEndDate.MenuManager = this.ribbonControl;
             this.txtEndDate.Name = "txtEndDate";
+            this.txtEndDate.Properties.EditFormat.FormatString = "yyyyMMdd";
             this.txtEndDate.Properties.Mask.EditMask = "yyyy/MM/dd";
             this.txtEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtEndDate.Size = new System.Drawing.Size(100, 26);
             this.txtEndDate.TabIndex = 10;
@@ -96,8 +98,10 @@
             this.txtStartDate.Location = new System.Drawing.Point(100, 43);
             this.txtStartDate.MenuManager = this.ribbonControl;
             this.txtStartDate.Name = "txtStartDate";
+            this.txtStartDate.Properties.EditFormat.FormatString = "yyyyMMdd";
             this.txtStartDate.Properties.Mask.EditMask = "yyyy/MM/dd";
             this.txtStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtStartDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtStartDate.Size = new System.Drawing.Size(100, 26);
             this.txtStartDate.TabIndex = 9;

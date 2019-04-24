@@ -15,7 +15,7 @@ namespace DataObjects.Dao.Together.SpecificDao
         public DataTable ListAM7(string yyyy)
         {
             object[] parms = {
-                "@as_y",yyyy
+                ":as_y",yyyy
             };
 
             string sql =
@@ -23,7 +23,7 @@ namespace DataObjects.Dao.Together.SpecificDao
                             SELECT AM7_FUT_AVG_QNTY,AM7_OPT_AVG_QNTY,
                             AM7_FC_TAX,AM7_DAY_COUNT
                             FROM CI.AM7
-                            WHERE AM7_Y =  @as_y
+                            WHERE AM7_Y =  :as_y
                     ";
             DataTable dtResult = db.GetDataTable(sql, parms);
 
@@ -33,8 +33,8 @@ namespace DataObjects.Dao.Together.SpecificDao
         public DataTable ListData(string symd, string eymd)
         {
             object[] parms = {
-                "@as_symd",symd,
-                "@as_eymd",eymd
+                ":as_symd",symd,
+                ":as_eymd",eymd
             };
 
             #region sql
@@ -53,8 +53,8 @@ namespace DataObjects.Dao.Together.SpecificDao
                                                     AI2_YMD AS DT_EYMD,
                                                     SUM(AI2_M_QNTY) AS M_QNTY
                                                FROM CI.AI2
-                                              WHERE AI2_YMD >= @as_symd
-                                                AND AI2_YMD <= @as_eymd
+                                              WHERE AI2_YMD >= :as_symd
+                                                AND AI2_YMD <= :as_eymd
                                                 AND AI2_SUM_TYPE = 'D'
                                                 AND AI2_SUM_SUBTYPE = '1'
                                                 AND AI2_PROD_TYPE IN ('F','O')
@@ -74,8 +74,8 @@ namespace DataObjects.Dao.Together.SpecificDao
                                                     TAX2_YMD AS DT_EYMD,
                                                     SUM(TAX2_B_TRADE_TAX + TAX2_S_TRADE_TAX + TAX2_B_SETTLE_TAX + TAX2_S_SETTLE_TAX) AS TAX
                                                FROM CI.TAX2
-                                              WHERE TAX2_YMD >= @as_symd
-                                                AND TAX2_YMD <= @as_eymd
+                                              WHERE TAX2_YMD >= :as_symd
+                                                AND TAX2_YMD <= :as_eymd
                                               GROUP BY TAX2_PROD_TYPE,TAX2_YMD)
                                          WHERE TAX2_YMD >= DT_SYMD
                                            AND TAX2_YMD <= DT_EYMD

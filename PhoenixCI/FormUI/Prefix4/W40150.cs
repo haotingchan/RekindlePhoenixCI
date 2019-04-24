@@ -7,8 +7,6 @@ using DevExpress.Spreadsheet;
 using System;
 using System.Data;
 using System.IO;
-using System.Threading;
-using System.Windows.Forms;
 
 /// <summary>
 /// Winni, 2019/3/13
@@ -24,15 +22,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
          VSR = 1
       }
 
-      private D40150 dao40150;
-
       public W40150(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
 
          this.Text = _ProgramID + "─" + _ProgramName;
          txtStartDate.DateTimeValue = GlobalInfo.OCF_DATE;
-
-         dao40150 = new D40150();
 
 #if DEBUG
          //ken test
@@ -57,43 +51,30 @@ namespace PhoenixCI.FormUI.Prefix4 {
       protected override ResultStatus Export() {
          try {
 
-            //1. ready
+            //2. ready
             panFilter.Enabled = false;
             labMsg.Visible = true;
-            labMsg.Text = "開始轉檔...";
-            this.Cursor = Cursors.WaitCursor;
+            labMsg.Text = "訊息：" + this.Text + "轉檔中...";
             this.Refresh();
-            Thread.Sleep(5);
 
-            //2. copy template xls to target path
+            //2.1 copy template xls to target path
             string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID);
 
+            //2.2 open xls
             Workbook workbook = new Workbook();
             workbook.LoadDocument(excelDestinationPath);
 
-            //3. 填資料
+            //2.3 寫入資料
             bool res1 = false, res2 = false;
             res1 = wf_40150(workbook , SheetNo.DPSR);
             res2 = wf_40152(workbook , SheetNo.VSR);
 
-            if (!res1 && !res2) {
-               try {
-                  workbook = null;
-                  System.IO.File.Delete(excelDestinationPath);
-               } catch (Exception) {
-                  //
-               }
-               return ResultStatus.Fail;
-            }
-
-            //4. 關閉、儲存檔案
+            //2.3 關閉、儲存檔案
             workbook.SaveDocument(excelDestinationPath);
             labMsg.Visible = false;
 
-#if DEBUG
             if (FlagAdmin)
                System.Diagnostics.Process.Start(excelDestinationPath);
-#endif
 
             return ResultStatus.Success;
 
@@ -103,16 +84,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             panFilter.Enabled = true;
             labMsg.Text = "";
             labMsg.Visible = false;
-            this.Cursor = Cursors.Arrow;
          }
          return ResultStatus.Fail;
-      }
-
-      protected void ShowMsg(string msg) {
-         labMsg.Text = msg;
-         labMsg.Visible = true;
-         this.Refresh();
-         Thread.Sleep(5);
       }
 
       /// <summary>
@@ -121,21 +94,17 @@ namespace PhoenixCI.FormUI.Prefix4 {
       /// <returns></returns>
       protected bool wf_40150(Workbook workbook , SheetNo sheetNo) {
          try {
-
-            ShowMsg(this.Text + "轉檔中...");
-
             //1. 切換Sheet
             Worksheet worksheet = workbook.Worksheets[(int)sheetNo];
             worksheet.Range["A1"].Select();
 
             //2. 填資料
-            DataTable dt = dao40150.GetDataList(txtStartDate.DateTimeValue);
+            DataTable dt = new D40150().GetDataList(txtStartDate.DateTimeValue);
             if (dt.Rows.Count <= 0) {
                MessageDisplay.Info(String.Format("{0},讀取「SPAN參數一覽表」無任何資料!" , txtStartDate.Text));
-               return false;
             }//if (dt.Rows.Count <= 0 )
 
-            DataTable dtSp2 = dao40150.ListSp2ByDate(txtStartDate.DateTimeValue);
+            DataTable dtSp2 = new D40150().ListSp2ByDate(txtStartDate.DateTimeValue);
 
             int row = 1;
             foreach (DataRow dr in dt.Rows) {
@@ -185,34 +154,32 @@ namespace PhoenixCI.FormUI.Prefix4 {
       protected bool wf_40152(Workbook workbook , SheetNo sheetNo) {
          try {
 
-            ShowMsg(this.Text + "轉檔中...");
+            labMsg.Text = "訊息：40152-" + _ProgramName + "轉檔中...";
 
             //1. 切換Sheet
             Worksheet worksheet = workbook.Worksheets[(int)sheetNo];
             worksheet.Range["A1"].Select();
 
             //2. 填資料
-            DataTable dt2 = dao40150.ListByDate(txtStartDate.DateTimeValue);
+            DataTable dt2 = new D40150().ListByDate(txtStartDate.DateTimeValue);
             if (dt2.Rows.Count <= 0) {
                MessageDisplay.Info(String.Format("{0},讀取「SPAN參數一覽表」無任何資料!" , txtStartDate.Text));
-               return false;
             }//if (dt.Rows.Count <= 0 )
 
-            DataTable dtSp2 = dao40150.ListSp2ByDate(txtStartDate.DateTimeValue);
+            DataTable dtSp2 = new D40150().ListSp2ByDate(txtStartDate.DateTimeValue);
 
+            //int row = 1;
             foreach (DataRow dr in dt2.Rows) {
                int row = dr["rpt_seq_no"].AsInt();
 
                string sp1KindId1 = dr["sp1_kind_id1"].AsString();
-               //string txt = "";
+               string txt = "";
 
                //SS
-               int found = 0;
-               if (dtSp2.Select("sp2_type='SV' and sp2_kind_id1='" + sp1KindId1 + "'").Length != 0) {
-                  found = dtSp2.Rows.IndexOf(dtSp2.Select("sp2_type='SV' and sp2_kind_id1='" + sp1KindId1 + "'")[0]);
-               }
+               txt = "sp2_type='SV' and sp2_kind_id1='" + sp1KindId1 + "'";
+               DataRow[] drtmpSp2 = dtSp2.Select(txt);
 
-               if (found > 0) {
+               if (drtmpSp2.Length != 0) { //不是空陣列
                   worksheet.Cells[row - 1 , 1].Value = dr["SD_sp1_rate"].AsDecimal();
                   worksheet.Cells[row - 1 , 1].Font.Bold = true;
                } else {

@@ -47,9 +47,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
          InitializeComponent();
 
          this.Text = _ProgramID + "─" + _ProgramName;
-
-         txtStartMon.DateTimeValue = DateTime.ParseExact(GlobalInfo.OCF_DATE.ToString("yyyy/MM") , "yyyy/MM" , null);
-         txtEndMon.DateTimeValue = txtStartMon.DateTimeValue;
+         txtStartMon.Text = GlobalInfo.OCF_DATE.AsString("yyyy/MM");
+         txtEndMon.Text = GlobalInfo.OCF_DATE.AsString("yyyy/MM");
 
 #if DEBUG
          //winni test
@@ -78,10 +77,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
                return ResultStatus.Fail;
             }
 
-            //if (!txtStartMon.IsDate(txtStartMon.Text + "/01" , CheckDate.Start)
-            //      || !txtEndMon.IsDate(txtEndMon.Text + "/01" , CheckDate.End)) {
-            //   return ResultStatus.Fail;
-            //}
+            if (!txtStartMon.IsDate(txtStartMon.Text + "/01" , CheckDate.Start)
+                  || !txtEndMon.IsDate(txtEndMon.Text + "/01" , CheckDate.End)) {
+               return ResultStatus.Fail;
+            }
 
             if (string.Compare(txtStartMon.Text , txtEndMon.Text) > 0) {
                MessageDisplay.Error(GlobalInfo.ErrorText , CheckDate.Datedif);

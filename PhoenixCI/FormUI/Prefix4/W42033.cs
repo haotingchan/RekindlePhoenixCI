@@ -36,7 +36,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             try {
                 base.Open();
                 txtEDate.DateTimeValue = DateTime.Now;
-                txtSDate.DateTimeValue = txtEDate.DateTimeValue;
+                txtSDate.EditValue = txtEDate.DateTimeValue;
 #if DEBUG
                 txtSDate.Text = "2016/01/04";
                 txtEDate.Text = "2016/01/04";
