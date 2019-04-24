@@ -105,5 +105,19 @@ order by rpt_seq_no
          return dtResult;
       }
 
+      /// <summary>
+      /// return ci.am21 MaxDate(yyyyMMdd)
+      /// </summary>
+      /// <returns></returns>
+      public string GetMaxDate() {
+         string sql = @"
+select 
+    nvl(max(am21_ymd),'') as maxdate
+from ci.am21
+where am21_sum_type = 'D'
+";
+         return db.ExecuteScalar(sql , CommandType.Text , null);
+      }
+
    }
 }
