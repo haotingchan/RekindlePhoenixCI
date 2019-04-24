@@ -220,6 +220,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                     try {
                         workbook = null;
                         System.IO.File.Delete(file);
+                        System.IO.File.Delete(etfFileName);
                         System.IO.File.Delete(txfFileName);
                     }
                     catch (Exception) {
