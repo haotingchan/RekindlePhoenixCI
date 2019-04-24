@@ -41,15 +41,17 @@
             this.DATA_YMD = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.KIND_ID = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.SMA_ADJ_RATE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.SMA_CM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.ADJ_RSN = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.AB_TYPE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.SMA_ADJ_RATE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.EWMA_ADJ_RATE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.EWMA_CM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.MAXV_ADJ_RATE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.MAXV_CM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.USER_CM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.OSW_GRP = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.AB_TYPE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.SMA_CM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.EWMA_CM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.MAXV_CM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.USER_CM_1 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.ADJ_CODE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.ISSUE_BEGIN_YMD = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.CUR_CM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -65,7 +67,6 @@
             this.PROD_SUBTYPE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.PARAM_KEY = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.STOCK_ID = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.OSW_GRP = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.CURRENCY_TYPE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.SEQ_NO = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.AMT_TYPE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -76,10 +77,6 @@
             this.gridBand13 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.gridBand14 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.gridBand1 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-            this.gridBand15 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-            this.gridBand16 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-            this.gridBand17 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-            this.gridBand18 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.gridBand19 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.gridBand20 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
@@ -170,6 +167,7 @@
             this.txtDateG7.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.txtDateG7.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
             this.txtDateG7.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtDateG7.Properties.Mask.ShowPlaceHolders = false;
             this.txtDateG7.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtDateG7.Size = new System.Drawing.Size(100, 26);
             this.txtDateG7.TabIndex = 9;
@@ -199,6 +197,7 @@
             this.txtDateG5.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.txtDateG5.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
             this.txtDateG5.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtDateG5.Properties.Mask.ShowPlaceHolders = false;
             this.txtDateG5.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtDateG5.Size = new System.Drawing.Size(100, 26);
             this.txtDateG5.TabIndex = 7;
@@ -228,6 +227,7 @@
             this.txtDateG1.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.txtDateG1.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
             this.txtDateG1.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtDateG1.Properties.Mask.ShowPlaceHolders = false;
             this.txtDateG1.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtDateG1.Size = new System.Drawing.Size(100, 26);
             this.txtDateG1.TabIndex = 5;
@@ -257,6 +257,7 @@
             this.txtSDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.txtSDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
             this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtSDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtSDate.Size = new System.Drawing.Size(100, 26);
             this.txtSDate.TabIndex = 3;
@@ -320,6 +321,7 @@
             this.EWMA_CM,
             this.MAXV_ADJ_RATE,
             this.MAXV_CM,
+            this.USER_CM_1,
             this.USER_CM,
             this.ADJ_CODE,
             this.ISSUE_BEGIN_YMD,
@@ -381,6 +383,20 @@
             this.KIND_ID.Name = "KIND_ID";
             this.KIND_ID.Visible = true;
             // 
+            // ADJ_RSN
+            // 
+            this.ADJ_RSN.AppearanceCell.Options.UseTextOptions = true;
+            this.ADJ_RSN.AppearanceHeader.Options.UseTextOptions = true;
+            this.ADJ_RSN.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.ADJ_RSN.AutoFillDown = true;
+            this.ADJ_RSN.Caption = "ADJ_RSN";
+            this.ADJ_RSN.FieldName = "ADJ_RSN";
+            this.ADJ_RSN.Name = "ADJ_RSN";
+            this.ADJ_RSN.OptionsEditForm.ColumnSpan = 4;
+            this.ADJ_RSN.OptionsEditForm.UseEditorColRowSpan = false;
+            this.ADJ_RSN.Visible = true;
+            this.ADJ_RSN.Width = 400;
+            // 
             // SMA_ADJ_RATE
             // 
             this.SMA_ADJ_RATE.Caption = "SMA_ADJ_RATE";
@@ -388,41 +404,9 @@
             this.SMA_ADJ_RATE.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.SMA_ADJ_RATE.FieldName = "SMA_ADJ_RATE";
             this.SMA_ADJ_RATE.Name = "SMA_ADJ_RATE";
+            this.SMA_ADJ_RATE.RowIndex = 1;
             this.SMA_ADJ_RATE.Visible = true;
-            this.SMA_ADJ_RATE.Width = 90;
-            // 
-            // SMA_CM
-            // 
-            this.SMA_CM.Caption = "SMA_CM";
-            this.SMA_CM.DisplayFormat.FormatString = "N0";
-            this.SMA_CM.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.SMA_CM.FieldName = "SMA_CM";
-            this.SMA_CM.Name = "SMA_CM";
-            this.SMA_CM.RowIndex = 1;
-            this.SMA_CM.Visible = true;
-            this.SMA_CM.Width = 90;
-            // 
-            // ADJ_RSN
-            // 
-            this.ADJ_RSN.AppearanceCell.Options.UseTextOptions = true;
-            this.ADJ_RSN.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.ADJ_RSN.AppearanceHeader.Options.UseTextOptions = true;
-            this.ADJ_RSN.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.ADJ_RSN.AutoFillDown = true;
-            this.ADJ_RSN.Caption = "ADJ_RSN";
-            this.ADJ_RSN.FieldName = "ADJ_RSN";
-            this.ADJ_RSN.Name = "ADJ_RSN";
-            this.ADJ_RSN.OptionsEditForm.ColumnSpan = 3;
-            this.ADJ_RSN.OptionsEditForm.UseEditorColRowSpan = false;
-            this.ADJ_RSN.Visible = true;
-            this.ADJ_RSN.Width = 336;
-            // 
-            // AB_TYPE
-            // 
-            this.AB_TYPE.Caption = "AB_TYPE";
-            this.AB_TYPE.FieldName = "AB_TYPE";
-            this.AB_TYPE.Name = "AB_TYPE";
-            this.AB_TYPE.RowIndex = 1;
+            this.SMA_ADJ_RATE.Width = 98;
             // 
             // EWMA_ADJ_RATE
             // 
@@ -431,19 +415,9 @@
             this.EWMA_ADJ_RATE.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.EWMA_ADJ_RATE.FieldName = "EWMA_ADJ_RATE";
             this.EWMA_ADJ_RATE.Name = "EWMA_ADJ_RATE";
+            this.EWMA_ADJ_RATE.RowIndex = 1;
             this.EWMA_ADJ_RATE.Visible = true;
-            this.EWMA_ADJ_RATE.Width = 90;
-            // 
-            // EWMA_CM
-            // 
-            this.EWMA_CM.Caption = "EWMA_CM";
-            this.EWMA_CM.DisplayFormat.FormatString = "N0";
-            this.EWMA_CM.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.EWMA_CM.FieldName = "EWMA_CM";
-            this.EWMA_CM.Name = "EWMA_CM";
-            this.EWMA_CM.RowIndex = 1;
-            this.EWMA_CM.Visible = true;
-            this.EWMA_CM.Width = 90;
+            this.EWMA_ADJ_RATE.Width = 98;
             // 
             // MAXV_ADJ_RATE
             // 
@@ -452,19 +426,9 @@
             this.MAXV_ADJ_RATE.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.MAXV_ADJ_RATE.FieldName = "MAXV_ADJ_RATE";
             this.MAXV_ADJ_RATE.Name = "MAXV_ADJ_RATE";
+            this.MAXV_ADJ_RATE.RowIndex = 1;
             this.MAXV_ADJ_RATE.Visible = true;
-            this.MAXV_ADJ_RATE.Width = 90;
-            // 
-            // MAXV_CM
-            // 
-            this.MAXV_CM.Caption = "MAXV_CM";
-            this.MAXV_CM.DisplayFormat.FormatString = "N0";
-            this.MAXV_CM.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.MAXV_CM.FieldName = "MAXV_CM";
-            this.MAXV_CM.Name = "MAXV_CM";
-            this.MAXV_CM.RowIndex = 1;
-            this.MAXV_CM.Visible = true;
-            this.MAXV_CM.Width = 90;
+            this.MAXV_ADJ_RATE.Width = 98;
             // 
             // USER_CM
             // 
@@ -474,8 +438,66 @@
             this.USER_CM.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.USER_CM.FieldName = "USER_CM";
             this.USER_CM.Name = "USER_CM";
+            this.USER_CM.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.True;
+            this.USER_CM.RowIndex = 1;
             this.USER_CM.Visible = true;
-            this.USER_CM.Width = 93;
+            this.USER_CM.Width = 106;
+            // 
+            // OSW_GRP
+            // 
+            this.OSW_GRP.Caption = "OSW_GRP";
+            this.OSW_GRP.FieldName = "OSW_GRP";
+            this.OSW_GRP.Name = "OSW_GRP";
+            this.OSW_GRP.RowIndex = 1;
+            // 
+            // AB_TYPE
+            // 
+            this.AB_TYPE.Caption = "AB_TYPE";
+            this.AB_TYPE.FieldName = "AB_TYPE";
+            this.AB_TYPE.Name = "AB_TYPE";
+            this.AB_TYPE.RowIndex = 1;
+            // 
+            // SMA_CM
+            // 
+            this.SMA_CM.Caption = "SMA_CM";
+            this.SMA_CM.DisplayFormat.FormatString = "N0";
+            this.SMA_CM.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.SMA_CM.FieldName = "SMA_CM";
+            this.SMA_CM.Name = "SMA_CM";
+            this.SMA_CM.RowIndex = 2;
+            this.SMA_CM.Visible = true;
+            this.SMA_CM.Width = 98;
+            // 
+            // EWMA_CM
+            // 
+            this.EWMA_CM.Caption = "EWMA_CM";
+            this.EWMA_CM.DisplayFormat.FormatString = "N0";
+            this.EWMA_CM.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.EWMA_CM.FieldName = "EWMA_CM";
+            this.EWMA_CM.Name = "EWMA_CM";
+            this.EWMA_CM.RowIndex = 2;
+            this.EWMA_CM.Visible = true;
+            this.EWMA_CM.Width = 98;
+            // 
+            // MAXV_CM
+            // 
+            this.MAXV_CM.Caption = "MAXV_CM";
+            this.MAXV_CM.DisplayFormat.FormatString = "N0";
+            this.MAXV_CM.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.MAXV_CM.FieldName = "MAXV_CM";
+            this.MAXV_CM.Name = "MAXV_CM";
+            this.MAXV_CM.RowIndex = 2;
+            this.MAXV_CM.Visible = true;
+            this.MAXV_CM.Width = 98;
+            // 
+            // USER_CM_1
+            // 
+            this.USER_CM_1.FieldName = "USER_CM";
+            this.USER_CM_1.Name = "USER_CM_1";
+            this.USER_CM_1.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.True;
+            this.USER_CM_1.RowIndex = 2;
+            this.USER_CM_1.Visible = true;
+            this.USER_CM_1.Width = 106;
             // 
             // ADJ_CODE
             // 
@@ -589,13 +611,6 @@
             this.STOCK_ID.Name = "STOCK_ID";
             this.STOCK_ID.Visible = true;
             // 
-            // OSW_GRP
-            // 
-            this.OSW_GRP.Caption = "OSW_GRP";
-            this.OSW_GRP.FieldName = "OSW_GRP";
-            this.OSW_GRP.Name = "OSW_GRP";
-            this.OSW_GRP.Visible = true;
-            // 
             // CURRENCY_TYPE
             // 
             this.CURRENCY_TYPE.Caption = "CURRENCY_TYPE";
@@ -690,14 +705,10 @@
             this.gridBand14.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridBand14.Caption = "結算保證金調整金額";
             this.gridBand14.Children.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.GridBand[] {
-            this.gridBand1,
-            this.gridBand15,
-            this.gridBand16,
-            this.gridBand17,
-            this.gridBand18});
+            this.gridBand1});
             this.gridBand14.Name = "gridBand14";
             this.gridBand14.VisibleIndex = 2;
-            this.gridBand14.Width = 699;
+            this.gridBand14.Width = 400;
             // 
             // gridBand1
             // 
@@ -707,69 +718,19 @@
             this.gridBand1.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridBand1.Caption = "調整項目";
             this.gridBand1.Columns.Add(this.ADJ_RSN);
+            this.gridBand1.Columns.Add(this.SMA_ADJ_RATE);
+            this.gridBand1.Columns.Add(this.EWMA_ADJ_RATE);
+            this.gridBand1.Columns.Add(this.MAXV_ADJ_RATE);
+            this.gridBand1.Columns.Add(this.USER_CM);
+            this.gridBand1.Columns.Add(this.OSW_GRP);
+            this.gridBand1.Columns.Add(this.AB_TYPE);
+            this.gridBand1.Columns.Add(this.SMA_CM);
+            this.gridBand1.Columns.Add(this.EWMA_CM);
+            this.gridBand1.Columns.Add(this.MAXV_CM);
+            this.gridBand1.Columns.Add(this.USER_CM_1);
             this.gridBand1.Name = "gridBand1";
             this.gridBand1.VisibleIndex = 0;
-            this.gridBand1.Width = 336;
-            // 
-            // gridBand15
-            // 
-            this.gridBand15.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.gridBand15.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
-            this.gridBand15.AppearanceHeader.Options.UseBackColor = true;
-            this.gridBand15.AppearanceHeader.Options.UseBorderColor = true;
-            this.gridBand15.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand15.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand15.Caption = "SMA";
-            this.gridBand15.Columns.Add(this.SMA_ADJ_RATE);
-            this.gridBand15.Columns.Add(this.SMA_CM);
-            this.gridBand15.Name = "gridBand15";
-            this.gridBand15.VisibleIndex = 1;
-            this.gridBand15.Width = 90;
-            // 
-            // gridBand16
-            // 
-            this.gridBand16.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.gridBand16.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
-            this.gridBand16.AppearanceHeader.Options.UseBackColor = true;
-            this.gridBand16.AppearanceHeader.Options.UseBorderColor = true;
-            this.gridBand16.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand16.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand16.Caption = "EWMA";
-            this.gridBand16.Columns.Add(this.AB_TYPE);
-            this.gridBand16.Columns.Add(this.EWMA_ADJ_RATE);
-            this.gridBand16.Columns.Add(this.EWMA_CM);
-            this.gridBand16.Name = "gridBand16";
-            this.gridBand16.VisibleIndex = 2;
-            this.gridBand16.Width = 90;
-            // 
-            // gridBand17
-            // 
-            this.gridBand17.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.gridBand17.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
-            this.gridBand17.AppearanceHeader.Options.UseBackColor = true;
-            this.gridBand17.AppearanceHeader.Options.UseBorderColor = true;
-            this.gridBand17.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand17.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand17.Caption = "MaxVol";
-            this.gridBand17.Columns.Add(this.MAXV_ADJ_RATE);
-            this.gridBand17.Columns.Add(this.MAXV_CM);
-            this.gridBand17.Name = "gridBand17";
-            this.gridBand17.VisibleIndex = 3;
-            this.gridBand17.Width = 90;
-            // 
-            // gridBand18
-            // 
-            this.gridBand18.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.gridBand18.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
-            this.gridBand18.AppearanceHeader.Options.UseBackColor = true;
-            this.gridBand18.AppearanceHeader.Options.UseBorderColor = true;
-            this.gridBand18.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand18.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand18.Caption = "使用者自訂";
-            this.gridBand18.Columns.Add(this.USER_CM);
-            this.gridBand18.Name = "gridBand18";
-            this.gridBand18.VisibleIndex = 4;
-            this.gridBand18.Width = 93;
+            this.gridBand1.Width = 400;
             // 
             // gridBand19
             // 
@@ -883,15 +844,12 @@
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn OP_TYPE;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit1;
         private BaseGround.Widget.RepositoryItemTextDateEdit repositoryItemTextDateEdit1;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn USER_CM_1;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand11;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand12;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand13;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand14;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand1;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand15;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand16;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand17;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand18;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand19;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand20;
     }
