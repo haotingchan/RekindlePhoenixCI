@@ -41,9 +41,9 @@
             this.DATA_YMD = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.KIND_ID = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.ADJ_RSN = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.SMA_ADJ_RATE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.SMA_CM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.ADJ_RSN = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.AB_TYPE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.EWMA_ADJ_RATE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.EWMA_CM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -170,6 +170,7 @@
             this.txtDateG7.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.txtDateG7.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
             this.txtDateG7.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtDateG7.Properties.Mask.ShowPlaceHolders = false;
             this.txtDateG7.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtDateG7.Size = new System.Drawing.Size(100, 26);
             this.txtDateG7.TabIndex = 9;
@@ -199,6 +200,7 @@
             this.txtDateG5.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.txtDateG5.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
             this.txtDateG5.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtDateG5.Properties.Mask.ShowPlaceHolders = false;
             this.txtDateG5.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtDateG5.Size = new System.Drawing.Size(100, 26);
             this.txtDateG5.TabIndex = 7;
@@ -228,6 +230,7 @@
             this.txtDateG1.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.txtDateG1.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
             this.txtDateG1.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtDateG1.Properties.Mask.ShowPlaceHolders = false;
             this.txtDateG1.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtDateG1.Size = new System.Drawing.Size(100, 26);
             this.txtDateG1.TabIndex = 5;
@@ -257,6 +260,7 @@
             this.txtSDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.txtSDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
             this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtSDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtSDate.Size = new System.Drawing.Size(100, 26);
             this.txtSDate.TabIndex = 3;
@@ -381,6 +385,21 @@
             this.KIND_ID.Name = "KIND_ID";
             this.KIND_ID.Visible = true;
             // 
+            // ADJ_RSN
+            // 
+            this.ADJ_RSN.AppearanceCell.Options.UseTextOptions = true;
+            this.ADJ_RSN.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.ADJ_RSN.AppearanceHeader.Options.UseTextOptions = true;
+            this.ADJ_RSN.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.ADJ_RSN.AutoFillDown = true;
+            this.ADJ_RSN.Caption = "ADJ_RSN";
+            this.ADJ_RSN.FieldName = "ADJ_RSN";
+            this.ADJ_RSN.Name = "ADJ_RSN";
+            this.ADJ_RSN.OptionsEditForm.ColumnSpan = 3;
+            this.ADJ_RSN.OptionsEditForm.UseEditorColRowSpan = false;
+            this.ADJ_RSN.Visible = true;
+            this.ADJ_RSN.Width = 336;
+            // 
             // SMA_ADJ_RATE
             // 
             this.SMA_ADJ_RATE.Caption = "SMA_ADJ_RATE";
@@ -402,27 +421,11 @@
             this.SMA_CM.Visible = true;
             this.SMA_CM.Width = 90;
             // 
-            // ADJ_RSN
-            // 
-            this.ADJ_RSN.AppearanceCell.Options.UseTextOptions = true;
-            this.ADJ_RSN.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.ADJ_RSN.AppearanceHeader.Options.UseTextOptions = true;
-            this.ADJ_RSN.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.ADJ_RSN.AutoFillDown = true;
-            this.ADJ_RSN.Caption = "ADJ_RSN";
-            this.ADJ_RSN.FieldName = "ADJ_RSN";
-            this.ADJ_RSN.Name = "ADJ_RSN";
-            this.ADJ_RSN.OptionsEditForm.ColumnSpan = 3;
-            this.ADJ_RSN.OptionsEditForm.UseEditorColRowSpan = false;
-            this.ADJ_RSN.Visible = true;
-            this.ADJ_RSN.Width = 336;
-            // 
             // AB_TYPE
             // 
             this.AB_TYPE.Caption = "AB_TYPE";
             this.AB_TYPE.FieldName = "AB_TYPE";
             this.AB_TYPE.Name = "AB_TYPE";
-            this.AB_TYPE.RowIndex = 1;
             // 
             // EWMA_ADJ_RATE
             // 
