@@ -65,7 +65,7 @@
          this.panFilter.Size = new System.Drawing.Size(404, 120);
          this.panFilter.TabIndex = 13;
          this.panFilter.TabStop = false;
-         this.panFilter.Text = "請輸入交易日期";
+         this.panFilter.Text = "請輸入日期";
          // 
          // txtDate
          // 
@@ -78,6 +78,7 @@
          this.txtDate.Name = "txtDate";
          this.txtDate.Properties.Appearance.Options.UseTextOptions = true;
          this.txtDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtDate.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtDate.Properties.Mask.EditMask = "yyyy/MM/dd";
          this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
          this.txtDate.Properties.Mask.ShowPlaceHolders = false;

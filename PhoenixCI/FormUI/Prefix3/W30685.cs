@@ -104,7 +104,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
 
             for (int i = 0 ; i < dt.Rows.Count ; i++) {
-               dt.Rows[i]["VPR_DATA_TIME"] = Convert.ToDateTime(dtContent.Rows[i]["VPR_DATA_TIME"]).ToString("yyyy/MM/dd HH:mm:ss.fff");
+               dt.Rows[i]["VPR_DATA_TIME"] = Convert.ToDateTime(dtContent.Rows[i]["VPR_DATA_TIME"]).ToString("yyyy/MM/dd HH:mm:ss:fff");
             }
 
             //2.存Csv

@@ -31,12 +31,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
          txtDay.Text = "2500";
 
          dao40170 = new D40170();
-
-#if DEBUG
-         //Winni test
-         //txtSDate.DateTimeValue = DateTime.ParseExact("2018/06/15", "yyyy/MM/dd", null);
-         //this.Text += "(開啟測試模式),ocfDate=2018/06/15";
-#endif
       }
 
       protected override ResultStatus Open() {
@@ -90,20 +84,20 @@ namespace PhoenixCI.FormUI.Prefix4 {
          base.Export();
 
          #region 日期檢核
-         if (gbItem.EditValue.AsString() == "rbSdateToEdate") {
-            if (!txtStartDate.IsDate(txtStartDate.Text , "日期輸入錯誤!") ||
-               !txtEndDate.IsDate(txtEndDate.Text , "日期輸入錯誤!")) {
-               txtEndDate.Focus();
-               MessageDisplay.Error("日期輸入錯誤!");
-               return ResultStatus.Fail;
-            }
-         } else {
-            if (!txtDate.IsDate(txtDate.Text , "日期輸入錯誤!")) {
-               txtEndDate.Focus();
-               MessageDisplay.Error("日期輸入錯誤!");
-               return ResultStatus.Fail;
-            }
-         }
+         //if (gbItem.EditValue.AsString() == "rbSdateToEdate") {
+         //   if (!txtStartDate.IsDate(txtStartDate.Text , "日期輸入錯誤!") ||
+         //      !txtEndDate.IsDate(txtEndDate.Text , "日期輸入錯誤!")) {
+         //      txtEndDate.Focus();
+         //      MessageDisplay.Error("日期輸入錯誤!");
+         //      return ResultStatus.Fail;
+         //   }
+         //} else {
+         //   if (!txtDate.IsDate(txtDate.Text , "日期輸入錯誤!")) {
+         //      txtEndDate.Focus();
+         //      MessageDisplay.Error("日期輸入錯誤!");
+         //      return ResultStatus.Fail;
+         //   }
+         //}
          #endregion
 
          try {
@@ -239,7 +233,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          try {
             //執行CI.SP_H_TXN_40170_DETL
             DataTable dt = dao40170.ExecuteStoredProcedure(modelType , startDate , endDate , kindId);
-            if (dt.Rows.Count <= 0) {
+            if (dt.Rows.Count <= 1) {
                return;
             }
 
