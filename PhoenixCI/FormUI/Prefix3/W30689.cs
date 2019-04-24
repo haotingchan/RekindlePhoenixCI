@@ -68,8 +68,7 @@ namespace PhoenixCI.FormUI.Prefix3
                     worksheet.Cells[oleRow, 6].Value = r["TPRICES_DIST_TIME"].AsDecimal();
                     worksheet.Cells[oleRow, 7].Value = r["TPRICES_VOLATILITY"].AsDecimal();
                     worksheet.Cells[oleRow, 8].Value = r["TPRICES_PC_CODE"].AsString();
-                    //worksheet.Cells[oleRow, 9].Value = r["TPRICES_LAST_VOLATILITY "].AsDecimal();
-                    worksheet.Cells[oleRow, 12].Value = r["TPRICES_R_POINT"].AsDecimal();
+                    worksheet.Cells[oleRow, 11].Value = r["TPRICES_R_POINT"].AsDecimal();
                     oleRow++;
                 }
 
@@ -82,9 +81,13 @@ namespace PhoenixCI.FormUI.Prefix3
                     worksheet.Cells[oleRow, 0].Value = r["TPRICES_TRADE_YMD"].AsString();
                     worksheet.Cells[oleRow, 1].Value = r["TPRICES_KIND_ID"].AsString();
                     worksheet.Cells[oleRow, 2].Value = r["TPRICES_SETTLE_MONTH"].AsString();
-                    worksheet.Cells[oleRow, 4].Value = r["TPRICES_FUT_PRICE"].AsDecimal();
+                    worksheet.Cells[oleRow, 3].Value = r["TPRICES_FUT_PRICE"].AsDecimal();
+                    worksheet.Cells[oleRow, 4].Value = r["TPRICES_STRIKE_PRICE"].AsDecimal();
+                    worksheet.Cells[oleRow, 5].Value = r["TPRICES_RISK_FREE_RATE"].AsDecimal();
+                    worksheet.Cells[oleRow, 6].Value = r["TPRICES_DIST_TIME"].AsDecimal();
+                    worksheet.Cells[oleRow, 7].Value = r["TPRICES_VOLATILITY"].AsDecimal();
                     worksheet.Cells[oleRow, 8].Value = r["TPRICES_PC_CODE"].AsString();
-                    worksheet.Cells[oleRow, 10].Value = r["TPRICES_R_POINT"].AsDecimal();
+                    worksheet.Cells[oleRow, 11].Value = r["TPRICES_R_POINT"].AsDecimal();
                     oleRow++;
                 }
 
