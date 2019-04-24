@@ -24,21 +24,21 @@
       /// </summary>
       private void InitializeComponent() {
          this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
-         this.grpxDescription = new System.Windows.Forms.GroupBox();
+         this.panFilter = new System.Windows.Forms.GroupBox();
          this.txtDate = new BaseGround.Widget.TextDateEdit();
          this.lblDate = new System.Windows.Forms.Label();
-         this.lblProcessing = new System.Windows.Forms.Label();
+         this.labMsg = new System.Windows.Forms.Label();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
-         this.grpxDescription.SuspendLayout();
+         this.panFilter.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
          // 
-         this.panParent.Controls.Add(this.grpxDescription);
-         this.panParent.Controls.Add(this.lblProcessing);
+         this.panParent.Controls.Add(this.panFilter);
+         this.panParent.Controls.Add(this.labMsg);
          this.panParent.Size = new System.Drawing.Size(697, 491);
          // 
          // ribbonControl
@@ -55,17 +55,17 @@
          this.panelControl1.Size = new System.Drawing.Size(697, 491);
          this.panelControl1.TabIndex = 0;
          // 
-         // grpxDescription
+         // panFilter
          // 
-         this.grpxDescription.AutoSize = true;
-         this.grpxDescription.Controls.Add(this.txtDate);
-         this.grpxDescription.Controls.Add(this.lblDate);
-         this.grpxDescription.Location = new System.Drawing.Point(21, 21);
-         this.grpxDescription.Name = "grpxDescription";
-         this.grpxDescription.Size = new System.Drawing.Size(404, 120);
-         this.grpxDescription.TabIndex = 13;
-         this.grpxDescription.TabStop = false;
-         this.grpxDescription.Text = "請輸入交易日期";
+         this.panFilter.AutoSize = true;
+         this.panFilter.Controls.Add(this.txtDate);
+         this.panFilter.Controls.Add(this.lblDate);
+         this.panFilter.Location = new System.Drawing.Point(21, 21);
+         this.panFilter.Name = "panFilter";
+         this.panFilter.Size = new System.Drawing.Size(404, 120);
+         this.panFilter.TabIndex = 13;
+         this.panFilter.TabStop = false;
+         this.panFilter.Text = "請輸入交易日期";
          // 
          // txtDate
          // 
@@ -80,6 +80,7 @@
          this.txtDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.txtDate.Properties.Mask.EditMask = "yyyy/MM/dd";
          this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtDate.Size = new System.Drawing.Size(144, 26);
          this.txtDate.TabIndex = 15;
@@ -94,15 +95,16 @@
          this.lblDate.TabIndex = 2;
          this.lblDate.Text = "日期：";
          // 
-         // lblProcessing
+         // labMsg
          // 
-         this.lblProcessing.AutoSize = true;
-         this.lblProcessing.ForeColor = System.Drawing.Color.Blue;
-         this.lblProcessing.Location = new System.Drawing.Point(16, 144);
-         this.lblProcessing.Name = "lblProcessing";
-         this.lblProcessing.Size = new System.Drawing.Size(85, 20);
-         this.lblProcessing.TabIndex = 14;
-         this.lblProcessing.Text = "開始轉檔...";
+         this.labMsg.AutoSize = true;
+         this.labMsg.ForeColor = System.Drawing.Color.Blue;
+         this.labMsg.Location = new System.Drawing.Point(16, 144);
+         this.labMsg.Name = "labMsg";
+         this.labMsg.Size = new System.Drawing.Size(85, 20);
+         this.labMsg.TabIndex = 14;
+         this.labMsg.Text = "開始轉檔...";
+         this.labMsg.Visible = false;
          // 
          // WS0010
          // 
@@ -120,8 +122,8 @@
          this.panParent.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
-         this.grpxDescription.ResumeLayout(false);
-         this.grpxDescription.PerformLayout();
+         this.panFilter.ResumeLayout(false);
+         this.panFilter.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
@@ -131,9 +133,9 @@
       #endregion
 
       private DevExpress.XtraEditors.PanelControl panelControl1;
-      private System.Windows.Forms.GroupBox grpxDescription;
+      private System.Windows.Forms.GroupBox panFilter;
       private System.Windows.Forms.Label lblDate;
-      private System.Windows.Forms.Label lblProcessing;
+      private System.Windows.Forms.Label labMsg;
       private BaseGround.Widget.TextDateEdit txtDate;
    }
 }

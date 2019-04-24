@@ -114,37 +114,37 @@ group by sp2_type
          return dtResult;
       }
 
-      public DataTable d_s0010_sp2_old(DateTime as_date) {
-         object[] parms = {
-                ":as_date", as_date
-            };
+//      public DataTable d_s0010_sp2_old(DateTime as_date) {
+//         object[] parms = {
+//                ":as_date", as_date
+//            };
 
-         string sql = @"
-SELECT SP2S_TYPE as SP2_TYPE,SP2S_KIND_ID1 as SP2_KIND_ID1,SP2S_KIND_ID2 as SP2_KIND_ID2,SP1_CHANGE_RANGE,SP1_SEQ_NO
- FROM cfo.SP2S,ci.SP1
-WHERE --SP2S_VALUE_DATE = :ad_date
-  --AND 
-  SP2S_DATE = SP1_DATE
-  AND SP2S_TYPE = SP1_TYPE
-  AND SP2S_KIND_ID1 = SP1_KIND_ID1
-  AND SP2S_KIND_ID2 = SP1_KIND_ID2
-  AND SP2S_SPAN_CODE = 'Y'
-union all
-SELECT 'PSR',MG2S_KIND_ID as MG2_KIND_ID,' ',MG1_CHANGE_RANGE,MG1_SEQ_NO
- FROM cfo.MG2S,ci.MG1
-WHERE --MG2S_VALUE_DATE = :ad_date
-  --AND 
-  MG2S_DATE = MG1_DATE
-  AND MG2S_KIND_ID = MG1_KIND_ID
-  AND MG1_TYPE IN ('-','A')
-  AND MG2S_SPAN_CODE = 'Y'
-order by sp1_seq_no 
-";
+//         string sql = @"
+//SELECT SP2S_TYPE as SP2_TYPE,SP2S_KIND_ID1 as SP2_KIND_ID1,SP2S_KIND_ID2 as SP2_KIND_ID2,SP1_CHANGE_RANGE,SP1_SEQ_NO
+// FROM cfo.SP2S,ci.SP1
+//WHERE --SP2S_VALUE_DATE = :ad_date
+//  --AND 
+//  SP2S_DATE = SP1_DATE
+//  AND SP2S_TYPE = SP1_TYPE
+//  AND SP2S_KIND_ID1 = SP1_KIND_ID1
+//  AND SP2S_KIND_ID2 = SP1_KIND_ID2
+//  AND SP2S_SPAN_CODE = 'Y'
+//union all
+//SELECT 'PSR',MG2S_KIND_ID as MG2_KIND_ID,' ',MG1_CHANGE_RANGE,MG1_SEQ_NO
+// FROM cfo.MG2S,ci.MG1
+//WHERE --MG2S_VALUE_DATE = :ad_date
+//  --AND 
+//  MG2S_DATE = MG1_DATE
+//  AND MG2S_KIND_ID = MG1_KIND_ID
+//  AND MG1_TYPE IN ('-','A')
+//  AND MG2S_SPAN_CODE = 'Y'
+//order by sp1_seq_no 
+//";
 
-         DataTable dtResult = db.GetDataTable(sql , parms);
+//         DataTable dtResult = db.GetDataTable(sql , parms);
 
-         return dtResult;
-      }
+//         return dtResult;
+//      }
 
       /// <summary>
       /// Get cfo.MGS1, cfo.MGS2, ci.HEXRT data, return DATA_DATE/FCM/BEF_MARGIN/AFT_MARGIN (結算會員List的全市場合計)
