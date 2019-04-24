@@ -37,22 +37,29 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.gcMain = new DevExpress.XtraGrid.GridControl();
             this.gvMain = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
+            this.gridBand11 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.GRP_NAME = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.gridBand12 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.DATA_YMD = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+            this.gridBand13 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.KIND_ID = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.gridBand14 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+            this.gridBand1 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.ADJ_RSN = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.SMA_ADJ_RATE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.EWMA_ADJ_RATE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.MAXV_ADJ_RATE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.USER_CM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.USER_RATE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.OSW_GRP = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.AB_TYPE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.SMA_CM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.EWMA_CM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.MAXV_CM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.USER_CM_1 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.USER_CM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.gridBand19 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.ADJ_CODE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.gridBand20 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.ISSUE_BEGIN_YMD = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.CUR_CM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.CUR_MM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -72,13 +79,10 @@
             this.AMT_TYPE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.OP_TYPE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.repositoryItemTextDateEdit1 = new BaseGround.Widget.RepositoryItemTextDateEdit();
-            this.gridBand11 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-            this.gridBand12 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-            this.gridBand13 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-            this.gridBand14 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-            this.gridBand1 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-            this.gridBand19 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-            this.gridBand20 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbxCodeN = new System.Windows.Forms.CheckBox();
+            this.cbxCode = new System.Windows.Forms.CheckBox();
+            this.cbxCodeY = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ddlModel.Properties)).BeginInit();
@@ -91,6 +95,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextDateEdit1)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panParent
@@ -106,6 +111,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+            this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Controls.Add(this.ddlModel);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label3);
@@ -321,7 +327,7 @@
             this.EWMA_CM,
             this.MAXV_ADJ_RATE,
             this.MAXV_CM,
-            this.USER_CM_1,
+            this.USER_RATE,
             this.USER_CM,
             this.ADJ_CODE,
             this.ISSUE_BEGIN_YMD,
@@ -349,6 +355,22 @@
             this.gvMain.OptionsView.ShowColumnHeaders = false;
             this.gvMain.OptionsView.ShowGroupPanel = false;
             // 
+            // gridBand11
+            // 
+            this.gridBand11.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.gridBand11.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
+            this.gridBand11.AppearanceHeader.Options.UseBackColor = true;
+            this.gridBand11.AppearanceHeader.Options.UseBorderColor = true;
+            this.gridBand11.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand11.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridBand11.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
+            this.gridBand11.Caption = "群組";
+            this.gridBand11.Columns.Add(this.GRP_NAME);
+            this.gridBand11.Name = "gridBand11";
+            this.gridBand11.Visible = false;
+            this.gridBand11.VisibleIndex = -1;
+            this.gridBand11.Width = 150;
+            // 
             // GRP_NAME
             // 
             this.GRP_NAME.AutoFillDown = true;
@@ -356,6 +378,21 @@
             this.GRP_NAME.FieldName = "GRP_NAME";
             this.GRP_NAME.Name = "GRP_NAME";
             this.GRP_NAME.Width = 150;
+            // 
+            // gridBand12
+            // 
+            this.gridBand12.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.gridBand12.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
+            this.gridBand12.AppearanceHeader.Options.UseBackColor = true;
+            this.gridBand12.AppearanceHeader.Options.UseBorderColor = true;
+            this.gridBand12.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand12.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridBand12.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
+            this.gridBand12.Caption = "日期";
+            this.gridBand12.Columns.Add(this.DATA_YMD);
+            this.gridBand12.Name = "gridBand12";
+            this.gridBand12.VisibleIndex = 0;
+            this.gridBand12.Width = 100;
             // 
             // DATA_YMD
             // 
@@ -375,6 +412,21 @@
             this.repositoryItemTextEdit1.Mask.UseMaskAsDisplayFormat = true;
             this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
             // 
+            // gridBand13
+            // 
+            this.gridBand13.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.gridBand13.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
+            this.gridBand13.AppearanceHeader.Options.UseBackColor = true;
+            this.gridBand13.AppearanceHeader.Options.UseBorderColor = true;
+            this.gridBand13.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand13.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridBand13.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
+            this.gridBand13.Caption = "商品";
+            this.gridBand13.Columns.Add(this.KIND_ID);
+            this.gridBand13.Name = "gridBand13";
+            this.gridBand13.VisibleIndex = 1;
+            this.gridBand13.Width = 75;
+            // 
             // KIND_ID
             // 
             this.KIND_ID.AutoFillDown = true;
@@ -382,6 +434,43 @@
             this.KIND_ID.FieldName = "KIND_ID";
             this.KIND_ID.Name = "KIND_ID";
             this.KIND_ID.Visible = true;
+            // 
+            // gridBand14
+            // 
+            this.gridBand14.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.gridBand14.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
+            this.gridBand14.AppearanceHeader.Options.UseBackColor = true;
+            this.gridBand14.AppearanceHeader.Options.UseBorderColor = true;
+            this.gridBand14.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand14.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridBand14.Caption = "結算保證金調整金額";
+            this.gridBand14.Children.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.GridBand[] {
+            this.gridBand1});
+            this.gridBand14.Name = "gridBand14";
+            this.gridBand14.VisibleIndex = 2;
+            this.gridBand14.Width = 400;
+            // 
+            // gridBand1
+            // 
+            this.gridBand1.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.gridBand1.AppearanceHeader.Options.UseBackColor = true;
+            this.gridBand1.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand1.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridBand1.Caption = "調整項目";
+            this.gridBand1.Columns.Add(this.ADJ_RSN);
+            this.gridBand1.Columns.Add(this.SMA_ADJ_RATE);
+            this.gridBand1.Columns.Add(this.EWMA_ADJ_RATE);
+            this.gridBand1.Columns.Add(this.MAXV_ADJ_RATE);
+            this.gridBand1.Columns.Add(this.USER_RATE);
+            this.gridBand1.Columns.Add(this.OSW_GRP);
+            this.gridBand1.Columns.Add(this.AB_TYPE);
+            this.gridBand1.Columns.Add(this.SMA_CM);
+            this.gridBand1.Columns.Add(this.EWMA_CM);
+            this.gridBand1.Columns.Add(this.MAXV_CM);
+            this.gridBand1.Columns.Add(this.USER_CM);
+            this.gridBand1.Name = "gridBand1";
+            this.gridBand1.VisibleIndex = 0;
+            this.gridBand1.Width = 400;
             // 
             // ADJ_RSN
             // 
@@ -430,18 +519,15 @@
             this.MAXV_ADJ_RATE.Visible = true;
             this.MAXV_ADJ_RATE.Width = 98;
             // 
-            // USER_CM
+            // USER_RATE
             // 
-            this.USER_CM.AutoFillDown = true;
-            this.USER_CM.Caption = "USER_CM";
-            this.USER_CM.DisplayFormat.FormatString = "N0";
-            this.USER_CM.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.USER_CM.FieldName = "USER_CM";
-            this.USER_CM.Name = "USER_CM";
-            this.USER_CM.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.True;
-            this.USER_CM.RowIndex = 1;
-            this.USER_CM.Visible = true;
-            this.USER_CM.Width = 106;
+            this.USER_RATE.Caption = "USER_RATE";
+            this.USER_RATE.FieldName = "USER_RATE";
+            this.USER_RATE.Name = "USER_RATE";
+            this.USER_RATE.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.True;
+            this.USER_RATE.RowIndex = 1;
+            this.USER_RATE.Visible = true;
+            this.USER_RATE.Width = 106;
             // 
             // OSW_GRP
             // 
@@ -490,14 +576,33 @@
             this.MAXV_CM.Visible = true;
             this.MAXV_CM.Width = 98;
             // 
-            // USER_CM_1
+            // USER_CM
             // 
-            this.USER_CM_1.FieldName = "USER_CM";
-            this.USER_CM_1.Name = "USER_CM_1";
-            this.USER_CM_1.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.True;
-            this.USER_CM_1.RowIndex = 2;
-            this.USER_CM_1.Visible = true;
-            this.USER_CM_1.Width = 106;
+            this.USER_CM.AutoFillDown = true;
+            this.USER_CM.Caption = "USER_CM";
+            this.USER_CM.DisplayFormat.FormatString = "N0";
+            this.USER_CM.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.USER_CM.FieldName = "USER_CM";
+            this.USER_CM.Name = "USER_CM";
+            this.USER_CM.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.True;
+            this.USER_CM.RowIndex = 2;
+            this.USER_CM.Visible = true;
+            this.USER_CM.Width = 106;
+            // 
+            // gridBand19
+            // 
+            this.gridBand19.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.gridBand19.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
+            this.gridBand19.AppearanceHeader.Options.UseBackColor = true;
+            this.gridBand19.AppearanceHeader.Options.UseBorderColor = true;
+            this.gridBand19.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand19.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
+            this.gridBand19.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
+            this.gridBand19.Caption = " 不處理／觀察 ／調整";
+            this.gridBand19.Columns.Add(this.ADJ_CODE);
+            this.gridBand19.Name = "gridBand19";
+            this.gridBand19.VisibleIndex = 3;
+            this.gridBand19.Width = 162;
             // 
             // ADJ_CODE
             // 
@@ -509,6 +614,21 @@
             this.ADJ_CODE.Name = "ADJ_CODE";
             this.ADJ_CODE.Visible = true;
             this.ADJ_CODE.Width = 162;
+            // 
+            // gridBand20
+            // 
+            this.gridBand20.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.gridBand20.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
+            this.gridBand20.AppearanceHeader.Options.UseBackColor = true;
+            this.gridBand20.AppearanceHeader.Options.UseBorderColor = true;
+            this.gridBand20.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand20.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridBand20.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
+            this.gridBand20.Caption = "生效日期";
+            this.gridBand20.Columns.Add(this.ISSUE_BEGIN_YMD);
+            this.gridBand20.Name = "gridBand20";
+            this.gridBand20.VisibleIndex = 4;
+            this.gridBand20.Width = 119;
             // 
             // ISSUE_BEGIN_YMD
             // 
@@ -649,118 +769,53 @@
             this.repositoryItemTextDateEdit1.Mask.UseMaskAsDisplayFormat = true;
             this.repositoryItemTextDateEdit1.Name = "repositoryItemTextDateEdit1";
             // 
-            // gridBand11
+            // groupBox1
             // 
-            this.gridBand11.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.gridBand11.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
-            this.gridBand11.AppearanceHeader.Options.UseBackColor = true;
-            this.gridBand11.AppearanceHeader.Options.UseBorderColor = true;
-            this.gridBand11.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand11.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand11.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
-            this.gridBand11.Caption = "群組";
-            this.gridBand11.Columns.Add(this.GRP_NAME);
-            this.gridBand11.Name = "gridBand11";
-            this.gridBand11.Visible = false;
-            this.gridBand11.VisibleIndex = -1;
-            this.gridBand11.Width = 150;
+            this.groupBox1.Controls.Add(this.cbxCodeY);
+            this.groupBox1.Controls.Add(this.cbxCode);
+            this.groupBox1.Controls.Add(this.cbxCodeN);
+            this.groupBox1.Location = new System.Drawing.Point(467, 44);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(267, 60);
+            this.groupBox1.TabIndex = 13;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "篩選";
             // 
-            // gridBand12
+            // cbxCodeN
             // 
-            this.gridBand12.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.gridBand12.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
-            this.gridBand12.AppearanceHeader.Options.UseBackColor = true;
-            this.gridBand12.AppearanceHeader.Options.UseBorderColor = true;
-            this.gridBand12.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand12.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand12.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
-            this.gridBand12.Caption = "日期";
-            this.gridBand12.Columns.Add(this.DATA_YMD);
-            this.gridBand12.Name = "gridBand12";
-            this.gridBand12.VisibleIndex = 0;
-            this.gridBand12.Width = 100;
+            this.cbxCodeN.AutoSize = true;
+            this.cbxCodeN.Checked = true;
+            this.cbxCodeN.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbxCodeN.Location = new System.Drawing.Point(23, 29);
+            this.cbxCodeN.Name = "cbxCodeN";
+            this.cbxCodeN.Size = new System.Drawing.Size(76, 24);
+            this.cbxCodeN.TabIndex = 0;
+            this.cbxCodeN.Text = "不處理";
+            this.cbxCodeN.UseVisualStyleBackColor = true;
             // 
-            // gridBand13
+            // cbxCode
             // 
-            this.gridBand13.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.gridBand13.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
-            this.gridBand13.AppearanceHeader.Options.UseBackColor = true;
-            this.gridBand13.AppearanceHeader.Options.UseBorderColor = true;
-            this.gridBand13.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand13.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand13.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
-            this.gridBand13.Caption = "商品";
-            this.gridBand13.Columns.Add(this.KIND_ID);
-            this.gridBand13.Name = "gridBand13";
-            this.gridBand13.VisibleIndex = 1;
-            this.gridBand13.Width = 75;
+            this.cbxCode.AutoSize = true;
+            this.cbxCode.Checked = true;
+            this.cbxCode.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbxCode.Location = new System.Drawing.Point(105, 28);
+            this.cbxCode.Name = "cbxCode";
+            this.cbxCode.Size = new System.Drawing.Size(60, 24);
+            this.cbxCode.TabIndex = 1;
+            this.cbxCode.Text = "觀察";
+            this.cbxCode.UseVisualStyleBackColor = true;
             // 
-            // gridBand14
+            // cbxCodeY
             // 
-            this.gridBand14.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.gridBand14.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
-            this.gridBand14.AppearanceHeader.Options.UseBackColor = true;
-            this.gridBand14.AppearanceHeader.Options.UseBorderColor = true;
-            this.gridBand14.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand14.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand14.Caption = "結算保證金調整金額";
-            this.gridBand14.Children.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.GridBand[] {
-            this.gridBand1});
-            this.gridBand14.Name = "gridBand14";
-            this.gridBand14.VisibleIndex = 2;
-            this.gridBand14.Width = 400;
-            // 
-            // gridBand1
-            // 
-            this.gridBand1.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.gridBand1.AppearanceHeader.Options.UseBackColor = true;
-            this.gridBand1.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand1.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand1.Caption = "調整項目";
-            this.gridBand1.Columns.Add(this.ADJ_RSN);
-            this.gridBand1.Columns.Add(this.SMA_ADJ_RATE);
-            this.gridBand1.Columns.Add(this.EWMA_ADJ_RATE);
-            this.gridBand1.Columns.Add(this.MAXV_ADJ_RATE);
-            this.gridBand1.Columns.Add(this.USER_CM);
-            this.gridBand1.Columns.Add(this.OSW_GRP);
-            this.gridBand1.Columns.Add(this.AB_TYPE);
-            this.gridBand1.Columns.Add(this.SMA_CM);
-            this.gridBand1.Columns.Add(this.EWMA_CM);
-            this.gridBand1.Columns.Add(this.MAXV_CM);
-            this.gridBand1.Columns.Add(this.USER_CM_1);
-            this.gridBand1.Name = "gridBand1";
-            this.gridBand1.VisibleIndex = 0;
-            this.gridBand1.Width = 400;
-            // 
-            // gridBand19
-            // 
-            this.gridBand19.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.gridBand19.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
-            this.gridBand19.AppearanceHeader.Options.UseBackColor = true;
-            this.gridBand19.AppearanceHeader.Options.UseBorderColor = true;
-            this.gridBand19.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand19.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
-            this.gridBand19.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
-            this.gridBand19.Caption = " 不處理／觀察 ／調整";
-            this.gridBand19.Columns.Add(this.ADJ_CODE);
-            this.gridBand19.Name = "gridBand19";
-            this.gridBand19.VisibleIndex = 3;
-            this.gridBand19.Width = 162;
-            // 
-            // gridBand20
-            // 
-            this.gridBand20.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.gridBand20.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
-            this.gridBand20.AppearanceHeader.Options.UseBackColor = true;
-            this.gridBand20.AppearanceHeader.Options.UseBorderColor = true;
-            this.gridBand20.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand20.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand20.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
-            this.gridBand20.Caption = "生效日期";
-            this.gridBand20.Columns.Add(this.ISSUE_BEGIN_YMD);
-            this.gridBand20.Name = "gridBand20";
-            this.gridBand20.VisibleIndex = 4;
-            this.gridBand20.Width = 119;
+            this.cbxCodeY.AutoSize = true;
+            this.cbxCodeY.Checked = true;
+            this.cbxCodeY.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbxCodeY.Location = new System.Drawing.Point(171, 28);
+            this.cbxCodeY.Name = "cbxCodeY";
+            this.cbxCodeY.Size = new System.Drawing.Size(60, 24);
+            this.cbxCodeY.TabIndex = 14;
+            this.cbxCodeY.Text = "調整";
+            this.cbxCodeY.UseVisualStyleBackColor = true;
             // 
             // W40070
             // 
@@ -789,6 +844,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextDateEdit1)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -844,7 +901,7 @@
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn OP_TYPE;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit1;
         private BaseGround.Widget.RepositoryItemTextDateEdit repositoryItemTextDateEdit1;
-        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn USER_CM_1;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn USER_RATE;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand11;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand12;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand13;
@@ -852,5 +909,9 @@
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand1;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand19;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand20;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.CheckBox cbxCodeY;
+        private System.Windows.Forms.CheckBox cbxCode;
+        private System.Windows.Forms.CheckBox cbxCodeN;
     }
 }

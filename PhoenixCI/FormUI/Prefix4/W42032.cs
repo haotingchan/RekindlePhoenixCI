@@ -111,7 +111,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 lblProcessing.Text = rptId + "－" + rptName + " 轉檔中...";
 
                 //逐每一商品/股票轉出資料
-                if (dt42032Scrn.Rows.Count == 0) {
+                if (dtFiltered.Rows.Count == 0) {
                     MessageDisplay.Info(txtSDate.Text + "," + rptId + '－' + rptName + ",無任何資料!");
                     lblProcessing.Visible = false;
                     return ResultStatus.Fail;

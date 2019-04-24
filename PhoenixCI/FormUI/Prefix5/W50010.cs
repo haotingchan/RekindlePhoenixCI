@@ -13,6 +13,7 @@ using DevExpress.XtraEditors.Controls;
 using DevExpress.Utils;
 using DevExpress.Data;
 using DevExpress.XtraEditors;
+using System.Drawing;
 
 namespace PhoenixCI.FormUI.Prefix5 {
    public partial class W50010 : FormParent {
@@ -23,49 +24,43 @@ namespace PhoenixCI.FormUI.Prefix5 {
       #region get UI Value
       public string paramKey {
          get {
-            return string.IsNullOrEmpty(Prod_ct.EditValue.AsString()) ? "" :
-               "and ammd_PARAM_KEY ='" + Prod_ct.EditValue.AsString() + "'";
+            return string.IsNullOrEmpty(Prod_ct.EditValue.AsString()) ? "" : Prod_ct.EditValue.AsString();
          }
       }
 
       public string kindIdSt {
          get {
-            return string.IsNullOrEmpty(Kind_id_st.EditValue.AsString()) ? "" :
-               "and ammd_kind_id2 ='" + Kind_id_st.EditValue.AsString() + "'";
+            return string.IsNullOrEmpty(Kind_id_st.EditValue.AsString()) ? "" : Kind_id_st.EditValue.AsString();
+
          }
       }
 
       public string kindIdO {
          get {
-            return string.IsNullOrEmpty(Kind_id_O.EditValue.AsString()) ? "" :
-               "and ammd_KIND_ID = '" + Kind_id_O.EditValue.AsString() + "'";
+            return string.IsNullOrEmpty(Kind_id_O.EditValue.AsString()) ? "" : Kind_id_O.EditValue.AsString();
          }
       }
 
       public string prodSort {
          get {
-            return string.IsNullOrEmpty(Txt_prod_sort.EditValue.AsString()) ? "" :
-               "and AMMD_PROD_ID like '" + Txt_prod_sort.EditValue.AsString() + "%'";
+            //return string.IsNullOrEmpty(Txt_prod_sort.EditValue.AsString()) ? "" :
+            //   "and AMMD_PROD_ID like '" + Txt_prod_sort.EditValue.AsString() + "%'";
+            return string.IsNullOrEmpty(Txt_prod_sort.EditValue.AsString()) ? "" : Txt_prod_sort.EditValue.AsString();
+
          }
       }
 
       public string fcmSNo {
          get {
-            return string.IsNullOrEmpty(Fcm_SNo.EditValue.AsString()) ? "" :
-               string.Format("and AMMD_BRK_NO >= '{0}'", Fcm_SNo.EditValue.AsString());
+            return string.IsNullOrEmpty(Fcm_SNo.EditValue.AsString()) ? "" : Fcm_SNo.EditValue.AsString();
+
          }
       }
 
       public string fcmENo {
          get {
-            return string.IsNullOrEmpty(Fcm_ENo.EditValue.AsString()) ? "" :
-               string.Format("and AMMD_BRK_NO <= '{0}'", Fcm_ENo.EditValue.AsString());
-         }
-      }
+            return string.IsNullOrEmpty(Fcm_ENo.EditValue.AsString()) ? "" : Fcm_ENo.EditValue.AsString();
 
-      public string fcmRange {
-         get {
-            return fcmSNo + fcmENo;
          }
       }
 
@@ -120,13 +115,17 @@ namespace PhoenixCI.FormUI.Prefix5 {
       }
 
       protected override ResultStatus Retrieve() {
-         string[] showColCaption = { "期貨商", "期貨商名稱", "帳號","","商品名稱", "報價時間", "最接近報價詢價時間",
-            "","尋報價時間差(秒)", "報價維持時間(秒)", "報價有效", "計入維持時間(秒)", "價差權數", "數量權數", "標的權數","績效","報價單別","" };
+         string[] showColCaption = {"期貨商", $"期貨商{Environment.NewLine}名稱", "帳號","",$"商品{Environment.NewLine}名稱",
+                                    $"報價{Environment.NewLine}時間", $"最接近報價{Environment.NewLine}詢價時間","",
+                                    $"尋報價{Environment.NewLine}時間差(秒)", $"報價維持{Environment.NewLine}時間(秒)",
+                                    $"報價{Environment.NewLine}有效", $"計入維持{Environment.NewLine}時間(秒)", $"價差{Environment.NewLine}權數",
+                                    $"數量{Environment.NewLine}權數", $"標的{Environment.NewLine}權數","績效",$"報價{Environment.NewLine}單別","" };
 
          IGridData50010 gridData = dao50010.CreateGridData(dao50010.GetType(), matketTime);
-         Q50010 q50010 = new Q50010(TxtDate.DateTimeValue, paramKey, kindIdSt, kindIdO, prodSort, fcmRange);
+         Q50010 q50010 = new Q50010(TxtDate.DateTimeValue, paramKey, kindIdSt, kindIdO, prodSort, fcmSNo, fcmENo);
          dtTarget = gridData.GetData(q50010);
          gcMain.DataSource = dtTarget;
+         gcPrint.DataSource = dtTarget;
 
          if (dtTarget != null) {
             if (dtTarget.Rows.Count == 0) {
@@ -146,10 +145,19 @@ namespace PhoenixCI.FormUI.Prefix5 {
             gvMain.Columns[dc.ColumnName].AppearanceCell.TextOptions.WordWrap = WordWrap.Wrap;
             gvMain.Columns[dc.ColumnName].OptionsColumn.AllowMerge = DefaultBoolean.False;
 
+            gvPrint.SetColumnCaption(dc.ColumnName, showColCaption[dtTarget.Columns.IndexOf(dc)]);
+            gvPrint.Columns[dc.ColumnName].OptionsColumn.AllowEdit = false;
+            gvPrint.Columns[dc.ColumnName].AppearanceHeader.TextOptions.WordWrap = WordWrap.Wrap;
+            //gvPrint.Columns[dc.ColumnName].AppearanceCell.TextOptions.WordWrap = WordWrap.Wrap;
+            gvPrint.Columns[dc.ColumnName].OptionsColumn.AllowMerge = DefaultBoolean.False;
+
             //前4個欄位合併 (一樣的值不顯示)
             if (dc.Ordinal < 5) {
                gvMain.Columns[dc.ColumnName].AppearanceCell.TextOptions.VAlignment = VertAlignment.Top;
                gvMain.Columns[dc.ColumnName].OptionsColumn.AllowMerge = DefaultBoolean.True;
+
+               gvPrint.Columns[dc.ColumnName].AppearanceCell.TextOptions.VAlignment = VertAlignment.Top;
+               gvPrint.Columns[dc.ColumnName].OptionsColumn.AllowMerge = DefaultBoolean.True;
             }
          }
 
@@ -162,23 +170,43 @@ namespace PhoenixCI.FormUI.Prefix5 {
          gvMain.Columns["AMMD_W_TIME"].DisplayFormat.FormatString = "HH:mm:ss";
          gvMain.Columns["AMMD_BRK_NO"].SortOrder = ColumnSortOrder.Ascending;
 
+         gvPrint.Columns["AMMD_PROD_TYPE"].Visible = false;
+         gvPrint.Columns["AMMD_M_TIME"].Visible = false;
+         gvPrint.Columns["AMMD_Q_NO"].Visible = false;
+
+         gvPrint.Columns["AMMD_W_TIME"].DisplayFormat.FormatType = FormatType.DateTime;
+         gvPrint.Columns["AMMD_W_TIME"].DisplayFormat.FormatString = "HH:mm:ss";
+         gvPrint.Columns["AMMD_PROD_ID"].VisibleIndex = 0;
 
          if (printSort == "P") {
             gvMain.Columns["AMMD_PROD_ID"].VisibleIndex = 0;
+
+            gvPrint.Columns["AMMD_BRK_NO"].SortOrder = ColumnSortOrder.Ascending;
+
          } else {
             gvMain.Columns["AMMD_PROD_ID"].VisibleIndex = 4;
+
+            gvPrint.Columns["BRK_ABBR_NAME"].SortOrder = ColumnSortOrder.Ascending;
          }
 
          gvMain.ColumnPanelRowHeight = 40;
          gvMain.OptionsView.AllowCellMerge = true;
          gvMain.BestFitColumns();
 
+         gvPrint.AppearancePrint.HeaderPanel.Options.UseTextOptions = true;
+         gvPrint.AppearancePrint.HeaderPanel.TextOptions.WordWrap = WordWrap.Wrap;
+         gvPrint.ColumnPanelRowHeight = 40;
+         gvPrint.AppearancePrint.HeaderPanel.Font = new Font("Microsoft YaHei", gvPrint.Appearance.HeaderPanel.Font.Size);
+         gvPrint.AppearancePrint.Row.Font = new Font("Microsoft YaHei", 11);
+         gvPrint.OptionsPrint.AllowMultilineHeaders = true;
+         gvPrint.OptionsView.AllowCellMerge = true;
+         gvPrint.BestFitColumns();
+
          _ToolBtnExport.Enabled = true;
          _ToolBtnPrintAll.Enabled = true;
 
          GridHelper.SetCommonGrid(gvMain);
-
-         gvMain.AppearancePrint.Row.Font = new System.Drawing.Font("Microsoft YaHei", 9);
+         //GridHelper.SetCommonGrid(gvPrint);
 
          gcMain.Visible = true;
          return ResultStatus.Success;
@@ -187,11 +215,12 @@ namespace PhoenixCI.FormUI.Prefix5 {
       protected override ResultStatus Export() {
          string fileName = string.Format("{0}_{1}.csv", _ProgramID, DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss"));
          string filepath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, fileName);
-         string[] exportColCaption = { "期貨商", "帳號", "期貨商名稱","期貨/選擇權","商品", "報價時間", "最接近報價詢價時間",
+         string[] exportColCaption = {"期貨商", "帳號", "期貨商名稱","期貨/選擇權","商品", "報價時間", "最接近報價詢價時間",
             "最小成交回報檔時間", "r_second","m_second", "有效報價", "計入維持時間(秒)", "價差權數", "數量權數", "標的權數","績效","報價單別" ,"單號"};
 
          try {
             gcExport.DataSource = dtTarget;
+            dtTarget.Columns["AMMD_ACC_NO"].SetOrdinal(1);
 
             foreach (DataColumn dc in dtTarget.Columns) {
                gvExport.SetColumnCaption(dc.ColumnName, exportColCaption[dtTarget.Columns.IndexOf(dc)]);
@@ -199,13 +228,17 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
             gvExport.Columns["AMMD_RESULT"].DisplayFormat.FormatType = FormatType.Numeric;
             gvExport.Columns["AMMD_RESULT"].DisplayFormat.FormatString = "d2";
-            gvExport.Columns["AMMD_W_TIME"].DisplayFormat.FormatString = "yyyy/MM/dd HH:mm";
-            gvExport.Columns["AMMD_R_TIME"].DisplayFormat.FormatString = "yyyy/MM/dd HH:mm";
-            gvExport.Columns["AMMD_M_TIME"].DisplayFormat.FormatString = "yyyy/MM/dd HH:mm";
+            gvExport.Columns["AMMD_KEEP_TIME"].DisplayFormat.FormatString = "d2";
 
-            if (printSort == "P") {
-               gvMain.Columns["AMMD_PROD_ID"].VisibleIndex = 0;
-            }
+            gvExport.Columns["AMMD_W_TIME"].DisplayFormat.FormatType = FormatType.DateTime;
+            gvExport.Columns["AMMD_W_TIME"].DisplayFormat.FormatString = "yyyy/MM/dd HH:mm:ss.fff";
+
+            gvExport.Columns["AMMD_R_TIME"].DisplayFormat.FormatString = "yyyy/MM/dd HH:mm:ss";
+
+            gvExport.Columns["AMMD_M_TIME"].DisplayFormat.FormatType = FormatType.DateTime;
+            gvExport.Columns["AMMD_M_TIME"].DisplayFormat.FormatString = "yyyy/MM/dd HH:mm:ss.fff";
+
+            gvExport.Columns["AMMD_ACC_NO"].VisibleIndex = 1;
 
             gvExport.ExportToCsv(filepath);
          } catch (Exception ex) {
@@ -216,9 +249,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
       protected override ResultStatus Print(ReportHelper reportHelper) {
          try {
-            ReportHelper _ReportHelper = new ReportHelper(gcMain, _ProgramID, this.Text);
+            ReportHelper _ReportHelper = new ReportHelper(gcPrint, _ProgramID, this.Text);
             CommonReportLandscapeA4 reportLandscape = new CommonReportLandscapeA4();//設定為橫向列印
-            reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
             _ReportHelper.LeftMemo = GenPrintMemo();
             reportLandscape.IsHandlePersonVisible = false;
             reportLandscape.IsManagerVisible = false;
@@ -262,15 +294,19 @@ namespace PhoenixCI.FormUI.Prefix5 {
       }
 
       private string GenPrintMemo() {
-         string fcm = "造市者:" + Fcm_SNo.EditValue.AsString() + "~" + Fcm_ENo.EditValue.AsString();
+         string fcm = "造市者:" + Fcm_SNo.EditValue.AsString() + "~" + Fcm_ENo.EditValue.AsString() + ",";
 
-         string prodGroup = string.IsNullOrEmpty(Prod_ct.EditValue.AsString()) ? "" : "商品群組:" + Prod_ct.EditValue.AsString()+",";
+         if (string.IsNullOrEmpty(Fcm_SNo.EditValue.AsString()) && string.IsNullOrEmpty(Fcm_ENo.EditValue.AsString())) {
+            fcm = "";
+         }
+
+         string prodGroup = string.IsNullOrEmpty(Prod_ct.EditValue.AsString()) ? "" : "商品群組:" + Prod_ct.EditValue.AsString() + ",";
          string prodCt = string.IsNullOrEmpty(Kind_id_O.EditValue.AsString()) ? "" : "造市商品:" + Kind_id_O.EditValue.AsString() + ",";
          string kindIdSt = string.IsNullOrEmpty(Kind_id_st.EditValue.AsString()) ? "" : "二碼商品:" + Kind_id_st.EditValue.AsString() + ",";
          string marketTime = string.IsNullOrEmpty(MarketTime.EditValue.AsString()) ? "" : MarketTime.Text + "交易時段,";
          string prodId = string.IsNullOrEmpty(Txt_prod_sort.EditValue.AsString()) ? "" : "商品序列:" + Txt_prod_sort.EditValue.AsString() + ",";
 
-         string printMemo = "報表條件: " + prodGroup + prodCt + kindIdSt + marketTime + prodId;
+         string printMemo = "報表條件: " + fcm + prodGroup + prodCt + kindIdSt + marketTime + prodId;
          printMemo = printMemo.TrimEnd(',');
 
          return printMemo;

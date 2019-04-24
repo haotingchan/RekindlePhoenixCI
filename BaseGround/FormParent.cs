@@ -28,6 +28,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using BaseGround.Widget;
 using System.Linq;
+using System.ComponentModel;
 
 namespace BaseGround {
    public partial class FormParent : DevExpress.XtraBars.Ribbon.RibbonForm {
@@ -1065,5 +1066,10 @@ namespace BaseGround {
          }
       }
 
+      //protected override void OnFormClosing(FormClosingEventArgs e) {
+      //   CausesValidation = false;
+      //   Dispose();
+      //   this.Close();
+      //}
    }
 }

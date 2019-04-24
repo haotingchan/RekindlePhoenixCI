@@ -301,6 +301,7 @@
     <Compile Include="Dao\Together\TableDao\LOGSP.cs" />
     <Compile Include="Dao\Together\TableDao\AOCF.cs" />
     <Compile Include="Dao\Together\TableDao\LOGV.cs" />
+    <Compile Include="Dao\Together\TableDao\MGD2.cs" />
     <Compile Include="Dao\Together\TableDao\MGR3.cs" />
     <Compile Include="Dao\Together\TableDao\MGT2.cs" />
     <Compile Include="Dao\Together\TableDao\MGT3.cs" />

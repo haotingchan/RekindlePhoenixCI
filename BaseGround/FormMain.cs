@@ -121,11 +121,16 @@ namespace BaseGround {
       }
 
       private void ToolStripButtonQuit_Click(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
+
+         FormParent activeMdiChildFormParent = ((FormParent)ActiveMdiChild);
+         activeMdiChildFormParent.AutoValidate = AutoValidate.Disable;
+         activeMdiChildFormParent.CausesValidation = false;
+
          // 當ActiveMdiChild為null時，代表已經都沒有MdiChild了
          if (this.ActiveMdiChild == null) {
+            Dispose();
             Application.Exit();
          } else {
-            FormParent activeMdiChildFormParent = ((FormParent)ActiveMdiChild);
             activeMdiChildFormParent.Close();
          }
       }
@@ -246,6 +251,11 @@ namespace BaseGround {
          if (e.KeyCode == Keys.Escape) {
             Application.Exit();
          }
+      }
+
+      protected override void OnClosed(EventArgs e) {
+         Dispose();
+         Close();
       }
    }
 
