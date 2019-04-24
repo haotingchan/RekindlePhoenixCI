@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace DataObjects.Dao.Together.SpecificDao
 {
    public class D50031:DataGate
    {
-      public DbDataAdapter ListD50031(int ii_market_code,string is_sum_subtype, string is_detail_type, string is_sdate, 
+      public DataTable ListD50031(int ii_market_code,string is_sum_subtype, string is_detail_type, string is_sdate, 
          string is_edate, string is_sbrkno, string is_ebrkno, string is_key, string is_prod_subtype, 
          string is_kind_id2, string is_condition)
       {
@@ -133,9 +134,9 @@ namespace DataObjects.Dao.Together.SpecificDao
                        when substr(amm4_ymd_area,0,4)='日期' then 2 else 3 end),
          amm4_ymd_area ,amm4_kind_id,amm4_brk_no,amm4_acc_no
 ";
-         DbDataAdapter adapter = db.GetDataAdapter(sql, parms);
-         return adapter;
-      }//public DbDataAdapter ListD50030
+         DataTable dt = db.GetDataTable(sql, parms);
+         return dt;
+      }//public DataTable ListD50030
 
    }
 }

@@ -26,7 +26,7 @@ namespace PhoenixCI.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=192.168.68.51/CI;User ID=CI;Password=orcl;Unicode=True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=192.168.88.51/CI;User ID=CI;Password=orcl;Unicode=True")]
         public string ConnectionString {
             get {
                 return ((string)(this["ConnectionString"]));

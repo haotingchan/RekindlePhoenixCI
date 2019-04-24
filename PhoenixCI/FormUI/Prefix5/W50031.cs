@@ -23,7 +23,7 @@ namespace PhoenixCI.FormUI.Prefix5
    public partial class W50031 : FormParent
    {
       private D50031 dao50031;
-      private DbDataAdapter is_dw_name { get; set; }
+      private DataTable is_dw_name { get; set; }
       int ii_market_code;
       string is_key, is_kind_id2, is_prod_subtype, is_detail_type, is_sum_subtype;
       public string ls_date_type;
@@ -258,8 +258,7 @@ namespace PhoenixCI.FormUI.Prefix5
          is_dw_name = dao50031.ListD50031
             (ii_market_code, is_sum_subtype, is_detail_type, w500xx.is_sdate, w500xx.is_edate, 
             w500xx.is_sbrkno, w500xx.is_ebrkno, is_key, is_prod_subtype, is_kind_id2, ls_text);
-         DataTable ids_1 = new DataTable();
-         is_dw_name.Fill(ids_1);
+         DataTable ids_1 = is_dw_name;
          if (ids_1.Rows.Count <= 0) {
             w500xx.AfterExport();
             return ResultStatus.Success;
