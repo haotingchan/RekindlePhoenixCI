@@ -72,7 +72,7 @@ namespace PhoenixCI.FormUI.Prefix6 {
             #region 檢查
             //要先call f_get_jsw
             string rtn = "";
-            rtn = PbFunc.f_get_jsw("60420","E", GlobalInfo.OCF_DATE);
+            rtn = PbFunc.f_get_jsw("60420","E", GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd"));
             //ls_rtn = f_get_jsw(is_txn_id,'E',em_date.text)
             if (rtn != "Y") {
                 DialogResult result = MessageBox.Show(txtEndDate.Text + " 統計資料未轉入完畢,是否要繼續?",
