@@ -12,13 +12,18 @@ using System.Globalization;
 using BaseGround.Shared;
 using System.IO;
 
+/// <summary>
+/// Winni, 2019/04/24
+/// </summary>
 namespace PhoenixCI.FormUI.Prefix5 {
-   // winni, 2019/01/07 造市者每日價平上下5檔各序列報價     
+   /// <summary>
+   /// 50050 造市者每日價平上下5檔各序列報價
+   /// </summary>
    public partial class W50050 : FormParent {
       private D50050 dao50050;
       string ls_time1, ls_time2, ls_brk_no, ls_prod_kind_id, ls_settle_date, ls_pc_code, ls_p_seq_no, ls_acc_no;
       decimal ld_p_seq_no, ld_avg_spread, ll_found_row, ll_rows;
-    
+
       int i, li_p_seq_no1, li_p_seq_no2;
       DateTime ldt_date;
       string dbName = "";
@@ -26,11 +31,13 @@ namespace PhoenixCI.FormUI.Prefix5 {
       public W50050(string programID , string programName) : base(programID , programName) {
          try {
             InitializeComponent();
+            this.Text = _ProgramID + "─" + _ProgramName;
+
             //GridHelper.SetCommonGrid(gvMain);
             //PrintableComponent = gcMain;
             dao50050 = new D50050();
 
-            this.Text = _ProgramID + "─" + _ProgramName;
+
 
             txtStartDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
             txtEndDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
@@ -69,7 +76,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             return ResultStatus.Fail;
          }
          //存CSV
-         string etfFileName = "50050_" + DateTime.Now.ToString("yyyy.MM.dd-hh.mm.ss") + ".csv";
+         string etfFileName = "50050_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".csv";
          etfFileName = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , etfFileName);
          ExportOptions csvref = new ExportOptions();
          csvref.HasHeader = true;
@@ -221,7 +228,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                   e.DisplayText = "價平";
                   break;
                case 1:
-                  e.DisplayText =  "價外第一檔";
+                  e.DisplayText = "價外第一檔";
                   break;
                case 2:
                   e.DisplayText = "價外第二檔";
@@ -249,8 +256,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
                   break;
                case -5:
                   e.DisplayText = "價內第五檔";
-                  break;             
-            }  
+                  break;
+            }
 
          }
          //時間格式呈現微調

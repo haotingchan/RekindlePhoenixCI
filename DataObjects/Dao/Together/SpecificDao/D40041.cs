@@ -42,8 +42,6 @@ WHERE MG41_DATE = :as_trade_date
   AND MG1_DATE = MG41_DATE
   AND MG1_KIND_ID = MG41_KIND_ID
   AND MG1_TYPE in ( '-','A' )  
-  AND MG1_KIND_ID <> 'GBF' --特殊處理
-  AND MG1_KIND_ID <> 'CPF'
   AND MG1_OSW_GRP LIKE :as_osw_grp
   AND MG1_CHANGE_FLAG LIKE :as_change_flag
   ORDER BY MG1_SEQ_NO

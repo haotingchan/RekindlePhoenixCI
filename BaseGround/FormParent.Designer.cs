@@ -36,6 +36,7 @@
          // 
          // ribbonControl
          // 
+         this.ribbonControl.CausesValidation = false;
          this.ribbonControl.ExpandCollapseItem.Id = 0;
          this.ribbonControl.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
             this.ribbonControl.ExpandCollapseItem});
@@ -46,17 +47,18 @@
          this.ribbonControl.ShowDisplayOptionsMenuButton = DevExpress.Utils.DefaultBoolean.False;
          this.ribbonControl.ShowPageHeadersMode = DevExpress.XtraBars.Ribbon.ShowPageHeadersMode.Hide;
          this.ribbonControl.ShowToolbarCustomizeItem = false;
-         this.ribbonControl.Size = new System.Drawing.Size(836, 32);
+         this.ribbonControl.Size = new System.Drawing.Size(844, 32);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // panParent
          // 
          this.panParent.BackColor = System.Drawing.Color.White;
+         this.panParent.CausesValidation = false;
          this.panParent.Dock = System.Windows.Forms.DockStyle.Fill;
          this.panParent.Location = new System.Drawing.Point(0, 32);
          this.panParent.Name = "panParent";
          this.panParent.Padding = new System.Windows.Forms.Padding(12);
-         this.panParent.Size = new System.Drawing.Size(836, 542);
+         this.panParent.Size = new System.Drawing.Size(844, 546);
          this.panParent.TabIndex = 1;
          // 
          // FormParent
@@ -65,7 +67,8 @@
          this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
          this.AutoValidate = System.Windows.Forms.AutoValidate.EnablePreventFocusChange;
-         this.ClientSize = new System.Drawing.Size(836, 574);
+         this.CausesValidation = false;
+         this.ClientSize = new System.Drawing.Size(844, 578);
          this.Controls.Add(this.panParent);
          this.Controls.Add(this.ribbonControl);
          this.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
