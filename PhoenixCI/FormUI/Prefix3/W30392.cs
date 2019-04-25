@@ -33,19 +33,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
       protected override ResultStatus Open() {
          base.Open();
-         return ResultStatus.Success;
-      }
 
-      protected override ResultStatus AfterOpen() {
-         base.AfterOpen();
+         txtMonth.DateTimeValue = GlobalInfo.OCF_DATE;
 
-         DateTime.TryParseExact(PbFunc.f_ocf_date(0) , "yyyy/MM/dd" , null , System.Globalization.DateTimeStyles.AllowWhiteSpaces , out DateTime startMonth);
-         txtMonth.EditValue = startMonth.ToString("yyyy/MM");
-
-         //#if DEBUG
-         //         txtMonth.EditValue = DateTime.ParseExact("2018/10/11" , "yyyy/MM/dd" , null).ToString("yyyy/MM");
-         //         this.Text += "(開啟測試模式)";
-         //#endif
+#if DEBUG
+         txtMonth.EditValue = DateTime.ParseExact("2018/10/11" , "yyyy/MM/dd" , null).ToString("yyyy/MM");
+         this.Text += "(開啟測試模式)";
+#endif
 
          return ResultStatus.Success;
       }
@@ -369,7 +363,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             foreach (DataRow dr in dtAm2.Rows) {
                DateTime am2Ymd = dr["am2_ymd"].AsDateTime("yyyyMM");
                string temp = string.Format("{0}/{1}" , taiwanCalendar.GetYear(am2Ymd) , am2Ymd.Month.ToString().PadLeft(2 , '0'));
-               
+
                if (ymd != am2Ymd) {
                   row++;
                   ymd = am2Ymd;

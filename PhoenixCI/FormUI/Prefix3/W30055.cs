@@ -49,7 +49,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
       protected override ResultStatus Open() {
          base.Open();
-         txtSDate.EditValue = PbFunc.f_ocf_date(0);
+         txtSDate.DateTimeValue = GlobalInfo.OCF_DATE;
 
          //盤別下拉選單
          List<LookupItem> lstType = new List<LookupItem>(){

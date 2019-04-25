@@ -8,15 +8,7 @@ namespace DataObjects.Dao.Together.SpecificDao {
    /// <summary>
    /// 造市者每日價平上下5檔各序列報價
    /// </summary>
-   public class D50050 {
-
-      private Db db;
-
-      public D50050() {
-
-         db = GlobalDaoSetting.DB;
-
-      }
+   public class D50050 : DataGate {
 
       /// <summary>
       /// List AMMD or AMMDAH data
@@ -41,7 +33,7 @@ namespace DataObjects.Dao.Together.SpecificDao {
                                   string as_pc_code ,
                                   int as_p_seq_no1 ,
                                   int as_p_seq_no2 ,
-                                  string dbName = "ammd",
+                                  string dbName = "ammd" ,
                                   string isPrint = "N") {
 
          object[] parms = {
