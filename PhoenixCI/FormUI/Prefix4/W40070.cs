@@ -29,6 +29,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
     public partial class W40070 : FormParent {
 
         private D40070 dao40070;
+        private D40071 dao40071;
         private MGD2 daoMGD2;
 
         public W40070(string programID, string programName) : base(programID, programName) {
@@ -269,11 +270,50 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                 DateTime ldt_w_time, ldt_date;
                 ldt_date = txtSDate.DateTimeValue;
-                int i,ll_found,li_row,li_col,ll_found2;
+                int i, ll_found, li_col, ll_found2, ii_curr_row;
                 string ls_rtn, ls_dbname;
                 decimal ldc_cur_mm, ldc_cur_im, ldc_mm, ldc_im, ldc_rate;
 
                 ldt_w_time = DateTime.Now;
+
+                DataTable dtMGD2 = dao40071.d_40071(ls_ymd, is_adj_type);
+                DataTable dtMGD2Log = dao40071.d_40071_log();
+                //再產生一張空的 d_40071 table
+                DataTable dt40071Empty = dao40071.d_40071(ls_ymd, is_adj_type);
+                dt40071Empty.Clear();
+
+                foreach (DataRow dr in dtGrid.Rows) {
+                    ls_kind_id = dr["KIND_ID"].AsString();
+                    ls_issue_begin_ymd = dr["ISSUE_BEGIN_YMD"].AsString();
+                    ls_adj_rsn = dr["ADJ_RSN"].AsString();
+
+                    dv = dtMGD2.AsDataView();
+                    dv.RowFilter = "mgd2_kind_id = '" + ls_kind_id + "'";
+                    dtMGD2 = dv.ToTable();
+
+                    if (dtMGD2.Rows.Count > 0) {
+                        foreach (DataRow drMGD2 in dtMGD2.Rows) {
+                            ii_curr_row = dtMGD2Log.Rows.Count;
+                            dtMGD2Log.Rows.Add();
+                            for (li_col = 0; li_col < dtMGD2Log.Columns.Count; li_col++) {
+                                //先取欄位名稱，因為兩張table欄位順序不一致
+                                ls_dbname = dtMGD2.Columns[li_col].ColumnName;
+                                dtMGD2Log.Rows[ii_curr_row][ls_dbname] = drMGD2[li_col];
+                            }
+                            if (dr["ADJ_CODE"].AsString() == "N") {
+                                dtMGD2Log.Rows[ii_curr_row]["MGD2_L_TYPE"] = "D";
+                            }
+                            else {
+                                dtMGD2Log.Rows[ii_curr_row]["MGD2_L_TYPE"] = "U";
+                            }
+                            dtMGD2Log.Rows[ii_curr_row]["MGD2_L_USER_ID"] = GlobalInfo.USER_ID;
+                            dtMGD2Log.Rows[ii_curr_row]["MGD2_L_TIME"] = ldt_w_time;
+                        }//foreach (DataRow drMGD2 in dtMGD2.Rows)
+
+                        //刪除已存在資料
+
+                    }
+                }
             }
             catch (Exception ex) {
                 MessageDisplay.Error("儲存錯誤");

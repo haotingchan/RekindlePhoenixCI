@@ -75,7 +75,7 @@
             this.grpxDescription.Size = new System.Drawing.Size(404, 349);
             this.grpxDescription.TabIndex = 23;
             this.grpxDescription.TabStop = false;
-            this.grpxDescription.Text = "交易量資料轉出Excel 檔";
+            this.grpxDescription.Text = "請輸入交易日期";
             // 
             // groupBox1
             // 
@@ -127,6 +127,7 @@
             this.txtSDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.txtSDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
             this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtSDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtSDate.Size = new System.Drawing.Size(100, 26);
             this.txtSDate.TabIndex = 2;
