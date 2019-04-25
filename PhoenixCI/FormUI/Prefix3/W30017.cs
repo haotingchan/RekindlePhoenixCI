@@ -35,7 +35,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
         protected override ResultStatus Open() {
             base.Open();
-            txtSDate.EditValue = PbFunc.f_ocf_date(0);
+            txtSDate.DateTimeValue = GlobalInfo.OCF_DATE;
             txtSDate.Focus();
             return ResultStatus.Success;
         }

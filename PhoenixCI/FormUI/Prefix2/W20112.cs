@@ -31,7 +31,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             InitializeComponent();
             this.Text = _ProgramID + "─" + _ProgramName;
             GridHelper.SetCommonGrid(gvMain);
-            txtYear.EditValue = PbFunc.f_ocf_date(0).SubStr(0, 4);
+            txtYear.EditValue = GlobalInfo.OCF_DATE.Year.ToString();
         }
 
         protected override ResultStatus ActivatedForm() {
