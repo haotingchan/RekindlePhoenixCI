@@ -164,7 +164,7 @@ namespace Common {
       }
 
       //number convert to Percent
-      public static string AsPercent(this object item, int digits) {
+      public static string AsPercent<T>(this T item, int digits) {
          if (item == null) {
             return "0%";
          }
