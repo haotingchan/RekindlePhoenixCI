@@ -64,7 +64,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
         protected override ResultStatus Open() {
             try {
                 base.Open();
-                txtDate.EditValue = PbFunc.f_ocf_date(0);
+                txtDate.DateTimeValue = GlobalInfo.OCF_DATE;
                 txtEffDate.DateTimeValue = DateTime.MinValue;
                 txtEffDateLower.DateTimeValue = DateTime.MinValue;
 #if DEBUG

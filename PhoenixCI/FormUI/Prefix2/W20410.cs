@@ -36,7 +36,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             this.Text = _ProgramID + "─" + _ProgramName;
 
             daoAM7 = new AM7();
-            txtEndDate.EditValue = PbFunc.f_ocf_date(0).SubStr(0, 4);
+            txtEndDate.EditValue = GlobalInfo.OCF_DATE.Year;
             txtStartDate.EditValue = txtEndDate.EditValue;
         }
 

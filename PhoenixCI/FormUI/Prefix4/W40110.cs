@@ -1082,9 +1082,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
             SubtypeList = subtypelist;
          }
 
-         public M40110Word(string validdate, string validdatemd, string validdateend, string validdateendmd, 
-                           string validdateendprevtwoanymd, string validdateprev,string validdateprevmd, string validdateyear, 
-                           string validdatenextanymd, string dayscount, string subtypelist, string adjratetxf, string diffratetxf, 
+         public M40110Word(string validdate, string validdatemd, string validdateend, string validdateendmd,
+                           string validdateendprevtwoanymd, string validdateprev, string validdateprevmd, string validdateyear,
+                           string validdatenextanymd, string dayscount, string subtypelist, string adjratetxf, string diffratetxf,
                            string curimtxf, string mimtxf) {
 
             ValidDate = validdate;

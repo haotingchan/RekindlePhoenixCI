@@ -40,7 +40,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             GridHelper.SetCommonGrid(gvMain);
             PrintableComponent = gcMain;
 
-            txtStartDate.DateTimeValue = DateTime.ParseExact(PbFunc.f_ocf_date(5), "yyyyMMdd", CultureInfo.InvariantCulture);
+            txtStartDate.DateTimeValue = GlobalInfo.OCF_PREV_DATE;
             txtEndDate.DateTimeValue = GlobalInfo.OCF_DATE;
 
         }

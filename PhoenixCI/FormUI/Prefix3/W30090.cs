@@ -38,7 +38,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             try {
                 base.Open();
-                txtEDate.EditValue = PbFunc.f_ocf_date(0);
+                txtEDate.DateTimeValue = GlobalInfo.OCF_DATE;
                 txtSDate.EditValue = txtEDate.Text.SubStr(0, 8) + "01";
 #if DEBUG
                 txtSDate.Text = "2014/01/01";
@@ -84,7 +84,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 //讀取資料
                 DataTable dt30090 = dao30090.d_30090(txtSDate.Text.Replace("/", ""), txtEDate.Text.Replace("/", ""));
                 if (dt30090.Rows.Count == 0) {
-                    MessageDisplay.Info(PbFunc.f_ocf_date(1).SubStr(0, 6) + "," + rptId + '－' + rptName + ",無任何資料!");
+                    MessageDisplay.Info(GlobalInfo.OCF_DATE.ToString("yyyyMM") + "," + rptId + '－' + rptName + ",無任何資料!");
                     lblProcessing.Visible = false;
                     return ResultStatus.Fail;
                 }
