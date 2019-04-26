@@ -6,7 +6,6 @@ using Common;
 using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.XtraEditors.Controls;
-using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraPrinting;
 using System;
 using System.Collections.Generic;
@@ -17,10 +16,10 @@ using System.IO;
 /// ken, 2019/3/20
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix4 {
-    /// <summary>
-    /// 最小風險價格係數歷次調整資料查詢
-    /// </summary>
-    public partial class W48020 : FormParent {
+   /// <summary>
+   /// 最小風險價格係數歷次調整資料查詢
+   /// </summary>
+   public partial class W48020 : FormParent {
         protected D48020 dao48020;
         protected static string ChooseSingleKind = "選單一契約";
         protected DataTable dtTarget;
@@ -45,7 +44,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
         protected override ResultStatus Open() {
             base.Open();
-            txtSDate.EditValue = PbFunc.f_ocf_date(0);
+            txtSDate.EditValue = GlobalInfo.OCF_DATE;
 
 #if DEBUG
             //ken test

@@ -24,10 +24,10 @@
       /// </summary>
       private void InitializeComponent() {
          this.panFilter = new System.Windows.Forms.GroupBox();
-         this.txtStartMonth = new BaseGround.Widget.TextDateEdit();
+         this.labMonth = new System.Windows.Forms.Label();
          this.label6 = new System.Windows.Forms.Label();
          this.labMsg = new System.Windows.Forms.Label();
-         this.labMonth = new System.Windows.Forms.Label();
+         this.txtStartMonth = new BaseGround.Widget.TextDateEdit();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          this.panFilter.SuspendLayout();
@@ -49,8 +49,8 @@
          // panFilter
          // 
          this.panFilter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
-         this.panFilter.Controls.Add(this.labMonth);
          this.panFilter.Controls.Add(this.txtStartMonth);
+         this.panFilter.Controls.Add(this.labMonth);
          this.panFilter.Controls.Add(this.label6);
          this.panFilter.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.panFilter.ForeColor = System.Drawing.Color.Navy;
@@ -61,23 +61,15 @@
          this.panFilter.TabStop = false;
          this.panFilter.Text = "請輸入交易日期";
          // 
-         // txtStartMonth
+         // labMonth
          // 
-         this.txtStartMonth.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtStartMonth.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
-         this.txtStartMonth.EditValue = "2018/12";
-         this.txtStartMonth.EnterMoveNextControl = true;
-         this.txtStartMonth.Location = new System.Drawing.Point(103, 26);
-         this.txtStartMonth.MenuManager = this.ribbonControl;
-         this.txtStartMonth.Name = "txtStartMonth";
-         this.txtStartMonth.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtStartMonth.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtStartMonth.Properties.Mask.EditMask = "yyyy/MM";
-         this.txtStartMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-         this.txtStartMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtStartMonth.Size = new System.Drawing.Size(100, 26);
-         this.txtStartMonth.TabIndex = 0;
-         this.txtStartMonth.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         this.labMonth.AutoSize = true;
+         this.labMonth.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
+         this.labMonth.Location = new System.Drawing.Point(39, 29);
+         this.labMonth.Name = "labMonth";
+         this.labMonth.Size = new System.Drawing.Size(58, 21);
+         this.labMonth.TabIndex = 74;
+         this.labMonth.Text = "月份：";
          // 
          // label6
          // 
@@ -99,15 +91,25 @@
          this.labMsg.Text = "訊息：資料轉出中........";
          this.labMsg.Visible = false;
          // 
-         // labMonth
+         // txtStartMonth
          // 
-         this.labMonth.AutoSize = true;
-         this.labMonth.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
-         this.labMonth.Location = new System.Drawing.Point(39, 29);
-         this.labMonth.Name = "labMonth";
-         this.labMonth.Size = new System.Drawing.Size(58, 21);
-         this.labMonth.TabIndex = 74;
-         this.labMonth.Text = "月份：";
+         this.txtStartMonth.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtStartMonth.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
+         this.txtStartMonth.EditValue = "2018/12";
+         this.txtStartMonth.EnterMoveNextControl = true;
+         this.txtStartMonth.Location = new System.Drawing.Point(103, 26);
+         this.txtStartMonth.MenuManager = this.ribbonControl;
+         this.txtStartMonth.Name = "txtStartMonth";
+         this.txtStartMonth.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtStartMonth.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtStartMonth.Properties.EditFormat.FormatString = "yyyyMM";
+         this.txtStartMonth.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])";
+         this.txtStartMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.txtStartMonth.Properties.Mask.ShowPlaceHolders = false;
+         this.txtStartMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtStartMonth.Size = new System.Drawing.Size(100, 26);
+         this.txtStartMonth.TabIndex = 75;
+         this.txtStartMonth.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // W30395
          // 
@@ -133,7 +135,7 @@
       private System.Windows.Forms.GroupBox panFilter;
       private System.Windows.Forms.Label labMsg;
       private System.Windows.Forms.Label label6;
-        private BaseGround.Widget.TextDateEdit txtStartMonth;
       private System.Windows.Forms.Label labMonth;
+      private BaseGround.Widget.TextDateEdit txtStartMonth;
    }
 }
