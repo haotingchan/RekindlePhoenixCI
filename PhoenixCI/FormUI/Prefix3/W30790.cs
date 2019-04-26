@@ -36,8 +36,8 @@ namespace PhoenixCI.FormUI.Prefix3
       protected override ResultStatus Open()
       {
          base.Open();
-         emStartDate.Text = PbFunc.f_ocf_date(0);
-         emEndDate.Text = PbFunc.f_ocf_date(0);
+         emStartDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
+         emEndDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
          return ResultStatus.Success;
       }
 
