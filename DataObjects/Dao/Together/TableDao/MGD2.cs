@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -91,6 +92,66 @@ select COUNT(*) as li_count,
             DataTable dtResult = db.GetDataTable(sql, parms);
 
             return dtResult;
+        }
+
+        /// <summary>
+        /// 刪除已存在資料
+        /// </summary>
+        /// <param name="ls_ymd"></param>
+        /// <param name="is_adj_type"></param>
+        /// <param name="ls_kind_id"></param>
+        /// <returns></returns>
+        public int DeleteMGD2(string ls_ymd, string is_adj_type, string ls_kind_id) {
+
+            object[] parms = {
+                ":ls_ymd", ls_ymd,
+                ":is_adj_type", is_adj_type,
+                ":ls_kind_id", ls_kind_id
+            };
+
+            string sql = @"
+delete ci.MGD2
+    where MGD2_YMD = :ls_ymd
+      and MGD2_ADJ_TYPE = :is_adj_type   
+      and MGD2_KIND_ID = :ls_kind_id
+";
+
+            return db.ExecuteSQL(sql, parms);
+        }
+
+        /// <summary>
+        /// 判斷是否重新塞入新資料
+        /// </summary>
+        /// <param name="ls_ymd"></param>
+        /// <param name="is_adj_type"></param>
+        /// <param name="ls_kind_id"></param>
+        /// <returns></returns>
+        public int IsInsertNeeded(string ls_ymd, string is_adj_type, string ls_kind_id) {
+
+            int ld_value = 0;
+            object[] parms = {
+                ":ls_ymd", ls_ymd,
+                ":is_adj_type", is_adj_type,
+                ":ls_kind_id", ls_kind_id
+            };
+
+            string sql =
+@"
+select count(*) as li_count
+		from ci.MGD2
+		where MGD2_YMD = :ls_ymd
+		and MGD2_ADJ_TYPE = :is_adj_type   
+		and MGD2_KIND_ID = :ls_kind_id";
+
+            DataTable dtResult = db.GetDataTable(sql, parms);
+            if (dtResult.Rows.Count == 0) {
+                return ld_value;
+            }
+            else {
+                ld_value = dtResult.Rows[0]["LI_COUNT"].AsInt();
+                return ld_value;
+            }
+
         }
     }
 }

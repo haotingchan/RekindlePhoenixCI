@@ -42,9 +42,8 @@ namespace PhoenixCI.FormUI.Prefix6 {
             daoCOD = new COD();
             base.AfterOpen();
 
-            txtStartDate.DateTimeValue = DateTime.ParseExact(PbFunc.f_ocf_date(0).SubStr(0, 4) + "/01/01",
-                                                "yyyy/MM/dd", CultureInfo.InvariantCulture);
-            txtEndDate.DateTimeValue = DateTime.ParseExact(PbFunc.f_ocf_date(0), "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            txtStartDate.EditValue = GlobalInfo.OCF_DATE.Year + "/01/01";
+            txtEndDate.DateTimeValue = GlobalInfo.OCF_DATE;
             //設定 dw_index
             DataTable dwSource = daoCOD.ListByCol(_ProgramID, "PID-IDSTK", "全部", "%");
             Extension.SetDataTable(dw_index,dwSource, "COD_SEQ_NO", "COD_DESC",TextEditStyles.DisableTextEditor,"");
@@ -73,7 +72,7 @@ namespace PhoenixCI.FormUI.Prefix6 {
             #region 檢查
             //要先call f_get_jsw
             string rtn = "";
-            rtn = PbFunc.f_get_jsw("60420","E", PbFunc.f_ocf_date(0));
+            rtn = PbFunc.f_get_jsw("60420","E", GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd"));
             //ls_rtn = f_get_jsw(is_txn_id,'E',em_date.text)
             if (rtn != "Y") {
                 DialogResult result = MessageBox.Show(txtEndDate.Text + " 統計資料未轉入完畢,是否要繼續?",

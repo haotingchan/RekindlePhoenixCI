@@ -129,8 +129,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
       protected override ResultStatus AfterOpen() {
          base.AfterOpen();
 
-         txtEndDate.EditValue = PbFunc.f_ocf_date(0);
-         txtStartDate.EditValue = txtEndDate.EditValue;
+         txtEndDate.DateTimeValue = GlobalInfo.OCF_DATE;
+         txtStartDate.EditValue = txtEndDate.DateTimeValue;
 
 #if DEBUG
          txtStartDate.DateTimeValue = DateTime.ParseExact("2017/10/11", "yyyy/MM/dd", null);

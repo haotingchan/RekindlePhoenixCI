@@ -40,7 +40,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
         protected override ResultStatus Open() {
             base.Open();
             //日期
-            txtSDate.EditValue = PbFunc.f_ocf_date(0);
+            txtSDate.DateTimeValue = GlobalInfo.OCF_DATE;
 
             //盤別下拉選單
             List<LookupItem> ddlb_grp = new List<LookupItem>(){

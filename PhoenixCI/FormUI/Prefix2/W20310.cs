@@ -28,8 +28,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
             InitializeComponent();
             this.Text = _ProgramID + "─" + _ProgramName;
             daoAA1 = new AA1();
-            txtStartDate.EditValue = PbFunc.f_ocf_date(0).SubStr(0, 4) + "/01";
-            txtEndDate.EditValue = PbFunc.f_ocf_date(0).SubStr(0, 7);
+            txtStartDate.EditValue = GlobalInfo.OCF_DATE.Year + "/01";
+            txtEndDate.EditValue = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
         }
 
         protected override ResultStatus Open() {

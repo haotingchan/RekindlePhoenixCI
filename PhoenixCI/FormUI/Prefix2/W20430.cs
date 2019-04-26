@@ -48,7 +48,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
 
         protected override ResultStatus Open() {
             base.Open();
-            txtDate.EditValue = PbFunc.f_ocf_date(0).SubStr(0, 4);
+            txtDate.EditValue = GlobalInfo.OCF_DATE.Year;
 
             RepositoryItemLookUpEdit _RepLookUpEdit = new RepositoryItemLookUpEdit();
             DataTable lookUpDt = daoAPDK_PARAM.ListAll2();

@@ -35,7 +35,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
         protected override ResultStatus Open() {
             try {
                 base.Open();
-                txtEDate.EditValue = PbFunc.f_ocf_date(0);
+                txtEDate.DateTimeValue = GlobalInfo.OCF_DATE;
                 txtSDate.EditValue = txtEDate.Text.SubStr(0, 8) + "01";
                 txtSDate.Focus();
             }
@@ -97,7 +97,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 ******************/
                 DataTable dt30060 = dao30060.d_30060(symd, eymd);
                 if (dt30060.Rows.Count == 0) {
-                    lblProcessing.Text = PbFunc.f_ocf_date(1).SubStr(0, 6) + "," + rptId + '－' + rptName + ",無任何資料!";
+                    lblProcessing.Text = GlobalInfo.OCF_DATE.ToString("yyyyMM") + "," + rptId + '－' + rptName + ",無任何資料!";
                 }
                 ymd = "";
                 foreach (DataRow dr in dt30060.Rows) {

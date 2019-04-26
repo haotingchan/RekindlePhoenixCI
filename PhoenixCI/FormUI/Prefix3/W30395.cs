@@ -38,7 +38,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          public string DisplayMember { get; set; }
       }
 
-      public W30395(string programID, string programName) : base(programID, programName) {
+      public W30395(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
 
@@ -55,12 +55,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
       protected override ResultStatus AfterOpen() {
          base.AfterOpen();
 
-         DateTime.TryParseExact(PbFunc.f_ocf_date(0), "yyyy/MM/dd", null, System.Globalization.DateTimeStyles.AllowWhiteSpaces, out DateTime startMonth);
-         txtStartMonth.EditValue = startMonth.ToString("yyyy/MM");
-
+         txtStartMonth.DateTimeValue = GlobalInfo.OCF_DATE;
 
 #if DEBUG
-         txtStartMonth.EditValue = DateTime.ParseExact("2018/10/11", "yyyy/MM/dd", null).ToString("yyyy/MM");
+         txtStartMonth.EditValue = DateTime.ParseExact("2018/10/11" , "yyyy/MM/dd" , null).ToString("yyyy/MM");
          this.Text += "(開啟測試模式)";
 #endif
 
@@ -96,7 +94,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
 
             //1.1 copy template xls to target path
-            string excelDestinationPath = CopyExcelTemplateFile(_ProgramID, FileType.XLSX);
+            string excelDestinationPath = CopyExcelTemplateFile(_ProgramID , FileType.XLSX);
             Workbook workbook = new Workbook();
             workbook.LoadDocument(excelDestinationPath);
 
@@ -104,15 +102,15 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             //2.匯出資料
             //共同的參數一起設定,init param = { D30395 dao, string startMonth }
-            Object[] args = { dao30395, txtStartMonth.Text };
+            Object[] args = { dao30395 , txtStartMonth.Text };
 
-            IReportData GDF = CreateReport(GetType(), "GDF", args);
+            IReportData GDF = CreateReport(GetType() , "GDF" , args);
             GDF.Export(workbook);
 
             //IReportData GDF_Detail = CreateReport(GetType(), "GDF_Detail", args);
             //GDF_Detail.Export(workbook);
 
-            IReportData TGF = CreateReport(GetType(), "TGF", args);
+            IReportData TGF = CreateReport(GetType() , "TGF" , args);
             TGF.Export(workbook);
 
             //IReportData TGF_Detail = CreateReport(GetType(), "TGF_Detail", args);
@@ -155,11 +153,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
       /// <param name="name"></param>
       /// <param name="args">該物件初始化時候必要的參數</param>
       /// <returns></returns>
-      public IReportData CreateReport(Type type, string name, Object[] args = null) {
+      public IReportData CreateReport(Type type , string name , Object[] args = null) {
          //讀取dll/主要exe的寫法
          string AssemblyName = type.Namespace.Split('.')[0];//最後compile出來的dll名稱
          string className = type.FullName + "+" + name;//完整的class路徑(注意,內部的class執行時其fullName是用+號連結起來)
-         return (IReportData)Assembly.Load(AssemblyName).CreateInstance(className, true, BindingFlags.CreateInstance, null, args, null, null);
+         return (IReportData)Assembly.Load(AssemblyName).CreateInstance(className , true , BindingFlags.CreateInstance , null , args , null , null);
 
       }
 
@@ -171,7 +169,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          protected string KindId { get; set; }
          protected int RowBegin { get; set; }
 
-         public Report30395(D30395 dao, string startMonth) {
+         public Report30395(D30395 dao , string startMonth) {
             Dao = dao;
             StartMonth = startMonth;
          }
@@ -183,22 +181,22 @@ namespace PhoenixCI.FormUI.Prefix3 {
          public virtual void Export(Workbook workbook) {
 
             Worksheet ws = workbook.Worksheets[(int)SheetIndex];
-            ExportSummary(workbook, (int)SheetIndex, 1);
+            ExportSummary(workbook , (int)SheetIndex , 1);
 
             int tempSheetIndex = (int)SheetIndex + 2;
-            ExportDetail(workbook, tempSheetIndex, 3);
+            ExportDetail(workbook , tempSheetIndex , 3);
 
          }
 
-         protected virtual void ExportSummary(Workbook workbook, int sheetIndex, int rowBegin) {
+         protected virtual void ExportSummary(Workbook workbook , int sheetIndex , int rowBegin) {
             //1.1 前月倒數2天交易日
-            DateTime ldt_sdate = PbFunc.f_get_last_day("AI3", KindId, StartMonth, 2);
+            DateTime ldt_sdate = PbFunc.f_get_last_day("AI3" , KindId , StartMonth , 2);
 
             //1.2 抓當月最後交易日
-            DateTime ldt_edate = PbFunc.f_get_end_day("AI3", KindId, StartMonth);
+            DateTime ldt_edate = PbFunc.f_get_end_day("AI3" , KindId , StartMonth);
 
             //1.3 get ai3 data
-            DataTable dtTemp = Dao.d_ai3(KindId, ldt_sdate, ldt_edate);
+            DataTable dtTemp = Dao.d_ai3(KindId , ldt_sdate , ldt_edate);
 
             Worksheet ws = workbook.Worksheets[sheetIndex];
 
@@ -212,13 +210,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
                if (ldt_ymd != ai3_date) {
                   ldt_ymd = ai3_date;
                   rowIndex++;
-                  ws.Cells[rowIndex, 0].Value = ldt_ymd.ToString("MM/dd");
+                  ws.Cells[rowIndex , 0].Value = ldt_ymd.ToString("MM/dd");
                }
 
-               ws.Cells[rowIndex, 1].Value = dr["ai3_close_price"].AsDecimal();
-               ws.Cells[rowIndex, 3].Value = dr["ai3_m_qnty"].AsDecimal();
-               ws.Cells[rowIndex, 4].Value = dr["ai3_oi"].AsDecimal();
-               ws.Cells[rowIndex, 5].Value = dr["ai3_index"].AsDecimal();
+               ws.Cells[rowIndex , 1].Value = dr["ai3_close_price"].AsDecimal();
+               ws.Cells[rowIndex , 3].Value = dr["ai3_m_qnty"].AsDecimal();
+               ws.Cells[rowIndex , 4].Value = dr["ai3_oi"].AsDecimal();
+               ws.Cells[rowIndex , 5].Value = dr["ai3_index"].AsDecimal();
 
             }//foreach (DataRow dr in dtTemp.Rows) {
 
@@ -226,22 +224,22 @@ namespace PhoenixCI.FormUI.Prefix3 {
             if (rowIndex < emptyRowCount) {
                string selectBegin = (rowIndex + 2).ToString();
                string selectEnd = (emptyRowCount).ToString();
-               string cellRange = string.Format("A{0}:G{1}", selectBegin, selectEnd);
-               ws.DeleteCells(ws.Range[cellRange], DeleteMode.EntireRow);
+               string cellRange = string.Format("A{0}:G{1}" , selectBegin , selectEnd);
+               ws.DeleteCells(ws.Range[cellRange] , DeleteMode.EntireRow);
                //ken,用DeleteCells還是不行,測試結果似乎xlsx的圖表公式一直固定,不會更新
             }
 
          }
 
-         protected virtual void ExportDetail(Workbook workbook, int sheetIndex, int rowBegin) {
+         protected virtual void ExportDetail(Workbook workbook , int sheetIndex , int rowBegin) {
             //2.1 get ai2 data
-            DataTable dtDetail = Dao.d_ai2(KindId, StartMonth.SubStr(0, 4) + "01", StartMonth.Replace("/", ""));
+            DataTable dtDetail = Dao.d_ai2(KindId , StartMonth.SubStr(0 , 4) + "01" , StartMonth.Replace("/" , ""));
 
             Worksheet ws = workbook.Worksheets[sheetIndex];
 
             //2.2 總列數
             int rowIndex = rowBegin;
-            ws.Cells[rowIndex + 12 + 1, 0].Value = (StartMonth.SubStr(0, 4).AsInt() - 1911).AsString() + "小計";
+            ws.Cells[rowIndex + 12 + 1 , 0].Value = (StartMonth.SubStr(0 , 4).AsInt() - 1911).AsString() + "小計";
 
             string ls_ymd = "";//日期
             int emptyRowCount = rowIndex + 12;
@@ -255,8 +253,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
                   ls_ymd = am2_ymd;
                   rowIndex++;
                   //li_month_cnt++;
-                  string chineseMonth = (ls_ymd.SubStr(0, 4).AsInt() - 1911).AsString() + "/" + ls_ymd.SubStr(4, 2);
-                  ws.Cells[rowIndex, 0].Value = chineseMonth;
+                  string chineseMonth = (ls_ymd.SubStr(0 , 4).AsInt() - 1911).AsString() + "/" + ls_ymd.SubStr(4 , 2);
+                  ws.Cells[rowIndex , 0].Value = chineseMonth;
                }
 
                //ken,get li_ole_col , but 順序亂跳
@@ -285,14 +283,14 @@ namespace PhoenixCI.FormUI.Prefix3 {
                      li_ole_col += 12;
                      break;
                }
-               ws.Cells[rowIndex, li_ole_col].Value = am2_m_qnty;
+               ws.Cells[rowIndex , li_ole_col].Value = am2_m_qnty;
 
             }//foreach (DataRow dr in dtDetail.Rows) {
 
 
             //2.5 刪除空白列
             if (rowIndex < emptyRowCount) {
-               ws.Rows.Remove(rowIndex + 1, emptyRowCount - rowIndex);
+               ws.Rows.Remove(rowIndex + 1 , emptyRowCount - rowIndex);
             }
 
          }
@@ -303,8 +301,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
       /// </summary>
       public class GDF : Report30395 {
 
-         public GDF(D30395 dao, string startMonth)
-                     : base(dao, startMonth) {
+         public GDF(D30395 dao , string startMonth)
+                     : base(dao , startMonth) {
             //初始化設定,先讓父類別把共用參數設定好,再設定自己特定的參數
 
             KindId = "GDF";
@@ -323,8 +321,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
       /// </summary>
       public class TGF : Report30395 {
 
-         public TGF(D30395 dao, string startMonth)
-                     : base(dao, startMonth) {
+         public TGF(D30395 dao , string startMonth)
+                     : base(dao , startMonth) {
             //初始化設定,先讓父類別把共用參數設定好,再設定自己特定的參數
 
             KindId = "TGF";
