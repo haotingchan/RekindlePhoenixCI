@@ -20,49 +20,57 @@ namespace PhoenixCI.FormUI.Prefix5 {
    /// 50050 造市者每日價平上下5檔各序列報價
    /// </summary>
    public partial class W50050 : FormParent {
-      private D50050 dao50050;
-      string ls_time1, ls_time2, ls_brk_no, ls_prod_kind_id, ls_settle_date, ls_pc_code, ls_p_seq_no, ls_acc_no;
-      decimal ld_p_seq_no, ld_avg_spread, ll_found_row, ll_rows;
 
-      int i, li_p_seq_no1, li_p_seq_no2;
-      DateTime ldt_date;
-      string dbName = "";
+      private D50050 dao50050;
+
+      string brkNo, accNo, dbName, time1, time2, prodKindId, settleDate, pcCode, ls_p_seq_no;
+      decimal ld_avg_spread, ll_found_row, ll_rows;
+
+      DataTable defaultTable;
+
+      int li_p_seq_no1, li_p_seq_no2;
+      //DateTime ldt_date;
 
       public W50050(string programID , string programName) : base(programID , programName) {
-         try {
-            InitializeComponent();
-            this.Text = _ProgramID + "─" + _ProgramName;
+         InitializeComponent();
+         this.Text = _ProgramID + "─" + _ProgramName;
 
-            //GridHelper.SetCommonGrid(gvMain);
-            //PrintableComponent = gcMain;
-            dao50050 = new D50050();
+         dao50050 = new D50050();
+      }
 
+      protected override ResultStatus Open() {
+         base.Open();
+         //1. 設定時間初始值
+         txtStartDate.DateTimeValue = GlobalInfo.OCF_DATE;
+         txtEndDate.DateTimeValue = GlobalInfo.OCF_DATE;
+         txtStartTime.EditValue = "08:45";
+         txtEndTime.EditValue = "13:45";
 
+         //2. 設定下拉選單
+         //造市者
+         DataTable dtFcmAcc = new ABRK().ListFcmAccNo();//第一行空白+ abrk_abrk_name/cp_display
+         dwBrkno.SetDataTable(dtFcmAcc , "AMPD_FCM_NO" , "CP_DISPLAY" , TextEditStyles.DisableTextEditor , "");
 
-            txtStartDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
-            txtEndDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
-            txtStartTime.EditValue = "08:45";
-            txtEndTime.EditValue = "13:45";
+         //商品
+         DataTable dtProd = new APDK().ListAll3();//第一行空白+ abrk_abrk_name/cp_display
+         dwProd.SetDataTable(dtProd , "PDK_KIND_ID" , "PDK_KIND_ID" , TextEditStyles.DisableTextEditor , "");
 
-            //造市者下拉選單
-            DataTable dtFcmAcc = new ABRK().ListFcmAccNo();//第一行空白+ abrk_abrk_name/cp_display
-            dw_sbrkno.SetDataTable(dtFcmAcc , "AMPD_FCM_NO");
-
-            //商品下拉選單
-            DataTable dtProd = new APDK().ListAll3();//第一行空白+ abrk_abrk_name/cp_display
-            dw_prod_kd.SetDataTable(dtProd , "PDK_KIND_ID" , "PDK_KIND_ID");
-
-         } catch (Exception ex) {
-            MessageDisplay.Error(ex.ToString());
-         }
+         return ResultStatus.Success;
       }
 
       protected override ResultStatus ActivatedForm() {
          base.ActivatedForm();
 
-         _ToolBtnRetrieve.Enabled = true;
-         _ToolBtnExport.Enabled = false;
-         _ToolBtnPrintAll.Enabled = true;
+         _ToolBtnInsert.Enabled = false;//當按下此按鈕時,Grid新增一筆空的(還未存檔都是暫時的)
+         _ToolBtnSave.Enabled = false;//儲存(把新增/刪除/修改)多筆的結果一次更新到資料庫
+         _ToolBtnDel.Enabled = false;//先選定刪除grid上面的其中一筆,然後按下此刪除按鈕(還未存檔都是暫時的)
+
+         _ToolBtnRetrieve.Enabled = true;//畫面查詢條件選定之後,按下此按鈕,讀取資料 to Grid
+         _ToolBtnRun.Enabled = false;//執行,跑job專用按鈕
+
+         _ToolBtnImport.Enabled = false;//匯入
+         _ToolBtnExport.Enabled = false;//匯出,格式可以為 pdf/xls/txt/csv, 看功能
+         _ToolBtnPrintAll.Enabled = true;//列印
 
          return ResultStatus.Success;
       }
@@ -70,31 +78,45 @@ namespace PhoenixCI.FormUI.Prefix5 {
       protected override ResultStatus Export() {
 
          //讀取資料
-         DataTable rep = dao50050.ListAll(ls_brk_no , ls_acc_no , ls_time1 , ls_time2 , ls_prod_kind_id , ls_settle_date , ls_pc_code , li_p_seq_no1 , li_p_seq_no2 , dbName , "Y");
-         if (rep.Rows.Count == 0) {
+         defaultTable = dao50050.ListAll(brkNo , accNo , time1 , time2 , prodKindId ,
+                                 settleDate , pcCode , li_p_seq_no1 , li_p_seq_no2 , dbName , "Y");
+         if (defaultTable.Rows.Count <= 0) {
             MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtStartDate.Text , this.Text));
             return ResultStatus.Fail;
          }
+         this.Cursor = Cursors.WaitCursor;
+
+         //處理資料型態(轉換時間格式)
+         DataTable dt = defaultTable.Clone(); //轉型別用的datatable
+         dt.Columns["AMMD_W_TIME"].DataType = typeof(string); //將原DataType(datetime)轉為string
+         foreach (DataRow row in defaultTable.Rows) {
+            dt.ImportRow(row);
+         }
+
+         for (int i = 0 ; i < dt.Rows.Count ; i++) {
+            dt.Rows[i]["AMMD_W_TIME"] = Convert.ToDateTime(defaultTable.Rows[i]["AMMD_W_TIME"]).ToString("yyyy/MM/dd HH:mm:ss.fff");
+         }
+
          //存CSV
          string etfFileName = "50050_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".csv";
          etfFileName = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , etfFileName);
          ExportOptions csvref = new ExportOptions();
          csvref.HasHeader = true;
          csvref.Encoding = System.Text.Encoding.GetEncoding(950);//ASCII
-         Common.Helper.ExportHelper.ToCsv(rep , etfFileName , csvref);
+         Common.Helper.ExportHelper.ToCsv(defaultTable , etfFileName , csvref);
 
+         this.Cursor = Cursors.Arrow;
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus ExportAfter(string startTime) {
-         MessageDisplay.Info("轉檔完成!");
+      //protected override ResultStatus ExportAfter(string startTime) {
+      //   MessageDisplay.Info("轉檔完成!");
 
-         return ResultStatus.Success;
-      }
+      //   return ResultStatus.Success;
+      //}
 
       protected override ResultStatus Print(ReportHelper reportHelper) {
 
-         //gcMain.Print();
          CommonReportLandscapeA4 rep = new CommonReportLandscapeA4();
          rep.printableComponentContainerMain.PrintableComponent = gcMain;
 
@@ -105,38 +127,40 @@ namespace PhoenixCI.FormUI.Prefix5 {
       }
 
       protected override ResultStatus Retrieve() {
+         _ToolBtnExport.Enabled = true;
+
          try {
-            _ToolBtnExport.Enabled = true;
-            //報表內容          
-            if (gb_market.EditValue.ToString() == "rb_market_0") {
-               dbName = "ammd";
+
+            //DbName
+            if (gbMarket.EditValue.AsString() == "rbMarket0") {
+               dbName = "ammd"; //一般
             } else {
-               dbName = "ammdAH";
+               dbName = "ammdah"; //盤後
             }
 
-            ls_time1 = txtStartDate.Text + " " + txtStartTime.Text + ":00";
-            ls_time2 = txtEndDate.Text + " " + txtEndTime.Text + ":00";
+            time1 = txtStartDate.Text + " " + txtStartTime.Text + ":00";
+            time2 = txtEndDate.Text + " " + txtEndTime.Text + ":00";
 
-            //get brk_no--acc_no from dw_sbrkno 造市者
-            ls_brk_no = string.IsNullOrEmpty(dw_sbrkno.EditValue.AsString()) ? "%" : dw_sbrkno.EditValue.AsString().Split(new[] { "--" } , StringSplitOptions.None)[0];
-            ls_acc_no = string.IsNullOrEmpty(dw_sbrkno.EditValue.AsString()) ? "%" : dw_sbrkno.EditValue.AsString().Split(new[] { "--" } , StringSplitOptions.None)[1];
+            //造市者 get brkNo--accNo (abrk_name) from dw_sbrkno 
+            brkNo = string.IsNullOrEmpty(dwBrkno.EditValue.AsString()) ? "%" : dwBrkno.EditValue.AsString().Split(new[] { "--" } , StringSplitOptions.None)[0];
+            accNo = string.IsNullOrEmpty(dwBrkno.EditValue.AsString()) ? "%" : dwBrkno.EditValue.AsString().Split(new[] { "--" } , StringSplitOptions.None)[1];
 
             //商品
-            ls_prod_kind_id = string.IsNullOrEmpty(dw_prod_kd.EditValue.AsString()) ? "%" : dw_prod_kd.EditValue.AsString();
+            prodKindId = string.IsNullOrEmpty(dwProd.EditValue.AsString()) ? "%" : dwProd.EditValue.AsString();
 
             //買賣權
-            ls_pc_code = ddlb_1.Text.Trim();
-            if (string.IsNullOrEmpty(ls_pc_code)) {
-               ls_pc_code = "%";
-            } else if (ls_pc_code == "買權") {
-               ls_pc_code = "C";
-            } else if (ls_pc_code == "賣權") {
-               ls_pc_code = "P";
+            pcCode = ddlb_1.Text.Trim();
+            if (string.IsNullOrEmpty(pcCode)) {
+               pcCode = "%";
+            } else if (pcCode == "買權") {
+               pcCode = "C";
+            } else if (pcCode == "賣權") {
+               pcCode = "P";
             }
 
             //契約月份
-            ls_settle_date = string.IsNullOrEmpty(sle_1.Text.Trim()) ? "%" : sle_1.Text.Trim().Replace("/" , "");
-            //ls_settle_date = "201811";
+            settleDate = string.IsNullOrEmpty(sle_1.Text.Trim()) ? "%" : sle_1.Text.Trim().Replace("/" , "");
+            //settleDate = "201811";
 
             //價內外檔數
             ls_p_seq_no = ddlb_2.Text.Trim();
@@ -191,33 +215,34 @@ namespace PhoenixCI.FormUI.Prefix5 {
                   break;
             }
 
-            DataTable defaultTable = new DataTable();
-            defaultTable = dao50050.ListAll(ls_brk_no , ls_acc_no , ls_time1 , ls_time2 , ls_prod_kind_id , ls_settle_date , ls_pc_code , li_p_seq_no1 , li_p_seq_no2 , dbName);
+            DataTable defaultTable = dao50050.ListAll(brkNo , accNo , time1 , time2 , prodKindId , settleDate ,
+                                                                  pcCode , li_p_seq_no1 , li_p_seq_no2 , dbName);
 
-            if (defaultTable.Rows.Count == 0) {
-               MessageDisplay.Info(string.Format("無任何資料!"));
+            if (defaultTable.Rows.Count <= 0) {
+               MessageDisplay.Info("無任何資料!");
                _ToolBtnExport.Enabled = false;
                return ResultStatus.Fail;
             }
 
             DataRow drFirst = defaultTable.Rows[0];
-            ammd_date.Text = "日期：" + drFirst["ammd_date"].AsString().Substring(0 , 10); //列出第一筆[ammd_date]的日期
-            trade_time.Text = "交易時間：" + txtStartTime.Text + "~" + txtEndTime.Text;
+            ammdDate.Text = "日期：" + drFirst["ammd_date"].AsString().Substring(0 , 10); //列出第一筆[ammd_date]的日期
+            tradeTime.Text = "交易時間：" + txtStartTime.Text + "~" + txtEndTime.Text;
 
-            ammd_date.Visible = true;
-            trade_time.Visible = true;
+            ammdDate.Visible = true;
+            tradeTime.Visible = true;
 
             gcMain.DataSource = defaultTable;
             gcMain.Visible = true;
             gcMain.Focus();
 
             return ResultStatus.Success;
-
          } catch (Exception ex) {
-            MessageDisplay.Error(ex.ToString());
-            return ResultStatus.Fail;
+            WriteLog(ex);
+         } finally {
+            panFilter.Enabled = true;
+            this.Cursor = Cursors.Arrow;
          }
-
+         return ResultStatus.Fail;
       }
 
       //對價平上下檔數(AMMD_P_SEQ_NO)欄位做值轉換

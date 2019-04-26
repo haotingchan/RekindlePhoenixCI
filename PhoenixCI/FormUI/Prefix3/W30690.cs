@@ -202,7 +202,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
                 //1.設定初始年月yyyy/MM
                 //1.1取得資料庫內最大日期
-                DateTime ocfDate = DateTime.ParseExact(PbFunc.f_ocf_date(0), "yyyy/MM/dd", null);
+                DateTime ocfDate = GlobalInfo.OCF_DATE;
 
                 DateTime ls_ymd = DateTime.Now.AddDays(-30);
                 DateTime aocfMaxDate = new AOCF().GetMaxDate(ls_ymd.ToString("yyyyMMdd"), "");

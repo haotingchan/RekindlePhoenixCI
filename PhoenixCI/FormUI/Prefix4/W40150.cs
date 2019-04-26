@@ -26,7 +26,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          InitializeComponent();
 
          this.Text = _ProgramID + "─" + _ProgramName;
-         txtStartDate.DateTimeValue = GlobalInfo.OCF_DATE;
+         txtStartDate.DateTimeValue = DateTime.Now;
 
 #if DEBUG
          //ken test

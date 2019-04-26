@@ -17,6 +17,8 @@ using System.Collections.Generic;
 using System.Data.OracleClient;
 using DataObjects.Dao.Together.TableDao;
 using PhoenixCI.BusinessLogic.Prefix3;
+using System.IO;
+using System.Threading;
 
 namespace PhoenixCI.FormUI.Prefix3
 {
@@ -25,55 +27,11 @@ namespace PhoenixCI.FormUI.Prefix3
    /// </summary>
    public partial class W30290 : FormParent
    {
-      #region 全域變數
-      /// <summary>
-      /// 交易時段
-      /// </summary>
-      private readonly string MARKET_CODE = "MMF_MARKET_CODE";
-      /// <summary>
-      /// 期貨/選擇權
-      /// </summary>
-      private readonly string PROD_TYPE = "MMF_PROD_TYPE";
-      /// <summary>
-      /// 商品類別
-      /// </summary>
-      private readonly string PARAM_KEY = "MMF_PARAM_KEY";
-      /// <summary>
-      /// 週六豁免造市
-      /// </summary>
-      //private readonly string CP_FLAG = "MMF_SAT_CP_FLAG";
-      /// <summary>
-      /// 報價規定判斷方式MMF_CP_KIND
-      /// </summary>
-      private readonly string CP_KIND = "MMF_CP_KIND";
-      private APDK daoAPDK;
-      private COD daoCOD;
-      private D51030 dao51030;
-      private Dictionary<string, string> dic;
-      /// <summary>
-      /// 交易時段
-      /// </summary>
-      private RepositoryItemLookUpEdit MARKET_CODE_LookUpEdit;
-      /// <summary>
-      /// 期貨/選擇權
-      /// </summary>
-      private RepositoryItemLookUpEdit PROD_TYPE_LookUpEdit;
-      /// <summary>
-      /// 商品類別
-      /// </summary>
-      private RepositoryItemLookUpEdit PARAM_KEY_LookUpEdit;
-      /// <summary>
-      /// 週六豁免造市
-      /// </summary>
-      //private RepositoryItemLookUpEdit CP_FLAG_LookUpEdit;
-      /// <summary>
-      /// 報價規定判斷方式
-      /// </summary>
-      private RepositoryItemLookUpEdit CP_KIND_LookUpEdit;
-      #endregion
 
       private B30290 b30290;
-      private string _saveFilePath;
+      //private D30290 dao30290;
+      private DialogResult retrieveChoose;
+      string logtxt;
 
       public W30290(string programID, string programName) : base(programID, programName)
       {
@@ -81,162 +39,60 @@ namespace PhoenixCI.FormUI.Prefix3
 
          GridHelper.SetCommonGrid(gvMain);
          PrintableComponent = gcMain;
-
-         dao51030 = new D51030();
-         daoCOD = new COD();
+         retrieveChoose = DialogResult.No;
       }
 
       protected override ResultStatus Retrieve()
       {
          base.Retrieve(gcMain);
-         //DataTable returnTable = new DataTable();
-         //returnTable = dao51030.ListD50130();
 
-         ///*******************
-         //沒有新增資料時,則自動新增內容
-         //*******************/
-         //if (returnTable.Rows.Count == 0) {
-         //   InsertRow();
-         //}
-         //returnTable.Columns.Add("Is_NewRow", typeof(string));
-         //gcMain.DataSource = returnTable;
+         //存檔和刪除都是GridView的操作，應該要等讀取後才出現這些按鈕
+         _ToolBtnSave.Enabled = true;
+         _ToolBtnDel.Enabled = true;
+         //messagebox(gs_t_warning,"下方視窗無資料無法進行轉檔，請先執行「讀取／預覽」!",StopSign!)
+         _ToolBtnExport.Enabled = true;
 
-         //gcMain.Focus();
+         string isYMD = YMDlookUpEdit.EditValue.AsString();
 
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus InsertRow()
-      {
-         int focusIndex = gvMain.GetFocusedDataSourceRowIndex();
-         gvMain.CloseEditor();//必須先做close edit, like dt.AcceptChanges();
-
-         //新增一行並做初始值設定
-         DataTable dt = (DataTable)gcMain.DataSource;
-         DataRow drNew = dt.NewRow();
-
-         drNew["Is_NewRow"] = 1;
-         drNew["MMF_W_USER_ID"] = GlobalInfo.USER_ID;
-         drNew["MMF_W_TIME"] = DateTime.Now;
-
-         dt.Rows.InsertAt(drNew, focusIndex);
-         gcMain.DataSource = dt;//重新設定給grid,雖然會更新但是速度太快,畫面不會閃爍
-         gvMain.FocusedRowHandle = focusIndex;//原本的focusRowHandle會記住之前的位置,其實只是往上一行
-         gvMain.FocusedColumn = gvMain.Columns[0];
-         return ResultStatus.Success;
-      }
-
-      private void gvMain_ShowingEditor(object sender, CancelEventArgs e)
-      {
-         GridView gv = sender as GridView;
-         string Is_NewRow = gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
-             gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"]).ToString();
-
-         if (gv.IsNewItemRow(gv.FocusedRowHandle) || Is_NewRow == "1") {
-            e.Cancel = false;
-            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"], 1);
-         }
-         else if (gv.FocusedColumn.FieldName == MARKET_CODE ||
-            gv.FocusedColumn.FieldName == PROD_TYPE ||
-             gv.FocusedColumn.FieldName == PARAM_KEY) {
-            e.Cancel = true;
-         }
-         else {
-            e.Cancel = false;
-         }
-      }
-
-      private void gvMain_RowCellStyle(object sender, RowCellStyleEventArgs e)
-      {
-         GridView gv = sender as GridView;
-         string isNewRow = gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
-              gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]).ToString();
-
-         if (e.Column.FieldName == MARKET_CODE ||
-             e.Column.FieldName == PROD_TYPE ||
-             e.Column.FieldName == PARAM_KEY) {
-            e.Appearance.BackColor = isNewRow == "1" ? Color.White : Color.Silver;
-         }
-         if (e.Column.FieldName == CP_KIND) {
-            int value = gv.GetRowCellValue(e.RowHandle, PLP13_NATURE_LAST).AsInt();
-            if (value != 3)
-               e.Appearance.ForeColor = Color.FromArgb(0, 0, 255);
-         }
-      }
-
-      private bool SaveBefore(DataTable dt)
-      {
-         string lsType, lsVal1, lsVal2, lsVal3, lsVal4, lsVal5;
-         try {
-            //只檢查變動的部分
-            foreach (DataRow dr in dt.GetChanges().Rows) {
-               if (dr["op_type"].AsString() == " ") {
-                  continue;
-               }
-
-               //key值不能為null
-               if (string.IsNullOrEmpty(dr[MARKET_CODE].AsString())) {
-                  PbFunc.messageBox(GlobalInfo.ErrorText, "「交易時段」必須要選取值！", MessageBoxIcon.Stop);
-                  //set Focused
-                  setFocused(dt, dr, MARKET_CODE);
-                  return false;
-               }
-               if (string.IsNullOrEmpty(dr[PARAM_KEY].AsString())) {
-                  PbFunc.messageBox(GlobalInfo.ErrorText, "「商品類別」必須要選取值！", MessageBoxIcon.Stop);
-                  //set Focused
-                  setFocused(dt, dr, PARAM_KEY);
-                  return false;
-               }
-               //必須回應詢價比
-               if (string.IsNullOrEmpty(dr["mmf_resp_ratio"].AsString())) {
-                  PbFunc.messageBox(GlobalInfo.ErrorText, "「必須回應詢價比(%)」必須要輸入值！", MessageBoxIcon.Stop);
-                  //set Focused
-                  setFocused(dt, dr, "MMF_RESP_RATIO");
-                  return false;
-               }
-               //最低造市量
-               if (string.IsNullOrEmpty(dr["mmf_qnty_low"].AsString())) {
-                  PbFunc.messageBox(GlobalInfo.ErrorText, "「最低造市量」必須要輸入值！", MessageBoxIcon.Stop);
-                  //set Focused
-                  setFocused(dt, dr, "MMF_QNTY_LOW");
-                  return false;
-               }
-               //報價有效量比率
-               if (string.IsNullOrEmpty(dr["mmf_quote_valid_rate"].AsString())) {
-                  PbFunc.messageBox(GlobalInfo.ErrorText, "「報價有效量比率」必須要輸入值！", MessageBoxIcon.Stop);
-                  //set Focused
-                  setFocused(dt, dr, "MMF_QUOTE_VALID_RATE");
-                  return false;
-               }
-               //報價每日平均維持分鐘
-               if (string.IsNullOrEmpty(dr["mmf_avg_time"].AsString())) {
-                  PbFunc.messageBox(GlobalInfo.ErrorText, "「報價每日平均維持分鐘」必須要輸入值！", MessageBoxIcon.Stop);
-                  //set Focused
-                  setFocused(dt, dr, "MMF_AVG_TIME");
-                  return false;
-               }
-               //寫LOGV
-               lsType = "I";
-               lsVal1 = dr["mmf_param_key"].AsString();
-               lsVal2 = dr["mmf_resp_ratio"].AsString();
-               lsVal3 = dr["mmf_qnty_low"].AsString();
-               lsVal4 = dr["mmf_quote_valid_rate"].AsString();
-               lsVal5 = dr["mmf_avg_time"].AsString();
-               new LOGV().Insert(_ProgramID, GlobalInfo.USER_ID, lsType, lsVal1, lsVal2, lsVal3, lsVal4, lsVal5);
+         int cnt = b30290.DataCount(isYMD);
+         if (cnt > 0) {
+            retrieveChoose = MessageDisplay.Choose("已存在相同生效日期資料，按「是」讀取已存檔資料，按「否」為重新產至資料");
+            if (retrieveChoose == DialogResult.Yes) {
+               gcMain.DataSource = b30290.List30290GridData(isYMD);
+               return ResultStatus.Success;
             }
          }
-         catch (Exception ex) {
-            WriteLog(ex);
-            return false;
-         }
-         return true;
+         //if (retrieveChoose == DialogResult.No)
+         RowsCopy(isYMD);
+
+         return ResultStatus.Success;
       }
 
-      private void setFocused(DataTable dt, DataRow dr, string colName)
+      /// <summary>
+      /// lds_insert.RowsCopy(1,lds_insert.rowcount(), primary!, dw_1, 1, primary!)
+      /// </summary>
+      /// <param name="isYMD"></param>
+      private void RowsCopy(string isYMD)
       {
-         gvMain.FocusedRowHandle = dt.Rows.IndexOf(dr);
-         gvMain.FocusedColumn = gvMain.Columns[colName];
-         gvMain.ShowEditor();
+         DataTable insertData = b30290.ListInsertGridData(emDate.Text, isYMD);
+         if (insertData.Rows.Count <= 0) {
+            _ToolBtnSave.Enabled = false;
+            _ToolBtnDel.Enabled = false;
+            _ToolBtnExport.Enabled = false;
+            MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
+         }
+         DataTable data = b30290.List30290GridData(isYMD).Clone();//dw_1.reset()
+         //新增與insertData對應的行數
+         foreach (DataRow item in insertData.Rows) {
+            data.Rows.InsertAt(data.NewRow(), 0);
+         }
+         //InsertData寫入List30290Data
+         for (int k = 0; k < insertData.Rows.Count; k++) {
+            for (int j = 0; j < insertData.Columns.Count; j++) {
+               data.Rows[k][j] = insertData.Rows[k][j];
+            }
+         }
+         gcMain.DataSource = data;
       }
 
       protected override ResultStatus Save(PokeBall poke)
@@ -246,51 +102,62 @@ namespace PhoenixCI.FormUI.Prefix3
 
          DataTable dt = (DataTable)gcMain.DataSource;
          DataTable dtChange = dt.GetChanges();
-         DataTable dtDeleteChange = dt.GetChanges(DataRowState.Deleted);
-         DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
-         DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
 
-         int getDeleteCount = dtDeleteChange != null ? dtDeleteChange.Rows.Count : 0;
          ////存檔前檢查
-         if (getDeleteCount == 0 && dtChange != null)//無法經由資料列存取已刪除的資料列資訊。
-         {
-            if (!SaveBefore(dt)) {
-               return ResultStatus.Fail;
-            }
-            // 寫入DB
-            foreach (DataRow dr in dt.Rows) {
-               if (dr.RowState == DataRowState.Modified) {
-                  dr["MMF_W_TIME"] = DateTime.Now;
-                  dr["MMF_W_USER_ID"] = GlobalInfo.USER_ID;
+         try {
+            //無法經由資料列存取已刪除的資料列資訊。
+            if (dtChange != null) {
+               //if (dt.Rows.Count <= 0) {
+               //   MessageDisplay.Warning("下方視窗無資料無法進行存檔，請先執行「讀取／預覽」!");
+               //   ShowMsg("轉檔有誤!");
+               //   return ResultStatus.Fail;
+               //}
+
+               //重新產置資料儲存確認
+               string isYMD = YMDlookUpEdit.EditValue.ToString();
+               int dataCount = b30290.DataCount(isYMD);
+
+               if (dataCount > 0) {
+                  DialogResult ChooseResult = MessageDisplay.Choose("已存在相同生效日期資料，請問是否繼續儲存?");
+                  if (ChooseResult == DialogResult.Yes)
+                     if (retrieveChoose == DialogResult.No)
+                        if (!b30290.DeleteData(isYMD))
+                           return ResultStatus.Fail;
+               }
+
+               //儲存PLP13
+               foreach (DataRow dr in dt.Rows) {
+                  if (dr.RowState != DataRowState.Deleted) {
+                     dr["PLP13_W_TIME"] = DateTime.Now;
+                     dr["PLP13_W_USER_ID"] = GlobalInfo.USER_ID;
+                  }
                }
             }
-         }
-         if (dtChange != null) {
-            try {
-               ResultData myResultData = dao51030.UpdateMMF(dt);
+            if (dtChange != null) {
+               try {
+                  dtChange = dt.GetChanges();
+                  ShowMsg("存檔中...");
+                  ResultData myResultData = b30290.UpdateData(dtChange);
+               }
+               catch (Exception ex) {
+                  WriteLog(ex);
+               }
+               //Write LOGF
+               WriteLog("變更資料 " + logtxt, "Info", "I", false);
+               return ResultStatus.Success;
             }
-            catch (Exception ex) {
-               WriteLog(ex);
+            else {
+               MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-            PrintOrExportChangedByKen(gcMain, dtForAdd, dtDeleteChange, dtForModified);
-            return ResultStatus.Success;
-         }
-         else {
-            MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-         }
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus Print(ReportHelper ReportHelper)
-      {
-         try {
-            ReportHelper reportHelper = new ReportHelper(gcMain, _ProgramID, _ProgramID + _ProgramName);
-            reportHelper.Print();
-
          }
          catch (Exception ex) {
-            throw ex;
+            WriteLog(ex);
          }
+         finally {
+            Export();
+         }
+
+         retrieveChoose = DialogResult.None;
          return ResultStatus.Success;
       }
 
@@ -304,10 +171,7 @@ namespace PhoenixCI.FormUI.Prefix3
       {
          base.ActivatedForm();
 
-         _ToolBtnSave.Enabled = true;
-         _ToolBtnDel.Enabled = true;
          _ToolBtnRetrieve.Enabled = true;
-         _ToolBtnExport.Enabled = true;
 
          return ResultStatus.Success;
       }
@@ -322,9 +186,12 @@ namespace PhoenixCI.FormUI.Prefix3
       protected override ResultStatus Open()
       {
          base.Open();
-         _saveFilePath = PbFunc.wf_copy_file(_ProgramID, "30290");
-         //b30290 = new B30290(_saveFilePath, emDate.Text);
-         this.emDate.EditValueChanged += new System.EventHandler(this.emDate_EditValueChanged);
+
+         b30290 = new B30290(_ProgramID);
+         YMDlookUpEdit.SetDataTable(b30290.GetEffectiveYMD(emDate.Text).Clone(), "YMD", "YMD", DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor, "");
+
+         emDate.Text = b30290.LastQuarter(GlobalInfo.OCF_DATE);
+         this.emDate.Leave += new System.EventHandler(this.emDate_Leave);
          return ResultStatus.Success;
       }
 
@@ -340,16 +207,93 @@ namespace PhoenixCI.FormUI.Prefix3
          return base.BeforeClose();
       }
 
-      protected override ResultStatus COMPLETE()
+      private bool StartExport()
       {
-         MessageDisplay.Info(MessageDisplay.MSG_OK);
-         Retrieve();
+         if (!emDate.IsDate(emDate.Text, "日期輸入錯誤")) {
+            //is_chk = "Y";
+            return false;
+         }
+
+         //DataTable dt = (DataTable)gcMain.DataSource;
+         //if (dt.Rows.Count <= 0) {
+         //   MessageDisplay.Warning("下方視窗無資料無法進行存檔，請先執行「讀取／預覽」!");
+         //   ShowMsg("轉檔有誤!");
+         //   return false;
+         //}
+
+         if (retrieveChoose == DialogResult.No) {
+            MessageDisplay.Warning("已重新產置資料，請先執行「儲存」!");
+            ShowMsg("轉檔有誤!");
+            return false;
+         }
+
+         stMsgTxt.Visible = true;
+         stMsgTxt.Text = "開始轉檔...";
+         this.Cursor = Cursors.WaitCursor;
+         this.Refresh();
+         Thread.Sleep(5);
+         return true;
+      }
+
+      protected void EndExport()
+      {
+         stMsgTxt.Text = "";
+         this.Cursor = Cursors.Arrow;
+         this.Refresh();
+         Thread.Sleep(5);
+         stMsgTxt.Visible = false;
+      }
+
+      protected void ShowMsg(string msg)
+      {
+         this.Cursor = Cursors.WaitCursor;
+         stMsgTxt.Visible = true;
+         stMsgTxt.Text = msg;
+         this.Refresh();
+         Thread.Sleep(5);
+      }
+
+      private string OutputShowMessage {
+         set {
+            if (value != MessageDisplay.MSG_OK)
+               MessageDisplay.Info(value);
+         }
+      }
+
+      protected override ResultStatus Export()
+      {
+         if (!StartExport()) {
+            return ResultStatus.Fail;
+         }
+         string saveFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
+         logtxt = saveFilePath;
+         //Write LOGF
+         WriteLog("轉出檔案:" + logtxt, "Info", "E", false);
+         try {
+            //Sheet : rpt_future
+            OutputShowMessage = b30290.WfExport(saveFilePath, emDate.Text);
+         }
+         catch (Exception ex) {
+            File.Delete(saveFilePath);
+            WriteLog(ex);
+            return ResultStatus.Fail;
+         }
+         finally {
+            EndExport();
+         }
+
          return ResultStatus.Success;
       }
 
-      private void emDate_EditValueChanged(object sender, EventArgs e)
+      protected override ResultStatus COMPLETE()
       {
-         YMDlookUpEdit.SetDataTable(b30290.GetEffectiveYMD(emDate.Text), "COD_ID", "COD_DESC", DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor, "");
+         MessageDisplay.Info(MessageDisplay.MSG_OK);
+         return ResultStatus.Success;
+      }
+
+      private void emDate_Leave(object sender, EventArgs e)
+      {
+         YMDlookUpEdit.SetDataTable(b30290.GetEffectiveYMD(emDate.Text), "YMD", "YMD", DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor, "");
       }
    }
 }

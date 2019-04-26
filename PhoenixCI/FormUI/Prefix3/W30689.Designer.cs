@@ -42,19 +42,21 @@
             // 
             this.panParent.Controls.Add(this.grpxDescription);
             this.panParent.Controls.Add(this.ExportShow);
-            this.panParent.Size = new System.Drawing.Size(800, 420);
+            this.panParent.Size = new System.Drawing.Size(800, 418);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(800, 30);
+            this.ribbonControl.Size = new System.Drawing.Size(800, 32);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // grpxDescription
             // 
             this.grpxDescription.AutoSize = true;
+            this.grpxDescription.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
             this.grpxDescription.Controls.Add(this.txtDate);
             this.grpxDescription.Controls.Add(this.lblDate);
+            this.grpxDescription.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.grpxDescription.Location = new System.Drawing.Point(15, 15);
             this.grpxDescription.Name = "grpxDescription";
             this.grpxDescription.Size = new System.Drawing.Size(404, 120);
@@ -73,9 +75,11 @@
             this.txtDate.Name = "txtDate";
             this.txtDate.Properties.Appearance.Options.UseTextOptions = true;
             this.txtDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtDate.Properties.EditFormat.FormatString = "yyyyMMdd";
             this.txtDate.Properties.Mask.EditMask = "yyyy/MM/dd";
             this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
             this.txtDate.Properties.Mask.PlaceHolder = '0';
+            this.txtDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtDate.Size = new System.Drawing.Size(144, 26);
             this.txtDate.TabIndex = 15;
