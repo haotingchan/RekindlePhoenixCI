@@ -276,9 +276,20 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
 
             result = result.TrimEnd('、');
-            result += "之期貨契約保證金及選擇權契約";
-            if (dt.Select("ab_type='A'").Count<DataRow>() > 0) {
-               result += "風險保證金(A值)、風險保證金最低值(B值)";
+            result += "之";
+
+            if (dt.Select("prod_type='O'").Count<DataRow>() > 0 &&
+               dt.Select("prod_type='F'").Count<DataRow>() > 0) {
+
+               result += "期貨契約保證金及選擇權契約風險保證金(A值)、風險保證金最低值(B值)";
+            } else if (dt.Select("prod_type='F'").Count<DataRow>() > 0 &&
+                 dt.Select("prod_type='O'").Count<DataRow>() <= 0) {
+
+               result += "期貨契約保證金";
+            } else if (dt.Select("prod_type='F'").Count<DataRow>() <= 0 &&
+               dt.Select("prod_type='O'").Count<DataRow>() > 0) {
+
+               result += "選擇權契約風險保證金(A值)、風險保證金最低值(B值)";
             }
 
             return result;
