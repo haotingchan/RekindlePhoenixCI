@@ -43,12 +43,12 @@
             // panParent
             // 
             this.panParent.Controls.Add(this.grpxDescription);
-            this.panParent.Size = new System.Drawing.Size(754, 538);
+            this.panParent.Size = new System.Drawing.Size(754, 536);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(754, 30);
+            this.ribbonControl.Size = new System.Drawing.Size(754, 32);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // lblDate
@@ -81,7 +81,6 @@
             this.txtEndDate.Location = new System.Drawing.Point(233, 43);
             this.txtEndDate.MenuManager = this.ribbonControl;
             this.txtEndDate.Name = "txtEndDate";
-            this.txtEndDate.Properties.EditFormat.FormatString = "yyyyMMdd";
             this.txtEndDate.Properties.Mask.EditMask = "yyyy/MM/dd";
             this.txtEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
             this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
@@ -98,7 +97,6 @@
             this.txtStartDate.Location = new System.Drawing.Point(100, 43);
             this.txtStartDate.MenuManager = this.ribbonControl;
             this.txtStartDate.Name = "txtStartDate";
-            this.txtStartDate.Properties.EditFormat.FormatString = "yyyyMMdd";
             this.txtStartDate.Properties.Mask.EditMask = "yyyy/MM/dd";
             this.txtStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
             this.txtStartDate.Properties.Mask.ShowPlaceHolders = false;
