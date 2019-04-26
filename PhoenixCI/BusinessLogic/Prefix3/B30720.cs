@@ -93,8 +93,8 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                //年
                lsYMD = _sleYearText;
                dt = dao30720.GetData("Y", lsYMD, lsYMD + "01", lsYMD + "12", lsMarketCode);
-               worksheet.Cells["E1"].Value = $"本國期貨市場{dateMonth.Year - 1911}年" + worksheet.Cells["E1"].Value;
-               worksheet.Cells["E2"].Value = _sleYearText + worksheet.Cells["E2"].Value;
+               worksheet.Cells["E1"].Value = $"本國期貨市場{lsYMD.AsInt() - 1911}年" + worksheet.Cells["E1"].Value;
+               worksheet.Cells["E2"].Value = lsYMD + worksheet.Cells["E2"].Value;
             }
 
             if (dt.Rows.Count <= 0) {
