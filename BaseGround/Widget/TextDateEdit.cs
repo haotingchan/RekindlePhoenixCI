@@ -70,7 +70,7 @@ namespace BaseGround.Widget {
             switch (value) {
                case DateTypeItem.Date:
                   Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
-                  Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+                  Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
                   Properties.MaxLength = 0;
                   Properties.Mask.ShowPlaceHolders = false;
                   _TextFormat = "yyyy/MM/dd";
@@ -78,7 +78,7 @@ namespace BaseGround.Widget {
 
                case DateTypeItem.Month:
                   Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])";
-                  Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+                  Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
                   Properties.MaxLength = 0;
                   Properties.Mask.ShowPlaceHolders = false;
                   _TextFormat = "yyyy/MM";
@@ -86,7 +86,7 @@ namespace BaseGround.Widget {
 
                case DateTypeItem.Year:
                   Properties.Mask.EditMask = "[1-9]\\d{3}";
-                  Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+                  Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
                   Properties.MaxLength = 4;
                   Properties.Mask.ShowPlaceHolders = false;
                   _TextFormat = "yyyy";
@@ -108,15 +108,16 @@ namespace BaseGround.Widget {
          get => _TextMaskFormat;
          set {
             _TextMaskFormat = value;
-            //switch (value) {
-            //   case TextMaskFormatItem.IncludePrompt:
-            //      _TextFormat = Properties.Mask.EditMask.Replace(@"/", "").Replace(":", "");
-            //      break;
+            switch (value) {
+               case TextMaskFormatItem.IncludePrompt:
+                  Properties.EditFormat.FormatString = _TextFormat.Replace(@"/", "").Replace(":", "");
+                  //_TextFormat = Properties.Mask.EditMask.Replace(@"/", "").Replace(":", "");
+                  break;
 
-            //   case TextMaskFormatItem.IncludePromptAndLiterals:
-            //      _TextFormat = Properties.Mask.EditMask;
-            //      break;
-            //}
+               case TextMaskFormatItem.IncludePromptAndLiterals:
+                  Properties.EditFormat.FormatString = _TextFormat;
+                  break;
+            }
          }
       }
 
@@ -166,6 +167,7 @@ namespace BaseGround.Widget {
 
       protected override bool IsMatch => 
          Text.AsDateTime(_TextFormat) == DateTime.MinValue ? false : true;
+
 
       protected override void DoIsMatchValidating(CancelEventArgs e) {
          if (!IsMatch) {

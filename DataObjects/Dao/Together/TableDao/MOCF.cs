@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -39,5 +40,76 @@ AND MOCF_OPEN_CODE = 'Y' ";
          return db.ExecuteScalar(sql, CommandType.Text, parms);
       }
 
-   }
+        /// <summary>
+        /// for f_get_ocf_next_n_day
+        /// </summary>
+        /// <param name="ls_symd"></param>
+        /// <param name="ls_eymd"></param>
+        /// <param name="day_cnt"></param>
+        /// <returns></returns>
+        public DateTime GetSpecOcfDay(string ls_symd, string ls_eymd, int day_cnt) {
+
+            object[] parms = {
+                ":ls_symd", ls_symd,
+                ":ls_eymd", ls_eymd,
+                ":day_cnt", day_cnt
+            };
+
+            string sql = @"
+SELECT to_date(MOCF_YMD,'yyyy/mm/dd') as LDT_NEXT_DATE 
+FROM (
+	 SELECT ROW_NUMBER() OVER (ORDER BY MOCF_YMD) AS NUM,CI.MOCF.* 
+	 FROM CI.MOCF 
+	 WHERE MOCF_YMD > :ls_symd
+	 AND MOCF_YMD <= :ls_eymd
+	 AND MOCF_OPEN_CODE = 'Y'
+)M
+WHERE NUM = :day_cnt";
+
+            DataTable dtResult = db.GetDataTable(sql, parms);
+
+            if (dtResult.Rows.Count == 0) {
+                return DateTime.MinValue;
+            }
+            else {
+                return dtResult.Rows[0]["LDT_NEXT_DATE"].AsDateTime();
+            }
+        }
+
+        /// <summary>
+        /// for f_get_ocf_next_n_day
+        /// </summary>
+        /// <param name="ls_symd"></param>
+        /// <param name="ls_eymd"></param>
+        /// <param name="day_cnt"></param>
+        /// <returns></returns>
+        public DateTime GetSpecOcfDay2(string ls_symd, string ls_eymd, int day_cnt) {
+
+            object[] parms = {
+                ":ls_symd", ls_symd,
+                ":ls_eymd", ls_eymd,
+                ":day_cnt", day_cnt
+            };
+
+            string sql = @"
+SELECT to_date(MOCF_YMD,'yyyy/mm/dd') as LDT_NEXT_DATE 
+FROM (
+	 SELECT ROW_NUMBER() OVER (ORDER BY MOCF_YMD DESC) AS NUM,CI.MOCF.* 
+	 FROM CI.MOCF 
+	 WHERE MOCF_YMD >= :ls_symd
+	 AND MOCF_YMD < :ls_eymd
+	 AND MOCF_OPEN_CODE = 'Y'
+)M
+WHERE NUM = :day_cnt";
+
+            DataTable dtResult = db.GetDataTable(sql, parms);
+
+            if (dtResult.Rows.Count == 0) {
+                return DateTime.MinValue;
+            }
+            else {
+                return dtResult.Rows[0]["LDT_NEXT_DATE"].AsDateTime();
+            }
+        }
+    }
 }

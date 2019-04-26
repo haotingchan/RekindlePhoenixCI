@@ -14,6 +14,7 @@ using Common;
 using PhoenixCI.Shared;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
+using BaseGround;
 
 /// <summary>
 /// Lukas, 2019/3/21
@@ -22,7 +23,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
     /// <summary>
     /// 41020 個股契約價值查詢
     /// </summary>
-    public partial class W41020 : BaseGround.FormParent {
+    public partial class W41020 : FormParent {
 
         private D41020 dao41020;
 
@@ -34,7 +35,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
         protected override ResultStatus Open() {
             try {
                 base.Open();
-                txtEDate.EditValue = PbFunc.f_ocf_date(0);
+                txtEDate.DateTimeValue = GlobalInfo.OCF_DATE;
                 txtSDate.EditValue = txtEDate.Text;
 #if DEBUG
                 //txtSDate.Text = "2014/01/01";

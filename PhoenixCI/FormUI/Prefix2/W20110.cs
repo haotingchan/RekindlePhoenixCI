@@ -48,7 +48,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             GridHelper.SetCommonGrid(gvMain);
             dao20110 = new D20110();
             daoAPDK = new APDK();
-            txtDate.Text = PbFunc.f_ocf_date(0);
+            txtDate.DateTimeValue = GlobalInfo.OCF_DATE;
             //在這邊先撈，因為在不同的事件中會重複用到
             dtCheck = dao20110.d_20110(txtDate.Text.AsDateTime());
         }

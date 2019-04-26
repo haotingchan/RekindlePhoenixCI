@@ -10,6 +10,7 @@ using System;
 using System.Data;
 using System.Globalization;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 
 /// <summary>
@@ -52,10 +53,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
          txtStartDate.DateTimeValue = GlobalInfo.OCF_DATE;
          txtEndDate.DateTimeValue = GlobalInfo.OCF_DATE;
 
-         ExportShow.Hide();
-
-         //winni test
-         //20171218-20171219
+#if DEBUG
+         txtStartDate.DateTimeValue = DateTime.ParseExact("2017/12/18" , "yyyy/MM/dd" , null);
+         txtEndDate.DateTimeValue = DateTime.ParseExact("2017/12/19" , "yyyy/MM/dd" , null);
+         this.Text += "(開啟測試模式),Date=2017/12/18~2017/12/19";
+#endif
       }
 
       protected override ResultStatus ActivatedForm() {
@@ -66,16 +68,29 @@ namespace PhoenixCI.FormUI.Prefix3 {
          return ResultStatus.Success;
       }
 
+      protected void ShowMsg(string msg) {
+         labMsg.Text = msg;
+         labMsg.Visible = true;
+         this.Refresh();
+         Thread.Sleep(5);
+      }
+
       protected override ResultStatus Export() {
 
-         ExportShow.Show();
-
          try {
+
+            //0. ready
+            panFilter.Enabled = false;
+            labMsg.Visible = true;
+            labMsg.Text = "開始轉檔...";
+            this.Cursor = Cursors.WaitCursor;
+            this.Refresh();
+            Thread.Sleep(5);
 
             //1.撈資料
             DataTable dtContent = daoVPR.ListByMarket(StartDate , EndDate , 'S' , 'S');
             if (dtContent.Rows.Count <= 0) {
-               ExportShow.Hide();
+               labMsg.Hide();
                MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtStartDate.Text + "-" + txtEndDate.Text , this.Text));
                return ResultStatus.Fail;
             }
@@ -88,7 +103,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
 
             for (int i = 0 ; i < dt.Rows.Count ; i++) {
-               dt.Rows[i]["VPR_DATA_TIME"] = Convert.ToDateTime(dtContent.Rows[i]["VPR_DATA_TIME"]).ToString("yyyy/MM/dd HH:mm:ss");
+               dt.Rows[i]["VPR_DATA_TIME"] = Convert.ToDateTime(dtContent.Rows[i]["VPR_DATA_TIME"]).ToString("yyyy/MM/dd HH:mm:ss.fff");
             }
 
             //2.存Txt
@@ -99,16 +114,21 @@ namespace PhoenixCI.FormUI.Prefix3 {
             txtref.Encoding = System.Text.Encoding.GetEncoding(950);//ASCII
             Common.Helper.ExportHelper.ToText(dt , etfFileName , txtref);
 
-            ExportShow.Text = "轉檔成功!";
+            labMsg.Text = "轉檔成功!";
             exportStatus = ResultStatus.Success;
             return ResultStatus.Success;
 
-         } catch (Exception ex) {  
+         } catch (Exception ex) {
             PbFunc.f_write_logf(_ProgramID , "error" , ex.Message);
-            ExportShow.Text = "轉檔失敗";
-            return ResultStatus.Fail;
-         }
+            labMsg.Text = "轉檔失敗";
 
+         } finally {
+            panFilter.Enabled = true;
+            labMsg.Text = "";
+            labMsg.Visible = false;
+            this.Cursor = Cursors.Arrow;
+         }
+         return ResultStatus.Fail;
       }
 
       protected override ResultStatus ExportAfter(string startTime) {

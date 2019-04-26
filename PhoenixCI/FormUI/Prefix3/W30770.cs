@@ -92,7 +92,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
       }
       #endregion
 
-      public W30770(string programID, string programName) : base(programID, programName) {
+      public W30770(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
 
@@ -108,7 +108,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                                         new LookupItem() { ValueMember = "5%", DisplayMember = "13:45 - 16:15"},
                                         new LookupItem() { ValueMember = "%", DisplayMember = "13:45 - 18:15" },
                                         new LookupItem() { ValueMember = "7%", DisplayMember = "16:15 - 18:15" }};
-         Extension.SetDataTable(ddlOswGrp, lstType, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor, "");
+         Extension.SetDataTable(ddlOswGrp , lstType , "ValueMember" , "DisplayMember" , TextEditStyles.DisableTextEditor , "");
 
          return ResultStatus.Success;
       }
@@ -116,16 +116,16 @@ namespace PhoenixCI.FormUI.Prefix3 {
       protected override ResultStatus AfterOpen() {
          base.AfterOpen();
 
-         txtEndDate.EditValue = PbFunc.f_ocf_date(0);
-         txtStartDate.EditValue = txtEndDate.DateTimeValue.ToString("yyyy/MM/01");
-         txtStartMonth.EditValue = txtEndDate.DateTimeValue.ToString("yyyy/MM");
-         txtEndMonth.EditValue = txtEndDate.DateTimeValue.ToString("yyyy/MM");
+         txtEndDate.DateTimeValue = GlobalInfo.OCF_DATE;
+         txtStartDate.DateTimeValue = DateTime.ParseExact(txtEndDate.DateTimeValue.ToString("yyyy/MM/01") , "yyyy/MM/dd" , null);
+         txtStartMonth.DateTimeValue = GlobalInfo.OCF_DATE;
+         txtEndMonth.EditValue = GlobalInfo.OCF_DATE;
 
 #if DEBUG
-         txtStartMonth.DateTimeValue = DateTime.ParseExact("2018/10/01", "yyyy/MM/dd", null);
-         txtEndMonth.DateTimeValue = DateTime.ParseExact("2018/10/01", "yyyy/MM/dd", null);
-         txtStartDate.DateTimeValue = DateTime.ParseExact("2018/10/01", "yyyy/MM/dd", null);
-         txtEndDate.DateTimeValue = DateTime.ParseExact("2018/10/11", "yyyy/MM/dd", null);
+         txtStartMonth.DateTimeValue = DateTime.ParseExact("2018/10/01" , "yyyy/MM/dd" , null);
+         txtEndMonth.DateTimeValue = DateTime.ParseExact("2018/10/01" , "yyyy/MM/dd" , null);
+         txtStartDate.DateTimeValue = DateTime.ParseExact("2018/10/01" , "yyyy/MM/dd" , null);
+         txtEndDate.DateTimeValue = DateTime.ParseExact("2018/10/11" , "yyyy/MM/dd" , null);
          this.Text += "(開啟測試模式)";
 #endif
 
@@ -165,7 +165,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
 
             //1.1 copy template xls to target path
-            string excelDestinationPath = CopyExcelTemplateFile(_ProgramID, FileType.XLSX);
+            string excelDestinationPath = CopyExcelTemplateFile(_ProgramID , FileType.XLSX);
             Workbook workbook = new Workbook();
             workbook.LoadDocument(excelDestinationPath);
 
@@ -188,20 +188,20 @@ namespace PhoenixCI.FormUI.Prefix3 {
             #endregion
 
             //2.匯出資料(看勾選情況,目前最多跑2x2=4次)
-            Object[] args = { dao30770, _ProgramID, StartMonth, EndMonth, StartDate, EndDate, OswGrp, OswGrpText };
+            Object[] args = { dao30770 , _ProgramID , StartMonth , EndMonth , StartDate , EndDate , OswGrp , OswGrpText };
 
             foreach (CheckedListBoxItem chk in chkGroup.Items) {
                if (chk.CheckState == CheckState.Checked) {
                   if (rdoGroup.Text == "%") {
                      //全部,兩個都要跑
-                     IReportData Future = CreateReport(GetType(), "Future" + chk.Value.ToString(), args);
+                     IReportData Future = CreateReport(GetType() , "Future" + chk.Value.ToString() , args);
                      Future.Export(workbook);
 
-                     IReportData Option = CreateReport(GetType(), "Option" + chk.Value.ToString(), args);
+                     IReportData Option = CreateReport(GetType() , "Option" + chk.Value.ToString() , args);
                      Option.Export(workbook);
 
                   } else {
-                     IReportData ReportData = CreateReport(GetType(), rdoGroup.Text + chk.Value.ToString(), args);
+                     IReportData ReportData = CreateReport(GetType() , rdoGroup.Text + chk.Value.ToString() , args);
                      ReportData.Export(workbook);
                   }//if (rdoGroup.Text == "%") {
                }//if(chk.CheckState == CheckState.Checked){
@@ -234,14 +234,14 @@ namespace PhoenixCI.FormUI.Prefix3 {
       /// <param name="startDate"></param>
       /// <param name="endDate"></param>
       /// <param name="oswGrp"></param>
-      private void wf_30770_date(Workbook workbook, string prodType, SheetType sheetType,
-                                 string startDate, string endDate, string oswGrp) {
+      private void wf_30770_date(Workbook workbook , string prodType , SheetType sheetType ,
+                                 string startDate , string endDate , string oswGrp) {
 
          Worksheet ws = workbook.Worksheets[(int)sheetType];
 
-         DataTable dtTemp = dao30770.d_30770(prodType, "D", startDate, endDate, oswGrp);
+         DataTable dtTemp = dao30770.d_30770(prodType , "D" , startDate , endDate , oswGrp);
          if (dtTemp.Rows.Count <= 0) {
-            MessageDisplay.Info(string.Format("{0}～{1},{2}－{3}無任何資料!", startDate, endDate, _ProgramID, "延長交易時間商品13:45後交易量比重－日明細"));
+            MessageDisplay.Info(string.Format("{0}～{1},{2}－{3}無任何資料!" , startDate , endDate , _ProgramID , "延長交易時間商品13:45後交易量比重－日明細"));
             return;
          }
 
@@ -253,28 +253,28 @@ namespace PhoenixCI.FormUI.Prefix3 {
          int colStart3 = (cp_max_seq_no * 2) + 2;
          int rowIndex = 0;
 
-         ws.Cells[rowIndex, colStart1 + 1].Value = oswGrp + "交易量";
-         ws.Cells[rowIndex + 2, colStart2].Value = "小計";
-         ws.Cells[rowIndex, colStart2 + 1].Value = "一般交易時段交易量";
-         ws.Cells[rowIndex + 2, colStart3].Value = "小計";
-         ws.Cells[rowIndex, colStart3 + 1].Value = "延長交易時段交易量比重";
-         ws.Cells[rowIndex + 2, colStart3 + cp_max_seq_no + 1].Value = "小計";
+         ws.Cells[rowIndex , colStart1 + 1].Value = oswGrp + "交易量";
+         ws.Cells[rowIndex + 2 , colStart2].Value = "小計";
+         ws.Cells[rowIndex , colStart2 + 1].Value = "一般交易時段交易量";
+         ws.Cells[rowIndex + 2 , colStart3].Value = "小計";
+         ws.Cells[rowIndex , colStart3 + 1].Value = "延長交易時段交易量比重";
+         ws.Cells[rowIndex + 2 , colStart3 + cp_max_seq_no + 1].Value = "小計";
 
          DataView dv = dtTemp.AsDataView();
          dv.Sort = "seq_no";
 
          rowIndex = 1;
-         for (int k = 1;k <= cp_max_seq_no;k++) {
+         for (int k = 1 ; k <= cp_max_seq_no ; k++) {
             int ll_found = dv.Find(k);
             string am11_kind_id = dtTemp.Rows[ll_found]["am11_kind_id"].AsString();
             string apdk_name = dtTemp.Rows[ll_found]["apdk_name"].AsString();
 
-            ws.Cells[rowIndex + 0, k + colStart1].Value = am11_kind_id;
-            ws.Cells[rowIndex + 1, k + colStart1].Value = apdk_name;
-            ws.Cells[rowIndex + 0, k + colStart2].Value = am11_kind_id;
-            ws.Cells[rowIndex + 1, k + colStart2].Value = apdk_name;
-            ws.Cells[rowIndex + 0, k + colStart3].Value = am11_kind_id;
-            ws.Cells[rowIndex + 1, k + colStart3].Value = apdk_name;
+            ws.Cells[rowIndex + 0 , k + colStart1].Value = am11_kind_id;
+            ws.Cells[rowIndex + 1 , k + colStart1].Value = apdk_name;
+            ws.Cells[rowIndex + 0 , k + colStart2].Value = am11_kind_id;
+            ws.Cells[rowIndex + 1 , k + colStart2].Value = apdk_name;
+            ws.Cells[rowIndex + 0 , k + colStart3].Value = am11_kind_id;
+            ws.Cells[rowIndex + 1 , k + colStart3].Value = apdk_name;
 
          }// for (int k = 0;k < cp_max_seq_no;k++) {
 
@@ -285,13 +285,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
          foreach (DataRow dr in dtTemp.Rows) {
             string am11_ymd = dr["am11_ymd"].AsString();
-            DateTime.TryParseExact(am11_ymd, "yyyyMMdd", null, System.Globalization.DateTimeStyles.AllowWhiteSpaces, out DateTime am11);
+            DateTime.TryParseExact(am11_ymd , "yyyyMMdd" , null , System.Globalization.DateTimeStyles.AllowWhiteSpaces , out DateTime am11);
             string am11_kind_id = dr["am11_kind_id"].AsString();
 
             if (ymd != am11_ymd) {
                ymd = am11_ymd;
                rowIndex++;
-               ws.Cells[rowIndex, 0].Value = am11.ToString("yyyy/MM/dd");
+               ws.Cells[rowIndex , 0].Value = am11.ToString("yyyy/MM/dd");
             }//if (ymd != am11_ymd) {
 
             if (kindId != am11_kind_id) {
@@ -299,13 +299,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
                Decimal cp_grp_m_qnty = dr["cp_grp_m_qnty"].AsDecimal();
                Decimal cp_grp_tot_qnty = dr["cp_grp_tot_qnty"].AsDecimal();
-               ws.Cells[rowIndex, colStart2].Value = cp_grp_m_qnty;
-               ws.Cells[rowIndex, colStart3].Value = cp_grp_tot_qnty;
+               ws.Cells[rowIndex , colStart2].Value = cp_grp_m_qnty;
+               ws.Cells[rowIndex , colStart3].Value = cp_grp_tot_qnty;
 
                if (cp_grp_tot_qnty > 0) {
-                  ws.Cells[rowIndex, colStart3 + cp_max_seq_no + 1].Value = Math.Round(cp_grp_m_qnty / cp_grp_tot_qnty, 4) * 100;
+                  ws.Cells[rowIndex , colStart3 + cp_max_seq_no + 1].Value = Math.Round(cp_grp_m_qnty / cp_grp_tot_qnty , 4) * 100;
                } else {
-                  ws.Cells[rowIndex, colStart3 + cp_max_seq_no + 1].Value = 0;
+                  ws.Cells[rowIndex , colStart3 + cp_max_seq_no + 1].Value = 0;
                }
             }//if (kindId != am11_kind_id) {
 
@@ -313,12 +313,12 @@ namespace PhoenixCI.FormUI.Prefix3 {
             Decimal m_qnty = dr["m_qnty"].AsDecimal();
             Decimal tot_qnty = dr["tot_qnty"].AsDecimal();
 
-            ws.Cells[rowIndex, li_col + colStart1].Value = m_qnty;
-            ws.Cells[rowIndex, li_col + colStart2].Value = tot_qnty;
+            ws.Cells[rowIndex , li_col + colStart1].Value = m_qnty;
+            ws.Cells[rowIndex , li_col + colStart2].Value = tot_qnty;
             if (tot_qnty > 0) {
-               ws.Cells[rowIndex, li_col + colStart3].Value = Math.Round(m_qnty / tot_qnty, 4) * 100;
+               ws.Cells[rowIndex , li_col + colStart3].Value = Math.Round(m_qnty / tot_qnty , 4) * 100;
             } else {
-               ws.Cells[rowIndex, li_col + colStart3].Value = 0;
+               ws.Cells[rowIndex , li_col + colStart3].Value = 0;
             }
 
          }//foreach (DataRow dr in dtTemp.Rows) {
@@ -345,11 +345,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
       /// <param name="name"></param>
       /// <param name="args">該物件初始化時候必要的參數</param>
       /// <returns></returns>
-      public IReportData CreateReport(Type type, string name, Object[] args = null) {
+      public IReportData CreateReport(Type type , string name , Object[] args = null) {
          //讀取dll/主要exe的寫法
          string AssemblyName = type.Namespace.Split('.')[0];//最後compile出來的dll名稱
          string className = type.FullName + "+" + name;//完整的class路徑(注意,內部的class執行時其fullName是用+號連結起來)
-         return (IReportData)Assembly.Load(AssemblyName).CreateInstance(className, true, BindingFlags.CreateInstance, null, args, null, null);
+         return (IReportData)Assembly.Load(AssemblyName).CreateInstance(className , true , BindingFlags.CreateInstance , null , args , null , null);
 
          //另一種讀取其他exe的寫法
          //string AssemblyName = Assembly.GetExecutingAssembly().Location;//最後compile出來的exe
@@ -371,7 +371,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          protected string OswGrp { get; set; }
          protected string OswGrpText { get; set; }
 
-         public Report30770(D30770 dao, string reportId, string startMonth, string endMonth, string startDate, string endDate, string oswGrp, string oswGrpText) {
+         public Report30770(D30770 dao , string reportId , string startMonth , string endMonth , string startDate , string endDate , string oswGrp , string oswGrpText) {
             Dao = dao;
             ReportId = reportId;
 
@@ -385,25 +385,25 @@ namespace PhoenixCI.FormUI.Prefix3 {
          /// <param name="workbook"></param>
          public virtual void Export(Workbook workbook) {
 
-            DataTable dtTemp = Dao.d_30770(ProdType, SumType, StartDate, EndDate, OswGrp);
+            DataTable dtTemp = Dao.d_30770(ProdType , SumType , StartDate , EndDate , OswGrp);
             if (dtTemp.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0}～{1},{2}－{3}無任何資料!", StartDate, EndDate, ReportId, ReportName));
+               MessageDisplay.Info(string.Format("{0}～{1},{2}－{3}無任何資料!" , StartDate , EndDate , ReportId , ReportName));
                return;
             }
 
             Worksheet ws = workbook.Worksheets[(int)SheetIndex];
 
             int rowIndex = 0;
-            rowIndex = ExportGrid(ws, dtTemp, GridName.First, rowIndex, OswGrpText);
+            rowIndex = ExportGrid(ws , dtTemp , GridName.First , rowIndex , OswGrpText);
 
             //如果為月報,則多產一個grid
             if (SumType == "M")
-               ExportGrid(ws, dtTemp, GridName.Second, ++rowIndex, OswGrpText);
+               ExportGrid(ws , dtTemp , GridName.Second , ++rowIndex , OswGrpText);
 
          }
 
 
-         protected virtual int ExportGrid(Worksheet ws, DataTable dtTemp, GridName gridName, int rowBeginIndex, string oswGrpText) {
+         protected virtual int ExportGrid(Worksheet ws , DataTable dtTemp , GridName gridName , int rowBeginIndex , string oswGrpText) {
             int rowIndex = rowBeginIndex;
             int cp_max_seq_no = dtTemp.Rows[0]["cp_max_seq_no"].AsInt();
             int colStart1 = 0;
@@ -415,20 +415,20 @@ namespace PhoenixCI.FormUI.Prefix3 {
                //
             } else {
                if (gridName == GridName.First) {
-                  ws.Cells[rowIndex, 0].Value = "月總量";
+                  ws.Cells[rowIndex , 0].Value = "月總量";
                } else {
-                  ws.Cells[rowIndex, 0].Value = "日均量";
-                  ws.Cells[rowIndex + 1, 0].Value = "代碼";
-                  ws.Cells[rowIndex + 2, 0].Value = "名稱";
+                  ws.Cells[rowIndex , 0].Value = "日均量";
+                  ws.Cells[rowIndex + 1 , 0].Value = "代碼";
+                  ws.Cells[rowIndex + 2 , 0].Value = "名稱";
                }
             }
-            ws.Cells[rowIndex, colStart1 + 1].Value = oswGrpText + "交易量";
-            ws.Cells[rowIndex, colStart2 + 1].Value = "一般交易時段交易量";
-            ws.Cells[rowIndex, colStart3 + 1].Value = "延長交易時段交易量比重";
+            ws.Cells[rowIndex , colStart1 + 1].Value = oswGrpText + "交易量";
+            ws.Cells[rowIndex , colStart2 + 1].Value = "一般交易時段交易量";
+            ws.Cells[rowIndex , colStart3 + 1].Value = "延長交易時段交易量比重";
 
-            ws.Cells[rowIndex + 2, colStart2].Value = "小計";
-            ws.Cells[rowIndex + 2, colStart3].Value = "小計";
-            ws.Cells[rowIndex + 2, colStart3 + cp_max_seq_no + 1].Value = "小計";
+            ws.Cells[rowIndex + 2 , colStart2].Value = "小計";
+            ws.Cells[rowIndex + 2 , colStart3].Value = "小計";
+            ws.Cells[rowIndex + 2 , colStart3 + cp_max_seq_no + 1].Value = "小計";
 
             //2.5月總量/日均量--第二排表頭
             rowIndex++;
@@ -441,17 +441,17 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //DataView dv = dtHeader.AsDataView();
             //dv.Sort = "seq_no";
 
-            for (int k = 1;k <= cp_max_seq_no;k++) {
+            for (int k = 1 ; k <= cp_max_seq_no ; k++) {
                //int ll_found = dv.Find(k);
-               string am11_kind_id = dtTemp.Rows[k-1]["am11_kind_id"].AsString();
-               string apdk_name = dtTemp.Rows[k-1]["apdk_name"].AsString();
+               string am11_kind_id = dtTemp.Rows[k - 1]["am11_kind_id"].AsString();
+               string apdk_name = dtTemp.Rows[k - 1]["apdk_name"].AsString();
 
-               ws.Cells[rowIndex + 0, k + colStart1].Value = am11_kind_id;
-               ws.Cells[rowIndex + 1, k + colStart1].Value = apdk_name;
-               ws.Cells[rowIndex + 0, k + colStart2].Value = am11_kind_id;
-               ws.Cells[rowIndex + 1, k + colStart2].Value = apdk_name;
-               ws.Cells[rowIndex + 0, k + colStart3].Value = am11_kind_id;
-               ws.Cells[rowIndex + 1, k + colStart3].Value = apdk_name;
+               ws.Cells[rowIndex + 0 , k + colStart1].Value = am11_kind_id;
+               ws.Cells[rowIndex + 1 , k + colStart1].Value = apdk_name;
+               ws.Cells[rowIndex + 0 , k + colStart2].Value = am11_kind_id;
+               ws.Cells[rowIndex + 1 , k + colStart2].Value = apdk_name;
+               ws.Cells[rowIndex + 0 , k + colStart3].Value = am11_kind_id;
+               ws.Cells[rowIndex + 1 , k + colStart3].Value = apdk_name;
 
             }// for (int k = 0;k < cp_max_seq_no;k++) {
 
@@ -462,7 +462,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             foreach (DataRow dr in dtTemp.Rows) {
                string am11_ymd = dr["am11_ymd"].AsString();
-               DateTime.TryParseExact(am11_ymd, "yyyyMMdd", null, System.Globalization.DateTimeStyles.AllowWhiteSpaces, out DateTime am11);
+               DateTime.TryParseExact(am11_ymd , "yyyyMMdd" , null , System.Globalization.DateTimeStyles.AllowWhiteSpaces , out DateTime am11);
                string am11_kind_id = dr["am11_kind_id"].AsString();
                int day_cnt = dr["day_cnt"].AsInt();
                int dec = (gridName == GridName.First ? 4 : 6);//小數點4位或是6位
@@ -471,7 +471,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                   //每換一個日期
                   ymd = am11_ymd;
                   rowIndex++;
-                  ws.Cells[rowIndex, 0].Value = (SumType == "D" ? am11.ToString("yyyy/MM/dd") : am11_ymd);
+                  ws.Cells[rowIndex , 0].Value = (SumType == "D" ? am11.ToString("yyyy/MM/dd") : am11_ymd);
                }//if (ymd != am11_ymd) {
 
                if (kindId != am11_kind_id) {
@@ -480,16 +480,16 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
                   Decimal cp_grp_m_qnty = dr["cp_grp_m_qnty"].AsDecimal();
                   Decimal cp_grp_tot_qnty = dr["cp_grp_tot_qnty"].AsDecimal();
-                  Decimal groupCount = (gridName == GridName.First ? cp_grp_m_qnty : Math.Round(cp_grp_m_qnty / day_cnt, 4));
-                  Decimal groupTotalCount = (gridName == GridName.First ? cp_grp_tot_qnty : Math.Round(cp_grp_tot_qnty / day_cnt, 4));
+                  Decimal groupCount = (gridName == GridName.First ? cp_grp_m_qnty : Math.Round(cp_grp_m_qnty / day_cnt , 4));
+                  Decimal groupTotalCount = (gridName == GridName.First ? cp_grp_tot_qnty : Math.Round(cp_grp_tot_qnty / day_cnt , 4));
 
-                  ws.Cells[rowIndex, colStart2].Value = groupCount;
-                  ws.Cells[rowIndex, colStart3].Value = groupTotalCount;
+                  ws.Cells[rowIndex , colStart2].Value = groupCount;
+                  ws.Cells[rowIndex , colStart3].Value = groupTotalCount;
 
                   if (groupTotalCount > 0) {
-                     ws.Cells[rowIndex, colStart3 + cp_max_seq_no + 1].Value = Math.Round(groupCount / groupTotalCount, dec) * 100;
+                     ws.Cells[rowIndex , colStart3 + cp_max_seq_no + 1].Value = Math.Round(groupCount / groupTotalCount , dec) * 100;
                   } else {
-                     ws.Cells[rowIndex, colStart3 + cp_max_seq_no + 1].Value = 0;
+                     ws.Cells[rowIndex , colStart3 + cp_max_seq_no + 1].Value = 0;
                   }
 
                }//if (kindId != am11_kind_id) {
@@ -497,15 +497,15 @@ namespace PhoenixCI.FormUI.Prefix3 {
                int li_col = dr["seq_no"].AsInt();
                Decimal m_qnty = dr["m_qnty"].AsDecimal();
                Decimal tot_qnty = dr["tot_qnty"].AsDecimal();
-               Decimal count = (gridName == GridName.First ? m_qnty : Math.Round(m_qnty / day_cnt, 4));
-               Decimal totalCount = (gridName == GridName.First ? tot_qnty : Math.Round(tot_qnty / day_cnt, 4));
+               Decimal count = (gridName == GridName.First ? m_qnty : Math.Round(m_qnty / day_cnt , 4));
+               Decimal totalCount = (gridName == GridName.First ? tot_qnty : Math.Round(tot_qnty / day_cnt , 4));
 
-               ws.Cells[rowIndex, li_col + colStart1].Value = count;
-               ws.Cells[rowIndex, li_col + colStart2].Value = totalCount;
+               ws.Cells[rowIndex , li_col + colStart1].Value = count;
+               ws.Cells[rowIndex , li_col + colStart2].Value = totalCount;
                if (totalCount > 0) {
-                  ws.Cells[rowIndex, li_col + colStart3].Value = Math.Round(count / totalCount, dec) * 100;
+                  ws.Cells[rowIndex , li_col + colStart3].Value = Math.Round(count / totalCount , dec) * 100;
                } else {
-                  ws.Cells[rowIndex, li_col + colStart3].Value = 0;
+                  ws.Cells[rowIndex , li_col + colStart3].Value = 0;
                }
 
             }//foreach (DataRow dr in dtTemp.Rows) {
@@ -519,8 +519,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
       public class FutureDay : Report30770 {
 
-         public FutureDay(D30770 dao, string reportId, string startMonth, string endMonth, string startDate, string endDate, string oswGrp, string oswGrpText)
-                     : base(dao, reportId, startMonth, endMonth, startDate, endDate, oswGrp, oswGrpText) {
+         public FutureDay(D30770 dao , string reportId , string startMonth , string endMonth , string startDate , string endDate , string oswGrp , string oswGrpText)
+                     : base(dao , reportId , startMonth , endMonth , startDate , endDate , oswGrp , oswGrpText) {
             //初始化設定,先讓父類別把共用參數設定好,再設定自己特定的參數
             ReportName = "延長交易時間商品13:45後交易量比重－日明細";
 
@@ -539,8 +539,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
       public class FutureMonth : Report30770 {
 
-         public FutureMonth(D30770 dao, string reportId, string startMonth, string endMonth, string startDate, string endDate, string oswGrp, string oswGrpText)
-                     : base(dao, reportId, startMonth, endMonth, startDate, endDate, oswGrp, oswGrpText) {
+         public FutureMonth(D30770 dao , string reportId , string startMonth , string endMonth , string startDate , string endDate , string oswGrp , string oswGrpText)
+                     : base(dao , reportId , startMonth , endMonth , startDate , endDate , oswGrp , oswGrpText) {
             //初始化設定,先讓父類別把共用參數設定好,再設定自己特定的參數
             ReportName = "延長交易時間商品13:45後交易量比重－月統計";
 
@@ -559,8 +559,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
       public class OptionDay : Report30770 {
 
-         public OptionDay(D30770 dao, string reportId, string startMonth, string endMonth, string startDate, string endDate, string oswGrp, string oswGrpText)
-                     : base(dao, reportId, startMonth, endMonth, startDate, endDate, oswGrp, oswGrpText) {
+         public OptionDay(D30770 dao , string reportId , string startMonth , string endMonth , string startDate , string endDate , string oswGrp , string oswGrpText)
+                     : base(dao , reportId , startMonth , endMonth , startDate , endDate , oswGrp , oswGrpText) {
             //初始化設定,先讓父類別把共用參數設定好,再設定自己特定的參數
             ReportName = "延長交易時間商品13:45後交易量比重－日明細";
 
@@ -579,8 +579,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
       public class OptionMonth : Report30770 {
 
-         public OptionMonth(D30770 dao, string reportId, string startMonth, string endMonth, string startDate, string endDate, string oswGrp, string oswGrpText)
-                     : base(dao, reportId, startMonth, endMonth, startDate, endDate, oswGrp, oswGrpText) {
+         public OptionMonth(D30770 dao , string reportId , string startMonth , string endMonth , string startDate , string endDate , string oswGrp , string oswGrpText)
+                     : base(dao , reportId , startMonth , endMonth , startDate , endDate , oswGrp , oswGrpText) {
             //初始化設定,先讓父類別把共用參數設定好,再設定自己特定的參數
             ReportName = "延長交易時間商品13:45後交易量比重－月統計";
 

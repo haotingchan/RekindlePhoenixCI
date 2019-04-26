@@ -36,8 +36,8 @@
          this.cbxTJF = new System.Windows.Forms.CheckBox();
          this.ddlType = new DevExpress.XtraEditors.LookUpEdit();
          this.labType = new System.Windows.Forms.Label();
-         this.txtSDate = new BaseGround.Widget.TextDateEdit();
          this.labDate = new System.Windows.Forms.Label();
+         this.txtSDate = new BaseGround.Widget.TextDateEdit();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gcMsg)).BeginInit();
@@ -147,11 +147,11 @@
          // panFilter
          // 
          this.panFilter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.panFilter.Controls.Add(this.txtSDate);
          this.panFilter.Controls.Add(this.cbxNews);
          this.panFilter.Controls.Add(this.cbxTJF);
          this.panFilter.Controls.Add(this.ddlType);
          this.panFilter.Controls.Add(this.labType);
-         this.panFilter.Controls.Add(this.txtSDate);
          this.panFilter.Controls.Add(this.labDate);
          this.panFilter.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.panFilter.ForeColor = System.Drawing.Color.Navy;
@@ -208,26 +208,6 @@
          this.labType.TabIndex = 14;
          this.labType.Text = "盤別：";
          // 
-         // txtSDate
-         // 
-         this.txtSDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtSDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
-         this.txtSDate.EditValue = "2018/12";
-         this.txtSDate.EnterMoveNextControl = true;
-         this.txtSDate.Location = new System.Drawing.Point(89, 31);
-         this.txtSDate.MenuManager = this.ribbonControl;
-         this.txtSDate.Name = "txtSDate";
-         this.txtSDate.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
-         this.txtSDate.Properties.Appearance.Options.UseForeColor = true;
-         this.txtSDate.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtSDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtSDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-         this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtSDate.Size = new System.Drawing.Size(100, 26);
-         this.txtSDate.TabIndex = 0;
-         this.txtSDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-         // 
          // labDate
          // 
          this.labDate.AutoSize = true;
@@ -237,6 +217,26 @@
          this.labDate.Size = new System.Drawing.Size(59, 16);
          this.labDate.TabIndex = 12;
          this.labDate.Text = "日期：";
+         // 
+         // txtSDate
+         // 
+         this.txtSDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtSDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtSDate.EditValue = "2018/12";
+         this.txtSDate.EnterMoveNextControl = true;
+         this.txtSDate.Location = new System.Drawing.Point(89, 28);
+         this.txtSDate.MenuManager = this.ribbonControl;
+         this.txtSDate.Name = "txtSDate";
+         this.txtSDate.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtSDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtSDate.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.txtSDate.Properties.Mask.EditMask = "yyyy/MM/dd";
+         this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtSDate.Properties.Mask.ShowPlaceHolders = false;
+         this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtSDate.Size = new System.Drawing.Size(100, 26);
+         this.txtSDate.TabIndex = 15;
+         this.txtSDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // W30055
          // 
@@ -275,8 +275,7 @@
       private System.Windows.Forms.CheckBox cbxTJF;
       private DevExpress.XtraEditors.LookUpEdit ddlType;
       private System.Windows.Forms.Label labType;
-      private BaseGround.Widget.TextDateEdit txtSDate;
       private System.Windows.Forms.Label labDate;
-
+      private BaseGround.Widget.TextDateEdit txtSDate;
    }
 }

@@ -36,7 +36,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             try {
                 base.Open();
                 txtEDate.DateTimeValue = DateTime.Now;
-                txtSDate.EditValue = txtEDate.DateTimeValue;
+                txtSDate.DateTimeValue = txtEDate.DateTimeValue;
 #if DEBUG
                 txtSDate.Text = "2016/01/04";
                 txtEDate.Text = "2016/01/04";
@@ -82,7 +82,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 //讀取資料(當日保證金適用比例)
                 DataTable dt42033 = dao42033.d_42033(txtSDate.Text.Replace("/", ""), txtEDate.Text.Replace("/", ""));
                 if (dt42033.Rows.Count == 0) {
-                    MessageDisplay.Info(PbFunc.f_ocf_date(1).SubStr(0, 6) + "," + rptId + '－' + rptName + ",讀取「股票類(STF)期貨價格及現貨資料」無任何資料!");
+                    MessageDisplay.Info(GlobalInfo.OCF_DATE.ToString("yyyyMM") + "," + rptId + '－' + rptName + ",讀取「股票類(STF)期貨價格及現貨資料」無任何資料!");
                     lblProcessing.Visible = false;
                     return ResultStatus.Fail;
                 }

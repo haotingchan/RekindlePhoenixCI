@@ -7,12 +7,12 @@ using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
 using System.Data;
-using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 
 /// <summary>
-/// Winni, 2019/3/13
+/// Winni, 2019/4/24
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix3 {
    /// <summary>
@@ -51,15 +51,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
          this.Text = _ProgramID + "─" + _ProgramName;
          txtStartDate.DateTimeValue = DateTime.ParseExact(GlobalInfo.OCF_DATE.ToString("yyyy/MM/01") , "yyyy/MM/dd" , null);
-         txtEndDate.DateTimeValue = DateTime.ParseExact(GlobalInfo.OCF_DATE.AsString("yyyy/MM/dd") , "yyyy/MM/dd" , null);
+         txtEndDate.DateTimeValue = DateTime.ParseExact(GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd") , "yyyy/MM/dd" , null);
 
 #if DEBUG
-         //winni test
-         //txtStartDate.DateTimeValue = DateTime.ParseExact("2016/01/01" , "yyyy/MM/dd" , null);
-         //txtEndDate.DateTimeValue = DateTime.ParseExact("2018/11/29" , "yyyy/MM/dd" , null);
-         //this.Text += "(開啟測試模式),Date=2016/01/01~2018/11/29";
+         txtStartDate.DateTimeValue = DateTime.ParseExact("2019/02/01" , "yyyy/MM/dd" , null);
+         txtEndDate.DateTimeValue = DateTime.ParseExact("2019/02/27" , "yyyy/MM/dd" , null);
+         this.Text += "(開啟測試模式),Date=2019/02/01~2019/02/27";
 #endif
-
       }
 
       protected override ResultStatus ActivatedForm() {
@@ -68,6 +66,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
          _ToolBtnExport.Enabled = true;
 
          return ResultStatus.Success;
+      }
+
+      protected void ShowMsg(string msg) {
+         labMsg.Text = msg;
+         labMsg.Visible = true;
+         this.Refresh();
+         Thread.Sleep(5);
       }
 
       protected override ResultStatus Export() {
@@ -86,22 +91,24 @@ namespace PhoenixCI.FormUI.Prefix3 {
                }//if (liRtn == DialogResult.Yes)
             }//if (lsRtn != "Y")
 
-            if (!txtStartDate.IsDate(txtStartDate.Text , CheckDate.Start)
-                  || !txtEndDate.IsDate(txtEndDate.Text , CheckDate.End)) {
-               return ResultStatus.Fail; ;
-            }
+            //if (!txtStartDate.IsDate(txtStartDate.Text , CheckDate.Start)
+            //      || !txtEndDate.IsDate(txtEndDate.Text , CheckDate.End)) {
+            //   return ResultStatus.Fail; ;
+            //}
 
-            if (string.Compare(txtStartDate.Text , txtEndDate.Text) > 0) {
-               MessageDisplay.Error(GlobalInfo.ErrorText , CheckDate.Datedif);
-               return ResultStatus.Fail; ;
-            }
+            //if (string.Compare(txtStartDate.Text , txtEndDate.Text) > 0) {
+            //   MessageDisplay.Error(GlobalInfo.ErrorText , CheckDate.Datedif);
+            //   return ResultStatus.Fail; ;
+            //}
             #endregion
 
             //1. ready
             panFilter.Enabled = false;
             labMsg.Visible = true;
-            labMsg.Text = "訊息：資料轉出中........";
+            labMsg.Text = "開始轉檔...";
+            this.Cursor = Cursors.WaitCursor;
             this.Refresh();
+            Thread.Sleep(5);
 
             //2. copy template xls to target path
             string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID);
@@ -112,7 +119,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             //4. write data
             int row;
-            bool res1 = false, res2 = false , res3 = false;
+            bool res1 = false, res2 = false, res3 = false;
             row = 3;
             res1 = wf_30410(workbook , SheetNo.tradeSum , row);
 
@@ -122,7 +129,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             row = 4; //PB這邊帶1，但進去後帶回4
             res3 = wf_30412(workbook , SheetNo.oint , row);
 
-            if(!res1 && !res2 && !res3) {
+            if (!res1 && !res2 && !res3) {
                //關閉檔案
             }
 
@@ -140,6 +147,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             panFilter.Enabled = true;
             labMsg.Text = "";
             labMsg.Visible = false;
+            this.Cursor = Cursors.Arrow;
          }
          return ResultStatus.Fail;
 
@@ -225,7 +233,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
          string rptName = "股票期貨各標的交易量分佈明細統計表"; //報表標題名稱
          string rptId = "30411";
-         labMsg.Text = rptId + "－" + rptName + " 轉檔中...";
+         ShowMsg(string.Format("{0}－{1} 轉檔中..." , rptId , rptName));
 
          try {
 
@@ -235,7 +243,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                MessageDisplay.Info(String.Format("{0}~{1},{2} - {3},無任何資料!" , StartDate , EndDate , _ProgramID , rptName));
                return false;
             }//if (String.IsNullOrEmpty(maxDate))
-            DateTime eDate = DateTime.ParseExact(maxDate , "yyyy/MM/dd" , null); //yyyy/MM/dd
+            DateTime eDate = DateTime.ParseExact(maxDate , "yyyyMMdd" , null); //yyyy/MM/dd
 
             //2. 讀取資料
             DataTable dt30411 = new D30410().ListData2(txtStartDate.DateTimeValue , eDate);
@@ -245,51 +253,55 @@ namespace PhoenixCI.FormUI.Prefix3 {
             } //if (dt.Rows.Count <= 0 )
 
             //3. 切換Sheet
-            Worksheet ws = workbook.Worksheets[(int)sheetNo];
-            ws.Range["A1"].Select();
-            ws.Cells[1 , 0].Value = StartDate;
-            ws.Cells[1 , 1].Value = EndDate;
+            Worksheet ws30411 = workbook.Worksheets[(int)sheetNo];
+            ws30411.Range["A1"].Select();
+            ws30411.Cells[1 , 0].Value = StartDate;
+            ws30411.Cells[1 , 1].Value = EndDate;
 
             //3.1 撈資料列總數
             //PB這邊帶入參數為txnId = 30410 , txdId = 30410,兩者撈出皆為500 
-            int rowCnt = new RPT().DataByRptId("30410" , "30411").AsInt();
+            int rowCnt = new RPT().DataByRptId("30410" , "30410").AsInt();
             int rowTotal = row + rowCnt;
 
             //4.填資料(交割年月)
             int maxSeqNo = dt30411.Compute("Max(seq_no)" , "").AsInt(); //取得seq_no欄位的最大值
-            for (int w = 0 ; w < maxSeqNo ; w++) {
-               int found = dt30411.Rows.IndexOf(dt30411.Rows.Find(dt30411.Rows[w]["seq_no"])).AsInt();
-               DataRow[] dr30411 = dt30411.Select("seq_no =" + w.AsString());
-               if (dr30411.Length != 0) { //若為空陣列即不執行
-                  ws.Cells[3 , w + 3].Value = dt30411.Rows[found]["amif_settle_date"].AsString("yyyy/MM");
-               }//if (dr30411.Length != 0)
+            int found = 0;
+            for (int w = 1 ; w <= maxSeqNo ; w++) {
+               if (dt30411.Select("seq_no =" + w).Length != 0) {
+                  found = dt30411.Rows.IndexOf(dt30411.Select(string.Format("seq_no ={0}" , w))[0]);
+               }
+
+               if (found >= 0) {
+                  string text = dt30411.Rows[found]["amif_settle_date"].AsString();
+                  ws30411.Cells[3 , w + 2].Value = text.SubStr(0 , 4) + "/" + text.SubStr(4 , 2);
+               }
+
             }
 
             string kindId = "";
             foreach (DataRow dr in dt30411.Rows) {
-               row++;
                string amifKindId = dr["amif_kind_id"].AsString();
                string apdkName = dr["apdk_name"].AsString();
                decimal amifMQntyTal = dr["amif_m_qnty_tal"].AsDecimal();
-               int found = dr["seq_no"].AsInt();
-               int exRow = row - 1;
+               found = dr["seq_no"].AsInt();
+               //int exRow = row - 1;
 
                if (kindId != amifKindId) {
                   kindId = amifKindId;
-                  ws.Cells[exRow , 0].Value = kindId;
-                  ws.Cells[exRow , 1].Value = apdkName;
+                  row++;
+                  ws30411.Cells[row - 1 , 0].Value = kindId;
+                  ws30411.Cells[row - 1 , 1].Value = apdkName;
                }
 
-               ws.Cells[exRow , found + 2].Value = amifMQntyTal;
+               ws30411.Cells[row - 1 , found + 2].Value = amifMQntyTal;
             }
 
             //4. 刪除空白列
-            if (dt30411.Rows.Count < rowTotal) {
-               ws.Rows.Remove(row , rowTotal - row);
-            }
+            Range ra = ws30411.Range[string.Format("{0}:504" , row + 1)];
+            ra.Delete(DeleteMode.EntireRow);
 
-            ws.Range["A1"].Select();
-            ws.ScrollToRow(0);
+            ws30411.Range["A1"].Select();
+            ws30411.ScrollToRow(0);
 
             return true;
          } catch (Exception ex) {
@@ -309,7 +321,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
          string rptName = "股票期貨各標的未平倉量分佈明細統計表"; //報表標題名稱
          string rptId = "30412";
-         labMsg.Text = rptId + "－" + rptName + " 轉檔中...";
+         ShowMsg(string.Format("{0}－{1} 轉檔中..." , rptId , rptName));
 
          try {
             //1. 取得資料最大日期, 抓取OI用 (在wf_30410取得)
@@ -318,7 +330,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                MessageDisplay.Info(String.Format("{0}~{1},{2} - {3},無任何資料!" , StartDate , EndDate , _ProgramID , rptName));
                return false;
             }//if (String.IsNullOrEmpty(maxDate))
-            DateTime eDate = DateTime.ParseExact(maxDate , "yyyy/MM/dd" , null); //yyyy/MM/dd
+            DateTime eDate = DateTime.ParseExact(maxDate , "yyyyMMdd" , null); //yyyy/MM/dd
 
             //2. 讀取資料
             DataTable dt30412 = new D30410().ListData2(txtStartDate.DateTimeValue , eDate);
@@ -328,10 +340,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
             } //if (dt.Rows.Count <= 0 )
 
             //3. 切換Sheet
-            Worksheet ws = workbook.Worksheets[(int)sheetNo];
-            ws.Range["A1"].Select();
-            ws.Cells[1 , 0].Value = StartDate;
-            ws.Cells[1 , 1].Value = EndDate;
+            Worksheet ws30412 = workbook.Worksheets[(int)sheetNo];
+            ws30412.Range["A1"].Select();
+            ws30412.Cells[1 , 0].Value = StartDate;
+            ws30412.Cells[1 , 1].Value = EndDate;
 
             //3.1 撈資料列總數
             //PB這邊帶入參數為txnId = 30410 , txdId = 30410,兩者撈出皆為500 
@@ -339,40 +351,44 @@ namespace PhoenixCI.FormUI.Prefix3 {
             int rowTotal = row + rowCnt;
 
             //4.填資料(交割年月)
+            int found = 0;
             int maxSeqNo = dt30412.Compute("Max(seq_no)" , "").AsInt(); //取得seq_no欄位的最大值
-            for (int w = 0 ; w < maxSeqNo ; w++) {
-               int found = dt30412.Rows.IndexOf(dt30412.Rows.Find(dt30412.Rows[w]["seq_no"])).AsInt();
-               DataRow[] dr30411 = dt30412.Select("seq_no =" + w.AsString());
-               if (dr30411.Length != 0) { //若為空陣列即不執行
-                  ws.Cells[3 , w + 3].Value = dt30412.Rows[found]["amif_settle_date"].AsString("yyyy/MM");
-               }//if (dr30411.Length != 0)
+            for (int w = 1 ; w <= maxSeqNo ; w++) {
+               if (dt30412.Select("seq_no =" + w).Length != 0) {
+                  found = dt30412.Rows.IndexOf(dt30412.Select(string.Format("seq_no ={0}" , w))[0]);
+               }
+
+               if (found >= 0) {
+                  string text = dt30412.Rows[found]["amif_settle_date"].AsString();
+                  ws30412.Cells[3 , w + 2].Value = text.SubStr(0 , 4) + "/" + text.SubStr(4 , 2);
+               }
+
             }
 
             string kindId = "";
             foreach (DataRow dr in dt30412.Rows) {
-               row++;
+
                string amifKindId = dr["amif_kind_id"].AsString();
                string apdkName = dr["apdk_name"].AsString();
                decimal amifOpenInt = dr["amif_open_interest"].AsDecimal();
-               int found = dr["seq_no"].AsInt();
-               int exRow = row - 1;
+               found = dr["seq_no"].AsInt();
 
                if (kindId != amifKindId) {
                   kindId = amifKindId;
-                  ws.Cells[exRow , 0].Value = kindId;
-                  ws.Cells[exRow , 1].Value = apdkName;
+                  row++;
+                  ws30412.Cells[row - 1 , 0].Value = kindId;
+                  ws30412.Cells[row - 1 , 1].Value = apdkName;
                }
 
-               ws.Cells[exRow , found + 2].Value = amifOpenInt;
+               ws30412.Cells[row - 1 , found + 2].Value = amifOpenInt;
             }
 
             //4. 刪除空白列
-            if (dt30412.Rows.Count < rowTotal) {
-               ws.Rows.Remove(row , rowTotal - row);
-            }
+            Range ra = ws30412.Range[string.Format("{0}:504" , row + 1)];
+            ra.Delete(DeleteMode.EntireRow);
 
-            ws.Range["A1"].Select();
-            ws.ScrollToRow(0);
+            ws30412.Range["A1"].Select();
+            ws30412.ScrollToRow(0);
 
             return true;
          } catch (Exception ex) {

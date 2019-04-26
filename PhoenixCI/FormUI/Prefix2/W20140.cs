@@ -59,9 +59,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
             gcMain.RepositoryItems.Add(_RepLookUpEdit);
             KPR_PROD_TYPE.ColumnEdit = _RepLookUpEdit;
             //交易日期賦值
-            txtStartDate.DateTimeValue = DateTime.ParseExact(PbFunc.f_ocf_date(0).SubStr(0, 4) + "/01/01",
-                        "yyyy/MM/dd", CultureInfo.InvariantCulture);
-            txtEndDate.DateTimeValue = DateTime.ParseExact(PbFunc.f_ocf_date(0), "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            txtStartDate.EditValue = GlobalInfo.OCF_DATE.Year + "/01/01";
+            txtEndDate.DateTimeValue = GlobalInfo.OCF_DATE;
 
             return ResultStatus.Success;
         }

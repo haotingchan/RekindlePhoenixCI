@@ -22,8 +22,13 @@ namespace PhoenixCI.FormUI.Prefix6
             InitializeComponent();
 
             this.Text = _ProgramID + "─" + _ProgramName;
-            txtStartDate.DateTimeValue = GlobalInfo.OCF_DATE;
+            int weekNow = Convert.ToInt32(GlobalInfo.OCF_DATE.DayOfWeek);
+            weekNow = (weekNow == 0 ? 7 - 1 : weekNow - 1)*-1;
+            //本周第一天(星期一)
+            txtStartDate.DateTimeValue = GlobalInfo.OCF_DATE.AddDays(weekNow);
             txtEndDate.DateTimeValue = GlobalInfo.OCF_DATE;
+            dao60310 = new D60310();
+            daoRPTF = new RPTF();
         }
 
         public override ResultStatus BeforeOpen()
@@ -132,15 +137,15 @@ namespace PhoenixCI.FormUI.Prefix6
             //102年達成目標交易量之所需日均量與成長率以及稅收達成率
             worksheet.Cells[0, 0].Value = rptYear + worksheet.Cells[0, 0].Value;
             //102年期貨(含非股價類期貨)目標總量: 53,944,800口
-            worksheet.Cells[1, 1].Value = rptYear + worksheet.Cells[1, 1].Value + (futAvgQnty * totDayCount).ToString("N") + "口";
+            worksheet.Cells[1, 1].Value = rptYear + worksheet.Cells[1, 1].Value + (futAvgQnty * totDayCount).ToString("#0,000") + "口";
             //目標日均量:218,400口(總交易天數:247天)
-            worksheet.Cells[1, 6].Value = worksheet.Cells[1, 6].Value + futAvgQnty.ToString("N") + "口(總交易天數：" + totDayCount.ToString() + "天)";
+            worksheet.Cells[1, 6].Value = worksheet.Cells[1, 6].Value + futAvgQnty.ToString("#0,000") + "口(總交易天數：" + totDayCount.ToString() + "天)";
             //目標總稅收: 30.14億元
             worksheet.Cells[1, 10].Value = worksheet.Cells[1, 10].Value + tax.ToString() + "億元";
             //102年選擇權目標總量: 104,456,300口
-            worksheet.Cells[33, 1].Value = rptYear + worksheet.Cells[33, 1].Value + (optAvgQnty * totDayCount).ToString("N") + "口";
+            worksheet.Cells[33, 1].Value = rptYear + worksheet.Cells[33, 1].Value + (optAvgQnty * totDayCount).ToString("#0,000") + "口";
             //目標日均量:422,900口
-            worksheet.Cells[33, 6].Value = worksheet.Cells[33, 6].Value + optAvgQnty.ToString("N") + "口";
+            worksheet.Cells[33, 6].Value = worksheet.Cells[33, 6].Value + optAvgQnty.ToString("#0,000") + "口";
 
             #endregion 表頭
 
@@ -176,7 +181,7 @@ namespace PhoenixCI.FormUI.Prefix6
                         rowIndex = optEndRow;
                         dayAvgQnty = optAvgQnty;
                     }
-                    worksheet.Cells[rowIndex, 1].Value = dtContent.Rows[i]["YMD"].ToString();
+                    worksheet.Cells[rowIndex, 1].Value = dtContent.Rows[i]["YMD"].AsDateTime("yyyyMMdd").ToString("yyyy/MM/dd");
                     dayCount = dtContent.Rows[i]["DAY_COUNT"].AsDouble();
                     worksheet.Cells[rowIndex, 2].Value = dayCount;
                     worksheet.Cells[rowIndex, 3].Value = dtContent.Rows[i]["DAY_QNTY"].AsDouble();
@@ -191,8 +196,8 @@ namespace PhoenixCI.FormUI.Prefix6
                         worksheet.Cells[rowIndex, 8].Value = Math.Pow(((dayAvgQnty * totDayCount) / (yearAvgQnty * totDayCount)), (totDayCount / (totDayCount - dayCount))) - 1;
                         worksheet.Cells[rowIndex, 9].Value = Math.Pow(((dayAvgQnty * totDayCount) / (yearAvgQnty * totDayCount)), (1 / (totDayCount - dayCount))) - 1;
                     }
-                    worksheet.Cells[rowIndex, 10].Value = dtContent.Rows[i]["DAY_TAX"].AsDouble();
-                    worksheet.Cells[rowIndex, 11].Value = dtContent.Rows[i]["YEAR_TAX"].AsDouble();
+                    worksheet.Cells[rowIndex, 10].Value = dtContent.Rows[i]["DAY_TAX"].AsString();
+                    worksheet.Cells[rowIndex, 11].Value = dtContent.Rows[i]["YEAR_TAX"].AsString();
                 }
                 worksheet.Cells[futStartRow + ((futEndRow - futStartRow) / 2), 0].Value = "期貨";
                 worksheet.Cells[optStartRow + ((optEndRow - optStartRow) / 2), 0].Value = "選擇權";

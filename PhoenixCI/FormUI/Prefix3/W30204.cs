@@ -36,7 +36,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             try {
                 base.Open();
-                txtSDate.EditValue = PbFunc.f_ocf_date(0);
+                txtSDate.DateTimeValue = GlobalInfo.OCF_DATE;
                 txtEDate.EditValue = txtSDate.EditValue;
 #if DEBUG
                 txtSDate.Text = "2018/12/28";
@@ -141,8 +141,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
                 //讀取資料
                 rptName = "公告表－股價指數暨黃金類(公債類)";
-                dt30204 = dao30204.d_30204_gbf(sYmd, eYmd);
-                if (dt30204.Rows.Count == 0) {
+                DataTable dt30204GBF = dao30204.d_30204_gbf(sYmd, eYmd);
+                if (dt30204GBF.Rows.Count == 0) {
                     MessageDisplay.Info(txtSDate.Text + "," + rptId + '－' + rptName + ",無任何資料!");
                     lblProcessing.Visible = false;
                     //return ResultStatus.Fail;
@@ -153,19 +153,19 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 ShowMsg(rptId + "－" + rptName + " 轉檔中...");
                 //從A4開始填資料
                 ws30204 = workbook.Worksheets[1];
-                ws30204.Import(dt30204, false, rowNum, 0);
+                ws30204.Import(dt30204GBF, false, rowNum, 0);
                 #endregion
 
                 rowNum = 1;
                 #region wf_30204_new_gbf
                 ws30204 = workbook.Worksheets[0];
                 //提高
-                dt30204 = dao30204.d_30204_gbf_up(sYmd, eYmd);
+                dt30204GBF = dao30204.d_30204_gbf_up(sYmd, eYmd);
                 rowNum = rowUp;
                 rowTol = 500 + rowNum;
                 seq = seqUp;
-                ws30204.Import(dt30204, false, rowNum, 0);
-                rowNum = rowNum + dt30204.Rows.Count;
+                ws30204.Import(dt30204GBF, false, rowNum, 0);
+                rowNum = rowNum + dt30204GBF.Rows.Count;
                 //刪除空白列
                 rowMinus = rowTol - rowNum;
                 if (rowTol > rowNum) {
@@ -175,12 +175,12 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 }
 
                 //降低
-                dt30204 = dao30204.d_30204_gbf_down(sYmd, eYmd);
+                dt30204GBF = dao30204.d_30204_gbf_down(sYmd, eYmd);
                 rowNum = rowDown - rowMinus;
                 rowTol = 500 + rowNum;
                 seq = seqDown;
-                ws30204.Import(dt30204, false, rowNum, 0);
-                rowNum = rowNum + dt30204.Rows.Count;
+                ws30204.Import(dt30204GBF, false, rowNum, 0);
+                rowNum = rowNum + dt30204GBF.Rows.Count;
                 //刪除空白列
                 if (rowTol > rowNum) {
                     Range ra;
@@ -188,6 +188,19 @@ namespace PhoenixCI.FormUI.Prefix3 {
                     ra.Delete(DeleteMode.EntireRow);
                 }
                 #endregion
+
+                //若所有Sheet皆無資料時，刪除檔案
+                if (dt30204.Rows.Count == 0 && dt30204GBF.Rows.Count == 0) {
+                    try {
+                        workbook = null;
+                        System.IO.File.Delete(file);
+                        ShowMsg("輸出錯誤");
+                    }
+                    catch (Exception) {
+                        //
+                    }
+                    return ResultStatus.Fail;
+                }
 
                 //存檔
                 ws30204.ScrollToRow(0);

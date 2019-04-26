@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Data;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace DataObjects.Dao.Together.SpecificDao {
-   public class D50010 : DataGate
-    {
+   public class D50010 : DataGate {
       /// <summary>
       /// 針對不同的grid data source,合併相同的輸入與輸出
       /// </summary>
@@ -22,21 +22,62 @@ namespace DataObjects.Dao.Together.SpecificDao {
    }
 
    public class Q50010 {
-       public string ParamKey { get; set; }
+      public string ParamKey { get; set; }
       public string KindIdSt { get; set; }
       public string KindIdO { get; set; }
       public string ProdSort { get; set; }
       public string FcmRange { get; set; }
       public DateTime TxtDate { get; set; }
 
-      public Q50010( DateTime txtDate, string paramKey, string kindIdSt,string kindIdO, string prodSort, string fcmRange) {
-         TxtDate = txtDate;
-         ParamKey = paramKey;
-         KindIdSt = kindIdSt;
-         KindIdO = kindIdO;
-         ProdSort = prodSort;
+      public Q50010(DateTime txtDate, string paramKey, string kindIdSt, string kindIdO, string prodSort, string fcmSNo, string fcmENo) {
 
-         FcmRange = fcmRange;
+         if (CheckValue(paramKey)) {
+            ParamKey = string.IsNullOrEmpty(paramKey) ? "" :
+                  "and ammd_PARAM_KEY ='" + paramKey + "'";
+         }
+
+         if (CheckValue(kindIdSt)) {
+            KindIdSt = string.IsNullOrEmpty(kindIdSt) ? "" :
+                  "and ammd_kind_id2 ='" + kindIdSt + "'";
+         }
+
+         if (CheckValue(kindIdO)) {
+            KindIdO = string.IsNullOrEmpty(kindIdO) ? "" :
+                  "and ammd_KIND_ID = '" + kindIdO + "'";
+         }
+
+         if (CheckValue(prodSort)) {
+            ProdSort = string.IsNullOrEmpty(prodSort) ? "" :
+                  "and AMMD_PROD_ID like '" + prodSort + "%'";
+         }
+
+         if (CheckValue(fcmSNo)) {
+            fcmSNo = string.IsNullOrEmpty(fcmSNo) ? "" :
+               $"and AMMD_BRK_NO >= '{fcmSNo}'";
+         }
+
+         if (CheckValue(fcmENo)) {
+            fcmENo = string.IsNullOrEmpty(fcmENo) ? "" :
+               $"and AMMD_BRK_NO <= '{fcmENo}'";
+         }
+
+         FcmRange = fcmSNo + fcmENo;
+         TxtDate = txtDate;
+      }
+
+      protected virtual bool CheckValue(string str) {
+
+         RegexOptions opt = new RegexOptions();
+         opt = RegexOptions.IgnorePatternWhitespace;
+         Regex reg = new Regex("[A-Za-z0-9]+", opt);
+
+         if (!string.IsNullOrEmpty(str)) {
+            if (!reg.Match(str).Success) {
+               throw new Exception("Value Error");
+            }
+         }
+
+         return true;
       }
 
       /// <summary>
@@ -60,7 +101,7 @@ namespace DataObjects.Dao.Together.SpecificDao {
       DataTable GetData(Q50010 queryArgs);
    }
 
-   public class D50010O : DataGate, IGridData50010{
+   public class D50010O : DataGate, IGridData50010 {
       public DataTable GetData(Q50010 queryArgs) {
 
          object[] parms = {
@@ -114,7 +155,7 @@ namespace DataObjects.Dao.Together.SpecificDao {
          {2}
          {3}
          {4}
-         order by cp_group1 , cp_group2 , ammd_w_time)", 
+         order by cp_group1 , cp_group2 , ammd_w_time)",
          queryArgs.ParamKey, queryArgs.KindIdSt, queryArgs.KindIdO, queryArgs.FcmRange, queryArgs.ProdSort);
 
          return db.GetDataTable(sql, parms);

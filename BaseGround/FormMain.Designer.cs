@@ -145,12 +145,12 @@
             this.accordionElemtntW,
             this.accordionElemtntZ});
          this.accordionMenu.ExpandElementMode = DevExpress.XtraBars.Navigation.ExpandElementMode.Single;
-         this.accordionMenu.Location = new System.Drawing.Point(0, 66);
+         this.accordionMenu.Location = new System.Drawing.Point(0, 44);
          this.accordionMenu.LookAndFeel.SkinName = "Office 2013";
          this.accordionMenu.LookAndFeel.UseDefaultLookAndFeel = false;
-         this.accordionMenu.Margin = new System.Windows.Forms.Padding(8, 8, 8, 8);
+         this.accordionMenu.Margin = new System.Windows.Forms.Padding(5);
          this.accordionMenu.Name = "accordionMenu";
-         this.accordionMenu.Size = new System.Drawing.Size(436, 784);
+         this.accordionMenu.Size = new System.Drawing.Size(291, 521);
          this.accordionMenu.TabIndex = 1;
          this.accordionMenu.ElementClick += new DevExpress.XtraBars.Navigation.ElementClickEventHandler(this.AccordionMenu_ElementClick);
          this.accordionMenu.DoubleClick += new System.EventHandler(this.AccordionMenu_DoubleClick);
@@ -233,8 +233,8 @@
          this.scSearch.Client = this.accordionMenu;
          this.scSearch.Dock = System.Windows.Forms.DockStyle.Right;
          this.scSearch.EditValue = "";
-         this.scSearch.Location = new System.Drawing.Point(148, 12);
-         this.scSearch.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+         this.scSearch.Location = new System.Drawing.Point(99, 8);
+         this.scSearch.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
          this.scSearch.Name = "scSearch";
          this.scSearch.Properties.Appearance.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
          this.scSearch.Properties.Appearance.Options.UseFont = true;
@@ -247,7 +247,7 @@
          this.scSearch.Properties.FindDelay = 100;
          this.scSearch.Properties.MaxLength = 5;
          this.scSearch.Properties.NullValuePromptShowForEmptyValue = false;
-         this.scSearch.Size = new System.Drawing.Size(280, 40);
+         this.scSearch.Size = new System.Drawing.Size(187, 28);
          this.scSearch.TabIndex = 4;
          this.scSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SearchControl1_KeyDown);
          // 
@@ -262,21 +262,20 @@
          this.panSearch.Controls.Add(this.scSearch);
          this.panSearch.Dock = System.Windows.Forms.DockStyle.Top;
          this.panSearch.Location = new System.Drawing.Point(0, 0);
-         this.panSearch.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+         this.panSearch.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
          this.panSearch.Name = "panSearch";
-         this.panSearch.Padding = new System.Windows.Forms.Padding(0, 12, 8, 12);
-         this.panSearch.Size = new System.Drawing.Size(436, 66);
+         this.panSearch.Padding = new System.Windows.Forms.Padding(0, 8, 5, 8);
+         this.panSearch.Size = new System.Drawing.Size(291, 44);
          this.panSearch.TabIndex = 0;
          // 
          // lblSearch
          // 
          this.lblSearch.Dock = System.Windows.Forms.DockStyle.Fill;
          this.lblSearch.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.lblSearch.Location = new System.Drawing.Point(0, 12);
-         this.lblSearch.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+         this.lblSearch.Location = new System.Drawing.Point(0, 8);
          this.lblSearch.Name = "lblSearch";
-         this.lblSearch.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
-         this.lblSearch.Size = new System.Drawing.Size(148, 42);
+         this.lblSearch.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
+         this.lblSearch.Size = new System.Drawing.Size(99, 28);
          this.lblSearch.TabIndex = 5;
          this.lblSearch.Text = "作業項目：";
          this.lblSearch.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -295,8 +294,8 @@
             this.toolStripStatusLabelUserName});
          this.statusStripMain.Location = new System.Drawing.Point(0, 0);
          this.statusStripMain.Name = "statusStripMain";
-         this.statusStripMain.Padding = new System.Windows.Forms.Padding(2, 0, 24, 0);
-         this.statusStripMain.Size = new System.Drawing.Size(1212, 48);
+         this.statusStripMain.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
+         this.statusStripMain.Size = new System.Drawing.Size(808, 32);
          this.statusStripMain.TabIndex = 13;
          this.statusStripMain.Text = "statusStrip1";
          // 
@@ -304,7 +303,7 @@
          // 
          this.toolStripStatusLabelServerTxt.Name = "toolStripStatusLabelServerTxt";
          this.toolStripStatusLabelServerTxt.Padding = new System.Windows.Forms.Padding(5);
-         this.toolStripStatusLabelServerTxt.Size = new System.Drawing.Size(102, 43);
+         this.toolStripStatusLabelServerTxt.Size = new System.Drawing.Size(70, 27);
          this.toolStripStatusLabelServerTxt.Text = "伺服器：";
          // 
          // toolStripStatusLabelServerName
@@ -312,13 +311,13 @@
          this.toolStripStatusLabelServerName.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
          this.toolStripStatusLabelServerName.Name = "toolStripStatusLabelServerName";
          this.toolStripStatusLabelServerName.Padding = new System.Windows.Forms.Padding(0, 0, 40, 0);
-         this.toolStripStatusLabelServerName.Size = new System.Drawing.Size(44, 43);
+         this.toolStripStatusLabelServerName.Size = new System.Drawing.Size(44, 27);
          this.toolStripStatusLabelServerName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
          // 
          // toolStripStatusLabelDBTxt
          // 
          this.toolStripStatusLabelDBTxt.Name = "toolStripStatusLabelDBTxt";
-         this.toolStripStatusLabelDBTxt.Size = new System.Drawing.Size(92, 43);
+         this.toolStripStatusLabelDBTxt.Size = new System.Drawing.Size(60, 27);
          this.toolStripStatusLabelDBTxt.Text = "資料庫：";
          // 
          // toolStripStatusLabelDBName
@@ -326,13 +325,13 @@
          this.toolStripStatusLabelDBName.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
          this.toolStripStatusLabelDBName.Name = "toolStripStatusLabelDBName";
          this.toolStripStatusLabelDBName.Padding = new System.Windows.Forms.Padding(0, 0, 40, 0);
-         this.toolStripStatusLabelDBName.Size = new System.Drawing.Size(44, 43);
+         this.toolStripStatusLabelDBName.Size = new System.Drawing.Size(44, 27);
          this.toolStripStatusLabelDBName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
          // 
          // toolStripStatusLabelUserTxt
          // 
          this.toolStripStatusLabelUserTxt.Name = "toolStripStatusLabelUserTxt";
-         this.toolStripStatusLabelUserTxt.Size = new System.Drawing.Size(92, 43);
+         this.toolStripStatusLabelUserTxt.Size = new System.Drawing.Size(60, 27);
          this.toolStripStatusLabelUserTxt.Text = "使用者：";
          // 
          // toolStripStatusLabelUserName
@@ -340,7 +339,7 @@
          this.toolStripStatusLabelUserName.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
          this.toolStripStatusLabelUserName.Name = "toolStripStatusLabelUserName";
          this.toolStripStatusLabelUserName.Padding = new System.Windows.Forms.Padding(0, 0, 40, 0);
-         this.toolStripStatusLabelUserName.Size = new System.Drawing.Size(44, 43);
+         this.toolStripStatusLabelUserName.Size = new System.Drawing.Size(44, 27);
          this.toolStripStatusLabelUserName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
          // 
          // barManagerMain
@@ -545,6 +544,7 @@
          this.toolStripButtonQuit.Caption = "離開程式";
          this.toolStripButtonQuit.Id = 22;
          this.toolStripButtonQuit.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonQuit.ImageOptions.Image")));
+         this.toolStripButtonQuit.ItemClickFireMode = DevExpress.XtraBars.BarItemEventFireMode.Postponed;
          this.toolStripButtonQuit.ItemShortcut = new DevExpress.XtraBars.BarShortcut((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q));
          this.toolStripButtonQuit.Name = "toolStripButtonQuit";
          this.toolStripButtonQuit.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.ToolStripButtonQuit_Click);
@@ -559,7 +559,7 @@
          this.standaloneBarDockControlTool.Manager = this.barManagerMain;
          this.standaloneBarDockControlTool.Margin = new System.Windows.Forms.Padding(0);
          this.standaloneBarDockControlTool.Name = "standaloneBarDockControlTool";
-         this.standaloneBarDockControlTool.Size = new System.Drawing.Size(1212, 68);
+         this.standaloneBarDockControlTool.Size = new System.Drawing.Size(808, 45);
          this.standaloneBarDockControlTool.Text = "standaloneBarDockControl1";
          // 
          // barMenuStrip
@@ -658,11 +658,10 @@
          // 
          this.standaloneBarDockControlMenuStrip.CausesValidation = false;
          this.standaloneBarDockControlMenuStrip.Dock = System.Windows.Forms.DockStyle.Top;
-         this.standaloneBarDockControlMenuStrip.Location = new System.Drawing.Point(0, 45);
+         this.standaloneBarDockControlMenuStrip.Location = new System.Drawing.Point(0, 32);
          this.standaloneBarDockControlMenuStrip.Manager = this.barManagerMain;
-         this.standaloneBarDockControlMenuStrip.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
          this.standaloneBarDockControlMenuStrip.Name = "standaloneBarDockControlMenuStrip";
-         this.standaloneBarDockControlMenuStrip.Size = new System.Drawing.Size(1648, 44);
+         this.standaloneBarDockControlMenuStrip.Size = new System.Drawing.Size(1099, 29);
          this.standaloneBarDockControlMenuStrip.Text = "standaloneBarDockControl1";
          this.standaloneBarDockControlMenuStrip.Visible = false;
          // 
@@ -689,11 +688,10 @@
          this.standaloneBarDockControlMdi.AutoSize = true;
          this.standaloneBarDockControlMdi.CausesValidation = false;
          this.standaloneBarDockControlMdi.Dock = System.Windows.Forms.DockStyle.Top;
-         this.standaloneBarDockControlMdi.Location = new System.Drawing.Point(436, 157);
+         this.standaloneBarDockControlMdi.Location = new System.Drawing.Point(291, 106);
          this.standaloneBarDockControlMdi.Manager = this.barManagerMain;
-         this.standaloneBarDockControlMdi.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
          this.standaloneBarDockControlMdi.Name = "standaloneBarDockControlMdi";
-         this.standaloneBarDockControlMdi.Size = new System.Drawing.Size(1212, 22);
+         this.standaloneBarDockControlMdi.Size = new System.Drawing.Size(808, 22);
          this.standaloneBarDockControlMdi.Text = "standaloneBarDockControl1";
          this.standaloneBarDockControlMdi.Visible = false;
          // 
@@ -703,17 +701,15 @@
          this.barDockControlTop.Dock = System.Windows.Forms.DockStyle.Top;
          this.barDockControlTop.Location = new System.Drawing.Point(0, 0);
          this.barDockControlTop.Manager = this.barManagerMain;
-         this.barDockControlTop.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-         this.barDockControlTop.Size = new System.Drawing.Size(1648, 0);
+         this.barDockControlTop.Size = new System.Drawing.Size(1099, 0);
          // 
          // barDockControlBottom
          // 
          this.barDockControlBottom.CausesValidation = false;
          this.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-         this.barDockControlBottom.Location = new System.Drawing.Point(0, 939);
+         this.barDockControlBottom.Location = new System.Drawing.Point(0, 626);
          this.barDockControlBottom.Manager = this.barManagerMain;
-         this.barDockControlBottom.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-         this.barDockControlBottom.Size = new System.Drawing.Size(1648, 0);
+         this.barDockControlBottom.Size = new System.Drawing.Size(1099, 0);
          // 
          // barDockControlLeft
          // 
@@ -721,27 +717,25 @@
          this.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
          this.barDockControlLeft.Location = new System.Drawing.Point(0, 0);
          this.barDockControlLeft.Manager = this.barManagerMain;
-         this.barDockControlLeft.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-         this.barDockControlLeft.Size = new System.Drawing.Size(0, 939);
+         this.barDockControlLeft.Size = new System.Drawing.Size(0, 626);
          // 
          // barDockControlRight
          // 
          this.barDockControlRight.CausesValidation = false;
          this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
-         this.barDockControlRight.Location = new System.Drawing.Point(1648, 0);
+         this.barDockControlRight.Location = new System.Drawing.Point(1099, 0);
          this.barDockControlRight.Manager = this.barManagerMain;
-         this.barDockControlRight.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-         this.barDockControlRight.Size = new System.Drawing.Size(0, 939);
+         this.barDockControlRight.Size = new System.Drawing.Size(0, 626);
          // 
          // ribbonControl
          // 
          this.ribbonControl.AllowKeyTips = false;
          this.ribbonControl.AllowMdiChildButtons = false;
+         this.ribbonControl.CausesValidation = false;
          this.ribbonControl.ExpandCollapseItem.Id = 0;
          this.ribbonControl.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
             this.ribbonControl.ExpandCollapseItem});
          this.ribbonControl.Location = new System.Drawing.Point(0, 0);
-         this.ribbonControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
          this.ribbonControl.MaxItemId = 1;
          this.ribbonControl.Name = "ribbonControl";
          this.ribbonControl.ShowApplicationButton = DevExpress.Utils.DefaultBoolean.False;
@@ -752,7 +746,7 @@
          this.ribbonControl.ShowPageHeadersMode = DevExpress.XtraBars.Ribbon.ShowPageHeadersMode.Hide;
          this.ribbonControl.ShowQatLocationSelector = false;
          this.ribbonControl.ShowToolbarCustomizeItem = false;
-         this.ribbonControl.Size = new System.Drawing.Size(1648, 45);
+         this.ribbonControl.Size = new System.Drawing.Size(1099, 32);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // sidePanelMenu
@@ -761,10 +755,9 @@
          this.sidePanelMenu.Controls.Add(this.accordionMenu);
          this.sidePanelMenu.Controls.Add(this.panSearch);
          this.sidePanelMenu.Dock = System.Windows.Forms.DockStyle.Left;
-         this.sidePanelMenu.Location = new System.Drawing.Point(0, 89);
-         this.sidePanelMenu.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+         this.sidePanelMenu.Location = new System.Drawing.Point(0, 61);
          this.sidePanelMenu.Name = "sidePanelMenu";
-         this.sidePanelMenu.Size = new System.Drawing.Size(436, 850);
+         this.sidePanelMenu.Size = new System.Drawing.Size(291, 565);
          this.sidePanelMenu.TabIndex = 21;
          this.sidePanelMenu.Text = "sidePanel1";
          // 
@@ -774,10 +767,9 @@
          this.sidePanelTool.BorderThickness = 0;
          this.sidePanelTool.Controls.Add(this.standaloneBarDockControlTool);
          this.sidePanelTool.Dock = System.Windows.Forms.DockStyle.Top;
-         this.sidePanelTool.Location = new System.Drawing.Point(436, 89);
-         this.sidePanelTool.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+         this.sidePanelTool.Location = new System.Drawing.Point(291, 61);
          this.sidePanelTool.Name = "sidePanelTool";
-         this.sidePanelTool.Size = new System.Drawing.Size(1212, 68);
+         this.sidePanelTool.Size = new System.Drawing.Size(808, 45);
          this.sidePanelTool.TabIndex = 22;
          this.sidePanelTool.Text = "sidePanel1";
          // 
@@ -786,19 +778,18 @@
          this.sidePanelStatus.BorderThickness = 0;
          this.sidePanelStatus.Controls.Add(this.statusStripMain);
          this.sidePanelStatus.Dock = System.Windows.Forms.DockStyle.Bottom;
-         this.sidePanelStatus.Location = new System.Drawing.Point(436, 891);
-         this.sidePanelStatus.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+         this.sidePanelStatus.Location = new System.Drawing.Point(291, 594);
          this.sidePanelStatus.Name = "sidePanelStatus";
-         this.sidePanelStatus.Size = new System.Drawing.Size(1212, 48);
+         this.sidePanelStatus.Size = new System.Drawing.Size(808, 32);
          this.sidePanelStatus.TabIndex = 23;
          this.sidePanelStatus.Text = "sidePanel1";
          // 
          // FormMain
          // 
          this.Appearance.Options.UseFont = true;
-         this.AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
+         this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-         this.ClientSize = new System.Drawing.Size(1648, 939);
+         this.ClientSize = new System.Drawing.Size(1099, 626);
          this.Controls.Add(this.standaloneBarDockControlMdi);
          this.Controls.Add(this.sidePanelStatus);
          this.Controls.Add(this.sidePanelTool);
@@ -813,7 +804,7 @@
          this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
          this.IsMdiContainer = true;
          this.KeyPreview = true;
-         this.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+         this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
          this.Name = "FormMain";
          this.Ribbon = this.ribbonControl;
          this.Text = "FormParent";

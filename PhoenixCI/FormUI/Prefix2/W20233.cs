@@ -29,7 +29,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             InitializeComponent();
             this.Text = _ProgramID + "─" + _ProgramName;
 
-            txtDate.EditValue = PbFunc.f_ocf_date(0);
+            txtDate.DateTimeValue = GlobalInfo.OCF_DATE;
         }
 
         protected override ResultStatus Open() {

@@ -1,6 +1,7 @@
 ﻿using BusinessObjects;
 using Common;
 using DataObjects.Dao.Together;
+using DataObjects.Dao.Together.TableDao;
 using System;
 using System.Data;
 using System.Diagnostics;
@@ -825,12 +826,20 @@ namespace BaseGround.Shared {
       /// <param name="day_cnt"></param>
       /// <returns></returns>
       public static DateTime f_get_ocf_next_n_day(DateTime ldt_date, int day_cnt) {
-         DateTime ldt_next_date = ldt_date;
-         //TODO:直接呼叫SP
-
-         //SELECT fut.DATE_DIFF_OCF_DAYS(:ldt_date,:day_cnt)
-         //INTO: ldt_next_date
-         //from dual
+         MOCF mocf = new MOCF();
+         DateTime ldt_next_date;
+         string ls_symd, ls_eymd;
+            if (day_cnt > 0) {
+                ls_symd = f_conv_date(ldt_date, 1);
+                ls_eymd = relativedate(ldt_date, 30).ToString("yyyyMMdd");
+                ldt_next_date = mocf.GetSpecOcfDay(ls_symd, ls_eymd, day_cnt);
+            }
+            else {
+                ls_symd = relativedate(ldt_date, -30).ToString("yyyyMMdd");
+                ls_eymd = f_conv_date(ldt_date, 1);
+                day_cnt = day_cnt * -1;
+                ldt_next_date = mocf.GetSpecOcfDay2(ls_symd, ls_eymd, day_cnt);
+            }
 
          return ldt_next_date;
       }
