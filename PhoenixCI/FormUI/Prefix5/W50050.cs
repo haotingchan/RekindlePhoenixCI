@@ -23,12 +23,13 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
       private D50050 dao50050;
 
-      string time1, time2, brkNo, prodKindId, settleDate, pcCode, ls_p_seq_no, accNo;
+      string brkNo, accNo, dbName, time1, time2, prodKindId, settleDate, pcCode, ls_p_seq_no;
       decimal ld_avg_spread, ll_found_row, ll_rows;
 
-      int i, li_p_seq_no1, li_p_seq_no2;
-      DateTime ldt_date;
-      string dbName = "";
+      DataTable defaultTable;
+
+      int li_p_seq_no1, li_p_seq_no2;
+      //DateTime ldt_date;
 
       public W50050(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
@@ -77,20 +78,34 @@ namespace PhoenixCI.FormUI.Prefix5 {
       protected override ResultStatus Export() {
 
          //讀取資料
-         DataTable rep = dao50050.ListAll(brkNo , accNo , ls_time1 , ls_time2 , ls_prod_kind_id ,
-                                 ls_settle_date , ls_pc_code , li_p_seq_no1 , li_p_seq_no2 , dbName , "Y");
-         if (rep.Rows.Count <= 0) {
+         defaultTable = dao50050.ListAll(brkNo , accNo , time1 , time2 , prodKindId ,
+                                 settleDate , pcCode , li_p_seq_no1 , li_p_seq_no2 , dbName , "Y");
+         if (defaultTable.Rows.Count <= 0) {
             MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtStartDate.Text , this.Text));
             return ResultStatus.Fail;
          }
+         this.Cursor = Cursors.WaitCursor;
+
+         //處理資料型態(轉換時間格式)
+         DataTable dt = defaultTable.Clone(); //轉型別用的datatable
+         dt.Columns["AMMD_W_TIME"].DataType = typeof(string); //將原DataType(datetime)轉為string
+         foreach (DataRow row in defaultTable.Rows) {
+            dt.ImportRow(row);
+         }
+
+         for (int i = 0 ; i < dt.Rows.Count ; i++) {
+            dt.Rows[i]["AMMD_W_TIME"] = Convert.ToDateTime(defaultTable.Rows[i]["AMMD_W_TIME"]).ToString("yyyy/MM/dd HH:mm:ss.fff");
+         }
+
          //存CSV
          string etfFileName = "50050_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".csv";
          etfFileName = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , etfFileName);
          ExportOptions csvref = new ExportOptions();
          csvref.HasHeader = true;
          csvref.Encoding = System.Text.Encoding.GetEncoding(950);//ASCII
-         Common.Helper.ExportHelper.ToCsv(rep , etfFileName , csvref);
+         Common.Helper.ExportHelper.ToCsv(defaultTable , etfFileName , csvref);
 
+         this.Cursor = Cursors.Arrow;
          return ResultStatus.Success;
       }
 
@@ -117,25 +132,24 @@ namespace PhoenixCI.FormUI.Prefix5 {
          try {
 
             //DbName
-            string dbName = "";
             if (gbMarket.EditValue.AsString() == "rbMarket0") {
                dbName = "ammd"; //一般
             } else {
                dbName = "ammdah"; //盤後
             }
 
-            string time1 = txtStartDate.Text + " " + txtStartTime.Text + ":00";
-            string time2 = txtEndDate.Text + " " + txtEndTime.Text + ":00";
+            time1 = txtStartDate.Text + " " + txtStartTime.Text + ":00";
+            time2 = txtEndDate.Text + " " + txtEndTime.Text + ":00";
 
             //造市者 get brkNo--accNo (abrk_name) from dw_sbrkno 
-            string brkNo = string.IsNullOrEmpty(dwBrkno.EditValue.AsString()) ? "%" : dwBrkno.EditValue.AsString().Split(new[] { "--" } , StringSplitOptions.None)[0];
-            string accNo = string.IsNullOrEmpty(dwBrkno.EditValue.AsString()) ? "%" : dwBrkno.EditValue.AsString().Split(new[] { "--" } , StringSplitOptions.None)[1];
+            brkNo = string.IsNullOrEmpty(dwBrkno.EditValue.AsString()) ? "%" : dwBrkno.EditValue.AsString().Split(new[] { "--" } , StringSplitOptions.None)[0];
+            accNo = string.IsNullOrEmpty(dwBrkno.EditValue.AsString()) ? "%" : dwBrkno.EditValue.AsString().Split(new[] { "--" } , StringSplitOptions.None)[1];
 
             //商品
-            string prodKindId = string.IsNullOrEmpty(dwProd.EditValue.AsString()) ? "%" : dwProd.EditValue.AsString();
+            prodKindId = string.IsNullOrEmpty(dwProd.EditValue.AsString()) ? "%" : dwProd.EditValue.AsString();
 
             //買賣權
-            string pcCode = ddlb_1.Text.Trim();
+            pcCode = ddlb_1.Text.Trim();
             if (string.IsNullOrEmpty(pcCode)) {
                pcCode = "%";
             } else if (pcCode == "買權") {
@@ -145,12 +159,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
             }
 
             //契約月份
-            string settleDate = string.IsNullOrEmpty(sle_1.Text.Trim()) ? "%" : sle_1.Text.Trim().Replace("/" , "");
+            settleDate = string.IsNullOrEmpty(sle_1.Text.Trim()) ? "%" : sle_1.Text.Trim().Replace("/" , "");
             //settleDate = "201811";
 
             //價內外檔數
-            string ls_p_seq_no = ddlb_2.Text.Trim();
-            int li_p_seq_no1 = 0, li_p_seq_no2 = 0;
+            ls_p_seq_no = ddlb_2.Text.Trim();
             switch (ls_p_seq_no) {
                case "價內第5檔":
                   li_p_seq_no1 = -5;
