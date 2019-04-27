@@ -9,6 +9,7 @@ using PhoenixCI.Shared;
 using DataObjects.Dao.Together.SpecificDao;
 using System.Threading;
 using PhoenixCI.BusinessLogic.Prefix7;
+using System.IO;
 /// <summary>
 /// john,20190128,交易量資料轉檔作業
 /// </summary>
@@ -70,14 +71,7 @@ namespace PhoenixCI.FormUI.Prefix7
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Print(ReportHelper reportHelper)
-      {
-         base.Print(reportHelper);
-
-         return ResultStatus.Success;
-      }
-
-      private bool ExportBefore()
+      private bool StartExport()
       {
          /* 條件值檢核*/
          DateTime ldStart, ldEnd;
@@ -185,7 +179,7 @@ namespace PhoenixCI.FormUI.Prefix7
          }
 
          /*點選儲存檔案之目錄*/
-         saveFilePath = ReportExportFunc.wf_GetFileSaveName(lsType + "(" + isSymd + "-" + isEymd + ").csv");
+         saveFilePath = PbFunc.wf_GetFileSaveName(lsType + "(" + isSymd + "-" + isEymd + ").csv");
          if (string.IsNullOrEmpty(saveFilePath)) {
             return false;
          }
@@ -201,7 +195,7 @@ namespace PhoenixCI.FormUI.Prefix7
          return true;
       }
 
-      protected void ExportAfter()
+      protected void EndExport()
       {
          stMsgTxt.Text = "轉檔完成!";
          this.Cursor = Cursors.Arrow;
@@ -210,38 +204,35 @@ namespace PhoenixCI.FormUI.Prefix7
          stMsgTxt.Visible = false;
       }
 
+      private string OutputShowMessage {
+         set {
+            if (value != MessageDisplay.MSG_OK)
+               MessageDisplay.Info(value);
+         }
+      }
+
       protected override ResultStatus Export()
       {
-         if (!ExportBefore()) {
+         if (!StartExport()) {
             return ResultStatus.Fail;
          }
-         
+
          try {
-            b70010.F70010ByMarketCodeExport(rgDate.EditValue.AsString(), saveFilePath, isSymd, isEymd, sumType, isProdType, isMarketCode, cbxEng.Checked);
-            ExportAfter();
+            OutputShowMessage = b70010.F70010ByMarketCodeExport(rgDate.EditValue.AsString(), saveFilePath, isSymd, isEymd, sumType, isProdType, isMarketCode, cbxEng.Checked);
+            EndExport();
          }
          catch (Exception ex) {
-            PbFunc.messageBox(GlobalInfo.ErrorText, ex.Message, MessageBoxIcon.Stop);
+            File.Delete(saveFilePath);
+            WriteLog(ex);
             return ResultStatus.Fail;
          }
+         finally {
+            EndExport();
+         }
+
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Export(ReportHelper reportHelper)
-      {
-         base.Export(reportHelper);
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus CheckShield()
-      {
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus COMPLETE()
-      {
-         return ResultStatus.Success;
-      }
       private void rgDate_SelectedIndexChanged(object sender, EventArgs e)
       {
          DevExpress.XtraEditors.RadioGroup rb = sender as DevExpress.XtraEditors.RadioGroup;

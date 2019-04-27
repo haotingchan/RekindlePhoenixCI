@@ -21,9 +21,9 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    /// </summary>
    public class B30508
    {
-      private string lsFile;
-      private string startDateText;
-      private string endDateText;
+      private string _lsFile;
+      private string _startDateText;
+      private string _endDateText;
       /// <summary>
       /// 
       /// </summary>
@@ -32,9 +32,9 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="EndDate"></param>
       public B30508(string FilePath, string StartDate, string EndDate)
       {
-         lsFile = FilePath;
-         startDateText = StartDate;
-         endDateText = EndDate;
+         _lsFile = FilePath;
+         _startDateText = StartDate;
+         _endDateText = EndDate;
       }
 
       private string CreateCsvFile(string saveFilePath)
@@ -107,33 +107,32 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// wf_30508()
       /// </summary>
       /// <returns></returns>
-      public bool Wf30508()
+      public string Wf30508()
       {
-         //產生檔案
-         CreateCsvFile(lsFile);
-         string lsSellFile = lsFile.Replace("30508(買)", "30508(賣)");
-         CreateCsvFile(lsSellFile);
          try {
             string lsRptName = "股票期貨最近月份契約最佳1檔加權平均委託買進數量週資料統計表";
             string lsRptId = "30508";
-            DateTime startDate = startDateText.AsDateTime();
-            DateTime endDate = endDateText.AsDateTime();
+            DateTime startDate = _startDateText.AsDateTime();
+            DateTime endDate = _endDateText.AsDateTime();
             //讀取資料
             DataTable AI2dt = PbFunc.f_week(startDate.ToString("yyyyMMdd"), endDate.ToString("yyyyMMdd"));
             if (AI2dt.Rows.Count <= 0) {
-               MessageDisplay.Info($"{DateTime.Now.ToShortDateString()},30508－年月,無任何資料!");
-               return true;
+               return $"{DateTime.Now.ToShortDateString()},30508－年月,無任何資料!";
             }
             DataTable dt = new D30508().GetData(startDate, endDate);
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info($"{DateTime.Now.ToShortDateString()},{lsRptId}－{lsRptName}無任何資料!");
-               return true;
+               return $"{DateTime.Now.ToShortDateString()},{lsRptId}－{lsRptName}無任何資料!";
             }
+            //產生檔案
+            CreateCsvFile(_lsFile);
+            string lsSellFile = _lsFile.Replace("30508(買)", "30508(賣)");
+            CreateCsvFile(lsSellFile);
+
             /*統計表*/
             string lsTab = ",";
             //表頭
             string lsStr = lsTab + lsRptId + lsRptName;
-            WriteFile(lsFile, lsStr);
+            WriteFile(_lsFile, lsStr);
             
             lsStr = lsTab + lsRptId + "股票期貨最近月份契約最佳1檔加權平均委託賣出數量週資料統計表";
             WriteFile(lsSellFile, lsStr);
@@ -141,7 +140,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             foreach (DataRow row in AI2dt.Rows) {
                lsStr = lsStr + lsTab + $"{row["startDate"].AsDateTime().ToString("yyyy/MM/dd")}~{row["endDate"].AsDateTime().ToString("yyyy/MM/dd")}";
             }
-            WriteFile(lsFile, lsStr);//FileWrite(li_FileNum, ls_str)
+            WriteFile(_lsFile, lsStr);//FileWrite(li_FileNum, ls_str)
             WriteFile(lsSellFile, lsStr);//FileWrite(li_FileNum2, ls_str)
             lsStr = string.Empty;
 
@@ -167,15 +166,14 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                   }
                }//foreach (DataRow AI2row in AI2dt.Rows)
                k = k - 1;
-               WriteFile(lsFile, lsStr);//FileWrite(li_FileNum, ls_str)
+               WriteFile(_lsFile, lsStr);//FileWrite(li_FileNum, ls_str)
                WriteFile(lsSellFile, lsSellStr);//FileWrite(li_FileNum2, ls_str2)
             }//for (int k = 0; k < dt.Rows.Count; k++)
          }
          catch (Exception ex) {
-            MessageDisplay.Error(ex.Message, "wf_30508");
-            return false;
+            throw ex;
          }
-         return true;
+         return MessageDisplay.MSG_OK;
       }
       
    }

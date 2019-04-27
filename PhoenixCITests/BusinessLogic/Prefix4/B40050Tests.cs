@@ -16,11 +16,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4.Tests
       [ClassInitialize]
       public static void MyClassInitialize(TestContext testContext)
       {
-         ConnectionInfo connectionInfo = SettingDragons.Instance.GetConnectionInfo(SettingDragons.Instance.Setting.Database.CiUserAp);
-         GlobalDaoSetting.Set(connectionInfo);
-
          reportDirectoryPath = Path.Combine(Environment.CurrentDirectory.Replace("PhoenixCITests", "PhoenixCI"), "Report", DateTime.Now.ToString("yyyyMMdd"));
-         Directory.CreateDirectory(reportDirectoryPath);
 
          string excelTemplateDirectoryPath = Path.Combine(Environment.CurrentDirectory.Replace("PhoenixCITests", "PhoenixCI"), "Excel_Template", "40050.xls");
          destinationFilePath = Path.Combine(reportDirectoryPath, "40050_" + DateTime.Now.ToString("yyyy.MM.dd") + "-" + DateTime.Now.ToString("hh.mm.ss") + "Test.xls");
@@ -36,29 +32,29 @@ namespace PhoenixCI.BusinessLogic.Prefix4.Tests
       [TestMethod()]
       public void Wf40051Test()
       {
-         bool isCorrect = b40050.Wf40051();
-         Assert.IsTrue(isCorrect);
+         string isCorrect = b40050.Wf40051();
+         Assert.IsNotNull(isCorrect);
       }
 
       [TestMethod()]
       public void Wf40052Test()
       {
-         bool isCorrect = b40050.Wf40052();
-         Assert.IsTrue(isCorrect);
+         string isCorrect = b40050.Wf40052();
+         Assert.IsNotNull(isCorrect);
       }
 
       [TestMethod()]
       public void Wf40053Test()
       {
-         bool isCorrect = b40050.Wf40053();
-         Assert.IsTrue(isCorrect);
+         string isCorrect = b40050.Wf40053();
+         Assert.IsNotNull(isCorrect);
       }
 
       [TestMethod()]
       public void Wf40054Test()
       {
-         bool isCorrect = b40050.Wf40054();
-         Assert.IsTrue(isCorrect);
+         string isCorrect = b40050.Wf40054();
+         Assert.IsNotNull(isCorrect);
       }
    }
 }

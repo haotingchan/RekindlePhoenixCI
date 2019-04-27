@@ -8,6 +8,7 @@ using BaseGround.Shared;
 using Common;
 using PhoenixCI.BusinessLogic.Prefix3;
 using DataObjects.Dao.Together.SpecificDao;
+using System.IO;
 /// <summary>
 /// john,20190305,新加坡交易所(SGX)摩根臺股期貨市場概況表 
 /// </summary>
@@ -54,14 +55,7 @@ namespace PhoenixCI.FormUI.Prefix3
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Print(ReportHelper reportHelper)
-      {
-         base.Print(reportHelper);
-
-         return ResultStatus.Success;
-      }
-
-      private bool ExportBefore()
+      private bool StartExport()
       {
          if (!emMonth.IsDate(emMonth.Text + "/01", "日期輸入錯誤")) {
             //is_chk = "Y";
@@ -70,75 +64,66 @@ namespace PhoenixCI.FormUI.Prefix3
          /*******************
          Messagebox
          *******************/
-         stMsgtxt.Visible = true;
-         stMsgtxt.Text = "開始轉檔...";
+         stMsgTxt.Visible = true;
+         stMsgTxt.Text = "開始轉檔...";
          this.Cursor = Cursors.WaitCursor;
          this.Refresh();
          Thread.Sleep(5);
          return true;
       }
 
-      protected void ExportAfter()
+      protected void EndExport()
       {
-         stMsgtxt.Text = "轉檔完成!";
+         stMsgTxt.Text = "";
          this.Cursor = Cursors.Arrow;
          this.Refresh();
          Thread.Sleep(5);
-         stMsgtxt.Visible = false;
+         stMsgTxt.Visible = false;
       }
 
       protected void ShowMsg(string msg)
       {
-         stMsgtxt.Text = msg;
+         stMsgTxt.Visible = true;
+         stMsgTxt.Text = msg;
          this.Refresh();
          Thread.Sleep(5);
       }
 
+      private string OutputShowMessage {
+         set {
+            if (value != MessageDisplay.MSG_OK)
+               MessageDisplay.Info(value);
+         }
+      }
+
+
       protected override ResultStatus Export()
       {
+         if (!StartExport()) {
+            return ResultStatus.Fail;
+         }
+         string lsFile = PbFunc.wf_copy_file(_ProgramID, "30380");
+
          try {
-            if (!ExportBefore()) {
-               return ResultStatus.Fail;
-            }
-
-            bool isChk = false;//判斷是否執行成功
-            string lsFile = PbFunc.wf_copy_file(_ProgramID, "30380");
-            string msgTxt=string.Empty;
-
             b30380 = new B30380(lsFile, emMonth.Text);
             //wf_30311()
             ShowMsg($"30310－當年每月日均量統計表 轉檔中...");
-            isChk = b30380.Wf30311();
+            OutputShowMessage = b30380.Wf30311();
             //wf_30381()
             ShowMsg($"30380－新加坡交易所(SGX)摩根臺股期貨市場概況表 轉檔中...");
-            isChk = b30380.Wf30381();
+            OutputShowMessage = b30380.Wf30381();
 
-            ExportAfter();
-            if (!isChk) return ResultStatus.Fail;//if Exception
          }
          catch (Exception ex) {
-            ExportAfter();
+            File.Delete(lsFile);
             WriteLog(ex);
             return ResultStatus.Fail;
          }
+         finally {
+            EndExport();
+         }
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Export(ReportHelper reportHelper)
-      {
-         base.Export(reportHelper);
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus CheckShield()
-      {
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus COMPLETE()
-      {
-         return ResultStatus.Success;
-      }
    }
 }

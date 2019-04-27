@@ -8,6 +8,7 @@ using BaseGround.Shared;
 using Common;
 using PhoenixCI.BusinessLogic.Prefix3;
 using DataObjects.Dao.Together.SpecificDao;
+using System.IO;
 /// <summary>
 /// john,20190305,年度期間法人機構期貨交易量統計表 
 /// </summary>
@@ -54,14 +55,15 @@ namespace PhoenixCI.FormUI.Prefix3
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Print(ReportHelper reportHelper)
-      {
-         base.Print(reportHelper);
-
-         return ResultStatus.Success;
+      private string OutputShowMessage {
+         set {
+            if (value != MessageDisplay.MSG_OK && value != MessageDisplay.MSG_NO_DATA)
+               MessageDisplay.Info(value);
+         }
       }
 
-      private bool ExportBefore()
+
+      private bool StartExport()
       {
          if (!emMonth.IsDate(emMonth.Text + "/01", "日期輸入錯誤")) {
             //is_chk = "Y";
@@ -78,7 +80,7 @@ namespace PhoenixCI.FormUI.Prefix3
          return true;
       }
 
-      protected void ExportAfter()
+      protected void EndExport()
       {
          stMsgtxt.Text = "轉檔完成!";
          this.Cursor = Cursors.Arrow;
@@ -96,49 +98,29 @@ namespace PhoenixCI.FormUI.Prefix3
 
       protected override ResultStatus Export()
       {
+         if (!StartExport()) {
+            return ResultStatus.Fail;
+         }
+         string lsFile = PbFunc.wf_copy_file(_ProgramID, "30370");
          try {
-            if (!ExportBefore()) {
-               return ResultStatus.Fail;
-            }
-
-            bool isChk = false;//判斷是否執行成功
-            string lsFile = PbFunc.wf_copy_file(_ProgramID, "30370");
-            string msgTxt=string.Empty;
-
             b30370 = new B30370(lsFile, emMonth.Text);
             //wf_30371()
             ShowMsg($"30371－年度期間法人機構期貨交易量統計表 轉檔中...");
-            isChk = b30370.Wf30371();
+            OutputShowMessage = b30370.Wf30371();
             //wf_30375()
             ShowMsg($"30375－年度期間法人機構期貨交易量統計表(維持率) 轉檔中...");
-            isChk = b30370.Wf30375();
-
-            ExportAfter();
-            if (!isChk) return ResultStatus.Fail;//if Exception
+            OutputShowMessage = b30370.Wf30375();
          }
          catch (Exception ex) {
-            ExportAfter();
+            File.Delete(lsFile);
             WriteLog(ex);
             return ResultStatus.Fail;
          }
+         finally {
+            EndExport();
+         }
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Export(ReportHelper reportHelper)
-      {
-         base.Export(reportHelper);
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus CheckShield()
-      {
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus COMPLETE()
-      {
-         return ResultStatus.Success;
-      }
    }
 }

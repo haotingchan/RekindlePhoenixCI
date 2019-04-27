@@ -7,6 +7,7 @@ using Common;
 using BaseGround.Shared;
 using System.Threading;
 using PhoenixCI.BusinessLogic.Prefix4;
+using System.IO;
 /// <summary>
 /// john,20190320,標的證券為受益憑證之上市證券保證金狀況表
 /// </summary>
@@ -93,6 +94,7 @@ namespace PhoenixCI.FormUI.Prefix4
 
       protected void ShowMsg(string msg)
       {
+         stMsgTxt.Visible = true;
          stMsgTxt.Text = msg;
          this.Refresh();
          Thread.Sleep(5);
@@ -110,13 +112,14 @@ namespace PhoenixCI.FormUI.Prefix4
          if (!StartExport()) {
             return ResultStatus.Fail;
          }
+         string msg;
+         string saveFilePath = PbFunc.wf_copy_file(_ProgramID, "43030");
          try {
-            //資料來源
-            string saveFilePath = PbFunc.wf_copy_file(_ProgramID, "43030");
             b43030 = new B43030(saveFilePath,emDate.Text);
             
             ShowMsg("43030－上市證券保證金概況表 轉檔中...");
-            OutputShowMessage = b43030.Wf43030();
+            msg= b43030.Wf43030();
+            OutputShowMessage = msg;
          }
          catch (Exception ex) {
             WriteLog(ex);
@@ -124,6 +127,11 @@ namespace PhoenixCI.FormUI.Prefix4
          }
          finally {
             EndExport();
+         }
+
+         if (msg!= MessageDisplay.MSG_OK) {
+            ShowMsg("轉檔有錯誤!");
+            File.Delete(saveFilePath);
          }
 
          return ResultStatus.Success;

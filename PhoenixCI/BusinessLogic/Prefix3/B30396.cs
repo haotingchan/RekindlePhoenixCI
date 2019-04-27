@@ -16,9 +16,8 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    /// </summary>
    public class B30396
    {
-      private string lsFile;
-      private string emMonthText;
-      private Workbook workbook;
+      private readonly string _lsFile;
+      private readonly string _emMonthText;
 
       /// <summary>
       /// 
@@ -27,9 +26,8 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="datetime">em_month.Text</param>
       public B30396(string FilePath,string datetime)
       {
-         lsFile = FilePath;
-         emMonthText = datetime;
-         workbook = new Workbook();
+         _lsFile = FilePath;
+         _emMonthText = datetime;
       }
       /// <summary>
       /// 重新選取圖表資料範圍
@@ -56,35 +54,29 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="RowIndex">Excel的Row位置</param>
       /// <param name="RowTotal">Excel的Column預留數</param>
       /// <returns></returns>
-      public bool Wf30396(string IsKindID = "BRF", string SheetName = "30396", int RowIndex=1, int RowTotal=33)
+      public string Wf30396(string IsKindID = "BRF", string SheetName = "30396", int RowIndex=1, int RowTotal=33)
       {
-         string flowStepDesc = "開始轉出資料";
+         Workbook workbook = new Workbook();
          try {
             //前月倒數2天交易日
-            flowStepDesc= "前月倒數2天交易日";
-            DateTime StartDate = PbFunc.f_get_last_day("AI3", IsKindID, emMonthText, 2);
+            DateTime StartDate = PbFunc.f_get_last_day("AI3", IsKindID, _emMonthText, 2);
             //抓當月最後交易日
-            flowStepDesc = "抓當月最後交易日";
-            DateTime EndDate = PbFunc.f_get_end_day("AI3", IsKindID, emMonthText);
+            DateTime EndDate = PbFunc.f_get_end_day("AI3", IsKindID, _emMonthText);
 
             //切換Sheet
-            flowStepDesc = "切換Sheet";
-            workbook.LoadDocument(lsFile);
+            workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets[SheetName];
             //無前月資料
 
-            worksheet.Range["A1"].Select();
             int addRowCount = 0;//總計寫入的行數
             
-            flowStepDesc = "讀取資料";
             DataTable dtAI3 = new AI3().ListAI3(IsKindID, StartDate, EndDate);
             //讀取資料
             string firstDATE = dtAI3.AsEnumerable().FirstOrDefault()["AI3_DATE"].AsDateTime().ToString("yyyy/MM");
-            if (firstDATE==emMonthText) {
+            if (firstDATE==_emMonthText) {
                RowIndex = RowIndex + 2;
             }
             //寫入資料
-            flowStepDesc = "寫入資料";
             DateTime ldtYMD = new DateTime(1900, 1, 1);
             foreach (DataRow row in dtAI3.Rows) {
                if (ldtYMD != row["AI3_DATE"].AsDateTime()) {
@@ -100,25 +92,26 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                worksheet.Rows[RowIndex][5 - 1].Value = row["AI3_OI"].AsDecimal();
             }
             //刪除空白列
-            flowStepDesc = "刪除空白列";
             if (RowTotal > addRowCount) {
                worksheet.Rows.Remove(RowIndex + 1, RowTotal - addRowCount);
                //重新選取圖表範圍
-               flowStepDesc = "重新選取圖表範圍";
                ResetChartData(RowIndex + 1, workbook, worksheet, $"{SheetName}a");//ex:30396a
             }
-            //存檔
-            flowStepDesc = "存檔";
-            workbook.SaveDocument(lsFile);
-            return true;
+            
          }
          catch (Exception ex) {
 #if DEBUG
-            throw new Exception($"Wf30396-{flowStepDesc}:" + ex.Message);
+            throw new Exception($"Wf30396:" + ex.Message);
 #else
             throw ex;
 #endif
          }
+         finally {
+            //存檔
+            workbook.SaveDocument(_lsFile);
+         }
+
+         return MessageDisplay.MSG_OK;
       }
 
       /// <summary>
@@ -129,15 +122,14 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="RowIndex">Excel的Row位置</param>
       /// <param name="RowTotal">Excel的Column預留數</param>
       /// <returns></returns>
-      public bool Wf30396abc(string IsKindID= "BRF", string SheetName= "data_30396abc", int RowIndex = 3, int RowTotal = 12)
+      public string Wf30396abc(string IsKindID= "BRF", string SheetName= "data_30396abc", int RowIndex = 3, int RowTotal = 12)
       {
          try {
-            new B30398(lsFile, emMonthText).Wf30333(IsKindID, SheetName);
+            return new B30398(_lsFile, _emMonthText).Wf30333(IsKindID, SheetName);
          }
          catch (Exception ex) {
             throw ex;
          }
-         return true;
       }
 
       

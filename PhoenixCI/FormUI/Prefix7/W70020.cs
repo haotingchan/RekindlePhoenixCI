@@ -9,6 +9,7 @@ using Common;
 using BaseGround.Shared;
 using System.Threading;
 using PhoenixCI.BusinessLogic.Prefix7;
+using System.IO;
 /// <summary>
 /// john,20190212,造市者交易量轉檔作業
 /// </summary>
@@ -60,14 +61,14 @@ namespace PhoenixCI.FormUI.Prefix7
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Print(ReportHelper reportHelper)
-      {
-         base.Print(reportHelper);
-
-         return ResultStatus.Success;
+      private string OutputShowMessage {
+         set {
+            if (value != MessageDisplay.MSG_OK)
+               MessageDisplay.Info(value);
+         }
       }
 
-      private bool ExportBefore()
+      private bool StartExport()
       {
          /* 條件值檢核*/
          string lsRtn;
@@ -80,9 +81,9 @@ namespace PhoenixCI.FormUI.Prefix7
          }
          //檢查批次作業是否完成
          lsRtn = PbFunc.f_get_jsw_seq(_ProgramID, "E", 0, emEndDate.Text.AsDateTime(), "0");//f_get_jsw_seq(is_txn_id,'E',0,datetime(date(em_edate.text)),'0')
-         if (lsRtn!="") {
+         if (lsRtn != "") {
             liRtn = MessageBox.Show(emEndDate.Text + " 統計資料未轉入完畢,是否要繼續?\r\n" + lsRtn, GlobalInfo.QuestionText, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if(liRtn== DialogResult.No) {
+            if (liRtn == DialogResult.No) {
                stMsgTxt.Visible = false;
                this.Cursor = Cursors.Arrow;
                return false;
@@ -122,7 +123,7 @@ namespace PhoenixCI.FormUI.Prefix7
                break;
          }
          //選取儲存路徑
-         saveFilePath = ReportExportFunc.wf_GetFileSaveName($@"MarketMaker{lsType}_{lsRtn}-{ldStart.ToString("yyyyMMdd")}-{ldEnd.ToString("yyyyMMdd")}.xls");
+         saveFilePath = PbFunc.wf_GetFileSaveName($@"MarketMaker{lsType}_{lsRtn}-{ldStart.ToString("yyyyMMdd")}-{ldEnd.ToString("yyyyMMdd")}.xls");
          if (string.IsNullOrEmpty(saveFilePath)) {
             return false;
          }
@@ -136,8 +137,8 @@ namespace PhoenixCI.FormUI.Prefix7
          Thread.Sleep(5);
          return true;
       }
-      
-      protected void ExportAfter()
+
+      protected void EndExport()
       {
          stMsgTxt.Text = "轉檔完成!";
          this.Cursor = Cursors.Arrow;
@@ -148,7 +149,7 @@ namespace PhoenixCI.FormUI.Prefix7
 
       protected override ResultStatus Export()
       {
-         if (!ExportBefore()) {
+         if (!StartExport()) {
             return ResultStatus.Fail;
          }
          try {
@@ -173,44 +174,31 @@ namespace PhoenixCI.FormUI.Prefix7
             b70020 = new B70020(saveFilePath);
             switch (rgData.EditValue) {
                case "rb_0"://自營商成交量(身份碼8,2)
-                  b70020.ExportAM8(startDate, endDate, lsMarketCode);
+                  OutputShowMessage = b70020.ExportAM8(startDate, endDate, lsMarketCode);
                   break;
                case "rb_mtf"://成交資料
-                  b70020.ExportListO(startDate, endDate, lsMarketCode);
+                  OutputShowMessage = b70020.ExportListO(startDate, endDate, lsMarketCode);
                   break;
                case "rb_mmk"://造市者資料
-                  b70020.ExportListM(startDate, endDate, lsMarketCode);
+                  OutputShowMessage = b70020.ExportListM(startDate, endDate, lsMarketCode);
                   break;
                default:
                   break;
             }
             WriteLog("轉出檔案:" + saveFilePath, "Info", "E");
 
-            ExportAfter();
          }
          catch (Exception ex) {
-            PbFunc.messageBox(GlobalInfo.ErrorText, ex.Message, MessageBoxIcon.Stop);
+            File.Delete(saveFilePath);
+            WriteLog(ex);
             return ResultStatus.Fail;
          }
-         
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus Export(ReportHelper reportHelper)
-      {
-         base.Export(reportHelper);
+         finally {
+            EndExport();
+         }
 
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus CheckShield()
-      {
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus COMPLETE()
-      {
-         return ResultStatus.Success;
-      }
    }
 }

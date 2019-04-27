@@ -1,9 +1,7 @@
 ﻿using BaseGround.Shared;
 using Common;
-using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
-using DevExpress.Spreadsheet.Charts;
 using System;
 using System.Data;
 using System.Linq;
@@ -17,8 +15,8 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    /// </summary>
    public class B30550
    {
-      private string lsFile;
-      private string emMonthText;
+      private readonly string _lsFile;
+      private string _emMonthText;
 
       /// <summary>
       /// 
@@ -27,8 +25,8 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="datetime">em_month.Text</param>
       public B30550(string FilePath,string datetime)
       {
-         lsFile = FilePath;
-         emMonthText = datetime;
+         _lsFile = FilePath;
+         _emMonthText = datetime;
       }
 
       private static int IDFGtype(DataRow row)
@@ -66,26 +64,13 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="RowIndex">Excel的Row位置</param>
       /// <param name="RowTotal">Excel的Column預留數</param>
       /// <returns></returns>
-      public bool Wf30550(int RowIndex = 4, string SheetName = "30550", string RptName = "國內股價指數選擇權交易概況明細表")
+      public string Wf30550(int RowIndex = 4, string SheetName = "30550", string RptName = "國內股價指數選擇權交易概況明細表")
       {
-         /*************************************
-         ls_rpt_name = 報表名稱 
-         ls_rpt_id = 報表代號
-         RowIndex = Excel的Row位置
-         columnIndex = Excel的Column位置
-         RowTotal = Excel的Column預留數
-         ii_ole_y_row_tol = Excel年部份的Column預留數
-         li_month_cnt = Excel的月份個數
-         lsYMD = 日期
-         ls_end_ymd = 最後一筆日期
-         *************************************/
+         Workbook workbook = new Workbook();
          try {
-
             //切換Sheet
-            Workbook workbook = new Workbook();
-            workbook.LoadDocument(lsFile);
+            workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets[SheetName];
-            worksheet.Range["A1"].Select();
 
             //總列數,隱藏於A3
             int rowTotal = RowIndex + worksheet.Cells["A3"].Value.AsInt();
@@ -100,10 +85,9 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                2.當年1月至當月合計
                3.當年1月至當月明細
             ******************/
-            DataTable dt = new D30550().GetData(firstYear, PbFunc.Left(emMonthText, 4), $"{PbFunc.Left(emMonthText, 4)}01", emMonthText.Replace("/", ""));
+            DataTable dt = new D30550().GetData(firstYear, PbFunc.Left(_emMonthText, 4), $"{PbFunc.Left(_emMonthText, 4)}01", _emMonthText.Replace("/", ""));
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info($"{firstYear}~{PbFunc.Left(emMonthText, 4)},{PbFunc.Left(emMonthText, 4)}01～{emMonthText.Replace("/", "")},{SheetName}－{RptName},無任何資料!");
-               return true;
+               return $"{firstYear}~{PbFunc.Left(_emMonthText, 4)},{PbFunc.Left(_emMonthText, 4)}01～{_emMonthText.Replace("/", "")},{SheetName}－{RptName},無任何資料!";
             }
             string lsYMD = "";
             string endYMD = dt.AsEnumerable().LastOrDefault()["AM2_YMD"].AsString();
@@ -141,13 +125,16 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                worksheet.Range[$"{RowIndex+1}:{rowTotal+1-1}"].Delete(DeleteMode.EntireRow);
                worksheet.ScrollTo(0,0);//直接滾動到最上面，不然看起來很像少行數
             }
-            workbook.SaveDocument(lsFile);
-            return true;
+            
          }
          catch (Exception ex) {
-            MessageDisplay.Error(ex.Message, "wf30550");
-            return false;
+            throw ex;
          }
+         finally {
+            workbook.SaveDocument(_lsFile);
+         }
+
+         return MessageDisplay.MSG_OK;
       }
 
       

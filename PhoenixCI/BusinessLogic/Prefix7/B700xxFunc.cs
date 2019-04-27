@@ -5,13 +5,11 @@ using Common.Helper;
 using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace PhoenixCI.BusinessLogic.Prefix7
 {
@@ -30,7 +28,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
       /// <param name="lsMarketCode"></param>
       /// <param name="selectEng">選取英文版本</param>
       /// <returns>RETURN:false代表error/true代表成功</returns>
-      public bool F70010WeekByMarketCode
+      public string F70010WeekByMarketCode
          (string SaveFilePath, string lsStartYMD, string lsEndYMD, string lsSumType, string lsProdType, string lsMarketCode, bool selectEng = false)
       {
          /********************************
@@ -130,8 +128,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                dtYMD = dsDv.ToTable();
             }
             catch (Exception ex) {
-               MessageDisplay.Error(ex.Message, GlobalInfo.ErrorText + "-日期:週");
-               return false;
+               throw new Exception("日期:週-"+ ex.Message); 
             }
             /******************
             表頭
@@ -169,8 +166,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                WriteFile(SaveFilePath, lsOutput2);
             }
             catch (Exception ex) {
-               MessageDisplay.Error(ex.Message, GlobalInfo.ErrorText + "-表頭");
-               return false;
+               throw new Exception("表頭:" + ex.Message);
             }
             /******************
             內容
@@ -225,15 +221,13 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                }
             }
             catch (Exception ex) {
-               MessageDisplay.Error(ex.Message, GlobalInfo.ErrorText + "-內容");
-               return false;
+               throw new Exception("內容:" + ex.Message);
             }
          }
          catch (Exception ex) {
-            MessageDisplay.Error(ex.Message, GlobalInfo.ErrorText);
-            return false;
+            throw ex;
          }
-         return true;
+         return MessageDisplay.MSG_OK;
       }
 
 
@@ -264,7 +258,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
       /// <param name="lsMarketCode"></param>
       /// <param name="selectEng">選取英文版本</param>
       /// <returns>RETURN:false代表error/true代表成功</returns>
-      public bool F70010WeekEngByMarketCode(string SaveFilePath, string lsStartYMD, string lsEndYMD, string lsSumType, string lsProdType, string lsMarketCode)
+      public string F70010WeekEngByMarketCode(string SaveFilePath, string lsStartYMD, string lsEndYMD, string lsSumType, string lsProdType, string lsMarketCode)
       {
          /********************************
          作業:轉70010 週檔 (公司網站\統計資料\週)
@@ -278,10 +272,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
          RETURN:E代表error
                 Y代表成功
          ********************************/
-         if (F70010WeekByMarketCode(SaveFilePath, lsStartYMD, lsEndYMD, lsSumType, lsProdType, lsMarketCode, true))
-            return true;
-         else
-            return false;
+         return F70010WeekByMarketCode(SaveFilePath, lsStartYMD, lsEndYMD, lsSumType, lsProdType, lsMarketCode, true);
       }
       /// <summary>
       /// 作業:轉70010 週檔 (公司網站\統計資料\週)
@@ -294,9 +285,9 @@ namespace PhoenixCI.BusinessLogic.Prefix7
       /// <param name="lsSumType"></param>
       /// <param name="lsProdType"></param>
       /// <returns></returns>
-      public bool F70010WeekHis(string SaveFilePath, string lsStartYMD, string lsEndYMD, string lsSumType, string lsProdType)
+      public string F70010WeekHis(string SaveFilePath, string lsStartYMD, string lsEndYMD, string lsSumType, string lsProdType)
       {
-         return true;
+         return "";
       }
       /// <summary>
       /// 作業:轉70010 週檔 (公司網站\統計資料\週)
@@ -311,7 +302,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
       /// <param name="lsParamKey">商品</param>
       /// <param name="lsProdType"></param>
       /// <returns></returns>
-      public bool F70010WeekW(string SaveFilePath, string lsStartYMD, string lsEndYMD, string lsSumType, string lsKindId2, string lsParamKey, string lsProdType)
+      public string F70010WeekW(string SaveFilePath, string lsStartYMD, string lsEndYMD, string lsSumType, string lsKindId2, string lsParamKey, string lsProdType)
       {
          /********************************
          作業:轉70010 週檔 (公司網站\統計資料\週)
@@ -392,8 +383,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                dtYMD = dsDv.ToTable();
             }
             catch (Exception ex) {
-               MessageDisplay.Error(ex.Message, GlobalInfo.ErrorText + "-日期:週");
-               return false;
+               throw new Exception("日期:週-" + ex.Message);
             }
             /******************
             表頭
@@ -437,8 +427,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                WriteFile(SaveFilePath, lsOutput2);
             }
             catch (Exception ex) {
-               MessageDisplay.Error(ex.Message, GlobalInfo.ErrorText + "-表頭");
-               return false;
+               throw new Exception("表頭:" + ex.Message);
             }
             /******************
                   內容
@@ -490,14 +479,12 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                }//foreach (DataRow brkRow in dtBRK.Rows)
             }
             catch (Exception ex) {
-               MessageDisplay.Error(ex.Message, GlobalInfo.ErrorText + "-內容");
-               return false;
+               throw new Exception("內容:" + ex.Message);
             }
-            return true;
+            return MessageDisplay.MSG_OK;
          }
          catch (Exception ex) {
-            MessageDisplay.Error(ex.Message, GlobalInfo.ErrorText + "-f_70010_week_w");
-            return false;
+            throw new Exception("f_70010_week_w:" + ex.Message);
          }
       }
 
@@ -514,7 +501,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
       /// <param name="lsMarketCode"></param>
       /// <param name="selectEng">選取英文版本</param>
       /// <returns>RETURN:false代表error/true代表成功</returns>
-      public bool F70010YmdByMarketCode(string SaveFilePath, string lsStartYMD, string lsEndYMD, string lsSumType, string lsProdType, string lsMarketCode, bool selectEng = false)
+      public string F70010YmdByMarketCode(string SaveFilePath, string lsStartYMD, string lsEndYMD, string lsSumType, string lsProdType, string lsMarketCode, bool selectEng = false)
       {
          /********************************
          作業:轉70010 日,月,年檔 (公司網站\統計資料\日,月,年)
@@ -528,31 +515,34 @@ namespace PhoenixCI.BusinessLogic.Prefix7
          RETURN:E代表error
                 Y代表成功
          ********************************/
-         string openData = "";
 
+         D70010 dao70010 = new D70010();
          //避免重複寫入
          if (File.Exists(SaveFilePath)) {
             File.Delete(SaveFilePath);
          }
          File.Create(SaveFilePath).Close();
-         if (!selectEng) {
-            openData = PbFunc.f_chg_filename(SaveFilePath, "_OpenData");
-            if (!File.Exists(openData)) {
-               File.Delete(openData);
-            }
-            File.Create(openData).Close();
-            WriteFile(openData, "期貨商代號,期貨商名稱,日期,商品,交易量");
-         }
 
-         D70010 dao70010 = new D70010();
          try {
             ///******************
             //讀取資料
             //******************/
             DataTable dt = dao70010.ListRowdata(lsStartYMD, lsEndYMD, lsSumType, lsProdType, lsMarketCode);
             if (dt.Rows.Count <= 0) {
-               throw new System.Exception($@"轉70010-交易量資料轉檔作業({lsSumType})({lsStartYMD}-{lsEndYMD})(期貨/選擇權:{ lsProdType })筆數為０!");
+               throw new Exception($@"轉70010-交易量資料轉檔作業({lsSumType})({lsStartYMD}-{lsEndYMD})(期貨/選擇權:{ lsProdType })筆數為０!");
             }
+
+            string openData = "";
+
+            if (!selectEng) {
+               openData = PbFunc.f_chg_filename(SaveFilePath, "_OpenData");
+               if (!File.Exists(openData)) {
+                  File.Delete(openData);
+               }
+               File.Create(openData).Close();
+               WriteFile(openData, "期貨商代號,期貨商名稱,日期,商品,交易量");
+            }
+
             /* 期貨商 */
             DataTable dtBRK;
             //年度依當年度排序
@@ -594,11 +584,11 @@ namespace PhoenixCI.BusinessLogic.Prefix7
             switch (lsSumType) {
                case "D":
                   //newdtPK = dtPK.Filter($@"rpt_value_3 Is Null or Trim( rpt_value_3) = '' or rpt_value_3 >= '{ lsStartYMD }'");
-                  dtPKquery = dtPKquery.Where(datatable => string.IsNullOrEmpty(datatable.Field<string>("rpt_value_3").AsString())|| datatable.Field<string>("rpt_value_3")== lsStartYMD);
+                  dtPKquery = dtPKquery.Where(datatable => string.IsNullOrEmpty(datatable.Field<string>("rpt_value_3").AsString()) || datatable.Field<string>("rpt_value_3") == lsStartYMD);
                   break;
                case "M":
                   //newdtPK = dtPK.Filter($@"rpt_value_3 Is Null or Trim( rpt_value_3) = '' or Substring(rpt_value_3,0,5) >= '{ lsStartYMD }'");
-                  dtPKquery = dtPKquery.Where(datatable => string.IsNullOrEmpty(datatable.Field<string>("rpt_value_3").AsString()) || datatable.Field<string>("rpt_value_3").SubStr(0,5) == lsStartYMD);
+                  dtPKquery = dtPKquery.Where(datatable => string.IsNullOrEmpty(datatable.Field<string>("rpt_value_3").AsString()) || datatable.Field<string>("rpt_value_3").SubStr(0, 5) == lsStartYMD);
                   break;
                case "Y":
                   //newdtPK = dtPK.Filter($@"rpt_value_3 Is Null or Trim( rpt_value_3) = '' or Substring(rpt_value_3,0,3) >= '{ lsStartYMD } '");
@@ -679,8 +669,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                   WriteFile(SaveFilePath, lsOutput2);
                }
                catch (Exception ex) {
-                  MessageDisplay.Error(ex.Message, GlobalInfo.ErrorText + "-表頭");
-                  return false;
+                  throw new Exception("表頭:" + ex.Message);
                }
                //內容
                /*******************
@@ -734,8 +723,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                   }//foreach (DataRow brkRow in dtBRK.Rows)
                }
                catch (Exception ex) {
-                  MessageDisplay.Error(ex.Message, GlobalInfo.ErrorText + "-內容");
-                  return false;
+                  throw new Exception("內容:" + ex.Message);
                }
             }//for (int liAreaCnt = 1; liAreaCnt <= liArea; liAreaCnt++)
              /*******************
@@ -750,10 +738,9 @@ namespace PhoenixCI.BusinessLogic.Prefix7
             }
          }
          catch (Exception ex) {
-            MessageDisplay.Error(ex.Message, GlobalInfo.ErrorText);
-            return false;
+            throw ex;
          }
-         return true;
+         return MessageDisplay.MSG_OK;
       }
       /// <summary>
       /// 作業:轉70010 日,月,年檔 (公司網站\統計資料\日,月,年)英文版
@@ -768,12 +755,9 @@ namespace PhoenixCI.BusinessLogic.Prefix7
       /// <param name="lsMarketCode"></param>
       /// <param name="selectEng">選取英文版本</param>
       /// <returns>RETURN:false代表error/true代表成功</returns>
-      public bool F70010YmdEngByMarketCode(string SaveFilePath, string lsStartYMD, string lsEndYMD, string lsSumType, string lsProdType, string lsMarketCode)
+      public string F70010YmdEngByMarketCode(string SaveFilePath, string lsStartYMD, string lsEndYMD, string lsSumType, string lsProdType, string lsMarketCode)
       {
-         if (F70010YmdByMarketCode(SaveFilePath, lsStartYMD, lsEndYMD, lsSumType, lsProdType, lsMarketCode, true))
-            return true;
-         else
-            return false;
+         return F70010YmdByMarketCode(SaveFilePath, lsStartYMD, lsEndYMD, lsSumType, lsProdType, lsMarketCode, true);
       }
       /// <summary>
       /// 作業:轉"歷史"70010日,月,年檔 (公司網站\統計資料\日,月,年)
@@ -786,9 +770,9 @@ namespace PhoenixCI.BusinessLogic.Prefix7
       /// <param name="lsSumType"></param>
       /// <param name="lsProdType"></param>
       /// <returns></returns>
-      public bool F70010YmdHis(string SaveFilePath, string lsStartYMD, string lsEndYMD, string lsSumType, string lsProdType)
+      public string F70010YmdHis(string SaveFilePath, string lsStartYMD, string lsEndYMD, string lsSumType, string lsProdType)
       {
-         return true;
+         return "";
       }
       /// <summary>
       /// 作業:轉70010 日,月,年檔 (公司網站\統計資料\日,月,年)
@@ -801,9 +785,9 @@ namespace PhoenixCI.BusinessLogic.Prefix7
       /// <param name="lsSumType"></param>
       /// <param name="lsProdType"></param>
       /// <returns></returns>
-      public bool F70010YmdOrg(string SaveFilePath, string lsStartYMD, string lsEndYMD, string lsSumType, string lsProdType)
+      public string F70010YmdOrg(string SaveFilePath, string lsStartYMD, string lsEndYMD, string lsSumType, string lsProdType)
       {
-         return true;
+         return "";
       }
       /// <summary>
       /// 作業: 轉70010 日, 月, 年檔 (公司網站\統計資料\日 , 月 , 年)
@@ -817,7 +801,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
       /// <param name="isKindId2">商品別: F期貨,O選擇權</param>
       /// <param name="isParamKey"></param>
       /// <param name="lsProdType"></param>
-      public bool F70010YmdW(string SaveFilePath, string lsStartYMD, string lsEndYMD,
+      public string F70010YmdW(string SaveFilePath, string lsStartYMD, string lsEndYMD,
                                  string lsSumType, string isKindId2,
                                  string isParamKey, string lsProdType)
       {
@@ -832,14 +816,17 @@ namespace PhoenixCI.BusinessLogic.Prefix7
          //       (5)商品別: F期貨,O選擇權
          //   RETURN:E代表error
          //          Y代表成功
+
+
+         D70050 dao70050 = new D70050();
+         D70010 dao70010 = new D70010();
+
          //避免重複寫入
          if (File.Exists(SaveFilePath)) {
             File.Delete(SaveFilePath);
          }
          File.Create(SaveFilePath).Close();
 
-         D70050 dao70050 = new D70050();
-         D70010 dao70010 = new D70010();
          try {
             ///******************
             //讀取資料
@@ -848,6 +835,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
             if (dt.Rows.Count <= 0) {
                throw new System.Exception($@"轉{isParamKey}-交易量資料轉檔作業({lsSumType})({lsStartYMD}-{lsEndYMD})(期貨/選擇權:{ lsProdType })筆數為０!");
             }
+
             /* 期貨商 */
             DataTable dtBRK;
             dtBRK = dao70050.List70050brk(lsStartYMD, lsEndYMD, lsSumType, lsProdType, isKindId2, isParamKey);
@@ -910,8 +898,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                WriteFile(SaveFilePath, lsOutput2);
             }
             catch (Exception ex) {
-               MessageDisplay.Error(ex.Message, GlobalInfo.ErrorText + "-表頭");
-               return false;
+               throw new Exception("表頭:" + ex.Message);
             }
             //內容
             //期貨商代號&名稱
@@ -956,14 +943,12 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                }//foreach (DataRow brkRow in dtBRK.Rows)
             }
             catch (Exception ex) {
-               MessageDisplay.Error(ex.Message, GlobalInfo.ErrorText + "-內容");
-               return false;
+               throw new Exception("內容:" + ex.Message);
             }
-            return true;
+            return MessageDisplay.MSG_OK;
          }
          catch (Exception ex) {
-            MessageDisplay.Error(ex.Message, GlobalInfo.ErrorText + "-f_70010_ymd_w");
-            return false;
+            throw new Exception("f_70010_ymd_w:" + ex.Message);
          }
       }
    }

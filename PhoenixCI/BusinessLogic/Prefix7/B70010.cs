@@ -25,22 +25,22 @@ namespace PhoenixCI.BusinessLogic.Prefix7
       /// <param name="ProdType">商品別</param>
       /// <param name="MarketCode">交易時段</param>
       /// <param name="isEnglish">是否轉換英文版</param>
-      public void F70010ByMarketCodeExport(string rgDateSelected, string saveFilePath, string symd, string eymd, string SumType, string ProdType, string MarketCode,bool isEnglish)
+      public string F70010ByMarketCodeExport(string rgDateSelected, string saveFilePath, string symd, string eymd, string SumType, string ProdType, string MarketCode,bool isEnglish)
       {
          if (rgDateSelected.Equals("rb_week")) {
             if (!isEnglish) {
-               b700xxFunc.F70010WeekByMarketCode(saveFilePath, symd, eymd, SumType, ProdType, MarketCode);
+               return b700xxFunc.F70010WeekByMarketCode(saveFilePath, symd, eymd, SumType, ProdType, MarketCode);
             }
             else {
-               b700xxFunc.F70010WeekEngByMarketCode(saveFilePath, symd, eymd, SumType, ProdType, MarketCode);
+               return b700xxFunc.F70010WeekEngByMarketCode(saveFilePath, symd, eymd, SumType, ProdType, MarketCode);
             }
          }//if (rgDate.EditValue.Equals("rb_week"))
          else {
             if (!isEnglish) {
-               b700xxFunc.F70010YmdByMarketCode(saveFilePath, symd, eymd, SumType, ProdType, MarketCode);
+               return b700xxFunc.F70010YmdByMarketCode(saveFilePath, symd, eymd, SumType, ProdType, MarketCode);
             }
             else {
-               b700xxFunc.F70010YmdEngByMarketCode(saveFilePath, symd, eymd, SumType, ProdType, MarketCode);
+               return b700xxFunc.F70010YmdEngByMarketCode(saveFilePath, symd, eymd, SumType, ProdType, MarketCode);
             }
          }
       }

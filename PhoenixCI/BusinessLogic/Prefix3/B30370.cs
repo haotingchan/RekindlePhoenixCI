@@ -16,8 +16,8 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    /// </summary>
    public class B30370
    {
-      private string lsFile;
-      private string emMonthText;
+      private readonly string _lsFile;
+      private string _emMonthText;
 
       /// <summary>
       /// 
@@ -26,8 +26,8 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="DatetimeVal">em_month.Text</param>
       public B30370(string FilePath,string DatetimeVal)
       {
-         lsFile = FilePath;
-         emMonthText = DatetimeVal;
+         _lsFile = FilePath;
+         _emMonthText = DatetimeVal;
       }
 
       private static int IDFGtype(DataRow row)
@@ -70,22 +70,13 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="SheetName">工作表</param>
       /// <param name="RptName">作業名稱</param>
       /// <returns></returns>
-      public bool Wf30371(int RowIndex = 3,  string SheetName = "30371", string RptName = "年度期間法人機構期貨交易量統計表")
+      public string Wf30371(int RowIndex = 3,  string SheetName = "30371", string RptName = "年度期間法人機構期貨交易量統計表")
       {
-         /*************************************
-            ls_rpt_name = 報表名稱
-            ls_rpt_id = 報表代號
-            rowIndex = Excel的Row位置
-            li_ole_col = Excel的Column位置
-            RowTotal = Excel的Column預留數
-            ldtYMD = 日期
-         *************************************/
+         Workbook workbook = new Workbook();
          try {
             //切換Sheet
-            Workbook workbook = new Workbook();
-            workbook.LoadDocument(lsFile);
+            workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets[SheetName];
-            worksheet.Range["A1"].Select();
 
             //總列數,隱藏於A1
             int monthTotal = 12;//12個月份
@@ -101,10 +92,9 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                2.當年1月至當月明細
                3.當年1月至當月合計
             ******************/
-            DataTable dt = new D30370().Get30371Data(firstYear, PbFunc.Left(emMonthText, 4), $"{PbFunc.Left(emMonthText, 4)}01", emMonthText.Replace("/", ""));
+            DataTable dt = new D30370().Get30371Data(firstYear, PbFunc.Left(_emMonthText, 4), $"{PbFunc.Left(_emMonthText, 4)}01", _emMonthText.Replace("/", ""));
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info($"{firstYear}~{PbFunc.Left(emMonthText, 4)},{PbFunc.Left(emMonthText, 4)}01～{emMonthText.Replace("/", "")},{SheetName}－{RptName},無任何資料!");
-               return true;
+               return $"{firstYear}~{PbFunc.Left(_emMonthText, 4)},{PbFunc.Left(_emMonthText, 4)}01～{_emMonthText.Replace("/", "")},{SheetName}－{RptName},無任何資料!";
             }
 
             string endYMD = dt.AsEnumerable().LastOrDefault()["AM2_YMD"].AsString();
@@ -129,8 +119,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                            worksheet.Rows.Hide(RowIndex + 1, rowYtolIndex);
                         }
                         catch (Exception ex) {
-                           MessageDisplay.Error(ex.Message+ Environment.NewLine+"30370template[B1]每新增一個年份[A1]要加3", "30371-年部份結束,則把年空白列刪除");
-                           return false;
+                           return ex.Message + Environment.NewLine + "30370template[B1]每新增一個年份[A1]要加3";
                         }
                         RowIndex = rowYtolIndex;
                         worksheet.Range["A1"].Select();
@@ -173,20 +162,19 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                }
             }
             catch (Exception ex) {
-               MessageDisplay.Error(ex.Message, "30371-刪除剩餘空白列");
-               return false;
+               throw ex;
             }
-
-            workbook.SaveDocument(lsFile);
+            
          }
          catch (Exception ex) {
-            MessageDisplay.Error(ex.Message, "30371");
-            return false;
+            throw ex;
          }
-         return true;
-      }
+         finally {
+            workbook.SaveDocument(_lsFile);
+         }
 
-      
+         return MessageDisplay.MSG_OK;
+      }
 
       /// <summary>
       /// wf_30375()
@@ -195,27 +183,23 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="SheetName">工作表</param>
       /// <param name="RptName">作業名稱</param>
       /// <returns></returns>
-      public bool Wf30375(int RowIndex = 0, string SheetName = "Data_30375", string RptName = "年度期間法人機構期貨交易量統計表(維持率)")
+      public string Wf30375(int RowIndex = 0, string SheetName = "Data_30375", string RptName = "年度期間法人機構期貨交易量統計表(維持率)")
       {
-         /*************************************
-            ls_rpt_name = 報表名稱
-            ls_rpt_id = 報表代號
-            rowIndex = Excel的Row位置
-            li_ole_col = Excel的Column位置
-            RowTotal = Excel的Column預留數
-            ldtYMD = 日期
-         *************************************/
+         Workbook workbook = new Workbook();
          try {
             //輸入日期
-            DateTime queryDate = emMonthText.AsDateTime("yyyy/MM");
-            //讀取資料
-            DataTable dt = new D30370().Get30375Data(queryDate.AddYears(-1).ToString("yyyyMM"), queryDate.ToString("yyyyMM"));
+            DateTime queryDate = _emMonthText.AsDateTime("yyyy/MM");
 
             //切換Sheet
-            Workbook workbook = new Workbook();
-            workbook.LoadDocument(lsFile);
+            workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets[SheetName];
-            worksheet.Range["A1"].Select();
+
+            //讀取資料
+            DataTable dt = new D30370().Get30375Data(queryDate.AddYears(-1).ToString("yyyyMM"), queryDate.ToString("yyyyMM"));
+            //if (dt.Rows.Count<=0) {
+            //   return MessageDisplay.MSG_NO_DATA;
+            //}
+
             //總列數(C1 = 100)
             int rowTotal = worksheet.Cells["C1"].Value.AsInt();
 
@@ -234,21 +218,33 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             }
             //刪除空白列
             if (rowTotal > addRowCount) {
-               worksheet.Rows.Remove(RowIndex + 1, rowTotal - addRowCount);
-               //worksheet.Rows.Hide(RowIndex + 1, RowIndex + (rowTotal - addRowCount));
-            }
-            //重新選取圖表範圍
-            workbook.ChartSheets["30375"].Chart.Series[0].Values = new ChartData {
-               RangeValue = worksheet.Range[$@"B2:B{RowIndex + 1}"]
-            }; 
+               if (dt.Rows.Count > 0) {
+                  worksheet.Rows.Remove(RowIndex + 1, rowTotal - addRowCount);
+                  //worksheet.Rows.Hide(RowIndex + 1, RowIndex + (rowTotal - addRowCount));
+                  //重新選取圖表範圍
+                  workbook.ChartSheets["30375"].Chart.Series[0].Values = new ChartData {
+                     RangeValue = worksheet.Range[$@"B2:B{RowIndex + 1}"]
+                  };
+               }
+               else {
+                  worksheet.Rows.Remove(RowIndex + 2, rowTotal - addRowCount);
+                  //重新選取圖表範圍
+                  workbook.ChartSheets["30375"].Chart.Series[0].Values = new ChartData {
+                     RangeValue = worksheet.Range["B2:B2"]
+                  };
+               }
 
-            workbook.SaveDocument(lsFile);
+            }
+
          }
          catch (Exception ex) {
-            MessageDisplay.Error(ex.Message, "Data_30375");
-            return false;
+            throw ex;
          }
-         return true;
+         finally {
+            workbook.SaveDocument(_lsFile);
+         }
+
+         return MessageDisplay.MSG_OK;
       }
    }
 }

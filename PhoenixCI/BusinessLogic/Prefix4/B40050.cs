@@ -128,11 +128,11 @@ namespace PhoenixCI.BusinessLogic.Prefix4
       /// <param name="ColorDecimal">color十進位代碼 預設為淺灰</param>
       /// <param name="RowIndex">Excel的Row位置</param>
       /// <returns></returns>
-      public bool Wf40051(int ColorDecimal = 11711154, int RowIndex = 3)
+      public string Wf40051(int ColorDecimal = 11711154, int RowIndex = 3)
       {
+         Workbook workbook = new Workbook();
          try {
             //切換Sheet
-            Workbook workbook = new Workbook();
             workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets["Fut"];
             worksheet.Cells["I1"].Value = "作業日期：" + DateTime.Now.ToLongDateString().ToString();
@@ -173,7 +173,6 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                
             }//for (int k = 0; k < dt.Rows.Count; k++)
 
-            workbook.SaveDocument(_lsFile);
          }
          catch (Exception ex) {
 #if DEBUG
@@ -182,7 +181,10 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             throw ex;
 #endif
          }
-         return true;
+         finally {
+            workbook.SaveDocument(_lsFile);
+         }
+         return MessageDisplay.MSG_OK;
       }
 
       /// <summary>
@@ -191,11 +193,11 @@ namespace PhoenixCI.BusinessLogic.Prefix4
       /// <param name="ColorDecimal">color十進位代碼 預設為淺灰</param>
       /// <param name="RowIndex">Excel的Row位置</param>
       /// <returns></returns>
-      public bool Wf40052(int ColorDecimal = 11711154, int RowIndex = 2)
+      public string Wf40052(int ColorDecimal = 11711154, int RowIndex = 2)
       {
+         Workbook workbook = new Workbook();
          try {
             //切換Sheet
-            Workbook workbook = new Workbook();
             workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets["Opt"];
             worksheet.Cells["N1"].Value = "作業日期：" + DateTime.Now.ToLongDateString().ToString();
@@ -240,7 +242,6 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                
             }//for (int k = 0; k < dt.Rows.Count; k++)
 
-            workbook.SaveDocument(_lsFile);
          }
          catch (Exception ex) {
 #if DEBUG
@@ -249,18 +250,21 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             throw ex;
 #endif
          }
-         return true;
+         finally {
+            workbook.SaveDocument(_lsFile);
+         }
+         return MessageDisplay.MSG_OK;
       }
 
       /// <summary>
       /// wf_40053()
       /// </summary>
       /// <returns></returns>
-      public bool Wf40053()
+      public string Wf40053()
       {
+         Workbook workbook = new Workbook();
          try {
             //切換Sheet
-            Workbook workbook = new Workbook();
             workbook.LoadDocument(_lsFile);
             Worksheet worksheet =null;
             DataTable dt=null;
@@ -275,7 +279,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                }
                Wf40053Fut(worksheet, dt);
             }
-            workbook.SaveDocument(_lsFile);
+            
          }
          catch (Exception ex) {
 #if DEBUG
@@ -284,18 +288,21 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             throw ex;
 #endif
          }
-         return true;
+         finally {
+            workbook.SaveDocument(_lsFile);
+         }
+         return MessageDisplay.MSG_OK;
       }
 
       /// <summary>
       /// wf_40054()
       /// </summary>
       /// <returns></returns>
-      public bool Wf40054()
+      public string Wf40054()
       {
+         Workbook workbook = new Workbook();
          try {
             //切換Sheet
-            Workbook workbook = new Workbook();
             workbook.LoadDocument(_lsFile);
             Worksheet worksheet = null;
             DataTable dt = null;
@@ -310,7 +317,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                }
                Wf40054Opt(worksheet, dt);
             }
-            workbook.SaveDocument(_lsFile);
+            
          }
          catch (Exception ex) {
 #if DEBUG
@@ -319,7 +326,11 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             throw ex;
 #endif
          }
-         return true;
+         finally {
+            workbook.SaveDocument(_lsFile);
+         }
+
+         return MessageDisplay.MSG_OK;
       }
 
    }

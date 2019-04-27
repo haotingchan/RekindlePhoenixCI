@@ -8,6 +8,7 @@ using Common;
 using BaseGround.Shared;
 using System.Threading;
 using PhoenixCI.BusinessLogic.Prefix7;
+using System.IO;
 /// <summary>
 /// john,20190211,臺指選擇權期貨商交易量表
 /// </summary>
@@ -65,14 +66,7 @@ namespace PhoenixCI.FormUI.Prefix7
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Print(ReportHelper reportHelper)
-      {
-         base.Print(reportHelper);
-
-         return ResultStatus.Success;
-      }
-
-      private bool ExportBefore()
+      private bool StartExport()
       {
          /* 條件值檢核*/
          DateTime ldStart, ldEnd;
@@ -168,7 +162,7 @@ namespace PhoenixCI.FormUI.Prefix7
          isParamKey = "TXO";
          isProdType = "O";
          /*點選儲存檔案之目錄*/
-         saveFilePath = ReportExportFunc.wf_GetFileSaveName(saveFilePath + ".csv");
+         saveFilePath = PbFunc.wf_GetFileSaveName(saveFilePath + ".csv");
          if (string.IsNullOrEmpty(saveFilePath)) {
             return false;
          }
@@ -184,7 +178,14 @@ namespace PhoenixCI.FormUI.Prefix7
          return true;
       }
 
-      protected void ExportAfter()
+      private string OutputShowMessage {
+         set {
+            if (value != MessageDisplay.MSG_OK)
+               MessageDisplay.Info(value);
+         }
+      }
+
+      protected void EndExport()
       {
          st_msg_txt.Text = "轉檔完成!";
          this.Cursor = Cursors.Arrow;
@@ -195,39 +196,25 @@ namespace PhoenixCI.FormUI.Prefix7
 
       protected override ResultStatus Export()
       {
-         if (!ExportBefore()) {
+         if (!StartExport()) {
             return ResultStatus.Fail;
          }
          try {
             if (rgDate.EditValue.Equals("rb_week")) {
-               B700xxFunc.F70010WeekW(saveFilePath, startYMD, endYMD, sumType, isKindId2, isParamKey, isProdType);
+               OutputShowMessage = B700xxFunc.F70010WeekW(saveFilePath, startYMD, endYMD, sumType, isKindId2, isParamKey, isProdType);
             }//if (rgDate.EditValue.Equals("rb_week"))
             else {
-               B700xxFunc.F70010YmdW(saveFilePath, startYMD, endYMD, sumType, isKindId2, isParamKey, isProdType);
+               OutputShowMessage = B700xxFunc.F70010YmdW(saveFilePath, startYMD, endYMD, sumType, isKindId2, isParamKey, isProdType);
             }
-            ExportAfter();
          }
          catch (Exception ex) {
-            PbFunc.messageBox(GlobalInfo.ErrorText, ex.Message, MessageBoxIcon.Stop);
+            File.Delete(saveFilePath);
+            WriteLog(ex);
             return ResultStatus.Fail;
          }
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus Export(ReportHelper reportHelper)
-      {
-         base.Export(reportHelper);
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus CheckShield()
-      {
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus COMPLETE()
-      {
+         finally {
+            EndExport();
+         }
          return ResultStatus.Success;
       }
 

@@ -20,10 +20,10 @@ namespace PhoenixCI.FormUI.Prefix3
    public partial class W30790 : FormParent
    {
       private B30790 b30790;
+
       public W30790(string programID, string programName) : base(programID, programName)
       {
          InitializeComponent();
-
          this.Text = _ProgramID + "─" + _ProgramName;
       }
 
@@ -48,9 +48,9 @@ namespace PhoenixCI.FormUI.Prefix3
          if (!string.IsNullOrEmpty(lsYMD)) {
             emEndDate.Text = lsYMD;
          }
-         emStartDate.Text = PbFunc.relativedate(lsYMD.AsDateTime(),-6).ToString("yyyy/MM/dd");
+         emStartDate.Text = PbFunc.relativedate(lsYMD.AsDateTime(), -6).ToString("yyyy/MM/dd");
          emStartDate.Focus();
-         emTxEndDate.Text= lsYMD;
+         emTxEndDate.Text = lsYMD;
          return ResultStatus.Success;
       }
 
@@ -62,32 +62,21 @@ namespace PhoenixCI.FormUI.Prefix3
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Print(ReportHelper reportHelper)
-      {
-         base.Print(reportHelper);
-
-         return ResultStatus.Success;
-      }
-
       private bool StartExport()
       {
-         if (!emStartDate.IsDate(emStartDate.Text, CheckDate.Start))
-         {
+         if (!emStartDate.IsDate(emStartDate.Text, CheckDate.Start)) {
             //is_chk = "Y";
             return false;
          }
-         if (!emEndDate.IsDate(emEndDate.Text, CheckDate.End))
-         {
+         if (!emEndDate.IsDate(emEndDate.Text, CheckDate.End)) {
             //is_chk = "Y";
             return false;
          }
-         if (!emTxStartDate.IsDate(emTxStartDate.Text, CheckDate.Start))
-         {
+         if (!emTxStartDate.IsDate(emTxStartDate.Text, CheckDate.Start)) {
             //is_chk = "Y";
             return false;
          }
-         if (!emTxEndDate.IsDate(emTxEndDate.Text, CheckDate.End))
-         {
+         if (!emTxEndDate.IsDate(emTxEndDate.Text, CheckDate.End)) {
             //is_chk = "Y";
             return false;
          }
@@ -135,9 +124,10 @@ namespace PhoenixCI.FormUI.Prefix3
          if (!StartExport()) {
             return ResultStatus.Fail;
          }
+         string lsFile = PbFunc.wf_copy_file(_ProgramID, "30790");
          try {
-            string lsFile = PbFunc.wf_copy_file(_ProgramID, "30790");
-            b30790 = new B30790(lsFile, emStartDate.Text, emEndDate.Text,emTxStartDate.Text , emTxEndDate.Text);
+            
+            b30790 = new B30790(lsFile, emStartDate.Text, emEndDate.Text, emTxStartDate.Text, emTxEndDate.Text);
 
             if (chkAvg.Checked) {
                ShowMsg("30790－盤後交易時段分時交易量分布 轉檔中...");
@@ -148,7 +138,7 @@ namespace PhoenixCI.FormUI.Prefix3
                ShowMsg("30790_4－盤後交易時段分時交易量分布 轉檔中...");
                OutputShowMessage = b30790.Wf30790four();
             }
-            
+
          }
          catch (Exception ex) {
             WriteLog(ex);
@@ -161,21 +151,5 @@ namespace PhoenixCI.FormUI.Prefix3
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Export(ReportHelper reportHelper)
-      {
-         base.Export(reportHelper);
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus CheckShield()
-      {
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus COMPLETE()
-      {
-         return ResultStatus.Success;
-      }
    }
 }

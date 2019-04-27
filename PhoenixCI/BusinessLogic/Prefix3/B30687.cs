@@ -101,10 +101,6 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       private string SaveExcel(DataTable dataTable)
       {
          try {
-            if (dataTable.Rows.Count <= 0) {
-               return "轉出筆數為０!";
-            }
-
             Workbook wb = new Workbook();
             wb.Options.Export.Csv.WritePreamble = true;
             wb.Worksheets[0].Import(dataTable, true, 0, 0);

@@ -10,12 +10,6 @@ namespace DataObjects.Dao.Together.SpecificDao.Tests
    [TestClass()]
    public class D40040Tests
    {
-      [ClassInitialize]
-      public static void MyClassInitialize(TestContext testContext)
-      {
-         ConnectionInfo connectionInfo = SettingDragons.Instance.GetConnectionInfo(SettingDragons.Instance.Setting.Database.CiUserAp);
-         GlobalDaoSetting.Set(connectionInfo);
-      }
 
       [TestMethod()]
       public void GetListTest()
@@ -91,8 +85,8 @@ namespace DataObjects.Dao.Together.SpecificDao.Tests
          DateTime dateTime = DateTime.MinValue;
          DateTime.TryParse(ExcelCellVal, out dateTime);
          DataTable dt = new D40040().ListSpanSvData(new DateTime(2018, 10, 12), dateTime, "1%");
-         //2018/10/12的資料有7筆
-         Assert.AreEqual(7, dt.Rows.Count);
+         //2018/10/12的資料有10筆
+         Assert.AreEqual(10, dt.Rows.Count);
       }
 
       [TestMethod()]

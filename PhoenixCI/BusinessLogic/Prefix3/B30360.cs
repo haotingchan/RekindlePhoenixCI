@@ -22,8 +22,8 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    public class B30360
    {
       private D30360 dao30360;
-      private string lsFile;
-      private string emMonthText;
+      private readonly string _lsFile;
+      private string _emMonthText;
 
       /// <summary>
       /// 
@@ -32,8 +32,8 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="DatetimeVal">em_month.Text</param>
       public B30360(string FilePath,string DatetimeVal)
       {
-         lsFile = FilePath;
-         emMonthText = DatetimeVal;
+         _lsFile = FilePath;
+         _emMonthText = DatetimeVal;
          dao30360 = new D30360();
       }
       /// <summary>
@@ -44,14 +44,12 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="RowIndex"></param>
       private void WriteSheet(string SheetName, DataTable Dt, int RowIndex,int RowTotal)
       {
+         Workbook workbook = new Workbook();
          try {
             //切換Sheet
-            Workbook workbook = new Workbook();
-            workbook.LoadDocument(lsFile);
+            workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets[SheetName];
             string lsYMD = "";
-            worksheet.Range["A1"].Select();
-
 
             int addRowCount = 0;//總計寫入的行數
             foreach (DataRow row in Dt.Rows) {
@@ -75,10 +73,13 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                //worksheet.Rows.Remove(RowIndex + 1, RowTotal - addRowCount);
                worksheet.Rows.Hide(RowIndex + 1, RowIndex + (RowTotal - addRowCount));
             }
-            workbook.SaveDocument(lsFile);
+            
          }
          catch (Exception ex) {
-            MessageDisplay.Error(ex.Message, $"B30360-WriteSheet");
+            throw ex;
+         }
+         finally {
+            workbook.SaveDocument(_lsFile);
          }
       }
       /// <summary>
@@ -92,7 +93,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       {
          //切換Sheet
          Workbook workbook = new Workbook();
-         workbook.LoadDocument(lsFile);
+         workbook.LoadDocument(_lsFile);
          Worksheet worksheet = workbook.Worksheets[SheetName];
          worksheet.Range["A1"].Select();
 
@@ -113,7 +114,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             //worksheet.Rows.Remove(RowIndex + 1, RowTotal - addRowCount);
             worksheet.Rows.Hide(RowIndex + 1, RowIndex + (RowTotal - addRowCount));
          }
-         workbook.SaveDocument(lsFile);
+         workbook.SaveDocument(_lsFile);
       }
 
       /// <summary>
@@ -125,33 +126,25 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="SheetName">工作表名稱</param>
       /// <param name="RptName">作業名稱</param>
       /// <returns></returns>
-      public bool Wf30361(int RowIndex=1, int RowTotal=33 ,string IsKindID= "STO", string SheetName= "30361", string RptName= "股票選擇權交易概況表")
+      public string Wf30361(int RowIndex=1, int RowTotal=33 ,string IsKindID= "STO", string SheetName= "30361", string RptName= "股票選擇權交易概況表")
       {
-         /*************************************
-         rowIndex = Excel的Row位置
-         columnIndex = Excel的Column位置
-         RowTotal = Excel的Column預留數
-         lsYMD = 日期
-         *************************************/
          try {
             //當月第1天交易日
-            DateTime StartDate = new DateTime(emMonthText.AsDateTime().Year, emMonthText.AsDateTime().Month, 01);
+            DateTime StartDate = new DateTime(_emMonthText.AsDateTime().Year, _emMonthText.AsDateTime().Month, 01);
             //抓當月最後交易日
             string EndDate = dao30360.GetMaxLastDay30361(StartDate);
             //讀取資料
             DataTable dt = dao30360.Get30361Data(IsKindID, StartDate.ToString("yyyyMMdd"), EndDate);
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info($"{StartDate.ToShortDateString()}～{EndDate.AsDateTime().ToShortDateString()},{SheetName}－{RptName},{IsKindID}無任何資料!");
-               return true;
+               return $"{StartDate.ToShortDateString()}～{EndDate.AsDateTime().ToShortDateString()},{SheetName}－{RptName},{IsKindID}無任何資料!";
             }
             //儲存寫入sheet
             WriteSheet(SheetName, dt, RowIndex, RowTotal);
-            return true;
          }
          catch (Exception ex) {
-            MessageDisplay.Error(ex.Message, $"Wf30361-{SheetName}");
-            return false;
+            throw ex;
          }
+         return MessageDisplay.MSG_OK;
       }
 
       /// <summary>
@@ -163,32 +156,22 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="SheetName">工作表名稱</param>
       /// <param name="RptName">作業名稱</param>
       /// <returns></returns>
-      public bool Wf30362(int RowIndex = 1, int RowTotal = 50, string IsKindID = "STO", string SheetName = "30362", string RptName = "股票選擇權交易概況表")
+      public string Wf30362(int RowIndex = 1, int RowTotal = 50, string IsKindID = "STO", string SheetName = "30362", string RptName = "股票選擇權交易概況表")
       {
-         /*************************************
-         rowIndex = Excel的Row位置
-         columnIndex = Excel的Column位置
-         RowTotal = Excel的Column預留數
-         lsYMD = 日期
-         *************************************/
          try {
             //讀取資料
-            DataTable dt = dao30360.Get30362Data(emMonthText.AsDateTime(), IsKindID);
+            DataTable dt = dao30360.Get30362Data(_emMonthText.AsDateTime(), IsKindID);
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info($"{emMonthText.AsDateTime().ToString("yyyyMM")},{SheetName}－{RptName},{IsKindID}無任何資料!");
-               return true;
+               return $"{_emMonthText.AsDateTime().ToString("yyyyMM")},{SheetName}－{RptName},{IsKindID}無任何資料!";
             }
             //儲存寫入sheet
             WriteSheet2(RowIndex, RowTotal, SheetName, dt);
-            return true;
+            return MessageDisplay.MSG_OK;
          }
          catch (Exception ex) {
-            MessageDisplay.Error(ex.Message, $"Wf30362-{SheetName}");
-            return false;
+            throw ex;
          }
       }
-
-      
 
       /// <summary>
       /// wf_30363()
@@ -199,32 +182,24 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="SheetName">工作表名稱</param>
       /// <param name="RptName">作業名稱</param>
       /// <returns></returns>
-      public bool Wf30363(int RowIndex = 1, int RowTotal = 32, string IsKindID = "STO", string SheetName = "30363", string RptName = "股票選擇權交易概況表")
+      public string Wf30363(int RowIndex = 1, int RowTotal = 32, string IsKindID = "STO", string SheetName = "30363", string RptName = "股票選擇權交易概況表")
       {
-         /*************************************
-         rowIndex = Excel的Row位置
-         columnIndex = Excel的Column位置
-         RowTotal = Excel的Column預留數
-         lsYMD = 日期
-         *************************************/
+         Workbook workbook = new Workbook();
          try {
             //當月第1天交易日
-            DateTime StartDate = new DateTime(emMonthText.AsDateTime().Year, emMonthText.AsDateTime().Month, 01);
+            DateTime StartDate = new DateTime(_emMonthText.AsDateTime().Year, _emMonthText.AsDateTime().Month, 01);
             //抓當月最後交易日
             string EndDate = dao30360.GetMaxLastDay30361(StartDate);
+            //切換Sheet
+            workbook.LoadDocument(_lsFile);
+            Worksheet worksheet = workbook.Worksheets[SheetName];
             //讀取資料
             DataTable dt = dao30360.Get30363Data(StartDate.ToString("yyyyMMdd"), EndDate, IsKindID);
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info($"{emMonthText.AsDateTime().ToString("yyyyMM")},{SheetName}－{RptName},{IsKindID}無任何資料!");
-               return true;
+               return $"{_emMonthText.AsDateTime().ToString("yyyyMM")},{SheetName}－{RptName},{IsKindID}無任何資料!";
             }
             //商品
             DataTable dtProd = dao30360.Get30363KindID2Data(StartDate.ToString("yyyyMMdd"), EndDate, IsKindID);
-            //切換Sheet
-            Workbook workbook = new Workbook();
-            workbook.LoadDocument(lsFile);
-            Worksheet worksheet = workbook.Worksheets[SheetName];
-            worksheet.Range["A1"].Select();
 
             //表頭
             int columnIndex = 1;//Excel的Column位置
@@ -261,13 +236,16 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                //worksheet.Rows.Remove(RowIndex + 1, RowTotal - addRowCount);
                worksheet.Rows.Hide(RowIndex + 1, RowIndex + (RowTotal - addRowCount));
             }
-            workbook.SaveDocument(lsFile);
-            return true;
+            
          }
          catch (Exception ex) {
-            MessageDisplay.Error(ex.Message, $"Wf30363-{SheetName}");
-            return false;
+            throw ex;
          }
+         finally {
+            workbook.SaveDocument(_lsFile);
+         }
+
+         return MessageDisplay.MSG_OK;
       }
 
       /// <summary>
@@ -279,35 +257,28 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="SheetName">工作表名稱</param>
       /// <param name="RptName">作業名稱</param>
       /// <returns></returns>
-      public bool Wf30366(int RowIndex = 1, int RowTotal = 33, string SheetName = "30366", string RptName = "股票選擇權交易概況表")
+      public string Wf30366(int RowIndex = 1, int RowTotal = 33, string SheetName = "30366", string RptName = "股票選擇權交易概況表")
       {
-         /*************************************
-         rowIndex = Excel的Row位置
-         columnIndex = Excel的Column位置
-         RowTotal = Excel的Column預留數
-         lsYMD = 日期
-         *************************************/
          try {
             //當月第1天交易日
-            DateTime StartDate = new DateTime(emMonthText.AsDateTime().Year, emMonthText.AsDateTime().Month, 01);
+            DateTime StartDate = new DateTime(_emMonthText.AsDateTime().Year, _emMonthText.AsDateTime().Month, 01);
             //抓當月最後交易日
-            DateTime EndDate = new DateTime(emMonthText.AsDateTime().Year, emMonthText.AsDateTime().Month, 31);
+            DateTime EndDate = new DateTime(_emMonthText.AsDateTime().Year, _emMonthText.AsDateTime().Month, 31);
             string lastDate=dao30360.GetMaxLastDay30366(StartDate, EndDate);
             //讀取資料
             DataTable dt = dao30360.Get30366Data("O", StartDate.ToString("yyyyMMdd"), lastDate);
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info($"{StartDate.ToShortDateString()}～{lastDate.AsDateTime("yyyyMMdd").ToShortDateString()},{SheetName}－{RptName},無任何資料!");
-               return true;
+               return $"{StartDate.ToShortDateString()}～{lastDate.AsDateTime("yyyyMMdd").ToShortDateString()},{SheetName}－{RptName},無任何資料!";
             }
             //儲存寫入sheet
             WriteSheet(SheetName, dt, RowIndex, RowTotal);
-            return true;
          }
          catch (Exception ex) {
-            MessageDisplay.Error(ex.Message, $"Wf30366-{SheetName}");
-            return false;
+            throw ex;
          }
+         return MessageDisplay.MSG_OK;
       }
+
       /// <summary>
       /// wf_30367()
       /// </summary>
@@ -316,29 +287,21 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="SheetName">工作表名稱</param>
       /// <param name="RptName">作業名稱</param>
       /// <returns></returns>
-      public bool Wf30367(int RowIndex = 1, int RowTotal = 100, string SheetName = "30367", string RptName = "股票選擇權交易概況表")
+      public string Wf30367(int RowIndex = 1, int RowTotal = 100, string SheetName = "30367", string RptName = "股票選擇權交易概況表")
       {
-         /*************************************
-         rowIndex = Excel的Row位置
-         columnIndex = Excel的Column位置
-         RowTotal = Excel的Column預留數
-         lsYMD = 日期
-         *************************************/
          try {
             //讀取資料
-            DataTable dt = dao30360.Get30367Data(emMonthText.AsDateTime());
+            DataTable dt = dao30360.Get30367Data(_emMonthText.AsDateTime());
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info($"{emMonthText.AsDateTime().ToString("yyyyMM")},{SheetName}－{RptName},無任何資料!");
-               return true;
+               return $"{_emMonthText.AsDateTime().ToString("yyyyMM")},{SheetName}－{RptName},無任何資料!";
             }
             //儲存寫入sheet
             WriteSheet2(RowIndex, RowTotal, SheetName, dt);
-            return true;
          }
          catch (Exception ex) {
-            MessageDisplay.Error(ex.Message, $"Wf30367-{SheetName}");
-            return false;
+            throw ex;
          }
+         return MessageDisplay.MSG_OK;
       }
 
       /// <summary>
@@ -350,30 +313,23 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="SheetName">工作表名稱</param>
       /// <param name="RptName">作業名稱</param>
       /// <returns></returns>
-      public bool Wf30368(int RowIndex = 1, int RowTotal = 32, string IsKindID = "STC", string SheetName = "30368", string RptName = "股票選擇權交易概況表")
+      public string Wf30368(int RowIndex = 1, int RowTotal = 32, string IsKindID = "STC", string SheetName = "30368", string RptName = "股票選擇權交易概況表")
       {
-         /*************************************
-         rowIndex = Excel的Row位置
-         columnIndex = Excel的Column位置
-         RowTotal = Excel的Column預留數
-         lsYMD = 日期
-         *************************************/
+         Workbook workbook = new Workbook();
          try {
             //當月第1天交易日
-            DateTime StartDate = new DateTime(emMonthText.AsDateTime().Year, emMonthText.AsDateTime().Month, 01);
+            DateTime StartDate = new DateTime(_emMonthText.AsDateTime().Year, _emMonthText.AsDateTime().Month, 01);
             //抓當月最後交易日
             string EndDate = dao30360.GetMaxLastDay30361(StartDate);
+            //切換Sheet
+            workbook.LoadDocument(_lsFile);
+            Worksheet worksheet = workbook.Worksheets[SheetName];
             //讀取資料
             DataTable dt = dao30360.Get30368Data(StartDate.ToString("yyyyMMdd"), EndDate);
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info($"{emMonthText.AsDateTime().ToString("yyyyMM")},{SheetName}－{RptName},{IsKindID}無任何資料!");
-               return true;
+               return $"{_emMonthText.AsDateTime().ToString("yyyyMM")},{SheetName}－{RptName},{IsKindID}無任何資料!";
             }
-            //切換Sheet
-            Workbook workbook = new Workbook();
-            workbook.LoadDocument(lsFile);
-            Worksheet worksheet = workbook.Worksheets[SheetName];
-            worksheet.Range["A1"].Select();
+            
             //內容
             int addRowCount = 0;//總計寫入的行數
             string lsYMD = "";
@@ -410,13 +366,16 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                //worksheet.Rows.Remove(RowIndex + 1, RowTotal - addRowCount);
                worksheet.Rows.Hide(RowIndex + 1, RowIndex + (RowTotal - addRowCount));
             }
-            workbook.SaveDocument(lsFile);
-            return true;
+            
          }
          catch (Exception ex) {
-            MessageDisplay.Error(ex.Message, $"Wf30368-{SheetName}");
-            return false;
+            throw ex;
          }
+         finally {
+            workbook.SaveDocument(_lsFile);
+         }
+
+         return MessageDisplay.MSG_OK;
       }
 
    }

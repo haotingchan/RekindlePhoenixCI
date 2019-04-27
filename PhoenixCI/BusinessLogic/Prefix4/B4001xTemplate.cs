@@ -260,9 +260,9 @@ namespace PhoenixCI.BusinessLogic.Prefix4
       /// <returns></returns>
       public string WfFutureSheet(int sheetIndex = 0)
       {
+         Workbook workbook = new Workbook();
          try {
             //切換Sheet
-            Workbook workbook = new Workbook();
             workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets[sheetIndex];
             DateTime emdate = _emDateText.AsDateTime("yyyy/MM/dd");
@@ -294,7 +294,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
 
             //save
             worksheet.ScrollTo(0, 0);
-            workbook.SaveDocument(_lsFile);
+            //workbook.SaveDocument(_lsFile);
          }
          catch (Exception ex) {
 #if DEBUG
@@ -302,6 +302,10 @@ namespace PhoenixCI.BusinessLogic.Prefix4
 #else
             throw ex;
 #endif
+         }
+         finally {
+            //save
+            workbook.SaveDocument(_lsFile);
          }
          return MessageDisplay.MSG_OK;
       }
@@ -312,9 +316,9 @@ namespace PhoenixCI.BusinessLogic.Prefix4
       /// <returns></returns>
       public string WfOptionSheet(int sheetIndex = 1)
       {
+         Workbook workbook = new Workbook();
          try {
             //切換Sheet
-            Workbook workbook = new Workbook();
             workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets[sheetIndex];
             DateTime emdate = _emDateText.AsDateTime("yyyy/MM/dd");
@@ -347,7 +351,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
 
             //save
             worksheet.ScrollTo(0, 0);
-            workbook.SaveDocument(_lsFile);
+            //workbook.SaveDocument(_lsFile);
          }
          catch (Exception ex) {
 #if DEBUG
@@ -355,6 +359,9 @@ namespace PhoenixCI.BusinessLogic.Prefix4
 #else
             throw ex;
 #endif
+         }
+         finally {
+            workbook.SaveDocument(_lsFile);
          }
          return MessageDisplay.MSG_OK;
       }

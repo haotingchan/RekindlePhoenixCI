@@ -40,8 +40,8 @@ namespace PhoenixCI.BusinessLogic.Prefix4.Tests
       [TestMethod()]
       public void Wf40200Test()
       {
-         bool isCorrect = b40200.Wf40200();
-         Assert.IsTrue(isCorrect);
+         string isCorrect = b40200.Wf40200();
+         Assert.IsNotNull(isCorrect);
       }
    }
 }

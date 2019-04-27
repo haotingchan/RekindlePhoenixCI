@@ -8,6 +8,7 @@ using BaseGround.Shared;
 using Common;
 using PhoenixCI.BusinessLogic.Prefix3;
 using DataObjects.Dao.Together.SpecificDao;
+using System.IO;
 /// <summary>
 /// john,20190305,台灣五十期貨契約價量資料
 /// </summary>
@@ -61,7 +62,14 @@ namespace PhoenixCI.FormUI.Prefix3
          return ResultStatus.Success;
       }
 
-      private bool ExportBefore()
+      private string OutputShowMessage {
+         set {
+            if (value != MessageDisplay.MSG_OK)
+               MessageDisplay.Info(value);
+         }
+      }
+
+      private bool StartExport()
       {
          if (!emMonth.IsDate(emMonth.Text + "/01", "日期輸入錯誤")) {
             //is_chk = "Y";
@@ -78,7 +86,7 @@ namespace PhoenixCI.FormUI.Prefix3
          return true;
       }
 
-      protected void ExportAfter()
+      protected void EndExport()
       {
          stMsgtxt.Text = "轉檔完成!";
          this.Cursor = Cursors.Arrow;
@@ -96,45 +104,28 @@ namespace PhoenixCI.FormUI.Prefix3
 
       protected override ResultStatus Export()
       {
+         if (!StartExport()) {
+            return ResultStatus.Fail;
+         }
+         string lsFile = PbFunc.wf_copy_file(_ProgramID, "30390");
          try {
-            if (!ExportBefore()) {
-               return ResultStatus.Fail;
-            }
-
-            bool isChk = false;//判斷是否執行成功
-            string lsFile = PbFunc.wf_copy_file(_ProgramID, "30390");
-            string msgTxt=string.Empty;
 
             b30390 = new B30390(lsFile, emMonth.Text);
             //wf_30391()
             ShowMsg($"30390－「台灣五十」期貨契約價量資料 轉檔中...");
-            isChk = b30390.Wf30391();
-            ExportAfter();
-            if (!isChk) return ResultStatus.Fail;//if Exception
+            OutputShowMessage = b30390.Wf30391();
          }
          catch (Exception ex) {
-            ExportAfter();
+            File.Delete(lsFile);
             WriteLog(ex);
             return ResultStatus.Fail;
          }
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus Export(ReportHelper reportHelper)
-      {
-         base.Export(reportHelper);
+         finally {
+            EndExport();
+         }
 
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus CheckShield()
-      {
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus COMPLETE()
-      {
-         return ResultStatus.Success;
-      }
    }
 }
