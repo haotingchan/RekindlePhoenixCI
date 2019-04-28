@@ -147,6 +147,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                //startYmd = DateTime.ParseExact(txtStartDate.Text , "yyyy/MM/dd" , null).ToString("yyyyMMdd");
                endYmd = DateTime.ParseExact(txtEndDate.Text , "yyyy/MM/dd" , null).ToString("yyyyMMdd");
 
+               bool res = false;
                switch (item.Value) {
                   case "chkSma":
                      modelType = "S";
@@ -163,11 +164,19 @@ namespace PhoenixCI.FormUI.Prefix4 {
                            if (kindId == "") continue;
 
                            if (kindId != "%") {
-                              wf_40170(modelType , startYmd , endYmd , kindId , modelName);
+                              res = wf_40170(modelType , startYmd , endYmd , kindId , modelName);
+                              if (!res) {
+                                 MessageDisplay.Info("查無資料!");
+                                 return ResultStatus.Fail;
+                              }
                            }
                         }
                      } else {
-                        wf_40170(modelType , startYmd , endYmd , kindId , modelName);
+                        res = wf_40170(modelType , startYmd , endYmd , kindId , modelName);
+                        if (!res) {
+                           MessageDisplay.Info("查無資料!");
+                           return ResultStatus.Fail;
+                        }
                      }
                      break;
                   case "chkEwma":
@@ -185,11 +194,19 @@ namespace PhoenixCI.FormUI.Prefix4 {
                            if (kindId == "") continue;
 
                            if (kindId != "%") {
-                              wf_40170(modelType , startYmd , endYmd , kindId , modelName);
+                              res = wf_40170(modelType , startYmd , endYmd , kindId , modelName);
+                              if (!res) {
+                                 MessageDisplay.Info("查無資料!");
+                                 return ResultStatus.Fail;
+                              }
                            }
                         }
                      } else {
-                        wf_40170(modelType , startYmd , endYmd , kindId , modelName);
+                        res = wf_40170(modelType , startYmd , endYmd , kindId , modelName);
+                        if (!res) {
+                           MessageDisplay.Info("查無資料!");
+                           return ResultStatus.Fail;
+                        }
                      }
                      break;
                   case "chkMaxVol":
@@ -207,11 +224,19 @@ namespace PhoenixCI.FormUI.Prefix4 {
                            if (kindId == "") continue;
 
                            if (kindId != "%") {
-                              wf_40170(modelType , startYmd , endYmd , kindId , modelName);
+                              res = wf_40170(modelType , startYmd , endYmd , kindId , modelName);
+                              if (!res) {
+                                 MessageDisplay.Info("查無資料!");
+                                 return ResultStatus.Fail;
+                              }
                            }
                         }
                      } else {
-                        wf_40170(modelType , startYmd , endYmd , kindId , modelName);
+                        res = wf_40170(modelType , startYmd , endYmd , kindId , modelName);
+                        if (!res) {
+                           MessageDisplay.Info("查無資料!");
+                           return ResultStatus.Fail;
+                        }
                      }
                      break;
                }
@@ -229,12 +254,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
          return ResultStatus.Fail;
       }
 
-      private void wf_40170(string modelType , string startDate , string endDate , string kindId , string modelName) {
+      private bool wf_40170(string modelType , string startDate , string endDate , string kindId , string modelName) {
          try {
             //執行CI.SP_H_TXN_40170_DETL
             DataTable dt = dao40170.ExecuteStoredProcedure(modelType , startDate , endDate , kindId);
             if (dt.Rows.Count <= 1) {
-               return;
+               return false;
             }
 
             //存CSV (ps:輸出csv 都用ascii)
@@ -249,8 +274,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          } catch (Exception ex) {
             WriteLog(ex);
+            return false;
          }
-         return;
+         return true;
       }
    }
 }
