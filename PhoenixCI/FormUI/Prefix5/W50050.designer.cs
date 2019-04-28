@@ -24,6 +24,9 @@
       /// </summary>
       private void InitializeComponent() {
          this.panFilter = new DevExpress.XtraEditors.PanelControl();
+         this.txtEndTime = new DevExpress.XtraEditors.TextEdit();
+         this.txtEndDate = new BaseGround.Widget.TextDateEdit();
+         this.txtStartDate = new BaseGround.Widget.TextDateEdit();
          this.sle_1 = new DevExpress.XtraEditors.TextEdit();
          this.label1 = new System.Windows.Forms.Label();
          this.ddlb_2 = new DevExpress.XtraEditors.ComboBoxEdit();
@@ -39,6 +42,7 @@
          this.label4 = new System.Windows.Forms.Label();
          this.label3 = new System.Windows.Forms.Label();
          this.label2 = new System.Windows.Forms.Label();
+         this.txtStartTime = new DevExpress.XtraEditors.TextEdit();
          this.panelGrid = new DevExpress.XtraEditors.PanelControl();
          this.gcMain = new DevExpress.XtraGrid.GridControl();
          this.gvMain = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -54,32 +58,29 @@
          this.AMMD_B_QNTY = new DevExpress.XtraGrid.Columns.GridColumn();
          this.AMMD_S_QNTY = new DevExpress.XtraGrid.Columns.GridColumn();
          this.AMMD_W_TIME = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.panelMsg = new System.Windows.Forms.Panel();
-         this.tradeTime = new System.Windows.Forms.Label();
-         this.ammdDate = new System.Windows.Forms.Label();
-         this.txtStartDate = new BaseGround.Widget.TextDateEdit();
-         this.txtEndDate = new BaseGround.Widget.TextDateEdit();
-         this.txtStartTime = new DevExpress.XtraEditors.TextEdit();
-         this.txtEndTime = new DevExpress.XtraEditors.TextEdit();
+         this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+         this.AMMD_DATE = new DevExpress.XtraGrid.Columns.GridColumn();
+         this.repositoryItemTextEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panFilter)).BeginInit();
          this.panFilter.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.txtEndTime.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.sle_1.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.ddlb_2.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.ddlb_1.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.dwProd.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.dwBrkno.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtStartTime.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelGrid)).BeginInit();
          this.panelGrid.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
-         this.panelMsg.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtStartTime.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtEndTime.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -123,6 +124,62 @@
          this.panFilter.Name = "panFilter";
          this.panFilter.Size = new System.Drawing.Size(972, 136);
          this.panFilter.TabIndex = 78;
+         // 
+         // txtEndTime
+         // 
+         this.txtEndTime.EditValue = "08:45";
+         this.txtEndTime.Location = new System.Drawing.Point(211, 51);
+         this.txtEndTime.MenuManager = this.ribbonControl;
+         this.txtEndTime.Name = "txtEndTime";
+         this.txtEndTime.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtEndTime.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtEndTime.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.txtEndTime.Properties.Mask.EditMask = "HH:mm";
+         this.txtEndTime.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtEndTime.Properties.Mask.ShowPlaceHolders = false;
+         this.txtEndTime.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtEndTime.Size = new System.Drawing.Size(68, 26);
+         this.txtEndTime.TabIndex = 95;
+         // 
+         // txtEndDate
+         // 
+         this.txtEndDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtEndDate.EditValue = "2018/12";
+         this.txtEndDate.EnterMoveNextControl = true;
+         this.txtEndDate.Location = new System.Drawing.Point(105, 51);
+         this.txtEndDate.MenuManager = this.ribbonControl;
+         this.txtEndDate.Name = "txtEndDate";
+         this.txtEndDate.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtEndDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtEndDate.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.txtEndDate.Properties.Mask.EditMask = "yyyy/MM/dd";
+         this.txtEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
+         this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtEndDate.Size = new System.Drawing.Size(100, 26);
+         this.txtEndDate.TabIndex = 94;
+         this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         // 
+         // txtStartDate
+         // 
+         this.txtStartDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtStartDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtStartDate.EditValue = "2018/12";
+         this.txtStartDate.EnterMoveNextControl = true;
+         this.txtStartDate.Location = new System.Drawing.Point(105, 16);
+         this.txtStartDate.MenuManager = this.ribbonControl;
+         this.txtStartDate.Name = "txtStartDate";
+         this.txtStartDate.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtStartDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtStartDate.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.txtStartDate.Properties.Mask.EditMask = "yyyy/MM/dd";
+         this.txtStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtStartDate.Properties.Mask.ShowPlaceHolders = false;
+         this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtStartDate.Size = new System.Drawing.Size(100, 26);
+         this.txtStartDate.TabIndex = 93;
+         this.txtStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // sle_1
          // 
@@ -248,7 +305,7 @@
          // 
          // gbMarket
          // 
-         this.gbMarket.EditValue = "rbMarketAll";
+         this.gbMarket.EditValue = "rbMarket0";
          this.gbMarket.Location = new System.Drawing.Point(105, 86);
          this.gbMarket.Name = "gbMarket";
          this.gbMarket.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
@@ -287,13 +344,28 @@
          this.label2.TabIndex = 7;
          this.label2.Text = "交易時間：";
          // 
+         // txtStartTime
+         // 
+         this.txtStartTime.EditValue = "08:45";
+         this.txtStartTime.Location = new System.Drawing.Point(211, 16);
+         this.txtStartTime.MenuManager = this.ribbonControl;
+         this.txtStartTime.Name = "txtStartTime";
+         this.txtStartTime.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtStartTime.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtStartTime.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.txtStartTime.Properties.Mask.EditMask = "HH:mm";
+         this.txtStartTime.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtStartTime.Properties.Mask.ShowPlaceHolders = false;
+         this.txtStartTime.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtStartTime.Size = new System.Drawing.Size(68, 26);
+         this.txtStartTime.TabIndex = 85;
+         // 
          // panelGrid
          // 
          this.panelGrid.Appearance.BackColor = System.Drawing.Color.White;
          this.panelGrid.Appearance.Options.UseBackColor = true;
          this.panelGrid.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.panelGrid.Controls.Add(this.gcMain);
-         this.panelGrid.Controls.Add(this.panelMsg);
          this.panelGrid.Dock = System.Windows.Forms.DockStyle.Fill;
          this.panelGrid.Location = new System.Drawing.Point(12, 148);
          this.panelGrid.Name = "panelGrid";
@@ -303,10 +375,13 @@
          // gcMain
          // 
          this.gcMain.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.gcMain.Location = new System.Drawing.Point(0, 39);
+         this.gcMain.Location = new System.Drawing.Point(0, 0);
          this.gcMain.MainView = this.gvMain;
          this.gcMain.Name = "gcMain";
-         this.gcMain.Size = new System.Drawing.Size(972, 475);
+         this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repositoryItemTextEdit1,
+            this.repositoryItemTextEdit2});
+         this.gcMain.Size = new System.Drawing.Size(972, 514);
          this.gcMain.TabIndex = 2;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -326,9 +401,12 @@
             this.AMMD_SELL_PRICE,
             this.AMMD_B_QNTY,
             this.AMMD_S_QNTY,
-            this.AMMD_W_TIME});
+            this.AMMD_W_TIME,
+            this.AMMD_DATE});
          this.gvMain.GridControl = this.gcMain;
          this.gvMain.Name = "gvMain";
+         this.gvMain.CustomDrawGroupRow += new DevExpress.XtraGrid.Views.Base.RowObjectCustomDrawEventHandler(this.gvMain_CustomDrawGroupRow);
+         this.gvMain.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gvMain_ShowingEditor);
          // 
          // AMMD_BRK_NO
          // 
@@ -445,112 +523,36 @@
          this.AMMD_W_TIME.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
          this.AMMD_W_TIME.AppearanceHeader.Options.UseBackColor = true;
          this.AMMD_W_TIME.Caption = "委託時間";
+         this.AMMD_W_TIME.ColumnEdit = this.repositoryItemTextEdit1;
          this.AMMD_W_TIME.FieldName = "AMMD_W_TIME";
          this.AMMD_W_TIME.Name = "AMMD_W_TIME";
          this.AMMD_W_TIME.Visible = true;
          this.AMMD_W_TIME.VisibleIndex = 11;
          // 
-         // panelMsg
+         // repositoryItemTextEdit1
          // 
-         this.panelMsg.Controls.Add(this.tradeTime);
-         this.panelMsg.Controls.Add(this.ammdDate);
-         this.panelMsg.Dock = System.Windows.Forms.DockStyle.Top;
-         this.panelMsg.Location = new System.Drawing.Point(0, 0);
-         this.panelMsg.Name = "panelMsg";
-         this.panelMsg.Size = new System.Drawing.Size(972, 39);
-         this.panelMsg.TabIndex = 0;
+         this.repositoryItemTextEdit1.AutoHeight = false;
+         this.repositoryItemTextEdit1.EditFormat.FormatString = "d";
+         this.repositoryItemTextEdit1.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+         this.repositoryItemTextEdit1.Mask.EditMask = "yyyy/MM/dd HH:mm:ss.fff";
+         this.repositoryItemTextEdit1.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
          // 
-         // tradeTime
+         // AMMD_DATE
          // 
-         this.tradeTime.AutoSize = true;
-         this.tradeTime.Location = new System.Drawing.Point(374, 10);
-         this.tradeTime.Name = "tradeTime";
-         this.tradeTime.Size = new System.Drawing.Size(89, 20);
-         this.tradeTime.TabIndex = 49;
-         this.tradeTime.Text = "交易時間：";
-         this.tradeTime.Visible = false;
+         this.AMMD_DATE.Caption = "日期";
+         this.AMMD_DATE.ColumnEdit = this.repositoryItemTextEdit2;
+         this.AMMD_DATE.FieldName = "AMMD_DATE";
+         this.AMMD_DATE.Name = "AMMD_DATE";
          // 
-         // ammdDate
+         // repositoryItemTextEdit2
          // 
-         this.ammdDate.AutoSize = true;
-         this.ammdDate.Location = new System.Drawing.Point(16, 10);
-         this.ammdDate.Name = "ammdDate";
-         this.ammdDate.Size = new System.Drawing.Size(89, 20);
-         this.ammdDate.TabIndex = 48;
-         this.ammdDate.Text = "資料日期：";
-         this.ammdDate.Visible = false;
-         // 
-         // txtStartDate
-         // 
-         this.txtStartDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtStartDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtStartDate.EditValue = "2018/12";
-         this.txtStartDate.EnterMoveNextControl = true;
-         this.txtStartDate.Location = new System.Drawing.Point(105, 16);
-         this.txtStartDate.MenuManager = this.ribbonControl;
-         this.txtStartDate.Name = "txtStartDate";
-         this.txtStartDate.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtStartDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtStartDate.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtStartDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-         this.txtStartDate.Properties.Mask.ShowPlaceHolders = false;
-         this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtStartDate.Size = new System.Drawing.Size(100, 26);
-         this.txtStartDate.TabIndex = 93;
-         this.txtStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-         // 
-         // txtEndDate
-         // 
-         this.txtEndDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtEndDate.EditValue = "2018/12";
-         this.txtEndDate.EnterMoveNextControl = true;
-         this.txtEndDate.Location = new System.Drawing.Point(105, 51);
-         this.txtEndDate.MenuManager = this.ribbonControl;
-         this.txtEndDate.Name = "txtEndDate";
-         this.txtEndDate.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtEndDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtEndDate.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtEndDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-         this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
-         this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtEndDate.Size = new System.Drawing.Size(100, 26);
-         this.txtEndDate.TabIndex = 94;
-         this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-         // 
-         // txtStartTime
-         // 
-         this.txtStartTime.EditValue = "08:45";
-         this.txtStartTime.Location = new System.Drawing.Point(211, 16);
-         this.txtStartTime.MenuManager = this.ribbonControl;
-         this.txtStartTime.Name = "txtStartTime";
-         this.txtStartTime.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtStartTime.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtStartTime.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtStartTime.Properties.Mask.EditMask = "HH:mm";
-         this.txtStartTime.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-         this.txtStartTime.Properties.Mask.ShowPlaceHolders = false;
-         this.txtStartTime.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtStartTime.Size = new System.Drawing.Size(68, 26);
-         this.txtStartTime.TabIndex = 85;
-         // 
-         // txtEndTime
-         // 
-         this.txtEndTime.EditValue = "08:45";
-         this.txtEndTime.Location = new System.Drawing.Point(211, 51);
-         this.txtEndTime.MenuManager = this.ribbonControl;
-         this.txtEndTime.Name = "txtEndTime";
-         this.txtEndTime.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtEndTime.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtEndTime.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtEndTime.Properties.Mask.EditMask = "HH:mm";
-         this.txtEndTime.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-         this.txtEndTime.Properties.Mask.ShowPlaceHolders = false;
-         this.txtEndTime.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtEndTime.Size = new System.Drawing.Size(68, 26);
-         this.txtEndTime.TabIndex = 95;
+         this.repositoryItemTextEdit2.AutoHeight = false;
+         this.repositoryItemTextEdit2.EditFormat.FormatString = "d";
+         this.repositoryItemTextEdit2.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+         this.repositoryItemTextEdit2.Mask.EditMask = "yyyy/MM/dd  交易時間：txtStartTime.Text ~ txtEndTime.Text";
+         this.repositoryItemTextEdit2.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.repositoryItemTextEdit2.Name = "repositoryItemTextEdit2";
          // 
          // W50050
          // 
@@ -565,22 +567,22 @@
          ((System.ComponentModel.ISupportInitialize)(this.panFilter)).EndInit();
          this.panFilter.ResumeLayout(false);
          this.panFilter.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.txtEndTime.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.sle_1.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.ddlb_2.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.ddlb_1.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.dwProd.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.dwBrkno.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtStartTime.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelGrid)).EndInit();
          this.panelGrid.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
-         this.panelMsg.ResumeLayout(false);
-         this.panelMsg.PerformLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtStartTime.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtEndTime.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -604,9 +606,6 @@
       private DevExpress.XtraEditors.PanelControl panelGrid;
       private DevExpress.XtraEditors.TextEdit sle_1;
       private System.Windows.Forms.Label label1;
-      private System.Windows.Forms.Panel panelMsg;
-      private System.Windows.Forms.Label ammdDate;
-      private System.Windows.Forms.Label tradeTime;
       private DevExpress.XtraGrid.GridControl gcMain;
       private DevExpress.XtraGrid.Views.Grid.GridView gvMain;
       private DevExpress.XtraGrid.Columns.GridColumn AMMD_BRK_NO;
@@ -625,5 +624,8 @@
       private BaseGround.Widget.TextDateEdit txtStartDate;
       private DevExpress.XtraEditors.TextEdit txtEndTime;
       private DevExpress.XtraEditors.TextEdit txtStartTime;
+      private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit1;
+      private DevExpress.XtraGrid.Columns.GridColumn AMMD_DATE;
+      private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit2;
    }
 }

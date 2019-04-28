@@ -11,9 +11,14 @@ using DevExpress.XtraEditors.Controls;
 using System.Globalization;
 using BaseGround.Shared;
 using System.IO;
+using System.ComponentModel;
+using DevExpress.XtraGrid.Views.Grid;
+using DevExpress.Data;
+using DevExpress.XtraGrid;
+using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 
 /// <summary>
-/// Winni, 2019/04/24
+/// Winni, 2019/04/26
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix5 {
    /// <summary>
@@ -24,12 +29,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
       private D50050 dao50050;
 
       string brkNo, accNo, dbName, time1, time2, prodKindId, settleDate, pcCode, ls_p_seq_no;
-      decimal ld_avg_spread, ll_found_row, ll_rows;
-
-      DataTable defaultTable;
-
       int li_p_seq_no1, li_p_seq_no2;
-      //DateTime ldt_date;
+      DataTable defaultTable;
 
       public W50050(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
@@ -89,12 +90,14 @@ namespace PhoenixCI.FormUI.Prefix5 {
          //處理資料型態(轉換時間格式)
          DataTable dt = defaultTable.Clone(); //轉型別用的datatable
          dt.Columns["AMMD_W_TIME"].DataType = typeof(string); //將原DataType(datetime)轉為string
+         dt.Columns["AMMD_DATE"].DataType = typeof(string);
          foreach (DataRow row in defaultTable.Rows) {
             dt.ImportRow(row);
          }
 
          for (int i = 0 ; i < dt.Rows.Count ; i++) {
-            dt.Rows[i]["AMMD_W_TIME"] = Convert.ToDateTime(defaultTable.Rows[i]["AMMD_W_TIME"]).ToString("yyyy/MM/dd HH:mm:ss.fff");
+            dt.Rows[i]["AMMD_W_TIME"] = defaultTable.Rows[i]["AMMD_W_TIME"].AsDateTime().ToString("yyyy/MM/dd HH:mm:ss.fff");
+            dt.Rows[i]["AMMD_DATE"] = defaultTable.Rows[i]["AMMD_DATE"].AsDateTime().ToString("yyyy/MM/dd HH:mm:ss.fff");
          }
 
          //存CSV
@@ -103,27 +106,28 @@ namespace PhoenixCI.FormUI.Prefix5 {
          ExportOptions csvref = new ExportOptions();
          csvref.HasHeader = true;
          csvref.Encoding = System.Text.Encoding.GetEncoding(950);//ASCII
-         Common.Helper.ExportHelper.ToCsv(defaultTable , etfFileName , csvref);
+         Common.Helper.ExportHelper.ToCsv(dt , etfFileName , csvref);
 
          this.Cursor = Cursors.Arrow;
          return ResultStatus.Success;
       }
 
-      //protected override ResultStatus ExportAfter(string startTime) {
-      //   MessageDisplay.Info("轉檔完成!");
-
-      //   return ResultStatus.Success;
-      //}
-
       protected override ResultStatus Print(ReportHelper reportHelper) {
+         try {
+            ReportHelper _ReportHelper = new ReportHelper(gcMain , _ProgramID , this.Text);
+            CommonReportLandscapeA4 reportLandscape = new CommonReportLandscapeA4();//設定為橫向列印
+            reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
+            reportLandscape.IsHandlePersonVisible = false;
+            reportLandscape.IsManagerVisible = false;
 
-         CommonReportLandscapeA4 rep = new CommonReportLandscapeA4();
-         rep.printableComponentContainerMain.PrintableComponent = gcMain;
+            _ReportHelper.Print();
+            _ReportHelper.Export(FileType.PDF , _ReportHelper.FilePath);
 
-         reportHelper.Create(rep);
-         base.Print(reportHelper);
-
-         return ResultStatus.Success;
+            return ResultStatus.Success;
+         } catch (Exception ex) {
+            WriteLog(ex);
+         }
+         return ResultStatus.Fail;
       }
 
       protected override ResultStatus Retrieve() {
@@ -224,15 +228,32 @@ namespace PhoenixCI.FormUI.Prefix5 {
                return ResultStatus.Fail;
             }
 
-            DataRow drFirst = defaultTable.Rows[0];
-            ammdDate.Text = "日期：" + drFirst["ammd_date"].AsString().Substring(0 , 10); //列出第一筆[ammd_date]的日期
-            tradeTime.Text = "交易時間：" + txtStartTime.Text + "~" + txtEndTime.Text;
+            gvMain.Columns["AMMD_DATE"].Group();
 
-            ammdDate.Visible = true;
-            tradeTime.Visible = true;
+            //DataRow drFirst = defaultTable.Rows[0];
+            //ammdDate.Text = "日期：" + drFirst["ammd_date"].AsString().Substring(0 , 10); //列出第一筆[ammd_date]的日期
+            //tradeTime.Text = "交易時間：" + txtStartTime.Text + "~" + txtEndTime.Text;
 
-            gcMain.DataSource = defaultTable;
+            //ammdDate.Visible = true;
+            //tradeTime.Visible = true;
+
+            //處理資料型態(轉換時間格式)
+            DataTable dt = defaultTable.Clone(); //轉型別用的datatable
+            dt.Columns["AMMD_W_TIME"].DataType = typeof(string); //將原DataType(datetime)轉為string
+            dt.Columns["AMMD_DATE"].DataType = typeof(string);
+            foreach (DataRow row in defaultTable.Rows) {
+               dt.ImportRow(row);
+            }
+
+            for (int i = 0 ; i < dt.Rows.Count ; i++) {
+               dt.Rows[i]["AMMD_W_TIME"] = defaultTable.Rows[i]["AMMD_W_TIME"].AsDateTime().ToString("yyyy/MM/dd HH:mm:ss.fff");
+               dt.Rows[i]["AMMD_DATE"] = defaultTable.Rows[i]["AMMD_DATE"].AsDateTime().ToString("yyyy/MM/dd HH:mm:ss.fff");
+            }
+
             gcMain.Visible = true;
+            gcMain.DataSource = dt;
+            gvMain.BestFitColumns();
+            GridHelper.SetCommonGrid(gvMain);
             gcMain.Focus();
 
             return ResultStatus.Success;
@@ -248,7 +269,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
       //對價平上下檔數(AMMD_P_SEQ_NO)欄位做值轉換
       private void gvMain_CustomColumnDisplayText(object sender , DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventArgs e) {
          if (e.Column.FieldName == "AMMD_P_SEQ_NO") {
-            switch (Convert.ToInt16(e.Value)) {
+            switch (Convert.ToInt32(e.Value)) {
                case 0:
                   e.DisplayText = "價平";
                   break;
@@ -291,5 +312,15 @@ namespace PhoenixCI.FormUI.Prefix5 {
          }
       }
 
+      private void gvMain_ShowingEditor(object sender , CancelEventArgs e) {
+         GridView gv = sender as GridView;
+         e.Cancel = true;
+      }
+
+      private void gvMain_CustomDrawGroupRow(object sender , DevExpress.XtraGrid.Views.Base.RowObjectCustomDrawEventArgs e) {
+         GridGroupRowInfo row = e.Info as GridGroupRowInfo;
+         string summaryDate = DateTime.ParseExact(row.EditValue.AsString() , "yyyy/MM/dd HH:mm:ss.fff" , null).ToString("yyyy/MM/dd");
+         row.GroupText = string.Format("日期：{0}     交易時間：{1}" , summaryDate , txtStartTime.Text + "~" + txtEndTime.Text);       
+      }
    }
 }
