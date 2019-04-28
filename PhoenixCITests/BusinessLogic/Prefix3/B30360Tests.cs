@@ -20,9 +20,6 @@ namespace PhoenixCI.BusinessLogic.Prefix3.Tests
       [ClassInitialize]
       public static void MyClassInitialize(TestContext testContext)
       {
-         ConnectionInfo connectionInfo = SettingDragons.Instance.GetConnectionInfo(SettingDragons.Instance.Setting.Database.CiUserAp);
-         GlobalDaoSetting.Set(connectionInfo);
-
          reportDirectoryPath = Path.Combine(Environment.CurrentDirectory.Replace("PhoenixCITests", "PhoenixCI"), "Report", DateTime.Now.ToString("yyyyMMdd"));
          Directory.CreateDirectory(reportDirectoryPath);
 
@@ -41,43 +38,43 @@ namespace PhoenixCI.BusinessLogic.Prefix3.Tests
       [TestMethod()]
       public void Wf30361Test()
       {
-         bool isCorrect = b30360.Wf30361();
-         Assert.IsTrue(isCorrect);
+         string isCorrect = b30360.Wf30361();
+         Assert.IsNotNull(isCorrect);
       }
 
       [TestMethod()]
       public void Wf30362Test()
       {
-         bool isCorrect = b30360.Wf30362();
-         Assert.IsTrue(isCorrect);
+         string isCorrect = b30360.Wf30362();
+         Assert.IsNotNull(isCorrect);
       }
 
       [TestMethod()]
       public void Wf30363Test()
       {
-         bool isCorrect = b30360.Wf30363();
-         Assert.IsTrue(isCorrect);
+         string isCorrect = b30360.Wf30363();
+         Assert.IsNotNull(isCorrect);
       }
 
       [TestMethod()]
       public void Wf30366Test()
       {
-         bool isCorrect = b30360.Wf30366();
-         Assert.IsTrue(isCorrect);
+         string isCorrect = b30360.Wf30366();
+         Assert.IsNotNull(isCorrect);
       }
 
       [TestMethod()]
       public void Wf30367Test()
       {
-         bool isCorrect = b30360.Wf30367();
-         Assert.IsTrue(isCorrect);
+         string isCorrect = b30360.Wf30367();
+         Assert.IsNotNull(isCorrect);
       }
 
       [TestMethod()]
       public void Wf30368Test()
       {
-         bool isCorrect = b30360.Wf30368();
-         Assert.IsTrue(isCorrect);
+         string isCorrect = b30360.Wf30368();
+         Assert.IsNotNull(isCorrect);
       }
    }
 }

@@ -35,17 +35,19 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <returns></returns>
       public string WF30780one()
       {
+         Workbook workbook = new Workbook();
          try {
+            //切換Sheet
+            workbook.LoadDocument(_lsFile);
+            Worksheet worksheet = workbook.Worksheets["附表1"];
+
             //資料來源
             string lastYM = _emMonthText.AsDateTime("yyyy/MM").AddDays(-1).ToString("yyyyMM");
             DataTable dt = dao30780.List30780_1(_emMonthText.Replace("/",""), lastYM, _emEndDateText, _lsMarketCode);
             if (dt.Rows.Count <= 0) {
                return $"{_emMonthText},30780_1－附表1_期貨暨選擇權最近2個月市場成交量變動比較表,無任何資料!";
             }
-            //切換Sheet
-            Workbook workbook = new Workbook();
-            workbook.LoadDocument(_lsFile);
-            Worksheet worksheet = workbook.Worksheets["附表1"];
+            
             worksheet.Cells["C1"].Value = lastYM;
             worksheet.Cells["D1"].Value = _emMonthText.Replace("/", "");
             worksheet.Cells["E1"].Value = _emEndDateText.ToString("yyyy/MM/dd");
@@ -71,21 +73,23 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                   worksheet.Rows.Remove(rowIndex-1);
                }
             }
-            //存檔
             worksheet.ScrollTo(0, 0);//直接滾動到最上面，不然看起來很像少行數
             //worksheet.Columns.AutoFit(1,16);
             //worksheet.Rows.AutoFit(1, dt.Rows.Count);
-            workbook.SaveDocument(_lsFile);
-            return MessageDisplay.MSG_OK;
+            
          }
          catch (Exception ex) {
-            File.Delete(_lsFile);
 #if DEBUG
             throw new Exception("WF30780one:" + ex.Message);
 #else
             throw ex;
 #endif
          }
+         finally {
+            workbook.SaveDocument(_lsFile);//存檔
+         }
+
+         return MessageDisplay.MSG_OK;
       }
       /// <summary>
       /// wf_30780_2()
@@ -93,7 +97,12 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <returns></returns>
       public string WF30780two()
       {
+         Workbook workbook = new Workbook();
          try {
+            //切換Sheet
+            workbook.LoadDocument(_lsFile);
+            Worksheet worksheet = workbook.Worksheets["附表2"];
+
             DateTime emMth = _emMonthText.AsDateTime("yyyy/MM");
             //前6個月
             string Last6mYM = "";
@@ -108,10 +117,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             if (dt.Rows.Count <= 0) {
                return $"{_emMonthText},30780_2－附表2_期貨暨選擇權最近6個月市場成交量彙總表,無任何資料!";
             }
-            //切換Sheet
-            Workbook workbook = new Workbook();
-            workbook.LoadDocument(_lsFile);
-            Worksheet worksheet = workbook.Worksheets["附表2"];
+            
             worksheet.Cells["C1"].Value = Last6mYM.AsDateTime("yyyyMM").Month;
             worksheet.Cells["D1"].Value = emMth.Month;
             worksheet.Cells["F1"].Value = _lsMarketCode;
@@ -138,20 +144,23 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                   int rowIndex = dr["ROW_NUM"].AsInt();
                   worksheet.Rows.Remove(rowIndex - 1);
                }
-            }
-            //存檔
+            }//if (_lsMarketCode == "1")
+
             worksheet.ScrollTo(0, 0);//直接滾動到最上面，不然看起來很像少行數
-            workbook.SaveDocument(_lsFile);
-            return MessageDisplay.MSG_OK;
+            
          }
          catch (Exception ex) {
-            File.Delete(_lsFile);
 #if DEBUG
             throw new Exception("WF30780two:" + ex.Message);
 #else
             throw ex;
 #endif
          }
+         finally {
+            workbook.SaveDocument(_lsFile);//存檔
+         }
+
+         return MessageDisplay.MSG_OK;
       }
 
       /// <summary>
@@ -160,16 +169,18 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <returns></returns>
       public string WF30780four()
       {
+         Workbook workbook = new Workbook();
          try {
+            //切換Sheet
+            workbook.LoadDocument(_lsFile);
+            Worksheet worksheet = workbook.Worksheets["附表4_交易量前10名"];
+
             //讀取資料
             DataTable dt = dao30780.List30780_4(_emMonthText.Replace("/", ""), _lsMarketCode);
             if (dt.Rows.Count <= 0) {
                return $"{_emMonthText},30780_4－附表4_國內期貨市場主要期貨商月市占率概況表(依成交量排序),無任何資料!";
             }
-            //切換Sheet
-            Workbook workbook = new Workbook();
-            workbook.LoadDocument(_lsFile);
-            Worksheet worksheet = workbook.Worksheets["附表4_交易量前10名"];
+            
             worksheet.Cells["A1"].Value = _emMonthText.AsDateTime("yyyy/MM").Month;
             worksheet.Cells["F1"].Value = _lsMarketCode;
             int rowIndex = 3;
@@ -183,19 +194,22 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                worksheet.Cells[$"C{rowIndex}"].SetValue(dr["M_QNTY"]);
                worksheet.Cells[$"D{rowIndex}"].SetValue(dr["M_RATE"]);
             }
-            //存檔
+            
             worksheet.ScrollTo(0, 0);//直接滾動到最上面，不然看起來很像少行數
-            workbook.SaveDocument(_lsFile);
-            return MessageDisplay.MSG_OK;
+            
          }
          catch (Exception ex) {
-            File.Delete(_lsFile);
 #if DEBUG
             throw new Exception("WF30780four:" + ex.Message);
 #else
             throw ex;
 #endif
          }
+         finally {
+            workbook.SaveDocument(_lsFile);//存檔
+         }
+
+         return MessageDisplay.MSG_OK;
       }
 
       /// <summary>
@@ -204,7 +218,12 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <returns></returns>
       public string WF30780five()
       {
+         Workbook workbook = new Workbook();
          try {
+            //切換Sheet
+            workbook.LoadDocument(_lsFile);
+            Worksheet worksheet = workbook.Worksheets["附表5_成長衰退前3名"];
+
             DateTime emMthDate = _emMonthText.AsDateTime("yyyy/MM");
             string lastYM = emMthDate.AddDays(-1).ToString("yyyyMM");
             //讀取資料
@@ -212,10 +231,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             if (dt.Rows.Count <= 0) {
                return $"{_emMonthText},30780_5－附表5_國內期貨市場期貨商月成交量成長暨衰退概況表,無任何資料!";
             }
-            //切換Sheet
-            Workbook workbook = new Workbook();
-            workbook.LoadDocument(_lsFile);
-            Worksheet worksheet = workbook.Worksheets["附表5_成長衰退前3名"];
+            
             worksheet.Cells["A1"].Value = emMthDate.Month;
             worksheet.Cells["F1"].Value = _lsMarketCode;
 
@@ -224,10 +240,9 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             //衰退
             MarketTop3(dt, worksheet, 9,"asc");
 
-            //存檔
+            
             worksheet.ScrollTo(0, 0);//直接滾動到最上面，不然看起來很像少行數
-            workbook.SaveDocument(_lsFile);
-            return MessageDisplay.MSG_OK;
+            
          }
          catch (Exception ex) {
             File.Delete(_lsFile);
@@ -237,6 +252,10 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             throw ex;
 #endif
          }
+         finally {
+            workbook.SaveDocument(_lsFile);//存檔
+         }
+         return MessageDisplay.MSG_OK;
       }
       /// <summary>
       /// 成長/衰退 前三名

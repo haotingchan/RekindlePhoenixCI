@@ -8,12 +8,6 @@ namespace DataObjects.Dao.Together.SpecificDao.Tests
    [TestClass()]
    public class D4001xTests
    {
-      [ClassInitialize]
-      public static void MyClassInitialize(TestContext testContext)
-      {
-         ConnectionInfo connectionInfo = SettingDragons.Instance.GetConnectionInfo(SettingDragons.Instance.Setting.Database.CiUserAp);
-         GlobalDaoSetting.Set(connectionInfo);
-      }
 
       [TestMethod()]
       public void ConcreteDaoTest()

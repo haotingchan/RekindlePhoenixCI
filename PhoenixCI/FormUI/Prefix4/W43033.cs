@@ -7,6 +7,7 @@ using Common;
 using BaseGround.Shared;
 using System.Threading;
 using PhoenixCI.BusinessLogic.Prefix4;
+using System.IO;
 /// <summary>
 /// john,20190325,股票類(ETF)期貨價格及現貨資料下載
 /// </summary>
@@ -99,6 +100,7 @@ namespace PhoenixCI.FormUI.Prefix4
 
       protected void ShowMsg(string msg)
       {
+         stMsgTxt.Visible = true;
          stMsgTxt.Text = msg;
          this.Refresh();
          Thread.Sleep(5);
@@ -116,13 +118,14 @@ namespace PhoenixCI.FormUI.Prefix4
          if (!StartExport()) {
             return ResultStatus.Fail;
          }
+         string msg;
+         string saveFilePath = PbFunc.wf_copy_file(_ProgramID, "43033");
          try {
-            //資料來源
-            string saveFilePath = PbFunc.wf_copy_file(_ProgramID, "43033");
-            b43033 = new B43033(saveFilePath,emStartDate.Text,emEndDate.Text);
+            b43033 = new B43033(saveFilePath, emStartDate.Text, emEndDate.Text);
             ShowMsg("43033－股票類(ETF)期貨價格及現貨資料 轉檔中...");
-            OutputShowMessage = b43033.Wf43033();
-            
+            msg = b43033.Wf43033();
+            OutputShowMessage = msg;
+
          }
          catch (Exception ex) {
             WriteLog(ex);
@@ -130,6 +133,11 @@ namespace PhoenixCI.FormUI.Prefix4
          }
          finally {
             EndExport();
+         }
+
+         if (msg != MessageDisplay.MSG_OK) {
+            ShowMsg("轉檔有錯誤!");
+            File.Delete(saveFilePath);
          }
 
          return ResultStatus.Success;

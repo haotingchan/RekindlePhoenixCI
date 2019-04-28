@@ -6,6 +6,7 @@ using DevExpress.Spreadsheet;
 using DevExpress.Spreadsheet.Charts;
 using System;
 using System.Data;
+using System.IO;
 using System.Linq;
 /// <summary>
 /// 20190318,john,國內股票選擇權交易概況表
@@ -17,8 +18,8 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    /// </summary>
    public class B30560
    {
-      private string lsFile;
-      private string emMonthText;
+      private readonly string _lsFile;
+      private string _emMonthText;
 
       /// <summary>
       /// 
@@ -27,8 +28,8 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="datetime">em_month.Text</param>
       public B30560(string FilePath, string datetime)
       {
-         lsFile = FilePath;
-         emMonthText = datetime;
+         _lsFile = FilePath;
+         _emMonthText = datetime;
       }
 
       private static int IDFGtype(DataRow row)
@@ -75,13 +76,10 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <returns></returns>
       public string Wf30561(int RowIndex = 6, string RptName = "國內股票選擇權及黃金選擇權交易概況表")
       {
-         string flowStepDesc = "開始轉出資料";
+         Workbook workbook = new Workbook();
          try {
-
             //切換Sheet
-            flowStepDesc = "切換Sheet";
-            Workbook workbook = new Workbook();
-            workbook.LoadDocument(lsFile);
+            workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets[0];
             worksheet.Range["A1"].Select();
 
@@ -98,20 +96,17 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                2.當年1月至當月合計
                3.當年1月至當月明細
             ******************/
-            flowStepDesc = "讀取資料";
-            DataTable dt = new D30560().List30561(firstYear, PbFunc.Left(emMonthText, 4), $"{PbFunc.Left(emMonthText, 4)}01", emMonthText.Replace("/", ""));
+            DataTable dt = new D30560().List30561(firstYear, PbFunc.Left(_emMonthText, 4), $"{PbFunc.Left(_emMonthText, 4)}01", _emMonthText.Replace("/", ""));
             if (dt.Rows.Count <= 0) {
-               return $"{firstYear}~{PbFunc.Left(emMonthText, 4)},{PbFunc.Left(emMonthText, 4)}01～{emMonthText.Replace("/", "")},30561－{RptName},無任何資料!";
+               return $"{firstYear}~{PbFunc.Left(_emMonthText, 4)},{PbFunc.Left(_emMonthText, 4)}01～{_emMonthText.Replace("/", "")},30561－{RptName},無任何資料!";
             }
             /* 成交量 & OI */
-            flowStepDesc = "讀取成交量資料";
-            DataTable dtAI2 = new D30560().List30561AI2(firstYear, PbFunc.Left(emMonthText, 4), $"{PbFunc.Left(emMonthText, 4)}01", emMonthText.Replace("/", ""));
+            DataTable dtAI2 = new D30560().List30561AI2(firstYear, PbFunc.Left(_emMonthText, 4), $"{PbFunc.Left(_emMonthText, 4)}01", _emMonthText.Replace("/", ""));
             if (dtAI2.Rows.Count <= 0) {
-               return $"{firstYear}~{PbFunc.Left(emMonthText, 4)},{PbFunc.Left(emMonthText, 4)}01～{emMonthText.Replace("/", "")},30561－{RptName},無任何資料!";
+               return $"{firstYear}~{PbFunc.Left(_emMonthText, 4)},{PbFunc.Left(_emMonthText, 4)}01～{_emMonthText.Replace("/", "")},30561－{RptName},無任何資料!";
             }
 
             //寫入內容
-            flowStepDesc = "寫入內容";
             string lsYMD = "";
             int rowCurr = 0;
             string endYMD = dt.AsEnumerable().LastOrDefault()["AM2_YMD"].AsString();
@@ -144,21 +139,24 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             }//foreach (DataRow row in dt.Rows)
 
             //刪除空白列
-            flowStepDesc = "刪除空白列";
             if (rowTotal > RowIndex) {
                worksheet.Range[$"{RowIndex + 1}:{rowTotal + 1 - 1}"].Delete(DeleteMode.EntireRow);
                worksheet.ScrollTo(0, 0);//直接滾動到最上面，不然看起來很像少行數
             }
-            workbook.SaveDocument(lsFile);
-            return MessageDisplay.MSG_OK;
+            
          }
          catch (Exception ex) {
 #if DEBUG
-            throw new Exception($"wf30561-{flowStepDesc}:" + ex.Message);
+            throw new Exception($"wf30561:" + ex.Message);
 #else
             throw ex;
 #endif
          }
+         finally {
+            workbook.SaveDocument(_lsFile);
+         }
+
+         return MessageDisplay.MSG_OK;
       }
 
    }

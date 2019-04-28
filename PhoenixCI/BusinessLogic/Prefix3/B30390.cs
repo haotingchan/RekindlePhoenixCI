@@ -21,9 +21,8 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    /// </summary>
    public class B30390
    {
-      private AI3 daoAI3;
-      private string lsFile;
-      private string emMonthText;
+      private readonly string _lsFile;
+      private readonly string _emMonthText;
 
       /// <summary>
       /// 
@@ -32,9 +31,8 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="DatetimeVal">em_month.Text</param>
       public B30390(string FilePath,string DatetimeVal)
       {
-         lsFile = FilePath;
-         emMonthText = DatetimeVal;
-         daoAI3 = new AI3();
+         _lsFile = FilePath;
+         _emMonthText = DatetimeVal;
       }
       /// <summary>
       /// wf_30391()
@@ -45,33 +43,25 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="SheetName">工作表</param>
       /// <param name="RptName">作業名稱</param>
       /// <returns></returns>
-      public bool Wf30391(int RowIndex = 1, int RowTotal = 32, string IsKindID = "T5F", string SheetName = "30391", string RptName = "「台灣五十」期貨契約價量資料")
+      public string Wf30391(int RowIndex = 1, int RowTotal = 32, string IsKindID = "T5F", string SheetName = "30391", string RptName = "「台灣五十」期貨契約價量資料")
       {
-         /*************************************
-            ls_rpt_name = 報表名稱
-            ls_rpt_id = 報表代號
-            rowIndex = Excel的Row位置
-            li_ole_col = Excel的Column位置
-            RowTotal = Excel的Column預留數
-            ldtYMD = 日期
-         *************************************/
+         Workbook workbook = new Workbook();
          try {
             //前月倒數2天交易日
-            DateTime StartDate = PbFunc.f_get_last_day("AI3", IsKindID, emMonthText, 2);
+            DateTime StartDate = PbFunc.f_get_last_day("AI3", IsKindID, _emMonthText, 2);
             //抓當月最後交易日
-            DateTime EndDate = PbFunc.f_get_end_day("AI3", IsKindID, emMonthText);
-            //讀取資料
-            DataTable dt = daoAI3.ListAI3(IsKindID, StartDate, EndDate);
-            if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info($"{StartDate.ToShortDateString()}～{EndDate.ToShortDateString()},30391－{RptName},{IsKindID}無任何資料!");
-               return true;
-            }
+            DateTime EndDate = PbFunc.f_get_end_day("AI3", IsKindID, _emMonthText);
+
             //切換Sheet
-            Workbook workbook = new Workbook();
-            workbook.LoadDocument(lsFile);
+            workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets[SheetName];
+
+            //讀取資料
+            DataTable dt = new AI3().ListAI3(IsKindID, StartDate, EndDate);
+            if (dt.Rows.Count <= 0) {
+               return $"{StartDate.ToShortDateString()}～{EndDate.ToShortDateString()},30391－{RptName},{IsKindID}無任何資料!";
+            }
             DateTime ldtYMD = new DateTime(1900, 1, 1);
-            worksheet.Range["A1"].Select();
 
             RowTotal = 32 + 1;//Excel的Column預留數 預留顯示32行加上隱藏的1行
             int addRowCount = 0;//總計寫入的行數
@@ -91,14 +81,16 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             if (RowTotal > addRowCount) {
                worksheet.Rows.Remove(RowIndex + 1, RowTotal - addRowCount);
             }
-
-            workbook.SaveDocument(lsFile);
+            
          }
          catch (Exception ex) {
-            MessageDisplay.Error(ex.Message, "30391");
-            return false;
+            throw ex;
          }
-         return true;
+         finally {
+            workbook.SaveDocument(_lsFile);
+         }
+         return MessageDisplay.MSG_OK;
+
       }
 
    }

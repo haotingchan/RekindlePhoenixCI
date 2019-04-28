@@ -21,11 +21,11 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    /// </summary>
    public class B30790
    {
-      private string lsFile;
-      private string startDateText;
-      private string endDateText;
-      private string txStartDateText;
-      private string txEndDateText;
+      private readonly string _lsFile;
+      private string _startDateText;
+      private string _endDateText;
+      private string _txStartDateText;
+      private string _txEndDateText;
       D30790 dao30790;
 
       /// <summary>
@@ -34,11 +34,11 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="FilePath">Excel_Template</param>
       public B30790(string FilePath, string StartDate, string EndDate, string TxStartDate, string TxEndDate)
       {
-         lsFile = FilePath;
-         startDateText = StartDate;
-         endDateText = EndDate;
-         txStartDateText = TxStartDate;
-         txEndDateText = TxEndDate;
+         _lsFile = FilePath;
+         _startDateText = StartDate;
+         _endDateText = EndDate;
+         _txStartDateText = TxStartDate;
+         _txEndDateText = TxEndDate;
          dao30790 = new D30790();
       }
       /// <summary>
@@ -47,21 +47,23 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <returns></returns>
       public string Wf30790()
       {
+         Workbook workbook = new Workbook();
          try {
-            DateTime startDate = startDateText.AsDateTime("yyyy/MM/dd");
-            DateTime endDate = endDateText.AsDateTime("yyyy/MM/dd");
+            DateTime startDate = _startDateText.AsDateTime("yyyy/MM/dd");
+            DateTime endDate = _endDateText.AsDateTime("yyyy/MM/dd");
+
+            //切換Sheet
+            workbook.LoadDocument(_lsFile);
+            Worksheet worksheet = workbook.Worksheets[0];
+
             //讀取資料
             DataTable dt = dao30790.Get30790Data(startDate, endDate);
             if (dt.Rows.Count <= 0) {
-               return $"{startDateText},{endDateText},30790－盤後交易時段分時交易量分布,無任何資料!";
+               return $"{_startDateText},{_endDateText},30790－盤後交易時段分時交易量分布,無任何資料!";
             }
-            //切換Sheet
-            Workbook workbook = new Workbook();
-            workbook.LoadDocument(lsFile);
-            Worksheet worksheet = workbook.Worksheets[0];
 
             worksheet.Range["A1"].Select();
-            worksheet.Cells["C2"].Value = $"{startDateText}-{endDateText}";
+            worksheet.Cells["C2"].Value = $"{_startDateText}-{_endDateText}";
             int rowsCount = 0;
             int rowIndex = 4 - 1;
             for (int j = 0; j < dt.Rows.Count; j++) {
@@ -114,7 +116,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                   workbook.Worksheets[k].ScrollTo(0, 0);//直接滾動到最上面，不然看起來很像少行數
                }
             }
-            workbook.SaveDocument(lsFile);
+            
          }
          catch (Exception ex)
          {
@@ -124,6 +126,10 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             throw ex;
 #endif
          }
+         finally {
+            workbook.SaveDocument(_lsFile);
+         }
+
          return MessageDisplay.MSG_OK;
       }
       /// <summary>
@@ -132,24 +138,23 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <returns></returns>
       public string Wf30790four()
       {
+         Workbook workbook = new Workbook();
          try {
-            DateTime startDate = txStartDateText.AsDateTime("yyyy/MM/dd");
-            DateTime endDate = txEndDateText.AsDateTime("yyyy/MM/dd");
+            DateTime startDate = _txStartDateText.AsDateTime("yyyy/MM/dd");
+            DateTime endDate = _txEndDateText.AsDateTime("yyyy/MM/dd");
+            //切換Sheet
+            workbook.LoadDocument(_lsFile);
+            Worksheet worksheet = workbook.Worksheets[3];
+
             //讀取資料
             DataTable dt = dao30790.Get30790_4Data(startDate, endDate);
             if (dt.Rows.Count <= 0) {
-               return $"{startDateText},{endDateText},30790_4－TX每日日盤及夜盤之振幅及收盤價,無任何資料!";
+               return $"{_startDateText},{_endDateText},30790_4－TX每日日盤及夜盤之振幅及收盤價,無任何資料!";
             }
-            //切換Sheet
-            Workbook workbook = new Workbook();
-            workbook.LoadDocument(lsFile);
-            Worksheet worksheet = workbook.Worksheets[3];
-            worksheet.Cells["B2"].Value = $"{txStartDateText}-{txEndDateText}";
+            worksheet.Cells["B2"].Value = $"{_txStartDateText}-{_txEndDateText}";
             //從第四行(0~3)開始寫入
             worksheet.Import(dt, false, 3, 0);
             worksheet.ScrollTo(0, 0);//直接滾動到最上面，不然看起來很像少行數
-            //存檔
-            workbook.SaveDocument(lsFile);
          }
          catch (Exception ex) {
 #if DEBUG
@@ -158,6 +163,11 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             throw ex;
 #endif
          }
+         finally {
+            //存檔
+            workbook.SaveDocument(_lsFile);
+         }
+
          return MessageDisplay.MSG_OK;
       }
    }

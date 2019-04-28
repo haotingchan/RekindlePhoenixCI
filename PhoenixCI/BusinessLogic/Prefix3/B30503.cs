@@ -1,5 +1,4 @@
-﻿using BaseGround.Shared;
-using Common;
+﻿using Common;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
@@ -134,11 +133,16 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <returns></returns>
       public string WF30503()
       {
+         Workbook workbook = new Workbook();
          try {
             string lsRptName = "股票期貨最近月份契約買賣價差月資料統計表";
             string lsRptId = "30503";
             DateTime startDate = _startYmDateText.AsDateTime();
             DateTime endDate = _endYmDateText.AsDateTime();
+
+            //切換Sheet
+            workbook.LoadDocument(_lsFile);
+            Worksheet worksheet = workbook.Worksheets[lsRptId];
 
             //讀取資料
             DataTable AI2dt = dao30503.ListYMD(startDate.ToString("yyyyMM"), endDate.ToString("yyyyMM"), "M", "F"); ;
@@ -150,10 +154,6 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                return $"{startDate.ToShortDateString()}~{endDate.ToShortDateString()},{lsRptId}－{lsRptName}無任何資料!";
             }
 
-            //切換Sheet
-            Workbook workbook = new Workbook();
-            workbook.LoadDocument(_lsFile);
-            Worksheet worksheet = workbook.Worksheets[lsRptId];
             //表頭
             for (int k=0;k<AI2dt.Rows.Count;k++) {
                DataRow dr = AI2dt.Rows[k];
@@ -180,19 +180,22 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                }
             }//foreach (DataRow dr in dt.Rows)
 
-            //存檔
+            
             worksheet.ScrollTo(0, 0);//直接滾動到最上面，不然看起來很像少行數
-            workbook.SaveDocument(_lsFile);
-            return MessageDisplay.MSG_OK;
+            
          }
          catch (Exception ex) {
-            File.Delete(_lsFile);
 #if DEBUG
             throw new Exception("WF30503:" + ex.Message);
 #else
             throw ex;
 #endif
          }
+         finally {
+            workbook.SaveDocument(_lsFile);//存檔
+         }
+
+         return MessageDisplay.MSG_OK;
       }
 
       /// <summary>
@@ -201,14 +204,12 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <returns></returns>
       public string WF30504()
       {
-         string flowStepDesc = "開始轉出資料";
          try {
             string lsRptName = "股票期貨最近月份契約買賣價差日資料";
             string lsRptId = "30504";
             DateTime startDate = _startYmDateText.AsDateTime();
             DateTime endDate = _endYmDateText.AsDateTime();
             //讀取資料
-            flowStepDesc = "讀取資料";
             DataTable AI2dt = dao30503.ListYMD(startDate.ToString("yyyyMM01"), endDate.ToString("yyyyMM31"),"D","F"); ;
             if (AI2dt.Rows.Count <= 0) {
                return $"{DateTime.Now.ToShortDateString()},{lsRptName}－年月,無任何資料!";
@@ -218,15 +219,13 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                return $"{startDate.ToShortDateString()}~{endDate.ToShortDateString()},{lsRptId}－{lsRptName}無任何資料!";
             }
             //內容
-            flowStepDesc = "寫入內容";
             DataTable diffTable = DtContextData(AI2dt, dt, "DIFF");
             //轉出Csv
-            flowStepDesc = "轉出Csv";
             SaveExcel(diffTable);
          }
          catch (Exception ex) {
 #if DEBUG
-            throw new Exception($"wf_30504-{flowStepDesc}:" + ex.Message);
+            throw new Exception($"wf_30504:" + ex.Message);
 #else
             throw ex;
 #endif

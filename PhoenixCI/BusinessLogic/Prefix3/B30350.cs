@@ -22,8 +22,8 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    public class B30350
    {
       private D30350 dao30350;
-      private string lsFile;
-      private string emMonthText;
+      private readonly string _lsFile;
+      private readonly string _emMonthText;
 
       /// <summary>
       /// 
@@ -32,8 +32,8 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="DatetimeVal">em_month.Text</param>
       public B30350(string FilePath,string DatetimeVal)
       {
-         lsFile = FilePath;
-         emMonthText = DatetimeVal;
+         _lsFile = FilePath;
+         _emMonthText = DatetimeVal;
          dao30350 = new D30350();
       }
       /// <summary>
@@ -47,7 +47,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
          try {
             //切換Sheet
             Workbook workbook = new Workbook();
-            workbook.LoadDocument(lsFile);
+            workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets[SheetName];
             string lsYMD = "";
             worksheet.Range["A1"].Select();
@@ -74,7 +74,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             if (RowTotal > addRowCount) {
                worksheet.Rows.Remove(RowIndex + 1, RowTotal - addRowCount);
             }
-            workbook.SaveDocument(lsFile);
+            workbook.SaveDocument(_lsFile);
          }
          catch (Exception ex) {
             MessageDisplay.Error(ex.Message, $"B30350-WriteSheet");
@@ -93,7 +93,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
          switch (condition) {
             case Condition30350.sheet30350four:
                //與輸入月份相同則空一列
-               if (StartDate.ToString("yyyy/MM") == emMonthText) {
+               if (StartDate.ToString("yyyy/MM") == _emMonthText) {
                   RowIndex = RowIndex + 1;
                }
                //沒有前月份,則空一列
@@ -133,35 +133,28 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="LastMonth">判斷沒有前月份,則空一列</param>
       /// <param name="SameYYYYMM">判斷與輸入月份相同則空一列</param>
       /// <returns></returns>
-      public bool DataFrom30351(int RowIndex, int RowTotal ,string IsKindID, string SheetName, string RptName, Condition30350 condition= Condition30350.NoCondition)
+      public string DataFrom30351(int RowIndex, int RowTotal ,string IsKindID, string SheetName, string RptName, Condition30350 condition= Condition30350.NoCondition)
       {
-         /*************************************
-         rowIndex = Excel的Row位置
-         columnIndex = Excel的Column位置
-         RowTotal = Excel的Column預留數
-         lsYMD = 日期
-         *************************************/
          try {
             //前月倒數1天交易日
-            DateTime StartDate = PbFunc.f_get_last_day("AI2", "TXO", emMonthText, 1);
+            DateTime StartDate = PbFunc.f_get_last_day("AI2", "TXO", _emMonthText, 1);
             //抓當月最後交易日
-            DateTime EndDate = PbFunc.f_get_end_day("AI2", "TXO", emMonthText);
+            DateTime EndDate = PbFunc.f_get_end_day("AI2", "TXO", _emMonthText);
             //讀取資料
             DataTable dt = dao30350.Get30351Data(IsKindID, StartDate.ToString("yyyyMMdd"), EndDate.ToString("yyyyMMdd"));
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info($"{StartDate.ToShortDateString()}～{EndDate.ToShortDateString()},{SheetName}－{RptName},{IsKindID}無任何資料!");
-               return true;
+               return $"{StartDate.ToShortDateString()}～{EndDate.ToShortDateString()},{SheetName}－{RptName},{IsKindID}無任何資料!";
             }
             //行數寫入起始條件
             RowIndex = ConditionRowIndex(RowIndex, StartDate, dt, condition);
             //儲存寫入sheet
             WriteSheet(SheetName, dt, RowIndex, RowTotal);
-            return true;
          }
          catch (Exception ex) {
-            MessageDisplay.Error(ex.Message, $"DataFrom30351-{SheetName}");
-            return false;
+            throw ex;
          }
+
+         return MessageDisplay.MSG_OK;
       }
       /// <summary>
       /// 寫入 30358 datawindow 資料源
@@ -172,35 +165,28 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="SheetName">工作表</param>
       /// <param name="RptName">執行作業名稱</param>
       /// <returns></returns>
-      public bool DataFrom30358(int RowIndex, int RowTotal, string IsKindID, string SheetName, string RptName,Condition30350 Condition= Condition30350.NoCondition)
+      public string DataFrom30358(int RowIndex, int RowTotal, string IsKindID, string SheetName, string RptName,Condition30350 Condition= Condition30350.NoCondition)
       {
-         /*************************************
-         rowIndex = Excel的Row位置
-         columnIndex = Excel的Column位置
-         RowTotal = Excel的Column預留數
-         lsYMD = 日期
-         *************************************/
          try {
             //前月倒數1天交易日
-            DateTime StartDate = PbFunc.f_get_last_day("AI2", "TXO", emMonthText, 1);
+            DateTime StartDate = PbFunc.f_get_last_day("AI2", "TXO", _emMonthText, 1);
             //抓當月最後交易日
-            DateTime EndDate = PbFunc.f_get_end_day("AI2", "TXO", emMonthText);
+            DateTime EndDate = PbFunc.f_get_end_day("AI2", "TXO", _emMonthText);
             //讀取資料
             DataTable dt = dao30350.Get30358Data(IsKindID, StartDate.ToString("yyyyMMdd"), EndDate.ToString("yyyyMMdd"));
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info($"{StartDate.ToShortDateString()}～{EndDate.ToShortDateString()},{SheetName}－{RptName},{IsKindID}無任何資料!");
-               return true;
+               return $"{StartDate.ToShortDateString()}～{EndDate.ToShortDateString()},{SheetName}－{RptName},{IsKindID}無任何資料!";
             }
             //行數寫入起始條件
             RowIndex = ConditionRowIndex(RowIndex, StartDate, dt, Condition);
             //儲存寫入sheet
             WriteSheet(SheetName, dt, RowIndex, RowTotal);
-            return true;
          }
          catch (Exception ex) {
-            MessageDisplay.Error(ex.Message, $"DataFrom30358-{SheetName}");
-            return false;
+            throw ex;
          }
+         return MessageDisplay.MSG_OK;
+
       }
       /// <summary>
       /// 行數寫入起始條件

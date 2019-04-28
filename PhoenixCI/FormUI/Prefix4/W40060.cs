@@ -88,9 +88,17 @@ namespace PhoenixCI.FormUI.Prefix4
 
       protected void ShowMsg(string msg)
       {
+         stMsgTxt.Visible = true;
          stMsgTxt.Text = msg;
          this.Refresh();
          Thread.Sleep(5);
+      }
+
+      private string OutputShowMessage {
+         set {
+            if (value != MessageDisplay.MSG_OK)
+               MessageDisplay.Info(value);
+         }
       }
 
       protected override ResultStatus Export()
@@ -98,7 +106,7 @@ namespace PhoenixCI.FormUI.Prefix4
          if (!StartExport()) {
             return ResultStatus.Fail;
          }
-         string saveFilePath = PbFunc.wf_copy_file(_ProgramID, "40060");
+         string saveFilePath = string.Empty;
          try {
             //資料來源
             DataTable dt = new D40060().GetData(emDate.Text.AsDateTime(), emYear.Text, $"{oswGrpLookItem.EditValue.AsString()}%");
@@ -106,19 +114,18 @@ namespace PhoenixCI.FormUI.Prefix4
                MessageDisplay.Info(emDate.Text + ",讀取「Span歷次調整紀錄」無任何資料!");
                return ResultStatus.Success;
             }
+            saveFilePath = PbFunc.wf_copy_file(_ProgramID, "40060");
             b40060 = new B40060(saveFilePath, dt, emCount.Text.AsInt());
-            bool isChk = false;//判斷是否執行成功
 
             /* Sheet:VSR */
             ShowMsg("40061－VSR 轉檔中...");
-            isChk = b40060.Wf40061();
+            OutputShowMessage = b40060.Wf40061();
             /* Sheet:Spread Credit */
             ShowMsg("40062－Spread Credit 轉檔中...");
-            isChk = b40060.Wf40062();
+            OutputShowMessage = b40060.Wf40062();
             /* Sheet:Delta Per Spread Ratio */
             ShowMsg("40063－Delta Per Spread Ratio 轉檔中...");
-            isChk = b40060.Wf40063();
-            if (!isChk) return ResultStatus.Fail;//Exception
+            OutputShowMessage = b40060.Wf40063();
          }
          catch (Exception ex) {
             File.Delete(saveFilePath);

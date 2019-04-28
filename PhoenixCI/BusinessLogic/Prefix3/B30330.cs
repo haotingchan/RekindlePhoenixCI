@@ -1,17 +1,11 @@
 ﻿using BaseGround.Shared;
 using Common;
 using DataObjects.Dao.Together;
-using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using DevExpress.Spreadsheet.Charts;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 /// <summary>
 /// 20190221,john,十年期公債期貨契約價量資料
 /// </summary>
@@ -23,19 +17,19 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    public class B30330
    {
       private AI3 daoAI3;
-      private string lsFile;
-      private string emMonthText;
+      private readonly string _lsFile;
+      private string _emMonthText;
 
       /// <summary>
       /// 
       /// </summary>
       /// <param name="FilePath">Excel_Template</param>
       /// <param name="datetime">em_month.Text</param>
-      public B30330(string FilePath,string datetime)
+      public B30330(string FilePath, string datetime)
       {
          daoAI3 = new AI3();
-         lsFile = FilePath;
-         emMonthText = datetime;
+         _lsFile = FilePath;
+         _emMonthText = datetime;
       }
       /// <summary>
       /// 重新選取圖表資料範圍
@@ -57,26 +51,18 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// 寫入 30331 sheet
       /// </summary>
       /// <returns></returns>
-      public bool Wf30331()
+      public string Wf30331()
       {
-         /*************************************
-         ls_rpt_name = 報表名稱
-         ls_rpt_id = 報表代號
-         rowIndex = Excel的Row位置
-         columnIndex = Excel的Column位置
-         RowTotal = Excel的Column預留數
-         lsYMD = 日期
-         *************************************/
+         Workbook workbook = new Workbook();
          try {
             string lsKindID = "GBF";
             //前月倒數2天交易日
-            DateTime StartDate = PbFunc.f_get_last_day("AI3", lsKindID, emMonthText, 2);
+            DateTime StartDate = PbFunc.f_get_last_day("AI3", lsKindID, _emMonthText, 2);
             //抓當月最後交易日
-            DateTime EndDate = PbFunc.f_get_end_day("AI3", lsKindID, emMonthText);
-            
+            DateTime EndDate = PbFunc.f_get_end_day("AI3", lsKindID, _emMonthText);
+
             //切換Sheet
-            Workbook workbook = new Workbook();
-            workbook.LoadDocument(lsFile);
+            workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets[0];
             DateTime ldtYMD = new DateTime(1900, 1, 1);
             worksheet.Range["A1"].Select();
@@ -107,50 +93,42 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                //重新選取圖表範圍
                ResetChartData(rowIndex + 1, workbook, worksheet, "30332");
             }
-            workbook.SaveDocument(lsFile);
-            return true;
          }
          catch (Exception ex) {
-            MessageDisplay.Error(ex.Message, "wf_30331");
-            return false;
+            throw ex;
          }
+         finally {
+            workbook.SaveDocument(_lsFile);
+         }
+
+         return MessageDisplay.MSG_OK;
       }
+
       /// <summary>
       /// 寫入 Data_30333.30334 sheet
       /// </summary>
       /// <returns></returns>
-      public bool Wf30333()
+      public string Wf30333()
       {
-         /*************************************
-         ls_rpt_name = 報表名稱 
-         ls_rpt_id = 報表代號
-         rowIndex = Excel的Row位置
-         columnIndex = Excel的Column位置
-         RowTotal = Excel的Column預留數
-         ii_ole_y_row_tol = Excel年部份的Column預留數
-         li_month_cnt = Excel的月份個數
-         lsYMD = 日期
-         ls_end_ymd = 最後一筆日期
-         *************************************/
+         Workbook workbook = new Workbook();
          try {
             string SheetName = "Data_30333.30334";
             string lsKindID = "GBF";
-            
+
             //切換Sheet
-            Workbook workbook = new Workbook();
-            workbook.LoadDocument(lsFile);
+            workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets[SheetName];
             DateTime ldtYMD = new DateTime(1900, 1, 1);
-            worksheet.Range["A1"].Select();
+
             //總列數
             int rowIndex = 3; //int li_month_cnt=0;
-            int RowTotal =12;//Excel的Column預留空白行數12
+            int RowTotal = 12;//Excel的Column預留空白行數12
             int sumRowIndex = RowTotal + rowIndex + 1;//小計行數
             int addRowCount = 0;//總計寫入的行數
-            worksheet.Rows[sumRowIndex][1 - 1].Value = $"{PbFunc.Left(emMonthText, 4).AsInt() - 1911}小計";
+            worksheet.Rows[sumRowIndex][1 - 1].Value = $"{PbFunc.Left(_emMonthText, 4).AsInt() - 1911}小計";
             string lsYMD = "";
             //讀取資料
-            DataTable dt = new AM2().ListAM2(lsKindID, $"{PbFunc.Left(emMonthText, 4)}01", emMonthText.Replace("/", ""));
+            DataTable dt = new AM2().ListAM2(lsKindID, $"{PbFunc.Left(_emMonthText, 4)}01", _emMonthText.Replace("/", ""));
             if (dt.Rows.Count <= 0) {
                //MessageDisplay.Info($"{PbFunc.Left(emMonthText, 4)}01～{emMonthText.Replace("/", "")},30330－十年期公債期貨契約價量資料,{lsKindID}無任何資料!");
                //return true;
@@ -163,10 +141,10 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                   addRowCount++;
                   worksheet.Rows[rowIndex][1 - 1].Value = $"{PbFunc.Left(lsYMD, 4).AsInt() - 1911}/{PbFunc.Right(lsYMD, 2)}";
                }
-               int columnIndex=0;
+               int columnIndex = 0;
                switch (row["AM2_IDFG_TYPE"].AsString()) {
                   case "1":
-                     columnIndex = (row["AM2_BS_CODE"].AsString()=="B"?2:3)-1;
+                     columnIndex = (row["AM2_BS_CODE"].AsString() == "B" ? 2 : 3) - 1;
                      break;
                   case "2":
                      columnIndex = (row["AM2_BS_CODE"].AsString() == "B" ? 4 : 5) - 1;
@@ -194,13 +172,16 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             if (RowTotal > addRowCount) {
                worksheet.Rows.Remove(rowIndex + 1, RowTotal - addRowCount);
             }
-            workbook.SaveDocument(lsFile);
-            return true;
+
          }
          catch (Exception ex) {
-            MessageDisplay.Error(ex.Message, "wf_30333");
-            return false;
+            throw ex;
          }
+         finally {
+            workbook.SaveDocument(_lsFile);
+         }
+
+         return MessageDisplay.MSG_OK;
       }
    }
 }

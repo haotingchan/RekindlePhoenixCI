@@ -7,6 +7,7 @@ using Common;
 using BaseGround.Shared;
 using System.Threading;
 using PhoenixCI.BusinessLogic.Prefix3;
+using System.IO;
 /// <summary>
 /// 20190402,john,最佳1檔加權平均委託買賣數量統計表(月)  
 /// </summary>
@@ -54,13 +55,6 @@ namespace PhoenixCI.FormUI.Prefix3
          base.ActivatedForm();
 
          _ToolBtnExport.Enabled = true;
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus Print(ReportHelper reportHelper)
-      {
-         base.Print(reportHelper);
-
          return ResultStatus.Success;
       }
 
@@ -115,11 +109,12 @@ namespace PhoenixCI.FormUI.Prefix3
 
       protected override ResultStatus Export()
       {
+
+         if (!StartExport()) {
+            return ResultStatus.Fail;
+         }
+         string lsFile = PbFunc.wf_copy_file(_ProgramID, "30506");
          try {
-            if (!StartExport()) {
-               return ResultStatus.Fail;
-            }
-            string lsFile = PbFunc.wf_copy_file(_ProgramID, "30506");
             //轉報表
             b30506 = new B30506(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH,lsFile, emStartMth.Text, emEndMth.Text);
             ShowMsg("30506－股票期貨最近月份契約最佳1檔加權平均委託買、賣數量月資料統計表 轉檔中...");
@@ -128,6 +123,7 @@ namespace PhoenixCI.FormUI.Prefix3
             OutputShowMessage = b30506.WF30507();
          }
          catch (Exception ex) {
+            File.Delete(lsFile);
             WriteLog(ex);
             return ResultStatus.Fail;
          }

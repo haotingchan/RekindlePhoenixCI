@@ -29,7 +29,7 @@
       {
          this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
-         this.stMsgtxt = new System.Windows.Forms.Label();
+         this.stMsgTxt = new System.Windows.Forms.Label();
          this.gb1_label = new System.Windows.Forms.Label();
          this.gb_1 = new DevExpress.XtraEditors.PanelControl();
          this.emMonth = new BaseGround.Widget.TextDateEdit();
@@ -76,7 +76,7 @@
          this.r_frame.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
          this.r_frame.Appearance.Options.UseBackColor = true;
          this.r_frame.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-         this.r_frame.Controls.Add(this.stMsgtxt);
+         this.r_frame.Controls.Add(this.stMsgTxt);
          this.r_frame.Controls.Add(this.gb1_label);
          this.r_frame.Controls.Add(this.gb_1);
          this.r_frame.Location = new System.Drawing.Point(30, 27);
@@ -86,15 +86,15 @@
          // 
          // st_msg_txt
          // 
-         this.stMsgtxt.AutoSize = true;
-         this.stMsgtxt.Font = new System.Drawing.Font("微軟正黑體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.stMsgtxt.ForeColor = System.Drawing.Color.Blue;
-         this.stMsgtxt.Location = new System.Drawing.Point(24, 135);
-         this.stMsgtxt.Name = "st_msg_txt";
-         this.stMsgtxt.Size = new System.Drawing.Size(153, 19);
-         this.stMsgtxt.TabIndex = 1;
-         this.stMsgtxt.Text = "訊息：資料轉出中........";
-         this.stMsgtxt.Visible = false;
+         this.stMsgTxt.AutoSize = true;
+         this.stMsgTxt.Font = new System.Drawing.Font("微軟正黑體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.stMsgTxt.ForeColor = System.Drawing.Color.Blue;
+         this.stMsgTxt.Location = new System.Drawing.Point(24, 135);
+         this.stMsgTxt.Name = "st_msg_txt";
+         this.stMsgTxt.Size = new System.Drawing.Size(153, 19);
+         this.stMsgTxt.TabIndex = 1;
+         this.stMsgTxt.Text = "訊息：資料轉出中........";
+         this.stMsgTxt.Visible = false;
          // 
          // gb1_label
          // 
@@ -213,7 +213,7 @@
       #endregion
       private DevExpress.XtraEditors.PanelControl panelControl2;
       private DevExpress.XtraEditors.PanelControl r_frame;
-      private System.Windows.Forms.Label stMsgtxt;
+      private System.Windows.Forms.Label stMsgTxt;
       private System.Windows.Forms.Label gb1_label;
       private DevExpress.XtraEditors.PanelControl gb_1;
       private System.Windows.Forms.Label st_3;

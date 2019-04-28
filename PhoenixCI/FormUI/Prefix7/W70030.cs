@@ -59,20 +59,13 @@ namespace PhoenixCI.FormUI.Prefix7
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Print(ReportHelper reportHelper)
-      {
-         base.Print(reportHelper);
-
-         return ResultStatus.Success;
-      }
-
-      private bool ExportBefore()
+      private bool StartExport()
       {
          /*******************
          點選儲存檔案之目錄
          *******************/
          //檔名	= 報表型態(起-迄).xls
-         saveFilePath = ReportExportFunc.wf_GetFileSaveName($"dgbas({emMonth.Text.Replace("/", "").SubStr(0, 6)}).xls");
+         saveFilePath = PbFunc.wf_GetFileSaveName($"dgbas({emMonth.Text.Replace("/", "").SubStr(0, 6)}).xls");
          if (string.IsNullOrEmpty(saveFilePath)) {
             return false;
          }
@@ -87,7 +80,7 @@ namespace PhoenixCI.FormUI.Prefix7
          return true;
       }
 
-      protected void ExportAfter()
+      protected void EndExport()
       {
          stMsgTxt.Text = "轉檔完成!";
          this.Cursor = Cursors.Arrow;
@@ -98,7 +91,7 @@ namespace PhoenixCI.FormUI.Prefix7
 
       protected override ResultStatus Export()
       {
-         if (!ExportBefore()) {
+         if (!StartExport()) {
             return ResultStatus.Fail;
          }
          try {
@@ -110,18 +103,21 @@ namespace PhoenixCI.FormUI.Prefix7
             string reResult = dao70030.Sp_H_stt_RAM1(lsYM);
             if (reResult == "0") {
                SaveExcel(dt, saveFilePath, DocumentFormat.Xls);
-               ExportAfter();
-               return ResultStatus.Success;
             }
             else {
-               PbFunc.messageBox(GlobalInfo.ErrorText, "執行SP(sp_H_stt_RAM1)錯誤!", MessageBoxIcon.Stop);
+               throw new Exception("執行SP(sp_H_stt_RAM1)錯誤!");
             }
 
          }
          catch (Exception ex) {
-            PbFunc.messageBox(GlobalInfo.ErrorText, ex.Message, MessageBoxIcon.Stop);
+            File.Delete(saveFilePath);
+            WriteLog(ex);
             return ResultStatus.Fail;
          }
+         finally {
+            EndExport();
+         }
+
          return ResultStatus.Success;
       }
 
@@ -140,21 +136,5 @@ namespace PhoenixCI.FormUI.Prefix7
          return filename.Substring(0, nameLen);
       }
 
-      protected override ResultStatus Export(ReportHelper reportHelper)
-      {
-         base.Export(reportHelper);
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus CheckShield()
-      {
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus COMPLETE()
-      {
-         return ResultStatus.Success;
-      }
    }
 }

@@ -42,29 +42,22 @@ namespace PhoenixCI.BusinessLogic.Prefix4
       /// <param name="SheetName">工作表</param>
       /// <param name="RptName">作業名稱</param>
       /// <returns></returns>
-      public bool Wf40200(int RowIndex =0, string SheetName = "40200", string RptName = "指數類期貨價格及現貨資料下載")
+      public string Wf40200(int RowIndex =0, string SheetName = "40200", string RptName = "指數類期貨價格及現貨資料下載")
       {
-         /*************************************
-            ls_rpt_name = 報表名稱
-            ls_rpt_id = 報表代號
-            rowIndex = Excel的Row位置
-            li_ole_col = Excel的Column位置
-            RowTotal = Excel的Column預留數
-            ldtYMD = 日期
-         *************************************/
+         Workbook workbook = new Workbook();
          try {
             DateTime startDate = startDateText.AsDateTime();
             DateTime endDate = endDateText.AsDateTime();
+            
+            //切換Sheet
+            workbook.LoadDocument(lsFile);
+            Worksheet worksheet = workbook.Worksheets[SheetName];
+
             //讀取資料
             DataTable dt = new D40200().GetData(startDate, endDate);
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info($"{DateTime.Now.ToShortDateString()},40200－{RptName},讀取「指數類期貨價格及現貨資料下載」無任何資料!");
-               return true;
+               return $"{DateTime.Now.ToShortDateString()},40200－{RptName},讀取「指數類期貨價格及現貨資料下載」無任何資料!";
             }
-            //切換Sheet
-            Workbook workbook = new Workbook();
-            workbook.LoadDocument(lsFile);
-            Worksheet worksheet = workbook.Worksheets[SheetName];
 
             worksheet.Range["A1"].Select();
             worksheet.Cells["A1"].Value = $"{startDate.ToShortDateString()}至{endDate.ToShortDateString()}"+ worksheet.Cells["A1"].Value.AsString();
@@ -78,7 +71,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                   //每3個column為一組, 若超過256限制則結束
                   colStart = colStart + 3;
                   if (colStart > 254) {
-                     return true;
+                     return MessageDisplay.MSG_OK;
                   }
                   //Head
                   //1.股票期貨英文代碼
@@ -109,13 +102,16 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                worksheet.Columns.Remove(colStart - 1);
             }
 
-            workbook.SaveDocument(lsFile);
+            
          }
          catch (Exception ex) {
-            MessageDisplay.Error(ex.Message, "40200");
-            return false;
+            throw ex;
          }
-         return true;
+         finally {
+            workbook.SaveDocument(lsFile);
+         }
+
+         return MessageDisplay.MSG_OK;
       }
 
    }

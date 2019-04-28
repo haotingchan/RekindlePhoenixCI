@@ -68,17 +68,14 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="lsKindID"></param>
       /// <param name="SheetName"></param>
       /// <returns></returns>
-      public bool Wf30310one(string lsKindID, string SheetName)
+      public string Wf30310one(string lsKindID, string SheetName)
       {
-         /*************************************
-            ls_rpt_name = 報表名稱
-            ls_rpt_id = 報表代號
-            rowIndex = Excel的Row位置
-            li_ole_col = Excel的Column位置
-            RowTotal = Excel的Column預留數
-            ldtYMD = 日期
-         *************************************/
+         Workbook workbook = new Workbook();
          try {
+            //切換Sheet
+            workbook.LoadDocument(_lsFile);
+            Worksheet worksheet = workbook.Worksheets[SheetName];
+
             //前月倒數2天交易日
             DateTime StartDate = PbFunc.f_get_last_day("AI3", lsKindID, _emMonthText, 2);
             //抓當月最後交易日
@@ -86,15 +83,10 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             //讀取資料
             DataTable dt = dao30310.GetData(lsKindID, StartDate, EndDate);
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info($"{StartDate.ToShortDateString()}～{EndDate.ToShortDateString()},30310－我國臺股期貨契約價量資料,{lsKindID}無任何資料!");
-               return true;
+               return $"{StartDate.ToShortDateString()}～{EndDate.ToShortDateString()},30310－我國臺股期貨契約價量資料,{lsKindID}無任何資料!";
             }
-            //切換Sheet
-            Workbook workbook = new Workbook();
-            workbook.LoadDocument(_lsFile);
-            Worksheet worksheet = workbook.Worksheets[SheetName];
+            
             DateTime ldtYMD = new DateTime(1900, 1, 1);
-            worksheet.Range["A1"].Select();
 
             int rowIndex = 1;
             int RowTotal = 32+1;//Excel的Column預留數 預留顯示32行加上隱藏的1行
@@ -124,7 +116,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             //表尾
             dt = daoAI2.ListAI2ym(lsKindID, EndDate.ToString("yyyyMM"), StartDate.ToString("yyyyMM"));
             if (dt.Rows.Count <= 0) {
-               return true;
+               return "";
             }
 
             int liDayCnt;
@@ -151,13 +143,15 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                worksheet.Rows[rowIndex][7 - 1].Value = Math.Round(dt.Rows[0]["Y_OI"].AsDecimal() / liDayCnt, 0);
             }
             
-            workbook.SaveDocument(_lsFile);
          }
          catch (Exception ex) {
-            MessageDisplay.Error(ex.Message, "30311_1");
-            return false;
+            throw ex;
          }
-         return true;
+         finally {
+            workbook.SaveDocument(_lsFile);
+         }
+
+         return MessageDisplay.MSG_OK;
       }
       /// <summary>
       /// 寫入30311_2(EXF)&30311_3(FXF) sheet
@@ -165,33 +159,23 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="lsKindID"></param>
       /// <param name="SheetName"></param>
       /// <returns></returns>
-      public bool Wf30310two(string lsKindID, string SheetName)
+      public string Wf30310two(string lsKindID, string SheetName)
       {
-         /*************************************
-            ls_rpt_name = 報表名稱
-            ls_rpt_id = 報表代號
-            rowIndex = Excel的Row位置
-            li_ole_col = Excel的Column位置
-            RowTotal = Excel的Column預留數
-            ldtYMD = 日期
-         *************************************/
+         Workbook workbook = new Workbook();
          try {
             //前月倒數2天交易日
             DateTime StartDate = PbFunc.f_get_last_day("AI3", lsKindID, _emMonthText, 2);
             //抓當月最後交易日
             DateTime EndDate = PbFunc.f_get_end_day("AI3", lsKindID, _emMonthText);
-            //讀取資料
-            DataTable dt = daoAI3.ListAI3(lsKindID, StartDate, EndDate);
-            if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info($"{StartDate.ToShortDateString()}～{EndDate.ToShortDateString()},30310－我國臺股期貨契約價量資料,{lsKindID}無任何資料!");
-               return true;
-            }
             //切換Sheet
-            Workbook workbook = new Workbook();
             workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets[SheetName];
             DateTime ldtYMD = new DateTime(1900, 1, 1);
-            worksheet.Range["A1"].Select();
+            //讀取資料
+            DataTable dt = daoAI3.ListAI3(lsKindID, StartDate, EndDate);
+            if (dt.Rows.Count <= 0) {
+               return $"{StartDate.ToShortDateString()}～{EndDate.ToShortDateString()},30310－我國臺股期貨契約價量資料,{lsKindID}無任何資料!";
+            }
 
             int rowIndex = 1;
             int RowTotal = 32 + 1;//Excel的Column預留數 預留顯示32行加上隱藏的1行
@@ -218,7 +202,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             //表尾
             dt = daoAI2.ListAI2ym(lsKindID, EndDate.ToString("yyyyMM"), StartDate.ToString("yyyyMM"));
             if (dt.Rows.Count <= 0) {
-               return true;
+               return MessageDisplay.MSG_OK;
             }
 
             int liDayCnt;
@@ -236,28 +220,23 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                worksheet.Rows[rowIndex][5 - 1].Value = Math.Round(dt.Rows[0]["Y_QNTY"].AsDecimal() / liDayCnt, 0);
                worksheet.Rows[rowIndex][7 - 1].Value = Math.Round(dt.Rows[0]["Y_OI"].AsDecimal() / liDayCnt, 0);
             }
-            workbook.SaveDocument(_lsFile);
+            
          }
          catch (Exception ex) {
-            MessageDisplay.Error(ex.Message, "30311_2");
-            return false;
+            throw ex;
          }
-         return true;
+         finally {
+            workbook.SaveDocument(_lsFile);
+         }
+         return MessageDisplay.MSG_OK;
       }
       /// <summary>
       /// 寫入 30311_4 sheet
       /// </summary>
       /// <returns></returns>
-      public bool Wf30310four()
+      public string Wf30310four()
       {
-         /*************************************
-            ls_rpt_name = 報表名稱
-            ls_rpt_id = 報表代號
-            rowIndex = Excel的Row位置
-            li_ole_col = Excel的Column位置
-            RowTotal = Excel的Column預留數
-            ldtYMD = 日期
-         *************************************/
+         Workbook workbook = new Workbook();
          try {
             string lsKindID = "MSF";
             string SheetName = "30311_4";
@@ -265,18 +244,16 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             DateTime StartDate = PbFunc.f_get_last_day("AI3", lsKindID, _emMonthText, 2);
             //抓當月最後交易日
             DateTime EndDate = PbFunc.f_get_end_day("AI3", lsKindID, _emMonthText);
-            //讀取資料
-            DataTable dt = daoAI3.ListAI3(lsKindID, StartDate, EndDate);
-            if (dt.Rows.Count <= 0) {
-               return true;
-            }
             //切換Sheet
-            Workbook workbook = new Workbook();
             workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets[SheetName];
             DateTime ldtYMD = new DateTime(1900, 1, 1);
-            worksheet.Range["A1"].Select();
-
+            //讀取資料
+            DataTable dt = daoAI3.ListAI3(lsKindID, StartDate, EndDate);
+            if (dt.Rows.Count <= 0) {
+               return MessageDisplay.MSG_OK;
+            }
+            
             int rowIndex = 1;
             int RowTotal = 32 + 1;//Excel的Column預留數 預留顯示32行加上隱藏的1行
             int addRowCount = 0;//總計寫入的行數
@@ -303,13 +280,16 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                   };
                }
             }
-            workbook.SaveDocument(_lsFile);
-            return true;
+
          }
          catch (Exception ex) {
-            MessageDisplay.Error(ex.Message, "30311_4");
-            return false;
+            throw ex;
          }
+         finally {
+            workbook.SaveDocument(_lsFile);
+         }
+
+         return MessageDisplay.MSG_OK;
       }
    }
 }

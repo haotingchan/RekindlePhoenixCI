@@ -115,6 +115,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
       }
 
       protected override ResultStatus Retrieve() {
+         gcMain.Visible= false; //清空資料
+
          string[] showColCaption = {"期貨商", $"期貨商{Environment.NewLine}名稱", "帳號","",$"商品{Environment.NewLine}名稱",
                                     $"報價{Environment.NewLine}時間", $"最接近報價{Environment.NewLine}詢價時間","",
                                     $"尋報價{Environment.NewLine}時間差(秒)", $"報價維持{Environment.NewLine}時間(秒)",

@@ -40,7 +40,7 @@ namespace PhoenixCI.FormUI.Prefix4
 #if DEBUG
          emDate.Text = "2018/10/12";
 #else
-            emDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
+         emDate.Text = DateTime.Now.ToString("yyyy/MM/dd");
 #endif
          return ResultStatus.Success;
       }
@@ -63,8 +63,7 @@ namespace PhoenixCI.FormUI.Prefix4
 
       private bool StartExport()
       {
-         if (!emDate.IsDate(emDate.Text, "日期輸入錯誤"))
-         {
+         if (!emDate.IsDate(emDate.Text, "日期輸入錯誤")) {
             //is_chk = "Y";
             return false;
          }
@@ -77,16 +76,16 @@ namespace PhoenixCI.FormUI.Prefix4
 
          //判斷FMIF資料已轉入
          string chkFMIF = b4001xTemp.CheckFMIF();
-         if (chkFMIF != MessageDisplay.MSG_OK)
-         {
-            return OutputChooseMessage(chkFMIF);
+         if (chkFMIF != MessageDisplay.MSG_OK) {
+            if (!OutputChooseMessage(chkFMIF))
+               return false;
          }
 
          //130批次作業做完
          string strRtn = b4001xTemp.Check130Wf();
-         if (strRtn != MessageDisplay.MSG_OK)
-         {
-            return OutputChooseMessage(strRtn);
+         if (strRtn != MessageDisplay.MSG_OK) {
+            if (!OutputChooseMessage(strRtn))
+               return false;
          }
 
          stMsgTxt.Text = "開始轉檔...";
@@ -115,8 +114,7 @@ namespace PhoenixCI.FormUI.Prefix4
       private bool OutputChooseMessage(string str)
       {
          DialogResult ChooseResult = MessageDisplay.Choose(str);
-         if (ChooseResult == DialogResult.No)
-         {
+         if (ChooseResult == DialogResult.No) {
             EndExport();
             return false;
          }
@@ -132,24 +130,21 @@ namespace PhoenixCI.FormUI.Prefix4
 
       protected override ResultStatus Export()
       {
-         if (!StartExport())
-         {
+         if (!StartExport()) {
+            File.Delete(_saveFilePath);
             return ResultStatus.Fail;
          }
-         try
-         {
+         try {
             //Sheet : rpt_future
             ShowMsg($"{_ProgramID}_1－保證金狀況表 轉檔中...");
             OutputShowMessage = b4001xTemp.WfFutureSheet();
          }
-         catch (Exception ex)
-         {
+         catch (Exception ex) {
             File.Delete(_saveFilePath);
             WriteLog(ex);
             return ResultStatus.Fail;
          }
-         finally
-         {
+         finally {
             EndExport();
          }
 

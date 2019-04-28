@@ -36,15 +36,15 @@ namespace PhoenixCI.BusinessLogic.Prefix3.Tests
       [TestMethod()]
       public void Wf30341Test()
       {
-         bool isCorrect = b30340.Wf30341();
-         Assert.IsTrue(isCorrect);
+         string isCorrect = b30340.Wf30341();
+         Assert.IsNotNull(isCorrect);
       }
 
       [TestMethod()]
       public void Wf30343Test()
       {
-         bool isCorrect = b30340.Wf30343();
-         Assert.IsTrue(isCorrect);
+         string isCorrect = b30340.Wf30343();
+         Assert.IsNotNull(isCorrect);
       }
    }
 }
