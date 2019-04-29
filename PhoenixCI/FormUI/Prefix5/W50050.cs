@@ -16,6 +16,8 @@ using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.Data;
 using DevExpress.XtraGrid;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
+using DevExpress.XtraGrid.Columns;
+using DevExpress.Utils;
 
 /// <summary>
 /// Winni, 2019/04/26
@@ -119,6 +121,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
             reportLandscape.IsHandlePersonVisible = false;
             reportLandscape.IsManagerVisible = false;
+            _ReportHelper.Create(reportLandscape);
 
             _ReportHelper.Print();
             _ReportHelper.Export(FileType.PDF , _ReportHelper.FilePath);
@@ -132,6 +135,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
       protected override ResultStatus Retrieve() {
          _ToolBtnExport.Enabled = true;
+         gvMain.GroupSummary.Clear();
 
          try {
 
@@ -229,13 +233,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             }
 
             gvMain.Columns["AMMD_DATE"].Group();
-
-            //DataRow drFirst = defaultTable.Rows[0];
-            //ammdDate.Text = "日期：" + drFirst["ammd_date"].AsString().Substring(0 , 10); //列出第一筆[ammd_date]的日期
-            //tradeTime.Text = "交易時間：" + txtStartTime.Text + "~" + txtEndTime.Text;
-
-            //ammdDate.Visible = true;
-            //tradeTime.Visible = true;
+            gvMain.SetGridGroupSummary(gvMain.Columns[12].FieldName , $"交易時間 : {txtStartTime.Text}~{txtEndTime.Text}" , DevExpress.Data.SummaryItemType.Count);
 
             //處理資料型態(轉換時間格式)
             DataTable dt = defaultTable.Clone(); //轉型別用的datatable
@@ -246,12 +244,14 @@ namespace PhoenixCI.FormUI.Prefix5 {
             }
 
             for (int i = 0 ; i < dt.Rows.Count ; i++) {
-               dt.Rows[i]["AMMD_W_TIME"] = defaultTable.Rows[i]["AMMD_W_TIME"].AsDateTime().ToString("yyyy/MM/dd HH:mm:ss.fff");
-               dt.Rows[i]["AMMD_DATE"] = defaultTable.Rows[i]["AMMD_DATE"].AsDateTime().ToString("yyyy/MM/dd HH:mm:ss.fff");
+               dt.Rows[i]["AMMD_W_TIME"] = defaultTable.Rows[i]["AMMD_W_TIME"].AsDateTime().ToString("yyyy/MM/dd HH:mm:ss:fff");
+               dt.Rows[i]["AMMD_DATE"] = defaultTable.Rows[i]["AMMD_DATE"].AsDateTime().ToString("yyyy/MM/dd");
             }
 
-            gcMain.Visible = true;
+            gcMain.Visible = true;          
             gcMain.DataSource = dt;
+            gvMain.OptionsBehavior.AllowFixedGroups = DefaultBoolean.True;
+            gvMain.ExpandAllGroups();
             gvMain.BestFitColumns();
             GridHelper.SetCommonGrid(gvMain);
             gcMain.Focus();
@@ -317,10 +317,10 @@ namespace PhoenixCI.FormUI.Prefix5 {
          e.Cancel = true;
       }
 
-      private void gvMain_CustomDrawGroupRow(object sender , DevExpress.XtraGrid.Views.Base.RowObjectCustomDrawEventArgs e) {
-         GridGroupRowInfo row = e.Info as GridGroupRowInfo;
-         string summaryDate = DateTime.ParseExact(row.EditValue.AsString() , "yyyy/MM/dd HH:mm:ss.fff" , null).ToString("yyyy/MM/dd");
-         row.GroupText = string.Format("日期：{0}     交易時間：{1}" , summaryDate , txtStartTime.Text + "~" + txtEndTime.Text);       
-      }
+      //private void gvMain_CustomDrawGroupRow(object sender , DevExpress.XtraGrid.Views.Base.RowObjectCustomDrawEventArgs e) {
+      //   GridGroupRowInfo row = e.Info as GridGroupRowInfo;
+      //   string summaryDate = DateTime.ParseExact(row.EditValue.AsString() , "yyyy/MM/dd HH:mm:ss.fff" , null).ToString("yyyy/MM/dd");
+      //   row.GroupText = string.Format("日期：{0}     交易時間：{1}" , summaryDate , txtStartTime.Text + "~" + txtEndTime.Text);       
+      //}
    }
 }
