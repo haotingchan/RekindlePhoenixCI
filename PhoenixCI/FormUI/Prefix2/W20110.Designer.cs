@@ -24,7 +24,11 @@
         /// </summary>
         private void InitializeComponent() {
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
-            this.cbJpx = new System.Windows.Forms.Button();
+            this.btnI5F = new System.Windows.Forms.Button();
+            this.btnJPXWeb = new System.Windows.Forms.Button();
+            this.btnJPX = new System.Windows.Forms.Button();
+            this.lblDQ2 = new System.Windows.Forms.Label();
+            this.lblJPX = new System.Windows.Forms.Label();
             this.ddlType = new DevExpress.XtraEditors.LookUpEdit();
             this.lblType = new System.Windows.Forms.Label();
             this.txtDate = new BaseGround.Widget.TextDateEdit();
@@ -80,7 +84,11 @@
             // 
             // panelControl1
             // 
-            this.panelControl1.Controls.Add(this.cbJpx);
+            this.panelControl1.Controls.Add(this.btnI5F);
+            this.panelControl1.Controls.Add(this.btnJPXWeb);
+            this.panelControl1.Controls.Add(this.btnJPX);
+            this.panelControl1.Controls.Add(this.lblDQ2);
+            this.panelControl1.Controls.Add(this.lblJPX);
             this.panelControl1.Controls.Add(this.ddlType);
             this.panelControl1.Controls.Add(this.lblType);
             this.panelControl1.Controls.Add(this.txtDate);
@@ -91,15 +99,53 @@
             this.panelControl1.Size = new System.Drawing.Size(1170, 70);
             this.panelControl1.TabIndex = 0;
             // 
-            // cbJpx
+            // btnI5F
             // 
-            this.cbJpx.Location = new System.Drawing.Point(414, 21);
-            this.cbJpx.Name = "cbJpx";
-            this.cbJpx.Size = new System.Drawing.Size(173, 27);
-            this.cbJpx.TabIndex = 12;
-            this.cbJpx.Text = "手動下載JPX檔案檢核";
-            this.cbJpx.UseVisualStyleBackColor = true;
-            this.cbJpx.Click += new System.EventHandler(this.cbJpx_Click);
+            this.btnI5F.Location = new System.Drawing.Point(788, 9);
+            this.btnI5F.Name = "btnI5F";
+            this.btnI5F.Size = new System.Drawing.Size(77, 27);
+            this.btnI5F.TabIndex = 16;
+            this.btnI5F.Text = "更新 I5F";
+            this.btnI5F.UseVisualStyleBackColor = true;
+            this.btnI5F.Click += new System.EventHandler(this.btnI5F_Click);
+            // 
+            // btnJPXWeb
+            // 
+            this.btnJPXWeb.Location = new System.Drawing.Point(669, 9);
+            this.btnJPXWeb.Name = "btnJPXWeb";
+            this.btnJPXWeb.Size = new System.Drawing.Size(113, 27);
+            this.btnJPXWeb.TabIndex = 15;
+            this.btnJPXWeb.Text = "開啟JPX網頁";
+            this.btnJPXWeb.UseVisualStyleBackColor = true;
+            this.btnJPXWeb.Click += new System.EventHandler(this.btnJPXWeb_Click);
+            // 
+            // btnJPX
+            // 
+            this.btnJPX.Location = new System.Drawing.Point(461, 9);
+            this.btnJPX.Name = "btnJPX";
+            this.btnJPX.Size = new System.Drawing.Size(173, 27);
+            this.btnJPX.TabIndex = 12;
+            this.btnJPX.Text = "手動下載JPX檔案檢核";
+            this.btnJPX.UseVisualStyleBackColor = true;
+            this.btnJPX.Click += new System.EventHandler(this.btnJPX_Click);
+            // 
+            // lblDQ2
+            // 
+            this.lblDQ2.AutoSize = true;
+            this.lblDQ2.Location = new System.Drawing.Point(410, 39);
+            this.lblDQ2.Name = "lblDQ2";
+            this.lblDQ2.Size = new System.Drawing.Size(542, 20);
+            this.lblDQ2.TabIndex = 14;
+            this.lblDQ2.Text = "(公債無資料，請打DQ2客服0800-336-336反應「.TW10YTBI」無今日資料)";
+            // 
+            // lblJPX
+            // 
+            this.lblJPX.AutoSize = true;
+            this.lblJPX.Location = new System.Drawing.Point(410, 12);
+            this.lblJPX.Name = "lblJPX";
+            this.lblJPX.Size = new System.Drawing.Size(253, 20);
+            this.lblJPX.TabIndex = 13;
+            this.lblJPX.Text = "(東證無資料，請確定JPX是否休市)";
             // 
             // ddlType
             // 
@@ -133,8 +179,10 @@
             this.txtDate.Name = "txtDate";
             this.txtDate.Properties.Appearance.Options.UseTextOptions = true;
             this.txtDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtDate.Properties.EditFormat.FormatString = "yyyyMMdd";
             this.txtDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
             this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtDate.Size = new System.Drawing.Size(118, 26);
             this.txtDate.TabIndex = 8;
@@ -498,8 +546,12 @@
         private DevExpress.XtraGrid.Columns.GridColumn R_CLOSE_PRICE;
         private DevExpress.XtraGrid.Columns.GridColumn R_UP_DOWN_VAL;
         private DevExpress.XtraGrid.Columns.GridColumn R_OPEN_INTEREST;
-        private System.Windows.Forms.Button cbJpx;
+        private System.Windows.Forms.Button btnJPX;
         private DevExpress.XtraGrid.Columns.GridColumn CP_ERR;
         private DevExpress.XtraGrid.Columns.GridColumn AMIFU_ERR_TEXT;
+        private System.Windows.Forms.Button btnI5F;
+        private System.Windows.Forms.Button btnJPXWeb;
+        private System.Windows.Forms.Label lblDQ2;
+        private System.Windows.Forms.Label lblJPX;
     }
 }
