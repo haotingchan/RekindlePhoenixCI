@@ -21,6 +21,7 @@ using System.Media;
 using DevExpress.Spreadsheet;
 using BusinessObjects;
 using static DataObjects.Dao.DataGate;
+using System.Linq;
 
 /// <summary>
 /// Lukas, 2019/1/29
@@ -56,6 +57,13 @@ namespace PhoenixCI.FormUI.Prefix2 {
         protected override ResultStatus Open() {
             base.Open();
             //隱藏一些開發用的資訊和測試按鈕
+            if (!FlagAdmin) {
+                btnJPX.Visible = false;
+                btnJPXWeb.Visible = false;
+                btnI5F.Visible = false;
+                lblJPX.Visible = false;
+                lblDQ2.Visible = false;
+            }
 
             #region 處理下拉選單
             //商品下拉選單
@@ -375,7 +383,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                         settleDate = dr["AMIF_SETTLE_DATE"].AsString();
                         seqNo = seqNo + 1;
                     }
-                    if (settleDate!="000000") {
+                    if (settleDate != "000000") {
                         dr["AMIF_MTH_SEQ_NO"] = seqNo;
                     }
                     if (dr.RowState == DataRowState.Unchanged) {
@@ -899,7 +907,6 @@ namespace PhoenixCI.FormUI.Prefix2 {
             //執行批次檔
             RunBat("20110", "20110_JTX", ymd, Application.StartupPath + "\\");
 
-            string sender, recipient, lsCC, title, context;
             string file, fileOI, pathName, pathNameOI;
             DataTable dtCOD = dao20110.W20110_filename();
             file = dtCOD.Rows[0]["ls_file"].AsString();
@@ -1271,8 +1278,66 @@ namespace PhoenixCI.FormUI.Prefix2 {
             AMIF_SUM_AMT
         }
 
-        private void cbJpx_Click(object sender, EventArgs e) {
+        private void btnJPX_Click(object sender, EventArgs e) {
             JpxGetFile();
+        }
+
+        /// <summary>
+        /// 開啟JPX網頁
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnJPXWeb_Click(object sender, EventArgs e) {
+            ProcessStartInfo sInfo = new ProcessStartInfo("http://www.jpx.co.jp/english/corporate/calendar/");
+            Process.Start(sInfo);
+        }
+
+        /// <summary>
+        /// 更新 I5F
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnI5F_Click(object sender, EventArgs e) {
+
+            DataTable dtI5F = dao20110.d_20110_amifu(txtDate.DateTimeValue);
+            DataView dv = dtI5F.AsDataView();
+            dv.RowFilter = " amifu_kind_id = 'I5F'";
+            dtI5F = dv.ToTable();
+
+            if (dtI5F.Rows.Count == 0) {
+                return;
+            }
+
+            gvMain.CloseEditor();
+            DataTable dtView = (DataTable)gcMain.DataSource;
+
+            int found;
+            found = dtView.Rows.IndexOf(dtView.Select("amif_kind_id='I5F'").FirstOrDefault());
+            if (found < 0) {
+                found = dtView.Rows.Count;
+                dtView.Rows.Add(found);
+                dtView.Rows[found]["AMIF_KIND_ID"] = "I5F";
+                dtView.Rows[found]["AMIF_SETTLE_DATE"] = "000000";
+            }
+
+            dtView.Rows[found]["AMIF_OPEN_PRICE"] = dtI5F.Rows[0]["AMIFU_OPEN_PRICE"];
+            dtView.Rows[found]["AMIF_HIGH_PRICE"] = dtI5F.Rows[0]["AMIFU_HIGH_PRICE"];
+            dtView.Rows[found]["AMIF_LOW_PRICE"] = dtI5F.Rows[0]["AMIFU_LOW_PRICE"];
+            dtView.Rows[found]["AMIF_CLOSE_PRICE"] = dtI5F.Rows[0]["AMIFU_CLOSE_PRICE"];
+            dtView.Rows[found]["AMIF_UP_DOWN_VAL"] = dtI5F.Rows[0]["AMIFU_UP_DOWN_VAL"];
+            gcMain.DataSource = dtView;
+            //前日收盤價
+            ClosePrice();
+
+            // 檢查收盤價為0
+            if (gvMain.GetRowCellValue(found, "AMIF_CLOSE_PRICE").AsDecimal()==0) {
+                DialogResult result = MessageDisplay.Choose(gvMain.GetRowCellValue(found, "AMIF_KIND_ID").AsString() +
+                                                            " 今日收盤價為0，是否要複製前日收盤價？");
+                if (result == DialogResult.Yes) {
+                    gvMain.SetRowCellValue(found, "AMIF_CLOSE_PRICE", gvMain.GetRowCellValue(found, "AMIF_CLOSE_PRICE_Y").AsDecimal());
+                    gvMain.SetRowCellValue(found, "AMIF_UP_DOWN_VAL", 0);
+                }
+            }
         }
     }
 }
