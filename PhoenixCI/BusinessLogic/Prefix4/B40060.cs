@@ -77,11 +77,11 @@ namespace PhoenixCI.BusinessLogic.Prefix4
       /// <param name="ColorDecimal">color十進位代碼 預設為淺灰</param>
       /// <param name="RowIndex">Excel的Row位置</param>
       /// <returns></returns>
-      public bool Wf40061(int ColorDecimal = 11711154, int RowIndex = 3)
+      public string Wf40061(int ColorDecimal = 11711154, int RowIndex = 3)
       {
+         Workbook workbook = new Workbook();
          try {
             //切換Sheet
-            Workbook workbook = new Workbook();
             workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets["波動度偵測全距"];
             worksheet.Cells["E1"].Value = "作業日期：" + DateTime.Now.ToLongDateString().ToString();
@@ -120,7 +120,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                
             }//for (int k = 0; k < dt.Rows.Count; k++)
 
-            workbook.SaveDocument(_lsFile);
+            
          }
          catch (Exception ex) {
 #if DEBUG
@@ -129,25 +129,27 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             throw ex;
 #endif
          }
-         return true;
+         finally {
+            workbook.SaveDocument(_lsFile);
+         }
+         return MessageDisplay.MSG_OK;
       }
 
       /// <summary>
       /// wf_40062()
       /// </summary>
       /// <returns></returns>
-      public bool Wf40062()
+      public string Wf40062()
       {
+         Workbook workbook = new Workbook();
          try {
             //切換Sheet
-            Workbook workbook = new Workbook();
             workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets["跨商品折抵率"];
             worksheet.Cells["F1"].Value = "作業日期：" + DateTime.Now.ToLongDateString().ToString();
             DataTable dt = _Data.Filter("sp3_type='SS'");
             RefactoringMethod(worksheet, dt);
 
-            workbook.SaveDocument(_lsFile);
          }
          catch (Exception ex) {
 #if DEBUG
@@ -156,25 +158,26 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             throw ex;
 #endif
          }
-         return true;
+         finally {
+            workbook.SaveDocument(_lsFile);
+         }
+         return MessageDisplay.MSG_OK;
       }
 
       /// <summary>
       /// wf_40063()
       /// </summary>
       /// <returns></returns>
-      public bool Wf40063()
+      public string Wf40063()
       {
+         Workbook workbook = new Workbook();
          try {
             //切換Sheet
-            Workbook workbook = new Workbook();
             workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets["契約價值耗用比率"];
             worksheet.Cells["F1"].Value = "作業日期：" + DateTime.Now.ToLongDateString().ToString();
             DataTable dt = _Data.Filter("sp3_type='SD'");
             RefactoringMethod(worksheet, dt);
-
-            workbook.SaveDocument(_lsFile);
          }
          catch (Exception ex) {
 #if DEBUG
@@ -183,7 +186,10 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             throw ex;
 #endif
          }
-         return true;
+         finally {
+            workbook.SaveDocument(_lsFile);
+         }
+         return MessageDisplay.MSG_OK;
       }
 
    }

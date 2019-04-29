@@ -3,6 +3,7 @@ using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
 using System.Data;
+using System.IO;
 using System.Linq;
 /// <summary>
 /// 20190320,john,標的證券為受益憑證之上市證券保證金狀況表
@@ -17,7 +18,6 @@ namespace PhoenixCI.BusinessLogic.Prefix4
       private readonly string _lsFile;
       private readonly string _emDateText;
       private D43030 dao43030;
-      private Workbook _workbook;
 
       /// <summary>
       /// 
@@ -28,7 +28,6 @@ namespace PhoenixCI.BusinessLogic.Prefix4
          _lsFile = FilePath;
          _emDateText = emDate;
          dao43030 = new D43030();
-         _workbook = new Workbook();
       }
       /// <summary>
       /// wf_43030_f(),wf_43030_o()
@@ -68,8 +67,9 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                return $"{_emDateText},43030－{RptName},讀取「當日上市證券保證金適用比例」無任何資料!";
             }
             //切換Sheet
-            _workbook.LoadDocument(_lsFile);
-            Worksheet worksheet = _workbook.Worksheets[SheetName];
+            Workbook workbook = new Workbook();
+            workbook.LoadDocument(_lsFile);
+            Worksheet worksheet = workbook.Worksheets[SheetName];
             worksheet.Cells["A3"].Value = worksheet.Cells["A3"].Value + string.Format("{0:D}", _emDateText.AsDateTime());
             worksheet.Range["A1"].Select();
 
@@ -101,7 +101,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                worksheet.ScrollTo(0, 0);//直接滾動到最上面，不然看起來很像少行數
             }
 
-            _workbook.SaveDocument(_lsFile);
+            workbook.SaveDocument(_lsFile);
          }
          catch (Exception ex) {
 #if DEBUG

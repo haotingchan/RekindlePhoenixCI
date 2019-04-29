@@ -7,6 +7,7 @@ using System.Threading;
 using BaseGround.Shared;
 using Common;
 using PhoenixCI.BusinessLogic.Prefix3;
+using System.IO;
 /// <summary>
 /// john,20190312,國內股價指數選擇權交易概況明細表
 /// </summary>
@@ -56,68 +57,67 @@ namespace PhoenixCI.FormUI.Prefix3
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Print(ReportHelper reportHelper)
+      private bool StartExport()
       {
-         base.Print(reportHelper);
-
-         return ResultStatus.Success;
-      }
-
-      private bool ExportBefore()
-      {
-         if (!emMonth.IsDate(emMonth.Text + "/01", "日期輸入錯誤")) {
+         if (!emMonth.IsDate(emMonth.Text + "/01", "月份輸入錯誤")) {
             //is_chk = "Y";
             return false;
          }
          /*******************
          Messagebox
          *******************/
-         stMsgtxt.Visible = true;
-         stMsgtxt.Text = "開始轉檔...";
+         stMsgTxt.Visible = true;
+         stMsgTxt.Text = "開始轉檔...";
          this.Cursor = Cursors.WaitCursor;
          this.Refresh();
          Thread.Sleep(5);
          return true;
       }
 
-      protected void ExportAfter()
+      private void EndExport()
       {
-         stMsgtxt.Text = "轉檔完成!";
+         stMsgTxt.Text = "";
          this.Cursor = Cursors.Arrow;
          this.Refresh();
          Thread.Sleep(5);
-         stMsgtxt.Visible = false;
+         stMsgTxt.Visible = false;
       }
 
       protected void ShowMsg(string msg)
       {
-         stMsgtxt.Text = msg;
+         stMsgTxt.Visible = true;
+         stMsgTxt.Text = msg;
          this.Refresh();
          Thread.Sleep(5);
       }
 
+      private string OutputShowMessage {
+         set {
+            if (value != MessageDisplay.MSG_OK)
+               MessageDisplay.Info(value);
+         }
+      }
+
       protected override ResultStatus Export()
       {
+         if (!StartExport()) {
+            return ResultStatus.Fail;
+         }
+         string lsFile = PbFunc.wf_copy_file(_ProgramID, "30550");
          try {
-            if (!ExportBefore()) {
-               return ResultStatus.Fail;
-            }
-
-            bool isChk = false;//判斷是否執行成功
-            string lsFile = PbFunc.wf_copy_file(_ProgramID, "30550");
             b30550 = new B30550(lsFile, emMonth.Text);
 
             //30550
             ShowMsg("30550－國內股價指數選擇權交易概況明細表 轉檔中...");
-            isChk = b30550.Wf30550();
-
-            ExportAfter();
-            if (!isChk) return ResultStatus.Fail;//Exception
+            OutputShowMessage = b30550.Wf30550();
          }
          catch (Exception ex) {
-            ExportAfter();
+            File.Delete(lsFile);
             WriteLog(ex);
             return ResultStatus.Fail;
+         }
+         finally {
+            EndExport();
          }
          return ResultStatus.Success;
       }

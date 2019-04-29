@@ -8,6 +8,7 @@ using BaseGround.Shared;
 using System.Threading;
 using Common;
 using PhoenixCI.BusinessLogic.Prefix7;
+using System.IO;
 /// <summary>
 /// john,20190211,小型臺股期貨期貨商交易量表
 /// </summary>
@@ -65,14 +66,7 @@ namespace PhoenixCI.FormUI.Prefix7
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Print(ReportHelper reportHelper)
-      {
-         base.Print(reportHelper);
-
-         return ResultStatus.Success;
-      }
-
-      private bool ExportBefore()
+      private bool StartExport()
       {
          /* 條件值檢核*/
          DateTime ldstart, ldend;
@@ -168,7 +162,7 @@ namespace PhoenixCI.FormUI.Prefix7
          isParamKey = "MXF";
          isProdType = "F";
          /*點選儲存檔案之目錄*/
-         saveFilePath = ReportExportFunc.wf_GetFileSaveName(saveFilePath + ".csv");
+         saveFilePath = PbFunc.wf_GetFileSaveName(saveFilePath + ".csv");
          if (string.IsNullOrEmpty(saveFilePath)) {
             return false;
          }
@@ -184,7 +178,7 @@ namespace PhoenixCI.FormUI.Prefix7
          return true;
       }
 
-      protected void ExportAfter()
+      protected void EndExport()
       {
          stMsgTxt.Text = "轉檔完成!";
          this.Cursor = Cursors.Arrow;
@@ -193,43 +187,37 @@ namespace PhoenixCI.FormUI.Prefix7
          stMsgTxt.Visible = false;
       }
 
+      private string OutputShowMessage {
+         set {
+            if (value != MessageDisplay.MSG_OK)
+               MessageDisplay.Info(value);
+         }
+      }
+
       protected override ResultStatus Export()
       {
-         if (!ExportBefore()) {
+         if (!StartExport()) {
             return ResultStatus.Fail;
          }
          try {
             if (rgDate.EditValue.Equals("rb_week")) {
-               b700xxFunc.F70010WeekW(saveFilePath, startYMD, endYMD, sumType, isKindId2, isParamKey, isProdType);
+               OutputShowMessage = b700xxFunc.F70010WeekW(saveFilePath, startYMD, endYMD, sumType, isKindId2, isParamKey, isProdType);
             }//if (rgDate.EditValue.Equals("rb_week"))
             else {
-               b700xxFunc.F70010YmdW(saveFilePath, startYMD, endYMD, sumType, isKindId2, isParamKey, isProdType);
+               OutputShowMessage = b700xxFunc.F70010YmdW(saveFilePath, startYMD, endYMD, sumType, isKindId2, isParamKey, isProdType);
             }
-            ExportAfter();
          }
          catch (Exception ex) {
-            PbFunc.messageBox(GlobalInfo.ErrorText, ex.Message, MessageBoxIcon.Stop);
+            File.Delete(saveFilePath);
+            WriteLog(ex);
             return ResultStatus.Fail;
+         }
+         finally {
+            EndExport();
          }
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Export(ReportHelper reportHelper)
-      {
-         base.Export(reportHelper);
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus CheckShield()
-      {
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus COMPLETE()
-      {
-         return ResultStatus.Success;
-      }
       private void rgDate_SelectedIndexChanged(object sender, EventArgs e)
       {
          DevExpress.XtraEditors.RadioGroup rb = sender as DevExpress.XtraEditors.RadioGroup;

@@ -63,7 +63,7 @@ namespace PhoenixCI.FormUI.Prefix3
          return ResultStatus.Success;
       }
 
-      private bool ExportBefore()
+      private bool StartBefore()
       {
          if (!emStartDate.IsDate(emStartDate.Text, CheckDate.Start)) {
             //is_chk = "Y";
@@ -84,7 +84,7 @@ namespace PhoenixCI.FormUI.Prefix3
          return true;
       }
 
-      protected void ExportAfter()
+      protected void EndExport()
       {
          stMsgTxt.Text = "轉檔完成!";
          this.Cursor = Cursors.Arrow;
@@ -95,31 +95,39 @@ namespace PhoenixCI.FormUI.Prefix3
 
       protected void ShowMsg(string msg)
       {
+         stMsgTxt.Visible = true;
          stMsgTxt.Text = msg;
          this.Refresh();
          Thread.Sleep(5);
       }
 
+      private string OutputShowMessage {
+         set {
+            if (value != MessageDisplay.MSG_OK)
+               MessageDisplay.Info(value);
+         }
+      }
+
       protected override ResultStatus Export()
       {
-         if (!ExportBefore()) {
+         if (!StartBefore()) {
             return ResultStatus.Fail;
          }
+         string saveFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, $@"30508(買)_{DateTime.Now.ToString("yyyy.MM.dd")}-{DateTime.Now.ToString("HH.mm.ss")}.csv");
+
          try {
-            //資料來源
-            string saveFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH,$@"30508(買)_{DateTime.Now.ToString("yyyy.MM.dd")}-{DateTime.Now.ToString("HH.mm.ss")}.csv");
             b30508 = new B30508(saveFilePath, emStartDate.Text, emEndDate.Text);
-            bool isChk = false;//判斷是否執行成功
 
             ShowMsg("30508－股票期貨最近月份契約最佳1檔加權平均委託買進數量週資料統計表 轉檔中...");
-            isChk = b30508.Wf30508();
-            ExportAfter();
-            if (!isChk) return ResultStatus.Fail;//Exception
+            OutputShowMessage = b30508.Wf30508();
+            
          }
          catch (Exception ex) {
-            ExportAfter();
             WriteLog(ex);
             return ResultStatus.Fail;
+         }
+         finally {
+            EndExport();
          }
 
          return ResultStatus.Success;

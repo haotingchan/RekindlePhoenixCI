@@ -89,9 +89,17 @@ namespace PhoenixCI.FormUI.Prefix4
 
       protected void ShowMsg(string msg)
       {
+         stMsgTxt.Visible = true;
          stMsgTxt.Text = msg;
          this.Refresh();
          Thread.Sleep(5);
+      }
+
+      private string OutputShowMessage {
+         set {
+            if (value != MessageDisplay.MSG_OK)
+               MessageDisplay.Info(value);
+         }
       }
 
       protected override ResultStatus Export()
@@ -99,7 +107,7 @@ namespace PhoenixCI.FormUI.Prefix4
          if (!StartExport()) {
             return ResultStatus.Fail;
          }
-         string saveFilePath = PbFunc.wf_copy_file(_ProgramID, "40050");
+         string saveFilePath = string.Empty;
          try {
             //資料來源
             DataTable dt = new D40050().GetData(emDate.Text.AsDateTime(), (emYear.Text + "/01/01").AsDateTime(), $"{oswGrpLookItem.EditValue.AsString()}%");
@@ -107,22 +115,21 @@ namespace PhoenixCI.FormUI.Prefix4
                MessageDisplay.Info(emDate.Text + ",讀取「保證金歷次調整紀錄」無任何資料!");
                return ResultStatus.Success;
             }
+            saveFilePath = PbFunc.wf_copy_file(_ProgramID, "40050");
             b40050 = new B40050(saveFilePath, dt, emCount.Text.AsInt());
-            bool isChk = false;//判斷是否執行成功
 
             /* Sheet:期貨data */
             ShowMsg("40051－期貨資料 轉檔中...");
-            isChk = b40050.Wf40051();
+            OutputShowMessage = b40050.Wf40051();
             /* Sheet:選擇權data */
             ShowMsg("40052－選擇權資料 轉檔中...");
-            isChk = b40050.Wf40052();
+            OutputShowMessage = b40050.Wf40052();
             /* Sheet:期貨股票類data */
             ShowMsg("40053－期貨股票類資料 轉檔中...");
-            isChk = b40050.Wf40053();
+            OutputShowMessage = b40050.Wf40053();
             /* Sheet:選擇權股票類data */
             ShowMsg("40054－選擇權股票類資料 轉檔中...");
-            isChk = b40050.Wf40054();
-            if (!isChk) return ResultStatus.Fail;//Exception
+            OutputShowMessage = b40050.Wf40054();
          }
          catch (Exception ex) {
             File.Delete(saveFilePath);

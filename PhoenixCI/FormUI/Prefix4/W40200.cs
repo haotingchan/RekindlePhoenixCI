@@ -7,6 +7,7 @@ using Common;
 using BaseGround.Shared;
 using System.Threading;
 using PhoenixCI.BusinessLogic.Prefix4;
+using System.IO;
 /// <summary>
 /// john,20190312,指數類期貨及現貨資料下載
 /// </summary>
@@ -87,9 +88,17 @@ namespace PhoenixCI.FormUI.Prefix4
 
       protected void ShowMsg(string msg)
       {
+         stMsgTxt.Visible = true;
          stMsgTxt.Text = msg;
          this.Refresh();
          Thread.Sleep(5);
+      }
+
+      private string OutputShowMessage {
+         set {
+            if (value != MessageDisplay.MSG_OK)
+               MessageDisplay.Info(value);
+         }
       }
 
       protected override ResultStatus Export()
@@ -97,21 +106,29 @@ namespace PhoenixCI.FormUI.Prefix4
          if (!StartExport()) {
             return ResultStatus.Fail;
          }
+         string saveFilePath = PbFunc.wf_copy_file(_ProgramID, "40200");
+         string msg;
          try {
-            //資料來源
-            string saveFilePath = PbFunc.wf_copy_file(_ProgramID, "40200");
-            b40200 = new B40200(saveFilePath,emStartDate.Text,emEndDate.Text);
-            bool isChk = false;//判斷是否執行成功
-            
+            b40200 = new B40200(saveFilePath, emStartDate.Text, emEndDate.Text);
+
+
             ShowMsg("40200－指數類期貨價格及現貨資料下載 轉檔中...");
-            isChk=b40200.Wf40200();
-            EndExport();
-            if (!isChk) return ResultStatus.Fail;//Exception
+            msg = b40200.Wf40200();
+            OutputShowMessage = msg;
          }
          catch (Exception ex) {
-            EndExport();
+            ShowMsg("轉檔有錯誤!");
+            this.Cursor = Cursors.Arrow;
             WriteLog(ex);
             return ResultStatus.Fail;
+         }
+         finally {
+            EndExport();
+         }
+
+         if (msg != MessageDisplay.MSG_OK) {
+            ShowMsg("轉檔有錯誤!");
+            File.Delete(saveFilePath);
          }
 
          return ResultStatus.Success;

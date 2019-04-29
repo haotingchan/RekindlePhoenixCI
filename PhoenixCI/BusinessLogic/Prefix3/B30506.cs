@@ -135,11 +135,16 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <returns></returns>
       public string WF30506()
       {
+         Workbook workbook = new Workbook();
          try {
             string lsRptName = "股票期貨最近月份契約最佳1檔加權平均委託買、賣數量月資料統計表";
             string lsRptId = "30506";
             DateTime startDate = _startYmDateText.AsDateTime();
             DateTime endDate = _endYmDateText.AsDateTime();
+
+            //切換Sheet
+            workbook.LoadDocument(_lsFile);
+            Worksheet worksheet = workbook.Worksheets[lsRptId];
 
             //讀取資料
             DataTable AI2dt = dao30506.ListYMD(startDate.ToString("yyyyMM"), endDate.ToString("yyyyMM"), "M", "F"); ;
@@ -150,11 +155,6 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             if (dt.Rows.Count <= 0) {
                return $"{startDate.ToShortDateString()}~{endDate.ToShortDateString()},{lsRptId}－{lsRptName}無任何資料!";
             }
-
-            //切換Sheet
-            Workbook workbook = new Workbook();
-            workbook.LoadDocument(_lsFile);
-            Worksheet worksheet = workbook.Worksheets[lsRptId];
 
             for (int k=0;k<AI2dt.Rows.Count;k++) {
                DataRow dr = AI2dt.Rows[k];
@@ -184,19 +184,22 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                }
             }//foreach (DataRow dr in dt.Rows)
 
-            //存檔
+            
             worksheet.ScrollTo(0, 0);//直接滾動到最上面，不然看起來很像少行數
-            workbook.SaveDocument(_lsFile);
-            return MessageDisplay.MSG_OK;
+            
          }
          catch (Exception ex) {
-            File.Delete(_lsFile);
 #if DEBUG
             throw new Exception("WF30506:" + ex.Message);
 #else
             throw ex;
 #endif
          }
+         finally {
+            workbook.SaveDocument(_lsFile);//存檔
+         }
+
+         return MessageDisplay.MSG_OK;
       }
 
       /// <summary>

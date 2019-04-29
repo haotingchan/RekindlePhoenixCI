@@ -67,6 +67,7 @@
     <Compile Include="Dao\Together\SpecificDao\D4001xTests.cs" />
     <Compile Include="Dao\Together\SpecificDao\D40040Tests.cs" />
     <Compile Include="Dao\Together\SpecificDao\D40190Tests.cs" />
+    <Compile Include="Dao\Together\SpecificDao\UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

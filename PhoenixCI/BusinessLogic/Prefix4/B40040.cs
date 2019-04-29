@@ -5,6 +5,7 @@ using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 /// <summary>
@@ -219,8 +220,8 @@ namespace PhoenixCI.BusinessLogic.Prefix4
 
       public string Wf40040()
       {
+         Workbook workbook = new Workbook();
          try {
-            Workbook workbook = new Workbook();
             workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets[(int)SheetName.SheetOne];
             DateTime emdate = _emDateText.AsDateTime("yyyy/MM/dd");
@@ -395,7 +396,6 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             }
             //save
             worksheet.ScrollTo(0, 0);
-            workbook.SaveDocument(_lsFile);
          }
          catch (Exception ex) {
 #if DEBUG
@@ -404,13 +404,16 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             throw ex;
 #endif
          }
+         finally {
+            workbook.SaveDocument(_lsFile);
+         }
          return MessageDisplay.MSG_OK;
       }
 
       public string Wf40040ETF()
       {
+         Workbook workbook = new Workbook();
          try {
-            Workbook workbook = new Workbook();
             workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets[(int)SheetName.SheetTwo];
             DateTime emdate = _emDateText.AsDateTime("yyyy/MM/dd");
@@ -543,7 +546,6 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             }
             //save
             worksheet.ScrollTo(0, 0);
-            workbook.SaveDocument(_lsFile);
          }
          catch (Exception ex) {
 #if DEBUG
@@ -552,13 +554,16 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             throw ex;
 #endif
          }
+         finally {
+            workbook.SaveDocument(_lsFile);
+         }
          return MessageDisplay.MSG_OK;
       }
 
       public string Wf40040SPAN()
       {
+         Workbook workbook = new Workbook();
          try {
-            Workbook workbook = new Workbook();
             workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets[(int)SheetName.SheetSPAN];
             DateTime emdate = _emDateText.AsDateTime("yyyy/MM/dd");
@@ -582,9 +587,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                }
             }
 
-            //save
             worksheet.ScrollTo(0, 0);
-            workbook.SaveDocument(_lsFile);
          }
          catch (Exception ex) {
 #if DEBUG
@@ -592,6 +595,9 @@ namespace PhoenixCI.BusinessLogic.Prefix4
 #else
             throw ex;
 #endif
+         }
+         finally {
+            workbook.SaveDocument(_lsFile);//save
          }
          return MessageDisplay.MSG_OK;
       }

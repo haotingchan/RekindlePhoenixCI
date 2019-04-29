@@ -27,6 +27,12 @@
       /// </summary>
       private void InitializeComponent()
       {
+         this.panel1 = new System.Windows.Forms.Panel();
+         this.stMsgTxt = new System.Windows.Forms.Label();
+         this.YMDlookUpEdit = new DevExpress.XtraEditors.LookUpEdit();
+         this.label2 = new System.Windows.Forms.Label();
+         this.emDate = new BaseGround.Widget.TextDateEdit();
+         this.label1 = new System.Windows.Forms.Label();
          this.gcMain = new DevExpress.XtraGrid.GridControl();
          this.gvMain = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridView();
          this.gridBand1 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
@@ -58,28 +64,23 @@
          this.Is_NewRow = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.gridBand2 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.gridBand3 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand4 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand5 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand6 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.PLP13_NATURE_LAST = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+         this.gridBand4 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.PLP13_LEGAL_LAST = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+         this.gridBand5 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.PLP13_999_LAST = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+         this.gridBand6 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.PLP13_MMK_LAST = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-         this.sidePanel1 = new DevExpress.XtraEditors.SidePanel();
-         this.sidePanel2 = new DevExpress.XtraEditors.SidePanel();
-         this.YMDlookUpEdit = new DevExpress.XtraEditors.LookUpEdit();
-         this.label2 = new System.Windows.Forms.Label();
-         this.emDate = new BaseGround.Widget.TextDateEdit();
-         this.label1 = new System.Windows.Forms.Label();
-         this.sidePanel3 = new DevExpress.XtraEditors.SidePanel();
+         this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
+         this.panel2 = new System.Windows.Forms.Panel();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
-         this.sidePanel1.SuspendLayout();
-         this.sidePanel2.SuspendLayout();
+         this.panel1.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.YMDlookUpEdit.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.emDate.Properties)).BeginInit();
-         this.sidePanel3.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
+         this.panel2.SuspendLayout();
          this.SuspendLayout();
          // 
          // panParent
@@ -93,6 +94,77 @@
          this.ribbonControl.Size = new System.Drawing.Size(1197, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
+         // panel1
+         // 
+         this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.panel1.Controls.Add(this.stMsgTxt);
+         this.panel1.Controls.Add(this.YMDlookUpEdit);
+         this.panel1.Controls.Add(this.label2);
+         this.panel1.Controls.Add(this.emDate);
+         this.panel1.Controls.Add(this.label1);
+         this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+         this.panel1.Location = new System.Drawing.Point(0, 30);
+         this.panel1.Name = "panel1";
+         this.panel1.Size = new System.Drawing.Size(1197, 141);
+         this.panel1.TabIndex = 6;
+         // 
+         // stMsgTxt
+         // 
+         this.stMsgTxt.AutoSize = true;
+         this.stMsgTxt.ForeColor = System.Drawing.Color.Blue;
+         this.stMsgTxt.Location = new System.Drawing.Point(531, 54);
+         this.stMsgTxt.Name = "stMsgTxt";
+         this.stMsgTxt.Size = new System.Drawing.Size(13, 20);
+         this.stMsgTxt.TabIndex = 4;
+         this.stMsgTxt.Text = " ";
+         this.stMsgTxt.Visible = false;
+         // 
+         // YMDlookUpEdit
+         // 
+         this.YMDlookUpEdit.Location = new System.Drawing.Point(376, 51);
+         this.YMDlookUpEdit.MenuManager = this.ribbonControl;
+         this.YMDlookUpEdit.Name = "YMDlookUpEdit";
+         this.YMDlookUpEdit.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.YMDlookUpEdit.Size = new System.Drawing.Size(100, 26);
+         this.YMDlookUpEdit.TabIndex = 3;
+         // 
+         // label2
+         // 
+         this.label2.AutoSize = true;
+         this.label2.Location = new System.Drawing.Point(290, 54);
+         this.label2.Name = "label2";
+         this.label2.Size = new System.Drawing.Size(89, 20);
+         this.label2.TabIndex = 2;
+         this.label2.Text = "生效日期：";
+         // 
+         // emDate
+         // 
+         this.emDate.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
+         this.emDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.emDate.EditValue = "2019/01/01";
+         this.emDate.Location = new System.Drawing.Point(121, 48);
+         this.emDate.MenuManager = this.ribbonControl;
+         this.emDate.Name = "emDate";
+         this.emDate.Properties.Appearance.Options.UseTextOptions = true;
+         this.emDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.emDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.emDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.emDate.Properties.Mask.ShowPlaceHolders = false;
+         this.emDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.emDate.Size = new System.Drawing.Size(100, 26);
+         this.emDate.TabIndex = 1;
+         this.emDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
+         // 
+         // label1
+         // 
+         this.label1.AutoSize = true;
+         this.label1.Location = new System.Drawing.Point(39, 51);
+         this.label1.Name = "label1";
+         this.label1.Size = new System.Drawing.Size(89, 20);
+         this.label1.TabIndex = 0;
+         this.label1.Text = "計算日期：";
+         // 
          // gcMain
          // 
          this.gcMain.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
@@ -105,10 +177,11 @@
          this.gcMain.MainView = this.gvMain;
          this.gcMain.MenuManager = this.ribbonControl;
          this.gcMain.Name = "gcMain";
-         this.gcMain.Size = new System.Drawing.Size(1197, 505);
+         this.gcMain.Size = new System.Drawing.Size(1197, 516);
          this.gcMain.TabIndex = 5;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gvMain});
+            this.gvMain,
+            this.gridView1});
          // 
          // gvMain
          // 
@@ -141,7 +214,7 @@
             this.PLP13_999_LAST,
             this.PLP13_MMK_LAST,
             this.Is_NewRow});
-         this.gvMain.CustomizationFormBounds = new System.Drawing.Rectangle(1490, 765, 266, 216);
+         this.gvMain.CustomizationFormBounds = new System.Drawing.Rectangle(1100, 549, 266, 216);
          this.gvMain.GridControl = this.gcMain;
          this.gvMain.Name = "gvMain";
          this.gvMain.OptionsBehavior.Editable = false;
@@ -149,8 +222,6 @@
          this.gvMain.OptionsView.ColumnAutoWidth = false;
          this.gvMain.OptionsView.ShowColumnHeaders = false;
          this.gvMain.OptionsView.ShowGroupPanel = false;
-         this.gvMain.RowCellStyle += new DevExpress.XtraGrid.Views.Grid.RowCellStyleEventHandler(this.gvMain_RowCellStyle);
-         this.gvMain.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gvMain_ShowingEditor);
          // 
          // gridBand1
          // 
@@ -186,7 +257,7 @@
          // 
          this.PLP13_FUT.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.PLP13_FUT.AppearanceCell.Options.UseBackColor = true;
-         this.PLP13_FUT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+         this.PLP13_FUT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.PLP13_FUT.AppearanceHeader.Options.UseBackColor = true;
          this.PLP13_FUT.Caption = "期貨";
          this.PLP13_FUT.FieldName = "PLP13_FUT";
@@ -214,7 +285,7 @@
          // 
          this.PLP13_OPT.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.PLP13_OPT.AppearanceCell.Options.UseBackColor = true;
-         this.PLP13_OPT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+         this.PLP13_OPT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.PLP13_OPT.AppearanceHeader.Options.UseBackColor = true;
          this.PLP13_OPT.Caption = "選擇權";
          this.PLP13_OPT.FieldName = "PLP13_OPT";
@@ -242,7 +313,7 @@
          // 
          this.PLP13_KIND_ID2.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.PLP13_KIND_ID2.AppearanceCell.Options.UseBackColor = true;
-         this.PLP13_KIND_ID2.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.PLP13_KIND_ID2.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.PLP13_KIND_ID2.AppearanceHeader.Options.UseBackColor = true;
          this.PLP13_KIND_ID2.Caption = "商品";
          this.PLP13_KIND_ID2.FieldName = "PLP13_KIND_ID2";
@@ -294,7 +365,7 @@
          // 
          this.PLP13_NATURE_TOT.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.PLP13_NATURE_TOT.AppearanceCell.Options.UseBackColor = true;
-         this.PLP13_NATURE_TOT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.PLP13_NATURE_TOT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.PLP13_NATURE_TOT.AppearanceHeader.Options.UseBackColor = true;
          this.PLP13_NATURE_TOT.Caption = "自然人";
          this.PLP13_NATURE_TOT.FieldName = "PLP13_NATURE_TOT";
@@ -325,7 +396,7 @@
          // 
          this.PLP13_LEGAL_TOT.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.PLP13_LEGAL_TOT.AppearanceCell.Options.UseBackColor = true;
-         this.PLP13_LEGAL_TOT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.PLP13_LEGAL_TOT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.PLP13_LEGAL_TOT.AppearanceHeader.Options.UseBackColor = true;
          this.PLP13_LEGAL_TOT.Caption = "法人";
          this.PLP13_LEGAL_TOT.FieldName = "PLP13_LEGAL_TOT";
@@ -353,7 +424,7 @@
          // 
          this.PLP13_999_TOT.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.PLP13_999_TOT.AppearanceCell.Options.UseBackColor = true;
-         this.PLP13_999_TOT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.PLP13_999_TOT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.PLP13_999_TOT.AppearanceHeader.Options.UseBackColor = true;
          this.PLP13_999_TOT.Caption = "自營商";
          this.PLP13_999_TOT.FieldName = "PLP13_999_TOT";
@@ -381,7 +452,7 @@
          // 
          this.PLP13_MMK_TOT.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.PLP13_MMK_TOT.AppearanceCell.Options.UseBackColor = true;
-         this.PLP13_MMK_TOT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.PLP13_MMK_TOT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.PLP13_MMK_TOT.AppearanceHeader.Options.UseBackColor = true;
          this.PLP13_MMK_TOT.Caption = "造市者";
          this.PLP13_MMK_TOT.FieldName = "PLP13_MMK_TOT";
@@ -426,7 +497,7 @@
          // 
          this.PLP13_NATURE_MTH.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.PLP13_NATURE_MTH.AppearanceCell.Options.UseBackColor = true;
-         this.PLP13_NATURE_MTH.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.PLP13_NATURE_MTH.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.PLP13_NATURE_MTH.AppearanceHeader.Options.UseBackColor = true;
          this.PLP13_NATURE_MTH.Caption = "自然人";
          this.PLP13_NATURE_MTH.FieldName = "PLP13_NATURE_MTH";
@@ -454,7 +525,7 @@
          // 
          this.PLP13_LEGAL_MTH.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.PLP13_LEGAL_MTH.AppearanceCell.Options.UseBackColor = true;
-         this.PLP13_LEGAL_MTH.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.PLP13_LEGAL_MTH.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.PLP13_LEGAL_MTH.AppearanceHeader.Options.UseBackColor = true;
          this.PLP13_LEGAL_MTH.Caption = "法人";
          this.PLP13_LEGAL_MTH.FieldName = "PLP13_LEGAL_MTH";
@@ -482,7 +553,7 @@
          // 
          this.PLP13_999_MTH.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.PLP13_999_MTH.AppearanceCell.Options.UseBackColor = true;
-         this.PLP13_999_MTH.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.PLP13_999_MTH.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.PLP13_999_MTH.AppearanceHeader.Options.UseBackColor = true;
          this.PLP13_999_MTH.Caption = "自營商";
          this.PLP13_999_MTH.FieldName = "PLP13_999_MTH";
@@ -508,6 +579,10 @@
          // 
          // PLP13_MMK_MTH
          // 
+         this.PLP13_MMK_MTH.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+         this.PLP13_MMK_MTH.AppearanceCell.Options.UseBackColor = true;
+         this.PLP13_MMK_MTH.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+         this.PLP13_MMK_MTH.AppearanceHeader.Options.UseBackColor = true;
          this.PLP13_MMK_MTH.Caption = "造市者";
          this.PLP13_MMK_MTH.FieldName = "PLP13_MMK_MTH";
          this.PLP13_MMK_MTH.Name = "PLP13_MMK_MTH";
@@ -559,9 +634,24 @@
          this.gridBand3.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
          this.gridBand3.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
          this.gridBand3.Caption = "自然人";
+         this.gridBand3.Columns.Add(this.PLP13_NATURE_LAST);
          this.gridBand3.Name = "gridBand3";
          this.gridBand3.VisibleIndex = 0;
          this.gridBand3.Width = 80;
+         // 
+         // PLP13_NATURE_LAST
+         // 
+         this.PLP13_NATURE_LAST.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+         this.PLP13_NATURE_LAST.AppearanceCell.Options.UseBackColor = true;
+         this.PLP13_NATURE_LAST.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+         this.PLP13_NATURE_LAST.AppearanceHeader.Options.UseBackColor = true;
+         this.PLP13_NATURE_LAST.Caption = "自然人";
+         this.PLP13_NATURE_LAST.FieldName = "PLP13_NATURE_LAST";
+         this.PLP13_NATURE_LAST.MinWidth = 30;
+         this.PLP13_NATURE_LAST.Name = "PLP13_NATURE_LAST";
+         this.PLP13_NATURE_LAST.OptionsColumn.ShowCaption = false;
+         this.PLP13_NATURE_LAST.Visible = true;
+         this.PLP13_NATURE_LAST.Width = 80;
          // 
          // gridBand4
          // 
@@ -572,9 +662,23 @@
          this.gridBand4.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
          this.gridBand4.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
          this.gridBand4.Caption = "法人";
+         this.gridBand4.Columns.Add(this.PLP13_LEGAL_LAST);
          this.gridBand4.Name = "gridBand4";
          this.gridBand4.VisibleIndex = 1;
          this.gridBand4.Width = 80;
+         // 
+         // PLP13_LEGAL_LAST
+         // 
+         this.PLP13_LEGAL_LAST.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+         this.PLP13_LEGAL_LAST.AppearanceCell.Options.UseBackColor = true;
+         this.PLP13_LEGAL_LAST.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+         this.PLP13_LEGAL_LAST.AppearanceHeader.Options.UseBackColor = true;
+         this.PLP13_LEGAL_LAST.Caption = "法人";
+         this.PLP13_LEGAL_LAST.FieldName = "PLP13_LEGAL_LAST";
+         this.PLP13_LEGAL_LAST.Name = "PLP13_LEGAL_LAST";
+         this.PLP13_LEGAL_LAST.OptionsColumn.ShowCaption = false;
+         this.PLP13_LEGAL_LAST.Visible = true;
+         this.PLP13_LEGAL_LAST.Width = 80;
          // 
          // gridBand5
          // 
@@ -585,9 +689,23 @@
          this.gridBand5.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
          this.gridBand5.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
          this.gridBand5.Caption = "自營商";
+         this.gridBand5.Columns.Add(this.PLP13_999_LAST);
          this.gridBand5.Name = "gridBand5";
          this.gridBand5.VisibleIndex = 2;
          this.gridBand5.Width = 80;
+         // 
+         // PLP13_999_LAST
+         // 
+         this.PLP13_999_LAST.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+         this.PLP13_999_LAST.AppearanceCell.Options.UseBackColor = true;
+         this.PLP13_999_LAST.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+         this.PLP13_999_LAST.AppearanceHeader.Options.UseBackColor = true;
+         this.PLP13_999_LAST.Caption = "自營商";
+         this.PLP13_999_LAST.FieldName = "PLP13_999_LAST";
+         this.PLP13_999_LAST.Name = "PLP13_999_LAST";
+         this.PLP13_999_LAST.OptionsColumn.ShowCaption = false;
+         this.PLP13_999_LAST.Visible = true;
+         this.PLP13_999_LAST.Width = 80;
          // 
          // gridBand6
          // 
@@ -598,141 +716,38 @@
          this.gridBand6.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
          this.gridBand6.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
          this.gridBand6.Caption = "造市者";
+         this.gridBand6.Columns.Add(this.PLP13_MMK_LAST);
          this.gridBand6.Name = "gridBand6";
          this.gridBand6.VisibleIndex = 3;
          this.gridBand6.Width = 80;
-         // 
-         // PLP13_NATURE_LAST
-         // 
-         this.PLP13_NATURE_LAST.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_NATURE_LAST.AppearanceCell.Options.UseBackColor = true;
-         this.PLP13_NATURE_LAST.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.PLP13_NATURE_LAST.AppearanceHeader.Options.UseBackColor = true;
-         this.PLP13_NATURE_LAST.Caption = "自然人";
-         this.PLP13_NATURE_LAST.FieldName = "PLP13_NATURE_LAST";
-         this.PLP13_NATURE_LAST.MinWidth = 30;
-         this.PLP13_NATURE_LAST.Name = "PLP13_NATURE_LAST";
-         this.PLP13_NATURE_LAST.OptionsColumn.ShowCaption = false;
-         this.PLP13_NATURE_LAST.Visible = true;
-         this.PLP13_NATURE_LAST.Width = 205;
-         // 
-         // PLP13_LEGAL_LAST
-         // 
-         this.PLP13_LEGAL_LAST.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_LEGAL_LAST.AppearanceCell.Options.UseBackColor = true;
-         this.PLP13_LEGAL_LAST.Caption = "法人";
-         this.PLP13_LEGAL_LAST.FieldName = "PLP13_LEGAL_LAST";
-         this.PLP13_LEGAL_LAST.Name = "PLP13_LEGAL_LAST";
-         this.PLP13_LEGAL_LAST.OptionsColumn.ShowCaption = false;
-         this.PLP13_LEGAL_LAST.Visible = true;
-         // 
-         // PLP13_999_LAST
-         // 
-         this.PLP13_999_LAST.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_999_LAST.AppearanceCell.Options.UseBackColor = true;
-         this.PLP13_999_LAST.Caption = "自營商";
-         this.PLP13_999_LAST.FieldName = "PLP13_999_LAST";
-         this.PLP13_999_LAST.Name = "PLP13_999_LAST";
-         this.PLP13_999_LAST.Visible = true;
          // 
          // PLP13_MMK_LAST
          // 
          this.PLP13_MMK_LAST.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.PLP13_MMK_LAST.AppearanceCell.Options.UseBackColor = true;
+         this.PLP13_MMK_LAST.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+         this.PLP13_MMK_LAST.AppearanceHeader.Options.UseBackColor = true;
          this.PLP13_MMK_LAST.Caption = "造市者";
          this.PLP13_MMK_LAST.FieldName = "PLP13_MMK_LAST";
          this.PLP13_MMK_LAST.Name = "PLP13_MMK_LAST";
+         this.PLP13_MMK_LAST.OptionsColumn.ShowCaption = false;
          this.PLP13_MMK_LAST.Visible = true;
+         this.PLP13_MMK_LAST.Width = 80;
          // 
-         // sidePanel1
+         // gridView1
          // 
-         this.sidePanel1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.sidePanel1.Appearance.Options.UseBackColor = true;
-         this.sidePanel1.BorderThickness = 0;
-         this.sidePanel1.Controls.Add(this.gcMain);
-         this.sidePanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.sidePanel1.Location = new System.Drawing.Point(0, 152);
-         this.sidePanel1.Margin = new System.Windows.Forms.Padding(0);
-         this.sidePanel1.Name = "sidePanel1";
-         this.sidePanel1.Size = new System.Drawing.Size(1197, 505);
-         this.sidePanel1.TabIndex = 10;
-         this.sidePanel1.Text = "sidePanel1";
+         this.gridView1.GridControl = this.gcMain;
+         this.gridView1.Name = "gridView1";
          // 
-         // sidePanel2
+         // panel2
          // 
-         this.sidePanel2.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
-         this.sidePanel2.Appearance.BorderColor = System.Drawing.Color.Transparent;
-         this.sidePanel2.Appearance.Options.UseBackColor = true;
-         this.sidePanel2.Appearance.Options.UseBorderColor = true;
-         this.sidePanel2.BorderThickness = 0;
-         this.sidePanel2.Controls.Add(this.YMDlookUpEdit);
-         this.sidePanel2.Controls.Add(this.label2);
-         this.sidePanel2.Controls.Add(this.emDate);
-         this.sidePanel2.Controls.Add(this.label1);
-         this.sidePanel2.Dock = System.Windows.Forms.DockStyle.Top;
-         this.sidePanel2.Location = new System.Drawing.Point(0, 0);
-         this.sidePanel2.Margin = new System.Windows.Forms.Padding(0);
-         this.sidePanel2.Name = "sidePanel2";
-         this.sidePanel2.Size = new System.Drawing.Size(1197, 152);
-         this.sidePanel2.TabIndex = 11;
-         this.sidePanel2.Text = "sidePanel2";
-         // 
-         // YMDlookUpEdit
-         // 
-         this.YMDlookUpEdit.Location = new System.Drawing.Point(397, 44);
-         this.YMDlookUpEdit.MenuManager = this.ribbonControl;
-         this.YMDlookUpEdit.Name = "YMDlookUpEdit";
-         this.YMDlookUpEdit.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.YMDlookUpEdit.Size = new System.Drawing.Size(100, 26);
-         this.YMDlookUpEdit.TabIndex = 3;
-         // 
-         // label2
-         // 
-         this.label2.AutoSize = true;
-         this.label2.Location = new System.Drawing.Point(311, 47);
-         this.label2.Name = "label2";
-         this.label2.Size = new System.Drawing.Size(89, 20);
-         this.label2.TabIndex = 2;
-         this.label2.Text = "生效日期：";
-         // 
-         // emDate
-         // 
-         this.emDate.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
-         this.emDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.emDate.EditValue = "2019/01/01";
-         this.emDate.Location = new System.Drawing.Point(145, 41);
-         this.emDate.MenuManager = this.ribbonControl;
-         this.emDate.Name = "emDate";
-         this.emDate.Properties.Appearance.Options.UseTextOptions = true;
-         this.emDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.emDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
-         this.emDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-         this.emDate.Properties.Mask.ShowPlaceHolders = false;
-         this.emDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.emDate.Size = new System.Drawing.Size(100, 26);
-         this.emDate.TabIndex = 1;
-         this.emDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
-         // 
-         // label1
-         // 
-         this.label1.AutoSize = true;
-         this.label1.Location = new System.Drawing.Point(60, 44);
-         this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(89, 20);
-         this.label1.TabIndex = 0;
-         this.label1.Text = "計算日期：";
-         // 
-         // sidePanel3
-         // 
-         this.sidePanel3.Controls.Add(this.sidePanel1);
-         this.sidePanel3.Controls.Add(this.sidePanel2);
-         this.sidePanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.sidePanel3.Location = new System.Drawing.Point(0, 30);
-         this.sidePanel3.Name = "sidePanel3";
-         this.sidePanel3.Size = new System.Drawing.Size(1197, 657);
-         this.sidePanel3.TabIndex = 12;
-         this.sidePanel3.Text = "sidePanel3";
+         this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+         this.panel2.Controls.Add(this.gcMain);
+         this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+         this.panel2.Location = new System.Drawing.Point(0, 171);
+         this.panel2.Name = "panel2";
+         this.panel2.Size = new System.Drawing.Size(1197, 516);
+         this.panel2.TabIndex = 7;
          // 
          // W30290
          // 
@@ -740,21 +755,23 @@
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
          this.ClientSize = new System.Drawing.Size(1197, 687);
-         this.Controls.Add(this.sidePanel3);
+         this.Controls.Add(this.panel2);
+         this.Controls.Add(this.panel1);
          this.Name = "W30290";
          this.Text = "W30290";
          this.Controls.SetChildIndex(this.ribbonControl, 0);
          this.Controls.SetChildIndex(this.panParent, 0);
-         this.Controls.SetChildIndex(this.sidePanel3, 0);
+         this.Controls.SetChildIndex(this.panel1, 0);
+         this.Controls.SetChildIndex(this.panel2, 0);
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
-         this.sidePanel1.ResumeLayout(false);
-         this.sidePanel2.ResumeLayout(false);
-         this.sidePanel2.PerformLayout();
+         this.panel1.ResumeLayout(false);
+         this.panel1.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.YMDlookUpEdit.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.emDate.Properties)).EndInit();
-         this.sidePanel3.ResumeLayout(false);
+         ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
+         this.panel2.ResumeLayout(false);
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -762,6 +779,11 @@
 
       #endregion
 
+      private System.Windows.Forms.Panel panel1;
+      private DevExpress.XtraEditors.LookUpEdit YMDlookUpEdit;
+      private System.Windows.Forms.Label label1;
+      private System.Windows.Forms.Label label2;
+      private BaseGround.Widget.TextDateEdit emDate;
       private DevExpress.XtraGrid.GridControl gcMain;
       private DevExpress.XtraGrid.Views.BandedGrid.BandedGridView gvMain;
       private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn PLP13_FUT;
@@ -774,13 +796,15 @@
       private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn PLP13_NATURE_MTH;
       private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn PLP13_LEGAL_MTH;
       private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn PLP13_999_MTH;
-      private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn PLP13_NATURE_LAST;
       private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn PLP13_MMK_MTH;
       private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn Is_NewRow;
-      private DevExpress.XtraEditors.SidePanel sidePanel1;
+      private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn PLP13_NATURE_LAST;
       private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn PLP13_LEGAL_LAST;
       private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn PLP13_999_LAST;
       private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn PLP13_MMK_LAST;
+      private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
+      private System.Windows.Forms.Panel panel2;
+      private System.Windows.Forms.Label stMsgTxt;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand1;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand t1;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand t2;
@@ -801,11 +825,5 @@
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand4;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand5;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand6;
-      private DevExpress.XtraEditors.SidePanel sidePanel3;
-      private DevExpress.XtraEditors.SidePanel sidePanel2;
-      private BaseGround.Widget.TextDateEdit emDate;
-      private System.Windows.Forms.Label label1;
-      private System.Windows.Forms.Label label2;
-      private DevExpress.XtraEditors.LookUpEdit YMDlookUpEdit;
    }
 }

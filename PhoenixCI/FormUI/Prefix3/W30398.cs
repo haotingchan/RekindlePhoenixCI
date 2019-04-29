@@ -7,6 +7,7 @@ using System.Threading;
 using BaseGround.Shared;
 using Common;
 using PhoenixCI.BusinessLogic.Prefix3;
+using System.IO;
 /// <summary>
 /// john,20190319,匯率類期貨契約價量資料
 /// </summary>
@@ -56,13 +57,6 @@ namespace PhoenixCI.FormUI.Prefix3
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Print(ReportHelper reportHelper)
-      {
-         base.Print(reportHelper);
-
-         return ResultStatus.Success;
-      }
-
       private bool StartExport()
       {
          if (!emMonth.IsDate(emMonth.Text + "/01", "日期輸入錯誤")) {
@@ -72,8 +66,8 @@ namespace PhoenixCI.FormUI.Prefix3
          /*******************
          Messagebox
          *******************/
-         stMsgtxt.Visible = true;
-         stMsgtxt.Text = "開始轉檔...";
+         stMsgTxt.Visible = true;
+         stMsgTxt.Text = "開始轉檔...";
          this.Cursor = Cursors.WaitCursor;
          this.Refresh();
          Thread.Sleep(5);
@@ -82,39 +76,45 @@ namespace PhoenixCI.FormUI.Prefix3
 
       private void EndExport()
       {
-         stMsgtxt.Text = "";
+         stMsgTxt.Text = "";
          this.Cursor = Cursors.Arrow;
          this.Refresh();
          Thread.Sleep(5);
-         stMsgtxt.Visible = false;
+         stMsgTxt.Visible = false;
       }
 
       protected void ShowMsg(string msg)
       {
-         stMsgtxt.Text = msg;
+         stMsgTxt.Visible = true;
+         stMsgTxt.Text = msg;
          this.Refresh();
          Thread.Sleep(5);
       }
 
+      private string OutputShowMessage {
+         set {
+            if (value != MessageDisplay.MSG_OK)
+               MessageDisplay.Info(value);
+         }
+      }
+
       protected override ResultStatus Export()
       {
-         try {
-            if (!StartExport()) {
-               return ResultStatus.Fail;
-            }
+         if (!StartExport()) {
+            return ResultStatus.Fail;
+         }
 
-            bool isChk = false;//判斷是否執行成功
-            string lsFile = PbFunc.wf_copy_file(_ProgramID, "30398");
+         string lsFile = PbFunc.wf_copy_file(_ProgramID, "30398");
+         try {
             b30398 = new B30398(lsFile, emMonth.Text);
 
             ShowMsg("30398－「GTF」期貨契約價量資料 轉檔中...");
-            isChk = b30398.Wf30331();
+            OutputShowMessage = b30398.Wf30331();
             ShowMsg("30398abc－「GTF」期貨契約價量資料(買賣方比重) 轉檔中...");
-            isChk = b30398.Wf30333();
-
-            if (!isChk) return ResultStatus.Fail;//Exception
+            OutputShowMessage = b30398.Wf30333();
          }
          catch (Exception ex) {
+            File.Delete(lsFile);
             WriteLog(ex);
             return ResultStatus.Fail;
          }
@@ -124,21 +124,5 @@ namespace PhoenixCI.FormUI.Prefix3
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Export(ReportHelper reportHelper)
-      {
-         base.Export(reportHelper);
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus CheckShield()
-      {
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus COMPLETE()
-      {
-         return ResultStatus.Success;
-      }
    }
 }

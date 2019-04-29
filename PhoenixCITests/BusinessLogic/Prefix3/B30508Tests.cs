@@ -38,8 +38,8 @@ namespace PhoenixCI.BusinessLogic.Prefix3.Tests
       [TestMethod()]
       public void Wf30508Test()
       {
-         bool isCorrect = b30508.Wf30508();
-         Assert.IsTrue(isCorrect);
+         string isCorrect = b30508.Wf30508();
+         Assert.IsNotNull(isCorrect);
       }
    }
 }

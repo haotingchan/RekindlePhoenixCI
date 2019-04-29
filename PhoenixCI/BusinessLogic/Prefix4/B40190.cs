@@ -5,6 +5,7 @@ using DevExpress.Spreadsheet;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 /// <summary>
@@ -124,8 +125,8 @@ namespace PhoenixCI.BusinessLogic.Prefix4
       /// <returns></returns>
       public string Wf40191()
       {
+         Workbook workbook = new Workbook();
          try {
-            Workbook workbook = new Workbook();
             workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets[0];
             DateTime emdate = _emDateText.AsDateTime("yyyy/MM/dd");
@@ -171,8 +172,6 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             DataTable TypeOdata = stfData.Filter(" mgr4_prod_type = 'O'  and mgrt1_level = 'Z'");
             worksheet.Cells["B216"].Value = TypeOdata.Rows.Count <= 0 ? "備註2：目前所有股票選擇權保證金皆適用級距1。" : TypeLevel(worksheet, stfData, "O");
 
-            //save
-            workbook.SaveDocument(_lsFile);
          }
          catch (Exception ex) {
 #if DEBUG
@@ -180,6 +179,10 @@ namespace PhoenixCI.BusinessLogic.Prefix4
 #else
             throw ex;
 #endif
+         }
+         finally {
+            //save
+            workbook.SaveDocument(_lsFile);
          }
          return MessageDisplay.MSG_OK;
       }
@@ -190,8 +193,8 @@ namespace PhoenixCI.BusinessLogic.Prefix4
       /// <returns></returns>
       public string Wf40192()
       {
+         Workbook workbook = new Workbook();
          try {
-            Workbook workbook = new Workbook();
             workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets[0];
             DateTime emdate = _emDateText.AsDateTime("yyyy/MM/dd");
@@ -212,9 +215,6 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             if (40 > ETFcount) {
                worksheet.Rows.Hide(162 + ETFcount, 202 - 1);
             }
-
-
-            workbook.SaveDocument(_lsFile);
          }
          catch (Exception ex) {
 #if DEBUG
@@ -222,6 +222,9 @@ namespace PhoenixCI.BusinessLogic.Prefix4
 #else
             throw ex;
 #endif
+         }
+         finally {
+            workbook.SaveDocument(_lsFile);
          }
          return MessageDisplay.MSG_OK;
       }
@@ -232,8 +235,8 @@ namespace PhoenixCI.BusinessLogic.Prefix4
       /// <returns></returns>
       public string Wf40193()
       {
+         Workbook workbook = new Workbook();
          try {
-            Workbook workbook = new Workbook();
             workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets[0];
             DateTime emdate = _emDateText.AsDateTime("yyyy/MM/dd");
@@ -244,7 +247,6 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                return $"{new DateTime(emdate.Year, emdate.Month, 01)},40193－調整狀況,無任何資料!";
             }
             worksheet.Import(dt, false, dao40190.Get40193SeqNo - 1, 1);
-            workbook.SaveDocument(_lsFile);
          }
          catch (Exception ex) {
 #if DEBUG
@@ -252,6 +254,9 @@ namespace PhoenixCI.BusinessLogic.Prefix4
 #else
             throw ex;
 #endif
+         }
+         finally {
+            workbook.SaveDocument(_lsFile);
          }
          return MessageDisplay.MSG_OK;
       }

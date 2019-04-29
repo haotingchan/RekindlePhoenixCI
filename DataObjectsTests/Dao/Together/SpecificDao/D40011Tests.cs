@@ -9,12 +9,6 @@ namespace DataObjects.Dao.Together.SpecificDao.Tests
    [TestClass()]
    public class D40011Tests
    {
-      [ClassInitialize]
-      public static void MyClassInitialize(TestContext testContext)
-      {
-         ConnectionInfo connectionInfo = SettingDragons.Instance.GetConnectionInfo(SettingDragons.Instance.Setting.Database.CiUserAp);
-         GlobalDaoSetting.Set(connectionInfo);
-      }
 
       [TestMethod()]
       public void GetRptLVTest()

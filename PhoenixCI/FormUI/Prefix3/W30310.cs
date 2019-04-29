@@ -7,6 +7,7 @@ using System.Threading;
 using BaseGround.Shared;
 using Common;
 using PhoenixCI.BusinessLogic.Prefix3;
+using System.IO;
 /// <summary>
 /// john,20190218,證期局七組月報
 /// </summary>
@@ -52,14 +53,7 @@ namespace PhoenixCI.FormUI.Prefix3
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Print(ReportHelper reportHelper)
-      {
-         base.Print(reportHelper);
-
-         return ResultStatus.Success;
-      }
-
-      private bool ExportBefore()
+      private bool StartExport()
       {
          if (!emMonth.IsDate(emMonth.Text + "/01", "日期輸入錯誤")) {
             //is_chk = "Y";
@@ -68,74 +62,66 @@ namespace PhoenixCI.FormUI.Prefix3
          /*******************
          Messagebox
          *******************/
-         stMsgtxt.Visible = true;
-         stMsgtxt.Text = "開始轉檔...";
+         stMsgTxt.Visible = true;
+         stMsgTxt.Text = "開始轉檔...";
          this.Cursor = Cursors.WaitCursor;
          this.Refresh();
          Thread.Sleep(5);
          return true;
       }
 
-      protected void ExportAfter()
+      protected void EndExport()
       {
-         stMsgtxt.Text = "轉檔完成!";
+         stMsgTxt.Text = "";
          this.Cursor = Cursors.Arrow;
          this.Refresh();
          Thread.Sleep(5);
-         stMsgtxt.Visible = false;
+         stMsgTxt.Visible = false;
       }
 
       protected void ShowMsg(string msg)
       {
-         stMsgtxt.Text = msg;
+         stMsgTxt.Visible = true;
+         stMsgTxt.Text = msg;
          this.Refresh();
          Thread.Sleep(5);
       }
 
+      private string OutputShowMessage {
+         set {
+            if (value != MessageDisplay.MSG_OK)
+               MessageDisplay.Info(value);
+         }
+      }
+
       protected override ResultStatus Export()
       {
-         try {
-            if (!ExportBefore()) {
-               return ResultStatus.Fail;
-            }
+         if (!StartExport()) {
+            return ResultStatus.Fail;
+         }
 
-            string lsFile = PbFunc.wf_copy_file(_ProgramID, "30310");
+         string lsFile = PbFunc.wf_copy_file(_ProgramID, "30310");
+         try {
             b30310 = new B30310(lsFile, emMonth.Text);
-            bool isChk = false;//判斷是否執行成功
             ShowMsg("30310－我國臺股期貨契約價量資料30311_1 轉檔中...");
-            isChk = b30310.Wf30310one("TXF", "30311_1");
+            OutputShowMessage = b30310.Wf30310one("TXF", "30311_1");
             ShowMsg("30310－我國臺股期貨契約價量資料30311_2(EXF) 轉檔中...");
-            isChk = b30310.Wf30310two("EXF", "30311_2(EXF)");
+            OutputShowMessage = b30310.Wf30310two("EXF", "30311_2(EXF)");
             ShowMsg("30310－我國臺股期貨契約價量資料30311_3(FXF) 轉檔中...");
-            isChk = b30310.Wf30310two("FXF", "30311_3(FXF)");
+            OutputShowMessage = b30310.Wf30310two("FXF", "30311_3(FXF)");
             ShowMsg("30313－當年每月日均量統計表 轉檔中...");
-            isChk = b30310.Wf30310four();
-            ExportAfter();
-            if (!isChk) return ResultStatus.Fail;//if Exception
+            OutputShowMessage = b30310.Wf30310four();
          }
          catch (Exception ex) {
-            ExportAfter();
+            File.Delete(lsFile);
             WriteLog(ex);
             return ResultStatus.Fail;
          }
+         finally {
+            EndExport();
+         }
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Export(ReportHelper reportHelper)
-      {
-         base.Export(reportHelper);
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus CheckShield()
-      {
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus COMPLETE()
-      {
-         return ResultStatus.Success;
-      }
    }
 }

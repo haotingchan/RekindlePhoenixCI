@@ -7,6 +7,7 @@ using Common;
 using BaseGround.Shared;
 using System.Threading;
 using PhoenixCI.BusinessLogic.Prefix3;
+using System.IO;
 /// <summary>
 /// 20190402,john,最佳1檔加權平均委託買賣價差統計表(月) 
 /// </summary>
@@ -115,11 +116,12 @@ namespace PhoenixCI.FormUI.Prefix3
 
       protected override ResultStatus Export()
       {
+         string lsFile = PbFunc.wf_copy_file(_ProgramID, "30503");
          try {
             if (!StartExport()) {
                return ResultStatus.Fail;
             }
-            string lsFile = PbFunc.wf_copy_file(_ProgramID, "30503");
+            
             //轉報表
             b30503 = new B30503(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH,lsFile, emStartMth.Text, emEndMth.Text);
             ShowMsg("30503－股票期貨最近月份契約買賣價差月資料統計表 轉檔中...");
@@ -128,6 +130,7 @@ namespace PhoenixCI.FormUI.Prefix3
             OutputShowMessage = b30503.WF30504();
          }
          catch (Exception ex) {
+            File.Delete(lsFile);
             WriteLog(ex);
             return ResultStatus.Fail;
          }

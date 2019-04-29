@@ -52,6 +52,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       public string WF30720()
       {
          string newFilePath = _lsFile;
+         Workbook workbook = new Workbook();
          try {
             //交易時段
             string lsMarketCode = string.Empty;
@@ -73,7 +74,6 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                   break;
             }
             //切換Sheet
-            Workbook workbook = new Workbook();
             workbook.LoadDocument(newFilePath);
             Worksheet worksheet = workbook.Worksheets["30720"];
             worksheet.Cells["A2"].Value = marketTitle;
@@ -93,8 +93,8 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                //年
                lsYMD = _sleYearText;
                dt = dao30720.GetData("Y", lsYMD, lsYMD + "01", lsYMD + "12", lsMarketCode);
-               worksheet.Cells["E1"].Value = $"本國期貨市場{dateMonth.Year - 1911}年" + worksheet.Cells["E1"].Value;
-               worksheet.Cells["E2"].Value = _sleYearText + worksheet.Cells["E2"].Value;
+               worksheet.Cells["E1"].Value = $"本國期貨市場{lsYMD.AsInt() - 1911}年" + worksheet.Cells["E1"].Value;
+               worksheet.Cells["E2"].Value = lsYMD + worksheet.Cells["E2"].Value;
             }
 
             if (dt.Rows.Count <= 0) {
@@ -106,11 +106,9 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                   worksheet.Rows[rowIndex-1][k].SetValue(dr[k]);
                }
             }
-
-            //存檔
+            
             worksheet.ScrollTo(0, 0);//直接滾動到最上面，不然看起來很像少行數
-            workbook.SaveDocument(newFilePath);
-            return MessageDisplay.MSG_OK;
+            
          }
          catch (Exception ex) {
             File.Delete(newFilePath);
@@ -120,6 +118,11 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             throw ex;
 #endif
          }
+         finally {
+            workbook.SaveDocument(newFilePath);//存檔
+         }
+
+         return MessageDisplay.MSG_OK;
       }
 
    }

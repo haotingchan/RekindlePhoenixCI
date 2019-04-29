@@ -15,11 +15,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3.Tests
       [ClassInitialize]
       public static void MyClassInitialize(TestContext testContext)
       {
-         ConnectionInfo connectionInfo = SettingDragons.Instance.GetConnectionInfo(SettingDragons.Instance.Setting.Database.CiUserAp);
-         GlobalDaoSetting.Set(connectionInfo);
-
          reportDirectoryPath = Path.Combine(Environment.CurrentDirectory.Replace("PhoenixCITests", "PhoenixCI"), "Report", DateTime.Now.ToString("yyyyMMdd"));
-         Directory.CreateDirectory(reportDirectoryPath);
 
          string excelTemplateDirectoryPath = Path.Combine(Environment.CurrentDirectory.Replace("PhoenixCITests", "PhoenixCI"), "Excel_Template", "30396.xlsx");
          destinationFilePath = Path.Combine(reportDirectoryPath, "30396_" + DateTime.Now.ToString("yyyy.MM.dd") + "-" + DateTime.Now.ToString("hh.mm.ss") + "Test.xlsx");
@@ -36,15 +32,15 @@ namespace PhoenixCI.BusinessLogic.Prefix3.Tests
       [TestMethod()]
       public void Wf30396Test()
       {
-         bool isCorrect = b30396.Wf30396();
-         Assert.IsTrue(isCorrect);
+         string isCorrect = b30396.Wf30396();
+         Assert.IsNotNull(isCorrect);
       }
 
       [TestMethod()]
       public void Wf30396abcTest()
       {
-         bool isCorrect = b30396.Wf30396abc();
-         Assert.IsTrue(isCorrect);
+         string isCorrect = b30396.Wf30396abc();
+         Assert.IsNotNull(isCorrect);
       }
    }
 }

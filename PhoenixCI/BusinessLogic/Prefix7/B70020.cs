@@ -1,21 +1,16 @@
-﻿using BaseGround;
-using Common;
+﻿using Common;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PhoenixCI.BusinessLogic.Prefix7
 {
    public class B70020
    {
       private D70020 dao70020;
-      private string saveFilePath;
+      private readonly string _saveFilePath;
 
       public B70020()
       {
@@ -24,7 +19,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
       public B70020(string path)
       {
          dao70020 = new D70020();
-         saveFilePath = path;
+         _saveFilePath = path;
       }
       /// <summary>
       /// ListM輸出excel
@@ -32,7 +27,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
       /// <param name="startDate">起始日期</param>
       /// <param name="endDate">終止日期</param>
       /// <param name="lsMarketCode">交易時段</param>
-      public bool ExportListM(string startDate, string endDate, string lsMarketCode)
+      public string ExportListM(string startDate, string endDate, string lsMarketCode)
       {
          try {
             DataTable dt = dao70020.ListM(startDate, endDate, "M", lsMarketCode);
@@ -46,12 +41,11 @@ namespace PhoenixCI.BusinessLogic.Prefix7
             dt.Columns["IBQ"].ColumnName = "買－報價範圍外成交";
             dt.Columns["ISQ"].ColumnName = "賣－報價範圍外成交";
             SaveExcel(dt);
-            return true;
          }
          catch (Exception ex) {
-            MessageDisplay.Error(ex.Message, GlobalInfo.ErrorText + "-exportListM");
-            return false;
+            throw ex;
          }
+         return MessageDisplay.MSG_OK;
       }
       /// <summary>
       /// ListO輸出excel
@@ -59,7 +53,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
       /// <param name="startDate">起始日期</param>
       /// <param name="endDate">終止日期</param>
       /// <param name="lsMarketCode">交易時段</param>
-      public bool ExportListO(string startDate, string endDate, string lsMarketCode)
+      public string ExportListO(string startDate, string endDate, string lsMarketCode)
       {
          try {
             DataTable dt = dao70020.ListO(startDate, endDate, "O", lsMarketCode);
@@ -70,13 +64,14 @@ namespace PhoenixCI.BusinessLogic.Prefix7
             dt.Columns["SO"].ColumnName = "賣一般委託";
             dt.Columns["SQ"].ColumnName = "賣報價委託";
             dt.Columns["MARKET_CODE"].ColumnName = "交易時段";
+            
             SaveExcel(dt);
-            return true;
          }
          catch (Exception ex) {
-            MessageDisplay.Error(ex.Message, GlobalInfo.ErrorText + "-exportListO");
-            return false;
+            throw ex;
          }
+
+         return MessageDisplay.MSG_OK;
       }
       /// <summary>
       /// AM8輸出excel
@@ -84,7 +79,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
       /// <param name="startDate">起始日期</param>
       /// <param name="endDate">終止日期</param>
       /// <param name="lsMarketCode">交易時段</param>
-      public bool ExportAM8(string startDate, string endDate, string lsMarketCode)
+      public string ExportAM8(string startDate, string endDate, string lsMarketCode)
       {
          try {
             DataTable dtAM8 = dao70020.ListAM8(startDate, endDate, lsMarketCode);
@@ -99,12 +94,12 @@ namespace PhoenixCI.BusinessLogic.Prefix7
             dtAM8.Columns["qnty_2"].ColumnName = "自營商帳號(2)成交量";
             dtAM8.Columns["MARKET_CODE"].ColumnName = "交易時段";
             SaveExcel(dtAM8);
-            return true;
          }
          catch (Exception ex) {
-            MessageDisplay.Error(ex.Message, GlobalInfo.ErrorText + "-exportAM8");
-            return false;
+            throw ex;
          }
+
+         return MessageDisplay.MSG_OK;
       }
       /// <summary>
       /// 判斷資料量選擇要存檔的格式(xls|txt)
@@ -113,26 +108,21 @@ namespace PhoenixCI.BusinessLogic.Prefix7
       private void SaveExcel(DataTable dataTable)
       {
          try {
-            if (dataTable.Rows.Count <= 0) {
-               MessageDisplay.Error("轉出筆數為０!", GlobalInfo.ErrorText);
-            }
-
             Workbook wb = new Workbook();
             wb.Worksheets[0].Import(dataTable, true, 0, 0);
-            wb.Worksheets[0].Name = SheetName(saveFilePath);
+            wb.Worksheets[0].Name = SheetName(_saveFilePath);
             //存檔
             if (dataTable.Rows.Count > 0) {
                if (dataTable.Rows.Count <= 65536) {
-                  wb.SaveDocument(saveFilePath, DocumentFormat.Xls);
+                  wb.SaveDocument(_saveFilePath, DocumentFormat.Xls);
                }
                else {
-                  wb.SaveDocument(saveFilePath, DocumentFormat.Text);
+                  wb.SaveDocument(_saveFilePath, DocumentFormat.Text);
                }
             }
          }
          catch (Exception ex) {
-            MessageDisplay.Error(ex.Message, GlobalInfo.ErrorText + "-saveExcel");
-            return;
+            throw new Exception( "saveExcel:"+ ex.Message);
          }
       }
 

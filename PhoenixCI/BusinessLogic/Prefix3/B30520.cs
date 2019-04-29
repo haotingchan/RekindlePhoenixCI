@@ -7,6 +7,7 @@ using DevExpress.Spreadsheet.Charts;
 using System;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 /// <summary>
 /// 20190318,john,國內期貨交易概況表
@@ -59,12 +60,10 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <returns></returns>
       public string Wf30521(int RowIndex = 4, string RptName = "國內期貨交易概況表")
       {
-         string flowStepDesc = "開始轉出資料";
+         Workbook workbook = new Workbook();
          try
          {
             //切換Sheet
-            flowStepDesc = "切換Sheet";
-            Workbook workbook = new Workbook();
             workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets[0];
 
@@ -78,14 +77,12 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                2.當年1月至當月合計
                3.當年1月至當月明細
             ******************/
-            flowStepDesc = "讀取資料";
             DataTable dt = new D30520().List30521(firstYear, PbFunc.Left(_emMonthText, 4), $"{PbFunc.Left(_emMonthText, 4)}01", _emMonthText.Replace("/", ""));
             if (dt.Rows.Count <= 0)
             {
                return $"{firstYear}~{PbFunc.Left(_emMonthText, 4)},{PbFunc.Left(_emMonthText, 4)}01～{_emMonthText.Replace("/", "")},30521－{RptName},無任何資料!";
             }
             /* 成交量 & OI */
-            flowStepDesc = "讀取成交量資料";
             DataTable dtAI2 = new D30520().List30521AI2(firstYear, PbFunc.Left(_emMonthText, 4), $"{PbFunc.Left(_emMonthText, 4)}01", _emMonthText.Replace("/", ""));
             if (dtAI2.Rows.Count <= 0)
             {
@@ -93,7 +90,6 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             }
 
             //寫入內容
-            flowStepDesc = "寫入內容";
             string lsYMD = "";
             int addCount = 0;//計算新增row的數量
 
@@ -132,7 +128,6 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             }//foreach (DataRow row in dt.Rows)
 
             //刪除空白列
-            flowStepDesc = "刪除空白列";
             //總列數,隱藏於A3
             int rowTotal = worksheet.Cells["A3"].Value.AsInt();
             if (rowTotal > addCount)
@@ -143,17 +138,21 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                worksheet.Range["A34:G34"].Borders.BottomBorder.Color = Color.Black;
                worksheet.ScrollTo(0, 0);//直接滾動到最上面，不然看起來很像少行數
             }
-            workbook.SaveDocument(_lsFile);
-            return MessageDisplay.MSG_OK;
+            
          }
          catch (Exception ex)
          {
 #if DEBUG
-            throw new Exception($"wf30520-{flowStepDesc}:" + ex.Message);
+            throw new Exception($"wf30520:" + ex.Message);
 #else
             throw ex;
 #endif
          }
+         finally {
+            workbook.SaveDocument(_lsFile);
+         }
+
+         return MessageDisplay.MSG_OK;
       }
 
 

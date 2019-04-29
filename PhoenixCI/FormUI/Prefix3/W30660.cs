@@ -87,22 +87,22 @@ namespace PhoenixCI.FormUI.Prefix3 {
       public W30660(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
          dao30660 = new D30660();
+         daoAE6 = new AE6();
          this.Text = _ProgramID + "─" + _ProgramName;
 
          //取得資料庫內最大日期
-         DataTable tmpDt = new AE6().MaxDate();
+         DataTable tmpDt = daoAE6.MaxDate();
          string tmpDate = tmpDt.Rows[0][0].AsString(); //20171110
          if (tmpDate != "") {
             //本週
-            txtAftEymd.Text = tmpDate.SubStr(0 , 4) + "/" + tmpDate.SubStr(4 , 2) + "/" + tmpDate.SubStr(6 , 2);
-            txtAftSymd.Text = (DateTime.ParseExact(txtAftEymd.Text , "yyyy/MM/dd" , null).AddDays(-6)).AsString().SubStr(0 , 10);
+            txtAftEymd.DateTimeValue = DateTime.ParseExact(tmpDate.SubStr(0 , 4) + "/" + tmpDate.SubStr(4 , 2) + "/" + tmpDate.SubStr(6 , 2) , "yyyy/MM/dd" , null);
+            txtAftSymd.DateTimeValue = txtAftEymd.DateTimeValue.AddDays(-6);
             //上週
-            txtPrevEymd.Text = (DateTime.ParseExact(txtAftSymd.Text , "yyyy/MM/dd" , null).AddDays(-1)).AsString().SubStr(0 , 10);
-            txtPrevSymd.Text = (DateTime.ParseExact(txtPrevEymd.Text , "yyyy/MM/dd" , null).AddDays(-6)).AsString().SubStr(0 , 10);
+            txtPrevEymd.DateTimeValue = txtAftSymd.DateTimeValue.AddDays(-1);
+            txtPrevSymd.DateTimeValue = txtPrevEymd.DateTimeValue.AddDays(-6);
             //全期
-            txtAllEymd.Text = txtAftEymd.Text;
-            txtAllSymd.Text = "2017/11/01";
-            //txtAllSymd.Text = "2014/5/15"; //照PB寫死
+            txtAllEymd.DateTimeValue = txtAftEymd.DateTimeValue;
+            txtAllSymd.DateTimeValue = DateTime.ParseExact("2014/05/15" , "yyyy/MM/dd" , null);//照PB寫死
          }
 
       }
@@ -118,20 +118,20 @@ namespace PhoenixCI.FormUI.Prefix3 {
       protected override ResultStatus Export() {
 
          #region 檢查日期起訖
-         if (txtAftSymd.DateTimeValue > txtAftEymd.DateTimeValue) {
-            MessageDisplay.Error(string.Format("{0}起日期({1})不可大於迄日期({2})" , labDate1.Text , txtAftSymd.Text , txtAftEymd.Text));
-            return ResultStatus.Fail;
-         }
+         //if (txtAftSymd.DateTimeValue > txtAftEymd.DateTimeValue) {
+         //   MessageDisplay.Error(string.Format("{0}起日期({1})不可大於迄日期({2})" , labDate1.Text , txtAftSymd.Text , txtAftEymd.Text));
+         //   return ResultStatus.Fail;
+         //}
 
-         if (txtPrevSymd.DateTimeValue > txtPrevEymd.DateTimeValue) {
-            MessageDisplay.Error(string.Format("{0}起日期({1})不可大於迄日期({2})" , labDate2.Text , txtPrevSymd.Text , txtPrevEymd.Text));
-            return ResultStatus.Fail;
-         }
+         //if (txtPrevSymd.DateTimeValue > txtPrevEymd.DateTimeValue) {
+         //   MessageDisplay.Error(string.Format("{0}起日期({1})不可大於迄日期({2})" , labDate2.Text , txtPrevSymd.Text , txtPrevEymd.Text));
+         //   return ResultStatus.Fail;
+         //}
 
-         if (txtAllSymd.DateTimeValue > txtAllEymd.DateTimeValue) {
-            MessageDisplay.Error(string.Format("{0}起日期({1})不可大於迄日期({2})" , labDateAll.Text , txtAllSymd.Text , txtAllEymd.Text));
-            return ResultStatus.Fail;
-         }
+         //if (txtAllSymd.DateTimeValue > txtAllEymd.DateTimeValue) {
+         //   MessageDisplay.Error(string.Format("{0}起日期({1})不可大於迄日期({2})" , labDateAll.Text , txtAllSymd.Text , txtAllEymd.Text));
+         //   return ResultStatus.Fail;
+         //}
 
          #endregion
 
@@ -167,8 +167,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             return ResultStatus.Success;
 
          } catch (Exception ex) {
-            PbFunc.f_write_logf(_ProgramID , "Error" , ex.Message);
-            MessageDisplay.Error(ex.Message);
+            WriteLog(ex);
          }
          return ResultStatus.Fail;
       }
@@ -180,20 +179,22 @@ namespace PhoenixCI.FormUI.Prefix3 {
          Thread.Sleep(5);
       }
 
-      private bool wfExport(Workbook workbook , SheetNo sheetNo) {
+      protected bool wfExport(Workbook workbook , SheetNo sheetNo) {
          try {
             string rptName = "Eurex FTX vs TX 振幅、波動度及交易量統計(總表)";
             ShowMsg(string.Format("{0}－{1} 轉檔中..." , _ProgramID , rptName));
 
+            DataTable xx = dao30660.GetData(PrevStart , PrevEnd , AftStart , AftEnd , AllStart , AllEnd);
+
             //1.讀取資料
-            DataTable dtContent = new DataTable();
+            DataTable dt = new DataTable();
             if ((int)sheetNo == 0) {
-               dtContent = dao30660.GetData(PrevStart , PrevEnd , AftStart , AftEnd , AllStart , AllEnd); ; // Eurex vs TX
+               dt = dao30660.GetData(PrevStart , PrevEnd , AftStart , AftEnd , AllStart , AllEnd);  // Eurex vs TX
             } else {
-               dtContent = dao30660.GetDetailData(AllStart , AllEnd); //每日明細
+               dt = dao30660.GetDetailData(AllStart , AllEnd); //每日明細
             }
 
-            if (dtContent.Rows.Count == 0) {
+            if (dt.Rows.Count <= 0) {
                MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , AllStart + "-" + AllEnd , this.Text));
                return false;
             }
@@ -203,18 +204,18 @@ namespace PhoenixCI.FormUI.Prefix3 {
             if ((int)sheetNo == 0) {
 
                li_ole_row = 3;
-               for (int i = 0 ; i < dtContent.Rows.Count ; i++) {
+               for (int i = 0 ; i < dt.Rows.Count ; i++) {
                   li_ole_row += 1;
                   for (int j = 0 ; j < 14 ; j++) {
-                     worksheet.Cells[li_ole_row - 1 , j].Value = dtContent.Rows[i][j].AsDecimal();               
+                     worksheet.Cells[li_ole_row - 1 , j].Value = dt.Rows[i][j].AsDecimal();
                   }
                }
             } else {
                li_ole_row = 3;
-               for (int i = 0 ; i < dtContent.Rows.Count ; i++) {
+               for (int i = 0 ; i < dt.Rows.Count ; i++) {
                   li_ole_row += 1;
                   for (int j = 0 ; j < 19 ; j++) {
-                     worksheet.Cells[li_ole_row - 1 , j].Value = dtContent.Rows[i][j].AsDecimal();
+                     worksheet.Cells[li_ole_row - 1 , j].Value = dt.Rows[i][j].AsDecimal();
                   }
                }
             }
@@ -222,7 +223,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             return true;
 
          } catch (Exception ex) {
-            PbFunc.f_write_logf(_ProgramID , "error" , ex.Message);
+            WriteLog(ex);
             return false;
          }
       }

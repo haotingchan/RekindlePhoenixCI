@@ -165,13 +165,15 @@
          // 
          // emCount
          // 
-         this.emCount.EditValue = "0";
+         this.emCount.EditValue = ((short)(0));
          this.emCount.Location = new System.Drawing.Point(129, 71);
          this.emCount.MenuManager = this.ribbonControl;
          this.emCount.Name = "emCount";
-         this.emCount.Properties.Mask.EditMask = "d";
-         this.emCount.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
-         this.emCount.Size = new System.Drawing.Size(49, 28);
+         this.emCount.Properties.Mask.EditMask = "[0-9]?[0-9]?";
+         this.emCount.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.emCount.Properties.Mask.PlaceHolder = '0';
+         this.emCount.Properties.MaxLength = 2;
+         this.emCount.Size = new System.Drawing.Size(32, 28);
          this.emCount.TabIndex = 5;
          // 
          // emDate
@@ -183,17 +185,20 @@
          this.emDate.Name = "emDate";
          this.emDate.Properties.Appearance.Options.UseTextOptions = true;
          this.emDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.emDate.Properties.EditFormat.FormatString = "yyyy/MM/dd";
          this.emDate.Properties.Mask.EditMask = "yyyy/MM/dd";
          this.emDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.emDate.Properties.Mask.ShowPlaceHolders = false;
          this.emDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.emDate.Size = new System.Drawing.Size(95, 28);
          this.emDate.TabIndex = 4;
+         this.emDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
          // 
          // label2
          // 
          this.label2.AutoSize = true;
          this.label2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
-         this.label2.Location = new System.Drawing.Point(184, 75);
+         this.label2.Location = new System.Drawing.Point(167, 75);
          this.label2.Name = "label2";
          this.label2.Size = new System.Drawing.Size(96, 21);
          this.label2.TabIndex = 1;

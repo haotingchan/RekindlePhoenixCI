@@ -176,6 +176,8 @@
          this.sleYear.Name = "sleYear";
          this.sleYear.Properties.DisplayFormat.FormatString = "yyyy";
          this.sleYear.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+         this.sleYear.Properties.EditFormat.FormatString = "d";
+         this.sleYear.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
          this.sleYear.Properties.Mask.EditMask = "\\d\\d\\d\\d";
          this.sleYear.Properties.Mask.IgnoreMaskBlank = false;
          this.sleYear.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
@@ -195,9 +197,11 @@
          this.emMonth.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.emMonth.Properties.Mask.EditMask = "yyyy/MM";
          this.emMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.emMonth.Properties.Mask.ShowPlaceHolders = false;
          this.emMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.emMonth.Size = new System.Drawing.Size(75, 28);
          this.emMonth.TabIndex = 0;
+         this.emMonth.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
          // 
          // st5
          // 

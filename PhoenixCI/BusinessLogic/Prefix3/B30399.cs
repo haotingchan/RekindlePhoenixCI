@@ -29,7 +29,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="RowIndex">Excel的Row位置</param>
       /// <param name="RowTotal">Excel的Column預留數</param>
       /// <returns></returns>
-      public bool Wf30331(string IsKindID= "XIF", string SheetName= "30399", int RowIndex=1, int RowTotal=33)
+      public string Wf30331(string IsKindID= "XIF", string SheetName= "30399", int RowIndex=1, int RowTotal=33)
       {
          try {
             /*add some infor 原本template標題就已經設定 這段看不出意義在哪 所以不翻
@@ -43,7 +43,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
          catch (Exception ex) {
             throw ex;
          }
-         return true;
+         return Common.MessageDisplay.MSG_OK;
       }
 
       /// <summary>
@@ -54,15 +54,14 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="RowIndex">Excel的Row位置</param>
       /// <param name="RowTotal">Excel的Column預留數</param>
       /// <returns></returns>
-      public bool Wf30333(string IsKindID= "XIF", string SheetName= "data_30399abc", int RowIndex = 3, int RowTotal = 12)
+      public string Wf30333(string IsKindID= "XIF", string SheetName= "data_30399abc", int RowIndex = 3, int RowTotal = 12)
       {
          try {
-            b30398.Wf30333(IsKindID, SheetName);
+            return b30398.Wf30333(IsKindID, SheetName);
          }
          catch (Exception ex) {
             throw ex;
          }
-         return true;
       }
 
       
