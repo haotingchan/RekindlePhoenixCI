@@ -45,10 +45,10 @@ namespace CI {
             ConnectionInfo connectionInfo = SettingDragons.Instance.GetConnectionInfo(SettingDragons.Instance.Setting.Database.CiUserAp);
             GlobalDaoSetting.Set(connectionInfo);
             
-            GlobalInfo.USER_ID = "I0001";
-            GlobalInfo.USER_NAME = "菲魯特";
-            GlobalInfo.USER_DPT_ID = "J";
-            GlobalInfo.USER_DPT_NAME = "資訊規劃部";
+            //GlobalInfo.USER_ID = "I0001";
+            //GlobalInfo.USER_NAME = "菲魯特";
+            //GlobalInfo.USER_DPT_ID = "J";
+            //GlobalInfo.USER_DPT_NAME = "資訊規劃部";
 
             string reportDirectoryPath = "";
             reportDirectoryPath = Path.Combine(Application.StartupPath, "Report", DateTime.Now.ToString("yyyyMMdd"));
@@ -89,10 +89,11 @@ namespace CI {
             }
             else
             {
-                Application.Run(new FormMain());
+                //Application.Run(new FormMain());
+                Application.Run(new FormLogin());
             }
             
-            //Application.Run(new FormLogin());
+            
         }
 
         private static void UIThreadException(object sender, ThreadExceptionEventArgs t) {
