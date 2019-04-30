@@ -61,6 +61,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                   MessageDisplay.Info(inputMonth + "," + _ProgramID + '－' + _ProgramName + ",無任何資料!");
                   return ResultStatus.Fail;
                }
+
                // 年分
                for (int j = startYear.AsInt(); j <= inputYear.AsInt(); j++) {
                   DataTable dtYear = dtYearData.Filter("AM2_YMD = " + j.ToString());
