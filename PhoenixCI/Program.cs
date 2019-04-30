@@ -44,13 +44,14 @@ namespace CI {
 
             ConnectionInfo connectionInfo = SettingDragons.Instance.GetConnectionInfo(SettingDragons.Instance.Setting.Database.CiUserAp);
             GlobalDaoSetting.Set(connectionInfo);
-            
-            //GlobalInfo.USER_ID = "I0001";
-            //GlobalInfo.USER_NAME = "菲魯特";
-            //GlobalInfo.USER_DPT_ID = "J";
-            //GlobalInfo.USER_DPT_NAME = "資訊規劃部";
+#if DEBUG
+         GlobalInfo.USER_ID = "I0001";
+         GlobalInfo.USER_NAME = "菲魯特";
+         GlobalInfo.USER_DPT_ID = "J";
+         GlobalInfo.USER_DPT_NAME = "資訊規劃部";
+#endif
 
-            string reportDirectoryPath = "";
+         string reportDirectoryPath = "";
             reportDirectoryPath = Path.Combine(Application.StartupPath, "Report", DateTime.Now.ToString("yyyyMMdd"));
 
             string excelTemplateDirectoryPath = "";
@@ -89,8 +90,11 @@ namespace CI {
             }
             else
             {
-                //Application.Run(new FormMain());
-                Application.Run(new FormLogin());
+#if DEBUG
+            Application.Run(new FormMain());
+#else
+            Application.Run(new FormLogin());
+#endif
             }
             
             
