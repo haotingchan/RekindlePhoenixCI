@@ -42,24 +42,23 @@
             // 
             this.panParent.Controls.Add(this.grpxDescription);
             this.panParent.Controls.Add(this.ExportShow);
-            this.panParent.Size = new System.Drawing.Size(800, 418);
+            this.panParent.Size = new System.Drawing.Size(808, 422);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(800, 32);
+            this.ribbonControl.Size = new System.Drawing.Size(808, 32);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // grpxDescription
             // 
             this.grpxDescription.AutoSize = true;
-            this.grpxDescription.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
             this.grpxDescription.Controls.Add(this.txtDate);
             this.grpxDescription.Controls.Add(this.lblDate);
             this.grpxDescription.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.grpxDescription.Location = new System.Drawing.Point(15, 15);
+            this.grpxDescription.Location = new System.Drawing.Point(35, 35);
             this.grpxDescription.Name = "grpxDescription";
-            this.grpxDescription.Size = new System.Drawing.Size(404, 120);
+            this.grpxDescription.Size = new System.Drawing.Size(360, 100);
             this.grpxDescription.TabIndex = 15;
             this.grpxDescription.TabStop = false;
             this.grpxDescription.Text = "請輸入交易日期";
@@ -70,7 +69,7 @@
             this.txtDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
             this.txtDate.EditValue = "2018/12";
             this.txtDate.EnterMoveNextControl = true;
-            this.txtDate.Location = new System.Drawing.Point(128, 42);
+            this.txtDate.Location = new System.Drawing.Point(99, 42);
             this.txtDate.MenuManager = this.ribbonControl;
             this.txtDate.Name = "txtDate";
             this.txtDate.Properties.Appearance.Options.UseTextOptions = true;
@@ -81,7 +80,7 @@
             this.txtDate.Properties.Mask.PlaceHolder = '0';
             this.txtDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtDate.Size = new System.Drawing.Size(144, 26);
+            this.txtDate.Size = new System.Drawing.Size(100, 26);
             this.txtDate.TabIndex = 15;
             this.txtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -97,7 +96,7 @@
             // ExportShow
             // 
             this.ExportShow.AutoSize = true;
-            this.ExportShow.Location = new System.Drawing.Point(10, 138);
+            this.ExportShow.Location = new System.Drawing.Point(31, 167);
             this.ExportShow.Name = "ExportShow";
             this.ExportShow.Size = new System.Drawing.Size(54, 20);
             this.ExportShow.TabIndex = 16;
@@ -108,7 +107,7 @@
             this.Appearance.Options.UseFont = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(808, 454);
             this.Name = "W30689";
             this.Text = "W30689";
             this.panParent.ResumeLayout(false);

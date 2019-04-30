@@ -20,7 +20,7 @@ namespace DataObjects.Dao.Together.TableDao
             };
 
             string sql = @"
-                                    SELECT * FROM ci.TPRICES_OPT 
+                                    SELECT ci.TPRICES_OPT.*,DECODE(TPRICES_PC_CODE,'C','買權','賣權') AS TPRICES_PC_CODE_NAME FROM ci.TPRICES_OPT 
                                     WHERE TPRICES_TRADE_YMD = :as_ymd
                                     ORDER BY TPRICES_KIND_ID,TPRICES_SETTLE_MONTH,TPRICES_STRIKE_PRICE
             ";
