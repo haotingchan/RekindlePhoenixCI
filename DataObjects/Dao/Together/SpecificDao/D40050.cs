@@ -30,7 +30,8 @@ namespace DataObjects.Dao.Together.SpecificDao
             };
 
          string sql =
-             @"SELECT rank() OVER (partition by sort.MG4_KIND_ID order by sort.MG4_DATE )-1 as CNT,sort.*,count(MG4_KIND_ID) Over( partition by sort.MG4_KIND_ID ) as CP_CNT
+             @"SELECT * FROM
+(SELECT ROW_NUMBER() OVER (partition by sort.MG4_KIND_ID order by sort.MG4_DATE )-1 as CNT,sort.*,count(MG4_KIND_ID) Over( partition by sort.MG4_KIND_ID ) as CP_CNT
                FROM
                 (SELECT MG4_DATE,   
                         nvl(MGT2_KIND_ID_OUT,MG4_KIND_ID) AS MG4_KIND_ID,   
@@ -55,8 +56,10 @@ namespace DataObjects.Dao.Together.SpecificDao
                         MG4_KIND_ID = MGT2_KIND_ID(+) and
                         MG4_KIND_ID = APDK_KIND_ID 
                     and APDK_UNDERLYING_MARKET = COD_ID(+)
-                    and APDK_MARKET_CLOSE like :as_osw_grp) sort
-               ORDER BY MGT2_SEQ_NO,decode(RPT_SEQ_NO,null,99,RPT_SEQ_NO),SUBSTR(MG4_KIND_ID,1,2), decode(SUBSTR(MG4_KIND_ID,3,1),MG4_PROD_TYPE,' ' ,SUBSTR(MG4_KIND_ID,3,1)),MG4_DATE
+                    and APDK_MARKET_CLOSE like :as_osw_grp
+                    ) sort
+                    ORDER BY MGT2_SEQ_NO,decode(RPT_SEQ_NO,null,99,RPT_SEQ_NO),SUBSTR(MG4_KIND_ID,1,2), decode(SUBSTR(MG4_KIND_ID,3,1),MG4_PROD_TYPE,' ' ,SUBSTR(MG4_KIND_ID,3,1)),MG4_DATE,CNT
+                    )
                     ";
          DataTable dtResult = db.GetDataTable(sql, parms);
 

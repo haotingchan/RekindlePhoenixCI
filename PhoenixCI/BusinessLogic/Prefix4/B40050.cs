@@ -26,10 +26,22 @@ namespace PhoenixCI.BusinessLogic.Prefix4
          _Data = dataTable;
       }
 
+
+      private static int GrpCount(int tolCount, int k, int grpCount)
+      {
+         if (grpCount > 0 && grpCount > tolCount) {
+            k = k + (grpCount - tolCount);
+         }
+         return k;
+      }
+
+
       private void Wf40053Fut(Worksheet worksheet, DataTable dt)
       {
          worksheet.Cells["L1"].Value = "作業日期：" + DateTime.Now.ToLongDateString().ToString();
-
+         if (dt.Rows.Count <= 0) {
+            return;
+         }
          int ColorDecimal = 11711154;//color十進位代碼 預設為淺灰
          int RowIndex = 3;
          int tolCount = _emCount == 0 ? 9999 : _emCount;
@@ -43,11 +55,10 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                int grpCount = row["CP_CNT"].AsInt();
 
                bgColor = bgColor != ColorDecimal ? ColorDecimal : 16777215;//灰底or白底
-               worksheet.Range[$"{RowIndex + 1 }:{RowIndex + grpCount}"].Fill.BackgroundColor = Color.FromArgb(bgColor);
+               worksheet.Range[$"A{RowIndex + 1}:L{RowIndex + grpCount}"].Fill.BackgroundColor = Color.FromArgb(bgColor);
 
-               if (grpCount > 0 && grpCount > tolCount) {
-                  k = k + (grpCount - tolCount);
-               }
+               k = GrpCount(tolCount, k, grpCount);
+               row = dt.Rows[k];
             }//if (kindID != row["MG4_KIND_ID"].AsString())
 
             RowIndex = RowIndex + 1;
@@ -69,12 +80,15 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             }
 
          }//for (int k = 0; k < dt.Rows.Count; k++)
+         worksheet.Rows.Remove(RowIndex, dt.Rows.Count);
       }
 
       private void Wf40054Opt(Worksheet worksheet, DataTable dt)
       {
          worksheet.Cells["Q1"].Value = "作業日期：" + DateTime.Now.ToLongDateString().ToString();
-
+         if (dt.Rows.Count<=0) {
+            return;
+         }
          int ColorDecimal = 11711154;//color十進位代碼 預設為淺灰
          int RowIndex = 2;//Excel的Row位置
          int tolCount = _emCount == 0 ? 9999 : _emCount;
@@ -89,11 +103,9 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                int grpCount = row["CP_CNT"].AsInt();
 
                bgColor = bgColor != ColorDecimal ? ColorDecimal : 16777215;//灰底or白底
-               worksheet.Range[$"{RowIndex + 1 }:{RowIndex + grpCount}"].Fill.BackgroundColor = Color.FromArgb(bgColor);
-
-               if (grpCount > 0 && grpCount > tolCount) {
-                  k = k + (grpCount - tolCount);
-               }
+               worksheet.Range[$"A{RowIndex + 1 }:Q{RowIndex + grpCount}"].Fill.BackgroundColor = Color.FromArgb(bgColor);
+               k = GrpCount(tolCount, k, grpCount);
+               row = dt.Rows[k];
             }//if (kindID != row["MG4_KIND_ID"].AsString())
 
             RowIndex = RowIndex + 1;
@@ -119,6 +131,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             }
 
          }//for (int k = 0; k < dt.Rows.Count; k++)
+         worksheet.Rows.Remove(RowIndex, dt.Rows.Count);
       }
 
 
@@ -136,7 +149,11 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets["Fut"];
             worksheet.Cells["I1"].Value = "作業日期：" + DateTime.Now.ToLongDateString().ToString();
+            
             DataTable dt = _Data.Filter("mg4_prod_type = 'F' and  mg4_prod_subtype <> 'S' ");
+            if (dt.Rows.Count <= 0) {
+               return MessageDisplay.MSG_OK;
+            }
             int tolCount = _emCount == 0 ? 9999 : _emCount;
 
             string kindID = "";
@@ -145,15 +162,14 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                DataRow row = dt.Rows[k];
                if (kindID != row["MG4_KIND_ID"].AsString()) {
                   kindID = row["MG4_KIND_ID"].AsString();
-                  
+
                   int grpCount = row["CP_CNT"].AsInt();
 
                   bgColor = bgColor != ColorDecimal ? ColorDecimal : 16777215;//灰底or白底
-                  worksheet.Range[$"{RowIndex + 1 }:{RowIndex+ grpCount}"].Fill.BackgroundColor = Color.FromArgb(bgColor);
+                  worksheet.Range[$"A{RowIndex + 1 }:I{RowIndex + grpCount}"].Fill.BackgroundColor = Color.FromArgb(bgColor);
 
-                  if (grpCount > 0 && grpCount > tolCount) {
-                     k = k + (grpCount - tolCount);
-                  }
+                  k = GrpCount(tolCount, k, grpCount);
+                  row = dt.Rows[k];
                }//if (kindID != row["MG4_KIND_ID"].AsString())
 
                RowIndex = RowIndex + 1;
@@ -170,9 +186,9 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                   worksheet.Cells[$"H{RowIndex}"].Formula = string.Format("=IF(C{0}=C{1},(E{0}-E{1})/E{1},\"\")", RowIndex, RowIndex - 1);
                   worksheet.Cells[$"I{RowIndex}"].Formula = string.Format("=IF(C{0}=C{1},(F{0}-F{1})/F{1},\"\")", RowIndex, RowIndex - 1);
                }
-               
-            }//for (int k = 0; k < dt.Rows.Count; k++)
 
+            }//for (int k = 0; k < dt.Rows.Count; k++)
+            worksheet.Rows.Remove(RowIndex, dt.Rows.Count);
          }
          catch (Exception ex) {
 #if DEBUG
@@ -201,7 +217,11 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets["Opt"];
             worksheet.Cells["N1"].Value = "作業日期：" + DateTime.Now.ToLongDateString().ToString();
+
             DataTable dt = _Data.Filter("mg4_prod_type = 'O' and  mg4_prod_subtype <> 'S' ");
+            if (dt.Rows.Count <= 0) {
+               return MessageDisplay.MSG_OK;
+            }
             int tolCount = _emCount == 0 ? 9999 : _emCount;
 
             string kindID = "";
@@ -214,11 +234,10 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                   int grpCount = row["CP_CNT"].AsInt();
 
                   bgColor = bgColor != ColorDecimal ? ColorDecimal : 16777215;//灰底or白底
-                  worksheet.Range[$"{RowIndex + 1 }:{RowIndex + grpCount}"].Fill.BackgroundColor = Color.FromArgb(bgColor);
+                  worksheet.Range[$"A{RowIndex + 1 }:N{RowIndex + grpCount}"].Fill.BackgroundColor = Color.FromArgb(bgColor);
 
-                  if (grpCount > 0 && grpCount > tolCount) {
-                     k = k + (grpCount - tolCount);
-                  }
+                  k = GrpCount(tolCount, k, grpCount);
+                  row = dt.Rows[k];
                }//if (kindID != row["MG4_KIND_ID"].AsString())
 
                RowIndex = RowIndex + 1;
@@ -234,14 +253,14 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                worksheet.Cells[$"I{RowIndex}"].SetValue(row["MG4_CM_B"]);
                worksheet.Cells[$"J{RowIndex}"].SetValue(row["MG4_MM_B"]);
                worksheet.Cells[$"K{RowIndex}"].SetValue(row["MG4_IM_B"]);
-               if (row["CNT"].AsInt()!=0) {
+               if (row["CNT"].AsInt() != 0) {
                   worksheet.Cells[$"L{RowIndex}"].Formula = string.Format("=(E{0}-E{1})/E{1}", RowIndex, RowIndex - 1);
                   worksheet.Cells[$"M{RowIndex}"].Formula = string.Format("=(F{0}-F{1})/F{1}", RowIndex, RowIndex - 1);
                   worksheet.Cells[$"N{RowIndex}"].Formula = string.Format("=(G{0}-G{1})/G{1}", RowIndex, RowIndex - 1);
                }
-               
-            }//for (int k = 0; k < dt.Rows.Count; k++)
 
+            }//for (int k = 0; k < dt.Rows.Count; k++)
+            worksheet.Rows.Remove(RowIndex, dt.Rows.Count);
          }
          catch (Exception ex) {
 #if DEBUG
@@ -266,10 +285,10 @@ namespace PhoenixCI.BusinessLogic.Prefix4
          try {
             //切換Sheet
             workbook.LoadDocument(_lsFile);
-            Worksheet worksheet =null;
-            DataTable dt=null;
+            Worksheet worksheet = null;
+            DataTable dt = null;
             for (int sheetCount = 0; sheetCount < 2; sheetCount++) {
-               if (sheetCount==0) {
+               if (sheetCount == 0) {
                   worksheet = workbook.Worksheets["Fut(ETF)"];
                   dt = _Data.Filter("mg4_prod_type = 'F' and ( mg4_prod_subtype = 'S' and  mg4_param_key ='ETF')");
                }
@@ -279,7 +298,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                }
                Wf40053Fut(worksheet, dt);
             }
-            
+
          }
          catch (Exception ex) {
 #if DEBUG
@@ -317,7 +336,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                }
                Wf40054Opt(worksheet, dt);
             }
-            
+
          }
          catch (Exception ex) {
 #if DEBUG
