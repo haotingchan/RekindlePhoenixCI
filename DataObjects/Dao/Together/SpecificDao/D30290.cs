@@ -333,6 +333,86 @@ order by decode(PLP13_PROD_SUBTYPE,'S',3,decode(PLP13_FUT,'F',0,1)), PLP13_KIND_
          return dtResult;
       }
 
+      /// <summary>
+      /// d_30290_txt_f
+      /// </summary>
+      /// <param name="as_ymd"></param>
+      /// <returns></returns>
+      public DataTable List30290TxtF(string as_ymd)
+      {
+         object[] parms = {
+                ":as_ymd", as_ymd
+            };
+         string sql = @"select * from
+                        (select case when PLP13_PROD_SUBTYPE = 'S' then trim(PLP13_KIND_ID2) || 'F' else  trim(PLP13_KIND_ID2) end as PLP13_KIND_ID2,
+                                '0' as compute_0002,NVL(PLP13_NATURE_TOT,99999999) as TOT,NVL(PLP13_NATURE_MTH,99999999) as MTH,NVL(PLP13_NATURE_LAST,99999999) as PLAST
+                           from ci.PLP13
+                          WHERE PLP13_ISSUE_YMD = :as_ymd
+                          and PLP13_FUT = 'F'
+                          union all
+                           select case when PLP13_PROD_SUBTYPE = 'S' then trim(PLP13_KIND_ID2) || 'F' else  trim(PLP13_KIND_ID2) end as PLP13_KIND_ID2,
+                                '1' as compute_0002,NVL(PLP13_LEGAL_TOT,99999999),NVL(PLP13_LEGAL_MTH,99999999),NVL(PLP13_LEGAL_LAST,99999999)
+                           from ci.PLP13
+                          WHERE PLP13_ISSUE_YMD = :as_ymd
+                          and PLP13_FUT = 'F'
+                          union all
+                           select case when PLP13_PROD_SUBTYPE = 'S' then trim(PLP13_KIND_ID2) || 'F' else  trim(PLP13_KIND_ID2) end as PLP13_KIND_ID2,
+                                '2' as compute_0002,NVL(PLP13_999_TOT,99999999),NVL(PLP13_999_MTH,99999999),NVL(PLP13_999_LAST,99999999)
+                           from ci.PLP13
+                          WHERE PLP13_ISSUE_YMD = :as_ymd
+                          and PLP13_FUT = 'F'
+                          union all
+                           select case when PLP13_PROD_SUBTYPE = 'S' then trim(PLP13_KIND_ID2) || 'F' else  trim(PLP13_KIND_ID2) end as PLP13_KIND_ID2,
+                                '3' as compute_0002,NVL(PLP13_MMK_TOT,99999999),NVL(PLP13_MMK_MTH,99999999),NVL(PLP13_MMK_LAST,99999999)
+                           from ci.PLP13
+                          WHERE PLP13_ISSUE_YMD = :as_ymd
+                          and PLP13_FUT = 'F')
+                         order by compute_0002,plp13_kind_id2";
+         DataTable dtResult = db.GetDataTable(sql, parms);
+
+         return dtResult;
+      }
+
+      /// <summary>
+      /// d_30290_txt_o
+      /// </summary>
+      /// <param name="as_ymd"></param>
+      /// <returns></returns>
+      public DataTable List30290TxtO(string as_ymd)
+      {
+         object[] parms = {
+                ":as_ymd", as_ymd
+            };
+         string sql = @" select * from
+                         (select case when PLP13_PROD_SUBTYPE = 'S' then trim(PLP13_KIND_ID2) || 'O' else  trim(PLP13_KIND_ID2) end as PLP13_KIND_ID2,
+                                '0' as compute_0002,NVL(PLP13_NATURE_TOT,99999999)as TOT,NVL(PLP13_NATURE_MTH,99999999) as MTH,NVL(PLP13_NATURE_LAST,99999999) as PLAST
+                           from ci.PLP13
+                          WHERE PLP13_ISSUE_YMD = :as_ymd
+                          and PLP13_OPT = 'O'
+                          union all
+                           select case when PLP13_PROD_SUBTYPE = 'S' then trim(PLP13_KIND_ID2) || 'O' else  trim(PLP13_KIND_ID2) end as PLP13_KIND_ID2,
+                                '1' as compute_0002,NVL(PLP13_LEGAL_TOT,99999999),NVL(PLP13_LEGAL_MTH,99999999),NVL(PLP13_LEGAL_LAST,99999999)
+                           from ci.PLP13
+                          WHERE PLP13_ISSUE_YMD = :as_ymd
+                          and PLP13_OPT = 'O'
+                          union all
+                           select case when PLP13_PROD_SUBTYPE = 'S' then trim(PLP13_KIND_ID2) || 'O' else  trim(PLP13_KIND_ID2) end as PLP13_KIND_ID2,
+                                '2' as compute_0002,NVL(PLP13_999_TOT,99999999),NVL(PLP13_999_MTH,99999999),NVL(PLP13_999_LAST,99999999)
+                           from ci.PLP13
+                          WHERE PLP13_ISSUE_YMD = :as_ymd
+                          and PLP13_OPT = 'O'
+                          union all
+                           select case when PLP13_PROD_SUBTYPE = 'S' then trim(PLP13_KIND_ID2) || 'O' else  trim(PLP13_KIND_ID2) end as PLP13_KIND_ID2,
+                                '3' as compute_0002,NVL(PLP13_MMK_TOT,99999999),NVL(PLP13_MMK_MTH,99999999),NVL(PLP13_MMK_LAST,99999999)
+                           from ci.PLP13
+                          WHERE PLP13_ISSUE_YMD = :as_ymd
+                          and PLP13_OPT = 'O')
+                        order by compute_0002,plp13_kind_id2";
+         DataTable dtResult = db.GetDataTable(sql, parms);
+
+         return dtResult;
+      }
+
       public ResultData UpdatePLP13(DataTable inputData)
       {
          string sql = @"

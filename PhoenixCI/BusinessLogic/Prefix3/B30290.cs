@@ -96,10 +96,28 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// WfExport
       /// </summary>
       /// <returns></returns>
-      public string WfExport(string lsFile, string SelDate, string emDateTxt)
+      public string WfExport(string lsFile, string SelDate, string emDateTxt,string GlobalSavePath)
       {
          string msg;
          try {
+            DataTable dtF = dao30290.List30290TxtF(SelDate);
+            if (dtF.Rows.Count<=0) {
+               return $"{emDateTxt},期貨交易系統用TXT檔無任何資料,請先執行「儲存」!";
+            }
+            string txtFpath = Path.Combine(GlobalSavePath,
+             "P13_fut_"+ SelDate + "_" + DateTime.Now.ToString("yyyy.MM.dd") + "-" + DateTime.Now.ToString("HH.mm.ss") + ".txt");
+
+            Common.Helper.ExportHelper.ToText(dtF, txtFpath);
+
+            DataTable dtO = dao30290.List30290TxtO(SelDate);
+            if (dtO.Rows.Count <= 0) {
+               return $"{emDateTxt},選擇權交易系統用TXT檔無任何資料,請先執行「儲存」!";
+            }
+            string txtOpath = Path.Combine(GlobalSavePath,
+             "P13_opt_" + SelDate + "_" + DateTime.Now.ToString("yyyy.MM.dd") + "-" + DateTime.Now.ToString("HH.mm.ss") + ".txt");
+
+            Common.Helper.ExportHelper.ToText(dtO, txtOpath);
+
             msg = Wf30290gbf(lsFile, SelDate, emDateTxt);
             if (msg != MessageDisplay.MSG_OK) return msg;
             msg = Wf30290NStock(lsFile, SelDate, emDateTxt);
@@ -175,19 +193,20 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             }
 
             foreach (DataRow row in dt.Rows) {
-               int rowIndex = row["C_SEQ_NO"].AsInt();
+               int ChRowIndex = row["C_SEQ_NO"].AsInt();
 
                var pl2Nature = row["PL2_NATURE"];
                var pl2Legal = row["PL2_LEGAL"];
                var pl2999 = row["PL2_999"];
                //中文版
-               workbook.Worksheets[0].Cells[$"C{rowIndex}"].SetValue(pl2Nature);
-               workbook.Worksheets[0].Cells[$"D{rowIndex}"].SetValue(pl2Legal);
-               workbook.Worksheets[0].Cells[$"E{rowIndex}"].SetValue(pl2999);
+               workbook.Worksheets[0].Cells[$"C{ChRowIndex}"].SetValue(pl2Nature);
+               workbook.Worksheets[0].Cells[$"D{ChRowIndex}"].SetValue(pl2Legal);
+               workbook.Worksheets[0].Cells[$"E{ChRowIndex}"].SetValue(pl2999);
                //英文版
-               workbook.Worksheets[1].Cells[$"B{rowIndex}"].SetValue(pl2Nature);
-               workbook.Worksheets[1].Cells[$"C{rowIndex}"].SetValue(pl2Legal);
-               workbook.Worksheets[1].Cells[$"D{rowIndex}"].SetValue(pl2999);
+               int EngRowIndex = row["E_SEQ_NO"].AsInt();
+               workbook.Worksheets[1].Cells[$"B{EngRowIndex}"].SetValue(pl2Nature);
+               workbook.Worksheets[1].Cells[$"C{EngRowIndex}"].SetValue(pl2Legal);
+               workbook.Worksheets[1].Cells[$"D{EngRowIndex}"].SetValue(pl2999);
             }
          }
          catch (Exception ex) {

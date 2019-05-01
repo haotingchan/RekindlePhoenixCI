@@ -274,7 +274,7 @@ namespace PhoenixCI.FormUI.Prefix3
          try {
             //Sheet : rpt_future
             string isYMD = YMDlookUpEdit.EditValue.AsString();
-            msg = b30290.WfExport(saveFilePath, isYMD,emDate.Text);
+            msg = b30290.WfExport(saveFilePath, isYMD,emDate.Text, GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH);
             OutputShowMessage = msg;
          }
          catch (Exception ex) {
@@ -289,6 +289,7 @@ namespace PhoenixCI.FormUI.Prefix3
          if (msg != MessageDisplay.MSG_OK) {
             ShowMsg("轉檔有誤!");
             File.Delete(saveFilePath);
+            return ResultStatus.Fail;
          }
 
          return ResultStatus.Success;
