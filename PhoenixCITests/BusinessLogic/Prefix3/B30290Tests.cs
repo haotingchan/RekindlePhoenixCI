@@ -1,4 +1,5 @@
-﻿using BusinessObjects;
+﻿using PhoenixCI.BusinessLogic.Prefix3;
+using BusinessObjects;
 using Common.Config;
 using DataObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -35,9 +36,30 @@ namespace PhoenixCI.BusinessLogic.Prefix3.Tests
       }
 
       [TestMethod()]
+      public void Wf30290gbfTest()
+      {
+         string msgText = b30290.Wf30290gbf(destinationFilePath, "20181101", "2018/09/28");
+         Assert.IsNotNull(msgText);
+      }
+
+      [TestMethod()]
+      public void Wf30290NStockTest()
+      {
+         string msgText = b30290.Wf30290NStock(destinationFilePath, "20181101", "2018/09/28");
+         Assert.IsNotNull(msgText);
+      }
+
+      [TestMethod()]
+      public void Wf30290StockTest()
+      {
+         string msgText = b30290.Wf30290Stock(destinationFilePath, "20181101", "2018/09/28");
+         Assert.IsNotNull(msgText);
+      }
+
+      [TestMethod()]
       public void LastQuarterTest()
       {
-         string ymd = b30290.LastQuarter(new DateTime(2018,10,11));
+         string ymd = b30290.LastQuarter(new DateTime(2018, 10, 11));
          Assert.AreEqual("2018/09/28", ymd);
       }
 

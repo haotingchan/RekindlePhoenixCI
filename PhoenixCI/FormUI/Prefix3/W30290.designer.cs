@@ -148,6 +148,7 @@
          this.emDate.Name = "emDate";
          this.emDate.Properties.Appearance.Options.UseTextOptions = true;
          this.emDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.emDate.Properties.EditFormat.FormatString = "yyyy/MM/dd";
          this.emDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
          this.emDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.emDate.Properties.Mask.ShowPlaceHolders = false;
