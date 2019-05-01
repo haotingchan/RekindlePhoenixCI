@@ -116,26 +116,32 @@ namespace PhoenixCI.FormUI.Prefix3
 
       protected override ResultStatus Export()
       {
-         string lsFile = PbFunc.wf_copy_file(_ProgramID, "30503");
+         string saveFilePath = PbFunc.wf_copy_file(_ProgramID, "30503");
+         if (!StartExport()) {
+            return ResultStatus.Fail;
+         }
+         string msg;
          try {
-            if (!StartExport()) {
-               return ResultStatus.Fail;
-            }
-            
             //轉報表
-            b30503 = new B30503(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH,lsFile, emStartMth.Text, emEndMth.Text);
+            b30503 = new B30503(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, saveFilePath, emStartMth.Text, emEndMth.Text);
             ShowMsg("30503－股票期貨最近月份契約買賣價差月資料統計表 轉檔中...");
-            OutputShowMessage = b30503.WF30503();
+            msg = b30503.WF30503();
+            OutputShowMessage = msg;
             ShowMsg("30504－股票期貨最近月份契約買賣價差日資料 轉檔中...");
             OutputShowMessage = b30503.WF30504();
          }
          catch (Exception ex) {
-            File.Delete(lsFile);
+            File.Delete(saveFilePath);
             WriteLog(ex);
             return ResultStatus.Fail;
          }
          finally {
             EndExport();
+         }
+
+         if (msg != MessageDisplay.MSG_OK) {
+            File.Delete(saveFilePath);
+            return ResultStatus.Fail;
          }
          return ResultStatus.Success;
       }

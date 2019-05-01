@@ -116,11 +116,15 @@ namespace PhoenixCI.FormUI.Prefix3
          string saveFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, $@"30508(買)_{DateTime.Now.ToString("yyyy.MM.dd")}-{DateTime.Now.ToString("HH.mm.ss")}.csv");
 
          try {
+            string msg;
             b30508 = new B30508(saveFilePath, emStartDate.Text, emEndDate.Text);
 
             ShowMsg("30508－股票期貨最近月份契約最佳1檔加權平均委託買進數量週資料統計表 轉檔中...");
-            OutputShowMessage = b30508.Wf30508();
-            
+            msg = b30508.Wf30508();
+            OutputShowMessage = msg;
+            if (msg != MessageDisplay.MSG_OK) {
+               return ResultStatus.Fail;
+            }
          }
          catch (Exception ex) {
             WriteLog(ex);

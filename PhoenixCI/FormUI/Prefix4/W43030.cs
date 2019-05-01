@@ -132,6 +132,7 @@ namespace PhoenixCI.FormUI.Prefix4
          if (msg!= MessageDisplay.MSG_OK) {
             ShowMsg("轉檔有錯誤!");
             File.Delete(saveFilePath);
+            return ResultStatus.Fail;
          }
 
          return ResultStatus.Success;
