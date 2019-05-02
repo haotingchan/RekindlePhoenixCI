@@ -39,7 +39,7 @@ namespace PhoenixCI.FormUI.Prefix4
 #if DEBUG
          emDate.Text = "2018/10/12";
 #else
-            emDate.Text = DateTime.Now.ToString("yyyy/MM/dd");
+         emDate.DateTimeValue = DateTime.Now;
 #endif
          return ResultStatus.Success;
       }

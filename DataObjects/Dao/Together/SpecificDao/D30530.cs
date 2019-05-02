@@ -30,6 +30,7 @@ namespace DataObjects.Dao.Together.SpecificDao {
          TRIM(AM2_YMD) >= :as_syear  AND  
          TRIM(AM2_YMD) < :as_eyear  AND  
          AM2_SUM_SUBTYPE = '1'  AND
+         AM2_PROD_TYPE = 'F' AND
          AM2_IDFG_TYPE =:as_idfg_type
 union 
   SELECT AM2_IDFG_TYPE,   
@@ -42,6 +43,7 @@ union
          TRIM(AM2_YMD) >= :as_sym  AND  
          TRIM(AM2_YMD) <= :as_eym  AND  
          AM2_SUM_SUBTYPE = '1'  AND
+         AM2_PROD_TYPE = 'F' AND
          AM2_IDFG_TYPE =:as_idfg_type
  GROUP BY  AM2_IDFG_TYPE,   
          AM2_BS_CODE,   
@@ -69,6 +71,7 @@ ORDER BY  AM2_YMD, AM2_IDFG_TYPE,BS_INDEX", B_index, S_index);
          TRIM(AM2_YMD) >= :as_sym  AND  
          TRIM(AM2_YMD) <= :as_eym  AND 
          AM2_SUM_SUBTYPE = '1'  AND
+         AM2_PROD_TYPE = 'F' AND
          AM2_IDFG_TYPE =:as_idfg_type
 GROUP BY AM2_IDFG_TYPE,   
          AM2_BS_CODE, 

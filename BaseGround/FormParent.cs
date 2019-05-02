@@ -1065,11 +1065,5 @@ namespace BaseGround {
             //if error,no response
          }
       }
-
-      //protected override void OnFormClosing(FormClosingEventArgs e) {
-      //   CausesValidation = false;
-      //   Dispose();
-      //   this.Close();
-      //}
    }
 }

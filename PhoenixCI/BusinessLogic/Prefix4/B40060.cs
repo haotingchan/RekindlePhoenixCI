@@ -26,6 +26,15 @@ namespace PhoenixCI.BusinessLogic.Prefix4
          _Data = dataTable;
       }
 
+      private static int GrpCount(int tolCount, int k, int grpCount)
+      {
+         if (grpCount > 0 && grpCount > tolCount) {
+            k = k + (grpCount - tolCount);
+         }
+
+         return k;
+      }
+
       /// <summary>
       /// 跨商品折抵率 契約價值耗用比率 共用方法 sp3_type='SS'or 'SD'
       /// </summary>
@@ -33,6 +42,9 @@ namespace PhoenixCI.BusinessLogic.Prefix4
       /// <param name="dt"></param>
       private void RefactoringMethod(Worksheet worksheet, DataTable dt)
       {
+         if (dt.Rows.Count<=0) {
+            return;
+         }
          int ColorDecimal = 11711154;//color十進位代碼 預設為淺灰
          int RowIndex = 3;//Excel的Row位置
          int tolCount = _emCount == 0 ? 9999 : _emCount;
@@ -49,11 +61,9 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                int grpCount = row["CP_CNT"].AsInt();
 
                bgColor = bgColor != ColorDecimal ? ColorDecimal : 16777215;//灰底or白底
-               worksheet.Range[$"{RowIndex + 1 }:{RowIndex + grpCount}"].Fill.BackgroundColor = Color.FromArgb(bgColor);
-
-               if (grpCount > 0 && grpCount > tolCount) {
-                  k = k + (grpCount - tolCount);
-               }
+               worksheet.Range[$"A{RowIndex + 1 }:F{RowIndex + grpCount}"].Fill.BackgroundColor = Color.FromArgb(bgColor);
+               k = GrpCount(tolCount, k, grpCount);
+               row = dt.Rows[k];
             }//if (kindID1 != row["SP3_KIND_ID1"].AsString() || kindID2 != row["SP3_KIND_ID2"].AsString())
 
             RowIndex = RowIndex + 1;
@@ -69,7 +79,10 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             }
 
          }//for (int k = 0; k < dt.Rows.Count; k++)
+         worksheet.Rows.Remove(RowIndex, dt.Rows.Count);
       }
+
+      
 
       /// <summary>
       /// wf_40061()
@@ -93,18 +106,17 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             int bgColor = 0;
             for (int k = 0; k < dt.Rows.Count; k++) {
                DataRow row = dt.Rows[k];
-               if (kindID1 != row["SP3_KIND_ID1"].AsString()|| kindID2!= row["SP3_KIND_ID2"].AsString()) {
+               if (kindID1 != row["SP3_KIND_ID1"].AsString() || kindID2 != row["SP3_KIND_ID2"].AsString()) {
                   kindID1 = row["SP3_KIND_ID1"].AsString();
                   kindID2 = row["SP3_KIND_ID2"].AsString();
 
                   int grpCount = row["CP_CNT"].AsInt();
 
                   bgColor = bgColor != ColorDecimal ? ColorDecimal : 16777215;//灰底or白底
-                  worksheet.Range[$"{RowIndex + 1 }:{RowIndex+ grpCount}"].Fill.BackgroundColor = Color.FromArgb(bgColor);
+                  worksheet.Range[$"A{RowIndex + 1 }:E{RowIndex + grpCount}"].Fill.BackgroundColor = Color.FromArgb(bgColor);
 
-                  if (grpCount > 0 && grpCount > tolCount) {
-                     k = k + (grpCount - tolCount);
-                  }
+                  k = GrpCount(tolCount, k, grpCount);
+                  row = dt.Rows[k];
                }//if (kindID1 != row["SP3_KIND_ID1"].AsString() || kindID2 != row["SP3_KIND_ID2"].AsString())
 
                RowIndex = RowIndex + 1;
@@ -112,15 +124,15 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                worksheet.Cells[$"A{RowIndex}"].SetValue(row["CNT"]);
                worksheet.Cells[$"B{RowIndex}"].SetValue(row["SP3_DATE"]);
                worksheet.Cells[$"C{RowIndex}"].SetValue(row["SP3_KIND_ID1"]);
-               worksheet.Cells[$"D{RowIndex}"].SetValue(row["SP3_RATE"].AsDecimal()/100);
+               worksheet.Cells[$"D{RowIndex}"].SetValue(row["SP3_RATE"].AsDecimal() / 100);
 
                if (row["CNT"].AsInt() != 0) {
                   worksheet.Cells[$"E{RowIndex}"].Formula = string.Format("=IF(C{0}=C{1},(D{0}-D{1})/D{1},\"\")", RowIndex, RowIndex - 1);
                }
-               
-            }//for (int k = 0; k < dt.Rows.Count; k++)
 
-            
+            }//for (int k = 0; k < dt.Rows.Count; k++)
+            worksheet.Rows.Remove(RowIndex, dt.Rows.Count);
+
          }
          catch (Exception ex) {
 #if DEBUG

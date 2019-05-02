@@ -136,6 +136,7 @@ namespace PhoenixCI.FormUI.Prefix3
             if (dtChange != null) {
                try {
                   dtChange = dt.GetChanges();
+                  this.Cursor = Cursors.WaitCursor;
                   ShowMsg("存檔中...");
                   ResultData myResultData = b30290.UpdateData(dtChange);
                }
@@ -192,6 +193,7 @@ namespace PhoenixCI.FormUI.Prefix3
 
          emDate.Text = b30290.LastQuarter(GlobalInfo.OCF_DATE);
          this.emDate.Leave += new System.EventHandler(this.emDate_Leave);
+         this.YMDlookUpEdit.Properties.EditValueChanged += new System.EventHandler(this.YMDlookUpEdit_Properties_EditValueChanged);
          return ResultStatus.Success;
       }
 
@@ -246,7 +248,6 @@ namespace PhoenixCI.FormUI.Prefix3
 
       protected void ShowMsg(string msg)
       {
-         this.Cursor = Cursors.WaitCursor;
          stMsgTxt.Visible = true;
          stMsgTxt.Text = msg;
          this.Refresh();
@@ -266,12 +267,15 @@ namespace PhoenixCI.FormUI.Prefix3
             return ResultStatus.Fail;
          }
          string saveFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
+         string msg;
          logtxt = saveFilePath;
          //Write LOGF
          WriteLog("轉出檔案:" + logtxt, "Info", "E", false);
          try {
             //Sheet : rpt_future
-            OutputShowMessage = b30290.WfExport(saveFilePath, emDate.Text);
+            string isYMD = YMDlookUpEdit.EditValue.AsString();
+            msg = b30290.WfExport(saveFilePath, isYMD,emDate.Text, GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH);
+            OutputShowMessage = msg;
          }
          catch (Exception ex) {
             File.Delete(saveFilePath);
@@ -280,6 +284,12 @@ namespace PhoenixCI.FormUI.Prefix3
          }
          finally {
             EndExport();
+         }
+
+         if (msg != MessageDisplay.MSG_OK) {
+            ShowMsg("轉檔有誤!");
+            File.Delete(saveFilePath);
+            return ResultStatus.Fail;
          }
 
          return ResultStatus.Success;
@@ -294,6 +304,14 @@ namespace PhoenixCI.FormUI.Prefix3
       private void emDate_Leave(object sender, EventArgs e)
       {
          YMDlookUpEdit.SetDataTable(b30290.GetEffectiveYMD(emDate.Text), "YMD", "YMD", DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor, "");
+      }
+
+      private void YMDlookUpEdit_Properties_EditValueChanged(object sender, EventArgs e)
+      {
+         gcMain.DataSource = new DataTable();
+         _ToolBtnSave.Enabled = false;
+         _ToolBtnDel.Enabled = false;
+         _ToolBtnExport.Enabled = false;
       }
    }
 }

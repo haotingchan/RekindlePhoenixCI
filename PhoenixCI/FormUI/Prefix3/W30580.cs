@@ -7,6 +7,7 @@ using System.Threading;
 using BaseGround.Shared;
 using Common;
 using PhoenixCI.BusinessLogic.Prefix3;
+using System.IO;
 /// <summary>
 /// john,20190318,國內股票期貨交易概況表
 /// </summary>
@@ -105,14 +106,16 @@ namespace PhoenixCI.FormUI.Prefix3
 
       protected override ResultStatus Export()
       {
+         if (!StartExport()) {
+            return ResultStatus.Fail;
+         }
+         string msg;
+         string saveFilePath = PbFunc.wf_copy_file(_ProgramID, "30580");
          try {
-            if (!StartExport()) {
-               return ResultStatus.Fail;
-            }
-            string lsFile = PbFunc.wf_copy_file(_ProgramID, "30580");
-            b30580 = new B30580(lsFile, emMonth.Text);
+            b30580 = new B30580(saveFilePath, emMonth.Text);
             ShowMsg("30581－國內股票期貨及黃金期貨交易概況表 轉檔中...");
-            OutputShowMessage =b30580.Wf30581();
+            msg = b30580.Wf30581();
+            OutputShowMessage = msg;
          }
          catch (Exception ex) {
             WriteLog(ex);
@@ -120,6 +123,11 @@ namespace PhoenixCI.FormUI.Prefix3
          }
          finally {
             EndExport();
+         }
+
+         if (msg != MessageDisplay.MSG_OK) {
+            File.Delete(saveFilePath);
+            return ResultStatus.Fail;
          }
          return ResultStatus.Success;
       }
