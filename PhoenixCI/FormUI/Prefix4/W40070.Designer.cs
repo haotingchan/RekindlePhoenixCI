@@ -24,6 +24,12 @@
         /// </summary>
         private void InitializeComponent() {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.ddlAdjust = new DevExpress.XtraEditors.LookUpEdit();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbxCodeY = new System.Windows.Forms.CheckBox();
+            this.cbxCode = new System.Windows.Forms.CheckBox();
+            this.cbxCodeN = new System.Windows.Forms.CheckBox();
             this.ddlModel = new DevExpress.XtraEditors.LookUpEdit();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -79,12 +85,11 @@
             this.AMT_TYPE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.OP_TYPE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.repositoryItemTextDateEdit1 = new BaseGround.Widget.RepositoryItemTextDateEdit();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.cbxCodeN = new System.Windows.Forms.CheckBox();
-            this.cbxCode = new System.Windows.Forms.CheckBox();
-            this.cbxCodeY = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             this.panel1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ddlAdjust.Properties)).BeginInit();
+            this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ddlModel.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDateG7.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDateG5.Properties)).BeginInit();
@@ -95,7 +100,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextDateEdit1)).BeginInit();
-            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panParent
@@ -111,6 +115,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+            this.panel1.Controls.Add(this.groupBox2);
             this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Controls.Add(this.ddlModel);
             this.panel1.Controls.Add(this.label4);
@@ -127,6 +132,77 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1393, 110);
             this.panel1.TabIndex = 0;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.ddlAdjust);
+            this.groupBox2.Location = new System.Drawing.Point(753, 44);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(216, 60);
+            this.groupBox2.TabIndex = 14;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "調整";
+            // 
+            // ddlAdjust
+            // 
+            this.ddlAdjust.Location = new System.Drawing.Point(29, 25);
+            this.ddlAdjust.MenuManager = this.ribbonControl;
+            this.ddlAdjust.Name = "ddlAdjust";
+            this.ddlAdjust.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.ddlAdjust.Size = new System.Drawing.Size(159, 26);
+            this.ddlAdjust.TabIndex = 0;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.cbxCodeY);
+            this.groupBox1.Controls.Add(this.cbxCode);
+            this.groupBox1.Controls.Add(this.cbxCodeN);
+            this.groupBox1.Location = new System.Drawing.Point(467, 44);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(267, 60);
+            this.groupBox1.TabIndex = 13;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "篩選";
+            // 
+            // cbxCodeY
+            // 
+            this.cbxCodeY.AutoSize = true;
+            this.cbxCodeY.Checked = true;
+            this.cbxCodeY.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbxCodeY.Location = new System.Drawing.Point(171, 28);
+            this.cbxCodeY.Name = "cbxCodeY";
+            this.cbxCodeY.Size = new System.Drawing.Size(60, 24);
+            this.cbxCodeY.TabIndex = 14;
+            this.cbxCodeY.Text = "調整";
+            this.cbxCodeY.UseVisualStyleBackColor = true;
+            this.cbxCodeY.CheckedChanged += new System.EventHandler(this.cbxCodeY_CheckedChanged);
+            // 
+            // cbxCode
+            // 
+            this.cbxCode.AutoSize = true;
+            this.cbxCode.Checked = true;
+            this.cbxCode.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbxCode.Location = new System.Drawing.Point(105, 28);
+            this.cbxCode.Name = "cbxCode";
+            this.cbxCode.Size = new System.Drawing.Size(60, 24);
+            this.cbxCode.TabIndex = 1;
+            this.cbxCode.Text = "觀察";
+            this.cbxCode.UseVisualStyleBackColor = true;
+            this.cbxCode.CheckedChanged += new System.EventHandler(this.cbxCode_CheckedChanged);
+            // 
+            // cbxCodeN
+            // 
+            this.cbxCodeN.AutoSize = true;
+            this.cbxCodeN.Checked = true;
+            this.cbxCodeN.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbxCodeN.Location = new System.Drawing.Point(23, 29);
+            this.cbxCodeN.Name = "cbxCodeN";
+            this.cbxCodeN.Size = new System.Drawing.Size(76, 24);
+            this.cbxCodeN.TabIndex = 0;
+            this.cbxCodeN.Text = "不處理";
+            this.cbxCodeN.UseVisualStyleBackColor = true;
+            this.cbxCodeN.CheckedChanged += new System.EventHandler(this.cbxCodeN_CheckedChanged);
             // 
             // ddlModel
             // 
@@ -171,6 +247,7 @@
             this.txtDateG7.Name = "txtDateG7";
             this.txtDateG7.Properties.Appearance.Options.UseTextOptions = true;
             this.txtDateG7.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtDateG7.Properties.EditFormat.FormatString = "yyyyMMdd";
             this.txtDateG7.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
             this.txtDateG7.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtDateG7.Properties.Mask.ShowPlaceHolders = false;
@@ -201,6 +278,7 @@
             this.txtDateG5.Name = "txtDateG5";
             this.txtDateG5.Properties.Appearance.Options.UseTextOptions = true;
             this.txtDateG5.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtDateG5.Properties.EditFormat.FormatString = "yyyyMMdd";
             this.txtDateG5.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
             this.txtDateG5.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtDateG5.Properties.Mask.ShowPlaceHolders = false;
@@ -231,6 +309,7 @@
             this.txtDateG1.Name = "txtDateG1";
             this.txtDateG1.Properties.Appearance.Options.UseTextOptions = true;
             this.txtDateG1.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtDateG1.Properties.EditFormat.FormatString = "yyyyMMdd";
             this.txtDateG1.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
             this.txtDateG1.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtDateG1.Properties.Mask.ShowPlaceHolders = false;
@@ -261,6 +340,7 @@
             this.txtSDate.Name = "txtSDate";
             this.txtSDate.Properties.Appearance.Options.UseTextOptions = true;
             this.txtSDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtSDate.Properties.EditFormat.FormatString = "yyyyMMdd";
             this.txtSDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
             this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtSDate.Properties.Mask.ShowPlaceHolders = false;
@@ -769,54 +849,6 @@
             this.repositoryItemTextDateEdit1.Mask.UseMaskAsDisplayFormat = true;
             this.repositoryItemTextDateEdit1.Name = "repositoryItemTextDateEdit1";
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.cbxCodeY);
-            this.groupBox1.Controls.Add(this.cbxCode);
-            this.groupBox1.Controls.Add(this.cbxCodeN);
-            this.groupBox1.Location = new System.Drawing.Point(467, 44);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(267, 60);
-            this.groupBox1.TabIndex = 13;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "篩選";
-            // 
-            // cbxCodeN
-            // 
-            this.cbxCodeN.AutoSize = true;
-            this.cbxCodeN.Checked = true;
-            this.cbxCodeN.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbxCodeN.Location = new System.Drawing.Point(23, 29);
-            this.cbxCodeN.Name = "cbxCodeN";
-            this.cbxCodeN.Size = new System.Drawing.Size(76, 24);
-            this.cbxCodeN.TabIndex = 0;
-            this.cbxCodeN.Text = "不處理";
-            this.cbxCodeN.UseVisualStyleBackColor = true;
-            // 
-            // cbxCode
-            // 
-            this.cbxCode.AutoSize = true;
-            this.cbxCode.Checked = true;
-            this.cbxCode.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbxCode.Location = new System.Drawing.Point(105, 28);
-            this.cbxCode.Name = "cbxCode";
-            this.cbxCode.Size = new System.Drawing.Size(60, 24);
-            this.cbxCode.TabIndex = 1;
-            this.cbxCode.Text = "觀察";
-            this.cbxCode.UseVisualStyleBackColor = true;
-            // 
-            // cbxCodeY
-            // 
-            this.cbxCodeY.AutoSize = true;
-            this.cbxCodeY.Checked = true;
-            this.cbxCodeY.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbxCodeY.Location = new System.Drawing.Point(171, 28);
-            this.cbxCodeY.Name = "cbxCodeY";
-            this.cbxCodeY.Size = new System.Drawing.Size(60, 24);
-            this.cbxCodeY.TabIndex = 14;
-            this.cbxCodeY.Text = "調整";
-            this.cbxCodeY.UseVisualStyleBackColor = true;
-            // 
             // W40070
             // 
             this.Appearance.Options.UseFont = true;
@@ -834,6 +866,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ddlAdjust.Properties)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ddlModel.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDateG7.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDateG5.Properties)).EndInit();
@@ -844,8 +880,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextDateEdit1)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -913,5 +947,7 @@
         private System.Windows.Forms.CheckBox cbxCodeY;
         private System.Windows.Forms.CheckBox cbxCode;
         private System.Windows.Forms.CheckBox cbxCodeN;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private DevExpress.XtraEditors.LookUpEdit ddlAdjust;
     }
 }

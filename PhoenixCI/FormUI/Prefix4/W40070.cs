@@ -31,6 +31,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
         private D40070 dao40070;
         private D40071 dao40071;
         private MGD2 daoMGD2;
+        private MGD2L daoMGD2L;
         private DataTable dtTemp; //ids_tmp
 
         public W40070(string programID, string programName) : base(programID, programName) {
@@ -47,6 +48,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             txtDateG5.DateTimeValue = DateTime.Now;
             txtDateG7.DateTimeValue = DateTime.Now;
 
+            #region DropDownList
             //設定調整商品條件下拉選單
             List<LookupItem> modelType = new List<LookupItem>(){
                                         new LookupItem() { ValueMember = "S", DisplayMember = "SMA達調整標準"},
@@ -54,6 +56,19 @@ namespace PhoenixCI.FormUI.Prefix4 {
                                         new LookupItem() { ValueMember = "%", DisplayMember = "全部商品" }};
             Extension.SetDataTable(ddlModel, modelType, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor, "");
             ddlModel.EditValue = "S";
+
+            //設定依條件選擇狀態的下拉選單
+            List<LookupItem> adjustType = new List<LookupItem>(){
+                                        new LookupItem() { ValueMember = "none", DisplayMember = "全取消"},
+                                        new LookupItem() { ValueMember = "indes", DisplayMember = "全選指數類" },
+                                        new LookupItem() { ValueMember = "all", DisplayMember = "全選"},
+                                        new LookupItem() { ValueMember = "ETF", DisplayMember = "全選ETF" },
+                                        new LookupItem() { ValueMember = "1", DisplayMember = "全選Group1"},
+                                        new LookupItem() { ValueMember = "2", DisplayMember = "全選Group2" },
+                                        new LookupItem() { ValueMember = "3", DisplayMember = "全選Group3" }};
+            Extension.SetDataTable(ddlAdjust, adjustType, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor, "");
+            ddlAdjust.EditValue = "none";
+            #endregion
 
             //設定群組
             GRP_NAME.GroupIndex = 0;
@@ -142,6 +157,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 DataTable dtFiltered = dv.ToTable();
 
                 gcMain.DataSource = dtFiltered;
+                gcMain.Refresh();
                 //預設展開群組
                 gvMain.ExpandAllGroups();
 
@@ -190,7 +206,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
         protected override ResultStatus Save(PokeBall pokeBall) {
             try {
+                dao40071 = new D40071();
                 daoMGD2 = new MGD2();
+                daoMGD2L = new MGD2L();
                 #region ue_save_before
                 gvMain.CloseEditor();
                 string ls_ymd, ls_issue_begin_ymd, ls_kind_id, ls_adj_type_name, ls_trade_ymd, ls_adj_rsn, is_adj_type;
@@ -431,14 +449,112 @@ namespace PhoenixCI.FormUI.Prefix4 {
                             }
                         }
                     }
+                }//foreach (DataRow dr in dtFiltered.Rows)
+
+                //if    ib_print = True then
+                //      ids_1.dataobject = dw_1.dataobject
+                //      ids_1.reset()
+                //      dw_1.RowsCopy(1, dw_1.rowcount(), primary!, ids_1, 1, primary!)
+                //end   if
+
+                //dw_3.update()
+                ResultData myResultData = daoMGD2.UpdateMGD2(dtEmpty);
+                if (myResultData.Status == ResultStatus.Fail) {
+                    MessageDisplay.Error("更新資料庫MGD2錯誤! ");
+                    return ResultStatus.Fail;
                 }
 
+                //ids_old.update()
+                myResultData = daoMGD2L.UpdateMGD2L(dtMGD2Log);
+                if (myResultData.Status == ResultStatus.Fail) {
+                    MessageDisplay.Error("更新資料庫MGD2L錯誤! ");
+                    return ResultStatus.Fail;
+                }
             }
             catch (Exception ex) {
                 MessageDisplay.Error("儲存錯誤");
                 throw ex;
             }
             return ResultStatus.Success;
+        }
+
+        private void wf_filter() {
+
+            gvMain.CloseEditor();
+            DataTable dt = (DataTable)gcMain.DataSource;
+            if (dt == null) {
+                MessageDisplay.Error("請先讀取資料!");
+                return;
+            }
+
+            List<string> adjCodeList = new List<string>();
+            List<string> abTypeList = new List<string>();
+            abTypeList.Add("-");
+            abTypeList.Add("A");
+            string[] is_adj_code;
+            string ls_filter;
+
+            if (cbxCodeY.Checked) adjCodeList.Add("Y");
+            if (cbxCode.Checked) adjCodeList.Add(" ");
+            if (cbxCodeN.Checked) adjCodeList.Add("N");
+            is_adj_code = adjCodeList.ToArray();
+
+            if (!cbxCodeY.Checked && !cbxCode.Checked && !cbxCodeN.Checked) {
+                ls_filter = "''";
+                adjCodeList.Clear();
+            }
+            else {
+                ls_filter = f_gen_array_txt_ex(is_adj_code, ",", ",");
+            }
+            //dt = dt.AsEnumerable().Where(x => adjCodeList.Contains(x.Field<string>("ADJ_CODE")) &&
+            //                   abTypeList.Contains(x.Field<string>("AB_TYPE"))).CopyToDataTable();
+            var result = from c in dt.AsEnumerable()
+                         where adjCodeList.Contains(c.Field<string>("ADJ_CODE")) &&
+                               abTypeList.Contains(c.Field<string>("AB_TYPE"))
+                         select c;
+            if (result.Count() > 0) {
+                dt = result.CopyToDataTable();
+            }
+            else {
+                dt.Clear();
+            }
+
+            //DataView dv = dt.AsDataView();
+            //dv.RowFilter = "adj_code in (" + ls_filter + ") and ab_type in ('-','A')"; //不支援，要用LINQ的Contains
+            //dt = dv.ToTable();
+            gcMain.DataSource = dt;
+            gcMain.Refresh();
+            gvMain.ExpandAllGroups();
+        }
+
+        private string f_gen_array_txt_ex(string[] as_arr, string as_other, string as_last) {
+            int f, li_count;
+            string ls_txt = "";
+            li_count = as_arr.Length;
+            for (f = 0; f < li_count; f++) {
+                ls_txt = ls_txt + as_arr[f];
+                if (f < li_count - 1) {
+                    if (f == li_count - 1 - 1) {
+                        ls_txt = ls_txt + as_last;
+                    }
+                    else {
+                        ls_txt = ls_txt + as_other;
+                    }
+                }
+            }
+            return ls_txt;
+        }
+
+        private void cbxCodeN_CheckedChanged(object sender, EventArgs e) {
+            wf_filter();
+        }
+
+        private void cbxCode_CheckedChanged(object sender, EventArgs e) {
+            wf_filter();
+        }
+
+        private void cbxCodeY_CheckedChanged(object sender, EventArgs e) {
+            wf_filter();
         }
     }
 }
