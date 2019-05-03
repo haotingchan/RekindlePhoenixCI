@@ -14,36 +14,36 @@ using System.Threading;
 using System.Windows.Forms;
 
 namespace CI {
-    internal static class Program {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        private static void Main(string[] args) {
-            // 將App.config檔裡面DevExpress的設定讀進來
-            DevExpress.XtraEditors.WindowsFormsSettings.LoadApplicationSettings();
+   internal static class Program {
+      /// <summary>
+      /// The main entry point for the application.
+      /// </summary>
+      [STAThread]
+      private static void Main(string[] args) {
+         // 將App.config檔裡面DevExpress的設定讀進來
+         DevExpress.XtraEditors.WindowsFormsSettings.LoadApplicationSettings();
 
-            #region Log設定
+         #region Log設定
 
-            SingletonLogger.Instance.Severity = (LogSeverity)Enum.Parse(typeof(LogSeverity), SettingDragons.Instance.Setting.Log.LogSeverity, true);
+         SingletonLogger.Instance.Severity = (LogSeverity)Enum.Parse(typeof(LogSeverity), SettingDragons.Instance.Setting.Log.LogSeverity, true);
 
-            ILog log = new ObserverLogToDatabase();
-            SingletonLogger.Instance.Attach(log);
+         ILog log = new ObserverLogToDatabase();
+         SingletonLogger.Instance.Attach(log);
 
-            log = new ObserverLogToFile("Debug.txt");
-            SingletonLogger.Instance.Attach(log);
+         log = new ObserverLogToFile("Debug.txt");
+         SingletonLogger.Instance.Attach(log);
 
-            log = new ObserverLogToConsole();
-            SingletonLogger.Instance.Attach(log);
+         log = new ObserverLogToConsole();
+         SingletonLogger.Instance.Attach(log);
 
-            #endregion Log設定
+         #endregion Log設定
 
-            #region GlobalSetting
+         #region GlobalSetting
 
-            SystemStatus.SystemType = SystemType.CI;
+         SystemStatus.SystemType = SystemType.CI;
 
-            ConnectionInfo connectionInfo = SettingDragons.Instance.GetConnectionInfo(SettingDragons.Instance.Setting.Database.CiUserAp);
-            GlobalDaoSetting.Set(connectionInfo);
+         ConnectionInfo connectionInfo = SettingDragons.Instance.GetConnectionInfo(SettingDragons.Instance.Setting.Database.CiUserAp);
+         GlobalDaoSetting.Set(connectionInfo);
 #if DEBUG
          GlobalInfo.USER_ID = "I0001";
          GlobalInfo.USER_NAME = "菲魯特";
@@ -52,62 +52,57 @@ namespace CI {
 #endif
 
          string reportDirectoryPath = "";
-            reportDirectoryPath = Path.Combine(Application.StartupPath, "Report", DateTime.Now.ToString("yyyyMMdd"));
+         reportDirectoryPath = Path.Combine(Application.StartupPath, "Report", DateTime.Now.ToString("yyyyMMdd"));
 
-            string excelTemplateDirectoryPath = "";
-            excelTemplateDirectoryPath = Path.Combine(Application.StartupPath, "Excel_Template");
+         string excelTemplateDirectoryPath = "";
+         excelTemplateDirectoryPath = Path.Combine(Application.StartupPath, "Excel_Template");
 
-            string batchErrSPDirectoryPath = Path.Combine(Application.StartupPath, "ErrSP");
+         string batchErrSPDirectoryPath = Path.Combine(Application.StartupPath, "ErrSP");
 
-            Directory.CreateDirectory(reportDirectoryPath);
-            GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH = reportDirectoryPath;
+         Directory.CreateDirectory(reportDirectoryPath);
+         GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH = reportDirectoryPath;
 
-            Directory.CreateDirectory(excelTemplateDirectoryPath);
-            GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH = excelTemplateDirectoryPath;
+         Directory.CreateDirectory(excelTemplateDirectoryPath);
+         GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH = excelTemplateDirectoryPath;
 
-            Directory.CreateDirectory(batchErrSPDirectoryPath);
-            GlobalInfo.DEFAULT_BATCH_ErrSP_DIRECTORY_PATH = batchErrSPDirectoryPath;
+         Directory.CreateDirectory(batchErrSPDirectoryPath);
+         GlobalInfo.DEFAULT_BATCH_ErrSP_DIRECTORY_PATH = batchErrSPDirectoryPath;
 
-            #endregion GlobalSetting
+         #endregion GlobalSetting
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+         Application.EnableVisualStyles();
+         Application.SetCompatibleTextRenderingDefault(false);
 
-            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+         Application.ThreadException += new ThreadExceptionEventHandler(UIThreadException);
+         AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
-            // 如果有傳參數進來
-            if (args.Length != 0)
-            {
-                string userID   = args[0];
-                string userName = args[1];
-                string txnID    = args[2];
-                string txnName  = args[3];
+         // 如果有傳參數進來
+         if (args.Length != 0) {
+            string userID = args[0];
+            string userName = args[1];
+            string txnID = args[2];
+            string txnName = args[3];
 
-                GlobalInfo.USER_ID = userID;
-                GlobalInfo.USER_NAME = userName;
-                Application.Run(new FormMain(txnID, txnName));
-            }
-            else
-            {
+            GlobalInfo.USER_ID = userID;
+            GlobalInfo.USER_NAME = userName;
+            Application.Run(new FormMain(txnID, txnName));
+         } else {
 #if DEBUG
             Application.Run(new FormMain());
 #else
             Application.Run(new FormLogin());
 #endif
-            }
-            
-            
-        }
+         }
+      }
 
-        private static void UIThreadException(object sender, ThreadExceptionEventArgs t) {
-            MessageBox.Show(t.Exception.ToString(), "UIThreadException");
-            Application.Exit();
-        }
+      private static void UIThreadException(object sender, ThreadExceptionEventArgs t) {
+         MessageBox.Show(t.Exception.ToString(), "UIThreadException");
+         Application.Exit();
+      }
 
-        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e) {
-            MessageBox.Show(e.ExceptionObject.ToString(), "CurrentDomain_UnhandledException");
-            Application.Exit();
-        }
-    }
+      private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e) {
+         MessageBox.Show(e.ExceptionObject.ToString(), "CurrentDomain_UnhandledException");
+         Application.Exit();
+      }
+   }
 }
