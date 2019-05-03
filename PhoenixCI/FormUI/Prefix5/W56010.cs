@@ -102,36 +102,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
             return ResultStatus.Success;
         }
 
-        protected override ResultStatus Retrieve() {
-            base.Retrieve();
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus CheckShield() {
-            base.CheckShield();
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus Save(PokeBall pokeBall) {
-            base.Save(pokeBall);
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus Run(PokeBall args) {
-            base.Run(args);
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus Import() {
-            base.Import();
-
-            return ResultStatus.Success;
-        }
-
         protected override ResultStatus Export() {
 
             #region 檢查
@@ -157,16 +127,41 @@ namespace PhoenixCI.FormUI.Prefix5 {
             //依期貨商別或依商品別 輸出不同的Excel
             string excelDestinationPath = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
             if (rdoGroup.EditValue.ToString() == "True") {
-                wf_56011(excelDestinationPath);
+                //讀取資料
+                string asSym = txtFromMonth.Text.Replace("/", "");
+                string asEym = txtToMonth.Text.Replace("/", "");
+                string startFcmNo = dwSbrkno.Text.Trim();
+                string endFcmNo = dwEbrkno.Text.Trim();
+                string prodType = dwProdCond.Text.Trim();
+                string rptName = "交易經手費收費明細表－依期貨商別";
+
+                DataTable dt56011 = dao56010.D56011(asSym, asEym, prodType, startFcmNo, endFcmNo);
+                if (dt56011.Rows.Count == 0) {
+                    MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtToMonth.Text.Replace("/", ""), rptName));
+                    return ResultStatus.Fail;
+                }
+                wf_56011(excelDestinationPath, dt56011);
             }
             else {
-                wf_56012(excelDestinationPath);
+                //讀取資料
+                string asSym = txtFromMonth.Text.Replace("/", "");
+                string asEym = txtToMonth.Text.Replace("/", "");
+                string startFcmNo = dwSbrkno.EditValue.ToString().Trim();
+                string endFcmNo = dwEbrkno.EditValue.ToString().Trim();
+                string rptName = "交易經手費收費明細表－依商品別";
+
+                DataTable dt56012 = dao56010.D56012(asSym, asEym, startFcmNo, endFcmNo);
+                if (dt56012.Rows.Count == 0) {
+                    MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtToMonth.Text.Replace("/", ""), rptName));
+                    return ResultStatus.Fail;
+                }
+                wf_56012(excelDestinationPath, dt56012);
             }
             lblProcessing.Visible = false;
             return ResultStatus.Success;
         }
 
-        private void wf_56011(string excelDestinationPath) {
+        private void wf_56011(string excelDestinationPath, DataTable dt56011) {
 
             try {
                 string rptName, rptId, session;
@@ -183,17 +178,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 rptId = "56011";
                 session = "0";
 
-                //讀取資料
                 string asSym = txtFromMonth.Text.Replace("/", "");
                 string asEym = txtToMonth.Text.Replace("/", "");
-                string startFcmNo = dwSbrkno.EditValue.ToString().Trim();
-                string endFcmNo = dwEbrkno.EditValue.ToString().Trim();
-                string prodType = dwProdCond.EditValue.ToString().Trim();
-
-                DataTable dt56011 = dao56010.D56011(asSym, asEym, prodType, startFcmNo, endFcmNo);
-                if (dt56011.Rows.Count == 0) {
-                    MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtToMonth.Text.Replace("/", ""), rptName));
-                }
 
                 //切換sheet
                 Workbook workbook = new Workbook();
@@ -218,9 +204,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
                     ws56011.Cells[rowNum, 1].Value = dr56011["brk_abbr_name"].AsString();
                     ws56011.Cells[rowNum, 2].Value = dr56011["feetdcc_acc_no"].AsString();
                     ws56011.Cells[rowNum, 3].Value = dr56011["feetdcc_kind_id"].AsString();
-                    ws56011.Cells[rowNum, 4].Value = dr56011["feetrd_m_qnty"].AsDecimal();
-                    ws56011.Cells[rowNum, 5].Value = dr56011["feetdcc_org_ar"].AsDecimal();
-                    ws56011.Cells[rowNum, 6].Value = dr56011["feetdcc_disc_amt"].AsDecimal();
+                    ws56011.Cells[rowNum, 4].SetValue(dr56011["feetrd_m_qnty"]);
+                    ws56011.Cells[rowNum, 5].SetValue(dr56011["feetdcc_org_ar"]);
+                    ws56011.Cells[rowNum, 6].SetValue(dr56011["feetdcc_disc_amt"]);
                 }
 
                 //刪除空白列
@@ -238,7 +224,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
         }
 
-        private void wf_56012(string excelDestinationPath) {
+        private void wf_56012(string excelDestinationPath, DataTable dt56012) {
 
             try {
                 string rptName, rptId, session;
@@ -255,16 +241,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 rptId = "56012";
                 session = "0";
 
-                //讀取資料
                 string asSym = txtFromMonth.Text.Replace("/", "");
                 string asEym = txtToMonth.Text.Replace("/", "");
-                string startFcmNo = dwSbrkno.EditValue.ToString().Trim();
-                string endFcmNo = dwEbrkno.EditValue.ToString().Trim();
-
-                DataTable dt56012 = dao56010.D56012(asSym, asEym, startFcmNo, endFcmNo);
-                if (dt56012.Rows.Count == 0) {
-                    MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtToMonth.Text.Replace("/", ""), rptName));
-                }
 
                 //切換Sheet
                 Workbook workbook = new Workbook();
@@ -286,9 +264,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
                     DataRow dr56012 = dt56012.Rows[i];
                     rowNum = rowNum + 1;
                     ws56012.Cells[rowNum, 0].Value = dr56012["feetdcc_kind_id"].AsString();
-                    ws56012.Cells[rowNum, 1].Value = dr56012["feetrd_m_qnty"].AsDecimal();
-                    ws56012.Cells[rowNum, 2].Value = dr56012["feetdcc_org_ar"].AsDecimal();
-                    ws56012.Cells[rowNum, 3].Value = dr56012["feetdcc_disc_amt"].AsDecimal();
+                    ws56012.Cells[rowNum, 1].SetValue(dr56012["feetrd_m_qnty"]);
+                    ws56012.Cells[rowNum, 2].SetValue(dr56012["feetdcc_org_ar"]);
+                    ws56012.Cells[rowNum, 3].SetValue(dr56012["feetdcc_disc_amt"]);
                 }
 
                 //刪除空白列
@@ -309,22 +287,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
             base.Print(reportHelper);
 
             return ResultStatus.Success;
-        }
-
-        protected override ResultStatus InsertRow() {
-            base.InsertRow();
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus DeleteRow() {
-            base.DeleteRow();
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus BeforeClose() {
-            return base.BeforeClose();
         }
 
         private void rdoGroup_Properties_EditValueChanged(object sender, EventArgs e) {

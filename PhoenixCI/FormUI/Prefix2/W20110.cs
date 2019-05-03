@@ -1278,6 +1278,11 @@ namespace PhoenixCI.FormUI.Prefix2 {
             AMIF_SUM_AMT
         }
 
+        /// <summary>
+        /// 手動下載JPX檔案檢核
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnJPX_Click(object sender, EventArgs e) {
             JpxGetFile();
         }

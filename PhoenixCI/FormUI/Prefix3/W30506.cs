@@ -68,7 +68,7 @@ namespace PhoenixCI.FormUI.Prefix3
             //is_chk = "Y";
             return false;
          }
-         if(emStartMth.Text.SubStr(0,4)!= emEndMth.Text.SubStr(0, 4)) {
+         if (emStartMth.Text.SubStr(0, 4) != emEndMth.Text.SubStr(0, 4)) {
             MessageDisplay.Error("不可跨年度查詢!");
             emStartMth.Focus();
             return false;
@@ -113,22 +113,29 @@ namespace PhoenixCI.FormUI.Prefix3
          if (!StartExport()) {
             return ResultStatus.Fail;
          }
-         string lsFile = PbFunc.wf_copy_file(_ProgramID, "30506");
+         string saveFilePath = PbFunc.wf_copy_file(_ProgramID, "30506");
+         string msg;
          try {
             //轉報表
-            b30506 = new B30506(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH,lsFile, emStartMth.Text, emEndMth.Text);
+            b30506 = new B30506(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, saveFilePath, emStartMth.Text, emEndMth.Text);
             ShowMsg("30506－股票期貨最近月份契約最佳1檔加權平均委託買、賣數量月資料統計表 轉檔中...");
-            OutputShowMessage = b30506.WF30506();
+            msg = b30506.WF30506();
+            OutputShowMessage = msg;
             ShowMsg("30507－股票期貨最近月份契約最佳1檔加權平均委託買進數量日資料統計表(單位：口) 轉檔中...");
             OutputShowMessage = b30506.WF30507();
          }
          catch (Exception ex) {
-            File.Delete(lsFile);
+            File.Delete(saveFilePath);
             WriteLog(ex);
             return ResultStatus.Fail;
          }
          finally {
             EndExport();
+         }
+
+         if (msg != MessageDisplay.MSG_OK) {
+            File.Delete(saveFilePath);
+            return ResultStatus.Fail;
          }
          return ResultStatus.Success;
       }
