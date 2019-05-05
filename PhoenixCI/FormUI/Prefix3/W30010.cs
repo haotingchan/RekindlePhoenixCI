@@ -103,7 +103,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 //判斷盤別
                 int rtnInt, seq;
                 string rtnStr, grp;
-                if (ddlType.SelectedText == "16:15收盤") {
+                if (ddlType.Text == "16:15收盤") {
                     grp = "1";
                     DialogResult result = MessageDisplay.Choose("盤別為「16:15收盤」，請問是否繼續轉出報表？");
                     if (result == DialogResult.No) {
@@ -547,15 +547,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
             foreach (DataRow dr in dt30014.Rows) {
                 rowIndex = dr["RPT_SEQ_NO"].AsInt() - 1;
                 if (rowIndex < 0) continue;
-                ws30014.Cells[rowIndex, 3].Value = dr["AI1_M_QNTY"].AsDecimal();
-                value = dr["M_INCREASE"].AsDecimal();
-                ws30014.Cells[rowIndex, 4].Value = value;
-                ws30014.Cells[rowIndex, 5].Value = dr["AI1_OI"].AsDecimal();
-                value = dr["OI_INCREASE"].AsDecimal();
-                ws30014.Cells[rowIndex, 6].Value = value;
-                ws30014.Cells[rowIndex, 7].Value = dr["AI1_AVG_MONTH"].AsDecimal();
-                ws30014.Cells[rowIndex, 8].Value = dr["AI1_AVG_YEAR"].AsDecimal();
-                ws30014.Cells[rowIndex, 9].Value = dr["AI1_HIGH_QNTY"].AsDecimal();
+                ws30014.Cells[rowIndex, 3].SetValue(dr["AI1_M_QNTY"]);
+                ws30014.Cells[rowIndex, 4].SetValue(dr["M_INCREASE"]);
+                ws30014.Cells[rowIndex, 5].SetValue(dr["AI1_OI"]);
+                ws30014.Cells[rowIndex, 6].SetValue(dr["OI_INCREASE"]);
+                ws30014.Cells[rowIndex, 7].SetValue(dr["AI1_AVG_MONTH"]);
+                ws30014.Cells[rowIndex, 8].SetValue(dr["AI1_AVG_YEAR"]);
+                ws30014.Cells[rowIndex, 9].SetValue(dr["AI1_HIGH_QNTY"]);
                 date = dr["AI1_HIGH_DATE"].AsDateTime().ToString("yyyy.MM.dd");
                 date = (date.SubStr(0, 4).AsInt() - 1911) + date.SubStr(4, 6);
                 ws30014.Cells[rowIndex, 10].Value = date;
@@ -591,13 +589,12 @@ namespace PhoenixCI.FormUI.Prefix3 {
             /* 只會有1筆 */
             DataRow dr = dt30015.Rows[0];
             rowIndex = dao30010.get30015Row() - 1;
-            ws30014.Cells[rowIndex, 2].Value = dr["AB3_COUNT"].AsDecimal();
-            value = dr["AB3_INCREASE"].AsDecimal();
-            ws30014.Cells[rowIndex, 4].Value = value.AsString();
-            ws30014.Cells[rowIndex, 6].Value = dr["AB3_COUNT1"].AsDecimal();
-            ws30014.Cells[rowIndex, 8].Value = dr["AB3_COUNT2"].AsDecimal();
+            ws30014.Cells[rowIndex, 2].SetValue(dr["AB3_COUNT"]);
+            ws30014.Cells[rowIndex, 4].SetValue(dr["AB3_INCREASE"]);
+            ws30014.Cells[rowIndex, 6].SetValue(dr["AB3_COUNT1"]);
+            ws30014.Cells[rowIndex, 8].SetValue(dr["AB3_COUNT2"]);
             ws30014.Cells[rowIndex, 9].Value = dr["AB3_DATE"].AsDateTime().ToString("MM月dd日");
-            ws30014.Cells[rowIndex, 10].Value = dr["AB3_TRADE_COUNT"].AsDecimal();
+            ws30014.Cells[rowIndex, 10].SetValue(dr["AB3_TRADE_COUNT"]);
 
             //成交值
             rowIndex = rowIndex + 4;
@@ -644,15 +641,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
             foreach (DataRow dr in dt30016.Rows) {
                 rowIndex = dr["RPT_SEQ_NO"].AsInt() + add;
                 if (rowIndex == 0) continue;
-                ws30014.Cells[rowIndex, 3].Value = dr["AE3_M_QNTY"].AsDecimal();
-                value = dr["M_INCREASE"].AsDecimal();
-                ws30014.Cells[rowIndex, 4].Value = value;
-                ws30014.Cells[rowIndex, 5].Value = dr["AE3_OI"].AsDecimal();
-                value = dr["OI_INCREASE"].AsDecimal();
-                ws30014.Cells[rowIndex, 6].Value = value;
-                ws30014.Cells[rowIndex, 7].Value = dr["AE3_AVG_MONTH"].AsDecimal();
-                ws30014.Cells[rowIndex, 8].Value = dr["AE3_AVG_YEAR"].AsDecimal();
-                ws30014.Cells[rowIndex, 9].Value = dr["AE3_HIGH_QNTY"].AsDecimal();
+                ws30014.Cells[rowIndex, 3].SetValue(dr["AE3_M_QNTY"]);
+                ws30014.Cells[rowIndex, 4].SetValue(dr["M_INCREASE"]);
+                ws30014.Cells[rowIndex, 5].SetValue(dr["AE3_OI"]);
+                ws30014.Cells[rowIndex, 6].SetValue(dr["OI_INCREASE"]);
+                ws30014.Cells[rowIndex, 7].SetValue(dr["AE3_AVG_MONTH"]);
+                ws30014.Cells[rowIndex, 8].SetValue(dr["AE3_AVG_YEAR"]);
+                ws30014.Cells[rowIndex, 9].SetValue(dr["AE3_HIGH_QNTY"]);
                 date = dr["AE3_HIGH_DATE"].AsDateTime().ToString("yyyy.MM.dd");
                 date = (date.SubStr(0, 4).AsInt() - 1911) + date.SubStr(4, 6);
                 ws30014.Cells[rowIndex, 10].Value = date;

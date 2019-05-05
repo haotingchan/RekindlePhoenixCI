@@ -23,7 +23,7 @@ namespace DataObjects.Dao.Together.SpecificDao
             };
 
          string sql =
-             @"SELECT rank() OVER (partition by SP3_TYPE,SP3_KIND_ID1,SP3_KIND_ID2 order by SP3_DATE )-1 as CNT,
+             @"SELECT ROW_NUMBER() OVER (partition by SP3_TYPE,SP3_KIND_ID1,SP3_KIND_ID2 order by SP3_DATE )-1 as CNT,
                      SP3_DATE,   
                      SP3_TYPE,   
                      SP3_KIND_ID1,   

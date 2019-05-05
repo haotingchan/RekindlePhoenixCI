@@ -14,6 +14,7 @@ using BaseGround.Shared;
 using Common;
 using DataObjects.Dao.Together.SpecificDao;
 using System.IO;
+using System.Threading;
 
 /// <summary>
 /// Lukas, 2019/4/1
@@ -76,16 +77,26 @@ namespace PhoenixCI.FormUI.Prefix3 {
             return ResultStatus.Success;
         }
 
+        protected void ShowMsg(string msg) {
+            lblProcessing.Text = msg;
+            this.Refresh();
+            Thread.Sleep(5);
+        }
+
         protected override ResultStatus Export() {
 
             try {
+                this.Cursor = Cursors.WaitCursor;
+                this.Refresh();
+                Thread.Sleep(5);
                 lblProcessing.Visible = true;
+                ShowMsg("開始轉檔...");
                 dao30080 = new D30080();
                 string rptId, file, rptName, symd, eymd,
-                       underlyingMarket = "", paramKey = "", prodType, dataType = "", kindID;
+                       underlyingMarket = "", paramKey = "", prodType, kindID;
                 rptId = "30080";
                 rptName = "各檔股票期貨、選擇權交易量、未平倉統計";
-                lblProcessing.Text = rptId + "－" + rptName + " 轉檔中...";
+                ShowMsg(rptId + "－" + rptName + " 轉檔中...");
 
                 //輸入條件
                 symd = txtSDate.DateTimeValue.ToString("yyyyMMdd");
@@ -161,7 +172,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 }
 
                 DataView dv = dtSort.AsDataView();
-                dv.Sort = "AI2_" + dataType + " DESC, AI2_KIND_ID ASC";
+                dv.Sort = "AI2_" + DataType + " DESC, AI2_KIND_ID ASC";
                 dv.RowFilter = "cp_seq_no <=" + txtRank.Text;
                 DataTable dtReSorted = dv.ToTable();
 
@@ -214,8 +225,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
                             content = content + tab + "0";
                         }
                         else {
-                            if (dtFiltered.Rows[found]["AI2_" + dataType] != DBNull.Value) {
-                                content = content + tab + dtFiltered.Rows[found]["AI2_" + dataType].AsDecimal();
+                            if (dtFiltered.Rows[found]["AI2_" + DataType] != DBNull.Value) {
+                                content = content + tab + dtFiltered.Rows[found]["AI2_" + DataType].AsDecimal();
                             }
                             else {
                                 content = content + tab;
@@ -223,12 +234,18 @@ namespace PhoenixCI.FormUI.Prefix3 {
                         }
                     }
                     FileWrite(file, content);
-                    lblProcessing.Text = "轉檔成功";
+                    ShowMsg("轉檔成功");
                 }
             }
             catch (Exception ex) {
+                ShowMsg("轉檔失敗");
                 MessageDisplay.Error("輸出錯誤");
                 throw ex;
+            }
+            finally {
+                this.Cursor = Cursors.Arrow;
+                this.Refresh();
+                Thread.Sleep(5);
             }
             return ResultStatus.Success;
         }

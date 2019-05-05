@@ -112,10 +112,16 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
          //加入事件
          MarketTime.EditValueChanged += MarketTime_EditValueChanged;
+         Fcm_SNo.EditValueChanged += EditValueChanged;
+         Fcm_ENo.EditValueChanged += EditValueChanged;
+         Prod_ct.EditValueChanged += EditValueChanged;
+         Kind_id_st.EditValueChanged += EditValueChanged;
+         Kind_id_O.EditValueChanged += EditValueChanged;
+         PrintSort.EditValueChanged += EditValueChanged;
       }
 
       protected override ResultStatus Retrieve() {
-         gcMain.Visible= false; //清空資料
+         gcMain.Visible = false; //清空資料
 
          string[] showColCaption = {"期貨商", $"期貨商{Environment.NewLine}名稱", "帳號","",$"商品{Environment.NewLine}名稱",
                                     $"報價{Environment.NewLine}時間", $"最接近報價{Environment.NewLine}詢價時間","",
@@ -203,6 +209,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
          GridHelper.SetCommonGrid(gvMain);
 
          gcMain.Visible = true;
+
          return ResultStatus.Success;
       }
 
@@ -285,6 +292,10 @@ namespace PhoenixCI.FormUI.Prefix5 {
          Prod_ct.EditValue = " ";
          Kind_id_st.EditValue = " ";
          Kind_id_O.EditValue = " ";
+
+         _ToolBtnExport.Enabled = false;
+         _ToolBtnPrintAll.Enabled = false;
+
       }
 
       private string GenPrintMemo() {
@@ -310,5 +321,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
          return printMemo;
       }
+
+      private void EditValueChanged(object sender, EventArgs e) {
+         _ToolBtnExport.Enabled = false;
+         _ToolBtnPrintAll.Enabled = false;
+      }
+
    }
 }

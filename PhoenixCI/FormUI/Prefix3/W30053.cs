@@ -98,14 +98,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
             try {
                 lblProcessing.Visible = true;
                 string rptId, file, rptName = "";
-                date = (txtSDate.DateTimeValue.Year - 1911) + "年" + txtSDate.DateTimeValue.Month + "月" + txtSDate.DateTimeValue.Day + "日";
-
+                date = txtSDate.DateTimeValue.Year + "年" + txtSDate.DateTimeValue.Month + "月" + txtSDate.DateTimeValue.Day + "日";
 
                 #region ue_export_before
                 //判斷盤別
                 int rtnInt, seq;
                 string rtnStr, grp;
-                if (ddlType.SelectedText == "16:15收盤") {
+                if (ddlType.Text == "16:15收盤") {
                     grp = "1";
                 }
                 else {
@@ -523,7 +522,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 return false;
             }
             //填資料
-            ws.Cells[0, 5].Value = date;
+            //ws.Cells[0, 5].Value = date;
             ws.Import(dt30053EtfTop10, false, 2, 0);
             ws.ScrollToRow(0);
             return true;
