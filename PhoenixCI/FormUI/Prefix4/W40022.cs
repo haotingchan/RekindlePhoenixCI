@@ -10,17 +10,17 @@ using System.Threading;
 using System.Windows.Forms;
 
 /// <summary>
-/// Winni, 2019/04/30
+/// Winni, 2019/05/03
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix4 {
    /// <summary>
-   /// 40021 SPAN參數狀況表
+   /// 40022 延長交易商品SPAN參數狀況表
    /// </summary>
-   public partial class W40021 : FormParent {
+   public partial class W40022 : FormParent {
 
-      private D40021 dao40021;
+      private D40021 dao40021; //dw共用
 
-      public W40021(string programID , string programName) : base(programID , programName) {
+      public W40022(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
 
@@ -42,6 +42,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          if (FlagAdmin) {
             groupAdmin.Visible = true;
             chkTxt.Visible = true;
+            chk_40023_data.Visible = true;
          }
 
          return ResultStatus.Success;
@@ -59,7 +60,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          try {
             #region export before
             //130批次作業做完
-            string ls_rtn = PbFunc.f_chk_130_wf(_ProgramID , txtDate.DateTimeValue , "1");
+            string ls_rtn = PbFunc.f_chk_130_wf(_ProgramID , txtDate.DateTimeValue , "5");
             if (!string.IsNullOrEmpty(ls_rtn.Trim())) {
                DialogResult liRtn = MessageDisplay.Choose(string.Format("{0}-{1}，是否要繼續?" , txtDate.Text , ls_rtn));
                if (liRtn == DialogResult.No) {
@@ -82,10 +83,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID);
             Workbook workbook = new Workbook();
             workbook.LoadDocument(excelDestinationPath);
-            //Range range = worksheet.Range["A7:Q7"];
-            //range.Alignment.WrapText = true;
 
             string ls_logf = "N"; //LOGF記錄每項時間
+
+            if (ls_logf == "Y")  
+               //wf_logt("40022");
 
             if (txtDate.DateTimeValue < DateTime.ParseExact("2010/10/01" , "yyyy/MM/dd" , null)) {
                MessageDisplay.Warning("自99年10月1日起，各期貨契約之報酬率改以「當日結算價」及「當日開盤參考價」計算，故產出資料值不會異動至資料庫!");
@@ -95,10 +97,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //2.填資料
             //Sheet:標的現貨收盤價&開盤參考價
             bool result1 = false, result2 = false;
-            result1 = wf_40021(workbook);
+            result1 = wf_40022_9(workbook);
 
             //Sheet:Span參數日狀況表(一)(二)(三)
-            result2 = wf_40020_7(workbook);
+            result2 = wf_40022_7(workbook);
 
             if (!result1 && !result2) {
                try {
@@ -126,28 +128,27 @@ namespace PhoenixCI.FormUI.Prefix4 {
          return ResultStatus.Fail;
       }
 
-      #region wf_40021
-      private bool wf_40021(Workbook workbook) {
+      #region wf_40022_9
+      private bool wf_40022_9(Workbook workbook) {
 
          try {
-            string rptId = "40020_9";
+            string rptId = "40022_9";
             ShowMsg("轉檔中...");
 
-            DataTable dtContent = dao40021.GetData(txtDate.DateTimeValue , "1%" , rptId);
+            DataTable dtContent = dao40021.GetData(txtDate.DateTimeValue , "5%" , rptId);
             if (dtContent.Rows.Count <= 0) {
                MessageDisplay.Info(string.Format("{0},{1}－{2},無任何資料!" , txtDate.Text , rptId , _ProgramName));
                return false;
             }
 
-            int li_sheet = 0, li_sheet_l = 0;
-            foreach (DataRow dr in dtContent.Rows) {
-               li_sheet = dr["rpt_level_1"].AsInt() - 1;
-               if (li_sheet != li_sheet_l) {
-                  li_sheet_l = li_sheet;
-               }
-               Worksheet worksheet = workbook.Worksheets[li_sheet_l];
-               worksheet.Range["A1"].Select();
+            Worksheet ws = workbook.Worksheets[0];
+            ws.Range["A1"].Select();
 
+            string chineseDate = txtDate.Text.SubStr(0 , 4) + "年" + txtDate.Text.SubStr(5 , 2) + "月" + txtDate.Text.SubStr(8 , 2) + "日";
+            string dateMsg = string.Format("資料日期：{0}" , chineseDate);
+            ws.Cells[0 , 6].Value = dateMsg;
+
+            foreach (DataRow dr in dtContent.Rows) {
 
                int li_ole_col = dr["rpt_level_2"].AsInt() - 1;
                int li_ole_row = dr["rpt_level_3"].AsInt() - 1;
@@ -155,18 +156,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                string ls_kind_id = dr["rpt_value"].AsString();
                string ls_kind_id2 = dr["rpt_value_3"].AsString();
                string ls_type = dr["rpt_value_4"].AsString();
-               worksheet.Cells[li_ole_row , li_ole_col].Value= dr[li_col].AsInt();
+               ws.Cells[li_ole_row , li_ole_col].Value= dr[li_col].AsInt();
             }
-
-            string chineseDate = txtDate.Text.SubStr(0 , 4) + "年" + txtDate.Text.SubStr(5 , 2) + "月" + txtDate.Text.SubStr(8 , 2) + "日";
-            string dateMsg = string.Format("資料日期：{0}" , chineseDate);
-
-            Worksheet ws1 = workbook.Worksheets[0];
-            Worksheet ws2 = workbook.Worksheets[1];
-            Worksheet ws3 = workbook.Worksheets[2];
-            ws1.Cells[1 , 3].Value = dateMsg;
-            ws2.Cells[0 , 5].Value = dateMsg;
-            ws3.Cells[0 , 7].Value = dateMsg;
 
             if (chkTxt.CheckState == CheckState.Checked) {
                //write txt
@@ -181,21 +172,23 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
       #endregion
 
-      #region wf_40020_7
-      private bool wf_40020_7(Workbook workbook) {
+      #region wf_40022_7
+      private bool wf_40022_7(Workbook workbook) {
 
          string rptName = "作業事項";
-         string rptId = "40020_7";
+         string rptId = "40022_7";
          labMsg.Text = rptId + "－" + rptName + " 轉檔中...";
 
          try {
 
             //風險價格係數
-            DataTable dtRisk = dao40021.GetRiskData(txtDate.DateTimeValue , "1%");
+            DataTable dtRisk = dao40021.GetRiskData(txtDate.DateTimeValue , "5%");
             if (dtRisk.Rows.Count <= 0) {
                MessageDisplay.Info(string.Format("{0},{1}－{2},讀取「變動幅度」無任何資料!" , txtDate.Text , rptId , rptName));
                return false;
             }
+
+            Worksheet ws = workbook.Worksheets[0];
 
             #region Span參數日狀況表(一)
             DataTable dtSV = dtRisk.Filter("sp1_type='SV'");
@@ -216,55 +209,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
                ls_str2 += id1Out + "　";
             }
 
-            DataTable dtTemp1 = dao40021.GetRowColNum1();
-            Worksheet ws1 = workbook.Worksheets[0];
+            DataTable dtTemp1 = dao40021.GetRowColNum1();           
             int ii_ole_row = dtTemp1.Rows[0]["ii_ole_row"].AsInt() - 1;
             int li_row = dtTemp1.Rows[0]["li_row"].AsInt() - 1;
             int li_col = dtTemp1.Rows[0]["li_col"].AsInt() - 1;
-            ws1.Cells[ii_ole_row , li_col].Value = ls_str;
-            ws1.Cells[li_row , li_col].Value = ls_str2;
+            ws.Cells[ii_ole_row , li_col].Value = ls_str;
+            ws.Cells[li_row , li_col].Value = ls_str2;
 
-            ws1.Range["A1"].Select();
-            #endregion
-
-            #region Span參數日狀況表(二)
-            DataTable dtSD = dtRisk.Filter("sp1_type='SD'");
-            ls_str2 = "";
-            foreach (DataRow dr in dtSD.Rows) {
-               string sp1Flag = dr["sp1_flag"].AsString();
-               string id1Out = dr["sp1_kind_id1_out"].AsString().SubStr(0 , 2);
-               string id2Out = dr["sp1_kind_id2_out"].AsString().SubStr(0 , 2);
-               if (sp1Flag == "Y") {
-                  if (!string.IsNullOrEmpty(ls_str2)) {
-                     ls_str2 += ";";
-                  }
-                  ls_str2 += id1Out + "vs" + id2Out;
-               }
-            }
-
-            if (string.IsNullOrEmpty(ls_str2))
-               ls_str2 = "無";
-
-            DataTable dtTemp2 = dao40021.GetRowColNum2();
-            Worksheet ws2 = workbook.Worksheets[1];
-            int ii_ole_row2 = dtTemp2.Rows[0]["ii_ole_row"].AsInt() - 1;
-            int li_col2 = dtTemp2.Rows[0]["li_col"].AsInt() - 1;
-
-            if (ls_str2 == "無") {
-               //刪除"1,2"說明文字
-               for (int w = 0 ; w <= 4 ; w++) {
-                  ws2.Cells[ii_ole_row2 + w , 0].Value = "";
-                  ws2.Cells[ii_ole_row2 + w , 1].Value = "";
-               }
-            } else {
-               //刪除"無契約變動"說明文字
-               Range ra = ws2.Rows[ii_ole_row2];
-               ws2.DeleteCells(ra , DeleteMode.EntireRow);
-               ws2.Range["A1"].Select();
-
-               //寫調整契約
-               ws2.Cells[ii_ole_row2 , li_col2].Value = ls_str2;
-            }
+            ws.Range["A1"].Select();
             #endregion
 
             #region Span參數日狀況表(三)
@@ -283,28 +235,48 @@ namespace PhoenixCI.FormUI.Prefix4 {
                }
             }
 
-            if (string.IsNullOrEmpty(ls_str2))
-               ls_str2 = "無";
-
             DataTable dtTemp3 = dao40021.GetRowColNum3();
-            Worksheet ws3 = workbook.Worksheets[2];
-            int ii_ole_row3 = dtTemp3.Rows[0]["ii_ole_row"].AsInt() - 1;
-            int li_col3 = dtTemp3.Rows[0]["li_col"].AsInt() - 1;
+            int ii_ole_row3 = dtTemp3.Rows[0]["ii_ole_row"].AsInt() - 2;
 
-            if (ls_str2 == "無") {
-               //刪除"1,2"說明文字
-               for (int w = 0 ; w <= 4 ; w++) {
-                  ws2.Cells[ii_ole_row3 + w , 0].Value = "";
-                  ws2.Cells[ii_ole_row3 + w , 1].Value = "";
-               }
+            if (string.IsNullOrEmpty(ls_str2)) {
+               Range ra = ws.Rows[ii_ole_row];
+               ra.Delete(DeleteMode.EntireRow);
+               ws.Range["A1"].Select(); 
             } else {
-               //刪除"無契約變動"說明文字
-               Range ra = ws3.Rows[ii_ole_row3];
-               ws3.DeleteCells(ra , DeleteMode.EntireRow);
-               ws3.Range["A1"].Select();
+               Range ra = ws.Rows[ii_ole_row + 1];
+               ra.Delete(DeleteMode.EntireRow);
+               ws.Range["A1"].Select();
+            }
+            #endregion
 
-               //寫調整契約
-               ws2.Cells[ii_ole_row3 , li_col3].Value = ls_str2;
+
+            #region Span參數日狀況表(二)
+            DataTable dtSD = dtRisk.Filter("sp1_type='SD'");
+            ls_str2 = "";
+            foreach (DataRow dr in dtSD.Rows) {
+               string sp1Flag = dr["sp1_flag"].AsString();
+               string id1Out = dr["sp1_kind_id1_out"].AsString().SubStr(0 , 2);
+               string id2Out = dr["sp1_kind_id2_out"].AsString().SubStr(0 , 2);
+               if (sp1Flag == "Y") {
+                  if (!string.IsNullOrEmpty(ls_str2)) {
+                     ls_str2 += ";";
+                  }
+                  ls_str2 += id1Out + "vs" + id2Out;
+               }
+            }
+
+            DataTable dtTemp2 = dao40021.GetRowColNum2();
+            int ii_ole_row2 = dtTemp2.Rows[0]["ii_ole_row"].AsInt() - 1;
+            int li_col2 = dtTemp2.Rows[0]["li_col"].AsInt() - 1;
+
+            if (string.IsNullOrEmpty(ls_str2)) {
+               Range ra = ws.Rows[ii_ole_row];
+               ra.Delete(DeleteMode.EntireRow);
+               ws.Range["A1"].Select();
+            } else {
+               Range ra = ws.Rows[ii_ole_row - 1];
+               ra.Delete(DeleteMode.EntireRow);
+               ws.Range["A1"].Select();
             }
             #endregion
 

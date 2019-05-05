@@ -7,7 +7,7 @@ using System.Data;
 namespace DataObjects.Dao.Together {
    public class D40021 : DataGate {
       /// <summary>
-      /// get data by ci.rpt
+      /// get data by ci.rpt,ci.sp1 (d_40020_9)
       /// </summary>
       /// <param name="as_date">yyyy/MM/dd</param>
       /// <param name="as_osw_grp"></param>
@@ -51,7 +51,7 @@ order by rpt_level_1, sp1_type
       }
 
       /// <summary>
-      /// 
+      /// (d_40020_7)
       /// </summary>
       /// <param name="as_date">yyyy/MM/dd</param>
       /// <param name="as_osw_grp"></param>

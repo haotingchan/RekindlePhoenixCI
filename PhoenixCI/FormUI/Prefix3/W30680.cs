@@ -78,15 +78,15 @@ namespace PhoenixCI.FormUI.Prefix3 {
          base.Export();
 
          #region 日期檢核
-         if (!txtStartYMD.IsDate(txtStartYMD.Text , CheckDate.Start)
-                  || !txtEndYMD.IsDate(txtEndYMD.Text , CheckDate.End)) {
-            return ResultStatus.Fail; ;
-         }
+         //if (!txtStartYMD.IsDate(txtStartYMD.Text , CheckDate.Start)
+         //         || !txtEndYMD.IsDate(txtEndYMD.Text , CheckDate.End)) {
+         //   return ResultStatus.Fail; ;
+         //}
 
-         if (string.Compare(txtStartYMD.Text , txtEndYMD.Text) > 0) {
-            MessageDisplay.Error(GlobalInfo.ErrorText , CheckDate.Datedif);
-            return ResultStatus.Fail; ;
-         }
+         //if (string.Compare(txtStartYMD.Text , txtEndYMD.Text) > 0) {
+         //   MessageDisplay.Error(GlobalInfo.ErrorText , CheckDate.Datedif);
+         //   return ResultStatus.Fail; ;
+         //}
          #endregion
 
          if (chkGroup.CheckedItemsCount == 0) {
@@ -106,7 +106,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             chkGroup.Items[4] = chkOldVixs
             chkGroup.Items[5] = chkOldVix
          *************************************/
-         
+
          string tmp = DateYmd + "_w" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".csv";  //串檔名
 
          foreach (CheckedListBoxItem item in chkGroup.Items) {
@@ -204,6 +204,24 @@ namespace PhoenixCI.FormUI.Prefix3 {
                labMsg.Text = String.Format("{0},{1}-{2},無任何資料!" , StartDate.SubStr(0 , 6) , _ProgramID , fileName);
                MessageDisplay.Info(String.Format("{0},{1}-{2},無任何資料!" , StartDate.SubStr(0 , 6) , _ProgramID , fileName));
                return;
+            }
+
+            //處理資料型態(12Hr -> 24Hr)
+            if (tableName == "chkNewVold") {
+               DataTable dt = dtData.Clone();
+
+               DateTime tmpTime;
+
+               dt.Columns["VOLD_DATA_TIME"].DataType = typeof(string); //將原DataType(datetime)轉為string
+               foreach (DataRow row in dtData.Rows) {
+                  dt.ImportRow(row);
+                  //tmpTime = (new DateTime(1970 , 1 , 1 , 0 , 0 , 0)).AddHours(8).AddSeconds(row["VOLD_DATA_TIME"]);
+               }
+
+               for (int i = 0 ; i < dt.Rows.Count ; i++) {
+                  //dt.Rows[i]["VOLD_DATA_TIME"] = Convert.ToDateTime(dtData.Rows[i]["VOLD_DATA_TIME"]).ToString("yyyy/MM/dd hh:mm:ss tt");
+                  dt.Rows[i]["VOLD_DATA_TIME"] = Convert.ToDateTime(dtData.Rows[i]["VOLD_DATA_TIME"]).ToString("yyyy/MM/dd hh:mm:ss tt");
+               }
             }
 
             //存CSV (ps:輸出csv 都用ascii)
