@@ -1,11 +1,13 @@
 ﻿using ActionService;
 using BaseGround;
 using BaseGround.Report;
+using BaseGround.Shared;
 using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.TableDao;
+using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraGrid;
 using DevExpress.XtraGrid.Columns;
@@ -45,13 +47,21 @@ namespace PhoenixCI.FormUI.PrefixZ
         {
             base.Open();
 
-            DropDownList.CreateComboBoxDptIdAndName(cbxDpt);
+            //DropDownList.CreateComboBoxDptIdAndName(cbxDpt);
+            DataTable dtDept = new DPT().ListData();
+            ddlDept.SetDataTable(dtDept, "DPT_ID", "DPT_ID_NAME", TextEditStyles.DisableTextEditor, "");
+            ddlDept.EditValue = "";
 
-            RepositoryItemLookUpEdit repLookUp = DropDownList.CreateRepositoryItemDptIdAndName(cbxDpt);
+            RepositoryItemLookUpEdit repLookUp = new RepositoryItemLookUpEdit();
+            repLookUp.SetColumnLookUp(dtDept, "DPT_ID", "DPT_ID_NAME", TextEditStyles.DisableTextEditor, "");
 
-            UPF_DPT_ID.ColumnEdit = repLookUp;
+            
 
             gcMain.DataSource = daoUPF.ListDataByDept("");
+            colUPF_DPT_ID.ColumnEdit = repLookUp;
+
+            //UPF_DPT_ID.ColumnEdit = repLookUp;
+
             GridHelper.AddModifyMark(gcMain, MODIFY_MARK);
             GridHelper.AddOpType(gcMain, new GridColumn[] { UPF_USER_ID });
 
@@ -82,7 +92,7 @@ namespace PhoenixCI.FormUI.PrefixZ
         {
             base.Retrieve(gcMain);
 
-            string dptID = cbxDpt.SelectedValue.AsString();
+            string dptID = ddlDept.EditValue.AsString();
             gcMain.DataSource = daoUPF.ListDataByDept(dptID);
 
             return ResultStatus.Success;
@@ -243,10 +253,12 @@ namespace PhoenixCI.FormUI.PrefixZ
             base.InsertRow(gvMain);
 
             gvMain.GetFocusedDataRow()["OP_TYPE"] = "I";
-            gvMain.GetFocusedDataRow()["UPF_DPT_ID"] = cbxDpt.SelectedValue == null ? "" : cbxDpt.SelectedValue.ToString();
+            gvMain.GetFocusedDataRow()["MODIFY_MARK"] = "※";
+            gvMain.GetFocusedDataRow()["UPF_DPT_ID"] = ddlDept.EditValue == null ? "" : ddlDept.EditValue.AsString();
             gvMain.Focus();
 
             gvMain.FocusedColumn = gvMain.Columns[0];
+ 
 
             return ResultStatus.Success;
         }
