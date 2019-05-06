@@ -213,12 +213,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
             element.InnerText = innertext;
          }
 
-         protected virtual void ReplaceElementWord(params string[] args) {
-
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("主旨")[0].ChildNodes[0], "#kind_name_list#", args[0]);
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[1].ChildNodes[0], "#kind_name_list#", args[1]);
-         }
-
          protected virtual string GenArrayTxt(List<string> kindNameList) {
             string result = "";
             int k = 1;
@@ -256,25 +250,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
             if (!KindNameList_Desc.Exists(f => f == abbrName_Desc)) {
                KindNameList_Desc.Add(abbrName_Desc);
             }
-         }
-
-         protected virtual void MakeDescElement(DataRow dr, string abbrName) {
-            DateTime beginYmd = dr["issue_begin_ymd"].AsDateTime("yyyyMMdd");
-            string issueBeginYmd = beginYmd.AsTaiwanDateTime("{0}年{1}月{2}日", 3);
-
-            DateTime endYmd = dr["issue_end_ymd"].AsDateTime("yyyyMMdd");
-            string issueEndYmd = endYmd.AsTaiwanDateTime("{0}年{1}月{2}日", 3);
-
-            XmlElement element = Doc.CreateElement("文字");
-            element.InnerText = DescTxt;
-            ReplaceXmlInnterText(element, "#kind_name_llist#", abbrName);
-            ReplaceXmlInnterText(element, "#issue_begin_ymd#", issueBeginYmd);
-            ReplaceXmlInnterText(element, "#issue_end_ymd#", issueEndYmd);
-
-            XmlElement element_Tmp = Doc.CreateElement("條列");
-            element_Tmp.AppendChild(element);
-
-            Doc.GetElementsByTagName("段落")[0].AppendChild(element_Tmp);
          }
 
          public virtual void ErrorHandle(Exception ex, ReturnMessageClass msg) {
@@ -344,50 +319,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             msg.Status = ResultStatus.Fail;
 
             try {
-               FilePath = PbFunc.wf_copy_file(ProgramId, $"{ProgramId}_{AdjType}");
-
-               base.OpenFileAndSetYear();
-
-               ////說明文
-               string prepoStr = Dt.AsEnumerable().Any(d => d.Field<string>("prod_type") == "F") ? "期貨契約保證金及" : "";
-
-               foreach (DataRow dr in Dt.Rows) {
-                  string abbrName_Desc = dr["KIND_ABBR_NAME"].AsString();
-
-                  GenKindNameList(dr, prepoStr, "", abbrName_Desc);
-               }
-
-               string implBeginDate = Dt.Rows[0]["impl_begin_ymd"].AsString();
-               string implEndDate = Dt.Rows[0]["impl_end_ymd"].AsString();
-               string mocfDate = new MOCF().GetMaxOcfDate(implBeginDate, implEndDate);
-
-               implBeginDate = implBeginDate.AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
-               implEndDate = implEndDate.AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
-               mocfDate = mocfDate.AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
-
-               ReplaceElementWord(implBeginDate, implEndDate, GenArrayTxt(KindNameList_Desc), mocfDate, implEndDate);
-
-               Doc.Save(FilePath);
-               msg.Status = ResultStatus.Success;
                return msg;
 
             } catch (Exception ex) {
                base.ErrorHandle(ex, msg);
                return msg;
             }
-         }
-
-         protected override void ReplaceElementWord(params string[] args) {
-
-            //主旨 -> 文字
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("主旨")[0].ChildNodes[0], "#impl_begin_ymd#", args[0]);
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("主旨")[0].ChildNodes[0], "#impl_end_ymd#", args[1]);
-            //主旨裡商品
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("主旨")[0].ChildNodes[0], "#kind_name_list#", args[2]);
-
-            //段落 序號三
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[2].ChildNodes[0], "#mocf_ymd#", args[3]);
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[2].ChildNodes[0], "#impl_end_ymd#", args[4]);
          }
 
          protected override void GenKindNameList(DataRow dr, string prepoStr, string abbrName, string abbrName_Desc) {
