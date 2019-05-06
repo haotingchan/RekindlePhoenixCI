@@ -51,7 +51,7 @@ namespace DataObjects.Dao.Together.SpecificDao {
          CI.PCP.PCP_INCREASE_PRICE,  
          TRUNC(PCP_INCREASE_PRICE) H,    
          CI.PCP.PCP_PRICE,    
-         CI.PCP.PDK_TRADE_PAUSE,   
+         to_char(CI.PCP.PDK_TRADE_PAUSE, 'yyyy/mm/dd hh24:mi:ss') as PDK_TRADE_PAUSE,   
          CI.PCP.CVAR_VAR_CODE_4,   
          CI.PCP.PDK_STATUS_CODE 
     FROM CI.PCP  

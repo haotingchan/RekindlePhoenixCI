@@ -297,7 +297,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 ldt_w_time = DateTime.Now;
 
                 DataTable dtMGD2 = dao40071.d_40071(ls_ymd, is_adj_type); //ids_mgd2
-                DataTable dtMGD2Log = dao40071.d_40071_log(); //ids_old
+                DataTable dtMGD2Log = dao40071.d_40071_log(); //ids_old 
+                dtMGD2Log.Clear(); //只取schema
                 //再產生一張空的 d_40071 table
                 DataTable dtEmpty = dao40071.d_40071(ls_ymd, is_adj_type); //dw_3
                 dtEmpty.Clear();
@@ -470,6 +471,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     MessageDisplay.Error("更新資料庫MGD2L錯誤! ");
                     return ResultStatus.Fail;
                 }
+
             }
             catch (Exception ex) {
                 MessageDisplay.Error("儲存錯誤");
