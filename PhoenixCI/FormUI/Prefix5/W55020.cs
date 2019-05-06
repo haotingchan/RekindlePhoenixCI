@@ -44,7 +44,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
          txtEndMonth.DateTimeValue = GlobalInfo.OCF_DATE;
          txtEndMonth.EnterMoveNextControl = true;
-         txtStartMonth.Focus();
 
          //2.設定下拉選單
          //2.1先讀取db
@@ -81,16 +80,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
          _ToolBtnImport.Enabled = false;//匯入
          _ToolBtnExport.Enabled = true;//匯出,格式可以為 pdf/xls/txt/csv, 看功能
          _ToolBtnPrintAll.Enabled = false;//列印
-
-         return ResultStatus.Success;
-      }
-
-      /// <summary>
-      /// 按下[讀取/預覽]按鈕時,去資料庫撈資料
-      /// </summary>
-      /// <returns></returns>
-      protected override ResultStatus Retrieve() {
-         base.Retrieve();
 
          return ResultStatus.Success;
       }
@@ -207,6 +196,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
             //存檔
             workbook.SaveDocument(excelDestinationPath);
+            if (FlagAdmin)
+               System.Diagnostics.Process.Start(excelDestinationPath);
+
             return ResultStatus.Success;
          } catch (Exception ex) {
             PbFunc.f_write_logf(_ProgramID , "Error" , ex.Message);
