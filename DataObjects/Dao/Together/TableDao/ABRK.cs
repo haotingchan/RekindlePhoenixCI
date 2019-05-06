@@ -60,14 +60,17 @@ order by abrk_no";
       /// <summary>
       /// CI.ABRK
       /// </summary>
-      /// <returns>第一行空白+ABRK_NO/ABRK_NAME/cp_display</returns>
+      /// <returns>第一行空白+ABRK_NO/ABRK_NAME/cp_display/cp_display2</returns>
       public DataTable ListAll2() {
 
          string sql = @"
-select a.*,(case when trim( abrk_no ) is null then '' else abrk_no||'－'||abrk_name end) as cp_display
+select 
+a.*,
+(case when trim( abrk_no ) is null then '' else abrk_no||'－'||abrk_name end) as cp_display,
+(case when trim( abrk_no ) is null then '' else trim(Abrk_no)||'('||trim(abrk_name)||')' end) as cp_display2
 from (
 SELECT '2' as s,
-		CI.ABRK.ABRK_NO,   
+        CI.ABRK.ABRK_NO,   
         CI.ABRK.ABRK_NAME  
     FROM CI.ABRK   
 union

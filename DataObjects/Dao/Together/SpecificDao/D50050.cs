@@ -52,7 +52,7 @@ namespace DataObjects.Dao.Together.SpecificDao {
          //dbName = dbName.Substring(0 , 10).Replace("'" , "").Replace("--" , "").Replace(";" , "");
 
          string sql = string.Format(@"
-select ammd_date,
+select to_char(ammd_date,'yyyy/mm/dd') as ammd_date,
        ammd_brk_no, 
        ammd_acc_no,
        (select nvl(abrk_name,'') from ci.abrk
@@ -66,7 +66,7 @@ select ammd_date,
        ammd_sell_price,
        ammd_b_qnty,
        ammd_s_qnty,
-       ammd_w_time
+       to_char(ammd_w_time,'yyyy/mm/dd HH24:mi:ss:ff3') as ammd_w_time
 from ci.{0}
 where ammd_data_type = 'Q'
 and ammd_cp_time_flag = 'Y'

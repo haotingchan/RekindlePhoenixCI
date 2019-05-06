@@ -48,9 +48,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
          //2.設定下拉選單
          //2.1先讀取db
-         DataTable dt = new ABRK().ListAll();//第一行空白+ABRK_NO/ABRK_NAME/cp_display
-         cbxFcmStartNo.SetDataTable(dt , "ABRK_NO");
-         cbxFcmEndNo.SetDataTable(dt , "ABRK_NO");
+         DataTable dt = new ABRK().ListAll2();//第一行空白+ABRK_NO/ABRK_NAME/cp_display
+         cbxFcmStartNo.SetDataTable(dt , "ABRK_NO","CP_DISPLAY2",TextEditStyles.DisableTextEditor," ");
+         cbxFcmEndNo.SetDataTable(dt , "ABRK_NO" , "CP_DISPLAY2" , TextEditStyles.DisableTextEditor , " ");
 
          rgpType.SelectedIndex = 0;//直接預設為第一個選項
          rgpType_EditValueChanged(rgpType , null);//觸發事件
@@ -131,9 +131,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
                                     startNo ,
                                     endNo);
 
-         if (dt.Rows.Count == 0) {
+         if (dt.Rows.Count <= 0) {
             MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtStartMonth.Text + "~" + txtEndMonth.Text , this.Text));
-            return ResultStatus.Success;
+            return ResultStatus.Fail;
          }
 
          try {

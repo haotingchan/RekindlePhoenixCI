@@ -32,15 +32,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
       public W40130(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
-         txtDate.DateTimeValue = DateTime.Now;
 
          dao40130 = new D40130();
-
-#if DEBUG
-         //Winni test
-         //txtDate.DateTimeValue = DateTime.ParseExact("2018/10/11" , "yyyy/MM/dd" , null);
-         //this.Text += "(開啟測試模式),ocfDate=2018/10/11";
-#endif
       }
 
       protected override ResultStatus Open() {
@@ -48,15 +41,22 @@ namespace PhoenixCI.FormUI.Prefix4 {
          try {
 
             //1. 設定初始年月yyyy/MM/dd
-            //txtDate.Text = DateTime.Now.ToString("yyyy/MM/dd");
-            txtDate.DateTimeValue = DateTime.ParseExact("2018/10/11" , "yyyy/MM/dd" , null);
-            txtDate.EnterMoveNextControl = true;
-            txtDate.Focus();
+            txtDate.DateTimeValue = DateTime.Now;
+
+
+#if DEBUG
+            //Winni test
+            //txtDate.DateTimeValue = DateTime.ParseExact("2018/10/11" , "yyyy/MM/dd" , null);
+            //this.Text += "(開啟測試模式),ocfDate=2018/10/11";
+#endif
+
 
             //2. 設定dropdownlist(商品)
             DataTable dtKindId = dao40130.GetDataList(txtDate.DateTimeValue , "%"); //第一行全部+mgt2_kind_id_out/mgt2_kind_id/apdk_name/cpr_price_risk_rate/cp_display
             dwKindId.SetDataTable(dtKindId , "MGT2_KIND_ID","CP_DISPLAY", TextEditStyles.DisableTextEditor);
             dwKindId.ItemIndex = 0;
+
+            txtDate.Focus();
 
             return ResultStatus.Success;
          } catch (Exception ex) {
