@@ -28,9 +28,9 @@
          this.lblDate = new System.Windows.Forms.Label();
          this.txtDate = new BaseGround.Widget.TextDateEdit();
          this.panFilter = new System.Windows.Forms.GroupBox();
+         this.chk_40023_data = new System.Windows.Forms.CheckBox();
          this.groupAdmin = new System.Windows.Forms.GroupBox();
          this.chkTxt = new System.Windows.Forms.CheckBox();
-         this.chk_40023_data = new System.Windows.Forms.CheckBox();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
@@ -123,26 +123,6 @@
          this.panFilter.TabStop = false;
          this.panFilter.Text = "請輸入交易日期";
          // 
-         // groupAdmin
-         // 
-         this.groupAdmin.Controls.Add(this.chkTxt);
-         this.groupAdmin.Location = new System.Drawing.Point(423, 72);
-         this.groupAdmin.Name = "groupAdmin";
-         this.groupAdmin.Size = new System.Drawing.Size(130, 70);
-         this.groupAdmin.TabIndex = 80;
-         this.groupAdmin.TabStop = false;
-         this.groupAdmin.Text = "管理者測試";
-         // 
-         // chkTxt
-         // 
-         this.chkTxt.AutoSize = true;
-         this.chkTxt.Location = new System.Drawing.Point(19, 28);
-         this.chkTxt.Name = "chkTxt";
-         this.chkTxt.Size = new System.Drawing.Size(92, 24);
-         this.chkTxt.TabIndex = 79;
-         this.chkTxt.Text = "寫文字檔";
-         this.chkTxt.UseVisualStyleBackColor = true;
-         // 
          // chk_40023_data
          // 
          this.chk_40023_data.AutoSize = true;
@@ -154,6 +134,29 @@
          this.chk_40023_data.TabIndex = 78;
          this.chk_40023_data.Text = "產出開盤參考價 && 收盤價資料";
          this.chk_40023_data.UseVisualStyleBackColor = true;
+         this.chk_40023_data.Visible = false;
+         // 
+         // groupAdmin
+         // 
+         this.groupAdmin.Controls.Add(this.chkTxt);
+         this.groupAdmin.Location = new System.Drawing.Point(423, 72);
+         this.groupAdmin.Name = "groupAdmin";
+         this.groupAdmin.Size = new System.Drawing.Size(130, 70);
+         this.groupAdmin.TabIndex = 80;
+         this.groupAdmin.TabStop = false;
+         this.groupAdmin.Text = "管理者測試";
+         this.groupAdmin.Visible = false;
+         // 
+         // chkTxt
+         // 
+         this.chkTxt.AutoSize = true;
+         this.chkTxt.Location = new System.Drawing.Point(19, 28);
+         this.chkTxt.Name = "chkTxt";
+         this.chkTxt.Size = new System.Drawing.Size(92, 24);
+         this.chkTxt.TabIndex = 79;
+         this.chkTxt.Text = "寫文字檔";
+         this.chkTxt.UseVisualStyleBackColor = true;
+         this.chkTxt.Visible = false;
          // 
          // W40022
          // 

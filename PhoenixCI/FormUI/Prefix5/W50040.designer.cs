@@ -164,6 +164,7 @@
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_item_1", "商品")});
          this.gbItem.Size = new System.Drawing.Size(78, 79);
          this.gbItem.TabIndex = 9;
+         this.gbItem.SelectedIndexChanged += new System.EventHandler(this.gbItem_SelectedIndexChanged);
          // 
          // dw_sbrkno
          // 
@@ -480,9 +481,9 @@
          // 
          // AMM1_DATE
          // 
-         this.AMM1_DATE.Caption = "AMMD_DATE";
+         this.AMM1_DATE.Caption = "資料日期";
          this.AMM1_DATE.ColumnEdit = this.repositoryItemTextEdit2;
-         this.AMM1_DATE.FieldName = "AMMD_DATE";
+         this.AMM1_DATE.FieldName = "AMM1_DATE";
          this.AMM1_DATE.Name = "AMM1_DATE";
          // 
          // repositoryItemTextEdit2

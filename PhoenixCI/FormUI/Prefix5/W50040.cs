@@ -47,15 +47,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
          //2. 設定下拉選單
          //造市者
          DataTable dtFcm = new ABRK().ListFcmNo();//第一行空白+ampd_fcm_no/abrk_abrk_name/cp_display
-         dw_sbrkno.SetDataTable(dtFcm , "AMPD_FCM_NO");
-         //DataTable dtFcmAcc = new ABRK().ListFcmAccNo();//第一行空白+ abrk_abrk_name/cp_display
-         //dw_sbrkno.SetDataTable(dtFcmAcc , "AMPD_FCM_NO" , "CP_DISPLAY" , TextEditStyles.DisableTextEditor , "");
+         dw_sbrkno.SetDataTable(dtFcm , "AMPD_FCM_NO" , "CP_DISPLAY" , TextEditStyles.DisableTextEditor , " ");
 
          //商品
          DataTable dtProd = new APDK().ListKind2();//前面空一行+APDK_KIND_ID_STO/MARKET_CODE
-         dw_prod_kd.SetDataTable(dtProd , "APDK_KIND_ID_STO" , "APDK_KIND_ID_STO");
-         //DataTable dtProd = new APDK().ListAll3();//第一行空白+ abrk_abrk_name/cp_display
-         //dw_prod_kd.SetDataTable(dtProd , "PDK_KIND_ID" , "PDK_KIND_ID" , TextEditStyles.DisableTextEditor , "");
+         dw_prod_kd.SetDataTable(dtProd , "APDK_KIND_ID_STO" , "APDK_KIND_ID_STO" , TextEditStyles.DisableTextEditor , " ");
 
          gbItem_SelectedIndexChanged(gbItem , null);
 
@@ -100,22 +96,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
       }
 
       protected override ResultStatus Print(ReportHelper reportHelper) {
-         //try {
-         //   ReportHelper _ReportHelper = new ReportHelper(gcMain , _ProgramID , this.Text);
-         //   CommonReportLandscapeA4 reportLandscape = new CommonReportLandscapeA4();//設定為橫向列印
-         //   reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
-         //   reportLandscape.IsHandlePersonVisible = false;
-         //   reportLandscape.IsManagerVisible = false;
-         //   _ReportHelper.Create(reportLandscape);
-
-         //   _ReportHelper.Print();
-         //   _ReportHelper.Export(FileType.PDF , _ReportHelper.FilePath);
-
-         //   return ResultStatus.Success;
-         //} catch (Exception ex) {
-         //   WriteLog(ex);
-         //}
-         //return ResultStatus.Fail;
          try {
             ReportHelper _ReportHelper = new ReportHelper(gcMain , _ProgramID , this.Text);
             CommonReportLandscapeA4 reportLandscape = new CommonReportLandscapeA4();//設定為橫向列印
@@ -150,13 +130,21 @@ namespace PhoenixCI.FormUI.Prefix5 {
             //string ls_sort_type = "", ls_fcm_no = "", ls_kind_id2 = "";
             if (gbItem.EditValue.ToString() == "rb_item_0") {
                ls_sort_type = "F";
-               ls_fcm_no = dw_sbrkno.EditValue.AsString("%");
+               ls_fcm_no = dw_sbrkno.EditValue.AsString();
+               if (string.IsNullOrEmpty(ls_fcm_no)) {
+                  ls_fcm_no = "%";
+               }
                ls_kind_id2 = "%";
 
             } else if (gbItem.EditValue.ToString() == "rb_item_1") {
                ls_sort_type = "P";
+               ls_kind_id2 = dw_prod_kd.EditValue.AsString();
+               if (string.IsNullOrEmpty(ls_kind_id2)) {
+                  ls_kind_id2 = "%";
+               } else {
+                  ls_kind_id2 += "%";
+               }
                ls_fcm_no = "%";
-               ls_kind_id2 = dw_prod_kd.EditValue.AsString("%") + "%";
             }
 
             //輸出選擇
@@ -173,8 +161,10 @@ namespace PhoenixCI.FormUI.Prefix5 {
             DataTable defaultTable = new DataTable();
             defaultTable = dao50040.ListAll(txtStartDate.DateTimeValue , txtEndDate.DateTimeValue , ls_sort_type , li_val , ls_fcm_no , ls_kind_id2 , dbName);
 
-            if (defaultTable.Rows.Count == 0) {
+            if (defaultTable.Rows.Count <= 0) {
                MessageDisplay.Info(string.Format("無任何資料!"));
+               gcMain.DataSource = null;
+               gcMain.Visible = false;
                _ToolBtnExport.Enabled = false;
                return ResultStatus.Fail;
             }
@@ -222,9 +212,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
                }//foreach
 
                //group "if( sort_type ='F' ,amm1_fcm_no+ amm1_acc_no  , amm1_kind_id2 )"
-               //gvMain.Columns["AMM1_DATE"].Group();
-               //gvMain.Columns["AMM1_FCM_NO"].Group();
-               //gvMain.Columns["AMM1_ACC_NO"].Group();
+               gvMain.Columns["AMM1_DATE"].Group();
+               gvMain.Columns["AMM1_FCM_NO"].Group();
+               gvMain.Columns["AMM1_ACC_NO"].Group();
 
             } else {
                //當選擇商品時,第一個欄位=amm1_fcm_no
@@ -261,8 +251,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
                }//foreach
 
                //group "if( sort_type ='F' ,amm1_fcm_no+ amm1_acc_no  , amm1_kind_id2 )"
-               //gvMain.Columns["AMM1_DATE"].Group();
-               //gvMain.Columns["AMM1_KIND_ID2"].Group();
+               gvMain.Columns["AMM1_DATE"].Group();
+               gvMain.Columns["AMM1_KIND_ID2"].Group();
 
             }//if (ls_sort_type == "F") {
 
@@ -300,52 +290,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
             dw_prod_kd.Visible = true;
          }
       }
-
-      //對價平上下檔數(AMMD_P_SEQ_NO)欄位做值轉換
-      //private void gvMain_CustomColumnDisplayText(object sender , DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventArgs e) {
-      //   if (e.Column.FieldName == "AMMD_P_SEQ_NO") {
-      //      switch (Convert.ToInt32(e.Value)) {
-      //         case 0:
-      //            e.DisplayText = "價平";
-      //            break;
-      //         case 1:
-      //            e.DisplayText = "價外第一檔";
-      //            break;
-      //         case 2:
-      //            e.DisplayText = "價外第二檔";
-      //            break;
-      //         case 3:
-      //            e.DisplayText = "價外第三檔";
-      //            break;
-      //         case 4:
-      //            e.DisplayText = "價外第四檔";
-      //            break;
-      //         case 5:
-      //            e.DisplayText = "價外第五檔";
-      //            break;
-      //         case -1:
-      //            e.DisplayText = "價內第一檔";
-      //            break;
-      //         case -2:
-      //            e.DisplayText = "價內第二檔";
-      //            break;
-      //         case -3:
-      //            e.DisplayText = "價內第三檔";
-      //            break;
-      //         case -4:
-      //            e.DisplayText = "價內第四檔";
-      //            break;
-      //         case -5:
-      //            e.DisplayText = "價內第五檔";
-      //            break;
-      //      }
-
-      //   }
-      //   //時間格式呈現微調
-      //   if (e.Column.FieldName == "AMMD_W_TIME") {
-      //      e.DisplayText = String.Format("{0:yyyy/MM/dd HH:mm:ss.fff}" , e.Value);
-      //   }
-      //}
 
       private void gvMain_ShowingEditor(object sender , CancelEventArgs e) {
          GridView gv = sender as GridView;

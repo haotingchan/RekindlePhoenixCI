@@ -93,7 +93,7 @@ order by s,abrk_no";
 
          string sql = @"
 select a.ampd_fcm_no, a.abrk_abrk_name,
-ampd_fcm_no || ' － ' || abrk_abrk_name as cp_display
+(case when  ampd_fcm_no = ' ' then ' ' else ampd_fcm_no || ' － ' || abrk_abrk_name  end) as cp_display
 from (
     SELECT ampd_fcm_no,
          ABRK_NAME as abrk_abrk_name
@@ -101,7 +101,7 @@ from (
     WHERE AMPD_FCM_NO = ABRK_NO
     GROUP BY AMPD_FCM_NO, ABRK_NAME
     UNION
-      SELECT '',''
+      SELECT ' ',' '
         FROM DUAL
 ) a
 order by ampd_fcm_no";
