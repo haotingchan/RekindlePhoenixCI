@@ -93,8 +93,18 @@ order by sp1_date , decode( sp1_type ,'SV',1,'SD',2,'SS',3 ) , sp1_seq_no , sp1_
          return dtResult;
       }
 
-      //Span參數日狀況表(一)
-      public DataTable GetRowColNum1() {
+      /// <summary>
+      /// Span參數日狀況表(一)
+      /// </summary>
+      /// <param name="rpt_txn_id">40021:40020 / 40022:40022</param>
+      /// <param name="rpt_txd_id">40021:40020_5e / 40022:40022_5e</param>
+      /// <returns></returns>
+      public DataTable GetRowColNum1(string rpt_txn_id = "40020" , string rpt_txd_id = "40020_5e") {
+         object[] parms =
+         {
+                ":rpt_txn_id", rpt_txn_id,
+                ":rpt_txd_id", rpt_txd_id
+            };
 
          string sql = @"
 select 
@@ -102,47 +112,67 @@ select
     rpt_level_2 li_row,
     rpt_value_2 li_col
 from ci.rpt
-where rpt_txn_id = '40020'
-and rpt_txd_id = '40020_5e'
+where rpt_txn_id = :rpt_txn_id
+and rpt_txd_id = :rpt_txd_id
 ";
 
-         DataTable dtResult = db.GetDataTable(sql , null);
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
          return dtResult;
       }
 
-      //Span參數日狀況表(二)
-      public DataTable GetRowColNum2() {
+      /// <summary>
+      /// Span參數日狀況表(二)
+      /// </summary>
+      /// <param name="rpt_txn_id">40021:40020 / 40022:40022</param>
+      /// <param name="rpt_txd_id">40021:40020_6e / 40022:40022_6e</param>
+      /// <returns></returns>
+      public DataTable GetRowColNum2(string rpt_txn_id = "40020" , string rpt_txd_id = "40020_6e") {
+         object[] parms =
+         {
+                ":rpt_txn_id", rpt_txn_id,
+                ":rpt_txd_id", rpt_txd_id
+            };
 
          string sql = @"
 select
     rpt_level_1 ii_ole_row,
     rpt_value_2 li_col 
 from ci.rpt
-where rpt_txn_id = '40020'
-and rpt_txd_id = '40020_6e'
+where rpt_txn_id = :rpt_txn_id
+  and rpt_txd_id = :rpt_txd_id
 and rpt_value = 'SD'
 ";
 
-         DataTable dtResult = db.GetDataTable(sql , null);
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
          return dtResult;
       }
 
-      //Span參數日狀況表(三)
-      public DataTable GetRowColNum3() {
+      /// <summary>
+      /// Span參數日狀況表(三)
+      /// </summary>
+      /// <param name="rpt_txn_id">40021:40020 / 40022:40022</param>
+      /// <param name="rpt_txd_id">40021:40020_6e / 40022:40022_6e</param>
+      /// <returns></returns>
+      public DataTable GetRowColNum3(string rpt_txn_id = "40020" , string rpt_txd_id = "40020_6e") {
+         object[] parms =
+         {
+                ":rpt_txn_id", rpt_txn_id,
+                ":rpt_txd_id", rpt_txd_id
+            };
 
          string sql = @"
 select
     rpt_level_1 ii_ole_row,
     rpt_value_2 li_col 
 from ci.rpt
-where rpt_txn_id = '40020'
-  and rpt_txd_id = '40020_6e'
+where rpt_txn_id = :rpt_txn_id
+  and rpt_txd_id = :rpt_txd_id
   and rpt_value = 'SS'
 ";
 
-         DataTable dtResult = db.GetDataTable(sql , null);
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
          return dtResult;
       }

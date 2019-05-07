@@ -1,6 +1,6 @@
 ﻿namespace PhoenixCI.FormUI.Prefix5
 {
-   partial class W500xx
+   partial class W50020
    {
       /// <summary>
       /// Required designer variable.
@@ -139,21 +139,21 @@
          // 
          // panParent
          // 
-         this.panParent.Size = new System.Drawing.Size(790, 633);
+         this.panParent.Size = new System.Drawing.Size(945, 633);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(790, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(945, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // dw1
          // 
          this.dw1.Controls.Add(this.documentViewer1);
-         this.dw1.Dock = System.Windows.Forms.DockStyle.Bottom;
-         this.dw1.Location = new System.Drawing.Point(0, 292);
+         this.dw1.Dock = System.Windows.Forms.DockStyle.Fill;
+         this.dw1.Location = new System.Drawing.Point(0, 295);
          this.dw1.Name = "dw1";
-         this.dw1.Size = new System.Drawing.Size(790, 341);
+         this.dw1.Size = new System.Drawing.Size(945, 338);
          this.dw1.TabIndex = 3;
          // 
          // documentViewer1
@@ -162,7 +162,7 @@
          this.documentViewer1.IsMetric = true;
          this.documentViewer1.Location = new System.Drawing.Point(2, 2);
          this.documentViewer1.Name = "documentViewer1";
-         this.documentViewer1.Size = new System.Drawing.Size(786, 337);
+         this.documentViewer1.Size = new System.Drawing.Size(941, 334);
          this.documentViewer1.TabIndex = 0;
          // 
          // inputPanel
@@ -183,12 +183,12 @@
          this.inputPanel.Controls.Add(this.stMsgTxt);
          this.inputPanel.Controls.Add(this.dataLayoutControl2);
          this.inputPanel.Controls.Add(this.dataLayoutControl1);
-         this.inputPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+         this.inputPanel.Dock = System.Windows.Forms.DockStyle.Top;
          this.inputPanel.Location = new System.Drawing.Point(0, 0);
          this.inputPanel.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
          this.inputPanel.LookAndFeel.UseDefaultLookAndFeel = false;
          this.inputPanel.Name = "inputPanel";
-         this.inputPanel.Size = new System.Drawing.Size(790, 292);
+         this.inputPanel.Size = new System.Drawing.Size(945, 295);
          this.inputPanel.TabIndex = 4;
          // 
          // gb4
@@ -245,7 +245,7 @@
          this.gb3.Location = new System.Drawing.Point(649, 115);
          this.gb3.Margin = new System.Windows.Forms.Padding(0);
          this.gb3.Name = "gb3";
-         this.gb3.Size = new System.Drawing.Size(99, 66);
+         this.gb3.Size = new System.Drawing.Size(164, 68);
          this.gb3.TabIndex = 16;
          // 
          // gbDetial
@@ -260,8 +260,9 @@
          this.gbDetial.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.gbDetial.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gdate", "分日期"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gnodate", "不分日期")});
-         this.gbDetial.Size = new System.Drawing.Size(89, 55);
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gnodate", "不分日期"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_detail", "明細")});
+         this.gbDetial.Size = new System.Drawing.Size(186, 55);
          this.gbDetial.TabIndex = 0;
          // 
          // gb2Label
@@ -787,24 +788,24 @@
          // panelControl1
          // 
          this.panelControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-         this.panelControl1.Controls.Add(this.inputPanel);
          this.panelControl1.Controls.Add(this.dw1);
+         this.panelControl1.Controls.Add(this.inputPanel);
          this.panelControl1.Dock = System.Windows.Forms.DockStyle.Fill;
          this.panelControl1.Location = new System.Drawing.Point(0, 30);
          this.panelControl1.Margin = new System.Windows.Forms.Padding(0);
          this.panelControl1.Name = "panelControl1";
-         this.panelControl1.Size = new System.Drawing.Size(790, 633);
+         this.panelControl1.Size = new System.Drawing.Size(945, 633);
          this.panelControl1.TabIndex = 1;
          // 
-         // W500xx
+         // W50020
          // 
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(790, 663);
+         this.ClientSize = new System.Drawing.Size(945, 663);
          this.Controls.Add(this.panelControl1);
-         this.Name = "W500xx";
-         this.Text = "W500xx";
+         this.Name = "W50020";
+         this.Text = "W50020";
          this.Controls.SetChildIndex(this.ribbonControl, 0);
          this.Controls.SetChildIndex(this.panParent, 0);
          this.Controls.SetChildIndex(this.panelControl1, 0);

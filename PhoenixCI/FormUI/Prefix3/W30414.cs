@@ -47,8 +47,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
          InitializeComponent();
 
          this.Text = _ProgramID + "─" + _ProgramName;
-         txtStartMon.Text = GlobalInfo.OCF_DATE.AsString("yyyy/MM");
-         txtEndMon.Text = GlobalInfo.OCF_DATE.AsString("yyyy/MM");
+         txtStartMon.DateTimeValue = GlobalInfo.OCF_DATE;
+         txtEndMon.DateTimeValue = GlobalInfo.OCF_DATE;
 
 #if DEBUG
          //winni test

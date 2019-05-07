@@ -76,6 +76,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
       protected override ResultStatus Retrieve() {
          _ToolBtnExport.Enabled = true;
          gvMain.GroupSummary.Clear();
+         this.Cursor = Cursors.WaitCursor;
 
          try {
 
@@ -169,6 +170,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             if (defaultTable.Rows.Count <= 0) {
                MessageDisplay.Info("無任何資料!");
                _ToolBtnExport.Enabled = false;
+               this.Cursor = Cursors.Arrow;
                return ResultStatus.Fail;
             }
 

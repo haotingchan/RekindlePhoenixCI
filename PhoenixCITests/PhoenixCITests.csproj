@@ -71,6 +71,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="BusinessLogic\Prefix2\B20231Tests.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30290Tests.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30340Tests.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30360Tests.cs" />

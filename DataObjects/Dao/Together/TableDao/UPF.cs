@@ -1,10 +1,11 @@
-﻿using OnePiece;
+﻿using BusinessObjects;
+using OnePiece;
 using System;
 using System.Data;
 
 namespace DataObjects.Dao.Together
 {
-    public class UPF
+    public class UPF:DataGate
     {
         private Db db;
 
@@ -138,6 +139,24 @@ namespace DataObjects.Dao.Together
             DataTable dtResult = db.GetDataTable(sql, parms);
 
             return dtResult;
+        }
+
+        public ResultData Update(DataTable inputData)
+        {
+            string tableName = "ci.UPF";
+            string keysColumnList = "UPF_USER_ID";
+            string insertColumnList = "UPF_USER_ID, UPF_USER_NAME, UPF_EMPLOYEE_ID, UPF_DPT_ID, UPF_PASSWORD, UPF_W_TIME, UPF_W_USER_ID, UPF_CHANGE_FLAG";
+            string updateColumnList = "UPF_USER_NAME, UPF_EMPLOYEE_ID, UPF_DPT_ID, UPF_PASSWORD, UPF_W_TIME, UPF_W_USER_ID, UPF_CHANGE_FLAG";
+
+            try
+            {
+                //update to DB
+                return SaveForChanged(inputData, tableName, insertColumnList, updateColumnList, keysColumnList);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public bool UpdatePasswordByUserId(string UPF_USER_ID, string UPF_PASSWORD)

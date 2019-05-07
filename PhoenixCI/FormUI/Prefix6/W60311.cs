@@ -45,7 +45,6 @@ namespace PhoenixCI.FormUI.Prefix6
             base.Open();
 
             Retrieve();
-            GridHelper.AddModifyMark(gcMain, MODIFY_MARK);
             GridHelper.AddOpType(gcMain, new GridColumn[] { RPTF_KEY });
 
             if (gvMain.RowCount == 0)

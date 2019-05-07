@@ -59,7 +59,6 @@ namespace PhoenixCI.FormUI.PrefixZ
         {
             base.Open();
 
-            GridHelper.AddModifyMark(gcMain, MODIFY_MARK);
             Retrieve();
 
             return ResultStatus.Success;

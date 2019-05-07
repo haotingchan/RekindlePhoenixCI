@@ -30,8 +30,10 @@ using BaseGround.Widget;
 using System.Linq;
 using System.ComponentModel;
 
-namespace BaseGround {
-   public partial class FormParent : DevExpress.XtraBars.Ribbon.RibbonForm {
+namespace BaseGround
+{
+   public partial class FormParent : DevExpress.XtraBars.Ribbon.RibbonForm
+   {
       private string _DefaultFileNamePath;
       private string _ReportID;
       private string _ReportTitle;
@@ -124,13 +126,15 @@ namespace BaseGround {
          }
       }
 
-      public FormParent() {
+      public FormParent()
+      {
          InitializeComponent();
 
          PaintFormBorder();
       }
 
-      public FormParent(string program_id, string program_name) {
+      public FormParent(string program_id, string program_name)
+      {
          InitializeComponent();
 
          PaintFormBorder();
@@ -144,17 +148,20 @@ namespace BaseGround {
          _ReportTitle = _ProgramID + "─" + _ProgramName + GlobalInfo.REPORT_TITLE_MEMO;
       }
 
-      private void FormParent_Load(object sender, EventArgs e) {
+      private void FormParent_Load(object sender, EventArgs e)
+      {
          Open();
       }
 
-      private void FormParent_Shown(object sender, EventArgs e) {
+      private void FormParent_Shown(object sender, EventArgs e)
+      {
          AfterOpen();
 
          FormParent_Activated(sender, e);
       }
 
-      private void FormParent_Activated(object sender, EventArgs e) {
+      private void FormParent_Activated(object sender, EventArgs e)
+      {
 
          // 當PB要直接呼叫.NET打開某隻程式時，會先觸發到Activated再觸發Load，所以要判斷
          // 正常的點擊程式開啟是先觸發Load再觸發Activated
@@ -165,7 +172,8 @@ namespace BaseGround {
          }
       }
 
-      private void FormParent_FormClosing(object sender, FormClosingEventArgs e) {
+      private void FormParent_FormClosing(object sender, FormClosingEventArgs e)
+      {
          ResultStatus myResultStatus = ResultStatus.Fail;
 
          myResultStatus = BeforeClose();
@@ -175,7 +183,8 @@ namespace BaseGround {
          }
       }
 
-      public ResultStatus ProcessSaveFlow() {
+      public ResultStatus ProcessSaveFlow()
+      {
          ResultStatus myResultStatus = ResultStatus.Fail;
          //serviceCommon = new ServiceCommon();
          try {
@@ -208,35 +217,42 @@ namespace BaseGround {
                COMPLETE();
 
                WriteLog("Save", "Operation", "I");//儲存成功log
-            } else if (myResultStatus == ResultStatus.Fail) {
+            }
+            else if (myResultStatus == ResultStatus.Fail) {
                //MessageDisplay.Error("儲存失敗");
                WriteLog("Save", "Operation", "I");
                Retrieve();
             }
             return myResultStatus;
-         } catch (Exception ex) {
+         }
+         catch (Exception ex) {
             WriteLog(ex);//各支程式之save error 由這裡紀錄log
             return ResultStatus.Fail;
          }
       }
 
-      public void ProcessInsert() {
+      public void ProcessInsert()
+      {
          InsertRow();
       }
 
-      public void ProcessDelete() {
+      public void ProcessDelete()
+      {
          DeleteRow();
       }
 
-      public void ProcessRetrieve() {
+      public void ProcessRetrieve()
+      {
          try {
             Retrieve();
-         } catch (Exception ex) {
+         }
+         catch (Exception ex) {
             WriteLog(ex);
          }
       }
 
-      public void ProcessRun() {
+      public void ProcessRun()
+      {
          PokeBall args = new PokeBall();
          try {
             if (RunBefore(args) == ResultStatus.Success) {
@@ -246,7 +262,8 @@ namespace BaseGround {
                }
                //}
             }
-         } catch (Exception ex) {
+         }
+         catch (Exception ex) {
             WriteLog(ex);
          }
          //if (RunBefore(args) == ResultStatus.Success) {
@@ -266,18 +283,22 @@ namespace BaseGround {
          //}
       }
 
-      public void ProcessImport() {
+      public void ProcessImport()
+      {
          try {
-            Import();
-            MessageDisplay.Info(MessageDisplay.MSG_IMPORT);
+            ResultStatus myResultStatus = Import();
+            if (myResultStatus == ResultStatus.Success)
+               MessageDisplay.Info(MessageDisplay.MSG_IMPORT);
 
             WriteLog("Import", "Operation", "I");//處理完成log
-         } catch (Exception ex) {
+         }
+         catch (Exception ex) {
             WriteLog(ex);//各匯入檔案程式error log
          }
       }
 
-      public void ProcessExport() {
+      public void ProcessExport()
+      {
          string startTime = DateTime.Now.ToString("HH:mm:ss");
 
          try {
@@ -288,15 +309,18 @@ namespace BaseGround {
 
                if (result == ResultStatus.Success)
                   ExportAfter(startTime);
-            } else {
+            }
+            else {
                return;
             }
-         } catch (Exception ex) {
+         }
+         catch (Exception ex) {
             WriteLog(ex);
          }
       }
 
-      public virtual void ProcessPrintAll(ReportHelper reportHelper) {
+      public virtual void ProcessPrintAll(ReportHelper reportHelper)
+      {
          reportHelper = PrintOrExportSetting();
          reportHelper.IsPrintedFromPrintButton = true;
          Print(reportHelper);
@@ -305,13 +329,15 @@ namespace BaseGround {
          //Export(reportHelper);會印空的, 要由各程式來做export pdf
       }
 
-      public virtual ResultStatus BeforeOpen() {
+      public virtual ResultStatus BeforeOpen()
+      {
          if (DesignMode) return ResultStatus.Success;
 
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus Open() {
+      protected virtual ResultStatus Open()
+      {
          if (DesignMode) return ResultStatus.Success;
 
          if (MdiParent != null) {
@@ -330,53 +356,63 @@ namespace BaseGround {
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus AfterOpen() {
+      protected virtual ResultStatus AfterOpen()
+      {
          if (DesignMode) return ResultStatus.Success;
 
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus ActivatedForm() {
+      protected virtual ResultStatus ActivatedForm()
+      {
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus CheckShield() {
+      protected virtual ResultStatus CheckShield()
+      {
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus CheckShield(Control control) {
+      protected virtual ResultStatus CheckShield(Control control)
+      {
          GridHelper.AcceptText(control);
 
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus Save(PokeBall args) {
+      protected virtual ResultStatus Save(PokeBall args)
+      {
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus Save(Control control) {
+      protected virtual ResultStatus Save(Control control)
+      {
          GridHelper.AcceptText(control);
 
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus Save_Override(DataTable dt, string tableName, DBName dBName = DBName.CI) {
+      protected virtual ResultStatus Save_Override(DataTable dt, string tableName, DBName dBName = DBName.CI)
+      {
          DataGate DG = new DataGate();
          MessageDisplay.Info("Save_Override has been remove");
          return ResultStatus.Fail;
       }
 
-      protected virtual ResultStatus Retrieve() {
+      protected virtual ResultStatus Retrieve()
+      {
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus Retrieve(Control control) {
+      protected virtual ResultStatus Retrieve(Control control)
+      {
          GridHelper.AcceptText(control);
 
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus RunBefore(PokeBall args) {
+      protected virtual ResultStatus RunBefore(PokeBall args)
+      {
          string inputDate = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
          string nowDate = DateTime.Now.ToString("yyyy/MM/dd");
 
@@ -397,17 +433,20 @@ namespace BaseGround {
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus Run(PokeBall args) {
+      protected virtual ResultStatus Run(PokeBall args)
+      {
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus Run(GridControl gc) {
+      protected virtual ResultStatus Run(GridControl gc)
+      {
          GridHelper.AcceptText(gc);
 
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus RunAsync(PokeBall args) {
+      protected virtual ResultStatus RunAsync(PokeBall args)
+      {
          this.Invoke(new MethodInvoker(() => {
             FormWait formWait = new FormWait();
             Point pointWait = new Point();
@@ -516,7 +555,8 @@ namespace BaseGround {
 
                      try {
                         resultData = serviceCommon.ExecuteStoredProcedure(connectionInfo, string.Format("{0}.{1}", TXF_DB, TXF_TID), listParams, true);
-                     } catch (Exception ex) {
+                     }
+                     catch (Exception ex) {
                         resultData.Status = ResultStatus.Fail;
                         MessageDisplay.Error(ex.Message);
                      }
@@ -533,7 +573,8 @@ namespace BaseGround {
 
                if (resultData.Status == ResultStatus.Success) {
                   LOGSP_MSG = "執行正常完成";
-               } else {
+               }
+               else {
                   LOGSP_MSG = "作業執行失敗";
 
                   servicePrefix1.SaveLogsp(LOGSP_DATE, LOGSP_TXN_ID, LOGSP_SEQ_NO, LOGSP_TID, LOGSP_TID_NAME, LOGSP_BEGIN_TIME, LOGSP_END_TIME, LOGSP_MSG);
@@ -560,7 +601,8 @@ namespace BaseGround {
                this.Invoke(new MethodInvoker(() => { RunAfterEveryItem(args); }));
 
                #endregion
-            } else {
+            }
+            else {
                // 沒勾選項目的話清空狀態
                this.Invoke(new MethodInvoker(() => { gv.SetRowCellValue(i, "ERR_MSG", ""); }));
             }
@@ -571,11 +613,13 @@ namespace BaseGround {
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus ExecuteForm() {
+      protected virtual ResultStatus ExecuteForm()
+      {
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus RunAfterEveryItem(PokeBall args) {
+      protected virtual ResultStatus RunAfterEveryItem(PokeBall args)
+      {
          if (args.TXF_TID == "wf_CI_CIOPF") {
             DataTable dtTxemail = servicePrefix1.ListTxemail(_ProgramID, 1);
 
@@ -599,39 +643,46 @@ namespace BaseGround {
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus RunAfter(PokeBall args) {
+      protected virtual ResultStatus RunAfter(PokeBall args)
+      {
          MessageDisplay.Normal("執行完畢");
 
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus Import() {
+      protected virtual ResultStatus Import()
+      {
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus Import(Control control) {
+      protected virtual ResultStatus Import(Control control)
+      {
          GridHelper.AcceptText(control);
 
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus Export() {
+      protected virtual ResultStatus Export()
+      {
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus Export(Control control) {
+      protected virtual ResultStatus Export(Control control)
+      {
          GridHelper.AcceptText(control);
 
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus Export(ReportHelper reportHelper) {
+      protected virtual ResultStatus Export(ReportHelper reportHelper)
+      {
          reportHelper.Export(reportHelper.FileType, reportHelper.FilePath);
 
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus ExportAfter(string startTime) {
+      protected virtual ResultStatus ExportAfter(string startTime)
+      {
          string finishTime = DateTime.Now.ToString("HH:mm:ss");
 
          MessageDisplay.Info("轉檔完成!", "處理結果" + " " + startTime + " ~ " + finishTime);
@@ -639,7 +690,8 @@ namespace BaseGround {
          return ResultStatus.Success;
       }
 
-      public virtual ReportHelper PrintOrExportSetting() {
+      public virtual ReportHelper PrintOrExportSetting()
+      {
          ReportHelper reportHelper = new ReportHelper(PrintableComponent, _ReportID, _ReportTitle);
          reportHelper.FilePath = _DefaultFileNamePath;
          reportHelper.FileType = FileType.PDF;
@@ -647,13 +699,15 @@ namespace BaseGround {
          return reportHelper;
       }
 
-      protected virtual ResultStatus Print(ReportHelper reportHelper) {
+      protected virtual ResultStatus Print(ReportHelper reportHelper)
+      {
          reportHelper.Print();
 
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus COMPLETE() {
+      protected virtual ResultStatus COMPLETE()
+      {
          MessageDisplay.Info(MessageDisplay.MSG_OK);
 
          Retrieve();
@@ -662,11 +716,13 @@ namespace BaseGround {
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus InsertRow() {
+      protected virtual ResultStatus InsertRow()
+      {
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus InsertRow(object gridObject) {
+      protected virtual ResultStatus InsertRow(object gridObject)
+      {
          if (gridObject != null) {
             if (gridObject is GridView) {
                GridView gv = (GridView)gridObject;
@@ -680,11 +736,13 @@ namespace BaseGround {
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus DeleteRow() {
+      protected virtual ResultStatus DeleteRow()
+      {
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus DeleteRow(object gridObject) {
+      protected virtual ResultStatus DeleteRow(object gridObject)
+      {
 
          if (gridObject != null) {
             if (gridObject is GridView) {
@@ -700,7 +758,8 @@ namespace BaseGround {
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus BeforeClose() {
+      protected virtual ResultStatus BeforeClose()
+      {
          if (DataSource == null) {
             return ResultStatus.Success;
          }
@@ -712,15 +771,18 @@ namespace BaseGround {
          return ResultStatus.Success;
       }
 
-      protected bool ConfirmToDelete(int rowNum) {
+      protected bool ConfirmToDelete(int rowNum)
+      {
          if (MessageDisplay.Choose("確定刪除第" + rowNum + "筆資料?") == DialogResult.Yes) {
             return true;
-         } else {
+         }
+         else {
             return false;
          }
       }
 
-      protected DialogResult ConfirmToExitWithoutSave(DataTable dt) {
+      protected DialogResult ConfirmToExitWithoutSave(DataTable dt)
+      {
          DialogResult myDialogResult = DialogResult.No;
 
          if (dt.GetChanges() != null && dt.GetChanges().Rows.Count != 0) {
@@ -733,7 +795,8 @@ namespace BaseGround {
                foreach (object item in row.ItemArray) {
                   if ((item is string && string.IsNullOrEmpty(item.AsString())) || item is DBNull) {
                      // 代表都沒有修改資料
-                  } else {
+                  }
+                  else {
                      myDialogResult = MessageDisplay.Choose("資料有異動，是否要存檔?");
                      return myDialogResult;
                   }
@@ -744,14 +807,16 @@ namespace BaseGround {
          return myDialogResult;
       }
 
-      protected bool IsDataModify(Object grid) {
+      protected bool IsDataModify(Object grid)
+      {
          DataTable dt = null;
          if (grid is GridControl) {
             GridControl gridControl = ((GridControl)grid);
             gridControl.MainView.CloseEditor();
             gridControl.MainView.UpdateCurrentRow();
             dt = (DataTable)gridControl.DataSource;
-         } else if (grid is VGridControl) {
+         }
+         else if (grid is VGridControl) {
             VGridControl gridControl = ((VGridControl)grid);
             gridControl.CloseEditor();
             gridControl.UpdateFocusedRecord();
@@ -769,7 +834,8 @@ namespace BaseGround {
       /// <summary>
       /// 將新增、刪除、變更的紀錄分別都列印或匯出出來 改用PrintOrExportChangedByKen
       /// </summary>
-      protected void PrintOrExportChanged(GridControl gridControl, ResultData resultData) {
+      protected void PrintOrExportChanged(GridControl gridControl, ResultData resultData)
+      {
          GridControl gridControlPrint = GridHelper.CloneGrid(gridControl);
 
          ReportHelper reportHelper = new ReportHelper(gridControl, _ProgramID, _ReportTitle);
@@ -821,7 +887,8 @@ namespace BaseGround {
       /// <param name="ChangedForDeleted"></param>
       /// <param name="ChangedForModified"></param>
       protected void PrintOrExportChangedByKen(GridControl gridControl, DataTable ChangedForAdded,
-          DataTable ChangedForDeleted, DataTable ChangedForModified, bool IsHandlePersonVisible = true, bool IsManagerVisible = true) {
+          DataTable ChangedForDeleted, DataTable ChangedForModified, bool IsHandlePersonVisible = true, bool IsManagerVisible = true)
+      {
          GridControl gridControlPrint = GridHelper.CloneGrid(gridControl);
 
          ReportHelper reportHelper = new ReportHelper(gridControl, _ProgramID, _ReportTitle);
@@ -877,7 +944,8 @@ namespace BaseGround {
       /// <param name="fileName"></param>
       /// <param name="fileType"></param>
       /// <returns></returns>
-      protected string CopyExcelTemplateFile(string fileName, FileType fileType) {
+      protected string CopyExcelTemplateFile(string fileName, FileType fileType)
+      {
          string originalFilePath = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH, fileName + "." + fileType.ToString().ToLower());
 
          string destinationFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH,
@@ -888,7 +956,8 @@ namespace BaseGround {
          return destinationFilePath;
       }
 
-      private void SetAllToolBtnDisable() {
+      private void SetAllToolBtnDisable()
+      {
          _ToolBtnInsert.Enabled = false;
          _ToolBtnDel.Enabled = false;
          _ToolBtnSave.Enabled = false;
@@ -899,13 +968,15 @@ namespace BaseGround {
          _ToolBtnPrintAll.Enabled = false;
       }
 
-      private void FormParent_KeyDown(object sender, KeyEventArgs e) {
+      private void FormParent_KeyDown(object sender, KeyEventArgs e)
+      {
          if (e.KeyCode == Keys.Escape) {
             this.Close();
          }
       }
 
-      public void PaintFormBorder() {
+      public void PaintFormBorder()
+      {
          SkinElement element = SkinManager.GetSkinElement(SkinProductId.Ribbon, DevExpress.LookAndFeel.UserLookAndFeel.Default, "FormCaptionNoRibbon");
          Image image = element.Image.GetImages().Images[1];
          int counter = element.Image.ImageCount;
@@ -923,11 +994,13 @@ namespace BaseGround {
          LookAndFeelHelper.ForceDefaultLookAndFeelChanged();
       }
 
-      private void FormParent_SizeChanged(object sender, EventArgs e) {
+      private void FormParent_SizeChanged(object sender, EventArgs e)
+      {
          if (MdiParent != null) {
             if (this.WindowState == FormWindowState.Maximized) {
                ((FormMain)MdiParent).standaloneBarDockControlMdi.Visible = true;
-            } else {
+            }
+            else {
                ((FormMain)MdiParent).standaloneBarDockControlMdi.Visible = false;
             }
          }
@@ -939,7 +1012,8 @@ namespace BaseGround {
       /// <param name="ex">最後儲存的長度為100字元</param>
       /// <param name="extraMsg">額外的資訊,顯示在最前面</param>
       /// <param name="showMsg">true=顯示錯誤訊息,false=不顯示</param>
-      public void WriteLog(Exception ex, string extraMsg = "", bool showMsg = true) {
+      public void WriteLog(Exception ex, string extraMsg = "", bool showMsg = true)
+      {
          //1.一旦發生非預期的Error(有產生Exception),截取目前畫面並儲存在local端的log/yyyyMM
          SaveErrorScreenshot();
 
@@ -967,7 +1041,8 @@ namespace BaseGround {
       /// <param name="logType">基本logType可定義為 Info/Operation/Error</param>
       /// <param name="operationType">logType=Info,此參數才有效(I = change data, E = export, R = query, P = print, X = execute)</param>
       /// <param name="showMsg">true=顯示錯誤訊息,false=不顯示</param>
-      public void WriteLog(string msg, string logType = "Info", string operationType = "", bool showMsg = false) {
+      public void WriteLog(string msg, string logType = "Info", string operationType = "", bool showMsg = false)
+      {
          bool isNeedWriteFile = false;
          string dbErrorMsg = "";
 
@@ -988,7 +1063,8 @@ namespace BaseGround {
             //ken,LOGF_KEY_DATA長度要取前100字元,但是logf.LOGF_KEY_DATA型態為VARCHAR2 (100 Byte),如果有中文會算2byte...先取前80吧
             new LOGF().Insert(GlobalInfo.USER_ID, _ProgramID, msg.SubStr(0, 80), operationType);
 
-         } catch (Exception ex2) {
+         }
+         catch (Exception ex2) {
             // write log to db failed , ready write file to local
             isNeedWriteFile = true;
             dbErrorMsg = ex2.ToString();
@@ -1016,7 +1092,8 @@ namespace BaseGround {
                   if (dbErrorMsg != "")
                      sw.Write("dbErrorMsg=" + dbErrorMsg);
                }//using (StreamWriter sw = File.AppendText(filepath)) {
-            } catch (Exception fileEx) {
+            }
+            catch (Exception fileEx) {
                MessageDisplay.Error("將log寫入檔案發生錯誤,請聯絡管理員" + Environment.NewLine + "msg=" + fileEx.Message);
                return;
             }
@@ -1041,7 +1118,8 @@ namespace BaseGround {
       /// <summary>
       /// 抓取畫面存檔成png
       /// </summary>
-      public void SaveErrorScreenshot() {
+      public void SaveErrorScreenshot()
+      {
          try {
             string filename = DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + _ProgramID + ".png";
             string filepath = Path.Combine(Application.StartupPath, "Log", DateTime.Today.ToString("yyyyMM"));
@@ -1061,7 +1139,8 @@ namespace BaseGround {
 
                bitmap.Save(filepath, format);
             }
-         } catch {
+         }
+         catch {
             //if error,no response
          }
       }

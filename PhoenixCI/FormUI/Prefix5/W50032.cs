@@ -84,7 +84,7 @@ namespace PhoenixCI.FormUI.Prefix5
          _ToolBtnExport.Enabled = false;
          if (!BeforeRetrieve()) return ResultStatus.Fail;
          w500xx.WfLinqSyntaxSelect(is_dw_name);
-         if (w500xx.RetrieveAfter(is_dw_name)) {
+         if (w500xx.EndRetrieve(is_dw_name)) {
             reportView();
          }
          _ToolBtnExport.Enabled = true;
@@ -118,43 +118,15 @@ namespace PhoenixCI.FormUI.Prefix5
 
       protected bool BeforeRetrieve()
       {
-         if (!w500xx.Retrieve()) return false;
+         if (!w500xx.StartRetrieve()) return false;
          /* 報表內容 */
          if (w500xx.gb_detial.EditValue.Equals("rb_gdate")) {
-            is_dw_name = dao50032.ListD50032(w500xx.is_sbrkno, w500xx.is_ebrkno, w500xx.is_prod_category, w500xx.is_prod_kind_id_sto, w500xx.is_sdate, w500xx.is_edate);
+            is_dw_name = dao50032.ListD50032(w500xx.Sbrkno, w500xx.Ebrkno, w500xx.ProdCategory, w500xx.ProdKindIdSto, w500xx.Sdate, w500xx.Edate);
          }
          else {
-            is_dw_name = dao50032.ListChk(w500xx.is_sdate, w500xx.is_edate);
+            is_dw_name = dao50032.ListChk(w500xx.Sdate, w500xx.Edate);
          }
          return true;
-      }
-
-      protected override ResultStatus CheckShield()
-      {
-         base.CheckShield();
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus Save(PokeBall pokeBall)
-      {
-         base.Save(pokeBall);
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus Run(PokeBall args)
-      {
-         base.Run(args);
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus Import()
-      {
-         base.Import();
-
-         return ResultStatus.Success;
       }
 
       protected override ResultStatus Export()
@@ -162,7 +134,7 @@ namespace PhoenixCI.FormUI.Prefix5
          base.Export();
          string ls_rpt_name = "造市者報表";
          string ls_rpt_id = _ProgramID;
-         w500xx.BeforeExport(ls_rpt_id, ls_rpt_name);
+         w500xx.StartExport(ls_rpt_id, ls_rpt_name);
          BeforeRetrieve();
          /******************
          複製檔案
@@ -172,7 +144,7 @@ namespace PhoenixCI.FormUI.Prefix5
          if (ls_file == "") {
             return ResultStatus.Fail;
          }
-         w500xx.is_log_txt = ls_file;
+         w500xx.LogText = ls_file;
          /******************
          開啟檔案
          ******************/
@@ -184,7 +156,7 @@ namespace PhoenixCI.FormUI.Prefix5
          ******************/
          DataTable ids_1 = is_dw_name;
          if (ids_1.Rows.Count <= 0) {
-            w500xx.AfterExport();
+            w500xx.EndExport();
             return ResultStatus.Success;
          }
          /******************
@@ -192,12 +164,12 @@ namespace PhoenixCI.FormUI.Prefix5
          ******************/
          Worksheet worksheet = workbook.Worksheets[0];
 
-         ls_rpt_name = w500xx.t_conditionText().Trim();
+         ls_rpt_name = w500xx.ConditionText().Trim();
          if (ls_rpt_name == "") {
-            ls_rpt_name = "報表條件：" + "(" + w500xx.t_dateText() + ")";
+            ls_rpt_name = "報表條件：" + "(" + w500xx.DateText() + ")";
          }
          else {
-            ls_rpt_name = w500xx.t_conditionText().Trim() + " " + "(" + w500xx.t_dateText() + ")";
+            ls_rpt_name = w500xx.ConditionText().Trim() + " " + "(" + w500xx.DateText() + ")";
          }
          worksheet.Cells[2, 4].Value = ls_rpt_name;
          int rowIndex = 4;int k = 1;
@@ -215,7 +187,7 @@ namespace PhoenixCI.FormUI.Prefix5
             k++;
          }
          workbook.SaveDocument(ls_file);
-         w500xx.AfterExport();
+         w500xx.EndExport();
          return ResultStatus.Success;
       }
 
@@ -227,20 +199,6 @@ namespace PhoenixCI.FormUI.Prefix5
          reportHelper.Create(xtraReport);
          reportHelper.Preview();
          base.Print(reportHelper);
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus InsertRow()
-      {
-         base.InsertRow();
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus DeleteRow()
-      {
-         base.DeleteRow();
-
          return ResultStatus.Success;
       }
 

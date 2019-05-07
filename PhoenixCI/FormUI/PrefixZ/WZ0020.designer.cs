@@ -43,9 +43,9 @@
             this.TXN_AUDIT = new DevExpress.XtraGrid.Columns.GridColumn();
             this.TXN_RMARK = new DevExpress.XtraGrid.Columns.GridColumn();
             this.TXN_W_TIME = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.MODIFY_MARK = new DevExpress.XtraGrid.Columns.GridColumn();
             this.TXN_ID_ORG = new DevExpress.XtraGrid.Columns.GridColumn();
             this.panParent.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
             this.SuspendLayout();
@@ -53,8 +53,13 @@
             // panParent
             // 
             this.panParent.Controls.Add(this.gcMain);
-            this.panParent.Location = new System.Drawing.Point(0, 32);
-            this.panParent.Size = new System.Drawing.Size(1306, 540);
+            this.panParent.Size = new System.Drawing.Size(1306, 542);
+            // 
+            // ribbonControl
+            // 
+            this.ribbonControl.ExpandCollapseItem.Id = 0;
+            this.ribbonControl.Size = new System.Drawing.Size(1306, 30);
+            this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // gcMain
             // 
@@ -62,7 +67,7 @@
             this.gcMain.Location = new System.Drawing.Point(12, 12);
             this.gcMain.MainView = this.gvMain;
             this.gcMain.Name = "gcMain";
-            this.gcMain.Size = new System.Drawing.Size(1282, 516);
+            this.gcMain.Size = new System.Drawing.Size(1282, 518);
             this.gcMain.TabIndex = 0;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -84,7 +89,6 @@
             this.TXN_AUDIT,
             this.TXN_RMARK,
             this.TXN_W_TIME,
-            this.MODIFY_MARK,
             this.TXN_ID_ORG});
             this.gvMain.GridControl = this.gcMain;
             this.gvMain.Name = "gvMain";
@@ -232,11 +236,6 @@
             this.TXN_W_TIME.VisibleIndex = 12;
             this.TXN_W_TIME.Width = 143;
             // 
-            // MODIFY_MARK
-            // 
-            this.MODIFY_MARK.FieldName = "MODIFY_MARK";
-            this.MODIFY_MARK.Name = "MODIFY_MARK";
-            // 
             // TXN_ID_ORG
             // 
             this.TXN_ID_ORG.FieldName = "TXN_ID";
@@ -251,6 +250,7 @@
             this.Name = "WZ0020";
             this.Text = "FormChild";
             this.panParent.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
             this.ResumeLayout(false);
@@ -275,7 +275,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn TXN_AUDIT;
         private DevExpress.XtraGrid.Columns.GridColumn TXN_RMARK;
         private DevExpress.XtraGrid.Columns.GridColumn TXN_W_TIME;
-        private DevExpress.XtraGrid.Columns.GridColumn MODIFY_MARK;
         private DevExpress.XtraGrid.Columns.GridColumn TXN_ID_ORG;
     }
 }
