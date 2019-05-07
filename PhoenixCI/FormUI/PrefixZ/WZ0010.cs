@@ -1,4 +1,4 @@
-﻿using ActionService;
+﻿using ActionService.DbDirect;
 using BaseGround;
 using BaseGround.Report;
 using BaseGround.Shared;
@@ -12,7 +12,6 @@ using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraGrid;
 using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraReports.UI;
-using PhoenixCI.Widget;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -21,10 +20,10 @@ namespace PhoenixCI.FormUI.PrefixZ
 {
     public partial class WZ0010 : FormParent
     {
-      private UPF daoUPF;
-      private UTP daoUTP;
+        private UPF daoUPF;
+        private UTP daoUTP;
 
-      public WZ0010(string programID, string programName) : base(programID, programName)
+        public WZ0010(string programID, string programName) : base(programID, programName)
         {
             InitializeComponent();
 
@@ -32,9 +31,10 @@ namespace PhoenixCI.FormUI.PrefixZ
             PrintableComponent = gcMain;
             this.Text = _ProgramID + "─" + _ProgramName;
 
-         daoUPF = new UPF();
-         daoUTP = new UTP();
-      }
+            daoUPF = new UPF();
+            daoUTP = new UTP();
+            serviceCommon = new ServiceCommon();
+        }
 
         public override ResultStatus BeforeOpen()
         {
@@ -55,12 +55,8 @@ namespace PhoenixCI.FormUI.PrefixZ
             RepositoryItemLookUpEdit repLookUp = new RepositoryItemLookUpEdit();
             repLookUp.SetColumnLookUp(dtDept, "DPT_ID", "DPT_ID_NAME", TextEditStyles.DisableTextEditor, "");
 
-            
-
             gcMain.DataSource = daoUPF.ListDataByDept("");
-            colUPF_DPT_ID.ColumnEdit = repLookUp;
-
-            //UPF_DPT_ID.ColumnEdit = repLookUp;
+            UPF_DPT_ID.ColumnEdit = repLookUp;
 
             GridHelper.AddModifyMark(gcMain, MODIFY_MARK);
             GridHelper.AddOpType(gcMain, new GridColumn[] { UPF_USER_ID });
@@ -103,11 +99,9 @@ namespace PhoenixCI.FormUI.PrefixZ
             base.CheckShield(gcMain);
             if (!IsDataModify(gcMain)) { return ResultStatus.Fail; }
 
-            DataTable dtMain = (DataTable)gcMain.DataSource;
+            DataTable dt = (DataTable)gcMain.DataSource;
 
-            int rowIndex = 0;
-
-            foreach (DataRow row in dtMain.Rows)
+            foreach (DataRow row in dt.Rows)
             {
                 if (row.RowState != DataRowState.Deleted && row.RowState != DataRowState.Unchanged)
                 {
@@ -130,8 +124,6 @@ namespace PhoenixCI.FormUI.PrefixZ
                     {
                         return ResultStatus.Fail;
                     }
-
-                    rowIndex++;
                 }
             }
 
@@ -140,33 +132,60 @@ namespace PhoenixCI.FormUI.PrefixZ
 
         protected override ResultStatus Save(PokeBall pokeBall)
         {
-            base.Save(gcMain);
+            if (CheckShield() == ResultStatus.Success)
+            {
+                base.Save(gcMain);
 
-            DataTable dt = (DataTable)gcMain.DataSource;
+                DataTable dt = (DataTable)gcMain.DataSource;
+                DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
+                DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
+                DataTable dtForDeleted = dt.GetChanges(DataRowState.Deleted);
 
-            string tableName = "ci.UPF";
-            string keysColumnList = "UPF_USER_ID";
-            string insertColumnList = "UPF_USER_ID, UPF_USER_NAME, UPF_EMPLOYEE_ID, UPF_DPT_ID, UPF_PASSWORD, UPF_W_TIME, UPF_W_USER_ID, UPF_CHANGE_FLAG";
-            string updateColumnList = "UPF_USER_NAME, UPF_EMPLOYEE_ID, UPF_DPT_ID, UPF_PASSWORD, UPF_W_TIME, UPF_W_USER_ID, UPF_CHANGE_FLAG";
+                try
+                {
+                    ResultData myResultData = daoUPF.Update(dt);
 
-            ResultData myResultData = serviceCommon.SaveForChanged(dt, tableName, insertColumnList, updateColumnList, keysColumnList, pokeBall);
+                    DataTable dtTemp = new DataTable();
+                    //若刪除user ,一併刪除相關權限
+                    if (dtForDeleted != null)
+                    {
+                        dtTemp = dtForDeleted.Clone();
 
-            //DataTable dtDelete = myResultData.ChangedDataViewForDeleted.ToTable();
+                        int rowIndex = 0;
+                        foreach (DataRow dr in dtForDeleted.Rows)
+                        {
+                            DataRow drNewDelete = dtTemp.NewRow();
+                            for (int colIndex = 0; colIndex < dtForDeleted.Columns.Count; colIndex++)
+                            {
+                                drNewDelete[colIndex] = dr[colIndex, DataRowVersion.Original];
+                            }
+                            dtTemp.Rows.Add(drNewDelete);
+                            rowIndex++;
+                        }
+                        
+                        foreach (DataRow row in dtTemp.Rows)
+                        {
+                            string userId = row["UPF_USER_ID"].AsString();
+                            bool result = daoUTP.DeleteUTPByUserId(userId);
+                        }
+                    }
+       
+                    //列印
+                    PrintOrExport(gcMain, dtForAdd, dtTemp, dtForModified);
 
-            //foreach (DataRow row in dtDelete.Rows)
-            //{
-            //    string userId = row["UPF_USER_ID"].AsString();
-            //    bool result = daoUTP.DeleteUTPByUserId(userId);
-            //}
-
-            PrintOrExport(gcMain, myResultData);
-            _IsPreventFlowPrint = true;
-            _IsPreventFlowExport = true;
-
+                    _IsPreventFlowPrint = true;
+                    _IsPreventFlowExport = true;
+                }
+                catch (Exception ex)
+                {
+                    MessageDisplay.Error(ex.Message);
+                }
+            }
             return ResultStatus.Success;
         }
 
-        protected void PrintOrExport(GridControl gridControl, ResultData resultData)
+        protected void PrintOrExport(GridControl gridControl, DataTable ChangedForAdded,
+          DataTable ChangedForDeleted, DataTable ChangedForModified)
         {
             GridControl gridControlPrint = GridHelper.CloneGrid(gridControl);
 
@@ -174,39 +193,44 @@ namespace PhoenixCI.FormUI.PrefixZ
 
             ReportHelper reportHelper;
 
-            if (resultData.ChangedDataViewForAdded.Count != 0)
-            {
-                reportHelper = PrintOrExportSetting();
-                gridControlPrint.DataSource = resultData.ChangedDataViewForAdded;
-                reportHelper.ReportTitle = originReportTitle + "─" + "新增";
 
-                reportHelper.Create(GenerateReport(gridControlPrint));
+            reportHelper = PrintOrExportSetting();
+            reportHelper.IsHandlePersonVisible = true;
+            reportHelper.IsManagerVisible = true;
+            if (ChangedForAdded != null)
+                if (ChangedForAdded.Rows.Count != 0)
+                {
+                    gridControlPrint.DataSource = ChangedForAdded;
+                    reportHelper.ReportTitle = originReportTitle + "─" + "新增";
 
-                Print(reportHelper);
-                Export(reportHelper);
-            }
+                    reportHelper.Create(GenerateReport(gridControlPrint));
+
+                    Print(reportHelper);
+                    Export(reportHelper);
+                }
 
             PrintableComponent = gridControlPrint;
+            if (ChangedForDeleted != null)
+                if (ChangedForDeleted.Rows.Count != 0)
+                {
+                    reportHelper = PrintOrExportSetting();
+                    gridControlPrint.DataSource = ChangedForDeleted;
+                    reportHelper.ReportTitle = originReportTitle + "─" + "刪除";
 
-            //if (resultData.ChangedDataViewForDeleted.Count != 0)
-            //{
-            //    reportHelper = PrintOrExportSetting();
-            //    gridControlPrint.DataSource = resultData.ChangedDataViewForDeleted;
-            //    reportHelper.ReportTitle = originReportTitle + "─" + "刪除";
+                    reportHelper.Print();
+                    reportHelper.Export(FileType.PDF, reportHelper.FilePath);
+                }
 
-            //    Print(reportHelper);
-            //    Export(reportHelper);
-            //}
+            if (ChangedForModified != null)
+                if (ChangedForModified.Rows.Count != 0)
+                {
+                    reportHelper = PrintOrExportSetting();
+                    gridControlPrint.DataSource = ChangedForModified;
+                    reportHelper.ReportTitle = originReportTitle + "─" + "變更";
 
-            if (resultData.ChangedDataViewForModified.Count != 0)
-            {
-                reportHelper = PrintOrExportSetting();
-                gridControlPrint.DataSource = resultData.ChangedDataViewForModified;
-                reportHelper.ReportTitle = originReportTitle + "─" + "變更";
-
-                Print(reportHelper);
-                Export(reportHelper);
-            }
+                    Print(reportHelper);
+                    Export(reportHelper);
+                }
         }
 
         protected override ResultStatus Run(PokeBall args)
@@ -258,7 +282,6 @@ namespace PhoenixCI.FormUI.PrefixZ
             gvMain.Focus();
 
             gvMain.FocusedColumn = gvMain.Columns[0];
- 
 
             return ResultStatus.Success;
         }
@@ -291,7 +314,7 @@ namespace PhoenixCI.FormUI.PrefixZ
         {
             RZ0011 report = new RZ0011();
 
-            DataTable dt = ((DataView)gridControl.DataSource).ToTable();
+            DataTable dt = (DataTable)gridControl.DataSource;
             dt = FormatDataTableForPrintAndExport(dt);
 
             report.DataSource = dt;

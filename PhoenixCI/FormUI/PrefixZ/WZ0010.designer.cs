@@ -30,11 +30,11 @@
         {
             this.gcMain = new DevExpress.XtraGrid.GridControl();
             this.gvMain = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.colUPF_USER_ID = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colUPF_USER_NAME = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colUPF_EMPLOYEE_ID = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colUPF_DPT_ID = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colUPF_W_TIME = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.UPF_USER_ID = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.UPF_USER_NAME = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.UPF_EMPLOYEE_ID = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.UPF_DPT_ID = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.UPF_W_TIME = new DevExpress.XtraGrid.Columns.GridColumn();
             this.MODIFY_MARK = new DevExpress.XtraGrid.Columns.GridColumn();
             this.lblDpt = new System.Windows.Forms.Label();
             this.ddlDept = new DevExpress.XtraEditors.LookUpEdit();
@@ -74,74 +74,74 @@
             // gvMain
             // 
             this.gvMain.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.colUPF_USER_ID,
-            this.colUPF_USER_NAME,
-            this.colUPF_EMPLOYEE_ID,
-            this.colUPF_DPT_ID,
-            this.colUPF_W_TIME,
+            this.UPF_USER_ID,
+            this.UPF_USER_NAME,
+            this.UPF_EMPLOYEE_ID,
+            this.UPF_DPT_ID,
+            this.UPF_W_TIME,
             this.MODIFY_MARK});
             this.gvMain.GridControl = this.gcMain;
             this.gvMain.Name = "gvMain";
             // 
-            // colUPF_USER_ID
+            // UPF_USER_ID
             // 
-            this.colUPF_USER_ID.AppearanceCell.Options.UseTextOptions = true;
-            this.colUPF_USER_ID.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.colUPF_USER_ID.Caption = "使用者代號";
-            this.colUPF_USER_ID.FieldName = "UPF_USER_ID";
-            this.colUPF_USER_ID.Name = "colUPF_USER_ID";
-            this.colUPF_USER_ID.Visible = true;
-            this.colUPF_USER_ID.VisibleIndex = 0;
-            this.colUPF_USER_ID.Width = 87;
+            this.UPF_USER_ID.AppearanceCell.Options.UseTextOptions = true;
+            this.UPF_USER_ID.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.UPF_USER_ID.Caption = "使用者代號";
+            this.UPF_USER_ID.FieldName = "UPF_USER_ID";
+            this.UPF_USER_ID.Name = "UPF_USER_ID";
+            this.UPF_USER_ID.Visible = true;
+            this.UPF_USER_ID.VisibleIndex = 0;
+            this.UPF_USER_ID.Width = 87;
             // 
-            // colUPF_USER_NAME
+            // UPF_USER_NAME
             // 
-            this.colUPF_USER_NAME.AppearanceCell.Options.UseTextOptions = true;
-            this.colUPF_USER_NAME.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.colUPF_USER_NAME.Caption = "使用者名稱";
-            this.colUPF_USER_NAME.FieldName = "UPF_USER_NAME";
-            this.colUPF_USER_NAME.Name = "colUPF_USER_NAME";
-            this.colUPF_USER_NAME.Visible = true;
-            this.colUPF_USER_NAME.VisibleIndex = 1;
-            this.colUPF_USER_NAME.Width = 85;
+            this.UPF_USER_NAME.AppearanceCell.Options.UseTextOptions = true;
+            this.UPF_USER_NAME.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.UPF_USER_NAME.Caption = "使用者名稱";
+            this.UPF_USER_NAME.FieldName = "UPF_USER_NAME";
+            this.UPF_USER_NAME.Name = "UPF_USER_NAME";
+            this.UPF_USER_NAME.Visible = true;
+            this.UPF_USER_NAME.VisibleIndex = 1;
+            this.UPF_USER_NAME.Width = 85;
             // 
-            // colUPF_EMPLOYEE_ID
+            // UPF_EMPLOYEE_ID
             // 
-            this.colUPF_EMPLOYEE_ID.AppearanceCell.Options.UseTextOptions = true;
-            this.colUPF_EMPLOYEE_ID.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.colUPF_EMPLOYEE_ID.Caption = "員工編號";
-            this.colUPF_EMPLOYEE_ID.FieldName = "UPF_EMPLOYEE_ID";
-            this.colUPF_EMPLOYEE_ID.Name = "colUPF_EMPLOYEE_ID";
-            this.colUPF_EMPLOYEE_ID.Visible = true;
-            this.colUPF_EMPLOYEE_ID.VisibleIndex = 2;
+            this.UPF_EMPLOYEE_ID.AppearanceCell.Options.UseTextOptions = true;
+            this.UPF_EMPLOYEE_ID.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.UPF_EMPLOYEE_ID.Caption = "員工編號";
+            this.UPF_EMPLOYEE_ID.FieldName = "UPF_EMPLOYEE_ID";
+            this.UPF_EMPLOYEE_ID.Name = "UPF_EMPLOYEE_ID";
+            this.UPF_EMPLOYEE_ID.Visible = true;
+            this.UPF_EMPLOYEE_ID.VisibleIndex = 2;
             // 
-            // colUPF_DPT_ID
+            // UPF_DPT_ID
             // 
-            this.colUPF_DPT_ID.AppearanceCell.Options.UseTextOptions = true;
-            this.colUPF_DPT_ID.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.colUPF_DPT_ID.Caption = "部門";
-            this.colUPF_DPT_ID.FieldName = "UPF_DPT_ID";
-            this.colUPF_DPT_ID.Name = "colUPF_DPT_ID";
-            this.colUPF_DPT_ID.Visible = true;
-            this.colUPF_DPT_ID.VisibleIndex = 3;
-            this.colUPF_DPT_ID.Width = 114;
+            this.UPF_DPT_ID.AppearanceCell.Options.UseTextOptions = true;
+            this.UPF_DPT_ID.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.UPF_DPT_ID.Caption = "部門";
+            this.UPF_DPT_ID.FieldName = "UPF_DPT_ID";
+            this.UPF_DPT_ID.Name = "UPF_DPT_ID";
+            this.UPF_DPT_ID.Visible = true;
+            this.UPF_DPT_ID.VisibleIndex = 3;
+            this.UPF_DPT_ID.Width = 114;
             // 
-            // colUPF_W_TIME
+            // UPF_W_TIME
             // 
-            this.colUPF_W_TIME.AppearanceCell.BackColor = System.Drawing.Color.Silver;
-            this.colUPF_W_TIME.AppearanceCell.Options.UseBackColor = true;
-            this.colUPF_W_TIME.AppearanceCell.Options.UseTextOptions = true;
-            this.colUPF_W_TIME.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.colUPF_W_TIME.Caption = "設定時間";
-            this.colUPF_W_TIME.DisplayFormat.FormatString = "yyyy/MM/dd HH:mm:ss";
-            this.colUPF_W_TIME.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-            this.colUPF_W_TIME.FieldName = "UPF_W_TIME";
-            this.colUPF_W_TIME.Name = "colUPF_W_TIME";
-            this.colUPF_W_TIME.OptionsColumn.AllowEdit = false;
-            this.colUPF_W_TIME.OptionsColumn.ReadOnly = true;
-            this.colUPF_W_TIME.Visible = true;
-            this.colUPF_W_TIME.VisibleIndex = 4;
-            this.colUPF_W_TIME.Width = 192;
+            this.UPF_W_TIME.AppearanceCell.BackColor = System.Drawing.Color.Silver;
+            this.UPF_W_TIME.AppearanceCell.Options.UseBackColor = true;
+            this.UPF_W_TIME.AppearanceCell.Options.UseTextOptions = true;
+            this.UPF_W_TIME.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.UPF_W_TIME.Caption = "設定時間";
+            this.UPF_W_TIME.DisplayFormat.FormatString = "yyyy/MM/dd HH:mm:ss";
+            this.UPF_W_TIME.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.UPF_W_TIME.FieldName = "UPF_W_TIME";
+            this.UPF_W_TIME.Name = "UPF_W_TIME";
+            this.UPF_W_TIME.OptionsColumn.AllowEdit = false;
+            this.UPF_W_TIME.OptionsColumn.ReadOnly = true;
+            this.UPF_W_TIME.Visible = true;
+            this.UPF_W_TIME.VisibleIndex = 4;
+            this.UPF_W_TIME.Width = 192;
             // 
             // MODIFY_MARK
             // 
@@ -203,10 +203,5 @@
         public DevExpress.XtraGrid.Columns.GridColumn UPF_DPT_ID;
         private DevExpress.XtraGrid.Columns.GridColumn UPF_W_TIME;
         private DevExpress.XtraEditors.LookUpEdit ddlDept;
-        public DevExpress.XtraGrid.Columns.GridColumn colUPF_USER_ID;
-        private DevExpress.XtraGrid.Columns.GridColumn colUPF_USER_NAME;
-        public DevExpress.XtraGrid.Columns.GridColumn colUPF_EMPLOYEE_ID;
-        public DevExpress.XtraGrid.Columns.GridColumn colUPF_DPT_ID;
-        private DevExpress.XtraGrid.Columns.GridColumn colUPF_W_TIME;
     }
 }
