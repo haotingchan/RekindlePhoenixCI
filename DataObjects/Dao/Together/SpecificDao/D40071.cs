@@ -80,11 +80,12 @@ SELECT * FROM ci.MGD2L
             string sql =
 @"
 SELECT COD_SEQ_NO AS PROD_SEQ_NO,
-       '' AS PROD_KIND_ID,
-       RPT_VALUE AS CND_PROD_SUBTYPE,
-       TRIM(COD_DESC) AS SUBTYPE_NAME,
-       RPT_VALUE_2 AS CND_PARAM_KEY,
-       RPT_VALUE_3 AS CND_ABROAD
+       '' AS KIND_ID,
+       RPT_VALUE AS PROD_SUBTYPE,
+       TRIM(COD_DESC) AS PROD_SUBTYPE_NAME,
+       RPT_VALUE_2 AS PARAM_KEY,
+       RPT_VALUE_3 AS ABROAD,
+       '' AS RATE
 FROM ci.COD,ci.RPT 
 WHERE COD_TXN_ID = '40071'
     AND COD_COL_ID = 'SUBTYPE'
@@ -94,6 +95,40 @@ WHERE COD_TXN_ID = '40071'
 ORDER BY COD_SEQ_NO
 ";
             DataTable dtResult = db.GetDataTable(sql, null);
+
+            return dtResult;
+        }
+
+        /// <summary>
+        /// for RowInsert
+        /// </summary>
+        /// <param name="prod_seq_no"></param>
+        /// <returns></returns>
+        public DataTable d_40071_input(string prod_seq_no) {
+
+            object[] parms = {
+                ":prod_seq_no", prod_seq_no
+            };
+
+            string sql =
+@"
+SELECT COD_SEQ_NO AS PROD_SEQ_NO,
+       '' AS KIND_ID,
+       RPT_VALUE AS PROD_SUBTYPE,
+       TRIM(COD_DESC) AS PROD_SUBTYPE_NAME,
+       RPT_VALUE_2 AS PARAM_KEY,
+       RPT_VALUE_3 AS ABROAD,
+       '' AS RATE
+FROM ci.COD,ci.RPT 
+WHERE COD_TXN_ID = '40071'
+    AND COD_COL_ID = 'SUBTYPE'
+  AND RPT_TXN_ID = '40071'
+  AND RPT_TXD_ID = 'SUBTYPE'
+  AND RPT_SEQ_NO = COD_SEQ_NO
+  AND COD_SEQ_NO = :prod_seq_no
+ORDER BY COD_SEQ_NO
+";
+            DataTable dtResult = db.GetDataTable(sql, parms);
 
             return dtResult;
         }
@@ -232,7 +267,7 @@ select COUNT(*) as li_count,
             object[] parms = {
                 ":ls_kind_id", ls_kind_id,
                 ":ls_ymd", ls_ymd,
-                ":is_adj_type", ls_issue_begin_ymd,
+                ":ls_issue_begin_ymd", ls_issue_begin_ymd,
                 ":ls_issue_end_ymd", ls_issue_end_ymd
             };
 
