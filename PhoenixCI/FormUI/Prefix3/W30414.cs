@@ -208,7 +208,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                   }
 
                   ws.Cells[rowNum , 0].Value = sumDayCount;
-                  ws.Cells[rowNum , 1].Value = string.Format("{0}(至執行當月底)" , year);
+                  ws.Cells[rowNum , 1].Value = string.Format("{0}年(至執行當月底)" , year);
                   ws.Cells[rowNum , 2].Value = sumMQnty;
                   ws.Cells[rowNum , 4].Value = sumOi;
                   ws.Cells[rowNum , 6].Value = sumCnt;
@@ -319,7 +319,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                      if (sumDayCount == 0) {
                         yAvgMQnty = 0;
                      } else {
-                        yAvgMQnty = Math.Round(sumMQnty / sumDayCount , 0);
+                        yAvgMQnty = Math.Round(sumMQnty / sumDayCount , 0 , MidpointRounding.AwayFromZero);
                      }
                      int tmp = 12 - ai2Ymd.SubStr(4 , 2).AsInt() + 1;
                      ws30415.Cells[found + 2 , foundCol + 2 + tmp].Value = yAvgMQnty;
@@ -434,7 +434,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                      if (sumDayCount == 0) {
                         yAvgOi = 0;
                      } else {
-                        yAvgOi = Math.Round(sumOi / sumDayCount , 0);
+                        yAvgOi = Math.Round(sumOi / sumDayCount , 0 , MidpointRounding.AwayFromZero);
                      }
                      int tmp = 12 - ai2Ymd.SubStr(4 , 2).AsInt() + 1;
                      ws30416.Cells[found + 2 , foundCol + 2 + tmp].Value = yAvgOi;

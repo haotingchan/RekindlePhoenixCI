@@ -78,15 +78,15 @@ namespace PhoenixCI.FormUI.Prefix3 {
          base.Export();
 
          #region 日期檢核
-         if (!txtStartYMD.IsDate(txtStartYMD.Text , CheckDate.Start)
-                  || !txtEndYMD.IsDate(txtEndYMD.Text , CheckDate.End)) {
-            return ResultStatus.Fail; ;
-         }
+         //if (!txtStartYMD.IsDate(txtStartYMD.Text , CheckDate.Start)
+         //         || !txtEndYMD.IsDate(txtEndYMD.Text , CheckDate.End)) {
+         //   return ResultStatus.Fail; ;
+         //}
 
-         if (string.Compare(txtStartYMD.Text , txtEndYMD.Text) > 0) {
-            MessageDisplay.Error(GlobalInfo.ErrorText , CheckDate.Datedif);
-            return ResultStatus.Fail; ;
-         }
+         //if (string.Compare(txtStartYMD.Text , txtEndYMD.Text) > 0) {
+         //   MessageDisplay.Error(GlobalInfo.ErrorText , CheckDate.Datedif);
+         //   return ResultStatus.Fail; ;
+         //}
          #endregion
 
          if (chkGroup.CheckedItemsCount == 0) {
@@ -106,9 +106,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
             chkGroup.Items[4] = chkOldVixs
             chkGroup.Items[5] = chkOldVix
          *************************************/
-         
-         string tmp = DateYmd + "_w" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".csv";  //串檔名
 
+         string tmp = DateYmd + "_w" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".csv";  //串檔名
+         int outputCount = 0;
          foreach (CheckedListBoxItem item in chkGroup.Items) {
             string filePath = "";
             string title = "";
@@ -154,8 +154,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
             #endregion
 
-            wfExport(type , filePath , title , tableName);
+            outputCount += wfExport(type , filePath , title , tableName);
          }
+
+         if (outputCount == 0) return ResultStatus.Fail;
 
          labMsg.Visible = false;
          return ResultStatus.Success;
@@ -164,11 +166,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
       /// <summary>
       /// 依checkbox的勾選決定export的內容
       /// </summary>
-      /// <param name="type">N/O/V</param>
+      /// <param name="type">N=New,O=Old,V=???</param>
       /// <param name="filePath">檔名(.csv)</param>
       /// <param name="fileTile">功能title</param>
       /// <param name="tableName"></param>
-      private void wfExport(string type , string filePath , string fileTile , string tableName) {
+      private int wfExport(string type , string filePath , string fileTile , string tableName) {
          string fileName; //報表名稱
          try {
             if (type == "N") {
@@ -203,7 +205,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             if (dtData.Rows.Count <= 0) {
                labMsg.Text = String.Format("{0},{1}-{2},無任何資料!" , StartDate.SubStr(0 , 6) , _ProgramID , fileName);
                MessageDisplay.Info(String.Format("{0},{1}-{2},無任何資料!" , StartDate.SubStr(0 , 6) , _ProgramID , fileName));
-               return;
+               return 0;
             }
 
             //存CSV (ps:輸出csv 都用ascii)
@@ -212,11 +214,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
             csvref.HasHeader = true;
             csvref.Encoding = System.Text.Encoding.GetEncoding(950);//ASCII
             Common.Helper.ExportHelper.ToCsv(dtData , filePath , csvref);
-
+            return 1;
          } catch (Exception ex) {
             WriteLog(ex);
-            return;
          }
+         return 0;
       }
    }
 }

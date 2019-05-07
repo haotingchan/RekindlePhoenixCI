@@ -18,12 +18,27 @@ namespace DataObjects.Dao.Together.TableDao {
             };
 
          string sql = @"SELECT MAX(MOCF_YMD) as ls_mocf_ymd
-FROM ci.MOCF 
-WHERE MOCF_YMD >= :begin_ymd
-AND MOCF_YMD < :end_ymd
-AND MOCF_OPEN_CODE = 'Y'";
+                           FROM ci.MOCF 
+                           WHERE MOCF_YMD >= :begin_ymd
+                           AND MOCF_YMD < :end_ymd
+                           AND MOCF_OPEN_CODE = 'Y'";
 
          return db.ExecuteScalar(sql, CommandType.Text, parms);
+      }
+
+      public DataTable GetStartEndDate(string beginDate, string endDate) {
+         object[] parms = {
+                ":ls_impl_begin_ymd", beginDate,
+                ":ls_end_ymd", endDate
+            };
+
+         string sql = @"SELECT MIN(MOCF_YMD) as ls_start_ymd,MAX(MOCF_YMD) as ls_end_ymd
+                           FROM ci.MOCF 
+                           WHERE MOCF_YMD > :ls_impl_begin_ymd
+                           AND MOCF_YMD <= :ls_end_ymd";
+
+         return db.GetDataTable(sql, parms);
+
       }
 
       public string GetValidDatePrev(string validDate) {

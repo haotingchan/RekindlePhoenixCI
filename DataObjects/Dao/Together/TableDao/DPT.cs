@@ -20,7 +20,7 @@ namespace DataObjects.Dao.Together
 
             string sql =
                 @"   
-                    SELECT  DPT.*,  DPT_ID || '：' || DPT_NAME AS DPT_ID_NAME
+                    SELECT  DPT.*,  DPT_ID || '：' || TRIM(DPT_NAME) AS DPT_ID_NAME
                     FROM    ci.DPT
                 ";
 

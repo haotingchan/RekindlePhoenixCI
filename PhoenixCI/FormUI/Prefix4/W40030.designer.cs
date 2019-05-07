@@ -1,30 +1,28 @@
-﻿namespace PhoenixCI.FormUI.Prefix4
-{
-    partial class W40090
-    {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
+﻿namespace PhoenixCI.FormUI.Prefix4 {
+   partial class W40030 {
+      /// <summary>
+      /// Required designer variable.
+      /// </summary>
+      private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing) {
-            if (disposing && (components != null)) {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+      /// <summary>
+      /// Clean up any resources being used.
+      /// </summary>
+      /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+      protected override void Dispose(bool disposing) {
+         if (disposing && (components != null)) {
+            components.Dispose();
+         }
+         base.Dispose(disposing);
+      }
 
-        #region Windows Form Designer generated code
+      #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent() {
+      /// <summary>
+      /// Required method for Designer support - do not modify
+      /// the contents of this method with the code editor.
+      /// </summary>
+      private void InitializeComponent() {
          this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
          this.grpxDescription = new System.Windows.Forms.GroupBox();
          this.label1 = new System.Windows.Forms.Label();
@@ -137,15 +135,15 @@
          this.ExportShow.TabIndex = 14;
          this.ExportShow.Text = "label1";
          // 
-         // W40090
+         // W40030
          // 
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
          this.ClientSize = new System.Drawing.Size(713, 529);
          this.Controls.Add(this.panelControl1);
-         this.Name = "W40090";
-         this.Text = "40090";
+         this.Name = "W40030";
+         this.Text = "40030";
          this.Controls.SetChildIndex(this.ribbonControl, 0);
          this.Controls.SetChildIndex(this.panelControl1, 0);
          this.Controls.SetChildIndex(this.panParent, 0);
@@ -160,14 +158,14 @@
          this.ResumeLayout(false);
          this.PerformLayout();
 
-        }
+      }
 
-        #endregion
+      #endregion
 
-        private DevExpress.XtraEditors.PanelControl panelControl1;
-        private System.Windows.Forms.GroupBox grpxDescription;
-        private System.Windows.Forms.Label lblDate;
-        private System.Windows.Forms.Label ExportShow;
+      private DevExpress.XtraEditors.PanelControl panelControl1;
+      private System.Windows.Forms.GroupBox grpxDescription;
+      private System.Windows.Forms.Label lblDate;
+      private System.Windows.Forms.Label ExportShow;
       private DevExpress.XtraEditors.LookUpEdit ddlAdjType;
       private System.Windows.Forms.Label label1;
       public BaseGround.Widget.TextDateEdit txtDate;
