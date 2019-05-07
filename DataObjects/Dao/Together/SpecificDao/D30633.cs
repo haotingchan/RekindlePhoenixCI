@@ -105,5 +105,20 @@ order by rpt_seq_no
          return dtResult;
       }
 
+      /// <summary>
+      /// get MaxDate (取得資料庫內最大日期)
+      /// </summary>
+      /// <returns></returns>
+      public string getMaxDate() {
+
+         string sql = @"
+select 
+    nvl(max(am21_ymd),'') as max_date
+from ci.am21
+where am21_sum_type = 'D'
+";
+         return db.ExecuteScalar(sql , CommandType.Text , null);
+      }
+
    }
 }

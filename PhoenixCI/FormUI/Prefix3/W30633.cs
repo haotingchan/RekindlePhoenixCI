@@ -71,11 +71,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
 
-         txtPrevStartYM.DateTimeValue = DateTime.Parse(GlobalInfo.OCF_DATE.ToString("yyyy/MM/01")).AddMonths(-1);
-         txtPrevEndYM.DateTimeValue = DateTime.Parse(txtPrevStartYM.Text).AddDays(6);
-         txtAftStartYM.DateTimeValue = DateTime.Parse(txtPrevEndYM.Text).AddDays(1);
-         txtAftEndYM.DateTimeValue = DateTime.Parse(txtAftStartYM.Text).AddDays(6);
-
          dao30633 = new D30633();
       }
 
@@ -84,21 +79,25 @@ namespace PhoenixCI.FormUI.Prefix3 {
          try {
 
             //1. 設定初始年月
-            txtPrevStartYM.Text = txtPrevStartYM.DateTimeValue.ToString("yyyy/MM/01");
-            txtPrevStartYM.EnterMoveNextControl = true;
-            txtPrevStartYM.Focus();
+            string maxDate = dao30633.getMaxDate(); //yyyyMMdd
 
-            txtPrevEndYM.Text = txtPrevEndYM.DateTimeValue.ToString("yyyy/MM/dd");
-            txtPrevEndYM.EnterMoveNextControl = true;
-            txtPrevEndYM.Focus();
+            DateTime em_date = DateTime.ParseExact(maxDate , "yyyyMMdd" , null);
 
-            txtAftStartYM.Text = txtAftStartYM.DateTimeValue.ToString("yyyy/MM/dd");
+            txtAftEndYM.DateTimeValue = em_date;
+            txtAftEndYM.EnterMoveNextControl = true;
+            txtAftEndYM.Focus();
+
+            txtAftStartYM.DateTimeValue = txtAftEndYM.DateTimeValue.AddDays(-6);
             txtAftStartYM.EnterMoveNextControl = true;
             txtAftStartYM.Focus();
 
-            txtAftEndYM.Text = txtAftEndYM.DateTimeValue.ToString("yyyy/MM/dd");
-            txtAftEndYM.EnterMoveNextControl = true;
-            txtAftEndYM.Focus();
+            txtPrevEndYM.DateTimeValue = txtAftStartYM.DateTimeValue.AddDays(-1);
+            txtPrevEndYM.EnterMoveNextControl = true;
+            txtPrevEndYM.Focus();
+
+            txtPrevStartYM.DateTimeValue = txtPrevEndYM.DateTimeValue.AddDays(-6);
+            txtPrevStartYM.EnterMoveNextControl = true;
+            txtPrevStartYM.Focus();
 
             //2. 設定dropdownlist
             //商品

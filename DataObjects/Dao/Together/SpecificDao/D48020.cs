@@ -111,7 +111,7 @@ select cpr_data_num,
     cpr_kind_id,
     to_char(cpr_effective_date,'yyyy/mm/dd') as cpr_effective_date,
 
-    (case when nvl(cpr_price_risk_rate,0)=0 then '' else trim(to_char(round(nvl(cpr_price_risk_rate,0)*100,2),990.99)||'%') end) as cpr_price_risk_rate,
+    (case when nvl(cpr_price_risk_rate,9999)=9999 then '' else trim(to_char(round(cpr_price_risk_rate*100,2),990.99)||'%') end) as cpr_price_risk_rate,
 
     to_char(cpr_approval_date,'yyyy/mm/dd') as cpr_approval_date,
     --cpr_approval_number,
