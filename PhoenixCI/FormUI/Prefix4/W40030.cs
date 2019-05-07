@@ -7,6 +7,7 @@ using DataObjects.Dao.Together.SpecificDao;
 using DataObjects.Dao.Together.TableDao;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraRichEdit;
+using DevExpress.XtraRichEdit.API.Native;
 using PhoenixCI.Shared;
 using System;
 using System.Collections.Generic;
@@ -59,6 +60,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
          ddlAdjType.SetDataTable(lstType, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor, null);
          ddlAdjType.EditValue = "0B";
 
+#if DEBUG
+         txtDate.DateTimeValue = "2019/01/29".AsDateTime("yyyy/MM/dd");
+         ddlAdjType.EditValue = "1B";
+#endif
+
          ExportShow.Hide();
       }
 
@@ -67,7 +73,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          ExportShow.Show();
          try {
 
-            object[] args = { new D40xxx(), TxtDate, AdjType, _ProgramID };
+            object[] args = { TxtDate, AdjType, _ProgramID };
             IExport40xxxData xmlData = CreateXmlData(GetType(), "ExportXml" + AdjType, args);
             ReturnMessageClass msg = xmlData.GetData();
 
@@ -109,8 +115,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       private class ExportWord : IExport40xxxData {
-         protected D40xxx Dao { get; }
-         protected RPTF DaoRptf{ get; }
+         protected RPTF DaoRptf { get; }
          protected D40030 Dao40030 { get; }
          protected virtual string TxtDate { get; }
          protected virtual string AdjType { get; }
@@ -123,36 +128,34 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
          }
          protected virtual string FilePath { get; set; }
-         protected virtual RichEditDocumentServer Doc { get; set; }
-         protected virtual List<string> KindNameList_Desc { get; set; }
+         protected virtual RichEditDocumentServer DocSer { get; set; }
+         protected virtual Document Doc { get; set; }
 
-         protected virtual List<string> KindNameList { get; set; }
-         protected virtual DataTable dtAgenda { get; set; }
-         protected virtual DataTable dtMinutes { get; set; }
-         protected virtual DataTable dtAbroad { get; set; }
-         protected virtual DataTable dtSpan { get; set; }
+         protected virtual DataTable DtAgenda { get; set; }
+         protected virtual DataTable DtMinutes { get; set; }
+         protected virtual DataTable DtAbroad { get; set; }
 
-         protected virtual string DescTxt { get; set; }
-         protected virtual bool AddDescElement { get; set; }
+         protected virtual DataTable DtSpan { get; set; }
+         protected virtual string DescStr { get; set; }
+         protected virtual string OswGrp { get; set; }
+         protected virtual string CaseDescStr { get; set; }
+         protected virtual string[] ChineseNumber { get; }
 
-         public ExportWord(D40xxx dao, string txtdate, string adjtype, string programId) {
-            Dao = dao;
+         public ExportWord(string txtdate, string adjtype, string programId) {
             DaoRptf = new RPTF();
             Dao40030 = new D40030();
             TxtDate = txtdate;
             AdjType = adjtype;
             ProgramId = programId;
-            AddDescElement = false;
 
-            KindNameList_Desc = new List<string>();
-            KindNameList = new List<string>();
+            ChineseNumber = new string[] { "零", "一", "二", "三", "四", "五", "六", "七", "八", "九" };
          }
 
          public virtual ReturnMessageClass GetData() {
             ReturnMessageClass msg = new ReturnMessageClass(MessageDisplay.MSG_NO_DATA);
             msg.Status = ResultStatus.Fail;
 
-            Dt = Dao.GetData(TxtDate, AsAdjType, AdjType.SubStr(1, 1));
+            Dt = Dao40030.GetData(TxtDate, OswGrp, AsAdjType, AdjType.SubStr(1, 1));
 
             if (Dt != null) {
                if (Dt.Rows.Count > 0) {
@@ -160,19 +163,20 @@ namespace PhoenixCI.FormUI.Prefix4 {
                }
             }
 
-            Dt.Filter("ab_type in ('A','-')");
             return msg;
          }
 
          protected virtual void GetRPTF() {
-
-            dtAgenda = DaoRptf.ListData("49074", "49074", "agenda");
-            dtMinutes = DaoRptf.ListData("49074", "49074", "minutes");
-
+            DtAgenda = DaoRptf.ListData("49074", "49074", "agenda");
+            DtMinutes = DaoRptf.ListData("49074", "49074", "minutes");
          }
 
          protected virtual void GetAborad() {
-            dtAbroad = Dao40030.GetAborad(TxtDate, "%");
+            DtAbroad = Dao40030.GetAborad(TxtDate.AsDateTime("yyyyMMdd"), OswGrp);
+         }
+
+         protected virtual void GetSpan() {
+            DtSpan = Dao40030.GetSpan(TxtDate.AsDateTime("yyyyMMdd"), OswGrp, AdjType, AsAdjType);
          }
 
          public virtual ReturnMessageClass Export() {
@@ -180,7 +184,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             msg.Status = ResultStatus.Fail;
 
             try {
-               FilePath = PbFunc.wf_copy_file(ProgramId, $"{ProgramId}_{AdjType}");
+               FilePath = PbFunc.wf_copy_file(ProgramId, "40030_MeetingLog");
 
                //開檔
                OpenFile();
@@ -191,8 +195,35 @@ namespace PhoenixCI.FormUI.Prefix4 {
                //
                GetAborad();
 
+               //
+               GetSpan();
 
+
+               //會議記錄
+               OpenFile();
+
+               #region 表頭
+
+               string chairman = DtMinutes.Rows[0]["RPTF_TEXT"].AsString();
+
+               CaseDescStr = CaseDescStr.Replace("#kind_name_list#", GenProdName(Dt, "契約"));
+
+
+               DescStr = GenDescStr();
+
+
+               SetRtfDescText(GenMeetingDate(), chairman, GenAttend(DtMinutes), CaseDescStr, DescStr);
+
+               #endregion
+
+               SetAllNumberAndEnglishFont(Doc);//設定英數字體
+
+               DocSer.SaveDocument(FilePath, DocumentFormat.Rtf);
+               DocSer.Dispose();
                msg.Status = ResultStatus.Success;
+#if DEBUG
+               System.Diagnostics.Process.Start(FilePath);
+#endif
                return msg;
 
             } catch (Exception ex) {
@@ -202,15 +233,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
          }
 
          protected virtual void OpenFile() {
-            Doc = new RichEditDocumentServer();
-            Doc.LoadDocument(FilePath);
-         }
-
-         protected virtual void ReplaceXmlInnterText(XmlNode element, string oldString, string newString) {
-
-            string innertext = element.InnerText;
-            innertext = innertext.Replace(oldString, newString);
-            element.InnerText = innertext;
+            DocSer = new RichEditDocumentServer();
+            DocSer.LoadDocument(FilePath);
+            Doc = DocSer.Document;
          }
 
          protected virtual string GenArrayTxt(List<string> kindNameList) {
@@ -233,29 +258,226 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return result;
          }
 
-         protected virtual void GenKindNameList(DataRow dr, string prepoStr, string abbrName, string abbrName_Desc) {
+         /// <summary>
+         /// 產生 rtf 上方prod Lsit
+         /// </summary>
+         /// <param name="dt"></param>
+         /// <param name="contract">後贅字</param>
+         /// <returns></returns>
+         protected virtual string GenProdName(DataTable dt, string contract = "") {
+            string result = "";
+            int k = 0;
 
-            if (dr["prod_subtype"].AsString() == "S") {
-               abbrName = abbrName + "契約(" + dr["kind_id"].AsString() + ")";
+            foreach (DataRow dr in dt.Rows) {
+               string prodSubType = dr["prod_subtype"].AsString();
+               string abbrName = dr["kind_abbr_name"].AsString();
+
+               if (prodSubType == "S") {
+                  result += $"{abbrName + contract}({dr["kind_id"].AsString()})";
+               } else {
+                  result += abbrName;
+               }
+
+               if (k == (dt.Rows.Count - 2)) {
+                  result += "及";
+               } else {
+                  result += "、";
+               }
+
+               k++;
             }
 
-            if (!KindNameList.Exists(k => k == abbrName)) {
-               KindNameList.Add(abbrName);
+            result = result.TrimEnd('、');
+            result += "之";
+
+            if (dt.Select("prod_type='O'").Count<DataRow>() > 0 &&
+               dt.Select("prod_type='F'").Count<DataRow>() > 0) {
+
+               result += "期貨契約保證金及選擇權契約風險保證金(A值)、風險保證金最低值(B值)";
+            } else if (dt.Select("prod_type='F'").Count<DataRow>() > 0 &&
+                 dt.Select("prod_type='O'").Count<DataRow>() <= 0) {
+
+               result += "期貨契約保證金";
+            } else if (dt.Select("prod_type='F'").Count<DataRow>() <= 0 &&
+               dt.Select("prod_type='O'").Count<DataRow>() > 0) {
+
+               result += "選擇權契約風險保證金(A值)、風險保證金最低值(B值)";
             }
 
-            if (dr["prod_type"].AsString() == "O" && dr == Dt.Rows[Dt.Rows.Count - 1]) {
-               abbrName += "之" + prepoStr + "選擇權契約風險保證金(A值)、風險保證金最低值(B值)";
+            return result;
+         }
+
+         protected virtual string GenAttend(DataTable dtAttend) {
+            string result = "";
+            int k = 0;
+
+            dtAttend = dtAttend.Select("RPTF_SEQ_NO <> 1").CopyToDataTable();
+
+            foreach (DataRow dr in dtAttend.Rows) {
+
+               result += dr["RPTF_TEXT"].AsString() + "\n\t";
+
+               k++;
+            }
+            result = result.TrimEnd('\n', '\t');
+
+            return result;
+         }
+
+         protected virtual string GenMeetingDate() {
+            DateTime dtNow = DateTime.Now;
+
+            string date = dtNow.AsTaiwanDateTime("{0}年{1}月{2}日", 3);
+            string week = dtNow.DayOfWeek.ToString();
+
+            string result = $"{date}({week})下午5時10分";
+
+            return result;
+         }
+
+         protected virtual string GenProdSubtypeList(IEnumerable<IGrouping<string, DataRow>> listSubType, string contract = "") {
+            string result = "";
+            int k = 1;
+
+            foreach (var s in listSubType) {
+               result += s.Key + contract;
+
+               if (k == listSubType.Count() - 1) {
+                  result += "及";
+               } else {
+                  result += "、";
+               }
+
+               k++;
             }
 
-            if (!KindNameList_Desc.Exists(f => f == abbrName_Desc)) {
-               KindNameList_Desc.Add(abbrName_Desc);
+            result = result.TrimEnd('、');
+            return result;
+         }
+
+         protected virtual string GenAdjRate(IEnumerable<IGrouping<string, DataRow>> listSubType) {
+            string result = "";
+            int k = 1;
+
+            foreach (var s in listSubType) {
+               result += s.FirstOrDefault()["ADJ_RATE"].AsPercent(0);
+
+               if (k == listSubType.Count() - 1) {
+                  result += "及";
+               } else {
+                  result += "、";
+               }
+
+               k++;
             }
+
+            result = result.TrimEnd('、');
+            return result;
+         }
+
+         protected virtual void SetRtfDescText(string meetingDate, string chairman, string attend, string caseDesc, string descStr) {
+            M40030Word m40030 = new M40030Word(meetingDate, chairman, attend, caseDesc, descStr);
+            //Options.MailMerge 要用List 才會有作用
+            List<M40030Word> listM40030 = new List<M40030Word>();
+            listM40030.Add(m40030);
+
+            //直接replace word 上面的字
+            DocSer.Options.MailMerge.DataSource = listM40030;
+            DocSer.Options.MailMerge.ViewMergedData = true;
+         }
+
+         protected virtual string GenDescStr() {
+            string tempStr = "", result = "";
+            string ymdFormat = "{0}年{1}月{2}日";
+            string dataYMD = Dt.Rows[0]["DATA_YMD"].AsDateTime("yyyyMMdd").AsTaiwanDateTime(ymdFormat, 3);
+            DateTime implBeginYmd = Dt.Rows[0]["IMPL_BEGIN_YMD"].AsDateTime("yyyyMMdd");
+            DateTime implEndYmd = Dt.Rows[0]["IMPL_END_YMD"].AsDateTime("yyyyMMdd");
+            DateTime mocfDate = new MOCF().GetMaxOcfDate(implBeginYmd.ToString("yyyyMMdd"), implEndYmd.ToString("yyyyMMdd")).AsDateTime("yyyyMMdd");
+
+            DataTable startDateEndDate = new MOCF().GetStartEndDate(implBeginYmd.ToString("yyyyMMdd"), implEndYmd.ToString("yyyyMMdd"));
+            DateTime startDate = startDateEndDate.Rows[0]["LS_START_YMD"].AsDateTime("yyyyMMdd");
+            DateTime endDate = startDateEndDate.Rows[0]["LS_END_YMD"].AsDateTime("yyyyMMdd");
+
+            int diffDays = endDate.Subtract(startDate).Days;
+            string year = startDate.AsTaiwanDateTime("{0}", 3);
+            string startYmd = startDate.AsTaiwanDateTime("{1}月{2}日", 3);
+            string endYmd = endDate.AsTaiwanDateTime("{1}月{2}日", 3);
+
+            IEnumerable<IGrouping<string, DataRow>> listSubType = Dt.AsEnumerable().GroupBy(d => d.Field<string>("PROD_SUBTYPE"));
+            string subTypeStr = GenProdSubtypeList(listSubType, "契約");
+            string adjRate = GenAdjRate(listSubType);
+
+            DataRow drTXF = Dt.AsEnumerable().Where(d => d.Field<string>("KIND_ID").AsString() == "TXF").FirstOrDefault();
+            string mim = "", point = "", settlePrice = "", dbRate = "";
+
+            if (drTXF != null) {
+               mim = drTXF["M_IM"].AsDecimal().AsString("###,###");
+               point = (mim.AsInt() / 200).AsString();
+
+               settlePrice = drTXF["MGP1_CLOSE_PRICE"].AsDecimal().AsString("###,###");
+
+               dbRate = settlePrice.AsInt() == 0 ? "0" :
+                  (point.AsDouble() / settlePrice.AsDouble()).AsPercent(2);
+
+            }
+
+            //說明一
+            tempStr = string.Format("\n 一、考量{0}年春節假期休市({1}至{2})長達{3}日，" +
+                              "參酌國外主要交易所逢較長假期採行調高保證金之風控措施，援引過往春節假期採行調高保證金之作法，" +
+                              "將於{0}年春節假期，調高{4}保證金。依本公司保證金調整作業規範，由督導結算業務主管召集業務相關部" +
+                              "門主管會商決定是否調整。\n", year, startYmd, endYmd, diffDays.ToString(), subTypeStr);
+
+            result = tempStr;
+
+            //說明二
+            tempStr = string.Format("二、有關調高{0}保證金，建議將結算保證金調高{1}，" +
+                                    "維持保證金與原始保證金則依本公司訂定之成數加成計算，併同調高。" +
+                                    "調高後之臺股期貨原始保證金能涵蓋之價格波動幅度為{2}點（{3}/200），" +
+                                    "以{4}結算價{5}試算，可涵蓋{6}價格波動（{2}/{5}＝{6}）。\n",
+                                    subTypeStr, adjRate, point, mim, dataYMD, settlePrice, dbRate);
+            result += tempStr;
+
+            //說明三
+            tempStr = string.Format("三、本次保證金調整實施期間自{0}一般交易時段結束後，" +
+                                    "預計至{1}一般交易時段結束止。本公司於{2}，" +
+                                    "另行公告前揭契約於{1}一般交易時段結束後起之保證金適用金額。\n",
+                                    implBeginYmd.AsTaiwanDateTime(ymdFormat, 3), implEndYmd.AsTaiwanDateTime(ymdFormat, 3),
+                                    mocfDate.AsTaiwanDateTime(ymdFormat, 3));
+            result += tempStr;
+
+            //說明四
+            tempStr = "四、本次保證金倘經調整，其金額變動如下：\n";
+
+            result += tempStr;
+
+            return result;
          }
 
          public virtual void ErrorHandle(Exception ex, ReturnMessageClass msg) {
             WriteLog(ex.ToString(), "Info", "Z");
             msg.Status = ResultStatus.Fail;
             msg.ReturnMessage = MessageDisplay.MSG_IMPORT_FAIL;
+         }
+
+         /// <summary>
+         /// 設定英文和數字的字型
+         /// </summary>
+         private void SetNumberAndEnglishFontName(Document doc, DocumentRange docRange) {
+            CharacterProperties cp = doc.BeginUpdateCharacters(docRange);
+            cp.FontName = "Times New Roman";
+            doc.EndUpdateCharacters(cp);
+         }
+
+         /// <summary>
+         /// 將整份文件的英文和數字的字型設成某個字型
+         /// </summary>
+         private void SetAllNumberAndEnglishFont(Document doc) {
+            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"[A-Za-z0-9\)\(\.\,]+");
+            DocumentRange[] foundNumberAndEnglish = doc.FindAll(regex);
+
+            foreach (DocumentRange r in foundNumberAndEnglish) {
+               SetNumberAndEnglishFontName(doc, r);
+            }
          }
 
          /// <summary>
@@ -311,35 +533,44 @@ namespace PhoenixCI.FormUI.Prefix4 {
       /// 長假調整 輸出xml
       /// </summary>
       private class ExportXml1B : ExportWord {
-         public ExportXml1B(D40xxx dao, string txtdate, string adjtype, string programId) :
-                     base(dao, txtdate, adjtype, programId) { }
+         public ExportXml1B(string txtdate, string adjtype, string programId) :
+                     base(txtdate, adjtype, programId) {
+            OswGrp = "%";
+            CaseDescStr = "因應春節假期，擬調整本公司#kind_name_list#所有月份保證金金額案，謹提請討論。";
+         }
 
          public override ReturnMessageClass Export() {
             ReturnMessageClass msg = new ReturnMessageClass();
             msg.Status = ResultStatus.Fail;
 
             try {
-               return msg;
+               return base.Export();
 
             } catch (Exception ex) {
                base.ErrorHandle(ex, msg);
                return msg;
             }
          }
+      }
 
-         protected override void GenKindNameList(DataRow dr, string prepoStr, string abbrName, string abbrName_Desc) {
 
-            if (dr["prod_subtype"].AsString() == "S") {
-               abbrName_Desc = abbrName_Desc + "契約(" + dr["kind_id"].AsString() + ")";
-            }
+      private class M40030Word {
+         public string MeetingDate { get; set; }
+         public string MeetingAddress { get; set; }
+         public string Chairman { get; set; }
+         public string Attend { get; set; }
+         public string CaseDesc { get; set; }
 
-            if (dr["prod_type"].AsString() == "O" && dr == Dt.Rows[Dt.Rows.Count - 1]) {
-               abbrName_Desc += "之" + prepoStr + "選擇權契約風險保證金(A值)、風險保證金最低值(B值)";
-            }
+         public string Desc { get; set; }
 
-            if (!KindNameList_Desc.Exists(k => k == abbrName_Desc)) {
-               KindNameList_Desc.Add(abbrName_Desc);
-            }
+         public M40030Word(string meetingdate, string chairman, string attend, string casedesc, string descstr, string meetingaddress = "研討室") {
+            MeetingDate = meetingdate;
+            MeetingAddress = meetingaddress;
+            Chairman = chairman;
+            Attend = attend;
+            CaseDesc = casedesc;
+
+            Desc = descstr;
          }
       }
    }
