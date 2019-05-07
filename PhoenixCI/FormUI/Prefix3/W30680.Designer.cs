@@ -71,11 +71,12 @@
          this.txtEndYMD.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtEndYMD.EditValue = "2018/12";
          this.txtEndYMD.EnterMoveNextControl = true;
-         this.txtEndYMD.Location = new System.Drawing.Point(241, 33);
+         this.txtEndYMD.Location = new System.Drawing.Point(241, 36);
          this.txtEndYMD.MenuManager = this.ribbonControl;
          this.txtEndYMD.Name = "txtEndYMD";
          this.txtEndYMD.Properties.Appearance.Options.UseTextOptions = true;
          this.txtEndYMD.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtEndYMD.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtEndYMD.Properties.Mask.EditMask = "yyyy/MM/dd";
          this.txtEndYMD.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
          this.txtEndYMD.Properties.Mask.ShowPlaceHolders = false;
@@ -95,6 +96,7 @@
          this.txtStartYMD.Name = "txtStartYMD";
          this.txtStartYMD.Properties.Appearance.Options.UseTextOptions = true;
          this.txtStartYMD.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtStartYMD.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtStartYMD.Properties.Mask.EditMask = "yyyy/MM/dd";
          this.txtStartYMD.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
          this.txtStartYMD.Properties.Mask.ShowPlaceHolders = false;
@@ -106,7 +108,7 @@
          // label1
          // 
          this.label1.AutoSize = true;
-         this.label1.Location = new System.Drawing.Point(210, 36);
+         this.label1.Location = new System.Drawing.Point(210, 39);
          this.label1.Name = "label1";
          this.label1.Size = new System.Drawing.Size(25, 20);
          this.label1.TabIndex = 6;
