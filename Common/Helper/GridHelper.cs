@@ -108,25 +108,41 @@ namespace Common {
          GridView gv = (GridView)gridControl.MainView;
 
          MODIFY_MARK.OptionsColumn.AllowEdit = false;
+            gv.DataSourceChanged += delegate (object sender, EventArgs e) {
+                DataTable dt = (DataTable)gridControl.DataSource;
+                if (!dt.Columns.Contains(MODIFY_MARK.FieldName))
+                {
+                    DataColumn mark = new DataColumn("MODIFY_MARK");
+                    mark.DefaultValue = " ";
+                    dt.Columns.Add(mark);
+                }
+            };
+            gv.CellValueChanging += delegate (object sender, CellValueChangedEventArgs e)
+            {
+                DataTable dt = (DataTable)gridControl.DataSource;
+                if (!dt.Columns.Contains(MODIFY_MARK.FieldName))
+                {
+                    DataColumn mark = new DataColumn("MODIFY_MARK");
+                    mark.DefaultValue = " ";
+                    dt.Columns.Add(mark);
+                }
 
-         gv.CellValueChanging += delegate (object sender, CellValueChangedEventArgs e) {
-            DataTable dt = (DataTable)gridControl.DataSource;
+                if (gv.GetRowCellValue(e.RowHandle, "OP_TYPE").AsString() != "I")
+                {
+                    if (e.Value.ToString().Trim() != gv.GetRowCellValue(e.RowHandle, e.Column).ToString().Trim())
+                    {
+                        if (e.Value.ToString().Trim() != gv.GetRowCellDisplayText(e.RowHandle, e.Column).ToString().Trim())
+                        {
+                            gv.SetRowCellValue(e.RowHandle, MODIFY_MARK, "※");
+                        }
+                    }
+                }
+            };
+        }
 
-            if (!dt.Columns.Contains(MODIFY_MARK.FieldName)) {
-               DataColumn mark = new DataColumn("MODIFY_MARK");
-               mark.DefaultValue = " ";
-               dt.Columns.Add(mark);
-            }
 
-            if (e.Value.ToString().Trim() != gv.GetRowCellValue(e.RowHandle, e.Column).ToString().Trim()) {
-               if (e.Value.ToString().Trim() != gv.GetRowCellDisplayText(e.RowHandle, e.Column).ToString().Trim()) {
-                  gv.SetRowCellValue(e.RowHandle, MODIFY_MARK, "※");
-               }
-            }
-         };
-      }
 
-      public static void AddModifyCheckMark(GridControl gridControl, RepositoryItemCheckEdit repCheck, GridColumn MODIFY_MARK) {
+        public static void AddModifyCheckMark(GridControl gridControl, RepositoryItemCheckEdit repCheck, GridColumn MODIFY_MARK) {
          GridView gv = (GridView)gridControl.MainView;
          MODIFY_MARK.OptionsColumn.AllowEdit = false;
          repCheck.CheckedChanged += delegate (object sender, EventArgs e) {

@@ -118,6 +118,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
          Kind_id_st.EditValueChanged += EditValueChanged;
          Kind_id_O.EditValueChanged += EditValueChanged;
          PrintSort.EditValueChanged += EditValueChanged;
+         Txt_prod_sort.EditValueChanged += EditValueChanged;
+         TxtDate.EditValueChanged += EditValueChanged;
       }
 
       protected override ResultStatus Retrieve() {
