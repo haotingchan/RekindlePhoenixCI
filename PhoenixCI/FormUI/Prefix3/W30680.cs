@@ -108,7 +108,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          *************************************/
 
          string tmp = DateYmd + "_w" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".csv";  //串檔名
-
+         int outputCount = 0;
          foreach (CheckedListBoxItem item in chkGroup.Items) {
             string filePath = "";
             string title = "";
@@ -154,8 +154,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
             #endregion
 
-            wfExport(type , filePath , title , tableName);
+            outputCount += wfExport(type , filePath , title , tableName);
          }
+
+         if (outputCount == 0) return ResultStatus.Fail;
 
          labMsg.Visible = false;
          return ResultStatus.Success;
@@ -164,11 +166,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
       /// <summary>
       /// 依checkbox的勾選決定export的內容
       /// </summary>
-      /// <param name="type">N/O/V</param>
+      /// <param name="type">N=New,O=Old,V=???</param>
       /// <param name="filePath">檔名(.csv)</param>
       /// <param name="fileTile">功能title</param>
       /// <param name="tableName"></param>
-      private void wfExport(string type , string filePath , string fileTile , string tableName) {
+      private int wfExport(string type , string filePath , string fileTile , string tableName) {
          string fileName; //報表名稱
          try {
             if (type == "N") {
@@ -203,25 +205,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             if (dtData.Rows.Count <= 0) {
                labMsg.Text = String.Format("{0},{1}-{2},無任何資料!" , StartDate.SubStr(0 , 6) , _ProgramID , fileName);
                MessageDisplay.Info(String.Format("{0},{1}-{2},無任何資料!" , StartDate.SubStr(0 , 6) , _ProgramID , fileName));
-               return;
-            }
-
-            //處理資料型態(12Hr -> 24Hr)
-            if (tableName == "chkNewVold") {
-               DataTable dt = dtData.Clone();
-
-               DateTime tmpTime;
-
-               dt.Columns["VOLD_DATA_TIME"].DataType = typeof(string); //將原DataType(datetime)轉為string
-               foreach (DataRow row in dtData.Rows) {
-                  dt.ImportRow(row);
-                  //tmpTime = (new DateTime(1970 , 1 , 1 , 0 , 0 , 0)).AddHours(8).AddSeconds(row["VOLD_DATA_TIME"]);
-               }
-
-               for (int i = 0 ; i < dt.Rows.Count ; i++) {
-                  //dt.Rows[i]["VOLD_DATA_TIME"] = Convert.ToDateTime(dtData.Rows[i]["VOLD_DATA_TIME"]).ToString("yyyy/MM/dd hh:mm:ss tt");
-                  dt.Rows[i]["VOLD_DATA_TIME"] = Convert.ToDateTime(dtData.Rows[i]["VOLD_DATA_TIME"]).ToString("yyyy/MM/dd hh:mm:ss tt");
-               }
+               return 0;
             }
 
             //存CSV (ps:輸出csv 都用ascii)
@@ -230,11 +214,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
             csvref.HasHeader = true;
             csvref.Encoding = System.Text.Encoding.GetEncoding(950);//ASCII
             Common.Helper.ExportHelper.ToCsv(dtData , filePath , csvref);
-
+            return 1;
          } catch (Exception ex) {
             WriteLog(ex);
-            return;
          }
+         return 0;
       }
    }
 }

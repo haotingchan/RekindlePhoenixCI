@@ -111,7 +111,8 @@ select cpr_data_num,
     cpr_kind_id,
     to_char(cpr_effective_date,'yyyy/mm/dd') as cpr_effective_date,
 
-    trim(to_char(round(nvl(cpr_price_risk_rate,0)*100,2),990.99)||'%') as cpr_price_risk_rate,
+    (case when nvl(cpr_price_risk_rate,0)=0 then '' else trim(to_char(round(nvl(cpr_price_risk_rate,0)*100,2),990.99)||'%') end) as cpr_price_risk_rate,
+
     to_char(cpr_approval_date,'yyyy/mm/dd') as cpr_approval_date,
     --cpr_approval_number,
     --cpr_remark,
@@ -132,7 +133,7 @@ and cpr_kind_id like :as_kind_id
 and cpr_effective_date >= :as_sdate
 and cpr_effective_date <= :as_edate
 order by {0} , cpr_prod_subtype , prod_type , cpr_kind_id , cpr_effective_date , cpr_data_num
-", sort);
+" , sort);
 
 
             DataTable dtResult = db.GetDataTable(sql, parms);
@@ -163,7 +164,7 @@ select cpr_data_num,
     cpr_prod_subtype,
     cod.cod_desc,
     cpr_kind_id,
-    trim(to_char(round(nvl(cpr_price_risk_rate,0)*100,2),990.99)||'%') as cpr_price_risk_rate,
+    (case when nvl(cpr_price_risk_rate,0)=0 then '' else trim(to_char(round(nvl(cpr_price_risk_rate,0)*100,2),990.99)||'%') end) as cpr_price_risk_rate,
 
     to_char(cpr_effective_date,'yyyy/mm/dd') as cpr_effective_date,
     to_char(cpr_approval_date,'yyyy/mm/dd') as cpr_approval_date,
@@ -186,7 +187,7 @@ and cpr_kind_id like :as_kind_id
 and cpr_effective_date >= :as_sdate
 and cpr_effective_date <= :as_edate
 order by {0} , cpr_prod_subtype , prod_type , cpr_kind_id , cpr_effective_date , cpr_data_num
-", sort);
+" , sort);
 
 
             DataTable dtResult = db.GetDataTable(sql, parms);

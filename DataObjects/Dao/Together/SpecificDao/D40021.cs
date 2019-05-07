@@ -42,7 +42,7 @@ where rpt_txd_id = :as_txd_id
 and trim(rpt_value) = trim(sp1_kind_id1)
 and  trim(rpt_value_3) = trim(sp1_kind_id2)
 and trim(rpt_value_4) = trim(sp1_type)
-order by rpt_level_1, sp1_type
+order by rpt_level_1, sp1_type, rpt_level_3, rpt_level_2
 ";
 
          DataTable dtResult = db.GetDataTable(sql , parms);
@@ -67,9 +67,6 @@ order by rpt_level_1, sp1_type
 select 
     sp1_date,   
     sp1_type,
-    decode( sp1_type ,  'SV',1,
-                        'SD',2,
-                        'SS',3 ) cp_type_sort,
     sp1_kind_id1,  
     sp1_kind_id2,    
     sp1_change_range,  
@@ -88,7 +85,7 @@ where sp1_date = :as_date
 and sp1_osw_grp like :as_osw_grp
 and sp1_kind_id1 = m1.mgt2_kind_id(+)
 and sp1_kind_id2 = m2.mgt2_kind_id(+)
-order by sp1_date , cp_type_sort , sp1_seq_no , sp1_kind_id1 , sp1_kind_id2
+order by sp1_date , decode( sp1_type ,'SV',1,'SD',2,'SS',3 ) , sp1_seq_no , sp1_kind_id1 , sp1_kind_id2
 ";
 
          DataTable dtResult = db.GetDataTable(sql , parms);

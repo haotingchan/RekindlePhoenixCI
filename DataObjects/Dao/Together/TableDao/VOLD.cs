@@ -27,7 +27,7 @@ namespace DataObjects.Dao.Together.TableDao {
 SELECT 
 VOLD_YMD,
 VOLD_MARKET_CODE,
-VOLD_DATA_TIME,   
+to_char(VOLD_DATA_TIME,'yyyy/mm/dd hh24:mi:ss') as VOLD_DATA_TIME,   
 VOLD_VALUE,   
 VOLD_EXCLUDE_FLAG  
 FROM CI.VOLD   

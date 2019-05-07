@@ -39,9 +39,9 @@ namespace DataObjects.Dao.Together.SpecificDao {
             };
                         
             string filter = "";
-            if (startFcmNo.Length > 0)
+            if (startFcmNo.Trim().Length > 0)
                 filter += string.Format(" and FEETRD_FCM_NO >= '{0}'",startFcmNo);
-            if (endFcmNo.Length > 0)
+            if (endFcmNo.Trim().Length > 0)
                 filter += string.Format(" and FEETRD_FCM_NO <= '{0}'", endFcmNo);
 
             switch (prodId) {
@@ -130,9 +130,9 @@ order by feetrd_fcm_no , sort_kind_id", filter);
             };
 
             string filter = "";
-            if (startFcmNo.Length > 0)
+            if (startFcmNo.Trim().Length > 0)
                 filter += string.Format(" and FEETRD_FCM_NO >= '{0}'", startFcmNo);
-            if (endFcmNo.Length > 0)
+            if (endFcmNo.Trim().Length > 0)
                 filter += string.Format(" and FEETRD_FCM_NO <= '{0}'", endFcmNo);
 
 

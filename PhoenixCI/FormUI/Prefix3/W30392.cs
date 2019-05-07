@@ -88,17 +88,24 @@ namespace PhoenixCI.FormUI.Prefix3 {
             this.Refresh();
             Thread.Sleep(5);
 
-            //1.1 copy template xls to target path
+            //2. 設定日期
+            DateTime ldt_sdate, ldt_edate;
+            try {
+               //前月倒數2天交易日
+               ldt_sdate = PbFunc.f_get_last_day("AI3" , "I5F" , txtMonth.Text , 2);
+
+               //抓當月最後交易日
+               ldt_edate = PbFunc.f_get_end_day("AI3" , "I5F" , txtMonth.Text);
+            } catch { //跳exception即不產檔
+               string rptName = "「東證期貨」放寬漲跌幅統計表";
+               MessageDisplay.Error(string.Format("{0},{1}-{2},無任何資料!" , txtMonth.Text , _ProgramID , rptName));
+               return ResultStatus.Fail;
+            }
+
+            //2.1 copy template xls to target path
             string excelDestinationPath = CopyExcelTemplateFile(_ProgramID , FileType.XLSX);
             Workbook workbook = new Workbook();
             workbook.LoadDocument(excelDestinationPath);
-
-            //2. 設定日期
-            //前月倒數2天交易日
-            DateTime ldt_sdate = PbFunc.f_get_last_day("AI3" , "I5F" , txtMonth.Text , 2);
-
-            //抓當月最後交易日
-            DateTime ldt_edate = PbFunc.f_get_end_day("AI3" , "I5F" , txtMonth.Text);
 
             //3. 填資料
             //3.1 I5F
@@ -194,6 +201,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             DataTable dtAi3 = dao30392.d_ai3(kindId , ldt_sdate , ldt_edate);
             if (dtAi3.Rows.Count <= 0) {
+               //MessageDisplay.Info(string.Format("{0}~{1},{2}-{3},無任何資料!" , ldt_sdate.ToString("yyyy/MM/dd") , ldt_edate.ToString("yyyy/MM/dd") , _ProgramID , rptName));
                return;
             }
 
