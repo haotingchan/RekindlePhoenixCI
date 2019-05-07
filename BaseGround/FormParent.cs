@@ -180,7 +180,7 @@ namespace BaseGround {
          //serviceCommon = new ServiceCommon();
          try {
             myResultStatus = Save(new PokeBall());//直接跑各程式save func
-                                                  //myResultStatus = CheckShield();
+            //myResultStatus = CheckShield();
 
             //if (myResultStatus != ResultStatus.Success) return myResultStatus;
 

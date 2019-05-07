@@ -5,6 +5,7 @@ using Common;
 using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DataObjects.Dao.Together.TableDao;
+using DevExpress.Office;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraRichEdit;
 using DevExpress.XtraRichEdit.API.Native;
@@ -134,12 +135,16 @@ namespace PhoenixCI.FormUI.Prefix4 {
          protected virtual DataTable DtAgenda { get; set; }
          protected virtual DataTable DtMinutes { get; set; }
          protected virtual DataTable DtAbroad { get; set; }
-
          protected virtual DataTable DtSpan { get; set; }
          protected virtual string DescStr { get; set; }
+
          protected virtual string OswGrp { get; set; }
          protected virtual string CaseDescStr { get; set; }
-         protected virtual string[] ChineseNumber { get; }
+         protected virtual Table WordTable { get; set; }
+         protected virtual TableCell WordTableCell { get; set; }
+         protected virtual ParagraphProperties ParagraphProps { get; set; }
+
+         protected virtual CharacterProperties CharacterProps { get; set; }
 
          public ExportWord(string txtdate, string adjtype, string programId) {
             DaoRptf = new RPTF();
@@ -147,8 +152,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
             TxtDate = txtdate;
             AdjType = adjtype;
             ProgramId = programId;
-
-            ChineseNumber = new string[] { "零", "一", "二", "三", "四", "五", "六", "七", "八", "九" };
          }
 
          public virtual ReturnMessageClass GetData() {
@@ -186,9 +189,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
             try {
                FilePath = PbFunc.wf_copy_file(ProgramId, "40030_MeetingLog");
 
-               //開檔
-               OpenFile();
-
                //取得會議紀錄 / 議程資訊
                GetRPTF();
 
@@ -202,28 +202,136 @@ namespace PhoenixCI.FormUI.Prefix4 {
                //會議記錄
                OpenFile();
 
-               #region 表頭
+               #region 表頭 出席者 / 案由
 
                string chairman = DtMinutes.Rows[0]["RPTF_TEXT"].AsString();
 
                CaseDescStr = CaseDescStr.Replace("#kind_name_list#", GenProdName(Dt, "契約"));
 
+               SetDescStr();
 
-               DescStr = GenDescStr();
+               SetRtfDescText(GenMeetingDate(), chairman, GenAttend(DtMinutes), CaseDescStr);
+
+               #endregion
+
+               #region 表格
+               Doc.BeginUpdate();
+               Doc.AppendText(Environment.NewLine);
+
+               foreach (DataRow dr in Dt.Rows) {
+
+                  string amtType = dr["AMT_TYPE"].AsString();
+                  string prodType = dr["PROD_TYPE"].AsString();
+                  object[] args = new object[] { dr };
+                  I40030AmtProdType iAmtProdType = CreateI40030AmtProdType(GetType(), "AmtProdType40030" + amtType + prodType, args);
+
+                  Doc.AppendText(iAmtProdType.CurrencyName);
+                  ParagraphProps = Doc.BeginUpdateParagraphs(Doc.Paragraphs.Last().Range);
+                  ParagraphProps.Alignment = ParagraphAlignment.Right;
+                  Doc.EndUpdateParagraphs(ParagraphProps);
+
+                  CharacterProps = Doc.BeginUpdateCharacters(Doc.Paragraphs.Last().Range);
+                  CharacterProps.FontSize = 12;
+                  CharacterProps.FontName = "標楷體";
+                  Doc.EndUpdateCharacters(CharacterProps);
+
+                  CreateTable(Doc, 2, 7);
+
+                  SetTableColTitle(iAmtProdType.ProdName, iAmtProdType.TableTitle, iAmtProdType.AfterAdjustTitle, iAmtProdType.BeforeAdjustTitle);
+
+                  SetTableColValue(iAmtProdType, dr);
+               }
+
+               #endregion
+
+               #region 表尾 決議 
+
+               SetSubjectText("決　　議：");
+
+               SetInnerText("一、請於市場公告函，提醒期貨商得依客戶風險狀況加收保證金並通知交易人多加注意國際行情變化及持有部位狀況，適時繳足保證金。");
+               SetInnerText("二、請提醒期貨商因應春節長假，應加強交易人部位風險管理並預作風險控管準備，維護交易人權益。");
+               SetInnerText("三、餘照案通過。");
 
 
-               SetRtfDescText(GenMeetingDate(), chairman, GenAttend(DtMinutes), CaseDescStr, DescStr);
-
+               SetSubjectText("貳、臨時動議：無");
+               SetSubjectText("參、散　　會：下午5時30分");
                #endregion
 
                SetAllNumberAndEnglishFont(Doc);//設定英數字體
 
+               Doc.EndUpdate();
                DocSer.SaveDocument(FilePath, DocumentFormat.Rtf);
                DocSer.Dispose();
-               msg.Status = ResultStatus.Success;
 #if DEBUG
                System.Diagnostics.Process.Start(FilePath);
 #endif
+               //end 會議記錄
+
+               //議程
+               FilePath = PbFunc.wf_copy_file(ProgramId, "40030_Agenda");
+
+               OpenFile();
+
+               #region 表頭 出席者 / 案由
+
+               string chairmanAgenda = DtMinutes.Rows[0]["RPTF_TEXT"].AsString();
+
+               CaseDescStr = CaseDescStr.Replace("#kind_name_list#", GenProdName(Dt, "契約"));
+
+               SetDescStr();
+
+               SetRtfDescText(GenMeetingDate(), chairmanAgenda, GenAttend(DtAgenda), CaseDescStr);
+
+               #endregion
+
+               #region 表格
+               Doc.BeginUpdate();
+               Doc.AppendText(Environment.NewLine);
+
+               foreach (DataRow dr in Dt.Rows) {
+
+                  string amtType = dr["AMT_TYPE"].AsString();
+                  string prodType = dr["PROD_TYPE"].AsString();
+                  object[] args = new object[] { dr };
+                  I40030AmtProdType iAmtProdType = CreateI40030AmtProdType(GetType(), "AmtProdType40030" + amtType + prodType, args);
+
+                  Doc.AppendText(iAmtProdType.CurrencyName);
+                  ParagraphProps = Doc.BeginUpdateParagraphs(Doc.Paragraphs.Last().Range);
+                  ParagraphProps.Alignment = ParagraphAlignment.Right;
+                  Doc.EndUpdateParagraphs(ParagraphProps);
+
+                  CharacterProps = Doc.BeginUpdateCharacters(Doc.Paragraphs.Last().Range);
+                  CharacterProps.FontSize = 12;
+                  CharacterProps.FontName = "標楷體";
+                  Doc.EndUpdateCharacters(CharacterProps);
+
+                  CreateTable(Doc, 2, 7);
+
+                  SetTableColTitle(iAmtProdType.ProdName, iAmtProdType.TableTitle, iAmtProdType.AfterAdjustTitle, iAmtProdType.BeforeAdjustTitle);
+
+                  SetTableColValue(iAmtProdType, dr);
+               }
+
+               #endregion
+
+               #region 表尾 
+
+               SetSubjectText("貳、臨時動議：");
+               SetSubjectText("參、散　　會：");
+               #endregion
+
+               SetAllNumberAndEnglishFont(Doc);//設定英數字體
+
+               Doc.EndUpdate();
+               DocSer.SaveDocument(FilePath, DocumentFormat.Rtf);
+               DocSer.Dispose();
+
+#if DEBUG
+               System.Diagnostics.Process.Start(FilePath);
+#endif
+               //end 議程
+
+               msg.Status = ResultStatus.Success;
                return msg;
 
             } catch (Exception ex) {
@@ -328,7 +436,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DateTime dtNow = DateTime.Now;
 
             string date = dtNow.AsTaiwanDateTime("{0}年{1}月{2}日", 3);
-            string week = dtNow.DayOfWeek.ToString();
+            string week = System.Globalization.DateTimeFormatInfo.GetInstance(
+                           new System.Globalization.CultureInfo("zh-CHT")).DayNames[(byte)dtNow.DayOfWeek];
 
             string result = $"{date}({week})下午5時10分";
 
@@ -375,8 +484,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return result;
          }
 
-         protected virtual void SetRtfDescText(string meetingDate, string chairman, string attend, string caseDesc, string descStr) {
-            M40030Word m40030 = new M40030Word(meetingDate, chairman, attend, caseDesc, descStr);
+         protected virtual void SetRtfDescText(string meetingDate, string chairman, string attend, string caseDesc) {
+            M40030Word m40030 = new M40030Word(meetingDate, chairman, attend, caseDesc);
             //Options.MailMerge 要用List 才會有作用
             List<M40030Word> listM40030 = new List<M40030Word>();
             listM40030.Add(m40030);
@@ -386,8 +495,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DocSer.Options.MailMerge.ViewMergedData = true;
          }
 
-         protected virtual string GenDescStr() {
-            string tempStr = "", result = "";
+         protected virtual void SetDescStr() {
+            string tempStr = "";
             string ymdFormat = "{0}年{1}月{2}日";
             string dataYMD = Dt.Rows[0]["DATA_YMD"].AsDateTime("yyyyMMdd").AsTaiwanDateTime(ymdFormat, 3);
             DateTime implBeginYmd = Dt.Rows[0]["IMPL_BEGIN_YMD"].AsDateTime("yyyyMMdd");
@@ -422,35 +531,172 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
 
             //說明一
-            tempStr = string.Format("\n 一、考量{0}年春節假期休市({1}至{2})長達{3}日，" +
+            tempStr = string.Format("一、考量{0}年春節假期休市({1}至{2})長達{3}日，" +
                               "參酌國外主要交易所逢較長假期採行調高保證金之風控措施，援引過往春節假期採行調高保證金之作法，" +
                               "將於{0}年春節假期，調高{4}保證金。依本公司保證金調整作業規範，由督導結算業務主管召集業務相關部" +
-                              "門主管會商決定是否調整。\n", year, startYmd, endYmd, diffDays.ToString(), subTypeStr);
-
-            result = tempStr;
+                              "門主管會商決定是否調整。", year, startYmd, endYmd, diffDays.ToString(), subTypeStr);
+            SetInnerText(tempStr);
 
             //說明二
             tempStr = string.Format("二、有關調高{0}保證金，建議將結算保證金調高{1}，" +
                                     "維持保證金與原始保證金則依本公司訂定之成數加成計算，併同調高。" +
                                     "調高後之臺股期貨原始保證金能涵蓋之價格波動幅度為{2}點（{3}/200），" +
-                                    "以{4}結算價{5}試算，可涵蓋{6}價格波動（{2}/{5}＝{6}）。\n",
+                                    "以{4}結算價{5}試算，可涵蓋{6}價格波動（{2}/{5}＝{6}）。",
                                     subTypeStr, adjRate, point, mim, dataYMD, settlePrice, dbRate);
-            result += tempStr;
+            SetInnerText(tempStr);
 
             //說明三
             tempStr = string.Format("三、本次保證金調整實施期間自{0}一般交易時段結束後，" +
                                     "預計至{1}一般交易時段結束止。本公司於{2}，" +
-                                    "另行公告前揭契約於{1}一般交易時段結束後起之保證金適用金額。\n",
+                                    "另行公告前揭契約於{1}一般交易時段結束後起之保證金適用金額。",
                                     implBeginYmd.AsTaiwanDateTime(ymdFormat, 3), implEndYmd.AsTaiwanDateTime(ymdFormat, 3),
                                     mocfDate.AsTaiwanDateTime(ymdFormat, 3));
-            result += tempStr;
+            SetInnerText(tempStr);
 
             //說明四
-            tempStr = "四、本次保證金倘經調整，其金額變動如下：\n";
+            tempStr = "四、本次保證金倘經調整，其金額變動如下：";
 
-            result += tempStr;
+            SetInnerText(tempStr);
+         }
 
-            return result;
+         /// <summary>
+         /// Create table style
+         /// </summary>
+         /// <param name="doc"></param>
+         /// <param name="rowCount">列數</param>
+         /// <param name="colCount">欄位數</param>
+         protected virtual void CreateTable(Document doc, int rowCount, int colCount) {
+
+            WordTable = doc.Tables.Create(doc.Range.End, rowCount, colCount);
+            WordTable.TableAlignment = TableRowAlignment.Right;
+            WordTable.PreferredWidthType = WidthType.Fixed;
+            WordTable.PreferredWidth= DevExpress.Office.Utils.Units.CentimetersToDocumentsF(16.7f);
+            ParagraphProps = doc.BeginUpdateParagraphs(WordTable.Range);
+
+            // 預設Table內容都全部置中
+            ParagraphProps = doc.BeginUpdateParagraphs(WordTable.Range);
+            ParagraphProps.Alignment = ParagraphAlignment.Center;
+            ParagraphProps.LineSpacingType = ParagraphLineSpacing.Single;
+            ParagraphProps.SpacingBefore = 0;
+            doc.EndUpdateParagraphs(ParagraphProps);
+
+            // 預設Table內的字體
+            CharacterProperties tableProp = doc.BeginUpdateCharacters(WordTable.Range);
+            tableProp.FontName = "標楷體";
+            tableProp.FontSize = 12;
+            doc.EndUpdateCharacters(tableProp);
+
+            // 垂直置中
+            WordTable.ForEachCell((c, i, j) => {
+               c.VerticalAlignment = TableCellVerticalAlignment.Center;
+            });
+         }
+
+         /// <summary>
+         /// 設定欄位名稱
+         /// </summary>
+         protected virtual void SetTableColTitle(string prodName, string[] colTitle, string afterAdjustTitle, string beforeAdjustTitle) {
+            SetTableStr(0, 0, prodName);
+            WordTableCell.PreferredWidthType = WidthType.Fixed;
+            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.65f);
+            WordTableCell.VerticalAlignment = TableCellVerticalAlignment.Center;
+            WordTable.MergeCells(WordTableCell, WordTable[1, 0]);
+
+            SetTableStr(0, 1, afterAdjustTitle);
+            WordTable.MergeCells(WordTableCell, WordTable[0, 3]);
+
+            SetTableStr(0, 2, beforeAdjustTitle);
+            WordTable.MergeCells(WordTableCell, WordTable[0, 4]);
+
+            SetTableTitle(colTitle, 1);
+         }
+
+         /// <summary>
+         /// 設定欄位名稱
+         /// </summary>
+         protected virtual void SetTableColValue(I40030AmtProdType iAmtProd, DataRow dr) {
+
+            int k = 1;
+
+            foreach (string rowName in iAmtProd.RowName) {
+
+               TableRow tableRow = WordTable.Rows.Append();
+
+               WordTableCell = tableRow.FirstCell;
+               Doc.InsertSingleLineText(WordTableCell.Range.Start, rowName);
+
+               //特殊處理, 選擇權時有AB值, k=1 跑保證金或A值, k>1 跑B值
+               string[] colNameList = k == 1 ? iAmtProd.DbColName : iAmtProd.DbColNameB;
+               string numberFormat = k == 1 ? iAmtProd.NumberFormat : iAmtProd.NumberFormatB;
+
+               int i = 1;
+               foreach (string col in colNameList) {
+                  Doc.InsertSingleLineText(WordTable[tableRow.Index, i].Range.Start, !decimal.Equals(dr[col].AsDecimal(), 0) ?
+                     dr[col].AsDecimal().ToString(numberFormat) : string.Empty);
+
+                  i++;
+               }
+
+               k++;
+            }
+
+         }
+
+         protected virtual void SetTableStr(int rowIndex, int colIndex, string str) {
+            WordTableCell = WordTable[rowIndex, colIndex];
+            Doc.InsertSingleLineText(WordTableCell.Range.Start, str);
+         }
+
+         protected virtual void SetTableTitle(string[] strList, int rowIndex) {
+
+            int k = 0;
+            foreach (string str in strList) {
+               Doc.InsertSingleLineText(WordTable[rowIndex, k + 1].Range.Start, strList[k]);
+               Doc.InsertSingleLineText(WordTable[rowIndex, k + 4].Range.Start, strList[k]);
+               k++;
+            }
+
+         }
+
+         protected virtual void SetInnerText(string str) {
+            Doc.AppendText(Environment.NewLine);
+            Doc.AppendText(str);
+
+            ParagraphProps = Doc.BeginUpdateParagraphs(Doc.Paragraphs.Last().Range);
+            ParagraphProps.Alignment = ParagraphAlignment.Left;
+            ParagraphProps.LeftIndent = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.98f);
+            ParagraphProps.FirstLineIndentType = ParagraphFirstLineIndent.Hanging;
+            ParagraphProps.FirstLineIndent = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.18f);
+            Doc.EndUpdateParagraphs(ParagraphProps);
+
+            CharacterProps = Doc.BeginUpdateCharacters(Doc.Paragraphs.Last().Range);
+            CharacterProps.FontSize = 14;
+            CharacterProps.Bold = false;
+            CharacterProps.FontName = "標楷體";
+            Doc.EndUpdateCharacters(CharacterProps);
+         }
+
+         protected virtual void SetSubjectText(string str) {
+            Doc.AppendText(Environment.NewLine);
+            Doc.AppendText(str);
+
+            ParagraphProps = Doc.BeginUpdateParagraphs(Doc.Paragraphs.Last().Range);
+            ParagraphProps.Alignment = ParagraphAlignment.Left;
+            ParagraphProps.LeftIndent = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(0);
+            ParagraphProps.FirstLineIndentType = ParagraphFirstLineIndent.None;
+            Doc.EndUpdateParagraphs(ParagraphProps);
+
+            CharacterProps = Doc.BeginUpdateCharacters(Doc.Paragraphs.Last().Range);
+            CharacterProps.FontSize = 14;
+            CharacterProps.Bold = true;
+            CharacterProps.FontName = "標楷體";
+            Doc.EndUpdateCharacters(CharacterProps);
+         }
+
+         protected I40030AmtProdType CreateI40030AmtProdType(Type type, string name, object[] args = null) {
+            string AssemblyName = type.Namespace.Split('.')[0];//最後compile出來的dll名稱
+            string className = type.Namespace + "." + type.ReflectedType.Name + "+" + name;//完整的class路徑(注意,內部的class執行時其fullName是用+號連結起來)
+            return (I40030AmtProdType)Assembly.Load(AssemblyName).CreateInstance(className, true, BindingFlags.CreateInstance, null, args, null, null);
          }
 
          public virtual void ErrorHandle(Exception ex, ReturnMessageClass msg) {
@@ -536,7 +782,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          public ExportXml1B(string txtdate, string adjtype, string programId) :
                      base(txtdate, adjtype, programId) {
             OswGrp = "%";
-            CaseDescStr = "因應春節假期，擬調整本公司#kind_name_list#所有月份保證金金額案，謹提請討論。";
+            CaseDescStr = "因應春節假期，擬調整本公司#kind_name_list#所有月份保證金金額案，謹提請討論。";//案由
          }
 
          public override ReturnMessageClass Export() {
@@ -561,17 +807,140 @@ namespace PhoenixCI.FormUI.Prefix4 {
          public string Attend { get; set; }
          public string CaseDesc { get; set; }
 
-         public string Desc { get; set; }
-
-         public M40030Word(string meetingdate, string chairman, string attend, string casedesc, string descstr, string meetingaddress = "研討室") {
+         public M40030Word(string meetingdate, string chairman, string attend, string casedesc, string meetingaddress = "研討室") {
             MeetingDate = meetingdate;
             MeetingAddress = meetingaddress;
             Chairman = chairman;
             Attend = attend;
             CaseDesc = casedesc;
-
-            Desc = descstr;
          }
       }
+
+      private interface I40030AmtProdType {
+         string CurrencyName { get; set; }
+         string ProdName { get; set; }
+         string BeforeAdjustTitle { get; set; }
+         string AfterAdjustTitle { get; set; }
+         string NumberFormat { get; set; }
+
+         string NumberFormatB { get; set; }
+         string[] TableTitle { get; set; }
+         string[] RowName { get; set; }
+         string[] DbColName { get; set; }
+         string[] DbColNameB { get; set; }
+      }
+
+      private class AmtProdType40030FF : I40030AmtProdType {
+         public string CurrencyName { get; set; }
+         public string ProdName { get; set; }
+         public string BeforeAdjustTitle { get; set; }
+         public string AfterAdjustTitle { get; set; }
+         public string NumberFormat { get; set; }
+
+         public string NumberFormatB { get; set; }
+         public string[] TableTitle { get; set; }
+         public string[] RowName { get; set; }
+         public string[] DbColName { get; set; }
+         public string[] DbColNameB { get; set; }
+
+         public AmtProdType40030FF(DataRow dr) {
+            CurrencyName = "單位：" + dr["currency_name"].AsString();
+            ProdName = dr["kind_id_out"].AsString();
+            DbColName = new string[] { "m_im", "m_mm", "m_cm", "cur_im", "cur_mm", "cur_cm" };
+
+            AfterAdjustTitle = "調整後保證金金額";
+            BeforeAdjustTitle = "調整前保證金金額";
+            NumberFormat = "#,##0.##";
+            TableTitle = new string[] { "原始保證金金額", "維持保證金金額", "結算保證金金額" };
+            RowName = new[] { "保證金" };
+         }
+
+      }
+
+      private class AmtProdType40030PF : I40030AmtProdType {
+         public string CurrencyName { get; set; }
+         public string ProdName { get; set; }
+         public string BeforeAdjustTitle { get; set; }
+         public string AfterAdjustTitle { get; set; }
+         public string NumberFormat { get; set; }
+
+         public string NumberFormatB { get; set; }
+         public string[] TableTitle { get; set; }
+         public string[] RowName { get; set; }
+         public string[] DbColName { get; set; }
+         public string[] DbColNameB { get; set; }
+
+         public AmtProdType40030PF(DataRow dr) {
+            CurrencyName = "單位：比例(%)";
+            ProdName = dr["kind_id_out"].AsString();
+            DbColName = new string[] { "m_im", "m_mm", "m_cm", "cur_im", "cur_mm", "cur_cm" };
+
+            AfterAdjustTitle = "調整後保證金適用比例";
+            BeforeAdjustTitle = "調整前保證金適用比例";
+            NumberFormat = "#,##0.##";
+            TableTitle = new string[] { "原始保證金", "維持保證金", "結算保證金" };
+            RowName = new[] { "保證金" };
+         }
+
+      }
+
+      private class AmtProdType40030FO : I40030AmtProdType {
+         public string CurrencyName { get; set; }
+         public string ProdName { get; set; }
+         public string BeforeAdjustTitle { get; set; }
+         public string AfterAdjustTitle { get; set; }
+         public string NumberFormat { get; set; }
+
+         public string NumberFormatB { get; set; }
+         public string[] TableTitle { get; set; }
+         public string[] RowName { get; set; }
+         public string[] DbColName { get; set; }
+         public string[] DbColNameB { get; set; }
+
+         public AmtProdType40030FO(DataRow dr) {
+            CurrencyName = "單位：" + dr["currency_name"].AsString();
+            ProdName = dr["kind_id_out"].AsString();
+            DbColName = new string[] { "m_im", "m_mm", "m_cm", "cur_im", "cur_mm", "cur_cm" };
+            DbColNameB = new string[] { "m_im_b", "m_mm_b", "m_cm_b", "cur_im_b", "cur_mm_b", "cur_cm_b" };
+
+            AfterAdjustTitle = "調整後保證金金額";
+            BeforeAdjustTitle = "調整前保證金金額";
+            NumberFormat = "#,##0.##";
+            NumberFormatB = "#,##0.###";
+            TableTitle = new string[] { "計算賣出選擇權原始保證金之適用金額", "計算賣出選擇權維持保證金之適用金額", "計算賣出選擇權結算保證金之適用金額" };
+            RowName = new string[] { "風險保證金（A值）", "風險保證金最低值（B值）" };
+         }
+
+      }
+
+      private class AmtProdType40030PO : I40030AmtProdType {
+         public string CurrencyName { get; set; }
+         public string ProdName { get; set; }
+         public string BeforeAdjustTitle { get; set; }
+         public string AfterAdjustTitle { get; set; }
+         public string NumberFormat { get; set; }
+
+         public string NumberFormatB { get; set; }
+         public string[] TableTitle { get; set; }
+         public string[] RowName { get; set; }
+         public string[] DbColName { get; set; }
+         public string[] DbColNameB { get; set; }
+
+         public AmtProdType40030PO(DataRow dr) {
+            CurrencyName = "單位：比例(%)";
+            ProdName = dr["kind_id_out"].AsString();
+            DbColName = new string[] { "m_im", "m_mm", "m_cm", "cur_im", "cur_mm", "cur_cm" };
+            DbColNameB = new string[] { "m_im_b", "m_mm_b", "m_cm_b", "cur_im_b", "cur_mm_b", "cur_cm_b" };
+
+            AfterAdjustTitle = "調整後保證金金額";
+            BeforeAdjustTitle = "調整前保證金金額";
+            NumberFormat = "#,##0.##";
+            NumberFormatB = "#,##0.###";
+            TableTitle = new string[] { "計算賣出選擇權原始保證金之適用比例", "計算賣出選擇權維持保證金之適用比例", "計算賣出選擇權結算保證金之適用比例" };
+            RowName = new string[] { "風險保證金（A值）", "風險保證金最低值（B值）" };
+         }
+
+      }
+
    }
 }
