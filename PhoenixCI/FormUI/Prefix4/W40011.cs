@@ -17,7 +17,7 @@ namespace PhoenixCI.FormUI.Prefix4
    /// </summary>
    public partial class W40011 : FormParent
    {
-      private I4001x b4001xTemp;
+      private B40011 b40011;
       private string _saveFilePath;
 
       public W40011(string programID, string programName) : base(programID, programName)
@@ -68,20 +68,19 @@ namespace PhoenixCI.FormUI.Prefix4
          }
 
          _saveFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
-         object[] args = { _ProgramID, _saveFilePath, emDate.Text };
-         b4001xTemp = new B4001xTemplate().ConcreteClass(_ProgramID, args);
+         b40011 = new B40011(_ProgramID, _saveFilePath, emDate.Text);
 
          stMsgTxt.Visible = true;
 
          //判斷FMIF資料已轉入
-         string chkFMIF = b4001xTemp.CheckFMIF();
+         string chkFMIF = b40011.CheckFMIF();
          if (chkFMIF != MessageDisplay.MSG_OK) {
             if (!OutputChooseMessage(chkFMIF))
                return false;
          }
 
          //130批次作業做完
-         string strRtn = b4001xTemp.Check130Wf();
+         string strRtn = b40011.Check130Wf();
          if (strRtn != MessageDisplay.MSG_OK) {
             if (!OutputChooseMessage(strRtn))
                return false;
@@ -139,10 +138,16 @@ namespace PhoenixCI.FormUI.Prefix4
          {
             //Sheet : rpt_future
             ShowMsg($"{_ProgramID}_1－保證金狀況表 轉檔中...");
-            OutputShowMessage = b4001xTemp.WfFutureSheet();
+            OutputShowMessage = b40011.WfFutureSheet();
             //Sheet : rpt_option
             ShowMsg($"{_ProgramID}_2－保證金狀況表 轉檔中...");
-            OutputShowMessage = b4001xTemp.WfOptionSheet();
+            OutputShowMessage = b40011.WfOptionSheet();
+            //Sheet : fut_3index
+            ShowMsg("40011_stat－保證金狀況表 轉檔中...");
+            OutputShowMessage = b40011.WfStat("F", "fut_3index");
+            //Sheet : opt_3index
+            ShowMsg("40011_stat－保證金狀況表 轉檔中...");
+            OutputShowMessage = b40011.WfStat("O", "opt_3index");
          }
          catch (Exception ex)
          {

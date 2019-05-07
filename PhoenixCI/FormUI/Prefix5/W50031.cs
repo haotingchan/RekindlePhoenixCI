@@ -43,10 +43,10 @@ namespace PhoenixCI.FormUI.Prefix5
       protected override ResultStatus Open()
       {
          base.Open();
-         w500xx.wf_gb_detial(true, true, "1");
-         w500xx.wf_gb_print_sort(false, false, "1");
-         w500xx.wf_gb_report_type("D");
-         w500xx.wf_gb_group(true, true, "4");
+         w500xx.WfGrpDetial(true, true, "1");
+         w500xx.WfGbPrintSort(false, false, "1");
+         w500xx.WfGbReportType("D");
+         w500xx.WfGbGroup(true, true, "4");
          //鎖定和移除舊程式沒有的畫面
          w500xx.gb_group.Properties.Items.Remove(w500xx.gb_group.Properties.Items.GetItemByValue("rb_gall"));
          w500xx.gb_group.Properties.Items.Remove(w500xx.gb_group.Properties.Items.GetItemByValue("rb_gkind"));
@@ -113,7 +113,7 @@ namespace PhoenixCI.FormUI.Prefix5
 
       protected bool BeforeRetrieve()
       {
-         if (!w500xx.Retrieve("0000000", "Z999999")) return false;
+         if (!w500xx.StartRetrieve("0000000", "Z999999")) return false;
          return true;
       }
 
@@ -150,13 +150,13 @@ namespace PhoenixCI.FormUI.Prefix5
          base.Export();
          string ls_rpt_name = "造市者報表";
          string ls_rpt_id = _ProgramID;
-         w500xx.BeforeExport(ls_rpt_id, ls_rpt_name);
+         w500xx.StartExport(ls_rpt_id, ls_rpt_name);
          
          BeforeRetrieve();
          string ls_filename;
          ls_filename = _ProgramID + "_" + DateTime.Now.ToString("yyyy.MM.dd") + "-" + DateTime.Now.ToString("HH.mm.ss") + ".csv";
          string destinationFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, ls_filename);
-         w500xx.is_log_txt = ls_filename;
+         w500xx.LogText = ls_filename;
          /******************
          開啟檔案
          ******************/
@@ -222,19 +222,19 @@ namespace PhoenixCI.FormUI.Prefix5
          else {
             ls_text = "一般交易時段";
          }
-         if (!string.IsNullOrEmpty(w500xx.is_sdate)) {
-            ls_text = ls_text + "(" + w500xx.is_sdate;
+         if (!string.IsNullOrEmpty(w500xx.Sdate)) {
+            ls_text = ls_text + "(" + w500xx.Sdate;
          }
-         if (!string.IsNullOrEmpty(w500xx.is_edate)) {
-            ls_text = ls_text + "~~" + w500xx.is_edate + ")";
+         if (!string.IsNullOrEmpty(w500xx.Edate)) {
+            ls_text = ls_text + "~" + w500xx.Edate + ")";
          }
-         if (w500xx.is_sbrkno != "%" || w500xx.is_ebrkno != "%") {
+         if (w500xx.Sbrkno != "%" || w500xx.Ebrkno != "%") {
             ls_text = ls_text + ",造市者:";
-            if (w500xx.is_sbrkno == w500xx.is_ebrkno) {
-               ls_text = ls_text + w500xx.is_sbrkno + " ";
+            if (w500xx.Sbrkno == w500xx.Ebrkno) {
+               ls_text = ls_text + w500xx.Sbrkno + " ";
             }
             else {
-               ls_text = ls_text + w500xx.is_sbrkno + "~~" + w500xx.is_ebrkno + " ";
+               ls_text = ls_text + w500xx.Sbrkno + "~" + w500xx.Ebrkno + " ";
             }
          }
 
@@ -256,11 +256,11 @@ namespace PhoenixCI.FormUI.Prefix5
          ******************/
          /* 報表內容 */
          is_dw_name = dao50031.ListD50031
-            (ii_market_code, is_sum_subtype, is_detail_type, w500xx.is_sdate, w500xx.is_edate, 
-            w500xx.is_sbrkno, w500xx.is_ebrkno, is_key, is_prod_subtype, is_kind_id2, ls_text);
+            (ii_market_code, is_sum_subtype, is_detail_type, w500xx.Sdate, w500xx.Edate, 
+            w500xx.Sbrkno, w500xx.Ebrkno, is_key, is_prod_subtype, is_kind_id2, ls_text);
          DataTable ids_1 = is_dw_name;
          if (ids_1.Rows.Count <= 0) {
-            w500xx.AfterExport();
+            w500xx.EndExport();
             return ResultStatus.Success;
          }
          /******************
@@ -283,7 +283,7 @@ namespace PhoenixCI.FormUI.Prefix5
             }
          }
          workbook.SaveDocument(destinationFilePath, DocumentFormat.Csv);
-         w500xx.AfterExport();
+         w500xx.EndExport();
          return ResultStatus.Success;
       }
 
