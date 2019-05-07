@@ -42,10 +42,10 @@ namespace PhoenixCI.FormUI.Prefix5
       protected override ResultStatus Open()
       {
          base.Open();
-         w500xx.wf_gb_detial(false, false, "1");
-         w500xx.wf_gb_print_sort(false, false, "1");
-         w500xx.wf_gb_report_type("D");
-         w500xx.wf_gb_group(true, true, "3");
+         w500xx.WfGrpDetial(false, false, "1");
+         w500xx.WfGbPrintSort(false, false, "1");
+         w500xx.WfGbReportType("D");
+         w500xx.WfGbGroup(true, true, "3");
          w500xx.Open();
 
          return ResultStatus.Success;
@@ -78,7 +78,7 @@ namespace PhoenixCI.FormUI.Prefix5
          _ToolBtnExport.Enabled = true;
          if(!BeforeRetrieve()) return ResultStatus.Fail;
          is_dw_name = w500xx.WfLinqSyntaxSelect(is_dw_name);
-         if (w500xx.RetrieveAfter(is_dw_name)) {
+         if (w500xx.EndRetrieve(is_dw_name)) {
             reportView();
          }
          reportView();
@@ -114,10 +114,10 @@ namespace PhoenixCI.FormUI.Prefix5
 
       protected bool BeforeRetrieve()
       {
-         if(!w500xx.Retrieve()) return false;
+         if(!w500xx.StartRetrieve()) return false;
          /* 報表內容 */
          if (w500xx.gb_detial.EditValue.Equals("rb_gdate")) {
-            is_dw_name = dao50034.ListAMMO(w500xx.is_sdate, w500xx.is_edate, w500xx.is_sum_type, w500xx.is_sum_subtype);
+            is_dw_name = dao50034.ListAMMO(w500xx.Sdate, w500xx.Edate, w500xx.SumType, w500xx.SumSubType);
             //is_dw_name = dao50034.AMMO(w500xx.is_sdate, w500xx.is_edate, w500xx.is_sum_type, w500xx.is_sum_subtype);
          }
          //else {
@@ -125,46 +125,17 @@ namespace PhoenixCI.FormUI.Prefix5
          //   is_dw_name = "d_" + gs_txn_id + "_accu";
          //}
          if (w500xx.gb_market.EditValue.Equals("rb_market_1")) {
-            is_dw_name = dao50034.ListAMMOAH(w500xx.is_sdate, w500xx.is_edate, w500xx.is_sum_type, w500xx.is_sum_subtype);
+            is_dw_name = dao50034.ListAMMOAH(w500xx.Sdate, w500xx.Edate, w500xx.SumType, w500xx.SumSubType);
             //is_dw_name = dao50034.AMMOAH(w500xx.is_sdate, w500xx.is_edate, w500xx.is_sum_type, w500xx.is_sum_subtype);
          }
          return true;
       }
 
-      protected override ResultStatus CheckShield()
-      {
-         base.CheckShield();
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus Save(PokeBall pokeBall)
-      {
-         base.Save(pokeBall);
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus Run(PokeBall args)
-      {
-         base.Run(args);
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus Import()
-      {
-         base.Import();
-
-         return ResultStatus.Success;
-      }
-
       protected override ResultStatus Export()
       {
-         base.Export();
-         string ls_rpt_name = w500xx.t_conditionText().Trim();
+         string ls_rpt_name = w500xx.ConditionText().Trim();
          string ls_rpt_id = _ProgramID;
-         w500xx.BeforeExport(ls_rpt_id, ls_rpt_name);
+         w500xx.StartExport(ls_rpt_id, ls_rpt_name);
          BeforeRetrieve();
          /******************
       複製檔案
@@ -174,7 +145,7 @@ namespace PhoenixCI.FormUI.Prefix5
          if (ls_file == "") {
             return ResultStatus.Fail;
          }
-         w500xx.is_log_txt = ls_file;
+         w500xx.LogText = ls_file;
          /******************
          開啟檔案
          ******************/
@@ -185,7 +156,7 @@ namespace PhoenixCI.FormUI.Prefix5
          ******************/
          DataTable ids_1 = is_dw_name;
          if (ids_1.Rows.Count <= 0) {
-            w500xx.AfterExport();
+            w500xx.EndExport();
             return ResultStatus.Success;
          }
          /******************
@@ -193,10 +164,10 @@ namespace PhoenixCI.FormUI.Prefix5
          ******************/
          Worksheet worksheet = workbook.Worksheets[0];
          if (ls_rpt_name == "") {
-            ls_rpt_name = "報表條件：" + "(" + w500xx.t_dateText() + ")";
+            ls_rpt_name = "報表條件：" + "(" + w500xx.DateText() + ")";
          }
          else {
-            ls_rpt_name = w500xx.t_conditionText().Trim() + " " + "(" + w500xx.t_dateText() + ")";
+            ls_rpt_name = w500xx.ConditionText().Trim() + " " + "(" + w500xx.DateText() + ")";
          }
          worksheet.Cells[2, 4].Value = ls_rpt_name;
          int rowIndex = 4;int k = 1;
@@ -214,7 +185,7 @@ namespace PhoenixCI.FormUI.Prefix5
             k++;
          }
          workbook.SaveDocument(ls_file);
-         w500xx.AfterExport();
+         w500xx.EndExport();
          return ResultStatus.Success;
       }
 
@@ -229,23 +200,11 @@ namespace PhoenixCI.FormUI.Prefix5
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus InsertRow()
-      {
-         base.InsertRow();
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus DeleteRow()
-      {
-         base.DeleteRow();
-
-         return ResultStatus.Success;
-      }
-
       protected override ResultStatus BeforeClose()
       {
-         return base.BeforeClose();
+         is_dw_name.Clear();
+         documentViewer1.DocumentSource = null;
+         return ResultStatus.Success;
       }
    }
 }

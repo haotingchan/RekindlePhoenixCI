@@ -45,10 +45,10 @@ namespace PhoenixCI.FormUI.Prefix5
       protected override ResultStatus Open()
       {
          base.Open();
-         w500xx.wf_gb_detial(false, false, "1");
-         w500xx.wf_gb_print_sort(false, false, "1");
-         w500xx.wf_gb_report_type("M");
-         w500xx.wf_gb_group(true, true, "2");
+         w500xx.WfGrpDetial(false, false, "1");
+         w500xx.WfGbPrintSort(false, false, "1");
+         w500xx.WfGbReportType("M");
+         w500xx.WfGbGroup(true, true, "2");
          w500xx.Open();
 
          return ResultStatus.Success;
@@ -78,7 +78,7 @@ namespace PhoenixCI.FormUI.Prefix5
          _ToolBtnExport.Enabled = true;
          if (!BeforeRetrieve()) return ResultStatus.Fail;
          w500xx.WfLinqSyntaxSelect(is_dw_name);
-         if (w500xx.RetrieveAfter(is_dw_name)) {
+         if (w500xx.EndRetrieve(is_dw_name)) {
             reportView();
          }
          return ResultStatus.Success;
@@ -115,20 +115,20 @@ namespace PhoenixCI.FormUI.Prefix5
 
       protected bool BeforeRetrieve()
       {
-         if (!w500xx.Retrieve()) {
+         if (!w500xx.StartRetrieve()) {
             _ToolBtnExport.Enabled = false;
             return false;
          } 
          /* 報表內容 */
          if (w500xx.gb_detial.EditValue.Equals("rb_gdate")) {
-            is_dw_name = dao50036.ListAMMO(w500xx.is_sdate, w500xx.is_edate, w500xx.is_sum_type, w500xx.is_sum_subtype);
+            is_dw_name = dao50036.ListAMMO(w500xx.Sdate, w500xx.Edate, w500xx.SumType, w500xx.SumSubType);
          }
          //else {
 
          //   is_dw_name = "d_" + gs_txn_id + "_accu";
          //}
          if (w500xx.gb_market.EditValue.Equals("rb_market_1")) {
-            is_dw_name = dao50036.ListAMMOAH(w500xx.is_sdate, w500xx.is_edate, w500xx.is_sum_type, w500xx.is_sum_subtype);
+            is_dw_name = dao50036.ListAMMOAH(w500xx.Sdate, w500xx.Edate, w500xx.SumType, w500xx.SumSubType);
          }
          return true;
       }
@@ -166,7 +166,7 @@ namespace PhoenixCI.FormUI.Prefix5
          base.Export();
          string ls_rpt_name = "造市者報表";
          string ls_rpt_id = _ProgramID;
-         w500xx.BeforeExport(ls_rpt_id, ls_rpt_name);
+         w500xx.StartExport(ls_rpt_id, ls_rpt_name);
          BeforeRetrieve();
          string ls_filename;
          ls_filename = _ProgramID + "_" + DateTime.Now.ToString("yyyy.MM.dd") + "-" + DateTime.Now.ToString("HH.mm.ss") + ".xlsx";
@@ -181,7 +181,7 @@ namespace PhoenixCI.FormUI.Prefix5
          ******************/
          DataTable ids_1 = is_dw_name;
          if (ids_1.Rows.Count <= 0) {
-            w500xx.AfterExport();
+            w500xx.EndExport();
             return ResultStatus.Success;
          }
 
@@ -220,7 +220,7 @@ namespace PhoenixCI.FormUI.Prefix5
          dt.Columns.Remove(dt.Columns[0]);
          worksheet.Import(dt, true, 0, 0);
          workbook.SaveDocument(destinationFilePath);
-         w500xx.AfterExport();
+         w500xx.EndExport();
          return ResultStatus.Success;
       }
 

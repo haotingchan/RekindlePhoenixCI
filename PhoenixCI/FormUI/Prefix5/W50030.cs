@@ -10,6 +10,7 @@ using PhoenixCI.Report;
 using DevExpress.XtraPrinting.Caching;
 using System;
 using System.Linq;
+using DevExpress.XtraReports.UI;
 
 namespace PhoenixCI.FormUI.Prefix5
 {
@@ -17,7 +18,7 @@ namespace PhoenixCI.FormUI.Prefix5
    {
       private D50030 dao50030;
       private DataTable dataTable { get; set; }
-      //private DataTable is_dw_name { get; set; }
+      private XtraReport _Rreport; 
       public string ls_date_type;
       public W50030(string programID, string programName) : base(programID, programName)
       {
@@ -66,6 +67,10 @@ namespace PhoenixCI.FormUI.Prefix5
          //_ToolBtnExport.Enabled = true;
          BeforeRetrieve();
          dataTable = w500xx.WfLinqSyntaxSelect(dataTable);
+         if (dataTable.Rows.Count<=0) {
+            MessageDisplay.Info("無任何資料!");
+            return ResultStatus.Success;
+         }
          //if (w500xx.RetrieveAfter(is_dw_name)) {
          //   reportView();
          //}
@@ -95,8 +100,8 @@ namespace PhoenixCI.FormUI.Prefix5
          RW50030 r50030rpt = new RW50030(true);
          r50030rpt.DataSource = dt;
          var storage = new MemoryDocumentStorage();
-         var report = r50030rpt;
-         cachedReportSource1 = new CachedReportSource(report, storage);
+         _Rreport = r50030rpt;
+         cachedReportSource1 = new CachedReportSource(_Rreport, storage);
 
          documentViewer1.DocumentSource = cachedReportSource1;
          cachedReportSource1.CreateDocumentAsync();
@@ -106,23 +111,23 @@ namespace PhoenixCI.FormUI.Prefix5
 
       protected void BeforeRetrieve()
       {
-         w500xx.Retrieve();
+         w500xx.StartRetrieve();
          /* 報表內容 */
          //報表內容選擇分日期
          if (w500xx.gb_detial.EditValue.Equals("rb_gdate")) {
-            dataTable = dao50030.ListD50030(w500xx.is_sum_type, w500xx.is_sum_subtype, w500xx.is_data_type);
+            dataTable = dao50030.ListD50030(w500xx.SumType, w500xx.SumSubType, w500xx.DataType);
             ls_date_type = "D";//匯出Excel時需要用到的判斷
             //交易時段選盤後
             if (w500xx.gb_market.EditValue.Equals("rb_market_1")) {
-               dataTable = dao50030.ListAH(w500xx.is_sum_type, w500xx.is_sum_subtype, w500xx.is_data_type);
+               dataTable = dao50030.ListAH(w500xx.SumType, w500xx.SumSubType, w500xx.DataType);
             }
          }
          else {
-            dataTable = dao50030.ListACCU(w500xx.is_sdate, w500xx.is_edate, w500xx.is_sum_type, w500xx.is_sum_subtype, w500xx.is_data_type);
+            dataTable = dao50030.ListACCU(w500xx.Sdate, w500xx.Edate, w500xx.SumType, w500xx.SumSubType, w500xx.DataType);
             ls_date_type = "A";//匯出Excel時需要用到的判斷
             //交易時段選盤後
             if (w500xx.gb_market.EditValue.Equals("rb_market_1")) {
-               dataTable = dao50030.ListACCUAH(w500xx.is_sdate, w500xx.is_edate, w500xx.is_sum_type, w500xx.is_sum_subtype, w500xx.is_data_type);
+               dataTable = dao50030.ListACCUAH(w500xx.Sdate, w500xx.Edate, w500xx.SumType, w500xx.SumSubType, w500xx.DataType);
                ls_date_type = "D";//匯出Excel時需要用到的判斷
             }
          }
@@ -159,9 +164,9 @@ namespace PhoenixCI.FormUI.Prefix5
       protected override ResultStatus Export()
       {
          base.Export();
-         string ls_rpt_name = w500xx.t_conditionText().Trim();
+         string ls_rpt_name = w500xx.ConditionText().Trim();
          string ls_rpt_id = _ProgramID;
-         w500xx.BeforeExport(ls_rpt_id, ls_rpt_name);
+         w500xx.StartExport(ls_rpt_id, ls_rpt_name);
          BeforeRetrieve();
          /******************
          複製檔案
@@ -171,7 +176,7 @@ namespace PhoenixCI.FormUI.Prefix5
          if (ls_file == "") {
             return ResultStatus.Fail;
          }
-         w500xx.is_log_txt = ls_file;
+         w500xx.LogText = ls_file;
          /******************
          開啟檔案
          ******************/
@@ -185,7 +190,7 @@ namespace PhoenixCI.FormUI.Prefix5
 
          //ids_1 = is_dw_name;
          if (ids_1.Rows.Count <= 0) {
-            w500xx.AfterExport();
+            w500xx.EndExport();
             return ResultStatus.Success;
          }
          /******************
@@ -195,10 +200,10 @@ namespace PhoenixCI.FormUI.Prefix5
 
 
          if (ls_rpt_name == "") {
-            ls_rpt_name = "報表條件：" + "(" + w500xx.t_dateText() + ")";
+            ls_rpt_name = "報表條件：" + "(" + w500xx.DateText() + ")";
          }
          else {
-            ls_rpt_name = w500xx.t_conditionText().Trim() + " " + "(" + w500xx.t_dateText() + ")";
+            ls_rpt_name = w500xx.ConditionText().Trim() + " " + "(" + w500xx.DateText() + ")";
          }
          worksheet.Cells[2, 4].Value = ls_rpt_name;
          int rowIndex = 4; int k = 1;
@@ -254,12 +259,17 @@ namespace PhoenixCI.FormUI.Prefix5
             worksheet.Columns[17 - 1].Delete();
          }
          workbook.SaveDocument(ls_file);
-         w500xx.AfterExport();
+         w500xx.EndExport();
          return ResultStatus.Success;
       }
 
       protected override ResultStatus Print(ReportHelper reportHelper)
       {
+         CommonReportLandscapeA4 reportLandscapeA4 = new CommonReportLandscapeA4();
+         XtraReport xtraReport = reportHelper.CreateCompositeReport(_Rreport, reportLandscapeA4);
+
+         reportHelper.Create(xtraReport);
+         //reportHelper.Preview();
          base.Print(reportHelper);
          return ResultStatus.Success;
       }

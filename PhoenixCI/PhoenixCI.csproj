@@ -151,6 +151,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessLogic\Prefix2\B20231.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30310.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30320.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30330.cs" />
@@ -189,7 +190,6 @@
     <Compile Include="BusinessLogic\Prefix4\B40190.cs" />
     <Compile Include="BusinessLogic\Prefix4\B43030.cs" />
     <Compile Include="BusinessLogic\Prefix4\B43033.cs" />
-    <Compile Include="BusinessLogic\Prefix5\B500xxTemplate.cs" />
     <Compile Include="BusinessLogic\Prefix7\B70010.cs" />
     <Compile Include="BusinessLogic\Prefix7\B70020.cs" />
     <Compile Include="BusinessLogic\Prefix7\B700xxFunc.cs" />
@@ -1286,6 +1286,12 @@
     <Compile Include="FormUI\Prefix5\W50090.Designer.cs">
       <DependentUpon>W50090.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormUI\Prefix5\W50020.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix5\W50020.Designer.cs">
+      <DependentUpon>W50020.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormUI\Prefix5\W500xx.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -2171,6 +2177,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix5\W50090.resx">
       <DependentUpon>W50090.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix5\W50020.resx">
+      <DependentUpon>W50020.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix5\W500xx.resx">
       <DependentUpon>W500xx.cs</DependentUpon>
