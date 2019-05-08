@@ -44,13 +44,12 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
          txtEndMonth.DateTimeValue = GlobalInfo.OCF_DATE;
          txtEndMonth.EnterMoveNextControl = true;
-         txtStartMonth.Focus();
 
          //2.設定下拉選單
          //2.1先讀取db
-         DataTable dt = new ABRK().ListAll();//第一行空白+ABRK_NO/ABRK_NAME/cp_display
-         cbxFcmStartNo.SetDataTable(dt , "ABRK_NO");
-         cbxFcmEndNo.SetDataTable(dt , "ABRK_NO");
+         DataTable dt = new ABRK().ListAll2();//第一行空白+ABRK_NO/ABRK_NAME/cp_display
+         cbxFcmStartNo.SetDataTable(dt , "ABRK_NO","CP_DISPLAY2",TextEditStyles.DisableTextEditor," ");
+         cbxFcmEndNo.SetDataTable(dt , "ABRK_NO" , "CP_DISPLAY2" , TextEditStyles.DisableTextEditor , " ");
 
          rgpType.SelectedIndex = 0;//直接預設為第一個選項
          rgpType_EditValueChanged(rgpType , null);//觸發事件
@@ -81,16 +80,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
          _ToolBtnImport.Enabled = false;//匯入
          _ToolBtnExport.Enabled = true;//匯出,格式可以為 pdf/xls/txt/csv, 看功能
          _ToolBtnPrintAll.Enabled = false;//列印
-
-         return ResultStatus.Success;
-      }
-
-      /// <summary>
-      /// 按下[讀取/預覽]按鈕時,去資料庫撈資料
-      /// </summary>
-      /// <returns></returns>
-      protected override ResultStatus Retrieve() {
-         base.Retrieve();
 
          return ResultStatus.Success;
       }
@@ -131,9 +120,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
                                     startNo ,
                                     endNo);
 
-         if (dt.Rows.Count == 0) {
+         if (dt.Rows.Count <= 0) {
             MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtStartMonth.Text + "~" + txtEndMonth.Text , this.Text));
-            return ResultStatus.Success;
+            return ResultStatus.Fail;
          }
 
          try {
@@ -207,6 +196,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
             //存檔
             workbook.SaveDocument(excelDestinationPath);
+            if (FlagAdmin)
+               System.Diagnostics.Process.Start(excelDestinationPath);
+
             return ResultStatus.Success;
          } catch (Exception ex) {
             PbFunc.f_write_logf(_ProgramID , "Error" , ex.Message);

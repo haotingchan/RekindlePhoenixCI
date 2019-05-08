@@ -410,6 +410,8 @@
          // 
          // AMMD_BRK_NO
          // 
+         this.AMMD_BRK_NO.AppearanceCell.Options.UseTextOptions = true;
+         this.AMMD_BRK_NO.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.AMMD_BRK_NO.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
          this.AMMD_BRK_NO.AppearanceHeader.Options.UseBackColor = true;
          this.AMMD_BRK_NO.Caption = "造市者代號";
@@ -430,6 +432,8 @@
          // 
          // AMMD_ACC_NO
          // 
+         this.AMMD_ACC_NO.AppearanceCell.Options.UseTextOptions = true;
+         this.AMMD_ACC_NO.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.AMMD_ACC_NO.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
          this.AMMD_ACC_NO.AppearanceHeader.Options.UseBackColor = true;
          this.AMMD_ACC_NO.Caption = "帳號";
@@ -450,6 +454,8 @@
          // 
          // AMMD_SETTLE_DATE
          // 
+         this.AMMD_SETTLE_DATE.AppearanceCell.Options.UseTextOptions = true;
+         this.AMMD_SETTLE_DATE.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.AMMD_SETTLE_DATE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
          this.AMMD_SETTLE_DATE.AppearanceHeader.Options.UseBackColor = true;
          this.AMMD_SETTLE_DATE.Caption = "契約月份";
@@ -470,6 +476,8 @@
          // 
          // AMMD_P_SEQ_NO
          // 
+         this.AMMD_P_SEQ_NO.AppearanceCell.Options.UseTextOptions = true;
+         this.AMMD_P_SEQ_NO.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.AMMD_P_SEQ_NO.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
          this.AMMD_P_SEQ_NO.AppearanceHeader.Options.UseBackColor = true;
          this.AMMD_P_SEQ_NO.Caption = "價平上下檔數";
@@ -520,6 +528,8 @@
          // 
          // AMMD_W_TIME
          // 
+         this.AMMD_W_TIME.AppearanceCell.Options.UseTextOptions = true;
+         this.AMMD_W_TIME.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.AMMD_W_TIME.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
          this.AMMD_W_TIME.AppearanceHeader.Options.UseBackColor = true;
          this.AMMD_W_TIME.Caption = "委託時間";

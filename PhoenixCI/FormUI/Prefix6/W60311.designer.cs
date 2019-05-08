@@ -35,7 +35,6 @@
             this.RPTF_KEY = new DevExpress.XtraGrid.Columns.GridColumn();
             this.RPTF_SEQ_NO = new DevExpress.XtraGrid.Columns.GridColumn();
             this.RPTF_TEXT = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.MODIFY_MARK = new DevExpress.XtraGrid.Columns.GridColumn();
             this.lblYear = new System.Windows.Forms.Label();
             this.txtYear = new DevExpress.XtraEditors.TextEdit();
             this.panParent.SuspendLayout();
@@ -50,12 +49,12 @@
             this.panParent.Controls.Add(this.txtYear);
             this.panParent.Controls.Add(this.lblYear);
             this.panParent.Controls.Add(this.gcMain);
-            this.panParent.Size = new System.Drawing.Size(1027, 536);
+            this.panParent.Size = new System.Drawing.Size(1027, 538);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(1027, 32);
+            this.ribbonControl.Size = new System.Drawing.Size(1027, 30);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // gcMain
@@ -66,7 +65,7 @@
             this.gcMain.Location = new System.Drawing.Point(12, 44);
             this.gcMain.MainView = this.gvMain;
             this.gcMain.Name = "gcMain";
-            this.gcMain.Size = new System.Drawing.Size(1000, 477);
+            this.gcMain.Size = new System.Drawing.Size(1000, 479);
             this.gcMain.TabIndex = 0;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -78,8 +77,7 @@
             this.RPTF_TXD_ID,
             this.RPTF_KEY,
             this.RPTF_SEQ_NO,
-            this.RPTF_TEXT,
-            this.MODIFY_MARK});
+            this.RPTF_TEXT});
             this.gvMain.GridControl = this.gcMain;
             this.gvMain.Name = "gvMain";
             // 
@@ -124,12 +122,6 @@
             this.RPTF_TEXT.VisibleIndex = 2;
             this.RPTF_TEXT.Width = 871;
             // 
-            // MODIFY_MARK
-            // 
-            this.MODIFY_MARK.FieldName = "MODIFY_MARK";
-            this.MODIFY_MARK.Name = "MODIFY_MARK";
-            this.MODIFY_MARK.OptionsColumn.ShowCaption = false;
-            // 
             // lblYear
             // 
             this.lblYear.AutoSize = true;
@@ -146,7 +138,7 @@
             this.txtYear.Properties.Appearance.Options.UseTextOptions = true;
             this.txtYear.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.txtYear.Properties.MaxLength = 4;
-            this.txtYear.Size = new System.Drawing.Size(63, 20);
+            this.txtYear.Size = new System.Drawing.Size(63, 26);
             this.txtYear.TabIndex = 3;
             // 
             // W60311
@@ -179,6 +171,5 @@
         private DevExpress.XtraGrid.Columns.GridColumn RPTF_KEY;
         private DevExpress.XtraGrid.Columns.GridColumn RPTF_SEQ_NO;
         private DevExpress.XtraGrid.Columns.GridColumn RPTF_TEXT;
-        private DevExpress.XtraGrid.Columns.GridColumn MODIFY_MARK;
     }
 }

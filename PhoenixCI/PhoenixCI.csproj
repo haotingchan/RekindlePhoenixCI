@@ -138,6 +138,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -151,6 +152,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessLogic\Prefix2\B20231.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30310.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30320.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30330.cs" />
@@ -189,7 +191,6 @@
     <Compile Include="BusinessLogic\Prefix4\B40190.cs" />
     <Compile Include="BusinessLogic\Prefix4\B43030.cs" />
     <Compile Include="BusinessLogic\Prefix4\B43033.cs" />
-    <Compile Include="BusinessLogic\Prefix5\B500xxTemplate.cs" />
     <Compile Include="BusinessLogic\Prefix7\B70010.cs" />
     <Compile Include="BusinessLogic\Prefix7\B70020.cs" />
     <Compile Include="BusinessLogic\Prefix7\B700xxFunc.cs" />
@@ -872,17 +873,23 @@
     <Compile Include="FormUI\Prefix3\W30290.designer.cs">
       <DependentUpon>W30290.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormUI\Prefix4\W40022.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40022.Designer.cs">
+      <DependentUpon>W40022.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormUI\Prefix4\W40021.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormUI\Prefix4\W40021.Designer.cs">
       <DependentUpon>W40021.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormUI\Prefix4\W40090.cs">
+    <Compile Include="FormUI\Prefix4\W40030.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormUI\Prefix4\W40090.designer.cs">
-      <DependentUpon>W40090.cs</DependentUpon>
+    <Compile Include="FormUI\Prefix4\W40030.designer.cs">
+      <DependentUpon>W40030.cs</DependentUpon>
     </Compile>
     <Compile Include="FormUI\Prefix4\W40210.cs">
       <SubType>Form</SubType>
@@ -1208,6 +1215,12 @@
     <Compile Include="FormUI\Prefix4\W49074.Designer.cs">
       <DependentUpon>W49074.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormUI\Prefix4\W40080.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40080.designer.cs">
+      <DependentUpon>W40080.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormUI\Prefix5\W50010.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1285,6 +1298,12 @@
     </Compile>
     <Compile Include="FormUI\Prefix5\W50090.Designer.cs">
       <DependentUpon>W50090.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix5\W50020.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix5\W50020.Designer.cs">
+      <DependentUpon>W50020.cs</DependentUpon>
     </Compile>
     <Compile Include="FormUI\Prefix5\W500xx.cs">
       <SubType>Form</SubType>
@@ -1974,11 +1993,11 @@
     <EmbeddedResource Include="FormUI\Prefix3\W30290.resx">
       <DependentUpon>W30290.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W40022.resx">
+      <DependentUpon>W40022.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix4\W40021.resx">
       <DependentUpon>W40021.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormUI\Prefix4\W40090.resx">
-      <DependentUpon>W40090.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix4\W40210.resx">
       <DependentUpon>W40210.cs</DependentUpon>
@@ -2133,6 +2152,9 @@
     <EmbeddedResource Include="FormUI\Prefix4\W49074.resx">
       <DependentUpon>W49074.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W40080.resx">
+      <DependentUpon>W40080.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix5\W50010.resx">
       <DependentUpon>W50010.cs</DependentUpon>
     </EmbeddedResource>
@@ -2171,6 +2193,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix5\W50090.resx">
       <DependentUpon>W50090.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix5\W50020.resx">
+      <DependentUpon>W50020.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix5\W500xx.resx">
       <DependentUpon>W500xx.cs</DependentUpon>
@@ -2912,6 +2937,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\40030.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\40030_Agenda.rtf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\40030_MeetingLog.rtf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\40040.xlsx">

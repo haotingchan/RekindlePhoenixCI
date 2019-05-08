@@ -30,6 +30,20 @@
          this.dw1 = new DevExpress.XtraEditors.PanelControl();
          this.documentViewer1 = new DevExpress.XtraPrinting.Preview.DocumentViewer();
          this.inputPanel = new DevExpress.XtraEditors.PanelControl();
+         this.gb4 = new DevExpress.XtraEditors.PanelControl();
+         this.gb4Label = new System.Windows.Forms.Label();
+         this.gbPrintSort = new DevExpress.XtraEditors.RadioGroup();
+         this.gb3Label = new System.Windows.Forms.Label();
+         this.gb3 = new DevExpress.XtraEditors.PanelControl();
+         this.gbDetial = new DevExpress.XtraEditors.RadioGroup();
+         this.gb2Label = new System.Windows.Forms.Label();
+         this.gb2 = new DevExpress.XtraEditors.PanelControl();
+         this.gbGroup = new DevExpress.XtraEditors.RadioGroup();
+         this.gb1Label = new System.Windows.Forms.Label();
+         this.gb1 = new DevExpress.XtraEditors.PanelControl();
+         this.gbMarket = new DevExpress.XtraEditors.RadioGroup();
+         this.gbReportTypeLabel = new System.Windows.Forms.Label();
+         this.gbReportType = new DevExpress.XtraEditors.PanelControl();
          this.layoutControl2 = new DevExpress.XtraLayout.LayoutControl();
          this.emEndDate = new BaseGround.Widget.TextDateEdit();
          this.emStartDate = new BaseGround.Widget.TextDateEdit();
@@ -46,14 +60,6 @@
          this.stMonth = new DevExpress.XtraLayout.LayoutControlItem();
          this.rbReportType = new DevExpress.XtraEditors.RadioGroup();
          this.stMsgTxt = new DevExpress.XtraEditors.LabelControl();
-         this.gb4 = new System.Windows.Forms.GroupBox();
-         this.gbPrintSort = new DevExpress.XtraEditors.RadioGroup();
-         this.gb3 = new System.Windows.Forms.GroupBox();
-         this.gbDetial = new DevExpress.XtraEditors.RadioGroup();
-         this.gb2 = new System.Windows.Forms.GroupBox();
-         this.gb_group = new DevExpress.XtraEditors.RadioGroup();
-         this.gb1 = new System.Windows.Forms.GroupBox();
-         this.gbMarket = new DevExpress.XtraEditors.RadioGroup();
          this.dataLayoutControl2 = new DevExpress.XtraDataLayout.DataLayoutControl();
          this.dwProdKdSto = new DevExpress.XtraEditors.LookUpEdit();
          this.dwProdKd = new DevExpress.XtraEditors.LookUpEdit();
@@ -71,13 +77,26 @@
          this.AprkNoGrp = new DevExpress.XtraLayout.LayoutControlGroup();
          this.st2 = new DevExpress.XtraLayout.LayoutControlItem();
          this.st1 = new DevExpress.XtraLayout.LayoutControlItem();
-         this.gbReportType = new DevExpress.XtraEditors.PanelControl();
-         this.gbReportTypeLabel = new System.Windows.Forms.Label();
+         this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.dw1)).BeginInit();
          this.dw1.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.inputPanel)).BeginInit();
          this.inputPanel.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.gb4)).BeginInit();
+         this.gb4.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.gbPrintSort.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.gb3)).BeginInit();
+         this.gb3.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.gbDetial.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.gb2)).BeginInit();
+         this.gb2.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.gbGroup.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.gb1)).BeginInit();
+         this.gb1.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.gbReportType)).BeginInit();
+         this.gbReportType.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControl2)).BeginInit();
          this.layoutControl2.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.emEndDate.Properties)).BeginInit();
@@ -95,14 +114,6 @@
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.stMonth)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.rbReportType.Properties)).BeginInit();
-         this.gb4.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.gbPrintSort.Properties)).BeginInit();
-         this.gb3.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.gbDetial.Properties)).BeginInit();
-         this.gb2.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.gb_group.Properties)).BeginInit();
-         this.gb1.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.dataLayoutControl2)).BeginInit();
          this.dataLayoutControl2.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.dwProdKdSto.Properties)).BeginInit();
@@ -122,8 +133,8 @@
          ((System.ComponentModel.ISupportInitialize)(this.AprkNoGrp)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.st2)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.st1)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.gbReportType)).BeginInit();
-         this.gbReportType.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
+         this.panelControl1.SuspendLayout();
          this.SuspendLayout();
          // 
          // panParent
@@ -136,13 +147,13 @@
          this.ribbonControl.Size = new System.Drawing.Size(790, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
-         // dw_1
+         // dw1
          // 
          this.dw1.Controls.Add(this.documentViewer1);
          this.dw1.Dock = System.Windows.Forms.DockStyle.Bottom;
-         this.dw1.Location = new System.Drawing.Point(0, 315);
-         this.dw1.Name = "dw_1";
-         this.dw1.Size = new System.Drawing.Size(790, 348);
+         this.dw1.Location = new System.Drawing.Point(0, 292);
+         this.dw1.Name = "dw1";
+         this.dw1.Size = new System.Drawing.Size(790, 341);
          this.dw1.TabIndex = 3;
          // 
          // documentViewer1
@@ -151,31 +162,208 @@
          this.documentViewer1.IsMetric = true;
          this.documentViewer1.Location = new System.Drawing.Point(2, 2);
          this.documentViewer1.Name = "documentViewer1";
-         this.documentViewer1.Size = new System.Drawing.Size(786, 344);
+         this.documentViewer1.Size = new System.Drawing.Size(786, 337);
          this.documentViewer1.TabIndex = 0;
          // 
-         // r_input
+         // inputPanel
          // 
          this.inputPanel.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
          this.inputPanel.Appearance.Options.UseBackColor = true;
          this.inputPanel.AutoSize = true;
          this.inputPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+         this.inputPanel.Controls.Add(this.gb4);
+         this.inputPanel.Controls.Add(this.gb3Label);
+         this.inputPanel.Controls.Add(this.gb3);
+         this.inputPanel.Controls.Add(this.gb2Label);
+         this.inputPanel.Controls.Add(this.gb2);
+         this.inputPanel.Controls.Add(this.gb1Label);
+         this.inputPanel.Controls.Add(this.gb1);
          this.inputPanel.Controls.Add(this.gbReportTypeLabel);
          this.inputPanel.Controls.Add(this.gbReportType);
          this.inputPanel.Controls.Add(this.stMsgTxt);
-         this.inputPanel.Controls.Add(this.gb4);
-         this.inputPanel.Controls.Add(this.gb3);
-         this.inputPanel.Controls.Add(this.gb2);
          this.inputPanel.Controls.Add(this.dataLayoutControl2);
-         this.inputPanel.Controls.Add(this.gb1);
          this.inputPanel.Controls.Add(this.dataLayoutControl1);
-         this.inputPanel.Dock = System.Windows.Forms.DockStyle.Top;
-         this.inputPanel.Location = new System.Drawing.Point(0, 30);
+         this.inputPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+         this.inputPanel.Location = new System.Drawing.Point(0, 0);
          this.inputPanel.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
          this.inputPanel.LookAndFeel.UseDefaultLookAndFeel = false;
-         this.inputPanel.Name = "r_input";
-         this.inputPanel.Size = new System.Drawing.Size(790, 286);
+         this.inputPanel.Name = "inputPanel";
+         this.inputPanel.Size = new System.Drawing.Size(790, 292);
          this.inputPanel.TabIndex = 4;
+         // 
+         // gb4
+         // 
+         this.gb4.Controls.Add(this.gb4Label);
+         this.gb4.Controls.Add(this.gbPrintSort);
+         this.gb4.Location = new System.Drawing.Point(649, 196);
+         this.gb4.Margin = new System.Windows.Forms.Padding(0);
+         this.gb4.Name = "gb4";
+         this.gb4.Size = new System.Drawing.Size(97, 64);
+         this.gb4.TabIndex = 18;
+         // 
+         // gb4Label
+         // 
+         this.gb4Label.AutoSize = true;
+         this.gb4Label.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.gb4Label.ForeColor = System.Drawing.Color.Maroon;
+         this.gb4Label.Location = new System.Drawing.Point(3, -3);
+         this.gb4Label.Name = "gb4Label";
+         this.gb4Label.Size = new System.Drawing.Size(60, 17);
+         this.gb4Label.TabIndex = 19;
+         this.gb4Label.Text = "列印順序";
+         // 
+         // gbPrintSort
+         // 
+         this.gbPrintSort.EditValue = "rb_mmk";
+         this.gbPrintSort.Location = new System.Drawing.Point(6, 11);
+         this.gbPrintSort.Margin = new System.Windows.Forms.Padding(0);
+         this.gbPrintSort.MenuManager = this.ribbonControl;
+         this.gbPrintSort.Name = "gbPrintSort";
+         this.gbPrintSort.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
+         this.gbPrintSort.Properties.Appearance.Options.UseBackColor = true;
+         this.gbPrintSort.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+         this.gbPrintSort.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_mmk", "造市者"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_prod", "商品")});
+         this.gbPrintSort.Size = new System.Drawing.Size(80, 53);
+         this.gbPrintSort.TabIndex = 0;
+         // 
+         // gb3Label
+         // 
+         this.gb3Label.AutoSize = true;
+         this.gb3Label.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.gb3Label.ForeColor = System.Drawing.Color.Maroon;
+         this.gb3Label.Location = new System.Drawing.Point(652, 109);
+         this.gb3Label.Name = "gb3Label";
+         this.gb3Label.Size = new System.Drawing.Size(60, 17);
+         this.gb3Label.TabIndex = 17;
+         this.gb3Label.Text = "報表內容";
+         // 
+         // gb3
+         // 
+         this.gb3.Controls.Add(this.gbDetial);
+         this.gb3.Location = new System.Drawing.Point(649, 115);
+         this.gb3.Margin = new System.Windows.Forms.Padding(0);
+         this.gb3.Name = "gb3";
+         this.gb3.Size = new System.Drawing.Size(99, 66);
+         this.gb3.TabIndex = 16;
+         // 
+         // gbDetial
+         // 
+         this.gbDetial.EditValue = "rb_gdate";
+         this.gbDetial.Location = new System.Drawing.Point(3, 11);
+         this.gbDetial.Margin = new System.Windows.Forms.Padding(0);
+         this.gbDetial.MenuManager = this.ribbonControl;
+         this.gbDetial.Name = "gbDetial";
+         this.gbDetial.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
+         this.gbDetial.Properties.Appearance.Options.UseBackColor = true;
+         this.gbDetial.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+         this.gbDetial.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gdate", "分日期"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gnodate", "不分日期")});
+         this.gbDetial.Size = new System.Drawing.Size(89, 55);
+         this.gbDetial.TabIndex = 0;
+         // 
+         // gb2Label
+         // 
+         this.gb2Label.AutoSize = true;
+         this.gb2Label.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.gb2Label.ForeColor = System.Drawing.Color.Maroon;
+         this.gb2Label.Location = new System.Drawing.Point(502, 111);
+         this.gb2Label.Name = "gb2Label";
+         this.gb2Label.Size = new System.Drawing.Size(60, 17);
+         this.gb2Label.TabIndex = 15;
+         this.gb2Label.Text = "統計依照";
+         // 
+         // gb2
+         // 
+         this.gb2.Controls.Add(this.gbGroup);
+         this.gb2.Location = new System.Drawing.Point(496, 115);
+         this.gb2.Margin = new System.Windows.Forms.Padding(0);
+         this.gb2.Name = "gb2";
+         this.gb2.Size = new System.Drawing.Size(135, 146);
+         this.gb2.TabIndex = 14;
+         // 
+         // gbGroup
+         // 
+         this.gbGroup.EditValue = "rb_gall";
+         this.gbGroup.Location = new System.Drawing.Point(3, 13);
+         this.gbGroup.Margin = new System.Windows.Forms.Padding(0);
+         this.gbGroup.MenuManager = this.ribbonControl;
+         this.gbGroup.Name = "gbGroup";
+         this.gbGroup.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
+         this.gbGroup.Properties.Appearance.Options.UseBackColor = true;
+         this.gbGroup.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+         this.gbGroup.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Default;
+         this.gbGroup.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gall", "全部"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gparam", "商品群組"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_s", "股票各類群組"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gkind2", "商品(2碼)"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gkind", "商品(3碼)"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gprod", "序列")});
+         this.gbGroup.Size = new System.Drawing.Size(123, 130);
+         this.gbGroup.TabIndex = 0;
+         // 
+         // gb1Label
+         // 
+         this.gb1Label.AutoSize = true;
+         this.gb1Label.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.gb1Label.ForeColor = System.Drawing.Color.Maroon;
+         this.gb1Label.Location = new System.Drawing.Point(407, 196);
+         this.gb1Label.Name = "gb1Label";
+         this.gb1Label.Size = new System.Drawing.Size(60, 17);
+         this.gb1Label.TabIndex = 13;
+         this.gb1Label.Text = "交易時段";
+         // 
+         // gb1
+         // 
+         this.gb1.Controls.Add(this.gbMarket);
+         this.gb1.Location = new System.Drawing.Point(404, 202);
+         this.gb1.Margin = new System.Windows.Forms.Padding(0);
+         this.gb1.Name = "gb1";
+         this.gb1.Size = new System.Drawing.Size(73, 58);
+         this.gb1.TabIndex = 12;
+         // 
+         // gbMarket
+         // 
+         this.gbMarket.EditValue = "rb_market_0";
+         this.gbMarket.Location = new System.Drawing.Point(4, 5);
+         this.gbMarket.Margin = new System.Windows.Forms.Padding(0);
+         this.gbMarket.MenuManager = this.ribbonControl;
+         this.gbMarket.Name = "gbMarket";
+         this.gbMarket.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
+         this.gbMarket.Properties.Appearance.Options.UseBackColor = true;
+         this.gbMarket.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+         this.gbMarket.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_market_0", "一般"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_market_1", "盤後")});
+         this.gbMarket.Size = new System.Drawing.Size(63, 54);
+         this.gbMarket.TabIndex = 0;
+         // 
+         // gbReportTypeLabel
+         // 
+         this.gbReportTypeLabel.AutoSize = true;
+         this.gbReportTypeLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.gbReportTypeLabel.Font = new System.Drawing.Font("微軟正黑體", 10F, System.Drawing.FontStyle.Bold);
+         this.gbReportTypeLabel.ForeColor = System.Drawing.Color.Maroon;
+         this.gbReportTypeLabel.Location = new System.Drawing.Point(39, 153);
+         this.gbReportTypeLabel.Name = "gbReportTypeLabel";
+         this.gbReportTypeLabel.Size = new System.Drawing.Size(36, 18);
+         this.gbReportTypeLabel.TabIndex = 11;
+         this.gbReportTypeLabel.Text = "區間";
+         // 
+         // gbReportType
+         // 
+         this.gbReportType.Appearance.BackColor = System.Drawing.Color.Transparent;
+         this.gbReportType.Appearance.Options.UseBackColor = true;
+         this.gbReportType.Controls.Add(this.layoutControl2);
+         this.gbReportType.Controls.Add(this.layoutControl1);
+         this.gbReportType.Controls.Add(this.rbReportType);
+         this.gbReportType.Location = new System.Drawing.Point(28, 160);
+         this.gbReportType.Name = "gbReportType";
+         this.gbReportType.Size = new System.Drawing.Size(345, 100);
+         this.gbReportType.TabIndex = 10;
          // 
          // layoutControl2
          // 
@@ -191,29 +379,39 @@
          // 
          // emEndDate
          // 
+         this.emEndDate.DateTimeValue = new System.DateTime(2018, 12, 22, 0, 0, 0, 0);
+         this.emEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.emEndDate.EditValue = new System.DateTime(2018, 12, 22, 10, 33, 17, 591);
          this.emEndDate.Location = new System.Drawing.Point(183, 2);
          this.emEndDate.Name = "emEndDate";
          this.emEndDate.Properties.DisplayFormat.FormatString = "yyyy/MM/dd";
          this.emEndDate.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+         this.emEndDate.Properties.EditFormat.FormatString = "yyyy/MM/dd";
          this.emEndDate.Properties.Mask.EditMask = "yyyy/MM/dd";
          this.emEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.emEndDate.Properties.Mask.ShowPlaceHolders = false;
          this.emEndDate.Size = new System.Drawing.Size(108, 26);
          this.emEndDate.StyleController = this.layoutControl2;
          this.emEndDate.TabIndex = 7;
+         this.emEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
          // 
          // emStartDate
          // 
+         this.emStartDate.DateTimeValue = new System.DateTime(2018, 12, 22, 0, 0, 0, 0);
+         this.emStartDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.emStartDate.EditValue = new System.DateTime(2018, 12, 22, 10, 32, 59, 808);
          this.emStartDate.Location = new System.Drawing.Point(53, 2);
          this.emStartDate.Name = "emStartDate";
          this.emStartDate.Properties.DisplayFormat.FormatString = "yyyy/MM/dd";
          this.emStartDate.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+         this.emStartDate.Properties.EditFormat.FormatString = "yyyy/MM/dd";
          this.emStartDate.Properties.Mask.EditMask = "yyyy/MM/dd";
          this.emStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.emStartDate.Properties.Mask.ShowPlaceHolders = false;
          this.emStartDate.Size = new System.Drawing.Size(109, 26);
          this.emStartDate.StyleController = this.layoutControl2;
          this.emStartDate.TabIndex = 6;
+         this.emStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
          // 
          // layoutControlGroup4
          // 
@@ -226,7 +424,7 @@
          this.layoutControlGroup4.Size = new System.Drawing.Size(293, 31);
          this.layoutControlGroup4.TextVisible = false;
          // 
-         // gp_date
+         // gpDate
          // 
          this.gpDate.CustomizationFormText = "layoutControlGroup3";
          this.gpDate.GroupBordersVisible = false;
@@ -239,7 +437,7 @@
          this.gpDate.Size = new System.Drawing.Size(293, 31);
          this.gpDate.Text = "layoutControlGroup3";
          // 
-         // st_date
+         // stDate
          // 
          this.stDate.Control = this.emEndDate;
          this.stDate.CustomizationFormText = "layoutControlItem4";
@@ -281,32 +479,38 @@
          this.emStartYM.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
          this.emStartYM.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
          this.emStartYM.EditValue = "2019/01";
-         this.emStartYM.Location = new System.Drawing.Point(99, 36);
+         this.emStartYM.Location = new System.Drawing.Point(53, 2);
          this.emStartYM.Name = "emStartYM";
          this.emStartYM.Properties.Appearance.Options.UseTextOptions = true;
          this.emStartYM.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.emStartYM.Properties.EditFormat.FormatString = "yyyy/MM";
          this.emStartYM.Properties.Mask.EditMask = "yyyy/MM";
          this.emStartYM.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.emStartYM.Properties.Mask.ShowPlaceHolders = false;
          this.emStartYM.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.emStartYM.Size = new System.Drawing.Size(86, 26);
          this.emStartYM.StyleController = this.layoutControl1;
          this.emStartYM.TabIndex = 4;
+         this.emStartYM.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
          // 
          // emEndYM
          // 
          this.emEndYM.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
          this.emEndYM.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
          this.emEndYM.EditValue = "2019/01";
-         this.emEndYM.Location = new System.Drawing.Point(99, 36);
+         this.emEndYM.Location = new System.Drawing.Point(160, 2);
          this.emEndYM.Name = "emEndYM";
          this.emEndYM.Properties.Appearance.Options.UseTextOptions = true;
          this.emEndYM.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.emEndYM.Properties.EditFormat.FormatString = "yyyy/MM";
          this.emEndYM.Properties.Mask.EditMask = "yyyy/MM";
          this.emEndYM.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.emEndYM.Properties.Mask.ShowPlaceHolders = false;
          this.emEndYM.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.emEndYM.Size = new System.Drawing.Size(85, 26);
          this.emEndYM.StyleController = this.layoutControl1;
          this.emEndYM.TabIndex = 5;
+         this.emEndYM.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
          // 
          // layoutControlGroup3
          // 
@@ -319,7 +523,7 @@
          this.layoutControlGroup3.Size = new System.Drawing.Size(247, 31);
          this.layoutControlGroup3.Text = "gb_report_type";
          // 
-         // gp_month
+         // gpMonth
          // 
          this.gpMonth.CustomizationFormText = "layoutControlGroup2";
          this.gpMonth.GroupBordersVisible = false;
@@ -343,7 +547,7 @@
          this.layoutControlItem1.TextLocation = DevExpress.Utils.Locations.Left;
          this.layoutControlItem1.TextSize = new System.Drawing.Size(48, 20);
          // 
-         // st_month
+         // stMonth
          // 
          this.stMonth.Control = this.emEndYM;
          this.stMonth.CustomizationFormText = "layoutControlItem2";
@@ -373,124 +577,16 @@
          this.rbReportType.Size = new System.Drawing.Size(21, 80);
          this.rbReportType.TabIndex = 8;
          // 
-         // st_msg_txt
+         // stMsgTxt
          // 
          this.stMsgTxt.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
          this.stMsgTxt.Appearance.Options.UseForeColor = true;
-         this.stMsgTxt.Location = new System.Drawing.Point(51, 257);
-         this.stMsgTxt.Name = "st_msg_txt";
+         this.stMsgTxt.Location = new System.Drawing.Point(42, 266);
+         this.stMsgTxt.Name = "stMsgTxt";
          this.stMsgTxt.Size = new System.Drawing.Size(4, 20);
          this.stMsgTxt.TabIndex = 8;
          this.stMsgTxt.Text = " ";
          this.stMsgTxt.Visible = false;
-         // 
-         // gb4
-         // 
-         this.gb4.Controls.Add(this.gbPrintSort);
-         this.gb4.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.gb4.Location = new System.Drawing.Point(649, 160);
-         this.gb4.Name = "gb4";
-         this.gb4.Size = new System.Drawing.Size(83, 70);
-         this.gb4.TabIndex = 7;
-         this.gb4.TabStop = false;
-         this.gb4.Text = "列印順序";
-         // 
-         // gb_print_sort
-         // 
-         this.gbPrintSort.EditValue = "rb_mmk";
-         this.gbPrintSort.Location = new System.Drawing.Point(6, 16);
-         this.gbPrintSort.MenuManager = this.ribbonControl;
-         this.gbPrintSort.Name = "gb_print_sort";
-         this.gbPrintSort.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
-         this.gbPrintSort.Properties.Appearance.Options.UseBackColor = true;
-         this.gbPrintSort.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-         this.gbPrintSort.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_mmk", "造市者"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_prod", "商品")});
-         this.gbPrintSort.Size = new System.Drawing.Size(80, 53);
-         this.gbPrintSort.TabIndex = 0;
-         // 
-         // gb3
-         // 
-         this.gb3.Controls.Add(this.gbDetial);
-         this.gb3.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.gb3.Location = new System.Drawing.Point(649, 59);
-         this.gb3.Name = "gb3";
-         this.gb3.Size = new System.Drawing.Size(102, 70);
-         this.gb3.TabIndex = 6;
-         this.gb3.TabStop = false;
-         this.gb3.Text = "報表內容";
-         // 
-         // gb_detial
-         // 
-         this.gbDetial.EditValue = "rb_gdate";
-         this.gbDetial.Location = new System.Drawing.Point(6, 16);
-         this.gbDetial.MenuManager = this.ribbonControl;
-         this.gbDetial.Name = "gb_detial";
-         this.gbDetial.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
-         this.gbDetial.Properties.Appearance.Options.UseBackColor = true;
-         this.gbDetial.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-         this.gbDetial.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gdate", "分日期"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gnodate", "不分日期")});
-         this.gbDetial.Size = new System.Drawing.Size(89, 55);
-         this.gbDetial.TabIndex = 0;
-         // 
-         // gb2
-         // 
-         this.gb2.Controls.Add(this.gb_group);
-         this.gb2.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.gb2.Location = new System.Drawing.Point(500, 85);
-         this.gb2.Name = "gb2";
-         this.gb2.Size = new System.Drawing.Size(130, 144);
-         this.gb2.TabIndex = 5;
-         this.gb2.TabStop = false;
-         this.gb2.Text = "統計依照";
-         // 
-         // gb_group
-         // 
-         this.gb_group.EditValue = "rb_gall";
-         this.gb_group.Location = new System.Drawing.Point(6, 17);
-         this.gb_group.MenuManager = this.ribbonControl;
-         this.gb_group.Name = "gb_group";
-         this.gb_group.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
-         this.gb_group.Properties.Appearance.Options.UseBackColor = true;
-         this.gb_group.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-         this.gb_group.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gall", "全部"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gparam", "商品群組"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_s", "股票各類群組"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gkind2", "商品(2碼)"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gkind", "商品(3碼)"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gprod", "序列")});
-         this.gb_group.Size = new System.Drawing.Size(123, 130);
-         this.gb_group.TabIndex = 0;
-         // 
-         // gb1
-         // 
-         this.gb1.Controls.Add(this.gbMarket);
-         this.gb1.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.gb1.Location = new System.Drawing.Point(406, 161);
-         this.gb1.Name = "gb1";
-         this.gb1.Size = new System.Drawing.Size(75, 69);
-         this.gb1.TabIndex = 4;
-         this.gb1.TabStop = false;
-         this.gb1.Text = "交易時段";
-         // 
-         // gbMarket
-         // 
-         this.gbMarket.EditValue = "rb_market_0";
-         this.gbMarket.Location = new System.Drawing.Point(6, 17);
-         this.gbMarket.MenuManager = this.ribbonControl;
-         this.gbMarket.Name = "gbMarket";
-         this.gbMarket.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
-         this.gbMarket.Properties.Appearance.Options.UseBackColor = true;
-         this.gbMarket.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-         this.gbMarket.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_market_0", "一般"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_market_1", "盤後")});
-         this.gbMarket.Size = new System.Drawing.Size(63, 54);
-         this.gbMarket.TabIndex = 0;
          // 
          // dataLayoutControl2
          // 
@@ -515,31 +611,28 @@
          this.dwProdKdSto.Name = "dwProdKdSto";
          this.dwProdKdSto.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.dwProdKdSto.Properties.ValidateOnEnterKey = false;
          this.dwProdKdSto.Size = new System.Drawing.Size(150, 26);
          this.dwProdKdSto.StyleController = this.dataLayoutControl2;
          this.dwProdKdSto.TabIndex = 5;
          // 
-         // dw_prod_kd
+         // dwProdKd
          // 
          this.dwProdKd.Location = new System.Drawing.Point(303, 42);
          this.dwProdKd.MenuManager = this.ribbonControl;
-         this.dwProdKd.Name = "dw_prod_kd";
+         this.dwProdKd.Name = "dwProdKd";
          this.dwProdKd.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.dwProdKd.Properties.ValidateOnEnterKey = false;
          this.dwProdKd.Size = new System.Drawing.Size(132, 26);
          this.dwProdKd.StyleController = this.dataLayoutControl2;
          this.dwProdKd.TabIndex = 6;
          // 
-         // dw_prod_ct
+         // dwProdCt
          // 
          this.dwProdCt.Location = new System.Drawing.Point(81, 12);
          this.dwProdCt.MenuManager = this.ribbonControl;
-         this.dwProdCt.Name = "dw_prod_ct";
+         this.dwProdCt.Name = "dwProdCt";
          this.dwProdCt.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.dwProdCt.Properties.ValidateOnEnterKey = false;
          this.dwProdCt.Size = new System.Drawing.Size(149, 26);
          this.dwProdCt.StyleController = this.dataLayoutControl2;
          this.dwProdCt.TabIndex = 4;
@@ -554,7 +647,7 @@
          this.layoutControlGroup2.Size = new System.Drawing.Size(447, 80);
          this.layoutControlGroup2.TextVisible = false;
          // 
-         // AMM0_grp
+         // AMM0grp
          // 
          this.AMM0grp.AllowDrawBackground = false;
          this.AMM0grp.GroupBordersVisible = false;
@@ -567,7 +660,7 @@
          this.AMM0grp.Name = "AMM0_grp";
          this.AMM0grp.Size = new System.Drawing.Size(427, 60);
          // 
-         // st_prod_kd_sto
+         // stProdKdSto
          // 
          this.stProdKdSto.Control = this.dwProdKdSto;
          this.stProdKdSto.Location = new System.Drawing.Point(0, 30);
@@ -577,7 +670,7 @@
          this.stProdKdSto.TextLocation = DevExpress.Utils.Locations.Left;
          this.stProdKdSto.TextSize = new System.Drawing.Size(65, 20);
          // 
-         // st_prod_kd
+         // stProdKd
          // 
          this.stProdKd.Control = this.dwProdKd;
          this.stProdKd.ControlAlignment = System.Drawing.ContentAlignment.BottomLeft;
@@ -589,7 +682,7 @@
          this.stProdKd.TextSize = new System.Drawing.Size(64, 20);
          this.stProdKd.TextToControlDistance = 5;
          // 
-         // st_prod_ct
+         // stProdCt
          // 
          this.stProdCt.Control = this.dwProdCt;
          this.stProdCt.Location = new System.Drawing.Point(0, 0);
@@ -626,25 +719,23 @@
          this.dataLayoutControl1.TabIndex = 0;
          this.dataLayoutControl1.Text = "dataLayoutControl1";
          // 
-         // dw_sbrkno
+         // dwSbrkno
          // 
          this.dwSbrkno.Location = new System.Drawing.Point(95, 12);
          this.dwSbrkno.MenuManager = this.ribbonControl;
-         this.dwSbrkno.Name = "dw_sbrkno";
+         this.dwSbrkno.Name = "dwSbrkno";
          this.dwSbrkno.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.dwSbrkno.Properties.ValidateOnEnterKey = false;
          this.dwSbrkno.Size = new System.Drawing.Size(161, 26);
          this.dwSbrkno.StyleController = this.dataLayoutControl1;
          this.dwSbrkno.TabIndex = 4;
          // 
-         // dw_ebrkno
+         // dwEbrkno
          // 
          this.dwEbrkno.Location = new System.Drawing.Point(277, 12);
-         this.dwEbrkno.Name = "dw_ebrkno";
+         this.dwEbrkno.Name = "dwEbrkno";
          this.dwEbrkno.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.dwEbrkno.Properties.ValidateOnEnterKey = false;
          this.dwEbrkno.Size = new System.Drawing.Size(183, 26);
          this.dwEbrkno.StyleController = this.dataLayoutControl1;
          this.dwEbrkno.TabIndex = 4;
@@ -659,7 +750,7 @@
          this.layoutControlGroup1.Size = new System.Drawing.Size(472, 53);
          this.layoutControlGroup1.TextVisible = false;
          // 
-         // ABRK_NO_grp
+         // AprkNoGrp
          // 
          this.AprkNoGrp.AllowDrawBackground = false;
          this.AprkNoGrp.GroupBordersVisible = false;
@@ -670,7 +761,7 @@
          this.AprkNoGrp.Name = "ABRK_NO_grp";
          this.AprkNoGrp.Size = new System.Drawing.Size(452, 33);
          // 
-         // st_2
+         // st2
          // 
          this.st2.Control = this.dwSbrkno;
          this.st2.Location = new System.Drawing.Point(0, 0);
@@ -679,7 +770,7 @@
          this.st2.Text = "期貨商代號";
          this.st2.TextSize = new System.Drawing.Size(80, 20);
          // 
-         // st_1
+         // st1
          // 
          this.st1.Control = this.dwEbrkno;
          this.st1.CustomizationFormText = "ABRK_NO";
@@ -693,29 +784,17 @@
          this.st1.TextSize = new System.Drawing.Size(12, 20);
          this.st1.TextToControlDistance = 5;
          // 
-         // gbReportType
+         // panelControl1
          // 
-         this.gbReportType.Appearance.BackColor = System.Drawing.Color.Transparent;
-         this.gbReportType.Appearance.Options.UseBackColor = true;
-         this.gbReportType.Controls.Add(this.layoutControl2);
-         this.gbReportType.Controls.Add(this.layoutControl1);
-         this.gbReportType.Controls.Add(this.rbReportType);
-         this.gbReportType.Location = new System.Drawing.Point(28, 160);
-         this.gbReportType.Name = "gbReportType";
-         this.gbReportType.Size = new System.Drawing.Size(345, 100);
-         this.gbReportType.TabIndex = 10;
-         // 
-         // gbReportTypeLabel
-         // 
-         this.gbReportTypeLabel.AutoSize = true;
-         this.gbReportTypeLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
-         this.gbReportTypeLabel.Font = new System.Drawing.Font("微軟正黑體", 10F, System.Drawing.FontStyle.Bold);
-         this.gbReportTypeLabel.ForeColor = System.Drawing.Color.Maroon;
-         this.gbReportTypeLabel.Location = new System.Drawing.Point(39, 153);
-         this.gbReportTypeLabel.Name = "gbReportTypeLabel";
-         this.gbReportTypeLabel.Size = new System.Drawing.Size(36, 18);
-         this.gbReportTypeLabel.TabIndex = 11;
-         this.gbReportTypeLabel.Text = "區間";
+         this.panelControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+         this.panelControl1.Controls.Add(this.inputPanel);
+         this.panelControl1.Controls.Add(this.dw1);
+         this.panelControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+         this.panelControl1.Location = new System.Drawing.Point(0, 30);
+         this.panelControl1.Margin = new System.Windows.Forms.Padding(0);
+         this.panelControl1.Name = "panelControl1";
+         this.panelControl1.Size = new System.Drawing.Size(790, 633);
+         this.panelControl1.TabIndex = 1;
          // 
          // W500xx
          // 
@@ -723,20 +802,33 @@
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
          this.ClientSize = new System.Drawing.Size(790, 663);
-         this.Controls.Add(this.inputPanel);
-         this.Controls.Add(this.dw1);
+         this.Controls.Add(this.panelControl1);
          this.Name = "W500xx";
          this.Text = "W500xx";
          this.Controls.SetChildIndex(this.ribbonControl, 0);
          this.Controls.SetChildIndex(this.panParent, 0);
-         this.Controls.SetChildIndex(this.dw1, 0);
-         this.Controls.SetChildIndex(this.inputPanel, 0);
+         this.Controls.SetChildIndex(this.panelControl1, 0);
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.dw1)).EndInit();
          this.dw1.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.inputPanel)).EndInit();
          this.inputPanel.ResumeLayout(false);
          this.inputPanel.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.gb4)).EndInit();
+         this.gb4.ResumeLayout(false);
+         this.gb4.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.gbPrintSort.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.gb3)).EndInit();
+         this.gb3.ResumeLayout(false);
+         ((System.ComponentModel.ISupportInitialize)(this.gbDetial.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.gb2)).EndInit();
+         this.gb2.ResumeLayout(false);
+         ((System.ComponentModel.ISupportInitialize)(this.gbGroup.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.gb1)).EndInit();
+         this.gb1.ResumeLayout(false);
+         ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.gbReportType)).EndInit();
+         this.gbReportType.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.layoutControl2)).EndInit();
          this.layoutControl2.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.emEndDate.Properties)).EndInit();
@@ -754,14 +846,6 @@
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.stMonth)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.rbReportType.Properties)).EndInit();
-         this.gb4.ResumeLayout(false);
-         ((System.ComponentModel.ISupportInitialize)(this.gbPrintSort.Properties)).EndInit();
-         this.gb3.ResumeLayout(false);
-         ((System.ComponentModel.ISupportInitialize)(this.gbDetial.Properties)).EndInit();
-         this.gb2.ResumeLayout(false);
-         ((System.ComponentModel.ISupportInitialize)(this.gb_group.Properties)).EndInit();
-         this.gb1.ResumeLayout(false);
-         ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.dataLayoutControl2)).EndInit();
          this.dataLayoutControl2.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.dwProdKdSto.Properties)).EndInit();
@@ -781,8 +865,9 @@
          ((System.ComponentModel.ISupportInitialize)(this.AprkNoGrp)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.st2)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.st1)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.gbReportType)).EndInit();
-         this.gbReportType.ResumeLayout(false);
+         ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
+         this.panelControl1.ResumeLayout(false);
+         this.panelControl1.PerformLayout();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -809,13 +894,9 @@
       protected DevExpress.XtraLayout.LayoutControlItem stProdKd;
       protected DevExpress.XtraLayout.LayoutControlItem stProdCt;
       protected DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem1;
-      protected System.Windows.Forms.GroupBox gb4;
       protected DevExpress.XtraEditors.RadioGroup gbPrintSort;
-      protected System.Windows.Forms.GroupBox gb3;
       protected DevExpress.XtraEditors.RadioGroup gbDetial;
-      protected System.Windows.Forms.GroupBox gb2;
-      protected DevExpress.XtraEditors.RadioGroup gb_group;
-      protected System.Windows.Forms.GroupBox gb1;
+      protected DevExpress.XtraEditors.RadioGroup gbGroup;
       protected DevExpress.XtraEditors.RadioGroup gbMarket;
       protected DevExpress.XtraLayout.LayoutControlItem st2;
       protected DevExpress.XtraEditors.LabelControl stMsgTxt;
@@ -836,5 +917,14 @@
       protected DevExpress.XtraEditors.RadioGroup rbReportType;
       private System.Windows.Forms.Label gbReportTypeLabel;
       private DevExpress.XtraEditors.PanelControl gbReportType;
+      private DevExpress.XtraEditors.PanelControl gb1;
+      private System.Windows.Forms.Label gb1Label;
+      private DevExpress.XtraEditors.PanelControl gb2;
+      private System.Windows.Forms.Label gb2Label;
+      private DevExpress.XtraEditors.PanelControl gb3;
+      private DevExpress.XtraEditors.PanelControl gb4;
+      private System.Windows.Forms.Label gb4Label;
+      private System.Windows.Forms.Label gb3Label;
+      private DevExpress.XtraEditors.PanelControl panelControl1;
    }
 }

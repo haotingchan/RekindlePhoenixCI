@@ -1,4 +1,7 @@
-﻿/// <summary>
+﻿using BusinessObjects;
+using System.Collections.Generic;
+using System.Data;
+/// <summary>
 /// John, 2019/4/11
 /// </summary>
 namespace DataObjects.Dao.Together.SpecificDao
@@ -215,6 +218,24 @@ namespace DataObjects.Dao.Together.SpecificDao
                            ORDER BY SHEET,R1,R2,MG1_KIND_ID,MG1_TYPE)
                            where MG1_CHANGE_FLAG IS NOT NULL
                            order by R2)";
+      }
+
+      /// <summary>
+      /// d_40011_stat
+      /// </summary>
+      /// <param name="AS_YMD"></param>
+      /// <returns></returns>
+      public DataTable List40011Stat(string as_ymd)
+      {
+
+         List<DbParameterEx> parms = new List<DbParameterEx>() {
+            new DbParameterEx("as_ymd",as_ymd)
+            //new DbParameterEx("RETURNPARAMETER",0)
+         };
+
+         string sql = "CI.SP_H_TXN_40011_STAT";
+         DataTable dt= db.ExecuteStoredProcedureEx(sql, parms, true);
+         return dt;
       }
 
    }

@@ -1,23 +1,18 @@
-﻿using System;
-using System.Data;
-using System.Windows.Forms;
-using BaseGround;
-using Common;
-using BusinessObjects.Enums;
+﻿using BaseGround;
 using BaseGround.Report;
-using DataObjects.Dao.Together.SpecificDao;
-using DataObjects.Dao.Together;
-using DevExpress.XtraEditors.Controls;
-using System.Globalization;
 using BaseGround.Shared;
-using System.IO;
-using System.ComponentModel;
-using DevExpress.XtraGrid.Views.Grid;
-using DevExpress.Data;
-using DevExpress.XtraGrid;
-using DevExpress.XtraGrid.Views.Grid.ViewInfo;
-using DevExpress.XtraGrid.Columns;
+using BusinessObjects.Enums;
+using Common;
+using DataObjects.Dao.Together;
+using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Utils;
+using DevExpress.XtraEditors.Controls;
+using DevExpress.XtraGrid.Views.Grid;
+using System;
+using System.ComponentModel;
+using System.Data;
+using System.IO;
+using System.Windows.Forms;
 
 /// <summary>
 /// Winni, 2019/04/26
@@ -78,64 +73,10 @@ namespace PhoenixCI.FormUI.Prefix5 {
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Export() {
-
-         //讀取資料
-         defaultTable = dao50050.ListAll(brkNo , accNo , time1 , time2 , prodKindId ,
-                                 settleDate , pcCode , li_p_seq_no1 , li_p_seq_no2 , dbName , "Y");
-         if (defaultTable.Rows.Count <= 0) {
-            MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtStartDate.Text , this.Text));
-            return ResultStatus.Fail;
-         }
-         this.Cursor = Cursors.WaitCursor;
-
-         //處理資料型態(轉換時間格式)
-         DataTable dt = defaultTable.Clone(); //轉型別用的datatable
-         dt.Columns["AMMD_W_TIME"].DataType = typeof(string); //將原DataType(datetime)轉為string
-         dt.Columns["AMMD_DATE"].DataType = typeof(string);
-         foreach (DataRow row in defaultTable.Rows) {
-            dt.ImportRow(row);
-         }
-
-         for (int i = 0 ; i < dt.Rows.Count ; i++) {
-            dt.Rows[i]["AMMD_W_TIME"] = defaultTable.Rows[i]["AMMD_W_TIME"].AsDateTime().ToString("yyyy/MM/dd HH:mm:ss.fff");
-            dt.Rows[i]["AMMD_DATE"] = defaultTable.Rows[i]["AMMD_DATE"].AsDateTime().ToString("yyyy/MM/dd HH:mm:ss.fff");
-         }
-
-         //存CSV
-         string etfFileName = "50050_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".csv";
-         etfFileName = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , etfFileName);
-         ExportOptions csvref = new ExportOptions();
-         csvref.HasHeader = true;
-         csvref.Encoding = System.Text.Encoding.GetEncoding(950);//ASCII
-         Common.Helper.ExportHelper.ToCsv(dt , etfFileName , csvref);
-
-         this.Cursor = Cursors.Arrow;
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus Print(ReportHelper reportHelper) {
-         try {
-            ReportHelper _ReportHelper = new ReportHelper(gcMain , _ProgramID , this.Text);
-            CommonReportLandscapeA4 reportLandscape = new CommonReportLandscapeA4();//設定為橫向列印
-            reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
-            reportLandscape.IsHandlePersonVisible = false;
-            reportLandscape.IsManagerVisible = false;
-            _ReportHelper.Create(reportLandscape);
-
-            _ReportHelper.Print();
-            _ReportHelper.Export(FileType.PDF , _ReportHelper.FilePath);
-
-            return ResultStatus.Success;
-         } catch (Exception ex) {
-            WriteLog(ex);
-         }
-         return ResultStatus.Fail;
-      }
-
       protected override ResultStatus Retrieve() {
          _ToolBtnExport.Enabled = true;
          gvMain.GroupSummary.Clear();
+         this.Cursor = Cursors.WaitCursor;
 
          try {
 
@@ -229,27 +170,28 @@ namespace PhoenixCI.FormUI.Prefix5 {
             if (defaultTable.Rows.Count <= 0) {
                MessageDisplay.Info("無任何資料!");
                _ToolBtnExport.Enabled = false;
+               this.Cursor = Cursors.Arrow;
                return ResultStatus.Fail;
             }
 
             gvMain.Columns["AMMD_DATE"].Group();
             gvMain.SetGridGroupSummary(gvMain.Columns[12].FieldName , $"交易時間 : {txtStartTime.Text}~{txtEndTime.Text}" , DevExpress.Data.SummaryItemType.Count);
 
-            //處理資料型態(轉換時間格式)
-            DataTable dt = defaultTable.Clone(); //轉型別用的datatable
-            dt.Columns["AMMD_W_TIME"].DataType = typeof(string); //將原DataType(datetime)轉為string
-            dt.Columns["AMMD_DATE"].DataType = typeof(string);
-            foreach (DataRow row in defaultTable.Rows) {
-               dt.ImportRow(row);
-            }
+            ////處理資料型態(轉換時間格式)
+            //DataTable dt = defaultTable.Clone(); //轉型別用的datatable
+            //dt.Columns["AMMD_W_TIME"].DataType = typeof(string); //將原DataType(datetime)轉為string
+            //dt.Columns["AMMD_DATE"].DataType = typeof(string);
+            //foreach (DataRow row in defaultTable.Rows) {
+            //   dt.ImportRow(row);
+            //}
 
-            for (int i = 0 ; i < dt.Rows.Count ; i++) {
-               dt.Rows[i]["AMMD_W_TIME"] = defaultTable.Rows[i]["AMMD_W_TIME"].AsDateTime().ToString("yyyy/MM/dd HH:mm:ss:fff");
-               dt.Rows[i]["AMMD_DATE"] = defaultTable.Rows[i]["AMMD_DATE"].AsDateTime().ToString("yyyy/MM/dd");
-            }
+            //for (int i = 0 ; i < dt.Rows.Count ; i++) {
+            //   dt.Rows[i]["AMMD_W_TIME"] = defaultTable.Rows[i]["AMMD_W_TIME"].AsDateTime().ToString("yyyy/MM/dd HH:mm:ss:fff");
+            //   dt.Rows[i]["AMMD_DATE"] = defaultTable.Rows[i]["AMMD_DATE"].AsDateTime().ToString("yyyy/MM/dd");
+            //}
 
-            gcMain.Visible = true;          
-            gcMain.DataSource = dt;
+            gcMain.Visible = true;
+            gcMain.DataSource = defaultTable;
             gvMain.OptionsBehavior.AllowFixedGroups = DefaultBoolean.True;
             gvMain.ExpandAllGroups();
             gvMain.BestFitColumns();
@@ -265,6 +207,55 @@ namespace PhoenixCI.FormUI.Prefix5 {
          }
          return ResultStatus.Fail;
       }
+
+
+      protected override ResultStatus Export() {
+
+         //讀取資料
+         defaultTable = dao50050.ListAll(brkNo , accNo , time1 , time2 , prodKindId ,
+                                 settleDate , pcCode , li_p_seq_no1 , li_p_seq_no2 , dbName , "Y");
+         if (defaultTable.Rows.Count <= 0) {
+            MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtStartDate.Text , this.Text));
+            return ResultStatus.Fail;
+         }
+         this.Cursor = Cursors.WaitCursor;
+
+         foreach (DataRow dr in defaultTable.Rows) {
+            dr["ammd_date"] += " 00:00:00";
+         }
+
+
+         //存CSV
+         string etfFileName = "50050_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".csv";
+         etfFileName = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , etfFileName);
+         ExportOptions csvref = new ExportOptions();
+         csvref.HasHeader = true;
+         csvref.Encoding = System.Text.Encoding.GetEncoding(950);//ASCII
+         Common.Helper.ExportHelper.ToCsv(defaultTable , etfFileName , csvref);
+
+         this.Cursor = Cursors.Arrow;
+         return ResultStatus.Success;
+      }
+
+      protected override ResultStatus Print(ReportHelper reportHelper) {
+         try {
+            ReportHelper _ReportHelper = new ReportHelper(gcMain , _ProgramID , this.Text);
+            CommonReportLandscapeA4 reportLandscape = new CommonReportLandscapeA4();//設定為橫向列印
+            reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
+            reportLandscape.IsHandlePersonVisible = false;
+            reportLandscape.IsManagerVisible = false;
+            _ReportHelper.Create(reportLandscape);
+
+            _ReportHelper.Print();
+            _ReportHelper.Export(FileType.PDF , _ReportHelper.FilePath);
+
+            return ResultStatus.Success;
+         } catch (Exception ex) {
+            WriteLog(ex);
+         }
+         return ResultStatus.Fail;
+      }
+
 
       //對價平上下檔數(AMMD_P_SEQ_NO)欄位做值轉換
       private void gvMain_CustomColumnDisplayText(object sender , DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventArgs e) {
@@ -306,10 +297,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             }
 
          }
-         //時間格式呈現微調
-         if (e.Column.FieldName == "AMMD_W_TIME") {
-            e.DisplayText = String.Format("{0:yyyy/MM/dd HH:mm:ss.fff}" , e.Value);
-         }
+
       }
 
       private void gvMain_ShowingEditor(object sender , CancelEventArgs e) {
@@ -317,10 +305,5 @@ namespace PhoenixCI.FormUI.Prefix5 {
          e.Cancel = true;
       }
 
-      //private void gvMain_CustomDrawGroupRow(object sender , DevExpress.XtraGrid.Views.Base.RowObjectCustomDrawEventArgs e) {
-      //   GridGroupRowInfo row = e.Info as GridGroupRowInfo;
-      //   string summaryDate = DateTime.ParseExact(row.EditValue.AsString() , "yyyy/MM/dd HH:mm:ss.fff" , null).ToString("yyyy/MM/dd");
-      //   row.GroupText = string.Format("日期：{0}     交易時間：{1}" , summaryDate , txtStartTime.Text + "~" + txtEndTime.Text);       
-      //}
    }
 }

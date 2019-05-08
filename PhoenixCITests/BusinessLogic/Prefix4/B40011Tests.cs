@@ -47,5 +47,19 @@ namespace PhoenixCI.BusinessLogic.Prefix4.Tests
          string msgText = b40011.WfOptionSheet();
          Assert.IsNotNull(msgText);
       }
+
+      [TestMethod()]
+      public void WfStatFTest()
+      {
+         string msgText = b40011.WfStat("F", "fut_3index");
+         Assert.IsNotNull(msgText);
+      }
+
+      [TestMethod()]
+      public void WfStatOTest()
+      {
+         string msgText = b40011.WfStat("O", "opt_3index");
+         Assert.IsNotNull(msgText);
+      }
    }
 }

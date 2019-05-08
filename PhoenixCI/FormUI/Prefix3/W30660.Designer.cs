@@ -23,7 +23,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-         this.grpxDescription = new System.Windows.Forms.GroupBox();
+         this.panFilter = new System.Windows.Forms.GroupBox();
          this.txtAllEymd = new BaseGround.Widget.TextDateEdit();
          this.txtAllSymd = new BaseGround.Widget.TextDateEdit();
          this.txtAftEymd = new BaseGround.Widget.TextDateEdit();
@@ -40,7 +40,7 @@
          this.labMsg = new System.Windows.Forms.Label();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
-         this.grpxDescription.SuspendLayout();
+         this.panFilter.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.txtAllEymd.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtAllSymd.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtAftEymd.Properties)).BeginInit();
@@ -52,35 +52,37 @@
          // panParent
          // 
          this.panParent.Controls.Add(this.labMsg);
-         this.panParent.Controls.Add(this.grpxDescription);
+         this.panParent.Controls.Add(this.panFilter);
+         this.panParent.Size = new System.Drawing.Size(836, 544);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
+         this.ribbonControl.Size = new System.Drawing.Size(836, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
-         // grpxDescription
+         // panFilter
          // 
-         this.grpxDescription.AutoSize = true;
-         this.grpxDescription.Controls.Add(this.txtAllEymd);
-         this.grpxDescription.Controls.Add(this.txtAllSymd);
-         this.grpxDescription.Controls.Add(this.txtAftEymd);
-         this.grpxDescription.Controls.Add(this.txtPrevEymd);
-         this.grpxDescription.Controls.Add(this.txtAftSymd);
-         this.grpxDescription.Controls.Add(this.txtPrevSymd);
-         this.grpxDescription.Controls.Add(this.chkDetail);
-         this.grpxDescription.Controls.Add(this.label4);
-         this.grpxDescription.Controls.Add(this.labDateAll);
-         this.grpxDescription.Controls.Add(this.label2);
-         this.grpxDescription.Controls.Add(this.labDate2);
-         this.grpxDescription.Controls.Add(this.label1);
-         this.grpxDescription.Controls.Add(this.labDate1);
-         this.grpxDescription.Location = new System.Drawing.Point(34, 39);
-         this.grpxDescription.Name = "grpxDescription";
-         this.grpxDescription.Size = new System.Drawing.Size(543, 177);
-         this.grpxDescription.TabIndex = 7;
-         this.grpxDescription.TabStop = false;
-         this.grpxDescription.Text = "請輸入交易日期";
+         this.panFilter.AutoSize = true;
+         this.panFilter.Controls.Add(this.txtAllEymd);
+         this.panFilter.Controls.Add(this.txtAllSymd);
+         this.panFilter.Controls.Add(this.txtAftEymd);
+         this.panFilter.Controls.Add(this.txtPrevEymd);
+         this.panFilter.Controls.Add(this.txtAftSymd);
+         this.panFilter.Controls.Add(this.txtPrevSymd);
+         this.panFilter.Controls.Add(this.chkDetail);
+         this.panFilter.Controls.Add(this.label4);
+         this.panFilter.Controls.Add(this.labDateAll);
+         this.panFilter.Controls.Add(this.label2);
+         this.panFilter.Controls.Add(this.labDate2);
+         this.panFilter.Controls.Add(this.label1);
+         this.panFilter.Controls.Add(this.labDate1);
+         this.panFilter.Location = new System.Drawing.Point(34, 39);
+         this.panFilter.Name = "panFilter";
+         this.panFilter.Size = new System.Drawing.Size(543, 177);
+         this.panFilter.TabIndex = 7;
+         this.panFilter.TabStop = false;
+         this.panFilter.Text = "請輸入交易日期";
          // 
          // txtAllEymd
          // 
@@ -93,6 +95,7 @@
          this.txtAllEymd.Name = "txtAllEymd";
          this.txtAllEymd.Properties.Appearance.Options.UseTextOptions = true;
          this.txtAllEymd.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtAllEymd.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtAllEymd.Properties.Mask.EditMask = "yyyy/MM/dd";
          this.txtAllEymd.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
          this.txtAllEymd.Properties.Mask.ShowPlaceHolders = false;
@@ -112,6 +115,7 @@
          this.txtAllSymd.Name = "txtAllSymd";
          this.txtAllSymd.Properties.Appearance.Options.UseTextOptions = true;
          this.txtAllSymd.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtAllSymd.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtAllSymd.Properties.Mask.EditMask = "yyyy/MM/dd";
          this.txtAllSymd.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
          this.txtAllSymd.Properties.Mask.ShowPlaceHolders = false;
@@ -131,6 +135,7 @@
          this.txtAftEymd.Name = "txtAftEymd";
          this.txtAftEymd.Properties.Appearance.Options.UseTextOptions = true;
          this.txtAftEymd.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtAftEymd.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtAftEymd.Properties.Mask.EditMask = "yyyy/MM/dd";
          this.txtAftEymd.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
          this.txtAftEymd.Properties.Mask.ShowPlaceHolders = false;
@@ -150,6 +155,7 @@
          this.txtPrevEymd.Name = "txtPrevEymd";
          this.txtPrevEymd.Properties.Appearance.Options.UseTextOptions = true;
          this.txtPrevEymd.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtPrevEymd.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtPrevEymd.Properties.Mask.EditMask = "yyyy/MM/dd";
          this.txtPrevEymd.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
          this.txtPrevEymd.Properties.Mask.ShowPlaceHolders = false;
@@ -169,6 +175,7 @@
          this.txtAftSymd.Name = "txtAftSymd";
          this.txtAftSymd.Properties.Appearance.Options.UseTextOptions = true;
          this.txtAftSymd.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtAftSymd.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtAftSymd.Properties.Mask.EditMask = "yyyy/MM/dd";
          this.txtAftSymd.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
          this.txtAftSymd.Properties.Mask.ShowPlaceHolders = false;
@@ -188,6 +195,7 @@
          this.txtPrevSymd.Name = "txtPrevSymd";
          this.txtPrevSymd.Properties.Appearance.Options.UseTextOptions = true;
          this.txtPrevSymd.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtPrevSymd.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtPrevSymd.Properties.Mask.EditMask = "yyyy/MM/dd";
          this.txtPrevSymd.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
          this.txtPrevSymd.Properties.Mask.ShowPlaceHolders = false;
@@ -282,8 +290,8 @@
          this.panParent.ResumeLayout(false);
          this.panParent.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
-         this.grpxDescription.ResumeLayout(false);
-         this.grpxDescription.PerformLayout();
+         this.panFilter.ResumeLayout(false);
+         this.panFilter.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.txtAllEymd.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtAllSymd.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtAftEymd.Properties)).EndInit();
@@ -297,7 +305,7 @@
 
         #endregion
 
-        private System.Windows.Forms.GroupBox grpxDescription;
+        private System.Windows.Forms.GroupBox panFilter;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label labDate1;
         private System.Windows.Forms.Label labMsg;

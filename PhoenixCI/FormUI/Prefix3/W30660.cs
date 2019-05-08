@@ -8,6 +8,7 @@ using DevExpress.Spreadsheet;
 using System;
 using System.Data;
 using System.Threading;
+using System.Windows.Forms;
 
 /// <summary>
 /// Winni, 2019/02/18
@@ -136,7 +137,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
          #endregion
 
          try {
+            //0. ready
+            panFilter.Enabled = false;
             labMsg.Visible = true;
+            labMsg.Text = "開始轉檔...";
+            this.Cursor = Cursors.WaitCursor;
+            this.Refresh();
+            Thread.Sleep(5);
 
             //1.複製檔案 & 開啟檔案
             string excelDestinationPath = CopyExcelTemplateFile(_ProgramID , FileType.XLS);
@@ -184,8 +191,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
             string rptName = "Eurex FTX vs TX 振幅、波動度及交易量統計(總表)";
             ShowMsg(string.Format("{0}－{1} 轉檔中..." , _ProgramID , rptName));
 
-            DataTable xx = dao30660.GetData(PrevStart , PrevEnd , AftStart , AftEnd , AllStart , AllEnd);
-
             //1.讀取資料
             DataTable dt = new DataTable();
             if ((int)sheetNo == 0) {
@@ -207,7 +212,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
                for (int i = 0 ; i < dt.Rows.Count ; i++) {
                   li_ole_row += 1;
                   for (int j = 0 ; j < 14 ; j++) {
-                     worksheet.Cells[li_ole_row - 1 , j].Value = dt.Rows[i][j].AsDecimal();
+                     if (j == 0) {
+                        worksheet.Cells[li_ole_row - 1 , j].Value = dt.Rows[i][j].AsString();
+                     } else {
+                        if (dt.Rows[i][j] != DBNull.Value) {
+                           worksheet.Cells[li_ole_row - 1 , j].Value = dt.Rows[i][j].AsDecimal();
+                        }
+                     }
                   }
                }
             } else {
@@ -215,7 +226,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
                for (int i = 0 ; i < dt.Rows.Count ; i++) {
                   li_ole_row += 1;
                   for (int j = 0 ; j < 19 ; j++) {
-                     worksheet.Cells[li_ole_row - 1 , j].Value = dt.Rows[i][j].AsDecimal();
+                     if (j == 0) {
+                        worksheet.Cells[li_ole_row - 1 , j].Value = dt.Rows[i][j].AsDateTime();
+                     } else {
+                        if (dt.Rows[i][j] != DBNull.Value) {
+                           worksheet.Cells[li_ole_row - 1 , j].Value = dt.Rows[i][j].AsDecimal();
+                        }
+                     }
                   }
                }
             }
@@ -225,6 +242,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
          } catch (Exception ex) {
             WriteLog(ex);
             return false;
+         } finally {
+            panFilter.Enabled = true;
+            labMsg.Text = "";
+            labMsg.Visible = false;
+            this.Cursor = Cursors.Arrow;
          }
       }
 

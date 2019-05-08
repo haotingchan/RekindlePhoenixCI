@@ -52,7 +52,7 @@ namespace BaseGround.Widget
       public RadioGroup gb_group { get { return _gb_group; } set { _gb_group = value; } }
       public RadioGroup gb_detial { get { return _gb_detial; } set { _gb_detial = value; } }
       public PanelControl r_input { get { return _r_input; } set { _r_input = value; } }
-      public LabelControl st_msg_txt { get { return _st_msg_txt; } set { _st_msg_txt = value; } }
+      public LabelControl stMsgTxt { get { return _st_msg_txt; } set { _st_msg_txt = value; } }
       public RadioGroup gb_market { get { return _gb_market; } set { _gb_market = value; } }
       public LayoutControlGroup gp_month { get { return _gp_month; } set { _gp_month = value; } }
       public LayoutControlGroup gp_date { get { return _gp_date; } set { _gp_date = value; } }
@@ -60,40 +60,34 @@ namespace BaseGround.Widget
 
       #region PB變數存取子供外部使用
       public OCF OCF { get; set; }
-      public bool ib_open { get; set; }
-      public string is_chk { get; set; }
-      public string is_sbrkno { get; set; }
-      public string is_ebrkno { get; set; }
-      public string is_prod_kind_id_sto { get; set; }
-      public string is_prod_kind_id { get; set; }
-      public string is_prod_category { get; set; }
-      public string is_sdate { get; set; }
-      public string is_edate { get; set; }
-      public string is_select { get; set; }
-      public string is_dw_name { get; set; }
-      public string is_where { get; set; }
-      public string is_sum_type { get; set; }
-      public string is_sum_subtype { get; set; }
-      public string is_data_type { get; set; }
-      public string is_sort_type { get; set; }
-      public string is_table_name { get; set; }
-      public string is_log_txt { get; set; }
-      public string is_txn_id { get; set; }
-      public string is_time { get; set; }
-      public string is_filename { get; set; }
-      public Workbook iole_1 { get; set; }
-      public long ii_ole_row { get; set; }
+      public bool IsOpen { get; set; }
+      public string IsCheck { get; set; }
+      public string Sbrkno { get; set; }
+      public string Ebrkno { get; set; }
+      public string ProdKindIdSto { get; set; }
+      public string ProdKindId { get; set; }
+      public string ProdCategory { get; set; }
+      public string Sdate { get; set; }
+      public string Edate { get; set; }
+      public string SumType { get; set; }
+      public string SumSubType { get; set; }
+      public string DataType { get; set; }
+      public string SortType { get; set; }
+      public string TableName { get; set; }
+      public string LogText { get; set; }
+      public string TxnID { get; set; }
+      public string TimeNow { get; set; }
+      public string Filename { get; set; }
       private ABRK daoABRK;
       private APDK daoAPDK;
       #endregion
       public ucW500xx()
       {
          InitializeComponent();
-         is_filename = GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH;
+         Filename = GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH;
          daoABRK = new ABRK();
          daoAPDK = new APDK();
       }
-
 
       public void Open()
       {
@@ -122,65 +116,64 @@ namespace BaseGround.Widget
          /* 2碼商品 */
          dw_prod_kd_sto.SetDataTable(daoAPDK.ListKind2(), "APDK_KIND_ID_STO", "APDK_KIND_ID_STO", TextEditStyles.Standard, null);
          //預設資料表
-         is_table_name = "AMM0";
+         TableName = "AMM0";
       }
 
-
-      public bool Retrieve(string sbrkno = "", string ebrkno = "")
+      public bool StartRetrieve(string sbrkno = "", string ebrkno = "")
       {
          /*******************
          條件值檢核
          *******************/
-         is_chk = "N";
+         IsCheck = "N";
          /*造市者代號 */
-         is_sbrkno = dw_sbrkno.EditValue.AsString();
-         if (string.IsNullOrEmpty(is_sbrkno)) {
-            is_sbrkno = sbrkno;
+         Sbrkno = dw_sbrkno.EditValue.AsString();
+         if (string.IsNullOrEmpty(Sbrkno)) {
+            Sbrkno = sbrkno;
          }
-         is_ebrkno = dw_ebrkno.EditValue.AsString();
-         if (string.IsNullOrEmpty(is_ebrkno)) {
-            is_ebrkno = ebrkno;
+         Ebrkno = dw_ebrkno.EditValue.AsString();
+         if (string.IsNullOrEmpty(Ebrkno)) {
+            Ebrkno = ebrkno;
          }
-         if ((string.Compare(dw_sbrkno.SelectedText, dw_ebrkno.SelectedText) > 0) && !string.IsNullOrEmpty(is_ebrkno)) {
+         if ((string.Compare(dw_sbrkno.SelectedText, dw_ebrkno.SelectedText) > 0) && !string.IsNullOrEmpty(Ebrkno)) {
             PbFunc.messageBox(GlobalInfo.ErrorText, "造市者代號起始不可大於迄止", MessageBoxIcon.Stop);
 
             dw_sbrkno.Focus();
-            is_chk = "Y";
+            IsCheck = "Y";
             return false;
          }
 
          /* 商品群組 */
-         is_prod_category = dw_prod_ct.EditValue.AsString();
-         if (string.IsNullOrEmpty(is_prod_category) || dw_prod_ct.Enabled == false) {
-            is_prod_category = "";
+         ProdCategory = dw_prod_ct.EditValue.AsString();
+         if (string.IsNullOrEmpty(ProdCategory) || dw_prod_ct.Enabled == false) {
+            ProdCategory = "";
          }
 
          /* 商品 */
-         is_prod_kind_id = dw_prod_kd.EditValue.AsString();
-         if (string.IsNullOrEmpty(is_prod_kind_id) || dw_prod_kd.Enabled == false) {
-            is_prod_kind_id = "";
+         ProdKindId = dw_prod_kd.EditValue.AsString();
+         if (string.IsNullOrEmpty(ProdKindId) || dw_prod_kd.Enabled == false) {
+            ProdKindId = "";
          }
-         is_prod_kind_id_sto = dw_prod_kd_sto.EditValue.AsString();
-         if (string.IsNullOrEmpty(is_prod_kind_id_sto) || dw_prod_kd_sto.Enabled == false) {
-            is_prod_kind_id_sto = "";
+         ProdKindIdSto = dw_prod_kd_sto.EditValue.AsString();
+         if (string.IsNullOrEmpty(ProdKindIdSto) || dw_prod_kd_sto.Enabled == false) {
+            ProdKindIdSto = "";
          }
          //DateTime dtDate;
          /* 月報表 */
          if (gb_report_type.EditValue.Equals("rb_month")) {
             if (em_sym.Visible == true) {
                if (!em_sym.IsDate(em_sym.Text + "/01", CheckDate.Start)) {
-                  is_chk = "Y";
+                  IsCheck = "Y";
                   return false;
                }
-               is_sdate = em_sym.Text.Replace("/", "").SubStr(0, 6);
+               Sdate = em_sym.Text.Replace("/", "").SubStr(0, 6);
 
             }
             if (em_eym.Visible == true) {
                if (!em_eym.IsDate(em_eym.Text + "/01", CheckDate.End)) {
-                  is_chk = "Y";
+                  IsCheck = "Y";
                   return false;
                }
-               is_edate = em_eym.Text.Replace("/", "").SubStr(0, 6);
+               Edate = em_eym.Text.Replace("/", "").SubStr(0, 6);
 
             }
          }
@@ -188,29 +181,31 @@ namespace BaseGround.Widget
          else {
             if (emStartDate.Visible == true) {
                if (!emStartDate.IsDate(emStartDate.Text, CheckDate.Start)) {
-                  is_chk = "Y";
+                  IsCheck = "Y";
                   return false;
                }
             }
-            is_sdate = emStartDate.Text.Replace("/", "").SubStr(0, 8);
+            Sdate = emStartDate.Text.Replace("/", "").SubStr(0, 8);
             if (emEndDate.Visible == true) {
                if (!emEndDate.IsDate(emEndDate.Text, CheckDate.End)) {
-                  is_chk = "Y";
+                  IsCheck = "Y";
                   return false;
                }
-               is_edate = emEndDate.Text.Replace("/", "").SubStr(0, 8);
+               Edate = emEndDate.Text.Replace("/", "").SubStr(0, 8);
             }
          }
-         sum_sortType();
+         SumType = ReportSumType(gb_report_type.EditValue.ToString());
+         SortType = PrintSortType(gb_print_sort.EditValue.ToString());
+         SumSubType = GrpSubType(gb_group.EditValue.AsString());
          /*******************
          資料類別
          *******************/
-         is_data_type = "Q";
+         DataType = "Q";
 
          /*******************
          條件值檢核OK
          *******************/
-         is_chk = "Y";
+         IsCheck = "Y";
 
 
          /*******************
@@ -229,7 +224,7 @@ namespace BaseGround.Widget
          return true;
       }
 
-      public bool RetrieveAfter(DataTable dt)
+      public bool EndRetrieve(DataTable dt)
       {
          if (dt.Rows.Count <= 0) {
             PbFunc.messageBox(GlobalInfo.ResultText, "無任何資料!", MessageBoxIcon.Information);
@@ -241,11 +236,11 @@ namespace BaseGround.Widget
       /// <summary>
       /// 匯出轉檔前的狀態顯示
       /// </summary>
-      /// <param name="ls_rpt_id">程式代號</param>
-      /// <param name="ls_rpt_name">報表名稱</param>
+      /// <param name="RptID">程式代號</param>
+      /// <param name="RptName">報表名稱</param>
       /// <param name="ls_param_key">契約</param>
       /// <param name="li_ole_col">欄位位置</param>
-      public void BeforeExport(string ls_rpt_id, string ls_rpt_name, string ls_param_key = "", int li_ole_col = 0)
+      public void StartExport(string RptID, string RptName)
       {
          /*************************************
         ls_rpt_name = 報表名稱
@@ -253,10 +248,10 @@ namespace BaseGround.Widget
         li_ole_col = 欄位位置
         ls_param_key = 契約
         *************************************/
-         st_msg_txt.Visible = true;
-         st_msg_txt.Text = "開始轉檔...";
-         st_msg_txt.Text = ls_rpt_id + "－" + ls_rpt_name + " 轉檔中...";
-         is_time = DateTime.Now.ToString();
+         stMsgTxt.Visible = true;
+         stMsgTxt.Text = "開始轉檔...";
+         stMsgTxt.Text = RptID + "－" + RptName + " 轉檔中...";
+         TimeNow = DateTime.Now.ToString();
          this.Cursor = Cursors.WaitCursor;
          this.Refresh();
          Thread.Sleep(5);
@@ -265,78 +260,78 @@ namespace BaseGround.Widget
       /// <summary>
       /// 轉檔結束後
       /// </summary>
-      public void AfterExport()
+      public void EndExport()
       {
-         st_msg_txt.Text = "轉檔完成!";
+         stMsgTxt.Text = "轉檔完成!";
          this.Refresh();
          Thread.Sleep(5);
          //is_time = is_time + "～" + DateTime.Now;
          //PbFunc.messageBox(GlobalInfo.gs_t_result + " " + is_time, "轉檔完成!", MessageBoxIcon.Information);
-         st_msg_txt.Visible = false;
+         stMsgTxt.Visible = false;
          this.Cursor = Cursors.Arrow;
       }
 
-      public string t_conditionText()
+      public string ConditionText()
       {
-         string ls_text;
+         string lsText;
          /*******************
          顯示條件
          *******************/
          if (gb_market.EditValue.Equals("rb_market_1")) {
-            ls_text = "盤後交易時段";
+            lsText = "盤後交易時段";
          }
          else {
-            ls_text = "一般交易時段";
+            lsText = "一般交易時段";
          }
-         if (!string.IsNullOrEmpty(is_sbrkno) || !string.IsNullOrEmpty(is_ebrkno)) {
-            ls_text = ls_text + ",造市者:";
+         if (!string.IsNullOrEmpty(Sbrkno) || !string.IsNullOrEmpty(Ebrkno)) {
+            lsText = lsText + ",造市者:";
 
-            if (is_sbrkno == is_ebrkno) {
-               ls_text = ls_text + is_sbrkno + " ";
+            if (Sbrkno == Ebrkno) {
+               lsText = lsText + Sbrkno + " ";
             }
             else {
 
-               ls_text = ls_text + is_sbrkno + "～" + is_ebrkno + " ";
+               lsText = lsText + Sbrkno + "～" + Ebrkno + " ";
             }
          }
 
-         if (!string.IsNullOrEmpty(is_prod_category)) {
-            ls_text = ls_text + ",商品群組:" + is_prod_category;
+         if (!string.IsNullOrEmpty(ProdCategory)) {
+            lsText = lsText + ",商品群組:" + ProdCategory;
          }
-         if (!string.IsNullOrEmpty(is_prod_kind_id_sto)) {
-            ls_text = ls_text + ",2碼商品(個股):" + is_prod_kind_id_sto;
+         if (!string.IsNullOrEmpty(ProdKindIdSto)) {
+            lsText = lsText + ",2碼商品(個股):" + ProdKindIdSto;
          }
-         if (!string.IsNullOrEmpty(is_prod_kind_id)) {
-            ls_text = ls_text + ",造市商品:" + is_prod_kind_id;
+         if (!string.IsNullOrEmpty(ProdKindId)) {
+            lsText = lsText + ",造市商品:" + ProdKindId;
          }
-         if (PbFunc.Left(ls_text, 1) == ",") {
-            ls_text = PbFunc.Mid(ls_text, 1, 50);
+         if (PbFunc.Left(lsText, 1) == ",") {
+            lsText = PbFunc.Mid(lsText, 1, 50);
          }
-         if (!string.IsNullOrEmpty(ls_text)) {
-            ls_text = "報表條件：" + ls_text;
+         if (!string.IsNullOrEmpty(lsText)) {
+            lsText = "報表條件：" + lsText;
          }
-         return ls_text;
+         return lsText;
       }
 
-      public string t_dateText()
+      public string DateText()
       {
          /*******************
          顯示條件
          *******************/
-         string ls_text = "";
-         if (!string.IsNullOrEmpty(is_sdate)) {
-            ls_text = ls_text + is_sdate;
+         string lsText = "";
+         if (!string.IsNullOrEmpty(Sdate)) {
+            lsText = lsText + Sdate;
          }
-         if (!string.IsNullOrEmpty(is_edate)) {
-            ls_text = ls_text + '～' + is_edate;
+         if (!string.IsNullOrEmpty(Edate)) {
+            lsText = lsText + '～' + Edate;
          }
-         return ls_text;
+         return lsText;
       }
 
-      public void wf_gb_report_type(string as_type)
+      public void WfGbReportType(string AsType)
       {
 
-         switch (as_type) {
+         switch (AsType) {
             case "M":
                /* 只有月份 */
                gb_report_type.EditValue = "rb_month";
@@ -374,53 +369,67 @@ namespace BaseGround.Widget
       /// <summary>
       /// Linq動態新增where條件
       /// </summary>
-      /// <param name="dw_1">DataTable</param>
+      /// <param name="dw1">DataTable</param>
       /// <returns></returns>
-      public DataTable WfLinqSyntaxSelect(DataTable dw_1)
+      public DataTable WfLinqSyntaxSelect(DataTable dw1)
       {
-         
-         var query = from dt in dw_1.AsEnumerable() select dt;
+
+         var query = from dt in dw1.AsEnumerable() select dt;
          try {
             /* 日期起迄 */
-            if (!string.IsNullOrEmpty(is_sdate)) {
-               query = query.Where(dt => string.Compare(dt.Field<string>(is_table_name + "_YMD"), is_sdate) >= 0);
+            if (!string.IsNullOrEmpty(Sdate)) {
+               query = query.Where(dt => string.Compare(dt.Field<string>(TableName + "_YMD").AsString(), Sdate) >= 0);
             }
-            if (!string.IsNullOrEmpty(is_edate)) {
-               query = query.Where(dt => string.Compare(dt.Field<string>(is_table_name + "_YMD"), is_edate) <= 0);
+            if (!string.IsNullOrEmpty(Edate)) {
+               query = query.Where(dt => string.Compare(dt.Field<string>(TableName + "_YMD").AsString(), Edate) <= 0);
             }
             /* 期貨商代號起迄 */
-            if (!string.IsNullOrEmpty(is_sbrkno)) {
-               query = query.Where(dt => string.Compare(dt.Field<string>(is_table_name + "_BRK_NO"), is_sbrkno) >= 0);
+            if (!string.IsNullOrEmpty(Sbrkno)) {
+               query = query.Where(dt => string.Compare(dt.Field<string>(TableName + "_BRK_NO").AsString(), Sbrkno) >= 0);
             }
-            if (!string.IsNullOrEmpty(is_ebrkno)) {
-               query = query.Where(dt => string.Compare(dt.Field<string>(is_table_name + "_BRK_NO"), is_ebrkno) <= 0);
+            if (!string.IsNullOrEmpty(Ebrkno)) {
+               query = query.Where(dt => string.Compare(dt.Field<string>(TableName + "_BRK_NO").AsString(), Ebrkno) <= 0);
             }
-            sum_sortType();
+            SumType = ReportSumType(gb_report_type.EditValue.ToString());
+            SortType = PrintSortType(gb_print_sort.EditValue.ToString());
+            SumSubType = GrpSubType(gb_group.EditValue.AsString());
             /*******************
             Where條件
             *******************/
             /* 商品群組 */
             if (!gb_group.EditValue.Equals("rb_gall")) {
-               if (!string.IsNullOrEmpty(is_prod_category)) {
-                  query = query.Where(dt => dt.Field<string>(is_table_name + "_PARAM_KEY") == is_prod_category);
+               string paramkey = TableName + "_PARAM_KEY";
+               if (!string.IsNullOrEmpty(ProdCategory)) {
+                  if (dw1.Columns.Contains(paramkey))
+                     query = query.Where(dt => dt.Field<string>(paramkey).AsString() == ProdCategory);
+                  else
+                     query = query.Where(dt => dt.Field<string>(TableName + "_PROD_ID").AsString() == ProdCategory);
                }
                /* 個股商品 */
                if (!gb_group.EditValue.Equals("rb_gparam")) {
-                  if (!string.IsNullOrEmpty(is_prod_kind_id_sto)) {
-                     query = query.Where(dt => dt.Field<string>(is_table_name + "_KIND_ID2") == is_prod_kind_id_sto);
+                  string kindid2 = TableName + "_KIND_ID2";
+                  if (!string.IsNullOrEmpty(ProdKindIdSto)) {
+                     if (dw1.Columns.Contains(kindid2))
+                        query = query.Where(dt => dt.Field<string>(kindid2).AsString() == ProdKindIdSto);
+                     else
+                        query = query.Where(dt => dt.Field<string>(TableName + "_PROD_ID").AsString() == ProdKindIdSto);
                   }
                   /* 商品 */
                   if (!gb_group.EditValue.Equals("rb_gkind2")) {
-                     if (!string.IsNullOrEmpty(is_prod_kind_id)) {
-                        query = query.Where(dt => dt.Field<string>(is_table_name + "_KIND_ID") == is_prod_kind_id);
+                     string kindid = TableName + "_KIND_ID";
+                     if (!string.IsNullOrEmpty(ProdKindId)) {
+                        if (dw1.Columns.Contains(kindid))
+                           query = query.Where(dt => dt.Field<string>(kindid).AsString() == ProdKindId);
+                        else
+                           query = query.Where(dt => dt.Field<string>(TableName + "_PROD_ID").AsString() == ProdKindId);
                      }
                   }//rb_gkind2.checked = False
                }//rb_gparam.checked = False
             }//rb_gall.checked = False
 
             if (query.AsEnumerable().Count() <= 0) {
-               dw_1.Clear();
-               return dw_1;
+               dw1.Clear();
+               return dw1;
             }
 
             DataTable dataTable = query.CopyToDataTable();
@@ -428,150 +437,80 @@ namespace BaseGround.Widget
             return dataTable;
          }
          catch (Exception ex) {
-            PbFunc.messageBox(GlobalInfo.ErrorText + " DataWindow sqlsyntax Modify Failed ", ex.Message, MessageBoxIcon.Warning);
-            return dw_1;
+            PbFunc.messageBox(GlobalInfo.ErrorText + " DataWindow linqsyntax Modify Failed ", ex.Message, MessageBoxIcon.Warning);
+            return dw1;
             throw;
          }
       }
 
       /// <summary>
-      /// 動態新增where條件
+      /// 統計類別
       /// </summary>
-      /// <param name="dw_1">DataAdapter</param>
-      //////public void wf_select_sqlcode(DbDataAdapter dw_1)
-      //////{
-      //////   is_where = "";
-      //////   try {
-      //////      /* 日期起迄 */
-      //////      if (!string.IsNullOrEmpty(is_sdate)) {
-      //////         is_where = is_where + @" and " + is_table_name + "_YMD >='" + is_sdate + "' ";
-      //////      }
-      //////      if (!string.IsNullOrEmpty(is_edate)) {
-      //////         is_where = is_where + @" and " + is_table_name + "_YMD <='" + is_edate + "' ";
-      //////      }
-      //////      /* 期貨商代號起迄 */
-      //////      if (!string.IsNullOrEmpty(is_sbrkno)) {
-      //////         is_where = is_where + @" and " + is_table_name + "_BRK_NO >='" + is_sbrkno + "' ";
-      //////      }
-      //////      if (!string.IsNullOrEmpty(is_ebrkno)) {
-      //////         is_where = is_where + @" and " + is_table_name + "_BRK_NO <='" + is_ebrkno + "' ";
-      //////      }
-      //////      sum_sortType();
-
-      //////      /*******************
-      //////      Where條件
-      //////      *******************/
-      //////      /* 商品群組 */
-      //////      if (!gb_group.EditValue.Equals("rb_gall")) {
-      //////         if (!string.IsNullOrEmpty(is_prod_category)) {
-      //////            is_where = is_where + @" and " + is_table_name + "_PARAM_KEY ='" + is_prod_category + "' ";
-      //////         }
-      //////         /* 個股商品 */
-      //////         if (!gb_group.EditValue.Equals("rb_gparam")) {
-      //////            if (!string.IsNullOrEmpty(is_prod_kind_id_sto)) {
-      //////               is_where = is_where + @" and " + is_table_name + "_KIND_ID2 ='" + is_prod_kind_id_sto + "' ";
-      //////            }
-      //////            /* 商品 */
-      //////            if (!gb_group.EditValue.Equals("rb_gkind2")) {
-      //////               if (!string.IsNullOrEmpty(is_prod_kind_id)) {
-      //////                  is_where = is_where + @" and " + is_table_name + "_KIND_ID ='" + is_prod_kind_id + "' ";
-      //////               }
-      //////            }//rb_gkind2.checked = False
-      //////         }//rb_gparam.checked = False
-      //////      }//rb_gall.checked = False
-      //////       /******************************
-      //////       在dw_1的SQL Statement中插入where條件(is_select)
-      //////       (1)is_select 都以'and ...'開頭
-      //////       (2)若有GROUP,則在 FROM 和 GROUP BY 中間插入 WHERE 條件
-      //////       ******************************/
-      //////      string ls_select;
-
-      //////      //dw_1.dataobject = is_dw_name;
-      //////      //dw_1.settransobject(sqlca);
-      //////      ls_select = dw_1.SelectCommand.CommandText;//describe("datawindow.table.select");
-
-      //////      int li_pos;
-      //////      /* (1) */
-      //////      li_pos = ls_select.IndexOf("FROM") - 1;
-      //////      li_pos = ls_select.IndexOf("WHERE", li_pos) - 1;
-      //////      if (li_pos < 0) {
-      //////         is_where = "WHERE" + PbFunc.Mid(is_where, 3, PbFunc.Len(is_where));
-      //////      }
-      //////      /* (2) */
-      //////      li_pos = ls_select.IndexOf("GROUP BY");
-      //////      int orderby = ls_select.IndexOf("ORDER BY");
-      //////      if (li_pos < 0) {
-      //////         li_pos = PbFunc.Len(ls_select) - 1;
-      //////         if (orderby > 0) {
-      //////            li_pos = orderby;
-      //////         }
-      //////      }
-      //////      ls_select = PbFunc.Mid(ls_select, 0, li_pos) + is_where + PbFunc.Mid(ls_select, li_pos, ls_select.Length - 1);
-
-      //////      dw_1.SelectCommand.CommandText = ls_select;
-      //////   }
-      //////   catch (Exception ex) {
-      //////      PbFunc.messageBox(GlobalInfo.ErrorText + " DataWindow sqlsyntax Modify Failed ", ex.Message, MessageBoxIcon.Warning);
-      //////      return;
-      //////      throw;
-      //////   }
-      //////}
-
-      public void sum_sortType()
+      private string ReportSumType(string rptVal)
       {
-         /*******************
-      統計類別
-      *******************/
-         if (gb_report_type.EditValue.Equals("rb_month")) {
-            is_sum_type = "M";
+         string type = string.Empty;
+         if (rptVal.Equals("rb_month")) {
+            type = "M";
          }
-         else if (gb_report_type.EditValue.Equals("rb_date")) {
-            is_sum_type = "D";
+         else if (rptVal.Equals("rb_date")) {
+            type = "D";
          }
+         return type;
+      }
 
-         /*******************
-         統計子類別
-         *******************/
-         switch (gb_group.EditValue.AsString()) {
+      /// <summary>
+      /// Sort順序
+      /// </summary>
+      private string PrintSortType(string sortVal)
+      {
+         string type = string.Empty;
+         if (sortVal.Equals("rb_mmk")) {
+            type = "F";
+         }
+         else {
+            type = "P";
+         }
+         return type;
+      }
+
+      /// <summary>
+      /// 統計子類別
+      /// </summary>
+      private string GrpSubType(string type)
+      {
+         string subtype = string.Empty;
+         switch (type) {
             case "rb_gall":
-               is_sum_subtype = "1";
+               subtype = "1";
                break;
             case "rb_gparam":
-               is_sum_subtype = "3";
+               subtype = "3";
                break;
             case "rb_s":
-               is_sum_subtype = "S";
+               subtype = "S";
                break;
             case "rb_gkind2":
-               is_sum_subtype = "4";
+               subtype = "4";
                break;
             case "rb_gkind":
-               is_sum_subtype = "5";
+               subtype = "5";
                break;
             case "rb_gprod":
-               is_sum_subtype = "6";
+               subtype = "6";
                break;
             default:
                break;
          }
-         /*******************
-         Sort順序
-         *******************/
-         if (gb_print_sort.EditValue.Equals("rb_mmk")) {
-            is_sort_type = "F";
-         }
-         else {
-            is_sort_type = "P";
-         }
+         return subtype;
       }
 
-      public void wf_gb_group(bool ab_visible_value, bool ab_enable_value, string as_type)
+      public void WfGbGroup(bool VisibleValue, bool EnableValue, string AsType)
       {
-         gb_group.Visible = ab_visible_value;
-         _Grp.Visible = ab_visible_value;
-         gb_group.Enabled = ab_enable_value;
+         gb_group.Visible = VisibleValue;
+         _Grp.Visible = VisibleValue;
+         gb_group.Enabled = EnableValue;
 
-         switch (as_type) {
+         switch (AsType) {
             case "1":
                gb_group.EditValue = "rb_gall";
                break;
@@ -592,13 +531,13 @@ namespace BaseGround.Widget
          }
       }
 
-      public void wf_gb_print_sort(bool ab_visible_value, bool ab_enable_value, string as_type)
+      public void WfGbPrintSort(bool VisibleValue, bool EnableValue, string AsType)
       {
-         gb_print_sort.Visible = ab_visible_value;
-         _PrintSort.Visible = ab_visible_value;
-         gb_print_sort.Enabled = ab_enable_value;
+         gb_print_sort.Visible = VisibleValue;
+         _PrintSort.Visible = VisibleValue;
+         gb_print_sort.Enabled = EnableValue;
 
-         switch (as_type) {
+         switch (AsType) {
             case "1":
                gb_print_sort.EditValue = "rb_mmk";
                break;
@@ -611,13 +550,13 @@ namespace BaseGround.Widget
          }
       }
 
-      public void wf_gb_detial(bool ab_visible_value, bool ab_enable_value, string as_type)
+      public void WfGrpDetial(bool VisibleValue, bool EnableValue, string AsType)
       {
-         gb_detial.Visible = ab_visible_value;
-         _DetialGrp.Visible = ab_visible_value;
-         gb_detial.Enabled = ab_enable_value;
+         gb_detial.Visible = VisibleValue;
+         _DetialGrp.Visible = VisibleValue;
+         gb_detial.Enabled = EnableValue;
 
-         switch (as_type) {
+         switch (AsType) {
             case "1":
                gb_detial.EditValue = "rb_gdate";
                break;
@@ -630,17 +569,17 @@ namespace BaseGround.Widget
          }
       }
 
-      public void wf_run_err()
+      public void WfRunError()
       {
          /*******************
          Messagebox
          *******************/
          //SetPointer(Arrow!);
          this.Cursor = Cursors.Arrow;
-         st_msg_txt.Visible = true;
-         st_msg_txt.Text = "轉檔有錯誤!";
+         stMsgTxt.Visible = true;
+         stMsgTxt.Text = "轉檔有錯誤!";
 
-         File.Delete(is_filename);
+         File.Delete(Filename);
       }
 
       public string wf_copyfile(string as_filename)
@@ -661,8 +600,8 @@ namespace BaseGround.Widget
             PbFunc.messageBox(ex.InnerException.ToString(), "複製「" + originalFilePath + "」到「" + destinationFilePath + "」檔案錯誤!", MessageBoxIcon.Stop);
             throw;
          }
-         is_filename = destinationFilePath;
-         return is_filename;
+         Filename = destinationFilePath;
+         return Filename;
       }
 
       private void InitializeComponent()
@@ -1443,5 +1382,90 @@ namespace BaseGround.Widget
                break;
          }
       }
+
+      /// <summary>
+      /// 動態新增where條件
+      /// </summary>
+      /// <param name="dw_1">DataAdapter</param>
+      ////public void wf_select_sqlcode(DbDataAdapter dw_1)
+      ////{
+      ////   string is_where;
+      ////   is_where = "";
+      ////   try {
+      ////      /* 日期起迄 */
+      ////      if (!string.IsNullOrEmpty(Sdate)) {
+      ////         is_where = is_where + @" and " + TableName + "_YMD >='" + Sdate + "' ";
+      ////      }
+      ////      if (!string.IsNullOrEmpty(Edate)) {
+      ////         is_where = is_where + @" and " + TableName + "_YMD <='" + Edate + "' ";
+      ////      }
+      ////      /* 期貨商代號起迄 */
+      ////      if (!string.IsNullOrEmpty(is_sbrkno)) {
+      ////         is_where = is_where + @" and " + TableName + "_BRK_NO >='" + is_sbrkno + "' ";
+      ////      }
+      ////      if (!string.IsNullOrEmpty(is_ebrkno)) {
+      ////         is_where = is_where + @" and " + TableName + "_BRK_NO <='" + is_ebrkno + "' ";
+      ////      }
+      ////      sum_sortType();
+
+      ////      /*******************
+      ////      Where條件
+      ////      *******************/
+      ////      /* 商品群組 */
+      ////      if (!gb_group.EditValue.Equals("rb_gall")) {
+      ////         if (!string.IsNullOrEmpty(is_prod_category)) {
+      ////            is_where = is_where + @" and " + TableName + "_PARAM_KEY ='" + is_prod_category + "' ";
+      ////         }
+      ////         /* 個股商品 */
+      ////         if (!gb_group.EditValue.Equals("rb_gparam")) {
+      ////            if (!string.IsNullOrEmpty(is_prod_kind_id_sto)) {
+      ////               is_where = is_where + @" and " + TableName + "_KIND_ID2 ='" + is_prod_kind_id_sto + "' ";
+      ////            }
+      ////            /* 商品 */
+      ////            if (!gb_group.EditValue.Equals("rb_gkind2")) {
+      ////               if (!string.IsNullOrEmpty(is_prod_kind_id)) {
+      ////                  is_where = is_where + @" and " + TableName + "_KIND_ID ='" + is_prod_kind_id + "' ";
+      ////               }
+      ////            }//rb_gkind2.checked = False
+      ////         }//rb_gparam.checked = False
+      ////      }//rb_gall.checked = False
+      ////       /******************************
+      ////       在dw_1的SQL Statement中插入where條件(is_select)
+      ////       (1)is_select 都以'and ...'開頭
+      ////       (2)若有GROUP,則在 FROM 和 GROUP BY 中間插入 WHERE 條件
+      ////       ******************************/
+      ////      string ls_select;
+
+      ////      //dw_1.dataobject = is_dw_name;
+      ////      //dw_1.settransobject(sqlca);
+      ////      ls_select = dw_1.SelectCommand.CommandText;//describe("datawindow.table.select");
+
+      ////      int li_pos;
+      ////      /* (1) */
+      ////      li_pos = ls_select.IndexOf("FROM") - 1;
+      ////      li_pos = ls_select.IndexOf("WHERE", li_pos) - 1;
+      ////      if (li_pos < 0) {
+      ////         is_where = "WHERE" + PbFunc.Mid(is_where, 3, PbFunc.Len(is_where));
+      ////      }
+      ////      /* (2) */
+      ////      li_pos = ls_select.IndexOf("GROUP BY");
+      ////      int orderby = ls_select.IndexOf("ORDER BY");
+      ////      if (li_pos < 0) {
+      ////         li_pos = PbFunc.Len(ls_select) - 1;
+      ////         if (orderby > 0) {
+      ////            li_pos = orderby;
+      ////         }
+      ////      }
+      ////      ls_select = PbFunc.Mid(ls_select, 0, li_pos) + is_where + PbFunc.Mid(ls_select, li_pos, ls_select.Length - 1);
+
+      ////      dw_1.SelectCommand.CommandText = ls_select;
+      ////   }
+      ////   catch (Exception ex) {
+      ////      PbFunc.messageBox(GlobalInfo.ErrorText + " DataWindow sqlsyntax Modify Failed ", ex.Message, MessageBoxIcon.Warning);
+      ////      return;
+      ////      throw;
+      ////   }
+      ////}
+
    }
 }
