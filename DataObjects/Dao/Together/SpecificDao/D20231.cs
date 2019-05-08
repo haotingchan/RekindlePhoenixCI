@@ -145,7 +145,11 @@ namespace DataObjects.Dao.Together.SpecificDao
 
          return dtResult;
       }
-
+      /// <summary>
+      /// W_20231存檔
+      /// </summary>
+      /// <param name="inputData"></param>
+      /// <returns></returns>
       public ResultData UpdatePLS4(DataTable inputData)
       {
          string sql = @"SELECT   PLS4_SID,   
@@ -158,11 +162,47 @@ namespace DataObjects.Dao.Together.SpecificDao
                                  PLS4_W_USER_ID,   
                                  PLS4_STATUS_CODE,   
                                  PLS4_PID
-                            FROM CI.PLS4F";
+                            FROM CI.PLS4";
 
          return db.UpdateOracleDB(inputData, sql);
       }
+      /// <summary>
+      /// W_20231_adpk存檔
+      /// </summary>
+      /// <param name="inputData"></param>
+      /// <returns></returns>
+      public ResultData UpdateAPDK(DataTable inputData)
+      {
+         string sql = @"SELECT APDK_PROD_TYPE,
+                               APDK_KIND_ID,
+                               APDK_NAME,
+                               APDK_STOCK_ID,
+                               APDK_BEGIN_DATE,
+                               APDK_XXX,
+                               APDK_UNDERLYING_MARKET,
+                               APDK_KIND_GRP2,
+                               APDK_REMARK,
+                               APDK_PROD_SUBTYPE,
+                               APDK_KIND_ID_STO,
+                               APDK_KIND_ID_OUT,
+                               APDK_PARAM_KEY,
+                               APDK_QUOTE_CODE,
+                               APDK_KIND_ID2,
+                               APDK_EXPIRY_TYPE,
+                               APDK_NAME_OUT,
+                               APDK_KIND_LEVEL,
+                               APDK_MARKET_CODE,
+                            APDK_MARKET_CLOSE,
+                            APDK_CURRENCY_TYPE
+                        FROM ci.APDK ";
 
+         return db.UpdateOracleDB(inputData, sql);
+      }
+      /// <summary>
+      /// delete ci.PLS4 where PLS4_YMD = :ls_cp_ymd;
+      /// </summary>
+      /// <param name="ls_cp_ymd"></param>
+      /// <returns></returns>
       public bool DeletePLS4(string ls_cp_ymd)
       {
          object[] parms = {

@@ -36,18 +36,13 @@ namespace PhoenixCI.FormUI.Prefix4
       protected override ResultStatus Open()
       {
          base.Open();
-#if DEBUG
-         emDate.Text = "2018/10/12";
-#else
-            emDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
-#endif
+         DateLabel.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
          return ResultStatus.Success;
       }
 
       protected override ResultStatus AfterOpen()
       {
          base.AfterOpen();
-         emDate.Focus();
 
          return ResultStatus.Success;
       }
@@ -62,11 +57,6 @@ namespace PhoenixCI.FormUI.Prefix4
 
       private bool StartExport()
       {
-         if (!emDate.IsDate(emDate.Text, "日期輸入錯誤"))
-         {
-            //is_chk = "Y";
-            return false;
-         }
 
          stMsgTxt.Visible = true;
          stMsgTxt.Text = "開始轉檔...";
@@ -119,7 +109,7 @@ namespace PhoenixCI.FormUI.Prefix4
          try
          {
             _saveFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
-            b40042 = new B40042(_saveFilePath, emDate.Text);
+            b40042 = new B40042(_saveFilePath, DateLabel.Text);
 
             ShowMsg($"{_ProgramID}_mg1－股票期貨保證金狀況表－標的證券為受益憑證 轉檔中...");
             OutputShowMessage = b40042.Wf40042();
