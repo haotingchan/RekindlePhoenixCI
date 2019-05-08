@@ -24,6 +24,7 @@
         /// </summary>
         private void InitializeComponent() {
          this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
+         this.stMsgTxt = new System.Windows.Forms.Label();
          this.btnAdd = new System.Windows.Forms.Button();
          this.btnCopy = new System.Windows.Forms.Button();
          this.label1 = new System.Windows.Forms.Label();
@@ -31,6 +32,7 @@
          this.label3 = new System.Windows.Forms.Label();
          this.label2 = new System.Windows.Forms.Label();
          this.emDate = new BaseGround.Widget.TextDateEdit();
+         this.emProdDate = new DevExpress.XtraEditors.TextEdit();
          this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
          this.gcMain = new DevExpress.XtraGrid.GridControl();
          this.gvMain = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -45,16 +47,15 @@
          this.PLS4_W_USER_ID = new DevExpress.XtraGrid.Columns.GridColumn();
          this.APDK_KIND_GRP2 = new DevExpress.XtraGrid.Columns.GridColumn();
          this.Is_NewRow = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.emProdDate = new DevExpress.XtraEditors.TextEdit();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
          this.panelControl1.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.emDate.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.emProdDate.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
          this.panelControl2.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.emProdDate.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -71,6 +72,7 @@
          // 
          this.panelControl1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
          this.panelControl1.Appearance.Options.UseBackColor = true;
+         this.panelControl1.Controls.Add(this.stMsgTxt);
          this.panelControl1.Controls.Add(this.btnAdd);
          this.panelControl1.Controls.Add(this.btnCopy);
          this.panelControl1.Controls.Add(this.label1);
@@ -84,15 +86,24 @@
          this.panelControl1.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
          this.panelControl1.LookAndFeel.UseDefaultLookAndFeel = false;
          this.panelControl1.Name = "panelControl1";
-         this.panelControl1.Size = new System.Drawing.Size(1069, 110);
+         this.panelControl1.Size = new System.Drawing.Size(1069, 107);
          this.panelControl1.TabIndex = 0;
+         // 
+         // stMsgTxt
+         // 
+         this.stMsgTxt.AutoSize = true;
+         this.stMsgTxt.Location = new System.Drawing.Point(375, 73);
+         this.stMsgTxt.Name = "stMsgTxt";
+         this.stMsgTxt.Size = new System.Drawing.Size(0, 20);
+         this.stMsgTxt.TabIndex = 9999;
+         this.stMsgTxt.Visible = false;
          // 
          // btnAdd
          // 
          this.btnAdd.Location = new System.Drawing.Point(251, 62);
          this.btnAdd.Name = "btnAdd";
          this.btnAdd.Size = new System.Drawing.Size(118, 31);
-         this.btnAdd.TabIndex = 29;
+         this.btnAdd.TabIndex = 4;
          this.btnAdd.Text = "新增個股契約";
          this.btnAdd.UseVisualStyleBackColor = true;
          this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
@@ -102,7 +113,7 @@
          this.btnCopy.Location = new System.Drawing.Point(733, 26);
          this.btnCopy.Name = "btnCopy";
          this.btnCopy.Size = new System.Drawing.Size(118, 31);
-         this.btnCopy.TabIndex = 27;
+         this.btnCopy.TabIndex = 3;
          this.btnCopy.Text = "複製全部個股";
          this.btnCopy.UseVisualStyleBackColor = true;
          this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
@@ -115,7 +126,7 @@
          this.label1.Location = new System.Drawing.Point(618, 67);
          this.label1.Name = "label1";
          this.label1.Size = new System.Drawing.Size(182, 21);
-         this.label1.TabIndex = 26;
+         this.label1.TabIndex = 99999;
          this.label1.Text = "(轉入商品時一定要輸入)";
          // 
          // label5
@@ -126,7 +137,7 @@
          this.label5.Location = new System.Drawing.Point(43, 67);
          this.label5.Name = "label5";
          this.label5.Size = new System.Drawing.Size(202, 21);
-         this.label5.TabIndex = 25;
+         this.label5.TabIndex = 99999;
          this.label5.Text = "新上市股票期貨，需先執行";
          // 
          // label3
@@ -136,7 +147,7 @@
          this.label3.Location = new System.Drawing.Point(375, 31);
          this.label3.Name = "label3";
          this.label3.Size = new System.Drawing.Size(241, 21);
-         this.label3.TabIndex = 24;
+         this.label3.TabIndex = 99999;
          this.label3.Text = "比對期貨/選擇權商品基準日期：";
          // 
          // label2
@@ -146,7 +157,7 @@
          this.label2.Location = new System.Drawing.Point(43, 31);
          this.label2.Name = "label2";
          this.label2.Size = new System.Drawing.Size(90, 21);
-         this.label2.TabIndex = 22;
+         this.label2.TabIndex = 99999;
          this.label2.Text = "計算日期：";
          // 
          // emDate
@@ -166,8 +177,26 @@
          this.emDate.Properties.Mask.ShowPlaceHolders = false;
          this.emDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.emDate.Size = new System.Drawing.Size(105, 28);
-         this.emDate.TabIndex = 21;
+         this.emDate.TabIndex = 1;
          this.emDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         // 
+         // emProdDate
+         // 
+         this.emProdDate.EditValue = "0000/00/00";
+         this.emProdDate.Location = new System.Drawing.Point(622, 28);
+         this.emProdDate.MenuManager = this.ribbonControl;
+         this.emProdDate.Name = "emProdDate";
+         this.emProdDate.Properties.Appearance.Options.UseTextOptions = true;
+         this.emProdDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.emProdDate.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.emProdDate.Properties.Mask.EditMask = "\\d\\d\\d\\d/\\d\\d/\\d\\d";
+         this.emProdDate.Properties.Mask.IgnoreMaskBlank = false;
+         this.emProdDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
+         this.emProdDate.Properties.Mask.PlaceHolder = '0';
+         this.emProdDate.Properties.Mask.ShowPlaceHolders = false;
+         this.emProdDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.emProdDate.Size = new System.Drawing.Size(105, 28);
+         this.emProdDate.TabIndex = 2;
          // 
          // panelControl2
          // 
@@ -175,11 +204,11 @@
          this.panelControl2.Appearance.Options.UseBackColor = true;
          this.panelControl2.Controls.Add(this.gcMain);
          this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.panelControl2.Location = new System.Drawing.Point(0, 140);
+         this.panelControl2.Location = new System.Drawing.Point(0, 137);
          this.panelControl2.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
          this.panelControl2.LookAndFeel.UseDefaultLookAndFeel = false;
          this.panelControl2.Name = "panelControl2";
-         this.panelControl2.Size = new System.Drawing.Size(1069, 583);
+         this.panelControl2.Size = new System.Drawing.Size(1069, 586);
          this.panelControl2.TabIndex = 1;
          // 
          // gcMain
@@ -195,8 +224,8 @@
          this.gcMain.MainView = this.gvMain;
          this.gcMain.MenuManager = this.ribbonControl;
          this.gcMain.Name = "gcMain";
-         this.gcMain.Size = new System.Drawing.Size(1063, 577);
-         this.gcMain.TabIndex = 0;
+         this.gcMain.Size = new System.Drawing.Size(1063, 580);
+         this.gcMain.TabIndex = 5;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
          // 
@@ -248,8 +277,6 @@
          // 
          // PLS4_SID
          // 
-         this.PLS4_SID.AppearanceCell.BackColor = System.Drawing.Color.Silver;
-         this.PLS4_SID.AppearanceCell.Options.UseBackColor = true;
          this.PLS4_SID.AppearanceHeader.BackColor = System.Drawing.Color.Yellow;
          this.PLS4_SID.AppearanceHeader.Options.UseBackColor = true;
          this.PLS4_SID.AppearanceHeader.Options.UseTextOptions = true;
@@ -257,15 +284,12 @@
          this.PLS4_SID.Caption = "股票代號";
          this.PLS4_SID.FieldName = "PLS4_SID";
          this.PLS4_SID.Name = "PLS4_SID";
-         this.PLS4_SID.OptionsColumn.AllowEdit = false;
          this.PLS4_SID.Visible = true;
          this.PLS4_SID.VisibleIndex = 1;
          this.PLS4_SID.Width = 91;
          // 
          // PLS4_KIND_ID2
          // 
-         this.PLS4_KIND_ID2.AppearanceCell.BackColor = System.Drawing.Color.Silver;
-         this.PLS4_KIND_ID2.AppearanceCell.Options.UseBackColor = true;
          this.PLS4_KIND_ID2.AppearanceHeader.BackColor = System.Drawing.Color.Aqua;
          this.PLS4_KIND_ID2.AppearanceHeader.Options.UseBackColor = true;
          this.PLS4_KIND_ID2.AppearanceHeader.Options.UseTextOptions = true;
@@ -361,24 +385,6 @@
          this.Is_NewRow.FieldName = "Is_NewRow";
          this.Is_NewRow.Name = "Is_NewRow";
          // 
-         // emProdDate
-         // 
-         this.emProdDate.EditValue = "0000/00/00";
-         this.emProdDate.Location = new System.Drawing.Point(622, 28);
-         this.emProdDate.MenuManager = this.ribbonControl;
-         this.emProdDate.Name = "emProdDate";
-         this.emProdDate.Properties.Appearance.Options.UseTextOptions = true;
-         this.emProdDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.emProdDate.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.emProdDate.Properties.Mask.EditMask = "\\d\\d\\d\\d/\\d\\d/\\d\\d";
-         this.emProdDate.Properties.Mask.IgnoreMaskBlank = false;
-         this.emProdDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
-         this.emProdDate.Properties.Mask.PlaceHolder = '0';
-         this.emProdDate.Properties.Mask.ShowPlaceHolders = false;
-         this.emProdDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.emProdDate.Size = new System.Drawing.Size(105, 28);
-         this.emProdDate.TabIndex = 23;
-         // 
          // W20231
          // 
          this.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
@@ -400,11 +406,11 @@
          this.panelControl1.ResumeLayout(false);
          this.panelControl1.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.emDate.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.emProdDate.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
          this.panelControl2.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.emProdDate.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -435,5 +441,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn APDK_KIND_GRP2;
         private DevExpress.XtraGrid.Columns.GridColumn Is_NewRow;
       private DevExpress.XtraEditors.TextEdit emProdDate;
+      private System.Windows.Forms.Label stMsgTxt;
    }
 }

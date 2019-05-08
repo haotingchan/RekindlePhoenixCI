@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using DevExpress.XtraEditors;
 using BaseGround;
 using Common;
 using DevExpress.XtraEditors.Repository;
@@ -21,6 +17,7 @@ using DataObjects.Dao.Together;
 using DevExpress.XtraEditors.Controls;
 using System.IO;
 using PhoenixCI.BusinessLogic.Prefix2;
+using System.Threading;
 
 /// <summary>
 /// John, 2019/5/6
@@ -154,6 +151,10 @@ namespace PhoenixCI.FormUI.Prefix2
          //流水號欄寬
          gvMain.IndicatorWidth = 60;
 
+         PLS4_SID.AppearanceCell.BackColor = Color.Silver;
+         PLS4_SID.OptionsColumn.AllowEdit = false;
+         PLS4_KIND_ID2.AppearanceCell.BackColor = Color.Silver;
+
          returnTable.Columns.Add("Is_NewRow", typeof(string));
          gcMain.DataSource = returnTable;
 
@@ -230,7 +231,7 @@ namespace PhoenixCI.FormUI.Prefix2
          DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
 
          int getDeleteCount = dtDeleteChange != null ? dtDeleteChange.Rows.Count : 0;
-         ////存檔前檢查
+         //存檔前檢查
          if (getDeleteCount == 0 && dtChange != null)//無法經由資料列存取已刪除的資料列資訊。
          {
             // 寫入DB
@@ -239,7 +240,6 @@ namespace PhoenixCI.FormUI.Prefix2
                   dr["PLS4_W_USER_ID"] = GlobalInfo.USER_ID;
                   dr["PLS4_W_TIME"] = DateTime.Now;
                   dr["PLS4_PDK_YMD"] = _IsPdkYMD;
-
                }
             }
          }
@@ -327,18 +327,75 @@ namespace PhoenixCI.FormUI.Prefix2
             }
          }
 
+         ShowMsg("開始轉檔...");
+
          bool IsDone = WfChkDate();
+         DataTable chkData = dao20231.List20231(emDate.Text.Replace("/", ""));
+         if (chkData.Rows.Count <= 0) {
+            MessageDisplay.Info("轉入筆數為０!");
+            return ResultStatus.Fail;
+         }
          //確認
          if (!IsDone) {
             return ResultStatus.Fail;
          }
          if (IsDone) {
-            //TODO PB確認階段以後的邏輯有問題 須等期交所確認真正需求
+            //TODO PB確認階段以後的邏輯有問題 需要等期交所確認真正需求
             return ResultStatus.Success;
          }
          //轉入資料
          ResultData myResultData = dao20231.UpdatePLS4(dt);
+         //期貨/選擇權
+         gcMain.BeginUpdate();
+         string lsymd = emDate.Text.Replace("/", "");
+         string lspdkymd = emProdDate.Text.Replace("/", "");
+         DataTable dtHPDK = dao20231.ListHpdkData(lspdkymd);
+         foreach (DataRow dr in chkData.Rows) {
+            dr["PLS4_YMD"] = lsymd;
+            dr["PLS4_PDK_YMD"] = lspdkymd;
+            dr["PLS4_W_USER_ID"] = GlobalInfo.USER_ID;
+            dr["PLS4_W_TIME"] = DateTime.Now;
+            int lirtn = dtHPDK.Rows.IndexOf(dtHPDK.Select($"PLS4_KIND_ID2='{dr["PLS4_KIND_ID2"].AsString()}'")[0]);
+            if (lirtn > -1) {
+               dr["PLS4_FUT"] = dtHPDK.Rows[lirtn]["PLS4_FUT"];
+               dr["PLS4_OPT"] = dtHPDK.Rows[lirtn]["PLS4_OPT"];
+            }
+            else {
+               dr["PLS4_FUT"] = "";
+               dr["PLS4_OPT"] = "";
+            }
+         }
+         gcMain.DataSource = chkData;
+         gcMain.EndUpdate();
+
+         PLS4_SID.AppearanceCell.BackColor = Color.White;
+         PLS4_SID.OptionsColumn.AllowEdit = true;
+         PLS4_KIND_ID2.AppearanceCell.BackColor = Color.White;
+
+         //存檔 這段也怪怪的 PB 根本就沒有寫入任何路徑在is_save_file這個變數
+         string filepath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, "");
+         gvMain.ExportToXlsx(filepath);
+         //Write LOGF
+         PbFunc.f_write_logf(_ProgramID, "E", "轉出檔案:" + filepath);
+         EndExport();
          return ResultStatus.Success;
+      }
+
+      protected void ShowMsg(string msg)
+      {
+         stMsgTxt.Visible = true;
+         stMsgTxt.Text = msg;
+         this.Refresh();
+         Thread.Sleep(5);
+      }
+
+      protected void EndExport()
+      {
+         stMsgTxt.Text = "";
+         this.Cursor = Cursors.Arrow;
+         this.Refresh();
+         Thread.Sleep(5);
+         stMsgTxt.Visible = false;
       }
 
       private void gvMain_CustomDrawRowIndicator(object sender, RowIndicatorCustomDrawEventArgs e)
@@ -362,7 +419,33 @@ namespace PhoenixCI.FormUI.Prefix2
 
       private void btnCopy_Click(object sender, EventArgs e)
       {
-
+         bool IsDone = WfChkDate();
+         //確認
+         if (!IsDone) {
+            return;
+         }
+         gcMain.BeginUpdate();
+         string lsymd = emDate.Text.Replace("/", "");
+         string lspdkymd = emProdDate.Text.Replace("/", "");
+         DataTable insertData = dao20231.ListHpdkData(lspdkymd);
+         DataTable data = dao20231.List20231(lsymd).Clone();//dw_1.reset()
+         //InsertData寫入List20231
+         if (insertData.Rows.Count > 0) {
+            for (int k = 0; k < insertData.Rows.Count; k++) {
+               data.Rows.Add(data.NewRow());
+               for (int j = 0; j < insertData.Columns.Count; j++) {
+                  data.Rows[k][j] = insertData.Rows[k][j];
+                  data.Rows[k]["PLS4_YMD"] = lsymd;
+                  data.Rows[k]["PLS4_PDK_YMD"] = lspdkymd;
+               }
+            }
+         }
+         gcMain.DataSource = data;
+         gcMain.EndUpdate();
+         
+         PLS4_SID.AppearanceCell.BackColor = Color.White;
+         PLS4_SID.OptionsColumn.AllowEdit = true;
+         PLS4_KIND_ID2.AppearanceCell.BackColor = Color.White;
       }
 
       private void btnAdd_Click(object sender, EventArgs e)
