@@ -35,7 +35,36 @@ ORDER BY mgd2_ymd, mgd2_prod_type, cpSort, mgd2_prod_subtype, mgd2_kind_id
         }
 
         /// <summary>
-        /// 只取schema，實際上不會用這張SP去撈資料
+        /// for W40072 gvMain 取得table的schema，因為程式開啟會預設插入一筆空資料列
+        /// </summary>
+        /// <returns></returns>
+        public DataTable d_40071() {
+
+            string sql =
+@"
+SELECT A.MGD2_STOCK_ID AS STOCK_ID,
+       A.MGD2_ADJ_RATE AS RATE,
+       A.MGD2_PUB_YMD AS PUB_YMD,
+       A.MGD2_IMPL_BEGIN_YMD AS IMPL_BEGIN_YMD,
+       A.MGD2_IMPL_END_YMD AS IMPL_END_YMD,       
+       A.MGD2_ISSUE_BEGIN_YMD AS ISSUE_BEGIN_YMD,       
+       A.MGD2_ISSUE_END_YMD AS ISSUE_END_YMD,
+       A.MGD2_YMD AS YMD,
+       CASE WHEN A.mgd2_prod_subtype <>'S' THEN 0 ELSE 1 END as cpSort
+FROM
+    (SELECT *
+    FROM ci.MGD2
+    WHERE MGD2_YMD = ''
+    AND MGD2_ADJ_TYPE = '') A
+ORDER BY mgd2_ymd, mgd2_prod_type, cpSort, mgd2_prod_subtype, mgd2_kind_id
+";
+            DataTable dtResult = db.GetDataTable(sql, null);
+
+            return dtResult;
+        }
+
+        /// <summary>
+        /// 預設空參數是為了只取table schema
         /// </summary>
         /// <param name="as_trade_ymd"></param>
         /// <param name="as_prod_subtype"></param>
