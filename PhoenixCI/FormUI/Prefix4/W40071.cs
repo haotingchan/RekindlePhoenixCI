@@ -52,7 +52,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
             GridHelper.SetCommonGrid(gvMain);
             GridHelper.SetCommonGrid(gvDetail);
             gvDetail.AppearancePrint.BandPanel.Font = new Font("Microsoft YaHei", 10);
-            //gvDetail.AppearancePrint.Row.Font = new Font("Microsoft YaHei", 8);
             gvDetail.AppearancePrint.BandPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
         }
 
@@ -155,6 +154,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             try {
                 int ii_curr_row = 0;
                 string ls_kind_id = "";
+                //0. 清空Grid
+                gcDetail.DataSource = null;
                 //1. 讀取資料
                 DataTable dtMGD2 = dao40071.d_40071(txtSDate.DateTimeValue.ToString("yyyyMMdd"), is_adj_type);
                 if (dtMGD2.Rows.Count == 0) {
@@ -720,6 +721,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void btnDetail_Click(object sender, EventArgs e) {
+
+            //重設gridview
+            gcDetail.DataSource = null;
+
             int ll_found, li_row, li_col;
             string ymd, is_chk, is_kind_list, ls_prod_type, ls_prod_type_name, ls_kind_id, ls_param_key, ls_abroad, ls_dbname;
             decimal ldc_rate;
