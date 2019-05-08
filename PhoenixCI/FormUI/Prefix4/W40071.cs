@@ -51,6 +51,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             daoMGD2L = new MGD2L();
             GridHelper.SetCommonGrid(gvMain);
             GridHelper.SetCommonGrid(gvDetail);
+            gvDetail.AppearancePrint.BandPanel.Font = new Font("Microsoft YaHei", 10);
+            gvDetail.AppearancePrint.BandPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
         }
 
         protected override ResultStatus Open() {
@@ -152,6 +154,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             try {
                 int ii_curr_row = 0;
                 string ls_kind_id = "";
+                //0. 清空Grid
+                gcDetail.DataSource = null;
                 //1. 讀取資料
                 DataTable dtMGD2 = dao40071.d_40071(txtSDate.DateTimeValue.ToString("yyyyMMdd"), is_adj_type);
                 if (dtMGD2.Rows.Count == 0) {
@@ -587,21 +591,32 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
         private void gvDetail_RowCellStyle(object sender, RowCellStyleEventArgs e) {
             GridView gv = sender as GridView;
-            //string prod_type = gv.GetRowCellValue(e.RowHandle, gv.Columns["PROD_TYPE"]).AsString();
+            string amt_type = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMT_TYPE"]).AsString();
 
             switch (e.Column.FieldName) {
                 case "KIND_ID":
                 case "STOCK_ID":
                 case "M_CUR_LEVEL":
+                case "YMD":
+                case "ADJ_RATE":
+                    e.Appearance.BackColor = Color.FromArgb(192, 192, 192);
+                    break;
                 case "CM_CUR_A":
                 case "CM_CUR_B":
                 case "MM_CUR_A":
                 case "MM_CUR_B":
                 case "IM_CUR_A":
                 case "IM_CUR_B":
-                case "YMD":
-                case "ADJ_RATE":
+                    e.Column.DisplayFormat.FormatString = amt_type == "P" ? "{0:0.##%}" : "#,###";
                     e.Appearance.BackColor = Color.FromArgb(192, 192, 192);
+                    break;
+                case "CM_A":
+                case "CM_B":
+                case "MM_A":
+                case "MM_B":
+                case "IM_A":
+                case "IM_B":
+                    e.Column.DisplayFormat.FormatString = amt_type == "P" ? "{0:0.##%}" : "#,###";
                     break;
             }
         }
@@ -706,6 +721,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void btnDetail_Click(object sender, EventArgs e) {
+
+            //重設gridview
+            gcDetail.DataSource = null;
+
             int ll_found, li_row, li_col;
             string ymd, is_chk, is_kind_list, ls_prod_type, ls_prod_type_name, ls_kind_id, ls_param_key, ls_abroad, ls_dbname;
             decimal ldc_rate;

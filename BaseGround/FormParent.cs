@@ -29,6 +29,7 @@ using System.Windows.Forms;
 using BaseGround.Widget;
 using System.Linq;
 using System.ComponentModel;
+using System.Threading;
 
 namespace BaseGround
 {
@@ -676,7 +677,9 @@ namespace BaseGround
 
       protected virtual ResultStatus Export(ReportHelper reportHelper)
       {
+         //ShowFormWait("轉出中...");
          reportHelper.Export(reportHelper.FileType, reportHelper.FilePath);
+         //CloseFormWait();
 
          return ResultStatus.Success;
       }
@@ -701,7 +704,9 @@ namespace BaseGround
 
       protected virtual ResultStatus Print(ReportHelper reportHelper)
       {
+         //ShowFormWait("列印中...");
          reportHelper.Print();
+         //CloseFormWait();
 
          return ResultStatus.Success;
       }
@@ -1113,6 +1118,33 @@ namespace BaseGround
                   break;
             }
          }//if (showMsg) {
+      }
+
+      /// <summary>
+      /// 顯示loding訊息
+      /// </summary>
+      /// <param name="setCaption">訊息標題</param>
+      /// <param name="setContent">訊息內容</param>
+      public void ShowFormWait(string setCaption = "處理中", string setContent = "")
+      {
+         //Open Wait Form 
+         SplashScreenManager.ShowForm(this, typeof(FormWait), true, true, false);
+
+         //The Wait Form is opened in a separate thread. To change its Description, use the SetWaitFormDescription method. 
+         SplashScreenManager.Default.SetWaitFormCaption(setCaption);
+         SplashScreenManager.Default.SetWaitFormDescription(setContent);
+
+         this.Refresh();
+         Thread.Sleep(25);
+      }
+
+      /// <summary>
+      /// 關閉loding訊息
+      /// </summary>
+      public void CloseFormWait()
+      {
+         //Close Wait Form 
+         SplashScreenManager.CloseForm(false);
       }
 
       /// <summary>

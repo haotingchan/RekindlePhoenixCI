@@ -276,7 +276,7 @@ namespace BaseGround.Report
       /// <summary>
       /// 如果是夜盤的報表，標題後面都加(夜盤)兩個字
       /// </summary>
-      private void AddReportTitleForNight()
+      public void AddReportTitleForNight()
       {
          if (SystemStatus.SystemType == SystemType.FutureNight || SystemStatus.SystemType == SystemType.OptionNight) {
             ReportTitle += "(夜盤)";
