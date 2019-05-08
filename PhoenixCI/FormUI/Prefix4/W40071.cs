@@ -51,6 +51,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
             daoMGD2L = new MGD2L();
             GridHelper.SetCommonGrid(gvMain);
             GridHelper.SetCommonGrid(gvDetail);
+            gvDetail.AppearancePrint.BandPanel.Font = new Font("Microsoft YaHei", 10);
+            //gvDetail.AppearancePrint.Row.Font = new Font("Microsoft YaHei", 8);
+            gvDetail.AppearancePrint.BandPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
         }
 
         protected override ResultStatus Open() {
@@ -587,21 +590,32 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
         private void gvDetail_RowCellStyle(object sender, RowCellStyleEventArgs e) {
             GridView gv = sender as GridView;
-            //string prod_type = gv.GetRowCellValue(e.RowHandle, gv.Columns["PROD_TYPE"]).AsString();
+            string amt_type = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMT_TYPE"]).AsString();
 
             switch (e.Column.FieldName) {
                 case "KIND_ID":
                 case "STOCK_ID":
                 case "M_CUR_LEVEL":
+                case "YMD":
+                case "ADJ_RATE":
+                    e.Appearance.BackColor = Color.FromArgb(192, 192, 192);
+                    break;
                 case "CM_CUR_A":
                 case "CM_CUR_B":
                 case "MM_CUR_A":
                 case "MM_CUR_B":
                 case "IM_CUR_A":
                 case "IM_CUR_B":
-                case "YMD":
-                case "ADJ_RATE":
+                    e.Column.DisplayFormat.FormatString = amt_type == "P" ? "{0:0.##%}" : "#,###";
                     e.Appearance.BackColor = Color.FromArgb(192, 192, 192);
+                    break;
+                case "CM_A":
+                case "CM_B":
+                case "MM_A":
+                case "MM_B":
+                case "IM_A":
+                case "IM_B":
+                    e.Column.DisplayFormat.FormatString = amt_type == "P" ? "{0:0.##%}" : "#,###";
                     break;
             }
         }
