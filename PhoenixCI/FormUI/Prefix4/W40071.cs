@@ -182,7 +182,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     drInput["Is_NewRow"] = "0";
                 }
                 //3. 篩選並填值到右側的gridview裡(而非直接綁定datasourc e)
-                DataTable dtDetail = dao40071.d_40071_detail();
+                DataTable dtDetail = dao40071.d_40071_detail(); //只取schema
                 dtDetail.Columns["ADJ_TYPE"].ColumnName = "OP_TYPE";
                 dtDetail.Columns["DATA_YMD"].ColumnName = "YMD";
 
@@ -835,7 +835,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 DataTable dtTemp = dao40071.d_40071_detail(ymd, ls_prod_type, ls_param_key, ls_abroad, ls_kind_id, "%", ldc_rate);
                 dtTemp.Columns["ADJ_TYPE"].ColumnName = "OP_TYPE";
                 dtTemp.Columns["DATA_YMD"].ColumnName = "YMD";
-                //if (dtTemp.Rows.Count > 0) dtTemp.Columns["CM_A*NVL(MGT6_REF_XXX,1)"].ColumnName = "CM_A"; //沒撈到值的話欄位名稱不會變，若資料為個股類也不會變
+                if (dtTemp.Columns["CM_A*NVL(MGT6_REF_XXX,1)"] != null) dtTemp.Columns["CM_A*NVL(MGT6_REF_XXX,1)"].ColumnName = "CM_A"; //沒撈到值的話欄位名稱不會變，若資料為個股類也不會變
 
                 if (ls_kind_id != "%") {
                     ll_found = dtGrid.Rows.IndexOf(dtGrid.Select("kind_id like'" + ls_kind_id + "'").FirstOrDefault());
