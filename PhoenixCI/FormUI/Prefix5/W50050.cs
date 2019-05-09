@@ -11,6 +11,7 @@ using DevExpress.XtraGrid.Views.Grid;
 using System;
 using System.ComponentModel;
 using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
@@ -177,23 +178,19 @@ namespace PhoenixCI.FormUI.Prefix5 {
             gvMain.Columns["AMMD_DATE"].Group();
             gvMain.SetGridGroupSummary(gvMain.Columns[12].FieldName , $"交易時間 : {txtStartTime.Text}~{txtEndTime.Text}" , DevExpress.Data.SummaryItemType.Count);
 
-            ////處理資料型態(轉換時間格式)
-            //DataTable dt = defaultTable.Clone(); //轉型別用的datatable
-            //dt.Columns["AMMD_W_TIME"].DataType = typeof(string); //將原DataType(datetime)轉為string
-            //dt.Columns["AMMD_DATE"].DataType = typeof(string);
-            //foreach (DataRow row in defaultTable.Rows) {
-            //   dt.ImportRow(row);
-            //}
-
-            //for (int i = 0 ; i < dt.Rows.Count ; i++) {
-            //   dt.Rows[i]["AMMD_W_TIME"] = defaultTable.Rows[i]["AMMD_W_TIME"].AsDateTime().ToString("yyyy/MM/dd HH:mm:ss:fff");
-            //   dt.Rows[i]["AMMD_DATE"] = defaultTable.Rows[i]["AMMD_DATE"].AsDateTime().ToString("yyyy/MM/dd");
-            //}
-
             gcMain.Visible = true;
             gcMain.DataSource = defaultTable;
             gvMain.OptionsBehavior.AllowFixedGroups = DefaultBoolean.True;
             gvMain.ExpandAllGroups();
+
+            gvMain.AppearancePrint.HeaderPanel.Options.UseTextOptions = true;
+            gvMain.AppearancePrint.HeaderPanel.TextOptions.WordWrap = WordWrap.Wrap;
+            gvMain.ColumnPanelRowHeight = 30;
+            gvMain.AppearancePrint.HeaderPanel.Font = new Font("Microsoft YaHei" , gvMain.Appearance.HeaderPanel.Font.Size);
+            gvMain.AppearancePrint.Row.Font = new Font("Microsoft YaHei" , 11);
+            gvMain.OptionsPrint.AllowMultilineHeaders = true;
+            gvMain.AppearancePrint.GroupRow.Font = new Font("Microsoft YaHei" , 11);
+
             gvMain.BestFitColumns();
             GridHelper.SetCommonGrid(gvMain);
             gcMain.Focus();
@@ -223,7 +220,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
          foreach (DataRow dr in defaultTable.Rows) {
             dr["ammd_date"] += " 00:00:00";
          }
-
 
          //存CSV
          string etfFileName = "50050_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".csv";

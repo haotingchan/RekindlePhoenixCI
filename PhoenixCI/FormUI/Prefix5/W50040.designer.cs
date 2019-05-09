@@ -38,24 +38,7 @@
          this.panelGrid = new DevExpress.XtraEditors.PanelControl();
          this.gcMain = new DevExpress.XtraGrid.GridControl();
          this.gvMain = new DevExpress.XtraGrid.Views.Grid.GridView();
-         this.AMM1_KIND_ID2 = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.AMM1_FCM_NO = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.ABRK_ABBR_NAME = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.AMM1_ACC_NO = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.O_OUT5 = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.O_OUT4 = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.O_OUT3 = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.O_OUT2 = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.O_OUT1 = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.O_0 = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.O_IN1 = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.O_IN2 = new DevExpress.XtraGrid.Columns.GridColumn();
          this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-         this.O_IN3 = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.O_IN4 = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.O_IN5 = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.F_0 = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.AMM1_DATE = new DevExpress.XtraGrid.Columns.GridColumn();
          this.repositoryItemTextEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
@@ -115,7 +98,7 @@
          this.groupBox2.Controls.Add(this.gbPrice);
          this.groupBox2.Location = new System.Drawing.Point(693, 3);
          this.groupBox2.Name = "groupBox2";
-         this.groupBox2.Size = new System.Drawing.Size(161, 141);
+         this.groupBox2.Size = new System.Drawing.Size(161, 135);
          this.groupBox2.TabIndex = 93;
          this.groupBox2.TabStop = false;
          this.groupBox2.Text = "輸出選擇";
@@ -133,7 +116,7 @@
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_price_0", "最大價差"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_price_1", "最小價差"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_price_2", "平均價差")});
-         this.gbPrice.Size = new System.Drawing.Size(136, 79);
+         this.gbPrice.Size = new System.Drawing.Size(115, 73);
          this.gbPrice.TabIndex = 94;
          // 
          // groupBox1
@@ -287,148 +270,9 @@
          // 
          // gvMain
          // 
-         this.gvMain.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.AMM1_KIND_ID2,
-            this.AMM1_FCM_NO,
-            this.ABRK_ABBR_NAME,
-            this.AMM1_ACC_NO,
-            this.O_OUT5,
-            this.O_OUT4,
-            this.O_OUT3,
-            this.O_OUT2,
-            this.O_OUT1,
-            this.O_0,
-            this.O_IN1,
-            this.O_IN2,
-            this.O_IN3,
-            this.O_IN4,
-            this.O_IN5,
-            this.F_0,
-            this.AMM1_DATE});
          this.gvMain.GridControl = this.gcMain;
          this.gvMain.Name = "gvMain";
          this.gvMain.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gvMain_ShowingEditor);
-         // 
-         // AMM1_KIND_ID2
-         // 
-         this.AMM1_KIND_ID2.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.AMM1_KIND_ID2.AppearanceHeader.Options.UseBackColor = true;
-         this.AMM1_KIND_ID2.Caption = "商品";
-         this.AMM1_KIND_ID2.FieldName = "AMM1_KIND_ID2";
-         this.AMM1_KIND_ID2.Name = "AMM1_KIND_ID2";
-         this.AMM1_KIND_ID2.Visible = true;
-         this.AMM1_KIND_ID2.VisibleIndex = 0;
-         // 
-         // AMM1_FCM_NO
-         // 
-         this.AMM1_FCM_NO.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.AMM1_FCM_NO.AppearanceHeader.Options.UseBackColor = true;
-         this.AMM1_FCM_NO.Caption = "造市者代號";
-         this.AMM1_FCM_NO.FieldName = "AMM1_FCM_NO";
-         this.AMM1_FCM_NO.Name = "AMM1_FCM_NO";
-         this.AMM1_FCM_NO.Visible = true;
-         this.AMM1_FCM_NO.VisibleIndex = 1;
-         // 
-         // ABRK_ABBR_NAME
-         // 
-         this.ABRK_ABBR_NAME.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.ABRK_ABBR_NAME.AppearanceHeader.Options.UseBackColor = true;
-         this.ABRK_ABBR_NAME.Caption = "造市者名稱";
-         this.ABRK_ABBR_NAME.FieldName = "ABRK_ABBR_NAME";
-         this.ABRK_ABBR_NAME.Name = "ABRK_ABBR_NAME";
-         this.ABRK_ABBR_NAME.Visible = true;
-         this.ABRK_ABBR_NAME.VisibleIndex = 2;
-         // 
-         // AMM1_ACC_NO
-         // 
-         this.AMM1_ACC_NO.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.AMM1_ACC_NO.AppearanceHeader.Options.UseBackColor = true;
-         this.AMM1_ACC_NO.Caption = "帳號";
-         this.AMM1_ACC_NO.FieldName = "AMM1_ACC_NO";
-         this.AMM1_ACC_NO.Name = "AMM1_ACC_NO";
-         this.AMM1_ACC_NO.Visible = true;
-         this.AMM1_ACC_NO.VisibleIndex = 3;
-         // 
-         // O_OUT5
-         // 
-         this.O_OUT5.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.O_OUT5.AppearanceHeader.Options.UseBackColor = true;
-         this.O_OUT5.Caption = "價外第5檔";
-         this.O_OUT5.FieldName = "O_OUT5";
-         this.O_OUT5.Name = "O_OUT5";
-         this.O_OUT5.Visible = true;
-         this.O_OUT5.VisibleIndex = 4;
-         // 
-         // O_OUT4
-         // 
-         this.O_OUT4.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.O_OUT4.AppearanceHeader.Options.UseBackColor = true;
-         this.O_OUT4.Caption = "價外第4檔";
-         this.O_OUT4.FieldName = "O_OUT4";
-         this.O_OUT4.Name = "O_OUT4";
-         this.O_OUT4.Visible = true;
-         this.O_OUT4.VisibleIndex = 5;
-         // 
-         // O_OUT3
-         // 
-         this.O_OUT3.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.O_OUT3.AppearanceHeader.Options.UseBackColor = true;
-         this.O_OUT3.Caption = "價外第3檔";
-         this.O_OUT3.FieldName = "O_OUT3";
-         this.O_OUT3.Name = "O_OUT3";
-         this.O_OUT3.Visible = true;
-         this.O_OUT3.VisibleIndex = 6;
-         // 
-         // O_OUT2
-         // 
-         this.O_OUT2.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.O_OUT2.AppearanceHeader.Options.UseBackColor = true;
-         this.O_OUT2.Caption = "價外第2檔";
-         this.O_OUT2.FieldName = "O_OUT2";
-         this.O_OUT2.Name = "O_OUT2";
-         this.O_OUT2.Visible = true;
-         this.O_OUT2.VisibleIndex = 7;
-         // 
-         // O_OUT1
-         // 
-         this.O_OUT1.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.O_OUT1.AppearanceHeader.Options.UseBackColor = true;
-         this.O_OUT1.Caption = "價外第1檔";
-         this.O_OUT1.FieldName = "O_OUT1";
-         this.O_OUT1.Name = "O_OUT1";
-         this.O_OUT1.Visible = true;
-         this.O_OUT1.VisibleIndex = 8;
-         // 
-         // O_0
-         // 
-         this.O_0.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.O_0.AppearanceHeader.Options.UseBackColor = true;
-         this.O_0.Caption = "價平";
-         this.O_0.FieldName = "O_0";
-         this.O_0.Name = "O_0";
-         this.O_0.Visible = true;
-         this.O_0.VisibleIndex = 9;
-         // 
-         // O_IN1
-         // 
-         this.O_IN1.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.O_IN1.AppearanceHeader.Options.UseBackColor = true;
-         this.O_IN1.Caption = "價內第1檔";
-         this.O_IN1.FieldName = "O_IN1";
-         this.O_IN1.Name = "O_IN1";
-         this.O_IN1.Visible = true;
-         this.O_IN1.VisibleIndex = 10;
-         // 
-         // O_IN2
-         // 
-         this.O_IN2.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.O_IN2.AppearanceHeader.Options.UseBackColor = true;
-         this.O_IN2.Caption = "價內第2檔";
-         this.O_IN2.ColumnEdit = this.repositoryItemTextEdit1;
-         this.O_IN2.FieldName = "O_IN2";
-         this.O_IN2.Name = "O_IN2";
-         this.O_IN2.Visible = true;
-         this.O_IN2.VisibleIndex = 11;
          // 
          // repositoryItemTextEdit1
          // 
@@ -438,53 +282,6 @@
          this.repositoryItemTextEdit1.Mask.EditMask = "yyyy/MM/dd HH:mm:ss.fff";
          this.repositoryItemTextEdit1.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
          this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
-         // 
-         // O_IN3
-         // 
-         this.O_IN3.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.O_IN3.AppearanceHeader.Options.UseBackColor = true;
-         this.O_IN3.Caption = "價內第3檔";
-         this.O_IN3.FieldName = "O_IN3";
-         this.O_IN3.Name = "O_IN3";
-         this.O_IN3.Visible = true;
-         this.O_IN3.VisibleIndex = 12;
-         // 
-         // O_IN4
-         // 
-         this.O_IN4.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.O_IN4.AppearanceHeader.Options.UseBackColor = true;
-         this.O_IN4.Caption = "價內第4檔";
-         this.O_IN4.FieldName = "O_IN4";
-         this.O_IN4.Name = "O_IN4";
-         this.O_IN4.Visible = true;
-         this.O_IN4.VisibleIndex = 14;
-         // 
-         // O_IN5
-         // 
-         this.O_IN5.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.O_IN5.AppearanceHeader.Options.UseBackColor = true;
-         this.O_IN5.Caption = "價內第5檔";
-         this.O_IN5.FieldName = "O_IN5";
-         this.O_IN5.Name = "O_IN5";
-         this.O_IN5.Visible = true;
-         this.O_IN5.VisibleIndex = 13;
-         // 
-         // F_0
-         // 
-         this.F_0.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.F_0.AppearanceHeader.Options.UseBackColor = true;
-         this.F_0.Caption = "期貨";
-         this.F_0.FieldName = "F_0";
-         this.F_0.Name = "F_0";
-         this.F_0.Visible = true;
-         this.F_0.VisibleIndex = 15;
-         // 
-         // AMM1_DATE
-         // 
-         this.AMM1_DATE.Caption = "資料日期";
-         this.AMM1_DATE.ColumnEdit = this.repositoryItemTextEdit2;
-         this.AMM1_DATE.FieldName = "AMM1_DATE";
-         this.AMM1_DATE.Name = "AMM1_DATE";
          // 
          // repositoryItemTextEdit2
          // 
@@ -538,30 +335,13 @@
       private DevExpress.XtraEditors.PanelControl panelGrid;
       private DevExpress.XtraGrid.GridControl gcMain;
       private DevExpress.XtraGrid.Views.Grid.GridView gvMain;
-      private DevExpress.XtraGrid.Columns.GridColumn AMM1_KIND_ID2;
-      private DevExpress.XtraGrid.Columns.GridColumn AMM1_FCM_NO;
-      private DevExpress.XtraGrid.Columns.GridColumn ABRK_ABBR_NAME;
-      private DevExpress.XtraGrid.Columns.GridColumn AMM1_ACC_NO;
-      private DevExpress.XtraGrid.Columns.GridColumn O_OUT5;
-      private DevExpress.XtraGrid.Columns.GridColumn O_OUT4;
-      private DevExpress.XtraGrid.Columns.GridColumn O_OUT3;
-      private DevExpress.XtraGrid.Columns.GridColumn O_OUT2;
-      private DevExpress.XtraGrid.Columns.GridColumn O_OUT1;
-      private DevExpress.XtraGrid.Columns.GridColumn O_0;
-      private DevExpress.XtraGrid.Columns.GridColumn O_IN1;
-      private DevExpress.XtraGrid.Columns.GridColumn O_IN2;
       private BaseGround.Widget.TextDateEdit txtEndDate;
       private BaseGround.Widget.TextDateEdit txtStartDate;
       private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit1;
-      private DevExpress.XtraGrid.Columns.GridColumn AMM1_DATE;
       private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit2;
       private System.Windows.Forms.GroupBox groupBox1;
       protected DevExpress.XtraEditors.RadioGroup gbItem;
       private System.Windows.Forms.GroupBox groupBox2;
       protected DevExpress.XtraEditors.RadioGroup gbPrice;
-      private DevExpress.XtraGrid.Columns.GridColumn O_IN3;
-      private DevExpress.XtraGrid.Columns.GridColumn O_IN4;
-      private DevExpress.XtraGrid.Columns.GridColumn O_IN5;
-      private DevExpress.XtraGrid.Columns.GridColumn F_0;
    }
 }
