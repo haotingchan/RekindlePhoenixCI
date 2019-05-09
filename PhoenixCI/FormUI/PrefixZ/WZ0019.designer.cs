@@ -35,19 +35,27 @@
             this.UPF_USER_NAME = new DevExpress.XtraGrid.Columns.GridColumn();
             this.UTP_TXN_ID = new DevExpress.XtraGrid.Columns.GridColumn();
             this.TXN_NAME = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.cbxDpt = new System.Windows.Forms.ComboBox();
             this.lblDpt = new System.Windows.Forms.Label();
+            this.ddlDept = new DevExpress.XtraEditors.LookUpEdit();
             this.panParent.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ddlDept.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // panParent
             // 
+            this.panParent.Controls.Add(this.ddlDept);
             this.panParent.Controls.Add(this.lblDpt);
-            this.panParent.Controls.Add(this.cbxDpt);
             this.panParent.Controls.Add(this.gcMain);
-            this.panParent.Size = new System.Drawing.Size(838, 540);
+            this.panParent.Size = new System.Drawing.Size(838, 542);
+            // 
+            // ribbonControl
+            // 
+            this.ribbonControl.ExpandCollapseItem.Id = 0;
+            this.ribbonControl.Size = new System.Drawing.Size(838, 30);
+            this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // gcMain
             // 
@@ -57,7 +65,7 @@
             this.gcMain.Location = new System.Drawing.Point(12, 49);
             this.gcMain.MainView = this.gvMain;
             this.gcMain.Name = "gcMain";
-            this.gcMain.Size = new System.Drawing.Size(811, 476);
+            this.gcMain.Size = new System.Drawing.Size(811, 478);
             this.gcMain.TabIndex = 0;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -133,15 +141,6 @@
             this.TXN_NAME.VisibleIndex = 4;
             this.TXN_NAME.Width = 386;
             // 
-            // cbxDpt
-            // 
-            this.cbxDpt.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbxDpt.FormattingEnabled = true;
-            this.cbxDpt.Location = new System.Drawing.Point(119, 15);
-            this.cbxDpt.Name = "cbxDpt";
-            this.cbxDpt.Size = new System.Drawing.Size(174, 28);
-            this.cbxDpt.TabIndex = 1;
-            // 
             // lblDpt
             // 
             this.lblDpt.AutoSize = true;
@@ -150,6 +149,16 @@
             this.lblDpt.Size = new System.Drawing.Size(89, 20);
             this.lblDpt.TabIndex = 2;
             this.lblDpt.Text = "部門代號：";
+            // 
+            // ddlDept
+            // 
+            this.ddlDept.Location = new System.Drawing.Point(110, 15);
+            this.ddlDept.MenuManager = this.ribbonControl;
+            this.ddlDept.Name = "ddlDept";
+            this.ddlDept.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.ddlDept.Size = new System.Drawing.Size(160, 26);
+            this.ddlDept.TabIndex = 14;
             // 
             // WZ0019
             // 
@@ -161,8 +170,10 @@
             this.Text = "FormChild";
             this.panParent.ResumeLayout(false);
             this.panParent.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ddlDept.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -172,12 +183,12 @@
 
         private DevExpress.XtraGrid.GridControl gcMain;
         private DevExpress.XtraGrid.Views.Grid.GridView gvMain;
-        private System.Windows.Forms.ComboBox cbxDpt;
         private System.Windows.Forms.Label lblDpt;
         private DevExpress.XtraGrid.Columns.GridColumn DPT_NAME;
         private DevExpress.XtraGrid.Columns.GridColumn UPF_USER_ID;
         private DevExpress.XtraGrid.Columns.GridColumn UPF_USER_NAME;
         private DevExpress.XtraGrid.Columns.GridColumn UTP_TXN_ID;
         private DevExpress.XtraGrid.Columns.GridColumn TXN_NAME;
+        private DevExpress.XtraEditors.LookUpEdit ddlDept;
     }
 }

@@ -1,12 +1,12 @@
-﻿using ActionService;
-using ActionService.DbDirect;
+﻿using ActionService.DbDirect;
 using ActionService.Extensions;
+using BaseGround.Shared;
+using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraEditors.Repository;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-using System.Windows.Forms;
 
 namespace PhoenixCI.Widget
 {
@@ -128,54 +128,47 @@ namespace PhoenixCI.Widget
             return repLookUp;
         }
 
-        public static ComboBox CreateComboBoxDptIdAndName(ComboBox cbx)
+        public static RepositoryItemLookUpEdit RepositoryItemDptIdAndName(RepositoryItemLookUpEdit repLookUp)
         {
-         ServiceCommon serviceCommon = new ServiceCommon();
-         DataTable dt = serviceCommon.ListDPT().Trim();
-            cbx.DisplayMember = "DPT_ID_NAME";
-            cbx.ValueMember = "DPT_ID";
-            cbx.DataSource = dt;
-            cbx.SelectedItem = null;
+            ServiceCommon serviceCommon = new ServiceCommon();
+            DataTable dt = serviceCommon.ListDPT().Trim();
 
-            return cbx;
-        }
-
-        public static RepositoryItemLookUpEdit CreateRepositoryItemDptIdAndName(ComboBox cbx)
-        {
-            RepositoryItemLookUpEdit repLookUp = new RepositoryItemLookUpEdit();
-            repLookUp.DisplayMember = cbx.DisplayMember;
-            repLookUp.ValueMember = cbx.ValueMember;
-            repLookUp.DataSource = cbx.DataSource;
-            SetCommonLookUp(repLookUp);
-            repLookUp.Columns[cbx.ValueMember].Visible = false;
-            repLookUp.Columns["DPT_NAME"].Visible = false;
-            repLookUp.Columns["DPT_SEQ_NO"].Visible = false;
+            repLookUp.SetColumnLookUp(dt, "DPT_ID", "DPT_ID_NAME", TextEditStyles.DisableTextEditor, "");
 
             return repLookUp;
         }
 
-        public static ComboBox ComboBoxUserIdAndName(ComboBox cbx)
+        public static LookUpEdit LookUpItemDptIdAndName(LookUpEdit repLookUp)
         {
-         ServiceCommon serviceCommon = new ServiceCommon();
-         DataTable dt = serviceCommon.ListDataForUserIDAndUserName().Trim();
-            cbx.DisplayMember = "UserIDAndUserName";
-            cbx.ValueMember = "UPF_USER_ID";
-            cbx.DataSource = dt;
-            cbx.SelectedItem = null;
+            ServiceCommon serviceCommon = new ServiceCommon();
+            DataTable dt = serviceCommon.ListDPT().Trim();
 
-            return cbx;
+            repLookUp.SetDataTable(dt, "DPT_ID", "DPT_ID_NAME", TextEditStyles.DisableTextEditor, "");
+            repLookUp.EditValue = "";
+
+            return repLookUp;
         }
 
-        public static ComboBox ComboBoxTxnIdAndName(ComboBox cbx)
+        public static LookUpEdit LookUpItemUserIdAndName(LookUpEdit repLookUp)
         {
-         ServiceCommon serviceCommon = new ServiceCommon();
-         DataTable dt = serviceCommon.ListDataForTxnIdAndName();
-            cbx.DisplayMember = "TxnIdAndName";
-            cbx.ValueMember = "TXN_ID";
-            cbx.DataSource = dt;
-            cbx.SelectedItem = null;
+            ServiceCommon serviceCommon = new ServiceCommon();
+            DataTable dt = serviceCommon.ListDataForUserIDAndUserName().Trim();
 
-            return cbx;
+            repLookUp.SetDataTable(dt, "UPF_USER_ID", "UPF_USER_ID_NAME", TextEditStyles.DisableTextEditor, "");
+            repLookUp.EditValue = "";
+
+            return repLookUp;
+        }
+
+        public static LookUpEdit LookUpItemTxnIdAndName(LookUpEdit repLookUp)
+        {
+            ServiceCommon serviceCommon = new ServiceCommon();
+            DataTable dt = serviceCommon.ListDataForTxnIdAndName();
+
+            repLookUp.SetDataTable(dt, "TXN_ID", "TXN_ID_NAME", TextEditStyles.DisableTextEditor, "");
+            repLookUp.EditValue = "";
+
+            return repLookUp;
         }
     }
 }

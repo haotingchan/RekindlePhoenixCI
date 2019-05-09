@@ -36,7 +36,7 @@ namespace DataObjects.Dao.Together
 
             string sql =
                 @"
-                    SELECT  TXN_ID,TXN_NAME,TRIM(TXN_ID) || ' ─ ' || TXN_NAME AS TxnIdAndName
+                    SELECT  TXN_ID,TXN_NAME,TRIM(TXN_ID) || ' ─ ' || TXN_NAME AS TXN_ID_NAME
                     FROM    CI.TXN
                     WHERE TXN_DEFAULT <> 'Y'
                     ORDER BY TXN_ID ASC

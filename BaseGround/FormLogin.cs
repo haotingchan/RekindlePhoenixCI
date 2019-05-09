@@ -32,8 +32,9 @@ namespace BaseGround
                 string myPassword = txtPassword.Text.Trim();
                 if (myID.ToUpper() == GlobalDaoSetting.GetConnectionInfo.ConnectionName)
                 {
-                    GlobalInfo.USER_ID = myID;
-                    GlobalInfo.USER_NAME = myID;
+                    GlobalInfo.USER_ID = myID.ToUpper();
+                    GlobalInfo.USER_NAME = myID.ToUpper();
+                    GlobalInfo.USER_DPT_ID = " ";
 
                     this.Hide();
                     FormMain form = new FormMain();

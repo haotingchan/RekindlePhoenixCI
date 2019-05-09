@@ -37,11 +37,8 @@ namespace PhoenixCI.FormUI.PrefixZ
         {
             base.Open();
 
-            DataTable dt = (DataTable)DropDownList.ComboBoxUserIdAndName(cbxUserId).DataSource;
-            DataRow row = dt.NewRow();
-            dt.Rows.InsertAt(row, 0);
-            cbxUserId.DataSource = dt;
-            cbxUserId.SelectedItem = null;
+            DropDownList.LookUpItemUserIdAndName(ddlUserId);
+
 
             txtStartDate.DateTimeValue = GlobalInfo.OCF_DATE;
             txtEndDate.DateTimeValue = GlobalInfo.OCF_DATE;
@@ -70,7 +67,7 @@ namespace PhoenixCI.FormUI.PrefixZ
         {
             base.Retrieve(gcMain);
 
-            string userId = cbxUserId.SelectedValue.AsString();
+            string userId = ddlUserId.EditValue.AsString();
             DateTime startDate = txtStartDate.DateTimeValue;
             DateTime endDate = txtEndDate.DateTimeValue;
             gcMain.DataSource = daoLOGUTP.ListDataByUser(startDate, endDate, userId);

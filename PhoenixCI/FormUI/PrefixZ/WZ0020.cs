@@ -123,50 +123,63 @@ namespace PhoenixCI.FormUI.PrefixZ
 
         protected override ResultStatus Save(PokeBall pokeBall)
         {
-            base.Save(gcMain);
-
-            DataTable dt = (DataTable)gcMain.DataSource;
-
-            string tableName = "ci.TXN";
-            string keysColumnList = "TXN_ID";
-            string insertColumnList = "TXN_ID, TXN_INS, TXN_DEL, TXN_QUERY, TXN_IMPORT, TXN_EXPORT, TXN_PRINT, TXN_UPDATE, TXN_DEFAULT, TXN_RMARK, TXN_W_TIME, TXN_W_USER_ID, TXN_NAME, TXN_AUDIT";
-            string updateColumnList = "TXN_ID, TXN_INS, TXN_DEL, TXN_QUERY, TXN_IMPORT, TXN_EXPORT, TXN_PRINT, TXN_UPDATE, TXN_DEFAULT, TXN_RMARK, TXN_W_TIME, TXN_W_USER_ID, TXN_NAME, TXN_AUDIT";
-
-            ResultData myResultData = serviceCommon.SaveForChanged(dt, tableName, insertColumnList, updateColumnList, keysColumnList, pokeBall);
-
-            #region 刪除作業代號
-
-            //DataTable dtDelete = (DataTable)myResultData.ChangedDataViewForDeleted.ToTable();
-            //foreach (DataRow row in dtDelete.Rows)
-            //{
-            //    string txnId = row["TXN_ID"].AsString();
-            //    bool result = daoLOGUTP.InsertByUTPAndUPF(txnId, GlobalInfo.USER_DPT_ID, GlobalInfo.USER_ID, GlobalInfo.USER_NAME, "D");
-            //    result = daoUTP.DeleteUTPByTxnId(txnId);
-            //}
-
-            #endregion 刪除作業代號
-
-            #region 變更作業代號
-
-            DataTable dtChange = (DataTable)myResultData.ChangedDataViewForModified.ToTable();
-            foreach (DataRow row in dtChange.Rows)
+            try
             {
-                string txnId = row["TXN_ID"].AsString();
-                string txnIdOrg = row["TXN_ID_ORG"].AsString();
-
-                if (txnId != txnIdOrg)
+                ResultStatus myCheckResult = CheckShield();
+                if (myCheckResult != ResultStatus.Success) return myCheckResult;
+                if (myCheckResult == ResultStatus.Success)
                 {
-                    bool result = daoLOGUTP.InsertByUTPAndUPF(txnIdOrg, GlobalInfo.USER_DPT_ID, GlobalInfo.USER_ID, GlobalInfo.USER_NAME, "D");
-                    result = daoUTP.DeleteUTPByTxnId(txnIdOrg);
+                    base.Save(gcMain);
+
+                    DataTable dt = (DataTable)gcMain.DataSource;
+
+                    string tableName = "ci.TXN";
+                    string keysColumnList = "TXN_ID";
+                    string insertColumnList = "TXN_ID, TXN_INS, TXN_DEL, TXN_QUERY, TXN_IMPORT, TXN_EXPORT, TXN_PRINT, TXN_UPDATE, TXN_DEFAULT, TXN_RMARK, TXN_W_TIME, TXN_W_USER_ID, TXN_NAME, TXN_AUDIT";
+                    string updateColumnList = "TXN_ID, TXN_INS, TXN_DEL, TXN_QUERY, TXN_IMPORT, TXN_EXPORT, TXN_PRINT, TXN_UPDATE, TXN_DEFAULT, TXN_RMARK, TXN_W_TIME, TXN_W_USER_ID, TXN_NAME, TXN_AUDIT";
+
+                    ResultData myResultData = serviceCommon.SaveForChanged(dt, tableName, insertColumnList, updateColumnList, keysColumnList, pokeBall);
+
+                    #region 刪除作業代號
+
+                    //DataTable dtDelete = (DataTable)myResultData.ChangedDataViewForDeleted.ToTable();
+                    //foreach (DataRow row in dtDelete.Rows)
+                    //{
+                    //    string txnId = row["TXN_ID"].AsString();
+                    //    bool result = daoLOGUTP.InsertByUTPAndUPF(txnId, GlobalInfo.USER_DPT_ID, GlobalInfo.USER_ID, GlobalInfo.USER_NAME, "D");
+                    //    result = daoUTP.DeleteUTPByTxnId(txnId);
+                    //}
+
+                    #endregion 刪除作業代號
+
+                    #region 變更作業代號
+
+                    DataTable dtChange = (DataTable)myResultData.ChangedDataViewForModified.ToTable();
+                    foreach (DataRow row in dtChange.Rows)
+                    {
+                        string txnId = row["TXN_ID"].AsString();
+                        string txnIdOrg = row["TXN_ID_ORG"].AsString();
+
+                        if (txnId != txnIdOrg)
+                        {
+                            bool result = daoLOGUTP.InsertByUTPAndUPF(txnIdOrg, GlobalInfo.USER_DPT_ID, GlobalInfo.USER_ID, GlobalInfo.USER_NAME, "D");
+                            result = daoUTP.DeleteUTPByTxnId(txnIdOrg);
+                        }
+                    }
+
+                    #endregion 變更作業代號
+
+                    PrintOrExportChanged(gcMain, myResultData);
+                    _IsPreventFlowPrint = true;
+                    _IsPreventFlowExport = true;
                 }
             }
-
-            #endregion 變更作業代號
-
-            PrintOrExportChanged(gcMain, myResultData);
-            _IsPreventFlowPrint = true;
-            _IsPreventFlowExport = true;
-
+            catch (Exception ex)
+            {
+                MessageDisplay.Error(ex.Message);
+                throw;
+            }
+            
             return ResultStatus.Success;
         }
 
