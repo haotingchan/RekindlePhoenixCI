@@ -5,12 +5,16 @@ using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
+using DevExpress.Data;
 using DevExpress.Utils;
 using DevExpress.XtraEditors.Controls;
+using DevExpress.XtraGrid.Columns;
+using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
 using System;
 using System.ComponentModel;
 using System.Data;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -115,11 +119,13 @@ namespace PhoenixCI.FormUI.Prefix5 {
       }
 
       protected override ResultStatus Retrieve() {
-         try {
-            _ToolBtnExport.Enabled = true;
 
+         _ToolBtnExport.Enabled = true;
+         gvMain.GroupSummary.Clear();
+         this.Cursor = Cursors.WaitCursor;
+
+         try {
             //報表內容
-            //string dbName = "";
             if (gbMarket.EditValue.ToString() == "rb_market_0") {
                dbName = "AMM1";
             } else {
@@ -127,7 +133,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
             }
 
             //輸入選擇權
-            //string ls_sort_type = "", ls_fcm_no = "", ls_kind_id2 = "";
             if (gbItem.EditValue.ToString() == "rb_item_0") {
                ls_sort_type = "F";
                ls_fcm_no = dw_sbrkno.EditValue.AsString();
@@ -148,8 +153,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
             }
 
             //輸出選擇
-            //int li_val;
-            //RadioGroup rb_price = new RadioGroup();
             if (gbPrice.EditValue.ToString() == "rb_price_0") {
                li_val = 1; //最大價差  
             } else if (gbPrice.EditValue.ToString() == "rb_price_1") {
@@ -158,115 +161,136 @@ namespace PhoenixCI.FormUI.Prefix5 {
                li_val = 3; //平均價差
             }
 
-            DataTable defaultTable = new DataTable();
-            defaultTable = dao50040.ListAll(txtStartDate.DateTimeValue , txtEndDate.DateTimeValue , ls_sort_type , li_val , ls_fcm_no , ls_kind_id2 , dbName);
+            DataTable defaultTable = dao50040.ListAll(txtStartDate.DateTimeValue , txtEndDate.DateTimeValue , ls_sort_type , li_val , ls_fcm_no , ls_kind_id2 , dbName);
 
             if (defaultTable.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("無任何資料!"));
+               MessageDisplay.Info("無任何資料!");
                gcMain.DataSource = null;
                gcMain.Visible = false;
                _ToolBtnExport.Enabled = false;
                return ResultStatus.Fail;
             }
 
-            //將資料填入grid上面四個Computer計算域(其中兩個cp_key1、cp_key2在D50040用SQL改寫)
+            //1. 設定gvMain
+            gvMain.Columns.Clear();
+            gvMain.OptionsBehavior.AutoPopulateColumns = true;
+            gcMain.DataSource = defaultTable;
+            gvMain.BestFitColumns();
+            GridHelper.SetCommonGrid(gvMain);
 
-            //SORT_TYPE/abrk_abbr_name/AMM1_ACC_NO+................
+            //1.1 設定欄位caption
+            gvMain.SetColumnCaption("AMM1_DATE" , "資料日期");
+            gvMain.SetColumnCaption("AMM1_FCM_NO" , "造市者代號");
+            gvMain.SetColumnCaption("AMM1_ACC_NO" , "帳號");
+            gvMain.SetColumnCaption("ABRK_ABBR_NAME" , "造市者名稱");
+            gvMain.SetColumnCaption("AMM1_PROD_TYPE" , "AMM1_PROD_TYPE");
+
+            gvMain.SetColumnCaption("AMM1_KIND_ID2" , "商品");
+            gvMain.SetColumnCaption("O_OUT5" , "價外第5檔");
+            gvMain.SetColumnCaption("O_OUT4" , "價外第4檔");
+            gvMain.SetColumnCaption("O_OUT3" , "價外第3檔");
+            gvMain.SetColumnCaption("O_OUT2" , "價外第2檔");
+
+            gvMain.SetColumnCaption("O_OUT1" , "價外第1檔");
+            gvMain.SetColumnCaption("O_0" , "價平");
+            gvMain.SetColumnCaption("O_IN1" , "價內第1檔");
+            gvMain.SetColumnCaption("O_IN2" , "價內第2檔");
+            gvMain.SetColumnCaption("O_IN3" , "價內第3檔");
+
+            gvMain.SetColumnCaption("O_IN4" , "價內第4檔");
+            gvMain.SetColumnCaption("O_IN5" , "價內第5檔");
+            gvMain.SetColumnCaption("F_0" , "期貨");
+            gvMain.SetColumnCaption("SORT_TYPE" , "SORT_TYPE");
+
+            foreach (GridColumn item in gvMain.Columns) {
+               item.AppearanceHeader.BackColor = Color.FromArgb(128 , 255 , 255);
+            }
+
             if (ls_sort_type == "F") {
-               //當選擇造市者時,第一個欄位=amm1_kind_id2+amm1_prod_type or amm1_kind_id2
-               //第一、第二跟第三個欄位都隱藏，只顯示商品(AMM1_KIND_ID2)
-               gvMain.Columns["AMM1_FCM_NO"].Visible = false;
-               gvMain.Columns["ABRK_ABBR_NAME"].Visible = false;
-               gvMain.Columns["AMM1_ACC_NO"].Visible = false;
-               gvMain.Columns["AMM1_KIND_ID2"].Visible = true;
-               gvMain.Columns["AMM1_KIND_ID2"].VisibleIndex = 0;
 
-               //開始針對每個欄位做值轉換
+               gvMain.SetColumnCaption("AMM1_FCM_NO" , "造市者");
+
+               //設定隱藏欄位
+               gvMain.Columns["AMM1_DATE"].Visible = false;
+               gvMain.Columns["AMM1_FCM_NO"].Visible = false;
+               gvMain.Columns["AMM1_ACC_NO"].Visible = false;
+               gvMain.Columns["ABRK_ABBR_NAME"].Visible = false;
+               gvMain.Columns["AMM1_PROD_TYPE"].Visible = false;
+
+               gvMain.Columns["SORT_TYPE"].Visible = false;
+
+               //針對每個欄位做值轉換
                //若AMM1_KIND_ID2取的值長度為2，後面加上AMM1_PROD_TYPE的值，若不為2直接取AMM1_KIND_ID2值即可
                foreach (DataRow dr in defaultTable.Rows) {
                   if (dr["AMM1_KIND_ID2"].AsString().Length == 2) {
                      dr["AMM1_KIND_ID2"] = dr["AMM1_KIND_ID2"].AsString() + dr["AMM1_PROD_TYPE"].AsString();
                   } else {
                      dr["AMM1_KIND_ID2"] = dr["AMM1_KIND_ID2"].AsString();
-                  }//if (dr["amm1_kind_id2"].AsString().Length == 2) 
-
-                  #region //winni,特殊規則,某些欄位小數點後四碼 或兩碼
-                  //if( TRIM(amm1_kind_id2) in ("RHF","RTF","RHO","RTO","XEF"),'#0.0000','#0.00')
-                  //O_OUT5,O_OUT4,O_OUT3,O_OUT2,O_OUT1,O_0, O_IN1,O_IN2,O_IN3,O_IN4,O_IN5,F_0都要改為小數點後四碼,否則為兩碼
-                  string[] tmp = new string[] { "RHF" , "RTF" , "RHO" , "RTO" , "XEF" };
-                  string[] fields = new string[] { "O_OUT5" , "O_OUT4" , "O_OUT3" , "O_OUT2" , "O_OUT1" , "O_0" ,
-                                                   "O_IN1" , "O_IN2" , "O_IN3" , "O_IN4" , "O_IN5" , "F_0" };
-                  if (tmp.Any(s => dr["AMM1_KIND_ID2"].AsString().Contains(s))) {
-                     foreach (string f in fields) {
-                        if (dr[f] != DBNull.Value)
-                           dr[f] = dr[f].AsDecimal().ToString("0,0.0000");
-                     }
-                  } else {
-                     foreach (string f in fields) {
-                        if (dr[f] != DBNull.Value)
-                           dr[f] = dr[f].AsDecimal().ToString("0,0.00");
-                     }
                   }
-                  #endregion
+               }
 
-               }//foreach
+               //設定 平行group
+               gvMain.SortInfo.ClearAndAddRange(new[]
+               { new GridMergedColumnSortInfo (new[] { gvMain.Columns["AMM1_DATE"] ,gvMain.Columns["AMM1_FCM_NO"] ,gvMain.Columns["AMM1_ACC_NO"] },
+            new [] {ColumnSortOrder.Ascending,ColumnSortOrder.Ascending,ColumnSortOrder.Ascending})} , 2);
 
-               //group "if( sort_type ='F' ,amm1_fcm_no+ amm1_acc_no  , amm1_kind_id2 )"
-               gvMain.Columns["AMM1_DATE"].Group();
-               gvMain.Columns["AMM1_FCM_NO"].Group();
-               gvMain.Columns["AMM1_ACC_NO"].Group();
+               gvMain.SetGridGroupSummary(gvMain.Columns["AMM1_DATE"].FieldName + gvMain.Columns["AMM1_FCM_NO"].FieldName + gvMain.Columns["AMM1_ACC_NO"].FieldName , "" , SummaryItemType.Count);
 
             } else {
-               //當選擇商品時,第一個欄位=amm1_fcm_no
-               gvMain.Columns["AMM1_FCM_NO"].Visible = true;
-               gvMain.Columns["ABRK_ABBR_NAME"].Visible = true;
-               gvMain.Columns["AMM1_ACC_NO"].Visible = true;
+
+               //設定隱藏欄位
+               gvMain.Columns["AMM1_DATE"].Visible = false;
                gvMain.Columns["AMM1_KIND_ID2"].Visible = false;
-               gvMain.Columns["AMM1_FCM_NO"].VisibleIndex = 1;
-               gvMain.Columns["ABRK_ABBR_NAME"].VisibleIndex = 2;
-               gvMain.Columns["AMM1_ACC_NO"].VisibleIndex = 3;
-               //defaultTable.Columns["SORT_TYPE"].Caption = "造市者代號";
+               gvMain.Columns["AMM1_PROD_TYPE"].Visible = false;
+               gvMain.Columns["SORT_TYPE"].Visible = false;
 
                foreach (DataRow dr in defaultTable.Rows) {
                   dr["AMM1_FCM_NO"] = dr["AMM1_FCM_NO"].AsString();
+               }
 
-                  #region //winni,特殊規則,某些欄位小數點後四碼 或兩碼
-                  //if( TRIM(amm1_kind_id2) in ("RHF","RTF","RHO","RTO","XEF"),'#0.0000','#0.00')
-                  //O_OUT5,O_OUT4,O_OUT3,O_OUT2,O_OUT1,O_0, O_IN1,O_IN2,O_IN3,O_IN4,O_IN5,F_0都要改為小數點後四碼,否則為兩碼
-                  string[] tmp = new string[] { "RHF" , "RTF" , "RHO" , "RTO" , "XEF" };
-                  string[] fields = new string[] { "O_OUT5" , "O_OUT4" , "O_OUT3" , "O_OUT2" , "O_OUT1" , "O_0" ,
-                                                   "O_IN1" , "O_IN2" , "O_IN3" , "O_IN4" , "O_IN5" , "F_0" };
-                  if (tmp.Any(s => dr["AMM1_KIND_ID2"].AsString().Contains(s))) {
-                     foreach (string f in fields) {
-                        if (dr[f] != DBNull.Value)
-                           dr[f] = dr[f].AsDecimal().ToString("0,0.0000");
-                     }
-                  } else {
-                     foreach (string f in fields) {
-                        if (dr[f] != DBNull.Value)
-                           dr[f] = dr[f].AsDecimal().ToString("0,0.00");
-                     }
+               //設定 平行group
+               gvMain.SortInfo.ClearAndAddRange(new[]
+               { new GridMergedColumnSortInfo (new[] { gvMain.Columns["AMM1_DATE"] ,gvMain.Columns["AMM1_KIND_ID2"] },
+            new [] {ColumnSortOrder.Ascending,ColumnSortOrder.Ascending,ColumnSortOrder.Ascending})} , 2);
+
+               gvMain.SetGridGroupSummary(gvMain.Columns["AMM1_DATE"].FieldName + gvMain.Columns["AMM1_KIND_ID2"].FieldName , "" , SummaryItemType.Count);
+
+            }
+
+            #region 特殊規則,某些欄位小數點後四碼 或兩碼
+            foreach (DataRow dr in defaultTable.Rows) {
+               //if( TRIM(amm1_kind_id2) in ("RHF","RTF","RHO","RTO","XEF"),'#0.0000','#0.00')
+               //O_OUT5,O_OUT4,O_OUT3,O_OUT2,O_OUT1,O_0, O_IN1,O_IN2,O_IN3,O_IN4,O_IN5,F_0都要改為小數點後四碼,否則為兩碼
+               string[] tmp = new string[] { "RHF" , "RTF" , "RHO" , "RTO" , "XEF" };
+               string[] fields = new string[] { "O_OUT5" , "O_OUT4" , "O_OUT3" , "O_OUT2" , "O_OUT1" , "O_0" ,
+                                                            "O_IN1" , "O_IN2" , "O_IN3" , "O_IN4" , "O_IN5" , "F_0" };
+               if (tmp.Any(s => dr["AMM1_KIND_ID2"].AsString().Contains(s))) {
+                  foreach (string f in fields) {
+                     if (dr[f] != DBNull.Value)
+                        dr[f] = dr[f].AsDecimal().ToString("0,0.0000");
                   }
-                  #endregion
-               }//foreach
-
-               //group "if( sort_type ='F' ,amm1_fcm_no+ amm1_acc_no  , amm1_kind_id2 )"
-               gvMain.Columns["AMM1_DATE"].Group();
-               gvMain.Columns["AMM1_KIND_ID2"].Group();
-
-            }//if (ls_sort_type == "F") {
-
-            //DataRow drFirst = defaultTable.Rows[0];
-            //labAmmDate1.Text = "交易日期：" + drFirst["amm1_date"].AsString().Substring(0 , 10); //列出第一筆[ammd_date]的日期
-            //labInfo.Text = (ls_sort_type == "F" ? "造市者：" + drFirst["AMM1_FCM_NO"].AsString() + " ,帳號： " + drFirst["AMM1_ACC_NO"].AsString()
-            //                                 : "商品：" + drFirst["AMM1_KIND_ID2"].AsString());
-            //labAmmDate1.Visible = true;
-            //labInfo.Visible = true;
+               } else {
+                  foreach (string f in fields) {
+                     if (dr[f] != DBNull.Value)
+                        dr[f] = dr[f].AsDecimal().ToString("0,0.00");
+                  }
+               }
+            }
+            #endregion
 
             gcMain.Visible = true;
             gcMain.DataSource = defaultTable;
             gvMain.OptionsBehavior.AllowFixedGroups = DefaultBoolean.True;
             gvMain.ExpandAllGroups();
+
+            gvMain.AppearancePrint.HeaderPanel.Options.UseTextOptions = true;
+            gvMain.AppearancePrint.HeaderPanel.TextOptions.WordWrap = WordWrap.Wrap;
+            gvMain.ColumnPanelRowHeight = 30;
+            gvMain.AppearancePrint.HeaderPanel.Font = new Font("Microsoft YaHei" , gvMain.Appearance.HeaderPanel.Font.Size);
+            gvMain.AppearancePrint.Row.Font = new Font("Microsoft YaHei" , 11);
+            gvMain.OptionsPrint.AllowMultilineHeaders = true;
+            gvMain.AppearancePrint.GroupRow.Font = new Font("Microsoft YaHei" , 11);
+
             gvMain.BestFitColumns();
             GridHelper.SetCommonGrid(gvMain);
             gcMain.Focus();

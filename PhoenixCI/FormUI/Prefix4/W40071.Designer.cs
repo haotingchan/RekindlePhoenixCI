@@ -399,6 +399,7 @@
             this.gvMain.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gvMain_CustomRowCellEdit);
             this.gvMain.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gvMain_ShowingEditor);
             this.gvMain.InitNewRow += new DevExpress.XtraGrid.Views.Grid.InitNewRowEventHandler(this.gvMain_InitNewRow);
+            this.gvMain.FocusedRowChanged += new DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventHandler(this.gvMain_FocusedRowChanged);
             this.gvMain.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gvMain_CellValueChanged);
             // 
             // gridBand1
@@ -604,6 +605,7 @@
             this.gvDetail.OptionsView.ShowColumnHeaders = false;
             this.gvDetail.OptionsView.ShowGroupPanel = false;
             this.gvDetail.RowCellStyle += new DevExpress.XtraGrid.Views.Grid.RowCellStyleEventHandler(this.gvDetail_RowCellStyle);
+            this.gvDetail.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gvDetail_ShowingEditor);
             this.gvDetail.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gvDetail_CellValueChanged);
             // 
             // gridBand2
@@ -649,7 +651,7 @@
             this.gridBand6.Columns.Add(this.KIND_ID);
             this.gridBand6.Name = "gridBand6";
             this.gridBand6.VisibleIndex = 1;
-            this.gridBand6.Width = 55;
+            this.gridBand6.Width = 58;
             // 
             // KIND_ID
             // 
@@ -660,7 +662,7 @@
             this.KIND_ID.Name = "KIND_ID";
             this.KIND_ID.OptionsColumn.AllowEdit = false;
             this.KIND_ID.Visible = true;
-            this.KIND_ID.Width = 55;
+            this.KIND_ID.Width = 58;
             // 
             // gridBand7
             // 

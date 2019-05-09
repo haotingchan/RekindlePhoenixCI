@@ -1,0 +1,239 @@
+﻿using OnePiece;
+using System;
+using System.Collections.Generic;
+using System.Data;
+
+/// <summary>
+/// Winni,2019/5/8
+/// </summary>
+namespace DataObjects.Dao.Together.SpecificDao {
+   /// <summary>
+   /// 交易系統使用文字檔
+   /// </summary>
+   public class D40180 : DataGate {
+
+      /// <summary>
+      /// get ci.mgd2 data return 10 fields (d40180_7122)
+      /// </summary>
+      /// <param name="isDate">yyyyMMdd</param>
+      /// <returns></returns>
+      public DataTable GetAllTxtData(string isDate) {
+
+         object[] parms = {
+                ":isDate", isDate
+            };
+
+
+         string sql = @"
+select  
+   mgd2_issue_begin_ymd,
+   mgd2_prod_type,
+   mgd2_kind_id,
+   sum(case when mgd2_ab_type ='A' or mgd2_ab_type ='-' then  mgd2_cm else 0 end) as mgd2_cm_1,
+   sum(case when mgd2_ab_type ='B' then  mgd2_cm else 0  end) as  mgd2_cm_2,
+   sum(case when mgd2_ab_type ='A' or mgd2_ab_type ='-' then  mgd2_im else 0 end) as mgd2_im_1,
+   sum(case when mgd2_ab_type ='B' then  mgd2_im else 0  end) as  mgd2_im_2,
+   sum(case when mgd2_ab_type ='A' or mgd2_ab_type ='-' then  mgd2_mm else 0 end) as mgd2_mm_1,
+   sum(case when mgd2_ab_type ='B' then  mgd2_mm else 0  end) as mgd2_mm_2,                                
+   nvl(mgd2_issue_end_ymd,'')as mgd2_issue_end_ymd
+from(
+   select  
+      mgd2_issue_begin_ymd,
+      mgd2_prod_type,
+      case when mgd2_param_key like 'ST%' then mgd2_cm  when mgd2_param_key like 'ET%' and mgd2_amt_type = 'P' then mgd2_cm *100 else mgd2_cm end as mgd2_cm,
+      case when mgd2_param_key like 'ST%' then mgd2_im  when mgd2_param_key like 'ET%' and mgd2_amt_type = 'P' then mgd2_im *100 else mgd2_im end as mgd2_im,
+      case when mgd2_param_key like 'ST%' then mgd2_mm  when mgd2_param_key like 'ET%' and mgd2_amt_type = 'P' then mgd2_mm *100 else mgd2_mm end as mgd2_mm,
+      case when mgd2_param_key like 'ST%' then substr(mgd2_kind_id,1,2) else substr(mgd2_kind_id,1,3) end as  mgd2_kind_id,
+      mgd2_issue_end_ymd,
+      mgd2_ab_type,
+      mgd2_prod_subtype 
+   from ci.mgd2
+   where mgd2_issue_begin_ymd = :isDate
+   union all
+   select  
+      mgd2_issue_end_ymd,
+      mgd2_prod_type,
+      case when mgd2_param_key like 'ST%' then mgd2_cur_cm  when mgd2_param_key like 'ET%' and mgd2_amt_type = 'P' then mgd2_cur_cm *100 else mgd2_cur_cm end as mgd2_cm,
+      case when mgd2_param_key like 'ST%' then mgd2_cur_im  when mgd2_param_key like 'ET%' and mgd2_amt_type = 'P' then mgd2_cur_im *100 else mgd2_cur_im end as mgd2_im,
+      case when mgd2_param_key like 'ST%' then mgd2_cur_mm  when mgd2_param_key like 'ET%' and mgd2_amt_type = 'P' then mgd2_cur_mm *100 else mgd2_cur_mm end as mgd2_mm,
+      case when mgd2_param_key like 'ST%' then substr(mgd2_kind_id,1,2) else substr(mgd2_kind_id,1,3) end as  mgd2_kind_id,
+      '',
+      mgd2_ab_type,
+      mgd2_prod_subtype 
+   from ci.mgd2
+   where mgd2_issue_end_ymd = :isDate                
+)a
+group by mgd2_issue_begin_ymd,mgd2_prod_type,mgd2_kind_id,mgd2_issue_end_ymd,mgd2_prod_subtype
+order by mgd2_issue_end_ymd,mgd2_prod_type,mgd2_prod_subtype,mgd2_kind_id
+";
+
+         DataTable dtResult = db.GetDataTable(sql , parms);
+
+         return dtResult;
+      }
+
+      /// <summary>
+      /// get ci.mgd2 data return 10 fields (d40180_7122_rtn)
+      /// </summary>
+      /// <param name="beginDate">yyyyMMdd</param>
+      /// <param name="endDate">yyyyMMdd</param>
+      /// <returns></returns>
+      public DataTable GetAllTxtTmp(string beginDate , string endDate) {
+
+         object[] parms = {
+                ":beginDate", beginDate,
+                ":endDate", endDate
+            };
+
+
+         string sql = @"
+select  
+   mgd2_issue_begin_ymd,
+   mgd2_prod_type,
+   mgd2_kind_id,
+   sum(case when mgd2_ab_type ='A' or mgd2_ab_type ='-' then  mgd2_cm else 0 end) as mgd2_cm_1,
+   sum(case when mgd2_ab_type ='B' then  mgd2_cm else 0  end) as  mgd2_cm_2,
+   sum(case when mgd2_ab_type ='A' or mgd2_ab_type ='-' then  mgd2_im else 0 end) as mgd2_im_1,
+   sum(case when mgd2_ab_type ='B' then  mgd2_im else 0  end) as  mgd2_im_2,
+   sum(case when mgd2_ab_type ='A' or mgd2_ab_type ='-' then  mgd2_mm else 0 end) as mgd2_mm_1,
+   sum(case when mgd2_ab_type ='B' then  mgd2_mm else 0  end) as mgd2_mm_2,                                
+   nvl(mgd2_issue_end_ymd,'')as mgd2_issue_end_ymd
+from(
+   select  
+      mgd2_issue_begin_ymd,
+      mgd2_prod_type,
+      case when mgd2_param_key like 'ST%' then mgd2_cm  when mgd2_param_key like 'ET%' and mgd2_amt_type = 'P' then mgd2_cm *100 else mgd2_cm end as mgd2_cm,
+      case when mgd2_param_key like 'ST%' then mgd2_im  when mgd2_param_key like 'ET%' and mgd2_amt_type = 'P' then mgd2_im *100 else mgd2_im end as mgd2_im,
+      case when mgd2_param_key like 'ST%' then mgd2_mm  when mgd2_param_key like 'ET%' and mgd2_amt_type = 'P' then mgd2_mm *100 else mgd2_mm end as mgd2_mm,
+      case when mgd2_param_key like 'ST%' then substr(mgd2_kind_id,1,2) else substr(mgd2_kind_id,1,3) end as  mgd2_kind_id,
+      mgd2_issue_end_ymd,
+      mgd2_ab_type,
+      mgd2_prod_subtype 
+   from ci.mgd2
+   where mgd2_issue_begin_ymd = :beginDate
+   union all
+   select  
+      mgd2_issue_end_ymd,
+      mgd2_prod_type,
+      case when mgd2_param_key like 'ST%' then mgd2_cur_cm  when mgd2_param_key like 'ET%' and mgd2_amt_type = 'P' then mgd2_cur_cm *100 else mgd2_cur_cm end as mgd2_cm,
+      case when mgd2_param_key like 'ST%' then mgd2_cur_im  when mgd2_param_key like 'ET%' and mgd2_amt_type = 'P' then mgd2_cur_im *100 else mgd2_cur_im end as mgd2_im,
+      case when mgd2_param_key like 'ST%' then mgd2_cur_mm  when mgd2_param_key like 'ET%' and mgd2_amt_type = 'P' then mgd2_cur_mm *100 else mgd2_cur_mm end as mgd2_mm,
+      case when mgd2_param_key like 'ST%' then substr(mgd2_kind_id,1,2) else substr(mgd2_kind_id,1,3) end as  mgd2_kind_id,
+      '',
+      mgd2_ab_type,
+      mgd2_prod_subtype 
+   from ci.mgd2
+   where mgd2_issue_end_ymd = :endDate                
+)a
+group by mgd2_issue_begin_ymd,mgd2_prod_type,mgd2_kind_id,mgd2_issue_end_ymd,mgd2_prod_subtype
+order by mgd2_issue_end_ymd,mgd2_prod_type,mgd2_prod_subtype,mgd2_kind_id
+";
+
+         DataTable dtResult = db.GetDataTable(sql , parms);
+
+         return dtResult;
+      }
+
+      /// <summary>
+      /// get ci.mgd2 ,ci.mgt2 ,ci.apdk data return 18 fields (d40180_a0001)
+      /// 期貨A0001公告文字檔
+      /// </summary>
+      /// <param name="txtDate">yyyyMMdd</param>
+      /// <param name="prodType">F=期貨 / O=選擇權</param>
+      /// <param name="as_osw_grp"></param>
+      /// <param name="as_adj_type"></param>
+      /// <param name="as_adj_type_rtn"></param>
+      /// <returns></returns>
+      public DataTable GetA0001TextDate(string txtDate , string prodType , string as_osw_grp , string as_adj_type , string as_adj_type_rtn) {
+
+         object[] parms = {
+                ":txtDate", txtDate,
+                ":prodType", prodType,
+                ":as_osw_grp", as_osw_grp,
+                ":as_adj_type", as_adj_type,
+                ":as_adj_type_rtn", as_adj_type_rtn
+            };
+
+         string sql = @"
+select * 
+from(
+   select 
+   a.* ,
+   dense_rank() over(partition by mgd2_kind_id order by num) as row_num
+   from(
+            select  
+               mgd2_ymd,   
+               mgd2_kind_id,   
+               mgd2_issue_begin_ymd,   
+               nvl(mgt2_abbr_name,trim(apdk_name)||'契約('||trim(apdk_kind_id)||')') as mgt2_abbr_name,   
+               nvl(mgt2_prod_type,apdk_prod_type) as mgt2_prod_type,   
+               nvl(mgt2_kind_id,apdk_kind_id) as mgt2_kind_id,   
+               mgd2_ab_type,   
+               mgd2_cm,   
+               mgd2_mm,   
+               mgd2_im,   
+               mgd2_prod_type,  
+               mgd2_currency_type,   
+               mgd2_seq_no,
+               mgd2_param_key,
+               mgd2_adj_type,
+               apdk_remark,
+               0 as num
+            from    
+               ci.mgd2,   
+               ci.mgt2,  
+               ci.apdk  
+            where  mgd2_kind_id = mgt2_kind_id(+)    
+            and mgd2_prod_type = apdk_prod_type    
+            and mgd2_kind_id = apdk_kind_id    
+            and mgd2_issue_begin_ymd = :txtDate    
+            and mgd2_prod_type = :prodType 
+            and mgd2_osw_grp like :as_osw_grp   
+            and mgd2_adj_code = 'Y'
+            and  mgd2_adj_type in (:as_adj_type)   
+            union all 
+            --回調
+            select  
+               mgd2_ymd,   
+               mgd2_kind_id,   
+               mgd2_issue_end_ymd,   
+               nvl(mgt2_abbr_name,trim(apdk_name)||'契約('||trim(apdk_kind_id)||')') as mgt2_abbr_name,   
+               nvl(mgt2_prod_type,apdk_prod_type) as mgt2_prod_type,   
+               nvl(mgt2_kind_id,apdk_kind_id) as mgt2_kind_id,   
+               mgd2_ab_type,   
+               mgd2_cur_cm,   
+               mgd2_cur_mm,   
+               mgd2_cur_im,   
+               mgd2_prod_type,  
+               mgd2_currency_type,   
+               mgd2_seq_no,
+               mgd2_param_key,
+               mgd2_adj_type,
+               apdk_remark,
+               1   
+            from    
+               ci.mgd2,   
+               ci.mgt2,  
+               ci.apdk  
+            where  mgd2_kind_id = mgt2_kind_id(+)    
+            and mgd2_prod_type = apdk_prod_type    
+            and mgd2_kind_id = apdk_kind_id    
+            and mgd2_issue_end_ymd = :txtDate    
+            and mgd2_prod_type = :prodType 
+            and mgd2_osw_grp like :as_osw_grp   
+            and mgd2_adj_code = 'Y'
+            and  mgd2_adj_type in (:as_adj_type_rtn)     
+      )a
+   )
+where row_num = 1
+order by mgd2_seq_no , decode(apdk_remark,'M',1,0) , substr(mgd2_kind_id,1,2) ,
+decode(substr(mgd2_kind_id,3,1) , mgd2_prod_type ,' ',substr(mgd2_kind_id,3,1)) , mgd2_ab_type
+";
+
+         DataTable dtResult = db.GetDataTable(sql , parms);
+
+         return dtResult;
+      }
+
+   }
+}

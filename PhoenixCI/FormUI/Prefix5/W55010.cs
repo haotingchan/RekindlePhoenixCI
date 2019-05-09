@@ -1,4 +1,5 @@
 ﻿using BaseGround;
+using BaseGround.Shared;
 using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
@@ -50,10 +51,10 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
          int li_run_times; //單月報表需抓取資料庫的次數(月份數) 可先設定200806-200808
          DateTime ldt_ym;
-         int sYear = Convert.ToInt32(txtFromDate.FormatValue.Substring(0 , 4)); //起年
-         int eYear = Convert.ToInt32(txtToDate.FormatValue.Substring(0 , 4)); //迄年
-         int sMonth = Convert.ToInt32(txtFromDate.FormatValue.Substring(4 , 2)); //起月
-         int eMonth = Convert.ToInt32(txtToDate.FormatValue.Substring(4 , 2)); //迄月
+         int sYear = txtFromDate.Text.SubStr(0,4).AsInt(); //起年
+         int eYear = txtToDate.Text.SubStr(0 , 4).AsInt(); //迄年
+         int sMonth = txtFromDate.Text.SubStr(5 , 2).AsInt(); //起月
+         int eMonth = txtToDate.Text.SubStr(5 , 4).AsInt(); //迄月
 
          //選擇單月
          if (rb_repo.SelectedIndex == 0) {
