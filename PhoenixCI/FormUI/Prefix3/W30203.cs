@@ -49,8 +49,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             try {
                 base.Open();
                 txtDate.DateTimeValue = GlobalInfo.OCF_DATE;
-                txtEffDate.EditValue = "0001/01/01";
-                txtEffDateLower.EditValue = "0001/01/01";
+                txtEffDate.EditValue = "1901/01/01";
+                txtEffDateLower.EditValue = "1901/01/01";
 #if DEBUG
                 txtDate.EditValue = "2018/12/28";
 #endif

@@ -310,6 +310,7 @@
     <Compile Include="Dao\Together\TableDao\MGD2.cs" />
     <Compile Include="Dao\Together\TableDao\MGD2L.cs" />
     <Compile Include="Dao\Together\TableDao\MGR3.cs" />
+    <Compile Include="Dao\Together\TableDao\MGRT1.cs" />
     <Compile Include="Dao\Together\TableDao\MGT2.cs" />
     <Compile Include="Dao\Together\TableDao\MGT3.cs" />
     <Compile Include="Dao\Together\TableDao\MMFO.cs" />

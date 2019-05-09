@@ -96,7 +96,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
         protected override ResultStatus Export() {
             try {
+                this.Cursor = Cursors.WaitCursor;
+                this.Refresh();
+                Thread.Sleep(5);
                 lblProcessing.Visible = true;
+                ShowMsg("開始轉檔...");
                 string rptId, file, rptName = "";
                 date = txtSDate.DateTimeValue.Year + "年" + txtSDate.DateTimeValue.Month + "月" + txtSDate.DateTimeValue.Day + "日";
 
@@ -224,6 +228,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
             catch (Exception ex) {
                 MessageDisplay.Error("輸出錯誤");
                 throw ex;
+            }
+            finally {
+                this.Cursor = Cursors.Arrow;
+                this.Refresh();
+                Thread.Sleep(5);
             }
             return ResultStatus.Success;
         }

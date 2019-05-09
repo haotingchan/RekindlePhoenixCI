@@ -65,8 +65,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             try {
                 base.Open();
                 txtDate.DateTimeValue = GlobalInfo.OCF_DATE;
-                txtEffDate.DateTimeValue = DateTime.MinValue;
-                txtEffDateLower.DateTimeValue = DateTime.MinValue;
+                txtEffDate.Text = "1901/01/01";
+                txtEffDateLower.Text = "1901/01/01";
 #if DEBUG
                 txtDate.EditValue = "2018/12/28";
 #endif
@@ -133,8 +133,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
                     lblEff.Text = "（已確認）";
                 }
                 else {
-                    txtEffDate.DateTimeValue = DateTime.MinValue;
-                    txtEffDateLower.DateTimeValue = DateTime.MinValue;
+                    txtEffDate.Text = "1901/01/01";
+                    txtEffDateLower.Text = "1901/01/01";
                     lblEff.Text = "";
                 }
 
@@ -202,11 +202,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 gvMain.CloseEditor();
 
                 //0. 確認是否填入正確公告日期
-                if (txtEffDate.DateTimeValue == DateTime.MinValue) {
+                if (txtEffDate.Text == "1901/01/01") {
                     MessageDisplay.Error("提高－公告日期非正確日期!");
                     return ResultStatus.Fail;
                 }
-                if (txtEffDateLower.DateTimeValue == DateTime.MinValue) {
+                if (txtEffDateLower.Text == "1901/01/01") {
                     MessageDisplay.Error("降低－公告日期非正確日期!");
                     return ResultStatus.Fail;
                 }
