@@ -155,6 +155,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 int ii_curr_row = 0;
                 string ls_kind_id = "";
                 //0. 清空Grid
+                gcMain.DataSource = null;
                 gcDetail.DataSource = null;
                 //1. 讀取資料
                 DataTable dtMGD2 = dao40071.d_40071(txtSDate.DateTimeValue.ToString("yyyyMMdd"), is_adj_type);
@@ -555,12 +556,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void gvMain_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e) {
-            GridView view = sender as GridView;
-            view.CloseEditor();
-            view.UpdateCurrentRow();
-            DataTable dtTemp = (DataTable)gcMain.DataSource;
+            GridView gv = sender as GridView;
+            gv.CloseEditor();
+            gv.UpdateCurrentRow();
+            //DataTable dtTemp = (DataTable)gcMain.DataSource;
             if (e.Column.FieldName == "PROD_KIND_ID") {
-                string value = view.GetRowCellValue(e.RowHandle, "PROD_SEQ_NO").AsString();
+                string value = gv.GetRowCellValue(e.RowHandle, "PROD_SEQ_NO").AsString();
                 switch (value) {
                     case "1":
                         e.RepositoryItem = paramKeyLookUpEdit1;
@@ -584,8 +585,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         e.RepositoryItem = paramKeyLookUpEdit7;
                         break;
                 }
-                view.CloseEditor();
-                view.UpdateCurrentRow();
+                gv.CloseEditor();
+                gv.UpdateCurrentRow();
             }
         }
 
