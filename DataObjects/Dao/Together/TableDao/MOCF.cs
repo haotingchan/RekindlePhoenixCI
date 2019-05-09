@@ -7,53 +7,53 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataObjects.Dao.Together.TableDao {
-   public class MOCF:DataGate {
+    public class MOCF : DataGate {
 
 
-      public string GetMaxOcfDate(string beginDate, string endDate) {
+        public string GetMaxOcfDate(string beginDate, string endDate) {
 
-         object[] parms = {
+            object[] parms = {
                 ":begin_ymd", beginDate,
                 ":end_ymd", endDate
             };
 
-         string sql = @"SELECT MAX(MOCF_YMD) as ls_mocf_ymd
+            string sql = @"SELECT MAX(MOCF_YMD) as ls_mocf_ymd
                            FROM ci.MOCF 
                            WHERE MOCF_YMD >= :begin_ymd
                            AND MOCF_YMD < :end_ymd
                            AND MOCF_OPEN_CODE = 'Y'";
 
-         return db.ExecuteScalar(sql, CommandType.Text, parms);
-      }
+            return db.ExecuteScalar(sql, CommandType.Text, parms);
+        }
 
-      public DataTable GetStartEndDate(string beginDate, string endDate) {
-         object[] parms = {
+        public DataTable GetStartEndDate(string beginDate, string endDate) {
+            object[] parms = {
                 ":ls_impl_begin_ymd", beginDate,
                 ":ls_end_ymd", endDate
             };
 
-         string sql = @"SELECT MIN(MOCF_YMD) as ls_start_ymd,MAX(MOCF_YMD) as ls_end_ymd
+            string sql = @"SELECT MIN(MOCF_YMD) as ls_start_ymd,MAX(MOCF_YMD) as ls_end_ymd
                            FROM ci.MOCF 
                            WHERE MOCF_YMD > :ls_impl_begin_ymd
                            AND MOCF_YMD <= :ls_end_ymd";
 
-         return db.GetDataTable(sql, parms);
+            return db.GetDataTable(sql, parms);
 
-      }
+        }
 
-      public string GetValidDatePrev(string validDate) {
+        public string GetValidDatePrev(string validDate) {
 
-         object[] parms = {
+            object[] parms = {
                 ":validDate", validDate
             };
 
-         string sql = @"SELECT MAX(MOCF_YMD) as validDatePrev  
+            string sql = @"SELECT MAX(MOCF_YMD) as validDatePrev  
 FROM ci.MOCF 
 WHERE MOCF_YMD < :validDate 
 AND MOCF_OPEN_CODE = 'Y' ";
 
-         return db.ExecuteScalar(sql, CommandType.Text, parms);
-      }
+            return db.ExecuteScalar(sql, CommandType.Text, parms);
+        }
 
         /// <summary>
         /// for f_get_ocf_next_n_day
@@ -124,6 +124,36 @@ WHERE NUM = :day_cnt";
             }
             else {
                 return dtResult.Rows[0]["LDT_NEXT_DATE"].AsDateTime();
+            }
+        }
+
+        /// <summary>
+        /// for W40072
+        /// </summary>
+        /// <param name="ls_impl_begin_ymd"></param>
+        /// <param name="ls_mocf_ymd"></param>
+        /// <returns></returns>
+        public string GetNextTradeDay(string ls_impl_begin_ymd, string ls_mocf_ymd) {
+
+            object[] parms = {
+                ":ls_impl_begin_ymd", ls_impl_begin_ymd,
+                ":ls_mocf_ymd", ls_mocf_ymd
+            };
+
+            string sql = @"
+SELECT min(MOCF_YMD) as ls_next_ymd
+				FROM ci.MOCF
+				 WHERE MOCF_YMD > :ls_impl_begin_ymd
+					AND MOCF_YMD  <= :ls_mocf_ymd
+					AND MOCF_OPEN_CODE = 'Y'";
+
+            DataTable dtResult = db.GetDataTable(sql, parms);
+
+            if (dtResult.Rows.Count == 0) {
+                return null;
+            }
+            else {
+                return dtResult.Rows[0]["LS_NEXT_YMD"].ToString();
             }
         }
     }
