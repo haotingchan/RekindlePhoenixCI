@@ -198,6 +198,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         dtDetail.Rows[ii_curr_row]["IMPL_END_YMD"] = dr["MGD2_IMPL_END_YMD"];
                         dtDetail.Rows[ii_curr_row]["PUB_YMD"] = dr["MGD2_PUB_YMD"];
                         dtDetail.Rows[ii_curr_row]["YMD"] = dr["MGD2_YMD"];
+                        dtDetail.Rows[ii_curr_row]["OP_TYPE"] = " ";
                     }
                     if (dr["MGD2_AB_TYPE"].AsString() == "B") {
                         dtDetail.Rows[ii_curr_row]["CM_CUR_B"] = dr["MGD2_CUR_CM"];
@@ -457,7 +458,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                             else {
                                 dtTemp.Rows[ii_curr_row]["MGD2_AB_TYPE"] = "A";
                                 //複製一筆一樣的，AB Type分開存
-                                dtTemp.Rows.Add(dtTemp.Rows[ii_curr_row]);
+                                dtTemp.ImportRow(dtTemp.Rows[ii_curr_row]);
+                                //dtTemp.Rows.Add(dtTemp.Rows[ii_curr_row]);//會跳錯
                                 ii_curr_row = dtTemp.Rows.Count - 1;
                                 dtTemp.Rows[ii_curr_row]["MGD2_AB_TYPE"] = "B";
                                 dtTemp.Rows[ii_curr_row]["MGD2_CUR_CM"] = dr["CM_CUR_B"];
@@ -542,12 +544,16 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
         }
 
-        private void gvDetail_CellValueChanging(object sender, CellValueChangedEventArgs e) {
+        private void gvDetail_CellValueChanged(object sender, CellValueChangedEventArgs e) {
             GridView gv = sender as GridView;
             if (e.Column.Name != "OP_TYPE") {
                 //如果OP_TYPE是I則固定不變
                 if (gv.GetRowCellValue(e.RowHandle, "OP_TYPE").ToString() == " ") gv.SetRowCellValue(e.RowHandle, "OP_TYPE", "U");
             }
+        }
+
+        private void gvDetail_CellValueChanging(object sender, CellValueChangedEventArgs e) {
+            GridView gv = sender as GridView;
             if (e.Column.Name == "M_CUR_LEVEL") {
                 //如果改變級距
                 string level = e.Value.AsString();
