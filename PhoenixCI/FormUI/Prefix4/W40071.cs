@@ -487,7 +487,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                             else {
                                 dtTemp.Rows[ii_curr_row]["MGD2_AB_TYPE"] = "A";
                                 //複製一筆一樣的，AB Type分開存
-                                dtTemp.Rows.Add(dtTemp.Rows[ii_curr_row]);
+                                dtTemp.ImportRow(dtTemp.Rows[ii_curr_row]);
+                                //dtTemp.Rows.Add(dtTemp.Rows[ii_curr_row]);//會跳錯
                                 ii_curr_row = dtTemp.Rows.Count - 1;
                                 dtTemp.Rows[ii_curr_row]["MGD2_AB_TYPE"] = "B";
                                 dtTemp.Rows[ii_curr_row]["MGD2_CUR_CM"] = dr["CM_CUR_B"];

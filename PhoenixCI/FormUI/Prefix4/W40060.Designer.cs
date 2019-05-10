@@ -169,11 +169,11 @@
          this.emCount.Location = new System.Drawing.Point(129, 71);
          this.emCount.MenuManager = this.ribbonControl;
          this.emCount.Name = "emCount";
-         this.emCount.Properties.Mask.EditMask = "[0-9]?[0-9]?";
+         this.emCount.Properties.Mask.EditMask = "[0-9]?[0-9]?[0-9]?[0-9]?";
          this.emCount.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.emCount.Properties.Mask.PlaceHolder = '0';
-         this.emCount.Properties.MaxLength = 2;
-         this.emCount.Size = new System.Drawing.Size(32, 28);
+         this.emCount.Properties.MaxLength = 4;
+         this.emCount.Size = new System.Drawing.Size(51, 28);
          this.emCount.TabIndex = 5;
          // 
          // emDate
@@ -198,7 +198,7 @@
          // 
          this.label2.AutoSize = true;
          this.label2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
-         this.label2.Location = new System.Drawing.Point(167, 75);
+         this.label2.Location = new System.Drawing.Point(180, 75);
          this.label2.Name = "label2";
          this.label2.Size = new System.Drawing.Size(96, 21);
          this.label2.TabIndex = 1;

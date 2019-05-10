@@ -152,7 +152,7 @@
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(1214, 30);
+            this.ribbonControl.Size = new System.Drawing.Size(1214, 43);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // panel1
@@ -160,7 +160,7 @@
             this.panel1.Controls.Add(this.panel4);
             this.panel1.Controls.Add(this.panel3);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 30);
+            this.panel1.Location = new System.Drawing.Point(0, 43);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1214, 372);
             this.panel1.TabIndex = 3;
@@ -213,6 +213,7 @@
             this.gvMain.OptionsView.ColumnAutoWidth = false;
             this.gvMain.OptionsView.ShowColumnHeaders = false;
             this.gvMain.OptionsView.ShowGroupPanel = false;
+            this.gvMain.CellValueChanging += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gvMain_CellValueChanging);
             // 
             // gridBand1
             // 
@@ -476,7 +477,7 @@
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label1.Location = new System.Drawing.Point(213, 23);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(329, 20);
+            this.label1.Size = new System.Drawing.Size(493, 30);
             this.label1.TabIndex = 14;
             this.label1.Text = "註：交易日及生效期間無須鍵入，除欲修改者";
             // 
@@ -487,7 +488,7 @@
             this.lblDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.lblDate.Location = new System.Drawing.Point(27, 23);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(73, 20);
+            this.lblDate.Size = new System.Drawing.Size(109, 30);
             this.lblDate.TabIndex = 13;
             this.lblDate.Text = "交易日期";
             // 
@@ -506,7 +507,7 @@
             this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtSDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtSDate.Size = new System.Drawing.Size(100, 26);
+            this.txtSDate.Size = new System.Drawing.Size(100, 38);
             this.txtSDate.TabIndex = 12;
             this.txtSDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -515,9 +516,9 @@
             this.panel2.Controls.Add(this.panel6);
             this.panel2.Controls.Add(this.panel5);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 402);
+            this.panel2.Location = new System.Drawing.Point(0, 415);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1214, 375);
+            this.panel2.Size = new System.Drawing.Size(1214, 362);
             this.panel2.TabIndex = 4;
             // 
             // panel6
@@ -527,7 +528,7 @@
             this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel6.Location = new System.Drawing.Point(0, 63);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(1214, 312);
+            this.panel6.Size = new System.Drawing.Size(1214, 299);
             this.panel6.TabIndex = 1;
             // 
             // gcDetail
@@ -539,7 +540,7 @@
             this.gcDetail.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit1,
             this.repositoryItemTextEdit2});
-            this.gcDetail.Size = new System.Drawing.Size(1214, 312);
+            this.gcDetail.Size = new System.Drawing.Size(1214, 299);
             this.gcDetail.TabIndex = 1;
             this.gcDetail.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvDetail});
@@ -603,8 +604,11 @@
             this.gvDetail.OptionsView.ColumnAutoWidth = false;
             this.gvDetail.OptionsView.ShowColumnHeaders = false;
             this.gvDetail.OptionsView.ShowGroupPanel = false;
+            this.gvDetail.RowCellStyle += new DevExpress.XtraGrid.Views.Grid.RowCellStyleEventHandler(this.gvDetail_RowCellStyle);
             this.gvDetail.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gvDetail_CustomRowCellEdit);
+            this.gvDetail.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gvDetail_ShowingEditor);
             this.gvDetail.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gvDetail_CellValueChanged);
+            this.gvDetail.CellValueChanging += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gvDetail_CellValueChanging);
             // 
             // gridBand2
             // 
@@ -751,11 +755,10 @@
             this.CM_CUR_A.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.CM_CUR_A.AppearanceCell.Options.UseFont = true;
             this.CM_CUR_A.Caption = "CM_CUR_A";
-            this.CM_CUR_A.DisplayFormat.FormatString = "#,###";
+            this.CM_CUR_A.DisplayFormat.FormatString = "{0:0.###%}";
             this.CM_CUR_A.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.CM_CUR_A.FieldName = "CM_CUR_A";
             this.CM_CUR_A.Name = "CM_CUR_A";
-            this.CM_CUR_A.OptionsColumn.AllowEdit = false;
             this.CM_CUR_A.Visible = true;
             this.CM_CUR_A.Width = 69;
             // 
@@ -774,11 +777,10 @@
             this.CM_CUR_B.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.CM_CUR_B.AppearanceCell.Options.UseFont = true;
             this.CM_CUR_B.Caption = "CM_CUR_B";
-            this.CM_CUR_B.DisplayFormat.FormatString = "#,###";
+            this.CM_CUR_B.DisplayFormat.FormatString = "{0:0.###%}";
             this.CM_CUR_B.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.CM_CUR_B.FieldName = "CM_CUR_B";
             this.CM_CUR_B.Name = "CM_CUR_B";
-            this.CM_CUR_B.OptionsColumn.AllowEdit = false;
             this.CM_CUR_B.Visible = true;
             this.CM_CUR_B.Width = 67;
             // 
@@ -809,11 +811,10 @@
             this.MM_CUR_A.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.MM_CUR_A.AppearanceCell.Options.UseFont = true;
             this.MM_CUR_A.Caption = "MM_CUR_A";
-            this.MM_CUR_A.DisplayFormat.FormatString = "#,###";
+            this.MM_CUR_A.DisplayFormat.FormatString = "{0:0.###%}";
             this.MM_CUR_A.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.MM_CUR_A.FieldName = "MM_CUR_A";
             this.MM_CUR_A.Name = "MM_CUR_A";
-            this.MM_CUR_A.OptionsColumn.AllowEdit = false;
             this.MM_CUR_A.Visible = true;
             this.MM_CUR_A.Width = 68;
             // 
@@ -832,11 +833,10 @@
             this.MM_CUR_B.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.MM_CUR_B.AppearanceCell.Options.UseFont = true;
             this.MM_CUR_B.Caption = "MM_CUR_B";
-            this.MM_CUR_B.DisplayFormat.FormatString = "#,###";
+            this.MM_CUR_B.DisplayFormat.FormatString = "{0:0.###%}";
             this.MM_CUR_B.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.MM_CUR_B.FieldName = "MM_CUR_B";
             this.MM_CUR_B.Name = "MM_CUR_B";
-            this.MM_CUR_B.OptionsColumn.AllowEdit = false;
             this.MM_CUR_B.Visible = true;
             this.MM_CUR_B.Width = 65;
             // 
@@ -867,11 +867,10 @@
             this.IM_CUR_A.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.IM_CUR_A.AppearanceCell.Options.UseFont = true;
             this.IM_CUR_A.Caption = "IM_CUR_A";
-            this.IM_CUR_A.DisplayFormat.FormatString = "#,###";
+            this.IM_CUR_A.DisplayFormat.FormatString = "{0:0.###%}";
             this.IM_CUR_A.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.IM_CUR_A.FieldName = "IM_CUR_A";
             this.IM_CUR_A.Name = "IM_CUR_A";
-            this.IM_CUR_A.OptionsColumn.AllowEdit = false;
             this.IM_CUR_A.Visible = true;
             this.IM_CUR_A.Width = 62;
             // 
@@ -890,11 +889,10 @@
             this.IM_CUR_B.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.IM_CUR_B.AppearanceCell.Options.UseFont = true;
             this.IM_CUR_B.Caption = "IM_CUR_B";
-            this.IM_CUR_B.DisplayFormat.FormatString = "#,###";
+            this.IM_CUR_B.DisplayFormat.FormatString = "{0:0.###%}";
             this.IM_CUR_B.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.IM_CUR_B.FieldName = "IM_CUR_B";
             this.IM_CUR_B.Name = "IM_CUR_B";
-            this.IM_CUR_B.OptionsColumn.AllowEdit = false;
             this.IM_CUR_B.Visible = true;
             this.IM_CUR_B.Width = 65;
             // 
@@ -938,7 +936,7 @@
             this.CM_A.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.CM_A.AppearanceCell.Options.UseFont = true;
             this.CM_A.Caption = "CM_A";
-            this.CM_A.DisplayFormat.FormatString = "#,###";
+            this.CM_A.DisplayFormat.FormatString = "{0:0.###%}";
             this.CM_A.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.CM_A.FieldName = "CM_A";
             this.CM_A.Name = "CM_A";
@@ -960,7 +958,7 @@
             this.CM_B.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.CM_B.AppearanceCell.Options.UseFont = true;
             this.CM_B.Caption = "CM_B";
-            this.CM_B.DisplayFormat.FormatString = "#,###";
+            this.CM_B.DisplayFormat.FormatString = "{0:0.###%}";
             this.CM_B.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.CM_B.FieldName = "CM_B";
             this.CM_B.Name = "CM_B";
@@ -994,7 +992,7 @@
             this.MM_A.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.MM_A.AppearanceCell.Options.UseFont = true;
             this.MM_A.Caption = "MM_A";
-            this.MM_A.DisplayFormat.FormatString = "#,###";
+            this.MM_A.DisplayFormat.FormatString = "{0:0.###%}";
             this.MM_A.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.MM_A.FieldName = "MM_A";
             this.MM_A.Name = "MM_A";
@@ -1016,7 +1014,7 @@
             this.MM_B.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.MM_B.AppearanceCell.Options.UseFont = true;
             this.MM_B.Caption = "MM_B";
-            this.MM_B.DisplayFormat.FormatString = "#,###";
+            this.MM_B.DisplayFormat.FormatString = "{0:0.###%}";
             this.MM_B.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.MM_B.FieldName = "MM_B";
             this.MM_B.Name = "MM_B";
@@ -1050,7 +1048,7 @@
             this.IM_A.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.IM_A.AppearanceCell.Options.UseFont = true;
             this.IM_A.Caption = "IM_A";
-            this.IM_A.DisplayFormat.FormatString = "#,###";
+            this.IM_A.DisplayFormat.FormatString = "{0:0.###%}";
             this.IM_A.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.IM_A.FieldName = "IM_A";
             this.IM_A.Name = "IM_A";
@@ -1072,7 +1070,7 @@
             this.IM_B.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.IM_B.AppearanceCell.Options.UseFont = true;
             this.IM_B.Caption = "IM_B";
-            this.IM_B.DisplayFormat.FormatString = "#,###";
+            this.IM_B.DisplayFormat.FormatString = "{0:0.###%}";
             this.IM_B.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.IM_B.FieldName = "IM_B";
             this.IM_B.Name = "IM_B";
@@ -1142,6 +1140,7 @@
             this.PUB_YMD.ColumnEdit = this.repositoryItemTextEdit2;
             this.PUB_YMD.FieldName = "PUB_YMD";
             this.PUB_YMD.Name = "PUB_YMD";
+            this.PUB_YMD.OptionsColumn.AllowEdit = false;
             this.PUB_YMD.Visible = true;
             this.PUB_YMD.Width = 95;
             // 
@@ -1153,7 +1152,7 @@
             this.gridBand38.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridBand38.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
             this.gridBand38.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            this.gridBand38.Caption = "實施起日";
+            this.gridBand38.Caption = "處置起日";
             this.gridBand38.Columns.Add(this.IMPL_BEGIN_YMD);
             this.gridBand38.Name = "gridBand38";
             this.gridBand38.VisibleIndex = 7;
@@ -1169,6 +1168,7 @@
             this.IMPL_BEGIN_YMD.ColumnEdit = this.repositoryItemTextEdit2;
             this.IMPL_BEGIN_YMD.FieldName = "IMPL_BEGIN_YMD";
             this.IMPL_BEGIN_YMD.Name = "IMPL_BEGIN_YMD";
+            this.IMPL_BEGIN_YMD.OptionsColumn.AllowEdit = false;
             this.IMPL_BEGIN_YMD.Visible = true;
             this.IMPL_BEGIN_YMD.Width = 95;
             // 
@@ -1180,7 +1180,7 @@
             this.gridBand39.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridBand39.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
             this.gridBand39.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            this.gridBand39.Caption = "實施迄日";
+            this.gridBand39.Caption = "處置迄日";
             this.gridBand39.Columns.Add(this.IMPL_END_YMD);
             this.gridBand39.Name = "gridBand39";
             this.gridBand39.VisibleIndex = 8;
@@ -1196,6 +1196,7 @@
             this.IMPL_END_YMD.ColumnEdit = this.repositoryItemTextEdit2;
             this.IMPL_END_YMD.FieldName = "IMPL_END_YMD";
             this.IMPL_END_YMD.Name = "IMPL_END_YMD";
+            this.IMPL_END_YMD.OptionsColumn.AllowEdit = false;
             this.IMPL_END_YMD.Visible = true;
             this.IMPL_END_YMD.Width = 95;
             // 
@@ -1223,6 +1224,7 @@
             this.ISSUE_BEGIN_YMD.ColumnEdit = this.repositoryItemTextEdit2;
             this.ISSUE_BEGIN_YMD.FieldName = "ISSUE_BEGIN_YMD";
             this.ISSUE_BEGIN_YMD.Name = "ISSUE_BEGIN_YMD";
+            this.ISSUE_BEGIN_YMD.OptionsColumn.AllowEdit = false;
             this.ISSUE_BEGIN_YMD.Visible = true;
             this.ISSUE_BEGIN_YMD.Width = 95;
             // 
@@ -1250,6 +1252,7 @@
             this.ISSUE_END_YMD.ColumnEdit = this.repositoryItemTextEdit2;
             this.ISSUE_END_YMD.FieldName = "ISSUE_END_YMD";
             this.ISSUE_END_YMD.Name = "ISSUE_END_YMD";
+            this.ISSUE_END_YMD.OptionsColumn.AllowEdit = false;
             this.ISSUE_END_YMD.Visible = true;
             this.ISSUE_END_YMD.Width = 95;
             // 
@@ -1261,11 +1264,11 @@
             this.gridBand42.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridBand42.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
             this.gridBand42.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            this.gridBand42.Caption = "變動幅度";
+            this.gridBand42.Caption = "調整倍數";
             this.gridBand42.Columns.Add(this.ADJ_RATE);
             this.gridBand42.Name = "gridBand42";
             this.gridBand42.VisibleIndex = 11;
-            this.gridBand42.Width = 48;
+            this.gridBand42.Width = 54;
             // 
             // ADJ_RATE
             // 
@@ -1278,7 +1281,7 @@
             this.ADJ_RATE.Name = "ADJ_RATE";
             this.ADJ_RATE.OptionsColumn.AllowEdit = false;
             this.ADJ_RATE.Visible = true;
-            this.ADJ_RATE.Width = 48;
+            this.ADJ_RATE.Width = 54;
             // 
             // PROD_TYPE
             // 
@@ -1371,6 +1374,7 @@
             this.btnNone.TabIndex = 25;
             this.btnNone.Text = "不全選";
             this.btnNone.UseVisualStyleBackColor = true;
+            this.btnNone.Click += new System.EventHandler(this.btnNone_Click);
             // 
             // btnAll
             // 
@@ -1381,6 +1385,7 @@
             this.btnAll.TabIndex = 24;
             this.btnAll.Text = "全選";
             this.btnAll.UseVisualStyleBackColor = true;
+            this.btnAll.Click += new System.EventHandler(this.btnAll_Click);
             // 
             // btnDetail
             // 
@@ -1390,11 +1395,12 @@
             this.btnDetail.TabIndex = 23;
             this.btnDetail.Text = "顯示明細";
             this.btnDetail.UseVisualStyleBackColor = true;
+            this.btnDetail.Click += new System.EventHandler(this.btnDetail_Click);
             // 
             // W40072
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1214, 777);
             this.Controls.Add(this.panel2);
