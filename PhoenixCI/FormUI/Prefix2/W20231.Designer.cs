@@ -231,6 +231,8 @@
          // 
          // gvMain
          // 
+         this.gvMain.Appearance.Empty.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+         this.gvMain.Appearance.Empty.Options.UseBackColor = true;
          this.gvMain.Appearance.HorzLine.BackColor = System.Drawing.Color.Black;
          this.gvMain.Appearance.HorzLine.Options.UseBackColor = true;
          this.gvMain.Appearance.VertLine.BackColor = System.Drawing.Color.Black;
