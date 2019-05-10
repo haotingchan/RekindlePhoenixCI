@@ -4,9 +4,11 @@ using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
+using DataObjects.Dao.Together.TableDao;
 using DevExpress.XtraEditors.Controls;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.IO;
 using System.Threading;
@@ -26,7 +28,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
       private TXFP daoTXFP;
       List<string> is_adj_type;
       List<string> is_adj_type_rtn;
-      string startYmd, startYmd2;
 
       public W40180(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
@@ -53,6 +54,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //2. 設定dropdownlist(頻率)
             DataTable dtMsg = daoCOD.ListByTxn("40180");
             dwMsg.SetDataTable(dtMsg , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor);
+            dwMsg.ItemIndex = 0;
 
             if (FlagAdmin) {
                chkTxt.Visible = true;
@@ -119,6 +121,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
             #endregion
 
+            is_adj_type.Clear();
+            is_adj_type_rtn.Clear();
             foreach (CheckedListBoxItem item in gbType.Items) {
                string type = item.Value.AsString();
                switch (type) {
@@ -144,9 +148,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
 
             if (gbType.CheckedItemsCount == 0 &&
-               (gbMsg.CheckedItems.AsString() == "chkFutMsg" || gbMsg.CheckedItems.AsString() == "chkOptMsg" ||
-                gbMoney.CheckedItems.AsString() == "chkFutMoney" || gbMoney.CheckedItems.AsString() == "chkOptMoney" ||
-                gbSpan.CheckedItems.AsString() == "chkPsrS1010" || gbSpan.CheckedItems.AsString() == "chkS1020")) {
+               (gbMsg.Items[0].CheckState == CheckState.Checked || gbMsg.Items[1].CheckState == CheckState.Checked ||
+                gbMoney.Items[0].CheckState == CheckState.Checked || gbMoney.Items[1].CheckState == CheckState.Checked ||
+                gbSpan.Items[1].CheckState == CheckState.Checked || gbSpan.Items[4].CheckState == CheckState.Checked)) {
                MessageDisplay.Error("請勾選選項");
                return ResultStatus.Fail;
             }
@@ -184,29 +188,29 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                foreach (CheckedListBoxItem item in gbMoney.Items) {
                   if (item.Value.AsString() == "chkFutMoney") {
-                     //wf_40180_fut_30004(ls_osw_grp);
+                     wf_40180_fut_30004(ls_osw_grp);
                   } else if (item.Value.AsString() == "chkOptMoney") {
                      //選擇權
-                     //wf_40180_opt_30004(ls_osw_grp)
+                     wf_40180_opt_30004(ls_osw_grp);
                   }
                }
 
                foreach (CheckedListBoxItem item in gbSpan.Items) {
                   if (item.Value.AsString() == "chkVsrS1010") {
-                     //wf_40180_s1010_vsr(ls_osw_grp)
+                     wf_40180_s1010_vsr(ls_osw_grp); //2018/06/13
                   } else if (item.Value.AsString() == "chkPsrS1010") {
-                     //wf_40180_s1010_psr(ls_osw_grp)
+                     //wf_40180_s1010_psr(ls_osw_grp); //(待 ci.hzparm , ci.mgd2 補資料 目前查不到資料)
                   } else if (item.Value.AsString() == "chkDpsrS1030") {
-                     //wf_40180_s1030_dpsr(ls_osw_grp)
+                     wf_40180_s1030_dpsr(ls_osw_grp); //2018/06/13
                   } else if (item.Value.AsString() == "chkScS1030") {
-                     //wf_40180_s1030_sc(ls_osw_grp)
+                     wf_40180_s1030_sc(ls_osw_grp); //(目前無符合'SS'的資料)
                   } else if (item.Value.AsString() == "chkS1020") {
-                     //wf_40180_s1020(ls_osw_grp)
+                     wf_40180_s1020(ls_osw_grp);
                   }
                }
             }
 
-            if (gbMoney.CheckedItems.AsString() == "chkAllMoney") {
+            if (gbMoney.Items[2].CheckState == CheckState.Checked) {
                wf_40180_all_7122();
             }
 
@@ -254,7 +258,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      string fileName = "times_7122_margin_" + issueEndDate + ".txt";
 
                      string res = wf_copy_7122_file(fileName , dtTmp);
-
                      if (res != "Y") return;
                   }
                }
@@ -325,13 +328,70 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //讀取資料
             string ymd = txtDate.DateTimeValue.ToString("yyyyMMdd");
             string oswGrp = ls_osw_grp + "%";
-            string adjType = string.Join("," , is_adj_type.ToArray());
-            string adjTypeRtn = string.Join("," , is_adj_type_rtn.ToArray());
-            DataTable dt = dao40180.GetA0001TextDate(ymd , "F" , oswGrp , adjType , adjTypeRtn);
+
+            DataTable dt = dao40180.GetA0001TextDate(ymd , "F" , oswGrp , is_adj_type , is_adj_type_rtn);
 
             if (dt.Rows.Count <= 0) {
                MessageDisplay.Info(string.Format("{0},{1}－{2},讀取「期貨調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName));
                return;
+            }
+
+            //主旨
+            string fromTime = txtStartDate.Text + " " + txtStartTime.Text + " ";
+            string toTime = txtEndDate.Text + " " + txtEndTime.Text + " ";
+            string ls_head = fromTime + '\t' + toTime + " " + dwMsg.EditValue.AsString() + '\t';
+
+            string ls_txt = "";
+            foreach (DataRow dr in dt.Rows) {
+               int currencyType = dr["mgd2_currency_type"].AsString().AsInt();
+               CurrencyType enumCurType = (CurrencyType)currencyType;
+               string ls_currency_type = PbFunc.f_conv_currency_type(enumCurType);
+
+               string txt1 = "", txt2 = "", txt3 = "", txt4 = "";
+
+               string paramKey = dr["mgd2_param_key"].AsString();
+               string abbrName = dr["mgt2_abbr_name"].AsString();
+               decimal mgd2Cm = dr["mgd2_cm"].AsDecimal();
+               decimal mgd2Mm = dr["mgd2_mm"].AsDecimal();
+               decimal mgd2Im = dr["mgd2_im"].AsDecimal();
+               if (paramKey == "STC" || paramKey == "STF") {
+                  //(1)
+                  txt1 = ls_head + "自" + PbFunc.f_conv_date(txtDate.DateTimeValue , 3) + "一般交易時段結束後" + Environment.NewLine;
+
+                  //(2)
+                  txt2 = abbrName + "結算保證金適用比例調整為" + string.Format("{0:0.00%}" , mgd2Cm) + ",";
+                  if (txt2.Length > 80) {
+                     MessageDisplay.Warning(string.Format("文字超過80字元（{0}),按確定後繼續..." , txt2));
+                     txt2 = txt2.SubStr(0 , 80);
+                  }
+                  txt2 = ls_head + txt2 + Environment.NewLine;
+
+                  //(3)
+                  txt3 = ls_head + "維持保證金適用比例調整為" + string.Format("{0:0.00%}" , mgd2Mm) + "," + Environment.NewLine;
+
+                  //(4)
+                  txt4 = ls_head + "原始保證金適用比例調整為" + string.Format("{0:0.00%}" , mgd2Im) + "," + Environment.NewLine;
+
+               } else {
+                  //(1)
+                  txt1 = ls_head + "自" + PbFunc.f_conv_date(txtDate.DateTimeValue , 3) + "一般交易時段結束後" + Environment.NewLine;
+
+                  //(2)
+                  txt2 = abbrName + "結算保證金調整為" + string.Format("{0:N0}" , mgd2Cm) + ls_currency_type + ",";
+                  if (txt2.Length > 80) {
+                     MessageDisplay.Warning(string.Format("文字超過80字元（{0}),按確定後繼續..." , txt2));
+                     txt2 = txt2.SubStr(0 , 80);
+                  }
+                  txt2 = ls_head + txt2 + Environment.NewLine;
+
+                  //(3)
+                  txt3 = ls_head + "維持保證金調整為" + string.Format("{0:N0}" , mgd2Mm) + ls_currency_type + "," + Environment.NewLine;
+
+                  //(4)
+                  txt4 = ls_head + "原始保證金調整為" + string.Format("{0:N0}" , mgd2Im) + ls_currency_type + Environment.NewLine;
+
+               }
+               ls_txt += txt1 + txt2 + txt3 + txt4;
             }
 
             //開啟文字檔
@@ -339,7 +399,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             string fileName = _ProgramID + "_fut_A0001_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".txt";
             string filePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , fileName);
 
-            bool IsSuccess = ToText(dt , filePath , System.Text.Encoding.GetEncoding(950));
+            bool IsSuccess = ToText(ls_txt , filePath , System.Text.Encoding.GetEncoding(950));
             if (!IsSuccess) {
                MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!");
                return;
@@ -362,28 +422,702 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //讀取資料
             string ymd = txtDate.DateTimeValue.ToString("yyyyMMdd");
             string oswGrp = ls_osw_grp + "%";
-            string adjType = string.Join("," , is_adj_type.ToArray());
-            string adjTypeRtn = string.Join("," , is_adj_type_rtn.ToArray());
-            DataTable dt = dao40180.GetA0001TextDate(ymd , "O" , oswGrp , adjType , adjTypeRtn);
+
+            DataTable dt = dao40180.GetA0001TextDate(ymd , "O" , oswGrp , is_adj_type , is_adj_type_rtn);
 
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0},{1}－{2},讀取「期貨調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName));
+               MessageDisplay.Info(string.Format("{0},{1}－{2},讀取「選擇權調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName));
                return;
             }
 
+            //主旨           
+            string fromTime = txtStartDate.Text + " " + txtStartTime.Text + " ";
+            string toTime = txtEndDate.Text + " " + txtEndTime.Text + " ";
+            string ls_head = fromTime + '\t' + toTime + " " + dwMsg.EditValue.AsString() + '\t';
+
+            int pos = -1;
+            string ls_txt = "";
+            foreach (DataRow dr in dt.Rows) {
+               pos++;
+               if (pos % 2 != 0) continue;
+               int currencyType = dr["mgd2_currency_type"].AsString().AsInt();
+               CurrencyType enumCurType = (CurrencyType)currencyType;
+               string ls_currency_type = PbFunc.f_conv_currency_type(enumCurType);
+
+               string txt1 = "", txt2 = "", txt3 = "", txt4 = "";
+
+               string paramKey = dr["mgd2_param_key"].AsString();
+               string abbrName = dr["mgt2_abbr_name"].AsString();
+               decimal mgd2Cm = dr["mgd2_cm"].AsDecimal();
+               decimal mgd2Mm = dr["mgd2_mm"].AsDecimal();
+               decimal mgd2Im = dr["mgd2_im"].AsDecimal();
+               if (paramKey == "STC" || paramKey == "STF") {
+                  //(1)
+                  txt1 = ls_head + "自" + PbFunc.f_conv_date(txtDate.DateTimeValue , 3) + "一般交易時段結束後" + Environment.NewLine;
+
+                  //(2)
+                  txt2 = abbrName + "的A/B值之結算保證金適用比例調整為" + string.Format("{0:0.000%}" , mgd2Cm) + "/" +
+                                       string.Format("{0:0.000%}" , dt.Rows[pos + 1]["mgd2_cm"].AsDecimal()) + ",";
+
+                  if (txt2.Length > 80) {
+                     MessageDisplay.Warning(string.Format("文字超過80字元（{0}),按確定後繼續..." , txt2));
+                     txt2 = txt2.SubStr(0 , 80);
+                  }
+                  txt2 = ls_head + txt2 + Environment.NewLine;
+
+                  //(3)
+                  txt3 = ls_head + "維持保證金適用比例調整為" + string.Format("{0:0.000%}" , mgd2Mm) + "/" +
+                                 string.Format("{0:0.000%}" , dt.Rows[pos + 1]["mgd2_mm"].AsDecimal()) + "," + Environment.NewLine;
+
+                  //(4)
+                  txt4 = ls_head + "原始保證金適用比例調整為" + string.Format("{0:0.000%}" , mgd2Im) + "/" +
+                                 string.Format("{0:0.000%}" , dt.Rows[pos + 1]["mgd2_im"].AsDecimal()) + "," + Environment.NewLine;
+               } else {
+                  //(1)
+                  txt1 = ls_head + "自" + PbFunc.f_conv_date(txtDate.DateTimeValue , 3) + "一般交易時段結束後" + Environment.NewLine;
+
+                  //(2)
+                  txt2 = abbrName + "的A/B值之結算保證金調整為" + string.Format("{0:N0}" , mgd2Cm) + "/" +
+                       string.Format("{0:N0}" , dt.Rows[pos + 1]["mgd2_cm"].AsDecimal()) + ls_currency_type + ",";
+
+                  if (txt2.Length > 80) {
+                     MessageDisplay.Warning(string.Format("文字超過80字元（{0}),按確定後繼續..." , txt2));
+                     txt2 = txt2.SubStr(0 , 80);
+                  }
+                  txt2 = ls_head + txt2 + Environment.NewLine;
+
+                  //(3)
+                  txt3 = ls_head + "維持保證金調整為" + string.Format("{0:N0}" , mgd2Mm) + "/" +
+                      string.Format("{0:N0}" , dt.Rows[pos + 1]["mgd2_mm"].AsDecimal()) + ls_currency_type + "," + Environment.NewLine;
+
+                  //(4)
+                  txt4 = ls_head + "原始保證金調整為" + string.Format("{0:N0}" , mgd2Im) + "/" +
+                      string.Format("{0:N0}" , dt.Rows[pos + 1]["mgd2_im"].AsDecimal()) + ls_currency_type + "," + Environment.NewLine;
+               }
+               ls_txt += txt1 + txt2 + txt3 + txt4;
+            }
+
             //開啟文字檔
-            //Fut
-            string fileName = _ProgramID + "_fut_A0001_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".txt";
+            //Opt
+            string fileName = _ProgramID + "_opt_A0001_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".txt";
             string filePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , fileName);
 
-            bool IsSuccess = ToText(dt , filePath , System.Text.Encoding.GetEncoding(950));
+            bool IsSuccess = ToText(ls_txt , filePath , System.Text.Encoding.GetEncoding(950));
             if (!IsSuccess) {
                MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!");
                return;
             }
+
          } catch (Exception ex) {
             WriteLog(ex);
          }
+      }
+      #endregion
+
+      #region wf_40180_fut_30004
+      protected void wf_40180_fut_30004(string ls_osw_grp) {
+         try {
+            //需求單10300299：新增報價部位保證金數值=結算保證金數值
+            string rptName = "期貨30004保證金文字檔";
+            string rptId = "40180_30004";
+            ShowMsg(string.Format("{0}－{1} 轉檔中..." , rptId , rptName));
+
+            string ls_file_grp = wf_file_grp(ls_osw_grp);
+
+            if (gbType.CheckedItems.AsString() == "chkType4")
+               is_adj_type.Add("'4'");
+
+            //讀取資料
+            string ymd = txtDate.DateTimeValue.ToString("yyyyMMdd");
+            string oswGrp = ls_osw_grp + "%";
+
+            DataTable dt = dao40180.Get30004TextDate(ymd , "F" , oswGrp , is_adj_type , is_adj_type_rtn);
+
+            if (dt.Rows.Count <= 0) {
+               MessageDisplay.Info(string.Format("{0},{1}－{2}(_{3}),讀取「期貨調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName , ls_file_grp));
+               return;
+            }
+
+            //主旨           
+            string ls_txt = "";
+            foreach (DataRow dr in dt.Rows) {
+               //(1)
+               string kindId = dr["mgd2_kind_id"].AsString();
+               string prodType = dr["mgd2_prod_type"].AsString();
+               decimal mgd2Cm = dr["mgd2_cm"].AsDecimal();
+               decimal mgd2Im = dr["mgd2_im"].AsDecimal();
+               ls_txt += kindId + '\t' + prodType + '\t' + mgd2Cm + '\t' + mgd2Im + '\t' + mgd2Cm + Environment.NewLine;
+            }
+
+            //開啟文字檔
+            //Fut
+            string fileName = _ProgramID + "_fut_30004_" + ls_file_grp + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".txt";
+            string filePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , fileName);
+
+            bool IsSuccess = ToText(ls_txt , filePath , System.Text.Encoding.GetEncoding(950));
+            if (!IsSuccess) {
+               MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!");
+               return;
+            }
+
+         } catch (Exception ex) {
+            WriteLog(ex);
+         }
+      }
+      #endregion
+
+      #region wf_40180_opt_30004
+      protected void wf_40180_opt_30004(string ls_osw_grp) {
+         try {
+            string rptName = "選擇權30004保證金文字檔";
+            string rptId = "40180_30004";
+            ShowMsg(string.Format("{0}－{1} 轉檔中..." , rptId , rptName));
+
+            string ls_file_grp = wf_file_grp(ls_osw_grp);
+
+            if (gbType.CheckedItems.AsString() == "chkType4")
+               is_adj_type.Add("'4'");
+
+            //讀取資料
+            string ymd = txtDate.DateTimeValue.ToString("yyyyMMdd");
+            string oswGrp = ls_osw_grp + "%";
+
+            DataTable dt = dao40180.Get30004TextDate(ymd , "O" , oswGrp , is_adj_type , is_adj_type_rtn);
+
+            if (dt.Rows.Count <= 0) {
+               MessageDisplay.Info(string.Format("{0},{1}－{2}(_{3}),讀取「選擇權調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName , ls_file_grp));
+               return;
+            }
+
+            //主旨           
+            string ls_txt = "";
+            foreach (DataRow dr in dt.Rows) {
+               //(1)
+               string kindId = dr["mgd2_kind_id"].AsString();
+               string prodType = dr["mgd2_prod_type"].AsString();
+               decimal mgd2Cm = dr["mgd2_cm"].AsDecimal();
+               decimal cpCm = dr["cp_cm"].AsDecimal();
+               ls_txt += kindId + '\t' + prodType + '\t' + mgd2Cm + '\t' + cpCm + '\t' + mgd2Cm + '\t' + mgd2Cm + '\t' + mgd2Cm + Environment.NewLine;
+            }
+
+            //開啟文字檔
+            //Opt
+            string fileName = _ProgramID + "_opt_30004_" + ls_file_grp + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".txt";
+            string filePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , fileName);
+
+            bool IsSuccess = ToText(ls_txt , filePath , System.Text.Encoding.GetEncoding(950));
+            if (!IsSuccess) {
+               MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!");
+               return;
+            }
+
+         } catch (Exception ex) {
+            WriteLog(ex);
+         }
+      }
+      #endregion
+
+      #region wf_40180_s1010_vsr
+      protected void wf_40180_s1010_vsr(string ls_osw_grp) {
+         try {
+            string rptName = "SPAN VSR文字檔";
+            string rptId = "40180_span";
+            ShowMsg(string.Format("{0}－{1} 轉檔中..." , rptId , rptName));
+
+            string ls_file_grp = wf_file_grp(ls_osw_grp);
+
+            //讀取資料
+            string oswGrp = ls_osw_grp + "%";
+            DataTable dt = dao40180.GetVsrTxtData(txtDate.DateTimeValue , "SV" , oswGrp);
+
+            if (dt.Rows.Count <= 0) {
+               MessageDisplay.Info(string.Format("{0},{1}－{2}(_{3}),讀取「期貨調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName , ls_file_grp));
+               return;
+            }
+
+            #region 40180_fut_S1010(VSR)_
+            //主旨   
+            string ls_txt = "";
+            foreach (DataRow dr in dt.Rows) {
+               //(1)
+               string kindId1Out = dr["spt1_kind_id1_out"].AsString();
+               decimal sp1Rate = dr["sp1_rate"].AsDecimal();
+               ls_txt += kindId1Out + '\t' + sp1Rate + Environment.NewLine;
+            }
+
+            //fut_S1010(VSR)文字檔
+            string fileName = _ProgramID + "_fut_S1010(VSR)_" + ls_file_grp + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".txt";
+            string filePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , fileName);
+
+            bool IsSuccess = ToText(ls_txt , filePath , System.Text.Encoding.GetEncoding(950));
+            if (!IsSuccess) {
+               MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!");
+               return;
+            }
+            #endregion
+
+            #region 40180_fut_S1110(VSR)_
+            //主旨   
+            string ls_txt2 = "";
+            foreach (DataRow dr in dt.Rows) {
+               //(1)
+               string kindId1Out = dr["spt1_kind_id1_out"].AsString();
+               decimal sp1Rate = dr["sp1_rate"].AsDecimal();
+               string sp2ValueDate = dr["sp2_value_date"].AsDateTime().ToString("yyyyMMdd");
+               string sp2OswGrp = dr["sp2_osw_grp"].AsString();
+
+               string sp2_osw_grp = wf_conv_osw_grp(ls_osw_grp);
+
+               ls_txt2 += kindId1Out + '\t' + sp1Rate + '\t' + sp2ValueDate + '\t' + sp2_osw_grp + Environment.NewLine;
+            }
+
+            //fut_S1110(VSR)文字檔
+            string fileName2 = _ProgramID + "_fut_S1110(VSR)_" + ls_file_grp + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".txt";
+            string filePath2 = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , fileName2);
+
+            bool IsSuccess2 = ToText(ls_txt2 , filePath2 , System.Text.Encoding.GetEncoding(950));
+            if (!IsSuccess2) {
+               MessageDisplay.Error("文字檔「" + filePath2 + "」Open檔案錯誤!");
+               return;
+            }
+            #endregion
+
+         } catch (Exception ex) {
+            WriteLog(ex);
+         }
+      }
+      #endregion
+
+      #region wf_40180_s1010_psr (待 ci.hzparm , ci.mgd2 補資料 目前查不到資料)
+      protected void wf_40180_s1010_psr(string ls_osw_grp) {
+         try {
+            string rptName = "Span PSR(結算保證金)文字檔";
+            string rptId = "40180_30004";
+            ShowMsg(string.Format("{0}－{1} 轉檔中..." , rptId , rptName));
+
+            string ls_file_grp = wf_file_grp(ls_osw_grp);
+
+            //讀取資料
+            string ymd = txtDate.DateTimeValue.ToString("yyyyMMdd");
+            string oswGrp = ls_osw_grp + "%";
+            DataTable dt = dao40180.Get30004TextDate(ymd , "F" , oswGrp , is_adj_type , is_adj_type_rtn);
+
+            if (dt.Rows.Count <= 0) {
+               MessageDisplay.Info(string.Format("{0},{1}－{2}(_{3}),讀取「期貨&選擇權調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName , ls_file_grp));
+               return;
+            }
+
+            //商品群組
+            //資料日期
+            DateTime ldt_date = DateTime.ParseExact(dt.Rows[0]["mgd2_ymd"].AsString() , "yyyyMMdd" , null);
+            DataTable dtZ = dao40180.GetHzparmData(ldt_date);
+            if (dt.Rows.Count <= 0) {
+               MessageDisplay.Info(string.Format("{0},{1}－{2},讀取「期貨&選擇權調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName));
+               return;
+            }
+
+            #region 40180_fut_S1010(PSR)_
+            //主旨
+            string ls_txt = "";
+            int pos = -1;
+            foreach (DataRow dr in dt.Rows) {
+               pos++;
+               //組合商品
+               //找組合碼comb_prod
+               int found = 0;
+               if (dtZ.Select("zparm_prod_id='" + dr["mgd2_kind_id"] + "'").Length != 0) {
+                  found = dtZ.Rows.IndexOf(dtZ.Select("zparm_prod_id='" + dr["mgd2_kind_id"] + "'")[0]);
+               }
+
+               string kindId = dr["mgd2_kind_id"].AsString();
+               decimal mgd2Cm = dr["mgd2_cm"].AsDecimal();
+               if (found < 0) {
+                  ls_txt += kindId + '\t' + mgd2Cm + Environment.NewLine;
+                  continue;
+               }
+
+               string ls_comb = dtZ.Rows[found]["zparm_comb_prod"].AsString();
+               dr["comb_prod"] = ls_comb;
+
+               //先前組合碼已列示
+               if (pos > 0) {
+                  if (dt.Select("comb_prod='" + ls_comb + "'").Length != 0) {
+                     found = dt.Rows.IndexOf(dt.Select("comb_prod='" + ls_comb + "'")[0]);
+                     if (found >= 0)
+                        continue;
+                  }
+
+               }
+
+               ls_txt += kindId + '\t' + mgd2Cm + Environment.NewLine;
+
+               //找組合碼的其它商品
+               DataTable dtZfilter = dtZ.Filter("zparm_prod_id<>'" + kindId + "' and zparm_comb_prod='" + ls_comb + "'");
+               foreach (DataRow drZ in dtZfilter.Rows) {
+                  string prodId = drZ["zparm_prod_id"].AsString();
+                  ls_txt += prodId + '\t';
+                  if (prodId == "MXF") {
+                     if (dt.Select("mgd2_kind_id='MXF'").Length != 0) {
+                        found = dt.Rows.IndexOf(dt.Select("mgd2_kind_id='MXF'")[0]);
+                        ls_txt += dt.Rows[found]["mgd2_cm"] + Environment.NewLine;
+                     } else {
+                        ls_txt += dr["mgd2_cm"] + Environment.NewLine;
+                     }
+                  }
+               }
+            }//foreach (DataRow dr in dt.Rows)
+
+            //fut_S1010(PSR)文字檔
+            string fileName = _ProgramID + "_fut_S1010(PSR)_" + ls_file_grp + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".txt";
+            string filePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , fileName);
+
+            bool IsSuccess = ToText(ls_txt , filePath , System.Text.Encoding.GetEncoding(950));
+            if (!IsSuccess) {
+               MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!");
+               return;
+            }
+            #endregion
+
+            #region 40180_fut_S1110(PSR)_
+            string ls_txt2 = "";
+            foreach (DataRow dr in dt.Rows) {
+               //組合商品
+               //找組合碼comb_prod
+               int found2 = 0;
+               string kindId = dr["mgd2_kind_id"].AsString();
+               decimal mgd2Cm = dr["mgd2_cm"].AsDecimal();
+               string issueBeginYmd = dr["mgd2_issue_begin_ymd"].AsString();
+               string mgd2OswGrp = dr["mgd2_osw_grp"].AsString();
+               if (dtZ.Select("zparm_prod_id = '" + kindId + "'").Length != 0) {
+                  found2 = dtZ.Rows.IndexOf(dtZ.Select("zparm_prod_id = '" + kindId + "'")[0]);
+               }
+
+               string oswGrp2 = wf_conv_osw_grp(mgd2OswGrp);
+
+               if (found2 < 0) {
+                  ls_txt2 += kindId + '\t' + mgd2Cm + '\t' + issueBeginYmd + '\t' + oswGrp2 + Environment.NewLine;
+                  continue;
+               }
+
+               string ls_comb = dtZ.Rows[found2]["zparm_comb_prod"].AsString();
+               dr["comb_prod"] = ls_comb;
+
+               //先前組合碼已列示
+               if (pos > 0) {
+                  if (dt.Select("comb_prod='" + ls_comb + "'").Length != 0) {
+                     found2 = dt.Rows.IndexOf(dt.Select("comb_prod='" + ls_comb + "'")[0]);
+                     if (found2 >= 0)
+                        continue;
+                  }
+               }
+
+               ls_txt2 += kindId + '\t' + mgd2Cm + '\t' + issueBeginYmd + '\t' + oswGrp2 + Environment.NewLine;
+
+               //找組合碼的其它商品
+               DataTable dtZfilter2 = dtZ.Filter("zparm_prod_id<>'" + kindId + "' and zparm_comb_prod='" + ls_comb + "'");
+               foreach (DataRow drZ2 in dtZfilter2.Rows) {
+                  string zparmProdId = drZ2["zparm_prod_id"].AsString();
+                  ls_txt2 += zparmProdId + '\t';
+
+                  if (zparmProdId == "MXF") {
+                     if (dt.Select("mgd2_kind_id='MXF'").Length != 0) {
+                        found2 = dt.Rows.IndexOf(dt.Select("mgd2_kind_id='MXF'")[0]);
+                     }
+                     decimal mgd2Cm2 = dt.Rows[found2]["mgd2_cm"].AsDecimal();
+                     ls_txt2 += mgd2Cm2 + '\t';
+                  } else {
+                     ls_txt2 += mgd2Cm + '\t';
+                  }
+
+                  ls_txt2 += issueBeginYmd + '\t' + oswGrp2 + Environment.NewLine;
+
+               }//foreach (DataRow drZ2 in dtZfilter2.Rows)
+            }//foreach (DataRow dr in dt.Rows)
+
+            //fut_S1110(PSR)文字檔
+            string fileName2 = _ProgramID + "_fut_S1110(PSR)_" + ls_file_grp + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".txt";
+            string filePath2 = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , fileName2);
+
+            bool IsSuccess2 = ToText(ls_txt2 , filePath2 , System.Text.Encoding.GetEncoding(950));
+            if (!IsSuccess2) {
+               MessageDisplay.Error("文字檔「" + filePath2 + "」Open檔案錯誤!");
+               return;
+            }
+            #endregion
+
+         } catch (Exception ex) {
+            WriteLog(ex);
+         }
+      }
+      #endregion
+
+      #region wf_40180_s1020
+      protected void wf_40180_s1020(string ls_osw_grp) {
+         /********************************
+         2009.09.11
+         程式碼同 wf_40180_s1010_psr()
+         差在：(1)產出檔名不同
+              (2)群組中商品為選擇權時,不處理
+         ********************************/
+
+         try {
+            string rptName = "Span S1020結算保證金文字檔";
+            string rptId = "40180_30004";
+            ShowMsg(string.Format("{0}－{1} 轉檔中..." , rptId , rptName));
+
+            string ls_file_grp = wf_file_grp(ls_osw_grp);
+
+            //讀取資料(只有期貨)
+            string ymd = txtDate.DateTimeValue.ToString("yyyyMMdd");
+            string oswGrp = ls_osw_grp + "%";
+            DataTable dt = dao40180.Get30004TextDate(ymd , "F" , oswGrp , is_adj_type , is_adj_type_rtn);
+
+            if (dt.Rows.Count <= 0) {
+               MessageDisplay.Info(string.Format("{0},{1}－{2}(_{3}),讀取「期貨&選擇權調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName , ls_file_grp));
+               return;
+            }
+
+            #region 40180_fut_S1020_
+            //主旨
+            string ls_txt = "";
+            foreach (DataRow dr in dt.Rows) {
+               string kindId = dr["mgd2_kind_id"].AsString();
+               string paramKey = dr["mgd2_param_key"].AsString();
+               decimal mgd2Cm = dr["mgd2_cm"].AsDecimal();
+               if (kindId == "MXF" || paramKey == "STC" || paramKey == "STF") continue;
+
+               ls_txt += kindId + '\t' + mgd2Cm + Environment.NewLine;
+
+            }//foreach (DataRow dr in dt.Rows)
+
+            //_fut_S1020_文字檔
+            string fileName = _ProgramID + "_fut_S1020_" + ls_file_grp + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".txt";
+            string filePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , fileName);
+
+            bool IsSuccess = ToText(ls_txt , filePath , System.Text.Encoding.GetEncoding(950));
+            if (!IsSuccess) {
+               MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!");
+               return;
+            }
+            #endregion
+
+            #region 40180_fut_S1120_
+            //主旨
+            string ls_txt2 = "";
+            foreach (DataRow dr in dt.Rows) {
+               string kindId = dr["mgd2_kind_id"].AsString();
+               string paramKey = dr["mgd2_param_key"].AsString();
+               decimal mgd2Cm = dr["mgd2_cm"].AsDecimal();
+               string issueBeginYmd = dr["mgd2_issue_begin_ymd"].AsString();
+               string mgd2OswGrp = dr["mgd2_osw_grp"].AsString();
+               if (kindId == "MXF" || paramKey == "STC" || paramKey == "STF") continue;
+
+               string oswGrp2 = wf_conv_osw_grp(mgd2OswGrp);
+
+               ls_txt2 += kindId + '\t' + mgd2Cm + '\t' + issueBeginYmd + '\t' + oswGrp2 + Environment.NewLine;
+
+            }//foreach (DataRow dr in dt.Rows)
+
+            //fut_S1120文字檔
+            string fileName2 = _ProgramID + "_fut_S1120_" + ls_file_grp + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".txt";
+            string filePath2 = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , fileName2);
+
+            bool IsSuccess2 = ToText(ls_txt2 , filePath2 , System.Text.Encoding.GetEncoding(950));
+            if (!IsSuccess2) {
+               MessageDisplay.Error("文字檔「" + filePath2 + "」Open檔案錯誤!");
+               return;
+            }
+            #endregion
+
+         } catch (Exception ex) {
+            WriteLog(ex);
+         }
+      }
+      #endregion
+
+      #region wf_40180_s1030_dpsr
+      protected void wf_40180_s1030_dpsr(string ls_osw_grp) {
+         try {
+            string rptName = "SPAN Delta Per Spread Ratio文字檔";
+            string rptId = "40180_span";
+            ShowMsg(string.Format("{0}－{1} 轉檔中..." , rptId , rptName));
+
+            string ls_file_grp = wf_file_grp(ls_osw_grp);
+            string oswGrp = ls_osw_grp + "%";
+
+            //讀取資料
+            DataTable dt = dao40180.GetVsrTxtData(txtDate.DateTimeValue , "SD" , oswGrp);
+            if (dt.Rows.Count <= 0) {
+               MessageDisplay.Info(string.Format("{0},{1}－{2}(_{3}),讀取「期貨調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName , ls_file_grp));
+               return;
+            }
+
+            #region 40180_fut_S1030(Delta Per Spread Ratio)_
+            //主旨
+            string ls_txt = "";
+
+            foreach (DataRow dr in dt.Rows) {
+               //(1)
+               string kindId1Out = dr["spt1_kind_id1_out"].AsString();
+               string kindId2Out = dr["spt1_kind_id2_out"].AsString();
+               decimal sp1Rate = dr["sp1_rate"].AsDecimal();
+               ls_txt += kindId1Out + '\t' + kindId2Out + '\t' + sp1Rate + Environment.NewLine;
+            }
+
+            //fut_S1030(Delta Per Spread Ratio)文字檔
+            string fileName = _ProgramID + "_fut_S1030(Delta Per Spread Ratio)_" + ls_file_grp + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".txt";
+            string filePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , fileName);
+
+            bool IsSuccess = ToText(ls_txt , filePath , System.Text.Encoding.GetEncoding(950));
+            if (!IsSuccess) {
+               MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!");
+               return;
+            }
+            #endregion
+
+            #region 40180_fut_S1130(Delta Per Spread Ratio)_
+            //主旨
+            string ls_txt2 = "";
+
+            foreach (DataRow dr in dt.Rows) {
+               //(1)
+               string kindId1Out = dr["spt1_kind_id1_out"].AsString();
+               string kindId2Out = dr["spt1_kind_id2_out"].AsString();
+               decimal sp1Rate = dr["sp1_rate"].AsDecimal();
+               string sp2ValueDate = dr["sp2_value_date"].AsDateTime().ToString("yyyyMMdd");
+               string sp2OswGrp = dr["sp2_osw_grp"].AsString();
+               string og = wf_conv_osw_grp(sp2OswGrp);
+               ls_txt2 += kindId1Out + '\t' + kindId2Out + '\t' + sp1Rate + '\t' + sp2ValueDate + '\t' + og + Environment.NewLine;
+            }
+
+            //fut_S1130(Delta Per Spread Ratio)文字檔
+            string fileName2 = _ProgramID + "_fut_S1130(Delta Per Spread Ratio)_" + ls_file_grp + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".txt";
+            string filePath2 = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , fileName2);
+
+            bool IsSuccess2 = ToText(ls_txt2 , filePath2 , System.Text.Encoding.GetEncoding(950));
+            if (!IsSuccess) {
+               MessageDisplay.Error("文字檔「" + filePath2 + "」Open檔案錯誤!");
+               return;
+            }
+            #endregion
+
+         } catch (Exception ex) {
+            WriteLog(ex);
+         }
+      }
+      #endregion
+
+      #region wf_40180_s1030_sc
+      protected void wf_40180_s1030_sc(string ls_osw_grp) {
+         try {
+            string rptName = "SPAN Spread credit文字檔";
+            string rptId = "40180_span";
+            ShowMsg(string.Format("{0}－{1} 轉檔中..." , rptId , rptName));
+
+            string ls_file_grp = wf_file_grp(ls_osw_grp);
+            string oswGrp = ls_osw_grp + "%";
+
+            //讀取資料
+            DataTable dt = dao40180.GetVsrTxtData(txtDate.DateTimeValue , "SS" , oswGrp);
+            if (dt.Rows.Count <= 0) {
+               MessageDisplay.Info(string.Format("{0},{1}－{2}(_{3}),讀取「期貨調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName , ls_file_grp));
+               return;
+            }
+
+            #region 40180_fut_S1030(Spread credit)_
+            //主旨
+            string ls_txt = "";
+
+            foreach (DataRow dr in dt.Rows) {
+               //(1)
+               string kindId1Out = dr["spt1_kind_id1_out"].AsString();
+               string kindId2Out = dr["spt1_kind_id2_out"].AsString();
+               decimal sp1Rate = dr["sp1_rate"].AsDecimal();
+               ls_txt += kindId1Out + '\t' + kindId2Out + '\t' + sp1Rate + Environment.NewLine;
+            }
+
+            //fut_S1030(Spread credit)文字檔
+            string fileName = _ProgramID + "_fut_S1030(Spread credit)_" + ls_file_grp + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".txt";
+            string filePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , fileName);
+
+            bool IsSuccess = ToText(ls_txt , filePath , System.Text.Encoding.GetEncoding(950));
+            if (!IsSuccess) {
+               MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!");
+               return;
+            }
+            #endregion
+
+            #region 40180_fut_S1130(Spread credit)_
+            //主旨
+            string ls_txt2 = "";
+
+            foreach (DataRow dr in dt.Rows) {
+               //(1)
+               string kindId1Out = dr["spt1_kind_id1_out"].AsString();
+               string kindId2Out = dr["spt1_kind_id2_out"].AsString();
+               decimal sp1Rate = dr["sp1_rate"].AsDecimal();
+               string sp2ValueDate = dr["sp2_value_date"].AsDateTime().ToString("yyyyMMdd");
+               string sp2OswGrp = dr["sp2_osw_grp"].AsString();
+               string og = wf_conv_osw_grp(sp2OswGrp);
+               ls_txt2 += kindId1Out + '\t' + kindId2Out + '\t' + sp1Rate + '\t' + sp2ValueDate + '\t' + og + Environment.NewLine;
+            }
+
+            //fut_S1130(Spread credit)文字檔
+            string fileName2 = _ProgramID + "_fut_S1130(Spread credit)_" + ls_file_grp + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".txt";
+            string filePath2 = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , fileName2);
+
+            bool IsSuccess2 = ToText(ls_txt2 , filePath2 , System.Text.Encoding.GetEncoding(950));
+            if (!IsSuccess) {
+               MessageDisplay.Error("文字檔「" + filePath2 + "」Open檔案錯誤!");
+               return;
+            }
+            #endregion
+
+         } catch (Exception ex) {
+            WriteLog(ex);
+         }
+      }
+      #endregion
+
+      #region wf_file_grp
+      protected string wf_file_grp(string ls_osw_grp) {
+
+         string ls_file_grp = "";
+
+         if (ls_osw_grp.SubStr(0 , 1) != "%") {
+            switch (ls_osw_grp) {
+               case "5":
+                  ls_file_grp = "g2_";
+                  break;
+               case "7":
+                  ls_file_grp = "g3_";
+                  break;
+               default:
+                  ls_file_grp = "g" + ls_osw_grp + "_";
+                  break;
+            }
+         }
+         return ls_file_grp;
+      }
+      #endregion
+
+      #region wf_conv_osw_grp
+      protected string wf_conv_osw_grp(string ls_osw_grp) {
+         string is_osw_grp = "";
+
+         switch (ls_osw_grp) {
+            case "5":
+               is_osw_grp = "2";
+               break;
+            case "7":
+               is_osw_grp = "3";
+               break;
+            default:
+               is_osw_grp = ls_osw_grp;
+               break;
+         }
+
+         return is_osw_grp;
       }
       #endregion
 
@@ -394,7 +1128,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
       /// <param name="filePath"></param>
       /// <param name="encoding">System.Text.Encoding.GetEncoding(950)</param>
       /// <returns></returns>
-      protected bool ToText(DataTable source , string filePath , System.Text.Encoding encoding) {
+      protected bool ToText(string source , string filePath , System.Text.Encoding encoding) {
          try {
             FileStream fs = new FileStream(filePath , FileMode.Create);
             StreamWriter str = new StreamWriter(fs , encoding);
@@ -407,6 +1141,15 @@ namespace PhoenixCI.FormUI.Prefix4 {
             WriteLog(ex);
          }
          return false;
+      }
+
+      private void txtDate_EditValueChanged(object sender , EventArgs e) {
+         DevExpress.XtraEditors.TextEdit textEditor = sender as DevExpress.XtraEditors.TextEdit;
+         txtStartDate.DateTimeValue = textEditor.EditValue.AsDateTime();
+
+         string startDate = textEditor.EditValue.AsDateTime().ToString("yyyyMMdd");
+         string endDate = textEditor.EditValue.AsDateTime().AddDays(30).ToString("yyyyMMdd");
+         txtEndDate.DateTimeValue = new MOCF().GetSpecOcfDay(startDate , endDate , 2);
       }
 
    }

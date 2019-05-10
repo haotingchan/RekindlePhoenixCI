@@ -24,44 +24,44 @@
       /// </summary>
       private void InitializeComponent() {
          this.panFilter = new System.Windows.Forms.GroupBox();
-         this.dwMsg = new DevExpress.XtraEditors.LookUpEdit();
          this.label8 = new System.Windows.Forms.Label();
-         this.labKind = new System.Windows.Forms.Label();
-         this.label9 = new System.Windows.Forms.Label();
-         this.r_frame = new DevExpress.XtraEditors.PanelControl();
-         this.label1 = new System.Windows.Forms.Label();
-         this.txtDate = new BaseGround.Widget.TextDateEdit();
-         this.label2 = new System.Windows.Forms.Label();
          this.gbType = new DevExpress.XtraEditors.CheckedListBoxControl();
+         this.label2 = new System.Windows.Forms.Label();
+         this.txtDate = new BaseGround.Widget.TextDateEdit();
+         this.label1 = new System.Windows.Forms.Label();
+         this.label9 = new System.Windows.Forms.Label();
+         this.dwMsg = new DevExpress.XtraEditors.LookUpEdit();
+         this.labKind = new System.Windows.Forms.Label();
+         this.r_frame = new DevExpress.XtraEditors.PanelControl();
          this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
          this.groupBox1 = new System.Windows.Forms.GroupBox();
+         this.label7 = new System.Windows.Forms.Label();
          this.gbMoney = new DevExpress.XtraEditors.CheckedListBoxControl();
          this.label5 = new System.Windows.Forms.Label();
-         this.label7 = new System.Windows.Forms.Label();
          this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
          this.groupBox2 = new System.Windows.Forms.GroupBox();
+         this.txtEndTime = new DevExpress.XtraEditors.TextEdit();
+         this.txtStartTime = new DevExpress.XtraEditors.TextEdit();
+         this.txtEndDate = new BaseGround.Widget.TextDateEdit();
+         this.txtStartDate = new BaseGround.Widget.TextDateEdit();
          this.label10 = new System.Windows.Forms.Label();
          this.label14 = new System.Windows.Forms.Label();
          this.gbMsg = new DevExpress.XtraEditors.CheckedListBoxControl();
          this.label17 = new System.Windows.Forms.Label();
-         this.txtStartDate = new BaseGround.Widget.TextDateEdit();
-         this.txtEndDate = new BaseGround.Widget.TextDateEdit();
          this.panelControl3 = new DevExpress.XtraEditors.PanelControl();
          this.groupBox3 = new System.Windows.Forms.GroupBox();
-         this.label20 = new System.Windows.Forms.Label();
          this.gbSpan = new DevExpress.XtraEditors.CheckedListBoxControl();
-         this.txtStartTime = new DevExpress.XtraEditors.TextEdit();
-         this.txtEndTime = new DevExpress.XtraEditors.TextEdit();
+         this.label20 = new System.Windows.Forms.Label();
          this.chkTxt = new System.Windows.Forms.CheckBox();
          this.labMsg = new System.Windows.Forms.Label();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          this.panFilter.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.gbType)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.dwMsg.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
          this.r_frame.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.gbType)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
          this.panelControl1.SuspendLayout();
          this.groupBox1.SuspendLayout();
@@ -69,15 +69,15 @@
          ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
          this.panelControl2.SuspendLayout();
          this.groupBox2.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.gbMsg)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtEndTime.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtStartTime.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.gbMsg)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl3)).BeginInit();
          this.panelControl3.SuspendLayout();
          this.groupBox3.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gbSpan)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtStartTime.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtEndTime.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -113,22 +113,6 @@
          this.panFilter.TabStop = false;
          this.panFilter.Text = "請輸入交易日期";
          // 
-         // dwMsg
-         // 
-         this.dwMsg.Location = new System.Drawing.Point(133, 153);
-         this.dwMsg.Name = "dwMsg";
-         this.dwMsg.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-         this.dwMsg.Properties.Appearance.Options.UseBackColor = true;
-         this.dwMsg.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-         this.dwMsg.Properties.AppearanceDisabled.Options.UseBackColor = true;
-         this.dwMsg.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.dwMsg.Properties.ButtonsStyle = DevExpress.XtraEditors.Controls.BorderStyles.Flat;
-         this.dwMsg.Properties.NullText = "";
-         this.dwMsg.Properties.PopupSizeable = false;
-         this.dwMsg.Size = new System.Drawing.Size(100, 26);
-         this.dwMsg.TabIndex = 7;
-         // 
          // label8
          // 
          this.label8.Font = new System.Drawing.Font("微軟正黑體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
@@ -138,77 +122,6 @@
          this.label8.Size = new System.Drawing.Size(258, 55);
          this.label8.TabIndex = 90;
          this.label8.Text = "註：上下市商品僅轉出保證金文字檔";
-         // 
-         // labKind
-         // 
-         this.labKind.AutoSize = true;
-         this.labKind.Font = new System.Drawing.Font("微軟正黑體", 12F);
-         this.labKind.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-         this.labKind.Location = new System.Drawing.Point(81, 155);
-         this.labKind.Name = "labKind";
-         this.labKind.Size = new System.Drawing.Size(57, 20);
-         this.labKind.TabIndex = 85;
-         this.labKind.Text = "頻率：";
-         // 
-         // label9
-         // 
-         this.label9.AutoSize = true;
-         this.label9.ForeColor = System.Drawing.Color.MidnightBlue;
-         this.label9.Location = new System.Drawing.Point(137, 313);
-         this.label9.Name = "label9";
-         this.label9.Size = new System.Drawing.Size(0, 21);
-         this.label9.TabIndex = 86;
-         // 
-         // r_frame
-         // 
-         this.r_frame.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
-         this.r_frame.Appearance.Options.UseBackColor = true;
-         this.r_frame.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-         this.r_frame.Controls.Add(this.panFilter);
-         this.r_frame.Location = new System.Drawing.Point(15, 15);
-         this.r_frame.Name = "r_frame";
-         this.r_frame.Size = new System.Drawing.Size(766, 212);
-         this.r_frame.TabIndex = 77;
-         // 
-         // label1
-         // 
-         this.label1.AutoSize = true;
-         this.label1.ForeColor = System.Drawing.Color.Black;
-         this.label1.Location = new System.Drawing.Point(32, 36);
-         this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(90, 21);
-         this.label1.TabIndex = 91;
-         this.label1.Text = "生效日期：";
-         // 
-         // txtDate
-         // 
-         this.txtDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtDate.EditValue = "2018/12";
-         this.txtDate.EnterMoveNextControl = true;
-         this.txtDate.Location = new System.Drawing.Point(118, 33);
-         this.txtDate.MenuManager = this.ribbonControl;
-         this.txtDate.Name = "txtDate";
-         this.txtDate.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtDate.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-         this.txtDate.Properties.Mask.ShowPlaceHolders = false;
-         this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtDate.Size = new System.Drawing.Size(100, 26);
-         this.txtDate.TabIndex = 0;
-         this.txtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-         // 
-         // label2
-         // 
-         this.label2.AutoSize = true;
-         this.label2.ForeColor = System.Drawing.Color.Black;
-         this.label2.Location = new System.Drawing.Point(32, 71);
-         this.label2.Name = "label2";
-         this.label2.Size = new System.Drawing.Size(90, 21);
-         this.label2.TabIndex = 92;
-         this.label2.Text = "勾選選項：";
          // 
          // gbType
          // 
@@ -239,6 +152,94 @@
          this.gbType.Size = new System.Drawing.Size(486, 98);
          this.gbType.TabIndex = 1;
          // 
+         // label2
+         // 
+         this.label2.AutoSize = true;
+         this.label2.ForeColor = System.Drawing.Color.Black;
+         this.label2.Location = new System.Drawing.Point(32, 71);
+         this.label2.Name = "label2";
+         this.label2.Size = new System.Drawing.Size(90, 21);
+         this.label2.TabIndex = 92;
+         this.label2.Text = "勾選選項：";
+         // 
+         // txtDate
+         // 
+         this.txtDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtDate.EditValue = "2018/12";
+         this.txtDate.EnterMoveNextControl = true;
+         this.txtDate.Location = new System.Drawing.Point(118, 33);
+         this.txtDate.MenuManager = this.ribbonControl;
+         this.txtDate.Name = "txtDate";
+         this.txtDate.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtDate.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.txtDate.Properties.Mask.EditMask = "yyyy/MM/dd";
+         this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtDate.Properties.Mask.ShowPlaceHolders = false;
+         this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtDate.Size = new System.Drawing.Size(100, 26);
+         this.txtDate.TabIndex = 0;
+         this.txtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         this.txtDate.EditValueChanged += new System.EventHandler(this.txtDate_EditValueChanged);
+         // 
+         // label1
+         // 
+         this.label1.AutoSize = true;
+         this.label1.ForeColor = System.Drawing.Color.Black;
+         this.label1.Location = new System.Drawing.Point(32, 36);
+         this.label1.Name = "label1";
+         this.label1.Size = new System.Drawing.Size(90, 21);
+         this.label1.TabIndex = 91;
+         this.label1.Text = "生效日期：";
+         // 
+         // label9
+         // 
+         this.label9.AutoSize = true;
+         this.label9.ForeColor = System.Drawing.Color.MidnightBlue;
+         this.label9.Location = new System.Drawing.Point(137, 313);
+         this.label9.Name = "label9";
+         this.label9.Size = new System.Drawing.Size(0, 21);
+         this.label9.TabIndex = 86;
+         // 
+         // dwMsg
+         // 
+         this.dwMsg.Location = new System.Drawing.Point(133, 153);
+         this.dwMsg.Name = "dwMsg";
+         this.dwMsg.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+         this.dwMsg.Properties.Appearance.Options.UseBackColor = true;
+         this.dwMsg.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+         this.dwMsg.Properties.AppearanceDisabled.Options.UseBackColor = true;
+         this.dwMsg.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.dwMsg.Properties.ButtonsStyle = DevExpress.XtraEditors.Controls.BorderStyles.Flat;
+         this.dwMsg.Properties.NullText = "";
+         this.dwMsg.Properties.PopupSizeable = false;
+         this.dwMsg.Size = new System.Drawing.Size(100, 26);
+         this.dwMsg.TabIndex = 7;
+         // 
+         // labKind
+         // 
+         this.labKind.AutoSize = true;
+         this.labKind.Font = new System.Drawing.Font("微軟正黑體", 12F);
+         this.labKind.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+         this.labKind.Location = new System.Drawing.Point(81, 155);
+         this.labKind.Name = "labKind";
+         this.labKind.Size = new System.Drawing.Size(57, 20);
+         this.labKind.TabIndex = 85;
+         this.labKind.Text = "頻率：";
+         // 
+         // r_frame
+         // 
+         this.r_frame.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.r_frame.Appearance.Options.UseBackColor = true;
+         this.r_frame.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+         this.r_frame.Controls.Add(this.panFilter);
+         this.r_frame.Location = new System.Drawing.Point(15, 15);
+         this.r_frame.Name = "r_frame";
+         this.r_frame.Size = new System.Drawing.Size(766, 212);
+         this.r_frame.TabIndex = 77;
+         // 
          // panelControl1
          // 
          this.panelControl1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
@@ -263,6 +264,17 @@
          this.groupBox1.TabIndex = 76;
          this.groupBox1.TabStop = false;
          this.groupBox1.Text = "轉出保證金文字檔";
+         // 
+         // label7
+         // 
+         this.label7.AutoSize = true;
+         this.label7.Font = new System.Drawing.Font("微軟正黑體", 12F);
+         this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+         this.label7.Location = new System.Drawing.Point(40, 146);
+         this.label7.Name = "label7";
+         this.label7.Size = new System.Drawing.Size(147, 20);
+         this.label7.TabIndex = 94;
+         this.label7.Text = "(包含全部情境選項)";
          // 
          // gbMoney
          // 
@@ -297,17 +309,6 @@
          this.label5.Size = new System.Drawing.Size(0, 21);
          this.label5.TabIndex = 86;
          // 
-         // label7
-         // 
-         this.label7.AutoSize = true;
-         this.label7.Font = new System.Drawing.Font("微軟正黑體", 12F);
-         this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-         this.label7.Location = new System.Drawing.Point(40, 146);
-         this.label7.Name = "label7";
-         this.label7.Size = new System.Drawing.Size(147, 20);
-         this.label7.TabIndex = 94;
-         this.label7.Text = "(包含全部情境選項)";
-         // 
          // panelControl2
          // 
          this.panelControl2.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
@@ -339,6 +340,78 @@
          this.groupBox2.TabIndex = 76;
          this.groupBox2.TabStop = false;
          this.groupBox2.Text = "轉出公告文字檔";
+         // 
+         // txtEndTime
+         // 
+         this.txtEndTime.EditValue = "08:45";
+         this.txtEndTime.Location = new System.Drawing.Point(239, 121);
+         this.txtEndTime.MenuManager = this.ribbonControl;
+         this.txtEndTime.Name = "txtEndTime";
+         this.txtEndTime.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtEndTime.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtEndTime.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.txtEndTime.Properties.Mask.EditMask = "HH:mm:ss";
+         this.txtEndTime.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtEndTime.Properties.Mask.ShowPlaceHolders = false;
+         this.txtEndTime.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtEndTime.Size = new System.Drawing.Size(80, 26);
+         this.txtEndTime.TabIndex = 6;
+         // 
+         // txtStartTime
+         // 
+         this.txtStartTime.EditValue = "08:45";
+         this.txtStartTime.Location = new System.Drawing.Point(239, 89);
+         this.txtStartTime.MenuManager = this.ribbonControl;
+         this.txtStartTime.Name = "txtStartTime";
+         this.txtStartTime.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtStartTime.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtStartTime.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.txtStartTime.Properties.Mask.EditMask = "HH:mm:ss";
+         this.txtStartTime.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtStartTime.Properties.Mask.ShowPlaceHolders = false;
+         this.txtStartTime.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtStartTime.Size = new System.Drawing.Size(80, 26);
+         this.txtStartTime.TabIndex = 4;
+         // 
+         // txtEndDate
+         // 
+         this.txtEndDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtEndDate.EditValue = "2018/12";
+         this.txtEndDate.EnterMoveNextControl = true;
+         this.txtEndDate.Location = new System.Drawing.Point(133, 121);
+         this.txtEndDate.MenuManager = this.ribbonControl;
+         this.txtEndDate.Name = "txtEndDate";
+         this.txtEndDate.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtEndDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtEndDate.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.txtEndDate.Properties.Mask.EditMask = "yyyy/MM/dd";
+         this.txtEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
+         this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtEndDate.Size = new System.Drawing.Size(100, 26);
+         this.txtEndDate.TabIndex = 5;
+         this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         // 
+         // txtStartDate
+         // 
+         this.txtStartDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtStartDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtStartDate.EditValue = "2018/12";
+         this.txtStartDate.EnterMoveNextControl = true;
+         this.txtStartDate.Location = new System.Drawing.Point(133, 89);
+         this.txtStartDate.MenuManager = this.ribbonControl;
+         this.txtStartDate.Name = "txtStartDate";
+         this.txtStartDate.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtStartDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtStartDate.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.txtStartDate.Properties.Mask.EditMask = "yyyy/MM/dd";
+         this.txtStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtStartDate.Properties.Mask.ShowPlaceHolders = false;
+         this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtStartDate.Size = new System.Drawing.Size(100, 26);
+         this.txtStartDate.TabIndex = 3;
+         this.txtStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // label10
          // 
@@ -394,46 +467,6 @@
          this.label17.Size = new System.Drawing.Size(0, 21);
          this.label17.TabIndex = 86;
          // 
-         // txtStartDate
-         // 
-         this.txtStartDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtStartDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtStartDate.EditValue = "2018/12";
-         this.txtStartDate.EnterMoveNextControl = true;
-         this.txtStartDate.Location = new System.Drawing.Point(133, 89);
-         this.txtStartDate.MenuManager = this.ribbonControl;
-         this.txtStartDate.Name = "txtStartDate";
-         this.txtStartDate.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtStartDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtStartDate.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtStartDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-         this.txtStartDate.Properties.Mask.ShowPlaceHolders = false;
-         this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtStartDate.Size = new System.Drawing.Size(100, 26);
-         this.txtStartDate.TabIndex = 3;
-         this.txtStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-         // 
-         // txtEndDate
-         // 
-         this.txtEndDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtEndDate.EditValue = "2018/12";
-         this.txtEndDate.EnterMoveNextControl = true;
-         this.txtEndDate.Location = new System.Drawing.Point(133, 121);
-         this.txtEndDate.MenuManager = this.ribbonControl;
-         this.txtEndDate.Name = "txtEndDate";
-         this.txtEndDate.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtEndDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtEndDate.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtEndDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-         this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
-         this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtEndDate.Size = new System.Drawing.Size(100, 26);
-         this.txtEndDate.TabIndex = 5;
-         this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-         // 
          // panelControl3
          // 
          this.panelControl3.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
@@ -457,15 +490,6 @@
          this.groupBox3.TabIndex = 76;
          this.groupBox3.TabStop = false;
          this.groupBox3.Text = "SPAN參數";
-         // 
-         // label20
-         // 
-         this.label20.AutoSize = true;
-         this.label20.ForeColor = System.Drawing.Color.MidnightBlue;
-         this.label20.Location = new System.Drawing.Point(137, 313);
-         this.label20.Name = "label20";
-         this.label20.Size = new System.Drawing.Size(0, 21);
-         this.label20.TabIndex = 86;
          // 
          // gbSpan
          // 
@@ -493,37 +517,14 @@
          this.gbSpan.Size = new System.Drawing.Size(451, 160);
          this.gbSpan.TabIndex = 9;
          // 
-         // txtStartTime
+         // label20
          // 
-         this.txtStartTime.EditValue = "08:45";
-         this.txtStartTime.Location = new System.Drawing.Point(239, 89);
-         this.txtStartTime.MenuManager = this.ribbonControl;
-         this.txtStartTime.Name = "txtStartTime";
-         this.txtStartTime.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtStartTime.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtStartTime.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtStartTime.Properties.Mask.EditMask = "HH:mm:ss";
-         this.txtStartTime.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-         this.txtStartTime.Properties.Mask.ShowPlaceHolders = false;
-         this.txtStartTime.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtStartTime.Size = new System.Drawing.Size(80, 26);
-         this.txtStartTime.TabIndex = 4;
-         // 
-         // txtEndTime
-         // 
-         this.txtEndTime.EditValue = "08:45";
-         this.txtEndTime.Location = new System.Drawing.Point(239, 121);
-         this.txtEndTime.MenuManager = this.ribbonControl;
-         this.txtEndTime.Name = "txtEndTime";
-         this.txtEndTime.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtEndTime.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtEndTime.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtEndTime.Properties.Mask.EditMask = "HH:mm:ss";
-         this.txtEndTime.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-         this.txtEndTime.Properties.Mask.ShowPlaceHolders = false;
-         this.txtEndTime.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtEndTime.Size = new System.Drawing.Size(80, 26);
-         this.txtEndTime.TabIndex = 6;
+         this.label20.AutoSize = true;
+         this.label20.ForeColor = System.Drawing.Color.MidnightBlue;
+         this.label20.Location = new System.Drawing.Point(137, 313);
+         this.label20.Name = "label20";
+         this.label20.Size = new System.Drawing.Size(0, 21);
+         this.label20.TabIndex = 86;
          // 
          // chkTxt
          // 
@@ -561,11 +562,11 @@
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
          this.panFilter.ResumeLayout(false);
          this.panFilter.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.gbType)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.dwMsg.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).EndInit();
          this.r_frame.ResumeLayout(false);
-         ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.gbType)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
          this.panelControl1.ResumeLayout(false);
          this.groupBox1.ResumeLayout(false);
@@ -575,16 +576,16 @@
          this.panelControl2.ResumeLayout(false);
          this.groupBox2.ResumeLayout(false);
          this.groupBox2.PerformLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.gbMsg)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtEndTime.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtStartTime.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.gbMsg)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl3)).EndInit();
          this.panelControl3.ResumeLayout(false);
          this.groupBox3.ResumeLayout(false);
          this.groupBox3.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gbSpan)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtStartTime.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtEndTime.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
