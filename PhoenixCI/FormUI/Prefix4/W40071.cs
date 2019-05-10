@@ -150,11 +150,18 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return ResultStatus.Success;
         }
 
+        protected override ResultStatus DeleteRow() {
+            base.DeleteRow(gvMain);
+
+            return ResultStatus.Success;
+        }
+
         protected override ResultStatus Retrieve() {
             try {
                 int ii_curr_row = 0;
                 string ls_kind_id = "";
                 //0. 清空Grid
+                gcMain.DataSource = null;
                 gcDetail.DataSource = null;
                 //1. 讀取資料
                 DataTable dtMGD2 = dao40071.d_40071(txtSDate.DateTimeValue.ToString("yyyyMMdd"), is_adj_type);
@@ -175,7 +182,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     drInput["Is_NewRow"] = "0";
                 }
                 //3. 篩選並填值到右側的gridview裡(而非直接綁定datasourc e)
-                DataTable dtDetail = dao40071.d_40071_detail();
+                DataTable dtDetail = dao40071.d_40071_detail(); //只取schema
                 dtDetail.Columns["ADJ_TYPE"].ColumnName = "OP_TYPE";
                 dtDetail.Columns["DATA_YMD"].ColumnName = "YMD";
 
@@ -480,7 +487,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                             else {
                                 dtTemp.Rows[ii_curr_row]["MGD2_AB_TYPE"] = "A";
                                 //複製一筆一樣的，AB Type分開存
-                                dtTemp.Rows.Add(dtTemp.Rows[ii_curr_row]);
+                                dtTemp.ImportRow(dtTemp.Rows[ii_curr_row]);
+                                //dtTemp.Rows.Add(dtTemp.Rows[ii_curr_row]);//會跳錯
                                 ii_curr_row = dtTemp.Rows.Count - 1;
                                 dtTemp.Rows[ii_curr_row]["MGD2_AB_TYPE"] = "B";
                                 dtTemp.Rows[ii_curr_row]["MGD2_CUR_CM"] = dr["CM_CUR_B"];
@@ -549,18 +557,80 @@ namespace PhoenixCI.FormUI.Prefix4 {
         }
 
         #region GridView Events
+        private void gvDetail_RowCellStyle(object sender, RowCellStyleEventArgs e) {
+            GridView gv = sender as GridView;
+            string amt_type = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMT_TYPE"]).AsString();
+
+            switch (e.Column.FieldName) {
+                case "KIND_ID":
+                case "STOCK_ID":
+                case "M_CUR_LEVEL":
+                case "YMD":
+                case "ADJ_RATE":
+                    e.Appearance.BackColor = Color.FromArgb(192, 192, 192);
+                    break;
+                case "CM_CUR_A":
+                case "CM_CUR_B":
+                case "MM_CUR_A":
+                case "MM_CUR_B":
+                case "IM_CUR_A":
+                case "IM_CUR_B":
+                    e.Column.DisplayFormat.FormatString = amt_type == "P" ? "{0:0.###%}" : "#,###";
+                    e.Appearance.BackColor = Color.FromArgb(192, 192, 192);
+                    break;
+                case "CM_A":
+                case "CM_B":
+                case "MM_A":
+                case "MM_B":
+                case "IM_A":
+                case "IM_B":
+                    e.Column.DisplayFormat.FormatString = amt_type == "P" ? "{0:0.###%}" : "#,###";
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// 設定OP_TYPE
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void gvDetail_CellValueChanged(object sender, CellValueChangedEventArgs e) {
+            GridView gv = sender as GridView;
+            if (e.Column.Name != "OP_TYPE") {
+                //如果OP_TYPE是I則固定不變
+                if (gv.GetRowCellValue(e.RowHandle, "OP_TYPE").ToString() == " ") gv.SetRowCellValue(e.RowHandle, "OP_TYPE", "U");
+            }
+        }
+
+        /// <summary>
+        /// 期貨的調整後保證金B值不能key
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void gvDetail_ShowingEditor(object sender, CancelEventArgs e) {
+            GridView gv = sender as GridView;
+            string prod_type = gv.GetRowCellValue(gv.FocusedRowHandle, "PROD_TYPE").ToString();
+            string stock_id = gv.GetRowCellValue(gv.FocusedRowHandle, "STOCK_ID").AsString();
+            if (gv.FocusedColumn.Name == "CM_B" ||
+                gv.FocusedColumn.Name == "MM_B" ||
+                gv.FocusedColumn.Name == "IM_B") {
+                e.Cancel = prod_type == "F" ? true : false;
+                //e.Cancel = stock_id == null ? true : false;
+            }
+        }
+
         /// <summary>
         /// 商品類欄位與商品別欄位連動的事件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void gvMain_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e) {
-            GridView view = sender as GridView;
-            view.CloseEditor();
-            view.UpdateCurrentRow();
-            DataTable dtTemp = (DataTable)gcMain.DataSource;
+            GridView gv = sender as GridView;
+            gv.CloseEditor();
+            gv.UpdateCurrentRow();
+            //DataTable dtTemp = (DataTable)gcMain.DataSource;
             if (e.Column.FieldName == "PROD_KIND_ID") {
-                string value = view.GetRowCellValue(e.RowHandle, "PROD_SEQ_NO").AsString();
+                string value = gv.GetRowCellValue(e.RowHandle, "PROD_SEQ_NO").AsString();
                 switch (value) {
                     case "1":
                         e.RepositoryItem = paramKeyLookUpEdit1;
@@ -584,53 +654,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         e.RepositoryItem = paramKeyLookUpEdit7;
                         break;
                 }
-                view.CloseEditor();
-                view.UpdateCurrentRow();
-            }
-        }
-
-        private void gvDetail_RowCellStyle(object sender, RowCellStyleEventArgs e) {
-            GridView gv = sender as GridView;
-            string amt_type = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMT_TYPE"]).AsString();
-
-            switch (e.Column.FieldName) {
-                case "KIND_ID":
-                case "STOCK_ID":
-                case "M_CUR_LEVEL":
-                case "YMD":
-                case "ADJ_RATE":
-                    e.Appearance.BackColor = Color.FromArgb(192, 192, 192);
-                    break;
-                case "CM_CUR_A":
-                case "CM_CUR_B":
-                case "MM_CUR_A":
-                case "MM_CUR_B":
-                case "IM_CUR_A":
-                case "IM_CUR_B":
-                    e.Column.DisplayFormat.FormatString = amt_type == "P" ? "{0:0.##%}" : "#,###";
-                    e.Appearance.BackColor = Color.FromArgb(192, 192, 192);
-                    break;
-                case "CM_A":
-                case "CM_B":
-                case "MM_A":
-                case "MM_B":
-                case "IM_A":
-                case "IM_B":
-                    e.Column.DisplayFormat.FormatString = amt_type == "P" ? "{0:0.##%}" : "#,###";
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// 設定OP_TYPE
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void gvDetail_CellValueChanged(object sender, CellValueChangedEventArgs e) {
-            GridView gv = sender as GridView;
-            if (e.Column.Name != "OP_TYPE") {
-                //如果OP_TYPE是I則固定不變
-                if (gv.GetRowCellValue(e.RowHandle, "OP_TYPE").ToString() == " ") gv.SetRowCellValue(e.RowHandle, "OP_TYPE", "U");
+                gv.CloseEditor();
+                gv.UpdateCurrentRow();
             }
         }
 
@@ -684,6 +709,16 @@ namespace PhoenixCI.FormUI.Prefix4 {
             else {
                 e.Cancel = false;
             }
+        }
+
+        /// <summary>
+        /// gvMain資料列大於第七筆可以刪除
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void gvMain_FocusedRowChanged(object sender, FocusedRowChangedEventArgs e) {
+            GridView gv = sender as GridView;
+            _ToolBtnDel.Enabled = e.FocusedRowHandle > 6 ? true : false;
         }
         #endregion
 
@@ -801,7 +836,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 DataTable dtTemp = dao40071.d_40071_detail(ymd, ls_prod_type, ls_param_key, ls_abroad, ls_kind_id, "%", ldc_rate);
                 dtTemp.Columns["ADJ_TYPE"].ColumnName = "OP_TYPE";
                 dtTemp.Columns["DATA_YMD"].ColumnName = "YMD";
-                dtTemp.Columns["CM_A*NVL(MGT6_REF_XXX,1)"].ColumnName = "CM_A";
+                if (dtTemp.Columns["CM_A*NVL(MGT6_REF_XXX,1)"] != null) dtTemp.Columns["CM_A*NVL(MGT6_REF_XXX,1)"].ColumnName = "CM_A"; //沒撈到值的話欄位名稱不會變，若資料為個股類也不會變
 
                 if (ls_kind_id != "%") {
                     ll_found = dtGrid.Rows.IndexOf(dtGrid.Select("kind_id like'" + ls_kind_id + "'").FirstOrDefault());
@@ -849,6 +884,5 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 return;
             }
         }
-
     }
 }

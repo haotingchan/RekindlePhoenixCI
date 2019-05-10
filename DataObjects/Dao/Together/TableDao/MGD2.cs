@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 /// Lukas, 2019/4/24
 /// </summary>
 namespace DataObjects.Dao.Together.TableDao {
-    public class MGD2: DataGate {
+    public class MGD2 : DataGate {
 
         /// <summary>
         /// 確認商品是否在同一交易日不同情境下設定過
@@ -115,6 +115,26 @@ delete ci.MGD2
     where MGD2_YMD = :ls_ymd
       and MGD2_ADJ_TYPE = :is_adj_type   
       and MGD2_KIND_ID = :ls_kind_id
+";
+
+            return db.ExecuteSQL(sql, parms);
+        }
+
+        public int DeleteMGD2(string ls_ymd, string is_adj_type, string ls_stock_id, string ls_kind_id) {
+
+            object[] parms = {
+                ":ls_ymd", ls_ymd,
+                ":is_adj_type", is_adj_type,
+                ":ls_stock_id", ls_stock_id,
+                ":ls_kind_id", ls_kind_id
+            };
+
+            string sql = @"
+				delete ci.MGD2
+				where MGD2_YMD = :ls_ymd
+				and MGD2_ADJ_TYPE = :is_adj_type 
+				and MGD2_STOCK_ID = :ls_stock_id
+				and MGD2_KIND_ID = :ls_kind_id
 ";
 
             return db.ExecuteSQL(sql, parms);
