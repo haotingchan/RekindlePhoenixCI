@@ -25,30 +25,30 @@
       private void InitializeComponent() {
          this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
          this.grpxDescription = new System.Windows.Forms.GroupBox();
+         this.groupBox1 = new System.Windows.Forms.GroupBox();
+         this.MarketTimes = new DevExpress.XtraEditors.CheckedListBoxControl();
+         this.txtDate1 = new BaseGround.Widget.TextDateEdit();
+         this.ETCSelect = new DevExpress.XtraEditors.LookUpEdit();
+         this.label2 = new System.Windows.Forms.Label();
+         this.txtDate5 = new BaseGround.Widget.TextDateEdit();
+         this.txtDate7 = new BaseGround.Widget.TextDateEdit();
          this.label1 = new System.Windows.Forms.Label();
          this.ddlAdjType = new DevExpress.XtraEditors.LookUpEdit();
          this.txtDate = new BaseGround.Widget.TextDateEdit();
          this.lblDate = new System.Windows.Forms.Label();
          this.ExportShow = new System.Windows.Forms.Label();
-         this.lookUpEdit1 = new DevExpress.XtraEditors.LookUpEdit();
-         this.label2 = new System.Windows.Forms.Label();
-         this.txtDate3 = new BaseGround.Widget.TextDateEdit();
-         this.txtDate2 = new BaseGround.Widget.TextDateEdit();
-         this.txtDate1 = new BaseGround.Widget.TextDateEdit();
-         this.groupBox1 = new System.Windows.Forms.GroupBox();
-         this.MarketTime = new DevExpress.XtraEditors.CheckedListBoxControl();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
          this.grpxDescription.SuspendLayout();
+         this.groupBox1.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.MarketTimes)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtDate1.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.ETCSelect.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtDate5.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtDate7.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.ddlAdjType.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.lookUpEdit1.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtDate3.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtDate2.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtDate1.Properties)).BeginInit();
-         this.groupBox1.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.MarketTime)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -85,6 +85,120 @@
          this.grpxDescription.TabIndex = 13;
          this.grpxDescription.TabStop = false;
          this.grpxDescription.Text = "請輸入交易日期";
+         // 
+         // groupBox1
+         // 
+         this.groupBox1.Controls.Add(this.MarketTimes);
+         this.groupBox1.Controls.Add(this.txtDate1);
+         this.groupBox1.Controls.Add(this.ETCSelect);
+         this.groupBox1.Controls.Add(this.label2);
+         this.groupBox1.Controls.Add(this.txtDate5);
+         this.groupBox1.Controls.Add(this.txtDate7);
+         this.groupBox1.Location = new System.Drawing.Point(41, 113);
+         this.groupBox1.Name = "groupBox1";
+         this.groupBox1.Size = new System.Drawing.Size(343, 161);
+         this.groupBox1.TabIndex = 15;
+         this.groupBox1.TabStop = false;
+         this.groupBox1.Text = "商品交易時段：";
+         // 
+         // MarketTimes
+         // 
+         this.MarketTimes.HorzScrollStep = 3;
+         this.MarketTimes.ItemHeight = 28;
+         this.MarketTimes.Items.AddRange(new DevExpress.XtraEditors.Controls.CheckedListBoxItem[] {
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(1, "Group1(13:45)"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(5, "Group2(16:15)"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(7, "Group3(18:15)")});
+         this.MarketTimes.Location = new System.Drawing.Point(15, 29);
+         this.MarketTimes.Name = "MarketTimes";
+         this.MarketTimes.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+         this.MarketTimes.Size = new System.Drawing.Size(161, 95);
+         this.MarketTimes.TabIndex = 25;
+         // 
+         // txtDate1
+         // 
+         this.txtDate1.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtDate1.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtDate1.EditValue = "2018/12/01";
+         this.txtDate1.EnterMoveNextControl = true;
+         this.txtDate1.Location = new System.Drawing.Point(182, 29);
+         this.txtDate1.MenuManager = this.ribbonControl;
+         this.txtDate1.Name = "txtDate1";
+         this.txtDate1.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtDate1.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtDate1.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.txtDate1.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtDate1.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.txtDate1.Properties.Mask.ShowPlaceHolders = false;
+         this.txtDate1.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtDate1.Size = new System.Drawing.Size(144, 26);
+         this.txtDate1.TabIndex = 24;
+         this.txtDate1.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         // 
+         // ETCSelect
+         // 
+         this.ETCSelect.Location = new System.Drawing.Point(182, 126);
+         this.ETCSelect.Name = "ETCSelect";
+         this.ETCSelect.Properties.Appearance.BackColor = System.Drawing.Color.White;
+         this.ETCSelect.Properties.Appearance.Options.UseBackColor = true;
+         this.ETCSelect.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+         this.ETCSelect.Properties.AppearanceDisabled.Options.UseBackColor = true;
+         this.ETCSelect.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.ETCSelect.Properties.DropDownRows = 5;
+         this.ETCSelect.Properties.NullText = "";
+         this.ETCSelect.Properties.PopupSizeable = false;
+         this.ETCSelect.Size = new System.Drawing.Size(144, 26);
+         this.ETCSelect.TabIndex = 17;
+         // 
+         // label2
+         // 
+         this.label2.AutoSize = true;
+         this.label2.Location = new System.Drawing.Point(11, 132);
+         this.label2.Name = "label2";
+         this.label2.Size = new System.Drawing.Size(104, 20);
+         this.label2.TabIndex = 18;
+         this.label2.Text = "含ETC VSR：";
+         // 
+         // txtDate5
+         // 
+         this.txtDate5.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtDate5.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtDate5.EditValue = "2018/12/01";
+         this.txtDate5.EnterMoveNextControl = true;
+         this.txtDate5.Location = new System.Drawing.Point(182, 58);
+         this.txtDate5.MenuManager = this.ribbonControl;
+         this.txtDate5.Name = "txtDate5";
+         this.txtDate5.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtDate5.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtDate5.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.txtDate5.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtDate5.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.txtDate5.Properties.Mask.ShowPlaceHolders = false;
+         this.txtDate5.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtDate5.Size = new System.Drawing.Size(144, 26);
+         this.txtDate5.TabIndex = 22;
+         this.txtDate5.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         // 
+         // txtDate7
+         // 
+         this.txtDate7.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtDate7.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtDate7.EditValue = "2018/12/01";
+         this.txtDate7.EnterMoveNextControl = true;
+         this.txtDate7.Location = new System.Drawing.Point(182, 90);
+         this.txtDate7.MenuManager = this.ribbonControl;
+         this.txtDate7.Name = "txtDate7";
+         this.txtDate7.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtDate7.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtDate7.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.txtDate7.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtDate7.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.txtDate7.Properties.Mask.ShowPlaceHolders = false;
+         this.txtDate7.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtDate7.Size = new System.Drawing.Size(144, 26);
+         this.txtDate7.TabIndex = 20;
+         this.txtDate7.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // label1
          // 
@@ -135,7 +249,7 @@
          // lblDate
          // 
          this.lblDate.AutoSize = true;
-         this.lblDate.Location = new System.Drawing.Point(42, 81);
+         this.lblDate.Location = new System.Drawing.Point(37, 84);
          this.lblDate.Name = "lblDate";
          this.lblDate.Size = new System.Drawing.Size(57, 20);
          this.lblDate.TabIndex = 2;
@@ -149,120 +263,6 @@
          this.ExportShow.Size = new System.Drawing.Size(54, 20);
          this.ExportShow.TabIndex = 14;
          this.ExportShow.Text = "label1";
-         // 
-         // lookUpEdit1
-         // 
-         this.lookUpEdit1.Location = new System.Drawing.Point(182, 126);
-         this.lookUpEdit1.Name = "lookUpEdit1";
-         this.lookUpEdit1.Properties.Appearance.BackColor = System.Drawing.Color.White;
-         this.lookUpEdit1.Properties.Appearance.Options.UseBackColor = true;
-         this.lookUpEdit1.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-         this.lookUpEdit1.Properties.AppearanceDisabled.Options.UseBackColor = true;
-         this.lookUpEdit1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.lookUpEdit1.Properties.DropDownRows = 5;
-         this.lookUpEdit1.Properties.NullText = "";
-         this.lookUpEdit1.Properties.PopupSizeable = false;
-         this.lookUpEdit1.Size = new System.Drawing.Size(144, 26);
-         this.lookUpEdit1.TabIndex = 17;
-         // 
-         // label2
-         // 
-         this.label2.AutoSize = true;
-         this.label2.Location = new System.Drawing.Point(11, 132);
-         this.label2.Name = "label2";
-         this.label2.Size = new System.Drawing.Size(104, 20);
-         this.label2.TabIndex = 18;
-         this.label2.Text = "含ETC VSR：";
-         // 
-         // txtDate3
-         // 
-         this.txtDate3.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtDate3.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtDate3.EditValue = "2018/12/01";
-         this.txtDate3.EnterMoveNextControl = true;
-         this.txtDate3.Location = new System.Drawing.Point(182, 90);
-         this.txtDate3.MenuManager = this.ribbonControl;
-         this.txtDate3.Name = "txtDate3";
-         this.txtDate3.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtDate3.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtDate3.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtDate3.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
-         this.txtDate3.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-         this.txtDate3.Properties.Mask.ShowPlaceHolders = false;
-         this.txtDate3.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtDate3.Size = new System.Drawing.Size(144, 26);
-         this.txtDate3.TabIndex = 20;
-         this.txtDate3.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-         // 
-         // txtDate2
-         // 
-         this.txtDate2.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtDate2.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtDate2.EditValue = "2018/12/01";
-         this.txtDate2.EnterMoveNextControl = true;
-         this.txtDate2.Location = new System.Drawing.Point(182, 58);
-         this.txtDate2.MenuManager = this.ribbonControl;
-         this.txtDate2.Name = "txtDate2";
-         this.txtDate2.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtDate2.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtDate2.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtDate2.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
-         this.txtDate2.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-         this.txtDate2.Properties.Mask.ShowPlaceHolders = false;
-         this.txtDate2.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtDate2.Size = new System.Drawing.Size(144, 26);
-         this.txtDate2.TabIndex = 22;
-         this.txtDate2.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-         // 
-         // txtDate1
-         // 
-         this.txtDate1.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtDate1.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtDate1.EditValue = "2018/12/01";
-         this.txtDate1.EnterMoveNextControl = true;
-         this.txtDate1.Location = new System.Drawing.Point(182, 29);
-         this.txtDate1.MenuManager = this.ribbonControl;
-         this.txtDate1.Name = "txtDate1";
-         this.txtDate1.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtDate1.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtDate1.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtDate1.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
-         this.txtDate1.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-         this.txtDate1.Properties.Mask.ShowPlaceHolders = false;
-         this.txtDate1.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtDate1.Size = new System.Drawing.Size(144, 26);
-         this.txtDate1.TabIndex = 24;
-         this.txtDate1.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-         // 
-         // groupBox1
-         // 
-         this.groupBox1.Controls.Add(this.MarketTime);
-         this.groupBox1.Controls.Add(this.txtDate1);
-         this.groupBox1.Controls.Add(this.lookUpEdit1);
-         this.groupBox1.Controls.Add(this.label2);
-         this.groupBox1.Controls.Add(this.txtDate2);
-         this.groupBox1.Controls.Add(this.txtDate3);
-         this.groupBox1.Location = new System.Drawing.Point(41, 113);
-         this.groupBox1.Name = "groupBox1";
-         this.groupBox1.Size = new System.Drawing.Size(343, 161);
-         this.groupBox1.TabIndex = 15;
-         this.groupBox1.TabStop = false;
-         this.groupBox1.Text = "商品交易時段：";
-         // 
-         // MarketTime
-         // 
-         this.MarketTime.HorzScrollStep = 3;
-         this.MarketTime.ItemHeight = 28;
-         this.MarketTime.Items.AddRange(new DevExpress.XtraEditors.Controls.CheckedListBoxItem[] {
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(1, "Group1(13:45)"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(2, "Group2(16:15)"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem(3, "Group3(18:15)")});
-         this.MarketTime.Location = new System.Drawing.Point(15, 29);
-         this.MarketTime.Name = "MarketTime";
-         this.MarketTime.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-         this.MarketTime.Size = new System.Drawing.Size(161, 95);
-         this.MarketTime.TabIndex = 25;
          // 
          // W40030
          // 
@@ -282,15 +282,15 @@
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
          this.grpxDescription.ResumeLayout(false);
          this.grpxDescription.PerformLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.ddlAdjType.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.lookUpEdit1.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtDate3.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtDate2.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtDate1.Properties)).EndInit();
          this.groupBox1.ResumeLayout(false);
          this.groupBox1.PerformLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.MarketTime)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.MarketTimes)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtDate1.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.ETCSelect.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtDate5.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtDate7.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.ddlAdjType.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -306,11 +306,11 @@
       private System.Windows.Forms.Label label1;
       public BaseGround.Widget.TextDateEdit txtDate;
       private System.Windows.Forms.Label label2;
-      private DevExpress.XtraEditors.LookUpEdit lookUpEdit1;
+      private DevExpress.XtraEditors.LookUpEdit ETCSelect;
       public BaseGround.Widget.TextDateEdit txtDate1;
-      public BaseGround.Widget.TextDateEdit txtDate2;
-      public BaseGround.Widget.TextDateEdit txtDate3;
+      public BaseGround.Widget.TextDateEdit txtDate5;
+      public BaseGround.Widget.TextDateEdit txtDate7;
       private System.Windows.Forms.GroupBox groupBox1;
-      private DevExpress.XtraEditors.CheckedListBoxControl MarketTime;
+      private DevExpress.XtraEditors.CheckedListBoxControl MarketTimes;
    }
 }

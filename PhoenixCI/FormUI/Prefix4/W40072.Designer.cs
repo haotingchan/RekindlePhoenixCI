@@ -213,6 +213,7 @@
             this.gvMain.OptionsView.ColumnAutoWidth = false;
             this.gvMain.OptionsView.ShowColumnHeaders = false;
             this.gvMain.OptionsView.ShowGroupPanel = false;
+            this.gvMain.CellValueChanging += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gvMain_CellValueChanging);
             // 
             // gridBand1
             // 
@@ -604,7 +605,7 @@
             this.gvDetail.OptionsView.ShowColumnHeaders = false;
             this.gvDetail.OptionsView.ShowGroupPanel = false;
             this.gvDetail.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gvDetail_CustomRowCellEdit);
-            this.gvDetail.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gvDetail_CellValueChanged);
+            this.gvDetail.CellValueChanging += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gvDetail_CellValueChanging);
             // 
             // gridBand2
             // 
@@ -751,7 +752,7 @@
             this.CM_CUR_A.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.CM_CUR_A.AppearanceCell.Options.UseFont = true;
             this.CM_CUR_A.Caption = "CM_CUR_A";
-            this.CM_CUR_A.DisplayFormat.FormatString = "#,###";
+            this.CM_CUR_A.DisplayFormat.FormatString = "{0:0.###%}";
             this.CM_CUR_A.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.CM_CUR_A.FieldName = "CM_CUR_A";
             this.CM_CUR_A.Name = "CM_CUR_A";
@@ -774,7 +775,7 @@
             this.CM_CUR_B.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.CM_CUR_B.AppearanceCell.Options.UseFont = true;
             this.CM_CUR_B.Caption = "CM_CUR_B";
-            this.CM_CUR_B.DisplayFormat.FormatString = "#,###";
+            this.CM_CUR_B.DisplayFormat.FormatString = "{0:0.###%}";
             this.CM_CUR_B.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.CM_CUR_B.FieldName = "CM_CUR_B";
             this.CM_CUR_B.Name = "CM_CUR_B";
@@ -809,7 +810,7 @@
             this.MM_CUR_A.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.MM_CUR_A.AppearanceCell.Options.UseFont = true;
             this.MM_CUR_A.Caption = "MM_CUR_A";
-            this.MM_CUR_A.DisplayFormat.FormatString = "#,###";
+            this.MM_CUR_A.DisplayFormat.FormatString = "{0:0.###%}";
             this.MM_CUR_A.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.MM_CUR_A.FieldName = "MM_CUR_A";
             this.MM_CUR_A.Name = "MM_CUR_A";
@@ -832,7 +833,7 @@
             this.MM_CUR_B.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.MM_CUR_B.AppearanceCell.Options.UseFont = true;
             this.MM_CUR_B.Caption = "MM_CUR_B";
-            this.MM_CUR_B.DisplayFormat.FormatString = "#,###";
+            this.MM_CUR_B.DisplayFormat.FormatString = "{0:0.###%}";
             this.MM_CUR_B.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.MM_CUR_B.FieldName = "MM_CUR_B";
             this.MM_CUR_B.Name = "MM_CUR_B";
@@ -867,7 +868,7 @@
             this.IM_CUR_A.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.IM_CUR_A.AppearanceCell.Options.UseFont = true;
             this.IM_CUR_A.Caption = "IM_CUR_A";
-            this.IM_CUR_A.DisplayFormat.FormatString = "#,###";
+            this.IM_CUR_A.DisplayFormat.FormatString = "{0:0.###%}";
             this.IM_CUR_A.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.IM_CUR_A.FieldName = "IM_CUR_A";
             this.IM_CUR_A.Name = "IM_CUR_A";
@@ -890,7 +891,7 @@
             this.IM_CUR_B.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.IM_CUR_B.AppearanceCell.Options.UseFont = true;
             this.IM_CUR_B.Caption = "IM_CUR_B";
-            this.IM_CUR_B.DisplayFormat.FormatString = "#,###";
+            this.IM_CUR_B.DisplayFormat.FormatString = "{0:0.###%}";
             this.IM_CUR_B.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.IM_CUR_B.FieldName = "IM_CUR_B";
             this.IM_CUR_B.Name = "IM_CUR_B";
@@ -938,7 +939,7 @@
             this.CM_A.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.CM_A.AppearanceCell.Options.UseFont = true;
             this.CM_A.Caption = "CM_A";
-            this.CM_A.DisplayFormat.FormatString = "#,###";
+            this.CM_A.DisplayFormat.FormatString = "{0:0.###%}";
             this.CM_A.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.CM_A.FieldName = "CM_A";
             this.CM_A.Name = "CM_A";
@@ -960,7 +961,7 @@
             this.CM_B.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.CM_B.AppearanceCell.Options.UseFont = true;
             this.CM_B.Caption = "CM_B";
-            this.CM_B.DisplayFormat.FormatString = "#,###";
+            this.CM_B.DisplayFormat.FormatString = "{0:0.###%}";
             this.CM_B.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.CM_B.FieldName = "CM_B";
             this.CM_B.Name = "CM_B";
@@ -994,7 +995,7 @@
             this.MM_A.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.MM_A.AppearanceCell.Options.UseFont = true;
             this.MM_A.Caption = "MM_A";
-            this.MM_A.DisplayFormat.FormatString = "#,###";
+            this.MM_A.DisplayFormat.FormatString = "{0:0.###%}";
             this.MM_A.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.MM_A.FieldName = "MM_A";
             this.MM_A.Name = "MM_A";
@@ -1016,7 +1017,7 @@
             this.MM_B.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.MM_B.AppearanceCell.Options.UseFont = true;
             this.MM_B.Caption = "MM_B";
-            this.MM_B.DisplayFormat.FormatString = "#,###";
+            this.MM_B.DisplayFormat.FormatString = "{0:0.###%}";
             this.MM_B.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.MM_B.FieldName = "MM_B";
             this.MM_B.Name = "MM_B";
@@ -1050,7 +1051,7 @@
             this.IM_A.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.IM_A.AppearanceCell.Options.UseFont = true;
             this.IM_A.Caption = "IM_A";
-            this.IM_A.DisplayFormat.FormatString = "#,###";
+            this.IM_A.DisplayFormat.FormatString = "{0:0.###%}";
             this.IM_A.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.IM_A.FieldName = "IM_A";
             this.IM_A.Name = "IM_A";
@@ -1072,7 +1073,7 @@
             this.IM_B.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.IM_B.AppearanceCell.Options.UseFont = true;
             this.IM_B.Caption = "IM_B";
-            this.IM_B.DisplayFormat.FormatString = "#,###";
+            this.IM_B.DisplayFormat.FormatString = "{0:0.###%}";
             this.IM_B.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.IM_B.FieldName = "IM_B";
             this.IM_B.Name = "IM_B";
@@ -1371,6 +1372,7 @@
             this.btnNone.TabIndex = 25;
             this.btnNone.Text = "不全選";
             this.btnNone.UseVisualStyleBackColor = true;
+            this.btnNone.Click += new System.EventHandler(this.btnNone_Click);
             // 
             // btnAll
             // 
@@ -1381,6 +1383,7 @@
             this.btnAll.TabIndex = 24;
             this.btnAll.Text = "全選";
             this.btnAll.UseVisualStyleBackColor = true;
+            this.btnAll.Click += new System.EventHandler(this.btnAll_Click);
             // 
             // btnDetail
             // 
@@ -1390,6 +1393,7 @@
             this.btnDetail.TabIndex = 23;
             this.btnDetail.Text = "顯示明細";
             this.btnDetail.UseVisualStyleBackColor = true;
+            this.btnDetail.Click += new System.EventHandler(this.btnDetail_Click);
             // 
             // W40072
             // 
