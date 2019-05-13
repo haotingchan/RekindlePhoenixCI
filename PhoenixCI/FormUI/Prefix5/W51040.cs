@@ -37,14 +37,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
             dao51040 = new D51040();
         }
 
-        public override ResultStatus BeforeOpen() {
-            base.BeforeOpen();
-
-            return ResultStatus.Success;
-        }
-
         protected override ResultStatus Open() {
             base.Open();
+#if DEBUG
+            txtMonth.Text = "2019/01";
+#endif
 
             #region 處理下拉選單
             _RepLookUpEdit = new RepositoryItemLookUpEdit();
@@ -73,12 +70,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
             _RepLookUpEdit.DropDownRows = dtProd_Type.Rows.Count;
             _RepLookUpEdit.BestFit();
             #endregion
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus AfterOpen() {
-            base.AfterOpen();
 
             return ResultStatus.Success;
         }
@@ -137,18 +128,13 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 return ResultStatus.Fail;
             }
             else {
-                ResultStatus status = base.Save_Override(dt, "MMWK");
-                if (status == ResultStatus.Fail) {
+                ResultData myResultData = dao51040.UpdateMMWK(dt);
+                if (myResultData.Status == ResultStatus.Fail) {
+                    MessageDisplay.Error("更新資料庫MMWK錯誤! ");
                     return ResultStatus.Fail;
                 }
             }
             return ResultStatus.Success; 
-        }
-
-        protected override ResultStatus Run(PokeBall args) {
-            base.Run(gcMain);
-
-            return ResultStatus.Success;
         }
 
         protected override ResultStatus Import() {
@@ -246,7 +232,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
             CommonReportPortraitA4 report = new CommonReportPortraitA4();
 
             report.printableComponentContainerMain.PrintableComponent = gcMain;
-
             _ReportHelper.Create(report);
             //_ReportHelper.LeftMemo = "設定權限給(" + cbxUserId.Text.Trim() + ")";
 
