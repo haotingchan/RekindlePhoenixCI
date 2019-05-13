@@ -89,13 +89,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
                InsertRow();
             }
 
-            //1. 設定gvExport
+            //1. 設定gvMain
             gvMain.Columns.Clear();
             gvMain.OptionsBehavior.AutoPopulateColumns = true;
             gcMain.DataSource = dt;
             GridHelper.SetCommonGrid(gvMain);
 
-            string[] showColCaption = {"商品", $"商品", "簡稱","","順序","","",
+            string[] showColCaption = {"商品", "商品", "簡稱","","順序","","",
                                        $"對外{Environment.NewLine}商品",$"對外{Environment.NewLine}商品",
                                        "適用商品組合" ,$"收盤{Environment.NewLine}群組", $"判斷{Environment.NewLine}調整標準",
                                        $"商品{Environment.NewLine}狀態", $"跨商品{Environment.NewLine}MAX折抵比率", "" };

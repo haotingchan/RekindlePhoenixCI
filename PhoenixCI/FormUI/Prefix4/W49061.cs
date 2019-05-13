@@ -6,10 +6,10 @@ using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.TableDao;
+using DevExpress.Utils;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraGrid;
-using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraGrid.Views.Grid;
 using System;
 using System.ComponentModel;
@@ -103,27 +103,29 @@ namespace PhoenixCI.FormUI.Prefix4 {
                InsertRow();
             }
 
-            //1. 設定gvExport
+            //1.1 設定欄位caption      
             gvMain.Columns.Clear();
             gvMain.OptionsBehavior.AutoPopulateColumns = true;
             gcMain.DataSource = dt;
-            gvMain.BestFitColumns();
+            GridHelper.SetCommonGrid(gvMain);
+
+            string[] showColCaption = {"交易所＋商品代號", "交易所", "商品","路透代號","商品類別","國內/外","幣別",
+                                       "","金額類型","契約乘數","異動人員" ,"異動時間", ""};
 
             //1.1 設定欄位caption       
-            gvMain.SetColumnCaption("MGT8_F_ID" , "交易所＋商品代號");
-            gvMain.SetColumnCaption("MGT8_F_EXCHANGE" , "交易所");
-            gvMain.SetColumnCaption("MGT8_F_NAME" , "商品");
-            gvMain.SetColumnCaption("MGT8_RT_ID" , "路透代號");
-            gvMain.SetColumnCaption("MGT8_KIND_TYPE" , "商品類別");
+            foreach (DataColumn dc in dt.Columns) {
+               gvMain.SetColumnCaption(dc.ColumnName , showColCaption[dt.Columns.IndexOf(dc)]);
+               gvMain.Columns[dc.ColumnName].AppearanceHeader.TextOptions.WordWrap = WordWrap.Wrap;
+               gvMain.Columns[dc.ColumnName].AppearanceCell.TextOptions.WordWrap = WordWrap.Wrap;
+               gvMain.Columns[dc.ColumnName].OptionsColumn.AllowMerge = DefaultBoolean.False;
 
-            gvMain.SetColumnCaption("MGT8_FOREIGN" , "國內/外");
-            gvMain.SetColumnCaption("MGT8_CURRENCY_TYPE" , "幣別");
-            gvMain.SetColumnCaption("MGT8_AMT_TYPE" , "金額類型");
-            gvMain.SetColumnCaption("MGT8_XXX" , "契約乘數");
-            gvMain.SetColumnCaption("MGT8_W_USER_ID" , "異動人員");
-
-            gvMain.SetColumnCaption("MGT8_W_TIME" , "異動時間");
-            gvMain.SetColumnCaption("IS_NEWROW" , "Is_NewRow");
+               //設定欄位header顏色
+               if (dc.ColumnName == "MGT8_F_ID") {
+                  gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = Color.Yellow;
+               } else {
+                  gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = Color.FromArgb(128 , 255 , 255);
+               }
+            }
 
             //1.2 設定隱藏欄位
             gvMain.Columns["MGT8_STRUTURE"].Visible = false;
@@ -131,12 +133,50 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gvMain.Columns["MGT8_W_TIME"].Visible = false;
             gvMain.Columns["IS_NEWROW"].Visible = false;
 
+            //1.2 設定欄位format格式
+            RepositoryItemTextEdit exchange = new RepositoryItemTextEdit(); //交易所
+            gcMain.RepositoryItems.Add(exchange);
+            gvMain.Columns["MGT8_F_EXCHANGE"].ColumnEdit = exchange;
+            exchange.MaxLength = 12;
+
+            RepositoryItemTextEdit fName = new RepositoryItemTextEdit(); //商品
+            gcMain.RepositoryItems.Add(fName);
+            gvMain.Columns["MGT8_F_NAME"].ColumnEdit = fName;
+            fName.MaxLength = 29;
+
+            RepositoryItemTextEdit rtId = new RepositoryItemTextEdit(); //路透代號
+            gcMain.RepositoryItems.Add(rtId);
+            gvMain.Columns["MGT8_RT_ID"].ColumnEdit = rtId;
+            rtId.MaxLength = 10;
+
+            RepositoryItemTextEdit mgt8Xxx = new RepositoryItemTextEdit(); //契約乘數
+            gcMain.RepositoryItems.Add(mgt8Xxx);
+            gvMain.Columns["MGT8_XXX"].ColumnEdit = mgt8Xxx;
+            mgt8Xxx.DisplayFormat.FormatType = FormatType.Numeric;
+            mgt8Xxx.DisplayFormat.FormatString = "######0.####";
+            mgt8Xxx.Mask.EditMask = "######0.0000";
+            mgt8Xxx.MaxLength = 12;
+            mgt8Xxx.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+
             //1.3 設定dropdownlist       
             gvMain.Columns["MGT8_KIND_TYPE"].ColumnEdit = lupKind;
             gvMain.Columns["MGT8_FOREIGN"].ColumnEdit = lupForeign;
             gvMain.Columns["MGT8_CURRENCY_TYPE"].ColumnEdit = lupCurrency;
             gvMain.Columns["MGT8_AMT_TYPE"].ColumnEdit = lupAmt;
 
+            //1.4 設定欄位順序
+            gvMain.Columns["MGT8_F_ID"].VisibleIndex = 0;
+            gvMain.Columns["MGT8_F_EXCHANGE"].VisibleIndex = 1;
+            gvMain.Columns["MGT8_F_NAME"].VisibleIndex = 2;
+            gvMain.Columns["MGT8_RT_ID"].VisibleIndex = 3;
+            gvMain.Columns["MGT8_KIND_TYPE"].VisibleIndex = 4;
+
+            gvMain.Columns["MGT8_FOREIGN"].VisibleIndex = 5;
+            gvMain.Columns["MGT8_CURRENCY_TYPE"].VisibleIndex = 6;
+            gvMain.Columns["MGT8_AMT_TYPE"].VisibleIndex = 7;
+            gvMain.Columns["MGT8_XXX"].VisibleIndex = 8;
+
+            gvMain.BestFitColumns();
             gcMain.Focus();
 
             return ResultStatus.Success;
@@ -201,7 +241,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             if (result.Status == ResultStatus.Fail) {
                return ResultStatus.Fail;
             }
-            //PrintOrExportChangedByKen(gcMain , resultData);
+            AfterSaveForPrint(gcMain , dtForAdd , dtForDeleted , dtForModified);
 
          } catch (Exception ex) {
             throw ex;
@@ -209,9 +249,79 @@ namespace PhoenixCI.FormUI.Prefix4 {
          return ResultStatus.Success;
       }
 
+      /// <summary>
+      /// 將新增、刪除、變更的紀錄分別都列印或匯出出來(橫式A4)
+      /// </summary>
+      /// <param name="gridControl"></param>
+      /// <param name="ChangedForAdded"></param>
+      /// <param name="ChangedForDeleted"></param>
+      /// <param name="ChangedForModified"></param>
+      protected void AfterSaveForPrint(GridControl gridControl , DataTable ChangedForAdded ,
+          DataTable ChangedForDeleted , DataTable ChangedForModified , bool IsHandlePersonVisible = true , bool IsManagerVisible = true) {
+         GridControl gridControlPrint = GridHelper.CloneGrid(gridControl);
+
+         string _ReportTitle = _ProgramID + "─" + _ProgramName + GlobalInfo.REPORT_TITLE_MEMO;
+         ReportHelper reportHelper = new ReportHelper(gridControl , _ProgramID , _ReportTitle);
+         CommonReportLandscapeA4 reportLandscape = new CommonReportLandscapeA4(); //橫向A4
+         reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
+
+         reportLandscape.IsHandlePersonVisible = IsHandlePersonVisible;
+         reportLandscape.IsManagerVisible = IsManagerVisible;
+         reportHelper.Create(reportLandscape);
+
+         if (ChangedForAdded != null)
+            if (ChangedForAdded.Rows.Count != 0) {
+               gridControlPrint.DataSource = ChangedForAdded;
+               reportHelper.PrintableComponent = gridControlPrint;
+               reportHelper.ReportTitle = _ReportTitle + "─" + "新增";
+
+               reportHelper.Print();
+               reportHelper.Export(FileType.PDF , reportHelper.FilePath);
+            }
+
+         if (ChangedForDeleted != null)
+            if (ChangedForDeleted.Rows.Count != 0) {
+               DataTable dtTemp = ChangedForDeleted.Clone();
+
+               int rowIndex = 0;
+               foreach (DataRow dr in ChangedForDeleted.Rows) {
+                  DataRow drNewDelete = dtTemp.NewRow();
+                  for (int colIndex = 0 ; colIndex < ChangedForDeleted.Columns.Count ; colIndex++) {
+                     drNewDelete[colIndex] = dr[colIndex , DataRowVersion.Original];
+                  }
+                  dtTemp.Rows.Add(drNewDelete);
+                  rowIndex++;
+               }
+
+               gridControlPrint.DataSource = dtTemp.AsDataView();
+               reportHelper.PrintableComponent = gridControlPrint;
+               reportHelper.ReportTitle = _ReportTitle + "─" + "刪除";
+
+               reportHelper.Print();
+               reportHelper.Export(FileType.PDF , reportHelper.FilePath);
+            }
+
+         if (ChangedForModified != null)
+            if (ChangedForModified.Rows.Count != 0) {
+               gridControlPrint.DataSource = ChangedForModified;
+               reportHelper.PrintableComponent = gridControlPrint;
+               reportHelper.ReportTitle = _ReportTitle + "─" + "變更";
+
+               reportHelper.Print();
+               reportHelper.Export(FileType.PDF , reportHelper.FilePath);
+            }
+      }
+
       protected override ResultStatus Print(ReportHelper reportHelper) {
          try {
             ReportHelper _ReportHelper = new ReportHelper(gcMain , _ProgramID , this.Text);
+            CommonReportLandscapeA4 reportLandscape = new CommonReportLandscapeA4(); //橫向A4
+
+            reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
+            reportLandscape.IsHandlePersonVisible = false;
+            reportLandscape.IsManagerVisible = false;
+            _ReportHelper.Create(reportLandscape);
+
             _ReportHelper.Print();
             _ReportHelper.Export(FileType.PDF , _ReportHelper.FilePath);
 

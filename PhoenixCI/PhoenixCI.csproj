@@ -3799,6 +3799,9 @@
     <Content Include="Excel_Template\40030\40030_TBL_XJF_2_Head.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Excel_Template\51020.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Excel_Template\alarm_bb.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
