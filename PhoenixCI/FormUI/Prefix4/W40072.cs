@@ -72,7 +72,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //設定日期和全域變數
             txtSDate.DateTimeValue = DateTime.Now;
 #if DEBUG
-            txtSDate.EditValue = "2018/12/28";
+            txtSDate.EditValue = "2019/02/27";
 #endif
             ymd = txtSDate.DateTimeValue.ToString("yyyyMMdd");
             is_adj_type = "2";
@@ -293,7 +293,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     //檢查同一標的的級距是否一致
                     if ((f + 1) < dtGrid.Rows.Count) {
                         if (ls_stock_id == dtGrid.Rows[f + 1]["STOCK_ID"].AsString() &&
-                            dr["M_CUR_LEVEL"] != dtGrid.Rows[f + 1]["M_CUR_LEVEL"]) {
+                            dr["M_CUR_LEVEL"].AsString() != dtGrid.Rows[f + 1]["M_CUR_LEVEL"].AsString()) {
                             MessageDisplay.Error(ls_stock_id + "的級距不一致");
                             return ResultStatus.Fail;
                         }
@@ -510,7 +510,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
         protected override ResultStatus Print(ReportHelper reportHelper) {
             try {
                 ReportHelper _ReportHelper = new ReportHelper(gcDetail, _ProgramID, this.Text);
-                CommonReportLandscapeA4 reportLandscape = new CommonReportLandscapeA4();//設定為橫向列印
+                CommonReportLandscapeA3 reportLandscape = new CommonReportLandscapeA3();//設定為橫向列印
                 reportLandscape.printableComponentContainerMain.PrintableComponent = gcDetail;
                 reportLandscape.IsHandlePersonVisible = false;
                 reportLandscape.IsManagerVisible = false;
