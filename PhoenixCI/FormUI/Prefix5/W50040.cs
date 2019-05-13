@@ -180,9 +180,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
             //1.1 設定欄位caption
             gvMain.SetColumnCaption("AMM1_DATE" , "資料日期");
-            gvMain.SetColumnCaption("AMM1_FCM_NO" , "造市者代號");
-            gvMain.SetColumnCaption("AMM1_ACC_NO" , "帳號");
+            gvMain.SetColumnCaption("AMM1_FCM_NO" , "造市者代號");          
             gvMain.SetColumnCaption("ABRK_ABBR_NAME" , "造市者名稱");
+            gvMain.SetColumnCaption("AMM1_ACC_NO" , "帳號");
             gvMain.SetColumnCaption("AMM1_PROD_TYPE" , "AMM1_PROD_TYPE");
 
             gvMain.SetColumnCaption("AMM1_KIND_ID2" , "商品");
@@ -287,9 +287,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
             gvMain.AppearancePrint.HeaderPanel.TextOptions.WordWrap = WordWrap.Wrap;
             gvMain.ColumnPanelRowHeight = 30;
             gvMain.AppearancePrint.HeaderPanel.Font = new Font("Microsoft YaHei" , gvMain.Appearance.HeaderPanel.Font.Size);
-            gvMain.AppearancePrint.Row.Font = new Font("Microsoft YaHei" , 11);
+            gvMain.AppearancePrint.Row.Font = new Font("Microsoft YaHei" , 10);
             gvMain.OptionsPrint.AllowMultilineHeaders = true;
-            gvMain.AppearancePrint.GroupRow.Font = new Font("Microsoft YaHei" , 11);
+            gvMain.AppearancePrint.GroupRow.Font = new Font("Microsoft YaHei" , 10);
 
             gvMain.BestFitColumns();
             GridHelper.SetCommonGrid(gvMain);

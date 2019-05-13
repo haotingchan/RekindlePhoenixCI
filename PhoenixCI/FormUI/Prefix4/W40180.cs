@@ -2,15 +2,16 @@
 using BaseGround.Shared;
 using BusinessObjects.Enums;
 using Common;
+using Common.Helper;
 using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DataObjects.Dao.Together.TableDao;
 using DevExpress.XtraEditors.Controls;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.IO;
+using System.Net;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -283,11 +284,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          try {
 
-            string rptId = "40180_7122";
-
             //取得網路磁碟機路徑、帳密
             DataTable dtInfo = daoTXFP.GetPathAccPwd("file" , _ProgramID);
+            string userId = dtInfo.Rows[0]["ls_user"].AsString();
             string pwd = dtInfo.Rows[0]["ls_pwd"].AsString();
+            string targetPath = dtInfo.Rows[0]["is_path"].AsString();
             pwd = PbFunc.f_decode(pwd);
 
             //本機
@@ -300,13 +301,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             Common.Helper.ExportHelper.ToCsv(dt , txtPath , csvref);
 
             if (chkTxt.CheckState == CheckState.Checked) {
-               //執行bat f_netdragon
-               //string li_rtn = f_netdragon("N" , ls_user , ls_pwd , ls_txt , is_path + "\"+ as_filename,'Y');
-               //if    li_rtn <> 1  then
-               //   messagebox(gs_t_err , "全部保證金7122文字檔搬檔失敗，請確認網路磁碟機連線" , StopSign!)
-               return "E";
-               //end   if
-            } else {
+               //執行f_netdragon
+               int li_rtn = Go("N" , userId , pwd , txtPath , targetPath + "\\" + fileName , "Y");
+               if (li_rtn != 1) {
+                  MessageDisplay.Error("全部保證金7122文字檔搬檔失敗，請確認網路磁碟機連線");
+                  return "E";
+               }
                return "Y";
             }
 
@@ -314,6 +314,28 @@ namespace PhoenixCI.FormUI.Prefix4 {
             WriteLog(ex);
          }
          return "E";
+      }
+      #endregion
+
+      #region f_netdragon 中的 method Go()
+      public static int Go(string domain , string userName , string password , string pathSourceFile , string pathTargetFile , string isOutputReadyFile) {
+         int num = 0;
+         NetworkCredential credentials = new NetworkCredential(userName , password);
+         string directoryName = Path.GetDirectoryName(pathTargetFile);
+         try {
+            using (new ConnectSharedFolder(directoryName , credentials)) {
+               File.Copy(pathSourceFile , pathTargetFile , true);
+               Thread.Sleep(100);
+               if (isOutputReadyFile == "Y") {
+                  File.Copy(pathSourceFile , pathTargetFile + ".ready" , true);
+               }
+               num = 1;
+            }
+         } catch (Exception exception1) {
+            MessageBox.Show(exception1.Message);
+            num = -1;
+         }
+         return num;
       }
       #endregion
 
