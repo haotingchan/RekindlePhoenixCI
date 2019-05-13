@@ -1,28 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using BaseGround;
+using BaseGround.Report;
+using BaseGround.Shared;
+using BusinessObjects;
+using BusinessObjects.Enums;
+using Common;
+using DataObjects.Dao.Together.SpecificDao;
+using DataObjects.Dao.Together.TableDao;
+using DevExpress.XtraEditors.Controls;
+using DevExpress.XtraEditors.Repository;
+using DevExpress.XtraGrid;
+using DevExpress.XtraGrid.Views.Grid;
+using System;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using BaseGround;
-using BaseGround.Shared;
-using DevExpress.XtraGrid.Views.Grid;
-using BusinessObjects.Enums;
-using BaseGround.Report;
-using BusinessObjects;
-using DataObjects.Dao.Together.TableDao;
-using Common;
-using DataObjects.Dao.Together;
-using DevExpress.XtraEditors.Repository;
-using DevExpress.XtraEditors.Controls;
-using DevExpress.XtraGrid;
-using DataObjects.Dao.Together.SpecificDao;
 using System.IO;
-using DevExpress.XtraGrid.Views.Base;
 
 /// <summary>
 /// Winni, 2019/3/19
@@ -69,8 +61,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
       protected override ResultStatus Open() {
          base.Open();
          try {
-            txtStartDate.Text = GlobalInfo.OCF_DATE.AsString("yyyy/01/01");
-            txtEndDate.EditValue = GlobalInfo.OCF_DATE.AsString("yyyy/MM/dd");
+            txtStartDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/01/01");
+            txtEndDate.DateTimeValue = GlobalInfo.OCF_DATE;
 
 #if DEBUG
             //winni test
@@ -115,21 +107,36 @@ namespace PhoenixCI.FormUI.Prefix4 {
             if (dt.Rows.Count <= 0) {
                MessageDisplay.Info("無任何資料");
             } else {
-               foreach (DataRow dr in dt.Rows) {
-                  dr["MG8_EFFECT_YMD"] = dr["MG8_EFFECT_YMD"].AsDateTime("yyyyMMdd").ToString("yyyy/MM/dd");
-                  dr["MG8_ISSUE_YMD"] = dr["MG8_ISSUE_YMD"].AsDateTime("yyyyMMdd").ToString("yyyy/MM/dd");
-               }
-
+   
                retDt = dt.Clone();
                foreach (DataRow r in dt.Rows) {
                   retDt.ImportRow(r);
                }
-            }
 
+               //設定grid裡的 date format
+               RepositoryItemTextEdit effectYmd = new RepositoryItemTextEdit();
+               effectYmd.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+               effectYmd.Mask.EditMask = "[0-9]{4}/(((0[13578]|(10|12))/(0[1-9]|[1-2][0-9]|3[0-1]))|(02/(0[1-9]|[1-2][0-9]))|((0[469]|11)/(0[1-9]|[1-2][0-9]|30)))";
+               effectYmd.Mask.UseMaskAsDisplayFormat = true;
+
+               gcMain.RepositoryItems.Add(effectYmd);
+               gvMain.Columns["MG8_EFFECT_YMD"].ColumnEdit = effectYmd;
+
+               RepositoryItemTextEdit issueYmd = new RepositoryItemTextEdit();
+               issueYmd.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+               issueYmd.Mask.EditMask = "[0-9]{4}/(((0[13578]|(10|12))/(0[1-9]|[1-2][0-9]|3[0-1]))|(02/(0[1-9]|[1-2][0-9]))|((0[469]|11)/(0[1-9]|[1-2][0-9]|30)))";
+               issueYmd.Mask.UseMaskAsDisplayFormat = true;
+
+               gcMain.RepositoryItems.Add(issueYmd);
+               gvMain.Columns["MG8_ISSUE_YMD"].ColumnEdit = issueYmd;
+
+            }
+          
             //設定gvMain
             gcMain.Visible = true;
             //gvMain.Columns.Clear();
             gcMain.DataSource = dt;
+
             gvMain.BestFitColumns();
             GridHelper.SetCommonGrid(gvMain);
             gcMain.Focus();
@@ -159,6 +166,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   case DataRowState.Modified:
                      dr["MG8_W_TIME"] = DateTime.Now;
                      dr["MG8_W_USER_ID"] = GlobalInfo.USER_ID;
+                     dr["MG8_EFFECT_YMD"] = dr["MG8_EFFECT_YMD"].AsString().Replace("/","");
+                     dr["MG8_ISSUE_YMD"] = dr["MG8_ISSUE_YMD"].AsString().Replace("/" , "");
                      break;
                   case DataRowState.Unchanged:
                      if (dr["MG8_W_TIME"] == null) {
@@ -178,10 +187,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             } else {
                //save成功才寫異動LOG: 紀錄異動前後的值
                foreach (DataRow dr in dt.Rows) {
-
-
                   if (dr.RowState == DataRowState.Modified) {
-                     string effectYmd = dr["MG8_EFFECT_YMD"].AsString();
+                     string effectYmd = dr["MG8_EFFECT_YMD"].AsString().Replace("/" , "");
                      string fId = dr["MG8_F_ID"].AsString();
 
                      DataView dv = retDt.AsDataView();
@@ -422,7 +429,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
       //      //   gv.SetRowCellValue(e.RowHandle , gv.Columns["MG8_IM"] , tmpValue);
       //      //   //point = true;
       //      //}
-            
+
       //   }
       //}
       #endregion
