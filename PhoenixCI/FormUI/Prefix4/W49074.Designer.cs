@@ -25,7 +25,6 @@
         private void InitializeComponent() {
          this.repositoryItemTextEdit4 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
          this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
-         this.label1 = new System.Windows.Forms.Label();
          this.lblDate = new System.Windows.Forms.Label();
          this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
          this.btnSubAdd = new DevExpress.XtraEditors.SimpleButton();
@@ -66,7 +65,7 @@
          // 
          this.panParent.Controls.Add(this.gcMain);
          this.panParent.Dock = System.Windows.Forms.DockStyle.Top;
-         this.panParent.Location = new System.Drawing.Point(0, 100);
+         this.panParent.Location = new System.Drawing.Point(0, 76);
          this.panParent.Size = new System.Drawing.Size(899, 233);
          // 
          // ribbonControl
@@ -81,24 +80,12 @@
          // 
          // panelControl1
          // 
-         this.panelControl1.Controls.Add(this.label1);
          this.panelControl1.Controls.Add(this.lblDate);
          this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
          this.panelControl1.Location = new System.Drawing.Point(0, 30);
          this.panelControl1.Name = "panelControl1";
-         this.panelControl1.Size = new System.Drawing.Size(899, 70);
+         this.panelControl1.Size = new System.Drawing.Size(899, 46);
          this.panelControl1.TabIndex = 0;
-         // 
-         // label1
-         // 
-         this.label1.AutoSize = true;
-         this.label1.BackColor = System.Drawing.Color.Transparent;
-         this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F);
-         this.label1.Location = new System.Drawing.Point(41, 38);
-         this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(73, 20);
-         this.label1.TabIndex = 19;
-         this.label1.Text = "交易年月";
          // 
          // lblDate
          // 
@@ -117,7 +104,7 @@
          this.panelControl2.Controls.Add(this.btnSubDel);
          this.panelControl2.Controls.Add(this.label3);
          this.panelControl2.Dock = System.Windows.Forms.DockStyle.Top;
-         this.panelControl2.Location = new System.Drawing.Point(0, 333);
+         this.panelControl2.Location = new System.Drawing.Point(0, 309);
          this.panelControl2.Name = "panelControl2";
          this.panelControl2.Size = new System.Drawing.Size(899, 48);
          this.panelControl2.TabIndex = 20;
@@ -149,16 +136,16 @@
          this.label3.Name = "label3";
          this.label3.Size = new System.Drawing.Size(74, 21);
          this.label3.TabIndex = 18;
-         this.label3.Text = "會議記錄";
+         this.label3.Text = "會議議程";
          // 
          // panel1
          // 
          this.panel1.BackColor = System.Drawing.Color.White;
          this.panel1.Controls.Add(this.gcSub);
          this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.panel1.Location = new System.Drawing.Point(0, 381);
+         this.panel1.Location = new System.Drawing.Point(0, 357);
          this.panel1.Name = "panel1";
-         this.panel1.Size = new System.Drawing.Size(899, 264);
+         this.panel1.Size = new System.Drawing.Size(899, 288);
          this.panel1.TabIndex = 21;
          // 
          // gcSub
@@ -172,7 +159,7 @@
             this.repositoryItemTextEdit1,
             this.repositoryItemTextEdit2,
             this.repositoryItemTextEdit3});
-         this.gcSub.Size = new System.Drawing.Size(899, 264);
+         this.gcSub.Size = new System.Drawing.Size(899, 288);
          this.gcSub.TabIndex = 2;
          this.gcSub.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvSub});
@@ -331,7 +318,6 @@
 
         private DevExpress.XtraEditors.PanelControl panelControl1;
         private System.Windows.Forms.Label lblDate;
-      private System.Windows.Forms.Label label1;
       private DevExpress.XtraEditors.PanelControl panelControl2;
       private System.Windows.Forms.Label label3;
       protected System.Windows.Forms.Panel panel1;
