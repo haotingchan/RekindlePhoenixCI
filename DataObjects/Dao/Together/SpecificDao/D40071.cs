@@ -64,6 +64,36 @@ ORDER BY mgd2_ymd, mgd2_prod_type, cpSort, mgd2_prod_subtype, mgd2_kind_id
         }
 
         /// <summary>
+        /// for W40073 gvMain 取得table的schema，因為程式開啟會預設插入一筆空資料列
+        /// </summary>
+        /// <returns></returns>
+        public DataTable d_40073() {
+
+            string sql =
+@"
+SELECT A.MGD2_STOCK_ID AS STOCK_ID,
+       A.MGD2_LEVEL AS M_LEVEL,
+       A.MGD2_CM AS CM_A,
+       A.MGD2_CM AS CM_B,
+       A.MGD2_MM AS MM_A,       
+       A.MGD2_MM AS MM_B,     
+       A.MGD2_IM AS IM_A,
+       A.MGD2_IM AS IM_B,
+       A.MGD2_ADJ_RSN AS ADJ_RSN,
+       CASE WHEN A.mgd2_prod_subtype <>'S' THEN 0 ELSE 1 END as cpSort
+FROM
+    (SELECT *
+    FROM ci.MGD2
+    WHERE MGD2_YMD = ''
+    AND MGD2_ADJ_TYPE = '') A
+ORDER BY mgd2_ymd, mgd2_prod_type, cpSort, mgd2_prod_subtype, mgd2_kind_id
+";
+            DataTable dtResult = db.GetDataTable(sql, null);
+
+            return dtResult;
+        }
+
+        /// <summary>
         /// 預設空參數是為了只取table schema
         /// </summary>
         /// <param name="as_trade_ymd"></param>
@@ -322,6 +352,49 @@ select COUNT(*) as li_count,
                             (MGD2_ISSUE_END_YMD > :ls_issue_begin_ymd and MGD2_ISSUE_END_YMD <=:ls_issue_end_ymd)or
                             (MGD2_ISSUE_BEGIN_YMD < :ls_issue_begin_ymd and MGD2_ISSUE_END_YMD > :ls_issue_end_ymd)                
                         )
+";
+            DataTable dtResult = db.GetDataTable(sql, parms);
+
+            return dtResult;
+        }
+
+        /// <summary>
+        /// 確認商品是否在同一生效日區間設定過 for W40073
+        /// </summary>
+        /// <param name="ls_kind_id"></param>
+        /// <param name="ls_ymd"></param>
+        /// <param name="ls_issue_begin_ymd"></param>
+        /// <param name="ls_issue_end_ymd"></param>
+        /// <returns></returns>
+        public DataTable IsSetInSameSession(string ls_kind_id, string ls_ymd, string ls_issue_begin_ymd) {
+
+            object[] parms = {
+                ":ls_kind_id", ls_kind_id,
+                ":ls_ymd", ls_ymd,
+                ":ls_issue_begin_ymd", ls_issue_begin_ymd
+            };
+
+            string sql =
+@"
+select COUNT(*) as li_count,
+						MAX(
+							case MGD2_ADJ_TYPE 
+								when '0' then '一般' 
+								when '1' then '長假' 
+								when '2' then '處置股票'  
+								when '3' then '股票' 
+								when '4' then '上下市商品'
+							end 
+						)AS ls_adj_type_name,
+						MAX(MGD2_YMD) as ls_trade_ymd
+				from ci.MGD2
+				where MGD2_KIND_ID = :ls_kind_id
+				and MGD2_ADJ_CODE = 'Y'		
+				and MGD2_YMD <> :ls_ymd
+				and(
+					(MGD2_ISSUE_BEGIN_YMD  = :ls_issue_begin_ymd) or
+					(MGD2_ISSUE_BEGIN_YMD < :ls_issue_begin_ymd and MGD2_ISSUE_END_YMD > :ls_issue_begin_ymd)									
+				)
 ";
             DataTable dtResult = db.GetDataTable(sql, parms);
 

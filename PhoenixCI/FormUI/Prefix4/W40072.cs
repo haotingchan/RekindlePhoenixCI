@@ -198,7 +198,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         dtDetail.Rows[ii_curr_row]["IMPL_END_YMD"] = dr["MGD2_IMPL_END_YMD"];
                         dtDetail.Rows[ii_curr_row]["PUB_YMD"] = dr["MGD2_PUB_YMD"];
                         dtDetail.Rows[ii_curr_row]["YMD"] = dr["MGD2_YMD"];
-                        dtDetail.Rows[ii_curr_row]["OP_TYPE"] = " ";
+                        dtDetail.Rows[ii_curr_row]["OP_TYPE"] = " "; //預設為空格
                     }
                     if (dr["MGD2_AB_TYPE"].AsString() == "B") {
                         dtDetail.Rows[ii_curr_row]["CM_CUR_B"] = dr["MGD2_CUR_CM"];
@@ -405,6 +405,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         ls_ymd = dr["YMD"].ToString();
                         ldbl_rate = dr["ADJ_RATE"].AsDecimal();
 
+                        //刪除已存在資料
                         if (daoMGD2.DeleteMGD2(ls_ymd, is_adj_type, ls_stock_id, ls_kind_id) < 0) {
                             MessageDisplay.Error("MGD2資料刪除失敗");
                             return ResultStatus.Fail;
@@ -758,10 +759,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 if (dtTemp.Columns["CM_A*NVL(MGT6_REF_XXX,1)"] != null) dtTemp.Columns["CM_A*NVL(MGT6_REF_XXX,1)"].ColumnName = "CM_A"; //沒撈到值的話欄位名稱不會變，若資料為個股類也不會變
                 foreach (DataRow drTemp in dtTemp.Rows) {
                     drTemp["ISSUE_BEGIN_YMD"] = ls_issue_begin_ymd;
-                    drTemp["ISSUE_END_YMD"] = drInput["impl_end_ymd"].ToString();
+                    drTemp["ISSUE_END_YMD"] = drInput["impl_end_ymd"];
                     drTemp["IMPL_BEGIN_YMD"] = ls_impl_begin_ymd;
-                    drTemp["IMPL_END_YMD"] = drInput["impl_end_ymd"].ToString();
-                    drTemp["PUB_YMD"] = drInput["pub_ymd"].ToString();
+                    drTemp["IMPL_END_YMD"] = drInput["impl_end_ymd"];
+                    drTemp["PUB_YMD"] = drInput["pub_ymd"];
                     drTemp["YMD"] = ls_impl_begin_ymd;
                     drTemp["OP_TYPE"] = ls_op_type;
                 }
