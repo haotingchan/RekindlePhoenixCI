@@ -1,5 +1,4 @@
 ﻿using System.Data;
-using System.Windows.Forms;
 using BaseGround;
 using DataObjects.Dao.Together;
 using DevExpress.XtraEditors.Repository;
@@ -14,7 +13,6 @@ using Common;
 using System.Drawing;
 using BaseGround.Shared;
 using System;
-using System.Linq;
 
 namespace PhoenixCI.FormUI.Prefix5 {
    public partial class W51020 : FormParent {
@@ -105,11 +103,21 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
       protected override ResultStatus Print(ReportHelper reportHelper) {
          try {
+            string footerMemo = "";
+            string txtFilePath = System.IO.Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH, _ProgramID + ".txt");
+            using (System.IO.TextReader tr = new System.IO.StreamReader(txtFilePath, System.Text.Encoding.Default)) {
+               string line = "";
+               while ((line = tr.ReadLine()) != null) {
+                  footerMemo += line + Environment.NewLine;
+               }
+            }
+
             ReportHelper _ReportHelper = new ReportHelper(gcMain, _ProgramID, this.Text);
             CommonReportLandscapeA4 reportLandscape = new CommonReportLandscapeA4();//設定為橫向列印
             reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
             reportLandscape.IsHandlePersonVisible = false;
             reportLandscape.IsManagerVisible = false;
+            _ReportHelper.FooterMemo = footerMemo;
             _ReportHelper.Create(reportLandscape);
 
             _ReportHelper.Print();//如果有夜盤會特別標註
