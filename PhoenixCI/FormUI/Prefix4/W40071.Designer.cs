@@ -393,6 +393,7 @@
             this.gvMain.GridControl = this.gcMain;
             this.gvMain.Name = "gvMain";
             this.gvMain.OptionsView.ColumnAutoWidth = false;
+            this.gvMain.OptionsView.ShowButtonMode = DevExpress.XtraGrid.Views.Base.ShowButtonModeEnum.ShowAlways;
             this.gvMain.OptionsView.ShowColumnHeaders = false;
             this.gvMain.OptionsView.ShowGroupPanel = false;
             this.gvMain.RowCellStyle += new DevExpress.XtraGrid.Views.Grid.RowCellStyleEventHandler(this.gvMain_RowCellStyle);
@@ -1097,7 +1098,7 @@
             // 
             // YMD
             // 
-            this.YMD.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.YMD.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.YMD.AppearanceCell.Options.UseFont = true;
             this.YMD.AppearanceCell.Options.UseTextOptions = true;
             this.YMD.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -1135,7 +1136,7 @@
             // 
             // IMPL_BEGIN_YMD
             // 
-            this.IMPL_BEGIN_YMD.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.IMPL_BEGIN_YMD.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.IMPL_BEGIN_YMD.AppearanceCell.Options.UseFont = true;
             this.IMPL_BEGIN_YMD.AppearanceCell.Options.UseTextOptions = true;
             this.IMPL_BEGIN_YMD.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -1162,7 +1163,7 @@
             // 
             // IMPL_END_YMD
             // 
-            this.IMPL_END_YMD.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.IMPL_END_YMD.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.IMPL_END_YMD.AppearanceCell.Options.UseFont = true;
             this.IMPL_END_YMD.AppearanceCell.Options.UseTextOptions = true;
             this.IMPL_END_YMD.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -1189,7 +1190,7 @@
             // 
             // ISSUE_BEGIN_YMD
             // 
-            this.ISSUE_BEGIN_YMD.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.ISSUE_BEGIN_YMD.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.ISSUE_BEGIN_YMD.AppearanceCell.Options.UseFont = true;
             this.ISSUE_BEGIN_YMD.AppearanceCell.Options.UseTextOptions = true;
             this.ISSUE_BEGIN_YMD.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -1216,7 +1217,7 @@
             // 
             // ISSUE_END_YMD
             // 
-            this.ISSUE_END_YMD.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.ISSUE_END_YMD.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.ISSUE_END_YMD.AppearanceCell.Options.UseFont = true;
             this.ISSUE_END_YMD.AppearanceCell.Options.UseTextOptions = true;
             this.ISSUE_END_YMD.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;

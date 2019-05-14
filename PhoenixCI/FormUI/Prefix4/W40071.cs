@@ -539,7 +539,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
         protected override ResultStatus Print(ReportHelper reportHelper) {
             try {
                 ReportHelper _ReportHelper = new ReportHelper(gcDetail, _ProgramID, this.Text);
-                CommonReportLandscapeA4 reportLandscape = new CommonReportLandscapeA4();//設定為橫向列印
+                CommonReportLandscapeA3 reportLandscape = new CommonReportLandscapeA3();//設定為橫向列印
                 reportLandscape.printableComponentContainerMain.PrintableComponent = gcDetail;
                 reportLandscape.IsHandlePersonVisible = false;
                 reportLandscape.IsManagerVisible = false;

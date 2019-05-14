@@ -10,6 +10,7 @@ using BusinessObjects;
 using DevExpress.XtraEditors.Controls;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
+using System.IO;
 /// <summary>
 /// Lukas, 2019/1/3
 /// </summary>
@@ -138,6 +139,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 DataTable dt56011 = dao56010.D56011(asSym, asEym, prodType, startFcmNo, endFcmNo);
                 if (dt56011.Rows.Count == 0) {
                     MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtToMonth.Text.Replace("/", ""), rptName));
+                    File.Delete(excelDestinationPath);
                     return ResultStatus.Fail;
                 }
                 wf_56011(excelDestinationPath, dt56011);
@@ -146,13 +148,14 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 //讀取資料
                 string asSym = txtFromMonth.Text.Replace("/", "");
                 string asEym = txtToMonth.Text.Replace("/", "");
-                string startFcmNo = dwSbrkno.EditValue.ToString().Trim();
-                string endFcmNo = dwEbrkno.EditValue.ToString().Trim();
+                string startFcmNo = dwSbrkno.Text.Trim();
+                string endFcmNo = dwEbrkno.Text.Trim();
                 string rptName = "交易經手費收費明細表－依商品別";
 
                 DataTable dt56012 = dao56010.D56012(asSym, asEym, startFcmNo, endFcmNo);
                 if (dt56012.Rows.Count == 0) {
                     MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtToMonth.Text.Replace("/", ""), rptName));
+                    File.Delete(excelDestinationPath);
                     return ResultStatus.Fail;
                 }
                 wf_56012(excelDestinationPath, dt56012);

@@ -7,6 +7,7 @@ using Common;
 using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DataObjects.Dao.Together.TableDao;
+using DevExpress.Utils;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraGrid;
@@ -88,28 +89,31 @@ namespace PhoenixCI.FormUI.Prefix4 {
                InsertRow();
             }
 
-            //1. 設定gvExport
+            //1. 設定gvMain
             gvMain.Columns.Clear();
             gvMain.OptionsBehavior.AutoPopulateColumns = true;
             gcMain.DataSource = dt;
-            gvMain.BestFitColumns();
             GridHelper.SetCommonGrid(gvMain);
 
+            string[] showColCaption = {"商品", "商品", "簡稱","","順序","","",
+                                       $"對外{Environment.NewLine}商品",$"對外{Environment.NewLine}商品",
+                                       "適用商品組合" ,$"收盤{Environment.NewLine}群組", $"判斷{Environment.NewLine}調整標準",
+                                       $"商品{Environment.NewLine}狀態", $"跨商品{Environment.NewLine}MAX折抵比率", "" };
+
             //1.1 設定欄位caption       
-            gvMain.SetColumnCaption("SPT1_KIND_ID1" , "商品");
-            gvMain.SetColumnCaption("SPT1_KIND_ID2" , "商品");
-            gvMain.SetColumnCaption("SPT1_KIND_ID1_OUT" , "對外商品");
-            gvMain.SetColumnCaption("SPT1_KIND_ID2_OUT" , "對外商品");
-            gvMain.SetColumnCaption("SPT1_SEQ_NO" , "順序");
+            foreach (DataColumn dc in dt.Columns) {
+               gvMain.SetColumnCaption(dc.ColumnName , showColCaption[dt.Columns.IndexOf(dc)]);
+               gvMain.Columns[dc.ColumnName].AppearanceHeader.TextOptions.WordWrap = WordWrap.Wrap;
+               gvMain.Columns[dc.ColumnName].AppearanceCell.TextOptions.WordWrap = WordWrap.Wrap;
+               gvMain.Columns[dc.ColumnName].OptionsColumn.AllowMerge = DefaultBoolean.False;
 
-            gvMain.SetColumnCaption("SPT1_COM_ID" , "適用商品組合");
-            gvMain.SetColumnCaption("SPT1_ABBR_NAME" , "簡稱");
-            gvMain.SetColumnCaption("SPT1_ADJUST_RATE" , "判斷調整標準");
-            gvMain.SetColumnCaption("SPT1_OSW_GRP" , "收盤群組");
-            gvMain.SetColumnCaption("SPT1_DATA_TYPE" , "商品狀態");
-
-            gvMain.SetColumnCaption("SPT1_MAX_SPNS_RATE" , "跨商品MAX折抵比率");
-            gvMain.SetColumnCaption("IS_NEWROW" , "Is_NewRow");
+               //設定欄位header顏色
+               if (dc.ColumnName == "SPT1_KIND_ID1" || dc.ColumnName == "SPT1_KIND_ID2") {
+                  gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = Color.Yellow;
+               } else {
+                  gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = Color.FromArgb(128 , 255 , 255);
+               }
+            }
 
             //1.2 設定隱藏欄位
             gvMain.Columns["SPT1_NAME"].Visible = false;
@@ -121,6 +125,22 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gvMain.Columns["SPT1_OSW_GRP"].ColumnEdit = lupOswGrp;
             gvMain.Columns["SPT1_DATA_TYPE"].ColumnEdit = lupDataType;
 
+            //1.4 設定欄位順序
+            gvMain.Columns["SPT1_KIND_ID1"].VisibleIndex = 0;
+            gvMain.Columns["SPT1_KIND_ID2"].VisibleIndex = 1;
+            gvMain.Columns["SPT1_KIND_ID1_OUT"].VisibleIndex = 2;
+            gvMain.Columns["SPT1_KIND_ID2_OUT"].VisibleIndex = 3;
+            gvMain.Columns["SPT1_SEQ_NO"].VisibleIndex = 4;
+
+            gvMain.Columns["SPT1_COM_ID"].VisibleIndex = 5;
+            gvMain.Columns["SPT1_ABBR_NAME"].VisibleIndex = 6;
+            gvMain.Columns["SPT1_ADJUST_RATE"].VisibleIndex = 7;
+            gvMain.Columns["SPT1_OSW_GRP"].VisibleIndex = 8;
+            gvMain.Columns["SPT1_DATA_TYPE"].VisibleIndex = 9;
+
+            gvMain.Columns["SPT1_MAX_SPNS_RATE"].VisibleIndex = 10;
+
+            gvMain.BestFitColumns();
             gcMain.Focus();
 
             return ResultStatus.Success;
@@ -183,7 +203,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             if (result.Status == ResultStatus.Fail) {
                return ResultStatus.Fail;
             }
-            PrintOrExportChangedByKen(gcMain , dtForAdd , dtForDeleted , dtForModified);
+            AfterSaveForPrint(gcMain , dtForAdd , dtForDeleted , dtForModified);
 
          } catch (Exception ex) {
             throw ex;
@@ -191,9 +211,79 @@ namespace PhoenixCI.FormUI.Prefix4 {
          return ResultStatus.Success;
       }
 
+      /// <summary>
+      /// 將新增、刪除、變更的紀錄分別都列印或匯出出來(橫式A4)
+      /// </summary>
+      /// <param name="gridControl"></param>
+      /// <param name="ChangedForAdded"></param>
+      /// <param name="ChangedForDeleted"></param>
+      /// <param name="ChangedForModified"></param>
+      protected void AfterSaveForPrint(GridControl gridControl , DataTable ChangedForAdded ,
+          DataTable ChangedForDeleted , DataTable ChangedForModified , bool IsHandlePersonVisible = true , bool IsManagerVisible = true) {
+         GridControl gridControlPrint = GridHelper.CloneGrid(gridControl);
+
+         string _ReportTitle = _ProgramID + "─" + _ProgramName + GlobalInfo.REPORT_TITLE_MEMO;
+         ReportHelper reportHelper = new ReportHelper(gridControl , _ProgramID , _ReportTitle);
+         CommonReportLandscapeA4 reportLandscape = new CommonReportLandscapeA4(); //橫向A4
+         reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
+
+         reportLandscape.IsHandlePersonVisible = IsHandlePersonVisible;
+         reportLandscape.IsManagerVisible = IsManagerVisible;
+         reportHelper.Create(reportLandscape);
+
+         if (ChangedForAdded != null)
+            if (ChangedForAdded.Rows.Count != 0) {
+               gridControlPrint.DataSource = ChangedForAdded;
+               reportHelper.PrintableComponent = gridControlPrint;
+               reportHelper.ReportTitle = _ReportTitle + "─" + "新增";
+
+               reportHelper.Print();
+               reportHelper.Export(FileType.PDF , reportHelper.FilePath);
+            }
+
+         if (ChangedForDeleted != null)
+            if (ChangedForDeleted.Rows.Count != 0) {
+               DataTable dtTemp = ChangedForDeleted.Clone();
+
+               int rowIndex = 0;
+               foreach (DataRow dr in ChangedForDeleted.Rows) {
+                  DataRow drNewDelete = dtTemp.NewRow();
+                  for (int colIndex = 0 ; colIndex < ChangedForDeleted.Columns.Count ; colIndex++) {
+                     drNewDelete[colIndex] = dr[colIndex , DataRowVersion.Original];
+                  }
+                  dtTemp.Rows.Add(drNewDelete);
+                  rowIndex++;
+               }
+
+               gridControlPrint.DataSource = dtTemp.AsDataView();
+               reportHelper.PrintableComponent = gridControlPrint;
+               reportHelper.ReportTitle = _ReportTitle + "─" + "刪除";
+
+               reportHelper.Print();
+               reportHelper.Export(FileType.PDF , reportHelper.FilePath);
+            }
+
+         if (ChangedForModified != null)
+            if (ChangedForModified.Rows.Count != 0) {
+               gridControlPrint.DataSource = ChangedForModified;
+               reportHelper.PrintableComponent = gridControlPrint;
+               reportHelper.ReportTitle = _ReportTitle + "─" + "變更";
+
+               reportHelper.Print();
+               reportHelper.Export(FileType.PDF , reportHelper.FilePath);
+            }
+      }
+
       protected override ResultStatus Print(ReportHelper reportHelper) {
          try {
             ReportHelper _ReportHelper = new ReportHelper(gcMain , _ProgramID , this.Text);
+            CommonReportLandscapeA4 reportLandscape = new CommonReportLandscapeA4(); //橫向A4
+
+            reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
+            reportLandscape.IsHandlePersonVisible = false;
+            reportLandscape.IsManagerVisible = false;
+            _ReportHelper.Create(reportLandscape);
+
             _ReportHelper.Print();
             _ReportHelper.Export(FileType.PDF , _ReportHelper.FilePath);
 

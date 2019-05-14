@@ -1,0 +1,22 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using DevExpress.XtraEditors;
+using BaseGround;
+
+/// <summary>
+/// Lukas, 2019/5/13
+/// </summary>
+namespace PhoenixCI.FormUI.Prefix4 {
+    public partial class W40074 : FormParent {
+        public W40074() {
+            InitializeComponent();
+        }
+    }
+}

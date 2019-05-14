@@ -100,8 +100,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gcMain.RepositoryItems.Add(delta);
             gvMain.Columns["SPNT2_DELTA_XXX"].ColumnEdit = delta;
             delta.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            delta.DisplayFormat.FormatString = "###0.####";
-            delta.Mask.EditMask = "####0.0000";
+            delta.DisplayFormat.FormatString = "#############0.####";
+            delta.Mask.EditMask = "#############0.0000";
             delta.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
 
             //1.3 設定隱藏欄位

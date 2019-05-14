@@ -52,10 +52,12 @@
          // 
          this.panParent.Controls.Add(this.lblProcessing);
          this.panParent.Controls.Add(this.grpxDescription);
+         this.panParent.Size = new System.Drawing.Size(836, 544);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
+         this.ribbonControl.Size = new System.Drawing.Size(836, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // grpxDescription
@@ -92,6 +94,7 @@
          this.txtEndYMD.Name = "txtEndYMD";
          this.txtEndYMD.Properties.Appearance.Options.UseTextOptions = true;
          this.txtEndYMD.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtEndYMD.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtEndYMD.Properties.Mask.EditMask = "yyyy/MM/dd";
          this.txtEndYMD.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
          this.txtEndYMD.Properties.Mask.ShowPlaceHolders = false;
@@ -111,6 +114,7 @@
          this.txtStartYMD.Name = "txtStartYMD";
          this.txtStartYMD.Properties.Appearance.Options.UseTextOptions = true;
          this.txtStartYMD.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtStartYMD.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtStartYMD.Properties.Mask.EditMask = "yyyy/MM/dd";
          this.txtStartYMD.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
          this.txtStartYMD.Properties.Mask.ShowPlaceHolders = false;

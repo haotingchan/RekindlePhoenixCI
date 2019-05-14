@@ -49,13 +49,13 @@
             // panParent
             // 
             this.panParent.Controls.Add(this.gcMain);
-            this.panParent.Location = new System.Drawing.Point(0, 102);
-            this.panParent.Size = new System.Drawing.Size(801, 408);
+            this.panParent.Location = new System.Drawing.Point(0, 115);
+            this.panParent.Size = new System.Drawing.Size(801, 395);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(801, 30);
+            this.ribbonControl.Size = new System.Drawing.Size(801, 43);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // MMWK_PROD_TYPE
@@ -67,14 +67,13 @@
             this.MMWK_PROD_TYPE.Name = "MMWK_PROD_TYPE";
             this.MMWK_PROD_TYPE.Visible = true;
             this.MMWK_PROD_TYPE.VisibleIndex = 0;
-            this.MMWK_PROD_TYPE.Width = 100;
             // 
             // panelControl1
             // 
             this.panelControl1.Controls.Add(this.txtMonth);
             this.panelControl1.Controls.Add(this.lblDate);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelControl1.Location = new System.Drawing.Point(0, 30);
+            this.panelControl1.Location = new System.Drawing.Point(0, 43);
             this.panelControl1.Name = "panelControl1";
             this.panelControl1.Size = new System.Drawing.Size(801, 72);
             this.panelControl1.TabIndex = 0;
@@ -90,10 +89,12 @@
             this.txtMonth.Name = "txtMonth";
             this.txtMonth.Properties.Appearance.Options.UseTextOptions = true;
             this.txtMonth.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtMonth.Properties.EditFormat.FormatString = "yyyyMM";
             this.txtMonth.Properties.Mask.EditMask = "yyyy/MM";
             this.txtMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtMonth.Properties.Mask.ShowPlaceHolders = false;
             this.txtMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtMonth.Size = new System.Drawing.Size(100, 26);
+            this.txtMonth.Size = new System.Drawing.Size(100, 38);
             this.txtMonth.TabIndex = 8;
             this.txtMonth.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -102,26 +103,26 @@
             this.lblDate.AutoSize = true;
             this.lblDate.Location = new System.Drawing.Point(25, 24);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(57, 20);
+            this.lblDate.Size = new System.Drawing.Size(85, 30);
             this.lblDate.TabIndex = 7;
             this.lblDate.Text = "月份：";
             // 
             // panelControl2
             // 
             this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelControl2.Location = new System.Drawing.Point(0, 102);
+            this.panelControl2.Location = new System.Drawing.Point(0, 115);
             this.panelControl2.Name = "panelControl2";
-            this.panelControl2.Size = new System.Drawing.Size(801, 408);
+            this.panelControl2.Size = new System.Drawing.Size(801, 395);
             this.panelControl2.TabIndex = 1;
             // 
             // gcMain
             // 
             this.gcMain.Dock = System.Windows.Forms.DockStyle.Left;
-            this.gcMain.Location = new System.Drawing.Point(12, 12);
+            this.gcMain.Location = new System.Drawing.Point(18, 18);
             this.gcMain.MainView = this.gvMain;
             this.gcMain.MenuManager = this.ribbonControl;
             this.gcMain.Name = "gcMain";
-            this.gcMain.Size = new System.Drawing.Size(777, 384);
+            this.gcMain.Size = new System.Drawing.Size(777, 359);
             this.gcMain.TabIndex = 0;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -139,6 +140,7 @@
             this.Is_NewRow});
             this.gvMain.GridControl = this.gcMain;
             this.gvMain.Name = "gvMain";
+            this.gvMain.OptionsPrint.AutoWidth = false;
             this.gvMain.OptionsView.ColumnAutoWidth = false;
             this.gvMain.OptionsView.ShowGroupPanel = false;
             this.gvMain.RowCellStyle += new DevExpress.XtraGrid.Views.Grid.RowCellStyleEventHandler(this.gvMain_RowCellStyle);
@@ -155,7 +157,7 @@
             this.MMWK_YM.Name = "MMWK_YM";
             this.MMWK_YM.Visible = true;
             this.MMWK_YM.VisibleIndex = 1;
-            this.MMWK_YM.Width = 120;
+            this.MMWK_YM.Width = 80;
             // 
             // MMWK_KIND_ID
             // 
@@ -166,7 +168,6 @@
             this.MMWK_KIND_ID.Name = "MMWK_KIND_ID";
             this.MMWK_KIND_ID.Visible = true;
             this.MMWK_KIND_ID.VisibleIndex = 2;
-            this.MMWK_KIND_ID.Width = 120;
             // 
             // MMWK_WEIGHT
             // 
@@ -177,7 +178,7 @@
             this.MMWK_WEIGHT.Name = "MMWK_WEIGHT";
             this.MMWK_WEIGHT.Visible = true;
             this.MMWK_WEIGHT.VisibleIndex = 3;
-            this.MMWK_WEIGHT.Width = 130;
+            this.MMWK_WEIGHT.Width = 50;
             // 
             // MMWK_W_USER_ID
             // 
@@ -200,7 +201,7 @@
             // W51040
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(801, 510);
             this.Controls.Add(this.panelControl2);
