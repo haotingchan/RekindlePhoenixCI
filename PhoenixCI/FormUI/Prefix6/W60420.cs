@@ -257,6 +257,9 @@ namespace PhoenixCI.FormUI.Prefix6 {
             //3. 未符合「權重前五大成份股合計權重≦60%」
             Worksheet sheet3 = workbook.Worksheets[2];
             //填資料
+            if (cbx3.Checked == false) {
+                sheet3.Cells[2, 0].Value = "標準3. 全部「權重前五大成份股合計權重%」";
+            }
             rowNum = 3;
             for (i = 0; i < dt60412_3.Rows.Count; i++) {
                 DataRow dr60412_3 = dt60412_3.Rows[i];

@@ -24,11 +24,11 @@
         /// </summary>
         private void InitializeComponent() {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.txtEffectiveSDate = new BaseGround.Widget.TextDateEdit();
             this.label1 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtEffectiveSDate.Properties)).BeginInit();
@@ -43,7 +43,7 @@
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(1214, 30);
+            this.ribbonControl.Size = new System.Drawing.Size(1222, 32);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // panel1
@@ -54,19 +54,21 @@
             this.panel1.Controls.Add(this.txtEffectiveSDate);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 30);
+            this.panel1.Location = new System.Drawing.Point(0, 32);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1214, 87);
+            this.panel1.Size = new System.Drawing.Size(1222, 87);
             this.panel1.TabIndex = 3;
             // 
-            // panel2
+            // label3
             // 
-            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 117);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1214, 668);
-            this.panel2.TabIndex = 4;
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.label3.Location = new System.Drawing.Point(210, 47);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(425, 20);
+            this.label3.TabIndex = 23;
+            this.label3.Text = "下市：生效日期為下市日期之前一日，公布日期為生效日期";
             // 
             // label2
             // 
@@ -109,23 +111,21 @@
             this.label1.TabIndex = 20;
             this.label1.Text = "上市：生效日期為上市日期，公布日期為生效日期之前一日";
             // 
-            // label3
+            // panel2
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-            this.label3.Location = new System.Drawing.Point(210, 47);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(425, 20);
-            this.label3.TabIndex = 23;
-            this.label3.Text = "下市：生效日期為下市日期之前一日，公布日期為生效日期";
+            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(0, 119);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1222, 670);
+            this.panel2.TabIndex = 4;
             // 
             // W40074
             // 
             this.Appearance.Options.UseFont = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1214, 785);
+            this.ClientSize = new System.Drawing.Size(1222, 789);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "W40074";
