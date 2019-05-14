@@ -1,4 +1,5 @@
 ﻿using ActionService;
+using ActionService.DbDirect;
 using BaseGround;
 using BaseGround.Report;
 using BusinessObjects;
@@ -24,6 +25,7 @@ namespace PhoenixCI.FormUI.Prefix6
          txtMonth.DateTimeValue = GlobalInfo.OCF_DATE;
 
          dao60110 = new D60110();
+         ExportShow.Hide();
       }
 
       public override ResultStatus BeforeOpen()
@@ -93,19 +95,33 @@ namespace PhoenixCI.FormUI.Prefix6
 
       protected override ResultStatus Export()
       {
-         base.Export();
+            ExportShow.Text = "轉檔中...";
+            ExportShow.Show();
+            try
+            {
+                base.Export();
 
-         List<DbParameterEx> listParams = new List<DbParameterEx>();
-         DbParameterEx dbParaEx = new DbParameterEx("as_ym", txtMonth.FormatValue);
-         listParams.Add(dbParaEx);
+                List<DbParameterEx> listParams = new List<DbParameterEx>();
+                DbParameterEx dbParaEx = new DbParameterEx("as_ym", txtMonth.FormatValue);
+                listParams.Add(dbParaEx);
 
-         ResultData resultData = serviceCommon.ExecuteStoredProcedure("ci.sp_H_stt_W_AM", listParams, true);
+                //轉統計資料W_AM
+                ResultData resultData = new ServiceCommon().ExecuteStoredProcedure("ci.sp_H_stt_W_AM", listParams, true);
 
-         string excelDestinationPath = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
+                string excelDestinationPath = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
 
-         ManipulateExcel(excelDestinationPath);
+                ManipulateExcel(excelDestinationPath);
 
-         return ResultStatus.Success;
+            }
+            catch (Exception ex)
+            {
+                ExportShow.Text = "轉檔失敗";
+                WriteLog(ex);
+                throw;
+            }
+
+            ExportShow.Text = "轉檔成功!";
+            return ResultStatus.Success;
       }
 
       private void ManipulateExcel(string excelDestinationPath)

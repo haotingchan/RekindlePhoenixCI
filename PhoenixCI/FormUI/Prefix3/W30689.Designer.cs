@@ -32,18 +32,18 @@
             this.txtDate = new BaseGround.Widget.TextDateEdit();
             this.lblDate = new System.Windows.Forms.Label();
             this.ExportShow = new System.Windows.Forms.Label();
-            this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
+            this.panelControl = new DevExpress.XtraEditors.PanelControl();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             this.grpxDescription.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
-            this.panelControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl)).BeginInit();
+            this.panelControl.SuspendLayout();
             this.SuspendLayout();
             // 
             // panParent
             // 
-            this.panParent.Controls.Add(this.panelControl1);
+            this.panParent.Controls.Add(this.panelControl);
             this.panParent.Size = new System.Drawing.Size(808, 424);
             // 
             // ribbonControl
@@ -109,18 +109,18 @@
             this.ExportShow.TabIndex = 16;
             this.ExportShow.Text = "label1";
             // 
-            // panelControl1
+            // panelControl
             // 
-            this.panelControl1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
-            this.panelControl1.Appearance.Options.UseBackColor = true;
-            this.panelControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.panelControl1.Controls.Add(this.grpxDescription);
-            this.panelControl1.Controls.Add(this.ExportShow);
-            this.panelControl1.Location = new System.Drawing.Point(15, 15);
-            this.panelControl1.Margin = new System.Windows.Forms.Padding(15);
-            this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(410, 170);
-            this.panelControl1.TabIndex = 17;
+            this.panelControl.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+            this.panelControl.Appearance.Options.UseBackColor = true;
+            this.panelControl.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.panelControl.Controls.Add(this.grpxDescription);
+            this.panelControl.Controls.Add(this.ExportShow);
+            this.panelControl.Location = new System.Drawing.Point(15, 18);
+            this.panelControl.Margin = new System.Windows.Forms.Padding(15);
+            this.panelControl.Name = "panelControl";
+            this.panelControl.Size = new System.Drawing.Size(410, 170);
+            this.panelControl.TabIndex = 17;
             // 
             // W30689
             // 
@@ -135,9 +135,9 @@
             this.grpxDescription.ResumeLayout(false);
             this.grpxDescription.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
-            this.panelControl1.ResumeLayout(false);
-            this.panelControl1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl)).EndInit();
+            this.panelControl.ResumeLayout(false);
+            this.panelControl.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -149,6 +149,6 @@
         private BaseGround.Widget.TextDateEdit txtDate;
         private System.Windows.Forms.Label lblDate;
         private System.Windows.Forms.Label ExportShow;
-        private DevExpress.XtraEditors.PanelControl panelControl1;
+        private DevExpress.XtraEditors.PanelControl panelControl;
     }
 }

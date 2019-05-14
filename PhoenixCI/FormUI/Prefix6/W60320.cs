@@ -15,16 +15,20 @@ namespace PhoenixCI.FormUI.Prefix6
     {
       private D60320 dao60320;
 
-      public W60320(string programID, string programName) : base(programID, programName)
+        public W60320(string programID, string programName) : base(programID, programName)
         {
             InitializeComponent();
 
             this.Text = _ProgramID + "─" + _ProgramName;
-            txtStartDate.DateTimeValue = GlobalInfo.OCF_DATE;
+            int weekNow = Convert.ToInt32(GlobalInfo.OCF_DATE.DayOfWeek);
+            weekNow = (weekNow == 0 ? 7 - 1 : weekNow - 1) * -1;
+            //本周第一天(星期一)
+            txtStartDate.DateTimeValue = GlobalInfo.OCF_DATE.AddDays(weekNow);
             txtEndDate.DateTimeValue = GlobalInfo.OCF_DATE;
 
-         dao60320 = new D60320();
-      }
+            dao60320 = new D60320();
+            ExportShow.Hide();
+        }
 
         public override ResultStatus BeforeOpen()
         {
@@ -93,11 +97,24 @@ namespace PhoenixCI.FormUI.Prefix6
 
         protected override ResultStatus Export()
         {
-            base.Export();
+            ExportShow.Text = "轉檔中...";
+            ExportShow.Show();
+            try
+            {
+                base.Export();
 
-            string excelDestinationPath = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
+                string excelDestinationPath = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
 
-            ManipulateExcel(excelDestinationPath);
+                ManipulateExcel(excelDestinationPath);
+            }
+            catch (Exception ex)
+            {
+                ExportShow.Text = "轉檔失敗";
+                WriteLog(ex);
+                return ResultStatus.Fail;
+            }
+            ExportShow.Text = "轉檔成功!";
+
 
             return ResultStatus.Success;
         }
@@ -125,20 +142,20 @@ namespace PhoenixCI.FormUI.Prefix6
                     worksheet.Cells[rowIndex, 0].Value = row["YMD"].AsDouble().ToString("0000/00/00");
                     worksheet.Cells[rowIndex, 1].Value = row["M_QNTY_I"].AsDouble();
                     worksheet.Cells[rowIndex, 2].Value = row["S_QNTY_I"].AsDouble() + row["M_QNTY_I"].AsDouble();
-                    worksheet.Cells[rowIndex, 3].Value = row["T5_QNTY"].AsDouble();
-                    worksheet.Cells[rowIndex, 4].Value = row["T3_QNTY"].AsDouble();
-                    worksheet.Cells[rowIndex, 5].Value = row["M_AMT_T_I"].AsDouble();
-                    worksheet.Cells[rowIndex, 6].Value = row["M_AMT_I"].AsDouble();
-                    worksheet.Cells[rowIndex, 7].Value = row["M_QNTY_S"].AsDouble();
-                    worksheet.Cells[rowIndex, 8].Value = row["S_QNTY_S"].AsDouble() + row["M_QNTY_S"].AsDouble();
-                    worksheet.Cells[rowIndex, 9].Value = row["M_AMT_T_S"].AsDouble();
-                    worksheet.Cells[rowIndex, 10].Value = row["M_AMT_S"].AsDouble();
-                    worksheet.Cells[rowIndex, 11].Value = row["S_QNTY_I"].AsDouble() + row["M_QNTY_I"].AsDouble() + row["S_QNTY_S"].AsDouble() + row["M_QNTY_S"].AsDouble();
-                    worksheet.Cells[rowIndex, 12].Value = Math.Round(row["ACCU_QNTY"].AsDouble() / row["DAY_COUNT"].AsDouble(), 0);
-                    worksheet.Cells[rowIndex, 13].Value = row["M_AMT_I"].AsDouble() + row["M_AMT_S"].AsDouble();
-                    worksheet.Cells[rowIndex, 14].Value = row["STWD_QNTY"].AsDouble();
-                    worksheet.Cells[rowIndex, 15].Value = row["STWD_AMT"].AsDouble();
-                    worksheet.Cells[rowIndex, 16].Value = row["AMIF_SUM_AMT"].AsDouble();
+                    worksheet.Cells[rowIndex, 3].SetValue(row["T5_QNTY"]);
+                    worksheet.Cells[rowIndex, 4].SetValue(row["T3_QNTY"]);
+                    worksheet.Cells[rowIndex, 5].SetValue(row["M_AMT_T_I"]);
+                    worksheet.Cells[rowIndex, 6].SetValue(row["M_AMT_I"]);
+                    worksheet.Cells[rowIndex, 7].SetValue(row["M_QNTY_S"]);
+                    worksheet.Cells[rowIndex, 8].SetValue(row["S_QNTY_S"].AsDouble() + row["M_QNTY_S"].AsDouble());
+                    worksheet.Cells[rowIndex, 9].SetValue(row["M_AMT_T_S"]);
+                    worksheet.Cells[rowIndex, 10].SetValue(row["M_AMT_S"]);
+                    worksheet.Cells[rowIndex, 11].SetValue(row["S_QNTY_I"].AsDouble() + row["M_QNTY_I"].AsDouble() + row["S_QNTY_S"].AsDouble() + row["M_QNTY_S"].AsDouble());
+                    worksheet.Cells[rowIndex, 12].SetValue(Math.Round(row["ACCU_QNTY"].AsDouble() / row["DAY_COUNT"].AsDouble(), 0));
+                    worksheet.Cells[rowIndex, 13].SetValue(row["M_AMT_I"].AsDouble() + row["M_AMT_S"].AsDouble());
+                    worksheet.Cells[rowIndex, 14].SetValue(row["STWD_QNTY"]);
+                    worksheet.Cells[rowIndex, 15].SetValue(row["STWD_AMT"]);
+                    worksheet.Cells[rowIndex, 16].SetValue(row["AMIF_SUM_AMT"]);
 
                     rowIndex++;
                 }
