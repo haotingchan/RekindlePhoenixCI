@@ -43,7 +43,7 @@ namespace PhoenixCI.FormUI.PrefixZ
         {
             base.Open();
 
-            DropDownList.CreateComboBoxDptIdAndName(cbxDpt);
+            DropDownList.LookUpItemDptIdAndName(ddlDept);
 
             gcMain.DataSource = daoUPF.ListDataByDept("");
             gvMain.TrimAllCell();
@@ -73,7 +73,7 @@ namespace PhoenixCI.FormUI.PrefixZ
         {
             base.Retrieve(gcMain);
 
-            string dptID = cbxDpt.SelectedValue.AsString();
+            string dptID = ddlDept.EditValue.AsString();
             gcMain.DataSource = daoZ0019.ListUTPByDept(dptID);
 
             return ResultStatus.Success;

@@ -1,5 +1,4 @@
-﻿using ActionService;
-using ActionService.Extensions;
+﻿using ActionService.Extensions;
 using BaseGround;
 using BaseGround.Report;
 using BusinessObjects;
@@ -31,6 +30,8 @@ namespace PhoenixCI.FormUI.Prefix1
 
             gcMain.RepositoryItems.Add(repCheck);
             gcol_gcMain_TXF_DEFAULT.ColumnEdit = repCheck;
+
+            _IsProcessRunAsync = true;
         }
 
         public override ResultStatus BeforeOpen()
@@ -66,9 +67,9 @@ namespace PhoenixCI.FormUI.Prefix1
 
             _ToolBtnRun.Enabled = true;
 
-            _ToolBtnInsert.Enabled = true;
-            _ToolBtnSave.Enabled = true;
-            _ToolBtnDel.Enabled = true;
+            _ToolBtnInsert.Enabled = false;
+            _ToolBtnSave.Enabled = false;
+            _ToolBtnDel.Enabled = false;
             _ToolBtnRetrieve.Enabled = true;
             _ToolBtnPrintAll.Enabled = true;
 

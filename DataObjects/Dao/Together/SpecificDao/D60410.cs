@@ -1,4 +1,5 @@
-﻿using OnePiece;
+﻿using Common;
+using OnePiece;
 using System;
 using System.Data;
 
@@ -11,6 +12,24 @@ namespace DataObjects.Dao.Together.SpecificDao
         public D60410()
         {
             db = GlobalDaoSetting.DB;
+        }
+
+        public DateTime GetRelativeDate(string ymd, int num,string type)
+        {
+            object[] parms = {
+                "@as_ymd",ymd,
+                "@ai_num",num,
+                "@as_type",type
+            };
+
+            string sql =
+                @"
+                            select ci.RelativeDate(to_date(@as_ymd,'yyyymmdd'),@ai_num,@as_type) as rdate
+                            from dual
+                    ";
+            DataTable dtResult = db.GetDataTable(sql, parms);
+
+            return dtResult.Rows[0]["RDATE"].AsDateTime();
         }
 
         public DataTable List60410b(DateTime symd, DateTime eymd, int ai_tot_cnt, Decimal ad_max_weight, Decimal ad_top5_weight, int ai_25_cnt, Decimal ad_avg_amt1, Decimal ad_avg_amt2)

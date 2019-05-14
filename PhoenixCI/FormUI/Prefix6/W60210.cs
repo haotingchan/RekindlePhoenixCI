@@ -1,9 +1,11 @@
 ﻿using ActionService;
+using ActionService.DbDirect;
 using BaseGround;
 using BaseGround.Report;
 using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
+using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
@@ -17,14 +19,15 @@ namespace PhoenixCI.FormUI.Prefix6
 
       private D60210 dao60210;
 
-      public W60210(string programID, string programName) : base(programID, programName)
-      {
-         InitializeComponent();
+        public W60210(string programID, string programName) : base(programID, programName)
+        {
+            InitializeComponent();
 
-         this.Text = _ProgramID + "─" + _ProgramName;
-         txtDate.DateTimeValue = GlobalInfo.OCF_DATE;
-         dao60210 = new D60210();
-      }
+            this.Text = _ProgramID + "─" + _ProgramName;
+            txtDate.DateTimeValue = GlobalInfo.OCF_DATE;
+            dao60210 = new D60210();
+            ExportShow.Hide();
+        }
 
       public override ResultStatus BeforeOpen()
       {
@@ -93,13 +96,24 @@ namespace PhoenixCI.FormUI.Prefix6
 
       protected override ResultStatus Export()
       {
-         base.Export();
+            ExportShow.Text = "轉檔中...";
+            ExportShow.Show();
+            try
+            {
+                base.Export();
 
-         string excelDestinationPath = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
+                string excelDestinationPath = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
 
-         ManipulateExcel(excelDestinationPath);
-
-         return ResultStatus.Success;
+                ManipulateExcel(excelDestinationPath);
+            }
+            catch (Exception ex)
+            {
+                ExportShow.Text = "轉檔失敗";
+                WriteLog(ex);
+                return ResultStatus.Fail;
+            }
+            ExportShow.Text = "轉檔成功!";
+            return ResultStatus.Success;
       }
 
       private void ManipulateExcel(string excelDestinationPath)
@@ -242,7 +256,7 @@ namespace PhoenixCI.FormUI.Prefix6
 
          #region 602114
 
-         DataTable dtRPT = serviceCommon.ListRPT("602114");
+         DataTable dtRPT = new RPT().ListData("%602114%");
          if (dtRPT.Rows.Count == 0) {
             MessageDisplay.Info(string.Format("{0},{1}─{2},無任何資料!", txtDate.Text, _ProgramID, "RPT"));
          }
