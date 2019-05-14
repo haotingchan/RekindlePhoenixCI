@@ -31,6 +31,8 @@ namespace PhoenixCI.FormUI.Prefix1
 
             gcMain.RepositoryItems.Add(repCheck);
             gcol_gcMain_TXF_DEFAULT.ColumnEdit = repCheck;
+
+            _IsProcessRunAsync = true;
         }
 
         public override ResultStatus BeforeOpen()
