@@ -48,12 +48,12 @@ namespace DataObjects.Dao.Together.SpecificDao {
       public DataTable GetSpan(DateTime ymd, string oswGrp, string notIn, string asIn) {
          object[] parms = {
                 ":ad_date",ymd,
-                ":as_osw_grp",oswGrp,
-                ":as_notin",notIn,
-                ":as_in",asIn
+                ":as_osw_grp",oswGrp
             };
+         notIn = notIn == "" ? "" : $"and SP1_KIND_ID1 Not In('{notIn}')";
+         asIn = asIn == "" ? "" : $"or SP1_KIND_ID1 In('{asIn}')";
 
-         string sql =
+         string sql =string.Format(
                    @"SELECT SP1_DATE,   
                SP1_TYPE,   
                SP1_KIND_ID1,   
@@ -76,10 +76,44 @@ namespace DataObjects.Dao.Together.SpecificDao {
            AND SP1_CHANGE_FLAG = 'Y' 
            AND SP1_DATE = SP2_DATE(+)
            AND SP1_TYPE = SP2_TYPE(+)
-           AND( (SP1_OSW_GRP LIKE :as_osw_grp and SP1_KIND_ID1  not IN (:as_notin)) or SP1_KIND_ID1  IN (:as_in))
+           AND( (SP1_OSW_GRP LIKE :as_osw_grp {0}){1})
            AND SP1_KIND_ID1 = SP2_KIND_ID1(+)
            AND SP1_KIND_ID2 = SP2_KIND_ID2(+)
-          order by  sp1_date desc, sp1_seq_no asc, sp1_kind_id1 asc, sp1_kind_id2 asc";
+           order by  sp1_date desc, sp1_seq_no asc, sp1_kind_id1 asc, sp1_kind_id2 asc", notIn, asIn);
+
+         DataTable dtResult = db.GetDataTable(sql, parms);
+
+         return dtResult;
+      }
+
+      public DataTable GetSpanTableData(DateTime ymd, string oswGrp, string notIn, string asIn) {
+         object[] parms = {
+                ":ad_date",ymd,
+                ":as_osw_grp",oswGrp
+            };
+
+         notIn = notIn == "" ? "" : $"and SP1_KIND_ID1 Not In('{notIn}')";
+         asIn = asIn == "" ? "" : $"or SP1_KIND_ID1 In('{asIn}')";
+
+         string sql =string.Format(
+                   @"SELECT  case when SP1_TYPE = 'SV' then 'VSR'
+                                  when SP1_TYPE = 'SD' then 'Delta耗用比率'
+                                  when SP1_TYPE = 'SS' then '跨商品折抵率' end as SP1_TYPE,
+                              SPT1_COM_ID ,    
+                                 case when SP1_TYPE ='SV' then (SP1_RATE *100) ||'%' else '1:'||SP1_RATE end as SP1_RATE,  
+                                 case when SP1_TYPE ='SV' then (SP1_CUR_RATE *100) ||'%' else '1:'||SP1_CUR_RATE end as SP1_CUR_RATE ,                                 SP1_CHANGE_RANGE *100||'%' as SP1_CHANGE_RANGE
+                            FROM ci.SPT1,   
+                              ci.SP1,ci.SP2
+                           WHERE SP1_KIND_ID1 = SPT1_KIND_ID1 
+                             AND SP1_KIND_ID2 = SPT1_KIND_ID2
+                             AND SP1_DATE = :ad_date  
+                             AND SP1_CHANGE_FLAG = 'Y' 
+                             AND SP1_DATE = SP2_DATE(+)
+                             AND SP1_TYPE = SP2_TYPE(+)
+                             AND( (SP1_OSW_GRP LIKE :as_osw_grp {0}){1})
+                             AND SP1_KIND_ID1 = SP2_KIND_ID1(+)
+                             AND SP1_KIND_ID2 = SP2_KIND_ID2(+)
+                         order by  sp1_date desc, sp1_seq_no asc, sp1_kind_id1 asc, sp1_kind_id2 asc", notIn, asIn);
 
          DataTable dtResult = db.GetDataTable(sql, parms);
 
