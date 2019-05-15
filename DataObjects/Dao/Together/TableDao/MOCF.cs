@@ -156,5 +156,36 @@ SELECT min(MOCF_YMD) as ls_next_ymd
                 return dtResult.Rows[0]["LS_NEXT_YMD"].ToString();
             }
         }
+
+        /// <summary>
+        /// for W40074
+        /// </summary>
+        /// <param name="ls_impl_begin_ymd"></param>
+        /// <param name="ls_mocf_ymd"></param>
+        /// <returns></returns>
+        public string GetPrevTradeDay(string ls_ymd, string ls_mocf_ymd) {
+
+            object[] parms = {
+                ":ls_ymd", ls_ymd,
+                ":ls_mocf_ymd", ls_mocf_ymd
+            };
+
+            string sql = @"
+SELECT max(MOCF_YMD) as is_pre_ymd
+FROM ci.MOCF
+ WHERE MOCF_YMD < :ls_ymd
+	 AND MOCF_YMD  >= :ls_mocf_ymd
+	 AND MOCF_OPEN_CODE = 'Y'
+";
+
+            DataTable dtResult = db.GetDataTable(sql, parms);
+
+            if (dtResult.Rows.Count == 0) {
+                return null;
+            }
+            else {
+                return dtResult.Rows[0]["IS_PRE_YMD"].ToString();
+            }
+        }
     }
 }

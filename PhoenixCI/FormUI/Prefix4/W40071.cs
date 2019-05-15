@@ -35,13 +35,34 @@ namespace PhoenixCI.FormUI.Prefix4 {
         private MGD2 daoMGD2;
         private MGD2L daoMGD2L;
         private RepositoryItemLookUpEdit prodTypeLookUpEdit;
-        private RepositoryItemLookUpEdit paramKeyLookUpEdit1;//指數(國內)
-        private RepositoryItemLookUpEdit paramKeyLookUpEdit2;//指數(國外)
-        private RepositoryItemLookUpEdit paramKeyLookUpEdit3;//商品
-        private RepositoryItemLookUpEdit paramKeyLookUpEdit4;//利率
-        private RepositoryItemLookUpEdit paramKeyLookUpEdit5;//匯率
-        private RepositoryItemLookUpEdit paramKeyLookUpEdit6;//個股
-        private RepositoryItemLookUpEdit paramKeyLookUpEdit7;//ETF
+        /// <summary>
+        /// 指數(國內)
+        /// </summary>
+        private RepositoryItemLookUpEdit paramKeyLookUpEdit1;
+        /// <summary>
+        /// 指數(國外)
+        /// </summary>
+        private RepositoryItemLookUpEdit paramKeyLookUpEdit2;
+        /// <summary>
+        /// 商品
+        /// </summary>
+        private RepositoryItemLookUpEdit paramKeyLookUpEdit3;
+        /// <summary>
+        /// 利率
+        /// </summary>
+        private RepositoryItemLookUpEdit paramKeyLookUpEdit4;
+        /// <summary>
+        /// 匯率
+        /// </summary>
+        private RepositoryItemLookUpEdit paramKeyLookUpEdit5;
+        /// <summary>
+        /// 個股
+        /// </summary>
+        private RepositoryItemLookUpEdit paramKeyLookUpEdit6;
+        /// <summary>
+        /// ETF
+        /// </summary>
+        private RepositoryItemLookUpEdit paramKeyLookUpEdit7;
 
         public W40071(string programID, string programName) : base(programID, programName) {
             InitializeComponent();
@@ -83,37 +104,37 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //指數(國內)
             paramKeyLookUpEdit1 = new RepositoryItemLookUpEdit();
             DataTable dtParamKey = dao40071.dddw_mgt2_kind("I%", "          ");
-            paramKeyLookUpEdit1.SetColumnLookUp(dtParamKey, "MGT2_KIND_ID", "MGT2_KIND_ID", TextEditStyles.DisableTextEditor, "All");
+            paramKeyLookUpEdit1.SetColumnLookUp(dtParamKey, "KIND_ID", "KIND_ID", TextEditStyles.DisableTextEditor, "All");
             gcMain.RepositoryItems.Add(paramKeyLookUpEdit1);
             //指數(國外)
             paramKeyLookUpEdit2 = new RepositoryItemLookUpEdit();
             dtParamKey = dao40071.dddw_mgt2_kind("I%", "Y");
-            paramKeyLookUpEdit2.SetColumnLookUp(dtParamKey, "MGT2_KIND_ID", "MGT2_KIND_ID", TextEditStyles.DisableTextEditor, "All");
+            paramKeyLookUpEdit2.SetColumnLookUp(dtParamKey, "KIND_ID", "KIND_ID", TextEditStyles.DisableTextEditor, "All");
             gcMain.RepositoryItems.Add(paramKeyLookUpEdit2);
             //商品
             paramKeyLookUpEdit3 = new RepositoryItemLookUpEdit();
             dtParamKey = dao40071.dddw_mgt2_kind("C%", "          ");
-            paramKeyLookUpEdit3.SetColumnLookUp(dtParamKey, "MGT2_KIND_ID", "MGT2_KIND_ID", TextEditStyles.DisableTextEditor, "All");
+            paramKeyLookUpEdit3.SetColumnLookUp(dtParamKey, "KIND_ID", "KIND_ID", TextEditStyles.DisableTextEditor, "All");
             gcMain.RepositoryItems.Add(paramKeyLookUpEdit3);
             //利率
             paramKeyLookUpEdit4 = new RepositoryItemLookUpEdit();
             dtParamKey = dao40071.dddw_mgt2_kind("B%", "          ");
-            paramKeyLookUpEdit4.SetColumnLookUp(dtParamKey, "MGT2_KIND_ID", "MGT2_KIND_ID", TextEditStyles.DisableTextEditor, "All");
+            paramKeyLookUpEdit4.SetColumnLookUp(dtParamKey, "KIND_ID", "KIND_ID", TextEditStyles.DisableTextEditor, "All");
             gcMain.RepositoryItems.Add(paramKeyLookUpEdit4);
             //匯率
             paramKeyLookUpEdit5 = new RepositoryItemLookUpEdit();
             dtParamKey = dao40071.dddw_mgt2_kind("E%", "          ");
-            paramKeyLookUpEdit5.SetColumnLookUp(dtParamKey, "MGT2_KIND_ID", "MGT2_KIND_ID", TextEditStyles.DisableTextEditor, "All");
+            paramKeyLookUpEdit5.SetColumnLookUp(dtParamKey, "KIND_ID", "KIND_ID", TextEditStyles.DisableTextEditor, "All");
             gcMain.RepositoryItems.Add(paramKeyLookUpEdit5);
             //個股
             paramKeyLookUpEdit6 = new RepositoryItemLookUpEdit();
             dtParamKey = dao40071.dddw_pdk_kind_id_40071(ymd, "ST%");
-            paramKeyLookUpEdit6.SetColumnLookUp(dtParamKey, "PDK_KIND_ID", "PDK_KIND_ID", TextEditStyles.DisableTextEditor, "All");
+            paramKeyLookUpEdit6.SetColumnLookUp(dtParamKey, "KIND_ID", "KIND_ID", TextEditStyles.DisableTextEditor, "All");
             gcMain.RepositoryItems.Add(paramKeyLookUpEdit6);
             //ETF
             paramKeyLookUpEdit7 = new RepositoryItemLookUpEdit();
             dtParamKey = dao40071.dddw_pdk_kind_id_40071(ymd, "ET%");
-            paramKeyLookUpEdit7.SetColumnLookUp(dtParamKey, "PDK_KIND_ID", "PDK_KIND_ID", TextEditStyles.DisableTextEditor, "All");
+            paramKeyLookUpEdit7.SetColumnLookUp(dtParamKey, "KIND_ID", "KIND_ID", TextEditStyles.DisableTextEditor, "All");
             gcMain.RepositoryItems.Add(paramKeyLookUpEdit7);
             #endregion
 
@@ -684,10 +705,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             GridView gv = sender as GridView;
             if (e.Column.Name == "PROD_SEQ_NO") {
                 DataTable dtInsert = dao40071.d_40071_input(e.Value.AsString());
-                gv.SetRowCellValue(e.RowHandle, "PROD_SUBTYPE", dtInsert.Rows[0]["CND_PROD_SUBTYPE"]);
-                gv.SetRowCellValue(e.RowHandle, "PROD_SUBTYPE_NAME", dtInsert.Rows[0]["SUBTYPE_NAME"]);
-                gv.SetRowCellValue(e.RowHandle, "PARAM_KEY", dtInsert.Rows[0]["CND_PARAM_KEY"]);
-                gv.SetRowCellValue(e.RowHandle, "ABROAD", dtInsert.Rows[0]["CND_ABROAD"]);
+                gv.SetRowCellValue(e.RowHandle, "PROD_SUBTYPE", dtInsert.Rows[0]["PROD_SUBTYPE"]);
+                gv.SetRowCellValue(e.RowHandle, "PROD_SUBTYPE_NAME", dtInsert.Rows[0]["PROD_SUBTYPE_NAME"]);
+                gv.SetRowCellValue(e.RowHandle, "PARAM_KEY", dtInsert.Rows[0]["PARAM_KEY"]);
+                gv.SetRowCellValue(e.RowHandle, "ABROAD", dtInsert.Rows[0]["ABROAD"]);
             }
         }
 

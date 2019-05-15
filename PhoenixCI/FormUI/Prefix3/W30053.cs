@@ -327,6 +327,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
             //刪除空白列
             rowIndex = dao30053.get30053fRow();
+            //當盤別為1的時候，刪除印度50的資料(尚未收盤)
             if (grp == "1") {
                 delRange = ws.Range[(rowIndex - delRow).ToString() + ":" + ((rowIndex + 1) - delRow).ToString()];
                 delRange.Delete(DeleteMode.EntireRow);

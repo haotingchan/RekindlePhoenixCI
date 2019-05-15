@@ -313,7 +313,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         return ResultStatus.Fail;
                     }
                     //檢查調整後級距為從其高且商品類別為選擇權時，是否有輸入保證金B值
-                    if (ls_level == "Z" && dr["prod_type"].AsString()=="O") {
+                    if (ls_level == "Z" && dr["PROD_TYPE"].AsString()=="O") {
                         if (dr["CM_B"]==DBNull.Value|| dr["MM_B"] == DBNull.Value || dr["IM_B"] == DBNull.Value) {
                             MessageDisplay.Error(ls_stock_id + "," + ls_kind_id + "的保證金B值未輸入完成");
                             return ResultStatus.Fail;
