@@ -175,8 +175,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
             gvMain.Columns.Clear();
             gvMain.OptionsBehavior.AutoPopulateColumns = true;
             gcMain.DataSource = defaultTable;
-            gvMain.BestFitColumns();
-            GridHelper.SetCommonGrid(gvMain);
 
             //1.1 設定欄位caption
             gvMain.SetColumnCaption("AMM1_DATE" , "資料日期");
@@ -281,17 +279,17 @@ namespace PhoenixCI.FormUI.Prefix5 {
             gcMain.Visible = true;
             gcMain.DataSource = defaultTable;
             gvMain.OptionsBehavior.AllowFixedGroups = DefaultBoolean.True;
-            gvMain.ExpandAllGroups();
 
             gvMain.AppearancePrint.HeaderPanel.Options.UseTextOptions = true;
             gvMain.AppearancePrint.HeaderPanel.TextOptions.WordWrap = WordWrap.Wrap;
             gvMain.ColumnPanelRowHeight = 30;
-            gvMain.AppearancePrint.HeaderPanel.Font = new Font("Microsoft YaHei" , gvMain.Appearance.HeaderPanel.Font.Size);
-            gvMain.AppearancePrint.Row.Font = new Font("Microsoft YaHei" , 10);
+            gvMain.AppearancePrint.HeaderPanel.Font = new Font("Microsoft YaHei" , gvMain.AppearancePrint.HeaderPanel.Font.Size);
+            gvMain.AppearancePrint.Row.Font = new Font("Microsoft YaHei" , 8);
             gvMain.OptionsPrint.AllowMultilineHeaders = true;
-            gvMain.AppearancePrint.GroupRow.Font = new Font("Microsoft YaHei" , 10);
+            gvMain.AppearancePrint.GroupRow.Font = new Font("Microsoft YaHei" , 12);
 
             gvMain.BestFitColumns();
+            gvMain.ExpandAllGroups();
             GridHelper.SetCommonGrid(gvMain);
             gcMain.Focus();
 
