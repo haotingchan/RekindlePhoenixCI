@@ -203,20 +203,13 @@ namespace DataObjects.Dao.Together.SpecificDao
       /// </summary>
       /// <param name="ls_cp_ymd"></param>
       /// <returns></returns>
-      public bool DeletePLS4(string ls_cp_ymd)
+      public void DeletePLS4(string ls_cp_ymd)
       {
          object[] parms = {
                ":ls_cp_ymd",ls_cp_ymd
             };
          string sql = @"delete ci.PLS4 where PLS4_YMD = :ls_cp_ymd";
          int executeResult = db.ExecuteSQL(sql, parms);
-
-         if (executeResult > 0) {
-            return true;
-         }
-         else {
-            throw new Exception("PLP13刪除失敗");
-         }
       }
 
    }
