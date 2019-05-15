@@ -165,7 +165,7 @@ namespace BaseGround
             _ReportClass = "R" + _ProgramID;
 
             _DefaultFileNamePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, "CI_" + _ProgramID + "─" + _ProgramName + "_" + DateTime.Now.ToString("yyyyMMdd_HHmmss"));
-            _ReportID = GlobalInfo.SYSTEM_ALIAS + _ProgramID;
+            _ReportID = _ProgramID;
             _ReportTitle = _ProgramID + "─" + _ProgramName + GlobalInfo.REPORT_TITLE_MEMO;
         }
 
