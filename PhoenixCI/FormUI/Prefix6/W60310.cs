@@ -29,6 +29,7 @@ namespace PhoenixCI.FormUI.Prefix6
             txtEndDate.DateTimeValue = GlobalInfo.OCF_DATE;
             dao60310 = new D60310();
             daoRPTF = new RPTF();
+            ExportShow.Hide();
         }
 
         public override ResultStatus BeforeOpen()
@@ -98,12 +99,24 @@ namespace PhoenixCI.FormUI.Prefix6
 
         protected override ResultStatus Export()
         {
-            base.Export();
+            ExportShow.Text = "轉檔中...";
+            ExportShow.Show();
 
-            string excelDestinationPath = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
+            try
+            {
+                base.Export();
 
-            ManipulateExcel(excelDestinationPath);
+                string excelDestinationPath = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
 
+                ManipulateExcel(excelDestinationPath);
+            }
+            catch (Exception ex)
+            {
+                ExportShow.Text = "轉檔失敗";
+                WriteLog(ex);
+                return ResultStatus.Fail;
+            }
+            ExportShow.Text = "轉檔成功!";
             return ResultStatus.Success;
         }
 
@@ -183,21 +196,21 @@ namespace PhoenixCI.FormUI.Prefix6
                     }
                     worksheet.Cells[rowIndex, 1].Value = dtContent.Rows[i]["YMD"].AsDateTime("yyyyMMdd").ToString("yyyy/MM/dd");
                     dayCount = dtContent.Rows[i]["DAY_COUNT"].AsDouble();
-                    worksheet.Cells[rowIndex, 2].Value = dayCount;
-                    worksheet.Cells[rowIndex, 3].Value = dtContent.Rows[i]["DAY_QNTY"].AsDouble();
+                    worksheet.Cells[rowIndex, 2].SetValue(dayCount);
+                    worksheet.Cells[rowIndex, 3].SetValue(dtContent.Rows[i]["DAY_QNTY"]);
                     double yearQnty = dtContent.Rows[i]["YEAR_QNTY"].AsDouble();
-                    worksheet.Cells[rowIndex, 4].Value = yearQnty;
+                    worksheet.Cells[rowIndex, 4].SetValue(yearQnty);
                     double yearAvgQnty = yearQnty / dayCount;
-                    worksheet.Cells[rowIndex, 5].Value = yearAvgQnty;
-                    worksheet.Cells[rowIndex, 6].Value = totDayCount - dayCount;
+                    worksheet.Cells[rowIndex, 5].SetValue(yearAvgQnty);
+                    worksheet.Cells[rowIndex, 6].SetValue(totDayCount - dayCount);
                     if (totDayCount - dayCount > 0)
                     {
-                        worksheet.Cells[rowIndex, 7].Value = ((dayAvgQnty * totDayCount) - yearQnty) / (totDayCount - dayCount);
-                        worksheet.Cells[rowIndex, 8].Value = Math.Pow(((dayAvgQnty * totDayCount) / (yearAvgQnty * totDayCount)), (totDayCount / (totDayCount - dayCount))) - 1;
-                        worksheet.Cells[rowIndex, 9].Value = Math.Pow(((dayAvgQnty * totDayCount) / (yearAvgQnty * totDayCount)), (1 / (totDayCount - dayCount))) - 1;
+                        worksheet.Cells[rowIndex, 7].SetValue(((dayAvgQnty * totDayCount) - yearQnty) / (totDayCount - dayCount));
+                        worksheet.Cells[rowIndex, 8].SetValue(Math.Pow(((dayAvgQnty * totDayCount) / (yearAvgQnty * totDayCount)), (totDayCount / (totDayCount - dayCount))) - 1);
+                        worksheet.Cells[rowIndex, 9].SetValue(Math.Pow(((dayAvgQnty * totDayCount) / (yearAvgQnty * totDayCount)), (1 / (totDayCount - dayCount))) - 1);
                     }
-                    worksheet.Cells[rowIndex, 10].Value = dtContent.Rows[i]["DAY_TAX"].AsString();
-                    worksheet.Cells[rowIndex, 11].Value = dtContent.Rows[i]["YEAR_TAX"].AsString();
+                    worksheet.Cells[rowIndex, 10].SetValue(dtContent.Rows[i]["DAY_TAX"]);
+                    worksheet.Cells[rowIndex, 11].SetValue(dtContent.Rows[i]["YEAR_TAX"]);
                 }
                 worksheet.Cells[futStartRow + ((futEndRow - futStartRow) / 2), 0].Value = "期貨";
                 worksheet.Cells[optStartRow + ((optEndRow - optStartRow) / 2), 0].Value = "選擇權";
@@ -208,13 +221,13 @@ namespace PhoenixCI.FormUI.Prefix6
 
                 totTax = worksheet.Cells[futEndRow, 11].Value.AsDouble() + worksheet.Cells[optEndRow, 11].Value.AsDouble();
                 rowIndex = 65;
-                worksheet.Cells[rowIndex, 11].Value = totTax;
+                worksheet.Cells[rowIndex, 11].SetValue(totTax);
                 rowIndex++;
                 if (totTax > 0)
                 {
                     if (tax > 0)
                     {
-                        worksheet.Cells[rowIndex, 11].Value = totTax / 100000000 / tax;
+                        worksheet.Cells[rowIndex, 11].SetValue(totTax / 100000000 / tax);
                     }
                 }
 
@@ -223,7 +236,7 @@ namespace PhoenixCI.FormUI.Prefix6
                 foreach (DataRow row in dtRPTF.Rows)
                 {
                     rowIndex++;
-                    worksheet.Cells[rowIndex, 0].Value = row["RPTF_TEXT"].ToString();
+                    worksheet.Cells[rowIndex, 0].SetValue(row["RPTF_TEXT"]);
                 }
 
                 #endregion 表尾

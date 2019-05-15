@@ -6,6 +6,7 @@ using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
+using System;
 using System.Data;
 using System.Linq;
 
@@ -23,8 +24,9 @@ namespace PhoenixCI.FormUI.Prefix6
             txtStartMonth.DateTimeValue = GlobalInfo.OCF_DATE;
             txtEndMonth.DateTimeValue = GlobalInfo.OCF_DATE;
 
-         dao60330 = new D60330();
-      }
+            dao60330 = new D60330();
+            ExportShow.Hide();
+        }
 
         public override ResultStatus BeforeOpen()
         {
@@ -93,11 +95,25 @@ namespace PhoenixCI.FormUI.Prefix6
 
         protected override ResultStatus Export()
         {
-            base.Export();
+            ExportShow.Text = "轉檔中...";
+            ExportShow.Show();
 
-            string excelDestinationPath = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
+            try
+            {
+                base.Export();
 
-            ManipulateExcel(excelDestinationPath);
+                string excelDestinationPath = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
+
+                ManipulateExcel(excelDestinationPath);
+            }
+            catch (Exception ex)
+            {
+                ExportShow.Text = "轉檔失敗";
+                WriteLog(ex);
+                return ResultStatus.Fail;
+            }
+            ExportShow.Text = "轉檔成功!";
+
 
             return ResultStatus.Success;
         }
@@ -125,7 +141,7 @@ namespace PhoenixCI.FormUI.Prefix6
             {
                 #region 明細
 
-                worksheet.Cells[2, 0].Value = txtStartMonth.Text + "~" + txtEndMonth.Text + worksheet.Cells[2, 0].Value;
+                worksheet.Cells[2, 0].Value = txtStartMonth.Text + "～" + txtEndMonth.Text + worksheet.Cells[2, 0].Value;
                 worksheet.Cells[2, 8].Value = cpDayCnt.CP_DAY_CNT.AsString();
 
                 int rowIndex = 4;
@@ -133,13 +149,13 @@ namespace PhoenixCI.FormUI.Prefix6
                 {
                     worksheet.Cells[rowIndex, 0].Value = row["AI2_PARAM_KEY"].AsString();
                     worksheet.Cells[rowIndex, 1].Value = row["PARAM_NAME"].AsString();
-                    worksheet.Cells[rowIndex, 2].Value = row["AI2_M_QNTY"].AsDouble();
-                    worksheet.Cells[rowIndex, 3].Value = row["AM2_QNTY1"].AsDouble();
-                    worksheet.Cells[rowIndex, 4].Value = row["AM2_QNTY2"].AsDouble();
-                    worksheet.Cells[rowIndex, 5].Value = row["AM2_QNTY3"].AsDouble();
-                    worksheet.Cells[rowIndex, 6].Value = row["AM2_QNTY4"].AsDouble();
-                    worksheet.Cells[rowIndex, 7].Value = row["AM2_QNTY5"].AsDouble();
-                    worksheet.Cells[rowIndex, 8].Value = row["TAX"].AsDouble();
+                    worksheet.Cells[rowIndex, 2].SetValue( row["AI2_M_QNTY"]);
+                    worksheet.Cells[rowIndex, 3].SetValue(row["AM2_QNTY1"]);
+                    worksheet.Cells[rowIndex, 4].SetValue(row["AM2_QNTY2"]);
+                    worksheet.Cells[rowIndex, 5].SetValue(row["AM2_QNTY3"]);
+                    worksheet.Cells[rowIndex, 6].SetValue(row["AM2_QNTY4"]);
+                    worksheet.Cells[rowIndex, 7].SetValue(row["AM2_QNTY5"]);
+                    worksheet.Cells[rowIndex, 8].SetValue(row["TAX"]);
 
                     rowIndex++;
                 }

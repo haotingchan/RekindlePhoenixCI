@@ -1,17 +1,17 @@
 ﻿using ActionService.DbDirect;
 using BaseGround;
 using BaseGround.Report;
-using BaseGround.Shared;
 using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
+using DataObjects;
 using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.TableDao;
-using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraGrid;
 using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraReports.UI;
+using PhoenixCI.Widget;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -22,6 +22,7 @@ namespace PhoenixCI.FormUI.PrefixZ
     {
         private UPF daoUPF;
         private UTP daoUTP;
+        private DataTable dtForAdd;
 
         public WZ0010(string programID, string programName) : base(programID, programName)
         {
@@ -47,19 +48,21 @@ namespace PhoenixCI.FormUI.PrefixZ
         {
             base.Open();
 
-            //DropDownList.CreateComboBoxDptIdAndName(cbxDpt);
-            DataTable dtDept = new DPT().ListData();
-            ddlDept.SetDataTable(dtDept, "DPT_ID", "DPT_ID_NAME", TextEditStyles.DisableTextEditor, "");
-            ddlDept.EditValue = "";
+            DropDownList.LookUpItemDptIdAndName(ddlDept);
 
             RepositoryItemLookUpEdit repLookUp = new RepositoryItemLookUpEdit();
-            repLookUp.SetColumnLookUp(dtDept, "DPT_ID", "DPT_ID_NAME", TextEditStyles.DisableTextEditor, "");
+            DropDownList.RepositoryItemDptIdAndName(repLookUp);
 
             gcMain.DataSource = daoUPF.ListDataByDept("");
             UPF_DPT_ID.ColumnEdit = repLookUp;
 
             GridHelper.AddModifyMark(gcMain, MODIFY_MARK);
             GridHelper.AddOpType(gcMain, new GridColumn[] { UPF_USER_ID });
+
+            if (GlobalInfo.USER_ID.ToUpper() != GlobalDaoSetting.GetConnectionInfo.ConnectionName)
+            {
+                btnPrint.Visible = false;
+            }
 
             return ResultStatus.Success;
         }
@@ -132,17 +135,20 @@ namespace PhoenixCI.FormUI.PrefixZ
 
         protected override ResultStatus Save(PokeBall pokeBall)
         {
-            if (CheckShield() == ResultStatus.Success)
+            try
             {
-                base.Save(gcMain);
-
-                DataTable dt = (DataTable)gcMain.DataSource;
-                DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
-                DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
-                DataTable dtForDeleted = dt.GetChanges(DataRowState.Deleted);
-
-                try
+                ResultStatus myCheckResult = CheckShield();
+                if (myCheckResult != ResultStatus.Success) return myCheckResult;
+                if (myCheckResult == ResultStatus.Success)
                 {
+                    base.Save(gcMain);
+
+                    DataTable dt = (DataTable)gcMain.DataSource;
+                    dtForAdd = dt.GetChanges(DataRowState.Added);
+                    DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
+                    DataTable dtForDeleted = dt.GetChanges(DataRowState.Deleted);
+
+
                     ResultData myResultData = daoUPF.Update(dt);
 
                     DataTable dtTemp = new DataTable();
@@ -162,24 +168,26 @@ namespace PhoenixCI.FormUI.PrefixZ
                             dtTemp.Rows.Add(drNewDelete);
                             rowIndex++;
                         }
-                        
+
                         foreach (DataRow row in dtTemp.Rows)
                         {
                             string userId = row["UPF_USER_ID"].AsString();
                             bool result = daoUTP.DeleteUTPByUserId(userId);
                         }
                     }
-       
+
                     //列印
                     PrintOrExport(gcMain, dtForAdd, dtTemp, dtForModified);
 
                     _IsPreventFlowPrint = true;
                     _IsPreventFlowExport = true;
+
                 }
-                catch (Exception ex)
-                {
-                    MessageDisplay.Error(ex.Message);
-                }
+            }
+            catch (Exception ex)
+            {
+                MessageDisplay.Error(ex.Message);
+                throw;
             }
             return ResultStatus.Success;
         }
@@ -193,13 +201,12 @@ namespace PhoenixCI.FormUI.PrefixZ
 
             ReportHelper reportHelper;
 
-
-            reportHelper = PrintOrExportSetting();
-            reportHelper.IsHandlePersonVisible = true;
-            reportHelper.IsManagerVisible = true;
             if (ChangedForAdded != null)
                 if (ChangedForAdded.Rows.Count != 0)
                 {
+                    reportHelper = PrintOrExportSetting();
+                    reportHelper.IsHandlePersonVisible = true;
+                    reportHelper.IsManagerVisible = true;
                     gridControlPrint.DataSource = ChangedForAdded;
                     reportHelper.ReportTitle = originReportTitle + "─" + "新增";
 
@@ -214,6 +221,8 @@ namespace PhoenixCI.FormUI.PrefixZ
                 if (ChangedForDeleted.Rows.Count != 0)
                 {
                     reportHelper = PrintOrExportSetting();
+                    reportHelper.IsHandlePersonVisible = true;
+                    reportHelper.IsManagerVisible = true;
                     gridControlPrint.DataSource = ChangedForDeleted;
                     reportHelper.ReportTitle = originReportTitle + "─" + "刪除";
 
@@ -225,6 +234,8 @@ namespace PhoenixCI.FormUI.PrefixZ
                 if (ChangedForModified.Rows.Count != 0)
                 {
                     reportHelper = PrintOrExportSetting();
+                    reportHelper.IsHandlePersonVisible = true;
+                    reportHelper.IsManagerVisible = true;
                     gridControlPrint.DataSource = ChangedForModified;
                     reportHelper.ReportTitle = originReportTitle + "─" + "變更";
 
@@ -377,6 +388,30 @@ namespace PhoenixCI.FormUI.PrefixZ
             table.WidthF = ((XRSubreport)report.FindControl("xrSubreportMain", true)).WidthF;
 
             return report;
+        }
+
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+            GridControl gridControlPrint = GridHelper.CloneGrid(gcMain);
+
+            string originReportTitle = this.Text;
+
+            ReportHelper reportHelper;
+
+            if (dtForAdd != null)
+                if (dtForAdd.Rows.Count != 0)
+                {
+                    reportHelper = PrintOrExportSetting();
+                    reportHelper.IsHandlePersonVisible = true;
+                    reportHelper.IsManagerVisible = true;
+                    gridControlPrint.DataSource = dtForAdd;
+                    reportHelper.ReportTitle = originReportTitle + "─" + "新增";
+
+                    reportHelper.Create(GenerateReport(gridControlPrint));
+
+                    Print(reportHelper);
+                    Export(reportHelper);
+                }
         }
     }
 }

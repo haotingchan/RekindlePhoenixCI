@@ -4,6 +4,7 @@ using BaseGround.Report;
 using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
+using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
@@ -47,15 +48,16 @@ namespace PhoenixCI.FormUI.Prefix6
 
       private D60410 dao60410;
 
-      public W60410(string programID, string programName) : base(programID, programName)
+        public W60410(string programID, string programName) : base(programID, programName)
         {
             InitializeComponent();
 
             this.Text = _ProgramID + "─" + _ProgramName;
             txtDate.DateTimeValue = GlobalInfo.OCF_DATE;
 
-         dao60410 = new D60410();
-      }
+            dao60410 = new D60410();
+            ExportShow.Hide();
+        }
 
         public override ResultStatus BeforeOpen()
         {
@@ -124,11 +126,24 @@ namespace PhoenixCI.FormUI.Prefix6
 
         protected override ResultStatus Export()
         {
-            base.Export();
+            ExportShow.Text = "轉檔中...";
+            ExportShow.Show();
 
-            string excelDestinationPath = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
+            try
+            {
+                base.Export();
 
-            ManipulateExcel(excelDestinationPath);
+                string excelDestinationPath = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
+
+                ManipulateExcel(excelDestinationPath);
+            }
+            catch (Exception ex)
+            {
+                ExportShow.Text = "轉檔失敗";
+                WriteLog(ex);
+                return ResultStatus.Fail;
+            }
+            ExportShow.Text = "轉檔成功!";
 
             return ResultStatus.Success;
         }
@@ -136,7 +151,7 @@ namespace PhoenixCI.FormUI.Prefix6
         private void ManipulateExcel(string excelDestinationPath)
         {
             _Date = txtDate.DateTimeValue;
-            _3M = txtDate.DateTimeValue.AddDays(-91);
+            _3M = dao60410.GetRelativeDate(txtDate.FormatValue,3, "MONTH");
 
             Workbook workbook = new Workbook();
             workbook.LoadDocument(excelDestinationPath);
@@ -157,7 +172,7 @@ namespace PhoenixCI.FormUI.Prefix6
 
                 worksheet.Cells[1, 10].Value = _Date;
                 worksheet.Cells[2, 10].Value = _3M;
-                worksheet.Cells[3, 10].Value = serviceCommon.getAOCFDates(_3M.ToString("yyyyMMdd"), _Date.ToString("yyyyMMdd"));
+                worksheet.Cells[3, 10].Value = new AOCF().GetAOCFDates(_3M.ToString("yyyyMMdd"), _Date.ToString("yyyyMMdd"));
 
                 int seqNo = 0;
                 for (int i = 0; i < dtContentB.Rows.Count; i++)

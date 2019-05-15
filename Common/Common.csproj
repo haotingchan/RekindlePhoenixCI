@@ -97,6 +97,7 @@
     <Compile Include="Enum\CurrencyType.cs" />
     <Compile Include="Extension\ExtensionCommon.cs" />
     <Compile Include="Helper\AsyncHelper.cs" />
+    <Compile Include="Helper\ConnectSharedFolder.cs" />
     <Compile Include="Helper\ExportHelper.cs" />
     <Compile Include="Helper\FormatHelper.cs" />
     <Compile Include="Helper\GridHelper.cs" />

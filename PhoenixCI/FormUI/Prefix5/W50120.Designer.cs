@@ -35,6 +35,7 @@
             this.MPDF_STATUS = new DevExpress.XtraGrid.Columns.GridColumn();
             this.MPDF_KIND_ID = new DevExpress.XtraGrid.Columns.GridColumn();
             this.MPDF_EFF_DATE = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.Is_NewRow = new DevExpress.XtraGrid.Columns.GridColumn();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
@@ -44,18 +45,19 @@
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
             this.SuspendLayout();
             // 
             // panParent
             // 
             this.panParent.Controls.Add(this.gcMain);
-            this.panParent.Location = new System.Drawing.Point(0, 100);
-            this.panParent.Size = new System.Drawing.Size(1055, 644);
+            this.panParent.Location = new System.Drawing.Point(0, 113);
+            this.panParent.Size = new System.Drawing.Size(1055, 631);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(1055, 30);
+            this.ribbonControl.Size = new System.Drawing.Size(1055, 43);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // panelControl1
@@ -68,7 +70,7 @@
             this.panelControl1.Controls.Add(this.lblDate);
             this.panelControl1.Controls.Add(this.txtMonth);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelControl1.Location = new System.Drawing.Point(0, 30);
+            this.panelControl1.Location = new System.Drawing.Point(0, 43);
             this.panelControl1.Name = "panelControl1";
             this.panelControl1.Size = new System.Drawing.Size(1055, 70);
             this.panelControl1.TabIndex = 0;
@@ -79,7 +81,7 @@
             this.lblDate.BackColor = System.Drawing.Color.Transparent;
             this.lblDate.Location = new System.Drawing.Point(19, 24);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(57, 20);
+            this.lblDate.Size = new System.Drawing.Size(85, 30);
             this.lblDate.TabIndex = 7;
             this.lblDate.Text = "年月：";
             // 
@@ -94,29 +96,33 @@
             this.txtMonth.Name = "txtMonth";
             this.txtMonth.Properties.Appearance.Options.UseTextOptions = true;
             this.txtMonth.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtMonth.Properties.EditFormat.FormatString = "yyyyMM";
             this.txtMonth.Properties.Mask.EditMask = "yyyy/MM";
             this.txtMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtMonth.Properties.Mask.ShowPlaceHolders = false;
             this.txtMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtMonth.Size = new System.Drawing.Size(100, 26);
+            this.txtMonth.Size = new System.Drawing.Size(100, 38);
             this.txtMonth.TabIndex = 6;
             this.txtMonth.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // panelControl2
             // 
             this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelControl2.Location = new System.Drawing.Point(0, 100);
+            this.panelControl2.Location = new System.Drawing.Point(0, 113);
             this.panelControl2.Name = "panelControl2";
-            this.panelControl2.Size = new System.Drawing.Size(1055, 644);
+            this.panelControl2.Size = new System.Drawing.Size(1055, 631);
             this.panelControl2.TabIndex = 1;
             // 
             // gcMain
             // 
             this.gcMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gcMain.Location = new System.Drawing.Point(12, 12);
+            this.gcMain.Location = new System.Drawing.Point(18, 18);
             this.gcMain.MainView = this.gvMain;
             this.gcMain.MenuManager = this.ribbonControl;
             this.gcMain.Name = "gcMain";
-            this.gcMain.Size = new System.Drawing.Size(1031, 620);
+            this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repositoryItemTextEdit1});
+            this.gcMain.Size = new System.Drawing.Size(1019, 595);
             this.gcMain.TabIndex = 0;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -210,13 +216,22 @@
             this.MPDF_EFF_DATE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.MPDF_EFF_DATE.AppearanceHeader.Options.UseBackColor = true;
             this.MPDF_EFF_DATE.Caption = "生效日期";
-            this.MPDF_EFF_DATE.DisplayFormat.FormatString = "yyyy/MM/dd";
-            this.MPDF_EFF_DATE.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.MPDF_EFF_DATE.ColumnEdit = this.repositoryItemTextEdit1;
             this.MPDF_EFF_DATE.FieldName = "MPDF_EFF_DATE";
             this.MPDF_EFF_DATE.Name = "MPDF_EFF_DATE";
             this.MPDF_EFF_DATE.Visible = true;
             this.MPDF_EFF_DATE.VisibleIndex = 5;
             this.MPDF_EFF_DATE.Width = 170;
+            // 
+            // repositoryItemTextEdit1
+            // 
+            this.repositoryItemTextEdit1.AutoHeight = false;
+            this.repositoryItemTextEdit1.Mask.EditMask = "\\d\\d\\d\\d/\\d\\d/\\d\\d";
+            this.repositoryItemTextEdit1.Mask.IgnoreMaskBlank = false;
+            this.repositoryItemTextEdit1.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
+            this.repositoryItemTextEdit1.Mask.PlaceHolder = '0';
+            this.repositoryItemTextEdit1.Mask.UseMaskAsDisplayFormat = true;
+            this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
             // 
             // Is_NewRow
             // 
@@ -227,7 +242,7 @@
             // W50120
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1055, 744);
             this.Controls.Add(this.panelControl2);
@@ -247,6 +262,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -267,5 +283,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn MPDF_KIND_ID;
         private DevExpress.XtraGrid.Columns.GridColumn MPDF_EFF_DATE;
         private DevExpress.XtraGrid.Columns.GridColumn Is_NewRow;
+        private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit1;
     }
 }

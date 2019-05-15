@@ -478,15 +478,34 @@
         EwrCh2CLcRnx3xWT+NFd1HclUB15Dl8zgQjCmVjDvl+a4rh/ACp60DKo5ZUiAAAAAElFTkSuQmCC
 </value>
   </data>
-  <metadata name="檔案popupMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>593, 17</value>
-  </metadata>
-  <metadata name="說明popupMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>739, 17</value>
-  </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>69</value>
   </metadata>
+  <data name="barMdiChildrenListItem1.ImageOptions.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAZdEVYdFNvZnR3YXJlAEFkb2JlIEltYWdlUmVhZHlxyWU8AAAAEnRFWHRUaXRsZQBXaW5kb3c7
+        Rm9ybTtXoeaRAAAEGUlEQVRYR8WW/0/UdRzHPxqUZW59Wf9PrdnastUSEOiHRh7JmZHK0SFQlmWKTF2/
+        WMsY4nkSIsKBYTabSjgblB6mQGjSXMYBxx1fjwPanr2e78/nrnvnZx6f2s7bHnt/Xu/P+/14vt53n90+
+        BoAHiu1kJrGdzCS2k5nEdjKT2E5mEr0wjBV5NReeK6jp6snf140Ne39A3p4u5H56Eet3X8BrH5/Hq7vO
+        45WPvsfLO89h3fsmL1aexQsVZ7DWewbPl3feA1100s0MLVMrDGNl4b6uUP2lu+gcjKJzIIqOG1EErkcQ
+        +GUCbdfCaOkLozk4jqYr42j8aUzR0BPCkcsjqLv0Jw5320Mn3czQMrXCMB4qrO1W4XvP/YHq07+jqmMY
+        Ve3DqAwMY0fbbXjbfsN7p26h/OQteCy2fv0rShuF44N4xz+It48NYPPRflxb+yyGctehuO66gm5maJla
+        YRhZXPRNf8QMl+AdgdsKb6sEkxYztKz5JrafGFKUNprBWxjsG4C7YQAlR25gKOcl3HEV/LuBLC1TKwwj
+        m4va5SuvbDeDK1ol/JR5as/Jm/BYwduahvCunJyoE/sG4fb1o6ShH5sk/K16MzQVq4FsLVMr5GaBPDDH
+        L9+Fu74P7ro+lHwVxKbDQRR/GYRL2PhFEEWfX0XRoat449AVxeuf/YxCIf9gLzYIeQd6kbu/BznC+tre
+        JHSna+DhDw5+h9jCEqZmFzGpWMDkzAKi/4Hw1LwQVy466WaGlqkVcrN6/1nE4n8hKpsoSYZPc4w7RPbQ
+        wwbESXe6Bh6pqv1WFi9ZgSYRXk/HZXRGsnGBTrqZoWVqhWGsqqjpxJwsNiUMj2OCyFfplMR+QifdzNAy
+        tUJuevecxtz8kgqNKIk52gWkQ+1j82xAnHSna+DR8t0dmLUaoIQPUWI0H6rloxqxGqCTbmZomVohN8s+
+        CWBGFocnZaMQnqQsjnG5HpdrJ5j7TeikO10Dj23b1YaZ2KIZylOnCMccovZb0Ek3M7RMrTCM1Vs/bMX0
+        3OI/J4la4TI6JekQ6KSbGVqmVsjN0p0tZgNKEjNlkXmMyjjK0QHcrw4g0El3ugYe31LdjClZzEDVQCRm
+        CWMITcw6gvtV4wKddDNDy9QKw1izueqE+vs1g01CijmMhJ3BvfQQOulmhpapFXLTXdmkFpsnNsNHJDw0
+        Qaw5ByQOQSfd6RpYXez1j/wYvINR9eCl/AQ28nSon0A8hE66maFlaoX8T+e7DuS4PL4xV7kfCo8fG8v8
+        eLPsmKJo+1GZ890D5xNruJ77kg7l8Y3RzQwtUyvkdUlYJawRnhCetHgqhaeFZ2zgfOq6xF56CJ103/eV
+        bIWwkouELIvs/0HCQeik+75vxcv5sMkk1r5EvayPlplaPAhsJzMHjL8B/qxs3bqWfvQAAAAASUVORK5C
+        YII=
+</value>
+  </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAEAQEAAAAEAIAAoQgAAFgAAACgAAABAAAAAgAAAAAEAIAAAAAAAAEIAAAAAAAAAAAAAAAAAAAAA
@@ -960,10 +979,4 @@
         fBfkTsgJyPsv+oEkSdJ/AV7HEAk6Ii3hAAAAAElFTkSuQmCC
 </value>
   </data>
-  <metadata name="檔案popupMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>593, 17</value>
-  </metadata>
-  <metadata name="說明popupMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>739, 17</value>
-  </metadata>
 </root>

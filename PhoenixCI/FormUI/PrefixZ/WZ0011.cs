@@ -39,7 +39,7 @@ namespace PhoenixCI.FormUI.PrefixZ
         {
             base.Open();
 
-            DropDownList.ComboBoxUserIdAndName(cbxUserId);
+            DropDownList.LookUpItemUserIdAndName(ddlUserId);
 
             return ResultStatus.Success;
         }
@@ -60,6 +60,9 @@ namespace PhoenixCI.FormUI.PrefixZ
 
         protected override ResultStatus Print(ReportHelper reportHelper)
         {
+            reportHelper.IsHandlePersonVisible = true;
+            reportHelper.IsManagerVisible = true;
+
             reportHelper.Create(GenerateReport());
             _ReportHelper = reportHelper;
 
@@ -88,16 +91,17 @@ namespace PhoenixCI.FormUI.PrefixZ
 
         private void btnSetting_Click(object sender, EventArgs e)
         {
-            if (cbxUserId.SelectedValue == null)
+            if (string.IsNullOrEmpty(ddlUserId.EditValue.AsString()))
             {
                 MessageDisplay.Warning("請選擇使用者代號!");
             }
             else
             {
-                bool result = daoUPF.UpdatePasswordByUserId(cbxUserId.SelectedValue.ToString(), txtPassword.Text);
+                bool result = daoUPF.UpdatePasswordByUserId(ddlUserId.EditValue.AsString(), txtPassword.Text);
 
                 if (result)
                 {
+                    _IsPreventFlowPrint = false;
                     base.ProcessSaveFlow();
                     SingletonLogger.Instance.Info(GlobalInfo.USER_ID, _ProgramID, "使用者起始設定", "I");
                 }
@@ -108,21 +112,11 @@ namespace PhoenixCI.FormUI.PrefixZ
             }
         }
 
-        private void cbxUserId_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cbxUserId.SelectedItem != null)
-            {
-                char[] userId = cbxUserId.SelectedValue.ToString().Trim().ToCharArray();
-                Array.Reverse(userId);
-                txtPassword.Text = DateTime.Now.ToString("MMdd") + "m" + new string(userId);
-            }
-        }
-
         private XtraReport GenerateReport()
         {
             RZ0011 report = new RZ0011();
 
-            DataTable dtMain = daoUPF.ListDataByUserId(cbxUserId.SelectedValue.AsString());
+            DataTable dtMain = daoUPF.ListDataByUserId(ddlUserId.EditValue.AsString());
 
             report.DataSource = dtMain;
             report.Detail.Borders = DevExpress.XtraPrinting.BorderSide.All;
@@ -189,6 +183,16 @@ namespace PhoenixCI.FormUI.PrefixZ
             table.WidthF = ((XRSubreport)report.FindControl("xrSubreportMain", true)).WidthF;
 
             return report;
+        }
+
+        private void ddlUserId_EditValueChanged(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(ddlUserId.EditValue.AsString()))
+            {
+                char[] userId = ddlUserId.EditValue.AsString().ToCharArray();
+                Array.Reverse(userId);
+                txtPassword.Text = DateTime.Now.ToString("MMdd") + "m" + new string(userId);
+            }
         }
     }
 }

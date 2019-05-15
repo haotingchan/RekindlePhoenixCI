@@ -24,6 +24,8 @@
         /// </summary>
         private void InitializeComponent() {
          this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
+         this.txtEndDate = new BaseGround.Widget.TextDateEdit();
+         this.txtStartDate = new BaseGround.Widget.TextDateEdit();
          this.label1 = new System.Windows.Forms.Label();
          this.lblDate = new System.Windows.Forms.Label();
          this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
@@ -41,20 +43,18 @@
          this.MG8_W_TIME = new DevExpress.XtraGrid.Columns.GridColumn();
          this.MG8_W_USER_ID = new DevExpress.XtraGrid.Columns.GridColumn();
          this.IS_NEWROW = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.txtStartDate = new BaseGround.Widget.TextDateEdit();
-         this.txtEndDate = new BaseGround.Widget.TextDateEdit();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
          this.panelControl1.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.MG8_CMTextEdit)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.MG8_MMTextEdit1)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.MG8_IMTextEdit1)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -80,6 +80,46 @@
          this.panelControl1.Name = "panelControl1";
          this.panelControl1.Size = new System.Drawing.Size(899, 70);
          this.panelControl1.TabIndex = 0;
+         // 
+         // txtEndDate
+         // 
+         this.txtEndDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtEndDate.EditValue = "2018/12";
+         this.txtEndDate.EnterMoveNextControl = true;
+         this.txtEndDate.Location = new System.Drawing.Point(248, 23);
+         this.txtEndDate.MenuManager = this.ribbonControl;
+         this.txtEndDate.Name = "txtEndDate";
+         this.txtEndDate.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtEndDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtEndDate.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.txtEndDate.Properties.Mask.EditMask = "yyyy/MM/dd";
+         this.txtEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
+         this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtEndDate.Size = new System.Drawing.Size(100, 26);
+         this.txtEndDate.TabIndex = 77;
+         this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         // 
+         // txtStartDate
+         // 
+         this.txtStartDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtStartDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtStartDate.EditValue = "2018/12";
+         this.txtStartDate.EnterMoveNextControl = true;
+         this.txtStartDate.Location = new System.Drawing.Point(115, 23);
+         this.txtStartDate.MenuManager = this.ribbonControl;
+         this.txtStartDate.Name = "txtStartDate";
+         this.txtStartDate.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtStartDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtStartDate.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.txtStartDate.Properties.Mask.EditMask = "yyyy/MM/dd";
+         this.txtStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtStartDate.Properties.Mask.ShowPlaceHolders = false;
+         this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtStartDate.Size = new System.Drawing.Size(100, 26);
+         this.txtStartDate.TabIndex = 76;
+         this.txtStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // label1
          // 
@@ -187,10 +227,8 @@
          // MG8_CMTextEdit
          // 
          this.MG8_CMTextEdit.AutoHeight = false;
-         this.MG8_CMTextEdit.DisplayFormat.FormatString = "###0.####";
-         this.MG8_CMTextEdit.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-         this.MG8_CMTextEdit.Mask.EditMask = "####0.0000";
-         this.MG8_CMTextEdit.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+         this.MG8_CMTextEdit.Mask.PlaceHolder = '0';
+         this.MG8_CMTextEdit.Mask.UseMaskAsDisplayFormat = true;
          this.MG8_CMTextEdit.MaxLength = 10;
          this.MG8_CMTextEdit.Name = "MG8_CMTextEdit";
          // 
@@ -211,10 +249,8 @@
          // MG8_MMTextEdit1
          // 
          this.MG8_MMTextEdit1.AutoHeight = false;
-         this.MG8_MMTextEdit1.DisplayFormat.FormatString = "###0.####";
-         this.MG8_MMTextEdit1.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-         this.MG8_MMTextEdit1.Mask.EditMask = "####0.0000";
-         this.MG8_MMTextEdit1.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+         this.MG8_MMTextEdit1.Mask.PlaceHolder = '0';
+         this.MG8_MMTextEdit1.Mask.UseMaskAsDisplayFormat = true;
          this.MG8_MMTextEdit1.MaxLength = 10;
          this.MG8_MMTextEdit1.Name = "MG8_MMTextEdit1";
          // 
@@ -235,10 +271,8 @@
          // MG8_IMTextEdit1
          // 
          this.MG8_IMTextEdit1.AutoHeight = false;
-         this.MG8_IMTextEdit1.DisplayFormat.FormatString = "###0.####";
-         this.MG8_IMTextEdit1.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-         this.MG8_IMTextEdit1.Mask.EditMask = "####0.0000";
-         this.MG8_IMTextEdit1.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+         this.MG8_IMTextEdit1.Mask.PlaceHolder = '0';
+         this.MG8_IMTextEdit1.Mask.UseMaskAsDisplayFormat = true;
          this.MG8_IMTextEdit1.MaxLength = 10;
          this.MG8_IMTextEdit1.Name = "MG8_IMTextEdit1";
          // 
@@ -270,44 +304,6 @@
          this.IS_NEWROW.FieldName = "IS_NEWROW";
          this.IS_NEWROW.Name = "IS_NEWROW";
          // 
-         // txtStartDate
-         // 
-         this.txtStartDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtStartDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtStartDate.EditValue = "2018/12";
-         this.txtStartDate.EnterMoveNextControl = true;
-         this.txtStartDate.Location = new System.Drawing.Point(115, 23);
-         this.txtStartDate.MenuManager = this.ribbonControl;
-         this.txtStartDate.Name = "txtStartDate";
-         this.txtStartDate.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtStartDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtStartDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-         this.txtStartDate.Properties.Mask.ShowPlaceHolders = false;
-         this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtStartDate.Size = new System.Drawing.Size(100, 26);
-         this.txtStartDate.TabIndex = 76;
-         this.txtStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-         // 
-         // txtEndDate
-         // 
-         this.txtEndDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtEndDate.EditValue = "2018/12";
-         this.txtEndDate.EnterMoveNextControl = true;
-         this.txtEndDate.Location = new System.Drawing.Point(248, 23);
-         this.txtEndDate.MenuManager = this.ribbonControl;
-         this.txtEndDate.Name = "txtEndDate";
-         this.txtEndDate.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtEndDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtEndDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-         this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
-         this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtEndDate.Size = new System.Drawing.Size(100, 26);
-         this.txtEndDate.TabIndex = 77;
-         this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-         // 
          // W49060
          // 
          this.Appearance.Options.UseFont = true;
@@ -327,14 +323,14 @@
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
          this.panelControl1.ResumeLayout(false);
          this.panelControl1.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.MG8_CMTextEdit)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.MG8_MMTextEdit1)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.MG8_IMTextEdit1)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 

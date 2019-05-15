@@ -35,23 +35,32 @@
             this.UPF_USER_ID = new DevExpress.XtraGrid.Columns.GridColumn();
             this.UPF_USER_NAME = new DevExpress.XtraGrid.Columns.GridColumn();
             this.MODIFY_MARK = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.cbxTxnId = new System.Windows.Forms.ComboBox();
             this.lblTXN = new System.Windows.Forms.Label();
             this.lblDpt = new System.Windows.Forms.Label();
-            this.cbxDpt = new System.Windows.Forms.ComboBox();
+            this.ddlDept = new DevExpress.XtraEditors.LookUpEdit();
+            this.ddlTxnId = new DevExpress.XtraEditors.LookUpEdit();
             this.panParent.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ddlDept.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ddlTxnId.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // panParent
             // 
+            this.panParent.Controls.Add(this.ddlTxnId);
+            this.panParent.Controls.Add(this.ddlDept);
             this.panParent.Controls.Add(this.lblDpt);
-            this.panParent.Controls.Add(this.cbxDpt);
-            this.panParent.Controls.Add(this.cbxTxnId);
             this.panParent.Controls.Add(this.lblTXN);
             this.panParent.Controls.Add(this.gcMain);
-            this.panParent.Size = new System.Drawing.Size(815, 536);
+            this.panParent.Size = new System.Drawing.Size(815, 538);
+            // 
+            // ribbonControl
+            // 
+            this.ribbonControl.ExpandCollapseItem.Id = 0;
+            this.ribbonControl.Size = new System.Drawing.Size(815, 30);
+            this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // gcMain
             // 
@@ -61,7 +70,7 @@
             this.gcMain.Location = new System.Drawing.Point(12, 43);
             this.gcMain.MainView = this.gvMain;
             this.gcMain.Name = "gcMain";
-            this.gcMain.Size = new System.Drawing.Size(791, 479);
+            this.gcMain.Size = new System.Drawing.Size(791, 481);
             this.gcMain.TabIndex = 0;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -136,19 +145,6 @@
             this.MODIFY_MARK.VisibleIndex = 4;
             this.MODIFY_MARK.Width = 57;
             // 
-            // cbxTxnId
-            // 
-            this.cbxTxnId.BackColor = System.Drawing.Color.White;
-            this.cbxTxnId.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbxTxnId.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbxTxnId.ForeColor = System.Drawing.Color.Black;
-            this.cbxTxnId.FormattingEnabled = true;
-            this.cbxTxnId.Location = new System.Drawing.Point(94, 9);
-            this.cbxTxnId.Name = "cbxTxnId";
-            this.cbxTxnId.Size = new System.Drawing.Size(466, 28);
-            this.cbxTxnId.TabIndex = 7;
-            this.cbxTxnId.SelectedIndexChanged += new System.EventHandler(this.cbxTxnId_SelectedIndexChanged);
-            // 
             // lblTXN
             // 
             this.lblTXN.AutoSize = true;
@@ -167,15 +163,27 @@
             this.lblDpt.TabIndex = 9;
             this.lblDpt.Text = "部門：";
             // 
-            // cbxDpt
+            // ddlDept
             // 
-            this.cbxDpt.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbxDpt.FormattingEnabled = true;
-            this.cbxDpt.Location = new System.Drawing.Point(629, 9);
-            this.cbxDpt.Name = "cbxDpt";
-            this.cbxDpt.Size = new System.Drawing.Size(174, 28);
-            this.cbxDpt.TabIndex = 8;
-            this.cbxDpt.SelectedIndexChanged += new System.EventHandler(this.cbxDpt_SelectedIndexChanged);
+            this.ddlDept.Location = new System.Drawing.Point(629, 9);
+            this.ddlDept.MenuManager = this.ribbonControl;
+            this.ddlDept.Name = "ddlDept";
+            this.ddlDept.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.ddlDept.Size = new System.Drawing.Size(160, 26);
+            this.ddlDept.TabIndex = 14;
+            this.ddlDept.EditValueChanged += new System.EventHandler(this.ddlDept_EditValueChanged);
+            // 
+            // ddlTxnId
+            // 
+            this.ddlTxnId.Location = new System.Drawing.Point(94, 9);
+            this.ddlTxnId.MenuManager = this.ribbonControl;
+            this.ddlTxnId.Name = "ddlTxnId";
+            this.ddlTxnId.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.ddlTxnId.Size = new System.Drawing.Size(466, 26);
+            this.ddlTxnId.TabIndex = 15;
+            this.ddlTxnId.EditValueChanged += new System.EventHandler(this.ddlTxnId_EditValueChanged);
             // 
             // WZ0112
             // 
@@ -187,8 +195,11 @@
             this.Text = "FormChild";
             this.panParent.ResumeLayout(false);
             this.panParent.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ddlDept.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ddlTxnId.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -200,12 +211,12 @@
         private DevExpress.XtraGrid.Views.Grid.GridView gvMain;
         private DevExpress.XtraGrid.Columns.GridColumn MODIFY_MARK;
         private DevExpress.XtraGrid.Columns.GridColumn UTP_FLAG;
-        private System.Windows.Forms.ComboBox cbxTxnId;
         private System.Windows.Forms.Label lblTXN;
         private DevExpress.XtraGrid.Columns.GridColumn DPT_NAME;
         private System.Windows.Forms.Label lblDpt;
-        private System.Windows.Forms.ComboBox cbxDpt;
         private DevExpress.XtraGrid.Columns.GridColumn UPF_USER_ID;
         private DevExpress.XtraGrid.Columns.GridColumn UPF_USER_NAME;
+        private DevExpress.XtraEditors.LookUpEdit ddlDept;
+        private DevExpress.XtraEditors.LookUpEdit ddlTxnId;
     }
 }

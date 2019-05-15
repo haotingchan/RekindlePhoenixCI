@@ -39,29 +39,30 @@
             this.LOGUTP_TXN_ID = new DevExpress.XtraGrid.Columns.GridColumn();
             this.TXN_NAME = new DevExpress.XtraGrid.Columns.GridColumn();
             this.LOGUTP_TYPE = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.cbxUserId = new System.Windows.Forms.ComboBox();
             this.lblUserId = new System.Windows.Forms.Label();
             this.lblSearch = new System.Windows.Forms.Label();
             this.lblNote = new System.Windows.Forms.Label();
             this.txtEndDate = new BaseGround.Widget.TextDateEdit();
             this.txtStartDate = new BaseGround.Widget.TextDateEdit();
             this.label1 = new System.Windows.Forms.Label();
+            this.ddlUserId = new DevExpress.XtraEditors.LookUpEdit();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ddlUserId.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // panParent
             // 
+            this.panParent.Controls.Add(this.ddlUserId);
             this.panParent.Controls.Add(this.txtEndDate);
             this.panParent.Controls.Add(this.txtStartDate);
             this.panParent.Controls.Add(this.label1);
             this.panParent.Controls.Add(this.lblNote);
             this.panParent.Controls.Add(this.lblSearch);
-            this.panParent.Controls.Add(this.cbxUserId);
             this.panParent.Controls.Add(this.lblUserId);
             this.panParent.Controls.Add(this.gcMain);
             this.panParent.Size = new System.Drawing.Size(1087, 542);
@@ -201,18 +202,6 @@
             this.LOGUTP_TYPE.VisibleIndex = 8;
             this.LOGUTP_TYPE.Width = 54;
             // 
-            // cbxUserId
-            // 
-            this.cbxUserId.BackColor = System.Drawing.Color.White;
-            this.cbxUserId.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbxUserId.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbxUserId.ForeColor = System.Drawing.Color.Black;
-            this.cbxUserId.FormattingEnabled = true;
-            this.cbxUserId.Location = new System.Drawing.Point(540, 13);
-            this.cbxUserId.Name = "cbxUserId";
-            this.cbxUserId.Size = new System.Drawing.Size(169, 28);
-            this.cbxUserId.TabIndex = 9;
-            // 
             // lblUserId
             // 
             this.lblUserId.AutoSize = true;
@@ -251,8 +240,10 @@
             this.txtEndDate.Name = "txtEndDate";
             this.txtEndDate.Properties.Appearance.Options.UseTextOptions = true;
             this.txtEndDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtEndDate.Properties.EditFormat.FormatString = "yyyy/MM/dd";
             this.txtEndDate.Properties.Mask.EditMask = "yyyy/MM/dd";
             this.txtEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtEndDate.Size = new System.Drawing.Size(127, 26);
             this.txtEndDate.TabIndex = 32;
@@ -268,8 +259,10 @@
             this.txtStartDate.Name = "txtStartDate";
             this.txtStartDate.Properties.Appearance.Options.UseTextOptions = true;
             this.txtStartDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtStartDate.Properties.EditFormat.FormatString = "yyyy/MM/dd";
             this.txtStartDate.Properties.Mask.EditMask = "yyyy/MM/dd";
             this.txtStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtStartDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtStartDate.Size = new System.Drawing.Size(127, 26);
             this.txtStartDate.TabIndex = 31;
@@ -283,6 +276,16 @@
             this.label1.Size = new System.Drawing.Size(21, 20);
             this.label1.TabIndex = 30;
             this.label1.Text = "~";
+            // 
+            // ddlUserId
+            // 
+            this.ddlUserId.Location = new System.Drawing.Point(540, 15);
+            this.ddlUserId.MenuManager = this.ribbonControl;
+            this.ddlUserId.Name = "ddlUserId";
+            this.ddlUserId.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.ddlUserId.Size = new System.Drawing.Size(169, 26);
+            this.ddlUserId.TabIndex = 33;
             // 
             // WZ0111
             // 
@@ -299,6 +302,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ddlUserId.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -310,7 +314,6 @@
         private DevExpress.XtraGrid.Views.Grid.GridView gvMain;
         private System.Windows.Forms.Label lblNote;
         private System.Windows.Forms.Label lblSearch;
-        private System.Windows.Forms.ComboBox cbxUserId;
         private System.Windows.Forms.Label lblUserId;
         private DevExpress.XtraGrid.Columns.GridColumn LOGUTP_W_USER_ID;
         private DevExpress.XtraGrid.Columns.GridColumn LOGUTP_W_USER_NAME;
@@ -324,5 +327,6 @@
         private BaseGround.Widget.TextDateEdit txtEndDate;
         private BaseGround.Widget.TextDateEdit txtStartDate;
         private System.Windows.Forms.Label label1;
+        private DevExpress.XtraEditors.LookUpEdit ddlUserId;
     }
 }

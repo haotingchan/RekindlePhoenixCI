@@ -37,7 +37,7 @@ namespace DataObjects.Dao.Together
 
             string sql =
                 @"
-                   SELECT UPF_USER_ID, UPF_USER_NAME,  TRIM(UPF_USER_ID) || '：' || UPF_USER_NAME AS UserIDAndUserName
+                   SELECT UPF_USER_ID, UPF_USER_NAME,  TRIM(UPF_USER_ID) || '：' || UPF_USER_NAME AS UPF_USER_ID_NAME
                    FROM CI.UPF
                    ORDER BY UPF_USER_ID ASC
                 ";

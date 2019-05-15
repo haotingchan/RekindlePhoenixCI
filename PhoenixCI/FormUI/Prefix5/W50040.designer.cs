@@ -239,7 +239,7 @@
          this.label2.Name = "label2";
          this.label2.Size = new System.Drawing.Size(89, 20);
          this.label2.TabIndex = 7;
-         this.label2.Text = "交易時間：";
+         this.label2.Text = "交易日期：";
          // 
          // panelGrid
          // 

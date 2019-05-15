@@ -1,5 +1,4 @@
-﻿using ActionService;
-using BaseGround;
+﻿using BaseGround;
 using BaseGround.Report;
 using BusinessObjects;
 using BusinessObjects.Enums;
@@ -18,11 +17,11 @@ namespace PhoenixCI.FormUI.PrefixZ
     {
         private ReportHelper _ReportHelper;
         private RepositoryItemCheckEdit _RepCheck;
-      private DZ0112 daoDZ0112;
-      private UTP daoUTP;
-      private LOGUTP daoLOGUTP;
+        private DZ0112 daoDZ0112;
+        private UTP daoUTP;
+        private LOGUTP daoLOGUTP;
 
-      public WZ0112(string programID, string programName) : base(programID, programName)
+        public WZ0112(string programID, string programName) : base(programID, programName)
         {
             InitializeComponent();
 
@@ -40,10 +39,10 @@ namespace PhoenixCI.FormUI.PrefixZ
             gcMain.RepositoryItems.Add(_RepCheck);
             UTP_FLAG.ColumnEdit = _RepCheck;
 
-         daoDZ0112 = new DZ0112();
-         daoUTP = new UTP();
-         daoLOGUTP = new LOGUTP();
-      }
+            daoDZ0112 = new DZ0112();
+            daoUTP = new UTP();
+            daoLOGUTP = new LOGUTP();
+        }
 
         public override ResultStatus BeforeOpen()
         {
@@ -55,17 +54,18 @@ namespace PhoenixCI.FormUI.PrefixZ
         protected override ResultStatus Open()
         {
             base.Open();
+            DropDownList.LookUpItemDptIdAndName(ddlDept);
+            
 
-            DataTable dt = (DataTable)DropDownList.CreateComboBoxDptIdAndName(cbxDpt).DataSource;
+            DataTable dt = (DataTable)ddlDept.Properties.DataSource;
             DataRow row = dt.NewRow();
             row["DPT_ID"] = "%";
             row["DPT_NAME"] = "全部";
             row["DPT_ID_NAME"] = "%：全部";
             dt.Rows.InsertAt(row, 0);
-            cbxDpt.DataSource = dt;
-            cbxDpt.SelectedIndex = 0;
+            ddlDept.Properties.DataSource = dt;
 
-            DropDownList.ComboBoxTxnIdAndName(cbxTxnId);
+            DropDownList.LookUpItemTxnIdAndName(ddlTxnId);
             GridHelper.AddModifyCheckMark(gcMain, _RepCheck, MODIFY_MARK);
 
             return ResultStatus.Success;
@@ -92,8 +92,8 @@ namespace PhoenixCI.FormUI.PrefixZ
         {
             base.Retrieve(gcMain);
 
-            gcMain.DataSource = daoDZ0112.ListUTPByTxnAndDpt(cbxTxnId.SelectedValue.AsString(), cbxDpt.SelectedValue.AsString());
-            gvMain.TrimAllCell();
+            gcMain.DataSource = daoDZ0112.ListUTPByTxnAndDpt(ddlTxnId.EditValue.AsString(), ddlDept.EditValue.AsString());
+            //gvMain.TrimAllCell();
             gcMain.Focus();
 
             return ResultStatus.Success;
@@ -103,7 +103,7 @@ namespace PhoenixCI.FormUI.PrefixZ
         {
             base.CheckShield(gcMain);
             if (!IsDataModify(gcMain)) { return ResultStatus.Fail; }
-            if (cbxTxnId.SelectedItem == null)
+            if (string.IsNullOrEmpty(ddlTxnId.EditValue.AsString()))
             {
                 MessageDisplay.Warning("作業代號不可為空白!");
                 return ResultStatus.Fail;
@@ -114,35 +114,51 @@ namespace PhoenixCI.FormUI.PrefixZ
 
         protected override ResultStatus Save(PokeBall pokeBall)
         {
-            base.Save(gcMain);
-
-            DataTable dt = (DataTable)gcMain.DataSource;
-
-            DataTable dtChange = dt.GetChanges();
-
-            foreach (DataRow row in dtChange.Rows)
+            try
             {
-                string flag = row["UTP_FLAG"].AsString();
-                string userId = row["UPF_USER_ID"] == null ? "" : row["UPF_USER_ID"].AsString();
-                string txnId = cbxTxnId.SelectedValue.AsString();
-                string opType = "";
-                if (flag == "Y")
+                ResultStatus myCheckResult = CheckShield();
+                if (myCheckResult != ResultStatus.Success) return myCheckResult;
+                if (myCheckResult == ResultStatus.Success)
                 {
-                    //INSERT
-                    opType = "I";
-                    bool result = daoUTP.InsertUTPByTXN(userId, GlobalInfo.USER_ID, txnId);
-                    bool logResult = daoLOGUTP.InsertByUTPAndUPF(txnId, GlobalInfo.USER_DPT_ID, GlobalInfo.USER_ID, GlobalInfo.USER_NAME, opType, userId);
-                }
-                else if (!string.IsNullOrEmpty(userId) && string.IsNullOrEmpty(flag))
-                {
-                    //DELETE
-                    opType = "D";
-                    bool logResult = daoLOGUTP.InsertByUTPAndUPF(txnId, GlobalInfo.USER_DPT_ID, GlobalInfo.USER_ID, GlobalInfo.USER_NAME, opType, userId);
-                    bool result = daoUTP.DeleteUTPByUserIdAndTxnId(userId, txnId);
+                    base.Save(gcMain);
+
+                    DataTable dt = (DataTable)gcMain.DataSource;
+
+                    DataTable dtChange = dt.GetChanges();
+
+                    foreach (DataRow row in dtChange.Rows)
+                    {
+                        string flag = row["UTP_FLAG"].AsString();
+                        string userId = row["UPF_USER_ID"] == null ? "" : row["UPF_USER_ID"].AsString();
+                        string txnId = ddlTxnId.EditValue.AsString();
+                        string opType = "";
+                        if (flag == "Y")
+                        {
+                            //INSERT
+                            opType = "I";
+                            bool result = daoUTP.InsertUTPByTXN(userId, GlobalInfo.USER_ID, txnId);
+                            bool logResult = daoLOGUTP.InsertByUTPAndUPF(txnId, GlobalInfo.USER_DPT_ID, GlobalInfo.USER_ID, GlobalInfo.USER_NAME, opType, userId);
+                        }
+                        else if (!string.IsNullOrEmpty(userId) && string.IsNullOrEmpty(flag))
+                        {
+                            //DELETE
+                            opType = "D";
+                            bool logResult = daoLOGUTP.InsertByUTPAndUPF(txnId, GlobalInfo.USER_DPT_ID, GlobalInfo.USER_ID, GlobalInfo.USER_NAME, opType, userId);
+                            bool result = daoUTP.DeleteUTPByUserIdAndTxnId(userId, txnId);
+                        }
+                    }
+                    _IsPreventFlowPrint = false;
+
+                    gcMain.DataSource = dt.GetChanges();
                 }
             }
-
-            gcMain.DataSource = dt.GetChanges();
+            catch (Exception ex)
+            {
+                MessageDisplay.Error(ex.Message);
+                throw;
+            }
+            
+            
             return ResultStatus.Success;
         }
 
@@ -173,7 +189,7 @@ namespace PhoenixCI.FormUI.PrefixZ
             _ReportHelper = reportHelper;
             CommonReportPortraitA4 report = new CommonReportPortraitA4();
             _ReportHelper.Create(report);
-            _ReportHelper.AddHeaderBottomInfo("設定作業項目權限：" + cbxTxnId.Text.AsString());
+            _ReportHelper.AddHeaderBottomInfo("設定作業項目權限：" + ddlTxnId.EditValue.AsString());
 
             base.Print(_ReportHelper);
             return ResultStatus.Success;
@@ -205,9 +221,9 @@ namespace PhoenixCI.FormUI.PrefixZ
             return ResultStatus.Success;
         }
 
-        private void cbxTxnId_SelectedIndexChanged(object sender, EventArgs e)
+        private void ddlTxnId_EditValueChanged(object sender, EventArgs e)
         {
-            if (cbxTxnId.SelectedItem != null)
+            if (!string.IsNullOrEmpty(ddlTxnId.EditValue.AsString()))
             {
                 Retrieve();
             }
@@ -217,9 +233,9 @@ namespace PhoenixCI.FormUI.PrefixZ
             }
         }
 
-        private void cbxDpt_SelectedIndexChanged(object sender, EventArgs e)
+        private void ddlDept_EditValueChanged(object sender, EventArgs e)
         {
-            if (cbxDpt.SelectedItem != null)
+            if (!string.IsNullOrEmpty(ddlDept.EditValue.AsString()))
             {
                 Retrieve();
             }

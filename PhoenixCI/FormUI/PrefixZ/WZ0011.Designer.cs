@@ -31,20 +31,28 @@
             this.lblUserId = new System.Windows.Forms.Label();
             this.lblPassword = new System.Windows.Forms.Label();
             this.btnSetting = new System.Windows.Forms.Button();
-            this.cbxUserId = new System.Windows.Forms.ComboBox();
             this.txtPassword = new DevExpress.XtraEditors.TextEdit();
+            this.ddlUserId = new DevExpress.XtraEditors.LookUpEdit();
             this.panParent.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPassword.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ddlUserId.Properties)).BeginInit();
             this.SuspendLayout();
             // 
-            // panelParent
+            // panParent
             // 
+            this.panParent.Controls.Add(this.ddlUserId);
             this.panParent.Controls.Add(this.txtPassword);
-            this.panParent.Controls.Add(this.cbxUserId);
             this.panParent.Controls.Add(this.btnSetting);
             this.panParent.Controls.Add(this.lblUserId);
             this.panParent.Controls.Add(this.lblPassword);
-            this.panParent.Size = new System.Drawing.Size(386, 185);
+            this.panParent.Size = new System.Drawing.Size(386, 187);
+            // 
+            // ribbonControl
+            // 
+            this.ribbonControl.ExpandCollapseItem.Id = 0;
+            this.ribbonControl.Size = new System.Drawing.Size(386, 30);
+            this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // lblUserId
             // 
@@ -74,28 +82,26 @@
             this.btnSetting.UseVisualStyleBackColor = true;
             this.btnSetting.Click += new System.EventHandler(this.btnSetting_Click);
             // 
-            // cbxUserId
-            // 
-            this.cbxUserId.BackColor = System.Drawing.Color.White;
-            this.cbxUserId.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbxUserId.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbxUserId.ForeColor = System.Drawing.Color.Black;
-            this.cbxUserId.FormattingEnabled = true;
-            this.cbxUserId.Location = new System.Drawing.Point(158, 30);
-            this.cbxUserId.Name = "cbxUserId";
-            this.cbxUserId.Size = new System.Drawing.Size(205, 28);
-            this.cbxUserId.TabIndex = 5;
-            this.cbxUserId.SelectedIndexChanged += new System.EventHandler(this.cbxUserId_SelectedIndexChanged);
-            // 
-            // textEditPassword
+            // txtPassword
             // 
             this.txtPassword.EditValue = "0000000000";
             this.txtPassword.Location = new System.Drawing.Point(158, 85);
-            this.txtPassword.Name = "textEditPassword";
+            this.txtPassword.Name = "txtPassword";
             this.txtPassword.Properties.MaxLength = 10;
             this.txtPassword.Properties.UseSystemPasswordChar = true;
             this.txtPassword.Size = new System.Drawing.Size(205, 26);
             this.txtPassword.TabIndex = 8;
+            // 
+            // ddlUserId
+            // 
+            this.ddlUserId.Location = new System.Drawing.Point(158, 35);
+            this.ddlUserId.MenuManager = this.ribbonControl;
+            this.ddlUserId.Name = "ddlUserId";
+            this.ddlUserId.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.ddlUserId.Size = new System.Drawing.Size(205, 26);
+            this.ddlUserId.TabIndex = 9;
+            this.ddlUserId.EditValueChanged += new System.EventHandler(this.ddlUserId_EditValueChanged);
             // 
             // WZ0011
             // 
@@ -109,7 +115,9 @@
             this.Text = "WZ0011";
             this.panParent.ResumeLayout(false);
             this.panParent.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPassword.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ddlUserId.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -120,7 +128,7 @@
         private System.Windows.Forms.Label lblUserId;
         private System.Windows.Forms.Label lblPassword;
         private System.Windows.Forms.Button btnSetting;
-        private System.Windows.Forms.ComboBox cbxUserId;
         private DevExpress.XtraEditors.TextEdit txtPassword;
+        private DevExpress.XtraEditors.LookUpEdit ddlUserId;
     }
 }

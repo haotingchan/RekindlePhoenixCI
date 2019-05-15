@@ -22,6 +22,7 @@ namespace DataObjects.Dao.Together
                 @"   
                     SELECT  DPT.*,  DPT_ID || '：' || TRIM(DPT_NAME) AS DPT_ID_NAME
                     FROM    ci.DPT
+                    ORDER BY DPT_ID
                 ";
 
             #endregion
