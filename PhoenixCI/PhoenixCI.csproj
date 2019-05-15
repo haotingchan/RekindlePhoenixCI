@@ -254,6 +254,12 @@
     <Compile Include="FormUI\Prefix2\W20230.Designer.cs">
       <DependentUpon>W20230.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormUI\Prefix2\W20231_2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix2\W20231_2.Designer.cs">
+      <DependentUpon>W20231_2.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormUI\Prefix2\W20231.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -896,6 +902,12 @@
     </Compile>
     <Compile Include="FormUI\Prefix4\W40073.Designer.cs">
       <DependentUpon>W40073.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40074.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40074.Designer.cs">
+      <DependentUpon>W40074.cs</DependentUpon>
     </Compile>
     <Compile Include="FormUI\Prefix4\W40180.cs">
       <SubType>Form</SubType>
@@ -1696,6 +1708,9 @@
     <EmbeddedResource Include="FormUI\Prefix2\W20230.resx">
       <DependentUpon>W20230.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix2\W20231_2.resx">
+      <DependentUpon>W20231_2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix2\W20231.resx">
       <DependentUpon>W20231.cs</DependentUpon>
     </EmbeddedResource>
@@ -2019,6 +2034,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix4\W40073.resx">
       <DependentUpon>W40073.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W40074.resx">
+      <DependentUpon>W40074.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix4\W40180.resx">
       <DependentUpon>W40180.cs</DependentUpon>
@@ -3788,6 +3806,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Excel_Template\40030\40030_TBL_XJF_2_Head.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Excel_Template\51020.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Excel_Template\alarm_bb.wav">

@@ -38,6 +38,7 @@
             this.MODIFY_MARK = new DevExpress.XtraGrid.Columns.GridColumn();
             this.lblDpt = new System.Windows.Forms.Label();
             this.ddlDept = new DevExpress.XtraEditors.LookUpEdit();
+            this.btnPrint = new DevExpress.XtraEditors.SimpleButton();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
@@ -47,6 +48,7 @@
             // 
             // panParent
             // 
+            this.panParent.Controls.Add(this.btnPrint);
             this.panParent.Controls.Add(this.ddlDept);
             this.panParent.Controls.Add(this.lblDpt);
             this.panParent.Controls.Add(this.gcMain);
@@ -172,6 +174,15 @@
             this.ddlDept.Size = new System.Drawing.Size(160, 26);
             this.ddlDept.TabIndex = 13;
             // 
+            // btnPrint
+            // 
+            this.btnPrint.Location = new System.Drawing.Point(658, 11);
+            this.btnPrint.Name = "btnPrint";
+            this.btnPrint.Size = new System.Drawing.Size(81, 23);
+            this.btnPrint.TabIndex = 14;
+            this.btnPrint.Text = "補印";
+            this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
+            // 
             // WZ0010
             // 
             this.Appearance.Options.UseFont = true;
@@ -203,5 +214,6 @@
         public DevExpress.XtraGrid.Columns.GridColumn UPF_DPT_ID;
         private DevExpress.XtraGrid.Columns.GridColumn UPF_W_TIME;
         private DevExpress.XtraEditors.LookUpEdit ddlDept;
+        private DevExpress.XtraEditors.SimpleButton btnPrint;
     }
 }

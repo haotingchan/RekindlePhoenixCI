@@ -295,13 +295,18 @@ namespace BaseGround.Report
          }
 
          XRLabel lblHandlingDescription = (XRLabel)_MainReport.FindControl("lblHandlingDescription", true);
-         lblHandlingDescription.Visible = IsHandlePersonVisible;
+        if (lblHandlingDescription!= null)
+        {
+            lblHandlingDescription.Visible = IsHandlePersonVisible;
+        }
 
          XRLabel lblManagerDescription = (XRLabel)_MainReport.FindControl("lblManagerDescription", true);
-         lblManagerDescription.Visible = IsManagerVisible;
+        if (lblManagerDescription != null)
+        {
+            lblManagerDescription.Visible = IsManagerVisible;
+        }
 
-
-         Parameter pReportTitle = _MainReport.Parameters["ReportTitle"];
+            Parameter pReportTitle = _MainReport.Parameters["ReportTitle"];
          if (pReportTitle != null) {
             pReportTitle.Value = ReportTitle;
             pReportTitle.Visible = false;

@@ -73,7 +73,7 @@ namespace BaseGround
         public static string ErrorText = "錯誤訊息";    //StopSign!
         public static string QuestionText = "請選擇";   //Question!
         public static string MsgOK = "處理完成";
-        public static string MsgNoData = "無此筆資料!";
+        public static string MsgNoData = "無任何資料!";
         public static string MsgFieldError = "欄位資料輸入錯誤!";
         public static string MsgNoAuth = "無此權限，執行此交易";
         public static string MsgNotAllowExec = "時點不允許執行此交易,視窗即將關閉.";

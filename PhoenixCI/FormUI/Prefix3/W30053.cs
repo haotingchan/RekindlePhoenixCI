@@ -43,7 +43,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
             base.Open();
             //日期
             txtSDate.DateTimeValue = GlobalInfo.OCF_DATE;
-
+#if DEBUG
+            txtSDate.Text = "2018/10/15";
+#endif
             //盤別下拉選單
             List<LookupItem> ddlb_grp = new List<LookupItem>(){
                                         new LookupItem() { ValueMember = "1", DisplayMember = "16:15收盤"},
@@ -313,7 +315,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                     row = dr["RPT_DEL_ROW"].AsInt();
                     if (row > 0) {
                         delRow = delRow + row;
-                        delRange = ws.Range[(rowIndex).ToString() + ":" + (rowIndex + row - 1).ToString()];
+                        delRange = ws.Range[(rowIndex + 1).ToString() + ":" + (rowIndex + row).ToString()];
                         delRange.Delete(DeleteMode.EntireRow);
                         //ws.Rows.Hide(ii_ole_row, ii_ole_row + li_row - 1);
                         continue;
@@ -324,7 +326,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 }
             }
             //刪除空白列
-            rowIndex = dao30053.get30053fRow() - 1;
+            rowIndex = dao30053.get30053fRow();
             if (grp == "1") {
                 delRange = ws.Range[(rowIndex - delRow).ToString() + ":" + ((rowIndex + 1) - delRow).ToString()];
                 delRange.Delete(DeleteMode.EntireRow);
@@ -364,7 +366,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                     row = dr["RPT_DEL_ROW"].AsInt();
                     if (row > 0) {
                         delRow = dr["RPT_DEL_ROW"].AsInt();
-                        delRange = ws.Range[(rowIndex).ToString() + ":" + (rowIndex + row - 1).ToString()];
+                        delRange = ws.Range[(rowIndex + 1).ToString() + ":" + (rowIndex + row).ToString()];
                         delRange.Delete(DeleteMode.EntireRow);
                         continue;
                     }

@@ -52,7 +52,7 @@ namespace DataObjects.Dao.Together.SpecificDao {
          TRUNC(PCP_INCREASE_PRICE) H,    
          CI.PCP.PCP_PRICE,    
          to_char(CI.PCP.PDK_TRADE_PAUSE, 'yyyy/mm/dd hh24:mi:ss') as PDK_TRADE_PAUSE,   
-         CI.PCP.CVAR_VAR_CODE_4,   
+         to_char(CI.PCP.CVAR_VAR_CODE_4, 'yyyy/mm/dd hh24:mi:ss') as CVAR_VAR_CODE_4,
          CI.PCP.PDK_STATUS_CODE 
     FROM CI.PCP  
    WHERE ( CI.PCP.PCP_PROD_TYPE = :as_prod_type ) AND  

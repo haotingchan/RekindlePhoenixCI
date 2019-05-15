@@ -247,42 +247,28 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return ResultStatus.Fail;
             }
-            //else {
-            //    ResultStatus status = base.Save_Override(dt, "MPDF");
-            //    if (status == ResultStatus.Fail) {
-            //        return ResultStatus.Fail;
-            //    }
+            //PB存的日期格式月份沒有補0，在維護上處理比較麻煩，故讀取資料時轉成字串，存檔時再轉回datetime
+            DataTable dtCloned = dt.Clone();
+            dtCloned.Columns["MPDF_EFF_DATE"].DataType = typeof(DateTime);
+            foreach (DataRow row in dt.Rows) {
+                dtCloned.ImportRow(row);
+            }
+            //foreach (DataRow dr in dt.Rows) {
+            //    if (dr.RowState != DataRowState.Unchanged &&
+            //        dr.RowState != DataRowState.Deleted) dr["MPDF_EFF_DATE"] = dr["MPDF_EFF_DATE"].AsDateTime("yyyy/MM/dd");
             //}
-            string tableName = "CI.MPDF";
-            string keysColumnList = "MPDF_YM, MPDF_FCM_NO, MPDF_ACC_NO, MPDF_STATUS, MPDF_KIND_ID";
-            string insertColumnList = "MPDF_YM, MPDF_FCM_NO, MPDF_ACC_NO, MPDF_STATUS, MPDF_KIND_ID, MPDF_EFF_DATE";
-            string updateColumnList = insertColumnList;
+
             try {
                 //update to DB
-                ResultData myResultData = serviceCommon.SaveForChanged(dt, tableName, insertColumnList, updateColumnList, keysColumnList, pokeBall);
+                ResultData myResultData = dao50120.UpdateMPDF(dtCloned);
+                if (myResultData.Status == ResultStatus.Fail) {
+                    MessageDisplay.Error("更新資料庫MPDF錯誤! ");
+                    return ResultStatus.Fail;
+                }
             }
             catch (Exception ex) {
                 MessageBox.Show(ex.Message);
             }
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus Run(PokeBall args) {
-            base.Run(gcMain);
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus Import() {
-            base.Import(gcMain);
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus Export(ReportHelper reportHelper) {
-            reportHelper = _ReportHelper;
-            base.Export(reportHelper);
-
             return ResultStatus.Success;
         }
 
@@ -376,10 +362,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
             base.DeleteRow(gvMain);
 
             return ResultStatus.Success;
-        }
-
-        protected override ResultStatus BeforeClose() {
-            return base.BeforeClose();
         }
 
         protected override ResultStatus COMPLETE() {

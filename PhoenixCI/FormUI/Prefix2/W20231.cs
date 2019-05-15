@@ -31,22 +31,6 @@ namespace PhoenixCI.FormUI.Prefix2
    {
       #region 全域變數
       private D20231 dao20231;
-      /// <summary>
-      /// 期貨
-      /// </summary>
-      private RepositoryItemLookUpEdit Pls4FutLookUpEdit;
-      /// <summary>
-      /// 選擇權
-      /// </summary>
-      private RepositoryItemLookUpEdit Pls4OptLookUpEdit;
-      /// <summary>
-      /// 商品狀態
-      /// </summary>
-      private RepositoryItemLookUpEdit Pls4StatusCodeLookUpEdit;
-      /// <summary>
-      /// 上市/上櫃
-      /// </summary>
-      private RepositoryItemLookUpEdit Pls4PidLookUpEdit;
 
       private string _cpYMD;
 
@@ -66,26 +50,22 @@ namespace PhoenixCI.FormUI.Prefix2
          List<LookupItem> futList = new List<LookupItem>(){
                                         new LookupItem() { ValueMember = " ", DisplayMember = " "},
                                         new LookupItem() { ValueMember = "F", DisplayMember = "○" }};
-         Pls4FutLookUpEdit = new RepositoryItemLookUpEdit();
          Pls4FutLookUpEdit.SetColumnLookUp(futList, "ValueMember", "DisplayMember", textEditStyles, null);
          PLS4_FUT.ColumnEdit = Pls4FutLookUpEdit;
-         //選擇權
+         ////選擇權
          List<LookupItem> optList = new List<LookupItem>(){
                                         new LookupItem() { ValueMember = " ", DisplayMember = " "},
                                         new LookupItem() { ValueMember = "O", DisplayMember = "○" }};
-         Pls4OptLookUpEdit = new RepositoryItemLookUpEdit();
          Pls4OptLookUpEdit.SetColumnLookUp(optList, "ValueMember", "DisplayMember", textEditStyles, null);
          PLS4_OPT.ColumnEdit = Pls4OptLookUpEdit;
-         //商品類別
+         ////商品類別
          List<LookupItem> codeList = new List<LookupItem>(){
                                         new LookupItem() { ValueMember = "I", DisplayMember = "新增"},
                                         new LookupItem() { ValueMember = "M", DisplayMember = "小型"},
                                         new LookupItem() { ValueMember = "N", DisplayMember = " " }};
-         Pls4StatusCodeLookUpEdit = new RepositoryItemLookUpEdit();
          Pls4StatusCodeLookUpEdit.SetColumnLookUp(codeList, "ValueMember", "DisplayMember", textEditStyles, null);
          PLS4_STATUS_CODE.ColumnEdit = Pls4StatusCodeLookUpEdit;
-         //上市/上櫃
-         Pls4PidLookUpEdit = new RepositoryItemLookUpEdit();
+         ////上市/上櫃
          Pls4PidLookUpEdit.SetColumnLookUp(new COD().ListByCol("TFXM", "TFXM_PID"), "COD_ID", "COD_DESC", textEditStyles, null);
          PLS4_PID.ColumnEdit = Pls4PidLookUpEdit;
          gcMain.Visible = false;
@@ -151,10 +131,6 @@ namespace PhoenixCI.FormUI.Prefix2
          //流水號欄寬
          gvMain.IndicatorWidth = 60;
 
-         PLS4_SID.AppearanceCell.BackColor = Color.Silver;
-         PLS4_SID.OptionsColumn.AllowEdit = false;
-         PLS4_KIND_ID2.AppearanceCell.BackColor = Color.Silver;
-
          returnTable.Columns.Add("Is_NewRow", typeof(string));
          gcMain.DataSource = returnTable;
 
@@ -185,7 +161,7 @@ namespace PhoenixCI.FormUI.Prefix2
          dt.Rows.InsertAt(drNew, focusIndex);
          gcMain.DataSource = dt;//重新設定給grid,雖然會更新但是速度太快,畫面不會閃爍
          gvMain.FocusedRowHandle = focusIndex;//原本的focusRowHandle會記住之前的位置,其實只是往上一行
-         gvMain.FocusedColumn = gvMain.Columns[0];
+         gvMain.FocusedColumn = gvMain.Columns[1];
          return ResultStatus.Success;
       }
 
@@ -199,6 +175,9 @@ namespace PhoenixCI.FormUI.Prefix2
             e.Cancel = false;
             gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"], 1);
          }
+         else if (gv.FocusedColumn.FieldName == "PLS4_SID") {
+            e.Cancel = true;
+         }
          else {
             e.Cancel = false;
          }
@@ -209,7 +188,8 @@ namespace PhoenixCI.FormUI.Prefix2
          GridView gv = sender as GridView;
          string isNewRow = gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
               gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]).ToString();
-
+         if (e.Column.FieldName == "PLS4_SID" || e.Column.FieldName == "PLS4_KIND_ID2")
+            e.Appearance.BackColor = isNewRow == "1" ? Color.White : Color.Silver;
       }
 
       private void SetFocused(DataTable dt, DataRow dr, string colName)
@@ -300,17 +280,9 @@ namespace PhoenixCI.FormUI.Prefix2
       {
          base.Open();
          emDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
-         //直接讀取資料
-         //Retrieve();
-         //Header上色
-         //CustomDrawColumnHeader(gcMain,gvMain);
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus AfterOpen()
-      {
-         base.AfterOpen();
+#if DEBUG
+         emDate.Text = "2019/03/29";
+#endif
 
          return ResultStatus.Success;
       }
@@ -406,6 +378,7 @@ namespace PhoenixCI.FormUI.Prefix2
             e.Appearance.BackColor = Color.FromArgb(192, 220, 192);
             e.Appearance.DrawString(e.Cache, "流水號", e.Bounds);
             e.Appearance.ForeColor = Color.Black;
+            //e.Appearance.BorderColor = Color.Black;
 
             e.Handled = true;
          }
@@ -413,6 +386,7 @@ namespace PhoenixCI.FormUI.Prefix2
             e.Appearance.BackColor = Color.FromArgb(192, 220, 192);
             e.Info.DisplayText = (e.RowHandle + 1).ToString();
             e.Appearance.ForeColor = Color.Black;
+            //e.Appearance.BorderColor = Color.Black;
          }
 
       }
@@ -429,7 +403,9 @@ namespace PhoenixCI.FormUI.Prefix2
          string lspdkymd = emProdDate.Text.Replace("/", "");
          DataTable insertData = dao20231.ListHpdkData(lspdkymd);
          DataTable data = dao20231.List20231(lsymd).Clone();//dw_1.reset()
-         //InsertData寫入List20231
+                                                            //InsertData寫入List20231
+         data.Columns.Add("Is_NewRow", typeof(string));
+
          if (insertData.Rows.Count > 0) {
             for (int k = 0; k < insertData.Rows.Count; k++) {
                data.Rows.Add(data.NewRow());
@@ -437,20 +413,58 @@ namespace PhoenixCI.FormUI.Prefix2
                   data.Rows[k][j] = insertData.Rows[k][j];
                   data.Rows[k]["PLS4_YMD"] = lsymd;
                   data.Rows[k]["PLS4_PDK_YMD"] = lspdkymd;
+                  data.Rows[k]["Is_NewRow"] = 1;//複製的資料全部視為新增的row
                }
             }
          }
          gcMain.DataSource = data;
          gcMain.EndUpdate();
-         
-         PLS4_SID.AppearanceCell.BackColor = Color.White;
-         PLS4_SID.OptionsColumn.AllowEdit = true;
-         PLS4_KIND_ID2.AppearanceCell.BackColor = Color.White;
       }
 
       private void btnAdd_Click(object sender, EventArgs e)
       {
+         FormMain frmMain = (FormMain)this.MdiParent;
+         frmMain.OpenForm($"{_ProgramID}_2", _ProgramName);
+      }
 
+      private void gvMain_RowClick(object sender, RowClickEventArgs e)
+      {
+         if (e.RowHandle < 0 || gvMain.Columns.Count == 0) {
+            return;
+         }
+         gvMain.FocusedColumn = gvMain.Columns["PLS4_KIND_ID2"];
+         string Is_NewRow = gvMain.GetRowCellValue(gvMain.FocusedRowHandle, gvMain.Columns["Is_NewRow"]) == null ? "0" :
+             gvMain.GetRowCellValue(gvMain.FocusedRowHandle, gvMain.Columns["Is_NewRow"]).ToString();
+         if (Is_NewRow == "1") {
+            gvMain.FocusedColumn = gvMain.Columns["PLS4_SID"];
+         }
+         gvMain.FocusedRowHandle = e.RowHandle;
+         gvMain.ShowEditor();
+      }
+
+      private void gvMain_CustomRowCellEditForEditing(object sender, CustomRowCellEditEventArgs e)
+      {
+         GridView gv = sender as GridView;
+         string isNewRow = gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
+              gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]).ToString();
+         switch (e.Column.FieldName) {
+            case "PLS4_SID":
+               if (isNewRow == "1") {
+                  e.RepositoryItem = SIDdefTextEdit;
+               }
+               else {
+                  e.RepositoryItem = SIDTextEdit;
+               }
+               break;
+            case "PLS4_KIND_ID2":
+               if (isNewRow == "1") {
+                  e.RepositoryItem = kindIDdefTextEdit;
+               }
+               else {
+                  e.RepositoryItem = KindIDTextEdit;
+               }
+               break;
+         }
       }
    }
 }

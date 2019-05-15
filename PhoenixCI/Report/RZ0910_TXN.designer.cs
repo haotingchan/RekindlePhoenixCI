@@ -259,8 +259,6 @@
             // 
             // lblUser
             // 
-            this.lblUser.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "Iif([ReportItems].[xrPageInfo].[Text] = \'1\', [ReportItems].[lblUser].[Text], \'\')")});
             this.lblUser.Font = new System.Drawing.Font("標楷體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblUser.LocationFloat = new DevExpress.Utils.PointFloat(294.6248F, 87.41671F);
             this.lblUser.Name = "lblUser";
@@ -441,7 +439,7 @@
             this.OcfDate,
             this.ReportID,
             this.LeftMemo});
-            this.Version = "17.2";
+            this.Version = "18.2";
             ((System.ComponentModel.ISupportInitialize)(this.xrTableContent)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.xrTableHeader)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.xrTableFooter)).EndInit();

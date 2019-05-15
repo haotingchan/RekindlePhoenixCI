@@ -35,25 +35,26 @@
             this.TXN_NAME = new DevExpress.XtraGrid.Columns.GridColumn();
             this.TXN_DEFAULT = new DevExpress.XtraGrid.Columns.GridColumn();
             this.MODIFY_MARK = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.cbxUserId = new System.Windows.Forms.ComboBox();
             this.lblUserId = new System.Windows.Forms.Label();
+            this.ddlUserId = new DevExpress.XtraEditors.LookUpEdit();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ddlUserId.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // panParent
             // 
-            this.panParent.Controls.Add(this.cbxUserId);
+            this.panParent.Controls.Add(this.ddlUserId);
             this.panParent.Controls.Add(this.lblUserId);
             this.panParent.Controls.Add(this.gcMain);
-            this.panParent.Size = new System.Drawing.Size(698, 530);
+            this.panParent.Size = new System.Drawing.Size(698, 538);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(698, 38);
+            this.ribbonControl.Size = new System.Drawing.Size(698, 30);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // gcMain
@@ -64,7 +65,7 @@
             this.gcMain.Location = new System.Drawing.Point(12, 43);
             this.gcMain.MainView = this.gvMain;
             this.gcMain.Name = "gcMain";
-            this.gcMain.Size = new System.Drawing.Size(674, 473);
+            this.gcMain.Size = new System.Drawing.Size(674, 481);
             this.gcMain.TabIndex = 0;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -138,32 +139,30 @@
             this.MODIFY_MARK.VisibleIndex = 4;
             this.MODIFY_MARK.Width = 41;
             // 
-            // cbxUserId
-            // 
-            this.cbxUserId.BackColor = System.Drawing.Color.White;
-            this.cbxUserId.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbxUserId.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbxUserId.ForeColor = System.Drawing.Color.Black;
-            this.cbxUserId.FormattingEnabled = true;
-            this.cbxUserId.Location = new System.Drawing.Point(119, 9);
-            this.cbxUserId.Name = "cbxUserId";
-            this.cbxUserId.Size = new System.Drawing.Size(169, 33);
-            this.cbxUserId.TabIndex = 7;
-            this.cbxUserId.SelectedIndexChanged += new System.EventHandler(this.cbxUserId_SelectedIndexChanged);
-            // 
             // lblUserId
             // 
             this.lblUserId.AutoSize = true;
             this.lblUserId.Location = new System.Drawing.Point(8, 12);
             this.lblUserId.Name = "lblUserId";
-            this.lblUserId.Size = new System.Drawing.Size(132, 25);
+            this.lblUserId.Size = new System.Drawing.Size(105, 20);
             this.lblUserId.TabIndex = 6;
             this.lblUserId.Text = "使用者代號：";
+            // 
+            // ddlUserId
+            // 
+            this.ddlUserId.Location = new System.Drawing.Point(119, 9);
+            this.ddlUserId.MenuManager = this.ribbonControl;
+            this.ddlUserId.Name = "ddlUserId";
+            this.ddlUserId.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.ddlUserId.Size = new System.Drawing.Size(205, 26);
+            this.ddlUserId.TabIndex = 15;
+            this.ddlUserId.EditValueChanged += new System.EventHandler(this.ddlUserId_EditValueChanged);
             // 
             // WZ0110
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(698, 568);
             this.Name = "WZ0110";
@@ -173,6 +172,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ddlUserId.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -187,7 +187,7 @@
         private DevExpress.XtraGrid.Columns.GridColumn TXN_DEFAULT;
         private DevExpress.XtraGrid.Columns.GridColumn MODIFY_MARK;
         private DevExpress.XtraGrid.Columns.GridColumn UTP_FLAG;
-        private System.Windows.Forms.ComboBox cbxUserId;
         private System.Windows.Forms.Label lblUserId;
+        private DevExpress.XtraEditors.LookUpEdit ddlUserId;
     }
 }
