@@ -132,7 +132,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             PROD_SEQ_NO.ColumnEdit = prodTypeLookUpEdit;
 
             //幣別下拉選單
-            DataTable dtCurrency = daoCOD.CurrencyType();
+            DataTable dtCurrency = daoCOD.ListByCurrency();
             currencyTypeLookUpEdit = new RepositoryItemLookUpEdit();
             currencyTypeLookUpEdit.SetColumnLookUp(dtCurrency, "CURRENCY_TYPE", "CURRENCY_NAME", TextEditStyles.DisableTextEditor, null);
             gcMain.RepositoryItems.Add(currencyTypeLookUpEdit);
