@@ -15,13 +15,13 @@ using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraEditors.Controls;
 using System.Drawing;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace PhoenixCI.FormUI.Prefix5 {
    public partial class W51010 : FormParent {
       private string disableCol = "DTS_DATE";
 
       private D51010 dao51010;
-      private COD daoCOD;
       private RepositoryItemLookUpEdit _RepLookUpEdit;
       private RepositoryItemLookUpEdit _RepLookUpEdit2;
 
@@ -36,16 +36,25 @@ namespace PhoenixCI.FormUI.Prefix5 {
          this.Text = _ProgramID + "─" + _ProgramName;
 
          //日期類別 是否交易 兩個欄位要換成LookUpEdit
+         List<LookupItem> workTime = new List<LookupItem>(){
+                                        new LookupItem() { ValueMember = "W", DisplayMember = "W:上班日"},
+                                        new LookupItem() { ValueMember = "H", DisplayMember = "H:假日"}};
+
          _RepLookUpEdit = new RepositoryItemLookUpEdit();
-         daoCOD = new COD();
-         _RepLookUpEdit.SetColumnLookUp(daoCOD.ListByCol2("51010", "DTS_DATE_TYPE"), "COD_ID", "COD_DESC", TextEditStyles.DisableTextEditor, null);
+         _RepLookUpEdit.SetColumnLookUp(workTime, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor, null);
          gcMain.RepositoryItems.Add(_RepLookUpEdit);
          DTS_DATE_TYPE.ColumnEdit = _RepLookUpEdit;
 
+         List<LookupItem> isTransation = new List<LookupItem>(){
+                                        new LookupItem() { ValueMember = "Y", DisplayMember = "Y"},
+                                        new LookupItem() { ValueMember = "N", DisplayMember = "N"}};
+
          _RepLookUpEdit2 = new RepositoryItemLookUpEdit();
-         _RepLookUpEdit2.SetColumnLookUp(daoCOD.ListByCol2("51010", "DTS_WORK"), "COD_ID", "COD_DESC", TextEditStyles.DisableTextEditor, null);
+         _RepLookUpEdit2.SetColumnLookUp(isTransation, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor, null);
          gcMain.RepositoryItems.Add(_RepLookUpEdit2);
          DTS_WORK.ColumnEdit = _RepLookUpEdit2;
+
+         Retrieve();
       }
 
       protected override ResultStatus Retrieve() {
