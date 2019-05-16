@@ -206,6 +206,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 DataTable dtMGD2 = dao40071.d_40071(ymd, is_adj_type);
                 if (dtMGD2.Rows.Count == 0) {
                     MessageDisplay.Error("無任何資料！");
+                    gcMain.DataSource = dao40074.d_40074();
+                    //若無資料，預設新增一筆設定資料
+                    InsertRow();
                     return ResultStatus.Fail;
                 }
                 //準備空的table給grid
@@ -450,7 +453,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     //只更新有異動的資料
                     if (ls_op_type != " ") {
                         ls_kind_id = dr["KIND_ID"].AsString();
-                        ls_stock_id = dr["KIND_ID"].ToString();
+                        ls_stock_id = dr["KIND_ID"].AsString();
 
                         //刪除已存在資料
                         if (daoMGD2.DeleteMGD2(ymd, is_adj_type, ls_stock_id, ls_kind_id) < 0) {
@@ -470,7 +473,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         dtTemp.Rows[ii_curr_row]["MGD2_ADJ_CODE"] = dr["ADJ_CODE"];
                         dtTemp.Rows[ii_curr_row]["MGD2_PUB_YMD"] = dr["PUB_YMD"];
                         dtTemp.Rows[ii_curr_row]["MGD2_ISSUE_BEGIN_YMD"] = ls_issue_begin_ymd;
-                        dtTemp.Rows[ii_curr_row]["MGD2_PROD_SUBTYPE"] = dr["PROD_SUBTYPE"];
+                        dtTemp.Rows[ii_curr_row]["MGD2_PROD_SUBTYPE"] = dr["PROD_SUBTYPE"].AsString();
                         dtTemp.Rows[ii_curr_row]["MGD2_PARAM_KEY"] = dr["PARAM_KEY"];
 
                         dtTemp.Rows[ii_curr_row]["MGD2_CUR_CM"] = 0;
@@ -515,7 +518,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 //刪除資料
                 foreach (DataRow drDel in dtDel.Rows) {
                     ls_kind_id = drDel["KIND_ID"].AsString();
-                    ls_stock_id = drDel["STOCK_ID"].ToString();
+                    ls_stock_id = drDel["STOCK_ID"].AsString();
                     if (daoMGD2.DeleteMGD2(ymd, is_adj_type, ls_stock_id, ls_kind_id) < 0) {
                         MessageDisplay.Error("MGD2資料刪除失敗");
                         return ResultStatus.Fail;
@@ -531,12 +534,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 }
 
                 //ids_old.update()
-                myResultData = daoMGD2L.UpdateMGD2L(dtMGD2Log);
-                if (myResultData.Status == ResultStatus.Fail) {
-                    MessageDisplay.Error("更新資料庫MGD2L錯誤! ");
-                    return ResultStatus.Fail;
+                if (dtMGD2Log.Rows.Count > 0) {
+                    myResultData = daoMGD2L.UpdateMGD2L(dtMGD2Log);
+                    if (myResultData.Status == ResultStatus.Fail) {
+                        MessageDisplay.Error("更新資料庫MGD2L錯誤! ");
+                        return ResultStatus.Fail;
+                    }
                 }
-
                 //Write LOGF
                 WriteLog("變更資料 ", "Info", "I");
                 //列印
@@ -588,7 +592,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             if (e.Column.FieldName == "KIND_ID") {
                 ls_prod_subtype = gv.GetRowCellValue(e.RowHandle, "PROD_SUBTYPE").AsString();
                 ls_param_key = gv.GetRowCellValue(e.RowHandle, "CND_PARAM_KEY").AsString();
-                ls_abroad = gv.GetRowCellValue(e.RowHandle, "ABROAD")==null? null:
+                ls_abroad = gv.GetRowCellValue(e.RowHandle, "ABROAD") == null ? null :
                             gv.GetRowCellValue(e.RowHandle, "ABROAD").ToString();
                 if (ls_prod_subtype == "S") {
                     if (gv.GetRowCellValue(e.RowHandle, "ADJ_CODE").AsString() == "D") {
@@ -603,16 +607,16 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         gcMain.RepositoryItems.Add(kindIDLookUpEdit);
                         e.RepositoryItem = kindIDLookUpEdit;
                     }
-                    else {
-                        dtKind = dao40071.dddw_mgt2_kind(ls_prod_subtype + "%", ls_abroad);
-                        kindIDLookUpEdit.SetColumnLookUp(dtKind, "KIND_ID", "KIND_ID", TextEditStyles.Standard, null);
-                        gcMain.RepositoryItems.Add(kindIDLookUpEdit);
-                        e.RepositoryItem = kindIDLookUpEdit;
-                    }
-                    if (dtKind.Rows.Count > 0) {
-                        DataRow drKind = dtKind.Select("KIND_ID = '" + e.CellValue.ToString() + "'").FirstOrDefault();
-                        if (drKind != null) gv.SetRowCellValue(e.RowHandle, "PROD_TYPE", drKind["PROD_TYPE"]);
-                    }
+                }
+                else {
+                    dtKind = dao40071.dddw_mgt2_kind(ls_prod_subtype + "%", ls_abroad);
+                    kindIDLookUpEdit.SetColumnLookUp(dtKind, "KIND_ID", "KIND_ID", TextEditStyles.Standard, null);
+                    gcMain.RepositoryItems.Add(kindIDLookUpEdit);
+                    e.RepositoryItem = kindIDLookUpEdit;
+                }
+                if (dtKind.Rows.Count > 0) {
+                    DataRow drKind = dtKind.Select("KIND_ID = '" + e.CellValue.ToString() + "'").FirstOrDefault();
+                    if (drKind != null) gv.SetRowCellValue(e.RowHandle, "PROD_TYPE", drKind["PROD_TYPE"]);
                 }
             }
             if (e.Column.FieldName == "M_LEVEL") {
@@ -654,20 +658,41 @@ namespace PhoenixCI.FormUI.Prefix4 {
         private void gvMain_ShowingEditor(object sender, CancelEventArgs e) {
             GridView gv = sender as GridView;
             string prod_type = gv.GetRowCellValue(gv.FocusedRowHandle, "PROD_TYPE").ToString();
+            string prod_subtype = gv.GetRowCellValue(gv.FocusedRowHandle, "PROD_SUBTYPE").ToString();
+            string cnd_param_key = gv.GetRowCellValue(gv.FocusedRowHandle, "CND_PARAM_KEY").ToString();
             if (gv.FocusedColumn.Name == "CM_B" ||
                 gv.FocusedColumn.Name == "MM_B" ||
                 gv.FocusedColumn.Name == "IM_B") {
                 e.Cancel = prod_type == "F" ? true : false;
             }
+            if (gv.FocusedColumn.Name == "STOCK_ID" ||
+                gv.FocusedColumn.Name == "M_LEVEL") {
+                e.Cancel = prod_subtype != "S" ? true : false;
+                if (cnd_param_key.IndexOf("ST%") >= 0) e.Cancel = false;
+            }
         }
 
         private void gvMain_CellValueChanging(object sender, CellValueChangedEventArgs e) {
             GridView gv = sender as GridView;
+        }
+
+        private void gvMain_InitNewRow(object sender, InitNewRowEventArgs e) {
+            GridView gv = sender as GridView;
+            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["OP_TYPE"], "I");
+            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["CND_PARAM_KEY"], "%");
+            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["ABROAD"], "          ");
+        }
+
+        private void gvMain_CellValueChanged(object sender, CellValueChangedEventArgs e) {
+            GridView gv = sender as GridView;
             string ls_prod_subtype, ls_prod_type, ls_param_key, ls_abroad, ls_kind_id;
-            int ll_found;
+            int ll_found = -1;
             ymd = txtSDate.DateTimeValue.ToString("yyyyMMdd");
             ls_param_key = gv.GetRowCellValue(e.RowHandle, "CND_PARAM_KEY").AsString();
-
+            if (e.Column.Name != "OP_TYPE") {
+                //如果OP_TYPE是I則固定不變
+                if (gv.GetRowCellValue(e.RowHandle, "OP_TYPE").ToString() == " ") gv.SetRowCellValue(e.RowHandle, "OP_TYPE", "U");
+            }
             if (e.Column.Name == "M_LEVEL") {
                 //如果改變級距
                 string level = e.Value.AsString();
@@ -699,19 +724,23 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
             if (e.Column.Name == "KIND_ID") {
                 //商品那欄除了下拉選單已外也可手動key入，key入後會檢查是否正確
+                //若kind_id值為空(即預設值)，則視為使用者尚未填寫，不在此進行檢核，否則會進入無限迴圈
+                //若使用者未輸入kind_id逕行存檔，存檔時仍會再判斷一次
                 ls_prod_subtype = gv.GetRowCellValue(e.RowHandle, "PROD_SUBTYPE").AsString();
                 ls_abroad = gv.GetRowCellValue(e.RowHandle, "ABROAD").ToString();
                 ls_kind_id = gv.GetRowCellValue(e.RowHandle, "KIND_ID").AsString();
-                DataTable dtKindCheck = new DataTable();
-                if (ls_prod_subtype == "S") {
-                    if (gv.GetRowCellValue(e.RowHandle, "ADJ_CODE").AsString() == "D") {
-                        dtKindCheck = dao40071.dddw_pdk_kind_id_40071(ymd, ls_param_key);
-                        ll_found = dtKindCheck.Rows.IndexOf(dtKindCheck.Select("kind_id = '" + ls_kind_id + "'").FirstOrDefault());
+                if (ls_kind_id != "") {
+                    DataTable dtKindCheck = new DataTable();
+                    if (ls_prod_subtype == "S") {
+                        if (gv.GetRowCellValue(e.RowHandle, "ADJ_CODE").AsString() == "D") {
+                            dtKindCheck = dao40071.dddw_pdk_kind_id_40071(ymd, ls_param_key);
+                            ll_found = dtKindCheck.Rows.IndexOf(dtKindCheck.Select("kind_id = '" + ls_kind_id + "'").FirstOrDefault());
 
-                    }
-                    if (gv.GetRowCellValue(e.RowHandle, "ADJ_CODE").AsString() == "Y") {
-                        dtKindCheck = dao40074.dddw_pdk_kind_id_40074(ls_param_key);
-                        ll_found = dtKindCheck.Rows.IndexOf(dtKindCheck.Select("kind_id = '" + ls_kind_id + "'").FirstOrDefault());
+                        }
+                        if (gv.GetRowCellValue(e.RowHandle, "ADJ_CODE").AsString() == "Y") {
+                            dtKindCheck = dao40074.dddw_pdk_kind_id_40074(ls_param_key);
+                            ll_found = dtKindCheck.Rows.IndexOf(dtKindCheck.Select("kind_id = '" + ls_kind_id + "'").FirstOrDefault());
+                        }
                     }
                     else {
                         dtKindCheck = dao40071.dddw_mgt2_kind(ls_prod_subtype + "%", ls_abroad);
@@ -742,19 +771,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 }
             }
         }
-
-        private void gvMain_InitNewRow(object sender, InitNewRowEventArgs e) {
-            GridView gv = sender as GridView;
-            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["OP_TYPE"], "I");
-        }
-
-        private void gvMain_CellValueChanged(object sender, CellValueChangedEventArgs e) {
-            GridView gv = sender as GridView;
-            if (e.Column.Name != "OP_TYPE") {
-                //如果OP_TYPE是I則固定不變
-                if (gv.GetRowCellValue(e.RowHandle, "OP_TYPE").ToString() == " ") gv.SetRowCellValue(e.RowHandle, "OP_TYPE", "U");
-            }
-        }
         #endregion
 
         /// <summary>
@@ -763,6 +779,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void txtSDate_EditValueChanged(object sender, EventArgs e) {
+            if (txtSDate.Text.Length < 10) return;//防止還沒輸入完就觸發事件
             string ls_mocf_ymd;
             ymd = txtSDate.DateTimeValue.ToString("yyyyMMdd");
 

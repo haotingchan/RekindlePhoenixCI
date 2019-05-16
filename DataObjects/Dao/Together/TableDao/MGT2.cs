@@ -40,5 +40,19 @@ ORDER BY MGT2_SEQ_NO , MGT2_KIND_ID
 
          return db.UpdateOracleDB(inputData , sql);
       }
+
+      public string GetldValue(string prod_type,string kind_id) {
+
+         object[] parms = {
+                ":prod_type", prod_type,
+                ":kind_id", kind_id
+            };
+
+         string sql = @"SELECT MGT2_ADJUST_RATE as LD_VALUE
+		                   FROM CI.MGT2
+		                   WHERE MGT2_PROD_TYPE = :prod_type AND MGT2_KIND_ID = :kind_id";
+
+         return db.ExecuteScalar(sql, CommandType.Text, parms);
+      }
    }
 }

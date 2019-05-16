@@ -147,6 +147,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 DataTable dtMGD2 = dao40071.d_40071(ymd, is_adj_type);
                 if (dtMGD2.Rows.Count == 0) {
                     MessageDisplay.Error("無任何資料！");
+                    gcMain.DataSource = dao40071.d_40071();
+                    //若無資料，預設新增一筆設定資料
+                    InsertRow();
                     return ResultStatus.Fail;
                 }
                 dtMGD2 = dtMGD2.Sort("mgd2_stock_id,mgd2_kind_id");
@@ -484,12 +487,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 }
 
                 //ids_old.update()
-                myResultData = daoMGD2L.UpdateMGD2L(dtMGD2Log);
-                if (myResultData.Status == ResultStatus.Fail) {
-                    MessageDisplay.Error("更新資料庫MGD2L錯誤! ");
-                    return ResultStatus.Fail;
+                if (dtMGD2Log.Rows.Count > 0) {
+                    myResultData = daoMGD2L.UpdateMGD2L(dtMGD2Log);
+                    if (myResultData.Status == ResultStatus.Fail) {
+                        MessageDisplay.Error("更新資料庫MGD2L錯誤! ");
+                        return ResultStatus.Fail;
+                    }
                 }
-
                 //Write LOGF
                 WriteLog("變更資料 ", "Info", "I");
                 //列印

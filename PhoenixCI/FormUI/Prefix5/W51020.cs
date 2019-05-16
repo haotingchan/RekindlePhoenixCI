@@ -47,6 +47,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
          gcMain.RepositoryItems.Add(_RepLookUpEdit2);
          MMFT_MARKET_CODE.ColumnEdit = _RepLookUpEdit2;
          #endregion
+
+         Retrieve();
       }
 
       protected override ResultStatus Retrieve() {

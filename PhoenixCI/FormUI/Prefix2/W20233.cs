@@ -56,12 +56,15 @@ namespace PhoenixCI.FormUI.Prefix2 {
 
             _ToolBtnImport.Enabled = false;//匯入
             _ToolBtnExport.Enabled = false;//匯出,格式可以為 pdf/xls/txt/csv, 看功能
-            _ToolBtnPrintAll.Enabled = true;//列印
+            _ToolBtnPrintAll.Enabled = false;//列印
 
             return ResultStatus.Success;
         }
 
         protected override ResultStatus Retrieve() {
+
+            //清空資料
+            gcMain.DataSource = null;
 
             daoSTKOUT = new STKOUT();
             DataTable returnTable = daoSTKOUT.ListAllByDate(txtDate.Text.Replace("/", ""));

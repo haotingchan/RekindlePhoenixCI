@@ -112,8 +112,9 @@ namespace PhoenixCI.FormUI.Prefix2 {
             }
             //更新主要Table
             else {
-                ResultStatus status = base.Save_Override(dt, "PLST1");
-                if (status == ResultStatus.Fail) {
+                ResultData myResultData = dao20230.UpdatePLST1(dt);
+                if (myResultData.Status == ResultStatus.Fail) {
+                    MessageDisplay.Error("更新資料庫PLST1錯誤! ");
                     return ResultStatus.Fail;
                 }
             }

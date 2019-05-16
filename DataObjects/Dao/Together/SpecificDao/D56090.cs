@@ -9,41 +9,46 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataObjects.Dao.Together.SpecificDao {
-    public class D56090 {
-        private Db db;
+   public class D56090 {
+      private Db db;
 
-        public D56090() {
-            db = GlobalDaoSetting.DB;
-        }
+      public D56090() {
+         db = GlobalDaoSetting.DB;
+      }
 
-        public DataTable GetData() {
-            string sql = @"
+      public DataTable GetData(string ym) {
+         object[] parms = {
+                ":feetdcc_ym", ym
+            };
+
+
+         string sql = @"
                         SELECT * FROM CI.FEETDCC
+                        where feetdcc_ym = :feetdcc_ym
                         order by FEETDCC_YM";
 
-            DataTable dtResult = db.GetDataTable(sql, null);
+         DataTable dtResult = db.GetDataTable(sql, parms);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        public int DeleteByYM(string feetdcc_ym) {
-            object[] parms = {
+      public int DeleteByYM(string feetdcc_ym) {
+         object[] parms = {
                 "@feetdcc_ym", feetdcc_ym
             };
 
-            try {
-                string sql = @"DELETE FROM CI.FEETDCC
+         try {
+            string sql = @"DELETE FROM CI.FEETDCC
                            WHERE FEETDCC_YM = :feetdcc_ym";
-                return db.ExecuteSQL(sql, parms);
-            }
-            catch (Exception ex) {
-                throw ex;
-            }
-        }
+            return db.ExecuteSQL(sql, parms);
+         } catch (Exception ex) {
+            throw ex;
+         }
+      }
 
-        public ResultData updateData(DataTable inputData) {
+      public ResultData updateData(DataTable inputData) {
 
-            string sql = @"SELECT 
+         string sql = @"SELECT 
 feetdcc_ym,
 feetdcc_fcm_no,
 feetdcc_kind_id, 
@@ -57,8 +62,8 @@ feetdcc_acc_no,
 feetdcc_session
 from ci.feetdcc";
 
-            return db.UpdateOracleDB(inputData, sql);
+         return db.UpdateOracleDB(inputData, sql);
 
-        }
-    }
+      }
+   }
 }
