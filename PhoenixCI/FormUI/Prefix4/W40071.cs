@@ -533,12 +533,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 }
 
                 //ids_old.update()
-                myResultData = daoMGD2L.UpdateMGD2L(dtMGD2Log);
-                if (myResultData.Status == ResultStatus.Fail) {
-                    MessageDisplay.Error("更新資料庫MGD2L錯誤! ");
-                    return ResultStatus.Fail;
+                if (dtMGD2Log.Rows.Count > 0) {
+                    myResultData = daoMGD2L.UpdateMGD2L(dtMGD2Log);
+                    if (myResultData.Status == ResultStatus.Fail) {
+                        MessageDisplay.Error("更新資料庫MGD2L錯誤! ");
+                        return ResultStatus.Fail;
+                    }
                 }
-
                 //Write LOGF
                 WriteLog("變更資料 ", "Info", "I");
                 //列印
