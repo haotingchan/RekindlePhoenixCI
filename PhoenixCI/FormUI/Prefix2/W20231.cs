@@ -231,7 +231,6 @@ namespace PhoenixCI.FormUI.Prefix2
             catch (Exception ex) {
                WriteLog(ex);
             }
-            //PrintOrExportChangedByKen(gcMain, dtForAdd, dtDeleteChange, dtForModified);
             return ResultStatus.Success;
          }
          else {
@@ -290,6 +289,10 @@ namespace PhoenixCI.FormUI.Prefix2
       protected override ResultStatus Import()
       {
          Stream openFile = PbFunc.wf_getfileopenname("20231.txt", "*.txt (*.txt)|*.txt");
+         if (openFile == null) {
+            return ResultStatus.Fail;
+         }
+
          DataTable dtReadTxt = dao20231.List20231(emDate.Text.Replace("/", "")).Clone();
          DataTable dt = new B20231().TxtWriteToDataTable(openFile, dtReadTxt);
          if (dt.Rows.Count > 0) {
