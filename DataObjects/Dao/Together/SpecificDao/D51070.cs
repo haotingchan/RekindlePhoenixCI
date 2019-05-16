@@ -1,180 +1,92 @@
-﻿using OnePiece;
+﻿using BusinessObjects;
+using OnePiece;
 using System.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataObjects.Dao.Together.SpecificDao {
-   //Winni, 2019/01/02
-   public class D51070 {
-      private Db db;
-
-      public D51070() {
-         db = GlobalDaoSetting.DB;
-      }
-   
+   /// <summary>
+   /// winni , 2019/5/15
+   /// </summary>
+   public class D51070 : DataGate {
       /// <summary>
-      /// 取得grid資料
+      /// get fut.slt or futah.slt or opt.slt or optah.slt data return 10 field
       /// </summary>
-      /// <param name="dbName"></param>
       /// <returns></returns>
-      public DataTable ListData(string dbName) {
+      public DataTable ListData(string ls_dw_name) {
 
-         //object[] parms = { };
-         string sql = "";
-         switch (dbName) {
-            // 一般 - 期貨
-            case "fut":
-               sql = @"
-SELECT FUT.SLT.SLT_KIND_ID,   
-         FUT.SLT.SLT_MAX,   
-         FUT.SLT.SLT_MIN,   
-         FUT.SLT.SLT_SPREAD,   
-         FUT.SLT.SLT_SPREAD_LONG,   
-         FUT.SLT.SLT_SPREAD_MULTI,   
-         FUT.SLT.SLT_SPREAD_MAX,   
-         ' ' as OP_TYPE, 
-         FUT.SLT.SLT_VALID_QNTY,   
-         FUT.SLT.SLT_PRICE_FLUC  
-    FROM FUT.SLT   
-ORDER BY slt_kind_id , slt_min , slt_max , slt_spread_long ASC
-";
+         string dbName = "";
+         switch (ls_dw_name) {
+            case "_fut":
+               dbName = "fut.slt";
                break;
-
-            // 夜盤 - 期貨
-            case "futAh":
-               sql = @"
-SELECT FUTAH.SLT.SLT_KIND_ID,   
-         FUTAH.SLT.SLT_MAX,   
-         FUTAH.SLT.SLT_MIN,   
-         FUTAH.SLT.SLT_SPREAD,   
-         FUTAH.SLT.SLT_SPREAD_LONG,   
-         FUTAH.SLT.SLT_SPREAD_MULTI,   
-         FUTAH.SLT.SLT_SPREAD_MAX,   
-         ' ' as OP_TYPE,   
-         FUTAH.SLT.SLT_VALID_QNTY,   
-         FUTAH.SLT.SLT_PRICE_FLUC  
-    FROM FUTAH.SLT   
-ORDER BY slt_kind_id , slt_min , slt_max , slt_spread_long ASC
-";
+            case "_fut_AH":
+               dbName = "futah.slt";
                break;
-            // 一般 - 選擇權
-            case "opt":
-               sql = @"
-SELECT SLT_KIND_ID,   
-         SLT_MAX,   
-         SLT_MIN,   
-         SLT_SPREAD,   
-         SLT_SPREAD_LONG,   
-         SLT_SPREAD_MULTI  , 
-         SLT_SPREAD_MAX ,
-         ' ' as OP_TYPE,
-        SLT_PRICE_FLUC  as SLT_PRICE_FLUC ,
-        SLT_VALID_QNTY as SLT_VALID_QNTY  
-    FROM opt.SLT   
-ORDER BY slt_kind_id , slt_min , slt_max , slt_spread_long ASC
-";
+            case "_opt":
+               dbName = "opt.slt";
                break;
-            // 夜盤 - 選擇權
-            case "optAh":
-               sql = @"
-SELECT SLT_KIND_ID,   
-         SLT_MAX,   
-         SLT_MIN,   
-         SLT_SPREAD,   
-         SLT_SPREAD_LONG,   
-         SLT_SPREAD_MULTI  , 
-         SLT_SPREAD_MAX ,
-         ' ' as OP_TYPE,
-        SLT_PRICE_FLUC  as SLT_PRICE_FLUC ,
-        SLT_VALID_QNTY as SLT_VALID_QNTY  
-    FROM optAH.SLT   
-ORDER BY slt_kind_id , slt_min , slt_max , slt_spread_long ASC
-";
+            case "_opt_AH":
+               dbName = "optah.slt";
                break;
          }
 
-         DataTable dtResult = db.GetDataTable(sql , null);
-         return dtResult;
+         string sql = string.Format(@"
+select 
+    slt_kind_id,   
+    slt_max,   
+    slt_min,   
+    slt_spread,   
+    slt_spread_long,   
+    slt_spread_multi,   
+    slt_spread_max,   
+    ' ' as op_type,   
+    slt_valid_qnty,   
+    slt_price_fluc  
+from {0}   
+order by slt_kind_id , slt_min , slt_max , slt_spread_long 
+" , dbName);
+         DataTable result = db.GetDataTable(sql , null);
+
+         return result;
       }
 
-      //更新資料庫
-      public DataTable UpdateData(string dbName, decimal slt_spread, decimal slt_spread_multi, decimal slt_spread_max, decimal slt_valid_qnty, string slt_kind_id ) {
-         object[] parms = {
-               "@dbName",dbName,
-               "@slt_spread",slt_spread,
-               "@slt_spread_multi",slt_spread_multi,
-               "@slt_spread_max",slt_spread_max,
-               "@slt_valid_qnty",slt_valid_qnty,
-               "@slt_kind_id",slt_kind_id
-            };
-         string sql = "";
-         switch (dbName) {
-            // 一般 - 期貨
-            case "fut":
-               sql = @"
-UPDATE FUT.SLT 
-SET slt_spread = @slt_spread, slt_spread_multi = @slt_spread_multi, slt_spread_max = @slt_spread_max, slt_valid_qnty = @slt_valid_qnty
-WHERE slt_kind_id = @slt_kind_id
-";
-               break;
+      /// <summary>
+      /// save data
+      /// </summary>
+      /// <param name="inputData"></param>
+      /// <returns></returns>
+      public ResultData UpdateData(DataTable inputData , string ls_dw_name) {
 
-            // 夜盤 - 期貨
-            case "futAh":
-               sql = @"
-SELECT FUTAH.SLT.SLT_KIND_ID,   
-         FUTAH.SLT.SLT_MAX,   
-         FUTAH.SLT.SLT_MIN,   
-         FUTAH.SLT.SLT_SPREAD,   
-         FUTAH.SLT.SLT_SPREAD_LONG,   
-         FUTAH.SLT.SLT_SPREAD_MULTI,   
-         FUTAH.SLT.SLT_SPREAD_MAX,   
-         ' ' as OP_TYPE,   
-         FUTAH.SLT.SLT_VALID_QNTY,   
-         FUTAH.SLT.SLT_PRICE_FLUC  
-    FROM FUTAH.SLT   
-ORDER BY slt_kind_id , slt_min , slt_max , slt_spread_long ASC
-";
+         string dbName = "";
+         switch (ls_dw_name) {
+            case "_fut":
+               dbName = "fut.slt";
                break;
-            // 一般 - 選擇權
-            case "opt":
-               sql = @"
-SELECT SLT_KIND_ID,   
-         SLT_MAX,   
-         SLT_MIN,   
-         SLT_SPREAD,   
-         SLT_SPREAD_LONG,   
-         SLT_SPREAD_MULTI  , 
-         SLT_SPREAD_MAX ,
-         ' ' as OP_TYPE,
-        SLT_PRICE_FLUC  as SLT_PRICE_FLUC ,
-        SLT_VALID_QNTY as SLT_VALID_QNTY  
-    FROM opt.SLT   
-ORDER BY slt_kind_id , slt_min , slt_max , slt_spread_long ASC
-";
+            case "_fut_AH":
+               dbName = "futah.slt";
                break;
-            // 夜盤 - 選擇權
-            case "optAh":
-               sql = @"
-SELECT SLT_KIND_ID,   
-         SLT_MAX,   
-         SLT_MIN,   
-         SLT_SPREAD,   
-         SLT_SPREAD_LONG,   
-         SLT_SPREAD_MULTI  , 
-         SLT_SPREAD_MAX ,
-         ' ' as OP_TYPE,
-        SLT_PRICE_FLUC  as SLT_PRICE_FLUC ,
-        SLT_VALID_QNTY as SLT_VALID_QNTY  
-    FROM optAH.SLT   
-ORDER BY slt_kind_id , slt_min , slt_max , slt_spread_long ASC
-";
+            case "_opt":
+               dbName = "opt.slt";
+               break;
+            case "_opt_AH":
+               dbName = "optah.slt";
                break;
          }
-         DataTable dtResult = db.GetDataTable(sql , parms);
-         return dtResult;
+
+         string sql = string.Format(@"
+select 
+    slt_kind_id,   
+    slt_max,   
+    slt_min,   
+    slt_spread,   
+    slt_spread_long,   
+    slt_spread_multi,   
+    slt_spread_max,   
+    slt_valid_qnty,   
+    slt_price_fluc  
+from {0}   
+", dbName);
+
+         return db.UpdateOracleDB(inputData , sql);
       }
    }
 }
