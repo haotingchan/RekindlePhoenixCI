@@ -33,7 +33,7 @@
          this.APDK_PROD_SUBTYPE = new DevExpress.XtraGrid.Columns.GridColumn();
          this.ApdkProdSubtypeLookUpEdit = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
          this.APDK_PARAM_KEY = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.ApdkParamKeyLookUpEdit = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
+         this.ApdkParamKeyLookUpEditC = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
          this.APDK_KIND_ID = new DevExpress.XtraGrid.Columns.GridColumn();
          this.KindIDTextEdit = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
          this.APDK_NAME = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -54,7 +54,9 @@
          this.ApdkMarketCloseLookUpEdit = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
          this.APDK_CURRENCY_TYPE = new DevExpress.XtraGrid.Columns.GridColumn();
          this.ApdkCurrencyTypeLookUpEdit = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
-         this.OP_TYPE = new DevExpress.XtraGrid.Columns.GridColumn();
+         this.pkTextEdit = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+         this.repositoryItemLookUpEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
+         this.ApdkParamKeyLookUpEditF = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
          this.panelControl1.SuspendLayout();
@@ -64,7 +66,7 @@
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.ApdkProdTypeLookUpEdit)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.ApdkProdSubtypeLookUpEdit)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.ApdkParamKeyLookUpEdit)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.ApdkParamKeyLookUpEditC)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.KindIDTextEdit)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.ApdkNameTextEdit)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.ApdkStockIdTextEdit)).BeginInit();
@@ -75,6 +77,9 @@
          ((System.ComponentModel.ISupportInitialize)(this.ApdkRemarkLookUpEdit)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.ApdkMarketCloseLookUpEdit)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.ApdkCurrencyTypeLookUpEdit)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.pkTextEdit)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemLookUpEdit1)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.ApdkParamKeyLookUpEditF)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -139,7 +144,7 @@
          this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.ApdkProdTypeLookUpEdit,
             this.ApdkProdSubtypeLookUpEdit,
-            this.ApdkParamKeyLookUpEdit,
+            this.ApdkParamKeyLookUpEditC,
             this.ApdkUnderlyingMarketLookUpEdit,
             this.KindIDTextEdit,
             this.ApdkNameTextEdit,
@@ -149,7 +154,9 @@
             this.ApdkKindGrp2TextEdit,
             this.ApdkRemarkLookUpEdit,
             this.ApdkMarketCloseLookUpEdit,
-            this.ApdkCurrencyTypeLookUpEdit});
+            this.ApdkCurrencyTypeLookUpEdit,
+            this.pkTextEdit,
+            this.ApdkParamKeyLookUpEditF});
          this.gcMain.Size = new System.Drawing.Size(1119, 580);
          this.gcMain.TabIndex = 5;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -161,6 +168,8 @@
          this.gvMain.Appearance.Empty.Options.UseBackColor = true;
          this.gvMain.Appearance.FocusedCell.BackColor = System.Drawing.Color.Transparent;
          this.gvMain.Appearance.FocusedCell.Options.UseBackColor = true;
+         this.gvMain.Appearance.FocusedRow.BackColor = System.Drawing.Color.Transparent;
+         this.gvMain.Appearance.FocusedRow.Options.UseBackColor = true;
          this.gvMain.Appearance.HeaderPanel.BackColor = System.Drawing.Color.Aqua;
          this.gvMain.Appearance.HeaderPanel.BorderColor = System.Drawing.Color.Silver;
          this.gvMain.Appearance.HeaderPanel.ForeColor = System.Drawing.Color.Black;
@@ -177,6 +186,10 @@
          this.gvMain.Appearance.SelectedRow.Options.UseBackColor = true;
          this.gvMain.Appearance.VertLine.BackColor = System.Drawing.Color.Silver;
          this.gvMain.Appearance.VertLine.Options.UseBackColor = true;
+         this.gvMain.AppearancePrint.HeaderPanel.Options.UseTextOptions = true;
+         this.gvMain.AppearancePrint.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.gvMain.AppearancePrint.HeaderPanel.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
+         this.gvMain.AppearancePrint.HeaderPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
          this.gvMain.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Flat;
          this.gvMain.ColumnPanelRowHeight = 40;
          this.gvMain.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
@@ -192,8 +205,7 @@
             this.APDK_KIND_GRP2,
             this.APDK_REMARK,
             this.APDK_MARKET_CLOSE,
-            this.APDK_CURRENCY_TYPE,
-            this.OP_TYPE});
+            this.APDK_CURRENCY_TYPE});
          this.gvMain.GridControl = this.gcMain;
          this.gvMain.Name = "gvMain";
          this.gvMain.OptionsView.BestFitMaxRowCount = 2;
@@ -203,7 +215,7 @@
          this.gvMain.OptionsView.ShowHorizontalLines = DevExpress.Utils.DefaultBoolean.True;
          this.gvMain.OptionsView.ShowVerticalLines = DevExpress.Utils.DefaultBoolean.True;
          this.gvMain.ViewCaptionHeight = 2;
-         this.gvMain.CustomRowCellEditForEditing += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gvMain_CustomRowCellEditForEditing);
+         this.gvMain.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gvMain_CustomRowCellEdit);
          this.gvMain.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gvMain_CellValueChanged);
          // 
          // APDK_PROD_TYPE
@@ -236,6 +248,7 @@
          this.ApdkProdTypeLookUpEdit.ShowFooter = false;
          this.ApdkProdTypeLookUpEdit.ShowHeader = false;
          this.ApdkProdTypeLookUpEdit.UseDropDownRowsAsMaxCount = true;
+         this.ApdkProdTypeLookUpEdit.EditValueChanged += new System.EventHandler(this.ApdkProdTypeLookUpEdit_EditValueChanged);
          // 
          // APDK_PROD_SUBTYPE
          // 
@@ -269,6 +282,7 @@
          this.ApdkProdSubtypeLookUpEdit.ShowFooter = false;
          this.ApdkProdSubtypeLookUpEdit.ShowHeader = false;
          this.ApdkProdSubtypeLookUpEdit.UseDropDownRowsAsMaxCount = true;
+         this.ApdkProdSubtypeLookUpEdit.EditValueChanged += new System.EventHandler(this.ApdkProdSubtypeLookUpEdit_EditValueChanged);
          // 
          // APDK_PARAM_KEY
          // 
@@ -277,7 +291,7 @@
          this.APDK_PARAM_KEY.AppearanceHeader.Options.UseTextOptions = true;
          this.APDK_PARAM_KEY.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
          this.APDK_PARAM_KEY.Caption = "    商品    對照類別";
-         this.APDK_PARAM_KEY.ColumnEdit = this.ApdkParamKeyLookUpEdit;
+         this.APDK_PARAM_KEY.ColumnEdit = this.ApdkParamKeyLookUpEditC;
          this.APDK_PARAM_KEY.FieldName = "APDK_PARAM_KEY";
          this.APDK_PARAM_KEY.MaxWidth = 85;
          this.APDK_PARAM_KEY.Name = "APDK_PARAM_KEY";
@@ -286,25 +300,25 @@
          this.APDK_PARAM_KEY.VisibleIndex = 2;
          this.APDK_PARAM_KEY.Width = 85;
          // 
-         // ApdkParamKeyLookUpEdit
+         // ApdkParamKeyLookUpEditC
          // 
-         this.ApdkParamKeyLookUpEdit.AcceptEditorTextAsNewValue = DevExpress.Utils.DefaultBoolean.True;
-         this.ApdkParamKeyLookUpEdit.AllowNullInput = DevExpress.Utils.DefaultBoolean.False;
-         this.ApdkParamKeyLookUpEdit.AutoHeight = false;
-         this.ApdkParamKeyLookUpEdit.BestFitRowCount = 3;
-         this.ApdkParamKeyLookUpEdit.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Flat;
-         this.ApdkParamKeyLookUpEdit.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+         this.ApdkParamKeyLookUpEditC.AcceptEditorTextAsNewValue = DevExpress.Utils.DefaultBoolean.False;
+         this.ApdkParamKeyLookUpEditC.AllowNullInput = DevExpress.Utils.DefaultBoolean.False;
+         this.ApdkParamKeyLookUpEditC.AutoHeight = false;
+         this.ApdkParamKeyLookUpEditC.BestFitRowCount = 2;
+         this.ApdkParamKeyLookUpEditC.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Flat;
+         this.ApdkParamKeyLookUpEditC.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.ApdkParamKeyLookUpEdit.ButtonsStyle = DevExpress.XtraEditors.Controls.BorderStyles.Style3D;
-         this.ApdkParamKeyLookUpEdit.DropDownRows = 3;
-         this.ApdkParamKeyLookUpEdit.MaxLength = 7;
-         this.ApdkParamKeyLookUpEdit.Name = "ApdkParamKeyLookUpEdit";
-         this.ApdkParamKeyLookUpEdit.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Simple;
-         this.ApdkParamKeyLookUpEdit.PopupWidthMode = DevExpress.XtraEditors.PopupWidthMode.UseEditorWidth;
-         this.ApdkParamKeyLookUpEdit.ShowFooter = false;
-         this.ApdkParamKeyLookUpEdit.ShowHeader = false;
-         this.ApdkParamKeyLookUpEdit.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
-         this.ApdkParamKeyLookUpEdit.UseDropDownRowsAsMaxCount = true;
+         this.ApdkParamKeyLookUpEditC.ButtonsStyle = DevExpress.XtraEditors.Controls.BorderStyles.Style3D;
+         this.ApdkParamKeyLookUpEditC.DropDownRows = 2;
+         this.ApdkParamKeyLookUpEditC.MaxLength = 7;
+         this.ApdkParamKeyLookUpEditC.Name = "ApdkParamKeyLookUpEditC";
+         this.ApdkParamKeyLookUpEditC.NullText = "";
+         this.ApdkParamKeyLookUpEditC.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Simple;
+         this.ApdkParamKeyLookUpEditC.PopupWidthMode = DevExpress.XtraEditors.PopupWidthMode.UseEditorWidth;
+         this.ApdkParamKeyLookUpEditC.ShowFooter = false;
+         this.ApdkParamKeyLookUpEditC.ShowHeader = false;
+         this.ApdkParamKeyLookUpEditC.UseDropDownRowsAsMaxCount = true;
          // 
          // APDK_KIND_ID
          // 
@@ -418,8 +432,11 @@
          this.Apdk_xxxTextEdit.AllowNullInput = DevExpress.Utils.DefaultBoolean.False;
          this.Apdk_xxxTextEdit.AutoHeight = false;
          this.Apdk_xxxTextEdit.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Flat;
-         this.Apdk_xxxTextEdit.EditFormat.FormatString = "N4";
+         this.Apdk_xxxTextEdit.DisplayFormat.FormatString = "G4";
+         this.Apdk_xxxTextEdit.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+         this.Apdk_xxxTextEdit.EditFormat.FormatString = "G4";
          this.Apdk_xxxTextEdit.EditFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+         this.Apdk_xxxTextEdit.Mask.PlaceHolder = '0';
          this.Apdk_xxxTextEdit.MaxLength = 10;
          this.Apdk_xxxTextEdit.Name = "Apdk_xxxTextEdit";
          // 
@@ -550,12 +567,48 @@
          this.ApdkCurrencyTypeLookUpEdit.DropDownRows = 3;
          this.ApdkCurrencyTypeLookUpEdit.Name = "ApdkCurrencyTypeLookUpEdit";
          // 
-         // OP_TYPE
+         // pkTextEdit
          // 
-         this.OP_TYPE.Caption = "OP_TYPE";
-         this.OP_TYPE.FieldName = "OP_TYPE";
-         this.OP_TYPE.Name = "OP_TYPE";
-         this.OP_TYPE.OptionsColumn.ShowCaption = false;
+         this.pkTextEdit.AllowNullInput = DevExpress.Utils.DefaultBoolean.False;
+         this.pkTextEdit.AutoHeight = false;
+         this.pkTextEdit.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Flat;
+         this.pkTextEdit.MaxLength = 7;
+         this.pkTextEdit.Name = "pkTextEdit";
+         // 
+         // repositoryItemLookUpEdit1
+         // 
+         this.repositoryItemLookUpEdit1.AcceptEditorTextAsNewValue = DevExpress.Utils.DefaultBoolean.False;
+         this.repositoryItemLookUpEdit1.AllowNullInput = DevExpress.Utils.DefaultBoolean.False;
+         this.repositoryItemLookUpEdit1.AutoHeight = false;
+         this.repositoryItemLookUpEdit1.BestFitRowCount = 3;
+         this.repositoryItemLookUpEdit1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Flat;
+         this.repositoryItemLookUpEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.repositoryItemLookUpEdit1.ButtonsStyle = DevExpress.XtraEditors.Controls.BorderStyles.Style3D;
+         this.repositoryItemLookUpEdit1.DropDownRows = 3;
+         this.repositoryItemLookUpEdit1.MaxLength = 7;
+         this.repositoryItemLookUpEdit1.Name = "repositoryItemLookUpEdit1";
+         this.repositoryItemLookUpEdit1.NullText = "";
+         this.repositoryItemLookUpEdit1.PopupBorderStyle = DevExpress.XtraEditors.Controls.PopupBorderStyles.Simple;
+         this.repositoryItemLookUpEdit1.PopupWidthMode = DevExpress.XtraEditors.PopupWidthMode.UseEditorWidth;
+         this.repositoryItemLookUpEdit1.ShowFooter = false;
+         this.repositoryItemLookUpEdit1.ShowHeader = false;
+         this.repositoryItemLookUpEdit1.UseDropDownRowsAsMaxCount = true;
+         // 
+         // ApdkParamKeyLookUpEditF
+         // 
+         this.ApdkParamKeyLookUpEditF.AllowNullInput = DevExpress.Utils.DefaultBoolean.False;
+         this.ApdkParamKeyLookUpEditF.AutoHeight = false;
+         this.ApdkParamKeyLookUpEditF.BestFitMode = DevExpress.XtraEditors.Controls.BestFitMode.BestFit;
+         this.ApdkParamKeyLookUpEditF.BestFitRowCount = 2;
+         this.ApdkParamKeyLookUpEditF.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Flat;
+         this.ApdkParamKeyLookUpEditF.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.ApdkParamKeyLookUpEditF.ButtonsStyle = DevExpress.XtraEditors.Controls.BorderStyles.Style3D;
+         this.ApdkParamKeyLookUpEditF.DropDownRows = 2;
+         this.ApdkParamKeyLookUpEditF.MaxLength = 7;
+         this.ApdkParamKeyLookUpEditF.Name = "ApdkParamKeyLookUpEditF";
+         this.ApdkParamKeyLookUpEditF.NullText = "";
          // 
          // W20231_2
          // 
@@ -583,7 +636,7 @@
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.ApdkProdTypeLookUpEdit)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.ApdkProdSubtypeLookUpEdit)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.ApdkParamKeyLookUpEdit)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.ApdkParamKeyLookUpEditC)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.KindIDTextEdit)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.ApdkNameTextEdit)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.ApdkStockIdTextEdit)).EndInit();
@@ -594,6 +647,9 @@
          ((System.ComponentModel.ISupportInitialize)(this.ApdkRemarkLookUpEdit)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.ApdkMarketCloseLookUpEdit)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.ApdkCurrencyTypeLookUpEdit)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.pkTextEdit)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemLookUpEdit1)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.ApdkParamKeyLookUpEditF)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -608,10 +664,9 @@
         private DevExpress.XtraGrid.Columns.GridColumn APDK_KIND_ID;
         private DevExpress.XtraGrid.Columns.GridColumn APDK_NAME;
         private DevExpress.XtraGrid.Columns.GridColumn APDK_STOCK_ID;
-        private DevExpress.XtraGrid.Columns.GridColumn OP_TYPE;
       private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit ApdkProdTypeLookUpEdit;
       private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit ApdkProdSubtypeLookUpEdit;
-      private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit ApdkParamKeyLookUpEdit;
+      private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit ApdkParamKeyLookUpEditC;
       private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit ApdkUnderlyingMarketLookUpEdit;
       private System.Windows.Forms.Label label1;
       private DevExpress.XtraEditors.PanelControl panelControl1;
@@ -632,5 +687,8 @@
       private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit ApdkMarketCloseLookUpEdit;
       private DevExpress.XtraGrid.Columns.GridColumn APDK_CURRENCY_TYPE;
       private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit ApdkCurrencyTypeLookUpEdit;
+      private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit pkTextEdit;
+      private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit ApdkParamKeyLookUpEditF;
+      private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repositoryItemLookUpEdit1;
    }
 }
