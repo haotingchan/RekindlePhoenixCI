@@ -197,7 +197,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                         return ResultStatus.Fail;
                     }
                     else {
-                        dao51040.DeleteByDate(datadate);
+                        if(!dao51040.DeleteByDate(datadate)) return ResultStatus.Fail;
                     }
                 }
 
@@ -225,7 +225,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 //Retrieve();
             }
             catch (Exception ex) {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("轉入錯誤");
+                throw ex;
             }
             return ResultStatus.Success;
         }
