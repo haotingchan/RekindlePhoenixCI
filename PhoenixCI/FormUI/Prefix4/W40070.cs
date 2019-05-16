@@ -18,6 +18,8 @@ using DevExpress.XtraEditors.Repository;
 using DevExpress.Utils;
 using BusinessObjects;
 using DataObjects.Dao.Together.TableDao;
+using DevExpress.XtraGrid.Columns;
+using DevExpress.XtraGrid.Views.Grid;
 
 /// <summary>
 /// Lukas, 2019/4/17
@@ -28,6 +30,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
     /// </summary>
     public partial class W40070 : FormParent {
 
+        protected string is_null_ymd { get; set; }
         private D40070 dao40070;
         private D40071 dao40071;
         private MGD2 daoMGD2;
@@ -41,6 +44,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
         protected override ResultStatus Open() {
             base.Open();
+            //全域變數
+            is_null_ymd = null;
             //日期
             txtSDate.DateTimeValue = DateTime.Now;
             //先隨便給個日期
@@ -480,6 +485,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return ResultStatus.Success;
         }
 
+        /// <summary>
+        /// 組合篩選條件並執行
+        /// </summary>
         private void wf_filter() {
 
             gvMain.CloseEditor();
@@ -490,15 +498,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
 
             List<string> adjCodeList = new List<string>();
-            List<string> abTypeList = new List<string>();
-            abTypeList.Add("-");
-            abTypeList.Add("A");
             string[] is_adj_code;
             string ls_filter;
 
-            if (cbxCodeY.Checked) adjCodeList.Add("Y");
-            if (cbxCode.Checked) adjCodeList.Add(" ");
-            if (cbxCodeN.Checked) adjCodeList.Add("N");
+            if (cbxCodeY.Checked) adjCodeList.Add("'Y'");
+            if (cbxCode.Checked) adjCodeList.Add("' '");
+            if (cbxCodeN.Checked) adjCodeList.Add("'N'");
             is_adj_code = adjCodeList.ToArray();
 
             if (!cbxCodeY.Checked && !cbxCode.Checked && !cbxCodeN.Checked) {
@@ -508,27 +513,17 @@ namespace PhoenixCI.FormUI.Prefix4 {
             else {
                 ls_filter = f_gen_array_txt_ex(is_adj_code, ",", ",");
             }
-            //dt = dt.AsEnumerable().Where(x => adjCodeList.Contains(x.Field<string>("ADJ_CODE")) &&
-            //                   abTypeList.Contains(x.Field<string>("AB_TYPE"))).CopyToDataTable();
-            var result = from c in dt.AsEnumerable()
-                         where adjCodeList.Contains(c.Field<string>("ADJ_CODE")) &&
-                               abTypeList.Contains(c.Field<string>("AB_TYPE"))
-                         select c;
-            if (result.Count() > 0) {
-                dt = result.CopyToDataTable();
-            }
-            else {
-                dt.Clear();
-            }
 
-            //DataView dv = dt.AsDataView();
-            //dv.RowFilter = "adj_code in (" + ls_filter + ") and ab_type in ('-','A')"; //不支援，要用LINQ的Contains
-            //dt = dv.ToTable();
-            gcMain.DataSource = dt;
-            gcMain.Refresh();
-            gvMain.ExpandAllGroups();
+            gvMain.Columns["ADJ_CODE"].FilterInfo = new ColumnFilterInfo("[ADJ_CODE] In ("+ls_filter+ ") and [AB_TYPE] In ('-','A')");
         }
 
+        /// <summary>
+        /// 將篩選條件的陣列組成字串
+        /// </summary>
+        /// <param name="as_arr"></param>
+        /// <param name="as_other"></param>
+        /// <param name="as_last"></param>
+        /// <returns></returns>
         private string f_gen_array_txt_ex(string[] as_arr, string as_other, string as_last) {
             int f, li_count;
             string ls_txt = "";
@@ -547,6 +542,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return ls_txt;
         }
 
+        #region 篩選 Checkbox Group
         private void cbxCodeN_CheckedChanged(object sender, EventArgs e) {
             wf_filter();
         }
@@ -558,5 +554,33 @@ namespace PhoenixCI.FormUI.Prefix4 {
         private void cbxCodeY_CheckedChanged(object sender, EventArgs e) {
             wf_filter();
         }
+        #endregion
+
+        #region GridView Events
+        private void gvMain_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e) {
+            GridView gv = sender as GridView;
+            int ll_found;
+            string ls_kind_id = gv.GetRowCellValue(e.RowHandle, "KIND_ID").AsString();
+            if (e.Column.Name == "ADJ_CODE") {
+                if (e.Value.AsString() == "Y") {
+                    gv.SetRowCellValue(e.RowHandle, "ISSUE_BEGIN_YMD", is_null_ymd);
+                }
+                else {
+                    switch (gv.GetRowCellValue(e.RowHandle, "OSW_GRP").AsString()) {
+                        case "5":
+                            gv.SetRowCellValue(e.RowHandle, "ISSUE_BEGIN_YMD", txtDateG5.DateTimeValue.ToString("yyyyMMdd"));
+                            break;
+                        case "7":
+                            gv.SetRowCellValue(e.RowHandle, "ISSUE_BEGIN_YMD", txtDateG7.DateTimeValue.ToString("yyyyMMdd"));
+                            break;
+                        default:
+                            gv.SetRowCellValue(e.RowHandle, "ISSUE_BEGIN_YMD", txtDateG1.DateTimeValue.ToString("yyyyMMdd"));
+                            break;
+                    }
+                }
+            }
+        }
+        #endregion
+        
     }
 }
