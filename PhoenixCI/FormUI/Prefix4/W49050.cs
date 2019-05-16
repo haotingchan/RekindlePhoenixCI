@@ -75,11 +75,38 @@ namespace PhoenixCI.FormUI.Prefix4 {
                InsertRow();
             }
 
-            //1. 設定gvMain
+            //1. 設定欄位
+            RepositoryItemTextEdit memo = new RepositoryItemTextEdit(); //說明
+            gcMain.RepositoryItems.Add(memo);
+            gvMain.Columns["MGT3_MEMO"].ColumnEdit = memo;
+            memo.MaxLength = 30;
+            
+
+            //設定grid裡的 date format
+            RepositoryItemTextEdit fromDate = new RepositoryItemTextEdit();
+            fromDate.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            fromDate.Mask.EditMask = "[0-9]{4}/(((0[13578]|(10|12))/(0[1-9]|[1-2][0-9]|3[0-1]))|(02/(0[1-9]|[1-2][0-9]))|((0[469]|11)/(0[1-9]|[1-2][0-9]|30)))";
+            fromDate.Mask.UseMaskAsDisplayFormat = true;
+            
+            gcMain.RepositoryItems.Add(fromDate);
+            gvMain.Columns["MGT3_DATE_FM"].ColumnEdit = fromDate;
+
+            RepositoryItemTextEdit toDate = new RepositoryItemTextEdit();
+            toDate.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            toDate.Mask.EditMask = "[0-9]{4}/(((0[13578]|(10|12))/(0[1-9]|[1-2][0-9]|3[0-1]))|(02/(0[1-9]|[1-2][0-9]))|((0[469]|11)/(0[1-9]|[1-2][0-9]|30)))";
+            toDate.Mask.UseMaskAsDisplayFormat = true;         
+
+            gcMain.RepositoryItems.Add(toDate);
+            gvMain.Columns["MGT3_DATE_TO"].ColumnEdit = toDate;
+
+            //2. 設定gvMain
             gcMain.Visible = true;
             gcMain.DataSource = dt;
             gvMain.BestFitColumns();
             GridHelper.SetCommonGrid(gvMain);
+            gvMain.Columns["MGT3_MEMO"].Width = 600;
+            gvMain.Columns["MGT3_DATE_FM"].Width = 120;
+            gvMain.Columns["MGT3_DATE_TO"].Width = 120;
             gcMain.Focus();
 
             return ResultStatus.Success;
@@ -131,12 +158,15 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       protected override ResultStatus Print(ReportHelper reportHelper) {
-         ReportHelper _ReportHelper = reportHelper;
-         CommonReportPortraitA4 report = new CommonReportPortraitA4();
-         report.printableComponentContainerMain.PrintableComponent = gcMain;
-         _ReportHelper.Create(report);
+         ReportHelper _ReportHelper = new ReportHelper(gcMain , _ProgramID , this.Text);
+         CommonReportLandscapeA4 reportLandscape = new CommonReportLandscapeA4();//設定為橫向列印
+         reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
+         reportLandscape.IsHandlePersonVisible = false;
+         reportLandscape.IsManagerVisible = false;
+         _ReportHelper.Create(reportLandscape);
 
-         base.Print(_ReportHelper);
+         _ReportHelper.Print();
+         _ReportHelper.Export(FileType.PDF , _ReportHelper.FilePath);
          return ResultStatus.Success;
       }
 

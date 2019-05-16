@@ -137,7 +137,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //gvMain.Columns.Clear();
             gcMain.DataSource = dt;
 
-            gvMain.BestFitColumns();
+            //gvMain.BestFitColumns();
             GridHelper.SetCommonGrid(gvMain);
             gcMain.Focus();
 

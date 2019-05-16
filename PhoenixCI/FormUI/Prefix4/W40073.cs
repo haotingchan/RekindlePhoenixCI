@@ -148,6 +148,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 DataTable dtMGD2 = dao40071.d_40071(ymd, is_adj_type);
                 if (dtMGD2.Rows.Count == 0) {
                     MessageDisplay.Error("無任何資料！");
+                    gcMain.DataSource = dao40071.d_40073();
+                    //若無資料，預設新增一筆設定資料
+                    InsertRow();
                     return ResultStatus.Fail;
                 }
                 dtMGD2 = dtMGD2.Sort("mgd2_stock_id,mgd2_kind_id");
@@ -313,7 +316,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         return ResultStatus.Fail;
                     }
                     //檢查調整後級距為從其高且商品類別為選擇權時，是否有輸入保證金B值
-                    if (ls_level == "Z" && dr["prod_type"].AsString()=="O") {
+                    if (ls_level == "Z" && dr["PROD_TYPE"].AsString()=="O") {
                         if (dr["CM_B"]==DBNull.Value|| dr["MM_B"] == DBNull.Value || dr["IM_B"] == DBNull.Value) {
                             MessageDisplay.Error(ls_stock_id + "," + ls_kind_id + "的保證金B值未輸入完成");
                             return ResultStatus.Fail;
@@ -459,12 +462,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 }
 
                 //ids_old.update()
-                myResultData = daoMGD2L.UpdateMGD2L(dtMGD2Log);
-                if (myResultData.Status == ResultStatus.Fail) {
-                    MessageDisplay.Error("更新資料庫MGD2L錯誤! ");
-                    return ResultStatus.Fail;
+                if (dtMGD2Log.Rows.Count > 0) {
+                    myResultData = daoMGD2L.UpdateMGD2L(dtMGD2Log);
+                    if (myResultData.Status == ResultStatus.Fail) {
+                        MessageDisplay.Error("更新資料庫MGD2L錯誤! ");
+                        return ResultStatus.Fail;
+                    }
                 }
-
                 //Write LOGF
                 WriteLog("變更資料 ", "Info", "I");
                 //列印
