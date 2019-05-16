@@ -70,7 +70,7 @@
          // 
          this.lblLeftMemo.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Parameters].[LeftMemo]")});
-         this.lblLeftMemo.Font = new System.Drawing.Font("DFKai-SB", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.lblLeftMemo.Font = new System.Drawing.Font("標楷體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.lblLeftMemo.LocationFloat = new DevExpress.Utils.PointFloat(0.000335552F, 121.8335F);
          this.lblLeftMemo.Name = "lblLeftMemo";
          this.lblLeftMemo.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -81,7 +81,7 @@
          // 
          // lblOperateTime
          // 
-         this.lblOperateTime.Font = new System.Drawing.Font("DFKai-SB", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.lblOperateTime.Font = new System.Drawing.Font("標楷體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.lblOperateTime.LocationFloat = new DevExpress.Utils.PointFloat(82.29163F, 98.8334F);
          this.lblOperateTime.Name = "lblOperateTime";
          this.lblOperateTime.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -92,11 +92,12 @@
          // 
          // xrPageInfo
          // 
-         this.xrPageInfo.Font = new System.Drawing.Font("DFKai-SB", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.xrPageInfo.LocationFloat = new DevExpress.Utils.PointFloat(669.2917F, 98.8334F);
+         this.xrPageInfo.Font = new System.Drawing.Font("標楷體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.xrPageInfo.LocationFloat = new DevExpress.Utils.PointFloat(674.5F, 98.8334F);
          this.xrPageInfo.Name = "xrPageInfo";
          this.xrPageInfo.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-         this.xrPageInfo.SizeF = new System.Drawing.SizeF(117.7083F, 23F);
+         this.xrPageInfo.RightToLeft = DevExpress.XtraReports.UI.RightToLeft.Yes;
+         this.xrPageInfo.SizeF = new System.Drawing.SizeF(112.4998F, 23F);
          this.xrPageInfo.StylePriority.UseFont = false;
          this.xrPageInfo.StylePriority.UseTextAlignment = false;
          this.xrPageInfo.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
@@ -106,7 +107,7 @@
          // 
          this.lblOperateUser.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Parameters.UserName]")});
-         this.lblOperateUser.Font = new System.Drawing.Font("DFKai-SB", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.lblOperateUser.Font = new System.Drawing.Font("標楷體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.lblOperateUser.LocationFloat = new DevExpress.Utils.PointFloat(80.20829F, 75.83344F);
          this.lblOperateUser.Name = "lblOperateUser";
          this.lblOperateUser.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -115,7 +116,7 @@
          // 
          // lblOperateUserDescription
          // 
-         this.lblOperateUserDescription.Font = new System.Drawing.Font("DFKai-SB", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.lblOperateUserDescription.Font = new System.Drawing.Font("標楷體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.lblOperateUserDescription.LocationFloat = new DevExpress.Utils.PointFloat(0F, 75.83344F);
          this.lblOperateUserDescription.Name = "lblOperateUserDescription";
          this.lblOperateUserDescription.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -127,7 +128,7 @@
          // 
          this.lblReportID.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Parameters.ReportID]")});
-         this.lblReportID.Font = new System.Drawing.Font("DFKai-SB", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.lblReportID.Font = new System.Drawing.Font("標楷體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.lblReportID.LocationFloat = new DevExpress.Utils.PointFloat(711.9998F, 75.8335F);
          this.lblReportID.Name = "lblReportID";
          this.lblReportID.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -138,7 +139,7 @@
          // 
          // lblOperateTimeDescription
          // 
-         this.lblOperateTimeDescription.Font = new System.Drawing.Font("DFKai-SB", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.lblOperateTimeDescription.Font = new System.Drawing.Font("標楷體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.lblOperateTimeDescription.LocationFloat = new DevExpress.Utils.PointFloat(0F, 98.83345F);
          this.lblOperateTimeDescription.Name = "lblOperateTimeDescription";
          this.lblOperateTimeDescription.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -149,7 +150,7 @@
          // 
          // lblReportIDDescription
          // 
-         this.lblReportIDDescription.Font = new System.Drawing.Font("DFKai-SB", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.lblReportIDDescription.Font = new System.Drawing.Font("標楷體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.lblReportIDDescription.LocationFloat = new DevExpress.Utils.PointFloat(629.7081F, 75.83336F);
          this.lblReportIDDescription.Name = "lblReportIDDescription";
          this.lblReportIDDescription.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -161,7 +162,7 @@
          // 
          // lblCompany
          // 
-         this.lblCompany.Font = new System.Drawing.Font("DFKai-SB", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.lblCompany.Font = new System.Drawing.Font("標楷體", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.lblCompany.LocationFloat = new DevExpress.Utils.PointFloat(298.6667F, 10.00001F);
          this.lblCompany.Name = "lblCompany";
          this.lblCompany.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -175,7 +176,7 @@
          // 
          this.lblTitle.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[Parameters.ReportTitle]")});
-         this.lblTitle.Font = new System.Drawing.Font("DFKai-SB", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.lblTitle.Font = new System.Drawing.Font("標楷體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.lblTitle.LocationFloat = new DevExpress.Utils.PointFloat(0F, 39.00003F);
          this.lblTitle.Name = "lblTitle";
          this.lblTitle.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
