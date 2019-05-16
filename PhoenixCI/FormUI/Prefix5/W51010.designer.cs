@@ -37,13 +37,12 @@
          this.gcMain = new DevExpress.XtraGrid.GridControl();
          this.gvMain = new DevExpress.XtraGrid.Views.Grid.GridView();
          this.DTS_DATE = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.repositoryItemTextDateEdit1 = new BaseGround.Widget.RepositoryItemTextDateEdit();
          this.DTS_DATE_TYPE = new DevExpress.XtraGrid.Columns.GridColumn();
          this.DTS_WORK = new DevExpress.XtraGrid.Columns.GridColumn();
          this.Is_NewRow = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.repositoryItemFontEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemFontEdit();
          this.label4 = new System.Windows.Forms.Label();
          this.label3 = new System.Windows.Forms.Label();
+         this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
          this.panelControl1.SuspendLayout();
@@ -53,8 +52,7 @@
          this.panelControl2.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextDateEdit1)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemFontEdit1)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -70,8 +68,13 @@
          // 
          // panelControl1
          // 
+         this.panelControl1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.panelControl1.Appearance.Options.UseBackColor = true;
+         this.panelControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.panelControl1.Controls.Add(this.label1);
+         this.panelControl1.Controls.Add(this.label4);
          this.panelControl1.Controls.Add(this.TXTEndDate);
+         this.panelControl1.Controls.Add(this.label3);
          this.panelControl1.Controls.Add(this.TXTStartDate);
          this.panelControl1.Controls.Add(this.label2);
          this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -98,6 +101,7 @@
          this.TXTEndDate.Name = "TXTEndDate";
          this.TXTEndDate.Properties.Appearance.Options.UseTextOptions = true;
          this.TXTEndDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.TXTEndDate.Properties.EditFormat.FormatString = "yyyy/MM/dd";
          this.TXTEndDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
          this.TXTEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.TXTEndDate.Properties.Mask.ShowPlaceHolders = false;
@@ -115,6 +119,7 @@
          this.TXTStartDate.Name = "TXTStartDate";
          this.TXTStartDate.Properties.Appearance.Options.UseTextOptions = true;
          this.TXTStartDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.TXTStartDate.Properties.EditFormat.FormatString = "yyyy/MM/dd";
          this.TXTStartDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
          this.TXTStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.TXTStartDate.Properties.Mask.ShowPlaceHolders = false;
@@ -134,9 +139,10 @@
          // 
          // panelControl2
          // 
+         this.panelControl2.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+         this.panelControl2.Appearance.Options.UseBackColor = true;
+         this.panelControl2.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.panelControl2.Controls.Add(this.gcMain);
-         this.panelControl2.Controls.Add(this.label4);
-         this.panelControl2.Controls.Add(this.label3);
          this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
          this.panelControl2.Location = new System.Drawing.Point(0, 91);
          this.panelControl2.Name = "panelControl2";
@@ -146,13 +152,11 @@
          // gcMain
          // 
          this.gcMain.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-         this.gcMain.Dock = System.Windows.Forms.DockStyle.Top;
          this.gcMain.Location = new System.Drawing.Point(2, 2);
          this.gcMain.MainView = this.gvMain;
          this.gcMain.Name = "gcMain";
          this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
-            this.repositoryItemFontEdit1,
-            this.repositoryItemTextDateEdit1});
+            this.repositoryItemTextEdit1});
          this.gcMain.Size = new System.Drawing.Size(735, 399);
          this.gcMain.TabIndex = 7;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -181,7 +185,7 @@
          this.DTS_DATE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
          this.DTS_DATE.AppearanceHeader.Options.UseBackColor = true;
          this.DTS_DATE.Caption = "日期";
-         this.DTS_DATE.ColumnEdit = this.repositoryItemTextDateEdit1;
+         this.DTS_DATE.ColumnEdit = this.repositoryItemTextEdit1;
          this.DTS_DATE.FieldName = "DTS_DATE";
          this.DTS_DATE.MinWidth = 30;
          this.DTS_DATE.Name = "DTS_DATE";
@@ -189,16 +193,6 @@
          this.DTS_DATE.Visible = true;
          this.DTS_DATE.VisibleIndex = 0;
          this.DTS_DATE.Width = 112;
-         // 
-         // repositoryItemTextDateEdit1
-         // 
-         this.repositoryItemTextDateEdit1.Appearance.Options.UseTextOptions = true;
-         this.repositoryItemTextDateEdit1.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.repositoryItemTextDateEdit1.AutoHeight = false;
-         this.repositoryItemTextDateEdit1.Mask.EditMask = "yyyy/MM/dd";
-         this.repositoryItemTextDateEdit1.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-         this.repositoryItemTextDateEdit1.Mask.UseMaskAsDisplayFormat = true;
-         this.repositoryItemTextDateEdit1.Name = "repositoryItemTextDateEdit1";
          // 
          // DTS_DATE_TYPE
          // 
@@ -232,17 +226,10 @@
          this.Is_NewRow.Name = "Is_NewRow";
          this.Is_NewRow.Width = 112;
          // 
-         // repositoryItemFontEdit1
-         // 
-         this.repositoryItemFontEdit1.AutoHeight = false;
-         this.repositoryItemFontEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.repositoryItemFontEdit1.Name = "repositoryItemFontEdit1";
-         // 
          // label4
          // 
          this.label4.AutoSize = true;
-         this.label4.Location = new System.Drawing.Point(5, 440);
+         this.label4.Location = new System.Drawing.Point(486, 33);
          this.label4.Name = "label4";
          this.label4.Size = new System.Drawing.Size(149, 20);
          this.label4.TabIndex = 9;
@@ -251,11 +238,21 @@
          // label3
          // 
          this.label3.AutoSize = true;
-         this.label3.Location = new System.Drawing.Point(5, 410);
+         this.label3.Location = new System.Drawing.Point(486, 3);
          this.label3.Name = "label3";
          this.label3.Size = new System.Drawing.Size(117, 20);
          this.label3.TabIndex = 8;
          this.label3.Text = "假日 : 週六週日";
+         // 
+         // repositoryItemTextEdit1
+         // 
+         this.repositoryItemTextEdit1.AutoHeight = false;
+         this.repositoryItemTextEdit1.DisplayFormat.FormatString = "yyyy/MM/dd";
+         this.repositoryItemTextEdit1.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+         this.repositoryItemTextEdit1.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.repositoryItemTextEdit1.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.repositoryItemTextEdit1.Mask.ShowPlaceHolders = false;
+         this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
          // 
          // W51010
          // 
@@ -279,11 +276,9 @@
          ((System.ComponentModel.ISupportInitialize)(this.TXTStartDate.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
          this.panelControl2.ResumeLayout(false);
-         this.panelControl2.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextDateEdit1)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemFontEdit1)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -296,16 +291,15 @@
         private DevExpress.XtraGrid.GridControl gcMain;
         private DevExpress.XtraGrid.Views.Grid.GridView gvMain;
         private DevExpress.XtraGrid.Columns.GridColumn DTS_DATE;
-        private BaseGround.Widget.RepositoryItemTextDateEdit repositoryItemTextDateEdit1;
         private DevExpress.XtraGrid.Columns.GridColumn DTS_DATE_TYPE;
         private DevExpress.XtraGrid.Columns.GridColumn DTS_WORK;
         private DevExpress.XtraGrid.Columns.GridColumn Is_NewRow;
-        private DevExpress.XtraEditors.Repository.RepositoryItemFontEdit repositoryItemFontEdit1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label1;
         private BaseGround.Widget.TextDateEdit TXTEndDate;
         private BaseGround.Widget.TextDateEdit TXTStartDate;
         private System.Windows.Forms.Label label2;
-    }
+      private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit1;
+   }
 }
