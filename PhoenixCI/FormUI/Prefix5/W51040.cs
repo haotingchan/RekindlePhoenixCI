@@ -113,26 +113,36 @@ namespace PhoenixCI.FormUI.Prefix5 {
         }
 
         protected override ResultStatus Save(PokeBall pokeBall) {
-            base.Save(gcMain);
+            try {
+                base.Save(gcMain);
 
-            DataTable dt = (DataTable)gcMain.DataSource;
+                DataTable dt = (DataTable)gcMain.DataSource;
 
-            DataTable dtChange = dt.GetChanges();
-            if (dtChange == null) {
-                MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return ResultStatus.Fail;
-            }
+                DataTable dtChange = dt.GetChanges();
+                DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
+                DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
+                DataTable dtForDeleted = dt.GetChanges(DataRowState.Deleted);
 
-            if (dtChange.Rows.Count == 0) {
-                MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return ResultStatus.Fail;
-            }
-            else {
-                ResultData myResultData = dao51040.UpdateMMWK(dt);
-                if (myResultData.Status == ResultStatus.Fail) {
-                    MessageDisplay.Error("更新資料庫MMWK錯誤! ");
+                if (dtChange == null) {
+                    MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return ResultStatus.Fail;
                 }
+
+                if (dtChange.Rows.Count == 0) {
+                    MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return ResultStatus.Fail;
+                }
+                else {
+                    ResultData myResultData = dao51040.UpdateMMWK(dt);
+                    if (myResultData.Status == ResultStatus.Fail) {
+                        MessageDisplay.Error("更新資料庫MMWK錯誤! ");
+                        return ResultStatus.Fail;
+                    }
+                    PrintOrExportChangedByKen(gcMain, dtForAdd, dtForDeleted, dtForModified);
+                }
+            }
+            catch (Exception ex) {
+                throw ex;
             }
             return ResultStatus.Success; 
         }
@@ -187,7 +197,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                         return ResultStatus.Fail;
                     }
                     else {
-                        dao51040.DeleteByDate(datadate);
+                        if(!dao51040.DeleteByDate(datadate)) return ResultStatus.Fail;
                     }
                 }
 
@@ -215,7 +225,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 //Retrieve();
             }
             catch (Exception ex) {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("轉入錯誤");
+                throw ex;
             }
             return ResultStatus.Success;
         }
