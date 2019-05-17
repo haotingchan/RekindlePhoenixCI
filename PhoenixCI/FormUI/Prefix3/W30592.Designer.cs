@@ -35,6 +35,7 @@
          this.labMsg = new System.Windows.Forms.Label();
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
          this.panFilter = new System.Windows.Forms.GroupBox();
+         this.label2 = new System.Windows.Forms.Label();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtEndYMD.Properties)).BeginInit();
@@ -50,7 +51,7 @@
          // panParent
          // 
          this.panParent.Controls.Add(this.r_frame);
-         this.panParent.Size = new System.Drawing.Size(825, 474);
+         this.panParent.Size = new System.Drawing.Size(825, 506);
          // 
          // ribbonControl
          // 
@@ -122,7 +123,11 @@
          this.gbMarket.Location = new System.Drawing.Point(446, 36);
          this.gbMarket.Name = "gbMarket";
          this.gbMarket.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
+         this.gbMarket.Properties.Appearance.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
+         this.gbMarket.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
          this.gbMarket.Properties.Appearance.Options.UseBackColor = true;
+         this.gbMarket.Properties.Appearance.Options.UseFont = true;
+         this.gbMarket.Properties.Appearance.Options.UseForeColor = true;
          this.gbMarket.Properties.Columns = 3;
          this.gbMarket.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rbMarketAll", "全部"),
@@ -134,18 +139,20 @@
          // label3
          // 
          this.label3.AutoSize = true;
+         this.label3.ForeColor = System.Drawing.Color.Black;
          this.label3.Location = new System.Drawing.Point(36, 86);
          this.label3.Name = "label3";
-         this.label3.Size = new System.Drawing.Size(57, 20);
+         this.label3.Size = new System.Drawing.Size(58, 21);
          this.label3.TabIndex = 63;
          this.label3.Text = "商品：";
          // 
          // labMarket
          // 
          this.labMarket.AutoSize = true;
+         this.labMarket.ForeColor = System.Drawing.Color.Black;
          this.labMarket.Location = new System.Drawing.Point(360, 43);
          this.labMarket.Name = "labMarket";
-         this.labMarket.Size = new System.Drawing.Size(89, 20);
+         this.labMarket.Size = new System.Drawing.Size(90, 21);
          this.labMarket.TabIndex = 14;
          this.labMarket.Text = "交易時段：";
          // 
@@ -154,16 +161,17 @@
          this.label1.AutoSize = true;
          this.label1.Location = new System.Drawing.Point(205, 41);
          this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(25, 20);
+         this.label1.Size = new System.Drawing.Size(26, 21);
          this.label1.TabIndex = 6;
          this.label1.Text = "～";
          // 
          // labAftDate
          // 
          this.labAftDate.AutoSize = true;
+         this.labAftDate.ForeColor = System.Drawing.Color.Black;
          this.labAftDate.Location = new System.Drawing.Point(36, 44);
          this.labAftDate.Name = "labAftDate";
-         this.labAftDate.Size = new System.Drawing.Size(57, 20);
+         this.labAftDate.Size = new System.Drawing.Size(58, 21);
          this.labAftDate.TabIndex = 2;
          this.labAftDate.Text = "日期：";
          // 
@@ -184,7 +192,7 @@
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkAcc", "交易戶數"),
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkId", "交易人數"),
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkRmb", "各交易所RMB期貨交易量表")});
-         this.chkGroup.Location = new System.Drawing.Point(40, 122);
+         this.chkGroup.Location = new System.Drawing.Point(40, 160);
          this.chkGroup.Name = "chkGroup";
          this.chkGroup.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
          this.chkGroup.Size = new System.Drawing.Size(362, 218);
@@ -194,7 +202,7 @@
          // 
          this.labMsg.AutoSize = true;
          this.labMsg.ForeColor = System.Drawing.Color.Blue;
-         this.labMsg.Location = new System.Drawing.Point(21, 392);
+         this.labMsg.Location = new System.Drawing.Point(21, 431);
          this.labMsg.Name = "labMsg";
          this.labMsg.Size = new System.Drawing.Size(85, 20);
          this.labMsg.TabIndex = 10;
@@ -210,13 +218,14 @@
          this.r_frame.Controls.Add(this.labMsg);
          this.r_frame.Location = new System.Drawing.Point(15, 15);
          this.r_frame.Name = "r_frame";
-         this.r_frame.Size = new System.Drawing.Size(780, 431);
+         this.r_frame.Size = new System.Drawing.Size(780, 459);
          this.r_frame.TabIndex = 79;
          // 
          // panFilter
          // 
          this.panFilter.AutoSize = true;
          this.panFilter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.panFilter.Controls.Add(this.label2);
          this.panFilter.Controls.Add(this.txtEndYMD);
          this.panFilter.Controls.Add(this.labAftDate);
          this.panFilter.Controls.Add(this.txtStartYMD);
@@ -226,19 +235,31 @@
          this.panFilter.Controls.Add(this.chkGroup);
          this.panFilter.Controls.Add(this.label3);
          this.panFilter.Controls.Add(this.gbMarket);
+         this.panFilter.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
+         this.panFilter.ForeColor = System.Drawing.Color.Navy;
          this.panFilter.Location = new System.Drawing.Point(25, 20);
          this.panFilter.Name = "panFilter";
-         this.panFilter.Size = new System.Drawing.Size(730, 369);
+         this.panFilter.Size = new System.Drawing.Size(730, 406);
          this.panFilter.TabIndex = 80;
          this.panFilter.TabStop = false;
          this.panFilter.Text = "請輸入交易日期";
+         // 
+         // label2
+         // 
+         this.label2.AutoSize = true;
+         this.label2.ForeColor = System.Drawing.Color.Black;
+         this.label2.Location = new System.Drawing.Point(36, 127);
+         this.label2.Name = "label2";
+         this.label2.Size = new System.Drawing.Size(90, 21);
+         this.label2.TabIndex = 77;
+         this.label2.Text = "資料項目：";
          // 
          // W30592
          // 
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(825, 504);
+         this.ClientSize = new System.Drawing.Size(825, 536);
          this.Name = "W30592";
          this.Text = "W30592";
          this.panParent.ResumeLayout(false);
@@ -271,5 +292,6 @@
       private BaseGround.Widget.TextDateEdit txtStartYMD;
       private DevExpress.XtraEditors.PanelControl r_frame;
       private System.Windows.Forms.GroupBox panFilter;
+      private System.Windows.Forms.Label label2;
    }
 }
