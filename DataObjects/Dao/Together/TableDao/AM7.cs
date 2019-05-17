@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessObjects;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -40,6 +41,21 @@ ORDER BY AM7_Y
             DataTable dtResult = db.GetDataTable(sql, parms);
 
             return dtResult;
+        }
+
+        public ResultData UpdateAM7(DataTable inputData) {
+            string sql =
+@"
+SELECT AM7.AM7_Y,   
+       AM7.AM7_FC_QNTY,   
+       AM7.AM7_DAY_COUNT,
+       AM7_FUT_AVG_QNTY ,
+       AM7_OPT_AVG_QNTY,
+       AM7_FC_TAX
+FROM ci.AM7
+";
+
+            return db.UpdateOracleDB(inputData, sql);
         }
     }
 }
