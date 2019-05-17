@@ -31,9 +31,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
          dao30592 = new D30592();
          daoCod = new COD();
-
-         //Winni test
-         //20181001-20181011
       }
 
       protected override ResultStatus Open() {

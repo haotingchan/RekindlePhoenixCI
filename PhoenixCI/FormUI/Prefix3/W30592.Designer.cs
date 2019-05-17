@@ -50,12 +50,12 @@
          // panParent
          // 
          this.panParent.Controls.Add(this.r_frame);
-         this.panParent.Size = new System.Drawing.Size(1076, 746);
+         this.panParent.Size = new System.Drawing.Size(825, 474);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(1076, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(825, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // txtEndYMD
@@ -119,7 +119,7 @@
          // gbMarket
          // 
          this.gbMarket.EditValue = "rbMarketAll";
-         this.gbMarket.Location = new System.Drawing.Point(455, 37);
+         this.gbMarket.Location = new System.Drawing.Point(446, 36);
          this.gbMarket.Name = "gbMarket";
          this.gbMarket.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
          this.gbMarket.Properties.Appearance.Options.UseBackColor = true;
@@ -184,7 +184,7 @@
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkAcc", "交易戶數"),
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkId", "交易人數"),
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkRmb", "各交易所RMB期貨交易量表")});
-         this.chkGroup.Location = new System.Drawing.Point(40, 123);
+         this.chkGroup.Location = new System.Drawing.Point(40, 122);
          this.chkGroup.Name = "chkGroup";
          this.chkGroup.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
          this.chkGroup.Size = new System.Drawing.Size(362, 218);
@@ -238,7 +238,7 @@
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(1076, 776);
+         this.ClientSize = new System.Drawing.Size(825, 504);
          this.Name = "W30592";
          this.Text = "W30592";
          this.panParent.ResumeLayout(false);
