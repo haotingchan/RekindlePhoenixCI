@@ -23,6 +23,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
       protected D30592 dao30592;
       protected COD daoCod;
+      private int flag;
 
       public W30592(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
@@ -89,9 +90,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //   chkGroup.Items[6] = Rmb
             //*************************************/
 
-            //1. 先判斷是否有勾選前六項至少其中一項,才執行開啟複製檔案30592
-            if ((chkGroup.Items[6].CheckState == CheckState.Unchecked && chkGroup.CheckedItemsCount >= 1) ||
-                (chkGroup.Items[6].CheckState == CheckState.Checked && chkGroup.CheckedItemsCount >= 2)) {
+            //1. 判斷是否至少勾選一個選項
+            if (chkGroup.CheckedItemsCount < 1) {
+               MessageDisplay.Warning("請勾選至少一個選項!");
+               return ResultStatus.Fail;
+            } else {
                string tempMarketCode = "";
                //RadioButton (rbMarket0 = 一般 / rbMarket1 = 盤後 / rbMarketAll = 全部)
                if (gbMarket.EditValue.AsString() == "rbMarket0") {
@@ -102,46 +105,53 @@ namespace PhoenixCI.FormUI.Prefix3 {
                   tempMarketCode = "全部";
                }
 
-               //2. 複製檔案 & 開啟檔案 (因檔案需因MarketCode更動，所以另外寫)
-               string originalFilePath = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH , _ProgramID + "." + FileType.XLS.ToString().ToLower());
+               flag = 0;
+               foreach (CheckedListBoxItem item in chkGroup.Items) {
+                  if (item.CheckState == CheckState.Unchecked) continue;
+                  switch (item.Value) {
+                     case "chkRmb":
+                        wf_30592_RMB();
+                        break;
+                     default:
+                        //2. 複製檔案 & 開啟檔案 (因檔案需因MarketCode更動，所以另外寫)
+                        string originalFilePath = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH , _ProgramID + "." + FileType.XLS.ToString().ToLower());
 
-               string destinationFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH ,
-                   _ProgramID + "_" + tempMarketCode + "_" + DateTime.Now.ToString("yyyy.MM.dd") + "-" + DateTime.Now.ToString("HH.mm.ss") + "." + FileType.XLS.ToString().ToLower());
+                        string destinationFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH ,
+                            _ProgramID + "_" + tempMarketCode + "_" + DateTime.Now.ToString("yyyy.MM.dd") + "-" + DateTime.Now.ToString("HH.mm.ss") + "." + FileType.XLS.ToString().ToLower());
 
-               File.Copy(originalFilePath , destinationFilePath , true);
+                        File.Copy(originalFilePath , destinationFilePath , true);
 
-               Workbook workbook = new Workbook();
-               workbook.LoadDocument(destinationFilePath);
+                        Workbook workbook = new Workbook();
+                        workbook.LoadDocument(destinationFilePath);
 
-               //3. 填資料
-               bool result = false;
-               result = wf_30592(workbook);  //function 30592
+                        //3. 填資料
+                        bool result = false;
+                        result = wf_30592(workbook);  //function 30592
 
-               if (!result) {
-                  try {
-                     workbook = null;
-                     File.Delete(destinationFilePath);
-                  } catch (Exception) {
-                     //
+                        if (!result) {
+                           try {
+                              workbook = null;
+                              File.Delete(destinationFilePath);
+                           } catch (Exception) {
+                              //
+                           }
+                           return ResultStatus.Fail;
+                        } else {
+                           flag++;
+                        }
+
+                        //3.存檔
+                        workbook.SaveDocument(destinationFilePath);
+                        labMsg.Visible = false;
+                        break;
                   }
-                  return ResultStatus.Fail;
+               }//foreach (CheckedListBoxItem item in chkGroup.Items)
+
+               if (flag <= 0) {
+                  MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
                }
-
-               //3.存檔
-               workbook.SaveDocument(destinationFilePath);
-               labMsg.Visible = false;
- 
-               //4. 判斷是否執行各交易所RMB期貨交易量的開啟複製檔案 30592_RMB
-               if (chkGroup.Items[6].CheckState == CheckState.Checked) {
-                  wf_30592_RMB();
-               }
-
-               return ResultStatus.Success;
-
-            } else {
-               MessageDisplay.Warning("請勾選至少一個選項!");
-               return ResultStatus.Fail;
             }
+            return ResultStatus.Success;
 
          } catch (Exception ex) {
             WriteLog(ex);
@@ -350,6 +360,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             //4.存檔
             workbook.SaveDocument(excelDestinationPath);
+            flag++;
          } catch (Exception ex) {
             WriteLog(ex);
             labMsg.Visible = false;
