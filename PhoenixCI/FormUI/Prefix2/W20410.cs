@@ -161,8 +161,9 @@ namespace PhoenixCI.FormUI.Prefix2 {
                         daoLOGV.Insert(_ProgramID, GlobalInfo.USER_ID, type, val1, val2, val3, val4, val5);
                     }
                 }
-                ResultStatus status = base.Save_Override(dt, "AM7");
-                if (status == ResultStatus.Fail) {
+                ResultData myResultData = daoAM7.UpdateAM7(dt);
+                if (myResultData.Status == ResultStatus.Fail) {
+                    MessageDisplay.Error("更新資料庫AM7錯誤! ");
                     return ResultStatus.Fail;
                 }
             }

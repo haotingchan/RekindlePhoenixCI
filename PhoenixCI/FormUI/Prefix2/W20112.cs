@@ -12,6 +12,7 @@ using DataObjects.Dao.Together.TableDao;
 using Common;
 using BusinessObjects.Enums;
 using DataObjects.Dao.Together.SpecificDao;
+using BusinessObjects;
 
 /// <summary>
 /// Lukas, 2019/1/28
@@ -146,8 +147,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 lblRange1.Text = startYMD.Insert(4, "/").Insert(7, "/") + "~" + endYMD.Insert(4, "/").Insert(7, "/");
 
                 //更新資料
-                ResultStatus result = base.Save_Override(targetDt, "INOTC1");
-                if (result == ResultStatus.Success) {
+                ResultData myResultData = daoINOTC1.UpdateINOTC1(dt);
+                if (myResultData.Status == ResultStatus.Success) {
                     MessageBox.Show(lblRange1.Text + "資料轉入完成!", "處理結果", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     txtPath1.BackColor = Color.LightGray;
                 }
@@ -227,8 +228,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 lblRange2.Text = startYMD.Insert(4, "/").Insert(7, "/") + "~" + endYMD.Insert(4, "/").Insert(7, "/");
 
                 //更新資料
-                ResultStatus result = base.Save_Override(targetDt, "INTWSE1");
-                if (result == ResultStatus.Success) {
+                ResultData myResultData = daoINTWSE1.UpdateINTWSE1(dt);
+                if (myResultData.Status == ResultStatus.Success) {
                     MessageBox.Show(lblRange1.Text + "資料轉入完成!", "處理結果", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     txtPath2.BackColor = Color.LightGray;
                 }

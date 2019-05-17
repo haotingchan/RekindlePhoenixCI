@@ -165,17 +165,13 @@ namespace PhoenixCI.FormUI.Prefix2 {
                         daoLOGV.Insert(_ProgramID, GlobalInfo.USER_ID, "U", val1, val2, val3, val4,"");
                     }
                 }
-                ResultStatus status = base.Save_Override(dt, "AM7T");
-                if (status == ResultStatus.Fail) {
+                ResultData myResultData = daoAM7T.UpdateAM7T(dt);
+                if (myResultData.Status == ResultStatus.Fail) {
+                    MessageDisplay.Error("更新資料庫AM7T錯誤! ");
                     return ResultStatus.Fail;
                 }
-                //準備要印的資料(新增/刪除/修改)
-                ResultData resultData = new ResultData();
-                resultData.ChangedDataViewForAdded = dtForAdd == null ? new DataView() : dtForAdd.DefaultView;
-                //resultData.ChangedDataViewForDeleted = dtForDeleted == null ? new DataView() : dtForDeleted.DefaultView;
-                resultData.ChangedDataViewForModified = dtForModified == null ? new DataView() : dtForModified.DefaultView;
-                //列印
-                //PrintOrExportChangedByKen(gcMain, resultData);
+                //列印(新增/刪除/修改)
+                PrintOrExportChangedByKen(gcMain, dtForAdd, dtForDeleted, dtForModified);
                 _IsPreventFlowPrint = true;
             }
             //不要自動列印
