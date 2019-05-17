@@ -135,14 +135,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gvMain.Columns.Clear();
             gvMain.OptionsBehavior.AutoPopulateColumns = true;
             gcMain.DataSource = dt;
-            //gvMain.OptionsView.ShowFooter = true;
-            //gvMain.Columns["TotalPrice"].Summary.Add(DevExpress.Data.SummaryItemType.Sum , "TotalPrice" , "Grand Total = {0:c2}");
 
             string[] showColCaption = {"商品", $"對外{Environment.NewLine}商品", $"順{Environment.NewLine}序","商品別",
                                        $"契約{Environment.NewLine}類別","簡稱","全稱","群組",$"標的{Environment.NewLine}現貨",
                                        $"下市日期{Environment.NewLine}yyyymmdd","商品狀態", $"判斷{Environment.NewLine}調整標準",
                                        $"風險價格係數{Environment.NewLine}計算方式",$"國內/國外{Environment.NewLine}類別",
-                                       "MGT2_W_TIME" ,"MGT2_W_USER_ID","Is_NewRow"};
+                                       "MGT2_W_TIME" ,"MGT2_W_USER_ID",$"最大振幅MaxVol{Environment.NewLine}調整標準",
+                                       $"EWMA{Environment.NewLine}調整標準","Is_NewRow"};
 
             //1.1 設定欄位caption       
             foreach (DataColumn dc in dt.Columns) {
@@ -153,10 +152,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
                gvMain.OptionsView.AllowCellMerge = true;
                gvMain.Columns[dc.ColumnName].AppearanceCell.TextOptions.VAlignment = VertAlignment.Center;
                gvMain.Columns[dc.ColumnName].OptionsColumn.AllowMerge = DefaultBoolean.False;
+               gvMain.Columns[dc.ColumnName].AppearanceCell.Font = new Font("微軟正黑體",10f);
 
                //設定column style
                gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = (dc.ColumnName.AsString() == "MGT2_KIND_ID" ? Color.Yellow : Color.FromArgb(128 , 255 , 255));
-               //gvMain.Columns[dc.ColumnName].AppearanceHeader.Options.UseFont = false;
             }
 
             //1.2 設定隱藏欄位
@@ -183,11 +182,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gvMain.AppearancePrint.HeaderPanel.Options.UseTextOptions = true;
             gvMain.AppearancePrint.HeaderPanel.TextOptions.WordWrap = WordWrap.Wrap;
             gvMain.ColumnPanelRowHeight = 40;
-            gvMain.AppearancePrint.HeaderPanel.Font = new Font("Microsoft YaHei" , gvMain.AppearancePrint.HeaderPanel.Font.Size);
-            
-            gvMain.AppearancePrint.Row.Font = new Font("Microsoft YaHei" , 9);
+
+            gvMain.AppearancePrint.Row.Font = new Font("Microsoft YaHei" , 10);
             gvMain.OptionsPrint.AllowMultilineHeaders = true;
-            gvMain.AppearancePrint.GroupRow.Font = new Font("Microsoft YaHei" , 9);
+            gvMain.AppearancePrint.GroupRow.Font = new Font("Microsoft YaHei" , 10);
 
             gvMain.BestFitColumns();
             GridHelper.SetCommonGrid(gvMain);
@@ -263,7 +261,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
       protected override ResultStatus Print(ReportHelper reportHelper) {
          try {
             ReportHelper _ReportHelper = new ReportHelper(gcMain , _ProgramID , this.Text);
-            CommonReportLandscapeA4 reportLandscape = new CommonReportLandscapeA4();//設定為橫向列印
+            CommonReportLandscapeA3 reportLandscape = new CommonReportLandscapeA3();//設定為橫向列印
             reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
             reportLandscape.IsHandlePersonVisible = false;
             reportLandscape.IsManagerVisible = false;
