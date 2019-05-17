@@ -139,6 +139,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                     SaveFileDialog save = new SaveFileDialog();
                     save.Filter = "*.txt (*.txt)|*.txt";
                     save.Title = "請點選儲存檔案之目錄";
+                    save.InitialDirectory = GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH;
                     save.FileName = saveFile;
                     save.ShowDialog();
                     Stream fs = (FileStream)save.OpenFile();
