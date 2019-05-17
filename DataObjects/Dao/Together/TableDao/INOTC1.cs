@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessObjects;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -40,6 +41,23 @@ where INOTC1_YMD >= :ls_start_ymd
             else {
                 throw new Exception("INOTC1刪除失敗");
             }
+        }
+
+        public ResultData UpdateINOTC1(DataTable inputData) {
+            string sql =
+@"
+SELECT  INOTC1_YMD,         
+        INOTC1_TRADE_VOLUMN,
+        INOTC1_TRADE_AMT,   
+        INOTC1_TRADE_CNT,   
+        INOTC1_INDEX,       
+        INOTC1_UP_DOWN,     
+        INOTC1_W_USER_ID,   
+        INOTC1_W_TIME      
+    FROM ci.IDFG
+";
+
+            return db.UpdateOracleDB(inputData, sql);
         }
     }
 }

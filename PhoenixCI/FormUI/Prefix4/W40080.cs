@@ -21,23 +21,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
       public W40080(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
-
          this.Text = _ProgramID + "─" + _ProgramName;
+
          dao40080 = new D40080();
 
          adjustmentRadioGroup.SelectedIndex = 0;
-
-         //for (int i = 1 ; i <= countGroup ; i++) {
-
-         //   Control[] formControls = this.Controls.Find("txtDate" + i , true);
-         //   TextDateEdit txt = (TextDateEdit)formControls[0];
-         //   txt.DateTimeValue = DateTime.Now;
-
-         //   formControls = this.Controls.Find("radioGroup" + i , true);
-         //   RadioGroup radioGroup = (RadioGroup)formControls[0];
-         //   radioGroup.SelectedIndex = 0;
-
-         //}
       }
 
       protected override ResultStatus Open() {
@@ -60,8 +48,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
          repositoryItemRadioGroup.Items.Add(item1);
          repositoryItemRadioGroup.Items.Add(item2);
          repositoryItemRadioGroup.Columns = 2;
-         ADJ_CODE.ColumnEdit = repositoryItemRadioGroup;
-         ADJ_CODE.ColumnEdit.Appearance.TextOptions.HAlignment = HorzAlignment.Center;
+         SP2_ADJ_CODE.ColumnEdit = repositoryItemRadioGroup;
+         SP2_ADJ_CODE.ColumnEdit.Appearance.TextOptions.HAlignment = HorzAlignment.Center;
 
          return ResultStatus.Success;
       }
@@ -88,7 +76,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          //Group2
          if (dt.Select("sp1_osw_grp='5' and sp2_value_date is not null").Length != 0) {
-            ll_found = dt.Rows.IndexOf(dt.Select("sp1_osw_grp='5' and not ISNULL(sp2_value_date)")[0]) + 1;
+            ll_found = dt.Rows.IndexOf(dt.Select("sp1_osw_grp='5' and sp2_value_date is not null")[0]) + 1;
          }
 
          if (ll_found > 0) {
@@ -100,6 +88,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
          }
 
          gvMain.Columns["SP1_OSW_GRP"].Group();
+         gvMain.Columns["SP1_CHANGE_RANGE"].DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+         gvMain.Columns["SP1_CHANGE_RANGE"].DisplayFormat.FormatString = "P";
 
          gcMain.DataSource = dt;
          GridHelper.SetCommonGrid(gvMain);
@@ -114,33 +104,83 @@ namespace PhoenixCI.FormUI.Prefix4 {
          gvMain.UpdateCurrentRow();
          ResultStatus resultStatus = ResultStatus.Fail;
          try {
-            DataTable dt = (DataTable)gcMain.DataSource;
-            DataTable dtChange = dt.GetChanges();
+            //先照翻
 
-            if (dtChange == null) {
-               MessageBox.Show("沒有變更資料,不需要存檔!" , "注意" , MessageBoxButtons.OK , MessageBoxIcon.Exclamation);
-               return ResultStatus.FailButNext;
-            }
+            int ll_found = 0;
+            string ls_kind_id1, ls_kind_id2, ls_type;
+            DateTime ldt_w_time = DateTime.Now;
 
-            //if (dao40080.DeleteMG2S() >= 0) {
-            //   DataTable insertMG2SData = dao40080.GetMG2SColumns();
-            //   for (int i = 0; i < dt.Rows.Count; i++) {
-            //      insertMG2SData.Rows.Add();
-            //      insertMG2SData.Rows[i]["MG2S_DATE"] = dt.Rows[i]["MG1_DATE"];
-            //      insertMG2SData.Rows[i]["MG2S_KIND_ID"] = dt.Rows[i]["MG1_KIND_ID"];
-            //      insertMG2SData.Rows[i]["MG2S_VALUE_DATE"] = txtCountDate.DateTimeValue;
-            //      insertMG2SData.Rows[i]["MG2S_OSW_GRP"] = dt.Rows[i]["MG1_OSW_GRP"];
-            //      insertMG2SData.Rows[i]["MG2S_ADJ_CODE"] = "Y";
-            //      insertMG2SData.Rows[i]["MG2S_W_TIME"] = DateTime.Now;
-            //      insertMG2SData.Rows[i]["MG2S_W_USER_ID"] = GlobalInfo.USER_ID;
-            //      insertMG2SData.Rows[i]["MG2S_SPAN_CODE"] = dt.Rows[i]["MG2_SPAN_CODE"];
-            //      insertMG2SData.Rows[i]["MG2S_USER_CM"] = dt.Rows[i]["USER_CM"].AsDecimal() == 0 ? DBNull.Value : dt.Rows[i]["USER_CM"];
-            //   }
-            //   resultStatus = dao40080.updateData(insertMG2SData).Status;//base.Save_Override(insertMG2SData, "MG2S", DBName.CFO);
-            //   if (resultStatus == ResultStatus.Success) {
-            //      PrintableComponent = gcMain;
-            //   }
+            DataTable dt = dao40080.GetData(txtTradeDate.DateTimeValue);
+            foreach (DataRow dr in dt.Rows) {
+
+
+            }//foreach (DataRow dr in dt.Rows)
+
+
+
+
+            //            for      i = 1 to dw_1.rowcount()
+
+            //      dw_1.setitem(i , "op_type" , dw_1.getitemstring(i , "cp_op_type"))
+
+            //      if    dw_1.getitemstring(i , "op_type") = ' '   then
+
+            //            continue
+
+            //      end   if
+
+
+            //      ls_type = dw_1.getitemstring(i , "sp1_type")
+
+            //      ls_kind_id1 = dw_1.getitemstring(i , "sp1_kind_id1")
+
+            //      ls_kind_id2 = dw_1.getitemstring(i , "sp1_kind_id2")
+
+            //      ll_found = dw_2.find("sp2_type ='" + ls_type + "' and sp2_kind_id1='" + ls_kind_id1 + "' and sp2_kind_id2='" + ls_kind_id2 + "'" , 1 , dw_2.rowcount())
+            //      //新增		
+            //            if    ll_found = 0 then
+            //            //if		dw_1.getitemstring(i,"adj_code") = 'Y' or dw_1.getitemstring(i,"span_code")	= 'Y' then
+            //            dw_2.insertrow(0)
+
+            //                  ll_found = dw_2.rowcount()
+
+            //                  dw_2.setitem(ll_found , "sp2_date" , date(em_date.text))
+
+            //                  dw_2.setitem(ll_found , "sp2_type" , ls_type)
+
+            //                  dw_2.setitem(ll_found , "sp2_kind_id1" , ls_kind_id1)
+
+            //                  dw_2.setitem(ll_found , "sp2_kind_id2" , ls_kind_id2)
+            //            //end	if
+            //            end   if
+            //      //刪除
+            //      dw_2.setitem(ll_found , "sp2_value_date" , dw_1.getitemdatetime(i , "sp2_value_date"))
+
+            //      dw_2.setitem(ll_found , "sp2_adj_code" , dw_1.getitemstring(i , "adj_code"))
+
+            //      dw_2.setitem(ll_found , "sp2_span_code" , dw_1.getitemstring(i , "span_code"))
+
+            //      dw_2.setitem(ll_found , "sp2_osw_grp" , dw_1.getitemstring(i , "sp1_osw_grp"))
+
+            //      dw_2.setitem(ll_found , "sp2_w_time" , ldt_w_time)
+
+            //      dw_2.setitem(ll_found , "sp2_w_user_id" , gs_user_id)
+
+            //      dw_1.setitem(i , "adj_code_org" , dw_1.getitemstring(i , "adj_code"))
+            //next
+
+
+
+
+
+            //DataTable dt = (DataTable)gcMain.DataSource;
+            //DataTable dtChange = dt.GetChanges();
+
+            //if (dtChange == null) {
+            //   MessageBox.Show("沒有變更資料,不需要存檔!" , "注意" , MessageBoxButtons.OK , MessageBoxIcon.Exclamation);
+            //   return ResultStatus.FailButNext;
             //}
+
          } catch (Exception ex) {
             throw ex;
          }

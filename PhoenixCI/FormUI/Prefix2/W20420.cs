@@ -162,7 +162,11 @@ namespace PhoenixCI.FormUI.Prefix2 {
 
             //寫入DB
             try {
-                Save_Override(dt.GetChanges(), "IDFG");
+                ResultData myResultData = dao20420.UpdateIDFG(dt);
+                if (myResultData.Status == ResultStatus.Fail) {
+                    MessageDisplay.Error("更新資料庫IDFG錯誤! ");
+                    return ResultStatus.Fail;
+                }
             }
             catch (Exception ex) {
                 MessageBox.Show(ex.Message);

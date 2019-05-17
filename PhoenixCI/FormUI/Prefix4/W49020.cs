@@ -7,18 +7,21 @@ using Common;
 using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DataObjects.Dao.Together.TableDao;
+using DevExpress.Utils;
+using DevExpress.Utils.Drawing;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraGrid;
-using DevExpress.XtraGrid.Columns;
+using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 
 /// <summary>
-/// Winni, 2019/4/2
+/// Winni, 2019/05/16
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix4 {
 
@@ -27,52 +30,62 @@ namespace PhoenixCI.FormUI.Prefix4 {
    /// </summary>
    public partial class W49020 : FormParent {
 
-      RepositoryItemLookUpEdit lupProdType; //商品別
-      RepositoryItemLookUpEdit lupProdSubtypeCod; //契約類別
-      RepositoryItemLookUpEdit lupDataType; //商品狀態
-      RepositoryItemLookUpEdit lupCpKind; //風險價格係數計算方式
-      RepositoryItemLookUpEdit lupAbroad; //國內/國外類別
+      #region 全域變數
+      private RepositoryItemLookUpEdit lupProdType; //商品別
+      private RepositoryItemLookUpEdit lupProdSubtypeCod; //契約類別
+      private RepositoryItemLookUpEdit lupDataType; //商品狀態
+      private RepositoryItemLookUpEdit lupCpKind; //風險價格係數計算方式
+      private RepositoryItemLookUpEdit lupAbroad; //國內/國外類別
+
+      private COD cod;
+      private D49020 dao49020;
+      #endregion
 
       public W49020(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
+
+         cod = new COD();
+         dao49020 = new D49020();
       }
 
       protected override ResultStatus Open() {
          base.Open();
          try {
-            lupProdType = new RepositoryItemLookUpEdit();
-            lupProdSubtypeCod = new RepositoryItemLookUpEdit();
-            lupDataType = new RepositoryItemLookUpEdit();
-            lupCpKind = new RepositoryItemLookUpEdit();
-            lupAbroad = new RepositoryItemLookUpEdit();
 
-            COD cod = new COD();
-            D49020 dao49020 = new D49020();
-
-            //設定下拉選單預設值
+            #region 下拉選單設定
             //商品別
-            DataTable dtProdType = dao49020.GetProdType("49020" , "MGT2_PROD_TYPE");
-            Extension.SetColumnLookUp(lupProdType , dtProdType , "COD_ID" , "CP_DISPLAY" , TextEditStyles.DisableTextEditor , "");
+            List<LookupItem> prodTypeList = new List<LookupItem>(){
+                                            new LookupItem() { ValueMember = "F", DisplayMember = "F：期貨"},
+                                            new LookupItem() { ValueMember = "O", DisplayMember = "O：選擇權"}};
+            lupProdType = new RepositoryItemLookUpEdit();
+            lupProdType.SetColumnLookUp(prodTypeList , "ValueMember" , "DisplayMember" , TextEditStyles.DisableTextEditor , null);
             gcMain.RepositoryItems.Add(lupProdType);
 
             //契約類別
+            lupProdSubtypeCod = new RepositoryItemLookUpEdit();
             DataTable dtProdSubtypeCod = cod.ListByCol2("49020" , "PDK_SUBTYPE");
             Extension.SetColumnLookUp(lupProdSubtypeCod , dtProdSubtypeCod , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
             gcMain.RepositoryItems.Add(lupProdSubtypeCod);
 
+
             //商品狀態
-            DataTable dtDataType = cod.ListByCol2("49020" , "MGT2_DATA_TYPE");
-            Extension.SetColumnLookUp(lupDataType , dtDataType , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
+            List<LookupItem> dataTypeList = new List<LookupItem>(){
+                                            new LookupItem() { ValueMember = "E", DisplayMember = "下市"},
+                                            new LookupItem() { ValueMember = "N", DisplayMember = "不計算"}};
+            lupDataType = new RepositoryItemLookUpEdit();
+            lupDataType.SetColumnLookUp(dataTypeList , "ValueMember" , "DisplayMember" , TextEditStyles.DisableTextEditor , null);
             gcMain.RepositoryItems.Add(lupDataType);
 
             //風險價格係數計算方式
+            lupCpKind = new RepositoryItemLookUpEdit();
             DataTable dtCpKind = dao49020.GetCpKind("MGT2" , "MGT2_CP_KIND");
             Extension.SetColumnLookUp(lupCpKind , dtCpKind , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
             gcMain.RepositoryItems.Add(lupCpKind);
 
             //國內/國外類別
             //此處國內/外下拉清單 於CI.MGT2參數為(國內 : " "  國外: "Y") CI.COD參數為(國內 : ""  國外: "Y")
+            lupAbroad = new RepositoryItemLookUpEdit();
             DataTable dtAbroad = cod.ListByCol2("MGT2" , "MGT2_ABROAD");
             foreach (DataRow dr in dtAbroad.Rows) {
                if (dr["cod_id"] == DBNull.Value) {
@@ -81,6 +94,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
             Extension.SetColumnLookUp(lupAbroad , dtAbroad , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
             gcMain.RepositoryItems.Add(lupAbroad);
+            #endregion
 
             Retrieve();
             return ResultStatus.Success;
@@ -117,31 +131,32 @@ namespace PhoenixCI.FormUI.Prefix4 {
                InsertRow();
             }
 
-            //1. 設定gvExport
+            //1. 設定gvMain
             gvMain.Columns.Clear();
             gvMain.OptionsBehavior.AutoPopulateColumns = true;
             gcMain.DataSource = dt;
-            gvMain.BestFitColumns();
-            GridHelper.SetCommonGrid(gvMain);
+
+            string[] showColCaption = {"商品", $"對外{Environment.NewLine}商品", $"順{Environment.NewLine}序","商品別",
+                                       $"契約{Environment.NewLine}類別","簡稱","全稱","群組",$"標的{Environment.NewLine}現貨",
+                                       $"下市日期{Environment.NewLine}yyyymmdd","商品狀態", $"判斷{Environment.NewLine}調整標準",
+                                       $"風險價格係數{Environment.NewLine}計算方式",$"國內/國外{Environment.NewLine}類別",
+                                       "MGT2_W_TIME" ,"MGT2_W_USER_ID",$"最大振幅MaxVol{Environment.NewLine}調整標準",
+                                       $"EWMA{Environment.NewLine}調整標準","Is_NewRow"};
 
             //1.1 設定欄位caption       
-            gvMain.SetColumnCaption("MGT2_KIND_ID" , "商品");
-            gvMain.SetColumnCaption("MGT2_KIND_ID_OUT" , "對外商品");
-            gvMain.SetColumnCaption("MGT2_SEQ_NO" , "順序");
-            gvMain.SetColumnCaption("MGT2_PROD_TYPE" , "商品別");
-            gvMain.SetColumnCaption("MGT2_PROD_SUBTYPE" , "契約類別");
+            foreach (DataColumn dc in dt.Columns) {
+               gvMain.SetColumnCaption(dc.ColumnName , showColCaption[dt.Columns.IndexOf(dc)]);
+               gvMain.Columns[dc.ColumnName].AppearanceHeader.TextOptions.WordWrap = WordWrap.Wrap;
+               gvMain.Columns[dc.ColumnName].AppearanceCell.TextOptions.WordWrap = WordWrap.Wrap;
+               //設定合併欄位(一樣的值不顯示)
+               gvMain.OptionsView.AllowCellMerge = true;
+               gvMain.Columns[dc.ColumnName].AppearanceCell.TextOptions.VAlignment = VertAlignment.Center;
+               gvMain.Columns[dc.ColumnName].OptionsColumn.AllowMerge = DefaultBoolean.False;
+               gvMain.Columns[dc.ColumnName].AppearanceCell.Font = new Font("微軟正黑體",10f);
 
-            gvMain.SetColumnCaption("MGT2_ABBR_NAME" , "簡稱");
-            gvMain.SetColumnCaption("MGT2_NAME" , "全稱");
-            gvMain.SetColumnCaption("MGT2_GROUP_KIND_ID" , "群組");
-            gvMain.SetColumnCaption("MGT2_STOCK_ID" , "標的現貨");
-            gvMain.SetColumnCaption("MGT2_END_YMD" , "下市日期yyyymmdd");
-
-            gvMain.SetColumnCaption("MGT2_DATA_TYPE" , "商品狀態");
-            gvMain.SetColumnCaption("MGT2_ADJUST_RATE" , "判斷調整標準");
-            gvMain.SetColumnCaption("MGT2_CP_KIND" , "風險價格係數計算方式");
-            gvMain.SetColumnCaption("MGT2_ABROAD" , "國內/國外類別");
-            gvMain.SetColumnCaption("IS_NEWROW" , "Is_NewRow");
+               //設定column style
+               gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = (dc.ColumnName.AsString() == "MGT2_KIND_ID" ? Color.Yellow : Color.FromArgb(128 , 255 , 255));
+            }
 
             //1.2 設定隱藏欄位
             gvMain.Columns["MGT2_W_TIME"].Visible = false;
@@ -150,11 +165,30 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             //1.3 設定dropdownlist       
             gvMain.Columns["MGT2_PROD_TYPE"].ColumnEdit = lupProdType;
-            gvMain.Columns["MGT2_PROD_SUBTYPE"].ColumnEdit = lupProdSubtypeCod;
-            gvMain.Columns["MGT2_DATA_TYPE"].ColumnEdit = lupDataType;
-            gvMain.Columns["MGT2_CP_KIND"].ColumnEdit = lupCpKind;
-            gvMain.Columns["MGT2_ABROAD"].ColumnEdit = lupAbroad;
+            gvMain.Columns["MGT2_PROD_TYPE"].ShowButtonMode = ShowButtonModeEnum.ShowAlways;
 
+            gvMain.Columns["MGT2_PROD_SUBTYPE"].ColumnEdit = lupProdSubtypeCod;
+            gvMain.Columns["MGT2_PROD_SUBTYPE"].ShowButtonMode = ShowButtonModeEnum.ShowAlways;
+
+            gvMain.Columns["MGT2_DATA_TYPE"].ColumnEdit = lupDataType;
+            gvMain.Columns["MGT2_DATA_TYPE"].ShowButtonMode = ShowButtonModeEnum.ShowAlways;
+
+            gvMain.Columns["MGT2_CP_KIND"].ColumnEdit = lupCpKind;
+            gvMain.Columns["MGT2_CP_KIND"].ShowButtonMode = ShowButtonModeEnum.ShowAlways;
+
+            gvMain.Columns["MGT2_ABROAD"].ColumnEdit = lupAbroad;
+            gvMain.Columns["MGT2_ABROAD"].ShowButtonMode = ShowButtonModeEnum.ShowAlways;
+
+            gvMain.AppearancePrint.HeaderPanel.Options.UseTextOptions = true;
+            gvMain.AppearancePrint.HeaderPanel.TextOptions.WordWrap = WordWrap.Wrap;
+            gvMain.ColumnPanelRowHeight = 40;
+
+            gvMain.AppearancePrint.Row.Font = new Font("Microsoft YaHei" , 10);
+            gvMain.OptionsPrint.AllowMultilineHeaders = true;
+            gvMain.AppearancePrint.GroupRow.Font = new Font("Microsoft YaHei" , 10);
+
+            gvMain.BestFitColumns();
+            GridHelper.SetCommonGrid(gvMain);
             gcMain.Focus();
 
             return ResultStatus.Success;
@@ -163,7 +197,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          }
          return ResultStatus.Fail;
       }
-
+      
       protected override ResultStatus Save(PokeBall poke) {
          try {
             DataTable dtCurrent = (DataTable)gcMain.DataSource;
@@ -227,7 +261,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
       protected override ResultStatus Print(ReportHelper reportHelper) {
          try {
             ReportHelper _ReportHelper = new ReportHelper(gcMain , _ProgramID , this.Text);
-            CommonReportLandscapeA4 reportLandscape = new CommonReportLandscapeA4();//設定為橫向列印
+            CommonReportLandscapeA3 reportLandscape = new CommonReportLandscapeA3();//設定為橫向列印
             reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
             reportLandscape.IsHandlePersonVisible = false;
             reportLandscape.IsManagerVisible = false;
@@ -297,7 +331,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       #region GridControl事件
-
       /// <summary>
       /// 決定哪些欄位無法編輯的事件
       /// </summary>
@@ -342,6 +375,21 @@ namespace PhoenixCI.FormUI.Prefix4 {
                break;
          }//switch (e.Column.FieldName) {
       }
+
+      private void gvMain_CustomDrawRowFooterCell(object sender , FooterCellCustomDrawEventArgs e) {
+         //Change the background color
+         e.Appearance.BackColor = Color.Azure;
+         //Paint using the new background color
+         e.Painter.DrawObject(e.Info);
+         //Prevent default painting
+         e.Handled = true;
+      }
+
+
+      private void gvMain_CustomDrawColumnHeader(object sender , ColumnHeaderCustomDrawEventArgs e) {
+         e.Appearance.Font = new Font("微軟正黑體" , 10);
+      }
       #endregion
+
    }
 }

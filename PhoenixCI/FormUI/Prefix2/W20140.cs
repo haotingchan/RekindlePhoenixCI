@@ -144,7 +144,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             }
 
             //更新主要Table
-            base.Save_Override(dtChange, "KPR");
+            //base.Save_Override(dtChange, "KPR");這個function已廢除，但這支功能也已經廢除就不修改了
             //不要自動列印
             _IsPreventFlowPrint = true;
             return ResultStatus.Success;
