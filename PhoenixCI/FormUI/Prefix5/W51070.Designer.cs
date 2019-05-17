@@ -47,12 +47,12 @@
          // 
          this.panParent.Controls.Add(this.gcMain);
          this.panParent.Controls.Add(this.r_frame);
-         this.panParent.Size = new System.Drawing.Size(1101, 602);
+         this.panParent.Size = new System.Drawing.Size(1101, 604);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(1101, 32);
+         this.ribbonControl.Size = new System.Drawing.Size(1101, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // labMsg
@@ -65,7 +65,6 @@
          this.labMsg.Size = new System.Drawing.Size(172, 20);
          this.labMsg.TabIndex = 10;
          this.labMsg.Text = "備註：(1)確認交易日期";
-         this.labMsg.Visible = false;
          // 
          // r_frame
          // 
@@ -95,7 +94,6 @@
          this.label2.Size = new System.Drawing.Size(268, 20);
          this.label2.TabIndex = 84;
          this.label2.Text = "(2)需於各盤別各商品收盤前修改完成";
-         this.label2.Visible = false;
          // 
          // labTradeDate
          // 
@@ -161,7 +159,7 @@
          this.gcMain.MainView = this.gvMain;
          this.gcMain.MenuManager = this.ribbonControl;
          this.gcMain.Name = "gcMain";
-         this.gcMain.Size = new System.Drawing.Size(1077, 508);
+         this.gcMain.Size = new System.Drawing.Size(1077, 510);
          this.gcMain.TabIndex = 79;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});

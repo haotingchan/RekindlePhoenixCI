@@ -29,6 +29,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
       //private string state;
       RepositoryItemLookUpEdit lupPriceFluc;
+      ReportHelper _ReportHelper;
       private D51070 dao51070;
 
       public W51070(string programID , string programName) : base(programID , programName) {
@@ -111,7 +112,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             //end if
 
             DataTable dt = dao51070.ListData(ls_dw_name);
-            labTradeDate.Text = "交易日期：" + DateTime.ParseExact(ls_date , "yyyy/MM/dd" , null);
+            labTradeDate.Text = "交易日期：" + (ls_date == "0001/01/01" ? " " : ls_date);
 
             //1. 設定gvMain
             gvMain.Columns.Clear();
@@ -120,7 +121,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
             string[] showColCaption = {"商品", "最大值", "最小值","價差",$"月份{Environment.NewLine}順序",
                                        $"報價價差{Environment.NewLine}放寬倍數",$"價差{Environment.NewLine}max",
-                                       " " ,$"價差{Environment.NewLine}數值型態", $"最低{Environment.NewLine}報價口數" };
+                                       " " ,$"最低{Environment.NewLine}報價口數", $"價差{Environment.NewLine}數值型態" };
 
             //1.1 設定欄位caption       
             foreach (DataColumn dc in dt.Columns) {
@@ -137,21 +138,23 @@ namespace PhoenixCI.FormUI.Prefix5 {
             gvMain.Columns["SLT_PRICE_FLUC"].ColumnEdit = lupPriceFluc;
             lupPriceFluc.ReadOnly = true;
 
-            //1.3 設定欄位順序
-            gvMain.Columns["OP_TYPE"].VisibleIndex = 0;            
-            gvMain.Columns["SLT_MIN"].VisibleIndex = 2;
-            gvMain.Columns["SLT_MAX"].VisibleIndex = 3;
-            gvMain.Columns["SLT_SPREAD"].VisibleIndex = 4;
+            //1.3 設定欄位順序                
+            gvMain.Columns["SLT_KIND_ID"].VisibleIndex = 0;
+            gvMain.Columns["SLT_MIN"].VisibleIndex = 1;
+            gvMain.Columns["SLT_MAX"].VisibleIndex = 2;
+            gvMain.Columns["SLT_SPREAD"].VisibleIndex = 3;
 
-            gvMain.Columns["SLT_SPREAD_LONG"].VisibleIndex = 5;
-            gvMain.Columns["SLT_SPREAD_MULTI"].VisibleIndex = 6;
-            gvMain.Columns["SLT_SPREAD_MAX"].VisibleIndex = 7;
-            gvMain.Columns["SLT_VALID_QNTY"].VisibleIndex = 8;
-            gvMain.Columns["SLT_PRICE_FLUC"].VisibleIndex = 9;
+            gvMain.Columns["SLT_SPREAD_LONG"].VisibleIndex = 4;
+            gvMain.Columns["SLT_SPREAD_MULTI"].VisibleIndex = 5;
+            gvMain.Columns["SLT_SPREAD_MAX"].VisibleIndex = 6;
+            gvMain.Columns["SLT_VALID_QNTY"].VisibleIndex = 7;
+            gvMain.Columns["SLT_PRICE_FLUC"].VisibleIndex = 8;
+            gvMain.Columns["OP_TYPE"].VisibleIndex = 9;
 
             //1.4 設定cell style
             gvMain.Columns["OP_TYPE"].AppearanceCell.ForeColor = Color.Red;
             gvMain.Columns["SLT_KIND_ID"].VisibleIndex = 1;
+            gvMain.Columns["SLT_PRICE_FLUC"].AppearanceCell.ForeColor = Color.Red;
 
             gvMain.BestFitColumns();
             GridHelper.SetCommonGrid(gvMain);
@@ -217,7 +220,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
             if (result.Status == ResultStatus.Fail) {
                return ResultStatus.Fail;
             }
-            AfterSaveForPrint(gcMain , dtChange , systemType);
+            Print(_ReportHelper);
+            //AfterSaveForPrint(gcMain , dtChange , systemType);
 
          } catch (Exception ex) {
             throw ex;
@@ -248,15 +252,18 @@ namespace PhoenixCI.FormUI.Prefix5 {
             }
       }
 
-      protected override ResultStatus Print(ReportHelper reportHelper) {
+      protected override ResultStatus Print(ReportHelper _ReportHelper) {
          try {
-            ReportHelper _ReportHelper = new ReportHelper(gcMain , _ProgramID , this.Text);
-            CommonReportLandscapeA4 reportLandscape = new CommonReportLandscapeA4(); //橫向A4
+            _ReportHelper = new ReportHelper(gcMain , _ProgramID , this.Text);
+            CommonReportPortraitA4 reportLandscape = new CommonReportPortraitA4(); //直A4
 
             reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
             reportLandscape.IsHandlePersonVisible = false;
             reportLandscape.IsManagerVisible = false;
             _ReportHelper.Create(reportLandscape);
+
+            string leftMemo = labTradeDate.Text;
+            _ReportHelper.LeftMemo = leftMemo;
 
             _ReportHelper.Print();
             _ReportHelper.Export(FileType.PDF , _ReportHelper.FilePath);
