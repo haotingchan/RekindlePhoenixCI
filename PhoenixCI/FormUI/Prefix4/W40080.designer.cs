@@ -42,14 +42,15 @@
          this.SP1_KIND_ID1 = new DevExpress.XtraGrid.Columns.GridColumn();
          this.SP1_KIND_ID2 = new DevExpress.XtraGrid.Columns.GridColumn();
          this.SP1_CHANGE_RANGE = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.ADJ_CODE = new DevExpress.XtraGrid.Columns.GridColumn();
+         this.SP2_ADJ_CODE = new DevExpress.XtraGrid.Columns.GridColumn();
+         this.SP2_VALUE_DATE = new DevExpress.XtraGrid.Columns.GridColumn();
          this.SPAN_CODE = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.repositoryItemCheckedComboBoxEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckedComboBoxEdit();
+         this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
          this.SP1_SEQ_NO = new DevExpress.XtraGrid.Columns.GridColumn();
          this.SPAN_CODE_ORG = new DevExpress.XtraGrid.Columns.GridColumn();
          this.ADJ_CODE_ORG = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
          this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+         this.repositoryItemCheckedComboBoxEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckedComboBoxEdit();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          this.panel1.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.adjustmentRadioGroup.Properties)).BeginInit();
@@ -59,9 +60,9 @@
          this.panel2.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit1)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit1)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -259,7 +260,8 @@
             this.SP1_KIND_ID1,
             this.SP1_KIND_ID2,
             this.SP1_CHANGE_RANGE,
-            this.ADJ_CODE,
+            this.SP2_ADJ_CODE,
+            this.SP2_VALUE_DATE,
             this.SPAN_CODE,
             this.SP1_SEQ_NO,
             this.SPAN_CODE_ORG,
@@ -326,14 +328,23 @@
          this.SP1_CHANGE_RANGE.Visible = true;
          this.SP1_CHANGE_RANGE.VisibleIndex = 5;
          // 
-         // ADJ_CODE
+         // SP2_ADJ_CODE
          // 
-         this.ADJ_CODE.Caption = " 觀察  ／ 調整";
-         this.ADJ_CODE.FieldName = "ADJ_CODE";
-         this.ADJ_CODE.Name = "ADJ_CODE";
-         this.ADJ_CODE.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
-         this.ADJ_CODE.Visible = true;
-         this.ADJ_CODE.VisibleIndex = 6;
+         this.SP2_ADJ_CODE.Caption = " 觀察  ／ 調整";
+         this.SP2_ADJ_CODE.FieldName = "SP2_ADJ_CODE";
+         this.SP2_ADJ_CODE.Name = "SP2_ADJ_CODE";
+         this.SP2_ADJ_CODE.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+         this.SP2_ADJ_CODE.Visible = true;
+         this.SP2_ADJ_CODE.VisibleIndex = 6;
+         // 
+         // SP2_VALUE_DATE
+         // 
+         this.SP2_VALUE_DATE.Caption = "生效日期";
+         this.SP2_VALUE_DATE.FieldName = "SP2_VALUE_DATE";
+         this.SP2_VALUE_DATE.Name = "SP2_VALUE_DATE";
+         this.SP2_VALUE_DATE.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+         this.SP2_VALUE_DATE.Visible = true;
+         this.SP2_VALUE_DATE.VisibleIndex = 7;
          // 
          // SPAN_CODE
          // 
@@ -343,14 +354,15 @@
          this.SPAN_CODE.Name = "SPAN_CODE";
          this.SPAN_CODE.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
          this.SPAN_CODE.Visible = true;
-         this.SPAN_CODE.VisibleIndex = 7;
+         this.SPAN_CODE.VisibleIndex = 8;
          // 
-         // repositoryItemCheckedComboBoxEdit1
+         // repositoryItemCheckEdit1
          // 
-         this.repositoryItemCheckedComboBoxEdit1.AutoHeight = false;
-         this.repositoryItemCheckedComboBoxEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.repositoryItemCheckedComboBoxEdit1.Name = "repositoryItemCheckedComboBoxEdit1";
+         this.repositoryItemCheckEdit1.AutoHeight = false;
+         this.repositoryItemCheckEdit1.Name = "repositoryItemCheckEdit1";
+         this.repositoryItemCheckEdit1.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
+         this.repositoryItemCheckEdit1.ValueChecked = "Y";
+         this.repositoryItemCheckEdit1.ValueUnchecked = " ";
          // 
          // SP1_SEQ_NO
          // 
@@ -370,20 +382,19 @@
          this.ADJ_CODE_ORG.FieldName = "ADJ_CODE_ORG";
          this.ADJ_CODE_ORG.Name = "ADJ_CODE_ORG";
          // 
-         // repositoryItemCheckEdit1
-         // 
-         this.repositoryItemCheckEdit1.AutoHeight = false;
-         this.repositoryItemCheckEdit1.Name = "repositoryItemCheckEdit1";
-         this.repositoryItemCheckEdit1.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
-         this.repositoryItemCheckEdit1.ValueChecked = "Y";
-         this.repositoryItemCheckEdit1.ValueUnchecked = " ";
-         // 
          // repositoryItemTextEdit1
          // 
          this.repositoryItemTextEdit1.AutoHeight = false;
          this.repositoryItemTextEdit1.Mask.EditMask = "n";
          this.repositoryItemTextEdit1.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
          this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
+         // 
+         // repositoryItemCheckedComboBoxEdit1
+         // 
+         this.repositoryItemCheckedComboBoxEdit1.AutoHeight = false;
+         this.repositoryItemCheckedComboBoxEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.repositoryItemCheckedComboBoxEdit1.Name = "repositoryItemCheckedComboBoxEdit1";
          // 
          // W40080
          // 
@@ -409,9 +420,9 @@
          this.panel2.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit1)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit1)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -439,12 +450,13 @@
       private DevExpress.XtraGrid.Columns.GridColumn SP1_KIND_ID1;
       private DevExpress.XtraGrid.Columns.GridColumn SP1_KIND_ID2;
       private DevExpress.XtraGrid.Columns.GridColumn SP1_CHANGE_RANGE;
-      private DevExpress.XtraGrid.Columns.GridColumn ADJ_CODE;
+      private DevExpress.XtraGrid.Columns.GridColumn SP2_ADJ_CODE;
       private DevExpress.XtraGrid.Columns.GridColumn SPAN_CODE;
       private DevExpress.XtraGrid.Columns.GridColumn SP1_SEQ_NO;
       private DevExpress.XtraGrid.Columns.GridColumn SPAN_CODE_ORG;
       private DevExpress.XtraGrid.Columns.GridColumn ADJ_CODE_ORG;
       private DevExpress.XtraGrid.Columns.GridColumn SP1_TYPE;
       private DevExpress.XtraEditors.Repository.RepositoryItemCheckedComboBoxEdit repositoryItemCheckedComboBoxEdit1;
+      private DevExpress.XtraGrid.Columns.GridColumn SP2_VALUE_DATE;
    }
 }

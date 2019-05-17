@@ -1324,7 +1324,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      SetCase(++caseNo, "本公司{0}保證金調整案，謹提請討論。", GenArrayTxt(wfKindIdSTFA(dtTemp)));
 
                      //案由四下說明文
-                     DrowSTFTable(dtTemp);
+                     SetForthCaseDesc(dtTemp, new MGRT1().GetDistinctMGRT1Level(), group1.CheckedDate);
 
                      //案由四決議
                      //SetThirdCaseResult(dtTemp);
@@ -2429,6 +2429,59 @@ namespace PhoenixCI.FormUI.Prefix4 {
             Doc.AppendText(Environment.NewLine);
          }
 
+         protected virtual void SetForthCaseDesc(DataTable dtSTF, DataTable dtLevel, DateTime checkedDate) {
+            string tmpStr = "";
+            int licnt = 0;
+            List<DataRow> drsSTF = new List<DataRow>();
+            //一
+            drsSTF = dtSTF.Select("day_cnt >= 3").ToList();
+            drsSTF = drsSTF.OrderBy(r => r.Field<string>("mgr3_cur_level")).ToList();
+
+            if (drsSTF.Count > 0) {
+               foreach (DataRow dr in dtLevel.Rows) {
+                  string curlevel = dr["MGRT1_LEVEL"].AsString();
+                  List<DataRow> drsTmp = drsSTF.Where(r => r.Field<string>("mgr3_cur_level").AsString() == curlevel).ToList();
+                  List<string> kindNameList = new List<string>();
+
+                  drsTmp.ForEach(r => kindNameList.Add(r.Field<string>("apdk_name").AsString()));
+                  string levelTxt = curlevel == "Z" ? "保證金適用比例" : $"所屬級距({curlevel})";
+
+                  tmpStr += $"{GenArrayTxt(kindNameList)}契約之30天期風險價格係數▲▲連續3日以上(含3日)▲▲與現行{levelTxt}變動幅度達10%以上，";
+               }
+            }
+            tmpStr += "且Max(30天期風險價格係數, 風險價格係數平均值)所在級距與現行所屬級距不同，依本公司「保證金調整作業規範」及本部105年5月9日第1050300347號簽，機動評估調整股票期貨結算保證金收取級距。";
+            SetInnerText($"{ChineseNumber[++licnt]}、{checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3)}本公司{tmpStr}");
+
+            //二
+            drsSTF.Clear();
+            tmpStr = "";
+            drsSTF = dtSTF.Select("day_cnt > 0 and day_cnt < 3").ToList();
+            drsSTF = drsSTF.OrderBy(r => r.Field<string>("mgr3_cur_level")).ToList();
+
+            if (drsSTF.Count > 0) {
+               foreach (DataRow dr in dtLevel.Rows) {
+                  string curlevel = dr["MGRT1_LEVEL"].AsString();
+                  List<DataRow> drsTmp = drsSTF.Where(r => r.Field<string>("mgr3_cur_level").AsString() == curlevel).ToList();
+                  List<string> kindNameList = new List<string>();
+
+                  drsTmp.ForEach(r => kindNameList.Add(r.Field<string>("apdk_name").AsString()));
+                  string levelTxt = curlevel == "Z" ? "保證金適用比例" : $"所屬級距({curlevel})";
+
+                  tmpStr += $"{GenArrayTxt(kindNameList)}契約之30天期風險價格係數與現行{levelTxt}變動幅度達10%以上，";
+               }
+            }
+            tmpStr += "考量該檔股票期貨近期價格波動趨勢改變，評估調整股票期貨結算保證金收取級距。";
+            SetInnerText($"{ChineseNumber[++licnt]}、{tmpStr}");
+
+            //三
+            tmpStr = $"前揭股票期貨{checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3)}之風險價格係數平均值、30天期風險價格係數近月合約之結算價、各月份契約合計成交量及未沖銷部位，列表如下：";
+            SetInnerText($"{ChineseNumber[++licnt]}、{tmpStr}");
+            DrowSTFTable(dtSTF);
+
+            //四
+            SetInnerText($"{ChineseNumber[++licnt]}、考量前揭股票期貨之風險價格係數平均值均明顯低於▲▲所屬級距之保證金適用比例，建議暫不調整保證金。");
+         }
+
          protected virtual void SetThirdCaseResult(DataTable dtTemp) {
             string tmpStr = "";
             int licnt = 0;
@@ -2626,9 +2679,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
             List<string> kindNameList = new List<string>();
             List<DataRow> drTemp = dtTemp.Select("prod_subtype = 'S'").ToList();
 
-            drTemp.ForEach(r => kindNameList.Add($"{r.Field<string>("kind_abbr_name").AsString()}(" +
-                                                   $"{r.Field<string>("kind_id").AsString()})"));
+            foreach (DataRow dr in dtTemp.Rows) {
+               string kindName = dr["kind_abbr_name"].AsString();
 
+               kindName += dr["prod_subtype"].AsString() == "S" ?
+                              $"({dr["kind_id"].AsString()})" : "";
+
+               if (!kindNameList.Exists(k => k == kindName)) kindNameList.Add(kindName);
+            }
 
             return kindNameList;
          }
@@ -2958,11 +3016,33 @@ namespace PhoenixCI.FormUI.Prefix4 {
             SetTableStr(1, 6, "本日未沖銷部位數");
             SetTableStr(1, 7, "本日成交量");
             WordTable.MergeCells(WordTableCell, WordTable[2, 7]);
-            WordTable.MergeCells(WordTable[1,6], WordTable[2, 6]);
-            WordTable.MergeCells(WordTable[1,4], WordTable[1, 5]);
+            WordTable.MergeCells(WordTable[1, 6], WordTable[2, 6]);
+            WordTable.MergeCells(WordTable[1, 4], WordTable[1, 5]);
 
             SetTableStr(2, 4, "現貨");
             SetTableStr(2, 5, "現貨");
+
+            string[] colName = new string[] { "t_30_rate", "mgr2_day_rate", "tfxm1_price", "ai5_price", "ai2_oi", "ai2_m_qnty" };
+            string[] fieldFormat = new string[] { "%", "%", "#,##0.##", "#,##0.##", "#,##0", "#,##0" };
+            foreach (DataRow dr in dtSTF.Rows) {
+               TableRow tableRow = WordTable.Rows.Append();
+               WordTableCell = tableRow.FirstCell;
+
+               Doc.InsertSingleLineText(WordTable[tableRow.Index, 0].Range.Start, dr["mgr3_kind_id"].AsString());
+               Doc.InsertSingleLineText(WordTable[tableRow.Index, 1].Range.Start, dr["apdk_name"].AsString());
+
+               int formatindex = 0;
+               int colindex = 2;
+               foreach (string col in colName) {
+                  if (fieldFormat[formatindex] == "%") {
+                     Doc.InsertSingleLineText(WordTable[tableRow.Index, colindex].Range.Start, dr[col].AsPercent(2));
+                  } else {
+                     Doc.InsertSingleLineText(WordTable[tableRow.Index, colindex].Range.Start, dr[col].AsDecimal().ToString(fieldFormat[formatindex]));
+                  }
+                  formatindex++;
+                  colindex++;
+               }
+            }
          }
       }
 
