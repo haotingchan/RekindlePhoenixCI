@@ -1737,17 +1737,21 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                #region 三
                SetInnerText("(三) 現貨及期貨市場漲跌變化：", true, 4.11f, 1.25f);
-
+               int thridNode = 0;
                foreach (DataRow dr in dtIndex.Rows) {
                   string prodType = dr["prod_type"].AsString();
 
                   if (prodType == "O") {
-                     List<DataRow> drsF = dtIndex.Select("prod_type='F' and stock_id ='" + dr["stock_id"].AsString()).ToList();
+                     List<DataRow> drsF = dtIndex.Select($"prod_type='F' and stock_id ='{dr["stock_id"].AsString()}'").ToList();
                      if (drsF.Count > 0) continue;
                   }
 
                   string kindIdOut = dr["kind_id_out"].AsString();
                   tmpStr = $"{kindIdOut.SubStr(0, 2)}現貨";
+
+                  decimal upDownPoint = GetUpDown("O", dr);
+                  decimal upDownPoint2 = GetUpDown("F", dr);
+                  decimal rateDiff = dr["m_cm"].AsDecimal() - dr["cur_cm"].AsDecimal();
 
                   //現貨
                   tmpStr += GenProdString("O", dr);
@@ -1756,14 +1760,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   tmpStr += $"{kindIdOut.SubStr(0, 2)}期貨";
                   tmpStr += GenProdString("F", dr);
 
+                  tmpStr = tmpStr.TrimEnd('、');
                   tmpStr += "，";
-                  decimal rateDiff = dr["m_cm"].AsDecimal() - dr["cur_cm"].AsDecimal();
                   if (prodType == "F") {
-                     DataRow drO = dtIndex.Select("prod_type='O' and stock_id ='" + dr["stock_id"].AsString()).FirstOrDefault();
+                     DataRow drO = dtIndex.Select($"prod_type='O' and stock_id ='{dr["stock_id"].AsString()}'").FirstOrDefault();
                      string warn = "";
                      if (drO != null) {
                         decimal rateDiff2 = drO["m_cm"].AsDecimal() - drO["cur_cm"].AsDecimal();
-
+                        //保證金:+都漲,-都跌,x不同
                         if (rateDiff > 0 && rateDiff2 > 0)
                            warn = "+";
                         else if (rateDiff < 0 && rateDiff2 < 0)
@@ -1771,40 +1775,78 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         else
                            warn = "x";
 
-                        decimal upDownPoint = GetUpDown("O", dr);
-                        decimal upDownPoint2 = GetUpDown("F", dr);
                         //現貨&期貨相同
                         //期貨&選擇權保證金相同
                         if (upDownPoint == upDownPoint2 || upDownPoint == 0 || upDownPoint2 == 0) {
                            if (warn != "x") {
                               tmpStr += $"{kindIdOut}及{drO["kind_id_out"].AsString()}保證金調整之方向與現貨及期貨市場漲跌方向";
-                              if ((upDownPoint > 0 && warn == "+") || (upDownPoint < 0 && warn == "-"))
-                                 tmpStr += "相同";
-                              else
-                                 tmpStr += "相反";
+                              tmpStr += MarketDirectionWarn(upDownPoint, warn);
+
+                           } //期貨&選擇權保證金不同
+                           else {
+                              tmpStr += $"{kindIdOut}保證金調整之方向與現貨及期貨市場漲跌方向";
+                              tmpStr += MarketDirection(upDownPoint, rateDiff);
+                              tmpStr += $"{drO["kind_id_out"].AsString()}保證金調整之方向與現貨及期貨市場漲跌方向";
+                              tmpStr += MarketDirection(upDownPoint2, rateDiff2);
+                           }
+                        } else {
+                           //現貨&期貨不同
+                           //期貨&選擇權保證金相同
+                           if (warn != "x") {
+                              tmpStr += $"{kindIdOut}及{drO["kind_id_out"].AsString()}保證金調整之方向與現貨及期貨市場漲跌方向";
+
+                              tmpStr += MarketDirectionWarn(upDownPoint, warn);
+
+                              if (upDownPoint2 != 0) tmpStr += $"，與期貨市場漲跌方向{MarketDirectionWarn(upDownPoint2, warn)}";
+                           } //期貨&選擇權保證金不同
+                           else {
+                              //FUT
+                              tmpStr += $"{kindIdOut}保證金調整之方向與現貨及期貨市場漲跌方向";
+                              tmpStr += MarketDirection(upDownPoint, rateDiff);
+
+                              if (upDownPoint2 != 0) {
+                                 tmpStr = "；與期貨市場漲跌方向";
+                                 tmpStr += MarketDirection(upDownPoint2, rateDiff);
+                              }
+                              //OPT
+                              tmpStr += $"，{drO["kind_id_out"].AsString()}保證金調整之方向與現貨市場漲跌方向";
+                              tmpStr += MarketDirection(upDownPoint, rateDiff2);
+
+                              if (upDownPoint2 != 0) {
+                                 tmpStr = "；與期貨市場漲跌方向";
+                                 tmpStr += MarketDirection(upDownPoint2, rateDiff2);
+                              }
                            }
                         }
-                        //期貨&選擇權保證金不同
-                        else {
-                           tmpStr += $"{kindIdOut}保證金調整之方向與現貨及期貨市場漲跌方向";
-                           if ((upDownPoint > 0 && warn == "+") || (upDownPoint < 0 && warn == "-"))
-                              tmpStr += "相同";
-                           else
-                              tmpStr += "相反";
-
-                           tmpStr += $"{drO["kind_id_out"].AsString()}保證金調整之方向與現貨及期貨市場漲跌方向";
-                           if ((upDownPoint > 0 && warn == "+") || (upDownPoint < 0 && warn == "-"))
-                              tmpStr += "相同";
-                           else
-                              tmpStr += "相反";
-                        }
                      }//if (drO != null)
+                      //無選擇權狀況
+                      //現貨&期貨相同
+                     if ((upDownPoint > 0 && upDownPoint2 > 0) || (upDownPoint < 0 && upDownPoint2 < 0)
+                           || upDownPoint == 0 || upDownPoint2 == 0) {
+                        tmpStr += $"{kindIdOut}保證金調整之方向與現貨及期貨市場漲跌方向{MarketDirection(upDownPoint, rateDiff)}";
+                     } //現貨&期貨不同	
                      else {
-                        //現貨&期貨不同
-                        //期貨&選擇權保證金相同
-
+                        tmpStr += $"{kindIdOut}保證金調整之方向與現貨及期貨市場漲跌方向{MarketDirection(upDownPoint, rateDiff)}";
+                        tmpStr += $"；與期貨市場漲跌方向{MarketDirection(upDownPoint2, rateDiff)}";
+                     }
+                  } //if(prodType == "F")
+                  else {
+                     //單一狀況
+                     //現貨&期貨相同
+                     if ((upDownPoint > 0 && upDownPoint2 > 0) || (upDownPoint < 0 && upDownPoint2 < 0)
+                           || upDownPoint == 0 || upDownPoint2 == 0) {
+                        tmpStr += $"{kindIdOut}保證金調整之方向與現貨及期貨市場漲跌方向{MarketDirection(upDownPoint, rateDiff)}";
+                     } //現貨&期貨不同	
+                     else {
+                        tmpStr += $"{kindIdOut}保證金調整之方向與現貨及期貨市場漲跌方向{MarketDirection(upDownPoint, rateDiff)}";
+                        tmpStr += $"；與期貨市場漲跌方向{MarketDirection(upDownPoint2, rateDiff)}";
                      }
                   }
+                  tmpStr += "。";
+                  decimal isZero = GetUpDown("F", dr);
+                  if (dr["prod_subtype"].AsString() == "C" || isZero == 0) tmpStr += "▲▲▲";
+
+                  SetInnerText($"{++thridNode}. {tmpStr}", true, 4.17f, 0.6f);
                }//foreach (DataRow dr in dtIndex.Rows) 
                #endregion
 
@@ -1812,14 +1854,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
                string prep = dtIndex.Rows.Count == 1 ? "係因其" : "係因: ";
                tmpStr = string.Format("(四) 觀察{0}保證金變動幅度達10%，{1}", GenArrayTxt(wfKindIdE(dtIndex)), prep);
                SetInnerText(tmpStr, true, 4.11f, 1.25f);
-               int node = 1;
+               int forthNode = 0;
 
                foreach (DataRow dr in dtIndex.Rows) {
                   string prodType = dr["prod_type"].AsString();
 
                   string FOrN = prodType == "F" ? "期貨" : "現貨";
 
-                  tmpStr = $"{node}. 近期{dr["kind_id_out"].AsString()}之{FOrN}指數";
+                  tmpStr = $"{++forthNode}. 近期{dr["kind_id_out"].AsString()}之{FOrN}指數";
 
                   DataRow drFind = dtIndex.AsEnumerable().Where(d => d.Field<string>("stock_id").AsString() == dr["stock_id"].AsString()).FirstOrDefault();
                   if (drFind != null) {
@@ -1852,8 +1894,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   tmpStr += "▲▲▲";
 
                   SetInnerText(tmpStr, true, 4.17f, 0.6f);
-
-                  node++;
                }
                #endregion
 
@@ -1960,11 +2000,121 @@ namespace PhoenixCI.FormUI.Prefix4 {
                SetInnerText(tmpStr, true, 4.11f, 1.25f);
 
                dtGold = dtGold.Select("prod_subtype = 'C' and (kind_id = 'GDF' or kind_id='TGF')").CopyToDataTable();
-               //三
-               SetInnerText("(三) 現貨及期貨市場漲跌變化：", true, 4.11f, 1.25f);
 
-               //foreach (DataRow dr in dtTemp.Rows) {
-               //}
+               #region 三
+               SetInnerText("(三) 現貨及期貨市場漲跌變化：", true, 4.11f, 1.25f);
+               int thridNode = 0;
+               foreach (DataRow dr in dtGold.Rows) {
+                  string prodType = dr["prod_type"].AsString();
+
+                  if (prodType == "O") {
+                     List<DataRow> drsF = dtGold.Select($"prod_type='F' and stock_id ='{dr["stock_id"].AsString()}'").ToList();
+                     if (drsF.Count > 0) continue;
+                  }
+
+                  string kindIdOut = dr["kind_id_out"].AsString();
+                  tmpStr = $"{kindIdOut.SubStr(0, 2)}現貨";
+
+                  decimal upDownPoint = GetUpDown("O", dr);
+                  decimal upDownPoint2 = GetUpDown("F", dr);
+                  decimal rateDiff = dr["m_cm"].AsDecimal() - dr["cur_cm"].AsDecimal();
+
+                  //現貨
+                  tmpStr += GenProdString("O", dr);
+
+                  //期貨
+                  tmpStr += $"{kindIdOut.SubStr(0, 2)}期貨";
+                  tmpStr += GenProdString("F", dr);
+
+                  tmpStr = tmpStr.TrimEnd('、');
+                  tmpStr += "，";
+                  if (prodType == "F") {
+                     DataRow drO = dtGold.Select($"prod_type='O' and stock_id ='{dr["stock_id"].AsString()}'").FirstOrDefault();
+                     string warn = "";
+                     if (drO != null) {
+                        decimal rateDiff2 = drO["m_cm"].AsDecimal() - drO["cur_cm"].AsDecimal();
+                        //保證金:+都漲,-都跌,x不同
+                        if (rateDiff > 0 && rateDiff2 > 0)
+                           warn = "+";
+                        else if (rateDiff < 0 && rateDiff2 < 0)
+                           warn = "-";
+                        else
+                           warn = "x";
+
+                        //現貨&期貨相同
+                        //期貨&選擇權保證金相同
+                        if (upDownPoint == upDownPoint2 || upDownPoint == 0 || upDownPoint2 == 0) {
+                           if (warn != "x") {
+                              tmpStr += $"{kindIdOut}及{drO["kind_id_out"].AsString()}保證金調整之方向與現貨及期貨市場漲跌方向";
+                              tmpStr += MarketDirectionWarn(upDownPoint, warn);
+
+                           } //期貨&選擇權保證金不同
+                           else {
+                              tmpStr += $"{kindIdOut}保證金調整之方向與現貨及期貨市場漲跌方向";
+                              tmpStr += MarketDirection(upDownPoint, rateDiff);
+                              tmpStr += $"{drO["kind_id_out"].AsString()}保證金調整之方向與現貨及期貨市場漲跌方向";
+                              tmpStr += MarketDirection(upDownPoint2, rateDiff2);
+                           }
+                        } else {
+                           //現貨&期貨不同
+                           //期貨&選擇權保證金相同
+                           if (warn != "x") {
+                              tmpStr += $"{kindIdOut}及{drO["kind_id_out"].AsString()}保證金調整之方向與現貨及期貨市場漲跌方向";
+
+                              tmpStr += MarketDirectionWarn(upDownPoint, warn);
+
+                              if (upDownPoint2 != 0) tmpStr += $"，與期貨市場漲跌方向{MarketDirectionWarn(upDownPoint2, warn)}";
+                           } //期貨&選擇權保證金不同
+                           else {
+                              //FUT
+                              tmpStr += $"{kindIdOut}保證金調整之方向與現貨及期貨市場漲跌方向";
+                              tmpStr += MarketDirection(upDownPoint, rateDiff);
+
+                              if (upDownPoint2 != 0) {
+                                 tmpStr = "；與期貨市場漲跌方向";
+                                 tmpStr += MarketDirection(upDownPoint2, rateDiff);
+                              }
+                              //OPT
+                              tmpStr += $"，{drO["kind_id_out"].AsString()}保證金調整之方向與現貨市場漲跌方向";
+                              tmpStr += MarketDirection(upDownPoint, rateDiff2);
+
+                              if (upDownPoint2 != 0) {
+                                 tmpStr = "；與期貨市場漲跌方向";
+                                 tmpStr += MarketDirection(upDownPoint2, rateDiff2);
+                              }
+                           }
+                        }
+                     }//if (drO != null)
+                      //無選擇權狀況
+                      //現貨&期貨相同
+                     if ((upDownPoint > 0 && upDownPoint2 > 0) || (upDownPoint < 0 && upDownPoint2 < 0)
+                           || upDownPoint == 0 || upDownPoint2 == 0) {
+                        tmpStr += $"{kindIdOut}保證金調整之方向與現貨及期貨市場漲跌方向{MarketDirection(upDownPoint, rateDiff)}";
+                     } //現貨&期貨不同	
+                     else {
+                        tmpStr += $"{kindIdOut}保證金調整之方向與現貨及期貨市場漲跌方向{MarketDirection(upDownPoint, rateDiff)}";
+                        tmpStr += $"；與期貨市場漲跌方向{MarketDirection(upDownPoint2, rateDiff)}";
+                     }
+                  } //if(prodType == "F")
+                  else {
+                     //單一狀況
+                     //現貨&期貨相同
+                     if ((upDownPoint > 0 && upDownPoint2 > 0) || (upDownPoint < 0 && upDownPoint2 < 0)
+                           || upDownPoint == 0 || upDownPoint2 == 0) {
+                        tmpStr += $"{kindIdOut}保證金調整之方向與現貨及期貨市場漲跌方向{MarketDirection(upDownPoint, rateDiff)}";
+                     } //現貨&期貨不同	
+                     else {
+                        tmpStr += $"{kindIdOut}保證金調整之方向與現貨及期貨市場漲跌方向{MarketDirection(upDownPoint, rateDiff)}";
+                        tmpStr += $"；與期貨市場漲跌方向{MarketDirection(upDownPoint2, rateDiff)}";
+                     }
+                  }
+                  tmpStr += "。";
+                  decimal isZero = GetUpDown("F", dr);
+                  if (dr["prod_subtype"].AsString() == "C" || isZero == 0) tmpStr += "▲▲▲";
+
+                  SetInnerText($"{++thridNode}. {tmpStr}", true, 4.17f, 0.6f);
+               }//foreach (DataRow dr in dtIndex.Rows) 
+               #endregion
 
                #region 四
                string prep = dtGold.Rows.Count == 1 ? "係因其" : "係因: ";
@@ -3013,21 +3163,27 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //現貨漲跌
             string upDown = "";
             decimal upDownPoint = GetUpDown(prodType, dr);
+
+            if (drprodType == prodType)
+               colValue = "m";
+            else
+               colValue = string.IsNullOrEmpty(dr["oth_kind_id"].AsString()) ? "pdk" : "oth";
+
             if (upDownPoint == 0) {
                tmpStr += "漲跌為0";
                upDown = ChineseNumber[0];
             } else {
                upDown = upDownPoint > 0 ? "漲" : "跌";
             }
-            string pointFormat = dr["prod_subtype"].AsString() == "E" ? "#,##0.####" : "#,##0.##";
-            tmpStr += upDown + upDownPoint.ToString(pointFormat) + "點";
+            int pointFormat = dr["prod_subtype"].AsString() == "E" ? 4 : 2;
+            tmpStr += upDown + Math.Abs(upDownPoint).ToString() + "點";
 
             if (drprodType == prodType)
                upDownPoint = dr["m_rtn"].AsDecimal();
             else
                upDownPoint = dr[colValue + "_return_rate"].AsDecimal();
 
-            tmpStr += $"，{upDown}幅{upDownPoint.AsPercent(int.Parse(pointFormat))}、";
+            tmpStr += $"，{upDown}幅{Math.Abs(upDownPoint).AsPercent(pointFormat)}、";
 
             return tmpStr;
          }
@@ -3044,6 +3200,29 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //現貨漲跌值
             return dr[colValue + "_up_down"].AsDecimal();
          }
+
+         protected virtual string MarketDirectionWarn(decimal upDownPoint, string warn) {
+
+            string tmpStr = "";
+            if ((upDownPoint > 0 && warn == "+") || (upDownPoint < 0 && warn == "-"))
+               tmpStr += "相同";
+            else
+               tmpStr += "相反";
+
+            return tmpStr;
+         }
+
+         protected virtual string MarketDirection(decimal upDownPoint, decimal rateDiff) {
+
+            string tmpStr = "";
+            if ((upDownPoint > 0 && rateDiff > 0) || (upDownPoint < 0 && rateDiff < 0))
+               tmpStr += "相同";
+            else
+               tmpStr += "相反";
+
+            return tmpStr;
+         }
+
 
          protected virtual void DrowCompareTableI(string kindId) {
             Doc.AppendText(Environment.NewLine);
