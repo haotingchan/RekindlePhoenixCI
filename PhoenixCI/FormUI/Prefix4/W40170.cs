@@ -62,7 +62,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          try {
 
             //1. 設定初始值
-            txtStartDate.DateTimeValue = DateTime.ParseExact(GlobalInfo.OCF_DATE.ToString("yyyy/MM/01") , "yyyy/MM/dd" , null);
+            txtStartDate.DateTimeValue = GlobalInfo.OCF_DATE.AddDays(-GlobalInfo.OCF_DATE.Day + 1); //取得當月第1天
             txtStartDate.EnterMoveNextControl = true;
             txtStartDate.Focus();
 
@@ -75,6 +75,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //2. 設定dropdownlist(商品)
             DataTable dtKindId = dao40170.GetDwList(); //第一行空白+SORT_SEQ_NO/RPT_KEY/RPT_NAME/CP_DISPLAY
             dwKindId.SetDataTable(dtKindId , "RPT_KEY" , "CP_DISPLAY" , TextEditStyles.DisableTextEditor , "");
+            dwKindId.ItemIndex = 0;
 
             return ResultStatus.Success;
          } catch (Exception ex) {
@@ -117,12 +118,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             Thread.Sleep(5);
 
             //2. 資料日期區間
-            string startYmd = "", startYmd2 = "", endYmd = "", aocfYmd = "";
+            string startYmd = "", endYmd = "", aocfYmd = "";
             decimal days;
-            if (gbItem.EditValue.AsString() == "rbSdateToEdate") {
+            if (gbItem.EditValue.AsString() == "rbSdateToEdate") {  //選擇選項1
                startYmd = StartDate;
                endYmd = EndDate;
-            } else if (gbItem.EditValue.AsString() == "rbEndDate") {
+            } else if (gbItem.EditValue.AsString() == "rbEndDate") { //選擇選項2
                endYmd = FinalDate;
                days = txtDay.EditValue.AsDecimal();
 
@@ -130,14 +131,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
                aocfYmd = txtDate.DateTimeValue.AddDays((double)(Math.Ceiling(days / 20) * 31 * -1)).ToString("yyyyMMdd");
 
                //2.2 取得資料起始日
-               startYmd2 = dao40170.GetStartDate(FinalDate , aocfYmd , days);
+               startYmd = dao40170.GetStartDate(endYmd , aocfYmd , days);
             }
 
             //3. 商品
             DataTable dtKindId = dao40170.GetDwList(); //第一行空白+SORT_SEQ_NO/RPT_KEY/RPT_NAME/CP_DISPLAY
 
             //4. 模型代碼
-            if (chkModel.CheckedItemsCount == 0) {
+            if (chkModel.CheckedItemsCount < 1) {
                MessageDisplay.Error("請勾選要匯出的報表!");
                return ResultStatus.Fail; ;
             }
@@ -160,7 +161,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      if (kindId == "%") {
                         foreach (DataRow dr in dtKindId.Rows) {
                            if (string.IsNullOrEmpty(dr["RPT_KEY"].AsString()) || dr["RPT_KEY"].AsString() == "%") continue; //跳過空白及全部
-                           res += wf_40170(modelType , startYmd , endYmd , kindId , modelName);
+                           res += wf_40170(modelType , startYmd , endYmd , dr["RPT_KEY"].AsString() , modelName);
                         }
                      } else {
                         res += wf_40170(modelType , startYmd , endYmd , kindId , modelName);
@@ -175,7 +176,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      if (kindId == "%") {
                         foreach (DataRow dr in dtKindId.Rows) {
                            if (string.IsNullOrEmpty(dr["RPT_KEY"].AsString()) || dr["RPT_KEY"].AsString() == "%") continue; //跳過空白及全部
-                           res += wf_40170(modelType , startYmd , endYmd , kindId , modelName);
+                           res += wf_40170(modelType , startYmd , endYmd , dr["RPT_KEY"].AsString() , modelName);
                         }
                      } else {
                         res += wf_40170(modelType , startYmd , endYmd , kindId , modelName);
@@ -190,7 +191,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      if (kindId == "%") {
                         foreach (DataRow dr in dtKindId.Rows) {
                            if (string.IsNullOrEmpty(dr["RPT_KEY"].AsString()) || dr["RPT_KEY"].AsString() == "%") continue; //跳過空白及全部
-                           res += wf_40170(modelType , startYmd , endYmd , kindId , modelName);
+                           res += wf_40170(modelType , startYmd , endYmd , dr["RPT_KEY"].AsString() , modelName);
                         }
                      } else {
                         res += wf_40170(modelType , startYmd , endYmd , kindId , modelName);

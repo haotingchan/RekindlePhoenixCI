@@ -27,45 +27,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
          mon = 0,
          day = 1
       }
-      #region 一般條件查詢縮寫
-
-      /// <summary>
-      /// 月明細(起)：yyyy/MM/01
-      /// </summary>
-      public DateTime FirstMonth {
-         get {
-            return DateTime.ParseExact((txtStartMonth.Text + "/01") , "yyyy/MM/dd" , null);
-         }
-      }
-
-      /// <summary>
-      /// 月明細(訖)：yyyy/MM/dd
-      /// </summary>
-      public DateTime EndMonth {
-         get {
-            return PbFunc.f_get_end_day("AI2" , "TXF" , txtEndMonth.Text); ;
-         }
-      }
-
-      /// <summary>
-      /// 日明細(起)：yyyy/MM/01
-      /// </summary>
-      public DateTime FirstDate {
-         get {
-            return DateTime.ParseExact((txtStartDate.Text) , "yyyy/MM/dd" , null);
-         }
-      }
-
-      /// <summary>
-      /// 日明細(訖)：yyyy/MM/dd
-      /// </summary>
-      public DateTime EndDate {
-         get {
-            return GlobalInfo.OCF_DATE;
-         }
-      }
-
-      #endregion
 
       private D30610 dao30610;
 
@@ -82,12 +43,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
       protected override ResultStatus Open() {
          base.Open();
          try {
-            //起始日期初始化
-            //txtStartMonth.Text = GlobalInfo.OCF_DATE.ToString("yyyy/01"); //取OCF_DATE年的1月份
-            //txtEndMonth.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
-            //txtStartDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/01");
-            //txtEndDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
-
+            //起始日期初始化           
             txtStartMonth.DateTimeValue = new DateTime(GlobalInfo.OCF_DATE.Year , 1 , 1);
             txtEndMonth.DateTimeValue = GlobalInfo.OCF_DATE;
             txtStartDate.DateTimeValue = GlobalInfo.OCF_DATE.AddDays(-GlobalInfo.OCF_DATE.Day + 1); //取得當月第1天
@@ -127,7 +83,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             //1.複製檔案 & 開啟檔案 
             string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID);
-            //string excelDestinationPath = CopyExcelTemplateFile(_ProgramID , FileType.XLS);
             Workbook workbook = new Workbook();
             workbook.LoadDocument(excelDestinationPath);
 
