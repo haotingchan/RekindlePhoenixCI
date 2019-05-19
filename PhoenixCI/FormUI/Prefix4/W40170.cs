@@ -120,10 +120,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //2. 資料日期區間
             string startYmd = "", endYmd = "", aocfYmd = "";
             decimal days;
-            if (gbItem.EditValue.AsString() == "rbSdateToEdate") {  //選擇選項1
+            if (gbItem.EditValue.AsString() == "rbSdateToEdate") {
                startYmd = StartDate;
                endYmd = EndDate;
-            } else if (gbItem.EditValue.AsString() == "rbEndDate") { //選擇選項2
+            } else if (gbItem.EditValue.AsString() == "rbEndDate") {
                endYmd = FinalDate;
                days = txtDay.EditValue.AsDecimal();
 
@@ -140,16 +140,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //4. 模型代碼
             if (chkModel.CheckedItemsCount < 1) {
                MessageDisplay.Error("請勾選要匯出的報表!");
-               return ResultStatus.Fail; ;
+               return ResultStatus.Fail;
             }
 
             string modelType, modelName, kindId;
 
             int res = 0;
             foreach (CheckedListBoxItem item in chkModel.Items) {
-               if (item.CheckState == CheckState.Unchecked) {
-                  continue;
-               }
+               if (item.CheckState == CheckState.Unchecked) continue;
 
                switch (item.Value) {
                   case "chkSma":
@@ -160,7 +158,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      //一個商品產生一個檔
                      if (kindId == "%") {
                         foreach (DataRow dr in dtKindId.Rows) {
-                           if (string.IsNullOrEmpty(dr["RPT_KEY"].AsString()) || dr["RPT_KEY"].AsString() == "%") continue; //跳過空白及全部
+                           if (dr["RPT_KEY"].AsString() == "%") continue; //跳過全部
                            res += wf_40170(modelType , startYmd , endYmd , dr["RPT_KEY"].AsString() , modelName);
                         }
                      } else {
@@ -175,7 +173,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      //一個商品產生一個檔
                      if (kindId == "%") {
                         foreach (DataRow dr in dtKindId.Rows) {
-                           if (string.IsNullOrEmpty(dr["RPT_KEY"].AsString()) || dr["RPT_KEY"].AsString() == "%") continue; //跳過空白及全部
+                           if (dr["RPT_KEY"].AsString() == "%") continue;
                            res += wf_40170(modelType , startYmd , endYmd , dr["RPT_KEY"].AsString() , modelName);
                         }
                      } else {
@@ -190,7 +188,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      //一個商品產生一個檔
                      if (kindId == "%") {
                         foreach (DataRow dr in dtKindId.Rows) {
-                           if (string.IsNullOrEmpty(dr["RPT_KEY"].AsString()) || dr["RPT_KEY"].AsString() == "%") continue; //跳過空白及全部
+                           if (dr["RPT_KEY"].AsString() == "%") continue; 
                            res += wf_40170(modelType , startYmd , endYmd , dr["RPT_KEY"].AsString() , modelName);
                         }
                      } else {
