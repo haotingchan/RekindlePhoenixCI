@@ -138,7 +138,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          this.Text += "(開啟測試模式)";
 #endif
 
-         panDetail.Visible = false;
+         //panDetail.Visible = false;
 
          return ResultStatus.Success;
       }
