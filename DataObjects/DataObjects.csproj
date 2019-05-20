@@ -293,6 +293,7 @@
     <Compile Include="Dao\Together\TableDao\AM2F.cs" />
     <Compile Include="Dao\Together\TableDao\AM7.cs" />
     <Compile Include="Dao\Together\TableDao\AM7T.cs" />
+    <Compile Include="Dao\Together\TableDao\AP.cs" />
     <Compile Include="Dao\Together\TableDao\HCPR.cs" />
     <Compile Include="Dao\Together\TableDao\AMIF.cs" />
     <Compile Include="Dao\Together\TableDao\AMIFU.cs" />
