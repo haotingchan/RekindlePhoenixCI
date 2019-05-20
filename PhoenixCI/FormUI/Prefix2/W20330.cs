@@ -1,30 +1,25 @@
-﻿using System;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Windows.Forms;
-using BaseGround;
-using DevExpress.XtraGrid.Views.Grid;
-using BusinessObjects.Enums;
+﻿using BaseGround;
 using BaseGround.Report;
 using BusinessObjects;
+using BusinessObjects.Enums;
 using DataObjects.Dao.Together.TableDao;
-using BaseGround.Shared;
-using Common;
+using DevExpress.XtraGrid.Views.Grid;
+using System.ComponentModel;
+using System.Drawing;
 
 /// <summary>
 /// Winni, 2019/5/20 (廢除功能)
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix2 {
    /// <summary>
-   /// 20320 每月結算銀行及會員家數輸入
+   /// 20330 每月交易輔助人交易量輸入
    /// </summary>
-   public partial class W20320 : FormParent {
+   public partial class W20330 : FormParent {
 
       private ReportHelper _ReportHelper;
       private AA1 daoAA1;
 
-      public W20320(string programID , string programName) : base(programID , programName) {
+      public W20330(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
          daoAA1 = new AA1();
@@ -35,13 +30,11 @@ namespace PhoenixCI.FormUI.Prefix2 {
       protected override ResultStatus Open() {
          base.Open();
          CMC_YM.Caption = "年月";
-         CMC_COUNT_G.Caption = "一般家數";
-         CMC_COUNT_P.Caption = "個別家數";
-         CMC_COUNT_B.Caption = "銀行家數";
-         this.gvMain.SetRowCellValue(0 , "CMC_YM" , "201810");
-         this.gvMain.SetRowCellValue(0 , "CMC_COUNT_G" , "   ");
+         CMC_COUNT_G.Caption = "交易輔助人交易量";
+         CMC_COUNT_P.Caption = "交易輔助人家數";
+         this.gvMain.SetRowCellValue(0, "CMC_YM","201810");
+         this.gvMain.SetRowCellValue(0 , "CMC_COUNT_G" , "0");
          this.gvMain.SetRowCellValue(0 , "CMC_COUNT_P" , "   ");
-         this.gvMain.SetRowCellValue(0 , "CMC_COUNT_B" , "   ");
 
          return ResultStatus.Success;
       }

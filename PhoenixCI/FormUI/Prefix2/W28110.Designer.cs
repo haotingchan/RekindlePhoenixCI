@@ -28,13 +28,13 @@
          this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
          this.panFilter = new System.Windows.Forms.GroupBox();
+         this.txtDate = new BaseGround.Widget.TextDateEdit();
          this.label9 = new System.Windows.Forms.Label();
          this.btnSp = new System.Windows.Forms.Button();
          this.btnStwd = new System.Windows.Forms.Button();
          this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
          this.gcMain = new DevExpress.XtraGrid.GridControl();
          this.gvMain = new DevExpress.XtraGrid.Views.Grid.GridView();
-         this.txtDate = new BaseGround.Widget.TextDateEdit();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -42,10 +42,10 @@
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
          this.r_frame.SuspendLayout();
          this.panFilter.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -118,6 +118,26 @@
          this.panFilter.TabStop = false;
          this.panFilter.Text = "請輸入交易日期";
          // 
+         // txtDate
+         // 
+         this.txtDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtDate.EditValue = "2018/12";
+         this.txtDate.EnterMoveNextControl = true;
+         this.txtDate.Location = new System.Drawing.Point(117, 48);
+         this.txtDate.MenuManager = this.ribbonControl;
+         this.txtDate.Name = "txtDate";
+         this.txtDate.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtDate.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.txtDate.Properties.Mask.EditMask = "yyyy/MM/dd";
+         this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtDate.Properties.Mask.ShowPlaceHolders = false;
+         this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtDate.Size = new System.Drawing.Size(100, 26);
+         this.txtDate.TabIndex = 87;
+         this.txtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         // 
          // label9
          // 
          this.label9.AutoSize = true;
@@ -180,26 +200,6 @@
          this.gvMain.OptionsView.ColumnAutoWidth = false;
          this.gvMain.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gvMain_ShowingEditor);
          // 
-         // txtDate
-         // 
-         this.txtDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtDate.EditValue = "2018/12";
-         this.txtDate.EnterMoveNextControl = true;
-         this.txtDate.Location = new System.Drawing.Point(117, 48);
-         this.txtDate.MenuManager = this.ribbonControl;
-         this.txtDate.Name = "txtDate";
-         this.txtDate.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtDate.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-         this.txtDate.Properties.Mask.ShowPlaceHolders = false;
-         this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtDate.Size = new System.Drawing.Size(100, 26);
-         this.txtDate.TabIndex = 87;
-         this.txtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-         // 
          // W28110
          // 
          this.Appearance.Options.UseFont = true;
@@ -223,10 +223,10 @@
          this.r_frame.PerformLayout();
          this.panFilter.ResumeLayout(false);
          this.panFilter.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 

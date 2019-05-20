@@ -17,19 +17,20 @@ using Common;
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix2 {
    /// <summary>
-   /// 20320 每月結算銀行及會員家數輸入
+   /// 25010 造市者限制設定
    /// </summary>
-   public partial class W20320 : FormParent {
+   public partial class W25010 : FormParent {
 
       private ReportHelper _ReportHelper;
       private AA1 daoAA1;
 
-      public W20320(string programID , string programName) : base(programID , programName) {
+      public W25010(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
          daoAA1 = new AA1();
          txtStartDate.EditValue = GlobalInfo.OCF_DATE.Year + "/01";
          txtEndDate.EditValue = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
+         MessageDisplay.Info("執行完成!");
       }
 
       protected override ResultStatus Open() {

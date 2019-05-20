@@ -1,5 +1,5 @@
 ﻿namespace PhoenixCI.FormUI.Prefix2 {
-    partial class W20320 {
+    partial class W20330 {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -34,7 +34,6 @@
          this.CMC_YM = new DevExpress.XtraGrid.Columns.GridColumn();
          this.CMC_COUNT_G = new DevExpress.XtraGrid.Columns.GridColumn();
          this.CMC_COUNT_P = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.CMC_COUNT_B = new DevExpress.XtraGrid.Columns.GridColumn();
          this.AA1_TAIFEXEdit = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
          this.behaviorManager1 = new DevExpress.Utils.Behaviors.BehaviorManager();
          this.panParent.SuspendLayout();
@@ -144,6 +143,7 @@
          // 
          // gcMain
          // 
+         this.gcMain.Dock = System.Windows.Forms.DockStyle.Fill;
          this.gcMain.Location = new System.Drawing.Point(12, 12);
          this.gcMain.MainView = this.gvMain;
          this.gcMain.MenuManager = this.ribbonControl;
@@ -165,8 +165,7 @@
          this.gvMain.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.CMC_YM,
             this.CMC_COUNT_G,
-            this.CMC_COUNT_P,
-            this.CMC_COUNT_B});
+            this.CMC_COUNT_P});
          this.gvMain.GridControl = this.gcMain;
          this.gvMain.Name = "gvMain";
          this.gvMain.OptionsView.ColumnAutoWidth = false;
@@ -229,30 +228,12 @@
          this.CMC_COUNT_P.VisibleIndex = 2;
          this.CMC_COUNT_P.Width = 160;
          // 
-         // CMC_COUNT_B
-         // 
-         this.CMC_COUNT_B.AppearanceHeader.BackColor = System.Drawing.Color.Aqua;
-         this.CMC_COUNT_B.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
-         this.CMC_COUNT_B.AppearanceHeader.Options.UseBackColor = true;
-         this.CMC_COUNT_B.AppearanceHeader.Options.UseBorderColor = true;
-         this.CMC_COUNT_B.AppearanceHeader.Options.UseTextOptions = true;
-         this.CMC_COUNT_B.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.CMC_COUNT_B.Caption = "銀行家數";
-         this.CMC_COUNT_B.DisplayFormat.FormatString = "0,00";
-         this.CMC_COUNT_B.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
-         this.CMC_COUNT_B.FieldName = "CMC_COUNT_B";
-         this.CMC_COUNT_B.Name = "CMC_COUNT_B";
-         this.CMC_COUNT_B.OptionsColumn.FixedWidth = true;
-         this.CMC_COUNT_B.Visible = true;
-         this.CMC_COUNT_B.VisibleIndex = 3;
-         this.CMC_COUNT_B.Width = 160;
-         // 
          // AA1_TAIFEXEdit
          // 
          this.AA1_TAIFEXEdit.AutoHeight = false;
          this.AA1_TAIFEXEdit.Name = "AA1_TAIFEXEdit";
          // 
-         // W20320
+         // W20330
          // 
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
@@ -260,8 +241,8 @@
          this.ClientSize = new System.Drawing.Size(877, 627);
          this.Controls.Add(this.panelControl2);
          this.Controls.Add(this.panelControl1);
-         this.Name = "W20320";
-         this.Text = "W20320";
+         this.Name = "W20330";
+         this.Text = "W20330";
          this.Controls.SetChildIndex(this.ribbonControl, 0);
          this.Controls.SetChildIndex(this.panelControl1, 0);
          this.Controls.SetChildIndex(this.panelControl2, 0);
@@ -296,7 +277,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn CMC_YM;
         private DevExpress.XtraGrid.Columns.GridColumn CMC_COUNT_G;
         private DevExpress.XtraGrid.Columns.GridColumn CMC_COUNT_P;
-        private DevExpress.XtraGrid.Columns.GridColumn CMC_COUNT_B;
         private DevExpress.Utils.Behaviors.BehaviorManager behaviorManager1;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit AA1_TAIFEXEdit;
     }
