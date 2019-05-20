@@ -807,6 +807,15 @@ namespace PhoenixCI.FormUI.Prefix4 {
             msg.Status = ResultStatus.Fail;
 
             try {
+               string check130Wf = PbFunc.f_chk_130_wf("40030", TxtDate.AsDateTime("yyyyMMdd"), OswGrp);
+               if (check130Wf != "") {
+                  DialogResult result = MessageDisplay.Choose($"{TxtDate}-{check130Wf}，是否要繼續?");
+                  if (result == DialogResult.No) {
+                     msg.Status = ResultStatus.FailButNext;
+                     return msg;
+                  }
+               }
+
                return base.Export();
 
             } catch (Exception ex) {
@@ -1232,6 +1241,23 @@ namespace PhoenixCI.FormUI.Prefix4 {
             msg.Status = ResultStatus.Fail;
 
             try {
+               //group 正常值
+               foreach (CheckedItem c in CheckedItems) {
+                  int cntValue = c.CheckedValue == 1 ? 1 : 2;
+                  string checkBatch = PbFunc.f_chk_ai2(c.CheckedDate.ToString("yyyyMMdd"), OswGrp, "Y", $"Group{c.CheckedValue}", cntValue);
+
+                  if (checkBatch != "") throw new Exception("批次檢查錯誤");
+
+                  checkBatch = PbFunc.f_chk_130_wf("40030", c.CheckedDate, OswGrp);
+                  if (checkBatch != "") {
+                     DialogResult result = MessageDisplay.Choose($"{TxtDate}-{checkBatch}，是否要繼續?");
+                     if (result == DialogResult.No) {
+                        msg.Status = ResultStatus.FailButNext;
+                        return msg;
+                     }
+                  }
+               }
+
                FilePath = PbFunc.wf_copy_file(ProgramId, MeetingLogFileName);
 
                //取得會議紀錄 / 議程資訊
@@ -1351,7 +1377,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
                base.SetSubjectText("貳、臨時動議：");
                base.SetSubjectText("參、散　　會：下午5時30分");
 
-
                base.SetAllNumberAndEnglishFont(Doc);//設定英數字體
 
                Doc.EndUpdate();
@@ -1364,10 +1389,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                FilePath = PbFunc.wf_copy_file(ProgramId, AgendaFileName);
 
-               //取得會議紀錄 / 議程資訊
-               GetRPTF();
-
-               //會議記錄
+               //議程
                OpenFile();
 
                //表頭 出席者
@@ -1451,7 +1473,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                //案由五(SPAN)
                drsSPAN = DtSpan.AsEnumerable().ToList();
                checkedItems = CheckedItems.Where(c => c.CheckedValue == 1 || c.CheckedValue == 5).ToList();
-               if (drsSPAN.Count > 0) {
+               if (drsSPAN.Count > 0 && checkedItems.Count > 0) {
                   DataTable dtTemp = drsSPAN.CopyToDataTable();
 
                   //案由五後文字
@@ -1472,8 +1494,62 @@ namespace PhoenixCI.FormUI.Prefix4 {
 #if DEBUG
                System.Diagnostics.Process.Start(FilePath);
 #endif
-               //end 會議紀錄
+               //end 議程
 
+               //Export Excel
+               string ExcelFilePath = PbFunc.wf_copy_file("40030", "40030");
+               DevExpress.Spreadsheet.Workbook workbook = new DevExpress.Spreadsheet.Workbook();
+               workbook.LoadDocument(ExcelFilePath);
+
+               List<DataRow> drsFUT = Dt.Select("prod_type='F' and m_change_flag = 'Y'").ToList();
+               if (drsFUT.Count > 0) {
+                  ExportExcelFut(workbook, drsFUT.CopyToDataTable());
+               }
+
+               List<DataRow> drsOPT = Dt.Select("prod_type='O' and m_change_flag = 'Y'").ToList();
+               if (drsOPT.Count > 0) {
+                  ExportExcelOPT(workbook, drsOPT.CopyToDataTable());
+               }
+
+               checkedItems = CheckedItems.Where(c => c.CheckedValue == 1 || c.CheckedValue == 5).ToList();
+               if (DtSpanTable.Rows.Count > 0 && checkedItems.Count > 0) {
+                  ExportExcelSpan(workbook, DtSpanTable, checkedItems);
+               }
+
+               foreach (CheckedItem items in CheckedItems) {
+                  switch (items.CheckedValue) {
+                     case 1: {
+                        ExportCompareExcel(workbook, "TXF", "TX");
+                        ExportCompareExcel(workbook, "UDF", "DJIA");
+                        ExportCompareExcel(workbook, "SPF", "S&P500");
+                        ExportCompareExcel(workbook, "BRF", "Brent Crude");
+
+                        break;
+                     }
+                     case 2: {
+                        ExportCompareExcel(workbook, "GDF", "黃金");
+                        ExportCompareExcel(workbook, "RHF", "人民幣");
+                        ExportCompareExcel(workbook, "XEF", "歐元");
+                        ExportCompareExcel(workbook, "XJF", "日圓");
+                        ExportCompareExcel(workbook, "XBF", "英鎊");
+                        ExportCompareExcel(workbook, "XAF", "澳幣");
+
+                        break;
+                     }
+                     case 3: {
+                        ExportCompareExcel(workbook, "TJF", "TOPIX");
+                        ExportCompareExcel(workbook, "I5F", "Nifty50");
+
+                        break;
+                     }
+                  }
+               }
+
+               workbook.SaveDocument(ExcelFilePath);
+#if DEBUG
+               System.Diagnostics.Process.Start(ExcelFilePath);
+#endif
+               //End Export Excel
 
                msg.Status = ResultStatus.Success;
                return msg;
@@ -3223,6 +3299,143 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return tmpStr;
          }
 
+         protected virtual void ExportCompareExcel(DevExpress.Spreadsheet.Workbook wb, string kindId, string sheetName) {
+
+            DevExpress.Spreadsheet.Worksheet worksheet = wb.Worksheets[sheetName];
+            List<DataRow> drsAbroad = DtAbroad.Select($"kind_grp='{kindId}'").ToList();
+            drsAbroad = drsAbroad.OrderBy(r => r.Field<int>("seq_no")).ToList();
+
+            int rowIndexBefore = drsAbroad.FirstOrDefault().Field<int>("rpt_row1");
+            int rowIndexAfter = drsAbroad.FirstOrDefault().Field<int>("rpt_row2");
+            string[] hasValKind = new string[] { "GDF", "RHF", "XEF", "XJF", "XBF", "XAF" };
+            bool hasVal = hasValKind.ToList().Where(h => h == kindId).Count() > 0 ? true : false;
+            int rowIndex = 0;
+
+            //現行
+            foreach (DataRow dr in drsAbroad) {
+               rowIndex = rowIndexBefore - 2;
+               int seqNo = dr["seq_no"].AsInt();
+
+               if (seqNo == 0) continue;
+
+               int colIndex = seqNo + 1;
+               worksheet.Cells[++rowIndex, colIndex].SetValue(dr["cur_cm"].AsDecimal());
+
+               if (hasVal) worksheet.Cells[++rowIndex, colIndex].SetValue(dr["v_val"].AsDecimal());
+
+               worksheet.Cells[++rowIndex, colIndex].SetValue(dr["cur_cm_rate"].AsDecimal());
+               worksheet.Cells[++rowIndex, colIndex].SetValue(dr["cur_im_rate"].AsDecimal());
+            }
+
+            //調整後
+            foreach (DataRow dr in drsAbroad) {
+               rowIndex = rowIndexAfter - 2;
+               int seqNo = dr["seq_no"].AsInt();
+
+               if (seqNo == 0) continue;
+
+               int colIndex = rowIndexBefore != rowIndexAfter ? seqNo + 1 : seqNo + drsAbroad.Count + 1;
+               worksheet.Cells[++rowIndex, colIndex].SetValue(dr["m_cm"].AsDecimal());
+
+               if (hasVal) worksheet.Cells[++rowIndex, colIndex].SetValue(dr["v_val"].AsDecimal());
+
+               worksheet.Cells[++rowIndex, colIndex].SetValue(dr["m_cm_rate"].AsDecimal());
+               worksheet.Cells[++rowIndex, colIndex].SetValue(dr["m_im_rate"].AsDecimal());
+            }
+         }
+
+         protected virtual void ExportExcelFut(DevExpress.Spreadsheet.Workbook wb, DataTable dtTmp) {
+
+            DevExpress.Spreadsheet.Worksheet worksheet = wb.Worksheets["保證金(Fut)"];
+            DateTime dataDate = dtTmp.Rows[0]["data_ymd"].AsDateTime("yyyyMMdd");
+
+            worksheet.Cells[0, 7].SetValue($"資料日期：{dataDate.ToString("yyyy年MM月dd日")}");
+
+            int rowIndex = 1;
+            foreach (DataRow dr in dtTmp.Rows) {
+               int colIndex = 1;
+
+               worksheet.Cells[rowIndex, colIndex].SetValue("單位：" + dr["currency_name"].AsString());
+               rowIndex += 1;
+               worksheet.Cells[rowIndex, colIndex].SetValue(dr["kind_id_out"].AsString());
+               rowIndex += 2;
+               colIndex = 2;
+
+               string[] cols = new string[] { "m_im", "m_mm", "m_cm", "cur_im", "cur_mm", "cur_cm" };
+               foreach (string dc in cols) {
+
+                  worksheet.Cells[rowIndex, colIndex].SetValue(dr[dc].AsDecimal());
+                  colIndex++;
+               }
+               rowIndex += 1;
+               worksheet.Cells[rowIndex, 1].SetValue($"(註：風險價格係數：{dr["m_day_risk"].AsPercent(2)}，結算保證金變動幅度：{dr["adj_rate"].AsPercent(2)})");
+               rowIndex += 2;
+            }
+         }
+
+         protected virtual void ExportExcelOPT(DevExpress.Spreadsheet.Workbook wb, DataTable dtTmp) {
+
+            DevExpress.Spreadsheet.Worksheet worksheet = wb.Worksheets["保證金(Opt)"];
+            DateTime dataDate = dtTmp.Rows[0]["data_ymd"].AsDateTime("yyyyMMdd");
+
+            worksheet.Cells[0, 7].SetValue($"資料日期：{dataDate.ToString("yyyy年MM月dd日")}");
+
+            int rowIndex = 1;
+            string kindId = "";
+            foreach (DataRow dr in dtTmp.Rows) {
+               int colIndex = 1;
+               if (dr["kind_id"].AsString() != kindId) {
+                  kindId = dr["kind_id"].AsString();
+
+                  if (dr["ab_type"].AsString() == "B") continue;
+               }
+
+               worksheet.Cells[rowIndex, colIndex].SetValue("單位：" + dr["currency_name"].AsString());
+               rowIndex += 1;
+               worksheet.Cells[rowIndex, colIndex].SetValue(dr["kind_id_out"].AsString());
+               rowIndex += 2;
+               colIndex = 2;
+
+               string[] cols = new string[] { "m_im", "m_mm", "m_cm", "cur_im", "cur_mm", "cur_cm" };
+               foreach (string dc in cols) {
+
+                  worksheet.Cells[rowIndex, colIndex].SetValue(dr[dc].AsDecimal());
+                  colIndex++;
+               }
+               rowIndex += 1;
+               colIndex = 2;
+
+               cols = new string[] { "m_im_b", "m_mm_b", "m_cm_b", "cur_im_b", "cur_mm_b", "cur_cm_b" };
+               foreach (string dc in cols) {
+
+                  worksheet.Cells[rowIndex, colIndex].SetValue(dr[dc].AsDecimal());
+                  colIndex++;
+               }
+
+               rowIndex += 1;
+               worksheet.Cells[rowIndex, 1].SetValue($"(註：風險價格係數：{dr["m_day_risk"].AsPercent(2)}，結算保證金變動幅度：{dr["adj_rate"].AsPercent(2)})");
+               rowIndex += 2;
+            }
+         }
+
+         protected virtual void ExportExcelSpan(DevExpress.Spreadsheet.Workbook wb, DataTable dtTmp, List<CheckedItem> checkItems) {
+
+            DevExpress.Spreadsheet.Worksheet worksheet = wb.Worksheets["SPAN參數"];
+            DateTime dataDate = checkItems.FirstOrDefault().CheckedDate;
+
+            worksheet.Cells[0, 5].SetValue($"資料日期：{dataDate.ToString("yyyy年MM月dd日")}");
+
+            int rowIndex = 2;
+            foreach (DataRow dr in dtTmp.Rows) {
+               int colIndex = 1;
+
+               foreach (DataColumn dc in dtTmp.Columns) {
+                  worksheet.Cells[rowIndex, colIndex].SetValue(dr[dc]);
+                  colIndex++;
+               }
+               rowIndex += 4;
+            }
+         }
 
          protected virtual void DrowCompareTableI(string kindId) {
             Doc.AppendText(Environment.NewLine);
@@ -3725,7 +3938,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
                                       $"JPX mini TOPIX{Characters.LineBreak}Futures{Characters.LineBreak}(日幣)"};
          }
       }
-
 
       private interface I40030KindInfoE {
          int RowCount { get; set; }
