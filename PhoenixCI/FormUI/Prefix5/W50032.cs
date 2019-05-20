@@ -23,6 +23,7 @@ namespace PhoenixCI.FormUI.Prefix5
    {
       private D50032 dao50032;
       private DataTable is_dw_name { get; set; }
+      private defReport defReport;
       public W50032(string programID, string programName) : base(programID, programName)
       {
          InitializeComponent();
@@ -94,15 +95,15 @@ namespace PhoenixCI.FormUI.Prefix5
       {
          DataTable dt = is_dw_name;
          List<ReportProp> caption = new List<ReportProp>{
-            new ReportProp{ dataColumn=ExtensionCommon.rowindex,caption= "筆數",cellWidth=174} ,
-            new ReportProp{dataColumn="AMM0_YMD",caption= "日期" ,cellWidth=224},
-            new ReportProp{dataColumn="AMM0_BRK_NO",caption= "期貨商代號" ,cellWidth=270},
-            new ReportProp{dataColumn="BRK_ABBR_NAME",caption= "期貨商名稱" ,cellWidth=530},
-            new ReportProp{dataColumn="AMM0_ACC_NO",caption= "投資人帳號" ,cellWidth=347},
-            new ReportProp{dataColumn="AMM0_PROD_ID",caption= "商品名稱",cellWidth=357},
-            new ReportProp{dataColumn="AMM0_O_SUBTRACT_QNTY",caption= "委託自行成交量",cellWidth=379},
-            new ReportProp{dataColumn="AMM0_Q_SUBTRACT_QNTY",caption= "報價自行成交量",cellWidth=379},
-            new ReportProp{dataColumn="AMM0_IQM_SUBTRACT_QNTY",caption= "不符合－報價自行成交量",cellWidth=379}
+            new ReportProp{ DataColumn=ExtensionCommon.rowindex,Caption= "筆數",CellWidth=174} ,
+            new ReportProp{DataColumn="AMM0_YMD",Caption= "日期" ,CellWidth=224},
+            new ReportProp{DataColumn="AMM0_BRK_NO",Caption= "期貨商代號" ,CellWidth=270},
+            new ReportProp{DataColumn="BRK_ABBR_NAME",Caption= "期貨商名稱" ,CellWidth=530},
+            new ReportProp{DataColumn="AMM0_ACC_NO",Caption= "投資人帳號" ,CellWidth=347},
+            new ReportProp{DataColumn="AMM0_PROD_ID",Caption= "商品名稱",CellWidth=357},
+            new ReportProp{DataColumn="AMM0_O_SUBTRACT_QNTY",Caption= "委託自行成交量",CellWidth=379},
+            new ReportProp{DataColumn="AMM0_Q_SUBTRACT_QNTY",Caption= "報價自行成交量",CellWidth=379},
+            new ReportProp{DataColumn="AMM0_IQM_SUBTRACT_QNTY",Caption= "不符合－報價自行成交量",CellWidth=379}
             };
          dt = ExtensionCommon.AddSeriNumToDataTable(dt);
          defReport = new defReport(dt, caption);

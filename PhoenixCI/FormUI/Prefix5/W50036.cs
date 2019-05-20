@@ -27,6 +27,7 @@ namespace PhoenixCI.FormUI.Prefix5
    {
       private D50036 dao50036;
       private DataTable is_dw_name { get; set; }
+      private defReport defReport;
       public W50036(string programID, string programName) : base(programID, programName)
       {
          InitializeComponent();
@@ -88,29 +89,23 @@ namespace PhoenixCI.FormUI.Prefix5
       {
          DataTable dt = is_dw_name;
          List<ReportProp> caption = new List<ReportProp>{
-            new ReportProp{dataColumn=ExtensionCommon.rowindex,caption= "筆數",cellWidth=146} ,
-            new ReportProp{dataColumn="AMM0_YMD",caption="日期",cellWidth=224} ,
-            new ReportProp{dataColumn="AMM0_BRK_NO",caption="期貨商代號",cellWidth=270},
-            new ReportProp{dataColumn = "BRK_ABBR_NAME", caption ="期貨商名稱",cellWidth=530},
-            new ReportProp{dataColumn = "AMM0_ACC_NO",caption="投資人帳號",cellWidth=325},
-            new ReportProp{dataColumn = "AMM0_PROD_ID",caption="商品名稱",cellWidth=389},
-            new ReportProp{dataColumn = "AMM0_MMK_QNTY",caption="造市量",cellWidth=407},
-            new ReportProp{dataColumn = "AMM0_TOT_QNTY",caption="造市者總成交量",cellWidth=407},
-            new ReportProp{dataColumn = "AMM0_MMK_RATE",caption="有效報/詢價比例",cellWidth=302},
-            new ReportProp{dataColumn = "AMM0_KEEP_TIME",caption="每日平均維持時間(分)",cellWidth=407},
-            new ReportProp{dataColumn = "AMM0_RESULT",caption="績效分數",cellWidth=576},
-            new ReportProp{dataColumn = "AMM0_CONTRACT_CNT",caption="合格檔數",cellWidth=325}
+            new ReportProp{DataColumn=ExtensionCommon.rowindex,Caption= "筆數",CellWidth=146} ,
+            new ReportProp{DataColumn="AMM0_YMD",Caption="日期",CellWidth=224} ,
+            new ReportProp{DataColumn="AMM0_BRK_NO",Caption="期貨商代號",CellWidth=270},
+            new ReportProp{DataColumn = "BRK_ABBR_NAME", Caption ="期貨商名稱",CellWidth=530},
+            new ReportProp{DataColumn = "AMM0_ACC_NO",Caption="投資人帳號",CellWidth=325},
+            new ReportProp{DataColumn = "AMM0_PROD_ID",Caption="商品名稱",CellWidth=389},
+            new ReportProp{DataColumn = "AMM0_MMK_QNTY",Caption="造市量",CellWidth=407},
+            new ReportProp{DataColumn = "AMM0_TOT_QNTY",Caption="造市者總成交量",CellWidth=407},
+            new ReportProp{DataColumn = "AMM0_MMK_RATE",Caption="有效報/詢價比例",CellWidth=302},
+            new ReportProp{DataColumn = "AMM0_KEEP_TIME",Caption="每日平均維持時間(分)",CellWidth=407},
+            new ReportProp{DataColumn = "AMM0_RESULT",Caption="績效分數",CellWidth=576},
+            new ReportProp{DataColumn = "AMM0_CONTRACT_CNT",Caption="合格檔數",CellWidth=325}
             };
          dt = ExtensionCommon.AddSeriNumToDataTable(dt);
          defReport = new defReport(dt, caption);
-         //documentViewer1.DocumentSource = defReport;
-         //defReport.CreateDocument(true);
-         var storage = new MemoryDocumentStorage();
-         var report = defReport;
-         cachedReportSource1 = new CachedReportSource(report, storage);
-
-         documentViewer1.DocumentSource = cachedReportSource1;
-         cachedReportSource1.CreateDocumentAsync();
+         documentViewer1.DocumentSource = defReport;
+         defReport.CreateDocument(true);
       }
 
       protected bool BeforeRetrieve()
@@ -118,7 +113,7 @@ namespace PhoenixCI.FormUI.Prefix5
          if (!w500xx.StartRetrieve()) {
             _ToolBtnExport.Enabled = false;
             return false;
-         } 
+         }
          /* 報表內容 */
          if (w500xx.gb_detial.EditValue.Equals("rb_gdate")) {
             is_dw_name = dao50036.ListAMMO(w500xx.Sdate, w500xx.Edate, w500xx.SumType, w500xx.SumSubType);
@@ -169,8 +164,8 @@ namespace PhoenixCI.FormUI.Prefix5
          w500xx.StartExport(ls_rpt_id, ls_rpt_name);
          BeforeRetrieve();
          string ls_filename;
-         ls_filename = _ProgramID + "_" + DateTime.Now.ToString("yyyy.MM.dd") + "-" + DateTime.Now.ToString("HH.mm.ss") + ".xlsx";
-         string destinationFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, ls_filename);
+         ls_filename = _ProgramID + "_" + DateTime.Now.ToString("yyyy.MM.dd") + "-" + DateTime.Now.ToString("HH.mm.ss");
+         string destinationFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, ls_filename + ".xlsx");
          /******************
          開啟檔案
          ******************/
@@ -185,41 +180,12 @@ namespace PhoenixCI.FormUI.Prefix5
             return ResultStatus.Success;
          }
 
-         //// Create a report instance. 
-         //XtraReport report = defReport;
-
          //// Get its XLSX export options. 
-         //XlsxExportOptions xlsxOptions = report.ExportOptions.Xlsx;
+         XlsxExportOptions xlsxOptions = defReport.ExportOptions.Xlsx;
+         xlsxOptions.SheetName = ls_filename;
+         // Export the report to XLSX. 
+         defReport.ExportToXlsx(destinationFilePath);
 
-         //// Set XLSX-specific export options. 
-         //xlsxOptions.ShowGridLines = true;
-         //xlsxOptions.TextExportMode = TextExportMode.Value;
-         //xlsxOptions.ExportHyperlinks = true;
-         //xlsxOptions.SheetName = "My Sheet";
-         //xlsxOptions.ExportMode = XlsxExportMode.DifferentFiles;
-
-         //// Export the report to XLSX. 
-         //report.ExportToXlsx(destinationFilePath);
-
-
-         Worksheet worksheet = workbook.Worksheets[0];
-         DataTable dt = (DataTable)defReport.DataSource;
-         int k = 1;
-         dt.Columns[k++].Caption = "日期";
-         dt.Columns[k++].Caption = "期貨商代號";
-         dt.Columns[k++].Caption = "期貨商名稱";
-         dt.Columns[k++].Caption = "投資人帳號";
-         dt.Columns[k++].Caption = "amm0_prod_type";
-         dt.Columns[k++].Caption = "商品名稱";
-         dt.Columns[k++].Caption = "造市量";
-         dt.Columns[k++].Caption = "造市者總成交量";
-         dt.Columns[k++].Caption = "有效報/詢價比例";
-         dt.Columns[k++].Caption = "每日平均維持時間(分)";
-         dt.Columns[k++].Caption = "績效分數";
-         dt.Columns[k++].Caption = "合格檔數";
-         dt.Columns.Remove(dt.Columns[0]);
-         worksheet.Import(dt, true, 0, 0);
-         workbook.SaveDocument(destinationFilePath);
          w500xx.EndExport();
          return ResultStatus.Success;
       }
