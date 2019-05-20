@@ -38,9 +38,9 @@ namespace DataObjects.Dao.Together.SpecificDao {
                         
             string filter = "";
             if (startFcmNo.Length > 0)
-                filter += string.Format(" and FEETRD_FCM_NO >= '{0}'",startFcmNo);
+                filter += string.Format(" and FEETRD_FCM_NO >= '{0}' ",startFcmNo);
             if (endFcmNo.Length > 0)
-                filter += string.Format(" and FEETRD_FCM_NO <= '{0}'", endFcmNo);
+                filter += string.Format(" and FEETRD_FCM_NO <= '{0}' ", endFcmNo);
 
 
             string sql = string.Format(@"
@@ -70,7 +70,6 @@ FROM
     FROM CI.FEETDCC 
     WHERE FEETDCC_YM >= :as_sym    
     AND FEETDCC_YM <= :as_eym
-    {0}
     GROUP BY FEETDCC_FCM_NO) TDCC
     
 WHERE FEETRD_FCM_NO = FEETDCC_FCM_NO(+)
@@ -137,7 +136,6 @@ FROM
    FROM CI.FEETDCC 
    WHERE FEETDCC_YM >= :as_sym    
    AND FEETDCC_YM <= :as_eym
-   {0}
    GROUP BY FEETDCC_FCM_NO,FEETDCC_KIND_ID) TDCC
 
 WHERE FEETRD_FCM_NO = FEETDCC_FCM_NO(+)

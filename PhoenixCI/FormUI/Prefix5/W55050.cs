@@ -9,6 +9,8 @@ using DevExpress.XtraEditors.Controls;
 using System;
 using System.Data;
 using System.Linq;
+using System.Threading;
+using System.Windows.Forms;
 
 /// <summary>
 /// ken,2019/1/7
@@ -44,15 +46,12 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
          //2.設定下拉選單
          //2.1先讀取db
-         DataTable dt = new ABRK().ListAll();//第一行空白+ABRK_NO/ABRK_NAME/cp_display
-         cbxFcmStartNo.SetDataTable(dt , "ABRK_NO");
-         cbxFcmEndNo.SetDataTable(dt , "ABRK_NO");
+         DataTable dt = new ABRK().ListAll2();//第一行空白+ABRK_NO/ABRK_NAME/cp_display
+         cbxFcmStartNo.SetDataTable(dt , "ABRK_NO" , "CP_DISPLAY" , TextEditStyles.Standard , " ");
+         cbxFcmEndNo.SetDataTable(dt , "ABRK_NO" , "CP_DISPLAY" , TextEditStyles.Standard , " ");
 
          rgpType.SelectedIndex = 0;//直接預設為第一個選項
          rgpType.EnterMoveNextControl = true;
-
-
-
 
          return ResultStatus.Success;
       }
@@ -94,7 +93,15 @@ namespace PhoenixCI.FormUI.Prefix5 {
       /// <returns></returns>
       protected override ResultStatus Export() {
 
-         //0.將畫面資訊做些轉換
+         //0. ready
+         panFilter.Enabled = false;
+         labMsg.Visible = true;
+         labMsg.Text = "轉檔中...";
+         this.Cursor = Cursors.WaitCursor;
+         this.Refresh();
+         Thread.Sleep(5);
+
+         //0.1 將畫面資訊做些轉換
          string startNo = cbxFcmStartNo.EditValue.AsString("");
          string endNo = cbxFcmEndNo.EditValue.AsString("");
 
@@ -107,6 +114,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
                if (startNo.CompareTo(endNo) > 0) {
                   MessageDisplay.Warning("造市者代號起始不可大於迄止");
                   cbxFcmStartNo.Focus();
+                  panFilter.Enabled = true;
+                  labMsg.Text = " ";
+                  this.Cursor = Cursors.Arrow;
+                  this.Refresh();
+                  Thread.Sleep(5);
                   return ResultStatus.Fail;
                }
 
@@ -123,9 +135,14 @@ namespace PhoenixCI.FormUI.Prefix5 {
                                     startNo ,
                                     endNo);
 
-         if (dt.Rows.Count == 0) {
+         if (dt.Rows.Count <= 0) {
             MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtStartMonth.Text + "~" + txtEndMonth.Text , this.Text));
-            return ResultStatus.Success;
+            panFilter.Enabled = true;
+            labMsg.Text = " ";
+            this.Cursor = Cursors.Arrow;
+            this.Refresh();
+            Thread.Sleep(5);
+            return ResultStatus.Fail;
          }
 
          try {
@@ -135,7 +152,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             labMsg.Text = "訊息：資料轉出中........";
 
             //3.1 copy template xls to target path
-            string excelDestinationPath = CopyExcelTemplateFile(_ProgramID , FileType.XLS);
+            string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
 
             //3.2 open xls
             Workbook workbook = new Workbook();
@@ -163,29 +180,25 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
                if (rgpType.SelectedIndex == 0) {
                   //依照期貨商別
-                  worksheet.Cells[rowIndex , 0].Value = row["feetrd_fcm_no"].AsString();//期貨商代號
-                  worksheet.Cells[rowIndex , 1].Value = row["brk_abbr_name"].AsString();//期貨商名稱
-
-                  worksheet.Cells[rowIndex , 2].Value = row["feetrd_ar"].AsDecimal();//交易經手費--應收
-                  worksheet.Cells[rowIndex , 3].Value = row["feetrd_disc_amt"].AsDecimal();//交易經手費--折減
-                  worksheet.Cells[rowIndex , 4].Value = row["feetrd_rec_amt"].AsDecimal();//交易經手費--實收
-
-                  worksheet.Cells[rowIndex , 5].Value = row["feetdcc_ar"].AsDecimal();//結算服務費--應收
-                  worksheet.Cells[rowIndex , 6].Value = row["feetdcc_disc_amt"].AsDecimal();//結算服務費--折減
-                  worksheet.Cells[rowIndex , 7].Value = row["feetdcc_rec_amt"].AsDecimal();//結算服務費--實收
+                  worksheet.Cells[rowIndex , 0].SetValue(row["feetrd_fcm_no"]);//期貨商代號
+                  worksheet.Cells[rowIndex , 1].SetValue(row["brk_abbr_name"]);//期貨商名稱
+                  worksheet.Cells[rowIndex , 2].SetValue(row["feetrd_ar"]);//交易經手費--應收
+                  worksheet.Cells[rowIndex , 3].SetValue(row["feetrd_disc_amt"]);//交易經手費--折減
+                  worksheet.Cells[rowIndex , 4].SetValue(row["feetrd_rec_amt"]);//交易經手費--實收
+                  worksheet.Cells[rowIndex , 5].SetValue(row["feetdcc_ar"]);//結算服務費--應收
+                  worksheet.Cells[rowIndex , 6].SetValue(row["feetdcc_disc_amt"]);//結算服務費--折減
+                  worksheet.Cells[rowIndex , 7].SetValue(row["feetdcc_rec_amt"]);//結算服務費--實收
                } else {
                   //依照商品別
-                  worksheet.Cells[rowIndex , 0].Value = row["feetrd_fcm_no"].AsString();//期貨商代號
-                  worksheet.Cells[rowIndex , 1].Value = row["brk_abbr_name"].AsString();//期貨商名稱
-                  worksheet.Cells[rowIndex , 2].Value = row["feetrd_kind_id"].AsString();//商品名稱
-
-                  worksheet.Cells[rowIndex , 3].Value = row["feetrd_ar"].AsDecimal();//交易經手費--應收
-                  worksheet.Cells[rowIndex , 4].Value = row["feetrd_disc_amt"].AsDecimal();//交易經手費--折減
-                  worksheet.Cells[rowIndex , 5].Value = row["feetrd_rec_amt"].AsDecimal();//交易經手費--實收
-
-                  worksheet.Cells[rowIndex , 6].Value = row["feetdcc_ar"].AsDecimal();//結算服務費--應收
-                  worksheet.Cells[rowIndex , 7].Value = row["feetdcc_disc_amt"].AsDecimal();//結算服務費--折減
-                  worksheet.Cells[rowIndex , 8].Value = row["feetdcc_rec_amt"].AsDecimal();//結算服務費--實收
+                  worksheet.Cells[rowIndex , 0].SetValue(row["feetrd_fcm_no"]);//期貨商代號
+                  worksheet.Cells[rowIndex , 1].SetValue(row["brk_abbr_name"]);//期貨商名稱
+                  worksheet.Cells[rowIndex , 2].SetValue(row["feetrd_kind_id"]);//商品名稱
+                  worksheet.Cells[rowIndex , 3].SetValue(row["feetrd_ar"]);//交易經手費--應收
+                  worksheet.Cells[rowIndex , 4].SetValue(row["feetrd_disc_amt"]);//交易經手費--折減
+                  worksheet.Cells[rowIndex , 5].SetValue(row["feetrd_rec_amt"]);//交易經手費--實收
+                  worksheet.Cells[rowIndex , 6].SetValue(row["feetdcc_ar"]);//結算服務費--應收
+                  worksheet.Cells[rowIndex , 7].SetValue(row["feetdcc_disc_amt"]);//結算服務費--折減
+                  worksheet.Cells[rowIndex , 7].SetValue(row["feetdcc_rec_amt"]);//結算服務費--實收
                }//if(rgpType.SelectedIndex == 0) {
 
                rowIndex++; pos++;
@@ -204,11 +217,12 @@ namespace PhoenixCI.FormUI.Prefix5 {
             workbook.SaveDocument(excelDestinationPath);
             return ResultStatus.Success;
          } catch (Exception ex) {
-            PbFunc.f_write_logf(_ProgramID , "Error" , ex.Message);
+            WriteLog(ex);
          } finally {
+            panFilter.Enabled = true;
             labMsg.Text = "";
             labMsg.Visible = false;
-            panFilter.Enabled = true;
+            this.Cursor = Cursors.Arrow;
          }
          return ResultStatus.Fail;
       }

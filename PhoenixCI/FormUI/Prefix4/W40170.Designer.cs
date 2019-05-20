@@ -140,6 +140,7 @@
          this.txtDate.Name = "txtDate";
          this.txtDate.Properties.Appearance.Options.UseTextOptions = true;
          this.txtDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtDate.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtDate.Properties.Mask.EditMask = "yyyy/MM/dd";
          this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
          this.txtDate.Properties.Mask.ShowPlaceHolders = false;
@@ -159,6 +160,7 @@
          this.txtEndDate.Name = "txtEndDate";
          this.txtEndDate.Properties.Appearance.Options.UseTextOptions = true;
          this.txtEndDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtEndDate.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtEndDate.Properties.Mask.EditMask = "yyyy/MM/dd";
          this.txtEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
          this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
@@ -178,6 +180,7 @@
          this.txtStartDate.Name = "txtStartDate";
          this.txtStartDate.Properties.Appearance.Options.UseTextOptions = true;
          this.txtStartDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtStartDate.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtStartDate.Properties.Mask.EditMask = "yyyy/MM/dd";
          this.txtStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
          this.txtStartDate.Properties.Mask.ShowPlaceHolders = false;
@@ -244,7 +247,7 @@
          this.gbItem.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rbSdateToEdate", "日期起訖："),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rbEndDate", "迄止日期：")});
-         this.gbItem.Size = new System.Drawing.Size(398, 76);
+         this.gbItem.Size = new System.Drawing.Size(395, 76);
          this.gbItem.TabIndex = 77;
          // 
          // label8

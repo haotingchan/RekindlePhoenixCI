@@ -20,7 +20,35 @@ namespace PhoenixCI.FormUI.Prefix4 {
    public partial class W40160 : FormParent {
 
       private D40160 dao40160;
-      string startYmd, startYmd2;
+
+      #region 一般交易查詢條件縮寫
+      /// <summary>
+      /// yyyyMMdd
+      /// </summary>
+      public string StartDate {
+         get {
+            return txtStartDate.DateTimeValue.ToString("yyyyMMdd");
+         }
+      }
+
+      /// <summary>
+      /// yyyyMMdd
+      /// </summary>
+      public string EndDate {
+         get {
+            return txtEndDate.DateTimeValue.ToString("yyyyMMdd");
+         }
+      }
+
+      /// <summary>
+      /// yyyyMMdd
+      /// </summary>
+      public string FinalDate {
+         get {
+            return txtDate.DateTimeValue.ToString("yyyyMMdd");
+         }
+      }
+      #endregion
 
       public W40160(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
@@ -43,19 +71,21 @@ namespace PhoenixCI.FormUI.Prefix4 {
          base.Open();
          try {
 
-            //1. 設定初始年月yyyy/MM/dd
-            txtStartDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/01");
+            //1. 設定初始值
+            txtStartDate.DateTimeValue = GlobalInfo.OCF_DATE.AddDays(-GlobalInfo.OCF_DATE.Day + 1); //取得當月第1天
             txtStartDate.EnterMoveNextControl = true;
             txtStartDate.Focus();
 
-            txtEndDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
+            txtEndDate.DateTimeValue = GlobalInfo.OCF_DATE;
             txtEndDate.EnterMoveNextControl = true;
 
-            txtDate.Text = txtEndDate.Text;
+            txtDate.DateTimeValue = txtEndDate.DateTimeValue;
+            txtDay.EditValue = 2500;
 
             //2. 設定dropdownlist(商品)
             DataTable dtKindId = dao40160.GetDwList(); //第一行空白+SORT_SEQ_NO/RPT_KEY/RPT_NAME/CP_DISPLAY
-            dwKindId.SetDataTable(dtKindId , "RPT_KEY");
+            dwKindId.SetDataTable(dtKindId , "RPT_KEY" , "CP_DISPLAY" , TextEditStyles.DisableTextEditor , "");
+            dwKindId.ItemIndex = 0;
 
             return ResultStatus.Success;
          } catch (Exception ex) {
@@ -87,29 +117,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       protected override ResultStatus Export() {
-         base.Export();
-
-         #region 日期檢核
-         //if (gbItem.EditValue.AsString() == "rbSdateToEdate") {
-         //   if (!txtStartDate.IsDate(txtStartDate.Text , "日期輸入錯誤!") ||
-         //      !txtEndDate.IsDate(txtEndDate.Text , "日期輸入錯誤!")) {
-         //      txtEndDate.Focus();
-         //      MessageDisplay.Error("日期輸入錯誤!");
-         //      return ResultStatus.Fail;
-         //   }
-         //} else {
-         //   if (!txtDate.IsDate(txtDate.Text , "日期輸入錯誤!")) {
-         //      txtEndDate.Focus();
-         //      MessageDisplay.Error("日期輸入錯誤!");
-         //      return ResultStatus.Fail;
-         //   }
-         //}
-         #endregion
-
          try {
-            string endYmd = "", aocfYmd = "";
-            decimal days;
-
             //1. ready
             panFilter.Enabled = false;
             labMsg.Visible = true;
@@ -119,18 +127,20 @@ namespace PhoenixCI.FormUI.Prefix4 {
             Thread.Sleep(5);
 
             //2. 資料日期區間
+            string startYmd = "", endYmd = "", aocfYmd = "";
+            decimal days;
             if (gbItem.EditValue.AsString() == "rbSdateToEdate") {
-               startYmd = DateTime.ParseExact(txtStartDate.Text , "yyyy/MM/dd" , null).ToString("yyyyMMdd");
-               endYmd = DateTime.ParseExact(txtEndDate.Text , "yyyy/MM/dd" , null).ToString("yyyyMMdd");
+               startYmd = StartDate;
+               endYmd = EndDate;
             } else if (gbItem.EditValue.AsString() == "rbEndDate") {
-               endYmd = DateTime.ParseExact(txtDate.Text , "yyyy/MM/dd" , null).ToString("yyyyMMdd");
-               days = txtDay.Text.AsDecimal();
+               endYmd = FinalDate;
+               days = txtDay.EditValue.AsDecimal();
 
                //2.1 預估工作天20天,1個月31天
                aocfYmd = txtDate.DateTimeValue.AddDays((double)(Math.Ceiling(days / 20) * 31 * -1)).ToString("yyyyMMdd");
 
                //2.2 取得資料起始日
-               startYmd2 = dao40160.GetStartDate(endYmd , aocfYmd , days);
+               startYmd = dao40160.GetStartDate(endYmd , aocfYmd , days);
 
             }
 
@@ -138,82 +148,61 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dtKindId = dao40160.GetDwList(); //第一行空白+SORT_SEQ_NO/RPT_KEY/RPT_NAME/CP_DISPLAY
 
             //4. 模型代碼
-            if (chkModel.CheckedItemsCount == 0) {
+            if (chkModel.CheckedItemsCount < 1) {
                MessageDisplay.Error("請勾選要匯出的報表!");
-               return ResultStatus.Fail; ;
+               return ResultStatus.Fail;
             }
 
             string modelType, modelName, kindId;
 
+            int res = 0;
             foreach (CheckedListBoxItem item in chkModel.Items) {
-               if (item.CheckState == CheckState.Unchecked) {
-                  continue;
-               }
+               if (item.CheckState == CheckState.Unchecked) continue;
 
-               //startYmd = DateTime.ParseExact(txtStartDate.Text , "yyyy/MM/dd" , null).ToString("yyyyMMdd");
-               //endYmd = DateTime.ParseExact(txtEndDate.Text , "yyyy/MM/dd" , null).ToString("yyyyMMdd");
-
-               bool res = false;
-               string startDateYmd = "";
                switch (item.Value) {
                   case "chkSma":
                      modelType = "S";
                      modelName = item.Description;
-                     kindId = dwKindId.EditValue.AsString(); //rpt_key
-                     startDateYmd = gbItem.EditValue.AsString() == "rbSdateToEdate" ? startYmd : startYmd2;
+                     kindId = dwKindId.EditValue.AsString();
 
                      //一個商品產生一個檔
                      if (kindId == "%") {
                         foreach (DataRow dr in dtKindId.Rows) {
-                           string rptKey = dr["rpt_key"].AsString();
-                           kindId = rptKey;
-
-                           if (kindId != "%") {
-                              res = wf_40160(modelType , startDateYmd , endYmd , kindId , modelName);
-                           }
+                           if (dr["RPT_KEY"].AsString() == "%") continue; //跳過全部
+                           res += wf_40160(modelType , startYmd , endYmd , dr["RPT_KEY"].AsString() , modelName);
                         }
                      } else {
-                        res = wf_40160(modelType , startDateYmd , endYmd , kindId , modelName);
+                        res += wf_40160(modelType , startYmd , endYmd , kindId , modelName);
                      }
                      break;
                   case "chkEwma":
                      modelType = "E";
                      modelName = item.Description;
-                     kindId = dwKindId.EditValue.AsString(); //rpt_key
-                     startDateYmd = gbItem.EditValue.AsString() == "rbSdateToEdate" ? startYmd : startYmd2;
+                     kindId = dwKindId.EditValue.AsString(); 
 
                      //一個商品產生一個檔
                      if (kindId == "%") {
                         foreach (DataRow dr in dtKindId.Rows) {
-                           string rptKey = dr["rpt_key"].AsString();
-                           kindId = rptKey;
-
-                           if (kindId != "%") {
-                              res = wf_40160(modelType , startDateYmd , endYmd , kindId , modelName);
-                           }
+                           if (dr["RPT_KEY"].AsString() == "%") continue;
+                           res += wf_40160(modelType , startYmd , endYmd , dr["RPT_KEY"].AsString() , modelName);
                         }
                      } else {
-                        res = wf_40160(modelType , startDateYmd , endYmd , kindId , modelName);
+                        res += wf_40160(modelType , startYmd , endYmd , kindId , modelName);
                      }
                      break;
                   case "chkMaxVol":
                      modelType = "M";
                      modelName = item.Description;
-                     kindId = dwKindId.EditValue.AsString(); //rpt_key
-                     startDateYmd = gbItem.EditValue.AsString() == "rbSdateToEdate" ? startYmd : startYmd2;
+                     kindId = dwKindId.EditValue.AsString(); 
 
                      //一個商品產生一個檔
                      if (kindId == "%") {
                         foreach (DataRow dr in dtKindId.Rows) {
-                           string rptKey = dr["rpt_key"].AsString();
-                           kindId = rptKey;
-
-                           if (kindId != "%") {
-                              res = wf_40160(modelType , startDateYmd , endYmd , kindId , modelName);
-                           }
+                           if (dr["RPT_KEY"].AsString() == "%") continue;
+                           res += wf_40160(modelType , startYmd , endYmd , dr["RPT_KEY"].AsString() , modelName);
                         }
                      } else {
-                        res = wf_40160(modelType , startDateYmd , endYmd , kindId , modelName);
+                        res += wf_40160(modelType , startYmd , endYmd , kindId , modelName);
                      }
                      break;
                }
@@ -231,12 +220,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
          return ResultStatus.Fail;
       }
 
-      private bool wf_40160(string modelType , string startDate , string endDate , string kindId , string modelName) {
+      private int wf_40160(string modelType , string startDate , string endDate , string kindId , string modelName) {
          try {
             //執行CI.SP_H_TXN_40160_DETL
             DataTable dt = dao40160.ExecuteStoredProcedure(modelType , startDate , endDate , kindId);
             if (dt.Rows.Count <= 1) {
-               return false;
+               return 0;
             }
 
             //存CSV (ps:輸出csv 都用ascii)
@@ -248,11 +237,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             Common.Helper.ExportHelper.ToCsv(dt , etfFileName , csvref);
 
             WriteLog("執行ci.SP_H_TXN_40160_DETL" , "Info" , "X" , false);
-            return true;
+            return 1;
          } catch (Exception ex) {
             WriteLog(ex);
          }
-         return false;
+         return 0;
       }
    }
 }

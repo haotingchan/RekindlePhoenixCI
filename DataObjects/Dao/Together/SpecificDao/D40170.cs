@@ -42,10 +42,7 @@ FROM
           WHERE RPT_TXD_ID = '40171'    
           AND TRIM(RPT_VALUE) = TRIM(APDK_KIND_ID)
     ) T      
-UNION 
-    SELECT 
-         -1,' ',' ',' ' FROM DUAL
-    ORDER BY SORT_SEQ_NO
+ORDER BY SORT_SEQ_NO
 ";
 
          DataTable dtResult = db.GetDataTable(sql , null);

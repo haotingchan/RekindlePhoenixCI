@@ -5,8 +5,12 @@ using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together.SpecificDao;
 using DataObjects.Dao.Together.TableDao;
+using DevExpress.Utils;
+using DevExpress.XtraGrid.Views.Grid;
 using System;
+using System.ComponentModel;
 using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -27,45 +31,45 @@ namespace PhoenixCI.FormUI.Prefix2 {
       protected D28110 dao28110;
       protected D20110 dao20110;
 
-      string dateYmd; //as_ym
+      #region 一般交易查詢條件縮寫
+      /// <summary>
+      /// yyyyMMdd
+      /// </summary>
+      public string DateYmd {
+         get {
+            return txtDate.DateTimeValue.ToString("yyyyMMdd");
+         }
+      }
+      #endregion
+
       ResultStatus resultStatus = ResultStatus.Fail;
 
       public W28110(string programID , string programName) : base(programID , programName) {
-         try {
-            InitializeComponent();
+         InitializeComponent();
+         this.Text = _ProgramID + "─" + _ProgramName;
 
-            this.Text = _ProgramID + "─" + _ProgramName;
-            txtDate.DateTimeValue = GlobalInfo.OCF_DATE;
-            GridHelper.SetCommonGrid(gvMain);
-            GridHelper.SetCommonGrid(gvMain2);
+         GridHelper.SetCommonGrid(gvMain);
 
-            labMsg.Visible = false;
-
-            //string as_ym = txtDate.Text.Replace("/" , "");
-
-            daoSTW = new STW();
-            daoSTWD = new STWD();
-            daoAMIF = new AMIF();
-            dao28110 = new D28110();
-            dao20110 = new D20110();
-         } catch (Exception ex) {
-            WriteLog(ex);
-         }
-
+         daoSTW = new STW();
+         daoSTWD = new STWD();
+         daoAMIF = new AMIF();
+         dao28110 = new D28110();
+         dao20110 = new D20110();
       }
 
       /// <summary>
-      /// 先判斷帳號是否為FlagAdmin
+      /// 需判斷帳號是否為FlagAdmin
       /// </summary>
       /// <returns></returns>
       protected override ResultStatus Open() {
          base.Open();
 
+         txtDate.DateTimeValue = GlobalInfo.OCF_DATE;
+
          if (FlagAdmin) {
             btnStwd.Visible = true;
             btnSp.Visible = true;
          }
-
          return ResultStatus.Success;
       }
 
@@ -97,12 +101,12 @@ namespace PhoenixCI.FormUI.Prefix2 {
       protected override ResultStatus DeleteRow() {
          DialogResult msgResult = MessageBox.Show("請問確定要刪除 " + txtDate.Text + " 資料嗎?" , "注意" , MessageBoxButtons.YesNo , MessageBoxIcon.Question);
          if (msgResult == DialogResult.Yes) {
-            DataTable dtTmp = daoSTW.GetDataByDate(dateYmd);
+            DataTable dtTmp = daoSTW.GetDataByDate(DateYmd);
             if (dtTmp.Rows.Count <= 0) {
                MessageDisplay.Error("刪除 " + txtDate.Text + " 資料失敗! ");
                return ResultStatus.Fail;
             }
-            daoSTW.DeleteByDate(dateYmd);
+            daoSTW.DeleteByDate(DateYmd);
             MessageDisplay.Info("刪除完成!");
          }
 
@@ -115,20 +119,44 @@ namespace PhoenixCI.FormUI.Prefix2 {
       /// </summary>
       /// <returns></returns>
       protected override ResultStatus Retrieve() {
-         base.Retrieve();
-         dateYmd = txtDate.Text.Replace("/" , ""); //yyyyMMdd
-         DataTable returnTable = daoSTW.GetDataByDate(dateYmd);
-         if (returnTable.Rows.Count <= 0) {
-            MessageDisplay.Info("無任何資料");
+         try {
+            DataTable dt = daoSTW.GetDataByDate(DateYmd);
+            if (dt.Rows.Count <= 0) {
+               MessageDisplay.Info("無任何資料");
+            }
+
+            //1. 設定gvMain
+            gvMain.Columns.Clear();
+            gvMain.OptionsBehavior.AutoPopulateColumns = true;
+            gcMain.DataSource = dt;
+
+            string[] showColCaption = {"Stw Ymd", "Stw Com", "Stw Settle M","Stw Settle Y","Stw Open 1",
+                                       "Stw High", "Stw Low", "Stw Clse 1","Stw Settle","Stw Volumn",
+                                       "Stw Oint", "Stw Del", "Stw Rectyp","Stw Open I1","Stw Open 2",
+                                       "Stw Open I2", "Stw High I", "Stw Low I","Stw Clse I1","Stw Clse 2","Stw Clse I2"};
+
+            //1.1 設定欄位caption       
+            foreach (DataColumn dc in dt.Columns) {
+               gvMain.SetColumnCaption(dc.ColumnName , showColCaption[dt.Columns.IndexOf(dc)]);
+
+               //設定欄位header顏色
+               gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = Color.FromArgb(128 , 255 , 255);
+            }
+
+            //1.2 設定欄位順序
+            gvMain.Columns["STW_RECTYP"].VisibleIndex = 11;
+            gvMain.Columns["STW_DEL"].VisibleIndex = 12;
+
+            gvMain.BestFitColumns();
+            GridHelper.SetCommonGrid(gvMain);
+            gcMain.Visible = true;
+            gcMain.Focus();
+
+            return ResultStatus.Success;
+         } catch (Exception ex) {
+            WriteLog(ex);
          }
-
-         gcMain.DataSource = returnTable;
-         gcMain.Visible = true;
-         gcMain2.DataSource = returnTable;
-         gcMain2.Visible = true;
-         gcMain.Focus();
-
-         return ResultStatus.Success;
+         return ResultStatus.Fail;
       }
 
       /// <summary>
@@ -158,7 +186,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                   string line;
                   while ((line = sr.ReadLine()) != null) {
                      string[] items = line.Split(',');
-                     DataTable returnTable = daoSTW.GetDataByDate(dateYmd); //只有要用到colume
+                     DataTable returnTable = daoSTW.GetDataByDate(DateYmd); //只有要用到colume
 
                      //填入欄位名稱
                      if (dtReadTxt.Columns.Count == 0) {
@@ -291,7 +319,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             #endregion
 
             #region 6.if ids_1.update() > 0  then commit
-            if (dt.GetChanges().Rows!= null) {
+            if (dt.GetChanges().Rows != null) {
                if (dt.GetChanges().Rows.Count <= 0) {
                   WriteLog("寫入STW錯誤!" , "Error" , "I");
                   MessageDisplay.Error("寫入STW錯誤!");
@@ -441,7 +469,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             #endregion
 
             #region 8.add/delete STWD data (轉統計資料ci.STWD)
-            daoSTWD.DeleteByDate(dateYmd);
+            daoSTWD.DeleteByDate(DateYmd);
             WriteLog("刪STWD資料" , "Info" , "E");
 
             //8.1
@@ -598,8 +626,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
 
       #region Click Event
       private void btnStwd_Click(object sender , EventArgs e) {
-         daoSTWD.DeleteByDate(dateYmd);
-         dao28110.InsertDataByUser("I0001" , dateYmd); // userId "I0001" 暫時使用
+         daoSTWD.DeleteByDate(DateYmd);
+         dao28110.InsertDataByUser("I0001" , DateYmd); // userId "I0001" 暫時使用
       }
 
       private void btnSp_Click(object sender , EventArgs e) {
@@ -617,6 +645,16 @@ namespace PhoenixCI.FormUI.Prefix2 {
          WriteLog("執行sp_H_stt_AI3");
       }
       #endregion
+
+      /// <summary>
+      /// 決定哪些欄位無法編輯的事件
+      /// </summary>
+      /// <param name="sender"></param>
+      /// <param name="e"></param>
+      private void gvMain_ShowingEditor(object sender , CancelEventArgs e) {
+         GridView gv = sender as GridView;
+         e.Cancel = true;
+      }
 
    }
 
