@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessObjects;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -131,6 +132,20 @@ FROM
             DataTable dtResult = db.GetDataTable(sql, parms);
 
             return dtResult;
+        }
+
+        public ResultData UpdateIDFG(DataTable inputData) {
+            string sql =
+@"
+SELECT   IDFG_TYPE,   
+         IDFG_ACC_CODE,   
+         IDFG_W_TIME,
+         IDFG_W_USER_ID,
+         IDFG_TABLE_ID
+    FROM ci.IDFG
+";
+
+            return db.UpdateOracleDB(inputData, sql);
         }
     }
 }

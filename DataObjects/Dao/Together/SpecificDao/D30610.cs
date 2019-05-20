@@ -10,6 +10,7 @@ namespace DataObjects.Dao.Together {
 
       /// <summary>
       /// Get 月明細表 by CI.AI6, CI.AMIF, CI.INTWSE1 , CI.AI2 (14個欄位)
+      /// d_30611
       /// </summary>
       /// <param name="adt_sdate">查詢起始月(yyyyMM01)</param>
       /// <param name="adt_edate">查詢結束月(yyyyMM31)</param>
@@ -112,7 +113,7 @@ where AMIF_YM = P_YM
       }
 
       /// <summary>
-      /// Get 日明細表 by CI.AMIF , CI.AI2  
+      /// Get 日明細表 by CI.AMIF , CI.AI2  (d_30612)
       /// (MIF_YM/TFXM_UP_DOWN/TFXM_CLOSE_PRICE/TFXM_M_QNTY_TAL/AMIF_UP_DOWN/AMIF_CLOSE_PRICE/AI2_QTY_TXF/AI2_QTY_TXO/AI2_TOT_QTY)
       /// </summary>
       /// <param name="as_sdate">查詢起始日(yyyyMMdd)</param>

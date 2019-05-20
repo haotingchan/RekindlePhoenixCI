@@ -24,11 +24,11 @@
       /// </summary>
       private void InitializeComponent() {
          this.panel1 = new System.Windows.Forms.Panel();
-         this.label4 = new System.Windows.Forms.Label();
-         this.adjustmentRadioGroup = new DevExpress.XtraEditors.RadioGroup();
-         this.label2 = new System.Windows.Forms.Label();
+         this.groupBox2 = new System.Windows.Forms.GroupBox();
+         this.ddlAdjust = new DevExpress.XtraEditors.LookUpEdit();
+         this.labG2 = new System.Windows.Forms.Label();
          this.txtDate2 = new BaseGround.Widget.TextDateEdit();
-         this.label1 = new System.Windows.Forms.Label();
+         this.labG1 = new System.Windows.Forms.Label();
          this.txtDate1 = new BaseGround.Widget.TextDateEdit();
          this.lblDate = new System.Windows.Forms.Label();
          this.txtTradeDate = new BaseGround.Widget.TextDateEdit();
@@ -38,30 +38,32 @@
          this.SP1_OSW_GRP = new DevExpress.XtraGrid.Columns.GridColumn();
          this.SP1_DATE = new DevExpress.XtraGrid.Columns.GridColumn();
          this.SP1_TYPE = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.CP_TYPE_SORT = new DevExpress.XtraGrid.Columns.GridColumn();
+         this.OP_TYPE = new DevExpress.XtraGrid.Columns.GridColumn();
          this.SP1_KIND_ID1 = new DevExpress.XtraGrid.Columns.GridColumn();
          this.SP1_KIND_ID2 = new DevExpress.XtraGrid.Columns.GridColumn();
          this.SP1_CHANGE_RANGE = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.ADJ_CODE = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.SPAN_CODE = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.repositoryItemCheckedComboBoxEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckedComboBoxEdit();
+         this.SP2_ADJ_CODE = new DevExpress.XtraGrid.Columns.GridColumn();
+         this.SP2_VALUE_DATE = new DevExpress.XtraGrid.Columns.GridColumn();
          this.SP1_SEQ_NO = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.SPAN_CODE_ORG = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.ADJ_CODE_ORG = new DevExpress.XtraGrid.Columns.GridColumn();
+         this.SP2_SPAN_CODE_ORG = new DevExpress.XtraGrid.Columns.GridColumn();
+         this.SP2_ADJ_CODE_ORG = new DevExpress.XtraGrid.Columns.GridColumn();
          this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
          this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+         this.repositoryItemCheckedComboBoxEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckedComboBoxEdit();
+         this.OSW_GRP = new DevExpress.XtraGrid.Columns.GridColumn();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          this.panel1.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.adjustmentRadioGroup.Properties)).BeginInit();
+         this.groupBox2.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.ddlAdjust.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate2.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate1.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtTradeDate.Properties)).BeginInit();
          this.panel2.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit1)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit1)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -77,11 +79,10 @@
          // panel1
          // 
          this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
-         this.panel1.Controls.Add(this.label4);
-         this.panel1.Controls.Add(this.adjustmentRadioGroup);
-         this.panel1.Controls.Add(this.label2);
+         this.panel1.Controls.Add(this.groupBox2);
+         this.panel1.Controls.Add(this.labG2);
          this.panel1.Controls.Add(this.txtDate2);
-         this.panel1.Controls.Add(this.label1);
+         this.panel1.Controls.Add(this.labG1);
          this.panel1.Controls.Add(this.txtDate1);
          this.panel1.Controls.Add(this.lblDate);
          this.panel1.Controls.Add(this.txtTradeDate);
@@ -91,48 +92,37 @@
          this.panel1.Size = new System.Drawing.Size(939, 95);
          this.panel1.TabIndex = 0;
          // 
-         // label4
+         // groupBox2
          // 
-         this.label4.AutoSize = true;
-         this.label4.Location = new System.Drawing.Point(519, 15);
-         this.label4.Name = "label4";
-         this.label4.Size = new System.Drawing.Size(41, 20);
-         this.label4.TabIndex = 22;
-         this.label4.Text = "調整";
+         this.groupBox2.Controls.Add(this.ddlAdjust);
+         this.groupBox2.Location = new System.Drawing.Point(517, 7);
+         this.groupBox2.Name = "groupBox2";
+         this.groupBox2.Size = new System.Drawing.Size(216, 60);
+         this.groupBox2.TabIndex = 15;
+         this.groupBox2.TabStop = false;
+         this.groupBox2.Text = "調整";
          // 
-         // adjustmentRadioGroup
+         // ddlAdjust
          // 
-         this.adjustmentRadioGroup.EditValue = "Clear";
-         this.adjustmentRadioGroup.Location = new System.Drawing.Point(566, 15);
-         this.adjustmentRadioGroup.Name = "adjustmentRadioGroup";
-         this.adjustmentRadioGroup.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
-         this.adjustmentRadioGroup.Properties.Appearance.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.adjustmentRadioGroup.Properties.Appearance.Options.UseBackColor = true;
-         this.adjustmentRadioGroup.Properties.Appearance.Options.UseFont = true;
-         this.adjustmentRadioGroup.Properties.Columns = 3;
-         this.adjustmentRadioGroup.Properties.ItemHorzAlignment = DevExpress.XtraEditors.RadioItemHorzAlignment.Near;
-         this.adjustmentRadioGroup.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("Clear", "全取消"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("AllSelect", "全選"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("1", "全選Group 1"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("Index", "全選指數類"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("StcEtc", "全選STC,ETC"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("2", "全選Group 2")});
-         this.adjustmentRadioGroup.Properties.ItemsLayout = DevExpress.XtraEditors.RadioGroupItemsLayout.Flow;
-         this.adjustmentRadioGroup.Size = new System.Drawing.Size(349, 65);
-         this.adjustmentRadioGroup.TabIndex = 21;
-         this.adjustmentRadioGroup.SelectedIndexChanged += new System.EventHandler(this.adjustmentRadioGroup_SelectedIndexChanged_1);
+         this.ddlAdjust.Location = new System.Drawing.Point(29, 25);
+         this.ddlAdjust.MenuManager = this.ribbonControl;
+         this.ddlAdjust.Name = "ddlAdjust";
+         this.ddlAdjust.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.ddlAdjust.Size = new System.Drawing.Size(159, 26);
+         this.ddlAdjust.TabIndex = 0;
+         this.ddlAdjust.EditValueChanged += new System.EventHandler(this.ddlAdjust_EditValueChanged);
          // 
-         // label2
+         // labG2
          // 
-         this.label2.AutoSize = true;
-         this.label2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-         this.label2.Location = new System.Drawing.Point(212, 44);
-         this.label2.Name = "label2";
-         this.label2.Size = new System.Drawing.Size(130, 20);
-         this.label2.TabIndex = 8;
-         this.label2.Text = "Group2生效日期";
+         this.labG2.AutoSize = true;
+         this.labG2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.labG2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+         this.labG2.Location = new System.Drawing.Point(212, 44);
+         this.labG2.Name = "labG2";
+         this.labG2.Size = new System.Drawing.Size(130, 20);
+         this.labG2.TabIndex = 8;
+         this.labG2.Text = "Group2生效日期";
          // 
          // txtDate2
          // 
@@ -154,16 +144,16 @@
          this.txtDate2.TabIndex = 7;
          this.txtDate2.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
-         // label1
+         // labG1
          // 
-         this.label1.AutoSize = true;
-         this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-         this.label1.Location = new System.Drawing.Point(212, 12);
-         this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(130, 20);
-         this.label1.TabIndex = 6;
-         this.label1.Text = "Group1生效日期";
+         this.labG1.AutoSize = true;
+         this.labG1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.labG1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+         this.labG1.Location = new System.Drawing.Point(212, 12);
+         this.labG1.Name = "labG1";
+         this.labG1.Size = new System.Drawing.Size(130, 20);
+         this.labG1.TabIndex = 6;
+         this.labG1.Text = "Group1生效日期";
          // 
          // txtDate1
          // 
@@ -240,6 +230,7 @@
          this.gcMain.TabIndex = 1;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
+         this.gcMain.Visible = false;
          // 
          // gvMain
          // 
@@ -252,30 +243,31 @@
          this.gvMain.AppearancePrint.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.gvMain.AppearancePrint.HeaderPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
          this.gvMain.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.OSW_GRP,
             this.SP1_OSW_GRP,
             this.SP1_DATE,
             this.SP1_TYPE,
-            this.CP_TYPE_SORT,
+            this.OP_TYPE,
             this.SP1_KIND_ID1,
             this.SP1_KIND_ID2,
             this.SP1_CHANGE_RANGE,
-            this.ADJ_CODE,
-            this.SPAN_CODE,
+            this.SP2_ADJ_CODE,
+            this.SP2_VALUE_DATE,
             this.SP1_SEQ_NO,
-            this.SPAN_CODE_ORG,
-            this.ADJ_CODE_ORG});
+            this.SP2_SPAN_CODE_ORG,
+            this.SP2_ADJ_CODE_ORG});
          this.gvMain.GridControl = this.gcMain;
          this.gvMain.Name = "gvMain";
          this.gvMain.OptionsView.AllowCellMerge = true;
+         this.gvMain.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gvMain_ShowingEditor);
+         this.gvMain.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gvMain_CellValueChanged);
          this.gvMain.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gvMain_CustomColumnDisplayText);
          // 
          // SP1_OSW_GRP
          // 
-         this.SP1_OSW_GRP.Caption = "群組";
+         this.SP1_OSW_GRP.Caption = "SP1_OSW_GRP";
          this.SP1_OSW_GRP.FieldName = "SP1_OSW_GRP";
          this.SP1_OSW_GRP.Name = "SP1_OSW_GRP";
-         this.SP1_OSW_GRP.Visible = true;
-         this.SP1_OSW_GRP.VisibleIndex = 0;
          // 
          // SP1_DATE
          // 
@@ -283,7 +275,7 @@
          this.SP1_DATE.FieldName = "SP1_DATE";
          this.SP1_DATE.Name = "SP1_DATE";
          this.SP1_DATE.Visible = true;
-         this.SP1_DATE.VisibleIndex = 1;
+         this.SP1_DATE.VisibleIndex = 0;
          // 
          // SP1_TYPE
          // 
@@ -291,13 +283,13 @@
          this.SP1_TYPE.FieldName = "SP1_TYPE";
          this.SP1_TYPE.Name = "SP1_TYPE";
          this.SP1_TYPE.Visible = true;
-         this.SP1_TYPE.VisibleIndex = 2;
+         this.SP1_TYPE.VisibleIndex = 1;
          // 
-         // CP_TYPE_SORT
+         // OP_TYPE
          // 
-         this.CP_TYPE_SORT.Caption = "CP_TYPE_SORT";
-         this.CP_TYPE_SORT.FieldName = "CP_TYPE_SORT";
-         this.CP_TYPE_SORT.Name = "CP_TYPE_SORT";
+         this.OP_TYPE.Caption = "OP_TYPE";
+         this.OP_TYPE.FieldName = "OP_TYPE";
+         this.OP_TYPE.Name = "OP_TYPE";
          // 
          // SP1_KIND_ID1
          // 
@@ -306,7 +298,7 @@
          this.SP1_KIND_ID1.Name = "SP1_KIND_ID1";
          this.SP1_KIND_ID1.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
          this.SP1_KIND_ID1.Visible = true;
-         this.SP1_KIND_ID1.VisibleIndex = 3;
+         this.SP1_KIND_ID1.VisibleIndex = 2;
          // 
          // SP1_KIND_ID2
          // 
@@ -315,7 +307,7 @@
          this.SP1_KIND_ID2.Name = "SP1_KIND_ID2";
          this.SP1_KIND_ID2.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
          this.SP1_KIND_ID2.Visible = true;
-         this.SP1_KIND_ID2.VisibleIndex = 4;
+         this.SP1_KIND_ID2.VisibleIndex = 3;
          // 
          // SP1_CHANGE_RANGE
          // 
@@ -324,33 +316,26 @@
          this.SP1_CHANGE_RANGE.Name = "SP1_CHANGE_RANGE";
          this.SP1_CHANGE_RANGE.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
          this.SP1_CHANGE_RANGE.Visible = true;
-         this.SP1_CHANGE_RANGE.VisibleIndex = 5;
+         this.SP1_CHANGE_RANGE.VisibleIndex = 4;
          // 
-         // ADJ_CODE
+         // SP2_ADJ_CODE
          // 
-         this.ADJ_CODE.Caption = " 觀察  ／ 調整";
-         this.ADJ_CODE.FieldName = "ADJ_CODE";
-         this.ADJ_CODE.Name = "ADJ_CODE";
-         this.ADJ_CODE.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
-         this.ADJ_CODE.Visible = true;
-         this.ADJ_CODE.VisibleIndex = 6;
+         this.SP2_ADJ_CODE.Caption = " 觀察  ／ 調整";
+         this.SP2_ADJ_CODE.FieldName = "SP2_ADJ_CODE";
+         this.SP2_ADJ_CODE.Name = "SP2_ADJ_CODE";
+         this.SP2_ADJ_CODE.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+         this.SP2_ADJ_CODE.Visible = true;
+         this.SP2_ADJ_CODE.VisibleIndex = 5;
          // 
-         // SPAN_CODE
+         // SP2_VALUE_DATE
          // 
-         this.SPAN_CODE.Caption = "SPAN調整";
-         this.SPAN_CODE.ColumnEdit = this.repositoryItemCheckEdit1;
-         this.SPAN_CODE.FieldName = "SPAN_CODE";
-         this.SPAN_CODE.Name = "SPAN_CODE";
-         this.SPAN_CODE.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
-         this.SPAN_CODE.Visible = true;
-         this.SPAN_CODE.VisibleIndex = 7;
-         // 
-         // repositoryItemCheckedComboBoxEdit1
-         // 
-         this.repositoryItemCheckedComboBoxEdit1.AutoHeight = false;
-         this.repositoryItemCheckedComboBoxEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.repositoryItemCheckedComboBoxEdit1.Name = "repositoryItemCheckedComboBoxEdit1";
+         this.SP2_VALUE_DATE.Caption = "生效日期";
+         this.SP2_VALUE_DATE.FieldName = "SP2_VALUE_DATE";
+         this.SP2_VALUE_DATE.Name = "SP2_VALUE_DATE";
+         this.SP2_VALUE_DATE.OptionsColumn.AllowEdit = false;
+         this.SP2_VALUE_DATE.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+         this.SP2_VALUE_DATE.Visible = true;
+         this.SP2_VALUE_DATE.VisibleIndex = 6;
          // 
          // SP1_SEQ_NO
          // 
@@ -358,17 +343,17 @@
          this.SP1_SEQ_NO.FieldName = "SP1_SEQ_NO";
          this.SP1_SEQ_NO.Name = "SP1_SEQ_NO";
          // 
-         // SPAN_CODE_ORG
+         // SP2_SPAN_CODE_ORG
          // 
-         this.SPAN_CODE_ORG.Caption = "SPAN_CODE_ORG";
-         this.SPAN_CODE_ORG.FieldName = "SPAN_CODE_ORG";
-         this.SPAN_CODE_ORG.Name = "SPAN_CODE_ORG";
+         this.SP2_SPAN_CODE_ORG.Caption = "SP2_SPAN_CODE_ORG";
+         this.SP2_SPAN_CODE_ORG.FieldName = "SP2_SPAN_CODE_ORG";
+         this.SP2_SPAN_CODE_ORG.Name = "SP2_SPAN_CODE_ORG";
          // 
-         // ADJ_CODE_ORG
+         // SP2_ADJ_CODE_ORG
          // 
-         this.ADJ_CODE_ORG.Caption = "ADJ_CODE_ORG";
-         this.ADJ_CODE_ORG.FieldName = "ADJ_CODE_ORG";
-         this.ADJ_CODE_ORG.Name = "ADJ_CODE_ORG";
+         this.SP2_ADJ_CODE_ORG.Caption = "SP2_ADJ_CODE_ORG";
+         this.SP2_ADJ_CODE_ORG.FieldName = "SP2_ADJ_CODE_ORG";
+         this.SP2_ADJ_CODE_ORG.Name = "SP2_ADJ_CODE_ORG";
          // 
          // repositoryItemCheckEdit1
          // 
@@ -384,6 +369,21 @@
          this.repositoryItemTextEdit1.Mask.EditMask = "n";
          this.repositoryItemTextEdit1.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
          this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
+         // 
+         // repositoryItemCheckedComboBoxEdit1
+         // 
+         this.repositoryItemCheckedComboBoxEdit1.AutoHeight = false;
+         this.repositoryItemCheckedComboBoxEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.repositoryItemCheckedComboBoxEdit1.Name = "repositoryItemCheckedComboBoxEdit1";
+         // 
+         // OSW_GRP
+         // 
+         this.OSW_GRP.Caption = "群組";
+         this.OSW_GRP.FieldName = "OSW_GRP";
+         this.OSW_GRP.Name = "OSW_GRP";
+         this.OSW_GRP.Visible = true;
+         this.OSW_GRP.VisibleIndex = 7;
          // 
          // W40080
          // 
@@ -402,16 +402,17 @@
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
          this.panel1.ResumeLayout(false);
          this.panel1.PerformLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.adjustmentRadioGroup.Properties)).EndInit();
+         this.groupBox2.ResumeLayout(false);
+         ((System.ComponentModel.ISupportInitialize)(this.ddlAdjust.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate2.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate1.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtTradeDate.Properties)).EndInit();
          this.panel2.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit1)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit1)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -423,28 +424,29 @@
       private System.Windows.Forms.Panel panel2;
       private System.Windows.Forms.Label lblDate;
       private BaseGround.Widget.TextDateEdit txtTradeDate;
-      private System.Windows.Forms.Label label2;
+      private System.Windows.Forms.Label labG2;
       private BaseGround.Widget.TextDateEdit txtDate2;
-      private System.Windows.Forms.Label label1;
+      private System.Windows.Forms.Label labG1;
       private BaseGround.Widget.TextDateEdit txtDate1;
-      private System.Windows.Forms.Label label4;
-      private DevExpress.XtraEditors.RadioGroup adjustmentRadioGroup;
       private DevExpress.XtraGrid.GridControl gcMain;
       private DevExpress.XtraGrid.Views.Grid.GridView gvMain;
       private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit1;
       private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit1;
       private DevExpress.XtraGrid.Columns.GridColumn SP1_OSW_GRP;
       private DevExpress.XtraGrid.Columns.GridColumn SP1_DATE;
-      private DevExpress.XtraGrid.Columns.GridColumn CP_TYPE_SORT;
+      private DevExpress.XtraGrid.Columns.GridColumn OP_TYPE;
       private DevExpress.XtraGrid.Columns.GridColumn SP1_KIND_ID1;
       private DevExpress.XtraGrid.Columns.GridColumn SP1_KIND_ID2;
       private DevExpress.XtraGrid.Columns.GridColumn SP1_CHANGE_RANGE;
-      private DevExpress.XtraGrid.Columns.GridColumn ADJ_CODE;
-      private DevExpress.XtraGrid.Columns.GridColumn SPAN_CODE;
+      private DevExpress.XtraGrid.Columns.GridColumn SP2_ADJ_CODE;
       private DevExpress.XtraGrid.Columns.GridColumn SP1_SEQ_NO;
-      private DevExpress.XtraGrid.Columns.GridColumn SPAN_CODE_ORG;
-      private DevExpress.XtraGrid.Columns.GridColumn ADJ_CODE_ORG;
+      private DevExpress.XtraGrid.Columns.GridColumn SP2_SPAN_CODE_ORG;
+      private DevExpress.XtraGrid.Columns.GridColumn SP2_ADJ_CODE_ORG;
       private DevExpress.XtraGrid.Columns.GridColumn SP1_TYPE;
       private DevExpress.XtraEditors.Repository.RepositoryItemCheckedComboBoxEdit repositoryItemCheckedComboBoxEdit1;
+      private DevExpress.XtraGrid.Columns.GridColumn SP2_VALUE_DATE;
+      private System.Windows.Forms.GroupBox groupBox2;
+      private DevExpress.XtraEditors.LookUpEdit ddlAdjust;
+      private DevExpress.XtraGrid.Columns.GridColumn OSW_GRP;
    }
 }

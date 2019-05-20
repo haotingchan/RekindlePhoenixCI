@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessObjects;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -42,6 +43,24 @@ ORDER BY AM7T_PROD_TYPE, AM7T_PARAM_KEY
             DataTable dtResult = db.GetDataTable(sql, parms);
 
             return dtResult;
+        }
+
+        public ResultData UpdateAM7T(DataTable inputData) {
+            string sql =
+@"
+SELECT AM7T_Y,   
+       AM7T_PROD_TYPE,
+       AM7T_PROD_SUBTYPE,
+       AM7T_PARAM_KEY,
+       AM7T_DAY_COUNT,
+       AM7T_AVG_QNTY,
+       AM7T_W_USER_ID,
+       AM7T_W_TIME,
+       AM7T_TFXM_YEAR_AVG_QNTY
+FROM ci.AM7T
+";
+
+            return db.UpdateOracleDB(inputData, sql);
         }
     }
 }

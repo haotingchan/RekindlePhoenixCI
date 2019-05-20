@@ -76,8 +76,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
       }
 
       protected override ResultStatus Export() {
-         base.Export();
-
          try {
 
             //1. ready
@@ -90,27 +88,33 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             //2. 設定日期
             DateTime ldt_sdate, ldt_edate;
-            try {
-               //前月倒數2天交易日
-               ldt_sdate = PbFunc.f_get_last_day("AI3" , "I5F" , txtMonth.Text , 2);
+            //try {
+            //   //前月倒數2天交易日
+            //   ldt_sdate = PbFunc.f_get_last_day("AI3" , "I5F" , txtMonth.Text , 2);
 
-               //抓當月最後交易日
-               ldt_edate = PbFunc.f_get_end_day("AI3" , "I5F" , txtMonth.Text);
-            } catch { //跳exception即不產檔
-               string rptName = "「東證期貨」放寬漲跌幅統計表";
-               MessageDisplay.Error(string.Format("{0},{1}-{2},無任何資料!" , txtMonth.Text , _ProgramID , rptName));
-               return ResultStatus.Fail;
-            }
+            //   //抓當月最後交易日
+            //   ldt_edate = PbFunc.f_get_end_day("AI3" , "I5F" , txtMonth.Text);
+            //} catch { //跳exception即不產檔
+            //   string rptName = "「東證期貨」放寬漲跌幅統計表";
+            //   MessageDisplay.Error(string.Format("{0},{1}-{2},無任何資料!" , txtMonth.Text , _ProgramID , rptName));
+            //   return ResultStatus.Fail;
+            //}
 
             //2.1 copy template xls to target path
-            string excelDestinationPath = CopyExcelTemplateFile(_ProgramID , FileType.XLSX);
+            string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID);
             Workbook workbook = new Workbook();
             workbook.LoadDocument(excelDestinationPath);
 
             //3. 填資料
             //3.1 I5F
+            //前月倒數2天交易日
+            ldt_sdate = PbFunc.f_get_last_day("AI3" , "I5F" , txtMonth.Text , 2);
+
+            //抓當月最後交易日
+            ldt_edate = PbFunc.f_get_end_day("AI3" , "I5F" , txtMonth.Text);
+
             int row = 1;
-            wf_30392_1(workbook , "I5F" , "30392_2(I5F)" , row);
+            wf_30392_1(workbook , "I5F" , "30392_2(I5F)" , ldt_sdate , ldt_edate , row);
 
             row = 3;
             wf_30392_1abc(workbook , "I5F" , "data_30392_2abc" , row);
@@ -120,7 +124,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             ldt_edate = PbFunc.f_get_end_day("AI3" , "TJF" , txtMonth.Text);
 
             row = 1;
-            wf_30392_1(workbook , "TJF" , "30392_1(TJF)" , row);
+            wf_30392_1(workbook , "TJF" , "30392_1(TJF)" , ldt_sdate , ldt_edate , row);
 
             row = 3;
             wf_30392_1abc(workbook , "TJF" , "data_30392_1abc" , row);
@@ -137,7 +141,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
 
             row = 1;
-            wf_30392_1(workbook , "UDF" , "30392_3(UDF)" , row);
+            wf_30392_1(workbook , "UDF" , "30392_3(UDF)" , ldt_sdate , ldt_edate , row);
 
             row = 3;
             wf_30392_1abc(workbook , "UDF" , "data_30392_3abc" , row);
@@ -154,7 +158,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
 
             row = 1;
-            wf_30392_1(workbook , "SPF" , "30392_4(SPF)" , row);
+            wf_30392_1(workbook , "SPF" , "30392_4(SPF)" , ldt_sdate , ldt_edate , row);
 
             row = 3;
             wf_30392_1abc(workbook , "SPF" , "data_30392_4abc" , row);
@@ -188,16 +192,15 @@ namespace PhoenixCI.FormUI.Prefix3 {
       /// <param name="kindId"></param>
       /// <param name="sheetName"></param>
       /// <param name="row"></param>
-      protected void wf_30392_1(Workbook workbook , string kindId , string sheetName , int row) {
+      protected void wf_30392_1(Workbook workbook , string kindId , string sheetName , DateTime ldt_sdate , DateTime ldt_edate , int row) {
 
          string rptName = string.Format("「{0}」期貨契約價量資料" , kindId);
          ShowMsg(string.Format("{0}－{1} 轉檔中..." , _ProgramID , rptName));
 
          try {
-
             //1. 處理日期
-            DateTime ldt_sdate = PbFunc.f_get_last_day("AI3" , kindId , txtMonth.Text , 2); //前月倒數2天交易日     
-            DateTime ldt_edate = PbFunc.f_get_end_day("AI3" , kindId , txtMonth.Text);//抓當月最後交易日
+            //DateTime ldt_sdate = PbFunc.f_get_last_day("AI3" , kindId , txtMonth.Text , 2); //前月倒數2天交易日     
+            //DateTime ldt_edate = PbFunc.f_get_end_day("AI3" , kindId , txtMonth.Text);//抓當月最後交易日
 
             DataTable dtAi3 = dao30392.d_ai3(kindId , ldt_sdate , ldt_edate);
             if (dtAi3.Rows.Count <= 0) {
@@ -272,8 +275,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             decimal lastMQnty = drAi2["last_m_qnty"].AsDecimal();
             decimal lastMOi = drAi2["last_m_oi"].AsDecimal();
             if (dayCnt > 0) {
-               ws1.Cells[row , 5].Value = Math.Round((lastMQnty / dayCnt) , 0);
-               ws1.Cells[row , 7].Value = Math.Round((lastMOi / dayCnt) , 0);
+               ws1.Cells[row , 5].Value = Math.Round((lastMQnty / dayCnt) , 0,MidpointRounding.AwayFromZero);
+               ws1.Cells[row , 7].Value = Math.Round((lastMOi / dayCnt) , 0, MidpointRounding.AwayFromZero);
             }
 
             //5.2 今年迄今
@@ -282,8 +285,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             decimal yQnty = drAi2["y_qnty"].AsDecimal();
             decimal yOi = drAi2["y_oi"].AsDecimal();
             if (dayCnt > 0) {
-               ws1.Cells[row , 5].Value = Math.Round((yQnty / dayCnt) , 0);
-               ws1.Cells[row , 7].Value = Math.Round((yOi / dayCnt) , 0);
+               ws1.Cells[row , 5].Value = Math.Round((yQnty / dayCnt) , 0 , MidpointRounding.AwayFromZero);
+               ws1.Cells[row , 7].Value = Math.Round((yOi / dayCnt) , 0 , MidpointRounding.AwayFromZero);
             }
 
          } catch (Exception ex) {
@@ -351,20 +354,25 @@ namespace PhoenixCI.FormUI.Prefix3 {
          ShowMsg(string.Format("{0}－{1} 轉檔中..." , _ProgramID , rptName));
 
          try {
+            //1. 切換sheet
+            Worksheet ws3 = workbook.Worksheets[sheetName];
 
+            int rowTotal = 16;
             string sDate = txtMonth.DateTimeValue.ToString("yyyy") + "01";
             string eDate = txtMonth.DateTimeValue.ToString("yyyyMM");
 
             DataTable dtAm2 = dao30392.d_am2(kindId , sDate , eDate);
             if (dtAm2.Rows.Count <= 0) {
+               //刪除空白列             
+               if (rowTotal > row + 1) {
+                  Range ra = ws3.Range[(row + 2).AsString() + ":" + rowTotal.AsString()];
+                  ra.Delete(DeleteMode.EntireRow);
+               }
                return;
             }
 
-            //2. 切換sheet
-            Worksheet ws3 = workbook.Worksheets[sheetName];
-
             //3. 內容
-            TaiwanCalendar taiwanCalendar = new System.Globalization.TaiwanCalendar();
+            TaiwanCalendar taiwanCalendar = new TaiwanCalendar();
             ws3.Cells[16 , 0].Value = taiwanCalendar.GetYear(txtMonth.DateTimeValue).ToString().SubStr(0 , 3) + "小計";
 
             DateTime ymd = DateTime.MinValue;
@@ -433,7 +441,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }//foreach (DataRow dr in dtAm2.Rows)
 
             //4. 刪除空白列
-            int rowTotal = 16;
             if (rowTotal > row + 1) {
                Range ra = ws3.Range[(row + 2).AsString() + ":" + rowTotal.AsString()];
                ra.Delete(DeleteMode.EntireRow);

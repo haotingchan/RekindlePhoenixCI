@@ -47,12 +47,12 @@
             // panParent
             // 
             this.panParent.Controls.Add(this.panelControl);
-            this.panParent.Size = new System.Drawing.Size(754, 538);
+            this.panParent.Size = new System.Drawing.Size(754, 536);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(754, 30);
+            this.ribbonControl.Size = new System.Drawing.Size(754, 32);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // lblDate
@@ -93,7 +93,7 @@
             this.txtEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
             this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtEndDate.Size = new System.Drawing.Size(100, 26);
+            this.txtEndDate.Size = new System.Drawing.Size(100, 20);
             this.txtEndDate.TabIndex = 10;
             this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -110,7 +110,7 @@
             this.txtStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
             this.txtStartDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtStartDate.Size = new System.Drawing.Size(100, 26);
+            this.txtStartDate.Size = new System.Drawing.Size(100, 20);
             this.txtStartDate.TabIndex = 9;
             this.txtStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -130,7 +130,7 @@
             this.panelControl.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.panelControl.Controls.Add(this.ExportShow);
             this.panelControl.Controls.Add(this.grpxDescription);
-            this.panelControl.Location = new System.Drawing.Point(15, 18);
+            this.panelControl.Location = new System.Drawing.Point(30, 30);
             this.panelControl.Margin = new System.Windows.Forms.Padding(15);
             this.panelControl.Name = "panelControl";
             this.panelControl.Size = new System.Drawing.Size(410, 170);
@@ -142,7 +142,7 @@
             this.ExportShow.ForeColor = System.Drawing.Color.Blue;
             this.ExportShow.Location = new System.Drawing.Point(21, 136);
             this.ExportShow.Name = "ExportShow";
-            this.ExportShow.Size = new System.Drawing.Size(54, 20);
+            this.ExportShow.Size = new System.Drawing.Size(38, 14);
             this.ExportShow.TabIndex = 16;
             this.ExportShow.Text = "label1";
             // 

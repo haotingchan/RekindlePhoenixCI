@@ -294,6 +294,7 @@
     <Compile Include="Dao\Together\TableDao\AM2F.cs" />
     <Compile Include="Dao\Together\TableDao\AM7.cs" />
     <Compile Include="Dao\Together\TableDao\AM7T.cs" />
+    <Compile Include="Dao\Together\TableDao\AP.cs" />
     <Compile Include="Dao\Together\TableDao\HCPR.cs" />
     <Compile Include="Dao\Together\TableDao\AMIF.cs" />
     <Compile Include="Dao\Together\TableDao\AMIFU.cs" />
@@ -322,6 +323,7 @@
     <Compile Include="Dao\Together\TableDao\MOCF.cs" />
     <Compile Include="Dao\Together\TableDao\SPNT1.cs" />
     <Compile Include="Dao\Together\TableDao\SPNT2.cs" />
+    <Compile Include="Dao\Together\TableDao\SP2.cs" />
     <Compile Include="Dao\Together\TableDao\SPT1.cs" />
     <Compile Include="Dao\Together\TableDao\MGT8.cs" />
     <Compile Include="Dao\Together\TableDao\MMWK.cs" />

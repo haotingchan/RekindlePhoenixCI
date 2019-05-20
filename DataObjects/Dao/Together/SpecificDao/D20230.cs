@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessObjects;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -29,6 +30,26 @@ namespace DataObjects.Dao.Together.SpecificDao {
             DataTable dtResult = db.GetDataTable(sql, null);
 
             return dtResult;
+        }
+
+        public ResultData UpdatePLST1(DataTable inputData) {
+            string sql = 
+@"
+ SELECT 
+ 	PLST1_LEVEL,
+ 	PLST1_C1_QNTY_MIN,
+ 	PLST1_C1_QNTY_MAX,
+ 	PLST1_C2_QNTY_MIN,
+ 	PLST1_C2_QNTY_MAX,
+ 	PLST1_STKOUT_MIN,
+ 	PLST1_STKOUT_MAX,
+ 	PLST1_NATURE,
+ 	PLST1_LEGAL,
+ 	PLST1_999
+ FROM CI.PLST1
+";
+
+            return db.UpdateOracleDB(inputData, sql);
         }
     }
 }

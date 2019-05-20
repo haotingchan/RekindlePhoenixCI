@@ -20,13 +20,13 @@ namespace DataObjects.Dao.Together.SpecificDao {
         public decimal GetCmRate() {
 
             string sql =
-@"
-SELECT MGRT1_CM_RATE AS LD_CM_RATE1
-  FROM CI.MGRT1
- WHERE MGRT1_PROD_TYPE = 'F'
-    AND MGRT1_LEVEL = (SELECT MAX(MGRT1_LEVEL) FROM CI.MGRT1
-                                         WHERE MGRT1_PROD_TYPE = 'F' AND MGRT1_REPORT = 'Y') 
-";
+                        @"SELECT MGRT1_CM_RATE AS LD_CM_RATE1
+                                 FROM CI.MGRT1
+                                 WHERE MGRT1_PROD_TYPE = 'F'
+                                 AND MGRT1_LEVEL = 
+                                 (SELECT MAX(MGRT1_LEVEL) FROM CI.MGRT1
+                                         WHERE MGRT1_PROD_TYPE = 'F' AND MGRT1_REPORT = 'Y')";
+
             DataTable dtResult = db.GetDataTable(sql, null);
 
             if (dtResult.Rows.Count == 0) {
@@ -93,7 +93,7 @@ SELECT MGT2_ADJUST_RATE AS LD_CM_RATE1
         /// <param name="as_day_rate_level3"></param>
         /// <param name="as_day_rate_levelz"></param>
         /// <returns></returns>
-        public DataTable d_42011_detl(DateTime as_today, DateTime as_last_date, decimal as_30_rate_level1,
+        public DataTable d_42011_detl(DateTime as_today, DateTime? as_last_date, decimal as_30_rate_level1,
                                       decimal as_30_rate_level2, decimal as_30_rate_level3, decimal as_30_rate_levelz,
                                       decimal as_day_rate_level1, decimal as_day_rate_level2, decimal as_day_rate_level3, decimal as_day_rate_levelz) {
 

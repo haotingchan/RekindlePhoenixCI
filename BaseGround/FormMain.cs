@@ -4,6 +4,7 @@ using BusinessObjects.Enums;
 using Common;
 using DataObjects;
 using DataObjects.Dao.Together;
+using DataObjects.Dao.Together.TableDao;
 using DevExpress.XtraBars.Navigation;
 using DevExpress.XtraEditors;
 using Log;
@@ -69,6 +70,7 @@ namespace BaseGround
             toolStripStatusLabelServerName.Text = GlobalDaoSetting.GetConnectionInfo.ConnectionName;
             toolStripStatusLabelDBName.Text = GlobalDaoSetting.Database;
             toolStripStatusLabelUserName.Text = GlobalInfo.USER_NAME;
+            toolStripStatusLabelVersionNum.Text = new AP().GetMaxVersion();
 
             switch (SystemStatus.SystemType)
             {

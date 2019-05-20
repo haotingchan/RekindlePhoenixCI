@@ -18,6 +18,10 @@ using DevExpress.XtraEditors.Repository;
 using DevExpress.Utils;
 using BusinessObjects;
 using DataObjects.Dao.Together.TableDao;
+using DevExpress.XtraGrid.Columns;
+using DevExpress.XtraGrid.Views.Grid;
+using DevExpress.XtraGrid.Views.Base;
+using BaseGround.Report;
 
 /// <summary>
 /// Lukas, 2019/4/17
@@ -28,6 +32,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
     /// </summary>
     public partial class W40070 : FormParent {
 
+        protected string nullYmd { get; set; }
         private D40070 dao40070;
         private D40071 dao40071;
         private MGD2 daoMGD2;
@@ -37,10 +42,15 @@ namespace PhoenixCI.FormUI.Prefix4 {
         public W40070(string programID, string programName) : base(programID, programName) {
             InitializeComponent();
             this.Text = _ProgramID + "─" + _ProgramName;
+            GridHelper.SetCommonGrid(gvMain);
+            gvMain.AppearancePrint.BandPanel.Font = new Font("Microsoft YaHei", 10);
+            gvMain.AppearancePrint.BandPanel.TextOptions.WordWrap = WordWrap.Wrap;
         }
 
         protected override ResultStatus Open() {
             base.Open();
+            //全域變數
+            nullYmd = null;
             //日期
             txtSDate.DateTimeValue = DateTime.Now;
             //先隨便給個日期
@@ -120,7 +130,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             #endregion
 
 #if DEBUG
-            txtSDate.EditValue = "2018/10/11";
+            txtSDate.EditValue = "2019/05/03";
 #endif
 
             return ResultStatus.Success;
@@ -146,6 +156,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
         protected override ResultStatus Retrieve() {
 
             try {
+                //清空Grid
+                gcMain.DataSource = null;
+
                 //讀取資料
                 dao40070 = new D40070();
                 DataTable dt40070 = dao40070.d_40070_scrn(txtSDate.DateTimeValue.ToString("yyyyMMdd"), ddlModel.EditValue.AsString());
@@ -206,14 +219,19 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
         protected override ResultStatus Save(PokeBall pokeBall) {
             try {
+                if (gvMain.RowCount == 0) {
+                    MessageDisplay.Info("沒有變更資料,不需要存檔!");
+                    return ResultStatus.Fail;
+                }
                 dao40071 = new D40071();
                 daoMGD2 = new MGD2();
                 daoMGD2L = new MGD2L();
                 #region ue_save_before
                 gvMain.CloseEditor();
-                string ls_ymd, ls_issue_begin_ymd, ls_kind_id, ls_adj_type_name, ls_trade_ymd, ls_adj_rsn, is_adj_type;
-                decimal ldc_cm = 0, ldc_cur_cm;
-                int li_count;
+                gvMain.UpdateCurrentRow();
+                string ymd, issueBeginYmd, kindID, adjTypeName, tradeYmd, adjRsn, adjType;
+                decimal cm = 0, curCm;
+                int count;
                 /***************************
 		          調整類型:  
 						0一般
@@ -221,9 +239,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
 						2處置股票
 						3股票
                 ****************************/
-                is_adj_type = "0";
+                adjType = "0";
 
-                ls_ymd = txtSDate.DateTimeValue.ToString("yyyyMMdd");
+                ymd = txtSDate.DateTimeValue.ToString("yyyyMMdd");
 
                 DataTable dtGrid = (DataTable)gcMain.DataSource;
                 DataView dv = dtGrid.AsDataView();
@@ -235,17 +253,17 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 cbxCode.Checked = true;
 
                 foreach (DataRow dr in dtFiltered.Rows) {
-                    ls_kind_id = dr["KIND_ID"].AsString();
-                    ls_issue_begin_ymd = dr["ISSUE_BEGIN_YMD"].AsString();
+                    kindID = dr["KIND_ID"].AsString();
+                    issueBeginYmd = dr["ISSUE_BEGIN_YMD"].AsString();
                     if (dr["ADJ_CODE"].AsString() == "Y") {
                         /******************************************
                            確認商品是否在同一交易日不同情境下設定過
                         ******************************************/
-                        DataTable dtCheck = daoMGD2.IsProdSetOnSameDay(ls_kind_id, ls_ymd, is_adj_type);
-                        li_count = dtCheck.Rows[0]["LI_COUNT"].AsInt();
-                        ls_adj_type_name = dtCheck.Rows[0]["LS_ADJ_TYPE_NAME"].AsString();
-                        if (li_count > 0) {
-                            MessageDisplay.Error(ls_kind_id + ",交易日(" + ls_ymd + ")在" + ls_adj_type_name + "已有資料");
+                        DataTable dtCheck = daoMGD2.IsProdSetOnSameDay(kindID, ymd, adjType);
+                        count = dtCheck.Rows[0]["LI_COUNT"].AsInt();
+                        adjTypeName = dtCheck.Rows[0]["LS_ADJ_TYPE_NAME"].AsString();
+                        if (count > 0) {
+                            MessageDisplay.Error(kindID + ",交易日(" + ymd + ")在" + adjTypeName + "已有資料");
                             return ResultStatus.Fail;
                         }
                         /*********************************
@@ -253,200 +271,202 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         生效起日若與生效迄日相同，不重疊
                         ex: 10/11的至10/31一般交易時段結束止，10/30的從10/31一般交易時段結束後始>>應不重疊
                         *************************************/
-                        dtCheck = daoMGD2.IsProdSetInSameInterval(ls_kind_id, ls_ymd, ls_issue_begin_ymd);
-                        li_count = dtCheck.Rows[0]["LI_COUNT"].AsInt();
-                        ls_adj_type_name = dtCheck.Rows[0]["LS_ADJ_TYPE_NAME"].AsString();
-                        ls_trade_ymd = dtCheck.Rows[0]["LS_TRADE_YMD"].AsString();
-                        if (li_count > 0) {
-                            MessageDisplay.Error(ls_kind_id + "," + ls_adj_type_name + ",交易日(" + ls_trade_ymd + ")在同一生效日區間內已有資料");
+                        dtCheck = daoMGD2.IsProdSetInSameInterval(kindID, ymd, issueBeginYmd);
+                        count = dtCheck.Rows[0]["LI_COUNT"].AsInt();
+                        adjTypeName = dtCheck.Rows[0]["LS_ADJ_TYPE_NAME"].AsString();
+                        tradeYmd = dtCheck.Rows[0]["LS_TRADE_YMD"].AsString();
+                        if (count > 0) {
+                            MessageDisplay.Error(kindID + "," + adjTypeName + ",交易日(" + tradeYmd + ")在同一生效日區間內已有資料");
                             return ResultStatus.Fail;
                         }
                         /**************************************
                         判斷調整前後值不同，相同則警示且無法存檔
                         **************************************/
-                        ls_adj_rsn = dr["ADJ_RSN"].AsString();
-                        ldc_cur_cm = dr["CUR_CM"].AsDecimal();
-                        if (ls_adj_rsn == "S") ldc_cm = dr["SMA_CM"].AsDecimal();
-                        if (ls_adj_rsn == "E") ldc_cm = dr["EWMA_CM"].AsDecimal();
-                        if (ls_adj_rsn == "M") ldc_cm = dr["MAXV_CM"].AsDecimal();
-                        if (ls_adj_rsn == "U") {
-                            ldc_cm = dr["USER_CM"].AsDecimal();
-                            if (ldc_cm == 0) {
-                                MessageDisplay.Error(ls_kind_id + ",請輸入保證金金額");
+                        adjRsn = dr["ADJ_RSN"].AsString();
+                        curCm = dr["CUR_CM"].AsDecimal();
+                        if (adjRsn == "S") cm = dr["SMA_CM"].AsDecimal();
+                        if (adjRsn == "E") cm = dr["EWMA_CM"].AsDecimal();
+                        if (adjRsn == "M") cm = dr["MAXV_CM"].AsDecimal();
+                        if (adjRsn == "U") {
+                            cm = dr["USER_CM"].AsDecimal();
+                            if (cm == 0) {
+                                MessageDisplay.Error(kindID + ",請輸入保證金金額");
                                 return ResultStatus.Fail;
                             }
                         }
-                        if (ldc_cm == 0) {
-                            MessageDisplay.Error(ls_kind_id + ",保證金計算值為空，請選擇其他模型");
+                        if (cm == 0) {
+                            MessageDisplay.Error(kindID + ",保證金計算值為空，請選擇其他模型");
                             return ResultStatus.Fail;
                         }
-                        if (ldc_cm == ldc_cur_cm) {
-                            MessageDisplay.Error(ls_kind_id + ",調整前後保證金一致，請重新輸入");
+                        if (cm == curCm) {
+                            MessageDisplay.Error(kindID + ",調整前後保證金一致，請重新輸入");
                             return ResultStatus.Fail;
                         }
                     }
                 }
                 #endregion
 
-                DateTime ldt_w_time, ldt_date;
-                ldt_date = txtSDate.DateTimeValue;
-                int i, ll_found, li_col, ll_found2, ii_curr_row;
-                string ls_rtn, ls_dbname;
-                decimal ldc_cur_mm = 0, ldc_cur_im = 0, ldc_mm = 0, ldc_im = 0, ldc_rate = 0;
+                DateTime wTime, date;
+                date = txtSDate.DateTimeValue;
+                int found, colIndex, found2, currRow;
+                string dbname;
+                decimal curMM = 0, curIM = 0, MM = 0, IM = 0, rate = 0;
 
-                ldt_w_time = DateTime.Now;
+                wTime = DateTime.Now;
 
-                DataTable dtMGD2 = dao40071.d_40071(ls_ymd, is_adj_type); //ids_mgd2
+                DataTable dtMGD2 = dao40071.d_40071(ymd, adjType); //ids_mgd2
                 DataTable dtMGD2Log = dao40071.d_40071_log(); //ids_old 
                 dtMGD2Log.Clear(); //只取schema
                 //再產生一張空的 d_40071 table
-                DataTable dtEmpty = dao40071.d_40071(ls_ymd, is_adj_type); //dw_3
+                DataTable dtEmpty = dao40071.d_40071(ymd, adjType); //dw_3
                 dtEmpty.Clear();
+                dtEmpty.Columns.Remove(dtEmpty.Columns["CPSORT"]);//刪除排序用的運算欄位
 
                 foreach (DataRow dr in dtFiltered.Rows) {
-                    ls_kind_id = dr["KIND_ID"].AsString();
-                    ls_issue_begin_ymd = dr["ISSUE_BEGIN_YMD"].AsString();
-                    ls_adj_rsn = dr["ADJ_RSN"].AsString();
+                    kindID = dr["KIND_ID"].AsString();
+                    issueBeginYmd = dr["ISSUE_BEGIN_YMD"].AsString();
+                    adjRsn = dr["ADJ_RSN"].AsString();
 
                     dv = dtMGD2.AsDataView();
-                    dv.RowFilter = "mgd2_kind_id = '" + ls_kind_id + "'";
+                    dv.RowFilter = "mgd2_kind_id = '" + kindID + "'";
                     dtMGD2 = dv.ToTable();
 
                     if (dtMGD2.Rows.Count > 0) {
                         foreach (DataRow drMGD2 in dtMGD2.Rows) {
-                            ii_curr_row = dtMGD2Log.Rows.Count;
+                            currRow = dtMGD2Log.Rows.Count;
                             dtMGD2Log.Rows.Add();
-                            for (li_col = 0; li_col < dtMGD2Log.Columns.Count; li_col++) {
+                            for (colIndex = 0; colIndex < dtMGD2.Columns.Count; colIndex++) {
                                 //先取欄位名稱，因為兩張table欄位順序不一致
-                                ls_dbname = dtMGD2.Columns[li_col].ColumnName;
-                                dtMGD2Log.Rows[ii_curr_row][ls_dbname] = drMGD2[li_col];
+                                dbname = dtMGD2.Columns[colIndex].ColumnName;
+                                if (dbname == "CPSORT") continue; //這個欄位是拿來排序用的，故無需複製
+                                dtMGD2Log.Rows[currRow][dbname] = drMGD2[colIndex];
                             }
                             if (dr["ADJ_CODE"].AsString() == "N") {
-                                dtMGD2Log.Rows[ii_curr_row]["MGD2_L_TYPE"] = "D";
+                                dtMGD2Log.Rows[currRow]["MGD2_L_TYPE"] = "D";
                             }
                             else {
-                                dtMGD2Log.Rows[ii_curr_row]["MGD2_L_TYPE"] = "U";
+                                dtMGD2Log.Rows[currRow]["MGD2_L_TYPE"] = "U";
                             }
-                            dtMGD2Log.Rows[ii_curr_row]["MGD2_L_USER_ID"] = GlobalInfo.USER_ID;
-                            dtMGD2Log.Rows[ii_curr_row]["MGD2_L_TIME"] = ldt_w_time;
+                            dtMGD2Log.Rows[currRow]["MGD2_L_USER_ID"] = GlobalInfo.USER_ID;
+                            dtMGD2Log.Rows[currRow]["MGD2_L_TIME"] = wTime;
                         }//foreach (DataRow drMGD2 in dtMGD2.Rows)
 
                         //刪除已存在資料
-                        if (daoMGD2.DeleteMGD2(ls_ymd, is_adj_type, ls_kind_id) < 0) {
+                        if (daoMGD2.DeleteMGD2(ymd, adjType, kindID) < 0) {
                             MessageDisplay.Error("MGD2資料刪除失敗");
                             return ResultStatus.Fail;
                         }
                     }
                     //判斷是否重新塞入新資料
-                    li_count = daoMGD2.IsInsertNeeded(ls_ymd, is_adj_type, ls_kind_id);
-                    if (li_count == 0) {
+                    count = daoMGD2.IsInsertNeeded(ymd, adjType, kindID);
+                    if (count == 0) {
                         dtEmpty.Rows.Add();
-                        ll_found = dtEmpty.Rows.Count - 1;
-                        dtEmpty.Rows[ll_found]["MGD2_YMD"] = ls_ymd;
-                        dtEmpty.Rows[ll_found]["MGD2_PROD_TYPE"] = dr["PROD_TYPE"];
-                        dtEmpty.Rows[ll_found]["MGD2_KIND_ID"] = ls_kind_id;
-                        dtEmpty.Rows[ll_found]["MGD2_ADJ_TYPE"] = is_adj_type;
+                        found = dtEmpty.Rows.Count - 1;
+                        dtEmpty.Rows[found]["MGD2_YMD"] = ymd;
+                        dtEmpty.Rows[found]["MGD2_PROD_TYPE"] = dr["PROD_TYPE"];
+                        dtEmpty.Rows[found]["MGD2_KIND_ID"] = kindID;
+                        dtEmpty.Rows[found]["MGD2_ADJ_TYPE"] = adjType;
 
-                        ldc_cur_cm = dr["CUR_CM"].AsDecimal();
-                        ldc_cur_mm = dr["CUR_MM"].AsDecimal();
-                        ldc_cur_im = dr["CUR_IM"].AsDecimal();
+                        curCm = dr["CUR_CM"].AsDecimal();
+                        curMM = dr["CUR_MM"].AsDecimal();
+                        curIM = dr["CUR_IM"].AsDecimal();
 
-                        dtEmpty.Rows[ll_found]["MGD2_CUR_CM"] = ldc_cur_cm;
-                        dtEmpty.Rows[ll_found]["MGD2_CUR_MM"] = ldc_cur_mm;
-                        dtEmpty.Rows[ll_found]["MGD2_CUR_IM"] = ldc_cur_im;
+                        dtEmpty.Rows[found]["MGD2_CUR_CM"] = curCm;
+                        dtEmpty.Rows[found]["MGD2_CUR_MM"] = curMM;
+                        dtEmpty.Rows[found]["MGD2_CUR_IM"] = curIM;
 
-                        if (ls_adj_rsn == "S") {
-                            ldc_rate = dr["SMA_ADJ_RATE"].AsDecimal();
-                            ldc_cm = dr["SMA_CM"].AsDecimal();
-                            ldc_mm = dr["SMA_MM"].AsDecimal();
-                            ldc_im = dr["SMA_IM"].AsDecimal();
+                        if (adjRsn == "S") {
+                            rate = dr["SMA_ADJ_RATE"].AsDecimal();
+                            cm = dr["SMA_CM"].AsDecimal();
+                            MM = dr["SMA_MM"].AsDecimal();
+                            IM = dr["SMA_IM"].AsDecimal();
                         }
-                        if (ls_adj_rsn == "E") {
-                            ldc_rate = dr["EWMA_ADJ_RATE"].AsDecimal();
-                            ldc_cm = dr["EWMA_CM"].AsDecimal();
-                            ldc_mm = dr["EWMA_MM"].AsDecimal();
-                            ldc_im = dr["EWMA_IM"].AsDecimal();
+                        if (adjRsn == "E") {
+                            rate = dr["EWMA_ADJ_RATE"].AsDecimal();
+                            cm = dr["EWMA_CM"].AsDecimal();
+                            MM = dr["EWMA_MM"].AsDecimal();
+                            IM = dr["EWMA_IM"].AsDecimal();
                         }
-                        if (ls_adj_rsn == "M") {
-                            ldc_rate = dr["MAXV_ADJ_RATE"].AsDecimal();
-                            ldc_cm = dr["MAXV_CM"].AsDecimal();
-                            ldc_mm = dr["MAXV_MM"].AsDecimal();
-                            ldc_im = dr["MAXV_IM"].AsDecimal();
+                        if (adjRsn == "M") {
+                            rate = dr["MAXV_ADJ_RATE"].AsDecimal();
+                            cm = dr["MAXV_CM"].AsDecimal();
+                            MM = dr["MAXV_MM"].AsDecimal();
+                            IM = dr["MAXV_IM"].AsDecimal();
                         }
-                        if (ls_adj_rsn == "M") {
-                            if (ls_kind_id == "MXF") {
-                                ll_found2 = dtFiltered.Rows.IndexOf(dtFiltered.Select("kind_id = 'TXF'").FirstOrDefault());
-                                ldc_cm = dtFiltered.Rows[ll_found2]["USER_CM"].AsDecimal();
-                                ldc_mm = dao40070.GetMarginVal("TXF", ldc_cm, 0, "MM");
-                                ldc_mm = dao40070.GetMarginVal(ls_kind_id, ldc_mm, 0, "MTX_MM");
-                                ldc_im = dao40070.GetMarginVal("TXF", ldc_cm, 0, "IM");
-                                ldc_im = dao40070.GetMarginVal(ls_kind_id, ldc_im, 0, "MTX_IM");
-                                ldc_cm = dr["USER_CM"].AsDecimal();
+                        if (adjRsn == "M") {
+                            if (kindID == "MXF") {
+                                found2 = dtFiltered.Rows.IndexOf(dtFiltered.Select("kind_id = 'TXF'").FirstOrDefault());
+                                cm = dtFiltered.Rows[found2]["USER_CM"].AsDecimal();
+                                MM = dao40070.GetMarginVal("TXF", cm, 0, "MM");
+                                MM = dao40070.GetMarginVal(kindID, MM, 0, "MTX_MM");
+                                IM = dao40070.GetMarginVal("TXF", cm, 0, "IM");
+                                IM = dao40070.GetMarginVal(kindID, IM, 0, "MTX_IM");
+                                cm = dr["USER_CM"].AsDecimal();
                             }
                             else {
-                                ldc_cm = dr["USER_CM"].AsDecimal();
-                                ldc_mm = dao40070.GetMarginVal(ls_kind_id, ldc_cm, 0, "MM");
-                                ldc_im = dao40070.GetMarginVal(ls_kind_id, ldc_cm, 0, "IM");
+                                cm = dr["USER_CM"].AsDecimal();
+                                MM = dao40070.GetMarginVal(kindID, cm, 0, "MM");
+                                IM = dao40070.GetMarginVal(kindID, cm, 0, "IM");
                             }
-                            ldc_rate = dao40070.GetMarginVal(ls_kind_id, ldc_cm, ldc_cur_cm, "ADJ");
+                            rate = dao40070.GetMarginVal(kindID, cm, curCm, "ADJ");
                         }
 
-                        dtEmpty.Rows[ll_found]["MGD2_ADJ_RATE"] = ldc_rate;
-                        dtEmpty.Rows[ll_found]["MGD2_CM"] = ldc_cm;
-                        dtEmpty.Rows[ll_found]["MGD2_MM"] = ldc_mm;
-                        dtEmpty.Rows[ll_found]["MGD2_IM"] = ldc_im;
-                        dtEmpty.Rows[ll_found]["MGD2_ADJ_RSN"] = ls_adj_rsn;
+                        dtEmpty.Rows[found]["MGD2_ADJ_RATE"] = rate;
+                        dtEmpty.Rows[found]["MGD2_CM"] = cm;
+                        dtEmpty.Rows[found]["MGD2_MM"] = MM;
+                        dtEmpty.Rows[found]["MGD2_IM"] = IM;
+                        dtEmpty.Rows[found]["MGD2_ADJ_RSN"] = adjRsn;
 
-                        dtEmpty.Rows[ll_found]["MGD2_ADJ_CODE"] = dr["ADJ_CODE"];
-                        dtEmpty.Rows[ll_found]["MGD2_ISSUE_BEGIN_YMD"] = ls_issue_begin_ymd;
-                        dtEmpty.Rows[ll_found]["MGD2_STOCK_ID"] = " ";
-                        dtEmpty.Rows[ll_found]["MGD2_PROD_SUBTYPE"] = dr["PROD_SUBTYPE"];
-                        dtEmpty.Rows[ll_found]["MGD2_PARAM_KEY"] = dr["PARAM_KEY"];
+                        dtEmpty.Rows[found]["MGD2_ADJ_CODE"] = dr["ADJ_CODE"];
+                        dtEmpty.Rows[found]["MGD2_ISSUE_BEGIN_YMD"] = issueBeginYmd;
+                        dtEmpty.Rows[found]["MGD2_STOCK_ID"] = " ";
+                        dtEmpty.Rows[found]["MGD2_PROD_SUBTYPE"] = dr["PROD_SUBTYPE"];
+                        dtEmpty.Rows[found]["MGD2_PARAM_KEY"] = dr["PARAM_KEY"];
 
-                        dtEmpty.Rows[ll_found]["MGD2_AB_TYPE"] = dr["AB_TYPE"];
-                        dtEmpty.Rows[ll_found]["MGD2_CURRENCY_TYPE"] = dr["CURRENCY_TYPE"];
-                        dtEmpty.Rows[ll_found]["MGD2_SEQ_NO"] = dr["SEQ_NO"];
-                        dtEmpty.Rows[ll_found]["MGD2_OSW_GRP"] = dr["OSW_GRP"];
-                        dtEmpty.Rows[ll_found]["MGD2_AMT_TYPE"] = dr["AMT_TYPE"];
+                        dtEmpty.Rows[found]["MGD2_AB_TYPE"] = dr["AB_TYPE"];
+                        dtEmpty.Rows[found]["MGD2_CURRENCY_TYPE"] = dr["CURRENCY_TYPE"];
+                        dtEmpty.Rows[found]["MGD2_SEQ_NO"] = dr["SEQ_NO"];
+                        dtEmpty.Rows[found]["MGD2_OSW_GRP"] = dr["OSW_GRP"];
+                        dtEmpty.Rows[found]["MGD2_AMT_TYPE"] = dr["AMT_TYPE"];
 
-                        dtEmpty.Rows[ll_found]["MGD2_W_TIME"] = ldt_w_time;
-                        dtEmpty.Rows[ll_found]["MGD2_W_USER_ID"] = GlobalInfo.USER_ID;
+                        dtEmpty.Rows[found]["MGD2_W_TIME"] = wTime;
+                        dtEmpty.Rows[found]["MGD2_W_USER_ID"] = GlobalInfo.USER_ID;
 
                         //type 有AB值分兩筆存
                         if (dr["AB_TYPE"].AsString() == "A") {
-                            dtEmpty.Rows.InsertAt(dtEmpty.Rows[ll_found], ll_found - 1);
-                            ll_found2 = dtTemp.Rows.IndexOf(dtTemp.Select("kind_id = '" + ls_kind_id + "' and ab_type = 'B'").FirstOrDefault());
-                            if (ll_found2 < 0) {
-                                MessageDisplay.Error(ls_kind_id + "無保證金B值資料!");
+                            dtEmpty.Rows.InsertAt(dtEmpty.Rows[found], found - 1);
+                            found2 = dtTemp.Rows.IndexOf(dtTemp.Select("kind_id = '" + kindID + "' and ab_type = 'B'").FirstOrDefault());
+                            if (found2 < 0) {
+                                MessageDisplay.Error(kindID + "無保證金B值資料!");
                                 return ResultStatus.Fail;
                             }
 
-                            ll_found = dtEmpty.Rows.Count - 1;
-                            dtEmpty.Rows[ll_found]["MGD2_AB_TYPE"] = "B";
-                            dtEmpty.Rows[ll_found]["MGD2_CUR_CM"] = dtTemp.Rows[ll_found2]["CUR_CM"];
-                            dtEmpty.Rows[ll_found]["MGD2_CUR_MM"] = dtTemp.Rows[ll_found2]["CUR_MM"];
-                            dtEmpty.Rows[ll_found]["MGD2_CUR_IM"] = dtTemp.Rows[ll_found2]["CUR_IM"];
+                            found = dtEmpty.Rows.Count - 1;
+                            dtEmpty.Rows[found]["MGD2_AB_TYPE"] = "B";
+                            dtEmpty.Rows[found]["MGD2_CUR_CM"] = dtTemp.Rows[found2]["CUR_CM"];
+                            dtEmpty.Rows[found]["MGD2_CUR_MM"] = dtTemp.Rows[found2]["CUR_MM"];
+                            dtEmpty.Rows[found]["MGD2_CUR_IM"] = dtTemp.Rows[found2]["CUR_IM"];
 
-                            if (ls_adj_rsn == "S") {
-                                dtEmpty.Rows[ll_found]["MGD2_CM"] = dtTemp.Rows[ll_found2]["SMA_CM"];
-                                dtEmpty.Rows[ll_found]["MGD2_MM"] = dtTemp.Rows[ll_found2]["SMA_MM"];
-                                dtEmpty.Rows[ll_found]["MGD2_IM"] = dtTemp.Rows[ll_found2]["SMA_IM"];
+                            if (adjRsn == "S") {
+                                dtEmpty.Rows[found]["MGD2_CM"] = dtTemp.Rows[found2]["SMA_CM"];
+                                dtEmpty.Rows[found]["MGD2_MM"] = dtTemp.Rows[found2]["SMA_MM"];
+                                dtEmpty.Rows[found]["MGD2_IM"] = dtTemp.Rows[found2]["SMA_IM"];
                             }
-                            if (ls_adj_rsn == "E") {
-                                dtEmpty.Rows[ll_found]["MGD2_CM"] = dtTemp.Rows[ll_found2]["EWMA_CM"];
-                                dtEmpty.Rows[ll_found]["MGD2_MM"] = dtTemp.Rows[ll_found2]["EWMA_MM"];
-                                dtEmpty.Rows[ll_found]["MGD2_IM"] = dtTemp.Rows[ll_found2]["EWMA_IM"];
+                            if (adjRsn == "E") {
+                                dtEmpty.Rows[found]["MGD2_CM"] = dtTemp.Rows[found2]["EWMA_CM"];
+                                dtEmpty.Rows[found]["MGD2_MM"] = dtTemp.Rows[found2]["EWMA_MM"];
+                                dtEmpty.Rows[found]["MGD2_IM"] = dtTemp.Rows[found2]["EWMA_IM"];
                             }
-                            if (ls_adj_rsn == "M") {
-                                dtEmpty.Rows[ll_found]["MGD2_CM"] = dtTemp.Rows[ll_found2]["MAXV_CM"];
-                                dtEmpty.Rows[ll_found]["MGD2_MM"] = dtTemp.Rows[ll_found2]["MAXV_MM"];
-                                dtEmpty.Rows[ll_found]["MGD2_IM"] = dtTemp.Rows[ll_found2]["MAXV_IM"];
+                            if (adjRsn == "M") {
+                                dtEmpty.Rows[found]["MGD2_CM"] = dtTemp.Rows[found2]["MAXV_CM"];
+                                dtEmpty.Rows[found]["MGD2_MM"] = dtTemp.Rows[found2]["MAXV_MM"];
+                                dtEmpty.Rows[found]["MGD2_IM"] = dtTemp.Rows[found2]["MAXV_IM"];
                             }
-                            if (ls_adj_rsn == "U") {
-                                ldc_cm = dao40070.GetMarginVal(ls_kind_id, ldc_cm, 0, "CM_B");
-                                dtEmpty.Rows[ll_found]["MGD2_CM"] = ldc_cm;
-                                dtEmpty.Rows[ll_found]["MGD2_MM"] = dao40070.GetMarginVal(ls_kind_id, ldc_mm, ldc_cm, "MM_B");
-                                dtEmpty.Rows[ll_found]["MGD2_IM"] = dao40070.GetMarginVal(ls_kind_id, ldc_im, ldc_cm, "IM_B");
+                            if (adjRsn == "U") {
+                                cm = dao40070.GetMarginVal(kindID, cm, 0, "CM_B");
+                                dtEmpty.Rows[found]["MGD2_CM"] = cm;
+                                dtEmpty.Rows[found]["MGD2_MM"] = dao40070.GetMarginVal(kindID, MM, cm, "MM_B");
+                                dtEmpty.Rows[found]["MGD2_IM"] = dao40070.GetMarginVal(kindID, IM, cm, "IM_B");
                             }
                         }
                     }
@@ -466,20 +486,47 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 }
 
                 //ids_old.update()
-                myResultData = daoMGD2L.UpdateMGD2L(dtMGD2Log);
-                if (myResultData.Status == ResultStatus.Fail) {
-                    MessageDisplay.Error("更新資料庫MGD2L錯誤! ");
-                    return ResultStatus.Fail;
+                if (dtMGD2Log.Rows.Count > 0) {
+                    myResultData = daoMGD2L.UpdateMGD2L(dtMGD2Log);
+                    if (myResultData.Status == ResultStatus.Fail) {
+                        MessageDisplay.Error("更新資料庫MGD2L錯誤! ");
+                        return ResultStatus.Fail;
+                    }
                 }
-
             }
             catch (Exception ex) {
+
                 MessageDisplay.Error("儲存錯誤");
                 throw ex;
             }
             return ResultStatus.Success;
         }
 
+        protected override ResultStatus Print(ReportHelper reportHelper) {
+            try {
+                ReportHelper _ReportHelper = new ReportHelper(gcMain, _ProgramID, this.Text);
+                CommonReportLandscapeA3 reportLandscape = new CommonReportLandscapeA3();//設定為橫向列印
+                reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
+                reportLandscape.IsHandlePersonVisible = false;
+                reportLandscape.IsManagerVisible = false;
+                _ReportHelper.Create(reportLandscape);
+
+                _ReportHelper.Print();//如果有夜盤會特別標註
+                _ReportHelper.Export(FileType.PDF, _ReportHelper.FilePath);
+
+                //印完filter資料
+                gvMain.Columns["AB_TYPE"].FilterInfo = new ColumnFilterInfo("[AB_TYPE] In ('-','A')");
+                return ResultStatus.Success;
+            }
+            catch (Exception ex) {
+                WriteLog(ex);
+            }
+            return ResultStatus.Fail;
+        }
+
+        /// <summary>
+        /// 組合篩選條件並執行
+        /// </summary>
         private void wf_filter() {
 
             gvMain.CloseEditor();
@@ -490,15 +537,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
 
             List<string> adjCodeList = new List<string>();
-            List<string> abTypeList = new List<string>();
-            abTypeList.Add("-");
-            abTypeList.Add("A");
             string[] is_adj_code;
             string ls_filter;
 
-            if (cbxCodeY.Checked) adjCodeList.Add("Y");
-            if (cbxCode.Checked) adjCodeList.Add(" ");
-            if (cbxCodeN.Checked) adjCodeList.Add("N");
+            if (cbxCodeY.Checked) adjCodeList.Add("'Y'");
+            if (cbxCode.Checked) adjCodeList.Add("' '");
+            if (cbxCodeN.Checked) adjCodeList.Add("'N'");
             is_adj_code = adjCodeList.ToArray();
 
             if (!cbxCodeY.Checked && !cbxCode.Checked && !cbxCodeN.Checked) {
@@ -508,27 +552,17 @@ namespace PhoenixCI.FormUI.Prefix4 {
             else {
                 ls_filter = f_gen_array_txt_ex(is_adj_code, ",", ",");
             }
-            //dt = dt.AsEnumerable().Where(x => adjCodeList.Contains(x.Field<string>("ADJ_CODE")) &&
-            //                   abTypeList.Contains(x.Field<string>("AB_TYPE"))).CopyToDataTable();
-            var result = from c in dt.AsEnumerable()
-                         where adjCodeList.Contains(c.Field<string>("ADJ_CODE")) &&
-                               abTypeList.Contains(c.Field<string>("AB_TYPE"))
-                         select c;
-            if (result.Count() > 0) {
-                dt = result.CopyToDataTable();
-            }
-            else {
-                dt.Clear();
-            }
 
-            //DataView dv = dt.AsDataView();
-            //dv.RowFilter = "adj_code in (" + ls_filter + ") and ab_type in ('-','A')"; //不支援，要用LINQ的Contains
-            //dt = dv.ToTable();
-            gcMain.DataSource = dt;
-            gcMain.Refresh();
-            gvMain.ExpandAllGroups();
+            gvMain.Columns["ADJ_CODE"].FilterInfo = new ColumnFilterInfo("[ADJ_CODE] In (" + ls_filter + ") and [AB_TYPE] In ('-','A')");
         }
 
+        /// <summary>
+        /// 將篩選條件的陣列組成字串
+        /// </summary>
+        /// <param name="as_arr"></param>
+        /// <param name="as_other"></param>
+        /// <param name="as_last"></param>
+        /// <returns></returns>
         private string f_gen_array_txt_ex(string[] as_arr, string as_other, string as_last) {
             int f, li_count;
             string ls_txt = "";
@@ -547,6 +581,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return ls_txt;
         }
 
+        #region 篩選 Checkbox Group
         private void cbxCodeN_CheckedChanged(object sender, EventArgs e) {
             wf_filter();
         }
@@ -557,6 +592,208 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
         private void cbxCodeY_CheckedChanged(object sender, EventArgs e) {
             wf_filter();
+        }
+        #endregion
+
+        #region GridView Events
+        private void gvMain_CellValueChanged(object sender, CellValueChangedEventArgs e) {
+            GridView gv = sender as GridView;
+            int ll_found;
+            gv.CloseEditor();
+            gv.UpdateCurrentRow();
+            DataTable dt = (DataTable)gcMain.DataSource;
+            string ls_kind_id = gv.GetRowCellValue(e.RowHandle, "KIND_ID").AsString();
+            if (e.Column.Name == "ADJ_CODE") {
+                if (e.Value.AsString() != "Y") {
+                    gv.SetRowCellValue(e.RowHandle, "ISSUE_BEGIN_YMD", nullYmd);
+                }
+                else {
+                    switch (gv.GetRowCellValue(e.RowHandle, "OSW_GRP").AsString()) {
+                        case "5":
+                            gv.SetRowCellValue(e.RowHandle, "ISSUE_BEGIN_YMD", txtDateG5.DateTimeValue.ToString("yyyyMMdd"));
+                            break;
+                        case "7":
+                            gv.SetRowCellValue(e.RowHandle, "ISSUE_BEGIN_YMD", txtDateG7.DateTimeValue.ToString("yyyyMMdd"));
+                            break;
+                        default:
+                            gv.SetRowCellValue(e.RowHandle, "ISSUE_BEGIN_YMD", txtDateG1.DateTimeValue.ToString("yyyyMMdd"));
+                            break;
+                    }
+                }
+                if (ls_kind_id == "TXF") {
+                    ll_found = dt.Rows.IndexOf(dt.Select("kind_id ='MXF'").FirstOrDefault());
+                    gv.SetRowCellValue(ll_found, "ADJ_CODE", e.Value);
+                    gv.SetRowCellValue(ll_found, "ISSUE_BEGIN_YMD", gv.GetRowCellValue(e.RowHandle, "ISSUE_BEGIN_YMD"));
+                }
+            }
+            if (e.Column.Name == "ADJ_RSN") {
+                if (ls_kind_id == "TXF") {
+                    ll_found = dt.Rows.IndexOf(dt.Select("kind_id ='MXF'").FirstOrDefault());
+                    gv.SetRowCellValue(ll_found, "ADJ_RSN", e.Value);
+                }
+            }
+            if (e.Column.Name == "USER_CM") {
+                if (ls_kind_id == "TXF") {
+                    ll_found = dt.Rows.IndexOf(dt.Select("kind_id ='MXF'").FirstOrDefault());
+                    gv.SetRowCellValue(ll_found, "USER_CM", dao40070.GetMarginVal("MXF", e.Value.AsInt(), 0, "MTX_CM"));
+                }
+            }
+        }
+        #endregion
+
+        /// <summary>
+        /// 若改動商品條件下拉選單，則清空GridView
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ddlModel_EditValueChanging(object sender, ChangingEventArgs e) {
+            gcMain.DataSource = null;
+        }
+
+        /// <summary>
+        /// 調整下拉選單改變時
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ddlAdjust_EditValueChanged(object sender, EventArgs e) {
+            gvMain.CloseEditor();
+            gvMain.UpdateCurrentRow();
+            DataTable dtAdjust = (DataTable)gcMain.DataSource;
+            if (dtAdjust == null) return;
+            if (dtAdjust.Rows.Count == 0) return;
+            switch (ddlAdjust.EditValue.AsString()) {
+                case "none":
+                    foreach (DataRow dr in dtAdjust.Rows) {
+                        dr["ADJ_CODE"] = " ";
+                        dr["ISSUE_BEGIN_YMD"] = nullYmd;
+                    }
+                    break;
+                case "indes":
+                    for (int f = 0; f < dtAdjust.Rows.Count; f++) {
+                        DataRow dr = dtAdjust.Rows[f];
+                        if (dr["PROD_SUBTYPE"].AsString() == "I") {
+                            dr["ADJ_CODE"] = "Y";
+                            if (wf_set_valid_date(f) != "") {
+                                dr["ADJ_CODE"] = " ";
+                                return;
+                            }
+                        }
+                        else {
+                            dr["ADJ_CODE"] = " ";
+                            dr["ISSUE_BEGIN_YMD"] = nullYmd;
+                        }
+                    }
+                    break;
+                case "all":
+                    for (int f = 0; f < dtAdjust.Rows.Count; f++) {
+                        DataRow dr = dtAdjust.Rows[f];
+                        dr["ADJ_CODE"] = "Y";
+                        if (wf_set_valid_date(f) != "") {
+                            dr["ADJ_CODE"] = " ";
+                            return;
+                        }
+                    }
+                    break;
+                case "ETF":
+                    for (int f = 0; f < dtAdjust.Rows.Count; f++) {
+                        DataRow dr = dtAdjust.Rows[f];
+                        if (dr["PROD_SUBTYPE"].AsString() == "S") {
+                            dr["ADJ_CODE"] = "Y";
+                            if (wf_set_valid_date(f) != "") {
+                                dr["ADJ_CODE"] = " ";
+                                return;
+                            }
+                        }
+                        else {
+                            dr["ADJ_CODE"] = " ";
+                            dr["ISSUE_BEGIN_YMD"] = nullYmd;
+                        }
+                    }
+                    break;
+                case "1":
+                    for (int f = 0; f < dtAdjust.Rows.Count; f++) {
+                        DataRow dr = dtAdjust.Rows[f];
+                        if (dr["OSW_GRP"].AsString() == "1") {
+                            dr["ADJ_CODE"] = "Y";
+                            if (wf_set_valid_date(f) != "") {
+                                dr["ADJ_CODE"] = " ";
+                                return;
+                            }
+                        }
+                        else {
+                            dr["ADJ_CODE"] = " ";
+                            dr["ISSUE_BEGIN_YMD"] = nullYmd;
+                        }
+                    }
+                    break;
+                case "2":
+                    for (int f = 0; f < dtAdjust.Rows.Count; f++) {
+                        DataRow dr = dtAdjust.Rows[f];
+                        if (dr["OSW_GRP"].AsString() == "5") {
+                            dr["ADJ_CODE"] = "Y";
+                            if (wf_set_valid_date(f) != "") {
+                                dr["ADJ_CODE"] = " ";
+                                return;
+                            }
+                        }
+                        else {
+                            dr["ADJ_CODE"] = " ";
+                            dr["ISSUE_BEGIN_YMD"] = nullYmd;
+                        }
+                    }
+                    break;
+                case "3":
+                    for (int f = 0; f < dtAdjust.Rows.Count; f++) {
+                        DataRow dr = dtAdjust.Rows[f];
+                        if (dr["OSW_GRP"].AsString() == "7") {
+                            dr["ADJ_CODE"] = "Y";
+                            if (wf_set_valid_date(f) != "") {
+                                dr["ADJ_CODE"] = " ";
+                                return;
+                            }
+                        }
+                        else {
+                            dr["ADJ_CODE"] = " ";
+                            dr["ISSUE_BEGIN_YMD"] = nullYmd;
+                        }
+                    }
+                    break;
+            }//switch (ddlAdjust.EditValue.AsString())
+
+            gcMain.DataSource = dtAdjust;
+        }
+
+        private string wf_set_valid_date(int ai_row) {
+            string osw_grp = gvMain.GetRowCellValue(ai_row, "OSW_GRP").AsString();
+            if (gvMain.GetRowCellValue(ai_row, "ADJ_CODE").AsString() == "Y") {
+                if (osw_grp == "1") {
+                    if (txtDateG1.Text == "1901/01/01") {
+                        MessageDisplay.Error("請先輸入" + lblG1.Text);
+                        return "N";
+                    }
+                    gvMain.SetRowCellValue(ai_row, "ISSUE_BEGIN_YMD", txtDateG1.DateTimeValue.ToString("yyyyMMdd"));
+                }
+                if (osw_grp == "5") {
+                    if (txtDateG5.Text == "1901/01/01") {
+                        MessageDisplay.Error("請先輸入" + lblG2.Text);
+                        return "N";
+                    }
+                    gvMain.SetRowCellValue(ai_row, "ISSUE_BEGIN_YMD", txtDateG5.DateTimeValue.ToString("yyyyMMdd"));
+                }
+                if (osw_grp == "7") {
+                    if (txtDateG7.Text == "1901/01/01") {
+                        MessageDisplay.Error("請先輸入" + lblG3.Text);
+                        return "N";
+                    }
+                    gvMain.SetRowCellValue(ai_row, "ISSUE_BEGIN_YMD", txtDateG7.DateTimeValue.ToString("yyyyMMdd"));
+                }
+            }
+            else {
+                if (gvMain.GetRowCellValue(ai_row, "ISSUE_BEGIN_YMD").AsString() != null) {
+                    gvMain.SetRowCellValue(ai_row, "ISSUE_BEGIN_YMD", nullYmd);
+                }
+            }
+            return "";
         }
     }
 }

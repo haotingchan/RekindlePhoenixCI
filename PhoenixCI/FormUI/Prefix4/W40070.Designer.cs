@@ -32,11 +32,11 @@
             this.cbxCodeN = new System.Windows.Forms.CheckBox();
             this.ddlModel = new DevExpress.XtraEditors.LookUpEdit();
             this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblG3 = new System.Windows.Forms.Label();
             this.txtDateG7 = new BaseGround.Widget.TextDateEdit();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblG2 = new System.Windows.Forms.Label();
             this.txtDateG5 = new BaseGround.Widget.TextDateEdit();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblG1 = new System.Windows.Forms.Label();
             this.txtDateG1 = new BaseGround.Widget.TextDateEdit();
             this.lblDate = new System.Windows.Forms.Label();
             this.txtSDate = new BaseGround.Widget.TextDateEdit();
@@ -67,6 +67,7 @@
             this.ADJ_CODE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.gridBand20 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.ISSUE_BEGIN_YMD = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.repositoryItemTextEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.CUR_CM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.CUR_MM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.CUR_IM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -99,6 +100,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextDateEdit1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -119,11 +121,11 @@
             this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Controls.Add(this.ddlModel);
             this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.lblG3);
             this.panel1.Controls.Add(this.txtDateG7);
-            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.lblG2);
             this.panel1.Controls.Add(this.txtDateG5);
-            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.lblG1);
             this.panel1.Controls.Add(this.txtDateG1);
             this.panel1.Controls.Add(this.lblDate);
             this.panel1.Controls.Add(this.txtSDate);
@@ -152,6 +154,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.ddlAdjust.Size = new System.Drawing.Size(159, 26);
             this.ddlAdjust.TabIndex = 0;
+            this.ddlAdjust.EditValueChanged += new System.EventHandler(this.ddlAdjust_EditValueChanged);
             // 
             // groupBox1
             // 
@@ -213,6 +216,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.ddlModel.Size = new System.Drawing.Size(160, 26);
             this.ddlModel.TabIndex = 12;
+            this.ddlModel.EditValueChanging += new DevExpress.XtraEditors.Controls.ChangingEventHandler(this.ddlModel_EditValueChanging);
             // 
             // label4
             // 
@@ -225,16 +229,16 @@
             this.label4.TabIndex = 11;
             this.label4.Text = "調整商品條件";
             // 
-            // label3
+            // lblG3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-            this.label3.Location = new System.Drawing.Point(212, 77);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(130, 20);
-            this.label3.TabIndex = 10;
-            this.label3.Text = "Group3生效日期";
+            this.lblG3.AutoSize = true;
+            this.lblG3.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.lblG3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.lblG3.Location = new System.Drawing.Point(212, 77);
+            this.lblG3.Name = "lblG3";
+            this.lblG3.Size = new System.Drawing.Size(130, 20);
+            this.lblG3.TabIndex = 10;
+            this.lblG3.Text = "Group3生效日期";
             // 
             // txtDateG7
             // 
@@ -256,16 +260,16 @@
             this.txtDateG7.TabIndex = 9;
             this.txtDateG7.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
-            // label2
+            // lblG2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-            this.label2.Location = new System.Drawing.Point(212, 44);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(130, 20);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "Group2生效日期";
+            this.lblG2.AutoSize = true;
+            this.lblG2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.lblG2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.lblG2.Location = new System.Drawing.Point(212, 44);
+            this.lblG2.Name = "lblG2";
+            this.lblG2.Size = new System.Drawing.Size(130, 20);
+            this.lblG2.TabIndex = 8;
+            this.lblG2.Text = "Group2生效日期";
             // 
             // txtDateG5
             // 
@@ -287,16 +291,16 @@
             this.txtDateG5.TabIndex = 7;
             this.txtDateG5.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
-            // label1
+            // lblG1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-            this.label1.Location = new System.Drawing.Point(212, 12);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(130, 20);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "Group1生效日期";
+            this.lblG1.AutoSize = true;
+            this.lblG1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.lblG1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.lblG1.Location = new System.Drawing.Point(212, 12);
+            this.lblG1.Name = "lblG1";
+            this.lblG1.Size = new System.Drawing.Size(130, 20);
+            this.lblG1.TabIndex = 6;
+            this.lblG1.Text = "Group1生效日期";
             // 
             // txtDateG1
             // 
@@ -369,7 +373,8 @@
             this.gcMain.Name = "gcMain";
             this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextDateEdit1,
-            this.repositoryItemTextEdit1});
+            this.repositoryItemTextEdit1,
+            this.repositoryItemTextEdit2});
             this.gcMain.Size = new System.Drawing.Size(1393, 712);
             this.gcMain.TabIndex = 1;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -432,8 +437,10 @@
             this.OP_TYPE});
             this.gvMain.GridControl = this.gcMain;
             this.gvMain.Name = "gvMain";
+            this.gvMain.OptionsPrint.PrintHeader = false;
             this.gvMain.OptionsView.ShowColumnHeaders = false;
             this.gvMain.OptionsView.ShowGroupPanel = false;
+            this.gvMain.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gvMain_CellValueChanged);
             // 
             // gridBand11
             // 
@@ -573,6 +580,7 @@
             this.SMA_ADJ_RATE.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.SMA_ADJ_RATE.FieldName = "SMA_ADJ_RATE";
             this.SMA_ADJ_RATE.Name = "SMA_ADJ_RATE";
+            this.SMA_ADJ_RATE.OptionsColumn.AllowEdit = false;
             this.SMA_ADJ_RATE.RowIndex = 1;
             this.SMA_ADJ_RATE.Visible = true;
             this.SMA_ADJ_RATE.Width = 98;
@@ -584,6 +592,7 @@
             this.EWMA_ADJ_RATE.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.EWMA_ADJ_RATE.FieldName = "EWMA_ADJ_RATE";
             this.EWMA_ADJ_RATE.Name = "EWMA_ADJ_RATE";
+            this.EWMA_ADJ_RATE.OptionsColumn.AllowEdit = false;
             this.EWMA_ADJ_RATE.RowIndex = 1;
             this.EWMA_ADJ_RATE.Visible = true;
             this.EWMA_ADJ_RATE.Width = 98;
@@ -595,6 +604,7 @@
             this.MAXV_ADJ_RATE.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.MAXV_ADJ_RATE.FieldName = "MAXV_ADJ_RATE";
             this.MAXV_ADJ_RATE.Name = "MAXV_ADJ_RATE";
+            this.MAXV_ADJ_RATE.OptionsColumn.AllowEdit = false;
             this.MAXV_ADJ_RATE.RowIndex = 1;
             this.MAXV_ADJ_RATE.Visible = true;
             this.MAXV_ADJ_RATE.Width = 98;
@@ -604,6 +614,7 @@
             this.USER_RATE.Caption = "USER_RATE";
             this.USER_RATE.FieldName = "USER_RATE";
             this.USER_RATE.Name = "USER_RATE";
+            this.USER_RATE.OptionsColumn.AllowEdit = false;
             this.USER_RATE.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.True;
             this.USER_RATE.RowIndex = 1;
             this.USER_RATE.Visible = true;
@@ -630,6 +641,7 @@
             this.SMA_CM.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.SMA_CM.FieldName = "SMA_CM";
             this.SMA_CM.Name = "SMA_CM";
+            this.SMA_CM.OptionsColumn.AllowEdit = false;
             this.SMA_CM.RowIndex = 2;
             this.SMA_CM.Visible = true;
             this.SMA_CM.Width = 98;
@@ -641,6 +653,7 @@
             this.EWMA_CM.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.EWMA_CM.FieldName = "EWMA_CM";
             this.EWMA_CM.Name = "EWMA_CM";
+            this.EWMA_CM.OptionsColumn.AllowEdit = false;
             this.EWMA_CM.RowIndex = 2;
             this.EWMA_CM.Visible = true;
             this.EWMA_CM.Width = 98;
@@ -652,6 +665,7 @@
             this.MAXV_CM.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.MAXV_CM.FieldName = "MAXV_CM";
             this.MAXV_CM.Name = "MAXV_CM";
+            this.MAXV_CM.OptionsColumn.AllowEdit = false;
             this.MAXV_CM.RowIndex = 2;
             this.MAXV_CM.Visible = true;
             this.MAXV_CM.Width = 98;
@@ -714,10 +728,21 @@
             // 
             this.ISSUE_BEGIN_YMD.AutoFillDown = true;
             this.ISSUE_BEGIN_YMD.Caption = "ISSUE_BEGIN_YMD";
+            this.ISSUE_BEGIN_YMD.ColumnEdit = this.repositoryItemTextEdit2;
             this.ISSUE_BEGIN_YMD.FieldName = "ISSUE_BEGIN_YMD";
             this.ISSUE_BEGIN_YMD.Name = "ISSUE_BEGIN_YMD";
             this.ISSUE_BEGIN_YMD.Visible = true;
             this.ISSUE_BEGIN_YMD.Width = 119;
+            // 
+            // repositoryItemTextEdit2
+            // 
+            this.repositoryItemTextEdit2.AutoHeight = false;
+            this.repositoryItemTextEdit2.Mask.EditMask = "\\d\\d\\d\\d/\\d\\d/\\d\\d";
+            this.repositoryItemTextEdit2.Mask.IgnoreMaskBlank = false;
+            this.repositoryItemTextEdit2.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
+            this.repositoryItemTextEdit2.Mask.PlaceHolder = '0';
+            this.repositoryItemTextEdit2.Mask.UseMaskAsDisplayFormat = true;
+            this.repositoryItemTextEdit2.Name = "repositoryItemTextEdit2";
             // 
             // CUR_CM
             // 
@@ -879,6 +904,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextDateEdit1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -891,11 +917,11 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label lblDate;
         private BaseGround.Widget.TextDateEdit txtSDate;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblG3;
         private BaseGround.Widget.TextDateEdit txtDateG7;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblG2;
         private BaseGround.Widget.TextDateEdit txtDateG5;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblG1;
         private BaseGround.Widget.TextDateEdit txtDateG1;
         private DevExpress.XtraEditors.LookUpEdit ddlModel;
         private System.Windows.Forms.Label label4;
@@ -949,5 +975,6 @@
         private System.Windows.Forms.CheckBox cbxCodeN;
         private System.Windows.Forms.GroupBox groupBox2;
         private DevExpress.XtraEditors.LookUpEdit ddlAdjust;
+        private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit2;
     }
 }
