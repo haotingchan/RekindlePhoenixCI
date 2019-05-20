@@ -569,7 +569,6 @@
             this.barMenuStrip.DockCol = 0;
             this.barMenuStrip.DockRow = 0;
             this.barMenuStrip.DockStyle = DevExpress.XtraBars.BarDockStyle.Standalone;
-            this.barMenuStrip.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {});
             this.barMenuStrip.OptionsBar.AllowQuickCustomization = false;
             this.barMenuStrip.OptionsBar.DrawBorder = false;
             this.barMenuStrip.OptionsBar.DrawDragBorder = false;

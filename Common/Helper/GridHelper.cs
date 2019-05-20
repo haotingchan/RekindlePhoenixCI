@@ -15,55 +15,62 @@ using System.Windows.Forms;
 
 namespace Common {
    public static class GridHelper {
-      public static void SetCommonGrid(GridView gv) {
-         // 關掉Group的Panel
-         gv.OptionsView.ShowGroupPanel = false;
+        public static void SetCommonGrid(GridView gv)
+        {
+            // 關掉Group的Panel
+            gv.OptionsView.ShowGroupPanel = false;
 
-         // 置中
-         for (int i = 0; i < gv.Columns.Count; i++) {
-            gv.Columns[i].AppearanceHeader.TextOptions.HAlignment = HorzAlignment.Center;
-         }
+            // 置中
+            for (int i = 0; i < gv.Columns.Count; i++)
+            {
+                gv.Columns[i].AppearanceHeader.TextOptions.HAlignment = HorzAlignment.Center;
+                //gv.Columns[i].AppearanceHeader.BackColor = Color.Aqua;
+                
+            }
+            
 
-         // 關閉某些功能
-         foreach (GridColumn column in gv.Columns) {
-            // 關閉排序欄位
-            column.OptionsColumn.AllowSort = DefaultBoolean.False;
-            // 關閉移動欄位
-            column.OptionsColumn.AllowMove = false;
-            // 關閉過濾欄位
-            column.OptionsFilter.AllowFilter = false;
-         }
+            // 關閉某些功能
+            foreach (GridColumn column in gv.Columns)
+            {
+                // 關閉排序欄位
+                column.OptionsColumn.AllowSort = DefaultBoolean.False;
+                // 關閉移動欄位
+                column.OptionsColumn.AllowMove = false;
+                // 關閉過濾欄位
+                column.OptionsFilter.AllowFilter = false;
+            }
 
-         gv.Appearance.HeaderPanel.Options.UseTextOptions = true;
-         gv.Appearance.HeaderPanel.TextOptions.WordWrap = WordWrap.Wrap;
+            gv.Appearance.HeaderPanel.Options.UseTextOptions = true;
+            gv.Appearance.HeaderPanel.TextOptions.WordWrap = WordWrap.Wrap;
 
-         // 設定列印出來Grid的Header的字體和大小
-         gv.OptionsPrint.UsePrintStyles = true;
-         gv.AppearancePrint.HeaderPanel.Font = new Font("Microsoft YaHei", gv.Appearance.HeaderPanel.Font.Size);
-         gv.Appearance.Empty.BackColor = Color.FromArgb(192, 220, 192);
-         gv.OptionsView.ColumnHeaderAutoHeight = DefaultBoolean.True;
-         gv.AppearancePrint.HeaderPanel.Options.UseTextOptions = true;
-         gv.AppearancePrint.Row.Options.UseTextOptions = true;
-         gv.AppearancePrint.HeaderPanel.TextOptions.WordWrap = WordWrap.Wrap;
+            // 設定列印出來Grid的Header的字體和大小
+            gv.OptionsPrint.UsePrintStyles = true;
+            gv.AppearancePrint.HeaderPanel.Font = new Font("Microsoft YaHei", gv.Appearance.HeaderPanel.Font.Size);
+            gv.Appearance.Empty.BackColor = Color.FromArgb(224, 224, 224);
+            gv.OptionsView.ColumnHeaderAutoHeight = DefaultBoolean.True;
+            gv.AppearancePrint.HeaderPanel.Options.UseTextOptions = true;
+            gv.AppearancePrint.Row.Options.UseTextOptions = true;
+            gv.AppearancePrint.HeaderPanel.TextOptions.WordWrap = WordWrap.Wrap;
 
-         gv.OptionsPrint.AllowMultilineHeaders = true;
+            gv.OptionsPrint.AllowMultilineHeaders = true;
 
-         // 設定欄位Trim
-         TrimWhenEditCell(gv.GridControl);
+            // 設定欄位Trim
+            TrimWhenEditCell(gv.GridControl);
 
-         //隱藏Popup Menu
-         gv.OptionsMenu.EnableColumnMenu = false;
+            //隱藏Popup Menu
+            gv.OptionsMenu.EnableColumnMenu = false;
 
-         // 如果Grid被Disabled的話，不要變成一片灰色
-         gv.GridControl.UseDisabledStatePainter = false;
+            // 如果Grid被Disabled的話，不要變成一片灰色
+            gv.GridControl.UseDisabledStatePainter = false;
 
-         gv.BestFitColumns();
+            gv.BestFitColumns();
 
-         // 當點擊GrivView的Editor時，無法用滑鼠滾輪滾，所以加這個讓我們可以點到欄位內容後還可以滾輪
-         gv.MouseWheel += delegate (object sender, MouseEventArgs e) {
-            gv.CloseEditor();
-         };
-      }
+            // 當點擊GrivView的Editor時，無法用滑鼠滾輪滾，所以加這個讓我們可以點到欄位內容後還可以滾輪
+            gv.MouseWheel += delegate (object sender, MouseEventArgs e)
+            {
+                gv.CloseEditor();
+            };
+        }
 
       public static void SetCommonGrid(VGridControl gridControl) {
          gridControl.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
@@ -185,6 +192,7 @@ namespace Common {
          string opTypeColumnName = "OP_TYPE";
 
          GridView gv = (GridView)gridControl.MainView;
+         
 
          gv.ShowingEditor += delegate (object sender, System.ComponentModel.CancelEventArgs e) {
             DataTable dt = (DataTable)gridControl.DataSource;
@@ -205,7 +213,9 @@ namespace Common {
                }
             }
          };
-      }
+
+            
+        }
 
       public static void TrimWhenEditCell(GridControl gridControl) {
          GridView gv = (GridView)gridControl.MainView;
