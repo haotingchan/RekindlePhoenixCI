@@ -30,6 +30,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
         public W30060(string programID, string programName) : base(programID, programName) {
             InitializeComponent();
             this.Text = _ProgramID + "─" + _ProgramName;
+            dao30060 = new D30060();
         }
 
         protected override ResultStatus Open() {
@@ -65,11 +66,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
         protected override ResultStatus Export() {
 
             try {
-                dao30060 = new D30060();
-                string rptId = "30060", file;
+                string file,rptId = "30060", rptName = "各商品每日成交紀錄"; ;
                 string symd = txtSDate.Text.Replace("/", "");
                 string eymd = txtEDate.Text.Replace("/", "");
-
                 // 1. 複製檔案
                 file = PbFunc.wf_copy_file(rptId, rptId);
                 if (file == "") {
@@ -79,41 +78,33 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 // 2. 開啟檔案
                 Workbook workbook = new Workbook();
                 workbook.LoadDocument(file);
-
-                // 3. 匯出資料
-                int rowNum = 0;
-
-                #region wf_30060
-                string rptName, ymd;
-                int colNum;
-
-                rptName = "各商品每日成交紀錄";
-
-                // 切換Sheet
                 Worksheet ws30060 = workbook.Worksheets[0];
 
-                /******************
-                讀取資料 (每日)
-                ******************/
-                DataTable dt30060 = dao30060.d_30060(symd, eymd);
-                if (dt30060.Rows.Count == 0) {
-                    lblProcessing.Text = GlobalInfo.OCF_DATE.ToString("yyyyMM") + "," + rptId + '－' + rptName + ",無任何資料!";
-                }
-                ymd = "";
-                foreach (DataRow dr in dt30060.Rows) {
-                    if (ymd != dr["AI2_YMD"].AsString()) {
-                        ymd = dr["AI2_YMD"].AsString();
-                        rowNum = rowNum + 1;
-                        ws30060.Cells[rowNum, 0].Value = ymd.SubStr(0, 4) + "/" + ymd.SubStr(4, 2) + "/" + ymd.SubStr(6, 2);
+                // 3. 匯出資料
+                if (cbxDay.Checked) {
+                    // 切換Sheet
+                    ws30060 = workbook.Worksheets[0];
+                    // 讀取資料
+                    DataTable dt30060 = dao30060.d_30060(symd, eymd);
+                    if (dt30060.Rows.Count == 0) {
+                        lblProcessing.Text = GlobalInfo.OCF_DATE.ToString("yyyyMM") + "," + rptId + '－' + rptName + ",無任何資料!";
                     }
-                    // 交易量
-                    colNum = dr["M_COL_SEQ"].AsInt() - 1;
-                    ws30060.Cells[rowNum, colNum].Value = dr["AI2_M_QNTY"].AsDecimal();
-                    // OI
-                    colNum = dr["OI_COL_SEQ"].AsInt() - 1;
-                    ws30060.Cells[rowNum, colNum].Value = dr["AI2_OI"].AsDecimal();
+                    wf_30060(ws30060, dt30060);
                 }
-                #endregion
+                if (cbxNight.Checked) {
+                    // 切換Sheet
+                    ws30060 = workbook.Worksheets[1];
+                    // 讀取資料
+                    DataTable dt30060night = dao30060.d_30060_night(symd, eymd);
+                    if (dt30060night.Rows.Count == 0) {
+                        lblProcessing.Text = GlobalInfo.OCF_DATE.ToString("yyyyMM") + "," + rptId + '－' + rptName + ",無任何資料!";
+                    }
+                    wf_30060(ws30060, dt30060night);
+                }
+                if (!cbxDay.Checked && !cbxNight.Checked) {
+                    MessageDisplay.Error("請選擇盤別");
+                    return ResultStatus.Fail;
+                }
 
                 // 4. 存檔
                 ws30060.ScrollToRow(0);
@@ -124,6 +115,27 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 throw ex;
             }
             return ResultStatus.Success;
+        }
+
+        private void wf_30060(Worksheet ws30060, DataTable dt) {
+            int rowNum = 0, colNum;
+            string ymd;
+
+            ymd = "";
+            foreach (DataRow dr in dt.Rows) {
+                if (ymd != dr["AI2_YMD"].AsString()) {
+                    ymd = dr["AI2_YMD"].AsString();
+                    rowNum = rowNum + 1;
+                    ws30060.Cells[rowNum, 0].Value = ymd.SubStr(0, 4) + "/" + ymd.SubStr(4, 2) + "/" + ymd.SubStr(6, 2);
+                }
+                // 交易量
+                colNum = dr["M_COL_SEQ"].AsInt() - 1;
+                ws30060.Cells[rowNum, colNum].Value = dr["AI2_M_QNTY"].AsDecimal();
+                // OI
+                colNum = dr["OI_COL_SEQ"].AsInt() - 1;
+                ws30060.Cells[rowNum, colNum].Value = dr["AI2_OI"].AsDecimal();
+            }
+
         }
     }
 }

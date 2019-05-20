@@ -322,6 +322,7 @@
     <Compile Include="Dao\Together\TableDao\MOCF.cs" />
     <Compile Include="Dao\Together\TableDao\SPNT1.cs" />
     <Compile Include="Dao\Together\TableDao\SPNT2.cs" />
+    <Compile Include="Dao\Together\TableDao\SP2.cs" />
     <Compile Include="Dao\Together\TableDao\SPT1.cs" />
     <Compile Include="Dao\Together\TableDao\MGT8.cs" />
     <Compile Include="Dao\Together\TableDao\MMWK.cs" />
