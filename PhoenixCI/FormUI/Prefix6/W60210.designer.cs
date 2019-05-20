@@ -44,12 +44,12 @@
             // panParent
             // 
             this.panParent.Controls.Add(this.panelControl);
-            this.panParent.Size = new System.Drawing.Size(754, 538);
+            this.panParent.Size = new System.Drawing.Size(754, 536);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(754, 30);
+            this.ribbonControl.Size = new System.Drawing.Size(754, 32);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // lblDescription
@@ -90,7 +90,7 @@
             this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
             this.txtDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtDate.Size = new System.Drawing.Size(100, 26);
+            this.txtDate.Size = new System.Drawing.Size(100, 20);
             this.txtDate.TabIndex = 5;
             this.txtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
             // 
@@ -100,7 +100,7 @@
             this.ExportShow.ForeColor = System.Drawing.Color.Blue;
             this.ExportShow.Location = new System.Drawing.Point(21, 136);
             this.ExportShow.Name = "ExportShow";
-            this.ExportShow.Size = new System.Drawing.Size(54, 20);
+            this.ExportShow.Size = new System.Drawing.Size(38, 14);
             this.ExportShow.TabIndex = 16;
             this.ExportShow.Text = "label1";
             // 
@@ -111,7 +111,7 @@
             this.panelControl.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.panelControl.Controls.Add(this.ExportShow);
             this.panelControl.Controls.Add(this.grpxDescription);
-            this.panelControl.Location = new System.Drawing.Point(15, 18);
+            this.panelControl.Location = new System.Drawing.Point(30, 30);
             this.panelControl.Margin = new System.Windows.Forms.Padding(15);
             this.panelControl.Name = "panelControl";
             this.panelControl.Size = new System.Drawing.Size(410, 170);

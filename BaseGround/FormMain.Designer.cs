@@ -29,6 +29,7 @@
 
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.accordionMenu = new BaseGround.AccordionControlEx();
             this.accordionElemtnt1 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
@@ -44,7 +45,7 @@
             this.accordionElemtntW = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.accordionElemtntZ = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.scSearch = new DevExpress.XtraEditors.SearchControl();
-            this.defaultLookAndFeelMain = new DevExpress.LookAndFeel.DefaultLookAndFeel();
+            this.defaultLookAndFeelMain = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
             this.panSearch = new System.Windows.Forms.Panel();
             this.lblSearch = new System.Windows.Forms.Label();
             this.statusStripMain = new System.Windows.Forms.StatusStrip();
@@ -54,7 +55,9 @@
             this.toolStripStatusLabelDBName = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelUserTxt = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelUserName = new System.Windows.Forms.ToolStripStatusLabel();
-            this.barManagerMain = new DevExpress.XtraBars.BarManager();
+            this.toolStripStatusLabelVersion = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabelVersionNum = new System.Windows.Forms.ToolStripStatusLabel();
+            this.barManagerMain = new DevExpress.XtraBars.BarManager(this.components);
             this.barTool = new DevExpress.XtraBars.Bar();
             this.toolStripButtonInsert = new DevExpress.XtraBars.BarButtonItem();
             this.toolStripButtonSave = new DevExpress.XtraBars.BarButtonItem();
@@ -72,13 +75,6 @@
             this.toolStripButtonQuit = new DevExpress.XtraBars.BarButtonItem();
             this.standaloneBarDockControlTool = new DevExpress.XtraBars.StandaloneBarDockControl();
             this.barMenuStrip = new DevExpress.XtraBars.Bar();
-            this.檔案FToolStripMenuItem = new DevExpress.XtraBars.BarButtonItem();
-            this.儲存SToolStripMenuItem = new DevExpress.XtraBars.BarButtonItem();
-            this.列印PToolStripMenuItem = new DevExpress.XtraBars.BarButtonItem();
-            this.預覽列印VToolStripMenuItem = new DevExpress.XtraBars.BarButtonItem();
-            this.結束XToolStripMenuItem = new DevExpress.XtraBars.BarButtonItem();
-            this.說明HToolStripMenuItem = new DevExpress.XtraBars.BarButtonItem();
-            this.關於AToolStripMenuItem = new DevExpress.XtraBars.BarButtonItem();
             this.standaloneBarDockControlMenuStrip = new DevExpress.XtraBars.StandaloneBarDockControl();
             this.barMdi = new DevExpress.XtraBars.Bar();
             this.standaloneBarDockControlMdi = new DevExpress.XtraBars.StandaloneBarDockControl();
@@ -87,10 +83,10 @@
             this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
             this.ribbonControl = new DevExpress.XtraBars.Ribbon.RibbonControl();
+            this.barMdiChild = new DevExpress.XtraBars.BarMdiChildrenListItem();
             this.sidePanelMenu = new DevExpress.XtraEditors.SidePanel();
             this.sidePanelTool = new DevExpress.XtraEditors.SidePanel();
             this.sidePanelStatus = new DevExpress.XtraEditors.SidePanel();
-            this.barMdiChild = new DevExpress.XtraBars.BarMdiChildrenListItem();
             ((System.ComponentModel.ISupportInitialize)(this.accordionMenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.scSearch.Properties)).BeginInit();
             this.panSearch.SuspendLayout();
@@ -287,7 +283,9 @@
             this.toolStripStatusLabelDBTxt,
             this.toolStripStatusLabelDBName,
             this.toolStripStatusLabelUserTxt,
-            this.toolStripStatusLabelUserName});
+            this.toolStripStatusLabelUserName,
+            this.toolStripStatusLabelVersion,
+            this.toolStripStatusLabelVersionNum});
             this.statusStripMain.Location = new System.Drawing.Point(0, 0);
             this.statusStripMain.Name = "statusStripMain";
             this.statusStripMain.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
@@ -338,6 +336,18 @@
             this.toolStripStatusLabelUserName.Size = new System.Drawing.Size(44, 27);
             this.toolStripStatusLabelUserName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // toolStripStatusLabelVersion
+            // 
+            this.toolStripStatusLabelVersion.Name = "toolStripStatusLabelVersion";
+            this.toolStripStatusLabelVersion.Size = new System.Drawing.Size(47, 27);
+            this.toolStripStatusLabelVersion.Text = "版號：";
+            // 
+            // toolStripStatusLabelVersionNum
+            // 
+            this.toolStripStatusLabelVersionNum.AutoSize = false;
+            this.toolStripStatusLabelVersionNum.Name = "toolStripStatusLabelVersionNum";
+            this.toolStripStatusLabelVersionNum.Size = new System.Drawing.Size(44, 27);
+            // 
             // barManagerMain
             // 
             this.barManagerMain.AllowCustomization = false;
@@ -361,13 +371,6 @@
             this.toolStripButtonInsert,
             this.toolStripButtonSave,
             this.toolStripButtonDelete,
-            this.檔案FToolStripMenuItem,
-            this.說明HToolStripMenuItem,
-            this.儲存SToolStripMenuItem,
-            this.列印PToolStripMenuItem,
-            this.預覽列印VToolStripMenuItem,
-            this.結束XToolStripMenuItem,
-            this.關於AToolStripMenuItem,
             this.barStaticItemSeparator1,
             this.toolStripButtonPrintAll,
             this.barStaticItemSeparator2,
@@ -566,9 +569,7 @@
             this.barMenuStrip.DockCol = 0;
             this.barMenuStrip.DockRow = 0;
             this.barMenuStrip.DockStyle = DevExpress.XtraBars.BarDockStyle.Standalone;
-            this.barMenuStrip.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
-            new DevExpress.XtraBars.LinkPersistInfo(this.檔案FToolStripMenuItem),
-            new DevExpress.XtraBars.LinkPersistInfo(this.說明HToolStripMenuItem)});
+            this.barMenuStrip.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {});
             this.barMenuStrip.OptionsBar.AllowQuickCustomization = false;
             this.barMenuStrip.OptionsBar.DrawBorder = false;
             this.barMenuStrip.OptionsBar.DrawDragBorder = false;
@@ -576,60 +577,6 @@
             this.barMenuStrip.OptionsBar.UseWholeRow = true;
             this.barMenuStrip.StandaloneBarDockControl = this.standaloneBarDockControlMenuStrip;
             this.barMenuStrip.Text = "Main menu";
-            // 
-            // 檔案FToolStripMenuItem
-            // 
-            this.檔案FToolStripMenuItem.ActAsDropDown = true;
-            this.檔案FToolStripMenuItem.ButtonStyle = DevExpress.XtraBars.BarButtonStyle.DropDown;
-            this.檔案FToolStripMenuItem.Caption = "檔案(&F)";
-            this.檔案FToolStripMenuItem.Id = 4;
-            this.檔案FToolStripMenuItem.Name = "檔案FToolStripMenuItem";
-            // 
-            // 儲存SToolStripMenuItem
-            // 
-            this.儲存SToolStripMenuItem.Caption = "儲存(&S)";
-            this.儲存SToolStripMenuItem.Id = 6;
-            this.儲存SToolStripMenuItem.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("儲存SToolStripMenuItem.ImageOptions.Image")));
-            this.儲存SToolStripMenuItem.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("儲存SToolStripMenuItem.ImageOptions.LargeImage")));
-            this.儲存SToolStripMenuItem.Name = "儲存SToolStripMenuItem";
-            this.儲存SToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+S";
-            // 
-            // 列印PToolStripMenuItem
-            // 
-            this.列印PToolStripMenuItem.Caption = "列印(&P)";
-            this.列印PToolStripMenuItem.Id = 9;
-            this.列印PToolStripMenuItem.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("列印PToolStripMenuItem.ImageOptions.Image")));
-            this.列印PToolStripMenuItem.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("列印PToolStripMenuItem.ImageOptions.LargeImage")));
-            this.列印PToolStripMenuItem.Name = "列印PToolStripMenuItem";
-            this.列印PToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+P";
-            // 
-            // 預覽列印VToolStripMenuItem
-            // 
-            this.預覽列印VToolStripMenuItem.Caption = "預覽列印(&V)";
-            this.預覽列印VToolStripMenuItem.Id = 10;
-            this.預覽列印VToolStripMenuItem.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("預覽列印VToolStripMenuItem.ImageOptions.Image")));
-            this.預覽列印VToolStripMenuItem.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("預覽列印VToolStripMenuItem.ImageOptions.LargeImage")));
-            this.預覽列印VToolStripMenuItem.Name = "預覽列印VToolStripMenuItem";
-            // 
-            // 結束XToolStripMenuItem
-            // 
-            this.結束XToolStripMenuItem.Caption = "結束(&X)";
-            this.結束XToolStripMenuItem.Id = 11;
-            this.結束XToolStripMenuItem.Name = "結束XToolStripMenuItem";
-            // 
-            // 說明HToolStripMenuItem
-            // 
-            this.說明HToolStripMenuItem.ActAsDropDown = true;
-            this.說明HToolStripMenuItem.ButtonStyle = DevExpress.XtraBars.BarButtonStyle.DropDown;
-            this.說明HToolStripMenuItem.Caption = "說明(&H)";
-            this.說明HToolStripMenuItem.Id = 5;
-            this.說明HToolStripMenuItem.Name = "說明HToolStripMenuItem";
-            // 
-            // 關於AToolStripMenuItem
-            // 
-            this.關於AToolStripMenuItem.Caption = "關於(&A)";
-            this.關於AToolStripMenuItem.Id = 12;
-            this.關於AToolStripMenuItem.Name = "關於AToolStripMenuItem";
             // 
             // standaloneBarDockControlMenuStrip
             // 
@@ -712,8 +659,8 @@
             this.ribbonControl.CausesValidation = false;
             this.ribbonControl.ExpandCollapseItem.Id = 0;
             this.ribbonControl.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
-            this.ribbonControl.ExpandCollapseItem,
-            this.barMdiChild});
+            this.barMdiChild,
+            this.ribbonControl.ExpandCollapseItem});
             this.ribbonControl.Location = new System.Drawing.Point(0, 0);
             this.ribbonControl.MaxItemId = 2;
             this.ribbonControl.Name = "ribbonControl";
@@ -727,6 +674,13 @@
             this.ribbonControl.ShowToolbarCustomizeItem = false;
             this.ribbonControl.Size = new System.Drawing.Size(1099, 32);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
+            // 
+            // barMdiChild
+            // 
+            this.barMdiChild.Caption = "視窗";
+            this.barMdiChild.Id = 1;
+            this.barMdiChild.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("barMdiChild.ImageOptions.Image")));
+            this.barMdiChild.Name = "barMdiChild";
             // 
             // sidePanelMenu
             // 
@@ -763,13 +717,6 @@
             this.sidePanelStatus.Size = new System.Drawing.Size(808, 32);
             this.sidePanelStatus.TabIndex = 23;
             this.sidePanelStatus.Text = "sidePanel1";
-            // 
-            // barMdiChild
-            // 
-            this.barMdiChild.Caption = "視窗";
-            this.barMdiChild.Id = 1;
-            this.barMdiChild.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("barMdiChildrenListItem1.ImageOptions.Image")));
-            this.barMdiChild.Name = "barMdiChild";
             // 
             // FormMain
             // 
@@ -845,13 +792,6 @@
         private DevExpress.XtraBars.BarDockControl barDockControlBottom;
         private DevExpress.XtraBars.BarDockControl barDockControlLeft;
         private DevExpress.XtraBars.BarDockControl barDockControlRight;
-        private DevExpress.XtraBars.BarButtonItem 檔案FToolStripMenuItem;
-        private DevExpress.XtraBars.BarButtonItem 說明HToolStripMenuItem;
-        private DevExpress.XtraBars.BarButtonItem 儲存SToolStripMenuItem;
-        private DevExpress.XtraBars.BarButtonItem 列印PToolStripMenuItem;
-        private DevExpress.XtraBars.BarButtonItem 預覽列印VToolStripMenuItem;
-        private DevExpress.XtraBars.BarButtonItem 結束XToolStripMenuItem;
-        private DevExpress.XtraBars.BarButtonItem 關於AToolStripMenuItem;
         private DevExpress.XtraBars.BarStaticItem barStaticItemSeparator1;
         private DevExpress.XtraBars.StandaloneBarDockControl standaloneBarDockControlTool;
         private DevExpress.XtraBars.BarStaticItem barStaticItemSeparator2;
@@ -877,5 +817,7 @@
         private DevExpress.XtraBars.Bar barMdi;
         public DevExpress.XtraBars.StandaloneBarDockControl standaloneBarDockControlMdi;
         private DevExpress.XtraBars.BarMdiChildrenListItem barMdiChild;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelVersion;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelVersionNum;
     }
 }
