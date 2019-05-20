@@ -44,7 +44,8 @@ select
 	sp1_seq_no,
 	nvl(apdk_prod_type,param_prod_type) as apdk_prod_type,
 	nvl(apdk_prod_subtype,param_prod_subtype) as apdk_prod_subtype,
-	sp1_osw_grp
+	sp1_osw_grp,
+   decode(sp1_osw_grp,1,'Group1 (13:45)',5,'Group2 (16:15)') as osw_grp
 from ci.sp1, ci.sp2,ci.apdk,ci.apdk_param
 where sp1_date = :as_date 
 and sp1_change_flag = 'Y'
