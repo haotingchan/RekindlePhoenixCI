@@ -104,8 +104,8 @@ FROM ci.PL1B
 
             string sql =
 @"
-select max(case when PL2_NATURE_ADJ = '-' then PL2_EFFECTIVE_YMD else ' ' end) as LOWER_YMD,
-           max(case when PL2_NATURE_ADJ <> '-' then PL2_EFFECTIVE_YMD else ' ' end) as RAISE_YMD,
+select max(case when PL2_NATURE_ADJ = '-' or PL2_LEGAL_ADJ = '-' or PL2_999_ADJ = '-'  then PL2_EFFECTIVE_YMD else ' ' end) as LOWER_YMD,
+           max(case when PL2_NATURE_ADJ <> '-' and PL2_LEGAL_ADJ <> '-' and PL2_999_ADJ <> '-' then PL2_EFFECTIVE_YMD else ' ' end) as RAISE_YMD,
          count(*) as LI_COUNT
   --into :ls_eff_ymd_lower,:ls_eff_ymd,:li_count
   from ci.PL2

@@ -22,11 +22,13 @@ namespace DataObjects.Dao.Together.SpecificDao {
 @"
 select PL2_YMD,PL2_EFFECTIVE_YMD, 
        PL2_NATURE_ADJ,
-       PL2_KIND_ID
+       PL2_KIND_ID,
+	    PL2_LEGAL_ADJ,
+	    PL2_999_ADJ
   from ci.PL2
  where PL2_EFFECTIVE_YMD >= :as_symd
    and PL2_EFFECTIVE_YMD <= :as_eymd
-   and PL2_NATURE_ADJ in ('-','+')
+   and (PL2_NATURE_ADJ in ('-','+') or PL2_LEGAL_ADJ in ('-','+') or PL2_999_ADJ in ('-','+'))
  order by pl2_ymd, pl2_effective_ymd, pl2_nature_adj
 ";
             DataTable dtResult = db.GetDataTable(sql, parms);
