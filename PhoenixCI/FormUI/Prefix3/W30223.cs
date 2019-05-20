@@ -170,10 +170,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 ws.Cells[rowIndex, 1].Value = str;
                 ws.Cells[rowIndex, 2].Value = dr["PLS2_KIND_ID2"].AsString();
                 ws.Cells[rowIndex, 3].Value = dr["PLS2_SID"].AsString();
-                ws.Cells[rowIndex, 4].Value = dr["PLS2_LEVEL"].AsString();
-                ws.Cells[rowIndex, 5].SetValue(dr["PLS2_NATURE"]);
-                ws.Cells[rowIndex, 6].SetValue(dr["PLS2_LEGAL"]);
-                ws.Cells[rowIndex, 7].SetValue(dr["PLS2_999"]);
+                ws.Cells[rowIndex, 4].Value = dr["PLS2_PREV_LEVEL"].AsString();
+                ws.Cells[rowIndex, 5].Value = dr["PLS2_LEVEL"].AsString();
+                ws.Cells[rowIndex, 6].SetValue(dr["PLS2_NATURE"]);
+                ws.Cells[rowIndex, 7].SetValue(dr["PLS2_LEGAL"]);
+                ws.Cells[rowIndex, 8].SetValue(dr["PLS2_999"]);
                 //找出小型商品
                 DataRow[] find = dtFiltered.Select("apdk_kind_grp2 = '" + dr["PLS2_KIND_ID2"].AsString() + "' and pls2_kind_id2 <>  apdk_kind_grp2 ");
                 str = "";
@@ -218,10 +219,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 ws.Cells[rowIndex, 1].Value = str;
                 ws.Cells[rowIndex, 2].Value = dr["PLS2_KIND_ID2"].AsString();
                 ws.Cells[rowIndex, 3].Value = dr["PLS2_SID"].AsString();
-                ws.Cells[rowIndex, 4].Value = dr["PLS2_LEVEL"].AsString();
-                ws.Cells[rowIndex, 5].SetValue(dr["PLS2_NATURE"]);
-                ws.Cells[rowIndex, 6].SetValue(dr["PLS2_LEGAL"]);
-                ws.Cells[rowIndex, 7].SetValue(dr["PLS2_999"]);
+                ws.Cells[rowIndex, 4].Value = dr["PLS2_PREV_LEVEL"].AsString();
+                ws.Cells[rowIndex, 5].Value = dr["PLS2_LEVEL"].AsString();
+                ws.Cells[rowIndex, 6].SetValue(dr["PLS2_NATURE"]);
+                ws.Cells[rowIndex, 7].SetValue(dr["PLS2_LEGAL"]);
+                ws.Cells[rowIndex, 8].SetValue(dr["PLS2_999"]);
                 //找出小型商品
                 DataRow[] find = dtFiltered.Select("apdk_kind_grp2 = '" + dr["PLS2_KIND_ID2"].AsString() + "' and pls2_kind_id2 <>  apdk_kind_grp2 ");
                 str = "";
@@ -285,10 +287,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 if (dr["PLS2_FUT"].AsString() == "F") ws.Cells[rowIndex, 2].Value = "○";
                 if (dr["PLS2_OPT"].AsString() == "O") ws.Cells[rowIndex, 3].Value = "○";
                 ws.Cells[rowIndex, 4].Value = dr["PLS2_SID"].AsString();
-                ws.Cells[rowIndex, 5].Value = dr["PLS2_LEVEL"].AsString();
-                ws.Cells[rowIndex, 6].SetValue(dr["PLS2_NATURE"]);
-                ws.Cells[rowIndex, 7].SetValue(dr["PLS2_LEGAL"]);
-                ws.Cells[rowIndex, 8].SetValue(dr["PLS2_999"]);
+                ws.Cells[rowIndex, 5].Value = dr["PLS2_PREV_LEVEL"].AsString();
+                ws.Cells[rowIndex, 6].Value = dr["PLS2_LEVEL"].AsString();
+                ws.Cells[rowIndex, 7].SetValue(dr["PLS2_NATURE"]);
+                ws.Cells[rowIndex, 8].SetValue(dr["PLS2_LEGAL"]);
+                ws.Cells[rowIndex, 9].SetValue(dr["PLS2_999"]);
 
                 //找出小型商品
                 str = "";
@@ -328,10 +331,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 if (dr["PLS2_FUT"].AsString() == "F") ws.Cells[rowIndex, 2].Value = "○";
                 if (dr["PLS2_OPT"].AsString() == "O") ws.Cells[rowIndex, 3].Value = "○";
                 ws.Cells[rowIndex, 4].Value = dr["PLS2_SID"].AsString();
-                ws.Cells[rowIndex, 5].Value = dr["PLS2_LEVEL"].AsString();
-                ws.Cells[rowIndex, 6].SetValue(dr["PLS2_NATURE"]);
-                ws.Cells[rowIndex, 7].SetValue(dr["PLS2_LEGAL"]);
-                ws.Cells[rowIndex, 8].SetValue(dr["PLS2_999"]);
+                ws.Cells[rowIndex, 5].Value = dr["PLS2_PREV_LEVEL"].AsString();
+                ws.Cells[rowIndex, 6].Value = dr["PLS2_LEVEL"].AsString();
+                ws.Cells[rowIndex, 7].SetValue(dr["PLS2_NATURE"]);
+                ws.Cells[rowIndex, 8].SetValue(dr["PLS2_LEGAL"]);
+                ws.Cells[rowIndex, 9].SetValue(dr["PLS2_999"]);
 
                 //找出小型商品
                 str = "";
