@@ -437,6 +437,7 @@
             this.OP_TYPE});
             this.gvMain.GridControl = this.gcMain;
             this.gvMain.Name = "gvMain";
+            this.gvMain.OptionsPrint.PrintHeader = false;
             this.gvMain.OptionsView.ShowColumnHeaders = false;
             this.gvMain.OptionsView.ShowGroupPanel = false;
             this.gvMain.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gvMain_CellValueChanged);
@@ -579,6 +580,7 @@
             this.SMA_ADJ_RATE.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.SMA_ADJ_RATE.FieldName = "SMA_ADJ_RATE";
             this.SMA_ADJ_RATE.Name = "SMA_ADJ_RATE";
+            this.SMA_ADJ_RATE.OptionsColumn.AllowEdit = false;
             this.SMA_ADJ_RATE.RowIndex = 1;
             this.SMA_ADJ_RATE.Visible = true;
             this.SMA_ADJ_RATE.Width = 98;
@@ -590,6 +592,7 @@
             this.EWMA_ADJ_RATE.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.EWMA_ADJ_RATE.FieldName = "EWMA_ADJ_RATE";
             this.EWMA_ADJ_RATE.Name = "EWMA_ADJ_RATE";
+            this.EWMA_ADJ_RATE.OptionsColumn.AllowEdit = false;
             this.EWMA_ADJ_RATE.RowIndex = 1;
             this.EWMA_ADJ_RATE.Visible = true;
             this.EWMA_ADJ_RATE.Width = 98;
@@ -601,6 +604,7 @@
             this.MAXV_ADJ_RATE.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.MAXV_ADJ_RATE.FieldName = "MAXV_ADJ_RATE";
             this.MAXV_ADJ_RATE.Name = "MAXV_ADJ_RATE";
+            this.MAXV_ADJ_RATE.OptionsColumn.AllowEdit = false;
             this.MAXV_ADJ_RATE.RowIndex = 1;
             this.MAXV_ADJ_RATE.Visible = true;
             this.MAXV_ADJ_RATE.Width = 98;
@@ -610,6 +614,7 @@
             this.USER_RATE.Caption = "USER_RATE";
             this.USER_RATE.FieldName = "USER_RATE";
             this.USER_RATE.Name = "USER_RATE";
+            this.USER_RATE.OptionsColumn.AllowEdit = false;
             this.USER_RATE.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.True;
             this.USER_RATE.RowIndex = 1;
             this.USER_RATE.Visible = true;
@@ -636,6 +641,7 @@
             this.SMA_CM.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.SMA_CM.FieldName = "SMA_CM";
             this.SMA_CM.Name = "SMA_CM";
+            this.SMA_CM.OptionsColumn.AllowEdit = false;
             this.SMA_CM.RowIndex = 2;
             this.SMA_CM.Visible = true;
             this.SMA_CM.Width = 98;
@@ -647,6 +653,7 @@
             this.EWMA_CM.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.EWMA_CM.FieldName = "EWMA_CM";
             this.EWMA_CM.Name = "EWMA_CM";
+            this.EWMA_CM.OptionsColumn.AllowEdit = false;
             this.EWMA_CM.RowIndex = 2;
             this.EWMA_CM.Visible = true;
             this.EWMA_CM.Width = 98;
@@ -658,6 +665,7 @@
             this.MAXV_CM.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.MAXV_CM.FieldName = "MAXV_CM";
             this.MAXV_CM.Name = "MAXV_CM";
+            this.MAXV_CM.OptionsColumn.AllowEdit = false;
             this.MAXV_CM.RowIndex = 2;
             this.MAXV_CM.Visible = true;
             this.MAXV_CM.Width = 98;
