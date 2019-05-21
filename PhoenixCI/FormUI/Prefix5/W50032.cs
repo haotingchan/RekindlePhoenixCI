@@ -11,23 +11,30 @@ using System.Windows.Forms;
 using System.Threading;
 using DevExpress.XtraLayout.Utils;
 using System.IO;
+using DevExpress.XtraReports.UI;
+using static BaseGround.Report.ReportHelper;
+using System.Collections.Generic;
+using DevExpress.XtraPrinting;
 
 namespace PhoenixCI.FormUI.Prefix5
 {
-   public partial class W500xx : FormParent
+   public partial class W50032 : FormParent
    {
       public D500xx _D500Xx { get; set; }
       private DataTable _Data { get; set; }
+      private defReport _defReport;
       private ABRK daoABRK;
       private APDK daoAPDK;
+      private D50032 dao50032;
 
-      public W500xx(string programID, string programName) : base(programID, programName)
+      public W50032(string programID, string programName) : base(programID, programName)
       {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
          daoABRK = new ABRK();
          daoAPDK = new APDK();
          _D500Xx = new D500xx();
+         dao50032 = new D50032();
       }
 
       private bool StartRetrieve(string sbrkno = "", string ebrkno = "")
@@ -58,56 +65,34 @@ namespace PhoenixCI.FormUI.Prefix5
          if (string.IsNullOrEmpty(_D500Xx.ProdCategory) || dwProdCt.Enabled == false) {
             _D500Xx.ProdCategory = "";
          }
+         _D500Xx.ProdCategory = _D500Xx.ProdCategory.AsString() + "%";
 
          /* 商品 */
-         _D500Xx.ProdKindId = dwProdKd.EditValue.AsString();
-         if (string.IsNullOrEmpty(_D500Xx.ProdKindId) || dwProdKd.Enabled == false) {
-            _D500Xx.ProdKindId = "";
-         }
+         _D500Xx.ProdKindId = "";
          _D500Xx.ProdKindIdSto = dwProdKdSto.EditValue.AsString();
          if (string.IsNullOrEmpty(_D500Xx.ProdKindIdSto) || dwProdKdSto.Enabled == false) {
             _D500Xx.ProdKindIdSto = "";
          }
+         _D500Xx.ProdKindIdSto = _D500Xx.ProdKindIdSto.AsString() + "%";
+
          //DateTime dtDate;
          /* 月報表 */
-         if (gbReportType.EditValue.Equals("rb_month")) {
-            if (emStartYM.Visible == true) {
-               if (!emStartYM.IsDate(emStartYM.Text + "/01", CheckDate.Start)) {
-                  _D500Xx.IsCheck = "Y";
-                  return false;
-               }
-               _D500Xx.Sdate = emStartYM.Text.Replace("/", "").SubStr(0, 6);
+         if (emStartYM.Visible == true) {
+            if (!emStartYM.IsDate(emStartYM.Text + "/01", CheckDate.Start)) {
+               _D500Xx.IsCheck = "Y";
+               return false;
+            }
+            _D500Xx.Sdate = emStartYM.Text.Replace("/", "").SubStr(0, 6);
 
+         }
+         if (emEndYM.Visible == true) {
+            if (!emEndYM.IsDate(emEndYM.Text + "/01", CheckDate.End)) {
+               _D500Xx.IsCheck = "Y";
+               return false;
             }
-            if (emEndYM.Visible == true) {
-               if (!emEndYM.IsDate(emEndYM.Text + "/01", CheckDate.End)) {
-                  _D500Xx.IsCheck = "Y";
-                  return false;
-               }
-               _D500Xx.Edate = emEndYM.Text.Replace("/", "").SubStr(0, 6);
+            _D500Xx.Edate = emEndYM.Text.Replace("/", "").SubStr(0, 6);
 
-            }
          }
-         /* 日報表 */
-         else {
-            if (emStartDate.Visible == true) {
-               if (!emStartDate.IsDate(emStartDate.Text, CheckDate.Start)) {
-                  _D500Xx.IsCheck = "Y";
-                  return false;
-               }
-            }
-            _D500Xx.Sdate = emStartDate.Text.Replace("/", "").SubStr(0, 8);
-            if (emEndDate.Visible == true) {
-               if (!emEndDate.IsDate(emEndDate.Text, CheckDate.End)) {
-                  _D500Xx.IsCheck = "Y";
-                  return false;
-               }
-               _D500Xx.Edate = emEndDate.Text.Replace("/", "").SubStr(0, 8);
-            }
-         }
-         _D500Xx.SumType = ReportSumType(gbReportType.EditValue.ToString());
-         _D500Xx.SortType = PrintSortType(gbPrintSort.ToString());
-         _D500Xx.SumSubType = GrpSubType(gbGroup.EditValue.AsString());
          /*******************
          資料類別
          *******************/
@@ -187,12 +172,7 @@ namespace PhoenixCI.FormUI.Prefix5
          /*******************
          顯示條件
          *******************/
-         if (gbMarket.EditValue.Equals("rb_market_1")) {
-            lsText = "盤後交易時段";
-         }
-         else {
-            lsText = "一般交易時段";
-         }
+         lsText = "一般交易時段";
          if (!string.IsNullOrEmpty(_D500Xx.Sbrkno) || !string.IsNullOrEmpty(_D500Xx.Ebrkno)) {
             lsText = lsText + ",造市者:";
 
@@ -238,170 +218,6 @@ namespace PhoenixCI.FormUI.Prefix5
          return lsText;
       }
 
-      private void WfGbReportType(string AsType)
-      {
-
-         switch (AsType) {
-            case "M":
-               /* 只有月份 */
-               gbReportType.EditValue = "rb_month";
-               gpDate.Visibility = LayoutVisibility.Never;
-               gbReportType.Visible = false;
-               break;
-            case "m":
-               gbReportType.EditValue = "rb_month";
-               gbReportType.Visible = false;
-               gpDate.Visibility = LayoutVisibility.Never;
-               /* 無迄止值 */
-               emEndYM.Visible = false;
-               stMonth.Visibility = LayoutVisibility.Never;
-               break;
-            case "D":
-               /* 只有日期 */
-               gbReportType.EditValue = "rb_date";
-               gpMonth.Visibility = LayoutVisibility.Never;
-               gbReportType.Visible = false;
-               break;
-            case "d":
-               /* 只有日期 */
-               gbReportType.EditValue = "rb_date";
-               gpMonth.Visibility = LayoutVisibility.Never;
-               gbReportType.Visible = false;
-               /* 無迄止值 */
-               stDate.Visibility = LayoutVisibility.Never;
-               emEndDate.Visible = false;
-               break;
-            default:
-               break;
-         }
-      }
-
-      /// <summary>
-      /// 統計類別
-      /// </summary>
-      private string ReportSumType(string rptVal)
-      {
-         string type = string.Empty;
-         if (rptVal.Equals("rb_month")) {
-            type = "M";
-         }
-         else if (rptVal.Equals("rb_date")) {
-            type = "D";
-         }
-         return type;
-      }
-
-      /// <summary>
-      /// Sort順序
-      /// </summary>
-      private string PrintSortType(string sortVal)
-      {
-         string type = string.Empty;
-         if (sortVal.Equals("rb_mmk")) {
-            type = "F";
-         }
-         else {
-            type = "P";
-         }
-         return type;
-      }
-
-      /// <summary>
-      /// 統計子類別
-      /// </summary>
-      private string GrpSubType(string type)
-      {
-         string subtype = string.Empty;
-         switch (type) {
-            case "rb_gall":
-               subtype = "1";
-               break;
-            case "rb_gparam":
-               subtype = "3";
-               break;
-            case "rb_s":
-               subtype = "S";
-               break;
-            case "rb_gkind2":
-               subtype = "4";
-               break;
-            case "rb_gkind":
-               subtype = "5";
-               break;
-            case "rb_gprod":
-               subtype = "6";
-               break;
-            default:
-               break;
-         }
-         return subtype;
-      }
-
-      private void WfGbGroup(bool VisibleValue, bool EnableValue, string AsType)
-      {
-         gbGroup.Visible = VisibleValue;
-         gb2.Visible = VisibleValue;
-         gbGroup.Enabled = EnableValue;
-
-         switch (AsType) {
-            case "1":
-               gbGroup.EditValue = "rb_gall";
-               break;
-            case "2":
-               gbGroup.EditValue = "rb_gparam";
-               break;
-            case "3":
-               gbGroup.EditValue = "rb_gkind";
-               break;
-            case "4":
-               gbGroup.EditValue = "rb_gkind2";
-               break;
-            case "5":
-               gbGroup.EditValue = "rb_gprod";
-               break;
-            default:
-               break;
-         }
-      }
-
-      private void WfGbPrintSort(bool VisibleValue, bool EnableValue, string AsType)
-      {
-         gbPrintSort.Visible = VisibleValue;
-         gb4.Visible = VisibleValue;
-         gbPrintSort.Enabled = EnableValue;
-
-         switch (AsType) {
-            case "1":
-               gbPrintSort.EditValue = "rb_mmk";
-               break;
-
-            case "2":
-               gbPrintSort.EditValue = "rb_prod";
-               break;
-            default:
-               break;
-         }
-      }
-
-      private void WfGrpDetial(bool VisibleValue, bool EnableValue, string AsType)
-      {
-         gbDetial.Visible = VisibleValue;
-         gb3.Visible = VisibleValue;
-         gbDetial.Enabled = EnableValue;
-
-         switch (AsType) {
-            case "1":
-               gbDetial.EditValue = "rb_gdate";
-               break;
-
-            case "2":
-               gbDetial.EditValue = "rb_gnodate";
-               break;
-            default:
-               break;
-         }
-      }
-
       private void WfRunError()
       {
          /*******************
@@ -415,20 +231,26 @@ namespace PhoenixCI.FormUI.Prefix5
          File.Delete(_D500Xx.Filename);
       }
 
-      public override ResultStatus BeforeOpen()
+      protected bool GetData()
       {
-         if(!PbFunc.f_chk_run_timing(_ProgramID))
-            MessageDisplay.Info("今日盤後轉檔作業還未完畢!");
+         _ToolBtnPrintAll.Enabled = true;
 
-         return ResultStatus.Success;
+         if (!StartRetrieve("       ", "ZZZZZZZ")) return false;
+         /* 報表內容 */
+         _Data = dao50032.List50032(_D500Xx);
+
+         if (_Data.Rows.Count <= 0) {
+            documentViewer1.DocumentSource = null;
+            MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
+            return false;
+         }
+         return true;
       }
 
       protected override ResultStatus Open()
       {
          base.Open();
          //Input Condition
-         emEndDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
-         emStartDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/01");
          emStartYM.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
          emEndYM.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
          /* 造市者代號 */
@@ -437,9 +259,7 @@ namespace PhoenixCI.FormUI.Prefix5
          //目的選項
          dwEbrkno.SetDataTable(daoABRK.ListAll2(), "ABRK_NO", "CP_DISPLAY", TextEditStyles.Standard, null);
          /* 商品群組 */
-         dwProdCt.SetDataTable(daoAPDK.ListParamKey(), "APDK_PARAM_KEY", "APDK_PARAM_KEY", TextEditStyles.Standard, null);
-         /* 造市商品 */
-         dwProdKd.SetDataTable(daoAPDK.ListAll3(), "PDK_KIND_ID", "PDK_KIND_ID", TextEditStyles.Standard, null);
+         dwProdCt.SetDataTable(daoAPDK.ListParamKey2(), "APDK_PARAM_KEY", "APDK_PARAM_KEY", TextEditStyles.Standard, null);
          /* 2碼商品 */
          dwProdKdSto.SetDataTable(daoAPDK.ListKind2(), "APDK_KIND_ID_STO", "APDK_KIND_ID_STO", TextEditStyles.Standard, null);
          //預設資料表
@@ -455,6 +275,9 @@ namespace PhoenixCI.FormUI.Prefix5
 
       protected override ResultStatus ActivatedForm()
       {
+         base.ActivatedForm();
+
+         _ToolBtnExport.Enabled = true;
          _ToolBtnRetrieve.Enabled = true;
 
          return ResultStatus.Success;
@@ -462,6 +285,30 @@ namespace PhoenixCI.FormUI.Prefix5
 
       protected override ResultStatus Retrieve()
       {
+         if (!GetData()) return ResultStatus.Fail;
+
+         List<ReportProp> caption = new List<ReportProp>{
+            new ReportProp{DataColumn="CP_ROW",Caption= "筆數" ,CellWidth=40,DetailRowFontSize=8,HeaderFontSize=11},
+            new ReportProp{DataColumn="AMM0_BRK_NO",Caption= "期貨商        代號",CellWidth=70,DetailRowFontSize=10,HeaderFontSize=11,DataRowMerge=true},
+            new ReportProp{DataColumn="BRK_ABBR_NAME",Caption= "期貨商名稱" ,CellWidth=150,DetailRowFontSize=9,HeaderFontSize=11,DataRowMerge=true},
+            new ReportProp{DataColumn="AMM0_ACC_NO",Caption= "帳號",CellWidth=60,DetailRowFontSize=10,HeaderFontSize=11,DataRowMerge=true },
+            new ReportProp{DataColumn="AMM0_PROD_ID",Caption= "商品名稱",CellWidth=80,DetailRowFontSize=10,HeaderFontSize=11},
+            new ReportProp{DataColumn="AMM0_YMD",Caption= "日期" ,CellWidth=65,DetailRowFontSize=9,HeaderFontSize=11},
+            new ReportProp{DataColumn="AMM0_OM_QNTY",Caption= "委託          成交量",CellWidth=65,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",DetailRowFontSize=10,HeaderFontSize=11},
+            new ReportProp{DataColumn="AMM0_QM_QNTY",Caption= "報價          成交量",CellWidth=65,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",DetailRowFontSize=10,HeaderFontSize=11},
+            new ReportProp{DataColumn="QNTY",Caption= "造市量" ,CellWidth=65,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",DetailRowFontSize=10,HeaderFontSize=11},
+            new ReportProp{DataColumn="CP_M_QNTY",Caption= "造市者   總成交量" ,CellWidth=75,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",DetailRowFontSize=10,HeaderFontSize=11},
+            new ReportProp{DataColumn="CP_RATE_M",Caption= "總成交量   市佔率(%)",CellWidth=60,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:##0.0#}",DetailRowFontSize=10,HeaderFontSize=8},
+            new ReportProp{DataColumn="AMM0_VALID_CNT",Caption= "有效報價     筆數",CellWidth=75,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",DetailRowFontSize=10,HeaderFontSize=11},
+            new ReportProp{DataColumn="VALID_RATE",Caption= "有效報/詢價   比例(%)",CellWidth=70,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:##0.0#}",DetailRowFontSize=10,HeaderFontSize=8},
+            new ReportProp{DataColumn="AMM0_MARKET_R_CNT",Caption= "全市場   詢價筆數",CellWidth=75,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",DetailRowFontSize=10,HeaderFontSize=11},
+            new ReportProp{DataColumn="AMM0_MARKET_M_QNTY",Caption= "全市場   總成交量",CellWidth=75,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",DetailRowFontSize=10,HeaderFontSize=11},
+            new ReportProp{DataColumn="AMM0_KEEP_FLAG",Caption= "符合報價每日平均維持時間",CellWidth=40,DetailRowFontSize=10,HeaderFontSize=8}
+            };
+         _defReport = new defReport(_Data, caption);
+         documentViewer1.DocumentSource = _defReport;
+         _defReport.CreateDocument(true);
+
          return ResultStatus.Success;
       }
 
@@ -474,8 +321,18 @@ namespace PhoenixCI.FormUI.Prefix5
 
       protected override ResultStatus Print(ReportHelper reportHelper)
       {
-         base.Print(reportHelper);
+         CommonReportLandscapeA4 reportLandscapeA4 = new CommonReportLandscapeA4();
+         XtraReport xtraReport = reportHelper.CreateCompositeReport(_defReport, reportLandscapeA4);
+         string dateCondition = DateText() == "" ? "" : "," + DateText();
+         reportHelper.LeftMemo = 
+            (ConditionText() == "" ? 
+            $"報表條件：連續{SleCMth.Text}個月不符造市規定" :
+            ConditionText() + $"連續{SleCMth.Text}個月不符造市規定") 
+            + dateCondition;
+         reportHelper.Create(xtraReport);
 
+         //reportHelper.Preview();
+         base.Print(reportHelper);
          return ResultStatus.Success;
       }
 
