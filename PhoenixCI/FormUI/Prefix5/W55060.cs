@@ -36,21 +36,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
             txtToMonth.DateTimeValue = GlobalInfo.OCF_DATE;
         }
 
-
-        public override ResultStatus BeforeOpen() {
-            base.BeforeOpen();
-
-            return ResultStatus.Success;
-        }
-
         protected override ResultStatus Open() {
             base.Open();
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus AfterOpen() {
-            base.AfterOpen();
 
             return ResultStatus.Success;
         }
@@ -59,36 +46,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
             base.ActivatedForm();
 
             _ToolBtnExport.Enabled = true;
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus Retrieve() {
-            base.Retrieve();
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus CheckShield() {
-            base.CheckShield();
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus Save(PokeBall pokeBall) {
-            base.Save(pokeBall);
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus Run(PokeBall args) {
-            base.Run(args);
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus Import() {
-            base.Import();
 
             return ResultStatus.Success;
         }
@@ -111,7 +68,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             lsYM = txtToMonth.Text.Replace("/", "");
             DataTable dt_55060_after_export = dao55060.d_55060_after_export(lsYM);
             if (dt_55060_after_export.Rows[0]["ld_disc_qnty"].AsString() == "0") {
-                MessageBox.Show(lsYM + "「結算手續費」的可折抵口數皆為０，"+ Environment.NewLine +"請確認結算手續費作業是否已完成！", "警告", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(lsYM + "「結算手續費」的可折抵口數皆為０，" + Environment.NewLine + "請確認結算手續費作業是否已完成！", "警告", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return ResultStatus.Success;
             }
             lblProcessing.Visible = false;
@@ -120,7 +77,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
         private void ManipulateExcel(string excelDestinationPath) {
 
-           
+
             try {
                 #region wf_55060_1
                 string rptName, rptId;
@@ -135,8 +92,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 /******************
                 讀取資料
                 ******************/
-                string asSymd = txtFromMonth.Text.Replace("/", "")+"01";
-                string asEymd = txtToMonth.Text.Replace("/", "")+"31";
+                string asSymd = txtFromMonth.Text.Replace("/", "") + "01";
+                string asEymd = txtToMonth.Text.Replace("/", "") + "31";
                 DataTable dt55060_1 = dao55060.d_55060_1(asSymd, asEymd);
                 if (dt55060_1.Rows.Count == 0) {
                     MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromMonth.Text + "-" + txtToMonth.Text, rptName));
@@ -259,6 +216,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 }
 
                 #endregion
+                Worksheet worksheet4 = workbook.Worksheets[4];
+                wf_55060_4(worksheet4, "");
 
                 //存檔
                 workbook.SaveDocument(excelDestinationPath);
@@ -270,7 +229,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
         private void ManipulateExcel_Detail(string excelDestinationPath) {
 
-            
+
             try {
                 #region wf_55060_3_trd
                 string rptName, rptId, kindId;
@@ -430,6 +389,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
                 #endregion
 
+                Worksheet worksheet4 = workbook.Worksheets[3];
+                wf_55060_4(worksheet4, "MM");
+
                 //存檔
                 workbook.SaveDocument(excelDestinationPath);
             }
@@ -438,26 +400,80 @@ namespace PhoenixCI.FormUI.Prefix5 {
             }
         }
 
-        protected override ResultStatus Print(ReportHelper reportHelper) {
-            base.Print(reportHelper);
+        private void wf_55060_4(Worksheet ws, string as_type) {
+            string kindID, rptId = "", rptName = "保護基金提撥費用", asSym = txtFromMonth.Text.Replace("/", ""), asEym = txtToMonth.Text.Replace("/", "");
+            int rowNum = 0, num = 0, addCol = 0;
+            //讀取資料
+            DataTable dt55060_4 = dao55060.d_55060_rwd(asSym, asEym);
+            if (dt55060_4.Rows.Count == 0) {
+                MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromMonth.Text + "-" + txtToMonth.Text, rptId + "－" + rptName));
+            }
+            kindID = "";
+            //填資料
+            foreach (DataRow dr in dt55060_4.Rows) {
+                if (kindID != dr["RWD_KIND_ID"].AsString()) {
+                    rowNum = 7 - 1;
+                    num = 0;
+                    kindID = dr["RWD_KIND_ID"].AsString();
+                    if (kindID == "UDF") {
+                        if (as_type == "MM") {
+                            addCol = 9;
+                        }
+                        else {
+                            addCol = 7;
+                        }
+                    }
+                    else {
+                        addCol = 0;
+                    }
+                }
+                num++;
+                rowNum++;
+                for (int f = 0; f < 4; f++) {
+                    if (f == 1 && as_type != "MM") {
+                        ws.Cells[rowNum, (f + addCol)].SetValue(num);
+                    }
+                    else {
+                        ws.Cells[rowNum, (f + addCol)].SetValue(dr[f]);
+                    }
+                }
+            }//foreach (DataRow dr in dt55060_4.Rows)
 
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus InsertRow() {
-            base.InsertRow();
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus DeleteRow() {
-            base.DeleteRow();
-
-            return ResultStatus.Success;
-        }
-
-        protected override ResultStatus BeforeClose() {
-            return base.BeforeClose();
+            //讀取資料
+            dt55060_4 = dao55060.d_55060_amt(asSym, asEym);
+            if (dt55060_4.Rows.Count == 0) {
+                MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromMonth.Text + "-" + txtToMonth.Text, rptId + "－" + rptName));
+            }
+            kindID = "";
+            //填資料
+            foreach (DataRow dr in dt55060_4.Rows) {
+                if (kindID == "UDF") {
+                    if (as_type == "MM") {
+                        addCol = 13;
+                    }
+                    else {
+                        addCol = 11;
+                    }
+                }
+                else {
+                    addCol = 4;
+                }
+                if (kindID != dr["RWD_KIND_ID"].AsString()) {
+                    rowNum = 7 - 1;
+                    kindID = dr["RWD_KIND_ID"].AsString();
+                }
+                rowNum++;
+                addCol++;
+                ws.Cells[rowNum, (addCol - 1)].SetValue(dr["RWD_MONTH"]);
+                if (as_type == "MM") {
+                    ws.Cells[rowNum, addCol].SetValue(dr["CLR_TOT_AMT"]);
+                    ws.Cells[rowNum, (addCol +1)].SetValue(dr["ADJ_CLR_AMT"]);
+                    ws.Cells[rowNum, (addCol +2)].SetValue(dr["CLR_AMT"]);
+                }
+                else {
+                    ws.Cells[rowNum, addCol].SetValue(dr["CLR_AMT"]);
+                }
+            }//foreach (DataRow dr in dt55060_4.Rows)
         }
     }
 }
