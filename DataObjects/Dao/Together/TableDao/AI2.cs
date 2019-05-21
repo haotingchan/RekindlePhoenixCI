@@ -66,7 +66,7 @@ and AI2_SUM_TYPE = :sum_type
 select AI2_YMD from (
     select AI2_YMD from (
         select AI2_YMD
-        from AI2
+        from ci.AI2
         where trim(AI2_KIND_ID) = trim(:as_kind_id)
         and AI2_SUM_TYPE = :sum_type
         and AI2_YMD < :thisMonthDate
@@ -78,7 +78,7 @@ select AI2_YMD from (
     where rownum <= {0}
     order by AI2_YMD
 ) b
-where rownum=1" , interval);
+where rownum=1", interval);
 
          string res = db.ExecuteScalar(sql , CommandType.Text , parms);
          return res;
