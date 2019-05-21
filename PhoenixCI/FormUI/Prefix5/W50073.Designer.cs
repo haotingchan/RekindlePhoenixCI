@@ -27,7 +27,9 @@
             this.gvMain = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.RWD_REF_OMNI_ACTIVITY_ID = new DevExpress.XtraGrid.Columns.GridColumn();
             this.RWD_REF_OMNI_FCM_NO = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemTextEdit3 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.RWD_REF_OMNI_ACC_NO = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemTextEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.RWD_REF_OMNI_NAME = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -37,15 +39,13 @@
             this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn6 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn7 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.repositoryItemTextEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.repositoryItemTextEdit3 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
             this.SuspendLayout();
             // 
             // panParent
@@ -86,6 +86,7 @@
             this.gvMain.GridControl = this.gcMain;
             this.gvMain.Name = "gvMain";
             this.gvMain.OptionsView.ColumnAutoWidth = false;
+            this.gvMain.OptionsView.ShowGroupPanel = false;
             // 
             // RWD_REF_OMNI_ACTIVITY_ID
             // 
@@ -112,6 +113,12 @@
             this.RWD_REF_OMNI_FCM_NO.VisibleIndex = 1;
             this.RWD_REF_OMNI_FCM_NO.Width = 136;
             // 
+            // repositoryItemTextEdit3
+            // 
+            this.repositoryItemTextEdit3.AutoHeight = false;
+            this.repositoryItemTextEdit3.MaxLength = 7;
+            this.repositoryItemTextEdit3.Name = "repositoryItemTextEdit3";
+            // 
             // RWD_REF_OMNI_ACC_NO
             // 
             this.RWD_REF_OMNI_ACC_NO.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
@@ -124,6 +131,12 @@
             this.RWD_REF_OMNI_ACC_NO.Visible = true;
             this.RWD_REF_OMNI_ACC_NO.VisibleIndex = 2;
             this.RWD_REF_OMNI_ACC_NO.Width = 136;
+            // 
+            // repositoryItemTextEdit2
+            // 
+            this.repositoryItemTextEdit2.AutoHeight = false;
+            this.repositoryItemTextEdit2.MaxLength = 7;
+            this.repositoryItemTextEdit2.Name = "repositoryItemTextEdit2";
             // 
             // RWD_REF_OMNI_NAME
             // 
@@ -207,18 +220,6 @@
             this.gridColumn7.VisibleIndex = 4;
             this.gridColumn7.Width = 156;
             // 
-            // repositoryItemTextEdit2
-            // 
-            this.repositoryItemTextEdit2.AutoHeight = false;
-            this.repositoryItemTextEdit2.MaxLength = 7;
-            this.repositoryItemTextEdit2.Name = "repositoryItemTextEdit2";
-            // 
-            // repositoryItemTextEdit3
-            // 
-            this.repositoryItemTextEdit3.AutoHeight = false;
-            this.repositoryItemTextEdit3.MaxLength = 7;
-            this.repositoryItemTextEdit3.Name = "repositoryItemTextEdit3";
-            // 
             // W50073
             // 
             this.Appearance.Options.UseFont = true;
@@ -231,9 +232,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

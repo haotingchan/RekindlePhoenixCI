@@ -252,7 +252,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
          return ResultStatus.Fail;
       }
 
-
       //對價平上下檔數(AMMD_P_SEQ_NO)欄位做值轉換
       private void gvMain_CustomColumnDisplayText(object sender , DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventArgs e) {
          if (e.Column.FieldName == "AMMD_P_SEQ_NO") {

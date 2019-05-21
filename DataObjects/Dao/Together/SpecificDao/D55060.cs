@@ -232,6 +232,62 @@ order by feetrd_kind_id,
 
         }
 
+        public DataTable d_55060_rwd(string as_sym, string as_eym) {
+
+            object[] parms = {
+                "@as_sym",as_sym,
+                "@as_eym",as_eym
+            };
+
+            string sql =
+                @"
+SELECT RWD_MONTH,
+       RWD_FCM_NO,
+       RWD_KIND_ID,
+       RWD_AR_TRD_AMT
+FROM ci.TD_RWD_FCM_AR_TRD
+WHERE RWD_MONTH >= :as_sym
+AND RWD_MONTH <= :as_eym
+ORDER BY rwd_kind_id, rwd_month, rwd_fcm_no
+                    ";
+            DataTable dtResult = db.GetDataTable(sql, parms);
+
+            return dtResult;
+
+        }
+
+        public DataTable d_55060_amt(string as_sym, string as_eym) {
+
+            object[] parms = {
+                "@as_sym",as_sym,
+                "@as_eym",as_eym
+            };
+
+            string sql =
+                @"
+SELECT RWD_MONTH,RWD_KIND_ID,CLR_TOT_AMT,NVL(ADJ_CLR_AMT,0)AS ADJ_CLR_AMT,CLR_TOT_AMT - NVL(ADJ_CLR_AMT,0)AS CLR_AMT
+  FROM
+      (SELECT FEETDCC_YM,FEETDCC_KIND_ID,SUM(FEETDCC_CLR + FEETDCC_SETTLE + FEETDCC_ADJ + FEETDCC_TRANS + FEETDCC_EXRT) as CLR_TOT_AMT
+         FROM ci.FEETDCC_MKT
+        WHERE FEETDCC_YM >= :as_sym AND FEETDCC_YM <=:as_eym
+          AND FEETDCC_KIND_ID in ('UDF','SPF')
+        GROUP BY FEETDCC_YM,FEETDCC_KIND_ID) C,
+      (SELECT RWD_MONTH,RWD_KIND_ID,SUM(RWD_FEEADJ_CLR_AMT) as ADJ_CLR_AMT
+         FROM ci.TD_RWD_FCM_AR_TRD 
+        WHERE RWD_MONTH >= :as_sym AND RWD_MONTH <=:as_eym
+         AND RWD_KIND_ID  in ('UDF','SPF')
+        GROUP BY RWD_MONTH,RWD_KIND_ID) T
+ WHERE FEETDCC_YM = RWD_MONTH(+)
+   AND FEETDCC_KIND_ID = RWD_KIND_ID(+)
+   AND RWD_KIND_ID in ('UDF','SPF')
+ ORDER BY rwd_kind_id, rwd_month
+                    ";
+            DataTable dtResult = db.GetDataTable(sql, parms);
+
+            return dtResult;
+
+        }
+
         public DataTable d_55060_after_export(string ls_ym) {
 
             object[] parms = {
@@ -249,5 +305,7 @@ where FEETDCC_YM = :ls_ym
 
             return dtResult;
         }
+
+
     }
 }
