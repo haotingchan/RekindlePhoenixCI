@@ -72,11 +72,6 @@ namespace BaseGround
         protected ServicePrefix1 servicePrefix1 = new ServicePrefix1();
 
         /// <summary>
-        /// 預設報表物件
-        /// </summary>
-        protected defReport defReport;
-
-        /// <summary>
         /// 將顯示元件(像是Grid)設定用來列印或匯出用
         /// </summary>
         public object PrintableComponent

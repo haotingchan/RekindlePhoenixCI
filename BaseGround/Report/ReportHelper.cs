@@ -407,13 +407,38 @@ namespace BaseGround.Report
       /// </summary>
       public class ReportProp
       {
-         public string dataColumn { get; set; }
-         public string caption { get; set; }
-         public ReportExprssion expression { get; set; }
          /// <summary>
-         /// 按照pb datawindow設定的width即可
+         /// DataTable欄位名稱
          /// </summary>
-         public int cellWidth { get; set; }
+         public string DataColumn { get; set; }
+         /// <summary>
+         /// 顯示的標題
+         /// </summary>
+         public string Caption { get; set; }
+         /// <summary>
+         /// 報表過濾條件設定
+         /// </summary>
+         public ReportExprssion Expression { get; set; }
+         /// <summary>
+         /// 欄位寬度
+         /// </summary>
+         public int CellWidth { get; set; }
+         /// <summary>
+         /// 資料字型大小
+         /// </summary>
+         public float DetailRowFontSize { get; set; } = 9;
+         /// <summary>
+         /// Caption字型大小
+         /// </summary>
+         public float HeaderFontSize { get; set; } = 10;
+         /// <summary>
+         /// 數字向右靠齊 文字向左靠齊
+         /// </summary>
+         public DevExpress.XtraPrinting.TextAlignment textAlignment { get; set; }
+         /// <summary>
+         /// 格式化文字
+         /// </summary>
+         public string TextFormatString { get; set; }
       }
       /// <summary>
       /// 報表過濾條件設定

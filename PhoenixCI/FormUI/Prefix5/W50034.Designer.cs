@@ -27,14 +27,11 @@
       /// </summary>
       private void InitializeComponent()
       {
-         this.components = new System.ComponentModel.Container();
-         DevExpress.XtraPrinting.Caching.MemoryDocumentStorage memoryDocumentStorage1 = new DevExpress.XtraPrinting.Caching.MemoryDocumentStorage();
          this.sidePanel1 = new DevExpress.XtraEditors.SidePanel();
          this.sidePanel3 = new DevExpress.XtraEditors.SidePanel();
          this.documentViewer1 = new DevExpress.XtraPrinting.Preview.DocumentViewer();
          this.sidePanel2 = new DevExpress.XtraEditors.SidePanel();
          this.w500xx = new BaseGround.Widget.ucW500xx();
-         this.cachedReportSource1 = new DevExpress.XtraPrinting.Caching.CachedReportSource(this.components);
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          this.sidePanel1.SuspendLayout();
@@ -81,7 +78,6 @@
          // documentViewer1
          // 
          this.documentViewer1.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.documentViewer1.DocumentSource = this.cachedReportSource1;
          this.documentViewer1.IsMetric = true;
          this.documentViewer1.Location = new System.Drawing.Point(0, 0);
          this.documentViewer1.Name = "documentViewer1";
@@ -101,36 +97,31 @@
          // 
          // w500xx
          // 
-         this.w500xx.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.w500xx.IsOpen = false;
-         this.w500xx.IsCheck = null;
          this.w500xx.DataType = null;
+         this.w500xx.Dock = System.Windows.Forms.DockStyle.Fill;
          this.w500xx.Ebrkno = null;
          this.w500xx.Edate = null;
          this.w500xx.Filename = null;
+         this.w500xx.IsCheck = null;
+         this.w500xx.IsOpen = false;
+         this.w500xx.Location = new System.Drawing.Point(0, 0);
          this.w500xx.LogText = null;
+         this.w500xx.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+         this.w500xx.Name = "w500xx";
+         this.w500xx.OCF = null;
          this.w500xx.ProdCategory = null;
          this.w500xx.ProdKindId = null;
          this.w500xx.ProdKindIdSto = null;
          this.w500xx.Sbrkno = null;
          this.w500xx.Sdate = null;
+         this.w500xx.Size = new System.Drawing.Size(1036, 396);
          this.w500xx.SortType = null;
          this.w500xx.SumSubType = null;
          this.w500xx.SumType = null;
+         this.w500xx.TabIndex = 0;
          this.w500xx.TableName = null;
          this.w500xx.TimeNow = null;
          this.w500xx.TxnID = null;
-         this.w500xx.Location = new System.Drawing.Point(0, 0);
-         this.w500xx.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-         this.w500xx.Name = "w500xx";
-         this.w500xx.OCF = null;
-         this.w500xx.Size = new System.Drawing.Size(1036, 396);
-         this.w500xx.TabIndex = 0;
-         // 
-         // cachedReportSource1
-         // 
-         this.cachedReportSource1.Report = typeof(BaseGround.Report.defReport);
-         this.cachedReportSource1.Storage = memoryDocumentStorage1;
          // 
          // W50034
          // 
@@ -157,6 +148,5 @@
       private DevExpress.XtraEditors.SidePanel sidePanel2;
       private BaseGround.Widget.ucW500xx w500xx;
       private DevExpress.XtraPrinting.Preview.DocumentViewer documentViewer1;
-      private DevExpress.XtraPrinting.Caching.CachedReportSource cachedReportSource1;
    }
 }

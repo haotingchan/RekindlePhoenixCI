@@ -357,6 +357,18 @@
     <Compile Include="FormUI\Prefix2\W20232.Designer.cs">
       <DependentUpon>W20232.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormUI\Prefix2\W28630.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix2\W28630.Designer.cs">
+      <DependentUpon>W28630.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix2\W28620.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix2\W28620.Designer.cs">
+      <DependentUpon>W28620.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormUI\Prefix3\W30010.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1788,6 +1800,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix2\W20232.resx">
       <DependentUpon>W20232.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix2\W28630.resx">
+      <DependentUpon>W28630.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix2\W28620.resx">
+      <DependentUpon>W28620.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix3\W30010.resx">
       <DependentUpon>W30010.cs</DependentUpon>

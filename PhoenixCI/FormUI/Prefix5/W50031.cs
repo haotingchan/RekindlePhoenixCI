@@ -23,7 +23,8 @@ namespace PhoenixCI.FormUI.Prefix5
    public partial class W50031 : FormParent
    {
       private D50031 dao50031;
-      private DataTable is_dw_name { get; set; }
+      private DataTable _Data { get; set; }
+      private D500xx d500Xx { get; set; }
       int ii_market_code;
       string is_key, is_kind_id2, is_prod_subtype, is_detail_type, is_sum_subtype;
       public string ls_date_type;
@@ -104,13 +105,6 @@ namespace PhoenixCI.FormUI.Prefix5
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Retrieve()
-      {
-         base.Retrieve();
-         if (!BeforeRetrieve()) return ResultStatus.Fail;
-         return ResultStatus.Success;
-      }
-
       protected bool BeforeRetrieve()
       {
          if (!w500xx.StartRetrieve("0000000", "Z999999")) return false;
@@ -120,27 +114,6 @@ namespace PhoenixCI.FormUI.Prefix5
       protected override ResultStatus CheckShield()
       {
          base.CheckShield();
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus Save(PokeBall pokeBall)
-      {
-         base.Save(pokeBall);
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus Run(PokeBall args)
-      {
-         base.Run(args);
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus Import()
-      {
-         base.Import();
 
          return ResultStatus.Success;
       }
@@ -255,10 +228,10 @@ namespace PhoenixCI.FormUI.Prefix5
          讀取資料
          ******************/
          /* 報表內容 */
-         is_dw_name = dao50031.ListD50031
+         _Data = dao50031.ListD50031
             (ii_market_code, is_sum_subtype, is_detail_type, w500xx.Sdate, w500xx.Edate, 
             w500xx.Sbrkno, w500xx.Ebrkno, is_key, is_prod_subtype, is_kind_id2, ls_text);
-         DataTable ids_1 = is_dw_name;
+         DataTable ids_1 = _Data;
          if (ids_1.Rows.Count <= 0) {
             w500xx.EndExport();
             return ResultStatus.Success;
@@ -267,21 +240,9 @@ namespace PhoenixCI.FormUI.Prefix5
          切換Sheet
          ******************/
          Worksheet worksheet = workbook.Worksheets[0];
-         workbook.Options.Export.Csv.WritePreamble = true;
-         int rowNum = ids_1.Rows.Count;
-         int columnNum = ids_1.Columns.Count;
-         int rowIndex = 0;
-         int columnIndex = 0;
-
+         workbook.Options.Export.Csv.WritePreamble = true;//不加這段中文會是亂碼
          //將DataTable中的數據導入Excel中
-         for (int i = 0; i < rowNum; i++) {
-            rowIndex++;
-            columnIndex = 0;
-            for (int j = 0; j < columnNum; j++) {
-               worksheet.Cells[rowIndex, columnIndex].Value = ids_1.Rows[i][j].ToString();
-               columnIndex++;
-            }
-         }
+         worksheet.Import(ids_1,false,0,0);
          workbook.SaveDocument(destinationFilePath, DocumentFormat.Csv);
          w500xx.EndExport();
          return ResultStatus.Success;
@@ -290,20 +251,6 @@ namespace PhoenixCI.FormUI.Prefix5
       protected override ResultStatus Print(ReportHelper reportHelper)
       {
          base.Print(reportHelper);
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus InsertRow()
-      {
-         base.InsertRow();
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus DeleteRow()
-      {
-         base.DeleteRow();
-
          return ResultStatus.Success;
       }
 
