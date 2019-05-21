@@ -21,6 +21,7 @@ using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraGrid;
 using DevExpress.XtraGrid.Columns;
+using DevExpress.Utils;
 
 /// <summary>
 /// Winni, 2019/3/19
@@ -32,8 +33,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
    /// </summary>
    public partial class W49040 : FormParent {
 
-      private ReportHelper _ReportHelper;
       protected DataTable dtForDeleted;
+      private RepositoryItemLookUpEdit lupType;
 
       public W49040(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
@@ -46,9 +47,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
          base.Open();
 
          RepositoryItemLookUpEdit _RepLookUpEdit = new RepositoryItemLookUpEdit();
+         lupType = new RepositoryItemLookUpEdit();
 
          //dropdownlist
-
          DataTable dtDropType = new DataTable();
          dtDropType.Columns.Add("PARAM_KEY" , typeof(string));
          dtDropType.Columns.Add("CP_DISPLAY" , typeof(string));
@@ -65,9 +66,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
          row3["CP_DISPLAY"] = "B值";
          dtDropType.Rows.Add(row3);
 
-         Extension.SetColumnLookUp(_RepLookUpEdit , dtDropType , "PARAM_KEY" , "CP_DISPLAY" , TextEditStyles.DisableTextEditor , "");
-         gcMain.RepositoryItems.Add(_RepLookUpEdit);
-         MGT4_TYPE.ColumnEdit = _RepLookUpEdit;
+         Extension.SetColumnLookUp(lupType , dtDropType , "PARAM_KEY" , "CP_DISPLAY" , TextEditStyles.DisableTextEditor , "");
+         gcMain.RepositoryItems.Add(lupType);
+
+         Retrieve();
 
          return ResultStatus.Success;
       }
@@ -79,15 +81,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
          DataTable dtCheck = new MGT4().ListDataByMGT4();
          dtForDeleted = dtCheck.Clone();
 
-         //沒有新增資料時,則自動新增內容
-         if (dtCheck.Rows.Count == 0) {
-            dtCheck.Columns.Add("Is_NewRow" , typeof(string));
-            gcMain.DataSource = dtCheck;
+         //0.check (沒有資料時,則自動新增一筆)
+         if (dtCheck.Rows.Count <= 0) {
             InsertRow();
-         } else {
-            dtCheck.Columns.Add("Is_NewRow" , typeof(string));
-            gcMain.DataSource = dtCheck;
-            gcMain.Focus();
          }
 
          return ResultStatus.Success;
@@ -111,26 +107,84 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       protected override ResultStatus Retrieve() {
+         try {
+            //1. 讀取資料
+            DataTable dt = new MGT4().ListDataByMGT4();
 
-         DataTable dt = new MGT4().ListDataByMGT4();
+            //好像讀取此Table都一定會有資料,先寫著
+            if (dt.Rows.Count <= 0) {
+               MessageDisplay.Info("無任何資料");
+            }
 
-         //好像讀取此Table都一定會有資料,先寫著
-         if (dt.Rows.Count <= 0) {
-            MessageDisplay.Info("無任何資料");
+            //2. 設定gvMain
+            gvMain.Columns.Clear();
+            gvMain.OptionsBehavior.AutoPopulateColumns = true;
+            gcMain.DataSource = dt;
+           // GridHelper.SetCommonGrid(gvMain);
+
+            string[] showColCaption = {"商品", $"類{Environment.NewLine}別", $"現行{Environment.NewLine}維持比率",
+                                       $"現行{Environment.NewLine}原始比率",$"現行{Environment.NewLine}進位數",
+                                       $"本日{Environment.NewLine}維持比率",$"本日{Environment.NewLine}原始比率",
+                                       $"本日{Environment.NewLine}進位數","MGT4_W_TIME","MGT4_W_USER_ID",
+                                       $"本日{Environment.NewLine}結算進位數"," "};
+
+            //2.1 設定欄位caption       
+            foreach (DataColumn dc in dt.Columns) {
+               gvMain.SetColumnCaption(dc.ColumnName , showColCaption[dt.Columns.IndexOf(dc)]);
+               gvMain.Columns[dc.ColumnName].AppearanceHeader.TextOptions.WordWrap = WordWrap.Wrap;
+               gvMain.Columns[dc.ColumnName].AppearanceCell.TextOptions.WordWrap = WordWrap.Wrap;
+               gvMain.Columns[dc.ColumnName].OptionsColumn.AllowMerge = DefaultBoolean.False;
+
+               //設定欄位header顏色
+               if (dc.ColumnName == "MGT4_KIND_ID") {
+                  gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = Color.FromArgb(255 , 255 , 128);
+               } else {
+                  gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = Color.FromArgb(128 , 255 , 255);
+                  if (dc.ColumnName == "MGT4_M_MULTI" || dc.ColumnName == "MGT4_I_MULTI" ||
+                      dc.ColumnName == "MGT4_DIGITAL" || dc.ColumnName == "MGT4_M_DIGITAL") {
+                     gvMain.Columns[dc.ColumnName].AppearanceHeader.ForeColor = Color.Navy;
+                  }
+               }
+            }
+
+            //1.2 設定隱藏欄位
+            gvMain.Columns["MGT4_W_TIME"].Visible = false;
+            gvMain.Columns["MGT4_W_USER_ID"].Visible = false;
+            gvMain.Columns["IS_NEWROW"].Visible = false;
+
+            //1.3 設定dropdownlist       
+            gvMain.Columns["MGT4_TYPE"].ColumnEdit = lupType;
+       
+            gcMain.DataSource = dt;
+            gvMain.BestFitColumns();
+            gvMain.Columns["MGT4_TYPE"].Width = 40;
+            GridHelper.SetCommonGrid(gvMain);
+            gcMain.Focus();
+
+            return ResultStatus.Success;
+         } catch (Exception ex) {
+            WriteLog(ex);
          }
+         return ResultStatus.Fail;
 
-         dt.Columns.Add("Is_NewRow" , typeof(string));
-         gcMain.DataSource = dt;
-         gcMain.Focus();
+      }
+
+      protected override ResultStatus InsertRow() {
+
+         gvMain.AddNewRow();
+         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["IS_NEWROW"] , 1);
+
+         gvMain.Focus();
+         gvMain.FocusedColumn = gvMain.Columns[0];
 
          return ResultStatus.Success;
       }
 
-      //不確定是要check什麼
-      protected override ResultStatus CheckShield() {
-         base.CheckShield(gcMain);
-         if (!IsDataModify(gcMain)) { return ResultStatus.Fail; }
-
+      protected override ResultStatus DeleteRow() {
+         GridView gv = gvMain as GridView;
+         DataRowView deleteRowView = (DataRowView)gv.GetFocusedRow();
+         dtForDeleted.ImportRow(deleteRowView.Row);
+         base.DeleteRow(gvMain);
          return ResultStatus.Success;
       }
 
@@ -165,19 +219,18 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      dr["MGT4_W_TIME"] = DateTime.Now;
                      dr["MGT4_W_USER_ID"] = GlobalInfo.USER_ID;
                   }
+
                   if (dr.RowState == DataRowState.Modified) {
                      dr["MGT4_W_TIME"] = DateTime.Now;
                      dr["MGT4_W_USER_ID"] = GlobalInfo.USER_ID;
                   }
                }
 
-               dt.Columns.Remove("OP_TYPE");
-               dt.Columns.Remove("Is_NewRow");
+               dt.Columns.Remove("IS_NEWROW");
                ResultData result = new MGT4().UpdateData(dt);//base.Save_Override(dt, "MGT4");
                if (result.Status == ResultStatus.Fail) {
                   return ResultStatus.Fail;
                }
-
             }
 
             if (resultStatus == ResultStatus.Success) {
@@ -192,36 +245,18 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       protected override ResultStatus Print(ReportHelper reportHelper) {
-         _ReportHelper = reportHelper;
-         CommonReportPortraitA4 report = new CommonReportPortraitA4();
-         report.printableComponentContainerMain.PrintableComponent = gcMain;
-         _ReportHelper.Create(report);
+         try {
+            ReportHelper _ReportHelper = new ReportHelper(gcMain , _ProgramID , this.Text);
+            _ReportHelper.Print();
 
-         base.Print(_ReportHelper);
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus InsertRow() {
-
-         gvMain.AddNewRow();
-         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["Is_NewRow"] , 1);
-
-         gvMain.Focus();
-         gvMain.FocusedColumn = gvMain.Columns[0];
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus DeleteRow() {
-         GridView gv = gvMain as GridView;
-         DataRowView deleteRowView = (DataRowView)gv.GetFocusedRow();
-         dtForDeleted.ImportRow(deleteRowView.Row);
-         base.DeleteRow(gvMain);
-         return ResultStatus.Success;
+            return ResultStatus.Success;
+         } catch (Exception ex) {
+            WriteLog(ex);
+         }
+         return ResultStatus.Fail;
       }
 
       #region GridControl事件
-
       /// <summary>
       /// 決定哪些欄位無法編輯的事件
       /// </summary>
@@ -229,27 +264,27 @@ namespace PhoenixCI.FormUI.Prefix4 {
       /// <param name="e"></param>
       private void gvMain_ShowingEditor(object sender , CancelEventArgs e) {
          GridView gv = sender as GridView;
-         string Is_NewRow = gv.GetRowCellValue(gv.FocusedRowHandle , gv.Columns["Is_NewRow"]) == null ? "0" :
-              gv.GetRowCellValue(gv.FocusedRowHandle , gv.Columns["Is_NewRow"]).ToString();
+         string Is_NewRow = gv.GetRowCellValue(gv.FocusedRowHandle , gv.Columns["IS_NEWROW"]) == null ? "0" :
+                 gv.GetRowCellValue(gv.FocusedRowHandle , gv.Columns["IS_NEWROW"]).ToString();
 
          if (gv.IsNewItemRow(gv.FocusedRowHandle) || Is_NewRow == "1") {
             e.Cancel = false;
-            gv.SetRowCellValue(gv.FocusedRowHandle , gv.Columns["Is_NewRow"] , 1);
+            //gv.SetRowCellValue(gv.FocusedRowHandle , gv.Columns["IS_NEWROW"] , 1);
          }
+
          //編輯狀態時,設定可以編輯的欄位( e.Cancel = false 等於可以編輯)
-         else if (gv.FocusedColumn.Name == "AM7T_Y" || gv.FocusedColumn.Name == "AM7T_PARAM_KEY") {
+         else if (gv.FocusedColumn.FieldName == "MGT4_KIND_ID" || gv.FocusedColumn.FieldName == "MGT4_TYPE") {
             e.Cancel = true;
          } else {
             e.Cancel = false;
          }
-
       }
 
       private void gvMain_RowCellStyle(object sender , RowCellStyleEventArgs e) {
          //要用RowHandle不要用FocusedRowHandle
          GridView gv = sender as GridView;
-         string Is_NewRow = gv.GetRowCellValue(e.RowHandle , gv.Columns["Is_NewRow"]) == null ? "0" :
-                            gv.GetRowCellValue(e.RowHandle , gv.Columns["Is_NewRow"]).ToString();
+         string Is_NewRow = gv.GetRowCellValue(e.RowHandle , gv.Columns["IS_NEWROW"]) == null ? "0" :
+                            gv.GetRowCellValue(e.RowHandle , gv.Columns["IS_NEWROW"]).ToString();
 
          //描述每個欄位,在is_newRow時候要顯示的顏色
          //當該欄位不可編輯時,設定為灰色 Color.FromArgb(192,192,192)
@@ -257,14 +292,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
          switch (e.Column.FieldName) {
             case ("MGT4_KIND_ID"):
             case ("MGT4_TYPE"):
-               e.Column.OptionsColumn.AllowFocus = Is_NewRow == "1" ? true : false;
+               //e.Column.OptionsColumn.AllowFocus = Is_NewRow == "1" ? true : false;
                e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.FromArgb(192 , 192 , 192);
-               break;
-            case ("MGT4_M_MULTI"):
-            case ("MGT4_I_MULTI"):
-            case ("MGT4_DIGITAL"):
-            case ("MGT4_M_DIGITAL"):
-               e.Column.AppearanceHeader.ForeColor = Color.Blue;
                break;
             default:
                e.Appearance.BackColor = Color.White;
@@ -272,7 +301,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
          }//switch (e.Column.FieldName) {
 
       }
-
       #endregion
    }
 }

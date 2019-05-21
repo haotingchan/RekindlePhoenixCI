@@ -298,22 +298,92 @@ namespace PhoenixCI.FormUI.Prefix4 {
                }
             }//if (dtForDeleted != null)
 
+            AfterSaveForPrint(gcMain , dtForAdd , dtForDeleted , dtForModified);
+
          } catch (Exception ex) {
             WriteLog(ex);
-            //throw ex;
          }
          _IsPreventFlowPrint = true; //不要自動列印
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Print(ReportHelper reportHelper) {
-         ReportHelper _ReportHelper = reportHelper;
-         CommonReportPortraitA4 report = new CommonReportPortraitA4();
-         report.printableComponentContainerMain.PrintableComponent = gcMain;
-         _ReportHelper.Create(report);
+      /// <summary>
+      /// 將新增、刪除、變更的紀錄分別都另存成PDF(橫式A4)
+      /// </summary>
+      /// <param name="gridControl"></param>
+      /// <param name="ChangedForAdded"></param>
+      /// <param name="ChangedForDeleted"></param>
+      /// <param name="ChangedForModified"></param>
+      protected void AfterSaveForPrint(GridControl gridControl , DataTable ChangedForAdded ,
+          DataTable ChangedForDeleted , DataTable ChangedForModified , bool IsHandlePersonVisible = true , bool IsManagerVisible = true) {
+         GridControl gridControlPrint = GridHelper.CloneGrid(gridControl);
 
-         base.Print(_ReportHelper);
-         return ResultStatus.Success;
+         string _ReportTitle = _ProgramID + "─" + _ProgramName + GlobalInfo.REPORT_TITLE_MEMO;
+         ReportHelper reportHelper = new ReportHelper(gridControl , _ProgramID , _ReportTitle);
+         CommonReportLandscapeA4 reportLandscape = new CommonReportLandscapeA4(); //橫向A4
+         reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
+
+         reportLandscape.IsHandlePersonVisible = IsHandlePersonVisible;
+         reportLandscape.IsManagerVisible = IsManagerVisible;
+         reportHelper.Create(reportLandscape);
+
+         if (ChangedForAdded != null)
+            if (ChangedForAdded.Rows.Count != 0) {
+               gridControlPrint.DataSource = ChangedForAdded;
+               reportHelper.PrintableComponent = gridControlPrint;
+               reportHelper.ReportTitle = _ReportTitle + "─" + "新增";
+
+               reportHelper.Export(FileType.PDF , reportHelper.FilePath);
+            }
+
+         if (ChangedForDeleted != null)
+            if (ChangedForDeleted.Rows.Count != 0) {
+               DataTable dtTemp = ChangedForDeleted.Clone();
+
+               int rowIndex = 0;
+               foreach (DataRow dr in ChangedForDeleted.Rows) {
+                  DataRow drNewDelete = dtTemp.NewRow();
+                  for (int colIndex = 0 ; colIndex < ChangedForDeleted.Columns.Count ; colIndex++) {
+                     drNewDelete[colIndex] = dr[colIndex , DataRowVersion.Original];
+                  }
+                  dtTemp.Rows.Add(drNewDelete);
+                  rowIndex++;
+               }
+
+               gridControlPrint.DataSource = dtTemp.AsDataView();
+               reportHelper.PrintableComponent = gridControlPrint;
+               reportHelper.ReportTitle = _ReportTitle + "─" + "刪除";
+
+               reportHelper.Export(FileType.PDF , reportHelper.FilePath);
+            }
+
+         if (ChangedForModified != null)
+            if (ChangedForModified.Rows.Count != 0) {
+               gridControlPrint.DataSource = ChangedForModified;
+               reportHelper.PrintableComponent = gridControlPrint;
+               reportHelper.ReportTitle = _ReportTitle + "─" + "變更";
+
+               reportHelper.Export(FileType.PDF , reportHelper.FilePath);
+            }
+      }
+
+      protected override ResultStatus Print(ReportHelper reportHelper) {
+         try {
+            ReportHelper _ReportHelper = new ReportHelper(gcMain , _ProgramID , this.Text);
+            CommonReportLandscapeA4 reportLandscape = new CommonReportLandscapeA4(); //橫向A4
+
+            reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
+            reportLandscape.IsHandlePersonVisible = false;
+            reportLandscape.IsManagerVisible = false;
+            _ReportHelper.Create(reportLandscape);
+
+            _ReportHelper.Print();
+
+            return ResultStatus.Success;
+         } catch (Exception ex) {
+            WriteLog(ex);
+         }
+         return ResultStatus.Fail;
       }
 
       protected override ResultStatus InsertRow() {
