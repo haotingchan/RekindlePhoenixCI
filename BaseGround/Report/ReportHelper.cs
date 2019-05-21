@@ -439,6 +439,10 @@ namespace BaseGround.Report
          /// 格式化文字
          /// </summary>
          public string TextFormatString { get; set; }
+         /// <summary>
+         /// 合併相同資料行
+         /// </summary>
+         public bool DataRowMerge { get; set; }
       }
       /// <summary>
       /// 報表過濾條件設定

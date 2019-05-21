@@ -54,21 +54,30 @@ namespace BaseGround.Report
             DetailCel.Font = new Font(Font.FontFamily, col.DetailRowFontSize, Font.Style, Font.Unit);
             DetailCel.TextAlignment = col.textAlignment == 0 ? TextAlignment.MiddleJustify : col.textAlignment;
             DetailCel.TextFormatString = col.TextFormatString;
+            DetailCel.TextTrimming = StringTrimming.Word;
             DetailCel.WordWrap = false;
             DetailCel.DataBindings.Add("Text", null, col.DataColumn.ToString());
-            //////// Create a new rule and add it to a report. 
-            //////FormattingRule rule = new FormattingRule();
-            //////this.FormattingRuleSheet.Add(rule);
+            if (col.DataRowMerge) {
+               DetailCel.ProcessDuplicatesMode = ProcessDuplicatesMode.SuppressAndShrink;
+               DetailCel.ProcessDuplicatesTarget = ProcessDuplicatesTarget.Value;
+            }
 
-            //////// Specify the rule's properties. 
-            //////rule.DataSource = this.DataSource;
-            //////rule.DataMember = this.DataMember;
-            //////rule.Condition = "[UnitPrice] >= 30";
-            //////rule.Formatting.BackColor = Color.WhiteSmoke;
-            //////rule.Formatting.ForeColor = Color.IndianRed;
+            if (!string.IsNullOrEmpty(col.Expression?.Condition)) {
+               // Create a new rule and add it to a report. 
+               FormattingRule rule = new FormattingRule();
+               this.FormattingRuleSheet.Add(rule);
 
-            //////// Apply this rule to the detail band. 
-            //////DetailCel.FormattingRules.Add(rule);
+               // Specify the rule's properties. 
+               rule.DataSource = this.DataSource;
+               rule.DataMember = this.DataMember;
+               rule.Condition = col.Expression?.Condition;
+               rule.Formatting.BackColor = col.Expression.BackColor;
+               rule.Formatting.ForeColor = col.Expression.ForeColor;
+
+               // Apply this rule to the detail band. 
+               DetailCel.FormattingRules.Add(rule);
+            }
+
             DetailRow.Cells.Add(DetailCel);
          }
          PageHeadertable.Rows.Add(PageHeaderRow);
