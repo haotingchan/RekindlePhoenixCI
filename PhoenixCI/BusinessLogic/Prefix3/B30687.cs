@@ -1,14 +1,9 @@
 ﻿using Common;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
-using DevExpress.XtraEditors;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 /// <summary>
 /// 20190320,john,動態價格穩定措施基準價查詢
 /// </summary>
@@ -71,7 +66,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                   lsDataType = " ";
                   break;
                default://全部
-                  lsDataType = "A";
+                  lsDataType = "%";
                   break;
             }
             //資料來源

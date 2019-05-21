@@ -2,6 +2,7 @@
 using BaseGround.Report;
 using BusinessObjects;
 using BusinessObjects.Enums;
+using Common;
 using DataObjects.Dao.Together.TableDao;
 using DevExpress.XtraGrid.Views.Grid;
 using System.ComponentModel;
@@ -25,6 +26,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
          daoAA1 = new AA1();
          txtStartDate.EditValue = GlobalInfo.OCF_DATE.Year + "/01";
          txtEndDate.EditValue = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
+
+         MessageDisplay.Info("執行完成!");
       }
 
       protected override ResultStatus Open() {

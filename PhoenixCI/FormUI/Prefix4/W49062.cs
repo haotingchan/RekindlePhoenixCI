@@ -109,8 +109,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       protected override ResultStatus Export() {
-         base.Export();
-
          #region 日期檢核
          if (gbItem.EditValue.AsString() == "rbNewDate") {
             if (!txtDate.IsDate(txtDate.Text , "日期輸入錯誤!") ||

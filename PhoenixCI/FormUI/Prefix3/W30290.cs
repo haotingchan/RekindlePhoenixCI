@@ -39,7 +39,7 @@ namespace PhoenixCI.FormUI.Prefix3
          this.Text = _ProgramID + "─" + _ProgramName;
          GridHelper.SetCommonGrid(gvMain);
          PrintableComponent = gcMain;
-         retrieveChoose = DialogResult.No;
+         retrieveChoose = DialogResult.None;
       }
 
       protected override ResultStatus Retrieve()

@@ -36,6 +36,8 @@ namespace PhoenixCI.FormUI.Prefix5
       private ABRK daoABRK;
       private APDK daoAPDK;
       private D50020 dao50020;
+      private DataTable ProdCtFilterS;
+      private DataTable ProdCtData;
 
       public W50020(string programID, string programName) : base(programID, programName)
       {
@@ -454,17 +456,11 @@ namespace PhoenixCI.FormUI.Prefix5
          }
 
          if (_Data.Rows.Count <= 0) {
+            documentViewer1.DocumentSource = null;
             MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
             return false;
          }
          return true;
-      }
-
-      public override ResultStatus BeforeOpen()
-      {
-         base.BeforeOpen();
-
-         return ResultStatus.Success;
       }
 
       private void gbGroup_EditValueChanged(object sender, EventArgs e)
@@ -472,6 +468,11 @@ namespace PhoenixCI.FormUI.Prefix5
          DevExpress.XtraEditors.RadioGroup rb = sender as DevExpress.XtraEditors.RadioGroup;
          if (rb == null) return;
          _D500Xx.GbGroup = rb.EditValue.ToString();
+
+         if (!rb.EditValue.Equals("rb_s")) {
+            dwProdCt.Properties.DataSource = ProdCtData;
+         }
+
          switch (rb.EditValue.ToString()) {
             case "rb_gall":
                dwProdCt.Enabled = false;
@@ -484,6 +485,19 @@ namespace PhoenixCI.FormUI.Prefix5
                stProdKd.Enabled = false;
                break;
             case "rb_gparam":
+               dwProdCt.Enabled = true;
+               stProdCt.Enabled = true;
+
+               dwProdKdSto.Enabled = false;
+               stProdKdSto.Enabled = false;
+
+               dwProdKd.Enabled = false;
+               stProdKd.Enabled = false;
+               break;
+            case "rb_s":
+               //統計依照"股票各類群組"時僅開放"商品群組"選單，且選單內容僅提供APDK_PROD_SUBTYPE='S'的商品
+               dwProdCt.SelectedText = "";
+               dwProdCt.Properties.DataSource = ProdCtFilterS;
                dwProdCt.Enabled = true;
                stProdCt.Enabled = true;
 
@@ -528,7 +542,6 @@ namespace PhoenixCI.FormUI.Prefix5
          }
       }
 
-
       protected override ResultStatus Open()
       {
          base.Open();
@@ -546,7 +559,9 @@ namespace PhoenixCI.FormUI.Prefix5
          //目的選項
          dwEbrkno.SetDataTable(daoABRK.ListAll2(), "ABRK_NO", "CP_DISPLAY", TextEditStyles.Standard, null);
          /* 商品群組 */
-         dwProdCt.SetDataTable(daoAPDK.ListParamKey(), "APDK_PARAM_KEY", "APDK_PARAM_KEY", TextEditStyles.Standard, null);
+         ProdCtData = daoAPDK.ListParamKey2();
+         dwProdCt.SetDataTable(ProdCtData, "APDK_PARAM_KEY", "APDK_PARAM_KEY", TextEditStyles.Standard, null);
+         ProdCtFilterS = ProdCtData.Filter("APDK_PROD_SUBTYPE='S'");
          /* 造市商品 */
          dwProdKd.SetDataTable(daoAPDK.ListAll3(), "PDK_KIND_ID", "PDK_KIND_ID", TextEditStyles.Standard, null);
          /* 2碼商品 */
@@ -583,6 +598,7 @@ namespace PhoenixCI.FormUI.Prefix5
             return ResultStatus.Fail;
          }
          if (!StartRetrieve()) return ResultStatus.Fail;
+
          if (!GetData()) return ResultStatus.Fail;
 
          List<ReportProp> caption = new List<ReportProp>{
@@ -598,7 +614,7 @@ namespace PhoenixCI.FormUI.Prefix5
          documentViewer1.DocumentSource = _defReport;
          _defReport.CreateDocument(true);
 
-         WriteLog("查詢資料 " + _D500Xx.LogText, "query", "R");
+         //WriteLog("查詢資料 " + _D500Xx.LogText, "query", "R");
          return ResultStatus.Success;
       }
 
@@ -608,56 +624,57 @@ namespace PhoenixCI.FormUI.Prefix5
          string ls_rpt_id = _ProgramID;
          StartExport(ls_rpt_id, lsRptName);
          Retrieve();
-         /******************
-         複製檔案
-         ******************/
-         _D500Xx.Filename = CopyExcelTemplateFile(ls_rpt_id, FileType.XLS);
-         if (_D500Xx.Filename == "") {
-            return ResultStatus.Fail;
+         try {
+            //複製檔案
+            _D500Xx.Filename = CopyExcelTemplateFile(ls_rpt_id, FileType.XLS);
+            if (_D500Xx.Filename == "") {
+               return ResultStatus.Fail;
+            }
+            _D500Xx.LogText = _D500Xx.Filename;
+
+
+            //讀取資料
+            if (_Data.Rows.Count <= 0) {
+               EndExport();
+               return ResultStatus.Success;
+            }
+
+            if (lsRptName == "") {
+               lsRptName = "報表條件：" + "(" + DateText() + ")";
+            }
+            else {
+               lsRptName = ConditionText().Trim() + " " + "(" + DateText() + ")";
+            }
+            // Get its XLSX export options. 
+            XlsExportOptions xlsOptions = _defReport.ExportOptions.Xls;
+            xlsOptions.SheetName = _ProgramID;
+
+            //Export the report to XLSX. 
+            _defReport.ExportToXls(_D500Xx.Filename);
+
+            //開啟檔案
+            Workbook workbook = new Workbook();
+            workbook.LoadDocument(_D500Xx.Filename);
+            //切換Sheet
+            Worksheet worksheet = workbook.Worksheets[0];
+            for (int k = 0; k < 3; k++) {
+               worksheet.Rows.Insert(0);
+            }
+
+            worksheet.Cells["E1"].Value = $"[{_ProgramID}]{_ProgramName}";
+            worksheet.Cells["E3"].Value = lsRptName;
+
+            workbook.SaveDocument(_D500Xx.Filename);
          }
-         _D500Xx.LogText = _D500Xx.Filename;
-
-
-         /******************
-         讀取資料
-         ******************/
-
-         if (_Data.Rows.Count <= 0) {
+         catch (Exception ex) {
+            WriteLog(ex);
+            WfRunError();
+         }
+         finally {
             EndExport();
-            return ResultStatus.Success;
          }
 
-         if (lsRptName == "") {
-            lsRptName = "報表條件：" + "(" + DateText() + ")";
-         }
-         else {
-            lsRptName = ConditionText().Trim() + " " + "(" + DateText() + ")";
-         }
-         // Get its XLSX export options. 
-         XlsExportOptions xlsOptions = _defReport.ExportOptions.Xls;
-         xlsOptions.SheetName = _ProgramID;
 
-         //Export the report to XLSX. 
-         _defReport.ExportToXls(_D500Xx.Filename);
-
-         /******************
-         開啟檔案
-         ******************/
-         Workbook workbook = new Workbook();
-         workbook.LoadDocument(_D500Xx.Filename);
-         /******************
-         切換Sheet
-         ******************/
-         Worksheet worksheet = workbook.Worksheets[0];
-         for (int k = 0; k < 3; k++) {
-            worksheet.Rows.Insert(0);
-         }
-
-         worksheet.Cells["E1"].Value = $"[{_ProgramID}]{_ProgramName}";
-         worksheet.Cells["E3"].Value = lsRptName;
-
-         workbook.SaveDocument(_D500Xx.Filename);
-         EndExport();
          return ResultStatus.Success;
       }
 
@@ -677,7 +694,7 @@ namespace PhoenixCI.FormUI.Prefix5
 
       protected override ResultStatus BeforeClose()
       {
-         _Data.Clear();
+         _Data = null;
          documentViewer1.DocumentSource = null;
          return ResultStatus.Success;
       }
