@@ -187,6 +187,8 @@
          // 
          // MG8_EFFECT_YMD
          // 
+         this.MG8_EFFECT_YMD.AppearanceCell.Options.UseTextOptions = true;
+         this.MG8_EFFECT_YMD.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.MG8_EFFECT_YMD.AppearanceHeader.BackColor = System.Drawing.Color.Yellow;
          this.MG8_EFFECT_YMD.AppearanceHeader.Options.UseBackColor = true;
          this.MG8_EFFECT_YMD.AppearanceHeader.Options.UseTextOptions = true;
@@ -278,6 +280,8 @@
          // 
          // MG8_ISSUE_YMD
          // 
+         this.MG8_ISSUE_YMD.AppearanceCell.Options.UseTextOptions = true;
+         this.MG8_ISSUE_YMD.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.MG8_ISSUE_YMD.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
          this.MG8_ISSUE_YMD.AppearanceHeader.Options.UseBackColor = true;
          this.MG8_ISSUE_YMD.Caption = "公告日期";
