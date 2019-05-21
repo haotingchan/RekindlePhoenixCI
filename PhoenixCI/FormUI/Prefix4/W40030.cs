@@ -50,6 +50,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
          txtDate.DateTimeValue = DateTime.Now;
+
+         foreach (CheckedListBoxItem c in MarketTimes.Items) {
+            TextDateEdit control = (TextDateEdit)this.Controls.Find("txtDate" + c.Value.AsString(), true).FirstOrDefault();
+            control.DateTimeValue = DateTime.Now;
+         }
+
          //設定 下拉選單
          List<LookupItem> lstType = new List<LookupItem>(){
                                         new LookupItem() { ValueMember = "0B", DisplayMember = "一般"},
@@ -68,7 +74,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          ETCSelect.EditValue = "1";
          ddlAdjType.EditValue = "0B";
 
-         MarketTimes.SelectedIndex = 1;
+         MarketTimes.SetItemChecked(0, true);
 #if DEBUG
          txtDate.DateTimeValue = "2018/12/28".AsDateTime("yyyy/MM/dd");
          ddlAdjType.EditValue = "0B";
@@ -1590,6 +1596,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   DtSpan.Merge(Dao40030.GetSpan(searchDate, OswGrp, "ETC", ""));
                   DtSpanTable.Merge(Dao40030.GetSpanTableData(searchDate, OswGrp, "ETC", ""));
                }
+
+               if (DtSpan != null)
+                  if (DtSpan.Rows.Count > 0) DtSpan = DtSpan.Sort("SP1_SEQ_NO");
+
+               if (DtSpanTable != null)
+                  if (DtSpanTable.Rows.Count > 0)
+                     DtSpanTable = DtSpanTable.AsEnumerable().OrderByDescending(s => s.Field<string>("SP1_TYPE")).CopyToDataTable();
             }
 
             if (Dt != null) {
@@ -2507,7 +2520,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                   tmpStr = string.Format("({0}) 本公司{1}之保證金變動幅度達10%，主係因期貨或現貨指數近期大幅上漲所致，" +
                         "然前揭契約之實際風險價格係數近期未見有明顯擴大之情事，且{2}之實際風險價格係數分別為{3}，仍較現行之最小風險價格係數({4})為低sk。",
-                        ChineseNumber[++point], wfKindIdE(drsTemp.CopyToDataTable()), checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3),
+                        ChineseNumber[++point], GenArrayTxt(wfKindIdE(drsTemp.CopyToDataTable())), checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3),
                         GenArrayTxt(riskList), GenArrayTxt(minRiskList));
 
                   SetInnerText(tmpStr, true, 4.11f, 1.25f);
@@ -2518,8 +2531,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             drsTemp = dtTemp.Select("prod_subtype in ('I','C') and adj_rate > 0 and adj_code = ' ' and m_cp_risk >= m_min_risk " +
                                     "and data_ymd = '" + checkedDateStr + "'").ToList();
             if (drsTemp.Count > 0) {
-               tmpStr = $"({ChineseNumber[++point]}) {wfKindIdE(drsTemp.CopyToDataTable())}之保證金變動幅度達10%，主係因期貨或現貨指數近期大幅上漲所致▲▲▲，" +
-                        $"然前揭契約之實際風險價格係數近期未見有明顯擴大之情事。";
+               tmpStr = $"({ChineseNumber[++point]}) {GenArrayTxt(wfKindIdE(drsTemp.CopyToDataTable()))}之保證金變動幅度達10%，" +
+                        $"主係因期貨或現貨指數近期大幅上漲所致▲▲▲，然前揭契約之實際風險價格係數近期未見有明顯擴大之情事。";
 
                SetInnerText(tmpStr, true, 4.11f, 1.25f);
             }

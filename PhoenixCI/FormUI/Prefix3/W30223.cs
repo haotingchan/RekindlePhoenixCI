@@ -268,7 +268,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //寫資料
             //Raising
             raiseYmd = dt.Rows[0]["pls2_effective_ymd"].AsDateTime("yyyyMMdd").ToString("yyyy/MM/dd");
-            ws.Cells[1, 8].Value = ws.Cells[1, 8].Value.ToString() + raiseYmd;
+            ws.Cells[1, 9].Value = ws.Cells[1, 9].Value.ToString() + raiseYmd;
 
             DataView dv = dt.AsDataView();
             dv.RowFilter = "pls2_level_adj<>'-' and pls2_level_adj<>' '";
