@@ -232,6 +232,25 @@ order by apdk_prod_type , apdk_param_key", marketCode);
       }
 
       /// <summary>
+      /// d_pdk_param_key_o 多加一個判斷APDK_PROD_SUBTYPE的條件
+      /// </summary>
+      /// <returns>前面空一行+APDK_PROD_TYPE/APDK_PARAM_KEY/APDK_PROD_SUBTYPE</returns>
+      public DataTable ListParamKey2()
+      {
+         string sql = @"
+            SELECT APDK_PROD_TYPE,APDK_PARAM_KEY,APDK_PROD_SUBTYPE 
+                FROM ci.APDK   
+             UNION
+            SELECT ' ','',' '
+            FROM DUAL
+            ORDER BY APDK_PROD_TYPE,APDK_PARAM_KEY";
+
+         DataTable dtResult = db.GetDataTable(sql, null);
+
+         return dtResult;
+      }
+
+      /// <summary>
       /// CI.APDK 契約類別 B－ C－商品類 E－匯率類 I－指數類 R－利率類 S－股票類
       /// </summary>
       /// <returns>前面空一行+APDK_PROD_SUBTYPE/PROD_SUBTYPE_NAME/cp_display</returns>
