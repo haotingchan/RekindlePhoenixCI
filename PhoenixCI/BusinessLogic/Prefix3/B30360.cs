@@ -136,7 +136,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             //讀取資料
             DataTable dt = dao30360.Get30361Data(IsKindID, StartDate.ToString("yyyyMMdd"), EndDate);
             if (dt.Rows.Count <= 0) {
-               return $"{StartDate.ToShortDateString()}～{EndDate.AsDateTime().ToShortDateString()},{SheetName}－{RptName},{IsKindID}無任何資料!";
+               return $"{StartDate.ToShortDateString()}～{EndDate.AsDateTime("yyyyMMdd").ToShortDateString()},{SheetName}-{RptName},無任何資料!";
             }
             //儲存寫入sheet
             WriteSheet(SheetName, dt, RowIndex, RowTotal);
@@ -162,7 +162,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             //讀取資料
             DataTable dt = dao30360.Get30362Data(_emMonthText.AsDateTime(), IsKindID);
             if (dt.Rows.Count <= 0) {
-               return $"{_emMonthText.AsDateTime().ToString("yyyyMM")},{SheetName}－{RptName},{IsKindID}無任何資料!";
+               return $"{_emMonthText.AsDateTime().ToString("yyyyMM")},{SheetName}-{RptName},無任何資料!";
             }
             //儲存寫入sheet
             WriteSheet2(RowIndex, RowTotal, SheetName, dt);
@@ -196,7 +196,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             //讀取資料
             DataTable dt = dao30360.Get30363Data(StartDate.ToString("yyyyMMdd"), EndDate, IsKindID);
             if (dt.Rows.Count <= 0) {
-               return $"{_emMonthText.AsDateTime().ToString("yyyyMM")},{SheetName}－{RptName},{IsKindID}無任何資料!";
+               return $"{_emMonthText.AsDateTime().ToString("yyyyMM")},{SheetName}－{RptName},無任何資料!";
             }
             //商品
             DataTable dtProd = dao30360.Get30363KindID2Data(StartDate.ToString("yyyyMMdd"), EndDate, IsKindID);
@@ -327,7 +327,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             //讀取資料
             DataTable dt = dao30360.Get30368Data(StartDate.ToString("yyyyMMdd"), EndDate);
             if (dt.Rows.Count <= 0) {
-               return $"{_emMonthText.AsDateTime().ToString("yyyyMM")},{SheetName}－{RptName},{IsKindID}無任何資料!";
+               return $"{_emMonthText.AsDateTime().ToString("yyyyMM")},{SheetName}－{RptName},無任何資料!";
             }
             
             //內容
