@@ -9,13 +9,11 @@ using DevExpress.Data;
 using DevExpress.Utils;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraGrid.Columns;
-using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
 using System;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -25,7 +23,7 @@ using System.Windows.Forms;
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix5 {
    /// <summary>
-   /// 50050 造市者每日價平上下5檔各序列報價
+   /// 50040 造市者各造市商品報價價差報表
    /// </summary>
    public partial class W50040 : FormParent {
 
