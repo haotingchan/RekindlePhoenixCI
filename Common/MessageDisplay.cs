@@ -5,7 +5,7 @@ namespace Common {
    public class MessageDisplay {
       public const string MSG_NO_PERMISSION = "時點不允許執行此交易";
       public const string MSG_NO_DATA_FOR_MODIFY = "無資料可以異動";
-      public const string MSG_NO_DATA = "無資料";
+      public const string MSG_NO_DATA = "無任何資料!";
       public const string MSG_OK = "處理完成";
       public const string MSG_PRINT = "列印完成";
       public const string MSG_IMPORT = "轉檔完成";

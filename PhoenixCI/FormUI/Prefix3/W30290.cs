@@ -36,7 +36,7 @@ namespace PhoenixCI.FormUI.Prefix3
       public W30290(string programID, string programName) : base(programID, programName)
       {
          InitializeComponent();
-
+         this.Text = _ProgramID + "─" + _ProgramName;
          GridHelper.SetCommonGrid(gvMain);
          PrintableComponent = gcMain;
          retrieveChoose = DialogResult.No;

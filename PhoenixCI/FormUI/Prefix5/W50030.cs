@@ -11,6 +11,8 @@ using DevExpress.XtraPrinting.Caching;
 using System;
 using System.Linq;
 using DevExpress.XtraReports.UI;
+using DevExpress.XtraPrinting;
+using System.Diagnostics;
 
 namespace PhoenixCI.FormUI.Prefix5
 {
@@ -20,6 +22,7 @@ namespace PhoenixCI.FormUI.Prefix5
       private DataTable dataTable { get; set; }
       private XtraReport _Rreport; 
       public string ls_date_type;
+      RW50030 r50030rpt;
       public W50030(string programID, string programName) : base(programID, programName)
       {
          InitializeComponent();
@@ -64,7 +67,7 @@ namespace PhoenixCI.FormUI.Prefix5
          ////sw.Reset();//碼表歸零
          ////sw.Start();//碼表開始計時
          base.Retrieve();
-         //_ToolBtnExport.Enabled = true;
+         _ToolBtnExport.Enabled = true;
          BeforeRetrieve();
          dataTable = w500xx.WfLinqSyntaxSelect(dataTable);
          if (dataTable.Rows.Count<=0) {
@@ -97,16 +100,11 @@ namespace PhoenixCI.FormUI.Prefix5
          //   };
          //dt = ExtensionCommon.AddSeriNumToDataTable(dt);
          //defReport report = new defReport(dt, caption);
-         RW50030 r50030rpt = new RW50030(true);
+         r50030rpt = new RW50030(true);
          r50030rpt.DataSource = dt;
-         var storage = new MemoryDocumentStorage();
-         _Rreport = r50030rpt;
-         cachedReportSource1 = new CachedReportSource(_Rreport, storage);
 
-         documentViewer1.DocumentSource = cachedReportSource1;
-         cachedReportSource1.CreateDocumentAsync();
-         cachedReportSource1.AfterBuildPages += cachedReportSource1_AfterBuildPages;
-         //r50030rpt.CreateDocument(false);
+         documentViewer1.DocumentSource = r50030rpt;
+         r50030rpt.CreateDocument(false);
       }
 
       protected void BeforeRetrieve()
@@ -161,6 +159,21 @@ namespace PhoenixCI.FormUI.Prefix5
          return ResultStatus.Success;
       }
 
+      #region #startprocess
+      // Use this method if you want to automaically open
+      // the created XLS file in the default program.
+      public void StartProcess(string path)
+      {
+         Process process = new Process();
+         try {
+            process.StartInfo.FileName = path;
+            process.Start();
+            process.WaitForInputIdle();
+         }
+         catch { }
+      }
+      #endregion #startprocess
+
       protected override ResultStatus Export()
       {
          base.Export();
@@ -176,90 +189,103 @@ namespace PhoenixCI.FormUI.Prefix5
          if (ls_file == "") {
             return ResultStatus.Fail;
          }
+
+         // Get its XLS export options.
+         XlsExportOptions xlsOptions = r50030rpt.ExportOptions.Xls;
+
+         // Set XLS-specific export options.
+         xlsOptions.ShowGridLines = true;
+         xlsOptions.TextExportMode = TextExportMode.Value;
+
+         // Export the report to XLS.
+         r50030rpt.ExportToXls(ls_file);
+
+         // Show the result.
+         StartProcess(ls_file);
          w500xx.LogText = ls_file;
-         /******************
-         開啟檔案
-         ******************/
-         Workbook workbook = new Workbook();
-         workbook.LoadDocument(ls_file);
+         /////******************
+         ////開啟檔案
+         ////******************/
+         ////Workbook workbook = new Workbook();
+         ////workbook.LoadDocument(ls_file);
 
-         /******************
-         讀取資料
-         ******************/
-         DataTable ids_1 = dataTable;
+         /////******************
+         ////讀取資料
+         ////******************/
+         ////DataTable ids_1 = dataTable;
 
-         //ids_1 = is_dw_name;
-         if (ids_1.Rows.Count <= 0) {
-            w500xx.EndExport();
-            return ResultStatus.Success;
-         }
-         /******************
-         切換Sheet
-         ******************/
-         Worksheet worksheet = workbook.Worksheets[0];
+         //////ids_1 = is_dw_name;
+         ////if (ids_1.Rows.Count <= 0) {
+         ////   w500xx.EndExport();
+         ////   return ResultStatus.Success;
+         ////}
+         /////******************
+         ////切換Sheet
+         ////******************/
+         ////Worksheet worksheet = workbook.Worksheets[0];
 
 
-         if (ls_rpt_name == "") {
-            ls_rpt_name = "報表條件：" + "(" + w500xx.DateText() + ")";
-         }
-         else {
-            ls_rpt_name = w500xx.ConditionText().Trim() + " " + "(" + w500xx.DateText() + ")";
-         }
-         worksheet.Cells[2, 4].Value = ls_rpt_name;
-         int rowIndex = 4; int k = 1;
-         foreach (DataRow row in ids_1.Rows) {
-            worksheet.Rows[rowIndex][0].Value = k;
-            worksheet.Rows[rowIndex][1].Value = row["amm0_ymd"].AsString();
-            worksheet.Rows[rowIndex][2].Value = row["amm0_brk_no"].AsString();
-            worksheet.Rows[rowIndex][3].Value = row["brk_abbr_name"].AsString();
-            worksheet.Rows[rowIndex][4].Value = row["amm0_acc_no"].AsString();
-            worksheet.Rows[rowIndex][5].Value = row["amm0_prod_id"].AsString();
-            worksheet.Rows[rowIndex][6].Value = row["amm0_o_subtract_qnty"].AsDecimal();
-            worksheet.Rows[rowIndex][7].Value = row["amm0_q_subtract_qnty"].AsDecimal();
-            worksheet.Rows[rowIndex][8].Value = row["amm0_iqm_subtract_qnty"].AsDecimal();
-            rowIndex = rowIndex + 1;
-            k++;
-         }
-         foreach (DataRow row in ids_1.Rows) {
-            int index = 0;
-            worksheet.Rows[rowIndex][index++].Value = k;
-            worksheet.Rows[rowIndex][index++].Value = row["amm0_ymd"].AsString();
-            worksheet.Rows[rowIndex][index++].Value = row["amm0_brk_no"].AsString();
-            worksheet.Rows[rowIndex][index++].Value = row["brk_abbr_name"].AsString();
-            worksheet.Rows[rowIndex][index++].Value = row["amm0_acc_no"].AsString();
-            worksheet.Rows[rowIndex][index++].Value = row["amm0_prod_id"].AsString();
-            worksheet.Rows[rowIndex][index++].Value = row["amm0_om_qnty"].AsDecimal();
-            worksheet.Rows[rowIndex][index++].Value = row["amm0_qm_qnty"].AsDecimal();
-            worksheet.Rows[rowIndex][index++].Value = row["cp_m_qnty"].AsDecimal();
-            worksheet.Rows[rowIndex][index++].Value = row["cp_rate_m"].AsDecimal();
-            worksheet.Rows[rowIndex][index++].Value = row["amm0_valid_cnt"].AsDecimal();
-            worksheet.Rows[rowIndex][index++].Value = row["cp_rate_valid_cnt"].AsDecimal();
-            worksheet.Rows[rowIndex][index++].Value = row["amm0_market_r_cnt"].AsDecimal();
-            worksheet.Rows[rowIndex][index++].Value = row["amm0_market_m_qnty"].AsDecimal();
-            worksheet.Rows[rowIndex][index++].Value = row["cp_keep_time"].AsDecimal();
-            index = 0;
-            if (ls_date_type == "D") {
-               worksheet.Rows[rowIndex][9 - 1].Value = row["cp_qnty"].AsDecimal();
-               worksheet.Rows[rowIndex][17 - 1].Value = row["amm0_keep_flag"].AsString();
-               worksheet.Rows[rowIndex][18 - 1].Value = row["amm0_trd_invalid_qnty"].AsDecimal();
-               worksheet.Rows[rowIndex][19 - 1].Value = row["cp_avg_mmk_qnty"].AsDecimal();
-            }
-            rowIndex = rowIndex + 1;
-            k++;
-         }
+         ////if (ls_rpt_name == "") {
+         ////   ls_rpt_name = "報表條件：" + "(" + w500xx.DateText() + ")";
+         ////}
+         ////else {
+         ////   ls_rpt_name = w500xx.ConditionText().Trim() + " " + "(" + w500xx.DateText() + ")";
+         ////}
+         ////worksheet.Cells[2, 4].Value = ls_rpt_name;
+         ////int rowIndex = 4; int k = 1;
+         ////foreach (DataRow row in ids_1.Rows) {
+         ////   worksheet.Rows[rowIndex][0].Value = k;
+         ////   worksheet.Rows[rowIndex][1].Value = row["amm0_ymd"].AsString();
+         ////   worksheet.Rows[rowIndex][2].Value = row["amm0_brk_no"].AsString();
+         ////   worksheet.Rows[rowIndex][3].Value = row["brk_abbr_name"].AsString();
+         ////   worksheet.Rows[rowIndex][4].Value = row["amm0_acc_no"].AsString();
+         ////   worksheet.Rows[rowIndex][5].Value = row["amm0_prod_id"].AsString();
+         ////   worksheet.Rows[rowIndex][6].Value = row["amm0_o_subtract_qnty"].AsDecimal();
+         ////   worksheet.Rows[rowIndex][7].Value = row["amm0_q_subtract_qnty"].AsDecimal();
+         ////   worksheet.Rows[rowIndex][8].Value = row["amm0_iqm_subtract_qnty"].AsDecimal();
+         ////   rowIndex = rowIndex + 1;
+         ////   k++;
+         ////}
+         ////foreach (DataRow row in ids_1.Rows) {
+         ////   int index = 0;
+         ////   worksheet.Rows[rowIndex][index++].Value = k;
+         ////   worksheet.Rows[rowIndex][index++].Value = row["amm0_ymd"].AsString();
+         ////   worksheet.Rows[rowIndex][index++].Value = row["amm0_brk_no"].AsString();
+         ////   worksheet.Rows[rowIndex][index++].Value = row["brk_abbr_name"].AsString();
+         ////   worksheet.Rows[rowIndex][index++].Value = row["amm0_acc_no"].AsString();
+         ////   worksheet.Rows[rowIndex][index++].Value = row["amm0_prod_id"].AsString();
+         ////   worksheet.Rows[rowIndex][index++].Value = row["amm0_om_qnty"].AsDecimal();
+         ////   worksheet.Rows[rowIndex][index++].Value = row["amm0_qm_qnty"].AsDecimal();
+         ////   worksheet.Rows[rowIndex][index++].Value = row["cp_m_qnty"].AsDecimal();
+         ////   worksheet.Rows[rowIndex][index++].Value = row["cp_rate_m"].AsDecimal();
+         ////   worksheet.Rows[rowIndex][index++].Value = row["amm0_valid_cnt"].AsDecimal();
+         ////   worksheet.Rows[rowIndex][index++].Value = row["cp_rate_valid_cnt"].AsDecimal();
+         ////   worksheet.Rows[rowIndex][index++].Value = row["amm0_market_r_cnt"].AsDecimal();
+         ////   worksheet.Rows[rowIndex][index++].Value = row["amm0_market_m_qnty"].AsDecimal();
+         ////   worksheet.Rows[rowIndex][index++].Value = row["cp_keep_time"].AsDecimal();
+         ////   index = 0;
+         ////   if (ls_date_type == "D") {
+         ////      worksheet.Rows[rowIndex][9 - 1].Value = row["cp_qnty"].AsDecimal();
+         ////      worksheet.Rows[rowIndex][17 - 1].Value = row["amm0_keep_flag"].AsString();
+         ////      worksheet.Rows[rowIndex][18 - 1].Value = row["amm0_trd_invalid_qnty"].AsDecimal();
+         ////      worksheet.Rows[rowIndex][19 - 1].Value = row["cp_avg_mmk_qnty"].AsDecimal();
+         ////   }
+         ////   rowIndex = rowIndex + 1;
+         ////   k++;
+         ////}
 
-         if (ls_date_type == "A") {
+         ////if (ls_date_type == "A") {
 
-            worksheet.Columns[19 - 1].Delete();
-            worksheet.Columns[18 - 1].Delete();
-            worksheet.Columns[17 - 1].Delete();
-            worksheet.Columns[9 - 1].Delete();
-         }
-         if (ls_date_type == "D" && !w500xx.gb_group.EditValue.Equals("rb_gparam")) {
-            worksheet.Columns[17 - 1].Delete();
-         }
-         workbook.SaveDocument(ls_file);
-         w500xx.EndExport();
+         ////   worksheet.Columns[19 - 1].Delete();
+         ////   worksheet.Columns[18 - 1].Delete();
+         ////   worksheet.Columns[17 - 1].Delete();
+         ////   worksheet.Columns[9 - 1].Delete();
+         ////}
+         ////if (ls_date_type == "D" && !w500xx.gb_group.EditValue.Equals("rb_gparam")) {
+         ////   worksheet.Columns[17 - 1].Delete();
+         ////}
+         ////workbook.SaveDocument(ls_file);
+         ////w500xx.EndExport();
          return ResultStatus.Success;
       }
 

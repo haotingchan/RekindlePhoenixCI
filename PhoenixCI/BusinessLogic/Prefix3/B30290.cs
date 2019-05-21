@@ -301,7 +301,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       private static void EngStock(Workbook workbook, DataTable dt, string date)
       {
          Worksheet worksheet = workbook.Worksheets[3];
-         worksheet.Cells["B1"].Value = worksheet.Cells["B1"].Value + date;
+         worksheet.Cells["B1"].Value = worksheet.Cells["B1"].Value + date + ")";
 
          int rowIndex = 2;
          foreach (DataRow row in dt.Rows) {

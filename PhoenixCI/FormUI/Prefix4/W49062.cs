@@ -261,7 +261,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                //選最近及次新生效日資料時，若只有1筆則重覆顯示至第2筆 (by慈昕)
                if (gbItem.EditValue.AsString() == "rbNewDate" && tmpSeqNo == 1) {
                   string nextFName = "";
-                  if (w < dt.Rows.Count) {
+                  if (w < dt.Rows.Count - 1) {
                      nextFName = dt.Rows[w + 1]["f_name"].AsString();
                   }
                   if (fName != nextFName) {

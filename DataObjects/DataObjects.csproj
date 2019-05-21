@@ -223,6 +223,7 @@
     <Compile Include="Dao\Together\SpecificDao\D20232.cs" />
     <Compile Include="Dao\Together\SpecificDao\D49080.cs" />
     <Compile Include="Dao\Together\SpecificDao\D40030.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D50020.cs" />
     <Compile Include="Dao\Together\SpecificDao\DP00xx.cs" />
     <Compile Include="Dao\Together\SpecificDao\D50030.cs" />
     <Compile Include="Dao\Together\SpecificDao\D50031.cs" />
@@ -322,6 +323,7 @@
     <Compile Include="Dao\Together\TableDao\MOCF.cs" />
     <Compile Include="Dao\Together\TableDao\SPNT1.cs" />
     <Compile Include="Dao\Together\TableDao\SPNT2.cs" />
+    <Compile Include="Dao\Together\TableDao\SP2.cs" />
     <Compile Include="Dao\Together\TableDao\SPT1.cs" />
     <Compile Include="Dao\Together\TableDao\MGT8.cs" />
     <Compile Include="Dao\Together\TableDao\MMWK.cs" />

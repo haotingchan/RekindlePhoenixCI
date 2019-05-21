@@ -68,7 +68,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                   lsDataType = "B";
                   break;
                case 1://交易時段
-                  lsDataType = "";
+                  lsDataType = " ";
                   break;
                default://全部
                   lsDataType = "A";
