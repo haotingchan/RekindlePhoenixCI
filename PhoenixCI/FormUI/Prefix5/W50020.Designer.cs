@@ -43,7 +43,7 @@
          this.gb1 = new DevExpress.XtraEditors.PanelControl();
          this.gbMarket = new DevExpress.XtraEditors.RadioGroup();
          this.gbReportTypeLabel = new System.Windows.Forms.Label();
-         this.gbReportType = new DevExpress.XtraEditors.PanelControl();
+         this.gb0 = new DevExpress.XtraEditors.PanelControl();
          this.layoutControl2 = new DevExpress.XtraLayout.LayoutControl();
          this.emEndDate = new BaseGround.Widget.TextDateEdit();
          this.emStartDate = new BaseGround.Widget.TextDateEdit();
@@ -58,7 +58,7 @@
          this.gpMonth = new DevExpress.XtraLayout.LayoutControlGroup();
          this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
          this.stMonth = new DevExpress.XtraLayout.LayoutControlItem();
-         this.rbReportType = new DevExpress.XtraEditors.RadioGroup();
+         this.gbReportType = new DevExpress.XtraEditors.RadioGroup();
          this.stMsgTxt = new DevExpress.XtraEditors.LabelControl();
          this.dataLayoutControl2 = new DevExpress.XtraDataLayout.DataLayoutControl();
          this.dwProdKdSto = new DevExpress.XtraEditors.LookUpEdit();
@@ -95,8 +95,8 @@
          ((System.ComponentModel.ISupportInitialize)(this.gb1)).BeginInit();
          this.gb1.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.gbReportType)).BeginInit();
-         this.gbReportType.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.gb0)).BeginInit();
+         this.gb0.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControl2)).BeginInit();
          this.layoutControl2.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.emEndDate.Properties)).BeginInit();
@@ -113,7 +113,7 @@
          ((System.ComponentModel.ISupportInitialize)(this.gpMonth)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.stMonth)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.rbReportType.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.gbReportType.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.dataLayoutControl2)).BeginInit();
          this.dataLayoutControl2.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.dwProdKdSto.Properties)).BeginInit();
@@ -179,7 +179,7 @@
          this.inputPanel.Controls.Add(this.gb1Label);
          this.inputPanel.Controls.Add(this.gb1);
          this.inputPanel.Controls.Add(this.gbReportTypeLabel);
-         this.inputPanel.Controls.Add(this.gbReportType);
+         this.inputPanel.Controls.Add(this.gb0);
          this.inputPanel.Controls.Add(this.stMsgTxt);
          this.inputPanel.Controls.Add(this.dataLayoutControl2);
          this.inputPanel.Controls.Add(this.dataLayoutControl1);
@@ -287,7 +287,7 @@
          // 
          // gbGroup
          // 
-         this.gbGroup.EditValue = "rb_gall";
+         this.gbGroup.EditValue = "rb_gkind";
          this.gbGroup.Location = new System.Drawing.Point(3, 13);
          this.gbGroup.Margin = new System.Windows.Forms.Padding(0);
          this.gbGroup.MenuManager = this.ribbonControl;
@@ -354,17 +354,17 @@
          this.gbReportTypeLabel.TabIndex = 11;
          this.gbReportTypeLabel.Text = "區間";
          // 
-         // gbReportType
+         // gb0
          // 
-         this.gbReportType.Appearance.BackColor = System.Drawing.Color.Transparent;
-         this.gbReportType.Appearance.Options.UseBackColor = true;
-         this.gbReportType.Controls.Add(this.layoutControl2);
-         this.gbReportType.Controls.Add(this.layoutControl1);
-         this.gbReportType.Controls.Add(this.rbReportType);
-         this.gbReportType.Location = new System.Drawing.Point(28, 160);
-         this.gbReportType.Name = "gbReportType";
-         this.gbReportType.Size = new System.Drawing.Size(345, 100);
-         this.gbReportType.TabIndex = 10;
+         this.gb0.Appearance.BackColor = System.Drawing.Color.Transparent;
+         this.gb0.Appearance.Options.UseBackColor = true;
+         this.gb0.Controls.Add(this.layoutControl2);
+         this.gb0.Controls.Add(this.layoutControl1);
+         this.gb0.Controls.Add(this.gbReportType);
+         this.gb0.Location = new System.Drawing.Point(28, 160);
+         this.gb0.Name = "gb0";
+         this.gb0.Size = new System.Drawing.Size(345, 100);
+         this.gb0.TabIndex = 10;
          // 
          // layoutControl2
          // 
@@ -563,20 +563,20 @@
          this.stMonth.TextSize = new System.Drawing.Size(12, 20);
          this.stMonth.TextToControlDistance = 5;
          // 
-         // rbReportType
+         // gbReportType
          // 
-         this.rbReportType.EditValue = "rb_month";
-         this.rbReportType.Location = new System.Drawing.Point(12, 14);
-         this.rbReportType.Margin = new System.Windows.Forms.Padding(0);
-         this.rbReportType.Name = "rbReportType";
-         this.rbReportType.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
-         this.rbReportType.Properties.Appearance.Options.UseBackColor = true;
-         this.rbReportType.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-         this.rbReportType.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
+         this.gbReportType.EditValue = "rb_month";
+         this.gbReportType.Location = new System.Drawing.Point(12, 14);
+         this.gbReportType.Margin = new System.Windows.Forms.Padding(0);
+         this.gbReportType.Name = "gbReportType";
+         this.gbReportType.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
+         this.gbReportType.Properties.Appearance.Options.UseBackColor = true;
+         this.gbReportType.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+         this.gbReportType.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_month", ""),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_date", "")});
-         this.rbReportType.Size = new System.Drawing.Size(21, 80);
-         this.rbReportType.TabIndex = 8;
+         this.gbReportType.Size = new System.Drawing.Size(21, 80);
+         this.gbReportType.TabIndex = 8;
          // 
          // stMsgTxt
          // 
@@ -828,8 +828,8 @@
          ((System.ComponentModel.ISupportInitialize)(this.gb1)).EndInit();
          this.gb1.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.gbReportType)).EndInit();
-         this.gbReportType.ResumeLayout(false);
+         ((System.ComponentModel.ISupportInitialize)(this.gb0)).EndInit();
+         this.gb0.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.layoutControl2)).EndInit();
          this.layoutControl2.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.emEndDate.Properties)).EndInit();
@@ -846,7 +846,7 @@
          ((System.ComponentModel.ISupportInitialize)(this.gpMonth)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.stMonth)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.rbReportType.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.gbReportType.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.dataLayoutControl2)).EndInit();
          this.dataLayoutControl2.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.dwProdKdSto.Properties)).EndInit();
@@ -915,9 +915,9 @@
       protected DevExpress.XtraLayout.LayoutControlGroup gpMonth;
       protected DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
       private DevExpress.XtraLayout.LayoutControlItem stMonth;
-      protected DevExpress.XtraEditors.RadioGroup rbReportType;
+      protected DevExpress.XtraEditors.RadioGroup gbReportType;
       private System.Windows.Forms.Label gbReportTypeLabel;
-      private DevExpress.XtraEditors.PanelControl gbReportType;
+      private DevExpress.XtraEditors.PanelControl gb0;
       private DevExpress.XtraEditors.PanelControl gb1;
       private System.Windows.Forms.Label gb1Label;
       private DevExpress.XtraEditors.PanelControl gb2;

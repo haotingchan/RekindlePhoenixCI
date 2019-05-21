@@ -13,7 +13,7 @@ namespace PhoenixCI.Report
       /// 50030 report
       /// </summary>
       /// <param name="hasSum">是否加總</param>
-      public RW50030(bool hasSum)
+      public RW50030(bool hasSum = true)
       {
          InitializeComponent();
          if (!hasSum) {
@@ -32,12 +32,12 @@ namespace PhoenixCI.Report
          //   e.Cancel = true;
          detailRowCount += 1;
          if (detailRowCount == 50) {
-         Detail.PageBreak = DevExpress.XtraReports.UI.PageBreak.AfterBand;
-         detailRowCount = 0;
+            Detail.PageBreak = DevExpress.XtraReports.UI.PageBreak.AfterBand;
+            detailRowCount = 0;
          }
          else {
             Detail.PageBreak = DevExpress.XtraReports.UI.PageBreak.None;
-        }
+         }
       }
 
       private void groupHeaderBand1_BeforePrint(object sender, System.Drawing.Printing.PrintEventArgs e)

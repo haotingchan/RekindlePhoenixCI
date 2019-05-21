@@ -1,5 +1,5 @@
 ﻿namespace PhoenixCI.FormUI.Prefix2 {
-    partial class W20320 {
+    partial class W25010 {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -252,7 +252,7 @@
          this.AA1_TAIFEXEdit.AutoHeight = false;
          this.AA1_TAIFEXEdit.Name = "AA1_TAIFEXEdit";
          // 
-         // W20320
+         // W25010
          // 
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
@@ -260,8 +260,8 @@
          this.ClientSize = new System.Drawing.Size(877, 627);
          this.Controls.Add(this.panelControl2);
          this.Controls.Add(this.panelControl1);
-         this.Name = "W20320";
-         this.Text = "W20320";
+         this.Name = "W25010";
+         this.Text = "W25010";
          this.Controls.SetChildIndex(this.ribbonControl, 0);
          this.Controls.SetChildIndex(this.panelControl1, 0);
          this.Controls.SetChildIndex(this.panelControl2, 0);

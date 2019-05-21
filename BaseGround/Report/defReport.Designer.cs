@@ -31,6 +31,7 @@
          this.BottomMargin = new DevExpress.XtraReports.UI.BottomMarginBand();
          this.Detail = new DevExpress.XtraReports.UI.DetailBand();
          this.PageHeader = new DevExpress.XtraReports.UI.PageHeaderBand();
+         this.PageFooter = new DevExpress.XtraReports.UI.PageFooterBand();
          ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
          // 
          // TopMargin
@@ -45,13 +46,20 @@
          // 
          // Detail
          // 
+         this.Detail.Font = new System.Drawing.Font("Arial", 9F);
          this.Detail.HeightF = 0F;
          this.Detail.Name = "Detail";
+         this.Detail.StylePriority.UseFont = false;
          // 
          // PageHeader
          // 
-         this.PageHeader.HeightF = 1.458327F;
+         this.PageHeader.HeightF = 3.124968F;
          this.PageHeader.Name = "PageHeader";
+         // 
+         // PageFooter
+         // 
+         this.PageFooter.HeightF = 0F;
+         this.PageFooter.Name = "PageFooter";
          // 
          // defReport
          // 
@@ -59,10 +67,11 @@
             this.TopMargin,
             this.BottomMargin,
             this.Detail,
-            this.PageHeader});
+            this.PageHeader,
+            this.PageFooter});
          this.ExportOptions.Xls.ShowGridLines = true;
-         this.ExportOptions.Xls.TextExportMode = DevExpress.XtraPrinting.TextExportMode.Text;
          this.ExportOptions.Xls.WorkbookColorPaletteCompliance = DevExpress.XtraPrinting.WorkbookColorPaletteCompliance.AdjustColorsToDefaultPalette;
+         this.ExportOptions.Xlsx.ShowGridLines = true;
          this.Font = new System.Drawing.Font("Arial", 9.75F);
          this.Margins = new System.Drawing.Printing.Margins(10, 10, 10, 10);
          this.PageHeight = 827;
@@ -79,5 +88,6 @@
       private DevExpress.XtraReports.UI.BottomMarginBand BottomMargin;
       private DevExpress.XtraReports.UI.DetailBand Detail;
       private DevExpress.XtraReports.UI.PageHeaderBand PageHeader;
+      private DevExpress.XtraReports.UI.PageFooterBand PageFooter;
    }
 }

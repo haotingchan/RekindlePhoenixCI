@@ -19,16 +19,445 @@ using BusinessObjects;
 using DataObjects.Dao.Together;
 using DevExpress.XtraLayout.Utils;
 using Common.Helper;
+using DevExpress.XtraReports.UI;
+using BaseGround.Shared;
+using DevExpress.XtraEditors.Controls;
+using System.Threading;
+using DevExpress.XtraPrinting;
+using static BaseGround.Report.ReportHelper;
 
 namespace PhoenixCI.FormUI.Prefix5
 {
    public partial class W50020 : FormParent
    {
+      private defReport _defReport;
+      public D500xx _D500Xx { get; set; }
+      private DataTable _Data { get; set; }
+      private ABRK daoABRK;
+      private APDK daoAPDK;
+      private D50020 dao50020;
+
       public W50020(string programID, string programName) : base(programID, programName)
       {
          InitializeComponent();
 
          this.Text = _ProgramID + "─" + _ProgramName;
+         daoABRK = new ABRK();
+         daoAPDK = new APDK();
+         dao50020 = new D50020();
+         _D500Xx = new D500xx();
+      }
+
+      private bool StartRetrieve(string sbrkno = "", string ebrkno = "")
+      {
+         /*******************
+         條件值檢核
+         *******************/
+         _D500Xx.IsCheck = "N";
+         /*造市者代號 */
+         _D500Xx.Sbrkno = dwSbrkno.EditValue.AsString();
+         if (string.IsNullOrEmpty(_D500Xx.Sbrkno)) {
+            _D500Xx.Sbrkno = sbrkno;
+         }
+         _D500Xx.Ebrkno = dwEbrkno.EditValue.AsString();
+         if (string.IsNullOrEmpty(_D500Xx.Ebrkno)) {
+            _D500Xx.Ebrkno = ebrkno;
+         }
+         if ((string.Compare(dwSbrkno.SelectedText, dwEbrkno.SelectedText) > 0) && !string.IsNullOrEmpty(_D500Xx.Ebrkno)) {
+            PbFunc.messageBox(GlobalInfo.ErrorText, "造市者代號起始不可大於迄止", MessageBoxIcon.Stop);
+
+            dwEbrkno.Focus();
+            _D500Xx.IsCheck = "Y";
+            return false;
+         }
+
+         /* 商品群組 */
+         _D500Xx.ProdCategory = dwProdCt.EditValue.AsString();
+         if (string.IsNullOrEmpty(_D500Xx.ProdCategory) || dwProdCt.Enabled == false) {
+            _D500Xx.ProdCategory = "";
+         }
+
+         /* 商品 */
+         _D500Xx.ProdKindId = dwProdKd.EditValue.AsString();
+         if (string.IsNullOrEmpty(_D500Xx.ProdKindId) || dwProdKd.Enabled == false) {
+            _D500Xx.ProdKindId = "";
+         }
+         _D500Xx.ProdKindIdSto = dwProdKdSto.EditValue.AsString();
+         if (string.IsNullOrEmpty(_D500Xx.ProdKindIdSto) || dwProdKdSto.Enabled == false) {
+            _D500Xx.ProdKindIdSto = "";
+         }
+         //DateTime dtDate;
+         /* 月報表 */
+         if (gbReportType.EditValue.Equals("rb_month")) {
+            if (emStartYM.Visible == true) {
+               if (!emStartYM.IsDate(emStartYM.Text + "/01", CheckDate.Start)) {
+                  _D500Xx.IsCheck = "Y";
+                  return false;
+               }
+               _D500Xx.Sdate = emStartYM.Text.Replace("/", "").SubStr(0, 6);
+
+            }
+            if (emEndYM.Visible == true) {
+               if (!emEndYM.IsDate(emEndYM.Text + "/01", CheckDate.End)) {
+                  _D500Xx.IsCheck = "Y";
+                  return false;
+               }
+               _D500Xx.Edate = emEndYM.Text.Replace("/", "").SubStr(0, 6);
+
+            }
+         }
+         /* 日報表 */
+         else {
+            if (emStartDate.Visible == true) {
+               if (!emStartDate.IsDate(emStartDate.Text, CheckDate.Start)) {
+                  _D500Xx.IsCheck = "Y";
+                  return false;
+               }
+            }
+            _D500Xx.Sdate = emStartDate.Text.Replace("/", "").SubStr(0, 8);
+            if (emEndDate.Visible == true) {
+               if (!emEndDate.IsDate(emEndDate.Text, CheckDate.End)) {
+                  _D500Xx.IsCheck = "Y";
+                  return false;
+               }
+               _D500Xx.Edate = emEndDate.Text.Replace("/", "").SubStr(0, 8);
+            }
+         }
+         _D500Xx.SumType = ReportSumType(gbReportType.EditValue.AsString());
+         _D500Xx.SortType = PrintSortType(gbPrintSort.EditValue.AsString());
+         _D500Xx.SumSubType = GrpSubType(gbGroup.EditValue.AsString());
+         /*******************
+         資料類別
+         *******************/
+         _D500Xx.DataType = "R";
+
+         /*******************
+         條件值檢核OK
+         *******************/
+         _D500Xx.IsCheck = "Y";
+
+
+         /*******************
+         //Local Window 
+         條件值檢核
+         if		is_chk <> 'E'	then
+               is_chk = 'Y'
+         end	if
+
+         資料類別:
+         報價:
+         is_data_type = 'Q' 
+         詢價:
+         is_data_type = 'R' 
+         *******************/
+         return true;
+      }
+
+      private bool EndRetrieve(DataTable dt)
+      {
+         if (dt.Rows.Count <= 0) {
+            PbFunc.messageBox(GlobalInfo.ResultText, "無任何資料!", MessageBoxIcon.Information);
+            return false;
+         }
+         return true;
+      }
+
+      /// <summary>
+      /// 匯出轉檔前的狀態顯示
+      /// </summary>
+      /// <param name="RptID">程式代號</param>
+      /// <param name="RptName">報表名稱</param>
+      /// <param name="ls_param_key">契約</param>
+      /// <param name="li_ole_col">欄位位置</param>
+      private void StartExport(string RptID, string RptName)
+      {
+         /*************************************
+        ls_rpt_name = 報表名稱
+        ls_rpt_id = 報表代號
+        li_ole_col = 欄位位置
+        ls_param_key = 契約
+        *************************************/
+         stMsgTxt.Visible = true;
+         stMsgTxt.Text = "開始轉檔...";
+         stMsgTxt.Text = RptID + "－" + RptName + " 轉檔中...";
+         this.Cursor = Cursors.WaitCursor;
+         this.Refresh();
+         Thread.Sleep(5);
+      }
+
+      /// <summary>
+      /// 轉檔結束後
+      /// </summary>
+      private void EndExport()
+      {
+         stMsgTxt.Text = "轉檔完成!";
+         this.Refresh();
+         Thread.Sleep(5);
+         //is_time = is_time + "～" + DateTime.Now;
+         //PbFunc.messageBox(GlobalInfo.gs_t_result + " " + is_time, "轉檔完成!", MessageBoxIcon.Information);
+         stMsgTxt.Visible = false;
+         this.Cursor = Cursors.Arrow;
+      }
+
+      private string ConditionText()
+      {
+         string lsText;
+         /*******************
+         顯示條件
+         *******************/
+         if (gbMarket.EditValue.Equals("rb_market_1")) {
+            lsText = "盤後交易時段";
+         }
+         else {
+            lsText = "一般交易時段";
+         }
+         if (!string.IsNullOrEmpty(_D500Xx.Sbrkno) || !string.IsNullOrEmpty(_D500Xx.Ebrkno)) {
+            lsText = lsText + ",造市者:";
+
+            if (_D500Xx.Sbrkno == _D500Xx.Ebrkno) {
+               lsText = lsText + _D500Xx.Sbrkno + " ";
+            }
+            else {
+
+               lsText = lsText + _D500Xx.Sbrkno + "～" + _D500Xx.Ebrkno + " ";
+            }
+         }
+
+         if (!string.IsNullOrEmpty(_D500Xx.ProdCategory)) {
+            lsText = lsText + ",商品群組:" + _D500Xx.ProdCategory;
+         }
+         if (!string.IsNullOrEmpty(_D500Xx.ProdKindIdSto)) {
+            lsText = lsText + ",2碼商品(個股):" + _D500Xx.ProdKindIdSto;
+         }
+         if (!string.IsNullOrEmpty(_D500Xx.ProdKindId)) {
+            lsText = lsText + ",造市商品:" + _D500Xx.ProdKindId;
+         }
+         if (PbFunc.Left(lsText, 1) == ",") {
+            lsText = PbFunc.Mid(lsText, 1, 50);
+         }
+         if (!string.IsNullOrEmpty(lsText)) {
+            lsText = "報表條件：" + lsText;
+         }
+         return lsText;
+      }
+
+      private string DateText()
+      {
+         /*******************
+         顯示條件
+         *******************/
+         string lsText = "";
+         if (!string.IsNullOrEmpty(_D500Xx.Sdate)) {
+            lsText = lsText + _D500Xx.Sdate;
+         }
+         if (!string.IsNullOrEmpty(_D500Xx.Edate)) {
+            lsText = lsText + '～' + _D500Xx.Edate;
+         }
+         return lsText;
+      }
+
+      private void WfGbReportType(string AsType)
+      {
+
+         switch (AsType) {
+            case "M":
+               /* 只有月份 */
+               gbReportType.EditValue = "rb_month";
+               gpDate.Visibility = LayoutVisibility.Never;
+               gbReportType.Visible = false;
+               break;
+            case "m":
+               gbReportType.EditValue = "rb_month";
+               gbReportType.Visible = false;
+               gpDate.Visibility = LayoutVisibility.Never;
+               /* 無迄止值 */
+               emEndYM.Visible = false;
+               stMonth.Visibility = LayoutVisibility.Never;
+               break;
+            case "D":
+               /* 只有日期 */
+               gbReportType.EditValue = "rb_date";
+               gpMonth.Visibility = LayoutVisibility.Never;
+               gbReportType.Visible = false;
+               break;
+            case "d":
+               /* 只有日期 */
+               gbReportType.EditValue = "rb_date";
+               gpMonth.Visibility = LayoutVisibility.Never;
+               gbReportType.Visible = false;
+               /* 無迄止值 */
+               stDate.Visibility = LayoutVisibility.Never;
+               emEndDate.Visible = false;
+               break;
+            default:
+               break;
+         }
+      }
+
+      /// <summary>
+      /// 統計類別
+      /// </summary>
+      private string ReportSumType(string rptVal)
+      {
+         string type = string.Empty;
+         if (rptVal.Equals("rb_month")) {
+            type = "M";
+         }
+         else if (rptVal.Equals("rb_date")) {
+            type = "D";
+         }
+         return type;
+      }
+
+      /// <summary>
+      /// Sort順序
+      /// </summary>
+      private string PrintSortType(string sortVal)
+      {
+         string type = string.Empty;
+         if (sortVal.Equals("rb_mmk")) {
+            type = "F";
+         }
+         else {
+            type = "P";
+         }
+         return type;
+      }
+
+      /// <summary>
+      /// 統計子類別
+      /// </summary>
+      private string GrpSubType(string type)
+      {
+         string subtype = string.Empty;
+         switch (type) {
+            case "rb_gall":
+               subtype = "1";
+               break;
+            case "rb_gparam":
+               subtype = "3";
+               break;
+            case "rb_s":
+               subtype = "S";
+               break;
+            case "rb_gkind2":
+               subtype = "4";
+               break;
+            case "rb_gkind":
+               subtype = "5";
+               break;
+            case "rb_gprod":
+               subtype = "6";
+               break;
+            default:
+               break;
+         }
+         return subtype;
+      }
+
+      private void WfGbGroup(bool VisibleValue, bool EnableValue, string AsType)
+      {
+         gbGroup.Visible = VisibleValue;
+         gb2.Visible = VisibleValue;
+         gbGroup.Enabled = EnableValue;
+
+         switch (AsType) {
+            case "1":
+               gbGroup.EditValue = "rb_gall";
+               break;
+            case "2":
+               gbGroup.EditValue = "rb_gparam";
+               break;
+            case "3":
+               gbGroup.EditValue = "rb_gkind";
+               break;
+            case "4":
+               gbGroup.EditValue = "rb_gkind2";
+               break;
+            case "5":
+               gbGroup.EditValue = "rb_gprod";
+               break;
+            default:
+               break;
+         }
+      }
+
+      private void WfGbPrintSort(bool VisibleValue, bool EnableValue, string AsType)
+      {
+         gbPrintSort.Visible = VisibleValue;
+         gb4.Visible = VisibleValue;
+         gbPrintSort.Enabled = EnableValue;
+
+         switch (AsType) {
+            case "1":
+               gbPrintSort.EditValue = "rb_mmk";
+               break;
+
+            case "2":
+               gbPrintSort.EditValue = "rb_prod";
+               break;
+            default:
+               break;
+         }
+      }
+
+      private void WfGrpDetial(bool VisibleValue, bool EnableValue, string AsType)
+      {
+         gbDetial.Visible = VisibleValue;
+         gb3.Visible = VisibleValue;
+         gbDetial.Enabled = EnableValue;
+
+         switch (AsType) {
+            case "1":
+               gbDetial.EditValue = "rb_gdate";
+               break;
+
+            case "2":
+               gbDetial.EditValue = "rb_gnodate";
+               break;
+            default:
+               break;
+         }
+      }
+
+      private void WfRunError()
+      {
+         /*******************
+         Messagebox
+         *******************/
+         //SetPointer(Arrow!);
+         this.Cursor = Cursors.Arrow;
+         stMsgTxt.Visible = true;
+         stMsgTxt.Text = "轉檔有錯誤!";
+
+         File.Delete(_D500Xx.Filename);
+      }
+
+      protected bool GetData()
+      {
+         if (!StartRetrieve()) return false;
+         /* 報表內容 */
+         //報表內容選擇分日期
+         if (gbDetial.EditValue.Equals("rb_gdate")) {
+            _Data = dao50020.List50020(_D500Xx);
+            //交易時段選盤後
+            if (gbMarket.EditValue.Equals("rb_market_1")) {
+               _Data = dao50020.ListAH(_D500Xx);
+            }
+         }
+         else {
+            _Data = dao50020.ListACCU(_D500Xx);
+            //交易時段選盤後
+            if (gbMarket.EditValue.Equals("rb_market_1")) {
+               _Data = dao50020.ListACCUAH(_D500Xx);
+            }
+         }
+
+         if (_Data.Rows.Count <= 0) {
+            MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
+            return false;
+         }
+         return true;
       }
 
       public override ResultStatus BeforeOpen()
@@ -37,6 +466,68 @@ namespace PhoenixCI.FormUI.Prefix5
 
          return ResultStatus.Success;
       }
+
+      private void gbGroup_EditValueChanged(object sender, EventArgs e)
+      {
+         DevExpress.XtraEditors.RadioGroup rb = sender as DevExpress.XtraEditors.RadioGroup;
+         if (rb == null) return;
+         _D500Xx.GbGroup = rb.EditValue.ToString();
+         switch (rb.EditValue.ToString()) {
+            case "rb_gall":
+               dwProdCt.Enabled = false;
+               stProdCt.Enabled = false;
+
+               dwProdKdSto.Enabled = false;
+               stProdKdSto.Enabled = false;
+
+               dwProdKd.Enabled = false;
+               stProdKd.Enabled = false;
+               break;
+            case "rb_gparam":
+               dwProdCt.Enabled = true;
+               stProdCt.Enabled = true;
+
+               dwProdKdSto.Enabled = false;
+               stProdKdSto.Enabled = false;
+
+               dwProdKd.Enabled = false;
+               stProdKd.Enabled = false;
+               break;
+            case "rb_gkind2":
+               dwProdCt.Enabled = true;
+               stProdCt.Enabled = true;
+
+               dwProdKdSto.Enabled = true;
+               stProdKdSto.Enabled = true;
+
+               dwProdKd.Enabled = false;
+               stProdKd.Enabled = false;
+               break;
+            case "rb_gkind":
+               dwProdCt.Enabled = true;
+               stProdCt.Enabled = true;
+
+               dwProdKdSto.Enabled = true;
+               stProdKdSto.Enabled = true;
+
+               dwProdKd.Enabled = true;
+               stProdKd.Enabled = true;
+               break;
+            case "rb_gprod":
+               dwProdCt.Enabled = true;
+               stProdCt.Enabled = true;
+
+               dwProdKdSto.Enabled = true;
+               stProdKdSto.Enabled = true;
+
+               dwProdKd.Enabled = true;
+               stProdKd.Enabled = true;
+               break;
+            default:
+               break;
+         }
+      }
+
 
       protected override ResultStatus Open()
       {
@@ -50,21 +541,20 @@ namespace PhoenixCI.FormUI.Prefix5
          emStartYM.EditValue = GlobalInfo.OCF_DATE;
          emEndYM.EditValue = GlobalInfo.OCF_DATE;
          /* 造市者代號 */
-         ////////dw_sbrkno.settransobject(sqlca);
-         ////////dw_sbrkno.insertrow(0);
-         ////////dw_ebrkno.settransobject(sqlca);
-         ////////dw_ebrkno.insertrow(0);
-         /////////* 商品群組 */
-         ////////dw_prod_ct.settransobject(sqlca);
-         ////////dw_prod_ct.insertrow(0);
-         /////////* 造市商品 */
-         ////////dw_prod_kd.settransobject(sqlca);
-         ////////dw_prod_kd.insertrow(0);
-         /////////* 個股商品 */
-         ////////dw_prod_kd_sto.settransobject(sqlca);
-         ////////dw_prod_kd_sto.insertrow(0);
-
-         //is_table_name = 'AMM0';
+         //起始選項
+         dwSbrkno.SetDataTable(daoABRK.ListAll2(), "ABRK_NO", "CP_DISPLAY", TextEditStyles.Standard, null);
+         //目的選項
+         dwEbrkno.SetDataTable(daoABRK.ListAll2(), "ABRK_NO", "CP_DISPLAY", TextEditStyles.Standard, null);
+         /* 商品群組 */
+         dwProdCt.SetDataTable(daoAPDK.ListParamKey(), "APDK_PARAM_KEY", "APDK_PARAM_KEY", TextEditStyles.Standard, null);
+         /* 造市商品 */
+         dwProdKd.SetDataTable(daoAPDK.ListAll3(), "PDK_KIND_ID", "PDK_KIND_ID", TextEditStyles.Standard, null);
+         /* 2碼商品 */
+         dwProdKdSto.SetDataTable(daoAPDK.ListKind2(), "APDK_KIND_ID_STO", "APDK_KIND_ID_STO", TextEditStyles.Standard, null);
+         //預設資料表
+         _D500Xx.TableName = "AMM0";
+         _D500Xx.GbGroup = gbGroup.EditValue.ToString();
+         gbGroup.EditValueChanged += gbGroup_EditValueChanged;
          return ResultStatus.Success;
       }
 
@@ -80,77 +570,116 @@ namespace PhoenixCI.FormUI.Prefix5
          base.ActivatedForm();
 
          _ToolBtnExport.Enabled = true;
+         _ToolBtnPrintAll.Enabled = true;
+         _ToolBtnRetrieve.Enabled = true;
 
          return ResultStatus.Success;
       }
 
       protected override ResultStatus Retrieve()
       {
-         base.Retrieve();
+         if (gbDetial.EditValue.Equals("rb_detail")) {
+            MessageDisplay.Warning("明細資料僅提供「轉出」CSV檔案，請按轉出功能！");
+            return ResultStatus.Fail;
+         }
+         if (!StartRetrieve()) return ResultStatus.Fail;
+         if (!GetData()) return ResultStatus.Fail;
 
-         return ResultStatus.Success;
-      }
+         List<ReportProp> caption = new List<ReportProp>{
+            new ReportProp{DataColumn="AMM0_YMD",Caption= "日期" ,CellWidth=65,DetailRowFontSize=9,HeaderFontSize=11},
+            new ReportProp{DataColumn="AMM0_BRK_NO",Caption= "期貨商        代號",CellWidth=70,DetailRowFontSize=10,HeaderFontSize=11},
+            new ReportProp{DataColumn="BRK_ABBR_NAME",Caption= "期貨商名稱" ,CellWidth=150,DetailRowFontSize=9.75f,HeaderFontSize=11},
+            new ReportProp{DataColumn="AMM0_PROD_ID",Caption= "商品名稱",CellWidth=80,DetailRowFontSize=11,HeaderFontSize=11},
+            new ReportProp{DataColumn="AMM0_CNT",Caption= "詢價筆數",CellWidth=80,textAlignment=TextAlignment.MiddleRight,DetailRowFontSize=11,HeaderFontSize=11},
+            new ReportProp{DataColumn="CP_RATE_VALID_CNT",Caption= "佔全市場            詢價比例(%)",CellWidth=100,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:##0.0#}",DetailRowFontSize=11,HeaderFontSize=11},
+            new ReportProp{DataColumn="AMM0_MARKET_R_CNT",Caption= "全市場            詢價筆數",CellWidth=80,textAlignment=TextAlignment.MiddleRight,DetailRowFontSize=11,HeaderFontSize=11 }
+            };
+         _defReport = new defReport(_Data, caption);
+         documentViewer1.DocumentSource = _defReport;
+         _defReport.CreateDocument(true);
 
-      protected override ResultStatus CheckShield()
-      {
-         base.CheckShield();
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus Save(PokeBall pokeBall)
-      {
-         base.Save(pokeBall);
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus Run(PokeBall args)
-      {
-         base.Run(args);
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus Import()
-      {
-         base.Import();
-
+         WriteLog("查詢資料 " + _D500Xx.LogText, "query", "R");
          return ResultStatus.Success;
       }
 
       protected override ResultStatus Export()
       {
-         base.Export();
-         stMsgTxt.Visible = true;
-         stMsgTxt.Text = "開始轉檔...";
+         string lsRptName = ConditionText().Trim();
+         string ls_rpt_id = _ProgramID;
+         StartExport(ls_rpt_id, lsRptName);
+         Retrieve();
+         /******************
+         複製檔案
+         ******************/
+         _D500Xx.Filename = CopyExcelTemplateFile(ls_rpt_id, FileType.XLS);
+         if (_D500Xx.Filename == "") {
+            return ResultStatus.Fail;
+         }
+         _D500Xx.LogText = _D500Xx.Filename;
+
+
+         /******************
+         讀取資料
+         ******************/
+
+         if (_Data.Rows.Count <= 0) {
+            EndExport();
+            return ResultStatus.Success;
+         }
+
+         if (lsRptName == "") {
+            lsRptName = "報表條件：" + "(" + DateText() + ")";
+         }
+         else {
+            lsRptName = ConditionText().Trim() + " " + "(" + DateText() + ")";
+         }
+         // Get its XLSX export options. 
+         XlsExportOptions xlsOptions = _defReport.ExportOptions.Xls;
+         xlsOptions.SheetName = _ProgramID;
+
+         //Export the report to XLSX. 
+         _defReport.ExportToXls(_D500Xx.Filename);
+
+         /******************
+         開啟檔案
+         ******************/
+         Workbook workbook = new Workbook();
+         workbook.LoadDocument(_D500Xx.Filename);
+         /******************
+         切換Sheet
+         ******************/
+         Worksheet worksheet = workbook.Worksheets[0];
+         for (int k = 0; k < 3; k++) {
+            worksheet.Rows.Insert(0);
+         }
+
+         worksheet.Cells["E1"].Value = $"[{_ProgramID}]{_ProgramName}";
+         worksheet.Cells["E3"].Value = lsRptName;
+
+         workbook.SaveDocument(_D500Xx.Filename);
+         EndExport();
          return ResultStatus.Success;
       }
 
       protected override ResultStatus Print(ReportHelper reportHelper)
       {
+         CommonReportPortraitA4 reportPortraitA4 = new CommonReportPortraitA4();
+         _defReport.SetMemoInPageFooter("註：★代表收盤前40秒間詢價");
+         XtraReport xtraReport = reportHelper.CreateCompositeReport(_defReport, reportPortraitA4);
+         string dateCondition = DateText() == "" ? "" : "," + DateText();
+         reportHelper.LeftMemo = ConditionText() + dateCondition;
+         reportHelper.Create(xtraReport);
+
+         //reportHelper.Preview();
          base.Print(reportHelper);
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus InsertRow()
-      {
-         base.InsertRow();
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus DeleteRow()
-      {
-         base.DeleteRow();
-
          return ResultStatus.Success;
       }
 
       protected override ResultStatus BeforeClose()
       {
-         return base.BeforeClose();
+         _Data.Clear();
+         documentViewer1.DocumentSource = null;
+         return ResultStatus.Success;
       }
 
    }

@@ -66,10 +66,12 @@ namespace PhoenixCI.FormUI.Prefix2 {
 
          txtDate.DateTimeValue = GlobalInfo.OCF_DATE;
 
-         if (FlagAdmin) {
-            btnStwd.Visible = true;
-            btnSp.Visible = true;
-         }
+#if DEBUG
+         //if (FlagAdmin) {
+         //   btnStwd.Visible = true;
+         //   btnSp.Visible = true;
+         //}
+#endif
          return ResultStatus.Success;
       }
 
