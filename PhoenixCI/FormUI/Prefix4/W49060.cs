@@ -183,6 +183,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             dtChange = dt.GetChanges();
             ResultData res = new MG8().UpdateData(dtChange);
             if (res.Status == ResultStatus.Fail) {
+               MessageDisplay.Error("儲存失敗");
                return ResultStatus.Fail;
             } else {
                //save成功才寫異動LOG: 紀錄異動前後的值
@@ -447,7 +448,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gv.SetRowCellValue(gv.FocusedRowHandle , gv.Columns["IS_NEWROW"] , 1);
          }
          //編輯狀態時,設定可以編輯的欄位( e.Cancel = false 等於可以編輯)
-         else if (gv.FocusedColumn.Name == "MG8_EFFECT_YMD" || gv.FocusedColumn.Name == "MG8_F_ID") {
+         else if (gv.FocusedColumn.FieldName == "MG8_EFFECT_YMD" || gv.FocusedColumn.FieldName == "MG8_F_ID") {
             e.Cancel = true;
          } else {
             e.Cancel = false;

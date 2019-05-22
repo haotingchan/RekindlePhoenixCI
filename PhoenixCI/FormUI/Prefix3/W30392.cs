@@ -175,6 +175,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             return ResultStatus.Success;
          } catch (Exception ex) {
+            MessageDisplay.Info("查無資料!");
             WriteLog(ex);
          } finally {
             panFilter.Enabled = true;
