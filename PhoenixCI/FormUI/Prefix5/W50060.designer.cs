@@ -354,6 +354,7 @@
             this.AMMD_DATE});
          this.gvMain.GridControl = this.gcMain;
          this.gvMain.Name = "gvMain";
+         this.gvMain.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gvMain_ShowingEditor);
          this.gvMain.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gvMain_CustomColumnDisplayText);
          // 
          // AMMD_BRK_NO
