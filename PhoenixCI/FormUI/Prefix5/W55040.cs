@@ -52,7 +52,10 @@ namespace PhoenixCI.FormUI.Prefix5 {
         protected override ResultStatus Export() {
             base.Export();
 
-            if (!ManipulateExcel()) return ResultStatus.Fail;
+            if (!ManipulateExcel()) {
+                ShowMsg("");
+                return ResultStatus.Fail;
+            }
             lblProcessing.Visible = false;
             return ResultStatus.Success;
         }
