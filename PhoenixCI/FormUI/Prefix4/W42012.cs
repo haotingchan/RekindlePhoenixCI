@@ -50,10 +50,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             lblCmRateRef.Visible = false;
 
 #if DEBUG
-            txtSDate.EditValue = "2018/10/11";
-            txtEDate.EditValue = "2018/10/11";
-            txtSID.Text = "6488";
-            cbx2.Checked = true;
+            txtSDate.EditValue = "2018/10/15";
+            txtEDate.EditValue = "2018/10/22";
+            txtSID.Text = "2330";
+            cbx2.Checked = false;
 #endif
 
             return ResultStatus.Success;
@@ -211,7 +211,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     }
                 }
                 else {
-                    range = ws.Range[(startRow + 1).AsString()];
+                    range = ws.Range[(startRow + 1).AsString()+":"+(startRow + 1).AsString()];
                     range.Delete(DeleteMode.EntireRow);
                     minusRow = minusRow + 1;
                     //改編號

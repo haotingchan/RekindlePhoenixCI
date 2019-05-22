@@ -29,8 +29,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
       protected override ResultStatus ActivatedForm() {
          base.ActivatedForm();
 
-         _ToolBtnSave.Enabled = true;
          _ToolBtnExport.Enabled = true;
+         _ToolBtnSave.Enabled = true;
 
          return ResultStatus.Success;
       }
@@ -115,7 +115,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             return;
          }
 
-         excelDestinationPath = CopyExcelTemplateFile(_ProgramID , FileType.XLS); //單月路徑
+         excelDestinationPath = CopyExcelTemplateFile(_ProgramID , FileType.XLSX); //單月路徑
 
          //開啟檔案     
          Workbook workbook = new Workbook();
@@ -163,7 +163,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
          #region Excel
 
-         excelDestinationPath = CopyExcelTemplateFile(_ProgramID + "_2" , FileType.XLS); //多月路徑
+         excelDestinationPath = CopyExcelTemplateFile(_ProgramID + "_2" , FileType.XLSX); //多月路徑
 
          //讀取資料
          DataTable dtContent = dao55010.ListDataMultiMonth(txtFromDate.FormatValue , txtToDate.FormatValue);

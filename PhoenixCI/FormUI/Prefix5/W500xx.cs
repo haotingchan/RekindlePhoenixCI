@@ -27,6 +27,7 @@ namespace PhoenixCI.FormUI.Prefix5
          this.Text = _ProgramID + "─" + _ProgramName;
          daoABRK = new ABRK();
          daoAPDK = new APDK();
+         _D500Xx = new D500xx();
       }
 
       private bool StartRetrieve(string sbrkno = "", string ebrkno = "")
@@ -137,7 +138,7 @@ namespace PhoenixCI.FormUI.Prefix5
       private bool EndRetrieve(DataTable dt)
       {
          if (dt.Rows.Count <= 0) {
-            PbFunc.messageBox(GlobalInfo.ResultText, "無任何資料!", MessageBoxIcon.Information);
+            MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
             return false;
          }
          return true;
@@ -414,7 +415,6 @@ namespace PhoenixCI.FormUI.Prefix5
          File.Delete(_D500Xx.Filename);
       }
 
-
       public override ResultStatus BeforeOpen()
       {
          if(!PbFunc.f_chk_run_timing(_ProgramID))
@@ -425,6 +425,7 @@ namespace PhoenixCI.FormUI.Prefix5
 
       protected override ResultStatus Open()
       {
+         base.Open();
          //Input Condition
          emEndDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
          emStartDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/01");
@@ -480,7 +481,7 @@ namespace PhoenixCI.FormUI.Prefix5
 
       protected override ResultStatus BeforeClose()
       {
-         _Data.Clear();
+         _Data = null;
          documentViewer1.DocumentSource = null;
          return ResultStatus.Success;
       }

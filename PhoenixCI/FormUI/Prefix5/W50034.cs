@@ -205,7 +205,7 @@ namespace PhoenixCI.FormUI.Prefix5
 
       protected override ResultStatus BeforeClose()
       {
-         is_dw_name.Clear();
+         is_dw_name = null;
          documentViewer1.DocumentSource = null;
          return ResultStatus.Success;
       }

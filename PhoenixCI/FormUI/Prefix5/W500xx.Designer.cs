@@ -158,6 +158,7 @@
          // 
          // documentViewer1
          // 
+         this.documentViewer1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
          this.documentViewer1.Dock = System.Windows.Forms.DockStyle.Fill;
          this.documentViewer1.IsMetric = true;
          this.documentViewer1.Location = new System.Drawing.Point(2, 2);

@@ -77,6 +77,7 @@
          this.PageHeight = 827;
          this.PageWidth = 1169;
          this.PaperKind = System.Drawing.Printing.PaperKind.A4Rotated;
+         this.ShowPreviewMarginLines = false;
          this.Version = "18.2";
          ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
