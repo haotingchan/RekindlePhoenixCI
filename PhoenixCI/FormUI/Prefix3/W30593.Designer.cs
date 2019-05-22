@@ -28,13 +28,13 @@
          this.labMsg = new System.Windows.Forms.Label();
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
          this.panFilter = new System.Windows.Forms.GroupBox();
+         this.ddlProd = new DevExpress.XtraEditors.ComboBoxEdit();
          this.txtEndYMD = new BaseGround.Widget.TextDateEdit();
          this.label2 = new System.Windows.Forms.Label();
          this.txtStartYMD = new BaseGround.Widget.TextDateEdit();
          this.label8 = new System.Windows.Forms.Label();
          this.label9 = new System.Windows.Forms.Label();
          this.label10 = new System.Windows.Forms.Label();
-         this.ddlProd = new DevExpress.XtraEditors.ComboBoxEdit();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).BeginInit();
@@ -42,9 +42,9 @@
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
          this.r_frame.SuspendLayout();
          this.panFilter.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.ddlProd.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtEndYMD.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtStartYMD.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.ddlProd.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -138,6 +138,22 @@
          this.panFilter.TabStop = false;
          this.panFilter.Text = "請輸入交易日期";
          // 
+         // ddlProd
+         // 
+         this.ddlProd.Location = new System.Drawing.Point(99, 83);
+         this.ddlProd.MenuManager = this.ribbonControl;
+         this.ddlProd.Name = "ddlProd";
+         this.ddlProd.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.ddlProd.Properties.Items.AddRange(new object[] {
+            "%(全部)",
+            "TJF",
+            "I5F",
+            "UDF",
+            "SPF"});
+         this.ddlProd.Size = new System.Drawing.Size(131, 26);
+         this.ddlProd.TabIndex = 80;
+         // 
          // txtEndYMD
          // 
          this.txtEndYMD.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
@@ -214,22 +230,6 @@
          this.label10.TabIndex = 63;
          this.label10.Text = "商品：";
          // 
-         // ddlProd
-         // 
-         this.ddlProd.Location = new System.Drawing.Point(99, 83);
-         this.ddlProd.MenuManager = this.ribbonControl;
-         this.ddlProd.Name = "ddlProd";
-         this.ddlProd.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.ddlProd.Properties.Items.AddRange(new object[] {
-            "%(全部)",
-            "TJF",
-            "I5F",
-            "UDF",
-            "SPF"});
-         this.ddlProd.Size = new System.Drawing.Size(131, 26);
-         this.ddlProd.TabIndex = 80;
-         // 
          // W30593
          // 
          this.Appearance.Options.UseFont = true;
@@ -247,9 +247,9 @@
          this.r_frame.PerformLayout();
          this.panFilter.ResumeLayout(false);
          this.panFilter.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.ddlProd.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtEndYMD.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtStartYMD.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.ddlProd.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 

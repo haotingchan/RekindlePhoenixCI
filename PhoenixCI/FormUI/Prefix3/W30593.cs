@@ -40,10 +40,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             txtStartYMD.DateTimeValue = GlobalInfo.OCF_DATE.AddDays(-GlobalInfo.OCF_DATE.Day + 1); //取得當月第1天
             txtEndYMD.DateTimeValue = GlobalInfo.OCF_DATE;
 
-            //商品
-            //DataTable dtProd = daoCod.ListByTxn("30592"); //cod_id/cod_desc/cp_display
-            //ddlProd.SetDataTable(dtProd , "COD_DESC" , "COD_DESC" , TextEditStyles.DisableTextEditor);
-            //ddlProd.ItemIndex = 0; //第一個為[全部%]
+            ddlProd.SelectedIndex = 0;
 
             return ResultStatus.Success;
          } catch (Exception ex) {
