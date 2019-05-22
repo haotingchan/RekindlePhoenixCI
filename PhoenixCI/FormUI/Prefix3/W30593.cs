@@ -6,6 +6,7 @@ using DataObjects.Dao.Together;
 using DevExpress.Spreadsheet;
 using DevExpress.XtraEditors.Controls;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Threading;
@@ -40,9 +41,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
             txtEndYMD.DateTimeValue = GlobalInfo.OCF_DATE;
 
             //商品
-            DataTable dtProd = daoCod.ListByTxn("30592"); //cod_id/cod_desc/cp_display
-            ddlProd.SetDataTable(dtProd , "COD_DESC" , "COD_DESC" , TextEditStyles.DisableTextEditor);
-            ddlProd.ItemIndex = 0; //第一個為[全部%]
+            //DataTable dtProd = daoCod.ListByTxn("30592"); //cod_id/cod_desc/cp_display
+            //ddlProd.SetDataTable(dtProd , "COD_DESC" , "COD_DESC" , TextEditStyles.DisableTextEditor);
+            //ddlProd.ItemIndex = 0; //第一個為[全部%]
 
             return ResultStatus.Success;
          } catch (Exception ex) {
@@ -174,11 +175,14 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
 
             DataTable dtFilter = new DataTable();
-            if (ddlProd.EditValue.AsString().SubStr(0 , 1) != "%") {
+            //全部 or 單一商品
+            string prod = ddlProd.Text.SubStr(0 , 1);
+            if (prod != "%") {
                dtFilter = dt.Filter("apdk_param_key ='" + ddlProd.EditValue.AsString() + "'"); //單一商品
-            } else {
+            } else{
                dtFilter = dt.Copy();
-            }
+            } 
+
             #endregion
 
             #region 表頭      

@@ -23,7 +23,6 @@
       /// the contents of this method with the code editor.
       /// </summary>
       private void InitializeComponent() {
-         this.ddlProd = new DevExpress.XtraEditors.LookUpEdit();
          this.gbMarket = new DevExpress.XtraEditors.RadioGroup();
          this.chkGroup = new DevExpress.XtraEditors.CheckedListBoxControl();
          this.labMsg = new System.Windows.Forms.Label();
@@ -35,9 +34,9 @@
          this.label8 = new System.Windows.Forms.Label();
          this.label9 = new System.Windows.Forms.Label();
          this.label10 = new System.Windows.Forms.Label();
+         this.ddlProd = new DevExpress.XtraEditors.ComboBoxEdit();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.ddlProd.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.chkGroup)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
@@ -45,6 +44,7 @@
          this.panFilter.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.txtEndYMD.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtStartYMD.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.ddlProd.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -57,23 +57,6 @@
          this.ribbonControl.ExpandCollapseItem.Id = 0;
          this.ribbonControl.Size = new System.Drawing.Size(824, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
-         // 
-         // ddlProd
-         // 
-         this.ddlProd.Location = new System.Drawing.Point(99, 83);
-         this.ddlProd.Name = "ddlProd";
-         this.ddlProd.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-         this.ddlProd.Properties.AppearanceDisabled.Options.UseBackColor = true;
-         this.ddlProd.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.ddlProd.Properties.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Name21", "Name21"),
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Name22", "Name22"),
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Name23", "Name23")});
-         this.ddlProd.Properties.NullText = "";
-         this.ddlProd.Properties.PopupSizeable = false;
-         this.ddlProd.Size = new System.Drawing.Size(131, 26);
-         this.ddlProd.TabIndex = 31;
          // 
          // gbMarket
          // 
@@ -139,9 +122,9 @@
          // 
          this.panFilter.AutoSize = true;
          this.panFilter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.panFilter.Controls.Add(this.ddlProd);
          this.panFilter.Controls.Add(this.txtEndYMD);
          this.panFilter.Controls.Add(this.label2);
-         this.panFilter.Controls.Add(this.ddlProd);
          this.panFilter.Controls.Add(this.txtStartYMD);
          this.panFilter.Controls.Add(this.label8);
          this.panFilter.Controls.Add(this.label9);
@@ -231,6 +214,22 @@
          this.label10.TabIndex = 63;
          this.label10.Text = "商品：";
          // 
+         // ddlProd
+         // 
+         this.ddlProd.Location = new System.Drawing.Point(99, 83);
+         this.ddlProd.MenuManager = this.ribbonControl;
+         this.ddlProd.Name = "ddlProd";
+         this.ddlProd.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.ddlProd.Properties.Items.AddRange(new object[] {
+            "%(全部)",
+            "TJF",
+            "I5F",
+            "UDF",
+            "SPF"});
+         this.ddlProd.Size = new System.Drawing.Size(131, 26);
+         this.ddlProd.TabIndex = 80;
+         // 
          // W30593
          // 
          this.Appearance.Options.UseFont = true;
@@ -241,7 +240,6 @@
          this.Text = "W30593";
          this.panParent.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.ddlProd.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.chkGroup)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).EndInit();
@@ -251,6 +249,7 @@
          this.panFilter.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.txtEndYMD.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtStartYMD.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.ddlProd.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -260,7 +259,6 @@
       private System.Windows.Forms.Label labMsg;
       protected DevExpress.XtraEditors.RadioGroup gbMarket;
       private DevExpress.XtraEditors.CheckedListBoxControl chkGroup;
-      private DevExpress.XtraEditors.LookUpEdit ddlProd;
       private DevExpress.XtraEditors.PanelControl r_frame;
       private System.Windows.Forms.GroupBox panFilter;
       private BaseGround.Widget.TextDateEdit txtEndYMD;
@@ -269,5 +267,6 @@
       private System.Windows.Forms.Label label8;
       private System.Windows.Forms.Label label9;
       private System.Windows.Forms.Label label10;
+      private DevExpress.XtraEditors.ComboBoxEdit ddlProd;
    }
 }
