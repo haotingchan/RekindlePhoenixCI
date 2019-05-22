@@ -219,47 +219,48 @@ namespace PhoenixCI.FormUI.Prefix5
          try {
             //只檢查變動的部分
             foreach (DataRow dr in dt.GetChanges().Rows) {
-               if (dr["op_type"].AsString() == " ") {
+               if (dr.RowState == DataRowState.Deleted)
                   continue;
-               }
+               if (dr["op_type"].AsString() == " ")
+                  continue;
 
                //key值不能為null
                if (string.IsNullOrEmpty(dr[MARKET_CODE].AsString())) {
-                  PbFunc.messageBox(GlobalInfo.ErrorText, "「交易時段」必須要選取值！", MessageBoxIcon.Stop);
+                  MessageDisplay.Error("「交易時段」必須要選取值！");
                   //set Focused
                   setFocused(dt, dr, MARKET_CODE);
                   return false;
                }
                if (string.IsNullOrEmpty(dr[PARAM_KEY].AsString())) {
-                  PbFunc.messageBox(GlobalInfo.ErrorText, "「商品類別」必須要選取值！", MessageBoxIcon.Stop);
+                  MessageDisplay.Error("「商品類別」必須要選取值！");
                   //set Focused
                   setFocused(dt, dr, PARAM_KEY);
                   return false;
                }
                //必須回應詢價比
                if (string.IsNullOrEmpty(dr["mmf_resp_ratio"].AsString())) {
-                  PbFunc.messageBox(GlobalInfo.ErrorText, "「必須回應詢價比(%)」必須要輸入值！", MessageBoxIcon.Stop);
+                  MessageDisplay.Warning("「必須回應詢價比(%)」必須要輸入值！");
                   //set Focused
                   setFocused(dt, dr, "MMF_RESP_RATIO");
                   return false;
                }
                //最低造市量
                if (string.IsNullOrEmpty(dr["mmf_qnty_low"].AsString())) {
-                  PbFunc.messageBox(GlobalInfo.ErrorText, "「最低造市量」必須要輸入值！", MessageBoxIcon.Stop);
+                  MessageDisplay.Warning("「最低造市量」必須要輸入值！");
                   //set Focused
                   setFocused(dt, dr, "MMF_QNTY_LOW");
                   return false;
                }
                //報價有效量比率
                if (string.IsNullOrEmpty(dr["mmf_quote_valid_rate"].AsString())) {
-                  PbFunc.messageBox(GlobalInfo.ErrorText, "「報價有效量比率」必須要輸入值！", MessageBoxIcon.Stop);
+                  MessageDisplay.Warning("「報價有效量比率」必須要輸入值！");
                   //set Focused
                   setFocused(dt, dr, "MMF_QUOTE_VALID_RATE");
                   return false;
                }
                //報價每日平均維持分鐘
                if (string.IsNullOrEmpty(dr["mmf_avg_time"].AsString())) {
-                  PbFunc.messageBox(GlobalInfo.ErrorText, "「報價每日平均維持分鐘」必須要輸入值！", MessageBoxIcon.Stop);
+                  MessageDisplay.Warning("「報價每日平均維持分鐘」必須要輸入值！");
                   //set Focused
                   setFocused(dt, dr, "MMF_AVG_TIME");
                   return false;
@@ -299,21 +300,17 @@ namespace PhoenixCI.FormUI.Prefix5
          DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
          DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
 
-         int getDeleteCount = dtDeleteChange != null ? dtDeleteChange.Rows.Count : 0;
-         ////存檔前檢查
-         if (getDeleteCount == 0 && dtChange != null)//無法經由資料列存取已刪除的資料列資訊。
-         {
-            if (!SaveBefore(dt)) {
-               return ResultStatus.Fail;
-            }
-            // 寫入DB
-            foreach (DataRow dr in dt.Rows) {
-               if (dr.RowState == DataRowState.Modified) {
-                  dr["MMF_W_TIME"] = DateTime.Now;
-                  dr["MMF_W_USER_ID"] = GlobalInfo.USER_ID;
-               }
+         if (!SaveBefore(dt)) {
+            return ResultStatus.Fail;
+         }
+         // 寫入DB
+         foreach (DataRow dr in dt.Rows) {
+            if (dr.RowState != DataRowState.Deleted) {
+               dr["MMF_W_TIME"] = DateTime.Now;
+               dr["MMF_W_USER_ID"] = GlobalInfo.USER_ID;
             }
          }
+
          if (dtChange != null) {
             try {
                ResultData myResultData = dao51030.UpdateMMF(dt);
@@ -327,6 +324,7 @@ namespace PhoenixCI.FormUI.Prefix5
          else {
             MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
          }
+
          return ResultStatus.Success;
       }
 
