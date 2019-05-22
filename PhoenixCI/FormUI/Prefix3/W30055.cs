@@ -7,6 +7,7 @@ using BaseGround;
 using BaseGround.Shared;
 using BusinessObjects.Enums;
 using Common;
+using Common.Helper;
 using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DataObjects.Dao.Together.TableDao;
@@ -205,12 +206,26 @@ namespace PhoenixCI.FormUI.Prefix3 {
             flowStepDesc = "2.14 email news";
             if (cbxNews.Checked) {
 
-               //return txemail_sender, txemail_recipients, txemail_cc, txemail_title
-               DataTable dtEmail = new TXEMAIL().ListData(reportId, 1);
-               string sender = dtEmail.Rows[0]["txemail_sender"].AsString();
-               string recipient = dtEmail.Rows[0]["txemail_recipients"].AsString();
-               string cc = dtEmail.Rows[0]["txemail_cc"].AsString();
-               string title = tradeDate.ToString("yyyyMMdd") + dtEmail.Rows[0]["txemail_title"].AsString();
+                    DataTable dtTxemail = new TXEMAIL().ListData(reportId, 1);
+
+                    if (dtTxemail.Rows.Count != 0) {
+                        string TXEMAIL_SENDER = dtTxemail.Rows[0]["TXEMAIL_SENDER"].AsString();
+                        string TXEMAIL_RECIPIENTS = dtTxemail.Rows[0]["TXEMAIL_RECIPIENTS"].AsString();
+                        string TXEMAIL_CC = dtTxemail.Rows[0]["TXEMAIL_CC"].AsString();
+                        string TXEMAIL_TITLE = dtTxemail.Rows[0]["TXEMAIL_TITLE"].AsString();
+                        string TXEMAIL_TEXT = dtTxemail.Rows[0]["TXEMAIL_TEXT"].AsString();
+
+                        TXEMAIL_TITLE = txtSDate.DateTimeValue.ToString("yyyyMMdd") + TXEMAIL_TITLE;
+                        MailHelper.SendEmail(TXEMAIL_SENDER, TXEMAIL_RECIPIENTS, TXEMAIL_CC, TXEMAIL_TITLE, TXEMAIL_TEXT, excelDestinationPath);
+                    }
+
+
+                    //return txemail_sender, txemail_recipients, txemail_cc, txemail_title
+               //     DataTable dtEmail = new TXEMAIL().ListData(reportId, 1);
+               //string sender = dtEmail.Rows[0]["txemail_sender"].AsString();
+               //string recipient = dtEmail.Rows[0]["txemail_recipients"].AsString();
+               //string cc = dtEmail.Rows[0]["txemail_cc"].AsString();
+               //string title = tradeDate.ToString("yyyyMMdd") + dtEmail.Rows[0]["txemail_title"].AsString();
 
                //TODO:write f_send_email
                //PbFunc.f_send_email(reportId, "01", sender, recipient, cc, title, " ", excelDestinationPath);
@@ -242,14 +257,28 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             //3.4 email
             if (cbxTJF.Checked) {
+                    string txnId = "30055";
+                    DataTable dtTxemail = new TXEMAIL().ListData(txnId, 1);
 
-               //return txemail_sender, txemail_recipients, txemail_cc, txemail_title
-               string txnId = "30055";
-               DataTable dtEmail = new TXEMAIL().ListData(txnId, 1);
-               string sender = dtEmail.Rows[0]["txemail_sender"].AsString();
-               string recipient = dtEmail.Rows[0]["txemail_recipients"].AsString();
-               string cc = dtEmail.Rows[0]["txemail_cc"].AsString();
-               string title = tradeDate.ToString("yyyyMMdd") + dtEmail.Rows[0]["txemail_title"].AsString();
+                    if (dtTxemail.Rows.Count != 0) {
+                        string TXEMAIL_SENDER = dtTxemail.Rows[0]["TXEMAIL_SENDER"].AsString();
+                        string TXEMAIL_RECIPIENTS = dtTxemail.Rows[0]["TXEMAIL_RECIPIENTS"].AsString();
+                        string TXEMAIL_CC = dtTxemail.Rows[0]["TXEMAIL_CC"].AsString();
+                        string TXEMAIL_TITLE = dtTxemail.Rows[0]["TXEMAIL_TITLE"].AsString();
+                        string TXEMAIL_TEXT = dtTxemail.Rows[0]["TXEMAIL_TEXT"].AsString();
+
+                        TXEMAIL_TITLE = txtSDate.DateTimeValue.ToString("yyyyMMdd") + TXEMAIL_TITLE;
+                        MailHelper.SendEmail(TXEMAIL_SENDER, TXEMAIL_RECIPIENTS, TXEMAIL_CC, TXEMAIL_TITLE, TXEMAIL_TEXT, excelDestinationPath);
+                    }
+
+
+                    //return txemail_sender, txemail_recipients, txemail_cc, txemail_title
+  
+               //DataTable dtEmail = new TXEMAIL().ListData(txnId, 1);
+               //string sender = dtEmail.Rows[0]["txemail_sender"].AsString();
+               //string recipient = dtEmail.Rows[0]["txemail_recipients"].AsString();
+               //string cc = dtEmail.Rows[0]["txemail_cc"].AsString();
+               //string title = tradeDate.ToString("yyyyMMdd") + dtEmail.Rows[0]["txemail_title"].AsString();
 
                //TODO:write f_send_email
                //PbFunc.f_send_email(txnId, "01", sender, recipient, cc, title, " ", excelDestinationPath);

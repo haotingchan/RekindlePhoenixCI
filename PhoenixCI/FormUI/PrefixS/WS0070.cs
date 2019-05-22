@@ -40,6 +40,8 @@ namespace PhoenixCI.FormUI.PrefixS {
          daoCod = new COD();
 
          repositoryItemTextEdit3.Leave += repositoryItemTextEdit3_Leave;
+
+         Retrieve();
       }
 
       protected override ResultStatus Retrieve() {
@@ -205,6 +207,16 @@ namespace PhoenixCI.FormUI.PrefixS {
 
       private DataTable overWritePeriod() {
          periodTable = daoS0070.GetPeriodByUserId("ST", GlobalInfo.USER_ID);
+
+         if (periodTable.Rows.Count == 0) {
+            DataRow dr = periodTable.NewRow();
+
+            dr.SetField("span_period_module", "ST");
+            dr.SetField("span_period_user_id", GlobalInfo.USER_ID);
+
+            periodTable.Rows.Add(dr);
+         }
+
          periodTable.Rows[0].SetField("span_period_start_date", txtStartDate.DateTimeValue.ToString("yyyyMMdd"));
          periodTable.Rows[0].SetField("span_period_end_date", txtEndDate.DateTimeValue.ToString("yyyyMMdd"));
          periodTable.Rows[0].SetField("span_period_w_time", DateTime.Now);
@@ -214,6 +226,16 @@ namespace PhoenixCI.FormUI.PrefixS {
 
       private DataTable overWriteREQ() {
          REQTable = daoS0070.GetREQDataByUser("ST", GlobalInfo.USER_ID);
+
+         if (periodTable.Rows.Count == 0) {
+            DataRow dr = REQTable.NewRow();
+
+            dr.SetField("SPAN_REQ_MODULE", "ST");
+            dr.SetField("SPAN_REQ_USER_ID", GlobalInfo.USER_ID);
+
+            periodTable.Rows.Add(dr);
+         }
+
          REQTable.Rows[0].SetField("SPAN_REQ_MODULE", "ST");
          REQTable.Rows[0].SetField("SPAN_REQ_TYPE", SPAN_REQ_TYPE.EditValue);
          REQTable.Rows[0].SetField("SPAN_REQ_VALUE", txtREQValue.Text);
@@ -263,12 +285,6 @@ namespace PhoenixCI.FormUI.PrefixS {
          }
 
          return true;
-      }
-
-      protected override ResultStatus AfterOpen() {
-         base.AfterOpen();
-         Retrieve();
-         return ResultStatus.Success;
       }
 
       protected override ResultStatus ActivatedForm() {
