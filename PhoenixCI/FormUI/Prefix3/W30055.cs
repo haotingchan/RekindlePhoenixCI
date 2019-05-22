@@ -809,6 +809,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             return false;
          }
 
+         ws.Cells[0 , 0].Value = tradeDate.ToString("yyyy/MM/dd");
+
          //根據RPT_SEQ_NO決定填寫的row index,然後一次填入8個欄位
          int rowIndex = 0;
          foreach (DataRow dr in dtFuture.Rows) {

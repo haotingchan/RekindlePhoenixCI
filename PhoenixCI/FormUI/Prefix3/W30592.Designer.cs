@@ -25,7 +25,6 @@
       private void InitializeComponent() {
          this.txtEndYMD = new BaseGround.Widget.TextDateEdit();
          this.txtStartYMD = new BaseGround.Widget.TextDateEdit();
-         this.ddlProd = new DevExpress.XtraEditors.LookUpEdit();
          this.gbMarket = new DevExpress.XtraEditors.RadioGroup();
          this.label3 = new System.Windows.Forms.Label();
          this.labMarket = new System.Windows.Forms.Label();
@@ -36,16 +35,17 @@
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
          this.panFilter = new System.Windows.Forms.GroupBox();
          this.label2 = new System.Windows.Forms.Label();
+         this.ddlProd = new DevExpress.XtraEditors.ComboBoxEdit();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtEndYMD.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtStartYMD.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.ddlProd.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.chkGroup)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
          this.r_frame.SuspendLayout();
          this.panFilter.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.ddlProd.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -98,24 +98,6 @@
          this.txtStartYMD.Size = new System.Drawing.Size(100, 26);
          this.txtStartYMD.TabIndex = 75;
          this.txtStartYMD.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-         // 
-         // ddlProd
-         // 
-         this.ddlProd.Location = new System.Drawing.Point(99, 83);
-         this.ddlProd.Name = "ddlProd";
-         this.ddlProd.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-         this.ddlProd.Properties.AppearanceDisabled.Options.UseBackColor = true;
-         this.ddlProd.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.ddlProd.Properties.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Name21", "Name21"),
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Name22", "Name22"),
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Name23", "Name23")});
-         this.ddlProd.Properties.NullText = "";
-         this.ddlProd.Properties.PopupSizeable = false;
-         this.ddlProd.Size = new System.Drawing.Size(131, 26);
-         this.ddlProd.TabIndex = 31;
-         this.ddlProd.EditValueChanged += new System.EventHandler(this.ddlProd_EditValueChanged);
          // 
          // gbMarket
          // 
@@ -225,12 +207,12 @@
          // 
          this.panFilter.AutoSize = true;
          this.panFilter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.panFilter.Controls.Add(this.ddlProd);
          this.panFilter.Controls.Add(this.label2);
          this.panFilter.Controls.Add(this.txtEndYMD);
          this.panFilter.Controls.Add(this.labAftDate);
          this.panFilter.Controls.Add(this.txtStartYMD);
          this.panFilter.Controls.Add(this.label1);
-         this.panFilter.Controls.Add(this.ddlProd);
          this.panFilter.Controls.Add(this.labMarket);
          this.panFilter.Controls.Add(this.chkGroup);
          this.panFilter.Controls.Add(this.label3);
@@ -254,6 +236,22 @@
          this.label2.TabIndex = 77;
          this.label2.Text = "資料項目：";
          // 
+         // ddlProd
+         // 
+         this.ddlProd.Location = new System.Drawing.Point(99, 83);
+         this.ddlProd.MenuManager = this.ribbonControl;
+         this.ddlProd.Name = "ddlProd";
+         this.ddlProd.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.ddlProd.Properties.Items.AddRange(new object[] {
+            "%(全部)",
+            "RHF",
+            "RTF",
+            "XEF",
+            "XJF"});
+         this.ddlProd.Size = new System.Drawing.Size(131, 26);
+         this.ddlProd.TabIndex = 81;
+         // 
          // W30592
          // 
          this.Appearance.Options.UseFont = true;
@@ -266,7 +264,6 @@
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtEndYMD.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtStartYMD.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.ddlProd.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.chkGroup)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).EndInit();
@@ -274,6 +271,7 @@
          this.r_frame.PerformLayout();
          this.panFilter.ResumeLayout(false);
          this.panFilter.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.ddlProd.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -287,11 +285,11 @@
       protected DevExpress.XtraEditors.RadioGroup gbMarket;
       private System.Windows.Forms.Label label3;
       private DevExpress.XtraEditors.CheckedListBoxControl chkGroup;
-      private DevExpress.XtraEditors.LookUpEdit ddlProd;
       private BaseGround.Widget.TextDateEdit txtEndYMD;
       private BaseGround.Widget.TextDateEdit txtStartYMD;
       private DevExpress.XtraEditors.PanelControl r_frame;
       private System.Windows.Forms.GroupBox panFilter;
       private System.Windows.Forms.Label label2;
+      private DevExpress.XtraEditors.ComboBoxEdit ddlProd;
    }
 }
