@@ -43,21 +43,24 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          //日期
          txtTradeDate.DateTimeValue = DateTime.Now;
-         txtDate1.DateTimeValue = DateTime.Now;
-         txtDate2.DateTimeValue = DateTime.Now;
+         txtDate1.Text = "1900/01/01";
+         txtDate2.Text = "1900/01/01";
 
          //觀察/調整 RadioGroup
          RadioGroupItem item1 = new RadioGroupItem();
-         item1.Description = "　　";
+         item1.Description = "";
          item1.Value = " ";
          RadioGroupItem item2 = new RadioGroupItem();
-         item2.Description = "　　";
+         item2.Description = "";
          item2.Value = "Y";
 
          RepositoryItemRadioGroup repositoryItemRadioGroup = new RepositoryItemRadioGroup();
          repositoryItemRadioGroup.Items.Add(item1);
          repositoryItemRadioGroup.Items.Add(item2);
          repositoryItemRadioGroup.Columns = 2;
+         //repositoryItemRadioGroup.BestFitWidth = 40;
+         repositoryItemRadioGroup.GlyphAlignment = HorzAlignment.Center;
+
          SP2_ADJ_CODE.ColumnEdit = repositoryItemRadioGroup;
          SP2_ADJ_CODE.ColumnEdit.Appearance.TextOptions.HAlignment = HorzAlignment.Center;
 
@@ -76,12 +79,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       protected override ResultStatus Retrieve() {
-         gcMain.Visible = true;
+
          DataTable dt = dao40080.GetData(txtTradeDate.DateTimeValue);
          DataTable dtSp2 = dao40080.GetSP2Data(txtTradeDate.DateTimeValue);
 
+         #region 設定生效日期
          int ll_found = 0; ;
-
          //Group1
          if (dt.Select("sp1_osw_grp='1' and sp2_value_date is not null").Length != 0) {
             ll_found = dt.Rows.IndexOf(dt.Select("sp1_osw_grp='1' and sp2_value_date is not null")[0]) + 1;
@@ -107,14 +110,16 @@ namespace PhoenixCI.FormUI.Prefix4 {
             string tmpDate = PbFunc.f_get_ocf_next_n_day(txtTradeDate.DateTimeValue , 1).ToString("yyyy/MM/dd");
             txtDate2.Text = tmpDate;
          }
-
-         gvMain.Columns["OSW_GRP"].Group();
-         gvMain.Columns["SP1_CHANGE_RANGE"].DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-         gvMain.Columns["SP1_CHANGE_RANGE"].DisplayFormat.FormatString = "P";
+         #endregion
 
          gcMain.Visible = true;
          gcMain.DataSource = dt;
+         GridHelper.SetCommonGrid(gvMain);
          gvMain.OptionsBehavior.AllowFixedGroups = DefaultBoolean.True;
+
+         gvMain.Columns["OSW_GRP"].Group();
+         gvMain.Columns["SP1_CHANGE_RANGE"].DisplayFormat.FormatType = FormatType.Numeric;
+         gvMain.Columns["SP1_CHANGE_RANGE"].DisplayFormat.FormatString = "P";
 
          gvMain.AppearancePrint.HeaderPanel.Options.UseTextOptions = true;
          gvMain.ColumnPanelRowHeight = 20;
@@ -125,7 +130,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          gvMain.BestFitColumns();
          gvMain.ExpandAllGroups();
-         GridHelper.SetCommonGrid(gvMain);
          gcMain.Focus();
 
          return ResultStatus.Success;
@@ -312,7 +316,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       //對價平上下檔數(SP1_TYPE)欄位做值轉換
-      private void gvMain_CustomColumnDisplayText(object sender , DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventArgs e) {
+      private void gvMain_CustomColumnDisplayText(object sender , CustomColumnDisplayTextEventArgs e) {
          if (e.Column.FieldName == "SP1_TYPE") {
             switch (Convert.ToString(e.Value)) {
                case "F":
@@ -325,7 +329,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   e.DisplayText = "Span-VSR";
                   break;
                case "SD":
-                  e.DisplayText = "Span- Delta Per Spread Ratio";
+                  e.DisplayText = "Span-Delta Per Spread Ratio";
                   break;
                case "SS":
                   e.DisplayText = "Spsn-Spread Credit";
@@ -445,10 +449,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
          gcMain.DataSource = dtAdjust;
       }
 
-      private void gvMain_CellValueChanged(object sender , CellValueChangedEventArgs e) {
+      private void gvMain_CellValueChanging(object sender , CellValueChangedEventArgs e) {
          GridView gv = sender as GridView;
-         gv.CloseEditor();
-         gv.UpdateCurrentRow();
+
          DataTable dt = (DataTable)gcMain.DataSource;
          if (e.Column.Name == "SP2_ADJ_CODE") {
             if (e.Value.AsString() != "Y") {
@@ -498,12 +501,23 @@ namespace PhoenixCI.FormUI.Prefix4 {
       /// <param name="e"></param>
       private void gvMain_ShowingEditor(object sender , CancelEventArgs e) {
          GridView gv = sender as GridView;
-         if (gv.FocusedColumn.Name == "SP2_ADJ_CODE") {
+         string adjCode = gv.GetRowCellValue(gv.FocusedRowHandle , gv.Columns["SP2_ADJ_CODE"]) == null ? "0" :
+              gv.GetRowCellValue(gv.FocusedRowHandle , gv.Columns["SP2_ADJ_CODE"]).AsString();
+
+         if (gv.FocusedColumn.FieldName == "SP2_ADJ_CODE") {
             e.Cancel = false;
          } else {
             e.Cancel = true;
          }
 
+         if (gv.FocusedColumn.FieldName == "SP2_VALUE_DATE") {
+            if (adjCode != "Y") {
+               e.Cancel = true;
+            } else {
+               e.Cancel = false;
+            }
+
+         }
       }
    }
 }

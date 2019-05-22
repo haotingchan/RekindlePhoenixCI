@@ -31,37 +31,34 @@
          this.label1 = new System.Windows.Forms.Label();
          this.gcMain = new DevExpress.XtraGrid.GridControl();
          this.gvMain = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridView();
+         this.gridBand1 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.CPR_PROD_SUBTYPE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+         this.gridBand2 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.CPR_KIND_ID = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+         this.gridBand3 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.CPR_EFFECTIVE_DATE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+         this.repositoryItemDateEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemDateEdit();
+         this.gridBand4 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+         this.gridBand9 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.CPR_PRICE_RISK_RATE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+         this.gridBand5 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.CPR_APPROVAL_DATE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+         this.gridBand6 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.CPR_APPROVAL_NUMBER = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+         this.gridBand7 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.CPR_REMARK = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+         this.gridBand8 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.CPR_W_TIME = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.CPR_W_USER_ID = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.CPR_DATA_NUM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.IS_NEWROW = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-         this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-         this.repositoryItemMemoEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit();
-         this.repositoryItemTextEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-         this.gridBand1 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand2 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand3 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand4 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand9 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand5 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand6 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand7 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand8 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
          this.panelControl1.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoEdit1)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1.CalendarTimeProperties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -105,9 +102,7 @@
          this.gcMain.MainView = this.gvMain;
          this.gcMain.Name = "gcMain";
          this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
-            this.repositoryItemTextEdit1,
-            this.repositoryItemMemoEdit1,
-            this.repositoryItemTextEdit2});
+            this.repositoryItemDateEdit1});
          this.gcMain.Size = new System.Drawing.Size(905, 462);
          this.gcMain.TabIndex = 1;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -142,103 +137,6 @@
          this.gvMain.Name = "gvMain";
          this.gvMain.OptionsPrint.PrintHeader = false;
          // 
-         // CPR_PROD_SUBTYPE
-         // 
-         this.CPR_PROD_SUBTYPE.Caption = "CPR_PROD_SUBTYPE";
-         this.CPR_PROD_SUBTYPE.FieldName = "CPR_PROD_SUBTYPE";
-         this.CPR_PROD_SUBTYPE.Name = "CPR_PROD_SUBTYPE";
-         this.CPR_PROD_SUBTYPE.Visible = true;
-         this.CPR_PROD_SUBTYPE.Width = 108;
-         // 
-         // CPR_KIND_ID
-         // 
-         this.CPR_KIND_ID.Caption = "CPR_KIND_ID";
-         this.CPR_KIND_ID.FieldName = "CPR_KIND_ID";
-         this.CPR_KIND_ID.Name = "CPR_KIND_ID";
-         this.CPR_KIND_ID.Visible = true;
-         this.CPR_KIND_ID.Width = 71;
-         // 
-         // CPR_EFFECTIVE_DATE
-         // 
-         this.CPR_EFFECTIVE_DATE.Caption = "CPR_EFFECTIVE_DATE";
-         this.CPR_EFFECTIVE_DATE.FieldName = "CPR_EFFECTIVE_DATE";
-         this.CPR_EFFECTIVE_DATE.Name = "CPR_EFFECTIVE_DATE";
-         this.CPR_EFFECTIVE_DATE.Visible = true;
-         this.CPR_EFFECTIVE_DATE.Width = 112;
-         // 
-         // CPR_PRICE_RISK_RATE
-         // 
-         this.CPR_PRICE_RISK_RATE.Caption = "CPR_PRICE_RISK_RATE";
-         this.CPR_PRICE_RISK_RATE.FieldName = "CPR_PRICE_RISK_RATE";
-         this.CPR_PRICE_RISK_RATE.Name = "CPR_PRICE_RISK_RATE";
-         this.CPR_PRICE_RISK_RATE.Visible = true;
-         this.CPR_PRICE_RISK_RATE.Width = 121;
-         // 
-         // CPR_APPROVAL_DATE
-         // 
-         this.CPR_APPROVAL_DATE.Caption = "CPR_APPROVAL_DATE";
-         this.CPR_APPROVAL_DATE.FieldName = "CPR_APPROVAL_DATE";
-         this.CPR_APPROVAL_DATE.Name = "CPR_APPROVAL_DATE";
-         this.CPR_APPROVAL_DATE.Visible = true;
-         this.CPR_APPROVAL_DATE.Width = 111;
-         // 
-         // CPR_APPROVAL_NUMBER
-         // 
-         this.CPR_APPROVAL_NUMBER.Caption = "CPR_APPROVAL_NUMBER";
-         this.CPR_APPROVAL_NUMBER.FieldName = "CPR_APPROVAL_NUMBER";
-         this.CPR_APPROVAL_NUMBER.Name = "CPR_APPROVAL_NUMBER";
-         this.CPR_APPROVAL_NUMBER.Visible = true;
-         this.CPR_APPROVAL_NUMBER.Width = 128;
-         // 
-         // CPR_REMARK
-         // 
-         this.CPR_REMARK.Caption = "CPR_REMARK";
-         this.CPR_REMARK.FieldName = "CPR_REMARK";
-         this.CPR_REMARK.Name = "CPR_REMARK";
-         this.CPR_REMARK.Visible = true;
-         this.CPR_REMARK.Width = 68;
-         // 
-         // CPR_W_TIME
-         // 
-         this.CPR_W_TIME.Caption = "CPR_W_TIME";
-         this.CPR_W_TIME.FieldName = "CPR_W_TIME";
-         this.CPR_W_TIME.Name = "CPR_W_TIME";
-         this.CPR_W_TIME.Visible = true;
-         this.CPR_W_TIME.Width = 71;
-         // 
-         // CPR_W_USER_ID
-         // 
-         this.CPR_W_USER_ID.Caption = "CPR_W_USER_ID";
-         this.CPR_W_USER_ID.FieldName = "CPR_W_USER_ID";
-         this.CPR_W_USER_ID.Name = "CPR_W_USER_ID";
-         this.CPR_W_USER_ID.Visible = true;
-         this.CPR_W_USER_ID.Width = 97;
-         // 
-         // CPR_DATA_NUM
-         // 
-         this.CPR_DATA_NUM.Caption = "CPR_DATA_NUM";
-         this.CPR_DATA_NUM.FieldName = "CPR_DATA_NUM";
-         this.CPR_DATA_NUM.Name = "CPR_DATA_NUM";
-         // 
-         // IS_NEWROW
-         // 
-         this.IS_NEWROW.Caption = "IS_NEWROW";
-         this.IS_NEWROW.FieldName = "IS_NEWROW";
-         this.IS_NEWROW.Name = "IS_NEWROW";
-         // 
-         // repositoryItemTextEdit1
-         // 
-         this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
-         // 
-         // repositoryItemMemoEdit1
-         // 
-         this.repositoryItemMemoEdit1.Name = "repositoryItemMemoEdit1";
-         // 
-         // repositoryItemTextEdit2
-         // 
-         this.repositoryItemTextEdit2.AutoHeight = false;
-         this.repositoryItemTextEdit2.Name = "repositoryItemTextEdit2";
-         // 
          // gridBand1
          // 
          this.gridBand1.AppearanceHeader.BackColor = System.Drawing.Color.PaleTurquoise;
@@ -252,6 +150,14 @@
          this.gridBand1.VisibleIndex = 0;
          this.gridBand1.Width = 108;
          // 
+         // CPR_PROD_SUBTYPE
+         // 
+         this.CPR_PROD_SUBTYPE.Caption = "CPR_PROD_SUBTYPE";
+         this.CPR_PROD_SUBTYPE.FieldName = "CPR_PROD_SUBTYPE";
+         this.CPR_PROD_SUBTYPE.Name = "CPR_PROD_SUBTYPE";
+         this.CPR_PROD_SUBTYPE.Visible = true;
+         this.CPR_PROD_SUBTYPE.Width = 108;
+         // 
          // gridBand2
          // 
          this.gridBand2.AppearanceHeader.BackColor = System.Drawing.Color.PaleTurquoise;
@@ -264,6 +170,14 @@
          this.gridBand2.VisibleIndex = 1;
          this.gridBand2.Width = 71;
          // 
+         // CPR_KIND_ID
+         // 
+         this.CPR_KIND_ID.Caption = "CPR_KIND_ID";
+         this.CPR_KIND_ID.FieldName = "CPR_KIND_ID";
+         this.CPR_KIND_ID.Name = "CPR_KIND_ID";
+         this.CPR_KIND_ID.Visible = true;
+         this.CPR_KIND_ID.Width = 71;
+         // 
          // gridBand3
          // 
          this.gridBand3.AppearanceHeader.BackColor = System.Drawing.Color.PaleTurquoise;
@@ -275,6 +189,28 @@
          this.gridBand3.Name = "gridBand3";
          this.gridBand3.VisibleIndex = 2;
          this.gridBand3.Width = 112;
+         // 
+         // CPR_EFFECTIVE_DATE
+         // 
+         this.CPR_EFFECTIVE_DATE.Caption = "CPR_EFFECTIVE_DATE";
+         this.CPR_EFFECTIVE_DATE.ColumnEdit = this.repositoryItemDateEdit1;
+         this.CPR_EFFECTIVE_DATE.FieldName = "CPR_EFFECTIVE_DATE";
+         this.CPR_EFFECTIVE_DATE.Name = "CPR_EFFECTIVE_DATE";
+         this.CPR_EFFECTIVE_DATE.Visible = true;
+         this.CPR_EFFECTIVE_DATE.Width = 112;
+         // 
+         // repositoryItemDateEdit1
+         // 
+         this.repositoryItemDateEdit1.AutoHeight = false;
+         this.repositoryItemDateEdit1.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.repositoryItemDateEdit1.DisplayFormat.FormatString = "yyyy/MM/dd";
+         this.repositoryItemDateEdit1.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+         this.repositoryItemDateEdit1.EditFormat.FormatString = "yyyy/MM/dd";
+         this.repositoryItemDateEdit1.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+         this.repositoryItemDateEdit1.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.repositoryItemDateEdit1.MinValue = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
+         this.repositoryItemDateEdit1.Name = "repositoryItemDateEdit1";
          // 
          // gridBand4
          // 
@@ -307,6 +243,14 @@
          this.gridBand9.VisibleIndex = 0;
          this.gridBand9.Width = 121;
          // 
+         // CPR_PRICE_RISK_RATE
+         // 
+         this.CPR_PRICE_RISK_RATE.Caption = "CPR_PRICE_RISK_RATE";
+         this.CPR_PRICE_RISK_RATE.FieldName = "CPR_PRICE_RISK_RATE";
+         this.CPR_PRICE_RISK_RATE.Name = "CPR_PRICE_RISK_RATE";
+         this.CPR_PRICE_RISK_RATE.Visible = true;
+         this.CPR_PRICE_RISK_RATE.Width = 121;
+         // 
          // gridBand5
          // 
          this.gridBand5.AppearanceHeader.BackColor = System.Drawing.Color.PaleTurquoise;
@@ -318,6 +262,15 @@
          this.gridBand5.Name = "gridBand5";
          this.gridBand5.VisibleIndex = 4;
          this.gridBand5.Width = 111;
+         // 
+         // CPR_APPROVAL_DATE
+         // 
+         this.CPR_APPROVAL_DATE.Caption = "CPR_APPROVAL_DATE";
+         this.CPR_APPROVAL_DATE.ColumnEdit = this.repositoryItemDateEdit1;
+         this.CPR_APPROVAL_DATE.FieldName = "CPR_APPROVAL_DATE";
+         this.CPR_APPROVAL_DATE.Name = "CPR_APPROVAL_DATE";
+         this.CPR_APPROVAL_DATE.Visible = true;
+         this.CPR_APPROVAL_DATE.Width = 111;
          // 
          // gridBand6
          // 
@@ -331,6 +284,14 @@
          this.gridBand6.VisibleIndex = 5;
          this.gridBand6.Width = 128;
          // 
+         // CPR_APPROVAL_NUMBER
+         // 
+         this.CPR_APPROVAL_NUMBER.Caption = "CPR_APPROVAL_NUMBER";
+         this.CPR_APPROVAL_NUMBER.FieldName = "CPR_APPROVAL_NUMBER";
+         this.CPR_APPROVAL_NUMBER.Name = "CPR_APPROVAL_NUMBER";
+         this.CPR_APPROVAL_NUMBER.Visible = true;
+         this.CPR_APPROVAL_NUMBER.Width = 128;
+         // 
          // gridBand7
          // 
          this.gridBand7.AppearanceHeader.BackColor = System.Drawing.Color.PaleTurquoise;
@@ -342,6 +303,14 @@
          this.gridBand7.Name = "gridBand7";
          this.gridBand7.VisibleIndex = 6;
          this.gridBand7.Width = 68;
+         // 
+         // CPR_REMARK
+         // 
+         this.CPR_REMARK.Caption = "CPR_REMARK";
+         this.CPR_REMARK.FieldName = "CPR_REMARK";
+         this.CPR_REMARK.Name = "CPR_REMARK";
+         this.CPR_REMARK.Visible = true;
+         this.CPR_REMARK.Width = 68;
          // 
          // gridBand8
          // 
@@ -355,6 +324,34 @@
          this.gridBand8.Name = "gridBand8";
          this.gridBand8.VisibleIndex = 7;
          this.gridBand8.Width = 168;
+         // 
+         // CPR_W_TIME
+         // 
+         this.CPR_W_TIME.Caption = "CPR_W_TIME";
+         this.CPR_W_TIME.FieldName = "CPR_W_TIME";
+         this.CPR_W_TIME.Name = "CPR_W_TIME";
+         this.CPR_W_TIME.Visible = true;
+         this.CPR_W_TIME.Width = 71;
+         // 
+         // CPR_W_USER_ID
+         // 
+         this.CPR_W_USER_ID.Caption = "CPR_W_USER_ID";
+         this.CPR_W_USER_ID.FieldName = "CPR_W_USER_ID";
+         this.CPR_W_USER_ID.Name = "CPR_W_USER_ID";
+         this.CPR_W_USER_ID.Visible = true;
+         this.CPR_W_USER_ID.Width = 97;
+         // 
+         // CPR_DATA_NUM
+         // 
+         this.CPR_DATA_NUM.Caption = "CPR_DATA_NUM";
+         this.CPR_DATA_NUM.FieldName = "CPR_DATA_NUM";
+         this.CPR_DATA_NUM.Name = "CPR_DATA_NUM";
+         // 
+         // IS_NEWROW
+         // 
+         this.IS_NEWROW.Caption = "IS_NEWROW";
+         this.IS_NEWROW.FieldName = "IS_NEWROW";
+         this.IS_NEWROW.Name = "IS_NEWROW";
          // 
          // W49010
          // 
@@ -376,9 +373,8 @@
          this.panelControl1.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemMemoEdit1)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1.CalendarTimeProperties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -389,9 +385,6 @@
       private DevExpress.XtraEditors.PanelControl panelControl1;
       private DevExpress.XtraGrid.GridControl gcMain;
       private System.Windows.Forms.Label label1;
-      private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit1;
-      private DevExpress.XtraEditors.Repository.RepositoryItemMemoEdit repositoryItemMemoEdit1;
-      private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit2;
       private DevExpress.XtraGrid.Views.BandedGrid.BandedGridView gvMain;
       private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn CPR_PROD_SUBTYPE;
       private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn CPR_KIND_ID;
@@ -413,5 +406,6 @@
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand6;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand7;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand8;
+      private DevExpress.XtraEditors.Repository.RepositoryItemDateEdit repositoryItemDateEdit1;
    }
 }
