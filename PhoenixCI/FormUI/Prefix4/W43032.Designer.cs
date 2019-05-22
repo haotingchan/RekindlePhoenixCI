@@ -25,26 +25,26 @@
       private void InitializeComponent() {
          this.labMsg = new System.Windows.Forms.Label();
          this.panFilter = new System.Windows.Forms.GroupBox();
+         this.label1 = new System.Windows.Forms.Label();
          this.grpRbDate = new System.Windows.Forms.GroupBox();
-         this.txtDate = new BaseGround.Widget.TextDateEdit();
          this.txtSid = new DevExpress.XtraEditors.TextEdit();
          this.gbItem = new DevExpress.XtraEditors.RadioGroup();
          this.label9 = new System.Windows.Forms.Label();
          this.grpChkModel = new System.Windows.Forms.GroupBox();
          this.chkModel = new DevExpress.XtraEditors.CheckedListBoxControl();
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
-         this.label1 = new System.Windows.Forms.Label();
+         this.txtDate = new BaseGround.Widget.TextDateEdit();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          this.panFilter.SuspendLayout();
          this.grpRbDate.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtSid.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gbItem.Properties)).BeginInit();
          this.grpChkModel.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.chkModel)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
          this.r_frame.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -85,6 +85,17 @@
          this.panFilter.TabStop = false;
          this.panFilter.Text = "請輸入交易日期";
          // 
+         // label1
+         // 
+         this.label1.AutoSize = true;
+         this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F);
+         this.label1.ForeColor = System.Drawing.Color.Black;
+         this.label1.Location = new System.Drawing.Point(32, 38);
+         this.label1.Name = "label1";
+         this.label1.Size = new System.Drawing.Size(57, 20);
+         this.label1.TabIndex = 83;
+         this.label1.Text = "日期：";
+         // 
          // grpRbDate
          // 
          this.grpRbDate.Controls.Add(this.txtSid);
@@ -95,24 +106,6 @@
          this.grpRbDate.TabIndex = 88;
          this.grpRbDate.TabStop = false;
          this.grpRbDate.Text = "查詢條件";
-         // 
-         // txtDate
-         // 
-         this.txtDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
-         this.txtDate.EditValue = "2018/12";
-         this.txtDate.EnterMoveNextControl = true;
-         this.txtDate.Location = new System.Drawing.Point(85, 35);
-         this.txtDate.MenuManager = this.ribbonControl;
-         this.txtDate.Name = "txtDate";
-         this.txtDate.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-         this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtDate.Size = new System.Drawing.Size(100, 26);
-         this.txtDate.TabIndex = 1;
-         this.txtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtSid
          // 
@@ -203,16 +196,25 @@
          this.r_frame.Size = new System.Drawing.Size(432, 420);
          this.r_frame.TabIndex = 77;
          // 
-         // label1
+         // txtDate
          // 
-         this.label1.AutoSize = true;
-         this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F);
-         this.label1.ForeColor = System.Drawing.Color.Black;
-         this.label1.Location = new System.Drawing.Point(32, 38);
-         this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(57, 20);
-         this.label1.TabIndex = 83;
-         this.label1.Text = "日期：";
+         this.txtDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtDate.EditValue = "2018/12/01";
+         this.txtDate.EnterMoveNextControl = true;
+         this.txtDate.Location = new System.Drawing.Point(85, 35);
+         this.txtDate.MenuManager = this.ribbonControl;
+         this.txtDate.Name = "txtDate";
+         this.txtDate.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtDate.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.txtDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.txtDate.Properties.Mask.ShowPlaceHolders = false;
+         this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtDate.Size = new System.Drawing.Size(100, 26);
+         this.txtDate.TabIndex = 89;
+         this.txtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // W43032
          // 
@@ -227,7 +229,6 @@
          this.panFilter.ResumeLayout(false);
          this.panFilter.PerformLayout();
          this.grpRbDate.ResumeLayout(false);
-         ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtSid.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gbItem.Properties)).EndInit();
          this.grpChkModel.ResumeLayout(false);
@@ -235,6 +236,7 @@
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).EndInit();
          this.r_frame.ResumeLayout(false);
          this.r_frame.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -244,7 +246,6 @@
       private System.Windows.Forms.Label labMsg;
       private System.Windows.Forms.GroupBox panFilter;
       private System.Windows.Forms.GroupBox grpRbDate;
-      private BaseGround.Widget.TextDateEdit txtDate;
       private DevExpress.XtraEditors.TextEdit txtSid;
       protected DevExpress.XtraEditors.RadioGroup gbItem;
       private System.Windows.Forms.Label label9;
@@ -252,5 +253,6 @@
       private DevExpress.XtraEditors.CheckedListBoxControl chkModel;
       private DevExpress.XtraEditors.PanelControl r_frame;
       private System.Windows.Forms.Label label1;
+      private BaseGround.Widget.TextDateEdit txtDate;
    }
 }

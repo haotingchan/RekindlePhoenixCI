@@ -6,15 +6,15 @@ using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
-using DataObjects.Dao.Together.TableDao;
+using DevExpress.Utils;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraGrid;
 using DevExpress.XtraGrid.Views.Grid;
 using System;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Windows.Forms;
 
 /// <summary>
 /// Winni, 2019/4/16
@@ -40,7 +40,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          base.Open();
          try {
 
-            lupTfxmPid = new RepositoryItemLookUpEdit();         
+            lupTfxmPid = new RepositoryItemLookUpEdit();
 
             //商品
             DataTable dtTfxmPid = new COD().ListByCol2("TFXM" , "PID");
@@ -82,27 +82,50 @@ namespace PhoenixCI.FormUI.Prefix4 {
                InsertRow();
             }
 
-            //1. 設定gvExport
+            //1. 設定gvMain
             gvMain.Columns.Clear();
             gvMain.OptionsBehavior.AutoPopulateColumns = true;
             gcMain.DataSource = dt;
-            gvMain.BestFitColumns();
             GridHelper.SetCommonGrid(gvMain);
 
+            string[] showColCaption = {$"上櫃{Environment.NewLine}/上市", $"ETF{Environment.NewLine}代號","名稱",
+                                       $"漲幅{Environment.NewLine}限制",$"跌幅{Environment.NewLine}限制",
+                                       $"期貨{Environment.NewLine}乘數", $"選擇權{Environment.NewLine}乘數",
+                                       "異動時間", $"異動/確認{Environment.NewLine}人員", "TFXMSE_SP_W_TIME","" };
+
             //1.1 設定欄位caption       
-            gvMain.SetColumnCaption("TFXMSE_PID" , "上櫃/上市");
-            gvMain.SetColumnCaption("TFXMSE_SID" , "ETF代號");
-            gvMain.SetColumnCaption("TFXMSE_SNAME" , "名稱");
-            gvMain.SetColumnCaption("TFXMSE_RAISE_LIMIT" , "漲幅限制");
-            gvMain.SetColumnCaption("TFXMSE_FALL_LIMIT" , "跌幅限制");
+            foreach (DataColumn dc in dt.Columns) {
+               gvMain.SetColumnCaption(dc.ColumnName , showColCaption[dt.Columns.IndexOf(dc)]);
+               gvMain.Columns[dc.ColumnName].AppearanceHeader.TextOptions.WordWrap = WordWrap.Wrap;
+               gvMain.Columns[dc.ColumnName].AppearanceCell.TextOptions.WordWrap = WordWrap.Wrap;
+               gvMain.Columns[dc.ColumnName].OptionsColumn.AllowMerge = DefaultBoolean.False;
 
-            gvMain.SetColumnCaption("TFXMSE_FUT_XXX" , "期貨乘數");
-            gvMain.SetColumnCaption("TFXMSE_OPT_XXX" , "選擇權乘數");
-            gvMain.SetColumnCaption("TFXMSE_W_TIME" , "異動時間");
-            gvMain.SetColumnCaption("TFXMSE_W_USER_ID" , "異動/確認人員");
-            gvMain.SetColumnCaption("TFXMSE_SP_W_TIME" , "TFXMSE_SP_W_TIME");
+               //設定欄位header顏色
+               if (dc.ColumnName == "TFXMSE_PID") {
+                  gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = Color.FromArgb(255 , 255 , 128);
+                  gvMain.Columns[dc.ColumnName].AppearanceCell.TextOptions.HAlignment = HorzAlignment.Center;
+               } else {
+                  if (dc.ColumnName == "TFXMSE_W_TIME") {
+                     gvMain.Columns[dc.ColumnName].AppearanceCell.TextOptions.HAlignment = HorzAlignment.Center;
+                  }
+                  gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = Color.FromArgb(128 , 255 , 255);
+               }
+            }
 
-            gvMain.SetColumnCaption("IS_NEWROW" , "Is_NewRow");
+            ////1.1 設定欄位caption       
+            //gvMain.SetColumnCaption("TFXMSE_PID" , "上櫃/上市");
+            //gvMain.SetColumnCaption("TFXMSE_SID" , "ETF代號");
+            //gvMain.SetColumnCaption("TFXMSE_SNAME" , "名稱");
+            //gvMain.SetColumnCaption("TFXMSE_RAISE_LIMIT" , "漲幅限制");
+            //gvMain.SetColumnCaption("TFXMSE_FALL_LIMIT" , "跌幅限制");
+
+            //gvMain.SetColumnCaption("TFXMSE_FUT_XXX" , "期貨乘數");
+            //gvMain.SetColumnCaption("TFXMSE_OPT_XXX" , "選擇權乘數");
+            //gvMain.SetColumnCaption("TFXMSE_W_TIME" , "異動時間");
+            //gvMain.SetColumnCaption("TFXMSE_W_USER_ID" , "異動/確認人員");
+            //gvMain.SetColumnCaption("TFXMSE_SP_W_TIME" , "TFXMSE_SP_W_TIME");
+
+            //gvMain.SetColumnCaption("IS_NEWROW" , "Is_NewRow");
 
             //1.2 設定欄位format格式
             RepositoryItemTextEdit raiseLimit = new RepositoryItemTextEdit();
@@ -119,7 +142,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             RepositoryItemTextEdit fut = new RepositoryItemTextEdit();
             gcMain.RepositoryItems.Add(fut);
-            gvMain.Columns["TFXMSE_FUT_XXX"].ColumnEdit = fut;            
+            gvMain.Columns["TFXMSE_FUT_XXX"].ColumnEdit = fut;
             fut.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             fut.Mask.EditMask = "##########0.0000";
 
@@ -136,6 +159,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //1.4 設定dropdownlist       
             gvMain.Columns["TFXMSE_PID"].ColumnEdit = lupTfxmPid;
 
+            gvMain.BestFitColumns();
             gcMain.Focus();
 
             return ResultStatus.Success;
@@ -143,6 +167,22 @@ namespace PhoenixCI.FormUI.Prefix4 {
             WriteLog(ex);
          }
          return ResultStatus.Fail;
+      }
+
+      protected override ResultStatus BeforeClose() {
+
+         DataTable dtCurrent = (DataTable)gcMain.DataSource;
+         DataTable dtChange = dtCurrent.GetChanges();
+
+         if (dtChange == null) {
+            return ResultStatus.Success;
+         }
+
+         DialogResult myDialogResult = ConfirmToExitWithoutSave(dtChange);
+
+         if (myDialogResult == DialogResult.Yes) { return ProcessSaveFlow(); } else if (myDialogResult == DialogResult.No) { return ResultStatus.Success; } else if (myDialogResult == DialogResult.Cancel) { return ResultStatus.Fail; }
+
+         return ResultStatus.Success;
       }
 
       protected override ResultStatus Save(PokeBall poke) {
@@ -165,6 +205,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
                return ResultStatus.Fail;
             }
 
+            if(dtChange.Rows.Count > 0) {
+               DialogResult res = new DialogResult();
+               res = MessageDisplay.Choose("未完成存檔，請問是否要離開作業？");
+               if (res == DialogResult.No) {
+                  return ResultStatus.Fail;
+               }
+            }
+
             //隱藏欄位賦值
             foreach (DataRow dr in dtCurrent.Rows) {
                if (dr.RowState == DataRowState.Added || dr.RowState == DataRowState.Modified) {
@@ -178,6 +226,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             if (result.Status == ResultStatus.Fail) {
                return ResultStatus.Fail;
             }
+
+            PrintOrExportChangedByKen(gcMain , dtForAdd , dtForDeleted , dtForModified);
 
          } catch (Exception ex) {
             throw ex;
