@@ -31,8 +31,8 @@ SELECT SPAN_PERIOD_MODULE,
 	SPAN_PERIOD_W_TIME,
 	'' as OP_TYPE
 FROM CFO.SPAN_PERIOD
-WHERE SPAN_PERIOD_MODULE = :module
-AND SPAN_PERIOD_USER_ID like :userId
+WHERE TRIM(SPAN_PERIOD_MODULE) = :module
+AND TRIM(SPAN_PERIOD_USER_ID) like :userId
 ";
             DataTable dtResult = db.GetDataTable(sql, parms);
 

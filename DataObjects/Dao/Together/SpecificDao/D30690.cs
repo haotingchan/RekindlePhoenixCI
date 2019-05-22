@@ -1263,7 +1263,7 @@ from (
             };
 
             string sql = @"
-select to_char(ai6_date,'yyyymmdd hh24:mi:ss') as ""日期"",
+select to_char(ai6_date,'yyyy/mm/dd hh24:mi:ss') as ""日期"",
 ai6_prod_type as ""F期貨/O選擇權"",
 trim(ai6_kind_id) as ""商品"",
 ai6_tfxm_close_price as ""現貨收盤價"",
