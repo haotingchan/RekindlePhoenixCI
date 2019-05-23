@@ -40,11 +40,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             txtStartYMD.DateTimeValue = GlobalInfo.OCF_DATE.AddDays(-GlobalInfo.OCF_DATE.Day + 1); //取得當月第1天
             txtEndYMD.DateTimeValue = GlobalInfo.OCF_DATE;
 
-            //商品
-            DataTable dtProd = daoCod.ListByTxn("30592"); //cod_id/cod_desc/cp_display
-            ddlProd.SetDataTable(dtProd , "COD_DESC" , "COD_DESC" , TextEditStyles.DisableTextEditor);
-            ddlProd.ItemIndex = 0; //第一個為[全部%]
-
+            ddlProd.SelectedIndex = 0;
+            
             return ResultStatus.Success;
          } catch (Exception ex) {
             WriteLog(ex);
@@ -192,7 +189,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
 
             DataTable dtFilter = new DataTable();
-            if (ddlProd.EditValue.AsString().SubStr(0 , 1) != "%") {
+            //全部 or 單一商品
+            string prod = ddlProd.Text.SubStr(0 , 1);
+            if (prod != "%") {
                dtFilter = dt.Filter("apdk_param_key ='" + ddlProd.EditValue.AsString() + "'"); //單一商品
             } else {
                dtFilter = dt.Copy();
@@ -367,11 +366,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
       #endregion
 
       private void ddlProd_EditValueChanged(object sender , EventArgs e) {
-         if (ddlProd.EditValue.ToString() == "RHF" || ddlProd.EditValue.ToString() == "RTF" || ddlProd.EditValue.ToString() == "% (全部)") {
+         if (ddlProd.EditValue.AsString() == "RHF" || ddlProd.EditValue.AsString() == "RTF" || ddlProd.EditValue.AsString() == "%(全部)") {
             chkGroup.Items[6].Enabled = true;
          } else {
             chkGroup.Items[6].Enabled = false;
-            chkGroup.Items[6].CheckState = System.Windows.Forms.CheckState.Unchecked;
+            chkGroup.Items[6].CheckState = CheckState.Unchecked;
          }
       }
    }

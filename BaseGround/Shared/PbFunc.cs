@@ -774,9 +774,10 @@ namespace BaseGround.Shared {
       /// <param name="as_ym">yyyy/MM or yyyyMM</param>
       /// <param name="ai_day_cnt"></param>
       /// <returns></returns>
-      public static DateTime f_get_last_day(string as_table, string as_kind_id, string as_ym, int ai_day_cnt) {
+      public static DateTime f_get_last_day(string as_table, string as_kind_id, string as_ym, int ai_day_cnt, string ymformat = "yyyyMM") {
 
-         DateTime startDate = DateTime.ParseExact(as_ym.Replace("/", "") + "01", "yyyyMMdd", null);
+         as_ym = as_ym.Replace("/", "");
+         DateTime startDate = DateTime.ParseExact(as_ym + "01", "yyyyMMdd", null);
          string tmp = "";
 
          switch (as_table) {
@@ -790,9 +791,8 @@ namespace BaseGround.Shared {
                break;
          }
 
-         if (!DateTime.TryParseExact(tmp, "yyyyMMdd", null, DateTimeStyles.AllowWhiteSpaces, out DateTime lastTradeDate)) {
-            throw new Exception("");
-         }
+         if (!DateTime.TryParseExact(tmp, "yyyyMMdd", null, DateTimeStyles.AllowWhiteSpaces, out DateTime lastTradeDate))
+            return as_ym.AsDateTime(ymformat);
 
          return lastTradeDate;
       }
@@ -829,17 +829,16 @@ namespace BaseGround.Shared {
          MOCF mocf = new MOCF();
          DateTime ldt_next_date;
          string ls_symd, ls_eymd;
-            if (day_cnt > 0) {
-                ls_symd = f_conv_date(ldt_date, 1);
-                ls_eymd = relativedate(ldt_date, 30).ToString("yyyyMMdd");
-                ldt_next_date = mocf.GetSpecOcfDay(ls_symd, ls_eymd, day_cnt);
-            }
-            else {
-                ls_symd = relativedate(ldt_date, -30).ToString("yyyyMMdd");
-                ls_eymd = f_conv_date(ldt_date, 1);
-                day_cnt = day_cnt * -1;
-                ldt_next_date = mocf.GetSpecOcfDay2(ls_symd, ls_eymd, day_cnt);
-            }
+         if (day_cnt > 0) {
+            ls_symd = f_conv_date(ldt_date, 1);
+            ls_eymd = relativedate(ldt_date, 30).ToString("yyyyMMdd");
+            ldt_next_date = mocf.GetSpecOcfDay(ls_symd, ls_eymd, day_cnt);
+         } else {
+            ls_symd = relativedate(ldt_date, -30).ToString("yyyyMMdd");
+            ls_eymd = f_conv_date(ldt_date, 1);
+            day_cnt = day_cnt * -1;
+            ldt_next_date = mocf.GetSpecOcfDay2(ls_symd, ls_eymd, day_cnt);
+         }
 
          return ldt_next_date;
       }

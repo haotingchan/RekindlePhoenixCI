@@ -7,7 +7,9 @@ using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Utils;
 using DevExpress.XtraEditors.Controls;
+using DevExpress.XtraGrid.Views.Grid;
 using System;
+using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
@@ -126,11 +128,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
                _ToolBtnExport.Enabled = false;
                return ResultStatus.Fail;
             } else {
-               //DataRow drFirst = defaultTable.Rows[0];
-               //ammd_date.Text = "日期：" + drFirst["ammd_date"].AsString().Substring(0 , 10); //列出第一筆[ammd_date]的日期
-               //trade_time.Text = "交易時間：" + txtStartTime.Text + "~" + txtEndTime.Text;
-               //ammd_date.Visible = true;
-               //trade_time.Visible = true;
 
                gvMain.Columns["AMMD_DATE"].Group();
                gvMain.SetGridGroupSummary(gvMain.Columns[12].FieldName , $"交易時間 : {txtStartTime.Text}~{txtEndTime.Text}" , DevExpress.Data.SummaryItemType.Count);
@@ -217,5 +214,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
          }
       }
 
+      private void gvMain_ShowingEditor(object sender , CancelEventArgs e) {
+         GridView gv = sender as GridView;
+         e.Cancel = true;
+      }
    }
 }
