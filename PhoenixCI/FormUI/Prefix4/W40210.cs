@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Threading;
+using System.Windows.Forms;
 using BaseGround;
 using BaseGround.Shared;
 using BusinessObjects.Enums;
@@ -130,7 +132,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     MessageDisplay.Warning("請勾選商品!");
                     return ResultStatus.Fail;
                 }
-
+                this.Cursor = Cursors.WaitCursor;
+                this.Refresh();
+                Thread.Sleep(5);
+                labMsg.Visible = true;
+                ShowMsg("訊息：資料轉出中........");
                 //1.設定一些變數,把邏輯直接寫在該變數屬性內
                 List<string> listCode = new List<string>();//多筆,用逗號分隔
                 if (cbxProd.Items[0].CheckState == System.Windows.Forms.CheckState.Checked) {
@@ -149,9 +155,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 //2.開始轉出資料
                 panFilter.Enabled = false;
                 panProd.Enabled = false;
-                labMsg.Visible = true;
-                labMsg.Text = "訊息：資料轉出中........";
-                this.Refresh();
+                //labMsg.Visible = true;
+                //labMsg.Text = "訊息：資料轉出中........";
+                //this.Refresh();
 
                 //2.1 open xls
                 string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID, _ProgramID, "");
@@ -192,7 +198,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                 //存檔
                 workbook.SaveDocument(excelDestinationPath);
-
+                ShowMsg("轉檔完成");
                 if (FlagAdmin)
                     System.Diagnostics.Process.Start(excelDestinationPath);
 
@@ -200,6 +206,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 return ResultStatus.Success;
             }
             catch (Exception ex) {
+                ShowMsg("轉檔錯誤");
                 WriteLog(ex);
             }
             finally {
@@ -207,11 +214,18 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 panProd.Enabled = true;
                 labMsg.Text = "";
                 labMsg.Visible = false;
+                this.Cursor = Cursors.Arrow;
+                this.Refresh();
+                Thread.Sleep(5);
             }
             return ResultStatus.Fail;
         }
 
-
+        protected void ShowMsg(string msg) {
+            labMsg.Text = msg;
+            this.Refresh();
+            Thread.Sleep(5);
+        }
 
         /// <summary>
         /// 3.7 STC VSR計算
@@ -230,7 +244,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             try {
                 string reportId = "40210_1";
                 string reportName = string.Format("{0} VSR計算", kind);//ken,跟sheet name有關,不能亂改
-
+                ShowMsg(reportId + '－' + reportName + " 轉檔中...");
                 //1.get master dataTable
                 DataTable dtTarget = dao40210.d_40210_1(is_eymd, kind);
 
@@ -249,11 +263,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 //1.2 write data
                 foreach (DataRow dr in dtTarget.Rows) {
                     int colIndexTemp = dr["rpt_col_num"].AsInt();
-                    worksheet.Cells[5, colIndexTemp].Value = dr["SPNV1_150_STD"].AsDecimal();
-                    worksheet.Cells[6, colIndexTemp].Value = dr["SPNV1_180_STD"].AsDecimal();
-                    worksheet.Cells[7, colIndexTemp].Value = dr["SPNV2_150_RATE"].AsDecimal();
-                    worksheet.Cells[8, colIndexTemp].Value = dr["SPNV2_180_RATE"].AsDecimal();
-                    worksheet.Cells[9, colIndexTemp].Value = dr["SPNV2_CP_DAY_RATE"].AsDecimal();
+                    worksheet.Cells[5, colIndexTemp].SetValue(dr["SPNV1_150_STD"]);
+                    worksheet.Cells[6, colIndexTemp].SetValue(dr["SPNV1_180_STD"]);
+                    worksheet.Cells[7, colIndexTemp].SetValue(dr["SPNV2_150_RATE"]);
+                    worksheet.Cells[8, colIndexTemp].SetValue(dr["SPNV2_180_RATE"]);
+                    worksheet.Cells[9, colIndexTemp].SetValue(dr["SPNV2_CP_DAY_RATE"]);
                 }//foreach(DataRow dr in dtTarget.Rows){
 
 
@@ -286,14 +300,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         colIndex = rpt_col_num;
                         if (rowIndex == 1) {
                             worksheet.Cells[rowBegin - 4, colIndex].Value = colIndex;
-                            worksheet.Cells[rowBegin - 3, colIndex].Value = dr["data_kind_id"].AsString();
-                            worksheet.Cells[rowBegin - 2, colIndex].Value = dr["data_sid"].AsString();
-                            worksheet.Cells[rowBegin - 1, colIndex].Value = dr["data_pdk_name"].AsString();
-                            worksheet.Cells[rowBegin - 0, colIndex].Value = dr["data_pid_name"].AsString();
+                            worksheet.Cells[rowBegin - 3, colIndex].SetValue(dr["data_kind_id"]);
+                            worksheet.Cells[rowBegin - 2, colIndex].SetValue(dr["data_sid"]);
+                            worksheet.Cells[rowBegin - 1, colIndex].SetValue(dr["data_pdk_name"]);
+                            worksheet.Cells[rowBegin - 0, colIndex].SetValue(dr["data_pid_name"]);
                         }
                     }//if (colIndex != rpt_col_num) {
 
-                    worksheet.Cells[rowBegin + rowIndex, colIndex].Value = dr["return_rate"].AsDecimal();
+                    worksheet.Cells[rowBegin + rowIndex, colIndex].SetValue(dr["return_rate"]);
                 }//foreach(DataRow dr in dtDetail.Rows){
 
 
@@ -319,7 +333,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             try {
                 string reportId = "40210_3";
                 string reportName = "現貨data";
-
+                ShowMsg(reportId + '－' + reportName + " 轉檔中...");
                 //1.get dataTable
                 DataTable dtTarget = dao40210.d_40210_3(is_symd, is_eymd, is_code);
 
@@ -356,7 +370,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             try {
                 string reportId = "40210_3";
                 string reportName = "現貨data";
-
+                ShowMsg(reportId + '－' + reportName + " 轉檔中...");
                 //1.get dataTable
                 DataTable dtTarget = dao40210.d_40210_3_old(is_symd, is_eymd, is_code);
 
@@ -413,7 +427,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             try {
                 string reportId = "40210_4";
                 string reportName = "指數選擇權VSR";
-
+                ShowMsg(reportId + '－' + reportName + " 轉檔中...");
                 //1.get master dataTable
                 DataTable dtTarget = dao40210.d_40210_4(is_eymd, is_code);
 
@@ -425,18 +439,18 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 //1.1 write caption
                 Worksheet worksheet = workbook.Worksheets[reportName];
 
-                worksheet.Cells[2, 1].Value = chi_150;
-                worksheet.Cells[3, 1].Value = chi_180;
-                worksheet.Cells[4, 1].Value = v365;
+                worksheet.Cells[1, 1].Value = chi_150;
+                worksheet.Cells[2, 1].Value = chi_180;
+                worksheet.Cells[3, 1].Value = v365;
 
                 //1.2 write data
                 foreach (DataRow dr in dtTarget.Rows) {
-                    int colIndexTemp = dr["rpt_col_num"].AsInt();
-                    worksheet.Cells[4, colIndexTemp].Value = dr["SPNV1_150_STD"].AsDecimal();
-                    worksheet.Cells[5, colIndexTemp].Value = dr["SPNV1_180_STD"].AsDecimal();
-                    worksheet.Cells[6, colIndexTemp].Value = dr["SPNV2_150_RATE"].AsDecimal();
-                    worksheet.Cells[7, colIndexTemp].Value = dr["SPNV2_180_RATE"].AsDecimal();
-                    worksheet.Cells[8, colIndexTemp].Value = dr["SPNV2_CP_DAY_RATE"].AsDecimal();
+                    int colIndexTemp = dr["rpt_col_num"].AsInt() -1;
+                    worksheet.Cells[4, colIndexTemp].SetValue(dr["SPNV1_150_STD"]);
+                    worksheet.Cells[5, colIndexTemp].SetValue(dr["SPNV1_180_STD"]);
+                    worksheet.Cells[6, colIndexTemp].SetValue(dr["SPNV2_150_RATE"]);
+                    worksheet.Cells[7, colIndexTemp].SetValue(dr["SPNV2_180_RATE"]);
+                    worksheet.Cells[8, colIndexTemp].SetValue(dr["SPNV2_CP_DAY_RATE"]);
                 }//foreach(DataRow dr in dtTarget.Rows){
 
 
@@ -465,7 +479,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         worksheet.Cells[rowBegin + rowIndex, 0].Value = data_ymd.ToString("yyyy/MM/dd");
                     }//if (rowIndex != rpt_row_num) {
 
-                    worksheet.Cells[rowBegin + rowIndex, colIndex].Value = dr["return_rate"].AsDecimal();
+                    colIndex = dr["RPT_COL_NUM"].AsInt()-1;
+
+                    worksheet.Cells[rowBegin + rowIndex, colIndex].SetValue(dr["return_rate"]);
                 }//foreach(DataRow dr in dtDetail.Rows){
 
                 worksheet.ScrollTo(0, 0);
@@ -489,8 +505,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
         protected ResultStatus wf_40210_5(Workbook workbook, string is_symd, string is_eymd, List<string> is_code, int TotalDayCount) {
             try {
                 string reportId = "40210_5";
-                string reportName = "現貨data";
-
+                string reportName = "期貨data";
+                ShowMsg(reportId + '－' + reportName + " 轉檔中...");
                 //1.get dataTable
                 DataTable dtTarget = dao40210.d_40210_5(is_symd, is_eymd, is_code);
 
@@ -520,9 +536,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         worksheet.Cells[rowBegin + rowIndex, 0].Value = ocf_ymd.ToString("yyyy/MM/dd");
                     }//if (rowIndex != rpt_row_num) {
 
-                    worksheet.Cells[rowBegin + rowIndex, col_1 - 1].Value = dr["mgr1_close_price"].AsDecimal();
-                    worksheet.Cells[rowBegin + rowIndex, col_2 - 1].Value = dr["mgr1_open_ref"].AsDecimal();
-                    worksheet.Cells[rowBegin + rowIndex, col_3 - 1].Value = dr["up_down"].AsDecimal();
+                    worksheet.Cells[rowBegin + rowIndex, col_1 - 1].SetValue(dr["mgr1_close_price"]);
+                    worksheet.Cells[rowBegin + rowIndex, col_2 - 1].SetValue(dr["mgr1_open_ref"]);
+                    worksheet.Cells[rowBegin + rowIndex, col_3 - 1].SetValue(dr["up_down"]);
                 }//foreach(DataRow dr in dtTarget.Rows){
 
                 worksheet.ScrollTo(0, 0);
@@ -545,7 +561,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             try {
                 string reportId = "40210_6";
                 string reportName = "期貨契約PSR";
-
+                ShowMsg(reportId + '－' + reportName + " 轉檔中...");
                 //1.get dataTable
                 DataTable dtTarget = dao40210.d_40210_6(is_eymd, is_code);
 
@@ -586,7 +602,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             try {
                 string reportId = "40210_7";
                 string reportName = "Delta折耗比率";
-
+                ShowMsg(reportId + '－' + reportName + " 轉檔中...");
                 //1.get master dataTable
                 DataTable dtTarget = dao40210.d_40210_7(is_eymd, is_code);
 
@@ -602,7 +618,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 foreach (DataRow dr in dtTarget.Rows) {
                     int rpt_row_num = dr["rpt_row_num"].AsInt();
                     int colIndex = dr["rpt_col_num"].AsInt();
-                    worksheet.Cells[rpt_row_num - 1, colIndex].Value = dr["sp1_rate"].AsDecimal();
+                    worksheet.Cells[rpt_row_num - 1, colIndex -1].Value = dr["sp1_rate"].AsDecimal();
                 }//foreach(DataRow dr in dtTarget.Rows){
 
 
@@ -615,7 +631,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 }
 
                 //2.1 write data
-                int rowIndex = 1;
+                int rowIndex = 2;
                 DateTime ls_ymd = DateTime.MinValue;
                 foreach (DataRow dr in dtDetail.Rows) {
                     int colIndex = dr["rpt_col_num"].AsInt();
@@ -627,7 +643,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         worksheet.Cells[rowIndex - 1, 0].Value = spnd_ymd.ToString("yyyy/MM/dd");
                     }
 
-                    worksheet.Cells[rowIndex - 1, colIndex].Value = dr["spnd_t_val"].AsDecimal();
+                    worksheet.Cells[rowIndex - 1, colIndex -1].SetValue(dr["spnd_t_val"]);
                 }//foreach(DataRow dr in dtDetail.Rows){
 
                 worksheet.ScrollTo(0, 0);
@@ -650,7 +666,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             try {
                 string reportId = "40210_8";
                 string reportName = "跨商品折抵比率";
-
+                ShowMsg(reportId + '－' + reportName + " 轉檔中...");
                 //1.get master dataTable
                 DataTable dtTarget = dao40210.d_40210_8(is_eymd, is_code);
 
@@ -664,22 +680,22 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                 //欄位(B1, B5) value=T150 T180
                 DataTable dtTemp = new SPNT1().ListData2();
-                worksheet.Cells[0, 1].Value = dtTemp.Rows[0]["tinv_150"].AsDecimal();
-                worksheet.Cells[4, 1].Value = dtTemp.Rows[0]["tinv_180"].AsDecimal();
+                worksheet.Cells[0, 1].SetValue(dtTemp.Rows[0]["tinv_150"]);
+                worksheet.Cells[4, 1].SetValue(dtTemp.Rows[0]["tinv_180"]);
 
 
                 //1.2 write data
                 foreach (DataRow dr in dtTarget.Rows) {
-                    int rpt_col_num = dr["rpt_col_num"].AsInt();
-                    worksheet.Cells[1, rpt_col_num].Value = dr["spns1_150_avg_val"].AsDecimal();
-                    worksheet.Cells[2, rpt_col_num].Value = dr["spns1_150_std"].AsDecimal();
-                    worksheet.Cells[3, rpt_col_num].Value = dr["spns2_150_rate"].AsDecimal();
+                    int rpt_col_num = dr["rpt_col_num"].AsInt()-1;
+                    worksheet.Cells[1, rpt_col_num].SetValue(dr["spns1_150_avg_val"]);
+                    worksheet.Cells[2, rpt_col_num].SetValue(dr["spns1_150_std"]);
+                    worksheet.Cells[3, rpt_col_num].SetValue(dr["spns2_150_rate"]);
+                                                   
+                    worksheet.Cells[5, rpt_col_num].SetValue(dr["spns1_180_avg_val"]);
+                    worksheet.Cells[6, rpt_col_num].SetValue(dr["spns1_180_std"]);
+                    worksheet.Cells[7, rpt_col_num].SetValue(dr["spns2_180_rate"]);
 
-                    worksheet.Cells[5, rpt_col_num].Value = dr["spns1_180_avg_val"].AsDecimal();
-                    worksheet.Cells[6, rpt_col_num].Value = dr["spns1_180_std"].AsDecimal();
-                    worksheet.Cells[7, rpt_col_num].Value = dr["spns2_180_rate"].AsDecimal();
-
-                    worksheet.Cells[8, rpt_col_num].Value = dr["spns2_max_rate"].AsDecimal();
+                    worksheet.Cells[8, rpt_col_num].SetValue(dr["spns2_max_rate"]);
 
 
                     int col = dr["col"].AsInt();
@@ -703,7 +719,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 }
 
                 //2.1 write data
-                int rowIndex = 19;
+                int rowIndex = 20-1;
                 DateTime ls_ymd = DateTime.MinValue;
                 foreach (DataRow dr in dtDetail.Rows) {
                     int colIndex = dr["rpt_col_num"].AsInt();
@@ -712,10 +728,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     if (ls_ymd != spns1d_detial_ymd) {
                         ls_ymd = spns1d_detial_ymd;
                         rowIndex++;
-                        worksheet.Cells[rowIndex - 1, 0].Value = spns1d_detial_ymd.ToString("yyyy/MM/dd");
+                        worksheet.Cells[rowIndex, 0].SetValue(spns1d_detial_ymd.ToString("yyyy/MM/dd"));
                     }
 
-                    worksheet.Cells[rowIndex - 1, colIndex].Value = dr["spns1d_t_val"].AsDecimal();
+                    worksheet.Cells[rowIndex, colIndex-1].SetValue(dr["spns1d_t_val"]);
                 }//foreach(DataRow dr in dtDetail.Rows){
 
                 worksheet.ScrollTo(0, 0);
