@@ -1,27 +1,23 @@
 ﻿using BaseGround;
 using BaseGround.Report;
 using BaseGround.Shared;
+using BaseGround.Widget;
 using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together.SpecificDao;
 using DataObjects.Dao.Together.TableDao;
-using DevExpress.Utils;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraGrid;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
-using DevExpress.XtraGrid.Views.Grid.ViewInfo;
-using DevExpress.XtraPrinting.Native;
-using PhoenixCI.Widget;
 using System;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
-using BaseGround.Widget;
 
 /// <summary>
 /// Winni, 2019/04/11
@@ -42,7 +38,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          gvMain.OptionsView.ShowColumnHeaders = false;
          //gvMain.OptionsPrint.PrintBandHeader = true;
          gvMain.OptionsPrint.PrintHeader = false;
-         this.gvMain.ShowingEditor += gvMain_ShowingEditor;
+         //this.gvMain.ShowingEditor += gvMain_ShowingEditor;
          this.gvMain.RowCellStyle += gvMain_RowCellStyle;
       }
 
@@ -67,7 +63,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dtAll = dao49010.GetDataList();
             DataTable dt = dtAll.Clone();
 
-            //1. 設定gvExport
+            //1. 設定gvMain
             gcMain.DataSource = dt;
             gvMain.BestFitColumns();
             GridHelper.SetCommonGrid(gvMain);
@@ -166,7 +162,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gvMain.UpdateCurrentRow();
 
             printStep = 1; //跑儲存前確認單
-            CheckPrint(gcMain , dtChange , printStep); 
+            CheckPrint(gcMain , dtChange , printStep);
             liRtn = MessageDisplay.Choose("已列印確認單，點選確認進行儲存資料");
             if (liRtn == DialogResult.No) {
                return ResultStatus.Fail;
@@ -194,25 +190,18 @@ namespace PhoenixCI.FormUI.Prefix4 {
          gvMain.AddNewRow();
          gvMain.OptionsView.RowAutoHeight = true; //整個grid設定要開，不然設定column會無效
 
-         RepositoryItemTextDateEdit effectiveDate = new RepositoryItemTextDateEdit();
-         RepositoryItemTextDateEdit approvalDate = new RepositoryItemTextDateEdit();
          RepositoryItemTextDateEdit wTime = new RepositoryItemTextDateEdit();
          RepositoryItemMemoEdit can = new RepositoryItemMemoEdit();
          RepositoryItemMemoEdit remark = new RepositoryItemMemoEdit();
 
-         gcMain.RepositoryItems.Add(effectiveDate);
-         gcMain.RepositoryItems.Add(approvalDate);
          gcMain.RepositoryItems.Add(wTime);
          gcMain.RepositoryItems.Add(can);
          gcMain.RepositoryItems.Add(remark);
 
          gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["CPR_PROD_SUBTYPE"] , "");
          gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["CPR_KIND_ID"] , " ");
-         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["CPR_EFFECTIVE_DATE"] , DateTime.MinValue);
-         gvMain.Columns["CPR_EFFECTIVE_DATE"].ColumnEdit = effectiveDate;
-
-         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["CPR_APPROVAL_DATE"] , DateTime.MinValue);
-         gvMain.Columns["CPR_APPROVAL_DATE"].ColumnEdit = approvalDate;
+         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["CPR_EFFECTIVE_DATE"] , DateTime.ParseExact("1900/01/01" , "yyyy/MM/dd" , null));
+         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["CPR_APPROVAL_DATE"] , DateTime.ParseExact("1900/01/01" , "yyyy/MM/dd" , null));
 
          gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["CPR_APPROVAL_NUMBER"] , " ");
          gvMain.Columns["CPR_APPROVAL_NUMBER"].ColumnEdit = can;
@@ -304,14 +293,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
       /// </summary>
       /// <param name="sender"></param>
       /// <param name="e"></param>
-      private void gvMain_ShowingEditor(object sender , CancelEventArgs e) {
-         GridView gv = sender as GridView;
-         if (gv.FocusedColumn.Name == "CPR_W_TIME" || gv.FocusedColumn.Name == "CPR_W_USER_ID") {
-            e.Cancel = true;
-         } else {
-            e.Cancel = false;
-         }
-      }
+      //private void gvMain_ShowingEditor(object sender , CancelEventArgs e) {
+      //   GridView gv = sender as GridView;
+      //   if (gv.FocusedColumn.Name == "CPR_W_TIME" || gv.FocusedColumn.Name == "CPR_W_USER_ID") {
+      //      e.Cancel = true;
+      //   } else {
+      //      e.Cancel = false;
+      //   }
+      //}
 
       private void gvMain_RowCellStyle(object sender , RowCellStyleEventArgs e) {
          GridView gv = sender as GridView;

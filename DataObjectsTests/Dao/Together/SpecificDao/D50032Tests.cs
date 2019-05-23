@@ -20,8 +20,8 @@ namespace DataObjects.Dao.Together.SpecificDao.Tests
          d500Xx.Ebrkno = "ZZZZZZZ";
          d500Xx.ProdCategory = "%";
          d500Xx.ProdKindIdSto = "%";
-         d500Xx.Sdate = "20181001";
-         d500Xx.Edate = "20181101";
+         d500Xx.Sdate = "201808";
+         d500Xx.Edate = "201809";
          DataTable data = new D50032().List50032(d500Xx);
          Assert.IsNotNull(data);
       }

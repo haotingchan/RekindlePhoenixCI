@@ -16,7 +16,14 @@ namespace DataObjects.Dao.Together.SpecificDao
                 ":as_sum_type",d500Xx.SumType,
                 ":as_sum_subtype",d500Xx.SumSubType,
                 ":as_data_type",d500Xx.DataType,
-                ":as_sort_type",d500Xx.SortType
+                ":as_sort_type",d500Xx.SortType,
+                ":Sdate",d500Xx.Sdate,
+                ":Edate",d500Xx.Edate,
+                ":Sbrkno",d500Xx.Sbrkno,
+                ":Ebrkno",d500Xx.Ebrkno,
+                ":ProdCategory",d500Xx.ProdCategory,
+                ":ProdKindIdSto",d500Xx.ProdKindIdSto,
+                ":ProdKindId",d500Xx.ProdKindId
             };
          string iswhere = d500Xx.ConditionWhereSyntax();
          string sql = string.Format(
@@ -64,7 +71,14 @@ namespace DataObjects.Dao.Together.SpecificDao
             ":as_sum_type",d500Xx.SumType,
             ":as_sum_subtype",d500Xx.SumSubType,
             ":as_data_type",d500Xx.DataType,
-            ":as_sort_type",d500Xx.SortType
+            ":as_sort_type",d500Xx.SortType,
+                ":Sdate",d500Xx.Sdate,
+                ":Edate",d500Xx.Edate,
+                ":Sbrkno",d500Xx.Sbrkno,
+                ":Ebrkno",d500Xx.Ebrkno,
+                ":ProdCategory",d500Xx.ProdCategory,
+                ":ProdKindIdSto",d500Xx.ProdKindIdSto,
+                ":ProdKindId",d500Xx.ProdKindId
             };
          string iswhere = d500Xx.ConditionWhereSyntax();
          string sql = string.Format(@"
@@ -136,7 +150,14 @@ namespace DataObjects.Dao.Together.SpecificDao
             ":as_sum_type",d500Xx.SumType,
             ":as_sum_subtype",d500Xx.SumSubType,
             ":as_data_type",d500Xx.DataType,
-            ":as_sort_type",d500Xx.SortType
+            ":as_sort_type",d500Xx.SortType,
+                ":Sdate",d500Xx.Sdate,
+                ":Edate",d500Xx.Edate,
+                ":Sbrkno",d500Xx.Sbrkno,
+                ":Ebrkno",d500Xx.Ebrkno,
+                ":ProdCategory",d500Xx.ProdCategory,
+                ":ProdKindIdSto",d500Xx.ProdKindIdSto,
+                ":ProdKindId",d500Xx.ProdKindId
             };
          string iswhere = d500Xx.ConditionWhereSyntax();
          string sql = string.Format(@"
@@ -206,7 +227,14 @@ SELECT AMM0_YMD,
                 ":as_sum_type",d500Xx.SumType,
                 ":as_sum_subtype",d500Xx.SumSubType,
                 ":as_data_type",d500Xx.DataType,
-                ":as_sort_type",d500Xx.SortType
+                ":as_sort_type",d500Xx.SortType,
+                ":Sdate",d500Xx.Sdate,
+                ":Edate",d500Xx.Edate,
+                ":Sbrkno",d500Xx.Sbrkno,
+                ":Ebrkno",d500Xx.Ebrkno,
+                ":ProdCategory",d500Xx.ProdCategory,
+                ":ProdKindIdSto",d500Xx.ProdKindIdSto,
+                ":ProdKindId",d500Xx.ProdKindId
             };
          string iswhere = d500Xx.ConditionWhereSyntax();
          string sql = string.Format(@"
