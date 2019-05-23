@@ -158,9 +158,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gcMain.RepositoryItems.Add(mgt8Xxx);
             gvMain.Columns["MGT8_XXX"].ColumnEdit = mgt8Xxx;
             mgt8Xxx.DisplayFormat.FormatType = FormatType.Numeric;
-            mgt8Xxx.DisplayFormat.FormatString = "######0.####";
-            mgt8Xxx.Mask.EditMask = "######0.0000";
-            mgt8Xxx.MaxLength = 12;
+            mgt8Xxx.DisplayFormat.FormatString = "#######0";
+            mgt8Xxx.Mask.EditMask = "#######0";
+            mgt8Xxx.MaxLength = 8;
             mgt8Xxx.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
 
             //1.3 設定dropdownlist       
@@ -376,7 +376,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gv.SetRowCellValue(gv.FocusedRowHandle , gv.Columns["IS_NEWROW"] , 1);
          }
          //編輯狀態時,設定可以編輯的欄位( e.Cancel = false 等於可以編輯)
-         else if (gv.FocusedColumn.FieldName == "MGT8_KIND_TYPE") {
+         else if (gv.FocusedColumn.FieldName == "MGT8_F_ID") {
             e.Cancel = true;
          } else {
             e.Cancel = false;
