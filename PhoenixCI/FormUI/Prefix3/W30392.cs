@@ -90,18 +90,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //2. 設定日期
             DateTime ldt_sdate, ldt_edate;
             flag = 0;
-            //try {
-            //   //前月倒數2天交易日
-            //   ldt_sdate = PbFunc.f_get_last_day("AI3" , "I5F" , txtMonth.Text , 2);
-
-            //   //抓當月最後交易日
-            //   ldt_edate = PbFunc.f_get_end_day("AI3" , "I5F" , txtMonth.Text);
-            //} catch { //跳exception即不產檔
-            //   string rptName = "「東證期貨」放寬漲跌幅統計表";
-            //   MessageDisplay.Error(string.Format("{0},{1}-{2},無任何資料!" , txtMonth.Text , _ProgramID , rptName));
-            //   return ResultStatus.Fail;
-            //}
-
+            
             //2.1 copy template xls to target path
             string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID);
             Workbook workbook = new Workbook();
