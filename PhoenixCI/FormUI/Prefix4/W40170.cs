@@ -199,6 +199,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                if (res <= 0) {
                   MessageDisplay.Info("查無資料!");
+                  return ResultStatus.Fail;
                }
             }//foreach (CheckedListBoxItem item in chkModel.Items)
 
