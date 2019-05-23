@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Data;
+using System.IO;
 using System.Reflection;
 using BaseGround;
 using BaseGround.Shared;
@@ -98,25 +99,28 @@ namespace PhoenixCI.FormUI.Prefix3 {
             Workbook workbook = new Workbook();
             workbook.LoadDocument(excelDestinationPath);
 
-
-
             //2.匯出資料
             //共同的參數一起設定,init param = { D30395 dao, string startMonth }
             Object[] args = { dao30395 , txtStartMonth.Text };
 
+            int pos = 0;
             IReportData GDF = CreateReport(GetType() , "GDF" , args);
-            GDF.Export(workbook);
+            pos += GDF.Export(workbook);
 
             //IReportData GDF_Detail = CreateReport(GetType(), "GDF_Detail", args);
             //GDF_Detail.Export(workbook);
 
             IReportData TGF = CreateReport(GetType() , "TGF" , args);
-            TGF.Export(workbook);
+            pos += TGF.Export(workbook);
 
             //IReportData TGF_Detail = CreateReport(GetType(), "TGF_Detail", args);
             //TGF_Detail.Export(workbook);
 
-
+            if (pos <= 0) {
+               File.Delete(excelDestinationPath);
+               MessageDisplay.Info("查無資料!");
+               return ResultStatus.Fail;
+            }
 
             //存檔
             workbook.SaveDocument(excelDestinationPath);
@@ -143,7 +147,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          /// 匯出資料
          /// </summary>
          /// <param name="workbook"></param>
-         void Export(Workbook workbook);
+         int Export(Workbook workbook);
       }
 
       /// <summary>
@@ -178,17 +182,18 @@ namespace PhoenixCI.FormUI.Prefix3 {
          /// 匯出資料
          /// </summary>
          /// <param name="workbook"></param>
-         public virtual void Export(Workbook workbook) {
+         public virtual int Export(Workbook workbook) {
+            int pos = 0;
 
             Worksheet ws = workbook.Worksheets[(int)SheetIndex];
-            ExportSummary(workbook , (int)SheetIndex , 1);
+            pos += ExportSummary(workbook , (int)SheetIndex , 1);
 
             int tempSheetIndex = (int)SheetIndex + 2;
-            ExportDetail(workbook , tempSheetIndex , 3);
-
+            pos += ExportDetail(workbook , tempSheetIndex , 3);
+            return pos;
          }
 
-         protected virtual void ExportSummary(Workbook workbook , int sheetIndex , int rowBegin) {
+         protected virtual int ExportSummary(Workbook workbook , int sheetIndex , int rowBegin) {
             //1.1 前月倒數2天交易日
             DateTime ldt_sdate = PbFunc.f_get_last_day("AI3" , KindId , StartMonth , 2);
 
@@ -197,6 +202,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             //1.3 get ai3 data
             DataTable dtTemp = Dao.d_ai3(KindId , ldt_sdate , ldt_edate);
+            if (dtTemp.Rows.Count <= 0) {
+               return 0;
+            }
 
             Worksheet ws = workbook.Worksheets[sheetIndex];
 
@@ -228,12 +236,15 @@ namespace PhoenixCI.FormUI.Prefix3 {
                ws.DeleteCells(ws.Range[cellRange] , DeleteMode.EntireRow);
                //ken,用DeleteCells還是不行,測試結果似乎xlsx的圖表公式一直固定,不會更新
             }
-
+            return 1;
          }
 
-         protected virtual void ExportDetail(Workbook workbook , int sheetIndex , int rowBegin) {
+         protected virtual int ExportDetail(Workbook workbook , int sheetIndex , int rowBegin) {
             //2.1 get ai2 data
             DataTable dtDetail = Dao.d_ai2(KindId , StartMonth.SubStr(0 , 4) + "01" , StartMonth.Replace("/" , ""));
+            if (dtDetail.Rows.Count <= 0) {
+               return 0;
+            }
 
             Worksheet ws = workbook.Worksheets[sheetIndex];
 
@@ -292,7 +303,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             if (rowIndex < emptyRowCount) {
                ws.Rows.Remove(rowIndex + 1 , emptyRowCount - rowIndex);
             }
-
+            return 1;
          }
       }
 
@@ -311,8 +322,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
          }
 
-         public override void Export(Workbook workbook) {
-            base.Export(workbook);
+         public override int Export(Workbook workbook) {
+            return base.Export(workbook);
          }
       }
 
@@ -331,8 +342,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
          }
 
-         public override void Export(Workbook workbook) {
-            base.Export(workbook);
+         public override int Export(Workbook workbook) {
+            return base.Export(workbook);
          }
       }
 

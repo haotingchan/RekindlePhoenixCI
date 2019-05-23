@@ -86,28 +86,32 @@ namespace PhoenixCI.FormUI.Prefix4 {
          #region 設定生效日期
          int ll_found = 0; ;
          //Group1
-         if (dt.Select("sp1_osw_grp='1' and sp2_value_date is not null").Length != 0) {
-            ll_found = dt.Rows.IndexOf(dt.Select("sp1_osw_grp='1' and sp2_value_date is not null")[0]) + 1;
+         if (dt.Select("sp1_osw_grp='1' and sp2_value_date is not null").Length != 0) { //有找到
+            ll_found = dt.Rows.IndexOf(dt.Select("sp1_osw_grp='1' and sp2_value_date is not null")[0]); //ll_found = 找到的列數(從0開始)
+         } else {
+            ll_found = -1;
          }
 
-         if (ll_found > 0) {
-            string sp2ValueDate = dt.Rows[ll_found - 1]["sp2_value_date"].AsDateTime().ToString("yyyy/MM/dd");
+         if (ll_found >= 0) { //有找到
+            string sp2ValueDate = dt.Rows[ll_found]["sp2_value_date"].AsDateTime().ToString("yyyy/MM/dd");
             txtDate1.Text = sp2ValueDate;
-         } else {
+         } else { //沒找到
             string tmpDate = PbFunc.f_get_ocf_next_n_day(txtTradeDate.DateTimeValue , 1).ToString("yyyy/MM/dd");
             txtDate1.Text = tmpDate;
          }
 
          //Group2
          if (dt.Select("sp1_osw_grp='5' and sp2_value_date is not null").Length != 0) {
-            ll_found = dt.Rows.IndexOf(dt.Select("sp1_osw_grp='5' and sp2_value_date is not null")[0]) + 1;
+            ll_found = dt.Rows.IndexOf(dt.Select("sp1_osw_grp='5' and sp2_value_date is not null")[0]);
+         } else {
+            ll_found = -1;
          }
 
-         if (ll_found > 0) {
-            string sp2ValueDate = dt.Rows[ll_found - 1]["sp2_value_date"].AsDateTime().ToString("yyyy/MM/dd");
+         if (ll_found >= 0) {
+            string sp2ValueDate = dt.Rows[ll_found]["sp2_value_date"].AsDateTime().ToString("yyyy/MM/dd");
             txtDate2.Text = sp2ValueDate;
          } else {
-            string tmpDate = PbFunc.f_get_ocf_next_n_day(txtTradeDate.DateTimeValue , 1).ToString("yyyy/MM/dd");
+            string tmpDate = PbFunc.f_get_ocf_next_n_day(txtTradeDate.DateTimeValue , 2).ToString("yyyy/MM/dd");
             txtDate2.Text = tmpDate;
          }
          #endregion
@@ -136,9 +140,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       protected override ResultStatus Save(PokeBall poke) {
-         gvMain.CloseEditor();
          gvMain.UpdateCurrentRow();
-         ResultStatus resultStatus = ResultStatus.Fail;
+         gvMain.CloseEditor();
          try {
 
             DataTable dt = (DataTable)gcMain.DataSource;
@@ -152,7 +155,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
                return ResultStatus.FailButNext;
             }
 
-            string ls_rtn;
             DateTime ldt_w_time = DateTime.Now;
             DataTable dtSp2 = dao40080.GetSP2Data(txtTradeDate.DateTimeValue);
 
@@ -176,38 +178,32 @@ namespace PhoenixCI.FormUI.Prefix4 {
                string ls_kind_id2 = dr["sp1_kind_id2"].AsString();
 
                int ll_found = 0;
-               if (dtSp2.Select("sp2_type ='" + ls_type + "' and sp2_kind_id1='" + ls_kind_id1 + "' and sp2_kind_id2='" + ls_kind_id2 + "'").Length > 0) {
-                  ll_found = dtSp2.Rows.IndexOf(dtSp2.Select("sp2_type ='" + ls_type + "' and sp2_kind_id1='" + ls_kind_id1 + "' and sp2_kind_id2='" + ls_kind_id2 + "'").FirstOrDefault());
-                  //刪除
-                  dtSp2.Rows[ll_found]["sp2_value_date"] = dr["sp2_value_date"];
-                  dtSp2.Rows[ll_found]["sp2_adj_code"] = dr["sp2_adj_code"];
-                  dtSp2.Rows[ll_found]["sp2_span_code"] = dr["sp2_span_code"];
-                  dtSp2.Rows[ll_found]["sp2_osw_grp"] = dr["sp1_osw_grp"];
-                  dtSp2.Rows[ll_found]["sp2_w_time"] = ldt_w_time;
-                  dtSp2.Rows[ll_found]["sp2_w_user_id"] = GlobalInfo.USER_ID;
-                  dr["sp2_adj_code_org"] = dr["sp2_adj_code"];
-
-               } else {
+               if (dtSp2.Select("sp2_type ='" + ls_type + "' and sp2_kind_id1='" + ls_kind_id1 + "' and sp2_kind_id2='" + ls_kind_id2 + "'").Length <= 0) {
                   //新增
                   DataRow insertRow = dtSp2.NewRow();
                   insertRow["sp2_date"] = txtTradeDate.DateTimeValue;
                   insertRow["sp2_type"] = ls_type;
                   insertRow["sp2_kind_id1"] = ls_kind_id1;
                   insertRow["sp2_kind_id2"] = ls_kind_id2;
+                  insertRow["sp2_value_date"] = dr["sp2_value_date"];
+                  insertRow["sp2_adj_code"] = dr["sp2_adj_code"];
+                  insertRow["sp2_span_code"] = dr["sp2_span_code"];
+                  insertRow["sp2_osw_grp"] = dr["sp1_osw_grp"];
+                  insertRow["sp2_w_time"] = ldt_w_time;
+                  insertRow["sp2_w_user_id"] = GlobalInfo.USER_ID;
                   dtSp2.Rows.Add(insertRow);
-               }
+               } else {
+                  ll_found = dtSp2.Rows.IndexOf(dtSp2.Select("sp2_type ='" + ls_type + "' and sp2_kind_id1='" + ls_kind_id1 + "' and sp2_kind_id2='" + ls_kind_id2 + "'")[0]);
+                  dtSp2.Rows[ll_found]["sp2_value_date"] = dr["sp2_value_date"];
+                  dtSp2.Rows[ll_found]["sp2_adj_code"] = dr["sp2_adj_code"];
+                  dtSp2.Rows[ll_found]["sp2_span_code"] = dr["sp2_span_code"];
+                  dtSp2.Rows[ll_found]["sp2_osw_grp"] = dr["sp1_osw_grp"];
+                  dtSp2.Rows[ll_found]["sp2_w_time"] = ldt_w_time;
+                  dtSp2.Rows[ll_found]["sp2_w_user_id"] = GlobalInfo.USER_ID;
+               }              
+               dr["sp2_adj_code_org"] = dr["sp2_adj_code"];
+
             }//foreach (DataRow dr in dt.Rows)
-
-            //if    ib_print = True then
-            //      ids_1.dataobject = dw_1.dataobject
-            //      ids_del.dataobject = dw_1.dataobject
-            //      ids_1.reset()
-            //      ids_del.reset()
-            //      dw_1.RowsCopy(1 , dw_1.rowcount() , primary!, ids_1 , 1 , primary!)
-            //      dw_1.RowsCopy(1 , dw_1.DeletedCount() , delete! , ids_del , 1 , primary!)
-            //end   if
-
-            AfterSaveForPrint(gcMain , dtForAdd , dtForDeleted , dtForModified);
 
             //dw_2.update()
             ResultData myResultData = daoSP2.UpdateData(dtSp2);
@@ -215,6 +211,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
                MessageDisplay.Error("更新資料庫錯誤! ");
                return ResultStatus.Fail;
             }
+
+            //dw_1.update(將dw_1的op_type全改為" ")
+            foreach (DataRow dr in dt.Rows) {
+               dr["op_type"] = " ";
+            }
+
+            AfterSaveForPrint(gcMain , dtForAdd , dtForDeleted , dtForModified);
+            MessageDisplay.Info("報表儲存完成!");
 
          } catch (Exception ex) {
             MessageDisplay.Error("儲存錯誤");
@@ -249,7 +253,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
                reportHelper.PrintableComponent = gridControlPrint;
                reportHelper.ReportTitle = _ReportTitle + "─" + "新增";
 
-               reportHelper.Print();
                reportHelper.Export(FileType.PDF , reportHelper.FilePath);
             }
 
@@ -271,7 +274,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
                reportHelper.PrintableComponent = gridControlPrint;
                reportHelper.ReportTitle = _ReportTitle + "─" + "刪除";
 
-               reportHelper.Print();
                reportHelper.Export(FileType.PDF , reportHelper.FilePath);
             }
 
@@ -281,7 +283,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
                reportHelper.PrintableComponent = gridControlPrint;
                reportHelper.ReportTitle = _ReportTitle + "─" + "變更";
 
-               reportHelper.Print();
                reportHelper.Export(FileType.PDF , reportHelper.FilePath);
             }
       }
@@ -516,7 +517,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
             } else {
                e.Cancel = false;
             }
-
          }
       }
    }
