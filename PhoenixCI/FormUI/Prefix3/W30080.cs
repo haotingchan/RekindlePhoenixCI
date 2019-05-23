@@ -49,7 +49,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 txtSDate.EditValue = txtEDate.Text.SubStr(0, 8) + "01";
 #if DEBUG
                 txtSDate.Text = "2018/10/01";
-                txtEDate.Text = "2018/10/11";
+                txtEDate.Text = "2018/10/31";
 #endif
 
                 txtSDate.Focus();
@@ -164,17 +164,17 @@ namespace PhoenixCI.FormUI.Prefix3 {
                     return ResultStatus.Fail;
                 }
 
-                DataTable dtSort = dao30080.d_30080_sort(prodType, symd, eymd, paramKey, kindID, underlyingMarket);
-                if (dtSort.Rows.Count == 0) {
+                DataTable dtReSorted = dao30080.d_30080_sort(prodType, symd, eymd, paramKey, kindID, underlyingMarket, DataType, txtRank.Text);
+                if (dtReSorted.Rows.Count == 0) {
                     MessageDisplay.Info(rptId + '－' + "資料值無任何資料!");
                     lblProcessing.Visible = false;
                     return ResultStatus.Fail;
                 }
 
-                DataView dv = dtSort.AsDataView();
-                dv.Sort = "AI2_" + DataType + " DESC, AI2_KIND_ID ASC";
-                dv.RowFilter = "cp_seq_no <=" + txtRank.Text;
-                DataTable dtReSorted = dv.ToTable();
+                //DataView dv = dtSort.AsDataView();
+                //dv.Sort = "AI2_" + DataType + " DESC";
+                ////dv.RowFilter = "rownum <=" + txtRank.Text;
+                //DataTable dtReSorted = dv.ToTable();
 
                 //讀取資料 (每日)
                 DataTable dt30080 = dao30080.d_30080(prodType, symd, eymd, paramKey, kindID, underlyingMarket);
