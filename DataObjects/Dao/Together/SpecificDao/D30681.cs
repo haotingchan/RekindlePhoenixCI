@@ -41,7 +41,7 @@ namespace DataObjects.Dao.Together.SpecificDao {
 
          string sql = @"
 select ftprices_market_code as ""交易時段: 0一般 / 1夜盤"",   
-   to_char(ftprices_trade_date,'mm/dd/yy hh24:mi:ss') as ""交易日期"",   
+   to_char(ftprices_trade_date,'yyyy/mm/dd hh24:mi:ss') as ""交易日期"",   
    ftprices_prod_type as ""F期貨 / O選擇權"",   
    ftprices_sc_code as ""S單式 / C複式"",   
    ftprices_prod_id as ""序列"",
@@ -107,7 +107,7 @@ order by ftprices_market_code , ftprices_trade_date , ftprices_prod_type , ftpri
 
          string sql = @"
 select tprices_market_code as ""交易時段: 0一般 / 1夜盤"",   
-   to_char(tprices_trade_date,'mm/dd/yy hh24:mi:ss') as ""交易日期"",   
+   to_char(tprices_trade_date,'yyyy/mm/dd hh24:mi:ss') as ""交易日期"",   
    tprices_prod_type as ""F期貨 / O選擇權"",   
    tprices_sc_code as ""S單式 / C複式"",   
    tprices_prod_id as ""序列"",
@@ -190,7 +190,7 @@ order by tprices_market_code , tprices_trade_date , tprices_prod_type , tprices_
          string temp = string.IsNullOrEmpty(as_level_list) ? "" : "ftpriced_level in (" + as_level_list + ") or ";
 
          string sql = string.Format(@"
-select to_char(ftpriced_trade_date,'mm/dd/yy hh24:mi:ss') as ""交易日期"",   
+select to_char(ftpriced_trade_date,'yyyy/mm/dd hh24:mi:ss') as ""交易日期"",   
     ftpriced_market_code as ""交易時段: 0一般 / 1夜盤"",  
     ftpriced_prod_type as ""F期貨 / O選擇權"",   
     ftpriced_sc_code as ""S單式 / C複式"",   
@@ -202,7 +202,7 @@ select to_char(ftpriced_trade_date,'mm/dd/yy hh24:mi:ss') as ""交易日期"",
     ftpriced_mth_seq2 as ""第二支腳月份序號"",
     ftpriced_order_seq as ""委託序號"",
       
-    to_char(ftpriced_order_time,'mm/dd/yy hh24:mi:ss') as ""委託時間"",
+    to_char(ftpriced_order_time,'yyyy/mm/dd hh24:mi:ss:FF') as ""委託時間"",
     ftpriced_bs_code as ""買賣別"",
     ftpriced_order_type as ""委託方式"",
     ftpriced_order_cond as ""委託條件"",
@@ -210,7 +210,7 @@ select to_char(ftpriced_trade_date,'mm/dd/yy hh24:mi:ss') as ""交易日期"",
      
     ftpriced_order_qnty as ""委託口數"",
     ftpriced_m_inst as ""撮合序號"",
-    to_char(ftpriced_m_time,'mm/dd/yy hh24:mi:ss') as ""成交時間"",
+    to_char(ftpriced_m_time,'yyyy/mm/dd hh24:mi:ss:FF') as ""成交時間"",
     ftpriced_m_price as ""成交價"",
     ftpriced_m_qnty as ""成交口數"",
      
@@ -280,7 +280,7 @@ order by ftpriced_trade_date , ftpriced_market_code , ftpriced_prod_type , ftpri
          string temp = string.IsNullOrEmpty(as_level_list) ? "" : "tpriced_level in (" + as_level_list + ") or ";
 
          string sql = string.Format(@"
-select to_char(tpriced_trade_date,'mm/dd/yy hh24:mi:ss') as ""交易日期"",   
+select to_char(tpriced_trade_date,'yyyy/mm/dd hh24:mi:ss') as ""交易日期"",   
     tpriced_market_code as ""交易時段: 0一般 / 1夜盤"",  
     tpriced_prod_type as ""F期貨 / O選擇權"",   
     tpriced_sc_code as ""S單式 / C複式"",   
@@ -292,7 +292,7 @@ select to_char(tpriced_trade_date,'mm/dd/yy hh24:mi:ss') as ""交易日期"",
     tpriced_mth_seq2 as ""第二支腳月份序號"",
     tpriced_order_seq as ""委託序號"",
       
-    to_char(tpriced_order_time,'mm/dd/yy hh24:mi:ss') as ""委託時間"",
+    to_char(tpriced_order_time,'yyyy/mm/dd hh24:mi:ss:FF') as ""委託時間"",
     tpriced_bs_code as ""買賣別"",
     tpriced_order_type as ""委託方式"",
     tpriced_order_cond as ""委託條件"",
@@ -300,7 +300,7 @@ select to_char(tpriced_trade_date,'mm/dd/yy hh24:mi:ss') as ""交易日期"",
      
     tpriced_order_qnty as ""委託口數"",
     tpriced_m_inst as ""撮合序號"",
-    to_char(tpriced_m_time,'mm/dd/yy hh24:mi:ss') as ""成交時間"",
+    to_char(tpriced_m_time,'yyyy/mm/dd hh24:mi:ss:FF') as ""成交時間"",
     tpriced_m_price as ""成交價"",
     tpriced_m_qnty as ""成交口數"",
      
@@ -370,7 +370,7 @@ order by tpriced_trade_date , tpriced_market_code , tpriced_prod_type , tpriced_
          string temp = string.IsNullOrEmpty(as_level_list) ? "" : "ftpriced_level in (" + as_level_list + ") or ";
 
          string sql = string.Format(@"
-select to_char(ftpricemtf_trade_date,'mm/dd/yy hh24:mi:ss') as ""交易日期"",
+select to_char(ftpricemtf_trade_date,'yyyy/mm/dd hh24:mi:ss') as ""交易日期"",
    ftpricemtf_market_code as ""交易時段: 0一般 / 1夜盤"",
    ftpricemtf_prod_type as ""F期貨 / O選擇權"",
    ftpricemtf_sc_code as ""S單式 / C複式"",
@@ -385,7 +385,7 @@ select to_char(ftpricemtf_trade_date,'mm/dd/yy hh24:mi:ss') as ""交易日期"",
    ftpricemtf_m_price2 as ""成交價格2"",
    ftpricemtf_bs_code as ""買賣別"",
    ftpricemtf_osf_seq_no as ""委託序號"",
-   to_char(ftpricemtf_osf_orig_time,'mm/dd/yy hh24:mi:ss') as ""委託時間"",
+   to_char(ftpricemtf_osf_orig_time,'yyyy/mm/dd hh24:mi:ss:FF') as ""委託時間"",
    ftpricemtf_oq_code as ""委託單類別(Order / Quote)"",
           
    ftpricemtf_osf_order_type as ""委託方式"",
@@ -395,7 +395,7 @@ select to_char(ftpricemtf_trade_date,'mm/dd/yy hh24:mi:ss') as ""交易日期"",
    ftpricemtf_m_inst as ""搓合標記"",
           
    ftpricemtf_seq_no as ""撮合序號"",
-   to_char(ftpricemtf_orig_time,'mm/dd/yy hh24:mi:ss') as ""成交時間"",
+   to_char(ftpricemtf_orig_time,'yyyy/mm/dd hh24:mi:ss:FF') as ""成交時間"",
    ftpricemtf_price as ""成交價"",
    ftpricemtf_qnty as ""成交口數"",
    ftpricemtf_m_cm_code as ""價差對價差成交flag"",
@@ -484,7 +484,7 @@ order by ftpricemtf_trade_date , ftpricemtf_market_code , ftpricemtf_prod_type ,
          string temp = string.IsNullOrEmpty(as_level_list) ? "" : "tpriced_level in (" + as_level_list + ") or ";
 
          string sql = string.Format(@"
-select to_char(tpricemtf_trade_date,'mm/dd/yy hh24:mi:ss') as ""交易日期"",
+select to_char(tpricemtf_trade_date,'yyyy/mm/dd hh24:mi:ss') as ""交易日期"",
    tpricemtf_market_code as ""交易時段: 0一般 / 1夜盤"",
    tpricemtf_prod_type as ""F期貨 / O選擇權"",
    tpricemtf_sc_code as ""S單式 / C複式"",
@@ -499,7 +499,7 @@ select to_char(tpricemtf_trade_date,'mm/dd/yy hh24:mi:ss') as ""交易日期"",
    tpricemtf_m_price2 as ""成交價格2"",
    tpricemtf_bs_code as ""買賣別"",
    tpricemtf_osf_seq_no as ""委託序號"",
-   to_char(tpricemtf_osf_orig_time,'mm/dd/yy hh24:mi:ss') as ""委託時間"",
+   to_char(tpricemtf_osf_orig_time,'yyyy/mm/dd hh24:mi:ss:FF') as ""委託時間"",
    tpricemtf_oq_code as ""委託單類別(Order / Quote)"",
           
    tpricemtf_osf_order_type as ""委託方式"",
@@ -509,7 +509,7 @@ select to_char(tpricemtf_trade_date,'mm/dd/yy hh24:mi:ss') as ""交易日期"",
    tpricemtf_m_inst as ""搓合標記"",
           
    tpricemtf_seq_no as ""撮合序號"",
-   to_char(tpricemtf_orig_time,'mm/dd/yy hh24:mi:ss') as ""成交時間"",
+   to_char(tpricemtf_orig_time,'yyyy/mm/dd hh24:mi:ss:FF') as ""成交時間"",
    tpricemtf_price as ""成交價"",
    tpricemtf_qnty as ""成交口數"",
    tpricemtf_m_cm_code as ""價差對價差成交flag"",

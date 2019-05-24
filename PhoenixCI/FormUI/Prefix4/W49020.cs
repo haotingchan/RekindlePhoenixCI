@@ -69,12 +69,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gcMain.RepositoryItems.Add(lupProdSubtypeCod);
 
 
-            //商品狀態
-            List<LookupItem> dataTypeList = new List<LookupItem>(){
-                                            new LookupItem() { ValueMember = "E", DisplayMember = "下市"},
-                                            new LookupItem() { ValueMember = "N", DisplayMember = "不計算"}};
+            //商品狀態 (改成讀cod)
             lupDataType = new RepositoryItemLookUpEdit();
-            lupDataType.SetColumnLookUp(dataTypeList , "ValueMember" , "DisplayMember" , TextEditStyles.DisableTextEditor , null);
+            DataTable dataTypeList = cod.ListByCol("49020" , "MGT2_DATA_TYPE");
+            Extension.SetColumnLookUp(lupDataType , dataTypeList , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
             gcMain.RepositoryItems.Add(lupDataType);
 
             //風險價格係數計算方式

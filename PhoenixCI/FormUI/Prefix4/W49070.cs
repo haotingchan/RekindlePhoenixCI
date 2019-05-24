@@ -14,6 +14,7 @@ using DevExpress.XtraGrid;
 using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraGrid.Views.Grid;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -28,12 +29,17 @@ namespace PhoenixCI.FormUI.Prefix4 {
    /// </summary>
    public partial class W49070 : FormParent {
 
-      RepositoryItemLookUpEdit lupOswGrp;
-      RepositoryItemLookUpEdit lupDataType;
+      private RepositoryItemLookUpEdit lupOswGrp;
+      private RepositoryItemLookUpEdit lupDataType;
+      private D49070 dao49070;
+      private SPT1 daoSPT1;
 
       public W49070(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
+
+         dao49070 = new D49070();
+         daoSPT1 = new SPT1();
       }
 
       protected override ResultStatus Open() {
@@ -42,16 +48,19 @@ namespace PhoenixCI.FormUI.Prefix4 {
             lupOswGrp = new RepositoryItemLookUpEdit();
             lupDataType = new RepositoryItemLookUpEdit();
 
-            COD cod = new COD();
-
             //收盤群組
-            DataTable dtOswGrp = cod.ListByCol("49070" , "SPT1_OSW_GRP" , " " , "  ");
-            Extension.SetColumnLookUp(lupOswGrp , dtOswGrp , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
+            List<LookupItem> dtOswGrp = new List<LookupItem>(){
+                                            new LookupItem() { ValueMember = " ", DisplayMember = " "},
+                                            new LookupItem() { ValueMember = "1", DisplayMember = "Group 1"},
+                                            new LookupItem() { ValueMember = "5", DisplayMember = "Group 2"}};
+            lupOswGrp.SetColumnLookUp(dtOswGrp , "ValueMember" , "DisplayMember" , TextEditStyles.DisableTextEditor , null);
             gcMain.RepositoryItems.Add(lupOswGrp);
 
             //商品狀態
-            DataTable dtDataType = cod.ListByCol("49070" , "SPT1_DATA_TYPE" , " " , " ");
-            Extension.SetColumnLookUp(lupDataType , dtDataType , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
+            List<LookupItem> dtDataType = new List<LookupItem>(){
+                                            new LookupItem() { ValueMember = " ", DisplayMember = " "},
+                                            new LookupItem() { ValueMember = "E", DisplayMember = "下市"}};
+            lupDataType.SetColumnLookUp(dtDataType , "ValueMember" , "DisplayMember" , TextEditStyles.DisableTextEditor , null);
             gcMain.RepositoryItems.Add(lupDataType);
 
             Retrieve();
@@ -82,7 +91,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
       protected override ResultStatus Retrieve() {
 
          try {
-            DataTable dt = new D49070().ListData();
+            DataTable dt = dao49070.ListData();
 
             //0.check (沒有資料時,則自動新增一筆)
             if (dt.Rows.Count <= 0) {
@@ -151,10 +160,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       protected override ResultStatus Save(PokeBall poke) {
+         gvMain.CloseEditor();
+         gvMain.UpdateCurrentRow();
+
          try {
             DataTable dtCurrent = (DataTable)gcMain.DataSource;
-            gvMain.CloseEditor();
-            gvMain.UpdateCurrentRow();
 
             DataTable dtChange = dtCurrent.GetChanges();
             DataTable dtForAdd = dtCurrent.GetChanges(DataRowState.Added);
@@ -170,43 +180,46 @@ namespace PhoenixCI.FormUI.Prefix4 {
                return ResultStatus.Fail;
             }
 
-            //隱藏欄位賦值
-            foreach (DataRow dr in dtCurrent.Rows) {
-               if (dr.RowState == DataRowState.Added || dr.RowState == DataRowState.Modified) {
-                  dr["SPT1_W_TIME"] = DateTime.Now;
-                  dr["SPT1_W_USER_ID"] = GlobalInfo.USER_ID;
-
-                  if (string.IsNullOrEmpty(dr["SPT1_OSW_GRP"].AsString())) {
-                     dr["SPT1_OSW_GRP"] = "  ";
+            //判斷商品組合有無填入跨商品MAX折抵比率
+            foreach (DataRow dr in dtChange.Rows) {
+               if (dr.RowState != DataRowState.Deleted) {
+                  string kind1 = dr["SPT1_KIND_ID1"].AsString();
+                  string kind2 = dr["SPT1_KIND_ID2"].AsString();
+                  string maxSpnsRate = dr["SPT1_MAX_SPNS_RATE"].AsString();
+                  if (string.IsNullOrEmpty(kind1) || string.IsNullOrEmpty(kind2)) {
+                     MessageDisplay.Error("請輸入商品名稱");
+                     return ResultStatus.Fail;
                   }
 
-                  if (string.IsNullOrEmpty(dr["SPT1_DATA_TYPE"].AsString())) {
-                     dr["SPT1_DATA_TYPE"] = " ";
-                  }
-
-                  if (string.IsNullOrEmpty(dr["SPT1_NAME"].AsString())) {
-                     dr["SPT1_NAME"] = " ";
-                  }
-
-                  string kindId2 = dr["SPT1_KIND_ID2"].AsString();
-                  decimal maxSpnsRate = dr["SPT1_MAX_SPNS_RATE"].AsDecimal();
-
-                  if (kindId2 != "-" && string.IsNullOrEmpty(maxSpnsRate.AsString())) {
-                     MessageDisplay.Info("請輸入跨商品MAX折抵比率");
+                  if (kind2 != "-" && string.IsNullOrEmpty(maxSpnsRate)) {
+                     MessageDisplay.Warning("請輸入跨商品MAX折抵比率");
                      return ResultStatus.Fail;
                   }
                }
             }
 
+            //隱藏欄位賦值
+            foreach (DataRow dr in dtCurrent.Rows) {
+               if (dr.RowState == DataRowState.Added || dr.RowState == DataRowState.Modified) {
+                  dr["SPT1_W_TIME"] = DateTime.Now;
+                  dr["SPT1_W_USER_ID"] = GlobalInfo.USER_ID;
+               }
+
+               if (dr.RowState == DataRowState.Deleted) {
+                  dr.Delete();
+               }
+            }
+            //dtCurrent.AcceptChanges();
             dtChange = dtCurrent.GetChanges();
-            ResultData result = new SPT1().UpdateData(dtChange);
+            ResultData result = daoSPT1.UpdateSPT1(dtChange); //使用處理並行違規的function
             if (result.Status == ResultStatus.Fail) {
+               MessageDisplay.Error("儲存失敗");
                return ResultStatus.Fail;
             }
             AfterSaveForPrint(gcMain , dtForAdd , dtForDeleted , dtForModified);
 
          } catch (Exception ex) {
-            throw ex;
+            WriteLog(ex);
          }
          return ResultStatus.Success;
       }

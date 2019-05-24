@@ -22,6 +22,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
    public partial class W30392 : FormParent {
 
       private D30392 dao30392;
+      private int flag;
 
       public W30392(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
@@ -88,18 +89,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             //2. 設定日期
             DateTime ldt_sdate, ldt_edate;
-            //try {
-            //   //前月倒數2天交易日
-            //   ldt_sdate = PbFunc.f_get_last_day("AI3" , "I5F" , txtMonth.Text , 2);
-
-            //   //抓當月最後交易日
-            //   ldt_edate = PbFunc.f_get_end_day("AI3" , "I5F" , txtMonth.Text);
-            //} catch { //跳exception即不產檔
-            //   string rptName = "「東證期貨」放寬漲跌幅統計表";
-            //   MessageDisplay.Error(string.Format("{0},{1}-{2},無任何資料!" , txtMonth.Text , _ProgramID , rptName));
-            //   return ResultStatus.Fail;
-            //}
-
+            flag = 0;
+            
             //2.1 copy template xls to target path
             string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID);
             Workbook workbook = new Workbook();
@@ -167,6 +158,12 @@ namespace PhoenixCI.FormUI.Prefix3 {
             row = 4;
             wf_30392_1_aprf(workbook , "30392_1d" , row);
 
+            if (flag == 0) {
+               File.Delete(excelDestinationPath);
+               MessageDisplay.Info("查無資料!");
+               return ResultStatus.Fail;
+            }
+
             //4. save
             workbook.SaveDocument(excelDestinationPath);
 
@@ -174,7 +171,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
                System.Diagnostics.Process.Start(excelDestinationPath);
 
             return ResultStatus.Success;
-         } catch (Exception ex) {
+         } catch (Exception ex) {            
+            MessageDisplay.Info("查無資料!");
             WriteLog(ex);
          } finally {
             panFilter.Enabled = true;
@@ -289,6 +287,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
                ws1.Cells[row , 7].Value = Math.Round((yOi / dayCnt) , 0 , MidpointRounding.AwayFromZero);
             }
 
+            flag++;
+
          } catch (Exception ex) {
             WriteLog(ex);
          }
@@ -335,6 +335,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             ws2.Range["A1"].Select();
             ws2.ScrollToRow(0);
+
+            flag++;
 
          } catch (Exception ex) {
             WriteLog(ex);
@@ -448,6 +450,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             ws3.Range["A1"].Select();
             ws3.ScrollToRow(0);
+
+            flag++;
 
          } catch (Exception ex) {
             WriteLog(ex);

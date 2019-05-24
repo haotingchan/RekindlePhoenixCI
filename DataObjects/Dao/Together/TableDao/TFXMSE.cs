@@ -24,9 +24,9 @@ SELECT
 
     TFXMSE_FUT_XXX,   
     TFXMSE_OPT_XXX,   
-    TFXMSE_W_TIME,   
+    to_date(TFXMSE_W_TIME,'yyyy/mm/dd hh24:mi:ss') as TFXMSE_W_TIME,   
     TFXMSE_W_USER_ID,   
-    TFXMSE_SP_W_TIME,
+    TFXMSE_SP_W_TIME
 FROM CI.TFXMSE  
 ";
          return db.UpdateOracleDB(inputData , sql);

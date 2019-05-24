@@ -12,6 +12,7 @@ using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraGrid;
 using DevExpress.XtraGrid.Views.Grid;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -51,12 +52,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dtKind = cod.ListByCol("MGT8" , "MGT8_KIND_TYPE" , " " , "  ");
             Extension.SetColumnLookUp(lupKind , dtKind , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
             gcMain.RepositoryItems.Add(lupKind);
-
+            
             //國內外
-            //此處國內/外下拉清單 於CI.MGT8參數為(國內 : " "  國外: "Y")
-            //避免取空值有問題於SQL中判斷" " -> "D"(切記存檔時需將'D'存回' '不然會影響其他table)
-            DataTable dtForeign = cod.ListByCol("49061" , "MGT8_FOREIGN" , "國內" , " ");
-            Extension.SetColumnLookUp(lupForeign , dtForeign , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
+            List<LookupItem> dtForeign = new List<LookupItem>(){
+                                            new LookupItem() { ValueMember = " ", DisplayMember = "國內"},
+                                            new LookupItem() { ValueMember = "Y", DisplayMember = "國外"}};
+            //lupForeign = new RepositoryItemLookUpEdit();
+            lupForeign.SetColumnLookUp(dtForeign , "ValueMember" , "DisplayMember" , TextEditStyles.DisableTextEditor , null);
             gcMain.RepositoryItems.Add(lupForeign);
 
             //幣別
@@ -65,8 +67,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gcMain.RepositoryItems.Add(lupCurrency);
 
             //金額類型
-            DataTable dtAmt = cod.ListByCol2("49061" , "MGT8_AMT_TYPE");
-            Extension.SetColumnLookUp(lupAmt , dtAmt , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
+            List<LookupItem> dtAmt = new List<LookupItem>(){
+                                            new LookupItem() { ValueMember = "P", DisplayMember = "比例"},
+                                            new LookupItem() { ValueMember = "A", DisplayMember = "金額"}};
+            //lupForeign = new RepositoryItemLookUpEdit();
+            lupAmt.SetColumnLookUp(dtAmt , "ValueMember" , "DisplayMember" , TextEditStyles.DisableTextEditor , null);
             gcMain.RepositoryItems.Add(lupAmt);
 
             Retrieve();
@@ -153,9 +158,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gcMain.RepositoryItems.Add(mgt8Xxx);
             gvMain.Columns["MGT8_XXX"].ColumnEdit = mgt8Xxx;
             mgt8Xxx.DisplayFormat.FormatType = FormatType.Numeric;
-            mgt8Xxx.DisplayFormat.FormatString = "######0.####";
-            mgt8Xxx.Mask.EditMask = "######0.0000";
-            mgt8Xxx.MaxLength = 12;
+            mgt8Xxx.DisplayFormat.FormatString = "#######0";
+            mgt8Xxx.Mask.EditMask = "#######0";
+            mgt8Xxx.MaxLength = 8;
             mgt8Xxx.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
 
             //1.3 設定dropdownlist       
@@ -244,7 +249,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             AfterSaveForPrint(gcMain , dtForAdd , dtForDeleted , dtForModified);
 
          } catch (Exception ex) {
-            throw ex;
+            WriteLog(ex);
          }
          return ResultStatus.Success;
       }
@@ -371,7 +376,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gv.SetRowCellValue(gv.FocusedRowHandle , gv.Columns["IS_NEWROW"] , 1);
          }
          //編輯狀態時,設定可以編輯的欄位( e.Cancel = false 等於可以編輯)
-         else if (gv.FocusedColumn.Name == "MGT8_KIND_TYPE") {
+         else if (gv.FocusedColumn.FieldName == "MGT8_F_ID") {
             e.Cancel = true;
          } else {
             e.Cancel = false;

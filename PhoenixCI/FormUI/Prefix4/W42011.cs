@@ -374,8 +374,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     f = richText.Text.IndexOf("1.0 %") + 1;
                     if (f > 0) richText.Characters(f - 1, 5).Text = txtRate4.Text + "%";
                 }
-                if (lblCmRate.Text != "15") {
-                    f = richText.Text.IndexOf("15%") + 1;
+                if (lblCmRate.Text != "12") {
+                    f = richText.Text.IndexOf("12%") + 1;
                     if (f > 0) richText.Characters(f - 1, 5).Text = lblCmRate.Text + "%";
                 }
                 ws.Cells[headRow, 2].SetRichText(richText);
@@ -397,8 +397,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     f = richText.Text.IndexOf("1.0 %") + 1;
                     if (f > 0) richText.Characters(f - 1, 5).Text = txtRate4.Text + "%";
                 }
-                if (lblCmRate.Text != "15") {
-                    f = richText.Text.IndexOf("15%") + 1;
+                if (lblCmRate.Text != "12") {
+                    f = richText.Text.IndexOf("12%") + 1;
                     if (f > 0) richText.Characters(f - 1, 5).Text = lblCmRate.Text + "%";
                 }
                 ws.Cells[rowIndex - 4, 2].SetRichText(richText);

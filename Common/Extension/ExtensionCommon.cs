@@ -231,13 +231,13 @@ namespace Common {
       /// <summary>
       /// "INDEX"
       /// </summary>
-      public static readonly string rowindex = "cp_row";
+      public static readonly string rowindex = "CP_ROW";
       /// <summary>
       /// 在DataTable中添加一筆數列，編號從1依次遞增
       /// </summary>
       /// <param >DataTable</param>
       /// <returns></returns>
-      public static DataTable AddSeriNumToDataTable(DataTable dt) {
+      public static DataTable AddSeriNumToDataTable(this DataTable dt) {
          //需要返回的值
          DataTable dtNew;
          if (dt.Columns.IndexOf(rowindex) >= 0) {

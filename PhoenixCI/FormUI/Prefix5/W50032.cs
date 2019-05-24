@@ -15,6 +15,10 @@ using DevExpress.XtraReports.UI;
 using static BaseGround.Report.ReportHelper;
 using System.Collections.Generic;
 using DevExpress.XtraPrinting;
+using System;
+using System.Linq;
+using DevExpress.Spreadsheet;
+using System.Drawing;
 
 namespace PhoenixCI.FormUI.Prefix5
 {
@@ -251,8 +255,8 @@ namespace PhoenixCI.FormUI.Prefix5
       {
          base.Open();
          //Input Condition
-         emStartYM.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
-         emEndYM.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
+         emEndYM.DateTimeValue = GlobalInfo.OCF_DATE.AddMonths(-1);
+         emStartYM.DateTimeValue = emEndYM.DateTimeValue.AddMonths(-1);
          /* 造市者代號 */
          //起始選項
          dwSbrkno.SetDataTable(daoABRK.ListAll2(), "ABRK_NO", "CP_DISPLAY", TextEditStyles.Standard, null);
@@ -285,31 +289,158 @@ namespace PhoenixCI.FormUI.Prefix5
 
       protected override ResultStatus Retrieve()
       {
+         ShowMsg("開始讀取");
          if (!GetData()) return ResultStatus.Fail;
+
+         ShowMsg("資料搜尋...");
+         //判斷連續x個月不符造市規定
+         DataTable ids = _Data.Clone();
+         object brkNo = new object(), prodID = new object(); 
+         string lsYMD = "";
+         int liCnt = 0;
+         bool found = false;
+         int liMth = SleCMth.Text.AsInt();
+         _Data.Rows.Add(_Data.NewRow());
+         int lastRowIndex = _Data.Rows.Count - 1;
+         _Data.Rows[lastRowIndex]["AMM0_BRK_NO"] = "";
+         _Data.Rows[lastRowIndex]["AMM0_PROD_ID"] = "";
+         _Data.Rows[lastRowIndex]["CP_INVALID"] = 1;
+         for (int k = 0; k < _Data.Rows.Count; k++) {
+            DataRow dr = _Data.Rows[k];
+            //成績有通過
+            if (dr["CP_INVALID"].AsInt() == 0 && k != _Data.Rows.Count - 1)
+               continue;
+            //判斷是否同brk_no+prod_id+ym,已判斷跳過
+            try {
+               //found = ids.Select($@"AMM0_BRK_NO='{dr["AMM0_BRK_NO"]}' and AMM0_PROD_ID='{dr["AMM0_PROD_ID"]}' and AMM0_YMD='{dr["AMM0_YMD"]}'").Any();
+               /*found = ids.AsEnumerable().Where(r => r.Field<string>("AMM0_BRK_NO") == dr["AMM0_BRK_NO"].AsString()
+                                                      && r.Field<string>("AMM0_PROD_ID") == dr["AMM0_PROD_ID"].AsString()
+                                                      && r.Field<string>("AMM0_YMD") == dr["AMM0_YMD"].AsString()).Any();*/
+               found = ids.AsEnumerable().Where(r => r.Field<object>("AMM0_BRK_NO") == dr["AMM0_BRK_NO"]
+                                                                     && r.Field<object>("AMM0_PROD_ID") == dr["AMM0_PROD_ID"]
+                                                                     && r.Field<object>("AMM0_YMD").AsString() == dr["AMM0_YMD"].AsString()).Any();
+            }
+            catch (Exception ex) {
+#if DEBUG
+               MessageDisplay.Error(ex.Source + ":" + k, "判斷是否同brk_no+prod_id+ym,已判斷跳過");
+#endif
+            }
+            if (found)
+               continue;
+
+            //判斷是否同brk_no+prod_id+ym,不同acc_no是否有"成績有通過"
+            try {
+               //found = _Data.Select($@"AMM0_BRK_NO='{dr["AMM0_BRK_NO"]}' and AMM0_PROD_ID='{dr["AMM0_PROD_ID"]}' and AMM0_YMD='{dr["AMM0_YMD"]}' and AMM0_ACC_NO <>'{dr["AMM0_ACC_NO"]}' and CP_INVALID=0").Any();
+               found = _Data.AsEnumerable().Where(r => r.Field<object>("AMM0_BRK_NO") == dr["AMM0_BRK_NO"]
+                                                   && r.Field<object>("AMM0_PROD_ID") == dr["AMM0_PROD_ID"]
+                                                   && r.Field<object>("AMM0_YMD") == dr["AMM0_YMD"]
+                                                   && r.Field<object>("AMM0_ACC_NO") != dr["AMM0_ACC_NO"] 
+                                                   && r.Field<int>("CP_INVALID") == 0).Any();
+            }
+            catch (Exception ex) {
+#if DEBUG
+               MessageDisplay.Error(ex.Source + ":" + k, "判斷不同acc_no是否有成績有通過");
+#endif
+            }
+            if (found)
+               continue;
+
+            if (brkNo != dr["AMM0_BRK_NO"] || prodID != dr["AMM0_PROD_ID"]) {
+               if (liCnt >= liMth) {
+                  ids.Rows.Add(ids.NewRow());
+                  int iDsLastRowIndex = ids.Rows.Count - 1;
+                  ids.Rows[iDsLastRowIndex]["AMM0_BRK_NO"] = brkNo;
+                  ids.Rows[iDsLastRowIndex]["AMM0_PROD_ID"] = prodID;
+                  ids.Rows[iDsLastRowIndex]["AMM0_OM_QNTY"] = liCnt;
+               }
+               brkNo = dr["AMM0_BRK_NO"];
+               prodID = dr["AMM0_PROD_ID"];
+               lsYMD = dr["AMM0_YMD"].AsString();
+               liCnt = 1;
+            }//if (brkNo != dr["AMM0_BRK_NO"].AsString() || prodID != dr["AMM0_PROD_ID"].AsString())
+            else {
+               if (k == _Data.Rows.Count - 1)
+                  continue;
+
+               string lsDate = dr["AMM0_YMD"].AsDateTime("yyyyMM").AddMonths(-1).ToString("yyyyMM");
+               //連續月份
+               if (lsDate == lsYMD) {
+                  liCnt = liCnt + 1;
+               }
+               lsYMD = dr["AMM0_YMD"].AsString();
+            }
+         }//for (int k = 0; k < _Data.Rows.Count; k++)
+         _Data.Rows.RemoveAt(_Data.Rows.Count - 1);
+
+         DataTable dt = _Data;
+         object brkNo2 = new object(), prodID2 = new object();
+         for (int k = 0; k < dt.Rows.Count; k++) {
+            DataRow dr = dt.Rows[k];
+            if (brkNo2 != dr["AMM0_BRK_NO"] || prodID2 != dr["AMM0_PROD_ID"]) {
+               brkNo2 = dr["AMM0_BRK_NO"];
+               prodID2 = dr["AMM0_PROD_ID"];
+               //found = ids.Select($@"AMM0_BRK_NO='{dr["AMM0_BRK_NO"]}' and AMM0_PROD_ID='{dr["AMM0_PROD_ID"]}'").Any();
+               //found = ids.AsEnumerable().Where(r => r.Field<string>("AMM0_BRK_NO") == brkNo2 && r.Field<string>("AMM0_PROD_ID") == prodID2).Any();
+               found = ids.AsEnumerable().Where(r => r.Field<object>("AMM0_BRK_NO") == brkNo2 && r.Field<object>("AMM0_PROD_ID") == prodID2).Any();
+            }
+            if (!found) {
+               _Data.Rows.RemoveAt(k);
+               k = k - 1;
+            }
+         }//for (int k = 0; k < dt.Rows.Count; k++)
+         _Data.AddSeriNumToDataTable();
+
+         ShowMsg("讀取中...");
 
          List<ReportProp> caption = new List<ReportProp>{
             new ReportProp{DataColumn="CP_ROW",Caption= "筆數" ,CellWidth=40,DetailRowFontSize=8,HeaderFontSize=11},
             new ReportProp{DataColumn="AMM0_BRK_NO",Caption= "期貨商        代號",CellWidth=70,DetailRowFontSize=10,HeaderFontSize=11,DataRowMerge=true},
             new ReportProp{DataColumn="BRK_ABBR_NAME",Caption= "期貨商名稱" ,CellWidth=150,DetailRowFontSize=9,HeaderFontSize=11,DataRowMerge=true},
             new ReportProp{DataColumn="AMM0_ACC_NO",Caption= "帳號",CellWidth=60,DetailRowFontSize=10,HeaderFontSize=11,DataRowMerge=true },
-            new ReportProp{DataColumn="AMM0_PROD_ID",Caption= "商品名稱",CellWidth=80,DetailRowFontSize=10,HeaderFontSize=11},
+            new ReportProp{DataColumn="AMM0_PROD_ID",Caption= "商品名稱",CellWidth=80,DetailRowFontSize=10,HeaderFontSize=11,DataRowMerge=true},
             new ReportProp{DataColumn="AMM0_YMD",Caption= "日期" ,CellWidth=65,DetailRowFontSize=9,HeaderFontSize=11},
             new ReportProp{DataColumn="AMM0_OM_QNTY",Caption= "委託          成交量",CellWidth=65,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",DetailRowFontSize=10,HeaderFontSize=11},
             new ReportProp{DataColumn="AMM0_QM_QNTY",Caption= "報價          成交量",CellWidth=65,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",DetailRowFontSize=10,HeaderFontSize=11},
-            new ReportProp{DataColumn="QNTY",Caption= "造市量" ,CellWidth=65,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",DetailRowFontSize=10,HeaderFontSize=11},
+            new ReportProp{DataColumn="QNTY",Caption= "造市量" ,CellWidth=65,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",DetailRowFontSize=10,HeaderFontSize=11,Expression=new ReportExprssion{ Condition="[QNTY] < [MMF_QNTY_LOW]",BackColor=Color.FromArgb(255,128,255),ForeColor=Color.Black } },
             new ReportProp{DataColumn="CP_M_QNTY",Caption= "造市者   總成交量" ,CellWidth=75,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",DetailRowFontSize=10,HeaderFontSize=11},
             new ReportProp{DataColumn="CP_RATE_M",Caption= "總成交量   市佔率(%)",CellWidth=60,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:##0.0#}",DetailRowFontSize=10,HeaderFontSize=8},
             new ReportProp{DataColumn="AMM0_VALID_CNT",Caption= "有效報價     筆數",CellWidth=75,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",DetailRowFontSize=10,HeaderFontSize=11},
-            new ReportProp{DataColumn="VALID_RATE",Caption= "有效報/詢價   比例(%)",CellWidth=70,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:##0.0#}",DetailRowFontSize=10,HeaderFontSize=8},
+            new ReportProp{DataColumn="VALID_RATE",Caption= "有效報/詢價   比例(%)",CellWidth=70,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:##0.0#}",DetailRowFontSize=10,HeaderFontSize=8,Expression=new ReportExprssion{ Condition="[VALID_RATE] < [MMF_RESP_RATIO]",BackColor=Color.FromArgb(255,128,255),ForeColor=Color.Black }},
             new ReportProp{DataColumn="AMM0_MARKET_R_CNT",Caption= "全市場   詢價筆數",CellWidth=75,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",DetailRowFontSize=10,HeaderFontSize=11},
             new ReportProp{DataColumn="AMM0_MARKET_M_QNTY",Caption= "全市場   總成交量",CellWidth=75,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",DetailRowFontSize=10,HeaderFontSize=11},
-            new ReportProp{DataColumn="AMM0_KEEP_FLAG",Caption= "符合報價每日平均維持時間",CellWidth=40,DetailRowFontSize=10,HeaderFontSize=8}
+            new ReportProp{DataColumn="AMM0_KEEP_FLAG",Caption= "符合報價每日平均維持時間",CellWidth=55,textAlignment=TextAlignment.MiddleCenter,DetailRowFontSize=10,HeaderFontSize=8}
             };
          _defReport = new defReport(_Data, caption);
          documentViewer1.DocumentSource = _defReport;
          _defReport.CreateDocument(true);
 
+         ShowMsg("匯出檔案...");
+         string destinationFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, "50032.xlsx");
+         try {
+            Workbook workbook = new Workbook();
+            workbook.CreateNewDocument();
+            workbook.SaveDocument(destinationFilePath, DocumentFormat.Xlsx);
+            workbook.Worksheets[0].Import(ids, true, 0, 0);
+            workbook.SaveDocument(destinationFilePath);
+         }
+         catch (Exception ex) {
+            if (File.Exists(destinationFilePath))
+               File.Delete(destinationFilePath);
+            throw ex;
+         }
+         finally {
+            EndExport();
+         }
+
          return ResultStatus.Success;
+      }
+
+      protected void ShowMsg(string msg)
+      {
+         stMsgTxt.Visible = true;
+         stMsgTxt.Text = msg;
+         this.Refresh();
+         Thread.Sleep(5);
       }
 
       protected override ResultStatus Export()
@@ -324,10 +455,10 @@ namespace PhoenixCI.FormUI.Prefix5
          CommonReportLandscapeA4 reportLandscapeA4 = new CommonReportLandscapeA4();
          XtraReport xtraReport = reportHelper.CreateCompositeReport(_defReport, reportLandscapeA4);
          string dateCondition = DateText() == "" ? "" : "," + DateText();
-         reportHelper.LeftMemo = 
-            (ConditionText() == "" ? 
+         reportHelper.LeftMemo =
+            (ConditionText() == "" ?
             $"報表條件：連續{SleCMth.Text}個月不符造市規定" :
-            ConditionText() + $"連續{SleCMth.Text}個月不符造市規定") 
+            ConditionText() + $"連續{SleCMth.Text}個月不符造市規定")
             + dateCondition;
          reportHelper.Create(xtraReport);
 

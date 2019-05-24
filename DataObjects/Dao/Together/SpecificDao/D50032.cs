@@ -19,7 +19,8 @@ namespace DataObjects.Dao.Together.SpecificDao
                 ":as_eymd",d500Xx.Edate
             };
          string sql = @"
-SELECT ROWNUM as CP_ROW,main.*
+SELECT ROWNUM as CP_ROW,main.*,
+       CASE WHEN (QNTY < MMF_QNTY_LOW OR VALID_RATE < MMF_RESP_RATIO OR KEEP_FLAG <> 'Y') THEN 1 ELSE 0 END as CP_INVALID
 FROM
 (SELECT AMM0_YMD,   
          AMM0_BRK_NO,AMM0_ACC_NO,
@@ -60,6 +61,8 @@ ORDER BY AMM0_BRK_NO,BRK_ABBR_NAME,AMM0_ACC_NO,AMM0_PROD_TYPE,AMM0_PROD_ID,AMM0_
          DataTable dt = db.GetDataTable(sql, parms);
          return dt;
       }//public DataTable List50032
+
+
 
       public DataTable ListChk(string is_sdate, string is_edate)
       {

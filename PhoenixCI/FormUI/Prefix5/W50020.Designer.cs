@@ -717,7 +717,7 @@
          this.dataLayoutControl1.Name = "dataLayoutControl1";
          this.dataLayoutControl1.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(325, 252, 1065, 583);
          this.dataLayoutControl1.Root = this.layoutControlGroup1;
-         this.dataLayoutControl1.Size = new System.Drawing.Size(472, 53);
+         this.dataLayoutControl1.Size = new System.Drawing.Size(700, 53);
          this.dataLayoutControl1.TabIndex = 0;
          this.dataLayoutControl1.Text = "dataLayoutControl1";
          // 
@@ -728,17 +728,17 @@
          this.dwSbrkno.Name = "dwSbrkno";
          this.dwSbrkno.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.dwSbrkno.Size = new System.Drawing.Size(161, 26);
+         this.dwSbrkno.Size = new System.Drawing.Size(286, 26);
          this.dwSbrkno.StyleController = this.dataLayoutControl1;
          this.dwSbrkno.TabIndex = 4;
          // 
          // dwEbrkno
          // 
-         this.dwEbrkno.Location = new System.Drawing.Point(277, 12);
+         this.dwEbrkno.Location = new System.Drawing.Point(402, 12);
          this.dwEbrkno.Name = "dwEbrkno";
          this.dwEbrkno.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.dwEbrkno.Size = new System.Drawing.Size(183, 26);
+         this.dwEbrkno.Size = new System.Drawing.Size(286, 26);
          this.dwEbrkno.StyleController = this.dataLayoutControl1;
          this.dwEbrkno.TabIndex = 4;
          // 
@@ -749,7 +749,7 @@
          this.layoutControlGroup1.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
             this.AprkNoGrp});
          this.layoutControlGroup1.Name = "Root";
-         this.layoutControlGroup1.Size = new System.Drawing.Size(472, 53);
+         this.layoutControlGroup1.Size = new System.Drawing.Size(700, 53);
          this.layoutControlGroup1.TextVisible = false;
          // 
          // AprkNoGrp
@@ -761,14 +761,14 @@
             this.st1});
          this.AprkNoGrp.Location = new System.Drawing.Point(0, 0);
          this.AprkNoGrp.Name = "ABRK_NO_grp";
-         this.AprkNoGrp.Size = new System.Drawing.Size(452, 33);
+         this.AprkNoGrp.Size = new System.Drawing.Size(680, 33);
          // 
          // st2
          // 
          this.st2.Control = this.dwSbrkno;
          this.st2.Location = new System.Drawing.Point(0, 0);
          this.st2.Name = "st_2";
-         this.st2.Size = new System.Drawing.Size(248, 33);
+         this.st2.Size = new System.Drawing.Size(373, 33);
          this.st2.Text = "期貨商代號";
          this.st2.TextSize = new System.Drawing.Size(80, 20);
          // 
@@ -776,10 +776,10 @@
          // 
          this.st1.Control = this.dwEbrkno;
          this.st1.CustomizationFormText = "ABRK_NO";
-         this.st1.Location = new System.Drawing.Point(248, 0);
+         this.st1.Location = new System.Drawing.Point(373, 0);
          this.st1.MinSize = new System.Drawing.Size(137, 30);
          this.st1.Name = "st_1";
-         this.st1.Size = new System.Drawing.Size(204, 33);
+         this.st1.Size = new System.Drawing.Size(307, 33);
          this.st1.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
          this.st1.Text = "~";
          this.st1.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.AutoSize;

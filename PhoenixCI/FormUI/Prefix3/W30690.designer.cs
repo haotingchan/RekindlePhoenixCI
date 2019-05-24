@@ -154,6 +154,7 @@
          this.txtRateStartDate.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
          this.txtRateStartDate.Properties.Appearance.Options.UseFont = true;
          this.txtRateStartDate.Properties.Appearance.Options.UseForeColor = true;
+         this.txtRateStartDate.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtRateStartDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
          this.txtRateStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtRateStartDate.Properties.Mask.ShowPlaceHolders = false;
@@ -174,6 +175,7 @@
          this.txtThisEndDate.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
          this.txtThisEndDate.Properties.Appearance.Options.UseFont = true;
          this.txtThisEndDate.Properties.Appearance.Options.UseForeColor = true;
+         this.txtThisEndDate.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtThisEndDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
          this.txtThisEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtThisEndDate.Properties.Mask.ShowPlaceHolders = false;
@@ -194,6 +196,7 @@
          this.txtThisStartDate.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
          this.txtThisStartDate.Properties.Appearance.Options.UseFont = true;
          this.txtThisStartDate.Properties.Appearance.Options.UseForeColor = true;
+         this.txtThisStartDate.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtThisStartDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
          this.txtThisStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtThisStartDate.Properties.Mask.ShowPlaceHolders = false;
@@ -235,6 +238,7 @@
          this.txtLastEndDate.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
          this.txtLastEndDate.Properties.Appearance.Options.UseFont = true;
          this.txtLastEndDate.Properties.Appearance.Options.UseForeColor = true;
+         this.txtLastEndDate.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtLastEndDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
          this.txtLastEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtLastEndDate.Properties.Mask.ShowPlaceHolders = false;
@@ -255,6 +259,7 @@
          this.txtLastStartDate.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
          this.txtLastStartDate.Properties.Appearance.Options.UseFont = true;
          this.txtLastStartDate.Properties.Appearance.Options.UseForeColor = true;
+         this.txtLastStartDate.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtLastStartDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
          this.txtLastStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtLastStartDate.Properties.Mask.ShowPlaceHolders = false;
@@ -343,6 +348,7 @@
          this.btnCopy.TabIndex = 8;
          this.btnCopy.Text = ">>";
          this.btnCopy.UseVisualStyleBackColor = true;
+         this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
          // 
          // panNight
          // 
@@ -378,6 +384,7 @@
          this.txtRateStartDateN.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
          this.txtRateStartDateN.Properties.Appearance.Options.UseFont = true;
          this.txtRateStartDateN.Properties.Appearance.Options.UseForeColor = true;
+         this.txtRateStartDateN.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtRateStartDateN.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
          this.txtRateStartDateN.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtRateStartDateN.Properties.Mask.ShowPlaceHolders = false;
@@ -398,6 +405,7 @@
          this.txtThisEndDateN.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
          this.txtThisEndDateN.Properties.Appearance.Options.UseFont = true;
          this.txtThisEndDateN.Properties.Appearance.Options.UseForeColor = true;
+         this.txtThisEndDateN.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtThisEndDateN.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
          this.txtThisEndDateN.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtThisEndDateN.Properties.Mask.ShowPlaceHolders = false;
@@ -418,6 +426,7 @@
          this.txtThisStartDateN.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
          this.txtThisStartDateN.Properties.Appearance.Options.UseFont = true;
          this.txtThisStartDateN.Properties.Appearance.Options.UseForeColor = true;
+         this.txtThisStartDateN.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtThisStartDateN.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
          this.txtThisStartDateN.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtThisStartDateN.Properties.Mask.ShowPlaceHolders = false;
@@ -459,6 +468,7 @@
          this.txtLastEndDateN.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
          this.txtLastEndDateN.Properties.Appearance.Options.UseFont = true;
          this.txtLastEndDateN.Properties.Appearance.Options.UseForeColor = true;
+         this.txtLastEndDateN.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtLastEndDateN.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
          this.txtLastEndDateN.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtLastEndDateN.Properties.Mask.ShowPlaceHolders = false;
@@ -479,6 +489,7 @@
          this.txtLastStartDateN.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
          this.txtLastStartDateN.Properties.Appearance.Options.UseFont = true;
          this.txtLastStartDateN.Properties.Appearance.Options.UseForeColor = true;
+         this.txtLastStartDateN.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtLastStartDateN.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
          this.txtLastStartDateN.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtLastStartDateN.Properties.Mask.ShowPlaceHolders = false;
@@ -562,6 +573,7 @@
          this.txtDiffEndDateN.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
          this.txtDiffEndDateN.Properties.Appearance.Options.UseFont = true;
          this.txtDiffEndDateN.Properties.Appearance.Options.UseForeColor = true;
+         this.txtDiffEndDateN.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtDiffEndDateN.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
          this.txtDiffEndDateN.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtDiffEndDateN.Properties.Mask.ShowPlaceHolders = false;
@@ -582,6 +594,7 @@
          this.txtDiffStartDateN.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
          this.txtDiffStartDateN.Properties.Appearance.Options.UseFont = true;
          this.txtDiffStartDateN.Properties.Appearance.Options.UseForeColor = true;
+         this.txtDiffStartDateN.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtDiffStartDateN.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
          this.txtDiffStartDateN.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtDiffStartDateN.Properties.Mask.ShowPlaceHolders = false;
@@ -623,6 +636,7 @@
          this.txtDiffEndDate.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
          this.txtDiffEndDate.Properties.Appearance.Options.UseFont = true;
          this.txtDiffEndDate.Properties.Appearance.Options.UseForeColor = true;
+         this.txtDiffEndDate.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtDiffEndDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
          this.txtDiffEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtDiffEndDate.Properties.Mask.ShowPlaceHolders = false;
@@ -643,6 +657,7 @@
          this.txtDiffStartDate.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
          this.txtDiffStartDate.Properties.Appearance.Options.UseFont = true;
          this.txtDiffStartDate.Properties.Appearance.Options.UseForeColor = true;
+         this.txtDiffStartDate.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtDiffStartDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
          this.txtDiffStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtDiffStartDate.Properties.Mask.ShowPlaceHolders = false;
@@ -764,10 +779,10 @@
          // 
          this.btnTest.Font = new System.Drawing.Font("PMingLiU", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.btnTest.ForeColor = System.Drawing.Color.Black;
-         this.btnTest.Location = new System.Drawing.Point(12, 686);
+         this.btnTest.Location = new System.Drawing.Point(8, 686);
          this.btnTest.Margin = new System.Windows.Forms.Padding(0);
          this.btnTest.Name = "btnTest";
-         this.btnTest.Size = new System.Drawing.Size(270, 28);
+         this.btnTest.Size = new System.Drawing.Size(343, 28);
          this.btnTest.TabIndex = 14;
          this.btnTest.Text = "轉波動度及振幅現貨資料 to csv";
          this.btnTest.UseVisualStyleBackColor = true;

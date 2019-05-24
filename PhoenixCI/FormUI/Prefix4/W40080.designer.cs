@@ -35,6 +35,7 @@
          this.panel2 = new System.Windows.Forms.Panel();
          this.gcMain = new DevExpress.XtraGrid.GridControl();
          this.gvMain = new DevExpress.XtraGrid.Views.Grid.GridView();
+         this.OSW_GRP = new DevExpress.XtraGrid.Columns.GridColumn();
          this.SP1_OSW_GRP = new DevExpress.XtraGrid.Columns.GridColumn();
          this.SP1_DATE = new DevExpress.XtraGrid.Columns.GridColumn();
          this.SP1_TYPE = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -44,13 +45,10 @@
          this.SP1_CHANGE_RANGE = new DevExpress.XtraGrid.Columns.GridColumn();
          this.SP2_ADJ_CODE = new DevExpress.XtraGrid.Columns.GridColumn();
          this.SP2_VALUE_DATE = new DevExpress.XtraGrid.Columns.GridColumn();
+         this.repositoryItemDateEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemDateEdit();
          this.SP1_SEQ_NO = new DevExpress.XtraGrid.Columns.GridColumn();
          this.SP2_SPAN_CODE_ORG = new DevExpress.XtraGrid.Columns.GridColumn();
          this.SP2_ADJ_CODE_ORG = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
-         this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-         this.repositoryItemCheckedComboBoxEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckedComboBoxEdit();
-         this.OSW_GRP = new DevExpress.XtraGrid.Columns.GridColumn();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          this.panel1.SuspendLayout();
          this.groupBox2.SuspendLayout();
@@ -61,14 +59,13 @@
          this.panel2.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit1)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1.CalendarTimeProperties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
          // 
-         this.panParent.Size = new System.Drawing.Size(939, 704);
+         this.panParent.Size = new System.Drawing.Size(939, 586);
          // 
          // ribbonControl
          // 
@@ -213,20 +210,17 @@
          this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
          this.panel2.Location = new System.Drawing.Point(0, 125);
          this.panel2.Name = "panel2";
-         this.panel2.Size = new System.Drawing.Size(939, 609);
+         this.panel2.Size = new System.Drawing.Size(939, 491);
          this.panel2.TabIndex = 3;
          // 
          // gcMain
          // 
-         this.gcMain.Dock = System.Windows.Forms.DockStyle.Fill;
          this.gcMain.Location = new System.Drawing.Point(0, 0);
          this.gcMain.MainView = this.gvMain;
          this.gcMain.Name = "gcMain";
          this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
-            this.repositoryItemCheckEdit1,
-            this.repositoryItemTextEdit1,
-            this.repositoryItemCheckedComboBoxEdit1});
-         this.gcMain.Size = new System.Drawing.Size(939, 609);
+            this.repositoryItemDateEdit1});
+         this.gcMain.Size = new System.Drawing.Size(939, 491);
          this.gcMain.TabIndex = 1;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -260,8 +254,16 @@
          this.gvMain.Name = "gvMain";
          this.gvMain.OptionsView.AllowCellMerge = true;
          this.gvMain.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gvMain_ShowingEditor);
-         this.gvMain.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gvMain_CellValueChanged);
+         this.gvMain.CellValueChanging += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gvMain_CellValueChanging);
          this.gvMain.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gvMain_CustomColumnDisplayText);
+         // 
+         // OSW_GRP
+         // 
+         this.OSW_GRP.Caption = "群組";
+         this.OSW_GRP.FieldName = "OSW_GRP";
+         this.OSW_GRP.Name = "OSW_GRP";
+         this.OSW_GRP.Visible = true;
+         this.OSW_GRP.VisibleIndex = 7;
          // 
          // SP1_OSW_GRP
          // 
@@ -276,6 +278,7 @@
          this.SP1_DATE.Name = "SP1_DATE";
          this.SP1_DATE.Visible = true;
          this.SP1_DATE.VisibleIndex = 0;
+         this.SP1_DATE.Width = 30;
          // 
          // SP1_TYPE
          // 
@@ -284,6 +287,7 @@
          this.SP1_TYPE.Name = "SP1_TYPE";
          this.SP1_TYPE.Visible = true;
          this.SP1_TYPE.VisibleIndex = 1;
+         this.SP1_TYPE.Width = 50;
          // 
          // OP_TYPE
          // 
@@ -299,6 +303,7 @@
          this.SP1_KIND_ID1.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
          this.SP1_KIND_ID1.Visible = true;
          this.SP1_KIND_ID1.VisibleIndex = 2;
+         this.SP1_KIND_ID1.Width = 30;
          // 
          // SP1_KIND_ID2
          // 
@@ -308,6 +313,7 @@
          this.SP1_KIND_ID2.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
          this.SP1_KIND_ID2.Visible = true;
          this.SP1_KIND_ID2.VisibleIndex = 3;
+         this.SP1_KIND_ID2.Width = 30;
          // 
          // SP1_CHANGE_RANGE
          // 
@@ -320,7 +326,7 @@
          // 
          // SP2_ADJ_CODE
          // 
-         this.SP2_ADJ_CODE.Caption = " 觀察  ／ 調整";
+         this.SP2_ADJ_CODE.Caption = " 觀察／調整";
          this.SP2_ADJ_CODE.FieldName = "SP2_ADJ_CODE";
          this.SP2_ADJ_CODE.Name = "SP2_ADJ_CODE";
          this.SP2_ADJ_CODE.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
@@ -330,12 +336,24 @@
          // SP2_VALUE_DATE
          // 
          this.SP2_VALUE_DATE.Caption = "生效日期";
+         this.SP2_VALUE_DATE.ColumnEdit = this.repositoryItemDateEdit1;
          this.SP2_VALUE_DATE.FieldName = "SP2_VALUE_DATE";
          this.SP2_VALUE_DATE.Name = "SP2_VALUE_DATE";
-         this.SP2_VALUE_DATE.OptionsColumn.AllowEdit = false;
          this.SP2_VALUE_DATE.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
          this.SP2_VALUE_DATE.Visible = true;
          this.SP2_VALUE_DATE.VisibleIndex = 6;
+         // 
+         // repositoryItemDateEdit1
+         // 
+         this.repositoryItemDateEdit1.AutoHeight = false;
+         this.repositoryItemDateEdit1.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.repositoryItemDateEdit1.DisplayFormat.FormatString = "yyyy/MM/dd";
+         this.repositoryItemDateEdit1.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+         this.repositoryItemDateEdit1.EditFormat.FormatString = "yyyy/MM/dd";
+         this.repositoryItemDateEdit1.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+         this.repositoryItemDateEdit1.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.repositoryItemDateEdit1.Name = "repositoryItemDateEdit1";
          // 
          // SP1_SEQ_NO
          // 
@@ -355,42 +373,12 @@
          this.SP2_ADJ_CODE_ORG.FieldName = "SP2_ADJ_CODE_ORG";
          this.SP2_ADJ_CODE_ORG.Name = "SP2_ADJ_CODE_ORG";
          // 
-         // repositoryItemCheckEdit1
-         // 
-         this.repositoryItemCheckEdit1.AutoHeight = false;
-         this.repositoryItemCheckEdit1.Name = "repositoryItemCheckEdit1";
-         this.repositoryItemCheckEdit1.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
-         this.repositoryItemCheckEdit1.ValueChecked = "Y";
-         this.repositoryItemCheckEdit1.ValueUnchecked = " ";
-         // 
-         // repositoryItemTextEdit1
-         // 
-         this.repositoryItemTextEdit1.AutoHeight = false;
-         this.repositoryItemTextEdit1.Mask.EditMask = "n";
-         this.repositoryItemTextEdit1.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
-         this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
-         // 
-         // repositoryItemCheckedComboBoxEdit1
-         // 
-         this.repositoryItemCheckedComboBoxEdit1.AutoHeight = false;
-         this.repositoryItemCheckedComboBoxEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.repositoryItemCheckedComboBoxEdit1.Name = "repositoryItemCheckedComboBoxEdit1";
-         // 
-         // OSW_GRP
-         // 
-         this.OSW_GRP.Caption = "群組";
-         this.OSW_GRP.FieldName = "OSW_GRP";
-         this.OSW_GRP.Name = "OSW_GRP";
-         this.OSW_GRP.Visible = true;
-         this.OSW_GRP.VisibleIndex = 7;
-         // 
          // W40080
          // 
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(939, 734);
+         this.ClientSize = new System.Drawing.Size(939, 616);
          this.Controls.Add(this.panel2);
          this.Controls.Add(this.panel1);
          this.Name = "W40080";
@@ -410,9 +398,8 @@
          this.panel2.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit1)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1.CalendarTimeProperties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -430,8 +417,6 @@
       private BaseGround.Widget.TextDateEdit txtDate1;
       private DevExpress.XtraGrid.GridControl gcMain;
       private DevExpress.XtraGrid.Views.Grid.GridView gvMain;
-      private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit1;
-      private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit1;
       private DevExpress.XtraGrid.Columns.GridColumn SP1_OSW_GRP;
       private DevExpress.XtraGrid.Columns.GridColumn SP1_DATE;
       private DevExpress.XtraGrid.Columns.GridColumn OP_TYPE;
@@ -443,10 +428,10 @@
       private DevExpress.XtraGrid.Columns.GridColumn SP2_SPAN_CODE_ORG;
       private DevExpress.XtraGrid.Columns.GridColumn SP2_ADJ_CODE_ORG;
       private DevExpress.XtraGrid.Columns.GridColumn SP1_TYPE;
-      private DevExpress.XtraEditors.Repository.RepositoryItemCheckedComboBoxEdit repositoryItemCheckedComboBoxEdit1;
       private DevExpress.XtraGrid.Columns.GridColumn SP2_VALUE_DATE;
       private System.Windows.Forms.GroupBox groupBox2;
       private DevExpress.XtraEditors.LookUpEdit ddlAdjust;
       private DevExpress.XtraGrid.Columns.GridColumn OSW_GRP;
+      private DevExpress.XtraEditors.Repository.RepositoryItemDateEdit repositoryItemDateEdit1;
    }
 }
