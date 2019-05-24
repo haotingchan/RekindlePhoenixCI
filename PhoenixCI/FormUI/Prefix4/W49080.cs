@@ -205,14 +205,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
                return ResultStatus.Fail;
             }
 
-            if(dtChange.Rows.Count > 0) {
-               DialogResult res = new DialogResult();
-               res = MessageDisplay.Choose("未完成存檔，請問是否要離開作業？");
-               if (res == DialogResult.No) {
-                  return ResultStatus.Fail;
-               }
-            }
-
             //隱藏欄位賦值
             foreach (DataRow dr in dtCurrent.Rows) {
                if (dr.RowState == DataRowState.Added || dr.RowState == DataRowState.Modified) {
