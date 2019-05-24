@@ -29,7 +29,6 @@
 
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.accordionMenu = new BaseGround.AccordionControlEx();
             this.accordionElemtnt1 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
@@ -45,7 +44,7 @@
             this.accordionElemtntW = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.accordionElemtntZ = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.scSearch = new DevExpress.XtraEditors.SearchControl();
-            this.defaultLookAndFeelMain = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
+            this.defaultLookAndFeelMain = new DevExpress.LookAndFeel.DefaultLookAndFeel();
             this.panSearch = new System.Windows.Forms.Panel();
             this.lblSearch = new System.Windows.Forms.Label();
             this.statusStripMain = new System.Windows.Forms.StatusStrip();
@@ -57,7 +56,7 @@
             this.toolStripStatusLabelUserName = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelVersion = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelVersionNum = new System.Windows.Forms.ToolStripStatusLabel();
-            this.barManagerMain = new DevExpress.XtraBars.BarManager(this.components);
+            this.barManagerMain = new DevExpress.XtraBars.BarManager();
             this.barTool = new DevExpress.XtraBars.Bar();
             this.toolStripButtonInsert = new DevExpress.XtraBars.BarButtonItem();
             this.toolStripButtonSave = new DevExpress.XtraBars.BarButtonItem();
