@@ -38,13 +38,12 @@
          this.MGT3_W_TIME = new DevExpress.XtraGrid.Columns.GridColumn();
          this.MGT3_W_USER_ID = new DevExpress.XtraGrid.Columns.GridColumn();
          this.IS_NEWROW = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.MG8_MMTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-         this.MG8_IMTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
          this.MG8_W_TIME = new DevExpress.XtraGrid.Columns.GridColumn();
          this.MG8_W_USER_ID = new DevExpress.XtraGrid.Columns.GridColumn();
          this.MG8_EFFECT_YMD = new DevExpress.XtraGrid.Columns.GridColumn();
          this.MG8_F_ID = new DevExpress.XtraGrid.Columns.GridColumn();
          this.MG8_CM = new DevExpress.XtraGrid.Columns.GridColumn();
+         this.repositoryItemDateEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemDateEdit();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -55,8 +54,8 @@
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.MG8_CMTextEdit)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.MG8_MMTextEdit1)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.MG8_IMTextEdit1)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1.CalendarTimeProperties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -142,8 +141,7 @@
          this.gcMain.Name = "gcMain";
          this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.MG8_CMTextEdit,
-            this.MG8_MMTextEdit1,
-            this.MG8_IMTextEdit1});
+            this.repositoryItemDateEdit1});
          this.gcMain.Size = new System.Drawing.Size(875, 521);
          this.gcMain.TabIndex = 0;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -173,6 +171,7 @@
          this.MGT3_DATE_FM.AppearanceHeader.Options.UseTextOptions = true;
          this.MGT3_DATE_FM.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.MGT3_DATE_FM.Caption = "起始日期";
+         this.MGT3_DATE_FM.ColumnEdit = this.repositoryItemDateEdit1;
          this.MGT3_DATE_FM.FieldName = "MGT3_DATE_FM";
          this.MGT3_DATE_FM.Name = "MGT3_DATE_FM";
          this.MGT3_DATE_FM.Visible = true;
@@ -185,6 +184,7 @@
          this.MGT3_DATE_TO.AppearanceHeader.Options.UseTextOptions = true;
          this.MGT3_DATE_TO.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.MGT3_DATE_TO.Caption = "迄止日期";
+         this.MGT3_DATE_TO.ColumnEdit = this.repositoryItemDateEdit1;
          this.MGT3_DATE_TO.FieldName = "MGT3_DATE_TO";
          this.MGT3_DATE_TO.Name = "MGT3_DATE_TO";
          this.MGT3_DATE_TO.Visible = true;
@@ -230,26 +230,6 @@
          this.IS_NEWROW.Caption = "Is_NewRow";
          this.IS_NEWROW.FieldName = "IS_NEWROW";
          this.IS_NEWROW.Name = "IS_NEWROW";
-         // 
-         // MG8_MMTextEdit1
-         // 
-         this.MG8_MMTextEdit1.AutoHeight = false;
-         this.MG8_MMTextEdit1.DisplayFormat.FormatString = "###0.####";
-         this.MG8_MMTextEdit1.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-         this.MG8_MMTextEdit1.Mask.EditMask = "####0.0000";
-         this.MG8_MMTextEdit1.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
-         this.MG8_MMTextEdit1.MaxLength = 10;
-         this.MG8_MMTextEdit1.Name = "MG8_MMTextEdit1";
-         // 
-         // MG8_IMTextEdit1
-         // 
-         this.MG8_IMTextEdit1.AutoHeight = false;
-         this.MG8_IMTextEdit1.DisplayFormat.FormatString = "###0.####";
-         this.MG8_IMTextEdit1.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-         this.MG8_IMTextEdit1.Mask.EditMask = "####0.0000";
-         this.MG8_IMTextEdit1.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
-         this.MG8_IMTextEdit1.MaxLength = 10;
-         this.MG8_IMTextEdit1.Name = "MG8_IMTextEdit1";
          // 
          // MG8_W_TIME
          // 
@@ -302,6 +282,19 @@
          this.MG8_CM.VisibleIndex = 2;
          this.MG8_CM.Width = 145;
          // 
+         // repositoryItemDateEdit1
+         // 
+         this.repositoryItemDateEdit1.AutoHeight = false;
+         this.repositoryItemDateEdit1.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.repositoryItemDateEdit1.DisplayFormat.FormatString = "yyyy/MM/dd";
+         this.repositoryItemDateEdit1.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+         this.repositoryItemDateEdit1.EditFormat.FormatString = "yyyy/MM/dd";
+         this.repositoryItemDateEdit1.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+         this.repositoryItemDateEdit1.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.repositoryItemDateEdit1.Mask.PlaceHolder = '0';
+         this.repositoryItemDateEdit1.Name = "repositoryItemDateEdit1";
+         // 
          // W49050
          // 
          this.Appearance.Options.UseFont = true;
@@ -327,8 +320,8 @@
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.MG8_CMTextEdit)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.MG8_MMTextEdit1)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.MG8_IMTextEdit1)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1.CalendarTimeProperties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -349,8 +342,6 @@
       private DevExpress.XtraGrid.Columns.GridColumn MGT3_W_TIME;
       private DevExpress.XtraGrid.Columns.GridColumn MGT3_W_USER_ID;
       private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit MG8_CMTextEdit;
-      private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit MG8_MMTextEdit1;
-      private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit MG8_IMTextEdit1;
       private DevExpress.XtraGrid.Columns.GridColumn MG8_W_TIME;
       private DevExpress.XtraGrid.Columns.GridColumn MG8_W_USER_ID;
       private DevExpress.XtraGrid.Columns.GridColumn MG8_EFFECT_YMD;
@@ -358,5 +349,6 @@
       private DevExpress.XtraGrid.Columns.GridColumn MG8_CM;
       private DevExpress.XtraEditors.TextEdit txtStartYear;
       private DevExpress.XtraEditors.TextEdit txtEndYear;
+      private DevExpress.XtraEditors.Repository.RepositoryItemDateEdit repositoryItemDateEdit1;
    }
 }

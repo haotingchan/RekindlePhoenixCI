@@ -33,23 +33,27 @@ namespace DataObjects.Dao.Together.SpecificDao {
         }
 
         public ResultData UpdatePLST1(DataTable inputData) {
-            string sql = 
-@"
- SELECT 
- 	PLST1_LEVEL,
- 	PLST1_C1_QNTY_MIN,
- 	PLST1_C1_QNTY_MAX,
- 	PLST1_C2_QNTY_MIN,
- 	PLST1_C2_QNTY_MAX,
- 	PLST1_STKOUT_MIN,
- 	PLST1_STKOUT_MAX,
- 	PLST1_NATURE,
- 	PLST1_LEGAL,
- 	PLST1_999
- FROM CI.PLST1
-";
 
-            return db.UpdateOracleDB(inputData, sql);
+            string tableName = "CI.PLST1";
+            string keysColumnList = @"PLST1_LEVEL";
+            string insertColumnList = @"PLST1_LEVEL,
+ 	                                     PLST1_C1_QNTY_MIN,
+ 	                                     PLST1_C1_QNTY_MAX,
+ 	                                     PLST1_C2_QNTY_MIN,
+ 	                                     PLST1_C2_QNTY_MAX,
+ 	                                     PLST1_STKOUT_MIN,
+ 	                                     PLST1_STKOUT_MAX,
+ 	                                     PLST1_NATURE,
+ 	                                     PLST1_LEGAL,
+ 	                                     PLST1_999";
+            string updateColumnList = insertColumnList;
+            try {
+                //update to DB
+                return SaveForChanged(inputData, tableName, insertColumnList, updateColumnList, keysColumnList);
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
         }
     }
 }

@@ -33,19 +33,13 @@ namespace PhoenixCI.FormUI.PrefixZ
             repCheck.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
 
             gcMain.RepositoryItems.Add(repCheck);
-            TXN_INS.ColumnEdit = repCheck;
-            TXN_DEL.ColumnEdit = repCheck;
-            TXN_QUERY.ColumnEdit = repCheck;
-            TXN_IMPORT.ColumnEdit = repCheck;
-            TXN_EXPORT.ColumnEdit = repCheck;
-            TXN_PRINT.ColumnEdit = repCheck;
-            TXN_UPDATE.ColumnEdit = repCheck;
             TXN_DEFAULT.ColumnEdit = repCheck;
-            TXN_AUDIT.ColumnEdit = repCheck;
+            TXN_EXTEND.ColumnEdit = repCheck;
 
-         daoTXN = new TXN();
-         daoUTP = new UTP();
-         daoLOGUTP = new LOGUTP();
+
+             daoTXN = new TXN();
+             daoUTP = new UTP();
+             daoLOGUTP = new LOGUTP();
       }
 
         public override ResultStatus BeforeOpen()
@@ -104,11 +98,10 @@ namespace PhoenixCI.FormUI.PrefixZ
             {
                 if (row.RowState != DataRowState.Deleted && row.RowState != DataRowState.Unchanged)
                 {
-                    if (!string.IsNullOrEmpty(row["MODIFY_MARK"].ToString().Trim()))
-                    {
+
                         row["TXN_W_USER_ID"] = GlobalInfo.USER_ID;
                         row["TXN_W_TIME"] = DateTime.Now;
-                    }
+                    
                 }
             }
 
@@ -132,44 +125,57 @@ namespace PhoenixCI.FormUI.PrefixZ
                     base.Save(gcMain);
 
                     DataTable dt = (DataTable)gcMain.DataSource;
+                    gvMain.CloseEditor();
+                    gvMain.UpdateCurrentRow();
 
-                    string tableName = "ci.TXN";
-                    string keysColumnList = "TXN_ID";
-                    string insertColumnList = "TXN_ID, TXN_INS, TXN_DEL, TXN_QUERY, TXN_IMPORT, TXN_EXPORT, TXN_PRINT, TXN_UPDATE, TXN_DEFAULT, TXN_RMARK, TXN_W_TIME, TXN_W_USER_ID, TXN_NAME, TXN_AUDIT";
-                    string updateColumnList = "TXN_ID, TXN_INS, TXN_DEL, TXN_QUERY, TXN_IMPORT, TXN_EXPORT, TXN_PRINT, TXN_UPDATE, TXN_DEFAULT, TXN_RMARK, TXN_W_TIME, TXN_W_USER_ID, TXN_NAME, TXN_AUDIT";
+                    DataTable dtAdd = dt.GetChanges(DataRowState.Added);
+                    DataTable dtDelete = dt.GetChanges(DataRowState.Deleted);
+                    DataTable dtChange = dt.GetChanges(DataRowState.Modified);
 
-                    ResultData myResultData = serviceCommon.SaveForChanged(dt, tableName, insertColumnList, updateColumnList, keysColumnList, pokeBall);
+                    new TXN().UpdateData(dt);
+
+                    //string tableName = "ci.TXN";
+                    //string keysColumnList = "TXN_ID";
+                    //string insertColumnList = "TXN_ID, TXN_INS, TXN_DEL, TXN_QUERY, TXN_IMPORT, TXN_EXPORT, TXN_PRINT, TXN_UPDATE, TXN_DEFAULT, TXN_RMARK, TXN_W_TIME, TXN_W_USER_ID, TXN_NAME, TXN_AUDIT";
+                    //string updateColumnList = "TXN_ID, TXN_INS, TXN_DEL, TXN_QUERY, TXN_IMPORT, TXN_EXPORT, TXN_PRINT, TXN_UPDATE, TXN_DEFAULT, TXN_RMARK, TXN_W_TIME, TXN_W_USER_ID, TXN_NAME, TXN_AUDIT";
+
+                    //ResultData myResultData = serviceCommon.SaveForChanged(dt, tableName, insertColumnList, updateColumnList, keysColumnList, pokeBall);
+
 
                     #region 刪除作業代號
-
-                    //DataTable dtDelete = (DataTable)myResultData.ChangedDataViewForDeleted.ToTable();
-                    //foreach (DataRow row in dtDelete.Rows)
-                    //{
-                    //    string txnId = row["TXN_ID"].AsString();
-                    //    bool result = daoLOGUTP.InsertByUTPAndUPF(txnId, GlobalInfo.USER_DPT_ID, GlobalInfo.USER_ID, GlobalInfo.USER_NAME, "D");
-                    //    result = daoUTP.DeleteUTPByTxnId(txnId);
-                    //}
-
+                    //刪除代號一併刪除相關權限
+                    if (dtDelete != null)
+                    {
+                        foreach (DataRow row in dtDelete.Rows)
+                        {
+                            string txnId = row["TXN_ID", DataRowVersion.Original].AsString();
+                            bool result = daoLOGUTP.InsertByUTPAndUPF(txnId, GlobalInfo.USER_DPT_ID, GlobalInfo.USER_ID, GlobalInfo.USER_NAME, "D");
+                            result = daoUTP.DeleteUTPByTxnId(txnId);
+                        }
+                    }
                     #endregion 刪除作業代號
 
                     #region 變更作業代號
-
-                    DataTable dtChange = (DataTable)myResultData.ChangedDataViewForModified.ToTable();
-                    foreach (DataRow row in dtChange.Rows)
+                    //變更代號一併更改作業權限
+                    if (dtChange != null)
                     {
-                        string txnId = row["TXN_ID"].AsString();
-                        string txnIdOrg = row["TXN_ID_ORG"].AsString();
-
-                        if (txnId != txnIdOrg)
+                        foreach (DataRow row in dtChange.Rows)
                         {
-                            bool result = daoLOGUTP.InsertByUTPAndUPF(txnIdOrg, GlobalInfo.USER_DPT_ID, GlobalInfo.USER_ID, GlobalInfo.USER_NAME, "D");
-                            result = daoUTP.DeleteUTPByTxnId(txnIdOrg);
+                            string txnId = row["TXN_ID"].AsString();
+                            string txnIdOrg = row["TXN_ID_ORG"].AsString();
+
+                            if (txnId != txnIdOrg)
+                            {
+                                bool result = daoLOGUTP.InsertByUTPAndUPF(txnIdOrg, GlobalInfo.USER_DPT_ID, GlobalInfo.USER_ID, GlobalInfo.USER_NAME, "D");
+                                result = daoUTP.DeleteUTPByTxnId(txnIdOrg);
+                            }
                         }
                     }
 
+
                     #endregion 變更作業代號
 
-                    PrintOrExportChanged(gcMain, myResultData);
+                    PrintOrExportChangedByKen(gcMain, dtAdd, dtDelete, dtChange,true,true);
                     _IsPreventFlowPrint = true;
                     _IsPreventFlowExport = true;
                 }
@@ -218,6 +224,8 @@ namespace PhoenixCI.FormUI.PrefixZ
             base.InsertRow(gvMain);
 
             gvMain.GetFocusedDataRow()["TXN_W_TIME"] = DateTime.Now;
+            gvMain.GetFocusedDataRow()["TXN_EXTEND"] = "N";
+            gvMain.GetFocusedDataRow()["TXN_DEFAULT"] = "N";
             gvMain.GetFocusedDataRow()["TXN_INS"] = "N";
             gvMain.GetFocusedDataRow()["TXN_DEL"] = "N";
             gvMain.GetFocusedDataRow()["TXN_QUERY"] = "N";
@@ -225,8 +233,8 @@ namespace PhoenixCI.FormUI.PrefixZ
             gvMain.GetFocusedDataRow()["TXN_EXPORT"] = "N";
             gvMain.GetFocusedDataRow()["TXN_PRINT"] = "N";
             gvMain.GetFocusedDataRow()["TXN_UPDATE"] = "N";
-            gvMain.GetFocusedDataRow()["TXN_DEFAULT"] = "N";
             gvMain.GetFocusedDataRow()["TXN_AUDIT"] = "N";
+
             gvMain.Focus();
 
             gvMain.FocusedColumn = gvMain.Columns[0];

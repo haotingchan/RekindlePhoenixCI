@@ -1,5 +1,6 @@
 ﻿using BusinessObjects;
 using OnePiece;
+using System;
 using System.Collections.Generic;
 using System.Data;
 
@@ -37,6 +38,41 @@ namespace DataObjects.Dao.Together.SpecificDao {
          //      .CopyToDataTable();
 
          return dt;
+      }
+
+      public DataTable GetSpanData(DateTime asDate) {
+         object[] parms = {
+                ":AD_DATE",asDate
+            };
+
+         string sql = @"SELECT   
+                         CASE WHEN SP1_TYPE = 'SD' THEN 'DELTA耗用比率'
+                           WHEN SP1_TYPE = 'SV' THEN 'VSR'   
+                           WHEN SP1_TYPE = 'SS' THEN '跨商品折抵率' END AS SP1_TYPE ,
+                           SPT1_COM_ID  ,  
+                           SP1_CUR_RATE ,
+                           SP1_RATE1 ,
+                           SP1_CHANGE_RANGE
+                  FROM(
+                        SELECT
+                         SP1_TYPE ,
+                         SPT1_COM_ID ,  
+                         CASE WHEN SP1_TYPE = 'SV' THEN CONCAT( '1:', TO_CHAR(SP1_CUR_RATE , '0.00')) ELSE TO_CHAR(SP1_CUR_RATE , '0.00') ||'%' END AS SP1_CUR_RATE , 
+                         CASE WHEN SP1_TYPE = 'SV' THEN CONCAT( '1:', TO_CHAR(SP1_RATE , '0.00')) ELSE TO_CHAR(SP1_RATE , '0.00') ||'%' END AS SP1_RATE1 ,   
+                        ROUND(SP1_CHANGE_RANGE *100 , 1) ||'%' AS SP1_CHANGE_RANGE,
+                        SP1_SEQ_NO
+                         FROM CI.SPT1,   
+                              CI.SP1 ,CI.SP2
+                        WHERE ( SP1_KIND_ID1 = SPT1_KIND_ID1 ) AND  
+                              ( SP1_KIND_ID2 = SPT1_KIND_ID2) AND 
+                              ( SP2_VALUE_DATE = :AD_DATE  )  AND
+                              ( SP1_DATE = SP2_DATE )  AND
+                              ( SP1_KIND_ID1 = SP2_KIND_ID1) AND
+                              ( SP1_KIND_ID2 = SP2_KIND_ID2)
+                        ORDER BY SP1_SEQ_NO , SP1_TYPE , SP1_KIND_ID1 , SP1_KIND_ID2
+                     )";
+
+         return db.GetDataTable(sql, parms);
       }
    }
 }

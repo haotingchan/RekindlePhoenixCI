@@ -779,10 +779,10 @@
          // 
          this.btnTest.Font = new System.Drawing.Font("PMingLiU", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.btnTest.ForeColor = System.Drawing.Color.Black;
-         this.btnTest.Location = new System.Drawing.Point(12, 686);
+         this.btnTest.Location = new System.Drawing.Point(8, 686);
          this.btnTest.Margin = new System.Windows.Forms.Padding(0);
          this.btnTest.Name = "btnTest";
-         this.btnTest.Size = new System.Drawing.Size(270, 28);
+         this.btnTest.Size = new System.Drawing.Size(343, 28);
          this.btnTest.TabIndex = 14;
          this.btnTest.Text = "轉波動度及振幅現貨資料 to csv";
          this.btnTest.UseVisualStyleBackColor = true;

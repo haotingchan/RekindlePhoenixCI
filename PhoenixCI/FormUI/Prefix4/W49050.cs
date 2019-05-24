@@ -80,25 +80,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gcMain.RepositoryItems.Add(memo);
             gvMain.Columns["MGT3_MEMO"].ColumnEdit = memo;
             memo.MaxLength = 30;
-            
-
-            //設定grid裡的 date format
-            RepositoryItemTextEdit fromDate = new RepositoryItemTextEdit();
-            fromDate.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-            fromDate.Mask.EditMask = "[0-9]{4}/(((0[13578]|(10|12))/(0[1-9]|[1-2][0-9]|3[0-1]))|(02/(0[1-9]|[1-2][0-9]))|((0[469]|11)/(0[1-9]|[1-2][0-9]|30)))";
-            fromDate.Mask.UseMaskAsDisplayFormat = true;
-            
-            gcMain.RepositoryItems.Add(fromDate);
-            gvMain.Columns["MGT3_DATE_FM"].ColumnEdit = fromDate;
-
-            RepositoryItemTextEdit toDate = new RepositoryItemTextEdit();
-            toDate.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-            toDate.Mask.EditMask = "[0-9]{4}/(((0[13578]|(10|12))/(0[1-9]|[1-2][0-9]|3[0-1]))|(02/(0[1-9]|[1-2][0-9]))|((0[469]|11)/(0[1-9]|[1-2][0-9]|30)))";
-            toDate.Mask.UseMaskAsDisplayFormat = true;         
-
-            gcMain.RepositoryItems.Add(toDate);
-            gvMain.Columns["MGT3_DATE_TO"].ColumnEdit = toDate;
-
+           
             //2. 設定gvMain
             gcMain.Visible = true;
             gcMain.DataSource = dt;

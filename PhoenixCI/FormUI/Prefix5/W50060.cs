@@ -74,7 +74,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
       protected override ResultStatus Retrieve() {
 
          _ToolBtnExport.Enabled = true;
-         //gvMain.GroupSummary.Clear();
+         gvMain.GroupSummary.Clear();
          this.Cursor = Cursors.WaitCursor;
 
          try {
@@ -129,11 +129,22 @@ namespace PhoenixCI.FormUI.Prefix5 {
                return ResultStatus.Fail;
             } else {
 
+               //1.1處理資料型態
+               DataTable dt = defaultTable.Clone(); //轉型別用的datatable
+               dt.Columns["AMMD_W_TIME"].DataType = typeof(string); //將原DataType(datetime)轉為string
+               foreach (DataRow row in defaultTable.Rows) {
+                  dt.ImportRow(row);
+               }
+
+               for (int i = 0 ; i < dt.Rows.Count ; i++) {
+                  dt.Rows[i]["AMMD_W_TIME"] = Convert.ToDateTime(defaultTable.Rows[i]["AMMD_W_TIME"]).ToString("yyyy/MM/dd HH:mm:ss:fff");
+               }
+
                gvMain.Columns["AMMD_DATE"].Group();
                gvMain.SetGridGroupSummary(gvMain.Columns[12].FieldName , $"交易時間 : {txtStartTime.Text}~{txtEndTime.Text}" , DevExpress.Data.SummaryItemType.Count);
 
                gcMain.Visible = true;
-               gcMain.DataSource = defaultTable;
+               gcMain.DataSource = dt;
                gvMain.OptionsBehavior.AllowFixedGroups = DefaultBoolean.True;
                gvMain.ExpandAllGroups();
 
@@ -170,13 +181,24 @@ namespace PhoenixCI.FormUI.Prefix5 {
             return ResultStatus.Fail;
          }
 
+         //1.1處理資料型態
+         DataTable dt = rep.Clone(); //轉型別用的datatable
+         dt.Columns["AMMD_W_TIME"].DataType = typeof(string); //將原DataType(datetime)轉為string
+         foreach (DataRow row in rep.Rows) {
+            dt.ImportRow(row);
+         }
+
+         for (int i = 0 ; i < dt.Rows.Count ; i++) {
+            dt.Rows[i]["AMMD_W_TIME"] = Convert.ToDateTime(rep.Rows[i]["AMMD_W_TIME"]).ToString("yyyy/MM/dd HH:mm:ss:fff");
+         }
+
          //存CSV
          string etfFileName = "50060_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".csv";
          etfFileName = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , etfFileName);
          ExportOptions csvref = new ExportOptions();
          csvref.HasHeader = true;
          csvref.Encoding = System.Text.Encoding.GetEncoding(950);//ASCII
-         Common.Helper.ExportHelper.ToCsv(rep , etfFileName , csvref);
+         Common.Helper.ExportHelper.ToCsv(dt , etfFileName , csvref);
 
          return ResultStatus.Success;
       }

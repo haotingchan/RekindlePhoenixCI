@@ -32,7 +32,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.txtRank = new System.Windows.Forms.TextBox();
             this.txtKindID = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -41,6 +40,7 @@
             this.rgpData = new DevExpress.XtraEditors.RadioGroup();
             this.rgpType = new DevExpress.XtraEditors.RadioGroup();
             this.rgpMarket = new DevExpress.XtraEditors.RadioGroup();
+            this.txtRank = new DevExpress.XtraEditors.TextEdit();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).BeginInit();
@@ -49,6 +49,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.rgpData.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rgpType.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rgpMarket.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtRank.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // panParent
@@ -106,8 +107,10 @@
             this.txtSDate.Name = "txtSDate";
             this.txtSDate.Properties.Appearance.Options.UseTextOptions = true;
             this.txtSDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtSDate.Properties.EditFormat.FormatString = "yyyyMMdd";
             this.txtSDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
             this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtSDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtSDate.Size = new System.Drawing.Size(109, 26);
             this.txtSDate.TabIndex = 1;
@@ -124,8 +127,10 @@
             this.txtEDate.Name = "txtEDate";
             this.txtEDate.Properties.Appearance.Options.UseTextOptions = true;
             this.txtEDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtEDate.Properties.EditFormat.FormatString = "yyyyMMdd";
             this.txtEDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
             this.txtEDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtEDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtEDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtEDate.Size = new System.Drawing.Size(109, 26);
             this.txtEDate.TabIndex = 2;
@@ -175,15 +180,6 @@
             this.label6.TabIndex = 22;
             this.label6.Text = "統計前";
             // 
-            // txtRank
-            // 
-            this.txtRank.Location = new System.Drawing.Point(100, 223);
-            this.txtRank.MaxLength = 3;
-            this.txtRank.Name = "txtRank";
-            this.txtRank.Size = new System.Drawing.Size(50, 29);
-            this.txtRank.TabIndex = 5;
-            this.txtRank.Text = "999";
-            // 
             // txtKindID
             // 
             this.txtKindID.Location = new System.Drawing.Point(148, 262);
@@ -230,6 +226,7 @@
             // 
             this.grpxDescription.AutoSize = true;
             this.grpxDescription.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+            this.grpxDescription.Controls.Add(this.txtRank);
             this.grpxDescription.Controls.Add(this.rgpData);
             this.grpxDescription.Controls.Add(this.rgpType);
             this.grpxDescription.Controls.Add(this.rgpMarket);
@@ -237,7 +234,6 @@
             this.grpxDescription.Controls.Add(this.label8);
             this.grpxDescription.Controls.Add(this.label7);
             this.grpxDescription.Controls.Add(this.txtKindID);
-            this.grpxDescription.Controls.Add(this.txtRank);
             this.grpxDescription.Controls.Add(this.label6);
             this.grpxDescription.Controls.Add(this.label5);
             this.grpxDescription.Controls.Add(this.label2);
@@ -296,6 +292,17 @@
             this.rgpMarket.Size = new System.Drawing.Size(255, 36);
             this.rgpMarket.TabIndex = 28;
             // 
+            // txtRank
+            // 
+            this.txtRank.EditValue = "999";
+            this.txtRank.Location = new System.Drawing.Point(100, 223);
+            this.txtRank.MenuManager = this.ribbonControl;
+            this.txtRank.Name = "txtRank";
+            this.txtRank.Properties.Mask.EditMask = "[0-9]?[0-9]?[0-9]?";
+            this.txtRank.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtRank.Size = new System.Drawing.Size(50, 26);
+            this.txtRank.TabIndex = 31;
+            // 
             // W30080
             // 
             this.Appearance.Options.UseFont = true;
@@ -314,6 +321,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.rgpData.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.rgpType.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.rgpMarket.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtRank.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -328,7 +336,6 @@
       private System.Windows.Forms.Label label8;
       private System.Windows.Forms.Label label7;
       private System.Windows.Forms.TextBox txtKindID;
-      private System.Windows.Forms.TextBox txtRank;
       private System.Windows.Forms.Label label6;
       private System.Windows.Forms.Label label5;
       private System.Windows.Forms.Label label2;
@@ -339,5 +346,6 @@
       private System.Windows.Forms.Label lblDate;
       private DevExpress.XtraEditors.RadioGroup rgpData;
       private DevExpress.XtraEditors.RadioGroup rgpType;
-   }
+        private DevExpress.XtraEditors.TextEdit txtRank;
+    }
 }

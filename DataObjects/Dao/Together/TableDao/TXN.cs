@@ -1,4 +1,5 @@
-﻿using OnePiece;
+﻿using BusinessObjects;
+using OnePiece;
 using System.Data;
 
 namespace DataObjects.Dao.Together
@@ -77,6 +78,17 @@ namespace DataObjects.Dao.Together
             DataTable dtResult = db.GetDataTable(sql, parms);
 
             return dtResult;
+        }
+
+        public ResultData UpdateData(DataTable inputData)
+        {
+
+            string sql = @"
+                    SELECT  *
+                    FROM    CI.TXN                    
+            ";
+
+            return db.UpdateOracleDB(inputData, sql);
         }
     }
 }

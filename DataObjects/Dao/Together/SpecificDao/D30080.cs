@@ -110,7 +110,7 @@ order by ai2_ymd
         /// <param name="as_underlying_market">%</param>
         /// <returns></returns>
         public DataTable d_30080_sort(string as_prod_type, string as_symd, string as_eymd,
-                 string as_param_key, string as_kind_id, string as_underlying_market) {
+                 string as_param_key, string as_kind_id, string as_underlying_market, string dataType, string rank) {
 
             object[] parms = {
                 ":as_prod_type",as_prod_type,
@@ -122,7 +122,7 @@ order by ai2_ymd
             };
 
             string sql =
-@"
+string.Format(@"
 select A.AI2_KIND_ID, A.AI2_M_QNTY, A.AI2_OI, rownum as cp_seq_no, A.PDK_NAME
 from
 (select substr(AI2_KIND_ID,1,2)||:as_prod_type as AI2_KIND_ID,
@@ -140,8 +140,10 @@ from
    and AI2_KIND_ID like :as_kind_id
    and AI2_UNDERLYING_MARKET like :as_underlying_market
    and AI2_KIND_ID = APDK_KIND_ID
-group by substr(AI2_KIND_ID,1,2))A
-";
+group by substr(AI2_KIND_ID,1,2)
+order by AI2_{0} Desc, AI2_KIND_ID ASC)A
+where rownum <= {1}
+", dataType, rank);
             DataTable dtResult = db.GetDataTable(sql, parms);
 
             return dtResult;

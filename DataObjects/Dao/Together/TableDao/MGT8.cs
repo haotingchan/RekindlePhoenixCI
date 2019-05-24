@@ -59,7 +59,7 @@ SELECT
    MGT8_W_TIME,
    ' ' as IS_NEWROW
 FROM CI.MGT8
-ORDER BY MGT8_F_ID
+ORDER BY UPPER(MGT8_F_ID)
 ";
 
          DataTable dtResult = db.GetDataTable(sql , null);
