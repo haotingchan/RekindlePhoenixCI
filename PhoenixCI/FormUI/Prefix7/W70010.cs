@@ -41,15 +41,16 @@ namespace PhoenixCI.FormUI.Prefix7
       protected override ResultStatus Open()
       {
          base.Open();
-         emStartDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/") + "01";
+         //日期
+         emStartDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/01");
          emEndDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
-
-         emStartDate1.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/") + "01";
+         //週期
+         emStartDate1.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/01");
          emEndDate1.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
-
-         emStartMth.Text = GlobalInfo.OCF_DATE.ToString("yyyy/") + "01";
+         //月份
+         emStartMth.Text = GlobalInfo.OCF_DATE.ToString("yyyy/01");
          emEndMth.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
-
+         //年度
          emStartYear.Text = GlobalInfo.OCF_DATE.ToString("yyyy");
          emEndYear.Text = GlobalInfo.OCF_DATE.ToString("yyyy");
 

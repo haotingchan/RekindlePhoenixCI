@@ -65,13 +65,13 @@ namespace DataObjects.Dao.Together.SpecificDao
                      GROUP BY AM0_BRK_NO4,   
                               AM0_BRK_TYPE ,
                               AM0_PARAM_KEY
-                     ORDER BY am0_brk_no4,am0_brk_type,am0_ymd,am0_param_key;
+                     ORDER BY AM0_BRK_NO4,AM0_BRK_TYPE,AM0_YMD,AM0_PARAM_KEY;
                      ";
          DataTable dtResult = db.GetDataTable(sql, parms);
          return dtResult;
       }
       /// <summary>
-      /// return AM0_BRK_NO4/AM0_BRK_TYPE/sum(AM0.AM0_M_QNTY) as qnty/cp_rate
+      /// return AM0_BRK_NO4/AM0_BRK_TYPE/sum(AM0.AM0_M_QNTY) as QNTY/CP_RATE
       /// </summary>
       /// <param name="as_symd"></param>
       /// <param name="as_eymd"></param>
@@ -86,31 +86,25 @@ namespace DataObjects.Dao.Together.SpecificDao
                 ":as_sum_type",as_sum_type,
                 ":as_prod_type",as_prod_type
             };
-         string sql = @"SELECT AM0_BRK_NO4,   
-                              AM0_BRK_TYPE,
-                              sum(AM0.AM0_M_QNTY) as qnty
-                           FROM CI.AM0  
-                        WHERE ( AM0_YMD >= :as_symd ) AND  
-                              ( AM0_YMD <= :as_eymd ) AND  
-                              ( AM0_SUM_TYPE  = :as_sum_type ) AND  
-                              ( AM0_PROD_TYPE = :as_prod_type )   
-                     GROUP BY AM0_BRK_NO4,   
-                              AM0_BRK_TYPE
-                     ORDER BY qnty Desc,am0_brk_no4,am0_brk_type
+         string sql = @"SELECT main.*,decode(QNTY,0,0,round( QNTY / SUM(QNTY) OVER (partition by null) * 100 ,2)) as CP_RATE
+                        FROM
+                        (SELECT AM0_BRK_NO4,   
+                               AM0_BRK_TYPE,
+                               sum(AM0.AM0_M_QNTY) as QNTY
+                            FROM CI.AM0  
+                         WHERE ( AM0_YMD >= :as_symd ) AND  
+                               ( AM0_YMD <= :as_eymd ) AND  
+                               ( AM0_SUM_TYPE  = :as_sum_type ) AND  
+                               ( AM0_PROD_TYPE = :as_prod_type )   
+                      GROUP BY AM0_BRK_NO4,   
+                               AM0_BRK_TYPE
+                      ORDER BY QNTY Desc,AM0_BRK_NO4,AM0_BRK_TYPE) main
                      ";
          DataTable dtResult = db.GetDataTable(sql, parms);
-         if (dtResult.Rows.Count <= 0) return dtResult;
-         dtResult.Columns.Add("cp_rate", typeof(decimal));
-         int cp_sum_qnty = Convert.ToInt32(dtResult.Compute("sum(qnty)", ""));
-
-         foreach (DataRow dr in dtResult.Rows) {
-            dr["cp_rate"] = Math.Round(Convert.ToDouble(dr["qnty"].ToString()) / cp_sum_qnty * 100, 2);
-         }
-         dtResult.AcceptChanges();
          return dtResult;
       }
       /// <summary>
-      /// return AM0_BRK_NO4/AM0_BRK_TYPE/qnty/cp_rate
+      /// return AM0_BRK_NO4/AM0_BRK_TYPE/QNTY/CP_RATE
       /// </summary>
       /// <param name="as_symd"></param>
       /// <param name="as_eymd"></param>
@@ -129,11 +123,13 @@ namespace DataObjects.Dao.Together.SpecificDao
                 ":as_market_code",as_market_code
             };
          string sql = @"
-                        SELECT CI.AM0.AM0_BRK_NO4,   
+                        SELECT main.*,decode(QNTY,0,0,round( QNTY / SUM(QNTY) OVER (partition by null) * 100 ,2)) as CP_RATE
+                        FROM
+                        (SELECT CI.AM0.AM0_BRK_NO4,   
                         CI.AM0.AM0_BRK_TYPE,
-                        sum(case :as_market_code when  '1' then AM0_AH_M_QNTY 
+                        SUM(case :as_market_code when  '1' then AM0_AH_M_QNTY 
                               when '0' then AM0_M_QNTY - nvl(AM0_AH_M_QNTY,0) 
-                              else AM0_M_QNTY end ) as qnty
+                              else AM0_M_QNTY end ) as QNTY
                         FROM CI.AM0  
                         WHERE ( CI.AM0.AM0_YMD >= :as_symd ) AND  
                               ( CI.AM0.AM0_YMD <= :as_eymd ) AND  
@@ -142,21 +138,13 @@ namespace DataObjects.Dao.Together.SpecificDao
                         AND (:as_market_code <> '1'  or NOT AM0_AH_M_QNTY IS NULL)
                         GROUP BY CI.AM0.AM0_BRK_NO4,   
                         CI.AM0.AM0_BRK_TYPE 
-                        ORDER BY qnty Desc,am0_brk_no4,am0_brk_type
+                        ORDER BY QNTY Desc,AM0_BRK_NO4,AM0_BRK_TYPE) main
                      ";
          DataTable dtResult = db.GetDataTable(sql, parms);
-         if (dtResult.Rows.Count <= 0) return dtResult;
-         dtResult.Columns.Add("cp_rate", typeof(decimal));
-         int cp_sum_qnty = Convert.ToInt32(dtResult.Compute("sum(qnty)", ""));
-
-         foreach (DataRow dr in dtResult.Rows) {
-            dr["cp_rate"] = Math.Round(Convert.ToDouble(dr["qnty"].ToString()) / cp_sum_qnty * 100, 2);
-         }
-         dtResult.AcceptChanges();
          return dtResult;
       }
       /// <summary>
-      /// return B.AM0_BRK_NO4/B.AM0_BRK_TYPE/NVL(qnty,0) AS QNTY/cp_rate
+      /// return B.AM0_BRK_NO4/B.AM0_BRK_TYPE/NVL(qnty,0) AS QNTY/CP_RATE
       /// </summary>
       /// <param name="as_symd"></param>
       /// <param name="as_eymd"></param>
@@ -172,44 +160,38 @@ namespace DataObjects.Dao.Together.SpecificDao
                 ":as_prod_type",as_prod_type
             };
          string sql = @"
-                        SELECT B.AM0_BRK_NO4,B.AM0_BRK_TYPE,NVL(qnty,0) AS QNTY
-                        FROM
-                        ( SELECT AM0_BRK_NO4,   
-                                 AM0_BRK_TYPE
-                            FROM CI.AM0  
-                           WHERE ( AM0_YMD >= :as_symd ) AND  
-                                 ( AM0_YMD <= :as_eymd ) AND  
-                                 ( AM0_SUM_TYPE  = :as_sum_type ) AND  
-                                 ( AM0_PROD_TYPE = :as_prod_type )   
-                        GROUP BY CI.AM0.AM0_BRK_NO4,   
-                                 CI.AM0.AM0_BRK_TYPE) B,
-                        ( SELECT AM0_BRK_NO4,   
-                                 AM0_BRK_TYPE,
-                                 sum(CI.AM0.AM0_M_QNTY) as qnty
-                            FROM CI.AM0  
-                           WHERE ( AM0_YMD >= :as_eymd ) AND  
-                                 ( AM0_YMD <= :as_eymd ) AND  
-                                 ( AM0_SUM_TYPE  = :as_sum_type ) AND  
-                                 ( AM0_PROD_TYPE = :as_prod_type )   
-                        GROUP BY CI.AM0.AM0_BRK_NO4,   
-                                 CI.AM0.AM0_BRK_TYPE) M
-                        WHERE B.AM0_BRK_NO4 = M.AM0_BRK_NO4(+)
-                          AND B.AM0_BRK_TYPE = M.AM0_BRK_TYPE(+)
-                        ORDER BY qnty Desc ,am0_brk_no4,am0_brk_type 
+                        SELECT main.*,decode(QNTY,0,0,round( QNTY / SUM(QNTY) OVER (partition by null) * 100 ,2)) as CP_RATE
+                           FROM
+                           (SELECT B.AM0_BRK_NO4,B.AM0_BRK_TYPE,NVL(QNTY,0) AS QNTY
+                           FROM
+                           ( SELECT AM0_BRK_NO4,   
+                                    AM0_BRK_TYPE
+                               FROM CI.AM0  
+                              WHERE ( AM0_YMD >= :as_symd ) AND  
+                                    ( AM0_YMD <= :as_eymd ) AND  
+                                    ( AM0_SUM_TYPE  = :as_sum_type ) AND  
+                                    ( AM0_PROD_TYPE = :as_prod_type )   
+                           GROUP BY CI.AM0.AM0_BRK_NO4,   
+                                    CI.AM0.AM0_BRK_TYPE) B,
+                           ( SELECT AM0_BRK_NO4,   
+                                    AM0_BRK_TYPE,
+                                    sum(CI.AM0.AM0_M_QNTY) as QNTY
+                               FROM CI.AM0  
+                              WHERE ( AM0_YMD >= :as_eymd ) AND  
+                                    ( AM0_YMD <= :as_eymd ) AND  
+                                    ( AM0_SUM_TYPE  = :as_sum_type ) AND  
+                                    ( AM0_PROD_TYPE = :as_prod_type )   
+                           GROUP BY CI.AM0.AM0_BRK_NO4,   
+                                    CI.AM0.AM0_BRK_TYPE) M
+                           WHERE B.AM0_BRK_NO4 = M.AM0_BRK_NO4(+)
+                             AND B.AM0_BRK_TYPE = M.AM0_BRK_TYPE(+)
+                           ORDER BY QNTY Desc ,AM0_BRK_NO4,AM0_BRK_TYPE ) main 
                      ";
          DataTable dtResult = db.GetDataTable(sql, parms);
-         if (dtResult.Rows.Count <= 0) return dtResult;
-         dtResult.Columns.Add("cp_rate", typeof(decimal));
-         int cp_sum_qnty = Convert.ToInt32(dtResult.Compute("sum(qnty)", ""));
-
-         foreach (DataRow dr in dtResult.Rows) {
-            dr["cp_rate"] = Math.Round(Convert.ToDouble(dr["qnty"].ToString()) / cp_sum_qnty * 100, 2);
-         }
-         dtResult.AcceptChanges();
          return dtResult;
       }
       /// <summary>
-      /// return AM0_BRK_NO4/AM0_BRK_TYPE/NVL(qnty,0) AS QNTY/cp_rate
+      /// return AM0_BRK_NO4/AM0_BRK_TYPE/NVL(qnty,0) AS QNTY/CP_RATE
       /// </summary>
       /// <param name="as_symd"></param>
       /// <param name="as_eymd"></param>
@@ -228,7 +210,9 @@ namespace DataObjects.Dao.Together.SpecificDao
                 ":as_market_code",as_market_code
             };
          string sql = @"
-                        SELECT B.AM0_BRK_NO4,B.AM0_BRK_TYPE,NVL(qnty,0) AS QNTY
+                        SELECT main.*,decode(QNTY,0,0,round( QNTY / SUM(QNTY) OVER (partition by null) * 100 ,2)) as CP_RATE
+                        FROM
+                        (SELECT B.AM0_BRK_NO4,B.AM0_BRK_TYPE,NVL(QNTY,0) AS QNTY
                         FROM
                         ( SELECT AM0_BRK_NO4,   
                                  AM0_BRK_TYPE
@@ -244,7 +228,7 @@ namespace DataObjects.Dao.Together.SpecificDao
                                  AM0_BRK_TYPE,
                                  sum(case :as_market_code when  '1' then AM0_AH_M_QNTY 
                                                                              when '0' then AM0_M_QNTY - nvl(AM0_AH_M_QNTY,0) 
-                                                                             else AM0_M_QNTY end ) as qnty
+                                                                             else AM0_M_QNTY end ) as QNTY
                             FROM CI.AM0  
                            WHERE ( AM0_YMD >= :as_eymd ) AND  
                                  ( AM0_YMD <= :as_eymd ) AND  
@@ -255,21 +239,13 @@ namespace DataObjects.Dao.Together.SpecificDao
                                  CI.AM0.AM0_BRK_TYPE) M
                         WHERE B.AM0_BRK_NO4 = M.AM0_BRK_NO4(+)
                           AND B.AM0_BRK_TYPE = M.AM0_BRK_TYPE(+)
-                        ORDER BY qnty Desc, am0_brk_no4,am0_brk_type
+                        ORDER BY QNTY Desc, AM0_BRK_NO4,AM0_BRK_TYPE) main
                      ";
          DataTable dtResult = db.GetDataTable(sql, parms);
-         if (dtResult.Rows.Count <= 0) return dtResult;
-         dtResult.Columns.Add("cp_rate", typeof(decimal));
-         int cp_sum_qnty = Convert.ToInt32(dtResult.Compute("sum(qnty)", ""));
-
-         foreach (DataRow dr in dtResult.Rows) {
-            dr["cp_rate"] = Math.Round(Convert.ToDouble(dr["qnty"].ToString()) / cp_sum_qnty * 100, 2);
-         }
-         dtResult.AcceptChanges();
          return dtResult;
       }
       /// <summary>
-      /// return AM0_BRK_NO4/AM0_BRK_TYPE/AM0_YMD/AM0_PARAM_KEY/sum(CI.AM0.AM0_M_QNTY) as qnty/cp_rate
+      /// return AM0_BRK_NO4/AM0_BRK_TYPE/AM0_YMD/AM0_PARAM_KEY/sum(CI.AM0.AM0_M_QNTY) as QNTY/CP_SUM_QNTY
       /// </summary>
       /// <param name="as_symd"></param>
       /// <param name="as_eymd"></param>
@@ -285,31 +261,25 @@ namespace DataObjects.Dao.Together.SpecificDao
                 ":as_prod_type",as_prod_type
             };
          string sql = @"
-                        SELECT CI.AM0.AM0_BRK_NO4,   
-                              CI.AM0.AM0_BRK_TYPE,  
-                              CI.AM0.AM0_YMD, 
-                              CI.AM0.AM0_PARAM_KEY,
-                              sum(CI.AM0.AM0_M_QNTY) as qnty
-                           FROM CI.AM0  
-                        WHERE ( CI.AM0.AM0_YMD >= :as_symd ) AND  
-                              ( CI.AM0.AM0_YMD <= :as_eymd ) AND  
-                              ( CI.AM0.AM0_SUM_TYPE  = :as_sum_type ) AND  
-                              ( CI.AM0.AM0_PROD_TYPE = :as_prod_type )   
-                     GROUP BY CI.AM0.AM0_BRK_NO4,   
-                              CI.AM0.AM0_BRK_TYPE , 
-                              CI.AM0.AM0_YMD ,  
-                              CI.AM0.AM0_PARAM_KEY
-                     ORDER BY am0_brk_no4,am0_brk_type,am0_ymd,am0_param_key
+                        SELECT main.*,SUM(QNTY) OVER (partition by AM0_BRK_NO4,AM0_BRK_TYPE,AM0_YMD ORDER BY AM0_BRK_NO4,AM0_BRK_TYPE,AM0_YMD) as CP_SUM_QNTY
+                        FROM
+                        (SELECT CI.AM0.AM0_BRK_NO4,   
+                                  CI.AM0.AM0_BRK_TYPE,  
+                                  CI.AM0.AM0_YMD, 
+                                  CI.AM0.AM0_PARAM_KEY,
+                                  sum(CI.AM0.AM0_M_QNTY) as QNTY
+                               FROM CI.AM0  
+                            WHERE ( CI.AM0.AM0_YMD >= :as_symd ) AND  
+                                  ( CI.AM0.AM0_YMD <= :as_eymd ) AND  
+                                  ( CI.AM0.AM0_SUM_TYPE  = :as_sum_type ) AND  
+                                  ( CI.AM0.AM0_PROD_TYPE = :as_prod_type )   
+                         GROUP BY CI.AM0.AM0_BRK_NO4,   
+                                  CI.AM0.AM0_BRK_TYPE , 
+                                  CI.AM0.AM0_YMD ,  
+                                  CI.AM0.AM0_PARAM_KEY
+                         ORDER BY AM0_BRK_NO4,AM0_BRK_TYPE,AM0_YMD,AM0_PARAM_KEY) main
                      ";
          DataTable dtResult = db.GetDataTable(sql, parms);
-         if (dtResult.Rows.Count <= 0) return dtResult;
-         dtResult.Columns.Add("cp_rate", typeof(decimal));
-         int cp_sum_qnty = Convert.ToInt32(dtResult.Compute("sum(qnty)", ""));
-
-         foreach (DataRow dr in dtResult.Rows) {
-            dr["cp_rate"] = Math.Round(Convert.ToDouble(dr["qnty"].ToString()) / cp_sum_qnty * 100, 2);
-         }
-         dtResult.AcceptChanges();
          return dtResult;
       }
       /// <summary>
@@ -786,7 +756,7 @@ namespace DataObjects.Dao.Together.SpecificDao
          return dtResult;
       }
       /// <summary>
-      /// AM0_PARAM_KEY/cp_sort
+      /// AM0_PARAM_KEY/CP_SORT
       /// </summary>
       /// <param name="as_symd"></param>
       /// <param name="as_eymd"></param>
@@ -802,25 +772,20 @@ namespace DataObjects.Dao.Together.SpecificDao
                 ":as_prod_type",as_prod_type
             };
          string sql = @"
-                        SELECT CI.AM0.AM0_PARAM_KEY
+                        SELECT AM0_PARAM_KEY,decode(trim(AM0_PARAM_KEY),'STO',9,0) as CP_SORT
                          FROM CI.AM0  
                         WHERE ( CI.AM0.AM0_YMD >= :as_symd ) AND  
                               ( CI.AM0.AM0_YMD <= :as_eymd ) AND  
                               ( CI.AM0.AM0_SUM_TYPE  = :as_sum_type ) AND  
                               ( CI.AM0.AM0_PROD_TYPE = :as_prod_type )   
-                         GROUP BY CI.AM0.AM0_PARAM_KEY
+                         GROUP BY AM0_PARAM_KEY
+                         ORDER BY CP_SORT,AM0_PARAM_KEY
                      ";
          DataTable dtResult = db.GetDataTable(sql, parms);
-         dtResult.Columns.Add("cp_sort", typeof(int));
-         dtResult.Columns["cp_sort"].Expression = "iif( Trim(am0_param_key) = 'STO' , 9,0)";
-         DataView dv = dtResult.AsDataView();
-         dv.Sort = "cp_sort,am0_param_key";
-         dtResult = dv.ToTable();
-         dtResult.AcceptChanges();
          return dtResult;
       }
       /// <summary>
-      /// return AM0_BRK_NO4/AM0_BRK_TYPE/AM0_YMD/AM0_PARAM_KEY/qnty/cp_rate
+      /// return AM0_BRK_NO4/AM0_BRK_TYPE/AM0_YMD/AM0_PARAM_KEY/qnty/cp_rate/CP_SUM_QNTY
       /// </summary>
       /// <param name="as_symd"></param>
       /// <param name="as_eymd"></param>
@@ -839,13 +804,15 @@ namespace DataObjects.Dao.Together.SpecificDao
                 ":as_market_code",as_market_code
             };
          string sql = @"
-                        SELECT AM0_BRK_NO4,   
+                        SELECT main.*,SUM(main.QNTY) over(partition by AM0_BRK_NO4,AM0_BRK_TYPE,AM0_YMD order by AM0_BRK_NO4,AM0_BRK_TYPE,AM0_YMD) as CP_SUM_QNTY
+                        FROM
+                        (SELECT AM0_BRK_NO4,   
                                  AM0_BRK_TYPE,  
                                  AM0_YMD, 
                                  AM0_PARAM_KEY,
                                  sum(case :as_market_code when  '1' then AM0_AH_M_QNTY 
                                                                              when '0' then AM0_M_QNTY - nvl(AM0_AH_M_QNTY,0) 
-                                                                             else AM0_M_QNTY end ) as qnty
+                                                                             else AM0_M_QNTY end ) as QNTY
                             FROM CI.AM0  
                            WHERE AM0_YMD >= :as_symd    
                              AND AM0_YMD <= :as_eymd   
@@ -863,7 +830,7 @@ namespace DataObjects.Dao.Together.SpecificDao
                                  AM0_PARAM_KEY,
                                  sum(case :as_market_code when  '1' then AM0_AH_M_QNTY 
                                                                              when '0' then AM0_M_QNTY - nvl(AM0_AH_M_QNTY,0) 
-                                                                             else AM0_M_QNTY end ) as qnty
+                                                                             else AM0_M_QNTY end ) as QNTY
                             FROM CI.AM0  
                            WHERE AM0_YMD >= :as_symd     
                              AND AM0_YMD <= :as_eymd   
@@ -873,7 +840,7 @@ namespace DataObjects.Dao.Together.SpecificDao
                         GROUP BY AM0_BRK_NO4,   
                                  AM0_BRK_TYPE ,
                                  AM0_PARAM_KEY
-                        ORDER BY am0_brk_no4,am0_brk_type,am0_ymd,am0_param_key
+                        ORDER BY AM0_BRK_NO4,AM0_BRK_TYPE,AM0_YMD,AM0_PARAM_KEY) main
                      ";
          DataTable dtResult = db.GetDataTable(sql, parms);
 
@@ -924,7 +891,7 @@ namespace DataObjects.Dao.Together.SpecificDao
          return dtResult;
       }
       /// <summary>
-      /// return AM0_YMD(yyyyMMdd)
+      /// return AM0_BRK_NO4/AM0_BRK_TYPE/AM0_YMD(yyyyMMdd)/APDK_PARAM_KEY/QNTY/CP_SUM_QNTY
       /// </summary>
       /// <param name="as_symd"></param>
       /// <param name="as_eymd"></param>
@@ -940,37 +907,39 @@ namespace DataObjects.Dao.Together.SpecificDao
                 ":as_prod_type",as_prod_type
             };
          string sql = @"
-                        SELECT CI.AM0.AM0_BRK_NO4,   
-                              CI.AM0.AM0_BRK_TYPE,  
-                              CI.AM0.AM0_YMD, 
-                              APDK_PARAM_KEY,
-                              sum(CI.AM0.AM0_M_QNTY) as qnty
-                         FROM CI.AM0  ,ci.APDK 
-                        WHERE ( CI.AM0.AM0_YMD >= :as_symd ) AND  
-                              ( CI.AM0.AM0_YMD <= :as_eymd ) AND  
-                              ( CI.AM0.AM0_SUM_TYPE  = :as_sum_type ) AND  
-                              ( CI.AM0.AM0_PROD_TYPE = :as_prod_type )  AND
-                              AM0_KIND_ID = APDK_KIND_ID  
-                     GROUP BY CI.AM0.AM0_BRK_NO4,   
-                              CI.AM0.AM0_BRK_TYPE , 
-                              CI.AM0.AM0_YMD  ,  
-                              APDK_PARAM_KEY
-                     union
-                       SELECT CI.AM0.AM0_BRK_NO4,   
-                              CI.AM0.AM0_BRK_TYPE,  
-                              '99999999', 
-                              APDK_PARAM_KEY,
-                              sum(CI.AM0.AM0_M_QNTY) as qnty
-                         FROM CI.AM0 ,ci.APDK 
-                        WHERE ( CI.AM0.AM0_YMD >= :as_symd ) AND  
-                              ( CI.AM0.AM0_YMD <= :as_eymd ) AND  
-                              ( CI.AM0.AM0_SUM_TYPE  = :as_sum_type ) AND  
-                              ( CI.AM0.AM0_PROD_TYPE = :as_prod_type )   AND
-                              AM0_KIND_ID = APDK_KIND_ID
-                     GROUP BY CI.AM0.AM0_BRK_NO4,   
-                              CI.AM0.AM0_BRK_TYPE ,
-                              APDK_PARAM_KEY
-                     ORDER BY am0_brk_no4,am0_brk_type,am0_ymd
+                        SELECT main.*,SUM(main.QNTY) over(partition by AM0_BRK_NO4,AM0_BRK_TYPE,AM0_YMD order by AM0_BRK_NO4,AM0_BRK_TYPE,AM0_YMD) as CP_SUM_QNTY
+                           FROM
+                           (SELECT CI.AM0.AM0_BRK_NO4,   
+                                     CI.AM0.AM0_BRK_TYPE,  
+                                     CI.AM0.AM0_YMD, 
+                                     APDK_PARAM_KEY,
+                                     sum(CI.AM0.AM0_M_QNTY) as QNTY
+                                FROM CI.AM0  ,ci.APDK 
+                               WHERE ( CI.AM0.AM0_YMD >= :as_symd ) AND  
+                                     ( CI.AM0.AM0_YMD <= :as_eymd ) AND  
+                                     ( CI.AM0.AM0_SUM_TYPE  = :as_sum_type ) AND  
+                                     ( CI.AM0.AM0_PROD_TYPE = :as_prod_type )  AND
+                                     AM0_KIND_ID = APDK_KIND_ID  
+                            GROUP BY CI.AM0.AM0_BRK_NO4,   
+                                     CI.AM0.AM0_BRK_TYPE , 
+                                     CI.AM0.AM0_YMD  ,  
+                                     APDK_PARAM_KEY
+                            union
+                              SELECT CI.AM0.AM0_BRK_NO4,   
+                                     CI.AM0.AM0_BRK_TYPE,  
+                                     '99999999', 
+                                     APDK_PARAM_KEY,
+                                     sum(CI.AM0.AM0_M_QNTY) as qnty
+                                FROM CI.AM0 ,ci.APDK 
+                               WHERE ( CI.AM0.AM0_YMD >= :as_symd ) AND  
+                                     ( CI.AM0.AM0_YMD <= :as_eymd ) AND  
+                                     ( CI.AM0.AM0_SUM_TYPE  = :as_sum_type ) AND  
+                                     ( CI.AM0.AM0_PROD_TYPE = :as_prod_type )   AND
+                                     AM0_KIND_ID = APDK_KIND_ID
+                            GROUP BY CI.AM0.AM0_BRK_NO4,   
+                                     CI.AM0.AM0_BRK_TYPE ,
+                                     APDK_PARAM_KEY
+                            ORDER BY AM0_BRK_NO4,AM0_BRK_TYPE,AM0_YMD) main
                      ";
          DataTable dtResult = db.GetDataTable(sql, parms);
          if (dtResult.Rows.Count <= 0) return dtResult;
