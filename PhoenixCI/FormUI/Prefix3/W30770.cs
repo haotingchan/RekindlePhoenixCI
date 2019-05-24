@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using BaseGround;
@@ -190,23 +191,29 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //2.匯出資料(看勾選情況,目前最多跑2x2=4次)
             Object[] args = { dao30770 , _ProgramID , StartMonth , EndMonth , StartDate , EndDate , OswGrp , OswGrpText };
 
+            int pos = 0;
             foreach (CheckedListBoxItem chk in chkGroup.Items) {
                if (chk.CheckState == CheckState.Checked) {
                   if (rdoGroup.Text == "%") {
                      //全部,兩個都要跑
                      IReportData Future = CreateReport(GetType() , "Future" + chk.Value.ToString() , args);
-                     Future.Export(workbook);
+                     pos += Future.Export(workbook);
 
                      IReportData Option = CreateReport(GetType() , "Option" + chk.Value.ToString() , args);
-                     Option.Export(workbook);
+                     pos += Option.Export(workbook);
 
                   } else {
                      IReportData ReportData = CreateReport(GetType() , rdoGroup.Text + chk.Value.ToString() , args);
-                     ReportData.Export(workbook);
+                     pos += ReportData.Export(workbook);
                   }//if (rdoGroup.Text == "%") {
                }//if(chk.CheckState == CheckState.Checked){
             }//foreach(CheckedListBoxItem chk in chkGroup.Items){
 
+            if (pos <= 0) {
+               File.Delete(excelDestinationPath);
+               MessageDisplay.Info("查無資料!");
+               return ResultStatus.Fail;
+            }
 
             //存檔
             workbook.SaveDocument(excelDestinationPath);
@@ -335,7 +342,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          /// 匯出資料
          /// </summary>
          /// <param name="workbook"></param>
-         void Export(Workbook workbook);
+         int Export(Workbook workbook);
       }
 
       /// <summary>
@@ -383,12 +390,12 @@ namespace PhoenixCI.FormUI.Prefix3 {
          /// 匯出資料
          /// </summary>
          /// <param name="workbook"></param>
-         public virtual void Export(Workbook workbook) {
-
+         public virtual int Export(Workbook workbook) {
+            
             DataTable dtTemp = Dao.d_30770(ProdType , SumType , StartDate , EndDate , OswGrp);
             if (dtTemp.Rows.Count <= 0) {
                MessageDisplay.Info(string.Format("{0}～{1},{2}－{3}無任何資料!" , StartDate , EndDate , ReportId , ReportName));
-               return;
+               return 0;
             }
 
             Worksheet ws = workbook.Worksheets[(int)SheetIndex];
@@ -400,6 +407,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             if (SumType == "M")
                ExportGrid(ws , dtTemp , GridName.Second , ++rowIndex , OswGrpText);
 
+            return 1;
          }
 
 
@@ -532,8 +540,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             EndDate = endDate;
          }
 
-         public override void Export(Workbook workbook) {
-            base.Export(workbook);
+         public override int Export(Workbook workbook) {
+            return base.Export(workbook);
          }
       }
 
@@ -552,8 +560,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             EndDate = endMonth;
          }
 
-         public override void Export(Workbook workbook) {
-            base.Export(workbook);
+         public override int Export(Workbook workbook) {
+            return base.Export(workbook);
          }
       }
 
@@ -572,8 +580,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             EndDate = endDate;
          }
 
-         public override void Export(Workbook workbook) {
-            base.Export(workbook);
+         public override int Export(Workbook workbook) {
+            return base.Export(workbook);
          }
       }
 
@@ -592,8 +600,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             EndDate = endMonth;
          }
 
-         public override void Export(Workbook workbook) {
-            base.Export(workbook);
+         public override int Export(Workbook workbook) {
+            return base.Export(workbook);
          }
       }
 
