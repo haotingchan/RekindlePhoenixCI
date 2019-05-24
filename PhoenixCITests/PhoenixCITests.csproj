@@ -102,6 +102,7 @@
     <Compile Include="BusinessLogic\Prefix4\B40200Tests.cs" />
     <Compile Include="BusinessLogic\Prefix4\B43030Tests.cs" />
     <Compile Include="BusinessLogic\Prefix4\B43033Tests.cs" />
+    <Compile Include="BusinessLogic\Prefix5\B50032Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
