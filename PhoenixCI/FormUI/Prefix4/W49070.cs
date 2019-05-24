@@ -193,7 +193,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                   if (kind2 != "-" && string.IsNullOrEmpty(maxSpnsRate)) {
                      MessageDisplay.Warning("請輸入跨商品MAX折抵比率");
-                     return ResultStatus.Fail;
+                     return ResultStatus.FailButNext;
                   }
                }
             }

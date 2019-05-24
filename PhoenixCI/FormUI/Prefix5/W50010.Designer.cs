@@ -89,6 +89,8 @@
             // 
             // panelControl1
             // 
+            this.panelControl1.Appearance.BackColor = System.Drawing.SystemColors.MenuBar;
+            this.panelControl1.Appearance.Options.UseBackColor = true;
             this.panelControl1.Controls.Add(this.gcExport);
             this.panelControl1.Controls.Add(this.PrintSort);
             this.panelControl1.Controls.Add(this.label10);

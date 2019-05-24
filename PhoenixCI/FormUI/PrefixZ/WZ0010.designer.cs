@@ -31,6 +31,7 @@
             this.gcMain = new DevExpress.XtraGrid.GridControl();
             this.gvMain = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.UPF_USER_ID = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemTextEditUserId = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.UPF_USER_NAME = new DevExpress.XtraGrid.Columns.GridColumn();
             this.UPF_EMPLOYEE_ID = new DevExpress.XtraGrid.Columns.GridColumn();
             this.UPF_DPT_ID = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -43,6 +44,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEditUserId)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ddlDept.Properties)).BeginInit();
             this.SuspendLayout();
             // 
@@ -52,12 +54,13 @@
             this.panParent.Controls.Add(this.ddlDept);
             this.panParent.Controls.Add(this.lblDpt);
             this.panParent.Controls.Add(this.gcMain);
-            this.panParent.Size = new System.Drawing.Size(754, 538);
+            this.panParent.Location = new System.Drawing.Point(0, 32);
+            this.panParent.Size = new System.Drawing.Size(762, 540);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(754, 30);
+            this.ribbonControl.Size = new System.Drawing.Size(762, 32);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // gcMain
@@ -68,7 +71,9 @@
             this.gcMain.Location = new System.Drawing.Point(12, 44);
             this.gcMain.MainView = this.gvMain;
             this.gcMain.Name = "gcMain";
-            this.gcMain.Size = new System.Drawing.Size(727, 479);
+            this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repositoryItemTextEditUserId});
+            this.gcMain.Size = new System.Drawing.Size(735, 481);
             this.gcMain.TabIndex = 0;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -84,17 +89,26 @@
             this.MODIFY_MARK});
             this.gvMain.GridControl = this.gcMain;
             this.gvMain.Name = "gvMain";
+            this.gvMain.OptionsView.ColumnAutoWidth = false;
             // 
             // UPF_USER_ID
             // 
             this.UPF_USER_ID.AppearanceCell.Options.UseTextOptions = true;
             this.UPF_USER_ID.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.UPF_USER_ID.Caption = "使用者代號";
+            this.UPF_USER_ID.ColumnEdit = this.repositoryItemTextEditUserId;
             this.UPF_USER_ID.FieldName = "UPF_USER_ID";
             this.UPF_USER_ID.Name = "UPF_USER_ID";
             this.UPF_USER_ID.Visible = true;
             this.UPF_USER_ID.VisibleIndex = 0;
             this.UPF_USER_ID.Width = 87;
+            // 
+            // repositoryItemTextEditUserId
+            // 
+            this.repositoryItemTextEditUserId.AutoHeight = false;
+            this.repositoryItemTextEditUserId.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.repositoryItemTextEditUserId.MaxLength = 10;
+            this.repositoryItemTextEditUserId.Name = "repositoryItemTextEditUserId";
             // 
             // UPF_USER_NAME
             // 
@@ -126,7 +140,7 @@
             this.UPF_DPT_ID.Name = "UPF_DPT_ID";
             this.UPF_DPT_ID.Visible = true;
             this.UPF_DPT_ID.VisibleIndex = 3;
-            this.UPF_DPT_ID.Width = 114;
+            this.UPF_DPT_ID.Width = 145;
             // 
             // UPF_W_TIME
             // 
@@ -148,12 +162,13 @@
             // MODIFY_MARK
             // 
             this.MODIFY_MARK.FieldName = "MODIFY_MARK";
+            this.MODIFY_MARK.MaxWidth = 20;
             this.MODIFY_MARK.Name = "MODIFY_MARK";
             this.MODIFY_MARK.OptionsColumn.ReadOnly = true;
             this.MODIFY_MARK.OptionsColumn.ShowCaption = false;
             this.MODIFY_MARK.Visible = true;
             this.MODIFY_MARK.VisibleIndex = 5;
-            this.MODIFY_MARK.Width = 54;
+            this.MODIFY_MARK.Width = 20;
             // 
             // lblDpt
             // 
@@ -176,7 +191,7 @@
             // 
             // btnPrint
             // 
-            this.btnPrint.Location = new System.Drawing.Point(658, 11);
+            this.btnPrint.Location = new System.Drawing.Point(553, 11);
             this.btnPrint.Name = "btnPrint";
             this.btnPrint.Size = new System.Drawing.Size(81, 23);
             this.btnPrint.TabIndex = 14;
@@ -188,7 +203,7 @@
             this.Appearance.Options.UseFont = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(754, 568);
+            this.ClientSize = new System.Drawing.Size(762, 572);
             this.Name = "WZ0010";
             this.Text = "FormChild";
             this.panParent.ResumeLayout(false);
@@ -196,6 +211,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEditUserId)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ddlDept.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -215,5 +231,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn UPF_W_TIME;
         private DevExpress.XtraEditors.LookUpEdit ddlDept;
         private DevExpress.XtraEditors.SimpleButton btnPrint;
+        private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEditUserId;
     }
 }

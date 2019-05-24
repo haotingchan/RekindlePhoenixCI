@@ -30,18 +30,19 @@
         {
          this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
          this.label1 = new System.Windows.Forms.Label();
+         this.label4 = new System.Windows.Forms.Label();
          this.TXTEndDate = new BaseGround.Widget.TextDateEdit();
+         this.label3 = new System.Windows.Forms.Label();
          this.TXTStartDate = new BaseGround.Widget.TextDateEdit();
          this.label2 = new System.Windows.Forms.Label();
          this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
          this.gcMain = new DevExpress.XtraGrid.GridControl();
          this.gvMain = new DevExpress.XtraGrid.Views.Grid.GridView();
          this.DTS_DATE = new DevExpress.XtraGrid.Columns.GridColumn();
+         this.repositoryItemDateEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemDateEdit();
          this.DTS_DATE_TYPE = new DevExpress.XtraGrid.Columns.GridColumn();
          this.DTS_WORK = new DevExpress.XtraGrid.Columns.GridColumn();
          this.Is_NewRow = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.label4 = new System.Windows.Forms.Label();
-         this.label3 = new System.Windows.Forms.Label();
          this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -52,6 +53,8 @@
          this.panelControl2.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1.CalendarTimeProperties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
          this.SuspendLayout();
          // 
@@ -92,6 +95,15 @@
          this.label1.TabIndex = 9;
          this.label1.Text = "交易日期";
          // 
+         // label4
+         // 
+         this.label4.AutoSize = true;
+         this.label4.Location = new System.Drawing.Point(486, 33);
+         this.label4.Name = "label4";
+         this.label4.Size = new System.Drawing.Size(149, 20);
+         this.label4.TabIndex = 9;
+         this.label4.Text = "上班日 : 週一至週五";
+         // 
          // TXTEndDate
          // 
          this.TXTEndDate.DateTimeValue = new System.DateTime(2018, 1, 1, 0, 0, 0, 0);
@@ -109,6 +121,15 @@
          this.TXTEndDate.Size = new System.Drawing.Size(150, 26);
          this.TXTEndDate.TabIndex = 12;
          this.TXTEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
+         // 
+         // label3
+         // 
+         this.label3.AutoSize = true;
+         this.label3.Location = new System.Drawing.Point(486, 3);
+         this.label3.Name = "label3";
+         this.label3.Size = new System.Drawing.Size(117, 20);
+         this.label3.TabIndex = 8;
+         this.label3.Text = "假日 : 週六週日";
          // 
          // TXTStartDate
          // 
@@ -156,7 +177,8 @@
          this.gcMain.MainView = this.gvMain;
          this.gcMain.Name = "gcMain";
          this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
-            this.repositoryItemTextEdit1});
+            this.repositoryItemTextEdit1,
+            this.repositoryItemDateEdit1});
          this.gcMain.Size = new System.Drawing.Size(735, 399);
          this.gcMain.TabIndex = 7;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -185,7 +207,7 @@
          this.DTS_DATE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
          this.DTS_DATE.AppearanceHeader.Options.UseBackColor = true;
          this.DTS_DATE.Caption = "日期";
-         this.DTS_DATE.ColumnEdit = this.repositoryItemTextEdit1;
+         this.DTS_DATE.ColumnEdit = this.repositoryItemDateEdit1;
          this.DTS_DATE.FieldName = "DTS_DATE";
          this.DTS_DATE.MinWidth = 30;
          this.DTS_DATE.Name = "DTS_DATE";
@@ -193,6 +215,22 @@
          this.DTS_DATE.Visible = true;
          this.DTS_DATE.VisibleIndex = 0;
          this.DTS_DATE.Width = 112;
+         // 
+         // repositoryItemDateEdit1
+         // 
+         this.repositoryItemDateEdit1.AutoHeight = false;
+         this.repositoryItemDateEdit1.CalendarDateEditing = false;
+         this.repositoryItemDateEdit1.CalendarTimeEditing = DevExpress.Utils.DefaultBoolean.False;
+         this.repositoryItemDateEdit1.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.repositoryItemDateEdit1.DisplayFormat.FormatString = "yyyy/MM/dd";
+         this.repositoryItemDateEdit1.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+         this.repositoryItemDateEdit1.EditFormat.FormatString = "";
+         this.repositoryItemDateEdit1.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+         this.repositoryItemDateEdit1.Mask.BeepOnError = true;
+         this.repositoryItemDateEdit1.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.repositoryItemDateEdit1.Mask.ShowPlaceHolders = false;
+         this.repositoryItemDateEdit1.Name = "repositoryItemDateEdit1";
          // 
          // DTS_DATE_TYPE
          // 
@@ -225,24 +263,6 @@
          this.Is_NewRow.MinWidth = 30;
          this.Is_NewRow.Name = "Is_NewRow";
          this.Is_NewRow.Width = 112;
-         // 
-         // label4
-         // 
-         this.label4.AutoSize = true;
-         this.label4.Location = new System.Drawing.Point(486, 33);
-         this.label4.Name = "label4";
-         this.label4.Size = new System.Drawing.Size(149, 20);
-         this.label4.TabIndex = 9;
-         this.label4.Text = "上班日 : 週一至週五";
-         // 
-         // label3
-         // 
-         this.label3.AutoSize = true;
-         this.label3.Location = new System.Drawing.Point(486, 3);
-         this.label3.Name = "label3";
-         this.label3.Size = new System.Drawing.Size(117, 20);
-         this.label3.TabIndex = 8;
-         this.label3.Text = "假日 : 週六週日";
          // 
          // repositoryItemTextEdit1
          // 
@@ -278,6 +298,8 @@
          this.panelControl2.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1.CalendarTimeProperties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
@@ -301,5 +323,6 @@
         private BaseGround.Widget.TextDateEdit TXTStartDate;
         private System.Windows.Forms.Label label2;
       private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit1;
+      private DevExpress.XtraEditors.Repository.RepositoryItemDateEdit repositoryItemDateEdit1;
    }
 }

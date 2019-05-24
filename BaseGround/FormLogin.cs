@@ -17,10 +17,6 @@ namespace BaseGround
         public FormLogin()
         {
             InitializeComponent();
-
-            //test
-            txtID.Text = "I0001";
-            txtPassword.Text = "0000000000";
         }
 
         private void btnYes_Click(object sender, EventArgs e)
@@ -39,6 +35,7 @@ namespace BaseGround
                     this.Hide();
                     FormMain form = new FormMain();
                     form.Show();
+                    
                 }
                 else
                 {
@@ -58,6 +55,14 @@ namespace BaseGround
                         this.Hide();
                         FormMain form = new FormMain();
                         form.Show();
+
+                        //第一次登入
+                        string chgFlag = result.ReturnData.Rows[0]["UPF_CHANGE_FLAG"].ToString().Trim();
+                        if (chgFlag == "Y")
+                        {
+                            form.OpenForm("Z0990", "使用者密碼變更");
+                            SingletonLogger.Instance.Info(GlobalInfo.USER_ID, "Login", "密碼強迫變更", " ");
+                        }
 
                         //判斷過期
                         DateTime wDate = Convert.ToDateTime(result.ReturnData.Rows[0]["UPF_W_TIME"]);
