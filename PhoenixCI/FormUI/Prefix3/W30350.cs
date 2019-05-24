@@ -8,6 +8,7 @@ using BaseGround.Shared;
 using Common;
 using PhoenixCI.BusinessLogic.Prefix3;
 using System.IO;
+using DevExpress.Spreadsheet;
 /// <summary>
 /// john,20190226,臺指選擇權成交量及未平倉量變化表
 /// </summary>
@@ -24,12 +25,6 @@ namespace PhoenixCI.FormUI.Prefix3
          InitializeComponent();
 
          this.Text = _ProgramID + "─" + _ProgramName;
-      }
-      public override ResultStatus BeforeOpen()
-      {
-         base.BeforeOpen();
-
-         return ResultStatus.Success;
       }
 
       protected override ResultStatus Open()
@@ -51,13 +46,6 @@ namespace PhoenixCI.FormUI.Prefix3
       {
          base.ActivatedForm();
          _ToolBtnExport.Enabled = true;
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus Print(ReportHelper reportHelper)
-      {
-         base.Print(reportHelper);
-
          return ResultStatus.Success;
       }
 
@@ -109,11 +97,20 @@ namespace PhoenixCI.FormUI.Prefix3
          }
 
          string lsFile = PbFunc.wf_copy_file(_ProgramID, "30350");
-         try {
-            
-            string msgTxt=string.Empty;
 
-            b30350 = new B30350(lsFile, emMonth.Text);
+         Workbook workbook = new Workbook();
+         //載入Excel
+         workbook.LoadDocument(lsFile);
+         try {
+
+            string msgTxt = string.Empty;
+
+            //前月倒數1天交易日
+            DateTime StartDate = PbFunc.f_get_last_day("AI2", "TXO", emMonth.Text, 1);
+            //抓當月最後交易日
+            DateTime EndDate = PbFunc.f_get_end_day("AI2", "TXO", emMonth.Text);
+
+            b30350 = new B30350(workbook, StartDate, EndDate);
             //30350_01
             msgTxt = "臺指選擇權成交量及未平倉量變化表";
             ShowMsg($"30350－{msgTxt} 轉檔中...");
@@ -166,6 +163,7 @@ namespace PhoenixCI.FormUI.Prefix3
             return ResultStatus.Fail;
          }
          finally {
+            workbook.SaveDocument(lsFile);
             EndExport();
          }
          return ResultStatus.Success;

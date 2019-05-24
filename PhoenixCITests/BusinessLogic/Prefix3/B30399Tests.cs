@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using DevExpress.Spreadsheet;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
 
@@ -8,6 +9,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3.Tests
    public class B30399Tests
    {
       private B30399 b30399;
+      private static Workbook _workbook;
       private static string reportDirectoryPath, destinationFilePath;
       [ClassInitialize]
       public static void MyClassInitialize(TestContext testContext)
@@ -18,12 +20,16 @@ namespace PhoenixCI.BusinessLogic.Prefix3.Tests
          destinationFilePath = Path.Combine(reportDirectoryPath, "30399_" + DateTime.Now.ToString("yyyy.MM.dd") + "-" + DateTime.Now.ToString("hh.mm.ss") + "Test.xlsx");
 
          File.Copy(excelTemplateDirectoryPath, destinationFilePath, true);
+
+         _workbook = new Workbook();
+         //載入Excel
+         _workbook.LoadDocument(destinationFilePath);
       }
 
       [TestInitialize]
       public void Setup()
       {
-         b30399 = new B30399(destinationFilePath, "2018/10");
+         b30399 = new B30399(_workbook, "2018/10");
       }
 
       [TestMethod()]
@@ -39,5 +45,13 @@ namespace PhoenixCI.BusinessLogic.Prefix3.Tests
          string isCorrect = b30399.Wf30333();
          Assert.IsNotNull(isCorrect);
       }
+
+      [TestCleanup]
+      public void CleanAfterEachTestMethod()
+      {
+         //存檔
+         _workbook.SaveDocument(destinationFilePath);
+      }
+
    }
 }

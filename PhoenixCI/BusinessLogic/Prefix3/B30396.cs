@@ -16,7 +16,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    /// </summary>
    public class B30396
    {
-      private readonly string _lsFile;
+      private readonly Workbook _workbook;
       private readonly string _emMonthText;
 
       /// <summary>
@@ -24,9 +24,9 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// </summary>
       /// <param name="FilePath">Excel_Template</param>
       /// <param name="datetime">em_month.Text</param>
-      public B30396(string FilePath,string datetime)
+      public B30396(Workbook workbook, string datetime)
       {
-         _lsFile = FilePath;
+         _workbook = workbook;
          _emMonthText = datetime;
       }
       /// <summary>
@@ -56,7 +56,6 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <returns></returns>
       public string Wf30396(string IsKindID = "BRF", string SheetName = "30396", int RowIndex=1, int RowTotal=33)
       {
-         Workbook workbook = new Workbook();
          try {
             //前月倒數2天交易日
             DateTime StartDate = PbFunc.f_get_last_day("AI3", IsKindID, _emMonthText, 2);
@@ -64,8 +63,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             DateTime EndDate = PbFunc.f_get_end_day("AI3", IsKindID, _emMonthText);
 
             //切換Sheet
-            workbook.LoadDocument(_lsFile);
-            Worksheet worksheet = workbook.Worksheets[SheetName];
+            Worksheet worksheet = _workbook.Worksheets[SheetName];
             //無前月資料
 
             int addRowCount = 0;//總計寫入的行數
@@ -95,7 +93,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             if (RowTotal > addRowCount) {
                worksheet.Rows.Remove(RowIndex + 1, RowTotal - addRowCount);
                //重新選取圖表範圍
-               ResetChartData(RowIndex + 1, workbook, worksheet, $"{SheetName}a");//ex:30396a
+               ResetChartData(RowIndex + 1, _workbook, worksheet, $"{SheetName}a");//ex:30396a
             }
             
          }
@@ -105,10 +103,6 @@ namespace PhoenixCI.BusinessLogic.Prefix3
 #else
             throw ex;
 #endif
-         }
-         finally {
-            //存檔
-            workbook.SaveDocument(_lsFile);
          }
 
          return MessageDisplay.MSG_OK;
@@ -125,7 +119,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       public string Wf30396abc(string IsKindID= "BRF", string SheetName= "data_30396abc", int RowIndex = 3, int RowTotal = 12)
       {
          try {
-            return new B30398(_lsFile, _emMonthText).Wf30333(IsKindID, SheetName);
+            return new B30398(_workbook, _emMonthText).Wf30333(IsKindID, SheetName);
          }
          catch (Exception ex) {
             throw ex;

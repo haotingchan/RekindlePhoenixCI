@@ -8,6 +8,7 @@ using BaseGround.Shared;
 using Common;
 using PhoenixCI.BusinessLogic.Prefix3;
 using System.IO;
+using DevExpress.Spreadsheet;
 /// <summary>
 /// john,20190319,匯率類期貨契約價量資料
 /// </summary>
@@ -105,8 +106,11 @@ namespace PhoenixCI.FormUI.Prefix3
          }
 
          string lsFile = PbFunc.wf_copy_file(_ProgramID, "30398");
+         Workbook workbook = new Workbook();
+         //載入Excel
+         workbook.LoadDocument(lsFile);
          try {
-            b30398 = new B30398(lsFile, emMonth.Text);
+            b30398 = new B30398(workbook, emMonth.Text);
 
             ShowMsg("30398－「GTF」期貨契約價量資料 轉檔中...");
             OutputShowMessage = b30398.Wf30331();
@@ -119,6 +123,8 @@ namespace PhoenixCI.FormUI.Prefix3
             return ResultStatus.Fail;
          }
          finally {
+            //存檔
+            workbook.SaveDocument(lsFile);
             EndExport();
          }
          return ResultStatus.Success;
