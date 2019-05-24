@@ -19,6 +19,7 @@ using System;
 using System.Linq;
 using DevExpress.Spreadsheet;
 using System.Drawing;
+using PhoenixCI.BusinessLogic.Prefix5;
 
 namespace PhoenixCI.FormUI.Prefix5
 {
@@ -30,6 +31,7 @@ namespace PhoenixCI.FormUI.Prefix5
       private ABRK daoABRK;
       private APDK daoAPDK;
       private D50032 dao50032;
+      private B50032 b50032;
 
       public W50032(string programID, string programName) : base(programID, programName)
       {
@@ -39,6 +41,7 @@ namespace PhoenixCI.FormUI.Prefix5
          daoAPDK = new APDK();
          _D500Xx = new D500xx();
          dao50032 = new D50032();
+         b50032 = new B50032();
       }
 
       private bool StartRetrieve(string sbrkno = "", string ebrkno = "")
@@ -244,7 +247,6 @@ namespace PhoenixCI.FormUI.Prefix5
          _Data = dao50032.List50032(_D500Xx);
 
          if (_Data.Rows.Count <= 0) {
-            documentViewer1.DocumentSource = null;
             MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
             return false;
          }
@@ -289,106 +291,14 @@ namespace PhoenixCI.FormUI.Prefix5
 
       protected override ResultStatus Retrieve()
       {
+         documentViewer1.DocumentSource = null;
          ShowMsg("開始讀取");
          if (!GetData()) return ResultStatus.Fail;
 
          ShowMsg("資料搜尋...");
          //判斷連續x個月不符造市規定
-         DataTable ids = _Data.Clone();
-         object brkNo = new object(), prodID = new object(); 
-         string lsYMD = "";
-         int liCnt = 0;
-         bool found = false;
-         int liMth = SleCMth.Text.AsInt();
-         _Data.Rows.Add(_Data.NewRow());
-         int lastRowIndex = _Data.Rows.Count - 1;
-         _Data.Rows[lastRowIndex]["AMM0_BRK_NO"] = "";
-         _Data.Rows[lastRowIndex]["AMM0_PROD_ID"] = "";
-         _Data.Rows[lastRowIndex]["CP_INVALID"] = 1;
-         for (int k = 0; k < _Data.Rows.Count; k++) {
-            DataRow dr = _Data.Rows[k];
-            //成績有通過
-            if (dr["CP_INVALID"].AsInt() == 0 && k != _Data.Rows.Count - 1)
-               continue;
-            //判斷是否同brk_no+prod_id+ym,已判斷跳過
-            try {
-               //found = ids.Select($@"AMM0_BRK_NO='{dr["AMM0_BRK_NO"]}' and AMM0_PROD_ID='{dr["AMM0_PROD_ID"]}' and AMM0_YMD='{dr["AMM0_YMD"]}'").Any();
-               /*found = ids.AsEnumerable().Where(r => r.Field<string>("AMM0_BRK_NO") == dr["AMM0_BRK_NO"].AsString()
-                                                      && r.Field<string>("AMM0_PROD_ID") == dr["AMM0_PROD_ID"].AsString()
-                                                      && r.Field<string>("AMM0_YMD") == dr["AMM0_YMD"].AsString()).Any();*/
-               found = ids.AsEnumerable().Where(r => r.Field<object>("AMM0_BRK_NO") == dr["AMM0_BRK_NO"]
-                                                                     && r.Field<object>("AMM0_PROD_ID") == dr["AMM0_PROD_ID"]
-                                                                     && r.Field<object>("AMM0_YMD").AsString() == dr["AMM0_YMD"].AsString()).Any();
-            }
-            catch (Exception ex) {
-#if DEBUG
-               MessageDisplay.Error(ex.Source + ":" + k, "判斷是否同brk_no+prod_id+ym,已判斷跳過");
-#endif
-            }
-            if (found)
-               continue;
-
-            //判斷是否同brk_no+prod_id+ym,不同acc_no是否有"成績有通過"
-            try {
-               //found = _Data.Select($@"AMM0_BRK_NO='{dr["AMM0_BRK_NO"]}' and AMM0_PROD_ID='{dr["AMM0_PROD_ID"]}' and AMM0_YMD='{dr["AMM0_YMD"]}' and AMM0_ACC_NO <>'{dr["AMM0_ACC_NO"]}' and CP_INVALID=0").Any();
-               found = _Data.AsEnumerable().Where(r => r.Field<object>("AMM0_BRK_NO") == dr["AMM0_BRK_NO"]
-                                                   && r.Field<object>("AMM0_PROD_ID") == dr["AMM0_PROD_ID"]
-                                                   && r.Field<object>("AMM0_YMD") == dr["AMM0_YMD"]
-                                                   && r.Field<object>("AMM0_ACC_NO") != dr["AMM0_ACC_NO"] 
-                                                   && r.Field<int>("CP_INVALID") == 0).Any();
-            }
-            catch (Exception ex) {
-#if DEBUG
-               MessageDisplay.Error(ex.Source + ":" + k, "判斷不同acc_no是否有成績有通過");
-#endif
-            }
-            if (found)
-               continue;
-
-            if (brkNo != dr["AMM0_BRK_NO"] || prodID != dr["AMM0_PROD_ID"]) {
-               if (liCnt >= liMth) {
-                  ids.Rows.Add(ids.NewRow());
-                  int iDsLastRowIndex = ids.Rows.Count - 1;
-                  ids.Rows[iDsLastRowIndex]["AMM0_BRK_NO"] = brkNo;
-                  ids.Rows[iDsLastRowIndex]["AMM0_PROD_ID"] = prodID;
-                  ids.Rows[iDsLastRowIndex]["AMM0_OM_QNTY"] = liCnt;
-               }
-               brkNo = dr["AMM0_BRK_NO"];
-               prodID = dr["AMM0_PROD_ID"];
-               lsYMD = dr["AMM0_YMD"].AsString();
-               liCnt = 1;
-            }//if (brkNo != dr["AMM0_BRK_NO"].AsString() || prodID != dr["AMM0_PROD_ID"].AsString())
-            else {
-               if (k == _Data.Rows.Count - 1)
-                  continue;
-
-               string lsDate = dr["AMM0_YMD"].AsDateTime("yyyyMM").AddMonths(-1).ToString("yyyyMM");
-               //連續月份
-               if (lsDate == lsYMD) {
-                  liCnt = liCnt + 1;
-               }
-               lsYMD = dr["AMM0_YMD"].AsString();
-            }
-         }//for (int k = 0; k < _Data.Rows.Count; k++)
-         _Data.Rows.RemoveAt(_Data.Rows.Count - 1);
-
-         DataTable dt = _Data;
-         object brkNo2 = new object(), prodID2 = new object();
-         for (int k = 0; k < dt.Rows.Count; k++) {
-            DataRow dr = dt.Rows[k];
-            if (brkNo2 != dr["AMM0_BRK_NO"] || prodID2 != dr["AMM0_PROD_ID"]) {
-               brkNo2 = dr["AMM0_BRK_NO"];
-               prodID2 = dr["AMM0_PROD_ID"];
-               //found = ids.Select($@"AMM0_BRK_NO='{dr["AMM0_BRK_NO"]}' and AMM0_PROD_ID='{dr["AMM0_PROD_ID"]}'").Any();
-               //found = ids.AsEnumerable().Where(r => r.Field<string>("AMM0_BRK_NO") == brkNo2 && r.Field<string>("AMM0_PROD_ID") == prodID2).Any();
-               found = ids.AsEnumerable().Where(r => r.Field<object>("AMM0_BRK_NO") == brkNo2 && r.Field<object>("AMM0_PROD_ID") == prodID2).Any();
-            }
-            if (!found) {
-               _Data.Rows.RemoveAt(k);
-               k = k - 1;
-            }
-         }//for (int k = 0; k < dt.Rows.Count; k++)
-         _Data.AddSeriNumToDataTable();
+         DataTable ids = b50032.CompareDataByParallel(_Data, SleCMth.Text);
+         _Data = b50032.FilterDataByParallel(_Data, ids);
 
          ShowMsg("讀取中...");
 
@@ -452,6 +362,7 @@ namespace PhoenixCI.FormUI.Prefix5
 
       protected override ResultStatus Print(ReportHelper reportHelper)
       {
+         //ShowFormWait();
          CommonReportLandscapeA4 reportLandscapeA4 = new CommonReportLandscapeA4();
          XtraReport xtraReport = reportHelper.CreateCompositeReport(_defReport, reportLandscapeA4);
          string dateCondition = DateText() == "" ? "" : "," + DateText();
@@ -464,6 +375,7 @@ namespace PhoenixCI.FormUI.Prefix5
 
          //reportHelper.Preview();
          base.Print(reportHelper);
+         //CloseFormWait();
          return ResultStatus.Success;
       }
 

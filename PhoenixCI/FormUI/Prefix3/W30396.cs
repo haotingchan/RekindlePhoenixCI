@@ -8,6 +8,7 @@ using BaseGround.Shared;
 using Common;
 using PhoenixCI.BusinessLogic.Prefix3;
 using System.IO;
+using DevExpress.Spreadsheet;
 /// <summary>
 /// john,20190319,布蘭特原油期貨契約價量資料
 /// </summary>
@@ -112,8 +113,11 @@ namespace PhoenixCI.FormUI.Prefix3
             lsFile = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
          }
 
+         Workbook workbook = new Workbook();
+         //載入Excel
+         workbook.LoadDocument(lsFile);
          try {
-            b30396 = new B30396(lsFile, emMonth.Text);
+            b30396 = new B30396(workbook, emMonth.Text);
 
             ShowMsg("30396－「BRF」期貨契約價量資料 轉檔中...");
             OutputShowMessage = b30396.Wf30396();
@@ -127,6 +131,8 @@ namespace PhoenixCI.FormUI.Prefix3
             return ResultStatus.Fail;
          }
          finally {
+            //存檔
+            workbook.SaveDocument(lsFile);
             EndExport();
          }
          return ResultStatus.Success;

@@ -16,7 +16,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    /// </summary>
    public class B30398
    {
-      private readonly string _lsFile;
+      private readonly Workbook _workbook;
       private string _emMonthText;
 
       /// <summary>
@@ -24,9 +24,9 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// </summary>
       /// <param name="FilePath">Excel_Template</param>
       /// <param name="datetime">em_month.Text</param>
-      public B30398(string FilePath,string datetime)
+      public B30398(Workbook Workbook, string datetime)
       {
-         _lsFile = FilePath;
+         _workbook = Workbook;
          _emMonthText = datetime;
          
       }
@@ -94,16 +94,14 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <returns></returns>
       public string Wf30331(string IsKindID= "GTF", string SheetName= "30398", int RowIndex=1, int RowTotal=33)
       {
-         Workbook workbook = new Workbook();
+         
          try {
             //前月倒數2天交易日
             DateTime StartDate = PbFunc.f_get_last_day("AI3", IsKindID, _emMonthText, 2);
             //抓當月最後交易日
             DateTime EndDate = PbFunc.f_get_end_day("AI3", IsKindID, _emMonthText);
-
-            //切換Sheet
-            workbook.LoadDocument(_lsFile);
-            Worksheet worksheet = workbook.Worksheets[SheetName];
+            
+            Worksheet worksheet = _workbook.Worksheets[SheetName];
             /*add some infor 原本template標題就已經設定 這段看不出意義在哪 所以不翻
             iole_1.application.activecell(1, 1).value = "櫃買期貨"
             iole_1.application.activecell(2, 2).value = "櫃買價格"
@@ -133,7 +131,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             if (RowTotal > addRowCount) {
                worksheet.Rows.Remove(RowIndex + 1, RowTotal - addRowCount);
                //重新選取圖表範圍
-               ResetChartData(RowIndex+1, workbook, worksheet, $"{SheetName}a");//ex:30398a
+               ResetChartData(RowIndex+1, _workbook, worksheet, $"{SheetName}a");//ex:30398a
                worksheet.ScrollTo(0, 0);//直接滾動到最上面，不然看起來很像少行數
             }
             
@@ -144,10 +142,6 @@ namespace PhoenixCI.BusinessLogic.Prefix3
 #else
             throw ex;
 #endif
-         }
-         finally {
-            //存檔
-            workbook.SaveDocument(_lsFile);
          }
 
          return MessageDisplay.MSG_OK;
@@ -164,11 +158,9 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <returns></returns>
       public string Wf30333(string IsKindID= "GTF", string SheetName= "data_30398abc", int RowIndex = 3, int RowTotal = 12)
       {
-         Workbook workbook = new Workbook();
          try {
             //切換Sheet
-            workbook.LoadDocument(_lsFile);
-            Worksheet worksheet = workbook.Worksheets[SheetName];
+            Worksheet worksheet = _workbook.Worksheets[SheetName];
             //總列數
             int sumRowIndex = RowTotal + RowIndex + 1;//小計行數
             int addRowCount = 0;//總計寫入的行數
@@ -204,10 +196,6 @@ namespace PhoenixCI.BusinessLogic.Prefix3
 #else
             throw ex;
 #endif
-         }
-         finally {
-            //存檔
-            workbook.SaveDocument(_lsFile);
          }
 
          return MessageDisplay.MSG_OK;

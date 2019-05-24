@@ -66,15 +66,14 @@ namespace PhoenixCI.BusinessLogic.Prefix7
             //******************/
             DataTable dt = dao70010.ListRowdata(lsStartYMD, lsEndYMD, lsSumType, lsProdType, lsMarketCode);
             if (dt.Rows.Count <= 0) {
-               throw new System.Exception($@"轉70010-交易量資料轉檔作業(週)({lsStartYMD }-{ lsEndYMD })(期貨/選擇權:{lsProdType })筆數為０!");
+               return $@"轉70010-交易量資料轉檔作業(週)({lsStartYMD }-{ lsEndYMD })(期貨/選擇權:{lsProdType })筆數為０!";
             }
             /* 期貨商 */
             DataTable dtBRK = dao70010.List70010brkByMarketCode(lsStartYMD, lsEndYMD, lsSumType, lsProdType, lsMarketCode);
             /* 日期 */
             DataTable dtYMDd = dao70010.ListYmdByMarketCode(lsStartYMD, lsEndYMD, lsSumType, lsProdType, lsMarketCode);
-            DataTable dtYMD = dao70010.ListYmdEnd(null, null, null, null);
+            DataTable dtYMD = dao70010.ListYmdEnd(null, null, null, null).Clone();
             //DataTable dtYMD = dao70010.ListYmdEnd(lsStartYMD, lsEndYMD, lsSumType, lsProdType);
-            dtYMD.Clear();//PB還沒有在這retrieve
             /* 商品 */
             DataTable dtPK;
             if (lsProdType == "F") {
@@ -105,8 +104,8 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                int dtymdCount = dtYMDd.Rows.Count - 1;
                for (int k = 1; k <= dtymdCount; k++) {
                   lsYMD = dtYMDd.Rows[k]["am0_ymd"].AsString();
-                  ldYMD = DateTime.ParseExact(lsYMD, "yyyyMMdd", CultureInfo.CurrentCulture);
-                  ldYMDn = DateTime.ParseExact(dtYMDd.Rows[k - 1]["am0_ymd"].AsString(), "yyyyMMdd", CultureInfo.CurrentCulture);
+                  ldYMD = lsYMD.AsDateTime("yyyyMMdd");
+                  ldYMDn = dtYMDd.Rows[k - 1]["am0_ymd"].AsString().AsDateTime("yyyyMMdd");
                   /* 符合下列條件才寫Excel
                   1.最後一筆
                   2.換週 (判斷星期x是否變小)
@@ -128,7 +127,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                dtYMD = dsDv.ToTable();
             }
             catch (Exception ex) {
-               throw new Exception("日期:週-"+ ex.Message); 
+               throw new Exception("日期:週-" + ex.Message);
             }
             /******************
             表頭
@@ -178,6 +177,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
             OpenData
             *******************/
             //期貨商代號&名稱
+            ABRK daoABRK = new ABRK();
             try {
                foreach (DataRow brkRow in dtBRK.Rows) {
                   lsBrkNo4 = brkRow["am0_brk_no4"].AsString();
@@ -188,7 +188,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                   else {
                      lsBrkNo = lsBrkNo4.Trim() + "000";
                   }
-                  lsBrkName = new ABRK().GetNameByNo(lsBrkNo);// f_get_abrk_name(lsBrkNo,'0')	
+                  lsBrkName = daoABRK.GetNameByNo(lsBrkNo);// f_get_abrk_name(lsBrkNo,'0')	
                   lsOutput1 = !selectEng ? (lsBrkNo + "," + lsBrkName) : lsBrkNo;//轉英文只秀編號
                   //日期
                   foreach (DataRow ymdRow in dtYMD.Rows) {
@@ -330,7 +330,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
             //******************/
             DataTable dt = dao70050.ListAll(lsStartYMD, lsEndYMD, lsSumType, lsProdType, lsKindId2, lsParamKey);
             if (dt.Rows.Count <= 0) {
-               throw new System.Exception($@"轉{lsParamKey}-交易量資料轉檔作業(週)({lsStartYMD}-{lsEndYMD})(期貨/選擇權:{ lsProdType })筆數為０!");
+               return $@"轉{lsParamKey}-交易量資料轉檔作業(週)({lsStartYMD}-{lsEndYMD})(期貨/選擇權:{ lsProdType })筆數為０!";
             }
             /* 期貨商 */
             DataTable dtBRK;
@@ -529,7 +529,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
             //******************/
             DataTable dt = dao70010.ListRowdata(lsStartYMD, lsEndYMD, lsSumType, lsProdType, lsMarketCode);
             if (dt.Rows.Count <= 0) {
-               throw new Exception($@"轉70010-交易量資料轉檔作業({lsSumType})({lsStartYMD}-{lsEndYMD})(期貨/選擇權:{ lsProdType })筆數為０!");
+               return $@"轉70010-交易量資料轉檔作業({lsSumType})({lsStartYMD}-{lsEndYMD})(期貨/選擇權:{ lsProdType })筆數為０!";
             }
 
             string openData = "";
@@ -676,34 +676,34 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                OpenData
                *******************/
                //期貨商代號&名稱
+               ABRK daoABRK = new ABRK();
                try {
                   foreach (DataRow brkRow in dtBRK.Rows) {
-                     lsBrkNo4 = brkRow["am0_brk_no4"].AsString();
-                     lsBrkType = brkRow["am0_brk_type"].AsString();
+                     lsBrkNo4 = brkRow["AM0_BRK_NO4"].AsString();
+                     lsBrkType = brkRow["AM0_BRK_TYPE"].AsString();
                      if (lsBrkType.Trim() == "9") {
                         lsBrkNo = lsBrkNo4.Trim() + "999";
                      }
                      else {
                         lsBrkNo = lsBrkNo4.Trim() + "000";
                      }
-                     lsBrkName = new ABRK().GetNameByNo(lsBrkNo);// f_get_abrk_name(lsBrkNo,'0')	
+                     lsBrkName = daoABRK.GetNameByNo(lsBrkNo);// f_get_abrk_name(lsBrkNo,'0')	
                      lsOutput1 = !selectEng ? (lsBrkNo + "," + lsBrkName) : lsBrkNo;//轉英文只秀編號
 
                      //日期
                      foreach (DataRow ymdRow in dtYMD.Rows) {
-                        lsYMD = ymdRow["am0_ymd"].AsString();
+                        lsYMD = ymdRow["AM0_YMD"].AsString();
                         lsOpenDataStr = lsBrkNo + "," + lsBrkName + "," + lsYMD;
                         ldSum = 0;
                         //商品
                         foreach (DataRow pkRow in newdtPK.Rows) {
-                           lsParamKey = pkRow["am0_param_key"].AsString();
-                           int foundIndex = newDt.Rows.IndexOf(newDt.Select($@"am0_brk_no4='{ lsBrkNo4 }' and am0_brk_type='{lsBrkType}' and am0_ymd='{ lsYMD }' and am0_param_key='{ lsParamKey}'").FirstOrDefault());
+                           lsParamKey = pkRow["AM0_PARAM_KEY"].AsString();
+                           int foundIndex = newDt.Rows.IndexOf(newDt.Select($@"AM0_BRK_NO4='{ lsBrkNo4 }' and AM0_BRK_TYPE='{lsBrkType}' and AM0_YMD='{ lsYMD }' and AM0_PARAM_KEY='{ lsParamKey}'").FirstOrDefault());
                            /* 沒有填0 */
                            if (foundIndex > -1) {
-                              ldVal = newDt.Rows[foundIndex]["qnty"].AsDecimal();
-                              //ldSum = dt.getitemdecimal(foundIndex,"cp_sum_qnty")
-                              //ldSum = (from dt in dt.AsEnumerable() where dt.Field<string>("am0_brk_no4") == lsBrkNo4 && dt.Field<string>("am0_brk_type") == lsBrkType && dt.Field<string>("am0_ymd") == lsYMD select dt).ToList().Sum(x=>x.Field<decimal>("qnty"));
-                              ldSum = dt.Compute("sum(qnty)", $@"am0_brk_no4='{lsBrkNo4}' and am0_brk_type='{lsBrkType}' and am0_ymd='{lsYMD }'").AsDecimal();
+                              ldVal = newDt.Rows[foundIndex]["QNTY"].AsDecimal();
+                              //ldSum = ids_1.getitemdecimal(foundIndex,"cp_sum_qnty")
+                              ldSum = newDt.Rows[foundIndex]["CP_SUM_QNTY"].AsDecimal();
                            }
                            else {
                               ldVal = 0;
@@ -717,7 +717,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                         lsOutput1 = lsOutput1 + "," + ldSum.AsString();
                      }//foreach (DataRow ymdRow in dtYMD.Rows)
                      if (liAreaCnt == liArea && lsSumType != "Y") {
-                        lsOutput1 = lsOutput1 + $",{brkRow["cp_rate"].AsDecimal().ToString("n")}";
+                        lsOutput1 = lsOutput1 + $",{brkRow["CP_RATE"].AsDecimal().ToString("n")}";
                      }
                      WriteFile(SaveFilePath, lsOutput1);
                   }//foreach (DataRow brkRow in dtBRK.Rows)
@@ -729,7 +729,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
              /*******************
              W_OpenData
              *******************/
-            if (lsProdType == "O" && lsSumType == "D") {
+            if (lsProdType == "O" && lsSumType == "D" && !selectEng) {
                dt = dao70010.ListRowdataOpendata(lsEndYMD, lsEndYMD, lsMarketCode);
                ExportOptions csvref = new ExportOptions();
                csvref.HasHeader = true;

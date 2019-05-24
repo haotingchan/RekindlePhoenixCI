@@ -22,18 +22,20 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    public class B30350
    {
       private D30350 dao30350;
-      private readonly string _lsFile;
+      private readonly Workbook _workbook;
       private readonly string _emMonthText;
+      private readonly DateTime _StartDate, _EndDate;
 
       /// <summary>
       /// 
       /// </summary>
       /// <param name="FilePath">Excel_Template</param>
       /// <param name="DatetimeVal">em_month.Text</param>
-      public B30350(string FilePath,string DatetimeVal)
+      public B30350(Workbook workbook, DateTime StartDate, DateTime EndDate)
       {
-         _lsFile = FilePath;
-         _emMonthText = DatetimeVal;
+         _workbook = workbook;
+         _StartDate= StartDate;
+         _EndDate= EndDate;
          dao30350 = new D30350();
       }
       /// <summary>
@@ -46,12 +48,8 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       {
          try {
             //切換Sheet
-            Workbook workbook = new Workbook();
-            workbook.LoadDocument(_lsFile);
-            Worksheet worksheet = workbook.Worksheets[SheetName];
+            Worksheet worksheet = _workbook.Worksheets[SheetName];
             string lsYMD = "";
-            worksheet.Range["A1"].Select();
-
 
             int addRowCount = 0;//總計寫入的行數
             foreach (DataRow row in Dt.Rows) {
@@ -67,14 +65,14 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                else {
                   worksheet.Rows[RowIndex][3 - 1].Value = row["AI2_M_QNTY"].AsDecimal();
                }
-               worksheet.Rows[RowIndex][6 - 1].Value = Dt.Compute("sum(AI2_MMK_QNTY)", $@"AI2_YMD='{lsYMD}'").AsDecimal();
-               worksheet.Rows[RowIndex][8 - 1].Value = Dt.Compute("sum(AI2_OI)", $@"AI2_YMD='{lsYMD}'").AsDecimal();
+               worksheet.Rows[RowIndex][6 - 1].Value = row["CP_SUM_AI2_MMK_QNTY"].AsDecimal();
+               worksheet.Rows[RowIndex][8 - 1].Value = row["CP_SUM_AI2_OI"].AsDecimal();
             }
             //刪除空白列
             if (RowTotal > addRowCount) {
                worksheet.Rows.Remove(RowIndex + 1, RowTotal - addRowCount);
             }
-            workbook.SaveDocument(_lsFile);
+            
          }
          catch (Exception ex) {
             MessageDisplay.Error(ex.Message, $"B30350-WriteSheet");
@@ -136,17 +134,13 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       public string DataFrom30351(int RowIndex, int RowTotal ,string IsKindID, string SheetName, string RptName, Condition30350 condition= Condition30350.NoCondition)
       {
          try {
-            //前月倒數1天交易日
-            DateTime StartDate = PbFunc.f_get_last_day("AI2", "TXO", _emMonthText, 1);
-            //抓當月最後交易日
-            DateTime EndDate = PbFunc.f_get_end_day("AI2", "TXO", _emMonthText);
             //讀取資料
-            DataTable dt = dao30350.Get30351Data(IsKindID, StartDate.ToString("yyyyMMdd"), EndDate.ToString("yyyyMMdd"));
+            DataTable dt = dao30350.Get30351Data(IsKindID, _StartDate.ToString("yyyyMMdd"), _EndDate.ToString("yyyyMMdd"));
             if (dt.Rows.Count <= 0) {
-               return $"{StartDate.ToShortDateString()}～{EndDate.ToShortDateString()},{SheetName}－{RptName},{IsKindID}無任何資料!";
+               return $"{_StartDate.ToShortDateString()}～{_EndDate.ToShortDateString()},{SheetName}－{RptName},{IsKindID}無任何資料!";
             }
             //行數寫入起始條件
-            RowIndex = ConditionRowIndex(RowIndex, StartDate, dt, condition);
+            RowIndex = ConditionRowIndex(RowIndex, _StartDate, dt, condition);
             //儲存寫入sheet
             WriteSheet(SheetName, dt, RowIndex, RowTotal);
          }
@@ -168,17 +162,13 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       public string DataFrom30358(int RowIndex, int RowTotal, string IsKindID, string SheetName, string RptName,Condition30350 Condition= Condition30350.NoCondition)
       {
          try {
-            //前月倒數1天交易日
-            DateTime StartDate = PbFunc.f_get_last_day("AI2", "TXO", _emMonthText, 1);
-            //抓當月最後交易日
-            DateTime EndDate = PbFunc.f_get_end_day("AI2", "TXO", _emMonthText);
             //讀取資料
-            DataTable dt = dao30350.Get30358Data(IsKindID, StartDate.ToString("yyyyMMdd"), EndDate.ToString("yyyyMMdd"));
+            DataTable dt = dao30350.Get30358Data(IsKindID, _StartDate.ToString("yyyyMMdd"), _EndDate.ToString("yyyyMMdd"));
             if (dt.Rows.Count <= 0) {
-               return $"{StartDate.ToShortDateString()}～{EndDate.ToShortDateString()},{SheetName}－{RptName},{IsKindID}無任何資料!";
+               return $"{_StartDate.ToShortDateString()}～{_EndDate.ToShortDateString()},{SheetName}－{RptName},{IsKindID}無任何資料!";
             }
             //行數寫入起始條件
-            RowIndex = ConditionRowIndex(RowIndex, StartDate, dt, Condition);
+            RowIndex = ConditionRowIndex(RowIndex, _StartDate, dt, Condition);
             //儲存寫入sheet
             WriteSheet(SheetName, dt, RowIndex, RowTotal);
          }
