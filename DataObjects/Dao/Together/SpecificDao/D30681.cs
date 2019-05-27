@@ -202,7 +202,7 @@ select to_char(ftpriced_trade_date,'yyyy/mm/dd hh24:mi:ss') as ""交易日期"",
     ftpriced_mth_seq2 as ""第二支腳月份序號"",
     ftpriced_order_seq as ""委託序號"",
       
-    to_char(ftpriced_order_time,'yyyy/mm/dd hh24:mi:ss:FF') as ""委託時間"",
+    to_char(ftpriced_order_time,'yyyy/mm/dd hh24:mi:ss:FF3') as ""委託時間"",
     ftpriced_bs_code as ""買賣別"",
     ftpriced_order_type as ""委託方式"",
     ftpriced_order_cond as ""委託條件"",
@@ -210,7 +210,7 @@ select to_char(ftpriced_trade_date,'yyyy/mm/dd hh24:mi:ss') as ""交易日期"",
      
     ftpriced_order_qnty as ""委託口數"",
     ftpriced_m_inst as ""撮合序號"",
-    to_char(ftpriced_m_time,'yyyy/mm/dd hh24:mi:ss:FF') as ""成交時間"",
+    to_char(ftpriced_m_time,'yyyy/mm/dd hh24:mi:ss:FF3') as ""成交時間"",
     ftpriced_m_price as ""成交價"",
     ftpriced_m_qnty as ""成交口數"",
      
@@ -292,7 +292,7 @@ select to_char(tpriced_trade_date,'yyyy/mm/dd hh24:mi:ss') as ""交易日期"",
     tpriced_mth_seq2 as ""第二支腳月份序號"",
     tpriced_order_seq as ""委託序號"",
       
-    to_char(tpriced_order_time,'yyyy/mm/dd hh24:mi:ss:FF') as ""委託時間"",
+    to_char(tpriced_order_time,'yyyy/mm/dd hh24:mi:ss:FF3') as ""委託時間"",
     tpriced_bs_code as ""買賣別"",
     tpriced_order_type as ""委託方式"",
     tpriced_order_cond as ""委託條件"",
@@ -300,7 +300,7 @@ select to_char(tpriced_trade_date,'yyyy/mm/dd hh24:mi:ss') as ""交易日期"",
      
     tpriced_order_qnty as ""委託口數"",
     tpriced_m_inst as ""撮合序號"",
-    to_char(tpriced_m_time,'yyyy/mm/dd hh24:mi:ss:FF') as ""成交時間"",
+    to_char(tpriced_m_time,'yyyy/mm/dd hh24:mi:ss:FF3') as ""成交時間"",
     tpriced_m_price as ""成交價"",
     tpriced_m_qnty as ""成交口數"",
      
@@ -385,7 +385,7 @@ select to_char(ftpricemtf_trade_date,'yyyy/mm/dd hh24:mi:ss') as ""交易日期"
    ftpricemtf_m_price2 as ""成交價格2"",
    ftpricemtf_bs_code as ""買賣別"",
    ftpricemtf_osf_seq_no as ""委託序號"",
-   to_char(ftpricemtf_osf_orig_time,'yyyy/mm/dd hh24:mi:ss:FF') as ""委託時間"",
+   to_char(ftpricemtf_osf_orig_time,'yyyy/mm/dd hh24:mi:ss:FF3') as ""委託時間"",
    ftpricemtf_oq_code as ""委託單類別(Order / Quote)"",
           
    ftpricemtf_osf_order_type as ""委託方式"",
@@ -395,7 +395,7 @@ select to_char(ftpricemtf_trade_date,'yyyy/mm/dd hh24:mi:ss') as ""交易日期"
    ftpricemtf_m_inst as ""搓合標記"",
           
    ftpricemtf_seq_no as ""撮合序號"",
-   to_char(ftpricemtf_orig_time,'yyyy/mm/dd hh24:mi:ss:FF') as ""成交時間"",
+   to_char(ftpricemtf_orig_time,'yyyy/mm/dd hh24:mi:ss:FF3') as ""成交時間"",
    ftpricemtf_price as ""成交價"",
    ftpricemtf_qnty as ""成交口數"",
    ftpricemtf_m_cm_code as ""價差對價差成交flag"",
@@ -499,7 +499,7 @@ select to_char(tpricemtf_trade_date,'yyyy/mm/dd hh24:mi:ss') as ""交易日期""
    tpricemtf_m_price2 as ""成交價格2"",
    tpricemtf_bs_code as ""買賣別"",
    tpricemtf_osf_seq_no as ""委託序號"",
-   to_char(tpricemtf_osf_orig_time,'yyyy/mm/dd hh24:mi:ss:FF') as ""委託時間"",
+   to_char(tpricemtf_osf_orig_time,'yyyy/mm/dd hh24:mi:ss:FF3') as ""委託時間"",
    tpricemtf_oq_code as ""委託單類別(Order / Quote)"",
           
    tpricemtf_osf_order_type as ""委託方式"",
@@ -509,7 +509,7 @@ select to_char(tpricemtf_trade_date,'yyyy/mm/dd hh24:mi:ss') as ""交易日期""
    tpricemtf_m_inst as ""搓合標記"",
           
    tpricemtf_seq_no as ""撮合序號"",
-   to_char(tpricemtf_orig_time,'yyyy/mm/dd hh24:mi:ss:FF') as ""成交時間"",
+   to_char(tpricemtf_orig_time,'yyyy/mm/dd hh24:mi:ss:FF3') as ""成交時間"",
    tpricemtf_price as ""成交價"",
    tpricemtf_qnty as ""成交口數"",
    tpricemtf_m_cm_code as ""價差對價差成交flag"",
