@@ -43,7 +43,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             lupTfxmPid = new RepositoryItemLookUpEdit();
 
             //商品
-            DataTable dtTfxmPid = new COD().ListByCol2("TFXM" , "PID");
+            DataTable dtTfxmPid = new COD().ListByCol2("TFXM" , "TFXM_PID");
             Extension.SetColumnLookUp(lupTfxmPid , dtTfxmPid , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
             gcMain.RepositoryItems.Add(lupTfxmPid);
 
