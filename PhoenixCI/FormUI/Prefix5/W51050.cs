@@ -75,14 +75,18 @@ namespace PhoenixCI.FormUI.Prefix5 {
                InsertRow();
             }
 
-            //2. 設定gvExport
+            //2. 設定gvMain
             gcMain.DataSource = dt;
-            gvMain.BestFitColumns();
             GridHelper.SetCommonGrid(gvMain);
 
             //3 設定dropdownlist       
             gvMain.Columns["MMFO_MARKET_CODE"].ColumnEdit = lupMarketCode;
 
+            gvMain.Columns["MMFO_MARKET_CODE"].Width = 50;
+            gvMain.Columns["MMFO_PARAM_KEY"].Width = 50;
+            gvMain.Columns["MMFO_MIN_PRICE"].Width = 100;
+
+            //gvMain.BestFitColumns();
             gcMain.Focus();
             return ResultStatus.Success;
 

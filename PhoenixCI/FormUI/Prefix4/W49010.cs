@@ -7,6 +7,7 @@ using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together.SpecificDao;
 using DataObjects.Dao.Together.TableDao;
+using DevExpress.Utils;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraEditors.Repository;
@@ -68,6 +69,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gvMain.BestFitColumns();
             GridHelper.SetCommonGrid(gvMain);
 
+            gridBand9.AppearanceHeader.TextOptions.WordWrap = WordWrap.Wrap;
+
             gridBand9.Caption = "(輸入方式：" + Environment.NewLine + "如3.5%，" + Environment.NewLine + "則輸入0.035)";
 
             gvMain.Columns["CPR_PROD_SUBTYPE"].ColumnEdit = lupProdSubtype;
@@ -112,7 +115,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          _ToolBtnImport.Enabled = false;//匯入
          _ToolBtnExport.Enabled = false;//匯出,格式可以為 pdf/xls/txt/csv, 看功能
-         _ToolBtnPrintAll.Enabled = true;//列印
+         _ToolBtnPrintAll.Enabled = false;//列印
 
          return ResultStatus.Success;
       }
@@ -244,7 +247,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                reportHelper.ReportTitle = this.Text + "─" + "(已確認)";
             }
 
-            CommonReportLandscapeA4 report = new CommonReportLandscapeA4(); //設定為橫向列印
+            CommonReportLandscapeA3 report = new CommonReportLandscapeA3(); //設定為橫向列印
             report.printableComponentContainerMain.PrintableComponent = gcMain;
             reportHelper.Create(report);
 
