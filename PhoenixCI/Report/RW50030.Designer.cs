@@ -193,7 +193,7 @@
          // cp_row
          // 
          this.cp_row.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[DataSource.CurrentRowIndex]+1")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[CP_ROW]")});
          this.cp_row.Multiline = true;
          this.cp_row.Name = "cp_row";
          this.cp_row.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -204,7 +204,7 @@
          // 
          this.amm0_ymd.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "BackColor", "Iif ([cp_chk3] = 0 ,RGB(255,255,255) , RGB(255,128,255))"),
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[amm0_ymd]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_YMD]")});
          this.amm0_ymd.Multiline = true;
          this.amm0_ymd.Name = "amm0_ymd";
          this.amm0_ymd.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -1114,7 +1114,7 @@
          // xrLabel2
          // 
          this.xrLabel2.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "trim([amm0_prod_id] )")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "trim([AMM0_PROD_ID])")});
          this.xrLabel2.LocationFloat = new DevExpress.Utils.PointFloat(100.2281F, 0F);
          this.xrLabel2.Multiline = true;
          this.xrLabel2.Name = "xrLabel2";
