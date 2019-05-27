@@ -10,6 +10,11 @@ namespace DataObjects.Dao.Together.SpecificDao
 {
    public class D50020:DataGate
    {
+      /// <summary>
+      /// d_50020
+      /// </summary>
+      /// <param name="d500Xx"></param>
+      /// <returns></returns>
       public DataTable List50020(D500xx d500Xx)
       {
          object[] parms = {
@@ -48,7 +53,7 @@ namespace DataObjects.Dao.Together.SpecificDao
               when '5' then AMM0_KIND_ID
               else AMM0_PROD_ID end as AMM0_PROD_ID,
          AMM0_CNT,   
-         round(decode(AMM0_MARKET_R_CNT,0,0,(AMM0_CNT /AMM0_MARKET_R_CNT)*100),2) as CP_RATE_VALID_CNT,
+         round(decode(AMM0_MARKET_R_CNT,0,0,(AMM0_CNT /AMM0_MARKET_R_CNT)*100),16) as CP_RATE_VALID_CNT,
          AMM0_MARKET_R_CNT,
          AMM0_DATA_TYPE
     FROM ci.AMM0  
@@ -63,6 +68,11 @@ namespace DataObjects.Dao.Together.SpecificDao
          return dt;
       }//public DataTable List50020
 
+      /// <summary>
+      /// d_50020_accu
+      /// </summary>
+      /// <param name="d500Xx"></param>
+      /// <returns></returns>
       public DataTable ListACCU(D500xx d500Xx)
       {
          object[] parms = {
@@ -87,7 +97,7 @@ namespace DataObjects.Dao.Together.SpecificDao
          BRK_ABBR_NAME,  
          AMM0_PROD_ID,
          AMM0_CNT,   
-         round(decode(AMM0_MARKET_R_CNT,0,0,(AMM0_CNT /AMM0_MARKET_R_CNT)*100),2) as CP_RATE_VALID_CNT,
+         round(decode(AMM0_MARKET_R_CNT,0,0,(AMM0_CNT /AMM0_MARKET_R_CNT)*100),16) as CP_RATE_VALID_CNT,
          AMM0_MARKET_R_CNT
     FROM
 (SELECT min(AMM0_YMD) ||'-'|| max(AMM0_YMD) as AMM0_YMD,   
@@ -142,6 +152,11 @@ namespace DataObjects.Dao.Together.SpecificDao
          return dt;
       }//public DataTable ListACCU
 
+      /// <summary>
+      /// d_50020_accu_ah
+      /// </summary>
+      /// <param name="d500Xx"></param>
+      /// <returns></returns>
       public DataTable ListACCUAH(D500xx d500Xx)
       {
          object[] parms = {
@@ -166,7 +181,7 @@ SELECT AMM0_YMD,
          BRK_ABBR_NAME,  
          AMM0_PROD_ID,
          AMM0_CNT,   
-         round(decode(AMM0_MARKET_R_CNT,0,0,(AMM0_CNT /AMM0_MARKET_R_CNT)*100),2) as CP_RATE_VALID_CNT,
+         round(decode(AMM0_MARKET_R_CNT,0,0,(AMM0_CNT /AMM0_MARKET_R_CNT)*100),16) as CP_RATE_VALID_CNT,
          AMM0_MARKET_R_CNT
     FROM
 (SELECT min(AMM0_YMD) ||'-'|| max(AMM0_YMD) as AMM0_YMD,   
@@ -221,6 +236,11 @@ SELECT AMM0_YMD,
          return dt;
       }//public DataTable ListACCUAH
 
+      /// <summary>
+      /// d_50020_ah
+      /// </summary>
+      /// <param name="d500Xx"></param>
+      /// <returns></returns>
       public DataTable ListAH(D500xx d500Xx)
       {
          object[] parms = {
@@ -259,7 +279,7 @@ SELECT AMM0_YMD,
               when '5' then AMM0_KIND_ID
               else AMM0_PROD_ID end as AMM0_PROD_ID,
          AMM0_CNT,   
-         round(decode(AMM0_MARKET_R_CNT,0,0,(AMM0_CNT /AMM0_MARKET_R_CNT)*100),2) as CP_RATE_VALID_CNT,
+         round(decode(AMM0_MARKET_R_CNT,0,0,(AMM0_CNT /AMM0_MARKET_R_CNT)*100),16) as CP_RATE_VALID_CNT,
          AMM0_MARKET_R_CNT,
          AMM0_DATA_TYPE 
     FROM ci.AMM0AH   
@@ -273,6 +293,48 @@ SELECT AMM0_YMD,
          DataTable dt = db.GetDataTable(sql, parms);
          return dt;
       }//public DataTable ListAH
+
+      /// <summary>
+      /// d_50020_d
+      /// </summary>
+      /// <param name="as_fm_date">起始日</param>
+      /// <param name="as_to_date">終止日</param>
+      /// <returns></returns>
+      public DataTable List50020d(DateTime as_fm_date, DateTime as_to_date)
+      {
+         object[] parms = {
+                ":as_fm_date",as_fm_date,
+                ":as_to_date",as_to_date
+            };
+         string sql = @"SELECT to_char(AMMD_DATE,'yyyy/mm/dd') as DATA_DATE,AMMD_BRK_NO AS FCM,AMMD_PROD_ID AS  PROD ,TO_CHAR(AMMD_W_TIME,'YYYY/MM/DD HH24:MI:SSxff') as  SEND_TIME
+                         FROM ci.AMMD
+                        WHERE AMMD_DATE >= :as_fm_date
+                          and AMMD_DATE <= :as_to_date
+                          AND AMMD_DATA_TYPE = 'R'";
+         DataTable dt = db.GetDataTable(sql, parms);
+         return dt;
+      }//public DataTable List50020d
+
+      /// <summary>
+      /// d_50020_d_ah
+      /// </summary>
+      /// <param name="as_fm_date">起始日</param>
+      /// <param name="as_to_date">終止日</param>
+      /// <returns></returns>
+      public DataTable List50020dAH(DateTime as_fm_date, DateTime as_to_date)
+      {
+         object[] parms = {
+                ":as_fm_date",as_fm_date,
+                ":as_to_date",as_to_date
+            };
+         string sql = @"SELECT to_char(AMMD_DATE,'yyyy/mm/dd') as DATA_DATE,AMMD_BRK_NO AS FCM,AMMD_PROD_ID AS  PROD ,TO_CHAR(AMMD_W_TIME,'YYYY/MM/DD HH24:MI:SSxff') as  SEND_TIME
+                         FROM ci.AMMDAH 
+                        WHERE AMMD_DATE >= :as_fm_date
+                          and AMMD_DATE <= :as_to_date
+                          AND AMMD_DATA_TYPE = 'R'";
+         DataTable dt = db.GetDataTable(sql, parms);
+         return dt;
+      }//public DataTable List50020dAH
 
    }
 }
