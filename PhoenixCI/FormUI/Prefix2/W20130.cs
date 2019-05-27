@@ -202,7 +202,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
         protected override ResultStatus InsertRow() {
             base.InsertRow(gvMain);
             gvMain.Focus();
-            gvMain.FocusedColumn = gvMain.Columns[0];
+            gvMain.FocusedColumn = gvMain.VisibleColumns[0];
 
             return ResultStatus.Success;
         }
@@ -232,7 +232,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             gv.SetRowCellValue(e.RowHandle, gv.Columns["AM12_KIND_ID"], "RHF");
             gv.SetRowCellValue(e.RowHandle, gv.Columns["AM12_DATA_TYPE"], "U");
             gv.SetRowCellValue(e.RowHandle, gv.Columns["AM12_W_USER_ID"], GlobalInfo.USER_ID);
-
+            
         }
 
         /// <summary>
@@ -267,26 +267,23 @@ namespace PhoenixCI.FormUI.Prefix2 {
 
             //描述每個欄位,在is_newRow時候要顯示的顏色
             //當該欄位不可編輯時,設定為灰色 Color.FromArgb(192,192,192)
-            //當該欄位不可編輯時,AllowFocus為false(PB的wf_set_order方法)
+            //當該欄位不可編輯時,TabStop為false(PB的wf_set_order方法)
             switch (e.Column.FieldName) {
                 case ("AM12_YMD"):
                 case ("AM12_F_ID"):
-                    e.Column.OptionsColumn.AllowFocus = Is_NewRow == "1" ? true : false;
-                    e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.FromArgb(192, 192, 192);
+                    e.Column.OptionsColumn.TabStop = Is_NewRow == "1" ? true : false;
+                    e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.Silver;
                     break;
                 case ("AM12_VOL"):
                     e.Appearance.BackColor = Color.White;
                     break;
                 case ("AM12_STATUS"):
-                    e.Column.OptionsColumn.AllowFocus = Is_NewRow == "1" ? true : false;
-                    e.Appearance.BackColor = Color.Transparent;
+                    //e.Column.OptionsColumn.TabStop = Is_NewRow == "1" ? true : false;
+                    e.Appearance.BackColor = Color.FromArgb(224, 224, 224);
                     break;
             }//switch (e.Column.FieldName) {
 
         }
-
         #endregion
-
-
     }
 }
