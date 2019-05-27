@@ -40,7 +40,7 @@ FROM
          LEAST(nvl(AMM0_MM_QNTY,0),nvl(AMM0_MAX_MM_QNTY,0)) AS QNTY,
          (AMM0_OM_QNTY + AMM0_QM_QNTY ) as CP_M_QNTY,
          AMM0_RQ_RATE as VALID_RATE,
-         decode(AMM0_MARKET_M_QNTY,0,0,round((AMM0_OM_QNTY +  AMM0_QM_QNTY )/AMM0_MARKET_M_QNTY,2) * 100) as CP_RATE_M,
+         decode(AMM0_MARKET_M_QNTY,0,0,round((AMM0_OM_QNTY +  AMM0_QM_QNTY )/AMM0_MARKET_M_QNTY,16) * 100) as CP_RATE_M,
          case when AMMF_AVG_TIME = 0 then 'Y' else AMM0_KEEP_FLAG end as KEEP_FLAG,
          AMMF_RFC_MIN_CNT as MMF_RFC_MIN_CNT
     FROM ci.AMM0,ci.AMMF  

@@ -11,6 +11,8 @@ using System.Windows.Forms;
 using System.Threading;
 using DevExpress.XtraLayout.Utils;
 using System.IO;
+using System;
+using DevExpress.XtraReports.UI;
 
 namespace PhoenixCI.FormUI.Prefix5
 {
@@ -20,6 +22,9 @@ namespace PhoenixCI.FormUI.Prefix5
       private DataTable _Data { get; set; }
       private ABRK daoABRK;
       private APDK daoAPDK;
+      private DataTable ProdCtFilterS;
+      private DataTable ProdCtData;
+      private XtraReport _defReport;
 
       public W500xx(string programID, string programName) : base(programID, programName)
       {
@@ -415,6 +420,86 @@ namespace PhoenixCI.FormUI.Prefix5
          File.Delete(_D500Xx.Filename);
       }
 
+      private void gbGroup_EditValueChanged(object sender, EventArgs e)
+      {
+         DevExpress.XtraEditors.RadioGroup rb = sender as DevExpress.XtraEditors.RadioGroup;
+         if (rb == null) return;
+         _D500Xx.GbGroup = rb.EditValue.ToString();
+
+         if (!rb.EditValue.Equals("rb_s")) {
+            dwProdCt.Properties.DataSource = ProdCtData;
+         }
+
+         switch (rb.EditValue.ToString()) {
+            case "rb_gall":
+               dwProdCt.Enabled = false;
+               stProdCt.Enabled = false;
+
+               dwProdKdSto.Enabled = false;
+               stProdKdSto.Enabled = false;
+
+               dwProdKd.Enabled = false;
+               stProdKd.Enabled = false;
+               break;
+            case "rb_gparam":
+               dwProdCt.Enabled = true;
+               stProdCt.Enabled = true;
+
+               dwProdKdSto.Enabled = false;
+               stProdKdSto.Enabled = false;
+
+               dwProdKd.Enabled = false;
+               stProdKd.Enabled = false;
+               break;
+            case "rb_s":
+               //統計依照"股票各類群組"時僅開放"商品群組"選單，且選單內容僅提供APDK_PROD_SUBTYPE='S'的商品
+               dwProdCt.SelectedText = "";
+               dwProdCt.Properties.DataSource = ProdCtFilterS;
+               dwProdCt.Enabled = true;
+               stProdCt.Enabled = true;
+
+               dwProdKdSto.Enabled = false;
+               stProdKdSto.Enabled = false;
+
+               dwProdKd.Enabled = false;
+               stProdKd.Enabled = false;
+               break;
+            case "rb_gkind2":
+               dwProdCt.Enabled = true;
+               stProdCt.Enabled = true;
+
+               dwProdKdSto.Enabled = true;
+               stProdKdSto.Enabled = true;
+
+               dwProdKd.Enabled = false;
+               stProdKd.Enabled = false;
+               break;
+            case "rb_gkind":
+               dwProdCt.Enabled = true;
+               stProdCt.Enabled = true;
+
+               dwProdKdSto.Enabled = true;
+               stProdKdSto.Enabled = true;
+
+               dwProdKd.Enabled = true;
+               stProdKd.Enabled = true;
+               break;
+            case "rb_gprod":
+               dwProdCt.Enabled = true;
+               stProdCt.Enabled = true;
+
+               dwProdKdSto.Enabled = true;
+               stProdKdSto.Enabled = true;
+
+               dwProdKd.Enabled = true;
+               stProdKd.Enabled = true;
+               break;
+            default:
+               break;
+         }
+      }
+
+
       public override ResultStatus BeforeOpen()
       {
          if(!PbFunc.f_chk_run_timing(_ProgramID))
@@ -426,25 +511,31 @@ namespace PhoenixCI.FormUI.Prefix5
       protected override ResultStatus Open()
       {
          base.Open();
-         //Input Condition
-         emEndDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
-         emStartDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/01");
-         emStartYM.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
-         emEndYM.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
+         /*******************
+         Input Condition
+         *******************/
+         //GlobalInfo.OCF_DATE = serviceCommon.GetOCF().OCF_DATE;
+         emEndDate.EditValue = GlobalInfo.OCF_DATE;
+         emStartDate.EditValue = (emEndDate.Text.Substring(0, 5) + "01").AsDateTime();
+         emStartYM.EditValue = GlobalInfo.OCF_DATE;
+         emEndYM.EditValue = GlobalInfo.OCF_DATE;
          /* 造市者代號 */
          //起始選項
          dwSbrkno.SetDataTable(daoABRK.ListAll2(), "ABRK_NO", "CP_DISPLAY", TextEditStyles.Standard, null);
          //目的選項
          dwEbrkno.SetDataTable(daoABRK.ListAll2(), "ABRK_NO", "CP_DISPLAY", TextEditStyles.Standard, null);
          /* 商品群組 */
-         dwProdCt.SetDataTable(daoAPDK.ListParamKey(), "APDK_PARAM_KEY", "APDK_PARAM_KEY", TextEditStyles.Standard, null);
+         ProdCtData = daoAPDK.ListParamKey2();
+         dwProdCt.SetDataTable(ProdCtData, "APDK_PARAM_KEY", "APDK_PARAM_KEY", TextEditStyles.Standard, null);
+         ProdCtFilterS = ProdCtData.Filter("APDK_PROD_SUBTYPE='S'");
          /* 造市商品 */
          dwProdKd.SetDataTable(daoAPDK.ListAll3(), "PDK_KIND_ID", "PDK_KIND_ID", TextEditStyles.Standard, null);
          /* 2碼商品 */
          dwProdKdSto.SetDataTable(daoAPDK.ListKind2(), "APDK_KIND_ID_STO", "APDK_KIND_ID_STO", TextEditStyles.Standard, null);
          //預設資料表
          _D500Xx.TableName = "AMM0";
-
+         _D500Xx.GbGroup = gbGroup.EditValue.ToString();
+         gbGroup.EditValueChanged += gbGroup_EditValueChanged;
          return ResultStatus.Success;
       }
 
@@ -474,8 +565,14 @@ namespace PhoenixCI.FormUI.Prefix5
 
       protected override ResultStatus Print(ReportHelper reportHelper)
       {
-         base.Print(reportHelper);
+         CommonReportPortraitA4 reportPortraitA4 = new CommonReportPortraitA4();
+         XtraReport xtraReport = reportHelper.CreateCompositeReport(_defReport, reportPortraitA4);
+         string dateCondition = DateText() == "" ? "" : "," + DateText();
+         reportHelper.LeftMemo = ConditionText() + dateCondition;
+         reportHelper.Create(xtraReport);
 
+         //reportHelper.Preview();
+         base.Print(reportHelper);
          return ResultStatus.Success;
       }
 

@@ -542,6 +542,24 @@ namespace PhoenixCI.FormUI.Prefix5
          }
       }
 
+      private void GbDetial_EditValueChanged(object sender, EventArgs e)
+      {
+         DevExpress.XtraEditors.RadioGroup rb = sender as DevExpress.XtraEditors.RadioGroup;
+         if (rb == null) return;
+
+         switch (rb.EditValue.ToString()) {
+            case "rb_detail":
+               layoutControl1.Enabled = false;
+               gbReportType.EditValue = "rb_date";
+               gbReportType.Enabled = false;
+               break;
+            default:
+               layoutControl1.Enabled = true;
+               gbReportType.Enabled = true;
+               break;
+         }
+      }
+
       protected override ResultStatus Open()
       {
          base.Open();
@@ -570,6 +588,7 @@ namespace PhoenixCI.FormUI.Prefix5
          _D500Xx.TableName = "AMM0";
          _D500Xx.GbGroup = gbGroup.EditValue.ToString();
          gbGroup.EditValueChanged += gbGroup_EditValueChanged;
+         gbDetial.EditValueChanged += GbDetial_EditValueChanged;
          return ResultStatus.Success;
       }
 
@@ -623,8 +642,35 @@ namespace PhoenixCI.FormUI.Prefix5
          string lsRptName = ConditionText().Trim();
          string ls_rpt_id = _ProgramID;
          StartExport(ls_rpt_id, lsRptName);
-         Retrieve();
+
+         //開啟檔案
+         Workbook workbook = new Workbook();
+
          try {
+            if (gbDetial.EditValue.Equals("rb_detail")) {
+               DataTable dt;
+               if (gbMarket.EditValue.Equals("rb_market_1")) {
+                  dt = dao50020.List50020dAH(emStartDate.DateTimeValue, emEndDate.DateTimeValue);
+               }
+               else {
+                  dt = dao50020.List50020d(emStartDate.DateTimeValue, emEndDate.DateTimeValue);
+               }
+               dt.Columns["DATA_DATE"].ColumnName = "交易日期";
+               dt.Columns["FCM"].ColumnName = "期貨商";
+               dt.Columns["PROD"].ColumnName = "商品";
+               dt.Columns["SEND_TIME"].ColumnName = "詢價送出時間";
+
+               string csvFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, $"50020_detail_{DateTime.Now.ToString("yyyy.MM.dd-hh.mm.ss")}.csv");
+               workbook.CreateNewDocument();
+               workbook.SaveDocument(csvFilePath, DocumentFormat.Csv);
+               workbook.Options.Export.Csv.WritePreamble = true;//不加這段中文會是亂碼
+               workbook.Worksheets[0].Import(dt, true, 0, 0);
+               workbook.SaveDocument(csvFilePath);
+               return ResultStatus.Success;
+            }
+
+            Retrieve();
+
             //複製檔案
             _D500Xx.Filename = CopyExcelTemplateFile(ls_rpt_id, FileType.XLS);
             if (_D500Xx.Filename == "") {
@@ -632,38 +678,22 @@ namespace PhoenixCI.FormUI.Prefix5
             }
             _D500Xx.LogText = _D500Xx.Filename;
 
-
-            //讀取資料
-            if (_Data.Rows.Count <= 0) {
-               EndExport();
-               return ResultStatus.Success;
-            }
-
             if (lsRptName == "") {
                lsRptName = "報表條件：" + "(" + DateText() + ")";
             }
             else {
                lsRptName = ConditionText().Trim() + " " + "(" + DateText() + ")";
             }
-            // Get its XLSX export options. 
-            XlsExportOptions xlsOptions = _defReport.ExportOptions.Xls;
-            xlsOptions.SheetName = _ProgramID;
 
-            //Export the report to XLSX. 
-            _defReport.ExportToXls(_D500Xx.Filename);
-
-            //開啟檔案
-            Workbook workbook = new Workbook();
             workbook.LoadDocument(_D500Xx.Filename);
             //切換Sheet
             Worksheet worksheet = workbook.Worksheets[0];
-            for (int k = 0; k < 3; k++) {
-               worksheet.Rows.Insert(0);
-            }
-
-            worksheet.Cells["E1"].Value = $"[{_ProgramID}]{_ProgramName}";
             worksheet.Cells["E3"].Value = lsRptName;
-
+            //讀取資料
+            if (_Data.Rows.Count <= 0) {
+               return ResultStatus.Success;
+            }
+            worksheet.Import(_Data, false, 4, 0);
             workbook.SaveDocument(_D500Xx.Filename);
          }
          catch (Exception ex) {
@@ -673,7 +703,6 @@ namespace PhoenixCI.FormUI.Prefix5
          finally {
             EndExport();
          }
-
 
          return ResultStatus.Success;
       }

@@ -138,13 +138,13 @@
          this.gbType.ItemAutoHeight = true;
          this.gbType.ItemPadding = new System.Windows.Forms.Padding(5);
          this.gbType.Items.AddRange(new DevExpress.XtraEditors.Controls.CheckedListBoxItem[] {
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkType0", "一般", System.Windows.Forms.CheckState.Checked),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkType1b", "長假調整", System.Windows.Forms.CheckState.Checked),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkType2b", "處置股票調整", System.Windows.Forms.CheckState.Checked),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkType3", "股票", System.Windows.Forms.CheckState.Checked),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkType1e", "長假回調", System.Windows.Forms.CheckState.Checked),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkType2e", "處置股票調整回調", System.Windows.Forms.CheckState.Checked),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkType4", "上下市商品", System.Windows.Forms.CheckState.Checked)});
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkType0", "一般"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkType1b", "長假調整"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkType2b", "處置股票調整"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkType3", "股票"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkType1e", "長假回調"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkType2e", "處置股票調整回調"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkType4", "上下市商品")});
          this.gbType.Location = new System.Drawing.Point(118, 71);
          this.gbType.MultiColumn = true;
          this.gbType.Name = "gbType";

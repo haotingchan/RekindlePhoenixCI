@@ -52,6 +52,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             txtStartTime.EditValue = DateTime.ParseExact("08:45:00" , "HH:mm:ss" , null);
             txtEndTime.EditValue = DateTime.ParseExact("16:30:00" , "HH:mm:ss" , null);
 
+            txtDate_EditValueChanged(txtDate , null);
+
             //2. 設定dropdownlist(頻率)
             DataTable dtMsg = daoCOD.ListByTxn("40180");
             dwMsg.SetDataTable(dtMsg , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor);
@@ -239,6 +241,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             if (dtAllTxt.Rows.Count <= 0) {
                MessageDisplay.Info(string.Format("{0},{1}－{2},讀取「保證金調整表」無任何資料!" , txtDate.Text , rptId , rptName));
+               return;
             }
 
             //儲存文字檔
