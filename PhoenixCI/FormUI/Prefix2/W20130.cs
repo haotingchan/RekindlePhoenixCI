@@ -202,7 +202,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
         protected override ResultStatus InsertRow() {
             base.InsertRow(gvMain);
             gvMain.Focus();
-            gvMain.FocusedColumn = gvMain.Columns[0];
+            gvMain.FocusedColumn = gvMain.VisibleColumns[0];
 
             return ResultStatus.Success;
         }
@@ -271,14 +271,14 @@ namespace PhoenixCI.FormUI.Prefix2 {
             switch (e.Column.FieldName) {
                 case ("AM12_YMD"):
                 case ("AM12_F_ID"):
-                    e.Column.OptionsColumn.AllowFocus = Is_NewRow == "1" ? true : false;
+                    //e.Column.OptionsColumn.AllowFocus = Is_NewRow == "1" ? true : false;
                     e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.FromArgb(192, 192, 192);
                     break;
                 case ("AM12_VOL"):
                     e.Appearance.BackColor = Color.White;
                     break;
                 case ("AM12_STATUS"):
-                    e.Column.OptionsColumn.AllowFocus = Is_NewRow == "1" ? true : false;
+                    //e.Column.OptionsColumn.AllowFocus = Is_NewRow == "1" ? true : false;
                     e.Appearance.BackColor = Color.Transparent;
                     break;
             }//switch (e.Column.FieldName) {
