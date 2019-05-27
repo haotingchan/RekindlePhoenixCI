@@ -93,9 +93,9 @@
          // 
          // panFirst
          // 
+         this.panFirst.Controls.Add(this.txtEndDate);
          this.panFirst.Controls.Add(this.label1);
          this.panFirst.Controls.Add(this.btnFirstFilter);
-         this.panFirst.Controls.Add(this.txtEndDate);
          this.panFirst.Controls.Add(this.labEndDate);
          this.panFirst.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.panFirst.ForeColor = System.Drawing.Color.Navy;
@@ -540,25 +540,23 @@
          // 
          // txtEndDate
          // 
-         this.txtEndDate.DateTimeValue = new System.DateTime(((long)(0)));
-         this.txtEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
-         this.txtEndDate.EditValue = "";
+         this.txtEndDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtEndDate.EditValue = "2018/12";
          this.txtEndDate.EnterMoveNextControl = true;
-         this.txtEndDate.Location = new System.Drawing.Point(105, 27);
+         this.txtEndDate.Location = new System.Drawing.Point(109, 27);
+         this.txtEndDate.MenuManager = this.ribbonControl;
          this.txtEndDate.Name = "txtEndDate";
-         this.txtEndDate.Properties.Appearance.Font = new System.Drawing.Font("標楷體", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.txtEndDate.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
-         this.txtEndDate.Properties.Appearance.Options.UseFont = true;
-         this.txtEndDate.Properties.Appearance.Options.UseForeColor = true;
-         this.txtEndDate.Properties.EditFormat.FormatString = "yyyyMM";
+         this.txtEndDate.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtEndDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtEndDate.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtEndDate.Properties.Mask.EditMask = "yyyy/MM/dd";
          this.txtEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
          this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtEndDate.Size = new System.Drawing.Size(121, 26);
-         this.txtEndDate.TabIndex = 0;
+         this.txtEndDate.Size = new System.Drawing.Size(100, 26);
+         this.txtEndDate.TabIndex = 84;
          this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-         this.txtEndDate.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtEndDate_KeyDown);
          // 
          // W48040
          // 

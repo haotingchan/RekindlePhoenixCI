@@ -130,31 +130,45 @@ namespace PhoenixCI.FormUI.Prefix4 {
                MessageDisplay.Choose("沒有變更資料,不需要存檔!");
                return ResultStatus.Fail;
             }
-            if (dtMainChange.Rows.Count == 0 && dtSubChange.Rows.Count == 0) {
-               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
-               return ResultStatus.Fail;
-            }
 
-            foreach (DataRow drMain in dtMainCur.Rows) {
-               if (drMain.RowState == DataRowState.Added || drMain.RowState == DataRowState.Modified) {
-                  drMain["RPTF_TXN_ID"] = _ProgramID;
-                  drMain["RPTF_TXD_ID"] = _ProgramID;
-                  drMain["RPTF_KEY"] = mainKey;
+            //若資料為null 用 Rows.Count 會造成exception
+            //if (dtMainChange.Rows.Count == 0 && dtSubChange.Rows.Count == 0) {
+            //   MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+            //   return ResultStatus.Fail;
+            //}
+
+            if (dtMainChange != null) {
+               foreach (DataRow drMain in dtMainCur.Rows) {
+                  if (drMain.RowState == DataRowState.Added || drMain.RowState == DataRowState.Modified) {
+                     drMain["RPTF_TXN_ID"] = _ProgramID;
+                     drMain["RPTF_TXD_ID"] = _ProgramID;
+                     drMain["RPTF_KEY"] = mainKey;
+                  }
                }
+               dtMainChange = dtMainCur.GetChanges();
             }
 
-            foreach (DataRow drSub in dtSubCur.Rows) {
-               if (drSub.RowState == DataRowState.Added || drSub.RowState == DataRowState.Modified) {
-                  drSub["RPTF_TXN_ID"] = _ProgramID;
-                  drSub["RPTF_TXD_ID"] = _ProgramID;
-                  drSub["RPTF_KEY"] = subKey;
+            if (dtSubChange != null) {
+               foreach (DataRow drSub in dtSubCur.Rows) {
+                  if (drSub.RowState == DataRowState.Added || drSub.RowState == DataRowState.Modified) {
+                     drSub["RPTF_TXN_ID"] = _ProgramID;
+                     drSub["RPTF_TXD_ID"] = _ProgramID;
+                     drSub["RPTF_KEY"] = subKey;
+                  }
                }
+               dtSubChange = dtSubCur.GetChanges();
             }
 
-            dtMainChange = dtMainCur.GetChanges();
-            dtSubChange = dtSubCur.GetChanges();
-            dtMainChange.Merge(dtSubChange);
-            ResultData result = new RPTF().UpdateData(dtMainChange);
+            ResultData result = new ResultData();
+            if (dtMainChange != null && dtSubChange != null) {
+               dtMainChange.Merge(dtSubChange);
+               result = new RPTF().UpdateData(dtMainChange);
+            } else if (dtMainChange != null && dtSubChange == null) {
+               result = new RPTF().UpdateData(dtMainChange);
+            } else {
+               result = new RPTF().UpdateData(dtSubChange);
+            }           
+            
             if (result.Status == ResultStatus.Fail) {
                return ResultStatus.Fail;
             }

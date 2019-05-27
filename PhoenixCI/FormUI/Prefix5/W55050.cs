@@ -198,7 +198,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                   worksheet.Cells[rowIndex , 5].SetValue(row["feetrd_rec_amt"]);//交易經手費--實收
                   worksheet.Cells[rowIndex , 6].SetValue(row["feetdcc_ar"]);//結算服務費--應收
                   worksheet.Cells[rowIndex , 7].SetValue(row["feetdcc_disc_amt"]);//結算服務費--折減
-                  worksheet.Cells[rowIndex , 7].SetValue(row["feetdcc_rec_amt"]);//結算服務費--實收
+                  worksheet.Cells[rowIndex , 8].SetValue(row["feetdcc_rec_amt"]);//結算服務費--實收
                }//if(rgpType.SelectedIndex == 0) {
 
                rowIndex++; pos++;
