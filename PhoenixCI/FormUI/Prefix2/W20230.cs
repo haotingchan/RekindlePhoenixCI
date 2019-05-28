@@ -110,7 +110,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             dt.Columns.Remove("OP_TYPE");
             dt.Columns.Remove("Is_NewRow");
             //檢查是否有空值
-            if (!checkComplete(dt)) return ResultStatus.Fail;
+            if (!checkComplete(dt)) return ResultStatus.FailButNext;
 
             DataTable dtChange = dt.GetChanges();
 

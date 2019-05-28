@@ -271,7 +271,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             switch (e.Column.FieldName) {
                 case ("AM12_YMD"):
                 case ("AM12_F_ID"):
-                    e.Column.OptionsColumn.TabStop = Is_NewRow == "1" ? true : false;
+                    //e.Column.OptionsColumn.TabStop = Is_NewRow == "1" ? true : false;
                     e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.Silver;
                     break;
                 case ("AM12_VOL"):
