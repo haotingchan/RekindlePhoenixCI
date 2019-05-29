@@ -1,6 +1,6 @@
 ﻿namespace PhoenixCI.FormUI.Prefix5
 {
-   partial class W500xx
+   partial class W50030
    {
       /// <summary>
       /// Required designer variable.
@@ -287,7 +287,7 @@
          // 
          // gbGroup
          // 
-         this.gbGroup.EditValue = "rb_gall";
+         this.gbGroup.EditValue = "rb_gkind";
          this.gbGroup.Location = new System.Drawing.Point(3, 13);
          this.gbGroup.Margin = new System.Windows.Forms.Padding(0);
          this.gbGroup.MenuManager = this.ribbonControl;
@@ -797,15 +797,15 @@
          this.panelControl1.Size = new System.Drawing.Size(790, 633);
          this.panelControl1.TabIndex = 1;
          // 
-         // W500xx
+         // W50030
          // 
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
          this.ClientSize = new System.Drawing.Size(790, 663);
          this.Controls.Add(this.panelControl1);
-         this.Name = "W500xx";
-         this.Text = "W500xx";
+         this.Name = "W50030";
+         this.Text = "W50030";
          this.Controls.SetChildIndex(this.ribbonControl, 0);
          this.Controls.SetChildIndex(this.panParent, 0);
          this.Controls.SetChildIndex(this.panelControl1, 0);

@@ -13,10 +13,13 @@ using DevExpress.XtraLayout.Utils;
 using System.IO;
 using System;
 using DevExpress.XtraReports.UI;
+using PhoenixCI.Report;
+using DevExpress.XtraPrinting;
+using DevExpress.Spreadsheet;
 
 namespace PhoenixCI.FormUI.Prefix5
 {
-   public partial class W500xx : FormParent
+   public partial class W50030 : FormParent
    {
       public D500xx _D500Xx { get; set; }
       private DataTable _Data { get; set; }
@@ -25,14 +28,17 @@ namespace PhoenixCI.FormUI.Prefix5
       private DataTable ProdCtFilterS;
       private DataTable ProdCtData;
       private XtraReport _defReport;
+      private RW50030 _RW50030;
+      private D50030 dao50030;
 
-      public W500xx(string programID, string programName) : base(programID, programName)
+      public W50030(string programID, string programName) : base(programID, programName)
       {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
          daoABRK = new ABRK();
          daoAPDK = new APDK();
          _D500Xx = new D500xx();
+         dao50030 = new D50030();
       }
 
       private bool StartRetrieve(string sbrkno = "", string ebrkno = "")
@@ -420,6 +426,32 @@ namespace PhoenixCI.FormUI.Prefix5
          File.Delete(_D500Xx.Filename);
       }
 
+      protected bool GetData()
+      {
+         /* 報表內容 */
+         //報表內容選擇分日期
+         if (gbDetial.EditValue.Equals("rb_gdate")) {
+            _Data = dao50030.List50030(_D500Xx);
+            //交易時段選盤後
+            if (gbMarket.EditValue.Equals("rb_market_1")) {
+               _Data = dao50030.ListAH(_D500Xx);
+            }
+         }
+         else {
+            _Data = dao50030.ListACCU(_D500Xx);
+            //交易時段選盤後
+            if (gbMarket.EditValue.Equals("rb_market_1")) {
+               _Data = dao50030.ListACCUAH(_D500Xx);
+            }
+         }
+         if (_Data.Rows.Count <= 0) {
+            documentViewer1.DocumentSource = null;
+            MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
+            return false;
+         }
+         return true;
+      }
+
       private void gbGroup_EditValueChanged(object sender, EventArgs e)
       {
          DevExpress.XtraEditors.RadioGroup rb = sender as DevExpress.XtraEditors.RadioGroup;
@@ -501,7 +533,7 @@ namespace PhoenixCI.FormUI.Prefix5
 
       public override ResultStatus BeforeOpen()
       {
-         if(!PbFunc.f_chk_run_timing(_ProgramID))
+         if (!PbFunc.f_chk_run_timing(_ProgramID))
             MessageDisplay.Info("今日盤後轉檔作業還未完畢!");
 
          return ResultStatus.Success;
@@ -552,20 +584,126 @@ namespace PhoenixCI.FormUI.Prefix5
 
       protected override ResultStatus Retrieve()
       {
+         if (!StartRetrieve()) return ResultStatus.Fail;
+
+         if (!GetData()) return ResultStatus.Fail;
+
+         _RW50030 = new RW50030();
+         _RW50030.DataSource = _Data;
+         _RW50030.SetSortType(_D500Xx.SortType);
+         documentViewer1.DocumentSource = _RW50030;
+         _RW50030.CreateDocument(true);
          return ResultStatus.Success;
       }
 
       protected override ResultStatus Export()
       {
-         stMsgTxt.Visible = true;
-         stMsgTxt.Text = "開始轉檔...";
+         base.Export();
+         string lsRptName = ConditionText().Trim();
+         StartExport(_ProgramID, lsRptName);
+         /******************
+         複製檔案
+         ******************/
+         _D500Xx.Filename = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
+         if (string.IsNullOrEmpty(_D500Xx.Filename)) {
+            return ResultStatus.Fail;
+         }
+         Workbook workbook = new Workbook();
+
+         try {
+            _D500Xx.LogText = _D500Xx.Filename;
+            /******************
+            開啟檔案
+            ******************/
+            workbook.LoadDocument(_D500Xx.Filename);
+
+            /******************
+            讀取資料
+            ******************/
+
+            if (_Data == null || _Data.Rows.Count <= 0) {
+               EndExport();
+               return ResultStatus.Fail;
+            }
+            /******************
+            切換Sheet
+            ******************/
+            Worksheet worksheet = workbook.Worksheets[0];
+
+
+            if (lsRptName == "") {
+               lsRptName = "報表條件：" + "(" + DateText() + ")";
+            }
+            else {
+               lsRptName = ConditionText().Trim() + " " + "(" + DateText() + ")";
+            }
+            worksheet.Cells["E3"].Value = lsRptName;
+            int rowIndex = 4; int k = 1;
+            string datatype = "";
+            //if		mid(string(ids_1.dataobject),1,13) <> "d_50030_accu"	then
+            if (gbDetial.EditValue.Equals("rb_gdate")) {
+               datatype = "D";
+            }
+            else {
+               datatype = "A";
+            }
+
+            foreach (DataRow row in _Data.Rows) {
+               int index = 0;
+               worksheet.Rows[rowIndex][index++].Value = k;
+               worksheet.Rows[rowIndex][index++].SetValue(row["AMM0_YMD"]);
+               worksheet.Rows[rowIndex][index++].SetValue(row["AMM0_BRK_NO"]);
+               worksheet.Rows[rowIndex][index++].SetValue(row["BRK_ABBR_NAME"]);
+               worksheet.Rows[rowIndex][index++].SetValue(row["AMM0_ACC_NO"]);
+               worksheet.Rows[rowIndex][index++].SetValue(row["AMM0_PROD_ID"]);
+               worksheet.Rows[rowIndex][index++].SetValue(row["AMM0_OM_QNTY"]);
+               worksheet.Rows[rowIndex][index++].SetValue(row["AMM0_QM_QNTY"]);
+               worksheet.Rows[rowIndex][index++].SetValue(row["CP_M_QNTY"]);
+               worksheet.Rows[rowIndex][index++].SetValue(row["CP_RATE_M"]);
+               worksheet.Rows[rowIndex][index++].SetValue(row["AMM0_VALID_CNT"]);
+               worksheet.Rows[rowIndex][index++].SetValue(row["CP_RATE_VALID_CNT"]);
+               worksheet.Rows[rowIndex][index++].SetValue(row["AMM0_MARKET_R_CNT"]);
+               worksheet.Rows[rowIndex][index++].SetValue(row["AMM0_MARKET_M_QNTY"]);
+               worksheet.Rows[rowIndex][index++].SetValue(row["CP_KEEP_TIME"]);
+               index = 0;
+               if (_D500Xx.DataType == "D") {
+                  worksheet.Rows[rowIndex][9 - 1].SetValue(row["MMK_QNTY"]);
+                  worksheet.Rows[rowIndex][17 - 1].SetValue(row["AMM0_KEEP_FLAG"]);
+                  worksheet.Rows[rowIndex][18 - 1].SetValue(row["AMM0_TRD_INVALID_QNTY"]);
+                  worksheet.Rows[rowIndex][19 - 1].SetValue(row["CP_AVG_MMK_QNTY"]);
+               }
+               rowIndex = rowIndex + 1;
+               k++;
+            }
+
+            if (datatype == "A") {
+
+               worksheet.Columns[19 - 1].Delete();
+               worksheet.Columns[18 - 1].Delete();
+               worksheet.Columns[17 - 1].Delete();
+               worksheet.Columns[9 - 1].Delete();
+            }
+            if (datatype == "D" && !gbGroup.EditValue.Equals("rb_gparam")) {
+               worksheet.Columns[17 - 1].Delete();
+            }
+
+         }
+         catch (Exception ex) {
+            WriteLog(ex);
+            WfRunError();
+         }
+         finally {
+            workbook.SaveDocument(_D500Xx.Filename);
+            EndExport();
+         }
          return ResultStatus.Success;
       }
 
       protected override ResultStatus Print(ReportHelper reportHelper)
       {
          CommonReportPortraitA4 reportPortraitA4 = new CommonReportPortraitA4();
-         XtraReport xtraReport = reportHelper.CreateCompositeReport(_defReport, reportPortraitA4);
+         _RW50030.SetSortType(_D500Xx.SortType);
+         XtraReport xtraReport = reportHelper.CreateCompositeReport(_RW50030, reportPortraitA4);
          string dateCondition = DateText() == "" ? "" : "," + DateText();
          reportHelper.LeftMemo = ConditionText() + dateCondition;
          reportHelper.Create(xtraReport);
