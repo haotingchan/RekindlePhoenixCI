@@ -492,7 +492,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             #endregion
 
             #region 9.2轉統計資料AI2
-            if (dao28110.ExecuteSP(dateTime , prodType , "sp_U_stt_H_AI2_Day").Status != ResultStatus.Success) {
+            if (dao28110.ExecuteSP(dateTime , prodType , "CI.sp_U_stt_H_AI2_Day").Status != ResultStatus.Success) {
                MessageBox.Show("執行SP(sp_U_stt_H_AI2_Day)錯誤! " , "注意" , MessageBoxButtons.OK , MessageBoxIcon.Stop);
                WriteLog("執行SP(sp_U_stt_H_AI2_Day)錯誤!" , "Error");
                return ResultStatus.Fail;
@@ -501,7 +501,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             }
             WriteLog("執行sp_U_gen_H_TDT(" + prodType + ")");
 
-            if (dao28110.ExecuteSP(dateTime , prodType , "sp_U_stt_H_AI2_Month").Status != ResultStatus.Success) {
+            if (dao28110.ExecuteSP(dateTime , prodType , "CI.sp_U_stt_H_AI2_Month").Status != ResultStatus.Success) {
                MessageBox.Show("執行SP(sp_U_stt_H_AI2_Month)錯誤! " , "注意" , MessageBoxButtons.OK , MessageBoxIcon.Stop);
                WriteLog("執行SP(sp_U_stt_H_AI2_Month)錯誤!" , "Error");
                return ResultStatus.Fail;
@@ -512,7 +512,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             #endregion
 
             #region 9.3轉統計資料ci.STW1
-            if (dao28110.ExecuteSP(dateTime , prodType , "sp_M_stt_H_STW1").Status != ResultStatus.Success) {
+            if (dao28110.ExecuteSP(dateTime , prodType , "CI.sp_M_stt_H_STW1").Status != ResultStatus.Success) {
                MessageBox.Show("執行SP(sp_M_stt_H_STW1)錯誤! " , "注意" , MessageBoxButtons.OK , MessageBoxIcon.Stop);
                WriteLog("執行SP(sp_M_stt_H_STW1)錯誤!" , "Error");
                return ResultStatus.Fail;
