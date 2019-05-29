@@ -11,6 +11,7 @@ using DevExpress.XtraEditors.Controls;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System.IO;
+using BaseGround.Shared;
 /// <summary>
 /// Lukas, 2019/1/3
 /// </summary>
@@ -126,7 +127,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             base.Export();
             lblProcessing.Visible = true;
             //依期貨商別或依商品別 輸出不同的Excel
-            string excelDestinationPath = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
+            string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
             if (rdoGroup.EditValue.ToString() == "True") {
                 //讀取資料
                 string asSym = txtFromMonth.Text.Replace("/", "");
