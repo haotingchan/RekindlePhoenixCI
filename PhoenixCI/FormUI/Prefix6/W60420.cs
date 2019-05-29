@@ -89,7 +89,7 @@ namespace PhoenixCI.FormUI.Prefix6 {
             this.Refresh();
             Thread.Sleep(5);
             //複製檔案
-            string excelDestinationPath = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
+            string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
             //開啟檔案
             Workbook workbook = new Workbook();
             workbook.LoadDocument(excelDestinationPath);

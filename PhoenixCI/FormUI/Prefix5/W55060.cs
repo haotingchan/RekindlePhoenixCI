@@ -57,8 +57,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
             }
             base.Export();
             lblProcessing.Visible = true;
-            string excelDestinationPath = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
-            string excelDestinationPath_Detail = CopyExcelTemplateFile(_ProgramID + "MM", FileType.XLS);
+            string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
+            string excelDestinationPath_Detail = PbFunc.wf_copy_file(_ProgramID, _ProgramID + "MM");
             ManipulateExcel(excelDestinationPath);
             ManipulateExcel_Detail(excelDestinationPath_Detail);
             /**********************
