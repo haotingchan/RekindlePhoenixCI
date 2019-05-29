@@ -437,7 +437,6 @@ namespace PhoenixCI.FormUI.Prefix5
 
       protected bool GetData()
       {
-         if (!StartRetrieve()) return false;
          /* 報表內容 */
          //報表內容選擇分日期
          if (gbDetial.EditValue.Equals("rb_gdate")) {
@@ -621,7 +620,7 @@ namespace PhoenixCI.FormUI.Prefix5
          if (!GetData()) return ResultStatus.Fail;
 
          List<ReportProp> caption = new List<ReportProp>{
-            new ReportProp{DataColumn="AMM0_YMD",Caption= "日期" ,CellWidth=65,DetailRowFontSize=9,HeaderFontSize=11},
+            new ReportProp{DataColumn="AMM0_YMD",Caption= "日期" ,CellWidth=gbDetial.EditValue.Equals("rb_gnodate")?130:65,DetailRowFontSize=9,HeaderFontSize=11},
             new ReportProp{DataColumn="AMM0_BRK_NO",Caption= "期貨商        代號",CellWidth=70,DetailRowFontSize=10,HeaderFontSize=11},
             new ReportProp{DataColumn="BRK_ABBR_NAME",Caption= "期貨商名稱" ,CellWidth=150,DetailRowFontSize=9.75f,HeaderFontSize=11},
             new ReportProp{DataColumn="AMM0_PROD_ID",Caption= "商品名稱",CellWidth=80,DetailRowFontSize=11,HeaderFontSize=11},
@@ -672,7 +671,7 @@ namespace PhoenixCI.FormUI.Prefix5
             Retrieve();
 
             //複製檔案
-            _D500Xx.Filename = CopyExcelTemplateFile(ls_rpt_id, FileType.XLS);
+            _D500Xx.Filename = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
             if (_D500Xx.Filename == "") {
                return ResultStatus.Fail;
             }

@@ -115,7 +115,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             return;
          }
 
-         excelDestinationPath = CopyExcelTemplateFile(_ProgramID , FileType.XLSX); //單月路徑
+         excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID); //單月路徑
 
          //開啟檔案     
          Workbook workbook = new Workbook();
@@ -163,7 +163,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
          #region Excel
 
-         excelDestinationPath = CopyExcelTemplateFile(_ProgramID + "_2" , FileType.XLSX); //多月路徑
+         excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID + "_2");//多月路徑
 
          //讀取資料
          DataTable dtContent = dao55010.ListDataMultiMonth(txtFromDate.FormatValue , txtToDate.FormatValue);

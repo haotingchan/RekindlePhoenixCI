@@ -105,13 +105,7 @@ namespace PhoenixCI.FormUI.Prefix3
             return ResultStatus.Fail;
          }
 
-         string lsFile;
-         try {
-            lsFile = PbFunc.wf_copy_file(_ProgramID, "30396");
-         }
-         catch (Exception) {
-            lsFile = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
-         }
+         string lsFile = PbFunc.wf_copy_file(_ProgramID, "30396");
 
          Workbook workbook = new Workbook();
          //載入Excel

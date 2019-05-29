@@ -8,41 +8,41 @@ namespace PhoenixCI.Report
 {
    public partial class RW50030 : DevExpress.XtraReports.UI.XtraReport
    {
-      private int detailRowCount = 0;
       /// <summary>
       /// 50030 report
       /// </summary>
-      /// <param name="hasSum">是否加總</param>
-      public RW50030(bool hasSum = true)
+      public RW50030()
       {
          InitializeComponent();
-         if (!hasSum) {
-            this.xrTableRow4.Cells.Remove(this.cp_prod2);
-            this.xrTableRow1.Cells.Remove(this.cp_prod_id2);
-         }
-         else {
-            this.xrTableRow4.Cells.Remove(this.cp_prod1);
-            this.xrTableRow1.Cells.Remove(this.cp_prod_id);
+      }
+
+      /// <summary>
+      /// 列印按"商品"才有小計 值為P時
+      /// </summary>
+      /// <param name="sorttype">F or P</param>
+      public void SetSortType(string sorttype)
+      {
+         switch (sorttype) {
+            case "F":
+               this.xrTableRow4.Cells.Remove(this.cp_prod2);
+               this.xrTableRow1.Cells.Remove(this.cp_prod_id2);
+               //列印按"商品"才有小計 其他時候隱藏
+               xrTableRow2.HeightF = 0;
+               xrTableRow2.Visible = false;
+               xrTableRow3.HeightF = 0;
+               xrTableRow3.Visible = false;
+               groupFooterBand1.HeightF = 0;
+               groupFooterBand1.Visible = false;
+
+               break;
+            case "P":
+               this.xrTableRow4.Cells.Remove(this.cp_prod1);
+               this.xrTableRow1.Cells.Remove(this.cp_prod_id);
+               break;
+            default:
+               break;
          }
       }
 
-      private void Detail_BeforePrint(object sender, System.Drawing.Printing.PrintEventArgs e)
-      {
-         //if (++detailRowCount > 5)
-         //   e.Cancel = true;
-         detailRowCount += 1;
-         if (detailRowCount == 50) {
-            Detail.PageBreak = DevExpress.XtraReports.UI.PageBreak.AfterBand;
-            detailRowCount = 0;
-         }
-         else {
-            Detail.PageBreak = DevExpress.XtraReports.UI.PageBreak.None;
-         }
-      }
-
-      private void groupHeaderBand1_BeforePrint(object sender, System.Drawing.Printing.PrintEventArgs e)
-      {
-         //detailRowCount = 0;
-      }
    }
 }

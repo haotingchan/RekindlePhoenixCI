@@ -10,15 +10,38 @@ namespace DataObjects.Dao.Together.SpecificDao
 {
    public class D50030:DataGate
    {
-      public DataTable ListD50030(string is_sum_type, string is_sum_subtype,string is_data_type)
+      /// <summary>
+      /// d_50030
+      /// </summary>
+      /// <param name="d500Xx"></param>
+      /// <returns></returns>
+      public DataTable List50030(D500xx d500Xx)
       {
          object[] parms = {
-                ":as_sum_type",is_sum_type,
-                ":as_sum_subtype",is_sum_subtype,
-                ":as_data_type",is_data_type
+                ":as_sum_type",d500Xx.SumType,
+                ":as_sum_subtype",d500Xx.SumSubType,
+                ":as_data_type",d500Xx.DataType,
+                ":as_sort_type",d500Xx.SortType,
+                ":Sdate",d500Xx.Sdate,
+                ":Edate",d500Xx.Edate,
+                ":Sbrkno",d500Xx.Sbrkno,
+                ":Ebrkno",d500Xx.Ebrkno,
+                ":ProdCategory",d500Xx.ProdCategory,
+                ":ProdKindIdSto",d500Xx.ProdKindIdSto,
+                ":ProdKindId",d500Xx.ProdKindId
             };
-         string sql = @"
- SELECT AMM0_YMD,   
+         string iswhere = d500Xx.ConditionWhereSyntax();
+         string sql = string.Format(@"
+ SELECT main.*,
+trim(AMM0_PROD_ID )||decode(AMM0_BASIC_PROD,'Y','*','') as CP_PROD_ID,
+ decode(AMM0_MARKET_M_QNTY ,0,0, round(CP_M_QNTY / AMM0_MARKET_M_QNTY,16)* 100) as CP_RATE_M,
+ decode (AMM0_MARKET_R_CNT ,0, 1 ,round(AMM0_VALID_CNT / AMM0_MARKET_R_CNT,4) * 100) as CP_RATE_VALID_REAL,
+ decode(AMM0_SUM_TYPE,'D', CEIL( TRUNC(AMM0_KEEP_TIME,0) / 60/ AMM0_DAY_COUNT) , CEIL( AMM0_KEEP_TIME / 60/ AMM0_DAY_COUNT)) as CP_KEEP_TIME,
+ TRUNC(MMK_QNTY /  AMM0_DAY_COUNT ,1) as CP_AVG_MMK_QNTY,
+ decode(:as_sort_type,'F' ,AMM0_BRK_NO||AMM0_ACC_NO,AMM0_PROD_TYPE||AMM0_PROD_ID ) as CP_GROUP1,
+ decode( :as_sort_type ,'F',AMM0_PROD_TYPE||AMM0_PROD_ID, AMM0_BRK_NO||AMM0_ACC_NO ) as CP_GROUP2
+FROM
+(SELECT AMM0_YMD,   
          AMM0_BRK_NO,
          AMM0_ACC_NO,
         (SELECT NVL(ABRK_NAME,'') FROM ci.ABRK
@@ -52,15 +75,14 @@ namespace DataObjects.Dao.Together.SpecificDao
          nvl(AMM0_IQM_QNTY,0) as AMM0_IQM_QNTY,
          nvl(AMM0_IQM_SUBTRACT_QNTY,0) as AMM0_IQM_SUBTRACT_QNTY,
          AMM0_BASIC_PROD,
-         AMM0_PROD_TYPE,
          AMM0_DAY_COUNT,
-         LEAST(nvl(AMM0_MM_QNTY,0),nvl(AMM0_MAX_MM_QNTY,0)) as mmk_qnty,
+         LEAST(nvl(AMM0_MM_QNTY,0),nvl(AMM0_MAX_MM_QNTY,0)) as MMK_QNTY,
          AMM0_TRD_INVALID_QNTY,
          AMM0_BTRADE_M_QNTY,
          AMM0_RQ_RATE,
          AMMF_RFC_MIN_CNT as MMF_RFC_MIN_CNT,
          AMMF_CP_KIND,
-         AMM0_DAY_COUNT
+         (AMM0_OM_QNTY + AMM0_QM_QNTY + nvl(AMM0_IQM_QNTY,0))||decode(NULLIF(AMM0_BTRADE_M_QNTY,null),0,AMM0_BTRADE_M_QNTY) as CP_M_QNTY
     FROM ci.AMM0,ci.AMMF
    WHERE AMM0_SUM_TYPE = :as_sum_type  AND  
          AMM0_SUM_SUBTYPE = :as_sum_subtype   AND  
@@ -68,23 +90,45 @@ namespace DataObjects.Dao.Together.SpecificDao
      and AMM0_PARAM_KEY = AMMF_PARAM_KEY (+)
      and substr(AMM0_YMD,1,6) = AMMF_YM (+)
      and '0' = AMMF_MARKET_CODE(+)
-ORDER BY AMM0_BRK_NO,AMM0_ACC_NO,AMM0_PROD_ID
-";
+     {0}
+) main
+ORDER BY AMM0_YMD, CP_GROUP1 , CP_GROUP2
+", iswhere);
          DataTable dt = db.GetDataTable(sql, parms);
          return dt;
       }//public DataTable ListD50030
 
-      public DataTable ListACCU(string is_symd,string is_eymd, string is_sum_type, string is_sum_subtype, string is_data_type)
+      /// <summary>
+      /// d_50030_accu
+      /// </summary>
+      /// <param name="d500Xx"></param>
+      /// <returns></returns>
+      public DataTable ListACCU(D500xx d500Xx)
       {
          object[] parms = {
-            ":as_symd",is_symd,
-            ":as_eymd",is_eymd,
-            ":as_sum_type",is_sum_type,
-            ":as_sum_subtype",is_sum_subtype,
-            ":as_data_type",is_data_type
+            ":as_symd",d500Xx.Sdate,
+            ":as_eymd",d500Xx.Edate,
+            ":as_sum_type",d500Xx.SumType,
+            ":as_sum_subtype",d500Xx.SumSubType,
+            ":as_data_type",d500Xx.DataType,
+            ":as_sort_type",d500Xx.SortType,
+                ":Sdate",d500Xx.Sdate,
+                ":Edate",d500Xx.Edate,
+                ":Sbrkno",d500Xx.Sbrkno,
+                ":Ebrkno",d500Xx.Ebrkno,
+                ":ProdCategory",d500Xx.ProdCategory,
+                ":ProdKindIdSto",d500Xx.ProdKindIdSto,
+                ":ProdKindId",d500Xx.ProdKindId
             };
-         string sql = @"
- SELECT min(AMM0_YMD) ||'-'|| max(AMM0_YMD) as AMM0_YMD,   
+         string iswhere = d500Xx.ConditionWhereSyntax();
+         string sql = string.Format(@"
+ SELECT ROWNUM as CP_ROW,main.*,
+         (AMM0_OM_QNTY + AMM0_QM_QNTY +AMM0_IQM_QNTY) as CP_M_QNTY,
+          decode( AMM0_MARKET_M_QNTY ,0,0, round((AMM0_OM_QNTY + AMM0_QM_QNTY +AMM0_IQM_QNTY) /AMM0_MARKET_M_QNTY,16 ) * 100) as CP_RATE_M,
+          CEIL(TRUNC(AMM0_KEEP_TIME,0) / 60) as CP_KEEP_TIME,
+          decode( AMM0_MARKET_R_CNT,0,0, round(AMM0_VALID_CNT/AMM0_MARKET_R_CNT,16)* 100) as CP_RATE_VALID_CNT
+FROM
+ (SELECT min(AMM0_YMD) ||'-'|| max(AMM0_YMD) as AMM0_YMD,   
          AMM0_BRK_NO,
          AMM0_ACC_NO,
         (SELECT NVL(ABRK_NAME,'') FROM ci.ABRK
@@ -102,7 +146,7 @@ ORDER BY AMM0_BRK_NO,AMM0_ACC_NO,AMM0_PROD_ID
          sum(AMM0_VALID_CNT) as AMM0_VALID_CNT,   
          sum(AMM0_OM_QNTY) as AMM0_OM_QNTY,   
          sum(AMM0_QM_QNTY) as AMM0_QM_QNTY,  
-			(select nvl(sum(R.AMM0_CNT),0)
+            (select nvl(sum(R.AMM0_CNT),0)
             from ci.AMM0 R
            where R.AMM0_SUM_TYPE = A.AMM0_SUM_TYPE    
              and R.AMM0_SUM_SUBTYPE = A.AMM0_SUM_SUBTYPE
@@ -115,7 +159,7 @@ ORDER BY AMM0_BRK_NO,AMM0_ACC_NO,AMM0_PROD_ID
              and R.AMM0_DATA_TYPE = 'R'
              and R.AMM0_YMD >= :as_symd 
              and R.AMM0_YMD <= :as_eymd) as AMM0_MARKET_R_CNT,   
-			(select nvl(sum(R.AMM0_MARKET_M_QNTY),0)
+            (select nvl(sum(R.AMM0_MARKET_M_QNTY),0)
             from ci.AMM0 R
            where R.AMM0_SUM_TYPE = A.AMM0_SUM_TYPE    
              and R.AMM0_SUM_SUBTYPE = A.AMM0_SUM_SUBTYPE
@@ -140,6 +184,7 @@ ORDER BY AMM0_BRK_NO,AMM0_ACC_NO,AMM0_PROD_ID
    WHERE AMM0_SUM_TYPE = :as_sum_type  AND  
          AMM0_SUM_SUBTYPE = :as_sum_subtype   AND  
          AMM0_DATA_TYPE = :as_data_type 
+         {0}
  GROUP BY A.AMM0_BRK_NO,
           A.AMM0_ACC_NO,
           A.AMM0_SUM_TYPE,
@@ -150,23 +195,46 @@ ORDER BY AMM0_BRK_NO,AMM0_ACC_NO,AMM0_PROD_ID
           AMM0_PARAM_KEY,
           A.AMM0_KIND_ID2,
           A.AMM0_KIND_ID,
-          A.AMM0_PROD_ID
-";
+          A.AMM0_PROD_ID) main
+ORDER BY  
+decode(:as_sort_type,'F',AMM0_BRK_NO,AMM0_BRK_NO||AMM0_ACC_NO ,AMM0_PROD_TYPE||AMM0_PROD_ID ),
+decode(:as_sort_type ,'F',AMM0_PROD_TYPE||AMM0_PROD_ID, AMM0_BRK_NO||AMM0_ACC_NO )
+", iswhere);
          DataTable dt = db.GetDataTable(sql, parms);
          return dt;
       }//public DataTable ListD50030Accu
 
-      public DataTable ListACCUAH(string is_symd, string is_eymd, string is_sum_type, string is_sum_subtype, string is_data_type)
+      /// <summary>
+      /// d_50030_accu_ah
+      /// </summary>
+      /// <param name="d500Xx"></param>
+      /// <returns></returns>
+      public DataTable ListACCUAH(D500xx d500Xx)
       {
          object[] parms = {
-            ":as_symd",is_symd,
-            ":as_eymd",is_eymd,
-            ":as_sum_type",is_sum_type,
-             ":as_sum_subtype",is_sum_subtype,
-            ":as_data_type",is_data_type
+            ":as_symd",d500Xx.Sdate,
+            ":as_eymd",d500Xx.Edate,
+            ":as_sum_type",d500Xx.SumType,
+            ":as_sum_subtype",d500Xx.SumSubType,
+            ":as_data_type",d500Xx.DataType,
+            ":as_sort_type",d500Xx.SortType,
+                ":Sdate",d500Xx.Sdate,
+                ":Edate",d500Xx.Edate,
+                ":Sbrkno",d500Xx.Sbrkno,
+                ":Ebrkno",d500Xx.Ebrkno,
+                ":ProdCategory",d500Xx.ProdCategory,
+                ":ProdKindIdSto",d500Xx.ProdKindIdSto,
+                ":ProdKindId",d500Xx.ProdKindId
             };
-         string sql = @"
-SELECT min(AMM0_YMD) ||'-'|| max(AMM0_YMD) as AMM0_YMD,   
+         string iswhere = d500Xx.ConditionWhereSyntax();
+         string sql = string.Format(@"
+SELECT ROWNUM as CP_ROW,main.*,
+         (AMM0_OM_QNTY + AMM0_QM_QNTY +AMM0_IQM_QNTY) as CP_M_QNTY,
+          decode( AMM0_MARKET_M_QNTY ,0,0, round((AMM0_OM_QNTY + AMM0_QM_QNTY +AMM0_IQM_QNTY) /AMM0_MARKET_M_QNTY,16 ) * 100) as CP_RATE_M,
+          CEIL(TRUNC(AMM0_KEEP_TIME,0) / 60) as CP_KEEP_TIME,
+          decode( AMM0_MARKET_R_CNT,0,0, round(AMM0_VALID_CNT/AMM0_MARKET_R_CNT,16)* 100) as CP_RATE_VALID_CNT
+FROM
+ (SELECT min(AMM0_YMD) ||'-'|| max(AMM0_YMD) as AMM0_YMD,   
          AMM0_BRK_NO,
          AMM0_ACC_NO,
         (SELECT NVL(ABRK_NAME,'') FROM ci.ABRK
@@ -184,7 +252,7 @@ SELECT min(AMM0_YMD) ||'-'|| max(AMM0_YMD) as AMM0_YMD,
          sum(AMM0_VALID_CNT) as AMM0_VALID_CNT,   
          sum(AMM0_OM_QNTY) as AMM0_OM_QNTY,   
          sum(AMM0_QM_QNTY) as AMM0_QM_QNTY,  
-			(select nvl(sum(R.AMM0_CNT),0)
+            (select nvl(sum(R.AMM0_CNT),0)
             from ci.AMM0AH R
            where R.AMM0_SUM_TYPE = A.AMM0_SUM_TYPE    
              and R.AMM0_SUM_SUBTYPE = A.AMM0_SUM_SUBTYPE
@@ -197,7 +265,7 @@ SELECT min(AMM0_YMD) ||'-'|| max(AMM0_YMD) as AMM0_YMD,
              and R.AMM0_DATA_TYPE = 'R'
              and R.AMM0_YMD >= :as_symd 
              and R.AMM0_YMD <= :as_eymd) as AMM0_MARKET_R_CNT,   
-			(select nvl(sum(R.AMM0_MARKET_M_QNTY),0)
+            (select nvl(sum(R.AMM0_MARKET_M_QNTY),0)
             from ci.AMM0AH R
            where R.AMM0_SUM_TYPE = A.AMM0_SUM_TYPE    
              and R.AMM0_SUM_SUBTYPE = A.AMM0_SUM_SUBTYPE
@@ -222,6 +290,7 @@ SELECT min(AMM0_YMD) ||'-'|| max(AMM0_YMD) as AMM0_YMD,
    WHERE AMM0_SUM_TYPE = :as_sum_type  AND  
          AMM0_SUM_SUBTYPE = :as_sum_subtype   AND  
          AMM0_DATA_TYPE = :as_data_type 
+         {0}
  GROUP BY A.AMM0_BRK_NO,
           A.AMM0_ACC_NO,
           A.AMM0_SUM_TYPE,
@@ -232,21 +301,47 @@ SELECT min(AMM0_YMD) ||'-'|| max(AMM0_YMD) as AMM0_YMD,
           AMM0_PARAM_KEY,
           A.AMM0_KIND_ID2,
           A.AMM0_KIND_ID,
-          A.AMM0_PROD_ID
-";
+          A.AMM0_PROD_ID) main
+ORDER BY  
+decode(:as_sort_type,'F',AMM0_BRK_NO,AMM0_BRK_NO||AMM0_ACC_NO ,AMM0_PROD_TYPE||AMM0_PROD_ID ),
+decode(:as_sort_type ,'F',AMM0_PROD_TYPE||AMM0_PROD_ID, AMM0_BRK_NO||AMM0_ACC_NO )
+", iswhere);
          DataTable dt = db.GetDataTable(sql, parms);
          return dt;
       }//public DataTable ListD50030AccuAh
 
-      public DataTable ListAH(string is_sum_type, string is_sum_subtype, string is_data_type)
+      /// <summary>
+      /// d_50030_ah
+      /// </summary>
+      /// <param name="d500Xx"></param>
+      /// <returns></returns>
+      public DataTable ListAH(D500xx d500Xx)
       {
          object[] parms = {
-                ":as_sum_type",is_sum_type,
-                ":as_sum_subtype",is_sum_subtype,
-                ":as_data_type",is_data_type
+                ":as_sum_type",d500Xx.SumType,
+                ":as_sum_subtype",d500Xx.SumSubType,
+                ":as_data_type",d500Xx.DataType,
+                ":as_sort_type",d500Xx.SortType,
+                ":Sdate",d500Xx.Sdate,
+                ":Edate",d500Xx.Edate,
+                ":Sbrkno",d500Xx.Sbrkno,
+                ":Ebrkno",d500Xx.Ebrkno,
+                ":ProdCategory",d500Xx.ProdCategory,
+                ":ProdKindIdSto",d500Xx.ProdKindIdSto,
+                ":ProdKindId",d500Xx.ProdKindId
             };
-         string sql = @"
- SELECT AMM0_YMD,   
+         string iswhere = d500Xx.ConditionWhereSyntax();
+         string sql = string.Format(@"
+ SELECT main.*,
+trim(AMM0_PROD_ID )||decode(AMM0_BASIC_PROD,'Y','*','') as CP_PROD_ID,
+ decode(AMM0_MARKET_M_QNTY ,0,0, round(CP_M_QNTY / AMM0_MARKET_M_QNTY,16)* 100) as CP_RATE_M,
+ decode (AMM0_MARKET_R_CNT ,0, 1 ,round(AMM0_VALID_CNT / AMM0_MARKET_R_CNT,4) * 100) as CP_RATE_VALID_REAL,
+ decode(AMM0_SUM_TYPE,'D', CEIL( TRUNC(AMM0_KEEP_TIME,0) / 60/ AMM0_DAY_COUNT) , CEIL( AMM0_KEEP_TIME / 60/ AMM0_DAY_COUNT)) as CP_KEEP_TIME,
+ TRUNC(MMK_QNTY /  AMM0_DAY_COUNT ,1) as CP_AVG_MMK_QNTY,
+ decode(:as_sort_type,'F' ,AMM0_BRK_NO||AMM0_ACC_NO,AMM0_PROD_TYPE||AMM0_PROD_ID ) as CP_GROUP1, 
+ decode( :as_sort_type ,'F',AMM0_PROD_TYPE||AMM0_PROD_ID, AMM0_BRK_NO||AMM0_ACC_NO ) as CP_GROUP2
+FROM
+(SELECT AMM0_YMD,   
          AMM0_BRK_NO,
          AMM0_ACC_NO,
         (SELECT NVL(ABRK_NAME,'') FROM ci.ABRK
@@ -280,7 +375,6 @@ SELECT min(AMM0_YMD) ||'-'|| max(AMM0_YMD) as AMM0_YMD,
          nvl(AMM0_IQM_QNTY,0) as AMM0_IQM_QNTY,
          nvl(AMM0_IQM_SUBTRACT_QNTY,0) as AMM0_IQM_SUBTRACT_QNTY,
          AMM0_BASIC_PROD,
-         AMM0_PROD_TYPE,
          AMM0_DAY_COUNT,
          LEAST(nvl(AMM0_MM_QNTY,0),nvl(AMM0_MAX_MM_QNTY,0)) as mmk_qnty,
          AMM0_TRD_INVALID_QNTY,
@@ -288,7 +382,7 @@ SELECT min(AMM0_YMD) ||'-'|| max(AMM0_YMD) as AMM0_YMD,
          AMM0_RQ_RATE,
          AMMF_RFC_MIN_CNT as MMF_RFC_MIN_CNT,
          AMMF_CP_KIND,
-         AMM0_DAY_COUNT
+         (AMM0_OM_QNTY + AMM0_QM_QNTY + nvl(AMM0_IQM_QNTY,0))||decode(NULLIF(AMM0_BTRADE_M_QNTY,null),0,AMM0_BTRADE_M_QNTY) as CP_M_QNTY
     FROM ci.AMM0AH,ci.AMMF
    WHERE AMM0_SUM_TYPE = :as_sum_type  AND  
          AMM0_SUM_SUBTYPE = :as_sum_subtype   AND  
@@ -296,8 +390,10 @@ SELECT min(AMM0_YMD) ||'-'|| max(AMM0_YMD) as AMM0_YMD,
      and AMM0_PARAM_KEY = AMMF_PARAM_KEY (+)
      and substr(AMM0_YMD,1,6) = AMMF_YM (+)
      and '1' = AMMF_MARKET_CODE(+)
-ORDER BY AMM0_BRK_NO,AMM0_ACC_NO,AMM0_PROD_ID
-";
+     {0}
+) main
+ORDER BY AMM0_YMD, CP_GROUP1,CP_GROUP2
+", iswhere);
          DataTable dt = db.GetDataTable(sql, parms);
          return dt;
       }//public DataTable ListD50030Ah

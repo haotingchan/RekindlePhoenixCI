@@ -100,6 +100,17 @@ namespace PhoenixCI.FormUI.Prefix3 {
                }
 
                flag = 0;
+               //2. 複製檔案 & 開啟檔案 (因檔案需因MarketCode更動，所以另外寫)
+               string originalFilePath = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH , _ProgramID + "." + FileType.XLS.ToString().ToLower());
+
+               string destinationFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH ,
+                   _ProgramID + "_" + tempMarketCode + "_" + DateTime.Now.ToString("yyyy.MM.dd") + "-" + DateTime.Now.ToString("HH.mm.ss") + "." + FileType.XLS.ToString().ToLower());
+
+               File.Copy(originalFilePath , destinationFilePath , true);
+
+               Workbook workbook = new Workbook();
+               workbook.LoadDocument(destinationFilePath);
+
                foreach (CheckedListBoxItem item in chkGroup.Items) {
                   if (item.CheckState == CheckState.Unchecked) continue;
                   switch (item.Value) {
@@ -107,17 +118,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
                         wf_30592_RMB();
                         break;
                      default:
-                        //2. 複製檔案 & 開啟檔案 (因檔案需因MarketCode更動，所以另外寫)
-                        string originalFilePath = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH , _ProgramID + "." + FileType.XLS.ToString().ToLower());
-
-                        string destinationFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH ,
-                            _ProgramID + "_" + tempMarketCode + "_" + DateTime.Now.ToString("yyyy.MM.dd") + "-" + DateTime.Now.ToString("HH.mm.ss") + "." + FileType.XLS.ToString().ToLower());
-
-                        File.Copy(originalFilePath , destinationFilePath , true);
-
-                        Workbook workbook = new Workbook();
-                        workbook.LoadDocument(destinationFilePath);
-
                         //3. 填資料
                         bool result = false;
                         result = wf_30592(workbook);  //function 30592
@@ -133,10 +133,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
                         } else {
                            flag++;
                         }
-
-                        //3.存檔
-                        workbook.SaveDocument(destinationFilePath);
-                        labMsg.Visible = false;
                         break;
                   }
                }//foreach (CheckedListBoxItem item in chkGroup.Items)
@@ -144,6 +140,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
                if (flag <= 0) {
                   MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
                }
+
+               //3.存檔
+               workbook.SaveDocument(destinationFilePath);
+               labMsg.Visible = false;
             }
             return ResultStatus.Success;
 
@@ -306,7 +306,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             ShowMsg(string.Format("{0}－{1} 轉檔中..." , rptId , rptName));
 
             //1.複製檔案 & 開啟檔案
-            string excelDestinationPath = CopyExcelTemplateFile(_ProgramID + "_RMB" , FileType.XLS);
+            string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID + "_RMB");
             Workbook workbook = new Workbook();
             workbook.LoadDocument(excelDestinationPath);
             Worksheet worksheet = workbook.Worksheets[0]; //切換sheet

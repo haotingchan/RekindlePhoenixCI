@@ -342,7 +342,7 @@ ORDER BY PDK_KIND_ID
             //new DbParameterEx("RETURNPARAMETER",null)
          };
 
-            string sp = "sp_U_gen_H_TDT";
+            string sp = "CI.sp_U_gen_H_TDT";
 
             ResultData reResult = db.ExecuteStoredProcedure(sp, parms, true);
             
@@ -357,7 +357,7 @@ ORDER BY PDK_KIND_ID
             //new DbParameterEx("RETURNPARAMETER",null)
          };
 
-            string sp = "sp_U_stt_H_AI2_Day";
+            string sp = "CI.sp_U_stt_H_AI2_Day";
 
             ResultData reResult = db.ExecuteStoredProcedure(sp, parms, true);
 
@@ -372,7 +372,7 @@ ORDER BY PDK_KIND_ID
             //new DbParameterEx("RETURNPARAMETER",null)
          };
 
-            string sp = "sp_U_stt_H_AI2_Month";
+            string sp = "CI.sp_U_stt_H_AI2_Month";
 
             ResultData reResult = db.ExecuteStoredProcedure(sp, parms, true);
 
@@ -386,7 +386,7 @@ ORDER BY PDK_KIND_ID
             //new DbParameterEx("RETURNPARAMETER",null)
          };
 
-            string sp = "sp_H_stt_AI3";
+            string sp = "CI.sp_H_stt_AI3";
 
             ResultData reResult = db.ExecuteStoredProcedure(sp, parms, true);
 
@@ -400,7 +400,7 @@ ORDER BY PDK_KIND_ID
             //new DbParameterEx("RETURNPARAMETER",null)
          };
 
-            string sp = "sp_H_gen_AI6";
+            string sp = "CI.sp_H_gen_AI6";
 
             ResultData reResult = db.ExecuteStoredProcedure(sp, parms, true);
 
@@ -414,7 +414,7 @@ ORDER BY PDK_KIND_ID
             //new DbParameterEx("RETURNPARAMETER",null)
          };
 
-            string sp = "sp_H_upd_AA3";
+            string sp = "CI.sp_H_upd_AA3";
 
             ResultData reResult = db.ExecuteStoredProcedure(sp, parms, true);
 
@@ -428,7 +428,7 @@ ORDER BY PDK_KIND_ID
             //new DbParameterEx("RETURNPARAMETER",null)
          };
 
-            string sp = "sp_H_gen_H_AI8";
+            string sp = "CI.sp_H_gen_H_AI8";
 
             ResultData reResult = db.ExecuteStoredProcedure(sp, parms, true);
 

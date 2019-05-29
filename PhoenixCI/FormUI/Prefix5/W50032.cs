@@ -357,7 +357,7 @@ namespace PhoenixCI.FormUI.Prefix5
          /******************
          複製檔案
          ******************/
-         string lsFile = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
+         string lsFile = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
 
          if (lsFile == "") {
             return ResultStatus.Fail;
