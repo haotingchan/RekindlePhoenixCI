@@ -1,12 +1,15 @@
 ﻿using ActionService;
 using BaseGround;
 using BaseGround.Report;
+using BaseGround.Shared;
 using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.TableDao;
+using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraEditors.Repository;
+using DevExpress.XtraGrid.Views.Base;
 using System;
 using System.Data;
 
@@ -36,8 +39,14 @@ namespace PhoenixCI.FormUI.PrefixZ
             TXN_DEFAULT.ColumnEdit = repCheck;
             TXN_EXTEND.ColumnEdit = repCheck;
 
+            DataTable dtType = new COD().ListByTxn("TXN");
 
-             daoTXN = new TXN();
+            RepositoryItemLookUpEdit cbxType = new RepositoryItemLookUpEdit();
+            cbxType.SetColumnLookUp(dtType, "COD_ID", "COD_DESC", TextEditStyles.DisableTextEditor, "");
+            TXN_TYPE.ColumnEdit = cbxType;
+            TXN_TYPE.ShowButtonMode = ShowButtonModeEnum.ShowAlways;
+
+            daoTXN = new TXN();
              daoUTP = new UTP();
              daoLOGUTP = new LOGUTP();
       }
@@ -105,10 +114,10 @@ namespace PhoenixCI.FormUI.PrefixZ
                 }
             }
 
-            string[] allowNullColumnList = { "TXN_RMARK", "TXN_AUDIT" };
+            string[] allowNullColumnList = { "TXN_RMARK", "TXN_AUDIT", "TXN_PARENT_ID", "TXN_SEQ_NO", "TXN_LEVEL", "TXN_TYPE"};
             if (!GridHelper.CheckRequired(gcMain, allowNullColumnList))
             {
-                return ResultStatus.Fail;
+                return ResultStatus.FailButNext;
             }
 
             return ResultStatus.Success;
@@ -134,13 +143,6 @@ namespace PhoenixCI.FormUI.PrefixZ
 
                     new TXN().UpdateData(dt);
 
-                    //string tableName = "ci.TXN";
-                    //string keysColumnList = "TXN_ID";
-                    //string insertColumnList = "TXN_ID, TXN_INS, TXN_DEL, TXN_QUERY, TXN_IMPORT, TXN_EXPORT, TXN_PRINT, TXN_UPDATE, TXN_DEFAULT, TXN_RMARK, TXN_W_TIME, TXN_W_USER_ID, TXN_NAME, TXN_AUDIT";
-                    //string updateColumnList = "TXN_ID, TXN_INS, TXN_DEL, TXN_QUERY, TXN_IMPORT, TXN_EXPORT, TXN_PRINT, TXN_UPDATE, TXN_DEFAULT, TXN_RMARK, TXN_W_TIME, TXN_W_USER_ID, TXN_NAME, TXN_AUDIT";
-
-                    //ResultData myResultData = serviceCommon.SaveForChanged(dt, tableName, insertColumnList, updateColumnList, keysColumnList, pokeBall);
-
 
                     #region 刪除作業代號
                     //刪除代號一併刪除相關權限
@@ -149,8 +151,12 @@ namespace PhoenixCI.FormUI.PrefixZ
                         foreach (DataRow row in dtDelete.Rows)
                         {
                             string txnId = row["TXN_ID", DataRowVersion.Original].AsString();
-                            bool result = daoLOGUTP.InsertByUTPAndUPF(txnId, GlobalInfo.USER_DPT_ID, GlobalInfo.USER_ID, GlobalInfo.USER_NAME, "D");
-                            result = daoUTP.DeleteUTPByTxnId(txnId);
+                            string txnType = row["TXN_TYPE", DataRowVersion.Original].AsString();
+                            if (txnType == "F")
+                            {
+                                bool result = daoLOGUTP.InsertByUTPAndUPF(txnId, GlobalInfo.USER_DPT_ID, GlobalInfo.USER_ID, GlobalInfo.USER_NAME, "D");
+                                result = daoUTP.DeleteUTPByTxnId(txnId);
+                            }
                         }
                     }
                     #endregion 刪除作業代號
@@ -163,8 +169,9 @@ namespace PhoenixCI.FormUI.PrefixZ
                         {
                             string txnId = row["TXN_ID"].AsString();
                             string txnIdOrg = row["TXN_ID_ORG"].AsString();
+                            string txnType = row["TXN_TYPE"].AsString();
 
-                            if (txnId != txnIdOrg)
+                            if (txnId != txnIdOrg && txnType == "F")
                             {
                                 bool result = daoLOGUTP.InsertByUTPAndUPF(txnIdOrg, GlobalInfo.USER_DPT_ID, GlobalInfo.USER_ID, GlobalInfo.USER_NAME, "D");
                                 result = daoUTP.DeleteUTPByTxnId(txnIdOrg);
