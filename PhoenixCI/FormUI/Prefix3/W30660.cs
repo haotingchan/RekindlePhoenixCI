@@ -146,7 +146,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             Thread.Sleep(5);
 
             //1.複製檔案 & 開啟檔案
-            string excelDestinationPath = CopyExcelTemplateFile(_ProgramID , FileType.XLS);
+            string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID);
             Workbook workbook = new Workbook();
             workbook.LoadDocument(excelDestinationPath);
             //Worksheet worksheet = workbook.Worksheets[0];

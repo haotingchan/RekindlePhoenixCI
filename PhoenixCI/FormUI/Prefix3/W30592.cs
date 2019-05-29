@@ -306,7 +306,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             ShowMsg(string.Format("{0}－{1} 轉檔中..." , rptId , rptName));
 
             //1.複製檔案 & 開啟檔案
-            string excelDestinationPath = CopyExcelTemplateFile(_ProgramID + "_RMB" , FileType.XLS);
+            string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID + "_RMB");
             Workbook workbook = new Workbook();
             workbook.LoadDocument(excelDestinationPath);
             Worksheet worksheet = workbook.Worksheets[0]; //切換sheet

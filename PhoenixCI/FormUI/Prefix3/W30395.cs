@@ -95,7 +95,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
 
             //1.1 copy template xls to target path
-            string excelDestinationPath = CopyExcelTemplateFile(_ProgramID , FileType.XLSX);
+            string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID);
             Workbook workbook = new Workbook();
             workbook.LoadDocument(excelDestinationPath);
 
@@ -260,11 +260,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
                return 0;
             }
 
-           
+
             //2.2 總列數         
             ws.Cells[rowIndex + 12 + 1 , 0].Value = (StartMonth.SubStr(0 , 4).AsInt() - 1911).AsString() + "小計";
             string ls_ymd = "";//日期
-            
+
             foreach (DataRow dr in dtDetail.Rows) {
                string am2_ymd = dr["am2_ymd"].AsString();
                int am2_idfg_type = dr["am2_idfg_type"].AsInt();

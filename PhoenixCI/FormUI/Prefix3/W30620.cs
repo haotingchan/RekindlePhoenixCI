@@ -61,7 +61,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          DateTime as_eymd = PbFunc.f_get_end_day("AI2" , "TXF" , txtEndMonth.Text); //抓當月最後交易日
 
          //1.複製檔案 & 開啟檔案 (因為三張報表都輸出到同一份excel,所以提出來)
-         string excelDestinationPath = CopyExcelTemplateFile(_ProgramID , FileType.XLS);
+         string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID);
          Workbook workbook = new Workbook();
          workbook.LoadDocument(excelDestinationPath);
          Worksheet worksheet = workbook.Worksheets[0];
