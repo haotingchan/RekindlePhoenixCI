@@ -51,7 +51,7 @@ namespace PhoenixCI.FormUI.Prefix5
             _D500Xx.Ebrkno = ebrkno;
          }
          if ((string.Compare(dwSbrkno.SelectedText, dwEbrkno.SelectedText) > 0) && !string.IsNullOrEmpty(_D500Xx.Ebrkno)) {
-            PbFunc.messageBox(GlobalInfo.ErrorText, "造市者代號起始不可大於迄止", MessageBoxIcon.Stop);
+            MessageDisplay.Error("造市者代號起始不可大於迄止");
 
             dwEbrkno.Focus();
             _D500Xx.IsCheck = "Y";
@@ -111,7 +111,7 @@ namespace PhoenixCI.FormUI.Prefix5
             }
          }
          _D500Xx.SumType = ReportSumType(gbReportType.EditValue.ToString());
-         _D500Xx.SortType = PrintSortType(gbPrintSort.ToString());
+         _D500Xx.SortType = PrintSortType(gbPrintSort.EditValue.ToString());
          _D500Xx.SumSubType = GrpSubType(gbGroup.EditValue.AsString());
          /*******************
          資料類別
@@ -498,7 +498,6 @@ namespace PhoenixCI.FormUI.Prefix5
                break;
          }
       }
-
 
       public override ResultStatus BeforeOpen()
       {

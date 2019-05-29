@@ -128,6 +128,7 @@
          this.xrTable2 = new DevExpress.XtraReports.UI.XRTable();
          this.groupFooterBand1 = new DevExpress.XtraReports.UI.GroupFooterBand();
          this.groupHeaderBand1 = new DevExpress.XtraReports.UI.GroupHeaderBand();
+         this.xrLabel3 = new DevExpress.XtraReports.UI.XRLabel();
          this.xrLabel2 = new DevExpress.XtraReports.UI.XRLabel();
          ((System.ComponentModel.ISupportInitialize)(this.xrTable1)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.xrTable4)).BeginInit();
@@ -152,7 +153,6 @@
          this.Detail.HeightF = 25F;
          this.Detail.KeepTogether = true;
          this.Detail.Name = "Detail";
-         this.Detail.BeforePrint += new System.Drawing.Printing.PrintEventHandler(this.Detail_BeforePrint);
          // 
          // xrTable1
          // 
@@ -204,7 +204,7 @@
          // 
          this.amm0_ymd.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "BackColor", "Iif ([cp_chk3] = 0 ,RGB(255,255,255) , RGB(255,128,255))"),
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[amm0_ymd]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_YMD]")});
          this.amm0_ymd.Multiline = true;
          this.amm0_ymd.Name = "amm0_ymd";
          this.amm0_ymd.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -215,8 +215,7 @@
          // 
          this.cp_prod_id2.CanShrink = true;
          this.cp_prod_id2.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "trim([amm0_prod_id] ) + Iif(Iif(isnull( [amm0_basic_prod] ),\'N\', [amm0_basic_prod" +
-                    "] )=\'Y\',\'*\',\'\')")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[CP_PROD_ID]")});
          this.cp_prod_id2.Multiline = true;
          this.cp_prod_id2.Name = "cp_prod_id2";
          this.cp_prod_id2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -225,7 +224,7 @@
          // amm0_brk_no
          // 
          this.amm0_brk_no.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[amm0_brk_no]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_BRK_NO]")});
          this.amm0_brk_no.Multiline = true;
          this.amm0_brk_no.Name = "amm0_brk_no";
          this.amm0_brk_no.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -235,7 +234,7 @@
          // brk_abbr_name
          // 
          this.brk_abbr_name.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[brk_abbr_name]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[BRK_ABBR_NAME]")});
          this.brk_abbr_name.Multiline = true;
          this.brk_abbr_name.Name = "brk_abbr_name";
          this.brk_abbr_name.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -245,7 +244,7 @@
          // amm0_acc_no
          // 
          this.amm0_acc_no.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[amm0_acc_no]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_ACC_NO]")});
          this.amm0_acc_no.Font = new System.Drawing.Font("Arial", 11.54F);
          this.amm0_acc_no.Multiline = true;
          this.amm0_acc_no.Name = "amm0_acc_no";
@@ -257,8 +256,7 @@
          // cp_prod_id
          // 
          this.cp_prod_id.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "trim([amm0_prod_id] ) + Iif(Iif(isnull( [amm0_basic_prod] ),\'N\', [amm0_basic_prod" +
-                    "] )=\'Y\',\'*\',\'\')")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[CP_PROD_ID]")});
          this.cp_prod_id.Font = new System.Drawing.Font("Arial", 11.54F);
          this.cp_prod_id.Multiline = true;
          this.cp_prod_id.Name = "cp_prod_id";
@@ -270,7 +268,7 @@
          // amm0_om_qnty
          // 
          this.amm0_om_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[amm0_om_qnty]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_OM_QNTY]")});
          this.amm0_om_qnty.Font = new System.Drawing.Font("Arial", 11.54F);
          this.amm0_om_qnty.Multiline = true;
          this.amm0_om_qnty.Name = "amm0_om_qnty";
@@ -284,7 +282,7 @@
          // amm0_qm_qnty
          // 
          this.amm0_qm_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[amm0_qm_qnty]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_QM_QNTY]")});
          this.amm0_qm_qnty.Font = new System.Drawing.Font("Arial", 11.54F);
          this.amm0_qm_qnty.Multiline = true;
          this.amm0_qm_qnty.Name = "amm0_qm_qnty";
@@ -298,7 +296,7 @@
          // amm0_iqm_qnty
          // 
          this.amm0_iqm_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[amm0_iqm_qnty]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_IQM_QNTY]")});
          this.amm0_iqm_qnty.Font = new System.Drawing.Font("Arial", 11.54F);
          this.amm0_iqm_qnty.Multiline = true;
          this.amm0_iqm_qnty.Name = "amm0_iqm_qnty";
@@ -312,7 +310,7 @@
          // cp_qnty
          // 
          this.cp_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[mmk_qnty]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[MMK_QNTY]")});
          this.cp_qnty.Font = new System.Drawing.Font("Arial", 11.54F);
          this.cp_qnty.Multiline = true;
          this.cp_qnty.Name = "cp_qnty";
@@ -326,7 +324,7 @@
          // amm0_btrade_m_qnty
          // 
          this.amm0_btrade_m_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[amm0_btrade_m_qnty]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_BTRADE_M_QNTY]")});
          this.amm0_btrade_m_qnty.Font = new System.Drawing.Font("Arial", 11.54F);
          this.amm0_btrade_m_qnty.Multiline = true;
          this.amm0_btrade_m_qnty.Name = "amm0_btrade_m_qnty";
@@ -341,8 +339,8 @@
          // cp_m_qnty
          // 
          this.cp_m_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[amm0_om_qnty] + [amm0_qm_qnty] + [amm0_iqm_qnty] + Iif(isnull([amm0_btrade_m_qnt" +
-                    "y]),0,[amm0_btrade_m_qnty])")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_OM_QNTY] + [AMM0_QM_QNTY] + [AMM0_IQM_QNTY] + Iif(isnull([AMM0_BTRADE_M_QNT" +
+                    "Y]),0,[AMM0_BTRADE_M_QNTY])")});
          this.cp_m_qnty.Font = new System.Drawing.Font("Arial", 11.54F);
          this.cp_m_qnty.Multiline = true;
          this.cp_m_qnty.Name = "cp_m_qnty";
@@ -357,9 +355,7 @@
          // cp_rate_m
          // 
          this.cp_rate_m.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "Iif(  [amm0_market_m_qnty]  =0,0, ([amm0_om_qnty] + [amm0_qm_qnty] + [amm0_iqm_qn" +
-                    "ty] + Iif(isnull([amm0_btrade_m_qnty]),0,[amm0_btrade_m_qnty]))\n /   [amm0_marke" +
-                    "t_m_qnty]  )  * 100")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[CP_RATE_M]")});
          this.cp_rate_m.Font = new System.Drawing.Font("Arial", 11.54F);
          this.cp_rate_m.Multiline = true;
          this.cp_rate_m.Name = "cp_rate_m";
@@ -374,7 +370,7 @@
          // amm0_valid_cnt
          // 
          this.amm0_valid_cnt.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[amm0_valid_cnt]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_VALID_CNT]")});
          this.amm0_valid_cnt.Font = new System.Drawing.Font("Arial", 11.54F);
          this.amm0_valid_cnt.Multiline = true;
          this.amm0_valid_cnt.Name = "amm0_valid_cnt";
@@ -388,8 +384,7 @@
          // cp_rate_valid_real
          // 
          this.cp_rate_valid_real.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "Iif ([amm0_market_r_cnt] = 0, 1 ,round([amm0_valid_cnt]  / [amm0_market_r_cnt],4)" +
-                    ") * 100")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[CP_RATE_VALID_REAL]")});
          this.cp_rate_valid_real.Font = new System.Drawing.Font("Arial", 11.54F);
          this.cp_rate_valid_real.Multiline = true;
          this.cp_rate_valid_real.Name = "cp_rate_valid_real";
@@ -403,7 +398,7 @@
          // amm0_market_r_cnt
          // 
          this.amm0_market_r_cnt.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[amm0_market_r_cnt]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_MARKET_R_CNT]")});
          this.amm0_market_r_cnt.Font = new System.Drawing.Font("Arial", 11.54F);
          this.amm0_market_r_cnt.Multiline = true;
          this.amm0_market_r_cnt.Name = "amm0_market_r_cnt";
@@ -418,7 +413,7 @@
          // amm0_market_m_qnty
          // 
          this.amm0_market_m_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[amm0_market_m_qnty]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_MARKET_M_QNTY]")});
          this.amm0_market_m_qnty.Font = new System.Drawing.Font("Arial", 11.54F);
          this.amm0_market_m_qnty.Multiline = true;
          this.amm0_market_m_qnty.Name = "amm0_market_m_qnty";
@@ -433,8 +428,7 @@
          // cp_keep_time
          // 
          this.cp_keep_time.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "Iif(  [amm0_sum_type] = \'D\' , ceiling( Round([amm0_keep_time],0) / 60/ [amm0_day_" +
-                    "count]) , ceiling( [amm0_keep_time] / 60/ [amm0_day_count]))")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[CP_KEEP_TIME]")});
          this.cp_keep_time.Font = new System.Drawing.Font("Arial", 11.54F);
          this.cp_keep_time.Multiline = true;
          this.cp_keep_time.Name = "cp_keep_time";
@@ -448,7 +442,7 @@
          // cp_avg_mmk_qnty
          // 
          this.cp_avg_mmk_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "Round([mmk_qnty] /  [amm0_day_count],1 )")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[CP_AVG_MMK_QNTY]")});
          this.cp_avg_mmk_qnty.Font = new System.Drawing.Font("Arial", 11.54F);
          this.cp_avg_mmk_qnty.Multiline = true;
          this.cp_avg_mmk_qnty.Name = "cp_avg_mmk_qnty";
@@ -677,9 +671,9 @@
          // cp_tot_amm0_market_m_qnty
          // 
          this.cp_tot_amm0_market_m_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum(Iif( [DataSource].[CurrentRowIndex][[amm0_ymd]] != Iif(isnull([DataSource]" +
-                    ".[CurrentRowIndex-1][[amm0_ymd]]),0,[DataSource].[CurrentRowIndex-1][[amm0_ymd]]" +
-                    "),  [amm0_market_m_qnty] ,0))")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum(Iif( [DataSource].[CurrentRowIndex][[AMM0_YMD]] != Iif(isnull([DataSource]" +
+                    ".[CurrentRowIndex-1][[AMM0_YMD]]),0,[DataSource].[CurrentRowIndex-1][[AMM0_YMD]]" +
+                    "),  [AMM0_MARKET_M_QNTY] ,0))")});
          this.cp_tot_amm0_market_m_qnty.Multiline = true;
          this.cp_tot_amm0_market_m_qnty.Name = "cp_tot_amm0_market_m_qnty";
          this.cp_tot_amm0_market_m_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -694,7 +688,7 @@
          // cp_tot_amm0_market_r_cnt
          // 
          this.cp_tot_amm0_market_r_cnt.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([amm0_market_r_cnt])")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([AMM0_MARKET_R_CNT])")});
          this.cp_tot_amm0_market_r_cnt.Multiline = true;
          this.cp_tot_amm0_market_r_cnt.Name = "cp_tot_amm0_market_r_cnt";
          this.cp_tot_amm0_market_r_cnt.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -708,8 +702,8 @@
          // cp_tot_rate_valid_real
          // 
          this.cp_tot_rate_valid_real.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", " Iif(sum([amm0_market_r_cnt]) = 0,1,round(sum([amm0_valid_cnt])/ sum([amm0_market" +
-                    "_r_cnt]),4)) * 100")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", " Iif(sum([AMM0_MARKET_R_CNT]) = 0,1,round(sum([AMM0_VALID_CNT])/ sum([AMM0_MARKET" +
+                    "_R_CNT]),4)) * 100")});
          this.cp_tot_rate_valid_real.Multiline = true;
          this.cp_tot_rate_valid_real.Name = "cp_tot_rate_valid_real";
          this.cp_tot_rate_valid_real.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -723,7 +717,7 @@
          // cp_tot_amm0_valid_cnt
          // 
          this.cp_tot_amm0_valid_cnt.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sum([amm0_valid_cnt])")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sum([AMM0_VALID_CNT])")});
          this.cp_tot_amm0_valid_cnt.Multiline = true;
          this.cp_tot_amm0_valid_cnt.Name = "cp_tot_amm0_valid_cnt";
          this.cp_tot_amm0_valid_cnt.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -737,9 +731,9 @@
          // cp_tot_rate_m
          // 
          this.cp_tot_rate_m.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "Iif(  sum([amm0_market_m_qnty])  =0,0, (sum([amm0_om_qnty] + [amm0_qm_qnty] + [am" +
-                    "m0_iqm_qnty] +  Iif(isnull([amm0_btrade_m_qnty]),0,[amm0_btrade_m_qnty]))/    su" +
-                    "m([amm0_market_m_qnty]) * 100))")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "Iif(  sum([AMM0_MARKET_M_QNTY])  =0,0, (sum([AMM0_OM_QNTY] + [AMM0_QM_QNTY] + [AM" +
+                    "M0_IQM_QNTY] +  Iif(isnull([AMM0_BTRADE_M_QNTY]),0,[AMM0_BTRADE_M_QNTY]))/    su" +
+                    "m([AMM0_MARKET_M_QNTY]) * 100))")});
          this.cp_tot_rate_m.Multiline = true;
          this.cp_tot_rate_m.Name = "cp_tot_rate_m";
          this.cp_tot_rate_m.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -754,8 +748,8 @@
          // cp_tot_m_qnty
          // 
          this.cp_tot_m_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sum([amm0_om_qnty] + [amm0_qm_qnty] + [amm0_iqm_qnty]  +  Iif(isnull([amm0_btrade" +
-                    "_m_qnty]),0,[amm0_btrade_m_qnty]))")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sum([AMM0_OM_QNTY] + [AMM0_QM_QNTY] + [AMM0_IQM_QNTY]  +  Iif(isnull([AMM0_BTRADE" +
+                    "_M_QNTY]),0,[AMM0_BTRADE_M_QNTY]))")});
          this.cp_tot_m_qnty.Multiline = true;
          this.cp_tot_m_qnty.Name = "cp_tot_m_qnty";
          this.cp_tot_m_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -770,7 +764,7 @@
          // cp_tot_amm0_btrade_m_qnty
          // 
          this.cp_tot_amm0_btrade_m_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sum([mmk_qnty])")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sum([MMK_QNTY])")});
          this.cp_tot_amm0_btrade_m_qnty.Multiline = true;
          this.cp_tot_amm0_btrade_m_qnty.Name = "cp_tot_amm0_btrade_m_qnty";
          this.cp_tot_amm0_btrade_m_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -784,7 +778,7 @@
          // cp_tot_mmk_qnty
          // 
          this.cp_tot_mmk_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sum([mmk_qnty])")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sum([MMK_QNTY])")});
          this.cp_tot_mmk_qnty.Multiline = true;
          this.cp_tot_mmk_qnty.Name = "cp_tot_mmk_qnty";
          this.cp_tot_mmk_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -798,7 +792,7 @@
          // cp_tot_amm0_iqm_qnty
          // 
          this.cp_tot_amm0_iqm_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sum([amm0_iqm_qnty])")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sum([AMM0_IQM_QNTY])")});
          this.cp_tot_amm0_iqm_qnty.Multiline = true;
          this.cp_tot_amm0_iqm_qnty.Name = "cp_tot_amm0_iqm_qnty";
          this.cp_tot_amm0_iqm_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -812,7 +806,7 @@
          // cp_tot_amm0_qm_qnty_sum
          // 
          this.cp_tot_amm0_qm_qnty_sum.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sum([amm0_qm_qnty])")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sum([AMM0_QM_QNTY])")});
          this.cp_tot_amm0_qm_qnty_sum.Multiline = true;
          this.cp_tot_amm0_qm_qnty_sum.Name = "cp_tot_amm0_qm_qnty_sum";
          this.cp_tot_amm0_qm_qnty_sum.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -826,7 +820,7 @@
          // cp_tot_amm0_om_qnty_sum
          // 
          this.cp_tot_amm0_om_qnty_sum.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sum([amm0_om_qnty])")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sum([AMM0_OM_QNTY])")});
          this.cp_tot_amm0_om_qnty_sum.Multiline = true;
          this.cp_tot_amm0_om_qnty_sum.Name = "cp_tot_amm0_om_qnty_sum";
          this.cp_tot_amm0_om_qnty_sum.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -902,7 +896,7 @@
          // cp_sum_amm0_market_m_qnty
          // 
          this.cp_sum_amm0_market_m_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "Sum([amm0_market_m_qnty])")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_MARKET_M_QNTY]")});
          this.cp_sum_amm0_market_m_qnty.Multiline = true;
          this.cp_sum_amm0_market_m_qnty.Name = "cp_sum_amm0_market_m_qnty";
          this.cp_sum_amm0_market_m_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -917,7 +911,7 @@
          // cp_sum_amm0_market_r_cnt
          // 
          this.cp_sum_amm0_market_r_cnt.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[amm0_market_r_cnt]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_MARKET_R_CNT]")});
          this.cp_sum_amm0_market_r_cnt.Multiline = true;
          this.cp_sum_amm0_market_r_cnt.Name = "cp_sum_amm0_market_r_cnt";
          this.cp_sum_amm0_market_r_cnt.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -929,8 +923,8 @@
          // cp_sum_rate_valid_real
          // 
          this.cp_sum_rate_valid_real.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "Iif([amm0_market_r_cnt]  = 0,1,round([cp_sum_amm0_valid_cnt]  / [amm0_market_r_cn" +
-                    "t],4)) * 100")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "Iif([AMM0_MARKET_R_CNT]  = 0,1,round(sumRunningSum([AMM0_VALID_CNT]) / [AMM0_MARK" +
+                    "ET_R_CNT],4)) * 100")});
          this.cp_sum_rate_valid_real.Multiline = true;
          this.cp_sum_rate_valid_real.Name = "cp_sum_rate_valid_real";
          this.cp_sum_rate_valid_real.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -944,7 +938,7 @@
          // cp_sum_amm0_valid_cnt
          // 
          this.cp_sum_amm0_valid_cnt.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sum([amm0_valid_cnt])")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumRunningSum([AMM0_VALID_CNT])")});
          this.cp_sum_amm0_valid_cnt.Multiline = true;
          this.cp_sum_amm0_valid_cnt.Name = "cp_sum_amm0_valid_cnt";
          this.cp_sum_amm0_valid_cnt.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -958,8 +952,9 @@
          // cp_sum_rate_m
          // 
          this.cp_sum_rate_m.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "Iif(  [amm0_market_m_qnty]  =0,0, [cp_sum_m_qnty] /   [amm0_market_m_qnty]  )  * " +
-                    "100")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "Iif(  [AMM0_MARKET_M_QNTY]  =0,0, (sumRunningSum([AMM0_OM_QNTY] + [AMM0_QM_QNTY] " +
+                    "+ [AMM0_IQM_QNTY]  +  Iif(isnull([AMM0_BTRADE_M_QNTY]),0,[AMM0_BTRADE_M_QNTY])))" +
+                    "\n /   [AMM0_MARKET_M_QNTY]  )  * 100")});
          this.cp_sum_rate_m.Multiline = true;
          this.cp_sum_rate_m.Name = "cp_sum_rate_m";
          this.cp_sum_rate_m.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -974,8 +969,8 @@
          // cp_sum_m_qnty
          // 
          this.cp_sum_m_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sum([amm0_om_qnty] + [amm0_qm_qnty] + [amm0_iqm_qnty]  +  Iif(isnull([amm0_btrade" +
-                    "_m_qnty]),0,[amm0_btrade_m_qnty]))")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumRunningSum([AMM0_OM_QNTY] + [AMM0_QM_QNTY] + [AMM0_IQM_QNTY]  +  Iif(isnull([A" +
+                    "MM0_BTRADE_M_QNTY]),0,[AMM0_BTRADE_M_QNTY]))")});
          this.cp_sum_m_qnty.Multiline = true;
          this.cp_sum_m_qnty.Name = "cp_sum_m_qnty";
          this.cp_sum_m_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -990,7 +985,7 @@
          // cp_sum_amm0_btrade_m_qnty
          // 
          this.cp_sum_amm0_btrade_m_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sum([mmk_qnty])")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumRunningSum([MMK_QNTY])")});
          this.cp_sum_amm0_btrade_m_qnty.Multiline = true;
          this.cp_sum_amm0_btrade_m_qnty.Name = "cp_sum_amm0_btrade_m_qnty";
          this.cp_sum_amm0_btrade_m_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -1004,7 +999,7 @@
          // cp_mmk_qnty
          // 
          this.cp_mmk_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sum([mmk_qnty])")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumRunningSum([MMK_QNTY])")});
          this.cp_mmk_qnty.Multiline = true;
          this.cp_mmk_qnty.Name = "cp_mmk_qnty";
          this.cp_mmk_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -1018,7 +1013,7 @@
          // cp_sum_amm0_iqm_qnty
          // 
          this.cp_sum_amm0_iqm_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sum([amm0_iqm_qnty])")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumRunningSum([AMM0_IQM_QNTY])")});
          this.cp_sum_amm0_iqm_qnty.Multiline = true;
          this.cp_sum_amm0_iqm_qnty.Name = "cp_sum_amm0_iqm_qnty";
          this.cp_sum_amm0_iqm_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -1032,7 +1027,7 @@
          // cp_sum_amm0_qm_qnty_sum
          // 
          this.cp_sum_amm0_qm_qnty_sum.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sum([amm0_qm_qnty])")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumRunningSum([AMM0_QM_QNTY])")});
          this.cp_sum_amm0_qm_qnty_sum.Multiline = true;
          this.cp_sum_amm0_qm_qnty_sum.Name = "cp_sum_amm0_qm_qnty_sum";
          this.cp_sum_amm0_qm_qnty_sum.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -1046,7 +1041,7 @@
          // cp_sum_amm0_om_qnty_sum
          // 
          this.cp_sum_amm0_om_qnty_sum.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sum([amm0_om_qnty])")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumRunningSum([AMM0_OM_QNTY])")});
          this.cp_sum_amm0_om_qnty_sum.Multiline = true;
          this.cp_sum_amm0_om_qnty_sum.Name = "cp_sum_amm0_om_qnty_sum";
          this.cp_sum_amm0_om_qnty_sum.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -1104,18 +1099,31 @@
          // groupHeaderBand1
          // 
          this.groupHeaderBand1.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.xrLabel3,
             this.xrLabel2});
          this.groupHeaderBand1.GroupFields.AddRange(new DevExpress.XtraReports.UI.GroupField[] {
-            new DevExpress.XtraReports.UI.GroupField("amm0_prod_id", DevExpress.XtraReports.UI.XRColumnSortOrder.Ascending)});
-         this.groupHeaderBand1.HeightF = 25F;
+            new DevExpress.XtraReports.UI.GroupField("AMM0_YMD", DevExpress.XtraReports.UI.XRColumnSortOrder.None),
+            new DevExpress.XtraReports.UI.GroupField("CP_GROUP1", DevExpress.XtraReports.UI.XRColumnSortOrder.Ascending)});
+         this.groupHeaderBand1.HeightF = 23F;
          this.groupHeaderBand1.Name = "groupHeaderBand1";
-         this.groupHeaderBand1.BeforePrint += new System.Drawing.Printing.PrintEventHandler(this.groupHeaderBand1_BeforePrint);
+         // 
+         // xrLabel3
+         // 
+         this.xrLabel3.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_YMD]")});
+         this.xrLabel3.LocationFloat = new DevExpress.Utils.PointFloat(93.97809F, 0F);
+         this.xrLabel3.Multiline = true;
+         this.xrLabel3.Name = "xrLabel3";
+         this.xrLabel3.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+         this.xrLabel3.SizeF = new System.Drawing.SizeF(100F, 23F);
+         this.xrLabel3.Text = "xrLabel2";
+         this.xrLabel3.Visible = false;
          // 
          // xrLabel2
          // 
          this.xrLabel2.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "trim([amm0_prod_id] )")});
-         this.xrLabel2.LocationFloat = new DevExpress.Utils.PointFloat(100.2281F, 0F);
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_PROD_ID]")});
+         this.xrLabel2.LocationFloat = new DevExpress.Utils.PointFloat(193.9781F, 0F);
          this.xrLabel2.Multiline = true;
          this.xrLabel2.Name = "xrLabel2";
          this.xrLabel2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -1231,5 +1239,6 @@
       private DevExpress.XtraReports.UI.XRLabel xrLabel2;
       private DevExpress.XtraReports.UI.XRTableCell cp_prod_id2;
       private DevExpress.XtraReports.UI.XRTableCell cp_prod2;
+      private DevExpress.XtraReports.UI.XRLabel xrLabel3;
    }
 }

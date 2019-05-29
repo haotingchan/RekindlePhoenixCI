@@ -150,10 +150,10 @@
          // dw1
          // 
          this.dw1.Controls.Add(this.documentViewer1);
-         this.dw1.Dock = System.Windows.Forms.DockStyle.Bottom;
-         this.dw1.Location = new System.Drawing.Point(0, 292);
+         this.dw1.Dock = System.Windows.Forms.DockStyle.Fill;
+         this.dw1.Location = new System.Drawing.Point(0, 295);
          this.dw1.Name = "dw1";
-         this.dw1.Size = new System.Drawing.Size(790, 341);
+         this.dw1.Size = new System.Drawing.Size(790, 338);
          this.dw1.TabIndex = 3;
          // 
          // documentViewer1
@@ -163,7 +163,7 @@
          this.documentViewer1.IsMetric = true;
          this.documentViewer1.Location = new System.Drawing.Point(2, 2);
          this.documentViewer1.Name = "documentViewer1";
-         this.documentViewer1.Size = new System.Drawing.Size(786, 337);
+         this.documentViewer1.Size = new System.Drawing.Size(786, 334);
          this.documentViewer1.TabIndex = 0;
          // 
          // inputPanel
@@ -184,12 +184,12 @@
          this.inputPanel.Controls.Add(this.stMsgTxt);
          this.inputPanel.Controls.Add(this.dataLayoutControl2);
          this.inputPanel.Controls.Add(this.dataLayoutControl1);
-         this.inputPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+         this.inputPanel.Dock = System.Windows.Forms.DockStyle.Top;
          this.inputPanel.Location = new System.Drawing.Point(0, 0);
          this.inputPanel.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
          this.inputPanel.LookAndFeel.UseDefaultLookAndFeel = false;
          this.inputPanel.Name = "inputPanel";
-         this.inputPanel.Size = new System.Drawing.Size(790, 292);
+         this.inputPanel.Size = new System.Drawing.Size(790, 295);
          this.inputPanel.TabIndex = 4;
          // 
          // gb4
@@ -788,8 +788,8 @@
          // panelControl1
          // 
          this.panelControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-         this.panelControl1.Controls.Add(this.inputPanel);
          this.panelControl1.Controls.Add(this.dw1);
+         this.panelControl1.Controls.Add(this.inputPanel);
          this.panelControl1.Dock = System.Windows.Forms.DockStyle.Fill;
          this.panelControl1.Location = new System.Drawing.Point(0, 30);
          this.panelControl1.Margin = new System.Windows.Forms.Padding(0);
