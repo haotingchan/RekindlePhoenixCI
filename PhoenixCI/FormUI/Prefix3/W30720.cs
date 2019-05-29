@@ -110,7 +110,7 @@ namespace PhoenixCI.FormUI.Prefix3
             return ResultStatus.Fail;
          }
          try {
-            string lsFile = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
+            string lsFile = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
             b30720 = new B30720(lsFile, emMonth.Text, sleYear.Text, rgDate.EditValue.ToString(), rgTime.EditValue.ToString());
 
             ShowMsg("30720－月份交易量彙總表 轉檔中...");
