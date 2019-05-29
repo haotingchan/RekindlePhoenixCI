@@ -50,12 +50,12 @@
             // panParent
             // 
             this.panParent.Controls.Add(this.gcMain);
-            this.panParent.Size = new System.Drawing.Size(1306, 540);
+            this.panParent.Size = new System.Drawing.Size(1306, 542);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(1306, 32);
+            this.ribbonControl.Size = new System.Drawing.Size(1306, 30);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // gcMain
@@ -64,7 +64,7 @@
             this.gcMain.Location = new System.Drawing.Point(12, 12);
             this.gcMain.MainView = this.gvMain;
             this.gcMain.Name = "gcMain";
-            this.gcMain.Size = new System.Drawing.Size(1282, 516);
+            this.gcMain.Size = new System.Drawing.Size(1282, 518);
             this.gcMain.TabIndex = 0;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -118,6 +118,7 @@
             this.TXN_TYPE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.TXN_TYPE.AppearanceHeader.Options.UseBackColor = true;
             this.TXN_TYPE.Caption = "作業類型";
+            this.TXN_TYPE.FieldName = "TXN_TYPE";
             this.TXN_TYPE.Name = "TXN_TYPE";
             this.TXN_TYPE.Visible = true;
             this.TXN_TYPE.VisibleIndex = 2;
@@ -128,6 +129,7 @@
             this.TXN_LEVEL.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.TXN_LEVEL.AppearanceHeader.Options.UseBackColor = true;
             this.TXN_LEVEL.Caption = "層級";
+            this.TXN_LEVEL.FieldName = "TXN_LEVEL";
             this.TXN_LEVEL.Name = "TXN_LEVEL";
             this.TXN_LEVEL.Visible = true;
             this.TXN_LEVEL.VisibleIndex = 3;
@@ -138,6 +140,7 @@
             this.TXN_PARENT_ID.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.TXN_PARENT_ID.AppearanceHeader.Options.UseBackColor = true;
             this.TXN_PARENT_ID.Caption = "上層\n作業代號";
+            this.TXN_PARENT_ID.FieldName = "TXN_PARENT_ID";
             this.TXN_PARENT_ID.Name = "TXN_PARENT_ID";
             this.TXN_PARENT_ID.Visible = true;
             this.TXN_PARENT_ID.VisibleIndex = 4;
@@ -148,6 +151,7 @@
             this.TXN_SEQ_NO.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.TXN_SEQ_NO.AppearanceHeader.Options.UseBackColor = true;
             this.TXN_SEQ_NO.Caption = "排序";
+            this.TXN_SEQ_NO.FieldName = "TXN_SEQ_NO";
             this.TXN_SEQ_NO.Name = "TXN_SEQ_NO";
             this.TXN_SEQ_NO.Visible = true;
             this.TXN_SEQ_NO.VisibleIndex = 5;
@@ -158,6 +162,7 @@
             this.TXN_EXTEND.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.TXN_EXTEND.AppearanceHeader.Options.UseBackColor = true;
             this.TXN_EXTEND.Caption = "自動\n展開";
+            this.TXN_EXTEND.FieldName = "TXN_EXTEND";
             this.TXN_EXTEND.Name = "TXN_EXTEND";
             this.TXN_EXTEND.Visible = true;
             this.TXN_EXTEND.VisibleIndex = 6;
@@ -189,8 +194,6 @@
             // 
             // TXN_W_TIME
             // 
-            this.TXN_W_TIME.AppearanceCell.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TXN_W_TIME.AppearanceCell.Options.UseFont = true;
             this.TXN_W_TIME.AppearanceCell.Options.UseTextOptions = true;
             this.TXN_W_TIME.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.TXN_W_TIME.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
