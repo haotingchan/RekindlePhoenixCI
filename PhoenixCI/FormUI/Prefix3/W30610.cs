@@ -129,7 +129,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             Worksheet worksheet = workbook.Worksheets[(int)SheetNo.mon]; //切換sheet
 
             int ii_ole_row = 4;
-            int li_ole_row_tol = ii_ole_row + 180;
+            int li_ole_row_tol = 184;
 
             //每月
             DateTime endDay = PbFunc.f_get_end_day("AI2" , "TXF" , txtEndMonth.Text);
@@ -148,26 +148,30 @@ namespace PhoenixCI.FormUI.Prefix3 {
                   ii_ole_row++;
                }
 
-               worksheet.Cells[ii_ole_row - 1 , 0].Value = dtContent.Rows[w]["AMIF_YM"].AsString().SubStr(0 , 4).AsInt() - 1911 +
-                                                                               dtContent.Rows[w]["AMIF_YM"].AsString().SubStr(4 , 2);
-               worksheet.Cells[ii_ole_row - 1 , 1].Value = dtContent.Rows[w]["AMIF_TOT_CNT"].AsInt();
-               worksheet.Cells[ii_ole_row - 1 , 2].Value = dtContent.Rows[w]["TFXM_AVG_UP_DOWN"].AsDecimal();
-               worksheet.Cells[ii_ole_row - 1 , 4].Value = dtContent.Rows[w]["TFXM_CNT"].AsInt();
-               worksheet.Cells[ii_ole_row - 1 , 5].Value = dtContent.Rows[w]["RETURN_P2"].AsDecimal() * 100;
-               worksheet.Cells[ii_ole_row - 1 , 6].Value = dtContent.Rows[w]["TFXM_AVG_CLOSE_PRICE"].AsDecimal();
-               worksheet.Cells[ii_ole_row - 1 , 7].Value = dtContent.Rows[w]["TFXM_M_QNTY_TAL"].AsDecimal();
-               worksheet.Cells[ii_ole_row - 1 , 8].Value = dtContent.Rows[w]["AMIF_AVG_UP_DOWN"].AsDecimal();
-               worksheet.Cells[ii_ole_row - 1 , 10].Value = dtContent.Rows[w]["AMIF_CNT"].AsInt();
-               worksheet.Cells[ii_ole_row - 1 , 11].Value = dtContent.Rows[w]["RETURN_P1"].AsDecimal() * 100;
-               worksheet.Cells[ii_ole_row - 1 , 12].Value = dtContent.Rows[w]["AMIF_AVG_CLOSE_PRICE"].AsDecimal();
-               worksheet.Cells[ii_ole_row - 1 , 13].Value = dtContent.Rows[w]["AI2_AVG_QTY_TXF"].AsDecimal();
-               worksheet.Cells[ii_ole_row - 1 , 14].Value = dtContent.Rows[w]["AI2_AVG_QTY_TXO"].AsDecimal();
-               worksheet.Cells[ii_ole_row - 1 , 15].Value = dtContent.Rows[w]["AI2_AVG_TOT_QTY"].AsDecimal();
+               worksheet.Cells[ii_ole_row - 1 , 0].Value = dtContent.Rows[w - 1]["AMIF_YM"].AsString().SubStr(0 , 4).AsInt() - 1911 +
+                                                                               dtContent.Rows[w - 1]["AMIF_YM"].AsString().SubStr(4 , 2);
+               worksheet.Cells[ii_ole_row - 1 , 1].Value = dtContent.Rows[w - 1]["AMIF_TOT_CNT"].AsInt();
+               worksheet.Cells[ii_ole_row - 1 , 2].Value = dtContent.Rows[w - 1]["TFXM_AVG_UP_DOWN"].AsDecimal();
+               worksheet.Cells[ii_ole_row - 1 , 4].Value = dtContent.Rows[w - 1]["TFXM_CNT"].AsInt();
+               worksheet.Cells[ii_ole_row - 1 , 5].Value = dtContent.Rows[w - 1]["RETURN_P2"].AsDecimal() * 100;
+               worksheet.Cells[ii_ole_row - 1 , 6].Value = dtContent.Rows[w - 1]["TFXM_AVG_CLOSE_PRICE"].AsDecimal();
+               worksheet.Cells[ii_ole_row - 1 , 7].Value = dtContent.Rows[w - 1]["TFXM_M_QNTY_TAL"].AsDecimal();
+               worksheet.Cells[ii_ole_row - 1 , 8].Value = dtContent.Rows[w - 1]["AMIF_AVG_UP_DOWN"].AsDecimal();
+               worksheet.Cells[ii_ole_row - 1 , 10].Value = dtContent.Rows[w - 1]["AMIF_CNT"].AsInt();
+               worksheet.Cells[ii_ole_row - 1 , 11].Value = dtContent.Rows[w - 1]["RETURN_P1"].AsDecimal() * 100;
+               worksheet.Cells[ii_ole_row - 1 , 12].Value = dtContent.Rows[w - 1]["AMIF_AVG_CLOSE_PRICE"].AsDecimal();
+               worksheet.Cells[ii_ole_row - 1 , 13].Value = dtContent.Rows[w - 1]["AI2_AVG_QTY_TXF"].AsDecimal();
+               worksheet.Cells[ii_ole_row - 1 , 14].Value = dtContent.Rows[w - 1]["AI2_AVG_QTY_TXO"].AsDecimal();
+               worksheet.Cells[ii_ole_row - 1 , 15].Value = dtContent.Rows[w - 1]["AI2_AVG_TOT_QTY"].AsDecimal();
             }
 
             //刪除空白列
-            if (ii_ole_row < li_ole_row_tol) {
-               worksheet.Rows.Remove(ii_ole_row , li_ole_row_tol - ii_ole_row);
+            //if (li_ole_end_row < li_ole_row_tol) {
+            //   worksheet.Rows.Remove(ii_ole_row , li_ole_row_tol - ii_ole_row);
+            //}
+            if (li_ole_row_tol> dtContent.Rows.Count + 4) {
+               Range ra = worksheet.Range[(dtContent.Rows.Count + 4).AsString() + ":183"];
+               ra.Delete(DeleteMode.EntireRow);
             }
 
             worksheet.Range["A1"].Select();

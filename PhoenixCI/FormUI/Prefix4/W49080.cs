@@ -43,7 +43,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             lupTfxmPid = new RepositoryItemLookUpEdit();
 
             //商品
-            DataTable dtTfxmPid = new COD().ListByCol2("TFXM" , "PID");
+            DataTable dtTfxmPid = new COD().ListByCol2("TFXM" , "TFXM_PID");
             Extension.SetColumnLookUp(lupTfxmPid , dtTfxmPid , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
             gcMain.RepositoryItems.Add(lupTfxmPid);
 
@@ -203,14 +203,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
             if (dtChange.Rows.Count == 0) {
                MessageDisplay.Choose("沒有變更資料,不需要存檔!");
                return ResultStatus.Fail;
-            }
-
-            if(dtChange.Rows.Count > 0) {
-               DialogResult res = new DialogResult();
-               res = MessageDisplay.Choose("未完成存檔，請問是否要離開作業？");
-               if (res == DialogResult.No) {
-                  return ResultStatus.Fail;
-               }
             }
 
             //隱藏欄位賦值

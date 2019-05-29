@@ -8,6 +8,7 @@ using BaseGround.Shared;
 using Common;
 using PhoenixCI.BusinessLogic.Prefix3;
 using System.IO;
+using DevExpress.Spreadsheet;
 /// <summary>
 /// john,20190319,非金電期貨契約價量資料
 /// </summary>
@@ -104,8 +105,11 @@ namespace PhoenixCI.FormUI.Prefix3
             return ResultStatus.Fail;
          }
          string lsFile = PbFunc.wf_copy_file(_ProgramID, "30399");
+         Workbook workbook = new Workbook();
+         //載入Excel
+         workbook.LoadDocument(lsFile);
          try {
-            b30399 = new B30399(lsFile, emMonth.Text);
+            b30399 = new B30399(workbook, emMonth.Text);
 
             ShowMsg("30330－「XIF公債」期貨契約價量資料 轉檔中...");
             OutputShowMessage = b30399.Wf30331();
@@ -118,6 +122,8 @@ namespace PhoenixCI.FormUI.Prefix3
             return ResultStatus.Fail;
          }
          finally {
+            //存檔
+            workbook.SaveDocument(lsFile);
             EndExport();
          }
          return ResultStatus.Success;

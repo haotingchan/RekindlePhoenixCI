@@ -53,16 +53,18 @@ namespace PhoenixCI.FormUI.PrefixZ
             RepositoryItemLookUpEdit repLookUp = new RepositoryItemLookUpEdit();
             DropDownList.RepositoryItemDptIdAndName(repLookUp);
 
-            gcMain.DataSource = daoUPF.ListDataByDept("");
-            UPF_DPT_ID.ColumnEdit = repLookUp;
-
             GridHelper.AddModifyMark(gcMain, MODIFY_MARK);
             GridHelper.AddOpType(gcMain, new GridColumn[] { UPF_USER_ID });
+
+            gcMain.DataSource = daoUPF.ListDataByDept("");
+            UPF_DPT_ID.ColumnEdit = repLookUp;
 
             if (GlobalInfo.USER_ID.ToUpper() != GlobalDaoSetting.GetConnectionInfo.ConnectionName)
             {
                 btnPrint.Visible = false;
             }
+
+            gvMain.BestFitColumns();
 
             return ResultStatus.Success;
         }

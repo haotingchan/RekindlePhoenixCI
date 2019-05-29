@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.Spreadsheet;
+using System;
 /// <summary>
 /// 20190319,john,非金電期貨契約價量資料
 /// </summary>
@@ -11,15 +12,17 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    public class B30399
    {
       private B30398 b30398;
+      private readonly Workbook _workbook;
 
       /// <summary>
       /// 
       /// </summary>
       /// <param name="FilePath">Excel_Template</param>
       /// <param name="datetime">em_month.Text</param>
-      public B30399(string FilePath,string datetime)
+      public B30399(Workbook workbook, string datetime)
       {
-         b30398 = new B30398(FilePath, datetime);
+         _workbook = workbook;
+         b30398 = new B30398(_workbook, datetime);
       }
       /// <summary>
       /// wf_30331

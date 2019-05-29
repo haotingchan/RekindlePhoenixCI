@@ -9,6 +9,11 @@ using DevExpress.XtraGrid.Views.Grid;
 using BusinessObjects.Enums;
 using BusinessObjects;
 using DataObjects.Dao.Together.SpecificDao;
+using DevExpress.XtraGrid.Views.Base;
+using DevExpress.XtraGrid.Columns;
+using System;
+using DevExpress.XtraEditors.Controls;
+using System.Linq;
 
 /// <summary>
 /// Lukas, 2019/1/18
@@ -29,6 +34,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
             GridHelper.SetCommonGrid(gvMain);
             PrintableComponent = gcMain;
             gvMain.OptionsView.ShowColumnHeaders = false;
+            gvMain.AppearancePrint.BandPanel.Font = new Font("Microsoft YaHei", 10);
+            gvMain.AppearancePrint.BandPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
         }
 
         protected override ResultStatus Open() {
@@ -100,6 +107,11 @@ namespace PhoenixCI.FormUI.Prefix2 {
             base.Save(gcMain);
 
             DataTable dt = (DataTable)gcMain.DataSource;
+            dt.Columns.Remove("OP_TYPE");
+            dt.Columns.Remove("Is_NewRow");
+            //檢查是否有空值
+            if (!checkComplete(dt)) return ResultStatus.FailButNext;
+
             DataTable dtChange = dt.GetChanges();
 
             if (dtChange == null) {
@@ -110,6 +122,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return ResultStatus.Fail;
             }
+
             //更新主要Table
             else {
                 ResultData myResultData = dao20230.UpdatePLST1(dt);
@@ -118,6 +131,11 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     return ResultStatus.Fail;
                 }
             }
+
+            //列印
+            ReportHelper _ReportHelper = new ReportHelper(gcMain, _ProgramID, this.Text);
+            Print(_ReportHelper);
+
             return ResultStatus.Success;
         }
 
@@ -128,7 +146,10 @@ namespace PhoenixCI.FormUI.Prefix2 {
             report.printableComponentContainerMain.PrintableComponent = gcMain;
             _ReportHelper.Create(report);
 
-            base.Print(_ReportHelper);
+
+            _ReportHelper.Print();//如果有夜盤會特別標註
+            _ReportHelper.Export(FileType.PDF, _ReportHelper.FilePath);
+
             return ResultStatus.Success;
         }
 
@@ -144,6 +165,17 @@ namespace PhoenixCI.FormUI.Prefix2 {
             base.DeleteRow(gvMain);
 
             return ResultStatus.Success;
+        }
+
+        private bool checkComplete(DataTable dtSource) {
+
+            foreach (DataColumn column in dtSource.Columns) {
+                if (dtSource.Rows.OfType<DataRow>().Where(r => r.RowState != DataRowState.Deleted).Any(r => r.IsNull(column))) {
+                    MessageDisplay.Error("尚未填寫完成");
+                    return false;
+                }
+            }
+            return true;
         }
 
         #region GridControl事件

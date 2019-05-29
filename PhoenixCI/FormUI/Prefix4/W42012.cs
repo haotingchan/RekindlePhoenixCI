@@ -139,7 +139,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     lblProcessing.Visible = false;
                     return ResultStatus.Fail;
                 }
-                dt42012.Sort("MGR3_YMD");
+                dt42012 = dt42012.Sort("MGR3_YMD");
 
                 //複製檔案
                 file = PbFunc.wf_copy_file(rptId, rptId);
@@ -169,7 +169,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     }
                 }
                 else {
-                    range = ws.Range[(startRow + 1).AsString()];
+                    range = ws.Range[(startRow + 1).AsString() + ":" + (startRow + 1).AsString()];
                     range.Delete(DeleteMode.EntireRow);
                     minusRow = minusRow + 1;
                     //改編號
@@ -211,7 +211,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     }
                 }
                 else {
-                    range = ws.Range[(startRow + 1).AsString()+":"+(startRow + 1).AsString()];
+                    range = ws.Range[(startRow + 1).AsString() + ":" + (startRow + 1).AsString()];
                     range.Delete(DeleteMode.EntireRow);
                     minusRow = minusRow + 1;
                     //改編號
@@ -238,9 +238,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     }
                     if (cbxRate.Checked) {
                         DataView dv = dt42012.AsDataView();
-                        dv.RowFilter = "(mgr2_level = 'Z' and T_30_RATE >= (MGR3_CUR_CM - " + 
-                                        (txtRate4Ref.Text.AsDecimal() / 100).AsString() + ")) or (mgr2_level = '1' and t_30_rate >= " + 
-                                        (txtRate1Ref.Text.AsDecimal() / 100).AsString() + ") or (mgr2_level = '2' and t_30_rate >= " + 
+                        dv.RowFilter = "(mgr2_level = 'Z' and T_30_RATE >= (MGR3_CUR_CM - " +
+                                        (txtRate4Ref.Text.AsDecimal() / 100).AsString() + ")) or (mgr2_level = '1' and t_30_rate >= " +
+                                        (txtRate1Ref.Text.AsDecimal() / 100).AsString() + ") or (mgr2_level = '2' and t_30_rate >= " +
                                         (txtRate2Ref.Text.AsDecimal() / 100).AsString() + ")";
                         dt42012 = dv.ToTable();
                     }
@@ -331,9 +331,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     }
                     if (cbxRate.Checked) {
                         DataView dv = dt42012.AsDataView();
-                        dv.RowFilter = "(mgr2_level = 'Z' and mgr2_day_rate >= (MGR3_CUR_CM - " + 
-                                        (txtRate4.Text.AsDecimal() / 100).AsString() + ")) or (mgr2_level = '1' and mgr2_day_rate >= " + 
-                                        (txtRate1.Text.AsDecimal() / 100).AsString() + ") or (mgr2_level = '2' and mgr2_day_rate >= " + 
+                        dv.RowFilter = "(mgr2_level = 'Z' and mgr2_day_rate >= (MGR3_CUR_CM - " +
+                                        (txtRate4.Text.AsDecimal() / 100).AsString() + ")) or (mgr2_level = '1' and mgr2_day_rate >= " +
+                                        (txtRate1.Text.AsDecimal() / 100).AsString() + ") or (mgr2_level = '2' and mgr2_day_rate >= " +
                                         (txtRate2.Text.AsDecimal() / 100).AsString() + ")";
                         dt42012 = dv.ToTable();
                     }

@@ -246,7 +246,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                string id2Out = dr["sp1_kind_id2_out"].AsString().SubStr(0 , 2);
                if (sp1Flag == "Y") {
                   if (!string.IsNullOrEmpty(ls_str2)) {
-                     ls_str2 += ";";
+                     ls_str2 += "；";
                   }
                   ls_str2 += id1Out + "vs" + id2Out;
                }
@@ -287,7 +287,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                string id2Out = dr["sp1_kind_id2_out"].AsString().SubStr(0 , 2);
                if (sp1Flag == "Y") {
                   if (!string.IsNullOrEmpty(ls_str2)) {
-                     ls_str2 += ";";
+                     ls_str2 += "；";
                   }
                   ls_str2 += id1Out + "vs" + id2Out;
                }

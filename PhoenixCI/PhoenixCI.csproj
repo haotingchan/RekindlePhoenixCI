@@ -191,6 +191,7 @@
     <Compile Include="BusinessLogic\Prefix4\B40190.cs" />
     <Compile Include="BusinessLogic\Prefix4\B43030.cs" />
     <Compile Include="BusinessLogic\Prefix4\B43033.cs" />
+    <Compile Include="BusinessLogic\Prefix5\B50032.cs" />
     <Compile Include="BusinessLogic\Prefix7\B70010.cs" />
     <Compile Include="BusinessLogic\Prefix7\B70020.cs" />
     <Compile Include="BusinessLogic\Prefix7\B700xxFunc.cs" />

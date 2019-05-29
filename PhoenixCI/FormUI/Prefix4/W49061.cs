@@ -158,9 +158,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gcMain.RepositoryItems.Add(mgt8Xxx);
             gvMain.Columns["MGT8_XXX"].ColumnEdit = mgt8Xxx;
             mgt8Xxx.DisplayFormat.FormatType = FormatType.Numeric;
-            mgt8Xxx.DisplayFormat.FormatString = "#######0";
-            mgt8Xxx.Mask.EditMask = "#######0";
-            mgt8Xxx.MaxLength = 8;
+            mgt8Xxx.DisplayFormat.FormatString = "#######0.###";
+            mgt8Xxx.Mask.EditMask = "#######0.###";
+            mgt8Xxx.MaxLength = 12;
             mgt8Xxx.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
 
             //1.3 設定dropdownlist       
