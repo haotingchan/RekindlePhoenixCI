@@ -95,7 +95,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
 
             //1.1 copy template xls to target path
-            string excelDestinationPath = CopyExcelTemplateFile(_ProgramID , FileType.XLSX);
+            string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID);
             Workbook workbook = new Workbook();
             workbook.LoadDocument(excelDestinationPath);
 
@@ -200,18 +200,24 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //1.2 抓當月最後交易日
             DateTime ldt_edate = PbFunc.f_get_end_day("AI3" , KindId , StartMonth);
 
-            //1.3 get ai3 data
-            DataTable dtTemp = Dao.d_ai3(KindId , ldt_sdate , ldt_edate);
-            if (dtTemp.Rows.Count <= 0) {
-               return 0;
-            }
-
             Worksheet ws = workbook.Worksheets[sheetIndex];
-
-            //1.4 export to sheet
             int rowIndex = rowBegin;
             int emptyRowCount = rowIndex + 1 + 32;
 
+            //1.3 get ai3 data
+            DataTable dtTemp = Dao.d_ai3(KindId , ldt_sdate , ldt_edate);
+            if (dtTemp.Rows.Count <= 0) {
+               //刪除空白列
+               if (rowIndex < emptyRowCount) {
+                  string selectBegin = (rowIndex + 2).ToString();
+                  string selectEnd = (emptyRowCount).ToString();
+                  string cellRange = string.Format("A{0}:G{1}" , selectBegin , selectEnd);
+                  ws.DeleteCells(ws.Range[cellRange] , DeleteMode.EntireRow);
+               }
+               return 0;
+            }
+
+            //1.4 export to sheet
             DateTime ldt_ymd = DateTime.MinValue;
             foreach (DataRow dr in dtTemp.Rows) {
                DateTime ai3_date = dr["ai3_date"].AsDateTime();
@@ -240,20 +246,25 @@ namespace PhoenixCI.FormUI.Prefix3 {
          }
 
          protected virtual int ExportDetail(Workbook workbook , int sheetIndex , int rowBegin) {
+
+            Worksheet ws = workbook.Worksheets[sheetIndex];
+            int rowIndex = rowBegin;
+            int emptyRowCount = rowIndex + 12;
+
             //2.1 get ai2 data
             DataTable dtDetail = Dao.d_ai2(KindId , StartMonth.SubStr(0 , 4) + "01" , StartMonth.Replace("/" , ""));
             if (dtDetail.Rows.Count <= 0) {
+               if (rowIndex < emptyRowCount) {
+                  ws.Rows.Remove(rowIndex + 1 , emptyRowCount - rowIndex);
+               }
                return 0;
             }
 
-            Worksheet ws = workbook.Worksheets[sheetIndex];
 
-            //2.2 總列數
-            int rowIndex = rowBegin;
+            //2.2 總列數         
             ws.Cells[rowIndex + 12 + 1 , 0].Value = (StartMonth.SubStr(0 , 4).AsInt() - 1911).AsString() + "小計";
-
             string ls_ymd = "";//日期
-            int emptyRowCount = rowIndex + 12;
+
             foreach (DataRow dr in dtDetail.Rows) {
                string am2_ymd = dr["am2_ymd"].AsString();
                int am2_idfg_type = dr["am2_idfg_type"].AsInt();

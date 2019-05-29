@@ -119,7 +119,6 @@
          // 
          // gcMain
          // 
-         this.gcMain.Dock = System.Windows.Forms.DockStyle.Fill;
          this.gcMain.Location = new System.Drawing.Point(12, 12);
          this.gcMain.MainView = this.gvMain;
          this.gcMain.MenuManager = this.ribbonControl;

@@ -90,7 +90,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //2. 設定日期
             DateTime ldt_sdate, ldt_edate;
             flag = 0;
-            
+
             //2.1 copy template xls to target path
             string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID);
             Workbook workbook = new Workbook();
@@ -171,7 +171,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                System.Diagnostics.Process.Start(excelDestinationPath);
 
             return ResultStatus.Success;
-         } catch (Exception ex) {            
+         } catch (Exception ex) {
             MessageDisplay.Info("查無資料!");
             WriteLog(ex);
          } finally {
@@ -273,8 +273,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             decimal lastMQnty = drAi2["last_m_qnty"].AsDecimal();
             decimal lastMOi = drAi2["last_m_oi"].AsDecimal();
             if (dayCnt > 0) {
-               ws1.Cells[row , 5].Value = Math.Round((lastMQnty / dayCnt) , 0,MidpointRounding.AwayFromZero);
-               ws1.Cells[row , 7].Value = Math.Round((lastMOi / dayCnt) , 0, MidpointRounding.AwayFromZero);
+               ws1.Cells[row , 5].Value = Math.Round((lastMQnty / dayCnt) , 0 , MidpointRounding.AwayFromZero);
+               ws1.Cells[row , 7].Value = Math.Round((lastMOi / dayCnt) , 0 , MidpointRounding.AwayFromZero);
             }
 
             //5.2 今年迄今
@@ -365,9 +365,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             DataTable dtAm2 = dao30392.d_am2(kindId , sDate , eDate);
             if (dtAm2.Rows.Count <= 0) {
-               //刪除空白列             
+               //刪除空白列         
+               //ws3.Rows.Remove(4 , 12);
                if (rowTotal > row + 1) {
-                  Range ra = ws3.Range[(row + 2).AsString() + ":" + rowTotal.AsString()];
+                  Range ra = ws3.Range["5:16"];
                   ra.Delete(DeleteMode.EntireRow);
                }
                return;

@@ -449,7 +449,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                base.OpenFileAndSetYear();
 
-               ////說明文
+               //說明文
                string prepoStr = Dt.AsEnumerable().Any(d => d.Field<string>("prod_type") == "F") ? "期貨契約保證金及" : "";
 
                foreach (DataRow dr in Dt.Rows) {

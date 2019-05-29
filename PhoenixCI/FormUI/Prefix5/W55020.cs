@@ -132,7 +132,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             labMsg.Text = "訊息：資料轉出中........";
 
             //3.1 copy template xls to target path
-            string excelDestinationPath = CopyExcelTemplateFile(_ProgramID , FileType.XLS);
+            string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID);
 
             //3.2 open xls
             Workbook workbook = new Workbook();

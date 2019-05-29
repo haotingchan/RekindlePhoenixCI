@@ -43,7 +43,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             lupTfxmPid = new RepositoryItemLookUpEdit();
 
             //商品
-            DataTable dtTfxmPid = new COD().ListByCol2("TFXM" , "PID");
+            DataTable dtTfxmPid = new COD().ListByCol2("TFXM" , "TFXM_PID");
             Extension.SetColumnLookUp(lupTfxmPid , dtTfxmPid , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
             gcMain.RepositoryItems.Add(lupTfxmPid);
 
@@ -132,13 +132,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gcMain.RepositoryItems.Add(raiseLimit);
             gvMain.Columns["TFXMSE_RAISE_LIMIT"].ColumnEdit = raiseLimit;
             raiseLimit.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
-            raiseLimit.Mask.EditMask = "##########0.0";
+            raiseLimit.Mask.EditMask = "####0.00";
 
             RepositoryItemTextEdit fallLimit = new RepositoryItemTextEdit();
             gcMain.RepositoryItems.Add(fallLimit);
             gvMain.Columns["TFXMSE_FALL_LIMIT"].ColumnEdit = fallLimit;
             fallLimit.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
-            fallLimit.Mask.EditMask = "##########0.0";
+            fallLimit.Mask.EditMask = "####0.00";
 
             RepositoryItemTextEdit fut = new RepositoryItemTextEdit();
             gcMain.RepositoryItems.Add(fut);
@@ -205,21 +205,55 @@ namespace PhoenixCI.FormUI.Prefix4 {
                return ResultStatus.Fail;
             }
 
-            //隱藏欄位賦值
             foreach (DataRow dr in dtCurrent.Rows) {
                if (dr.RowState == DataRowState.Added || dr.RowState == DataRowState.Modified) {
                   dr["TFXMSE_W_TIME"] = DateTime.Now;
                   dr["TFXMSE_W_USER_ID"] = GlobalInfo.USER_ID;
+
+                  if (dr.RowState == DataRowState.Added) {
+                     foreach (DataRow drAdd in dtForAdd.Rows) {
+                        drAdd["TFXMSE_W_TIME"] = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+                        drAdd["TFXMSE_W_USER_ID"] = GlobalInfo.USER_ID;
+                     }
+                     gvMain.SetRowCellValue(gvMain.FocusedRowHandle , "TFXMSE_W_TIME" , DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+                     gvMain.SetRowCellValue(gvMain.FocusedRowHandle , "TFXMSE_W_USER_ID" , GlobalInfo.USER_ID);
+                     gvMain.CloseEditor();
+                     gvMain.UpdateCurrentRow();
+                  }
+
+                  if (dr.RowState == DataRowState.Modified) {
+                     foreach (DataRow drMod in dtForModified.Rows) {
+                        drMod["TFXMSE_W_TIME"] = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+                        drMod["TFXMSE_W_USER_ID"] = GlobalInfo.USER_ID;
+                     }
+                     gvMain.SetRowCellValue(gvMain.FocusedRowHandle , "TFXMSE_W_TIME" , DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+                     gvMain.SetRowCellValue(gvMain.FocusedRowHandle , "TFXMSE_W_USER_ID" , GlobalInfo.USER_ID);
+                     gvMain.CloseEditor();
+                     gvMain.UpdateCurrentRow();
+                  }
+
+                  if (dr.RowState == DataRowState.Deleted) {
+                     dr.Delete();
+                  }
+
                }
             }
+            //dtChange = dtCurrent.GetChanges();
+            //dtCurrent = (DataTable)gcMain.DataSource;
+            DataTable dtCloned = dtCurrent.Clone();
+            dtCloned.Columns["TFXMSE_W_TIME"].DataType = typeof(DateTime);
+            foreach (DataRow row in dtCurrent.Rows) {
+               if (row.RowState == DataRowState.Deleted) continue;
+               dtCloned.ImportRow(row);
+            }
 
-            dtChange = dtCurrent.GetChanges();
-            ResultData result = new TFXMSE().UpdateData(dtChange);
+            ResultData result = new TFXMSE().UpdateData(dtCloned);
             if (result.Status == ResultStatus.Fail) {
                return ResultStatus.Fail;
             }
 
             PrintOrExportChangedByKen(gcMain , dtForAdd , dtForDeleted , dtForModified);
+
 
          } catch (Exception ex) {
             throw ex;
@@ -245,6 +279,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
          gvMain.AddNewRow();
 
          gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["IS_NEWROW"] , 1);
+         //gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["TFXMSE_W_TIME"] , DateTime.Now);
+         //gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["TFXMSE_W_USER_ID"] , GlobalInfo.USER_ID);
 
          gvMain.Focus();
          gvMain.FocusedColumn = gvMain.Columns[0];

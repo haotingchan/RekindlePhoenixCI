@@ -74,5 +74,21 @@ namespace DataObjects.Dao.Together.SpecificDao {
 
          return db.GetDataTable(sql, parms);
       }
+
+      public string GetProdSubType(string prodsubtype) {
+         object[] parms = {
+                ":prodsubtype",prodsubtype
+            };
+
+         string sql = @"SELECT
+                           trim(COD_DESC) as COD_DESC
+                            FROM CI.COD 
+                           WHERE COD_TXN_ID = '49020'
+                           and trim(cod_id)=:prodsubtype
+                           and COD_COL_ID = 'PDK_SUBTYPE'
+                           order by cod_seq_no";
+
+         return db.ExecuteScalar(sql, CommandType.Text, parms);
+      }
    }
 }

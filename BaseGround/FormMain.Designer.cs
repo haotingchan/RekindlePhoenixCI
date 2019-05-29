@@ -135,148 +135,153 @@
             this.accordionElemtntP,
             this.accordionElemtntW,
             this.accordionElemtntZ});
-            this.accordionMenu.ExpandElementMode = DevExpress.XtraBars.Navigation.ExpandElementMode.Single;
-            this.accordionMenu.Location = new System.Drawing.Point(0, 44);
-            this.accordionMenu.LookAndFeel.SkinName = "Office 2013";
-            this.accordionMenu.LookAndFeel.UseDefaultLookAndFeel = false;
-            this.accordionMenu.Margin = new System.Windows.Forms.Padding(5);
-            this.accordionMenu.Name = "accordionMenu";
-            this.accordionMenu.Size = new System.Drawing.Size(291, 521);
-            this.accordionMenu.TabIndex = 1;
-            this.accordionMenu.ElementClick += new DevExpress.XtraBars.Navigation.ElementClickEventHandler(this.AccordionMenu_ElementClick);
-            this.accordionMenu.DoubleClick += new System.EventHandler(this.AccordionMenu_DoubleClick);
-            this.accordionMenu.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AccordionMenu_KeyDown);
-            // 
-            // accordionElemtnt1
-            // 
-            this.accordionElemtnt1.Name = "accordionElemtnt1";
-            this.accordionElemtnt1.Tag = "1";
-            this.accordionElemtnt1.Text = "[1] OP作業";
-            // 
-            // accordionElemtnt2
-            // 
-            this.accordionElemtnt2.Name = "accordionElemtnt2";
-            this.accordionElemtnt2.Tag = "2";
-            this.accordionElemtnt2.Text = "[2] 輸入作業";
-            // 
-            // accordionElemtnt3
-            // 
-            this.accordionElemtnt3.Name = "accordionElemtnt3";
-            this.accordionElemtnt3.Tag = "3";
-            this.accordionElemtnt3.Text = "[3] 交易部";
-            // 
-            // accordionElemtnt4
-            // 
-            this.accordionElemtnt4.Name = "accordionElemtnt4";
-            this.accordionElemtnt4.Tag = "4";
-            this.accordionElemtnt4.Text = "[4] 結算部";
-            // 
-            // accordionControlElementS
-            // 
-            this.accordionControlElementS.Name = "accordionControlElementS";
-            this.accordionControlElementS.Tag = "S";
-            this.accordionControlElementS.Text = "[S] 結算部SPAN";
-            // 
-            // accordionElemtnt5
-            // 
-            this.accordionElemtnt5.Name = "accordionElemtnt5";
-            this.accordionElemtnt5.Tag = "5";
-            this.accordionElemtnt5.Text = "[5] 造市者";
-            // 
-            // accordionElemtnt6
-            // 
-            this.accordionElemtnt6.Name = "accordionElemtnt6";
-            this.accordionElemtnt6.Tag = "6";
-            this.accordionElemtnt6.Text = "[6] 企劃部";
-            // 
-            // accordionElemtnt7
-            // 
-            this.accordionElemtnt7.Name = "accordionElemtnt7";
-            this.accordionElemtnt7.Tag = "7";
-            this.accordionElemtnt7.Text = "[7] 轉檔作業";
-            // 
-            // accordionElemtnt9
-            // 
-            this.accordionElemtnt9.Name = "accordionElemtnt9";
-            this.accordionElemtnt9.Tag = "9";
-            this.accordionElemtnt9.Text = "[9] 查詢作業";
-            // 
-            // accordionElemtntP
-            // 
-            this.accordionElemtntP.Name = "accordionElemtntP";
-            this.accordionElemtntP.Tag = "p";
-            this.accordionElemtntP.Text = "[P] CHT部位查詢";
-            // 
-            // accordionElemtntW
-            // 
-            this.accordionElemtntW.Name = "accordionElemtntW";
-            this.accordionElemtntW.Tag = "W";
-            this.accordionElemtntW.Text = "[W] 監視部";
-            // 
-            // accordionElemtntZ
-            // 
-            this.accordionElemtntZ.Name = "accordionElemtntZ";
-            this.accordionElemtntZ.Tag = "Z";
-            this.accordionElemtntZ.Text = "[Z] 管理者";
-            // 
-            // scSearch
-            // 
-            this.scSearch.Client = this.accordionMenu;
-            this.scSearch.Dock = System.Windows.Forms.DockStyle.Right;
-            this.scSearch.EditValue = "";
-            this.scSearch.Location = new System.Drawing.Point(99, 8);
-            this.scSearch.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.scSearch.Name = "scSearch";
-            this.scSearch.Properties.Appearance.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.scSearch.Properties.Appearance.Options.UseFont = true;
-            this.scSearch.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+         this.accordionMenu.ExpandElementMode = DevExpress.XtraBars.Navigation.ExpandElementMode.Single;
+         this.accordionMenu.Location = new System.Drawing.Point(0, 44);
+         this.accordionMenu.LookAndFeel.SkinName = "Office 2013";
+         this.accordionMenu.LookAndFeel.UseDefaultLookAndFeel = false;
+         this.accordionMenu.Margin = new System.Windows.Forms.Padding(5);
+         this.accordionMenu.Name = "accordionMenu";
+         this.accordionMenu.Size = new System.Drawing.Size(291, 521);
+         this.accordionMenu.TabIndex = 1;
+         this.accordionMenu.ElementClick += new DevExpress.XtraBars.Navigation.ElementClickEventHandler(this.AccordionMenu_ElementClick);
+         this.accordionMenu.DoubleClick += new System.EventHandler(this.AccordionMenu_DoubleClick);
+         this.accordionMenu.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AccordionMenu_KeyDown);
+         // 
+         // accordionElemtnt1
+         // 
+         this.accordionElemtnt1.HeaderTemplate.AddRange(new DevExpress.XtraBars.Navigation.HeaderElementInfo[] {
+            new DevExpress.XtraBars.Navigation.HeaderElementInfo(DevExpress.XtraBars.Navigation.HeaderElementType.Text),
+            new DevExpress.XtraBars.Navigation.HeaderElementInfo(DevExpress.XtraBars.Navigation.HeaderElementType.Image),
+            new DevExpress.XtraBars.Navigation.HeaderElementInfo(DevExpress.XtraBars.Navigation.HeaderElementType.HeaderControl),
+            new DevExpress.XtraBars.Navigation.HeaderElementInfo(DevExpress.XtraBars.Navigation.HeaderElementType.ContextButtons)});
+         this.accordionElemtnt1.Name = "accordionElemtnt1";
+         this.accordionElemtnt1.Tag = "1";
+         this.accordionElemtnt1.Text = "[1] OP作業";
+         // 
+         // accordionElemtnt2
+         // 
+         this.accordionElemtnt2.Name = "accordionElemtnt2";
+         this.accordionElemtnt2.Tag = "2";
+         this.accordionElemtnt2.Text = "[2] 輸入作業";
+         // 
+         // accordionElemtnt3
+         // 
+         this.accordionElemtnt3.Name = "accordionElemtnt3";
+         this.accordionElemtnt3.Tag = "3";
+         this.accordionElemtnt3.Text = "[3] 交易部";
+         // 
+         // accordionElemtnt4
+         // 
+         this.accordionElemtnt4.Name = "accordionElemtnt4";
+         this.accordionElemtnt4.Tag = "4";
+         this.accordionElemtnt4.Text = "[4] 結算部";
+         // 
+         // accordionControlElementS
+         // 
+         this.accordionControlElementS.Name = "accordionControlElementS";
+         this.accordionControlElementS.Tag = "S";
+         this.accordionControlElementS.Text = "[S] 結算部SPAN";
+         // 
+         // accordionElemtnt5
+         // 
+         this.accordionElemtnt5.Name = "accordionElemtnt5";
+         this.accordionElemtnt5.Tag = "5";
+         this.accordionElemtnt5.Text = "[5] 造市者";
+         // 
+         // accordionElemtnt6
+         // 
+         this.accordionElemtnt6.Name = "accordionElemtnt6";
+         this.accordionElemtnt6.Tag = "6";
+         this.accordionElemtnt6.Text = "[6] 企劃部";
+         // 
+         // accordionElemtnt7
+         // 
+         this.accordionElemtnt7.Name = "accordionElemtnt7";
+         this.accordionElemtnt7.Tag = "7";
+         this.accordionElemtnt7.Text = "[7] 轉檔作業";
+         // 
+         // accordionElemtnt9
+         // 
+         this.accordionElemtnt9.Name = "accordionElemtnt9";
+         this.accordionElemtnt9.Tag = "9";
+         this.accordionElemtnt9.Text = "[9] 查詢作業";
+         // 
+         // accordionElemtntP
+         // 
+         this.accordionElemtntP.Name = "accordionElemtntP";
+         this.accordionElemtntP.Tag = "p";
+         this.accordionElemtntP.Text = "[P] CHT部位查詢";
+         // 
+         // accordionElemtntW
+         // 
+         this.accordionElemtntW.Name = "accordionElemtntW";
+         this.accordionElemtntW.Tag = "W";
+         this.accordionElemtntW.Text = "[W] 監視部";
+         // 
+         // accordionElemtntZ
+         // 
+         this.accordionElemtntZ.Name = "accordionElemtntZ";
+         this.accordionElemtntZ.Tag = "Z";
+         this.accordionElemtntZ.Text = "[Z] 管理者";
+         // 
+         // scSearch
+         // 
+         this.scSearch.Client = this.accordionMenu;
+         this.scSearch.Dock = System.Windows.Forms.DockStyle.Right;
+         this.scSearch.EditValue = "";
+         this.scSearch.Location = new System.Drawing.Point(99, 8);
+         this.scSearch.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+         this.scSearch.Name = "scSearch";
+         this.scSearch.Properties.Appearance.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+         this.scSearch.Properties.Appearance.Options.UseFont = true;
+         this.scSearch.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Repository.ClearButton(),
             new DevExpress.XtraEditors.Repository.SearchButton()});
-            this.scSearch.Properties.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.scSearch.Properties.Client = this.accordionMenu;
-            this.scSearch.Properties.FilterCondition = DevExpress.Data.Filtering.FilterCondition.StartsWith;
-            this.scSearch.Properties.FindDelay = 100;
-            this.scSearch.Properties.MaxLength = 5;
-            this.scSearch.Properties.NullValuePromptShowForEmptyValue = false;
-            this.scSearch.Size = new System.Drawing.Size(187, 28);
-            this.scSearch.TabIndex = 4;
-            this.scSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SearchControl1_KeyDown);
-            // 
-            // defaultLookAndFeelMain
-            // 
-            this.defaultLookAndFeelMain.LookAndFeel.SkinName = "Office 2016 Colorful";
-            // 
-            // panSearch
-            // 
-            this.panSearch.BackColor = System.Drawing.Color.White;
-            this.panSearch.Controls.Add(this.lblSearch);
-            this.panSearch.Controls.Add(this.scSearch);
-            this.panSearch.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panSearch.Location = new System.Drawing.Point(0, 0);
-            this.panSearch.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.panSearch.Name = "panSearch";
-            this.panSearch.Padding = new System.Windows.Forms.Padding(0, 8, 5, 8);
-            this.panSearch.Size = new System.Drawing.Size(291, 44);
-            this.panSearch.TabIndex = 0;
-            // 
-            // lblSearch
-            // 
-            this.lblSearch.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblSearch.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.lblSearch.Location = new System.Drawing.Point(0, 8);
-            this.lblSearch.Name = "lblSearch";
-            this.lblSearch.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
-            this.lblSearch.Size = new System.Drawing.Size(99, 28);
-            this.lblSearch.TabIndex = 5;
-            this.lblSearch.Text = "作業項目：";
-            this.lblSearch.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // statusStripMain
-            // 
-            this.statusStripMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.statusStripMain.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.statusStripMain.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.statusStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+         this.scSearch.Properties.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+         this.scSearch.Properties.Client = this.accordionMenu;
+         this.scSearch.Properties.FilterCondition = DevExpress.Data.Filtering.FilterCondition.StartsWith;
+         this.scSearch.Properties.FindDelay = 100;
+         this.scSearch.Properties.MaxLength = 5;
+         this.scSearch.Properties.NullValuePromptShowForEmptyValue = false;
+         this.scSearch.Size = new System.Drawing.Size(187, 28);
+         this.scSearch.TabIndex = 4;
+         this.scSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SearchControl1_KeyDown);
+         // 
+         // defaultLookAndFeelMain
+         // 
+         this.defaultLookAndFeelMain.LookAndFeel.SkinName = "Office 2016 Colorful";
+         // 
+         // panSearch
+         // 
+         this.panSearch.BackColor = System.Drawing.Color.White;
+         this.panSearch.Controls.Add(this.lblSearch);
+         this.panSearch.Controls.Add(this.scSearch);
+         this.panSearch.Dock = System.Windows.Forms.DockStyle.Top;
+         this.panSearch.Location = new System.Drawing.Point(0, 0);
+         this.panSearch.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+         this.panSearch.Name = "panSearch";
+         this.panSearch.Padding = new System.Windows.Forms.Padding(0, 8, 5, 8);
+         this.panSearch.Size = new System.Drawing.Size(291, 44);
+         this.panSearch.TabIndex = 0;
+         // 
+         // lblSearch
+         // 
+         this.lblSearch.Dock = System.Windows.Forms.DockStyle.Fill;
+         this.lblSearch.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.lblSearch.Location = new System.Drawing.Point(0, 8);
+         this.lblSearch.Name = "lblSearch";
+         this.lblSearch.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
+         this.lblSearch.Size = new System.Drawing.Size(99, 28);
+         this.lblSearch.TabIndex = 5;
+         this.lblSearch.Text = "作業項目：";
+         this.lblSearch.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+         // 
+         // statusStripMain
+         // 
+         this.statusStripMain.Dock = System.Windows.Forms.DockStyle.Fill;
+         this.statusStripMain.Font = new System.Drawing.Font("Microsoft JhengHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.statusStripMain.ImageScalingSize = new System.Drawing.Size(20, 20);
+         this.statusStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabelServerTxt,
             this.toolStripStatusLabelServerName,
             this.toolStripStatusLabelDBTxt,
@@ -285,88 +290,88 @@
             this.toolStripStatusLabelUserName,
             this.toolStripStatusLabelVersion,
             this.toolStripStatusLabelVersionNum});
-            this.statusStripMain.Location = new System.Drawing.Point(0, 0);
-            this.statusStripMain.Name = "statusStripMain";
-            this.statusStripMain.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
-            this.statusStripMain.Size = new System.Drawing.Size(808, 32);
-            this.statusStripMain.TabIndex = 13;
-            this.statusStripMain.Text = "statusStrip1";
-            // 
-            // toolStripStatusLabelServerTxt
-            // 
-            this.toolStripStatusLabelServerTxt.Name = "toolStripStatusLabelServerTxt";
-            this.toolStripStatusLabelServerTxt.Padding = new System.Windows.Forms.Padding(5);
-            this.toolStripStatusLabelServerTxt.Size = new System.Drawing.Size(70, 27);
-            this.toolStripStatusLabelServerTxt.Text = "伺服器：";
-            // 
-            // toolStripStatusLabelServerName
-            // 
-            this.toolStripStatusLabelServerName.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
-            this.toolStripStatusLabelServerName.Name = "toolStripStatusLabelServerName";
-            this.toolStripStatusLabelServerName.Padding = new System.Windows.Forms.Padding(0, 0, 40, 0);
-            this.toolStripStatusLabelServerName.Size = new System.Drawing.Size(44, 27);
-            this.toolStripStatusLabelServerName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // toolStripStatusLabelDBTxt
-            // 
-            this.toolStripStatusLabelDBTxt.Name = "toolStripStatusLabelDBTxt";
-            this.toolStripStatusLabelDBTxt.Size = new System.Drawing.Size(60, 27);
-            this.toolStripStatusLabelDBTxt.Text = "資料庫：";
-            // 
-            // toolStripStatusLabelDBName
-            // 
-            this.toolStripStatusLabelDBName.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
-            this.toolStripStatusLabelDBName.Name = "toolStripStatusLabelDBName";
-            this.toolStripStatusLabelDBName.Padding = new System.Windows.Forms.Padding(0, 0, 40, 0);
-            this.toolStripStatusLabelDBName.Size = new System.Drawing.Size(44, 27);
-            this.toolStripStatusLabelDBName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // toolStripStatusLabelUserTxt
-            // 
-            this.toolStripStatusLabelUserTxt.Name = "toolStripStatusLabelUserTxt";
-            this.toolStripStatusLabelUserTxt.Size = new System.Drawing.Size(60, 27);
-            this.toolStripStatusLabelUserTxt.Text = "使用者：";
-            // 
-            // toolStripStatusLabelUserName
-            // 
-            this.toolStripStatusLabelUserName.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
-            this.toolStripStatusLabelUserName.Name = "toolStripStatusLabelUserName";
-            this.toolStripStatusLabelUserName.Padding = new System.Windows.Forms.Padding(0, 0, 40, 0);
-            this.toolStripStatusLabelUserName.Size = new System.Drawing.Size(44, 27);
-            this.toolStripStatusLabelUserName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // toolStripStatusLabelVersion
-            // 
-            this.toolStripStatusLabelVersion.Name = "toolStripStatusLabelVersion";
-            this.toolStripStatusLabelVersion.Size = new System.Drawing.Size(47, 27);
-            this.toolStripStatusLabelVersion.Text = "版號：";
-            // 
-            // toolStripStatusLabelVersionNum
-            // 
-            this.toolStripStatusLabelVersionNum.AutoSize = false;
-            this.toolStripStatusLabelVersionNum.Name = "toolStripStatusLabelVersionNum";
-            this.toolStripStatusLabelVersionNum.Size = new System.Drawing.Size(44, 27);
-            // 
-            // barManagerMain
-            // 
-            this.barManagerMain.AllowCustomization = false;
-            this.barManagerMain.AllowMoveBarOnToolbar = false;
-            this.barManagerMain.AllowQuickCustomization = false;
-            this.barManagerMain.AllowShowToolbarsPopup = false;
-            this.barManagerMain.Bars.AddRange(new DevExpress.XtraBars.Bar[] {
+         this.statusStripMain.Location = new System.Drawing.Point(0, 0);
+         this.statusStripMain.Name = "statusStripMain";
+         this.statusStripMain.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
+         this.statusStripMain.Size = new System.Drawing.Size(808, 32);
+         this.statusStripMain.TabIndex = 13;
+         this.statusStripMain.Text = "statusStrip1";
+         // 
+         // toolStripStatusLabelServerTxt
+         // 
+         this.toolStripStatusLabelServerTxt.Name = "toolStripStatusLabelServerTxt";
+         this.toolStripStatusLabelServerTxt.Padding = new System.Windows.Forms.Padding(5);
+         this.toolStripStatusLabelServerTxt.Size = new System.Drawing.Size(70, 27);
+         this.toolStripStatusLabelServerTxt.Text = "伺服器：";
+         // 
+         // toolStripStatusLabelServerName
+         // 
+         this.toolStripStatusLabelServerName.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+         this.toolStripStatusLabelServerName.Name = "toolStripStatusLabelServerName";
+         this.toolStripStatusLabelServerName.Padding = new System.Windows.Forms.Padding(0, 0, 40, 0);
+         this.toolStripStatusLabelServerName.Size = new System.Drawing.Size(44, 27);
+         this.toolStripStatusLabelServerName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+         // 
+         // toolStripStatusLabelDBTxt
+         // 
+         this.toolStripStatusLabelDBTxt.Name = "toolStripStatusLabelDBTxt";
+         this.toolStripStatusLabelDBTxt.Size = new System.Drawing.Size(60, 27);
+         this.toolStripStatusLabelDBTxt.Text = "資料庫：";
+         // 
+         // toolStripStatusLabelDBName
+         // 
+         this.toolStripStatusLabelDBName.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+         this.toolStripStatusLabelDBName.Name = "toolStripStatusLabelDBName";
+         this.toolStripStatusLabelDBName.Padding = new System.Windows.Forms.Padding(0, 0, 40, 0);
+         this.toolStripStatusLabelDBName.Size = new System.Drawing.Size(44, 27);
+         this.toolStripStatusLabelDBName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+         // 
+         // toolStripStatusLabelUserTxt
+         // 
+         this.toolStripStatusLabelUserTxt.Name = "toolStripStatusLabelUserTxt";
+         this.toolStripStatusLabelUserTxt.Size = new System.Drawing.Size(60, 27);
+         this.toolStripStatusLabelUserTxt.Text = "使用者：";
+         // 
+         // toolStripStatusLabelUserName
+         // 
+         this.toolStripStatusLabelUserName.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+         this.toolStripStatusLabelUserName.Name = "toolStripStatusLabelUserName";
+         this.toolStripStatusLabelUserName.Padding = new System.Windows.Forms.Padding(0, 0, 40, 0);
+         this.toolStripStatusLabelUserName.Size = new System.Drawing.Size(44, 27);
+         this.toolStripStatusLabelUserName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+         // 
+         // toolStripStatusLabelVersion
+         // 
+         this.toolStripStatusLabelVersion.Name = "toolStripStatusLabelVersion";
+         this.toolStripStatusLabelVersion.Size = new System.Drawing.Size(47, 27);
+         this.toolStripStatusLabelVersion.Text = "版號：";
+         // 
+         // toolStripStatusLabelVersionNum
+         // 
+         this.toolStripStatusLabelVersionNum.AutoSize = false;
+         this.toolStripStatusLabelVersionNum.Name = "toolStripStatusLabelVersionNum";
+         this.toolStripStatusLabelVersionNum.Size = new System.Drawing.Size(44, 27);
+         // 
+         // barManagerMain
+         // 
+         this.barManagerMain.AllowCustomization = false;
+         this.barManagerMain.AllowMoveBarOnToolbar = false;
+         this.barManagerMain.AllowQuickCustomization = false;
+         this.barManagerMain.AllowShowToolbarsPopup = false;
+         this.barManagerMain.Bars.AddRange(new DevExpress.XtraBars.Bar[] {
             this.barTool,
             this.barMenuStrip,
             this.barMdi});
-            this.barManagerMain.DockControls.Add(this.barDockControlTop);
-            this.barManagerMain.DockControls.Add(this.barDockControlBottom);
-            this.barManagerMain.DockControls.Add(this.barDockControlLeft);
-            this.barManagerMain.DockControls.Add(this.barDockControlRight);
-            this.barManagerMain.DockControls.Add(this.standaloneBarDockControlTool);
-            this.barManagerMain.DockControls.Add(this.standaloneBarDockControlMenuStrip);
-            this.barManagerMain.DockControls.Add(this.standaloneBarDockControlMdi);
-            this.barManagerMain.DockWindowTabFont = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.barManagerMain.Form = this;
-            this.barManagerMain.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
+         this.barManagerMain.DockControls.Add(this.barDockControlTop);
+         this.barManagerMain.DockControls.Add(this.barDockControlBottom);
+         this.barManagerMain.DockControls.Add(this.barDockControlLeft);
+         this.barManagerMain.DockControls.Add(this.barDockControlRight);
+         this.barManagerMain.DockControls.Add(this.standaloneBarDockControlTool);
+         this.barManagerMain.DockControls.Add(this.standaloneBarDockControlMenuStrip);
+         this.barManagerMain.DockControls.Add(this.standaloneBarDockControlMdi);
+         this.barManagerMain.DockWindowTabFont = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.barManagerMain.Form = this;
+         this.barManagerMain.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
             this.toolStripButtonInsert,
             this.toolStripButtonSave,
             this.toolStripButtonDelete,
@@ -381,18 +386,18 @@
             this.barStaticItemSeparator3,
             this.barStaticItemSeparator4,
             this.barStaticItemSeparator5});
-            this.barManagerMain.MainMenu = this.barMdi;
-            this.barManagerMain.MaxItemId = 31;
-            this.barManagerMain.MdiMenuMergeStyle = DevExpress.XtraBars.BarMdiMenuMergeStyle.Never;
-            // 
-            // barTool
-            // 
-            this.barTool.BarName = "Tools";
-            this.barTool.DockCol = 0;
-            this.barTool.DockRow = 0;
-            this.barTool.DockStyle = DevExpress.XtraBars.BarDockStyle.Standalone;
-            this.barTool.FloatLocation = new System.Drawing.Point(664, 240);
-            this.barTool.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
+         this.barManagerMain.MainMenu = this.barMdi;
+         this.barManagerMain.MaxItemId = 31;
+         this.barManagerMain.MdiMenuMergeStyle = DevExpress.XtraBars.BarMdiMenuMergeStyle.Never;
+         // 
+         // barTool
+         // 
+         this.barTool.BarName = "Tools";
+         this.barTool.DockCol = 0;
+         this.barTool.DockRow = 0;
+         this.barTool.DockStyle = DevExpress.XtraBars.BarDockStyle.Standalone;
+         this.barTool.FloatLocation = new System.Drawing.Point(664, 240);
+         this.barTool.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
             new DevExpress.XtraBars.LinkPersistInfo(this.toolStripButtonInsert),
             new DevExpress.XtraBars.LinkPersistInfo(DevExpress.XtraBars.BarLinkUserDefines.KeyTip, this.toolStripButtonSave, "", false, true, true, 0, null, DevExpress.XtraBars.BarItemPaintStyle.Standard, "", ""),
             new DevExpress.XtraBars.LinkPersistInfo(this.toolStripButtonDelete),
@@ -568,6 +573,7 @@
             this.barMenuStrip.DockCol = 0;
             this.barMenuStrip.DockRow = 0;
             this.barMenuStrip.DockStyle = DevExpress.XtraBars.BarDockStyle.Standalone;
+            this.barMenuStrip.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {});
             this.barMenuStrip.OptionsBar.AllowQuickCustomization = false;
             this.barMenuStrip.OptionsBar.DrawBorder = false;
             this.barMenuStrip.OptionsBar.DrawDragBorder = false;
@@ -659,104 +665,104 @@
             this.ribbonControl.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
             this.barMdiChild,
             this.ribbonControl.ExpandCollapseItem});
-            this.ribbonControl.Location = new System.Drawing.Point(0, 0);
-            this.ribbonControl.MaxItemId = 2;
-            this.ribbonControl.Name = "ribbonControl";
-            this.ribbonControl.ShowApplicationButton = DevExpress.Utils.DefaultBoolean.False;
-            this.ribbonControl.ShowCategoryInCaption = false;
-            this.ribbonControl.ShowDisplayOptionsMenuButton = DevExpress.Utils.DefaultBoolean.False;
-            this.ribbonControl.ShowExpandCollapseButton = DevExpress.Utils.DefaultBoolean.False;
-            this.ribbonControl.ShowPageHeadersInFormCaption = DevExpress.Utils.DefaultBoolean.False;
-            this.ribbonControl.ShowPageHeadersMode = DevExpress.XtraBars.Ribbon.ShowPageHeadersMode.Hide;
-            this.ribbonControl.ShowQatLocationSelector = false;
-            this.ribbonControl.ShowToolbarCustomizeItem = false;
-            this.ribbonControl.Size = new System.Drawing.Size(1099, 32);
-            this.ribbonControl.Toolbar.ShowCustomizeItem = false;
-            // 
-            // barMdiChild
-            // 
-            this.barMdiChild.Caption = "視窗";
-            this.barMdiChild.Id = 1;
-            this.barMdiChild.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("barMdiChild.ImageOptions.Image")));
-            this.barMdiChild.Name = "barMdiChild";
-            // 
-            // sidePanelMenu
-            // 
-            this.sidePanelMenu.BorderThickness = 0;
-            this.sidePanelMenu.Controls.Add(this.accordionMenu);
-            this.sidePanelMenu.Controls.Add(this.panSearch);
-            this.sidePanelMenu.Dock = System.Windows.Forms.DockStyle.Left;
-            this.sidePanelMenu.Location = new System.Drawing.Point(0, 61);
-            this.sidePanelMenu.Name = "sidePanelMenu";
-            this.sidePanelMenu.Size = new System.Drawing.Size(291, 565);
-            this.sidePanelMenu.TabIndex = 21;
-            this.sidePanelMenu.Text = "sidePanel1";
-            // 
-            // sidePanelTool
-            // 
-            this.sidePanelTool.AllowResize = false;
-            this.sidePanelTool.BorderThickness = 0;
-            this.sidePanelTool.Controls.Add(this.standaloneBarDockControlTool);
-            this.sidePanelTool.Dock = System.Windows.Forms.DockStyle.Top;
-            this.sidePanelTool.Location = new System.Drawing.Point(291, 61);
-            this.sidePanelTool.Name = "sidePanelTool";
-            this.sidePanelTool.Size = new System.Drawing.Size(808, 45);
-            this.sidePanelTool.TabIndex = 22;
-            this.sidePanelTool.Text = "sidePanel1";
-            // 
-            // sidePanelStatus
-            // 
-            this.sidePanelStatus.AllowResize = false;
-            this.sidePanelStatus.BorderThickness = 0;
-            this.sidePanelStatus.Controls.Add(this.statusStripMain);
-            this.sidePanelStatus.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.sidePanelStatus.Location = new System.Drawing.Point(291, 594);
-            this.sidePanelStatus.Name = "sidePanelStatus";
-            this.sidePanelStatus.Size = new System.Drawing.Size(808, 32);
-            this.sidePanelStatus.TabIndex = 23;
-            this.sidePanelStatus.Text = "sidePanel1";
-            // 
-            // FormMain
-            // 
-            this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(1099, 626);
-            this.Controls.Add(this.standaloneBarDockControlMdi);
-            this.Controls.Add(this.sidePanelStatus);
-            this.Controls.Add(this.sidePanelTool);
-            this.Controls.Add(this.sidePanelMenu);
-            this.Controls.Add(this.standaloneBarDockControlMenuStrip);
-            this.Controls.Add(this.ribbonControl);
-            this.Controls.Add(this.barDockControlLeft);
-            this.Controls.Add(this.barDockControlRight);
-            this.Controls.Add(this.barDockControlBottom);
-            this.Controls.Add(this.barDockControlTop);
-            this.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.IsMdiContainer = true;
-            this.KeyPreview = true;
-            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Name = "FormMain";
-            this.Ribbon = this.ribbonControl;
-            this.Text = "FormParent";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMain_FormClosed);
-            this.MdiChildActivate += new System.EventHandler(this.FormMain_MdiChildActivate);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormMain_KeyDown);
-            ((System.ComponentModel.ISupportInitialize)(this.accordionMenu)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.scSearch.Properties)).EndInit();
-            this.panSearch.ResumeLayout(false);
-            this.statusStripMain.ResumeLayout(false);
-            this.statusStripMain.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.barManagerMain)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
-            this.sidePanelMenu.ResumeLayout(false);
-            this.sidePanelTool.ResumeLayout(false);
-            this.sidePanelStatus.ResumeLayout(false);
-            this.sidePanelStatus.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+         this.ribbonControl.Location = new System.Drawing.Point(0, 0);
+         this.ribbonControl.MaxItemId = 2;
+         this.ribbonControl.Name = "ribbonControl";
+         this.ribbonControl.ShowApplicationButton = DevExpress.Utils.DefaultBoolean.False;
+         this.ribbonControl.ShowCategoryInCaption = false;
+         this.ribbonControl.ShowDisplayOptionsMenuButton = DevExpress.Utils.DefaultBoolean.False;
+         this.ribbonControl.ShowExpandCollapseButton = DevExpress.Utils.DefaultBoolean.False;
+         this.ribbonControl.ShowPageHeadersInFormCaption = DevExpress.Utils.DefaultBoolean.False;
+         this.ribbonControl.ShowPageHeadersMode = DevExpress.XtraBars.Ribbon.ShowPageHeadersMode.Hide;
+         this.ribbonControl.ShowQatLocationSelector = false;
+         this.ribbonControl.ShowToolbarCustomizeItem = false;
+         this.ribbonControl.Size = new System.Drawing.Size(1099, 32);
+         this.ribbonControl.Toolbar.ShowCustomizeItem = false;
+         // 
+         // barMdiChild
+         // 
+         this.barMdiChild.Caption = "視窗";
+         this.barMdiChild.Id = 1;
+         this.barMdiChild.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("barMdiChild.ImageOptions.Image")));
+         this.barMdiChild.Name = "barMdiChild";
+         // 
+         // sidePanelMenu
+         // 
+         this.sidePanelMenu.BorderThickness = 0;
+         this.sidePanelMenu.Controls.Add(this.accordionMenu);
+         this.sidePanelMenu.Controls.Add(this.panSearch);
+         this.sidePanelMenu.Dock = System.Windows.Forms.DockStyle.Left;
+         this.sidePanelMenu.Location = new System.Drawing.Point(0, 61);
+         this.sidePanelMenu.Name = "sidePanelMenu";
+         this.sidePanelMenu.Size = new System.Drawing.Size(291, 565);
+         this.sidePanelMenu.TabIndex = 21;
+         this.sidePanelMenu.Text = "sidePanel1";
+         // 
+         // sidePanelTool
+         // 
+         this.sidePanelTool.AllowResize = false;
+         this.sidePanelTool.BorderThickness = 0;
+         this.sidePanelTool.Controls.Add(this.standaloneBarDockControlTool);
+         this.sidePanelTool.Dock = System.Windows.Forms.DockStyle.Top;
+         this.sidePanelTool.Location = new System.Drawing.Point(291, 61);
+         this.sidePanelTool.Name = "sidePanelTool";
+         this.sidePanelTool.Size = new System.Drawing.Size(808, 45);
+         this.sidePanelTool.TabIndex = 22;
+         this.sidePanelTool.Text = "sidePanel1";
+         // 
+         // sidePanelStatus
+         // 
+         this.sidePanelStatus.AllowResize = false;
+         this.sidePanelStatus.BorderThickness = 0;
+         this.sidePanelStatus.Controls.Add(this.statusStripMain);
+         this.sidePanelStatus.Dock = System.Windows.Forms.DockStyle.Bottom;
+         this.sidePanelStatus.Location = new System.Drawing.Point(291, 594);
+         this.sidePanelStatus.Name = "sidePanelStatus";
+         this.sidePanelStatus.Size = new System.Drawing.Size(808, 32);
+         this.sidePanelStatus.TabIndex = 23;
+         this.sidePanelStatus.Text = "sidePanel1";
+         // 
+         // FormMain
+         // 
+         this.Appearance.Options.UseFont = true;
+         this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+         this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+         this.ClientSize = new System.Drawing.Size(1099, 626);
+         this.Controls.Add(this.standaloneBarDockControlMdi);
+         this.Controls.Add(this.sidePanelStatus);
+         this.Controls.Add(this.sidePanelTool);
+         this.Controls.Add(this.sidePanelMenu);
+         this.Controls.Add(this.standaloneBarDockControlMenuStrip);
+         this.Controls.Add(this.ribbonControl);
+         this.Controls.Add(this.barDockControlLeft);
+         this.Controls.Add(this.barDockControlRight);
+         this.Controls.Add(this.barDockControlBottom);
+         this.Controls.Add(this.barDockControlTop);
+         this.Font = new System.Drawing.Font("Microsoft JhengHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+         this.IsMdiContainer = true;
+         this.KeyPreview = true;
+         this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+         this.Name = "FormMain";
+         this.Ribbon = this.ribbonControl;
+         this.Text = "FormParent";
+         this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+         this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMain_FormClosed);
+         this.MdiChildActivate += new System.EventHandler(this.FormMain_MdiChildActivate);
+         this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormMain_KeyDown);
+         ((System.ComponentModel.ISupportInitialize)(this.accordionMenu)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.scSearch.Properties)).EndInit();
+         this.panSearch.ResumeLayout(false);
+         this.statusStripMain.ResumeLayout(false);
+         this.statusStripMain.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.barManagerMain)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
+         this.sidePanelMenu.ResumeLayout(false);
+         this.sidePanelTool.ResumeLayout(false);
+         this.sidePanelStatus.ResumeLayout(false);
+         this.sidePanelStatus.PerformLayout();
+         this.ResumeLayout(false);
+         this.PerformLayout();
 
         }
         #endregion

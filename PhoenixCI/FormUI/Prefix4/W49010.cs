@@ -7,10 +7,12 @@ using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together.SpecificDao;
 using DataObjects.Dao.Together.TableDao;
+using DevExpress.Utils;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraGrid;
+using DevExpress.XtraGrid.Views.BandedGrid;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
 using System;
@@ -65,10 +67,21 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             //1. 設定gvMain
             gcMain.DataSource = dt;
+
+            gvMain.AppearancePrint.BandPanel.Options.UseTextOptions = true;
+            gvMain.AppearancePrint.BandPanel.TextOptions.WordWrap = WordWrap.Wrap;
+            gvMain.AppearancePrint.BandPanel.Font= new Font("Microsoft YaHei" , 11);
+       
+            gvMain.AppearancePrint.Row.Font = new Font("Microsoft YaHei" , 11);
+            gvMain.OptionsPrint.AllowMultilineHeaders = true;
+            gvMain.AppearancePrint.GroupRow.Font = new Font("Microsoft YaHei" , 11);
+
             gvMain.BestFitColumns();
             GridHelper.SetCommonGrid(gvMain);
 
-            gridBand9.Caption = "(輸入方式：" + Environment.NewLine + "如3.5%，" + Environment.NewLine + "則輸入0.035)";
+            gridBand9.AppearanceHeader.TextOptions.WordWrap = WordWrap.Wrap;
+
+            gridBand9.Caption = "(輸入方式：如3.5%，則輸入0.035)";
 
             gvMain.Columns["CPR_PROD_SUBTYPE"].ColumnEdit = lupProdSubtype;
             gvMain.Columns["CPR_KIND_ID"].ColumnEdit = lupKindId;
@@ -77,6 +90,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gvMain.ShownEditor += gvMain_ShownEditor;
             lupProdSubtype.EditValueChanged += lupProdSubtype_EditValueChanged;
 
+            //gcMain.Visible = true;
             gcMain.Focus();
             InsertRow();
 
@@ -112,7 +126,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          _ToolBtnImport.Enabled = false;//匯入
          _ToolBtnExport.Enabled = false;//匯出,格式可以為 pdf/xls/txt/csv, 看功能
-         _ToolBtnPrintAll.Enabled = true;//列印
+         _ToolBtnPrintAll.Enabled = false;//列印
 
          return ResultStatus.Success;
       }
@@ -137,7 +151,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
 
             DialogResult liRtn;
-            foreach (DataRow dr in dtCurrent.Rows) {
+            foreach (DataRow dr in dtChange.Rows) {
                if (dr.RowState == DataRowState.Added || dr.RowState == DataRowState.Modified) {
                   dr["CPR_W_TIME"] = DateTime.Now;
                   dr["CPR_W_USER_ID"] = GlobalInfo.USER_ID;
@@ -155,11 +169,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   }
                }
             } //foreach (DataRow dr in dtCurrent.Rows)
-            dtChange = dtCurrent.GetChanges();
+            //dtChange = dtChange.GetChanges();
 
-            gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["CPR_W_TIME"] , DateTime.MinValue);
-            gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["CPR_W_USER_ID"] , GlobalInfo.USER_ID);
+            gvMain.SetRowCellValue(gvMain.FocusedRowHandle , "CPR_W_TIME" , DateTime.Now);
+            gvMain.SetRowCellValue(gvMain.FocusedRowHandle , "CPR_W_USER_ID" , GlobalInfo.USER_ID);
             gvMain.UpdateCurrentRow();
+
+            //GridHelper.SetCommonGrid(gvMain);
+            //gvMain.BestFitColumns();
 
             printStep = 1; //跑儲存前確認單
             CheckPrint(gcMain , dtChange , printStep);
@@ -182,6 +199,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          } finally {
             this.Refresh();
          }
+         gcMain.Visible = false;
          return ResultStatus.Success;
       }
 
@@ -190,11 +208,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
          gvMain.AddNewRow();
          gvMain.OptionsView.RowAutoHeight = true; //整個grid設定要開，不然設定column會無效
 
-         RepositoryItemTextDateEdit wTime = new RepositoryItemTextDateEdit();
+         //RepositoryItemTextDateEdit wTime = new RepositoryItemTextDateEdit();
          RepositoryItemMemoEdit can = new RepositoryItemMemoEdit();
          RepositoryItemMemoEdit remark = new RepositoryItemMemoEdit();
 
-         gcMain.RepositoryItems.Add(wTime);
+         //gcMain.RepositoryItems.Add(wTime);
          gcMain.RepositoryItems.Add(can);
          gcMain.RepositoryItems.Add(remark);
 
@@ -205,19 +223,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["CPR_APPROVAL_NUMBER"] , " ");
          gvMain.Columns["CPR_APPROVAL_NUMBER"].ColumnEdit = can;
-         gvMain.Columns["CPR_APPROVAL_NUMBER"].Width = 100;
          can.AutoHeight = true;
-         can.MaxLength = 100;
+         can.MaxLength = 120;
 
          gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["CPR_REMARK"] , " ");
          gvMain.Columns["CPR_REMARK"].ColumnEdit = remark;
-         gvMain.Columns["CPR_REMARK"].Width = 100;
          remark.AutoHeight = true;
-         remark.MaxLength = 100;
-
-         //gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["CPR_W_TIME"] , DateTime.MinValue);
-         gvMain.Columns["CPR_W_TIME"].ColumnEdit = wTime;
-         //gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["CPR_W_USER_ID"] , GlobalInfo.USER_ID);
+         remark.MaxLength = 120;
 
          gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["IS_NEWROW"] , 1);
 
@@ -233,8 +245,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             GridControl gridControlPrint = GridHelper.CloneGrid(gridControl);
 
             ReportHelper reportHelper = new ReportHelper(gridControl , _ProgramID , this.Text);
-            //reportHelper.IsHandlePersonVisible = IsHandlePersonVisible;
-            //reportHelper.IsManagerVisible = IsManagerVisible;
+            reportHelper.IsHandlePersonVisible = IsHandlePersonVisible;
+            reportHelper.IsManagerVisible = IsManagerVisible;
 
             gridControlPrint.DataSource = dtChange;
             //reportHelper.PrintableComponent = gridControlPrint; // 加這行bands會不見
@@ -244,8 +256,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                reportHelper.ReportTitle = this.Text + "─" + "(已確認)";
             }
 
-            CommonReportLandscapeA4 report = new CommonReportLandscapeA4(); //設定為橫向列印
+            CommonReportLandscapeA3 report = new CommonReportLandscapeA3(); //設定為橫向列印
             report.printableComponentContainerMain.PrintableComponent = gcMain;
+            reportHelper.FooterMemo = "         備    註：已下市契約之最小風險價格係數一律為空白；有效契約之最小風險價格係數不可為空白。";
             reportHelper.Create(report);
 
             //base.Print(reportHelper);

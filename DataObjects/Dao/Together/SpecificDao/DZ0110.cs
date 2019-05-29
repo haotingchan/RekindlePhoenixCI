@@ -32,8 +32,8 @@ namespace DataObjects.Dao.Together.SpecificDao
 		                                CASE  WHEN NVL(UTP_USER_ID,' ') =' ' OR TXN_DEFAULT = 'Y' THEN ' ' ELSE 'Y' END AS UTP_FLAG,
 		                                CASE  WHEN NVL(UTP_USER_ID,' ') =' ' OR TXN_DEFAULT = 'Y'  THEN ' ' ELSE 'Y' END AS UTP_FLAG_ORG,
 		                                UTP_USER_ID
-                            FROM ci.TXN LEFT JOIN ci.UTP ON
-                            TXN_ID = UTP_TXN_ID
+                            FROM (SELECT * FROM  ci.TXN WHERE TXN_TYPE = 'F') LEFT JOIN ci.UTP 
+                            ON TXN_ID = UTP_TXN_ID
                             AND UTP_USER_ID = @UTP_USER_ID
                             ORDER BY TXN_ID ASC
                     ";

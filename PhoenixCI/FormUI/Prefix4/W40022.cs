@@ -256,7 +256,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dtTemp3 = dao40021.GetRowColNum3("40022" , "40022_6e");
             int ii_ole_row3 = dtTemp3.Rows[0]["ii_ole_row"].AsInt() - 2;
 
-            if (string.IsNullOrEmpty(ls_str2)) {
+            if (ls_str2 == " ") {
                Range ra = ws.Rows[ii_ole_row3];
                ra.Delete(DeleteMode.EntireRow);
                ws.Range["A1"].Select();
