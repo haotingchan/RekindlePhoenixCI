@@ -65,8 +65,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
          ExportShow.Hide();
 
 #if DEBUG
-         txtDate.DateTimeValue = "20190130".AsDateTime("yyyyMMdd");
-         ddlAdjType.EditValue = "1B";
+         txtDate.DateTimeValue = "20190212".AsDateTime("yyyyMMdd");
+         ddlAdjType.EditValue = "1E";
 #endif
       }
 
@@ -156,7 +156,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             KindNameList_Desc = new List<string>();
             KindNameList = new List<string>();
-            ColsA = new string[] { "m_im", "m_im1", "m_im2", "cur_im", "cur_im1", "cur_im2" };
+            ColsA = new string[] { "m_im", "m_mm", "m_cm", "cur_im", "cur_mm", "cur_cm" };
+            //ColsA = new string[] { "m_im", "m_im1", "m_im2", "cur_im", "cur_im1", "cur_im2" };
             ColsB = new string[] { "m_im_b", "m_mm_b", "m_cm_b", "cur_im_b", "cur_mm_b", "cur_cm_b" };
          }
 
@@ -196,7 +197,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                   GenKindNameList(dr, prepoStr, abbrName, fullName);
 
-                  string subTypeName = ((SubTypeName)Enum.Parse(typeof(SubTypeName), dr["prod_subtype"].AsString())).GetDesc();
+                  string subTypeName = GetProdSubTypeDesc(dr["prod_subtype"].AsString());
                   if (!subTypeString.Exists(s => s == subTypeName)) {
                      subTypeString.Add(subTypeName);
 
@@ -327,42 +328,31 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return result;
          }
 
+         protected virtual string GetProdSubTypeDesc(string prodsubtype) {
+            string re = "";
+
+            re = Dao.GetProdSubType(prodsubtype);
+
+            return re;
+         }
+
          protected virtual void GenKindNameList(DataRow dr, string prepoStr, string abbrName, string abbrName_Desc) {
 
             if (dr["prod_subtype"].AsString() == "S") {
                abbrName += $"契約({dr["kind_id"].AsString()})";
             }
 
-            if (!KindNameList.Exists(k => k == abbrName)) {
-               KindNameList.Add(abbrName);
-            }
-
             if (dr["prod_type"].AsString() == "O" && dr == Dt.Rows[Dt.Rows.Count - 1]) {
                abbrName += $"之{prepoStr}選擇權契約風險保證金(A值)、風險保證金最低值(B值)";
+            }
+
+            if (!KindNameList.Exists(k => k == abbrName)) {
+               KindNameList.Add(abbrName);
             }
 
             if (!KindNameList_Desc.Exists(f => f == abbrName_Desc)) {
                KindNameList_Desc.Add(abbrName_Desc);
             }
-         }
-
-         protected virtual void MakeDescElement(DataRow dr, string abbrName) {
-            DateTime beginYmd = dr["issue_begin_ymd"].AsDateTime("yyyyMMdd");
-            string issueBeginYmd = beginYmd.AsTaiwanDateTime("{0}年{1}月{2}日", 3);
-
-            DateTime endYmd = dr["issue_end_ymd"].AsDateTime("yyyyMMdd");
-            string issueEndYmd = endYmd.AsTaiwanDateTime("{0}年{1}月{2}日", 3);
-
-            XmlElement element = Doc.CreateElement("文字");
-            element.InnerText = DescTxt;
-            ReplaceXmlInnterText(element, "#kind_name_llist#", abbrName);
-            ReplaceXmlInnterText(element, "#issue_begin_ymd#", issueBeginYmd);
-            ReplaceXmlInnterText(element, "#issue_end_ymd#", issueEndYmd);
-
-            XmlElement element_Tmp = Doc.CreateElement("條列");
-            element_Tmp.AppendChild(element);
-
-            Doc.GetElementsByTagName("段落")[0].AppendChild(element_Tmp);
          }
 
          protected virtual void ExcelSpan(Worksheet ws, DataTable dtSpan) {
@@ -386,7 +376,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
          protected virtual void ExcelFut(Worksheet ws, DataTable dtFut) {
 
             //幣別
-            List<DataRow> drsTmp = dtFut.AsEnumerable().Where(f => f.Field<string>("prod_type") == "F" && f.Field<string>("amt_type") == "F").ToList();
+            List<DataRow> drsTmp = dtFut.AsEnumerable().Where(f => f.Field<string>("prod_type").AsString() == "F" && 
+                                                              f.Field<string>("amt_type").AsString() == "F").ToList();
             if (drsTmp.Count > 0) {
                int rowIndex = 0;
                foreach (DataRow dr in drsTmp) {
@@ -413,7 +404,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
 
             //比例
-            drsTmp = dtFut.AsEnumerable().Where(f => f.Field<string>("prod_type") == "F" && f.Field<string>("amt_type") == "P").ToList();
+            drsTmp = dtFut.AsEnumerable().Where(f => f.Field<string>("prod_type").AsString() == "F" && 
+                                                f.Field<string>("amt_type").AsString() == "P").ToList();
             if (drsTmp.Count > 0) {
                int rowIndex = 576;//template 576行後表格不同
                foreach (DataRow dr in drsTmp) {
@@ -722,29 +714,129 @@ namespace PhoenixCI.FormUI.Prefix4 {
                               base(dao, txtdate, adjtype, programId) {
 
             AddDescElement = true;
-            DescTxt = "本次#kind_name_llist#調整自#issue_begin_ymd#(證券市場處置生效日次一營業日)該股票期貨契約交易時段結束後起實施，" +
-                  "並於#issue_end_ymd#該契約交易時段結束後恢復為#issue_begin_ymd#調整前之保證金，參照證券市場處置措施，調整期間如遇休市、" +
-                  "有價證券停止買賣、全日暫停交易，則恢復日順延執行。";
+            DescTxt = "本公司#full_name_llist#經#underlying_market#於#pub_ymd#公布為處置有價證券，" +
+                     "處置期間為#impl_begin_ymd#至#impl_end_ymd#，依前揭規定辦理保證金調整，列表如附。" +
+                     "本次調整自#issue_begin_ymd#(證券市場處置生效日次一營業日)該股票期貨契約交易時段結束後起實施，" +
+                     "並於#issue_end_ymd#該契約交易時段結束後恢復為#issue_begin_ymd#調整前之保證金，" +
+                     "參照證券市場處置措施，調整期間如遇休市、有價證券停止買賣、全日暫停交易，則恢復日順延執行。";
          }
 
          public override ReturnMessageClass Export() {
-            ReturnMessageClass msg = base.Export();
+            ReturnMessageClass msg = new ReturnMessageClass();
+            msg.Status = ResultStatus.Fail;
+
+            try {
+               #region ifd
+               FilePath = PbFunc.wf_copy_file(ProgramId, $"{ProgramId}_{AdjType}");
+
+               OpenFileAndSetYear();
+
+               string prepoStr = Dt.AsEnumerable().Any(d => d.Field<string>("prod_type") == "F") ? "期貨契約保證金及" : "";
+               List<string> subTypeString = new List<string>();
+
+               //說明文
+               foreach (DataRow dr in Dt.Rows) {
+                  string abbrName = $"{dr["KIND_ABBR_NAME"].AsString()}({dr["kind_id"].AsString()})";
+
+                  string fullName = "";
+                  if (dr["prod_type"].AsString() == "O" && dr == Dt.Rows[Dt.Rows.Count - 1]) {
+                     int lipos = PbFunc.Pos(abbrName, "選擇權");
+                     fullName = $"{abbrName}之標的證券-{abbrName.SubStr(0, lipos)}({dr["stock_id"].AsString()})"; ;
+                     abbrName += $"之{prepoStr}選擇權契約風險保證金(A值)、風險保證金最低值(B值)";
+
+                  } else {
+                     int lipos = PbFunc.Pos(abbrName, "期貨");
+                     fullName = $"{abbrName}之標的證券-{abbrName.SubStr(0, lipos)}({dr["stock_id"].AsString()})"; ;
+                  }
+
+                  MakeDescElement(dr, fullName);
+
+                  if (!KindNameList.Exists(k => k == abbrName))
+                     KindNameList.Add(abbrName);
+               }
+
+               ReplaceElementWord(GenArrayTxt(KindNameList));
+
+               Doc.Save(FilePath);
+               #endregion
+
+               #region Excel rtf
+               //保證金
+               FilePath = PbFunc.wf_copy_file(ProgramId, ProgramId);
+               Workbook workbook = new Workbook();
+               workbook.LoadDocument(FilePath);
+               Worksheet ws = workbook.Worksheets["保證金(Fut)"];
+               ExcelFut(ws, Dt);
+
+               ws = workbook.Worksheets["保證金(Opt)"];
+               ExcelOpt(ws, Dt);
+
+               RichEditDocumentServer rtf = new RichEditDocumentServer();
+               rtf.CreateNewDocument();
+               Document rtfDoc = rtf.Document;
+
+               WordFut(rtfDoc, Dt);
+
+               string wordFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, $"40090_{DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss")}.rtf");
+               rtf.SaveDocument(wordFilePath, DevExpress.XtraRichEdit.DocumentFormat.Rtf);
+               rtf.Dispose();
+
+
+               //Span 資料
+               DataTable dtSpan = Dao.GetSpanData(TxtDate.AsDateTime("yyyyMMdd"));
+               if (dtSpan.Rows.Count > 0) {
+                  ws = workbook.Worksheets["SPAN參數"];
+                  ExcelSpan(ws, dtSpan);
+
+                  WordSpan(dtSpan);
+               }
+               workbook.SaveDocument(FilePath);
+               #endregion
+
+               msg.Status = ResultStatus.Success;
+            } catch (Exception ex) {
+               ErrorHandle(ex, msg);
+            }
             return msg;
          }
+         protected virtual void MakeDescElement(DataRow dr, string abbrName) {
+            DateTime beginYmd = dr["issue_begin_ymd"].AsDateTime("yyyyMMdd");
+            string issueBeginYmd = beginYmd.AsTaiwanDateTime("{0}年{1}月{2}日", 3);
 
-         protected override void GenKindNameList(DataRow dr, string prepoStr, string abbrName, string abbrName_Desc) {
+            DateTime endYmd = dr["issue_end_ymd"].AsDateTime("yyyyMMdd");
+            string issueEndYmd = endYmd.AsTaiwanDateTime("{0}年{1}月{2}日", 3);
 
-            if (!KindNameList.Exists(k => k == abbrName)) {
-               KindNameList.Add(abbrName);
-            }
+            DateTime pubYmd = dr["pub_ymd"].AsDateTime("yyyyMMdd");
+            string issuePubYmd = pubYmd.AsTaiwanDateTime("{0}年{1}月{2}日", 3);
 
-            if (dr["prod_type"].AsString() == "O" && dr == Dt.Rows[Dt.Rows.Count - 1]) {
-               abbrName_Desc += "之" + prepoStr + "選擇權契約風險保證金(A值)、風險保證金最低值(B值)";
-            }
+            string underlying = dr["underlying_market"].AsInt() == 1 ? "證交所" : "櫃買中心";
 
-            if (!KindNameList_Desc.Exists(k => k == abbrName_Desc)) {
-               KindNameList_Desc.Add(abbrName_Desc);
-            }
+            string implBeginDate = dr["impl_begin_ymd"].AsString();
+            implBeginDate = implBeginDate.AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
+
+            string implEndDate = dr["impl_end_ymd"].AsString();
+            implEndDate = implEndDate.AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
+
+            XmlElement element = Doc.CreateElement("文字");
+            element.InnerText = DescTxt;
+            ReplaceXmlInnterText(element, "#full_name_llist#", abbrName);
+            ReplaceXmlInnterText(element, "#pub_ymd#", issuePubYmd);
+            ReplaceXmlInnterText(element, "#underlying_market#", underlying);
+            ReplaceXmlInnterText(element, "#issue_begin_ymd#", issueBeginYmd);
+            ReplaceXmlInnterText(element, "#issue_end_ymd#", issueEndYmd);
+            ReplaceXmlInnterText(element, "#impl_begin_ymd#", implBeginDate);
+            ReplaceXmlInnterText(element, "#impl_end_ymd#", implEndDate);
+
+
+            XmlElement element_Tmp = Doc.CreateElement("條列");
+            element_Tmp.AppendChild(element);
+
+            Doc.GetElementsByTagName("段落")[0].ChildNodes[0].AppendChild(element_Tmp);
+         }
+
+         protected override void ReplaceElementWord(params string[] args) {
+
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("主旨")[0].ChildNodes[0], "#kind_name_list#", args[0]);
          }
       }
 
@@ -780,24 +872,84 @@ namespace PhoenixCI.FormUI.Prefix4 {
             ReturnMessageClass msg = new ReturnMessageClass();
             msg.Status = ResultStatus.Fail;
             try {
+               #region ifd
                FilePath = PbFunc.wf_copy_file(ProgramId, $"{ProgramId}_{AdjType}");
 
-               base.OpenFileAndSetYear();
+               OpenFileAndSetYear();
 
-               ////說明文
                string prepoStr = Dt.AsEnumerable().Any(d => d.Field<string>("prod_type") == "F") ? "期貨契約保證金及" : "";
-
+               List<string> subTypeString = new List<string>();
+               List<string> adjRate = new List<string>();
+               //說明文
                foreach (DataRow dr in Dt.Rows) {
                   string abbrName = dr["KIND_ABBR_NAME"].AsString();
-                  string fullName = "本公司" + dr["rule_full_name"].AsString() + "交易規則";
+                  string fullName = $"本公司{dr["rule_full_name"].AsString()}交易規則";
 
                   GenKindNameList(dr, prepoStr, abbrName, fullName);
+
+                  string subTypeName = GetProdSubTypeDesc(dr["prod_subtype"].AsString());
+                  if (!subTypeString.Exists(s => s == subTypeName)) {
+                     subTypeString.Add(subTypeName);
+
+                     //rfa 檔會用到的參數
+                     adjRate.Add(dr["adj_rate"].AsPercent(2));
+                  }
                }
 
-               string beginYmd = Dt.Rows[0]["issue_begin_ymd"].AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
-               ReplaceElementWord(GenArrayTxt(KindNameList_Desc), beginYmd, GenArrayTxt(KindNameList));
+               string implBeginDate = Dt.Rows[0]["impl_begin_ymd"].AsString();
+               string implEndDate = Dt.Rows[0]["impl_end_ymd"].AsString();
+
+               implBeginDate = implBeginDate.AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
+               implEndDate = implEndDate.AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
+
+               ReplaceElementWord(GenArrayTxt(KindNameList), GenArrayTxt(KindNameList_Desc), GenArrayTxt(subTypeString), implEndDate);
 
                Doc.Save(FilePath);
+               #endregion
+
+               #region ifd 簽核 ifd_rfa
+               FilePath = PbFunc.wf_copy_file(ProgramId, $"{ProgramId}_{AdjType}_rfa");
+               OpenFileAndSetYear();
+               string issueBeginDate = Dt.Rows[0]["issue_begin_ymd"].AsString();
+               issueBeginDate = issueBeginDate.AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
+
+               ReplaceElementWordRfa(GenArrayTxt(subTypeString), GenArrayTxt(adjRate), implBeginDate, implEndDate, issueBeginDate);
+               Doc.Save(FilePath);
+               #endregion
+
+               #region Excel rtf
+               //保證金
+               FilePath = PbFunc.wf_copy_file(ProgramId, ProgramId);
+               Workbook workbook = new Workbook();
+               workbook.LoadDocument(FilePath);
+               Worksheet ws = workbook.Worksheets["保證金(Fut)"];
+               ExcelFut(ws, Dt);
+
+               ws = workbook.Worksheets["保證金(Opt)"];
+               ExcelOpt(ws, Dt);
+
+               RichEditDocumentServer rtf = new RichEditDocumentServer();
+               rtf.CreateNewDocument();
+               Document rtfDoc = rtf.Document;
+
+               WordFut(rtfDoc, Dt);
+
+               string wordFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, $"40090_{DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss")}.rtf");
+               rtf.SaveDocument(wordFilePath, DevExpress.XtraRichEdit.DocumentFormat.Rtf);
+               rtf.Dispose();
+
+
+               //Span 資料
+               DataTable dtSpan = Dao.GetSpanData(TxtDate.AsDateTime("yyyyMMdd"));
+               if (dtSpan.Rows.Count > 0) {
+                  ws = workbook.Worksheets["SPAN參數"];
+                  ExcelSpan(ws, dtSpan);
+
+                  WordSpan(dtSpan);
+               }
+               workbook.SaveDocument(FilePath);
+               #endregion
+
                msg.Status = ResultStatus.Success;
                return msg;
             } catch (Exception ex) {
@@ -809,30 +961,22 @@ namespace PhoenixCI.FormUI.Prefix4 {
          protected override void ReplaceElementWord(params string[] args) {
 
             ReplaceXmlInnterText(Doc.GetElementsByTagName("主旨")[0].ChildNodes[0], "#kind_name_list#", args[0]);
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("主旨")[0].ChildNodes[0], "#issue_begin_ymd#", args[1]);
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[0].ChildNodes[0], "#full_name_llist#", args[2]);
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[0].ChildNodes[0], "#full_name_llist#", args[1]);
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[1].ChildNodes[0], "#prod_subtype_list#", args[2]);
+            //這個點很奇怪, template 寫beginDate 但是實際帶EndDate
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[1].ChildNodes[0], "#issue_begin_ymd#", args[3]);
          }
 
-         protected override void GenKindNameList(DataRow dr, string prepoStr, string abbrName, string abbrName_Desc) {
-            if (dr["prod_subtype"].AsString() == "S") {
-               abbrName = abbrName + "契約(" + dr["kind_id"].AsString() + ")";
-            }
+         protected override void ReplaceElementWordRfa(params string[] args) {
 
-            if (dr["prod_type"].AsString() == "F") {
-               prepoStr = "期貨契約保證金及";
-            }
-
-            if (dr["prod_type"].AsString() == "O" && dr == Dt.Rows[Dt.Rows.Count - 1]) {
-               abbrName += "之" + prepoStr + "選擇權契約風險保證金(A值)、風險保證金最低值(B值)";
-            }
-
-            if (!KindNameList_Desc.Exists(k => k == abbrName)) {
-               KindNameList_Desc.Add(abbrName);
-            }
-
-            if (!KindNameList.Exists(f => f == abbrName_Desc)) {
-               KindNameList.Add(abbrName_Desc);
-            }
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("主旨")[0].ChildNodes[0], "#prod_subtype_list#", args[0]);
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[1].ChildNodes[0], "#year#", DateTime.Now.AsTaiwanDateTime("{0}", 3));
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[1].ChildNodes[0], "#prod_subtype_list#", args[0]);
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[1].ChildNodes[0], "#adj_rate#", args[1]);
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[1].ChildNodes[0], "#impl_begin_ymd#", args[2]);
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[1].ChildNodes[0], "#impl_end_ymd#", args[3]);
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[2].ChildNodes[0], "#prod_subtype_list#", args[0]);
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[2].ChildNodes[0], "#issue_begin_ymd#", args[4]);
          }
       }
 
@@ -918,19 +1062,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
                ReplaceXmlInnterText(Doc.GetElementsByTagName("主旨")[0].ChildNodes[0], "#amt_type#", "適用比例");
             }
          }
-      }
-
-      private enum SubTypeName {
-         [Description("指數類契約")]
-         I = 1,
-         [Description("商品類契約")]
-         C,
-         [Description("利率類契約")]
-         B,
-         [Description("股票類契約")]
-         S,
-         [Description("匯率類契約")]
-         E
       }
    }
 }

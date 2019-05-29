@@ -804,8 +804,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
                ws.Cells[rowIndex, 10].Value = dr["am11_etf_week_qnty"].AsDecimal();
 
             //本週選擇權
-            ws.Cells[rowIndex, 12].Value = dr["o_week_qnty"].AsDecimal();
-            ws.Cells[rowIndex, 13].Value = dr["o_week_oi"].AsDecimal();
+            ws.Cells[rowIndex, 12].SetValue(dr["o_week_qnty"]);//null 時不顯示為0
+            ws.Cells[rowIndex, 13].SetValue(dr["o_week_oi"]);//null 時不顯示為0
             ws.Cells[rowIndex, 14].Value = dr["o_week_days"].AsDecimal();
             //這邊拿到的值如果為DBNull.Value,則輸出也要為null,不能直接轉成0 (不能用AsDecimal)
             if (dr["am11_etc_week_qnty"] != DBNull.Value)
@@ -820,8 +820,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
                ws.Cells[rowIndex, 24].Value = dr["am11_etf_last_qnty"].AsDecimal();
 
             //上週選擇權
-            ws.Cells[rowIndex, 26].Value = dr["o_last_qnty"].AsDecimal();
-            ws.Cells[rowIndex, 27].Value = dr["o_last_oi"].AsDecimal();
+            ws.Cells[rowIndex, 26].SetValue(dr["o_last_qnty"]);//null 時不顯示為0
+            ws.Cells[rowIndex, 27].SetValue(dr["o_last_oi"]);//null 時不顯示為0
             ws.Cells[rowIndex, 28].Value = dr["o_last_days"].AsDecimal();
             //這邊拿到的值如果為DBNull.Value,則輸出也要為null,不能直接轉成0 (不能用AsDecimal)
             if (dr["am11_etc_last_qnty"] != DBNull.Value)
