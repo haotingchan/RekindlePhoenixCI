@@ -118,24 +118,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
       protected override ResultStatus Export() {
 
-         #region 檢查日期起訖
-         //if (txtAftSymd.DateTimeValue > txtAftEymd.DateTimeValue) {
-         //   MessageDisplay.Error(string.Format("{0}起日期({1})不可大於迄日期({2})" , labDate1.Text , txtAftSymd.Text , txtAftEymd.Text));
-         //   return ResultStatus.Fail;
-         //}
-
-         //if (txtPrevSymd.DateTimeValue > txtPrevEymd.DateTimeValue) {
-         //   MessageDisplay.Error(string.Format("{0}起日期({1})不可大於迄日期({2})" , labDate2.Text , txtPrevSymd.Text , txtPrevEymd.Text));
-         //   return ResultStatus.Fail;
-         //}
-
-         //if (txtAllSymd.DateTimeValue > txtAllEymd.DateTimeValue) {
-         //   MessageDisplay.Error(string.Format("{0}起日期({1})不可大於迄日期({2})" , labDateAll.Text , txtAllSymd.Text , txtAllEymd.Text));
-         //   return ResultStatus.Fail;
-         //}
-
-         #endregion
-
          try {
             //0. ready
             panFilter.Enabled = false;
