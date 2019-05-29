@@ -74,6 +74,7 @@ namespace BaseGround
         public static string QuestionText = "請選擇";   //Question!
         public static string MsgOK = "處理完成";
         public static string MsgNoData = "無任何資料!";
+        public static string MsgNoDataMulti = "{0},{1} ─ {2},讀取無任何資料!";//{條件},{報表代號或function名稱},{報表名稱}
         public static string MsgFieldError = "欄位資料輸入錯誤!";
         public static string MsgNoAuth = "無此權限，執行此交易";
         public static string MsgNotAllowExec = "時點不允許執行此交易,視窗即將關閉.";

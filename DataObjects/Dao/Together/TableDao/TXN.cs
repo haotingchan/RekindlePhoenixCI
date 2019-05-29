@@ -21,7 +21,7 @@ namespace DataObjects.Dao.Together
                 @"
                     SELECT  CI.TXN.*,TXN_ID AS TXN_ID_ORG
                     FROM    CI.TXN
-                    ORDER BY TXN_ID ASC
+                    ORDER BY TXN_SEQ_NO,TXN_ID
                 ";
 
             #endregion sql
@@ -40,6 +40,7 @@ namespace DataObjects.Dao.Together
                     SELECT  TXN_ID,TXN_NAME,TRIM(TXN_ID) || ' ─ ' || TXN_NAME AS TXN_ID_NAME
                     FROM    CI.TXN
                     WHERE TXN_DEFAULT <> 'Y'
+                    AND TXN_TYPE = 'F'
                     ORDER BY TXN_ID ASC
                 ";
 
