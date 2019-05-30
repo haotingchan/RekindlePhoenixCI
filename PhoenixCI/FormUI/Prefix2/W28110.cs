@@ -231,14 +231,15 @@ namespace PhoenixCI.FormUI.Prefix2 {
             #endregion
 
             #region 4.刪除舊有資料
-            if (gvMain.DataRowCount > 0) {
-               DialogResult result = MessageBox.Show("資料日期(" + dataDate + ")資料已存在,是否刪除?" , "注意" , MessageBoxButtons.YesNo , MessageBoxIcon.Question);
-               if (result == DialogResult.No) {
-                  return ResultStatus.Fail;
-               } else {
-                  daoSTW.DeleteByDate(tmp);
+            if (gvMain != null)
+               if (gvMain.DataRowCount > 0) {
+                  DialogResult result = MessageBox.Show("資料日期(" + dataDate + ")資料已存在,是否刪除?" , "注意" , MessageBoxButtons.YesNo , MessageBoxIcon.Question);
+                  if (result == DialogResult.No) {
+                     return ResultStatus.Fail;
+                  } else {
+                     daoSTW.DeleteByDate(tmp);
+                  }
                }
-            }
             #endregion
 
             #region 5.整理資料
@@ -273,7 +274,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                   }
                   if (!String.IsNullOrEmpty(dr["STW_SETTLE"].AsString())) {
                      dr["STW_SETTLE"] = dr["STW_SETTLE"].AsString().PadLeft(fillZero - 1 , '0');
-                     if (dr["STW_SETTLE"].AsInt() == 0) {
+                     if (dr["STW_SETTLE"].AsDecimal() == 0) {
                         LastTradeDay = true;
                      }
                   }
