@@ -54,9 +54,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //日期
             txtSDate.DateTimeValue = DateTime.Now;
             //先隨便給個日期
-            txtDateG1.DateTimeValue = DateTime.Now;
-            txtDateG5.DateTimeValue = DateTime.Now;
-            txtDateG7.DateTimeValue = DateTime.Now;
+            txtDateG1.Text = "1901/01/01";
+            txtDateG5.Text = "1901/01/01";
+            txtDateG7.Text = "1901/01/01";
 
             #region DropDownList
             //設定調整商品條件下拉選單
@@ -162,6 +162,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 //讀取資料
                 dao40070 = new D40070();
                 DataTable dt40070 = dao40070.d_40070_scrn(txtSDate.DateTimeValue.ToString("yyyyMMdd"), ddlModel.EditValue.AsString());
+                if (dt40070.Rows.Count == 0) {
+                    MessageDisplay.Error("無任何資料！");
+                    return ResultStatus.Fail;
+                }
                 //排序
                 dt40070 = dt40070.Sort("OSW_GRP, SEQ_NO, PROD_TYPE, KIND_ID");
                 //過濾
