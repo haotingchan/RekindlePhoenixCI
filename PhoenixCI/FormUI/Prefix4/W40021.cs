@@ -262,7 +262,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             if (ls_str2 == "無") {
                //刪除"1,2"說明文字
-               for (int w = 0 ; w <= 4 ; w++) {
+               for (int w = 1 ; w <= 5 ; w++) {
                   ws2.Cells[ii_ole_row2 + w , 0].Value = "";
                   ws2.Cells[ii_ole_row2 + w , 1].Value = "";
                }
