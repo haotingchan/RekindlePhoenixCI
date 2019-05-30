@@ -85,7 +85,7 @@ namespace BaseGround {
                                 subItem = new AccordionControlElement() {
                                     Text = string.Format("{0}", name),
                                     Tag = new ItemData() { TXN_ID = Id, TXN_NAME = name },
-                                    Style = ElementStyle.Item
+                                    Style = ElementStyle.Group
                                 };
                             }
                             else {

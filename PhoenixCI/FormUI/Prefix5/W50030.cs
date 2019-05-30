@@ -593,6 +593,9 @@ namespace PhoenixCI.FormUI.Prefix5
          _RW50030.SetSortType(_D500Xx.SortType);
          documentViewer1.DocumentSource = _RW50030;
          _RW50030.CreateDocument(true);
+
+         _ToolBtnPrintAll.Enabled = true;
+         _ToolBtnExport.Enabled = true;
          return ResultStatus.Success;
       }
 
