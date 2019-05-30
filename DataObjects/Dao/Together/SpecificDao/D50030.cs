@@ -32,12 +32,20 @@ namespace DataObjects.Dao.Together.SpecificDao
             };
          string iswhere = d500Xx.ConditionWhereSyntax();
          string sql = string.Format(@"
- SELECT main.*,
+ SELECT LV2.*,  decode(AMMF_CP_KIND,'2',case when(CP_CHK2 = 0 and CP_CHK3 = 0) then 0 else 1 end,case when(CP_CHK1 = 0 and CP_CHK2 = 0 and CP_CHK3 = 0) then 0 else 1 end) as CP_CHK
+FROM
+(SELECT LV1.*,
+case when CP_RATE_VALID_CNT >=MMF_RESP_RATIO then 0 else 1 end as CP_CHK1,
+case when (AMM0_KEEP_FLAG='Y'  or  MMF_AVG_TIME =0) then 0 else 1 end as CP_CHK2,
+case when  AMMF_CP_KIND in ('A','C') then (case when MMK_QNTY >= MMF_QNTY_LOW then 0 else 1 end) else (case when CP_AVG_MMK_QNTY >=MMF_QNTY_LOW then 0 else 1 end) end as CP_CHK3
+FROM
+(SELECT main.*,
 trim(AMM0_PROD_ID )||decode(AMM0_BASIC_PROD,'Y','*','') as CP_PROD_ID,
  decode(AMM0_MARKET_M_QNTY ,0,0, round(CP_M_QNTY / AMM0_MARKET_M_QNTY,16)* 100) as CP_RATE_M,
  decode (AMM0_MARKET_R_CNT ,0, 1 ,round(AMM0_VALID_CNT / AMM0_MARKET_R_CNT,4) * 100) as CP_RATE_VALID_REAL,
  decode(AMM0_SUM_TYPE,'D', CEIL( TRUNC(AMM0_KEEP_TIME,0) / 60/ AMM0_DAY_COUNT) , CEIL( AMM0_KEEP_TIME / 60/ AMM0_DAY_COUNT)) as CP_KEEP_TIME,
  TRUNC(MMK_QNTY /  AMM0_DAY_COUNT ,1) as CP_AVG_MMK_QNTY,
+ decode(AMM0_MARKET_R_CNT,0,100,AMM0_RQ_RATE) as CP_RATE_VALID_CNT,
  decode(:as_sort_type,'F' ,AMM0_BRK_NO||AMM0_ACC_NO,AMM0_PROD_TYPE||AMM0_PROD_ID ) as CP_GROUP1,
  decode( :as_sort_type ,'F',AMM0_PROD_TYPE||AMM0_PROD_ID, AMM0_BRK_NO||AMM0_ACC_NO ) as CP_GROUP2
 FROM
@@ -93,6 +101,8 @@ FROM
      {0}
 ) main
 ORDER BY AMM0_YMD, CP_GROUP1 , CP_GROUP2
+) LV1
+) LV2
 ", iswhere);
          DataTable dt = db.GetDataTable(sql, parms);
          return dt;
@@ -332,12 +342,20 @@ decode(:as_sort_type ,'F',AMM0_PROD_TYPE||AMM0_PROD_ID, AMM0_BRK_NO||AMM0_ACC_NO
             };
          string iswhere = d500Xx.ConditionWhereSyntax();
          string sql = string.Format(@"
- SELECT main.*,
+ SELECT LV2.*,  decode(AMMF_CP_KIND,'2',case when(CP_CHK2 = 0 and CP_CHK3 = 0) then 0 else 1 end,case when(CP_CHK1 = 0 and CP_CHK2 = 0 and CP_CHK3 = 0) then 0 else 1 end) as CP_CHK
+FROM
+(SELECT LV1.*,
+case when CP_RATE_VALID_CNT >=MMF_RESP_RATIO then 0 else 1 end as CP_CHK1,
+case when (AMM0_KEEP_FLAG='Y'  or  MMF_AVG_TIME =0) then 0 else 1 end as CP_CHK2,
+case when  AMMF_CP_KIND in ('A','C') then (case when MMK_QNTY >= MMF_QNTY_LOW then 0 else 1 end) else (case when CP_AVG_MMK_QNTY >=MMF_QNTY_LOW then 0 else 1 end) end as CP_CHK3
+FROM
+(SELECT main.*,
 trim(AMM0_PROD_ID )||decode(AMM0_BASIC_PROD,'Y','*','') as CP_PROD_ID,
  decode(AMM0_MARKET_M_QNTY ,0,0, round(CP_M_QNTY / AMM0_MARKET_M_QNTY,16)* 100) as CP_RATE_M,
  decode (AMM0_MARKET_R_CNT ,0, 1 ,round(AMM0_VALID_CNT / AMM0_MARKET_R_CNT,4) * 100) as CP_RATE_VALID_REAL,
  decode(AMM0_SUM_TYPE,'D', CEIL( TRUNC(AMM0_KEEP_TIME,0) / 60/ AMM0_DAY_COUNT) , CEIL( AMM0_KEEP_TIME / 60/ AMM0_DAY_COUNT)) as CP_KEEP_TIME,
  TRUNC(MMK_QNTY /  AMM0_DAY_COUNT ,1) as CP_AVG_MMK_QNTY,
+ decode(AMM0_MARKET_R_CNT,0,100,AMM0_RQ_RATE) as CP_RATE_VALID_CNT,
  decode(:as_sort_type,'F' ,AMM0_BRK_NO||AMM0_ACC_NO,AMM0_PROD_TYPE||AMM0_PROD_ID ) as CP_GROUP1, 
  decode( :as_sort_type ,'F',AMM0_PROD_TYPE||AMM0_PROD_ID, AMM0_BRK_NO||AMM0_ACC_NO ) as CP_GROUP2
 FROM
@@ -393,6 +411,8 @@ FROM
      {0}
 ) main
 ORDER BY AMM0_YMD, CP_GROUP1,CP_GROUP2
+) LV1
+) LV2
 ", iswhere);
          DataTable dt = db.GetDataTable(sql, parms);
          return dt;

@@ -26,6 +26,8 @@ namespace PhoenixCI.Report
             case "F":
                this.xrTableRow4.Cells.Remove(this.cp_prod2);
                this.xrTableRow1.Cells.Remove(this.cp_prod_id2);
+               this.cp_prod1.WidthF = 68f;
+               this.cp_prod_id.WidthF = 68f;
                //列印按"商品"才有小計 其他時候隱藏
                xrTableRow2.HeightF = 0;
                xrTableRow2.Visible = false;
@@ -38,6 +40,8 @@ namespace PhoenixCI.Report
             case "P":
                this.xrTableRow4.Cells.Remove(this.cp_prod1);
                this.xrTableRow1.Cells.Remove(this.cp_prod_id);
+               this.cp_prod2.WidthF = 68f;
+               this.cp_prod_id2.WidthF = 68f;
                break;
             default:
                break;

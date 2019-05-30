@@ -156,11 +156,13 @@
          // 
          // xrTable1
          // 
+         this.xrTable1.Font = new System.Drawing.Font("Arial", 9F);
          this.xrTable1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
          this.xrTable1.Name = "xrTable1";
          this.xrTable1.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
             this.xrTableRow1});
          this.xrTable1.SizeF = new System.Drawing.SizeF(1149F, 25F);
+         this.xrTable1.StylePriority.UseFont = false;
          // 
          // xrTableRow1
          // 
@@ -194,82 +196,96 @@
          // 
          this.cp_row.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[DataSource.CurrentRowIndex]+1")});
+         this.cp_row.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
          this.cp_row.Multiline = true;
          this.cp_row.Name = "cp_row";
          this.cp_row.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+         this.cp_row.StylePriority.UseFont = false;
          this.cp_row.Text = "cp_row";
-         this.cp_row.Weight = 1D;
+         this.cp_row.Weight = 0.69625759894789D;
          // 
          // amm0_ymd
          // 
          this.amm0_ymd.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "BackColor", "Iif ([cp_chk3] = 0 ,RGB(255,255,255) , RGB(255,128,255))"),
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_YMD]")});
+         this.amm0_ymd.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
          this.amm0_ymd.Multiline = true;
          this.amm0_ymd.Name = "amm0_ymd";
          this.amm0_ymd.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+         this.amm0_ymd.StylePriority.UseFont = false;
          this.amm0_ymd.Text = "amm0_ymd";
-         this.amm0_ymd.Weight = 1D;
+         this.amm0_ymd.Weight = 1.044386410147947D;
          // 
          // cp_prod_id2
          // 
          this.cp_prod_id2.CanShrink = true;
          this.cp_prod_id2.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[CP_PROD_ID]")});
+         this.cp_prod_id2.Font = new System.Drawing.Font("Arial", 9F);
          this.cp_prod_id2.Multiline = true;
          this.cp_prod_id2.Name = "cp_prod_id2";
          this.cp_prod_id2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-         this.cp_prod_id2.Weight = 1D;
+         this.cp_prod_id2.StylePriority.UseFont = false;
+         this.cp_prod_id2.Weight = 0.033228276130619516D;
          // 
          // amm0_brk_no
          // 
          this.amm0_brk_no.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_BRK_NO]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_BRK_NO]"),
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "BackColor", "Iif ([CP_CHK] =  1, RGB(255,128,255), RGB(255,255,255))")});
+         this.amm0_brk_no.Font = new System.Drawing.Font("Arial", 9F);
          this.amm0_brk_no.Multiline = true;
          this.amm0_brk_no.Name = "amm0_brk_no";
          this.amm0_brk_no.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+         this.amm0_brk_no.StylePriority.UseFont = false;
          this.amm0_brk_no.Text = "amm0_brk_no";
-         this.amm0_brk_no.Weight = 1D;
+         this.amm0_brk_no.Weight = 1.0443647599419195D;
          // 
          // brk_abbr_name
          // 
          this.brk_abbr_name.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[BRK_ABBR_NAME]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[BRK_ABBR_NAME]"),
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "BackColor", "Iif ([CP_CHK] =  1, RGB(255,128,255), RGB(255,255,255))"),
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Font.Size", "Iif ( len(trim([BRK_ABBR_NAME]) ) > 8 , Iif ( len(trim([BRK_ABBR_NAME]) ) >9 , 8," +
+                    " 8.25) , 9.75)")});
+         this.brk_abbr_name.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
          this.brk_abbr_name.Multiline = true;
          this.brk_abbr_name.Name = "brk_abbr_name";
          this.brk_abbr_name.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+         this.brk_abbr_name.StylePriority.UseFont = false;
          this.brk_abbr_name.Text = "brk_abbr_name";
-         this.brk_abbr_name.Weight = 1D;
+         this.brk_abbr_name.Weight = 2.1598378913260969D;
          // 
          // amm0_acc_no
          // 
          this.amm0_acc_no.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_ACC_NO]")});
-         this.amm0_acc_no.Font = new System.Drawing.Font("Arial", 11.54F);
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_ACC_NO]"),
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "BackColor", "Iif ([CP_CHK] =  1, RGB(255,128,255), RGB(255,255,255))")});
+         this.amm0_acc_no.Font = new System.Drawing.Font("Arial", 9F);
          this.amm0_acc_no.Multiline = true;
          this.amm0_acc_no.Name = "amm0_acc_no";
          this.amm0_acc_no.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.amm0_acc_no.StylePriority.UseFont = false;
          this.amm0_acc_no.Text = "amm0_acc_no";
-         this.amm0_acc_no.Weight = 1D;
+         this.amm0_acc_no.Weight = 1.0502362914736063D;
          // 
          // cp_prod_id
          // 
          this.cp_prod_id.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[CP_PROD_ID]")});
-         this.cp_prod_id.Font = new System.Drawing.Font("Arial", 11.54F);
+         this.cp_prod_id.Font = new System.Drawing.Font("Arial", 9F);
          this.cp_prod_id.Multiline = true;
          this.cp_prod_id.Name = "cp_prod_id";
          this.cp_prod_id.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.cp_prod_id.StylePriority.UseFont = false;
          this.cp_prod_id.Text = "cp_prod_id";
-         this.cp_prod_id.Weight = 1D;
+         this.cp_prod_id.Weight = 1.1297603300100385D;
          // 
          // amm0_om_qnty
          // 
          this.amm0_om_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_OM_QNTY]")});
-         this.amm0_om_qnty.Font = new System.Drawing.Font("Arial", 11.54F);
+         this.amm0_om_qnty.Font = new System.Drawing.Font("Arial", 9F);
          this.amm0_om_qnty.Multiline = true;
          this.amm0_om_qnty.Name = "amm0_om_qnty";
          this.amm0_om_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -277,13 +293,13 @@
          this.amm0_om_qnty.StylePriority.UseTextAlignment = false;
          this.amm0_om_qnty.Text = "amm0_om_qnty";
          this.amm0_om_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.amm0_om_qnty.Weight = 1D;
+         this.amm0_om_qnty.Weight = 0.90513824469699777D;
          // 
          // amm0_qm_qnty
          // 
          this.amm0_qm_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_QM_QNTY]")});
-         this.amm0_qm_qnty.Font = new System.Drawing.Font("Arial", 11.54F);
+         this.amm0_qm_qnty.Font = new System.Drawing.Font("Arial", 9F);
          this.amm0_qm_qnty.Multiline = true;
          this.amm0_qm_qnty.Name = "amm0_qm_qnty";
          this.amm0_qm_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -291,13 +307,13 @@
          this.amm0_qm_qnty.StylePriority.UseTextAlignment = false;
          this.amm0_qm_qnty.Text = "amm0_qm_qnty";
          this.amm0_qm_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.amm0_qm_qnty.Weight = 1D;
+         this.amm0_qm_qnty.Weight = 0.878478581608694D;
          // 
          // amm0_iqm_qnty
          // 
          this.amm0_iqm_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_IQM_QNTY]")});
-         this.amm0_iqm_qnty.Font = new System.Drawing.Font("Arial", 11.54F);
+         this.amm0_iqm_qnty.Font = new System.Drawing.Font("Arial", 9F);
          this.amm0_iqm_qnty.Multiline = true;
          this.amm0_iqm_qnty.Name = "amm0_iqm_qnty";
          this.amm0_iqm_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -305,13 +321,14 @@
          this.amm0_iqm_qnty.StylePriority.UseTextAlignment = false;
          this.amm0_iqm_qnty.Text = "amm0_iqm_qnty";
          this.amm0_iqm_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.amm0_iqm_qnty.Weight = 1D;
+         this.amm0_iqm_qnty.Weight = 0.80069624230790715D;
          // 
          // cp_qnty
          // 
          this.cp_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[MMK_QNTY]")});
-         this.cp_qnty.Font = new System.Drawing.Font("Arial", 11.54F);
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[MMK_QNTY]"),
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "BackColor", "Iif ([CP_CHK3] =  0, RGB(255,255,255), RGB(255,128,255))")});
+         this.cp_qnty.Font = new System.Drawing.Font("Arial", 9F);
          this.cp_qnty.Multiline = true;
          this.cp_qnty.Name = "cp_qnty";
          this.cp_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -319,13 +336,13 @@
          this.cp_qnty.StylePriority.UseTextAlignment = false;
          this.cp_qnty.Text = "cp_qnty";
          this.cp_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_qnty.Weight = 1D;
+         this.cp_qnty.Weight = 0.90513488566792411D;
          // 
          // amm0_btrade_m_qnty
          // 
          this.amm0_btrade_m_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_BTRADE_M_QNTY]")});
-         this.amm0_btrade_m_qnty.Font = new System.Drawing.Font("Arial", 11.54F);
+         this.amm0_btrade_m_qnty.Font = new System.Drawing.Font("Arial", 9F);
          this.amm0_btrade_m_qnty.Multiline = true;
          this.amm0_btrade_m_qnty.Name = "amm0_btrade_m_qnty";
          this.amm0_btrade_m_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -334,14 +351,14 @@
          this.amm0_btrade_m_qnty.Text = "amm0_btrade_m_qnty";
          this.amm0_btrade_m_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.amm0_btrade_m_qnty.TextFormatString = "{0:#,##0}";
-         this.amm0_btrade_m_qnty.Weight = 1D;
+         this.amm0_btrade_m_qnty.Weight = 0.87032200454791875D;
          // 
          // cp_m_qnty
          // 
          this.cp_m_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_OM_QNTY] + [AMM0_QM_QNTY] + [AMM0_IQM_QNTY] + Iif(isnull([AMM0_BTRADE_M_QNT" +
                     "Y]),0,[AMM0_BTRADE_M_QNTY])")});
-         this.cp_m_qnty.Font = new System.Drawing.Font("Arial", 11.54F);
+         this.cp_m_qnty.Font = new System.Drawing.Font("Arial", 9F);
          this.cp_m_qnty.Multiline = true;
          this.cp_m_qnty.Name = "cp_m_qnty";
          this.cp_m_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -350,13 +367,13 @@
          this.cp_m_qnty.Text = "cp_m_qnty";
          this.cp_m_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.cp_m_qnty.TextFormatString = "{0:#,##0}";
-         this.cp_m_qnty.Weight = 1D;
+         this.cp_m_qnty.Weight = 1.0443864765482482D;
          // 
          // cp_rate_m
          // 
          this.cp_rate_m.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[CP_RATE_M]")});
-         this.cp_rate_m.Font = new System.Drawing.Font("Arial", 11.54F);
+         this.cp_rate_m.Font = new System.Drawing.Font("Arial", 9F);
          this.cp_rate_m.Multiline = true;
          this.cp_rate_m.Name = "cp_rate_m";
          this.cp_rate_m.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -365,13 +382,13 @@
          this.cp_rate_m.Text = "cp_rate_m";
          this.cp_rate_m.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.cp_rate_m.TextFormatString = "{0:##0.0#}";
-         this.cp_rate_m.Weight = 1D;
+         this.cp_rate_m.Weight = 0.78328986814820545D;
          // 
          // amm0_valid_cnt
          // 
          this.amm0_valid_cnt.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_VALID_CNT]")});
-         this.amm0_valid_cnt.Font = new System.Drawing.Font("Arial", 11.54F);
+         this.amm0_valid_cnt.Font = new System.Drawing.Font("Arial", 9F);
          this.amm0_valid_cnt.Multiline = true;
          this.amm0_valid_cnt.Name = "amm0_valid_cnt";
          this.amm0_valid_cnt.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -379,13 +396,15 @@
          this.amm0_valid_cnt.StylePriority.UseTextAlignment = false;
          this.amm0_valid_cnt.Text = "amm0_valid_cnt";
          this.amm0_valid_cnt.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.amm0_valid_cnt.Weight = 1D;
+         this.amm0_valid_cnt.Weight = 1.0443864101479472D;
          // 
          // cp_rate_valid_real
          // 
          this.cp_rate_valid_real.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[CP_RATE_VALID_REAL]")});
-         this.cp_rate_valid_real.Font = new System.Drawing.Font("Arial", 11.54F);
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[CP_RATE_VALID_REAL]"),
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "BackColor", "Iif( [CP_RATE_VALID_REAL] >=[MMF_RESP_RATIO] ,RGB(255,255,255) , Iif( [AMM0_RQ_RA" +
+                    "TE] >=[MMF_RESP_RATIO], RGB(192,255,255),RGB(255,128,255)) )")});
+         this.cp_rate_valid_real.Font = new System.Drawing.Font("Arial", 9F);
          this.cp_rate_valid_real.Multiline = true;
          this.cp_rate_valid_real.Name = "cp_rate_valid_real";
          this.cp_rate_valid_real.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -393,13 +412,13 @@
          this.cp_rate_valid_real.StylePriority.UseTextAlignment = false;
          this.cp_rate_valid_real.Text = "cp_rate_valid_real";
          this.cp_rate_valid_real.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_rate_valid_real.Weight = 1D;
+         this.cp_rate_valid_real.Weight = 1.044386410147947D;
          // 
          // amm0_market_r_cnt
          // 
          this.amm0_market_r_cnt.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_MARKET_R_CNT]")});
-         this.amm0_market_r_cnt.Font = new System.Drawing.Font("Arial", 11.54F);
+         this.amm0_market_r_cnt.Font = new System.Drawing.Font("Arial", 8F);
          this.amm0_market_r_cnt.Multiline = true;
          this.amm0_market_r_cnt.Name = "amm0_market_r_cnt";
          this.amm0_market_r_cnt.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -408,13 +427,13 @@
          this.amm0_market_r_cnt.Text = "amm0_market_r_cnt";
          this.amm0_market_r_cnt.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.amm0_market_r_cnt.TextFormatString = "{0:#,##0}";
-         this.amm0_market_r_cnt.Weight = 1D;
+         this.amm0_market_r_cnt.Weight = 1.0443864765482482D;
          // 
          // amm0_market_m_qnty
          // 
          this.amm0_market_m_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_MARKET_M_QNTY]")});
-         this.amm0_market_m_qnty.Font = new System.Drawing.Font("Arial", 11.54F);
+         this.amm0_market_m_qnty.Font = new System.Drawing.Font("Arial", 8F);
          this.amm0_market_m_qnty.Multiline = true;
          this.amm0_market_m_qnty.Name = "amm0_market_m_qnty";
          this.amm0_market_m_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -423,13 +442,13 @@
          this.amm0_market_m_qnty.Text = "amm0_market_m_qnty";
          this.amm0_market_m_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.amm0_market_m_qnty.TextFormatString = "{0:#,##0}";
-         this.amm0_market_m_qnty.Weight = 1D;
+         this.amm0_market_m_qnty.Weight = 1.0443864765482482D;
          // 
          // cp_keep_time
          // 
          this.cp_keep_time.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[CP_KEEP_TIME]")});
-         this.cp_keep_time.Font = new System.Drawing.Font("Arial", 11.54F);
+         this.cp_keep_time.Font = new System.Drawing.Font("Arial", 8F);
          this.cp_keep_time.Multiline = true;
          this.cp_keep_time.Name = "cp_keep_time";
          this.cp_keep_time.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -437,13 +456,13 @@
          this.cp_keep_time.StylePriority.UseTextAlignment = false;
          this.cp_keep_time.Text = "cp_keep_time";
          this.cp_keep_time.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_keep_time.Weight = 1D;
+         this.cp_keep_time.Weight = 0.87032207094821956D;
          // 
          // cp_avg_mmk_qnty
          // 
          this.cp_avg_mmk_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[CP_AVG_MMK_QNTY]")});
-         this.cp_avg_mmk_qnty.Font = new System.Drawing.Font("Arial", 11.54F);
+         this.cp_avg_mmk_qnty.Font = new System.Drawing.Font("Arial", 6F);
          this.cp_avg_mmk_qnty.Multiline = true;
          this.cp_avg_mmk_qnty.Name = "cp_avg_mmk_qnty";
          this.cp_avg_mmk_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -451,7 +470,7 @@
          this.cp_avg_mmk_qnty.StylePriority.UseTextAlignment = false;
          this.cp_avg_mmk_qnty.Text = "cp_avg_mmk_qnty";
          this.cp_avg_mmk_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_avg_mmk_qnty.Weight = 1D;
+         this.cp_avg_mmk_qnty.Weight = 0.69625893119629068D;
          // 
          // PageHeader
          // 
@@ -513,7 +532,7 @@
          this.xrTableCell15.Name = "xrTableCell15";
          this.xrTableCell15.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.xrTableCell15.Text = "筆數";
-         this.xrTableCell15.Weight = 1D;
+         this.xrTableCell15.Weight = 0.69625760203760745D;
          // 
          // xrTableCell16
          // 
@@ -521,7 +540,7 @@
          this.xrTableCell16.Name = "xrTableCell16";
          this.xrTableCell16.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.xrTableCell16.Text = "日期";
-         this.xrTableCell16.Weight = 1D;
+         this.xrTableCell16.Weight = 1.044386409696441D;
          // 
          // cp_prod2
          // 
@@ -530,7 +549,7 @@
          this.cp_prod2.Name = "cp_prod2";
          this.cp_prod2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.cp_prod2.Text = "商品名稱";
-         this.cp_prod2.Weight = 1D;
+         this.cp_prod2.Weight = 0.033228304958174082D;
          // 
          // xrTableCell17
          // 
@@ -538,7 +557,7 @@
          this.xrTableCell17.Name = "xrTableCell17";
          this.xrTableCell17.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.xrTableCell17.Text = "期貨商代號";
-         this.xrTableCell17.Weight = 1D;
+         this.xrTableCell17.Weight = 1.0443647344524512D;
          // 
          // xrTableCell18
          // 
@@ -546,7 +565,7 @@
          this.xrTableCell18.Name = "xrTableCell18";
          this.xrTableCell18.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.xrTableCell18.Text = "期貨商名稱";
-         this.xrTableCell18.Weight = 1D;
+         this.xrTableCell18.Weight = 2.1598378855728244D;
          // 
          // xrTableCell19
          // 
@@ -554,7 +573,7 @@
          this.xrTableCell19.Name = "xrTableCell19";
          this.xrTableCell19.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.xrTableCell19.Text = "投資人帳號";
-         this.xrTableCell19.Weight = 1D;
+         this.xrTableCell19.Weight = 1.0502348966486537D;
          // 
          // cp_prod1
          // 
@@ -562,31 +581,37 @@
          this.cp_prod1.Name = "cp_prod1";
          this.cp_prod1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.cp_prod1.Text = "商品名稱";
-         this.cp_prod1.Weight = 1D;
+         this.cp_prod1.Weight = 1.129761849759849D;
          // 
          // xrTableCell21
          // 
+         this.xrTableCell21.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
          this.xrTableCell21.Multiline = true;
          this.xrTableCell21.Name = "xrTableCell21";
          this.xrTableCell21.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+         this.xrTableCell21.StylePriority.UseFont = false;
          this.xrTableCell21.Text = "一般委託成交量";
-         this.xrTableCell21.Weight = 1D;
+         this.xrTableCell21.Weight = 0.90513824566194712D;
          // 
          // xrTableCell22
          // 
+         this.xrTableCell22.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
          this.xrTableCell22.Multiline = true;
          this.xrTableCell22.Name = "xrTableCell22";
          this.xrTableCell22.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+         this.xrTableCell22.StylePriority.UseFont = false;
          this.xrTableCell22.Text = "報價成交量";
-         this.xrTableCell22.Weight = 1D;
+         this.xrTableCell22.Weight = 0.878478456089017D;
          // 
          // xrTableCell23
          // 
+         this.xrTableCell23.Font = new System.Drawing.Font("Arial", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
          this.xrTableCell23.Multiline = true;
          this.xrTableCell23.Name = "xrTableCell23";
          this.xrTableCell23.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+         this.xrTableCell23.StylePriority.UseFont = false;
          this.xrTableCell23.Text = "不符合報價成交量";
-         this.xrTableCell23.Weight = 1D;
+         this.xrTableCell23.Weight = 0.80069624433525766D;
          // 
          // xrTableCell24
          // 
@@ -594,15 +619,17 @@
          this.xrTableCell24.Name = "xrTableCell24";
          this.xrTableCell24.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.xrTableCell24.Text = "造市量";
-         this.xrTableCell24.Weight = 1D;
+         this.xrTableCell24.Weight = 0.90513488663290764D;
          // 
          // xrTableCell25
          // 
+         this.xrTableCell25.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
          this.xrTableCell25.Multiline = true;
          this.xrTableCell25.Name = "xrTableCell25";
          this.xrTableCell25.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+         this.xrTableCell25.StylePriority.UseFont = false;
          this.xrTableCell25.Text = "鉅額交易成交量";
-         this.xrTableCell25.Weight = 1D;
+         this.xrTableCell25.Weight = 0.87032200586702424D;
          // 
          // xrTableCell26
          // 
@@ -610,23 +637,27 @@
          this.xrTableCell26.Name = "xrTableCell26";
          this.xrTableCell26.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.xrTableCell26.Text = "造勢者總成交量";
-         this.xrTableCell26.Weight = 1D;
+         this.xrTableCell26.Weight = 1.0443864096964413D;
          // 
          // xrTableCell27
          // 
+         this.xrTableCell27.Font = new System.Drawing.Font("Arial", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
          this.xrTableCell27.Multiline = true;
          this.xrTableCell27.Name = "xrTableCell27";
          this.xrTableCell27.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+         this.xrTableCell27.StylePriority.UseFont = false;
          this.xrTableCell27.Text = "總成交量市佔率(%)";
-         this.xrTableCell27.Weight = 1D;
+         this.xrTableCell27.Weight = 0.78328980395231584D;
          // 
          // xrTableCell28
          // 
+         this.xrTableCell28.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
          this.xrTableCell28.Multiline = true;
          this.xrTableCell28.Name = "xrTableCell28";
          this.xrTableCell28.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+         this.xrTableCell28.StylePriority.UseFont = false;
          this.xrTableCell28.Text = "有效報價筆數";
-         this.xrTableCell28.Weight = 1D;
+         this.xrTableCell28.Weight = 1.044386409696441D;
          // 
          // xrTableCell29
          // 
@@ -634,7 +665,7 @@
          this.xrTableCell29.Name = "xrTableCell29";
          this.xrTableCell29.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.xrTableCell29.Text = "有效報/詢價比例(%)";
-         this.xrTableCell29.Weight = 1D;
+         this.xrTableCell29.Weight = 1.044386409696441D;
          // 
          // xrTableCell30
          // 
@@ -642,7 +673,7 @@
          this.xrTableCell30.Name = "xrTableCell30";
          this.xrTableCell30.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.xrTableCell30.Text = "全市場詢價筆數";
-         this.xrTableCell30.Weight = 1D;
+         this.xrTableCell30.Weight = 1.0443864760967418D;
          // 
          // xrTableCell31
          // 
@@ -650,23 +681,27 @@
          this.xrTableCell31.Name = "xrTableCell31";
          this.xrTableCell31.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.xrTableCell31.Text = "全市場總成交量";
-         this.xrTableCell31.Weight = 1D;
+         this.xrTableCell31.Weight = 1.0443864760967418D;
          // 
          // xrTableCell32
          // 
+         this.xrTableCell32.Font = new System.Drawing.Font("Arial", 7F);
          this.xrTableCell32.Multiline = true;
          this.xrTableCell32.Name = "xrTableCell32";
          this.xrTableCell32.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+         this.xrTableCell32.StylePriority.UseFont = false;
          this.xrTableCell32.Text = "每日平均維持時間(分)";
-         this.xrTableCell32.Weight = 1D;
+         this.xrTableCell32.Weight = 0.87032207226732461D;
          // 
          // xrTableCell33
          // 
+         this.xrTableCell33.Font = new System.Drawing.Font("Arial", 9F);
          this.xrTableCell33.Multiline = true;
          this.xrTableCell33.Name = "xrTableCell33";
          this.xrTableCell33.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+         this.xrTableCell33.StylePriority.UseFont = false;
          this.xrTableCell33.Text = "平均造市量";
-         this.xrTableCell33.Weight = 1D;
+         this.xrTableCell33.Weight = 0.69625886364331768D;
          // 
          // cp_tot_amm0_market_m_qnty
          // 
@@ -683,7 +718,7 @@
          this.cp_tot_amm0_market_m_qnty.Text = "cp_sum_amm0_market_m_qnty";
          this.cp_tot_amm0_market_m_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.cp_tot_amm0_market_m_qnty.TextFormatString = "{0:#,##0}";
-         this.cp_tot_amm0_market_m_qnty.Weight = 1D;
+         this.cp_tot_amm0_market_m_qnty.Weight = 1.0394826382896263D;
          // 
          // cp_tot_amm0_market_r_cnt
          // 
@@ -697,7 +732,7 @@
          this.cp_tot_amm0_market_r_cnt.Summary = xrSummary2;
          this.cp_tot_amm0_market_r_cnt.Text = "cp_sum_amm0_market_r_cnt";
          this.cp_tot_amm0_market_r_cnt.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_tot_amm0_market_r_cnt.Weight = 1D;
+         this.cp_tot_amm0_market_r_cnt.Weight = 1.0394818182460452D;
          // 
          // cp_tot_rate_valid_real
          // 
@@ -712,7 +747,7 @@
          this.cp_tot_rate_valid_real.Summary = xrSummary3;
          this.cp_tot_rate_valid_real.Text = "cp_sum_rate_valid_real";
          this.cp_tot_rate_valid_real.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_tot_rate_valid_real.Weight = 1D;
+         this.cp_tot_rate_valid_real.Weight = 1.0394818813263207D;
          // 
          // cp_tot_amm0_valid_cnt
          // 
@@ -726,7 +761,7 @@
          this.cp_tot_amm0_valid_cnt.Summary = xrSummary4;
          this.cp_tot_amm0_valid_cnt.Text = "cp_sum_amm0_valid_cnt";
          this.cp_tot_amm0_valid_cnt.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_tot_amm0_valid_cnt.Weight = 1D;
+         this.cp_tot_amm0_valid_cnt.Weight = 0.77961139522467193D;
          // 
          // cp_tot_rate_m
          // 
@@ -743,7 +778,7 @@
          this.cp_tot_rate_m.Text = "cp_sum_rate_m";
          this.cp_tot_rate_m.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.cp_tot_rate_m.TextFormatString = "{0:#,##0}";
-         this.cp_tot_rate_m.Weight = 1D;
+         this.cp_tot_rate_m.Weight = 1.0394818813263207D;
          // 
          // cp_tot_m_qnty
          // 
@@ -759,7 +794,7 @@
          this.cp_tot_m_qnty.Text = "cp_sum_m_qnty";
          this.cp_tot_m_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.cp_tot_m_qnty.TextFormatString = "{0:#,##0}";
-         this.cp_tot_m_qnty.Weight = 1D;
+         this.cp_tot_m_qnty.Weight = 0.86623486956512963D;
          // 
          // cp_tot_amm0_btrade_m_qnty
          // 
@@ -773,7 +808,7 @@
          this.cp_tot_amm0_btrade_m_qnty.Summary = xrSummary7;
          this.cp_tot_amm0_btrade_m_qnty.Text = "cp_sum_amm0_btrade_m_qnty";
          this.cp_tot_amm0_btrade_m_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_tot_amm0_btrade_m_qnty.Weight = 1D;
+         this.cp_tot_amm0_btrade_m_qnty.Weight = 0.90088429714947793D;
          // 
          // cp_tot_mmk_qnty
          // 
@@ -787,7 +822,7 @@
          this.cp_tot_mmk_qnty.Summary = xrSummary8;
          this.cp_tot_mmk_qnty.Text = "cp_mmk_qnty";
          this.cp_tot_mmk_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_tot_mmk_qnty.Weight = 1D;
+         this.cp_tot_mmk_qnty.Weight = 0.79693607747670814D;
          // 
          // cp_tot_amm0_iqm_qnty
          // 
@@ -801,7 +836,7 @@
          this.cp_tot_amm0_iqm_qnty.Summary = xrSummary9;
          this.cp_tot_amm0_iqm_qnty.Text = "cp_sum_amm0_iqm_qnty";
          this.cp_tot_amm0_iqm_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_tot_amm0_iqm_qnty.Weight = 1D;
+         this.cp_tot_amm0_iqm_qnty.Weight = 0.87554413045606538D;
          // 
          // cp_tot_amm0_qm_qnty_sum
          // 
@@ -815,7 +850,7 @@
          this.cp_tot_amm0_qm_qnty_sum.Summary = xrSummary10;
          this.cp_tot_amm0_qm_qnty_sum.Text = "cp_tot_amm0_qm_qnty_sum";
          this.cp_tot_amm0_qm_qnty_sum.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_tot_amm0_qm_qnty_sum.Weight = 1D;
+         this.cp_tot_amm0_qm_qnty_sum.Weight = 0.90088423406920259D;
          // 
          // cp_tot_amm0_om_qnty_sum
          // 
@@ -829,7 +864,7 @@
          this.cp_tot_amm0_om_qnty_sum.Summary = xrSummary11;
          this.cp_tot_amm0_om_qnty_sum.Text = "cp_tot_amm0_om_qnty_sum";
          this.cp_tot_amm0_om_qnty_sum.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_tot_amm0_om_qnty_sum.Weight = 1D;
+         this.cp_tot_amm0_om_qnty_sum.Weight = 1.1244558695439346D;
          // 
          // xrTableCell1
          // 
@@ -869,7 +904,7 @@
          this.xrTable3.Name = "xrTable3";
          this.xrTable3.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
             this.xrTableRow3});
-         this.xrTable3.SizeF = new System.Drawing.SizeF(725.6843F, 25F);
+         this.xrTable3.SizeF = new System.Drawing.SizeF(689.55F, 25F);
          this.xrTable3.StylePriority.UseBorderWidth = false;
          this.xrTable3.StylePriority.UseFont = false;
          // 
@@ -897,57 +932,65 @@
          // 
          this.cp_sum_amm0_market_m_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_MARKET_M_QNTY]")});
+         this.cp_sum_amm0_market_m_qnty.Font = new System.Drawing.Font("Arial", 8F);
          this.cp_sum_amm0_market_m_qnty.Multiline = true;
          this.cp_sum_amm0_market_m_qnty.Name = "cp_sum_amm0_market_m_qnty";
          this.cp_sum_amm0_market_m_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+         this.cp_sum_amm0_market_m_qnty.StylePriority.UseFont = false;
          this.cp_sum_amm0_market_m_qnty.StylePriority.UseTextAlignment = false;
          xrSummary12.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
          this.cp_sum_amm0_market_m_qnty.Summary = xrSummary12;
          this.cp_sum_amm0_market_m_qnty.Text = "cp_sum_amm0_market_m_qnty";
          this.cp_sum_amm0_market_m_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.cp_sum_amm0_market_m_qnty.TextFormatString = "{0:#,##0}";
-         this.cp_sum_amm0_market_m_qnty.Weight = 1D;
+         this.cp_sum_amm0_market_m_qnty.Weight = 1.0394826382896263D;
          // 
          // cp_sum_amm0_market_r_cnt
          // 
          this.cp_sum_amm0_market_r_cnt.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_MARKET_R_CNT]")});
+         this.cp_sum_amm0_market_r_cnt.Font = new System.Drawing.Font("Arial", 8F);
          this.cp_sum_amm0_market_r_cnt.Multiline = true;
          this.cp_sum_amm0_market_r_cnt.Name = "cp_sum_amm0_market_r_cnt";
          this.cp_sum_amm0_market_r_cnt.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+         this.cp_sum_amm0_market_r_cnt.StylePriority.UseFont = false;
          this.cp_sum_amm0_market_r_cnt.StylePriority.UseTextAlignment = false;
          this.cp_sum_amm0_market_r_cnt.Text = "cp_sum_amm0_market_r_cnt";
          this.cp_sum_amm0_market_r_cnt.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_sum_amm0_market_r_cnt.Weight = 1D;
+         this.cp_sum_amm0_market_r_cnt.Weight = 1.0394818182460452D;
          // 
          // cp_sum_rate_valid_real
          // 
          this.cp_sum_rate_valid_real.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "Iif([AMM0_MARKET_R_CNT]  = 0,1,round(sumRunningSum([AMM0_VALID_CNT]) / [AMM0_MARK" +
                     "ET_R_CNT],4)) * 100")});
+         this.cp_sum_rate_valid_real.Font = new System.Drawing.Font("Arial", 9F);
          this.cp_sum_rate_valid_real.Multiline = true;
          this.cp_sum_rate_valid_real.Name = "cp_sum_rate_valid_real";
          this.cp_sum_rate_valid_real.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+         this.cp_sum_rate_valid_real.StylePriority.UseFont = false;
          this.cp_sum_rate_valid_real.StylePriority.UseTextAlignment = false;
          xrSummary13.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
          this.cp_sum_rate_valid_real.Summary = xrSummary13;
          this.cp_sum_rate_valid_real.Text = "cp_sum_rate_valid_real";
          this.cp_sum_rate_valid_real.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_sum_rate_valid_real.Weight = 1D;
+         this.cp_sum_rate_valid_real.Weight = 1.0394818813263207D;
          // 
          // cp_sum_amm0_valid_cnt
          // 
          this.cp_sum_amm0_valid_cnt.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumRunningSum([AMM0_VALID_CNT])")});
+         this.cp_sum_amm0_valid_cnt.Font = new System.Drawing.Font("Arial", 9F);
          this.cp_sum_amm0_valid_cnt.Multiline = true;
          this.cp_sum_amm0_valid_cnt.Name = "cp_sum_amm0_valid_cnt";
          this.cp_sum_amm0_valid_cnt.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+         this.cp_sum_amm0_valid_cnt.StylePriority.UseFont = false;
          this.cp_sum_amm0_valid_cnt.StylePriority.UseTextAlignment = false;
          xrSummary14.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
          this.cp_sum_amm0_valid_cnt.Summary = xrSummary14;
          this.cp_sum_amm0_valid_cnt.Text = "cp_sum_amm0_valid_cnt";
          this.cp_sum_amm0_valid_cnt.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_sum_amm0_valid_cnt.Weight = 1D;
+         this.cp_sum_amm0_valid_cnt.Weight = 0.77961139522467193D;
          // 
          // cp_sum_rate_m
          // 
@@ -955,102 +998,116 @@
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "Iif(  [AMM0_MARKET_M_QNTY]  =0,0, (sumRunningSum([AMM0_OM_QNTY] + [AMM0_QM_QNTY] " +
                     "+ [AMM0_IQM_QNTY]  +  Iif(isnull([AMM0_BTRADE_M_QNTY]),0,[AMM0_BTRADE_M_QNTY])))" +
                     "\n /   [AMM0_MARKET_M_QNTY]  )  * 100")});
+         this.cp_sum_rate_m.Font = new System.Drawing.Font("Arial", 9F);
          this.cp_sum_rate_m.Multiline = true;
          this.cp_sum_rate_m.Name = "cp_sum_rate_m";
          this.cp_sum_rate_m.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+         this.cp_sum_rate_m.StylePriority.UseFont = false;
          this.cp_sum_rate_m.StylePriority.UseTextAlignment = false;
          xrSummary15.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
          this.cp_sum_rate_m.Summary = xrSummary15;
          this.cp_sum_rate_m.Text = "cp_sum_rate_m";
          this.cp_sum_rate_m.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.cp_sum_rate_m.TextFormatString = "{0:#,##0}";
-         this.cp_sum_rate_m.Weight = 1D;
+         this.cp_sum_rate_m.Weight = 1.0394818813263207D;
          // 
          // cp_sum_m_qnty
          // 
          this.cp_sum_m_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumRunningSum([AMM0_OM_QNTY] + [AMM0_QM_QNTY] + [AMM0_IQM_QNTY]  +  Iif(isnull([A" +
                     "MM0_BTRADE_M_QNTY]),0,[AMM0_BTRADE_M_QNTY]))")});
+         this.cp_sum_m_qnty.Font = new System.Drawing.Font("Arial", 9F);
          this.cp_sum_m_qnty.Multiline = true;
          this.cp_sum_m_qnty.Name = "cp_sum_m_qnty";
          this.cp_sum_m_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+         this.cp_sum_m_qnty.StylePriority.UseFont = false;
          this.cp_sum_m_qnty.StylePriority.UseTextAlignment = false;
          xrSummary16.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
          this.cp_sum_m_qnty.Summary = xrSummary16;
          this.cp_sum_m_qnty.Text = "cp_sum_m_qnty";
          this.cp_sum_m_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.cp_sum_m_qnty.TextFormatString = "{0:#,##0}";
-         this.cp_sum_m_qnty.Weight = 1D;
+         this.cp_sum_m_qnty.Weight = 0.86623486956512963D;
          // 
          // cp_sum_amm0_btrade_m_qnty
          // 
          this.cp_sum_amm0_btrade_m_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumRunningSum([MMK_QNTY])")});
+         this.cp_sum_amm0_btrade_m_qnty.Font = new System.Drawing.Font("Arial", 9F);
          this.cp_sum_amm0_btrade_m_qnty.Multiline = true;
          this.cp_sum_amm0_btrade_m_qnty.Name = "cp_sum_amm0_btrade_m_qnty";
          this.cp_sum_amm0_btrade_m_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+         this.cp_sum_amm0_btrade_m_qnty.StylePriority.UseFont = false;
          this.cp_sum_amm0_btrade_m_qnty.StylePriority.UseTextAlignment = false;
          xrSummary17.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
          this.cp_sum_amm0_btrade_m_qnty.Summary = xrSummary17;
          this.cp_sum_amm0_btrade_m_qnty.Text = "cp_sum_amm0_btrade_m_qnty";
          this.cp_sum_amm0_btrade_m_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_sum_amm0_btrade_m_qnty.Weight = 1D;
+         this.cp_sum_amm0_btrade_m_qnty.Weight = 0.90088429714947793D;
          // 
          // cp_mmk_qnty
          // 
          this.cp_mmk_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumRunningSum([MMK_QNTY])")});
+         this.cp_mmk_qnty.Font = new System.Drawing.Font("Arial", 9F);
          this.cp_mmk_qnty.Multiline = true;
          this.cp_mmk_qnty.Name = "cp_mmk_qnty";
          this.cp_mmk_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+         this.cp_mmk_qnty.StylePriority.UseFont = false;
          this.cp_mmk_qnty.StylePriority.UseTextAlignment = false;
          xrSummary18.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
          this.cp_mmk_qnty.Summary = xrSummary18;
          this.cp_mmk_qnty.Text = "cp_mmk_qnty";
          this.cp_mmk_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_mmk_qnty.Weight = 1D;
+         this.cp_mmk_qnty.Weight = 0.79693607747670814D;
          // 
          // cp_sum_amm0_iqm_qnty
          // 
          this.cp_sum_amm0_iqm_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumRunningSum([AMM0_IQM_QNTY])")});
+         this.cp_sum_amm0_iqm_qnty.Font = new System.Drawing.Font("Arial", 9F);
          this.cp_sum_amm0_iqm_qnty.Multiline = true;
          this.cp_sum_amm0_iqm_qnty.Name = "cp_sum_amm0_iqm_qnty";
          this.cp_sum_amm0_iqm_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+         this.cp_sum_amm0_iqm_qnty.StylePriority.UseFont = false;
          this.cp_sum_amm0_iqm_qnty.StylePriority.UseTextAlignment = false;
          xrSummary19.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
          this.cp_sum_amm0_iqm_qnty.Summary = xrSummary19;
          this.cp_sum_amm0_iqm_qnty.Text = "cp_sum_amm0_iqm_qnty";
          this.cp_sum_amm0_iqm_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_sum_amm0_iqm_qnty.Weight = 1D;
+         this.cp_sum_amm0_iqm_qnty.Weight = 0.87554413045606538D;
          // 
          // cp_sum_amm0_qm_qnty_sum
          // 
          this.cp_sum_amm0_qm_qnty_sum.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumRunningSum([AMM0_QM_QNTY])")});
+         this.cp_sum_amm0_qm_qnty_sum.Font = new System.Drawing.Font("Arial", 9F);
          this.cp_sum_amm0_qm_qnty_sum.Multiline = true;
          this.cp_sum_amm0_qm_qnty_sum.Name = "cp_sum_amm0_qm_qnty_sum";
          this.cp_sum_amm0_qm_qnty_sum.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+         this.cp_sum_amm0_qm_qnty_sum.StylePriority.UseFont = false;
          this.cp_sum_amm0_qm_qnty_sum.StylePriority.UseTextAlignment = false;
          xrSummary20.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
          this.cp_sum_amm0_qm_qnty_sum.Summary = xrSummary20;
          this.cp_sum_amm0_qm_qnty_sum.Text = "cp_sum_amm0_qm_qnty_sum";
          this.cp_sum_amm0_qm_qnty_sum.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_sum_amm0_qm_qnty_sum.Weight = 1D;
+         this.cp_sum_amm0_qm_qnty_sum.Weight = 0.90088423406920259D;
          // 
          // cp_sum_amm0_om_qnty_sum
          // 
          this.cp_sum_amm0_om_qnty_sum.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumRunningSum([AMM0_OM_QNTY])")});
+         this.cp_sum_amm0_om_qnty_sum.Font = new System.Drawing.Font("Arial", 9F);
          this.cp_sum_amm0_om_qnty_sum.Multiline = true;
          this.cp_sum_amm0_om_qnty_sum.Name = "cp_sum_amm0_om_qnty_sum";
          this.cp_sum_amm0_om_qnty_sum.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+         this.cp_sum_amm0_om_qnty_sum.StylePriority.UseFont = false;
          this.cp_sum_amm0_om_qnty_sum.StylePriority.UseTextAlignment = false;
          xrSummary21.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
          this.cp_sum_amm0_om_qnty_sum.Summary = xrSummary21;
          this.cp_sum_amm0_om_qnty_sum.Text = "cp_sum_amm0_om_qnty_sum";
          this.cp_sum_amm0_om_qnty_sum.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_sum_amm0_om_qnty_sum.Weight = 1D;
+         this.cp_sum_amm0_om_qnty_sum.Weight = 1.1244558695439346D;
          // 
          // xrTableCell35
          // 
@@ -1085,7 +1142,7 @@
          this.xrTable2.Name = "xrTable2";
          this.xrTable2.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
             this.xrTableRow2});
-         this.xrTable2.SizeF = new System.Drawing.SizeF(725.6843F, 25F);
+         this.xrTable2.SizeF = new System.Drawing.SizeF(689.55F, 25F);
          this.xrTable2.StylePriority.UseBorderWidth = false;
          // 
          // groupFooterBand1
