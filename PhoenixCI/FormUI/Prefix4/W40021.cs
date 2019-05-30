@@ -309,7 +309,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                }
             } else {
                //刪除"無契約變動"說明文字
-               ws3.Rows.Remove(ii_ole_row3);
+               //ws3.Rows.Remove(ii_ole_row3);
                Range ra = ws3.Rows[ii_ole_row3];
                ra.Delete();
                ws3.Range["A1"].Select();
