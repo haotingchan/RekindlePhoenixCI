@@ -226,7 +226,7 @@
          this.cp_prod_id2.Name = "cp_prod_id2";
          this.cp_prod_id2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.cp_prod_id2.StylePriority.UseFont = false;
-         this.cp_prod_id2.Weight = 0.033228276130619516D;
+         this.cp_prod_id2.Weight = 1.1297613884410633D;
          // 
          // amm0_brk_no
          // 
@@ -267,7 +267,7 @@
          this.amm0_acc_no.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.amm0_acc_no.StylePriority.UseFont = false;
          this.amm0_acc_no.Text = "amm0_acc_no";
-         this.amm0_acc_no.Weight = 1.0502362914736063D;
+         this.amm0_acc_no.Weight = 1.0467368169580182D;
          // 
          // cp_prod_id
          // 
@@ -279,7 +279,7 @@
          this.cp_prod_id.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.cp_prod_id.StylePriority.UseFont = false;
          this.cp_prod_id.Text = "cp_prod_id";
-         this.cp_prod_id.Weight = 1.1297603300100385D;
+         this.cp_prod_id.Weight = 0.036726692215182107D;
          // 
          // amm0_om_qnty
          // 
@@ -549,7 +549,7 @@
          this.cp_prod2.Name = "cp_prod2";
          this.cp_prod2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.cp_prod2.Text = "商品名稱";
-         this.cp_prod2.Weight = 0.033228304958174082D;
+         this.cp_prod2.Weight = 1.129761406114504D;
          // 
          // xrTableCell17
          // 
@@ -557,7 +557,7 @@
          this.xrTableCell17.Name = "xrTableCell17";
          this.xrTableCell17.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.xrTableCell17.Text = "期貨商代號";
-         this.xrTableCell17.Weight = 1.0443647344524512D;
+         this.xrTableCell17.Weight = 1.0443647344524509D;
          // 
          // xrTableCell18
          // 
@@ -565,7 +565,7 @@
          this.xrTableCell18.Name = "xrTableCell18";
          this.xrTableCell18.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.xrTableCell18.Text = "期貨商名稱";
-         this.xrTableCell18.Weight = 2.1598378855728244D;
+         this.xrTableCell18.Weight = 2.159837885572824D;
          // 
          // xrTableCell19
          // 
@@ -573,7 +573,7 @@
          this.xrTableCell19.Name = "xrTableCell19";
          this.xrTableCell19.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.xrTableCell19.Text = "投資人帳號";
-         this.xrTableCell19.Weight = 1.0502348966486537D;
+         this.xrTableCell19.Weight = 1.0502348966486532D;
          // 
          // cp_prod1
          // 
@@ -581,7 +581,7 @@
          this.cp_prod1.Name = "cp_prod1";
          this.cp_prod1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.cp_prod1.Text = "商品名稱";
-         this.cp_prod1.Weight = 1.129761849759849D;
+         this.cp_prod1.Weight = 0.033228748603519653D;
          // 
          // xrTableCell21
          // 
@@ -718,7 +718,7 @@
          this.cp_tot_amm0_market_m_qnty.Text = "cp_sum_amm0_market_m_qnty";
          this.cp_tot_amm0_market_m_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.cp_tot_amm0_market_m_qnty.TextFormatString = "{0:#,##0}";
-         this.cp_tot_amm0_market_m_qnty.Weight = 1.0394826382896263D;
+         this.cp_tot_amm0_market_m_qnty.Weight = 1.0394834583332935D;
          // 
          // cp_tot_amm0_market_r_cnt
          // 
@@ -732,7 +732,7 @@
          this.cp_tot_amm0_market_r_cnt.Summary = xrSummary2;
          this.cp_tot_amm0_market_r_cnt.Text = "cp_sum_amm0_market_r_cnt";
          this.cp_tot_amm0_market_r_cnt.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_tot_amm0_market_r_cnt.Weight = 1.0394818182460452D;
+         this.cp_tot_amm0_market_r_cnt.Weight = 1.0394821336474556D;
          // 
          // cp_tot_rate_valid_real
          // 
@@ -747,7 +747,7 @@
          this.cp_tot_rate_valid_real.Summary = xrSummary3;
          this.cp_tot_rate_valid_real.Text = "cp_sum_rate_valid_real";
          this.cp_tot_rate_valid_real.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_tot_rate_valid_real.Weight = 1.0394818813263207D;
+         this.cp_tot_rate_valid_real.Weight = 1.039482070567167D;
          // 
          // cp_tot_amm0_valid_cnt
          // 
@@ -761,7 +761,7 @@
          this.cp_tot_amm0_valid_cnt.Summary = xrSummary4;
          this.cp_tot_amm0_valid_cnt.Text = "cp_sum_amm0_valid_cnt";
          this.cp_tot_amm0_valid_cnt.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_tot_amm0_valid_cnt.Weight = 0.77961139522467193D;
+         this.cp_tot_amm0_valid_cnt.Weight = 1.0394820348099765D;
          // 
          // cp_tot_rate_m
          // 
@@ -778,7 +778,7 @@
          this.cp_tot_rate_m.Text = "cp_sum_rate_m";
          this.cp_tot_rate_m.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.cp_tot_rate_m.TextFormatString = "{0:#,##0}";
-         this.cp_tot_rate_m.Weight = 1.0394818813263207D;
+         this.cp_tot_rate_m.Weight = 0.77961162022270847D;
          // 
          // cp_tot_m_qnty
          // 
@@ -794,7 +794,7 @@
          this.cp_tot_m_qnty.Text = "cp_sum_m_qnty";
          this.cp_tot_m_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.cp_tot_m_qnty.TextFormatString = "{0:#,##0}";
-         this.cp_tot_m_qnty.Weight = 0.86623486956512963D;
+         this.cp_tot_m_qnty.Weight = 1.0394820887825635D;
          // 
          // cp_tot_amm0_btrade_m_qnty
          // 
@@ -808,7 +808,7 @@
          this.cp_tot_amm0_btrade_m_qnty.Summary = xrSummary7;
          this.cp_tot_amm0_btrade_m_qnty.Text = "cp_sum_amm0_btrade_m_qnty";
          this.cp_tot_amm0_btrade_m_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_tot_amm0_btrade_m_qnty.Weight = 0.90088429714947793D;
+         this.cp_tot_amm0_btrade_m_qnty.Weight = 0.86623511824317589D;
          // 
          // cp_tot_mmk_qnty
          // 
@@ -822,7 +822,7 @@
          this.cp_tot_mmk_qnty.Summary = xrSummary8;
          this.cp_tot_mmk_qnty.Text = "cp_mmk_qnty";
          this.cp_tot_mmk_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_tot_mmk_qnty.Weight = 0.79693607747670814D;
+         this.cp_tot_mmk_qnty.Weight = 0.90088443423928144D;
          // 
          // cp_tot_amm0_iqm_qnty
          // 
@@ -836,7 +836,7 @@
          this.cp_tot_amm0_iqm_qnty.Summary = xrSummary9;
          this.cp_tot_amm0_iqm_qnty.Text = "cp_sum_amm0_iqm_qnty";
          this.cp_tot_amm0_iqm_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_tot_amm0_iqm_qnty.Weight = 0.87554413045606538D;
+         this.cp_tot_amm0_iqm_qnty.Weight = 0.79693625845261051D;
          // 
          // cp_tot_amm0_qm_qnty_sum
          // 
@@ -850,7 +850,7 @@
          this.cp_tot_amm0_qm_qnty_sum.Summary = xrSummary10;
          this.cp_tot_amm0_qm_qnty_sum.Text = "cp_tot_amm0_qm_qnty_sum";
          this.cp_tot_amm0_qm_qnty_sum.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_tot_amm0_qm_qnty_sum.Weight = 0.90088423406920259D;
+         this.cp_tot_amm0_qm_qnty_sum.Weight = 0.874353361306835D;
          // 
          // cp_tot_amm0_om_qnty_sum
          // 
@@ -864,7 +864,7 @@
          this.cp_tot_amm0_om_qnty_sum.Summary = xrSummary11;
          this.cp_tot_amm0_om_qnty_sum.Text = "cp_tot_amm0_om_qnty_sum";
          this.cp_tot_amm0_om_qnty_sum.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_tot_amm0_om_qnty_sum.Weight = 1.1244558695439346D;
+         this.cp_tot_amm0_om_qnty_sum.Weight = 0.90088988778800316D;
          // 
          // xrTableCell1
          // 
@@ -875,8 +875,8 @@
          this.xrTableCell1.StylePriority.UseFont = false;
          this.xrTableCell1.StylePriority.UseTextAlignment = false;
          this.xrTableCell1.Text = "總計";
-         this.xrTableCell1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
-         this.xrTableCell1.Weight = 1D;
+         this.xrTableCell1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
+         this.xrTableCell1.Weight = 1.0783755476693588D;
          // 
          // xrTableRow3
          // 
@@ -900,11 +900,11 @@
          // 
          this.xrTable3.BorderWidth = 0F;
          this.xrTable3.Font = new System.Drawing.Font("Arial", 8F);
-         this.xrTable3.LocationFloat = new DevExpress.Utils.PointFloat(302.3685F, 0F);
+         this.xrTable3.LocationFloat = new DevExpress.Utils.PointFloat(365.6288F, 0F);
          this.xrTable3.Name = "xrTable3";
          this.xrTable3.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
             this.xrTableRow3});
-         this.xrTable3.SizeF = new System.Drawing.SizeF(689.55F, 25F);
+         this.xrTable3.SizeF = new System.Drawing.SizeF(689.0794F, 25F);
          this.xrTable3.StylePriority.UseBorderWidth = false;
          this.xrTable3.StylePriority.UseFont = false;
          // 
@@ -943,7 +943,7 @@
          this.cp_sum_amm0_market_m_qnty.Text = "cp_sum_amm0_market_m_qnty";
          this.cp_sum_amm0_market_m_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.cp_sum_amm0_market_m_qnty.TextFormatString = "{0:#,##0}";
-         this.cp_sum_amm0_market_m_qnty.Weight = 1.0394826382896263D;
+         this.cp_sum_amm0_market_m_qnty.Weight = 1.0394827644501847D;
          // 
          // cp_sum_amm0_market_r_cnt
          // 
@@ -957,7 +957,7 @@
          this.cp_sum_amm0_market_r_cnt.StylePriority.UseTextAlignment = false;
          this.cp_sum_amm0_market_r_cnt.Text = "cp_sum_amm0_market_r_cnt";
          this.cp_sum_amm0_market_r_cnt.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_sum_amm0_market_r_cnt.Weight = 1.0394818182460452D;
+         this.cp_sum_amm0_market_r_cnt.Weight = 1.0394819444066039D;
          // 
          // cp_sum_rate_valid_real
          // 
@@ -990,7 +990,7 @@
          this.cp_sum_amm0_valid_cnt.Summary = xrSummary14;
          this.cp_sum_amm0_valid_cnt.Text = "cp_sum_amm0_valid_cnt";
          this.cp_sum_amm0_valid_cnt.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_sum_amm0_valid_cnt.Weight = 0.77961139522467193D;
+         this.cp_sum_amm0_valid_cnt.Weight = 1.0394818971404023D;
          // 
          // cp_sum_rate_m
          // 
@@ -1009,7 +1009,7 @@
          this.cp_sum_rate_m.Text = "cp_sum_rate_m";
          this.cp_sum_rate_m.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.cp_sum_rate_m.TextFormatString = "{0:#,##0}";
-         this.cp_sum_rate_m.Weight = 1.0394818813263207D;
+         this.cp_sum_rate_m.Weight = 0.77961150557114878D;
          // 
          // cp_sum_m_qnty
          // 
@@ -1027,7 +1027,7 @@
          this.cp_sum_m_qnty.Text = "cp_sum_m_qnty";
          this.cp_sum_m_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.cp_sum_m_qnty.TextFormatString = "{0:#,##0}";
-         this.cp_sum_m_qnty.Weight = 0.86623486956512963D;
+         this.cp_sum_m_qnty.Weight = 1.0394819549493224D;
          // 
          // cp_sum_amm0_btrade_m_qnty
          // 
@@ -1043,7 +1043,7 @@
          this.cp_sum_amm0_btrade_m_qnty.Summary = xrSummary17;
          this.cp_sum_amm0_btrade_m_qnty.Text = "cp_sum_amm0_btrade_m_qnty";
          this.cp_sum_amm0_btrade_m_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_sum_amm0_btrade_m_qnty.Weight = 0.90088429714947793D;
+         this.cp_sum_amm0_btrade_m_qnty.Weight = 0.86623493053686285D;
          // 
          // cp_mmk_qnty
          // 
@@ -1059,7 +1059,7 @@
          this.cp_mmk_qnty.Summary = xrSummary18;
          this.cp_mmk_qnty.Text = "cp_mmk_qnty";
          this.cp_mmk_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_mmk_qnty.Weight = 0.79693607747670814D;
+         this.cp_mmk_qnty.Weight = 0.900884303475112D;
          // 
          // cp_sum_amm0_iqm_qnty
          // 
@@ -1075,7 +1075,7 @@
          this.cp_sum_amm0_iqm_qnty.Summary = xrSummary19;
          this.cp_sum_amm0_iqm_qnty.Text = "cp_sum_amm0_iqm_qnty";
          this.cp_sum_amm0_iqm_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_sum_amm0_iqm_qnty.Weight = 0.87554413045606538D;
+         this.cp_sum_amm0_iqm_qnty.Weight = 0.7969361357733965D;
          // 
          // cp_sum_amm0_qm_qnty_sum
          // 
@@ -1091,7 +1091,7 @@
          this.cp_sum_amm0_qm_qnty_sum.Summary = xrSummary20;
          this.cp_sum_amm0_qm_qnty_sum.Text = "cp_sum_amm0_qm_qnty_sum";
          this.cp_sum_amm0_qm_qnty_sum.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_sum_amm0_qm_qnty_sum.Weight = 0.90088423406920259D;
+         this.cp_sum_amm0_qm_qnty_sum.Weight = 0.87435317324098261D;
          // 
          // cp_sum_amm0_om_qnty_sum
          // 
@@ -1107,7 +1107,7 @@
          this.cp_sum_amm0_om_qnty_sum.Summary = xrSummary21;
          this.cp_sum_amm0_om_qnty_sum.Text = "cp_sum_amm0_om_qnty_sum";
          this.cp_sum_amm0_om_qnty_sum.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
-         this.cp_sum_amm0_om_qnty_sum.Weight = 1.1244558695439346D;
+         this.cp_sum_amm0_om_qnty_sum.Weight = 0.90088983460889782D;
          // 
          // xrTableCell35
          // 
@@ -1115,7 +1115,7 @@
          this.xrTableCell35.Name = "xrTableCell35";
          this.xrTableCell35.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.xrTableCell35.Text = "小計";
-         this.xrTableCell35.Weight = 1D;
+         this.xrTableCell35.Weight = 1.7391292085454226D;
          // 
          // xrTableRow2
          // 
@@ -1138,11 +1138,11 @@
          // xrTable2
          // 
          this.xrTable2.BorderWidth = 0F;
-         this.xrTable2.LocationFloat = new DevExpress.Utils.PointFloat(302.3684F, 0F);
+         this.xrTable2.LocationFloat = new DevExpress.Utils.PointFloat(325.6706F, 0F);
          this.xrTable2.Name = "xrTable2";
          this.xrTable2.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
             this.xrTableRow2});
-         this.xrTable2.SizeF = new System.Drawing.SizeF(689.55F, 25F);
+         this.xrTable2.SizeF = new System.Drawing.SizeF(729.0376F, 25F);
          this.xrTable2.StylePriority.UseBorderWidth = false;
          // 
          // groupFooterBand1
