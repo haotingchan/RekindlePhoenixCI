@@ -41,7 +41,7 @@ namespace BaseGround {
             foreach (var group in accordionMenu.Elements) {
                 string groupTag = group.Tag.ToString().ToUpper();
 
-                
+
                 var result = from x in dt.AsEnumerable()
                              where x.Field<String>("TXN_ID").Substring(0, 1) == groupTag ||
                                    (x.Field<String>("TXN_ID").Substring(0, 2) == "ND" &&
@@ -56,15 +56,17 @@ namespace BaseGround {
                     txnName = row["TXN_NAME"].ToString().Trim();
                     txnExtend = row["TXN_EXTEND"].ToString().Trim();
                     txnParent = row["TXN_PARENT_ID"].ToString().Trim();
-                    //分成節點和項目
-                    if (txnId.Substring(0, 2) != "ND" /*&& txnParent == groupTag*/) {
+                    //一階項目
+                    if (txnId.Substring(0, 2) != "ND" && txnParent == groupTag) {
                         item = new AccordionControlElement() {
                             Text = string.Format("{0} {1}", txnId, txnName),
                             Tag = new ItemData() { TXN_ID = txnId, TXN_NAME = txnName },
                             Style = ElementStyle.Item
                         };
                     }
-                    //else if (txnParent != groupTag) continue;
+                    //二階項目先跳過
+                    else if (txnParent != groupTag) continue;
+                    //一階節點
                     else {
                         item = new AccordionControlElement() {
                             Text = string.Format("{0}", txnName),
@@ -72,6 +74,29 @@ namespace BaseGround {
                             Style = ElementStyle.Group
                         };
                         if (txnExtend == "Y") item.Expanded = true;
+                        //放入子項目(二階)
+                        foreach (DataRow dr in result) {
+                            string parent = dr["TXN_PARENT_ID"].ToString().Trim();
+                            string Id = dr["TXN_ID"].ToString().Trim();
+                            string name = dr["TXN_NAME"].ToString().Trim();
+                            string level = dr["TXN_LEVEL"].ToString().Trim();
+                            AccordionControlElement subItem = null;
+                            if (Id.Substring(0, 2) == "ND") {
+                                subItem = new AccordionControlElement() {
+                                    Text = string.Format("{0}", name),
+                                    Tag = new ItemData() { TXN_ID = Id, TXN_NAME = name },
+                                    Style = ElementStyle.Item
+                                };
+                            }
+                            else {
+                                subItem = new AccordionControlElement() {
+                                    Text = string.Format("{0} {1}", Id, name),
+                                    Tag = new ItemData() { TXN_ID = Id, TXN_NAME = name },
+                                    Style = ElementStyle.Item
+                                };
+                            }
+                            if (parent == txnId) item.Elements.Add(subItem);
+                        }
                     }
                     group.Elements.Add(item);
                 }//foreach (DataRow row in result)
