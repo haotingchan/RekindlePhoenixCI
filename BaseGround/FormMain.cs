@@ -267,8 +267,21 @@ namespace BaseGround {
                     MessageDisplay.Error("無此程式");
                     return;
                 }
-
-                var item = itemList.Elements.Where(x => ((ItemData)x.Tag).TXN_ID.ToUpper() == txnID.ToUpper()).FirstOrDefault();
+                var item= itemList;
+                //分兩個階層找尋
+                foreach (var ele in itemList.Elements) {
+                    if (((ItemData)ele.Elements.Element.Tag).TXN_ID.ToUpper() == txnID.ToUpper()) {
+                        item = ele;
+                    }
+                    else {
+                        foreach (var subEle in ele.Elements) {
+                            if (((ItemData)subEle.Elements.Element.Tag).TXN_ID.ToUpper() == txnID.ToUpper()) {
+                                item = subEle;
+                            }
+                        }
+                    }
+                }
+                //var item = itemList.Elements.Where(x => ((ItemData)x.Tag).TXN_ID.ToUpper() == txnID.ToUpper()).FirstOrDefault();
 
                 if (item == null) {
                     MessageDisplay.Error("無此程式");
