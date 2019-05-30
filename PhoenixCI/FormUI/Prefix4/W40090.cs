@@ -65,8 +65,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
          ExportShow.Hide();
 
 #if DEBUG
-         txtDate.DateTimeValue = "20190212".AsDateTime("yyyyMMdd");
-         ddlAdjType.EditValue = "1E";
+         txtDate.DateTimeValue = "20190304".AsDateTime("yyyyMMdd");
+         ddlAdjType.EditValue = "2B";
 #endif
       }
 
@@ -375,11 +375,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          protected virtual void ExcelFut(Worksheet ws, DataTable dtFut) {
 
+            int rowIndex = 0;
             //幣別
-            List<DataRow> drsTmp = dtFut.AsEnumerable().Where(f => f.Field<string>("prod_type").AsString() == "F" && 
-                                                              f.Field<string>("amt_type").AsString() == "F").ToList();
+            List<DataRow> drsTmp = dtFut.Select("prod_type='F' and amt_type = 'F'").ToList();
             if (drsTmp.Count > 0) {
-               int rowIndex = 0;
                foreach (DataRow dr in drsTmp) {
                   int colIndex = 1;
 
@@ -390,24 +389,23 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   colIndex = 2;
 
                   foreach (string dc in ColsA) {
-
                      ws.Cells[rowIndex, colIndex].SetValue(dr[dc].AsDecimal());
                      colIndex++;
                   }
                   rowIndex += 3;
                }
-
                //刪除空白列 template 576行後表格不同
-               if (rowIndex < 576) {
+               if (rowIndex < 576)
                   ws.Range[$"{rowIndex}:575"].Delete();
-               }
+            }//if (drsTmp.Count > 0)
+            else {
+               ws.Range["1:575"].Delete();
+               rowIndex = 1;
             }
 
-            //比例
-            drsTmp = dtFut.AsEnumerable().Where(f => f.Field<string>("prod_type").AsString() == "F" && 
-                                                f.Field<string>("amt_type").AsString() == "P").ToList();
+            //比例 template 576行後表格不同
+            drsTmp = dtFut.Select("prod_type='F' and amt_type = 'P'").ToList();
             if (drsTmp.Count > 0) {
-               int rowIndex = 576;//template 576行後表格不同
                foreach (DataRow dr in drsTmp) {
                   int colIndex = 1;
 
@@ -433,20 +431,20 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   }
                   rowIndex += 3;
                }
-
-               //刪除空白列 template 576行後表格不同
-               if (rowIndex < 882) {
-                  ws.Range[$"{rowIndex}:882"].Delete();
-               }
+            }//if (drsTmp.Count > 0)
+            else {
+               ws.Range["1:882"].Delete();
             }
+
+            ws.ScrollTo(0, 0);
          }
 
          protected virtual void ExcelOpt(Worksheet ws, DataTable dtOpt) {
 
+            int rowIndex = 0;
             //幣別
-            List<DataRow> drsTmp = dtOpt.AsEnumerable().Where(f => f.Field<string>("prod_type") == "O" && f.Field<string>("amt_type") == "F").ToList();
+            List<DataRow> drsTmp = dtOpt.Select("prod_type='O' and amt_type = 'F'").ToList();
             if (drsTmp.Count > 0) {
-               int rowIndex = 0;
                foreach (DataRow dr in drsTmp) {
                   int colIndex = 1;
 
@@ -469,20 +467,20 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      ws.Cells[rowIndex, colIndex].SetValue(dr[dc].AsDecimal());
                      colIndex++;
                   }
-
                   rowIndex += 3;
                }
-
-               //刪除空白列 template 576行後表格不同
-               if (rowIndex < 211) {
-                  ws.Range[$"{rowIndex}:208"].Delete();
-               }
+               //刪除空白列 template 211行後表格不同
+               if (rowIndex < 209)
+                  ws.Range[$"{rowIndex}:209"].Delete();
+            } else {
+               //用刪除的方式會造成template 跑掉, 所以改用隱藏
+               ws.Rows.Hide(0, 209);
+               rowIndex = 211;//從 row 212 開始填值
             }
 
             //比例
-            drsTmp = dtOpt.AsEnumerable().Where(f => f.Field<string>("prod_type") == "F" && f.Field<string>("amt_type") == "P").ToList();
+            drsTmp = dtOpt.Select("prod_type='O' and amt_type = 'P'").ToList();
             if (drsTmp.Count > 0) {
-               int rowIndex = 576;//template 576行後表格不同
                foreach (DataRow dr in drsTmp) {
                   int colIndex = 1;
 
@@ -517,12 +515,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                   rowIndex += 3;
                }
-
-               //刪除空白列 template 440為最後一行
-               if (rowIndex < 440) {
-                  ws.Range[$"{rowIndex}:440"].Delete();
-               }
+            } else {
+               ws.Range["1:440"].Delete();
             }
+            ws.ScrollTo(0, 0);
          }
 
          protected virtual void WordFut(Document rtfDoc, DataTable dt) {
@@ -557,6 +553,18 @@ namespace PhoenixCI.FormUI.Prefix4 {
                WordTableCell.VerticalAlignment = TableCellVerticalAlignment.Center;
                futTable.MergeCells(WordTableCell, futTable[2, 0]);
 
+               if (dr["prod_type"].AsString() == "O") {
+                  futTable.Rows.Append();
+
+                  WordTableCell = futTable[3, 0];
+                  rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, "風險保證金（A值）");
+                  WordTableCell = futTable[4, 0];
+                  rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, "風險保證金最低值（B值）");
+               } else {
+                  WordTableCell = futTable[3, 0];
+                  rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, "保證金");
+               }
+
                string AfterAdjust = amtType == "F" ? "調整後保證金金額" : "調整後保證金適用比例";
                WordTableCell = futTable[1, 1];
                rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, AfterAdjust);
@@ -568,6 +576,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                futTable.MergeCells(WordTableCell, futTable[1, 4]);
 
                string[] colName = new string[] { "原始保證金金額", "維持保證金金額", "結算保證金金額" };
+               string[] colNameOpt = new string[] { "計算賣出選擇權原始保證金之適用比例", "計算賣出選擇權維持保證金之適用比例", "計算賣出選擇權結算保證金之適用比例" };
+
+               colName = dr["prod_type"].AsString() == "O" ? colNameOpt : colName;
 
                int k = 1;
                foreach (string c in colName) {
@@ -585,9 +596,19 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                #region 填值
                foreach (string c in ColsA) {
+                  string stringVal = amtType == "P" ? dr[c].AsPercent(2) : dr[c].AsString();
 
                   WordTableCell = futTable[3, Array.IndexOf(ColsA, c) + 1];
-                  rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, dr[c].AsString());
+                  rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, stringVal);
+               }
+
+               if (dr["prod_type"].AsString() == "O") {
+                  foreach (string c in ColsB) {
+                     string stringVal = amtType == "P" ? dr[c].AsPercent(2) : dr[c].AsString();
+
+                     WordTableCell = futTable[4, Array.IndexOf(ColsB, c) + 1];
+                     rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, stringVal);
+                  }
                }
                #endregion
             }

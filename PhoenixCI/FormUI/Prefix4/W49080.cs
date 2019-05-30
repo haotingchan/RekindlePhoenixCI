@@ -205,41 +205,47 @@ namespace PhoenixCI.FormUI.Prefix4 {
                return ResultStatus.Fail;
             }
 
+            //隱藏欄位賦值
             foreach (DataRow dr in dtCurrent.Rows) {
-               if (dr.RowState == DataRowState.Added || dr.RowState == DataRowState.Modified) {
-                  dr["TFXMSE_W_TIME"] = DateTime.Now;
-                  dr["TFXMSE_W_USER_ID"] = GlobalInfo.USER_ID;
+               //if (dr.RowState == DataRowState.Added || dr.RowState == DataRowState.Modified) {
+               //   dr["TFXMSE_W_TIME"] = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:fffffff");
+               //   dr["TFXMSE_W_USER_ID"] = GlobalInfo.USER_ID;
+               //}
 
-                  if (dr.RowState == DataRowState.Added) {
-                     foreach (DataRow drAdd in dtForAdd.Rows) {
-                        drAdd["TFXMSE_W_TIME"] = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
-                        drAdd["TFXMSE_W_USER_ID"] = GlobalInfo.USER_ID;
+               {
+                  if (dr.RowState == DataRowState.Added || dr.RowState == DataRowState.Modified) {
+                     dr["TFXMSE_W_TIME"] = DateTime.Now;
+                     dr["TFXMSE_W_USER_ID"] = GlobalInfo.USER_ID;
+
+                     if (dr.RowState == DataRowState.Added) {
+                        foreach (DataRow drAdd in dtForAdd.Rows) {
+                           drAdd["TFXMSE_W_TIME"] = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+                           drAdd["TFXMSE_W_USER_ID"] = GlobalInfo.USER_ID;
+                        }
+                        gvMain.SetRowCellValue(gvMain.FocusedRowHandle , "TFXMSE_W_TIME" , DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+                        gvMain.SetRowCellValue(gvMain.FocusedRowHandle , "TFXMSE_W_USER_ID" , GlobalInfo.USER_ID);
+                        gvMain.CloseEditor();
+                        gvMain.UpdateCurrentRow();
                      }
-                     gvMain.SetRowCellValue(gvMain.FocusedRowHandle , "TFXMSE_W_TIME" , DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
-                     gvMain.SetRowCellValue(gvMain.FocusedRowHandle , "TFXMSE_W_USER_ID" , GlobalInfo.USER_ID);
-                     gvMain.CloseEditor();
-                     gvMain.UpdateCurrentRow();
-                  }
 
-                  if (dr.RowState == DataRowState.Modified) {
-                     foreach (DataRow drMod in dtForModified.Rows) {
-                        drMod["TFXMSE_W_TIME"] = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
-                        drMod["TFXMSE_W_USER_ID"] = GlobalInfo.USER_ID;
+                     if (dr.RowState == DataRowState.Modified) {
+                        foreach (DataRow drMod in dtForModified.Rows) {
+                           drMod["TFXMSE_W_TIME"] = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+                           drMod["TFXMSE_W_USER_ID"] = GlobalInfo.USER_ID;
+                        }
+                        gvMain.SetRowCellValue(gvMain.FocusedRowHandle , "TFXMSE_W_TIME" , DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+                        gvMain.SetRowCellValue(gvMain.FocusedRowHandle , "TFXMSE_W_USER_ID" , GlobalInfo.USER_ID);
+                        gvMain.CloseEditor();
+                        gvMain.UpdateCurrentRow();
                      }
-                     gvMain.SetRowCellValue(gvMain.FocusedRowHandle , "TFXMSE_W_TIME" , DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
-                     gvMain.SetRowCellValue(gvMain.FocusedRowHandle , "TFXMSE_W_USER_ID" , GlobalInfo.USER_ID);
-                     gvMain.CloseEditor();
-                     gvMain.UpdateCurrentRow();
-                  }
 
-                  if (dr.RowState == DataRowState.Deleted) {
-                     dr.Delete();
+                     if (dr.RowState == DataRowState.Deleted) {
+                        dr.Delete();
+                     }
                   }
-
                }
             }
-            //dtChange = dtCurrent.GetChanges();
-            //dtCurrent = (DataTable)gcMain.DataSource;
+
             DataTable dtCloned = dtCurrent.Clone();
             dtCloned.Columns["TFXMSE_W_TIME"].DataType = typeof(DateTime);
             foreach (DataRow row in dtCurrent.Rows) {
@@ -253,7 +259,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
 
             PrintOrExportChangedByKen(gcMain , dtForAdd , dtForDeleted , dtForModified);
-
 
          } catch (Exception ex) {
             throw ex;
@@ -279,8 +284,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
          gvMain.AddNewRow();
 
          gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["IS_NEWROW"] , 1);
-         //gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["TFXMSE_W_TIME"] , DateTime.Now);
-         //gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["TFXMSE_W_USER_ID"] , GlobalInfo.USER_ID);
 
          gvMain.Focus();
          gvMain.FocusedColumn = gvMain.Columns[0];
