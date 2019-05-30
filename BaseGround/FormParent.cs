@@ -7,6 +7,7 @@ using BusinessObjects.Enums;
 using Common;
 using Common.Config;
 using Common.Helper;
+using DataObjects;
 using DataObjects.Dao;
 using DataObjects.Dao.Together;
 using DevExpress.LookAndFeel;
@@ -67,6 +68,11 @@ namespace BaseGround
         /// 執行功能是否要非同步
         /// </summary>
         protected bool _IsProcessRunAsync = false;
+
+        /// <summary>
+        /// DB Owner
+        /// </summary>
+        protected string _DB_TYPE;
 
         protected ServiceCommon serviceCommon = new ServiceCommon();
         protected ServicePrefix1 servicePrefix1 = new ServicePrefix1();
@@ -471,6 +477,14 @@ namespace BaseGround
                 }
             }
 
+            GridView gv = (GridView)args.GridControlMain.MainView;
+            string txfServer = gv.GetRowCellValue(1, "TXF_SERVER").AsString();
+            if (txfServer != GlobalDaoSetting.GetConnectionInfo.ConnectionName)
+            {
+                MessageDisplay.Warning("作業Server(" + txfServer + ") 不等於連線Server(" + GlobalDaoSetting.GetConnectionInfo.ConnectionName + ")");
+                return ResultStatus.Fail;
+            }
+
             if (servicePrefix1.HasLogspDone(Convert.ToDateTime(inputDate), _ProgramID))
             {
                 if (MessageDisplay.Choose(_ProgramID + " 作業 " + inputDate + "「曾經」執行過，\n是否要繼續？\n\n★★★建議先執行 [預覽] 確認執行狀態") == DialogResult.No)
@@ -517,6 +531,8 @@ namespace BaseGround
             DataTable dtLOGSPForRuned = servicePrefix1.ListLogspForRunned(args.OcfDate, _ProgramID);
             DataView dvLOGSPForRuned = new DataView(dtLOGSPForRuned);
 
+            servicePrefix1.SetTXF1(" ", _ProgramID);
+
             for (int i = 0; i < gv.RowCount; i++)
             {
                 string TXF_SERVER = gv.GetRowCellValue(i, "TXF_SERVER").AsString();
@@ -529,6 +545,7 @@ namespace BaseGround
                 string TXF_DEFAULT = gv.GetRowCellValue(i, "TXF_DEFAULT").AsString();
                 string TXF_REDO = gv.GetRowCellValue(i, "TXF_REDO").AsString();
                 string TXF_ARG = gv.GetRowCellValue(i, "TXF_ARG").AsString();
+                string TXF_PERIOD = gv.GetRowCellValue(i, "TXF_PERIOD").AsString();
 
                 if (TXF_DEFAULT == "1")
                 {
@@ -541,9 +558,10 @@ namespace BaseGround
                     DateTime LOGSP_END_TIME = new DateTime();
                     string LOGSP_MSG = "";
 
+                    //判斷是否可重覆執行
                     if (TXF_REDO == "N")
                     {
-                        dvLOGSPForRuned.RowFilter = "TXF_TID='" + TXF_TID + "'";
+                        dvLOGSPForRuned.RowFilter = "LOGSP_TID='" + TXF_TID + "' AND NOT ISNULL(LOGSP_BEGIN_TIME)";
                         if (dvLOGSPForRuned.Count != 0)
                         {
                             if (MessageDisplay.Choose(TXF_TID + " ★★★曾經執行過且不可重覆執行，是否強迫繼續執行 ?") == DialogResult.No)
@@ -552,10 +570,44 @@ namespace BaseGround
                             }
                         }
                     }
-
                     #region 開始執行
-
                     LOGSP_BEGIN_TIME = DateTime.Now;
+
+                    string nextYmd = PbFunc.f_ocf_date(2, _DB_TYPE);
+                    if (!string.IsNullOrEmpty(TXF_PERIOD))
+                    {
+                        switch (TXF_PERIOD) {
+                            case "M"://月底執行
+                                if (args.OcfDate.ToString("yyyyMM") == PbFunc.Left(nextYmd,6))
+                                {
+                                    LOGSP_MSG = "完成! (今日非月底，不需執行)";
+                                    this.Invoke(new MethodInvoker(() => { gv.SetRowCellValue(i, "TXF_DEFAULT", 0); }));
+                                }
+                                break;
+                            case "W"://週最後一天執行
+                                if (Convert.ToInt32(args.OcfDate.DayOfWeek) < Convert.ToInt32(nextYmd.AsDateTime("yyyyMMdd").DayOfWeek))
+                                {
+                                    LOGSP_MSG = "完成! (今日非本週最後1天，不需執行)";
+                                    this.Invoke(new MethodInvoker(() => { gv.SetRowCellValue(i, "TXF_DEFAULT", 0); }));
+                                }
+                                break;
+                            case "Y"://年底執行
+                                if (args.OcfDate.ToString("yyyy") == PbFunc.Left(nextYmd, 4))
+                                {
+                                    LOGSP_MSG = "完成! (今日非本年度最後1日，不需執行)";
+                                    this.Invoke(new MethodInvoker(() => { gv.SetRowCellValue(i, "TXF_DEFAULT", 0); }));
+                                }
+                                break;
+
+                        }
+                        LOGSP_END_TIME = DateTime.Now;
+                        servicePrefix1.SaveLogsp(LOGSP_DATE, LOGSP_TXN_ID, LOGSP_SEQ_NO, LOGSP_TID, LOGSP_TID_NAME, LOGSP_BEGIN_TIME, LOGSP_END_TIME, LOGSP_MSG);
+                        continue;
+                    }
+
+
+                    //開始前執行特別的Function
+                    //ChooseFuncBefore(TXF_TID);
 
                     ResultData resultData = new ResultData();
 
@@ -719,6 +771,11 @@ namespace BaseGround
                 }
             }
             return ResultStatus.Success;
+        }
+
+        protected virtual string ChooseFuncBefore(string TXF_TID) {
+            //servicePrefix1
+            return "";
         }
 
         protected virtual ResultStatus RunAfter(PokeBall args)

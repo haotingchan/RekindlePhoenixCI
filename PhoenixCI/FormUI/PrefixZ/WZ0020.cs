@@ -114,7 +114,7 @@ namespace PhoenixCI.FormUI.PrefixZ
                 }
             }
 
-            string[] allowNullColumnList = { "TXN_RMARK", "TXN_AUDIT", "TXN_PARENT_ID", "TXN_SEQ_NO", "TXN_LEVEL", "TXN_TYPE"};
+            string[] allowNullColumnList = { "TXN_RMARK", "TXN_AUDIT"};
             if (!GridHelper.CheckRequired(gcMain, allowNullColumnList))
             {
                 return ResultStatus.FailButNext;
@@ -228,23 +228,23 @@ namespace PhoenixCI.FormUI.PrefixZ
 
         protected override ResultStatus InsertRow()
         {
-            base.InsertRow(gvMain);
 
-            gvMain.GetFocusedDataRow()["TXN_W_TIME"] = DateTime.Now;
-            gvMain.GetFocusedDataRow()["TXN_EXTEND"] = "N";
-            gvMain.GetFocusedDataRow()["TXN_DEFAULT"] = "N";
-            gvMain.GetFocusedDataRow()["TXN_INS"] = "N";
-            gvMain.GetFocusedDataRow()["TXN_DEL"] = "N";
-            gvMain.GetFocusedDataRow()["TXN_QUERY"] = "N";
-            gvMain.GetFocusedDataRow()["TXN_IMPORT"] = "N";
-            gvMain.GetFocusedDataRow()["TXN_EXPORT"] = "N";
-            gvMain.GetFocusedDataRow()["TXN_PRINT"] = "N";
-            gvMain.GetFocusedDataRow()["TXN_UPDATE"] = "N";
-            gvMain.GetFocusedDataRow()["TXN_AUDIT"] = "N";
+            int focusIndex = gvMain.GetFocusedDataSourceRowIndex();
+            gvMain.CloseEditor();//必須先做close edit, like dt.AcceptChanges();
 
-            gvMain.Focus();
+            //新增一行並做初始值設定
+            DataTable dt = (DataTable)gcMain.DataSource;
+            DataRow drNew = dt.NewRow();
 
+            drNew["TXN_W_TIME"] = DateTime.Now;
+            drNew["TXN_EXTEND"] = "N";
+            drNew["TXN_DEFAULT"] = "N";
+
+            dt.Rows.InsertAt(drNew, focusIndex);
+            gcMain.DataSource = dt;
+            gvMain.FocusedRowHandle = focusIndex;//原本的focusRowHandle會記住之前的位置,其實只是往上一行
             gvMain.FocusedColumn = gvMain.Columns[0];
+            SetOrder();
 
             return ResultStatus.Success;
         }
@@ -252,6 +252,7 @@ namespace PhoenixCI.FormUI.PrefixZ
         protected override ResultStatus DeleteRow()
         {
             base.DeleteRow(gvMain);
+            SetOrder();
 
             return ResultStatus.Success;
         }
@@ -266,6 +267,33 @@ namespace PhoenixCI.FormUI.PrefixZ
             MessageDisplay.Info(MessageDisplay.MSG_OK);
             Retrieve();
             return ResultStatus.Success;
+        }
+
+        protected void SetOrder() {
+            DataTable dtCurrent = (DataTable)gcMain.DataSource;
+            gvMain.CloseEditor();
+            gvMain.UpdateCurrentRow();
+
+            int pos = 0;
+            foreach (DataRow dr in dtCurrent.Rows)
+            {
+                pos++;
+                int seq = 0;
+                if (dr.RowState == DataRowState.Deleted)
+                {
+                    pos--;
+                    continue;
+                }
+
+                seq = dr["TXN_SEQ_NO"].AsInt();
+                if (seq != pos)
+                {
+                    gvMain.SetRowCellValue(pos - 1, gvMain.Columns["TXN_SEQ_NO"], pos);
+                }
+
+            }
+            gvMain.Focus();
+            gvMain.FocusedColumn = gvMain.Columns[0];
         }
     }
 }

@@ -24,7 +24,7 @@ namespace DataObjects.Dao.Together.TableDao
 
             string sql = @"
                                     INSERT INTO ci.UTP
-                                    SELECT @UTP_USER_ID,TXN_ID,TXN_INS,TXN_DEL,TXN_QUERY,TXN_IMPORT,TXN_EXPORT,TXN_PRINT,@UTP_W_TIME,@UTP_W_USER_ID
+                                    SELECT @UTP_USER_ID,TXN_ID,@UTP_W_TIME,@UTP_W_USER_ID
                                     FROM ci.TXN
                                     WHERE TXN_ID = @TXN_ID
                                 ";

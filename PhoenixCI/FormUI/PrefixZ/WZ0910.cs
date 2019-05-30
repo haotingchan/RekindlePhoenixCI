@@ -158,7 +158,7 @@ namespace PhoenixCI.FormUI.PrefixZ
             RZ0910_TXN report = new RZ0910_TXN("TXN_DEFAULT", "TXN_ID", "TXN_NAME");
             report.DataSource = gcMain.DataSource;
             string reportTitle = _ProgramID + "─空白作業權限表列印";
-            string reportId = GlobalInfo.SYSTEM_ALIAS + _ProgramID; ;
+            string reportId = _ProgramID; ;
             ReportHelper reportHelper = new ReportHelper(null, reportId, reportTitle);
             reportHelper.Create(report);
             base.Print(reportHelper);

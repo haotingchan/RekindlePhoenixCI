@@ -72,7 +72,7 @@ namespace DataObjects.Dao.Together
 
             int executeResult = db.ExecuteSQL(sql, parms);
 
-            if (executeResult > 0)
+            if (executeResult >= 0)
             {
                 return true;
             }
@@ -114,7 +114,7 @@ namespace DataObjects.Dao.Together
 
             int executeResult = db.ExecuteSQL(sql, parms);
 
-            if (executeResult > 0)
+            if (executeResult >= 0)
             {
                 return true;
             }
