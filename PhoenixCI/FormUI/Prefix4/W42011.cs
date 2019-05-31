@@ -194,6 +194,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 ShowMsg("轉檔成功");
             }
             catch (Exception ex) {
+                ShowMsg("轉檔錯誤");
                 MessageDisplay.Error("輸出錯誤");
                 throw ex;
             }

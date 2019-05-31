@@ -121,7 +121,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             txtEndDate.DateTimeValue = GlobalInfo.OCF_DATE;
             txtStartDate.DateTimeValue = DateTime.ParseExact(txtEndDate.DateTimeValue.ToString("yyyy/MM/01"), "yyyy/MM/dd", null);
             txtStartMonth.DateTimeValue = GlobalInfo.OCF_DATE;
-            txtEndMonth.EditValue = GlobalInfo.OCF_DATE;
+            txtEndMonth.DateTimeValue = GlobalInfo.OCF_DATE;
 
 #if DEBUG
             txtStartMonth.Text = "2019/05";
