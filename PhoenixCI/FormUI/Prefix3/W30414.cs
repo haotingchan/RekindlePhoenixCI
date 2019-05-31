@@ -7,6 +7,8 @@ using DevExpress.Spreadsheet;
 using System;
 using System.Data;
 using System.Linq;
+using System.Threading;
+using System.Windows.Forms;
 
 /// <summary>
 /// Winni, 2019/3/18
@@ -91,8 +93,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //1. ready
             panFilter.Enabled = false;
             labMsg.Visible = true;
-            labMsg.Text = "訊息：資料轉出中........";
+            labMsg.Text = "開始轉檔...";
+            this.Cursor = Cursors.WaitCursor;
             this.Refresh();
+            Thread.Sleep(5);
 
             //2. copy template xls to target path
             string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID);
@@ -131,6 +135,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             panFilter.Enabled = true;
             labMsg.Text = "";
             labMsg.Visible = false;
+            this.Cursor = Cursors.Arrow;
          }
          return ResultStatus.Fail;
 
