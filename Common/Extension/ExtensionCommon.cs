@@ -312,5 +312,14 @@ namespace Common {
          //// 回傳Description Attribute的設定
          return ((DescriptionAttribute)customAttribute[0]).Description;
       }
+
+      /// <summary>
+      /// 取得季度資訊
+      /// </summary>
+      /// <param name="date"></param>
+      /// <returns></returns>
+      public static int GetQuarter(this DateTime date) {
+         return (date.Month - 1) / 3 + 1;
+      }
    }
 }
