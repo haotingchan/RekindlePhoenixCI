@@ -24,9 +24,11 @@ namespace DataObjects.Dao.Together
 
             string sql =
                 @"
-                        SELECT NVL(TXF2_TXN_ID2,'')AS TXF2_TXN_ID,TXF2_TID2 
-                        FROM CI.TXF2 
-                        WHERE TXF2_TXN_ID = @AS_TXF2_TXN_ID AND TXF2_TID = @AS_TXF2_TID
+                        SELECT NVL(TXF2_TXN_ID2,'')AS TXF2_TXN_ID2,TXF2_TID2 ,TXF1_TID
+                        FROM CI.TXF2 ,CI.TXF1
+                        WHERE TXF1_TXN_ID = TXF2_TXN_ID2 
+                        AND TXF2_TXN_ID = @AS_TXF2_TXN_ID
+                        AND TXF2_TID = @AS_TXF2_TID
                 ";
 
             #endregion sql

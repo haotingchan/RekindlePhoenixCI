@@ -37,8 +37,8 @@ namespace Common {
 #endif
       }
 
-      public static DialogResult Choose(string content, string caption = "注意") {
-         return MessageBox.Show(content, caption, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+      public static DialogResult Choose(string content,MessageBoxDefaultButton defaultButton = MessageBoxDefaultButton.Button2,string caption = "注意") {
+         return MessageBox.Show(content, caption, MessageBoxButtons.YesNo, MessageBoxIcon.Information, defaultButton);
       }
    }
 }

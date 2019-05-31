@@ -308,6 +308,7 @@
     <Compile Include="Dao\Together\TableDao\INOTC1.cs" />
     <Compile Include="Dao\Together\TableDao\INTWSE1.cs" />
     <Compile Include="Dao\Together\TableDao\JLOG.cs" />
+    <Compile Include="Dao\Together\TableDao\LOGS.cs" />
     <Compile Include="Dao\Together\TableDao\LOGSP.cs" />
     <Compile Include="Dao\Together\TableDao\AOCF.cs" />
     <Compile Include="Dao\Together\TableDao\LOGV.cs" />

@@ -546,6 +546,7 @@ namespace BaseGround
                 string TXF_REDO = gv.GetRowCellValue(i, "TXF_REDO").AsString();
                 string TXF_ARG = gv.GetRowCellValue(i, "TXF_ARG").AsString();
                 string TXF_PERIOD = gv.GetRowCellValue(i, "TXF_PERIOD").AsString();
+                args.TXF_TID = TXF_TID;
 
                 if (TXF_DEFAULT == "1")
                 {
@@ -607,7 +608,31 @@ namespace BaseGround
 
 
                     //開始前執行特別的Function
-                    //ChooseFuncBefore(TXF_TID);
+                    string rtnText = RunBeforeEveryItem(args);
+                    if (!string.IsNullOrEmpty(rtnText))
+                    {
+                        if (PbFunc.Left(rtnText, 4) == "不須執行")
+                        {
+                            LOGSP_MSG = "完成! (" + rtnText + ")";
+                            gv.SetRowCellValue(i, "ERR_MSG", LOGSP_MSG);
+                            gv.SetRowCellValue(i, "TXF_DEFAULT", 0);
+                            LOGSP_END_TIME = DateTime.Now;
+                            servicePrefix1.SaveLogsp(LOGSP_DATE, LOGSP_TXN_ID, LOGSP_SEQ_NO, LOGSP_TID, LOGSP_TID_NAME, LOGSP_BEGIN_TIME, LOGSP_END_TIME, LOGSP_MSG);
+                        }
+                        else
+                        {
+                            if (MessageDisplay.Choose($"{rtnText}是否強迫繼續執行?", MessageBoxDefaultButton.Button2).AsInt() == 2)
+                            {
+                                gv.SetRowCellValue(i, "ERR_MSG", rtnText);
+                                continue;
+                            }
+                        }
+                    }
+
+                    //記錄正在執行
+                    servicePrefix1.SetTXF1(TXF_TID, _ProgramID);
+
+                    servicePrefix1.SaveLogs(LOGSP_DATE, TXF_TID, DateTime.Now, GlobalInfo.USER_ID, "開始執行");
 
                     ResultData resultData = new ResultData();
 
@@ -695,11 +720,11 @@ namespace BaseGround
 
                     if (resultData.Status == ResultStatus.Success)
                     {
-                        LOGSP_MSG = "執行正常完成";
+                        LOGSP_MSG = "執行正常完成!";
                     }
                     else
                     {
-                        LOGSP_MSG = "作業執行失敗";
+                        LOGSP_MSG = "作業執行失敗!";
 
                         servicePrefix1.SaveLogsp(LOGSP_DATE, LOGSP_TXN_ID, LOGSP_SEQ_NO, LOGSP_TID, LOGSP_TID_NAME, LOGSP_BEGIN_TIME, LOGSP_END_TIME, LOGSP_MSG);
 
@@ -714,15 +739,17 @@ namespace BaseGround
                         return ResultStatus.Fail;
                     }
 
+
                     this.Invoke(new MethodInvoker(() => { gv.SetRowCellValue(i, "ERR_MSG", LOGSP_MSG); }));
 
                     servicePrefix1.SaveLogsp(LOGSP_DATE, LOGSP_TXN_ID, LOGSP_SEQ_NO, LOGSP_TID, LOGSP_TID_NAME, LOGSP_BEGIN_TIME, LOGSP_END_TIME, LOGSP_MSG);
+                    servicePrefix1.SaveLogs(LOGSP_DATE, TXF_TID, DateTime.Now, GlobalInfo.USER_ID, "執行完畢");
 
                     #endregion 開始執行
 
                     #region 執行特別的程式
 
-                    args.TXF_TID = TXF_TID;
+                    
                     this.Invoke(new MethodInvoker(() => { RunAfterEveryItem(args); }));
 
                     #endregion 執行特別的程式
@@ -773,8 +800,18 @@ namespace BaseGround
             return ResultStatus.Success;
         }
 
-        protected virtual string ChooseFuncBefore(string TXF_TID) {
-            //servicePrefix1
+        protected virtual string RunBeforeEveryItem(PokeBall args) {
+            DataTable dt = servicePrefix1.CheckTXF2(_ProgramID, args.TXF_TID);
+            if (dt.Rows.Count>0)
+            {
+                string runTid = dt.Rows[0]["TXF1_TID"].AsString();
+                do
+                {
+                    SingletonLogger.Instance.Info(GlobalInfo.USER_ID, _ProgramID, $"{args.TXF_TID} wait：{runTid}", "S");
+                } while (args.TXF_TID == runTid);
+            }
+            SingletonLogger.Instance.Info(GlobalInfo.USER_ID, _ProgramID, $"{args.TXF_TID} nowait：{args.TXF_TID}", "S");
+
             return "";
         }
 

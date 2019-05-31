@@ -10,15 +10,19 @@ namespace ActionServiceW.DbDirect.Prefix
     {
         private TXF     daoTXF;
         private TXF1 daoTXF1;
+        private TXF2 daoTXF2;
         private TXEMAIL daoTXEMAIL;
         private LOGSP   daoLOGSP;
+        private LOGS daoLOGS;
 
         public ServicePrefix1()
         {
             daoTXF      = new TXF();
             daoLOGSP    = new LOGSP();
+            daoLOGS = new LOGS();
             daoTXEMAIL  = new TXEMAIL();
             daoTXF1 = new TXF1();
+            daoTXF2 = new TXF2();
         }
 
         public DataTable ListTxfByTxn(string TXF_TXN_ID)
@@ -58,8 +62,17 @@ namespace ActionServiceW.DbDirect.Prefix
             return daoLOGSP.Save(LOGSP_DATE, LOGSP_TXN_ID, LOGSP_SEQ_NO, LOGSP_TID, LOGSP_TID_NAME, LOGSP_BEGIN_TIME, LOGSP_END_TIME, LOGSP_MSG);
         }
 
+        public bool SaveLogs(DateTime LOGSP_DATE, string LOGS_TXD_ID,DateTime LOGS_W_TIME, string LOGS_W_USER_ID, string LOGS_ERR_TXT)
+        {
+            return daoLOGS.Save(LOGSP_DATE, LOGS_TXD_ID, LOGS_W_TIME, LOGS_W_USER_ID, LOGS_ERR_TXT);
+        }
+
         public bool SetTXF1(string TXF_TID,string TXF_TXN_ID) {
             return daoTXF1.UpdateTid(TXF_TID,TXF_TXN_ID);
+        }
+
+        public DataTable CheckTXF2(string TXF2_TXN_ID,string TXF2_TID) {
+            return daoTXF2.ListDataByTXN(TXF2_TXN_ID, TXF2_TID);
         }
     }
 }
