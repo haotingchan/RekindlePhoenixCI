@@ -82,7 +82,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //1. ready
             panFilter.Enabled = false;
             labMsg.Visible = true;
-            labMsg.Text = "轉檔中...";
+            labMsg.Text = "開始轉檔...";
             this.Cursor = Cursors.WaitCursor;
             this.Refresh();
             Thread.Sleep(5);
