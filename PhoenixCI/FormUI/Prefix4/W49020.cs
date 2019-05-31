@@ -136,7 +136,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             string[] showColCaption = {"商品", $"對外{Environment.NewLine}商品", $"順{Environment.NewLine}序","商品別",
                                        $"契約{Environment.NewLine}類別","簡稱","全稱","群組",$"標的{Environment.NewLine}現貨",
-                                       $"下市日期{Environment.NewLine}yyyymmdd","商品狀態", $"判斷{Environment.NewLine}調整標準",
+                                       $"下市日期{Environment.NewLine}yyyymmdd","商品狀態", $"SMA{Environment.NewLine}調整標準",
                                        $"風險價格係數{Environment.NewLine}計算方式",$"國內/國外{Environment.NewLine}類別",
                                        "MGT2_W_TIME" ,"MGT2_W_USER_ID",$"最大振幅MaxVol{Environment.NewLine}調整標準",
                                        $"EWMA{Environment.NewLine}調整標準","Is_NewRow"};

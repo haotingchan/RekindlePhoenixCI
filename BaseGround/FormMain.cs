@@ -268,6 +268,7 @@ namespace BaseGround {
                     return;
                 }
                 var item= itemList;
+                item = null; //預設為空
                 //分兩個階層找尋
                 foreach (var ele in itemList.Elements) {
                     if (((ItemData)ele.Elements.Element.Tag).TXN_ID.ToUpper() == txnID.ToUpper()) {

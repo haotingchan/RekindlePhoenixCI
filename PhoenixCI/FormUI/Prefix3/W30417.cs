@@ -9,6 +9,7 @@ using System;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 
 /// <summary>
@@ -68,28 +69,18 @@ namespace PhoenixCI.FormUI.Prefix3 {
          InitializeComponent();
 
          this.Text = _ProgramID + "─" + _ProgramName;
-         txtStartDate.DateTimeValue = GlobalInfo.OCF_DATE;
-         txtEndDate.DateTimeValue = GlobalInfo.OCF_DATE;
-
-#if DEBUG
-         //winni test
-         //txtStartDate.DateTimeValue = DateTime.ParseExact("2018/10/01" , "yyyy/MM/dd" , null);
-         //txtEndDate.DateTimeValue = DateTime.ParseExact("2018/10/11" , "yyyy/MM/dd" , null);
-         //this.Text += "(開啟測試模式),Date=2018/10/01~2018/10/11";
-#endif
-
       }
 
       protected override ResultStatus Open() {
          base.Open();
          try {
-            
-            //設定初始年月yyyy/MM/dd          
-            txtStartDate.Text = txtStartDate.DateTimeValue.ToString("yyyy/MM/01");
+
+            //設定初始年月yyyy/MM/dd     
+            txtStartDate.DateTimeValue = GlobalInfo.OCF_DATE;               
             txtStartDate.EnterMoveNextControl = true;
             txtStartDate.Focus();
 
-            txtEndDate.Text = txtEndDate.DateTimeValue.ToString("yyyy/MM/dd");
+            txtEndDate.DateTimeValue = GlobalInfo.OCF_DATE;
             txtEndDate.EnterMoveNextControl = true;
             txtEndDate.Focus();
 
@@ -127,8 +118,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //1. ready
             panFilter.Enabled = false;
             labMsg.Visible = true;
-            labMsg.Text = "訊息：資料轉出中........";
+            labMsg.Text = "開始轉檔...";
+            this.Cursor = Cursors.WaitCursor;
             this.Refresh();
+            Thread.Sleep(5);
 
             //2. copy template xls to target path
             string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID);
@@ -179,6 +172,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             panFilter.Enabled = true;
             labMsg.Text = "";
             labMsg.Visible = false;
+            this.Cursor = Cursors.Arrow;
          }
          return ResultStatus.Fail;
 

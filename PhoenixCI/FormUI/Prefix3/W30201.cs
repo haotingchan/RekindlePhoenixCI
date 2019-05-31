@@ -7,6 +7,8 @@ using DevExpress.Spreadsheet;
 using System;
 using System.Data;
 using System.Globalization;
+using System.Threading;
+using System.Windows.Forms;
 
 /// <summary>
 /// Winni, 2019/3/21修改
@@ -38,29 +40,30 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
          try {
             #region 輸入&日期檢核 (exportbefore)
-            if (!txtStartMon.IsDate(txtStartMon.Text , CheckDate.Start)
-                  || !txtEndMon.IsDate(txtEndMon.Text , CheckDate.End)) {
-               return ResultStatus.Fail;
-            }
+            //if (!txtStartMon.IsDate(txtStartMon.Text , CheckDate.Start)
+            //      || !txtEndMon.IsDate(txtEndMon.Text , CheckDate.End)) {
+            //   return ResultStatus.Fail;
+            //}
 
-            if (string.Compare(txtStartMon.Text , txtEndMon.Text) > 0) {
-               MessageDisplay.Error(GlobalInfo.ErrorText , "月份起始年月不可小於迄止年月!"); //若多隻功能皆有相同訊息可再寫入CheckDate Enum中
-               return ResultStatus.Fail;
-            }
+            //if (string.Compare(txtStartMon.Text , txtEndMon.Text) > 0) {
+            //   MessageDisplay.Error(GlobalInfo.ErrorText , "月份起始年月不可小於迄止年月!"); //若多隻功能皆有相同訊息可再寫入CheckDate Enum中
+            //   return ResultStatus.Fail;
+            //}
 
-            if (txtStartMon.Text.SubStr(0 , 4).AsInt() < txtEndMon.Text.SubStr(0 , 4).AsInt() &&
-               txtStartMon.Text.SubStr(5 , 2).AsInt() < txtEndMon.Text.SubStr(5 , 2).AsInt()) {
-               MessageDisplay.Error(GlobalInfo.ErrorText , "最大查詢範圍為12個月!"); //若多隻功能皆有相同訊息可再寫入CheckDate Enum中
-               return ResultStatus.Fail;
-            }
-
+            //if (txtStartMon.Text.SubStr(0 , 4).AsInt() < txtEndMon.Text.SubStr(0 , 4).AsInt() &&
+            //   txtStartMon.Text.SubStr(5 , 2).AsInt() < txtEndMon.Text.SubStr(5 , 2).AsInt()) {
+            //   MessageDisplay.Error(GlobalInfo.ErrorText , "最大查詢範圍為12個月!"); //若多隻功能皆有相同訊息可再寫入CheckDate Enum中
+            //   return ResultStatus.Fail;
+            //}
             #endregion
 
             //1. ready
             panFilter.Enabled = false;
             labMsg.Visible = true;
-            labMsg.Text = "訊息：資料轉出中........";
+            labMsg.Text = "開始轉檔...";
+            this.Cursor = Cursors.WaitCursor;
             this.Refresh();
+            Thread.Sleep(5);
 
             //2. copy template xls to target path
             string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID);
@@ -85,7 +88,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }//if (dtFilter.Rows.Count <= 0)
 
             int colNum = 0, rowNum = 0;
-            foreach (DataRow dr in dtFilter.Rows) {              
+            foreach (DataRow dr in dtFilter.Rows) {
                string ai2KindId = dr["ai2_kind_id"].AsString();
                DateTime dSymd = DateTime.ParseExact(dr["dt_symd"].AsString() , "yyyyMM" , CultureInfo.InvariantCulture);
                string dtSymd = dSymd.ToString("yyyy\\/MM");
@@ -142,6 +145,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             panFilter.Enabled = true;
             labMsg.Text = "";
             labMsg.Visible = false;
+            this.Cursor = Cursors.Arrow;
          }
          return ResultStatus.Fail;
       }

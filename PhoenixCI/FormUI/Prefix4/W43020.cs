@@ -16,6 +16,7 @@ using DevExpress.XtraEditors.Controls;
 using Common;
 using DevExpress.Spreadsheet;
 using DataObjects.Dao.Together.SpecificDao;
+using System.Threading;
 
 /// <summary>
 /// Lukas, 2019/3/21
@@ -76,10 +77,20 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return ResultStatus.Success;
         }
 
+        protected void ShowMsg(string msg) {
+            lblProcessing.Text = msg;
+            this.Refresh();
+            Thread.Sleep(5);
+        }
+
         protected override ResultStatus Export() {
 
             try {
+                this.Cursor = Cursors.WaitCursor;
+                this.Refresh();
+                Thread.Sleep(5);
                 lblProcessing.Visible = true;
+                ShowMsg("開始轉檔...");
                 dao43020 = new D43020();
                 #region ue_export_before
                 //130批次作業做完
@@ -95,17 +106,18 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 }
                 #endregion
 
+                #region sheet 1
                 string rptName, rptId, file;
                 int rowStart;
                 rptName = "股票選擇權保證金狀況表－標的證券為受益憑證";
                 rptId = "43020";
-                lblProcessing.Text = rptId + '－' + rptName + " 轉檔中...";
+                ShowMsg(rptId + '－' + rptName + " 轉檔中...");
 
                 //1. 讀取檔案
                 DataTable dt43020 = dao43020.d_43020(txtSDate.DateTimeValue, oswGrp);
                 if (dt43020.Rows.Count == 0) {
                     MessageDisplay.Info(txtSDate.Text + "," + rptId + '－' + rptName + ",無任何資料!");
-                    return ResultStatus.Fail;
+                    //return ResultStatus.Fail;
                 }
 
                 //2. 複製檔案
@@ -166,27 +178,67 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     rowStart = 141;
                     //ra = ws43020.Range[(rowIndex + rowStart + 1).ToString() + ":" + (rowStart + 60).ToString()];
                     //ra.Delete(DeleteMode.EntireRow);
-                    ws43020.Rows.Hide(rowCount + rowStart+1, rowStart + 60);
+                    ws43020.Rows.Hide(rowCount + rowStart + 1, rowStart + 60);
                     rowStart = 76;
                     //ra = ws43020.Range[(rowIndex + rowStart + 1).ToString() + ":" + (rowStart + 60).ToString()];
                     //ra.Delete(DeleteMode.EntireRow);
-                    ws43020.Rows.Hide(rowCount + rowStart+1, rowStart + 60);
+                    ws43020.Rows.Hide(rowCount + rowStart + 1, rowStart + 60);
                     rowStart = 7;
                     //ra = ws43020.Range[(rowIndex + rowStart + 1).ToString() + ":" + (rowStart + 60).ToString()];
                     //ra.Delete(DeleteMode.EntireRow);
-                    ws43020.Rows.Hide(rowCount + rowStart+1, rowStart + 60);
+                    ws43020.Rows.Hide(rowCount + rowStart + 1, rowStart + 60);
+                }
+                #endregion
+
+                #region sheet 2 
+                rptName = "保證金狀況表";
+                rptId = "40011_stat";
+                ShowMsg(rptId + '－' + rptName + " 轉檔中...");
+
+                //1. 讀取檔案
+                DataTable dt40011stat = dao43020.d_40011_stat(txtSDate.DateTimeValue.ToString("yyyyMMdd"));
+                dt40011stat = dt40011stat.Sort("seq_no, kind_id");
+                dt40011stat = dt40011stat.Filter("prod_type ='O' and param_key = 'ETC'");
+                if (dt40011stat.Rows.Count == 0) {
+                    MessageDisplay.Info(txtSDate.Text + "," + rptId + '－' + rptName + ",無任何資料!");
+                    //return ResultStatus.Fail;
                 }
 
-                //7. 存檔
+
+                //2. 切換Sheet
+                ws43020 = workbook.Worksheets["opt_3index"];
+
+                //3. 填入資料
+                ws43020.Cells[0, 0].Value = "資料日期：" + Environment.NewLine + txtSDate.DateTimeValue.Year + "年" + txtSDate.DateTimeValue.Month + "月" + txtSDate.DateTimeValue.Day + "日";
+                int rowNum = 3 - 1;
+                foreach (DataRow dr in dt40011stat.Rows) {
+                    for (f = 0; f < 33; f++) {
+                        ws43020.Cells[rowNum, f].SetValue(dr[f]);
+                    }
+                    rowNum++;
+                }
+
+                #endregion
+
+                //存檔
                 ws43020.ScrollToRow(0);
+                if (dt43020.Rows.Count == 0 && dt40011stat.Rows.Count == 0) {
+                    ShowMsg("轉檔錯誤");
+                    return ResultStatus.Fail;
+                }
                 workbook.SaveDocument(file);
+                ShowMsg("轉檔成功");
             }
             catch (Exception ex) {
                 //WriteLog(ex, "", false); 如果不用throw會繼續往下執行(?
-                lblProcessing.Text = "轉檔失敗";
+                ShowMsg("轉檔錯誤");
                 throw ex;
             }
-            lblProcessing.Text = "轉檔成功";
+            finally {
+                this.Cursor = Cursors.Arrow;
+                this.Refresh();
+                Thread.Sleep(5);
+            }
             return ResultStatus.Success;
         }
     }
