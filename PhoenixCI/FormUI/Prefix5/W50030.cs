@@ -584,6 +584,17 @@ namespace PhoenixCI.FormUI.Prefix5
 
       protected override ResultStatus Retrieve()
       {
+         if (gbReportType.EditValue.Equals("rb_date")) {
+            string lsRtn = PbFunc.f_get_jsw_seq(_ProgramID, "E", 0, emEndDate.DateTimeValue, gbMarket.EditValue.Equals("rb_market_1") ? "1" : "0");
+            if (lsRtn != "") {
+               DialogResult ChooseResult = MessageDisplay.Choose(emEndDate.Text + " 統計資料未轉入完畢,是否要繼續?" + Environment.NewLine + lsRtn);
+               if (ChooseResult == DialogResult.No) {
+                  stMsgTxt.Visible = false;
+                  return ResultStatus.Fail;
+               }
+            }
+         }
+
          if (!StartRetrieve()) return ResultStatus.Fail;
 
          if (!GetData()) return ResultStatus.Fail;

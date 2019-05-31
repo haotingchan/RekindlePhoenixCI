@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessObjects;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -72,6 +73,18 @@ SELECT CI.MG1.MG1_DATE,
             DataTable dtResult = db.GetDataTable(sql, parms);
 
             return dtResult;
+        }
+
+        public DataTable d_40011_stat(string AS_YMD) {
+
+            List<DbParameterEx> parms = new List<DbParameterEx>() {
+            new DbParameterEx("AS_YMD",AS_YMD)
+            //new DbParameterEx("RETURNPARAMETER",0)
+         };
+
+            string sql = "CI.SP_H_TXN_40011_STAT";
+
+            return db.ExecuteStoredProcedureEx(sql, parms, true);
         }
     }
 }
