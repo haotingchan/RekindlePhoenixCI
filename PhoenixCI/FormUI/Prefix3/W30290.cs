@@ -45,6 +45,8 @@ namespace PhoenixCI.FormUI.Prefix3
       protected override ResultStatus Retrieve()
       {
          base.Retrieve(gcMain);
+         if (!emDate.IsDate(emDate.Text, "日期輸入錯誤!"))
+            return ResultStatus.Fail;
 
          //存檔和刪除都是GridView的操作，應該要等讀取後才出現這些按鈕
          _ToolBtnSave.Enabled = true;
@@ -53,6 +55,7 @@ namespace PhoenixCI.FormUI.Prefix3
          _ToolBtnExport.Enabled = true;
 
          string isYMD = YMDlookUpEdit.EditValue.AsString();
+         gcMain.DataSource = b30290.List30290GridData(isYMD).Clone();
 
          int cnt = b30290.DataCount(isYMD);
          if (cnt > 0) {
@@ -155,7 +158,7 @@ namespace PhoenixCI.FormUI.Prefix3
             WriteLog(ex);
          }
          finally {
-            Export();
+            Export();//存檔後轉出Excel
          }
 
          retrieveChoose = DialogResult.None;
@@ -216,12 +219,12 @@ namespace PhoenixCI.FormUI.Prefix3
             return false;
          }
 
-         //DataTable dt = (DataTable)gcMain.DataSource;
-         //if (dt.Rows.Count <= 0) {
-         //   MessageDisplay.Warning("下方視窗無資料無法進行存檔，請先執行「讀取／預覽」!");
-         //   ShowMsg("轉檔有誤!");
-         //   return false;
-         //}
+         DataTable dt = (DataTable)gcMain.DataSource;
+         if (dt.Rows.Count <= 0) {
+            MessageDisplay.Warning("下方視窗無資料無法進行存檔，請先執行「讀取／預覽」!");
+            ShowMsg("轉檔有誤!");
+            return false;
+         }
 
          if (retrieveChoose == DialogResult.No) {
             MessageDisplay.Warning("已重新產置資料，請先執行「儲存」!");
@@ -274,7 +277,7 @@ namespace PhoenixCI.FormUI.Prefix3
          try {
             //Sheet : rpt_future
             string isYMD = YMDlookUpEdit.EditValue.AsString();
-            msg = b30290.WfExport(saveFilePath, isYMD,emDate.Text, GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH);
+            msg = b30290.WfExport(saveFilePath, isYMD, emDate.Text, GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH);
             OutputShowMessage = msg;
          }
          catch (Exception ex) {
