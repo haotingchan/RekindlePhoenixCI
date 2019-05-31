@@ -46,11 +46,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
          daoAI2 = new AI2();
 
 #if DEBUG
-         //winni test
-         //txtMon.DateTimeValue = DateTime.ParseExact("2012/07" , "yyyy/MM" , null);
-         //this.Text += "(開啟測試模式),Date=2012/07";
+         txtMon.DateTimeValue = DateTime.ParseExact("2012/07" , "yyyy/MM" , null);
+         this.Text += "(開啟測試模式),Date=2012/07";
 #endif
-
       }
 
       protected override ResultStatus ActivatedForm() {
@@ -81,7 +79,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //1. ready
             panFilter.Enabled = false;
             labMsg.Visible = true;
-            labMsg.Text = "轉檔中...";
+            labMsg.Text = "開始轉檔...";
             this.Cursor = Cursors.WaitCursor;
             this.Refresh();
             Thread.Sleep(5);

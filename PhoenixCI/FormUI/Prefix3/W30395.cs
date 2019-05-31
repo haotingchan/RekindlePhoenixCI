@@ -3,6 +3,8 @@ using System.ComponentModel;
 using System.Data;
 using System.IO;
 using System.Reflection;
+using System.Threading;
+using System.Windows.Forms;
 using BaseGround;
 using BaseGround.Shared;
 using BusinessObjects.Enums;
@@ -90,9 +92,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //1.開始轉出資料
             panFilter.Enabled = false;
             labMsg.Visible = true;
-            labMsg.Text = "訊息：資料轉出中........";
+            labMsg.Text = "開始轉檔...";
+            this.Cursor = Cursors.WaitCursor;
             this.Refresh();
-
+            Thread.Sleep(5);
 
             //1.1 copy template xls to target path
             string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID);
@@ -135,6 +138,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             panFilter.Enabled = true;
             labMsg.Text = "";
             labMsg.Visible = false;
+            this.Cursor = Cursors.Arrow;
          }
          return ResultStatus.Fail;
       }
