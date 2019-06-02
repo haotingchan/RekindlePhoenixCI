@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using DevExpress.XtraEditors;
 using BaseGround;
 using BusinessObjects.Enums;
 using BaseGround.Report;
@@ -15,10 +9,8 @@ using Common;
 using DevExpress.Spreadsheet;
 using DataObjects.Dao.Together.SpecificDao;
 using System.IO;
-using BusinessObjects;
 using DataObjects.Dao.Together;
 using DevExpress.XtraLayout.Utils;
-using Common.Helper;
 using DevExpress.XtraReports.UI;
 using BaseGround.Shared;
 using DevExpress.XtraEditors.Controls;
@@ -36,8 +28,30 @@ namespace PhoenixCI.FormUI.Prefix5
       private ABRK daoABRK;
       private APDK daoAPDK;
       private D50020 dao50020;
-      private DataTable ProdCtFilterS;
+      /// <summary>
+      /// 商品群組 dw_prod_ct setfilter("market_code in ('1',' ')")
+      /// </summary>
+      private DataTable ProdCtCodeFilter;
+      /// <summary>
+      /// 商品群組 dw_prod_ct
+      /// </summary>
       private DataTable ProdCtData;
+      /// <summary>
+      /// 造市商品 dw_prod_kd
+      /// </summary>
+      private DataTable ProdKdData;
+      /// <summary>
+      /// 造市商品 dw_prod_kd setfilter("market_code in ('1',' ')")
+      /// </summary>
+      private DataTable ProdKdDataFilter;
+      /// <summary>
+      /// 2碼商品 dw_prod_kd_sto
+      /// </summary>
+      private DataTable ProdKdStoData;
+      /// <summary>
+      /// 2碼商品 dw_prod_kd_sto setfilter("market_code in ('1',' ')")  
+      /// </summary>
+      private DataTable ProdKdStoDataFilter;
 
       public W50020(string programID, string programName) : base(programID, programName)
       {
@@ -66,7 +80,7 @@ namespace PhoenixCI.FormUI.Prefix5
             _D500Xx.Ebrkno = ebrkno;
          }
          if ((string.Compare(dwSbrkno.SelectedText, dwEbrkno.SelectedText) > 0) && !string.IsNullOrEmpty(_D500Xx.Ebrkno)) {
-            PbFunc.messageBox(GlobalInfo.ErrorText, "造市者代號起始不可大於迄止", MessageBoxIcon.Stop);
+            MessageDisplay.Error("造市者代號起始不可大於迄止");
 
             dwEbrkno.Focus();
             _D500Xx.IsCheck = "Y";
@@ -462,17 +476,33 @@ namespace PhoenixCI.FormUI.Prefix5
          return true;
       }
 
+      private void gbDetial_EditValueChanged(object sender, EventArgs e)
+      {
+         DevExpress.XtraEditors.RadioGroup rb = sender as DevExpress.XtraEditors.RadioGroup;
+         if (rb == null) return;
+
+         switch (rb.EditValue.ToString()) {
+            case "rb_detail":
+               layoutControl1.Enabled = false;
+               gbReportType.EditValue = "rb_date";
+               gbReportType.Enabled = false;
+               break;
+            default:
+               layoutControl1.Enabled = true;
+               gbReportType.Enabled = true;
+               break;
+         }
+      }
+
       private void gbGroup_EditValueChanged(object sender, EventArgs e)
       {
          DevExpress.XtraEditors.RadioGroup rb = sender as DevExpress.XtraEditors.RadioGroup;
          if (rb == null) return;
          _D500Xx.GbGroup = rb.EditValue.ToString();
+         DataTable dt = gbMarket.EditValue.Equals("rb_market_0") ? ProdCtData : ProdCtCodeFilter;
+         dwProdCt.Properties.DataSource = dt;
 
-         if (!rb.EditValue.Equals("rb_s")) {
-            dwProdCt.Properties.DataSource = ProdCtData;
-         }
-
-         switch (rb.EditValue.ToString()) {
+         switch (_D500Xx.GbGroup) {
             case "rb_gall":
                dwProdCt.Enabled = false;
                stProdCt.Enabled = false;
@@ -496,7 +526,13 @@ namespace PhoenixCI.FormUI.Prefix5
             case "rb_s":
                //統計依照"股票各類群組"時僅開放"商品群組"選單，且選單內容僅提供APDK_PROD_SUBTYPE='S'的商品
                dwProdCt.SelectedText = "";
-               dwProdCt.Properties.DataSource = ProdCtFilterS;
+               DataTable dtFilter = dt.Filter("APDK_PROD_SUBTYPE='S'");
+               dwProdCt.Properties.DataSource = dtFilter;
+               if (dtFilter.Rows.Count <= 0) {
+                  dtFilter.Rows.Add();
+                  dwProdCt.Properties.DataSource = dtFilter;
+               }
+
                dwProdCt.Enabled = true;
                stProdCt.Enabled = true;
 
@@ -539,24 +575,46 @@ namespace PhoenixCI.FormUI.Prefix5
             default:
                break;
          }
+
       }
 
-      private void GbDetial_EditValueChanged(object sender, EventArgs e)
+      private void gbMarket_EditValueChanged(object sender, EventArgs e)
       {
          DevExpress.XtraEditors.RadioGroup rb = sender as DevExpress.XtraEditors.RadioGroup;
          if (rb == null) return;
-
          switch (rb.EditValue.ToString()) {
-            case "rb_detail":
-               layoutControl1.Enabled = false;
-               gbReportType.EditValue = "rb_date";
-               gbReportType.Enabled = false;
+            case "rb_market_0":
+               //商品群組
+               dwProdCt.SelectedText = "";
+               dwProdCt.Properties.DataSource = _D500Xx.GbGroup == "rb_s" ? ProdCtData.Filter("APDK_PROD_SUBTYPE='S'") : ProdCtData;//統計依照"股票各類群組"時僅開放"商品群組"選單，且選單內容僅提供APDK_PROD_SUBTYPE='S'的商品
+               //2碼商品
+               dwProdKdSto.SelectedText = "";
+               dwProdKdSto.Properties.DataSource = ProdKdStoData;
+               //造市商品
+               dwProdKd.SelectedText = "";
+               dwProdKd.Properties.DataSource = ProdKdData;
+               break;
+            case "rb_market_1":
+               //商品群組
+               dwProdCt.SelectedText = "";
+               dwProdCt.Properties.DataSource = _D500Xx.GbGroup == "rb_s" ? ProdCtCodeFilter.Filter("APDK_PROD_SUBTYPE='S'") : ProdCtCodeFilter;//統計依照"股票各類群組"時僅開放"商品群組"選單，且選單內容僅提供APDK_PROD_SUBTYPE='S'的商品
+               //2碼商品
+               dwProdKdSto.SelectedText = "";
+               dwProdKdSto.Properties.DataSource = ProdKdStoDataFilter;
+               //造市商品
+               dwProdKd.SelectedText = "";
+               dwProdKd.Properties.DataSource = ProdKdDataFilter;
                break;
             default:
-               layoutControl1.Enabled = true;
-               gbReportType.Enabled = true;
                break;
          }
+
+         DataTable dt = (DataTable)dwProdCt.Properties.DataSource;
+         if (dt.Rows.Count <= 0) {
+            dt.Rows.Add();
+            dwProdCt.Properties.DataSource = dt;
+         }
+
       }
 
       protected override ResultStatus Open()
@@ -575,19 +633,28 @@ namespace PhoenixCI.FormUI.Prefix5
          dwSbrkno.SetDataTable(daoABRK.ListAll2(), "ABRK_NO", "CP_DISPLAY", TextEditStyles.Standard, null);
          //目的選項
          dwEbrkno.SetDataTable(daoABRK.ListAll2(), "ABRK_NO", "CP_DISPLAY", TextEditStyles.Standard, null);
+
+         string marketcodefilter = "MARKET_CODE in ('1',' ')";
          /* 商品群組 */
-         ProdCtData = daoAPDK.ListParamKey2();
+         ProdCtData = daoAPDK.ListParamKey();
          dwProdCt.SetDataTable(ProdCtData, "APDK_PARAM_KEY", "APDK_PARAM_KEY", TextEditStyles.Standard, null);
-         ProdCtFilterS = ProdCtData.Filter("APDK_PROD_SUBTYPE='S'");
+         ProdCtCodeFilter = ProdCtData.Filter(marketcodefilter);
          /* 造市商品 */
-         dwProdKd.SetDataTable(daoAPDK.ListAll3(), "PDK_KIND_ID", "PDK_KIND_ID", TextEditStyles.Standard, null);
+         ProdKdData = daoAPDK.ListAll3();
+         dwProdKd.SetDataTable(ProdKdData, "PDK_KIND_ID", "PDK_KIND_ID", TextEditStyles.Standard, null);
+         ProdKdDataFilter = ProdKdData.Filter(marketcodefilter);
          /* 2碼商品 */
-         dwProdKdSto.SetDataTable(daoAPDK.ListKind2(), "APDK_KIND_ID_STO", "APDK_KIND_ID_STO", TextEditStyles.Standard, null);
+         ProdKdStoData = daoAPDK.ListKind2();
+         dwProdKdSto.SetDataTable(ProdKdStoData, "APDK_KIND_ID_STO", "APDK_KIND_ID_STO", TextEditStyles.Standard, null);
+         ProdKdStoDataFilter = ProdKdStoData.Filter(marketcodefilter);
          //預設資料表
          _D500Xx.TableName = "AMM0";
+
          _D500Xx.GbGroup = gbGroup.EditValue.ToString();
+
          gbGroup.EditValueChanged += gbGroup_EditValueChanged;
-         gbDetial.EditValueChanged += GbDetial_EditValueChanged;
+         gbDetial.EditValueChanged += gbDetial_EditValueChanged;
+         gbMarket.EditValueChanged += gbMarket_EditValueChanged;
          return ResultStatus.Success;
       }
 
@@ -618,16 +685,25 @@ namespace PhoenixCI.FormUI.Prefix5
          if (!StartRetrieve()) return ResultStatus.Fail;
 
          if (!GetData()) return ResultStatus.Fail;
-
+         
          List<ReportProp> caption = new List<ReportProp>{
             new ReportProp{DataColumn="AMM0_YMD",Caption= "日期" ,CellWidth=gbDetial.EditValue.Equals("rb_gnodate")?130:65,DetailRowFontSize=9,HeaderFontSize=11},
             new ReportProp{DataColumn="AMM0_BRK_NO",Caption= "期貨商        代號",CellWidth=70,DetailRowFontSize=10,HeaderFontSize=11},
             new ReportProp{DataColumn="BRK_ABBR_NAME",Caption= "期貨商名稱" ,CellWidth=150,DetailRowFontSize=9.75f,HeaderFontSize=11},
-            new ReportProp{DataColumn="AMM0_PROD_ID",Caption= "商品名稱",CellWidth=80,DetailRowFontSize=11,HeaderFontSize=11},
             new ReportProp{DataColumn="AMM0_CNT",Caption= "詢價筆數",CellWidth=80,textAlignment=TextAlignment.MiddleRight,DetailRowFontSize=11,HeaderFontSize=11},
             new ReportProp{DataColumn="CP_RATE_VALID_CNT",Caption= "佔全市場            詢價比例(%)",CellWidth=100,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:##0.0#}",DetailRowFontSize=11,HeaderFontSize=11},
             new ReportProp{DataColumn="AMM0_MARKET_R_CNT",Caption= "全市場            詢價筆數",CellWidth=80,textAlignment=TextAlignment.MiddleRight,DetailRowFontSize=11,HeaderFontSize=11 }
             };
+
+         //商品名稱會根據列印順序有所不同
+         ReportProp productName = new ReportProp { DataColumn = "AMM0_PROD_ID", Caption = "商品名稱", CellWidth = 120, DetailRowFontSize = 11, HeaderFontSize = 11 };
+         if (_D500Xx.SortType=="P") {
+            caption.Insert(1, productName);//選擇商品，商品名稱會位於第二欄
+         }
+         else {
+            caption.Insert(3, productName);//選擇造勢者，商品名稱會位於第四欄
+         }
+         
          _defReport = new defReport(_Data, caption);
          documentViewer1.DocumentSource = _defReport;
          _defReport.CreateDocument(true);
