@@ -57,7 +57,7 @@
          // panParent
          // 
          this.panParent.Controls.Add(this.r_frame);
-         this.panParent.Size = new System.Drawing.Size(820, 555);
+         this.panParent.Size = new System.Drawing.Size(820, 560);
          // 
          // ribbonControl
          // 
@@ -152,7 +152,7 @@
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkAmtStk", "名目契約價值(現貨收盤價 * 契約乘數 * 成交口數)"),
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkAcc", "交易戶數"),
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkId", "交易人數(ID數)")});
-         this.chkGroup.Location = new System.Drawing.Point(92, 178);
+         this.chkGroup.Location = new System.Drawing.Point(96, 178);
          this.chkGroup.LookAndFeel.SkinName = "Office 2013";
          this.chkGroup.LookAndFeel.UseDefaultLookAndFeel = false;
          this.chkGroup.Name = "chkGroup";
@@ -170,7 +170,7 @@
          this.r_frame.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.r_frame.Controls.Add(this.labMsg);
          this.r_frame.Controls.Add(this.panFilter);
-         this.r_frame.Location = new System.Drawing.Point(22, 25);
+         this.r_frame.Location = new System.Drawing.Point(30, 30);
          this.r_frame.Name = "r_frame";
          this.r_frame.Size = new System.Drawing.Size(770, 500);
          this.r_frame.TabIndex = 81;
@@ -341,7 +341,7 @@
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(820, 585);
+         this.ClientSize = new System.Drawing.Size(820, 590);
          this.Name = "W30590";
          this.Text = "W30590";
          this.panParent.ResumeLayout(false);

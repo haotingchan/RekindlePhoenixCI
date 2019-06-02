@@ -4,9 +4,9 @@ using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together;
 using DevExpress.Spreadsheet;
+using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Threading;
@@ -279,6 +279,15 @@ namespace PhoenixCI.FormUI.Prefix3 {
             labMsg.Visible = false;
             return false;
          }
+      }
+
+      /// <summary>
+      /// set checkbox list focus background color
+      /// </summary>
+      /// <param name="sender"></param>
+      /// <param name="e"></param>
+      private void chkGroup_DrawItem(object sender , ListBoxDrawItemEventArgs e) {
+         e.AllowDrawSkinBackground = false;
       }
    }
 }

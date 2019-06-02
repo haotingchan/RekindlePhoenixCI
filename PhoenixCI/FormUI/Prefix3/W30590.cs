@@ -1,5 +1,4 @@
 ﻿using BaseGround;
-using BaseGround.Shared;
 using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together;
@@ -7,7 +6,6 @@ using DevExpress.Spreadsheet;
 using DevExpress.XtraEditors;
 using System;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
@@ -83,7 +81,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             string originalFilePath = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH , _ProgramID + "." + FileType.XLS.ToString().ToLower());
 
             string destinationFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH ,
-                _ProgramID + "_" + tempMarketCode + "_" + DateTime.Now.ToString("yyyy.MM.dd") + "-" + DateTime.Now.ToString("HH.mm.ss") + "." + FileType.XLS.ToString().ToLower());
+                _ProgramID + "_" + tempMarketCode + "_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss.") + FileType.XLS.ToString().ToLower());
 
             File.Copy(originalFilePath , destinationFilePath , true);
 
@@ -93,7 +91,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             //2.填資料
             bool result = false;
-            int ii_ole_row = 1;
             result = wf_Export(workbook , worksheet);  //function 30590
 
             if (!result) {
@@ -297,7 +294,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             return true;
          } catch (Exception ex) {
             WriteLog(ex);
-            labMsg.Visible = true;
+            labMsg.Visible = false;
             return false;
          }
       }
