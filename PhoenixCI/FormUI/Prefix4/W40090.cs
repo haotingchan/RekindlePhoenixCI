@@ -10,7 +10,6 @@ using DevExpress.XtraEditors.Controls;
 using PhoenixCI.Shared;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -22,6 +21,7 @@ using DevExpress.XtraRichEdit.API.Native;
 using Table = DevExpress.XtraRichEdit.API.Native.Table;
 
 /// <summary>
+/// 40090 依照類別產檔, word / excel / ifd
 /// Test Data 2B 20190304 / 1B 20190130 / 1E 20190212 / 0B 20190320
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix4 {
@@ -79,6 +79,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             IExport40xxxData xmlData = CreateXmlData(GetType(), "ExportXml" + AdjType, args);
             ReturnMessageClass msg = xmlData.GetData();
 
+            //無資料時不產檔
             if (msg.Status != ResultStatus.Success) {
                ExportShow.Text = MessageDisplay.MSG_IMPORT_FAIL;
                MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
@@ -116,6 +117,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
          return (IExport40xxxData)Assembly.Load(AssemblyName).CreateInstance(className, true, BindingFlags.CreateInstance, null, args, null, null);
       }
 
+      /// <summary>
+      /// 主要 export xml 其他情況對其進行overide
+      /// </summary>
       private class ExportXml : IExport40xxxData {
          protected D40xxx Dao { get; }
          protected virtual string TxtDate { get; }
@@ -147,6 +151,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             KindNameList_Desc = new List<string>();
             KindNameList = new List<string>();
+            //AB值 料欄位名稱不同
             ColsA = new string[] { "m_im", "m_mm", "m_cm", "cur_im", "cur_mm", "cur_cm" };
             ColsB = new string[] { "m_im_b", "m_mm_b", "m_cm_b", "cur_im_b", "cur_mm_b", "cur_cm_b" };
          }
@@ -157,6 +162,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             Dt = Dao.GetData(TxtDate, AsAdjType, AdjType.SubStr(1, 1));
 
+            //無資料時return fail (不產檔)
             if (Dt != null) {
                if (Dt.Rows.Count > 0) {
                   msg.Status = ResultStatus.Success;
@@ -177,6 +183,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                OpenFileAndSetYear();
 
+               //介係詞 當有期貨時 要加上 "期貨契約保證金及"
                string prepoStr = Dt.AsEnumerable().Any(d => d.Field<string>("prod_type") == "F") ? "期貨契約保證金及" : "";
                List<string> subTypeString = new List<string>();
                List<string> adjRate = new List<string>();
@@ -204,6 +211,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                implEndDate = implEndDate.AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
                mocfDate = mocfDate.AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
 
+               //取代element 中的文字
                ReplaceElementWord(GenArrayTxt(KindNameList), GenArrayTxt(KindNameList_Desc), GenArrayTxt(subTypeString), implBeginDate,
                                     implEndDate, mocfDate);
 
@@ -239,7 +247,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
                rtf.SaveDocument(wordFilePath, DevExpress.XtraRichEdit.DocumentFormat.Rtf);
                rtf.Dispose();
 
-
                //Span 資料
                DataTable dtSpan = Dao.GetSpanData(TxtDate.AsDateTime("yyyyMMdd"));
                if (dtSpan.Rows.Count > 0) {
@@ -259,6 +266,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
          }
 
+         /// <summary>
+         /// 開檔並設定年度號
+         /// </summary>
          protected virtual void OpenFileAndSetYear() {
             Doc = new XmlDocument();
             Doc.Load(FilePath);
@@ -268,6 +278,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             ReplaceXmlInnterText(Doc.GetElementsByTagName("年度號")[0], "#year#", DateTime.Now.AsTaiwanDateTime("{0}", 4));
          }
 
+         /// <summary>
+         /// 取代node 內文字
+         /// </summary>
+         /// <param name="element"></param>
+         /// <param name="oldString">被取代問字</param>
+         /// <param name="newString">取代文字</param>
          protected virtual void ReplaceXmlInnterText(XmlNode element, string oldString, string newString) {
 
             string innertext = element.InnerText;
@@ -318,6 +334,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return result;
          }
 
+         /// <summary>
+         /// 取得prodsubtype 說明文
+         /// </summary>
+         /// <param name="prodsubtype"></param>
+         /// <returns></returns>
          protected virtual string GetProdSubTypeDesc(string prodsubtype) {
             string re = "";
 
@@ -326,6 +347,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return re;
          }
 
+         /// <summary>
+         /// 組 kind Name List For 說明文 
+         /// </summary>
+         /// <param name="dr">每筆資料</param>
+         /// <param name="prepoStr">介係詞 (契約)</param>
+         /// <param name="abbrName"></param>
+         /// <param name="abbrName_Desc">有時是 full_rule_name</param>
          protected virtual void GenKindNameList(DataRow dr, string prepoStr, string abbrName, string abbrName_Desc) {
 
             if (dr["prod_subtype"].AsString() == "S") {
@@ -345,6 +373,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
          }
 
+         /// <summary>
+         /// 畫span excel
+         /// </summary>
+         /// <param name="ws">excel sheet</param>
+         /// <param name="dtSpan"></param>
          protected virtual void ExcelSpan(Worksheet ws, DataTable dtSpan) {
 
             if (dtSpan.Rows.Count == 0) return;
@@ -363,6 +396,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          }
 
+         /// <summary>
+         /// 畫 期貨 excel 
+         /// </summary>
+         /// <param name="ws">excel sheet</param>
+         /// <param name="dtFut">期貨資料</param>
          protected virtual void ExcelFut(Worksheet ws, DataTable dtFut) {
 
             int rowIndex = 0;
@@ -429,6 +467,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             ws.ScrollTo(0, 0);
          }
 
+         /// <summary>
+         /// 畫 選擇權 excel 
+         /// </summary>
+         /// <param name="ws">excel sheet</param>
+         /// <param name="dtFut">選擇權資料</param>
          protected virtual void ExcelOpt(Worksheet ws, DataTable dtOpt) {
 
             int rowIndex = 0;
@@ -512,6 +555,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             ws.ScrollTo(0, 0);
          }
 
+         /// <summary>
+         /// 產生 期貨word file
+         /// </summary>
+         /// <param name="rtfDoc"></param>
+         /// <param name="dt"></param>
          protected virtual void WordFut(Document rtfDoc, DataTable dt) {
             //dt = dt.Sort("prod_type A, amt_type A");
 
@@ -652,6 +700,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             rtf.Dispose();
          }
 
+         /// <summary>
+         /// 錯誤時處理
+         /// </summary>
+         /// <param name="ex">Exception </param>
+         /// <param name="msg"></param>
          public virtual void ErrorHandle(Exception ex, ReturnMessageClass msg) {
             WriteLog(ex.ToString(), "Info", "Z");
             msg.Status = ResultStatus.Fail;
@@ -706,6 +759,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }//if (isNeedWriteFile) 
          }
 
+         /// <summary>
+         /// word Table
+         /// </summary>
+         /// <param name="rtfDoc">word file</param>
+         /// <param name="rowcount">列數</param>
+         /// <param name="colcount">欄位數</param>
+         /// <returns></returns>
          protected virtual Table CreateTable(Document rtfDoc, int rowcount, int colcount) {
 
             Table wordtable = rtfDoc.Tables.Create(rtfDoc.Range.End, rowcount, colcount);
@@ -744,6 +804,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                               base(dao, txtdate, adjtype, programId) {
 
             AddDescElement = true;
+            //動態新增文字說明
             DescTxt = "本公司#full_name_llist#經#underlying_market#於#pub_ymd#公布為處置有價證券，" +
                      "處置期間為#impl_begin_ymd#至#impl_end_ymd#，依前揭規定辦理保證金調整，列表如附。" +
                      "本次調整自#issue_begin_ymd#(證券市場處置生效日次一營業日)該股票期貨契約交易時段結束後起實施，" +
@@ -876,6 +937,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
       private class ExportXml1B : ExportXml {
          public ExportXml1B(D40xxx dao, string txtdate, string adjtype, string programId) :
                      base(dao, txtdate, adjtype, programId) {
+            //這檔A值與資料欄位其他不同
             ColsA = new string[] { "m_im", "m_im1", "m_im2", "cur_im", "cur_im1", "cur_im2" };
          }
 
@@ -899,6 +961,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
       private class ExportXml1E : ExportXml {
          public ExportXml1E(D40xxx dao, string txtdate, string adjtype, string programId) :
             base(dao, txtdate, adjtype, programId) {
+            //這檔A值欄位與其他不同
             ColsA = new string[] { "m_im", "m_im1", "m_im2", "cur_im", "cur_im1", "cur_im2" };
          }
 
@@ -911,6 +974,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                OpenFileAndSetYear();
 
+               //當有期貨資料時 加上 "期貨契約保證金及"
                string prepoStr = Dt.AsEnumerable().Any(d => d.Field<string>("prod_type") == "F") ? "期貨契約保證金及" : "";
                List<string> subTypeString = new List<string>();
                List<string> adjRate = new List<string>();
@@ -971,7 +1035,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
                string wordFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, $"40090_{DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss")}.rtf");
                rtf.SaveDocument(wordFilePath, DevExpress.XtraRichEdit.DocumentFormat.Rtf);
                rtf.Dispose();
-
 
                //Span 資料
                DataTable dtSpan = Dao.GetSpanData(TxtDate.AsDateTime("yyyyMMdd"));
@@ -1066,12 +1129,15 @@ namespace PhoenixCI.FormUI.Prefix4 {
                string fileName = "";
 
                if (Dt.Select("ADJ_TYPE = 0").Count() > 0 && Dt.Select("ADJ_TYPE = 3").Count() > 0) {
+                  //股票與一般都有資料時使用 40090_0_3_rfa Template
                   fileName = $"{ProgramId}_0_3_rfa";
                   Gen03BIfdRfa(fileName);
                } else if (Dt.Select("ADJ_TYPE = 0").Count() > 0) {
+                  //一般有資料時使用 40090_0_rfa Template
                   fileName = $"{ProgramId}_0_rfa";
                   Gen0BIfdRfa(fileName);
                } else if (Dt.Select("ADJ_TYPE = 3").Count() > 0) {
+                  //股票有資料時使用 40090_3_rfa Template
                   fileName = $"{ProgramId}_3_rfa";
                   Gen3BIfdRfa(fileName);
                }
@@ -1079,12 +1145,15 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                #region ifd 
                if (Dt.Select("ADJ_TYPE = 0").Count() > 0 && Dt.Select("ADJ_TYPE = 3").Count() > 0) {
+                  //股票與一般都有資料時使用 40090_0_3 Template
                   fileName = $"{ProgramId}_0_3";
                   Gen03BIfd(fileName);
                } else if (Dt.Select("ADJ_TYPE = 0").Count() > 0) {
+                  //一般有資料時使用 40090_0 Template
                   fileName = $"{ProgramId}_0";
                   Gen0BIfd(fileName);
                } else if (Dt.Select("ADJ_TYPE = 3").Count() > 0) {
+                  //股票有資料時使用 40090_3 Template
                   fileName = $"{ProgramId}_3";
                   Gen3BIfd(fileName);
                }
@@ -1110,7 +1179,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
                string wordFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, $"40090_{DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss")}.rtf");
                rtf.SaveDocument(wordFilePath, DevExpress.XtraRichEdit.DocumentFormat.Rtf);
                rtf.Dispose();
-
 
                //Span 資料
                DataTable dtSpan = Dao.GetSpanData(TxtDate.AsDateTime("yyyyMMdd"));
@@ -1140,6 +1208,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[3], "#issue_begin_ymd#", args[2]);
          }
 
+         /// <summary>
+         /// 產 一般 0B ifd_rfa
+         /// </summary>
+         /// <param name="fileName">文件名</param>
          protected virtual void Gen0BIfdRfa(string fileName) {
 
             FilePath = PbFunc.wf_copy_file(ProgramId, fileName);
@@ -1211,6 +1283,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             Doc.Save(FilePath);
          }
 
+         /// <summary>
+         /// 產 股票 3B ifd_rfa
+         /// </summary>
+         /// <param name="fileName">文件名</param>
          protected virtual void Gen3BIfdRfa(string fileName) {
             FilePath = PbFunc.wf_copy_file(ProgramId, fileName);
 
@@ -1251,6 +1327,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             Doc.Save(FilePath);
          }
 
+         /// <summary>
+         /// 產生合併版 一般 / 股票 0_3 ifd_rfa
+         /// </summary>
+         /// <param name="fileName"></param>
          protected virtual void Gen03BIfdRfa(string fileName) {
             FilePath = PbFunc.wf_copy_file(ProgramId, fileName);
 
@@ -1344,6 +1424,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             Doc.Save(FilePath);
          }
 
+         /// <summary>
+         /// 產生 一般 0B ifd
+         /// </summary>
+         /// <param name="fileName"></param>
          protected virtual void Gen0BIfd(string fileName) {
 
             FilePath = PbFunc.wf_copy_file(ProgramId, fileName);
@@ -1413,6 +1497,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             Doc.Save(FilePath);
          }
 
+         /// <summary>
+         /// 產生 股票 3B ifd
+         /// </summary>
+         /// <param name="fileName"></param>
          protected virtual void Gen3BIfd(string fileName) {
 
             FilePath = PbFunc.wf_copy_file(ProgramId, fileName);
@@ -1445,6 +1533,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             Doc.Save(FilePath);
          }
 
+         /// <summary>
+         /// 產生合併版 一般/股票 0_3 ifd
+         /// </summary>
+         /// <param name="fileName"></param>
          protected virtual void Gen03BIfd(string fileName) {
 
             FilePath = PbFunc.wf_copy_file(ProgramId, fileName);
@@ -1524,7 +1616,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          }
 
          /// <summary>
-         /// 組0B說明文
+         /// 組 一般 0B 說明文
          /// </summary>
          protected virtual string Element0BRfa(int i) {
             string re = "";
@@ -1578,7 +1670,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          }
 
          /// <summary>
-         /// 組3B 說明文
+         /// 組 股票 3B 說明文
          /// </summary>
          /// <param name="i">1 季評估 2 機動評估</param>
          /// <param name="drs"></param>
