@@ -221,7 +221,7 @@ namespace PhoenixCI.FormUI.Prefix5
             foreach (DataRow dr in dt.GetChanges().Rows) {
                if (dr.RowState == DataRowState.Deleted)
                   continue;
-               if (dr["op_type"].AsString() == " ")
+               if (dr["OP_TYPE"].AsString() == " ")
                   continue;
 
                //key值不能為null
@@ -238,28 +238,28 @@ namespace PhoenixCI.FormUI.Prefix5
                   return false;
                }
                //必須回應詢價比
-               if (string.IsNullOrEmpty(dr["mmf_resp_ratio"].AsString())) {
+               if (string.IsNullOrEmpty(dr["MMF_RESP_RATIO"].AsString())) {
                   MessageDisplay.Warning("「必須回應詢價比(%)」必須要輸入值！");
                   //set Focused
                   setFocused(dt, dr, "MMF_RESP_RATIO");
                   return false;
                }
                //最低造市量
-               if (string.IsNullOrEmpty(dr["mmf_qnty_low"].AsString())) {
+               if (string.IsNullOrEmpty(dr["MMF_QNTY_LOW"].AsString())) {
                   MessageDisplay.Warning("「最低造市量」必須要輸入值！");
                   //set Focused
                   setFocused(dt, dr, "MMF_QNTY_LOW");
                   return false;
                }
                //報價有效量比率
-               if (string.IsNullOrEmpty(dr["mmf_quote_valid_rate"].AsString())) {
+               if (string.IsNullOrEmpty(dr["MMF_QUOTE_VALID_RATE"].AsString())) {
                   MessageDisplay.Warning("「報價有效量比率」必須要輸入值！");
                   //set Focused
                   setFocused(dt, dr, "MMF_QUOTE_VALID_RATE");
                   return false;
                }
                //報價每日平均維持分鐘
-               if (string.IsNullOrEmpty(dr["mmf_avg_time"].AsString())) {
+               if (string.IsNullOrEmpty(dr["MMF_AVG_TIME"].AsString())) {
                   MessageDisplay.Warning("「報價每日平均維持分鐘」必須要輸入值！");
                   //set Focused
                   setFocused(dt, dr, "MMF_AVG_TIME");
@@ -267,11 +267,11 @@ namespace PhoenixCI.FormUI.Prefix5
                }
                //寫LOGV
                lsType = "I";
-               lsVal1 = dr["mmf_param_key"].AsString();
-               lsVal2 = dr["mmf_resp_ratio"].AsString();
-               lsVal3 = dr["mmf_qnty_low"].AsString();
-               lsVal4 = dr["mmf_quote_valid_rate"].AsString();
-               lsVal5 = dr["mmf_avg_time"].AsString();
+               lsVal1 = dr["MMF_PARAM_KEY"].AsString();
+               lsVal2 = dr["MMF_RESP_RATIO"].AsString();
+               lsVal3 = dr["MMF_QNTY_LOW"].AsString();
+               lsVal4 = dr["MMF_QUOTE_VALID_RATE"].AsString();
+               lsVal5 = dr["MMF_AVG_TIME"].AsString();
                new LOGV().Insert(_ProgramID, GlobalInfo.USER_ID, lsType, lsVal1, lsVal2, lsVal3, lsVal4, lsVal5);
             }
          }
@@ -301,7 +301,7 @@ namespace PhoenixCI.FormUI.Prefix5
          DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
 
          if (!SaveBefore(dt)) {
-            return ResultStatus.Fail;
+            return ResultStatus.FailButNext;
          }
          // 寫入DB
          foreach (DataRow dr in dt.Rows) {
@@ -313,10 +313,12 @@ namespace PhoenixCI.FormUI.Prefix5
 
          if (dtChange != null) {
             try {
+               dt.AcceptChanges();
                ResultData myResultData = dao51030.UpdateMMF(dt);
             }
             catch (Exception ex) {
                WriteLog(ex);
+               return ResultStatus.Fail;
             }
             PrintOrExportChangedByKen(gcMain, dtForAdd, dtDeleteChange, dtForModified);
             return ResultStatus.Success;
