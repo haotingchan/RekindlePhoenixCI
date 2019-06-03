@@ -23,212 +23,44 @@
       /// the contents of this method with the code editor.
       /// </summary>
       private void InitializeComponent() {
-         this.panFilter = new System.Windows.Forms.GroupBox();
-         this.gbMarket = new DevExpress.XtraEditors.RadioGroup();
-         this.dwParamKey = new DevExpress.XtraEditors.LookUpEdit();
-         this.labMarket = new System.Windows.Forms.Label();
-         this.labParamKey = new System.Windows.Forms.Label();
-         this.label2 = new System.Windows.Forms.Label();
-         this.labPrevDate = new System.Windows.Forms.Label();
-         this.label1 = new System.Windows.Forms.Label();
-         this.labAftDate = new System.Windows.Forms.Label();
-         this.labMsg = new System.Windows.Forms.Label();
-         this.txtAftStartYM = new BaseGround.Widget.TextDateEdit();
-         this.txtAftEndYM = new BaseGround.Widget.TextDateEdit();
-         this.txtPrevStartYM = new BaseGround.Widget.TextDateEdit();
          this.txtPrevEndYM = new BaseGround.Widget.TextDateEdit();
+         this.txtPrevStartYM = new BaseGround.Widget.TextDateEdit();
+         this.txtAftEndYM = new BaseGround.Widget.TextDateEdit();
+         this.txtAftStartYM = new BaseGround.Widget.TextDateEdit();
+         this.r_frame = new DevExpress.XtraEditors.PanelControl();
+         this.labMsg = new System.Windows.Forms.Label();
+         this.panFilter = new System.Windows.Forms.GroupBox();
+         this.dwParamKey = new DevExpress.XtraEditors.LookUpEdit();
+         this.gbMarket = new DevExpress.XtraEditors.RadioGroup();
+         this.label4 = new System.Windows.Forms.Label();
+         this.label5 = new System.Windows.Forms.Label();
+         this.label7 = new System.Windows.Forms.Label();
+         this.label6 = new System.Windows.Forms.Label();
+         this.label8 = new System.Windows.Forms.Label();
+         this.label9 = new System.Windows.Forms.Label();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
-         this.panFilter.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.dwParamKey.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtAftStartYM.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtAftEndYM.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtPrevStartYM.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtPrevEndYM.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtPrevStartYM.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtAftEndYM.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtAftStartYM.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
+         this.r_frame.SuspendLayout();
+         this.panFilter.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.dwParamKey.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
          // 
-         this.panParent.Controls.Add(this.labMsg);
-         this.panParent.Controls.Add(this.panFilter);
+         this.panParent.Controls.Add(this.r_frame);
+         this.panParent.Size = new System.Drawing.Size(450, 370);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
+         this.ribbonControl.Size = new System.Drawing.Size(450, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
-         // 
-         // panFilter
-         // 
-         this.panFilter.AutoSize = true;
-         this.panFilter.Controls.Add(this.txtPrevEndYM);
-         this.panFilter.Controls.Add(this.txtPrevStartYM);
-         this.panFilter.Controls.Add(this.txtAftEndYM);
-         this.panFilter.Controls.Add(this.txtAftStartYM);
-         this.panFilter.Controls.Add(this.gbMarket);
-         this.panFilter.Controls.Add(this.dwParamKey);
-         this.panFilter.Controls.Add(this.labMarket);
-         this.panFilter.Controls.Add(this.labParamKey);
-         this.panFilter.Controls.Add(this.label2);
-         this.panFilter.Controls.Add(this.labPrevDate);
-         this.panFilter.Controls.Add(this.label1);
-         this.panFilter.Controls.Add(this.labAftDate);
-         this.panFilter.Location = new System.Drawing.Point(15, 15);
-         this.panFilter.Name = "panFilter";
-         this.panFilter.Size = new System.Drawing.Size(427, 196);
-         this.panFilter.TabIndex = 7;
-         this.panFilter.TabStop = false;
-         this.panFilter.Text = "請輸入交易日期";
-         // 
-         // gbMarket
-         // 
-         this.gbMarket.EditValue = "rb_market_All";
-         this.gbMarket.Location = new System.Drawing.Point(141, 130);
-         this.gbMarket.Name = "gbMarket";
-         this.gbMarket.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
-         this.gbMarket.Properties.Appearance.Options.UseBackColor = true;
-         this.gbMarket.Properties.Columns = 3;
-         this.gbMarket.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_market_All", "全部"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_market_0", "一般"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_market_1", "盤後")});
-         this.gbMarket.Size = new System.Drawing.Size(213, 35);
-         this.gbMarket.TabIndex = 0;
-         // 
-         // dwParamKey
-         // 
-         this.dwParamKey.Location = new System.Drawing.Point(117, 33);
-         this.dwParamKey.Name = "dwParamKey";
-         this.dwParamKey.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-         this.dwParamKey.Properties.AppearanceDisabled.Options.UseBackColor = true;
-         this.dwParamKey.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.dwParamKey.Properties.NullText = "";
-         this.dwParamKey.Properties.PopupSizeable = false;
-         this.dwParamKey.Size = new System.Drawing.Size(237, 26);
-         this.dwParamKey.TabIndex = 31;
-         // 
-         // labMarket
-         // 
-         this.labMarket.AutoSize = true;
-         this.labMarket.Location = new System.Drawing.Point(54, 135);
-         this.labMarket.Name = "labMarket";
-         this.labMarket.Size = new System.Drawing.Size(89, 20);
-         this.labMarket.TabIndex = 14;
-         this.labMarket.Text = "交易時段：";
-         // 
-         // labParamKey
-         // 
-         this.labParamKey.AutoSize = true;
-         this.labParamKey.Location = new System.Drawing.Point(54, 36);
-         this.labParamKey.Name = "labParamKey";
-         this.labParamKey.Size = new System.Drawing.Size(57, 20);
-         this.labParamKey.TabIndex = 13;
-         this.labParamKey.Text = "商品：";
-         // 
-         // label2
-         // 
-         this.label2.AutoSize = true;
-         this.label2.Location = new System.Drawing.Point(223, 98);
-         this.label2.Name = "label2";
-         this.label2.Size = new System.Drawing.Size(25, 20);
-         this.label2.TabIndex = 10;
-         this.label2.Text = "～";
-         // 
-         // labPrevDate
-         // 
-         this.labPrevDate.AutoSize = true;
-         this.labPrevDate.Location = new System.Drawing.Point(54, 101);
-         this.labPrevDate.Name = "labPrevDate";
-         this.labPrevDate.Size = new System.Drawing.Size(57, 20);
-         this.labPrevDate.TabIndex = 9;
-         this.labPrevDate.Text = "前期：";
-         // 
-         // label1
-         // 
-         this.label1.AutoSize = true;
-         this.label1.Location = new System.Drawing.Point(223, 66);
-         this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(25, 20);
-         this.label1.TabIndex = 6;
-         this.label1.Text = "～";
-         // 
-         // labAftDate
-         // 
-         this.labAftDate.AutoSize = true;
-         this.labAftDate.Location = new System.Drawing.Point(54, 69);
-         this.labAftDate.Name = "labAftDate";
-         this.labAftDate.Size = new System.Drawing.Size(57, 20);
-         this.labAftDate.TabIndex = 2;
-         this.labAftDate.Text = "後期：";
-         // 
-         // labMsg
-         // 
-         this.labMsg.AutoSize = true;
-         this.labMsg.ForeColor = System.Drawing.Color.Blue;
-         this.labMsg.Location = new System.Drawing.Point(15, 214);
-         this.labMsg.Name = "labMsg";
-         this.labMsg.Size = new System.Drawing.Size(85, 20);
-         this.labMsg.TabIndex = 10;
-         this.labMsg.Text = "開始轉檔...";
-         this.labMsg.Visible = false;
-         // 
-         // txtAftStartYM
-         // 
-         this.txtAftStartYM.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtAftStartYM.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtAftStartYM.EditValue = "2018/12";
-         this.txtAftStartYM.EnterMoveNextControl = true;
-         this.txtAftStartYM.Location = new System.Drawing.Point(117, 66);
-         this.txtAftStartYM.MenuManager = this.ribbonControl;
-         this.txtAftStartYM.Name = "txtAftStartYM";
-         this.txtAftStartYM.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtAftStartYM.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtAftStartYM.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtAftStartYM.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-         this.txtAftStartYM.Properties.Mask.ShowPlaceHolders = false;
-         this.txtAftStartYM.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtAftStartYM.Size = new System.Drawing.Size(100, 26);
-         this.txtAftStartYM.TabIndex = 76;
-         this.txtAftStartYM.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-         // 
-         // txtAftEndYM
-         // 
-         this.txtAftEndYM.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtAftEndYM.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtAftEndYM.EditValue = "2018/12";
-         this.txtAftEndYM.EnterMoveNextControl = true;
-         this.txtAftEndYM.Location = new System.Drawing.Point(254, 66);
-         this.txtAftEndYM.MenuManager = this.ribbonControl;
-         this.txtAftEndYM.Name = "txtAftEndYM";
-         this.txtAftEndYM.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtAftEndYM.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtAftEndYM.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtAftEndYM.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-         this.txtAftEndYM.Properties.Mask.ShowPlaceHolders = false;
-         this.txtAftEndYM.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtAftEndYM.Size = new System.Drawing.Size(100, 26);
-         this.txtAftEndYM.TabIndex = 77;
-         this.txtAftEndYM.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-         // 
-         // txtPrevStartYM
-         // 
-         this.txtPrevStartYM.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtPrevStartYM.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtPrevStartYM.EditValue = "2018/12";
-         this.txtPrevStartYM.EnterMoveNextControl = true;
-         this.txtPrevStartYM.Location = new System.Drawing.Point(117, 98);
-         this.txtPrevStartYM.MenuManager = this.ribbonControl;
-         this.txtPrevStartYM.Name = "txtPrevStartYM";
-         this.txtPrevStartYM.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtPrevStartYM.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtPrevStartYM.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtPrevStartYM.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-         this.txtPrevStartYM.Properties.Mask.ShowPlaceHolders = false;
-         this.txtPrevStartYM.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtPrevStartYM.Size = new System.Drawing.Size(100, 26);
-         this.txtPrevStartYM.TabIndex = 78;
-         this.txtPrevStartYM.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtPrevEndYM
          // 
@@ -236,11 +68,12 @@
          this.txtPrevEndYM.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtPrevEndYM.EditValue = "2018/12";
          this.txtPrevEndYM.EnterMoveNextControl = true;
-         this.txtPrevEndYM.Location = new System.Drawing.Point(254, 98);
+         this.txtPrevEndYM.Location = new System.Drawing.Point(220, 132);
          this.txtPrevEndYM.MenuManager = this.ribbonControl;
          this.txtPrevEndYM.Name = "txtPrevEndYM";
          this.txtPrevEndYM.Properties.Appearance.Options.UseTextOptions = true;
          this.txtPrevEndYM.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtPrevEndYM.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtPrevEndYM.Properties.Mask.EditMask = "yyyy/MM/dd";
          this.txtPrevEndYM.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
          this.txtPrevEndYM.Properties.Mask.ShowPlaceHolders = false;
@@ -249,45 +82,248 @@
          this.txtPrevEndYM.TabIndex = 79;
          this.txtPrevEndYM.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
+         // txtPrevStartYM
+         // 
+         this.txtPrevStartYM.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtPrevStartYM.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtPrevStartYM.EditValue = "2018/12";
+         this.txtPrevStartYM.EnterMoveNextControl = true;
+         this.txtPrevStartYM.Location = new System.Drawing.Point(92, 132);
+         this.txtPrevStartYM.MenuManager = this.ribbonControl;
+         this.txtPrevStartYM.Name = "txtPrevStartYM";
+         this.txtPrevStartYM.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtPrevStartYM.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtPrevStartYM.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.txtPrevStartYM.Properties.Mask.EditMask = "yyyy/MM/dd";
+         this.txtPrevStartYM.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtPrevStartYM.Properties.Mask.ShowPlaceHolders = false;
+         this.txtPrevStartYM.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtPrevStartYM.Size = new System.Drawing.Size(100, 26);
+         this.txtPrevStartYM.TabIndex = 78;
+         this.txtPrevStartYM.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         // 
+         // txtAftEndYM
+         // 
+         this.txtAftEndYM.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtAftEndYM.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtAftEndYM.EditValue = "2018/12";
+         this.txtAftEndYM.EnterMoveNextControl = true;
+         this.txtAftEndYM.Location = new System.Drawing.Point(220, 87);
+         this.txtAftEndYM.MenuManager = this.ribbonControl;
+         this.txtAftEndYM.Name = "txtAftEndYM";
+         this.txtAftEndYM.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtAftEndYM.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtAftEndYM.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.txtAftEndYM.Properties.Mask.EditMask = "yyyy/MM/dd";
+         this.txtAftEndYM.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtAftEndYM.Properties.Mask.ShowPlaceHolders = false;
+         this.txtAftEndYM.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtAftEndYM.Size = new System.Drawing.Size(100, 26);
+         this.txtAftEndYM.TabIndex = 77;
+         this.txtAftEndYM.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         // 
+         // txtAftStartYM
+         // 
+         this.txtAftStartYM.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtAftStartYM.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtAftStartYM.EditValue = "2018/12";
+         this.txtAftStartYM.EnterMoveNextControl = true;
+         this.txtAftStartYM.Location = new System.Drawing.Point(92, 87);
+         this.txtAftStartYM.MenuManager = this.ribbonControl;
+         this.txtAftStartYM.Name = "txtAftStartYM";
+         this.txtAftStartYM.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtAftStartYM.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtAftStartYM.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.txtAftStartYM.Properties.Mask.EditMask = "yyyy/MM/dd";
+         this.txtAftStartYM.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtAftStartYM.Properties.Mask.ShowPlaceHolders = false;
+         this.txtAftStartYM.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtAftStartYM.Size = new System.Drawing.Size(100, 26);
+         this.txtAftStartYM.TabIndex = 76;
+         this.txtAftStartYM.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         // 
+         // r_frame
+         // 
+         this.r_frame.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.r_frame.Appearance.Options.UseBackColor = true;
+         this.r_frame.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+         this.r_frame.Controls.Add(this.labMsg);
+         this.r_frame.Controls.Add(this.panFilter);
+         this.r_frame.Location = new System.Drawing.Point(30, 30);
+         this.r_frame.Name = "r_frame";
+         this.r_frame.Size = new System.Drawing.Size(400, 310);
+         this.r_frame.TabIndex = 82;
+         // 
+         // labMsg
+         // 
+         this.labMsg.AutoSize = true;
+         this.labMsg.ForeColor = System.Drawing.Color.Blue;
+         this.labMsg.Location = new System.Drawing.Point(15, 260);
+         this.labMsg.MaximumSize = new System.Drawing.Size(360, 120);
+         this.labMsg.Name = "labMsg";
+         this.labMsg.Size = new System.Drawing.Size(85, 20);
+         this.labMsg.TabIndex = 80;
+         this.labMsg.Text = "開始轉檔...";
+         this.labMsg.Visible = false;
+         // 
+         // panFilter
+         // 
+         this.panFilter.AutoSize = true;
+         this.panFilter.Controls.Add(this.txtPrevEndYM);
+         this.panFilter.Controls.Add(this.dwParamKey);
+         this.panFilter.Controls.Add(this.txtPrevStartYM);
+         this.panFilter.Controls.Add(this.gbMarket);
+         this.panFilter.Controls.Add(this.txtAftEndYM);
+         this.panFilter.Controls.Add(this.label4);
+         this.panFilter.Controls.Add(this.txtAftStartYM);
+         this.panFilter.Controls.Add(this.label5);
+         this.panFilter.Controls.Add(this.label7);
+         this.panFilter.Controls.Add(this.label6);
+         this.panFilter.Controls.Add(this.label8);
+         this.panFilter.Controls.Add(this.label9);
+         this.panFilter.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
+         this.panFilter.ForeColor = System.Drawing.Color.Navy;
+         this.panFilter.Location = new System.Drawing.Point(20, 15);
+         this.panFilter.Name = "panFilter";
+         this.panFilter.Size = new System.Drawing.Size(360, 235);
+         this.panFilter.TabIndex = 6;
+         this.panFilter.TabStop = false;
+         this.panFilter.Text = "請輸入交易日期";
+         // 
+         // dwParamKey
+         // 
+         this.dwParamKey.Location = new System.Drawing.Point(92, 42);
+         this.dwParamKey.Name = "dwParamKey";
+         this.dwParamKey.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+         this.dwParamKey.Properties.AppearanceDisabled.Options.UseBackColor = true;
+         this.dwParamKey.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.dwParamKey.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.dwParamKey.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
+         this.dwParamKey.Properties.NullText = "";
+         this.dwParamKey.Properties.PopupSizeable = false;
+         this.dwParamKey.Size = new System.Drawing.Size(228, 26);
+         this.dwParamKey.TabIndex = 83;
+         // 
+         // gbMarket
+         // 
+         this.gbMarket.EditValue = "rb_market_All";
+         this.gbMarket.Location = new System.Drawing.Point(123, 172);
+         this.gbMarket.Name = "gbMarket";
+         this.gbMarket.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
+         this.gbMarket.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
+         this.gbMarket.Properties.Appearance.Options.UseBackColor = true;
+         this.gbMarket.Properties.Appearance.Options.UseForeColor = true;
+         this.gbMarket.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+         this.gbMarket.Properties.Columns = 3;
+         this.gbMarket.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_market_All", "全部"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_market_0", "一般"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_market_1", "盤後")});
+         this.gbMarket.Properties.LookAndFeel.SkinName = "Visual Studio 2013 Light";
+         this.gbMarket.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
+         this.gbMarket.Size = new System.Drawing.Size(197, 35);
+         this.gbMarket.TabIndex = 82;
+         // 
+         // label4
+         // 
+         this.label4.AutoSize = true;
+         this.label4.ForeColor = System.Drawing.Color.Black;
+         this.label4.Location = new System.Drawing.Point(37, 180);
+         this.label4.Name = "label4";
+         this.label4.Size = new System.Drawing.Size(90, 21);
+         this.label4.TabIndex = 37;
+         this.label4.Text = "交易時段：";
+         // 
+         // label5
+         // 
+         this.label5.AutoSize = true;
+         this.label5.Location = new System.Drawing.Point(194, 90);
+         this.label5.Name = "label5";
+         this.label5.Size = new System.Drawing.Size(26, 21);
+         this.label5.TabIndex = 6;
+         this.label5.Text = "～";
+         // 
+         // label7
+         // 
+         this.label7.AutoSize = true;
+         this.label7.ForeColor = System.Drawing.Color.Black;
+         this.label7.Location = new System.Drawing.Point(37, 135);
+         this.label7.Name = "label7";
+         this.label7.Size = new System.Drawing.Size(58, 21);
+         this.label7.TabIndex = 10;
+         this.label7.Text = "前期：";
+         // 
+         // label6
+         // 
+         this.label6.AutoSize = true;
+         this.label6.Location = new System.Drawing.Point(194, 135);
+         this.label6.Name = "label6";
+         this.label6.Size = new System.Drawing.Size(26, 21);
+         this.label6.TabIndex = 10;
+         this.label6.Text = "～";
+         // 
+         // label8
+         // 
+         this.label8.AutoSize = true;
+         this.label8.ForeColor = System.Drawing.Color.Black;
+         this.label8.Location = new System.Drawing.Point(37, 90);
+         this.label8.Name = "label8";
+         this.label8.Size = new System.Drawing.Size(58, 21);
+         this.label8.TabIndex = 9;
+         this.label8.Text = "後期：";
+         // 
+         // label9
+         // 
+         this.label9.AutoSize = true;
+         this.label9.ForeColor = System.Drawing.Color.Black;
+         this.label9.Location = new System.Drawing.Point(37, 45);
+         this.label9.Name = "label9";
+         this.label9.Size = new System.Drawing.Size(58, 21);
+         this.label9.TabIndex = 2;
+         this.label9.Text = "商品：";
+         // 
          // W30633
          // 
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(836, 574);
+         this.ClientSize = new System.Drawing.Size(450, 400);
          this.Name = "W30633";
          this.Text = "W30633";
          this.panParent.ResumeLayout(false);
-         this.panParent.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtPrevEndYM.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtPrevStartYM.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtAftEndYM.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtAftStartYM.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.r_frame)).EndInit();
+         this.r_frame.ResumeLayout(false);
+         this.r_frame.PerformLayout();
          this.panFilter.ResumeLayout(false);
          this.panFilter.PerformLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.dwParamKey.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtAftStartYM.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtAftEndYM.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtPrevStartYM.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtPrevEndYM.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
       }
 
       #endregion
-
-      private System.Windows.Forms.GroupBox panFilter;
-      private System.Windows.Forms.Label label1;
-      private System.Windows.Forms.Label labAftDate;
-      private System.Windows.Forms.Label labMsg;
-      private System.Windows.Forms.Label labMarket;
-      private System.Windows.Forms.Label labParamKey;
-      private System.Windows.Forms.Label label2;
-      private System.Windows.Forms.Label labPrevDate;
-      private DevExpress.XtraEditors.LookUpEdit dwParamKey;
-      protected DevExpress.XtraEditors.RadioGroup gbMarket;
       private BaseGround.Widget.TextDateEdit txtPrevEndYM;
       private BaseGround.Widget.TextDateEdit txtPrevStartYM;
       private BaseGround.Widget.TextDateEdit txtAftEndYM;
       private BaseGround.Widget.TextDateEdit txtAftStartYM;
+      private DevExpress.XtraEditors.PanelControl r_frame;
+      private System.Windows.Forms.Label labMsg;
+      private System.Windows.Forms.GroupBox panFilter;
+      private DevExpress.XtraEditors.LookUpEdit dwParamKey;
+      protected DevExpress.XtraEditors.RadioGroup gbMarket;
+      private System.Windows.Forms.Label label4;
+      private System.Windows.Forms.Label label5;
+      private System.Windows.Forms.Label label7;
+      private System.Windows.Forms.Label label6;
+      private System.Windows.Forms.Label label8;
+      private System.Windows.Forms.Label label9;
    }
 }
