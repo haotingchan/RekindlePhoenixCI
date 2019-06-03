@@ -1,14 +1,12 @@
 ﻿using BaseGround;
-using BaseGround.Report;
 using BaseGround.Shared;
-using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together;
 using DevExpress.Spreadsheet;
 using System;
 using System.Data;
-using System.Globalization;
+using System.Threading;
 using System.Windows.Forms;
 
 /// <summary>
@@ -17,7 +15,6 @@ using System.Windows.Forms;
 namespace PhoenixCI.FormUI.Prefix3 {
    /// <summary>
    /// 30620 商品每月平均震幅、波動度彙集
-   /// 有寫到的功能：Export
    /// </summary>
    public partial class W30620 : FormParent {
 
@@ -26,11 +23,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
       public W30620(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
-         dao30620 = new D30620();
          this.Text = _ProgramID + "─" + _ProgramName;
-         txtStartMonth.DateTimeValue = GlobalInfo.OCF_DATE;
-         txtEndMonth.DateTimeValue = GlobalInfo.OCF_DATE;
 
+         dao30620 = new D30620();
          //winni test
          //201207-201210
       }
@@ -38,8 +33,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
       protected override ResultStatus Open() {
          base.Open();
 
-         txtStartMonth.Text = GlobalInfo.OCF_DATE.ToString("yyyy/01");
-         txtEndMonth.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
+         txtStartMonth.DateTimeValue = DateTime.ParseExact(GlobalInfo.OCF_DATE.ToString("yyyy/01/dd") , "yyyy/MM/dd" , null);
+         txtEndMonth.DateTimeValue = GlobalInfo.OCF_DATE;
 
          return ResultStatus.Success;
       }
@@ -54,36 +49,52 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
       protected override ResultStatus Export() {
 
-         base.Export();
-         lblProcessing.Visible = true;
+         try {
 
-         DateTime as_symd = DateTime.ParseExact((txtStartMonth.Text + "/01") , "yyyy/MM/dd" , null);
-         DateTime as_eymd = PbFunc.f_get_end_day("AI2" , "TXF" , txtEndMonth.Text); //抓當月最後交易日
+            //0. ready
+            panFilter.Enabled = false;
+            labMsg.Visible = true;
+            labMsg.Text = "開始轉檔...";
+            this.Cursor = Cursors.WaitCursor;
+            this.Refresh();
+            Thread.Sleep(5);
 
-         //1.複製檔案 & 開啟檔案 (因為三張報表都輸出到同一份excel,所以提出來)
-         string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID);
-         Workbook workbook = new Workbook();
-         workbook.LoadDocument(excelDestinationPath);
-         Worksheet worksheet = workbook.Worksheets[0];
+            DateTime as_symd = DateTime.ParseExact((txtStartMonth.Text + "/01") , "yyyy/MM/dd" , null);
+            DateTime as_eymd = PbFunc.f_get_end_day("AI2" , "TXF" , txtEndMonth.Text); //抓當月最後交易日
 
-         //2.填資料
-         ii_ole_row = 3;
-         wf_Export_30621(workbook, worksheet, as_symd , as_eymd);
-         ii_ole_row += 5;
-         wf_Export_30622(workbook , worksheet , as_symd , as_eymd);
+            //1.複製檔案 & 開啟檔案 (因為三張報表都輸出到同一份excel,所以提出來)
+            string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID);
+            Workbook workbook = new Workbook();
+            workbook.LoadDocument(excelDestinationPath);
+            Worksheet worksheet = workbook.Worksheets[0];
 
-         //存檔
-         workbook.SaveDocument(excelDestinationPath);
-         lblProcessing.Visible = false;
-         return ResultStatus.Success;
+            //2.填資料
+            ii_ole_row = 3;
+            wf_Export_30621(workbook , worksheet , as_symd , as_eymd);
+            ii_ole_row += 5;
+            wf_Export_30622(workbook , worksheet , as_symd , as_eymd);
+
+            //存檔
+            workbook.SaveDocument(excelDestinationPath);
+            return ResultStatus.Success;
+
+         } catch (Exception ex) {
+            WriteLog(ex);
+         } finally {
+            panFilter.Enabled = true;
+            labMsg.Text = "";
+            labMsg.Visible = false;
+            this.Cursor = Cursors.Arrow;
+         }
+         return ResultStatus.Fail;
       }
 
-      private void wf_Export_30621(Workbook workbook, Worksheet worksheet, DateTime as_symd, DateTime as_eymd) {
+      private void wf_Export_30621(Workbook workbook , Worksheet worksheet , DateTime as_symd , DateTime as_eymd) {
 
          int li_ole_row_tol = ii_ole_row + 60;
          string ls_ymd = "";
          int li_col = 0;
-         lblProcessing.Text = _ProgramID + "－" + _ProgramName + " 轉檔中...";
+         labMsg.Text = _ProgramID + "－" + _ProgramName + " 轉檔中...";
 
          //先跑各商品每月平均振幅明細表
          DataTable dt30620_1 = dao30620.GetListAavg(as_symd , as_eymd);
@@ -127,7 +138,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtStartMonth.Text + "-" + txtEndMonth.Text , this.Text));
             return;
          }
-        
+
          for (int i = 0 ; i < dt30620_2.Rows.Count ; i++) {
             if (ls_ymd != dt30620_2.Rows[i]["AI6_YM"].AsString()) {
                ls_ymd = dt30620_2.Rows[i]["AI6_YM"].AsString();

@@ -256,7 +256,7 @@ namespace PhoenixCI.FormUI.Prefix5
          //目的選項
          dwEbrkno.SetDataTable(daoABRK.ListAll2(), "ABRK_NO", "CP_DISPLAY", TextEditStyles.Standard, null);
          /* 商品群組 */
-         dwProdCt.SetDataTable(daoAPDK.ListParamKey2(), "APDK_PARAM_KEY", "APDK_PARAM_KEY", TextEditStyles.Standard, null);
+         dwProdCt.SetDataTable(daoAPDK.ListParamKey(), "APDK_PARAM_KEY", "APDK_PARAM_KEY", TextEditStyles.Standard, null);
          /* 2碼商品 */
          dwProdKdSto.SetDataTable(daoAPDK.ListKind2(), "APDK_KIND_ID_STO", "APDK_KIND_ID_STO", TextEditStyles.Standard, null);
          //預設資料表

@@ -32,19 +32,21 @@ namespace DataObjects.Dao.Together.SpecificDao
             };
          string iswhere = d500Xx.ConditionWhereSyntax();
          string sql = string.Format(@"
- SELECT LV2.*,  decode(AMMF_CP_KIND,'2',case when(CP_CHK2 = 0 and CP_CHK3 = 0) then 0 else 1 end,case when(CP_CHK1 = 0 and CP_CHK2 = 0 and CP_CHK3 = 0) then 0 else 1 end) as CP_CHK
+ SELECT LV2.*,  decode(AMMF_CP_KIND,'2',case when(CP_CHK2 = 0 and CP_CHK3 = 0) then 0 else 1 end,case when(CP_CHK1 = 0 and CP_CHK2 = 0 and CP_CHK3 = 0) then 0 else 1 end) as CP_CHK,
+ case when (LV2.AMM0_YMD <> nvl(NEXT_YMD,0)) then AMM0_MARKET_M_QNTY else 0 end as CP_MARKET_M_QNTY
 FROM
 (SELECT LV1.*,
 case when CP_RATE_VALID_CNT >=MMF_RESP_RATIO then 0 else 1 end as CP_CHK1,
 case when (AMM0_KEEP_FLAG='Y'  or  MMF_AVG_TIME =0) then 0 else 1 end as CP_CHK2,
-case when  AMMF_CP_KIND in ('A','C') then (case when MMK_QNTY >= MMF_QNTY_LOW then 0 else 1 end) else (case when CP_AVG_MMK_QNTY >=MMF_QNTY_LOW then 0 else 1 end) end as CP_CHK3
+case when  AMMF_CP_KIND in ('A','C') then (case when MMK_QNTY >= MMF_QNTY_LOW then 0 else 1 end) else (case when CP_AVG_MMK_QNTY >=MMF_QNTY_LOW then 0 else 1 end) end as CP_CHK3,
+ Lead (LV1.AMM0_YMD) over (order by AMM0_YMD, CP_GROUP1 , CP_GROUP2) as NEXT_YMD
 FROM
 (SELECT main.*,
 trim(AMM0_PROD_ID )||decode(AMM0_BASIC_PROD,'Y','*','') as CP_PROD_ID,
- decode(AMM0_MARKET_M_QNTY ,0,0, round(CP_M_QNTY / AMM0_MARKET_M_QNTY,16)* 100) as CP_RATE_M,
- decode (AMM0_MARKET_R_CNT ,0, 1 ,round(AMM0_VALID_CNT / AMM0_MARKET_R_CNT,4) * 100) as CP_RATE_VALID_REAL,
- decode(AMM0_SUM_TYPE,'D', CEIL( TRUNC(AMM0_KEEP_TIME,0) / 60/ AMM0_DAY_COUNT) , CEIL( AMM0_KEEP_TIME / 60/ AMM0_DAY_COUNT)) as CP_KEEP_TIME,
- TRUNC(MMK_QNTY /  AMM0_DAY_COUNT ,1) as CP_AVG_MMK_QNTY,
+ decode(AMM0_MARKET_M_QNTY ,0,0, round(CP_M_QNTY / AMM0_MARKET_M_QNTY,16)) * 100 as CP_RATE_M,
+ decode (AMM0_MARKET_R_CNT ,0, 1 ,round(AMM0_VALID_CNT / AMM0_MARKET_R_CNT,4)) * 100 as CP_RATE_VALID_REAL,
+ decode(AMM0_SUM_TYPE,'D', CEIL( NVL(TRUNC(AMM0_KEEP_TIME,0) / 60/ NULLIF(AMM0_DAY_COUNT,0),0)) , CEIL( NVL(AMM0_KEEP_TIME / 60/ NULLIF(AMM0_DAY_COUNT,0),0))) as CP_KEEP_TIME,
+ NVL(TRUNC(MMK_QNTY /  NULLIF(AMM0_DAY_COUNT,0) ,1),0) as CP_AVG_MMK_QNTY,
  decode(AMM0_MARKET_R_CNT,0,100,AMM0_RQ_RATE) as CP_RATE_VALID_CNT,
  decode(:as_sort_type,'F' ,AMM0_BRK_NO||AMM0_ACC_NO,AMM0_PROD_TYPE||AMM0_PROD_ID ) as CP_GROUP1,
  decode( :as_sort_type ,'F',AMM0_PROD_TYPE||AMM0_PROD_ID, AMM0_BRK_NO||AMM0_ACC_NO ) as CP_GROUP2
@@ -90,7 +92,7 @@ FROM
          AMM0_RQ_RATE,
          AMMF_RFC_MIN_CNT as MMF_RFC_MIN_CNT,
          AMMF_CP_KIND,
-         (AMM0_OM_QNTY + AMM0_QM_QNTY + nvl(AMM0_IQM_QNTY,0))||decode(NULLIF(AMM0_BTRADE_M_QNTY,null),0,AMM0_BTRADE_M_QNTY) as CP_M_QNTY
+         ((AMM0_OM_QNTY + AMM0_QM_QNTY + nvl(AMM0_IQM_QNTY,0))+decode(NULLIF(AMM0_BTRADE_M_QNTY,null),0,AMM0_BTRADE_M_QNTY)) as CP_M_QNTY
     FROM ci.AMM0,ci.AMMF
    WHERE AMM0_SUM_TYPE = :as_sum_type  AND  
          AMM0_SUM_SUBTYPE = :as_sum_subtype   AND  
@@ -134,9 +136,9 @@ ORDER BY AMM0_YMD, CP_GROUP1 , CP_GROUP2
          string sql = string.Format(@"
  SELECT ROWNUM as CP_ROW,main.*,
          (AMM0_OM_QNTY + AMM0_QM_QNTY +AMM0_IQM_QNTY) as CP_M_QNTY,
-          decode( AMM0_MARKET_M_QNTY ,0,0, round((AMM0_OM_QNTY + AMM0_QM_QNTY +AMM0_IQM_QNTY) /AMM0_MARKET_M_QNTY,16 ) * 100) as CP_RATE_M,
+          decode( AMM0_MARKET_M_QNTY ,0,0, round((AMM0_OM_QNTY + AMM0_QM_QNTY +AMM0_IQM_QNTY) /AMM0_MARKET_M_QNTY,16)) * 100 as CP_RATE_M,
           CEIL(TRUNC(AMM0_KEEP_TIME,0) / 60) as CP_KEEP_TIME,
-          decode( AMM0_MARKET_R_CNT,0,0, round(AMM0_VALID_CNT/AMM0_MARKET_R_CNT,16)* 100) as CP_RATE_VALID_CNT
+          decode( AMM0_MARKET_R_CNT,0,0, round(AMM0_VALID_CNT/AMM0_MARKET_R_CNT,16)) * 100 as CP_RATE_VALID_CNT
 FROM
  (SELECT min(AMM0_YMD) ||'-'|| max(AMM0_YMD) as AMM0_YMD,   
          AMM0_BRK_NO,
@@ -240,9 +242,9 @@ decode(:as_sort_type ,'F',AMM0_PROD_TYPE||AMM0_PROD_ID, AMM0_BRK_NO||AMM0_ACC_NO
          string sql = string.Format(@"
 SELECT ROWNUM as CP_ROW,main.*,
          (AMM0_OM_QNTY + AMM0_QM_QNTY +AMM0_IQM_QNTY) as CP_M_QNTY,
-          decode( AMM0_MARKET_M_QNTY ,0,0, round((AMM0_OM_QNTY + AMM0_QM_QNTY +AMM0_IQM_QNTY) /AMM0_MARKET_M_QNTY,16 ) * 100) as CP_RATE_M,
+          decode( AMM0_MARKET_M_QNTY ,0,0, round((AMM0_OM_QNTY + AMM0_QM_QNTY +AMM0_IQM_QNTY) /AMM0_MARKET_M_QNTY,16)) * 100 as CP_RATE_M,
           CEIL(TRUNC(AMM0_KEEP_TIME,0) / 60) as CP_KEEP_TIME,
-          decode( AMM0_MARKET_R_CNT,0,0, round(AMM0_VALID_CNT/AMM0_MARKET_R_CNT,16)* 100) as CP_RATE_VALID_CNT
+          decode( AMM0_MARKET_R_CNT,0,0, round(AMM0_VALID_CNT/AMM0_MARKET_R_CNT,16)) * 100 as CP_RATE_VALID_CNT
 FROM
  (SELECT min(AMM0_YMD) ||'-'|| max(AMM0_YMD) as AMM0_YMD,   
          AMM0_BRK_NO,
@@ -342,21 +344,23 @@ decode(:as_sort_type ,'F',AMM0_PROD_TYPE||AMM0_PROD_ID, AMM0_BRK_NO||AMM0_ACC_NO
             };
          string iswhere = d500Xx.ConditionWhereSyntax();
          string sql = string.Format(@"
- SELECT LV2.*,  decode(AMMF_CP_KIND,'2',case when(CP_CHK2 = 0 and CP_CHK3 = 0) then 0 else 1 end,case when(CP_CHK1 = 0 and CP_CHK2 = 0 and CP_CHK3 = 0) then 0 else 1 end) as CP_CHK
+ SELECT LV2.*,  decode(AMMF_CP_KIND,'2',case when(CP_CHK2 = 0 and CP_CHK3 = 0) then 0 else 1 end,case when(CP_CHK1 = 0 and CP_CHK2 = 0 and CP_CHK3 = 0) then 0 else 1 end) as CP_CHK,
+ case when (LV2.AMM0_YMD <> nvl(NEXT_YMD,0)) then AMM0_MARKET_M_QNTY else 0 end as CP_MARKET_M_QNTY
 FROM
 (SELECT LV1.*,
 case when CP_RATE_VALID_CNT >=MMF_RESP_RATIO then 0 else 1 end as CP_CHK1,
 case when (AMM0_KEEP_FLAG='Y'  or  MMF_AVG_TIME =0) then 0 else 1 end as CP_CHK2,
-case when  AMMF_CP_KIND in ('A','C') then (case when MMK_QNTY >= MMF_QNTY_LOW then 0 else 1 end) else (case when CP_AVG_MMK_QNTY >=MMF_QNTY_LOW then 0 else 1 end) end as CP_CHK3
+case when  AMMF_CP_KIND in ('A','C') then (case when MMK_QNTY >= MMF_QNTY_LOW then 0 else 1 end) else (case when CP_AVG_MMK_QNTY >=MMF_QNTY_LOW then 0 else 1 end) end as CP_CHK3,
+ Lead (LV1.AMM0_YMD) over (order by AMM0_YMD, CP_GROUP1 , CP_GROUP2) as NEXT_YMD
 FROM
 (SELECT main.*,
 trim(AMM0_PROD_ID )||decode(AMM0_BASIC_PROD,'Y','*','') as CP_PROD_ID,
- decode(AMM0_MARKET_M_QNTY ,0,0, round(CP_M_QNTY / AMM0_MARKET_M_QNTY,16)* 100) as CP_RATE_M,
- decode (AMM0_MARKET_R_CNT ,0, 1 ,round(AMM0_VALID_CNT / AMM0_MARKET_R_CNT,4) * 100) as CP_RATE_VALID_REAL,
- decode(AMM0_SUM_TYPE,'D', CEIL( TRUNC(AMM0_KEEP_TIME,0) / 60/ AMM0_DAY_COUNT) , CEIL( AMM0_KEEP_TIME / 60/ AMM0_DAY_COUNT)) as CP_KEEP_TIME,
- TRUNC(MMK_QNTY /  AMM0_DAY_COUNT ,1) as CP_AVG_MMK_QNTY,
+ decode(AMM0_MARKET_M_QNTY ,0,0, round(CP_M_QNTY / AMM0_MARKET_M_QNTY,16)) * 100 as CP_RATE_M,
+ decode (AMM0_MARKET_R_CNT ,0, 1 ,round(AMM0_VALID_CNT / AMM0_MARKET_R_CNT,4)) * 100 as CP_RATE_VALID_REAL,
+ decode(AMM0_SUM_TYPE,'D', CEIL( NVL(TRUNC(AMM0_KEEP_TIME,0) / 60/ NULLIF(AMM0_DAY_COUNT,0),0)) , CEIL( NVL(AMM0_KEEP_TIME / 60/ NULLIF(AMM0_DAY_COUNT,0),0))) as CP_KEEP_TIME,
+ NVL(TRUNC(MMK_QNTY /  NULLIF(AMM0_DAY_COUNT,0) ,1),0) as CP_AVG_MMK_QNTY,
  decode(AMM0_MARKET_R_CNT,0,100,AMM0_RQ_RATE) as CP_RATE_VALID_CNT,
- decode(:as_sort_type,'F' ,AMM0_BRK_NO||AMM0_ACC_NO,AMM0_PROD_TYPE||AMM0_PROD_ID ) as CP_GROUP1, 
+ decode(:as_sort_type,'F' ,AMM0_BRK_NO||AMM0_ACC_NO,AMM0_PROD_TYPE||AMM0_PROD_ID ) as CP_GROUP1,
  decode( :as_sort_type ,'F',AMM0_PROD_TYPE||AMM0_PROD_ID, AMM0_BRK_NO||AMM0_ACC_NO ) as CP_GROUP2
 FROM
 (SELECT AMM0_YMD,   
@@ -400,7 +404,7 @@ FROM
          AMM0_RQ_RATE,
          AMMF_RFC_MIN_CNT as MMF_RFC_MIN_CNT,
          AMMF_CP_KIND,
-         (AMM0_OM_QNTY + AMM0_QM_QNTY + nvl(AMM0_IQM_QNTY,0))||decode(NULLIF(AMM0_BTRADE_M_QNTY,null),0,AMM0_BTRADE_M_QNTY) as CP_M_QNTY
+         ((AMM0_OM_QNTY + AMM0_QM_QNTY + nvl(AMM0_IQM_QNTY,0))+decode(NULLIF(AMM0_BTRADE_M_QNTY,null),0,AMM0_BTRADE_M_QNTY)) as CP_M_QNTY
     FROM ci.AMM0AH,ci.AMMF
    WHERE AMM0_SUM_TYPE = :as_sum_type  AND  
          AMM0_SUM_SUBTYPE = :as_sum_subtype   AND  
