@@ -20,6 +20,7 @@ using System.Reflection;
 using System.Windows.Forms;
 
 /// <summary>
+/// 依照不同類別產生 rtf 
 /// Test Data 2B 20190102 / 1B 20190130 / 1E 20190212 / 0B 20190212
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix4 {
@@ -80,6 +81,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             IExport40xxxData xmlData = CreateExportData(GetType(), "ExportWord" + AdjType, args);
             ReturnMessageClass msg = xmlData.GetData();
 
+            //無資料時不產檔
             if (msg.Status != ResultStatus.Success) {
                ExportShow.Text = MessageDisplay.MSG_IMPORT_FAIL;
                MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
@@ -110,6 +112,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
          return ResultStatus.Success;
       }
 
+      /// <summary>
+      /// SubType 中文描述
+      /// </summary>
       private enum SubTypeName {
          [Description("股價指數類契約")]
          I = 1,
@@ -130,6 +135,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
          return (IExport40xxxData)Assembly.Load(AssemblyName).CreateInstance(className, true, BindingFlags.CreateInstance, null, args, null, null);
       }
 
+      /// <summary>
+      /// 產出rtf 其他情況複寫其function
+      /// </summary>
       private class ExportWord : IExport40xxxData {
          protected D40xxx Dao { get; }
          protected virtual string TxtDate { get; }
@@ -295,6 +303,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return result;
          }
 
+         /// <summary>
+         /// 設定表格表頭
+         /// </summary>
+         /// <param name="strList"></param>
+         /// <param name="rowIndex">列數</param>
+         /// <param name="strFormat">文字格式</param>
+         /// <param name="sufStr"></param>
          protected virtual void SetTableTitle(string[] strList, int rowIndex, string strFormat, string sufStr) {
 
             int k = 0;
@@ -306,6 +321,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          }
 
+         /// <summary>
+         /// 寫表格中文字
+         /// </summary>
+         /// <param name="rowIndex">第幾列</param>
+         /// <param name="colIndex">第幾欄</param>
+         /// <param name="str">文字</param>
          protected virtual void SetTableStr(int rowIndex, int colIndex, string str) {
             WordTableCell = WordTable[rowIndex, colIndex];
             doc.InsertSingleLineText(WordTableCell.Range.Start, str);
@@ -359,6 +380,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return (I40110SubType)Assembly.Load(AssemblyName).CreateInstance(className);
          }
 
+         /// <summary>
+         /// 開檔
+         /// </summary>
+         /// <returns></returns>
          protected virtual RichEditDocumentServer OpenRtfFile() {
             RichEditDocumentServer docSev = new RichEditDocumentServer();
             docSev.LoadDocument(FilePath);
@@ -366,6 +391,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return docSev;
          }
 
+         /// <summary>
+         /// 結束編輯 關檔
+         /// </summary>
+         /// <param name="docSev"></param>
+         /// <param name="msg"></param>
          protected virtual void EndUpdate(RichEditDocumentServer docSev, ReturnMessageClass msg) {
             CreateSignTable(doc);
             doc.EndUpdate();
@@ -377,7 +407,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
 #endif
          }
 
-         public  virtual void ErrorHandle(Exception ex, ReturnMessageClass msg) {
+         /// <summary>
+         /// 錯誤處理
+         /// </summary>
+         /// <param name="ex">Exception</param>
+         /// <param name="msg"></param>
+         public virtual void ErrorHandle(Exception ex, ReturnMessageClass msg) {
             WriteLog(ex.ToString(), "Info", "Z");
             msg.Status = ResultStatus.Fail;
             msg.ReturnMessage = MessageDisplay.MSG_IMPORT_FAIL;
@@ -432,6 +467,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
          }
       }
 
+      /// <summary>
+      /// 長假調整與回調
+      /// </summary>
       private class ExportWordVacationAdjust : ExportWord {
          protected virtual string AppendText { get; set; }
 
@@ -881,7 +919,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                   #endregion
 
-                  #region Table
+                  // Table
                   CreateTable(doc, 3, 7);
 
                   #region 商品名稱
@@ -931,7 +969,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   SetMMValue(doc, WordTable, 2, dr, "#0.00%", ColName);
                   #endregion
 
-                  #endregion
                }
 
                EndUpdate(docSev, msg);
@@ -1060,6 +1097,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
          }
       }
 
+      /// <summary>
+      /// 替換rtf 文字用class
+      /// </summary>
       private class M40110Word {
          public string ValidDatePrev { get; set; }
          public string ValidDate { get; set; }
@@ -1119,6 +1159,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
       }
 
+      /// <summary>
+      /// interface 依照不同subType 有不同參數
+      /// </summary>
       private interface I40110SubType {
          string SubTypeId { get; set; }
          string TableTitle { get; set; }
@@ -1135,7 +1178,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
             TableTitle = "股價指數類期貨及選擇權契約保證金調整前後金額";
             UnitDescription = "單位：新臺幣元";
          }
-
       }
 
       private class SubType40110C : I40110SubType {
@@ -1164,6 +1206,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
       }
 
+      /// <summary>
+      /// interface 依照不同AmtType 有不同參數
+      /// </summary>
       private interface I40110AmtType {
          string CurrencyName { get; set; }
          string ProdName { get; set; }
