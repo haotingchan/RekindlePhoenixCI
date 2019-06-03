@@ -22,11 +22,7 @@ namespace PhoenixCI.FormUI.Prefix2
       protected override ResultStatus Open()
       {
          base.Open();
-#if DEBUG
-         emDate.Text = "2018/10/12";
-#else
-         emDate.DateTimeValue = DateTime.Now;
-#endif
+         emDate.DateTimeValue = GlobalInfo.OCF_DATE;
          return ResultStatus.Success;
       }
 

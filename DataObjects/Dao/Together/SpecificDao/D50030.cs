@@ -33,13 +33,14 @@ namespace DataObjects.Dao.Together.SpecificDao
          string iswhere = d500Xx.ConditionWhereSyntax();
          string sql = string.Format(@"
  SELECT LV2.*,  decode(AMMF_CP_KIND,'2',case when(CP_CHK2 = 0 and CP_CHK3 = 0) then 0 else 1 end,case when(CP_CHK1 = 0 and CP_CHK2 = 0 and CP_CHK3 = 0) then 0 else 1 end) as CP_CHK,
- case when (LV2.AMM0_YMD <> nvl(NEXT_YMD,0)) then AMM0_MARKET_M_QNTY else 0 end as CP_MARKET_M_QNTY
+ decode(sum(case when (LV2.AMM0_YMD <> nvl(NEXT_YMD,0)) then AMM0_MARKET_M_QNTY else 0 end) over (),0,0,
+ (round(sum(AMM0_OM_QNTY + AMM0_QM_QNTY + AMM0_IQM_QNTY  +  nvl(AMM0_BTRADE_M_QNTY,0)) over ()/sum(case when (LV2.AMM0_YMD <> nvl(NEXT_YMD,0)) then AMM0_MARKET_M_QNTY else 0 end) over (),16))*100) as CP_TOT_RATE_M
 FROM
 (SELECT LV1.*,
 case when CP_RATE_VALID_CNT >=MMF_RESP_RATIO then 0 else 1 end as CP_CHK1,
 case when (AMM0_KEEP_FLAG='Y'  or  MMF_AVG_TIME =0) then 0 else 1 end as CP_CHK2,
 case when  AMMF_CP_KIND in ('A','C') then (case when MMK_QNTY >= MMF_QNTY_LOW then 0 else 1 end) else (case when CP_AVG_MMK_QNTY >=MMF_QNTY_LOW then 0 else 1 end) end as CP_CHK3,
- Lead (LV1.AMM0_YMD) over (order by AMM0_YMD, CP_GROUP1 , CP_GROUP2) as NEXT_YMD
+ Lag (LV1.AMM0_YMD) over (order by AMM0_YMD, CP_GROUP1 , CP_GROUP2) as NEXT_YMD
 FROM
 (SELECT main.*,
 trim(AMM0_PROD_ID )||decode(AMM0_BASIC_PROD,'Y','*','') as CP_PROD_ID,
@@ -345,13 +346,14 @@ decode(:as_sort_type ,'F',AMM0_PROD_TYPE||AMM0_PROD_ID, AMM0_BRK_NO||AMM0_ACC_NO
          string iswhere = d500Xx.ConditionWhereSyntax();
          string sql = string.Format(@"
  SELECT LV2.*,  decode(AMMF_CP_KIND,'2',case when(CP_CHK2 = 0 and CP_CHK3 = 0) then 0 else 1 end,case when(CP_CHK1 = 0 and CP_CHK2 = 0 and CP_CHK3 = 0) then 0 else 1 end) as CP_CHK,
- case when (LV2.AMM0_YMD <> nvl(NEXT_YMD,0)) then AMM0_MARKET_M_QNTY else 0 end as CP_MARKET_M_QNTY
+ decode(sum(case when (LV2.AMM0_YMD <> nvl(NEXT_YMD,0)) then AMM0_MARKET_M_QNTY else 0 end) over (),0,0,
+ (round(sum(AMM0_OM_QNTY + AMM0_QM_QNTY + AMM0_IQM_QNTY  +  nvl(AMM0_BTRADE_M_QNTY,0)) over ()/sum(case when (LV2.AMM0_YMD <> nvl(NEXT_YMD,0)) then AMM0_MARKET_M_QNTY else 0 end) over (),16))*100) as CP_TOT_RATE_M
 FROM
 (SELECT LV1.*,
 case when CP_RATE_VALID_CNT >=MMF_RESP_RATIO then 0 else 1 end as CP_CHK1,
 case when (AMM0_KEEP_FLAG='Y'  or  MMF_AVG_TIME =0) then 0 else 1 end as CP_CHK2,
 case when  AMMF_CP_KIND in ('A','C') then (case when MMK_QNTY >= MMF_QNTY_LOW then 0 else 1 end) else (case when CP_AVG_MMK_QNTY >=MMF_QNTY_LOW then 0 else 1 end) end as CP_CHK3,
- Lead (LV1.AMM0_YMD) over (order by AMM0_YMD, CP_GROUP1 , CP_GROUP2) as NEXT_YMD
+ Lag (LV1.AMM0_YMD) over (order by AMM0_YMD, CP_GROUP1 , CP_GROUP2) as NEXT_YMD
 FROM
 (SELECT main.*,
 trim(AMM0_PROD_ID )||decode(AMM0_BASIC_PROD,'Y','*','') as CP_PROD_ID,
