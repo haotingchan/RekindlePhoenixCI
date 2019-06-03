@@ -215,35 +215,17 @@ order by apdk_kind_id_sto", marketCode);
          string sql = string.Format(@"
 SELECT APDK_PROD_TYPE,
 APDK_PARAM_KEY,
-MAX(APDK_MARKET_CODE) MARKET_CODE
+MAX(APDK_MARKET_CODE) MARKET_CODE,
+MAX(APDK_PROD_SUBTYPE) as APDK_PROD_SUBTYPE
 FROM ci.APDK
 where APDK_QUOTE_CODE = 'Y'
 and APDK_PROD_TYPE in ('F','O')
 {0}
 group by APDK_PROD_TYPE,APDK_PARAM_KEY
 UNION
-SELECT ' ','',' '
+SELECT ' ','',' ',' '
 FROM DUAL
-order by apdk_prod_type , apdk_param_key", marketCode);
-
-         DataTable dtResult = db.GetDataTable(sql, null);
-
-         return dtResult;
-      }
-
-      /// <summary>
-      /// d_pdk_param_key_o 多加一個判斷APDK_PROD_SUBTYPE的條件
-      /// </summary>
-      /// <returns>前面空一行+APDK_PROD_TYPE/APDK_PARAM_KEY/APDK_PROD_SUBTYPE</returns>
-      public DataTable ListParamKey2()
-      {
-         string sql = @"
-            SELECT APDK_PROD_TYPE,APDK_PARAM_KEY,APDK_PROD_SUBTYPE 
-                FROM ci.APDK   
-             UNION
-            SELECT ' ','',' '
-            FROM DUAL
-            ORDER BY APDK_PROD_TYPE,APDK_PARAM_KEY";
+order by APDK_PROD_TYPE , APDK_PARAM_KEY", marketCode);
 
          DataTable dtResult = db.GetDataTable(sql, null);
 

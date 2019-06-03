@@ -158,11 +158,12 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                string nearbyMth = row["PL2B_999_NEARBY_MTH"].AsString();
                string tot999 = row["PL2B_999_TOT"].AsString();
                //中文版
-               workbook.Worksheets[0].Cells[$"C{rowIndex}"].Value = string.Format("單一月份{0:N0}，各月份合計{1:N0}", legalMth, legalTot);
-               workbook.Worksheets[0].Cells[$"E{rowIndex}"].Value = string.Format("單一月份{0:N0}(最近到期月份{1:N0})，各月份合計{2:N0}", mth999, nearbyMth, tot999);
+               workbook.Worksheets[0].Cells[$"C{rowIndex}"].Value = string.Format("單一月份{0:N0}，各月份合計{1:N0}", legalMth.AsInt(), legalTot.AsInt());
+               workbook.Worksheets[0].Cells[$"E{rowIndex}"].Value = string.Format("單一月份{0:N0}(最近到期月份{1:N0})，各月份合計{2:N0}", mth999.AsInt(), nearbyMth.AsInt(), tot999.AsInt());
                //英文版
-               workbook.Worksheets[1].Cells[$"B{rowIndex}"].Value = string.Format("{0:N0} contracts for any single month, and {1:N0} contracts for all months combined ", legalMth, legalTot);
-               workbook.Worksheets[1].Cells[$"D{rowIndex}"].Value = string.Format("{0:N0} contracts for any single month({1:N0} contracts for nearest month), and {2:N0} contracts for all months combined ", mth999, nearbyMth, tot999);
+               int EngRowIndex = row["E_SEQ_NO"].AsInt();
+               workbook.Worksheets[1].Cells[$"B{EngRowIndex}"].Value = string.Format("{0:N0} contracts for any single month, and {1:N0} contracts for all months combined ", legalMth.AsInt(), legalTot.AsInt());
+               workbook.Worksheets[1].Cells[$"D{EngRowIndex}"].Value = string.Format("{0:N0} contracts for any single month({1:N0} contracts for nearest month), and {2:N0} contracts for all months combined ", mth999.AsInt(), nearbyMth.AsInt(), tot999.AsInt());
             }
          }
          catch (Exception ex) {

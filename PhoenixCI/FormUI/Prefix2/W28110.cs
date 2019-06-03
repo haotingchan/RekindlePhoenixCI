@@ -174,7 +174,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
 
          try {
 
-            #region 1.讀檔並寫入DataTable
+            #region 1.讀檔並寫入DataTable 
+            //(讀檔有共用函式，可改寫為56090的PbFunc.wf_getfileopenname())
             labMsg.Visible = true;
             DataTable dtReadTxt = new DataTable();
             OpenFileDialog open = new OpenFileDialog();
@@ -231,15 +232,15 @@ namespace PhoenixCI.FormUI.Prefix2 {
             #endregion
 
             #region 4.刪除舊有資料
-            if (gvMain != null)
-               if (gvMain.DataRowCount > 0) {
-                  DialogResult result = MessageBox.Show("資料日期(" + dataDate + ")資料已存在,是否刪除?" , "注意" , MessageBoxButtons.YesNo , MessageBoxIcon.Question);
-                  if (result == DialogResult.No) {
-                     return ResultStatus.Fail;
-                  } else {
-                     daoSTW.DeleteByDate(tmp);
-                  }
-               }
+            daoSTW.DeleteByDate(tmp);
+            //if (gvMain.DataRowCount > 0) {
+            //   DialogResult result = MessageBox.Show("資料日期(" + dataDate + ")資料已存在,是否刪除?" , "注意" , MessageBoxButtons.YesNo , MessageBoxIcon.Question);
+            //   if (result == DialogResult.No) {
+            //      return ResultStatus.Fail;
+            //   } else {
+            //      daoSTW.DeleteByDate(tmp);
+            //   }
+            //}
             #endregion
 
             #region 5.整理資料

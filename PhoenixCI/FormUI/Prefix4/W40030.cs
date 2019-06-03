@@ -20,6 +20,7 @@ using System.Reflection;
 using System.Windows.Forms;
 
 /// <summary>
+/// 依照類別 產生 rtf 會議記錄, 選擇一般時, 多一份excel
 /// Test Data 3B 20181228 / 1B 20190129 / 1E 20190129 / 0B 20190212
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix4 {
@@ -88,6 +89,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          ExportShow.Show();
          try {
 
+            //當選擇一般情況時, 會有check 選項, 造成getDate 不同
             List<CheckedItem> checkedItems = new List<CheckedItem>();
             foreach (CheckedListBoxItem c in MarketTimes.CheckedItems) {
                TextDateEdit control = (TextDateEdit)this.Controls.Find("txtDate" + c.Value.AsString(), true).FirstOrDefault();
@@ -104,6 +106,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             IExport40xxxData xmlData = CreateXmlData(GetType(), "ExportWord" + AdjType, args);
             ReturnMessageClass msg = xmlData.GetData();
 
+            //無資料時不產檔
             if (msg.Status != ResultStatus.Success) {
                ExportShow.Text = MessageDisplay.MSG_IMPORT_FAIL;
                MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
@@ -141,6 +144,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
          return (IExport40xxxData)Assembly.Load(AssemblyName).CreateInstance(className, true, BindingFlags.CreateInstance, null, args, null, null);
       }
 
+      /// <summary>
+      /// 下拉選單事件, 選擇一般時出現check 選項
+      /// </summary>
       private void ddlAdjType_EditValueChanged(object sender, EventArgs e) {
 
          if (ddlAdjType.EditValue.AsString() == "0B") {
@@ -155,7 +161,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
       }
 
-
+      /// <summary>
+      /// 主要 export 其他直接複寫其function
+      /// </summary>
       private class ExportWord : IExport40xxxData {
          protected RPTF DaoRptf { get; }
          protected D40030 Dao40030 { get; }
@@ -215,6 +223,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return msg;
          }
 
+         /// <summary>
+         /// 取得議程資訊及開會資訊
+         /// </summary>
          protected virtual void GetRPTF() {
             DtAgenda = DaoRptf.ListData("49074", "49074", "agenda");
             DtMinutes = DaoRptf.ListData("49074", "49074", "minutes");
@@ -230,7 +241,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                //取得會議紀錄 / 議程資訊
                GetRPTF();
 
-               //會議記錄
+               #region 會議記錄
                OpenFile();
 
                //出席者 / 案由
@@ -265,9 +276,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
 #if DEBUG
                System.Diagnostics.Process.Start(FilePath);
 #endif
-               //end 會議記錄
+               #endregion 會議記錄
 
-               //議程
+               #region 議程
                FilePath = PbFunc.wf_copy_file(ProgramId, AgendaFileName);
 
                OpenFile();
@@ -298,7 +309,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 #if DEBUG
                System.Diagnostics.Process.Start(FilePath);
 #endif
-               //end 議程
+               #endregion 議程
 
                msg.Status = ResultStatus.Success;
                return msg;
@@ -309,6 +320,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
          }
 
+         /// <summary>
+         /// 開檔
+         /// </summary>
          protected virtual void OpenFile() {
             DocSer = new RichEditDocumentServer();
             DocSer.LoadDocument(FilePath);
@@ -384,6 +398,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return result;
          }
 
+         /// <summary>
+         /// 組出席者
+         /// </summary>
+         /// <param name="dtAttend">出席者資料</param>
+         /// <returns></returns>
          protected virtual string GenAttend(DataTable dtAttend) {
             string result = "";
             int k = 0;
@@ -401,6 +420,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return result;
          }
 
+         /// <summary>
+         /// 組開會時間
+         /// </summary>
+         /// <returns></returns>
          protected virtual string GenMeetingDate() {
             DateTime dtNow = DateTime.Now;
 
@@ -413,6 +436,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return result;
          }
 
+         /// <summary>
+         /// 設定開頭文字
+         /// </summary>
+         /// <param name="dtAttend"></param>
          protected virtual void SetHead(DataTable dtAttend) {
             string chairman = DtMinutes.Rows[0]["RPTF_TEXT"].AsString();
 
@@ -465,6 +492,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return result;
          }
 
+         /// <summary>
+         /// 替換 rtf 開頭文字
+         /// </summary>
+         /// <param name="meetingDate"></param>
+         /// <param name="chairman"></param>
+         /// <param name="attend"></param>
          protected virtual void SetRtfDescText(string meetingDate, string chairman, string attend) {
             M40030Word m40030 = new M40030Word(meetingDate, chairman, attend);
             //Options.MailMerge 要用List 才會有作用
@@ -476,6 +509,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DocSer.Options.MailMerge.ViewMergedData = true;
          }
 
+         /// <summary>
+         /// 說明文
+         /// </summary>
          protected virtual void SetDescStr() {
             string tempStr = "";
             string ymdFormat = "{0}年{1}月{2}日";
@@ -623,11 +659,22 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          }
 
+         /// <summary>
+         /// 設定表格內文
+         /// </summary>
+         /// <param name="rowIndex">第幾列</param>
+         /// <param name="colIndex">第幾行</param>
+         /// <param name="str">寫入文字</param>
          protected virtual void SetTableStr(int rowIndex, int colIndex, string str) {
             WordTableCell = WordTable[rowIndex, colIndex];
             Doc.InsertSingleLineText(WordTableCell.Range.Start, str);
          }
-
+         
+         /// <summary>
+         /// 表頭
+         /// </summary>
+         /// <param name="strList"></param>
+         /// <param name="rowIndex"></param>
          protected virtual void SetTableTitle(string[] strList, int rowIndex) {
 
             int k = 0;
@@ -636,9 +683,15 @@ namespace PhoenixCI.FormUI.Prefix4 {
                Doc.InsertSingleLineText(WordTable[rowIndex, k + 4].Range.Start, strList[k]);
                k++;
             }
-
          }
 
+         /// <summary>
+         /// 設定內文
+         /// </summary>
+         /// <param name="str"></param>
+         /// <param name="hasFirstIndent">第一行是否縮排</param>
+         /// <param name="leftIndent">左縮排</param>
+         /// <param name="fitstLineIndent">第一行縮排</param>
          protected virtual void SetInnerText(string str, bool hasFirstIndent = true, float leftIndent = 2.98f, float fitstLineIndent = 1.18f) {
             Doc.AppendText(Environment.NewLine);
             Doc.AppendText(str);
@@ -662,6 +715,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             Doc.EndUpdateCharacters(CharacterProps);
          }
 
+         /// <summary>
+         /// 設定標題
+         /// </summary>
+         /// <param name="str">標題文字</param>
          protected virtual void SetSubjectText(string str) {
             Doc.AppendText(Environment.NewLine);
             Doc.AppendText(str);
@@ -695,6 +752,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             Doc.EndUpdateCharacters(CharacterProps);
          }
 
+         /// <summary>
+         /// 畫表格
+         /// </summary>
+         /// <param name="dataTable"></param>
          protected virtual void DrowTable(DataTable dataTable) {
             Doc.AppendText(Environment.NewLine);
 
@@ -716,12 +777,24 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          }
 
+         /// <summary>
+         /// 依照 Amt Prod Type 設定其參數
+         /// </summary>
+         /// <param name="type"></param>
+         /// <param name="name"></param>
+         /// <param name="args"></param>
+         /// <returns></returns>
          protected I40030AmtProdType CreateI40030AmtProdType(Type type, string name, object[] args = null) {
             string AssemblyName = type.Namespace.Split('.')[0];//最後compile出來的dll名稱
             string className = type.Namespace + "." + type.ReflectedType.Name + "+" + name;//完整的class路徑(注意,內部的class執行時其fullName是用+號連結起來)
             return (I40030AmtProdType)Assembly.Load(AssemblyName).CreateInstance(className, true, BindingFlags.CreateInstance, null, args, null, null);
          }
 
+         /// <summary>
+         /// 錯誤處理
+         /// </summary>
+         /// <param name="ex">Exception</param>
+         /// <param name="msg"></param>
          public virtual void ErrorHandle(Exception ex, ReturnMessageClass msg) {
             WriteLog(ex.ToString(), "Info", "Z");
             msg.Status = ResultStatus.Fail;
@@ -813,6 +886,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             msg.Status = ResultStatus.Fail;
 
             try {
+               //檢查批次作業
                string check130Wf = PbFunc.f_chk_130_wf("40030", TxtDate.AsDateTime("yyyyMMdd"), OswGrp);
                if (check130Wf != "") {
                   DialogResult result = MessageDisplay.Choose($"{TxtDate}-{check130Wf}，是否要繼續?");
@@ -851,7 +925,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                //取得會議紀錄 / 議程資訊
                GetRPTF();
 
-               //會議記錄
+               #region 會議記錄
                OpenFile();
 
                //表頭 出席者 / 案由
@@ -889,9 +963,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
 #if DEBUG
                System.Diagnostics.Process.Start(FilePath);
 #endif
-               //end 會議記錄
+               #endregion 會議記錄
 
-               //議程
+               #region 議程
                FilePath = PbFunc.wf_copy_file(ProgramId, AgendaFileName);
 
                OpenFile();
@@ -907,7 +981,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                #endregion
 
-               #region 表尾 決議 
+               #region 表尾 
 
                base.SetSubjectText("貳、臨時動議：");
                base.SetSubjectText("參、散　　會：");
@@ -921,7 +995,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 #if DEBUG
                System.Diagnostics.Process.Start(FilePath);
 #endif
-               //end 議程
+               #endregion 議程
 
                msg.Status = ResultStatus.Success;
                return msg;
@@ -973,7 +1047,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                //取得會議紀錄 / 議程資訊
                GetRPTF();
 
-               //會議記錄
+               #region 會議記錄
                OpenFile();
 
                //表頭 出席者 / 案由
@@ -1004,9 +1078,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
 #if DEBUG
                System.Diagnostics.Process.Start(FilePath);
 #endif
-               //end 會議記錄
+               #endregion 會議記錄
 
-               //會議議程
+               #region 會議議程
                FilePath = PbFunc.wf_copy_file(ProgramId, AgendaFileName);
 
                OpenFile();
@@ -1036,7 +1110,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 #if DEBUG
                System.Diagnostics.Process.Start(FilePath);
 #endif
-               //end 會議議程
+               #endregion 會議議程
 
                msg.Status = ResultStatus.Success;
                return msg;
@@ -1172,6 +1246,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             SetInnerText("四、本次保證金倘經調整，其金額變動如下：");
          }
 
+         /// <summary>
+         /// 取得季資訊
+         /// </summary>
+         /// <param name="month">月份</param>
+         /// <returns></returns>
          protected virtual string GetQuarter(int month) {
 
             int re = (month % 3) == 0 ? (month / 3) : (month / 3) + 1;
@@ -1230,6 +1309,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
          }
       }
 
+      /// <summary>
+      /// 一般 輸出 rtf and excel
+      /// </summary>
       private class ExportWord0B : ExportWord {
          protected virtual DataTable DtAbroad { get; set; }
          protected virtual DataTable DtSpan { get; set; }
@@ -1247,6 +1329,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             msg.Status = ResultStatus.Fail;
 
             try {
+               #region 批次檢查
                //group 正常值
                foreach (CheckedItem c in CheckedItems) {
                   int cntValue = c.CheckedValue == 1 ? 1 : 2;
@@ -1263,6 +1346,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      }
                   }
                }
+               #endregion 
 
                FilePath = PbFunc.wf_copy_file(ProgramId, MeetingLogFileName);
 
@@ -1270,7 +1354,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                GetRPTF();
                string chairman = DtMinutes.Rows[0]["RPTF_TEXT"].AsString();
 
-               //會議記錄
+               #region 會議記錄
                OpenFile();
 
                //表頭 出席者
@@ -1391,11 +1475,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
 #if DEBUG
                System.Diagnostics.Process.Start(FilePath);
 #endif
-               //end 會議紀錄
+               #endregion 會議紀錄
 
                FilePath = PbFunc.wf_copy_file(ProgramId, AgendaFileName);
 
-               //議程
+               #region 議程
                OpenFile();
 
                //表頭 出席者
@@ -1500,9 +1584,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
 #if DEBUG
                System.Diagnostics.Process.Start(FilePath);
 #endif
-               //end 議程
+               #endregion 議程
 
-               //Export Excel
+               #region Export Excel
                string ExcelFilePath = PbFunc.wf_copy_file("40030", "40030");
                DevExpress.Spreadsheet.Workbook workbook = new DevExpress.Spreadsheet.Workbook();
                workbook.LoadDocument(ExcelFilePath);
@@ -1522,6 +1606,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   ExportExcelSpan(workbook, DtSpanTable, checkedItems);
                }
 
+               //依照選擇下拉選單 選擇sheet 匯出
                foreach (CheckedItem items in CheckedItems) {
                   switch (items.CheckedValue) {
                      case 1: {
@@ -1555,7 +1640,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 #if DEBUG
                System.Diagnostics.Process.Start(ExcelFilePath);
 #endif
-               //End Export Excel
+               #endregion Export Excel
 
                msg.Status = ResultStatus.Success;
                return msg;
@@ -1629,6 +1714,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             SetInnerText(tmpStr, false, 2.75f, 2.75f);
          }
 
+         /// <summary>
+         /// 案由一 說明
+         /// </summary>
+         /// <param name="dtTemp"></param>
+         /// <param name="checkedDate"></param>
          protected virtual void SetFirstCaseDesc(DataTable dtTemp, DateTime checkedDate) {
             string tmpStr = "";
             int licnt = 3;
@@ -1668,6 +1758,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             SetFirstCaseLastDesc(dtTemp, $"{ChineseNumber[++licnt]}、", checkedDate);
          }
 
+         /// <summary>
+         /// 案由一 決議
+         /// </summary>
+         /// <param name="dtTemp"></param>
+         /// <param name="checkedDate"></param>
          protected virtual void SetFirstCaseResult(DataTable dtTemp, DateTime checkedDate) {
             string tmpStr = "";
             int licnt = 0;
@@ -1706,6 +1801,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          }
 
+         /// <summary>
+         /// 案由一 債券說明
+         /// </summary>
+         /// <param name="dtDebt"></param>
+         /// <param name="descPoint">說明項數</param>
          protected virtual void SetFirstCaseDebtDesc(DataTable dtDebt, string descPoint) {
             string tmpStr = "";
 
@@ -1744,6 +1844,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
          }
 
+         /// <summary>
+         /// 案由一 指數類說明
+         /// </summary>
+         /// <param name="dtIndex"></param>
+         /// <param name="descPoint">說明項數</param>
+         /// <param name="checkedDate"></param>
          protected virtual void SetFirstCaseIndexDesc(DataTable dtIndex, string descPoint, DateTime checkedDate) {
             string tmpStr = "";
             List<string> kindNameList = wfKindIdC(dtIndex);
@@ -2011,6 +2117,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
          }
 
+         /// <summary>
+         /// 案由一 黃金說明
+         /// </summary>
+         /// <param name="dtGold"></param>
+         /// <param name="descPoint">說明項數</param>
+         /// <param name="checkedDate"></param>
          protected virtual void SetFirstCaseGoldDesc(DataTable dtGold, string descPoint, DateTime checkedDate) {
             string tmpStr = "";
             List<string> kindNameList = wfKindIdC(dtGold);
@@ -2284,6 +2396,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
          }
 
+         /// <summary>
+         /// 案由一 BRF 說明
+         /// </summary>
+         /// <param name="dtBRF"></param>
+         /// <param name="descPoint">說明項數</param>
+         /// <param name="checkedDate"></param>
          protected virtual void SetFirstCaseBRFDesc(DataTable dtBRF, string descPoint, DateTime checkedDate) {
             string tmpStr = "";
             List<string> kindNameList = wfKindIdC(dtBRF);
@@ -2441,6 +2559,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
          }
 
+         /// <summary>
+         /// 案由一 最後說明
+         /// </summary>
+         /// <param name="dtTemp"></param>
+         /// <param name="descPoint">說明項數</param>
+         /// <param name="checkedDate"></param>
          protected virtual void SetFirstCaseLastDesc(DataTable dtTemp, string descPoint, DateTime checkedDate) {
             int point = 0;
             List<DataRow> drsTemp = new List<DataRow>();
@@ -2538,6 +2662,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
          }
 
+         /// <summary>
+         /// 案由二 說明文
+         /// </summary>
+         /// <param name="dtTemp"></param>
+         /// <param name="checkedDate"></param>
          protected virtual void SetSecondCaseDesc(DataTable dtTemp, DateTime checkedDate) {
             string tmpStr = "";
 
@@ -2560,6 +2689,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             SetSecondLastDesc(dtTemp, "四、", checkedDate);
          }
 
+         /// <summary>
+         /// 案由二 第三項說明
+         /// </summary>
+         /// <param name="dtTemp"></param>
+         /// <param name="descPoint">說明項數</param>
+         /// <param name="checkedDate"></param>
          protected virtual void SetSecondCaseThirdDesc(DataTable dtTemp, string descPoint, DateTime checkedDate) {
             string tmpStr = "";
             List<string> kindNameList = wfKindIdC(dtTemp);
@@ -2720,6 +2855,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
          }
 
+         /// <summary>
+         /// 案由二 最後項說明
+         /// </summary>
+         /// <param name="dtTemp"></param>
+         /// <param name="descPoint">說明項數</param>
+         /// <param name="checkedDate"></param>
          protected virtual void SetSecondLastDesc(DataTable dtTemp, string descPoint, DateTime checkedDate) {
             int point = 0;
             List<DataRow> drsTemp = new List<DataRow>();
@@ -2777,6 +2918,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          }
 
+         /// <summary>
+         /// 案由二 決議
+         /// </summary>
+         /// <param name="dtTemp"></param>
+         /// <param name="checkedDate"></param>
          protected virtual void SetSecondCaseResult(DataTable dtTemp, DateTime checkedDate) {
             string tmpStr = "";
             int licnt = 0;
@@ -2809,6 +2955,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
          }
 
+         /// <summary>
+         /// 案由三 說明
+         /// </summary>
+         /// <param name="dtTemp"></param>
+         /// <param name="checkedDate"></param>
          protected virtual void SetThirdCaseDesc(DataTable dtTemp, DateTime checkedDate) {
             string tmpStr = "";
             SetSubjectText($"說　　明：");
@@ -2830,6 +2981,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             SetThirdLastDesc(dtTemp);
          }
 
+         /// <summary>
+         /// 案由三 最後項 說明
+         /// </summary>
+         /// <param name="dtTmp"></param>
          protected virtual void SetThirdLastDesc(DataTable dtTmp) {
             int licnt = 3;
             string tmpStr = "";
@@ -2852,6 +3007,43 @@ namespace PhoenixCI.FormUI.Prefix4 {
             Doc.AppendText(Environment.NewLine);
          }
 
+         /// <summary>
+         /// 案由三 決議
+         /// </summary>
+         /// <param name="dtTemp"></param>
+         protected virtual void SetThirdCaseResult(DataTable dtTemp) {
+            string tmpStr = "";
+            int licnt = 0;
+            List<DataRow> drsTemp = new List<DataRow>();
+
+            SetSubjectText($"決　　議：");
+
+            drsTemp = dtTemp.Select("prod_subtype = 'S' and adj_code = 'Y'").ToList();
+            if (drsTemp.Count > 0) {
+               tmpStr = $"調整{GenArrayTxt(wfKindIdC(dtTemp))}保證金如說明二，以適當控管市場風險。";
+               SetInnerText($"{ChineseNumber[++licnt]}、{tmpStr}");
+            }
+
+            drsTemp.Clear();
+            drsTemp = dtTemp.Select("prod_subtype = 'S'  and adj_code = ' '").ToList();
+            if (drsTemp.Count > 0) {
+               if (drsTemp.Count == 1)
+                  tmpStr = $"{GenArrayTxt(wfKindIdC(dtTemp))}之保證金暫不調整，";
+               else
+                  tmpStr = tmpStr != "" ? "餘上開契約之保證金暫不調整，" : "不調整上開契約之保證金，";
+
+               tmpStr += "觀察▲▲10個交易日，惟仍須持續注意各契約保證金變動幅度及未沖銷部位數變化之狀況，於必要時隨時召開會議討論是否調整保證金。";
+
+               SetInnerText($"{ChineseNumber[++licnt]}、{tmpStr}");
+            }
+         }
+
+         /// <summary>
+         /// 案由四 說明文
+         /// </summary>
+         /// <param name="dtSTF"></param>
+         /// <param name="dtLevel">MGRT Level Data(級距)</param>
+         /// <param name="checkedDate"></param>
          protected virtual void SetForthCaseDesc(DataTable dtSTF, DataTable dtLevel, DateTime checkedDate) {
             string tmpStr = "";
             int licnt = 0;
@@ -2907,6 +3099,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             SetInnerText($"{ChineseNumber[++licnt]}、考量前揭股票期貨之風險價格係數平均值均明顯低於▲▲所屬級距之保證金適用比例，建議暫不調整保證金。");
          }
 
+         /// <summary>
+         /// 案由四 決議
+         /// </summary>
+         /// <param name="checkedDate"></param>
          protected virtual void SetForthCaseResult(DateTime checkedDate) {
             SetSubjectText($"決　　議：");
             string tmpStr = "";
@@ -2917,63 +3113,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          }
 
-         protected virtual void SetThirdCaseResult(DataTable dtTemp) {
-            string tmpStr = "";
-            int licnt = 0;
-            List<DataRow> drsTemp = new List<DataRow>();
-
-            SetSubjectText($"決　　議：");
-
-            drsTemp = dtTemp.Select("prod_subtype = 'S' and adj_code = 'Y'").ToList();
-            if (drsTemp.Count > 0) {
-               tmpStr = $"調整{GenArrayTxt(wfKindIdC(dtTemp))}保證金如說明二，以適當控管市場風險。";
-               SetInnerText($"{ChineseNumber[++licnt]}、{tmpStr}");
-            }
-
-            drsTemp.Clear();
-            drsTemp = dtTemp.Select("prod_subtype = 'S'  and adj_code = ' '").ToList();
-            if (drsTemp.Count > 0) {
-               if (drsTemp.Count == 1)
-                  tmpStr = $"{GenArrayTxt(wfKindIdC(dtTemp))}之保證金暫不調整，";
-               else
-                  tmpStr = tmpStr != "" ? "餘上開契約之保證金暫不調整，" : "不調整上開契約之保證金，";
-
-               tmpStr += "觀察▲▲10個交易日，惟仍須持續注意各契約保證金變動幅度及未沖銷部位數變化之狀況，於必要時隨時召開會議討論是否調整保證金。";
-
-               SetInnerText($"{ChineseNumber[++licnt]}、{tmpStr}");
-               //         if    wf_conv_date_next_n(ii_obs_days, date(em_grp1.text)) <> wf_conv_date_next_n(ii_obs_days, date(em_grp2.text))  then
-               //      //區分日期
-               //         ids_new.setfilter("prod_subtype = 'S'  and adj_code= ' ' and data_ymd = '" + string(date(em_grp1.text), "yyyymmdd") + "') ")
-
-               //      ids_new.filter()
-
-               //      ls_str1 = ""
-
-               //      if    ids_new.rowcount() > 0  then
-               //            ls_str1 = wf_kind_id('E') + "至▲▲" + wf_conv_date_next_n(ii_obs_days, date(em_grp1.text))
-
-               //      end   if
-
-               //      ids_new.setfilter("prod_subtype = 'S'  and adj_code = ' ' and data_ymd = '" + string(date(em_grp2.text), "yyyymmdd") + "') ")
-
-               //      ids_new.filter()
-
-               //      ls_str2 = ""
-
-               //      if    ids_new.rowcount() > 0  then
-               //            ls_str2 = "其餘契約至▲▲" + wf_conv_date_next_n(ii_obs_days, date(em_grp2.text))
-
-               //      end   if
-
-               //else
-               //            ls_str2 = ""
-
-               //end   if
-
-
-            }
-         }
-
+         /// <summary>
+         /// 案由五 說明文
+         /// </summary>
+         /// <param name="dtSpan"></param>
+         /// <param name="checkedItemsSpan"></param>
+         /// <param name="caseNo">案由項數</param>
          protected virtual void SetFifthCaseDesc(DataTable dtSpan, List<CheckedItem> checkedItemsSpan, int caseNo) {
             List<DataRow> drsSpan = dtSpan.Select("sp1_type='SV'").ToList();
             string tmpStr = "";
@@ -3069,6 +3214,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
          }
 
+         /// <summary>
+         /// 案由五 決議
+         /// </summary>
+         /// <param name="dtSpan"></param>
          protected virtual void SetFifthCaseResult(DataTable dtSpan) {
             SetSubjectText($"決　　議：");
 
@@ -3118,6 +3267,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          }
 
+         /// <summary>
+         /// 組商品名稱
+         /// </summary>
+         /// <param name="dtTemp"></param>
+         /// <returns></returns>
          protected virtual List<string> wfKindIdC(DataTable dtTemp) {
 
             List<string> kindNameList = new List<string>();
@@ -3135,6 +3289,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return kindNameList;
          }
 
+         /// <summary>
+         /// 組商品名稱
+         /// </summary>
+         /// <param name="dtTemp"></param>
+         /// <returns></returns>
          protected virtual List<string> wfKindIdE(DataTable dtTemp) {
 
             List<string> kindNameList = new List<string>();
@@ -3145,6 +3304,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return kindNameList;
          }
 
+         /// <summary>
+         /// 組商品名稱
+         /// </summary>
+         /// <param name="dtTemp"></param>
+         /// <returns></returns>
          protected virtual List<string> wfKindIdA(DataTable dtTemp) {
 
             List<string> kindNameList = new List<string>();
@@ -3158,6 +3322,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return kindNameList;
          }
 
+         /// <summary>
+         /// 組商品名稱 STF
+         /// </summary>
+         /// <param name="dtTemp"></param>
+         /// <returns></returns>
          protected virtual List<string> wfKindIdSTFA(DataTable dtTemp) {
 
             List<string> kindNameList = new List<string>();
@@ -3171,11 +3340,22 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return kindNameList;
          }
 
+         /// <summary>
+         /// 單筆資料 return "" 多筆 return "分別"
+         /// </summary>
+         /// <param name="dtTemp"></param>
+         /// <returns></returns>
          protected virtual string SingleOrMore(DataTable dtTemp) {
 
             return dtTemp.Rows.Count > 1 ? "分別" : "";
          }
 
+         /// <summary>
+         /// 比較商品
+         /// </summary>
+         /// <param name="kindId"></param>
+         /// <param name="cmRate"></param>
+         /// <returns></returns>
          protected virtual string WfCompareKind(string kindId, decimal cmRate) {
             List<string> fNameList = new List<string>();
             string re = "";
@@ -3206,6 +3386,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return re;
          }
 
+         /// <summary>
+         /// 查看現貨資料
+         /// </summary>
+         /// <param name="kindId"></param>
+         /// <param name="fId"></param>
+         /// <param name="ratePendStr">現行 或 調整</param>
+         /// <returns></returns>
          protected virtual string GetSpot(string kindId, string fId, string ratePendStr) {
 
 
@@ -3215,6 +3402,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return drTmp != null ? WfCompareKind(kindId, drTmp[$"{ratePendStr}_cm_rate"].AsDecimal()) : "★無現貨資料";
          }
 
+         /// <summary>
+         /// 比較黃金期貨
+         /// </summary>
+         /// <param name="str1">GDF 現貨資料</param>
+         /// <param name="str2">TGF 現貨資料</param>
+         /// <returns></returns>
          protected virtual string WfCampreGold(string str1, string str2) {
 
             string re = "";
@@ -3232,18 +3425,38 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return re;
          }
 
+         /// <summary>
+         /// interface 指數類商品參數
+         /// </summary>
+         /// <param name="type"></param>
+         /// <param name="name"></param>
+         /// <param name="args"></param>
+         /// <returns></returns>
          protected I40030KindInfoI CreateI40030KindInfoI(Type type, string name, object[] args = null) {
             string AssemblyName = type.Namespace.Split('.')[0];//最後compile出來的dll名稱
             string className = type.Namespace + "." + type.ReflectedType.Name + "+" + name;//完整的class路徑(注意,內部的class執行時其fullName是用+號連結起來)
             return (I40030KindInfoI)Assembly.Load(AssemblyName).CreateInstance(className, true, BindingFlags.CreateInstance, null, args, null, null);
          }
 
+         /// <summary>
+         /// interface ETF 商品參數
+         /// </summary>
+         /// <param name="type"></param>
+         /// <param name="name"></param>
+         /// <param name="args"></param>
+         /// <returns></returns>
          protected I40030KindInfoE CreateI40030KindInfoE(Type type, string name, object[] args = null) {
             string AssemblyName = type.Namespace.Split('.')[0];//最後compile出來的dll名稱
             string className = type.Namespace + "." + type.ReflectedType.Name + "+" + name;//完整的class路徑(注意,內部的class執行時其fullName是用+號連結起來)
             return (I40030KindInfoE)Assembly.Load(AssemblyName).CreateInstance(className, true, BindingFlags.CreateInstance, null, args, null, null);
          }
 
+         /// <summary>
+         /// 商品現貨漲跌說明
+         /// </summary>
+         /// <param name="prodType"></param>
+         /// <param name="dr"></param>
+         /// <returns></returns>
          protected virtual string GenProdString(string prodType, DataRow dr) {
             string tmpStr = "";
             string colValue = "";
@@ -3277,6 +3490,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return tmpStr;
          }
 
+         /// <summary>
+         /// 現貨漲跌值
+         /// </summary>
+         /// <param name="prodType"></param>
+         /// <param name="dr"></param>
+         /// <returns></returns>
          protected virtual decimal GetUpDown(string prodType, DataRow dr) {
             string colValue = "";
             string drprodType = dr["prod_type"].AsString();
@@ -3290,6 +3509,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return dr[colValue + "_up_down"].AsDecimal();
          }
 
+         /// <summary>
+         /// 市場方向
+         /// </summary>
+         /// <param name="upDownPoint">漲跌點數</param>
+         /// <param name="warn">插入文字</param>
+         /// <returns></returns>
          protected virtual string MarketDirectionWarn(decimal upDownPoint, string warn) {
 
             string tmpStr = "";
@@ -3301,6 +3526,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return tmpStr;
          }
 
+         /// <summary>
+         /// 市場方向
+         /// </summary>
+         /// <param name="upDownPoint">漲跌點數</param>
+         /// <param name="rateDiff">漲跌值</param>
+         /// <returns></returns>
          protected virtual string MarketDirection(decimal upDownPoint, decimal rateDiff) {
 
             string tmpStr = "";
@@ -3312,6 +3543,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return tmpStr;
          }
 
+         /// <summary>
+         /// 商品比較excel 
+         /// </summary>
+         /// <param name="wb"></param>
+         /// <param name="kindId">商品ID</param>
+         /// <param name="sheetName"></param>
          protected virtual void ExportCompareExcel(DevExpress.Spreadsheet.Workbook wb, string kindId, string sheetName) {
 
             DevExpress.Spreadsheet.Worksheet worksheet = wb.Worksheets[sheetName];
@@ -3357,6 +3594,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
          }
 
+         /// <summary>
+         /// 期貨excel 
+         /// </summary>
+         /// <param name="wb"></param>
+         /// <param name="dtTmp"></param>
          protected virtual void ExportExcelFut(DevExpress.Spreadsheet.Workbook wb, DataTable dtTmp) {
 
             DevExpress.Spreadsheet.Worksheet worksheet = wb.Worksheets["保證金(Fut)"];
@@ -3386,6 +3628,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
          }
 
+         /// <summary>
+         /// 選擇權 excel
+         /// </summary>
+         /// <param name="wb"></param>
+         /// <param name="dtTmp"></param>
          protected virtual void ExportExcelOPT(DevExpress.Spreadsheet.Workbook wb, DataTable dtTmp) {
 
             DevExpress.Spreadsheet.Worksheet worksheet = wb.Worksheets["保證金(Opt)"];
@@ -3431,6 +3678,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
          }
 
+         /// <summary>
+         /// Span excel
+         /// </summary>
+         /// <param name="wb"></param>
+         /// <param name="dtTmp"></param>
+         /// <param name="checkItems"></param>
          protected virtual void ExportExcelSpan(DevExpress.Spreadsheet.Workbook wb, DataTable dtTmp, List<CheckedItem> checkItems) {
 
             DevExpress.Spreadsheet.Worksheet worksheet = wb.Worksheets["SPAN參數"];
@@ -3450,6 +3703,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
          }
 
+         /// <summary>
+         /// rtf 指數類 表格
+         /// </summary>
+         /// <param name="kindId"></param>
          protected virtual void DrowCompareTableI(string kindId) {
             Doc.AppendText(Environment.NewLine);
             List<DataRow> drsAbroad = DtAbroad.Select("kind_grp='" + kindId + "'").OrderBy(r => r.Field<int>("seq_no")).ToList();
@@ -3517,6 +3774,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
          }
 
+         /// <summary>
+         /// rtf ETF 表格
+         /// </summary>
+         /// <param name="kindId"></param>
          protected virtual void DrowCompareTableE(string kindId) {
             Doc.AppendText(Environment.NewLine);
 
@@ -3569,6 +3830,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
          }
 
+         /// <summary>
+         /// 畫ETF 表格
+         /// </summary>
+         /// <param name="dtTmp">ETF 資料</param>
          protected virtual void DrowETFTable(DataTable dtTmp) {
             Doc.AppendText(Environment.NewLine);
 
@@ -3614,6 +3879,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
          }
 
+         /// <summary>
+         /// 畫Span 表格
+         /// </summary>
+         /// <param name="dtSpan">Span 資料</param>
          protected virtual void DrowSpanTable(DataTable dtSpan) {
             CreateTable(Doc, 1, 5);
             string[] colName = new string[] { "參數名稱", "適用商品組合", "調整後", "調整前", "變動幅度" };
@@ -3636,6 +3905,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
          }
 
+         /// <summary>
+         /// 畫STF 表格
+         /// </summary>
+         /// <param name="dtSTF">STF 資料</param>
          protected virtual void DrowSTFTable(DataTable dtSTF) {
             CreateTable(Doc, 3, 8);
 
@@ -3699,32 +3972,47 @@ namespace PhoenixCI.FormUI.Prefix4 {
       /// 替換文字用class
       /// </summary>
       private class M40030Word {
+         //會議時間
          public string MeetingDate { get; set; }
+         //會議地點
          public string MeetingAddress { get; set; }
+         //主席
          public string Chairman { get; set; }
+         //出席
          public string Attend { get; set; }
-         //public string CaseDesc { get; set; }
 
          public M40030Word(string meetingdate, string chairman, string attend, string meetingaddress = "研討室") {
             MeetingDate = meetingdate;
             MeetingAddress = meetingaddress;
             Chairman = chairman;
             Attend = attend;
-            //CaseDesc = casedesc;
          }
       }
 
+      /// <summary>
+      /// interface AmtType + ProdType 設定一些參數
+      /// </summary>
       private interface I40030AmtProdType {
+         //幣別
          string CurrencyName { get; set; }
+         //商品名
          string ProdName { get; set; }
+         //調整前欄位名
          string BeforeAdjustTitle { get; set; }
+         //調整後欄位名
          string AfterAdjustTitle { get; set; }
+         //數字格式
          string NumberFormat { get; set; }
 
+         //B值數字格式
          string NumberFormatB { get; set; }
+         //表格名
          string[] TableTitle { get; set; }
+         // 列名稱
          string[] RowName { get; set; }
+         //資料欄位名
          string[] DbColName { get; set; }
+         //資料B值欄位名
          string[] DbColNameB { get; set; }
 
          string AbbrName { get; set; }
@@ -3885,6 +4173,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
       }
 
+      /// <summary>
+      /// 指數類商品參數
+      /// </summary>
       private interface I40030KindInfoI {
          int RowCount { get; set; }
          int ColCount { get; set; }
@@ -3952,6 +4243,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
          }
       }
 
+      /// <summary>
+      /// ETF 商品參數
+      /// </summary>
       private interface I40030KindInfoE {
          int RowCount { get; set; }
          int ColCount { get; set; }
@@ -3998,6 +4292,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
          }
       }
 
+      /// <summary>
+      /// 選擇 一般時的勾選群組
+      /// </summary>
       private class CheckedItem {
          public int CheckedValue { get; set; }
          public DateTime CheckedDate { get; set; }

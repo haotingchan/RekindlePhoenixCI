@@ -1342,12 +1342,6 @@
     <Compile Include="FormUI\Prefix5\W50010.Designer.cs">
       <DependentUpon>W50010.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormUI\Prefix5\W50031.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormUI\Prefix5\W50031.Designer.cs">
-      <DependentUpon>W50031.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormUI\Prefix5\W50034.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1419,6 +1413,12 @@
     </Compile>
     <Compile Include="FormUI\Prefix5\W50030.Designer.cs">
       <DependentUpon>W50030.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix5\W50031.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix5\W50031.Designer.cs">
+      <DependentUpon>W50031.cs</DependentUpon>
     </Compile>
     <Compile Include="FormUI\Prefix5\W500xx.cs">
       <SubType>Form</SubType>
@@ -2330,9 +2330,6 @@
     <EmbeddedResource Include="FormUI\Prefix5\W50010.resx">
       <DependentUpon>W50010.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormUI\Prefix5\W50031.resx">
-      <DependentUpon>W50031.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix5\W50034.resx">
       <DependentUpon>W50034.cs</DependentUpon>
     </EmbeddedResource>
@@ -2368,6 +2365,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix5\W50030.resx">
       <DependentUpon>W50030.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix5\W50031.resx">
+      <DependentUpon>W50031.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix5\W500xx.resx">
       <DependentUpon>W500xx.cs</DependentUpon>
@@ -3415,7 +3415,16 @@
     <None Include="Excel_Template\95140.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\ifd\40090_0.ifd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\ifd\40090_0_3.ifd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Excel_Template\ifd\40090_0_3_rfa.ifd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\ifd\40090_0_rfa.ifd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\ifd\40090_1B.ifd">
@@ -3431,6 +3440,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\ifd\40090_2B.ifd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\ifd\40090_3.ifd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\ifd\40090_3_rfa.ifd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\ifd\40100_0B.ifd">

@@ -1,14 +1,11 @@
 ﻿using BaseGround;
-using BaseGround.Report;
 using BaseGround.Shared;
-using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together;
 using DevExpress.Spreadsheet;
 using System;
 using System.Data;
-using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
@@ -19,7 +16,6 @@ using System.Windows.Forms;
 namespace PhoenixCI.FormUI.Prefix3 {
    /// <summary>
    /// 30610 現、期貨市場振幅、波動度、成交量彙集
-   /// 有寫到的功能：Export
    /// </summary>
    public partial class W30610 : FormParent {
 
@@ -31,13 +27,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
       private D30610 dao30610;
 
       public W30610(string programID , string programName) : base(programID , programName) {
-         InitializeComponent();
-         dao30610 = new D30610();
+         InitializeComponent();       
          this.Text = _ProgramID + "─" + _ProgramName;
 
-         //winni test
-         //2018/01-2018/10 月明細
-         //2018/10/01-2018/10/11 日明細
+         dao30610 = new D30610();
       }
 
       protected override ResultStatus Open() {
@@ -95,12 +88,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
 
             if (!res) {
-               try {
-                  workbook = null;
-                  File.Delete(excelDestinationPath);
-               } catch (Exception) {
-                  //
-               }
+               workbook = null;
+               File.Delete(excelDestinationPath);
                return ResultStatus.Fail;
             }
 

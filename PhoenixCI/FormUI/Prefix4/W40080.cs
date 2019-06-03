@@ -144,12 +144,23 @@ namespace PhoenixCI.FormUI.Prefix4 {
          gvMain.CloseEditor();
          try {
 
-            DataTable dt = (DataTable)gcMain.DataSource;
-            DataTable dtChange = dt.GetChanges();
-            DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
-            DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
-            DataTable dtForDeleted = dt.GetChanges(DataRowState.Deleted);
+            DataTable dtCurrent = dao40080.GetData(txtTradeDate.DateTimeValue); //原始資料
+            DataTable dt = (DataTable)gcMain.DataSource; //現在更改後的
+            DataTable dtChange = dt.Clone();
 
+            int w = -1;
+            foreach (DataRow row1 in dtCurrent.Rows) {
+
+               w++;
+               var array1 = row1.ItemArray;
+               var array2 = dt.Rows[w].ItemArray;
+
+               if (!array1.SequenceEqual(array2)) {
+                  dtChange.ImportRow(dt.Rows[w]);
+               }
+               continue;
+            }
+           
             if (dtChange == null) {
                MessageDisplay.Warning("沒有變更資料,不需要存檔!");
                return ResultStatus.FailButNext;
@@ -200,7 +211,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   dtSp2.Rows[ll_found]["sp2_osw_grp"] = dr["sp1_osw_grp"];
                   dtSp2.Rows[ll_found]["sp2_w_time"] = ldt_w_time;
                   dtSp2.Rows[ll_found]["sp2_w_user_id"] = GlobalInfo.USER_ID;
-               }              
+               }
                dr["sp2_adj_code_org"] = dr["sp2_adj_code"];
 
             }//foreach (DataRow dr in dt.Rows)
@@ -217,7 +228,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                dr["op_type"] = " ";
             }
 
-            AfterSaveForPrint(gcMain , dtForAdd , dtForDeleted , dtForModified);
+            AfterSaveForPrint(gcMain , null , null , dtChange);
             MessageDisplay.Info("報表儲存完成!");
 
          } catch (Exception ex) {

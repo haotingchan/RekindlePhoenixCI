@@ -90,5 +90,20 @@ namespace DataObjects.Dao.Together.SpecificDao {
 
          return db.ExecuteScalar(sql, CommandType.Text, parms);
       }
+
+      public string GetMarketTime(string oswgrp) {
+
+         object[] parms = {
+                ":ls_osw_grp",oswgrp
+            };
+
+
+         string sql = @"SELECT to_char(OCFG_CLOSE_TIME,'hh : mi') as ls_osw_grp_time
+                               from ci.OCFG
+                               WHERE OCFG_MARKET_CODE = '0'
+                               AND trim(OCFG_OSW_GRP) = :ls_osw_grp";
+
+         return db.ExecuteScalar(sql, CommandType.Text, parms);
+      }
    }
 }

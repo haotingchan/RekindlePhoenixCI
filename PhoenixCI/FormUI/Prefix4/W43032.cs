@@ -20,6 +20,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
    public partial class W43032 : FormParent {
 
       private D43032 dao43032;
+      int flag;
 
       public W43032(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
@@ -30,9 +31,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
          dao43032 = new D43032();
 
 #if DEBUG
-         //Winni test
-         //txtSDate.DateTimeValue = DateTime.ParseExact("2018/10/11", "yyyy/MM/dd", null);
-         //this.Text += "(開啟測試模式),ocfDate=2018/10/11";
+         txtDate.DateTimeValue = DateTime.ParseExact("2018/10/11" , "yyyy/MM/dd" , null);
+         this.Text += "(開啟測試模式),ocfDate=2018/10/11";
 #endif
       }
 
@@ -118,6 +118,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             string modelType, modelName;
 
+            flag = 0;
             foreach (CheckedListBoxItem item in chkModel.Items) {
                if (item.CheckState == CheckState.Unchecked) {
                   continue;
@@ -130,7 +131,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      if (gbItem.EditValue.AsString() == "rbAdj") {
                         dt = dtTmp.Filter("flag_sma = 'Y'");
                      }
-                     wf_43032(modelType , modelName , dt);
+                     flag += wf_43032(modelType , modelName , dt);
                      break;
                   case "chkEwma":
                      modelType = "E";
@@ -138,7 +139,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      if (gbItem.EditValue.AsString() == "rbAdj") {
                         dt = dtTmp.Filter("flag_ewma = 'Y'");
                      }
-                     wf_43032(modelType , modelName , dt);
+                     flag += wf_43032(modelType , modelName , dt);
                      break;
                   case "chkMaxVol":
                      modelType = "M";
@@ -146,10 +147,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      if (gbItem.EditValue.AsString() == "rbAdj") {
                         dt = dtTmp.Filter("flag_maxvol = 'Y'");
                      }
-                     wf_43032(modelType , modelName , dt);
+                     flag += wf_43032(modelType , modelName , dt);
                      break;
                }
             }
+
+            if (flag <= 0)
+               return ResultStatus.Fail;
 
             return ResultStatus.Success;
          } catch (Exception ex) {
@@ -163,7 +167,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          return ResultStatus.Fail;
       }
 
-      private bool wf_43032(string modelType , string modelName , DataTable dtTmp) {
+      private int wf_43032(string modelType , string modelName , DataTable dtTmp) {
          string rptName = "上市證券原始資料查詢";
          ShowMsg(string.Format("{0}-{1}轉檔中..." , _ProgramID , rptName));
          //string startDate = DateTime.Now.ToString("yyyyMMdd");
@@ -173,7 +177,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             if (dtTmp.Rows.Count <= 0) {
                MessageDisplay.Info(string.Format("{0},{1},{2}-{3},無任何資料!" ,
                                           txtDate.Text , modelName , _ProgramID , rptName));
-               return false;
+               return 0;
             }
             string stockId, etfFileName;
 
@@ -204,11 +208,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             }//foreach (DataRow dr in dtTmp.Rows)
 
-            return true;
+            return 1;
          } catch (Exception ex) {
             WriteLog(ex);
          }
-         return false;
+         return 0;
       }
    }
 }
