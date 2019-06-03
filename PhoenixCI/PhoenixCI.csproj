@@ -3397,6 +3397,9 @@
     <None Include="Excel_Template\ifd\40090_0.ifd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\ifd\40090_0_3.ifd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Excel_Template\ifd\40090_0_3_rfa.ifd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

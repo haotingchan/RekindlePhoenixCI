@@ -742,7 +742,5 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 return ResultStatus.Fail;
             }
         }
-
-
-    }
+   }
 }

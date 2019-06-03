@@ -17,6 +17,7 @@ using System.Windows.Forms;
 using System.Xml;
 
 /// <summary>
+/// 依照不同類別產生 ifd
 /// Test Data 2B 20190102 / 1B 20190130 / 1E 20190212 / 0B 20190212
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix4 {
@@ -69,6 +70,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             IExport40xxxData xmlData = CreateXmlData(GetType(), "ExportXml" + AdjType, args);
             ReturnMessageClass msg = xmlData.GetData();
 
+            //無資料時不產檔
             if (msg.Status != ResultStatus.Success) {
                ExportShow.Text = MessageDisplay.MSG_IMPORT_FAIL;
                MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
@@ -143,6 +145,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             Dt = Dao.GetData(TxtDate, AsAdjType, AdjType.SubStr(1, 1));
 
+            //無資料時return fail (不產檔)
             if (Dt != null) {
                if (Dt.Rows.Count > 0) {
                   msg.Status = ResultStatus.Success;
@@ -187,24 +190,29 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
          }
 
+         /// <summary>
+         /// 開檔並設定年度號
+         /// </summary>
          protected virtual void OpenFileAndSetYear() {
             Doc = new XmlDocument();
             Doc.Load(FilePath);
 
-            SetYear(Doc);
+            //年號
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("檔號")[0], "#year#", DateTime.Now.AsTaiwanDateTime("{0}", 4));
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("年度號")[0], "#year#", DateTime.Now.AsTaiwanDateTime("{0}", 4));
          }
 
+         /// <summary>
+         /// 取代node 內文字
+         /// </summary>
+         /// <param name="element"></param>
+         /// <param name="oldString">被取代問字</param>
+         /// <param name="newString">取代文字</param>
          protected virtual void ReplaceXmlInnterText(XmlNode element, string oldString, string newString) {
 
             string innertext = element.InnerText;
             innertext = innertext.Replace(oldString, newString);
             element.InnerText = innertext;
-         }
-
-         protected virtual void SetYear(XmlDocument doc) {
-            //年號
-            ReplaceXmlInnterText(doc.GetElementsByTagName("檔號")[0], "#year#", DateTime.Now.AsTaiwanDateTime("{0}", 4));
-            ReplaceXmlInnterText(doc.GetElementsByTagName("年度號")[0], "#year#", DateTime.Now.AsTaiwanDateTime("{0}", 4));
          }
 
          protected virtual void ReplaceElementWord(params string[] args) {
@@ -213,6 +221,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[1].ChildNodes[0], "#kind_name_list#", args[1]);
          }
 
+         /// <summary>
+         /// 將list 組成字串, 中間以"、"連接
+         /// </summary>
+         /// <param name="kindNameList"></param>
+         /// <returns></returns>
          protected virtual string GenArrayTxt(List<string> kindNameList) {
             string result = "";
             int k = 1;
@@ -271,6 +284,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             Doc.GetElementsByTagName("段落")[0].AppendChild(element_Tmp);
          }
 
+         /// <summary>
+         /// 錯誤處理
+         /// </summary>
+         /// <param name="ex">Exception</param>
+         /// <param name="msg"></param>
          public virtual void ErrorHandle(Exception ex, ReturnMessageClass msg) {
             WriteLog(ex.ToString(), "Info", "Z");
             msg.Status = ResultStatus.Fail;
@@ -577,6 +595,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[0].ChildNodes[0], "#full_name_llist#", args[2]);
             ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[1].ChildNodes[0], "#kind_name_list#", args[3]);
 
+            //當 amt_type ="F" 時 文字不同, 特殊處理
             if (Dt.Select("amt_type = 'F'").Count() > 0) {
                ReplaceXmlInnterText(Doc.GetElementsByTagName("主旨")[0].ChildNodes[0], "#amt_type#", "金額");
             } else {
