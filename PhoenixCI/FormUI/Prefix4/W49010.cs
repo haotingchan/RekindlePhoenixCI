@@ -233,6 +233,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["IS_NEWROW"] , 1);
 
+         gcMain.Visible = true;
          gvMain.Focus();
          gvMain.FocusedColumn = gvMain.Columns[0];
 
