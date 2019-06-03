@@ -4,10 +4,12 @@ using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together;
 using DevExpress.Spreadsheet;
-using DevExpress.XtraEditors.Controls;
+using DevExpress.XtraEditors;
 using System;
 using System.Data;
 using System.IO;
+using System.Threading;
+using System.Windows.Forms;
 
 /// <summary>
 /// Winni, 2019/01/31
@@ -23,13 +25,29 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
       public W30591(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
-         dao30591 = new D30591();
          this.Text = _ProgramID + "─" + _ProgramName;
-         txtStartYMD.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/01");
-         txtEndYMD.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
 
-         //Winni test
-         //20181001-20181011
+         dao30591 = new D30591();
+      }
+
+      protected override ResultStatus Open() {
+         base.Open();
+         try {
+
+            //設定初始年月yyyy/MM/dd     
+            txtStartYMD.DateTimeValue = DateTime.ParseExact(GlobalInfo.OCF_DATE.ToString("yyyy/MM/01") , "yyyy/MM/dd" , null);
+            txtStartYMD.EnterMoveNextControl = true;
+            txtStartYMD.Focus();
+
+            txtEndYMD.DateTimeValue = GlobalInfo.OCF_DATE;
+            txtEndYMD.EnterMoveNextControl = true;
+            txtEndYMD.Focus();
+
+            return ResultStatus.Success;
+         } catch (Exception ex) {
+            WriteLog(ex);
+            return ResultStatus.Fail;
+         }
       }
 
       protected override ResultStatus ActivatedForm() {
@@ -42,51 +60,63 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
       protected override ResultStatus Export() {
 
-         base.Export();
-         lblProcessing.Visible = true;
+         try {
 
-         string tempMarketCode;
-         //RadioButton (rbMarket0 = 一般 / rbMarket1 = 盤後 / rbMarketAll = 全部)
-         if (gbMarket.EditValue.ToString() == "rbMarket0") {
-            tempMarketCode = "一般";
-         } else if (gbMarket.EditValue.ToString() == "rbMarket1") {
-            tempMarketCode = "盤後";
-         } else {
-            tempMarketCode = "全部";
-         }
-         //1.複製檔案 & 開啟檔案 (因檔案需因MarketCode更動，所以另外寫)
-         string originalFilePath = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH , _ProgramID + "." + FileType.XLS.ToString().ToLower());
+            //0. ready
+            panFilter.Enabled = false;
+            labMsg.Visible = true;
+            labMsg.Text = "開始轉檔...";
+            this.Cursor = Cursors.WaitCursor;
+            this.Refresh();
+            Thread.Sleep(5);
 
-         string destinationFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH ,
-             _ProgramID + "_" + tempMarketCode + "_" + DateTime.Now.ToString("yyyy.MM.dd") + "-" + DateTime.Now.ToString("HH.mm.ss") + "." + FileType.XLS.ToString().ToLower());
-
-         File.Copy(originalFilePath , destinationFilePath , true);
-
-         Workbook workbook = new Workbook();
-         workbook.LoadDocument(destinationFilePath);
-         Worksheet worksheet = workbook.Worksheets[0];
-
-         //2.填資料
-         bool result = false;
-         int ii_ole_row = 1;
-         result = wf_Export(workbook , worksheet);  //function 30591
-
-         if (!result) {
-            try {
-               workbook = null;
-               System.IO.File.Delete(destinationFilePath);
-            } catch (Exception) {
-               //
+            string tempMarketCode;
+            //RadioButton (rbMarket0 = 一般 / rbMarket1 = 盤後 / rbMarketAll = 全部)
+            if (gbMarket.EditValue.ToString() == "rbMarket0") {
+               tempMarketCode = "一般";
+            } else if (gbMarket.EditValue.ToString() == "rbMarket1") {
+               tempMarketCode = "盤後";
+            } else {
+               tempMarketCode = "全部";
             }
-            return ResultStatus.Fail;
+
+            //1.複製檔案 & 開啟檔案 (因檔案需因MarketCode更動，所以另外寫)
+            string originalFilePath = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH , _ProgramID + "." + FileType.XLS.ToString().ToLower());
+
+            string destinationFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH ,
+                _ProgramID + "_" + tempMarketCode + "_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss.") + FileType.XLS.ToString().ToLower());
+
+            File.Copy(originalFilePath , destinationFilePath , true);
+
+            Workbook workbook = new Workbook();
+            workbook.LoadDocument(destinationFilePath);
+            Worksheet worksheet = workbook.Worksheets[0];
+
+            //2.填資料
+            bool result = false;
+            result = wf_Export(workbook , worksheet);  //function 30591
+
+            if (!result) {
+               workbook = null;
+               File.Delete(destinationFilePath);
+               return ResultStatus.Fail;
+            }
+
+            //3.存檔
+            workbook.SaveDocument(destinationFilePath);
+            labMsg.Visible = false;
+
+            return ResultStatus.Success;
+         } catch (Exception ex) {
+            WriteLog(ex);
+         } finally {
+            panFilter.Enabled = true;
+            labMsg.Text = "";
+            labMsg.Visible = false;
+            this.Cursor = Cursors.Arrow;
          }
 
-         //3.存檔
-         workbook.SaveDocument(destinationFilePath);
-         lblProcessing.Visible = false;
-
-         return ResultStatus.Success;
-
+         return ResultStatus.Fail;
       }
 
       //function wf_30591
@@ -140,7 +170,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                                   StartYMD , EndYMD , ls_prod_type , ls_market_code);
             if (dt.Rows.Count <= 0) {
 
-               lblProcessing.Text = String.Format("{0}:yyyymm" , StartYMD) + "," + _ProgramID + '－' + _ProgramName + ",無任何資料!";
+               labMsg.Text = String.Format("{0}:yyyymm" , StartYMD) + "," + _ProgramID + '－' + _ProgramName + ",無任何資料!";
                MessageDisplay.Info(string.Format("{0:yyyymm},{1}–市場總成交量雙邊(A)無任何資料!" , StartYMD , this.Text));
                return false;
             }
@@ -238,12 +268,20 @@ namespace PhoenixCI.FormUI.Prefix3 {
             #endregion
 
             return true;
-         } catch (Exception ex) { //失敗寫LOG
-            PbFunc.f_write_logf(_ProgramID , "error" , ex.Message);
-            lblProcessing.Visible = false;
+         } catch (Exception ex) {
+            WriteLog(ex, "error");
+            labMsg.Visible = false;
             return false;
          }
       }
 
+      /// <summary>
+      /// set checkbox list focus background color
+      /// </summary>
+      /// <param name="sender"></param>
+      /// <param name="e"></param>
+      private void chkGroup_DrawItem(object sender , ListBoxDrawItemEventArgs e) {
+         e.AllowDrawSkinBackground = false;
+      }
    }
 }

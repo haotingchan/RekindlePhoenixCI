@@ -65,7 +65,7 @@
          // 
          // panParent
          // 
-         this.panParent.Size = new System.Drawing.Size(939, 586);
+         this.panParent.Size = new System.Drawing.Size(939, 624);
          // 
          // ribbonControl
          // 
@@ -210,7 +210,7 @@
          this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
          this.panel2.Location = new System.Drawing.Point(0, 125);
          this.panel2.Name = "panel2";
-         this.panel2.Size = new System.Drawing.Size(939, 491);
+         this.panel2.Size = new System.Drawing.Size(939, 529);
          this.panel2.TabIndex = 3;
          // 
          // gcMain
@@ -220,7 +220,7 @@
          this.gcMain.Name = "gcMain";
          this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemDateEdit1});
-         this.gcMain.Size = new System.Drawing.Size(939, 491);
+         this.gcMain.Size = new System.Drawing.Size(939, 529);
          this.gcMain.TabIndex = 1;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -378,7 +378,7 @@
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(939, 616);
+         this.ClientSize = new System.Drawing.Size(939, 654);
          this.Controls.Add(this.panel2);
          this.Controls.Add(this.panel1);
          this.Name = "W40080";
