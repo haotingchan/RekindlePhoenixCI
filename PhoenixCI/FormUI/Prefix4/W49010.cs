@@ -151,7 +151,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
 
             DialogResult liRtn;
+            int pos = -1;
             foreach (DataRow dr in dtChange.Rows) {
+               pos ++;
                if (dr.RowState == DataRowState.Added || dr.RowState == DataRowState.Modified) {
                   dr["CPR_W_TIME"] = DateTime.Now;
                   dr["CPR_W_USER_ID"] = GlobalInfo.USER_ID;
@@ -167,13 +169,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         dr["CPR_PRICE_RISK_RATE"] = DBNull.Value;
                      }
                   }
+
+                  gvMain.SetRowCellValue(pos , "CPR_W_TIME" , DateTime.Now);
+                  gvMain.SetRowCellValue(pos , "CPR_W_USER_ID" , GlobalInfo.USER_ID);
+                  gvMain.UpdateCurrentRow();
+
                }
             } //foreach (DataRow dr in dtCurrent.Rows)
             //dtChange = dtChange.GetChanges();
-
-            gvMain.SetRowCellValue(gvMain.FocusedRowHandle , "CPR_W_TIME" , DateTime.Now);
-            gvMain.SetRowCellValue(gvMain.FocusedRowHandle , "CPR_W_USER_ID" , GlobalInfo.USER_ID);
-            gvMain.UpdateCurrentRow();
 
             //GridHelper.SetCommonGrid(gvMain);
             //gvMain.BestFitColumns();
