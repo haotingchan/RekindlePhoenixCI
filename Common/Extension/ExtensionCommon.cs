@@ -319,7 +319,12 @@ namespace Common {
       /// <param name="date"></param>
       /// <returns></returns>
       public static int GetQuarter(this DateTime date) {
-         return (date.Month - 1) / 3 + 1;
+
+         if ((date.Month % 3) > 0) {
+            return (date.Month / 3) + 1;
+         } else {
+            return date.Month / 3;
+         }
       }
    }
 }

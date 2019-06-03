@@ -70,15 +70,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
 #endif
       }
 
-      protected override ResultStatus AfterOpen() {
-
-#if RELEASE
-         MessageDisplay.Info("施工中 !!");
-         this.Close();
-#endif
-         return ResultStatus.Success;
-      }
-
       protected override ResultStatus Export() {
          ExportShow.Text = "轉檔中...";
          ExportShow.Show();
@@ -1086,7 +1077,18 @@ namespace PhoenixCI.FormUI.Prefix4 {
                }
                #endregion
 
-
+               #region ifd 
+               if (Dt.Select("ADJ_TYPE = 0").Count() > 0 && Dt.Select("ADJ_TYPE = 3").Count() > 0) {
+                  fileName = $"{ProgramId}_0_3";
+                  Gen03BIfd(fileName);
+               } else if (Dt.Select("ADJ_TYPE = 0").Count() > 0) {
+                  fileName = $"{ProgramId}_0";
+                  Gen0BIfd(fileName);
+               } else if (Dt.Select("ADJ_TYPE = 3").Count() > 0) {
+                  fileName = $"{ProgramId}_3";
+                  Gen3BIfd(fileName);
+               }
+               #endregion
 
                #region Excel rtf
                //保證金
@@ -1342,6 +1344,188 @@ namespace PhoenixCI.FormUI.Prefix4 {
             Doc.Save(FilePath);
          }
 
+         protected virtual void Gen0BIfd(string fileName) {
+
+            FilePath = PbFunc.wf_copy_file(ProgramId, fileName);
+
+            OpenFileAndSetYear();
+
+            KindNameList.Clear();
+            KindNameList_Desc.Clear();
+
+            string prepoStr = Dt.AsEnumerable().Any(d => d.Field<string>("prod_type") == "F") ? "期貨契約保證金及" : "";
+            List<string> grpList = new List<string>();
+
+            //說明文
+            foreach (DataRow dr in Dt.Rows) {
+               string abbrName = dr["KIND_ABBR_NAME"].AsString();
+               string fullName = $"本公司{dr["rule_full_name"].AsString()}交易規則";
+
+               GenKindNameList(dr, prepoStr, abbrName, fullName);
+
+               string grp = "";
+               string prodSubType = dr["prod_subtype"].AsString();
+               string ymd = dr["data_ymd"].AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
+
+               if (prodSubType == "S") {
+                  switch (dr["param_key"].AsString()) {
+                     case "STF": {
+                        grp = "「股票期貨保證金適用比例狀況表-標的證券為股票(" + ymd + ")」";
+                        break;
+                     }
+                     case "STC": {
+                        grp = "「股票選擇權保證金適用比例狀況表-標的證券為股票(" + ymd + ")」";
+                        break;
+                     }
+                     case "ETF": {
+                        grp = "「股票期貨契約保證金狀況表-標的證券為受益憑證(" + ymd + ")」";
+                        break;
+                     }
+                     case "ETC": {
+                        grp = "「股票選擇權契約保證金狀況表-標的證券為受益憑證(" + ymd + ")」";
+                        break;
+                     }
+                  }
+               }//if (prodSubType == "S")
+               else {
+                  string marketTime = Dao.GetMarketTime(dr["osw_grp"].AsString());
+                  grp = string.Format("「下午{0}時{1}分收盤", marketTime.Split(':')[0].AsString(), marketTime.Split(':')[1].AsString());
+
+                  grp += dr["prod_type"].AsString() == "F" ? "之期貨契約保證金狀況表(" + ymd + ")」" :
+                                                               "之選擇權契約保證金狀況表(" + ymd + ")」";
+               }
+
+               if (!grpList.Exists(g => g == grp)) grpList.Add(grp);
+            }
+
+            grpList.Add("「保證金調整審核會議紀錄」");
+            grpList.Add("「保證金調整影響說明」");
+
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("主旨")[0].ChildNodes[0], "#kind_name_list#", GenArrayTxt(KindNameList));
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[0], "#full_name_llist#", GenArrayTxt(KindNameList_Desc));
+
+            string issueBeginDate = Dt.Rows[0]["issue_begin_ymd"].AsString();
+            issueBeginDate = issueBeginDate.AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[1], "#issue_begin_ymd#", issueBeginDate);
+
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[2], "#osw_grp_list#", GenArrayTxt(grpList));
+
+            Doc.Save(FilePath);
+         }
+
+         protected virtual void Gen3BIfd(string fileName) {
+
+            FilePath = PbFunc.wf_copy_file(ProgramId, fileName);
+
+            OpenFileAndSetYear();
+
+            string prepoStr = Dt.AsEnumerable().Any(d => d.Field<string>("prod_type") == "F") ? "期貨契約保證金及" : "";
+
+            KindNameList.Clear();
+            KindNameList_Desc.Clear();
+
+            //說明文
+            foreach (DataRow dr in Dt.Rows) {
+               string abbrName = dr["KIND_ABBR_NAME"].AsString();
+               string fullName = $"{dr["rule_full_name"].AsString()}交易規則";
+
+               GenKindNameList(dr, prepoStr, abbrName, fullName);
+            }
+
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("主旨")[0].ChildNodes[0], "#kind_name_list#", GenArrayTxt(KindNameList));
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[0], "#full_name_llist#", GenArrayTxt(KindNameList_Desc));
+
+            string issueBeginDate = Dt.Rows[0]["issue_begin_ymd"].AsString();
+            issueBeginDate = issueBeginDate.AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[1], "#issue_begin_ymd#", issueBeginDate);
+
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[2], "#year#", TxtDate.AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}", 3));
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[2], "#quarterly#", TxtDate.AsDateTime("yyyyMMdd").GetQuarter().ToString());
+
+            Doc.Save(FilePath);
+         }
+
+         protected virtual void Gen03BIfd(string fileName) {
+
+            FilePath = PbFunc.wf_copy_file(ProgramId, fileName);
+
+            OpenFileAndSetYear();
+
+            KindNameList.Clear();
+            KindNameList_Desc.Clear();
+
+            string prepoStr = Dt.AsEnumerable().Any(d => d.Field<string>("prod_type") == "F") ? "期貨契約保證金及" : "";
+            List<string> grpList = new List<string>();
+
+            //說明文
+            foreach (DataRow dr in Dt.Rows) {
+               string abbrName = dr["KIND_ABBR_NAME"].AsString();
+               string fullName = $"本公司{dr["rule_full_name"].AsString()}交易規則";
+
+               GenKindNameList(dr, prepoStr, abbrName, fullName);
+
+               string grp = "";
+               string prodSubType = dr["prod_subtype"].AsString();
+               string taiYmd = dr["data_ymd"].AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
+               string ymd = dr["data_ymd"].AsString();
+
+               //一般
+               if (dr["adj_type"].AsString() == "0") {
+                  if (prodSubType == "S") {
+                     switch (dr["param_key"].AsString()) {
+                        case "STF": {
+                           grp = "「股票期貨保證金適用比例狀況表-標的證券為股票(" + taiYmd + ")」";
+                           break;
+                        }
+                        case "STC": {
+                           grp = "「股票選擇權保證金適用比例狀況表-標的證券為股票(" + taiYmd + ")」";
+                           break;
+                        }
+                        case "ETF": {
+                           grp = "「股票期貨契約保證金狀況表-標的證券為受益憑證(" + taiYmd + ")」";
+                           break;
+                        }
+                        case "ETC": {
+                           grp = "「股票選擇權契約保證金狀況表-標的證券為受益憑證(" + taiYmd + ")」";
+                           break;
+                        }
+                     }
+                  }//if (prodSubType == "S")
+                  else {
+                     string marketTime = Dao.GetMarketTime(dr["osw_grp"].AsString());
+                     grp = string.Format("「下午{0}時{1}分收盤", marketTime.Split(':')[0].AsString(), marketTime.Split(':')[1].AsString());
+
+                     grp += dr["prod_type"].AsString() == "F" ? "之期貨契約保證金狀況表(" + taiYmd + ")」" :
+                                                                  "之選擇權契約保證金狀況表(" + taiYmd + ")」";
+                  }
+               }//if (dr["adj_subtype"].AsString() == "0")
+               //股票
+               else {
+                  grp = "{0}年第{1}季股票期貨保證金適用風險價格係數估算結果說明";
+                  grp = string.Format(grp, ymd.AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}", 3), ymd.AsDateTime("yyyyMMdd").GetQuarter().ToString());
+               }
+
+               if (!grpList.Exists(g => g == grp)) grpList.Add(grp);
+            }
+
+            grpList.Add("「保證金調整審核會議紀錄」");
+            grpList.Add("「保證金調整影響說明」");
+
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("主旨")[0].ChildNodes[0], "#kind_name_list#", GenArrayTxt(KindNameList));
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[0], "#full_name_llist#", GenArrayTxt(KindNameList_Desc));
+
+            string issueBeginDate = Dt.Rows[0]["issue_begin_ymd"].AsString();
+            issueBeginDate = issueBeginDate.AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[1], "#issue_begin_ymd#", issueBeginDate);
+
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[2], "#osw_grp_list#", GenArrayTxt(grpList));
+
+            Doc.Save(FilePath);
+         }
+
+         /// <summary>
+         /// 組0B說明文
+         /// </summary>
          protected virtual string Element0BRfa(int i) {
             string re = "";
 
@@ -1393,6 +1577,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return re;
          }
 
+         /// <summary>
+         /// 組3B 說明文
+         /// </summary>
+         /// <param name="i">1 季評估 2 機動評估</param>
+         /// <param name="drs"></param>
+         /// <returns></returns>
          protected virtual string Element3BRfa(int i, List<DataRow> drs) {
             string re = "";
             List<string> kindRsn = new List<string>();
