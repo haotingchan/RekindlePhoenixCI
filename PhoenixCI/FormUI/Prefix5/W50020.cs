@@ -17,9 +17,14 @@ using DevExpress.XtraEditors.Controls;
 using System.Threading;
 using DevExpress.XtraPrinting;
 using static BaseGround.Report.ReportHelper;
-
+/// <summary>
+/// John,20190503,市場詢價資料
+/// </summary>
 namespace PhoenixCI.FormUI.Prefix5
 {
+   /// <summary>
+   /// 市場詢價資料
+   /// </summary>
    public partial class W50020 : FormParent
    {
       private defReport _defReport;
@@ -625,7 +630,7 @@ namespace PhoenixCI.FormUI.Prefix5
          *******************/
          //GlobalInfo.OCF_DATE = serviceCommon.GetOCF().OCF_DATE;
          emEndDate.EditValue = GlobalInfo.OCF_DATE;
-         emStartDate.EditValue = (emEndDate.Text.Substring(0, 5) + "01").AsDateTime();
+         emStartDate.EditValue = new DateTime(GlobalInfo.OCF_DATE.Year, GlobalInfo.OCF_DATE.Month, 01);
          emStartYM.EditValue = GlobalInfo.OCF_DATE;
          emEndYM.EditValue = GlobalInfo.OCF_DATE;
          /* 造市者代號 */
@@ -685,7 +690,7 @@ namespace PhoenixCI.FormUI.Prefix5
          if (!StartRetrieve()) return ResultStatus.Fail;
 
          if (!GetData()) return ResultStatus.Fail;
-         
+
          List<ReportProp> caption = new List<ReportProp>{
             new ReportProp{DataColumn="AMM0_YMD",Caption= "日期" ,CellWidth=gbDetial.EditValue.Equals("rb_gnodate")?130:65,DetailRowFontSize=9,HeaderFontSize=11},
             new ReportProp{DataColumn="AMM0_BRK_NO",Caption= "期貨商        代號",CellWidth=70,DetailRowFontSize=10,HeaderFontSize=11},
@@ -697,13 +702,13 @@ namespace PhoenixCI.FormUI.Prefix5
 
          //商品名稱會根據列印順序有所不同
          ReportProp productName = new ReportProp { DataColumn = "AMM0_PROD_ID", Caption = "商品名稱", CellWidth = 120, DetailRowFontSize = 11, HeaderFontSize = 11 };
-         if (_D500Xx.SortType=="P") {
+         if (_D500Xx.SortType == "P") {
             caption.Insert(1, productName);//選擇商品，商品名稱會位於第二欄
          }
          else {
             caption.Insert(3, productName);//選擇造勢者，商品名稱會位於第四欄
          }
-         
+
          _defReport = new defReport(_Data, caption);
          documentViewer1.DocumentSource = _defReport;
          _defReport.CreateDocument(true);
