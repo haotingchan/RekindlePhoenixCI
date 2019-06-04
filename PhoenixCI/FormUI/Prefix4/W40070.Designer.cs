@@ -106,12 +106,12 @@
             // 
             // panParent
             // 
-            this.panParent.Size = new System.Drawing.Size(1393, 822);
+            this.panParent.Size = new System.Drawing.Size(1393, 809);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(1393, 30);
+            this.ribbonControl.Size = new System.Drawing.Size(1393, 43);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // panel1
@@ -130,7 +130,7 @@
             this.panel1.Controls.Add(this.lblDate);
             this.panel1.Controls.Add(this.txtSDate);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 30);
+            this.panel1.Location = new System.Drawing.Point(0, 43);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1393, 110);
             this.panel1.TabIndex = 0;
@@ -152,7 +152,7 @@
             this.ddlAdjust.Name = "ddlAdjust";
             this.ddlAdjust.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.ddlAdjust.Size = new System.Drawing.Size(159, 26);
+            this.ddlAdjust.Size = new System.Drawing.Size(159, 38);
             this.ddlAdjust.TabIndex = 0;
             this.ddlAdjust.EditValueChanged += new System.EventHandler(this.ddlAdjust_EditValueChanged);
             // 
@@ -175,7 +175,7 @@
             this.cbxCodeY.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbxCodeY.Location = new System.Drawing.Point(171, 28);
             this.cbxCodeY.Name = "cbxCodeY";
-            this.cbxCodeY.Size = new System.Drawing.Size(60, 24);
+            this.cbxCodeY.Size = new System.Drawing.Size(87, 34);
             this.cbxCodeY.TabIndex = 14;
             this.cbxCodeY.Text = "調整";
             this.cbxCodeY.UseVisualStyleBackColor = true;
@@ -188,7 +188,7 @@
             this.cbxCode.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbxCode.Location = new System.Drawing.Point(105, 28);
             this.cbxCode.Name = "cbxCode";
-            this.cbxCode.Size = new System.Drawing.Size(60, 24);
+            this.cbxCode.Size = new System.Drawing.Size(87, 34);
             this.cbxCode.TabIndex = 1;
             this.cbxCode.Text = "觀察";
             this.cbxCode.UseVisualStyleBackColor = true;
@@ -201,7 +201,7 @@
             this.cbxCodeN.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbxCodeN.Location = new System.Drawing.Point(23, 29);
             this.cbxCodeN.Name = "cbxCodeN";
-            this.cbxCodeN.Size = new System.Drawing.Size(76, 24);
+            this.cbxCodeN.Size = new System.Drawing.Size(111, 34);
             this.cbxCodeN.TabIndex = 0;
             this.cbxCodeN.Text = "不處理";
             this.cbxCodeN.UseVisualStyleBackColor = true;
@@ -214,7 +214,7 @@
             this.ddlModel.Name = "ddlModel";
             this.ddlModel.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.ddlModel.Size = new System.Drawing.Size(160, 26);
+            this.ddlModel.Size = new System.Drawing.Size(160, 38);
             this.ddlModel.TabIndex = 12;
             this.ddlModel.EditValueChanging += new DevExpress.XtraEditors.Controls.ChangingEventHandler(this.ddlModel_EditValueChanging);
             // 
@@ -225,7 +225,7 @@
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label4.Location = new System.Drawing.Point(463, 12);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(105, 20);
+            this.label4.Size = new System.Drawing.Size(157, 30);
             this.label4.TabIndex = 11;
             this.label4.Text = "調整商品條件";
             // 
@@ -236,7 +236,7 @@
             this.lblG3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.lblG3.Location = new System.Drawing.Point(212, 77);
             this.lblG3.Name = "lblG3";
-            this.lblG3.Size = new System.Drawing.Size(130, 20);
+            this.lblG3.Size = new System.Drawing.Size(195, 30);
             this.lblG3.TabIndex = 10;
             this.lblG3.Text = "Group3生效日期";
             // 
@@ -256,7 +256,7 @@
             this.txtDateG7.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtDateG7.Properties.Mask.ShowPlaceHolders = false;
             this.txtDateG7.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtDateG7.Size = new System.Drawing.Size(100, 26);
+            this.txtDateG7.Size = new System.Drawing.Size(100, 38);
             this.txtDateG7.TabIndex = 9;
             this.txtDateG7.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -267,7 +267,7 @@
             this.lblG2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.lblG2.Location = new System.Drawing.Point(212, 44);
             this.lblG2.Name = "lblG2";
-            this.lblG2.Size = new System.Drawing.Size(130, 20);
+            this.lblG2.Size = new System.Drawing.Size(195, 30);
             this.lblG2.TabIndex = 8;
             this.lblG2.Text = "Group2生效日期";
             // 
@@ -287,7 +287,7 @@
             this.txtDateG5.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtDateG5.Properties.Mask.ShowPlaceHolders = false;
             this.txtDateG5.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtDateG5.Size = new System.Drawing.Size(100, 26);
+            this.txtDateG5.Size = new System.Drawing.Size(100, 38);
             this.txtDateG5.TabIndex = 7;
             this.txtDateG5.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -298,7 +298,7 @@
             this.lblG1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.lblG1.Location = new System.Drawing.Point(212, 12);
             this.lblG1.Name = "lblG1";
-            this.lblG1.Size = new System.Drawing.Size(130, 20);
+            this.lblG1.Size = new System.Drawing.Size(195, 30);
             this.lblG1.TabIndex = 6;
             this.lblG1.Text = "Group1生效日期";
             // 
@@ -318,7 +318,7 @@
             this.txtDateG1.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtDateG1.Properties.Mask.ShowPlaceHolders = false;
             this.txtDateG1.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtDateG1.Size = new System.Drawing.Size(100, 26);
+            this.txtDateG1.Size = new System.Drawing.Size(100, 38);
             this.txtDateG1.TabIndex = 5;
             this.txtDateG1.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -329,7 +329,7 @@
             this.lblDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.lblDate.Location = new System.Drawing.Point(15, 12);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(73, 20);
+            this.lblDate.Size = new System.Drawing.Size(109, 30);
             this.lblDate.TabIndex = 4;
             this.lblDate.Text = "交易日期";
             // 
@@ -349,7 +349,7 @@
             this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtSDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtSDate.Size = new System.Drawing.Size(100, 26);
+            this.txtSDate.Size = new System.Drawing.Size(100, 38);
             this.txtSDate.TabIndex = 3;
             this.txtSDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -358,9 +358,9 @@
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
             this.panel2.Controls.Add(this.gcMain);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 140);
+            this.panel2.Location = new System.Drawing.Point(0, 153);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1393, 712);
+            this.panel2.Size = new System.Drawing.Size(1393, 699);
             this.panel2.TabIndex = 3;
             // 
             // gcMain
@@ -375,7 +375,7 @@
             this.repositoryItemTextDateEdit1,
             this.repositoryItemTextEdit1,
             this.repositoryItemTextEdit2});
-            this.gcMain.Size = new System.Drawing.Size(1393, 712);
+            this.gcMain.Size = new System.Drawing.Size(1393, 699);
             this.gcMain.TabIndex = 1;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -440,6 +440,7 @@
             this.gvMain.OptionsPrint.PrintHeader = false;
             this.gvMain.OptionsView.ShowColumnHeaders = false;
             this.gvMain.OptionsView.ShowGroupPanel = false;
+            this.gvMain.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gvMain_ShowingEditor);
             this.gvMain.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gvMain_CellValueChanged);
             // 
             // gridBand11
@@ -731,6 +732,7 @@
             this.ISSUE_BEGIN_YMD.ColumnEdit = this.repositoryItemTextEdit2;
             this.ISSUE_BEGIN_YMD.FieldName = "ISSUE_BEGIN_YMD";
             this.ISSUE_BEGIN_YMD.Name = "ISSUE_BEGIN_YMD";
+            this.ISSUE_BEGIN_YMD.OptionsColumn.AllowEdit = false;
             this.ISSUE_BEGIN_YMD.Visible = true;
             this.ISSUE_BEGIN_YMD.Width = 119;
             // 
@@ -877,7 +879,7 @@
             // W40070
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1393, 852);
             this.Controls.Add(this.panel2);

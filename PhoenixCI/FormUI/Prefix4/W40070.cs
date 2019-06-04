@@ -168,6 +168,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 }
                 //排序
                 dt40070 = dt40070.Sort("OSW_GRP, SEQ_NO, PROD_TYPE, KIND_ID");
+                //複製
+                //dw_1.RowsCopy(1, dw_1.rowcount(), primary!, ids_tmp, 1, primary!)
+                dtTemp = dt40070.Copy();
                 //過濾
                 DataView dv = dt40070.AsDataView();
                 dv.RowFilter = " ab_type in ('-','A')";
@@ -177,10 +180,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 gcMain.Refresh();
                 //預設展開群組
                 gvMain.ExpandAllGroups();
-
-                //複製
-                //dw_1.RowsCopy(1, dw_1.rowcount(), primary!, ids_tmp, 1, primary!)
-                dtTemp = dtFiltered.Copy();
 
                 //設定三個Group的生效日期
                 string validDateG1, validDateG5, validDateG7;
@@ -438,7 +437,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                         //type 有AB值分兩筆存
                         if (dr["AB_TYPE"].AsString() == "A") {
-                            dtEmpty.Rows.InsertAt(dtEmpty.Rows[found], found - 1);
+                            //DataRow drA = dtEmpty.Rows[found];
+                            //dtEmpty.Rows.InsertAt(drA, found - 1);
+                            dtEmpty.ImportRow(dtEmpty.Rows[found]);
                             found2 = dtTemp.Rows.IndexOf(dtTemp.Select("kind_id = '" + kindID + "' and ab_type = 'B'").FirstOrDefault());
                             if (found2 < 0) {
                                 MessageDisplay.Error(kindID + "無保證金B值資料!");
@@ -497,6 +498,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         return ResultStatus.Fail;
                     }
                 }
+
+                ReportHelper _ReportHelper = new ReportHelper(gcMain, _ProgramID, this.Text);
+                _ReportHelper.Export(FileType.PDF, _ReportHelper.FilePath);
             }
             catch (Exception ex) {
 
@@ -642,6 +646,17 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     gv.SetRowCellValue(ll_found, "USER_CM", dao40070.GetMarginVal("MXF", e.Value.AsInt(), 0, "MTX_CM"));
                 }
             }
+        }
+
+        /// <summary>
+        /// MXF不能單獨編輯，要和TXF連動
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void gvMain_ShowingEditor(object sender, CancelEventArgs e) {
+            GridView gv = sender as GridView;
+            string kindID = gv.GetRowCellValue(gv.FocusedRowHandle, "KIND_ID").AsString();
+            if (kindID == "MXF") e.Cancel = true;
         }
         #endregion
 
