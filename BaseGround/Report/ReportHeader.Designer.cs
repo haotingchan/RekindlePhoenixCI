@@ -93,11 +93,11 @@
          // xrPageInfo
          // 
          this.xrPageInfo.Font = new System.Drawing.Font("標楷體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.xrPageInfo.LocationFloat = new DevExpress.Utils.PointFloat(674.5F, 98.8334F);
+         this.xrPageInfo.LocationFloat = new DevExpress.Utils.PointFloat(642.2084F, 98.8334F);
          this.xrPageInfo.Name = "xrPageInfo";
          this.xrPageInfo.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.xrPageInfo.RightToLeft = DevExpress.XtraReports.UI.RightToLeft.Yes;
-         this.xrPageInfo.SizeF = new System.Drawing.SizeF(112.4998F, 23F);
+         this.xrPageInfo.SizeF = new System.Drawing.SizeF(144.7914F, 23F);
          this.xrPageInfo.StylePriority.UseFont = false;
          this.xrPageInfo.StylePriority.UseTextAlignment = false;
          this.xrPageInfo.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;

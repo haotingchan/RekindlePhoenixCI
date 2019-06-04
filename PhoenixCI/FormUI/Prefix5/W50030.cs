@@ -16,18 +16,46 @@ using DevExpress.XtraReports.UI;
 using PhoenixCI.Report;
 using DevExpress.XtraPrinting;
 using DevExpress.Spreadsheet;
-
+/// <summary>
+/// John,20190503,造市者造市概況統計表
+/// </summary>
 namespace PhoenixCI.FormUI.Prefix5
 {
+   /// <summary>
+   /// 造市者造市概況統計表
+   /// </summary>
    public partial class W50030 : FormParent
    {
       public D500xx _D500Xx { get; set; }
       private DataTable _Data { get; set; }
       private ABRK daoABRK;
       private APDK daoAPDK;
-      private DataTable ProdCtFilterS;
+      /// <summary>
+      /// 商品群組 dw_prod_ct setfilter("market_code in ('1',' ')")
+      /// </summary>
+      private DataTable ProdCtCodeFilter;
+      /// <summary>
+      /// 商品群組 dw_prod_ct
+      /// </summary>
       private DataTable ProdCtData;
+      /// <summary>
+      /// 造市商品 dw_prod_kd
+      /// </summary>
+      private DataTable ProdKdData;
+      /// <summary>
+      /// 造市商品 dw_prod_kd setfilter("market_code in ('1',' ')")
+      /// </summary>
+      private DataTable ProdKdDataFilter;
+      /// <summary>
+      /// 2碼商品 dw_prod_kd_sto
+      /// </summary>
+      private DataTable ProdKdStoData;
+      /// <summary>
+      /// 2碼商品 dw_prod_kd_sto setfilter("market_code in ('1',' ')")  
+      /// </summary>
+      private DataTable ProdKdStoDataFilter;
       private XtraReport _defReport;
+      private XtraReport _Report;
       private RW50030 _RW50030;
       private D50030 dao50030;
 
@@ -429,19 +457,24 @@ namespace PhoenixCI.FormUI.Prefix5
       protected bool GetData()
       {
          /* 報表內容 */
+         _Data = null;
          //報表內容選擇分日期
          if (gbDetial.EditValue.Equals("rb_gdate")) {
-            _Data = dao50030.List50030(_D500Xx);
             //交易時段選盤後
             if (gbMarket.EditValue.Equals("rb_market_1")) {
                _Data = dao50030.ListAH(_D500Xx);
             }
+            else {
+               _Data = dao50030.List50030(_D500Xx);
+            }
          }
          else {
-            _Data = dao50030.ListACCU(_D500Xx);
             //交易時段選盤後
             if (gbMarket.EditValue.Equals("rb_market_1")) {
                _Data = dao50030.ListACCUAH(_D500Xx);
+            }
+            else {
+               _Data = dao50030.ListACCU(_D500Xx);
             }
          }
          if (_Data.Rows.Count <= 0) {
@@ -457,12 +490,10 @@ namespace PhoenixCI.FormUI.Prefix5
          DevExpress.XtraEditors.RadioGroup rb = sender as DevExpress.XtraEditors.RadioGroup;
          if (rb == null) return;
          _D500Xx.GbGroup = rb.EditValue.ToString();
+         DataTable dt = gbMarket.EditValue.Equals("rb_market_0") ? ProdCtData : ProdCtCodeFilter;
+         dwProdCt.Properties.DataSource = dt;
 
-         if (!rb.EditValue.Equals("rb_s")) {
-            dwProdCt.Properties.DataSource = ProdCtData;
-         }
-
-         switch (rb.EditValue.ToString()) {
+         switch (_D500Xx.GbGroup) {
             case "rb_gall":
                dwProdCt.Enabled = false;
                stProdCt.Enabled = false;
@@ -486,7 +517,13 @@ namespace PhoenixCI.FormUI.Prefix5
             case "rb_s":
                //統計依照"股票各類群組"時僅開放"商品群組"選單，且選單內容僅提供APDK_PROD_SUBTYPE='S'的商品
                dwProdCt.SelectedText = "";
-               dwProdCt.Properties.DataSource = ProdCtFilterS;
+               DataTable dtFilter = dt.Filter("APDK_PROD_SUBTYPE='S'");
+               dwProdCt.Properties.DataSource = dtFilter;
+               if (dtFilter.Rows.Count <= 0) {
+                  dtFilter.Rows.Add();
+                  dwProdCt.Properties.DataSource = dtFilter;
+               }
+
                dwProdCt.Enabled = true;
                stProdCt.Enabled = true;
 
@@ -529,6 +566,46 @@ namespace PhoenixCI.FormUI.Prefix5
             default:
                break;
          }
+
+      }
+
+      private void gbMarket_EditValueChanged(object sender, EventArgs e)
+      {
+         DevExpress.XtraEditors.RadioGroup rb = sender as DevExpress.XtraEditors.RadioGroup;
+         if (rb == null) return;
+         switch (rb.EditValue.ToString()) {
+            case "rb_market_0":
+               //商品群組
+               dwProdCt.SelectedText = "";
+               dwProdCt.Properties.DataSource = _D500Xx.GbGroup == "rb_s" ? ProdCtData.Filter("APDK_PROD_SUBTYPE='S'") : ProdCtData;//統計依照"股票各類群組"時僅開放"商品群組"選單，且選單內容僅提供APDK_PROD_SUBTYPE='S'的商品
+               //2碼商品
+               dwProdKdSto.SelectedText = "";
+               dwProdKdSto.Properties.DataSource = ProdKdStoData;
+               //造市商品
+               dwProdKd.SelectedText = "";
+               dwProdKd.Properties.DataSource = ProdKdData;
+               break;
+            case "rb_market_1":
+               //商品群組
+               dwProdCt.SelectedText = "";
+               dwProdCt.Properties.DataSource = _D500Xx.GbGroup == "rb_s" ? ProdCtCodeFilter.Filter("APDK_PROD_SUBTYPE='S'") : ProdCtCodeFilter;//統計依照"股票各類群組"時僅開放"商品群組"選單，且選單內容僅提供APDK_PROD_SUBTYPE='S'的商品
+               //2碼商品
+               dwProdKdSto.SelectedText = "";
+               dwProdKdSto.Properties.DataSource = ProdKdStoDataFilter;
+               //造市商品
+               dwProdKd.SelectedText = "";
+               dwProdKd.Properties.DataSource = ProdKdDataFilter;
+               break;
+            default:
+               break;
+         }
+
+         DataTable dt = (DataTable)dwProdCt.Properties.DataSource;
+         if (dt.Rows.Count <= 0) {
+            dt.Rows.Add();
+            dwProdCt.Properties.DataSource = dt;
+         }
+
       }
 
       public override ResultStatus BeforeOpen()
@@ -547,7 +624,7 @@ namespace PhoenixCI.FormUI.Prefix5
          *******************/
          //GlobalInfo.OCF_DATE = serviceCommon.GetOCF().OCF_DATE;
          emEndDate.EditValue = GlobalInfo.OCF_DATE;
-         emStartDate.EditValue = (emEndDate.Text.Substring(0, 5) + "01").AsDateTime();
+         emStartDate.EditValue = new DateTime(GlobalInfo.OCF_DATE.Year, GlobalInfo.OCF_DATE.Month, 01);
          emStartYM.EditValue = GlobalInfo.OCF_DATE;
          emEndYM.EditValue = GlobalInfo.OCF_DATE;
          /* 造市者代號 */
@@ -555,18 +632,27 @@ namespace PhoenixCI.FormUI.Prefix5
          dwSbrkno.SetDataTable(daoABRK.ListAll2(), "ABRK_NO", "CP_DISPLAY", TextEditStyles.Standard, null);
          //目的選項
          dwEbrkno.SetDataTable(daoABRK.ListAll2(), "ABRK_NO", "CP_DISPLAY", TextEditStyles.Standard, null);
+
+         string marketcodefilter = "MARKET_CODE in ('1',' ')";
          /* 商品群組 */
-         ProdCtData = daoAPDK.ListParamKey2();
+         ProdCtData = daoAPDK.ListParamKey();
          dwProdCt.SetDataTable(ProdCtData, "APDK_PARAM_KEY", "APDK_PARAM_KEY", TextEditStyles.Standard, null);
-         ProdCtFilterS = ProdCtData.Filter("APDK_PROD_SUBTYPE='S'");
+         ProdCtCodeFilter = ProdCtData.Filter(marketcodefilter);
          /* 造市商品 */
-         dwProdKd.SetDataTable(daoAPDK.ListAll3(), "PDK_KIND_ID", "PDK_KIND_ID", TextEditStyles.Standard, null);
+         ProdKdData = daoAPDK.ListAll3();
+         dwProdKd.SetDataTable(ProdKdData, "PDK_KIND_ID", "PDK_KIND_ID", TextEditStyles.Standard, null);
+         ProdKdDataFilter = ProdKdData.Filter(marketcodefilter);
          /* 2碼商品 */
-         dwProdKdSto.SetDataTable(daoAPDK.ListKind2(), "APDK_KIND_ID_STO", "APDK_KIND_ID_STO", TextEditStyles.Standard, null);
+         ProdKdStoData = daoAPDK.ListKind2();
+         dwProdKdSto.SetDataTable(ProdKdStoData, "APDK_KIND_ID_STO", "APDK_KIND_ID_STO", TextEditStyles.Standard, null);
+         ProdKdStoDataFilter = ProdKdStoData.Filter(marketcodefilter);
          //預設資料表
          _D500Xx.TableName = "AMM0";
+
          _D500Xx.GbGroup = gbGroup.EditValue.ToString();
+
          gbGroup.EditValueChanged += gbGroup_EditValueChanged;
+         gbMarket.EditValueChanged += gbMarket_EditValueChanged;
          return ResultStatus.Success;
       }
 
@@ -584,14 +670,58 @@ namespace PhoenixCI.FormUI.Prefix5
 
       protected override ResultStatus Retrieve()
       {
+         if (gbReportType.EditValue.Equals("rb_date")) {
+            string lsRtn = PbFunc.f_get_jsw_seq(_ProgramID, "E", 0, emEndDate.DateTimeValue, gbMarket.EditValue.Equals("rb_market_1") ? "1" : "0");
+            if (lsRtn != "") {
+               DialogResult ChooseResult = MessageDisplay.Choose(emEndDate.Text + " 統計資料未轉入完畢,是否要繼續?" + Environment.NewLine + lsRtn);
+               if (ChooseResult == DialogResult.No) {
+                  stMsgTxt.Visible = false;
+                  return ResultStatus.Fail;
+               }
+            }
+         }
+
          if (!StartRetrieve()) return ResultStatus.Fail;
 
          if (!GetData()) return ResultStatus.Fail;
 
+         if (gbDetial.EditValue.Equals("rb_gdate")) {
+            decimal TotR = 0, TotM = 0, llR = 0, llM = 0;
+            string lsProdId = "", lsYMD = "";
+            foreach (DataRow dr in _Data.Rows) {
+               if (lsProdId != dr["AMM0_PROD_ID"].AsString() || lsYMD != dr["AMM0_YMD"].AsString()) {
+                  llR = dr["AMM0_MARKET_R_CNT"].AsDecimal();
+                  llM = dr["AMM0_MARKET_M_QNTY"].AsDecimal();
+                  TotR = TotR + llR;
+                  TotM = TotM + llM;
+                  lsProdId = dr["AMM0_PROD_ID"].AsString();
+                  lsYMD = dr["AMM0_YMD"].AsString();
+               }
+               else {
+                  //當遇到造市者沒有足月時,造成總計不同
+                  //皆以最大值為全市場值
+                  if (llR < dr["AMM0_MARKET_R_CNT"].AsDecimal() || llM < dr["AMM0_MARKET_M_QNTY"].AsDecimal()) {
+                     TotR = TotR - llR;
+                     TotM = TotM - llM;
+                     llR = dr["AMM0_MARKET_R_CNT"].AsDecimal();
+                     llM = dr["AMM0_MARKET_M_QNTY"].AsDecimal();
+                     TotR = TotR + llR;
+                     TotM = TotM + llM;
+                  }
+               }
+            }//foreach (DataRow dr in dt.Rows) 
+            _Data.Rows[0]["TOT_R"] = TotR;
+            _Data.Rows[0]["TOT_M"] = TotM;
+         }
+
+         documentViewer1.DocumentSource = null;
+
          _RW50030 = new RW50030();
          _RW50030.DataSource = _Data;
          _RW50030.SetSortType(_D500Xx.SortType);
-         documentViewer1.DocumentSource = _RW50030;
+         _Report = _RW50030;
+
+         documentViewer1.DocumentSource = _Report;
          _RW50030.CreateDocument(true);
 
          _ToolBtnPrintAll.Enabled = true;
@@ -704,15 +834,13 @@ namespace PhoenixCI.FormUI.Prefix5
 
       protected override ResultStatus Print(ReportHelper reportHelper)
       {
-         CommonReportPortraitA4 reportPortraitA4 = new CommonReportPortraitA4();
-         _RW50030.SetSortType(_D500Xx.SortType);
-         XtraReport xtraReport = reportHelper.CreateCompositeReport(_RW50030, reportPortraitA4);
+         CommonReportLandscapeA4 reportLandscapeA4 = new CommonReportLandscapeA4();
+         XtraReport xtraReport = reportHelper.CreateCompositeReport(_Report, reportLandscapeA4);
          string dateCondition = DateText() == "" ? "" : "," + DateText();
          reportHelper.LeftMemo = ConditionText() + dateCondition;
          reportHelper.Create(xtraReport);
 
-         //reportHelper.Preview();
-         base.Print(reportHelper);
+         reportHelper.Print();
          return ResultStatus.Success;
       }
 
@@ -722,5 +850,6 @@ namespace PhoenixCI.FormUI.Prefix5
          documentViewer1.DocumentSource = null;
          return ResultStatus.Success;
       }
+
    }
 }

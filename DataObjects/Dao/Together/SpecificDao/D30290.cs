@@ -454,7 +454,7 @@ order by decode(PLP13_PROD_SUBTYPE,'S',3,decode(PLP13_FUT,'F',0,1)), PLP13_KIND_
             return true;
          }
          else {
-            throw new Exception("PLP13刪除失敗");
+            return false;
          }
       }
 

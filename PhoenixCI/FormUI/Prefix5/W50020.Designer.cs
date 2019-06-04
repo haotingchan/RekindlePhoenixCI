@@ -300,7 +300,7 @@
          this.gbGroup.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gall", "全部"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gparam", "商品群組"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_s", "股票各類群組"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_s", "股票類各群組"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gkind2", "商品(2碼)"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gkind", "商品(3碼)"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gprod", "序列")});

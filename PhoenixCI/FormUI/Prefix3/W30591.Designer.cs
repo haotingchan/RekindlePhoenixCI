@@ -23,59 +23,146 @@
       /// the contents of this method with the code editor.
       /// </summary>
       private void InitializeComponent() {
-         this.grpxDescription = new System.Windows.Forms.GroupBox();
-         this.txtEndYMD = new BaseGround.Widget.TextDateEdit();
-         this.txtStartYMD = new BaseGround.Widget.TextDateEdit();
-         this.label6 = new System.Windows.Forms.Label();
+         this.r_frame = new DevExpress.XtraEditors.PanelControl();
+         this.labMsg = new System.Windows.Forms.Label();
+         this.panFilter = new System.Windows.Forms.GroupBox();
          this.gbMarket = new DevExpress.XtraEditors.RadioGroup();
          this.gbContract = new DevExpress.XtraEditors.RadioGroup();
-         this.label3 = new System.Windows.Forms.Label();
-         this.labMarket = new System.Windows.Forms.Label();
-         this.label1 = new System.Windows.Forms.Label();
-         this.labAftDate = new System.Windows.Forms.Label();
+         this.label11 = new System.Windows.Forms.Label();
+         this.label10 = new System.Windows.Forms.Label();
+         this.txtEndYMD = new BaseGround.Widget.TextDateEdit();
+         this.txtStartYMD = new BaseGround.Widget.TextDateEdit();
+         this.label8 = new System.Windows.Forms.Label();
+         this.label9 = new System.Windows.Forms.Label();
          this.chkGroup = new DevExpress.XtraEditors.CheckedListBoxControl();
-         this.lblProcessing = new System.Windows.Forms.Label();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
-         this.grpxDescription.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.txtEndYMD.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtStartYMD.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
+         this.r_frame.SuspendLayout();
+         this.panFilter.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gbContract.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtEndYMD.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtStartYMD.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.chkGroup)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
          // 
-         this.panParent.Controls.Add(this.lblProcessing);
-         this.panParent.Controls.Add(this.grpxDescription);
-         this.panParent.Size = new System.Drawing.Size(836, 544);
+         this.panParent.Controls.Add(this.r_frame);
+         this.panParent.Size = new System.Drawing.Size(820, 480);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(836, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(820, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
-         // grpxDescription
+         // r_frame
          // 
-         this.grpxDescription.AutoSize = true;
-         this.grpxDescription.Controls.Add(this.txtEndYMD);
-         this.grpxDescription.Controls.Add(this.txtStartYMD);
-         this.grpxDescription.Controls.Add(this.label6);
-         this.grpxDescription.Controls.Add(this.gbMarket);
-         this.grpxDescription.Controls.Add(this.gbContract);
-         this.grpxDescription.Controls.Add(this.label3);
-         this.grpxDescription.Controls.Add(this.labMarket);
-         this.grpxDescription.Controls.Add(this.label1);
-         this.grpxDescription.Controls.Add(this.labAftDate);
-         this.grpxDescription.Controls.Add(this.chkGroup);
-         this.grpxDescription.Location = new System.Drawing.Point(15, 15);
-         this.grpxDescription.Name = "grpxDescription";
-         this.grpxDescription.Size = new System.Drawing.Size(792, 353);
-         this.grpxDescription.TabIndex = 7;
-         this.grpxDescription.TabStop = false;
-         this.grpxDescription.Text = "請輸入交易日期";
+         this.r_frame.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.r_frame.Appearance.Options.UseBackColor = true;
+         this.r_frame.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+         this.r_frame.Controls.Add(this.labMsg);
+         this.r_frame.Controls.Add(this.panFilter);
+         this.r_frame.Location = new System.Drawing.Point(30, 30);
+         this.r_frame.Name = "r_frame";
+         this.r_frame.Size = new System.Drawing.Size(770, 420);
+         this.r_frame.TabIndex = 82;
+         // 
+         // labMsg
+         // 
+         this.labMsg.AutoSize = true;
+         this.labMsg.ForeColor = System.Drawing.Color.Blue;
+         this.labMsg.Location = new System.Drawing.Point(15, 370);
+         this.labMsg.MaximumSize = new System.Drawing.Size(730, 120);
+         this.labMsg.Name = "labMsg";
+         this.labMsg.Size = new System.Drawing.Size(85, 20);
+         this.labMsg.TabIndex = 82;
+         this.labMsg.Text = "開始轉檔...";
+         this.labMsg.Visible = false;
+         // 
+         // panFilter
+         // 
+         this.panFilter.AutoSize = true;
+         this.panFilter.Controls.Add(this.gbMarket);
+         this.panFilter.Controls.Add(this.gbContract);
+         this.panFilter.Controls.Add(this.label11);
+         this.panFilter.Controls.Add(this.label10);
+         this.panFilter.Controls.Add(this.txtEndYMD);
+         this.panFilter.Controls.Add(this.txtStartYMD);
+         this.panFilter.Controls.Add(this.label8);
+         this.panFilter.Controls.Add(this.label9);
+         this.panFilter.Controls.Add(this.chkGroup);
+         this.panFilter.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
+         this.panFilter.ForeColor = System.Drawing.Color.Navy;
+         this.panFilter.Location = new System.Drawing.Point(20, 15);
+         this.panFilter.Name = "panFilter";
+         this.panFilter.Size = new System.Drawing.Size(730, 345);
+         this.panFilter.TabIndex = 6;
+         this.panFilter.TabStop = false;
+         this.panFilter.Text = "請輸入交易日期";
+         // 
+         // gbMarket
+         // 
+         this.gbMarket.EditValue = "rbMarketAll";
+         this.gbMarket.Location = new System.Drawing.Point(448, 37);
+         this.gbMarket.Name = "gbMarket";
+         this.gbMarket.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
+         this.gbMarket.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
+         this.gbMarket.Properties.Appearance.Options.UseBackColor = true;
+         this.gbMarket.Properties.Appearance.Options.UseForeColor = true;
+         this.gbMarket.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+         this.gbMarket.Properties.Columns = 3;
+         this.gbMarket.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rbMarketAll", "全部"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rbMarket0", "一般"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rbMarket1", "盤後")});
+         this.gbMarket.Properties.LookAndFeel.SkinName = "Visual Studio 2013 Light";
+         this.gbMarket.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
+         this.gbMarket.Size = new System.Drawing.Size(248, 35);
+         this.gbMarket.TabIndex = 2;
+         // 
+         // gbContract
+         // 
+         this.gbContract.EditValue = "rbContractTxw";
+         this.gbContract.Location = new System.Drawing.Point(92, 82);
+         this.gbContract.Name = "gbContract";
+         this.gbContract.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
+         this.gbContract.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
+         this.gbContract.Properties.Appearance.Options.UseBackColor = true;
+         this.gbContract.Properties.Appearance.Options.UseForeColor = true;
+         this.gbContract.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+         this.gbContract.Properties.Columns = 4;
+         this.gbContract.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rbContractTxw", "一週到期契約"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rbContractTxo", "一般天期契約"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rbContractAll", "所有天期契約"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("rbContractAllTot", "所有天期契約合併")});
+         this.gbContract.Properties.LookAndFeel.SkinName = "Visual Studio 2013 Light";
+         this.gbContract.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
+         this.gbContract.Size = new System.Drawing.Size(604, 35);
+         this.gbContract.TabIndex = 3;
+         // 
+         // label11
+         // 
+         this.label11.AutoSize = true;
+         this.label11.ForeColor = System.Drawing.Color.Black;
+         this.label11.Location = new System.Drawing.Point(37, 90);
+         this.label11.Name = "label11";
+         this.label11.Size = new System.Drawing.Size(58, 21);
+         this.label11.TabIndex = 8;
+         this.label11.Text = "期別：";
+         // 
+         // label10
+         // 
+         this.label10.AutoSize = true;
+         this.label10.ForeColor = System.Drawing.Color.Black;
+         this.label10.Location = new System.Drawing.Point(361, 45);
+         this.label10.Name = "label10";
+         this.label10.Size = new System.Drawing.Size(90, 21);
+         this.label10.TabIndex = 7;
+         this.label10.Text = "交易時段：";
          // 
          // txtEndYMD
          // 
@@ -83,7 +170,7 @@
          this.txtEndYMD.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtEndYMD.EditValue = "2018/12";
          this.txtEndYMD.EnterMoveNextControl = true;
-         this.txtEndYMD.Location = new System.Drawing.Point(241, 35);
+         this.txtEndYMD.Location = new System.Drawing.Point(220, 42);
          this.txtEndYMD.MenuManager = this.ribbonControl;
          this.txtEndYMD.Name = "txtEndYMD";
          this.txtEndYMD.Properties.Appearance.Options.UseTextOptions = true;
@@ -94,7 +181,7 @@
          this.txtEndYMD.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndYMD.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndYMD.Size = new System.Drawing.Size(100, 26);
-         this.txtEndYMD.TabIndex = 75;
+         this.txtEndYMD.TabIndex = 4;
          this.txtEndYMD.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtStartYMD
@@ -103,7 +190,7 @@
          this.txtStartYMD.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtStartYMD.EditValue = "2018/12";
          this.txtStartYMD.EnterMoveNextControl = true;
-         this.txtStartYMD.Location = new System.Drawing.Point(104, 35);
+         this.txtStartYMD.Location = new System.Drawing.Point(92, 42);
          this.txtStartYMD.MenuManager = this.ribbonControl;
          this.txtStartYMD.Name = "txtStartYMD";
          this.txtStartYMD.Properties.Appearance.Options.UseTextOptions = true;
@@ -114,90 +201,34 @@
          this.txtStartYMD.Properties.Mask.ShowPlaceHolders = false;
          this.txtStartYMD.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtStartYMD.Size = new System.Drawing.Size(100, 26);
-         this.txtStartYMD.TabIndex = 74;
+         this.txtStartYMD.TabIndex = 0;
          this.txtStartYMD.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
-         // label6
+         // label8
          // 
-         this.label6.AutoSize = true;
-         this.label6.ForeColor = System.Drawing.Color.MidnightBlue;
-         this.label6.Location = new System.Drawing.Point(136, 308);
-         this.label6.Name = "label6";
-         this.label6.Size = new System.Drawing.Size(0, 20);
-         this.label6.TabIndex = 73;
+         this.label8.AutoSize = true;
+         this.label8.Location = new System.Drawing.Point(194, 45);
+         this.label8.Name = "label8";
+         this.label8.Size = new System.Drawing.Size(26, 21);
+         this.label8.TabIndex = 6;
+         this.label8.Text = "～";
          // 
-         // gbMarket
+         // label9
          // 
-         this.gbMarket.EditValue = "rbMarketAll";
-         this.gbMarket.Location = new System.Drawing.Point(460, 32);
-         this.gbMarket.Name = "gbMarket";
-         this.gbMarket.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
-         this.gbMarket.Properties.Appearance.Options.UseBackColor = true;
-         this.gbMarket.Properties.Columns = 3;
-         this.gbMarket.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rbMarketAll", "全部"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rbMarket0", "一般"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rbMarket1", "盤後")});
-         this.gbMarket.Size = new System.Drawing.Size(248, 35);
-         this.gbMarket.TabIndex = 2;
-         // 
-         // gbContract
-         // 
-         this.gbContract.EditValue = "rbContractTxw";
-         this.gbContract.Location = new System.Drawing.Point(104, 72);
-         this.gbContract.Name = "gbContract";
-         this.gbContract.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
-         this.gbContract.Properties.Appearance.Options.UseBackColor = true;
-         this.gbContract.Properties.Columns = 4;
-         this.gbContract.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rbContractTxw", "一週到期契約"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rbContractTxo", "一般天期契約"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rbContractAll", "所有天期契約"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("rbContractAllTot", "所有天期契約合併")});
-         this.gbContract.Size = new System.Drawing.Size(604, 35);
-         this.gbContract.TabIndex = 3;
-         // 
-         // label3
-         // 
-         this.label3.AutoSize = true;
-         this.label3.Location = new System.Drawing.Point(41, 81);
-         this.label3.Name = "label3";
-         this.label3.Size = new System.Drawing.Size(57, 20);
-         this.label3.TabIndex = 63;
-         this.label3.Text = "期別：";
-         // 
-         // labMarket
-         // 
-         this.labMarket.AutoSize = true;
-         this.labMarket.Location = new System.Drawing.Point(365, 38);
-         this.labMarket.Name = "labMarket";
-         this.labMarket.Size = new System.Drawing.Size(89, 20);
-         this.labMarket.TabIndex = 14;
-         this.labMarket.Text = "交易時段：";
-         // 
-         // label1
-         // 
-         this.label1.AutoSize = true;
-         this.label1.Location = new System.Drawing.Point(210, 36);
-         this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(25, 20);
-         this.label1.TabIndex = 6;
-         this.label1.Text = "～";
-         // 
-         // labAftDate
-         // 
-         this.labAftDate.AutoSize = true;
-         this.labAftDate.Location = new System.Drawing.Point(41, 39);
-         this.labAftDate.Name = "labAftDate";
-         this.labAftDate.Size = new System.Drawing.Size(57, 20);
-         this.labAftDate.TabIndex = 2;
-         this.labAftDate.Text = "日期：";
+         this.label9.AutoSize = true;
+         this.label9.ForeColor = System.Drawing.Color.Black;
+         this.label9.Location = new System.Drawing.Point(37, 45);
+         this.label9.Name = "label9";
+         this.label9.Size = new System.Drawing.Size(58, 21);
+         this.label9.TabIndex = 2;
+         this.label9.Text = "日期：";
          // 
          // chkGroup
          // 
-         this.chkGroup.AppearanceSelected.BackColor = System.Drawing.Color.White;
-         this.chkGroup.AppearanceSelected.BackColor2 = System.Drawing.Color.White;
-         this.chkGroup.AppearanceSelected.Options.UseBackColor = true;
+         this.chkGroup.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.chkGroup.Appearance.ForeColor = System.Drawing.Color.Black;
+         this.chkGroup.Appearance.Options.UseBackColor = true;
+         this.chkGroup.Appearance.Options.UseForeColor = true;
          this.chkGroup.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.chkGroup.ItemPadding = new System.Windows.Forms.Padding(5);
          this.chkGroup.Items.AddRange(new DevExpress.XtraEditors.Controls.CheckedListBoxItem[] {
@@ -207,40 +238,35 @@
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkAmt", "成交金額(權利金 * 契約乘數 * 成交口數)"),
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkAcc", "交易戶數"),
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkId", "交易人數(ID數)")});
-         this.chkGroup.Location = new System.Drawing.Point(45, 113);
+         this.chkGroup.Location = new System.Drawing.Point(96, 129);
+         this.chkGroup.LookAndFeel.SkinName = "Office 2013";
+         this.chkGroup.LookAndFeel.UseDefaultLookAndFeel = false;
          this.chkGroup.Name = "chkGroup";
          this.chkGroup.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-         this.chkGroup.Size = new System.Drawing.Size(713, 187);
-         this.chkGroup.TabIndex = 4;
-         // 
-         // lblProcessing
-         // 
-         this.lblProcessing.AutoSize = true;
-         this.lblProcessing.ForeColor = System.Drawing.Color.Blue;
-         this.lblProcessing.Location = new System.Drawing.Point(12, 371);
-         this.lblProcessing.Name = "lblProcessing";
-         this.lblProcessing.Size = new System.Drawing.Size(85, 20);
-         this.lblProcessing.TabIndex = 10;
-         this.lblProcessing.Text = "開始轉檔...";
-         this.lblProcessing.Visible = false;
+         this.chkGroup.ShowFocusRect = false;
+         this.chkGroup.Size = new System.Drawing.Size(515, 187);
+         this.chkGroup.TabIndex = 5;
+         this.chkGroup.DrawItem += new DevExpress.XtraEditors.ListBoxDrawItemEventHandler(this.chkGroup_DrawItem);
          // 
          // W30591
          // 
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(836, 574);
+         this.ClientSize = new System.Drawing.Size(820, 510);
          this.Name = "W30591";
          this.Text = "W30591";
          this.panParent.ResumeLayout(false);
-         this.panParent.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
-         this.grpxDescription.ResumeLayout(false);
-         this.grpxDescription.PerformLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.txtEndYMD.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtStartYMD.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.r_frame)).EndInit();
+         this.r_frame.ResumeLayout(false);
+         this.r_frame.PerformLayout();
+         this.panFilter.ResumeLayout(false);
+         this.panFilter.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gbContract.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtEndYMD.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtStartYMD.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.chkGroup)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
@@ -249,17 +275,17 @@
 
       #endregion
 
-      private System.Windows.Forms.GroupBox grpxDescription;
-      private System.Windows.Forms.Label label1;
-      private System.Windows.Forms.Label labAftDate;
-      private System.Windows.Forms.Label lblProcessing;
-      private System.Windows.Forms.Label labMarket;
+      private DevExpress.XtraEditors.PanelControl r_frame;
+      private System.Windows.Forms.Label labMsg;
+      private System.Windows.Forms.GroupBox panFilter;
       protected DevExpress.XtraEditors.RadioGroup gbMarket;
-      private System.Windows.Forms.Label label3;
-      private System.Windows.Forms.Label label6;
       protected DevExpress.XtraEditors.RadioGroup gbContract;
-      private DevExpress.XtraEditors.CheckedListBoxControl chkGroup;
+      private System.Windows.Forms.Label label11;
+      private System.Windows.Forms.Label label10;
       private BaseGround.Widget.TextDateEdit txtEndYMD;
       private BaseGround.Widget.TextDateEdit txtStartYMD;
+      private System.Windows.Forms.Label label8;
+      private System.Windows.Forms.Label label9;
+      private DevExpress.XtraEditors.CheckedListBoxControl chkGroup;
    }
 }

@@ -67,8 +67,8 @@
          this.MMF_W_TIME = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.NewRow = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.Is_NewRow = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-         this.label1 = new System.Windows.Forms.Label();
          this.label2 = new System.Windows.Forms.Label();
+         this.label1 = new System.Windows.Forms.Label();
          this.label3 = new System.Windows.Forms.Label();
          this.label4 = new System.Windows.Forms.Label();
          this.label5 = new System.Windows.Forms.Label();
@@ -96,7 +96,7 @@
          // 
          // panParent
          // 
-         this.panParent.BackColor = System.Drawing.Color.MintCream;
+         this.panParent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.panParent.Controls.Add(this.panelControl2);
          this.panParent.Controls.Add(this.panelControl1);
          this.panParent.Size = new System.Drawing.Size(1359, 716);
@@ -132,6 +132,9 @@
          // 
          // gvMain
          // 
+         this.gvMain.AppearancePrint.BandPanel.Options.UseTextOptions = true;
+         this.gvMain.AppearancePrint.BandPanel.TextOptions.Trimming = DevExpress.Utils.Trimming.Word;
+         this.gvMain.AppearancePrint.BandPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
          this.gvMain.Bands.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.GridBand[] {
             this.t1,
             this.t2,
@@ -167,6 +170,7 @@
          this.gvMain.GridControl = this.gcMain;
          this.gvMain.Name = "gvMain";
          this.gvMain.OptionsCustomization.AllowSort = false;
+         this.gvMain.OptionsPrint.PrintHeader = false;
          this.gvMain.OptionsView.ColumnAutoWidth = false;
          this.gvMain.OptionsView.ShowColumnHeaders = false;
          this.gvMain.OptionsView.ShowGroupPanel = false;
@@ -631,23 +635,23 @@
          this.Is_NewRow.FieldName = "Is_NewRow";
          this.Is_NewRow.Name = "Is_NewRow";
          // 
-         // label1
-         // 
-         this.label1.Location = new System.Drawing.Point(50, 39);
-         this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(501, 69);
-         this.label1.TabIndex = 6;
-         this.label1.Text = "eg. XIF最近2個月份契約，平均每個契約每日買賣雙邊報價時間須達1小時以上，就要設定成「120分鐘」，判斷公司：sum(2個月份報價維持分鐘數) ≧ 120";
-         // 
          // label2
          // 
-         this.label2.AutoSize = true;
-         this.label2.ForeColor = System.Drawing.Color.Red;
-         this.label2.Location = new System.Drawing.Point(13, 10);
+         this.label2.Location = new System.Drawing.Point(50, 39);
          this.label2.Name = "label2";
-         this.label2.Size = new System.Drawing.Size(687, 20);
-         this.label2.TabIndex = 7;
-         this.label2.Text = "註：(1)期貨「報價每日平均維持分鐘」設定 = 報價月份數 * 每個契約平均每日買賣雙邊報價時間";
+         this.label2.Size = new System.Drawing.Size(501, 69);
+         this.label2.TabIndex = 6;
+         this.label2.Text = "eg. XIF最近2個月份契約，平均每個契約每日買賣雙邊報價時間須達1小時以上，就要設定成「120分鐘」，判斷公司：sum(2個月份報價維持分鐘數) ≧ 120";
+         // 
+         // label1
+         // 
+         this.label1.AutoSize = true;
+         this.label1.ForeColor = System.Drawing.Color.Red;
+         this.label1.Location = new System.Drawing.Point(13, 10);
+         this.label1.Name = "label1";
+         this.label1.Size = new System.Drawing.Size(687, 20);
+         this.label1.TabIndex = 7;
+         this.label1.Text = "註：(1)期貨「報價每日平均維持分鐘」設定 = 報價月份數 * 每個契約平均每日買賣雙邊報價時間";
          // 
          // label3
          // 
@@ -687,11 +691,11 @@
          // 
          // panelControl1
          // 
-         this.panelControl1.Appearance.BackColor = System.Drawing.Color.MintCream;
+         this.panelControl1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.panelControl1.Appearance.Options.UseBackColor = true;
          this.panelControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-         this.panelControl1.Controls.Add(this.label2);
          this.panelControl1.Controls.Add(this.label1);
+         this.panelControl1.Controls.Add(this.label2);
          this.panelControl1.Controls.Add(this.label6);
          this.panelControl1.Controls.Add(this.label3);
          this.panelControl1.Controls.Add(this.label4);
@@ -750,8 +754,8 @@
       private DevExpress.XtraGrid.GridControl gcMain;
       private System.Windows.Forms.Label label4;
       private System.Windows.Forms.Label label3;
-      private System.Windows.Forms.Label label2;
       private System.Windows.Forms.Label label1;
+      private System.Windows.Forms.Label label2;
       private DevExpress.XtraGrid.Views.BandedGrid.BandedGridView gvMain;
       private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn MMF_MARKET_CODE;
       private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn MMF_PROD_TYPE;

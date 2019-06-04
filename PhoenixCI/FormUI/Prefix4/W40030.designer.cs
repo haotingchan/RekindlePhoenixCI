@@ -37,6 +37,7 @@
          this.txtDate = new BaseGround.Widget.TextDateEdit();
          this.lblDate = new System.Windows.Forms.Label();
          this.ExportShow = new System.Windows.Forms.Label();
+         this.panel1 = new System.Windows.Forms.Panel();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -49,12 +50,12 @@
          ((System.ComponentModel.ISupportInitialize)(this.txtDate7.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.ddlAdjType.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).BeginInit();
+         this.panel1.SuspendLayout();
          this.SuspendLayout();
          // 
          // panParent
          // 
-         this.panParent.Controls.Add(this.grpxDescription);
-         this.panParent.Controls.Add(this.ExportShow);
+         this.panParent.Controls.Add(this.panel1);
          this.panParent.Size = new System.Drawing.Size(713, 499);
          // 
          // ribbonControl
@@ -74,14 +75,18 @@
          // grpxDescription
          // 
          this.grpxDescription.AutoSize = true;
+         this.grpxDescription.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
          this.grpxDescription.Controls.Add(this.groupBox1);
+         this.grpxDescription.Controls.Add(this.ExportShow);
          this.grpxDescription.Controls.Add(this.label1);
          this.grpxDescription.Controls.Add(this.ddlAdjType);
          this.grpxDescription.Controls.Add(this.txtDate);
          this.grpxDescription.Controls.Add(this.lblDate);
-         this.grpxDescription.Location = new System.Drawing.Point(21, 21);
+         this.grpxDescription.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.grpxDescription.ForeColor = System.Drawing.Color.Navy;
+         this.grpxDescription.Location = new System.Drawing.Point(3, 22);
          this.grpxDescription.Name = "grpxDescription";
-         this.grpxDescription.Size = new System.Drawing.Size(499, 302);
+         this.grpxDescription.Size = new System.Drawing.Size(499, 328);
          this.grpxDescription.TabIndex = 13;
          this.grpxDescription.TabStop = false;
          this.grpxDescription.Text = "請輸入交易日期";
@@ -154,9 +159,11 @@
          // label2
          // 
          this.label2.AutoSize = true;
+         this.label2.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.label2.ForeColor = System.Drawing.Color.Black;
          this.label2.Location = new System.Drawing.Point(11, 132);
          this.label2.Name = "label2";
-         this.label2.Size = new System.Drawing.Size(104, 20);
+         this.label2.Size = new System.Drawing.Size(106, 21);
          this.label2.TabIndex = 18;
          this.label2.Text = "含ETC VSR：";
          // 
@@ -203,9 +210,11 @@
          // label1
          // 
          this.label1.AutoSize = true;
+         this.label1.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.label1.ForeColor = System.Drawing.Color.Black;
          this.label1.Location = new System.Drawing.Point(37, 49);
          this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(137, 20);
+         this.label1.Size = new System.Drawing.Size(138, 21);
          this.label1.TabIndex = 16;
          this.label1.Text = "保證金調整狀況：";
          // 
@@ -249,20 +258,32 @@
          // lblDate
          // 
          this.lblDate.AutoSize = true;
+         this.lblDate.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.lblDate.ForeColor = System.Drawing.Color.Black;
          this.lblDate.Location = new System.Drawing.Point(37, 84);
          this.lblDate.Name = "lblDate";
-         this.lblDate.Size = new System.Drawing.Size(57, 20);
+         this.lblDate.Size = new System.Drawing.Size(58, 21);
          this.lblDate.TabIndex = 2;
          this.lblDate.Text = "日期：";
          // 
          // ExportShow
          // 
          this.ExportShow.AutoSize = true;
-         this.ExportShow.Location = new System.Drawing.Point(17, 166);
+         this.ExportShow.ForeColor = System.Drawing.Color.Navy;
+         this.ExportShow.Location = new System.Drawing.Point(37, 282);
          this.ExportShow.Name = "ExportShow";
-         this.ExportShow.Size = new System.Drawing.Size(54, 20);
+         this.ExportShow.Size = new System.Drawing.Size(56, 21);
          this.ExportShow.TabIndex = 14;
          this.ExportShow.Text = "label1";
+         // 
+         // panel1
+         // 
+         this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.panel1.Controls.Add(this.grpxDescription);
+         this.panel1.Location = new System.Drawing.Point(30, 30);
+         this.panel1.Name = "panel1";
+         this.panel1.Size = new System.Drawing.Size(508, 356);
+         this.panel1.TabIndex = 14;
          // 
          // W40030
          // 
@@ -277,7 +298,6 @@
          this.Controls.SetChildIndex(this.panelControl1, 0);
          this.Controls.SetChildIndex(this.panParent, 0);
          this.panParent.ResumeLayout(false);
-         this.panParent.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
          this.grpxDescription.ResumeLayout(false);
@@ -291,6 +311,8 @@
          ((System.ComponentModel.ISupportInitialize)(this.txtDate7.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.ddlAdjType.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).EndInit();
+         this.panel1.ResumeLayout(false);
+         this.panel1.PerformLayout();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -312,5 +334,6 @@
       public BaseGround.Widget.TextDateEdit txtDate7;
       private System.Windows.Forms.GroupBox groupBox1;
       private DevExpress.XtraEditors.CheckedListBoxControl MarketTimes;
+      private System.Windows.Forms.Panel panel1;
    }
 }

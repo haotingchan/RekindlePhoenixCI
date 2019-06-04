@@ -256,7 +256,7 @@ namespace PhoenixCI.FormUI.Prefix5
          //目的選項
          dwEbrkno.SetDataTable(daoABRK.ListAll2(), "ABRK_NO", "CP_DISPLAY", TextEditStyles.Standard, null);
          /* 商品群組 */
-         dwProdCt.SetDataTable(daoAPDK.ListParamKey2(), "APDK_PARAM_KEY", "APDK_PARAM_KEY", TextEditStyles.Standard, null);
+         dwProdCt.SetDataTable(daoAPDK.ListParamKey(), "APDK_PARAM_KEY", "APDK_PARAM_KEY", TextEditStyles.Standard, null);
          /* 2碼商品 */
          dwProdKdSto.SetDataTable(daoAPDK.ListKind2(), "APDK_KIND_ID_STO", "APDK_KIND_ID_STO", TextEditStyles.Standard, null);
          //預設資料表
@@ -323,6 +323,10 @@ namespace PhoenixCI.FormUI.Prefix5
                Workbook workbook = new Workbook();
                workbook.CreateNewDocument();
                workbook.SaveDocument(destinationFilePath, DocumentFormat.Xlsx);
+               ids.Columns.Remove(ids.Columns["CP_ROW"]);
+               ids.Columns.Remove(ids.Columns["CP_M_QNTY"]);
+               ids.Columns.Remove(ids.Columns["CP_RATE_M"]);
+               ids.Columns.Remove(ids.Columns["CP_INVALID"]);
                workbook.Worksheets[0].Import(ids, true, 0, 0);
                workbook.SaveDocument(destinationFilePath);
             }
@@ -394,7 +398,7 @@ namespace PhoenixCI.FormUI.Prefix5
                worksheet.Cells[$"C{rowIndex}"].SetValue(row["BRK_ABBR_NAME"]);
                worksheet.Cells[$"D{rowIndex}"].SetValue(row["AMM0_ACC_NO"]);
                worksheet.Cells[$"E{rowIndex}"].SetValue(row["AMM0_PROD_ID"]);
-               worksheet.Cells[$"F{rowIndex}"].SetValue(row["AMM0_YMD"]);
+               worksheet.Cells[$"F{rowIndex}"].SetValue(row["AMM0_YMD"].AsString());
                worksheet.Cells[$"G{rowIndex}"].SetValue(row["AMM0_OM_QNTY"]);
                worksheet.Cells[$"H{rowIndex}"].SetValue(row["AMM0_QM_QNTY"]);
                worksheet.Cells[$"I{rowIndex}"].SetValue(row["QNTY"]);

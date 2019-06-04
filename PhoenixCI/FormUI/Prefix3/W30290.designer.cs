@@ -31,7 +31,6 @@
          this.stMsgTxt = new System.Windows.Forms.Label();
          this.YMDlookUpEdit = new DevExpress.XtraEditors.LookUpEdit();
          this.label2 = new System.Windows.Forms.Label();
-         this.emDate = new BaseGround.Widget.TextDateEdit();
          this.label1 = new System.Windows.Forms.Label();
          this.gcMain = new DevExpress.XtraGrid.GridControl();
          this.gvMain = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridView();
@@ -73,14 +72,15 @@
          this.PLP13_MMK_LAST = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
          this.panel2 = new System.Windows.Forms.Panel();
+         this.emDate = new DevExpress.XtraEditors.TextEdit();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          this.panel1.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.YMDlookUpEdit.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.emDate.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
          this.panel2.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.emDate.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -97,10 +97,10 @@
          // panel1
          // 
          this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.panel1.Controls.Add(this.emDate);
          this.panel1.Controls.Add(this.stMsgTxt);
          this.panel1.Controls.Add(this.YMDlookUpEdit);
          this.panel1.Controls.Add(this.label2);
-         this.panel1.Controls.Add(this.emDate);
          this.panel1.Controls.Add(this.label1);
          this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
          this.panel1.Location = new System.Drawing.Point(0, 30);
@@ -137,25 +137,6 @@
          this.label2.Size = new System.Drawing.Size(89, 20);
          this.label2.TabIndex = 2;
          this.label2.Text = "生效日期：";
-         // 
-         // emDate
-         // 
-         this.emDate.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
-         this.emDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.emDate.EditValue = "2019/01/01";
-         this.emDate.Location = new System.Drawing.Point(121, 48);
-         this.emDate.MenuManager = this.ribbonControl;
-         this.emDate.Name = "emDate";
-         this.emDate.Properties.Appearance.Options.UseTextOptions = true;
-         this.emDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.emDate.Properties.EditFormat.FormatString = "yyyy/MM/dd";
-         this.emDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
-         this.emDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-         this.emDate.Properties.Mask.ShowPlaceHolders = false;
-         this.emDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.emDate.Size = new System.Drawing.Size(100, 26);
-         this.emDate.TabIndex = 1;
-         this.emDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
          // 
          // label1
          // 
@@ -750,6 +731,25 @@
          this.panel2.Size = new System.Drawing.Size(1197, 516);
          this.panel2.TabIndex = 7;
          // 
+         // emDate
+         // 
+         this.emDate.EditValue = "0000/00/00";
+         this.emDate.Location = new System.Drawing.Point(121, 48);
+         this.emDate.MenuManager = this.ribbonControl;
+         this.emDate.Name = "emDate";
+         this.emDate.Properties.Appearance.Options.UseTextOptions = true;
+         this.emDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.emDate.Properties.EditFormat.FormatString = "yyyy/MM/dd";
+         this.emDate.Properties.Mask.EditMask = "\\d\\d\\d\\d/\\d\\d/\\d\\d";
+         this.emDate.Properties.Mask.IgnoreMaskBlank = false;
+         this.emDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
+         this.emDate.Properties.Mask.PlaceHolder = '0';
+         this.emDate.Properties.Mask.ShowPlaceHolders = false;
+         this.emDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.emDate.Size = new System.Drawing.Size(100, 26);
+         this.emDate.TabIndex = 1;
+         this.emDate.EditValueChanged += new System.EventHandler(this.emDate_Leave);
+         // 
          // W30290
          // 
          this.Appearance.Options.UseFont = true;
@@ -768,11 +768,11 @@
          this.panel1.ResumeLayout(false);
          this.panel1.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.YMDlookUpEdit.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.emDate.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
          this.panel2.ResumeLayout(false);
+         ((System.ComponentModel.ISupportInitialize)(this.emDate.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -784,7 +784,6 @@
       private DevExpress.XtraEditors.LookUpEdit YMDlookUpEdit;
       private System.Windows.Forms.Label label1;
       private System.Windows.Forms.Label label2;
-      private BaseGround.Widget.TextDateEdit emDate;
       private DevExpress.XtraGrid.GridControl gcMain;
       private DevExpress.XtraGrid.Views.BandedGrid.BandedGridView gvMain;
       private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn PLP13_FUT;
@@ -826,5 +825,6 @@
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand4;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand5;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand6;
+      private DevExpress.XtraEditors.TextEdit emDate;
    }
 }

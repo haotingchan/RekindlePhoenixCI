@@ -12,6 +12,7 @@ using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraGrid;
 using DevExpress.XtraGrid.Views.Grid;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -37,8 +38,12 @@ namespace PhoenixCI.FormUI.Prefix5 {
          base.Open();
          try {
             lupMarketCode = new RepositoryItemLookUpEdit();
-            DataTable dtMarketCode = new COD().ListByCol2("MMFT" , "MMFT_MARKET_CODE"); //交易時段dropdownlist
-            Extension.SetColumnLookUp(lupMarketCode , dtMarketCode , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
+
+            //商品狀態
+            List<LookupItem> dtMarketCode = new List<LookupItem>(){
+                                            new LookupItem() { ValueMember = "0", DisplayMember = "一般"},
+                                            new LookupItem() { ValueMember = "1", DisplayMember = "夜盤"}};
+            lupMarketCode.SetColumnLookUp(dtMarketCode , "ValueMember" , "DisplayMember" , TextEditStyles.DisableTextEditor , null);
             gcMain.RepositoryItems.Add(lupMarketCode);
 
             Retrieve();
