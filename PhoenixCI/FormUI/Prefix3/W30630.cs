@@ -79,19 +79,19 @@ namespace PhoenixCI.FormUI.Prefix3 {
          try {
 
             //1. 設定初始年月
-            txtPrevStartYM.Text = GlobalInfo.OCF_DATE.AddMonths(-1).ToString("yyyy/MM");
+            txtPrevStartYM.DateTimeValue = GlobalInfo.OCF_DATE.AddMonths(-1);
             txtPrevStartYM.EnterMoveNextControl = true;
             txtPrevStartYM.Focus();
 
-            txtPrevEndYM.Text = GlobalInfo.OCF_DATE.AddMonths(-1).ToString("yyyy/MM");
+            txtPrevEndYM.DateTimeValue = GlobalInfo.OCF_DATE.AddMonths(-1);
             txtPrevEndYM.EnterMoveNextControl = true;
             txtPrevEndYM.Focus();
 
-            txtAftStartYM.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
+            txtAftStartYM.DateTimeValue = GlobalInfo.OCF_DATE;
             txtAftStartYM.EnterMoveNextControl = true;
             txtAftStartYM.Focus();
 
-            txtAftEndYM.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
+            txtAftEndYM.DateTimeValue = GlobalInfo.OCF_DATE;
             txtAftEndYM.EnterMoveNextControl = true;
             txtAftEndYM.Focus();
 
@@ -132,23 +132,29 @@ namespace PhoenixCI.FormUI.Prefix3 {
       }
 
       protected override ResultStatus Export() {
-         base.Export();
-
+ 
          #region 日期檢核
-         if (Int32.Parse(txtAftStartYM.Text.Replace("/" , "")) > Int32.Parse(txtAftEndYM.Text.Replace("/" , ""))) {
-            MessageDisplay.Info(string.Format("後期起年月({0})不可大於迄年月({1})" , txtAftStartYM.Text.Replace("/" , "") ,
-                                                                                    txtAftEndYM.Text.Replace("/" , "")));
-            return ResultStatus.Fail;
-         }
-         if (Int32.Parse(txtPrevStartYM.Text.Replace("/" , "")) > Int32.Parse(txtPrevEndYM.Text.Replace("/" , ""))) {
-            MessageDisplay.Info(string.Format("後期起年月({0})不可大於迄年月({1})" , txtPrevStartYM.Text.Replace("/" , "") ,
-                                                                                    txtPrevEndYM.Text.Replace("/" , "")));
-            return ResultStatus.Fail;
-         }
+         //if (Int32.Parse(txtAftStartYM.Text.Replace("/" , "")) > Int32.Parse(txtAftEndYM.Text.Replace("/" , ""))) {
+         //   MessageDisplay.Info(string.Format("後期起年月({0})不可大於迄年月({1})" , txtAftStartYM.Text.Replace("/" , "") ,
+         //                                                                           txtAftEndYM.Text.Replace("/" , "")));
+         //   return ResultStatus.Fail;
+         //}
+         //if (Int32.Parse(txtPrevStartYM.Text.Replace("/" , "")) > Int32.Parse(txtPrevEndYM.Text.Replace("/" , ""))) {
+         //   MessageDisplay.Info(string.Format("後期起年月({0})不可大於迄年月({1})" , txtPrevStartYM.Text.Replace("/" , "") ,
+         //                                                                           txtPrevEndYM.Text.Replace("/" , "")));
+         //   return ResultStatus.Fail;
+         //}
          #endregion
 
          try {
+            
+            //0. ready
+            panFilter.Enabled = false;
+            labMsg.Visible = true;
             ShowMsg("開始轉檔...");
+            this.Cursor = Cursors.WaitCursor;
+            this.Refresh();
+            Thread.Sleep(5);
 
             string tempMarketCode;
             //RadioButton (rb_market_0 = 一般 / rb_market_1 = 盤後 / rb_market_All = 全部)

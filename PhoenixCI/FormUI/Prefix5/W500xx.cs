@@ -645,8 +645,7 @@ namespace PhoenixCI.FormUI.Prefix5
          reportHelper.LeftMemo = ConditionText() + dateCondition;
          reportHelper.Create(xtraReport);
 
-         //reportHelper.Preview();
-         base.Print(reportHelper);
+         reportHelper.Print();
          return ResultStatus.Success;
       }
 

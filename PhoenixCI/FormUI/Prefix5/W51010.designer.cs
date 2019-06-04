@@ -71,7 +71,7 @@
          // 
          // panelControl1
          // 
-         this.panelControl1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.panelControl1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(236)))), ((int)(((byte)(239)))));
          this.panelControl1.Appearance.Options.UseBackColor = true;
          this.panelControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.panelControl1.Controls.Add(this.label1);
@@ -160,7 +160,7 @@
          // 
          // panelControl2
          // 
-         this.panelControl2.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+         this.panelControl2.Appearance.BackColor = System.Drawing.Color.White;
          this.panelControl2.Appearance.Options.UseBackColor = true;
          this.panelControl2.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.panelControl2.Controls.Add(this.gcMain);

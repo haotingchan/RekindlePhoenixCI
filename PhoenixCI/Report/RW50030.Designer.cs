@@ -47,7 +47,6 @@
          DevExpress.XtraReports.UI.XRSummary xrSummary18 = new DevExpress.XtraReports.UI.XRSummary();
          DevExpress.XtraReports.UI.XRSummary xrSummary19 = new DevExpress.XtraReports.UI.XRSummary();
          DevExpress.XtraReports.UI.XRSummary xrSummary20 = new DevExpress.XtraReports.UI.XRSummary();
-         DevExpress.XtraReports.UI.XRSummary xrSummary21 = new DevExpress.XtraReports.UI.XRSummary();
          this.TopMargin = new DevExpress.XtraReports.UI.TopMarginBand();
          this.BottomMargin = new DevExpress.XtraReports.UI.BottomMarginBand();
          this.Detail = new DevExpress.XtraReports.UI.DetailBand();
@@ -474,6 +473,7 @@
          this.cp_avg_mmk_qnty.StylePriority.UseTextAlignment = false;
          this.cp_avg_mmk_qnty.Text = "cp_avg_mmk_qnty";
          this.cp_avg_mmk_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
+         this.cp_avg_mmk_qnty.TextFormatString = "{0:##0.#}";
          this.cp_avg_mmk_qnty.Weight = 0.69625893119629068D;
          // 
          // PageHeader
@@ -716,9 +716,7 @@
          // cp_tot_amm0_market_m_qnty
          // 
          this.cp_tot_amm0_market_m_qnty.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum(Iif( [DataSource].[CurrentRowIndex][[AMM0_YMD]] != Iif(isnull([DataSource]" +
-                    ".[CurrentRowIndex-1][[AMM0_YMD]]),0,[DataSource].[CurrentRowIndex-1][[AMM0_YMD]]" +
-                    "),  [AMM0_MARKET_M_QNTY] ,0))")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumRunningSum(Iif([AMM0_YMD] != [NEXT_YMD],[AMM0_MARKET_M_QNTY],0))")});
          this.cp_tot_amm0_market_m_qnty.Multiline = true;
          this.cp_tot_amm0_market_m_qnty.Name = "cp_tot_amm0_market_m_qnty";
          this.cp_tot_amm0_market_m_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -733,7 +731,7 @@
          // cp_tot_amm0_market_r_cnt
          // 
          this.cp_tot_amm0_market_r_cnt.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([AMM0_MARKET_R_CNT])")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "Sum([TOT_R])")});
          this.cp_tot_amm0_market_r_cnt.Multiline = true;
          this.cp_tot_amm0_market_r_cnt.Name = "cp_tot_amm0_market_r_cnt";
          this.cp_tot_amm0_market_r_cnt.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -747,8 +745,7 @@
          // cp_tot_rate_valid_real
          // 
          this.cp_tot_rate_valid_real.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", " Iif(sum([AMM0_MARKET_R_CNT]) = 0,1,round(sum([AMM0_VALID_CNT])/ sum([AMM0_MARKET" +
-                    "_R_CNT]),4)) * 100")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "Iif(Sum([TOT_R]) = 0,1, round(Sum([AMM0_VALID_CNT])/Sum([TOT_R]),4)) * 100")});
          this.cp_tot_rate_valid_real.Multiline = true;
          this.cp_tot_rate_valid_real.Name = "cp_tot_rate_valid_real";
          this.cp_tot_rate_valid_real.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -778,15 +775,11 @@
          // cp_tot_rate_m
          // 
          this.cp_tot_rate_m.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "Iif( sumSum([CP_MARKET_M_QNTY])=0,0, \n(sumSum([AMM0_OM_QNTY] + [AMM0_QM_QNTY] + [" +
-                    "AMM0_IQM_QNTY] +  Iif(isnull([AMM0_BTRADE_M_QNTY]),0,[AMM0_BTRADE_M_QNTY])))/\n  " +
-                    "sumSum([CP_MARKET_M_QNTY])*100\n)")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[CP_TOT_RATE_M]")});
          this.cp_tot_rate_m.Multiline = true;
          this.cp_tot_rate_m.Name = "cp_tot_rate_m";
          this.cp_tot_rate_m.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.cp_tot_rate_m.StylePriority.UseTextAlignment = false;
-         xrSummary5.Running = DevExpress.XtraReports.UI.SummaryRunning.Report;
-         this.cp_tot_rate_m.Summary = xrSummary5;
          this.cp_tot_rate_m.Text = "cp_sum_rate_m";
          this.cp_tot_rate_m.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.cp_tot_rate_m.TextFormatString = "{0:##0.0#}";
@@ -801,8 +794,8 @@
          this.cp_tot_m_qnty.Name = "cp_tot_m_qnty";
          this.cp_tot_m_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.cp_tot_m_qnty.StylePriority.UseTextAlignment = false;
-         xrSummary6.Running = DevExpress.XtraReports.UI.SummaryRunning.Report;
-         this.cp_tot_m_qnty.Summary = xrSummary6;
+         xrSummary5.Running = DevExpress.XtraReports.UI.SummaryRunning.Report;
+         this.cp_tot_m_qnty.Summary = xrSummary5;
          this.cp_tot_m_qnty.Text = "cp_sum_m_qnty";
          this.cp_tot_m_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.cp_tot_m_qnty.TextFormatString = "{0:#,##0}";
@@ -816,8 +809,8 @@
          this.cp_tot_amm0_btrade_m_qnty.Name = "cp_tot_amm0_btrade_m_qnty";
          this.cp_tot_amm0_btrade_m_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.cp_tot_amm0_btrade_m_qnty.StylePriority.UseTextAlignment = false;
-         xrSummary7.Running = DevExpress.XtraReports.UI.SummaryRunning.Report;
-         this.cp_tot_amm0_btrade_m_qnty.Summary = xrSummary7;
+         xrSummary6.Running = DevExpress.XtraReports.UI.SummaryRunning.Report;
+         this.cp_tot_amm0_btrade_m_qnty.Summary = xrSummary6;
          this.cp_tot_amm0_btrade_m_qnty.Text = "cp_sum_amm0_btrade_m_qnty";
          this.cp_tot_amm0_btrade_m_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.cp_tot_amm0_btrade_m_qnty.Weight = 0.95235982259835517D;
@@ -830,8 +823,8 @@
          this.cp_tot_mmk_qnty.Name = "cp_tot_mmk_qnty";
          this.cp_tot_mmk_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.cp_tot_mmk_qnty.StylePriority.UseTextAlignment = false;
-         xrSummary8.Running = DevExpress.XtraReports.UI.SummaryRunning.Report;
-         this.cp_tot_mmk_qnty.Summary = xrSummary8;
+         xrSummary7.Running = DevExpress.XtraReports.UI.SummaryRunning.Report;
+         this.cp_tot_mmk_qnty.Summary = xrSummary7;
          this.cp_tot_mmk_qnty.Text = "cp_mmk_qnty";
          this.cp_tot_mmk_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.cp_tot_mmk_qnty.TextFormatString = "{0:#,##0}";
@@ -845,8 +838,8 @@
          this.cp_tot_amm0_iqm_qnty.Name = "cp_tot_amm0_iqm_qnty";
          this.cp_tot_amm0_iqm_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.cp_tot_amm0_iqm_qnty.StylePriority.UseTextAlignment = false;
-         xrSummary9.Running = DevExpress.XtraReports.UI.SummaryRunning.Report;
-         this.cp_tot_amm0_iqm_qnty.Summary = xrSummary9;
+         xrSummary8.Running = DevExpress.XtraReports.UI.SummaryRunning.Report;
+         this.cp_tot_amm0_iqm_qnty.Summary = xrSummary8;
          this.cp_tot_amm0_iqm_qnty.Text = "cp_sum_amm0_iqm_qnty";
          this.cp_tot_amm0_iqm_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.cp_tot_amm0_iqm_qnty.Weight = 0.93929236419055828D;
@@ -859,8 +852,8 @@
          this.cp_tot_amm0_qm_qnty_sum.Name = "cp_tot_amm0_qm_qnty_sum";
          this.cp_tot_amm0_qm_qnty_sum.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.cp_tot_amm0_qm_qnty_sum.StylePriority.UseTextAlignment = false;
-         xrSummary10.Running = DevExpress.XtraReports.UI.SummaryRunning.Report;
-         this.cp_tot_amm0_qm_qnty_sum.Summary = xrSummary10;
+         xrSummary9.Running = DevExpress.XtraReports.UI.SummaryRunning.Report;
+         this.cp_tot_amm0_qm_qnty_sum.Summary = xrSummary9;
          this.cp_tot_amm0_qm_qnty_sum.Text = "cp_tot_amm0_qm_qnty_sum";
          this.cp_tot_amm0_qm_qnty_sum.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.cp_tot_amm0_qm_qnty_sum.TextFormatString = "{0:#,##0}";
@@ -874,8 +867,8 @@
          this.cp_tot_amm0_om_qnty_sum.Name = "cp_tot_amm0_om_qnty_sum";
          this.cp_tot_amm0_om_qnty_sum.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.cp_tot_amm0_om_qnty_sum.StylePriority.UseTextAlignment = false;
-         xrSummary11.Running = DevExpress.XtraReports.UI.SummaryRunning.Report;
-         this.cp_tot_amm0_om_qnty_sum.Summary = xrSummary11;
+         xrSummary10.Running = DevExpress.XtraReports.UI.SummaryRunning.Report;
+         this.cp_tot_amm0_om_qnty_sum.Summary = xrSummary10;
          this.cp_tot_amm0_om_qnty_sum.Text = "cp_tot_amm0_om_qnty_sum";
          this.cp_tot_amm0_om_qnty_sum.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.cp_tot_amm0_om_qnty_sum.TextFormatString = "{0:#,##0}";
@@ -953,8 +946,8 @@
          this.cp_sum_amm0_market_m_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.cp_sum_amm0_market_m_qnty.StylePriority.UseFont = false;
          this.cp_sum_amm0_market_m_qnty.StylePriority.UseTextAlignment = false;
-         xrSummary12.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
-         this.cp_sum_amm0_market_m_qnty.Summary = xrSummary12;
+         xrSummary11.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
+         this.cp_sum_amm0_market_m_qnty.Summary = xrSummary11;
          this.cp_sum_amm0_market_m_qnty.Text = "cp_sum_amm0_market_m_qnty";
          this.cp_sum_amm0_market_m_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.cp_sum_amm0_market_m_qnty.TextFormatString = "{0:#,##0}";
@@ -985,8 +978,8 @@
          this.cp_sum_rate_valid_real.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.cp_sum_rate_valid_real.StylePriority.UseFont = false;
          this.cp_sum_rate_valid_real.StylePriority.UseTextAlignment = false;
-         xrSummary13.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
-         this.cp_sum_rate_valid_real.Summary = xrSummary13;
+         xrSummary12.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
+         this.cp_sum_rate_valid_real.Summary = xrSummary12;
          this.cp_sum_rate_valid_real.Text = "cp_sum_rate_valid_real";
          this.cp_sum_rate_valid_real.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.cp_sum_rate_valid_real.TextFormatString = "{0:##0.##}";
@@ -1002,8 +995,8 @@
          this.cp_sum_amm0_valid_cnt.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.cp_sum_amm0_valid_cnt.StylePriority.UseFont = false;
          this.cp_sum_amm0_valid_cnt.StylePriority.UseTextAlignment = false;
-         xrSummary14.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
-         this.cp_sum_amm0_valid_cnt.Summary = xrSummary14;
+         xrSummary13.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
+         this.cp_sum_amm0_valid_cnt.Summary = xrSummary13;
          this.cp_sum_amm0_valid_cnt.Text = "cp_sum_amm0_valid_cnt";
          this.cp_sum_amm0_valid_cnt.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.cp_sum_amm0_valid_cnt.TextFormatString = "{0:#,##0}";
@@ -1021,8 +1014,8 @@
          this.cp_sum_rate_m.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.cp_sum_rate_m.StylePriority.UseFont = false;
          this.cp_sum_rate_m.StylePriority.UseTextAlignment = false;
-         xrSummary15.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
-         this.cp_sum_rate_m.Summary = xrSummary15;
+         xrSummary14.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
+         this.cp_sum_rate_m.Summary = xrSummary14;
          this.cp_sum_rate_m.Text = "cp_sum_rate_m";
          this.cp_sum_rate_m.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.cp_sum_rate_m.TextFormatString = "{0:##0.0#}";
@@ -1039,8 +1032,8 @@
          this.cp_sum_m_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.cp_sum_m_qnty.StylePriority.UseFont = false;
          this.cp_sum_m_qnty.StylePriority.UseTextAlignment = false;
-         xrSummary16.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
-         this.cp_sum_m_qnty.Summary = xrSummary16;
+         xrSummary15.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
+         this.cp_sum_m_qnty.Summary = xrSummary15;
          this.cp_sum_m_qnty.Text = "cp_sum_m_qnty";
          this.cp_sum_m_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.cp_sum_m_qnty.TextFormatString = "{0:#,##0}";
@@ -1056,8 +1049,8 @@
          this.cp_sum_amm0_btrade_m_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.cp_sum_amm0_btrade_m_qnty.StylePriority.UseFont = false;
          this.cp_sum_amm0_btrade_m_qnty.StylePriority.UseTextAlignment = false;
-         xrSummary17.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
-         this.cp_sum_amm0_btrade_m_qnty.Summary = xrSummary17;
+         xrSummary16.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
+         this.cp_sum_amm0_btrade_m_qnty.Summary = xrSummary16;
          this.cp_sum_amm0_btrade_m_qnty.Text = "cp_sum_amm0_btrade_m_qnty";
          this.cp_sum_amm0_btrade_m_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.cp_sum_amm0_btrade_m_qnty.TextFormatString = "{0:#,##0}";
@@ -1073,8 +1066,8 @@
          this.cp_mmk_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.cp_mmk_qnty.StylePriority.UseFont = false;
          this.cp_mmk_qnty.StylePriority.UseTextAlignment = false;
-         xrSummary18.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
-         this.cp_mmk_qnty.Summary = xrSummary18;
+         xrSummary17.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
+         this.cp_mmk_qnty.Summary = xrSummary17;
          this.cp_mmk_qnty.Text = "cp_mmk_qnty";
          this.cp_mmk_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.cp_mmk_qnty.TextFormatString = "{0:#,##0}";
@@ -1090,8 +1083,8 @@
          this.cp_sum_amm0_iqm_qnty.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.cp_sum_amm0_iqm_qnty.StylePriority.UseFont = false;
          this.cp_sum_amm0_iqm_qnty.StylePriority.UseTextAlignment = false;
-         xrSummary19.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
-         this.cp_sum_amm0_iqm_qnty.Summary = xrSummary19;
+         xrSummary18.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
+         this.cp_sum_amm0_iqm_qnty.Summary = xrSummary18;
          this.cp_sum_amm0_iqm_qnty.Text = "cp_sum_amm0_iqm_qnty";
          this.cp_sum_amm0_iqm_qnty.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.cp_sum_amm0_iqm_qnty.Weight = 0.93929260841171591D;
@@ -1106,8 +1099,8 @@
          this.cp_sum_amm0_qm_qnty_sum.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.cp_sum_amm0_qm_qnty_sum.StylePriority.UseFont = false;
          this.cp_sum_amm0_qm_qnty_sum.StylePriority.UseTextAlignment = false;
-         xrSummary20.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
-         this.cp_sum_amm0_qm_qnty_sum.Summary = xrSummary20;
+         xrSummary19.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
+         this.cp_sum_amm0_qm_qnty_sum.Summary = xrSummary19;
          this.cp_sum_amm0_qm_qnty_sum.Text = "cp_sum_amm0_qm_qnty_sum";
          this.cp_sum_amm0_qm_qnty_sum.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.cp_sum_amm0_qm_qnty_sum.TextFormatString = "{0:#,##0}";
@@ -1123,8 +1116,8 @@
          this.cp_sum_amm0_om_qnty_sum.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
          this.cp_sum_amm0_om_qnty_sum.StylePriority.UseFont = false;
          this.cp_sum_amm0_om_qnty_sum.StylePriority.UseTextAlignment = false;
-         xrSummary21.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
-         this.cp_sum_amm0_om_qnty_sum.Summary = xrSummary21;
+         xrSummary20.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
+         this.cp_sum_amm0_om_qnty_sum.Summary = xrSummary20;
          this.cp_sum_amm0_om_qnty_sum.Text = "cp_sum_amm0_om_qnty_sum";
          this.cp_sum_amm0_om_qnty_sum.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
          this.cp_sum_amm0_om_qnty_sum.TextFormatString = "{0:#,##0}";
@@ -1221,7 +1214,7 @@
             this.groupFooterBand1});
          this.Font = new System.Drawing.Font("Arial", 9.75F);
          this.Landscape = true;
-         this.Margins = new System.Drawing.Printing.Margins(10, 10, 10, 10);
+         this.Margins = new System.Drawing.Printing.Margins(10, 4, 10, 10);
          this.PageHeight = 827;
          this.PageWidth = 1169;
          this.PaperKind = System.Drawing.Printing.PaperKind.A4;

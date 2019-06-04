@@ -32,18 +32,19 @@
          this.txtDate = new BaseGround.Widget.TextDateEdit();
          this.lblDate = new System.Windows.Forms.Label();
          this.ExportShow = new System.Windows.Forms.Label();
+         this.panel1 = new System.Windows.Forms.Panel();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
          this.grpxDescription.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ddlAdjType.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).BeginInit();
+         this.panel1.SuspendLayout();
          this.SuspendLayout();
          // 
          // panParent
          // 
-         this.panParent.Controls.Add(this.grpxDescription);
-         this.panParent.Controls.Add(this.ExportShow);
+         this.panParent.Controls.Add(this.panel1);
          this.panParent.Size = new System.Drawing.Size(713, 499);
          // 
          // ribbonControl
@@ -67,7 +68,8 @@
          this.grpxDescription.Controls.Add(this.ddlAdjType);
          this.grpxDescription.Controls.Add(this.txtDate);
          this.grpxDescription.Controls.Add(this.lblDate);
-         this.grpxDescription.Location = new System.Drawing.Point(21, 21);
+         this.grpxDescription.ForeColor = System.Drawing.Color.Navy;
+         this.grpxDescription.Location = new System.Drawing.Point(16, 3);
          this.grpxDescription.Name = "grpxDescription";
          this.grpxDescription.Size = new System.Drawing.Size(404, 164);
          this.grpxDescription.TabIndex = 13;
@@ -77,9 +79,11 @@
          // label1
          // 
          this.label1.AutoSize = true;
+         this.label1.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.label1.ForeColor = System.Drawing.Color.Black;
          this.label1.Location = new System.Drawing.Point(37, 91);
          this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(137, 20);
+         this.label1.Size = new System.Drawing.Size(138, 21);
          this.label1.TabIndex = 16;
          this.label1.Text = "保證金調整狀況：";
          // 
@@ -110,6 +114,7 @@
          this.txtDate.Name = "txtDate";
          this.txtDate.Properties.Appearance.Options.UseTextOptions = true;
          this.txtDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtDate.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
          this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtDate.Properties.Mask.ShowPlaceHolders = false;
@@ -121,41 +126,55 @@
          // lblDate
          // 
          this.lblDate.AutoSize = true;
+         this.lblDate.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.lblDate.ForeColor = System.Drawing.Color.Black;
          this.lblDate.Location = new System.Drawing.Point(37, 46);
          this.lblDate.Name = "lblDate";
-         this.lblDate.Size = new System.Drawing.Size(57, 20);
+         this.lblDate.Size = new System.Drawing.Size(58, 21);
          this.lblDate.TabIndex = 2;
          this.lblDate.Text = "日期：";
          // 
          // ExportShow
          // 
          this.ExportShow.AutoSize = true;
-         this.ExportShow.Location = new System.Drawing.Point(17, 166);
+         this.ExportShow.ForeColor = System.Drawing.Color.Navy;
+         this.ExportShow.Location = new System.Drawing.Point(12, 170);
          this.ExportShow.Name = "ExportShow";
          this.ExportShow.Size = new System.Drawing.Size(54, 20);
          this.ExportShow.TabIndex = 14;
          this.ExportShow.Text = "label1";
          // 
-         // W40100
+         // panel1
+         // 
+         this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.panel1.Controls.Add(this.grpxDescription);
+         this.panel1.Controls.Add(this.ExportShow);
+         this.panel1.Location = new System.Drawing.Point(30, 30);
+         this.panel1.Name = "panel1";
+         this.panel1.Size = new System.Drawing.Size(449, 214);
+         this.panel1.TabIndex = 15;
+         // 
+         // W40090
          // 
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
          this.ClientSize = new System.Drawing.Size(713, 529);
          this.Controls.Add(this.panelControl1);
-         this.Name = "W40100";
+         this.Name = "W40090";
          this.Text = "40100";
          this.Controls.SetChildIndex(this.ribbonControl, 0);
          this.Controls.SetChildIndex(this.panelControl1, 0);
          this.Controls.SetChildIndex(this.panParent, 0);
          this.panParent.ResumeLayout(false);
-         this.panParent.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
          this.grpxDescription.ResumeLayout(false);
          this.grpxDescription.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ddlAdjType.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).EndInit();
+         this.panel1.ResumeLayout(false);
+         this.panel1.PerformLayout();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -170,5 +189,6 @@
       private DevExpress.XtraEditors.LookUpEdit ddlAdjType;
       private System.Windows.Forms.Label label1;
       public BaseGround.Widget.TextDateEdit txtDate;
+      private System.Windows.Forms.Panel panel1;
    }
 }

@@ -55,6 +55,7 @@ namespace PhoenixCI.FormUI.Prefix5
       /// </summary>
       private DataTable ProdKdStoDataFilter;
       private XtraReport _defReport;
+      private XtraReport _Report;
       private RW50030 _RW50030;
       private D50030 dao50030;
 
@@ -459,17 +460,21 @@ namespace PhoenixCI.FormUI.Prefix5
          _Data = null;
          //報表內容選擇分日期
          if (gbDetial.EditValue.Equals("rb_gdate")) {
-            _Data = dao50030.List50030(_D500Xx);
             //交易時段選盤後
             if (gbMarket.EditValue.Equals("rb_market_1")) {
                _Data = dao50030.ListAH(_D500Xx);
             }
+            else {
+               _Data = dao50030.List50030(_D500Xx);
+            }
          }
          else {
-            _Data = dao50030.ListACCU(_D500Xx);
             //交易時段選盤後
             if (gbMarket.EditValue.Equals("rb_market_1")) {
                _Data = dao50030.ListACCUAH(_D500Xx);
+            }
+            else {
+               _Data = dao50030.ListACCU(_D500Xx);
             }
          }
          if (_Data.Rows.Count <= 0) {
@@ -680,13 +685,43 @@ namespace PhoenixCI.FormUI.Prefix5
 
          if (!GetData()) return ResultStatus.Fail;
 
+         if (gbDetial.EditValue.Equals("rb_gdate")) {
+            decimal TotR = 0, TotM = 0, llR = 0, llM = 0;
+            string lsProdId = "", lsYMD = "";
+            foreach (DataRow dr in _Data.Rows) {
+               if (lsProdId != dr["AMM0_PROD_ID"].AsString() || lsYMD != dr["AMM0_YMD"].AsString()) {
+                  llR = dr["AMM0_MARKET_R_CNT"].AsDecimal();
+                  llM = dr["AMM0_MARKET_M_QNTY"].AsDecimal();
+                  TotR = TotR + llR;
+                  TotM = TotM + llM;
+                  lsProdId = dr["AMM0_PROD_ID"].AsString();
+                  lsYMD = dr["AMM0_YMD"].AsString();
+               }
+               else {
+                  //當遇到造市者沒有足月時,造成總計不同
+                  //皆以最大值為全市場值
+                  if (llR < dr["AMM0_MARKET_R_CNT"].AsDecimal() || llM < dr["AMM0_MARKET_M_QNTY"].AsDecimal()) {
+                     TotR = TotR - llR;
+                     TotM = TotM - llM;
+                     llR = dr["AMM0_MARKET_R_CNT"].AsDecimal();
+                     llM = dr["AMM0_MARKET_M_QNTY"].AsDecimal();
+                     TotR = TotR + llR;
+                     TotM = TotM + llM;
+                  }
+               }
+            }//foreach (DataRow dr in dt.Rows) 
+            _Data.Rows[0]["TOT_R"] = TotR;
+            _Data.Rows[0]["TOT_M"] = TotM;
+         }
+
          documentViewer1.DocumentSource = null;
 
          _RW50030 = new RW50030();
          _RW50030.DataSource = _Data;
          _RW50030.SetSortType(_D500Xx.SortType);
-         
-         documentViewer1.DocumentSource = _RW50030;
+         _Report = _RW50030;
+
+         documentViewer1.DocumentSource = _Report;
          _RW50030.CreateDocument(true);
 
          _ToolBtnPrintAll.Enabled = true;
@@ -799,15 +834,13 @@ namespace PhoenixCI.FormUI.Prefix5
 
       protected override ResultStatus Print(ReportHelper reportHelper)
       {
-         CommonReportPortraitA4 reportPortraitA4 = new CommonReportPortraitA4();
-         _RW50030.SetSortType(_D500Xx.SortType);
-         XtraReport xtraReport = reportHelper.CreateCompositeReport(_RW50030, reportPortraitA4);
+         CommonReportLandscapeA4 reportLandscapeA4 = new CommonReportLandscapeA4();
+         XtraReport xtraReport = reportHelper.CreateCompositeReport(_Report, reportLandscapeA4);
          string dateCondition = DateText() == "" ? "" : "," + DateText();
          reportHelper.LeftMemo = ConditionText() + dateCondition;
          reportHelper.Create(xtraReport);
 
-         //reportHelper.Preview();
-         base.Print(reportHelper);
+         reportHelper.Print();
          return ResultStatus.Success;
       }
 
@@ -817,5 +850,6 @@ namespace PhoenixCI.FormUI.Prefix5
          documentViewer1.DocumentSource = null;
          return ResultStatus.Success;
       }
+
    }
 }

@@ -89,18 +89,18 @@ namespace PhoenixCI.FormUI.Prefix5
       {
          DataTable dt = is_dw_name;
          List<ReportProp> caption = new List<ReportProp>{
-            new ReportProp{DataColumn=ExtensionCommon.rowindex,Caption= "筆數",CellWidth=146} ,
-            new ReportProp{DataColumn="AMM0_YMD",Caption="日期",CellWidth=224} ,
-            new ReportProp{DataColumn="AMM0_BRK_NO",Caption="期貨商代號",CellWidth=270},
-            new ReportProp{DataColumn = "BRK_ABBR_NAME", Caption ="期貨商名稱",CellWidth=530},
-            new ReportProp{DataColumn = "AMM0_ACC_NO",Caption="投資人帳號",CellWidth=325},
-            new ReportProp{DataColumn = "AMM0_PROD_ID",Caption="商品名稱",CellWidth=389},
-            new ReportProp{DataColumn = "AMM0_MMK_QNTY",Caption="造市量",CellWidth=407},
-            new ReportProp{DataColumn = "AMM0_TOT_QNTY",Caption="造市者總成交量",CellWidth=407},
-            new ReportProp{DataColumn = "AMM0_MMK_RATE",Caption="有效報/詢價比例",CellWidth=302},
-            new ReportProp{DataColumn = "AMM0_KEEP_TIME",Caption="每日平均維持時間(分)",CellWidth=407},
-            new ReportProp{DataColumn = "AMM0_RESULT",Caption="績效分數",CellWidth=576},
-            new ReportProp{DataColumn = "AMM0_CONTRACT_CNT",Caption="合格檔數",CellWidth=325}
+            new ReportProp{DataColumn=ExtensionCommon.rowindex,Caption= "筆數",CellWidth=40} ,
+            new ReportProp{DataColumn="AMM0_YMD",Caption="日期",CellWidth=65} ,
+            new ReportProp{DataColumn="AMM0_BRK_NO",Caption="期貨商        代號",CellWidth=70},
+            new ReportProp{DataColumn = "BRK_ABBR_NAME", Caption ="期貨商名稱",CellWidth=140},
+            new ReportProp{DataColumn = "AMM0_ACC_NO",Caption="投資人帳號",CellWidth=80},
+            new ReportProp{DataColumn = "AMM0_PROD_ID",Caption="商品名稱",CellWidth=80},
+            new ReportProp{DataColumn = "AMM0_MMK_QNTY",Caption="造市量",CellWidth=65,textAlignment=TextAlignment.MiddleRight},
+            new ReportProp{DataColumn = "AMM0_TOT_QNTY",Caption="造市者總成交量",CellWidth=75,textAlignment=TextAlignment.MiddleRight},
+            new ReportProp{DataColumn = "AMM0_MMK_RATE",Caption="有效報/詢價比例",CellWidth=75,textAlignment=TextAlignment.MiddleRight},
+            new ReportProp{DataColumn = "AMM0_KEEP_TIME",Caption="每日平均維持時間(分)",CellWidth=80,textAlignment=TextAlignment.MiddleRight},
+            new ReportProp{DataColumn = "AMM0_RESULT",Caption="績效分數",CellWidth=150,textAlignment=TextAlignment.MiddleRight},
+            new ReportProp{DataColumn = "AMM0_CONTRACT_CNT",Caption="合格檔數",CellWidth=70,textAlignment=TextAlignment.MiddleRight}
             };
          dt = ExtensionCommon.AddSeriNumToDataTable(dt);
          defReport = new defReport(dt, caption);
@@ -194,7 +194,8 @@ namespace PhoenixCI.FormUI.Prefix5
       {
          CommonReportLandscapeA4 reportLandscapeA4 = new CommonReportLandscapeA4();
          XtraReport xtraReport = reportHelper.CreateCompositeReport(defReport, reportLandscapeA4);
-
+         string dateCondition = w500xx.DateText() == "" ? "" : "," + w500xx.DateText();
+         reportHelper.LeftMemo = w500xx.ConditionText() + dateCondition;
          reportHelper.Create(xtraReport);
          //reportHelper.Preview();
          base.Print(reportHelper);
