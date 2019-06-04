@@ -20,7 +20,7 @@ namespace DataObjects.Dao.Together.TableDao {
       public bool DeleteByDate(string dateYmd) {
 
          object[] parms = {
-                "@dateYmd", dateYmd
+                ":dateYmd", dateYmd
             };
 
          string sql = @"DELETE FROM CI.STWD WHERE STWD_YMD = :dateYmd";
