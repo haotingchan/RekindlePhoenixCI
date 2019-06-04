@@ -5,6 +5,7 @@ using Common;
 using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
+using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
 using System;
 using System.Data;
@@ -294,7 +295,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          if (!resultOne && !resultTwo) {
             try {
                workbook = null;
-               System.IO.File.Delete(excelDestinationPath);
+               File.Delete(excelDestinationPath);
             } catch (Exception ex) {
                WriteLog(ex);
             }
@@ -389,5 +390,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
          }
       }
 
+      /// <summary>
+      /// set checkbox list focus background color
+      /// </summary>
+      /// <param name="sender"></param>
+      /// <param name="e"></param>
+      private void chkGroup_DrawItem(object sender , ListBoxDrawItemEventArgs e) {
+         e.AllowDrawSkinBackground = false;
+      }
    }
 }

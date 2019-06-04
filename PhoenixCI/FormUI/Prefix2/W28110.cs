@@ -640,7 +640,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
          DateTime dateTime = txtDate.DateTimeValue;
          int rtn;
 
-         if (dao28110.ExecuteSP(dateTime , prodType , "sp_H_stt_AI3").Status != ResultStatus.Success) {
+         if (dao28110.ExecuteSP(dateTime , prodType , "ci.sp_H_stt_AI3").Status != ResultStatus.Success) {
             MessageBox.Show("執行SP(sp_H_stt_AI3)錯誤! " , "注意" , MessageBoxButtons.OK , MessageBoxIcon.Stop);
             WriteLog("執行SP(sp_H_stt_AI3)錯誤!" , "Error");
          } else {
