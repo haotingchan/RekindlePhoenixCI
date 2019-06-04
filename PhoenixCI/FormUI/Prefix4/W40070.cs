@@ -163,7 +163,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 dao40070 = new D40070();
                 DataTable dt40070 = dao40070.d_40070_scrn(txtSDate.DateTimeValue.ToString("yyyyMMdd"), ddlModel.EditValue.AsString());
                 if (dt40070.Rows.Count == 0) {
-                    MessageDisplay.Error("無任何資料！");
+                    MessageDisplay.Warning("無任何資料！");
                     return ResultStatus.Fail;
                 }
                 //排序

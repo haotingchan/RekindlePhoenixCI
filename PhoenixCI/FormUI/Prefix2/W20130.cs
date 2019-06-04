@@ -107,6 +107,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
         }
 
         protected override ResultStatus Retrieve() {
+            //清空Grid
+            gcMain.DataSource = null;
 
             string startDate = txtStartDate.Text.Replace("/", "");
             string endDate = txtEndDate.Text.Replace("/", "");
