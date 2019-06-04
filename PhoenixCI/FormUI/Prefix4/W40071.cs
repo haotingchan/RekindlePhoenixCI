@@ -187,7 +187,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 //1. 讀取資料
                 DataTable dtMGD2 = dao40071.d_40071(txtSDate.DateTimeValue.ToString("yyyyMMdd"), is_adj_type);
                 if (dtMGD2.Rows.Count == 0) {
-                    MessageDisplay.Error("無任何資料！");
+                    MessageDisplay.Warning("無任何資料！");
                     return ResultStatus.Fail;
                 }
                 //2. 重置實施/生效日期與左側的gridview(PB的wf_clear_ymd())
