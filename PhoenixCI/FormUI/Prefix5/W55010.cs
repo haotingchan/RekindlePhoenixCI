@@ -7,6 +7,7 @@ using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
 using System.Data;
+using System.IO;
 
 namespace PhoenixCI.FormUI.Prefix5 {
    //Winnni,2019/01/10 調整邏輯
@@ -30,7 +31,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
          base.ActivatedForm();
 
          _ToolBtnExport.Enabled = true;
-         _ToolBtnSave.Enabled = true;
 
          return ResultStatus.Success;
       }
@@ -47,15 +47,16 @@ namespace PhoenixCI.FormUI.Prefix5 {
       /// </summary>
       /// <returns></returns>
       protected override ResultStatus Export() {
-         base.Export();        
+         base.Export();
 
          int li_run_times; //單月報表需抓取資料庫的次數(月份數) 可先設定200806-200808
          DateTime ldt_ym;
-         int sYear = txtFromDate.Text.SubStr(0,4).AsInt(); //起年
+         int sYear = txtFromDate.Text.SubStr(0 , 4).AsInt(); //起年
          int eYear = txtToDate.Text.SubStr(0 , 4).AsInt(); //迄年
          int sMonth = txtFromDate.Text.SubStr(5 , 2).AsInt(); //起月
          int eMonth = txtToDate.Text.SubStr(5 , 4).AsInt(); //迄月
 
+         bool flag = false;
          //選擇單月
          if (rb_repo.SelectedIndex == 0) {
             //計算共需幾個月份
@@ -87,12 +88,16 @@ namespace PhoenixCI.FormUI.Prefix5 {
                //em_data_month.text = string(ldt_ym , 'yyyy/mm');
 
                //跑單月填表
-               SingleMonthReport();
+               flag = SingleMonthReport();
+               if (!flag)
+                  return ResultStatus.Fail;
             }
 
          } else {
             //跑多月填表
-            MultiMonthReport();
+            flag = MultiMonthReport();
+            if (!flag)
+               return ResultStatus.Fail;
          }
 
          //ManipulateExcel(excelDestinationPath);
@@ -100,7 +105,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
          return ResultStatus.Success;
       }
 
-      private void SingleMonthReport() {
+      private bool SingleMonthReport() {
 
          int li_ole_row_tol, li_datacount;
          int ii_ole_row = 5;
@@ -112,7 +117,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
          DataTable dtContent = dao55010.ListDataSingleMonth(txtFromDate.FormatValue , txtToDate.FormatValue);
          if (dtContent.Rows.Count == 0) {
             MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtFromDate.Text , this.Text));
-            return;
+            return false;
          }
 
          excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID); //單月路徑
@@ -129,7 +134,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
          li_ole_row_tol = ii_ole_row + li_datacount;
          DateTime today = DateTime.Now;
          worksheet.Cells[3 , 0].Value += today.ToString("yyyy/MM/dd hh:mm:ss");
-         worksheet.Cells[3 , 4].Value += txtToDate.Text.Replace("/","");
+         worksheet.Cells[3 , 4].Value += txtToDate.Text.Replace("/" , "");
 
          for (int x = 0 ; x < dtContent.Rows.Count ; x++) {
 
@@ -153,25 +158,26 @@ namespace PhoenixCI.FormUI.Prefix5 {
          //儲存及關閉檔案
          workbook.SaveDocument(excelDestinationPath);
 
+         return true;
+
          #endregion
       }
 
-      private void MultiMonthReport() {
+      private bool MultiMonthReport() {
          int li_ole_row_tol, li_datacount;
          int ii_ole_row = 1;
          string excelDestinationPath;
 
          #region Excel
 
-         excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID + "_2");//多月路徑
-
          //讀取資料
          DataTable dtContent = dao55010.ListDataMultiMonth(txtFromDate.FormatValue , txtToDate.FormatValue);
-         if (dtContent.Rows.Count == 0) {
+         if (dtContent.Rows.Count <= 0) {
             MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtFromDate.Text , this.Text));
-            //is_chk = 'E';
-            return;
+            return false;
          }
+
+         excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID + "_2");//多月路徑
 
          //開啟檔案     
          Workbook workbook = new Workbook();
@@ -208,6 +214,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
          //儲存及關閉檔案
          workbook.SaveDocument(excelDestinationPath);
+
+         return true;
 
          #endregion
       }

@@ -3,6 +3,7 @@ using BaseGround.Shared;
 using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together.TableDao;
+using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
 using System;
 using System.Data;
@@ -220,5 +221,15 @@ namespace PhoenixCI.FormUI.Prefix3 {
          }
          return 0;
       }
+
+      /// <summary>
+      /// set checkbox list focus background color
+      /// </summary>
+      /// <param name="sender"></param>
+      /// <param name="e"></param>
+      private void chkGroup_DrawItem(object sender , ListBoxDrawItemEventArgs e) {
+         e.AllowDrawSkinBackground = false;
+      }
+
    }
 }

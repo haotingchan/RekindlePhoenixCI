@@ -109,21 +109,22 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       protected override ResultStatus Export() {
+
          #region 日期檢核
-         if (gbItem.EditValue.AsString() == "rbNewDate") {
-            if (!txtDate.IsDate(txtDate.Text , "日期輸入錯誤!") ||
-               !txtEndDate.IsDate(txtEndDate.Text , "日期輸入錯誤!")) {
-               txtEndDate.Focus();
-               MessageDisplay.Error("日期輸入錯誤!");
-               return ResultStatus.Fail;
-            }
-         } else if (gbItem.EditValue.AsString() == "rbOleDate") {
-            if (!txtStartDate.IsDate(txtDate.Text , "日期輸入錯誤!") || !txtEndDate.IsDate(txtEndDate.Text , "日期輸入錯誤!")) {
-               txtStartDate.Focus();
-               MessageDisplay.Error("日期輸入錯誤!");
-               return ResultStatus.Fail;
-            }
-         }
+         //if (gbItem.EditValue.AsString() == "rbNewDate") {
+         //   if (!txtDate.IsDate(txtDate.Text , "日期輸入錯誤!") ||
+         //      !txtEndDate.IsDate(txtEndDate.Text , "日期輸入錯誤!")) {
+         //      txtEndDate.Focus();
+         //      MessageDisplay.Error("日期輸入錯誤!");
+         //      return ResultStatus.Fail;
+         //   }
+         //} else if (gbItem.EditValue.AsString() == "rbOleDate") {
+         //   if (!txtStartDate.IsDate(txtDate.Text , "日期輸入錯誤!") || !txtEndDate.IsDate(txtEndDate.Text , "日期輸入錯誤!")) {
+         //      txtStartDate.Focus();
+         //      MessageDisplay.Error("日期輸入錯誤!");
+         //      return ResultStatus.Fail;
+         //   }
+         //}
          #endregion
 
          try {
@@ -147,7 +148,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             ShowMsg(rptId + "-" + rptName + " 轉檔中...");
 
             //3.1 copy template xls to target path
-            string excelDestinationPath = PbFunc.wf_copy_file(rptId , rptId);
+            //string excelDestinationPath = PbFunc.wf_copy_file(rptId , rptId);
+            string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , rptId);
 
             //3.2 open xls
             Workbook workbook = new Workbook();

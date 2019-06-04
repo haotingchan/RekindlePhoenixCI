@@ -9,6 +9,8 @@ using DevExpress.Spreadsheet;
 using System;
 using System.Data;
 using System.Globalization;
+using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 
 /// <summary>
@@ -26,13 +28,36 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
       public W30640(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
-         dao30640 = new D30640();
          this.Text = _ProgramID + "─" + _ProgramName;
-         txtStartMonth.Text = GlobalInfo.OCF_DATE.ToString("yyyy/01"); //起始月份皆設為當年1月
-         txtEndMonth.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
 
-         //Winni test
-         //2011211-201404
+         dao30640 = new D30640();
+         //txtStartMonth.Text = GlobalInfo.OCF_DATE.ToString("yyyy/01"); //起始月份皆設為當年1月
+         //txtEndMonth.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
+      }
+
+      protected override ResultStatus Open() {
+         base.Open();
+         try {
+
+            //1. 設定初始年月
+            txtStartMonth.DateTimeValue = DateTime.ParseExact(GlobalInfo.OCF_DATE.ToString("yyyy/01/dd") , "yyyy/MM/dd" , null);//起始月份皆設為當年1月
+            txtStartMonth.EnterMoveNextControl = true;
+            txtStartMonth.Focus();
+
+            txtEndMonth.DateTimeValue = GlobalInfo.OCF_DATE;
+            txtEndMonth.EnterMoveNextControl = true;
+            txtEndMonth.Focus();
+
+#if DEBUG
+            txtStartMonth.DateTimeValue = DateTime.ParseExact("2014/01" , "yyyy/MM" , null);
+            txtEndMonth.DateTimeValue = DateTime.ParseExact("2014/04" , "yyyy/MM" , null);
+            this.Text += "(開啟測試模式)";
+#endif
+            return ResultStatus.Success;
+         } catch (Exception ex) {
+            WriteLog(ex);
+            return ResultStatus.Fail;
+         }
       }
 
       protected override ResultStatus ActivatedForm() {
@@ -45,33 +70,48 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
       protected override ResultStatus Export() {
 
-         base.Export();
-         lblProcessing.Visible = true;
+         try {
 
-         //1.複製檔案 & 開啟檔案 
-         string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID);
-         Workbook workbook = new Workbook();
-         workbook.LoadDocument(excelDestinationPath);
-         Worksheet worksheet = workbook.Worksheets[0];
+            //0. ready
+            panFilter.Enabled = false;
+            labMsg.Visible = true;
+            labMsg.Text = "開始轉檔...";
+            this.Cursor = Cursors.WaitCursor;
+            this.Refresh();
+            Thread.Sleep(5);
 
-         //2.填資料
-         ii_ole_row = 3;
-         bool result = wf_Export(workbook , worksheet , txtStartMonth.Text.Replace("/" , "") , txtEndMonth.Text.Replace("/" , ""));
+            //1.複製檔案 & 開啟檔案 
+            string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID);
+            Workbook workbook = new Workbook();
+            workbook.LoadDocument(excelDestinationPath);
+            Worksheet worksheet = workbook.Worksheets[0];
 
-         if (!result) {
-            try {
+            //2.填資料
+            ii_ole_row = 3;
+            bool result = wf_Export(workbook , worksheet , txtStartMonth.Text.Replace("/" , "") , txtEndMonth.Text.Replace("/" , ""));
+
+            if (!result) {
                workbook = null;
-               System.IO.File.Delete(excelDestinationPath);
-            } catch (Exception) {
-               //
+               File.Delete(excelDestinationPath);
+               return ResultStatus.Fail;
             }
-            return ResultStatus.Fail;
+
+            //3.存檔
+            workbook.SaveDocument(excelDestinationPath);
+            labMsg.Visible = false;
+
+            return ResultStatus.Success;
+
+         } catch (Exception ex) {
+            WriteLog(ex);
+         } finally {
+            panFilter.Enabled = true;
+            labMsg.Text = "";
+            labMsg.Visible = false;
+            this.Cursor = Cursors.Arrow;
          }
 
-         //3.存檔
-         workbook.SaveDocument(excelDestinationPath);
-         lblProcessing.Visible = false;
-         return ResultStatus.Success;
+         return ResultStatus.Fail;
       }
 
       private bool wf_Export(Workbook workbook , Worksheet worksheet , string as_symd , string as_eymd) {

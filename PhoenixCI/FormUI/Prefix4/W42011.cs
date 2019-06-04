@@ -376,8 +376,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     if (f > 0) richText.Characters(f - 1, 5).Text = txtRate4.Text + "%";
                 }
                 if (lblCmRate.Text != "12") {
-                    f = richText.Text.IndexOf("12%") + 1;
-                    if (f > 0) richText.Characters(f - 1, 5).Text = lblCmRate.Text + "%";
+                    f = richText.Text.IndexOf("12 %") + 1;
+                    if (f > 0) richText.Characters(f - 1, 4).Text = lblCmRate.Text + "%";
                 }
                 ws.Cells[headRow, 2].SetRichText(richText);
                 //表頭
@@ -399,8 +399,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     if (f > 0) richText.Characters(f - 1, 5).Text = txtRate4.Text + "%";
                 }
                 if (lblCmRate.Text != "12") {
-                    f = richText.Text.IndexOf("12%") + 1;
-                    if (f > 0) richText.Characters(f - 1, 5).Text = lblCmRate.Text + "%";
+                    f = richText.Text.IndexOf("12 %") + 1;
+                    if (f > 0) richText.Characters(f - 1, 4).Text = lblCmRate.Text + "%";
                 }
                 ws.Cells[rowIndex - 4, 2].SetRichText(richText);
             }
