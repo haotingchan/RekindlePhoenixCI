@@ -137,7 +137,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             //讀取資料
             DataTable dt = dao30350.Get30351Data(IsKindID, _StartDate.ToString("yyyyMMdd"), _EndDate.ToString("yyyyMMdd"));
             if (dt.Rows.Count <= 0) {
-               return $"{_StartDate.ToShortDateString()}～{_EndDate.ToShortDateString()},{SheetName}－{RptName},{IsKindID}無任何資料!";
+               return $"{_StartDate.ToShortDateString()}～{_EndDate.ToShortDateString()},{SheetName}－{RptName},無任何資料!";
             }
             //行數寫入起始條件
             RowIndex = ConditionRowIndex(RowIndex, _StartDate, dt, condition);
@@ -165,7 +165,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             //讀取資料
             DataTable dt = dao30350.Get30358Data(IsKindID, _StartDate.ToString("yyyyMMdd"), _EndDate.ToString("yyyyMMdd"));
             if (dt.Rows.Count <= 0) {
-               return $"{_StartDate.ToShortDateString()}～{_EndDate.ToShortDateString()},{SheetName}－{RptName},{IsKindID}無任何資料!";
+               return $"{_StartDate.ToShortDateString()}～{_EndDate.ToShortDateString()},{SheetName}－{RptName},無任何資料!";
             }
             //行數寫入起始條件
             RowIndex = ConditionRowIndex(RowIndex, _StartDate, dt, Condition);
