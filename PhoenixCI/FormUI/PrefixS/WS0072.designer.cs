@@ -49,9 +49,9 @@
          this.PSR_btnClear = new DevExpress.XtraEditors.SimpleButton();
          this.PSR_btnAdd = new DevExpress.XtraEditors.SimpleButton();
          this.PSR_btnDel = new DevExpress.XtraEditors.SimpleButton();
-         this.tab_INTERMONTH = new DevExpress.XtraTab.XtraTabPage();
-         this.gc_INTERMONTH = new DevExpress.XtraGrid.GridControl();
-         this.gv_INTERMONTH = new DevExpress.XtraGrid.Views.Grid.GridView();
+         this.tab_IMS = new DevExpress.XtraTab.XtraTabPage();
+         this.gc_IMS = new DevExpress.XtraGrid.GridControl();
+         this.gv_IMS = new DevExpress.XtraGrid.Views.Grid.GridView();
          this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
          this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
          this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -62,9 +62,9 @@
          this.gridColumn7 = new DevExpress.XtraGrid.Columns.GridColumn();
          this.gridColumn8 = new DevExpress.XtraGrid.Columns.GridColumn();
          this.panel2 = new System.Windows.Forms.Panel();
-         this.INTERMONTH_btnClear = new DevExpress.XtraEditors.SimpleButton();
-         this.INTERMONTH_Add = new DevExpress.XtraEditors.SimpleButton();
-         this.INTERMONTH_btnDel = new DevExpress.XtraEditors.SimpleButton();
+         this.IMS_btnClear = new DevExpress.XtraEditors.SimpleButton();
+         this.IMS_Add = new DevExpress.XtraEditors.SimpleButton();
+         this.IMS_btnDel = new DevExpress.XtraEditors.SimpleButton();
          this.tab_ZISP = new DevExpress.XtraTab.XtraTabPage();
          this.panTabGrid = new System.Windows.Forms.Panel();
          this.gc_ZISP = new DevExpress.XtraGrid.GridControl();
@@ -137,9 +137,9 @@
          ((System.ComponentModel.ISupportInitialize)(this.gv_PSR)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
          this.panel1.SuspendLayout();
-         this.tab_INTERMONTH.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.gc_INTERMONTH)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.gv_INTERMONTH)).BeginInit();
+         this.tab_IMS.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.gc_IMS)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.gv_IMS)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).BeginInit();
          this.panel2.SuspendLayout();
          this.tab_ZISP.SuspendLayout();
@@ -285,7 +285,7 @@
          this.SpanTabControl.TabIndex = 2;
          this.SpanTabControl.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tab_PSR,
-            this.tab_INTERMONTH,
+            this.tab_IMS,
             this.tab_ZISP,
             this.tab_VSR,
             this.tab_SOM});
@@ -443,31 +443,31 @@
          this.PSR_btnDel.Text = "刪除";
          this.PSR_btnDel.Click += new System.EventHandler(this.btnDel_Click);
          // 
-         // tab_INTERMONTH
+         // tab_IMS
          // 
-         this.tab_INTERMONTH.Controls.Add(this.gc_INTERMONTH);
-         this.tab_INTERMONTH.Controls.Add(this.panel2);
-         this.tab_INTERMONTH.Name = "tab_INTERMONTH";
-         this.tab_INTERMONTH.Size = new System.Drawing.Size(800, 368);
-         this.tab_INTERMONTH.Text = "B. 跨月價差設定";
+         this.tab_IMS.Controls.Add(this.gc_IMS);
+         this.tab_IMS.Controls.Add(this.panel2);
+         this.tab_IMS.Name = "tab_IMS";
+         this.tab_IMS.Size = new System.Drawing.Size(1111, 405);
+         this.tab_IMS.Text = "B. 跨月價差設定";
          // 
-         // gc_INTERMONTH
+         // gc_IMS
          // 
-         this.gc_INTERMONTH.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.gc_INTERMONTH.Location = new System.Drawing.Point(0, 77);
-         this.gc_INTERMONTH.MainView = this.gv_INTERMONTH;
-         this.gc_INTERMONTH.MenuManager = this.ribbonControl;
-         this.gc_INTERMONTH.Name = "gc_INTERMONTH";
-         this.gc_INTERMONTH.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+         this.gc_IMS.Dock = System.Windows.Forms.DockStyle.Fill;
+         this.gc_IMS.Location = new System.Drawing.Point(0, 77);
+         this.gc_IMS.MainView = this.gv_IMS;
+         this.gc_IMS.MenuManager = this.ribbonControl;
+         this.gc_IMS.Name = "gc_IMS";
+         this.gc_IMS.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit2});
-         this.gc_INTERMONTH.Size = new System.Drawing.Size(800, 291);
-         this.gc_INTERMONTH.TabIndex = 7;
-         this.gc_INTERMONTH.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gv_INTERMONTH});
+         this.gc_IMS.Size = new System.Drawing.Size(1111, 328);
+         this.gc_IMS.TabIndex = 7;
+         this.gc_IMS.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gv_IMS});
          // 
-         // gv_INTERMONTH
+         // gv_IMS
          // 
-         this.gv_INTERMONTH.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+         this.gv_IMS.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.gridColumn1,
             this.gridColumn2,
             this.gridColumn3,
@@ -476,9 +476,9 @@
             this.gridColumn6,
             this.gridColumn7,
             this.gridColumn8});
-         this.gv_INTERMONTH.GridControl = this.gc_INTERMONTH;
-         this.gv_INTERMONTH.Name = "gv_INTERMONTH";
-         this.gv_INTERMONTH.InitNewRow += new DevExpress.XtraGrid.Views.Grid.InitNewRowEventHandler(this.InitNewRow);
+         this.gv_IMS.GridControl = this.gc_IMS;
+         this.gv_IMS.Name = "gv_IMS";
+         this.gv_IMS.InitNewRow += new DevExpress.XtraGrid.Views.Grid.InitNewRowEventHandler(this.InitNewRow);
          // 
          // gridColumn1
          // 
@@ -546,48 +546,48 @@
          // 
          // panel2
          // 
-         this.panel2.Controls.Add(this.INTERMONTH_btnClear);
-         this.panel2.Controls.Add(this.INTERMONTH_Add);
-         this.panel2.Controls.Add(this.INTERMONTH_btnDel);
+         this.panel2.Controls.Add(this.IMS_btnClear);
+         this.panel2.Controls.Add(this.IMS_Add);
+         this.panel2.Controls.Add(this.IMS_btnDel);
          this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
          this.panel2.Location = new System.Drawing.Point(0, 0);
          this.panel2.Name = "panel2";
-         this.panel2.Size = new System.Drawing.Size(800, 77);
+         this.panel2.Size = new System.Drawing.Size(1111, 77);
          this.panel2.TabIndex = 6;
          // 
-         // INTERMONTH_btnClear
+         // IMS_btnClear
          // 
-         this.INTERMONTH_btnClear.Location = new System.Drawing.Point(31, 22);
-         this.INTERMONTH_btnClear.Name = "INTERMONTH_btnClear";
-         this.INTERMONTH_btnClear.Size = new System.Drawing.Size(111, 37);
-         this.INTERMONTH_btnClear.TabIndex = 0;
-         this.INTERMONTH_btnClear.Text = "清除資料";
-         this.INTERMONTH_btnClear.Click += new System.EventHandler(this.btnClear_Click);
+         this.IMS_btnClear.Location = new System.Drawing.Point(31, 22);
+         this.IMS_btnClear.Name = "IMS_btnClear";
+         this.IMS_btnClear.Size = new System.Drawing.Size(111, 37);
+         this.IMS_btnClear.TabIndex = 0;
+         this.IMS_btnClear.Text = "清除資料";
+         this.IMS_btnClear.Click += new System.EventHandler(this.btnClear_Click);
          // 
-         // INTERMONTH_Add
+         // IMS_Add
          // 
-         this.INTERMONTH_Add.Location = new System.Drawing.Point(148, 22);
-         this.INTERMONTH_Add.Name = "INTERMONTH_Add";
-         this.INTERMONTH_Add.Size = new System.Drawing.Size(75, 37);
-         this.INTERMONTH_Add.TabIndex = 1;
-         this.INTERMONTH_Add.Text = "新增";
-         this.INTERMONTH_Add.Click += new System.EventHandler(this.btnAdd_Click);
+         this.IMS_Add.Location = new System.Drawing.Point(148, 22);
+         this.IMS_Add.Name = "IMS_Add";
+         this.IMS_Add.Size = new System.Drawing.Size(75, 37);
+         this.IMS_Add.TabIndex = 1;
+         this.IMS_Add.Text = "新增";
+         this.IMS_Add.Click += new System.EventHandler(this.btnAdd_Click);
          // 
-         // INTERMONTH_btnDel
+         // IMS_btnDel
          // 
-         this.INTERMONTH_btnDel.Location = new System.Drawing.Point(232, 22);
-         this.INTERMONTH_btnDel.Name = "INTERMONTH_btnDel";
-         this.INTERMONTH_btnDel.Size = new System.Drawing.Size(75, 37);
-         this.INTERMONTH_btnDel.TabIndex = 2;
-         this.INTERMONTH_btnDel.Text = "刪除";
-         this.INTERMONTH_btnDel.Click += new System.EventHandler(this.btnDel_Click);
+         this.IMS_btnDel.Location = new System.Drawing.Point(232, 22);
+         this.IMS_btnDel.Name = "IMS_btnDel";
+         this.IMS_btnDel.Size = new System.Drawing.Size(75, 37);
+         this.IMS_btnDel.TabIndex = 2;
+         this.IMS_btnDel.Text = "刪除";
+         this.IMS_btnDel.Click += new System.EventHandler(this.btnDel_Click);
          // 
          // tab_ZISP
          // 
          this.tab_ZISP.Controls.Add(this.panTabGrid);
          this.tab_ZISP.Controls.Add(this.panTabButtonBar);
          this.tab_ZISP.Name = "tab_ZISP";
-         this.tab_ZISP.Size = new System.Drawing.Size(800, 368);
+         this.tab_ZISP.Size = new System.Drawing.Size(1111, 405);
          this.tab_ZISP.Text = "C. 跨商品價差設定";
          // 
          // panTabGrid
@@ -596,7 +596,7 @@
          this.panTabGrid.Dock = System.Windows.Forms.DockStyle.Fill;
          this.panTabGrid.Location = new System.Drawing.Point(0, 77);
          this.panTabGrid.Name = "panTabGrid";
-         this.panTabGrid.Size = new System.Drawing.Size(800, 291);
+         this.panTabGrid.Size = new System.Drawing.Size(1111, 328);
          this.panTabGrid.TabIndex = 5;
          // 
          // gc_ZISP
@@ -608,7 +608,7 @@
          this.gc_ZISP.Name = "gc_ZISP";
          this.gc_ZISP.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit5});
-         this.gc_ZISP.Size = new System.Drawing.Size(800, 291);
+         this.gc_ZISP.Size = new System.Drawing.Size(1111, 328);
          this.gc_ZISP.TabIndex = 0;
          this.gc_ZISP.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_ZISP});
@@ -797,7 +797,7 @@
          this.panTabButtonBar.Dock = System.Windows.Forms.DockStyle.Top;
          this.panTabButtonBar.Location = new System.Drawing.Point(0, 0);
          this.panTabButtonBar.Name = "panTabButtonBar";
-         this.panTabButtonBar.Size = new System.Drawing.Size(800, 77);
+         this.panTabButtonBar.Size = new System.Drawing.Size(1111, 77);
          this.panTabButtonBar.TabIndex = 4;
          // 
          // ZISP_btnClear
@@ -841,7 +841,7 @@
          this.tab_VSR.Controls.Add(this.gc_VSR);
          this.tab_VSR.Controls.Add(this.panel3);
          this.tab_VSR.Name = "tab_VSR";
-         this.tab_VSR.Size = new System.Drawing.Size(800, 368);
+         this.tab_VSR.Size = new System.Drawing.Size(1111, 405);
          this.tab_VSR.Text = "D. VSR設定";
          // 
          // gc_VSR
@@ -853,7 +853,7 @@
          this.gc_VSR.Name = "gc_VSR";
          this.gc_VSR.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit3});
-         this.gc_VSR.Size = new System.Drawing.Size(800, 291);
+         this.gc_VSR.Size = new System.Drawing.Size(1111, 328);
          this.gc_VSR.TabIndex = 9;
          this.gc_VSR.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_VSR});
@@ -945,7 +945,7 @@
          this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
          this.panel3.Location = new System.Drawing.Point(0, 0);
          this.panel3.Name = "panel3";
-         this.panel3.Size = new System.Drawing.Size(800, 77);
+         this.panel3.Size = new System.Drawing.Size(1111, 77);
          this.panel3.TabIndex = 8;
          // 
          // VSR_btnClear
@@ -980,7 +980,7 @@
          this.tab_SOM.Controls.Add(this.gc_SOM);
          this.tab_SOM.Controls.Add(this.panel4);
          this.tab_SOM.Name = "tab_SOM";
-         this.tab_SOM.Size = new System.Drawing.Size(800, 368);
+         this.tab_SOM.Size = new System.Drawing.Size(1111, 405);
          this.tab_SOM.Text = "E. SOM設定";
          // 
          // gc_SOM
@@ -992,7 +992,7 @@
          this.gc_SOM.Name = "gc_SOM";
          this.gc_SOM.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit4});
-         this.gc_SOM.Size = new System.Drawing.Size(800, 291);
+         this.gc_SOM.Size = new System.Drawing.Size(1111, 328);
          this.gc_SOM.TabIndex = 11;
          this.gc_SOM.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_SOM});
@@ -1084,7 +1084,7 @@
          this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
          this.panel4.Location = new System.Drawing.Point(0, 0);
          this.panel4.Name = "panel4";
-         this.panel4.Size = new System.Drawing.Size(800, 77);
+         this.panel4.Size = new System.Drawing.Size(1111, 77);
          this.panel4.TabIndex = 10;
          // 
          // SOM_btnClear
@@ -1137,9 +1137,9 @@
          ((System.ComponentModel.ISupportInitialize)(this.gv_PSR)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
          this.panel1.ResumeLayout(false);
-         this.tab_INTERMONTH.ResumeLayout(false);
-         ((System.ComponentModel.ISupportInitialize)(this.gc_INTERMONTH)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.gv_INTERMONTH)).EndInit();
+         this.tab_IMS.ResumeLayout(false);
+         ((System.ComponentModel.ISupportInitialize)(this.gc_IMS)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.gv_IMS)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).EndInit();
          this.panel2.ResumeLayout(false);
          this.tab_ZISP.ResumeLayout(false);
@@ -1172,7 +1172,7 @@
       private System.Windows.Forms.GroupBox panMain;
       private DevExpress.XtraTab.XtraTabControl SpanTabControl;
       private DevExpress.XtraTab.XtraTabPage tab_PSR;
-      private DevExpress.XtraTab.XtraTabPage tab_INTERMONTH;
+      private DevExpress.XtraTab.XtraTabPage tab_IMS;
       private DevExpress.XtraTab.XtraTabPage tab_ZISP;
       private DevExpress.XtraEditors.SimpleButton btnLoad;
       private DevExpress.XtraEditors.SimpleButton ZISP_btnDel;
@@ -1200,8 +1200,8 @@
         private DevExpress.XtraEditors.SimpleButton PSR_btnClear;
         private DevExpress.XtraEditors.SimpleButton PSR_btnAdd;
         private DevExpress.XtraEditors.SimpleButton PSR_btnDel;
-        private DevExpress.XtraGrid.GridControl gc_INTERMONTH;
-        private DevExpress.XtraGrid.Views.Grid.GridView gv_INTERMONTH;
+        private DevExpress.XtraGrid.GridControl gc_IMS;
+        private DevExpress.XtraGrid.Views.Grid.GridView gv_IMS;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
@@ -1211,9 +1211,9 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn7;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn8;
         private System.Windows.Forms.Panel panel2;
-        private DevExpress.XtraEditors.SimpleButton INTERMONTH_btnClear;
-        private DevExpress.XtraEditors.SimpleButton INTERMONTH_Add;
-        private DevExpress.XtraEditors.SimpleButton INTERMONTH_btnDel;
+        private DevExpress.XtraEditors.SimpleButton IMS_btnClear;
+        private DevExpress.XtraEditors.SimpleButton IMS_Add;
+        private DevExpress.XtraEditors.SimpleButton IMS_btnDel;
         private DevExpress.XtraGrid.GridControl gc_VSR;
         private DevExpress.XtraGrid.Views.Grid.GridView gv_VSR;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn9;

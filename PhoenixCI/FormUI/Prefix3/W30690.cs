@@ -349,10 +349,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
             Worksheet worksheet = workbook.Worksheets[0];
 
             //2.3寫入檔頭
-            worksheet.Cells[0, 2].Value = txtLastStartDate.Text;
-            worksheet.Cells[0, 3].Value = txtLastEndDate.Text;
-            worksheet.Cells[1, 2].Value = txtThisStartDate.Text;
-            worksheet.Cells[1, 3].Value = txtThisEndDate.Text;
+            worksheet.Cells[0, 1].Value = txtLastStartDate.Text;
+            worksheet.Cells[0, 2].Value = txtLastEndDate.Text;
+            worksheet.Cells[1, 1].Value = txtThisStartDate.Text;
+            worksheet.Cells[1, 2].Value = txtThisEndDate.Text;
 
             //3.寫入資料 
             //3.1一般成交量
@@ -1487,9 +1487,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             if (k >= 4) {
                //輸出=yyy年mm月
-               TaiwanCalendar taiwanCalendar = new TaiwanCalendar();
+               //TaiwanCalendar taiwanCalendar = new TaiwanCalendar();
                DateTime temp = DateTime.ParseExact(ls_max_ymd, "yyyyMMdd", null);
-               ws.Cells[rowIndex, 0].Value = taiwanCalendar.GetYear(temp) + "年" + temp.ToString("MM") + "月";
+               ws.Cells[rowIndex, 0].Value = temp.Year.ToString() + "年" + temp.ToString("MM") + "月";
             }
 
             rowIndex++;

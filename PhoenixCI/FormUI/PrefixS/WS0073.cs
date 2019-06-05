@@ -35,11 +35,11 @@ namespace PhoenixCI.FormUI.PrefixS {
          #region Set DropDownList
          //參數設定 參數路徑檔案 部位檔案 三個欄位要換成LookUpEdit
          //參數檔案
-         DataTable dtParam = daoCod.ListByCol2("S0073", "PARAM_FILE");
+         DataTable dtParam = daoCod.ListByCol2("S0073", "SPAN_MARGIN_SPN");
          DataTable dtParamData = daoS0073.GetMarginUserData();//DB現有資料
          DataTable dtTempParam = dtParam.Clone();
          //部位檔案
-         DataTable dtMarginPos = daoCod.ListByCol2("S0073", "Margin_Pos");
+         DataTable dtMarginPos = daoCod.ListByCol2("S0073", "SPAN_MARGIN_POS");
          DataTable dtTempMarginPos = dtMarginPos.Clone();
          //參數檔案路徑設定
          DataTable dtSpnPath = new DataTable();

@@ -31,7 +31,7 @@ namespace PhoenixCI.FormUI.PrefixS {
       protected string is_fm_ymd;
       protected string is_to_ymd;
       protected DateTime is_max_ymd;
-      protected string[] modules1 = { "PSR", "VSR", "INTERMONTH", "SOM" };
+      protected string[] modules1 = { "PSR", "VSR", "IMS", "SOM" };
       protected string[] module2 = { "ZISP" };
 
       public WS0072(string programID, string programName) : base(programID, programName) {
@@ -65,7 +65,7 @@ namespace PhoenixCI.FormUI.PrefixS {
          SPAN_ZISP_COM_PROD1.ColumnEdit = cbxProd;
          SPAN_ZISP_COM_PROD2.ColumnEdit = cbxProd;
 
-         DataTable dtContentType = daoCod.ListByCol2("S0072", "PSR_METHOD");
+         DataTable dtContentType = daoCod.ListByCol2("S0072", "PSR_CONTENT_TYPE");
          RepositoryItemLookUpEdit cbxContentType = new RepositoryItemLookUpEdit();
          cbxContentType.SetColumnLookUp(dtContentType, "COD_ID", "COD_DESC", TextEditStyles.DisableTextEditor);
          gc_PSR.RepositoryItems.Add(cbxContentType);
@@ -412,7 +412,7 @@ namespace PhoenixCI.FormUI.PrefixS {
       private void SpanTabControl_SelectedPageChanged(object sender, DevExpress.XtraTab.TabPageChangedEventArgs e) {
          if (e.Page.Name != "tab_ZISP") {
             string module = e.Page.Name.Split('_')[1];
-            string cod_col_id = module + "_METHOD";
+            string cod_col_id = module + "_CONTENT_TYPE";
 
             DataTable dtContentType = daoCod.ListByCol2("S0072", cod_col_id);
             RepositoryItemLookUpEdit cbxContentType = new RepositoryItemLookUpEdit();
