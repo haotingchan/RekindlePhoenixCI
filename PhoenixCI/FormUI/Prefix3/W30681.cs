@@ -114,14 +114,17 @@ namespace PhoenixCI.FormUI.Prefix3 {
                                         new LookupItem() { ValueMember = "S%", DisplayMember = "S (單式)" },
                                         new LookupItem() { ValueMember = "C%", DisplayMember = "C (複式)" }};
          Extension.SetDataTable(ddlScCode, lstScCode, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor);
+         ddlScCode.ItemIndex = 0;
 
          //設定 委託單方式 下拉選單
          DataTable dtOsfOrderType = new COD().ListByCol3("OSF", "OSF_ORDER_TYPE", "全部", "%");
          Extension.SetDataTable(ddlOsfOrderType, dtOsfOrderType, "COD_ID", "CP_DISPLAY", TextEditStyles.DisableTextEditor);
+         ddlOsfOrderType.ItemIndex = 0;
 
          //設定 委託單條件 下拉選單
          DataTable dtOsfOrderCond = new COD().ListByCol3("OSF", "OSF_ORDER_COND", "全部", "%");
          Extension.SetDataTable(ddlOsfOrderCond, dtOsfOrderCond, "COD_ID", "CP_DISPLAY", TextEditStyles.DisableTextEditor);
+         ddlOsfOrderCond.ItemIndex = 0;
 
          return ResultStatus.Success;
       }
@@ -138,6 +141,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          this.Text += "(開啟測試模式)";
 #endif
 
+         r_frame2.Visible = false;
          panDetail.Visible = false;
 
          return ResultStatus.Success;
@@ -160,13 +164,12 @@ namespace PhoenixCI.FormUI.Prefix3 {
          return ResultStatus.Success;
       }
 
-
       protected override ResultStatus Export() {
          try {
             //1.開始轉出資料
             panFilter.Enabled = false;
             labMsg.Visible = true;
-            labMsg.Text = "訊息：資料轉出中........";
+            labMsg.Text = "開始轉檔...";
             this.Refresh();
             ResultStatus res = ResultStatus.Fail;
 
@@ -250,8 +253,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
             return ResultStatus.Fail;
          }
       }
-
-
 
       protected ResultStatus wf_30681_d() {
          try {
@@ -358,9 +359,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
       }
 
 
-
-
-
       /// <summary>
       /// 利用畫面上隱藏的grid,直接匯出CSV
       /// </summary>
@@ -393,11 +391,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
          ddlOsfOrderCond.Enabled =
          chkLevel.Enabled = IsEnable;
 
+         r_frame2.Visible = IsEnable;
          panDetail.Visible = IsEnable;
 
          //ken,第一個check始終不能勾
          chkLevel.Items[0].Enabled = false;
 
       }
+
    }
 }

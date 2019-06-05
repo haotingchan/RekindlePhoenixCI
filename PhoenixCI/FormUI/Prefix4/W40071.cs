@@ -85,6 +85,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             txtImplSDate.Text = "1901/01/01";
             txtImplEDate.Text = "1901/01/01";
             is_adj_type = "1";
+#if DEBUG
+            txtSDate.EditValue = "2019/01/29";
+            txtImplSDate.EditValue = "2019/01/01";
+            txtImplEDate.EditValue = "2019/01/31";
+#endif
             DataTable dtInput = dao40071.d_40071_input();
             dtInput.Columns.Add("Is_NewRow", typeof(string));
             //既有的資料非新資料列，故預設為0
@@ -139,11 +144,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             #endregion
 
             gcMain.DataSource = dtInput;
-#if DEBUG
-            txtSDate.EditValue = "2019/01/29";
-            txtImplSDate.EditValue = "2019/01/01";
-            txtImplEDate.EditValue = "2019/01/31";
-#endif
+
             txtSDate.Focus();
             return ResultStatus.Success;
         }
@@ -187,7 +188,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 //1. 讀取資料
                 DataTable dtMGD2 = dao40071.d_40071(txtSDate.DateTimeValue.ToString("yyyyMMdd"), is_adj_type);
                 if (dtMGD2.Rows.Count == 0) {
-                    MessageDisplay.Error("無任何資料！");
+                    MessageDisplay.Warning("無任何資料！");
                     return ResultStatus.Fail;
                 }
                 //2. 重置實施/生效日期與左側的gridview(PB的wf_clear_ymd())
@@ -650,35 +651,35 @@ namespace PhoenixCI.FormUI.Prefix4 {
             GridView gv = sender as GridView;
             gv.CloseEditor();
             gv.UpdateCurrentRow();
-            //DataTable dtTemp = (DataTable)gcMain.DataSource;
+            DataTable dtTemp = (DataTable)gcMain.DataSource;
             if (e.Column.FieldName == "PROD_KIND_ID") {
                 string value = gv.GetRowCellValue(e.RowHandle, "PROD_SEQ_NO").AsString();
                 switch (value) {
                     case "1":
-                        e.RepositoryItem = paramKeyLookUpEdit1;
+                        if (e.CellValue == null) e.RepositoryItem = paramKeyLookUpEdit1;
                         break;
                     case "2":
-                        e.RepositoryItem = paramKeyLookUpEdit2;
+                        if (e.CellValue == null) e.RepositoryItem = paramKeyLookUpEdit2;
                         break;
                     case "3":
-                        e.RepositoryItem = paramKeyLookUpEdit3;
+                        if (e.CellValue == null) e.RepositoryItem = paramKeyLookUpEdit3;
                         break;
                     case "4":
-                        e.RepositoryItem = paramKeyLookUpEdit4;
+                        if (e.CellValue == null) e.RepositoryItem = paramKeyLookUpEdit4;
                         break;
                     case "5":
-                        e.RepositoryItem = paramKeyLookUpEdit5;
+                        if (e.CellValue == null) e.RepositoryItem = paramKeyLookUpEdit5;
                         break;
                     case "6":
-                        e.RepositoryItem = paramKeyLookUpEdit6;
+                        if (e.CellValue == null) e.RepositoryItem = paramKeyLookUpEdit6;
                         break;
                     case "7":
-                        e.RepositoryItem = paramKeyLookUpEdit7;
+                        if (e.CellValue == null) e.RepositoryItem = paramKeyLookUpEdit7;
                         break;
                 }
-                gv.CloseEditor();
-                gv.UpdateCurrentRow();
-            }
+                //gv.CloseEditor();
+                //gv.UpdateCurrentRow();
+            }//if (e.Column.FieldName == "PROD_KIND_ID")
         }
 
         private void gvMain_RowCellStyle(object sender, RowCellStyleEventArgs e) {
@@ -704,12 +705,17 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
         private void gvMain_CellValueChanged(object sender, CellValueChangedEventArgs e) {
             GridView gv = sender as GridView;
+            gv.CloseEditor();
+            gv.UpdateCurrentRow();
             if (e.Column.Name == "PROD_SEQ_NO") {
                 DataTable dtInsert = dao40071.d_40071_input(e.Value.AsString());
                 gv.SetRowCellValue(e.RowHandle, "PROD_SUBTYPE", dtInsert.Rows[0]["PROD_SUBTYPE"]);
                 gv.SetRowCellValue(e.RowHandle, "PROD_SUBTYPE_NAME", dtInsert.Rows[0]["PROD_SUBTYPE_NAME"]);
                 gv.SetRowCellValue(e.RowHandle, "PARAM_KEY", dtInsert.Rows[0]["PARAM_KEY"]);
                 gv.SetRowCellValue(e.RowHandle, "ABROAD", dtInsert.Rows[0]["ABROAD"]);
+            }
+            if (e.Column.Name == "PROD_KIND_ID") {
+                string a = e.Value.AsString(); 
             }
         }
 
@@ -905,6 +911,51 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 MessageDisplay.Warning("無明細資料，請確認「交易日期」及「商品調整幅度」是否填寫正確!");
                 return;
             }
+        }
+
+        /// <summary>
+        /// 改變交易日期要重置下拉選單
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txtSDate_EditValueChanged(object sender, EventArgs e) {
+            //商品下拉選單
+            string ymd = txtSDate.DateTimeValue.ToString("yyyyMMdd");
+            //指數(國內)
+            paramKeyLookUpEdit1 = new RepositoryItemLookUpEdit();
+            DataTable dtParamKey = dao40071.dddw_mgt2_kind("I%", "          ");
+            paramKeyLookUpEdit1.SetColumnLookUp(dtParamKey, "KIND_ID", "KIND_ID", TextEditStyles.DisableTextEditor, "All");
+            gcMain.RepositoryItems.Add(paramKeyLookUpEdit1);
+            //指數(國外)
+            paramKeyLookUpEdit2 = new RepositoryItemLookUpEdit();
+            dtParamKey = dao40071.dddw_mgt2_kind("I%", "Y");
+            paramKeyLookUpEdit2.SetColumnLookUp(dtParamKey, "KIND_ID", "KIND_ID", TextEditStyles.DisableTextEditor, "All");
+            gcMain.RepositoryItems.Add(paramKeyLookUpEdit2);
+            //商品
+            paramKeyLookUpEdit3 = new RepositoryItemLookUpEdit();
+            dtParamKey = dao40071.dddw_mgt2_kind("C%", "          ");
+            paramKeyLookUpEdit3.SetColumnLookUp(dtParamKey, "KIND_ID", "KIND_ID", TextEditStyles.DisableTextEditor, "All");
+            gcMain.RepositoryItems.Add(paramKeyLookUpEdit3);
+            //利率
+            paramKeyLookUpEdit4 = new RepositoryItemLookUpEdit();
+            dtParamKey = dao40071.dddw_mgt2_kind("B%", "          ");
+            paramKeyLookUpEdit4.SetColumnLookUp(dtParamKey, "KIND_ID", "KIND_ID", TextEditStyles.DisableTextEditor, "All");
+            gcMain.RepositoryItems.Add(paramKeyLookUpEdit4);
+            //匯率
+            paramKeyLookUpEdit5 = new RepositoryItemLookUpEdit();
+            dtParamKey = dao40071.dddw_mgt2_kind("E%", "          ");
+            paramKeyLookUpEdit5.SetColumnLookUp(dtParamKey, "KIND_ID", "KIND_ID", TextEditStyles.DisableTextEditor, "All");
+            gcMain.RepositoryItems.Add(paramKeyLookUpEdit5);
+            //個股
+            paramKeyLookUpEdit6 = new RepositoryItemLookUpEdit();
+            dtParamKey = dao40071.dddw_pdk_kind_id_40071(ymd, "ST%");
+            paramKeyLookUpEdit6.SetColumnLookUp(dtParamKey, "KIND_ID", "KIND_ID", TextEditStyles.DisableTextEditor, "All");
+            gcMain.RepositoryItems.Add(paramKeyLookUpEdit6);
+            //ETF
+            paramKeyLookUpEdit7 = new RepositoryItemLookUpEdit();
+            dtParamKey = dao40071.dddw_pdk_kind_id_40071(ymd, "ET%");
+            paramKeyLookUpEdit7.SetColumnLookUp(dtParamKey, "KIND_ID", "KIND_ID", TextEditStyles.DisableTextEditor, "All");
+            gcMain.RepositoryItems.Add(paramKeyLookUpEdit7);
         }
     }
 }

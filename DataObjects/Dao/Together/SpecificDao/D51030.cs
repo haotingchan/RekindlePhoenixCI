@@ -76,7 +76,7 @@ namespace DataObjects.Dao.Together.SpecificDao
          string updateColumnList = insertColumnList;
          try {
             //update to DB
-            return SaveForAll(inputData, tableName, insertColumnList, updateColumnList, keysColumnList);
+            return SaveForChanged(inputData, tableName, insertColumnList, updateColumnList, keysColumnList);
          }
          catch (Exception ex) {
             throw ex;

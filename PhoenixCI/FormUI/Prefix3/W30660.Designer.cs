@@ -23,7 +23,6 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-         this.panFilter = new System.Windows.Forms.GroupBox();
          this.txtAllEymd = new BaseGround.Widget.TextDateEdit();
          this.txtAllSymd = new BaseGround.Widget.TextDateEdit();
          this.txtAftEymd = new BaseGround.Widget.TextDateEdit();
@@ -31,58 +30,38 @@
          this.txtAftSymd = new BaseGround.Widget.TextDateEdit();
          this.txtPrevSymd = new BaseGround.Widget.TextDateEdit();
          this.chkDetail = new System.Windows.Forms.CheckBox();
-         this.label4 = new System.Windows.Forms.Label();
-         this.labDateAll = new System.Windows.Forms.Label();
-         this.label2 = new System.Windows.Forms.Label();
-         this.labDate2 = new System.Windows.Forms.Label();
-         this.label1 = new System.Windows.Forms.Label();
-         this.labDate1 = new System.Windows.Forms.Label();
+         this.r_frame = new DevExpress.XtraEditors.PanelControl();
          this.labMsg = new System.Windows.Forms.Label();
+         this.panFilter = new System.Windows.Forms.GroupBox();
+         this.label5 = new System.Windows.Forms.Label();
+         this.label6 = new System.Windows.Forms.Label();
+         this.label7 = new System.Windows.Forms.Label();
+         this.label8 = new System.Windows.Forms.Label();
+         this.label9 = new System.Windows.Forms.Label();
+         this.label10 = new System.Windows.Forms.Label();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
-         this.panFilter.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.txtAllEymd.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtAllSymd.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtAftEymd.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtPrevEymd.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtAftSymd.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtPrevSymd.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
+         this.r_frame.SuspendLayout();
+         this.panFilter.SuspendLayout();
          this.SuspendLayout();
          // 
          // panParent
          // 
-         this.panParent.Controls.Add(this.labMsg);
-         this.panParent.Controls.Add(this.panFilter);
-         this.panParent.Size = new System.Drawing.Size(836, 544);
+         this.panParent.Controls.Add(this.r_frame);
+         this.panParent.Size = new System.Drawing.Size(625, 325);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(836, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(625, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
-         // 
-         // panFilter
-         // 
-         this.panFilter.AutoSize = true;
-         this.panFilter.Controls.Add(this.txtAllEymd);
-         this.panFilter.Controls.Add(this.txtAllSymd);
-         this.panFilter.Controls.Add(this.txtAftEymd);
-         this.panFilter.Controls.Add(this.txtPrevEymd);
-         this.panFilter.Controls.Add(this.txtAftSymd);
-         this.panFilter.Controls.Add(this.txtPrevSymd);
-         this.panFilter.Controls.Add(this.chkDetail);
-         this.panFilter.Controls.Add(this.label4);
-         this.panFilter.Controls.Add(this.labDateAll);
-         this.panFilter.Controls.Add(this.label2);
-         this.panFilter.Controls.Add(this.labDate2);
-         this.panFilter.Controls.Add(this.label1);
-         this.panFilter.Controls.Add(this.labDate1);
-         this.panFilter.Location = new System.Drawing.Point(34, 39);
-         this.panFilter.Name = "panFilter";
-         this.panFilter.Size = new System.Drawing.Size(543, 177);
-         this.panFilter.TabIndex = 7;
-         this.panFilter.TabStop = false;
-         this.panFilter.Text = "請輸入交易日期";
          // 
          // txtAllEymd
          // 
@@ -90,7 +69,7 @@
          this.txtAllEymd.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtAllEymd.EditValue = "2018/12";
          this.txtAllEymd.EnterMoveNextControl = true;
-         this.txtAllEymd.Location = new System.Drawing.Point(237, 121);
+         this.txtAllEymd.Location = new System.Drawing.Point(220, 132);
          this.txtAllEymd.MenuManager = this.ribbonControl;
          this.txtAllEymd.Name = "txtAllEymd";
          this.txtAllEymd.Properties.Appearance.Options.UseTextOptions = true;
@@ -110,7 +89,7 @@
          this.txtAllSymd.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtAllSymd.EditValue = "2018/12";
          this.txtAllSymd.EnterMoveNextControl = true;
-         this.txtAllSymd.Location = new System.Drawing.Point(100, 121);
+         this.txtAllSymd.Location = new System.Drawing.Point(92, 132);
          this.txtAllSymd.MenuManager = this.ribbonControl;
          this.txtAllSymd.Name = "txtAllSymd";
          this.txtAllSymd.Properties.Appearance.Options.UseTextOptions = true;
@@ -130,7 +109,7 @@
          this.txtAftEymd.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtAftEymd.EditValue = "2018/12";
          this.txtAftEymd.EnterMoveNextControl = true;
-         this.txtAftEymd.Location = new System.Drawing.Point(237, 82);
+         this.txtAftEymd.Location = new System.Drawing.Point(220, 87);
          this.txtAftEymd.MenuManager = this.ribbonControl;
          this.txtAftEymd.Name = "txtAftEymd";
          this.txtAftEymd.Properties.Appearance.Options.UseTextOptions = true;
@@ -150,7 +129,7 @@
          this.txtPrevEymd.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtPrevEymd.EditValue = "2018/12";
          this.txtPrevEymd.EnterMoveNextControl = true;
-         this.txtPrevEymd.Location = new System.Drawing.Point(237, 43);
+         this.txtPrevEymd.Location = new System.Drawing.Point(220, 42);
          this.txtPrevEymd.MenuManager = this.ribbonControl;
          this.txtPrevEymd.Name = "txtPrevEymd";
          this.txtPrevEymd.Properties.Appearance.Options.UseTextOptions = true;
@@ -170,7 +149,7 @@
          this.txtAftSymd.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtAftSymd.EditValue = "2018/12";
          this.txtAftSymd.EnterMoveNextControl = true;
-         this.txtAftSymd.Location = new System.Drawing.Point(100, 82);
+         this.txtAftSymd.Location = new System.Drawing.Point(92, 87);
          this.txtAftSymd.MenuManager = this.ribbonControl;
          this.txtAftSymd.Name = "txtAftSymd";
          this.txtAftSymd.Properties.Appearance.Options.UseTextOptions = true;
@@ -190,7 +169,7 @@
          this.txtPrevSymd.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtPrevSymd.EditValue = "2018/12";
          this.txtPrevSymd.EnterMoveNextControl = true;
-         this.txtPrevSymd.Location = new System.Drawing.Point(100, 43);
+         this.txtPrevSymd.Location = new System.Drawing.Point(92, 42);
          this.txtPrevSymd.MenuManager = this.ribbonControl;
          this.txtPrevSymd.Name = "txtPrevSymd";
          this.txtPrevSymd.Properties.Appearance.Options.UseTextOptions = true;
@@ -207,112 +186,147 @@
          // chkDetail
          // 
          this.chkDetail.AutoSize = true;
-         this.chkDetail.Location = new System.Drawing.Point(356, 123);
+         this.chkDetail.ForeColor = System.Drawing.Color.Black;
+         this.chkDetail.Location = new System.Drawing.Point(339, 134);
          this.chkDetail.Name = "chkDetail";
-         this.chkDetail.Size = new System.Drawing.Size(156, 24);
+         this.chkDetail.Size = new System.Drawing.Size(157, 25);
          this.chkDetail.TabIndex = 17;
          this.chkDetail.Text = "產出每日明細資料";
          this.chkDetail.UseVisualStyleBackColor = true;
          // 
-         // label4
+         // r_frame
          // 
-         this.label4.AutoSize = true;
-         this.label4.Location = new System.Drawing.Point(206, 121);
-         this.label4.Name = "label4";
-         this.label4.Size = new System.Drawing.Size(25, 20);
-         this.label4.TabIndex = 14;
-         this.label4.Text = "～";
-         // 
-         // labDateAll
-         // 
-         this.labDateAll.AutoSize = true;
-         this.labDateAll.Location = new System.Drawing.Point(37, 124);
-         this.labDateAll.Name = "labDateAll";
-         this.labDateAll.Size = new System.Drawing.Size(57, 20);
-         this.labDateAll.TabIndex = 13;
-         this.labDateAll.Text = "全期：";
-         // 
-         // label2
-         // 
-         this.label2.AutoSize = true;
-         this.label2.Location = new System.Drawing.Point(206, 82);
-         this.label2.Name = "label2";
-         this.label2.Size = new System.Drawing.Size(25, 20);
-         this.label2.TabIndex = 10;
-         this.label2.Text = "～";
-         // 
-         // labDate2
-         // 
-         this.labDate2.AutoSize = true;
-         this.labDate2.Location = new System.Drawing.Point(37, 85);
-         this.labDate2.Name = "labDate2";
-         this.labDate2.Size = new System.Drawing.Size(57, 20);
-         this.labDate2.TabIndex = 9;
-         this.labDate2.Text = "本週：";
-         // 
-         // label1
-         // 
-         this.label1.AutoSize = true;
-         this.label1.Location = new System.Drawing.Point(206, 43);
-         this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(25, 20);
-         this.label1.TabIndex = 6;
-         this.label1.Text = "～";
-         // 
-         // labDate1
-         // 
-         this.labDate1.AutoSize = true;
-         this.labDate1.Location = new System.Drawing.Point(37, 46);
-         this.labDate1.Name = "labDate1";
-         this.labDate1.Size = new System.Drawing.Size(57, 20);
-         this.labDate1.TabIndex = 2;
-         this.labDate1.Text = "上週：";
+         this.r_frame.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.r_frame.Appearance.Options.UseBackColor = true;
+         this.r_frame.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+         this.r_frame.Controls.Add(this.labMsg);
+         this.r_frame.Controls.Add(this.panFilter);
+         this.r_frame.Location = new System.Drawing.Point(30, 30);
+         this.r_frame.Name = "r_frame";
+         this.r_frame.Size = new System.Drawing.Size(575, 265);
+         this.r_frame.TabIndex = 81;
          // 
          // labMsg
          // 
          this.labMsg.AutoSize = true;
          this.labMsg.ForeColor = System.Drawing.Color.Blue;
-         this.labMsg.Location = new System.Drawing.Point(30, 219);
+         this.labMsg.Location = new System.Drawing.Point(15, 215);
+         this.labMsg.MaximumSize = new System.Drawing.Size(535, 120);
          this.labMsg.Name = "labMsg";
          this.labMsg.Size = new System.Drawing.Size(85, 20);
-         this.labMsg.TabIndex = 10;
+         this.labMsg.TabIndex = 80;
          this.labMsg.Text = "開始轉檔...";
          this.labMsg.Visible = false;
+         // 
+         // panFilter
+         // 
+         this.panFilter.AutoSize = true;
+         this.panFilter.Controls.Add(this.chkDetail);
+         this.panFilter.Controls.Add(this.txtPrevEymd);
+         this.panFilter.Controls.Add(this.label10);
+         this.panFilter.Controls.Add(this.txtPrevSymd);
+         this.panFilter.Controls.Add(this.txtAllEymd);
+         this.panFilter.Controls.Add(this.txtAftSymd);
+         this.panFilter.Controls.Add(this.txtAllSymd);
+         this.panFilter.Controls.Add(this.label9);
+         this.panFilter.Controls.Add(this.label8);
+         this.panFilter.Controls.Add(this.label7);
+         this.panFilter.Controls.Add(this.txtAftEymd);
+         this.panFilter.Controls.Add(this.label5);
+         this.panFilter.Controls.Add(this.label6);
+         this.panFilter.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
+         this.panFilter.ForeColor = System.Drawing.Color.Navy;
+         this.panFilter.Location = new System.Drawing.Point(20, 15);
+         this.panFilter.Name = "panFilter";
+         this.panFilter.Size = new System.Drawing.Size(535, 190);
+         this.panFilter.TabIndex = 6;
+         this.panFilter.TabStop = false;
+         this.panFilter.Text = "請輸入交易日期";
+         // 
+         // label5
+         // 
+         this.label5.AutoSize = true;
+         this.label5.Location = new System.Drawing.Point(194, 45);
+         this.label5.Name = "label5";
+         this.label5.Size = new System.Drawing.Size(26, 21);
+         this.label5.TabIndex = 6;
+         this.label5.Text = "～";
+         // 
+         // label6
+         // 
+         this.label6.AutoSize = true;
+         this.label6.ForeColor = System.Drawing.Color.Black;
+         this.label6.Location = new System.Drawing.Point(37, 45);
+         this.label6.Name = "label6";
+         this.label6.Size = new System.Drawing.Size(58, 21);
+         this.label6.TabIndex = 2;
+         this.label6.Text = "上週：";
+         // 
+         // label7
+         // 
+         this.label7.AutoSize = true;
+         this.label7.ForeColor = System.Drawing.Color.Black;
+         this.label7.Location = new System.Drawing.Point(37, 90);
+         this.label7.Name = "label7";
+         this.label7.Size = new System.Drawing.Size(58, 21);
+         this.label7.TabIndex = 9;
+         this.label7.Text = "本週：";
+         // 
+         // label8
+         // 
+         this.label8.AutoSize = true;
+         this.label8.Location = new System.Drawing.Point(194, 90);
+         this.label8.Name = "label8";
+         this.label8.Size = new System.Drawing.Size(26, 21);
+         this.label8.TabIndex = 80;
+         this.label8.Text = "～";
+         // 
+         // label9
+         // 
+         this.label9.AutoSize = true;
+         this.label9.ForeColor = System.Drawing.Color.Black;
+         this.label9.Location = new System.Drawing.Point(37, 135);
+         this.label9.Name = "label9";
+         this.label9.Size = new System.Drawing.Size(58, 21);
+         this.label9.TabIndex = 81;
+         this.label9.Text = "本週：";
+         // 
+         // label10
+         // 
+         this.label10.AutoSize = true;
+         this.label10.Location = new System.Drawing.Point(194, 135);
+         this.label10.Name = "label10";
+         this.label10.Size = new System.Drawing.Size(26, 21);
+         this.label10.TabIndex = 82;
+         this.label10.Text = "～";
          // 
          // W30660
          // 
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(836, 574);
+         this.ClientSize = new System.Drawing.Size(625, 355);
          this.Name = "W30660";
          this.Text = "W30660";
          this.panParent.ResumeLayout(false);
-         this.panParent.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
-         this.panFilter.ResumeLayout(false);
-         this.panFilter.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.txtAllEymd.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtAllSymd.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtAftEymd.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtPrevEymd.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtAftSymd.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtPrevSymd.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.r_frame)).EndInit();
+         this.r_frame.ResumeLayout(false);
+         this.r_frame.PerformLayout();
+         this.panFilter.ResumeLayout(false);
+         this.panFilter.PerformLayout();
          this.ResumeLayout(false);
          this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.GroupBox panFilter;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label labDate1;
-        private System.Windows.Forms.Label labMsg;
-      private System.Windows.Forms.Label label4;
-      private System.Windows.Forms.Label labDateAll;
-      private System.Windows.Forms.Label label2;
-      private System.Windows.Forms.Label labDate2;
       private System.Windows.Forms.CheckBox chkDetail;
       private BaseGround.Widget.TextDateEdit txtAllEymd;
       private BaseGround.Widget.TextDateEdit txtAllSymd;
@@ -320,5 +334,14 @@
       private BaseGround.Widget.TextDateEdit txtPrevEymd;
       private BaseGround.Widget.TextDateEdit txtAftSymd;
       private BaseGround.Widget.TextDateEdit txtPrevSymd;
+      private DevExpress.XtraEditors.PanelControl r_frame;
+      private System.Windows.Forms.Label labMsg;
+      private System.Windows.Forms.GroupBox panFilter;
+      private System.Windows.Forms.Label label10;
+      private System.Windows.Forms.Label label9;
+      private System.Windows.Forms.Label label8;
+      private System.Windows.Forms.Label label7;
+      private System.Windows.Forms.Label label5;
+      private System.Windows.Forms.Label label6;
    }
 }
