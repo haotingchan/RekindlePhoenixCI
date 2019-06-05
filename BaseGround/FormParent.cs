@@ -753,13 +753,37 @@ namespace BaseGround
                     this.Invoke(new MethodInvoker(() => { RunAfterEveryItem(args); }));
 
                     #endregion 執行特別的程式
+
+                    //流程時間控制
+                    DataTable dtJRF = servicePrefix1.ListJrf(_ProgramID, args.TXF_TID);
+                    if (dtJRF.Rows.Count >0)
+                    {
+                        string JRF_DO_TXN_ID = dtJRF.Rows[0]["JRF_DO_TXN_ID"].AsString();
+                        string JRF_DO_JOB_TYPE = dtJRF.Rows[0]["JRF_DO_TXN_ID"].AsString();
+                        string JRF_DO_SEQ_NO = dtJRF.Rows[0]["JRF_DO_TXN_ID"].AsString();
+                        string JRF_SW_CODE = dtJRF.Rows[0]["JRF_DO_TXN_ID"].AsString();
+                        servicePrefix1.UpdateJsw(JRF_DO_TXN_ID,JRF_DO_JOB_TYPE,JRF_DO_SEQ_NO,JRF_SW_CODE,args.OcfDate,DateTime.Now,GlobalInfo.USER_ID);
+                    }
                 }
                 else
                 {
                     // 沒勾選項目的話清空狀態
                     this.Invoke(new MethodInvoker(() => { gv.SetRowCellValue(i, "ERR_MSG", ""); }));
                 }
+
+
+                if (i ==  gv.RowCount-1)
+                {
+                    List<BO_OCF> ocfList= servicePrefix1.ListOCFList();
+                    if (ocfList[1].OCF_DATE > ocfList[1].OCF_DATE)
+                    {
+
+                    }
+                }
             }
+
+
+            servicePrefix1.SetTXF1(" ", _ProgramID);
 
             this.Invoke(new MethodInvoker(() => { SplashScreenManager.CloseForm(); }));
 

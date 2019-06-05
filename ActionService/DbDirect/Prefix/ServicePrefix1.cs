@@ -1,7 +1,9 @@
 ﻿
+using BusinessObjects;
 using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using System;
+using System.Collections.Generic;
 using System.Data;
 
 namespace ActionServiceW.DbDirect.Prefix
@@ -14,6 +16,9 @@ namespace ActionServiceW.DbDirect.Prefix
         private TXEMAIL daoTXEMAIL;
         private LOGSP   daoLOGSP;
         private LOGS daoLOGS;
+        private JSW daoJSW;
+        private JRF daoJRF;
+        private OCF daoOCF;
 
         public ServicePrefix1()
         {
@@ -23,6 +28,8 @@ namespace ActionServiceW.DbDirect.Prefix
             daoTXEMAIL  = new TXEMAIL();
             daoTXF1 = new TXF1();
             daoTXF2 = new TXF2();
+            daoJRF = new JRF();
+            daoOCF = new OCF();
         }
 
         public DataTable ListTxfByTxn(string TXF_TXN_ID)
@@ -45,6 +52,15 @@ namespace ActionServiceW.DbDirect.Prefix
             return daoLOGSP.ListData(LOGSP_DATE, TXN_ID, LogspQueryType.Runned);
         }
 
+        public DataTable ListJrf(string JRF_TXN_TID, string JRF_TXF_TID)
+        {
+            return daoJRF.ListData(JRF_TXN_TID, JRF_TXF_TID);
+        }
+
+        public List<BO_OCF> ListOCFList() {
+            return daoOCF.GetOCFList();
+        }
+
         public bool HasLogspDone(DateTime LOGSP_DATE, string LOGSP_TXN_ID)
         {
             if(daoLOGSP.ListData(LOGSP_DATE, LOGSP_TXN_ID, LogspQueryType.Runned).Rows.Count > 0)
@@ -65,6 +81,10 @@ namespace ActionServiceW.DbDirect.Prefix
         public bool SaveLogs(DateTime LOGSP_DATE, string LOGS_TXD_ID,DateTime LOGS_W_TIME, string LOGS_W_USER_ID, string LOGS_ERR_TXT)
         {
             return daoLOGS.Save(LOGSP_DATE, LOGS_TXD_ID, LOGS_W_TIME, LOGS_W_USER_ID, LOGS_ERR_TXT);
+        }
+
+        public bool UpdateJsw(string JSW_TXN_ID, string JSW_JOB_TYPE, string JSW_SEQ_NO, string JSW_SW_CODE, DateTime JSW_DATE, DateTime JSW_W_TIME, string JSW_W_USER_ID) {
+            return daoJSW.UpdateJswByTxnId(JSW_TXN_ID, JSW_JOB_TYPE, JSW_SEQ_NO, JSW_SW_CODE, JSW_DATE, JSW_W_TIME, JSW_W_USER_ID);
         }
 
         public bool SetTXF1(string TXF_TID,string TXF_TXN_ID) {
