@@ -55,13 +55,13 @@
             // panParent
             // 
             this.panParent.Controls.Add(this.gcMain);
-            this.panParent.Location = new System.Drawing.Point(0, 100);
-            this.panParent.Size = new System.Drawing.Size(1018, 418);
+            this.panParent.Location = new System.Drawing.Point(0, 113);
+            this.panParent.Size = new System.Drawing.Size(1018, 405);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(1018, 30);
+            this.ribbonControl.Size = new System.Drawing.Size(1018, 43);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // panelControl1
@@ -76,7 +76,9 @@
             this.panelControl1.Controls.Add(this.label1);
             this.panelControl1.Controls.Add(this.lblDate);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelControl1.Location = new System.Drawing.Point(0, 30);
+            this.panelControl1.Location = new System.Drawing.Point(0, 43);
+            this.panelControl1.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
+            this.panelControl1.LookAndFeel.UseDefaultLookAndFeel = false;
             this.panelControl1.Name = "panelControl1";
             this.panelControl1.Size = new System.Drawing.Size(1018, 70);
             this.panelControl1.TabIndex = 0;
@@ -97,7 +99,7 @@
             this.txtEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtEndDate.Size = new System.Drawing.Size(118, 26);
+            this.txtEndDate.Size = new System.Drawing.Size(118, 40);
             this.txtEndDate.TabIndex = 10;
             this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -117,7 +119,7 @@
             this.txtStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtStartDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtStartDate.Size = new System.Drawing.Size(118, 26);
+            this.txtStartDate.Size = new System.Drawing.Size(118, 40);
             this.txtStartDate.TabIndex = 1;
             this.txtStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -127,7 +129,7 @@
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Location = new System.Drawing.Point(229, 24);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(25, 20);
+            this.label1.Size = new System.Drawing.Size(37, 30);
             this.label1.TabIndex = 9;
             this.label1.Text = "～";
             // 
@@ -137,28 +139,28 @@
             this.lblDate.BackColor = System.Drawing.Color.Transparent;
             this.lblDate.Location = new System.Drawing.Point(19, 24);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(89, 20);
+            this.lblDate.Size = new System.Drawing.Size(133, 30);
             this.lblDate.TabIndex = 7;
             this.lblDate.Text = "交易日期：";
             // 
             // panelControl2
             // 
             this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelControl2.Location = new System.Drawing.Point(0, 100);
+            this.panelControl2.Location = new System.Drawing.Point(0, 113);
             this.panelControl2.Name = "panelControl2";
-            this.panelControl2.Size = new System.Drawing.Size(1018, 418);
+            this.panelControl2.Size = new System.Drawing.Size(1018, 405);
             this.panelControl2.TabIndex = 1;
             // 
             // gcMain
             // 
             this.gcMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gcMain.Location = new System.Drawing.Point(12, 12);
+            this.gcMain.Location = new System.Drawing.Point(18, 18);
             this.gcMain.MainView = this.gvMain;
             this.gcMain.MenuManager = this.ribbonControl;
             this.gcMain.Name = "gcMain";
             this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit1});
-            this.gcMain.Size = new System.Drawing.Size(994, 394);
+            this.gcMain.Size = new System.Drawing.Size(982, 369);
             this.gcMain.TabIndex = 3;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -183,10 +185,12 @@
             // 
             // AM12_YMD
             // 
-            this.AM12_YMD.AppearanceCell.BackColor = System.Drawing.Color.Silver;
+            this.AM12_YMD.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.AM12_YMD.AppearanceCell.Options.UseBackColor = true;
-            this.AM12_YMD.AppearanceHeader.BackColor = System.Drawing.Color.Yellow;
+            this.AM12_YMD.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.AM12_YMD.AppearanceHeader.ForeColor = System.Drawing.Color.Maroon;
             this.AM12_YMD.AppearanceHeader.Options.UseBackColor = true;
+            this.AM12_YMD.AppearanceHeader.Options.UseForeColor = true;
             this.AM12_YMD.Caption = "日期";
             this.AM12_YMD.ColumnEdit = this.repositoryItemTextEdit1;
             this.AM12_YMD.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
@@ -206,10 +210,12 @@
             // 
             // AM12_F_ID
             // 
-            this.AM12_F_ID.AppearanceCell.BackColor = System.Drawing.Color.Silver;
+            this.AM12_F_ID.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.AM12_F_ID.AppearanceCell.Options.UseBackColor = true;
-            this.AM12_F_ID.AppearanceHeader.BackColor = System.Drawing.Color.Yellow;
+            this.AM12_F_ID.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.AM12_F_ID.AppearanceHeader.ForeColor = System.Drawing.Color.Maroon;
             this.AM12_F_ID.AppearanceHeader.Options.UseBackColor = true;
+            this.AM12_F_ID.AppearanceHeader.Options.UseForeColor = true;
             this.AM12_F_ID.Caption = "交易所";
             this.AM12_F_ID.FieldName = "AM12_F_ID";
             this.AM12_F_ID.MaxWidth = 115;
@@ -221,9 +227,9 @@
             // 
             // AM12_VOL
             // 
-            this.AM12_VOL.AppearanceCell.BackColor = System.Drawing.Color.Silver;
+            this.AM12_VOL.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.AM12_VOL.AppearanceCell.Options.UseBackColor = true;
-            this.AM12_VOL.AppearanceHeader.BackColor = System.Drawing.Color.Aqua;
+            this.AM12_VOL.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.AM12_VOL.AppearanceHeader.Options.UseBackColor = true;
             this.AM12_VOL.Caption = "成交量";
             this.AM12_VOL.DisplayFormat.FormatString = "0,0";
@@ -238,9 +244,9 @@
             // 
             // AM12_STATUS
             // 
-            this.AM12_STATUS.AppearanceCell.BackColor = System.Drawing.Color.Silver;
+            this.AM12_STATUS.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.AM12_STATUS.AppearanceCell.Options.UseBackColor = true;
-            this.AM12_STATUS.AppearanceHeader.BackColor = System.Drawing.Color.Aqua;
+            this.AM12_STATUS.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.AM12_STATUS.AppearanceHeader.Options.UseBackColor = true;
             this.AM12_STATUS.Caption = "資料狀態";
             this.AM12_STATUS.FieldName = "AM12_STATUS";
@@ -281,7 +287,7 @@
             // W20130
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1018, 518);
             this.Controls.Add(this.panelControl2);

@@ -25,40 +25,42 @@
         private void InitializeComponent() {
             this.lblProcessing = new System.Windows.Forms.Label();
             this.grpxDescription = new System.Windows.Forms.GroupBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbxNight = new System.Windows.Forms.CheckBox();
+            this.cbxDay = new System.Windows.Forms.CheckBox();
             this.txtEDate = new BaseGround.Widget.TextDateEdit();
             this.txtSDate = new BaseGround.Widget.TextDateEdit();
             this.label1 = new System.Windows.Forms.Label();
             this.lblDate = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.cbxDay = new System.Windows.Forms.CheckBox();
-            this.cbxNight = new System.Windows.Forms.CheckBox();
+            this.panelControl = new DevExpress.XtraEditors.PanelControl();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             this.grpxDescription.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtEDate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).BeginInit();
-            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl)).BeginInit();
+            this.panelControl.SuspendLayout();
             this.SuspendLayout();
             // 
             // panParent
             // 
-            this.panParent.Controls.Add(this.lblProcessing);
-            this.panParent.Controls.Add(this.grpxDescription);
-            this.panParent.Size = new System.Drawing.Size(894, 603);
+            this.panParent.Controls.Add(this.panelControl);
+            this.panParent.Size = new System.Drawing.Size(894, 590);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(894, 30);
+            this.ribbonControl.Size = new System.Drawing.Size(894, 43);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // lblProcessing
             // 
             this.lblProcessing.AutoSize = true;
             this.lblProcessing.ForeColor = System.Drawing.Color.Blue;
-            this.lblProcessing.Location = new System.Drawing.Point(44, 283);
+            this.lblProcessing.Location = new System.Drawing.Point(10, 219);
             this.lblProcessing.Name = "lblProcessing";
-            this.lblProcessing.Size = new System.Drawing.Size(85, 20);
+            this.lblProcessing.Size = new System.Drawing.Size(127, 30);
             this.lblProcessing.TabIndex = 18;
             this.lblProcessing.Text = "開始轉檔...";
             this.lblProcessing.Visible = false;
@@ -74,12 +76,45 @@
             this.grpxDescription.Controls.Add(this.lblDate);
             this.grpxDescription.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.grpxDescription.ForeColor = System.Drawing.Color.Navy;
-            this.grpxDescription.Location = new System.Drawing.Point(48, 52);
+            this.grpxDescription.Location = new System.Drawing.Point(15, 15);
             this.grpxDescription.Name = "grpxDescription";
             this.grpxDescription.Size = new System.Drawing.Size(432, 201);
             this.grpxDescription.TabIndex = 17;
             this.grpxDescription.TabStop = false;
             this.grpxDescription.Text = "請輸入交易日期";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.cbxNight);
+            this.groupBox1.Controls.Add(this.cbxDay);
+            this.groupBox1.Location = new System.Drawing.Point(41, 94);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(296, 67);
+            this.groupBox1.TabIndex = 9;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "盤別";
+            // 
+            // cbxNight
+            // 
+            this.cbxNight.AutoSize = true;
+            this.cbxNight.Location = new System.Drawing.Point(196, 28);
+            this.cbxNight.Name = "cbxNight";
+            this.cbxNight.Size = new System.Drawing.Size(88, 35);
+            this.cbxNight.TabIndex = 1;
+            this.cbxNight.Text = "夜盤";
+            this.cbxNight.UseVisualStyleBackColor = true;
+            // 
+            // cbxDay
+            // 
+            this.cbxDay.AutoSize = true;
+            this.cbxDay.Checked = true;
+            this.cbxDay.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbxDay.Location = new System.Drawing.Point(59, 28);
+            this.cbxDay.Name = "cbxDay";
+            this.cbxDay.Size = new System.Drawing.Size(88, 35);
+            this.cbxDay.TabIndex = 0;
+            this.cbxDay.Text = "一般";
+            this.cbxDay.UseVisualStyleBackColor = true;
             // 
             // txtEDate
             // 
@@ -97,7 +132,7 @@
             this.txtEDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtEDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtEDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtEDate.Size = new System.Drawing.Size(100, 26);
+            this.txtEDate.Size = new System.Drawing.Size(100, 38);
             this.txtEDate.TabIndex = 8;
             this.txtEDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -117,7 +152,7 @@
             this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtSDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtSDate.Size = new System.Drawing.Size(100, 26);
+            this.txtSDate.Size = new System.Drawing.Size(100, 38);
             this.txtSDate.TabIndex = 7;
             this.txtSDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -127,7 +162,7 @@
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label1.Location = new System.Drawing.Point(206, 50);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(26, 21);
+            this.label1.Size = new System.Drawing.Size(38, 31);
             this.label1.TabIndex = 6;
             this.label1.Text = "～";
             // 
@@ -137,60 +172,42 @@
             this.lblDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.lblDate.Location = new System.Drawing.Point(37, 53);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(58, 21);
+            this.lblDate.Size = new System.Drawing.Size(86, 31);
             this.lblDate.TabIndex = 2;
             this.lblDate.Text = "日期：";
             // 
-            // groupBox1
+            // panelControl
             // 
-            this.groupBox1.Controls.Add(this.cbxNight);
-            this.groupBox1.Controls.Add(this.cbxDay);
-            this.groupBox1.Location = new System.Drawing.Point(41, 94);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(296, 67);
-            this.groupBox1.TabIndex = 9;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "盤別";
-            // 
-            // cbxDay
-            // 
-            this.cbxDay.AutoSize = true;
-            this.cbxDay.Checked = true;
-            this.cbxDay.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbxDay.Location = new System.Drawing.Point(59, 28);
-            this.cbxDay.Name = "cbxDay";
-            this.cbxDay.Size = new System.Drawing.Size(61, 25);
-            this.cbxDay.TabIndex = 0;
-            this.cbxDay.Text = "一般";
-            this.cbxDay.UseVisualStyleBackColor = true;
-            // 
-            // cbxNight
-            // 
-            this.cbxNight.AutoSize = true;
-            this.cbxNight.Location = new System.Drawing.Point(196, 28);
-            this.cbxNight.Name = "cbxNight";
-            this.cbxNight.Size = new System.Drawing.Size(61, 25);
-            this.cbxNight.TabIndex = 1;
-            this.cbxNight.Text = "夜盤";
-            this.cbxNight.UseVisualStyleBackColor = true;
+            this.panelControl.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+            this.panelControl.Appearance.Options.UseBackColor = true;
+            this.panelControl.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.panelControl.Controls.Add(this.grpxDescription);
+            this.panelControl.Controls.Add(this.lblProcessing);
+            this.panelControl.Location = new System.Drawing.Point(30, 30);
+            this.panelControl.Margin = new System.Windows.Forms.Padding(15);
+            this.panelControl.Name = "panelControl";
+            this.panelControl.Size = new System.Drawing.Size(464, 262);
+            this.panelControl.TabIndex = 20;
             // 
             // W30060
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(894, 633);
             this.Name = "W30060";
             this.Text = "W30060";
             this.panParent.ResumeLayout(false);
-            this.panParent.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
             this.grpxDescription.ResumeLayout(false);
             this.grpxDescription.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtEDate.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtEDate.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl)).EndInit();
+            this.panelControl.ResumeLayout(false);
+            this.panelControl.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -207,5 +224,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckBox cbxNight;
         private System.Windows.Forms.CheckBox cbxDay;
+        private DevExpress.XtraEditors.PanelControl panelControl;
     }
 }

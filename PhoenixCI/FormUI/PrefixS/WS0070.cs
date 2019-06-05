@@ -113,7 +113,7 @@ namespace PhoenixCI.FormUI.PrefixS {
          //商品類別
          DataTable dtProdType = daoS0070.dddw_zparm_comb_prod(txtEndDate.DateTimeValue.ToString("yyyyMMdd"));
          RepositoryItemLookUpEdit cbxProdType = new RepositoryItemLookUpEdit();
-         cbxProdType.SetColumnLookUp(dtProdType, "PROD_GROUP", "PROD_GROUP", TextEditStyles.DisableTextEditor, "");
+         cbxProdType.SetColumnLookUp(dtProdType, "PROD_GROUP_VALUE", "PROD_GROUP", TextEditStyles.DisableTextEditor, "");
          gcPresTest.RepositoryItems.Add(cbxProdType);
          SPAN_PARAM_CLASS.ColumnEdit = cbxProdType;
 
@@ -206,19 +206,19 @@ namespace PhoenixCI.FormUI.PrefixS {
       }
 
       private DataTable overWritePeriod() {
-         periodTable = daoS0070.GetPeriodByUserId("ST", GlobalInfo.USER_ID);
+         periodTable = daoS0070.GetPeriodByUserId("ST", "%");
 
          if (periodTable.Rows.Count == 0) {
             DataRow dr = periodTable.NewRow();
 
             dr.SetField("span_period_module", "ST");
-            dr.SetField("span_period_user_id", GlobalInfo.USER_ID);
 
             periodTable.Rows.Add(dr);
          }
 
          periodTable.Rows[0].SetField("span_period_start_date", txtStartDate.DateTimeValue.ToString("yyyyMMdd"));
          periodTable.Rows[0].SetField("span_period_end_date", txtEndDate.DateTimeValue.ToString("yyyyMMdd"));
+         periodTable.Rows[0].SetField("span_period_user_id", GlobalInfo.USER_ID);
          periodTable.Rows[0].SetField("span_period_w_time", DateTime.Now);
 
          return periodTable;

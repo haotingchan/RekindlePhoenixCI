@@ -524,19 +524,19 @@ namespace PhoenixCI.FormUI.Prefix3 {
                         e.Appearance.BackColor = Color.White;
                         break;
                     case ("PL1_CUR_NATURE"):
-                        e.Appearance.BackColor = Color.FromArgb(192, 220, 192);
+                        e.Appearance.BackColor = Color.FromArgb(224, 224, 224);
                         break;
                     case ("PL1_CUR_LEGAL"):
-                        e.Appearance.BackColor = Color.FromArgb(192, 220, 192);
+                        e.Appearance.BackColor = Color.FromArgb(224, 224, 224);
                         break;
                     case ("PL1_CP_NATURE"):
-                        e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.FromArgb(192, 220, 192);
+                        e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.FromArgb(224, 224, 224);
                         break;
                     case ("PL1_CP_LEGAL"):
-                        e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.FromArgb(192, 220, 192);
+                        e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.FromArgb(224, 224, 224);
                         break;
                     case ("COMPUTE_1"):
-                        e.Appearance.BackColor = Color.FromArgb(192, 220, 192);
+                        e.Appearance.BackColor = Color.FromArgb(224, 224, 224);
                         break;
                     case ("PL1_NATURE"):
                         if (pl1Nature != gv.GetRowCellValue(e.RowHandle, gv.Columns["PL1_NATURE_ORG"]).AsInt() ||
@@ -622,7 +622,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                     case ("PL1B_PREV_999_MTH"):
                     case ("PL1B_PREV_999_NEARBY_MTH"):
                     case ("PL1B_PREV_999_TOT"):
-                        e.Appearance.BackColor = Color.FromArgb(192, 220, 192);
+                        e.Appearance.BackColor = Color.FromArgb(224, 224, 224);
                         break;
                     default:
                         e.Appearance.BackColor = Color.White;

@@ -32,32 +32,33 @@
             this.txtSDate = new BaseGround.Widget.TextDateEdit();
             this.lblDate = new System.Windows.Forms.Label();
             this.cbxAfter = new System.Windows.Forms.CheckBox();
+            this.panelControl = new DevExpress.XtraEditors.PanelControl();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             this.grpxDescription.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl)).BeginInit();
+            this.panelControl.SuspendLayout();
             this.SuspendLayout();
             // 
             // panParent
             // 
-            this.panParent.Controls.Add(this.cbxAfter);
-            this.panParent.Controls.Add(this.lblProcessing);
-            this.panParent.Controls.Add(this.grpxDescription);
-            this.panParent.Size = new System.Drawing.Size(887, 615);
+            this.panParent.Controls.Add(this.panelControl);
+            this.panParent.Size = new System.Drawing.Size(887, 602);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(887, 30);
+            this.ribbonControl.Size = new System.Drawing.Size(887, 43);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // lblProcessing
             // 
             this.lblProcessing.AutoSize = true;
             this.lblProcessing.ForeColor = System.Drawing.Color.Blue;
-            this.lblProcessing.Location = new System.Drawing.Point(44, 297);
+            this.lblProcessing.Location = new System.Drawing.Point(11, 264);
             this.lblProcessing.Name = "lblProcessing";
-            this.lblProcessing.Size = new System.Drawing.Size(85, 20);
+            this.lblProcessing.Size = new System.Drawing.Size(127, 30);
             this.lblProcessing.TabIndex = 20;
             this.lblProcessing.Text = "開始轉檔...";
             this.lblProcessing.Visible = false;
@@ -74,9 +75,9 @@
             this.grpxDescription.Controls.Add(this.lblDate);
             this.grpxDescription.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.grpxDescription.ForeColor = System.Drawing.Color.Navy;
-            this.grpxDescription.Location = new System.Drawing.Point(48, 48);
+            this.grpxDescription.Location = new System.Drawing.Point(15, 15);
             this.grpxDescription.Name = "grpxDescription";
-            this.grpxDescription.Size = new System.Drawing.Size(521, 246);
+            this.grpxDescription.Size = new System.Drawing.Size(752, 246);
             this.grpxDescription.TabIndex = 19;
             this.grpxDescription.TabStop = false;
             this.grpxDescription.Text = "請輸入交易日期";
@@ -88,7 +89,7 @@
             this.label4.ForeColor = System.Drawing.Color.Red;
             this.label4.Location = new System.Drawing.Point(223, 147);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(58, 21);
+            this.label4.Size = new System.Drawing.Size(86, 31);
             this.label4.TabIndex = 11;
             this.label4.Text = "前年度";
             // 
@@ -100,7 +101,7 @@
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label3.Location = new System.Drawing.Point(59, 147);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(337, 20);
+            this.label3.Size = new System.Drawing.Size(505, 30);
             this.label3.TabIndex = 10;
             this.label3.Text = "輸入當年度預估量，及 前年度 現貨平均成交值";
             // 
@@ -111,7 +112,7 @@
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label2.Location = new System.Drawing.Point(41, 124);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(467, 20);
+            this.label2.Size = new System.Drawing.Size(705, 30);
             this.label2.TabIndex = 9;
             this.label2.Text = "(2)跨年度時請先「20430－各商品年度預估日均量維護(交易部)」";
             // 
@@ -122,7 +123,7 @@
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label1.Location = new System.Drawing.Point(41, 95);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(393, 20);
+            this.label1.Size = new System.Drawing.Size(593, 30);
             this.label1.TabIndex = 8;
             this.label1.Text = "(1)請先完成「20110－每日各商品現貨指數資料輸入」";
             // 
@@ -137,10 +138,12 @@
             this.txtSDate.Name = "txtSDate";
             this.txtSDate.Properties.Appearance.Options.UseTextOptions = true;
             this.txtSDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtSDate.Properties.EditFormat.FormatString = "yyyyMMdd";
             this.txtSDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
             this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtSDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtSDate.Size = new System.Drawing.Size(100, 26);
+            this.txtSDate.Size = new System.Drawing.Size(100, 38);
             this.txtSDate.TabIndex = 7;
             this.txtSDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -150,34 +153,50 @@
             this.lblDate.ForeColor = System.Drawing.Color.Black;
             this.lblDate.Location = new System.Drawing.Point(37, 53);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(58, 21);
+            this.lblDate.Size = new System.Drawing.Size(86, 31);
             this.lblDate.TabIndex = 2;
             this.lblDate.Text = "日期：";
             // 
             // cbxAfter
             // 
             this.cbxAfter.AutoSize = true;
-            this.cbxAfter.Location = new System.Drawing.Point(593, 101);
+            this.cbxAfter.Location = new System.Drawing.Point(569, 76);
             this.cbxAfter.Name = "cbxAfter";
-            this.cbxAfter.Size = new System.Drawing.Size(140, 24);
+            this.cbxAfter.Size = new System.Drawing.Size(207, 34);
             this.cbxAfter.TabIndex = 21;
             this.cbxAfter.Text = "批次作業結束後";
             this.cbxAfter.UseVisualStyleBackColor = true;
             // 
+            // panelControl
+            // 
+            this.panelControl.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+            this.panelControl.Appearance.Options.UseBackColor = true;
+            this.panelControl.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.panelControl.Controls.Add(this.grpxDescription);
+            this.panelControl.Controls.Add(this.lblProcessing);
+            this.panelControl.Controls.Add(this.cbxAfter);
+            this.panelControl.Location = new System.Drawing.Point(30, 30);
+            this.panelControl.Margin = new System.Windows.Forms.Padding(15);
+            this.panelControl.Name = "panelControl";
+            this.panelControl.Size = new System.Drawing.Size(782, 308);
+            this.panelControl.TabIndex = 22;
+            // 
             // W30017
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(887, 645);
             this.Name = "W30017";
             this.Text = "W30017";
             this.panParent.ResumeLayout(false);
-            this.panParent.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
             this.grpxDescription.ResumeLayout(false);
             this.grpxDescription.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl)).EndInit();
+            this.panelControl.ResumeLayout(false);
+            this.panelControl.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -194,5 +213,6 @@
         private BaseGround.Widget.TextDateEdit txtSDate;
         private System.Windows.Forms.Label lblDate;
         private System.Windows.Forms.CheckBox cbxAfter;
+        private DevExpress.XtraEditors.PanelControl panelControl;
     }
 }

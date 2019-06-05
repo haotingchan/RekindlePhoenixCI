@@ -282,11 +282,11 @@ namespace PhoenixCI.FormUI.Prefix2 {
                         e.Appearance.BackColor = Color.White;
                     }
                     else {
-                        e.Appearance.BackColor = e.CellValue.AsString() == null ? Color.FromArgb(192, 220, 192) : Color.FromArgb(192, 192, 192);
+                        e.Appearance.BackColor = e.CellValue.AsString() == null ? Color.FromArgb(192, 220, 192) : Color.FromArgb(224, 224, 224);
                     }
                     break;
                 case ("IDFG_ACC_CODE"):
-                    e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.FromArgb(192, 192, 192);
+                    e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.FromArgb(224, 224, 224);
                     break;
                 default:
                     break;

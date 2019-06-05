@@ -143,7 +143,7 @@ AND SPAN_CONTENT_USER_ID = :user_id
             };
 
             string sql = @"
-select prod_group from (
+select prod_group, prod_group_value from (
     select '2' as sort, trim(ZPARM_PROD_GROUP) as prod_group ,
         trim(ZPARM_PROD_GROUP) as prod_group_value
     from ci.HZPARM

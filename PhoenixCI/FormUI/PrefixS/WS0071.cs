@@ -94,7 +94,7 @@ namespace PhoenixCI.FormUI.PrefixS {
          //商品類別
          DataTable dtProdType = daoS0071.dddw_zparm_comb_prod(txtEndDate.DateTimeValue.ToString("yyyyMMdd"));
          RepositoryItemLookUpEdit cbxProdType = new RepositoryItemLookUpEdit();
-         cbxProdType.SetColumnLookUp(dtProdType, "PROD_GROUP", "PROD_GROUP", TextEditStyles.DisableTextEditor, "");
+         cbxProdType.SetColumnLookUp(dtProdType, "PROD_GROUP_VALUE", "PROD_GROUP", TextEditStyles.DisableTextEditor, "");
          gcMain.RepositoryItems.Add(cbxProdType);
          SPAN_PARAM_CLASS.ColumnEdit = cbxProdType;
 

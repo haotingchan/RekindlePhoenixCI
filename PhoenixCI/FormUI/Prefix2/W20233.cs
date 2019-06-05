@@ -219,7 +219,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 //當該欄位不可編輯時,設定為灰色 Color.FromArgb(192,192,192)
                 switch (e.Column.FieldName) {
                     case ("STKOUT_DATE"):
-                        e.Appearance.BackColor = Color.Transparent;
+                        e.Appearance.BackColor = Color.FromArgb(224, 224, 224);
                         break;
                     case ("STKOUT_ID"):
                     case ("STKOUT_NAME"):
@@ -227,7 +227,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                         GridView gv = sender as GridView;
                         string Is_NewRow = gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
                                            gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]).ToString();
-                        e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.FromArgb(192, 192, 192);
+                        e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.FromArgb(224, 224, 224);
                         break;
                 }//switch (e.Column.FieldName) {
             }

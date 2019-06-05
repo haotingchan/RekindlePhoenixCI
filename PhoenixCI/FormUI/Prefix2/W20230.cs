@@ -226,7 +226,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             switch (e.Column.FieldName) {
                 case ("PLST1_LEVEL"):
                     e.Column.OptionsColumn.AllowFocus = Is_NewRow == "1" ? true : false;
-                    e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.FromArgb(192, 192, 192);
+                    e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.FromArgb(224, 224, 224);
                     break;
                 default:
                     e.Appearance.BackColor = Color.White;
