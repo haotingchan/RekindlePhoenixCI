@@ -141,7 +141,7 @@ namespace PhoenixCI.FormUI.PrefixS {
          base.Retrieve(gcMain);
          DataTable marginTable = new DataTable();
 
-         periodTable = daoS0073.GetPeriodData("MARGIN", GlobalInfo.USER_ID);
+         periodTable = daoS0073.GetPeriodData("MARGIN", "%");
          if (periodTable.Rows.Count <= 0) {
             fmYmd = DateTime.Now.AddDays(-60).ToString("yyyyMMdd");
             toYmd = DateTime.Now.ToString("yyyyMMdd");

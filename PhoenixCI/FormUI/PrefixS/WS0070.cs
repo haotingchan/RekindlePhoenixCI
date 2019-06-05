@@ -51,7 +51,7 @@ namespace PhoenixCI.FormUI.PrefixS {
 
          #region Set Date Period
          //save 後替換新值
-         DataTable dtSPN = daoS0070.GetPeriodByUserId("ST", GlobalInfo.USER_ID);
+         DataTable dtSPN = daoS0070.GetPeriodByUserId("ST", "%");
          if (dtSPN.Rows.Count <= 0) {
             fmYmd = DateTime.Now.AddDays(-60).ToString("yyyyMMdd");
             toYmd = DateTime.Now.ToString("yyyyMMdd");
