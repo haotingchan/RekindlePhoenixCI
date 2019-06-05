@@ -45,6 +45,7 @@
             this.gridBand3 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.gridBand4 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.PROD_KIND_ID = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.prodKindIDLookUpEdit = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.gridBand5 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.RATE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
@@ -131,6 +132,7 @@
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.prodKindIDLookUpEdit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gcDetail)).BeginInit();
@@ -371,7 +373,8 @@
             this.gcMain.MainView = this.gvMain;
             this.gcMain.Name = "gcMain";
             this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
-            this.repositoryItemTextEdit1});
+            this.repositoryItemTextEdit1,
+            this.prodKindIDLookUpEdit});
             this.gcMain.Size = new System.Drawing.Size(349, 662);
             this.gcMain.TabIndex = 0;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -454,11 +457,19 @@
             // PROD_KIND_ID
             // 
             this.PROD_KIND_ID.Caption = "PROD_KIND_ID";
-            this.PROD_KIND_ID.FieldName = "PROD_KIND_ID";
+            this.PROD_KIND_ID.FieldName = "KIND_ID";
             this.PROD_KIND_ID.Name = "PROD_KIND_ID";
             this.PROD_KIND_ID.UnboundType = DevExpress.Data.UnboundColumnType.String;
             this.PROD_KIND_ID.Visible = true;
             this.PROD_KIND_ID.Width = 84;
+            // 
+            // prodKindIDLookUpEdit
+            // 
+            this.prodKindIDLookUpEdit.AutoHeight = false;
+            this.prodKindIDLookUpEdit.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.prodKindIDLookUpEdit.Name = "prodKindIDLookUpEdit";
+            this.prodKindIDLookUpEdit.NullText = "All";
             // 
             // gridBand5
             // 
@@ -493,28 +504,28 @@
             // CND_PROD_SUBTYPE
             // 
             this.CND_PROD_SUBTYPE.Caption = "CND_PROD_SUBTYPE";
-            this.CND_PROD_SUBTYPE.FieldName = "CND_PROD_SUBTYPE";
+            this.CND_PROD_SUBTYPE.FieldName = "PROD_SUBTYPE";
             this.CND_PROD_SUBTYPE.Name = "CND_PROD_SUBTYPE";
             this.CND_PROD_SUBTYPE.Visible = true;
             // 
             // SUBTYPE_NAME
             // 
             this.SUBTYPE_NAME.Caption = "SUBTYPE_NAME";
-            this.SUBTYPE_NAME.FieldName = "SUBTYPE_NAME";
+            this.SUBTYPE_NAME.FieldName = "PROD_SUBTYPE_NAME";
             this.SUBTYPE_NAME.Name = "SUBTYPE_NAME";
             this.SUBTYPE_NAME.Visible = true;
             // 
             // CND_PARAM_KEY
             // 
             this.CND_PARAM_KEY.Caption = "CND_PARAM_KEY";
-            this.CND_PARAM_KEY.FieldName = "CND_PARAM_KEY";
+            this.CND_PARAM_KEY.FieldName = "PARAM_KEY";
             this.CND_PARAM_KEY.Name = "CND_PARAM_KEY";
             this.CND_PARAM_KEY.Visible = true;
             // 
             // CND_ABROAD
             // 
             this.CND_ABROAD.Caption = "CND_ABROAD";
-            this.CND_ABROAD.FieldName = "CND_ABROAD";
+            this.CND_ABROAD.FieldName = "ABROAD";
             this.CND_ABROAD.Name = "CND_ABROAD";
             this.CND_ABROAD.Visible = true;
             // 
@@ -1361,6 +1372,7 @@
             this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.prodKindIDLookUpEdit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
             this.panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gcDetail)).EndInit();
@@ -1472,5 +1484,6 @@
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand32;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand33;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand34;
+        private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit prodKindIDLookUpEdit;
     }
 }

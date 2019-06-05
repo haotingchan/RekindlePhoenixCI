@@ -51,7 +51,7 @@ namespace PhoenixCI.FormUI.PrefixS {
 
          #region Set Date Period
          //save 後替換新值
-         DataTable dtSPN = daoS0070.GetPeriodByUserId("ST", GlobalInfo.USER_ID);
+         DataTable dtSPN = daoS0070.GetPeriodByUserId("ST", "%");
          if (dtSPN.Rows.Count <= 0) {
             fmYmd = DateTime.Now.AddDays(-60).ToString("yyyyMMdd");
             toYmd = DateTime.Now.ToString("yyyyMMdd");
@@ -71,19 +71,19 @@ namespace PhoenixCI.FormUI.PrefixS {
 
          #region Set Drop Down Lsit
          //保證金類別
-         DataTable cbxSpanReqTypeSource = daoCod.ListByCol2("S0070", "span_req_type");
+         DataTable cbxSpanReqTypeSource = daoCod.ListByCol2("S0070", "SPAN_REQ_TYPE");
          SPAN_REQ_TYPE.SetDataTable(cbxSpanReqTypeSource, "COD_ID");
 
          //設定方式
          RepositoryItemLookUpEdit cbxParamType = new RepositoryItemLookUpEdit();
-         DataTable cbxParamTypeSource = daoCod.ListByCol2("S0071", "span_param_type");
+         DataTable cbxParamTypeSource = daoCod.ListByCol2("S0070", "SPAN_PARAM_TYPE");
          cbxParamType.SetColumnLookUp(cbxParamTypeSource, "COD_ID", "COD_DESC", TextEditStyles.DisableTextEditor, "");
          gcPresTest.RepositoryItems.Add(cbxParamType);
          SPAN_PARAM_TYPE.ColumnEdit = cbxParamType;
 
          //設定值
          RepositoryItemLookUpEdit cbxParamValue = new RepositoryItemLookUpEdit();
-         DataTable cbxParamValueSource = daoCod.ListByCol2("S0071", "span_param_value");
+         DataTable cbxParamValueSource = daoCod.ListByCol2("S0070", "SPAN_PARAM_VALUE");
          DataTable dtParamValueData = daoS0070.GetParamData("ST", GlobalInfo.USER_ID);//DB現有資料
          DataTable dtTempParamValue = cbxParamValueSource.Clone();
          for (int i = 0; i < dtParamValueData.Rows.Count; i++) {
@@ -105,7 +105,7 @@ namespace PhoenixCI.FormUI.PrefixS {
 
          //波動度設定
          RepositoryItemLookUpEdit cbxParamVolType = new RepositoryItemLookUpEdit();
-         DataTable cbxParamVolTypeSource = daoCod.ListByCol2("S0071", "span_param_vol_type");
+         DataTable cbxParamVolTypeSource = daoCod.ListByCol2("S0070", "SPAN_PARAM_VOL_TYPE");
          cbxParamVolType.SetColumnLookUp(cbxParamVolTypeSource, "COD_ID", "COD_DESC", TextEditStyles.DisableTextEditor, "");
          gcPresTest.RepositoryItems.Add(cbxParamVolType);
          SPAN_PARAM_VOL_TYPE.ColumnEdit = cbxParamVolType;

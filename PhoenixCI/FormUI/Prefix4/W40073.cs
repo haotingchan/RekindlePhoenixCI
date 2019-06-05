@@ -539,7 +539,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
         private void gvMain_CellValueChanging(object sender, CellValueChangedEventArgs e) {
             gcDetail.DataSource = null;
             GridView gv = sender as GridView;
-            if (e.Column.Name == "M_LEVEL") {
+            if (e.Column.FieldName == "M_LEVEL") {
                 string level = e.Value.AsString();
                 DataRow dr = dtFLevel.Select("mgrt1_level = '" + level + "'")[0];
                 gv.SetRowCellValue(e.RowHandle, "CM_A", dr["MGRT1_CM_RATE"]);

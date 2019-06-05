@@ -29,9 +29,14 @@ namespace DataObjects.Dao.Together.SpecificDao {
                 "@userId",user_Id
             };
 
-            string sql = @"select  * from cfo.SPAN_PERIOD
+            string sql = @"select SPAN_PERIOD_MODULE,
+	                                 SPAN_PERIOD_START_DATE,
+	                                 SPAN_PERIOD_END_DATE,
+	                                 SPAN_PERIOD_USER_ID,
+	                                 SPAN_PERIOD_W_TIME
+                                 from cfo.SPAN_PERIOD
                                 where span_period_module = :module
-                                and span_period_user_id = :userId";
+                                and span_period_user_id like :userId";
 
             DataTable dtResult = db.GetDataTable(sql, parms);
 
