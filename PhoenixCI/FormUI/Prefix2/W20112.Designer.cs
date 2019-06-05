@@ -65,16 +65,17 @@
             // 
             // panParent
             // 
+            this.panParent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
             this.panParent.Controls.Add(this.lblProcess);
             this.panParent.Controls.Add(this.groupBox3);
             this.panParent.Controls.Add(this.groupBox2);
             this.panParent.Controls.Add(this.groupBox1);
-            this.panParent.Size = new System.Drawing.Size(1065, 768);
+            this.panParent.Size = new System.Drawing.Size(1065, 755);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(1065, 30);
+            this.ribbonControl.Size = new System.Drawing.Size(1065, 43);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // groupBox1
@@ -88,7 +89,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.groupBox1.ForeColor = System.Drawing.Color.Navy;
-            this.groupBox1.Location = new System.Drawing.Point(38, 37);
+            this.groupBox1.Location = new System.Drawing.Point(30, 30);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(964, 90);
             this.groupBox1.TabIndex = 0;
@@ -100,7 +101,7 @@
             this.lblRange1.AutoSize = true;
             this.lblRange1.Location = new System.Drawing.Point(85, 61);
             this.lblRange1.Name = "lblRange1";
-            this.lblRange1.Size = new System.Drawing.Size(62, 21);
+            this.lblRange1.Size = new System.Drawing.Size(92, 31);
             this.lblRange1.TabIndex = 5;
             this.lblRange1.Text = "             ";
             // 
@@ -109,7 +110,7 @@
             this.shl1.AutoSize = true;
             this.shl1.Location = new System.Drawing.Point(713, 30);
             this.shl1.Name = "shl1";
-            this.shl1.Size = new System.Drawing.Size(90, 21);
+            this.shl1.Size = new System.Drawing.Size(134, 31);
             this.shl1.TabIndex = 4;
             this.shl1.TabStop = true;
             this.shl1.Text = "櫃買成交值";
@@ -132,7 +133,7 @@
             this.txtPath1.Name = "txtPath1";
             this.txtPath1.Properties.Appearance.BackColor = System.Drawing.Color.White;
             this.txtPath1.Properties.Appearance.Options.UseBackColor = true;
-            this.txtPath1.Size = new System.Drawing.Size(600, 26);
+            this.txtPath1.Size = new System.Drawing.Size(600, 38);
             this.txtPath1.TabIndex = 2;
             // 
             // label2
@@ -142,7 +143,7 @@
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label2.Location = new System.Drawing.Point(6, 61);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(89, 20);
+            this.label2.Size = new System.Drawing.Size(133, 30);
             this.label2.TabIndex = 1;
             this.label2.Text = "資料區間：";
             // 
@@ -153,7 +154,7 @@
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label1.Location = new System.Drawing.Point(7, 28);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(57, 20);
+            this.label1.Size = new System.Drawing.Size(85, 30);
             this.label1.TabIndex = 0;
             this.label1.Text = "路徑：";
             // 
@@ -168,7 +169,7 @@
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.groupBox2.ForeColor = System.Drawing.Color.Navy;
-            this.groupBox2.Location = new System.Drawing.Point(38, 185);
+            this.groupBox2.Location = new System.Drawing.Point(30, 156);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(964, 90);
             this.groupBox2.TabIndex = 1;
@@ -180,7 +181,7 @@
             this.lblRange2.AutoSize = true;
             this.lblRange2.Location = new System.Drawing.Point(85, 63);
             this.lblRange2.Name = "lblRange2";
-            this.lblRange2.Size = new System.Drawing.Size(62, 21);
+            this.lblRange2.Size = new System.Drawing.Size(92, 31);
             this.lblRange2.TabIndex = 10;
             this.lblRange2.Text = "             ";
             // 
@@ -189,7 +190,7 @@
             this.shl2.AutoSize = true;
             this.shl2.Location = new System.Drawing.Point(713, 32);
             this.shl2.Name = "shl2";
-            this.shl2.Size = new System.Drawing.Size(106, 21);
+            this.shl2.Size = new System.Drawing.Size(158, 31);
             this.shl2.TabIndex = 9;
             this.shl2.TabStop = true;
             this.shl2.Text = "證交所成交值";
@@ -210,7 +211,7 @@
             this.txtPath2.Location = new System.Drawing.Point(71, 29);
             this.txtPath2.MenuManager = this.ribbonControl;
             this.txtPath2.Name = "txtPath2";
-            this.txtPath2.Size = new System.Drawing.Size(600, 26);
+            this.txtPath2.Size = new System.Drawing.Size(600, 38);
             this.txtPath2.TabIndex = 7;
             // 
             // label3
@@ -220,7 +221,7 @@
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label3.Location = new System.Drawing.Point(6, 63);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(89, 20);
+            this.label3.Size = new System.Drawing.Size(133, 30);
             this.label3.TabIndex = 6;
             this.label3.Text = "資料區間：";
             // 
@@ -231,7 +232,7 @@
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label4.Location = new System.Drawing.Point(7, 30);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(57, 20);
+            this.label4.Size = new System.Drawing.Size(85, 30);
             this.label4.TabIndex = 5;
             this.label4.Text = "路徑：";
             // 
@@ -244,7 +245,7 @@
             this.groupBox3.Controls.Add(this.label5);
             this.groupBox3.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.groupBox3.ForeColor = System.Drawing.Color.Navy;
-            this.groupBox3.Location = new System.Drawing.Point(38, 310);
+            this.groupBox3.Location = new System.Drawing.Point(30, 281);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(964, 409);
             this.groupBox3.TabIndex = 2;
@@ -261,12 +262,14 @@
             this.txtYear.Name = "txtYear";
             this.txtYear.Properties.Appearance.Options.UseTextOptions = true;
             this.txtYear.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtYear.Properties.EditFormat.FormatString = "yyyy";
             this.txtYear.Properties.Mask.EditMask = "0000";
             this.txtYear.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Simple;
             this.txtYear.Properties.Mask.PlaceHolder = '0';
+            this.txtYear.Properties.Mask.ShowPlaceHolders = false;
             this.txtYear.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtYear.Properties.MaxLength = 4;
-            this.txtYear.Size = new System.Drawing.Size(69, 26);
+            this.txtYear.Size = new System.Drawing.Size(69, 38);
             this.txtYear.TabIndex = 13;
             this.txtYear.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
             // 
@@ -421,7 +424,7 @@
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label5.Location = new System.Drawing.Point(7, 28);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(57, 20);
+            this.label5.Size = new System.Drawing.Size(85, 30);
             this.label5.TabIndex = 9;
             this.label5.Text = "年度：";
             // 
@@ -429,9 +432,9 @@
             // 
             this.lblProcess.AutoSize = true;
             this.lblProcess.ForeColor = System.Drawing.Color.Blue;
-            this.lblProcess.Location = new System.Drawing.Point(34, 147);
+            this.lblProcess.Location = new System.Drawing.Point(25, 123);
             this.lblProcess.Name = "lblProcess";
-            this.lblProcess.Size = new System.Drawing.Size(169, 20);
+            this.lblProcess.Size = new System.Drawing.Size(253, 30);
             this.lblProcess.TabIndex = 3;
             this.lblProcess.Text = "訊息：資料轉入中........";
             this.lblProcess.Visible = false;
@@ -439,7 +442,7 @@
             // W20112
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1065, 798);
             this.Name = "W20112";

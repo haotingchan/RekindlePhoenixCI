@@ -268,8 +268,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
             switch (e.Column.FieldName) {
                 case ("AM7T_Y"):
                 case ("AM7T_PARAM_KEY"):
-                    e.Column.OptionsColumn.AllowFocus = Is_NewRow == "1" ? true : false;
-                    e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.FromArgb(192, 192, 192);
+                    //e.Column.OptionsColumn.AllowFocus = Is_NewRow == "1" ? true : false;
+                    e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.FromArgb(224, 224, 224);
                     break;
                 default:
                     e.Appearance.BackColor = Color.White;

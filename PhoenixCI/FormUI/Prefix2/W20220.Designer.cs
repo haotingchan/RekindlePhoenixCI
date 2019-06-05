@@ -42,20 +42,22 @@
             // panParent
             // 
             this.panParent.Controls.Add(this.gcMain);
+            this.panParent.Size = new System.Drawing.Size(836, 531);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
+            this.ribbonControl.Size = new System.Drawing.Size(836, 43);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // gcMain
             // 
             this.gcMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gcMain.Location = new System.Drawing.Point(12, 12);
+            this.gcMain.Location = new System.Drawing.Point(18, 18);
             this.gcMain.MainView = this.gvMain;
             this.gcMain.MenuManager = this.ribbonControl;
             this.gcMain.Name = "gcMain";
-            this.gcMain.Size = new System.Drawing.Size(812, 520);
+            this.gcMain.Size = new System.Drawing.Size(800, 495);
             this.gcMain.TabIndex = 0;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -73,13 +75,14 @@
             this.Is_NewRow});
             this.gvMain.GridControl = this.gcMain;
             this.gvMain.Name = "gvMain";
+            this.gvMain.OptionsView.ShowGroupPanel = false;
             this.gvMain.RowCellStyle += new DevExpress.XtraGrid.Views.Grid.RowCellStyleEventHandler(this.gvMain_RowCellStyle);
             this.gvMain.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gvMain_ShowingEditor);
             this.gvMain.InitNewRow += new DevExpress.XtraGrid.Views.Grid.InitNewRowEventHandler(this.gvMain_InitNewRow);
             // 
             // PLT1_PROD_TYPE
             // 
-            this.PLT1_PROD_TYPE.AppearanceHeader.BackColor = System.Drawing.Color.Yellow;
+            this.PLT1_PROD_TYPE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.PLT1_PROD_TYPE.AppearanceHeader.Options.UseBackColor = true;
             this.PLT1_PROD_TYPE.Caption = "商品別";
             this.PLT1_PROD_TYPE.FieldName = "PLT1_PROD_TYPE";
@@ -92,7 +95,7 @@
             // 
             // PLT1_PROD_SUBTYPE
             // 
-            this.PLT1_PROD_SUBTYPE.AppearanceHeader.BackColor = System.Drawing.Color.Yellow;
+            this.PLT1_PROD_SUBTYPE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.PLT1_PROD_SUBTYPE.AppearanceHeader.Options.UseBackColor = true;
             this.PLT1_PROD_SUBTYPE.Caption = "商品子類別";
             this.PLT1_PROD_SUBTYPE.FieldName = "PLT1_PROD_SUBTYPE";
@@ -105,7 +108,7 @@
             // 
             // PLT1_QNTY_MIN
             // 
-            this.PLT1_QNTY_MIN.AppearanceHeader.BackColor = System.Drawing.Color.Aqua;
+            this.PLT1_QNTY_MIN.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.PLT1_QNTY_MIN.AppearanceHeader.Options.UseBackColor = true;
             this.PLT1_QNTY_MIN.Caption = "最小契約數";
             this.PLT1_QNTY_MIN.FieldName = "PLT1_QNTY_MIN";
@@ -118,7 +121,7 @@
             // 
             // PLT1_QNTY_MAX
             // 
-            this.PLT1_QNTY_MAX.AppearanceHeader.BackColor = System.Drawing.Color.Aqua;
+            this.PLT1_QNTY_MAX.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.PLT1_QNTY_MAX.AppearanceHeader.Options.UseBackColor = true;
             this.PLT1_QNTY_MAX.Caption = "最大契約數";
             this.PLT1_QNTY_MAX.FieldName = "PLT1_QNTY_MAX";
@@ -131,7 +134,7 @@
             // 
             // PLT1_MULTIPLE
             // 
-            this.PLT1_MULTIPLE.AppearanceHeader.BackColor = System.Drawing.Color.Aqua;
+            this.PLT1_MULTIPLE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.PLT1_MULTIPLE.AppearanceHeader.Options.UseBackColor = true;
             this.PLT1_MULTIPLE.Caption = "倍數";
             this.PLT1_MULTIPLE.FieldName = "PLT1_MULTIPLE";
@@ -144,7 +147,7 @@
             // 
             // PLT1_MIN_NATURE
             // 
-            this.PLT1_MIN_NATURE.AppearanceHeader.BackColor = System.Drawing.Color.Aqua;
+            this.PLT1_MIN_NATURE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.PLT1_MIN_NATURE.AppearanceHeader.Options.UseBackColor = true;
             this.PLT1_MIN_NATURE.Caption = "自然人最低數";
             this.PLT1_MIN_NATURE.FieldName = "PLT1_MIN_NATURE";
@@ -157,7 +160,7 @@
             // 
             // PLT1_MIN_LEGAL
             // 
-            this.PLT1_MIN_LEGAL.AppearanceHeader.BackColor = System.Drawing.Color.Aqua;
+            this.PLT1_MIN_LEGAL.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.PLT1_MIN_LEGAL.AppearanceHeader.Options.UseBackColor = true;
             this.PLT1_MIN_LEGAL.Caption = "法人最低數";
             this.PLT1_MIN_LEGAL.FieldName = "PLT1_MIN_LEGAL";
@@ -177,7 +180,7 @@
             // W20220
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(836, 574);
             this.Name = "W20220";

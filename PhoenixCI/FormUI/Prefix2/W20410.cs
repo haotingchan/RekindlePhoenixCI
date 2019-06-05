@@ -248,8 +248,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
             //當該欄位不可編輯時,AllowFocus為false(PB的wf_set_order方法)
             switch (e.Column.FieldName) {
                 case ("AM7_Y"):
-                    e.Column.OptionsColumn.AllowFocus = Is_NewRow == "1" ? true : false;
-                    e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.FromArgb(192, 192, 192);
+                    //e.Column.OptionsColumn.AllowFocus = Is_NewRow == "1" ? true : false;
+                    e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.FromArgb(224, 224, 224);
                     break;
                 default:
                     e.Appearance.BackColor = Color.White;
