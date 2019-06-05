@@ -1,6 +1,7 @@
 ﻿using BusinessObjects;
 using OnePiece;
 using System;
+using System.Collections.Generic;
 using System.Data;
 
 namespace DataObjects.Dao.Together {
@@ -52,6 +53,68 @@ FROM {0}.OCF", _dbType);
             }
 
             return boOCF;
+        }
+
+        public DataTable GetDataList() {
+            #region sql
+
+            string sql = string.Format(@"
+                                                              SELECT 'ci' as OCF_SYS,
+                                                                     OCF_DATE,   
+                                                                     OCF_PREV_DATE,   
+                                                                     OCF_NEXT_DATE,   
+                                                                     OCF_CURR_OPEN_SW,   
+                                                                     OCF_OPEN_TIME,   
+                                                                     OCF_CLOSE_TIME
+                                                                FROM ci.OCF   
+                                                                union all
+                                                              SELECT 'fut' ,
+                                                                     OCF_DATE,   
+                                                                     OCF_PREV_DATE,   
+                                                                     OCF_NEXT_DATE,   
+                                                                     OCF_CURR_OPEN_SW,   
+                                                                     OCF_OPEN_TIME,   
+                                                                     OCF_CLOSE_TIME
+                                                                FROM FUT.OCF   
+                                                               union all  
+                                                              SELECT 'opt',
+                                                                     OCF_DATE,   
+                                                                     OCF_PREV_DATE,   
+                                                                     OCF_NEXT_DATE,   
+                                                                     OCF_CURR_OPEN_SW,   
+                                                                     OCF_OPEN_TIME,   
+                                                                     OCF_CLOSE_TIME
+                                                                FROM opt.OCF   
+                                                                
+            ");
+
+            #endregion
+
+            DataTable dtResult = db.GetDataTable(sql, null);
+
+            return dtResult;
+        }
+
+        public List<BO_OCF> GetOCFList()
+        {
+            List<BO_OCF> list = new List<BO_OCF>();
+            BO_OCF boOCF ;
+
+            DataTable dt = GetDataList();
+
+            if (dt.Rows.Count != 0)
+            {
+                foreach (DataRow row in dt.Constraints)
+                {
+                    boOCF = new BO_OCF();
+                    boOCF.OCF_DATE = Convert.ToDateTime(row["OCF_DATE"]);
+                    boOCF.OCF_NEXT_DATE = Convert.ToDateTime(row["OCF_NEXT_DATE"]);
+                    boOCF.OCF_PREV_DATE = Convert.ToDateTime(row["OCF_PREV_DATE"]);
+                    list.Add(boOCF);
+                }
+            }
+
+            return list;
         }
     }
 }

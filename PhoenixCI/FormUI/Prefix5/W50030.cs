@@ -67,6 +67,7 @@ namespace PhoenixCI.FormUI.Prefix5
          daoAPDK = new APDK();
          _D500Xx = new D500xx();
          dao50030 = new D50030();
+         _Report = new XtraReport();
       }
 
       private bool StartRetrieve(string sbrkno = "", string ebrkno = "")
@@ -716,10 +717,17 @@ namespace PhoenixCI.FormUI.Prefix5
 
          documentViewer1.DocumentSource = null;
 
-         _RW50030 = new RW50030();
-         _RW50030.DataSource = _Data;
-         _RW50030.SetSortType(_D500Xx.SortType);
-         _Report = _RW50030;
+         //報表內容選擇分日期
+         if (gbDetial.EditValue.Equals("rb_gdate")) {
+            _RW50030 = new RW50030();
+            _RW50030.DataSource = _Data;
+            _RW50030.SetSortType(_D500Xx.SortType);
+            _Report = _RW50030;
+         }
+         else {
+            _defReport = new defReport();
+            _Report = _defReport;
+         }
 
          documentViewer1.DocumentSource = _Report;
          _RW50030.CreateDocument(true);

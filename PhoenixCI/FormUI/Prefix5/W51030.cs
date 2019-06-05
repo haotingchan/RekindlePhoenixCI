@@ -16,6 +16,9 @@ using BaseGround.Shared;
 using System.Collections.Generic;
 using System.Data.OracleClient;
 using DataObjects.Dao.Together.TableDao;
+using DevExpress.XtraGrid;
+using System.Linq;
+using System.Text;
 
 namespace PhoenixCI.FormUI.Prefix5
 {
@@ -135,11 +138,11 @@ namespace PhoenixCI.FormUI.Prefix5
          }
          return dt;
       }
+
       protected override ResultStatus Retrieve()
       {
          base.Retrieve(gcMain);
-         DataTable returnTable = new DataTable();
-         returnTable = dao51030.ListD50130();
+         DataTable returnTable = dao51030.ListD50130();
 
          /*******************
          沒有新增資料時,則自動新增內容
@@ -237,6 +240,17 @@ namespace PhoenixCI.FormUI.Prefix5
                   setFocused(dt, dr, PARAM_KEY);
                   return false;
                }
+
+               //key值不能重複
+               int valueCount = dt.AsEnumerable().Where(r => r.RowState != DataRowState.Deleted
+               && r.Field<string>(MARKET_CODE).AsString() == dr[MARKET_CODE].AsString()
+              && r.Field<string>(PARAM_KEY).AsString() == dr[PARAM_KEY].AsString()).Count();
+               if (valueCount >= 2) {
+                  setFocused(dt, dr, PARAM_KEY);
+                  MessageDisplay.Error("交易時段與商品類別 不得重複新增!請檢查重複的筆數。");
+                  return false;
+               }
+
                //必須回應詢價比
                if (string.IsNullOrEmpty(dr["MMF_RESP_RATIO"].AsString())) {
                   MessageDisplay.Warning("「必須回應詢價比(%)」必須要輸入值！");
@@ -289,6 +303,67 @@ namespace PhoenixCI.FormUI.Prefix5
          gvMain.ShowEditor();
       }
 
+      private void CheckPrint(GridControl gridControl, DataTable ChangedForAdded,
+            DataTable ChangedForDeleted, DataTable ChangedForModified, bool IsHandlePersonVisible = true, bool IsManagerVisible = true)
+      {
+         try {
+
+            GridControl gridControlPrint = GridHelper.CloneGrid(gridControl);
+
+            ReportHelper reportHelper = new ReportHelper(gridControl, _ProgramID, _ProgramID + "─" + _ProgramName + GlobalInfo.REPORT_TITLE_MEMO);
+            reportHelper.IsHandlePersonVisible = IsHandlePersonVisible;
+            reportHelper.IsManagerVisible = IsManagerVisible;
+
+            if (ChangedForAdded != null)
+               if (ChangedForAdded.Rows.Count != 0) {
+                  gridControlPrint.DataSource = ChangedForAdded;
+                  //reportHelper.PrintableComponent = gridControlPrint; // 加這行bands會不見
+                  reportHelper.ReportTitle = _ProgramID + "─" + _ProgramName + GlobalInfo.REPORT_TITLE_MEMO + "─" + "新增";
+
+                  reportHelper.Landscape = true; //設定為橫向列印
+                  reportHelper.Print();
+                  reportHelper.Export(FileType.PDF, reportHelper.FilePath);
+               }
+
+            if (ChangedForDeleted != null)
+               if (ChangedForDeleted.Rows.Count != 0) {
+                  DataTable dtTemp = ChangedForDeleted.Clone();
+
+                  int rowIndex = 0;
+                  foreach (DataRow dr in ChangedForDeleted.Rows) {
+                     DataRow drNewDelete = dtTemp.NewRow();
+                     for (int colIndex = 0; colIndex < ChangedForDeleted.Columns.Count; colIndex++) {
+                        drNewDelete[colIndex] = dr[colIndex, DataRowVersion.Original];
+                     }
+                     dtTemp.Rows.Add(drNewDelete);
+                     rowIndex++;
+                  }
+
+                  gridControlPrint.DataSource = dtTemp.AsDataView();
+                  //reportHelper.PrintableComponent = gridControlPrint; // 加這行bands會不見
+                  reportHelper.ReportTitle = _ProgramID + "─" + _ProgramName + GlobalInfo.REPORT_TITLE_MEMO + "─" + "刪除";
+
+                  reportHelper.Landscape = true; //設定為橫向列印
+                  reportHelper.Print();
+                  reportHelper.Export(FileType.PDF, reportHelper.FilePath);
+               }
+
+            if (ChangedForModified != null)
+               if (ChangedForModified.Rows.Count != 0) {
+                  gridControlPrint.DataSource = ChangedForModified;
+                  //reportHelper.PrintableComponent = gridControlPrint; // 加這行bands會不見
+                  reportHelper.ReportTitle = _ProgramID + "─" + _ProgramName + GlobalInfo.REPORT_TITLE_MEMO + "─" + "變更";
+
+                  reportHelper.Landscape = true; //設定為橫向列印
+                  reportHelper.Print();
+                  reportHelper.Export(FileType.PDF, reportHelper.FilePath);
+               }
+         }
+         catch (Exception ex) {
+            throw ex;
+         }
+      }
+
       protected override ResultStatus Save(PokeBall poke)
       {
          gvMain.CloseEditor();
@@ -313,14 +388,19 @@ namespace PhoenixCI.FormUI.Prefix5
 
          if (dtChange != null) {
             try {
-               dt.AcceptChanges();
                ResultData myResultData = dao51030.UpdateMMF(dt);
             }
             catch (Exception ex) {
+               //if (ex.Message.Contains("ORA-00001")) {
+               //   MessageDisplay.Error("交易時段與商品類別 不得重複新增!請檢查重複的筆數。");
+               //   return ResultStatus.FailButNext;
+               //}
                WriteLog(ex);
                return ResultStatus.Fail;
             }
-            PrintOrExportChangedByKen(gcMain, dtForAdd, dtDeleteChange, dtForModified);
+            //PrintOrExportChangedByKen(gcMain, dtForAdd, dtDeleteChange, dtForModified);
+            //列印新增、刪除、修改
+            CheckPrint(gcMain, dtForAdd, dtDeleteChange, dtForModified);
             return ResultStatus.Success;
          }
          else {
@@ -334,6 +414,21 @@ namespace PhoenixCI.FormUI.Prefix5
       {
          try {
             ReportHelper reportHelper = new ReportHelper(gcMain, _ProgramID, _ProgramID + _ProgramName);
+            CommonReportLandscapeA4 reportLandscapeA4 = new CommonReportLandscapeA4();//設定為橫向列印
+            /*
+            //寫入所有備註，備註由6個Label組成
+            Label label;
+            StringBuilder Memo = new StringBuilder("");
+            for (int x = 1; x <= 6; x++) {
+               if (this.Controls.Find("label" + x, true).Any() && this.Controls.Find("label" + x, true)[0] is Label) {
+                  label = (Label)this.Controls.Find("label" + x, true)[0];
+                  Memo.AppendLine(label.Text);
+               }
+            }
+
+            reportHelper.LeftMemo = Memo.ToString();
+            */
+            reportHelper.Create(reportLandscapeA4);
             reportHelper.Print();
 
          }
@@ -386,11 +481,6 @@ namespace PhoenixCI.FormUI.Prefix5
          base.AfterOpen();
 
          return ResultStatus.Success;
-      }
-
-      protected override ResultStatus BeforeClose()
-      {
-         return base.BeforeClose();
       }
 
       protected override ResultStatus COMPLETE()

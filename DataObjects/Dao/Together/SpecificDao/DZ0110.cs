@@ -21,12 +21,6 @@ namespace DataObjects.Dao.Together.SpecificDao
             string sql =
                 @"
                           SELECT	TXN_ID,
-		                                TXN_INS,
-		                                TXN_DEL,
-		                                TXN_QUERY,
-		                                TXN_IMPORT,
-		                                TXN_EXPORT,
-		                                TXN_PRINT,
 		                                TXN_DEFAULT,
 		                                TXN_NAME,
 		                                CASE  WHEN NVL(UTP_USER_ID,' ') =' ' OR TXN_DEFAULT = 'Y' THEN ' ' ELSE 'Y' END AS UTP_FLAG,

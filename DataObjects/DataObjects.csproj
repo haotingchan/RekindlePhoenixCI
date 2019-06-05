@@ -308,6 +308,8 @@
     <Compile Include="Dao\Together\TableDao\INOTC1.cs" />
     <Compile Include="Dao\Together\TableDao\INTWSE1.cs" />
     <Compile Include="Dao\Together\TableDao\JLOG.cs" />
+    <Compile Include="Dao\Together\TableDao\JRF.cs" />
+    <Compile Include="Dao\Together\TableDao\LOGS.cs" />
     <Compile Include="Dao\Together\TableDao\LOGSP.cs" />
     <Compile Include="Dao\Together\TableDao\AOCF.cs" />
     <Compile Include="Dao\Together\TableDao\LOGV.cs" />
@@ -350,6 +352,8 @@
     <Compile Include="Dao\Together\TableDao\TSE1.cs" />
     <Compile Include="Dao\Together\TableDao\TXEMAIL.cs" />
     <Compile Include="Dao\Together\TableDao\TFXMSE.cs" />
+    <Compile Include="Dao\Together\TableDao\TXF2.cs" />
+    <Compile Include="Dao\Together\TableDao\TXF1.cs" />
     <Compile Include="Dao\Together\TableDao\TXFP.cs" />
     <Compile Include="Dao\Together\TableDao\TXFPARM.cs" />
     <Compile Include="Dao\Together\TableDao\TXF.cs" />

@@ -117,13 +117,49 @@ namespace DataObjects.Dao.Together
          }
       }
 
-      /// <summary>
-      /// GetMaxDate yyyy/mm/dd
-      /// </summary>
-      /// <param name="JSW_TXN_ID"></param>
-      /// <param name="JSW_JOB_TYPE"></param>
-      /// <returns></returns>
-      public string GetMaxDate(string JSW_TXN_ID, string JSW_JOB_TYPE)
+        public bool UpdateJswByTxnId(string JSW_TXN_ID,string JSW_JOB_TYPE,string JSW_SEQ_NO,string JSW_SW_CODE,DateTime JSW_DATE,DateTime JSW_W_TIME,string JSW_W_USER_ID)
+        {
+            object[] parms =
+            {
+                "@JSW_SW_CODE", JSW_SW_CODE,
+                "@JSW_W_TIME", JSW_W_TIME,
+                "@JSW_W_USER_ID", JSW_W_USER_ID,
+                "@JSW_DATE", JSW_DATE,
+                "@JSW_TXN_ID", JSW_TXN_ID,
+                "@JSW_JOB_TYPE", JSW_JOB_TYPE,
+                "@JSW_SEQ_NO", JSW_SEQ_NO
+
+            };
+
+            string sql = @"
+                                        UPDATE CI.JSW SET 	JSW_SW_CODE = @JSW_SW_CODE,
+					                                        JSW_W_TIME = @JSW_W_TIME,
+					                                        JSW_W_USER_ID = @JSW_W_USER_ID,
+					                                        JSW_DATE = @JSW_DATE
+                                        WHERE JSW_TXN_ID = @JSW_TXN_ID
+                                        AND JSW_JOB_TYPE = @JSW_JOB_TYPE
+                                        AND JSW_SEQ_NO = @JSW_SEQ_NO                                    
+            ";
+
+            int executeResult = db.ExecuteSQL(sql, parms);
+
+            if (executeResult > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// GetMaxDate yyyy/mm/dd
+        /// </summary>
+        /// <param name="JSW_TXN_ID"></param>
+        /// <param name="JSW_JOB_TYPE"></param>
+        /// <returns></returns>
+        public string GetMaxDate(string JSW_TXN_ID, string JSW_JOB_TYPE)
       {
          object[] parms =
          {

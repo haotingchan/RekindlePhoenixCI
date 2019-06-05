@@ -27,6 +27,7 @@
       /// </summary>
       private void InitializeComponent()
       {
+         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(W51030));
          this.gcMain = new DevExpress.XtraGrid.GridControl();
          this.gvMain = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridView();
          this.t1 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
@@ -75,6 +76,7 @@
          this.label6 = new System.Windows.Forms.Label();
          this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
          this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
+         this.printMemo = new System.Windows.Forms.Label();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
@@ -125,7 +127,7 @@
             this.AVG_TIMEtextEdit,
             this.RFC_MIN_CNTtextEdit,
             this.PKtextEdit});
-         this.gcMain.Size = new System.Drawing.Size(1335, 378);
+         this.gcMain.Size = new System.Drawing.Size(1335, 467);
          this.gcMain.TabIndex = 5;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -166,7 +168,7 @@
             this.MMF_W_USER_ID,
             this.MMF_W_TIME,
             this.Is_NewRow});
-         this.gvMain.CustomizationFormBounds = new System.Drawing.Rectangle(1490, 765, 266, 216);
+         this.gvMain.CustomizationFormBounds = new System.Drawing.Rectangle(1100, 333, 266, 216);
          this.gvMain.GridControl = this.gcMain;
          this.gvMain.Name = "gvMain";
          this.gvMain.OptionsCustomization.AllowSort = false;
@@ -203,6 +205,7 @@
          this.MMF_MARKET_CODE.MinWidth = 30;
          this.MMF_MARKET_CODE.Name = "MMF_MARKET_CODE";
          this.MMF_MARKET_CODE.OptionsColumn.ShowCaption = false;
+         this.MMF_MARKET_CODE.ShowButtonMode = DevExpress.XtraGrid.Views.Base.ShowButtonModeEnum.ShowAlways;
          this.MMF_MARKET_CODE.Visible = true;
          this.MMF_MARKET_CODE.Width = 65;
          // 
@@ -214,11 +217,11 @@
          this.t2.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.t2.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
          this.t2.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.t2.Caption = " 期貨/  選擇權";
+         this.t2.Caption = "期貨/選擇權";
          this.t2.Columns.Add(this.MMF_PROD_TYPE);
          this.t2.Name = "t2";
          this.t2.VisibleIndex = 1;
-         this.t2.Width = 64;
+         this.t2.Width = 56;
          // 
          // MMF_PROD_TYPE
          // 
@@ -231,8 +234,9 @@
          this.MMF_PROD_TYPE.MinWidth = 30;
          this.MMF_PROD_TYPE.Name = "MMF_PROD_TYPE";
          this.MMF_PROD_TYPE.OptionsColumn.ShowCaption = false;
+         this.MMF_PROD_TYPE.ShowButtonMode = DevExpress.XtraGrid.Views.Base.ShowButtonModeEnum.ShowAlways;
          this.MMF_PROD_TYPE.Visible = true;
-         this.MMF_PROD_TYPE.Width = 64;
+         this.MMF_PROD_TYPE.Width = 56;
          // 
          // t3
          // 
@@ -242,11 +246,11 @@
          this.t3.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.t3.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
          this.t3.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.t3.Caption = " 商品  類別";
+         this.t3.Caption = "    商品     類別";
          this.t3.Columns.Add(this.MMF_PARAM_KEY);
          this.t3.Name = "t3";
          this.t3.VisibleIndex = 2;
-         this.t3.Width = 67;
+         this.t3.Width = 79;
          // 
          // MMF_PARAM_KEY
          // 
@@ -258,8 +262,9 @@
          this.MMF_PARAM_KEY.MinWidth = 30;
          this.MMF_PARAM_KEY.Name = "MMF_PARAM_KEY";
          this.MMF_PARAM_KEY.OptionsColumn.ShowCaption = false;
+         this.MMF_PARAM_KEY.ShowButtonMode = DevExpress.XtraGrid.Views.Base.ShowButtonModeEnum.ShowAlways;
          this.MMF_PARAM_KEY.Visible = true;
-         this.MMF_PARAM_KEY.Width = 67;
+         this.MMF_PARAM_KEY.Width = 79;
          // 
          // PKtextEdit
          // 
@@ -271,6 +276,8 @@
          // t4
          // 
          this.t4.AppearanceHeader.BackColor = System.Drawing.Color.Transparent;
+         this.t4.AppearanceHeader.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.t4.AppearanceHeader.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.t4.AppearanceHeader.ForeColor = System.Drawing.Color.Blue;
          this.t4.AppearanceHeader.Options.UseBackColor = true;
          this.t4.AppearanceHeader.Options.UseFont = true;
@@ -307,9 +314,9 @@
          // t5
          // 
          this.t5.AppearanceHeader.BackColor = System.Drawing.Color.Transparent;
+         this.t5.AppearanceHeader.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
          this.t5.AppearanceHeader.ForeColor = System.Drawing.Color.Blue;
          this.t5.AppearanceHeader.Options.UseBackColor = true;
-         this.t5.AppearanceHeader.Options.UseFont = true;
          this.t5.AppearanceHeader.Options.UseForeColor = true;
          this.t5.AppearanceHeader.Options.UseTextOptions = true;
          this.t5.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -564,6 +571,7 @@
          this.MMF_CP_KIND.MinWidth = 30;
          this.MMF_CP_KIND.Name = "MMF_CP_KIND";
          this.MMF_CP_KIND.OptionsColumn.ShowCaption = false;
+         this.MMF_CP_KIND.ShowButtonMode = DevExpress.XtraGrid.Views.Base.ShowButtonModeEnum.ShowAlways;
          this.MMF_CP_KIND.Visible = true;
          this.MMF_CP_KIND.Width = 205;
          // 
@@ -637,26 +645,29 @@
          // 
          // label2
          // 
-         this.label2.Location = new System.Drawing.Point(50, 39);
+         this.label2.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.label2.Location = new System.Drawing.Point(50, 29);
          this.label2.Name = "label2";
-         this.label2.Size = new System.Drawing.Size(501, 69);
+         this.label2.Size = new System.Drawing.Size(573, 37);
          this.label2.TabIndex = 6;
          this.label2.Text = "eg. XIF最近2個月份契約，平均每個契約每日買賣雙邊報價時間須達1小時以上，就要設定成「120分鐘」，判斷公司：sum(2個月份報價維持分鐘數) ≧ 120";
          // 
          // label1
          // 
          this.label1.AutoSize = true;
-         this.label1.ForeColor = System.Drawing.Color.Red;
+         this.label1.Font = new System.Drawing.Font("微軟正黑體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.label1.ForeColor = System.Drawing.Color.Maroon;
          this.label1.Location = new System.Drawing.Point(13, 10);
          this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(687, 20);
+         this.label1.Size = new System.Drawing.Size(647, 19);
          this.label1.TabIndex = 7;
          this.label1.Text = "註：(1)期貨「報價每日平均維持分鐘」設定 = 報價月份數 * 每個契約平均每日買賣雙邊報價時間";
          // 
          // label3
          // 
-         this.label3.ForeColor = System.Drawing.Color.Red;
-         this.label3.Location = new System.Drawing.Point(40, 108);
+         this.label3.Font = new System.Drawing.Font("微軟正黑體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.label3.ForeColor = System.Drawing.Color.Maroon;
+         this.label3.Location = new System.Drawing.Point(40, 66);
          this.label3.Name = "label3";
          this.label3.Size = new System.Drawing.Size(583, 45);
          this.label3.TabIndex = 8;
@@ -664,17 +675,19 @@
          // 
          // label4
          // 
-         this.label4.Location = new System.Drawing.Point(50, 153);
+         this.label4.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.label4.Location = new System.Drawing.Point(50, 111);
          this.label4.Name = "label4";
-         this.label4.Size = new System.Drawing.Size(459, 66);
+         this.label4.Size = new System.Drawing.Size(582, 38);
          this.label4.TabIndex = 9;
          this.label4.Text = "eg. TEO「最近月份及次近月份」契約價平 上下5檔共40個序列中至少「20個序列」提供平均每日達1小時，\r\n　 判斷公式：sum(2個月份40個序列報價維持分" +
     "鐘數)  /  20 ≧60\r\n";
          // 
          // label5
          // 
-         this.label5.ForeColor = System.Drawing.Color.Red;
-         this.label5.Location = new System.Drawing.Point(40, 219);
+         this.label5.Font = new System.Drawing.Font("微軟正黑體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.label5.ForeColor = System.Drawing.Color.Maroon;
+         this.label5.Location = new System.Drawing.Point(40, 149);
          this.label5.Name = "label5";
          this.label5.Size = new System.Drawing.Size(405, 23);
          this.label5.TabIndex = 8;
@@ -682,9 +695,10 @@
          // 
          // label6
          // 
-         this.label6.Location = new System.Drawing.Point(50, 242);
+         this.label6.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.label6.Location = new System.Drawing.Point(50, 172);
          this.label6.Name = "label6";
-         this.label6.Size = new System.Drawing.Size(524, 68);
+         this.label6.Size = new System.Drawing.Size(651, 40);
          this.label6.TabIndex = 9;
          this.label6.Text = "eg.「(3)比例＆時間＆量」，時間條件為0，所以代表「比例＆量」(TXO)\r\n          比例條件為0，所以代表「時間＆量」(RHO,RTO,期貨商品)" +
     "　；比例和量條件皆為0，所以代表「時間」(夜盤商品)";
@@ -694,6 +708,7 @@
          this.panelControl1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.panelControl1.Appearance.Options.UseBackColor = true;
          this.panelControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+         this.panelControl1.Controls.Add(this.printMemo);
          this.panelControl1.Controls.Add(this.label1);
          this.panelControl1.Controls.Add(this.label2);
          this.panelControl1.Controls.Add(this.label6);
@@ -704,7 +719,7 @@
          this.panelControl1.Location = new System.Drawing.Point(12, 12);
          this.panelControl1.Margin = new System.Windows.Forms.Padding(0);
          this.panelControl1.Name = "panelControl1";
-         this.panelControl1.Size = new System.Drawing.Size(1335, 314);
+         this.panelControl1.Size = new System.Drawing.Size(1335, 225);
          this.panelControl1.TabIndex = 11;
          // 
          // panelControl2
@@ -712,11 +727,22 @@
          this.panelControl2.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.panelControl2.Controls.Add(this.gcMain);
          this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.panelControl2.Location = new System.Drawing.Point(12, 326);
+         this.panelControl2.Location = new System.Drawing.Point(12, 237);
          this.panelControl2.Margin = new System.Windows.Forms.Padding(0);
          this.panelControl2.Name = "panelControl2";
-         this.panelControl2.Size = new System.Drawing.Size(1335, 378);
+         this.panelControl2.Size = new System.Drawing.Size(1335, 467);
          this.panelControl2.TabIndex = 12;
+         // 
+         // printMemo
+         // 
+         this.printMemo.AutoSize = true;
+         this.printMemo.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.printMemo.Location = new System.Drawing.Point(697, 29);
+         this.printMemo.Name = "printMemo";
+         this.printMemo.Size = new System.Drawing.Size(849, 128);
+         this.printMemo.TabIndex = 10;
+         this.printMemo.Text = resources.GetString("printMemo.Text");
+         this.printMemo.Visible = false;
          // 
          // W51030
          // 
@@ -783,6 +809,8 @@
       private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit AVG_TIMEtextEdit;
       private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit RFC_MIN_CNTtextEdit;
       private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit PKtextEdit;
+      private DevExpress.XtraEditors.PanelControl panelControl2;
+      private DevExpress.XtraEditors.PanelControl panelControl1;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand t1;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand t2;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand t3;
@@ -797,7 +825,6 @@
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand t12;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand mmf_w;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand NewRow;
-      private DevExpress.XtraEditors.PanelControl panelControl2;
-      private DevExpress.XtraEditors.PanelControl panelControl1;
+      private System.Windows.Forms.Label printMemo;
    }
 }
