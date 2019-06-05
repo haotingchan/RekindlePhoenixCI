@@ -155,6 +155,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
             foreach (DataRow dr in dt.Rows) {
                 if (dr.RowState == DataRowState.Added || dr.RowState == DataRowState.Modified) {
                     dr["AM12_W_TIME"] = DateTime.Now;
+                    dr["AM12_W_USER_ID"] = GlobalInfo.USER_ID;
+                    dr["AM12_DATA_TYPE"] = "U";
                 }
             }
             //更新主要Table
