@@ -375,20 +375,20 @@ namespace PhoenixCI.FormUI.Prefix5
          DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
          DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
 
-         if (!SaveBefore(dt)) {
-            return ResultStatus.FailButNext;
-         }
-         // 寫入DB
-         foreach (DataRow dr in dt.Rows) {
-            if (dr.RowState != DataRowState.Deleted) {
-               dr["MMF_W_TIME"] = DateTime.Now;
-               dr["MMF_W_USER_ID"] = GlobalInfo.USER_ID;
-            }
-         }
-
          if (dtChange != null) {
+            if (!SaveBefore(dt)) {
+               return ResultStatus.FailButNext;
+            }
+            // 寫入DB
+            foreach (DataRow dr in dt.Rows) {
+               if (dr.RowState != DataRowState.Deleted) {
+                  dr["MMF_W_TIME"] = DateTime.Now;
+                  dr["MMF_W_USER_ID"] = GlobalInfo.USER_ID;
+               }
+            }
+
             try {
-               ResultData myResultData = dao51030.UpdateMMF(dt);
+               dao51030.UpdateMMF(dt);
             }
             catch (Exception ex) {
                //if (ex.Message.Contains("ORA-00001")) {
