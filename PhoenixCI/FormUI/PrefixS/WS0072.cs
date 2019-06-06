@@ -167,7 +167,7 @@ namespace PhoenixCI.FormUI.PrefixS {
 
             DataTable dtZISP = (DataTable)gv.GridControl.DataSource;
 
-            resultStatus = daoS0072.udpateZIPData(dtZISP).Status;//base.Save_Override(dtZISP, "SPAN_ZISP", DBName.CFO);
+            resultStatus = daoS0072.udpateZIPData(dtZISP).Status;
          }
 
          return resultStatus;
