@@ -108,12 +108,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
                result = wf_Export(workbook);  //function 30592
 
                if (!result) {
-                  try {
-                     workbook = null;
-                     File.Delete(destinationFilePath);
-                  } catch (Exception) {
-                     //
-                  }
+                  workbook = null;
+                  File.Delete(destinationFilePath);
+
                   return ResultStatus.Fail;
                }
 
@@ -176,9 +173,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
             string prod = ddlProd.Text.SubStr(0 , 1);
             if (prod != "%") {
                dtFilter = dt.Filter("apdk_param_key ='" + ddlProd.EditValue.AsString() + "'"); //單一商品
-            } else{
+            } else {
                dtFilter = dt.Copy();
-            } 
+            }
 
             #endregion
 

@@ -151,11 +151,11 @@ order by prod_type , cpr_kind_id";
 select mg1_date, 
     round(mg1_cp_risk, 4) as mg1_risk,
     mg1_min_risk
-from ci.mg1
+from ci.mg1_3m
 where trim(mg1_kind_id) = :as_kind_id
 and mg1_date >= :ad_sdate
 and mg1_date <= :ad_edate
-and mg1_type in ('-','A')
+and mg1_ab_type in ('-','A')
 order by mg1_date";
 
             DataTable dtResult = db.GetDataTable(sql, parms);

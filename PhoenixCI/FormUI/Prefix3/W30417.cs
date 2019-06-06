@@ -75,7 +75,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          try {
 
             //設定初始年月yyyy/MM/dd     
-            txtStartDate.DateTimeValue = GlobalInfo.OCF_DATE;               
+            txtStartDate.DateTimeValue = GlobalInfo.OCF_DATE;
             txtStartDate.EnterMoveNextControl = true;
             txtStartDate.Focus();
 
@@ -282,7 +282,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                string sDate = dr["startDate"].AsString().SubStr(0 , 10);
                string eDate = dr["endDate"].AsString().SubStr(0 , 10);
 
-               ws30418.Cells[1 , tmpCol].Value = string.Format("{0}~{1}" , sDate , eDate);
+               ws30418.Cells[1 , tmpCol].Value = string.Format("{0}～{1}" , sDate + Environment.NewLine , Environment.NewLine + eDate);
             }//foreach (DataRow dr in dtTmp.Rows)
 
             DataTable dt = new D30417().ListData2(StartDate , EndDate);
@@ -312,7 +312,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                      if (sumDayCount == 0) {
                         yAvgMQnty = 0;
                      } else {
-                        yAvgMQnty = Math.Round(sumMQnty / sumDayCount , 0);
+                        yAvgMQnty = Math.Round(sumMQnty / sumDayCount , 0 , MidpointRounding.AwayFromZero);
                      }
                      ws30418.Cells[rowNum , pos1 + 1].Value = yAvgMQnty;
                   }//if (dtTmp.Rows.Count < 0)
@@ -374,7 +374,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                string sDate = dr["startDate"].AsString().SubStr(0 , 10);
                string eDate = dr["endDate"].AsString().SubStr(0 , 10);
 
-               ws30419.Cells[1 , tmpCol].Value = string.Format("{0}~{1}" , sDate , eDate);
+               ws30419.Cells[1 , tmpCol].Value = string.Format("{0}~{1}" , sDate + Environment.NewLine , Environment.NewLine + eDate);
             }//foreach (DataRow dr in dtTmp.Rows)
 
             DataTable dt = new D30417().ListData2(StartDate , EndDate);

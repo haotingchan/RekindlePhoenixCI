@@ -131,28 +131,30 @@ order by prod_type , cpr_kind_id";
             return dtResult;
         }
 
-        /// <summary>
-        /// list data from MG1 , return 14 fields
-        /// </summary>
-        /// <param name="ad_sdate"></param>
-        /// <param name="ad_edate"></param>
-        /// <param name="ad_min_risk"></param>
-        /// <param name="ad_range"></param>
-        /// <param name="as_kind_id"></param>
-        /// <returns></returns>
-        public DataTable ListKindByKindId(DateTime ad_sdate, DateTime ad_edate, Decimal ad_min_risk, Decimal ad_range, string as_kind_id) {
+      /// <summary>
+      /// list data from MG1 , return 14 fields
+      /// </summary>
+      /// <param name="ad_sdate"></param>
+      /// <param name="ad_edate"></param>
+      /// <param name="ad_min_risk"></param>
+      /// <param name="ad_range"></param>
+      /// <param name="as_kind_id"></param>
+      /// <param name="as_model_type"></param>
+      /// <returns></returns>
+      public DataTable ListKindByKindId(string ad_sdate, string ad_edate, Decimal ad_min_risk, Decimal ad_range, string as_kind_id , string as_model_type) {
 
             object[] parms = {
                 ":ad_sdate", ad_sdate,
                 ":ad_edate", ad_edate,
                 ":ad_min_risk", ad_min_risk,
                 ":ad_range", ad_range,
-                ":as_kind_id", as_kind_id
+                ":as_kind_id", as_kind_id,
+                ":as_model_type",as_model_type
             };
 
             string sql = @"
 select mg1_kind_id,
-    'M3' as data_type,
+    'M3' as data_type, 
     count(*) as cnt,
     :ad_sdate as start_date,
     :ad_edate as end_date,
@@ -167,11 +169,12 @@ select mg1_kind_id,
     sum(case when round(mg1_cp_risk,4) >=  (:ad_min_risk - :ad_range)   and round(mg1_cp_risk,4) <= (:ad_min_risk + :ad_range)  then 1 else 0 end) as level_23,
     sum(case when round(mg1_cp_risk,4) >  (:ad_min_risk + :ad_range)  then 1 else 0 end) as level_4,
     mg1_prod_type as prod_type
-from ci.mg1
-where mg1_date >= :ad_sdate
-  and mg1_date <= :ad_edate
-  and mg1_type in ('-','A')
+from ci.mg1_3m
+where mg1_ymd >= :ad_sdate
+  and mg1_ymd <= :ad_edate
+  and mg1_ab_type in ('-','A')
   and mg1_kind_id = :as_kind_id
+  and mg1_model_type = :as_model_type
 group by mg1_kind_id,mg1_prod_type
 order by data_type , prod_type , mg1_kind_id";
 

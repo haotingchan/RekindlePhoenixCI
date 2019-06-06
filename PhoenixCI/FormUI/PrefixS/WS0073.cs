@@ -126,6 +126,8 @@ namespace PhoenixCI.FormUI.PrefixS {
                //MessageDisplay.Error("儲存錯誤!");
                return ResultStatus.Fail;
             }
+
+            dt.Rows[0].SetField("SPAN_MARGIN_USER_ID", GlobalInfo.USER_ID);
             resultStatus = daoS0073.UpdateAllDB(periodTable, dt);
             if (resultStatus != ResultStatus.Success) {
                MessageDisplay.Error("儲存錯誤!");
