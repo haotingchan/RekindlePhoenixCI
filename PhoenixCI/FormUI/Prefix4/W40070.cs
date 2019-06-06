@@ -326,16 +326,16 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 dtEmpty.Columns.Remove(dtEmpty.Columns["CPSORT"]);//刪除排序用的運算欄位
 
                 foreach (DataRow dr in dtFiltered.Rows) {
-                    kindID = dr["KIND_ID"].AsString();
+                    kindID = dr["KIND_ID"].ToString();
                     issueBeginYmd = dr["ISSUE_BEGIN_YMD"].AsString();
                     adjRsn = dr["ADJ_RSN"].AsString();
 
                     dv = dtMGD2.AsDataView();
-                    dv.RowFilter = "mgd2_kind_id = '" + kindID + "'";
-                    dtMGD2 = dv.ToTable();
+                    dv.RowFilter = "MGD2_KIND_ID = '" + kindID + "'";
+                    DataTable dtMGD2Filtered = dv.ToTable();
 
-                    if (dtMGD2.Rows.Count > 0) {
-                        foreach (DataRow drMGD2 in dtMGD2.Rows) {
+                    if (dtMGD2Filtered.Rows.Count > 0) {
+                        foreach (DataRow drMGD2 in dtMGD2Filtered.Rows) {
                             currRow = dtMGD2Log.Rows.Count;
                             dtMGD2Log.Rows.Add();
                             for (colIndex = 0; colIndex < dtMGD2.Columns.Count; colIndex++) {
@@ -473,8 +473,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                                 dtEmpty.Rows[found]["MGD2_MM"] = dao40070.GetMarginVal(kindID, MM, cm, "MM_B");
                                 dtEmpty.Rows[found]["MGD2_IM"] = dao40070.GetMarginVal(kindID, IM, cm, "IM_B");
                             }
-                        }
-                    }
+                        }//if (dr["AB_TYPE"].AsString() == "A")
+                    }//if (count == 0)
                 }//foreach (DataRow dr in dtFiltered.Rows)
 
                 //if    ib_print = True then
@@ -501,6 +501,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                 ReportHelper _ReportHelper = new ReportHelper(gcMain, _ProgramID, this.Text);
                 _ReportHelper.Export(FileType.PDF, _ReportHelper.FilePath);
+                MessageDisplay.Info("報表儲存完成!");
             }
             catch (Exception ex) {
 
@@ -521,7 +522,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                 _ReportHelper.Print();//如果有夜盤會特別標註
                 _ReportHelper.Export(FileType.PDF, _ReportHelper.FilePath);
-
+                MessageDisplay.Info("報表儲存完成!");
                 //印完filter資料
                 gvMain.Columns["AB_TYPE"].FilterInfo = new ColumnFilterInfo("[AB_TYPE] In ('-','A')");
                 return ResultStatus.Success;
@@ -605,10 +606,55 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
         #region GridView Events
         private void gvMain_CellValueChanged(object sender, CellValueChangedEventArgs e) {
+            //GridView gv = sender as GridView;
+            //int ll_found;
+            //gv.CloseEditor();
+            //gv.UpdateCurrentRow();
+            //DataTable dt = (DataTable)gcMain.DataSource;
+            //string ls_kind_id = gv.GetRowCellValue(e.RowHandle, "KIND_ID").AsString();
+            //if (e.Column.Name == "ADJ_CODE") {
+            //    if (e.Value.AsString() != "Y") {
+            //        gv.SetRowCellValue(e.RowHandle, "ISSUE_BEGIN_YMD", nullYmd);
+            //    }
+            //    else {
+            //        switch (gv.GetRowCellValue(e.RowHandle, "OSW_GRP").AsString()) {
+            //            case "5":
+            //                gv.SetRowCellValue(e.RowHandle, "ISSUE_BEGIN_YMD", txtDateG5.DateTimeValue.ToString("yyyyMMdd"));
+            //                break;
+            //            case "7":
+            //                gv.SetRowCellValue(e.RowHandle, "ISSUE_BEGIN_YMD", txtDateG7.DateTimeValue.ToString("yyyyMMdd"));
+            //                break;
+            //            default:
+            //                gv.SetRowCellValue(e.RowHandle, "ISSUE_BEGIN_YMD", txtDateG1.DateTimeValue.ToString("yyyyMMdd"));
+            //                break;
+            //        }
+            //    }
+            //    if (ls_kind_id == "TXF") {
+            //        ll_found = dt.Rows.IndexOf(dt.Select("kind_id ='MXF'").FirstOrDefault());
+            //        gv.SetRowCellValue(ll_found, "ADJ_CODE", e.Value);
+            //        gv.SetRowCellValue(ll_found, "ISSUE_BEGIN_YMD", gv.GetRowCellValue(e.RowHandle, "ISSUE_BEGIN_YMD"));
+            //    }
+            //}
+            //if (e.Column.Name == "ADJ_RSN") {
+            //    if (ls_kind_id == "TXF") {
+            //        ll_found = dt.Rows.IndexOf(dt.Select("kind_id ='MXF'").FirstOrDefault());
+            //        gv.SetRowCellValue(ll_found, "ADJ_RSN", e.Value);
+            //    }
+            //}
+            //if (e.Column.Name == "USER_CM") {
+            //    if (ls_kind_id == "TXF") {
+            //        ll_found = dt.Rows.IndexOf(dt.Select("kind_id ='MXF'").FirstOrDefault());
+            //        gv.SetRowCellValue(ll_found, "USER_CM", dao40070.GetMarginVal("MXF", e.Value.AsInt(), 0, "MTX_CM"));
+            //    }
+            //}
+            //gv.RefreshRow(e.RowHandle);
+        }
+
+        private void gvMain_CellValueChanging(object sender, CellValueChangedEventArgs e) {
             GridView gv = sender as GridView;
             int ll_found;
-            gv.CloseEditor();
-            gv.UpdateCurrentRow();
+            //gv.CloseEditor();
+            //gv.UpdateCurrentRow();不能加這兩行不然會值還沒改變就被取消掉了
             DataTable dt = (DataTable)gcMain.DataSource;
             string ls_kind_id = gv.GetRowCellValue(e.RowHandle, "KIND_ID").AsString();
             if (e.Column.Name == "ADJ_CODE") {
@@ -814,5 +860,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
             return "";
         }
+
     }
 }
