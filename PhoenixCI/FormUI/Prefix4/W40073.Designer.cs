@@ -157,7 +157,7 @@
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(1219, 30);
+            this.ribbonControl.Size = new System.Drawing.Size(1219, 43);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // panel1
@@ -165,7 +165,7 @@
             this.panel1.Controls.Add(this.panel4);
             this.panel1.Controls.Add(this.panel3);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 30);
+            this.panel1.Location = new System.Drawing.Point(0, 43);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1219, 367);
             this.panel1.TabIndex = 3;
@@ -225,7 +225,7 @@
             // 
             // gridBand1
             // 
-            this.gridBand1.AppearanceHeader.BackColor = System.Drawing.Color.Yellow;
+            this.gridBand1.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.gridBand1.AppearanceHeader.Options.UseBackColor = true;
             this.gridBand1.AppearanceHeader.Options.UseTextOptions = true;
             this.gridBand1.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -485,11 +485,11 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label2.Location = new System.Drawing.Point(12, 60);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(73, 20);
+            this.label2.Size = new System.Drawing.Size(110, 31);
             this.label2.TabIndex = 19;
             this.label2.Text = "生效日期";
             // 
@@ -508,29 +508,29 @@
             this.txtEffectiveSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtEffectiveSDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtEffectiveSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtEffectiveSDate.Size = new System.Drawing.Size(100, 26);
+            this.txtEffectiveSDate.Size = new System.Drawing.Size(100, 38);
             this.txtEffectiveSDate.TabIndex = 18;
             this.txtEffectiveSDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label1.Location = new System.Drawing.Point(198, 60);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(338, 20);
+            this.label1.Size = new System.Drawing.Size(511, 31);
             this.label1.TabIndex = 17;
             this.label1.Text = "註：保證金請輸入小數點(ex:0.1),不輸入百分比";
             // 
             // lblDate
             // 
             this.lblDate.AutoSize = true;
-            this.lblDate.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.lblDate.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.lblDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.lblDate.Location = new System.Drawing.Point(12, 22);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(73, 20);
+            this.lblDate.Size = new System.Drawing.Size(110, 31);
             this.lblDate.TabIndex = 16;
             this.lblDate.Text = "交易日期";
             // 
@@ -549,7 +549,7 @@
             this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtSDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtSDate.Size = new System.Drawing.Size(100, 26);
+            this.txtSDate.Size = new System.Drawing.Size(100, 38);
             this.txtSDate.TabIndex = 15;
             this.txtSDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -558,9 +558,9 @@
             this.panel2.Controls.Add(this.panel6);
             this.panel2.Controls.Add(this.panel5);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 397);
+            this.panel2.Location = new System.Drawing.Point(0, 410);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1219, 375);
+            this.panel2.Size = new System.Drawing.Size(1219, 362);
             this.panel2.TabIndex = 4;
             // 
             // panel6
@@ -570,7 +570,7 @@
             this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel6.Location = new System.Drawing.Point(0, 70);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(1219, 305);
+            this.panel6.Size = new System.Drawing.Size(1219, 292);
             this.panel6.TabIndex = 1;
             // 
             // gcDetail
@@ -582,7 +582,7 @@
             this.gcDetail.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit1,
             this.repositoryItemTextEdit2});
-            this.gcDetail.Size = new System.Drawing.Size(1219, 305);
+            this.gcDetail.Size = new System.Drawing.Size(1219, 292);
             this.gcDetail.TabIndex = 2;
             this.gcDetail.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvDetail});
@@ -1410,7 +1410,7 @@
             // W40073
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1219, 772);
             this.Controls.Add(this.panel2);

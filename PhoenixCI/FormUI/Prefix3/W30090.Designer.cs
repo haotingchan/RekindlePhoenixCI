@@ -42,21 +42,21 @@
             // panParent
             // 
             this.panParent.Controls.Add(this.panelControl);
-            this.panParent.Size = new System.Drawing.Size(892, 572);
+            this.panParent.Size = new System.Drawing.Size(892, 585);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(892, 43);
+            this.ribbonControl.Size = new System.Drawing.Size(892, 30);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // lblProcessing
             // 
             this.lblProcessing.AutoSize = true;
             this.lblProcessing.ForeColor = System.Drawing.Color.Blue;
-            this.lblProcessing.Location = new System.Drawing.Point(10, 137);
+            this.lblProcessing.Location = new System.Drawing.Point(11, 144);
             this.lblProcessing.Name = "lblProcessing";
-            this.lblProcessing.Size = new System.Drawing.Size(127, 30);
+            this.lblProcessing.Size = new System.Drawing.Size(85, 20);
             this.lblProcessing.TabIndex = 20;
             this.lblProcessing.Text = "開始轉檔...";
             this.lblProcessing.Visible = false;
@@ -94,7 +94,7 @@
             this.txtEDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtEDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtEDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtEDate.Size = new System.Drawing.Size(100, 38);
+            this.txtEDate.Size = new System.Drawing.Size(100, 26);
             this.txtEDate.TabIndex = 8;
             this.txtEDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -114,7 +114,7 @@
             this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtSDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtSDate.Size = new System.Drawing.Size(100, 38);
+            this.txtSDate.Size = new System.Drawing.Size(100, 26);
             this.txtSDate.TabIndex = 7;
             this.txtSDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -124,7 +124,7 @@
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label1.Location = new System.Drawing.Point(206, 50);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(38, 31);
+            this.label1.Size = new System.Drawing.Size(26, 21);
             this.label1.TabIndex = 6;
             this.label1.Text = "～";
             // 
@@ -134,7 +134,7 @@
             this.lblDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.lblDate.Location = new System.Drawing.Point(37, 53);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(86, 31);
+            this.lblDate.Size = new System.Drawing.Size(58, 21);
             this.lblDate.TabIndex = 2;
             this.lblDate.Text = "日期：";
             // 
@@ -148,13 +148,13 @@
             this.panelControl.Location = new System.Drawing.Point(30, 30);
             this.panelControl.Margin = new System.Windows.Forms.Padding(15);
             this.panelControl.Name = "panelControl";
-            this.panelControl.Size = new System.Drawing.Size(442, 174);
+            this.panelControl.Size = new System.Drawing.Size(434, 170);
             this.panelControl.TabIndex = 21;
             // 
             // W30090
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(892, 615);
             this.Name = "W30090";

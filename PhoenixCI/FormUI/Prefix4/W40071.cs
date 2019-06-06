@@ -64,14 +64,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
         /// </summary>
         private RepositoryItemLookUpEdit paramKeyLookUpEdit7;
 
-        private DataTable dtParamKey1;
-        private DataTable dtParamKey2;
-        private DataTable dtParamKey3;
-        private DataTable dtParamKey4;
-        private DataTable dtParamKey5;
-        private DataTable dtParamKey6;
-        private DataTable dtParamKey7;
-
         public W40071(string programID, string programName) : base(programID, programName) {
             InitializeComponent();
             this.Text = _ProgramID + "─" + _ProgramName;
@@ -598,7 +590,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 case "M_CUR_LEVEL":
                 case "YMD":
                 case "ADJ_RATE":
-                    e.Appearance.BackColor = Color.FromArgb(192, 192, 192);
+                    e.Appearance.BackColor = Color.FromArgb(224, 224, 224);
                     break;
                 case "CM_CUR_A":
                 case "CM_CUR_B":
@@ -607,7 +599,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 case "IM_CUR_A":
                 case "IM_CUR_B":
                     e.Column.DisplayFormat.FormatString = amt_type == "P" ? "{0:0.###%}" : "#,###";
-                    e.Appearance.BackColor = Color.FromArgb(192, 192, 192);
+                    e.Appearance.BackColor = Color.FromArgb(224, 224, 224);
                     break;
                 case "CM_A":
                 case "CM_B":
@@ -702,10 +694,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             GridView gv = sender as GridView;
             if (e.RowHandle <= 6) {
                 if (e.Column.FieldName == "PROD_SEQ_NO") {
-                    e.Appearance.BackColor = Color.FromArgb(192, 192, 192);
+                    e.Appearance.BackColor = Color.FromArgb(224, 224, 224);
                 }
                 if (e.Column.FieldName == "KIND_ID") {
-                    e.Appearance.BackColor = Color.FromArgb(192, 192, 192);
+                    e.Appearance.BackColor = Color.FromArgb(224, 224, 224);
                 }
             }
             else {

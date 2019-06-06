@@ -138,6 +138,7 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.ddlAdjust);
+            this.groupBox2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.groupBox2.Location = new System.Drawing.Point(753, 44);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(216, 60);
@@ -161,6 +162,7 @@
             this.groupBox1.Controls.Add(this.cbxCodeY);
             this.groupBox1.Controls.Add(this.cbxCode);
             this.groupBox1.Controls.Add(this.cbxCodeN);
+            this.groupBox1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.groupBox1.Location = new System.Drawing.Point(467, 44);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(267, 60);
@@ -175,7 +177,7 @@
             this.cbxCodeY.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbxCodeY.Location = new System.Drawing.Point(171, 28);
             this.cbxCodeY.Name = "cbxCodeY";
-            this.cbxCodeY.Size = new System.Drawing.Size(87, 34);
+            this.cbxCodeY.Size = new System.Drawing.Size(88, 35);
             this.cbxCodeY.TabIndex = 14;
             this.cbxCodeY.Text = "調整";
             this.cbxCodeY.UseVisualStyleBackColor = true;
@@ -188,7 +190,7 @@
             this.cbxCode.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbxCode.Location = new System.Drawing.Point(105, 28);
             this.cbxCode.Name = "cbxCode";
-            this.cbxCode.Size = new System.Drawing.Size(87, 34);
+            this.cbxCode.Size = new System.Drawing.Size(88, 35);
             this.cbxCode.TabIndex = 1;
             this.cbxCode.Text = "觀察";
             this.cbxCode.UseVisualStyleBackColor = true;
@@ -201,7 +203,7 @@
             this.cbxCodeN.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbxCodeN.Location = new System.Drawing.Point(23, 29);
             this.cbxCodeN.Name = "cbxCodeN";
-            this.cbxCodeN.Size = new System.Drawing.Size(111, 34);
+            this.cbxCodeN.Size = new System.Drawing.Size(112, 35);
             this.cbxCodeN.TabIndex = 0;
             this.cbxCodeN.Text = "不處理";
             this.cbxCodeN.UseVisualStyleBackColor = true;
@@ -221,22 +223,22 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label4.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label4.Location = new System.Drawing.Point(463, 12);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(157, 30);
+            this.label4.Size = new System.Drawing.Size(158, 31);
             this.label4.TabIndex = 11;
             this.label4.Text = "調整商品條件";
             // 
             // lblG3
             // 
             this.lblG3.AutoSize = true;
-            this.lblG3.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.lblG3.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.lblG3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.lblG3.Location = new System.Drawing.Point(212, 77);
             this.lblG3.Name = "lblG3";
-            this.lblG3.Size = new System.Drawing.Size(195, 30);
+            this.lblG3.Size = new System.Drawing.Size(197, 31);
             this.lblG3.TabIndex = 10;
             this.lblG3.Text = "Group3生效日期";
             // 
@@ -263,11 +265,11 @@
             // lblG2
             // 
             this.lblG2.AutoSize = true;
-            this.lblG2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.lblG2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.lblG2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.lblG2.Location = new System.Drawing.Point(212, 44);
             this.lblG2.Name = "lblG2";
-            this.lblG2.Size = new System.Drawing.Size(195, 30);
+            this.lblG2.Size = new System.Drawing.Size(197, 31);
             this.lblG2.TabIndex = 8;
             this.lblG2.Text = "Group2生效日期";
             // 
@@ -294,11 +296,11 @@
             // lblG1
             // 
             this.lblG1.AutoSize = true;
-            this.lblG1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.lblG1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.lblG1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.lblG1.Location = new System.Drawing.Point(212, 12);
             this.lblG1.Name = "lblG1";
-            this.lblG1.Size = new System.Drawing.Size(195, 30);
+            this.lblG1.Size = new System.Drawing.Size(197, 31);
             this.lblG1.TabIndex = 6;
             this.lblG1.Text = "Group1生效日期";
             // 
@@ -325,11 +327,11 @@
             // lblDate
             // 
             this.lblDate.AutoSize = true;
-            this.lblDate.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.lblDate.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.lblDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.lblDate.Location = new System.Drawing.Point(15, 12);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(109, 30);
+            this.lblDate.Size = new System.Drawing.Size(110, 31);
             this.lblDate.TabIndex = 4;
             this.lblDate.Text = "交易日期";
             // 
@@ -388,7 +390,7 @@
             this.gvMain.Appearance.BandPanelBackground.Options.UseBorderColor = true;
             this.gvMain.Appearance.HorzLine.BackColor = System.Drawing.Color.Black;
             this.gvMain.Appearance.HorzLine.Options.UseBackColor = true;
-            this.gvMain.Appearance.Row.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gvMain.Appearance.Row.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.gvMain.Appearance.Row.BorderColor = System.Drawing.Color.Black;
             this.gvMain.Appearance.Row.Options.UseBackColor = true;
             this.gvMain.Appearance.Row.Options.UseBorderColor = true;

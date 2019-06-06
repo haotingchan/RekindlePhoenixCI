@@ -57,12 +57,12 @@
             this.panParent.Controls.Add(this.panelControl);
             this.panParent.Controls.Add(this.txtPrevEymd);
             this.panParent.Controls.Add(this.cbxDB);
-            this.panParent.Size = new System.Drawing.Size(941, 624);
+            this.panParent.Size = new System.Drawing.Size(941, 637);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(941, 43);
+            this.ribbonControl.Size = new System.Drawing.Size(941, 30);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // lblProcessing
@@ -71,7 +71,7 @@
             this.lblProcessing.ForeColor = System.Drawing.Color.Blue;
             this.lblProcessing.Location = new System.Drawing.Point(10, 291);
             this.lblProcessing.Name = "lblProcessing";
-            this.lblProcessing.Size = new System.Drawing.Size(127, 30);
+            this.lblProcessing.Size = new System.Drawing.Size(85, 20);
             this.lblProcessing.TabIndex = 26;
             this.lblProcessing.Text = "開始轉檔...";
             this.lblProcessing.Visible = false;
@@ -104,7 +104,7 @@
             this.cbxWriteTxt.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.cbxWriteTxt.Location = new System.Drawing.Point(123, 185);
             this.cbxWriteTxt.Name = "cbxWriteTxt";
-            this.cbxWriteTxt.Size = new System.Drawing.Size(328, 35);
+            this.cbxWriteTxt.Size = new System.Drawing.Size(221, 25);
             this.cbxWriteTxt.TabIndex = 4;
             this.cbxWriteTxt.Text = "寫入資料庫資料儲存文字檔";
             this.cbxWriteTxt.UseVisualStyleBackColor = true;
@@ -126,7 +126,7 @@
             this.txtStkoutYmd.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtStkoutYmd.Properties.Mask.ShowPlaceHolders = false;
             this.txtStkoutYmd.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtStkoutYmd.Size = new System.Drawing.Size(100, 38);
+            this.txtStkoutYmd.Size = new System.Drawing.Size(100, 26);
             this.txtStkoutYmd.TabIndex = 3;
             this.txtStkoutYmd.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -137,7 +137,7 @@
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label2.Location = new System.Drawing.Point(22, 142);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(182, 31);
+            this.label2.Size = new System.Drawing.Size(122, 21);
             this.label2.TabIndex = 17;
             this.label2.Text = "流通在外股票：";
             // 
@@ -157,7 +157,7 @@
             this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtDate.Size = new System.Drawing.Size(100, 38);
+            this.txtDate.Size = new System.Drawing.Size(100, 26);
             this.txtDate.TabIndex = 0;
             this.txtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -168,7 +168,7 @@
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label3.Location = new System.Drawing.Point(22, 98);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(182, 31);
+            this.label3.Size = new System.Drawing.Size(122, 21);
             this.label3.TabIndex = 15;
             this.label3.Text = "總交易量月份：";
             // 
@@ -188,7 +188,7 @@
             this.txtEMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
             this.txtEMonth.Properties.Mask.ShowPlaceHolders = false;
             this.txtEMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtEMonth.Size = new System.Drawing.Size(78, 38);
+            this.txtEMonth.Size = new System.Drawing.Size(78, 26);
             this.txtEMonth.TabIndex = 2;
             this.txtEMonth.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -208,7 +208,7 @@
             this.txtSMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
             this.txtSMonth.Properties.Mask.ShowPlaceHolders = false;
             this.txtSMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtSMonth.Size = new System.Drawing.Size(78, 38);
+            this.txtSMonth.Size = new System.Drawing.Size(78, 26);
             this.txtSMonth.TabIndex = 1;
             this.txtSMonth.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -218,7 +218,7 @@
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label1.Location = new System.Drawing.Point(234, 99);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(38, 31);
+            this.label1.Size = new System.Drawing.Size(26, 21);
             this.label1.TabIndex = 6;
             this.label1.Text = "～";
             // 
@@ -229,7 +229,7 @@
             this.lblDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.lblDate.Location = new System.Drawing.Point(54, 52);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(134, 31);
+            this.lblDate.Size = new System.Drawing.Size(90, 21);
             this.lblDate.TabIndex = 2;
             this.lblDate.Text = "計算日期：";
             // 
@@ -240,7 +240,7 @@
             this.cbxDB.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbxDB.Location = new System.Drawing.Point(540, 111);
             this.cbxDB.Name = "cbxDB";
-            this.cbxDB.Size = new System.Drawing.Size(168, 34);
+            this.cbxDB.Size = new System.Drawing.Size(114, 24);
             this.cbxDB.TabIndex = 27;
             this.cbxDB.Text = "選擇寫入DB";
             this.cbxDB.UseVisualStyleBackColor = true;
@@ -262,7 +262,7 @@
             this.txtPrevEymd.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtPrevEymd.Properties.Mask.ShowPlaceHolders = false;
             this.txtPrevEymd.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtPrevEymd.Size = new System.Drawing.Size(100, 38);
+            this.txtPrevEymd.Size = new System.Drawing.Size(100, 26);
             this.txtPrevEymd.TabIndex = 20;
             this.txtPrevEymd.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             this.txtPrevEymd.Visible = false;
@@ -283,7 +283,7 @@
             this.txtCurEymd.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtCurEymd.Properties.Mask.ShowPlaceHolders = false;
             this.txtCurEymd.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtCurEymd.Size = new System.Drawing.Size(100, 38);
+            this.txtCurEymd.Size = new System.Drawing.Size(100, 26);
             this.txtCurEymd.TabIndex = 30;
             this.txtCurEymd.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             this.txtCurEymd.Visible = false;
@@ -298,13 +298,13 @@
             this.panelControl.Location = new System.Drawing.Point(30, 30);
             this.panelControl.Margin = new System.Windows.Forms.Padding(15);
             this.panelControl.Name = "panelControl";
-            this.panelControl.Size = new System.Drawing.Size(484, 327);
+            this.panelControl.Size = new System.Drawing.Size(484, 317);
             this.panelControl.TabIndex = 20;
             // 
             // W30221
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(941, 667);
             this.Name = "W30221";
