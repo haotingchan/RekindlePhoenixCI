@@ -28,8 +28,7 @@ SELECT SPAN_PERIOD_MODULE,
 	SPAN_PERIOD_START_DATE,
 	SPAN_PERIOD_END_DATE,
 	SPAN_PERIOD_USER_ID,
-	SPAN_PERIOD_W_TIME,
-	'' as OP_TYPE
+	SPAN_PERIOD_W_TIME
 FROM CFO.SPAN_PERIOD
 WHERE SPAN_PERIOD_MODULE = :module
 AND SPAN_PERIOD_USER_ID like :userId
@@ -50,7 +49,7 @@ AND SPAN_PERIOD_USER_ID like :userId
             };
 
          string sql = @"
-select prod_group from (
+select prod_group, prod_group_value from (
     select '2' as sort, trim(ZPARM_PROD_GROUP) as prod_group ,
         trim(ZPARM_PROD_GROUP) as prod_group_value
     from ci.HZPARM

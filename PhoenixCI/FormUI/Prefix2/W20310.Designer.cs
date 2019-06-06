@@ -59,24 +59,28 @@
             // panParent
             // 
             this.panParent.Controls.Add(this.gcMain);
-            this.panParent.Location = new System.Drawing.Point(0, 101);
-            this.panParent.Size = new System.Drawing.Size(877, 526);
+            this.panParent.Location = new System.Drawing.Point(0, 114);
+            this.panParent.Size = new System.Drawing.Size(877, 513);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(877, 30);
+            this.ribbonControl.Size = new System.Drawing.Size(877, 43);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // panelControl1
             // 
+            this.panelControl1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+            this.panelControl1.Appearance.Options.UseBackColor = true;
             this.panelControl1.Controls.Add(this.lblNote);
             this.panelControl1.Controls.Add(this.txtStartDate);
             this.panelControl1.Controls.Add(this.label1);
             this.panelControl1.Controls.Add(this.txtEndDate);
             this.panelControl1.Controls.Add(this.lblDate);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelControl1.Location = new System.Drawing.Point(0, 30);
+            this.panelControl1.Location = new System.Drawing.Point(0, 43);
+            this.panelControl1.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
+            this.panelControl1.LookAndFeel.UseDefaultLookAndFeel = false;
             this.panelControl1.Name = "panelControl1";
             this.panelControl1.Size = new System.Drawing.Size(877, 71);
             this.panelControl1.TabIndex = 0;
@@ -87,7 +91,7 @@
             this.lblNote.ForeColor = System.Drawing.Color.Maroon;
             this.lblNote.Location = new System.Drawing.Point(403, 25);
             this.lblNote.Name = "lblNote";
-            this.lblNote.Size = new System.Drawing.Size(389, 20);
+            this.lblNote.Size = new System.Drawing.Size(583, 30);
             this.lblNote.TabIndex = 18;
             this.lblNote.Text = "註：Taifex期貨總成交值，並不含國外指數期貨商品。";
             // 
@@ -102,10 +106,12 @@
             this.txtStartDate.Name = "txtStartDate";
             this.txtStartDate.Properties.Appearance.Options.UseTextOptions = true;
             this.txtStartDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtStartDate.Properties.EditFormat.FormatString = "yyyyMM";
             this.txtStartDate.Properties.Mask.EditMask = "yyyy/MM";
             this.txtStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtStartDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtStartDate.Size = new System.Drawing.Size(118, 26);
+            this.txtStartDate.Size = new System.Drawing.Size(118, 40);
             this.txtStartDate.TabIndex = 14;
             this.txtStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -115,7 +121,7 @@
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Location = new System.Drawing.Point(237, 25);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(25, 20);
+            this.label1.Size = new System.Drawing.Size(37, 30);
             this.label1.TabIndex = 17;
             this.label1.Text = "～";
             // 
@@ -130,10 +136,12 @@
             this.txtEndDate.Name = "txtEndDate";
             this.txtEndDate.Properties.Appearance.Options.UseTextOptions = true;
             this.txtEndDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtEndDate.Properties.EditFormat.FormatString = "yyyyMM";
             this.txtEndDate.Properties.Mask.EditMask = "yyyy/MM";
             this.txtEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtEndDate.Size = new System.Drawing.Size(118, 26);
+            this.txtEndDate.Size = new System.Drawing.Size(118, 40);
             this.txtEndDate.TabIndex = 15;
             this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -143,28 +151,28 @@
             this.lblDate.BackColor = System.Drawing.Color.Transparent;
             this.lblDate.Location = new System.Drawing.Point(27, 25);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(89, 20);
+            this.lblDate.Size = new System.Drawing.Size(133, 30);
             this.lblDate.TabIndex = 16;
             this.lblDate.Text = "交易日期：";
             // 
             // panelControl2
             // 
             this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelControl2.Location = new System.Drawing.Point(0, 101);
+            this.panelControl2.Location = new System.Drawing.Point(0, 114);
             this.panelControl2.Name = "panelControl2";
-            this.panelControl2.Size = new System.Drawing.Size(877, 526);
+            this.panelControl2.Size = new System.Drawing.Size(877, 513);
             this.panelControl2.TabIndex = 1;
             // 
             // gcMain
             // 
             this.gcMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gcMain.Location = new System.Drawing.Point(12, 12);
+            this.gcMain.Location = new System.Drawing.Point(18, 18);
             this.gcMain.MainView = this.gvMain;
             this.gcMain.MenuManager = this.ribbonControl;
             this.gcMain.Name = "gcMain";
             this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.AA1_TAIFEXEdit});
-            this.gcMain.Size = new System.Drawing.Size(853, 502);
+            this.gcMain.Size = new System.Drawing.Size(841, 477);
             this.gcMain.TabIndex = 0;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -196,7 +204,7 @@
             // 
             // AA1_YM
             // 
-            this.AA1_YM.AppearanceHeader.BackColor = System.Drawing.Color.Yellow;
+            this.AA1_YM.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.AA1_YM.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
             this.AA1_YM.AppearanceHeader.Options.UseBackColor = true;
             this.AA1_YM.AppearanceHeader.Options.UseBorderColor = true;
@@ -212,7 +220,7 @@
             // 
             // AA1_TAIFEX
             // 
-            this.AA1_TAIFEX.AppearanceHeader.BackColor = System.Drawing.Color.Aqua;
+            this.AA1_TAIFEX.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.AA1_TAIFEX.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
             this.AA1_TAIFEX.AppearanceHeader.Options.UseBackColor = true;
             this.AA1_TAIFEX.AppearanceHeader.Options.UseBorderColor = true;
@@ -231,7 +239,7 @@
             // 
             // AA1_TSE
             // 
-            this.AA1_TSE.AppearanceHeader.BackColor = System.Drawing.Color.Aqua;
+            this.AA1_TSE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.AA1_TSE.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
             this.AA1_TSE.AppearanceHeader.Options.UseBackColor = true;
             this.AA1_TSE.AppearanceHeader.Options.UseBorderColor = true;
@@ -249,7 +257,7 @@
             // 
             // AA1_OTC
             // 
-            this.AA1_OTC.AppearanceHeader.BackColor = System.Drawing.Color.Aqua;
+            this.AA1_OTC.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.AA1_OTC.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
             this.AA1_OTC.AppearanceHeader.Options.UseBackColor = true;
             this.AA1_OTC.AppearanceHeader.Options.UseBorderColor = true;
@@ -267,7 +275,7 @@
             // 
             // AA1_DAY_COUNT
             // 
-            this.AA1_DAY_COUNT.AppearanceHeader.BackColor = System.Drawing.Color.Aqua;
+            this.AA1_DAY_COUNT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.AA1_DAY_COUNT.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
             this.AA1_DAY_COUNT.AppearanceHeader.Options.UseBackColor = true;
             this.AA1_DAY_COUNT.AppearanceHeader.Options.UseBorderColor = true;
@@ -283,7 +291,7 @@
             // 
             // AA1_US_RATE
             // 
-            this.AA1_US_RATE.AppearanceHeader.BackColor = System.Drawing.Color.Aqua;
+            this.AA1_US_RATE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.AA1_US_RATE.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
             this.AA1_US_RATE.AppearanceHeader.Options.UseBackColor = true;
             this.AA1_US_RATE.AppearanceHeader.Options.UseBorderColor = true;
@@ -319,7 +327,7 @@
             // W20310
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(877, 627);
             this.Controls.Add(this.panelControl2);

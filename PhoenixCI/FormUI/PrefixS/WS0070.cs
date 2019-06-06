@@ -51,7 +51,7 @@ namespace PhoenixCI.FormUI.PrefixS {
 
          #region Set Date Period
          //save 後替換新值
-         DataTable dtSPN = daoS0070.GetPeriodByUserId("ST", GlobalInfo.USER_ID);
+         DataTable dtSPN = daoS0070.GetPeriodByUserId("ST", "%");
          if (dtSPN.Rows.Count <= 0) {
             fmYmd = DateTime.Now.AddDays(-60).ToString("yyyyMMdd");
             toYmd = DateTime.Now.ToString("yyyyMMdd");
@@ -71,19 +71,19 @@ namespace PhoenixCI.FormUI.PrefixS {
 
          #region Set Drop Down Lsit
          //保證金類別
-         DataTable cbxSpanReqTypeSource = daoCod.ListByCol2("S0070", "span_req_type");
+         DataTable cbxSpanReqTypeSource = daoCod.ListByCol2("S0070", "SPAN_REQ_TYPE");
          SPAN_REQ_TYPE.SetDataTable(cbxSpanReqTypeSource, "COD_ID");
 
          //設定方式
          RepositoryItemLookUpEdit cbxParamType = new RepositoryItemLookUpEdit();
-         DataTable cbxParamTypeSource = daoCod.ListByCol2("S0071", "span_param_type");
+         DataTable cbxParamTypeSource = daoCod.ListByCol2("S0070", "SPAN_PARAM_TYPE");
          cbxParamType.SetColumnLookUp(cbxParamTypeSource, "COD_ID", "COD_DESC", TextEditStyles.DisableTextEditor, "");
          gcPresTest.RepositoryItems.Add(cbxParamType);
          SPAN_PARAM_TYPE.ColumnEdit = cbxParamType;
 
          //設定值
          RepositoryItemLookUpEdit cbxParamValue = new RepositoryItemLookUpEdit();
-         DataTable cbxParamValueSource = daoCod.ListByCol2("S0071", "span_param_value");
+         DataTable cbxParamValueSource = daoCod.ListByCol2("S0070", "SPAN_PARAM_VALUE");
          DataTable dtParamValueData = daoS0070.GetParamData("ST", GlobalInfo.USER_ID);//DB現有資料
          DataTable dtTempParamValue = cbxParamValueSource.Clone();
          for (int i = 0; i < dtParamValueData.Rows.Count; i++) {
@@ -105,7 +105,7 @@ namespace PhoenixCI.FormUI.PrefixS {
 
          //波動度設定
          RepositoryItemLookUpEdit cbxParamVolType = new RepositoryItemLookUpEdit();
-         DataTable cbxParamVolTypeSource = daoCod.ListByCol2("S0071", "span_param_vol_type");
+         DataTable cbxParamVolTypeSource = daoCod.ListByCol2("S0070", "SPAN_PARAM_VOL_TYPE");
          cbxParamVolType.SetColumnLookUp(cbxParamVolTypeSource, "COD_ID", "COD_DESC", TextEditStyles.DisableTextEditor, "");
          gcPresTest.RepositoryItems.Add(cbxParamVolType);
          SPAN_PARAM_VOL_TYPE.ColumnEdit = cbxParamVolType;
@@ -113,7 +113,7 @@ namespace PhoenixCI.FormUI.PrefixS {
          //商品類別
          DataTable dtProdType = daoS0070.dddw_zparm_comb_prod(txtEndDate.DateTimeValue.ToString("yyyyMMdd"));
          RepositoryItemLookUpEdit cbxProdType = new RepositoryItemLookUpEdit();
-         cbxProdType.SetColumnLookUp(dtProdType, "PROD_GROUP", "PROD_GROUP", TextEditStyles.DisableTextEditor, "");
+         cbxProdType.SetColumnLookUp(dtProdType, "PROD_GROUP_VALUE", "PROD_GROUP", TextEditStyles.DisableTextEditor, "");
          gcPresTest.RepositoryItems.Add(cbxProdType);
          SPAN_PARAM_CLASS.ColumnEdit = cbxProdType;
 
@@ -206,19 +206,19 @@ namespace PhoenixCI.FormUI.PrefixS {
       }
 
       private DataTable overWritePeriod() {
-         periodTable = daoS0070.GetPeriodByUserId("ST", GlobalInfo.USER_ID);
+         periodTable = daoS0070.GetPeriodByUserId("ST", "%");
 
          if (periodTable.Rows.Count == 0) {
             DataRow dr = periodTable.NewRow();
 
             dr.SetField("span_period_module", "ST");
-            dr.SetField("span_period_user_id", GlobalInfo.USER_ID);
 
             periodTable.Rows.Add(dr);
          }
 
          periodTable.Rows[0].SetField("span_period_start_date", txtStartDate.DateTimeValue.ToString("yyyyMMdd"));
          periodTable.Rows[0].SetField("span_period_end_date", txtEndDate.DateTimeValue.ToString("yyyyMMdd"));
+         periodTable.Rows[0].SetField("span_period_user_id", GlobalInfo.USER_ID);
          periodTable.Rows[0].SetField("span_period_w_time", DateTime.Now);
 
          return periodTable;

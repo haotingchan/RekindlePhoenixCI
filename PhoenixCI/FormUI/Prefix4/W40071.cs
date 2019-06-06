@@ -590,7 +590,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 case "M_CUR_LEVEL":
                 case "YMD":
                 case "ADJ_RATE":
-                    e.Appearance.BackColor = Color.FromArgb(192, 192, 192);
+                    e.Appearance.BackColor = Color.FromArgb(224, 224, 224);
                     break;
                 case "CM_CUR_A":
                 case "CM_CUR_B":
@@ -599,7 +599,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 case "IM_CUR_A":
                 case "IM_CUR_B":
                     e.Column.DisplayFormat.FormatString = amt_type == "P" ? "{0:0.###%}" : "#,###";
-                    e.Appearance.BackColor = Color.FromArgb(192, 192, 192);
+                    e.Appearance.BackColor = Color.FromArgb(224, 224, 224);
                     break;
                 case "CM_A":
                 case "CM_B":
@@ -651,35 +651,42 @@ namespace PhoenixCI.FormUI.Prefix4 {
             GridView gv = sender as GridView;
             gv.CloseEditor();
             gv.UpdateCurrentRow();
-            DataTable dtTemp = (DataTable)gcMain.DataSource;
-            if (e.Column.FieldName == "PROD_KIND_ID") {
+            //DataTable dtTemp = (DataTable)gcMain.DataSource;
+            if (e.Column.FieldName == "KIND_ID") {
                 string value = gv.GetRowCellValue(e.RowHandle, "PROD_SEQ_NO").AsString();
                 switch (value) {
                     case "1":
-                        if (e.CellValue == null) e.RepositoryItem = paramKeyLookUpEdit1;
+                        //prodKindIDLookUpEdit.SetColumnLookUp(dtParamKey1, "KIND_ID", "KIND_ID", TextEditStyles.DisableTextEditor, "All");
+                        e.RepositoryItem = paramKeyLookUpEdit1;
                         break;
                     case "2":
-                        if (e.CellValue == null) e.RepositoryItem = paramKeyLookUpEdit2;
+                        //prodKindIDLookUpEdit.SetColumnLookUp(dtParamKey2, "KIND_ID", "KIND_ID", TextEditStyles.DisableTextEditor, "All");
+                        e.RepositoryItem = paramKeyLookUpEdit2;
                         break;
                     case "3":
-                        if (e.CellValue == null) e.RepositoryItem = paramKeyLookUpEdit3;
+                        //prodKindIDLookUpEdit.SetColumnLookUp(dtParamKey3, "KIND_ID", "KIND_ID", TextEditStyles.DisableTextEditor, "All");
+                        e.RepositoryItem = paramKeyLookUpEdit3;
                         break;
                     case "4":
-                        if (e.CellValue == null) e.RepositoryItem = paramKeyLookUpEdit4;
+                        //prodKindIDLookUpEdit.SetColumnLookUp(dtParamKey4, "KIND_ID", "KIND_ID", TextEditStyles.DisableTextEditor, "All");
+                        e.RepositoryItem = paramKeyLookUpEdit4;
                         break;
                     case "5":
-                        if (e.CellValue == null) e.RepositoryItem = paramKeyLookUpEdit5;
+                        //prodKindIDLookUpEdit.SetColumnLookUp(dtParamKey5, "KIND_ID", "KIND_ID", TextEditStyles.DisableTextEditor, "All");
+                        e.RepositoryItem = paramKeyLookUpEdit5;
                         break;
                     case "6":
-                        if (e.CellValue == null) e.RepositoryItem = paramKeyLookUpEdit6;
+                        //prodKindIDLookUpEdit.SetColumnLookUp(dtParamKey6, "KIND_ID", "KIND_ID", TextEditStyles.DisableTextEditor, "All");
+                        e.RepositoryItem = paramKeyLookUpEdit6;
                         break;
                     case "7":
-                        if (e.CellValue == null) e.RepositoryItem = paramKeyLookUpEdit7;
+                        //prodKindIDLookUpEdit.SetColumnLookUp(dtParamKey7, "KIND_ID", "KIND_ID", TextEditStyles.DisableTextEditor, "All");
+                        e.RepositoryItem = paramKeyLookUpEdit7;
                         break;
                 }
                 //gv.CloseEditor();
                 //gv.UpdateCurrentRow();
-            }//if (e.Column.FieldName == "PROD_KIND_ID")
+            }//if (e.Column.FieldName == "KIND_ID")
         }
 
         private void gvMain_RowCellStyle(object sender, RowCellStyleEventArgs e) {
@@ -687,17 +694,17 @@ namespace PhoenixCI.FormUI.Prefix4 {
             GridView gv = sender as GridView;
             if (e.RowHandle <= 6) {
                 if (e.Column.FieldName == "PROD_SEQ_NO") {
-                    e.Appearance.BackColor = Color.FromArgb(192, 192, 192);
+                    e.Appearance.BackColor = Color.FromArgb(224, 224, 224);
                 }
-                if (e.Column.FieldName == "PROD_KIND_ID") {
-                    e.Appearance.BackColor = Color.FromArgb(192, 192, 192);
+                if (e.Column.FieldName == "KIND_ID") {
+                    e.Appearance.BackColor = Color.FromArgb(224, 224, 224);
                 }
             }
             else {
                 if (e.Column.FieldName == "PROD_SEQ_NO") {
                     e.Appearance.BackColor = Color.White;
                 }
-                if (e.Column.FieldName == "PROD_KIND_ID") {
+                if (e.Column.FieldName == "KIND_ID") {
                     e.Appearance.BackColor = Color.White;
                 }
             }
@@ -714,9 +721,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 gv.SetRowCellValue(e.RowHandle, "PARAM_KEY", dtInsert.Rows[0]["PARAM_KEY"]);
                 gv.SetRowCellValue(e.RowHandle, "ABROAD", dtInsert.Rows[0]["ABROAD"]);
             }
-            if (e.Column.Name == "PROD_KIND_ID") {
-                string a = e.Value.AsString(); 
-            }
         }
 
         private void gvMain_InitNewRow(object sender, InitNewRowEventArgs e) {
@@ -731,7 +735,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 e.Cancel = false;
             }
             else if (gv.FocusedColumn.Name == "PROD_SEQ_NO" ||
-                     gv.FocusedColumn.Name == "PROD_KIND_ID") {
+                     gv.FocusedColumn.Name == "KIND_ID") {
                 e.Cancel = true;
             }
             else {

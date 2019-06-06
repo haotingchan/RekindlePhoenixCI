@@ -53,6 +53,7 @@
             this.CND_PARAM_KEY = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.CND_ABROAD = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.Is_NewRow = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.prodKindIDLookUpEdit = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.panel3 = new System.Windows.Forms.Panel();
             this.gcDetail = new DevExpress.XtraGrid.GridControl();
             this.gvDetail = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridView();
@@ -132,6 +133,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.prodKindIDLookUpEdit)).BeginInit();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gcDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvDetail)).BeginInit();
@@ -208,18 +210,20 @@
             // label4
             // 
             this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label4.Location = new System.Drawing.Point(197, 77);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(31, 30);
+            this.label4.Size = new System.Drawing.Size(32, 31);
             this.label4.TabIndex = 19;
             this.label4.Text = "~";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label3.Location = new System.Drawing.Point(197, 44);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(31, 30);
+            this.label3.Size = new System.Drawing.Size(32, 31);
             this.label3.TabIndex = 18;
             this.label3.Text = "~";
             // 
@@ -245,22 +249,22 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label2.Location = new System.Drawing.Point(12, 77);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(109, 30);
+            this.label2.Size = new System.Drawing.Size(110, 31);
             this.label2.TabIndex = 16;
             this.label2.Text = "生效日期";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label1.Location = new System.Drawing.Point(12, 44);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(109, 30);
+            this.label1.Size = new System.Drawing.Size(110, 31);
             this.label1.TabIndex = 15;
             this.label1.Text = "實施期間";
             // 
@@ -326,11 +330,11 @@
             // lblDate
             // 
             this.lblDate.AutoSize = true;
-            this.lblDate.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.lblDate.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.lblDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.lblDate.Location = new System.Drawing.Point(12, 12);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(109, 30);
+            this.lblDate.Size = new System.Drawing.Size(110, 31);
             this.lblDate.TabIndex = 11;
             this.lblDate.Text = "交易日期";
             // 
@@ -371,7 +375,8 @@
             this.gcMain.MainView = this.gvMain;
             this.gcMain.Name = "gcMain";
             this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
-            this.repositoryItemTextEdit1});
+            this.repositoryItemTextEdit1,
+            this.prodKindIDLookUpEdit});
             this.gcMain.Size = new System.Drawing.Size(349, 662);
             this.gcMain.TabIndex = 0;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -454,7 +459,7 @@
             // PROD_KIND_ID
             // 
             this.PROD_KIND_ID.Caption = "PROD_KIND_ID";
-            this.PROD_KIND_ID.FieldName = "PROD_KIND_ID";
+            this.PROD_KIND_ID.FieldName = "KIND_ID";
             this.PROD_KIND_ID.Name = "PROD_KIND_ID";
             this.PROD_KIND_ID.UnboundType = DevExpress.Data.UnboundColumnType.String;
             this.PROD_KIND_ID.Visible = true;
@@ -493,28 +498,28 @@
             // CND_PROD_SUBTYPE
             // 
             this.CND_PROD_SUBTYPE.Caption = "CND_PROD_SUBTYPE";
-            this.CND_PROD_SUBTYPE.FieldName = "CND_PROD_SUBTYPE";
+            this.CND_PROD_SUBTYPE.FieldName = "PROD_SUBTYPE";
             this.CND_PROD_SUBTYPE.Name = "CND_PROD_SUBTYPE";
             this.CND_PROD_SUBTYPE.Visible = true;
             // 
             // SUBTYPE_NAME
             // 
             this.SUBTYPE_NAME.Caption = "SUBTYPE_NAME";
-            this.SUBTYPE_NAME.FieldName = "SUBTYPE_NAME";
+            this.SUBTYPE_NAME.FieldName = "PROD_SUBTYPE_NAME";
             this.SUBTYPE_NAME.Name = "SUBTYPE_NAME";
             this.SUBTYPE_NAME.Visible = true;
             // 
             // CND_PARAM_KEY
             // 
             this.CND_PARAM_KEY.Caption = "CND_PARAM_KEY";
-            this.CND_PARAM_KEY.FieldName = "CND_PARAM_KEY";
+            this.CND_PARAM_KEY.FieldName = "PARAM_KEY";
             this.CND_PARAM_KEY.Name = "CND_PARAM_KEY";
             this.CND_PARAM_KEY.Visible = true;
             // 
             // CND_ABROAD
             // 
             this.CND_ABROAD.Caption = "CND_ABROAD";
-            this.CND_ABROAD.FieldName = "CND_ABROAD";
+            this.CND_ABROAD.FieldName = "ABROAD";
             this.CND_ABROAD.Name = "CND_ABROAD";
             this.CND_ABROAD.Visible = true;
             // 
@@ -523,6 +528,14 @@
             this.Is_NewRow.Caption = "Is_NewRow";
             this.Is_NewRow.FieldName = "Is_NewRow";
             this.Is_NewRow.Name = "Is_NewRow";
+            // 
+            // prodKindIDLookUpEdit
+            // 
+            this.prodKindIDLookUpEdit.AutoHeight = false;
+            this.prodKindIDLookUpEdit.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.prodKindIDLookUpEdit.Name = "prodKindIDLookUpEdit";
+            this.prodKindIDLookUpEdit.NullText = "All";
             // 
             // panel3
             // 
@@ -1362,6 +1375,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.prodKindIDLookUpEdit)).EndInit();
             this.panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gcDetail)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvDetail)).EndInit();
@@ -1472,5 +1486,6 @@
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand32;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand33;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand34;
+        private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit prodKindIDLookUpEdit;
     }
 }

@@ -539,7 +539,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
         private void gvMain_CellValueChanging(object sender, CellValueChangedEventArgs e) {
             gcDetail.DataSource = null;
             GridView gv = sender as GridView;
-            if (e.Column.Name == "M_LEVEL") {
+            if (e.Column.FieldName == "M_LEVEL") {
                 string level = e.Value.AsString();
                 DataRow dr = dtFLevel.Select("mgrt1_level = '" + level + "'")[0];
                 gv.SetRowCellValue(e.RowHandle, "CM_A", dr["MGRT1_CM_RATE"]);
@@ -611,7 +611,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 case "IM_CUR_B":
                 case "YMD":
                 case "ADJ_RSN":
-                    e.Appearance.BackColor = Color.FromArgb(192, 192, 192);
+                    e.Appearance.BackColor = Color.FromArgb(224, 224, 224);
                     e.Column.OptionsColumn.AllowEdit = false;
                     break;
                 case "CM_A":

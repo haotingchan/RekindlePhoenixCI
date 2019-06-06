@@ -420,7 +420,10 @@
          // amm0_market_r_cnt
          // 
          this.amm0_market_r_cnt.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_MARKET_R_CNT]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[AMM0_MARKET_R_CNT]"),
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "BackColor", "Iif(  [AMM0_SUM_SUBTYPE] = \'4\' &  [MMF_RFC_MIN_CNT] > 0 &  [AMM0_MARKET_R_CNT] <=" +
+                    "[MMF_RFC_MIN_CNT] ,Iif( [AMM0_MARKET_R_CNT] =0,RGB(255,255,255),RGB(192,255,255)" +
+                    ") , RGB(255,255,255))")});
          this.amm0_market_r_cnt.Font = new System.Drawing.Font("Arial", 8F);
          this.amm0_market_r_cnt.Multiline = true;
          this.amm0_market_r_cnt.Name = "amm0_market_r_cnt";
@@ -450,7 +453,8 @@
          // cp_keep_time
          // 
          this.cp_keep_time.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[CP_KEEP_TIME]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[CP_KEEP_TIME]"),
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "BackColor", "Iif([CP_CHK2] =0,RGB(255,255,255) ,  RGB(255,128,255) )")});
          this.cp_keep_time.Font = new System.Drawing.Font("Arial", 8F);
          this.cp_keep_time.Multiline = true;
          this.cp_keep_time.Name = "cp_keep_time";
@@ -637,7 +641,7 @@
          // 
          // xrTableCell26
          // 
-         this.xrTableCell26.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+         this.xrTableCell26.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
          this.xrTableCell26.Multiline = true;
          this.xrTableCell26.Name = "xrTableCell26";
          this.xrTableCell26.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -740,6 +744,7 @@
          this.cp_tot_amm0_market_r_cnt.Summary = xrSummary2;
          this.cp_tot_amm0_market_r_cnt.Text = "cp_sum_amm0_market_r_cnt";
          this.cp_tot_amm0_market_r_cnt.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
+         this.cp_tot_amm0_market_r_cnt.TextFormatString = "{0:#,##0}";
          this.cp_tot_amm0_market_r_cnt.Weight = 1.0394828275305319D;
          // 
          // cp_tot_rate_valid_real
@@ -1173,7 +1178,7 @@
             this.xrLabel3,
             this.xrLabel2});
          this.groupHeaderBand1.GroupFields.AddRange(new DevExpress.XtraReports.UI.GroupField[] {
-            new DevExpress.XtraReports.UI.GroupField("AMM0_YMD", DevExpress.XtraReports.UI.XRColumnSortOrder.None),
+            new DevExpress.XtraReports.UI.GroupField("AMM0_YMD", DevExpress.XtraReports.UI.XRColumnSortOrder.Ascending),
             new DevExpress.XtraReports.UI.GroupField("CP_GROUP1", DevExpress.XtraReports.UI.XRColumnSortOrder.Ascending)});
          this.groupHeaderBand1.HeightF = 23F;
          this.groupHeaderBand1.Name = "groupHeaderBand1";

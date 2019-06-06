@@ -64,22 +64,22 @@
             // panParent
             // 
             this.panParent.Controls.Add(this.gcMain);
-            this.panParent.Size = new System.Drawing.Size(1231, 623);
+            this.panParent.Size = new System.Drawing.Size(1231, 610);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(1231, 30);
+            this.ribbonControl.Size = new System.Drawing.Size(1231, 43);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // gcMain
             // 
             this.gcMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gcMain.Location = new System.Drawing.Point(12, 12);
+            this.gcMain.Location = new System.Drawing.Point(18, 18);
             this.gcMain.MainView = this.gvMain;
             this.gcMain.MenuManager = this.ribbonControl;
             this.gcMain.Name = "gcMain";
-            this.gcMain.Size = new System.Drawing.Size(1207, 599);
+            this.gcMain.Size = new System.Drawing.Size(1195, 574);
             this.gcMain.TabIndex = 0;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -105,13 +105,14 @@
             this.gvMain.GridControl = this.gcMain;
             this.gvMain.Name = "gvMain";
             this.gvMain.OptionsPrint.PrintHeader = false;
+            this.gvMain.OptionsView.ShowGroupPanel = false;
             this.gvMain.RowCellStyle += new DevExpress.XtraGrid.Views.Grid.RowCellStyleEventHandler(this.gvMain_RowCellStyle);
             this.gvMain.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gvMain_ShowingEditor);
             this.gvMain.InitNewRow += new DevExpress.XtraGrid.Views.Grid.InitNewRowEventHandler(this.gvMain_InitNewRow);
             // 
             // gridBand1
             // 
-            this.gridBand1.AppearanceHeader.BackColor = System.Drawing.Color.Yellow;
+            this.gridBand1.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.gridBand1.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
             this.gridBand1.AppearanceHeader.Options.UseBackColor = true;
             this.gridBand1.AppearanceHeader.Options.UseBorderColor = true;
@@ -395,7 +396,7 @@
             // 
             // gridBand16
             // 
-            this.gridBand16.AppearanceHeader.BackColor = System.Drawing.Color.Transparent;
+            this.gridBand16.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.gridBand16.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
             this.gridBand16.AppearanceHeader.Options.UseBackColor = true;
             this.gridBand16.AppearanceHeader.Options.UseBorderColor = true;
@@ -413,7 +414,7 @@
             // 
             // gridBand17
             // 
-            this.gridBand17.AppearanceHeader.BackColor = System.Drawing.Color.Transparent;
+            this.gridBand17.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.gridBand17.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
             this.gridBand17.AppearanceHeader.Options.UseBackColor = true;
             this.gridBand17.AppearanceHeader.Options.UseBorderColor = true;
@@ -434,7 +435,7 @@
             // 
             // gridBand18
             // 
-            this.gridBand18.AppearanceHeader.BackColor = System.Drawing.Color.Transparent;
+            this.gridBand18.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.gridBand18.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
             this.gridBand18.AppearanceHeader.Options.UseBackColor = true;
             this.gridBand18.AppearanceHeader.Options.UseBorderColor = true;
@@ -455,7 +456,7 @@
             // 
             // gridBand19
             // 
-            this.gridBand19.AppearanceHeader.BackColor = System.Drawing.Color.Transparent;
+            this.gridBand19.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.gridBand19.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
             this.gridBand19.AppearanceHeader.Options.UseBackColor = true;
             this.gridBand19.AppearanceHeader.Options.UseBorderColor = true;
@@ -477,7 +478,7 @@
             // W20230
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1231, 653);
             this.Name = "W20230";

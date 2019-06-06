@@ -419,7 +419,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                         }
                         else if (opType == "P" ||
                                  pls1Qnty == 0 && pls1Stkout == 0) {
-                            e.Appearance.BackColor = Color.FromArgb(192, 220, 192);
+                            e.Appearance.BackColor = Color.FromArgb(224, 224, 224);
                         }
                         else {
                             e.Appearance.BackColor = Color.White;
@@ -434,14 +434,14 @@ namespace PhoenixCI.FormUI.Prefix3 {
                             e.Appearance.BackColor = Color.FromArgb(255, 168, 255);
                         }
                         else {
-                            e.Appearance.BackColor = Color.FromArgb(192, 220, 192);
+                            e.Appearance.BackColor = Color.FromArgb(224, 224, 224);
                         }
                         if (grp2 != null && pls1KindId != grp2) {
                             e.Appearance.BackColor = Color.FromArgb(255, 168, 255);
                         }
                         break;
                     default:
-                        e.Appearance.BackColor = (grp2 != null && pls1KindId != grp2) ? Color.FromArgb(255, 168, 255) : Color.FromArgb(192, 220, 192);
+                        e.Appearance.BackColor = (grp2 != null && pls1KindId != grp2) ? Color.FromArgb(255, 168, 255) : Color.FromArgb(224, 224, 224);
                         break;
                 }//switch (e.Column.FieldName) {
             }

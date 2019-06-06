@@ -52,23 +52,27 @@
             // panParent
             // 
             this.panParent.Controls.Add(this.gcMain);
-            this.panParent.Location = new System.Drawing.Point(0, 105);
-            this.panParent.Size = new System.Drawing.Size(683, 421);
+            this.panParent.Location = new System.Drawing.Point(0, 118);
+            this.panParent.Size = new System.Drawing.Size(683, 408);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(683, 30);
+            this.ribbonControl.Size = new System.Drawing.Size(683, 43);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // panelControl1
             // 
+            this.panelControl1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+            this.panelControl1.Appearance.Options.UseBackColor = true;
             this.panelControl1.Controls.Add(this.txtStartDate);
             this.panelControl1.Controls.Add(this.label1);
             this.panelControl1.Controls.Add(this.txtEndDate);
             this.panelControl1.Controls.Add(this.lblDate);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelControl1.Location = new System.Drawing.Point(0, 30);
+            this.panelControl1.Location = new System.Drawing.Point(0, 43);
+            this.panelControl1.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
+            this.panelControl1.LookAndFeel.UseDefaultLookAndFeel = false;
             this.panelControl1.Name = "panelControl1";
             this.panelControl1.Size = new System.Drawing.Size(683, 75);
             this.panelControl1.TabIndex = 0;
@@ -84,12 +88,14 @@
             this.txtStartDate.Name = "txtStartDate";
             this.txtStartDate.Properties.Appearance.Options.UseTextOptions = true;
             this.txtStartDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtStartDate.Properties.EditFormat.FormatString = "yyyy";
             this.txtStartDate.Properties.Mask.EditMask = "0000";
             this.txtStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Simple;
             this.txtStartDate.Properties.Mask.PlaceHolder = '0';
+            this.txtStartDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtStartDate.Properties.MaxLength = 4;
-            this.txtStartDate.Size = new System.Drawing.Size(71, 26);
+            this.txtStartDate.Size = new System.Drawing.Size(71, 40);
             this.txtStartDate.TabIndex = 14;
             this.txtStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -99,7 +105,7 @@
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Location = new System.Drawing.Point(165, 27);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(25, 20);
+            this.label1.Size = new System.Drawing.Size(37, 30);
             this.label1.TabIndex = 17;
             this.label1.Text = "～";
             // 
@@ -114,12 +120,14 @@
             this.txtEndDate.Name = "txtEndDate";
             this.txtEndDate.Properties.Appearance.Options.UseTextOptions = true;
             this.txtEndDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtEndDate.Properties.EditFormat.FormatString = "yyyy";
             this.txtEndDate.Properties.Mask.EditMask = "0000";
             this.txtEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Simple;
             this.txtEndDate.Properties.Mask.PlaceHolder = '0';
+            this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtEndDate.Properties.MaxLength = 4;
-            this.txtEndDate.Size = new System.Drawing.Size(71, 26);
+            this.txtEndDate.Size = new System.Drawing.Size(71, 40);
             this.txtEndDate.TabIndex = 15;
             this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -129,26 +137,26 @@
             this.lblDate.BackColor = System.Drawing.Color.Transparent;
             this.lblDate.Location = new System.Drawing.Point(25, 27);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(57, 20);
+            this.lblDate.Size = new System.Drawing.Size(85, 30);
             this.lblDate.TabIndex = 16;
             this.lblDate.Text = "年度：";
             // 
             // panelControl2
             // 
             this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelControl2.Location = new System.Drawing.Point(0, 105);
+            this.panelControl2.Location = new System.Drawing.Point(0, 118);
             this.panelControl2.Name = "panelControl2";
-            this.panelControl2.Size = new System.Drawing.Size(683, 421);
+            this.panelControl2.Size = new System.Drawing.Size(683, 408);
             this.panelControl2.TabIndex = 1;
             // 
             // gcMain
             // 
             this.gcMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gcMain.Location = new System.Drawing.Point(12, 12);
+            this.gcMain.Location = new System.Drawing.Point(18, 18);
             this.gcMain.MainView = this.gvMain;
             this.gcMain.MenuManager = this.ribbonControl;
             this.gcMain.Name = "gcMain";
-            this.gcMain.Size = new System.Drawing.Size(659, 397);
+            this.gcMain.Size = new System.Drawing.Size(647, 372);
             this.gcMain.TabIndex = 0;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -176,7 +184,7 @@
             // 
             // AM7_Y
             // 
-            this.AM7_Y.AppearanceHeader.BackColor = System.Drawing.Color.Yellow;
+            this.AM7_Y.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.AM7_Y.AppearanceHeader.Options.UseBackColor = true;
             this.AM7_Y.AppearanceHeader.Options.UseTextOptions = true;
             this.AM7_Y.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -264,7 +272,7 @@
             // W20410
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(683, 526);
             this.Controls.Add(this.panelControl2);

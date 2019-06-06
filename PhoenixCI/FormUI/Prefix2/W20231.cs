@@ -189,7 +189,7 @@ namespace PhoenixCI.FormUI.Prefix2
          string isNewRow = gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
               gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]).ToString();
          if (e.Column.FieldName == "PLS4_SID" || e.Column.FieldName == "PLS4_KIND_ID2")
-            e.Appearance.BackColor = isNewRow == "1" ? Color.White : Color.Silver;
+            e.Appearance.BackColor = isNewRow == "1" ? Color.White : Color.FromArgb(224, 224, 224);
       }
 
       private void SetFocused(DataTable dt, DataRow dr, string colName)

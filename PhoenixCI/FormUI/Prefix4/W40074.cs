@@ -636,7 +636,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 case "STOCK_ID":
                 case "M_LEVEL":
                 case "PROD_SEQ_NO":
-                    e.Appearance.BackColor = op_type == "I" ? Color.White : Color.FromArgb(192, 192, 192);
+                    e.Appearance.BackColor = op_type == "I" ? Color.White : Color.FromArgb(224, 224, 224);
                     e.Column.OptionsColumn.AllowEdit = op_type == "I" ? true : false;
                     break;
                 case "CM_A":

@@ -568,11 +568,11 @@ namespace PhoenixCI.FormUI.Prefix2 {
             decimal amifOpenInterest = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_OPEN_INTEREST"]).AsDecimal();
 
             //描述每個欄位,在is_newRow時候要顯示的顏色
-            //當該欄位不可編輯時,設定為灰色 Color.FromArgb(192,192,192)
+            //當該欄位不可編輯時,設定為灰色 Color.FromArgb(224, 224, 224)
             switch (e.Column.FieldName) {
                 case ("AMIF_KIND_ID"):
                 case ("AMIF_SETTLE_DATE"):
-                    e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.FromArgb(192, 192, 192);
+                    e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.FromArgb(224, 224, 224);
                     break;
                 case ("AMIF_OPEN_PRICE"):
                     if (amifuErrText == null || amifuErrText == "") {
@@ -652,18 +652,18 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     }
                     break;
                 case ("AMIF_CLOSE_PRICE_Y"):
-                    e.Appearance.BackColor = Color.FromArgb(192, 220, 192);
+                    e.Appearance.BackColor = Color.FromArgb(224, 224, 224);
                     break;
                 case ("AMIF_EXCHANGE_RATE"):
                     if (gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_KIND_ID"]).AsString() == "GDF") {
                         e.Appearance.BackColor = Color.White;
                     }
                     else {
-                        e.Appearance.BackColor = Color.FromArgb(192, 220, 192);
+                        e.Appearance.BackColor = Color.FromArgb(224, 224, 224);
                     }
                     break;
                 case ("CP_ERR"):
-                    e.Appearance.BackColor = Color.FromArgb(192, 220, 192);
+                    e.Appearance.BackColor = Color.FromArgb(224, 224, 224);
                     e.Appearance.ForeColor = Color.Red;
                     break;
                 default:

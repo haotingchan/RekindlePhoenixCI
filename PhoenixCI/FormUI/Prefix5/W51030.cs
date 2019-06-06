@@ -77,11 +77,15 @@ namespace PhoenixCI.FormUI.Prefix5
       public W51030(string programID, string programName) : base(programID, programName)
       {
          InitializeComponent();
+         dao51030 = new D51030();
 
+         //gvMain基本設定
          GridHelper.SetCommonGrid(gvMain);
+         //設定BandGrid字體，預設字體中文字只會顯示方塊
+         gvMain.AppearancePrint.BandPanel.Font = new Font("Microsoft YaHei", 10);
+         //設定要列印的Grid
          PrintableComponent = gcMain;
 
-         dao51030 = new D51030();
          //交易時段
          dic = new Dictionary<string, string>() { { "0", "一般" }, { "1", "夜盤" } };
          DataTable mk_code = setcolItem(dic);
@@ -207,7 +211,7 @@ namespace PhoenixCI.FormUI.Prefix5
          if (e.Column.FieldName == MARKET_CODE ||
              e.Column.FieldName == PROD_TYPE ||
              e.Column.FieldName == PARAM_KEY) {
-            e.Appearance.BackColor = isNewRow == "1" ? Color.White : Color.Silver;
+            e.Appearance.BackColor = isNewRow == "1" ? Color.White : Color.FromArgb(224, 224, 224);
          }
          if (e.Column.FieldName == CP_KIND) {
             int value = gv.GetRowCellValue(e.RowHandle, MMF_CP_KIND).AsInt();
@@ -228,13 +232,15 @@ namespace PhoenixCI.FormUI.Prefix5
                   continue;
 
                //key值不能為null
-               if (string.IsNullOrEmpty(dr[MARKET_CODE].AsString())) {
+               string marketCode = dr[MARKET_CODE].AsString();
+               if (string.IsNullOrEmpty(marketCode)) {
                   MessageDisplay.Error("「交易時段」必須要選取值！");
                   //set Focused
                   setFocused(dt, dr, MARKET_CODE);
                   return false;
                }
-               if (string.IsNullOrEmpty(dr[PARAM_KEY].AsString())) {
+               string paramKey = dr[PARAM_KEY].AsString();
+               if (string.IsNullOrEmpty(paramKey)) {
                   MessageDisplay.Error("「商品類別」必須要選取值！");
                   //set Focused
                   setFocused(dt, dr, PARAM_KEY);
@@ -243,11 +249,11 @@ namespace PhoenixCI.FormUI.Prefix5
 
                //key值不能重複
                int valueCount = dt.AsEnumerable().Where(r => r.RowState != DataRowState.Deleted
-               && r.Field<string>(MARKET_CODE).AsString() == dr[MARKET_CODE].AsString()
-              && r.Field<string>(PARAM_KEY).AsString() == dr[PARAM_KEY].AsString()).Count();
+               && r.Field<string>(MARKET_CODE).AsString() == marketCode
+              && r.Field<string>(PARAM_KEY).AsString() == paramKey).Count();
                if (valueCount >= 2) {
+                  MessageDisplay.Error($"交易時段:{(marketCode == "0" ? "[一般]" : "[夜盤]")}與商品類別:[{paramKey}] 不得重複新增!");
                   setFocused(dt, dr, PARAM_KEY);
-                  MessageDisplay.Error("交易時段與商品類別 不得重複新增!請檢查重複的筆數。");
                   return false;
                }
 
@@ -303,65 +309,76 @@ namespace PhoenixCI.FormUI.Prefix5
          gvMain.ShowEditor();
       }
 
-      private void CheckPrint(GridControl gridControl, DataTable ChangedForAdded,
-            DataTable ChangedForDeleted, DataTable ChangedForModified, bool IsHandlePersonVisible = true, bool IsManagerVisible = true)
+      /// <summary>
+      /// 分別將新增刪除修改的資料列印出來
+      /// </summary>
+      /// <param name="gridControl">GridControl</param>
+      /// <param name="ChangedForAdded">新增的資料</param>
+      /// <param name="ChangedForDeleted">刪除的資料</param>
+      /// <param name="ChangedForModified">修改的資料</param>
+      /// <param name="IsHandlePersonVisible"></param>
+      /// <param name="IsManagerVisible"></param>
+      private void PrintOrExportChanged(GridControl gridControl, DataTable ChangedForAdded,
+    DataTable ChangedForDeleted, DataTable ChangedForModified, bool IsHandlePersonVisible = true, bool IsManagerVisible = true)
       {
-         try {
+         string reportTitle = _ProgramID + "─" + _ProgramName + GlobalInfo.REPORT_TITLE_MEMO;
+         CommonReportLandscapeA4 reportLandscapeA4 = new CommonReportLandscapeA4();//設定為橫向列印
 
-            GridControl gridControlPrint = GridHelper.CloneGrid(gridControl);
+         if (ChangedForAdded != null)
+            if (ChangedForAdded.Rows.Count != 0) {
+               GridControl gridControlPrint = gridControl;
+               gridControlPrint.DataSource = ChangedForAdded;
 
-            ReportHelper reportHelper = new ReportHelper(gridControl, _ProgramID, _ProgramID + "─" + _ProgramName + GlobalInfo.REPORT_TITLE_MEMO);
-            reportHelper.IsHandlePersonVisible = IsHandlePersonVisible;
-            reportHelper.IsManagerVisible = IsManagerVisible;
+               ReportHelper reportHelper = new ReportHelper(gridControlPrint, _ProgramID, reportTitle);
+               reportHelper.IsHandlePersonVisible = IsHandlePersonVisible;
+               reportHelper.IsManagerVisible = IsManagerVisible;
+               reportHelper.ReportTitle = reportTitle + "─" + "新增";
 
-            if (ChangedForAdded != null)
-               if (ChangedForAdded.Rows.Count != 0) {
-                  gridControlPrint.DataSource = ChangedForAdded;
-                  //reportHelper.PrintableComponent = gridControlPrint; // 加這行bands會不見
-                  reportHelper.ReportTitle = _ProgramID + "─" + _ProgramName + GlobalInfo.REPORT_TITLE_MEMO + "─" + "新增";
+               reportHelper.Create(reportLandscapeA4);
+               reportHelper.Print();
+               reportHelper.Export(FileType.PDF, reportHelper.FilePath);
+            }
 
-                  reportHelper.Landscape = true; //設定為橫向列印
-                  reportHelper.Print();
-                  reportHelper.Export(FileType.PDF, reportHelper.FilePath);
-               }
+         if (ChangedForDeleted != null)
+            if (ChangedForDeleted.Rows.Count != 0) {
+               DataTable dtTemp = ChangedForDeleted.Clone();
 
-            if (ChangedForDeleted != null)
-               if (ChangedForDeleted.Rows.Count != 0) {
-                  DataTable dtTemp = ChangedForDeleted.Clone();
-
-                  int rowIndex = 0;
-                  foreach (DataRow dr in ChangedForDeleted.Rows) {
-                     DataRow drNewDelete = dtTemp.NewRow();
-                     for (int colIndex = 0; colIndex < ChangedForDeleted.Columns.Count; colIndex++) {
-                        drNewDelete[colIndex] = dr[colIndex, DataRowVersion.Original];
-                     }
-                     dtTemp.Rows.Add(drNewDelete);
-                     rowIndex++;
+               int rowIndex = 0;
+               foreach (DataRow dr in ChangedForDeleted.Rows) {
+                  DataRow drNewDelete = dtTemp.NewRow();
+                  for (int colIndex = 0; colIndex < ChangedForDeleted.Columns.Count; colIndex++) {
+                     drNewDelete[colIndex] = dr[colIndex, DataRowVersion.Original];
                   }
-
-                  gridControlPrint.DataSource = dtTemp.AsDataView();
-                  //reportHelper.PrintableComponent = gridControlPrint; // 加這行bands會不見
-                  reportHelper.ReportTitle = _ProgramID + "─" + _ProgramName + GlobalInfo.REPORT_TITLE_MEMO + "─" + "刪除";
-
-                  reportHelper.Landscape = true; //設定為橫向列印
-                  reportHelper.Print();
-                  reportHelper.Export(FileType.PDF, reportHelper.FilePath);
+                  dtTemp.Rows.Add(drNewDelete);
+                  rowIndex++;
                }
+               GridControl gridControlPrint = gridControl;
+               gridControlPrint.DataSource = dtTemp.AsDataView();
 
-            if (ChangedForModified != null)
-               if (ChangedForModified.Rows.Count != 0) {
-                  gridControlPrint.DataSource = ChangedForModified;
-                  //reportHelper.PrintableComponent = gridControlPrint; // 加這行bands會不見
-                  reportHelper.ReportTitle = _ProgramID + "─" + _ProgramName + GlobalInfo.REPORT_TITLE_MEMO + "─" + "變更";
+               ReportHelper reportHelper = new ReportHelper(gridControlPrint, _ProgramID, reportTitle);
+               reportHelper.IsHandlePersonVisible = IsHandlePersonVisible;
+               reportHelper.IsManagerVisible = IsManagerVisible;
+               reportHelper.PrintableComponent = gridControlPrint;
+               reportHelper.ReportTitle = reportTitle + "─" + "刪除";
 
-                  reportHelper.Landscape = true; //設定為橫向列印
-                  reportHelper.Print();
-                  reportHelper.Export(FileType.PDF, reportHelper.FilePath);
-               }
-         }
-         catch (Exception ex) {
-            throw ex;
-         }
+               reportHelper.Create(reportLandscapeA4);
+               reportHelper.Print();
+               reportHelper.Export(FileType.PDF, reportHelper.FilePath);
+            }
+
+         if (ChangedForModified != null)
+            if (ChangedForModified.Rows.Count != 0) {
+               GridControl gridControlPrint = gridControl;
+               gridControlPrint.DataSource = ChangedForModified;
+
+               ReportHelper reportHelper = new ReportHelper(gridControlPrint, _ProgramID, reportTitle);
+               reportHelper.PrintableComponent = gridControlPrint;
+               reportHelper.ReportTitle = reportTitle + "─" + "變更";
+
+               reportHelper.Create(reportLandscapeA4);
+               reportHelper.Print();
+               reportHelper.Export(FileType.PDF, reportHelper.FilePath);
+            }
       }
 
       protected override ResultStatus Save(PokeBall poke)
@@ -375,32 +392,28 @@ namespace PhoenixCI.FormUI.Prefix5
          DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
          DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
 
-         if (!SaveBefore(dt)) {
-            return ResultStatus.FailButNext;
-         }
-         // 寫入DB
-         foreach (DataRow dr in dt.Rows) {
-            if (dr.RowState != DataRowState.Deleted) {
-               dr["MMF_W_TIME"] = DateTime.Now;
-               dr["MMF_W_USER_ID"] = GlobalInfo.USER_ID;
-            }
-         }
-
          if (dtChange != null) {
+            if (!SaveBefore(dt)) {
+               return ResultStatus.FailButNext;
+            }
+            // 寫入DB
+            foreach (DataRow dr in dt.Rows) {
+               if (dr.RowState != DataRowState.Deleted) {
+                  dr["MMF_W_TIME"] = DateTime.Now;
+                  dr["MMF_W_USER_ID"] = GlobalInfo.USER_ID;
+               }
+            }
+
             try {
-               ResultData myResultData = dao51030.UpdateMMF(dt);
+               dao51030.UpdateMMF(dt);
             }
             catch (Exception ex) {
-               //if (ex.Message.Contains("ORA-00001")) {
-               //   MessageDisplay.Error("交易時段與商品類別 不得重複新增!請檢查重複的筆數。");
-               //   return ResultStatus.FailButNext;
-               //}
                WriteLog(ex);
                return ResultStatus.Fail;
             }
-            //PrintOrExportChangedByKen(gcMain, dtForAdd, dtDeleteChange, dtForModified);
             //列印新增、刪除、修改
-            CheckPrint(gcMain, dtForAdd, dtDeleteChange, dtForModified);
+            PrintOrExportChanged(gcMain, dtForAdd, dtDeleteChange, dtForModified);
+
             return ResultStatus.Success;
          }
          else {
@@ -428,6 +441,7 @@ namespace PhoenixCI.FormUI.Prefix5
 
             reportHelper.LeftMemo = Memo.ToString();
             */
+            //reportHelper.LeftMemo = printMemo.Text;
             reportHelper.Create(reportLandscapeA4);
             reportHelper.Print();
 
@@ -457,13 +471,6 @@ namespace PhoenixCI.FormUI.Prefix5
          return ResultStatus.Success;
       }
 
-      public override ResultStatus BeforeOpen()
-      {
-         base.BeforeOpen();
-
-         return ResultStatus.Success;
-      }
-
       protected override ResultStatus Open()
       {
          base.Open();
@@ -472,13 +479,6 @@ namespace PhoenixCI.FormUI.Prefix5
          Retrieve();
          //Header上色
          //CustomDrawColumnHeader(gcMain,gvMain);
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus AfterOpen()
-      {
-         base.AfterOpen();
 
          return ResultStatus.Success;
       }

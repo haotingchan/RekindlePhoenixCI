@@ -55,9 +55,9 @@
             this.grpxDescription.Controls.Add(this.lblDate);
             this.grpxDescription.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.grpxDescription.ForeColor = System.Drawing.Color.Navy;
-            this.grpxDescription.Location = new System.Drawing.Point(25, 25);
+            this.grpxDescription.Location = new System.Drawing.Point(15, 15);
             this.grpxDescription.Name = "grpxDescription";
-            this.grpxDescription.Size = new System.Drawing.Size(360, 100);
+            this.grpxDescription.Size = new System.Drawing.Size(302, 100);
             this.grpxDescription.TabIndex = 9;
             this.grpxDescription.TabStop = false;
             this.grpxDescription.Text = "請輸入交易日期";
@@ -96,7 +96,7 @@
             // 
             this.lblProcessing.AutoSize = true;
             this.lblProcessing.ForeColor = System.Drawing.Color.Blue;
-            this.lblProcessing.Location = new System.Drawing.Point(21, 136);
+            this.lblProcessing.Location = new System.Drawing.Point(11, 118);
             this.lblProcessing.Name = "lblProcessing";
             this.lblProcessing.Size = new System.Drawing.Size(85, 20);
             this.lblProcessing.TabIndex = 14;
@@ -110,9 +110,9 @@
             this.panelControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.panelControl1.Controls.Add(this.grpxDescription);
             this.panelControl1.Controls.Add(this.lblProcessing);
-            this.panelControl1.Location = new System.Drawing.Point(15, 15);
+            this.panelControl1.Location = new System.Drawing.Point(30, 30);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(410, 170);
+            this.panelControl1.Size = new System.Drawing.Size(332, 146);
             this.panelControl1.TabIndex = 15;
             // 
             // W50070

@@ -37,25 +37,27 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.grpxDescription = new System.Windows.Forms.GroupBox();
+            this.txtRank = new DevExpress.XtraEditors.TextEdit();
             this.rgpData = new DevExpress.XtraEditors.RadioGroup();
             this.rgpType = new DevExpress.XtraEditors.RadioGroup();
             this.rgpMarket = new DevExpress.XtraEditors.RadioGroup();
-            this.txtRank = new DevExpress.XtraEditors.TextEdit();
+            this.panelControl = new DevExpress.XtraEditors.PanelControl();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtEDate.Properties)).BeginInit();
             this.grpxDescription.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtRank.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rgpData.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rgpType.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rgpMarket.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtRank.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl)).BeginInit();
+            this.panelControl.SuspendLayout();
             this.SuspendLayout();
             // 
             // panParent
             // 
-            this.panParent.Controls.Add(this.lblProcessing);
-            this.panParent.Controls.Add(this.grpxDescription);
+            this.panParent.Controls.Add(this.panelControl);
             this.panParent.Size = new System.Drawing.Size(974, 700);
             // 
             // ribbonControl
@@ -68,7 +70,7 @@
             // 
             this.lblProcessing.AutoSize = true;
             this.lblProcessing.ForeColor = System.Drawing.Color.Blue;
-            this.lblProcessing.Location = new System.Drawing.Point(63, 385);
+            this.lblProcessing.Location = new System.Drawing.Point(10, 357);
             this.lblProcessing.Name = "lblProcessing";
             this.lblProcessing.Size = new System.Drawing.Size(85, 20);
             this.lblProcessing.TabIndex = 30;
@@ -244,12 +246,23 @@
             this.grpxDescription.Controls.Add(this.lblDate);
             this.grpxDescription.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.grpxDescription.ForeColor = System.Drawing.Color.Navy;
-            this.grpxDescription.Location = new System.Drawing.Point(67, 60);
+            this.grpxDescription.Location = new System.Drawing.Point(15, 15);
             this.grpxDescription.Name = "grpxDescription";
-            this.grpxDescription.Size = new System.Drawing.Size(430, 322);
+            this.grpxDescription.Size = new System.Drawing.Size(430, 339);
             this.grpxDescription.TabIndex = 29;
             this.grpxDescription.TabStop = false;
             this.grpxDescription.Text = "請輸入交易日期";
+            // 
+            // txtRank
+            // 
+            this.txtRank.EditValue = "999";
+            this.txtRank.Location = new System.Drawing.Point(100, 223);
+            this.txtRank.MenuManager = this.ribbonControl;
+            this.txtRank.Name = "txtRank";
+            this.txtRank.Properties.Mask.EditMask = "[0-9]?[0-9]?[0-9]?";
+            this.txtRank.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtRank.Size = new System.Drawing.Size(50, 26);
+            this.txtRank.TabIndex = 31;
             // 
             // rgpData
             // 
@@ -292,16 +305,18 @@
             this.rgpMarket.Size = new System.Drawing.Size(255, 36);
             this.rgpMarket.TabIndex = 28;
             // 
-            // txtRank
+            // panelControl
             // 
-            this.txtRank.EditValue = "999";
-            this.txtRank.Location = new System.Drawing.Point(100, 223);
-            this.txtRank.MenuManager = this.ribbonControl;
-            this.txtRank.Name = "txtRank";
-            this.txtRank.Properties.Mask.EditMask = "[0-9]?[0-9]?[0-9]?";
-            this.txtRank.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-            this.txtRank.Size = new System.Drawing.Size(50, 26);
-            this.txtRank.TabIndex = 31;
+            this.panelControl.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+            this.panelControl.Appearance.Options.UseBackColor = true;
+            this.panelControl.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.panelControl.Controls.Add(this.grpxDescription);
+            this.panelControl.Controls.Add(this.lblProcessing);
+            this.panelControl.Location = new System.Drawing.Point(30, 30);
+            this.panelControl.Margin = new System.Windows.Forms.Padding(15);
+            this.panelControl.Name = "panelControl";
+            this.panelControl.Size = new System.Drawing.Size(459, 382);
+            this.panelControl.TabIndex = 31;
             // 
             // W30080
             // 
@@ -312,16 +327,18 @@
             this.Name = "W30080";
             this.Text = "W30080";
             this.panParent.ResumeLayout(false);
-            this.panParent.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtEDate.Properties)).EndInit();
             this.grpxDescription.ResumeLayout(false);
             this.grpxDescription.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtRank.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.rgpData.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.rgpType.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.rgpMarket.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtRank.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl)).EndInit();
+            this.panelControl.ResumeLayout(false);
+            this.panelControl.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -347,5 +364,6 @@
       private DevExpress.XtraEditors.RadioGroup rgpData;
       private DevExpress.XtraEditors.RadioGroup rgpType;
         private DevExpress.XtraEditors.TextEdit txtRank;
+        private DevExpress.XtraEditors.PanelControl panelControl;
     }
 }

@@ -75,8 +75,8 @@
          this.label5 = new System.Windows.Forms.Label();
          this.label6 = new System.Windows.Forms.Label();
          this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
-         this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
          this.printMemo = new System.Windows.Forms.Label();
+         this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
@@ -134,9 +134,20 @@
          // 
          // gvMain
          // 
+         this.gvMain.AppearancePrint.BandPanel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+         this.gvMain.AppearancePrint.BandPanel.Options.UseFont = true;
          this.gvMain.AppearancePrint.BandPanel.Options.UseTextOptions = true;
+         this.gvMain.AppearancePrint.BandPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.gvMain.AppearancePrint.BandPanel.TextOptions.Trimming = DevExpress.Utils.Trimming.Word;
+         this.gvMain.AppearancePrint.BandPanel.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
          this.gvMain.AppearancePrint.BandPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+         this.gvMain.AppearancePrint.HeaderPanel.ForeColor = System.Drawing.Color.Black;
+         this.gvMain.AppearancePrint.HeaderPanel.Options.UseForeColor = true;
+         this.gvMain.AppearancePrint.HeaderPanel.Options.UseTextOptions = true;
+         this.gvMain.AppearancePrint.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.gvMain.AppearancePrint.HeaderPanel.TextOptions.Trimming = DevExpress.Utils.Trimming.Word;
+         this.gvMain.AppearancePrint.HeaderPanel.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+         this.gvMain.AppearancePrint.HeaderPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
          this.gvMain.Bands.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.GridBand[] {
             this.t1,
             this.t2,
@@ -196,7 +207,7 @@
          // 
          // MMF_MARKET_CODE
          // 
-         this.MMF_MARKET_CODE.AppearanceCell.BackColor = System.Drawing.Color.Silver;
+         this.MMF_MARKET_CODE.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
          this.MMF_MARKET_CODE.AppearanceCell.Options.UseBackColor = true;
          this.MMF_MARKET_CODE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
          this.MMF_MARKET_CODE.AppearanceHeader.Options.UseBackColor = true;
@@ -225,7 +236,7 @@
          // 
          // MMF_PROD_TYPE
          // 
-         this.MMF_PROD_TYPE.AppearanceCell.BackColor = System.Drawing.Color.Silver;
+         this.MMF_PROD_TYPE.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
          this.MMF_PROD_TYPE.AppearanceCell.Options.UseBackColor = true;
          this.MMF_PROD_TYPE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
          this.MMF_PROD_TYPE.AppearanceHeader.Options.UseBackColor = true;
@@ -592,8 +603,8 @@
          // 
          // MMF_W_USER_ID
          // 
-         this.MMF_W_USER_ID.AppearanceCell.BackColor = System.Drawing.Color.Silver;
-         this.MMF_W_USER_ID.AppearanceCell.BackColor2 = System.Drawing.Color.Silver;
+         this.MMF_W_USER_ID.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+         this.MMF_W_USER_ID.AppearanceCell.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
          this.MMF_W_USER_ID.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.MMF_W_USER_ID.AppearanceCell.Options.UseBackColor = true;
          this.MMF_W_USER_ID.AppearanceCell.Options.UseFont = true;
@@ -610,8 +621,8 @@
          // 
          // MMF_W_TIME
          // 
-         this.MMF_W_TIME.AppearanceCell.BackColor = System.Drawing.Color.Silver;
-         this.MMF_W_TIME.AppearanceCell.BackColor2 = System.Drawing.Color.Silver;
+         this.MMF_W_TIME.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+         this.MMF_W_TIME.AppearanceCell.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
          this.MMF_W_TIME.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.MMF_W_TIME.AppearanceCell.Options.UseBackColor = true;
          this.MMF_W_TIME.AppearanceCell.Options.UseFont = true;
@@ -708,19 +719,30 @@
          this.panelControl1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.panelControl1.Appearance.Options.UseBackColor = true;
          this.panelControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-         this.panelControl1.Controls.Add(this.printMemo);
          this.panelControl1.Controls.Add(this.label1);
          this.panelControl1.Controls.Add(this.label2);
          this.panelControl1.Controls.Add(this.label6);
          this.panelControl1.Controls.Add(this.label3);
          this.panelControl1.Controls.Add(this.label4);
          this.panelControl1.Controls.Add(this.label5);
+         this.panelControl1.Controls.Add(this.printMemo);
          this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
          this.panelControl1.Location = new System.Drawing.Point(12, 12);
          this.panelControl1.Margin = new System.Windows.Forms.Padding(0);
          this.panelControl1.Name = "panelControl1";
          this.panelControl1.Size = new System.Drawing.Size(1335, 225);
          this.panelControl1.TabIndex = 11;
+         // 
+         // printMemo
+         // 
+         this.printMemo.AutoSize = true;
+         this.printMemo.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.printMemo.Location = new System.Drawing.Point(14, 69);
+         this.printMemo.Name = "printMemo";
+         this.printMemo.Size = new System.Drawing.Size(1030, 128);
+         this.printMemo.TabIndex = 10;
+         this.printMemo.Text = resources.GetString("printMemo.Text");
+         this.printMemo.Visible = false;
          // 
          // panelControl2
          // 
@@ -732,17 +754,6 @@
          this.panelControl2.Name = "panelControl2";
          this.panelControl2.Size = new System.Drawing.Size(1335, 467);
          this.panelControl2.TabIndex = 12;
-         // 
-         // printMemo
-         // 
-         this.printMemo.AutoSize = true;
-         this.printMemo.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.printMemo.Location = new System.Drawing.Point(697, 29);
-         this.printMemo.Name = "printMemo";
-         this.printMemo.Size = new System.Drawing.Size(849, 128);
-         this.printMemo.TabIndex = 10;
-         this.printMemo.Text = resources.GetString("printMemo.Text");
-         this.printMemo.Visible = false;
          // 
          // W51030
          // 

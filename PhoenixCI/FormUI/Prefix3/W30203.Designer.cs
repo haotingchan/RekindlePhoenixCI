@@ -120,17 +120,19 @@
             // 
             this.panParent.Controls.Add(this.gcMain);
             this.panParent.Controls.Add(this.gcGBF);
-            this.panParent.Location = new System.Drawing.Point(0, 105);
-            this.panParent.Size = new System.Drawing.Size(1125, 630);
+            this.panParent.Location = new System.Drawing.Point(0, 118);
+            this.panParent.Size = new System.Drawing.Size(1125, 617);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(1125, 30);
+            this.ribbonControl.Size = new System.Drawing.Size(1125, 43);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // panelControl1
             // 
+            this.panelControl1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+            this.panelControl1.Appearance.Options.UseBackColor = true;
             this.panelControl1.Controls.Add(this.lblEff);
             this.panelControl1.Controls.Add(this.txtEffDateLower);
             this.panelControl1.Controls.Add(this.label4);
@@ -140,7 +142,9 @@
             this.panelControl1.Controls.Add(this.txtDate);
             this.panelControl1.Controls.Add(this.label2);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelControl1.Location = new System.Drawing.Point(0, 30);
+            this.panelControl1.Location = new System.Drawing.Point(0, 43);
+            this.panelControl1.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
+            this.panelControl1.LookAndFeel.UseDefaultLookAndFeel = false;
             this.panelControl1.Name = "panelControl1";
             this.panelControl1.Size = new System.Drawing.Size(1125, 75);
             this.panelControl1.TabIndex = 0;
@@ -151,7 +155,7 @@
             this.lblEff.ForeColor = System.Drawing.Color.Red;
             this.lblEff.Location = new System.Drawing.Point(767, 28);
             this.lblEff.Name = "lblEff";
-            this.lblEff.Size = new System.Drawing.Size(0, 20);
+            this.lblEff.Size = new System.Drawing.Size(0, 30);
             this.lblEff.TabIndex = 17;
             // 
             // txtEffDateLower
@@ -165,10 +169,12 @@
             this.txtEffDateLower.Name = "txtEffDateLower";
             this.txtEffDateLower.Properties.Appearance.Options.UseTextOptions = true;
             this.txtEffDateLower.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtEffDateLower.Properties.EditFormat.FormatString = "yyyyMMdd";
             this.txtEffDateLower.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
             this.txtEffDateLower.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtEffDateLower.Properties.Mask.ShowPlaceHolders = false;
             this.txtEffDateLower.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtEffDateLower.Size = new System.Drawing.Size(105, 26);
+            this.txtEffDateLower.Size = new System.Drawing.Size(105, 40);
             this.txtEffDateLower.TabIndex = 3;
             this.txtEffDateLower.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -178,7 +184,7 @@
             this.label4.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
             this.label4.Location = new System.Drawing.Point(577, 28);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(58, 21);
+            this.label4.Size = new System.Drawing.Size(86, 31);
             this.label4.TabIndex = 16;
             this.label4.Text = "降低：";
             // 
@@ -193,10 +199,12 @@
             this.txtEffDate.Name = "txtEffDate";
             this.txtEffDate.Properties.Appearance.Options.UseTextOptions = true;
             this.txtEffDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtEffDate.Properties.EditFormat.FormatString = "yyyyMMdd";
             this.txtEffDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
             this.txtEffDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtEffDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtEffDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtEffDate.Size = new System.Drawing.Size(105, 26);
+            this.txtEffDate.Size = new System.Drawing.Size(105, 40);
             this.txtEffDate.TabIndex = 2;
             this.txtEffDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -206,7 +214,7 @@
             this.label3.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
             this.label3.Location = new System.Drawing.Point(377, 28);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(58, 21);
+            this.label3.Size = new System.Drawing.Size(86, 31);
             this.label3.TabIndex = 14;
             this.label3.Text = "提高：";
             // 
@@ -216,7 +224,7 @@
             this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
             this.label1.Location = new System.Drawing.Point(281, 28);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(90, 21);
+            this.label1.Size = new System.Drawing.Size(134, 31);
             this.label1.TabIndex = 12;
             this.label1.Text = "公告日期：";
             // 
@@ -231,10 +239,12 @@
             this.txtDate.Name = "txtDate";
             this.txtDate.Properties.Appearance.Options.UseTextOptions = true;
             this.txtDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtDate.Properties.EditFormat.FormatString = "yyyyMMdd";
             this.txtDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
             this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtDate.Size = new System.Drawing.Size(105, 26);
+            this.txtDate.Size = new System.Drawing.Size(105, 40);
             this.txtDate.TabIndex = 1;
             this.txtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -244,18 +254,18 @@
             this.label2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
             this.label2.Location = new System.Drawing.Point(22, 28);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(90, 21);
+            this.label2.Size = new System.Drawing.Size(134, 31);
             this.label2.TabIndex = 11;
             this.label2.Text = "計算日期：";
             // 
             // gcGBF
             // 
             this.gcGBF.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gcGBF.Location = new System.Drawing.Point(12, 12);
+            this.gcGBF.Location = new System.Drawing.Point(18, 18);
             this.gcGBF.MainView = this.gvGBF;
             this.gcGBF.MenuManager = this.ribbonControl;
             this.gcGBF.Name = "gcGBF";
-            this.gcGBF.Size = new System.Drawing.Size(1101, 130);
+            this.gcGBF.Size = new System.Drawing.Size(1089, 130);
             this.gcGBF.TabIndex = 0;
             this.gcGBF.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvGBF});
@@ -294,7 +304,7 @@
             // 
             // gridBand1
             // 
-            this.gridBand1.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gridBand1.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.gridBand1.AppearanceHeader.Options.UseBackColor = true;
             this.gridBand1.AppearanceHeader.Options.UseTextOptions = true;
             this.gridBand1.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -314,7 +324,7 @@
             // 
             // gridBand3
             // 
-            this.gridBand3.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gridBand3.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.gridBand3.AppearanceHeader.Options.UseBackColor = true;
             this.gridBand3.AppearanceHeader.Options.UseTextOptions = true;
             this.gridBand3.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -329,7 +339,7 @@
             // 
             // gridBand6
             // 
-            this.gridBand6.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gridBand6.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.gridBand6.AppearanceHeader.Options.UseBackColor = true;
             this.gridBand6.AppearanceHeader.Options.UseTextOptions = true;
             this.gridBand6.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -344,7 +354,7 @@
             // 
             // bandPL1B_PREV_NATURE_LEGAL_MTH
             // 
-            this.bandPL1B_PREV_NATURE_LEGAL_MTH.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.bandPL1B_PREV_NATURE_LEGAL_MTH.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.bandPL1B_PREV_NATURE_LEGAL_MTH.AppearanceHeader.Options.UseBackColor = true;
             this.bandPL1B_PREV_NATURE_LEGAL_MTH.AppearanceHeader.Options.UseTextOptions = true;
             this.bandPL1B_PREV_NATURE_LEGAL_MTH.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -366,7 +376,7 @@
             // 
             // bandPL1B_PREV_NATURE_LEGAL_TOT
             // 
-            this.bandPL1B_PREV_NATURE_LEGAL_TOT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.bandPL1B_PREV_NATURE_LEGAL_TOT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.bandPL1B_PREV_NATURE_LEGAL_TOT.AppearanceHeader.Options.UseBackColor = true;
             this.bandPL1B_PREV_NATURE_LEGAL_TOT.AppearanceHeader.Options.UseTextOptions = true;
             this.bandPL1B_PREV_NATURE_LEGAL_TOT.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -388,7 +398,7 @@
             // 
             // gridBand7
             // 
-            this.gridBand7.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gridBand7.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.gridBand7.AppearanceHeader.Options.UseBackColor = true;
             this.gridBand7.AppearanceHeader.Options.UseTextOptions = true;
             this.gridBand7.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -404,7 +414,7 @@
             // 
             // bandPL1B_PREV_999_MTH
             // 
-            this.bandPL1B_PREV_999_MTH.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.bandPL1B_PREV_999_MTH.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.bandPL1B_PREV_999_MTH.AppearanceHeader.Options.UseBackColor = true;
             this.bandPL1B_PREV_999_MTH.AppearanceHeader.Options.UseTextOptions = true;
             this.bandPL1B_PREV_999_MTH.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -426,7 +436,7 @@
             // 
             // bandPL1B_PREV_999_NEARBY_MTH
             // 
-            this.bandPL1B_PREV_999_NEARBY_MTH.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.bandPL1B_PREV_999_NEARBY_MTH.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.bandPL1B_PREV_999_NEARBY_MTH.AppearanceHeader.Options.UseBackColor = true;
             this.bandPL1B_PREV_999_NEARBY_MTH.AppearanceHeader.Options.UseTextOptions = true;
             this.bandPL1B_PREV_999_NEARBY_MTH.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -448,7 +458,7 @@
             // 
             // bandPL1B_PREV_999_TOT
             // 
-            this.bandPL1B_PREV_999_TOT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.bandPL1B_PREV_999_TOT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.bandPL1B_PREV_999_TOT.AppearanceHeader.Options.UseBackColor = true;
             this.bandPL1B_PREV_999_TOT.AppearanceHeader.Options.UseTextOptions = true;
             this.bandPL1B_PREV_999_TOT.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -470,7 +480,7 @@
             // 
             // gridBand11
             // 
-            this.gridBand11.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gridBand11.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.gridBand11.AppearanceHeader.Options.UseBackColor = true;
             this.gridBand11.AppearanceHeader.Options.UseTextOptions = true;
             this.gridBand11.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -484,7 +494,7 @@
             // 
             // gridBand12
             // 
-            this.gridBand12.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gridBand12.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.gridBand12.AppearanceHeader.Options.UseBackColor = true;
             this.gridBand12.AppearanceHeader.Options.UseTextOptions = true;
             this.gridBand12.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -499,7 +509,7 @@
             // 
             // bandPL1B_NATURE_LEGAL_MTH
             // 
-            this.bandPL1B_NATURE_LEGAL_MTH.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.bandPL1B_NATURE_LEGAL_MTH.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.bandPL1B_NATURE_LEGAL_MTH.AppearanceHeader.Options.UseBackColor = true;
             this.bandPL1B_NATURE_LEGAL_MTH.AppearanceHeader.Options.UseTextOptions = true;
             this.bandPL1B_NATURE_LEGAL_MTH.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -521,7 +531,7 @@
             // 
             // bandPL1B_NATURE_LEGAL_TOT
             // 
-            this.bandPL1B_NATURE_LEGAL_TOT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.bandPL1B_NATURE_LEGAL_TOT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.bandPL1B_NATURE_LEGAL_TOT.AppearanceHeader.Options.UseBackColor = true;
             this.bandPL1B_NATURE_LEGAL_TOT.AppearanceHeader.Options.UseTextOptions = true;
             this.bandPL1B_NATURE_LEGAL_TOT.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -543,7 +553,7 @@
             // 
             // gridBand15
             // 
-            this.gridBand15.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gridBand15.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.gridBand15.AppearanceHeader.Options.UseBackColor = true;
             this.gridBand15.AppearanceHeader.Options.UseTextOptions = true;
             this.gridBand15.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -559,7 +569,7 @@
             // 
             // bandPL1B_999_MTH
             // 
-            this.bandPL1B_999_MTH.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.bandPL1B_999_MTH.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.bandPL1B_999_MTH.AppearanceHeader.Options.UseBackColor = true;
             this.bandPL1B_999_MTH.AppearanceHeader.Options.UseTextOptions = true;
             this.bandPL1B_999_MTH.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -581,7 +591,7 @@
             // 
             // bandPL1B_999_NEARBY_MTH
             // 
-            this.bandPL1B_999_NEARBY_MTH.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.bandPL1B_999_NEARBY_MTH.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.bandPL1B_999_NEARBY_MTH.AppearanceHeader.Options.UseBackColor = true;
             this.bandPL1B_999_NEARBY_MTH.AppearanceHeader.Options.UseTextOptions = true;
             this.bandPL1B_999_NEARBY_MTH.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -603,7 +613,7 @@
             // 
             // bandPL1B_999_TOT
             // 
-            this.bandPL1B_999_TOT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.bandPL1B_999_TOT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.bandPL1B_999_TOT.AppearanceHeader.Options.UseBackColor = true;
             this.bandPL1B_999_TOT.AppearanceHeader.Options.UseTextOptions = true;
             this.bandPL1B_999_TOT.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -625,7 +635,7 @@
             // 
             // bandPL1B_ADJ
             // 
-            this.bandPL1B_ADJ.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.bandPL1B_ADJ.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.bandPL1B_ADJ.AppearanceHeader.Options.UseBackColor = true;
             this.bandPL1B_ADJ.AppearanceHeader.Options.UseTextOptions = true;
             this.bandPL1B_ADJ.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -660,11 +670,11 @@
             // gcMain
             // 
             this.gcMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gcMain.Location = new System.Drawing.Point(12, 142);
+            this.gcMain.Location = new System.Drawing.Point(18, 148);
             this.gcMain.MainView = this.gvMain;
             this.gcMain.MenuManager = this.ribbonControl;
             this.gcMain.Name = "gcMain";
-            this.gcMain.Size = new System.Drawing.Size(1101, 476);
+            this.gcMain.Size = new System.Drawing.Size(1089, 451);
             this.gcMain.TabIndex = 1;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -713,7 +723,7 @@
             // 
             // gridBand2
             // 
-            this.gridBand2.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gridBand2.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.gridBand2.AppearanceHeader.Options.UseBackColor = true;
             this.gridBand2.AppearanceHeader.Options.UseTextOptions = true;
             this.gridBand2.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -733,7 +743,7 @@
             // 
             // bandCur
             // 
-            this.bandCur.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.bandCur.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.bandCur.AppearanceHeader.Options.UseBackColor = true;
             this.bandCur.AppearanceHeader.Options.UseTextOptions = true;
             this.bandCur.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -749,7 +759,7 @@
             // 
             // gridBand21
             // 
-            this.gridBand21.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gridBand21.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.gridBand21.AppearanceHeader.Options.UseBackColor = true;
             this.gridBand21.AppearanceHeader.Options.UseTextOptions = true;
             this.gridBand21.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -769,7 +779,7 @@
             // 
             // gridBand22
             // 
-            this.gridBand22.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gridBand22.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.gridBand22.AppearanceHeader.Options.UseBackColor = true;
             this.gridBand22.AppearanceHeader.Options.UseTextOptions = true;
             this.gridBand22.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -789,7 +799,7 @@
             // 
             // bandCP
             // 
-            this.bandCP.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.bandCP.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.bandCP.AppearanceHeader.Options.UseBackColor = true;
             this.bandCP.AppearanceHeader.Options.UseTextOptions = true;
             this.bandCP.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -805,7 +815,7 @@
             // 
             // gridBand24
             // 
-            this.gridBand24.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gridBand24.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.gridBand24.AppearanceHeader.Options.UseBackColor = true;
             this.gridBand24.AppearanceHeader.Options.UseTextOptions = true;
             this.gridBand24.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -825,7 +835,7 @@
             // 
             // gridBand25
             // 
-            this.gridBand25.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gridBand25.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.gridBand25.AppearanceHeader.Options.UseBackColor = true;
             this.gridBand25.AppearanceHeader.Options.UseTextOptions = true;
             this.gridBand25.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -845,7 +855,7 @@
             // 
             // bandCompute1
             // 
-            this.bandCompute1.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.bandCompute1.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.bandCompute1.AppearanceHeader.Options.UseBackColor = true;
             this.bandCompute1.AppearanceHeader.Options.UseTextOptions = true;
             this.bandCompute1.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -868,7 +878,7 @@
             // 
             // bandPL1_NATURE_LEGAL
             // 
-            this.bandPL1_NATURE_LEGAL.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.bandPL1_NATURE_LEGAL.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.bandPL1_NATURE_LEGAL.AppearanceHeader.Options.UseBackColor = true;
             this.bandPL1_NATURE_LEGAL.AppearanceHeader.Options.UseTextOptions = true;
             this.bandPL1_NATURE_LEGAL.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -884,7 +894,7 @@
             // 
             // gridBand28
             // 
-            this.gridBand28.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gridBand28.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.gridBand28.AppearanceHeader.Options.UseBackColor = true;
             this.gridBand28.AppearanceHeader.Options.UseTextOptions = true;
             this.gridBand28.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -904,7 +914,7 @@
             // 
             // gridBand29
             // 
-            this.gridBand29.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gridBand29.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.gridBand29.AppearanceHeader.Options.UseBackColor = true;
             this.gridBand29.AppearanceHeader.Options.UseTextOptions = true;
             this.gridBand29.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -924,7 +934,7 @@
             // 
             // bandADJ
             // 
-            this.bandADJ.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.bandADJ.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.bandADJ.AppearanceHeader.Options.UseBackColor = true;
             this.bandADJ.AppearanceHeader.Options.UseTextOptions = true;
             this.bandADJ.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -940,7 +950,7 @@
             // 
             // gridBand31
             // 
-            this.gridBand31.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gridBand31.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.gridBand31.AppearanceHeader.Options.UseBackColor = true;
             this.gridBand31.AppearanceHeader.Options.UseTextOptions = true;
             this.gridBand31.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -960,7 +970,7 @@
             // 
             // gridBand32
             // 
-            this.gridBand32.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gridBand32.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.gridBand32.AppearanceHeader.Options.UseBackColor = true;
             this.gridBand32.AppearanceHeader.Options.UseTextOptions = true;
             this.gridBand32.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -1053,7 +1063,7 @@
             // W30203
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1125, 735);
             this.Controls.Add(this.panelControl1);
