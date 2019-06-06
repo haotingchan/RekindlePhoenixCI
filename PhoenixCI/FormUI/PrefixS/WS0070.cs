@@ -39,8 +39,6 @@ namespace PhoenixCI.FormUI.PrefixS {
          daoS0070 = new DS0070();
          daoCod = new COD();
 
-         repositoryItemTextEdit3.Leave += repositoryItemTextEdit3_Leave;
-
          Retrieve();
       }
 
@@ -170,10 +168,10 @@ namespace PhoenixCI.FormUI.PrefixS {
 
             DataTable dtExAccount = (DataTable)gcExAccount.DataSource;
             GenWTime(dtExAccount, "SPAN_ACCT_W_TIME","SPAN_ACCT_USER_ID");
-            if (!checkComplete(dtExAccount, LabEXAccount.Text.Replace(":", ""))) return ResultStatus.FailButNext;
+            if(!checkExAccount()) return ResultStatus.FailButNext;
             DataTable dtPresTest = (DataTable)gcPresTest.DataSource;
             GenWTime(dtPresTest, "SPAN_PARAM_W_TIME", "SPAN_PARAM_USER_ID");
-            if (!checkComplete(dtPresTest, LabPressTest.Text.Replace(":", ""))) return ResultStatus.FailButNext;
+            if (!checkPresTest()) return ResultStatus.FailButNext;
 
             //更新四部份資料
             DataTable dtPeriod = overWritePeriod();
@@ -381,15 +379,6 @@ namespace PhoenixCI.FormUI.PrefixS {
 
       private void txtREQValue_Leave(object sender, EventArgs e) {
          CheckREQValue();
-      }
-
-      private void repositoryItemTextEdit3_Leave(object sender, EventArgs e) {
-         TextEdit editor = sender as TextEdit;
-         string check = editor.Text.SubStr(4, 3);
-         if (check == "999") {
-            MessageDisplay.Info("期貨商代號欄位必須為7碼，末3碼不為999");
-            editor.Select();
-         }
       }
 
       private bool CheckPeriod() {
