@@ -94,7 +94,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 rptName = "公告表－股價指數暨黃金類";
                 if (dt30204.Rows.Count == 0) {
                     MessageDisplay.Info(txtSDate.Text + "," + rptId + '－' + rptName + ",無任何資料!");
-                    lblProcessing.Visible = false;
+                    ShowMsg("");
                     //return ResultStatus.Fail;
                 }
 
@@ -144,7 +144,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 DataTable dt30204GBF = dao30204.d_30204_gbf(sYmd, eYmd);
                 if (dt30204GBF.Rows.Count == 0) {
                     MessageDisplay.Info(txtSDate.Text + "," + rptId + '－' + rptName + ",無任何資料!");
-                    lblProcessing.Visible = false;
+                    ShowMsg("");
                     //return ResultStatus.Fail;
                 }
 

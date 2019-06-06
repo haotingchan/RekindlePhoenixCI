@@ -16,6 +16,7 @@ using BaseGround.Report;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using BaseGround.Shared;
+using System.Threading;
 /// <summary>
 /// Lukas, 2018/12/27
 /// </summary>
@@ -50,28 +51,50 @@ namespace PhoenixCI.FormUI.Prefix5 {
             return ResultStatus.Success;
         }
 
+        protected void ShowMsg(string msg) {
+            lblProcessing.Text = msg;
+            this.Refresh();
+            Thread.Sleep(5);
+        }
+
         protected override ResultStatus Export() {
-            if (txtFromMonth.Text.SubStr(0, 4) != txtToMonth.Text.SubStr(0, 4)) {
-                MessageBox.Show("不可跨年度查詢!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                return ResultStatus.Fail;
+            try {
+                if (txtFromMonth.Text.SubStr(0, 4) != txtToMonth.Text.SubStr(0, 4)) {
+                    MessageBox.Show("不可跨年度查詢!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    return ResultStatus.Fail;
+                }
+                base.Export();
+                this.Cursor = Cursors.WaitCursor;
+                this.Refresh();
+                Thread.Sleep(5);
+                lblProcessing.Visible = true;
+                ShowMsg("開始轉檔...");
+                string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
+                string excelDestinationPath_Detail = PbFunc.wf_copy_file(_ProgramID, _ProgramID + "MM");
+                ManipulateExcel(excelDestinationPath);
+                ManipulateExcel_Detail(excelDestinationPath_Detail);
+                /**********************
+                轉檔後資訊
+                **********************/
+                string lsYM;
+                lsYM = txtToMonth.Text.Replace("/", "");
+                DataTable dt_55060_after_export = dao55060.d_55060_after_export(lsYM);
+                if (dt_55060_after_export.Rows[0]["ld_disc_qnty"].AsString() == "0") {
+                    MessageBox.Show(lsYM + "「結算手續費」的可折抵口數皆為０，" + Environment.NewLine + "請確認結算手續費作業是否已完成！", "警告", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return ResultStatus.Success;
+                }
+                ShowMsg("轉檔成功");
             }
-            base.Export();
-            lblProcessing.Visible = true;
-            string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
-            string excelDestinationPath_Detail = PbFunc.wf_copy_file(_ProgramID, _ProgramID + "MM");
-            ManipulateExcel(excelDestinationPath);
-            ManipulateExcel_Detail(excelDestinationPath_Detail);
-            /**********************
-            轉檔後資訊
-            **********************/
-            string lsYM;
-            lsYM = txtToMonth.Text.Replace("/", "");
-            DataTable dt_55060_after_export = dao55060.d_55060_after_export(lsYM);
-            if (dt_55060_after_export.Rows[0]["ld_disc_qnty"].AsString() == "0") {
-                MessageBox.Show(lsYM + "「結算手續費」的可折抵口數皆為０，" + Environment.NewLine + "請確認結算手續費作業是否已完成！", "警告", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return ResultStatus.Success;
+            catch (Exception ex) {
+                MessageDisplay.Error("輸出錯誤");
+                ShowMsg("轉檔錯誤");
+                throw ex;
             }
-            lblProcessing.Visible = false;
+            finally {
+                this.Cursor = Cursors.Arrow;
+                this.Refresh();
+                Thread.Sleep(5);
+            }
             return ResultStatus.Success;
         }
 
@@ -88,7 +111,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 *************************************/
                 rptName = "交易量(單邊)";
                 rptId = "55060_1";
-
+                ShowMsg(rptId + "－" + rptName + " 轉檔中...");
                 /******************
                 讀取資料
                 ******************/
@@ -127,7 +150,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 *************************************/
                 rptName = "到期結算OI";
                 rptId = "55060_2";
-
+                ShowMsg(rptId + "－" + rptName + " 轉檔中...");
                 /******************
                 讀取資料
                 ******************/
@@ -170,7 +193,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 *************************************/
                 rptName = "造市折減";
                 rptId = "55060_3";
-
+                ShowMsg(rptId + "－" + rptName + " 轉檔中...");
                 /******************
                 讀取資料
                 ******************/
@@ -407,10 +430,12 @@ namespace PhoenixCI.FormUI.Prefix5 {
         private void wf_55060_4(Worksheet ws, string as_type) {
             string kindID, rptId = "", rptName = "保護基金提撥費用", asSym = txtFromMonth.Text.Replace("/", ""), asEym = txtToMonth.Text.Replace("/", "");
             int rowNum = 0, num = 0, addCol = 0;
+            ShowMsg(rptId + "－" + rptName + " 轉檔中...");
             //讀取資料
             DataTable dt55060_4 = dao55060.d_55060_rwd(asSym, asEym);
             if (dt55060_4.Rows.Count == 0) {
                 MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromMonth.Text + "-" + txtToMonth.Text, rptId + "－" + rptName));
+                ShowMsg("");
                 return;
             }
             kindID = "";
@@ -448,6 +473,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             dt55060_4 = dao55060.d_55060_amt(asSym, asEym);
             if (dt55060_4.Rows.Count == 0) {
                 MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromMonth.Text + "-" + txtToMonth.Text, rptId + "－" + rptName));
+                ShowMsg("");
                 return;
             }
             kindID = "";
@@ -493,7 +519,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             *************************************/
             rptName = "造市折減";
             rptId = "55060_3MM";
-
+            ShowMsg(rptId + "－" + rptName + " 轉檔中...");
             /******************
             讀取資料
             ******************/
@@ -502,6 +528,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             DataTable dt55060_3_trd = dao55060.d_55060_3_trd(asSym, asEym);
             if (dt55060_3_trd.Rows.Count == 0) {
                 MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromMonth.Text + "-" + txtToMonth.Text, rptId + "－" + rptName));
+                ShowMsg("");
                 return;
             }
 
@@ -555,6 +582,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             DataTable dt55060_3_cm = dao55060.d_55060_3_cm(asSym, asEym);
             if (dt55060_3_cm.Rows.Count == 0) {
                 MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromMonth.Text + "-" + txtToMonth.Text, rptId + "－" + rptName));
+                ShowMsg("");
                 return;
             }
 
@@ -601,6 +629,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             DataTable dt55060_3_all = dao55060.d_55060_3_all(asSym, asEym);
             if (dt55060_3_all.Rows.Count == 0) {
                 MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromMonth.Text + "-" + txtToMonth.Text, rptId + "－" + rptName));
+                ShowMsg("");
                 return;
             }
 
