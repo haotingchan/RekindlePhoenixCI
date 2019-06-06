@@ -336,7 +336,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             e.Column.OptionsColumn.AllowFocus = true;
 
             if (e.Column.FieldName != "MPDF_EFF_DATE") {
-                e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.Silver;
+                e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.FromArgb(224, 224, 224);
             }
         }
 

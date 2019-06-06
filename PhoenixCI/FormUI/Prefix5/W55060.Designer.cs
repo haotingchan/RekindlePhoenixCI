@@ -23,14 +23,17 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            this.panelControl = new DevExpress.XtraEditors.PanelControl();
+            this.lblProcessing = new System.Windows.Forms.Label();
             this.grpxDescription = new System.Windows.Forms.GroupBox();
             this.txtToMonth = new BaseGround.Widget.TextDateEdit();
             this.txtFromMonth = new BaseGround.Widget.TextDateEdit();
             this.label1 = new System.Windows.Forms.Label();
             this.lblDate = new System.Windows.Forms.Label();
-            this.lblProcessing = new System.Windows.Forms.Label();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl)).BeginInit();
+            this.panelControl.SuspendLayout();
             this.grpxDescription.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtToMonth.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFromMonth.Properties)).BeginInit();
@@ -38,13 +41,38 @@
             // 
             // panParent
             // 
-            this.panParent.Controls.Add(this.lblProcessing);
-            this.panParent.Controls.Add(this.grpxDescription);
+            this.panParent.Controls.Add(this.panelControl);
+            this.panParent.Size = new System.Drawing.Size(836, 544);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
+            this.ribbonControl.Size = new System.Drawing.Size(836, 30);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
+            // 
+            // panelControl
+            // 
+            this.panelControl.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+            this.panelControl.Appearance.Options.UseBackColor = true;
+            this.panelControl.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.panelControl.Controls.Add(this.lblProcessing);
+            this.panelControl.Controls.Add(this.grpxDescription);
+            this.panelControl.Location = new System.Drawing.Point(30, 30);
+            this.panelControl.Margin = new System.Windows.Forms.Padding(15);
+            this.panelControl.Name = "panelControl";
+            this.panelControl.Size = new System.Drawing.Size(436, 165);
+            this.panelControl.TabIndex = 20;
+            // 
+            // lblProcessing
+            // 
+            this.lblProcessing.AutoSize = true;
+            this.lblProcessing.ForeColor = System.Drawing.Color.Blue;
+            this.lblProcessing.Location = new System.Drawing.Point(11, 137);
+            this.lblProcessing.Name = "lblProcessing";
+            this.lblProcessing.Size = new System.Drawing.Size(85, 20);
+            this.lblProcessing.TabIndex = 12;
+            this.lblProcessing.Text = "開始轉檔...";
+            this.lblProcessing.Visible = false;
             // 
             // grpxDescription
             // 
@@ -56,10 +84,10 @@
             this.grpxDescription.Controls.Add(this.lblDate);
             this.grpxDescription.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.grpxDescription.ForeColor = System.Drawing.Color.Navy;
-            this.grpxDescription.Location = new System.Drawing.Point(34, 39);
+            this.grpxDescription.Location = new System.Drawing.Point(15, 15);
             this.grpxDescription.Name = "grpxDescription";
             this.grpxDescription.Size = new System.Drawing.Size(404, 119);
-            this.grpxDescription.TabIndex = 7;
+            this.grpxDescription.TabIndex = 11;
             this.grpxDescription.TabStop = false;
             this.grpxDescription.Text = "請輸入交易日期";
             // 
@@ -74,8 +102,10 @@
             this.txtToMonth.Name = "txtToMonth";
             this.txtToMonth.Properties.Appearance.Options.UseTextOptions = true;
             this.txtToMonth.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtToMonth.Properties.EditFormat.FormatString = "yyyyMM";
             this.txtToMonth.Properties.Mask.EditMask = "yyyy/MM";
             this.txtToMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtToMonth.Properties.Mask.ShowPlaceHolders = false;
             this.txtToMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtToMonth.Size = new System.Drawing.Size(100, 26);
             this.txtToMonth.TabIndex = 8;
@@ -92,8 +122,10 @@
             this.txtFromMonth.Name = "txtFromMonth";
             this.txtFromMonth.Properties.Appearance.Options.UseTextOptions = true;
             this.txtFromMonth.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtFromMonth.Properties.EditFormat.FormatString = "yyyyMM";
             this.txtFromMonth.Properties.Mask.EditMask = "yyyy/MM";
             this.txtFromMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtFromMonth.Properties.Mask.ShowPlaceHolders = false;
             this.txtFromMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtFromMonth.Size = new System.Drawing.Size(100, 26);
             this.txtFromMonth.TabIndex = 7;
@@ -119,17 +151,6 @@
             this.lblDate.TabIndex = 2;
             this.lblDate.Text = "月份：";
             // 
-            // lblProcessing
-            // 
-            this.lblProcessing.AutoSize = true;
-            this.lblProcessing.ForeColor = System.Drawing.Color.Blue;
-            this.lblProcessing.Location = new System.Drawing.Point(30, 161);
-            this.lblProcessing.Name = "lblProcessing";
-            this.lblProcessing.Size = new System.Drawing.Size(85, 20);
-            this.lblProcessing.TabIndex = 10;
-            this.lblProcessing.Text = "開始轉檔...";
-            this.lblProcessing.Visible = false;
-            // 
             // W55060
             // 
             this.Appearance.Options.UseFont = true;
@@ -139,8 +160,10 @@
             this.Name = "W55060";
             this.Text = "W55060";
             this.panParent.ResumeLayout(false);
-            this.panParent.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl)).EndInit();
+            this.panelControl.ResumeLayout(false);
+            this.panelControl.PerformLayout();
             this.grpxDescription.ResumeLayout(false);
             this.grpxDescription.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtToMonth.Properties)).EndInit();
@@ -152,11 +175,12 @@
 
         #endregion
 
+        private DevExpress.XtraEditors.PanelControl panelControl;
+        private System.Windows.Forms.Label lblProcessing;
         private System.Windows.Forms.GroupBox grpxDescription;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label lblDate;
         private BaseGround.Widget.TextDateEdit txtToMonth;
         private BaseGround.Widget.TextDateEdit txtFromMonth;
-        private System.Windows.Forms.Label lblProcessing;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblDate;
     }
 }

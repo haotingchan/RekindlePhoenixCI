@@ -51,18 +51,18 @@
             // panParent
             // 
             this.panParent.Controls.Add(this.gcMain);
-            this.panParent.Location = new System.Drawing.Point(0, 113);
-            this.panParent.Size = new System.Drawing.Size(1055, 631);
+            this.panParent.Location = new System.Drawing.Point(0, 100);
+            this.panParent.Size = new System.Drawing.Size(1055, 644);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(1055, 43);
+            this.ribbonControl.Size = new System.Drawing.Size(1055, 30);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // panelControl1
             // 
-            this.panelControl1.Appearance.BackColor = System.Drawing.Color.SkyBlue;
+            this.panelControl1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
             this.panelControl1.Appearance.BackColor2 = System.Drawing.Color.SkyBlue;
             this.panelControl1.Appearance.BorderColor = System.Drawing.Color.Gray;
             this.panelControl1.Appearance.Options.UseBackColor = true;
@@ -70,7 +70,9 @@
             this.panelControl1.Controls.Add(this.lblDate);
             this.panelControl1.Controls.Add(this.txtMonth);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelControl1.Location = new System.Drawing.Point(0, 43);
+            this.panelControl1.Location = new System.Drawing.Point(0, 30);
+            this.panelControl1.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
+            this.panelControl1.LookAndFeel.UseDefaultLookAndFeel = false;
             this.panelControl1.Name = "panelControl1";
             this.panelControl1.Size = new System.Drawing.Size(1055, 70);
             this.panelControl1.TabIndex = 0;
@@ -81,7 +83,7 @@
             this.lblDate.BackColor = System.Drawing.Color.Transparent;
             this.lblDate.Location = new System.Drawing.Point(19, 24);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(85, 30);
+            this.lblDate.Size = new System.Drawing.Size(57, 20);
             this.lblDate.TabIndex = 7;
             this.lblDate.Text = "年月：";
             // 
@@ -101,28 +103,28 @@
             this.txtMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
             this.txtMonth.Properties.Mask.ShowPlaceHolders = false;
             this.txtMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtMonth.Size = new System.Drawing.Size(100, 38);
+            this.txtMonth.Size = new System.Drawing.Size(100, 28);
             this.txtMonth.TabIndex = 6;
             this.txtMonth.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // panelControl2
             // 
             this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelControl2.Location = new System.Drawing.Point(0, 113);
+            this.panelControl2.Location = new System.Drawing.Point(0, 100);
             this.panelControl2.Name = "panelControl2";
-            this.panelControl2.Size = new System.Drawing.Size(1055, 631);
+            this.panelControl2.Size = new System.Drawing.Size(1055, 644);
             this.panelControl2.TabIndex = 1;
             // 
             // gcMain
             // 
             this.gcMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gcMain.Location = new System.Drawing.Point(18, 18);
+            this.gcMain.Location = new System.Drawing.Point(12, 12);
             this.gcMain.MainView = this.gvMain;
             this.gcMain.MenuManager = this.ribbonControl;
             this.gcMain.Name = "gcMain";
             this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit1});
-            this.gcMain.Size = new System.Drawing.Size(1019, 595);
+            this.gcMain.Size = new System.Drawing.Size(1031, 620);
             this.gcMain.TabIndex = 0;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -150,7 +152,7 @@
             // 
             this.MPDF_YM.AppearanceCell.BackColor = System.Drawing.Color.Silver;
             this.MPDF_YM.AppearanceCell.Options.UseBackColor = true;
-            this.MPDF_YM.AppearanceHeader.BackColor = System.Drawing.Color.Yellow;
+            this.MPDF_YM.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.MPDF_YM.AppearanceHeader.Options.UseBackColor = true;
             this.MPDF_YM.Caption = "年月";
             this.MPDF_YM.FieldName = "MPDF_YM";
@@ -163,7 +165,7 @@
             // 
             this.MPDF_FCM_NO.AppearanceCell.BackColor = System.Drawing.Color.Silver;
             this.MPDF_FCM_NO.AppearanceCell.Options.UseBackColor = true;
-            this.MPDF_FCM_NO.AppearanceHeader.BackColor = System.Drawing.Color.Yellow;
+            this.MPDF_FCM_NO.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.MPDF_FCM_NO.AppearanceHeader.Options.UseBackColor = true;
             this.MPDF_FCM_NO.Caption = "造市者代號";
             this.MPDF_FCM_NO.FieldName = "MPDF_FCM_NO";
@@ -176,7 +178,7 @@
             // 
             this.MPDF_ACC_NO.AppearanceCell.BackColor = System.Drawing.Color.Silver;
             this.MPDF_ACC_NO.AppearanceCell.Options.UseBackColor = true;
-            this.MPDF_ACC_NO.AppearanceHeader.BackColor = System.Drawing.Color.Yellow;
+            this.MPDF_ACC_NO.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.MPDF_ACC_NO.AppearanceHeader.Options.UseBackColor = true;
             this.MPDF_ACC_NO.Caption = "帳號";
             this.MPDF_ACC_NO.FieldName = "MPDF_ACC_NO";
@@ -189,7 +191,7 @@
             // 
             this.MPDF_STATUS.AppearanceCell.BackColor = System.Drawing.Color.Silver;
             this.MPDF_STATUS.AppearanceCell.Options.UseBackColor = true;
-            this.MPDF_STATUS.AppearanceHeader.BackColor = System.Drawing.Color.Yellow;
+            this.MPDF_STATUS.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.MPDF_STATUS.AppearanceHeader.Options.UseBackColor = true;
             this.MPDF_STATUS.Caption = "狀態";
             this.MPDF_STATUS.FieldName = "MPDF_STATUS";
@@ -202,7 +204,7 @@
             // 
             this.MPDF_KIND_ID.AppearanceCell.BackColor = System.Drawing.Color.Silver;
             this.MPDF_KIND_ID.AppearanceCell.Options.UseBackColor = true;
-            this.MPDF_KIND_ID.AppearanceHeader.BackColor = System.Drawing.Color.Yellow;
+            this.MPDF_KIND_ID.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.MPDF_KIND_ID.AppearanceHeader.Options.UseBackColor = true;
             this.MPDF_KIND_ID.Caption = "契約";
             this.MPDF_KIND_ID.FieldName = "MPDF_KIND_ID";
@@ -242,7 +244,7 @@
             // W50120
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1055, 744);
             this.Controls.Add(this.panelControl2);
