@@ -24,6 +24,7 @@
         /// </summary>
         private void InitializeComponent() {
          this.panFirst = new System.Windows.Forms.GroupBox();
+         this.txtEndDate = new BaseGround.Widget.TextDateEdit();
          this.label1 = new System.Windows.Forms.Label();
          this.btnFirstFilter = new System.Windows.Forms.Button();
          this.labEndDate = new System.Windows.Forms.Label();
@@ -59,10 +60,12 @@
          this.CPR_PARAM_KEY = new DevExpress.XtraGrid.Columns.GridColumn();
          this.CPR_MODIFY_FLAG = new DevExpress.XtraGrid.Columns.GridColumn();
          this.CPR_PRICE_RISK_RATE_ORG = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.txtEndDate = new BaseGround.Widget.TextDateEdit();
+         this.groupBox1 = new System.Windows.Forms.GroupBox();
+         this.chkModel = new DevExpress.XtraEditors.CheckedListBoxControl();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          this.panFirst.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).BeginInit();
          this.panFilter.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gcDate)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvDate)).BeginInit();
@@ -74,21 +77,23 @@
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).BeginInit();
+         this.groupBox1.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.chkModel)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
          // 
          this.panParent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.panParent.Controls.Add(this.groupBox1);
          this.panParent.Controls.Add(this.panFilter);
          this.panParent.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.panParent.Size = new System.Drawing.Size(861, 620);
+         this.panParent.Size = new System.Drawing.Size(870, 735);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
          this.ribbonControl.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.ribbonControl.Size = new System.Drawing.Size(861, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(870, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // panFirst
@@ -105,6 +110,26 @@
          this.panFirst.TabIndex = 6;
          this.panFirst.TabStop = false;
          this.panFirst.Text = "1.設定初步條件";
+         // 
+         // txtEndDate
+         // 
+         this.txtEndDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtEndDate.EditValue = "2018/12";
+         this.txtEndDate.EnterMoveNextControl = true;
+         this.txtEndDate.Location = new System.Drawing.Point(105, 27);
+         this.txtEndDate.MenuManager = this.ribbonControl;
+         this.txtEndDate.Name = "txtEndDate";
+         this.txtEndDate.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtEndDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtEndDate.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.txtEndDate.Properties.Mask.EditMask = "yyyy/MM/dd";
+         this.txtEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
+         this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtEndDate.Size = new System.Drawing.Size(100, 26);
+         this.txtEndDate.TabIndex = 84;
+         this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // label1
          // 
@@ -536,38 +561,56 @@
          this.CPR_PRICE_RISK_RATE_ORG.FieldName = "CPR_PRICE_RISK_RATE_ORG";
          this.CPR_PRICE_RISK_RATE_ORG.Name = "CPR_PRICE_RISK_RATE_ORG";
          // 
-         // txtEndDate
+         // groupBox1
          // 
-         this.txtEndDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtEndDate.EditValue = "2018/12";
-         this.txtEndDate.EnterMoveNextControl = true;
-         this.txtEndDate.Location = new System.Drawing.Point(105, 27);
-         this.txtEndDate.MenuManager = this.ribbonControl;
-         this.txtEndDate.Name = "txtEndDate";
-         this.txtEndDate.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtEndDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtEndDate.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtEndDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-         this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
-         this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtEndDate.Size = new System.Drawing.Size(100, 26);
-         this.txtEndDate.TabIndex = 84;
-         this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         this.groupBox1.Controls.Add(this.chkModel);
+         this.groupBox1.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.groupBox1.ForeColor = System.Drawing.Color.Navy;
+         this.groupBox1.Location = new System.Drawing.Point(5, 632);
+         this.groupBox1.Name = "groupBox1";
+         this.groupBox1.Size = new System.Drawing.Size(433, 70);
+         this.groupBox1.TabIndex = 85;
+         this.groupBox1.TabStop = false;
+         this.groupBox1.Text = "3.指標種類";
+         // 
+         // chkModel
+         // 
+         this.chkModel.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.chkModel.Appearance.Options.UseBackColor = true;
+         this.chkModel.Appearance.Options.UseTextOptions = true;
+         this.chkModel.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
+         this.chkModel.AppearanceSelected.BackColor = System.Drawing.Color.White;
+         this.chkModel.AppearanceSelected.BackColor2 = System.Drawing.Color.White;
+         this.chkModel.AppearanceSelected.Options.UseBackColor = true;
+         this.chkModel.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+         this.chkModel.ColumnWidth = 130;
+         this.chkModel.HotTrackSelectMode = DevExpress.XtraEditors.HotTrackSelectMode.SelectItemOnClick;
+         this.chkModel.ItemAutoHeight = true;
+         this.chkModel.ItemPadding = new System.Windows.Forms.Padding(5);
+         this.chkModel.Items.AddRange(new DevExpress.XtraEditors.Controls.CheckedListBoxItem[] {
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkSma", "SMA"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkEwma", "EWMA"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkMax", "Max")});
+         this.chkModel.Location = new System.Drawing.Point(20, 26);
+         this.chkModel.MultiColumn = true;
+         this.chkModel.Name = "chkModel";
+         this.chkModel.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+         this.chkModel.Size = new System.Drawing.Size(390, 34);
+         this.chkModel.TabIndex = 25;
          // 
          // W48030
          // 
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(861, 650);
+         this.ClientSize = new System.Drawing.Size(870, 765);
          this.Name = "W48030";
          this.Text = "W48030";
          this.panParent.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
          this.panFirst.ResumeLayout(false);
          this.panFirst.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).EndInit();
          this.panFilter.ResumeLayout(false);
          this.panFilter.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gcDate)).EndInit();
@@ -581,7 +624,8 @@
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).EndInit();
+         this.groupBox1.ResumeLayout(false);
+         ((System.ComponentModel.ISupportInitialize)(this.chkModel)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -626,5 +670,7 @@
         private DevExpress.XtraGrid.Columns.GridColumn CPR_PRICE_RISK_RATE_ORG;
         private System.Windows.Forms.Label label1;
       private BaseGround.Widget.TextDateEdit txtEndDate;
+      private System.Windows.Forms.GroupBox groupBox1;
+      private DevExpress.XtraEditors.CheckedListBoxControl chkModel;
    }
 }

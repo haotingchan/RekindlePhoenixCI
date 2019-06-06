@@ -102,6 +102,7 @@
          this.ddlProd.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.ddlProd.Size = new System.Drawing.Size(131, 26);
          this.ddlProd.TabIndex = 81;
+         this.ddlProd.EditValueChanged += new System.EventHandler(this.ddlProd_EditValueChanged);
          // 
          // label2
          // 

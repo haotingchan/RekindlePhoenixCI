@@ -149,10 +149,10 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
          this.ddlProd.Properties.Items.AddRange(new object[] {
             "%(全部)",
-            "RHF",
-            "RTF",
-            "XEF",
-            "XJF"});
+            "TJF",
+            "I5F",
+            "UDF",
+            "SPF"});
          this.ddlProd.Properties.LookAndFeel.SkinName = "The Bezier";
          this.ddlProd.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.ddlProd.Size = new System.Drawing.Size(131, 26);
