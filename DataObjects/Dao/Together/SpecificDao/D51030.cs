@@ -38,7 +38,7 @@ namespace DataObjects.Dao.Together.SpecificDao
          return dtResult;
       }//public DbDataAdapter ListD51030
 
-      public ResultData UpdateMMF(DataTable inputData)
+      public void UpdateMMF(DataTable inputData)
       {
          /*string sql = @"
                         SELECT 
@@ -79,9 +79,13 @@ namespace DataObjects.Dao.Together.SpecificDao
          string updateColumnList = insertColumnList;
          try {
             //update to DB
+
+            //1.在更新前先刪除指定的資料
             DeleteForChanged(inputData, tableName, keysColumnList);
+            //2.DB刪除資料後變更DataTable去除Deleted標記
             inputData.AcceptChanges();
-            return SaveForAll(inputData, tableName, insertColumnList, updateColumnList, keysColumnList);
+            //3.尋找所有的更改或新增的資料儲存
+            SaveForAll(inputData, tableName, insertColumnList, updateColumnList, keysColumnList);
          }
          catch (Exception ex) {
             throw ex;

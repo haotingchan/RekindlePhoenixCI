@@ -61,13 +61,13 @@ namespace PhoenixCI.FormUI.PrefixS {
             dtTempParam.Rows.Add();
             dtTempParam.Rows[i].SetField("COD_ID", dtParamData.Rows[i]["span_margin_spn"]);
             dtTempParam.Rows[i].SetField("COD_DESC", dtParamData.Rows[i]["span_margin_spn"]);
-            dtTempParam.Rows[i].SetField("CP_DISPLAY", "(" + dtParamData.Rows[i]["span_margin_spn"] + ")" + dtParamData.Rows[i]["span_margin_spn"]);
+            dtTempParam.Rows[i].SetField("CP_DISPLAY", dtParamData.Rows[i]["span_margin_spn"]);
 
             //部位檔案
             dtTempMarginPos.Rows.Add();
             dtTempMarginPos.Rows[i].SetField("COD_ID", dtParamData.Rows[i]["span_margin_pos"]);
             dtTempMarginPos.Rows[i].SetField("COD_DESC", dtParamData.Rows[i]["span_margin_pos"]);
-            dtTempMarginPos.Rows[i].SetField("CP_DISPLAY", "(" + dtParamData.Rows[i]["span_margin_pos"] + ")" + dtParamData.Rows[i]["span_margin_pos"]);
+            dtTempMarginPos.Rows[i].SetField("CP_DISPLAY", dtParamData.Rows[i]["span_margin_pos"]);
 
             //參數檔案路徑設定
             dtTempSpnPath.Rows.Add();
@@ -80,7 +80,7 @@ namespace PhoenixCI.FormUI.PrefixS {
          dtParam.PrimaryKey = new DataColumn[] { dtParam.Columns["COD_ID"] };
          dtParam.Merge(dtTempParam, false);
          RepositoryItemLookUpEdit cbxParam = new RepositoryItemLookUpEdit();
-         cbxParam.SetColumnLookUp(dtParam, "COD_ID");
+         cbxParam.SetColumnLookUp(dtParam, "COD_ID", "COD_DESC");
          cbxParam.ProcessNewValue += new ProcessNewValueEventHandler(cbxParam_ProcessNewValue);
          gcMain.RepositoryItems.Add(cbxParam);
          SPAN_MARGIN_SPN.ColumnEdit = cbxParam;
@@ -90,7 +90,7 @@ namespace PhoenixCI.FormUI.PrefixS {
          dtMarginPos.PrimaryKey = new DataColumn[] { dtMarginPos.Columns["COD_ID"] };
          dtMarginPos.Merge(dtTempMarginPos, false);
          RepositoryItemLookUpEdit cbxMarginPos = new RepositoryItemLookUpEdit();
-         cbxMarginPos.SetColumnLookUp(dtMarginPos, "COD_ID");
+         cbxMarginPos.SetColumnLookUp(dtMarginPos, "COD_ID", "COD_DESC");
          gcMain.RepositoryItems.Add(cbxMarginPos);
          SPAN_MARGIN_POS.ColumnEdit = cbxMarginPos;
 
@@ -123,10 +123,10 @@ namespace PhoenixCI.FormUI.PrefixS {
 
             resultStatus = savePeriod();
             if (resultStatus != ResultStatus.Success) {
-               MessageDisplay.Error("儲存錯誤!");
+               //MessageDisplay.Error("儲存錯誤!");
                return ResultStatus.Fail;
             }
-            resultStatus = daoS0073.updateMarginData(dt).Status;//base.Save_Override(dt, "SPAN_MARGIN", DBName.CFO);
+            resultStatus = daoS0073.UpdateAllDB(periodTable, dt);
             if (resultStatus != ResultStatus.Success) {
                MessageDisplay.Error("儲存錯誤!");
                return ResultStatus.Fail;
@@ -190,27 +190,27 @@ namespace PhoenixCI.FormUI.PrefixS {
          return base.Run(args);
       }
 
+      /// <summary>
+      /// 組日期區間dataTable
+      /// </summary>
+      /// <returns></returns>
       private ResultStatus savePeriod() {
-         periodTable = daoS0073.GetPeriodData("MARGIN", GlobalInfo.USER_ID);
+         periodTable = daoS0073.GetPeriodData("MARGIN", "%");
 
          if (periodTable.Rows.Count == 0) {
             DataRow dr = periodTable.NewRow();
 
             dr.SetField("span_period_module", "MARGIN");
-            dr.SetField("span_period_user_id", GlobalInfo.USER_ID);
 
             periodTable.Rows.Add(dr);
          }
 
          periodTable.Rows[0].SetField("span_period_start_date", txtStartDate.DateTimeValue.ToString("yyyyMMdd"));
          periodTable.Rows[0].SetField("span_period_end_date", txtEndDate.DateTimeValue.ToString("yyyyMMdd"));
+         periodTable.Rows[0].SetField("span_period_user_id", GlobalInfo.USER_ID);
          periodTable.Rows[0].SetField("span_period_w_time", DateTime.Now);
 
-         if (checkPeriod()) {
-            return daoS0073.updatePeriodData(periodTable).Status;//base.Save_Override(periodTable, "SPAN_PERIOD", DBName.CFO);
-         } else {
-            return ResultStatus.FailButNext;
-         }
+         return checkPeriod() ? ResultStatus.Success : ResultStatus.FailButNext;
       }
 
       protected override ResultStatus AfterOpen() {

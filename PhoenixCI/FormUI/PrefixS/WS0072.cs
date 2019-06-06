@@ -54,7 +54,7 @@ namespace PhoenixCI.FormUI.PrefixS {
          ////2.設定下拉選單
          DataTable dtProdType = daoS0072.dddw_zparm_comb_prod(txtEndDate.DateTimeValue.ToString("yyyyMMdd"));
          RepositoryItemLookUpEdit cbxProdType = new RepositoryItemLookUpEdit();
-         cbxProdType.SetColumnLookUp(dtProdType, "PROD_GROUP", "PROD_GROUP", TextEditStyles.DisableTextEditor);
+         cbxProdType.SetColumnLookUp(dtProdType, "PROD_GROUP_VALUE", "PROD_GROUP", TextEditStyles.DisableTextEditor);
          gc_ZISP.RepositoryItems.Add(cbxProdType);
          SPAN_ZISP_PROD_ID.ColumnEdit = cbxProdType;
 
@@ -167,7 +167,7 @@ namespace PhoenixCI.FormUI.PrefixS {
 
             DataTable dtZISP = (DataTable)gv.GridControl.DataSource;
 
-            resultStatus = daoS0072.udpateZIPData(dtZISP).Status;//base.Save_Override(dtZISP, "SPAN_ZISP", DBName.CFO);
+            resultStatus = daoS0072.udpateZIPData(dtZISP).Status;
          }
 
          return resultStatus;
