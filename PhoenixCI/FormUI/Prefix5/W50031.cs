@@ -499,10 +499,11 @@ namespace PhoenixCI.FormUI.Prefix5
          emStartDate.EditValue = new DateTime(2018, 06, 01);
 #endif
          /* 造市者代號 */
+         DataTable FcmAccNo = new AMPD().ListByFcmAccNo();
          //起始選項
-         dwSbrkno.SetDataTable(daoABRK.ListAll2(), "ABRK_NO", "CP_DISPLAY", TextEditStyles.Standard, null);
+         dwSbrkno.SetDataTable(FcmAccNo, "AMPD_FCM_NO", "CP_DISPLAY", TextEditStyles.Standard, null);
          //目的選項
-         dwEbrkno.SetDataTable(daoABRK.ListAll2(), "ABRK_NO", "CP_DISPLAY", TextEditStyles.Standard, null);
+         dwEbrkno.SetDataTable(FcmAccNo, "AMPD_FCM_NO", "CP_DISPLAY", TextEditStyles.Standard, null);
 
          string marketcodefilter = "MARKET_CODE in ('1',' ')";
          /* 商品群組 */
