@@ -39,8 +39,6 @@ namespace PhoenixCI.FormUI.PrefixS {
          daoS0070 = new DS0070();
          daoCod = new COD();
 
-         repositoryItemTextEdit3.Leave += repositoryItemTextEdit3_Leave;
-
          Retrieve();
       }
 
@@ -130,7 +128,7 @@ namespace PhoenixCI.FormUI.PrefixS {
          #endregion
 
          #region Set REQ Value
-         DataTable dtREQ = daoS0070.GetREQDataByUser("ST", GlobalInfo.USER_ID);
+         DataTable dtREQ = daoS0070.GetREQDataByUser("ST", "%");
          if (dtREQ.Rows.Count > 0) {
             SPAN_REQ_TYPE.EditValue = dtREQ.Rows[0]["SPAN_REQ_TYPE"].AsString();
             txtREQValue.Text = dtREQ.Rows[0]["SPAN_REQ_VALUE"].AsString();
@@ -141,7 +139,7 @@ namespace PhoenixCI.FormUI.PrefixS {
 
          #region Retrieve grid
          DataTable exAccountTable = daoS0070.GetExAccountData("ST");
-         DataTable presTestTable = daoS0070.GetParamData("ST", GlobalInfo.USER_ID);
+         DataTable presTestTable = daoS0070.GetParamData("ST", "%");
          if (exAccountTable.Rows.Count == 0) {
             MessageBox.Show("移除帳號無任何資料", "訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);
          }
@@ -169,11 +167,11 @@ namespace PhoenixCI.FormUI.PrefixS {
             }
 
             DataTable dtExAccount = (DataTable)gcExAccount.DataSource;
-            GenWTime(dtExAccount, "SPAN_ACCT_W_TIME");
-            if (!checkComplete(dtExAccount, LabEXAccount.Text.Replace(":", ""))) return ResultStatus.FailButNext;
+            GenWTime(dtExAccount, "SPAN_ACCT_W_TIME","SPAN_ACCT_USER_ID");
+            if(!checkExAccount()) return ResultStatus.FailButNext;
             DataTable dtPresTest = (DataTable)gcPresTest.DataSource;
-            GenWTime(dtPresTest, "SPAN_PARAM_W_TIME");
-            if (!checkComplete(dtPresTest, LabPressTest.Text.Replace(":", ""))) return ResultStatus.FailButNext;
+            GenWTime(dtPresTest, "SPAN_PARAM_W_TIME", "SPAN_PARAM_USER_ID");
+            if (!checkPresTest()) return ResultStatus.FailButNext;
 
             //更新四部份資料
             DataTable dtPeriod = overWritePeriod();
@@ -225,18 +223,18 @@ namespace PhoenixCI.FormUI.PrefixS {
       }
 
       private DataTable overWriteREQ() {
-         REQTable = daoS0070.GetREQDataByUser("ST", GlobalInfo.USER_ID);
+         REQTable = daoS0070.GetREQDataByUser("ST", "%");
 
          if (periodTable.Rows.Count == 0) {
             DataRow dr = REQTable.NewRow();
 
             dr.SetField("SPAN_REQ_MODULE", "ST");
-            dr.SetField("SPAN_REQ_USER_ID", GlobalInfo.USER_ID);
 
             periodTable.Rows.Add(dr);
          }
 
          REQTable.Rows[0].SetField("SPAN_REQ_MODULE", "ST");
+         REQTable.Rows[0].SetField("SPAN_REQ_USER_ID", GlobalInfo.USER_ID);
          REQTable.Rows[0].SetField("SPAN_REQ_TYPE", SPAN_REQ_TYPE.EditValue);
          REQTable.Rows[0].SetField("SPAN_REQ_VALUE", txtREQValue.Text);
          REQTable.Rows[0].SetField("SPAN_REQ_W_TIME", DateTime.Now);
@@ -383,15 +381,6 @@ namespace PhoenixCI.FormUI.PrefixS {
          CheckREQValue();
       }
 
-      private void repositoryItemTextEdit3_Leave(object sender, EventArgs e) {
-         TextEdit editor = sender as TextEdit;
-         string check = editor.Text.SubStr(4, 3);
-         if (check == "999") {
-            MessageDisplay.Info("期貨商代號欄位必須為7碼，末3碼不為999");
-            editor.Select();
-         }
-      }
-
       private bool CheckPeriod() {
          bool check = true;
 
@@ -453,11 +442,12 @@ namespace PhoenixCI.FormUI.PrefixS {
          return true;
       }
 
-      private void GenWTime(DataTable dtSource, string colName) {
+      private void GenWTime(DataTable dtSource, string wTimeColName,string WUserId) {
 
          foreach (DataRow r in dtSource.Rows) {
             if (r.RowState != DataRowState.Deleted) {
-               r.SetField(colName, DateTime.Now);
+               r.SetField(WUserId, GlobalInfo.USER_ID);
+               r.SetField(wTimeColName, DateTime.Now);
             }
          }
       }

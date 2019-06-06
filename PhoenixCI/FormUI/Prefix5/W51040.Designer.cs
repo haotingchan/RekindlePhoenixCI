@@ -49,18 +49,18 @@
             // panParent
             // 
             this.panParent.Controls.Add(this.gcMain);
-            this.panParent.Location = new System.Drawing.Point(0, 115);
-            this.panParent.Size = new System.Drawing.Size(801, 395);
+            this.panParent.Location = new System.Drawing.Point(0, 102);
+            this.panParent.Size = new System.Drawing.Size(801, 408);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(801, 43);
+            this.ribbonControl.Size = new System.Drawing.Size(801, 30);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // MMWK_PROD_TYPE
             // 
-            this.MMWK_PROD_TYPE.AppearanceHeader.BackColor = System.Drawing.Color.Yellow;
+            this.MMWK_PROD_TYPE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.MMWK_PROD_TYPE.AppearanceHeader.Options.UseBackColor = true;
             this.MMWK_PROD_TYPE.Caption = "商品別";
             this.MMWK_PROD_TYPE.FieldName = "MMWK_PROD_TYPE";
@@ -70,10 +70,14 @@
             // 
             // panelControl1
             // 
+            this.panelControl1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+            this.panelControl1.Appearance.Options.UseBackColor = true;
             this.panelControl1.Controls.Add(this.txtMonth);
             this.panelControl1.Controls.Add(this.lblDate);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelControl1.Location = new System.Drawing.Point(0, 43);
+            this.panelControl1.Location = new System.Drawing.Point(0, 30);
+            this.panelControl1.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
+            this.panelControl1.LookAndFeel.UseDefaultLookAndFeel = false;
             this.panelControl1.Name = "panelControl1";
             this.panelControl1.Size = new System.Drawing.Size(801, 72);
             this.panelControl1.TabIndex = 0;
@@ -94,7 +98,7 @@
             this.txtMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
             this.txtMonth.Properties.Mask.ShowPlaceHolders = false;
             this.txtMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtMonth.Size = new System.Drawing.Size(100, 38);
+            this.txtMonth.Size = new System.Drawing.Size(100, 28);
             this.txtMonth.TabIndex = 8;
             this.txtMonth.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -103,26 +107,26 @@
             this.lblDate.AutoSize = true;
             this.lblDate.Location = new System.Drawing.Point(25, 24);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(85, 30);
+            this.lblDate.Size = new System.Drawing.Size(57, 20);
             this.lblDate.TabIndex = 7;
             this.lblDate.Text = "月份：";
             // 
             // panelControl2
             // 
             this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelControl2.Location = new System.Drawing.Point(0, 115);
+            this.panelControl2.Location = new System.Drawing.Point(0, 102);
             this.panelControl2.Name = "panelControl2";
-            this.panelControl2.Size = new System.Drawing.Size(801, 395);
+            this.panelControl2.Size = new System.Drawing.Size(801, 408);
             this.panelControl2.TabIndex = 1;
             // 
             // gcMain
             // 
             this.gcMain.Dock = System.Windows.Forms.DockStyle.Left;
-            this.gcMain.Location = new System.Drawing.Point(18, 18);
+            this.gcMain.Location = new System.Drawing.Point(12, 12);
             this.gcMain.MainView = this.gvMain;
             this.gcMain.MenuManager = this.ribbonControl;
             this.gcMain.Name = "gcMain";
-            this.gcMain.Size = new System.Drawing.Size(777, 359);
+            this.gcMain.Size = new System.Drawing.Size(777, 384);
             this.gcMain.TabIndex = 0;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -150,7 +154,7 @@
             // 
             // MMWK_YM
             // 
-            this.MMWK_YM.AppearanceHeader.BackColor = System.Drawing.Color.Yellow;
+            this.MMWK_YM.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.MMWK_YM.AppearanceHeader.Options.UseBackColor = true;
             this.MMWK_YM.Caption = "年月";
             this.MMWK_YM.FieldName = "MMWK_YM";
@@ -161,7 +165,7 @@
             // 
             // MMWK_KIND_ID
             // 
-            this.MMWK_KIND_ID.AppearanceHeader.BackColor = System.Drawing.Color.Yellow;
+            this.MMWK_KIND_ID.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.MMWK_KIND_ID.AppearanceHeader.Options.UseBackColor = true;
             this.MMWK_KIND_ID.Caption = "契約";
             this.MMWK_KIND_ID.FieldName = "MMWK_KIND_ID";
@@ -171,7 +175,7 @@
             // 
             // MMWK_WEIGHT
             // 
-            this.MMWK_WEIGHT.AppearanceHeader.BackColor = System.Drawing.Color.Aqua;
+            this.MMWK_WEIGHT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.MMWK_WEIGHT.AppearanceHeader.Options.UseBackColor = true;
             this.MMWK_WEIGHT.Caption = "權重";
             this.MMWK_WEIGHT.FieldName = "MMWK_WEIGHT";
@@ -201,7 +205,7 @@
             // W51040
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(801, 510);
             this.Controls.Add(this.panelControl2);

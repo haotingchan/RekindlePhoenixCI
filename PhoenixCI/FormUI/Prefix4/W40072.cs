@@ -629,7 +629,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 case "PUB_YMD":
                 case "YMD":
                 case "ADJ_RATE":
-                    e.Appearance.BackColor = Color.FromArgb(192, 192, 192);
+                    e.Appearance.BackColor = Color.FromArgb(224, 224, 224);
                     break;
                 case "CM_CUR_A":
                 case "CM_CUR_B":

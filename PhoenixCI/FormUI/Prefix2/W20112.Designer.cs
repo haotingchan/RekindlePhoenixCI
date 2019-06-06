@@ -41,7 +41,6 @@
             this.panelControl = new DevExpress.XtraEditors.PanelControl();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
-            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.txtYear = new BaseGround.Widget.TextDateEdit();
             this.gcMain = new DevExpress.XtraGrid.GridControl();
@@ -55,6 +54,7 @@
             this.TYPE_NAME = new DevExpress.XtraGrid.Columns.GridColumn();
             this.btnSearch = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
+            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -67,11 +67,11 @@
             this.panelControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
             this.panelControl2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtYear.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // panParent
@@ -80,12 +80,12 @@
             this.panParent.Controls.Add(this.panelControl1);
             this.panParent.Controls.Add(this.panelControl);
             this.panParent.Controls.Add(this.lblProcess);
-            this.panParent.Size = new System.Drawing.Size(1065, 818);
+            this.panParent.Size = new System.Drawing.Size(1065, 831);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(1065, 43);
+            this.ribbonControl.Size = new System.Drawing.Size(1065, 30);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // groupBox1
@@ -111,7 +111,7 @@
             this.lblRange1.AutoSize = true;
             this.lblRange1.Location = new System.Drawing.Point(85, 61);
             this.lblRange1.Name = "lblRange1";
-            this.lblRange1.Size = new System.Drawing.Size(92, 31);
+            this.lblRange1.Size = new System.Drawing.Size(62, 21);
             this.lblRange1.TabIndex = 5;
             this.lblRange1.Text = "             ";
             // 
@@ -120,7 +120,7 @@
             this.shl1.AutoSize = true;
             this.shl1.Location = new System.Drawing.Point(713, 30);
             this.shl1.Name = "shl1";
-            this.shl1.Size = new System.Drawing.Size(134, 31);
+            this.shl1.Size = new System.Drawing.Size(90, 21);
             this.shl1.TabIndex = 4;
             this.shl1.TabStop = true;
             this.shl1.Text = "櫃買成交值";
@@ -143,7 +143,7 @@
             this.txtPath1.Name = "txtPath1";
             this.txtPath1.Properties.Appearance.BackColor = System.Drawing.Color.White;
             this.txtPath1.Properties.Appearance.Options.UseBackColor = true;
-            this.txtPath1.Size = new System.Drawing.Size(600, 38);
+            this.txtPath1.Size = new System.Drawing.Size(600, 26);
             this.txtPath1.TabIndex = 2;
             // 
             // label2
@@ -153,7 +153,7 @@
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label2.Location = new System.Drawing.Point(6, 61);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(134, 31);
+            this.label2.Size = new System.Drawing.Size(90, 21);
             this.label2.TabIndex = 1;
             this.label2.Text = "資料區間：";
             // 
@@ -164,7 +164,7 @@
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label1.Location = new System.Drawing.Point(7, 28);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(86, 31);
+            this.label1.Size = new System.Drawing.Size(58, 21);
             this.label1.TabIndex = 0;
             this.label1.Text = "路徑：";
             // 
@@ -191,7 +191,7 @@
             this.lblRange2.AutoSize = true;
             this.lblRange2.Location = new System.Drawing.Point(85, 63);
             this.lblRange2.Name = "lblRange2";
-            this.lblRange2.Size = new System.Drawing.Size(92, 31);
+            this.lblRange2.Size = new System.Drawing.Size(62, 21);
             this.lblRange2.TabIndex = 10;
             this.lblRange2.Text = "             ";
             // 
@@ -200,7 +200,7 @@
             this.shl2.AutoSize = true;
             this.shl2.Location = new System.Drawing.Point(713, 32);
             this.shl2.Name = "shl2";
-            this.shl2.Size = new System.Drawing.Size(158, 31);
+            this.shl2.Size = new System.Drawing.Size(106, 21);
             this.shl2.TabIndex = 9;
             this.shl2.TabStop = true;
             this.shl2.Text = "證交所成交值";
@@ -221,7 +221,7 @@
             this.txtPath2.Location = new System.Drawing.Point(71, 29);
             this.txtPath2.MenuManager = this.ribbonControl;
             this.txtPath2.Name = "txtPath2";
-            this.txtPath2.Size = new System.Drawing.Size(600, 38);
+            this.txtPath2.Size = new System.Drawing.Size(600, 26);
             this.txtPath2.TabIndex = 7;
             // 
             // label3
@@ -231,7 +231,7 @@
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label3.Location = new System.Drawing.Point(6, 63);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(134, 31);
+            this.label3.Size = new System.Drawing.Size(90, 21);
             this.label3.TabIndex = 6;
             this.label3.Text = "資料區間：";
             // 
@@ -242,7 +242,7 @@
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label4.Location = new System.Drawing.Point(7, 30);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(86, 31);
+            this.label4.Size = new System.Drawing.Size(58, 21);
             this.label4.TabIndex = 5;
             this.label4.Text = "路徑：";
             // 
@@ -252,7 +252,7 @@
             this.lblProcess.ForeColor = System.Drawing.Color.Blue;
             this.lblProcess.Location = new System.Drawing.Point(25, 168);
             this.lblProcess.Name = "lblProcess";
-            this.lblProcess.Size = new System.Drawing.Size(253, 30);
+            this.lblProcess.Size = new System.Drawing.Size(169, 20);
             this.lblProcess.TabIndex = 3;
             this.lblProcess.Text = "訊息：資料轉入中........";
             this.lblProcess.Visible = false;
@@ -266,7 +266,7 @@
             this.panelControl.Location = new System.Drawing.Point(30, 30);
             this.panelControl.Margin = new System.Windows.Forms.Padding(15);
             this.panelControl.Name = "panelControl";
-            this.panelControl.Size = new System.Drawing.Size(993, 132);
+            this.panelControl.Size = new System.Drawing.Size(993, 123);
             this.panelControl.TabIndex = 19;
             // 
             // panelControl1
@@ -278,7 +278,7 @@
             this.panelControl1.Location = new System.Drawing.Point(30, 200);
             this.panelControl1.Margin = new System.Windows.Forms.Padding(15);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(993, 132);
+            this.panelControl1.Size = new System.Drawing.Size(993, 123);
             this.panelControl1.TabIndex = 20;
             // 
             // panelControl2
@@ -287,15 +287,11 @@
             this.panelControl2.Appearance.Options.UseBackColor = true;
             this.panelControl2.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.panelControl2.Controls.Add(this.groupBox3);
-            this.panelControl2.Location = new System.Drawing.Point(30, 362);
+            this.panelControl2.Location = new System.Drawing.Point(30, 353);
             this.panelControl2.Margin = new System.Windows.Forms.Padding(15);
             this.panelControl2.Name = "panelControl2";
             this.panelControl2.Size = new System.Drawing.Size(993, 442);
             this.panelControl2.TabIndex = 21;
-            // 
-            // gridView1
-            // 
-            this.gridView1.Name = "gridView1";
             // 
             // groupBox3
             // 
@@ -306,7 +302,7 @@
             this.groupBox3.Controls.Add(this.label5);
             this.groupBox3.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.groupBox3.ForeColor = System.Drawing.Color.Navy;
-            this.groupBox3.Location = new System.Drawing.Point(15, 15);
+            this.groupBox3.Location = new System.Drawing.Point(15, 14);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(964, 409);
             this.groupBox3.TabIndex = 3;
@@ -330,7 +326,7 @@
             this.txtYear.Properties.Mask.ShowPlaceHolders = false;
             this.txtYear.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtYear.Properties.MaxLength = 4;
-            this.txtYear.Size = new System.Drawing.Size(69, 38);
+            this.txtYear.Size = new System.Drawing.Size(69, 26);
             this.txtYear.TabIndex = 13;
             this.txtYear.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
             // 
@@ -484,14 +480,18 @@
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label5.Location = new System.Drawing.Point(7, 28);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(86, 31);
+            this.label5.Size = new System.Drawing.Size(58, 21);
             this.label5.TabIndex = 9;
             this.label5.Text = "年度：";
+            // 
+            // gridView1
+            // 
+            this.gridView1.Name = "gridView1";
             // 
             // W20112
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1065, 861);
             this.Name = "W20112";
@@ -511,12 +511,12 @@
             this.panelControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
             this.panelControl2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtYear.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

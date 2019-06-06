@@ -23,6 +23,8 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            this.panelControl = new DevExpress.XtraEditors.PanelControl();
+            this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.lblProcessing = new System.Windows.Forms.Label();
             this.grpxDescription = new System.Windows.Forms.GroupBox();
             this.dwOswGrp = new DevExpress.XtraEditors.LookUpEdit();
@@ -31,6 +33,9 @@
             this.lblDate = new System.Windows.Forms.Label();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
+            this.panelControl1.SuspendLayout();
             this.grpxDescription.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dwOswGrp.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).BeginInit();
@@ -38,8 +43,7 @@
             // 
             // panParent
             // 
-            this.panParent.Controls.Add(this.lblProcessing);
-            this.panParent.Controls.Add(this.grpxDescription);
+            this.panParent.Controls.Add(this.panelControl1);
             this.panParent.Size = new System.Drawing.Size(925, 604);
             // 
             // ribbonControl
@@ -48,14 +52,38 @@
             this.ribbonControl.Size = new System.Drawing.Size(925, 30);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
+            // panelControl
+            // 
+            this.panelControl.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+            this.panelControl.Appearance.Options.UseBackColor = true;
+            this.panelControl.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.panelControl.Location = new System.Drawing.Point(241, 232);
+            this.panelControl.Margin = new System.Windows.Forms.Padding(15);
+            this.panelControl.Name = "panelControl";
+            this.panelControl.Size = new System.Drawing.Size(452, 233);
+            this.panelControl.TabIndex = 20;
+            // 
+            // panelControl1
+            // 
+            this.panelControl1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+            this.panelControl1.Appearance.Options.UseBackColor = true;
+            this.panelControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.panelControl1.Controls.Add(this.lblProcessing);
+            this.panelControl1.Controls.Add(this.grpxDescription);
+            this.panelControl1.Location = new System.Drawing.Point(30, 30);
+            this.panelControl1.Margin = new System.Windows.Forms.Padding(15);
+            this.panelControl1.Name = "panelControl1";
+            this.panelControl1.Size = new System.Drawing.Size(423, 230);
+            this.panelControl1.TabIndex = 20;
+            // 
             // lblProcessing
             // 
             this.lblProcessing.AutoSize = true;
             this.lblProcessing.ForeColor = System.Drawing.Color.Blue;
-            this.lblProcessing.Location = new System.Drawing.Point(48, 241);
+            this.lblProcessing.Location = new System.Drawing.Point(11, 205);
             this.lblProcessing.Name = "lblProcessing";
             this.lblProcessing.Size = new System.Drawing.Size(85, 20);
-            this.lblProcessing.TabIndex = 16;
+            this.lblProcessing.TabIndex = 18;
             this.lblProcessing.Text = "開始轉檔...";
             this.lblProcessing.Visible = false;
             // 
@@ -69,10 +97,10 @@
             this.grpxDescription.Controls.Add(this.lblDate);
             this.grpxDescription.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.grpxDescription.ForeColor = System.Drawing.Color.Navy;
-            this.grpxDescription.Location = new System.Drawing.Point(52, 51);
+            this.grpxDescription.Location = new System.Drawing.Point(15, 15);
             this.grpxDescription.Name = "grpxDescription";
             this.grpxDescription.Size = new System.Drawing.Size(392, 187);
-            this.grpxDescription.TabIndex = 15;
+            this.grpxDescription.TabIndex = 17;
             this.grpxDescription.TabStop = false;
             this.grpxDescription.Text = "請輸入交易日期";
             // 
@@ -107,8 +135,10 @@
             this.txtSDate.Name = "txtSDate";
             this.txtSDate.Properties.Appearance.Options.UseTextOptions = true;
             this.txtSDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtSDate.Properties.EditFormat.FormatString = "yyyyMMdd";
             this.txtSDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
             this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtSDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtSDate.Size = new System.Drawing.Size(100, 26);
             this.txtSDate.TabIndex = 7;
@@ -130,11 +160,18 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(925, 634);
+            this.Controls.Add(this.panelControl);
             this.Name = "W43010";
             this.Text = "W43010";
+            this.Controls.SetChildIndex(this.ribbonControl, 0);
+            this.Controls.SetChildIndex(this.panelControl, 0);
+            this.Controls.SetChildIndex(this.panParent, 0);
             this.panParent.ResumeLayout(false);
-            this.panParent.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
+            this.panelControl1.ResumeLayout(false);
+            this.panelControl1.PerformLayout();
             this.grpxDescription.ResumeLayout(false);
             this.grpxDescription.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dwOswGrp.Properties)).EndInit();
@@ -145,7 +182,8 @@
         }
 
         #endregion
-
+        private DevExpress.XtraEditors.PanelControl panelControl;
+        private DevExpress.XtraEditors.PanelControl panelControl1;
         private System.Windows.Forms.Label lblProcessing;
         private System.Windows.Forms.GroupBox grpxDescription;
         private DevExpress.XtraEditors.LookUpEdit dwOswGrp;

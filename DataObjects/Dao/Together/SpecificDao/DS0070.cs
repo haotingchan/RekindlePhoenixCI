@@ -146,8 +146,7 @@ order by comb_prod desc
                 ":userId",userId
             };
 
-         string sql = @" 
-                                SELECT 
+         string sql = @" SELECT 
                                     trim(SPAN_PARAM_MODULE) as SPAN_PARAM_MODULE,     
                                     trim(SPAN_PARAM_CLASS) as SPAN_PARAM_CLASS,     
                                     trim(SPAN_PARAM_CC) AS SPAN_PARAM_CC,     
@@ -161,7 +160,7 @@ order by comb_prod desc
                                     '0' AS IS_NEWROW
                                     FROM CFO.SPAN_PARAM
                                     WHERE SPAN_PARAM_MODULE=:module
-                                    AND SPAN_PARAM_USER_ID=:userId";
+                                    AND SPAN_PARAM_USER_ID like :userId";
 
          DataTable result = db.GetDataTable(sql, parms);
          return result;
@@ -173,8 +172,7 @@ order by comb_prod desc
                 ":userId",userId
             };
 
-         string sql = @"
-                                SELECT 
+         string sql = @"SELECT 
                                     CFO.SPAN_REQ.SPAN_REQ_MODULE,   
                                     CFO.SPAN_REQ.SPAN_REQ_TYPE,   
                                     CFO.SPAN_REQ.SPAN_REQ_VALUE,   
@@ -182,7 +180,7 @@ order by comb_prod desc
                                     CFO.SPAN_REQ.SPAN_REQ_W_TIME 
                                     FROM CFO.SPAN_REQ   
 	                                WHERE SPAN_REQ_MODULE = :module
-	                                AND SPAN_REQ_USER_ID =:userId";
+	                                AND SPAN_REQ_USER_ID like :userId";
 
          DataTable result = db.GetDataTable(sql, parms);
          return result;

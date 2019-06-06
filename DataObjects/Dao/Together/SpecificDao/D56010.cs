@@ -144,22 +144,42 @@ SELECT FEETDCC_KIND_ID,
 
         public DataTable dw_prod_cond() {
 
-            string sql = @"
-select a.PARAM_PROD_TYPE,
-a.PARAM_KEY,
-a.PARAM_KEY as cp_display
-from (
-SELECT PARAM_PROD_TYPE,PARAM_KEY 
-FROM CI.APDK_PARAM  
+            //            string sql = @"
+            //select a.PARAM_PROD_TYPE,
+            //a.PARAM_KEY,
+            //a.PARAM_KEY as cp_display
+            //from (
+            //SELECT PARAM_PROD_TYPE,PARAM_KEY 
+            //FROM CI.APDK_PARAM  
 
+            //    UNION
+            //        SELECT ' ','全部' FROM DUAL
+            //    UNION
+            //        SELECT ' ','期貨' FROM DUAL
+            //    UNION
+            //        SELECT ' ','選擇權' FROM DUAL
+            //) a
+            //order by param_prod_type , PARAM_KEY";
+
+            string sql = @"
+select a.APDK_PROD_TYPE,
+       a.PARAM_KEY,
+       a.PARAM_KEY as cp_display
+from (SELECT APDK_PROD_TYPE,
+       APDK_PARAM_KEY as PARAM_KEY,
+       MAX(APDK_MARKET_CODE) MARKET_CODE  
+    FROM ci.APDK  
+ where APDK_QUOTE_CODE = 'Y'
+   and APDK_PROD_TYPE in ('F','O')
+group by APDK_PROD_TYPE,APDK_PARAM_KEY  
     UNION
-        SELECT ' ','全部' FROM DUAL
+        SELECT ' ','全部','' FROM DUAL
     UNION
-        SELECT ' ','期貨' FROM DUAL
+        SELECT ' ','期貨','' FROM DUAL
     UNION
-        SELECT ' ','選擇權' FROM DUAL
-) a
-order by param_prod_type , PARAM_KEY";
+        SELECT ' ','選擇權','' FROM DUAL) a
+order by APDK_PROD_TYPE , PARAM_KEY
+";
 
             DataTable dtResult = db.GetDataTable(sql, null);
 

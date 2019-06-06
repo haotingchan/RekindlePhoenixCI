@@ -123,10 +123,12 @@ namespace PhoenixCI.FormUI.PrefixS {
 
             resultStatus = savePeriod();
             if (resultStatus != ResultStatus.Success) {
-               MessageDisplay.Error("儲存錯誤!");
+               //MessageDisplay.Error("儲存錯誤!");
                return ResultStatus.Fail;
             }
-            resultStatus = daoS0073.updateMarginData(dt).Status;//base.Save_Override(dt, "SPAN_MARGIN", DBName.CFO);
+
+            dt.Rows[0].SetField("SPAN_MARGIN_USER_ID", GlobalInfo.USER_ID);
+            resultStatus = daoS0073.UpdateAllDB(periodTable, dt);
             if (resultStatus != ResultStatus.Success) {
                MessageDisplay.Error("儲存錯誤!");
                return ResultStatus.Fail;
@@ -190,6 +192,10 @@ namespace PhoenixCI.FormUI.PrefixS {
          return base.Run(args);
       }
 
+      /// <summary>
+      /// 組日期區間dataTable
+      /// </summary>
+      /// <returns></returns>
       private ResultStatus savePeriod() {
          periodTable = daoS0073.GetPeriodData("MARGIN", "%");
 
@@ -199,18 +205,14 @@ namespace PhoenixCI.FormUI.PrefixS {
             dr.SetField("span_period_module", "MARGIN");
 
             periodTable.Rows.Add(dr);
-         }          
+         }
 
          periodTable.Rows[0].SetField("span_period_start_date", txtStartDate.DateTimeValue.ToString("yyyyMMdd"));
          periodTable.Rows[0].SetField("span_period_end_date", txtEndDate.DateTimeValue.ToString("yyyyMMdd"));
          periodTable.Rows[0].SetField("span_period_user_id", GlobalInfo.USER_ID);
          periodTable.Rows[0].SetField("span_period_w_time", DateTime.Now);
 
-         if (checkPeriod()) {
-            return daoS0073.updatePeriodData(periodTable).Status;//base.Save_Override(periodTable, "SPAN_PERIOD", DBName.CFO);
-         } else {
-            return ResultStatus.FailButNext;
-         }
+         return checkPeriod() ? ResultStatus.Success : ResultStatus.FailButNext;
       }
 
       protected override ResultStatus AfterOpen() {

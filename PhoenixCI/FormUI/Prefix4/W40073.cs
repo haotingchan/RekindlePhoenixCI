@@ -611,7 +611,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 case "IM_CUR_B":
                 case "YMD":
                 case "ADJ_RSN":
-                    e.Appearance.BackColor = Color.FromArgb(192, 192, 192);
+                    e.Appearance.BackColor = Color.FromArgb(224, 224, 224);
                     e.Column.OptionsColumn.AllowEdit = false;
                     break;
                 case "CM_A":

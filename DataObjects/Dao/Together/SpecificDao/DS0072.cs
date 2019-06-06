@@ -4,26 +4,26 @@ using System;
 using System.Data;
 
 namespace DataObjects.Dao.Together.SpecificDao {
-    public class DS0072 {
-        private Db db;
+   public class DS0072 {
+      private Db db;
 
-        public DS0072() {
-            db = GlobalDaoSetting.DB;
-        }
+      public DS0072() {
+         db = GlobalDaoSetting.DB;
+      }
 
-        /// <summary>
-        /// Get SPAN_PERIOD data, return SPAN_PERIOD_MODULE/SPAN_PERIOD_START_DATE/SPAN_PERIOD_END_DATE/SPAN_PERIOD_USER_ID/SPAN_PERIOD_W_TIME/OP_TYPE
-        /// </summary>
-        /// <param name="module">SPAN_PERIOD_MODULE</param>
-        /// <param name="userId">SPAN_PERIOD_USER_ID</param>
-        /// <returns></returns>
-        public DataTable d_s0070_1(string module, string userId) {
-            object[] parms = {
+      /// <summary>
+      /// Get SPAN_PERIOD data, return SPAN_PERIOD_MODULE/SPAN_PERIOD_START_DATE/SPAN_PERIOD_END_DATE/SPAN_PERIOD_USER_ID/SPAN_PERIOD_W_TIME/OP_TYPE
+      /// </summary>
+      /// <param name="module">SPAN_PERIOD_MODULE</param>
+      /// <param name="userId">SPAN_PERIOD_USER_ID</param>
+      /// <returns></returns>
+      public DataTable d_s0070_1(string module, string userId) {
+         object[] parms = {
                 ":module",module,
                 ":userId",userId
             };
 
-            string sql = @"
+         string sql = @"
 SELECT SPAN_PERIOD_MODULE,
 	SPAN_PERIOD_START_DATE,
 	SPAN_PERIOD_END_DATE,
@@ -34,22 +34,22 @@ FROM CFO.SPAN_PERIOD
 WHERE TRIM(SPAN_PERIOD_MODULE) = :module
 AND TRIM(SPAN_PERIOD_USER_ID) like :userId
 ";
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql, parms);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        /// <summary>
-        /// CFO.SPAN_ZISP return 10 fields
-        /// </summary>
-        /// <param name="user_id"></param>
-        /// <returns></returns>
-        public DataTable zisp(string user_id,string tableName) {
-            object[] parms = {
+      /// <summary>
+      /// CFO.SPAN_ZISP return 10 fields
+      /// </summary>
+      /// <param name="user_id"></param>
+      /// <returns></returns>
+      public DataTable zisp(string user_id, string tableName) {
+         object[] parms = {
                 ":user_id",user_id
             };
 
-            string sql = string.Format(@"
+         string sql = string.Format(@"
 SELECT trim(SPAN_ZISP_PROD_ID) as SPAN_ZISP_PROD_ID,
     trim(SPAN_ZISP_COM_PROD1) as SPAN_ZISP_COM_PROD1,
     trim(SPAN_ZISP_COM_PROD2) as SPAN_ZISP_COM_PROD2,
@@ -63,24 +63,24 @@ SELECT trim(SPAN_ZISP_PROD_ID) as SPAN_ZISP_PROD_ID,
 FROM {0}
 WHERE SPAN_ZISP_USER_ID like :user_id
 ", tableName);
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql, parms);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        /// <summary>
-        /// CI.HZISP return 10 fields
-        /// </summary>
-        /// <param name="as_fm_ymd"></param>
-        /// <param name="as_to_ymd"></param>
-        /// <returns></returns>
-        public DataTable hzisp(string as_fm_ymd, string as_to_ymd) {
-            object[] parms = {
+      /// <summary>
+      /// CI.HZISP return 10 fields
+      /// </summary>
+      /// <param name="as_fm_ymd"></param>
+      /// <param name="as_to_ymd"></param>
+      /// <returns></returns>
+      public DataTable hzisp(string as_fm_ymd, string as_to_ymd) {
+         object[] parms = {
                 ":as_fm_ymd",as_fm_ymd,
                 ":as_to_ymd",as_to_ymd
             };
 
-            string sql = @"
+         string sql = @"
 SELECT  trim(ZISP_PROD_ID) as SPAN_ZISP_PROD_ID,
 			  ZISP_PRIORITY as SPAN_ZISP_PRIORITY,
 			  trim(ZISP_COM_PROD1) as SPAN_ZISP_COM_PROD1,
@@ -97,24 +97,24 @@ SELECT  trim(ZISP_PROD_ID) as SPAN_ZISP_PROD_ID,
 									 WHERE ZISP_DATE >= TO_DATE('20181101','YYYYMMDD')
 									 AND ZISP_DATE <= TO_DATE('20181111','YYYYMMDD'))
 ";
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql, parms);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        /// <summary>
-        /// List Content by module/userId return 7 fields
-        /// </summary>
-        /// <param name="module">INTERMONTH / PSR / SOM / VSR </param>
-        /// <param name="user_id"></param>
-        /// <returns></returns>
-        public DataTable ListSpanContentByModule(string module, string user_id) {
-            object[] parms = {
+      /// <summary>
+      /// List Content by module/userId return 7 fields
+      /// </summary>
+      /// <param name="module">INTERMONTH / PSR / SOM / VSR </param>
+      /// <param name="user_id"></param>
+      /// <returns></returns>
+      public DataTable ListSpanContentByModule(string module, string user_id) {
+         object[] parms = {
                 ":module",module,
                 ":user_id",user_id
             };
 
-            string sql = @"
+         string sql = @"
 SELECT SPAN_CONTENT_MODULE,
 	SPAN_CONTENT_CLASS,
 	SPAN_CONTENT_CC,
@@ -127,22 +127,22 @@ FROM CFO.SPAN_CONTENT
 WHERE SPAN_CONTENT_MODULE = upper(:module)
 AND SPAN_CONTENT_USER_ID = :user_id
 ";
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql, parms);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        /// <summary>
-        /// 類別 return prod_group
-        /// </summary>
-        /// <param name="as_ymd">yyyyMMdd</param>
-        /// <returns></returns>
-        public DataTable dddw_zparm_comb_prod(string as_ymd) {
-            object[] parms = {
+      /// <summary>
+      /// 類別 return prod_group
+      /// </summary>
+      /// <param name="as_ymd">yyyyMMdd</param>
+      /// <returns></returns>
+      public DataTable dddw_zparm_comb_prod(string as_ymd) {
+         object[] parms = {
                 ":as_ymd",as_ymd
             };
 
-            string sql = @"
+         string sql = @"
 select prod_group, prod_group_value from (
     select '2' as sort, trim(ZPARM_PROD_GROUP) as prod_group ,
         trim(ZPARM_PROD_GROUP) as prod_group_value
@@ -163,26 +163,26 @@ select prod_group, prod_group_value from (
 ) a
 order by sort,prod_group
 ";
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql, parms);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        /// <summary>
-        /// 商品組合 (先選類別,在連動到此下拉選單) return comb_prod/comb_prod_value/prod_group
-        /// </summary>
-        /// <param name="as_ymd"></param>
-        /// <param name="group_org"></param>
-        /// <param name="param_key"></param>
-        /// <returns></returns>
-        public DataTable dddw_zparm_comb_prod_by_group(string as_ymd, string group_org, string param_key) {
-            object[] parms = {
+      /// <summary>
+      /// 商品組合 (先選類別,在連動到此下拉選單) return comb_prod/comb_prod_value/prod_group
+      /// </summary>
+      /// <param name="as_ymd"></param>
+      /// <param name="group_org"></param>
+      /// <param name="param_key"></param>
+      /// <returns></returns>
+      public DataTable dddw_zparm_comb_prod_by_group(string as_ymd, string group_org, string param_key) {
+         object[] parms = {
                 ":as_ymd",as_ymd,
                 ":group_org",group_org,
                 ":param_key",param_key
             };
 
-            string sql = @"
+         string sql = @"
 select trim(ZPARM_COMB_PROD) as comb_prod, 
     trim(ZPARM_COMB_PROD) as comb_prod_value,
     trim(ZPARM_PROD_GROUP) as prod_group
@@ -199,42 +199,42 @@ union all
 select '全部','ALL', '全部' from dual
 order by comb_prod
 ";
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql, parms);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        public ResultData updatePeriodData(DataTable inputData) {
+      public ResultData updatePeriodData(DataTable inputData) {
 
-            string sql = @"SELECT SPAN_PERIOD_MODULE,
+         string sql = @"SELECT SPAN_PERIOD_MODULE,
 	SPAN_PERIOD_START_DATE,
 	SPAN_PERIOD_END_DATE,
 	SPAN_PERIOD_USER_ID,
 	SPAN_PERIOD_W_TIME
 FROM CFO.SPAN_PERIOD";
 
-            return db.UpdateOracleDB(inputData, sql);
+         return db.UpdateOracleDB(inputData, sql);
 
-        }
+      }
 
-        public ResultData udpateSpanContentData(DataTable inputData) {
+      public ResultData udpateSpanContentData(DataTable inputData) {
 
-            string sql= @"
-SELECT SPAN_CONTENT_MODULE,
-	SPAN_CONTENT_CLASS,
-	SPAN_CONTENT_CC,
-	SPAN_CONTENT_TYPE,
-	SPAN_CONTENT_VALUE,
-	SPAN_CONTENT_USER_ID,
-	SPAN_CONTENT_W_TIME
-FROM CFO.SPAN_CONTENT
-";
-            return db.UpdateOracleDB(inputData, sql);
-        }
+         string sql = @"
+                        SELECT SPAN_CONTENT_MODULE,
+	                        SPAN_CONTENT_CLASS,
+	                        SPAN_CONTENT_CC,
+	                        SPAN_CONTENT_TYPE,
+	                        SPAN_CONTENT_VALUE,
+	                        SPAN_CONTENT_USER_ID,
+	                        SPAN_CONTENT_W_TIME
+                        FROM CFO.SPAN_CONTENT";
 
-        public ResultData udpateZIPData(DataTable inputData) {
+         return db.UpdateOracleDB(inputData, sql);
+      }
 
-            string sql = @"
+      public ResultData udpateZIPData(DataTable inputData) {
+
+         string sql = @"
 SELECT 
     SPAN_ZISP_PROD_ID,
     SPAN_ZISP_COM_PROD1,
@@ -247,8 +247,8 @@ SELECT
     SPAN_ZISP_W_TIME
 FROM CFO.SPAN_ZISP
 ";
-            return db.UpdateOracleDB(inputData, sql);
-        }
+         return db.UpdateOracleDB(inputData, sql);
+      }
 
-    }
+   }
 }

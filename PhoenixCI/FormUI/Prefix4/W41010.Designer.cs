@@ -63,16 +63,18 @@
             // 
             // panParent
             // 
-            this.panParent.Size = new System.Drawing.Size(891, 619);
+            this.panParent.Size = new System.Drawing.Size(891, 606);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(891, 30);
+            this.ribbonControl.Size = new System.Drawing.Size(891, 43);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // panelControl1
             // 
+            this.panelControl1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+            this.panelControl1.Appearance.Options.UseBackColor = true;
             this.panelControl1.Controls.Add(this.label4);
             this.panelControl1.Controls.Add(this.rdgProdType);
             this.panelControl1.Controls.Add(this.label2);
@@ -83,7 +85,9 @@
             this.panelControl1.Controls.Add(this.label1);
             this.panelControl1.Controls.Add(this.lblDate);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelControl1.Location = new System.Drawing.Point(0, 30);
+            this.panelControl1.Location = new System.Drawing.Point(0, 43);
+            this.panelControl1.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
+            this.panelControl1.LookAndFeel.UseDefaultLookAndFeel = false;
             this.panelControl1.Name = "panelControl1";
             this.panelControl1.Size = new System.Drawing.Size(891, 102);
             this.panelControl1.TabIndex = 0;
@@ -91,9 +95,10 @@
             // label4
             // 
             this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
             this.label4.Location = new System.Drawing.Point(368, 21);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(57, 20);
+            this.label4.Size = new System.Drawing.Size(86, 31);
             this.label4.TabIndex = 17;
             this.label4.Text = "系統：";
             // 
@@ -113,10 +118,11 @@
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
             this.label2.ForeColor = System.Drawing.Color.Blue;
             this.label2.Location = new System.Drawing.Point(212, 61);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(453, 20);
+            this.label2.Size = new System.Drawing.Size(686, 31);
             this.label2.TabIndex = 15;
             this.label2.Text = "註：(1)商品名稱%代表查全部 (2)下市商品資料起始為2010開始";
             // 
@@ -124,16 +130,17 @@
             // 
             this.txtProd.Location = new System.Drawing.Point(106, 58);
             this.txtProd.Name = "txtProd";
-            this.txtProd.Size = new System.Drawing.Size(100, 29);
+            this.txtProd.Size = new System.Drawing.Size(100, 39);
             this.txtProd.TabIndex = 13;
             this.txtProd.Text = "%";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
             this.label3.Location = new System.Drawing.Point(43, 61);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(57, 20);
+            this.label3.Size = new System.Drawing.Size(86, 31);
             this.label3.TabIndex = 14;
             this.label3.Text = "商品：";
             // 
@@ -148,10 +155,12 @@
             this.txtEDate.Name = "txtEDate";
             this.txtEDate.Properties.Appearance.Options.UseTextOptions = true;
             this.txtEDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtEDate.Properties.EditFormat.FormatString = "yyyyMMdd";
             this.txtEDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
             this.txtEDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtEDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtEDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtEDate.Size = new System.Drawing.Size(100, 26);
+            this.txtEDate.Size = new System.Drawing.Size(100, 40);
             this.txtEDate.TabIndex = 12;
             this.txtEDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -166,28 +175,32 @@
             this.txtSDate.Name = "txtSDate";
             this.txtSDate.Properties.Appearance.Options.UseTextOptions = true;
             this.txtSDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtSDate.Properties.EditFormat.FormatString = "yyyyMMdd";
             this.txtSDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
             this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtSDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtSDate.Size = new System.Drawing.Size(100, 26);
+            this.txtSDate.Size = new System.Drawing.Size(100, 40);
             this.txtSDate.TabIndex = 11;
             this.txtSDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
             this.label1.Location = new System.Drawing.Point(212, 21);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(25, 20);
+            this.label1.Size = new System.Drawing.Size(38, 31);
             this.label1.TabIndex = 10;
             this.label1.Text = "～";
             // 
             // lblDate
             // 
             this.lblDate.AutoSize = true;
+            this.lblDate.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
             this.lblDate.Location = new System.Drawing.Point(43, 21);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(57, 20);
+            this.lblDate.Size = new System.Drawing.Size(86, 31);
             this.lblDate.TabIndex = 9;
             this.lblDate.Text = "日期：";
             // 
@@ -223,7 +236,7 @@
             // 
             // PDK_DATE
             // 
-            this.PDK_DATE.AppearanceHeader.BackColor = System.Drawing.Color.Cyan;
+            this.PDK_DATE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.PDK_DATE.AppearanceHeader.Options.UseBackColor = true;
             this.PDK_DATE.Caption = "交易日期";
             this.PDK_DATE.DisplayFormat.FormatString = "yyyy/MM/dd HH:mm:ss";
@@ -238,7 +251,7 @@
             // 
             // PDK_KIND_ID
             // 
-            this.PDK_KIND_ID.AppearanceHeader.BackColor = System.Drawing.Color.Cyan;
+            this.PDK_KIND_ID.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.PDK_KIND_ID.AppearanceHeader.Options.UseBackColor = true;
             this.PDK_KIND_ID.Caption = "契約代號";
             this.PDK_KIND_ID.FieldName = "PDK_KIND_ID";
@@ -251,7 +264,7 @@
             // 
             // PDK_NAME
             // 
-            this.PDK_NAME.AppearanceHeader.BackColor = System.Drawing.Color.Cyan;
+            this.PDK_NAME.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.PDK_NAME.AppearanceHeader.Options.UseBackColor = true;
             this.PDK_NAME.Caption = "契約名稱";
             this.PDK_NAME.FieldName = "PDK_NAME";
@@ -264,7 +277,7 @@
             // 
             // PDK_STATUS_CODE
             // 
-            this.PDK_STATUS_CODE.AppearanceHeader.BackColor = System.Drawing.Color.Cyan;
+            this.PDK_STATUS_CODE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.PDK_STATUS_CODE.AppearanceHeader.Options.UseBackColor = true;
             this.PDK_STATUS_CODE.Caption = "狀態";
             this.PDK_STATUS_CODE.FieldName = "PDK_STATUS_CODE";
@@ -288,9 +301,9 @@
             // 
             this.panel2.Controls.Add(this.gcMainE);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 132);
+            this.panel2.Location = new System.Drawing.Point(0, 145);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(891, 235);
+            this.panel2.Size = new System.Drawing.Size(891, 222);
             this.panel2.TabIndex = 0;
             // 
             // gcMainE
@@ -300,7 +313,7 @@
             this.gcMainE.MainView = this.gvMainE;
             this.gcMainE.MenuManager = this.ribbonControl;
             this.gcMainE.Name = "gcMainE";
-            this.gcMainE.Size = new System.Drawing.Size(891, 235);
+            this.gcMainE.Size = new System.Drawing.Size(891, 222);
             this.gcMainE.TabIndex = 1;
             this.gcMainE.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMainE});
@@ -325,7 +338,7 @@
             // 
             // PDK_DATE_E
             // 
-            this.PDK_DATE_E.AppearanceHeader.BackColor = System.Drawing.Color.Cyan;
+            this.PDK_DATE_E.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.PDK_DATE_E.AppearanceHeader.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.PDK_DATE_E.AppearanceHeader.Options.UseBackColor = true;
             this.PDK_DATE_E.AppearanceHeader.Options.UseFont = true;
@@ -342,7 +355,7 @@
             // 
             // PDK_KIND_ID_E
             // 
-            this.PDK_KIND_ID_E.AppearanceHeader.BackColor = System.Drawing.Color.Cyan;
+            this.PDK_KIND_ID_E.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.PDK_KIND_ID_E.AppearanceHeader.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.PDK_KIND_ID_E.AppearanceHeader.Options.UseBackColor = true;
             this.PDK_KIND_ID_E.AppearanceHeader.Options.UseFont = true;
@@ -357,7 +370,7 @@
             // 
             // PDK_NAME_E
             // 
-            this.PDK_NAME_E.AppearanceHeader.BackColor = System.Drawing.Color.Cyan;
+            this.PDK_NAME_E.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.PDK_NAME_E.AppearanceHeader.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.PDK_NAME_E.AppearanceHeader.Options.UseBackColor = true;
             this.PDK_NAME_E.AppearanceHeader.Options.UseFont = true;
@@ -372,7 +385,7 @@
             // 
             // PDK_STATUS_CODE_E
             // 
-            this.PDK_STATUS_CODE_E.AppearanceHeader.BackColor = System.Drawing.Color.Cyan;
+            this.PDK_STATUS_CODE_E.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.PDK_STATUS_CODE_E.AppearanceHeader.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.PDK_STATUS_CODE_E.AppearanceHeader.Options.UseBackColor = true;
             this.PDK_STATUS_CODE_E.AppearanceHeader.Options.UseFont = true;
@@ -388,7 +401,7 @@
             // W41010
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(891, 649);
             this.Controls.Add(this.panel2);

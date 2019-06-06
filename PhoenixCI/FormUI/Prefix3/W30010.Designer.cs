@@ -42,12 +42,12 @@
             // panParent
             // 
             this.panParent.Controls.Add(this.panelControl);
-            this.panParent.Size = new System.Drawing.Size(924, 604);
+            this.panParent.Size = new System.Drawing.Size(924, 617);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(924, 43);
+            this.ribbonControl.Size = new System.Drawing.Size(924, 30);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // panFilter
@@ -77,7 +77,7 @@
             this.ddlType.Properties.Appearance.Options.UseForeColor = true;
             this.ddlType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.ddlType.Size = new System.Drawing.Size(150, 38);
+            this.ddlType.Size = new System.Drawing.Size(150, 26);
             this.ddlType.TabIndex = 1;
             // 
             // labType
@@ -86,7 +86,7 @@
             this.labType.ForeColor = System.Drawing.Color.Black;
             this.labType.Location = new System.Drawing.Point(30, 102);
             this.labType.Name = "labType";
-            this.labType.Size = new System.Drawing.Size(85, 24);
+            this.labType.Size = new System.Drawing.Size(59, 16);
             this.labType.TabIndex = 14;
             this.labType.Text = "盤別：";
             // 
@@ -108,7 +108,7 @@
             this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtSDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtSDate.Size = new System.Drawing.Size(100, 38);
+            this.txtSDate.Size = new System.Drawing.Size(100, 26);
             this.txtSDate.TabIndex = 0;
             this.txtSDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -118,7 +118,7 @@
             this.labDate.ForeColor = System.Drawing.Color.Black;
             this.labDate.Location = new System.Drawing.Point(30, 61);
             this.labDate.Name = "labDate";
-            this.labDate.Size = new System.Drawing.Size(85, 24);
+            this.labDate.Size = new System.Drawing.Size(59, 16);
             this.labDate.TabIndex = 12;
             this.labDate.Text = "日期：";
             // 
@@ -128,7 +128,7 @@
             this.lblProcessing.ForeColor = System.Drawing.Color.Blue;
             this.lblProcessing.Location = new System.Drawing.Point(10, 187);
             this.lblProcessing.Name = "lblProcessing";
-            this.lblProcessing.Size = new System.Drawing.Size(127, 30);
+            this.lblProcessing.Size = new System.Drawing.Size(85, 20);
             this.lblProcessing.TabIndex = 31;
             this.lblProcessing.Text = "開始轉檔...";
             this.lblProcessing.Visible = false;
@@ -143,13 +143,13 @@
             this.panelControl.Location = new System.Drawing.Point(30, 30);
             this.panelControl.Margin = new System.Windows.Forms.Padding(15);
             this.panelControl.Name = "panelControl";
-            this.panelControl.Size = new System.Drawing.Size(494, 231);
+            this.panelControl.Size = new System.Drawing.Size(388, 215);
             this.panelControl.TabIndex = 32;
             // 
             // W30010
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(924, 647);
             this.Name = "W30010";
