@@ -62,20 +62,8 @@ namespace BaseGround.Report
                DetailCel.ProcessDuplicatesTarget = ProcessDuplicatesTarget.Value;
             }
 
-            if (!string.IsNullOrEmpty(col.Expression?.Condition)) {
-               // Create a new rule and add it to a report. 
-               FormattingRule rule = new FormattingRule();
-               this.FormattingRuleSheet.Add(rule);
-
-               // Specify the rule's properties. 
-               rule.DataSource = this.DataSource;
-               rule.DataMember = this.DataMember;
-               rule.Condition = col.Expression?.Condition;
-               rule.Formatting.BackColor = col.Expression.BackColor;
-               rule.Formatting.ForeColor = col.Expression.ForeColor;
-
-               // Apply this rule to the detail band. 
-               DetailCel.FormattingRules.Add(rule);
+            if (col.Expression != null) {
+               DetailCel.ExpressionBindings.AddRange(col.Expression);
             }
 
             DetailRow.Cells.Add(DetailCel);
