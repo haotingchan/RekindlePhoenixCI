@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataObjects.Dao.Together.SpecificDao
 {
-   public class D51030:DataGate
+   public class D51030 : DataGate
    {
       public DataTable ListD50130()
       {
@@ -116,50 +116,48 @@ namespace DataObjects.Dao.Together.SpecificDao
          DbConnection conn = db.CreateConnection();
 
          try {
-            DataTable myChangeDT = inputDT.GetChanges();
+            DataTable dtDeleteChange = inputDT.GetChanges(DataRowState.Deleted);
 
-            if (myChangeDT != null) {
-               if (myChangeDT.Rows.Count == 0) {
-                  throw new Exception("傳入的DataTable內無任何資料");
+            //沒有刪除就跳出function
+            if (dtDeleteChange == null || dtDeleteChange.Rows.Count <= 0) {
+               return;
+            }
+
+            foreach (DataRow deletedRow in dtDeleteChange.Rows) {
+
+               string myDeletedKeyAndValueStr = "";
+
+               #region params
+
+               List<object> myParamsNameAndValue = new List<object>();
+
+               foreach (string paramName in myUpdateOrDeleteKeysColumnList) {
+                  myParamsNameAndValue.Add(paramName);
+                  myParamsNameAndValue.Add(deletedRow[paramName, DataRowVersion.Original]);
+
+                  myDeletedKeyAndValueStr += paramName + ":" + deletedRow[paramName, DataRowVersion.Original].ToString().Trim() + Environment.NewLine;
                }
 
-               foreach (DataRow deletedRow in myChangeDT.GetChanges(DataRowState.Deleted).Rows) {
+               object[] parms = myParamsNameAndValue.ToArray();
 
-                  string myDeletedKeyAndValueStr = "";
+               #endregion
 
-                  #region params
+               #region sql
 
-                  List<object> myParamsNameAndValue = new List<object>();
+               string sql = "DELETE FROM " + tableName + " WHERE ";
 
-                  foreach (string paramName in myUpdateOrDeleteKeysColumnList) {
-                     myParamsNameAndValue.Add(paramName);
-                     myParamsNameAndValue.Add(deletedRow[paramName, DataRowVersion.Original]);
-
-                     myDeletedKeyAndValueStr += paramName + ":" + deletedRow[paramName, DataRowVersion.Original].ToString().Trim() + Environment.NewLine;
-                  }
-
-                  object[] parms = myParamsNameAndValue.ToArray();
-
-                  #endregion
-
-                  #region sql
-
-                  string sql = "DELETE FROM " + tableName + " WHERE ";
-
-                  foreach (string everyKey in myUpdateOrDeleteKeysColumnList) {
-                     sql += " " + everyKey + "=" + "@" + everyKey + " AND";
-                  }
-
-                  sql = sql.TrimEnd("AND".ToArray());
-
-                  #endregion
-
-                  myReturnValue = db.ExecuteSQL(sql, parms);
+               foreach (string everyKey in myUpdateOrDeleteKeysColumnList) {
+                  sql += " " + everyKey + "=" + "@" + everyKey + " AND";
                }
-            }
-            else {
-               throw new Exception("無資料需要刪除");
-            }
+
+               sql = sql.TrimEnd("AND".ToArray());
+
+               #endregion
+
+               myReturnValue = db.ExecuteSQL(sql, parms);
+            }//foreach (DataRow deletedRow in dtDeleteChange.Rows)
+
+
          }
          catch (Exception ex) {
             myReturnValue = -1;
