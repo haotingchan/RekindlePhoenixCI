@@ -459,7 +459,7 @@ namespace PhoenixCI.FormUI.Prefix5
          /* 報表內容 */
          //報表內容選擇分日期
          if (gbDetial.EditValue.Equals("rb_gdate")) {
-            
+
             //交易時段選盤後
             if (gbMarket.EditValue.Equals("rb_market_1")) {
                _Data = dao50020.ListAH(_D500Xx);
@@ -469,7 +469,7 @@ namespace PhoenixCI.FormUI.Prefix5
             }
          }
          else {
-            
+
             //交易時段選盤後
             if (gbMarket.EditValue.Equals("rb_market_1")) {
                _Data = dao50020.ListACCUAH(_D500Xx);
@@ -698,10 +698,10 @@ namespace PhoenixCI.FormUI.Prefix5
          if (!GetData()) return ResultStatus.Fail;
 
          List<ReportProp> caption = new List<ReportProp>{
-            new ReportProp{DataColumn="AMM0_YMD",Caption= "日期" ,CellWidth=gbDetial.EditValue.Equals("rb_gnodate")?130:65,DetailRowFontSize=9,HeaderFontSize=11},
+            new ReportProp{DataColumn="AMM0_YMD",Caption= "日期" ,CellWidth=gbDetial.EditValue.Equals("rb_gnodate")?120:65,DetailRowFontSize=gbDetial.EditValue.Equals("rb_gnodate")?8:9,HeaderFontSize=11},
             new ReportProp{DataColumn="AMM0_BRK_NO",Caption= "期貨商        代號",CellWidth=80,DetailRowFontSize=10,HeaderFontSize=11},
             new ReportProp{DataColumn="BRK_ABBR_NAME",Caption= "期貨商名稱" ,CellWidth=150,DetailRowFontSize=9.75f,HeaderFontSize=11},
-            new ReportProp{DataColumn="AMM0_CNT",Caption= "詢價筆數",CellWidth=120,textAlignment=TextAlignment.MiddleRight,DetailRowFontSize=11,HeaderFontSize=11},
+            new ReportProp{DataColumn="AMM0_CNT",Caption= "詢價筆數",CellWidth=gbDetial.EditValue.Equals("rb_gnodate")?90:120,textAlignment=TextAlignment.MiddleRight,DetailRowFontSize=11,HeaderFontSize=11},
             new ReportProp{DataColumn="CP_RATE_VALID_CNT",Caption= "佔全市場            詢價比例(%)",CellWidth=100,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:##0.0#}",DetailRowFontSize=11,HeaderFontSize=11},
             new ReportProp{DataColumn="AMM0_MARKET_R_CNT",Caption= "全市場                詢價筆數",CellWidth=120,textAlignment=TextAlignment.MiddleRight,DetailRowFontSize=11,HeaderFontSize=11 }
             };

@@ -200,12 +200,6 @@
     <Compile Include="FormWait.Designer.cs">
       <DependentUpon>FormWait.cs</DependentUpon>
     </Compile>
-    <Compile Include="Report\GridControlReport.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Report\GridControlReport.Designer.cs">
-      <DependentUpon>GridControlReport.cs</DependentUpon>
-    </Compile>
     <Compile Include="Shared\Extension.cs" />
     <Compile Include="Shared\LookupItem.cs" />
     <Compile Include="Shared\PbFunc.cs" />
@@ -250,9 +244,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormWait.resx">
       <DependentUpon>FormWait.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Report\GridControlReport.resx">
-      <DependentUpon>GridControlReport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Widget\ucW500xx.resx">
       <DependentUpon>ucW500xx.cs</DependentUpon>

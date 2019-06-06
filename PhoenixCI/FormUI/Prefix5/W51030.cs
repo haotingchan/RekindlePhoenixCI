@@ -319,7 +319,7 @@ namespace PhoenixCI.FormUI.Prefix5
       /// <param name="IsHandlePersonVisible"></param>
       /// <param name="IsManagerVisible"></param>
       private void PrintOrExportChanged(GridControl gridControl, DataTable ChangedForAdded,
-    DataTable ChangedForDeleted, DataTable ChangedForModified, bool IsHandlePersonVisible = true, bool IsManagerVisible = true)
+    DataTable ChangedForDeleted, DataTable ChangedForModified, bool IsHandlePersonVisible = false, bool IsManagerVisible = false)
       {
          string reportTitle = _ProgramID + "─" + _ProgramName + GlobalInfo.REPORT_TITLE_MEMO;
          CommonReportLandscapeA4 reportLandscapeA4 = new CommonReportLandscapeA4();//設定為橫向列印
