@@ -215,7 +215,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         ii_curr_row = dtDetail.Rows.Count;
                         dtDetail.Rows.Add();
                         dtDetail.Rows[ii_curr_row]["PROD_TYPE"] = dr["MGD2_PROD_TYPE"];
-                        dtDetail.Rows[ii_curr_row]["KIND_ID"] = dr["MGD2_KIND_ID"];
+                        dtDetail.Rows[ii_curr_row]["KIND_ID"] = dr["MGD2_KIND_ID"].AsString();
                         dtDetail.Rows[ii_curr_row]["STOCK_ID"] = dr["MGD2_STOCK_ID"];
                         dtDetail.Rows[ii_curr_row]["ADJ_RATE"] = dr["MGD2_ADJ_RATE"];
                         dtDetail.Rows[ii_curr_row]["DATA_FLAG"] = "Y";
@@ -570,7 +570,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                 _ReportHelper.Print();//如果有夜盤會特別標註
                 _ReportHelper.Export(FileType.PDF, _ReportHelper.FilePath);
-
+                MessageDisplay.Info("報表儲存完成!");
                 return ResultStatus.Success;
             }
             catch (Exception ex) {

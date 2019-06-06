@@ -572,7 +572,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                 _ReportHelper.Print();//如果有夜盤會特別標註
                 _ReportHelper.Export(FileType.PDF, _ReportHelper.FilePath);
-
+                MessageDisplay.Info("報表儲存完成!");
                 return ResultStatus.Success;
             }
             catch (Exception ex) {

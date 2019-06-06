@@ -73,6 +73,11 @@ namespace PhoenixCI.FormUI.PrefixS {
             dtTempParamValue.Rows[i].SetField("COD_ID", dtParamValueData.Rows[i]["span_param_value"]);
             dtTempParamValue.Rows[i].SetField("COD_DESC", dtParamValueData.Rows[i]["span_param_value"]);
             dtTempParamValue.Rows[i].SetField("CP_DISPLAY", dtParamValueData.Rows[i]["span_param_value"]);
+
+            //CODID = 4 時 顯示 "最大漲跌停"
+            if (dtTempParamValue.Rows[i]["COD_ID"].AsString() == "4") {
+               dtTempParamValue.Rows[i].SetField("COD_DESC", "最大漲跌停");
+            }
          }
          DataView dtDistinc = new DataView(dtTempParamValue);
          dtTempParamValue = dtDistinc.ToTable(true);
