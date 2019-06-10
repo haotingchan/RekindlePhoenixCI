@@ -10,6 +10,7 @@ using System;
 using System.Data;
 using System.Globalization;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 
 /// <summary>
@@ -47,13 +48,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
       public W30686(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
-         dao30686 = new D30686();
          this.Text = _ProgramID + "─" + _ProgramName;
+
+         dao30686 = new D30686();
          txtStartDate.DateTimeValue = GlobalInfo.OCF_DATE;
          txtEndDate.DateTimeValue = GlobalInfo.OCF_DATE;
-
-         ExportShow.Visible = false;
-
          //winni test
          //20171218-20171219
       }
@@ -69,12 +68,19 @@ namespace PhoenixCI.FormUI.Prefix3 {
       protected override ResultStatus Export() {
 
          try {
-            ExportShow.Visible = true;
+
+            //0. ready
+            panFilter.Enabled = false;
+            labMsg.Visible = true;
+            labMsg.Text = "開始轉檔...";
+            this.Cursor = Cursors.WaitCursor;
+            this.Refresh();
+            Thread.Sleep(5);
 
             //1.撈資料
             DataTable dtContent = dao30686.GetData(StartDate , EndDate , 'Y');
             if (dtContent.Rows.Count <= 0) {
-               ExportShow.Visible = false;
+               labMsg.Visible = false;
                MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtStartDate.Text + "-" + txtEndDate.Text , this.Text));
                return ResultStatus.Fail;
             }
@@ -98,15 +104,20 @@ namespace PhoenixCI.FormUI.Prefix3 {
             csvref.Encoding = System.Text.Encoding.GetEncoding(950);//ASCII
             Common.Helper.ExportHelper.ToCsv(dt , etfFileName , csvref);
 
-            ExportShow.Text = "轉檔成功!";
+            labMsg.Text = "轉檔成功!";
             exportStatus = ResultStatus.Success;
             return ResultStatus.Success;
 
          } catch (Exception ex) {
             PbFunc.f_write_logf(_ProgramID , "error" , ex.Message);
-            ExportShow.Text = "轉檔失敗";
-            return ResultStatus.Fail;
+            labMsg.Text = "轉檔失敗";
+         } finally {
+            panFilter.Enabled = true;
+            labMsg.Text = "";
+            labMsg.Visible = false;
+            this.Cursor = Cursors.Arrow;
          }
+         return ResultStatus.Fail;
 
       }
 

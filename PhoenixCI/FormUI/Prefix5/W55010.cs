@@ -7,7 +7,6 @@ using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
 using System.Data;
-using System.IO;
 
 namespace PhoenixCI.FormUI.Prefix5 {
    //Winnni,2019/01/10 調整邏輯

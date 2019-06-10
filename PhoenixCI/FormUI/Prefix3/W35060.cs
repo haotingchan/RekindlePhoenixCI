@@ -14,8 +14,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
       }
 
       protected override ResultStatus AfterOpen() {
-         MessageDisplay.Info("執行完成");
-         this.Close();
+         //MessageDisplay.Info("執行完成");
+         //this.Close();
 
          return ResultStatus.Success;
       }
