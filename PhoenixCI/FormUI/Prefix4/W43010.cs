@@ -152,12 +152,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 dt43010 = dao43010.d_43010b(txtSDate.DateTimeValue.ToString("yyyyMMdd"), oswGrp);
                 ws43010.Import(dt43010, false, rowStart, 1);
                 //EWMA 從B79開始填資料
-                //rowStart = 78;
-                //dt43010 = dao43010.d_43010c(txtSDate.DateTimeValue.ToString("yyyyMMdd"), oswGrp);
-                //ws43010.Import(dt43010, false, rowStart, 1);
+                rowStart = 78;
+                dt43010 = dao43010.d_43010c(txtSDate.DateTimeValue.ToString("yyyyMMdd"), oswGrp);
+                ws43010.Import(dt43010, false, rowStart, 1);
                 //MAX 從B116開始填資料
                 rowStart = 115;
-                dt43010 = dao43010.d_43010c(txtSDate.DateTimeValue.ToString("yyyyMMdd"), oswGrp);
+                dt43010 = dao43010.d_43010d(txtSDate.DateTimeValue.ToString("yyyyMMdd"), oswGrp);
                 ws43010.Import(dt43010, false, rowStart, 1);
 
                 //6. 刪除空白列

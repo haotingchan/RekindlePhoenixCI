@@ -133,12 +133,60 @@ FROM CI.MG1_3M,
         }
 
         /// <summary>
-        /// 本日結算保證金計算 MAX
+        /// 本日結算保證金計算 EWMA
         /// </summary>
         /// <param name="as_date">yyyy/MM/dd</param>
         /// <param name="as_osw_grp">1%/ 5%/ %%</param>
         /// <returns></returns>
         public DataTable d_43010c(string as_date, string as_osw_grp) {
+
+            object[] parms = {
+                ":as_date",as_date,
+                ":as_osw_grp",as_osw_grp
+            };
+
+            string sql =
+@"
+SELECT   ROW_NUMBER() over (order by mg1_seq_no, mg1_kind_id, MG1_AB_TYPE, MG1_YMD) as NO,
+         MG1_KIND_ID,
+         APDK_NAME,
+         APDK_STOCK_ID,
+         PID_NAME,MG1_PRICE,
+         MG1_XXX,
+         MG1_RISK,
+         MG1_CP_RISK,
+         MG1_MIN_RISK,
+         MG1_CP_CM,
+         MG1_CUR_CM,
+         MG1_CHANGE_RANGE
+         --,MG1_CHANGE_FLAG 
+FROM CI.MG1_3M,   
+         CI.APDK  ,
+         --上市/上櫃中文名稱
+         (SELECT TRIM(COD_ID) as COD_ID,TRIM(COD_DESC) as PID_NAME FROM CI.COD where COD_TXN_ID = 'TFXM')
+   WHERE ( MG1_KIND_ID = CI.APDK.APDK_KIND_ID ) and  
+         ( MG1_PROD_TYPE = CI.APDK.APDK_PROD_TYPE ) and 
+         ( MG1_MODEL_TYPE = 'E' ) AND
+         ( ( MG1_YMD = :as_date ) AND  
+         ( MG1_PROD_SUBTYPE = 'S' ) AND  
+         ( MG1_PROD_TYPE = 'F' ) )    
+     and APDK_UNDERLYING_MARKET = COD_ID
+     and MG1_OSW_GRP LIKE :as_osw_grp
+   ORDER BY mg1_seq_no, mg1_kind_id, MG1_AB_TYPE, MG1_YMD
+";
+
+            DataTable dtResult = db.GetDataTable(sql, parms);
+
+            return dtResult;
+        }
+
+        /// <summary>
+        /// 本日結算保證金計算 MAX
+        /// </summary>
+        /// <param name="as_date">yyyy/MM/dd</param>
+        /// <param name="as_osw_grp">1%/ 5%/ %%</param>
+        /// <returns></returns>
+        public DataTable d_43010d(string as_date, string as_osw_grp) {
 
             object[] parms = {
                 ":as_date",as_date,
