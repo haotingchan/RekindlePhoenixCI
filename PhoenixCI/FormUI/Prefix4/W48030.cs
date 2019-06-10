@@ -116,8 +116,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
                break;
             }
          }
+
          if (!haveKind) {
             MessageDisplay.Normal("必須勾選一筆契約");
+            return ResultStatus.Fail;
+         }
+
+         if (chkModel.CheckedItemsCount < 1) {
+            MessageDisplay.Error("請至少勾選一種指標種類");
             return ResultStatus.Fail;
          }
 
@@ -130,8 +136,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
          }
 
-         int sheetIndex = 0;
-
          try {
             //2.開始轉出資料
             panFilter.Enabled = panSecond.Enabled = false;
@@ -141,37 +145,48 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             //2.1 copy template xlsx to target path and open
             Workbook workbook = new Workbook();
-
             string originalFilePath = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH , _ProgramID + "." + FileType.XLSX.ToString().ToLower());
             string excelDestinationPath = "";
+
+            DataTable dtDate = (DataTable)gcDate.DataSource;
+
+            #region 指標:SMA,EWMA,MAX
             foreach (CheckedListBoxItem item in chkModel.Items) {
                if (item.CheckState == CheckState.Unchecked) continue;
 
+               int sheetIndex = 0;
+               int flag = 0;
+               string modelType = "";
                switch (item.Value) {
                   case "chkSma":
                      excelDestinationPath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH ,
                 _ProgramID + "_SMA_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss.") + FileType.XLSX.ToString().ToLower());
+                     modelType = "S";
                      break;
                   case "chkEwma":
                      excelDestinationPath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH ,
                 _ProgramID + "_EWMA_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss.") + FileType.XLSX.ToString().ToLower());
+                     modelType = "E";
                      break;
                   case "chkMax":
                      excelDestinationPath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH ,
                 _ProgramID + "_MAX_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss.") + FileType.XLSX.ToString().ToLower());
+                     modelType = "M";
                      break;
                }
 
+               //copy template and change filename
                File.Copy(originalFilePath , excelDestinationPath , true);
                workbook.LoadDocument(excelDestinationPath);
 
-               #region 處理資料
-               DataTable dtDate = (DataTable)gcDate.DataSource;
+               #region 時段
                //每個時間區間為一個sheet,總共5個
                foreach (DataRow drDate in dtDate.Rows) {
                   string monDiff = drDate["MON_DIFF"].AsString();//期間
                   string startDate = drDate["SDATE"].AsDateTime().ToString("yyyyMMdd");//資料起日
                   string endDate = drDate["EDATE"].AsDateTime().ToString("yyyyMMdd");//資料迄日
+                                                                                     //DateTime startDate = drDate["SDATE"].AsDateTime();//資料起日
+                                                                                     //DateTime endDate = drDate["EDATE"].AsDateTime();//資料迄日
                   int dayCount = drDate["DAY_CNT"].AsInt();//天數
 
                   //2.2跳到指定sheet,寫檔頭
@@ -188,6 +203,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   int rowIndex = 7;
                   int emptyRowCount = 60;//template 空白行的數量
                   int kindCount = 0;
+
+                  //逐一看勾選的商品有哪些
                   foreach (DataRow drKind in dtTemp.Rows) {
                      if (drKind["CPR_SELECT"].AsString() != "Y")
                         continue;
@@ -197,165 +214,67 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      Decimal riskRate = drKind["cpr_price_risk_rate"].AsDecimal();//現行最小風險價格係數
                      Decimal interval = drKind["risk_interval"].AsDecimal();//最小風險價格係數級距
 
-
-                     //TODO: 加入SMA/EWMA/MAX的判斷 (可複選，一種產一個檔) SQL已改，邏輯還沒改(改完再依樣改48040)
-
-                     foreach (CheckedListBoxItem item2 in chkModel.Items) {
-                        if (item2.CheckState == CheckState.Unchecked) continue;
-
-                        DataTable dtSingleKind = new DataTable();
-
-                        //2.3.2寫入明細
-                        //ken,原則上一個商品只會找到一筆明細(已經group by)
-                        DataRow drDetail = null;
-                        int tempCount = 0;
-                        Decimal level_1 = 0;
-                        Decimal level_23 = 0;
-                        Decimal level_4 = 0;
-
-                        string modelType = "";
-                        switch (item2.Value) {
-                           case "chkSma":
-                              modelType = "S";
-
-                              //2.3.1讀取子table data
-                              dtSingleKind = dao48030.ListKindByKindId(startDate , endDate , riskRate , interval , kindId , modelType);
-                              if (dtSingleKind.Rows.Count <= 0) {
-                                 labMsg.Text += string.Format("{0},{1}~{2}無任何資料!\r\n" , kindId , startDate , endDate);
-                                 File.Delete(excelDestinationPath);
-                                 this.Refresh();
-                                 continue;
-                              }
-
-                              //2.3.2寫入明細
-                              //ken,原則上一個商品只會找到一筆明細(已經group by)
-                              drDetail = dtSingleKind.Rows[0];
-                              tempCount = drDetail["cnt"].AsInt();
-                              level_1 = drDetail["level_1"].AsDecimal();
-                              level_23 = drDetail["level_23"].AsDecimal();
-                              level_4 = drDetail["level_4"].AsDecimal();
-
-                              worksheet.Cells[rowIndex , 0].Value = drDetail["mg1_kind_id"].AsString();
-                              worksheet.Cells[rowIndex , 1].Value = drDetail["avg_risk"].AsDecimal();
-                              worksheet.Cells[rowIndex , 2].Value = drDetail["max_risk"].AsDecimal();
-                              worksheet.Cells[rowIndex , 3].Value = drDetail["min_risk"].AsDecimal();
-                              worksheet.Cells[rowIndex , 4].Value = riskRate;
-
-                              worksheet.Cells[rowIndex , 6].Value = level_1;
-                              worksheet.Cells[rowIndex , 7].Value = Math.Round(level_1 / tempCount , 4 , MidpointRounding.AwayFromZero);
-                              worksheet.Cells[rowIndex , 8].Value = level_23;
-                              worksheet.Cells[rowIndex , 9].Value = Math.Round(level_23 / tempCount , 4 , MidpointRounding.AwayFromZero);
-                              worksheet.Cells[rowIndex , 10].Value = level_4;
-                              worksheet.Cells[rowIndex , 11].Value = Math.Round(level_4 / tempCount , 4 , MidpointRounding.AwayFromZero);
-
-                              worksheet.Cells[rowIndex , 12].Value = interval;
-
-                              rowIndex++;
-
-                              break;
-                           case "chkEwma":
-                              modelType = "E";
-
-                              //2.3.1讀取子table data
-                              dtSingleKind = dao48030.ListKindByKindId(startDate , endDate , riskRate , interval , kindId , modelType);
-                              if (dtSingleKind.Rows.Count <= 0) {
-                                 labMsg.Text += string.Format("{0},{1}~{2}無任何資料!\r\n" , kindId , startDate , endDate);
-                                 File.Delete(excelDestinationPath);
-                                 this.Refresh();
-                                 continue;
-                              }
-
-                              //2.3.2寫入明細
-                              //ken,原則上一個商品只會找到一筆明細(已經group by)
-                              drDetail = dtSingleKind.Rows[0];
-                              tempCount = drDetail["cnt"].AsInt();
-                              level_1 = drDetail["level_1"].AsDecimal();
-                              level_23 = drDetail["level_23"].AsDecimal();
-                              level_4 = drDetail["level_4"].AsDecimal();
-
-                              worksheet.Cells[rowIndex , 0].Value = drDetail["mg1_kind_id"].AsString();
-                              worksheet.Cells[rowIndex , 1].Value = drDetail["avg_risk"].AsDecimal();
-                              worksheet.Cells[rowIndex , 2].Value = drDetail["max_risk"].AsDecimal();
-                              worksheet.Cells[rowIndex , 3].Value = drDetail["min_risk"].AsDecimal();
-                              worksheet.Cells[rowIndex , 4].Value = riskRate;
-
-                              worksheet.Cells[rowIndex , 6].Value = level_1;
-                              worksheet.Cells[rowIndex , 7].Value = Math.Round(level_1 / tempCount , 4 , MidpointRounding.AwayFromZero);
-                              worksheet.Cells[rowIndex , 8].Value = level_23;
-                              worksheet.Cells[rowIndex , 9].Value = Math.Round(level_23 / tempCount , 4 , MidpointRounding.AwayFromZero);
-                              worksheet.Cells[rowIndex , 10].Value = level_4;
-                              worksheet.Cells[rowIndex , 11].Value = Math.Round(level_4 / tempCount , 4 , MidpointRounding.AwayFromZero);
-
-                              worksheet.Cells[rowIndex , 12].Value = interval;
-
-                              rowIndex++;
-
-                              break;
-                           case "chkMax":
-                              modelType = "M";
-
-                              //2.3.1讀取子table data
-                              dtSingleKind = dao48030.ListKindByKindId(startDate , endDate , riskRate , interval , kindId , modelType);
-                              if (dtSingleKind.Rows.Count <= 0) {
-                                 labMsg.Text += string.Format("{0},{1}~{2}無任何資料!\r\n" , kindId , startDate , endDate);
-                                 File.Delete(excelDestinationPath);
-                                 this.Refresh();
-                                 continue;
-                              }
-
-                              //2.3.2寫入明細
-                              //ken,原則上一個商品只會找到一筆明細(已經group by)
-                              drDetail = dtSingleKind.Rows[0];
-                              tempCount = drDetail["cnt"].AsInt();
-                              level_1 = drDetail["level_1"].AsDecimal();
-                              level_23 = drDetail["level_23"].AsDecimal();
-                              level_4 = drDetail["level_4"].AsDecimal();
-
-                              worksheet.Cells[rowIndex , 0].Value = drDetail["mg1_kind_id"].AsString();
-                              worksheet.Cells[rowIndex , 1].Value = drDetail["avg_risk"].AsDecimal();
-                              worksheet.Cells[rowIndex , 2].Value = drDetail["max_risk"].AsDecimal();
-                              worksheet.Cells[rowIndex , 3].Value = drDetail["min_risk"].AsDecimal();
-                              worksheet.Cells[rowIndex , 4].Value = riskRate;
-
-                              worksheet.Cells[rowIndex , 6].Value = level_1;
-                              worksheet.Cells[rowIndex , 7].Value = Math.Round(level_1 / tempCount , 4 , MidpointRounding.AwayFromZero);
-                              worksheet.Cells[rowIndex , 8].Value = level_23;
-                              worksheet.Cells[rowIndex , 9].Value = Math.Round(level_23 / tempCount , 4 , MidpointRounding.AwayFromZero);
-                              worksheet.Cells[rowIndex , 10].Value = level_4;
-                              worksheet.Cells[rowIndex , 11].Value = Math.Round(level_4 / tempCount , 4 , MidpointRounding.AwayFromZero);
-
-                              worksheet.Cells[rowIndex , 12].Value = interval;
-
-                              rowIndex++;
-                              break;
-                              
-                        }
-                       
+                     //2.3.1讀取子table data
+                     DataTable dtSingleKind = dao48030.ListKindByKindId(startDate , endDate , riskRate , interval , kindId , modelType);
+                     if (dtSingleKind.Rows.Count <= 0) {
+                        labMsg.Text += string.Format("{0},{1}~{2}無任何資料!\r\n" , kindId , startDate , endDate);
+                        this.Refresh();
+                        continue;
                      }
 
-                  }//foreach (DataRow drKind in dtTemp.Rows) 
+                     //2.3.2寫入明細
+                     //ken,原則上一個商品只會找到一筆明細(已經group by)
+                     DataRow drDetail = dtSingleKind.Rows[0];
+                     int tempCount = drDetail["cnt"].AsInt();
+                     Decimal level_1 = drDetail["level_1"].AsDecimal();
+                     Decimal level_23 = drDetail["level_23"].AsDecimal();
+                     Decimal level_4 = drDetail["level_4"].AsDecimal();
+
+                     worksheet.Cells[rowIndex , 0].Value = drDetail["mg1_kind_id"].AsString();
+                     worksheet.Cells[rowIndex , 1].Value = drDetail["avg_risk"].AsDecimal();
+                     worksheet.Cells[rowIndex , 2].Value = drDetail["max_risk"].AsDecimal();
+                     worksheet.Cells[rowIndex , 3].Value = drDetail["min_risk"].AsDecimal();
+                     worksheet.Cells[rowIndex , 4].Value = riskRate;
+
+                     worksheet.Cells[rowIndex , 6].Value = level_1;
+                     worksheet.Cells[rowIndex , 7].Value = Math.Round(level_1 / tempCount , 4);
+                     worksheet.Cells[rowIndex , 8].Value = level_23;
+                     worksheet.Cells[rowIndex , 9].Value = Math.Round(level_23 / tempCount , 4);
+                     worksheet.Cells[rowIndex , 10].Value = level_4;
+                     worksheet.Cells[rowIndex , 11].Value = Math.Round(level_4 / tempCount , 4);
+
+                     worksheet.Cells[rowIndex , 12].Value = interval;
+
+                     rowIndex++;
+                     flag++;
+                  }//foreach (DataRow drKind in dtTemp.Rows) 商品
                   #endregion
-                  //2.4刪除空白列
+
+                  //2.4刪除空白列 (結束商品foreach才刪除空白列，跑下一個sheet)
                   if (kindCount < emptyRowCount) {
                      worksheet.Rows.Remove(rowIndex , emptyRowCount - kindCount);
                   }
 
-                  //2.9存檔
-                  workbook.SaveDocument(excelDestinationPath);
-                  break;
-
-               }//foreach (DataRow drDate in dtDate.Rows) 
+               }//foreach (DataRow drDate in dtDate.Rows) 時段
                #endregion
 
-               //if (FlagAdmin)
-               //   System.Diagnostics.Process.Start(excelDestinationPath);
+               //2.9存檔
+               if (flag > 0) {
+                  workbook.SaveDocument(excelDestinationPath);                 
+               } else {
+                  File.Delete(excelDestinationPath);
+               }        
 
-            }
-           
+            }//foreach (CheckedListBoxItem item in chkModel.Items) 指標
+            #endregion
+
+            //if (FlagAdmin)
+            //   System.Diagnostics.Process.Start(excelDestinationPath);
 
             return ResultStatus.Success;
+
          } catch (Exception ex) {
-            WriteLog(ex , sheetIndex.ToString());
+            WriteLog(ex);
          } finally {
             panFilter.Enabled = panSecond.Enabled = true;
             labMsg.Text = "";
