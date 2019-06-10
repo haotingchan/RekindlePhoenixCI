@@ -135,6 +135,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                 //4. 切換Sheet
                 Worksheet ws43010 = workbook.Worksheets[0];
+                string dataDate = "資料日期：" + Environment.NewLine + txtSDate.DateTimeValue.Year + "年" + txtSDate.DateTimeValue.Month + "月" + txtSDate.DateTimeValue.Day + "日";
+                ws43010.Cells[0, 9].Value = dataDate;
+                ws43010.Cells[35, 14].Value = dataDate;
+                ws43010.Cells[73, 14].Value = dataDate;
+                ws43010.Cells[110, 14].Value = dataDate;
 
                 //5. 填入資料
                 //5.1 一、現行收取保證金金額
@@ -145,15 +150,15 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 //SMA 從B41開始填資料
                 rowStart = 40;
                 dt43010 = dao43010.d_43010b(txtSDate.DateTimeValue.ToString("yyyyMMdd"), oswGrp);
-                ws43010.Import(dt43010, false, rowStart, 6);
+                ws43010.Import(dt43010, false, rowStart, 1);
                 //EWMA 從B79開始填資料
                 //rowStart = 78;
                 //dt43010 = dao43010.d_43010c(txtSDate.DateTimeValue.ToString("yyyyMMdd"), oswGrp);
-                //ws43010.Import(dt43010, false, rowStart, 8);
+                //ws43010.Import(dt43010, false, rowStart, 1);
                 //MAX 從B116開始填資料
                 rowStart = 115;
                 dt43010 = dao43010.d_43010c(txtSDate.DateTimeValue.ToString("yyyyMMdd"), oswGrp);
-                ws43010.Import(dt43010, false, rowStart, 8);
+                ws43010.Import(dt43010, false, rowStart, 1);
 
                 //6. 刪除空白列
                 int delRowCnt = 30 - rowIndex;

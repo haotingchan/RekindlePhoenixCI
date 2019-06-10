@@ -98,13 +98,20 @@ FROM CI.MG1_3M,
 
             string sql =
 @"
-SELECT   
+SELECT   ROW_NUMBER() over (order by mg1_seq_no, mg1_kind_id, MG1_AB_TYPE, MG1_YMD) as NO,
+         MG1_KIND_ID,
+         APDK_NAME,
+         APDK_STOCK_ID,
+         PID_NAME,
          MG1_PRICE,
          MG1_XXX,
          MG1_RISK,
          MG1_CP_RISK,
          MG1_MIN_RISK,
-         MG1_CP_CM
+         MG1_CP_CM,
+         MG1_CUR_CM,
+         MG1_CHANGE_RANGE,
+         MG1_CHANGE_FLAG 
 FROM CI.MG1_3M,   
          CI.APDK  ,
          --上市/上櫃中文名稱
@@ -140,7 +147,17 @@ FROM CI.MG1_3M,
 
             string sql =
 @"
-SELECT   
+SELECT   ROW_NUMBER() over (order by mg1_seq_no, mg1_kind_id, MG1_AB_TYPE, MG1_YMD) as NO,
+         MG1_KIND_ID,
+         APDK_NAME,
+         APDK_STOCK_ID,
+         PID_NAME,MG1_PRICE,
+         MG1_XXX,
+         MG1_RISK,
+         MG1_CP_RISK,
+         MG1_MIN_RISK,
+         MG1_CP_CM,
+         MG1_CUR_CM,
          MG1_CHANGE_RANGE,
          MG1_CHANGE_FLAG 
 FROM CI.MG1_3M,   
