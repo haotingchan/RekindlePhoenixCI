@@ -728,34 +728,33 @@ namespace PhoenixCI.FormUI.Prefix5
          else {
 
             List<ReportProp> caption = new List<ReportProp>{
-               new ReportProp{ DataColumn="CP_ROW",Caption= "筆數",CellWidth=36,Expression=new DevExpress.XtraReports.UI.ExpressionBinding[] {
+               new ReportProp{ DataColumn="CP_ROW",Caption= "筆數",CellWidth=45,Expression=new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[DataSource.CurrentRowIndex]+1")}} ,
-               new ReportProp{DataColumn="AMM0_YMD",Caption= "日期" ,CellWidth=gbDetial.EditValue.Equals("rb_gnodate")?120:60,DetailRowFontSize=8.25f },
-            new ReportProp{DataColumn="AMM0_BRK_NO",Caption= "期貨商代號",CellWidth=64},
-            new ReportProp{DataColumn="BRK_ABBR_NAME",Caption= "期貨商名稱" ,CellWidth=130,Expression=new DevExpress.XtraReports.UI.ExpressionBinding[] {
+               new ReportProp{DataColumn="AMM0_YMD",Caption= "日期" ,CellWidth=gbDetial.EditValue.Equals("rb_gnodate")?110:50,DetailRowFontSize=8.25f },
+            new ReportProp{DataColumn="AMM0_BRK_NO",Caption= "期貨商代號",CellWidth=57},
+            new ReportProp{DataColumn="BRK_ABBR_NAME",Caption= "期貨商名稱" ,CellWidth=150,Expression=new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[BRK_ABBR_NAME]"),
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Font.Size", "Iif ( len(trim([BRK_ABBR_NAME]) ) > 8 , Iif ( len(trim([BRK_ABBR_NAME]) ) >9 , 7, 8) , 8.75)")}
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Font.Size", "Iif ( len(trim([BRK_ABBR_NAME]) ) >8.25 , 9, 9.75)")}
          },
             new ReportProp{DataColumn="AMM0_ACC_NO",Caption= "投資人帳號" ,CellWidth=53},
-            new ReportProp{DataColumn="AMM0_OM_QNTY",Caption= "一般委託成交量",CellWidth=60,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",DetailRowFontSize=8.25f},
-            new ReportProp{DataColumn="AMM0_QM_QNTY",Caption= "報價成交量",CellWidth=60,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",DetailRowFontSize=8.25f},
-            new ReportProp{DataColumn="AMM0_BTRADE_M_QNTY",Caption= "鉅額交易成交量",CellWidth=60,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",DetailRowFontSize=8.25f},
-            new ReportProp{DataColumn="CP_M_QNTY",Caption= "造市者總成交量",CellWidth=62,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",DetailRowFontSize=8.25f},
-            new ReportProp{DataColumn="CP_RATE_M",Caption= "總成交量市佔率(%)",CellWidth=50,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:##0.0#}",HeaderFontSize=8f,DetailRowFontSize=8.25f},
-            new ReportProp{DataColumn="AMM0_VALID_CNT",Caption= "有效報價筆數",CellWidth=63,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",DetailRowFontSize=8.25f},
-            new ReportProp{DataColumn="AMM0_MARKET_R_CNT",Caption= "全市場詢價筆數",CellWidth=55,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",DetailRowFontSize=8.25f},
-            new ReportProp{DataColumn="AMM0_MARKET_M_QNTY",Caption= "全市場總成交量",CellWidth=63,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",DetailRowFontSize=8.25f},
-            new ReportProp{DataColumn="CP_KEEP_TIME",Caption= "累計維持時間(分)",CellWidth=63,textAlignment=TextAlignment.MiddleRight,DetailRowFontSize=8.25f},
-            new ReportProp{DataColumn="CP_RATE_VALID_CNT",Caption= "有效報/詢價比例(%)",CellWidth=52,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:##0.0#}",DetailRowFontSize=8.25f}
+            new ReportProp{DataColumn="AMM0_OM_QNTY",Caption= "一般委託成交量",CellWidth=65,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",HeaderFontSize=9},
+            new ReportProp{DataColumn="AMM0_QM_QNTY",Caption= "報價成交量",CellWidth=65,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}"},
+            new ReportProp{DataColumn="AMM0_BTRADE_M_QNTY",Caption= "鉅額交易成交量",CellWidth=70,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",HeaderFontSize=9},
+            new ReportProp{DataColumn="CP_M_QNTY",Caption= "造市者總成交量",CellWidth=70,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}"},
+            new ReportProp{DataColumn="CP_RATE_M",Caption= "總成交量市佔率(%)",CellWidth=55,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:##0.0#}",HeaderFontSize=8f},
+            new ReportProp{DataColumn="AMM0_VALID_CNT",Caption= "有效報價筆數",CellWidth=60,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",HeaderFontSize=8f},
+            new ReportProp{DataColumn="AMM0_MARKET_R_CNT",Caption= "全市場詢價筆數",CellWidth=70,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}"},
+            new ReportProp{DataColumn="AMM0_MARKET_M_QNTY",Caption= "全市場總成交量",CellWidth=70,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}"},
+            new ReportProp{DataColumn="CP_KEEP_TIME",Caption= "累計維持時間(分)",CellWidth=65,textAlignment=TextAlignment.MiddleRight}
             };
 
             //商品名稱會根據列印順序有所不同
-            ReportProp productName = new ReportProp { DataColumn = "AMM0_PROD_ID", Caption = "商品名稱", CellWidth = 80 };
+            ReportProp productName = new ReportProp { DataColumn = "AMM0_PROD_ID", Caption = "商品名稱", CellWidth = 100 };
             if (_D500Xx.SortType == "P") {
                caption.Insert(1, productName);//選擇商品，商品名稱會位於第二欄
             }
             else {
-               caption.Insert(3, productName);//選擇造勢者，商品名稱會位於第四欄
+               caption.Insert(5, productName);//選擇造勢者，商品名稱會位於第六欄
             }
             _Report = new defReport(_Data, caption);
          }
