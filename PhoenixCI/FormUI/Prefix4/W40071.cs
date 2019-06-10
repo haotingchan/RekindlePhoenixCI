@@ -303,10 +303,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 }
 
                 DataTable dtMGD2 = dao40071.d_40071(ls_ymd, is_adj_type); //ids_mgd2
-                if (dtMGD2.Rows.Count == 0) {
-                    MessageDisplay.Error("無任何資料！");
-                    return ResultStatus.Fail;
-                }
+                //if (dtMGD2.Rows.Count == 0) {
+                //    MessageDisplay.Error("無任何資料！");
+                //    return ResultStatus.Fail;
+                //}
                 DataTable dtMGD2Log = dao40071.d_40071_log(); //ids_old 
                 dtMGD2Log.Clear(); //只取schema
 
@@ -333,10 +333,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     //只更新有異動的資料
                     if (ls_op_type != " ") {
                         ls_kind_id = dr["KIND_ID"].AsString();
-                        ls_issue_begin_ymd = dr["ISSUE_BEGIN_YMD"].ToString();
-                        ls_issue_end_ymd = dr["ISSUE_END_YMD"].ToString();
-                        ls_impl_begin_ymd = dr["IMPL_BEGIN_YMD"].ToString();
-                        ls_impl_end_ymd = dr["IMPL_END_YMD"].ToString();
+                        ls_issue_begin_ymd = dr["ISSUE_BEGIN_YMD"].ToString().Replace("/","");
+                        ls_issue_end_ymd = dr["ISSUE_END_YMD"].ToString().Replace("/", "");
+                        ls_impl_begin_ymd = dr["IMPL_BEGIN_YMD"].ToString().Replace("/", "");
+                        ls_impl_end_ymd = dr["IMPL_END_YMD"].ToString().Replace("/", "");
                         ls_flag = dr["DATA_FLAG"].AsString();
 
                         //資料修改，將修改前舊資料寫入log
@@ -447,10 +447,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     //只更新有異動的資料
                     if (ls_op_type != " ") {
                         ls_kind_id = dr["KIND_ID"].AsString();
-                        ls_issue_begin_ymd = dr["ISSUE_BEGIN_YMD"].ToString();
-                        ls_issue_end_ymd = dr["ISSUE_END_YMD"].ToString();
-                        ls_impl_begin_ymd = dr["IMPL_BEGIN_YMD"].ToString();
-                        ls_impl_end_ymd = dr["IMPL_END_YMD"].ToString();
+                        ls_issue_begin_ymd = dr["ISSUE_BEGIN_YMD"].ToString().Replace("/", "");
+                        ls_issue_end_ymd = dr["ISSUE_END_YMD"].ToString().Replace("/", "");
+                        ls_impl_begin_ymd = dr["IMPL_BEGIN_YMD"].ToString().Replace("/", "");
+                        ls_impl_end_ymd = dr["IMPL_END_YMD"].ToString().Replace("/", "");
                         ls_flag = dr["DATA_FLAG"].AsString();
                         ldbl_rate = dr["ADJ_RATE"].AsDecimal();
 
