@@ -116,11 +116,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 ShowMsg(rptId + '－' + rptName + " 轉檔中...");
 
                 //1. 讀取檔案
-                DataTable dt43010 = dao43010.d_43010a(txtSDate.DateTimeValue, oswGrp);
+                DataTable dt43010 = dao43010.d_43010a(txtSDate.DateTimeValue.ToString("yyyyMMdd"), oswGrp);
                 if (dt43010.Rows.Count == 0) {
                     MessageDisplay.Info(txtSDate.Text + "," + rptId + '－' + rptName + ",無任何資料!");
                     //return ResultStatus.Fail;
                 }
+                int rowIndex = dt43010.Rows.Count;
 
                 //2. 複製檔案
                 file = PbFunc.wf_copy_file(rptId, rptId);
@@ -141,25 +142,29 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 rowStart = 2;
                 ws43010.Import(dt43010, false, rowStart, 1);
                 //5.2 二、本日結算保證金計算
-                //從B37開始填資料
-                rowStart = 36;
-                dt43010 = dao43010.d_43010b(txtSDate.DateTimeValue, oswGrp);
+                //SMA 從B41開始填資料
+                rowStart = 40;
+                dt43010 = dao43010.d_43010b(txtSDate.DateTimeValue.ToString("yyyyMMdd"), oswGrp);
                 ws43010.Import(dt43010, false, rowStart, 6);
-                //5.3 三、本日結算保證金變動幅度
-                //從B70開始填資料
-                rowStart = 69;
-                dt43010 = dao43010.d_43010c(txtSDate.DateTimeValue, oswGrp);
+                //EWMA 從B79開始填資料
+                //rowStart = 78;
+                //dt43010 = dao43010.d_43010c(txtSDate.DateTimeValue.ToString("yyyyMMdd"), oswGrp);
+                //ws43010.Import(dt43010, false, rowStart, 8);
+                //MAX 從B116開始填資料
+                rowStart = 115;
+                dt43010 = dao43010.d_43010c(txtSDate.DateTimeValue.ToString("yyyyMMdd"), oswGrp);
                 ws43010.Import(dt43010, false, rowStart, 8);
 
                 //6. 刪除空白列
-                int rowIndex = dt43010.Rows.Count;
                 int delRowCnt = 30 - rowIndex;
                 if (rowIndex < 30) {
-                    rowStart = 69;
+                    rowStart = 115;
                     ws43010.Rows.Remove(rowIndex + rowStart, delRowCnt);
-                    rowStart = 36 ;
+                    rowStart = 78;
                     ws43010.Rows.Remove(rowIndex + rowStart, delRowCnt);
-                    rowStart = 2 ;
+                    rowStart = 40;
+                    ws43010.Rows.Remove(rowIndex + rowStart, delRowCnt);
+                    rowStart = 2;
                     ws43010.Rows.Remove(rowIndex + rowStart, delRowCnt);
                 }
 
@@ -194,6 +199,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 #endregion
 
                 //存檔
+                ws43010 = workbook.Worksheets[0];
                 ws43010.ScrollToRow(0);
                 if (dt43010.Rows.Count == 0 && dt40011stat.Rows.Count == 0) {
                     ShowMsg("轉檔錯誤");
