@@ -32,7 +32,7 @@ namespace PhoenixCI.FormUI.PrefixS {
       protected string is_to_ymd;
       protected DateTime is_max_ymd;
       protected string[] modules1 = { "PSR", "VSR", "IMS", "SOM" };
-      protected string[] module2 = { "ZISP" };
+      protected string[] modules2 = { "ZISP" };
 
       public WS0072(string programID, string programName) : base(programID, programName) {
          InitializeComponent();
@@ -78,10 +78,7 @@ namespace PhoenixCI.FormUI.PrefixS {
 
          Retrieve();
 
-         //宣告事件
-         //gv_ZISP.CustomDrawColumnHeader += gvZISP_CustomDrawColumnHeader;
-
-         //製作連動下拉選單(觸發事件)
+         //製作連動下拉選單(加入觸發事件)
          for (int i = 0; i < modules1.Length; i++) {
             Control[] gridControls = this.Controls.Find("gc_" + modules1[i], true);
             GridControl gc = (GridControl)gridControls[0];
@@ -109,9 +106,9 @@ namespace PhoenixCI.FormUI.PrefixS {
             gv.GridControl.DataSource = dt;
          }
 
-         for (int i = 0; i < module2.Length; i++) {
+         for (int i = 0; i < modules2.Length; i++) {
             DataTable dt = daoS0072.zisp(GlobalInfo.USER_ID, "CFO.SPAN_ZISP");
-            GridView gv = GetGridView(module2[i]);
+            GridView gv = GetGridView(modules2[i]);
 
             gv.GridControl.DataSource = dt;
          }
@@ -159,8 +156,8 @@ namespace PhoenixCI.FormUI.PrefixS {
             resultStatus = daoS0072.udpateSpanContentData(dt).Status;
          }
 
-         for (int i = 0; i < module2.Length; i++) {
-            GridView gv = GetGridView(module2[i]);
+         for (int i = 0; i < modules2.Length; i++) {
+            GridView gv = GetGridView(modules2[i]);
 
             gv.CloseEditor();
             gv.UpdateCurrentRow();
@@ -208,7 +205,7 @@ namespace PhoenixCI.FormUI.PrefixS {
          periodTable.Rows[0].SetField("span_period_w_time", DateTime.Now);
 
          if (checkPeriod()) {
-            return daoS0072.updatePeriodData(periodTable).Status;//base.Save_Override(periodTable, "SPAN_PERIOD", DBName.CFO);
+            return daoS0072.updatePeriodData(periodTable).Status;
          } else {
             return ResultStatus.FailButNext;
          }
@@ -244,28 +241,6 @@ namespace PhoenixCI.FormUI.PrefixS {
                gv.DeleteRow(0);
          }
       }
-
-      #region Grid 跨欄位合併標題
-      //必須先宣告gvZISP.CustomDrawColumnHeader += gvZISP_CustomDrawColumnHeader;
-      Rectangle boundsPrevColumn;
-
-      protected void gvZISP_CustomDrawColumnHeader(object sender, ColumnHeaderCustomDrawEventArgs e) {
-         //if (e.Column == null)
-         //    return;
-         //if (e.Column.FieldName == "SPAN_ZISP_DPSR1") {
-         //    // e.Info.Caption = String.Empty;
-         //    boundsPrevColumn = e.Info.Bounds;//前面那個準備被覆蓋的欄位
-         //    e.Handled = true;
-         //}
-
-         ////後面那個欄位往前覆蓋
-         //if (e.Column.FieldName == "SPAN_ZISP_DPSR2") {
-         //    Rectangle bounds = (e.Painter as HeaderObjectPainter).CalcObjectBounds(e.Info);
-         //    e.Info.Bounds = new Rectangle(boundsPrevColumn.X, bounds.Y, bounds.Width + boundsPrevColumn.Width, bounds.Height);
-         //}
-      }
-
-      #endregion
 
       private void ZISP_btnClear_Click(object sender, EventArgs e) {
          if (MessageDisplay.Choose("確定刪除跨商品價差設定所有資料?").AsBool()) {
@@ -386,6 +361,9 @@ namespace PhoenixCI.FormUI.PrefixS {
          }
       }
 
+      /// <summary>
+      /// 取得 ZISP舊資料
+      /// </summary>
       protected void wf_get_hzisp() {
          if (txtEndDate.DateTimeValue.Subtract(txtStartDate.DateTimeValue).Days > 31) {
             MessageDisplay.Info("請輸入正確的日期區間，勿超過31天");
@@ -409,6 +387,11 @@ namespace PhoenixCI.FormUI.PrefixS {
          }
       }
 
+      /// <summary>
+      /// Tab 頁籤改變時, 動態設定下拉選單
+      /// </summary>
+      /// <param name="sender"></param>
+      /// <param name="e"></param>
       private void SpanTabControl_SelectedPageChanged(object sender, DevExpress.XtraTab.TabPageChangedEventArgs e) {
          if (e.Page.Name != "tab_ZISP") {
             string module = e.Page.Name.Split('_')[1];
@@ -436,6 +419,9 @@ namespace PhoenixCI.FormUI.PrefixS {
          return gc.MainView as GridView;
       }
 
+      /// <summary>
+      /// 設定表單日期區間
+      /// </summary>
       private void setDatePeriod() {
          DataTable dtSPN = daoS0072.d_s0070_1("SPN", GlobalInfo.USER_ID);
          if (dtSPN.Rows.Count <= 0) {
@@ -451,6 +437,9 @@ namespace PhoenixCI.FormUI.PrefixS {
          }
       }
 
+      /// <summary>
+      /// 檢查表單是否修改
+      /// </summary>
       private bool checkChanged() {
          for (int i = 0; i < modules1.Length; i++) {
             GridView gv = GetGridView(modules1[i]);
@@ -468,8 +457,8 @@ namespace PhoenixCI.FormUI.PrefixS {
             }
          }
 
-         for (int i = 0; i < module2.Length; i++) {
-            GridView gv = GetGridView(module2[i]);
+         for (int i = 0; i < modules2.Length; i++) {
+            GridView gv = GetGridView(modules2[i]);
 
             gv.CloseEditor();
             gv.UpdateCurrentRow();
@@ -502,6 +491,9 @@ namespace PhoenixCI.FormUI.PrefixS {
          return false;
       }
 
+      /// <summary>
+      /// 檢查表單是否填寫完成
+      /// </summary>
       private bool checkComplete() {
          bool completed = true;
 
@@ -526,8 +518,8 @@ namespace PhoenixCI.FormUI.PrefixS {
             }
          }
 
-         for (int i = 0; i < module2.Length; i++) {
-            GridView gv = GetGridView(module2[i]);
+         for (int i = 0; i < modules2.Length; i++) {
+            GridView gv = GetGridView(modules2[i]);
 
             gv.CloseEditor();
             gv.UpdateCurrentRow();
@@ -552,6 +544,9 @@ namespace PhoenixCI.FormUI.PrefixS {
          return completed;
       }
 
+      /// <summary>
+      /// 檢查日期規範
+      /// </summary>
       private bool checkPeriod() {
          bool check = true;
 
@@ -567,6 +562,9 @@ namespace PhoenixCI.FormUI.PrefixS {
          return check;
       }
 
+      /// <summary>
+      /// ZISP 欄位順序
+      /// </summary>
       private enum SpanZispColumn {
          SPAN_ZISP_PROD_ID = 0,
          SPAN_ZISP_COM_PROD1,

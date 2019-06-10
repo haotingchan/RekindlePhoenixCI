@@ -418,7 +418,7 @@ namespace BaseGround.Report
          /// <summary>
          /// 報表過濾條件設定
          /// </summary>
-         public ReportExprssion Expression { get; set; }
+         public DevExpress.XtraReports.UI.ExpressionBinding[] Expression { get; set; }
          /// <summary>
          /// 欄位寬度
          /// </summary>
@@ -444,17 +444,6 @@ namespace BaseGround.Report
          /// </summary>
          public bool DataRowMerge { get; set; }
       }
-      /// <summary>
-      /// 報表過濾條件設定
-      /// </summary>
-      public class ReportExprssion
-      {
-         /// <summary>
-         /// ex:"[UnitPrice] >= 30"
-         /// </summary>
-         public string Condition { get; set; }
-         public System.Drawing.Color BackColor { get; set; }
-         public System.Drawing.Color ForeColor { get; set; }
-      }
+
    }
 }

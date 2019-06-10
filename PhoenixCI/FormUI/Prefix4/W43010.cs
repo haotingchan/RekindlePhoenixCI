@@ -116,11 +116,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 ShowMsg(rptId + '－' + rptName + " 轉檔中...");
 
                 //1. 讀取檔案
-                DataTable dt43010 = dao43010.d_43010a(txtSDate.DateTimeValue, oswGrp);
+                DataTable dt43010 = dao43010.d_43010a(txtSDate.DateTimeValue.ToString("yyyyMMdd"), oswGrp);
                 if (dt43010.Rows.Count == 0) {
                     MessageDisplay.Info(txtSDate.Text + "," + rptId + '－' + rptName + ",無任何資料!");
                     //return ResultStatus.Fail;
                 }
+                int rowIndex = dt43010.Rows.Count;
 
                 //2. 複製檔案
                 file = PbFunc.wf_copy_file(rptId, rptId);
@@ -134,6 +135,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                 //4. 切換Sheet
                 Worksheet ws43010 = workbook.Worksheets[0];
+                string dataDate = "資料日期：" + Environment.NewLine + txtSDate.DateTimeValue.Year + "年" + txtSDate.DateTimeValue.Month + "月" + txtSDate.DateTimeValue.Day + "日";
+                ws43010.Cells[0, 9].Value = dataDate;
+                ws43010.Cells[35, 14].Value = dataDate;
+                ws43010.Cells[73, 14].Value = dataDate;
+                ws43010.Cells[110, 14].Value = dataDate;
 
                 //5. 填入資料
                 //5.1 一、現行收取保證金金額
@@ -141,25 +147,29 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 rowStart = 2;
                 ws43010.Import(dt43010, false, rowStart, 1);
                 //5.2 二、本日結算保證金計算
-                //從B37開始填資料
-                rowStart = 36;
-                dt43010 = dao43010.d_43010b(txtSDate.DateTimeValue, oswGrp);
-                ws43010.Import(dt43010, false, rowStart, 6);
-                //5.3 三、本日結算保證金變動幅度
-                //從B70開始填資料
-                rowStart = 69;
-                dt43010 = dao43010.d_43010c(txtSDate.DateTimeValue, oswGrp);
-                ws43010.Import(dt43010, false, rowStart, 8);
+                //SMA 從B41開始填資料
+                rowStart = 40;
+                dt43010 = dao43010.d_43010b(txtSDate.DateTimeValue.ToString("yyyyMMdd"), oswGrp);
+                ws43010.Import(dt43010, false, rowStart, 1);
+                //EWMA 從B79開始填資料
+                //rowStart = 78;
+                //dt43010 = dao43010.d_43010c(txtSDate.DateTimeValue.ToString("yyyyMMdd"), oswGrp);
+                //ws43010.Import(dt43010, false, rowStart, 1);
+                //MAX 從B116開始填資料
+                rowStart = 115;
+                dt43010 = dao43010.d_43010c(txtSDate.DateTimeValue.ToString("yyyyMMdd"), oswGrp);
+                ws43010.Import(dt43010, false, rowStart, 1);
 
                 //6. 刪除空白列
-                int rowIndex = dt43010.Rows.Count;
                 int delRowCnt = 30 - rowIndex;
                 if (rowIndex < 30) {
-                    rowStart = 69;
+                    rowStart = 115;
                     ws43010.Rows.Remove(rowIndex + rowStart, delRowCnt);
-                    rowStart = 36 ;
+                    rowStart = 78;
                     ws43010.Rows.Remove(rowIndex + rowStart, delRowCnt);
-                    rowStart = 2 ;
+                    rowStart = 40;
+                    ws43010.Rows.Remove(rowIndex + rowStart, delRowCnt);
+                    rowStart = 2;
                     ws43010.Rows.Remove(rowIndex + rowStart, delRowCnt);
                 }
 
@@ -194,6 +204,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 #endregion
 
                 //存檔
+                ws43010 = workbook.Worksheets[0];
                 ws43010.ScrollToRow(0);
                 if (dt43010.Rows.Count == 0 && dt40011stat.Rows.Count == 0) {
                     ShowMsg("轉檔錯誤");

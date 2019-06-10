@@ -1,12 +1,7 @@
-﻿using BusinessObjects;
-using BusinessObjects.Enums;
+﻿using BusinessObjects.Enums;
 using OnePiece;
-using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataObjects.Dao.Together.SpecificDao {
    public class DS0071 {
@@ -147,38 +142,6 @@ order by comb_prod desc
          DataTable dtResult = db.GetDataTable(sql, parms);
 
          return dtResult;
-      }
-
-      public ResultData updatePeriodData(DataTable inputData) {
-
-         string sql = @"SELECT SPAN_PERIOD_MODULE,
-	SPAN_PERIOD_START_DATE,
-	SPAN_PERIOD_END_DATE,
-	SPAN_PERIOD_USER_ID,
-	SPAN_PERIOD_W_TIME
-FROM CFO.SPAN_PERIOD";
-
-         return db.UpdateOracleDB(inputData, sql);
-
-      }
-
-      public ResultData updateParamData(DataTable inputData) {
-
-         string sql = @"SELECT 
-                                    SPAN_PARAM_MODULE,     
-                                    SPAN_PARAM_CLASS,     
-                                    SPAN_PARAM_CC,     
-                                    SPAN_PARAM_TYPE,     
-                                    SPAN_PARAM_VALUE,     
-                                    SPAN_PARAM_EXPIRY,     
-                                    SPAN_PARAM_VOL_TYPE,     
-                                    SPAN_PARAM_VOL_VALUE,     
-                                    SPAN_PARAM_USER_ID,    
-                                    SPAN_PARAM_W_TIME
-                                    FROM CFO.SPAN_PARAM";
-
-         return db.UpdateOracleDB(inputData, sql);
-
       }
 
       public ResultStatus UpdateAllDB(DataTable periodData, DataTable paramData) {

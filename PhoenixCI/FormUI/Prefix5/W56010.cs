@@ -12,6 +12,7 @@ using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System.IO;
 using BaseGround.Shared;
+using System.Threading;
 /// <summary>
 /// Lukas, 2019/1/3
 /// </summary>
@@ -104,64 +105,89 @@ namespace PhoenixCI.FormUI.Prefix5 {
             return ResultStatus.Success;
         }
 
+        protected void ShowMsg(string msg) {
+            lblProcessing.Text = msg;
+            this.Refresh();
+            Thread.Sleep(5);
+        }
+
         protected override ResultStatus Export() {
-
-            #region 檢查
-            //期貨商後面號碼不能小於前面號碼
-            //PB可以用字串直接比較但打內不行，只好用Index來比大小
-            string isSbrkno, isEbrkno;
-            isSbrkno = dwSbrkno.ItemIndex.ToString();
-            if (isSbrkno == null) {
-                isSbrkno = "";
-            }
-            isEbrkno = dwEbrkno.ItemIndex.ToString();
-            if (isEbrkno == null) {
-                isEbrkno = "";
-            }
-            if (int.Parse(isSbrkno) > int.Parse(isEbrkno) && isSbrkno != "") {
-                MessageBox.Show("造市者代號起始不可大於迄止!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                return ResultStatus.Fail;
-            }
-            #endregion
-
-            base.Export();
-            lblProcessing.Visible = true;
-            //依期貨商別或依商品別 輸出不同的Excel
-            string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
-            if (rdoGroup.EditValue.ToString() == "True") {
-                //讀取資料
-                string asSym = txtFromMonth.Text.Replace("/", "");
-                string asEym = txtToMonth.Text.Replace("/", "");
-                string startFcmNo = dwSbrkno.Text.Trim();
-                string endFcmNo = dwEbrkno.Text.Trim();
-                string prodType = dwProdCond.Text.Trim();
-                string rptName = "交易經手費收費明細表－依期貨商別";
-
-                DataTable dt56011 = dao56010.D56011(asSym, asEym, prodType, startFcmNo, endFcmNo);
-                if (dt56011.Rows.Count == 0) {
-                    MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtToMonth.Text.Replace("/", ""), rptName));
-                    File.Delete(excelDestinationPath);
+            try {
+                #region 檢查
+                //期貨商後面號碼不能小於前面號碼
+                //PB可以用字串直接比較但打內不行，只好用Index來比大小
+                string isSbrkno, isEbrkno;
+                isSbrkno = dwSbrkno.ItemIndex.ToString();
+                if (isSbrkno == null) {
+                    isSbrkno = "";
+                }
+                isEbrkno = dwEbrkno.ItemIndex.ToString();
+                if (isEbrkno == null) {
+                    isEbrkno = "";
+                }
+                if (int.Parse(isSbrkno) > int.Parse(isEbrkno) && isSbrkno != "") {
+                    MessageBox.Show("造市者代號起始不可大於迄止!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                     return ResultStatus.Fail;
                 }
-                wf_56011(excelDestinationPath, dt56011);
-            }
-            else {
-                //讀取資料
-                string asSym = txtFromMonth.Text.Replace("/", "");
-                string asEym = txtToMonth.Text.Replace("/", "");
-                string startFcmNo = dwSbrkno.Text.Trim();
-                string endFcmNo = dwEbrkno.Text.Trim();
-                string rptName = "交易經手費收費明細表－依商品別";
+                #endregion
 
-                DataTable dt56012 = dao56010.D56012(asSym, asEym, startFcmNo, endFcmNo);
-                if (dt56012.Rows.Count == 0) {
-                    MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtToMonth.Text.Replace("/", ""), rptName));
-                    File.Delete(excelDestinationPath);
-                    return ResultStatus.Fail;
+                base.Export();
+                this.Cursor = Cursors.WaitCursor;
+                this.Refresh();
+                Thread.Sleep(5);
+                lblProcessing.Visible = true;
+                ShowMsg("開始轉檔...");
+                //依期貨商別或依商品別 輸出不同的Excel
+                string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
+                if (rdoGroup.EditValue.ToString() == "True") {
+                    //讀取資料
+                    string asSym = txtFromMonth.Text.Replace("/", "");
+                    string asEym = txtToMonth.Text.Replace("/", "");
+                    string startFcmNo = dwSbrkno.Text.Trim();
+                    string endFcmNo = dwEbrkno.Text.Trim();
+                    string prodType = dwProdCond.Text.Trim();
+                    string rptName = "交易經手費收費明細表－依期貨商別";
+                    string rptId = "56010";
+                    ShowMsg(rptId + '－' + rptName + " 轉檔中...");
+                    DataTable dt56011 = dao56010.D56011(asSym, asEym, prodType, startFcmNo, endFcmNo);
+                    if (dt56011.Rows.Count == 0) {
+                        MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtToMonth.Text.Replace("/", ""), rptName));
+                        File.Delete(excelDestinationPath);
+                        ShowMsg("");
+                        return ResultStatus.Fail;
+                    }
+                    wf_56011(excelDestinationPath, dt56011);
                 }
-                wf_56012(excelDestinationPath, dt56012);
+                else {
+                    //讀取資料
+                    string asSym = txtFromMonth.Text.Replace("/", "");
+                    string asEym = txtToMonth.Text.Replace("/", "");
+                    string startFcmNo = dwSbrkno.Text.Trim();
+                    string endFcmNo = dwEbrkno.Text.Trim();
+                    string rptName = "交易經手費收費明細表－依商品別";
+                    string rptId = "56010";
+                    ShowMsg(rptId + '－' + rptName + " 轉檔中...");
+                    DataTable dt56012 = dao56010.D56012(asSym, asEym, startFcmNo, endFcmNo);
+                    if (dt56012.Rows.Count == 0) {
+                        MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtToMonth.Text.Replace("/", ""), rptName));
+                        File.Delete(excelDestinationPath);
+                        ShowMsg("");
+                        return ResultStatus.Fail;
+                    }
+                    wf_56012(excelDestinationPath, dt56012);
+                }
+                ShowMsg("轉檔成功");
             }
-            lblProcessing.Visible = false;
+            catch (Exception ex) {
+                //WriteLog(ex, "", false); 如果不用throw會繼續往下執行(?
+                ShowMsg("轉檔錯誤");
+                throw ex;
+            }
+            finally {
+                this.Cursor = Cursors.Arrow;
+                this.Refresh();
+                Thread.Sleep(5);
+            }
             return ResultStatus.Success;
         }
 

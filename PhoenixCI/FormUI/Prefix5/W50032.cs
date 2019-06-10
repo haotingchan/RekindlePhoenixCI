@@ -304,11 +304,17 @@ namespace PhoenixCI.FormUI.Prefix5
             new ReportProp{DataColumn="AMM0_YMD",Caption= "日期" ,CellWidth=65,DetailRowFontSize=9,HeaderFontSize=11},
             new ReportProp{DataColumn="AMM0_OM_QNTY",Caption= "委託          成交量",CellWidth=65,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",DetailRowFontSize=10,HeaderFontSize=11},
             new ReportProp{DataColumn="AMM0_QM_QNTY",Caption= "報價          成交量",CellWidth=65,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",DetailRowFontSize=10,HeaderFontSize=11},
-            new ReportProp{DataColumn="QNTY",Caption= "造市量" ,CellWidth=65,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",DetailRowFontSize=10,HeaderFontSize=11,Expression=new ReportExprssion{ Condition="[QNTY] < [MMF_QNTY_LOW]",BackColor=Color.FromArgb(255,128,255),ForeColor=Color.Black } },
+            new ReportProp{DataColumn="QNTY",Caption= "造市量" ,CellWidth=65,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",DetailRowFontSize=10,HeaderFontSize=11,
+               Expression =new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[QNTY]"),
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "BackColor", "Iif ([QNTY] < [MMF_QNTY_LOW], RGB(255,128,255), RGB(255,255,255))")} },
             new ReportProp{DataColumn="CP_M_QNTY",Caption= "造市者   總成交量" ,CellWidth=75,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",DetailRowFontSize=10,HeaderFontSize=11},
             new ReportProp{DataColumn="CP_RATE_M",Caption= "總成交量   市佔率(%)",CellWidth=60,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:##0.0#}",DetailRowFontSize=10,HeaderFontSize=8},
             new ReportProp{DataColumn="AMM0_VALID_CNT",Caption= "有效報價     筆數",CellWidth=75,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",DetailRowFontSize=10,HeaderFontSize=11},
-            new ReportProp{DataColumn="VALID_RATE",Caption= "有效報/詢價   比例(%)",CellWidth=70,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:##0.0#}",DetailRowFontSize=10,HeaderFontSize=8,Expression=new ReportExprssion{ Condition="[VALID_RATE] < [MMF_RESP_RATIO]",BackColor=Color.FromArgb(255,128,255),ForeColor=Color.Black }},
+            new ReportProp{DataColumn="VALID_RATE",Caption= "有效報/詢價   比例(%)",CellWidth=70,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:##0.0#}",DetailRowFontSize=10,HeaderFontSize=8,
+               Expression =new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[VALID_RATE]"),
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "BackColor", "Iif ([VALID_RATE] < [MMF_RESP_RATIO], RGB(255,128,255), RGB(255,255,255))")}},
             new ReportProp{DataColumn="AMM0_MARKET_R_CNT",Caption= "全市場   詢價筆數",CellWidth=75,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",DetailRowFontSize=10,HeaderFontSize=11},
             new ReportProp{DataColumn="AMM0_MARKET_M_QNTY",Caption= "全市場   總成交量",CellWidth=75,textAlignment=TextAlignment.MiddleRight,TextFormatString="{0:#,##0}",DetailRowFontSize=10,HeaderFontSize=11},
             new ReportProp{DataColumn="AMM0_KEEP_FLAG",Caption= "符合報價每日平均維持時間",CellWidth=55,textAlignment=TextAlignment.MiddleCenter,DetailRowFontSize=10,HeaderFontSize=8}

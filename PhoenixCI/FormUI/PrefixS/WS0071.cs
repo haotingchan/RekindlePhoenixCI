@@ -10,7 +10,6 @@ using DevExpress.XtraEditors.Repository;
 using BaseGround.Shared;
 using DevExpress.XtraEditors.Controls;
 using BusinessObjects;
-using static DataObjects.Dao.DataGate;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraEditors;
 using DevExpress.XtraGrid.Views.Base;
@@ -73,6 +72,11 @@ namespace PhoenixCI.FormUI.PrefixS {
             dtTempParamValue.Rows[i].SetField("COD_ID", dtParamValueData.Rows[i]["span_param_value"]);
             dtTempParamValue.Rows[i].SetField("COD_DESC", dtParamValueData.Rows[i]["span_param_value"]);
             dtTempParamValue.Rows[i].SetField("CP_DISPLAY", dtParamValueData.Rows[i]["span_param_value"]);
+
+            //CODID = 4 時 顯示 "最大漲跌停"
+            if (dtTempParamValue.Rows[i]["COD_ID"].AsString() == "4") {
+               dtTempParamValue.Rows[i].SetField("COD_DESC", "最大漲跌停");
+            }
          }
          DataView dtDistinc = new DataView(dtTempParamValue);
          dtTempParamValue = dtDistinc.ToTable(true);
@@ -109,6 +113,8 @@ namespace PhoenixCI.FormUI.PrefixS {
          gvMain.ShownEditor += GridView_ShownEditor;
          cbxProdType.EditValueChanged += cbxProdType_EditValueChanged;
          #endregion
+
+         Retrieve();
       }
 
       protected override ResultStatus Retrieve() {
@@ -140,12 +146,6 @@ namespace PhoenixCI.FormUI.PrefixS {
          }
          gcMain.DataSource = returnTable;
 
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus AfterOpen() {
-         base.AfterOpen();
-         Retrieve();
          return ResultStatus.Success;
       }
 
@@ -331,6 +331,9 @@ namespace PhoenixCI.FormUI.PrefixS {
          return true;
       }
 
+      /// <summary>
+      /// 檢查日期規範
+      /// </summary>
       private bool checkPeriod() {
 
          if (txtEndDate.DateTimeValue.Subtract(txtStartDate.DateTimeValue).Days > 31) {
@@ -345,6 +348,9 @@ namespace PhoenixCI.FormUI.PrefixS {
          return true;
       }
 
+      /// <summary>
+      /// 檢查表單欄位
+      /// </summary>
       private bool checkChanged() {
 
          DataTable dt = (DataTable)gcMain.DataSource;

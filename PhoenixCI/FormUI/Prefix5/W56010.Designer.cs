@@ -37,6 +37,7 @@
             this.txtFromMonth = new BaseGround.Widget.TextDateEdit();
             this.label1 = new System.Windows.Forms.Label();
             this.lblDate = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl)).BeginInit();
@@ -89,6 +90,7 @@
             // 
             this.grpxDescription.AutoSize = true;
             this.grpxDescription.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+            this.grpxDescription.Controls.Add(this.label3);
             this.grpxDescription.Controls.Add(this.dwProdCond);
             this.grpxDescription.Controls.Add(this.dwEbrkno);
             this.grpxDescription.Controls.Add(this.rdoGroup);
@@ -104,14 +106,14 @@
             this.grpxDescription.ForeColor = System.Drawing.Color.Navy;
             this.grpxDescription.Location = new System.Drawing.Point(15, 15);
             this.grpxDescription.Name = "grpxDescription";
-            this.grpxDescription.Size = new System.Drawing.Size(678, 263);
+            this.grpxDescription.Size = new System.Drawing.Size(678, 264);
             this.grpxDescription.TabIndex = 12;
             this.grpxDescription.TabStop = false;
             this.grpxDescription.Text = "請輸入交易日期";
             // 
             // dwProdCond
             // 
-            this.dwProdCond.Location = new System.Drawing.Point(135, 193);
+            this.dwProdCond.Location = new System.Drawing.Point(135, 210);
             this.dwProdCond.MenuManager = this.ribbonControl;
             this.dwProdCond.Name = "dwProdCond";
             this.dwProdCond.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
@@ -132,7 +134,7 @@
             // rdoGroup
             // 
             this.rdoGroup.EditValue = true;
-            this.rdoGroup.Location = new System.Drawing.Point(135, 135);
+            this.rdoGroup.Location = new System.Drawing.Point(135, 152);
             this.rdoGroup.MenuManager = this.ribbonControl;
             this.rdoGroup.Name = "rdoGroup";
             this.rdoGroup.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
@@ -166,7 +168,7 @@
             // 
             this.lblCondition.AutoSize = true;
             this.lblCondition.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-            this.lblCondition.Location = new System.Drawing.Point(40, 196);
+            this.lblCondition.Location = new System.Drawing.Point(40, 213);
             this.lblCondition.Name = "lblCondition";
             this.lblCondition.Size = new System.Drawing.Size(90, 21);
             this.lblCondition.TabIndex = 10;
@@ -242,6 +244,16 @@
             this.lblDate.TabIndex = 2;
             this.lblDate.Text = "月份：";
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.label3.Location = new System.Drawing.Point(355, 120);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(186, 21);
+            this.label3.TabIndex = 15;
+            this.label3.Text = "（空白代表不設定條件）";
+            // 
             // W56010
             // 
             this.Appearance.Options.UseFont = true;
@@ -284,5 +296,6 @@
         private BaseGround.Widget.TextDateEdit txtFromMonth;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblDate;
+        private System.Windows.Forms.Label label3;
     }
 }

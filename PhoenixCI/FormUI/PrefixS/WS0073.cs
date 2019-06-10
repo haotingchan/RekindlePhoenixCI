@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data;
 using System.Linq;
-using System.Windows.Forms;
 using BaseGround;
 using BusinessObjects.Enums;
 using DataObjects.Dao.Together.SpecificDao;
@@ -12,7 +11,6 @@ using BusinessObjects;
 using Common;
 using DataObjects.Dao.Together;
 using DevExpress.XtraEditors;
-using static DataObjects.Dao.DataGate;
 
 namespace PhoenixCI.FormUI.PrefixS {
    public partial class WS0073 : FormParent {
@@ -103,6 +101,8 @@ namespace PhoenixCI.FormUI.PrefixS {
          gcMain.RepositoryItems.Add(cbxSpnPath);
          SPAN_MARGIN_SPN_PATH.ColumnEdit = cbxSpnPath;
          #endregion
+
+         Retrieve();
       }
 
       protected override ResultStatus Save(PokeBall pokeBall) {
@@ -126,6 +126,8 @@ namespace PhoenixCI.FormUI.PrefixS {
                //MessageDisplay.Error("儲存錯誤!");
                return ResultStatus.Fail;
             }
+
+            dt.Rows[0].SetField("SPAN_MARGIN_USER_ID", GlobalInfo.USER_ID);
             resultStatus = daoS0073.UpdateAllDB(periodTable, dt);
             if (resultStatus != ResultStatus.Success) {
                MessageDisplay.Error("儲存錯誤!");
@@ -213,12 +215,6 @@ namespace PhoenixCI.FormUI.PrefixS {
          return checkPeriod() ? ResultStatus.Success : ResultStatus.FailButNext;
       }
 
-      protected override ResultStatus AfterOpen() {
-         base.AfterOpen();
-         Retrieve();
-         return ResultStatus.Success;
-      }
-
       protected override ResultStatus ActivatedForm() {
          base.ActivatedForm();
 
@@ -239,6 +235,9 @@ namespace PhoenixCI.FormUI.PrefixS {
          e.Handled = true;
       }
 
+      /// <summary>
+      /// 檢查日期規範
+      /// </summary>
       private bool checkPeriod() {
 
          if (txtEndDate.DateTimeValue.Subtract(txtStartDate.DateTimeValue).Days > 31) {
@@ -253,6 +252,9 @@ namespace PhoenixCI.FormUI.PrefixS {
          return true;
       }
 
+      /// <summary>
+      /// 檢查表單資料是否被修改
+      /// </summary>
       private bool checkChanged() {
 
          DataTable dt = (DataTable)gcMain.DataSource;
@@ -272,6 +274,10 @@ namespace PhoenixCI.FormUI.PrefixS {
          return false;
       }
 
+      /// <summary>
+      /// 檢查表單是否填寫完成
+      /// </summary>
+      /// <param name="dtSource"></param>
       private bool checkComplete(DataTable dtSource) {
 
          foreach (DataColumn column in dtSource.Columns) {
