@@ -40,7 +40,7 @@ SELECT IDFG_TYPE,
         )
   WHERE IDFG_TABLE_ID = tbl_id
     AND IDFG_TYPE = acc_grp_code(+)
-ORDER BY idfg_type, idfg_acc_code
+ORDER BY idfg_type, Upper(idfg_acc_code),ascii(idfg_acc_code) desc
 ";
             DataTable dtResult = db.GetDataTable(sql, parms);
 

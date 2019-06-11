@@ -83,6 +83,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
             DataTable dt30205 = dao30205.d_30205(txtSDate.Text.Replace("/", ""), txtEDate.Text.Replace("/", ""));
             if (dt30205.Rows.Count == 0) {
                 MessageDisplay.Info(txtSDate.Text + "～" + txtEDate.Text + "," + rptId + '－' + rptName + ",無任何資料!");
+                //若所有Sheet皆無資料時，刪除檔案
+                workbook = null;
+                System.IO.File.Delete(file);
                 return ResultStatus.Fail;
             }
 
@@ -104,7 +107,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 //group 1 ("pl2_ymd" , "pl2_effective_ymd)
                 int cpGrpCnt = dt30205.Compute("count( pl2_kind_id)", $@"PL2_YMD='{pl2Ymd}' and PL2_EFFECTIVE_YMD='{pl2EffectiveYmd}'").AsInt();
                 for (g = 1; g <= cpGrpCnt; g++) {
-                    if (dt30205.Rows[f + g - 1]["PL2_NATURE_ADJ"].AsString() == "+") {
+                    if (dt30205.Rows[f + g - 1]["PL2_NATURE_ADJ"].AsString() == "+"||
+                        dt30205.Rows[f + g - 1]["PL2_LEGAL_ADJ"].AsString() == "+"||
+                        dt30205.Rows[f + g - 1]["PL2_999_ADJ"].AsString() == "+") {
                         raiseStr = raiseStr + dt30205.Rows[f + g - 1]["PL2_KIND_ID"].AsString() + "/";
                     }
                     else {
@@ -112,8 +117,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
                     }
                 }
                 f = f + cpGrpCnt - 1;
-                if (dr["PL2_YMD"] != DBNull.Value) ws30205.Cells[rowNum, 0].Value = dr["PL2_YMD"].AsDateTime("yyyyMMdd").ToString("yyyy/MM/dd");
-                if (dr["PL2_EFFECTIVE_YMD"] != DBNull.Value) ws30205.Cells[rowNum, 1].Value = dr["PL2_EFFECTIVE_YMD"].AsDateTime("yyyyMMdd").ToString("yyyy/MM/dd");
+                if (dr["PL2_YMD"] != DBNull.Value) ws30205.Cells[rowNum, 0].Value = dr["PL2_YMD"].AsDateTime("yyyyMMdd").ToString("yyyy/M/d");
+                if (dr["PL2_EFFECTIVE_YMD"] != DBNull.Value) ws30205.Cells[rowNum, 1].Value = dr["PL2_EFFECTIVE_YMD"].AsDateTime("yyyyMMdd").ToString("yyyy/M/d");
                 ws30205.Cells[rowNum, 2].Value = raiseStr.SubStr(0, raiseStr.Length - 1);
                 ws30205.Cells[rowNum, 3].Value = lowerStr.SubStr(0, lowerStr.Length - 1);
             }

@@ -307,7 +307,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 ym = (eymd.SubStr(4, 2).AsInt() + 1).AsString() + "01";
             }
             else {
-                ym = eymd.SubStr(0, 4) + ("0" + (eymd.SubStr(4, 2).AsInt() + 1).AsString()).SubStr(1, 2);
+                ym = eymd.SubStr(0, 4) + ("0" + (eymd.SubStr(4, 2).AsInt() + 1).AsString()).SubStr(0, 2);
             }
             ym = PbFunc.relativedate((ym.SubStr(0, 4) + "/" + ym.SubStr(4, 2) + "/01").AsDateTime("yyyy/MM/dd"), -1).ToString("yyyyMMdd");
             DataTable dt30034 = dao30030.d_30034(txtSDate.Text.SubStr(0, 4) + "0101",
