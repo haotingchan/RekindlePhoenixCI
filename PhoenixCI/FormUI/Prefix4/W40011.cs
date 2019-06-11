@@ -104,6 +104,7 @@ namespace PhoenixCI.FormUI.Prefix4
 
       protected void ShowMsg(string msg)
       {
+         stMsgTxt.Visible = true;
          stMsgTxt.Text = msg;
          this.Refresh();
          Thread.Sleep(5);
@@ -163,5 +164,23 @@ namespace PhoenixCI.FormUI.Prefix4
          return ResultStatus.Success;
       }
 
+      private void EWMAbtn_Click(object sender, EventArgs e)
+      {
+         string filepath = CopyExcelTemplateFile("40010",FileType.XLS);
+         try {
+            this.Cursor = Cursors.WaitCursor;
+            this.Refresh();
+            Thread.Sleep(5);
+            ShowMsg("EWMA 計算中...");
+            OutputShowMessage = new B40011(_ProgramID, emDate.Text).ComputeEWMA(filepath);
+         }
+         catch (Exception ex) {
+            File.Delete(filepath);
+            throw ex;
+         }
+         finally {
+            EndExport();
+         }
+      }
    }
 }

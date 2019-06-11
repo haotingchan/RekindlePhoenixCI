@@ -38,6 +38,7 @@
          this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
          this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
          this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
+         this.EWMAbtn = new System.Windows.Forms.Button();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
          this.panelControl2.SuspendLayout();
@@ -114,6 +115,7 @@
          this.gb_1.Appearance.Options.UseTextOptions = true;
          this.gb_1.Appearance.TextOptions.Trimming = DevExpress.Utils.Trimming.Word;
          this.gb_1.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+         this.gb_1.Controls.Add(this.EWMAbtn);
          this.gb_1.Controls.Add(this.emDate);
          this.gb_1.Controls.Add(this.stDate);
          this.gb_1.Location = new System.Drawing.Point(28, 25);
@@ -134,9 +136,11 @@
          this.emDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.emDate.Properties.Mask.EditMask = "yyyy/MM/dd";
          this.emDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.emDate.Properties.Mask.ShowPlaceHolders = false;
          this.emDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.emDate.Size = new System.Drawing.Size(95, 28);
          this.emDate.TabIndex = 4;
+         this.emDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
          // 
          // stDate
          // 
@@ -182,6 +186,16 @@
          this.layoutControlItem3.Size = new System.Drawing.Size(0, 0);
          this.layoutControlItem3.TextSize = new System.Drawing.Size(50, 20);
          // 
+         // EWMAbtn
+         // 
+         this.EWMAbtn.Location = new System.Drawing.Point(246, 24);
+         this.EWMAbtn.Name = "EWMAbtn";
+         this.EWMAbtn.Size = new System.Drawing.Size(106, 37);
+         this.EWMAbtn.TabIndex = 5;
+         this.EWMAbtn.Text = "EWMA計算";
+         this.EWMAbtn.UseVisualStyleBackColor = true;
+         this.EWMAbtn.Click += new System.EventHandler(this.EWMAbtn_Click);
+         // 
          // W40011
          // 
          this.Appearance.Options.UseFont = true;
@@ -225,5 +239,6 @@
       private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup1;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
       private System.Windows.Forms.Label stDate;
+      private System.Windows.Forms.Button EWMAbtn;
    }
 }

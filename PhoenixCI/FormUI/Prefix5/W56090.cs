@@ -107,7 +107,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
          gvMain.UpdateCurrentRow();
 
          try {
-            ResultStatus status = dao56090.updateData(dtReadTxt).Status;//base.Save_Override(dtReadTxt, "FEETDCC");
+            ResultStatus status = dao56090.updateData(dtReadTxt).Status;
             if (status == ResultStatus.Fail) {
                return ResultStatus.Fail;
             }
