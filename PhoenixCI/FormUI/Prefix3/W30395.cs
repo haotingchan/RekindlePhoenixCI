@@ -11,6 +11,7 @@ using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
+using DevExpress.Spreadsheet.Charts;
 
 /// <summary>
 /// ken,2019/4/8
@@ -246,6 +247,23 @@ namespace PhoenixCI.FormUI.Prefix3 {
                ws.DeleteCells(ws.Range[cellRange] , DeleteMode.EntireRow);
                //ken,用DeleteCells還是不行,測試結果似乎xlsx的圖表公式一直固定,不會更新
             }
+
+            //1.6 圖表範圍重選
+            ChartObject chartObjs = workbook.ChartSheets[$"{ws.Name}a"].Chart;
+            ChartData newChartData = new ChartData();
+            //黃金 or 台幣黃金期貨總成交量
+            newChartData.RangeValue = ws.Range["D4:D" + (rowIndex + 1).AsString()];
+            chartObjs.Series[0].Values = newChartData;
+            //黃金 or 台幣黃金期貨總未平倉量
+            newChartData.RangeValue = ws.Range["E4:E" + (rowIndex + 1).AsString()];
+            chartObjs.Series[1].Values = newChartData;
+            //黃金 or 台幣黃金期貨價格
+            newChartData.RangeValue = ws.Range["B4:B" + (rowIndex + 1).AsString()];
+            chartObjs.Series[2].Values = newChartData;
+            //現貨價格
+            newChartData.RangeValue = ws.Range["F4:F" + (rowIndex + 1).AsString()];
+            chartObjs.Series[3].Values = newChartData;
+
             return 1;
          }
 

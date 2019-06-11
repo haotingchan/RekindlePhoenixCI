@@ -2,11 +2,9 @@
 using System.Data;
 using BaseGround;
 using BusinessObjects.Enums;
-using System.IO;
 using Common;
 using DevExpress.Spreadsheet;
 using DataObjects.Dao.Together;
-using DataObjects.Dao.Together.SpecificDao;
 using System.Globalization;
 using BaseGround.Shared;
 
@@ -55,7 +53,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
             #endregion
 
-            string destinationFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);//Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, Filename);
+            string destinationFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
             int oleRow = 1;
 
             workbook.LoadDocument(destinationFilePath);
@@ -63,10 +61,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             #region Get RPT
             dtRPT = daoRPT.ListData("%" + _ProgramID + "%");
-
-            //if (dtRPT.Rows.Count <= 0) {
-            //    MessageDisplay.Info(_ProgramID + '－' + "RPT無任何資料!");
-            //}
 
             //填寫日期
             TaiwanCalendar tai = new TaiwanCalendar();
@@ -93,10 +87,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
             #region Get AI2
             dtAi2 = daoAI2.ListAI2ByYmd(date.ToString("yyyyMM"), date.ToString("yyyyMM"), asParamKey);
 
-            //if (dtAi2.Rows.Count <= 0) {
-            //    MessageDisplay.Info(_ProgramID + '－' + "AI2無任何資料!");
-            //}
-
             //切換sheet
             paramKey = "";
             foreach (DataRow r in dtAi2.Rows) {
@@ -114,12 +104,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
             #endregion
 
-            #region Ger Ramm1
+            #region Get Ramm1
             dtRamm1 = daoRamm1.ListRamm1Ymd(date.ToString("yyyyMM") + "01", date.ToString("yyyyMM") + "31", asParamKey);
-
-            //if (dtRamm1.Rows.Count <= 0) {
-            //    MessageDisplay.Info(_ProgramID + '－' + "Ramm1無任何資料!");
-            //}
 
             paramKey = "";
             foreach (DataRow r in dtRamm1.Rows) {

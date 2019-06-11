@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Windows.Forms;
 using BaseGround;
 using BaseGround.Report;
 using Common;
@@ -14,8 +13,8 @@ using System.Linq;
 
 namespace PhoenixCI.FormUI.Prefix5 {
    public partial class W51060 : FormParent {
-      private string allowCol = "MMIQ_INVALID_QNTY";
-      private string disableCol = "MMIQ_YM";
+      private string allowCol = "MMIQ_INVALID_QNTY";//可編輯欄位
+      private string disableCol = "MMIQ_YM";//不可編輯欄位
       private D51060 dao51060;
 
       public W51060(string programID, string programName) : base(programID, programName) {
@@ -34,7 +33,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
          if (returnTable.Rows.Count == 0) {
             MessageDisplay.Info("無任何資料");
          }
-         //returnTable.Columns.Add("Is_NewRow", typeof(string));
          gcMain.DataSource = returnTable;
 
          gcMain.Focus();
@@ -75,12 +73,14 @@ namespace PhoenixCI.FormUI.Prefix5 {
                      r.Delete();
                   }
                }
-               resultStatus = dao51060.updateData(dt).Status;//base.Save_Override(dt, "MMIQ");
+               resultStatus = dao51060.updateData(dt).Status;
                if (resultStatus == ResultStatus.Fail) {
                   MessageDisplay.Error("儲存失敗");
                   return ResultStatus.Fail;
                }
             }
+
+            //列印新增 刪除 修改的資料
             PrintOrExportChangedByKen(gcMain, dtForAdd, null, dtForModified);
          } catch (Exception ex) {
             throw ex;
@@ -127,6 +127,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
          return ResultStatus.Success;
       }
 
+      /// <summary>
+      /// 檢查表單是否填寫完成
+      /// </summary>
+      /// <param name="dtSource"></param>
+      /// <returns></returns>
       private bool checkComplete(DataTable dtSource) {
 
          foreach (DataColumn column in dtSource.Columns) {
@@ -138,6 +143,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
          return true;
       }
 
+      /// <summary>
+      /// 判斷是否是新增列, 若是新增列開啟編輯
+      /// </summary>
+      /// <param name="sender"></param>
+      /// <param name="e"></param>
       private void gvMain_ShowingEditor(object sender, CancelEventArgs e) {
          GridView gv = sender as GridView;
          string Is_NewRow = gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["IS_NEWROW"]) == null ? "0" :
@@ -151,6 +161,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
          }
       }
 
+      /// <summary>
+      /// 新增列開放全欄位編輯, 並做dataRow 的初始設定
+      /// </summary>
+      /// <param name="sender"></param>
+      /// <param name="e"></param>
       private void gvMain_NewRowAllowEdit(object sender, InitNewRowEventArgs e) {
          GridView gv = sender as GridView;
          gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["MMIQ_YM"], txtYM.Text.Replace("/", ""));
@@ -159,6 +174,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
          gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["IS_NEWROW"], 1);
       }
 
+      /// <summary>
+      /// 新增列改變顏色
+      /// </summary>
+      /// <param name="sender"></param>
+      /// <param name="e"></param>
       private void gvMain_RowCellStyle(object sender, RowCellStyleEventArgs e) {
          GridView gv = sender as GridView;
          string Is_NewRow = gv.GetRowCellValue(e.RowHandle, gv.Columns["IS_NEWROW"]) == null ? "0" :

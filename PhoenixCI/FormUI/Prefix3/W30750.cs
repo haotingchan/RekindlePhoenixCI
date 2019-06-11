@@ -29,7 +29,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             Workbook workbook = new Workbook();
 
-            string destinationFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);//Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, Filename);
+            string destinationFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
             string sYmd = txtSDate.DateTimeValue.ToString("yyyyMM");
             string eYmd = txtEDate.DateTimeValue.ToString("yyyyMM");
             int inputYear = txtEDate.DateTimeValue.Year - txtSDate.DateTimeValue.Year;

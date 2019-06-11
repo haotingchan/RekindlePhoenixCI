@@ -170,6 +170,10 @@ namespace PhoenixCI.FormUI.PrefixS {
                return ResultStatus.FailButNext;
             }
 
+            //檢查日期區間
+            if(!CheckPeriod()) return ResultStatus.FailButNext;
+
+            //檢查帳號及壓力測試參數
             DataTable dtExAccount = (DataTable)gcExAccount.DataSource;
             GenWTime(dtExAccount, "SPAN_ACCT_W_TIME", "SPAN_ACCT_USER_ID");
             if (!checkExAccount()) return ResultStatus.FailButNext;
@@ -276,8 +280,17 @@ namespace PhoenixCI.FormUI.PrefixS {
 
          foreach (DataRow r in dtExAccount.Rows) {
             if (r.RowState != DataRowState.Deleted) {
-               if (r["SPAN_ACCT_FCM_NO"].AsString().SubStr(4, 3) == "999") {
+
+               //期貨商代號欄位必須為7碼，末3碼不為999
+               if (r["SPAN_ACCT_FCM_NO"].AsString().SubStr(4, 3) == "999" ||
+                   r["SPAN_ACCT_FCM_NO"].AsString().Length != 7) {
                   MessageDisplay.Info("期貨商代號欄位必須為7碼，末3碼不為999");
+                  return false;
+               }
+
+               //交易人代號欄位必須為7碼
+               if (r["SPAN_ACCT_ACC_NO"].AsString().Length != 7) {
+                  MessageDisplay.Info("交易人代號欄位必須為7碼");
                   return false;
                }
             }

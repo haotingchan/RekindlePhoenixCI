@@ -68,6 +68,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                     ra.Delete(DeleteMode.EntireRow);
                 }
 
+                //圖表重選範圍
                 ChartObject chartObjs = workbook.ChartSheets[0].Chart;
                 chartObjs.Series[0].SeriesName.SetValue("近月份期貨契約指數");
                 ChartData closePrice = new ChartData();

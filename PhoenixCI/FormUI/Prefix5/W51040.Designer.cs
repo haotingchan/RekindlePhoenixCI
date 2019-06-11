@@ -33,6 +33,7 @@
             this.MMWK_YM = new DevExpress.XtraGrid.Columns.GridColumn();
             this.MMWK_KIND_ID = new DevExpress.XtraGrid.Columns.GridColumn();
             this.MMWK_WEIGHT = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.MMWK_W_USER_ID = new DevExpress.XtraGrid.Columns.GridColumn();
             this.MMWK_W_TIME = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Is_NewRow = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -44,6 +45,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
             this.SuspendLayout();
             // 
             // panParent
@@ -126,6 +128,8 @@
             this.gcMain.MainView = this.gvMain;
             this.gcMain.MenuManager = this.ribbonControl;
             this.gcMain.Name = "gcMain";
+            this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repositoryItemTextEdit1});
             this.gcMain.Size = new System.Drawing.Size(777, 384);
             this.gcMain.TabIndex = 0;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -178,11 +182,21 @@
             this.MMWK_WEIGHT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.MMWK_WEIGHT.AppearanceHeader.Options.UseBackColor = true;
             this.MMWK_WEIGHT.Caption = "權重";
+            this.MMWK_WEIGHT.ColumnEdit = this.repositoryItemTextEdit1;
+            this.MMWK_WEIGHT.DisplayFormat.FormatString = "0.####";
+            this.MMWK_WEIGHT.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.MMWK_WEIGHT.FieldName = "MMWK_WEIGHT";
             this.MMWK_WEIGHT.Name = "MMWK_WEIGHT";
             this.MMWK_WEIGHT.Visible = true;
             this.MMWK_WEIGHT.VisibleIndex = 3;
-            this.MMWK_WEIGHT.Width = 50;
+            this.MMWK_WEIGHT.Width = 69;
+            // 
+            // repositoryItemTextEdit1
+            // 
+            this.repositoryItemTextEdit1.AutoHeight = false;
+            this.repositoryItemTextEdit1.EditFormat.FormatString = "0.####";
+            this.repositoryItemTextEdit1.EditFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
             // 
             // MMWK_W_USER_ID
             // 
@@ -225,6 +239,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -245,5 +260,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn Is_NewRow;
         private DevExpress.XtraGrid.Columns.GridColumn MMWK_W_USER_ID;
         private DevExpress.XtraGrid.Columns.GridColumn MMWK_W_TIME;
+        private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit1;
     }
 }

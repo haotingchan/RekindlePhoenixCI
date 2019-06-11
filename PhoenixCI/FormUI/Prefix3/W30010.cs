@@ -510,9 +510,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 rowStart = rowIndex;
 
                 //刪除空白列
-                rowStart = rowStart + 5;
+                //rowStart = rowStart + 5;
                 if (totalRowcount > rowStart) {
-                    delRange = ws30013.Range[(rowStart + 1).ToString() + ":" + (totalRowcount).ToString()];
+                    delRange = ws30013.Range[(rowStart+1+1).ToString() + ":" + (totalRowcount+1).ToString()];
                     delRange.Delete(DeleteMode.EntireRow);
                 }
                 rowIndex = rowStart + 1;

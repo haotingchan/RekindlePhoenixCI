@@ -34,6 +34,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             try {
                 base.Open();
                 txtSDate.DateTimeValue = DateTime.Now;
+                rdgCondition.EditValue = "SID";
 #if DEBUG
                 txtSDate.Text = "2018/10/31";
 #endif

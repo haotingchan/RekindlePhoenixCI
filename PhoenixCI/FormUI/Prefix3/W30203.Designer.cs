@@ -103,7 +103,8 @@
             this.PL1_MAX_MONTH_CNT = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.PL1_MAX_TYPE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.PL1_MAX_QNTY = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.panParent.SuspendLayout();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
@@ -114,19 +115,20 @@
             ((System.ComponentModel.ISupportInitialize)(this.gvGBF)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
+            this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panParent
             // 
-            this.panParent.Controls.Add(this.gcMain);
-            this.panParent.Controls.Add(this.gcGBF);
-            this.panParent.Location = new System.Drawing.Point(0, 118);
-            this.panParent.Size = new System.Drawing.Size(1125, 617);
+            this.panParent.Dock = System.Windows.Forms.DockStyle.None;
+            this.panParent.Location = new System.Drawing.Point(878, 541);
+            this.panParent.Size = new System.Drawing.Size(247, 194);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(1125, 43);
+            this.ribbonControl.Size = new System.Drawing.Size(1125, 30);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // panelControl1
@@ -142,7 +144,7 @@
             this.panelControl1.Controls.Add(this.txtDate);
             this.panelControl1.Controls.Add(this.label2);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelControl1.Location = new System.Drawing.Point(0, 43);
+            this.panelControl1.Location = new System.Drawing.Point(0, 30);
             this.panelControl1.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
             this.panelControl1.LookAndFeel.UseDefaultLookAndFeel = false;
             this.panelControl1.Name = "panelControl1";
@@ -155,7 +157,7 @@
             this.lblEff.ForeColor = System.Drawing.Color.Red;
             this.lblEff.Location = new System.Drawing.Point(767, 28);
             this.lblEff.Name = "lblEff";
-            this.lblEff.Size = new System.Drawing.Size(0, 30);
+            this.lblEff.Size = new System.Drawing.Size(0, 20);
             this.lblEff.TabIndex = 17;
             // 
             // txtEffDateLower
@@ -174,7 +176,7 @@
             this.txtEffDateLower.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtEffDateLower.Properties.Mask.ShowPlaceHolders = false;
             this.txtEffDateLower.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtEffDateLower.Size = new System.Drawing.Size(105, 40);
+            this.txtEffDateLower.Size = new System.Drawing.Size(105, 28);
             this.txtEffDateLower.TabIndex = 3;
             this.txtEffDateLower.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -184,7 +186,7 @@
             this.label4.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
             this.label4.Location = new System.Drawing.Point(577, 28);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(86, 31);
+            this.label4.Size = new System.Drawing.Size(58, 21);
             this.label4.TabIndex = 16;
             this.label4.Text = "降低：";
             // 
@@ -204,7 +206,7 @@
             this.txtEffDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtEffDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtEffDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtEffDate.Size = new System.Drawing.Size(105, 40);
+            this.txtEffDate.Size = new System.Drawing.Size(105, 28);
             this.txtEffDate.TabIndex = 2;
             this.txtEffDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -214,7 +216,7 @@
             this.label3.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
             this.label3.Location = new System.Drawing.Point(377, 28);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(86, 31);
+            this.label3.Size = new System.Drawing.Size(58, 21);
             this.label3.TabIndex = 14;
             this.label3.Text = "提高：";
             // 
@@ -224,7 +226,7 @@
             this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
             this.label1.Location = new System.Drawing.Point(281, 28);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(134, 31);
+            this.label1.Size = new System.Drawing.Size(90, 21);
             this.label1.TabIndex = 12;
             this.label1.Text = "公告日期：";
             // 
@@ -244,7 +246,7 @@
             this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtDate.Size = new System.Drawing.Size(105, 40);
+            this.txtDate.Size = new System.Drawing.Size(105, 28);
             this.txtDate.TabIndex = 1;
             this.txtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -254,18 +256,18 @@
             this.label2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
             this.label2.Location = new System.Drawing.Point(22, 28);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(134, 31);
+            this.label2.Size = new System.Drawing.Size(90, 21);
             this.label2.TabIndex = 11;
             this.label2.Text = "計算日期：";
             // 
             // gcGBF
             // 
             this.gcGBF.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gcGBF.Location = new System.Drawing.Point(18, 18);
+            this.gcGBF.Location = new System.Drawing.Point(0, 0);
             this.gcGBF.MainView = this.gvGBF;
             this.gcGBF.MenuManager = this.ribbonControl;
             this.gcGBF.Name = "gcGBF";
-            this.gcGBF.Size = new System.Drawing.Size(1089, 130);
+            this.gcGBF.Size = new System.Drawing.Size(1125, 137);
             this.gcGBF.TabIndex = 0;
             this.gcGBF.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvGBF});
@@ -299,6 +301,8 @@
             this.gvGBF.OptionsPrint.PrintHeader = false;
             this.gvGBF.OptionsView.ColumnAutoWidth = false;
             this.gvGBF.OptionsView.ColumnHeaderAutoHeight = DevExpress.Utils.DefaultBoolean.True;
+            this.gvGBF.OptionsView.ShowColumnHeaders = false;
+            this.gvGBF.OptionsView.ShowGroupPanel = false;
             this.gvGBF.RowCellStyle += new DevExpress.XtraGrid.Views.Grid.RowCellStyleEventHandler(this.gvGBF_RowCellStyle);
             this.gvGBF.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gvGBF_ShowingEditor);
             // 
@@ -313,7 +317,7 @@
             this.gridBand1.Columns.Add(this.PL1B_KIND_ID);
             this.gridBand1.Name = "gridBand1";
             this.gridBand1.VisibleIndex = 0;
-            this.gridBand1.Width = 75;
+            this.gridBand1.Width = 73;
             // 
             // PL1B_KIND_ID
             // 
@@ -321,6 +325,7 @@
             this.PL1B_KIND_ID.FieldName = "PL1B_KIND_ID";
             this.PL1B_KIND_ID.Name = "PL1B_KIND_ID";
             this.PL1B_KIND_ID.Visible = true;
+            this.PL1B_KIND_ID.Width = 73;
             // 
             // gridBand3
             // 
@@ -335,7 +340,7 @@
             this.gridBand7});
             this.gridBand3.Name = "gridBand3";
             this.gridBand3.VisibleIndex = 1;
-            this.gridBand3.Width = 312;
+            this.gridBand3.Width = 299;
             // 
             // gridBand6
             // 
@@ -350,7 +355,7 @@
             this.bandPL1B_PREV_NATURE_LEGAL_TOT});
             this.gridBand6.Name = "gridBand6";
             this.gridBand6.VisibleIndex = 0;
-            this.gridBand6.Width = 121;
+            this.gridBand6.Width = 112;
             // 
             // bandPL1B_PREV_NATURE_LEGAL_MTH
             // 
@@ -364,7 +369,7 @@
             this.bandPL1B_PREV_NATURE_LEGAL_MTH.Name = "bandPL1B_PREV_NATURE_LEGAL_MTH";
             this.bandPL1B_PREV_NATURE_LEGAL_MTH.RowCount = 2;
             this.bandPL1B_PREV_NATURE_LEGAL_MTH.VisibleIndex = 0;
-            this.bandPL1B_PREV_NATURE_LEGAL_MTH.Width = 50;
+            this.bandPL1B_PREV_NATURE_LEGAL_MTH.Width = 55;
             // 
             // PL1B_PREV_NATURE_LEGAL_MTH
             // 
@@ -372,7 +377,7 @@
             this.PL1B_PREV_NATURE_LEGAL_MTH.FieldName = "PL1B_PREV_NATURE_LEGAL_MTH";
             this.PL1B_PREV_NATURE_LEGAL_MTH.Name = "PL1B_PREV_NATURE_LEGAL_MTH";
             this.PL1B_PREV_NATURE_LEGAL_MTH.Visible = true;
-            this.PL1B_PREV_NATURE_LEGAL_MTH.Width = 50;
+            this.PL1B_PREV_NATURE_LEGAL_MTH.Width = 55;
             // 
             // bandPL1B_PREV_NATURE_LEGAL_TOT
             // 
@@ -386,7 +391,7 @@
             this.bandPL1B_PREV_NATURE_LEGAL_TOT.Name = "bandPL1B_PREV_NATURE_LEGAL_TOT";
             this.bandPL1B_PREV_NATURE_LEGAL_TOT.RowCount = 2;
             this.bandPL1B_PREV_NATURE_LEGAL_TOT.VisibleIndex = 1;
-            this.bandPL1B_PREV_NATURE_LEGAL_TOT.Width = 71;
+            this.bandPL1B_PREV_NATURE_LEGAL_TOT.Width = 57;
             // 
             // PL1B_PREV_NATURE_LEGAL_TOT
             // 
@@ -394,7 +399,7 @@
             this.PL1B_PREV_NATURE_LEGAL_TOT.FieldName = "PL1B_PREV_NATURE_LEGAL_TOT";
             this.PL1B_PREV_NATURE_LEGAL_TOT.Name = "PL1B_PREV_NATURE_LEGAL_TOT";
             this.PL1B_PREV_NATURE_LEGAL_TOT.Visible = true;
-            this.PL1B_PREV_NATURE_LEGAL_TOT.Width = 71;
+            this.PL1B_PREV_NATURE_LEGAL_TOT.Width = 57;
             // 
             // gridBand7
             // 
@@ -410,7 +415,7 @@
             this.bandPL1B_PREV_999_TOT});
             this.gridBand7.Name = "gridBand7";
             this.gridBand7.VisibleIndex = 1;
-            this.gridBand7.Width = 191;
+            this.gridBand7.Width = 187;
             // 
             // bandPL1B_PREV_999_MTH
             // 
@@ -424,7 +429,7 @@
             this.bandPL1B_PREV_999_MTH.Name = "bandPL1B_PREV_999_MTH";
             this.bandPL1B_PREV_999_MTH.RowCount = 2;
             this.bandPL1B_PREV_999_MTH.VisibleIndex = 0;
-            this.bandPL1B_PREV_999_MTH.Width = 52;
+            this.bandPL1B_PREV_999_MTH.Width = 50;
             // 
             // PL1B_PREV_999_MTH
             // 
@@ -432,7 +437,7 @@
             this.PL1B_PREV_999_MTH.FieldName = "PL1B_PREV_999_MTH";
             this.PL1B_PREV_999_MTH.Name = "PL1B_PREV_999_MTH";
             this.PL1B_PREV_999_MTH.Visible = true;
-            this.PL1B_PREV_999_MTH.Width = 52;
+            this.PL1B_PREV_999_MTH.Width = 50;
             // 
             // bandPL1B_PREV_999_NEARBY_MTH
             // 
@@ -446,7 +451,7 @@
             this.bandPL1B_PREV_999_NEARBY_MTH.Name = "bandPL1B_PREV_999_NEARBY_MTH";
             this.bandPL1B_PREV_999_NEARBY_MTH.RowCount = 2;
             this.bandPL1B_PREV_999_NEARBY_MTH.VisibleIndex = 1;
-            this.bandPL1B_PREV_999_NEARBY_MTH.Width = 72;
+            this.bandPL1B_PREV_999_NEARBY_MTH.Width = 77;
             // 
             // PL1B_PREV_999_NEARBY_MTH
             // 
@@ -454,7 +459,7 @@
             this.PL1B_PREV_999_NEARBY_MTH.FieldName = "PL1B_PREV_999_NEARBY_MTH";
             this.PL1B_PREV_999_NEARBY_MTH.Name = "PL1B_PREV_999_NEARBY_MTH";
             this.PL1B_PREV_999_NEARBY_MTH.Visible = true;
-            this.PL1B_PREV_999_NEARBY_MTH.Width = 72;
+            this.PL1B_PREV_999_NEARBY_MTH.Width = 77;
             // 
             // bandPL1B_PREV_999_TOT
             // 
@@ -468,7 +473,7 @@
             this.bandPL1B_PREV_999_TOT.Name = "bandPL1B_PREV_999_TOT";
             this.bandPL1B_PREV_999_TOT.RowCount = 2;
             this.bandPL1B_PREV_999_TOT.VisibleIndex = 2;
-            this.bandPL1B_PREV_999_TOT.Width = 67;
+            this.bandPL1B_PREV_999_TOT.Width = 60;
             // 
             // PL1B_PREV_999_TOT
             // 
@@ -476,7 +481,7 @@
             this.PL1B_PREV_999_TOT.FieldName = "PL1B_PREV_999_TOT";
             this.PL1B_PREV_999_TOT.Name = "PL1B_PREV_999_TOT";
             this.PL1B_PREV_999_TOT.Visible = true;
-            this.PL1B_PREV_999_TOT.Width = 67;
+            this.PL1B_PREV_999_TOT.Width = 60;
             // 
             // gridBand11
             // 
@@ -490,7 +495,7 @@
             this.gridBand15});
             this.gridBand11.Name = "gridBand11";
             this.gridBand11.VisibleIndex = 2;
-            this.gridBand11.Width = 324;
+            this.gridBand11.Width = 308;
             // 
             // gridBand12
             // 
@@ -505,7 +510,7 @@
             this.bandPL1B_NATURE_LEGAL_TOT});
             this.gridBand12.Name = "gridBand12";
             this.gridBand12.VisibleIndex = 0;
-            this.gridBand12.Width = 121;
+            this.gridBand12.Width = 108;
             // 
             // bandPL1B_NATURE_LEGAL_MTH
             // 
@@ -519,7 +524,7 @@
             this.bandPL1B_NATURE_LEGAL_MTH.Name = "bandPL1B_NATURE_LEGAL_MTH";
             this.bandPL1B_NATURE_LEGAL_MTH.RowCount = 2;
             this.bandPL1B_NATURE_LEGAL_MTH.VisibleIndex = 0;
-            this.bandPL1B_NATURE_LEGAL_MTH.Width = 54;
+            this.bandPL1B_NATURE_LEGAL_MTH.Width = 51;
             // 
             // PL1B_NATURE_LEGAL_MTH
             // 
@@ -527,7 +532,7 @@
             this.PL1B_NATURE_LEGAL_MTH.FieldName = "PL1B_NATURE_LEGAL_MTH";
             this.PL1B_NATURE_LEGAL_MTH.Name = "PL1B_NATURE_LEGAL_MTH";
             this.PL1B_NATURE_LEGAL_MTH.Visible = true;
-            this.PL1B_NATURE_LEGAL_MTH.Width = 54;
+            this.PL1B_NATURE_LEGAL_MTH.Width = 51;
             // 
             // bandPL1B_NATURE_LEGAL_TOT
             // 
@@ -541,7 +546,7 @@
             this.bandPL1B_NATURE_LEGAL_TOT.Name = "bandPL1B_NATURE_LEGAL_TOT";
             this.bandPL1B_NATURE_LEGAL_TOT.RowCount = 2;
             this.bandPL1B_NATURE_LEGAL_TOT.VisibleIndex = 1;
-            this.bandPL1B_NATURE_LEGAL_TOT.Width = 67;
+            this.bandPL1B_NATURE_LEGAL_TOT.Width = 57;
             // 
             // PL1B_NATURE_LEGAL_TOT
             // 
@@ -549,7 +554,7 @@
             this.PL1B_NATURE_LEGAL_TOT.FieldName = "PL1B_NATURE_LEGAL_TOT";
             this.PL1B_NATURE_LEGAL_TOT.Name = "PL1B_NATURE_LEGAL_TOT";
             this.PL1B_NATURE_LEGAL_TOT.Visible = true;
-            this.PL1B_NATURE_LEGAL_TOT.Width = 67;
+            this.PL1B_NATURE_LEGAL_TOT.Width = 57;
             // 
             // gridBand15
             // 
@@ -565,7 +570,7 @@
             this.bandPL1B_999_TOT});
             this.gridBand15.Name = "gridBand15";
             this.gridBand15.VisibleIndex = 1;
-            this.gridBand15.Width = 203;
+            this.gridBand15.Width = 200;
             // 
             // bandPL1B_999_MTH
             // 
@@ -579,7 +584,7 @@
             this.bandPL1B_999_MTH.Name = "bandPL1B_999_MTH";
             this.bandPL1B_999_MTH.RowCount = 2;
             this.bandPL1B_999_MTH.VisibleIndex = 0;
-            this.bandPL1B_999_MTH.Width = 53;
+            this.bandPL1B_999_MTH.Width = 45;
             // 
             // PL1B_999_MTH
             // 
@@ -587,7 +592,7 @@
             this.PL1B_999_MTH.FieldName = "PL1B_999_MTH";
             this.PL1B_999_MTH.Name = "PL1B_999_MTH";
             this.PL1B_999_MTH.Visible = true;
-            this.PL1B_999_MTH.Width = 53;
+            this.PL1B_999_MTH.Width = 45;
             // 
             // bandPL1B_999_NEARBY_MTH
             // 
@@ -601,7 +606,7 @@
             this.bandPL1B_999_NEARBY_MTH.Name = "bandPL1B_999_NEARBY_MTH";
             this.bandPL1B_999_NEARBY_MTH.RowCount = 2;
             this.bandPL1B_999_NEARBY_MTH.VisibleIndex = 1;
-            this.bandPL1B_999_NEARBY_MTH.Width = 81;
+            this.bandPL1B_999_NEARBY_MTH.Width = 86;
             // 
             // PL1B_999_NEARBY_MTH
             // 
@@ -609,7 +614,7 @@
             this.PL1B_999_NEARBY_MTH.FieldName = "PL1B_999_NEARBY_MTH";
             this.PL1B_999_NEARBY_MTH.Name = "PL1B_999_NEARBY_MTH";
             this.PL1B_999_NEARBY_MTH.Visible = true;
-            this.PL1B_999_NEARBY_MTH.Width = 81;
+            this.PL1B_999_NEARBY_MTH.Width = 86;
             // 
             // bandPL1B_999_TOT
             // 
@@ -645,7 +650,7 @@
             this.bandPL1B_ADJ.Name = "bandPL1B_ADJ";
             this.bandPL1B_ADJ.RowCount = 3;
             this.bandPL1B_ADJ.VisibleIndex = 3;
-            this.bandPL1B_ADJ.Width = 164;
+            this.bandPL1B_ADJ.Width = 151;
             // 
             // PL1B_ADJ
             // 
@@ -653,7 +658,7 @@
             this.PL1B_ADJ.FieldName = "PL1B_ADJ";
             this.PL1B_ADJ.Name = "PL1B_ADJ";
             this.PL1B_ADJ.Visible = true;
-            this.PL1B_ADJ.Width = 164;
+            this.PL1B_ADJ.Width = 151;
             // 
             // PL1B_PROD_TYPE
             // 
@@ -670,11 +675,11 @@
             // gcMain
             // 
             this.gcMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gcMain.Location = new System.Drawing.Point(18, 148);
+            this.gcMain.Location = new System.Drawing.Point(0, 0);
             this.gcMain.MainView = this.gvMain;
             this.gcMain.MenuManager = this.ribbonControl;
             this.gcMain.Name = "gcMain";
-            this.gcMain.Size = new System.Drawing.Size(1089, 451);
+            this.gcMain.Size = new System.Drawing.Size(1125, 497);
             this.gcMain.TabIndex = 1;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -716,6 +721,8 @@
             this.gvMain.Name = "gvMain";
             this.gvMain.OptionsPrint.PrintHeader = false;
             this.gvMain.OptionsView.ColumnAutoWidth = false;
+            this.gvMain.OptionsView.ShowColumnHeaders = false;
+            this.gvMain.OptionsView.ShowGroupPanel = false;
             this.gvMain.RowCellStyle += new DevExpress.XtraGrid.Views.Grid.RowCellStyleEventHandler(this.gvMain_RowCellStyle);
             this.gvMain.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gvMain_ShowingEditor);
             this.gvMain.InitNewRow += new DevExpress.XtraGrid.Views.Grid.InitNewRowEventHandler(this.gvMain_InitNewRow);
@@ -1060,19 +1067,40 @@
             this.PL1_MAX_QNTY.Name = "PL1_MAX_QNTY";
             this.PL1_MAX_QNTY.Width = 112;
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.gcGBF);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 105);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1125, 133);
+            this.panel1.TabIndex = 3;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.gcMain);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(0, 238);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1125, 497);
+            this.panel2.TabIndex = 4;
+            // 
             // W30203
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1125, 735);
+            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.panelControl1);
             this.Name = "W30203";
             this.Text = "W30203";
             this.Controls.SetChildIndex(this.ribbonControl, 0);
-            this.Controls.SetChildIndex(this.panelControl1, 0);
             this.Controls.SetChildIndex(this.panParent, 0);
-            this.panParent.ResumeLayout(false);
+            this.Controls.SetChildIndex(this.panelControl1, 0);
+            this.Controls.SetChildIndex(this.panel1, 0);
+            this.Controls.SetChildIndex(this.panel2, 0);
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
             this.panelControl1.ResumeLayout(false);
@@ -1084,6 +1112,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.gvGBF)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1153,6 +1183,8 @@
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand bandADJ;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand31;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand32;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel2;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand1;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand3;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand6;

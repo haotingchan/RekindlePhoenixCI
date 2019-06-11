@@ -305,6 +305,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          if (dtReCount == null) return;
 
+         //有修改值的資料筆數要重新計算
          foreach (DataRow dr in dtReCount.Rows) {
             int newCnt = dao40041.GetReCount(dr["MG1_KIND_ID"].AsString(), dr["DATA_SDATE"].AsDateTime(), dr["DATA_EDATE"].AsDateTime()).AsInt();
             dtSource.Rows[dr["ROWNUM"].AsInt() - 1]["DATA_CNT"] = newCnt;

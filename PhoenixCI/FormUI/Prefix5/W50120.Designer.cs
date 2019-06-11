@@ -37,6 +37,7 @@
             this.MPDF_EFF_DATE = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.Is_NewRow = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemTextEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -46,6 +47,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).BeginInit();
             this.SuspendLayout();
             // 
             // panParent
@@ -123,7 +125,8 @@
             this.gcMain.MenuManager = this.ribbonControl;
             this.gcMain.Name = "gcMain";
             this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
-            this.repositoryItemTextEdit1});
+            this.repositoryItemTextEdit1,
+            this.repositoryItemTextEdit2});
             this.gcMain.Size = new System.Drawing.Size(1031, 620);
             this.gcMain.TabIndex = 0;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -181,6 +184,7 @@
             this.MPDF_ACC_NO.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.MPDF_ACC_NO.AppearanceHeader.Options.UseBackColor = true;
             this.MPDF_ACC_NO.Caption = "帳號";
+            this.MPDF_ACC_NO.ColumnEdit = this.repositoryItemTextEdit2;
             this.MPDF_ACC_NO.FieldName = "MPDF_ACC_NO";
             this.MPDF_ACC_NO.Name = "MPDF_ACC_NO";
             this.MPDF_ACC_NO.Visible = true;
@@ -241,6 +245,12 @@
             this.Is_NewRow.FieldName = "Is_NewRow";
             this.Is_NewRow.Name = "Is_NewRow";
             // 
+            // repositoryItemTextEdit2
+            // 
+            this.repositoryItemTextEdit2.AutoHeight = false;
+            this.repositoryItemTextEdit2.MaxLength = 7;
+            this.repositoryItemTextEdit2.Name = "repositoryItemTextEdit2";
+            // 
             // W50120
             // 
             this.Appearance.Options.UseFont = true;
@@ -265,6 +275,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -286,5 +297,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn MPDF_EFF_DATE;
         private DevExpress.XtraGrid.Columns.GridColumn Is_NewRow;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit1;
+        private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit2;
     }
 }

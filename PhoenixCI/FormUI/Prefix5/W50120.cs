@@ -234,7 +234,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
         protected override ResultStatus Save(PokeBall pokeBall) {
             base.Save(gcMain);
-
+            _IsPreventFlowPrint = true;//儲存完不要自動列印
             DataTable dt = (DataTable)gcMain.DataSource;
 
             DataTable dtChange = dt.GetChanges();
