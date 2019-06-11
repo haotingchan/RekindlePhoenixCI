@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using BaseGround;
 using DataObjects.Dao.Together;
@@ -48,8 +43,10 @@ namespace PhoenixCI.FormUI.PrefixS {
          GridHelper.SetCommonGrid(gvExAccount);
 
          #region Set Date Period
-         //save 後替換新值
+         //save 後替換新值 不指定userId DB中都只存在一筆 ST Period
          DataTable dtSPN = daoS0070.GetPeriodByUserId("ST", "%");
+
+         //若無 ST Period 則用現在日期前60天取 AOCF
          if (dtSPN.Rows.Count <= 0) {
             fmYmd = DateTime.Now.AddDays(-60).ToString("yyyyMMdd");
             toYmd = DateTime.Now.ToString("yyyyMMdd");
@@ -133,6 +130,7 @@ namespace PhoenixCI.FormUI.PrefixS {
          #endregion
 
          #region Set REQ Value
+         //不指定userId DB中都只存在一筆 ST REQ
          DataTable dtREQ = daoS0070.GetREQDataByUser("ST", "%");
          if (dtREQ.Rows.Count > 0) {
             SPAN_REQ_TYPE.EditValue = dtREQ.Rows[0]["SPAN_REQ_TYPE"].AsString();
@@ -143,6 +141,7 @@ namespace PhoenixCI.FormUI.PrefixS {
          #endregion
 
          #region Retrieve grid
+         //抓取資料不限 現在登入之userId
          DataTable exAccountTable = daoS0070.GetExAccountData("ST");
          DataTable presTestTable = daoS0070.GetParamData("ST", "%");
          if (exAccountTable.Rows.Count == 0) {
@@ -208,7 +207,22 @@ namespace PhoenixCI.FormUI.PrefixS {
          return base.Run(args);
       }
 
+      protected override ResultStatus ActivatedForm() {
+         base.ActivatedForm();
+
+         _ToolBtnSave.Enabled = true;
+         _ToolBtnRetrieve.Enabled = true;
+         _ToolBtnRun.Enabled = true;
+
+         return ResultStatus.Success;
+      }
+
+      /// <summary>
+      /// 複寫 ST Period 若無資料則新增一筆
+      /// </summary>
+      /// <returns></returns>
       private DataTable overWritePeriod() {
+         //不指定userId DB中都只存在一筆 ST Period
          periodTable = daoS0070.GetPeriodByUserId("ST", "%");
 
          if (periodTable.Rows.Count == 0) {
@@ -227,7 +241,12 @@ namespace PhoenixCI.FormUI.PrefixS {
          return periodTable;
       }
 
+      /// <summary>
+      /// 複寫 ST REQ 若無資料則新增一筆
+      /// </summary>
+      /// <returns></returns>
       private DataTable overWriteREQ() {
+         //不指定userId DB中都只存在一筆 ST REQ
          REQTable = daoS0070.GetREQDataByUser("ST", "%");
 
          if (periodTable.Rows.Count == 0) {
@@ -247,6 +266,9 @@ namespace PhoenixCI.FormUI.PrefixS {
          return REQTable;
       }
 
+      /// <summary>
+      /// 檢查交易帳號 (期貨商代號欄位必須為7碼，末3碼不為999)
+      /// </summary>
       private bool checkExAccount() {
          DataTable dtExAccount = (DataTable)gcExAccount.DataSource;
 
@@ -263,6 +285,9 @@ namespace PhoenixCI.FormUI.PrefixS {
          return true;
       }
 
+      /// <summary>
+      /// 檢查壓力測試設定
+      /// </summary>
       private bool checkPresTest() {
          DataTable dtPresTest = (DataTable)gcPresTest.DataSource;
          if (!checkComplete(dtPresTest, LabPressTest.Text.Replace(":", ""))) return false;
@@ -288,16 +313,6 @@ namespace PhoenixCI.FormUI.PrefixS {
          }
 
          return true;
-      }
-
-      protected override ResultStatus ActivatedForm() {
-         base.ActivatedForm();
-
-         _ToolBtnSave.Enabled = true;
-         _ToolBtnRetrieve.Enabled = true;
-         _ToolBtnRun.Enabled = true;
-
-         return ResultStatus.Success;
       }
 
       private void GridView_ShownEditor(object sender, EventArgs e) {
@@ -386,6 +401,9 @@ namespace PhoenixCI.FormUI.PrefixS {
          CheckREQValue();
       }
 
+      /// <summary>
+      /// 檢查日期是否在規定範圍
+      /// </summary>
       private bool CheckPeriod() {
          bool check = true;
 
@@ -401,6 +419,9 @@ namespace PhoenixCI.FormUI.PrefixS {
          return check;
       }
 
+      /// <summary>
+      /// 檢查 REQ 值 在規定範圍 (0.10 ~ 5.00)
+      /// </summary>
       private bool CheckREQValue() {
          if (double.Parse(txtREQValue.Text) < 0.1 || double.Parse(txtREQValue.Text) > 5) {
             MessageDisplay.Info("倍數輸入範圍為 0.10 - 5.00");
@@ -410,6 +431,10 @@ namespace PhoenixCI.FormUI.PrefixS {
          return true;
       }
 
+      /// <summary>
+      /// 檢查畫面各data grid 資料是否改變
+      /// </summary>
+      /// <returns></returns>
       private bool checkChanged() {
          DataTable dtExAccount = (DataTable)gcExAccount.DataSource;
          DataTable dtPresTest = (DataTable)gcPresTest.DataSource;
@@ -436,6 +461,12 @@ namespace PhoenixCI.FormUI.PrefixS {
          return false;
       }
 
+      /// <summary>
+      /// 檢查畫面欄位是否填寫完成
+      /// </summary>
+      /// <param name="dtSource"></param>
+      /// <param name="message">顯示訊息</param>
+      /// <returns></returns>
       private bool checkComplete(DataTable dtSource, string message) {
 
          foreach (DataColumn column in dtSource.Columns) {
@@ -447,6 +478,12 @@ namespace PhoenixCI.FormUI.PrefixS {
          return true;
       }
 
+      /// <summary>
+      /// 複寫 writeTime and userId
+      /// </summary>
+      /// <param name="dtSource">data Source</param>
+      /// <param name="wTimeColName">時間欄位</param>
+      /// <param name="WUserId">user Id 欄位</param>
       private void GenWTime(DataTable dtSource, string wTimeColName, string WUserId) {
 
          foreach (DataRow r in dtSource.Rows) {

@@ -17,16 +17,43 @@ namespace DataObjects.Dao.Together.SpecificDao {
         /// <param name="as_date">yyyy/MM/dd</param>
         /// <param name="as_osw_grp">1%/ 5%/ %%</param>
         /// <returns></returns>
-        public DataTable d_43010a(DateTime as_date, string as_osw_grp) {
+        public DataTable d_43010a(string as_date, string as_osw_grp) {
 
             object[] parms = {
                 ":as_date",as_date,
                 ":as_osw_grp",as_osw_grp
             };
 
+            //            string sql =
+            //@"
+            //SELECT   ROW_NUMBER() over (order by mg1_seq_no, mg1_kind_id, mg1_type, mg1_date) as NO,
+            //         MG1_KIND_ID,
+            //         APDK_NAME,
+            //         APDK_STOCK_ID,
+            //         PID_NAME,
+            //         MG1_CUR_CM,
+            //         MG1_CUR_MM,
+            //         MG1_CUR_IM,
+            //         MG1_CM_RATE,
+            //         MG1_MM_RATE,
+            //         MG1_IM_RATE
+            //    FROM CI.MG1,   
+            //         CI.APDK  ,
+            //         --上市/上櫃中文名稱
+            //         (SELECT TRIM(COD_ID) as COD_ID,TRIM(COD_DESC) as PID_NAME FROM CI.COD where COD_TXN_ID = 'TFXM')
+            //   WHERE ( MG1_KIND_ID = CI.APDK.APDK_KIND_ID ) and  
+            //         ( MG1_PROD_TYPE = CI.APDK.APDK_PROD_TYPE ) and  
+            //         ( ( MG1_DATE = :as_date ) AND  
+            //         ( MG1_PROD_SUBTYPE = 'S' ) AND  
+            //         ( MG1_PROD_TYPE = 'F' ) )    
+            //     and APDK_UNDERLYING_MARKET = COD_ID
+            //     and MG1_OSW_GRP LIKE :as_osw_grp
+            //   ORDER BY mg1_seq_no, mg1_kind_id, mg1_type, mg1_date
+            //";
+
             string sql =
 @"
-SELECT   ROW_NUMBER() over (order by mg1_seq_no, mg1_kind_id, mg1_type, mg1_date) as NO,
+SELECT   ROW_NUMBER() over (order by mg1_seq_no, mg1_kind_id, MG1_AB_TYPE, MG1_YMD) as NO,
          MG1_KIND_ID,
          APDK_NAME,
          APDK_STOCK_ID,
@@ -34,21 +61,21 @@ SELECT   ROW_NUMBER() over (order by mg1_seq_no, mg1_kind_id, mg1_type, mg1_date
          MG1_CUR_CM,
          MG1_CUR_MM,
          MG1_CUR_IM,
-         MG1_CM_RATE,
-         MG1_MM_RATE,
-         MG1_IM_RATE
-    FROM CI.MG1,   
+         MG1_CUR_CM_RATE,   
+         MG1_CUR_MM_RATE,   
+         MG1_CUR_IM_RATE
+FROM CI.MG1_3M,   
          CI.APDK  ,
          --上市/上櫃中文名稱
          (SELECT TRIM(COD_ID) as COD_ID,TRIM(COD_DESC) as PID_NAME FROM CI.COD where COD_TXN_ID = 'TFXM')
    WHERE ( MG1_KIND_ID = CI.APDK.APDK_KIND_ID ) and  
          ( MG1_PROD_TYPE = CI.APDK.APDK_PROD_TYPE ) and  
-         ( ( MG1_DATE = :as_date ) AND  
+         ( ( MG1_YMD = :as_date ) AND  
          ( MG1_PROD_SUBTYPE = 'S' ) AND  
          ( MG1_PROD_TYPE = 'F' ) )    
      and APDK_UNDERLYING_MARKET = COD_ID
      and MG1_OSW_GRP LIKE :as_osw_grp
-   ORDER BY mg1_seq_no, mg1_kind_id, mg1_type, mg1_date
+   ORDER BY mg1_seq_no, mg1_kind_id, MG1_AB_TYPE, MG1_YMD
 ";
 
             DataTable dtResult = db.GetDataTable(sql, parms);
@@ -57,12 +84,12 @@ SELECT   ROW_NUMBER() over (order by mg1_seq_no, mg1_kind_id, mg1_type, mg1_date
         }
 
         /// <summary>
-        /// 本日結算保證金計算
+        /// 本日結算保證金計算 SMA
         /// </summary>
         /// <param name="as_date">yyyy/MM/dd</param>
         /// <param name="as_osw_grp">1%/ 5%/ %%</param>
         /// <returns></returns>
-        public DataTable d_43010b(DateTime as_date, string as_osw_grp) {
+        public DataTable d_43010b(string as_date, string as_osw_grp) {
 
             object[] parms = {
                 ":as_date",as_date,
@@ -71,25 +98,33 @@ SELECT   ROW_NUMBER() over (order by mg1_seq_no, mg1_kind_id, mg1_type, mg1_date
 
             string sql =
 @"
-SELECT   
+SELECT   ROW_NUMBER() over (order by mg1_seq_no, mg1_kind_id, MG1_AB_TYPE, MG1_YMD) as NO,
+         MG1_KIND_ID,
+         APDK_NAME,
+         APDK_STOCK_ID,
+         PID_NAME,
          MG1_PRICE,
          MG1_XXX,
          MG1_RISK,
          MG1_CP_RISK,
          MG1_MIN_RISK,
-         MG1_CP_CM
-    FROM CI.MG1,   
+         MG1_CP_CM,
+         MG1_CUR_CM,
+         MG1_CHANGE_RANGE,
+         MG1_CHANGE_FLAG 
+FROM CI.MG1_3M,   
          CI.APDK  ,
          --上市/上櫃中文名稱
          (SELECT TRIM(COD_ID) as COD_ID,TRIM(COD_DESC) as PID_NAME FROM CI.COD where COD_TXN_ID = 'TFXM')
    WHERE ( MG1_KIND_ID = CI.APDK.APDK_KIND_ID ) and  
-         ( MG1_PROD_TYPE = CI.APDK.APDK_PROD_TYPE ) and  
-         ( ( MG1_DATE = :as_date ) AND  
+         ( MG1_PROD_TYPE = CI.APDK.APDK_PROD_TYPE ) and
+         ( MG1_MODEL_TYPE = 'S' ) AND
+         ( ( MG1_YMD = :as_date ) AND  
          ( MG1_PROD_SUBTYPE = 'S' ) AND  
-         ( MG1_PROD_TYPE = 'F' ) )    
+         ( MG1_PROD_TYPE = 'F' )) 
      and APDK_UNDERLYING_MARKET = COD_ID
      and MG1_OSW_GRP LIKE :as_osw_grp
-   ORDER BY mg1_seq_no, mg1_kind_id, mg1_type, mg1_date
+   ORDER BY mg1_seq_no, mg1_kind_id, MG1_AB_TYPE, MG1_YMD
 ";
 
             DataTable dtResult = db.GetDataTable(sql, parms);
@@ -98,12 +133,12 @@ SELECT
         }
 
         /// <summary>
-        /// 本日結算保證金變動幅度
+        /// 本日結算保證金計算 EWMA
         /// </summary>
         /// <param name="as_date">yyyy/MM/dd</param>
         /// <param name="as_osw_grp">1%/ 5%/ %%</param>
         /// <returns></returns>
-        public DataTable d_43010c(DateTime as_date, string as_osw_grp) {
+        public DataTable d_43010c(string as_date, string as_osw_grp) {
 
             object[] parms = {
                 ":as_date",as_date,
@@ -112,21 +147,80 @@ SELECT
 
             string sql =
 @"
-SELECT   
-         MG1_CHANGE_RANGE,
-         MG1_CHANGE_FLAG 
-    FROM CI.MG1,   
+SELECT   ROW_NUMBER() over (order by mg1_seq_no, mg1_kind_id, MG1_AB_TYPE, MG1_YMD) as NO,
+         MG1_KIND_ID,
+         APDK_NAME,
+         APDK_STOCK_ID,
+         PID_NAME,MG1_PRICE,
+         MG1_XXX,
+         MG1_RISK,
+         MG1_CP_RISK,
+         MG1_MIN_RISK,
+         MG1_CP_CM,
+         MG1_CUR_CM,
+         MG1_CHANGE_RANGE
+         --,MG1_CHANGE_FLAG 
+FROM CI.MG1_3M,   
          CI.APDK  ,
          --上市/上櫃中文名稱
          (SELECT TRIM(COD_ID) as COD_ID,TRIM(COD_DESC) as PID_NAME FROM CI.COD where COD_TXN_ID = 'TFXM')
    WHERE ( MG1_KIND_ID = CI.APDK.APDK_KIND_ID ) and  
-         ( MG1_PROD_TYPE = CI.APDK.APDK_PROD_TYPE ) and  
-         ( ( MG1_DATE = :as_date ) AND  
+         ( MG1_PROD_TYPE = CI.APDK.APDK_PROD_TYPE ) and 
+         ( MG1_MODEL_TYPE = 'E' ) AND
+         ( ( MG1_YMD = :as_date ) AND  
          ( MG1_PROD_SUBTYPE = 'S' ) AND  
          ( MG1_PROD_TYPE = 'F' ) )    
      and APDK_UNDERLYING_MARKET = COD_ID
      and MG1_OSW_GRP LIKE :as_osw_grp
-   ORDER BY mg1_seq_no, mg1_kind_id, mg1_type, mg1_date
+   ORDER BY mg1_seq_no, mg1_kind_id, MG1_AB_TYPE, MG1_YMD
+";
+
+            DataTable dtResult = db.GetDataTable(sql, parms);
+
+            return dtResult;
+        }
+
+        /// <summary>
+        /// 本日結算保證金計算 MAX
+        /// </summary>
+        /// <param name="as_date">yyyy/MM/dd</param>
+        /// <param name="as_osw_grp">1%/ 5%/ %%</param>
+        /// <returns></returns>
+        public DataTable d_43010d(string as_date, string as_osw_grp) {
+
+            object[] parms = {
+                ":as_date",as_date,
+                ":as_osw_grp",as_osw_grp
+            };
+
+            string sql =
+@"
+SELECT   ROW_NUMBER() over (order by mg1_seq_no, mg1_kind_id, MG1_AB_TYPE, MG1_YMD) as NO,
+         MG1_KIND_ID,
+         APDK_NAME,
+         APDK_STOCK_ID,
+         PID_NAME,MG1_PRICE,
+         MG1_XXX,
+         MG1_RISK,
+         MG1_CP_RISK,
+         MG1_MIN_RISK,
+         MG1_CP_CM,
+         MG1_CUR_CM,
+         MG1_CHANGE_RANGE,
+         MG1_CHANGE_FLAG 
+FROM CI.MG1_3M,   
+         CI.APDK  ,
+         --上市/上櫃中文名稱
+         (SELECT TRIM(COD_ID) as COD_ID,TRIM(COD_DESC) as PID_NAME FROM CI.COD where COD_TXN_ID = 'TFXM')
+   WHERE ( MG1_KIND_ID = CI.APDK.APDK_KIND_ID ) and  
+         ( MG1_PROD_TYPE = CI.APDK.APDK_PROD_TYPE ) and 
+         ( MG1_MODEL_TYPE = 'M' ) AND
+         ( ( MG1_YMD = :as_date ) AND  
+         ( MG1_PROD_SUBTYPE = 'S' ) AND  
+         ( MG1_PROD_TYPE = 'F' ) )    
+     and APDK_UNDERLYING_MARKET = COD_ID
+     and MG1_OSW_GRP LIKE :as_osw_grp
+   ORDER BY mg1_seq_no, mg1_kind_id, MG1_AB_TYPE, MG1_YMD
 ";
 
             DataTable dtResult = db.GetDataTable(sql, parms);

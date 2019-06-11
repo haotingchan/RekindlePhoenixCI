@@ -1,12 +1,6 @@
-﻿using BusinessObjects;
-using BusinessObjects.Enums;
-using OnePiece;
-using System;
+﻿using BusinessObjects.Enums;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataObjects.Dao.Together.SpecificDao {
    public class DS0070 : DataGate {

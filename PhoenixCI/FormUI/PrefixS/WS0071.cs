@@ -10,7 +10,6 @@ using DevExpress.XtraEditors.Repository;
 using BaseGround.Shared;
 using DevExpress.XtraEditors.Controls;
 using BusinessObjects;
-using static DataObjects.Dao.DataGate;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraEditors;
 using DevExpress.XtraGrid.Views.Base;
@@ -114,6 +113,8 @@ namespace PhoenixCI.FormUI.PrefixS {
          gvMain.ShownEditor += GridView_ShownEditor;
          cbxProdType.EditValueChanged += cbxProdType_EditValueChanged;
          #endregion
+
+         Retrieve();
       }
 
       protected override ResultStatus Retrieve() {
@@ -145,12 +146,6 @@ namespace PhoenixCI.FormUI.PrefixS {
          }
          gcMain.DataSource = returnTable;
 
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus AfterOpen() {
-         base.AfterOpen();
-         Retrieve();
          return ResultStatus.Success;
       }
 
@@ -336,6 +331,9 @@ namespace PhoenixCI.FormUI.PrefixS {
          return true;
       }
 
+      /// <summary>
+      /// 檢查日期規範
+      /// </summary>
       private bool checkPeriod() {
 
          if (txtEndDate.DateTimeValue.Subtract(txtStartDate.DateTimeValue).Days > 31) {
@@ -350,6 +348,9 @@ namespace PhoenixCI.FormUI.PrefixS {
          return true;
       }
 
+      /// <summary>
+      /// 檢查表單欄位
+      /// </summary>
       private bool checkChanged() {
 
          DataTable dt = (DataTable)gcMain.DataSource;

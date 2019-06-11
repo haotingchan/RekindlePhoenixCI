@@ -483,6 +483,8 @@
          this.CPR_PRICE_RISK_RATE.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.CPR_PRICE_RISK_RATE.Caption = "最小風險價格係數";
          this.CPR_PRICE_RISK_RATE.ColumnEdit = this.repositoryItemTextEdit1;
+         this.CPR_PRICE_RISK_RATE.DisplayFormat.FormatString = "P";
+         this.CPR_PRICE_RISK_RATE.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
          this.CPR_PRICE_RISK_RATE.FieldName = "CPR_PRICE_RISK_RATE";
          this.CPR_PRICE_RISK_RATE.Name = "CPR_PRICE_RISK_RATE";
          this.CPR_PRICE_RISK_RATE.Visible = true;
@@ -510,6 +512,8 @@
          this.RISK_INTERVAL.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.RISK_INTERVAL.Caption = "間距";
          this.RISK_INTERVAL.ColumnEdit = this.repositoryItemTextEdit2;
+         this.RISK_INTERVAL.DisplayFormat.FormatString = "P";
+         this.RISK_INTERVAL.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
          this.RISK_INTERVAL.FieldName = "RISK_INTERVAL";
          this.RISK_INTERVAL.Name = "RISK_INTERVAL";
          this.RISK_INTERVAL.Visible = true;

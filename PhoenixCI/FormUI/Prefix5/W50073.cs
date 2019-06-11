@@ -155,17 +155,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
             return ResultStatus.Success;
         }
 
-        protected override ResultStatus CheckShield() {
-            base.CheckShield(gcMain);
-            if (!IsDataModify(gcMain)) { return ResultStatus.Fail; }
-            //if (cbxUserId.SelectedItem == null) {
-            //    MessageDisplay.Warning("使用者代號不可為空白!");
-            //    return ResultStatus.Fail;
-            //}
-
-            return ResultStatus.Success;
-        }
-
         protected override ResultStatus Save(PokeBall pokeBall) {
             try {
                 base.Save(gcMain);

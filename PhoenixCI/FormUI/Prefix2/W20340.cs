@@ -27,7 +27,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
          txtStartDate.EditValue = GlobalInfo.OCF_DATE.Year + "/01";
          txtEndDate.EditValue = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
 
-         MessageDisplay.Info("執行完成!");
+         //MessageDisplay.Info("執行完成!");
       }
 
       protected override ResultStatus Open() {

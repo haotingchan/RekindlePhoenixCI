@@ -87,8 +87,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             is_adj_type = "1";
 #if DEBUG
             txtSDate.EditValue = "2019/01/29";
-            txtImplSDate.EditValue = "2019/01/01";
-            txtImplEDate.EditValue = "2019/01/31";
+            txtImplSDate.EditValue = "2019/01/29";
+            txtImplEDate.EditValue = "2019/02/20";
 #endif
             DataTable dtInput = dao40071.d_40071_input();
             dtInput.Columns.Add("Is_NewRow", typeof(string));
@@ -303,10 +303,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 }
 
                 DataTable dtMGD2 = dao40071.d_40071(ls_ymd, is_adj_type); //ids_mgd2
-                if (dtMGD2.Rows.Count == 0) {
-                    MessageDisplay.Error("無任何資料！");
-                    return ResultStatus.Fail;
-                }
+                //if (dtMGD2.Rows.Count == 0) {
+                //    MessageDisplay.Error("無任何資料！");
+                //    return ResultStatus.Fail;
+                //}
                 DataTable dtMGD2Log = dao40071.d_40071_log(); //ids_old 
                 dtMGD2Log.Clear(); //只取schema
 
@@ -333,10 +333,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     //只更新有異動的資料
                     if (ls_op_type != " ") {
                         ls_kind_id = dr["KIND_ID"].AsString();
-                        ls_issue_begin_ymd = dr["ISSUE_BEGIN_YMD"].ToString();
-                        ls_issue_end_ymd = dr["ISSUE_END_YMD"].ToString();
-                        ls_impl_begin_ymd = dr["IMPL_BEGIN_YMD"].ToString();
-                        ls_impl_end_ymd = dr["IMPL_END_YMD"].ToString();
+                        ls_issue_begin_ymd = dr["ISSUE_BEGIN_YMD"].ToString().Replace("/","");
+                        ls_issue_end_ymd = dr["ISSUE_END_YMD"].ToString().Replace("/", "");
+                        ls_impl_begin_ymd = dr["IMPL_BEGIN_YMD"].ToString().Replace("/", "");
+                        ls_impl_end_ymd = dr["IMPL_END_YMD"].ToString().Replace("/", "");
                         ls_flag = dr["DATA_FLAG"].AsString();
 
                         //資料修改，將修改前舊資料寫入log
@@ -447,10 +447,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     //只更新有異動的資料
                     if (ls_op_type != " ") {
                         ls_kind_id = dr["KIND_ID"].AsString();
-                        ls_issue_begin_ymd = dr["ISSUE_BEGIN_YMD"].ToString();
-                        ls_issue_end_ymd = dr["ISSUE_END_YMD"].ToString();
-                        ls_impl_begin_ymd = dr["IMPL_BEGIN_YMD"].ToString();
-                        ls_impl_end_ymd = dr["IMPL_END_YMD"].ToString();
+                        ls_issue_begin_ymd = dr["ISSUE_BEGIN_YMD"].ToString().Replace("/", "");
+                        ls_issue_end_ymd = dr["ISSUE_END_YMD"].ToString().Replace("/", "");
+                        ls_impl_begin_ymd = dr["IMPL_BEGIN_YMD"].ToString().Replace("/", "");
+                        ls_impl_end_ymd = dr["IMPL_END_YMD"].ToString().Replace("/", "");
                         ls_flag = dr["DATA_FLAG"].AsString();
                         ldbl_rate = dr["ADJ_RATE"].AsDecimal();
 
@@ -623,6 +623,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 //如果OP_TYPE是I則固定不變
                 if (gv.GetRowCellValue(e.RowHandle, "OP_TYPE").ToString() == " ") gv.SetRowCellValue(e.RowHandle, "OP_TYPE", "U");
             }
+            //if (e.Column.Name == "CM_A"|| e.Column.Name == "CM_B" || e.Column.Name == "MM_A" ||
+            //    e.Column.Name == "MM_B" || e.Column.Name == "IM_A" || e.Column.Name == "IM_B") {
+            //    if (e.Value.AsString() == null) {
+            //        MessageDisplay.Warning("調整後保證金不可為空");
+            //    }
+            //}
         }
 
         /// <summary>
@@ -735,7 +741,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 e.Cancel = false;
             }
             else if (gv.FocusedColumn.Name == "PROD_SEQ_NO" ||
-                     gv.FocusedColumn.Name == "KIND_ID") {
+                     gv.FocusedColumn.Name == "PROD_KIND_ID") {
                 e.Cancel = true;
             }
             else {
@@ -818,10 +824,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //dtGrid.Columns["CM_A * NVL(MGT6_REF_XXX,1)"].ColumnName = "CM_A"; 沒成功撈到資料的話欄位名稱不會變?
 
             DataTable dtMGD2 = dao40071.d_40071(ymd, is_adj_type); //ids_mgd2
-            if (dtMGD2.Rows.Count == 0) {
-                MessageDisplay.Error(txtSDate.Text + " ,MGD2無任何資料！");
-                return;
-            }
+            //if (dtMGD2.Rows.Count == 0) {
+            //    MessageDisplay.Info(txtSDate.Text + " ,MGD2無任何資料！");
+            //    return;
+            //}
 
             //報表設定條件
             is_kind_list = "";
@@ -831,7 +837,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             if (result == DialogResult.No) return;
 
             //產生明細檔
-            DataTable dtInput = (DataTable)gcMain.DataSource;
+            DataTable dtInputBefore = (DataTable)gcMain.DataSource;
+            DataTable dtInput = dtInputBefore.Copy();//如果沒有複製到另一張Table，會直接影響到gridview
             foreach (DataRow drInput in dtInput.Rows) {
                 is_chk = "Y";
                 //先把商品為All的值設定好(這段跟PB不同，PB可以直接抓到All，但這邊要把DBNull.Value轉成All)
@@ -960,6 +967,19 @@ namespace PhoenixCI.FormUI.Prefix4 {
             dtParamKey = dao40071.dddw_pdk_kind_id_40071(ymd, "ET%");
             paramKeyLookUpEdit7.SetColumnLookUp(dtParamKey, "KIND_ID", "KIND_ID", TextEditStyles.DisableTextEditor, "All");
             gcMain.RepositoryItems.Add(paramKeyLookUpEdit7);
+        }
+
+        /// <summary>
+        /// 檢查調整後保證金是否有值
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void repositoryItemTextEdit3_EditValueChanged(object sender, EventArgs e) {
+            TextEdit textEditor = (TextEdit)sender;
+            if (textEditor.EditValue.AsString() == ""|| textEditor.EditValue.AsString() ==null) {
+                MessageDisplay.Warning("調整後保證金不可為空");
+                textEditor.EditValue = textEditor.OldEditValue;
+            }
         }
     }
 }

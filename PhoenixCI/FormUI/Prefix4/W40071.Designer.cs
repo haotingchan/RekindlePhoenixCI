@@ -86,6 +86,7 @@
             this.gridBand20 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.gridBand23 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.CM_A = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.repositoryItemTextEdit3 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.gridBand24 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.CM_B = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.gridBand21 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
@@ -138,6 +139,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gcDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).BeginInit();
             this.SuspendLayout();
             // 
@@ -554,7 +556,8 @@
             this.gcDetail.Name = "gcDetail";
             this.gcDetail.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit1,
-            this.repositoryItemTextEdit2});
+            this.repositoryItemTextEdit2,
+            this.repositoryItemTextEdit3});
             this.gcDetail.Size = new System.Drawing.Size(932, 675);
             this.gcDetail.TabIndex = 0;
             this.gcDetail.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -955,12 +958,21 @@
             this.CM_A.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.CM_A.AppearanceCell.Options.UseFont = true;
             this.CM_A.Caption = "CM_A";
+            this.CM_A.ColumnEdit = this.repositoryItemTextEdit3;
             this.CM_A.DisplayFormat.FormatString = "#,###";
             this.CM_A.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.CM_A.FieldName = "CM_A";
             this.CM_A.Name = "CM_A";
             this.CM_A.Visible = true;
             this.CM_A.Width = 63;
+            // 
+            // repositoryItemTextEdit3
+            // 
+            this.repositoryItemTextEdit3.AutoHeight = false;
+            this.repositoryItemTextEdit3.DisplayFormat.FormatString = "#,###";
+            this.repositoryItemTextEdit3.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.repositoryItemTextEdit3.Name = "repositoryItemTextEdit3";
+            this.repositoryItemTextEdit3.EditValueChanged += new System.EventHandler(this.repositoryItemTextEdit3_EditValueChanged);
             // 
             // gridBand24
             // 
@@ -977,6 +989,7 @@
             this.CM_B.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.CM_B.AppearanceCell.Options.UseFont = true;
             this.CM_B.Caption = "CM_B";
+            this.CM_B.ColumnEdit = this.repositoryItemTextEdit3;
             this.CM_B.DisplayFormat.FormatString = "#,###";
             this.CM_B.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.CM_B.FieldName = "CM_B";
@@ -1011,6 +1024,7 @@
             this.MM_A.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.MM_A.AppearanceCell.Options.UseFont = true;
             this.MM_A.Caption = "MM_A";
+            this.MM_A.ColumnEdit = this.repositoryItemTextEdit3;
             this.MM_A.DisplayFormat.FormatString = "#,###";
             this.MM_A.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.MM_A.FieldName = "MM_A";
@@ -1033,6 +1047,7 @@
             this.MM_B.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.MM_B.AppearanceCell.Options.UseFont = true;
             this.MM_B.Caption = "MM_B";
+            this.MM_B.ColumnEdit = this.repositoryItemTextEdit3;
             this.MM_B.DisplayFormat.FormatString = "#,###";
             this.MM_B.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.MM_B.FieldName = "MM_B";
@@ -1067,6 +1082,7 @@
             this.IM_A.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.IM_A.AppearanceCell.Options.UseFont = true;
             this.IM_A.Caption = "IM_A";
+            this.IM_A.ColumnEdit = this.repositoryItemTextEdit3;
             this.IM_A.DisplayFormat.FormatString = "#,###";
             this.IM_A.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.IM_A.FieldName = "IM_A";
@@ -1089,6 +1105,7 @@
             this.IM_B.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.IM_B.AppearanceCell.Options.UseFont = true;
             this.IM_B.Caption = "IM_B";
+            this.IM_B.ColumnEdit = this.repositoryItemTextEdit3;
             this.IM_B.DisplayFormat.FormatString = "#,###";
             this.IM_B.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.IM_B.FieldName = "IM_B";
@@ -1379,6 +1396,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gcDetail)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvDetail)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1486,5 +1504,6 @@
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand33;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand34;
         private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit prodKindIDLookUpEdit;
+        private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit3;
     }
 }
