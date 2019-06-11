@@ -2550,12 +2550,18 @@
     <None Include="Excel_Template\20110_JTX.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\30010.xlsx" />
     <None Include="Excel_Template\30010_1.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\30010_2.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\30011.xlsx" />
+    <None Include="Excel_Template\30012.xlsx" />
+    <None Include="Excel_Template\30013.xlsx" />
+    <None Include="Excel_Template\30014.xlsx" />
+    <None Include="Excel_Template\30015.xlsx" />
     <None Include="Excel_Template\30017.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -2577,12 +2583,14 @@
     <None Include="Excel_Template\30053.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\30055.xlsx" />
     <None Include="Excel_Template\30055_1.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\30055_2.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\30055_2_bk.xlsx" />
     <None Include="Excel_Template\30055_TJF.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -2631,9 +2639,11 @@
     <None Include="Excel_Template\30320.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\30322.xlsx" />
     <None Include="Excel_Template\30330.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\30340.xlsm" />
     <None Include="Excel_Template\30350.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -2700,6 +2710,7 @@
     <None Include="Excel_Template\30560.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\30570.xlsx" />
     <None Include="Excel_Template\30580.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -2754,6 +2765,7 @@
     <None Include="Excel_Template\30670_UDF.xlsm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\30670_UNFBRF.xlsm" />
     <None Include="Excel_Template\30670_XBF.xlsm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -2766,12 +2778,14 @@
     <None Include="Excel_Template\30690.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\30690_.xlsx" />
     <None Include="Excel_Template\30710.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\30720.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\30720_20180928.xlsx" />
     <None Include="Excel_Template\30722.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -2793,6 +2807,8 @@
     <None Include="Excel_Template\30770.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\30780%28夜盤%29_參考.xlsx" />
+    <None Include="Excel_Template\30780%28日盤%29_參考.xlsx" />
     <None Include="Excel_Template\30780.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -2817,15 +2833,23 @@
     <None Include="Excel_Template\35060.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\40010.xlsm" />
+    <None Include="Excel_Template\40010_EWMA_商品及匯率.xlsm" />
+    <None Include="Excel_Template\40010_EWMA_指數及ETF.xlsm" />
     <None Include="Excel_Template\40011.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\40011_save20160829.x" />
+    <None Include="Excel_Template\40011_save20160829.xlsx" />
     <None Include="Excel_Template\40012.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\40013.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\40020.xlsx" />
+    <None Include="Excel_Template\40020_save20170320.x" />
+    <None Include="Excel_Template\40020_save20170320.xlsx" />
     <None Include="Excel_Template\40021.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -2856,6 +2880,8 @@
     <None Include="Excel_Template\40060.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\40070.xlsx" />
+    <None Include="Excel_Template\40080.xlsx" />
     <None Include="Excel_Template\40090.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -2940,18 +2966,21 @@
     <None Include="Excel_Template\48040.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\48050.xlsx" />
     <None Include="Excel_Template\49062.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\49062_Daily.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\50010.xlsx" />
     <None Include="Excel_Template\50020.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\50030.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\50031.xlsx" />
     <None Include="Excel_Template\50032.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -2989,12 +3018,15 @@
     <None Include="Excel_Template\56010.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\60030.xlsx" />
     <None Include="Excel_Template\60110.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\60210.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\60220.xlsx" />
+    <None Include="Excel_Template\60230.xlsx" />
     <None Include="Excel_Template\60310.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -3010,6 +3042,7 @@
     <None Include="Excel_Template\60420.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\70010.xlsx" />
     <None Include="Excel_Template\95140.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -3058,6 +3091,7 @@
     <None Include="Excel_Template\S0020.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\W0010.xlsx" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -3077,6 +3111,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Excel_Template\30500.txt" />
+    <Content Include="Excel_Template\30501.txt" />
     <Content Include="Excel_Template\40030\40030_E1.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -3542,10 +3578,39 @@
     <Content Include="Excel_Template\40030\40030_TBL_XJF_2_Head.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Excel_Template\40110_Data_Normal.xml" />
+    <Content Include="Excel_Template\40110_Data_VacationAdjust.xml" />
+    <Content Include="Excel_Template\40110_Data_VacationReturn.xml" />
+    <Content Include="Excel_Template\40110_Parameter_Normal.xml" />
+    <Content Include="Excel_Template\40110_Parameter_VacationAdjust.xml" />
+    <Content Include="Excel_Template\40110_Parameter_VacationReturn.xml" />
+    <Content Include="Excel_Template\42030_E1.xml" />
+    <Content Include="Excel_Template\42030_E2.xml" />
+    <Content Include="Excel_Template\42030_E3.xml" />
+    <Content Include="Excel_Template\42030_EOF.xml" />
+    <Content Include="Excel_Template\42030_H1.xml" />
+    <Content Include="Excel_Template\42030_H2.xml" />
+    <Content Include="Excel_Template\42030_NewLine.xml" />
+    <Content Include="Excel_Template\42030_NewRow.xml" />
+    <Content Include="Excel_Template\42030_R1.xml" />
+    <Content Include="Excel_Template\42030_S1%28pb%29.xml" />
+    <Content Include="Excel_Template\42030_S1.xml" />
+    <Content Include="Excel_Template\42030_S2.xml" />
+    <Content Include="Excel_Template\42030_T1.xml" />
+    <Content Include="Excel_Template\42030_T2.xml" />
+    <Content Include="Excel_Template\42030_T3_F.xml" />
+    <Content Include="Excel_Template\42030_T3_O.xml" />
+    <Content Include="Excel_Template\42030_T4.xml" />
+    <Content Include="Excel_Template\42030_T5.xml" />
+    <Content Include="Excel_Template\42030_T6.xml" />
+    <Content Include="Excel_Template\42030_T6e.xml" />
+    <Content Include="Excel_Template\51020.txt" />
     <Content Include="Excel_Template\alarm_bb.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Excel_Template\CISendEmail.vbs" />
     <Content Include="Excel_Template\NetDragon.exe" />
+    <Content Include="Excel_Template\wf_send_email_cc.exe" />
     <Content Include="Setting.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
