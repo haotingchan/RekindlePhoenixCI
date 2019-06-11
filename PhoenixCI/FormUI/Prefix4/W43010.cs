@@ -40,7 +40,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
         protected override ResultStatus Open() {
             try {
                 base.Open();
-                txtSDate.EditValue = DateTime.Now;
+                txtSDate.DateTimeValue = DateTime.Now;
                 txtSDate.Focus();
 #if DEBUG
                 txtSDate.Text = "2018/11/15";
@@ -206,8 +206,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 //存檔
                 ws43010 = workbook.Worksheets[0];
                 ws43010.ScrollToRow(0);
+
+                //若所有Sheet皆無資料時，刪除檔案
                 if (dt43010.Rows.Count == 0 && dt40011stat.Rows.Count == 0) {
-                    ShowMsg("轉檔錯誤");
+                    workbook = null;
+                    System.IO.File.Delete(file);
                     return ResultStatus.Fail;
                 }
                 workbook.SaveDocument(file);

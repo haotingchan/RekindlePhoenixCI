@@ -38,7 +38,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
         protected override ResultStatus Open() {
             try {
                 base.Open();
-                txtSDate.EditValue = DateTime.Now;
+                txtSDate.DateTimeValue = DateTime.Now;
                 txtSDate.Focus();
 #if DEBUG
                 txtSDate.Text = "2018/11/15";

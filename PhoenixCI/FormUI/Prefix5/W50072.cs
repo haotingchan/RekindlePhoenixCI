@@ -46,12 +46,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
             return ResultStatus.Success;
         }
 
-        protected override ResultStatus CheckShield() {
-            base.CheckShield();
-
-            return ResultStatus.Success;
-        }
-
         protected void ShowMsg(string msg) {
             lblProcessing.Text = msg;
             this.Refresh();
@@ -60,9 +54,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
         protected override ResultStatus Export() {
             base.Export();
-          
-            if(!ManipulateExcel())return ResultStatus.Fail;
-            lblProcessing.Visible = false;
+
+            if (!ManipulateExcel()) {
+                ShowMsg("");
+                return ResultStatus.Fail;
+            }
             return ResultStatus.Success;
         }
 
