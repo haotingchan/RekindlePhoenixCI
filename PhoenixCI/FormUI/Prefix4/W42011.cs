@@ -536,7 +536,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 }
             }
             DataView dv = dt.AsDataView();
-            dv.RowFilter = "YS_UPDOWN_ABS >= " + txtUpDown.Text + " or YS_UPDOWN_ABS >= " + txtUpDown.Text;
+            dv.RowFilter = "(YS_UPDOWN_ABS*100) >= " + txtUpDown.Text + " or (YI_UPDOWN_ABS*100) >= " + txtUpDown.Text;
             dv.Sort = "YS_UPDOWN_ABS DESC, APDK_KIND_GRP2, APDK_KIND_LEVEL DESC, MGR3_KIND_ID";
             dt = dv.ToTable();
             //dt = dt.AsEnumerable().Where(x => Math.Round(Math.Abs(x.Field<decimal>("YS_UPDOWN") * 100),16) >= txtUpDown.AsDecimal() ||
