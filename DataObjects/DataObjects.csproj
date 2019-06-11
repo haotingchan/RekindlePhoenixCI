@@ -323,6 +323,7 @@
     <Compile Include="Dao\Together\TableDao\MG8.cs" />
     <Compile Include="Dao\Together\TableDao\MGT4.cs" />
     <Compile Include="Dao\Together\TableDao\MOCF.cs" />
+    <Compile Include="Dao\Together\TableDao\REWARD\R_MARKET_STF_EXCL.cs" />
     <Compile Include="Dao\Together\TableDao\SPNT1.cs" />
     <Compile Include="Dao\Together\TableDao\SPNT2.cs" />
     <Compile Include="Dao\Together\TableDao\SP2.cs" />
