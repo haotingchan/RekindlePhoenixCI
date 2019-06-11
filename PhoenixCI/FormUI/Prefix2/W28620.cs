@@ -16,7 +16,6 @@ namespace PhoenixCI.FormUI.Prefix2
       {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
-         MessageDisplay.Info("執行完成!");
       }
 
       protected override ResultStatus Open()
