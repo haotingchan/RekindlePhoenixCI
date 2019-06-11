@@ -194,6 +194,16 @@ namespace PhoenixCI.FormUI.Prefix4 {
                }
             } else {
                dt = dao49062.ExecuteStoredProcedure(startDate , endDate , fId , kindId , seqNo);
+               //dt.DefaultView.Sort = "";
+
+               var result =
+    dt.AsEnumerable().OrderBy(x => {
+       switch (x.Field<string>("mgt8_foreign")) {
+          case "Y": return 1;
+       }
+       return 2;
+    });
+
                if (dt.Rows.Count <= 0) {
                   MessageDisplay.Info(string.Format("{0},{1},{2}-{3},無任何資料!" , startDate , endDate , rptId , rptName));
                }
