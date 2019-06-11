@@ -115,7 +115,7 @@ namespace PhoenixCI.FormUI.Prefix3
             return ResultStatus.Fail;
          }
          try {
-            string saveFilePath= Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH,$"{_ProgramID}_{DateTime.Now.ToString("yyyy.MM.dd")}-{DateTime.Now.ToString("HH.mm.ss")}.csv");
+            string saveFilePath= Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH,$"{_ProgramID}_ru_new_{DateTime.Now.ToString("yyyy.MM.dd")}-{DateTime.Now.ToString("HH.mm.ss")}.csv");
             b30687 = new B30687(saveFilePath, emStartDate.Text, emEndDate.Text, SleProdIDtxt.Text,rgMarket.SelectedIndex,rgTime.SelectedIndex);
             OutputShowMessage=b30687.WF30687RuNew();
             ShowMsg("30687_ru_new－RU筆數統計 轉檔中...");
