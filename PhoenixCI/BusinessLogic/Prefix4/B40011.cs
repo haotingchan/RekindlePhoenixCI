@@ -26,13 +26,6 @@ namespace PhoenixCI.BusinessLogic.Prefix4
          this.dao = new D4001x().ConcreteDao(daoID);
       }
 
-      public B40011(string daoID, string emDate)
-      {
-         this._TxnID = "40011";
-         this._emDateText = emDate;
-         this.dao = new D4001x().ConcreteDao(daoID);
-      }
-
       /// <summary>
       /// FMIF APDK_MARKET_CLOSE 值
       /// </summary>

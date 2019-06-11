@@ -179,6 +179,7 @@
     <Compile Include="BusinessLogic\Prefix3\B30290.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30780.cs" />
     <Compile Include="BusinessLogic\Prefix3\B30790.cs" />
+    <Compile Include="BusinessLogic\Prefix4\B40010.cs" />
     <Compile Include="BusinessLogic\Prefix4\B40042.cs" />
     <Compile Include="BusinessLogic\Prefix4\B40012.cs" />
     <Compile Include="BusinessLogic\Prefix4\B40013.cs" />
@@ -3105,10 +3106,19 @@
     <None Include="Excel_Template\40011.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\40011old.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Excel_Template\40012.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Excel_Template\40012old.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Excel_Template\40013.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\40013old.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\40021.xlsx">
