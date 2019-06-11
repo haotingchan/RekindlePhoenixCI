@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Windows.Forms;
 using BaseGround;
 using BaseGround.Report;
 using Common;
@@ -138,6 +137,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
          return true;
       }
 
+      /// <summary>
+      /// 判斷是否是新增列, 若是新增列開啟編輯
+      /// </summary>
+      /// <param name="sender"></param>
+      /// <param name="e"></param>
       private void gvMain_ShowingEditor(object sender, CancelEventArgs e) {
          GridView gv = sender as GridView;
          string Is_NewRow = gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["IS_NEWROW"]) == null ? "0" :
@@ -159,6 +163,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
          gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["IS_NEWROW"], 1);
       }
 
+      /// <summary>
+      /// 新增列改變顏色
+      /// </summary>
+      /// <param name="sender"></param>
+      /// <param name="e"></param>
       private void gvMain_RowCellStyle(object sender, RowCellStyleEventArgs e) {
          GridView gv = sender as GridView;
          string Is_NewRow = gv.GetRowCellValue(e.RowHandle, gv.Columns["IS_NEWROW"]) == null ? "0" :

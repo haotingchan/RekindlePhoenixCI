@@ -91,7 +91,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                MessageDisplay.Info("沒有變更資料, 不需要存檔!");
                return ResultStatus.FailButNext;
             }
-            ResultData result = dao51010.UpdateData(dt);//base.Save_Override(dt, "DTS");
+            ResultData result = dao51010.UpdateData(dt);
             if (result.Status == ResultStatus.Fail) {
                MessageDisplay.Error("儲存失敗");
                return ResultStatus.Fail;

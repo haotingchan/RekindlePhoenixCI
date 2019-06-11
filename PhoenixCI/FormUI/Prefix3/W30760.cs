@@ -28,7 +28,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             Workbook workbook = new Workbook();
 
-            string destinationFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);//Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, Filename);
+            string destinationFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
             string sYm = txtSDate.DateTimeValue.ToString("yyyyMM");
             string eYm = txtEDate.DateTimeValue.ToString("yyyyMM");
             string eymd = string.IsNullOrEmpty(dao30760.GetMaxDate(eYm)) ? eYm + "01" : dao30760.GetMaxDate(eYm);//讀取迄年月的最大之交易日

@@ -2,13 +2,10 @@
 using System.Data;
 using BaseGround;
 using BusinessObjects.Enums;
-using System.IO;
 using Common;
 using DevExpress.Spreadsheet;
-using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using System.Globalization;
-using DevExpress.Spreadsheet.Charts;
 using BaseGround.Shared;
 
 namespace PhoenixCI.FormUI.Prefix3 {
@@ -50,10 +47,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
                return ResultStatus.Fail;
             }
 
-            string destinationFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);//Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, Filename);
+            string destinationFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
             int startRow = 6, oleRow = startRow, oleTol = startRow + 24;
             string ymd = "";
-
 
             workbook.LoadDocument(destinationFilePath);
             Worksheet worksheet = workbook.Worksheets[0];

@@ -276,8 +276,18 @@ namespace PhoenixCI.FormUI.PrefixS {
 
          foreach (DataRow r in dtExAccount.Rows) {
             if (r.RowState != DataRowState.Deleted) {
-               if (r["SPAN_ACCT_FCM_NO"].AsString().SubStr(4, 3) == "999") {
+
+               //期貨商代號欄位必須為7碼，末3碼不為999
+               if (r["SPAN_ACCT_FCM_NO"].AsString().SubStr(4, 3) == "999" ||
+                   r["SPAN_ACCT_FCM_NO"].AsString().Length != 7) {
                   MessageDisplay.Info("期貨商代號欄位必須為7碼，末3碼不為999");
+                  return false;
+               }
+
+               //交易人代號欄位必須為7碼，末3碼不為999
+               if (r["SPAN_ACCT_ACC_NO"].AsString().SubStr(4, 3) == "999" ||
+                   r["SPAN_ACCT_ACC_NO"].AsString().Length != 7) {
+                  MessageDisplay.Info("交易人代號欄位必須為7碼，末3碼不為999");
                   return false;
                }
             }
