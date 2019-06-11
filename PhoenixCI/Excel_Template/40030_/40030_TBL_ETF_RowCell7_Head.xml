@@ -1,0 +1,19 @@
+﻿<w:tc>
+<w:tcPr>
+<w:tcW w:w="1259" w:type="dxa"/>
+<w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+<w:vAlign w:val="center"/>
+<w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr>
+<w:widowControl/>
+<w:spacing w:line="240" w:lineRule="atLeast"/><w:jc w:val="center"/>
+</w:pPr>
+<w:r>
+<w:rPr>
+<w:rFonts w:hint="eastAsia"/><w:spacing w:val="0"/><w:sz w:val="24"/><w:szCs w:val="24"/>
+</w:rPr>
+<w:t>
+

@@ -1,0 +1,213 @@
+﻿
+<w:tbl>
+<w:tblPr>
+<w:tblW w:w="8453" w:type="dxa"/>
+<w:tblInd w:w="1021" w:type="dxa"/>
+<w:tblCellMar>
+<w:left w:w="28" w:type="dxa"/>
+<w:right w:w="28" w:type="dxa"/>
+</w:tblCellMar>
+<w:tblLook w:val="04A0"/>
+</w:tblPr>
+<w:tblGrid>
+<w:gridCol w:w="2240"/>
+<w:gridCol w:w="1984"/>
+<w:gridCol w:w="1418"/>
+<w:gridCol w:w="1417"/>
+<w:gridCol w:w="1394"/>
+</w:tblGrid>
+<w:tr>
+<w:trPr>
+<w:trHeight w:val="390"/>
+<w:tblHeader/>
+</w:trPr>
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="2240" w:type="dxa"/>
+<w:tcBorders>
+<w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+</w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+<w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr>
+<w:widowControl/>
+<w:kinsoku/>
+<w:adjustRightInd/>
+<w:snapToGrid/>
+<w:spacing w:line="500" w:lineRule="exact"/>
+<w:jc w:val="center"/>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:szCs w:val="28"/>
+</w:rPr>
+</w:pPr>
+<w:r w:rsidRPr="00AB30BA">
+<w:rPr>
+<w:rFonts w:hAnsi="標楷體"/>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:szCs w:val="28"/>
+</w:rPr>
+<w:t>參數名稱</w:t>
+</w:r>
+</w:p>
+</w:tc>
+
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="1984" w:type="dxa"/>
+<w:tcBorders>
+<w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:left w:val="nil"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+</w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+<w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr>
+<w:widowControl/>
+<w:kinsoku/>
+<w:adjustRightInd/>
+<w:snapToGrid/>
+<w:spacing w:line="500" w:lineRule="exact"/>
+<w:jc w:val="center"/>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:szCs w:val="28"/>
+</w:rPr>
+</w:pPr>
+<w:r w:rsidRPr="00AB30BA">
+<w:rPr>
+<w:rFonts w:hAnsi="標楷體"/>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:szCs w:val="28"/>
+</w:rPr>
+<w:t>適用商品組合</w:t>
+</w:r>
+</w:p>
+</w:tc>
+
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="1418" w:type="dxa"/>
+<w:tcBorders>
+<w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:left w:val="nil"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+</w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+<w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr>
+<w:widowControl/>
+<w:kinsoku/>
+<w:adjustRightInd/>
+<w:snapToGrid/>
+<w:spacing w:line="500" w:lineRule="exact"/>
+<w:jc w:val="center"/>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:szCs w:val="28"/>
+</w:rPr>
+</w:pPr>
+<w:r w:rsidRPr="00AB30BA">
+<w:rPr>
+<w:rFonts w:hAnsi="標楷體"/>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:szCs w:val="28"/>
+</w:rPr>
+<w:t>調整後</w:t>
+</w:r>
+</w:p>
+</w:tc>
+
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="1417" w:type="dxa"/>
+<w:tcBorders>
+<w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:left w:val="nil"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+</w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+<w:hideMark/>
+</w:tcPr>
+<w:p w:rsidR="002F0DC5" w:rsidRPr="00AB30BA" w:rsidRDefault="002F0DC5" w:rsidP="00F402C3">
+<w:pPr>
+<w:widowControl/>
+<w:kinsoku/>
+<w:adjustRightInd/>
+<w:snapToGrid/>
+<w:spacing w:line="500" w:lineRule="exact"/>
+<w:jc w:val="center"/>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:szCs w:val="28"/>
+</w:rPr>
+</w:pPr>
+<w:r>
+<w:rPr>
+<w:rFonts w:hAnsi="標楷體"/>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:szCs w:val="28"/>
+</w:rPr>
+<w:t>調整前</w:t>
+</w:r>
+</w:p>
+</w:tc>
+
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="1394" w:type="dxa"/>
+<w:tcBorders>
+<w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:left w:val="nil"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+</w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+<w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr>
+<w:widowControl/>
+<w:kinsoku/>
+<w:adjustRightInd/>
+<w:snapToGrid/>
+<w:spacing w:line="500" w:lineRule="exact"/>
+<w:jc w:val="center"/>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:szCs w:val="28"/>
+</w:rPr>
+</w:pPr>
+<w:r>
+<w:rPr>
+<w:rFonts w:hAnsi="標楷體"/>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:szCs w:val="28"/>
+</w:rPr>
+<w:t>變動幅度</w:t>
+</w:r>
+</w:p>
+</w:tc>
+</w:tr>

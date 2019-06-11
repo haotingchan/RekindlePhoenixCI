@@ -1,0 +1,22 @@
+﻿
+<w:tr>
+<w:trPr>
+<w:trHeight w:val="946"/>
+</w:trPr>
+
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="2911" w:type="dxa"/>
+<w:tcBorders><w:top w:val="nil"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+<w:noWrap/><w:vAlign w:val="center"/><w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr><w:snapToGrid/><w:spacing w:line="240" w:lineRule="auto"/><w:jc w:val="center"/></w:pPr><w:r w:rsidRPr="009E1495">
+<w:rPr>
+<w:rFonts w:ascii="標楷體" w:hAnsi="標楷體" w:hint="eastAsia"/>
+<w:snapToGrid/><w:spacing w:val="0"/><w:sz w:val="22"/><w:szCs w:val="22"/></w:rPr>
+<w:t>英鎊兌美元<w:br/>匯率期貨契約<w:br/>結算保證金</w:t>
+</w:r>
+</w:p>
+</w:tc>

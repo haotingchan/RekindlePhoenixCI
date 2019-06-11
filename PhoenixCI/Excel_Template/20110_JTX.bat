@@ -10,7 +10,7 @@ set Src_FILE2=%F_YMD%_market_data_whole_day_e.xls
 ::傳入gs_ap_path像是C:\CIN這樣
 set SYS_PATH=%2
 set Flag_PATH=%SYS_PATH%ErrSP\20110_JTX_flag.txt
-set Trg_PATH=%SYS_PATH%Report\%SYS_YMD%\
+set Trg_PATH=%SYS_PATH%Excel_Report\%SYS_YMD%\
 
 ::判斷目錄存在
 if exist %Flag_PATH% (del %Flag_PATH%) 

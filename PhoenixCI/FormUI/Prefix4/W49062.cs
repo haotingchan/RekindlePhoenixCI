@@ -241,16 +241,29 @@ namespace PhoenixCI.FormUI.Prefix4 {
                } else {
                   ws.Cells[rowNum , 0].Value = fName;
                }
-               string ymd = dr["eff_ymd"].AsString().SubStr(0 , 4) + "/" + dr["eff_ymd"].AsString().SubStr(4 , 2) + "/" + dr["eff_ymd"].AsString().SubStr(6 , 2);
+
+               string ymd = "";
+               if (gbItem.EditValue.AsString() == "rbHistory") {
+                  ymd = dr["detl_ymd"].AsString().SubStr(0 , 4) + "/" + dr["detl_ymd"].AsString().SubStr(4 , 2) + "/" + dr["detl_ymd"].AsString().SubStr(6 , 2);
+               } else {
+                  ymd = dr["eff_ymd"].AsString().SubStr(0 , 4) + "/" + dr["eff_ymd"].AsString().SubStr(4 , 2) + "/" + dr["eff_ymd"].AsString().SubStr(6 , 2);
+               }                  
 
                ws.Cells[rowNum , 1].Value = DateTime.ParseExact(ymd , "yyyy/MM/dd" , null);
                ws.Cells[rowNum , 2].Value = dr["currency_name"].AsString();
-               ws.Cells[rowNum , 3].Value = dr["mg8_cm"].AsDecimal();
-               ws.Cells[rowNum , 4].Value = dr["cm_rate"].AsDecimal();
-               ws.Cells[rowNum , 5].Value = dr["mg8_mm"].AsDecimal();
-               ws.Cells[rowNum , 6].Value = dr["mm_rate"].AsDecimal();
-               ws.Cells[rowNum , 7].Value = dr["mg8_im"].AsDecimal();
-               ws.Cells[rowNum , 8].Value = dr["im_rate"].AsDecimal();
+
+               if (dr["mg8_cm"] != DBNull.Value)
+                  ws.Cells[rowNum , 3].Value = dr["mg8_cm"].AsDecimal();
+               if (dr["cm_rate"] != DBNull.Value)
+                  ws.Cells[rowNum , 4].Value = dr["cm_rate"].AsDecimal();
+               if (dr["mg8_mm"] != DBNull.Value)
+                  ws.Cells[rowNum , 5].Value = dr["mg8_mm"].AsDecimal();
+               if (dr["mm_rate"] != DBNull.Value)
+                  ws.Cells[rowNum , 6].Value = dr["mm_rate"].AsDecimal();
+               if (dr["mg8_im"] != DBNull.Value)
+                  ws.Cells[rowNum , 7].Value = dr["mg8_im"].AsDecimal();
+               if (dr["im_rate"] != DBNull.Value)
+                  ws.Cells[rowNum , 8].Value = dr["im_rate"].AsDecimal();
                ws.Cells[rowNum , 9].Value = dr["mgt8_xxx"].AsInt();
                ws.Cells[rowNum , 10].Value = dr["rate1"].AsDecimal();
                ws.Cells[rowNum , 11].Value = dr["rate2"].AsDecimal();

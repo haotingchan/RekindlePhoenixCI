@@ -1,0 +1,127 @@
+﻿</w:r>
+</w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="3840" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:left w:val="nil"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/><w:vAlign w:val="center"/><w:hideMark/></w:tcPr>
+<w:p w:rsidR="00E574EA" w:rsidRPr="00E574EA" w:rsidRDefault="00E574EA" w:rsidP="00E574EA">
+<w:pPr><w:widowControl/><w:kinsoku/><w:adjustRightInd/><w:snapToGrid/><w:spacing w:line="240" w:lineRule="auto"/><w:jc w:val="center"/></w:pPr>
+<w:r>
+<w:rPr><w:rFonts w:hAnsi="標楷體" w:hint="eastAsia"/><w:snapToGrid/><w:color w:val="000000"/><w:spacing w:val="0"/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr>
+<w:t>調整後保證金金額</w:t>
+</w:r>
+</w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="3840" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:left w:val="nil"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/><w:vAlign w:val="center"/><w:hideMark/></w:tcPr>
+<w:p w:rsidR="00E574EA" w:rsidRPr="00E574EA" w:rsidRDefault="00E574EA" w:rsidP="00E574EA">
+<w:pPr><w:widowControl/><w:kinsoku/><w:adjustRightInd/><w:snapToGrid/><w:spacing w:line="240" w:lineRule="auto"/><w:jc w:val="center"/></w:pPr>
+<w:r>
+<w:rPr><w:rFonts w:hAnsi="標楷體" w:hint="eastAsia"/><w:snapToGrid/><w:color w:val="000000"/><w:spacing w:val="0"/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr>
+<w:t>調整前保證金金額</w:t>
+</w:r>
+</w:p></w:tc></w:tr>
+<w:tr><w:trPr><w:trHeight w:val="660"/><w:jc w:val="right"/></w:trPr>
+<w:tc><w:tcPr><w:tcW w:w="1340" w:type="dxa"/><w:vMerge/><w:tcBorders><w:top w:val="nil"/>
+<w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/><w:hideMark/></w:tcPr>
+<w:p><w:pPr><w:widowControl/><w:kinsoku/><w:adjustRightInd/><w:snapToGrid/><w:spacing w:line="240" w:lineRule="auto"/></w:pPr>
+</w:p>
+</w:tc>
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="1280" w:type="dxa"/>
+<w:tcBorders><w:top w:val="nil"/><w:left w:val="nil"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/><w:vAlign w:val="center"/><w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr><w:widowControl/><w:kinsoku/><w:adjustRightInd/><w:snapToGrid/><w:spacing w:line="240" w:lineRule="auto"/><w:jc w:val="center"/></w:pPr>
+<w:r>
+<w:rPr><w:rFonts w:ascii="標楷體" w:hAnsi="標楷體" w:hint="eastAsia"/><w:snapToGrid/>
+<w:color w:val="000000"/><w:spacing w:val="0"/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr>
+<w:t>原始保證金金額</w:t>
+</w:r>
+</w:p>
+</w:tc>
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="1280" w:type="dxa"/>
+<w:tcBorders><w:top w:val="nil"/><w:left w:val="nil"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/><w:vAlign w:val="center"/><w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr><w:widowControl/><w:kinsoku/><w:adjustRightInd/><w:snapToGrid/><w:spacing w:line="240" w:lineRule="auto"/><w:jc w:val="center"/></w:pPr>
+<w:r>
+<w:rPr><w:rFonts w:ascii="標楷體" w:hAnsi="標楷體" w:hint="eastAsia"/><w:snapToGrid/>
+<w:color w:val="000000"/><w:spacing w:val="0"/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr>
+<w:t>維持保證金金額</w:t>
+</w:r>
+</w:p>
+</w:tc>
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="1280" w:type="dxa"/>
+<w:tcBorders><w:top w:val="nil"/><w:left w:val="nil"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/><w:vAlign w:val="center"/><w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr><w:widowControl/><w:kinsoku/><w:adjustRightInd/><w:snapToGrid/><w:spacing w:line="240" w:lineRule="auto"/><w:jc w:val="center"/></w:pPr>
+<w:r>
+<w:rPr><w:rFonts w:ascii="標楷體" w:hAnsi="標楷體" w:hint="eastAsia"/><w:snapToGrid/>
+<w:color w:val="000000"/><w:spacing w:val="0"/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr>
+<w:t>結算保證金金額</w:t>
+</w:r>
+</w:p>
+</w:tc>
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="1280" w:type="dxa"/>
+<w:tcBorders><w:top w:val="nil"/><w:left w:val="nil"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/><w:vAlign w:val="center"/><w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr><w:widowControl/><w:kinsoku/><w:adjustRightInd/><w:snapToGrid/><w:spacing w:line="240" w:lineRule="auto"/><w:jc w:val="center"/></w:pPr>
+<w:r>
+<w:rPr><w:rFonts w:ascii="標楷體" w:hAnsi="標楷體" w:hint="eastAsia"/><w:snapToGrid/>
+<w:color w:val="000000"/><w:spacing w:val="0"/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr>
+<w:t>原始保證金金額</w:t>
+</w:r>
+</w:p>
+</w:tc>
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="1280" w:type="dxa"/>
+<w:tcBorders><w:top w:val="nil"/><w:left w:val="nil"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/><w:vAlign w:val="center"/><w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr><w:widowControl/><w:kinsoku/><w:adjustRightInd/><w:snapToGrid/><w:spacing w:line="240" w:lineRule="auto"/><w:jc w:val="center"/></w:pPr>
+<w:r>
+<w:rPr><w:rFonts w:ascii="標楷體" w:hAnsi="標楷體" w:hint="eastAsia"/><w:snapToGrid/>
+<w:color w:val="000000"/><w:spacing w:val="0"/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr>
+<w:t>維持保證金金額</w:t>
+</w:r>
+</w:p>
+</w:tc>
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="1280" w:type="dxa"/>
+<w:tcBorders><w:top w:val="nil"/><w:left w:val="nil"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/><w:vAlign w:val="center"/><w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr><w:widowControl/><w:kinsoku/><w:adjustRightInd/><w:snapToGrid/><w:spacing w:line="240" w:lineRule="auto"/><w:jc w:val="center"/></w:pPr>
+<w:r>
+<w:rPr><w:rFonts w:ascii="標楷體" w:hAnsi="標楷體" w:hint="eastAsia"/><w:snapToGrid/>
+<w:color w:val="000000"/><w:spacing w:val="0"/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr>
+<w:t>結算保證金金額</w:t>
+</w:r>
+</w:p>
+</w:tc>
+</w:tr>
+

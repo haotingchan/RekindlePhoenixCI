@@ -1,50 +1,37 @@
 ﻿</w:r>
-</w:p><w:p w:rsidR="007D55AF" w:rsidRPr="00150552" w:rsidRDefault="007D55AF" w:rsidP="007D55AF"><w:pPr><w:pStyle w:val="a3"/><w:kinsoku/><w:spacing w:before="0" w:line="460" w:lineRule="exact"/>
-<w:rPr><w:b w:val="0"/></w:rPr></w:pPr><w:r w:rsidRPr="00150552">
-<w:t>地　　點：</w:t>
-</w:r>
-<w:r>
-<w:rPr><w:b w:val="0"/><w:bCs/></w:rPr>
-<w:t>研討室</w:t>
-</w:r>
-</w:p><w:p w:rsidR="007D55AF" w:rsidRPr="0070761D" w:rsidRDefault="007D55AF" w:rsidP="007D55AF"><w:pPr><w:pStyle w:val="a3"/><w:kinsoku/><w:spacing w:before="0" w:line="500" w:lineRule="exact"/></w:pPr><w:r w:rsidRPr="00150552">
-<w:t>主　　席：</w:t>
-</w:r>
-<w:r w:rsidR="00C97922">
-<w:rPr><w:rFonts w:hint="eastAsia"/><w:b w:val="0"/></w:rPr>
-<w:t>林副總經理志成                    記錄：○○○</w:t>
-</w:r>
-</w:p><w:p w:rsidR="00A20EB9" w:rsidRPr="00C97922" w:rsidRDefault="007D55AF" w:rsidP="00A20EB9"><w:pPr><w:pStyle w:val="a3"/><w:kinsoku/><w:spacing w:before="0" w:line="460" w:lineRule="exact"/><w:ind w:left="1579" w:hangingChars="493" w:hanging="1579"/>
-<w:rPr><w:rFonts w:hint="eastAsia"/><w:b w:val="0"/><w:bCs/><w:szCs w:val="28"/></w:rPr></w:pPr><w:r w:rsidRPr="0070761D">
-<w:t>出　　席：</w:t>
-</w:r>
-<w:r>
-<w:rPr><w:rFonts w:hint="eastAsia"/><w:b w:val="0"/><w:bCs/><w:szCs w:val="28"/></w:rPr>
-<w:t>結算部顏經理榮邦、許業務委員鈴佩、交易部吳經理阿秋、</w:t>
-</w:r>
-</w:p><w:p><w:pPr><w:pStyle w:val="a3"/><w:kinsoku/><w:spacing w:before="0" w:line="460" w:lineRule="exact"/><w:ind w:leftChars="493" w:left="1578" w:rightChars="-281" w:right="-899"/>
-<w:rPr><w:rFonts w:hint="eastAsia"/></w:rPr></w:pPr><w:r w:rsidRPr="00C97922">
-<w:rPr><w:b w:val="0"/><w:bCs/><w:szCs w:val="28"/></w:rPr>
-<w:t>企劃部黃經理定容、期貨商輔導部彭經理思哲、</w:t>
-</w:r>
-</w:p><w:p><w:pPr><w:pStyle w:val="a3"/><w:kinsoku/><w:spacing w:before="0" w:line="460" w:lineRule="exact"/><w:ind w:leftChars="493" w:left="1578" w:rightChars="-281" w:right="-899"/>
-<w:rPr><w:rFonts w:hint="eastAsia"/></w:rPr></w:pPr><w:r w:rsidRPr="00C97922">
-<w:rPr><w:b w:val="0"/><w:bCs/><w:szCs w:val="28"/></w:rPr>
-<w:t>資訊規劃部高經理隆樺、監視部林經理黎華</w:t>
-</w:r>
-</w:p><w:p><w:pPr><w:pStyle w:val="a3"/><w:kinsoku/><w:spacing w:before="0" w:line="460" w:lineRule="exact"/><w:ind w:leftChars="493" w:left="1578" w:rightChars="-281" w:right="-899"/>
-</w:pPr><w:r w:rsidRPr="00C97922">
-<w:rPr><w:rFonts w:hint="eastAsia"/><w:b w:val="0"/><w:bCs/><w:szCs w:val="28"/></w:rPr>
-<w:t></w:t>
-</w:r>
 </w:p>
-
-<w:p>
-<w:pPr>
-<w:pStyle w:val="a3"/><w:tabs><w:tab w:val="left" w:pos="1418"/></w:tabs><w:kinsoku/>
-<w:spacing w:line="500" w:lineRule="exact"/><w:ind w:left="1559" w:rightChars="8" w:right="26" w:hanging="1559"/>
-<w:jc w:val="both"/>
-</w:pPr>
-<w:r><w:t>壹、討論事項</w:t>
-</w:r>
+<w:p w:rsidR="007D55AF" w:rsidRPr="00150552" w:rsidRDefault="007D55AF" w:rsidP="007D55AF">
+  <w:pPr>
+    <w:pStyle w:val="a3" />
+    <w:kinsoku />
+    <w:spacing w:before="0" w:line="460" w:lineRule="exact" />
+    <w:rPr>
+      <w:b w:val="0" />
+    </w:rPr>
+  </w:pPr>
+  <w:r w:rsidRPr="00150552">
+    <w:t>地　　點：</w:t>
+  </w:r>
+  <w:r>
+    <w:rPr>
+      <w:b w:val="0" />
+      <w:bCs />
+    </w:rPr>
+    <w:t>研討室</w:t>
+  </w:r>
 </w:p>
+<w:p w:rsidR="007D55AF" w:rsidRPr="0070761D" w:rsidRDefault="007D55AF" w:rsidP="007D55AF">
+  <w:pPr>
+    <w:pStyle w:val="a3" />
+    <w:kinsoku />
+    <w:spacing w:before="0" w:line="500" w:lineRule="exact" />
+  </w:pPr>
+  <w:r w:rsidRPr="00150552">
+    <w:t>主　　席：</w:t>
+  </w:r>
+  <w:r w:rsidR="00C97922">
+    <w:rPr>
+      <w:rFonts w:hint="eastAsia" />
+      <w:b w:val="0" />
+    </w:rPr>
+   
