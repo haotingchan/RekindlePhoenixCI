@@ -20,7 +20,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
          dao56090 = new D56090();
          dtReadTxt = new DataTable();
          //設定資料欄位
-         //dtReadTxt = ((DataTable)gcMain.DataSource).Clone();
          dtReadTxt.Columns.Add("FEETDCC_YM", typeof(string));
          dtReadTxt.Columns.Add("FEETDCC_FCM_NO", typeof(string));
          dtReadTxt.Columns.Add("FEETDCC_ACC_NO", typeof(string));
@@ -48,7 +47,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
          try {
             Stream openFile = PbFunc.wf_getfileopenname("56090.txt", "*.txt (*.txt)|*.txt");
 
+            //選擇取消時, 不做處理
             if (openFile == null) return ResultStatus.FailButNext;
+
             ImportShow.Text = "開始轉檔...";
             ImportShow.Show();
 

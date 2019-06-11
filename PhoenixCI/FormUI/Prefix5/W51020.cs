@@ -58,7 +58,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
          if (returnTable.Rows.Count == 0) {
             MessageDisplay.Info("無任何資料");
          }
-         //returnTable.Columns.Add("Is_NewRow", typeof(string));
          gcMain.DataSource = returnTable;
 
          gcMain.Focus();
@@ -89,13 +88,14 @@ namespace PhoenixCI.FormUI.Prefix5 {
                MessageDisplay.Info("沒有變更資料, 不需要存檔!");
                return ResultStatus.FailButNext;
             }
-            ResultStatus status = dao51020.updateData(dt).Status;//base.Save_Override(dt, "MMFT");
+            ResultStatus status = dao51020.updateData(dt).Status;
 
             if (status == ResultStatus.Fail) {
                MessageDisplay.Error("儲存失敗");
                return ResultStatus.Fail;
             }
 
+            //列印新增 刪除 修改 的資料
             PrintOrExportChangedByKen(gcMain, dtForAdd, dtForDeleted, dtForModified);
          } catch (Exception ex) {
             throw ex;
@@ -148,6 +148,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
          return ResultStatus.Success;
       }
 
+      /// <summary>
+      /// 判斷是否為新增列, 來確認是否可編輯
+      /// </summary>
+      /// <param name="sender"></param>
+      /// <param name="e"></param>
       private void gvMain_ShowingEditor(object sender, CancelEventArgs e) {
          GridView gv = sender as GridView;
          string Is_NewRow = gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["IS_NEWROW"]) == null ? "0" :
@@ -164,6 +169,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
          gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["MMFT_END_E"], 0);
       }
 
+      /// <summary>
+      /// 判斷是新增列來改變顏色
+      /// </summary>
+      /// <param name="sender"></param>
+      /// <param name="e"></param>
       private void gvMain_RowCellStyle(object sender, RowCellStyleEventArgs e) {
          GridView gv = sender as GridView;
          string Is_NewRow = gv.GetRowCellValue(e.RowHandle, gv.Columns["IS_NEWROW"]) == null ? "0" :
@@ -175,8 +185,14 @@ namespace PhoenixCI.FormUI.Prefix5 {
          }
       }
 
+      /// <summary>
+      /// 新增列時初始設定
+      /// </summary>
+      /// <param name="sender"></param>
+      /// <param name="e"></param>
       private void gvMain_InitNewRow(object sender, InitNewRowEventArgs e) {
          GridView gv = sender as GridView;
+         //新增列, 將IS_NEWROW =1
          gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["IS_NEWROW"], 1);
       }
    }

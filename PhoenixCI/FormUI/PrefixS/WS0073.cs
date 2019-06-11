@@ -123,7 +123,6 @@ namespace PhoenixCI.FormUI.PrefixS {
 
             resultStatus = savePeriod();
             if (resultStatus != ResultStatus.Success) {
-               //MessageDisplay.Error("儲存錯誤!");
                return ResultStatus.Fail;
             }
 

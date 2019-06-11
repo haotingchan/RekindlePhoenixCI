@@ -85,6 +85,7 @@ namespace PhoenixCI.FormUI.PrefixS {
                return ResultStatus.FailButNext;
             }
 
+            //先刪除舊資料後, 再新增資料
             if (daoS0011.DeleteMG2S() >= 0) {
                DataTable insertMG2SData = daoS0011.GetMG2SColumns();
                for (int i = 0; i < dt.Rows.Count; i++) {
@@ -99,9 +100,18 @@ namespace PhoenixCI.FormUI.PrefixS {
                   insertMG2SData.Rows[i]["MG2S_SPAN_CODE"] = dt.Rows[i]["MG2_SPAN_CODE"];
                   insertMG2SData.Rows[i]["MG2S_USER_CM"] = dt.Rows[i]["USER_CM"].AsDecimal() == 0 ? DBNull.Value : dt.Rows[i]["USER_CM"];
                }
-               resultStatus = daoS0011.updateData(insertMG2SData).Status;//base.Save_Override(insertMG2SData, "MG2S", DBName.CFO);
+               resultStatus = daoS0011.updateData(insertMG2SData).Status;
                if (resultStatus == ResultStatus.Success) {
-                  PrintableComponent = gcMain;
+
+                  //儲存備份 pdf
+                  ReportHelper _ReportHelper = new ReportHelper(gcMain, _ProgramID, this.Text);
+                  CommonReportLandscapeA4 reportLandscape = new CommonReportLandscapeA4();//設定為橫向列印
+                  reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
+                  reportLandscape.IsHandlePersonVisible = false;
+                  reportLandscape.IsManagerVisible = false;
+                  _ReportHelper.Create(reportLandscape);
+
+                  _ReportHelper.Export(FileType.PDF, _ReportHelper.FilePath);
                }
             }
          } catch (Exception ex) {
@@ -142,7 +152,7 @@ namespace PhoenixCI.FormUI.PrefixS {
       private void adjustmentRadioGroup_SelectedIndexChanged(object sender, EventArgs e) {
          RadioGroup radios = sender as RadioGroup;
 
-         #region Set SPAN CODE 
+         #region Set SPAN CODE / Radio Group 改變時改變cell 值
          switch (radios.Properties.Items[radios.SelectedIndex].Value.ToString()) {
             case "Clear": {
                for (int i = 0; i < gvMain.DataRowCount; i++) {
