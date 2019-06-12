@@ -80,12 +80,12 @@
             this.panParent.Controls.Add(this.panelControl1);
             this.panParent.Controls.Add(this.panelControl);
             this.panParent.Controls.Add(this.lblProcess);
-            this.panParent.Size = new System.Drawing.Size(1065, 831);
+            this.panParent.Size = new System.Drawing.Size(1065, 829);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(1065, 30);
+            this.ribbonControl.Size = new System.Drawing.Size(1065, 32);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // groupBox1
@@ -143,7 +143,7 @@
             this.txtPath1.Name = "txtPath1";
             this.txtPath1.Properties.Appearance.BackColor = System.Drawing.Color.White;
             this.txtPath1.Properties.Appearance.Options.UseBackColor = true;
-            this.txtPath1.Size = new System.Drawing.Size(600, 26);
+            this.txtPath1.Size = new System.Drawing.Size(600, 20);
             this.txtPath1.TabIndex = 2;
             // 
             // label2
@@ -221,7 +221,7 @@
             this.txtPath2.Location = new System.Drawing.Point(71, 29);
             this.txtPath2.MenuManager = this.ribbonControl;
             this.txtPath2.Name = "txtPath2";
-            this.txtPath2.Size = new System.Drawing.Size(600, 26);
+            this.txtPath2.Size = new System.Drawing.Size(600, 20);
             this.txtPath2.TabIndex = 7;
             // 
             // label3
@@ -314,7 +314,7 @@
             this.txtYear.DateTimeValue = new System.DateTime(((long)(0)));
             this.txtYear.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Year;
             this.txtYear.EditValue = "0001/1/1 上午 12:00:00";
-            this.txtYear.Location = new System.Drawing.Point(70, 25);
+            this.txtYear.Location = new System.Drawing.Point(60, 25);
             this.txtYear.MenuManager = this.ribbonControl;
             this.txtYear.Name = "txtYear";
             this.txtYear.Properties.Appearance.Options.UseTextOptions = true;
@@ -326,7 +326,7 @@
             this.txtYear.Properties.Mask.ShowPlaceHolders = false;
             this.txtYear.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtYear.Properties.MaxLength = 4;
-            this.txtYear.Size = new System.Drawing.Size(69, 26);
+            this.txtYear.Size = new System.Drawing.Size(69, 20);
             this.txtYear.TabIndex = 13;
             this.txtYear.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
             // 
@@ -466,12 +466,13 @@
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(145, 26);
+            this.btnSearch.Location = new System.Drawing.Point(135, 22);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(55, 25);
+            this.btnSearch.Size = new System.Drawing.Size(58, 32);
             this.btnSearch.TabIndex = 11;
             this.btnSearch.Text = "查詢";
             this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // label5
             // 

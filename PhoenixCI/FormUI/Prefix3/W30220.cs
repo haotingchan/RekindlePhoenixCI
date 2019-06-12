@@ -94,6 +94,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
             DataTable dt30220 = dao30220.d_30220(txtDate.Text.Replace("/", ""), txtSMonth.Text.Replace("/", ""), txtEMonth.Text.Replace("/", ""), stkYmd);
             if (dt30220.Rows.Count == 0) {
                 MessageDisplay.Info(txtEMonth.Text.Replace("/", "") + "," + rptId + '－' + rptName + ",無任何資料!");
+                //若所有Sheet皆無資料時，刪除檔案
+                workbook = null;
+                System.IO.File.Delete(file);
                 return ResultStatus.Fail;
             }
 
