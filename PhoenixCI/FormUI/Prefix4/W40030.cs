@@ -109,7 +109,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //無資料時不產檔
             if (msg.Status != ResultStatus.Success) {
                ExportShow.Text = MessageDisplay.MSG_IMPORT_FAIL;
-               MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
+               MessageDisplay.Info($"{txtDate.DateTimeValue.ToShortDateString()},{_ProgramID}-{ddlAdjType.Properties.GetDisplayText(AdjType)},{MessageDisplay.MSG_NO_DATA}");
                return msg.Status;
             }
 
@@ -329,6 +329,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             Doc = DocSer.Document;
          }
 
+         /// <summary>
+         /// 組說明文字 以 "、" 連接
+         /// </summary>
+         /// <param name="strList"></param>
+         /// <returns></returns>
          protected virtual string GenArrayTxt(List<string> strList) {
             string result = "";
             int k = 0;
@@ -737,6 +742,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
             Doc.EndUpdateCharacters(CharacterProps);
          }
 
+         /// <summary>
+         /// 設定表格上方文字
+         /// </summary>
+         /// <param name="comment">文字</param>
+         /// <param name="lineSpacing"></param>
+         /// <param name="paragraphAlignment"></param>
+         /// <param name="fontSize"></param>
+         /// <param name="fontName"></param>
          protected virtual void SetComment(string comment, int lineSpacing = 27, ParagraphAlignment paragraphAlignment = ParagraphAlignment.Right,
                                        int fontSize = 12, string fontName = "標楷體") {
 
