@@ -124,17 +124,20 @@ namespace BaseGround {
             toolStripStatusLabelUserName.Text = GlobalInfo.USER_NAME;
             toolStripStatusLabelVersionNum.Text = new AP().GetMaxVersion();
 
-            switch (SystemStatus.SystemType) {
-                case SystemType.CI:
-                    this.Text = "交易資訊統計管理系統";
-                    break;
-
-                default:
-                    break;
-            }
+            
+             this.Text = "交易資訊統計管理系統";
         }
 
-        public FormMain(string txnID, string txnName) : this() {
+        public FormMain(string txnID, string txnName) {
+            InitializeComponent();
+
+            toolStripStatusLabelServerName.Text = GlobalDaoSetting.GetConnectionInfo.ConnectionName;
+            toolStripStatusLabelDBName.Text = GlobalDaoSetting.Database;
+            toolStripStatusLabelUserName.Text = GlobalInfo.USER_NAME;
+            toolStripStatusLabelVersionNum.Text = new AP().GetMaxVersion();
+
+            this.Text = "交易資訊統計管理系統";
+
             OpenForm(txnID, txnName).CloseBox = false;
             scSearch.Visible = false;
             sidePanelMenu.Visible = false;
