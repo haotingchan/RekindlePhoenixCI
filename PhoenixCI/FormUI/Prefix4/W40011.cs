@@ -172,7 +172,8 @@ namespace PhoenixCI.FormUI.Prefix4
             this.Refresh();
             Thread.Sleep(5);
             ShowMsg("EWMA 計算中...");
-            OutputShowMessage = new B40011(_ProgramID, emDate.Text).ComputeEWMA(filepath);
+            OutputShowMessage = new B40010(_ProgramID, emDate.Text).ComputeEWMA(filepath,"40011_1","F");
+            MessageDisplay.Info(MessageDisplay.MSG_IMPORT);
          }
          catch (Exception ex) {
             File.Delete(filepath);

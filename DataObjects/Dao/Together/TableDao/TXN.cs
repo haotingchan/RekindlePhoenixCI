@@ -62,16 +62,30 @@ namespace DataObjects.Dao.Together
 
             string sql =
                 @"
-                    SELECT TXN_ID, TXN_NAME
-                    FROM CI.TXN, CI.UTP
-                    WHERE TXN_ID = UTP_TXN_ID
-                    AND UTP_USER_ID = @UTP_USER_ID
-                    AND TXN_DEFAULT <> 'Y'
-
-                    UNION
-
-                    SELECT TXN_ID, TXN_NAME FROM CI.TXN
-                    WHERE  COALESCE(TXN_DEFAULT,'') = 'Y'
+                       SELECT TXN_ID, TXN_NAME,TXN_SEQ_NO,TXN_PARENT_ID,TXN_LEVEL, TXN_EXTEND
+                        FROM CI.TXN, CI.UTP
+                        WHERE TXN_ID = UTP_TXN_ID
+                        AND UTP_USER_ID = @UTP_USER_ID
+                        AND TXN_DEFAULT <> 'Y'
+        
+                        UNION
+        
+                        SELECT TXN_ID, TXN_NAME,TXN_SEQ_NO,TXN_PARENT_ID,TXN_LEVEL, TXN_EXTEND
+                        FROM CI.TXN
+                        WHERE  COALESCE(TXN_DEFAULT,'') = 'Y'
+            
+                         UNION 
+            
+                        SELECT TXN_ID, TXN_NAME,TXN_SEQ_NO,TXN_PARENT_ID,TXN_LEVEL, TXN_EXTEND
+                        FROM CI.TXN
+                        WHERE TXN_TYPE = 'N'
+                        AND TRIM(TXN_ID) IN (
+                                SELECT DISTINCT TXN_PARENT_ID AS TXN_ID
+                                FROM CI.TXN, CI.UTP
+                                WHERE TXN_ID = UTP_TXN_ID
+                                AND UTP_USER_ID = @UTP_USER_ID
+                                AND TXN_DEFAULT <> 'Y'
+                        )
                 ";
 
             #endregion sql

@@ -83,6 +83,11 @@ namespace PhoenixCI.FormUI.Prefix2
          }
          Retrieve();
          DataTable dt = (DataTable)gcMain.DataSource;
+
+         if (dt == null) {
+            return false;
+         }
+
          if (dt.Rows.Count > 0) {
             DialogResult ChooseResult1 = MessageDisplay.Choose($"「計算日期 :{emDate.Text}」資料已存在,是否刪除?");
             if (ChooseResult1 == DialogResult.No) {

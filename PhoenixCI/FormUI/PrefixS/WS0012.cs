@@ -33,7 +33,6 @@ namespace PhoenixCI.FormUI.PrefixS {
             formControls = this.Controls.Find("radioGroup" + i, true);
             RadioGroup radioGroup = (RadioGroup)formControls[0];
             radioGroup.SelectedIndex = 0;
-
          }
       }
 
@@ -84,6 +83,8 @@ namespace PhoenixCI.FormUI.PrefixS {
                MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                return ResultStatus.FailButNext;
             } else {
+
+               //先刪除舊資料, 再新增資料
                if (daoS0012.DeleteSP2S() >= 0) {
                   DataTable insertSP2SData = daoS0012.GetSP2SColumns();
                   for (int i = 0; i < dt.Rows.Count; i++) {
@@ -100,10 +101,18 @@ namespace PhoenixCI.FormUI.PrefixS {
                      insertSP2SData.Rows[i]["SP2S_W_USER_ID"] = GlobalInfo.USER_ID;
                      insertSP2SData.Rows[i]["SP2S_USER_CM"] = dt.Rows[i]["SP1_USER_RATE"].AsDecimal() == 0 ? DBNull.Value : dt.Rows[i]["SP1_USER_RATE"];
                   }
-                  resultStatus = daoS0012.updateData(insertSP2SData).Status;//base.Save_Override(insertSP2SData, "SP2S", DBName.CFO);
+                  resultStatus = daoS0012.updateData(insertSP2SData).Status;
                   if (resultStatus == ResultStatus.Success) {
 
-                     PrintableComponent = gcMain;
+                     //儲存備份 pdf
+                     ReportHelper _ReportHelper = new ReportHelper(gcMain, _ProgramID, this.Text);
+                     CommonReportLandscapeA4 reportLandscape = new CommonReportLandscapeA4();//設定為橫向列印
+                     reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
+                     reportLandscape.IsHandlePersonVisible = false;
+                     reportLandscape.IsManagerVisible = false;
+                     _ReportHelper.Create(reportLandscape);
+
+                     _ReportHelper.Export(FileType.PDF, _ReportHelper.FilePath);
                   }
                }
             }
@@ -143,7 +152,7 @@ namespace PhoenixCI.FormUI.PrefixS {
       private void adjustmentRadioGroup_SelectedIndexChanged(object sender, EventArgs e) {
          RadioGroup radios = sender as RadioGroup;
 
-         #region Set SPAN CODE 
+         #region Set SPAN CODE / radio group 改變時 修改 SP2_SPAN_CODE
          switch (radios.Properties.Items[radios.SelectedIndex].Value.ToString()) {
             case "Clear": {
                for (int i = 0; i < gvMain.DataRowCount; i++) {

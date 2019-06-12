@@ -208,7 +208,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             DateTime ls_ymd = DateTime.Now.AddDays(-30);
             DateTime aocfMaxDate = new AOCF().GetMaxDate(ls_ymd.ToString("yyyyMMdd"), "");
-            if (aocfMaxDate != null) {
+            if (aocfMaxDate != default(DateTime)) {
                ls_ymd = aocfMaxDate.AddDays(-1);
                ocfDate = ls_ymd;
             }

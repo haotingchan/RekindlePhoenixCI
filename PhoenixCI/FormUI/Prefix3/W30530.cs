@@ -32,7 +32,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          DataTable dtYearData = new DataTable();
          DataTable dtMontData = new DataTable();
 
-         string destinationFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);//Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, ls_filename);
+         string destinationFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
          string inputMonth = txtDate.DateTimeValue.ToString("yyyyMM");
          string inputYear = txtDate.DateTimeValue.Year.ToString();
 
