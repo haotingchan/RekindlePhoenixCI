@@ -1447,6 +1447,7 @@ namespace BaseGround.Shared {
             string output = process.StandardOutput.ReadToEnd();
             string error = process.StandardError.ReadToEnd();
             if (!string.IsNullOrEmpty(error)) {
+               MessageDisplay.Error(error);
                MessageDisplay.Error("(作業代號：" + as_txn_id + ")執行「" + (ls_oper_bat.Trim()) + "」失敗，請聯絡 SPAN 負責人！");
                return "N";
             }
