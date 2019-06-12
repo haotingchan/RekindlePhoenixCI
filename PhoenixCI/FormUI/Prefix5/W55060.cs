@@ -460,7 +460,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 worksheet2.Cells[rowNum, 6 + addCol].Value = dr55060_3_cm["feetdcc_disc_amt"].AsDecimal();
                 worksheet2.Cells[rowNum, 7 + addCol].Value = dr55060_3_cm["rec_amt"].AsDecimal();
                 worksheet2.Cells[rowNum, 8 + addCol].Value = dr55060_3_cm["feetdcc_acc_no"].AsString();
-                worksheet2.Cells[rowNum, 9 + addCol].Value = dr55060_3_cm["feetdcc_session"].AsString();
+                worksheet2.Cells[rowNum, 9 + addCol].Value = dr55060_3_cm["feetdcc_session"].AsString().SubStr(1,1);
                 //for (j = 0; j < 10; j++) {
                 //    worksheet2.Cells[ii_ole_row, j + li_add_col].Value = dr55060_3_cm[j].ToString();
                 //}
