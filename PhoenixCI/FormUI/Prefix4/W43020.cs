@@ -114,9 +114,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 ShowMsg(rptId + '－' + rptName + " 轉檔中...");
 
                 //1. 讀取檔案
-                DataTable dt43020 = dao43020.d_43020(txtSDate.DateTimeValue, oswGrp);
+                DataTable dt43020 = dao43020.d_43020(txtSDate.DateTimeValue.ToString("yyyyMMdd"), oswGrp,"S");
                 if (dt43020.Rows.Count == 0) {
                     MessageDisplay.Info(txtSDate.Text + "," + rptId + '－' + rptName + ",無任何資料!");
+                    ShowMsg("");
                     //return ResultStatus.Fail;
                 }
 
@@ -137,10 +138,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 //5. 填入資料
                 int cnt = 0;
                 int f = 0;
+                int rowCount = dt43020.Rows.Count;
                 foreach (DataRow dr in dt43020.Rows) {
                     //5.1 一、現行收取保證金金額
                     rowStart = 8;
-                    if (dr["MG1_TYPE"].AsString() == "A") {
+                    if (dr["MG1_AB_TYPE"].AsString() == "A") {
                         cnt = cnt + 1;
                         ws43020.Cells[rowStart + f, 1].Value = cnt.AsString();
                         ws43020.Cells[rowStart + f, 2].Value = dr["MG1_KIND_ID"].AsString();
@@ -153,39 +155,102 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     ws43020.Cells[rowStart + f, 11].Value = dr["MG1_CUR_IM"].AsDecimal();
 
                     //5.2 二、本日結算保證金計算
-                    rowStart = 77;
-                    ws43020.Cells[rowStart + f, 7].Value = dr["MGT7_AB_XXX"].AsDecimal();
-                    ws43020.Cells[rowStart + f, 8].Value = dr["MG1_PRICE"].AsDecimal();
-                    ws43020.Cells[rowStart + f, 9].Value = dr["MG1_XXX"].AsDecimal();
-                    ws43020.Cells[rowStart + f, 10].Value = dr["MG1_RISK"].AsDecimal();
-                    ws43020.Cells[rowStart + f, 11].Value = dr["MG1_CP_RISK"].AsDecimal();
-                    ws43020.Cells[rowStart + f, 12].Value = dr["MG1_CP_CM"].AsDecimal();
-
-                    //5.3 三、本日結算保證金變動幅度
-                    rowStart = 142;
-                    ws43020.Cells[rowStart + f, 11].Value = dr["MG1_CHANGE_RANGE"].AsDecimal();
-                    if (dr["MG1_TYPE"].AsString() == "A") {
-                        ws43020.Cells[rowStart + f, 12].Value = dr["MG1_CHANGE_FLAG"].AsString();
+                    //SMA 從B79開始填資料
+                    rowStart = 78;
+                    if (dr["MG1_AB_TYPE"].AsString() == "A") {
+                        //cnt = cnt + 1;
+                        ws43020.Cells[rowStart + f, 1].Value = cnt.AsString();
+                        ws43020.Cells[rowStart + f, 2].Value = dr["MG1_KIND_ID"].AsString();
+                        ws43020.Cells[rowStart + f, 3].Value = dr["APDK_NAME"].AsString();
+                        ws43020.Cells[rowStart + f, 4].Value = dr["APDK_STOCK_ID"].AsString();
+                        ws43020.Cells[rowStart + f, 5].Value = dr["PID_NAME"].AsString();
                     }
+                    ws43020.Cells[rowStart + f, 7].SetValue(dr["MGT7_AB_XXX"]);
+                    ws43020.Cells[rowStart + f, 8].SetValue(dr["MG1_PRICE"]);
+                    ws43020.Cells[rowStart + f, 9].SetValue(dr["MG1_XXX"]);
+                    ws43020.Cells[rowStart + f, 10].SetValue(dr["MG1_RISK"]);
+                    ws43020.Cells[rowStart + f, 11].SetValue(dr["MG1_CP_RISK"]);
+                    ws43020.Cells[rowStart + f, 12].SetValue(dr["MG1_MIN_RISK"]);
+                    ws43020.Cells[rowStart + f, 13].SetValue(dr["MG1_CP_CM"]);
+                    ws43020.Cells[rowStart + f, 14].SetValue(dr["MG1_CUR_CM"]);
+                    ws43020.Cells[rowStart + f, 15].SetValue(dr["MG1_CHANGE_RANGE"]);
+                    ws43020.Cells[rowStart + f, 16].SetValue(dr["MG1_CHANGE_FLAG"]);
+                    f++;
+                }//foreach (DataRow dr in dt43020.Rows)
+                dt43020 = dao43020.d_43020(txtSDate.DateTimeValue.ToString("yyyyMMdd"), oswGrp, "E");
+                cnt = 0;
+                foreach (DataRow dr in dt43020.Rows) {
+                    //EWMA 從B147開始填資料
+                    rowStart = 146;
+                    if (dr["MG1_AB_TYPE"].AsString() == "A") {
+                        cnt = cnt + 1;
+                        ws43020.Cells[rowStart + f, 1].Value = cnt.AsString();
+                        ws43020.Cells[rowStart + f, 2].Value = dr["MG1_KIND_ID"].AsString();
+                        ws43020.Cells[rowStart + f, 3].Value = dr["APDK_NAME"].AsString();
+                        ws43020.Cells[rowStart + f, 4].Value = dr["APDK_STOCK_ID"].AsString();
+                        ws43020.Cells[rowStart + f, 5].Value = dr["PID_NAME"].AsString();
+                    }
+                    ws43020.Cells[rowStart + f, 7].SetValue(dr["MGT7_AB_XXX"]);
+                    ws43020.Cells[rowStart + f, 8].SetValue(dr["MG1_PRICE"]);
+                    ws43020.Cells[rowStart + f, 9].SetValue(dr["MG1_XXX"]);
+                    ws43020.Cells[rowStart + f, 10].SetValue(dr["MG1_RISK"]);
+                    ws43020.Cells[rowStart + f, 11].SetValue(dr["MG1_CP_RISK"]);
+                    ws43020.Cells[rowStart + f, 12].SetValue(dr["MG1_MIN_RISK"]);
+                    ws43020.Cells[rowStart + f, 13].SetValue(dr["MG1_CP_CM"]);
+                    ws43020.Cells[rowStart + f, 14].SetValue(dr["MG1_CUR_CM"]);
+                    ws43020.Cells[rowStart + f, 15].SetValue(dr["MG1_CHANGE_RANGE"]);
+                    //ws43020.Cells[rowStart + f, 16].SetValue(dr["MG1_CHANGE_FLAG"]);
+                    f++;
+                }//foreach (DataRow dr in dt43020.Rows)
+                dt43020 = dao43020.d_43020(txtSDate.DateTimeValue.ToString("yyyyMMdd"), oswGrp, "M");
+                cnt = 0;
+                foreach (DataRow dr in dt43020.Rows) {
+                    //MAX 從B215開始填資料
+                    rowStart = 214;
+                    if (dr["MG1_AB_TYPE"].AsString() == "A") {
+                        cnt = cnt + 1;
+                        ws43020.Cells[rowStart + f, 1].Value = cnt.AsString();
+                        ws43020.Cells[rowStart + f, 2].Value = dr["MG1_KIND_ID"].AsString();
+                        ws43020.Cells[rowStart + f, 3].Value = dr["APDK_NAME"].AsString();
+                        ws43020.Cells[rowStart + f, 4].Value = dr["APDK_STOCK_ID"].AsString();
+                        ws43020.Cells[rowStart + f, 5].Value = dr["PID_NAME"].AsString();
+                    }
+                    ws43020.Cells[rowStart + f, 7].SetValue(dr["MGT7_AB_XXX"]);
+                    ws43020.Cells[rowStart + f, 8].SetValue(dr["MG1_PRICE"]);
+                    ws43020.Cells[rowStart + f, 9].SetValue(dr["MG1_XXX"]);
+                    ws43020.Cells[rowStart + f, 10].SetValue(dr["MG1_RISK"]);
+                    ws43020.Cells[rowStart + f, 11].SetValue(dr["MG1_CP_RISK"]);
+                    ws43020.Cells[rowStart + f, 12].SetValue(dr["MG1_MIN_RISK"]);
+                    ws43020.Cells[rowStart + f, 13].SetValue(dr["MG1_CP_CM"]);
+                    ws43020.Cells[rowStart + f, 14].SetValue(dr["MG1_CUR_CM"]);
+                    ws43020.Cells[rowStart + f, 15].SetValue(dr["MG1_CHANGE_RANGE"]);
+                    ws43020.Cells[rowStart + f, 16].SetValue(dr["MG1_CHANGE_FLAG"]);
+                    //5.3 三、本日結算保證金變動幅度
+                    //rowStart = 142;
+                    //ws43020.Cells[rowStart + f, 11].Value = dr["MG1_CHANGE_RANGE"].AsDecimal();
+                    //if (dr["MG1_TYPE"].AsString() == "A") {
+                    //    ws43020.Cells[rowStart + f, 12].Value = dr["MG1_CHANGE_FLAG"].AsString();
+                    //}
 
                     f++;
-                }
+                }//foreach (DataRow dr in dt43020.Rows)
                 //6. 刪除空白列(用Rows.remove或Range.delete都會影響到template，只好用Rows.Hide)
-                int rowCount = dt43020.Rows.Count;
                 int delRowCnt = 60 - rowCount;
                 Range ra;
                 if (rowCount < 60) {
-                    rowStart = 141;
+                    rowStart = 213;
                     //ra = ws43020.Range[(rowIndex + rowStart + 1).ToString() + ":" + (rowStart + 60).ToString()];
                     //ra.Delete(DeleteMode.EntireRow);
                     ws43020.Rows.Hide(rowCount + rowStart + 1, rowStart + 60);
-                    rowStart = 76;
+                    rowStart = 145;
+                    //ra = ws43020.Range[(rowIndex + rowStart + 1).ToString() + ":" + (rowStart + 60).ToString()];
+                    //ra.Delete(DeleteMode.EntireRow);
+                    ws43020.Rows.Hide(rowCount + rowStart + 1, rowStart + 60);
+                    rowStart = 77;
                     //ra = ws43020.Range[(rowIndex + rowStart + 1).ToString() + ":" + (rowStart + 60).ToString()];
                     //ra.Delete(DeleteMode.EntireRow);
                     ws43020.Rows.Hide(rowCount + rowStart + 1, rowStart + 60);
                     rowStart = 7;
-                    //ra = ws43020.Range[(rowIndex + rowStart + 1).ToString() + ":" + (rowStart + 60).ToString()];
-                    //ra.Delete(DeleteMode.EntireRow);
                     ws43020.Rows.Hide(rowCount + rowStart + 1, rowStart + 60);
                 }
                 #endregion
@@ -201,6 +266,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 dt40011stat = dt40011stat.Filter("prod_type ='O' and param_key = 'ETC'");
                 if (dt40011stat.Rows.Count == 0) {
                     MessageDisplay.Info(txtSDate.Text + "," + rptId + '－' + rptName + ",無任何資料!");
+                    ShowMsg("");
                     //return ResultStatus.Fail;
                 }
 
@@ -222,8 +288,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                 //存檔
                 ws43020.ScrollToRow(0);
-                if (dt43020.Rows.Count == 0 && dt40011stat.Rows.Count == 0) {
-                    ShowMsg("轉檔錯誤");
+                if (rowCount == 0 && dt40011stat.Rows.Count == 0) {
+                    workbook = null;
+                    System.IO.File.Delete(file);
                     return ResultStatus.Fail;
                 }
                 workbook.SaveDocument(file);
