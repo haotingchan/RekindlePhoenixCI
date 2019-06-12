@@ -173,6 +173,9 @@ namespace PhoenixCI.FormUI.PrefixS {
             //檢查日期區間
             if(!CheckPeriod()) return ResultStatus.FailButNext;
 
+            //檢查REQ區間(0.1~5)
+            if (!CheckREQValue()) return ResultStatus.FailButNext;
+
             //檢查帳號及壓力測試參數
             DataTable dtExAccount = (DataTable)gcExAccount.DataSource;
             GenWTime(dtExAccount, "SPAN_ACCT_W_TIME", "SPAN_ACCT_USER_ID");

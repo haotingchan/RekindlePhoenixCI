@@ -100,7 +100,10 @@ namespace PhoenixCI.FormUI.PrefixS {
          setDatePeriod();
 
          for (int i = 0; i < modules1.Length; i++) {
-            DataTable dt = daoS0072.ListSpanContentByModule(modules1[i], GlobalInfo.USER_ID);
+            string module = modules1[i];
+            //IMS DB 存 INTERMONTH, 特殊處理
+            if (module == "IMS") module = "INTERMONTH";
+            DataTable dt = daoS0072.ListSpanContentByModule(module, GlobalInfo.USER_ID);
             GridView gv = GetGridView(modules1[i]);
 
             gv.GridControl.DataSource = dt;
@@ -395,6 +398,9 @@ namespace PhoenixCI.FormUI.PrefixS {
       private void SpanTabControl_SelectedPageChanged(object sender, DevExpress.XtraTab.TabPageChangedEventArgs e) {
          if (e.Page.Name != "tab_ZISP") {
             string module = e.Page.Name.Split('_')[1];
+            ////IMS DB 存 INTERMONTH
+            //if (module == "IMS") module = "INTERMONTH";
+
             string cod_col_id = module + "_CONTENT_TYPE";
 
             DataTable dtContentType = daoCod.ListByCol2("S0072", cod_col_id);

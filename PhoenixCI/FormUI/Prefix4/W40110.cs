@@ -84,7 +84,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //無資料時不產檔
             if (msg.Status != ResultStatus.Success) {
                ExportShow.Text = MessageDisplay.MSG_IMPORT_FAIL;
-               MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
+               MessageDisplay.Info($"{txtDate.DateTimeValue.ToShortDateString()},{_ProgramID}-{ddlAdjType.Properties.GetDisplayText(AdjType)},{MessageDisplay.MSG_NO_DATA}");
                return msg.Status;
             }
 

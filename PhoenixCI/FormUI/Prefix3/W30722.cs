@@ -7,6 +7,7 @@ using DevExpress.Spreadsheet;
 using DataObjects.Dao.Together;
 using System.Globalization;
 using BaseGround.Shared;
+using System.IO;
 
 namespace PhoenixCI.FormUI.Prefix3 {
    public partial class W30722 : FormParent {
@@ -44,6 +45,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          int oleRow = 1;
 
          try {
+            int noData = 0;
             workbook.LoadDocument(destinationFilePath);
 
             #region Get AM2 Data
@@ -52,6 +54,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             if (dtAM2.Rows.Count <= 0) {
                ExportShow.Hide();
                MessageDisplay.Info(date + "," + _ProgramID + '－' + _ProgramName + ",無任何資料!");
+               noData += 1;
+               File.Delete(destinationFilePath);
                return ResultStatus.Fail;
             }
             #endregion
@@ -63,8 +67,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             if (dtRPT.Rows.Count <= 0) {
                MessageDisplay.Info(_ProgramID + '－' + "RPT無任何資料!");
+               noData += 1;
             }
-
             //填寫日期
             TaiwanCalendar tai = new TaiwanCalendar();
             worksheet.Cells[0, 6].Value = tai.GetYear(date).ToString() + "年" + tai.GetMonth(date) + "月" + worksheet.Cells[0, 6].Value;
@@ -92,8 +96,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             if (dtAi2.Rows.Count <= 0) {
                MessageDisplay.Info(_ProgramID + '－' + "AI2無任何資料!");
+               noData += 1;
             }
-
             //切換sheet
             paramKey = "";
             foreach (DataRow r in dtAi2.Rows) {
@@ -116,6 +120,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             if (dtRamm1.Rows.Count <= 0) {
                MessageDisplay.Info(_ProgramID + '－' + "Ramm1無任何資料!");
+               noData += 1;
             }
 
             paramKey = "";
@@ -137,6 +142,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
             #endregion
 
             workbook.SaveDocument(destinationFilePath);
+
+            //全查無資料時, 刪除檔案
+            if (noData == 4) File.Delete(destinationFilePath);
          } catch (Exception ex) {
             ExportShow.Text = "轉檔失敗";
             throw ex;
