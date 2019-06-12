@@ -322,7 +322,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             kindID = "";
             //填資料
             foreach (DataRow dr in dt55060_4.Rows) {
-                if (kindID == "UDF") {
+                if (dr["RWD_KIND_ID"].AsString() == "UDF") {
                     if (as_type == "MM") {
                         addCol = 13;
                     }
