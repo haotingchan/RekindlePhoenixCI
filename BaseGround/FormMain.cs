@@ -21,15 +21,14 @@ namespace BaseGround {
     public partial class FormMain : DevExpress.XtraBars.Ribbon.RibbonForm {
         public FormMain() {
             InitializeComponent();
-            ServiceCommon serviceCommon = new ServiceCommon();
             TXN daoTXN = new TXN();
             DataTable dt = new DataTable();
             if (GlobalInfo.USER_ID == GlobalDaoSetting.GetConnectionInfo.ConnectionName) {
                 dt = Task.Run(() => daoTXN.ListData()).Result;
             }
             else {
-                //dt = Task.Run(() => serviceCommon.ListTxnByUser(GlobalInfo.USER_ID)).Result;
-                dt = Task.Run(() => daoTXN.ListData()).Result;
+                dt = Task.Run(() => daoTXN.ListTxnByUser(GlobalInfo.USER_ID)).Result;
+                //dt = Task.Run(() => daoTXN.ListData()).Result;
             }
 
             AccordionControlElement item = null;
