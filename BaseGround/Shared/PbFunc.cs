@@ -1426,7 +1426,7 @@ namespace BaseGround.Shared {
             ls_err = gs_batch_path + as_txn_id + ".log";
             ls_flag = "";
             File.Delete(ls_err);
-            File.Delete(ls_flag);
+            //File.Delete(ls_flag);
 
             //*.Bat 以下指令是確保dos中之上一指令執行完畢繼續下一指令行(dos 為單一視窗),echo XXX
             var processInfo = new ProcessStartInfo(ls_oper_bat);

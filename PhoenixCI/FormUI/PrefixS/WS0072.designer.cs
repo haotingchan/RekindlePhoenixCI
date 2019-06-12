@@ -349,7 +349,7 @@
          this.repositoryItemTextEdit1.AllowNullInput = DevExpress.Utils.DefaultBoolean.False;
          this.repositoryItemTextEdit1.AutoHeight = false;
          this.repositoryItemTextEdit1.Mask.BeepOnError = true;
-         this.repositoryItemTextEdit1.Mask.EditMask = "f4";
+         this.repositoryItemTextEdit1.Mask.EditMask = "d";
          this.repositoryItemTextEdit1.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
          this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
          this.repositoryItemTextEdit1.ShowNullValuePromptWhenFocused = true;
@@ -448,7 +448,7 @@
          this.tab_IMS.Controls.Add(this.gc_IMS);
          this.tab_IMS.Controls.Add(this.panel2);
          this.tab_IMS.Name = "tab_IMS";
-         this.tab_IMS.Size = new System.Drawing.Size(808, 372);
+         this.tab_IMS.Size = new System.Drawing.Size(1111, 405);
          this.tab_IMS.Text = "B. 跨月價差設定";
          // 
          // gc_IMS
@@ -460,7 +460,7 @@
          this.gc_IMS.Name = "gc_IMS";
          this.gc_IMS.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit2});
-         this.gc_IMS.Size = new System.Drawing.Size(808, 295);
+         this.gc_IMS.Size = new System.Drawing.Size(1111, 328);
          this.gc_IMS.TabIndex = 7;
          this.gc_IMS.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_IMS});
@@ -552,7 +552,7 @@
          this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
          this.panel2.Location = new System.Drawing.Point(0, 0);
          this.panel2.Name = "panel2";
-         this.panel2.Size = new System.Drawing.Size(808, 77);
+         this.panel2.Size = new System.Drawing.Size(1111, 77);
          this.panel2.TabIndex = 6;
          // 
          // IMS_btnClear
@@ -704,8 +704,7 @@
          // SPAN_ZISP_CREDIT
          // 
          this.SPAN_ZISP_CREDIT.Caption = "跨商品價差折抵率";
-         this.SPAN_ZISP_CREDIT.DisplayFormat.FormatString = "0,0.0";
-         this.SPAN_ZISP_CREDIT.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
+         this.SPAN_ZISP_CREDIT.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
          this.SPAN_ZISP_CREDIT.FieldName = "SPAN_ZISP_CREDIT";
          this.SPAN_ZISP_CREDIT.Name = "SPAN_ZISP_CREDIT";
          this.SPAN_ZISP_CREDIT.OptionsColumn.ShowCaption = false;
