@@ -93,7 +93,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
          Prod_ct.EditValue = " ";
          Kind_id_st.SetDataTable(daoAPDK.ListKind2(), "APDK_KIND_ID_STO", "APDK_KIND_ID_STO", TextEditStyles.DisableTextEditor, null);
          Kind_id_st.EditValue = " ";
-         Kind_id_O.SetDataTable(daoAPDK.ListKindId(), "APDK_KIND_ID", "APDK_KIND_ID", TextEditStyles.DisableTextEditor, null);
+         Kind_id_O.SetDataTable(daoAPDK.ListAll3(), "MARKET_CODE", "PDK_KIND_ID", TextEditStyles.DisableTextEditor, null);
          Kind_id_O.EditValue = " ";
 
 

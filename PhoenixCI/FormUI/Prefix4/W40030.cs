@@ -1352,7 +1352,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                   checkBatch = PbFunc.f_chk_130_wf("40030", c.CheckedDate, OswGrp);
                   if (checkBatch != "") {
-                     DialogResult result = MessageDisplay.Choose($"{TxtDate}-{checkBatch}，是否要繼續?");
+                     DialogResult result = MessageDisplay.Choose($"{c.CheckedDate.ToShortDateString()}-{checkBatch}，是否要繼續?");
                      if (result == DialogResult.No) {
                         msg.Status = ResultStatus.FailButNext;
                         return msg;
