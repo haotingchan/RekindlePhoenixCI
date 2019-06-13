@@ -3106,10 +3106,7 @@
     <None Include="Excel_Template\35060.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Excel_Template\40010.xls">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Excel_Template\40010.xlsm">
+    <None Include="Excel_Template\40010_EWMA.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\40011.xlsx">

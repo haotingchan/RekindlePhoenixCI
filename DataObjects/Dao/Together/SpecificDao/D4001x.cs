@@ -1,5 +1,7 @@
-﻿using Common;
+﻿using BusinessObjects;
+using Common;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
@@ -14,29 +16,44 @@ namespace DataObjects.Dao.Together.SpecificDao
    public class D4001x : DataGate, ID4001x
    {
 
-      protected virtual string FutDataCountSql()
+      protected virtual string FutOptDataSql()
       {
-         return "";
-      }
-
-      protected virtual string OptDataCountSql()
-      {
-         return "";
-      }
-
-      protected virtual string FutDataSql(int sheet)
-      {
-         return "";
-      }
-
-      protected virtual string OptDataSql(int sheet)
-      {
-         return "";
-      }
-
-      protected virtual string WorkItemSql(int Num)
-      {
-         return "";
+         string sql = @"
+                     SELECT MG1_CUR_CM,MG1_CUR_MM,MG1_CUR_IM,MG1_CUR_CM_RATE,MG1_CUR_MM_RATE,MG1_CUR_IM_RATE,
+                                   MG1_PRICE,MG1_XXX,MG1_RISK,MG1_CP_RISK,MG1_MIN_RISK,
+                                   decode(:as_txn_id||'_'||:as_sheet,'40011_2',MG1_CP_CM,MG1_CM) AS MG1_CM,MG1_CUR_CM as MG1_CUR_CM2,MG1_CHANGE_RANGE,
+                                   MG1_CHANGE_FLAG,
+                                   MG1_PROD_TYPE,MG1_KIND_ID,MG1_AB_TYPE,R1,decode(MG1_MODEL_TYPE,'S',RPT_VALUE_2,'M',RPT_VALUE_3,'E',RPT_VALUE_4) AS R2,SHEET,MGT2_KIND_ID_OUT
+                       FROM ci.MG1_3M,ci.MGT2,
+                             (SELECT RPT_VALUE AS R_KIND_ID,RPT_LEVEL_1 AS SHEET, RPT_LEVEL_2 AS R1,RPT_VALUE_2,
+                                   RPT_VALUE_3,RPT_VALUE_4
+                                FROM ci.RPT
+                                WHERE RPT_TXN_ID = :as_txn_id AND RPT_TXD_ID = :as_txn_id||'_'||:as_sheet) R
+                       WHERE MG1_YMD = to_char(:as_date,'YYYYMMDD')
+                          AND MG1_KIND_ID = R_KIND_ID
+                          AND MG1_KIND_ID = MGT2_KIND_ID
+                     union all
+                     select MG8_CM , MG8_MM ,MG8_IM , 
+                                case when MG9_PRICE is null then 0 else  TRUNC((MG8_CM / (MG9_PRICE * MGT8_XXX)) * 10000) / 10000 end,
+                                case when MG9_PRICE is null then 0 else  TRUNC((MG8_MM / (MG9_PRICE * MGT8_XXX)) * 10000) / 10000 end,
+                                case when MG9_PRICE is null then 0 else  TRUNC((MG8_IM / (MG9_PRICE * MGT8_XXX)) * 10000) / 10000 end,
+                            MG9_PRICE,MGT8_XXX,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+                            NULL,MG8D_F_ID,NULL,R1,RPT_VALUE_2 AS R2,SHEET,MG8D_F_ID
+                       from ci.MG8D,ci.MG8,ci.MG9,ci.MGT8,
+                            (SELECT RPT_VALUE AS R_KIND_ID,RPT_LEVEL_1 AS SHEET, RPT_LEVEL_2 AS R1,RPT_VALUE_2,
+                                   RPT_VALUE_3,RPT_VALUE_4
+                                FROM ci.RPT
+                              WHERE RPT_TXN_ID = :as_txn_id AND RPT_TXD_ID = :as_txn_id||'_'||:as_sheet) R
+                      where MG8D_YMD = to_char(:as_date,'YYYYMMDD')
+                        AND MG8D_F_ID = 'SGX02'
+                        AND MG8D_EFFECT_YMD = MG8_EFFECT_YMD
+                        AND MG8D_F_ID = MG8_F_ID
+                        AND MG8D_YMD = MG9_YMD
+                        AND MG8D_F_ID = MG9_F_ID   
+                        AND MG8D_F_ID = MGT8_F_ID
+                        and MG8D_F_ID = R_KIND_ID
+                      ORDER BY R1,R2,MG1_KIND_ID,MG1_AB_TYPE";
+         return sql;
       }
 
       public ID4001x ConcreteDao(string programID)
@@ -53,84 +70,40 @@ namespace DataObjects.Dao.Together.SpecificDao
 
 
       /// <summary>
-      /// R1或R2的資料切換
+      /// 一二大項資料
       /// </summary>
-      /// <param name="as_date"></param>
-      /// <param name="R">1 or 2</param>
-      /// <returns>R1 or R2,MG1_CUR_CM,MG1_CUR_MM,MG1_CUR_IM,MG1_CM_RATE,MG1_MM_RATE,MG1_IM_RATE,MG1_PRICE,MG1_XXX,MG1_RISK,MG1_CP_RISK,MG1_MIN_RISK,MG1_CP_CM</returns>
-      public DataTable ListFutData(DateTime as_date, int sheet)
+      /// <param name="as_date">yyyy/MM/dd</param>
+      /// <param name="as_txn_id">作業代號</param>
+      /// <param name="sheet">第幾個sheet</param>
+      /// <returns></returns>
+      public DataTable ListFutOptData(DateTime as_date,string as_txn_id, int sheet)
       {
          object[] parms = {
                 ":as_date",as_date,
+                ":as_txn_id",as_txn_id,
+                ":as_sheet",sheet
             };
-         string sql = FutDataSql(sheet);
+         string sql = FutOptDataSql();
          DataTable dtResult = db.GetDataTable(sql, parms);
          return dtResult;
       }
 
       /// <summary>
-      /// R1或R2的資料切換
+      /// d_40011_stat
       /// </summary>
-      /// <param name="as_date"></param>
-      /// <param name="R">1 or 2</param>
-      public DataTable ListOptData(DateTime as_date, int sheet)
-      {
-         object[] parms = {
-                ":as_date",as_date,
-            };
-         string sql = OptDataSql(sheet);
-         DataTable dtResult = db.GetDataTable(sql, parms);
-         return dtResult;
-      }
-
-      /// <summary>
-      /// 確認sheet1有無資料
-      /// </summary>
-      /// <param name="as_date"></param>
+      /// <param name="AS_YMD"></param>
       /// <returns></returns>
-      public int FutR1DataCount(DateTime as_date)
+      public DataTable List40011Stat(string as_ymd)
       {
-         object[] parms = {
-                ":as_date",as_date,
-            };
-         string sql = FutDataCountSql();
-         DataTable dtResult = db.GetDataTable(sql, parms);
-         if (dtResult.Rows.Count <= 0)
-            return 0;
-         return dtResult.Rows[0][0].AsInt();
-      }
 
-      /// <summary>
-      /// 確認sheet2有無資料
-      /// </summary>
-      /// <param name="as_date"></param>
-      /// <returns></returns>
-      public int OptR1DataCount(DateTime as_date)
-      {
-         object[] parms = {
-                ":as_date",as_date,
-            };
-         string sql = OptDataCountSql();
-         DataTable dtResult = db.GetDataTable(sql, parms);
-         if (dtResult.Rows.Count <= 0)
-            return 0;
-         return dtResult.Rows[0][0].AsInt();
-      }
+         List<DbParameterEx> parms = new List<DbParameterEx>() {
+            new DbParameterEx("as_ymd",as_ymd)
+            //new DbParameterEx("RETURNPARAMETER",0)
+         };
 
-      /// <summary>
-      /// 四、	作業事項 已達或未達10%
-      /// </summary>
-      /// <param name="as_date">datetime</param>
-      /// <param name="Num">sheet 1 or 2</param>
-      /// <returns></returns>
-      public DataTable WorkItem(DateTime as_date, int Num)
-      {
-         object[] parms = {
-                ":as_date",as_date,
-            };
-         string sql = WorkItemSql(Num);
-         DataTable dtResult = db.GetDataTable(sql, parms);
-         return dtResult;
+         string sql = "CI.SP_H_TXN_40011_STAT";
+         DataTable dt = db.ExecuteStoredProcedureEx(sql, parms, true);
+         return dt;
       }
 
       /// <summary>
@@ -183,35 +156,20 @@ namespace DataObjects.Dao.Together.SpecificDao
 
    public interface ID4001x
    {
+      /// <summary>
+      /// 一二大項資料
+      /// </summary>
+      /// <param name="as_date">yyyy/MM/dd</param>
+      /// <param name="as_txn_id">作業代號</param>
+      /// <param name="sheet">第幾個sheet</param>
+      DataTable ListFutOptData(DateTime as_date, string as_txn_id, int sheet);
 
       /// <summary>
-      /// 確認sheet1有無資料
+      /// d_40011_stat
       /// </summary>
-      /// <param name="as_date"></param>
-      int FutR1DataCount(DateTime as_date);
-
-      /// <summary>
-      /// 確認sheet2有無資料
-      /// </summary>
-      /// <param name="as_date"></param>
-      int OptR1DataCount(DateTime as_date);
-
-      /// <summary>
-      /// R1或R2的資料切換
-      /// </summary>
-      /// <param name="as_date"></param>
-      /// <param name="R">R1 or R2</param>
-      /// <returns>R1 or R2,MG1_CUR_CM,MG1_CUR_MM,MG1_CUR_IM,MG1_CM_RATE,MG1_MM_RATE,MG1_IM_RATE,MG1_PRICE,MG1_XXX,MG1_RISK,MG1_CP_RISK,MG1_MIN_RISK,MG1_CP_CM</returns>
-      DataTable ListFutData(DateTime as_date, int sheet);
-
-      DataTable ListOptData(DateTime as_date, int sheet);
-
-      /// <summary>
-      /// 四、	作業事項 已達或未達10%
-      /// </summary>
-      /// <param name="as_date">datetime</param>
-      /// <param name="Num">sheet 1 or 2</param>
-      DataTable WorkItem(DateTime as_date, int Num);
+      /// <param name="AS_YMD"></param>
+      /// <returns></returns>
+      DataTable List40011Stat(string as_ymd);
 
       /// <summary>
       /// sheet 作業事項
