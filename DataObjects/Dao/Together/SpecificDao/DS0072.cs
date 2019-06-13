@@ -92,10 +92,9 @@ SELECT  trim(ZISP_PROD_ID) as SPAN_ZISP_PROD_ID,
 			  ZISP_W_TIME as SPAN_ZISP_W_TIME,
 			'1' AS IS_NEWROW
   FROM CI.HZISP
-  WHERE ZISP_DATE = (
-									 SELECT MAX(ZISP_DATE) FROM CI.HZISP 
-									 WHERE ZISP_DATE >= TO_DATE('20181101','YYYYMMDD')
-									 AND ZISP_DATE <= TO_DATE('20181111','YYYYMMDD'))
+  WHERE ZISP_DATE = (SELECT MAX(ZISP_DATE) FROM CI.HZISP 
+									 WHERE ZISP_DATE >= TO_DATE(:as_fm_ymd,'YYYYMMDD')
+									 AND ZISP_DATE <= TO_DATE(:as_to_ymd,'YYYYMMDD'))
 ";
          DataTable dtResult = db.GetDataTable(sql, parms);
 
