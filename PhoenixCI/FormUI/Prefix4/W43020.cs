@@ -114,7 +114,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 ShowMsg(rptId + '－' + rptName + " 轉檔中...");
 
                 //1. 讀取檔案
-                DataTable dt43020 = dao43020.d_43020(txtSDate.DateTimeValue.ToString("yyyyMMdd"), oswGrp,"S");
+                DataTable dt43020 = dao43020.d_43020(txtSDate.DateTimeValue.ToString("yyyyMMdd"), oswGrp, "S");
                 if (dt43020.Rows.Count == 0) {
                     MessageDisplay.Info(txtSDate.Text + "," + rptId + '－' + rptName + ",無任何資料!");
                     ShowMsg("");
@@ -259,7 +259,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 //1. 讀取檔案
                 DataTable dt40011stat = dao43020.d_40011_stat(txtSDate.DateTimeValue.ToString("yyyyMMdd"));
                 dt40011stat = dt40011stat.Sort("seq_no, kind_id");
-                dt40011stat = dt40011stat.Filter("prod_type ='O' and param_key = 'ETC'");
+                dt40011stat = dt40011stat.Filter("prod_type ='O' and param_key = 'ETC' and osw_grp like'" + oswGrp + "'");
                 if (dt40011stat.Rows.Count == 0) {
                     MessageDisplay.Info(txtSDate.Text + "," + rptId + '－' + rptName + ",無任何資料!");
                     ShowMsg("");

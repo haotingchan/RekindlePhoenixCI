@@ -256,7 +256,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 //1. 讀取檔案
                 DataTable dt40011stat = dao43020.d_40011_stat(txtSDate.DateTimeValue.ToString("yyyyMMdd"));
                 dt40011stat = dt40011stat.Sort("seq_no, kind_id");
-                dt40011stat = dt40011stat.Filter("prod_type ='F' and param_key = 'ETF'");
+                dt40011stat = dt40011stat.Filter("prod_type ='F' and param_key = 'ETF' and osw_grp like'" + oswGrp + "'");
                 if (dt40011stat.Rows.Count == 0) {
                     MessageDisplay.Info(txtSDate.Text + "," + rptId + '－' + rptName + ",無任何資料!");
                     //return ResultStatus.Fail;
