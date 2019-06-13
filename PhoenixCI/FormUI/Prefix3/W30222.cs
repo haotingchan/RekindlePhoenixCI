@@ -341,13 +341,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
                     pls1Qnty = gv.GetRowCellValue(gv.FocusedRowHandle, "PLS1_QNTY").AsInt();
                 }
                 else {
-                    pls1Qnty = -1;
+                    pls1Qnty = 0;
                 }
                 if (gv.GetRowCellValue(gv.FocusedRowHandle, "PLS1_STKOUT") != DBNull.Value) {
                     pls1Stkout = gv.GetRowCellValue(gv.FocusedRowHandle, "PLS1_STKOUT").AsInt();
                 }
                 else {
-                    pls1Stkout = -1;
+                    pls1Stkout = 0;
                 }
                 string opType = gv.GetRowCellValue(gv.FocusedRowHandle, "OP_TYPE").AsString();
 

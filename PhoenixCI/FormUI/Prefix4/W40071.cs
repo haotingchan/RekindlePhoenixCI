@@ -183,7 +183,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 int ii_curr_row = 0;
                 string ls_kind_id = "";
                 //0. 清空Grid
-                gcMain.DataSource = null;
+                //gcMain.DataSource = null;這個不用清空
                 gcDetail.DataSource = null;
                 //1. 讀取資料
                 DataTable dtMGD2 = dao40071.d_40071(txtSDate.DateTimeValue.ToString("yyyyMMdd"), is_adj_type);
