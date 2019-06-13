@@ -89,7 +89,8 @@ SELECT A.COD_ID,
        TRIM(A.cod_id) || ' : '|| trim(A.cod_desc ) as CP_DISPLAY
 FROM
     (SELECT trim(acc_grp_code) as COD_ID,   
-            trim(acc_grp_name) as COD_DESC  
+            trim(acc_grp_name) as COD_DESC,
+            trim(tbl_cod_id) as COD_COL_ID
     FROM CI.COD ,
         (SELECT TRIM(COD_COL_ID) as tbl_cod_id,
                 TRIM(COD_ID) as acc_grp_code,
@@ -117,7 +118,8 @@ SELECT A.COD_ID,
        TRIM(A.cod_id) || ' : '|| trim(A.cod_desc ) as CP_DISPLAY
 FROM
     (SELECT trim(acc_grp_code) as COD_ID,   
-            trim(acc_grp_name) as COD_DESC  
+            trim(acc_grp_name) as COD_DESC,
+            trim(tbl_cod_id) as COD_COL_ID  
     FROM CI.COD ,
         (SELECT TRIM(COD_COL_ID) as tbl_cod_id,
                 TRIM(COD_ID) as acc_grp_code,

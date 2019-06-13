@@ -81,8 +81,8 @@ where TRIM(AI2_PARAM_KEY) = AA2_PARAM_KEY(+)
         public DataTable GetTradedData(string sym, string eym, string eymd, string prodType) {
 
             object[] parms = {
-                ":as_eym", sym,
-                ":as_sym", eym,
+                ":as_eym", eym,
+                ":as_sym", sym,
                 ":as_eymd", eymd,
                 ":as_prod_type",prodType
             };
@@ -144,8 +144,8 @@ where AI2_KIND_ID = AA2_KIND_ID(+)
         public DataTable GetFuturesData(string sym, string eym, string eymd, string prodType) {
 
             object[] parms = {
-                ":as_eym", sym,
-                ":as_sym", eym,
+                ":as_eym", eym,
+                ":as_sym", sym,
                 ":as_eymd", eymd,
                 ":as_prod_type",prodType
             };
@@ -207,8 +207,8 @@ where AI2_KIND_ID = AA2_KIND_ID(+)
         public DataTable GetSumData(string sym, string eym, string eymd) {
 
             object[] parms = {
-                ":as_eym", sym,
-                ":as_sym", eym,
+                ":as_eym", eym,
+                ":as_sym", sym,
                 ":as_eymd", eymd
             };
 

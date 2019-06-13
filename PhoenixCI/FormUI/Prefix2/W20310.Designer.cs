@@ -31,41 +31,47 @@
             this.txtEndDate = new BaseGround.Widget.TextDateEdit();
             this.lblDate = new System.Windows.Forms.Label();
             this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.gcMain = new DevExpress.XtraGrid.GridControl();
             this.gvMain = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.AA1_YM = new DevExpress.XtraGrid.Columns.GridColumn();
             this.AA1_TAIFEX = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemTextEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.AA1_TSE = new DevExpress.XtraGrid.Columns.GridColumn();
             this.AA1_OTC = new DevExpress.XtraGrid.Columns.GridColumn();
             this.AA1_DAY_COUNT = new DevExpress.XtraGrid.Columns.GridColumn();
             this.AA1_US_RATE = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.AA1_SGX_DT = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Is_NewRow = new DevExpress.XtraGrid.Columns.GridColumn();
             this.AA1_TAIFEXEdit = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.behaviorManager1 = new DevExpress.Utils.Behaviors.BehaviorManager(this.components);
-            this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
+            this.panelControl2.SuspendLayout();
+            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AA1_TAIFEXEdit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.behaviorManager1)).BeginInit();
             this.SuspendLayout();
             // 
             // panParent
             // 
-            this.panParent.Controls.Add(this.gcMain);
-            this.panParent.Location = new System.Drawing.Point(0, 114);
-            this.panParent.Size = new System.Drawing.Size(877, 513);
+            this.panParent.Dock = System.Windows.Forms.DockStyle.None;
+            this.panParent.Location = new System.Drawing.Point(673, 487);
+            this.panParent.Size = new System.Drawing.Size(204, 140);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(877, 43);
+            this.ribbonControl.Size = new System.Drawing.Size(877, 30);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // panelControl1
@@ -78,7 +84,7 @@
             this.panelControl1.Controls.Add(this.txtEndDate);
             this.panelControl1.Controls.Add(this.lblDate);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelControl1.Location = new System.Drawing.Point(0, 43);
+            this.panelControl1.Location = new System.Drawing.Point(0, 30);
             this.panelControl1.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
             this.panelControl1.LookAndFeel.UseDefaultLookAndFeel = false;
             this.panelControl1.Name = "panelControl1";
@@ -91,7 +97,7 @@
             this.lblNote.ForeColor = System.Drawing.Color.Maroon;
             this.lblNote.Location = new System.Drawing.Point(403, 25);
             this.lblNote.Name = "lblNote";
-            this.lblNote.Size = new System.Drawing.Size(583, 30);
+            this.lblNote.Size = new System.Drawing.Size(389, 20);
             this.lblNote.TabIndex = 18;
             this.lblNote.Text = "註：Taifex期貨總成交值，並不含國外指數期貨商品。";
             // 
@@ -111,7 +117,7 @@
             this.txtStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
             this.txtStartDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtStartDate.Size = new System.Drawing.Size(118, 40);
+            this.txtStartDate.Size = new System.Drawing.Size(118, 28);
             this.txtStartDate.TabIndex = 14;
             this.txtStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -121,7 +127,7 @@
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Location = new System.Drawing.Point(237, 25);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(37, 30);
+            this.label1.Size = new System.Drawing.Size(25, 20);
             this.label1.TabIndex = 17;
             this.label1.Text = "～";
             // 
@@ -141,7 +147,7 @@
             this.txtEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
             this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtEndDate.Size = new System.Drawing.Size(118, 40);
+            this.txtEndDate.Size = new System.Drawing.Size(118, 28);
             this.txtEndDate.TabIndex = 15;
             this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -151,28 +157,40 @@
             this.lblDate.BackColor = System.Drawing.Color.Transparent;
             this.lblDate.Location = new System.Drawing.Point(27, 25);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(133, 30);
+            this.lblDate.Size = new System.Drawing.Size(89, 20);
             this.lblDate.TabIndex = 16;
             this.lblDate.Text = "交易日期：";
             // 
             // panelControl2
             // 
+            this.panelControl2.Controls.Add(this.panel1);
             this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelControl2.Location = new System.Drawing.Point(0, 114);
+            this.panelControl2.Location = new System.Drawing.Point(0, 101);
             this.panelControl2.Name = "panelControl2";
-            this.panelControl2.Size = new System.Drawing.Size(877, 513);
+            this.panelControl2.Size = new System.Drawing.Size(877, 526);
             this.panelControl2.TabIndex = 1;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.gcMain);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(2, 2);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(873, 522);
+            this.panel1.TabIndex = 1;
             // 
             // gcMain
             // 
             this.gcMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gcMain.Location = new System.Drawing.Point(18, 18);
+            this.gcMain.Location = new System.Drawing.Point(0, 0);
             this.gcMain.MainView = this.gvMain;
             this.gcMain.MenuManager = this.ribbonControl;
             this.gcMain.Name = "gcMain";
             this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
-            this.AA1_TAIFEXEdit});
-            this.gcMain.Size = new System.Drawing.Size(841, 477);
+            this.AA1_TAIFEXEdit,
+            this.repositoryItemTextEdit1,
+            this.repositoryItemTextEdit2});
+            this.gcMain.Size = new System.Drawing.Size(873, 522);
             this.gcMain.TabIndex = 0;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -228,14 +246,21 @@
             this.AA1_TAIFEX.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.AA1_TAIFEX.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
             this.AA1_TAIFEX.Caption = "Taifex";
-            this.AA1_TAIFEX.DisplayFormat.FormatString = "0,00";
-            this.AA1_TAIFEX.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
+            this.AA1_TAIFEX.ColumnEdit = this.repositoryItemTextEdit2;
             this.AA1_TAIFEX.FieldName = "AA1_TAIFEX";
             this.AA1_TAIFEX.Name = "AA1_TAIFEX";
             this.AA1_TAIFEX.OptionsColumn.FixedWidth = true;
             this.AA1_TAIFEX.Visible = true;
             this.AA1_TAIFEX.VisibleIndex = 1;
             this.AA1_TAIFEX.Width = 160;
+            // 
+            // repositoryItemTextEdit2
+            // 
+            this.repositoryItemTextEdit2.AutoHeight = false;
+            this.repositoryItemTextEdit2.DisplayFormat.FormatString = "0,00";
+            this.repositoryItemTextEdit2.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
+            this.repositoryItemTextEdit2.MaxLength = 18;
+            this.repositoryItemTextEdit2.Name = "repositoryItemTextEdit2";
             // 
             // AA1_TSE
             // 
@@ -246,6 +271,7 @@
             this.AA1_TSE.AppearanceHeader.Options.UseTextOptions = true;
             this.AA1_TSE.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.AA1_TSE.Caption = "TWSE";
+            this.AA1_TSE.ColumnEdit = this.repositoryItemTextEdit2;
             this.AA1_TSE.DisplayFormat.FormatString = "0,00";
             this.AA1_TSE.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
             this.AA1_TSE.FieldName = "AA1_TSE";
@@ -264,6 +290,7 @@
             this.AA1_OTC.AppearanceHeader.Options.UseTextOptions = true;
             this.AA1_OTC.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.AA1_OTC.Caption = "OTC";
+            this.AA1_OTC.ColumnEdit = this.repositoryItemTextEdit2;
             this.AA1_OTC.DisplayFormat.FormatString = "0,00";
             this.AA1_OTC.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
             this.AA1_OTC.FieldName = "AA1_OTC";
@@ -298,12 +325,23 @@
             this.AA1_US_RATE.AppearanceHeader.Options.UseTextOptions = true;
             this.AA1_US_RATE.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.AA1_US_RATE.Caption = "美元匯率";
+            this.AA1_US_RATE.ColumnEdit = this.repositoryItemTextEdit1;
             this.AA1_US_RATE.FieldName = "AA1_US_RATE";
             this.AA1_US_RATE.Name = "AA1_US_RATE";
             this.AA1_US_RATE.OptionsColumn.FixedWidth = true;
             this.AA1_US_RATE.Visible = true;
             this.AA1_US_RATE.VisibleIndex = 5;
             this.AA1_US_RATE.Width = 123;
+            // 
+            // repositoryItemTextEdit1
+            // 
+            this.repositoryItemTextEdit1.AutoHeight = false;
+            this.repositoryItemTextEdit1.DisplayFormat.FormatString = "0.######";
+            this.repositoryItemTextEdit1.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.repositoryItemTextEdit1.EditFormat.FormatString = "0.######";
+            this.repositoryItemTextEdit1.EditFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.repositoryItemTextEdit1.MaxLength = 11;
+            this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
             // 
             // AA1_SGX_DT
             // 
@@ -327,7 +365,7 @@
             // W20310
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(877, 627);
             this.Controls.Add(this.panelControl2);
@@ -335,10 +373,9 @@
             this.Name = "W20310";
             this.Text = "W20310";
             this.Controls.SetChildIndex(this.ribbonControl, 0);
+            this.Controls.SetChildIndex(this.panParent, 0);
             this.Controls.SetChildIndex(this.panelControl1, 0);
             this.Controls.SetChildIndex(this.panelControl2, 0);
-            this.Controls.SetChildIndex(this.panParent, 0);
-            this.panParent.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
             this.panelControl1.ResumeLayout(false);
@@ -346,8 +383,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
+            this.panelControl2.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.AA1_TAIFEXEdit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.behaviorManager1)).EndInit();
             this.ResumeLayout(false);
@@ -376,5 +417,8 @@
         private System.Windows.Forms.Label lblNote;
         private DevExpress.Utils.Behaviors.BehaviorManager behaviorManager1;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit AA1_TAIFEXEdit;
+        private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit2;
+        private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit1;
+        private System.Windows.Forms.Panel panel1;
     }
 }

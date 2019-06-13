@@ -100,7 +100,10 @@ namespace PhoenixCI.FormUI.PrefixS {
          setDatePeriod();
 
          for (int i = 0; i < modules1.Length; i++) {
-            DataTable dt = daoS0072.ListSpanContentByModule(modules1[i], GlobalInfo.USER_ID);
+            string module = modules1[i];
+            //IMS DB 存 INTERMONTH, 特殊處理
+            if (module == "IMS") module = "INTERMONTH";
+            DataTable dt = daoS0072.ListSpanContentByModule(module, GlobalInfo.USER_ID);
             GridView gv = GetGridView(modules1[i]);
 
             gv.GridControl.DataSource = dt;
@@ -177,16 +180,20 @@ namespace PhoenixCI.FormUI.PrefixS {
             MessageDisplay.Info("資料有變更, 請先存檔!");
             resultStatus = ResultStatus.FailButNext;
          } else {
-            Run(args);
+            resultStatus = Run(args);
          }
          return resultStatus;
       }
 
       protected override ResultStatus Run(PokeBall args) {
+         string re = "N";
          if (!checkChanged()) {
-            PbFunc.f_bat_span("S0072", "SPN", GlobalInfo.USER_ID);
+            //re="N"代表執行錯誤
+            re = PbFunc.f_bat_span("S0072", "SPN", GlobalInfo.USER_ID);
          }
-         return base.Run(args);
+         if (re == "Y") return ResultStatus.Success;
+
+         return ResultStatus.Fail;
       }
 
       private ResultStatus savePeriod() {
@@ -258,6 +265,8 @@ namespace PhoenixCI.FormUI.PrefixS {
       private void InitNewRow(object sender, InitNewRowEventArgs e) {
          GridView gv = sender as GridView;
          string module = gv.Name.Split('_')[1];
+         //IMS DB 存 INTERMONTH
+         if (module == "IMS") module = "INTERMONTH";
 
          gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["IS_NEWROW"], 1);
          gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["SPAN_CONTENT_MODULE"], module);
@@ -395,6 +404,9 @@ namespace PhoenixCI.FormUI.PrefixS {
       private void SpanTabControl_SelectedPageChanged(object sender, DevExpress.XtraTab.TabPageChangedEventArgs e) {
          if (e.Page.Name != "tab_ZISP") {
             string module = e.Page.Name.Split('_')[1];
+            ////IMS DB 存 INTERMONTH
+            //if (module == "IMS") module = "INTERMONTH";
+
             string cod_col_id = module + "_CONTENT_TYPE";
 
             DataTable dtContentType = daoCod.ListByCol2("S0072", cod_col_id);
@@ -576,5 +588,6 @@ namespace PhoenixCI.FormUI.PrefixS {
          SPAN_ZISP_DPSR2,
          SPAN_ZISP_W_TIME
       }
+
    }
 }

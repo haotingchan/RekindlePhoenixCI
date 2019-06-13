@@ -419,6 +419,27 @@ namespace PhoenixCI.FormUI.Prefix4 {
          }
 
          /// <summary>
+         /// 將整份文件的英文和數字的字型設成某個字型
+         /// </summary>
+         protected virtual void SetAllNumberAndEnglishFont(Document doc) {
+            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"[A-Za-z0-9\)\(\.\,]+");
+            DocumentRange[] foundNumberAndEnglish = doc.FindAll(regex);
+
+            foreach (DocumentRange r in foundNumberAndEnglish) {
+               SetNumberAndEnglishFontName(doc, r);
+            }
+         }
+
+         /// <summary>
+         /// 設定英文和數字的字型
+         /// </summary>
+         protected virtual void SetNumberAndEnglishFontName(Document doc, DocumentRange docRange) {
+            CharacterProperties cp = doc.BeginUpdateCharacters(docRange);
+            cp.FontName = "Times New Roman";
+            doc.EndUpdateCharacters(cp);
+         }
+
+         /// <summary>
          /// 錯誤寫log
          /// </summary>
          /// <param name="msg"></param>
@@ -474,7 +495,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          protected virtual string AppendText { get; set; }
 
          public ExportWordVacationAdjust(D40xxx dao, string txtdate, string adjtype, string programId) : base(dao, txtdate, adjtype, programId) {
-            TableTitle = new string[] { "結算", "維持", "原始" };
+            TableTitle = new string[] { $"結算{Characters.LineBreak}", $"維持{Characters.LineBreak}", $"原始{Characters.LineBreak}" };
             ColName = new string[] { "cur_im2", "cur_im1", "cur_im", "m_im2", "m_im1", "m_im" };
             ColNameB = new string[] { "cur_cm_b", "cur_mm_b", "cur_im_b", "m_cm_b", "m_mm_b", "m_im_b" };
             AppendText = "※本公司上揭契約公告之保證金收取金額，小型美元兌人民幣期貨、美元兌人民幣期貨、" +
@@ -518,6 +539,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   doc.AppendText(Environment.NewLine);
                }
 
+               //設定文數字的自型
+               SetAllNumberAndEnglishFont(doc);
                //1.2.5 寫完存檔
                EndUpdate(docSev, msg);
                return msg;
@@ -846,6 +869,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   doc.AppendText(Environment.NewLine);
                }// foreach
 
+               //設定文數字的自型
+               SetAllNumberAndEnglishFont(doc);
+
                EndUpdate(docSev, msg);
                return msg;
 
@@ -971,6 +997,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                }
 
+               //設定文數字的自型
+               SetAllNumberAndEnglishFont(doc);
+
                EndUpdate(docSev, msg);
                return msg;
 
@@ -997,12 +1026,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                mainText += productList;
                string str = "所有月份保證金適用比例為現行所屬級距適用比例之{0}倍，本次調高係{1}(股票代號：{2})經證交所於{3}公布為處置有價證券" +
-                  "(處置期間為{3}至{4})期交所依規定調高{5}契約所有月份保證金適用比例，自{6}(證券市場處至生效日次一營業日)該契約交易時段結束後起實施，" +
-                  "並於證券市場處置期間結束後，於{4}該契約交易時段結束後恢復為調整前之保證金。";
+                  "(處置期間為{4}至{5})期交所依規定調高{6}契約所有月份保證金適用比例，自{7}(證券市場處至生效日次一營業日)該契約交易時段結束後起實施，" +
+                  "並於證券市場處置期間結束後，於{5}該契約交易時段結束後恢復為調整前之保證金。";
 
                string kindAbbrName = rowAny["kind_abbr_name"].AsString().Replace("期貨", "").Replace("選擇權", "");
 
-               mainText += string.Format(str, rowAny["adj_rate"].AsDecimal(0) + 1, kindAbbrName, rowAny["stock_id"],
+               mainText += string.Format(str, rowAny["adj_rate"].AsDecimal(0) + 1, kindAbbrName, rowAny["stock_id"].AsString(),
+                                       rowAny["pub_ymd"].AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3),
                                        rowAny["impl_begin_ymd"].AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3),
                                        rowAny["impl_end_ymd"].AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3),
                                        productList, validDate);

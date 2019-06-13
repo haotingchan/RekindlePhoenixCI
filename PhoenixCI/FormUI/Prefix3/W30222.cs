@@ -156,34 +156,35 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 //dtGridView.PrimaryKey = new DataColumn[] { dtGridView.Columns["PLS1_KIND_ID2"] };
                 DataView dvMain = dtGridView.AsDataView();
                 dvMain.Sort = "PLS1_KIND_ID2";
+                dtGridView = dvMain.ToTable();
                 foreach (DataRow dr in dt30222PLS2.Rows) {
                     //此時gridview的資料還沒被動過，原本要在gridview中查找(datawindow.find)的資料直接在datasource查找即可
-                    int found = dvMain.Find(dr["PLS2_KIND_ID2"].ToString());
+                    int found = dtGridView.Rows.IndexOf(dtGridView.Select("PLS1_KIND_ID2='" + dr["PLS2_KIND_ID2"].ToString() + "'").FirstOrDefault());
                     if (found < 0) {
                         dtGridView.Rows.Add();
                         found = dtGridView.Rows.Count - 1;
                     }
-                    DataRow drFound = dtGridView.Rows[found];
+                    //DataRow drFound = dtGridView.Rows[found];
 
                     if (dr["PLS2_EFFECTIVE_YMD"].AsString() == lowerYmd.ToString("yyyyMMdd")) {
-                        drFound["PLS1_LEVEL_ADJ"] = "-";
+                        dtGridView.Rows[found]["PLS1_LEVEL_ADJ"] = "-";
                     }
                     //for 	j = 2 to 16
                     for (int k = 1; k < 16; k++) {
-                        drFound[k] = dr[k];
+                        dtGridView.Rows[found][k] = dr[k];
                     }
-                    
-                    drFound["PLS1_W_TIME"] = DateTime.Now;
-                    drFound["PLS1_W_USER_ID"] = GlobalInfo.USER_ID;
+
+                    dtGridView.Rows[found]["PLS1_W_TIME"] = DateTime.Now;
+                    dtGridView.Rows[found]["PLS1_W_USER_ID"] = GlobalInfo.USER_ID;
 
                     //計算欄位COMPUTE_1: if( pls1_kind_id2 <> kind_grp2 ,'小型',' ')
-                    if (drFound["KIND_GRP2"] != DBNull.Value && drFound["PLS1_KIND_ID2"].AsString() != drFound["KIND_GRP2"].AsString()) {
-                        drFound["COMPUTE_1"] = "小型";
+                    if (dtGridView.Rows[found]["KIND_GRP2"] != DBNull.Value && dtGridView.Rows[found]["PLS1_KIND_ID2"].AsString() != dtGridView.Rows[found]["KIND_GRP2"].AsString()) {
+                        dtGridView.Rows[found]["COMPUTE_1"] = "小型";
                     }
                     else {
-                        drFound["COMPUTE_1"] = " ";
+                        dtGridView.Rows[found]["COMPUTE_1"] = " ";
                     }
-                }
+                }//foreach (DataRow dr in dt30222PLS2.Rows)
                 gcMain.DataSource = dtGridView;
             }
             catch (Exception ex) {
@@ -340,13 +341,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
                     pls1Qnty = gv.GetRowCellValue(gv.FocusedRowHandle, "PLS1_QNTY").AsInt();
                 }
                 else {
-                    pls1Qnty = -1;
+                    pls1Qnty = 0;
                 }
                 if (gv.GetRowCellValue(gv.FocusedRowHandle, "PLS1_STKOUT") != DBNull.Value) {
                     pls1Stkout = gv.GetRowCellValue(gv.FocusedRowHandle, "PLS1_STKOUT").AsInt();
                 }
                 else {
-                    pls1Stkout = -1;
+                    pls1Stkout = 0;
                 }
                 string opType = gv.GetRowCellValue(gv.FocusedRowHandle, "OP_TYPE").AsString();
 

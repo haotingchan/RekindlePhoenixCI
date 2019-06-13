@@ -170,6 +170,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             }
             catch (Exception ex) {
                 MessageBox.Show(ex.Message);
+                return ResultStatus.Fail;
             }
 
             //重新Retrieve

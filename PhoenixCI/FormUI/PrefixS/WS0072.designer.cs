@@ -78,8 +78,8 @@
          this.gridBand4 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.SPAN_ZISP_CREDIT = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.gridBand5 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.SPAN_ZISP_DPSR2 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.SPAN_ZISP_DPSR1 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+         this.SPAN_ZISP_DPSR2 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.band10 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.SPAN_ZISP_PRIORITY = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.repositoryItemTextEdit5 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
@@ -349,8 +349,8 @@
          this.repositoryItemTextEdit1.AllowNullInput = DevExpress.Utils.DefaultBoolean.False;
          this.repositoryItemTextEdit1.AutoHeight = false;
          this.repositoryItemTextEdit1.Mask.BeepOnError = true;
-         this.repositoryItemTextEdit1.Mask.EditMask = "\\d+";
-         this.repositoryItemTextEdit1.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.repositoryItemTextEdit1.Mask.EditMask = "d";
+         this.repositoryItemTextEdit1.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
          this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
          this.repositoryItemTextEdit1.ShowNullValuePromptWhenFocused = true;
          // 
@@ -522,8 +522,8 @@
          // repositoryItemTextEdit2
          // 
          this.repositoryItemTextEdit2.AutoHeight = false;
-         this.repositoryItemTextEdit2.Mask.EditMask = "\\d+";
-         this.repositoryItemTextEdit2.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.repositoryItemTextEdit2.Mask.EditMask = "f4";
+         this.repositoryItemTextEdit2.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
          this.repositoryItemTextEdit2.Name = "repositoryItemTextEdit2";
          // 
          // gridColumn6
@@ -704,8 +704,7 @@
          // SPAN_ZISP_CREDIT
          // 
          this.SPAN_ZISP_CREDIT.Caption = "跨商品價差折抵率";
-         this.SPAN_ZISP_CREDIT.DisplayFormat.FormatString = "0,0.0";
-         this.SPAN_ZISP_CREDIT.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
+         this.SPAN_ZISP_CREDIT.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
          this.SPAN_ZISP_CREDIT.FieldName = "SPAN_ZISP_CREDIT";
          this.SPAN_ZISP_CREDIT.Name = "SPAN_ZISP_CREDIT";
          this.SPAN_ZISP_CREDIT.OptionsColumn.ShowCaption = false;
@@ -715,11 +714,20 @@
          // gridBand5
          // 
          this.gridBand5.Caption = "契約價值耗用比率";
-         this.gridBand5.Columns.Add(this.SPAN_ZISP_DPSR2);
          this.gridBand5.Columns.Add(this.SPAN_ZISP_DPSR1);
+         this.gridBand5.Columns.Add(this.SPAN_ZISP_DPSR2);
          this.gridBand5.Name = "gridBand5";
          this.gridBand5.VisibleIndex = 4;
          this.gridBand5.Width = 289;
+         // 
+         // SPAN_ZISP_DPSR1
+         // 
+         this.SPAN_ZISP_DPSR1.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+         this.SPAN_ZISP_DPSR1.FieldName = "SPAN_ZISP_DPSR1";
+         this.SPAN_ZISP_DPSR1.Name = "SPAN_ZISP_DPSR1";
+         this.SPAN_ZISP_DPSR1.OptionsColumn.ShowCaption = false;
+         this.SPAN_ZISP_DPSR1.Visible = true;
+         this.SPAN_ZISP_DPSR1.Width = 151;
          // 
          // SPAN_ZISP_DPSR2
          // 
@@ -727,23 +735,12 @@
          this.SPAN_ZISP_DPSR2.AppearanceHeader.TextOptions.Trimming = DevExpress.Utils.Trimming.None;
          this.SPAN_ZISP_DPSR2.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.NoWrap;
          this.SPAN_ZISP_DPSR2.Caption = "契約價值耗用比率";
-         this.SPAN_ZISP_DPSR2.DisplayFormat.FormatString = "0,0.0";
-         this.SPAN_ZISP_DPSR2.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
+         this.SPAN_ZISP_DPSR2.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
          this.SPAN_ZISP_DPSR2.FieldName = "SPAN_ZISP_DPSR2";
          this.SPAN_ZISP_DPSR2.Name = "SPAN_ZISP_DPSR2";
          this.SPAN_ZISP_DPSR2.OptionsColumn.ShowCaption = false;
          this.SPAN_ZISP_DPSR2.Visible = true;
          this.SPAN_ZISP_DPSR2.Width = 138;
-         // 
-         // SPAN_ZISP_DPSR1
-         // 
-         this.SPAN_ZISP_DPSR1.DisplayFormat.FormatString = "0,0.0";
-         this.SPAN_ZISP_DPSR1.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
-         this.SPAN_ZISP_DPSR1.FieldName = "SPAN_ZISP_DPSR1";
-         this.SPAN_ZISP_DPSR1.Name = "SPAN_ZISP_DPSR1";
-         this.SPAN_ZISP_DPSR1.OptionsColumn.ShowCaption = false;
-         this.SPAN_ZISP_DPSR1.Visible = true;
-         this.SPAN_ZISP_DPSR1.Width = 151;
          // 
          // band10
          // 
@@ -765,8 +762,8 @@
          // repositoryItemTextEdit5
          // 
          this.repositoryItemTextEdit5.AutoHeight = false;
-         this.repositoryItemTextEdit5.Mask.EditMask = "\\d+";
-         this.repositoryItemTextEdit5.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.repositoryItemTextEdit5.Mask.EditMask = "f";
+         this.repositoryItemTextEdit5.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
          this.repositoryItemTextEdit5.MaxLength = 4;
          this.repositoryItemTextEdit5.Name = "repositoryItemTextEdit5";
          // 
@@ -841,7 +838,7 @@
          this.tab_VSR.Controls.Add(this.gc_VSR);
          this.tab_VSR.Controls.Add(this.panel3);
          this.tab_VSR.Name = "tab_VSR";
-         this.tab_VSR.Size = new System.Drawing.Size(1111, 405);
+         this.tab_VSR.Size = new System.Drawing.Size(808, 372);
          this.tab_VSR.Text = "D. VSR設定";
          // 
          // gc_VSR
@@ -853,7 +850,7 @@
          this.gc_VSR.Name = "gc_VSR";
          this.gc_VSR.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit3});
-         this.gc_VSR.Size = new System.Drawing.Size(1111, 328);
+         this.gc_VSR.Size = new System.Drawing.Size(808, 295);
          this.gc_VSR.TabIndex = 9;
          this.gc_VSR.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_VSR});
@@ -915,8 +912,8 @@
          // repositoryItemTextEdit3
          // 
          this.repositoryItemTextEdit3.AutoHeight = false;
-         this.repositoryItemTextEdit3.Mask.EditMask = "\\d+";
-         this.repositoryItemTextEdit3.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.repositoryItemTextEdit3.Mask.EditMask = "f4";
+         this.repositoryItemTextEdit3.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
          this.repositoryItemTextEdit3.Name = "repositoryItemTextEdit3";
          // 
          // gridColumn14
@@ -945,7 +942,7 @@
          this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
          this.panel3.Location = new System.Drawing.Point(0, 0);
          this.panel3.Name = "panel3";
-         this.panel3.Size = new System.Drawing.Size(1111, 77);
+         this.panel3.Size = new System.Drawing.Size(808, 77);
          this.panel3.TabIndex = 8;
          // 
          // VSR_btnClear
@@ -980,7 +977,7 @@
          this.tab_SOM.Controls.Add(this.gc_SOM);
          this.tab_SOM.Controls.Add(this.panel4);
          this.tab_SOM.Name = "tab_SOM";
-         this.tab_SOM.Size = new System.Drawing.Size(1111, 405);
+         this.tab_SOM.Size = new System.Drawing.Size(808, 372);
          this.tab_SOM.Text = "E. SOM設定";
          // 
          // gc_SOM
@@ -992,7 +989,7 @@
          this.gc_SOM.Name = "gc_SOM";
          this.gc_SOM.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit4});
-         this.gc_SOM.Size = new System.Drawing.Size(1111, 328);
+         this.gc_SOM.Size = new System.Drawing.Size(808, 295);
          this.gc_SOM.TabIndex = 11;
          this.gc_SOM.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_SOM});
@@ -1054,8 +1051,8 @@
          // repositoryItemTextEdit4
          // 
          this.repositoryItemTextEdit4.AutoHeight = false;
-         this.repositoryItemTextEdit4.Mask.EditMask = "\\d+";
-         this.repositoryItemTextEdit4.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.repositoryItemTextEdit4.Mask.EditMask = "f4";
+         this.repositoryItemTextEdit4.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
          this.repositoryItemTextEdit4.Name = "repositoryItemTextEdit4";
          // 
          // gridColumn22
@@ -1084,7 +1081,7 @@
          this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
          this.panel4.Location = new System.Drawing.Point(0, 0);
          this.panel4.Name = "panel4";
-         this.panel4.Size = new System.Drawing.Size(1111, 77);
+         this.panel4.Size = new System.Drawing.Size(808, 77);
          this.panel4.TabIndex = 10;
          // 
          // SOM_btnClear
@@ -1259,11 +1256,11 @@
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn SPAN_ZISP_USER_ID;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn SPAN_ZISP_W_TIME;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn IS_NEWROW;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand2;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand3;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand7;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand4;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand5;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand band10;
-    }
+      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand2;
+      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand3;
+      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand7;
+      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand4;
+      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand5;
+      private DevExpress.XtraGrid.Views.BandedGrid.GridBand band10;
+   }
 }

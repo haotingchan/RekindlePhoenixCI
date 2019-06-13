@@ -171,7 +171,7 @@ namespace PhoenixCI.FormUI.PrefixS {
             }
 
             //檢查日期區間
-            if(!CheckPeriod()) return ResultStatus.FailButNext;
+            if (!CheckPeriod()) return ResultStatus.FailButNext;
 
             //檢查REQ區間(0.1~5)
             if (!CheckREQValue()) return ResultStatus.FailButNext;
@@ -202,16 +202,20 @@ namespace PhoenixCI.FormUI.PrefixS {
             MessageDisplay.Info("資料有變更, 請先存檔!");
             resultStatus = ResultStatus.FailButNext;
          } else {
-            Run(args);
+            resultStatus = Run(args);
          }
          return resultStatus;
       }
 
       protected override ResultStatus Run(PokeBall args) {
+         string re = "N";
          if (!checkChanged()) {
-            PbFunc.f_bat_span("S0070", "ST", GlobalInfo.USER_ID);
+            //re="N"代表執行錯誤
+            re = PbFunc.f_bat_span("S0070", "ST", GlobalInfo.USER_ID);
          }
-         return base.Run(args);
+         if (re == "Y") return ResultStatus.Success;
+
+         return ResultStatus.Fail;
       }
 
       protected override ResultStatus ActivatedForm() {

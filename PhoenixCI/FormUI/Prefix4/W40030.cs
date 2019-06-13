@@ -674,7 +674,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             WordTableCell = WordTable[rowIndex, colIndex];
             Doc.InsertSingleLineText(WordTableCell.Range.Start, str);
          }
-         
+
          /// <summary>
          /// 表頭
          /// </summary>
@@ -697,8 +697,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
          /// <param name="hasFirstIndent">第一行是否縮排</param>
          /// <param name="leftIndent">左縮排</param>
          /// <param name="fitstLineIndent">第一行縮排</param>
-         protected virtual void SetInnerText(string str, bool hasFirstIndent = true, float leftIndent = 2.98f, float fitstLineIndent = 1.18f) {
-            Doc.AppendText(Environment.NewLine);
+         protected virtual void SetInnerText(string str, bool hasFirstIndent = true, float leftIndent = 2.98f, float fitstLineIndent = 1.18f,
+                                                bool hasNewLine = true) {
+            if (hasNewLine) Doc.AppendText(Environment.NewLine);
             Doc.AppendText(str);
 
             ParagraphProps = Doc.BeginUpdateParagraphs(Doc.Paragraphs.Last().Range);
@@ -827,7 +828,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          /// 將整份文件的英文和數字的字型設成某個字型
          /// </summary>
          protected virtual void SetAllNumberAndEnglishFont(Document doc) {
-            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"[A-Za-z0-9\)\(\.\,]+");
+            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"[A-Za-z0-9\)\(\.\,\%]+");
             DocumentRange[] foundNumberAndEnglish = doc.FindAll(regex);
 
             foreach (DocumentRange r in foundNumberAndEnglish) {
@@ -1352,7 +1353,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                   checkBatch = PbFunc.f_chk_130_wf("40030", c.CheckedDate, OswGrp);
                   if (checkBatch != "") {
-                     DialogResult result = MessageDisplay.Choose($"{TxtDate}-{checkBatch}，是否要繼續?");
+                     DialogResult result = MessageDisplay.Choose($"{c.CheckedDate.ToShortDateString()}-{checkBatch}，是否要繼續?");
                      if (result == DialogResult.No) {
                         msg.Status = ResultStatus.FailButNext;
                         return msg;
@@ -1477,7 +1478,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   SetFifthCaseResult(dtTemp);
                }
 
-               base.SetSubjectText("貳、臨時動議：");
+               base.SetSubjectText("貳、臨時動議：無");
                base.SetSubjectText("參、散　　會：下午5時30分");
 
                base.SetAllNumberAndEnglishFont(Doc);//設定英數字體
@@ -1623,26 +1624,26 @@ namespace PhoenixCI.FormUI.Prefix4 {
                foreach (CheckedItem items in CheckedItems) {
                   switch (items.CheckedValue) {
                      case 1: {
-                        ExportCompareExcel(workbook, "TXF", "TX");
-                        ExportCompareExcel(workbook, "UDF", "DJIA");
-                        ExportCompareExcel(workbook, "SPF", "S&P500");
-                        ExportCompareExcel(workbook, "BRF", "Brent Crude");
+                        ExportCompareExcel(workbook, "TXF", "TX", 5);
+                        ExportCompareExcel(workbook, "UDF", "DJIA", 5);
+                        ExportCompareExcel(workbook, "SPF", "S&P500", 5);
+                        ExportCompareExcel(workbook, "BRF", "Brent Crude", 5);
 
                         break;
                      }
                      case 2: {
-                        ExportCompareExcel(workbook, "GDF", "黃金");
-                        ExportCompareExcel(workbook, "RHF", "人民幣");
-                        ExportCompareExcel(workbook, "XEF", "歐元");
-                        ExportCompareExcel(workbook, "XJF", "日圓");
-                        ExportCompareExcel(workbook, "XBF", "英鎊");
-                        ExportCompareExcel(workbook, "XAF", "澳幣");
+                        ExportCompareExcel(workbook, "GDF", "黃金", 6);
+                        ExportCompareExcel(workbook, "RHF", "人民幣", 6);
+                        ExportCompareExcel(workbook, "XEF", "歐元", 3);
+                        ExportCompareExcel(workbook, "XJF", "日圓", 3);
+                        ExportCompareExcel(workbook, "XBF", "英鎊", 3);
+                        ExportCompareExcel(workbook, "XAF", "澳幣", 3);
 
                         break;
                      }
                      case 3: {
-                        ExportCompareExcel(workbook, "TJF", "TOPIX");
-                        ExportCompareExcel(workbook, "I5F", "Nifty50");
+                        ExportCompareExcel(workbook, "TJF", "TOPIX", 7);
+                        ExportCompareExcel(workbook, "I5F", "Nifty50", 5);
 
                         break;
                      }
@@ -1718,13 +1719,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
             SetRtfDescText(GenMeetingDate(), chairman, GenAttend(dtAttend));
          }
 
-         protected virtual void SetCase(int caseNo, string caseTxt, string kindName) {
+         protected virtual void SetCase(int caseNo, string caseTxt, string kindName, bool hasNewLine = true) {
             string tmpStr = "";
 
             SetSubjectText($"案 由 {ChineseNumber[caseNo]}：");
 
             tmpStr = string.Format(caseTxt, kindName);
-            SetInnerText(tmpStr, false, 2.75f, 2.75f);
+            SetInnerText(tmpStr, false, 2.75f, 2.75f, hasNewLine);
          }
 
          /// <summary>
@@ -2535,7 +2536,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   else
                      tmpStr += "降低。";
 
-                  tmpStr += "▲▲▲";
+                  //tmpStr += "▲▲▲";
 
                   if (dtBRF.Rows.Count > 1)
                      SetInnerText(tmpStr, true, 4.17f, 0.6f);
@@ -2559,7 +2560,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   if (drAbroad != null) {
                      string str1 = GetSpot(kindId, "TAIFEX", "cur");
 
-                     tmpStr = $"1. 現行本公司{kindId}結算保證金占契約總值比例{str1}倘{checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3)}" +
+                     tmpStr = $"現行本公司{kindId}結算保證金占契約總值比例{str1}倘{checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3)}" +
                               $"依說明二調整，則本公司{kindId}結算保證金占契約總值比例{str1}。";
 
                      SetInnerText(tmpStr, true, 4.17f, 0.6f);
@@ -3152,7 +3153,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                   tmpStr += $"{c.CheckedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3)}本公司{GenArrayTxt(kindNameSV)}";
                }
-               tmpStr += $"之波動度偵測全距(VSR)變動幅度已達得調整標準之百分比";
+               tmpStr += $"之波動度偵測全距(VSR)變動幅度已達得調整標準之百分比;";
             }
 
             drsSpan.Clear();
@@ -3388,6 +3389,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             drTmp = DtAbroad.Select("m_cm_rate >" + cmRate + " and kind_id = '" + kindId + "' and data_type='2'").ToList();
 
             if (drTmp.Count > 0) {
+               if (re != "") re += "，";
+
                re += "較";
 
                drTmp.ForEach(r => fNameList.Add(r.Field<string>("f_name").AsString()));
@@ -3562,11 +3565,17 @@ namespace PhoenixCI.FormUI.Prefix4 {
          /// <param name="wb"></param>
          /// <param name="kindId">商品ID</param>
          /// <param name="sheetName"></param>
-         protected virtual void ExportCompareExcel(DevExpress.Spreadsheet.Workbook wb, string kindId, string sheetName) {
+         protected virtual void ExportCompareExcel(DevExpress.Spreadsheet.Workbook wb, string kindId, string sheetName, int dateCol) {
+
+            List<DataRow>drs=Dt.Select($"kind_id='{kindId}'").ToList();
+            if (drs.Count <= 0) return;
 
             DevExpress.Spreadsheet.Worksheet worksheet = wb.Worksheets[sheetName];
+
             List<DataRow> drsAbroad = DtAbroad.Select($"kind_grp='{kindId}'").ToList();
             drsAbroad = drsAbroad.OrderBy(r => r.Field<int>("seq_no")).ToList();
+
+            worksheet.Cells[0, dateCol].SetValue($"資料日期：{drsAbroad.First().Field<DateTime>("data_date").ToString("yyyy年MM月dd日")}");
 
             int rowIndexBefore = drsAbroad.FirstOrDefault().Field<int>("rpt_row1");
             int rowIndexAfter = drsAbroad.FirstOrDefault().Field<int>("rpt_row2");

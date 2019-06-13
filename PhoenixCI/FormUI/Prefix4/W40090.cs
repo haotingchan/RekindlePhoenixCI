@@ -19,6 +19,7 @@ using System.Xml;
 using DevExpress.XtraRichEdit;
 using DevExpress.XtraRichEdit.API.Native;
 using Table = DevExpress.XtraRichEdit.API.Native.Table;
+using DevExpress.Office;
 
 /// <summary>
 /// 40090 依照類別產檔, word / excel / ifd
@@ -79,12 +80,17 @@ namespace PhoenixCI.FormUI.Prefix4 {
             IExport40xxxData xmlData = CreateXmlData(GetType(), "ExportXml" + AdjType, args);
             ReturnMessageClass msg = xmlData.GetData();
 
+
             //無資料時不產檔
             if (msg.Status != ResultStatus.Success) {
                ExportShow.Text = MessageDisplay.MSG_IMPORT_FAIL;
-               MessageDisplay.Info($"{txtDate.DateTimeValue.ToShortDateString()},{_ProgramID}-{ddlAdjType.Properties.GetDisplayText(AdjType)},{MessageDisplay.MSG_NO_DATA}");
+
+               if (AdjType != "0B")
+                  MessageDisplay.Info($"{txtDate.DateTimeValue.ToShortDateString()},{_ProgramID}-{ddlAdjType.Properties.GetDisplayText(AdjType)},{MessageDisplay.MSG_NO_DATA}");
+
                return msg.Status;
             }
+
 
             msg = xmlData.Export();
 
@@ -585,7 +591,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                #endregion
 
                #region 表頭
-               string kindout = prodsubType == "S" ? $"{dr["kind_id_out"].AsString()}({dr["kind_abbr_name"].AsString()})" : dr["kind_id_out"].AsString();
+               string kindout = prodsubType == "S" ? $"{dr["kind_id_out"].AsString()}{Characters.LineBreak}({dr["kind_abbr_name"].AsString()})" : dr["kind_id_out"].AsString();
                WordTableCell = futTable[1, 0];
                rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, kindout);
                WordTableCell.PreferredWidthType = WidthType.Fixed;
@@ -597,11 +603,18 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   futTable.Rows.Append();
 
                   WordTableCell = futTable[3, 0];
-                  rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, "風險保證金（A值）");
+                  WordTableCell.PreferredWidthType = WidthType.Fixed;
+                  WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.36f);
+                  rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, $"風險保證金{Characters.LineBreak}（A值）");
+
                   WordTableCell = futTable[4, 0];
-                  rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, "風險保證金最低值（B值）");
+                  WordTableCell.PreferredWidthType = WidthType.Fixed;
+                  WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.36f);
+                  rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, $"風險保證金最低值{Characters.LineBreak}（B值）");
                } else {
                   WordTableCell = futTable[3, 0];
+                  WordTableCell.PreferredWidthType = WidthType.Fixed;
+                  WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.36f);
                   rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, "保證金");
                }
 
@@ -609,13 +622,17 @@ namespace PhoenixCI.FormUI.Prefix4 {
                WordTableCell = futTable[1, 1];
                rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, AfterAdjust);
                futTable.MergeCells(WordTableCell, futTable[1, 3]);
+               WordTableCell.PreferredWidthType = WidthType.Fixed;
+               WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(6.77f);
 
                string BeforeAdjust = amtType == "F" ? "調整前保證金金額" : "調整前保證金適用比例";
                WordTableCell = futTable[1, 2];
                rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, BeforeAdjust);
                futTable.MergeCells(WordTableCell, futTable[1, 4]);
+               WordTableCell.PreferredWidthType = WidthType.Fixed;
+               WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(6.77f);
 
-               string[] colName = new string[] { "原始保證金", "維持保證金", "結算保證金" };
+               string[] colName = new string[] { $"原始保證金{Characters.LineBreak}", $"維持保證金{Characters.LineBreak}", $"結算保證金{Characters.LineBreak}" };
                string[] colNameOpt = new string[] { "計算賣出選擇權原始保證金之適用", "計算賣出選擇權維持保證金之適用", "計算賣出選擇權結算保證金之適用" };
                string persentOrCurrency = "";
 
@@ -640,12 +657,16 @@ namespace PhoenixCI.FormUI.Prefix4 {
                int k = 1;
                foreach (string c in colName) {
                   WordTableCell = futTable[2, k];
+                  WordTableCell.PreferredWidthType = WidthType.Fixed;
+                  WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.26f);
                   rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, $"{c}{persentOrCurrency}");
                   k++;
                }
 
                foreach (string c in colName) {
                   WordTableCell = futTable[2, k];
+                  WordTableCell.PreferredWidthType = WidthType.Fixed;
+                  WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.26f);
                   rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, $"{c}{persentOrCurrency}");
                   k++;
                }
@@ -771,7 +792,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             Table wordtable = rtfDoc.Tables.Create(rtfDoc.Range.End, rowcount, colcount);
             wordtable.TableAlignment = TableRowAlignment.Right;
             wordtable.PreferredWidthType = WidthType.Fixed;
-            wordtable.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(16.7f);
+            wordtable.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(17f);
             ParagraphProperties ParagraphProps = rtfDoc.BeginUpdateParagraphs(wordtable.Range);
 
             // 預設Table內容都全部置中
@@ -1089,9 +1110,16 @@ namespace PhoenixCI.FormUI.Prefix4 {
          }
 
          public override ReturnMessageClass GetData() {
-            ReturnMessageClass msg = new ReturnMessageClass(MessageDisplay.MSG_NO_DATA);
+            ReturnMessageClass msg = new ReturnMessageClass();
 
             Dt = Dao.GetData(TxtDate, AsAdjType, AdjType.SubStr(1, 1));
+
+            if (Dt == null)
+               MessageDisplay.Info($"{TxtDate.AsDateTime("yyyyMMdd").ToShortDateString()},40090-一般,{MessageDisplay.MSG_NO_DATA}");
+
+            if (Dt.Rows.Count <= 0)
+               MessageDisplay.Info($"{TxtDate.AsDateTime("yyyyMMdd").ToShortDateString()},40090-一般,{MessageDisplay.MSG_NO_DATA}");
+
 
             //一般 / 股票 要多撈一次資料
             if (AdjType == "0B") {
@@ -1104,6 +1132,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      }
                   }
                }
+               MessageDisplay.Info($"{TxtDate.AsDateTime("yyyyMMdd").ToShortDateString()},40090-股票,{MessageDisplay.MSG_NO_DATA}");
             }
 
             if (Dt == null) {
