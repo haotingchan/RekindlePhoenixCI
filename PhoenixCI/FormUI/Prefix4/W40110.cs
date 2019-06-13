@@ -495,7 +495,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          protected virtual string AppendText { get; set; }
 
          public ExportWordVacationAdjust(D40xxx dao, string txtdate, string adjtype, string programId) : base(dao, txtdate, adjtype, programId) {
-            TableTitle = new string[] { "結算", "維持", "原始" };
+            TableTitle = new string[] { $"結算{Characters.LineBreak}", $"維持{Characters.LineBreak}", $"原始{Characters.LineBreak}" };
             ColName = new string[] { "cur_im2", "cur_im1", "cur_im", "m_im2", "m_im1", "m_im" };
             ColNameB = new string[] { "cur_cm_b", "cur_mm_b", "cur_im_b", "m_cm_b", "m_mm_b", "m_im_b" };
             AppendText = "※本公司上揭契約公告之保證金收取金額，小型美元兌人民幣期貨、美元兌人民幣期貨、" +
