@@ -17,16 +17,17 @@ namespace DataObjects.Dao.Together.SpecificDao {
         /// <param name="as_date">yyyy/MM/dd</param>
         /// <param name="as_osw_grp">1%/ 5%/ %%</param>
         /// <returns></returns>
-        public DataTable d_43010a(string as_date, string as_osw_grp) {
+        public DataTable d_43010(string as_date, string as_osw_grp, string as_model_type) {
 
             object[] parms = {
                 ":as_date",as_date,
-                ":as_osw_grp",as_osw_grp
+                ":as_osw_grp",as_osw_grp,
+                ":as_model_type",as_model_type
             };
 
             //            string sql =
             //@"
-            //SELECT   ROW_NUMBER() over (order by mg1_seq_no, mg1_kind_id, mg1_type, mg1_date) as NO,
+            //SELECT   ROW_NUMBER() over (order by mg1_seq_no, mg1_kind_id, MG1_AB_TYPE, MG1_YMD) as NO,
             //         MG1_KIND_ID,
             //         APDK_NAME,
             //         APDK_STOCK_ID,
@@ -34,37 +35,58 @@ namespace DataObjects.Dao.Together.SpecificDao {
             //         MG1_CUR_CM,
             //         MG1_CUR_MM,
             //         MG1_CUR_IM,
-            //         MG1_CM_RATE,
-            //         MG1_MM_RATE,
-            //         MG1_IM_RATE
-            //    FROM CI.MG1,   
+            //         MG1_CUR_CM_RATE,   
+            //         MG1_CUR_MM_RATE,   
+            //         MG1_CUR_IM_RATE
+            //FROM CI.MG1_3M,   
             //         CI.APDK  ,
             //         --上市/上櫃中文名稱
             //         (SELECT TRIM(COD_ID) as COD_ID,TRIM(COD_DESC) as PID_NAME FROM CI.COD where COD_TXN_ID = 'TFXM')
             //   WHERE ( MG1_KIND_ID = CI.APDK.APDK_KIND_ID ) and  
             //         ( MG1_PROD_TYPE = CI.APDK.APDK_PROD_TYPE ) and  
-            //         ( ( MG1_DATE = :as_date ) AND  
+            //         ( ( MG1_YMD = :as_date ) AND  
             //         ( MG1_PROD_SUBTYPE = 'S' ) AND  
             //         ( MG1_PROD_TYPE = 'F' ) )    
             //     and APDK_UNDERLYING_MARKET = COD_ID
             //     and MG1_OSW_GRP LIKE :as_osw_grp
-            //   ORDER BY mg1_seq_no, mg1_kind_id, mg1_type, mg1_date
+            //   ORDER BY mg1_seq_no, mg1_kind_id, MG1_AB_TYPE, MG1_YMD
             //";
 
-            string sql =
-@"
-SELECT   ROW_NUMBER() over (order by mg1_seq_no, mg1_kind_id, MG1_AB_TYPE, MG1_YMD) as NO,
-         MG1_KIND_ID,
-         APDK_NAME,
-         APDK_STOCK_ID,
-         PID_NAME,
-         MG1_CUR_CM,
-         MG1_CUR_MM,
-         MG1_CUR_IM,
+            string sql = @"
+--43010 
+     SELECT MG1_YMD,   
+         MG1_PROD_TYPE,   
+         MG1_AB_TYPE,   
+         MG1_CUR_CM,   
+         MG1_CUR_MM,   
+         MG1_CUR_IM,   
+         MG1_CP_CM,   
+         MG1_CM,   
+         MG1_MM,   
+         MG1_IM,   
+         MG1_RISK,   
+         MG1_CP_RISK,   
+         MG1_CHANGE_RANGE,   
+         MG1_PRICE,   
+         MG1_CURRENCY_TYPE,   
+         MG1_M_MULTI,   
+         MG1_I_MULTI,   
+         MG1_XXX,   
+         MG1_SEQ_NO,   
+         MG1_MIN_RISK,   
+         MG1_CHANGE_FLAG,   
          MG1_CUR_CM_RATE,   
          MG1_CUR_MM_RATE,   
-         MG1_CUR_IM_RATE
-FROM CI.MG1_3M,   
+         MG1_CUR_IM_RATE,   
+         MG1_PARAM_KEY,   
+         MG1_PROD_SUBTYPE,   
+         MG1_KIND_ID,   
+         CI.APDK.APDK_NAME,   
+         CI.APDK.APDK_UNDERLYING_MARKET,   
+         CI.APDK.APDK_STOCK_ID  ,
+         PID_NAME,
+         MG1_MODEL_TYPE
+    FROM CI.MG1_3M,   
          CI.APDK  ,
          --上市/上櫃中文名稱
          (SELECT TRIM(COD_ID) as COD_ID,TRIM(COD_DESC) as PID_NAME FROM CI.COD where COD_TXN_ID = 'TFXM')
@@ -75,7 +97,7 @@ FROM CI.MG1_3M,
          ( MG1_PROD_TYPE = 'F' ) )    
      and APDK_UNDERLYING_MARKET = COD_ID
      and MG1_OSW_GRP LIKE :as_osw_grp
-   ORDER BY mg1_seq_no, mg1_kind_id, MG1_AB_TYPE, MG1_YMD
+     and MG1_MODEL_TYPE = :as_model_type
 ";
 
             DataTable dtResult = db.GetDataTable(sql, parms);
@@ -103,11 +125,13 @@ SELECT   ROW_NUMBER() over (order by mg1_seq_no, mg1_kind_id, MG1_AB_TYPE, MG1_Y
          APDK_NAME,
          APDK_STOCK_ID,
          PID_NAME,
+
          MG1_PRICE,
          MG1_XXX,
          MG1_RISK,
          MG1_CP_RISK,
          MG1_MIN_RISK,
+
          MG1_CP_CM,
          MG1_CUR_CM,
          MG1_CHANGE_RANGE,

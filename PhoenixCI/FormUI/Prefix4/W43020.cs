@@ -41,7 +41,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 txtSDate.DateTimeValue = DateTime.Now;
                 txtSDate.Focus();
 #if DEBUG
-                txtSDate.Text = "2018/11/15";
+                txtSDate.Text = "2019/05/22";
 #endif
                 //設定商品交易時段下拉選單
                 List<LookupItem> ddlOswGrp = new List<LookupItem>(){
@@ -179,6 +179,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 }//foreach (DataRow dr in dt43020.Rows)
                 dt43020 = dao43020.d_43020(txtSDate.DateTimeValue.ToString("yyyyMMdd"), oswGrp, "E");
                 cnt = 0;
+                f = 0;
                 foreach (DataRow dr in dt43020.Rows) {
                     //EWMA 從B147開始填資料
                     rowStart = 146;
@@ -204,6 +205,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 }//foreach (DataRow dr in dt43020.Rows)
                 dt43020 = dao43020.d_43020(txtSDate.DateTimeValue.ToString("yyyyMMdd"), oswGrp, "M");
                 cnt = 0;
+                f = 0;
                 foreach (DataRow dr in dt43020.Rows) {
                     //MAX 從B215開始填資料
                     rowStart = 214;
@@ -225,12 +227,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     ws43020.Cells[rowStart + f, 14].SetValue(dr["MG1_CUR_CM"]);
                     ws43020.Cells[rowStart + f, 15].SetValue(dr["MG1_CHANGE_RANGE"]);
                     ws43020.Cells[rowStart + f, 16].SetValue(dr["MG1_CHANGE_FLAG"]);
-                    //5.3 三、本日結算保證金變動幅度
-                    //rowStart = 142;
-                    //ws43020.Cells[rowStart + f, 11].Value = dr["MG1_CHANGE_RANGE"].AsDecimal();
-                    //if (dr["MG1_TYPE"].AsString() == "A") {
-                    //    ws43020.Cells[rowStart + f, 12].Value = dr["MG1_CHANGE_FLAG"].AsString();
-                    //}
 
                     f++;
                 }//foreach (DataRow dr in dt43020.Rows)
