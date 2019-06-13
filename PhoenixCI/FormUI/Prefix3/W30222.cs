@@ -183,7 +183,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                     else {
                         drFound["COMPUTE_1"] = " ";
                     }
-                }
+                }//foreach (DataRow dr in dt30222PLS2.Rows)
                 gcMain.DataSource = dtGridView;
             }
             catch (Exception ex) {

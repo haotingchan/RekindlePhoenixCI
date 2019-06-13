@@ -270,7 +270,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 ws43010.Cells[0, 0].Value = "資料日期：" + Environment.NewLine + txtSDate.DateTimeValue.Year + "年" + txtSDate.DateTimeValue.Month + "月" + txtSDate.DateTimeValue.Day + "日";
                 int rowNum = 3 - 1;
                 foreach (DataRow dr in dt40011stat.Rows) {
-                    for (f = 0; f < 33; f++) {
+                    for (f = 0; f < 37; f++) {
                         ws43010.Cells[rowNum, f].SetValue(dr[f]);
                     }
                     rowNum++;
