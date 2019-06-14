@@ -120,13 +120,12 @@ namespace DataObjects.Dao.Together.SpecificDao
          return db.GetDataTable(sql, parms);
       }
 
-      public void UpdateMG1_3M(DataTable inputData)
+      public void UpdateMGR2_SMA(DataTable inputData)
       {
          try {
             string sql = @"
-                        SELECT MG1_MODEL_TYPE,MG1_YMD,MG1_PROD_TYPE,MG1_KIND_ID,MG1_AB_TYPE,MG1_PRICE,MG1_XXX,MG1_RISK,MG1_CP_RISK,MG1_MIN_RISK,MG1_CM,MG1_CUR_CM,MG1_CHANGE_RANGE,
-                              MG1_CUR_MM,MG1_CUR_IM,MG1_CP_CM,MG1_MM,MG1_IM,MG1_CURRENCY_TYPE,MG1_M_MULTI,MG1_I_MULTI,MG1_PARAM_KEY,MG1_PROD_SUBTYPE,MG1_W_TIME,MG1_OSW_GRP
-                          FROM CI.MG1_3M";
+                        SELECT MGR2_MODEL_TYPE, MGR2_YMD, MGR2_M_KIND_ID, MGR2_PRICE1, MGR2_PRICE2, MGR2_RETURN_RATE, MGR2_30_RATE, MGR2_60_RATE, MGR2_90_RATE, MGR2_180_RATE, MGR2_2500_RATE, MGR2_MIN_RATE, MGR2_DAY_RATE, MGR2_DAY_CNT, MGR2_STATUS_CODE, MGR2_PROD_TYPE, MGR2_PROD_SUBTYPE, MGR2_PARAM_KEY, MGR2_CP_RATE, MGR2_1DAY_CP_RATE, MGR2_W_TIME, MGR2_OSW_GRP 
+	                       FROM CI.MGR2_SMA";
 
             db.UpdateOracleDB(inputData, sql);
          }
@@ -145,7 +144,7 @@ namespace DataObjects.Dao.Together.SpecificDao
 
       DataTable List40010CPR(DateTime ad_date, string as_txd_id);
 
-      void UpdateMG1_3M(DataTable inputData);
+      void UpdateMGR2_SMA(DataTable inputData);
    }
 
 }

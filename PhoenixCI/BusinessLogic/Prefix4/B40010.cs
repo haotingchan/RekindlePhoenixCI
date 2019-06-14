@@ -186,7 +186,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                dr["MG1_W_TIME"] = DateTime.Now;
             }
             //儲存至DB
-            dao.UpdateMG1_3M(MG1_3M);
+            dao.UpdateMGR2_SMA(MG1_3M);
 
             worksheet.ScrollTo(0, 0);
          }
