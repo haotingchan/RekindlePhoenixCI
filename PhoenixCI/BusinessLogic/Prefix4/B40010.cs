@@ -25,168 +25,105 @@ namespace PhoenixCI.BusinessLogic.Prefix4
       /// <summary>
       /// Data
       /// </summary>
-      protected ID40010 dao;
-      /// <summary>
-      /// 程式代號(_ProgramID)
-      /// </summary>
-      protected string _TxnID;
+      protected D40010 dao40010;
 
       public B40010()
       {
       }
 
-      public B40010(string daoID, string emDate)
+      public B40010(string emDate)
       {
-         this._TxnID = "40010";
          this._emDateText = emDate;
-         this.dao = new D40010().ConcreteDao(daoID);
-      }
-
-      public I4001x ConcreteClass(string programID, object[] args = null)
-      {
-
-         //string className = string.Format("{0}.Dao.Together.SpecificDao.{1}",AssemblyName, name);//完整的class路徑
-
-         string AssemblyName = GetType().Namespace.Split('.')[0];//最後compile出來的dll名稱
-         string className = GetType().FullName.Replace("B4001xTemplate", "B" + programID);//完整的class路徑
-
-         // 這裡就是Reflection，直接依照className實體化具體類別
-         return (I4001x)Assembly.Load(AssemblyName).CreateInstance(className, true, BindingFlags.CreateInstance, null, args, null, null);
+         this.dao40010 = new D40010();
       }
 
       /// <summary>
       /// 新增EWMA計算按鈕，產出資料，並將excel計算資料回寫資料庫
       /// </summary>
       /// <returns></returns>
-      public string ComputeEWMA(string FilePath,string TxdID,string ProdType)
+      public string ComputeEWMA(string FilePath,string KindID)
       {
          Workbook workbook = new Workbook();
          try {
             //切換Sheet
             workbook.LoadDocument(FilePath);
-            Worksheet worksheet = workbook.Worksheets[1];
+            Worksheet worksheet = workbook.Worksheets["Rawdata"];
             DateTime emdate = _emDateText.AsDateTime("yyyy/MM/dd");
 
             //1.RowData sheet第一行
-            DataTable dtCPR = dao.List40010CPR(emdate, TxdID);
+            string lsDate = emdate.ToString("yyyyMMdd");
             //確認有無資料
-            if (dtCPR.Rows.Count <= 0) {
-               return $"{_emDateText},40010_1,讀取「風險價格係數」無任何資料!";
-            }
-            foreach (DataRow dr in dtCPR.Rows) {
-               int rowIndex = dr["RPT_VALUE_2"].AsInt();
-               if (rowIndex <= 0)
-                  continue;
-               worksheet.Rows[0][rowIndex - 1].SetValue(dr["CPR_PRICE_RISK_RATE"]);
-            }
-
-            //2.寫入40010template計算EWMA
-            DataTable RowData = dao.ListRowDataSheet(emdate, TxdID, ProdType);
+            DataTable RowData = dao40010.ListRowDataSheet(lsDate, KindID);
             if (RowData.Rows.Count <= 0) {
-               return MessageDisplay.MSG_NO_DATA;
+               return $"{_emDateText},40010,讀取「風險價格係數」無任何資料!";
             }
             worksheet.Cells["M3"].SetValue(RowData.Rows[0]["PDK_XXX"]);
             worksheet.Cells["N3"].SetValue(RowData.Rows[0]["MGR4_CM"]);
-            RowData.Columns.Remove(RowData.Columns["AI5_SETTLE_DATE"]);
-            RowData.Columns.Remove(RowData.Columns["RPT_SEQ_NO"]);
-            RowData.Columns.Remove(RowData.Columns["PDK_XXX"]);
-            RowData.Columns.Remove(RowData.Columns["MGR4_CM"]);
+
+            //2.寫入40010template計算EWMA
+            //共15欄位 取前7欄位
+            for (int k = 7; k < RowData.Columns.Count; k++) {
+               RowData.Columns.Remove(RowData.Columns[7].ColumnName);//刪除後面8欄
+            }
             worksheet.Import(RowData, false, 2, 0);
-            //3.讀取第一個sheet寫入DB
-            Worksheet ws = workbook.Worksheets[0];
+
+            //3.RowData寫回DB
             //確認有無資料 沒有則新增一行
-            string lsDate = emdate.ToString("yyyyMMdd");
-            DataTable MG1_3M = dao.ListMG1_3M(lsDate, "F", "", "-");
-            if (MG1_3M.Rows.Count <= 0) {
-               DataRow dr = MG1_3M.NewRow();
-               
-               //模型(S:SMA/M:MAXV/E:EWMA)
-               dr["MG1_MODEL_TYPE"] = "E";
-               //日期
-               dr["MG1_YMD"] = lsDate;
-               //期貨or選擇權
-               dr["MG1_PROD_TYPE"] = ProdType;
-               //商品別
-               dr["MG1_KIND_ID"] = ws.Cells["B4"].Value;
-               //type
-               dr["MG1_AB_TYPE"] = "-";
-               //近月份期貨
-               dr["MG1_PRICE"] = ws.Cells["C4"].Value.AsDecimal();
-               //指數每點價值
-               dr["MG1_XXX"] = ws.Cells["D4"].Value.AsDecimal();
-               //適用風險價格係數C
-               dr["MG1_RISK"] = ws.Cells["E4"].Value.AsDecimal();
-               //實際風險價格係數
-               dr["MG1_CP_RISK"] = ws.Cells["F4"].Value.AsDecimal();
-               //最小風險價格係數
-               dr["MG1_MIN_RISK"] = ws.Cells["G4"].Value.AsDecimal();
-               //本日結算保證金D=A×B×C
-               dr["MG1_CM"] = ws.Cells["H4"].Value.AsDecimal();
-               //現行收取結算保證金
-               dr["MG1_CUR_CM"] = ws.Cells["I4"].Value.AsDecimal();
-               //變動幅度
-               dr["MG1_CHANGE_RANGE"] = ws.Cells["J4"].Value.AsDecimal();
-
-               //以下欄位不得為空
-               //現行維持保證金
-               dr["MG1_CUR_MM"] = 0;
-               //現行原始保證金
-               dr["MG1_CUR_IM"] = 0;
-               //計算結算保證金
-               dr["MG1_CP_CM"] = 0;
-               //本日維持保證金
-               dr["MG1_MM"] = 0;
-               //本日原始保證金
-               dr["MG1_IM"] = 0;
-               //幣別
-               dr["MG1_CURRENCY_TYPE"] = "1";
-               //維持乘數
-               dr["MG1_M_MULTI"] = 0;
-               //原始乘數
-               dr["MG1_I_MULTI"] = 0;
-               //契約對照碼
-               dr["MG1_PARAM_KEY"] = "ETC";
-               //子類別
-               dr["MG1_PROD_SUBTYPE"] = "I";
-               //轉檔時間
-               dr["MG1_W_TIME"] = DateTime.Now;
-               //收盤群組
-               dr["MG1_OSW_GRP"] = "0";
-
-               MG1_3M.Rows.Add(dr);
+            DataTable MGR2_SMA = dao40010.ListMGR2_SMA(lsDate, KindID);
+            DataRow row;
+            if (MGR2_SMA.Rows.Count <= 0) {
+               row = MGR2_SMA.NewRow();
+               MGR2_SMA.Rows.Add(row);
             }
             else {
-               DataRow dr = MG1_3M.Rows[0];
-               //日期
-               dr["MG1_YMD"] = lsDate;
-               //期貨or選擇權
-               dr["MG1_PROD_TYPE"] = ProdType;
-               //商品別
-               dr["MG1_KIND_ID"] = ws.Cells["B4"].Value;
-               //type
-               dr["MG1_AB_TYPE"] = "-";
-               //近月份期貨
-               dr["MG1_PRICE"] = ws.Cells["C4"].Value.AsDecimal();
-               //指數每點價值
-               dr["MG1_XXX"] = ws.Cells["D4"].Value.AsDecimal();
-               //適用風險價格係數C
-               dr["MG1_RISK"] = ws.Cells["E4"].Value.AsDecimal();
-               //實際風險價格係數
-               dr["MG1_CP_RISK"] = ws.Cells["F4"].Value.AsDecimal();
-               //最小風險價格係數
-               dr["MG1_MIN_RISK"] = ws.Cells["G4"].Value.AsDecimal();
-               //本日結算保證金D=A×B×C
-               dr["MG1_CM"] = ws.Cells["H4"].Value.AsDecimal();
-               //現行收取結算保證金
-               dr["MG1_CUR_CM"] = ws.Cells["I4"].Value.AsDecimal();
-               //變動幅度
-               dr["MG1_CHANGE_RANGE"] = ws.Cells["J4"].Value.AsDecimal();
-
-               //轉檔時間
-               dr["MG1_W_TIME"] = DateTime.Now;
+               row = MGR2_SMA.Rows[0];
             }
+            //模型(S:SMA/M:MAXV/E:EWMA)
+            row["MGR2_MODEL_TYPE"] = "E";
+            //日期
+            row["MGR2_YMD"] = worksheet.Cells["B3"].Value;
+            //股票代號
+            row["MGR2_M_KIND_ID"] = worksheet.Cells["E1"].Value;
+            //B開參/最低價 (A-B)
+            row["MGR2_PRICE1"] = worksheet.Cells["E3"].Value.AsDecimal();
+            //A收盤價/最高價/開參 (A-B)
+            row["MGR2_PRICE2"] = worksheet.Cells["D3"].Value.AsDecimal();
+            //每日報酬率
+            row["MGR2_RETURN_RATE"] = worksheet.Cells["G3"].Value.AsDecimal();
+            //30日風險價格係數
+            row["MGR2_30_RATE"] = worksheet.Cells["H3"].Value.AsDecimal();
+            //60日風險價格係數
+            row["MGR2_60_RATE"] = worksheet.Cells["I3"].Value.AsDecimal();
+            //90日風險價格係數
+            row["MGR2_90_RATE"] = worksheet.Cells["J3"].Value.AsDecimal();
+            //180日風險價格係數
+            row["MGR2_180_RATE"] = worksheet.Cells["K3"].Value.AsDecimal();
+            //2500日風險價格係數
+            row["MGR2_2500_RATE"] = worksheet.Cells["L3"].Value.AsDecimal();
+            //風險價格係數最大值
+            row["MGR2_MAX_RATE"] = worksheet.Cells["N1"].Value.AsDecimal();
+            //每日風險價格係數
+            row["MGR2_DAY_RATE"] = worksheet.Cells["N3"].Value.AsDecimal();
+            /*資料計算狀態
+              N  正常                
+              X  不計算*/
+            row["MGR2_STATUS_CODE"] = "N";
+            //股票市場別
+            row["MGR2_PROD_TYPE"] = worksheet.Cells["B1"].Value;
+            //子類別
+            row["MGR2_PROD_SUBTYPE"] = worksheet.Cells["A1"].Value;
+            //契約對照瑪
+            row["MGR2_PARAM_KEY"] = worksheet.Cells["D1"].Value;
+            //計算的風險價格係數
+            row["MGR2_CP_RATE"] = worksheet.Cells["M3"].Value;
+            //計算的風險價格係數(涵蓋1日)
+            row["MGR2_1DAY_CP_RATE"] = worksheet.Cells["M1"].Value;
+            //轉檔時間
+            row["MGR2_W_TIME"] = DateTime.Now;
+            //收盤群組
+            row["MGR2_OSW_GRP"] = worksheet.Cells["F1"].Value;
             //儲存至DB
-            dao.UpdateMGR2_SMA(MG1_3M);
+            dao40010.UpdateMGR2_SMA(MGR2_SMA);
 
             worksheet.ScrollTo(0, 0);
          }
