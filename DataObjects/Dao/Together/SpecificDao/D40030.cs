@@ -24,6 +24,21 @@ namespace DataObjects.Dao.Together.SpecificDao {
          dv.Sort = "SEQ_NO ASC, PROD_TYPE ASC, KIND_GRP2 ASC, KIND_ID ASC, AB_TYPE ASC";
          dt = dv.ToTable();
 
+         if (dt.Rows.Count > 0) {
+            dt = dt.AsEnumerable().OrderBy(d => d.Field<int>("SEQ_NO"))
+                              .ThenBy(d => d.Field<string>("PROD_TYPE"))
+                              .ThenBy(d => d.Field<string>("KIND_GRP2"))
+                              //.ThenBy(d => {
+                              //   if (d.Field<string>("KIND_ID").Substring(0, 2) == d.Field<string>("KIND_GRP2"))
+                              //      return 0;
+                              //   else
+                              //      return 1;
+                              //})
+                              .ThenBy(d => d.Field<string>("KIND_ID"))
+                              .ThenBy(d => d.Field<string>("AB_TYPE"))
+                              .CopyToDataTable();
+         }
+
          return dt;
       }
 

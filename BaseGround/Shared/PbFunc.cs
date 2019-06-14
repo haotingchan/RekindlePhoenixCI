@@ -1396,7 +1396,7 @@ namespace BaseGround.Shared {
             is_out = is_out + Convert.ToChar(il_y);
          }
          return is_out;
-
+         
       }
 
       /// <summary>
@@ -1451,6 +1451,8 @@ namespace BaseGround.Shared {
                MessageDisplay.Error("(作業代號：" + as_txn_id + ")執行「" + (ls_oper_bat.Trim()) + "」失敗，請聯絡 SPAN 負責人！");
                return "N";
             }
+
+            process.Close();
 
             return "Y";
          } catch (Exception ex) {
