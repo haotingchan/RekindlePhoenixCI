@@ -32,6 +32,7 @@ namespace PhoenixCI.FormUI.PrefixS {
          daoS0071 = new DS0071();
          daoCod = new COD();
          GridHelper.SetCommonGrid(gvMain);
+         _IsProcessRunAsync = true;//非同步執行
 
          #region Set Date Period
          //設定初始年月yyyy/MM/dd
@@ -215,9 +216,9 @@ namespace PhoenixCI.FormUI.PrefixS {
          if (checkChanged()) {
             MessageDisplay.Info("資料有變更, 請先存檔!");
             resultStatus = ResultStatus.FailButNext;
-         } else {
-            resultStatus = Run(args);
-         }
+         } //else {
+         //   resultStatus = Run(args);
+         //}
          return resultStatus;
       }
 

@@ -28,6 +28,8 @@ namespace PhoenixCI.FormUI.PrefixS {
          daoS0073 = new DS0073();
          daoCod = new COD();
          GridHelper.SetCommonGrid(gvMain);
+         _IsProcessRunAsync = true;//非同步執行
+
          this.Text = _ProgramID + "─" + _ProgramName;
 
          #region Set DropDownList
@@ -178,9 +180,10 @@ namespace PhoenixCI.FormUI.PrefixS {
          if (checkChanged()) {
             MessageDisplay.Info("資料有變更, 請先存檔!");
             resultStatus = ResultStatus.FailButNext;
-         } else {
-            resultStatus = Run(args);
-         }
+         } 
+         //else {
+         //   resultStatus = Run(args);
+         //}
          return resultStatus;
       }
 

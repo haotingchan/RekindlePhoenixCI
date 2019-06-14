@@ -226,7 +226,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             // 預設Table內的字體
             CharacterProperties tableProp = doc.BeginUpdateCharacters(WordTable.Range);
-            tableProp.FontSize = 12;
+            tableProp.FontSize = 11;
             doc.EndUpdateCharacters(tableProp);
 
             // 垂直置中
@@ -593,10 +593,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             WordTableCell.VerticalAlignment = TableCellVerticalAlignment.Center;
             WordTable.MergeCells(WordTableCell, WordTable[1, 0]);
 
-            SetTableStr(0, 1, "調整前保證金金額");
+            SetTableStr(0, 1, "調整後保證金金額");
             WordTable.MergeCells(WordTableCell, WordTable[0, 3]);
 
-            SetTableStr(0, 2, "調整後保證金金額");
+            SetTableStr(0, 2, "調整前保證金金額");
             WordTable.MergeCells(WordTableCell, WordTable[0, 4]);
 
             SetTableTitle(TableTitle, 1, "{0}{1}保證金", Environment.NewLine);
@@ -725,7 +725,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             // 預設Table內的字體
             CharacterProperties tableProp = doc.BeginUpdateCharacters(WordTable.Range);
-            tableProp.FontSize = 12;
+            tableProp.FontSize = 11;
             doc.EndUpdateCharacters(tableProp);
 
             // 垂直置中
@@ -1111,6 +1111,25 @@ namespace PhoenixCI.FormUI.Prefix4 {
             docSev.Options.MailMerge.DataSource = listM40110;
             docSev.Options.MailMerge.ViewMergedData = true;
          }
+
+         /// <summary>
+         /// 設定欄位名稱
+         /// </summary>
+         protected override void SetTableColTitle() {
+            SetTableStr(0, 0, "契約名稱");
+            WordTableCell.PreferredWidthType = WidthType.Fixed;
+            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.InchesToDocumentsF(2.3f);
+            WordTableCell.VerticalAlignment = TableCellVerticalAlignment.Center;
+            WordTable.MergeCells(WordTableCell, WordTable[1, 0]);
+
+            SetTableStr(0, 1, "現行收取標準");
+            WordTable.MergeCells(WordTableCell, WordTable[0, 3]);
+
+            SetTableStr(0, 2, "因應農曆春節調高保證金");
+            WordTable.MergeCells(WordTableCell, WordTable[0, 4]);
+
+            SetTableTitle(TableTitle, 1, "{0}{1}保證金", Environment.NewLine);
+         }
       }
 
       /// <summary>
@@ -1289,8 +1308,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             CurrencyName = "單位：" + dr["currency_name"].AsString();
             MoneyOrPercent = "金額";
             ProdName = dr["kind_id_out"].AsString();
-            BeforeAdjustTitle = "調整後保證金金額";
-            AfterAdjustTitle = "調整前保證金金額";
+            BeforeAdjustTitle = "調整前保證金金額";
+            AfterAdjustTitle = "調整後保證金金額";
             NumberFormat = "#,##0.####";
 
          }

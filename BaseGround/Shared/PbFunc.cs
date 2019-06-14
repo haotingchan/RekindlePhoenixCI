@@ -1396,7 +1396,7 @@ namespace BaseGround.Shared {
             is_out = is_out + Convert.ToChar(il_y);
          }
          return is_out;
-
+         
       }
 
       /// <summary>
@@ -1452,6 +1452,9 @@ namespace BaseGround.Shared {
                return "N";
             }
 
+            process.Close();
+
+            MessageDisplay.Info("(作業代號：" + as_txn_id + ")已執行「" + (ls_oper_bat.Trim()) + "」，請到「" + (ls_oper_bat.Trim()) + "」查輸出結果！");
             return "Y";
          } catch (Exception ex) {
             throw ex;

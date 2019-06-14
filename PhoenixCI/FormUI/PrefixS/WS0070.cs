@@ -33,6 +33,7 @@ namespace PhoenixCI.FormUI.PrefixS {
          InitializeComponent();
          daoS0070 = new DS0070();
          daoCod = new COD();
+         _IsProcessRunAsync = true;//非同步執行
 
          Retrieve();
       }
@@ -196,14 +197,14 @@ namespace PhoenixCI.FormUI.PrefixS {
       }
 
       protected override ResultStatus RunBefore(PokeBall args) {
-         ResultStatus resultStatus = ResultStatus.Fail;
+         ResultStatus resultStatus = ResultStatus.Success;
 
          if (checkChanged()) {
             MessageDisplay.Info("資料有變更, 請先存檔!");
             resultStatus = ResultStatus.FailButNext;
-         } else {
-            resultStatus = Run(args);
-         }
+         } //else {
+         //   resultStatus = Run(args);
+         //}
          return resultStatus;
       }
 
