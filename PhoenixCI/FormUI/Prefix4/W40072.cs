@@ -734,9 +734,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 }
 
                 //處置期間首日+1個月
-                ls_mocf_ymd = PbFunc.relativedate(ls_impl_begin_ymd.AsDateTime("yyyy/MM/dd"), 30).ToString("yyyyMMdd");
+                ls_mocf_ymd = PbFunc.relativedate(ls_impl_begin_ymd.AsDateTime("yyyyMMdd"), 30).ToString("yyyyMMdd");
                 /*次一營業日*/
-                ls_impl_begin_ymd=ls_impl_begin_ymd.AsDateTime("yyyy/MM/dd").ToString("yyyyMMdd");
+                ls_impl_begin_ymd=ls_impl_begin_ymd.AsDateTime("yyyyMMdd").ToString("yyyyMMdd");
                 ls_issue_begin_ymd = daoMOCF.GetNextTradeDay(ls_impl_begin_ymd, ls_mocf_ymd);
 
                 //終止生效日為處置期間迄日
