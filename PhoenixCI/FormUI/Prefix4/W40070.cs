@@ -294,6 +294,20 @@ namespace PhoenixCI.FormUI.Prefix4 {
                             MessageDisplay.Error(kindID + "," + adjTypeName + ",交易日(" + tradeYmd + ")在同一生效日區間內已有資料");
                             return ResultStatus.FailButNext;
                         }
+
+                        adjRsn = dr["ADJ_RSN"].AsString();
+                        curCm = dr["CUR_CM"].AsDecimal();
+                        if (adjRsn == "S") cm = dr["SMA_CM"].AsDecimal();
+                        if (adjRsn == "E") cm = dr["EWMA_CM"].AsDecimal();
+                        if (adjRsn == "M") cm = dr["MAXV_CM"].AsDecimal();
+                        if (adjRsn == "s") cm = dr["FUT_SMA_CM"].AsDecimal();
+                        if (adjRsn == "e") cm = dr["FUT_EWMA_CM"].AsDecimal();
+                        if (adjRsn == "m") cm = dr["FUT_MAXV_CM"].AsDecimal();
+                        if (adjRsn == "U") cm = dr["USER_CM"].AsDecimal();
+                        if (cm == curCm) {
+                            MessageDisplay.Error(kindID + ",調整前後保證金一致，請重新輸入");
+                            return ResultStatus.FailButNext;
+                        }
                     }//if (dr["ADJ_CODE"].AsString() == "Y")
 
                     /**************************************
@@ -316,10 +330,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     }
                     if (cm == 0) {
                         MessageDisplay.Error(kindID + ",保證金計算值為空，請選擇其他模型");
-                        return ResultStatus.FailButNext;
-                    }
-                    if (cm == curCm) {
-                        MessageDisplay.Error(kindID + ",調整前後保證金一致，請重新輸入");
                         return ResultStatus.FailButNext;
                     }
                 }
