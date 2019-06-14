@@ -28,94 +28,70 @@ namespace DataObjects.Dao.Together.SpecificDao
 
       protected virtual string ListRowDataSql()
       {
-         string sql = $@"select TO_DATE(MGP1_YMD,'YYYYMMDD') as AI5_DATE, --IDXF_DATE
-                               '000000' as AI5_SETTLE_DATE,
-                               CASE WHEN MGP1_PROD_TYPE = :MGP1_PROD_TYPE THEN MGP1_SETTLE_PRICE ELSE MGP1_CLOSE_PRICE END  as AI5_SETTLE_PRICE , --IDXF_IDX
-                               RPT_SEQ_NO , --RPT_SEQ_NO
-                               MGP1_OPEN_REF as AI5_OPEN_REF,
-                               PDK_XXX, --契約規格
-                               MGR4_CM --現行保證金
-                          from ci.MGP1_SMA,ci.RPT ,
-                              (select MGP1_M_KIND_ID as DATA_SID from ci.MGP1_SMA where MGP1_PROD_TYPE = :MGP1_PROD_TYPE and MGP1_YMD = TO_CHAR(:ad_edate,'YYYYMMDD')),
-                              (select MGR4_YMD,
-                        MGR4_KIND_ID,
-                        MGR4_CM,
-                        PDK_XXX,
-                        PDK_KIND_ID
-                        from ci.MGR4,ci.HPDK
-                        where MGR4_YMD = TO_CHAR(PDK_DATE,'YYYYMMDD')
-                        and MGR4_KIND_ID = PDK_KIND_ID
-                        and MGR4_YMD = TO_CHAR(:ad_edate,'YYYYMMDD')
-                        )            
-                        where MGP1_YMD >= TO_CHAR(:ad_sdate,'YYYYMMDD')
-                          and MGP1_YMD <= TO_CHAR(:ad_edate,'YYYYMMDD')
-                          and MGP1_PROD_TYPE = :MGP1_PROD_TYPE
-                          AND RPT_TXD_ID = :as_txd_id   --'40010_2'
-                          AND MGP1_M_KIND_ID = RPT_VALUE
-                          and MGP1_M_KIND_ID = DATA_SID
-                          and PDK_KIND_ID = DATA_SID
-                        order by MGP1_M_KIND_ID,MGP1_YMD DESC";
+         string sql = $@"select ROW_NUMBER() OVER (PARTITION BY MG1_KIND_ID ORDER BY MGP1_YMD )AS ROW_NUM,--A 資料序號 
+                               TO_DATE(MGP1_YMD,'YYYYMMDD') as DATA_DATE, --B 日期
+                               MGP1_SETTLE_PRICE,  --C 期貨結算價
+                               CASE WHEN MGP1_PROD_TYPE = 'F'  and MGP1_PARAM_KEY <>'ETF' THEN MGP1_SETTLE_PRICE ELSE MGP1_CLOSE_PRICE END  as PRICE, --D 期貨結算價/現貨收盤價
+                               MGP1_OPEN_REF as OPEN_REF, --E 開盤參考價
+                               MGP1_V_SMA, --F 當日漲跌點數
+                               MGP1_RTN_SMA, --G |報酬率|
+                               MG1_PROD_SUBTYPE,  --A1 SUBTYPE
+                               MG1_KIND_ID as KIND_ID, --C1 KIND_ID
+                               MG1_PARAM_KEY,  --D1 PARAM_KEY
+                               MG1_M_KIND_ID as MG1_M_KIND_ID, --E1 M_KIND_ID
+                               MG1_OSW_GRP, --F1 OSW_GRP 
+                               MG1_CUR_CM,--P3 現行結算保證金
+                               MG1_MIN_RISK, --N1 最小風險價格係數
+                               MG1_XXX --O3 契約規格
+                          from ci.MGP1_SMA,
+                              (select MG1_M_KIND_ID,MG1_KIND_ID,MG1_PROD_SUBTYPE,MG1_PARAM_KEY,MG1_OSW_GRP,MG1_MIN_RISK,MG1_CUR_CM,MG1_XXX
+                                from ci.MG1_3M 
+                               where trim(MG1_KIND_ID) = :as_kind_id and MG1_AB_TYPE in('A','-')  and MG1_YMD = :as_eymd and MG1_MODEL_TYPE = 'S')               
+                        where MGP1_YMD >= (
+                                    SELECT OCF_YMD 
+                                    FROM(
+                                            SELECT OCF_YMD,DAY_NUM 
+                                            FROM
+                                                    (SELECT OCF_YMD,
+                                                              ROW_NUMBER() OVER (ORDER BY OCF_YMD desc) as DAY_NUM
+                                                        FROM ci.AOCF
+                                                      WHERE OCF_YMD <=  :as_eymd
+                                                         AND OCF_YMD >= SUBSTR('20190522',0,4)-10|| '0101')
+                                              WHERE DAY_NUM = 2500
+                                      )
+                            )
+                          and MGP1_YMD <= :as_eymd
+                          and trim(MG1_KIND_ID) = :as_kind_id --BY 單一商品用條件
+                          and MGP1_M_KIND_ID = MG1_M_KIND_ID
+                        order by MG1_KIND_ID ,MGP1_YMD DESC";
          return sql;
       }
 
-      public DataTable ListMG1_3M(string MG1_YMD, string MG1_PROD_TYPE, string MG1_KIND_ID, string MG1_AB_TYPE)
+      public DataTable ListMGR2_SMA(string as_ymd, string as_kind_id)
       {
          object[] parms = {
-                ":MG1_YMD",MG1_YMD,
-                ":MG1_PROD_TYPE",MG1_PROD_TYPE,
-            ":MG1_KIND_ID",MG1_KIND_ID,
-            ":MG1_AB_TYPE",MG1_AB_TYPE
+                ":as_ymd",as_ymd,
+               ":as_kind_id",as_kind_id
             };
 
-         string sql = @"select MG1_MODEL_TYPE,MG1_YMD,MG1_PROD_TYPE,MG1_KIND_ID,MG1_AB_TYPE,MG1_PRICE,MG1_XXX,MG1_RISK,MG1_CP_RISK,MG1_MIN_RISK,MG1_CM,MG1_CUR_CM,MG1_CHANGE_RANGE,
-                              MG1_CUR_MM,MG1_CUR_IM,MG1_CP_CM,MG1_MM,MG1_IM,MG1_CURRENCY_TYPE,MG1_M_MULTI,MG1_I_MULTI,MG1_PARAM_KEY,MG1_PROD_SUBTYPE,MG1_W_TIME,MG1_OSW_GRP
-                           from ci.MG1_3M
-                           where MG1_MODEL_TYPE='E'
-                           and MG1_YMD=:MG1_YMD
-                           and MG1_PROD_TYPE=:MG1_PROD_TYPE
-                           and MG1_KIND_ID=:MG1_KIND_ID
-                           and MG1_AB_TYPE=:MG1_AB_TYPE";
+         string sql = @"select MGR2_MODEL_TYPE, MGR2_YMD, MGR2_M_KIND_ID, MGR2_PRICE1, MGR2_PRICE2, MGR2_RETURN_RATE, MGR2_30_RATE, MGR2_60_RATE, MGR2_90_RATE, MGR2_180_RATE, MGR2_2500_RATE, MGR2_MIN_RATE, MGR2_DAY_RATE, MGR2_DAY_CNT, MGR2_STATUS_CODE, MGR2_PROD_TYPE, MGR2_PROD_SUBTYPE, MGR2_PARAM_KEY, MGR2_CP_RATE, MGR2_1DAY_CP_RATE, MGR2_W_TIME, MGR2_OSW_GRP
+                        from ci.MGR2_SMA
+                        where MGR2_MODEL_TYPE='E'
+                        and MGR2_YMD=:as_ymd
+                        and MGR2_M_KIND_ID=:as_kind_id";
 
          DataTable dtResult = db.GetDataTable(sql, parms);
          return dtResult;
       }
 
-      public DataTable ListRowDataSheet(DateTime as_date, string as_txd_id,string MGP1_PROD_TYPE)
+      public DataTable ListRowDataSheet(string as_eymd, string as_kind_id)
       {
          object[] parms = {
-                ":ad_sdate",as_date.AddDays(-2500),
-                ":ad_edate",as_date,
-                ":as_txd_id",as_txd_id,
-                ":MGP1_PROD_TYPE",MGP1_PROD_TYPE
+                ":as_eymd",as_eymd,
+                ":as_kind_id",as_kind_id
             };
 
          string sql = ListRowDataSql();
-
-         return db.GetDataTable(sql, parms);
-      }
-
-      public DataTable List40010CPR(DateTime ad_date,string as_txd_id)
-      {
-         object[] parms = {
-                ":ad_date",ad_date,
-                ":as_txd_id",as_txd_id
-            };
-
-         string sql = @"SELECT CPR_KIND_ID,
-                               max(case when ROW_NUM = 1 then CPR_EFFECTIVE_DATE else null end) as CPR_EFFECTIVE_DATE,RPT_VALUE_2,
-                               max(case when ROW_NUM = 1 then CPR_PRICE_RISK_RATE else null end) as CPR_PRICE_RISK_RATE,
-                               max(case when ROW_NUM = 2 then CPR_PRICE_RISK_RATE else null end) as LAST_RISK_RATE
-                          from ci.hcpr,ci.rpt,
-                              (select CPR_KIND_ID AS MAX_KIND_ID,CPR_EFFECTIVE_DATE as MAX_EFFECTIVE_DATE,
-                                      ROW_NUMBER( ) OVER (PARTITION BY CPR_KIND_ID ORDER BY CPR_EFFECTIVE_DATE DESC NULLS LAST) as ROW_NUM
-                                 from ci.HCPR
-                                where CPR_EFFECTIVE_DATE <= :ad_date)
-                         where ROW_NUM <= 2
-                           and CPR_KIND_ID = MAX_KIND_ID
-                           and CPR_EFFECTIVE_DATE = MAX_EFFECTIVE_DATE
-                           and RPT_TXD_ID = :as_txd_id
-                           and trim(CPR_KIND_ID) = trim(RPT_VALUE)
-                          group by CPR_KIND_ID,RPT_VALUE_2";
 
          return db.GetDataTable(sql, parms);
       }
@@ -138,11 +114,9 @@ namespace DataObjects.Dao.Together.SpecificDao
 
    public interface ID40010
    {
-      DataTable ListMG1_3M(string MG1_YMD, string MG1_PROD_TYPE, string MG1_KIND_ID, string MG1_AB_TYPE);
+      DataTable ListMGR2_SMA(string as_ymd, string as_kind_id);
 
-      DataTable ListRowDataSheet(DateTime as_date, string as_txd_id, string MGP1_PROD_TYPE);
-
-      DataTable List40010CPR(DateTime ad_date, string as_txd_id);
+      DataTable ListRowDataSheet(string as_eymd, string as_kind_id);
 
       void UpdateMGR2_SMA(DataTable inputData);
    }
