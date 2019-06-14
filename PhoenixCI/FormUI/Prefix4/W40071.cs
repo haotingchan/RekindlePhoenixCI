@@ -833,15 +833,17 @@ namespace PhoenixCI.FormUI.Prefix4 {
             is_kind_list = "";
             //重設gridview
             gcDetail.DataSource = dtGrid;
-            DialogResult result = MessageDisplay.Choose("資料已存在，是否重新產製資料,若不重產資料，請按「預覽」!");
-            if (result == DialogResult.No) return;
-
+            if (dtMGD2.Rows.Count > 0) {
+                DialogResult result = MessageDisplay.Choose("資料已存在，是否重新產製資料,若不重產資料，請按「預覽」!");
+                if (result == DialogResult.No) return;
+            }
             //產生明細檔
             DataTable dtInputBefore = (DataTable)gcMain.DataSource;
             DataTable dtInput = dtInputBefore.Copy();//如果沒有複製到另一張Table，會直接影響到gridview
             foreach (DataRow drInput in dtInput.Rows) {
                 is_chk = "Y";
                 //先把商品為All的值設定好(這段跟PB不同，PB可以直接抓到All，但這邊要把DBNull.Value轉成All)
+                //如果是新增的資料列，則不給All，因為使用者必須選擇其中一項商品
                 if ((drInput["KIND_ID"] == DBNull.Value || drInput["KIND_ID"].AsString() == "") &&
                     dtInput.Rows.IndexOf(drInput) < 7) drInput["KIND_ID"] = "All";
                 //判斷是否有空值
