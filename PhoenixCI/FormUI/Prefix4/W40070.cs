@@ -270,6 +270,15 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 foreach (DataRow dr in dtFiltered.Rows) {
                     kindID = dr["KIND_ID"].AsString();
                     issueBeginYmd = dr["ISSUE_BEGIN_YMD"].AsString();
+                    adjRsn = dr["ADJ_RSN"].AsString();
+                    curCm = dr["CUR_CM"].AsDecimal();
+                    if (adjRsn == "S") cm = dr["SMA_CM"].AsDecimal();
+                    if (adjRsn == "E") cm = dr["EWMA_CM"].AsDecimal();
+                    if (adjRsn == "M") cm = dr["MAXV_CM"].AsDecimal();
+                    if (adjRsn == "s") cm = dr["FUT_SMA_CM"].AsDecimal();
+                    if (adjRsn == "e") cm = dr["FUT_EWMA_CM"].AsDecimal();
+                    if (adjRsn == "m") cm = dr["FUT_MAXV_CM"].AsDecimal();
+                    if (adjRsn == "U") cm = dr["USER_CM"].AsDecimal();
                     if (dr["ADJ_CODE"].AsString() == "Y") {
                         /******************************************
                            確認商品是否在同一交易日不同情境下設定過
@@ -294,21 +303,16 @@ namespace PhoenixCI.FormUI.Prefix4 {
                             MessageDisplay.Error(kindID + "," + adjTypeName + ",交易日(" + tradeYmd + ")在同一生效日區間內已有資料");
                             return ResultStatus.FailButNext;
                         }
+                        if (cm == curCm) {
+                            MessageDisplay.Error(kindID + ",調整前後保證金一致，請重新輸入");
+                            return ResultStatus.FailButNext;
+                        }
                     }//if (dr["ADJ_CODE"].AsString() == "Y")
 
                     /**************************************
                     判斷調整前後值不同，相同則警示且無法存檔
                     **************************************/
-                    adjRsn = dr["ADJ_RSN"].AsString();
-                    curCm = dr["CUR_CM"].AsDecimal();
-                    if (adjRsn == "S") cm = dr["SMA_CM"].AsDecimal();
-                    if (adjRsn == "E") cm = dr["EWMA_CM"].AsDecimal();
-                    if (adjRsn == "M") cm = dr["MAXV_CM"].AsDecimal();
-                    if (adjRsn == "s") cm = dr["FUT_SMA_CM"].AsDecimal();
-                    if (adjRsn == "e") cm = dr["FUT_EWMA_CM"].AsDecimal();
-                    if (adjRsn == "m") cm = dr["FUT_MAXV_CM"].AsDecimal();
                     if (adjRsn == "U") {
-                        cm = dr["USER_CM"].AsDecimal();
                         if (cm == 0) {
                             MessageDisplay.Error(kindID + ",請輸入保證金金額");
                             return ResultStatus.FailButNext;
@@ -316,10 +320,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     }
                     if (cm == 0) {
                         MessageDisplay.Error(kindID + ",保證金計算值為空，請選擇其他模型");
-                        return ResultStatus.FailButNext;
-                    }
-                    if (cm == curCm) {
-                        MessageDisplay.Error(kindID + ",調整前後保證金一致，請重新輸入");
                         return ResultStatus.FailButNext;
                     }
                 }

@@ -333,7 +333,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     //只更新有異動的資料
                     if (ls_op_type != " ") {
                         ls_kind_id = dr["KIND_ID"].AsString();
-                        ls_issue_begin_ymd = dr["ISSUE_BEGIN_YMD"].ToString().Replace("/","");
+                        ls_issue_begin_ymd = dr["ISSUE_BEGIN_YMD"].ToString().Replace("/", "");
                         ls_issue_end_ymd = dr["ISSUE_END_YMD"].ToString().Replace("/", "");
                         ls_impl_begin_ymd = dr["IMPL_BEGIN_YMD"].ToString().Replace("/", "");
                         ls_impl_end_ymd = dr["IMPL_END_YMD"].ToString().Replace("/", "");
@@ -543,14 +543,15 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 }
                 //Write LOGF
                 WriteLog("變更資料 ", "Info", "I");
-                //列印
-                ReportHelper _ReportHelper = new ReportHelper(gcDetail, _ProgramID, this.Text);
-                Print(_ReportHelper);
-                //for     i = 1 to dw_1.rowcount()
-                //      dw_1.setitem(i, "op_type", ' ')
-                //next
-                //messagebox(gs_t_result, gs_m_ok, Information!)
-                //wf_clear_ymd()
+                //報表儲存pdf
+                ReportHelper _ReportHelper = new ReportHelper(gcMain, _ProgramID, this.Text);
+                CommonReportLandscapeA3 reportLandscape = new CommonReportLandscapeA3();//設定為橫向列印
+                reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
+                reportLandscape.IsHandlePersonVisible = false;
+                reportLandscape.IsManagerVisible = false;
+                _ReportHelper.Create(reportLandscape);
+                _ReportHelper.Export(FileType.PDF, _ReportHelper.FilePath);
+                MessageDisplay.Info("報表儲存完成!");
             }
             catch (Exception ex) {
                 MessageDisplay.Error("儲存錯誤");
@@ -833,16 +834,19 @@ namespace PhoenixCI.FormUI.Prefix4 {
             is_kind_list = "";
             //重設gridview
             gcDetail.DataSource = dtGrid;
-            DialogResult result = MessageDisplay.Choose("資料已存在，是否重新產製資料,若不重產資料，請按「預覽」!");
-            if (result == DialogResult.No) return;
-
+            if (dtMGD2.Rows.Count > 0) {
+                DialogResult result = MessageDisplay.Choose("資料已存在，是否重新產製資料,若不重產資料，請按「預覽」!");
+                if (result == DialogResult.No) return;
+            }
             //產生明細檔
             DataTable dtInputBefore = (DataTable)gcMain.DataSource;
             DataTable dtInput = dtInputBefore.Copy();//如果沒有複製到另一張Table，會直接影響到gridview
             foreach (DataRow drInput in dtInput.Rows) {
                 is_chk = "Y";
                 //先把商品為All的值設定好(這段跟PB不同，PB可以直接抓到All，但這邊要把DBNull.Value轉成All)
-                if (drInput["KIND_ID"] == DBNull.Value || drInput["KIND_ID"].AsString() == "") drInput["KIND_ID"] = "All";
+                //如果是新增的資料列，則不給All，因為使用者必須選擇其中一項商品
+                if ((drInput["KIND_ID"] == DBNull.Value || drInput["KIND_ID"].AsString() == "") &&
+                    dtInput.Rows.IndexOf(drInput) < 7) drInput["KIND_ID"] = "All";
                 //判斷是否有空值
                 for (li_col = 0; li_col < dtInput.Columns.Count; li_col++) {
                     if (drInput[li_col] == DBNull.Value || drInput[li_col].ToString() == "") {
@@ -976,7 +980,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
         /// <param name="e"></param>
         private void repositoryItemTextEdit3_EditValueChanged(object sender, EventArgs e) {
             TextEdit textEditor = (TextEdit)sender;
-            if (textEditor.EditValue.AsString() == ""|| textEditor.EditValue.AsString() ==null) {
+            if (textEditor.EditValue.AsString() == "" || textEditor.EditValue.AsString() == null) {
                 MessageDisplay.Warning("調整後保證金不可為空");
                 textEditor.EditValue = textEditor.OldEditValue;
             }
