@@ -226,7 +226,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             // 預設Table內的字體
             CharacterProperties tableProp = doc.BeginUpdateCharacters(WordTable.Range);
-            tableProp.FontSize = 12;
+            tableProp.FontSize = 11;
             doc.EndUpdateCharacters(tableProp);
 
             // 垂直置中
@@ -725,7 +725,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             // 預設Table內的字體
             CharacterProperties tableProp = doc.BeginUpdateCharacters(WordTable.Range);
-            tableProp.FontSize = 12;
+            tableProp.FontSize = 11;
             doc.EndUpdateCharacters(tableProp);
 
             // 垂直置中

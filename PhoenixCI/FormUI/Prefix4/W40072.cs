@@ -280,7 +280,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                 if (dtGrid.Rows.Count == 0) {
                     MessageDisplay.Warning("無明細資料，請重新產生明細");
-                    return ResultStatus.Fail;
+                    return ResultStatus.FailButNext;
                 }
 
                 DataTable dtMGD2; //ids_mgd2
@@ -298,7 +298,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         if (ls_stock_id == dtGrid.Rows[f + 1]["STOCK_ID"].AsString() &&
                             dr["M_CUR_LEVEL"].AsString() != dtGrid.Rows[f + 1]["M_CUR_LEVEL"].AsString()) {
                             MessageDisplay.Error(ls_stock_id + "的級距不一致");
-                            return ResultStatus.Fail;
+                            return ResultStatus.FailButNext;
                         }
                     }
 
@@ -314,11 +314,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                         if (ls_ymd != ls_impl_begin_ymd) {
                             DialogResult result = MessageDisplay.Choose(ls_stock_id + "," + ls_kind_id + "交易日不等於處置起日，請問是否更新");
-                            if (result == DialogResult.No) return ResultStatus.Fail;
+                            if (result == DialogResult.No) return ResultStatus.FailButNext;
                         }
                         if (ls_issue_end_ymd != ls_impl_end_ymd) {
                             DialogResult result = MessageDisplay.Choose(ls_stock_id + "," + ls_kind_id + "生效迄日不等於處置迄日，請問是否更新");
-                            if (result == DialogResult.No) return ResultStatus.Fail;
+                            if (result == DialogResult.No) return ResultStatus.FailButNext;
                         }
 
                         //處置期間首日+1個月
@@ -328,7 +328,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         ls_next_ymd = daoMOCF.GetNextTradeDay(ls_impl_begin_ymd, ls_mocf_ymd);
                         if (ls_issue_begin_ymd != ls_next_ymd) {
                             DialogResult result = MessageDisplay.Choose(ls_stock_id + "," + ls_kind_id + "生效起日不等於處置起日之次一營業日，請問是否更新");
-                            if (result == DialogResult.No) return ResultStatus.Fail;
+                            if (result == DialogResult.No) return ResultStatus.FailButNext;
                         }
 
                         dtMGD2 = dao40072.d_40072(ls_ymd, is_adj_type, ls_stock_id);
@@ -358,13 +358,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         DataTable dtSet = dao40071.IsSetOnSameDay(ls_kind_id, ls_ymd, is_adj_type);
                         if (dtSet.Rows.Count == 0) {
                             MessageDisplay.Error("MGD2 " + ls_kind_id + " 無任何資料！");
-                            return ResultStatus.Fail;
+                            return ResultStatus.FailButNext;
                         }
                         li_count = dtSet.Rows[0]["LI_COUNT"].AsInt();
                         ls_adj_type_name = dtSet.Rows[0]["LS_ADJ_TYPE_NAME"].AsString();
                         if (li_count > 0) {
                             MessageDisplay.Error(ls_kind_id + ",交易日(" + ls_ymd + ")在" + ls_adj_type_name + "已有資料");
-                            return ResultStatus.Fail;
+                            return ResultStatus.FailButNext;
                         }
 
                         /*********************************
@@ -378,14 +378,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         ls_trade_ymd = dtSet.Rows[0]["LS_TRADE_YMD"].AsString();
                         if (li_count > 0) {
                             MessageDisplay.Error(ls_kind_id + "," + ls_adj_type_name + ",交易日(" + ls_trade_ymd + ")在同一生效日區間內已有資料");
-                            return ResultStatus.Fail;
+                            return ResultStatus.FailButNext;
                         }
 
                         //判斷調整幅度是否為0
                         ldbl_rate = dr["ADJ_RATE"].AsDecimal();
                         if (ldbl_rate == 0) {
                             MessageDisplay.Error("商品調整幅度不可為0");
-                            return ResultStatus.Fail;
+                            return ResultStatus.FailButNext;
                         }
 
                     }//if (ls_op_type != " ")
@@ -411,7 +411,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         //刪除已存在資料
                         if (daoMGD2.DeleteMGD2(ls_ymd, is_adj_type, ls_stock_id, ls_kind_id) < 0) {
                             MessageDisplay.Error("MGD2資料刪除失敗");
-                            return ResultStatus.Fail;
+                            return ResultStatus.FailButNext;
                         }
 
                         if (dr["DATA_FLAG"].AsString() == "Y") {
@@ -483,7 +483,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 ResultData myResultData = daoMGD2.UpdateMGD2(dtTemp);
                 if (myResultData.Status == ResultStatus.Fail) {
                     MessageDisplay.Error("更新資料庫MGD2錯誤! ");
-                    return ResultStatus.Fail;
+                    return ResultStatus.FailButNext;
                 }
 
                 //ids_old.update()
@@ -491,7 +491,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     myResultData = daoMGD2L.UpdateMGD2L(dtMGD2Log);
                     if (myResultData.Status == ResultStatus.Fail) {
                         MessageDisplay.Error("更新資料庫MGD2L錯誤! ");
-                        return ResultStatus.Fail;
+                        return ResultStatus.FailButNext;
                     }
                 }
                 //Write LOGF
@@ -754,7 +754,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 }
                 ls_stock_id = ls_stock_id + "%";
 
-                //調整倍數(計算用1+調整備數)
+                //調整倍數(計算用1+調整倍數)
                 ldc_rate = drInput["RATE"].AsDecimal() - 1;
 
                 //這邊才去讀SP
@@ -770,6 +770,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     drTemp["PUB_YMD"] = drInput["pub_ymd"];
                     drTemp["YMD"] = ls_impl_begin_ymd;
                     drTemp["OP_TYPE"] = ls_op_type;
+                    drTemp["ADJ_RATE"] = drInput["RATE"];
                 }
 
                 //將資料複製到明細表

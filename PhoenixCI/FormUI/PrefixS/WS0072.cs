@@ -40,6 +40,8 @@ namespace PhoenixCI.FormUI.PrefixS {
          txtStartDate.EnterMoveNextControl = true;
          txtEndDate.EnterMoveNextControl = true;
          GridHelper.SetCommonGrid(gv_ZISP);
+         _IsProcessRunAsync = true;//非同步執行
+
          for (int i = 0; i < modules1.Length; i++) {
             GridView gv = GetGridView(modules1[i]);
 
@@ -179,9 +181,10 @@ namespace PhoenixCI.FormUI.PrefixS {
          if (checkChanged()) {
             MessageDisplay.Info("資料有變更, 請先存檔!");
             resultStatus = ResultStatus.FailButNext;
-         } else {
-            resultStatus = Run(args);
-         }
+         } 
+         //else {
+         //   resultStatus = Run(args);
+         //}
          return resultStatus;
       }
 

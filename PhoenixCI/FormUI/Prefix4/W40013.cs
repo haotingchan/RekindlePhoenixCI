@@ -138,6 +138,9 @@ namespace PhoenixCI.FormUI.Prefix4
             //Sheet : rpt_future
             ShowMsg($"{_ProgramID}_1－保證金狀況表 轉檔中...");
             OutputShowMessage = b4001xTemp.WfFutureSheet();
+            //Sheet : fut_3index
+            ShowMsg($"{_ProgramID}_stat－保證金狀況表 轉檔中...");
+            OutputShowMessage = b4001xTemp.WfStat("F", "fut_3index");
          }
          catch (Exception ex) {
             File.Delete(_saveFilePath);

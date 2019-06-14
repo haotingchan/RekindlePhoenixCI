@@ -33,6 +33,7 @@ namespace PhoenixCI.FormUI.PrefixS {
          InitializeComponent();
          daoS0070 = new DS0070();
          daoCod = new COD();
+         _IsProcessRunAsync = true;//非同步執行
 
          Retrieve();
       }

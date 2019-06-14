@@ -56,12 +56,18 @@
             this.SMA_ADJ_RATE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.EWMA_ADJ_RATE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.MAXV_ADJ_RATE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.FUT_SMA_ADJ_RATE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.FUT_EWMA_ADJ_RATE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.FUT_MAXV_ADJ_RATE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.USER_RATE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.OSW_GRP = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.AB_TYPE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.SMA_CM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.EWMA_CM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.MAXV_CM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.FUT_SMA_CM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.FUT_EWMA_CM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.FUT_MAXV_CM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.USER_CM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.gridBand19 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.ADJ_CODE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -85,6 +91,12 @@
             this.SEQ_NO = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.AMT_TYPE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.OP_TYPE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.FUT_SMA_MM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.FUT_SMA_IM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.FUT_EWMA_MM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.FUT_EWMA_IM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.FUT_MAXV_MM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.FUT_MAXV_IM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.repositoryItemTextDateEdit1 = new BaseGround.Widget.RepositoryItemTextDateEdit();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             this.panel1.SuspendLayout();
@@ -436,14 +448,25 @@
             this.SEQ_NO,
             this.AMT_TYPE,
             this.AB_TYPE,
-            this.OP_TYPE});
+            this.OP_TYPE,
+            this.FUT_SMA_ADJ_RATE,
+            this.FUT_SMA_CM,
+            this.FUT_EWMA_ADJ_RATE,
+            this.FUT_EWMA_CM,
+            this.FUT_MAXV_ADJ_RATE,
+            this.FUT_MAXV_CM,
+            this.FUT_SMA_MM,
+            this.FUT_SMA_IM,
+            this.FUT_EWMA_MM,
+            this.FUT_EWMA_IM,
+            this.FUT_MAXV_MM,
+            this.FUT_MAXV_IM});
             this.gvMain.GridControl = this.gcMain;
             this.gvMain.Name = "gvMain";
             this.gvMain.OptionsPrint.PrintHeader = false;
             this.gvMain.OptionsView.ShowColumnHeaders = false;
             this.gvMain.OptionsView.ShowGroupPanel = false;
             this.gvMain.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gvMain_ShowingEditor);
-            this.gvMain.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gvMain_CellValueChanged);
             this.gvMain.CellValueChanging += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gvMain_CellValueChanging);
             // 
             // gridBand11
@@ -492,6 +515,7 @@
             this.DATA_YMD.ColumnEdit = this.repositoryItemTextEdit1;
             this.DATA_YMD.FieldName = "DATA_YMD";
             this.DATA_YMD.Name = "DATA_YMD";
+            this.DATA_YMD.OptionsColumn.AllowEdit = false;
             this.DATA_YMD.Visible = true;
             this.DATA_YMD.Width = 100;
             // 
@@ -524,6 +548,7 @@
             this.KIND_ID.Caption = "KIND_ID";
             this.KIND_ID.FieldName = "KIND_ID";
             this.KIND_ID.Name = "KIND_ID";
+            this.KIND_ID.OptionsColumn.AllowEdit = false;
             this.KIND_ID.Visible = true;
             // 
             // gridBand14
@@ -539,7 +564,7 @@
             this.gridBand1});
             this.gridBand14.Name = "gridBand14";
             this.gridBand14.VisibleIndex = 2;
-            this.gridBand14.Width = 400;
+            this.gridBand14.Width = 793;
             // 
             // gridBand1
             // 
@@ -552,16 +577,22 @@
             this.gridBand1.Columns.Add(this.SMA_ADJ_RATE);
             this.gridBand1.Columns.Add(this.EWMA_ADJ_RATE);
             this.gridBand1.Columns.Add(this.MAXV_ADJ_RATE);
+            this.gridBand1.Columns.Add(this.FUT_SMA_ADJ_RATE);
+            this.gridBand1.Columns.Add(this.FUT_EWMA_ADJ_RATE);
+            this.gridBand1.Columns.Add(this.FUT_MAXV_ADJ_RATE);
             this.gridBand1.Columns.Add(this.USER_RATE);
             this.gridBand1.Columns.Add(this.OSW_GRP);
             this.gridBand1.Columns.Add(this.AB_TYPE);
             this.gridBand1.Columns.Add(this.SMA_CM);
             this.gridBand1.Columns.Add(this.EWMA_CM);
             this.gridBand1.Columns.Add(this.MAXV_CM);
+            this.gridBand1.Columns.Add(this.FUT_SMA_CM);
+            this.gridBand1.Columns.Add(this.FUT_EWMA_CM);
+            this.gridBand1.Columns.Add(this.FUT_MAXV_CM);
             this.gridBand1.Columns.Add(this.USER_CM);
             this.gridBand1.Name = "gridBand1";
             this.gridBand1.VisibleIndex = 0;
-            this.gridBand1.Width = 400;
+            this.gridBand1.Width = 793;
             // 
             // ADJ_RSN
             // 
@@ -575,7 +606,7 @@
             this.ADJ_RSN.OptionsEditForm.ColumnSpan = 4;
             this.ADJ_RSN.OptionsEditForm.UseEditorColRowSpan = false;
             this.ADJ_RSN.Visible = true;
-            this.ADJ_RSN.Width = 400;
+            this.ADJ_RSN.Width = 793;
             // 
             // SMA_ADJ_RATE
             // 
@@ -587,7 +618,7 @@
             this.SMA_ADJ_RATE.OptionsColumn.AllowEdit = false;
             this.SMA_ADJ_RATE.RowIndex = 1;
             this.SMA_ADJ_RATE.Visible = true;
-            this.SMA_ADJ_RATE.Width = 98;
+            this.SMA_ADJ_RATE.Width = 114;
             // 
             // EWMA_ADJ_RATE
             // 
@@ -599,7 +630,7 @@
             this.EWMA_ADJ_RATE.OptionsColumn.AllowEdit = false;
             this.EWMA_ADJ_RATE.RowIndex = 1;
             this.EWMA_ADJ_RATE.Visible = true;
-            this.EWMA_ADJ_RATE.Width = 98;
+            this.EWMA_ADJ_RATE.Width = 114;
             // 
             // MAXV_ADJ_RATE
             // 
@@ -611,7 +642,43 @@
             this.MAXV_ADJ_RATE.OptionsColumn.AllowEdit = false;
             this.MAXV_ADJ_RATE.RowIndex = 1;
             this.MAXV_ADJ_RATE.Visible = true;
-            this.MAXV_ADJ_RATE.Width = 98;
+            this.MAXV_ADJ_RATE.Width = 114;
+            // 
+            // FUT_SMA_ADJ_RATE
+            // 
+            this.FUT_SMA_ADJ_RATE.Caption = "FUT_SMA_ADJ_RATE";
+            this.FUT_SMA_ADJ_RATE.DisplayFormat.FormatString = "P0";
+            this.FUT_SMA_ADJ_RATE.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.FUT_SMA_ADJ_RATE.FieldName = "FUT_SMA_ADJ_RATE";
+            this.FUT_SMA_ADJ_RATE.Name = "FUT_SMA_ADJ_RATE";
+            this.FUT_SMA_ADJ_RATE.OptionsColumn.AllowEdit = false;
+            this.FUT_SMA_ADJ_RATE.RowIndex = 1;
+            this.FUT_SMA_ADJ_RATE.Visible = true;
+            this.FUT_SMA_ADJ_RATE.Width = 114;
+            // 
+            // FUT_EWMA_ADJ_RATE
+            // 
+            this.FUT_EWMA_ADJ_RATE.Caption = "FUT_EWMA_ADJ_RATE";
+            this.FUT_EWMA_ADJ_RATE.DisplayFormat.FormatString = "P0";
+            this.FUT_EWMA_ADJ_RATE.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.FUT_EWMA_ADJ_RATE.FieldName = "FUT_EWMA_ADJ_RATE";
+            this.FUT_EWMA_ADJ_RATE.Name = "FUT_EWMA_ADJ_RATE";
+            this.FUT_EWMA_ADJ_RATE.OptionsColumn.AllowEdit = false;
+            this.FUT_EWMA_ADJ_RATE.RowIndex = 1;
+            this.FUT_EWMA_ADJ_RATE.Visible = true;
+            this.FUT_EWMA_ADJ_RATE.Width = 114;
+            // 
+            // FUT_MAXV_ADJ_RATE
+            // 
+            this.FUT_MAXV_ADJ_RATE.Caption = "FUT_MAXV_ADJ_RATE";
+            this.FUT_MAXV_ADJ_RATE.DisplayFormat.FormatString = "P0";
+            this.FUT_MAXV_ADJ_RATE.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.FUT_MAXV_ADJ_RATE.FieldName = "FUT_MAXV_ADJ_RATE";
+            this.FUT_MAXV_ADJ_RATE.Name = "FUT_MAXV_ADJ_RATE";
+            this.FUT_MAXV_ADJ_RATE.OptionsColumn.AllowEdit = false;
+            this.FUT_MAXV_ADJ_RATE.RowIndex = 1;
+            this.FUT_MAXV_ADJ_RATE.Visible = true;
+            this.FUT_MAXV_ADJ_RATE.Width = 114;
             // 
             // USER_RATE
             // 
@@ -622,7 +689,7 @@
             this.USER_RATE.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.True;
             this.USER_RATE.RowIndex = 1;
             this.USER_RATE.Visible = true;
-            this.USER_RATE.Width = 106;
+            this.USER_RATE.Width = 109;
             // 
             // OSW_GRP
             // 
@@ -648,7 +715,7 @@
             this.SMA_CM.OptionsColumn.AllowEdit = false;
             this.SMA_CM.RowIndex = 2;
             this.SMA_CM.Visible = true;
-            this.SMA_CM.Width = 98;
+            this.SMA_CM.Width = 114;
             // 
             // EWMA_CM
             // 
@@ -660,7 +727,7 @@
             this.EWMA_CM.OptionsColumn.AllowEdit = false;
             this.EWMA_CM.RowIndex = 2;
             this.EWMA_CM.Visible = true;
-            this.EWMA_CM.Width = 98;
+            this.EWMA_CM.Width = 114;
             // 
             // MAXV_CM
             // 
@@ -672,20 +739,56 @@
             this.MAXV_CM.OptionsColumn.AllowEdit = false;
             this.MAXV_CM.RowIndex = 2;
             this.MAXV_CM.Visible = true;
-            this.MAXV_CM.Width = 98;
+            this.MAXV_CM.Width = 114;
+            // 
+            // FUT_SMA_CM
+            // 
+            this.FUT_SMA_CM.Caption = "FUT_SMA_CM";
+            this.FUT_SMA_CM.DisplayFormat.FormatString = "N0";
+            this.FUT_SMA_CM.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.FUT_SMA_CM.FieldName = "FUT_SMA_CM";
+            this.FUT_SMA_CM.Name = "FUT_SMA_CM";
+            this.FUT_SMA_CM.OptionsColumn.AllowEdit = false;
+            this.FUT_SMA_CM.RowIndex = 2;
+            this.FUT_SMA_CM.Visible = true;
+            this.FUT_SMA_CM.Width = 114;
+            // 
+            // FUT_EWMA_CM
+            // 
+            this.FUT_EWMA_CM.Caption = "FUT_EWMA_CM";
+            this.FUT_EWMA_CM.DisplayFormat.FormatString = "N0";
+            this.FUT_EWMA_CM.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.FUT_EWMA_CM.FieldName = "FUT_EWMA_CM";
+            this.FUT_EWMA_CM.Name = "FUT_EWMA_CM";
+            this.FUT_EWMA_CM.OptionsColumn.AllowEdit = false;
+            this.FUT_EWMA_CM.RowIndex = 2;
+            this.FUT_EWMA_CM.Visible = true;
+            this.FUT_EWMA_CM.Width = 114;
+            // 
+            // FUT_MAXV_CM
+            // 
+            this.FUT_MAXV_CM.Caption = "FUT_MAXV_CM";
+            this.FUT_MAXV_CM.DisplayFormat.FormatString = "N0";
+            this.FUT_MAXV_CM.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.FUT_MAXV_CM.FieldName = "FUT_MAXV_CM";
+            this.FUT_MAXV_CM.Name = "FUT_MAXV_CM";
+            this.FUT_MAXV_CM.OptionsColumn.AllowEdit = false;
+            this.FUT_MAXV_CM.RowIndex = 2;
+            this.FUT_MAXV_CM.Visible = true;
+            this.FUT_MAXV_CM.Width = 114;
             // 
             // USER_CM
             // 
             this.USER_CM.AutoFillDown = true;
             this.USER_CM.Caption = "USER_CM";
-            this.USER_CM.DisplayFormat.FormatString = "N0";
+            this.USER_CM.DisplayFormat.FormatString = "#";
             this.USER_CM.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.USER_CM.FieldName = "USER_CM";
             this.USER_CM.Name = "USER_CM";
             this.USER_CM.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.True;
             this.USER_CM.RowIndex = 2;
             this.USER_CM.Visible = true;
-            this.USER_CM.Width = 106;
+            this.USER_CM.Width = 109;
             // 
             // gridBand19
             // 
@@ -869,6 +972,48 @@
             this.OP_TYPE.Name = "OP_TYPE";
             this.OP_TYPE.Visible = true;
             // 
+            // FUT_SMA_MM
+            // 
+            this.FUT_SMA_MM.Caption = "FUT_SMA_MM";
+            this.FUT_SMA_MM.FieldName = "FUT_SMA_MM";
+            this.FUT_SMA_MM.Name = "FUT_SMA_MM";
+            this.FUT_SMA_MM.Visible = true;
+            // 
+            // FUT_SMA_IM
+            // 
+            this.FUT_SMA_IM.Caption = "FUT_SMA_IM";
+            this.FUT_SMA_IM.FieldName = "FUT_SMA_IM";
+            this.FUT_SMA_IM.Name = "FUT_SMA_IM";
+            this.FUT_SMA_IM.Visible = true;
+            // 
+            // FUT_EWMA_MM
+            // 
+            this.FUT_EWMA_MM.Caption = "FUT_EWMA_MM";
+            this.FUT_EWMA_MM.FieldName = "FUT_EWMA_MM";
+            this.FUT_EWMA_MM.Name = "FUT_EWMA_MM";
+            this.FUT_EWMA_MM.Visible = true;
+            // 
+            // FUT_EWMA_IM
+            // 
+            this.FUT_EWMA_IM.Caption = "FUT_EWMA_IM";
+            this.FUT_EWMA_IM.FieldName = "FUT_EWMA_IM";
+            this.FUT_EWMA_IM.Name = "FUT_EWMA_IM";
+            this.FUT_EWMA_IM.Visible = true;
+            // 
+            // FUT_MAXV_MM
+            // 
+            this.FUT_MAXV_MM.Caption = "FUT_MAXV_MM";
+            this.FUT_MAXV_MM.FieldName = "FUT_MAXV_MM";
+            this.FUT_MAXV_MM.Name = "FUT_MAXV_MM";
+            this.FUT_MAXV_MM.Visible = true;
+            // 
+            // FUT_MAXV_IM
+            // 
+            this.FUT_MAXV_IM.Caption = "FUT_MAXV_IM";
+            this.FUT_MAXV_IM.FieldName = "FUT_MAXV_IM";
+            this.FUT_MAXV_IM.Name = "FUT_MAXV_IM";
+            this.FUT_MAXV_IM.Visible = true;
+            // 
             // repositoryItemTextDateEdit1
             // 
             this.repositoryItemTextDateEdit1.Appearance.Options.UseTextOptions = true;
@@ -967,13 +1112,6 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit1;
         private BaseGround.Widget.RepositoryItemTextDateEdit repositoryItemTextDateEdit1;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn USER_RATE;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand11;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand12;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand13;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand14;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand1;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand19;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand20;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckBox cbxCodeY;
         private System.Windows.Forms.CheckBox cbxCode;
@@ -981,5 +1119,24 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private DevExpress.XtraEditors.LookUpEdit ddlAdjust;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit2;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn FUT_SMA_ADJ_RATE;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn FUT_EWMA_ADJ_RATE;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn FUT_MAXV_ADJ_RATE;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn FUT_SMA_CM;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn FUT_EWMA_CM;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn FUT_MAXV_CM;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn FUT_SMA_MM;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn FUT_SMA_IM;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn FUT_EWMA_MM;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn FUT_EWMA_IM;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn FUT_MAXV_MM;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn FUT_MAXV_IM;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand11;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand12;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand13;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand14;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand1;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand19;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand20;
     }
 }
