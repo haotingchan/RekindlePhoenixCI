@@ -549,6 +549,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 }
 
                 ReportHelper _ReportHelper = new ReportHelper(gcMain, _ProgramID, this.Text);
+                CommonReportLandscapeA3 reportLandscape = new CommonReportLandscapeA3();//設定為橫向列印
+                reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
+                reportLandscape.IsHandlePersonVisible = false;
+                reportLandscape.IsManagerVisible = false;
+                _ReportHelper.Create(reportLandscape);
                 _ReportHelper.Export(FileType.PDF, _ReportHelper.FilePath);
                 MessageDisplay.Info("報表儲存完成!");
             }
