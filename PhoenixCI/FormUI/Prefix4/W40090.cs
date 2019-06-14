@@ -583,6 +583,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                string amtType = dr["amt_type"].AsString();
                string prodsubType = dr["prod_subtype"].AsString();
                string prodType = dr["prod_type"].AsString();
+               string adjType = dr["adj_type"].AsString();
 
                Table futTable = CreateTable(rtfDoc, 4, 7);
                #region 幣別 / 比例
@@ -628,6 +629,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                }
 
                string AfterAdjust = amtType == "F" ? "調整後保證金金額" : "調整後保證金適用比例";
+               AfterAdjust = adjType == "3" ? $"調整後保證金金額{Characters.LineBreak}({dr["m_level_name"].AsString()})" : AfterAdjust;
                WordTableCell = futTable[1, 1];
                rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, AfterAdjust);
                futTable.MergeCells(WordTableCell, futTable[1, 3]);
@@ -635,6 +637,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(6.77f);
 
                string BeforeAdjust = amtType == "F" ? "調整前保證金金額" : "調整前保證金適用比例";
+               BeforeAdjust = adjType == "3" ? $"調整後保證金金額{Characters.LineBreak}({dr["cur_level_name"].AsString()})" : BeforeAdjust;
                WordTableCell = futTable[1, 2];
                rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, BeforeAdjust);
                futTable.MergeCells(WordTableCell, futTable[1, 4]);
