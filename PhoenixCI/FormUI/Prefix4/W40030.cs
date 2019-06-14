@@ -828,7 +828,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          /// 將整份文件的英文和數字的字型設成某個字型
          /// </summary>
          protected virtual void SetAllNumberAndEnglishFont(Document doc) {
-            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"[A-Za-z0-9\)\(\.\,]+");
+            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"[A-Za-z0-9\)\(\.\,\%]+");
             DocumentRange[] foundNumberAndEnglish = doc.FindAll(regex);
 
             foreach (DocumentRange r in foundNumberAndEnglish) {
@@ -1478,7 +1478,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   SetFifthCaseResult(dtTemp);
                }
 
-               base.SetSubjectText("貳、臨時動議：");
+               base.SetSubjectText("貳、臨時動議：無");
                base.SetSubjectText("參、散　　會：下午5時30分");
 
                base.SetAllNumberAndEnglishFont(Doc);//設定英數字體
@@ -2536,7 +2536,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   else
                      tmpStr += "降低。";
 
-                  tmpStr += "▲▲▲";
+                  //tmpStr += "▲▲▲";
 
                   if (dtBRF.Rows.Count > 1)
                      SetInnerText(tmpStr, true, 4.17f, 0.6f);
@@ -2560,7 +2560,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   if (drAbroad != null) {
                      string str1 = GetSpot(kindId, "TAIFEX", "cur");
 
-                     tmpStr = $"1. 現行本公司{kindId}結算保證金占契約總值比例{str1}倘{checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3)}" +
+                     tmpStr = $"現行本公司{kindId}結算保證金占契約總值比例{str1}倘{checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3)}" +
                               $"依說明二調整，則本公司{kindId}結算保證金占契約總值比例{str1}。";
 
                      SetInnerText(tmpStr, true, 4.17f, 0.6f);
@@ -3153,7 +3153,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                   tmpStr += $"{c.CheckedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3)}本公司{GenArrayTxt(kindNameSV)}";
                }
-               tmpStr += $"之波動度偵測全距(VSR)變動幅度已達得調整標準之百分比";
+               tmpStr += $"之波動度偵測全距(VSR)變動幅度已達得調整標準之百分比;";
             }
 
             drsSpan.Clear();
@@ -3389,6 +3389,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             drTmp = DtAbroad.Select("m_cm_rate >" + cmRate + " and kind_id = '" + kindId + "' and data_type='2'").ToList();
 
             if (drTmp.Count > 0) {
+               if (re != "") re += "，";
+
                re += "較";
 
                drTmp.ForEach(r => fNameList.Add(r.Field<string>("f_name").AsString()));

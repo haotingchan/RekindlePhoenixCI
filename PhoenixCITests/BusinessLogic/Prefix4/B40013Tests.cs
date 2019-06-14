@@ -22,7 +22,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4.Tests
          reportDirectoryPath = Path.Combine(Environment.CurrentDirectory.Replace("PhoenixCITests", "PhoenixCI"), "Report", DateTime.Now.ToString("yyyyMMdd"));
          Directory.CreateDirectory(reportDirectoryPath);
 
-         string excelTemplateDirectoryPath = Path.Combine(Environment.CurrentDirectory.Replace("PhoenixCITests", "PhoenixCI"), "Excel_Template", "40013.xlsx");
+         string excelTemplateDirectoryPath = Path.Combine(Environment.CurrentDirectory.Replace("PhoenixCITests", "PhoenixCI"), "Excel_Template", "40013old.xlsx");
          destinationFilePath = Path.Combine(reportDirectoryPath, "40013_" + DateTime.Now.ToString("yyyy.MM.dd") + "-" + DateTime.Now.ToString("hh.mm.ss") + "Test.xlsx");
 
          File.Copy(excelTemplateDirectoryPath, destinationFilePath, true);
@@ -30,7 +30,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4.Tests
       [TestInitialize]
       public void Setup()
       {
-         b40013 = new B40013("40013", destinationFilePath, "2018/10/12");
+         b40013 = new B40013("40013", destinationFilePath, "2018/10/11");
       }
 
 

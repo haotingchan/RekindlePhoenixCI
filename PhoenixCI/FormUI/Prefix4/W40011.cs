@@ -166,7 +166,7 @@ namespace PhoenixCI.FormUI.Prefix4
 
       private void EWMAbtn_Click(object sender, EventArgs e)
       {
-         string filepath = CopyExcelTemplateFile("40010",FileType.XLS);
+         string filepath = CopyExcelTemplateFile("40010_EWMA",FileType.XLS);
          try {
             this.Cursor = Cursors.WaitCursor;
             this.Refresh();
@@ -183,5 +183,6 @@ namespace PhoenixCI.FormUI.Prefix4
             EndExport();
          }
       }
+
    }
 }
