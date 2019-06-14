@@ -154,7 +154,7 @@
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(1214, 43);
+            this.ribbonControl.Size = new System.Drawing.Size(1214, 30);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // panel1
@@ -162,7 +162,7 @@
             this.panel1.Controls.Add(this.panel4);
             this.panel1.Controls.Add(this.panel3);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 43);
+            this.panel1.Location = new System.Drawing.Point(0, 30);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1214, 372);
             this.panel1.TabIndex = 3;
@@ -488,7 +488,7 @@
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label1.Location = new System.Drawing.Point(213, 23);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(494, 31);
+            this.label1.Size = new System.Drawing.Size(330, 21);
             this.label1.TabIndex = 14;
             this.label1.Text = "註：交易日及生效期間無須鍵入，除欲修改者";
             // 
@@ -499,7 +499,7 @@
             this.lblDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.lblDate.Location = new System.Drawing.Point(27, 23);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(110, 31);
+            this.lblDate.Size = new System.Drawing.Size(74, 21);
             this.lblDate.TabIndex = 13;
             this.lblDate.Text = "交易日期";
             // 
@@ -518,7 +518,7 @@
             this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtSDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtSDate.Size = new System.Drawing.Size(100, 38);
+            this.txtSDate.Size = new System.Drawing.Size(100, 26);
             this.txtSDate.TabIndex = 12;
             this.txtSDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -527,9 +527,9 @@
             this.panel2.Controls.Add(this.panel6);
             this.panel2.Controls.Add(this.panel5);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 415);
+            this.panel2.Location = new System.Drawing.Point(0, 402);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1214, 362);
+            this.panel2.Size = new System.Drawing.Size(1214, 375);
             this.panel2.TabIndex = 4;
             // 
             // panel6
@@ -539,7 +539,7 @@
             this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel6.Location = new System.Drawing.Point(0, 63);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(1214, 299);
+            this.panel6.Size = new System.Drawing.Size(1214, 312);
             this.panel6.TabIndex = 1;
             // 
             // gcDetail
@@ -551,7 +551,7 @@
             this.gcDetail.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit1,
             this.repositoryItemTextEdit2});
-            this.gcDetail.Size = new System.Drawing.Size(1214, 299);
+            this.gcDetail.Size = new System.Drawing.Size(1214, 312);
             this.gcDetail.TabIndex = 1;
             this.gcDetail.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvDetail});
@@ -1287,7 +1287,7 @@
             this.ADJ_RATE.AppearanceCell.Font = new System.Drawing.Font("微軟正黑體", 10F);
             this.ADJ_RATE.AppearanceCell.Options.UseFont = true;
             this.ADJ_RATE.Caption = "ADJ_RATE";
-            this.ADJ_RATE.DisplayFormat.FormatString = "{0:0.##%}";
+            this.ADJ_RATE.DisplayFormat.FormatString = "{0:0.#}";
             this.ADJ_RATE.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.ADJ_RATE.FieldName = "ADJ_RATE";
             this.ADJ_RATE.Name = "ADJ_RATE";
@@ -1412,7 +1412,7 @@
             // W40072
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1214, 777);
             this.Controls.Add(this.panel2);

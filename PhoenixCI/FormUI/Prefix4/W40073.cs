@@ -288,7 +288,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                 if (dtGrid.Rows.Count == 0) {
                     MessageDisplay.Warning("無明細資料，請重新產生明細");
-                    return ResultStatus.Fail;
+                    return ResultStatus.FailButNext;
                 }
 
                 DataTable dtMGD2; //ids_mgd2
@@ -307,19 +307,19 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         if (ls_stock_id == dtGrid.Rows[f + 1]["STOCK_ID"].AsString() &&
                             ls_level != dtGrid.Rows[f + 1]["M_LEVEL"].AsString()) {
                             MessageDisplay.Error(ls_stock_id + "的級距不一致");
-                            return ResultStatus.Fail;
+                            return ResultStatus.FailButNext;
                         }
                     }
                     //檢查調整前後的級距是否不一致
                     if ( ls_level == dr["M_CUR_LEVEL"].AsString()) {
                         MessageDisplay.Error(ls_stock_id + "," + ls_kind_id + "的調整前後級距一致");
-                        return ResultStatus.Fail;
+                        return ResultStatus.FailButNext;
                     }
                     //檢查調整後級距為從其高且商品類別為選擇權時，是否有輸入保證金B值
                     if (ls_level == "Z" && dr["PROD_TYPE"].AsString()=="O") {
                         if (dr["CM_B"]==DBNull.Value|| dr["MM_B"] == DBNull.Value || dr["IM_B"] == DBNull.Value) {
                             MessageDisplay.Error(ls_stock_id + "," + ls_kind_id + "的保證金B值未輸入完成");
-                            return ResultStatus.Fail;
+                            return ResultStatus.FailButNext;
                         }
                     }
                     //檢查有異動的資料
@@ -351,13 +351,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         DataTable dtSet = dao40071.IsSetOnSameDay(ls_kind_id, ls_ymd, is_adj_type);
                         if (dtSet.Rows.Count == 0) {
                             MessageDisplay.Error("MGD2 " + ls_kind_id + " 無任何資料！");
-                            return ResultStatus.Fail;
+                            return ResultStatus.FailButNext;
                         }
                         li_count = dtSet.Rows[0]["LI_COUNT"].AsInt();
                         ls_adj_type_name = dtSet.Rows[0]["LS_ADJ_TYPE_NAME"].AsString();
                         if (li_count > 0) {
                             MessageDisplay.Error(ls_kind_id + ",交易日(" + ls_ymd + ")在" + ls_adj_type_name + "已有資料");
-                            return ResultStatus.Fail;
+                            return ResultStatus.FailButNext;
                         }
                         /*********************************
                         確認商品是否在同一生效日區間設定過
@@ -370,7 +370,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         ls_trade_ymd = dtSet.Rows[0]["LS_TRADE_YMD"].AsString();
                         if (li_count > 0) {
                             MessageDisplay.Error(ls_kind_id + "," + ls_adj_type_name + ",交易日(" + ls_trade_ymd + ")在同一生效日區間內已有資料");
-                            return ResultStatus.Fail;
+                            return ResultStatus.FailButNext;
                         }
                     }//if (ls_op_type != " ")
                 }//for (int f = 0; f < dtGrid.Rows.Count; f++)
@@ -391,7 +391,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         //刪除已存在資料
                         if (daoMGD2.DeleteMGD2(ls_ymd, is_adj_type, ls_stock_id, ls_kind_id) < 0) {
                             MessageDisplay.Error("MGD2資料刪除失敗");
-                            return ResultStatus.Fail;
+                            return ResultStatus.FailButNext;
                         }
                         if (dr["DATA_FLAG"].AsString() == "Y") {
                             ii_curr_row = dtTemp.Rows.Count;
@@ -458,7 +458,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 ResultData myResultData = daoMGD2.UpdateMGD2(dtTemp);
                 if (myResultData.Status == ResultStatus.Fail) {
                     MessageDisplay.Error("更新資料庫MGD2錯誤! ");
-                    return ResultStatus.Fail;
+                    return ResultStatus.FailButNext;
                 }
 
                 //ids_old.update()
@@ -466,7 +466,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     myResultData = daoMGD2L.UpdateMGD2L(dtMGD2Log);
                     if (myResultData.Status == ResultStatus.Fail) {
                         MessageDisplay.Error("更新資料庫MGD2L錯誤! ");
-                        return ResultStatus.Fail;
+                        return ResultStatus.FailButNext;
                     }
                 }
                 //Write LOGF

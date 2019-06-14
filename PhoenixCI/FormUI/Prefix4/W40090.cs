@@ -568,6 +568,15 @@ namespace PhoenixCI.FormUI.Prefix4 {
          /// <param name="dt"></param>
          protected virtual void WordFut(Document rtfDoc, DataTable dt) {
             //dt = dt.Sort("prod_type A, amt_type A");
+            rtfDoc.AppendText("本次保證金調整情形列表如下：");
+            //設定自型 & 字體大小
+            CharacterProperties characterProps = rtfDoc.BeginUpdateCharacters(rtfDoc.Paragraphs.Last().Range);
+            characterProps.FontSize = 14;
+            characterProps.Bold = false;
+            characterProps.FontName = "標楷體";
+            rtfDoc.EndUpdateCharacters(characterProps);
+
+            rtfDoc.AppendText(Environment.NewLine);
 
             foreach (DataRow dr in dt.Rows) {
                rtfDoc.AppendText(Environment.NewLine);
@@ -674,7 +683,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                #region 填值
                foreach (string c in ColsA) {
-                  string stringVal = amtType == "P" ? dr[c].AsPercent(2) : dr[c].AsString();
+                  string stringVal = amtType == "P" ? dr[c].AsPercent(2) : dr[c].AsDecimal().AsString("#,##0.####");
 
                   WordTableCell = futTable[3, Array.IndexOf(ColsA, c) + 1];
                   rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, stringVal);
@@ -682,7 +691,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                if (dr["prod_type"].AsString() == "O") {
                   foreach (string c in ColsB) {
-                     string stringVal = amtType == "P" ? dr[c].AsPercent(2) : dr[c].AsString();
+                     string stringVal = amtType == "P" ? dr[c].AsPercent(2) : dr[c].AsDecimal().AsString("#,##0.####");
 
                      WordTableCell = futTable[4, Array.IndexOf(ColsB, c) + 1];
                      rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, stringVal);
@@ -690,6 +699,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                }
                #endregion
             }
+
+            SetAllNumberAndEnglishFont(rtfDoc);
          }
 
          protected virtual void WordSpan(DataTable dtSpan) {
@@ -805,7 +816,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             // 預設Table內的字體
             CharacterProperties tableProp = rtfDoc.BeginUpdateCharacters(wordtable.Range);
             tableProp.FontName = "標楷體";
-            tableProp.FontSize = 12;
+            tableProp.FontSize = 11;
             rtfDoc.EndUpdateCharacters(tableProp);
 
             // 垂直置中
@@ -815,6 +826,28 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             return wordtable;
          }
+         
+         /// <summary>
+         /// 將整份文件的英文和數字的字型設成某個字型
+         /// </summary>
+         protected virtual void SetAllNumberAndEnglishFont(Document doc) {
+            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"[A-Za-z0-9\)\(\.\,]+");
+            DocumentRange[] foundNumberAndEnglish = doc.FindAll(regex);
+
+            foreach (DocumentRange r in foundNumberAndEnglish) {
+               SetNumberAndEnglishFontName(doc, r);
+            }
+         }
+
+         /// <summary>
+         /// 設定英文和數字的字型
+         /// </summary>
+         protected virtual void SetNumberAndEnglishFontName(Document doc, DocumentRange docRange) {
+            CharacterProperties cp = doc.BeginUpdateCharacters(docRange);
+            cp.FontName = "Times New Roman";
+            doc.EndUpdateCharacters(cp);
+         }
+
       }
 
       /// <summary>
