@@ -1442,7 +1442,7 @@ namespace BaseGround.Shared {
 
             process.Start();
 
-            process.WaitForExit();
+            //process.WaitForExit();
 
             string output = process.StandardOutput.ReadToEnd();
             string error = process.StandardError.ReadToEnd();
@@ -1452,7 +1452,7 @@ namespace BaseGround.Shared {
                return "N";
             }
 
-            process.Close();
+            //process.Close();
 
             MessageDisplay.Info("(作業代號：" + as_txn_id + ")已執行「" + (ls_oper_bat.Trim()) + "」，請到「" + (ls_oper_bat.Trim()) + "」查輸出結果！");
             return "Y";

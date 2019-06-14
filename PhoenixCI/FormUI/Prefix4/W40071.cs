@@ -543,14 +543,15 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 }
                 //Write LOGF
                 WriteLog("變更資料 ", "Info", "I");
-                //列印
-                ReportHelper _ReportHelper = new ReportHelper(gcDetail, _ProgramID, this.Text);
-                Print(_ReportHelper);
-                //for     i = 1 to dw_1.rowcount()
-                //      dw_1.setitem(i, "op_type", ' ')
-                //next
-                //messagebox(gs_t_result, gs_m_ok, Information!)
-                //wf_clear_ymd()
+                //報表儲存pdf
+                ReportHelper _ReportHelper = new ReportHelper(gcMain, _ProgramID, this.Text);
+                CommonReportLandscapeA3 reportLandscape = new CommonReportLandscapeA3();//設定為橫向列印
+                reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
+                reportLandscape.IsHandlePersonVisible = false;
+                reportLandscape.IsManagerVisible = false;
+                _ReportHelper.Create(reportLandscape);
+                _ReportHelper.Export(FileType.PDF, _ReportHelper.FilePath);
+                MessageDisplay.Info("報表儲存完成!");
             }
             catch (Exception ex) {
                 MessageDisplay.Error("儲存錯誤");
