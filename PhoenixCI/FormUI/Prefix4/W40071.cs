@@ -333,7 +333,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     //只更新有異動的資料
                     if (ls_op_type != " ") {
                         ls_kind_id = dr["KIND_ID"].AsString();
-                        ls_issue_begin_ymd = dr["ISSUE_BEGIN_YMD"].ToString().Replace("/","");
+                        ls_issue_begin_ymd = dr["ISSUE_BEGIN_YMD"].ToString().Replace("/", "");
                         ls_issue_end_ymd = dr["ISSUE_END_YMD"].ToString().Replace("/", "");
                         ls_impl_begin_ymd = dr["IMPL_BEGIN_YMD"].ToString().Replace("/", "");
                         ls_impl_end_ymd = dr["IMPL_END_YMD"].ToString().Replace("/", "");
@@ -842,7 +842,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             foreach (DataRow drInput in dtInput.Rows) {
                 is_chk = "Y";
                 //先把商品為All的值設定好(這段跟PB不同，PB可以直接抓到All，但這邊要把DBNull.Value轉成All)
-                if (drInput["KIND_ID"] == DBNull.Value || drInput["KIND_ID"].AsString() == "") drInput["KIND_ID"] = "All";
+                if ((drInput["KIND_ID"] == DBNull.Value || drInput["KIND_ID"].AsString() == "") &&
+                    dtInput.Rows.IndexOf(drInput) < 7) drInput["KIND_ID"] = "All";
                 //判斷是否有空值
                 for (li_col = 0; li_col < dtInput.Columns.Count; li_col++) {
                     if (drInput[li_col] == DBNull.Value || drInput[li_col].ToString() == "") {
@@ -976,7 +977,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
         /// <param name="e"></param>
         private void repositoryItemTextEdit3_EditValueChanged(object sender, EventArgs e) {
             TextEdit textEditor = (TextEdit)sender;
-            if (textEditor.EditValue.AsString() == ""|| textEditor.EditValue.AsString() ==null) {
+            if (textEditor.EditValue.AsString() == "" || textEditor.EditValue.AsString() == null) {
                 MessageDisplay.Warning("調整後保證金不可為空");
                 textEditor.EditValue = textEditor.OldEditValue;
             }
