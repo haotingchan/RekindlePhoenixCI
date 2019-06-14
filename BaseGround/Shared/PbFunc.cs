@@ -1454,6 +1454,7 @@ namespace BaseGround.Shared {
 
             process.Close();
 
+            MessageDisplay.Info("(作業代號：" + as_txn_id + ")已執行「" + (ls_oper_bat.Trim()) + "」，請到「" + (ls_oper_bat.Trim()) + "」查輸出結果！");
             return "Y";
          } catch (Exception ex) {
             throw ex;
