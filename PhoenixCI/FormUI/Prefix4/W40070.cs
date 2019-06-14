@@ -312,9 +312,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     /**************************************
                     判斷調整前後值不同，相同則警示且無法存檔
                     **************************************/
-                    if (cm == 0) {
-                        MessageDisplay.Error(kindID + ",請輸入保證金金額");
-                        return ResultStatus.FailButNext;
+                    if (adjRsn == "U") {
+                        if (cm == 0) {
+                            MessageDisplay.Error(kindID + ",請輸入保證金金額");
+                            return ResultStatus.FailButNext;
+                        }
                     }
                     if (cm == 0) {
                         MessageDisplay.Error(kindID + ",保證金計算值為空，請選擇其他模型");
