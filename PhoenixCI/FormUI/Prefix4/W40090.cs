@@ -805,7 +805,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             // 預設Table內的字體
             CharacterProperties tableProp = rtfDoc.BeginUpdateCharacters(wordtable.Range);
             tableProp.FontName = "標楷體";
-            tableProp.FontSize = 12;
+            tableProp.FontSize = 11;
             rtfDoc.EndUpdateCharacters(tableProp);
 
             // 垂直置中
