@@ -181,7 +181,7 @@ namespace PhoenixCI.FormUI.PrefixS {
          if (checkChanged()) {
             MessageDisplay.Info("資料有變更, 請先存檔!");
             resultStatus = ResultStatus.FailButNext;
-         } 
+         }
          //else {
          //   resultStatus = Run(args);
          //}
@@ -525,6 +525,23 @@ namespace PhoenixCI.FormUI.PrefixS {
                }
             }
 
+            //檢查設定方式, 有"增減"字樣時, 不可輸入負值
+            RepositoryItemTextEdit txt = (RepositoryItemTextEdit)gv.Columns["SPAN_CONTENT_VALUE"].ColumnEdit;
+            RepositoryItemLookUpEdit lookup = (RepositoryItemLookUpEdit)gv.Columns["SPAN_CONTENT_TYPE"].ColumnEdit;
+
+            foreach (DataRow dr in dt.Rows) {
+               string contentType = dr["SPAN_CONTENT_TYPE"].ToString();
+               string displayTxt = lookup.GetDisplayValueByKeyValue(contentType).ToString();
+
+               if (displayTxt.IndexOf("增減") < 0) {
+
+                  if (dr["SPAN_CONTENT_VALUE"].AsInt() < 0) {
+                     MessageDisplay.Error($"{displayTxt}不可輸入負值 !");
+                     return false;
+                  }
+               }
+            }
+
             foreach (DataColumn column in dt.Columns) {
                if (dt.Rows.OfType<DataRow>().Where(r => r.RowState != DataRowState.Deleted).Any(r => r.IsNull(column))) {
                   MessageDisplay.Error(modules1[i] + "尚未填寫完成");
@@ -591,6 +608,5 @@ namespace PhoenixCI.FormUI.PrefixS {
          SPAN_ZISP_DPSR2,
          SPAN_ZISP_W_TIME
       }
-
    }
 }
