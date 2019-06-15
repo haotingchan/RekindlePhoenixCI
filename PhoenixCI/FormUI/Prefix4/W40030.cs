@@ -525,7 +525,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DateTime implEndYmd = Dt.Rows[0]["IMPL_END_YMD"].AsDateTime("yyyyMMdd");
             DateTime mocfDate = new MOCF().GetMaxOcfDate(implBeginYmd.ToString("yyyyMMdd"), implEndYmd.ToString("yyyyMMdd")).AsDateTime("yyyyMMdd");
 
-            DataTable startDateEndDate = new MOCF().GetStartEndDate(implBeginYmd.ToString("yyyyMMdd"), implEndYmd.ToString("yyyyMMdd"));
+            DataTable startDateEndDate = new MOCF().GetStartEndDate(implBeginYmd.ToString("yyyyMMdd"), implEndYmd.AddDays(-2).ToString("yyyyMMdd"));
             DateTime startDate = startDateEndDate.Rows[0]["LS_START_YMD"].AsDateTime("yyyyMMdd");
             DateTime endDate = startDateEndDate.Rows[0]["LS_END_YMD"].AsDateTime("yyyyMMdd");
 
@@ -694,9 +694,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
          /// 設定內文
          /// </summary>
          /// <param name="str"></param>
-         /// <param name="hasFirstIndent">第一行是否縮排</param>
+         /// <param name="hasFirstIndent">第一行是否凸排</param>
          /// <param name="leftIndent">左縮排</param>
-         /// <param name="fitstLineIndent">第一行縮排</param>
+         /// <param name="fitstLineIndent">第一行位移點數</param>
          protected virtual void SetInnerText(string str, bool hasFirstIndent = true, float leftIndent = 2.98f, float fitstLineIndent = 1.18f,
                                                 bool hasNewLine = true) {
             if (hasNewLine) Doc.AppendText(Environment.NewLine);
@@ -830,7 +830,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          /// 將整份文件的英文和數字的字型設成某個字型
          /// </summary>
          protected virtual void SetAllNumberAndEnglishFont(Document doc) {
-            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"[A-Za-z0-9\)\(\.\,\%]+");
+            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"[A-Za-z0-9\)\(\.\,\%\-]+");
             DocumentRange[] foundNumberAndEnglish = doc.FindAll(regex);
 
             foreach (DocumentRange r in foundNumberAndEnglish) {
@@ -966,7 +966,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                string resolutionStr = string.Format("照案通過，於{0}公告回調金額，並自{1}一般交易時段結束後實施。",
                                                       mocfDate, beginDate.AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3));
 
-               base.SetInnerText(resolutionStr);
+               base.SetInnerText(resolutionStr, false, 2.75f);
                base.SetSubjectText("貳、臨時動議：無");
                base.SetSubjectText("參、散　　會：下午5時30分");
                #endregion
@@ -2138,7 +2138,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      string str1 = GetSpot(kindId, "TAIFEX", "cur");
                      string str2 = GetSpot(kindId, "TAIFEX", "m");
 
-                     tmpStr = $"1. 現行本公司{kindId}結算保證金占契約總值比例{str1}倘{checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3)}" +
+                     tmpStr = $"  現行本公司{kindId}結算保證金占契約總值比例{str1}，倘{checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3)}" +
                               $"依說明二調整，則本公司{kindId}結算保證金占契約總值比例{str2}。";
 
                      SetInnerText(tmpStr, true, 4.17f, 0.6f);
@@ -2580,7 +2580,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      string str1 = GetSpot(kindId, "TAIFEX", "cur");
                      string str2 = GetSpot(kindId, "TAIFEX", "m");
 
-                     tmpStr = $"現行本公司{kindId}結算保證金占契約總值比例{str1}，倘{checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3)}" +
+                     tmpStr = $"  現行本公司{kindId}結算保證金占契約總值比例{str1}，倘{checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3)}" +
                               $"依說明二調整，則本公司{kindId}結算保證金占契約總值比例{str2}。";
 
                      SetInnerText(tmpStr, true, 4.17f, 0.6f);
@@ -3176,7 +3176,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                   tmpStr += $"{c.CheckedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3)}本公司{GenArrayTxt(kindNameSV)}";
                }
-               tmpStr += $"之波動度偵測全距(VSR)變動幅度已達得調整標準之百分比;";
+               tmpStr += $"之波動度偵測全距(VSR)變動幅度已達得調整標準之百分比；";
             }
 
             drsSpan.Clear();
@@ -4095,7 +4095,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             TableTitle = new string[] { "原始保證金金額", "維持保證金金額", "結算保證金金額" };
             RowName = new[] { "保證金" };
 
-            StockName = "，股票期貨標的證券代號";
+            StockName = "，股票期貨標的證券代號 ";
             AbbrName = dr["kind_abbr_name"].AsString();
             KindId = dr["kind_id"].AsString();
             StockId = dr["STOCK_ID"].AsString();
@@ -4132,7 +4132,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             TableTitle = new string[] { "原始保證金", "維持保證金", "結算保證金" };
             RowName = new[] { "保證金" };
 
-            StockName = "，股票期貨標的證券代號";
+            StockName = "，股票期貨標的證券代號 ";
             AbbrName = dr["kind_abbr_name"].AsString();
             KindId = dr["kind_id"].AsString();
             StockId = dr["STOCK_ID"].AsString();
@@ -4171,7 +4171,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             TableTitle = new string[] { "計算賣出選擇權原始保證金之適用金額", "計算賣出選擇權維持保證金之適用金額", "計算賣出選擇權結算保證金之適用金額" };
             RowName = new string[] { "風險保證金（A值）", "風險保證金最低值（B值）" };
 
-            StockName = "，股票選擇權標的證券代號";
+            StockName = "，股票選擇權標的證券代號 ";
             AbbrName = dr["kind_abbr_name"].AsString();
             KindId = dr["kind_id"].AsString();
             StockId = dr["STOCK_ID"].AsString();
@@ -4210,7 +4210,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             TableTitle = new string[] { "計算賣出選擇權原始保證金之適用比例", "計算賣出選擇權維持保證金之適用比例", "計算賣出選擇權結算保證金之適用比例" };
             RowName = new string[] { "風險保證金（A值）", "風險保證金最低值（B值）" };
 
-            StockName = "，股票選擇權標的證券代號";
+            StockName = "，股票選擇權標的證券代號 ";
             AbbrName = dr["kind_abbr_name"].AsString();
             KindId = dr["kind_id"].AsString();
             StockId = dr["STOCK_ID"].AsString();

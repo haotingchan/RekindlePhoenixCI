@@ -175,7 +175,7 @@ namespace PhoenixCI.FormUI.PrefixS {
       }
 
       protected override ResultStatus RunBefore(PokeBall args) {
-         ResultStatus resultStatus = ResultStatus.Fail;
+         ResultStatus resultStatus = ResultStatus.Success;
 
          if (checkChanged()) {
             MessageDisplay.Info("資料有變更, 請先存檔!");
