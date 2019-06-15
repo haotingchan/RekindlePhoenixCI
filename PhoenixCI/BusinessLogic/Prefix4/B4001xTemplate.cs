@@ -153,14 +153,14 @@ namespace PhoenixCI.BusinessLogic.Prefix4
       /// sheet rpt_future
       /// </summary>
       /// <returns></returns>
-      public string WfFutureSheet(int sheetIndex = 0)
+      public virtual string WfFutureSheet(int sheetIndex = 0)
       {
          try {
             //切換Sheet
             _workbook.LoadDocument(_lsFile);
             Worksheet worksheet = _workbook.Worksheets[sheetIndex];
             DateTime emdate = _emDateText.AsDateTime("yyyy/MM/dd");
-            worksheet.Cells["G1"].Value = "資料日期：" + emdate.ToLongDateString().ToString();
+            worksheet.Cells["I1"].Value = "資料日期：" + emdate.ToLongDateString().ToString();
             const int SheetOne = 1;//第一張sheet
 
             //確認有無資料
@@ -171,6 +171,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
 
             StringBuilder ItemOne = new StringBuilder();
             StringBuilder ItemTwo = new StringBuilder();
+            string kindIdOut = "";
 
             foreach (DataRow dr in dt.Rows) {
                //一、現行收取保證金金額：CDEFGH
@@ -193,8 +194,9 @@ namespace PhoenixCI.BusinessLogic.Prefix4
 
 
                //四、	作業事項
-               if (!string.IsNullOrEmpty(dr["MG1_PROD_TYPE"].AsString())) {
-                  string kindIdOut = dr["MGT2_KIND_ID_OUT"].AsString();
+               if (!string.IsNullOrEmpty(dr["MG1_PROD_TYPE"].AsString())
+                  && kindIdOut != dr["MGT2_KIND_ID_OUT"].AsString()) {
+                  kindIdOut = dr["MGT2_KIND_ID_OUT"].AsString();
                   if (dr["MG1_CHANGE_FLAG"].AsString() == "N") {
                      ItemOne.Append("■");
                      ItemTwo.Append("□");
@@ -237,14 +239,14 @@ namespace PhoenixCI.BusinessLogic.Prefix4
       /// sheet rpt_option
       /// </summary>
       /// <returns></returns>
-      public string WfOptionSheet(int sheetIndex = 1)
+      public virtual string WfOptionSheet(int sheetIndex = 1)
       {
          try {
             //切換Sheet
             _workbook.LoadDocument(_lsFile);
             Worksheet worksheet = _workbook.Worksheets[sheetIndex];
             DateTime emdate = _emDateText.AsDateTime("yyyy/MM/dd");
-            worksheet.Cells["G5"].Value = "資料日期：" + emdate.ToLongDateString().ToString();
+            worksheet.Cells["J3"].Value = "資料日期：" + emdate.ToLongDateString().ToString();
             const int SheetTwo = 2;//第二張sheet
 
             //確認有無資料
@@ -256,6 +258,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             StringBuilder ItemOne = new StringBuilder();
             StringBuilder ItemTwo = new StringBuilder();
             StringBuilder ItemThree = new StringBuilder();
+            string kindIdOut = "";
             foreach (DataRow dr in dt.Rows) {
                //一、現行收取保證金金額：CDEFGH
                int R1rowIndex = dr["R1"] != DBNull.Value ? dr["R1"].AsInt() : 0;
@@ -282,8 +285,9 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                }//if (R2rowIndex > 0)
 
                //四、	作業事項
-               if (dr["MG1_AB_TYPE"].AsString() == "A") {
-                  string kindIdOut = dr["MGT2_KIND_ID_OUT"].AsString();
+               if (!string.IsNullOrEmpty(dr["MG1_PROD_TYPE"].AsString())
+                  && kindIdOut != dr["MGT2_KIND_ID_OUT"].AsString()) {
+                  kindIdOut = dr["MGT2_KIND_ID_OUT"].AsString();
                   if (dr["MG1_CHANGE_FLAG"].AsString() == "N") {
                      ItemOne.Append("■");
                      ItemTwo.Append("□");
@@ -339,7 +343,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             worksheet.Cells["A1"].Alignment.WrapText = true;
             //確認有無資料
             DataTable dt = dao.List40011Stat(_emDateText.Replace("/", "")).Sort("seq_no,kind_id ");
-            dt = dt.Filter($"prod_type ='{AsProdType}' and prod_subtype <> 'S' and osw_grp = '{GetOswGrp()}'");
+            dt = dt.Filter($"prod_type ='{AsProdType}' and param_key = 'ETC' and osw_grp like '{GetOswGrp()}%'");
             if (dt.Rows.Count <= 0) {
                return $"{_emDateText},40011_stat－保證金狀況表,無任何資料!";
             }
