@@ -71,7 +71,7 @@ namespace PhoenixCI.FormUI.PrefixS {
          RepositoryItemLookUpEdit cbxContentType = new RepositoryItemLookUpEdit();
          cbxContentType.SetColumnLookUp(dtContentType, "COD_ID", "COD_DESC", TextEditStyles.DisableTextEditor);
          gc_PSR.RepositoryItems.Add(cbxContentType);
-         PSR_SPAN_CONTENT_TYPE.ColumnEdit = cbxContentType;
+         //PSR_SPAN_CONTENT_TYPE.ColumnEdit = cbxContentType;
 
          //grid 細部設定
          foreach (GridColumn col in gv_ZISP.Columns) {
@@ -90,6 +90,7 @@ namespace PhoenixCI.FormUI.PrefixS {
             gc.RepositoryItems.Add(cbxProd);
             gv.Columns["SPAN_CONTENT_CLASS"].ColumnEdit = cbxProdType;
             gv.Columns["SPAN_CONTENT_CC"].ColumnEdit = cbxProd;
+            gv.Columns["SPAN_CONTENT_TYPE"].ColumnEdit = cbxContentType;
             gv.ShownEditor += GridView_ShownEditor;
          }
          gv_ZISP.ShownEditor += ZISP_gridView_ShownEditor;
@@ -387,6 +388,11 @@ namespace PhoenixCI.FormUI.PrefixS {
             DataTable dtHZISP = daoS0072.hzisp(txtStartDate.DateTimeValue.ToString("yyyyMMdd"), txtEndDate.DateTimeValue.ToString("yyyyMMdd"));
 
             gv_ZISP.UpdateCurrentRow();
+
+            if (dtHZISP.Rows.Count <= 0) {
+               MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
+               return;
+            }
 
             for (int i = 0; i < dtHZISP.Rows.Count; i++) {
                gv_ZISP.AddNewRow();
