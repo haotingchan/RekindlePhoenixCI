@@ -22,17 +22,17 @@ namespace PhoenixCI.BusinessLogic.Prefix4.Tests
          reportDirectoryPath = Path.Combine(Environment.CurrentDirectory.Replace("PhoenixCITests", "PhoenixCI"), "Report", DateTime.Now.ToString("yyyyMMdd"));
          Directory.CreateDirectory(reportDirectoryPath);
 
-         string excelTemplateDirectoryPath = Path.Combine(Environment.CurrentDirectory.Replace("PhoenixCITests", "PhoenixCI"), "Excel_Template", "40013old.xlsx");
+         string excelTemplateDirectoryPath = Path.Combine(Environment.CurrentDirectory.Replace("PhoenixCITests", "PhoenixCI"), "Excel_Template", "40013.xlsx");
          destinationFilePath = Path.Combine(reportDirectoryPath, "40013_" + DateTime.Now.ToString("yyyy.MM.dd") + "-" + DateTime.Now.ToString("hh.mm.ss") + "Test.xlsx");
 
          File.Copy(excelTemplateDirectoryPath, destinationFilePath, true);
       }
+
       [TestInitialize]
       public void Setup()
       {
-         b40013 = new B40013("40013", destinationFilePath, "2018/10/11");
+         b40013 = new B40013("40013", destinationFilePath, "2019/05/22");
       }
-
 
       [TestMethod()]
       public void Wf40013FutureSheetTest()
@@ -40,5 +40,13 @@ namespace PhoenixCI.BusinessLogic.Prefix4.Tests
          string msgText = b40013.WfFutureSheet();
          Assert.IsNotNull(msgText);
       }
+
+      [TestMethod()]
+      public void WfStatFTest()
+      {
+         string msgText = b40013.WfStat("F", "fut_3index");
+         Assert.IsNotNull(msgText);
+      }
+
    }
 }

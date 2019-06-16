@@ -132,21 +132,6 @@ namespace PhoenixCI.BusinessLogic.Prefix4
          return 2;
       }
 
-      /// <summary>
-      /// rpt_option工作表 作業項目寫入欄位
-      /// </summary>
-      /// <param name="worksheet"></param>
-      /// <param name="itemRowIndex"></param>
-      /// <param name="item1"></param>
-      /// <param name="Item2"></param>
-      /// <param name="Item3"></param>
-      protected virtual void WriteOptItem(Worksheet worksheet, int itemRowIndex, string item1, string Item2, string Item3 = "")
-      {
-         int dist = OptWorkItemCellDist();
-         worksheet.Cells[$"B{itemRowIndex}"].Value = item1;
-         worksheet.Cells[$"B{itemRowIndex + dist}"].Value = Item2;
-      }
-
       #endregion
 
       /// <summary>
@@ -257,7 +242,6 @@ namespace PhoenixCI.BusinessLogic.Prefix4
 
             StringBuilder ItemOne = new StringBuilder();
             StringBuilder ItemTwo = new StringBuilder();
-            StringBuilder ItemThree = new StringBuilder();
             string kindIdOut = "";
             foreach (DataRow dr in dt.Rows) {
                //一、現行收取保證金金額：CDEFGH
@@ -298,7 +282,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                   }
                   ItemOne.Append(kindIdOut + "　");
                   ItemTwo.Append(kindIdOut + "　");
-               }//if (dr["MG1_AB_TYPE"].AsString() == "A")
+               }//四、	作業事項
 
             }//foreach (DataRow dr in dt.Rows) 
 
@@ -306,7 +290,9 @@ namespace PhoenixCI.BusinessLogic.Prefix4
 
             int itemRowIndex = dao.GetRptLV(_TxnID, SheetTwo);
             if (itemRowIndex > 0) {
-               WriteOptItem(worksheet, itemRowIndex, ItemOne.ToString(), ItemTwo.ToString(), ItemThree.ToString());
+               int dist = OptWorkItemCellDist();
+               worksheet.Cells[$"B{itemRowIndex}"].Value = ItemOne.ToString();
+               worksheet.Cells[$"B{itemRowIndex + dist}"].Value = ItemTwo.ToString();
             }
 
             //save
@@ -343,14 +329,14 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             worksheet.Cells["A1"].Alignment.WrapText = true;
             //確認有無資料
             DataTable dt = dao.List40011Stat(_emDateText.Replace("/", "")).Sort("seq_no,kind_id ");
-            dt = dt.Filter($"prod_type ='{AsProdType}' and param_key = 'ETC' and osw_grp like '{GetOswGrp()}%'");
+            dt = dt.Filter($"prod_type ='{AsProdType}' and prod_subtype <> 'S' and osw_grp like '{GetOswGrp()}%'");
             if (dt.Rows.Count <= 0) {
                return $"{_emDateText},40011_stat－保證金狀況表,無任何資料!";
             }
 
             //共42欄位 取前37欄位
             for (int k = 0; k < 5; k++) {
-               dt.Columns.Remove(dt.Columns[33].ColumnName);//刪除後面5欄
+               dt.Columns.Remove(dt.Columns[37].ColumnName);//刪除後面5欄
             }
             //寫入資料
             worksheet.Import(dt, false, 2, 0);
