@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Text;
 /// <summary>
 /// john,20190410,保證金狀況表 (Group1)
 /// </summary>
@@ -35,6 +36,115 @@ namespace PhoenixCI.BusinessLogic.Prefix4
       {
          return "1";
       }
+
+      /// <summary>
+      /// sheet rpt_option
+      /// </summary>
+      /// <returns></returns>
+      public override string WfOptionSheet(int sheetIndex = 1)
+      {
+         try {
+            //切換Sheet
+            _workbook.LoadDocument(_lsFile);
+            Worksheet worksheet = _workbook.Worksheets[sheetIndex];
+            DateTime emdate = _emDateText.AsDateTime("yyyy/MM/dd");
+            worksheet.Cells["K3"].Value = "資料日期：" + emdate.ToLongDateString().ToString();
+            const int SheetTwo = 2;//第二張sheet
+
+            //確認有無資料
+            DataTable dt = dao.ListFutOptData(emdate, _TxnID, SheetTwo);
+            if (dt.Rows.Count <= 0) {
+               return $"{_emDateText},{_TxnID}_{SheetTwo}－保證金狀況表,無任何資料!";
+            }
+
+            StringBuilder ItemOne = new StringBuilder();
+            StringBuilder ItemTwo = new StringBuilder();
+            StringBuilder ItemThree = new StringBuilder();
+
+            string kindIdOut = "";
+            string kindIdOut2 = "";
+
+            foreach (DataRow dr in dt.Rows) {
+               //一、現行收取保證金金額：CDEFGH
+               int R1rowIndex = dr["R1"] != DBNull.Value ? dr["R1"].AsInt() : 0;
+
+               if (R1rowIndex > 0) {
+                  if (dr["MG1_AB_TYPE"].AsString() == "B")
+                     R1rowIndex = R1rowIndex + 1;
+
+                  for (int j = 0; j < 3; j++) {
+                     worksheet.Rows[R1rowIndex - 1][(j + 1) * 2].SetValue(dr[j]);
+                  }
+               }//if (R1rowIndex > 0) 
+
+               //二、	本日結算保證金計算：CDEFGH 
+               int R2rowIndex = dr["R2"] != DBNull.Value ? dr["R2"].AsInt() : 0;
+
+               if (R2rowIndex > 0) {
+                  if (dr["MG1_AB_TYPE"].AsString() == "B")
+                     R2rowIndex = R2rowIndex + 1;
+
+                  for (int j = 7 - 1; j < 14; j++) {
+                     worksheet.Rows[R2rowIndex - 1][j - 3].SetValue(dr[j]);
+                  }
+               }//if (R2rowIndex > 0)
+
+               //四、	作業事項 1.2 MG1_MODEL_TYPE大寫
+               if (!string.IsNullOrEmpty(dr["MG1_PROD_TYPE"].AsString())
+                  && kindIdOut != dr["MGT2_KIND_ID_OUT"].AsString()
+                  && dr["MG1_MODEL_TYPE"].AsString() == dr["MG1_MODEL_TYPE"].AsString().ToUpper()) {
+                  kindIdOut = dr["MGT2_KIND_ID_OUT"].AsString();
+                  if (dr["MG1_CHANGE_FLAG"].AsString() == "N") {
+                     ItemOne.Append("■");
+                     ItemTwo.Append("□");
+                  }
+                  else {
+                     ItemOne.Append("□");
+                     ItemTwo.Append("■");
+                  }
+                  ItemOne.Append(kindIdOut + "　");
+                  ItemTwo.Append(kindIdOut + "　");
+               }//作業事項 1.2
+
+               //3.參考期貨資料，以SMA或MAX計算之保證金變動幅度已達 10%得調整標準 MG1_MODEL_TYPE小寫
+               if (!string.IsNullOrEmpty(dr["MG1_PROD_TYPE"].AsString())
+                  && kindIdOut2 != dr["MGT2_KIND_ID_OUT"].AsString()
+                  && dr["MG1_MODEL_TYPE"].AsString() == dr["MG1_MODEL_TYPE"].AsString().ToLower()) {
+                  kindIdOut2 = dr["MGT2_KIND_ID_OUT"].AsString();
+                  ItemThree.Append(dr["MG1_CHANGE_FLAG"].AsString() == "N" ? "□" : "■");
+                  ItemThree.Append(kindIdOut2 + "　");
+               }
+               //3.參考期貨資料，以SMA或MAX計算之保證金變動幅度已達 10%得調整標準
+
+            }//foreach (DataRow dr in dt.Rows) 
+
+            //四、	作業事項
+
+            int itemRowIndex = dao.GetRptLV(_TxnID, SheetTwo);
+            if (itemRowIndex > 0) {
+               int dist = OptWorkItemCellDist();
+               worksheet.Cells[$"B{itemRowIndex}"].Value = ItemOne.ToString();
+               worksheet.Cells[$"B{itemRowIndex + dist}"].Value = ItemTwo.ToString();
+               worksheet.Cells[$"B{itemRowIndex + dist * 2}"].Value = ItemThree.ToString();
+            }
+
+            //save
+            worksheet.ScrollTo(0, 0);
+            //workbook.SaveDocument(_lsFile);
+         }
+         catch (Exception ex) {
+#if DEBUG
+            throw new Exception($"WfOptionSheet:" + ex.Message);
+#else
+            throw ex;
+#endif
+         }
+         finally {
+            _workbook.SaveDocument(_lsFile);
+         }
+         return MessageDisplay.MSG_OK;
+      }
+
 
    }
 }
