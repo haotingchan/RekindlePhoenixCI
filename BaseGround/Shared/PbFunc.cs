@@ -1431,7 +1431,7 @@ namespace BaseGround.Shared {
             //*.Bat 以下指令是確保dos中之上一指令執行完畢繼續下一指令行(dos 為單一視窗),echo XXX
             var processInfo = new ProcessStartInfo(ls_oper_bat);
 
-            processInfo.CreateNoWindow = true;
+            processInfo.CreateNoWindow = false;
 
             processInfo.UseShellExecute = false;
 
