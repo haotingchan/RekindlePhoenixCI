@@ -83,6 +83,7 @@
          this.SPAN_ZISP_DPSR2 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.band10 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.SPAN_ZISP_PRIORITY = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+         this.repositoryItemTextEdit6 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
          this.SPAN_ZISP_USER_ID = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.SPAN_ZISP_W_TIME = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.IS_NEWROW = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -147,6 +148,7 @@
          ((System.ComponentModel.ISupportInitialize)(this.gc_ZISP)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gv_ZISP)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit5)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit6)).BeginInit();
          this.panTabButtonBar.SuspendLayout();
          this.tab_VSR.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gc_VSR)).BeginInit();
@@ -164,12 +166,12 @@
          // 
          this.panParent.Controls.Add(this.panMain);
          this.panParent.Controls.Add(this.panFilter);
-         this.panParent.Size = new System.Drawing.Size(1147, 568);
+         this.panParent.Size = new System.Drawing.Size(1147, 581);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(1147, 43);
+         this.ribbonControl.Size = new System.Drawing.Size(1147, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // panFilter
@@ -182,9 +184,9 @@
          this.panFilter.Controls.Add(this.labDate);
          this.panFilter.Dock = System.Windows.Forms.DockStyle.Top;
          this.panFilter.Font = new System.Drawing.Font("PMingLiU", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.panFilter.Location = new System.Drawing.Point(18, 18);
+         this.panFilter.Location = new System.Drawing.Point(12, 12);
          this.panFilter.Name = "panFilter";
-         this.panFilter.Size = new System.Drawing.Size(1111, 93);
+         this.panFilter.Size = new System.Drawing.Size(1123, 93);
          this.panFilter.TabIndex = 6;
          this.panFilter.TabStop = false;
          // 
@@ -203,7 +205,7 @@
          this.txtEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
          this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtEndDate.Size = new System.Drawing.Size(100, 38);
+         this.txtEndDate.Size = new System.Drawing.Size(100, 26);
          this.txtEndDate.TabIndex = 14;
          this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
@@ -213,7 +215,7 @@
          this.labMemo.AutoSize = true;
          this.labMemo.Location = new System.Drawing.Point(369, 21);
          this.labMemo.Name = "labMemo";
-         this.labMemo.Size = new System.Drawing.Size(1140, 92);
+         this.labMemo.Size = new System.Drawing.Size(744, 60);
          this.labMemo.TabIndex = 13;
          this.labMemo.Text = "備註：\r\n 1.  S0072功能係依設定日期區間及SPAN參數調整內容重新產生SPAN參數檔案，檔案儲存於D:\\SPAN_TEST\\SPN。\r\n 2.  C.跨" +
     "商品價差設定「帶入現行值」，取最接近迄止日期之資料\r\n 3.  本作業每執行一日之資料約為5分鐘，敬請耐心等候。";
@@ -223,7 +225,7 @@
          this.labSpanDesc.AutoSize = true;
          this.labSpanDesc.Location = new System.Drawing.Point(18, 67);
          this.labSpanDesc.Name = "labSpanDesc";
-         this.labSpanDesc.Size = new System.Drawing.Size(258, 23);
+         this.labSpanDesc.Size = new System.Drawing.Size(169, 15);
          this.labSpanDesc.TabIndex = 12;
          this.labSpanDesc.Text = "(2) SPAN參數調整內容：";
          // 
@@ -242,7 +244,7 @@
          this.txtStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtStartDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtStartDate.Size = new System.Drawing.Size(100, 38);
+         this.txtStartDate.Size = new System.Drawing.Size(100, 26);
          this.txtStartDate.TabIndex = 0;
          this.txtStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
@@ -251,7 +253,7 @@
          this.lbl1.AutoSize = true;
          this.lbl1.Location = new System.Drawing.Point(233, 27);
          this.lbl1.Name = "lbl1";
-         this.lbl1.Size = new System.Drawing.Size(22, 23);
+         this.lbl1.Size = new System.Drawing.Size(15, 15);
          this.lbl1.TabIndex = 11;
          this.lbl1.Text = "~";
          // 
@@ -260,7 +262,7 @@
          this.labDate.AutoSize = true;
          this.labDate.Location = new System.Drawing.Point(18, 31);
          this.labDate.Name = "labDate";
-         this.labDate.Size = new System.Drawing.Size(156, 23);
+         this.labDate.Size = new System.Drawing.Size(103, 15);
          this.labDate.TabIndex = 2;
          this.labDate.Text = "(1) 日期區間：";
          // 
@@ -269,19 +271,19 @@
          this.panMain.Controls.Add(this.SpanTabControl);
          this.panMain.Dock = System.Windows.Forms.DockStyle.Fill;
          this.panMain.Font = new System.Drawing.Font("PMingLiU", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.panMain.Location = new System.Drawing.Point(18, 111);
+         this.panMain.Location = new System.Drawing.Point(12, 105);
          this.panMain.Name = "panMain";
-         this.panMain.Size = new System.Drawing.Size(1111, 439);
+         this.panMain.Size = new System.Drawing.Size(1123, 464);
          this.panMain.TabIndex = 7;
          this.panMain.TabStop = false;
          // 
          // SpanTabControl
          // 
          this.SpanTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.SpanTabControl.Location = new System.Drawing.Point(3, 30);
+         this.SpanTabControl.Location = new System.Drawing.Point(3, 21);
          this.SpanTabControl.Name = "SpanTabControl";
          this.SpanTabControl.SelectedTabPage = this.tab_PSR;
-         this.SpanTabControl.Size = new System.Drawing.Size(1105, 406);
+         this.SpanTabControl.Size = new System.Drawing.Size(1117, 440);
          this.SpanTabControl.TabIndex = 2;
          this.SpanTabControl.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.tab_PSR,
@@ -296,7 +298,7 @@
          this.tab_PSR.Controls.Add(this.panPSRgrid);
          this.tab_PSR.Controls.Add(this.panel1);
          this.tab_PSR.Name = "tab_PSR";
-         this.tab_PSR.Size = new System.Drawing.Size(1097, 356);
+         this.tab_PSR.Size = new System.Drawing.Size(1111, 405);
          this.tab_PSR.Text = "A. PSR設定";
          // 
          // panPSRgrid
@@ -305,7 +307,7 @@
          this.panPSRgrid.Dock = System.Windows.Forms.DockStyle.Fill;
          this.panPSRgrid.Location = new System.Drawing.Point(0, 77);
          this.panPSRgrid.Name = "panPSRgrid";
-         this.panPSRgrid.Size = new System.Drawing.Size(1097, 279);
+         this.panPSRgrid.Size = new System.Drawing.Size(1111, 328);
          this.panPSRgrid.TabIndex = 6;
          // 
          // gc_PSR
@@ -317,7 +319,7 @@
          this.gc_PSR.Name = "gc_PSR";
          this.gc_PSR.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit1});
-         this.gc_PSR.Size = new System.Drawing.Size(1097, 279);
+         this.gc_PSR.Size = new System.Drawing.Size(1111, 328);
          this.gc_PSR.TabIndex = 0;
          this.gc_PSR.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_PSR});
@@ -349,8 +351,9 @@
          this.repositoryItemTextEdit1.AllowNullInput = DevExpress.Utils.DefaultBoolean.False;
          this.repositoryItemTextEdit1.AutoHeight = false;
          this.repositoryItemTextEdit1.Mask.BeepOnError = true;
-         this.repositoryItemTextEdit1.Mask.EditMask = "d";
-         this.repositoryItemTextEdit1.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+         this.repositoryItemTextEdit1.Mask.EditMask = "[-+]?[0-9]+(\\.[0-9]{0,4})";
+         this.repositoryItemTextEdit1.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.repositoryItemTextEdit1.Mask.ShowPlaceHolders = false;
          this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
          this.repositoryItemTextEdit1.ShowNullValuePromptWhenFocused = true;
          // 
@@ -413,7 +416,7 @@
          this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
          this.panel1.Location = new System.Drawing.Point(0, 0);
          this.panel1.Name = "panel1";
-         this.panel1.Size = new System.Drawing.Size(1097, 77);
+         this.panel1.Size = new System.Drawing.Size(1111, 77);
          this.panel1.TabIndex = 5;
          // 
          // PSR_btnClear
@@ -448,7 +451,7 @@
          this.tab_IMS.Controls.Add(this.gc_IMS);
          this.tab_IMS.Controls.Add(this.panel2);
          this.tab_IMS.Name = "tab_IMS";
-         this.tab_IMS.Size = new System.Drawing.Size(1216, 612);
+         this.tab_IMS.Size = new System.Drawing.Size(1111, 405);
          this.tab_IMS.Text = "B. 跨月價差設定";
          // 
          // gc_IMS
@@ -460,7 +463,7 @@
          this.gc_IMS.Name = "gc_IMS";
          this.gc_IMS.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit2});
-         this.gc_IMS.Size = new System.Drawing.Size(1216, 535);
+         this.gc_IMS.Size = new System.Drawing.Size(1111, 328);
          this.gc_IMS.TabIndex = 7;
          this.gc_IMS.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_IMS});
@@ -522,8 +525,9 @@
          // repositoryItemTextEdit2
          // 
          this.repositoryItemTextEdit2.AutoHeight = false;
-         this.repositoryItemTextEdit2.Mask.EditMask = "f4";
-         this.repositoryItemTextEdit2.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+         this.repositoryItemTextEdit2.Mask.EditMask = "[-+]?[0-9]+(\\.[0-9]{0,4})";
+         this.repositoryItemTextEdit2.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.repositoryItemTextEdit2.Mask.ShowPlaceHolders = false;
          this.repositoryItemTextEdit2.Name = "repositoryItemTextEdit2";
          // 
          // gridColumn6
@@ -552,7 +556,7 @@
          this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
          this.panel2.Location = new System.Drawing.Point(0, 0);
          this.panel2.Name = "panel2";
-         this.panel2.Size = new System.Drawing.Size(1216, 77);
+         this.panel2.Size = new System.Drawing.Size(1111, 77);
          this.panel2.TabIndex = 6;
          // 
          // IMS_btnClear
@@ -587,7 +591,7 @@
          this.tab_ZISP.Controls.Add(this.panTabGrid);
          this.tab_ZISP.Controls.Add(this.panTabButtonBar);
          this.tab_ZISP.Name = "tab_ZISP";
-         this.tab_ZISP.Size = new System.Drawing.Size(1097, 356);
+         this.tab_ZISP.Size = new System.Drawing.Size(1111, 405);
          this.tab_ZISP.Text = "C. 跨商品價差設定";
          // 
          // panTabGrid
@@ -596,7 +600,7 @@
          this.panTabGrid.Dock = System.Windows.Forms.DockStyle.Fill;
          this.panTabGrid.Location = new System.Drawing.Point(0, 77);
          this.panTabGrid.Name = "panTabGrid";
-         this.panTabGrid.Size = new System.Drawing.Size(1097, 279);
+         this.panTabGrid.Size = new System.Drawing.Size(1111, 328);
          this.panTabGrid.TabIndex = 5;
          // 
          // gc_ZISP
@@ -607,8 +611,9 @@
          this.gc_ZISP.MenuManager = this.ribbonControl;
          this.gc_ZISP.Name = "gc_ZISP";
          this.gc_ZISP.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
-            this.repositoryItemTextEdit5});
-         this.gc_ZISP.Size = new System.Drawing.Size(1097, 279);
+            this.repositoryItemTextEdit5,
+            this.repositoryItemTextEdit6});
+         this.gc_ZISP.Size = new System.Drawing.Size(1111, 328);
          this.gc_ZISP.TabIndex = 0;
          this.gc_ZISP.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_ZISP});
@@ -715,7 +720,7 @@
          // repositoryItemTextEdit5
          // 
          this.repositoryItemTextEdit5.AutoHeight = false;
-         this.repositoryItemTextEdit5.Mask.EditMask = "\\d+";
+         this.repositoryItemTextEdit5.Mask.EditMask = "[0-9]+(\\.[0-9]{0,4})";
          this.repositoryItemTextEdit5.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.repositoryItemTextEdit5.Mask.ShowPlaceHolders = false;
          this.repositoryItemTextEdit5.MaxLength = 4;
@@ -765,11 +770,19 @@
          // SPAN_ZISP_PRIORITY
          // 
          this.SPAN_ZISP_PRIORITY.Caption = "優先順序";
-         this.SPAN_ZISP_PRIORITY.ColumnEdit = this.repositoryItemTextEdit5;
+         this.SPAN_ZISP_PRIORITY.ColumnEdit = this.repositoryItemTextEdit6;
          this.SPAN_ZISP_PRIORITY.FieldName = "SPAN_ZISP_PRIORITY";
          this.SPAN_ZISP_PRIORITY.Name = "SPAN_ZISP_PRIORITY";
          this.SPAN_ZISP_PRIORITY.OptionsColumn.ShowCaption = false;
          this.SPAN_ZISP_PRIORITY.Visible = true;
+         // 
+         // repositoryItemTextEdit6
+         // 
+         this.repositoryItemTextEdit6.AutoHeight = false;
+         this.repositoryItemTextEdit6.Mask.EditMask = "\\d+";
+         this.repositoryItemTextEdit6.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.repositoryItemTextEdit6.Mask.ShowPlaceHolders = false;
+         this.repositoryItemTextEdit6.Name = "repositoryItemTextEdit6";
          // 
          // SPAN_ZISP_USER_ID
          // 
@@ -798,7 +811,7 @@
          this.panTabButtonBar.Dock = System.Windows.Forms.DockStyle.Top;
          this.panTabButtonBar.Location = new System.Drawing.Point(0, 0);
          this.panTabButtonBar.Name = "panTabButtonBar";
-         this.panTabButtonBar.Size = new System.Drawing.Size(1097, 77);
+         this.panTabButtonBar.Size = new System.Drawing.Size(1111, 77);
          this.panTabButtonBar.TabIndex = 4;
          // 
          // ZISP_btnClear
@@ -842,7 +855,7 @@
          this.tab_VSR.Controls.Add(this.gc_VSR);
          this.tab_VSR.Controls.Add(this.panel3);
          this.tab_VSR.Name = "tab_VSR";
-         this.tab_VSR.Size = new System.Drawing.Size(1216, 612);
+         this.tab_VSR.Size = new System.Drawing.Size(1111, 405);
          this.tab_VSR.Text = "D. VSR設定";
          // 
          // gc_VSR
@@ -854,7 +867,7 @@
          this.gc_VSR.Name = "gc_VSR";
          this.gc_VSR.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit3});
-         this.gc_VSR.Size = new System.Drawing.Size(1216, 535);
+         this.gc_VSR.Size = new System.Drawing.Size(1111, 328);
          this.gc_VSR.TabIndex = 9;
          this.gc_VSR.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_VSR});
@@ -916,8 +929,9 @@
          // repositoryItemTextEdit3
          // 
          this.repositoryItemTextEdit3.AutoHeight = false;
-         this.repositoryItemTextEdit3.Mask.EditMask = "f4";
-         this.repositoryItemTextEdit3.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+         this.repositoryItemTextEdit3.Mask.EditMask = "[-+]?[0-9]+(\\.[0-9]{0,4})";
+         this.repositoryItemTextEdit3.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.repositoryItemTextEdit3.Mask.ShowPlaceHolders = false;
          this.repositoryItemTextEdit3.Name = "repositoryItemTextEdit3";
          // 
          // gridColumn14
@@ -946,7 +960,7 @@
          this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
          this.panel3.Location = new System.Drawing.Point(0, 0);
          this.panel3.Name = "panel3";
-         this.panel3.Size = new System.Drawing.Size(1216, 77);
+         this.panel3.Size = new System.Drawing.Size(1111, 77);
          this.panel3.TabIndex = 8;
          // 
          // VSR_btnClear
@@ -981,7 +995,7 @@
          this.tab_SOM.Controls.Add(this.gc_SOM);
          this.tab_SOM.Controls.Add(this.panel4);
          this.tab_SOM.Name = "tab_SOM";
-         this.tab_SOM.Size = new System.Drawing.Size(1216, 612);
+         this.tab_SOM.Size = new System.Drawing.Size(1111, 405);
          this.tab_SOM.Text = "E. SOM設定";
          // 
          // gc_SOM
@@ -993,7 +1007,7 @@
          this.gc_SOM.Name = "gc_SOM";
          this.gc_SOM.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit4});
-         this.gc_SOM.Size = new System.Drawing.Size(1216, 535);
+         this.gc_SOM.Size = new System.Drawing.Size(1111, 328);
          this.gc_SOM.TabIndex = 11;
          this.gc_SOM.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_SOM});
@@ -1055,8 +1069,9 @@
          // repositoryItemTextEdit4
          // 
          this.repositoryItemTextEdit4.AutoHeight = false;
-         this.repositoryItemTextEdit4.Mask.EditMask = "f4";
-         this.repositoryItemTextEdit4.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+         this.repositoryItemTextEdit4.Mask.EditMask = "[-+]?[0-9]+(\\.[0-9]{0,4})";
+         this.repositoryItemTextEdit4.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.repositoryItemTextEdit4.Mask.ShowPlaceHolders = false;
          this.repositoryItemTextEdit4.Name = "repositoryItemTextEdit4";
          // 
          // gridColumn22
@@ -1085,7 +1100,7 @@
          this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
          this.panel4.Location = new System.Drawing.Point(0, 0);
          this.panel4.Name = "panel4";
-         this.panel4.Size = new System.Drawing.Size(1216, 77);
+         this.panel4.Size = new System.Drawing.Size(1111, 77);
          this.panel4.TabIndex = 10;
          // 
          // SOM_btnClear
@@ -1118,7 +1133,7 @@
          // WS0072
          // 
          this.Appearance.Options.UseFont = true;
-         this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
+         this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
          this.ClientSize = new System.Drawing.Size(1147, 611);
          this.Name = "WS0072";
@@ -1148,6 +1163,7 @@
          ((System.ComponentModel.ISupportInitialize)(this.gc_ZISP)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gv_ZISP)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit5)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit6)).EndInit();
          this.panTabButtonBar.ResumeLayout(false);
          this.tab_VSR.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.gc_VSR)).EndInit();
@@ -1266,5 +1282,6 @@
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand4;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand5;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand band10;
+      private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit6;
    }
 }

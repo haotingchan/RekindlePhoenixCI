@@ -46,7 +46,7 @@ WHERE MG41_DATE = :as_trade_date
   AND MG1_CHANGE_FLAG LIKE :as_change_flag
   ORDER BY MG1_SEQ_NO, MG1_KIND_ID
 ) S";
-    
+
          return db.GetDataTable(sql, parms); ;
       }
 
@@ -68,27 +68,29 @@ WHERE MG41_DATE = :as_trade_date
          return "";
       }
 
-      public DataTable GetExportData(string kindId, DateTime sDate,DateTime eDate) {
+      public DataTable GetExportData(string kindId, DateTime sDate, DateTime eDate, string modelType) {
 
          object[] parms = {
                 ":as_kind_id", kindId,
-                ":adt_sdate",sDate,
-                ":adt_edate",eDate
+                ":adt_sdate", sDate,
+                ":adt_edate", eDate,
+                ":as_model_type", modelType
             };
 
-         string sql = @"SELECT ROWNUM ,MG6_DATE,   
-         case when MG6_PROD_TYPE = 'F' and MG6_PROD_SUBTYPE = 'S'  then MG6_SETTLE_PRICE else MG6_PRICE end as MG6_PRICE,   
-         --MG6_PRICE,
-         MG6_RISK,   
-         MG6_CUR_CM,   
-         MG6_CP_CM,   
-         MG6_CHANGE_RANGE,   
-         MG6_ADJ_CM,   
-         MG6_ADJ_RANGE  
-    FROM CI.MG6  
-   WHERE ( TRIM(MG6_KIND_ID) = :as_kind_id ) AND  
-         ( MG6_DATE >= :adt_sdate ) AND  
-         ( MG6_DATE <= :adt_edate )";
+         string sql = @"SELECT ROWNUM, TO_DATE(MG1_YMD,'YYYYMMDD')   AS MG1_DATE,
+           --case when MG1_PROD_TYPE = 'F' and MG1_PROD_SUBTYPE = 'S'  then MG1_SETTLE_PRICE else MG1_PRICE end as MG1_PRICE,
+         MG1_PRICE,   
+         MG1_RISK,   
+         MG1_CUR_CM,   
+         MG1_CP_CM,   
+         MG1_CHANGE_RANGE,   
+         MG1_CM,   
+         MG1_ADJ_RANGE  
+         FROM CI.MG1_3M  
+         WHERE ( MG1_KIND_ID =:as_kind_id ) AND  
+         ( MG1_YMD >= TO_CHAR(:adt_sdate,'YYYYMMDD') ) AND  
+         ( MG1_YMD <= TO_CHAR(:adt_edate,'YYYYMMDD') ) AND
+         (MG1_MODEL_TYPE = :as_model_type)";
 
          return db.GetDataTable(sql, parms); ;
       }
