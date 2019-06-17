@@ -61,12 +61,12 @@
          // 
          // panParent
          // 
-         this.panParent.Size = new System.Drawing.Size(1055, 559);
+         this.panParent.Size = new System.Drawing.Size(1055, 546);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(1055, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(1055, 43);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // panelControl1
@@ -77,7 +77,7 @@
          this.panelControl1.Controls.Add(this.label1);
          this.panelControl1.Controls.Add(this.label2);
          this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
-         this.panelControl1.Location = new System.Drawing.Point(0, 30);
+         this.panelControl1.Location = new System.Drawing.Point(0, 43);
          this.panelControl1.Name = "panelControl1";
          this.panelControl1.Size = new System.Drawing.Size(1055, 147);
          this.panelControl1.TabIndex = 0;
@@ -93,11 +93,12 @@
          this.txtYM.Name = "txtYM";
          this.txtYM.Properties.Appearance.Options.UseTextOptions = true;
          this.txtYM.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtYM.Properties.EditFormat.FormatString = "yyyyMM";
          this.txtYM.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])";
          this.txtYM.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtYM.Properties.Mask.ShowPlaceHolders = false;
          this.txtYM.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtYM.Size = new System.Drawing.Size(144, 26);
+         this.txtYM.Size = new System.Drawing.Size(144, 38);
          this.txtYM.TabIndex = 16;
          this.txtYM.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
@@ -106,7 +107,7 @@
          this.label3.AutoSize = true;
          this.label3.Location = new System.Drawing.Point(243, 73);
          this.label3.Name = "label3";
-         this.label3.Size = new System.Drawing.Size(549, 20);
+         this.label3.Size = new System.Drawing.Size(825, 30);
          this.label3.TabIndex = 13;
          this.label3.Text = "(2)已儲存過之資料不提供刪除功能，只能將成交量設為0，存檔後會自動刪除";
          // 
@@ -115,7 +116,7 @@
          this.label4.AutoSize = true;
          this.label4.Location = new System.Drawing.Point(243, 107);
          this.label4.Name = "label4";
-         this.label4.Size = new System.Drawing.Size(534, 20);
+         this.label4.Size = new System.Drawing.Size(803, 30);
          this.label4.TabIndex = 14;
          this.label4.Text = "(3)在執行造市者統計檔批次時不可存檔(僅適用一般交易，不適用盤後交易)";
          // 
@@ -124,7 +125,7 @@
          this.label1.AutoSize = true;
          this.label1.Location = new System.Drawing.Point(0, 13);
          this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(53, 20);
+         this.label1.Size = new System.Drawing.Size(79, 30);
          this.label1.TabIndex = 11;
          this.label1.Text = "年月 : ";
          // 
@@ -133,7 +134,7 @@
          this.label2.AutoSize = true;
          this.label2.Location = new System.Drawing.Point(243, 13);
          this.label2.Name = "label2";
-         this.label2.Size = new System.Drawing.Size(332, 40);
+         this.label2.Size = new System.Drawing.Size(499, 60);
          this.label2.TabIndex = 12;
          this.label2.Text = "(1)輸入條件「年月」變更後請先按「讀取」，\r\n若與「下方視窗年月」不同則不可新增及存檔";
          // 
@@ -141,9 +142,9 @@
          // 
          this.panelControl2.Controls.Add(this.gcMain);
          this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.panelControl2.Location = new System.Drawing.Point(0, 177);
+         this.panelControl2.Location = new System.Drawing.Point(0, 190);
          this.panelControl2.Name = "panelControl2";
-         this.panelControl2.Size = new System.Drawing.Size(1055, 412);
+         this.panelControl2.Size = new System.Drawing.Size(1055, 399);
          this.panelControl2.TabIndex = 1;
          // 
          // gcMain
@@ -156,7 +157,7 @@
          this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit1,
             this.repositoryItemTextEdit2});
-         this.gcMain.Size = new System.Drawing.Size(1051, 408);
+         this.gcMain.Size = new System.Drawing.Size(1051, 395);
          this.gcMain.TabIndex = 6;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -216,7 +217,7 @@
          // repositoryItemTextEdit2
          // 
          this.repositoryItemTextEdit2.AutoHeight = false;
-         this.repositoryItemTextEdit2.MaxLength = 3;
+         this.repositoryItemTextEdit2.MaxLength = 7;
          this.repositoryItemTextEdit2.Name = "repositoryItemTextEdit2";
          // 
          // MMIQ_ACC_NO
@@ -267,6 +268,7 @@
          this.repositoryItemTextEdit1.AutoHeight = false;
          this.repositoryItemTextEdit1.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
          this.repositoryItemTextEdit1.EditFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+         this.repositoryItemTextEdit1.MaxLength = 10;
          this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
          // 
          // IS_NEWROW
@@ -296,7 +298,7 @@
          // W51060
          // 
          this.Appearance.Options.UseFont = true;
-         this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
+         this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
          this.ClientSize = new System.Drawing.Size(1055, 589);
          this.Controls.Add(this.panelControl2);

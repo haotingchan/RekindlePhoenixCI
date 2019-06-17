@@ -23,7 +23,7 @@ namespace DataObjects.Dao.Together.SpecificDao
                                    MG1_PRICE,MG1_XXX,MG1_RISK,MG1_CP_RISK,MG1_MIN_RISK,
                                    decode(:as_txn_id||'_'||:as_sheet,'40011_2',MG1_CP_CM,MG1_CM) AS MG1_CM,MG1_CUR_CM as MG1_CUR_CM2,MG1_CHANGE_RANGE,
                                    MG1_CHANGE_FLAG,
-                                   MG1_PROD_TYPE,MG1_KIND_ID,MG1_AB_TYPE,R1,decode(MG1_MODEL_TYPE,'S',RPT_LEVEL_3,'M',RPT_LEVEL_4,'E',RPT_LEVEL_CNT) AS R2,SHEET,MGT2_KIND_ID_OUT
+                                   MG1_PROD_TYPE,MG1_KIND_ID,MG1_AB_TYPE,R1,decode(MG1_MODEL_TYPE,'S',RPT_LEVEL_3,'M',RPT_LEVEL_4,'E',RPT_LEVEL_CNT) AS R2,SHEET,MGT2_KIND_ID_OUT,MG1_MODEL_TYPE
                        FROM ci.MG1_3M,ci.MGT2,
                              (SELECT RPT_VALUE AS R_KIND_ID,RPT_LEVEL_1 AS SHEET, RPT_LEVEL_2 AS R1,RPT_LEVEL_3,
                                    RPT_LEVEL_4,RPT_LEVEL_CNT
