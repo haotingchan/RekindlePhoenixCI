@@ -675,17 +675,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
         private void gvMain_CellValueChanging(object sender, CellValueChangedEventArgs e) {
             GridView gv = sender as GridView;
-        }
-
-        private void gvMain_InitNewRow(object sender, InitNewRowEventArgs e) {
-            GridView gv = sender as GridView;
-            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["OP_TYPE"], "I");
-            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["CND_PARAM_KEY"], "%");
-            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["ABROAD"], "          ");
-        }
-
-        private void gvMain_CellValueChanged(object sender, CellValueChangedEventArgs e) {
-            GridView gv = sender as GridView;
             string ls_prod_subtype, ls_prod_type, ls_param_key, ls_abroad, ls_kind_id;
             int ll_found = -1;
             ymd = txtSDate.DateTimeValue.ToString("yyyyMMdd");
@@ -771,6 +760,102 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     gv.SetRowCellValue(e.RowHandle, "IM_B", 0);
                 }
             }
+        }
+
+        private void gvMain_InitNewRow(object sender, InitNewRowEventArgs e) {
+            GridView gv = sender as GridView;
+            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["OP_TYPE"], "I");
+            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["CND_PARAM_KEY"], "%");
+            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["ABROAD"], "          ");
+        }
+
+        private void gvMain_CellValueChanged(object sender, CellValueChangedEventArgs e) {
+            //GridView gv = sender as GridView;
+            //string ls_prod_subtype, ls_prod_type, ls_param_key, ls_abroad, ls_kind_id;
+            //int ll_found = -1;
+            //ymd = txtSDate.DateTimeValue.ToString("yyyyMMdd");
+            //ls_param_key = gv.GetRowCellValue(e.RowHandle, "CND_PARAM_KEY").AsString();
+            //if (e.Column.Name != "OP_TYPE") {
+            //    //如果OP_TYPE是I則固定不變
+            //    if (gv.GetRowCellValue(e.RowHandle, "OP_TYPE").ToString() == " ") gv.SetRowCellValue(e.RowHandle, "OP_TYPE", "U");
+            //}
+            //if (e.Column.Name == "M_LEVEL") {
+            //    //如果改變級距
+            //    string level = e.Value.AsString();
+            //    if (gv.GetRowCellValue(e.RowHandle, "PROD_TYPE").AsString() == "F") {
+            //        DataRow dr = dtFLevel.Select("mgrt1_level = '" + level + "'")[0];
+            //        gv.SetRowCellValue(e.RowHandle, "CM_A", dr["MGRT1_CM_RATE"]);
+            //        gv.SetRowCellValue(e.RowHandle, "MM_A", dr["MGRT1_MM_RATE"]);
+            //        gv.SetRowCellValue(e.RowHandle, "IM_A", dr["MGRT1_IM_RATE"]);
+            //    }
+            //    if (gv.GetRowCellValue(e.RowHandle, "PROD_TYPE").AsString() == "O") {
+            //        DataRow dr = dtOLevel.Select("mgrt1_level = '" + level + "'")[0];
+            //        gv.SetRowCellValue(e.RowHandle, "CM_A", dr["MGRT1_CM_RATE"]);
+            //        gv.SetRowCellValue(e.RowHandle, "MM_A", dr["MGRT1_MM_RATE"]);
+            //        gv.SetRowCellValue(e.RowHandle, "IM_A", dr["MGRT1_IM_RATE"]);
+            //        gv.SetRowCellValue(e.RowHandle, "CM_B", dr["MGRT1_CM_RATE_B"]);
+            //        gv.SetRowCellValue(e.RowHandle, "MM_B", dr["MGRT1_MM_RATE_B"]);
+            //        gv.SetRowCellValue(e.RowHandle, "IM_B", dr["MGRT1_IM_RATE_B"]);
+            //    }
+            //}
+            //if (e.Column.Name == "PROD_SEQ_NO") {
+            //    //如果改變商品類
+            //    DataRow dr = dtProdType.Select("prod_seq_no = '" + e.Value.AsString() + "'")[0];
+            //    gv.SetRowCellValue(e.RowHandle, "KIND_ID", "");
+            //    gv.SetRowCellValue(e.RowHandle, "STOCK_ID", " ");
+            //    gv.SetRowCellValue(e.RowHandle, "M_LEVEL", "");
+            //    gv.SetRowCellValue(e.RowHandle, "PROD_SUBTYPE", dr["CND_PROD_SUBTYPE"]);
+            //    gv.SetRowCellValue(e.RowHandle, "CND_PARAM_KEY", dr["CND_PARAM_KEY"]);
+            //    gv.SetRowCellValue(e.RowHandle, "ABROAD", dr["CND_ABROAD"]);
+            //}
+            //if (e.Column.Name == "KIND_ID") {
+            //    //商品那欄除了下拉選單已外也可手動key入，key入後會檢查是否正確
+            //    //若kind_id值為空(即預設值)，則視為使用者尚未填寫，不在此進行檢核，否則會進入無限迴圈
+            //    //若使用者未輸入kind_id逕行存檔，存檔時仍會再判斷一次
+            //    ls_prod_subtype = gv.GetRowCellValue(e.RowHandle, "PROD_SUBTYPE").AsString();
+            //    ls_abroad = gv.GetRowCellValue(e.RowHandle, "ABROAD").ToString();
+            //    ls_kind_id = gv.GetRowCellValue(e.RowHandle, "KIND_ID").AsString();
+            //    if (ls_kind_id != "") {
+            //        DataTable dtKindCheck = new DataTable();
+            //        if (ls_prod_subtype == "S") {
+            //            if (gv.GetRowCellValue(e.RowHandle, "ADJ_CODE").AsString() == "D") {
+            //                dtKindCheck = dao40071.dddw_pdk_kind_id_40071(ymd, ls_param_key);
+            //                ll_found = dtKindCheck.Rows.IndexOf(dtKindCheck.Select("kind_id = '" + ls_kind_id + "'").FirstOrDefault());
+
+            //            }
+            //            if (gv.GetRowCellValue(e.RowHandle, "ADJ_CODE").AsString() == "Y") {
+            //                dtKindCheck = dao40074.dddw_pdk_kind_id_40074(ls_param_key);
+            //                ll_found = dtKindCheck.Rows.IndexOf(dtKindCheck.Select("kind_id = '" + ls_kind_id + "'").FirstOrDefault());
+            //            }
+            //        }
+            //        else {
+            //            dtKindCheck = dao40071.dddw_mgt2_kind(ls_prod_subtype + "%", ls_abroad);
+            //            ll_found = dtKindCheck.Rows.IndexOf(dtKindCheck.Select("kind_id = '" + ls_kind_id + "'").FirstOrDefault());
+            //        }
+            //        if (ll_found == -1) {
+            //            MessageDisplay.Error("商品代號輸入錯誤");
+            //            gv.SetRowCellValue(e.RowHandle, "KIND_ID", "");
+            //        }
+            //        else {
+            //            gv.SetRowCellValue(e.RowHandle, "PROD_TYPE", dtKindCheck.Rows[ll_found]["PROD_TYPE"]);
+            //            gv.SetRowCellValue(e.RowHandle, "PARAM_KEY", dtKindCheck.Rows[ll_found]["PARAM_KEY"].AsString());
+            //            gv.SetRowCellValue(e.RowHandle, "SEQ_NO", dtKindCheck.Rows[ll_found]["SEQ_NO"]);
+            //        }
+            //    }
+            //}
+            //if (e.Column.Name == "ADJ_CODE") {
+            //    //改變調整狀態(上市/下市)時，//同步公布日期
+            //    if (e.Value.AsString() == "Y") gv.SetRowCellValue(e.RowHandle, "PUB_YMD", is_pre_ymd);
+            //    if (e.Value.AsString() == "D") {
+            //        gv.SetRowCellValue(e.RowHandle, "PUB_YMD", ymd);
+            //        gv.SetRowCellValue(e.RowHandle, "CM_A", 0);
+            //        gv.SetRowCellValue(e.RowHandle, "MM_A", 0);
+            //        gv.SetRowCellValue(e.RowHandle, "IM_A", 0);
+            //        gv.SetRowCellValue(e.RowHandle, "CM_B", 0);
+            //        gv.SetRowCellValue(e.RowHandle, "MM_B", 0);
+            //        gv.SetRowCellValue(e.RowHandle, "IM_B", 0);
+            //    }
+            //}
         }
         #endregion
 
