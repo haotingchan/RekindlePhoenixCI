@@ -40,6 +40,8 @@
          this.gcMain = new DevExpress.XtraGrid.GridControl();
          this.gvMain = new DevExpress.XtraGrid.Views.Grid.GridView();
          this.repositoryItemButtonEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit();
+         this.ModelTypies = new DevExpress.XtraEditors.CheckedListBoxControl();
+         this.label4 = new System.Windows.Forms.Label();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -53,6 +55,7 @@
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemButtonEdit1)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.ModelTypies)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -78,6 +81,8 @@
          // grpxDescription
          // 
          this.grpxDescription.AutoSize = true;
+         this.grpxDescription.Controls.Add(this.label4);
+         this.grpxDescription.Controls.Add(this.ModelTypies);
          this.grpxDescription.Controls.Add(this.radioGroup1);
          this.grpxDescription.Controls.Add(this.oswGrpLookItem);
          this.grpxDescription.Controls.Add(this.label1);
@@ -87,14 +92,14 @@
          this.grpxDescription.Controls.Add(this.lblDate);
          this.grpxDescription.Location = new System.Drawing.Point(9, 3);
          this.grpxDescription.Name = "grpxDescription";
-         this.grpxDescription.Size = new System.Drawing.Size(544, 238);
+         this.grpxDescription.Size = new System.Drawing.Size(544, 325);
          this.grpxDescription.TabIndex = 13;
          this.grpxDescription.TabStop = false;
          this.grpxDescription.Text = "請輸入交易日期";
          // 
          // radioGroup1
          // 
-         this.radioGroup1.Location = new System.Drawing.Point(41, 173);
+         this.radioGroup1.Location = new System.Drawing.Point(40, 260);
          this.radioGroup1.MenuManager = this.ribbonControl;
          this.radioGroup1.Name = "radioGroup1";
          this.radioGroup1.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Default;
@@ -162,6 +167,7 @@
          this.txtDate.Name = "txtDate";
          this.txtDate.Properties.Appearance.Options.UseTextOptions = true;
          this.txtDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtDate.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
          this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtDate.Properties.Mask.ShowPlaceHolders = false;
@@ -182,7 +188,7 @@
          // ExportShow
          // 
          this.ExportShow.AutoSize = true;
-         this.ExportShow.Location = new System.Drawing.Point(5, 242);
+         this.ExportShow.Location = new System.Drawing.Point(5, 331);
          this.ExportShow.Name = "ExportShow";
          this.ExportShow.Size = new System.Drawing.Size(54, 20);
          this.ExportShow.TabIndex = 14;
@@ -197,13 +203,13 @@
          this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
          this.panel1.Location = new System.Drawing.Point(12, 12);
          this.panel1.Name = "panel1";
-         this.panel1.Size = new System.Drawing.Size(847, 274);
+         this.panel1.Size = new System.Drawing.Size(847, 354);
          this.panel1.TabIndex = 15;
          // 
          // label3
          // 
          this.label3.AutoSize = true;
-         this.label3.Location = new System.Drawing.Point(503, 244);
+         this.label3.Location = new System.Drawing.Point(503, 331);
          this.label3.Name = "label3";
          this.label3.Size = new System.Drawing.Size(341, 20);
          this.label3.TabIndex = 16;
@@ -211,7 +217,7 @@
          // 
          // reCountBtn
          // 
-         this.reCountBtn.Location = new System.Drawing.Point(559, 199);
+         this.reCountBtn.Location = new System.Drawing.Point(559, 272);
          this.reCountBtn.Name = "reCountBtn";
          this.reCountBtn.Size = new System.Drawing.Size(135, 42);
          this.reCountBtn.TabIndex = 15;
@@ -222,9 +228,9 @@
          // 
          this.panel2.Controls.Add(this.gcMain);
          this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.panel2.Location = new System.Drawing.Point(12, 286);
+         this.panel2.Location = new System.Drawing.Point(12, 366);
          this.panel2.Name = "panel2";
-         this.panel2.Size = new System.Drawing.Size(847, 293);
+         this.panel2.Size = new System.Drawing.Size(847, 213);
          this.panel2.TabIndex = 16;
          // 
          // gcMain
@@ -236,7 +242,7 @@
          this.gcMain.Name = "gcMain";
          this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemButtonEdit1});
-         this.gcMain.Size = new System.Drawing.Size(847, 293);
+         this.gcMain.Size = new System.Drawing.Size(847, 213);
          this.gcMain.TabIndex = 0;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -252,6 +258,31 @@
          this.repositoryItemButtonEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton()});
          this.repositoryItemButtonEdit1.Name = "repositoryItemButtonEdit1";
+         // 
+         // ModelTypies
+         // 
+         this.ModelTypies.Items.AddRange(new DevExpress.XtraEditors.Controls.CheckedListBoxItem[] {
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("S", "SMA", System.Windows.Forms.CheckState.Checked),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("s", "FUT-SMA", System.Windows.Forms.CheckState.Checked),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("M", "MAXVol"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("m", "FUT-MAXVol"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("E", "EWMA"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("e", "FUT-EWMA")});
+         this.ModelTypies.Location = new System.Drawing.Point(41, 185);
+         this.ModelTypies.MultiColumn = true;
+         this.ModelTypies.Name = "ModelTypies";
+         this.ModelTypies.Size = new System.Drawing.Size(410, 58);
+         this.ModelTypies.SortOrder = System.Windows.Forms.SortOrder.Descending;
+         this.ModelTypies.TabIndex = 17;
+         // 
+         // label4
+         // 
+         this.label4.AutoSize = true;
+         this.label4.Location = new System.Drawing.Point(37, 162);
+         this.label4.Name = "label4";
+         this.label4.Size = new System.Drawing.Size(61, 20);
+         this.label4.TabIndex = 74;
+         this.label4.Text = "模型 ：";
          // 
          // W40041
          // 
@@ -280,6 +311,7 @@
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemButtonEdit1)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.ModelTypies)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -304,5 +336,7 @@
       private DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit repositoryItemButtonEdit1;
       private DevExpress.XtraEditors.SimpleButton reCountBtn;
       private System.Windows.Forms.Label label3;
+      private DevExpress.XtraEditors.CheckedListBoxControl ModelTypies;
+      private System.Windows.Forms.Label label4;
    }
 }

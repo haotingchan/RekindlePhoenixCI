@@ -1,20 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
+using System.IO;
 using BaseGround;
+using BaseGround.Shared;
 using BusinessObjects.Enums;
 using Common;
-using DevExpress.Spreadsheet;
-using DataObjects.Dao.Together.SpecificDao;
-using BaseGround.Shared;
 using DataObjects.Dao.Together;
-using DevExpress.XtraEditors.Repository;
+using DataObjects.Dao.Together.SpecificDao;
+using DevExpress.Spreadsheet;
 using DevExpress.XtraEditors;
-using System.IO;
+using DevExpress.XtraEditors.Controls;
+using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
-
-using System.Drawing;
-using System.Collections.Generic;
 
 namespace PhoenixCI.FormUI.Prefix4 {
    public partial class W40041 : FormParent {
@@ -133,88 +133,90 @@ namespace PhoenixCI.FormUI.Prefix4 {
             Workbook workbook = new Workbook();
 
             foreach (DataRow exportDr in exportDt.Rows) {
-               string kindId = exportDr["MG1_KIND_ID"].AsString();
-               string subType = exportDr["MG1_PROD_SUBTYPE"].AsString();
-               string prodType = exportDr["MG1_PROD_TYPE"].AsString();
-               string newFileName = _ProgramID + "(" + kindId + ")_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".xlsx";
-               int sheetIndex = prodType == "O" ? 2 : 0;
+               foreach (CheckedListBoxItem ch in ModelTypies.CheckedItems) {
+                  string kindId = exportDr["MG1_KIND_ID"].AsString();
+                  string subType = exportDr["MG1_PROD_SUBTYPE"].AsString();
+                  string prodType = exportDr["MG1_PROD_TYPE"].AsString();
+                  string newFileName = _ProgramID + "(" + kindId + ")_" + ch.Description + "_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".xlsx";
+                  int sheetIndex = prodType == "O" ? 2 : 0;
 
-               DataTable importData = dao40041.GetExportData(kindId, exportDr["DATA_SDATE"].AsDateTime(), txtDate.DateTimeValue);
-               DataTable accountingData = dao40041.GetExportData(kindId, exportDr["MG1_SDATE"].AsDateTime(), exportDr["MG1_SDATE"].AsDateTime());
+                  DataTable importData = dao40041.GetExportData(kindId, exportDr["DATA_SDATE"].AsDateTime(), txtDate.DateTimeValue, ch.Value.ToString());
+                  DataTable accountingData = dao40041.GetExportData(kindId, exportDr["MG1_SDATE"].AsDateTime(), exportDr["MG1_SDATE"].AsDateTime(), ch.Value.ToString());
 
-               if (importData == null) {
-                  MessageDisplay.Info($"({kindId })資料不足2筆，無法產出報表!");
-                  result = ResultStatus.FailButNext;
-                  continue;
+                  if (importData == null) {
+                     MessageDisplay.Info($"({kindId }_{ch.Description})資料不足2筆，無法產出報表!");
+                     result = ResultStatus.FailButNext;
+                     continue;
+                  }
+
+                  if (importData.Rows.Count < 2) {
+                     MessageDisplay.Info($"({kindId }_{ch.Description})資料不足2筆，無法產出報表!");
+                     result = ResultStatus.FailButNext;
+                     continue;
+                  }
+
+                  string destinationFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID, newFileName);
+                  destinationFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, destinationFilePath);
+
+                  workbook.LoadDocument(destinationFilePath);
+
+                  #region Write Data
+
+                  Worksheet worksheet = workbook.Worksheets[sheetIndex];
+
+                  worksheet.Cells[2, 2].Value = prodType == "O" ? kindId : kindId + "結算價";
+                  worksheet.Cells[0, 1].Value = accountingData.Rows[0]["MG1_DATE"].AsDateTime();
+
+                  for (int i = 2; i <= accountingData.Columns.Count - 1; i++) {
+                     worksheet.Cells[0, i].Value = accountingData.Rows[0][i].AsDecimal();
+                  }
+                  worksheet.Import(importData, false, 3, 0);
+
+                  //delete empty Rows
+                  Range emptyRa = worksheet.Range[(importData.Rows.Count + 4).ToString() + ":1003"];
+                  emptyRa.Delete(DeleteMode.EntireRow);
+
+                  #endregion
+
+                  #region Gen Figure
+                  sheetIndex = prodType == "O" ? 3 : 1;
+
+                  worksheet = workbook.Worksheets[sheetIndex];
+
+                  if (subType != "S") {
+                     Range ra = worksheet.Range["4:5"];
+                     ra.Delete(DeleteMode.EntireRow);
+                  } else {
+                     worksheet.Cells[4, 1].Value = exportDr["APDK_NAME"].AsString();
+                     worksheet.Cells[4, 2].Value = exportDr["APDK_STOCK_ID"].AsString();
+                     worksheet.Cells[4, 3].Value = exportDr["PID_NAME"].AsString();
+
+                     Range ra = worksheet.Range["2:3"];
+                     ra.Delete(DeleteMode.EntireRow);
+                  }
+
+                  //表頭日期
+                  worksheet.Cells[3, 8].Value = importData.Rows[importData.Rows.Count - 1]["MG1_DATE"].AsDateTime();
+
+                  //填寫圖表資料來源
+                  int count = 2;
+                  for (int f = 7; f >= 6; f--) {
+                     DataRow dataRow = importData.Rows[importData.Rows.Count - count];
+                     count--;
+
+                     worksheet.Cells[f, 1].Value = dataRow[3].AsDecimal();
+                     worksheet.Cells[f, 3].Value = dataRow[2].AsDecimal();
+                     worksheet.Cells[f, 5].Value = dataRow[4].AsDecimal();
+                     worksheet.Cells[f, 6].Value = dataRow[5].AsDecimal();
+                     worksheet.Cells[f, 7].Value = dataRow[6].AsDecimal();
+                     worksheet.Cells[f, 8].Value = dataRow[7].AsDecimal();
+                     worksheet.Cells[f, 9].Value = dataRow[8].AsDecimal();
+                  }
+                  #endregion
+
+                  workbook.SaveDocument(destinationFilePath);
+                  result = ResultStatus.Success;
                }
-
-               if (importData.Rows.Count < 2) {
-                  MessageDisplay.Info($"({kindId })資料不足2筆，無法產出報表!");
-                  result = ResultStatus.FailButNext;
-                  continue;
-               }
-
-               string destinationFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID, newFileName);
-               destinationFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, destinationFilePath);
-
-               workbook.LoadDocument(destinationFilePath);
-
-               #region Write Data
-
-               Worksheet worksheet = workbook.Worksheets[sheetIndex];
-
-               worksheet.Cells[2, 2].Value = prodType == "O" ? kindId : kindId + "結算價";
-               worksheet.Cells[0, 1].Value = accountingData.Rows[0]["MG6_DATE"].AsDateTime();
-
-               for (int i = 2; i <= accountingData.Columns.Count - 1; i++) {
-                  worksheet.Cells[0, i].Value = accountingData.Rows[0][i].AsDecimal();
-               }
-               worksheet.Import(importData, false, 3, 0);
-
-               //delete empty Rows
-               Range emptyRa = worksheet.Range[(importData.Rows.Count + 4).ToString() + ":1003"];
-               emptyRa.Delete(DeleteMode.EntireRow);
-
-               #endregion
-
-               #region Gen Figure
-               sheetIndex = prodType == "O" ? 3 : 1;
-
-               worksheet = workbook.Worksheets[sheetIndex];
-
-               if (subType != "S") {
-                  Range ra = worksheet.Range["4:5"];
-                  ra.Delete(DeleteMode.EntireRow);
-               } else {
-                  worksheet.Cells[4, 1].Value = exportDr["APDK_NAME"].AsString();
-                  worksheet.Cells[4, 2].Value = exportDr["APDK_STOCK_ID"].AsString();
-                  worksheet.Cells[4, 3].Value = exportDr["PID_NAME"].AsString();
-
-                  Range ra = worksheet.Range["2:3"];
-                  ra.Delete(DeleteMode.EntireRow);
-               }
-
-               //表頭日期
-               worksheet.Cells[3, 8].Value = importData.Rows[importData.Rows.Count - 1]["MG6_DATE"].AsDateTime();
-
-               //填寫圖表資料來源
-               int count = 2;
-               for (int f = 7; f >= 6; f--) {
-                  DataRow dataRow = importData.Rows[importData.Rows.Count - count];
-                  count--;
-
-                  worksheet.Cells[f, 1].Value = dataRow[3].AsDecimal();
-                  worksheet.Cells[f, 3].Value = dataRow[2].AsDecimal();
-                  worksheet.Cells[f, 5].Value = dataRow[4].AsDecimal();
-                  worksheet.Cells[f, 6].Value = dataRow[5].AsDecimal();
-                  worksheet.Cells[f, 7].Value = dataRow[6].AsDecimal();
-                  worksheet.Cells[f, 8].Value = dataRow[7].AsDecimal();
-                  worksheet.Cells[f, 9].Value = dataRow[8].AsDecimal();
-               }
-               #endregion
-
-               workbook.SaveDocument(destinationFilePath);
-               result = ResultStatus.Success;
             }
          } catch (Exception ex) {
             ExportShow.Text = "轉檔失敗";
@@ -296,6 +298,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
          }
       }
 
+      /// <summary>
+      /// 重新計算按鈕
+      /// </summary>
+      /// <param name="sender"></param>
+      /// <param name="e"></param>
       private void reCountBtn_Click(object sender, EventArgs e) {
          gvMain.CloseEditor();
          gvMain.UpdateCurrentRow();

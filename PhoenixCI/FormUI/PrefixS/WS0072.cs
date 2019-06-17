@@ -67,10 +67,6 @@ namespace PhoenixCI.FormUI.PrefixS {
          SPAN_ZISP_COM_PROD1.ColumnEdit = cbxProd;
          SPAN_ZISP_COM_PROD2.ColumnEdit = cbxProd;
 
-         DataTable dtContentType = daoCod.ListByCol2("S0072", "PSR_CONTENT_TYPE");
-         RepositoryItemLookUpEdit cbxContentType = new RepositoryItemLookUpEdit();
-         cbxContentType.SetColumnLookUp(dtContentType, "COD_ID", "COD_DESC", TextEditStyles.DisableTextEditor);
-         gc_PSR.RepositoryItems.Add(cbxContentType);
          //PSR_SPAN_CONTENT_TYPE.ColumnEdit = cbxContentType;
 
          //grid 細部設定
@@ -90,7 +86,13 @@ namespace PhoenixCI.FormUI.PrefixS {
             gc.RepositoryItems.Add(cbxProd);
             gv.Columns["SPAN_CONTENT_CLASS"].ColumnEdit = cbxProdType;
             gv.Columns["SPAN_CONTENT_CC"].ColumnEdit = cbxProd;
+
+            DataTable dtContentType = daoCod.ListByCol2("S0072", $"{modules1[i]}_CONTENT_TYPE");
+            RepositoryItemLookUpEdit cbxContentType = new RepositoryItemLookUpEdit();
+            cbxContentType.SetColumnLookUp(dtContentType, "COD_ID", "COD_DESC", TextEditStyles.DisableTextEditor);
+            gc_PSR.RepositoryItems.Add(cbxContentType);
             gv.Columns["SPAN_CONTENT_TYPE"].ColumnEdit = cbxContentType;
+
             gv.ShownEditor += GridView_ShownEditor;
          }
          gv_ZISP.ShownEditor += ZISP_gridView_ShownEditor;
@@ -541,7 +543,7 @@ namespace PhoenixCI.FormUI.PrefixS {
 
                if (displayTxt.IndexOf("增減") < 0) {
 
-                  if (dr["SPAN_CONTENT_VALUE"].AsInt() < 0) {
+                  if (dr["SPAN_CONTENT_VALUE"].AsDecimal() < 0) {
                      MessageDisplay.Error($"{displayTxt}不可輸入負值 !");
                      return false;
                   }
