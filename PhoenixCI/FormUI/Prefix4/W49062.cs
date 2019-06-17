@@ -132,7 +132,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             string rptId;
 
             //1. ready
-            panFilter.Enabled = false;
+            //panFilter.Enabled = false;
             labMsg.Visible = true;
             labMsg.Text = "轉檔中...";
             this.Cursor = Cursors.WaitCursor;
@@ -299,7 +299,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          } catch (Exception ex) {
             WriteLog(ex);
          } finally {
-            panFilter.Enabled = true;
+            //panFilter.Enabled = true;
             labMsg.Text = "";
             labMsg.Visible = false;
             this.Cursor = Cursors.Arrow;
