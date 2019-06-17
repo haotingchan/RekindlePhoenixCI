@@ -128,11 +128,11 @@
          this.lblDate.AutoSize = true;
          this.lblDate.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.lblDate.ForeColor = System.Drawing.Color.Black;
-         this.lblDate.Location = new System.Drawing.Point(37, 46);
+         this.lblDate.Location = new System.Drawing.Point(37, 45);
          this.lblDate.Name = "lblDate";
-         this.lblDate.Size = new System.Drawing.Size(58, 21);
+         this.lblDate.Size = new System.Drawing.Size(90, 21);
          this.lblDate.TabIndex = 2;
-         this.lblDate.Text = "日期：";
+         this.lblDate.Text = "生效日期：";
          // 
          // ExportShow
          // 
