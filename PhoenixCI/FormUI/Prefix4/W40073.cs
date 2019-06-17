@@ -621,7 +621,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 case "MM_B":
                 case "IM_A":
                 case "IM_B":
-                    e.Column.DisplayFormat.FormatString = amt_type == "P" ? "{0:0.###%}" : "#,###";
+                    e.Column.DisplayFormat.FormatString = amt_type == "P" ? "{0:0.##############%}" : "#,##############";
                     break;
             }
         }
@@ -725,7 +725,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             //產生明細檔
             DataTable dtInput = (DataTable)gcMain.DataSource;
-            dtInput.Columns.Remove(dtInput.Columns["CPSORT"]);//把拿來排序的運算欄位刪掉
+            if(dtInput.Columns[dtInput.Columns.Count-1].ColumnName== "CPSORT") dtInput.Columns.Remove(dtInput.Columns["CPSORT"]);//把拿來排序的運算欄位刪掉
             foreach (DataRow drInput in dtInput.Rows) {
                 ls_op_type = "I";
                 ls_stock_id = drInput["STOCK_ID"].ToString();
@@ -775,6 +775,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     dtGrid.ImportRow(drTemp);
                 }
                 dtGrid.AcceptChanges();
+                gcDetail.DataSource = dtGrid;
             }//foreach (DataRow drInput in dtInput.Rows)
 
             //sort("stock_id A prod_type A ")
