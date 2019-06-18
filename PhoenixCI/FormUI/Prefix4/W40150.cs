@@ -69,7 +69,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
             res1 = wf_40150(workbook , SheetNo.DPSR);
             res2 = wf_40152(workbook , SheetNo.VSR);
 
-            //2.3 關閉、儲存檔案
+                //2.3 關閉、儲存檔案
+                if (!res1 && !res2) {
+                    workbook = null;
+                    File.Delete(excelDestinationPath);
+                    labMsg.Visible = false;
+                    return ResultStatus.Fail;
+                }
             workbook.SaveDocument(excelDestinationPath);
             labMsg.Visible = false;
 

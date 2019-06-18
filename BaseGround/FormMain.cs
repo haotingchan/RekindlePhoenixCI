@@ -121,10 +121,10 @@ namespace BaseGround {
             toolStripStatusLabelServerName.Text = GlobalDaoSetting.GetConnectionInfo.ConnectionName;
             toolStripStatusLabelDBName.Text = GlobalDaoSetting.Database;
             toolStripStatusLabelUserName.Text = GlobalInfo.USER_NAME;
-            toolStripStatusLabelVersionNum.Text = new AP().GetMaxVersion();
+            //toolStripStatusLabelVersionNum.Text = new DateTime(2000,1,1).AddDays(Assembly.GetExecutingAssembly().GetName().Version.Build).ToString("yyyy/MM/dd");
+            toolStripStatusLabelVersionNum.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-            
-             this.Text = "交易資訊統計管理系統";
+            this.Text = "交易資訊統計管理系統";
         }
 
         public FormMain(string txnID, string txnName) {
@@ -133,7 +133,7 @@ namespace BaseGround {
             toolStripStatusLabelServerName.Text = GlobalDaoSetting.GetConnectionInfo.ConnectionName;
             toolStripStatusLabelDBName.Text = GlobalDaoSetting.Database;
             toolStripStatusLabelUserName.Text = GlobalInfo.USER_NAME;
-            toolStripStatusLabelVersionNum.Text = new AP().GetMaxVersion();
+            toolStripStatusLabelVersionNum.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
             this.Text = "交易資訊統計管理系統";
 

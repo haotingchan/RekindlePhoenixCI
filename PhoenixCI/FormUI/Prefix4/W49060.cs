@@ -262,7 +262,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   txt += "，";
                }
 
-               txt += string.Format("自{0}起生效。{1}" , issueYmd , Environment.NewLine);
+               txt += string.Format("自{0}起生效。{1}" , effectYmd, Environment.NewLine);
 
                string fileName = _ProgramID + "_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".txt";
                string filePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , fileName);

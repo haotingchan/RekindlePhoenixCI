@@ -78,19 +78,21 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
          base.Export();
 
-         #region 日期檢核
-         //if (!txtStartYMD.IsDate(txtStartYMD.Text , CheckDate.Start)
-         //         || !txtEndYMD.IsDate(txtEndYMD.Text , CheckDate.End)) {
-         //   return ResultStatus.Fail; ;
-         //}
+            #region 日期檢核
+            if (!txtStartYMD.IsDate(txtStartYMD.Text, CheckDate.Start)
+                     || !txtEndYMD.IsDate(txtEndYMD.Text, CheckDate.End)) {
+                labMsg.Visible = false;
+                return ResultStatus.Fail; ;
+            }
 
-         //if (string.Compare(txtStartYMD.Text , txtEndYMD.Text) > 0) {
-         //   MessageDisplay.Error(GlobalInfo.ErrorText , CheckDate.Datedif);
-         //   return ResultStatus.Fail; ;
-         //}
-         #endregion
+            if (string.Compare(txtStartYMD.Text, txtEndYMD.Text) > 0) {
+                MessageDisplay.Error(CheckDate.Datedif, GlobalInfo.ErrorText);
+                labMsg.Visible = false;
+                return ResultStatus.Fail; ;
+            }
+            #endregion
 
-         if (chkGroup.CheckedItemsCount == 0) {
+            if (chkGroup.CheckedItemsCount == 0) {
             MessageDisplay.Error("請勾選要匯出的報表!");
             return ResultStatus.Fail; ;
          }
