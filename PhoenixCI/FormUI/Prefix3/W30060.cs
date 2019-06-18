@@ -140,6 +140,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 ShowMsg("轉檔有錯誤");
                 throw ex;
             }
+            finally {
+                this.Cursor = Cursors.Arrow;
+                this.Refresh();
+                Thread.Sleep(5);
+            }
             return ResultStatus.Success;
         }
 

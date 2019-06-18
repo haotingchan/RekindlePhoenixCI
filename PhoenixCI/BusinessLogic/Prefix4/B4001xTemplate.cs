@@ -182,15 +182,19 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                if (!string.IsNullOrEmpty(dr["MG1_PROD_TYPE"].AsString())
                   && kindIdOut != dr["MGT2_KIND_ID_OUT"].AsString()) {
                   kindIdOut = dr["MGT2_KIND_ID_OUT"].AsString();
-                  if (dr["MG1_CHANGE_FLAG"].AsString() == "N") {
-                     ItemOne.Append("■");
-                     ItemTwo.Append("□");
-                  }
-                  else {
-                     ItemOne.Append("□");
-                     ItemTwo.Append("■");
-                  }
+                  bool ySMA = dt.AsEnumerable().AsParallel().WithDegreeOfParallelism(2)
+                              .Where(r => r.Field<object>("MGT2_KIND_ID_OUT").AsString() == kindIdOut
+                              && r.Field<object>("MG1_MODEL_TYPE").AsString() == "S"
+                              && r.Field<object>("MG1_CHANGE_FLAG").AsString() == "Y").Any();
+                  bool yMAX = dt.AsEnumerable().AsParallel().WithDegreeOfParallelism(2)
+                              .Where(r => r.Field<object>("MGT2_KIND_ID_OUT").AsString() == kindIdOut
+                              && r.Field<object>("MG1_MODEL_TYPE").AsString() == "M"
+                              && r.Field<object>("MG1_CHANGE_FLAG").AsString() == "Y").Any();
+                  //1.以SMA及MAX計算之保證金變動幅度均未達 10% 得調整標準
+                  ItemOne.Append(!ySMA && !yMAX ? "■" : "□");
                   ItemOne.Append(kindIdOut + "　");
+                  //2.以SMA或MAX計算之保證金變動幅度已達 10%得調整標準
+                  ItemTwo.Append(ySMA || yMAX ? "■" : "□");
                   ItemTwo.Append(kindIdOut + "　");
                }//if (!string.IsNullOrEmpty(dr["MG1_PROD_TYPE"].AsString()))
 
@@ -272,15 +276,19 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                if (!string.IsNullOrEmpty(dr["MG1_PROD_TYPE"].AsString())
                   && kindIdOut != dr["MGT2_KIND_ID_OUT"].AsString()) {
                   kindIdOut = dr["MGT2_KIND_ID_OUT"].AsString();
-                  if (dr["MG1_CHANGE_FLAG"].AsString() == "N") {
-                     ItemOne.Append("■");
-                     ItemTwo.Append("□");
-                  }
-                  else {
-                     ItemOne.Append("□");
-                     ItemTwo.Append("■");
-                  }
+                  bool ySMA = dt.AsEnumerable().AsParallel().WithDegreeOfParallelism(2)
+                              .Where(r => r.Field<object>("MGT2_KIND_ID_OUT").AsString() == kindIdOut
+                              && r.Field<object>("MG1_MODEL_TYPE").AsString() == "S"
+                              && r.Field<object>("MG1_CHANGE_FLAG").AsString() == "Y").Any();
+                  bool yMAX = dt.AsEnumerable().AsParallel().WithDegreeOfParallelism(2)
+                              .Where(r => r.Field<object>("MGT2_KIND_ID_OUT").AsString() == kindIdOut
+                              && r.Field<object>("MG1_MODEL_TYPE").AsString() == "M"
+                              && r.Field<object>("MG1_CHANGE_FLAG").AsString() == "Y").Any();
+                  //1.以SMA及MAX計算之保證金變動幅度均未達 10% 得調整標準
+                  ItemOne.Append(!ySMA && !yMAX ? "■" : "□");
                   ItemOne.Append(kindIdOut + "　");
+                  //2.以SMA或MAX計算之保證金變動幅度已達 10%得調整標準
+                  ItemTwo.Append(ySMA || yMAX ? "■" : "□");
                   ItemTwo.Append(kindIdOut + "　");
                }//四、	作業事項
 

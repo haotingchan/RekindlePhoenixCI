@@ -21,7 +21,7 @@ namespace DataObjects.Dao.Together.SpecificDao
          string sql = @"
                      SELECT MG1_CUR_CM,MG1_CUR_MM,MG1_CUR_IM,MG1_CUR_CM_RATE,MG1_CUR_MM_RATE,MG1_CUR_IM_RATE,
                                    MG1_PRICE,MG1_XXX,MG1_RISK,MG1_CP_RISK,MG1_MIN_RISK,
-                                   decode(:as_txn_id||'_'||:as_sheet,'40011_2',MG1_CP_CM,MG1_CM) AS MG1_CM,MG1_CUR_CM as MG1_CUR_CM2,MG1_CHANGE_RANGE,
+                                   MG1_CP_CM,MG1_CUR_CM as MG1_CUR_CM2,MG1_CHANGE_RANGE,
                                    MG1_CHANGE_FLAG,
                                    MG1_PROD_TYPE,MG1_KIND_ID,MG1_AB_TYPE,R1,decode(MG1_MODEL_TYPE,'S',RPT_LEVEL_3,'M',RPT_LEVEL_4,'E',RPT_LEVEL_CNT) AS R2,SHEET,MGT2_KIND_ID_OUT,MG1_MODEL_TYPE
                        FROM ci.MG1_3M,ci.MGT2,
