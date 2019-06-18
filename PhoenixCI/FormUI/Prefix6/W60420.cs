@@ -128,7 +128,7 @@ namespace PhoenixCI.FormUI.Prefix6 {
                     rowNum = rowNum + 1;
                     sheet1.Cells[rowNum, 0].Value = dr60410_1a["cod_name"].AsString();
                     sheet1.Cells[rowNum, 1].Value = (DateTime.ParseExact(dr60410_1a["ymd"].AsString(), "yyyyMMdd", CultureInfo.InvariantCulture)).ToString("yyyy/M/d").AsDateTime();
-                    sheet1.Cells[rowNum, 2].Value = dr60410_1a["tot_cnt"].AsInt();
+                    sheet1.Cells[rowNum, 2].SetValue(dr60410_1a["tot_cnt"]);
                 }
             }
             sheet1.ScrollTo(0, 0);
@@ -148,16 +148,16 @@ namespace PhoenixCI.FormUI.Prefix6 {
                     rowNum = rowNum + 1;
                     sheet4.Cells[rowNum, 0].Value = dr60410_1a["cod_name"].AsString();
                     sheet4.Cells[rowNum, 1].Value = (DateTime.ParseExact(dr60410_1a["ymd"].AsString(), "yyyyMMdd", CultureInfo.InvariantCulture)).ToString("yyyy/M/d").AsDateTime();
-                    sheet4.Cells[rowNum, 2].Value = dr60410_1a["cnt25"].AsInt();
-                    sheet4.Cells[rowNum, 3].Value = dr60410_1a["weight25"].AsDecimal();
-                    sheet4.Cells[rowNum, 4].Value = dr60410_1a["avg_amt_cls_usd"].AsDecimal();
-                    sheet4.Cells[rowNum, 5].Value = dr60410_1a["avg_amt_cls_tw"].AsDecimal();
-                    sheet4.Cells[rowNum, 6].Value = dr60410_1a["avg_amt_mth_usd"].AsDecimal();
-                    sheet4.Cells[rowNum, 7].Value = dr60410_1a["avg_amt_mth_tw"].AsDecimal();
-                    sheet4.Cells[rowNum, 8].Value = dr60410_1a["day_amt_cls_usd"].AsDecimal();
-                    sheet4.Cells[rowNum, 9].Value = dr60410_1a["day_amt_cls_tw"].AsDecimal();
-                    sheet4.Cells[rowNum, 10].Value = dr60410_1a["day_amt_mth_usd"].AsDecimal();
-                    sheet4.Cells[rowNum, 11].Value = dr60410_1a["day_amt_mth_tw"].AsDecimal();
+                    sheet4.Cells[rowNum, 2].SetValue(dr60410_1a["cnt25"]);
+                    sheet4.Cells[rowNum, 3].SetValue(dr60410_1a["weight25"]);
+                    sheet4.Cells[rowNum, 4].SetValue(dr60410_1a["avg_amt_cls_usd"]);
+                    sheet4.Cells[rowNum, 5].SetValue(dr60410_1a["avg_amt_cls_tw"]);
+                    sheet4.Cells[rowNum, 6].SetValue(dr60410_1a["avg_amt_mth_usd"]);
+                    sheet4.Cells[rowNum, 7].SetValue(dr60410_1a["avg_amt_mth_tw"]);
+                    sheet4.Cells[rowNum, 8].SetValue(dr60410_1a["day_amt_cls_usd"]);
+                    sheet4.Cells[rowNum, 9].SetValue(dr60410_1a["day_amt_cls_tw"]);
+                    sheet4.Cells[rowNum, 10].SetValue(dr60410_1a["day_amt_mth_usd"]);
+                    sheet4.Cells[rowNum, 11].SetValue(dr60410_1a["day_amt_mth_tw"]);
                 }
             }
             sheet4.ScrollTo(0, 0);
@@ -177,16 +177,16 @@ namespace PhoenixCI.FormUI.Prefix6 {
                     rowNum = rowNum + 1;
                     sheet5.Cells[rowNum, 0].Value = dr60410_1a["cod_name"].AsString();
                     sheet5.Cells[rowNum, 1].Value = (DateTime.ParseExact(dr60410_1a["ymd"].AsString(), "yyyyMMdd", CultureInfo.InvariantCulture)).ToString("yyyy/M/d").AsDateTime();
-                    sheet5.Cells[rowNum, 2].Value = dr60410_1a["cnt25"].AsInt();
-                    sheet5.Cells[rowNum, 3].Value = dr60410_1a["weight25"].AsDecimal();
-                    sheet5.Cells[rowNum, 4].Value = dr60410_1a["avg_amt_cls_usd"].AsDecimal();
-                    sheet5.Cells[rowNum, 5].Value = dr60410_1a["avg_amt_cls_tw"].AsDecimal();
-                    sheet5.Cells[rowNum, 6].Value = dr60410_1a["avg_amt_mth_usd"].AsDecimal();
-                    sheet5.Cells[rowNum, 7].Value = dr60410_1a["avg_amt_mth_tw"].AsDecimal();
-                    sheet5.Cells[rowNum, 8].Value = dr60410_1a["day_amt_cls_usd"].AsDecimal();
-                    sheet5.Cells[rowNum, 9].Value = dr60410_1a["day_amt_cls_tw"].AsDecimal();
-                    sheet5.Cells[rowNum, 10].Value = dr60410_1a["day_amt_mth_usd"].AsDecimal();
-                    sheet5.Cells[rowNum, 11].Value = dr60410_1a["day_amt_mth_tw"].AsDecimal();
+                    sheet5.Cells[rowNum, 2].SetValue(dr60410_1a["cnt25"]);
+                    sheet5.Cells[rowNum, 3].SetValue(dr60410_1a["weight25"]);
+                    sheet5.Cells[rowNum, 4].SetValue(dr60410_1a["avg_amt_cls_usd"]);
+                    sheet5.Cells[rowNum, 5].SetValue(dr60410_1a["avg_amt_cls_tw"]);
+                    sheet5.Cells[rowNum, 6].SetValue(dr60410_1a["avg_amt_mth_usd"]);
+                    sheet5.Cells[rowNum, 7].SetValue(dr60410_1a["avg_amt_mth_tw"]);
+                    sheet5.Cells[rowNum, 8].SetValue(dr60410_1a["day_amt_cls_usd"]);
+                    sheet5.Cells[rowNum, 9].SetValue(dr60410_1a["day_amt_cls_tw"]);
+                    sheet5.Cells[rowNum, 10].SetValue(dr60410_1a["day_amt_mth_usd"]);
+                    sheet5.Cells[rowNum, 11].SetValue(dr60410_1a["day_amt_mth_tw"]);
                 }
             }
             sheet5.ScrollTo(0, 0);
@@ -227,9 +227,9 @@ namespace PhoenixCI.FormUI.Prefix6 {
                 rowNum = rowNum + 1;
                 sheet2.Cells[rowNum, 0].Value = dr60410_2["cod_name"].AsString();
                 sheet2.Cells[rowNum, 1].Value = dr60410_2["TSE3_YMD"].AsDateTime().ToString("yyyy/M/d").AsDateTime();
-                sheet2.Cells[rowNum, 2].Value = dr60410_2["TSE3_SID"].AsInt();
+                sheet2.Cells[rowNum, 2].SetValue(dr60410_2["TSE3_SID"]);
                 sheet2.Cells[rowNum, 3].Value = dr60410_2["TFXMS_SNAME"].AsString();
-                sheet2.Cells[rowNum, 4].Value = dr60410_2["INDEX_WEIGHT"].AsDecimal();
+                sheet2.Cells[rowNum, 4].SetValue(dr60410_2["INDEX_WEIGHT"]);
             }
             sheet2.ScrollTo(0, 0);
             #endregion
@@ -266,11 +266,11 @@ namespace PhoenixCI.FormUI.Prefix6 {
                 rowNum = rowNum + 1;
                 sheet3.Cells[rowNum, 0].Value = dr60412_3["cod_name"].AsString();
                 sheet3.Cells[rowNum, 1].Value = dr60412_3["TSE3_DATE"].AsDateTime().ToString("yyyy/M/d").AsDateTime();
-                sheet3.Cells[rowNum, 2].Value = dr60412_3["TSE5_25_WEIGHT"].AsDecimal();
-                sheet3.Cells[rowNum, 3].Value = dr60412_3["TSE3_DESC_SEQ"].AsInt();
-                sheet3.Cells[rowNum, 4].Value = dr60412_3["TSE3_SID"].AsInt();
-                sheet3.Cells[rowNum, 5].Value = dr60412_3["TFXMS_SNAME"].AsString();
-                sheet3.Cells[rowNum, 6].Value = dr60412_3["INDEX_WEIGHT"].AsDecimal();
+                sheet3.Cells[rowNum, 2].SetValue(dr60412_3["TSE5_25_WEIGHT"]);
+                sheet3.Cells[rowNum, 3].SetValue(dr60412_3["TSE3_DESC_SEQ"]);
+                sheet3.Cells[rowNum, 4].SetValue(dr60412_3["TSE3_SID"]);
+                sheet3.Cells[rowNum, 5].SetValue(dr60412_3["TFXMS_SNAME"]);
+                sheet3.Cells[rowNum, 6].SetValue(dr60412_3["INDEX_WEIGHT"]);
             }
             sheet3.ScrollTo(0, 0);
             #endregion
