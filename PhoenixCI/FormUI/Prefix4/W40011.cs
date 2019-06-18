@@ -7,6 +7,11 @@ using System.Threading;
 using PhoenixCI.BusinessLogic.Prefix4;
 using System.IO;
 using Common;
+using System.Data;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using DataObjects.Dao.Together;
 /// <summary>
 /// john,20190410,保證金狀況表 (Group1) 
 /// </summary>
@@ -24,6 +29,10 @@ namespace PhoenixCI.FormUI.Prefix4
       {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
+
+         OCFG daoOCFG = new OCFG();
+         oswGrpLookItem.SetDataTable(daoOCFG.ListAll(), "OSW_GRP", "OSW_GRP_NAME", DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor, null);
+         oswGrpLookItem.EditValue = daoOCFG.f_gen_osw_grp();
       }
 
       public override ResultStatus BeforeOpen()
@@ -37,7 +46,7 @@ namespace PhoenixCI.FormUI.Prefix4
       {
          base.Open();
 #if DEBUG
-         emDate.Text = "2018/10/12";
+         emDate.Text = "2019/05/22";
 #else
          emDate.DateTimeValue = DateTime.Now;
 #endif
@@ -113,8 +122,7 @@ namespace PhoenixCI.FormUI.Prefix4
       private bool OutputChooseMessage(string str)
       {
          DialogResult ChooseResult = MessageDisplay.Choose(str);
-         if (ChooseResult == DialogResult.No)
-         {
+         if (ChooseResult == DialogResult.No) {
             EndExport();
             return false;
          }
@@ -130,13 +138,11 @@ namespace PhoenixCI.FormUI.Prefix4
 
       protected override ResultStatus Export()
       {
-         if (!StartExport())
-         {
+         if (!StartExport()) {
             File.Delete(_saveFilePath);
             return ResultStatus.Fail;
          }
-         try
-         {
+         try {
             //Sheet : rpt_future
             ShowMsg($"{_ProgramID}_1－保證金狀況表 轉檔中...");
             OutputShowMessage = b40011.WfFutureSheet();
@@ -150,39 +156,90 @@ namespace PhoenixCI.FormUI.Prefix4
             ShowMsg("40011_stat－保證金狀況表 轉檔中...");
             OutputShowMessage = b40011.WfStat("O", "opt_3index");
          }
-         catch (Exception ex)
-         {
+         catch (Exception ex) {
             File.Delete(_saveFilePath);
             WriteLog(ex);
             return ResultStatus.Fail;
          }
-         finally
-         {
+         finally {
             EndExport();
          }
 
          return ResultStatus.Success;
       }
 
+      private static string CopyWemaTemplateFile(string kindID)
+      {
+         string filepath;
+         string tmpDate1 = DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss");
+         string targetFileName = $"40010_{ kindID}_{tmpDate1}.xlsm";
+         string newExcelFileName = PbFunc.wf_copy_file("40010", "40010", targetFileName);
+         filepath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, newExcelFileName);
+         return filepath;
+      }
+
       private void EWMAbtn_Click(object sender, EventArgs e)
       {
-         string filepath = CopyExcelTemplateFile("40010_EWMA",FileType.XLS);
+         if (!emDate.IsDate(emDate.Text, "日期輸入錯誤")) {
+            //is_chk = "Y";
+            return;
+         }
+
+         B40010 b40010 = new B40010(emDate.Text);
+         string oswGrp = oswGrpLookItem.EditValue.AsString() + "%";
+
+         string filepath = "";
+         string[] pathList = null;
          try {
+            DataTable dtMGR2 = b40010.MGR2DataClone();
+            DataTable dt = b40010.ProductList(oswGrp);
+            int prodCount = dt.Rows.Count;
+            pathList = new string[prodCount];
+            if (prodCount <= 0)
+               MessageDisplay.Info(emDate.Text + MessageDisplay.MSG_NO_DATA);
+
             this.Cursor = Cursors.WaitCursor;
-            this.Refresh();
-            Thread.Sleep(5);
-            ShowMsg("EWMA 計算中...");
-            OutputShowMessage = new B40010(emDate.Text).ComputeEWMA(filepath,"F");
-            MessageDisplay.Info(MessageDisplay.MSG_IMPORT);
+            ShowMsg($"WEMA 計算中...");
+
+            DataRow dataRow = null;
+
+            int k = 0;
+            var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount / 2 };
+            Parallel.ForEach(dt.AsEnumerable(), options, (dr, state) => {
+               string kindID = dr["MG1_KIND_ID"].AsString();
+
+               filepath = CopyWemaTemplateFile(kindID);
+               pathList[k++] = filepath;
+               dataRow = b40010.ComputeEWMA(filepath, kindID);
+
+               if (dataRow == null)
+                  return;
+
+               dtMGR2.ImportRow(dataRow); ;
+            });
+
+            if (dtMGR2.Rows.Count > 0) {
+               //Save
+               b40010.MGR2Save(dtMGR2);
+               MessageDisplay.Info(MessageDisplay.MSG_IMPORT);
+            }
+            else {
+               MessageDisplay.Info($"{emDate.Text},40011_stat－保證金狀況表,無任何資料!");
+            }
+
          }
          catch (Exception ex) {
-            File.Delete(filepath);
-            throw ex;
+            foreach (string path in pathList) {
+               if (File.Exists(path))
+                  File.Delete(path);
+            }
+            WriteLog(ex);
          }
          finally {
             EndExport();
          }
       }
+
 
    }
 }
