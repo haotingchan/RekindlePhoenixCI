@@ -132,13 +132,16 @@ namespace PhoenixCI.FormUI.Prefix5 {
             dtChange = dtCurrent.GetChanges();
             ResultData result = new MMFO().UpdateData(dtChange);
             if (result.Status == ResultStatus.Fail) {
+                    MessageDisplay.Error("儲存錯誤");
                return ResultStatus.Fail;
             }
             PrintOrExportChangedByKen(gcMain , dtForAdd , dtForDeleted , dtForModified);
 
          } catch (Exception ex) {
-            throw ex;
-         }
+                MessageDisplay.Error("儲存錯誤");
+                WriteLog(ex,"",false);
+                return ResultStatus.FailButNext;
+            }
          return ResultStatus.Success;
 
       }

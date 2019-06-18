@@ -1,4 +1,5 @@
 ﻿using BusinessObjects;
+using System;
 using System.Data;
 /// <summary>
 /// Winni, 2019/3/19
@@ -38,8 +39,8 @@ ORDER BY MGT4_KIND_ID , MGT4_TYPE
       }
 
       public ResultData UpdateData(DataTable inputData) {
-
-         string sql = @"
+            try {
+                string sql = @"
 SELECT 
     MGT4_KIND_ID, 
     MGT4_TYPE, 
@@ -56,6 +57,10 @@ FROM CI.MGT4
 ";
 
          return db.UpdateOracleDB(inputData , sql);
-      }
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
    }
 }

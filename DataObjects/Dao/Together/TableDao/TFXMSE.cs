@@ -13,8 +13,8 @@ namespace DataObjects.Dao.Together {
       /// <param name="inputData"></param>
       /// <returns></returns>
       public ResultData UpdateData(DataTable inputData) {
-
-         string sql = @"
+            try {
+                string sql = @"
 SELECT 
     TFXMSE_PID,
     TFXMSE_SID,   
@@ -31,6 +31,10 @@ SELECT
 FROM CI.TFXMSE  
 ";
          return db.UpdateOracleDB(inputData , sql);
-      }
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
    }
 }

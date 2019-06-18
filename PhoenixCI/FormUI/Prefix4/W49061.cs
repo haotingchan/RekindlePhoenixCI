@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 
 /// <summary>
 /// Winni, 2019/3/21
@@ -191,13 +192,26 @@ namespace PhoenixCI.FormUI.Prefix4 {
          return ResultStatus.Fail;
       }
 
-      protected override ResultStatus Save(PokeBall poke) {
-         try {
-            DataTable dtCurrent = (DataTable)gcMain.DataSource;
-            gvMain.CloseEditor();
-            gvMain.UpdateCurrentRow();
+        private bool checkComplete(DataTable dtSource) {
 
-            DataTable dtChange = dtCurrent.GetChanges();
+            foreach (DataColumn column in dtSource.Columns) {
+                if (dtSource.Rows.OfType<DataRow>().Where(r => r.RowState != DataRowState.Deleted).Any(r => r.IsNull(column))) {
+                    MessageDisplay.Error("尚未填寫完成");
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        protected override ResultStatus Save(PokeBall poke) {
+         try {
+                gvMain.CloseEditor();
+                gvMain.UpdateCurrentRow();
+                DataTable dtCurrent = (DataTable)gcMain.DataSource;
+
+                //檢查是否有空值
+                //if (!checkComplete(dtCurrent)) return ResultStatus.FailButNext;
+                DataTable dtChange = dtCurrent.GetChanges();
             DataTable dtForAdd = dtCurrent.GetChanges(DataRowState.Added);
             DataTable dtForModified = dtCurrent.GetChanges(DataRowState.Modified);
             DataTable dtForDeleted = dtCurrent.GetChanges(DataRowState.Deleted);
@@ -249,8 +263,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             AfterSaveForPrint(gcMain , dtForAdd , dtForDeleted , dtForModified);
 
          } catch (Exception ex) {
-            WriteLog(ex);
-         }
+                MessageDisplay.Error("儲存錯誤");
+                WriteLog(ex, "", false);
+                return ResultStatus.FailButNext;
+            }
          return ResultStatus.Success;
       }
 
@@ -347,8 +363,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
          gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MGT8_AMT_TYPE"] , "A");
          gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MGT8_STRUTURE"] , " ");
          gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["IS_NEWROW"] , 1);
+            gvMain.SetRowCellValue(GridControl.NewItemRowHandle, gvMain.Columns["MGT8_XXX"], 0);
 
-         gvMain.Focus();
+            gvMain.Focus();
          gvMain.FocusedColumn = gvMain.Columns[0];
 
          return ResultStatus.Success;

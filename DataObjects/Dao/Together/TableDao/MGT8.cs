@@ -1,4 +1,5 @@
 ﻿using BusinessObjects;
+using System;
 using System.Data;
 /// <summary>
 /// Winni, 2019/3/19
@@ -73,8 +74,8 @@ ORDER BY UPPER(MGT8_F_ID)
       /// <param name="inputData"></param>
       /// <returns></returns>
       public ResultData UpdateData(DataTable inputData) {
-
-         string sql = @"
+            try {
+                string sql = @"
 SELECT 
    MGT8_F_ID,  
    MGT8_F_EXCHANGE, 
@@ -94,6 +95,10 @@ FROM CI.MGT8
 ";
 
          return db.UpdateOracleDB(inputData , sql);
-      }
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
    }
 }
