@@ -36,5 +36,10 @@ namespace PhoenixCI.BusinessLogic.Prefix4
          return "7";
       }
 
+      protected override int FutWorkItemCellDist()
+      {
+         return 2;
+      }
+
    }
 }

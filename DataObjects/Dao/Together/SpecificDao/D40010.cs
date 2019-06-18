@@ -96,6 +96,22 @@ namespace DataObjects.Dao.Together.SpecificDao
          return db.GetDataTable(sql, parms);
       }
 
+      public DataTable ListProd(string as_eymd,string as_osw_grp)
+      {
+         object[] parms = {
+                ":as_eymd",as_eymd,
+                ":as_osw_grp",as_osw_grp
+            };
+
+         string sql = @"select MG1_KIND_ID
+                           from ci.MG1_3M 
+                           where MG1_OSW_GRP like :as_osw_grp 
+                           and MG1_MODEL_TYPE='S' and MG1_AB_TYPE in('A','-')  
+                           and MG1_YMD = :as_eymd";
+
+         return db.GetDataTable(sql, parms);
+      }
+
       public void UpdateMGR2_SMA(DataTable inputData)
       {
          try {
@@ -119,6 +135,8 @@ namespace DataObjects.Dao.Together.SpecificDao
       DataTable ListRowDataSheet(string as_eymd, string as_kind_id);
 
       void UpdateMGR2_SMA(DataTable inputData);
+
+      DataTable ListProd(string as_eymd);
    }
 
 }
