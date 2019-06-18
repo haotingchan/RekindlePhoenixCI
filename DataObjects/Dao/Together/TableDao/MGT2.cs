@@ -1,4 +1,5 @@
 ﻿using BusinessObjects;
+using System;
 using System.Data;
 /// <summary>
 /// Winni, 2019/4/3
@@ -12,8 +13,8 @@ namespace DataObjects.Dao.Together.TableDao {
       /// <param name="inputData"></param>
       /// <returns></returns>
       public ResultData UpdateData(DataTable inputData) {
-
-         string sql = @"
+            try {
+                string sql = @"
 SELECT  
 	MGT2_KIND_ID,
 	MGT2_KIND_ID_OUT,
@@ -40,7 +41,11 @@ FROM CI.MGT2
 ORDER BY MGT2_SEQ_NO , MGT2_KIND_ID
 ";
 
-         return db.UpdateOracleDB(inputData , sql);
+                return db.UpdateOracleDB(inputData, sql);
+            }
+            catch(Exception ex) {
+                throw new Exception("儲存錯誤");
+            }
       }
 
       public string GetldValue(string prod_type,string kind_id) {

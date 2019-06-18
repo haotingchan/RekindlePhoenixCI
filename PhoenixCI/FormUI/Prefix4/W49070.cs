@@ -188,7 +188,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   string maxSpnsRate = dr["SPT1_MAX_SPNS_RATE"].AsString();
                   if (string.IsNullOrEmpty(kind1) || string.IsNullOrEmpty(kind2)) {
                      MessageDisplay.Error("請輸入商品名稱");
-                     return ResultStatus.Fail;
+                     return ResultStatus.FailButNext;
                   }
 
                   if (kind2 != "-" && string.IsNullOrEmpty(maxSpnsRate)) {
@@ -214,7 +214,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             ResultData result = daoSPT1.UpdateSPT1(dtChange); //使用處理並行違規的function
             if (result.Status == ResultStatus.Fail) {
                MessageDisplay.Error("儲存失敗");
-               return ResultStatus.Fail;
+               return ResultStatus.FailButNext;
             }
             AfterSaveForPrint(gcMain , dtForAdd , dtForDeleted , dtForModified);
 

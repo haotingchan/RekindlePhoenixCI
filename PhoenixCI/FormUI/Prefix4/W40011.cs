@@ -199,7 +199,7 @@ namespace PhoenixCI.FormUI.Prefix4
                MessageDisplay.Info(emDate.Text + MessageDisplay.MSG_NO_DATA);
 
             this.Cursor = Cursors.WaitCursor;
-            ShowMsg($"WEMA 計算中...");
+            ShowMsg($"EWMA 計算中...");
 
             DataRow dataRow = null;
 
@@ -219,11 +219,17 @@ namespace PhoenixCI.FormUI.Prefix4
             });
 
             if (dtMGR2.Rows.Count > 0) {
+               ShowMsg($"EWMA 寫入資料庫...");
                //Save
-               b40010.MGR2Save(dtMGR2);
+               b40010.MGR2SaveToDB(dtMGR2, oswGrp);
                MessageDisplay.Info(MessageDisplay.MSG_IMPORT);
             }
             else {
+               //刪除空檔案
+               foreach (string path in pathList) {
+                  if (File.Exists(path))
+                     File.Delete(path);
+               }
                MessageDisplay.Info($"{emDate.Text},40011_stat－保證金狀況表,無任何資料!");
             }
 

@@ -152,7 +152,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             dtChange = dtCurrent.GetChanges();
             ResultData result = new SPNT2().UpdateData(dtChange);
             if (result.Status == ResultStatus.Fail) {
-               return ResultStatus.Fail;
+               return ResultStatus.FailButNext;
             }
 
          } catch (Exception ex) {

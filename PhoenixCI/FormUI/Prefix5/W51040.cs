@@ -15,6 +15,7 @@ using System.IO;
 using BaseGround.Shared;
 using DataObjects.Dao.Together.SpecificDao;
 using BaseGround;
+using DevExpress.Utils;
 /// <summary>
 /// Lukas, 2019/1/4
 /// </summary>
@@ -35,6 +36,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
             this.Text = _ProgramID + "─" + _ProgramName;
             txtMonth.DateTimeValue = GlobalInfo.OCF_DATE;
             dao51040 = new D51040();
+            gvMain.AppearancePrint.HeaderPanel.Font = new Font("Microsoft YaHei", 12);
+            gvMain.AppearancePrint.HeaderPanel.TextOptions.WordWrap = WordWrap.Wrap;
         }
 
         protected override ResultStatus Open() {
@@ -117,7 +120,10 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 base.Save(gcMain);
 
                 DataTable dt = (DataTable)gcMain.DataSource;
-
+                if (gvMain.RowCount == 0) {
+                    MessageDisplay.Error("下方視窗無資料無法進行存檔，請先執行「讀取／預覽」!");
+                    return ResultStatus.Fail;
+                }
                 DataTable dtChange = dt.GetChanges();
                 DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
                 DataTable dtForModified = dt.GetChanges(DataRowState.Modified);

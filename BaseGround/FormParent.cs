@@ -848,7 +848,7 @@ namespace BaseGround {
          if (dt.GetChanges() != null && dt.GetChanges().Rows.Count != 0) {
             foreach (DataRow row in dt.GetChanges().Rows) {
                if (row.RowState == DataRowState.Deleted) {
-                  myDialogResult = MessageDisplay.Choose("資料有刪除，是否要存檔?");
+                  myDialogResult = MessageDisplay.Choose("未完成存檔，請問是否要離開作業?");
                   return myDialogResult;
                }
 
@@ -856,7 +856,7 @@ namespace BaseGround {
                   if ((item is string && string.IsNullOrEmpty(item.AsString())) || item is DBNull) {
                      // 代表都沒有修改資料
                   } else {
-                     myDialogResult = MessageDisplay.Choose("資料有異動，是否要存檔?");
+                     myDialogResult = MessageDisplay.Choose("未完成存檔，請問是否要離開作業?");
                      return myDialogResult;
                   }
                }

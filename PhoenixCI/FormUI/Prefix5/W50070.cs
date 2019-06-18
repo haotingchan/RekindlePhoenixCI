@@ -112,19 +112,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
                 //填資料 Sheet1
                 ws50070.Import(dt50070, false, 2, 0);
-                //int rowNum = 5;
-                //for (f = 0; f < dt50070.Rows.Count; f++) {
-                //    DataRow dr50070 = dt50070.Rows[f];
-                //    rowNum = f + 2;
-                //    ws50070.Cells[rowNum, 0].Value = dr50070["MC_MONTH"].AsString();
-                //    ws50070.Cells[rowNum, 1].Value = dr50070["FUT_ID"].AsString();
-                //    ws50070.Cells[rowNum, 2].Value = dr50070["FUT_NAME"].AsString();
-                //    ws50070.Cells[rowNum, 3].Value = dr50070["REWARD_TYPE"].AsDecimal();
-                //    ws50070.Cells[rowNum, 4].Value = dr50070["REWARD"].AsDecimal();
-                //    ws50070.Cells[rowNum, 5].Value = dr50070["DETAIL"].AsString();
-                //    ws50070.Cells[rowNum, 6].Value = dr50070["ACCTNO"].AsString();
-                //    ws50070.Cells[rowNum, 7].Value = dr50070["PROD_TYPE"].AsString();
-                //}
 
                 //讀取資料
                 dt50070 = daoRMM.ListAll2ByDate(asYM);

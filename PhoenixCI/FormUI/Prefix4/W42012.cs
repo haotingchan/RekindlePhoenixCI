@@ -269,7 +269,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                             ws.Cells[rowIndex, 9].Value = "-";
                         }
                         else {
-                            ws.Cells[rowIndex, 9].Value = dr["DAY_CNT"].AsInt();
+                            ws.Cells[rowIndex, 9].SetValue(dr["DAY_CNT"]);
                         }
                         ws.Cells[rowIndex, 10].SetValue(dr["TFXM1_PRICE"]);
                         ws.Cells[rowIndex, 11].SetValue(dr["AI5_PRICE"]);
@@ -362,7 +362,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                             ws.Cells[rowIndex, 9].Value = "-";
                         }
                         else {
-                            ws.Cells[rowIndex, 9].Value = dr["DAY_CNT_3"].AsInt();
+                            ws.Cells[rowIndex, 9].SetValue(dr["DAY_CNT_3"]);
                         }
                         ws.Cells[rowIndex, 10].SetValue(dr["TFXM1_PRICE"]);
                         ws.Cells[rowIndex, 11].SetValue(dr["AI5_PRICE"]);

@@ -398,7 +398,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         worksheet.Cells[rowBegin + rowIndex, 0].Value = ocf_ymd.ToString("yyyy/MM/dd");
                     }//if (rowIndex != rpt_row_num) {
 
-                    worksheet.Cells[rowBegin + rowIndex, col_num - 1].Value = dr["mgr1_close_price"].AsDecimal();
+                    worksheet.Cells[rowBegin + rowIndex, col_num - 1].SetValue(dr["mgr1_close_price"]);
                 }//foreach(DataRow dr in dtTarget.Rows){
 
                 worksheet.ScrollTo(0, 0);
@@ -577,7 +577,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 foreach (DataRow dr in dtTarget.Rows) {
                     int rpt_col_num = dr["rpt_col_num"].AsInt();
 
-                    worksheet.Cells[rowIndex, rpt_col_num].Value = dr["mgr4_cm"].AsDecimal();
+                    worksheet.Cells[rowIndex, rpt_col_num].SetValue(dr["mgr4_cm"]);
                 }//foreach(DataRow dr in dtTarget.Rows){
 
                 worksheet.ScrollTo(0, 0);
@@ -618,7 +618,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 foreach (DataRow dr in dtTarget.Rows) {
                     int rpt_row_num = dr["rpt_row_num"].AsInt();
                     int colIndex = dr["rpt_col_num"].AsInt();
-                    worksheet.Cells[rpt_row_num - 1, colIndex -1].Value = dr["sp1_rate"].AsDecimal();
+                    worksheet.Cells[rpt_row_num - 1, colIndex -1].SetValue(dr["sp1_rate"]);
                 }//foreach(DataRow dr in dtTarget.Rows){
 
 
