@@ -146,10 +146,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 if (rowNum >= 0) {
                     /* 每日 */
                     rowNum = rowNum + 2;
-                    ws30021.Cells[rowNum, colNum].Value = dt30021.Rows[j]["AB1_COUNT"].AsDecimal();
+                    ws30021.Cells[rowNum, colNum].SetValue(dt30021.Rows[j]["AB1_COUNT"]);
                     /* 累計開戶數 */
                     if (date == maxDate) {
-                        ws30021.Cells[rowNum, 2].Value = dt30021.Rows[j]["AB1_ACCU_COUNT"].AsDecimal();
+                        ws30021.Cells[rowNum, 2].SetValue(dt30021.Rows[j]["AB1_ACCU_COUNT"]);
                     }
                 }
             }
@@ -176,9 +176,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
             for (j = 0; j < dt30022.Rows.Count; j++) {
                 rowNum = rowNum + 1;
                 ws30022.Cells[rowNum, 0].Value = dt30022.Rows[j]["AB1_DATE"].AsDateTime();
-                ws30022.Cells[rowNum, 1].Value = dt30022.Rows[j]["AB1_COUNT"].AsDecimal();
-                ws30022.Cells[rowNum, 2].Value = dt30022.Rows[j]["AB1_ACCU_COUNT"].AsDecimal();
-                ws30022.Cells[rowNum, 3].Value = dt30022.Rows[j]["AB1_TRADE_COUNT"].AsDecimal();
+                ws30022.Cells[rowNum, 1].SetValue(dt30022.Rows[j]["AB1_COUNT"]);
+                ws30022.Cells[rowNum, 2].SetValue(dt30022.Rows[j]["AB1_ACCU_COUNT"]);
+                ws30022.Cells[rowNum, 3].SetValue(dt30022.Rows[j]["AB1_TRADE_COUNT"]);
             }
 
             #endregion

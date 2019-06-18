@@ -112,7 +112,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
                     foreach (DataRow dr in dt30051.Rows) {
                         rowNumRPT = dr["RPT_SEQ_NO"].AsInt() - 1;
-                        ws30050.Cells[rowNumRPT, colNum].Value = dr["AI4_QNTY"].AsDecimal();
+                        ws30050.Cells[rowNumRPT, colNum].SetValue(dr["AI4_QNTY"]);
                         ymd = dr["AI4_MAX_YMD"].AsString();
                         ymd = ymd.SubStr(0, 4) + "/" + ymd.SubStr(4, 2) + "/" + ymd.SubStr(6, 2);
                         ws30050.Cells[rowNumRPT, colNum + 1].Value = ymd;
@@ -199,7 +199,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                     rowNum = rowNum - 1;
                     foreach (DataRow dr in dt30052.Rows) {
                         rowNum = rowNum + 1;
-                        ws30050.Cells[rowNum, colNum].Value = dr["AI4_QNTY"].AsDecimal();
+                        ws30050.Cells[rowNum, colNum].SetValue(dr["AI4_QNTY"]);
                         ymd = dr["AI4_MAX_YMD"].AsString();
                         if (g == 7) {
                             ymd = ymd;
