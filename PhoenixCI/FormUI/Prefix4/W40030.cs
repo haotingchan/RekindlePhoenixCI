@@ -115,9 +115,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             msg = xmlData.Export();
 
-            if (msg.Status != ResultStatus.Success) {
+            if (msg.Status == ResultStatus.Fail) {
                ExportShow.Text = MessageDisplay.MSG_IMPORT_FAIL;
                MessageDisplay.Info(MessageDisplay.MSG_IMPORT_FAIL);
+               return msg.Status;
+            } else if (msg.Status == ResultStatus.FailButNext) {
+               ExportShow.Hide();
                return msg.Status;
             }
 
@@ -1385,6 +1388,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   int cntValue = c.CheckedValue == 1 ? 1 : 2;
                   string checkBatch = "";
 
+                  OswGrp = c.CheckedValue.AsString() + "%";
+
+                  if (CheckedItems.Count == 3) {
+                     if (CheckedItems[0].CheckedDate == CheckedItems[1].CheckedDate && CheckedItems[0].CheckedDate == CheckedItems[2].CheckedDate)
+                        OswGrp = "%";
+                  }
+
                   //Grp3 不檢查Ai2
                   if (c.CheckedValue != 7) {
                      checkBatch = PbFunc.f_chk_ai2(c.CheckedDate.ToString("yyyyMMdd"), OswGrp, "Y", $"Group{c.CheckedValue}", cntValue);
@@ -1655,12 +1665,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                List<DataRow> drsFUT = Dt.Select("prod_type='F' and m_change_flag = 'Y'").ToList();
                if (drsFUT.Count > 0) {
-                  ExportExcelFut(workbook, drsFUT.CopyToDataTable());
+                  ExportExcelFut(workbook, drsFUT.CopyToDataTable().Sort("SEQ_NO ASC, PROD_TYPE ASC, KIND_GRP2 ASC, KIND_ID ASC, AB_TYPE ASC"));
                }
 
                List<DataRow> drsOPT = Dt.Select("prod_type='O' and m_change_flag = 'Y'").ToList();
                if (drsOPT.Count > 0) {
-                  ExportExcelOPT(workbook, drsOPT.CopyToDataTable());
+                  ExportExcelOPT(workbook, drsOPT.CopyToDataTable().Sort("SEQ_NO ASC, PROD_TYPE ASC, KIND_GRP2 ASC, KIND_ID ASC, AB_TYPE ASC"));
                }
 
                checkedItems = CheckedItems.Where(c => c.CheckedValue == 1 || c.CheckedValue == 5).ToList();
@@ -1936,8 +1946,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             List<string> adjRateList = new List<string>();
             List<string> lastAdjRateList = new List<string>();
             List<DataRow> tmpList = dtIndex.AsEnumerable().ToList();
-            tmpList.ForEach(l => adjRateList.Add(l.Field<double>("adj_rate").AsPercent(1)));
-            tmpList.ForEach(l => lastAdjRateList.Add(l.Field<double>("last_adj_rate").AsPercent(1)));
+            tmpList.ForEach(l => adjRateList.Add(l.Field<double?>("adj_rate").AsPercent(1)));
+            tmpList.ForEach(l => lastAdjRateList.Add(l.Field<double?>("last_adj_rate").AsPercent(1)));
 
             tmpStr = string.Format("{0}{1}，其結算保證金變動幅度{2}達{3}(前一營業日保證金變動幅度{2}達{4})，已達得調整標準百分比，" +
                                     "且進位後金額有變動，依下列考量因素說明:", descPoint, GenArrayTxt(kindNameList), SingleOrMore(dtIndex),
@@ -2503,8 +2513,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             List<string> adjRateList = new List<string>();
             List<string> lastAdjRateList = new List<string>();
             List<DataRow> tmpList = dtBRF.AsEnumerable().ToList();
-            tmpList.ForEach(l => adjRateList.Add(l.Field<double>("adj_rate").AsPercent(1)));
-            tmpList.ForEach(l => lastAdjRateList.Add(l.Field<double>("last_adj_rate").AsPercent(1)));
+            tmpList.ForEach(l => adjRateList.Add(l.Field<double?>("adj_rate").AsPercent(1)));
+            tmpList.ForEach(l => lastAdjRateList.Add(l.Field<double?>("last_adj_rate").AsPercent(1)));
 
             tmpStr = string.Format("{0}{1}，其結算保證金變動幅度{2}達{3}(前一營業日保證金變動幅度{2}達{4})，已達得調整標準百分比，" +
                                     "且進位後金額有變動，依下列考量因素說明:", descPoint, GenArrayTxt(kindNameList), SingleOrMore(dtBRF),

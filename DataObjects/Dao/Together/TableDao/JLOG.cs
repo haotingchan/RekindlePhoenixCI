@@ -39,9 +39,9 @@ from (
     select JLOG_WORKFLOW
     from CI.JLOG
     where JLOG_WORKFLOW in ('wf_FB_AI0130C', 'wf_OB_AI0130C')
-    and JLOG_ID = :jobId
+    and TRIM(JLOG_ID) = :jobId
     and JLOG_DATE >= :adt_date
-    and JLOG_OSW_GRP = :ls_osw_grp
+    and TRIM(JLOG_OSW_GRP) = :ls_osw_grp
     group by JLOG_WORKFLOW
 )
 ";
