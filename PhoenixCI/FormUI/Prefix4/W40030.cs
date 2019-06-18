@@ -1724,13 +1724,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
                DateTime searchDate = default(DateTime);
 
                OswGrp = c.CheckedValue.AsString();
+               searchDate = c.CheckedDate;
 
                if (CheckedItems.Count == 3) {
-
                   if (CheckedItems[0].CheckedDate == CheckedItems[1].CheckedDate && CheckedItems[0].CheckedDate == CheckedItems[2].CheckedDate)
                      searchDate = CheckedItems.FirstOrDefault().CheckedDate;
-                  else
-                     searchDate = c.CheckedDate;
                }
 
                //Abroad
