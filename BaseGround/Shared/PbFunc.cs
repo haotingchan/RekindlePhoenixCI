@@ -1429,14 +1429,12 @@ namespace BaseGround.Shared {
             //File.Delete(ls_flag);
 
             //*.Bat 以下指令是確保dos中之上一指令執行完畢繼續下一指令行(dos 為單一視窗),echo XXX
-            string arguments = ls_oper_bat + " " + GlobalInfo.USER_ID + ">" + ls_err;
+            string arguments = as_user_id + ">" + ls_err;
 
             var processInfo = new ProcessStartInfo(ls_oper_bat, arguments);
 
             processInfo.CreateNoWindow = false;
-
             processInfo.UseShellExecute = false;
-
             processInfo.RedirectStandardError = true;
             processInfo.RedirectStandardOutput = true;
 

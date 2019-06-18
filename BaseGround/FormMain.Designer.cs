@@ -29,7 +29,6 @@
 
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.accordionMenu = new BaseGround.AccordionControlEx();
             this.accordionElemtnt1 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
@@ -45,7 +44,7 @@
             this.accordionElemtntW = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.accordionElemtntZ = new DevExpress.XtraBars.Navigation.AccordionControlElement();
             this.scSearch = new DevExpress.XtraEditors.SearchControl();
-            this.defaultLookAndFeelMain = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
+            this.defaultLookAndFeelMain = new DevExpress.LookAndFeel.DefaultLookAndFeel();
             this.panSearch = new System.Windows.Forms.Panel();
             this.lblSearch = new System.Windows.Forms.Label();
             this.statusStripMain = new System.Windows.Forms.StatusStrip();
@@ -57,7 +56,7 @@
             this.toolStripStatusLabelUserName = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelVersion = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelVersionNum = new System.Windows.Forms.ToolStripStatusLabel();
-            this.barManagerMain = new DevExpress.XtraBars.BarManager(this.components);
+            this.barManagerMain = new DevExpress.XtraBars.BarManager();
             this.barTool = new DevExpress.XtraBars.Bar();
             this.toolStripButtonInsert = new DevExpress.XtraBars.BarButtonItem();
             this.toolStripButtonSave = new DevExpress.XtraBars.BarButtonItem();
@@ -140,7 +139,7 @@
             this.accordionMenu.Location = new System.Drawing.Point(0, 44);
             this.accordionMenu.LookAndFeel.SkinName = "Office 2013";
             this.accordionMenu.LookAndFeel.UseDefaultLookAndFeel = false;
-            this.accordionMenu.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.accordionMenu.Margin = new System.Windows.Forms.Padding(5);
             this.accordionMenu.Name = "accordionMenu";
             this.accordionMenu.Size = new System.Drawing.Size(291, 521);
             this.accordionMenu.TabIndex = 1;
@@ -346,7 +345,7 @@
             // 
             this.toolStripStatusLabelVersionNum.AutoSize = false;
             this.toolStripStatusLabelVersionNum.Name = "toolStripStatusLabelVersionNum";
-            this.toolStripStatusLabelVersionNum.Size = new System.Drawing.Size(44, 27);
+            this.toolStripStatusLabelVersionNum.Size = new System.Drawing.Size(110, 27);
             // 
             // barManagerMain
             // 

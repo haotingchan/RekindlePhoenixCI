@@ -2657,7 +2657,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   DateTime obsDate = PbFunc.f_get_ocf_next_n_day(checkedDate, 10);
                   tmpStr = string.Format("({0}) 鑒於全球金融市場不確定性較高，基於市場風險控管穩健原則，" +
                                          "建議暫不調整{1}保證金，再觀察▲▲10個交易日至(▲▲{2})。",
-                                         ChineseNumber[++point], GenArrayTxt(wfKindIdE(drsTemp.CopyToDataTable())), obsDate.AsTaiwanDateTime("{0}/{1}/{2}", 3));
+                                         ChineseNumber[++point], GenArrayTxt(wfKindIdE(drsTemp.CopyToDataTable().Sort("SEQ_NO ASC, PROD_TYPE ASC, KIND_GRP2 ASC, KIND_ID ASC, AB_TYPE ASC"))), 
+                                         obsDate.AsTaiwanDateTime("{0}/{1}/{2}", 3));
 
                   SetInnerText(tmpStr, true, 4.11f, 1.25f);
                }
@@ -2814,7 +2815,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         oiRateList.Add(d.Field<decimal>("i_oi_rate").AsPercent(2));
                   });
 
-                  tmpStr = string.Format("(二)未沖銷部位數：{0} {1}未沖銷部位數{2}為{3}，占全市場未沖銷部位之比例{2}為{4}。",
+                  tmpStr = string.Format("(二) 未沖銷部位數：{0} {1}未沖銷部位數{2}為{3}，占全市場未沖銷部位之比例{2}為{4}。",
                                           checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3), GenArrayTxt(kindTypeList), SingleOrMore(dtDelivery),
                                           GenArrayTxt(oiTypeList), GenArrayTxt(oiRateList));
 
@@ -2823,7 +2824,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   drsDelivery.ForEach(r => monthOiRateList.Add($"{r.Field<decimal>("i_mth_oi").ToString("#,##0")}口"));
                   string settleMonth = dtDelivery.Rows[0]["i_mth_settle_date"].AsDateTime("yyyyMMdd").Month.AsString();
 
-                  tmpStr = string.Format("(二)臨屆契約到期日之未沖銷部位數：考量將屆{0}月份契約到期結算，未沖銷部位較高({1} {2}未沖銷部位數為" +
+                  tmpStr = string.Format("(二) 臨屆契約到期日之未沖銷部位數：考量將屆{0}月份契約到期結算，未沖銷部位較高({1} {2}未沖銷部位數為" +
                                        "{3}，其中{0}月份契約為{4})，需考量到期結算前調整保證金對交易人及市場之影響。",
                                        settleMonth, checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3),
                                        GenArrayTxt(kindTypeList), GenArrayTxt(oiTypeList), GenArrayTxt(monthOiRateList));
