@@ -135,6 +135,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 if (dtContentETF.Rows.Count == 0) {
                     MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromDate.Text, this.Text));
                 }
+                else {
                 //存CSV
                
                 string etfFileName = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH,"50072_ETF_"+DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss")+".csv");
@@ -153,6 +154,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
                 File.WriteAllText(etfFileName, sbETF.ToString());
 
+                }
+
+
                 /******************
                 TXF
                 ******************/
@@ -163,6 +167,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 if (dtContentTXF.Rows.Count == 0) {
                     MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromDate.Text, this.Text));
                 }
+                else {
                 //存CSV
                 string txfFileName = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, "50072_TXF_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".csv");
                 File.Create(txfFileName).Close();
@@ -180,20 +185,22 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 }
 
                 File.WriteAllText(txfFileName, sbTXF.ToString());
+                }
+
 
                 #endregion
 
                 #region MTX 已廢除
-                
+
                 #endregion
 
                 //若所有Sheet皆無資料時，刪除檔案
-                if (dtContent.Rows.Count==0 && dtContentETF.Rows.Count==0 && dtContentTXF.Rows.Count == 0) {
+                if (dtContent.Rows.Count == 0) {
                     try {
                         workbook = null;
                         System.IO.File.Delete(file);
-                        System.IO.File.Delete(etfFileName);
-                        System.IO.File.Delete(txfFileName);
+                        //System.IO.File.Delete(etfFileName);
+                        //System.IO.File.Delete(txfFileName);
                     }
                     catch (Exception) {
                         //
