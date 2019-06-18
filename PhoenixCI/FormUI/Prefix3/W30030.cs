@@ -133,7 +133,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 }
                 kindId = dr["AI2_PARAM_KEY"].AsString();
                 colNum = dr["RPT_SEQ_NO"].AsInt() - 1;
-                ws30030.Cells[rowNum, colNum].Value = dr["AI2_M_QNTY"].AsDecimal();
+                ws30030.Cells[rowNum, colNum].SetValue(dr["AI2_M_QNTY"]);
                 /* 未沖銷量 */
                 DataRow[] find = dtRPT.Select("rpt_value like 'OI%'");
                 if (find.Length != 0) {
@@ -144,7 +144,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 }
                 if (found >= 0) {
                     found = dtRPT.Rows[found]["RPT_SEQ_NO"].AsInt();
-                    ws30030.Cells[rowNum, found - 1].Value = dt30031.Compute("sum(AI2_OI)", $@"AI2_YMD='{ymd}'").AsDecimal();
+                    ws30030.Cells[rowNum, found - 1].SetValue(dt30031.Compute("sum(AI2_OI)", $@"AI2_YMD='{ymd}'"));
                 }
             }
             ws30030.Cells[rowTol + 1, 0].Value = "合計(" + (txtEDate.DateTimeValue.Year - 1911).AsString() + '/' + txtEDate.DateTimeValue.Month.AsString() + ')';

@@ -150,9 +150,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         ws43020.Cells[rowStart + f, 4].Value = dr["APDK_STOCK_ID"].AsString();
                         ws43020.Cells[rowStart + f, 5].Value = dr["PID_NAME"].AsString();
                     }
-                    ws43020.Cells[rowStart + f, 7].Value = dr["MG1_CUR_CM"].AsDecimal();
-                    ws43020.Cells[rowStart + f, 9].Value = dr["MG1_CUR_MM"].AsDecimal();
-                    ws43020.Cells[rowStart + f, 11].Value = dr["MG1_CUR_IM"].AsDecimal();
+                    ws43020.Cells[rowStart + f, 7].SetValue(dr["MG1_CUR_CM"]);
+                    ws43020.Cells[rowStart + f, 9].SetValue(dr["MG1_CUR_MM"]);
+                    ws43020.Cells[rowStart + f, 11].SetValue(dr["MG1_CUR_IM"]);
 
                     //5.2 二、本日結算保證金計算
                     //SMA 從B79開始填資料

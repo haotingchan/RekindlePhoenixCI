@@ -135,8 +135,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
                     rowNum = rowNum + 1;
                     worksheet.Cells[rowNum, 0].Value = dr55060_1["data_date"].AsString();
-                    worksheet.Cells[rowNum, 1].Value = dr55060_1["udf_qnty"].AsDecimal();
-                    worksheet.Cells[rowNum, 2].Value = dr55060_1["spf_qnty"].AsDecimal();
+                    worksheet.Cells[rowNum, 1].SetValue(dr55060_1["udf_qnty"]);
+                    worksheet.Cells[rowNum, 2].SetValue(dr55060_1["spf_qnty"]);
                 }
 
                 #endregion
@@ -178,8 +178,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
                     rowNum = rowNum + 1;
                     worksheet2.Cells[rowNum, 0].Value = dr55060_2["data_date"].AsString();
-                    worksheet2.Cells[rowNum, 1].Value = dr55060_2["spf_oi"].AsDecimal();
-                    worksheet2.Cells[rowNum, 2].Value = dr55060_2["udf_oi"].AsDecimal();
+                    worksheet2.Cells[rowNum, 1].SetValue(dr55060_2["spf_oi"]);
+                    worksheet2.Cells[rowNum, 2].SetValue(dr55060_2["udf_oi"]);
                 }
 
                 #endregion
@@ -232,10 +232,10 @@ namespace PhoenixCI.FormUI.Prefix5 {
                     worksheet3.Cells[rowNum, 0 + addCol].Value = dr55060_3["data_ym"].AsString();
                     worksheet3.Cells[rowNum, 1 + addCol].Value = num;
                     worksheet3.Cells[rowNum, 2 + addCol].Value = kindId;
-                    worksheet3.Cells[rowNum, 3 + addCol].Value = dr55060_3["trd_ar_amt"].AsDecimal();
-                    worksheet3.Cells[rowNum, 4 + addCol].Value = dr55060_3["trd_rec_amt"].AsDecimal();
-                    worksheet3.Cells[rowNum, 5 + addCol].Value = dr55060_3["cm_ar_amt"].AsDecimal();
-                    worksheet3.Cells[rowNum, 6 + addCol].Value = dr55060_3["cm_rec_amt"].AsDecimal();
+                    worksheet3.Cells[rowNum, 3 + addCol].SetValue(dr55060_3["trd_ar_amt"]);
+                    worksheet3.Cells[rowNum, 4 + addCol].SetValue(dr55060_3["trd_rec_amt"]);
+                    worksheet3.Cells[rowNum, 5 + addCol].SetValue(dr55060_3["cm_ar_amt"]);
+                    worksheet3.Cells[rowNum, 6 + addCol].SetValue(dr55060_3["cm_rec_amt"]);
                 }
 
                 #endregion
@@ -403,12 +403,12 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 worksheet.Cells[rowNum, 0 + addCol].Value = dr55060_3_trd["feetrd_ym"].AsString();
                 worksheet.Cells[rowNum, 1 + addCol].Value = dr55060_3_trd["feetrd_fcm_no"].AsString();
                 worksheet.Cells[rowNum, 2 + addCol].Value = dr55060_3_trd["feetrd_kind_id"].AsString();
-                worksheet.Cells[rowNum, 3 + addCol].Value = dr55060_3_trd["feetrd_disc_qnty"].AsDecimal();
-                worksheet.Cells[rowNum, 4 + addCol].Value = dr55060_3_trd["disc_rate"].AsInt();
-                worksheet.Cells[rowNum, 5 + addCol].Value = dr55060_3_trd["feetrd_ar"].AsDecimal();
-                worksheet.Cells[rowNum, 6 + addCol].Value = dr55060_3_trd["disc_amt"].AsDecimal();
-                worksheet.Cells[rowNum, 7 + addCol].Value = dr55060_3_trd["feetrd_rec_amt"].AsDecimal();
-                worksheet.Cells[rowNum, 8 + addCol].Value = dr55060_3_trd["feetrd_m_qnty"].AsDecimal();
+                worksheet.Cells[rowNum, 3 + addCol].SetValue(dr55060_3_trd["feetrd_disc_qnty"]);
+                worksheet.Cells[rowNum, 4 + addCol].SetValue(dr55060_3_trd["disc_rate"]);
+                worksheet.Cells[rowNum, 5 + addCol].SetValue(dr55060_3_trd["feetrd_ar"]);
+                worksheet.Cells[rowNum, 6 + addCol].SetValue(dr55060_3_trd["disc_amt"]);
+                worksheet.Cells[rowNum, 7 + addCol].SetValue(dr55060_3_trd["feetrd_rec_amt"]);
+                worksheet.Cells[rowNum, 8 + addCol].SetValue(dr55060_3_trd["feetrd_m_qnty"]);
                 worksheet.Cells[rowNum, 9 + addCol].Value = dr55060_3_trd["feetrd_fcm_kind"].AsString();
                 worksheet.Cells[rowNum, 10 + addCol].Value = dr55060_3_trd["feetrd_param_key"].AsString();
                 worksheet.Cells[rowNum, 11 + addCol].Value = dr55060_3_trd["feetrd_acc_no"].AsString();
@@ -454,11 +454,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 worksheet2.Cells[rowNum, 0 + addCol].Value = dr55060_3_cm["feetdcc_ym"].AsString();
                 worksheet2.Cells[rowNum, 1 + addCol].Value = dr55060_3_cm["feetdcc_fcm_no"].AsString();
                 worksheet2.Cells[rowNum, 2 + addCol].Value = dr55060_3_cm["feetdcc_kind_id"].AsString();
-                worksheet2.Cells[rowNum, 3 + addCol].Value = dr55060_3_cm["feetdcc_disc_qnty"].AsDecimal();
-                worksheet2.Cells[rowNum, 4 + addCol].Value = dr55060_3_cm["disc_rate"].AsDecimal();
-                worksheet2.Cells[rowNum, 5 + addCol].Value = dr55060_3_cm["feetdcc_org_ar"].AsDecimal();
-                worksheet2.Cells[rowNum, 6 + addCol].Value = dr55060_3_cm["feetdcc_disc_amt"].AsDecimal();
-                worksheet2.Cells[rowNum, 7 + addCol].Value = dr55060_3_cm["rec_amt"].AsDecimal();
+                worksheet2.Cells[rowNum, 3 + addCol].SetValue(dr55060_3_cm["feetdcc_disc_qnty"]);
+                worksheet2.Cells[rowNum, 4 + addCol].SetValue(dr55060_3_cm["disc_rate"]);
+                worksheet2.Cells[rowNum, 5 + addCol].SetValue(dr55060_3_cm["feetdcc_org_ar"]);
+                worksheet2.Cells[rowNum, 6 + addCol].SetValue(dr55060_3_cm["feetdcc_disc_amt"]);
+                worksheet2.Cells[rowNum, 7 + addCol].SetValue(dr55060_3_cm["rec_amt"]);
                 worksheet2.Cells[rowNum, 8 + addCol].Value = dr55060_3_cm["feetdcc_acc_no"].AsString();
                 worksheet2.Cells[rowNum, 9 + addCol].Value = dr55060_3_cm["feetdcc_session"].AsString().SubStr(1,1);
                 //for (j = 0; j < 10; j++) {
@@ -500,12 +500,12 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 worksheet3.Cells[rowNum, 0 + addCol].Value = dr55060_3_all["feetrd_feetrd_ym"].AsString();
                 worksheet3.Cells[rowNum, 1 + addCol].Value = dr55060_3_all["feetrd_feetrd_fcm_no"].AsString();
                 worksheet3.Cells[rowNum, 2 + addCol].Value = dr55060_3_all["feetrd_kind_id"].AsString();
-                worksheet3.Cells[rowNum, 3 + addCol].Value = dr55060_3_all["feetrd_feetrd_disc_qnty"].AsDecimal();
-                worksheet3.Cells[rowNum, 4 + addCol].Value = dr55060_3_all["disc_rate"].AsId();
-                worksheet3.Cells[rowNum, 5 + addCol].Value = dr55060_3_all["ar"].AsDecimal();
-                worksheet3.Cells[rowNum, 6 + addCol].Value = dr55060_3_all["disc_amt"].AsDecimal();
-                worksheet3.Cells[rowNum, 7 + addCol].Value = dr55060_3_all["rec_amt"].AsDecimal();
-                worksheet3.Cells[rowNum, 8 + addCol].Value = dr55060_3_all["feetrd_feetrd_m_qnty"].AsDecimal();
+                worksheet3.Cells[rowNum, 3 + addCol].SetValue(dr55060_3_all["feetrd_feetrd_disc_qnty"]);
+                worksheet3.Cells[rowNum, 4 + addCol].SetValue(dr55060_3_all["disc_rate"]);
+                worksheet3.Cells[rowNum, 5 + addCol].SetValue(dr55060_3_all["ar"]);
+                worksheet3.Cells[rowNum, 6 + addCol].SetValue(dr55060_3_all["disc_amt"]);
+                worksheet3.Cells[rowNum, 7 + addCol].SetValue(dr55060_3_all["rec_amt"]);
+                worksheet3.Cells[rowNum, 8 + addCol].SetValue(dr55060_3_all["feetrd_feetrd_m_qnty"]);
                 worksheet3.Cells[rowNum, 9 + addCol].Value = dr55060_3_all["feetrd_feetrd_fcm_kind"].AsString();
                 worksheet3.Cells[rowNum, 10 + addCol].Value = dr55060_3_all["feetrd_feetrd_param_key"].AsString();
                 worksheet3.Cells[rowNum, 11 + addCol].Value = dr55060_3_all["feetrd_feetrd_acc_no"].AsString();

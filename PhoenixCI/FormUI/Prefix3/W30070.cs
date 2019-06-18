@@ -106,7 +106,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 rowNum += 1;
                 ws30070.Cells[rowNum, 0].Value = dr["AA2_YMD"].AsString();
                 ws30070.Cells[rowNum, 1].Value = dr["AA2_PARAM_KEY"].AsString();
-                ws30070.Cells[rowNum, 2].Value = dr["AA2_AMT"].AsDecimal();
+                ws30070.Cells[rowNum, 2].SetValue(dr["AA2_AMT"]);
             }
             #endregion
 
@@ -129,7 +129,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 rowNum += 1;
                 ws30070stk.Cells[rowNum, 0].Value = dr["AA2_YMD"].AsString();
                 ws30070stk.Cells[rowNum, 1].Value = dr["AA2_PARAM_KEY"].AsString();
-                ws30070stk.Cells[rowNum, 2].Value = dr["AA2_AMT"].AsDecimal();
+                ws30070stk.Cells[rowNum, 2].SetValue(dr["AA2_AMT"]);
             }
             #endregion
 

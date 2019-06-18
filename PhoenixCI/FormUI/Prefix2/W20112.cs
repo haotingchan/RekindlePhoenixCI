@@ -147,7 +147,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 lblRange1.Text = startYMD.Insert(4, "/").Insert(7, "/") + "~" + endYMD.Insert(4, "/").Insert(7, "/");
 
                 //更新資料
-                ResultData myResultData = daoINOTC1.UpdateINOTC1(dt);
+                ResultData myResultData = daoINOTC1.UpdateINOTC1(targetDt);
                 if (myResultData.Status == ResultStatus.Success) {
                     MessageBox.Show(lblRange1.Text + "資料轉入完成!", "處理結果", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     txtPath1.BackColor = Color.LightGray;
@@ -228,9 +228,9 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 lblRange2.Text = startYMD.Insert(4, "/").Insert(7, "/") + "~" + endYMD.Insert(4, "/").Insert(7, "/");
 
                 //更新資料
-                ResultData myResultData = daoINTWSE1.UpdateINTWSE1(dt);
+                ResultData myResultData = daoINTWSE1.UpdateINTWSE1(targetDt);
                 if (myResultData.Status == ResultStatus.Success) {
-                    MessageBox.Show(lblRange1.Text + "資料轉入完成!", "處理結果", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(lblRange2.Text + "資料轉入完成!", "處理結果", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     txtPath2.BackColor = Color.LightGray;
                 }
                 else {

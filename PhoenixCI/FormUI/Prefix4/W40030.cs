@@ -1493,6 +1493,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                   if (drsSTF.Count > 0) {
                      DataTable dtTemp = drsSTF.CopyToDataTable();
+                     dtTemp = dtTemp.Sort("APDK_KIND_GRP2 ASC, APDK_KIND_LEVEL ASC, MGR3_KIND_ID ASC");
 
                      //案由四後文字
                      SetCase(++caseNo, "本公司{0}保證金調整案，謹提請討論。", GenArrayTxt(wfKindIdSTFA(dtTemp)));
@@ -1840,7 +1841,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             drsTemp.Clear();
             drsTemp = dtTemp.Select("prod_subtype in ('I','C') and adj_code = 'Y' and data_ymd = '" + checkedDateStr + "'").ToList();
             if (drsTemp.Count > 0) {
-               SetInnerText($"{ChineseNumber[++licnt]}、調整{GenArrayTxt(wfKindIdE(drsTemp.CopyToDataTable()))}保證金如說明二。");
+               SetInnerText($"{ChineseNumber[++licnt]}、調整{GenArrayTxt(wfKindIdE(drsTemp.CopyToDataTable().Sort("SEQ_NO ASC, PROD_TYPE ASC, KIND_GRP2 ASC, KIND_ID ASC, AB_TYPE ASC")))}保證金如說明二。");
             }
 
             drsTemp.Clear();
@@ -1856,7 +1857,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                tmpStr = string.Format("{0}、不調整{1}保證金，觀察▲▲10個交易日(至▲▲{2})，惟仍需持續注意各契約保證金變動幅度、" +
                                     "未沖銷部位數明顯變化之狀況、保證金占契約價值比重及國際同類商品保證金調整等情事，於必要時隨時召開會議討論是否調整保證金。",
-                                    ChineseNumber[++licnt], GenArrayTxt(wfKindIdE(drsTemp.CopyToDataTable())), iibsDate);
+                                    ChineseNumber[++licnt], GenArrayTxt(wfKindIdE(drsTemp.CopyToDataTable().Sort("SEQ_NO ASC, PROD_TYPE ASC, KIND_GRP2 ASC, KIND_ID ASC, AB_TYPE ASC"))), iibsDate);
                SetInnerText(tmpStr);
             }
 
@@ -3420,7 +3421,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             drTemp.ForEach(r => kindNameList.Add($"{r.Field<string>("kind_abbr_name").AsString()}(" +
                                                  $"{r.Field<string>("kind_id").AsString()}，股票期貨標的證券代號" +
-                                                 $"{r.Field<string>("stock_id").AsString()})"));
+                                                 $" {r.Field<string>("stock_id").AsString()})"));
 
 
             return kindNameList;
@@ -3438,7 +3439,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             drTemp.ForEach(r => kindNameList.Add($"{r.Field<string>("apdk_name").AsString()}(" +
                                                  $"{r.Field<string>("mgr3_kind_id").AsString()}，股票期貨標的證券代號" +
-                                                 $"{r.Field<string>("mgr3_sid").AsString()})"));
+                                                 $" {r.Field<string>("mgr3_sid").AsString()})"));
 
 
             return kindNameList;
