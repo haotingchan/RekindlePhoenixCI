@@ -21,25 +21,29 @@ SELECT * FROM CI.INOTC1
         }
 
         public bool DeleteByDate(string ls_start_ymd, string ls_end_ymd) {
-
-            object[] parms =
-           {
+            try {
+                object[] parms =
+               {
                 ":ls_start_ymd",ls_start_ymd,
                 ":ls_end_ymd",ls_end_ymd
             };
 
-            string sql = @"
+                string sql = @"
 delete ci.INOTC1 
 where INOTC1_YMD >= :ls_start_ymd
   and INOTC1_YMD <=  :ls_end_ymd
 ";
-            int executeResult = db.ExecuteSQL(sql, parms);
+                int executeResult = db.ExecuteSQL(sql, parms);
 
-            if (executeResult > 0) {
-                return true;
+                if (executeResult >= 0) {
+                    return true;
+                }
+                else {
+                    throw new Exception("INOTC1刪除失敗");
+                }
             }
-            else {
-                throw new Exception("INOTC1刪除失敗");
+            catch (Exception ex) {
+                throw ex;
             }
         }
 
@@ -54,7 +58,7 @@ SELECT  INOTC1_YMD,
         INOTC1_UP_DOWN,     
         INOTC1_W_USER_ID,   
         INOTC1_W_TIME      
-    FROM ci.IDFG
+    FROM ci.INOTC1
 ";
 
             return db.UpdateOracleDB(inputData, sql);

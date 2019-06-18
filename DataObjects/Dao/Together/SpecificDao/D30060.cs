@@ -12,7 +12,7 @@ namespace DataObjects.Dao.Together.SpecificDao {
     public class D30060: DataGate {
 
         /// <summary>
-        /// 日盤
+        /// '%'全部 /'0'日盤 /'1'夜盤
         /// </summary>
         /// <param name="as_symd"></param>
         /// <param name="as_eymd"></param>

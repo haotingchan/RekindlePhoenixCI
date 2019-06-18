@@ -38,7 +38,7 @@ where INTWSE1_YMD >= :ls_start_ymd
 ";
             int executeResult = db.ExecuteSQL(sql, parms);
 
-            if (executeResult > 0) {
+            if (executeResult >= 0) {
                 return true;
             }
             else {
@@ -57,7 +57,7 @@ SELECT  INTWSE1_YMD,
         INTWSE1_UP_DOWN,     
         INTWSE1_W_USER_ID,   
         INTWSE1_W_TIME      
-    FROM ci.IDFG
+    FROM ci.INTWSE1
 ";
 
             return db.UpdateOracleDB(inputData, sql);
