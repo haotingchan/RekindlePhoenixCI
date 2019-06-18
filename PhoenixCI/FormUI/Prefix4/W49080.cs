@@ -265,8 +265,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             PrintOrExportChangedByKen(gcMain , dtForAdd , dtForDeleted , dtForModified);
 
          } catch (Exception ex) {
-            throw ex;
-         }
+                MessageDisplay.Error("儲存錯誤");
+                WriteLog(ex, "", false);
+                return ResultStatus.FailButNext;
+            }
          return ResultStatus.Success;
       }
 

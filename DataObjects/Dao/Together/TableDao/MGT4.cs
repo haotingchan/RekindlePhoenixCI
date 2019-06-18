@@ -59,7 +59,7 @@ FROM CI.MGT4
          return db.UpdateOracleDB(inputData , sql);
             }
             catch (Exception ex) {
-                throw new Exception("儲存錯誤");
+                throw ex;
             }
         }
    }

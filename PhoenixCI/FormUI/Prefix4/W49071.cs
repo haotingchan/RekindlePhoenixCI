@@ -156,8 +156,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
 
          } catch (Exception ex) {
-            throw ex;
-         }
+                MessageDisplay.Error("儲存錯誤");
+                WriteLog(ex, "", false);
+                return ResultStatus.FailButNext;
+            }
          return ResultStatus.Success;
       }
 

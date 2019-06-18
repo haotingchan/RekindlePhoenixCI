@@ -41,7 +41,7 @@ namespace DataObjects.Dao.Together.TableDao {
             //update to DB
             return SaveForChanged(inputData , tableName , insertColumnList , updateColumnList , keysColumnList);
          } catch (Exception ex) {
-            throw new Exception("儲存錯誤");
+            throw ex;
          }
       }
    }

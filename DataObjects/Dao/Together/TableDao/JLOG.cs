@@ -34,7 +34,7 @@ namespace DataObjects.Dao.Together {
             };
 
             string sql = @"
-select count(0) as li_rtn
+select count(*) as li_rtn
 from (
     select JLOG_WORKFLOW
     from CI.JLOG
