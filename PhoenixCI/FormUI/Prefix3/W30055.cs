@@ -496,9 +496,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
                   colBegin = 2;
 
                if (pcCode == "")//pcCode 空值=期貨,C=call,P=put
-                  ws.Cells[rowIndex, colBegin + k - 2].Value = dr[k].AsDecimal();
+                  ws.Cells[rowIndex, colBegin + k - 2].SetValue(dr[k]);
                else
-                  ws.Cells[rowIndex, colBegin + k - 3].Value = dr[k].AsDecimal();
+                  ws.Cells[rowIndex, colBegin + k - 3].SetValue(dr[k]);
 
             }//for (int k = 3;k < 7;k++) {
 
@@ -558,9 +558,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
                   colBegin = 2;
 
                if (pcCode == "")//pcCode 空值=期貨,C=call,P=put
-                  ws.Cells[rowIndex, colBegin + k - 2].Value = dr[k].AsDecimal();
+                  ws.Cells[rowIndex, colBegin + k - 2].SetValue(dr[k]);
                else
-                  ws.Cells[rowIndex, colBegin + k - 3].Value = dr[k].AsDecimal();
+                  ws.Cells[rowIndex, colBegin + k - 3].SetValue(dr[k]);
             }//for (int k = 3;k < 7;k++) {
 
          }//foreach(DataRow dr in dtBig.Rows) {
