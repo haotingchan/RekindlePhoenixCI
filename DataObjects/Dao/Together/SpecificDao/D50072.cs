@@ -85,7 +85,7 @@ namespace DataObjects.Dao.Together.SpecificDao {
                 "@as_eym", as_eym
             };
 
-            string sql = @"select MC_MONTH, FUT_ID, ACCTNO, PROD_TYPE, PARAM_KEY, WEIGHT, TO_CHAR(W_TIME,'YYYY/fmMM/fmDD HH24:MM:SS') as W_TIME 
+            string sql = @"select MC_MONTH, FUT_ID, ACCTNO, PROD_TYPE, PARAM_KEY, WEIGHT, TO_CHAR(W_TIME,'YYYY/fmMM/fmDD HH24:mm:ss:ff') as W_TIME 
                            from reward.R_WEIGHT_MONTHLY_TXF
                            where mc_month >= @as_sym
                            and mc_month <= @as_eym
