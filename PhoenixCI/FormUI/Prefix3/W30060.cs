@@ -14,6 +14,8 @@ using BaseGround.Shared;
 using DevExpress.Spreadsheet;
 using DataObjects.Dao.Together.SpecificDao;
 using Common;
+using System.Threading;
+using System.IO;
 
 /// <summary>
 /// Lukas, 2019/3/6
@@ -63,9 +65,25 @@ namespace PhoenixCI.FormUI.Prefix3 {
             return ResultStatus.Success;
         }
 
+        protected void ShowMsg(string msg) {
+            lblProcessing.Text = msg;
+            this.Refresh();
+            Thread.Sleep(5);
+        }
+
         protected override ResultStatus Export() {
 
             try {
+                if (!cbxDay.Checked && !cbxNight.Checked) {
+                    MessageDisplay.Error("請選擇盤別");
+                    ShowMsg("");
+                    return ResultStatus.Fail;
+                }
+                this.Cursor = Cursors.WaitCursor;
+                this.Refresh();
+                Thread.Sleep(5);
+                lblProcessing.Visible = true;
+                ShowMsg("開始轉檔...");
                 string file,rptId = "30060", rptName = "各商品每日成交紀錄"; ;
                 string symd = txtSDate.Text.Replace("/", "");
                 string eymd = txtEDate.Text.Replace("/", "");
@@ -74,6 +92,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 if (file == "") {
                     return ResultStatus.Fail;
                 }
+                ShowMsg(rptId + '－' + rptName + " 轉檔中...");
 
                 // 2. 開啟檔案
                 Workbook workbook = new Workbook();
@@ -81,13 +100,15 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 Worksheet ws30060 = workbook.Worksheets[0];
 
                 // 3. 匯出資料
+                DataTable dt30060 = new DataTable();
                 if (cbxDay.Checked) {
                     // 切換Sheet
                     ws30060 = workbook.Worksheets[0];
                     // 讀取資料
-                    DataTable dt30060 = dao30060.d_30060(symd, eymd);
+                     dt30060 = dao30060.d_30060(symd, eymd,"0");
                     if (dt30060.Rows.Count == 0) {
-                        lblProcessing.Text = GlobalInfo.OCF_DATE.ToString("yyyyMM") + "," + rptId + '－' + rptName + ",無任何資料!";
+                        MessageDisplay.Info(GlobalInfo.OCF_DATE.ToString("yyyyMM") + "," + rptId + '－' + rptName + ",無任何資料!");
+                        ShowMsg("");
                     }
                     wf_30060(ws30060, dt30060);
                 }
@@ -95,23 +116,28 @@ namespace PhoenixCI.FormUI.Prefix3 {
                     // 切換Sheet
                     ws30060 = workbook.Worksheets[1];
                     // 讀取資料
-                    DataTable dt30060night = dao30060.d_30060_night(symd, eymd);
-                    if (dt30060night.Rows.Count == 0) {
-                        lblProcessing.Text = GlobalInfo.OCF_DATE.ToString("yyyyMM") + "," + rptId + '－' + rptName + ",無任何資料!";
+                     dt30060 = dao30060.d_30060(symd, eymd, "0");
+                    if (dt30060.Rows.Count == 0) {
+                        MessageDisplay.Info(GlobalInfo.OCF_DATE.ToString("yyyyMM") + "," + rptId + '－' + rptName + ",無任何資料!");
+                        ShowMsg("");
                     }
-                    wf_30060(ws30060, dt30060night);
+                    wf_30060(ws30060, dt30060);
                 }
-                if (!cbxDay.Checked && !cbxNight.Checked) {
-                    MessageDisplay.Error("請選擇盤別");
+
+                if (dt30060.Rows.Count == 0) {
+                    workbook = null;
+                    File.Delete(file);
                     return ResultStatus.Fail;
                 }
 
                 // 4. 存檔
                 ws30060.ScrollToRow(0);
                 workbook.SaveDocument(file);
+                ShowMsg("轉檔成功");
             }
             catch (Exception ex) {
                 MessageDisplay.Error("輸出錯誤");
+                ShowMsg("轉檔有錯誤");
                 throw ex;
             }
             return ResultStatus.Success;
@@ -130,10 +156,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 }
                 // 交易量
                 colNum = dr["M_COL_SEQ"].AsInt() - 1;
-                ws30060.Cells[rowNum, colNum].Value = dr["AI2_M_QNTY"].AsDecimal();
+                ws30060.Cells[rowNum, colNum].SetValue(dr["AI2_M_QNTY"]);
                 // OI
                 colNum = dr["OI_COL_SEQ"].AsInt() - 1;
-                ws30060.Cells[rowNum, colNum].Value = dr["AI2_OI"].AsDecimal();
+                ws30060.Cells[rowNum, colNum].SetValue(dr["AI2_OI"]);
             }
 
         }

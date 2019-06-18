@@ -33,7 +33,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          GridHelper.SetCommonGrid(gvMain);
          dtForDeleted = new DataTable();
 
-         MessageDisplay.Info("執行完成!");
+         //MessageDisplay.Info("執行完成!");
       }
 
       protected override ResultStatus Open() {
