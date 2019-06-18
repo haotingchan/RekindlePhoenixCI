@@ -46,6 +46,11 @@ namespace PhoenixCI.BusinessLogic.Prefix4
          return dt;
       }
 
+      /// <summary>
+      /// 儲存至MGR2_SMA並執行opt.sp_O_gen_H_MG1_3M
+      /// </summary>
+      /// <param name="MGR2_SMA"></param>
+      /// <param name="oswGrp"></param>
       public void MGR2SaveToDB(DataTable MGR2_SMA, string oswGrp)
       {
          DateTime emdate = _emDateText.AsDateTime("yyyy/MM/dd");
@@ -53,8 +58,13 @@ namespace PhoenixCI.BusinessLogic.Prefix4
          ResultStatus resultStatus = dao40010.UpdateMGR2_SMA(MGR2_SMA).Status;
          //呼叫opt.sp_O_gen_H_MG1_3M
          if (resultStatus == ResultStatus.Success) {
+#if DEBUG
+            //dao40010.SP_O_gen_H_MG1_3M(emdate, oswGrp);
+#else
             dao40010.SP_O_gen_H_MG1_3M(emdate, oswGrp);
+#endif
          }
+
       }
 
       /// <summary>
@@ -91,9 +101,12 @@ namespace PhoenixCI.BusinessLogic.Prefix4
 
             //2.寫入40010template計算EWMA
             //共16欄位 取前7欄位
-            for (int k = 7; k < RowData.Columns.Count; k++) {
-               RowData.Columns.Remove(RowData.Columns[7].ColumnName);//刪除後面9欄
+            int k = RowData.Columns.Count;
+            while (k > 7) {
+               RowData.Columns.Remove(RowData.Columns[7].ColumnName);
+               k--;//刪除後面的欄位直到剩下前面7欄
             }
+
             worksheet.Import(RowData, false, 2, 0);
             worksheet.ScrollTo(0, 0);
             //save
