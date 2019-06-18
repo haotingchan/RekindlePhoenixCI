@@ -408,8 +408,8 @@ namespace BaseGround.Shared {
                   li_rtn = jLOG.GetJobCount(adt_date, ls_osw_grp);
 
                   if ((li_rtn < 2 && ls_osw_grp != "7") || (li_rtn < 1 && ls_osw_grp == "7")) {
-                     res = "機房「130C」批次（群組:" + k.ToString() + "）作業尚未完成";
-                     break;
+                     return "機房「130C」批次（群組:" + k.ToString() + "）作業尚未完成";
+                     //break;
                   }
                }//for
                #endregion
