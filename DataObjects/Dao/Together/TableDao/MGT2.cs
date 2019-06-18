@@ -44,7 +44,7 @@ ORDER BY MGT2_SEQ_NO , MGT2_KIND_ID
                 return db.UpdateOracleDB(inputData, sql);
             }
             catch(Exception ex) {
-                throw new Exception("儲存錯誤");
+                throw ex;
             }
       }
 

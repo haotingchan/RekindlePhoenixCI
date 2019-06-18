@@ -263,8 +263,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             AfterSaveForPrint(gcMain , dtForAdd , dtForDeleted , dtForModified);
 
          } catch (Exception ex) {
-            WriteLog(ex);
-         }
+                MessageDisplay.Error("儲存錯誤");
+                WriteLog(ex, "", false);
+                return ResultStatus.FailButNext;
+            }
          return ResultStatus.Success;
       }
 

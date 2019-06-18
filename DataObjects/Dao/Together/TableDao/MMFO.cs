@@ -1,4 +1,5 @@
 ﻿using BusinessObjects;
+using System;
 using System.Data;
 /// <summary>
 /// Winni, 2019/3/29
@@ -6,13 +7,13 @@ using System.Data;
 namespace DataObjects.Dao.Together.TableDao {
    public class MMFO : DataGate {
 
-      /// <summary>
-      /// update ci.mmfo data
-      /// </summary>
-      /// <returns></returns>
-      public ResultData UpdateData(DataTable inputData) {
-
-         string sql = @"
+        /// <summary>
+        /// update ci.mmfo data
+        /// </summary>
+        /// <returns></returns>
+        public ResultData UpdateData(DataTable inputData) {
+            try {
+                string sql = @"
 select 
 	mmfo_param_key, 
 	mmfo_min_price, 
@@ -22,7 +23,11 @@ select
 from ci.mmfo
 ";
 
-         return db.UpdateOracleDB(inputData , sql);
-      }
+                return db.UpdateOracleDB(inputData, sql);
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+        }
    }
-}

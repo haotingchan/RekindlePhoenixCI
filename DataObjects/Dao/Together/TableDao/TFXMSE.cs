@@ -33,7 +33,7 @@ FROM CI.TFXMSE
          return db.UpdateOracleDB(inputData , sql);
             }
             catch (Exception ex) {
-                throw new Exception("儲存錯誤");
+                throw ex;
             }
         }
    }
