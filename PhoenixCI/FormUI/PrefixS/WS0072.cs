@@ -31,6 +31,7 @@ namespace PhoenixCI.FormUI.PrefixS {
       protected string is_fm_ymd;
       protected string is_to_ymd;
       protected DateTime is_max_ymd;
+      //grid欄位不同, 分為兩塊模組
       protected string[] modules1 = { "PSR", "VSR", "IMS", "SOM" };
       protected string[] modules2 = { "ZISP" };
 
