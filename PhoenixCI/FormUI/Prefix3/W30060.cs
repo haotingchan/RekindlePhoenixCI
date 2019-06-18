@@ -116,7 +116,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                     // 切換Sheet
                     ws30060 = workbook.Worksheets[1];
                     // 讀取資料
-                     dt30060 = dao30060.d_30060(symd, eymd, "0");
+                     dt30060 = dao30060.d_30060(symd, eymd, "1");
                     if (dt30060.Rows.Count == 0) {
                         MessageDisplay.Info(GlobalInfo.OCF_DATE.ToString("yyyyMM") + "," + rptId + '－' + rptName + ",無任何資料!");
                         ShowMsg("");
