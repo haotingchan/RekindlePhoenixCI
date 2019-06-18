@@ -1723,15 +1723,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             foreach (CheckedItem c in CheckedItems) {
                DateTime searchDate = default(DateTime);
 
-               //全選時用 % 查詢
-               OswGrp = CheckedItems.Count == 3 ? "%" : c.CheckedValue.AsString();
+               OswGrp = c.CheckedValue.AsString();
+               searchDate = c.CheckedDate;
 
                if (CheckedItems.Count == 3) {
-
                   if (CheckedItems[0].CheckedDate == CheckedItems[1].CheckedDate && CheckedItems[0].CheckedDate == CheckedItems[2].CheckedDate)
                      searchDate = CheckedItems.FirstOrDefault().CheckedDate;
-                  else
-                     searchDate = c.CheckedDate;
                }
 
                //Abroad
@@ -3090,7 +3087,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             if (drsTemp.Count > 0) {
                SetInnerText($"({ChineseNumber[++point]}) {GenArrayTxt(wfKindIdE(drsTemp.CopyToDataTable()))}" +
                               $"之保證金已達得調整百分比，經考量市場風險，基於穩健保守之原則，建議調整如說明二。", true, 4.11f, 1.25f);
-            } 
+            }
             drsTemp.Clear();
 
             //觀察
