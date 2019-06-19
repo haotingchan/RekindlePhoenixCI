@@ -79,6 +79,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
 
             string lsYear = "";
+            int month = 1;
             foreach (DataRow r in dtDayCount.Rows) {
                DateTime aiYm = r["ai2_ymd"].AsDateTime("yyyyMM");
                TaiwanCalendar tai = new TaiwanCalendar();
@@ -94,19 +95,23 @@ namespace PhoenixCI.FormUI.Prefix3 {
                         worksheet.Cells[oleRow, 1].Value = i.ToString();
                         worksheet.Cells[oleRow, 2].Value = "";
                         oleRow++;
+                        month++;
                      }
                   }
                   lsYear = aiYm.Year.ToString();
+                  month = 1;
                }
 
-               worksheet.Cells[oleRow, 0].Value = tai.GetYear(aiYm).ToString();
-               worksheet.Cells[oleRow, 1].Value = aiYm.Month.ToString();
-               worksheet.Cells[oleRow, 2].Value = r["cp_day_count"].ToString() != "0" ? r["cp_day_count"].ToString() : "";
-               //DateTime lastAiYm = dtDayCount.Rows[dtDayCount.Rows.IndexOf(r) - 1]["ai2_ymd"].AsDateTime("yyyyMM");
-               //worksheet.Cells[oleRow, 0].Value = tai.GetYear(lastAiYm).ToString();
-               //worksheet.Cells[oleRow, 1].Value = lastAiYm.Month.ToString();
-               //worksheet.Cells[oleRow, 2].Value = "";
-
+               if (aiYm.Month == month) {
+                  worksheet.Cells[oleRow, 0].Value = tai.GetYear(aiYm).ToString();
+                  worksheet.Cells[oleRow, 1].Value = aiYm.Month.ToString();
+                  worksheet.Cells[oleRow, 2].Value = r["cp_day_count"].ToString() != "0" ? r["cp_day_count"].ToString() : "";
+               } else {
+                  worksheet.Cells[oleRow, 0].Value = tai.GetYear(aiYm).ToString();
+                  worksheet.Cells[oleRow, 1].Value = month.ToString();
+                  worksheet.Cells[oleRow, 2].Value = "";
+               }
+               month++;
                //日均量總計
                if (colTot > 0) {
                   int cpMQnty = dtAI2.Compute("SUM(ai2_m_qnty)", "ai2_ymd=" + r["ai2_ymd"].ToString()).AsInt();

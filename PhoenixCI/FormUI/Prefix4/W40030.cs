@@ -1409,6 +1409,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         msg.Status = ResultStatus.FailButNext;
                         return msg;
                      }
+
+                     if (CheckedItems.Count == 3) {
+                        if (CheckedItems[0].CheckedDate == CheckedItems[1].CheckedDate && CheckedItems[0].CheckedDate == CheckedItems[2].CheckedDate)
+                           break;
+                     }
                   }
                }
                #endregion 
@@ -1430,6 +1435,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
                foreach (CheckedItem c in CheckedItems) {
                   List<DataRow> drsTemp = Dt.Select("prod_subtype in ('I', 'B', 'C') and data_ymd = " +
                                                 "'" + c.CheckedDate.ToString("yyyyMMdd") + "'").ToList();
+
+                  if (CheckedItems.IndexOf(c) != 0) {
+                     if (CheckedItems.Exists(i => i.CheckedDate == c.CheckedDate))
+                        continue;
+                  }
 
                   if (drsTemp.Count > 0) {
                      DataTable dtTemp = drsTemp.CopyToDataTable();
@@ -1559,6 +1569,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
                foreach (CheckedItem c in CheckedItems) {
                   List<DataRow> drsTemp = Dt.Select("prod_subtype in ('I', 'B', 'C') and data_ymd = " +
                                                 "'" + c.CheckedDate.ToString("yyyyMMdd") + "'").ToList();
+
+                  if (CheckedItems.IndexOf(c) != 0) {
+                     if (CheckedItems.Exists(i => i.CheckedDate == c.CheckedDate))
+                        continue;
+                  }
 
                   if (drsTemp.Count > 0) {
                      DataTable dtTemp = drsTemp.CopyToDataTable();
@@ -3166,10 +3181,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
                string iibsDate = PbFunc.f_get_ocf_next_n_day(checkedDate, 10).AsTaiwanDateTime("{0}/{1}/{2}", 3);
                tmpStr = string.Format("不調整{0}保證金，觀察▲▲10個交易日(至▲▲{1})，惟仍需持續注意各契約保證金變動幅度、未沖銷部位數明顯變化之狀況、" +
                                        "保證金占契約價值比重及國際同類商品保證金調整等情事，於必要時隨時召開會議討論是否調整保證金。",
-                                       wfKindIdE(dtTemp), iibsDate);
+                                       GenArrayTxt(wfKindIdE(dtTemp)), iibsDate);
 
                if (licnt == 0) {
-                  SetInnerText(tmpStr);
+                  SetInnerText(tmpStr, false);
                } else {
                   SetInnerText(ChineseNumber[++licnt] + tmpStr);
                }
@@ -3268,7 +3283,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                   if (drsTemp.Count > 0) {
                      string toDate = PbFunc.f_get_ocf_next_n_day(grp1Date, 10).AsTaiwanDateTime("{0}/{1}/{2}", 3);
-                     tmpStr += $"{wfKindIdE(drsTemp.CopyToDataTable())}至▲▲{toDate}";
+                     DataTable drsTable = drsTemp.CopyToDataTable();
+                     drsTable = drsTable.Sort("SEQ_NO ASC, PROD_TYPE ASC, KIND_GRP2 ASC, KIND_ID ASC, AB_TYPE ASC");
+
+                     tmpStr += $"{GenArrayTxt(wfKindIdE(drsTable))}至▲▲{toDate}";
                   }
 
                   drsTemp = dtTemp.Select($"prod_subtype = 'S'  and adj_code = ' ' and data_ymd = '{grp2Date.ToString("yyyyMMdd")}'").ToList();
