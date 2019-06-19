@@ -43,7 +43,6 @@
          this.st_1 = new System.Windows.Forms.Label();
          this.label1 = new System.Windows.Forms.Label();
          this.st_5 = new System.Windows.Forms.Label();
-         this.textEdit1 = new DevExpress.XtraEditors.TextEdit();
          this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
          this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
          this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
@@ -63,7 +62,6 @@
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.rgData.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.rgTime.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
@@ -162,8 +160,10 @@
          this.emStartDate.Name = "emStartDate";
          this.emStartDate.Properties.Appearance.Options.UseTextOptions = true;
          this.emStartDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.emStartDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.emStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.emStartDate.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.emStartDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.emStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.emStartDate.Properties.Mask.ShowPlaceHolders = false;
          this.emStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.emStartDate.Size = new System.Drawing.Size(102, 28);
          this.emStartDate.StyleController = this.st_date;
@@ -179,8 +179,10 @@
          this.emEndDate.Name = "emEndDate";
          this.emEndDate.Properties.Appearance.Options.UseTextOptions = true;
          this.emEndDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.emEndDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.emEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.emEndDate.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.emEndDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.emEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.emEndDate.Properties.Mask.ShowPlaceHolders = false;
          this.emEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.emEndDate.Size = new System.Drawing.Size(102, 28);
          this.emEndDate.StyleController = this.st_date;
@@ -295,14 +297,6 @@
          this.st_5.TabIndex = 1;
          this.st_5.Text = "交易時段：";
          // 
-         // textEdit1
-         // 
-         this.textEdit1.Location = new System.Drawing.Point(5, 5);
-         this.textEdit1.MenuManager = this.ribbonControl;
-         this.textEdit1.Name = "textEdit1";
-         this.textEdit1.Size = new System.Drawing.Size(111, 26);
-         this.textEdit1.TabIndex = 4;
-         // 
          // layoutControlItem1
          // 
          this.layoutControlItem1.Location = new System.Drawing.Point(0, 0);
@@ -359,7 +353,6 @@
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.rgData.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.rgTime.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
@@ -377,7 +370,6 @@
       private DevExpress.XtraEditors.RadioGroup rgTime;
       private System.Windows.Forms.Label st_5;
       private DevExpress.XtraEditors.RadioGroup rgData;
-      private DevExpress.XtraEditors.TextEdit textEdit1;
       private DevExpress.XtraLayout.LayoutControl st_date;
       private BaseGround.Widget.TextDateEdit emStartDate;
       private BaseGround.Widget.TextDateEdit emEndDate;

@@ -253,10 +253,10 @@ namespace PhoenixCI.FormUI.Prefix4
 
          }
          catch (Exception ex) {
-            foreach (string path in pathList) {
-               if (File.Exists(path))
-                  File.Delete(path);
-            }
+            //foreach (string path in pathList) {
+            //   if (File.Exists(path))
+            //      File.Delete(path);
+            //}
             WriteLog(ex);
          }
          finally {
