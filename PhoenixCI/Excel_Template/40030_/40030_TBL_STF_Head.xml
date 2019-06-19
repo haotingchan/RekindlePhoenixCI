@@ -1,0 +1,984 @@
+﻿
+<w:tbl>
+<w:tblPr>
+<w:tblW w:w="9190" w:type="dxa"/>
+<w:jc w:val="right"/>
+<w:tblInd w:w="-55" w:type="dxa"/>
+<w:tblCellMar>
+<w:left w:w="28" w:type="dxa"/>
+<w:right w:w="28" w:type="dxa"/>
+</w:tblCellMar>
+<w:tblLook w:val="04A0"/>
+</w:tblPr>
+<w:tblGrid>
+<w:gridCol w:w="1150"/>
+<w:gridCol w:w="1080"/>
+<w:gridCol w:w="1180"/>
+<w:gridCol w:w="1080"/>
+<w:gridCol w:w="1080"/>
+<w:gridCol w:w="1080"/>
+<w:gridCol w:w="1180"/>
+<w:gridCol w:w="1360"/>
+</w:tblGrid>
+<w:tr>
+<w:trPr>
+<w:trHeight w:val="330"/>
+<w:tblHeader/>
+<w:jc w:val="right"/>
+</w:trPr>
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="1150" w:type="dxa"/>
+<w:vMerge w:val="restart"/>
+<w:tcBorders>
+<w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+</w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+<w:vAlign w:val="center"/>
+<w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr>
+<w:widowControl/>
+<w:kinsoku/>
+<w:adjustRightInd/>
+<w:snapToGrid/>
+<w:spacing w:line="240" w:lineRule="auto"/>
+<w:jc w:val="center"/>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+</w:pPr>
+<w:r>
+<w:rPr>
+<w:rFonts w:hAnsi="標楷體"/>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:t>
+股票期貨</w:t>
+</w:r>
+<w:r>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:br/>
+</w:r>
+<w:r>
+<w:rPr>
+<w:rFonts w:hAnsi="標楷體"/>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:t>
+英文代碼</w:t>
+</w:r>
+</w:p>
+</w:tc>
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="1080" w:type="dxa"/>
+<w:vMerge w:val="restart"/>
+<w:tcBorders>
+<w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+</w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+<w:vAlign w:val="center"/>
+<w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr>
+<w:widowControl/>
+<w:kinsoku/>
+<w:adjustRightInd/>
+<w:snapToGrid/>
+<w:spacing w:line="240" w:lineRule="auto"/>
+<w:jc w:val="center"/>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+</w:pPr>
+<w:r>
+<w:rPr>
+<w:rFonts w:hAnsi="標楷體"/>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:t>
+股票期貨</w:t>
+</w:r>
+<w:r>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:br/>
+</w:r>
+<w:r>
+<w:rPr>
+<w:rFonts w:hAnsi="標楷體"/>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:t>
+中文簡稱</w:t>
+</w:r>
+</w:p>
+</w:tc>
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="2260" w:type="dxa"/>
+<w:gridSpan w:val="2"/>
+<w:tcBorders>
+<w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:left w:val="nil"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+</w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+<w:noWrap/>
+<w:vAlign w:val="center"/>
+<w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr>
+<w:widowControl/>
+<w:kinsoku/>
+<w:adjustRightInd/>
+<w:snapToGrid/>
+<w:spacing w:line="240" w:lineRule="auto"/>
+<w:jc w:val="center"/>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+</w:pPr>
+<w:r>
+<w:rPr>
+<w:rFonts w:hAnsi="標楷體"/>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:t>
+風險價格係數</w:t>
+</w:r>
+</w:p>
+</w:tc>
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="2160" w:type="dxa"/>
+<w:gridSpan w:val="2"/>
+<w:tcBorders>
+<w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:left w:val="nil"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+</w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+<w:noWrap/>
+<w:vAlign w:val="center"/>
+<w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr>
+<w:widowControl/>
+<w:kinsoku/>
+<w:adjustRightInd/>
+<w:snapToGrid/>
+<w:spacing w:line="240" w:lineRule="auto"/>
+<w:jc w:val="center"/>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+</w:pPr>
+<w:r>
+<w:rPr>
+<w:rFonts w:hAnsi="標楷體"/>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:t>
+現貨、期貨價格</w:t>
+</w:r>
+</w:p>
+</w:tc>
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="2540" w:type="dxa"/>
+<w:gridSpan w:val="2"/>
+<w:tcBorders>
+<w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:left w:val="nil"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+</w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+<w:noWrap/>
+<w:vAlign w:val="center"/>
+<w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr>
+<w:widowControl/>
+<w:kinsoku/>
+<w:adjustRightInd/>
+<w:snapToGrid/>
+<w:spacing w:line="240" w:lineRule="auto"/>
+<w:jc w:val="center"/>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+</w:pPr>
+<w:r>
+<w:rPr>
+<w:rFonts w:hAnsi="標楷體"/>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:t>
+未沖銷部位數及成交量</w:t>
+</w:r>
+</w:p>
+</w:tc>
+</w:tr>
+<w:tr>
+<w:trPr>
+<w:trHeight w:val="330"/>
+<w:tblHeader/>
+<w:jc w:val="right"/>
+</w:trPr>
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="1150" w:type="dxa"/>
+<w:vMerge/>
+<w:tcBorders>
+<w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+</w:tcBorders>
+<w:vAlign w:val="center"/>
+<w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr>
+<w:widowControl/>
+<w:kinsoku/>
+<w:adjustRightInd/>
+<w:snapToGrid/>
+<w:spacing w:line="240" w:lineRule="auto"/>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+</w:pPr>
+</w:p>
+</w:tc>
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="1080" w:type="dxa"/>
+<w:vMerge/>
+<w:tcBorders>
+<w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+</w:tcBorders>
+<w:vAlign w:val="center"/>
+<w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr>
+<w:widowControl/>
+<w:kinsoku/>
+<w:adjustRightInd/>
+<w:snapToGrid/>
+<w:spacing w:line="240" w:lineRule="auto"/>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+</w:pPr>
+</w:p>
+</w:tc>
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="1180" w:type="dxa"/>
+<w:vMerge w:val="restart"/>
+<w:tcBorders>
+<w:top w:val="nil"/>
+<w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+</w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+<w:vAlign w:val="center"/>
+<w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr>
+<w:widowControl/>
+<w:kinsoku/>
+<w:adjustRightInd/>
+<w:snapToGrid/>
+<w:spacing w:line="240" w:lineRule="auto"/>
+<w:jc w:val="center"/>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+</w:pPr>
+<w:r>
+<w:rPr>
+<w:rFonts w:hAnsi="標楷體"/>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:t>
+本日</w:t>
+</w:r>
+<w:r>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:br/>
+<w:t>
+30</w:t>
+</w:r>
+<w:r>
+<w:rPr>
+<w:rFonts w:hAnsi="標楷體"/>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:t>
+天期</w:t>
+</w:r>
+<w:r>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:br/>
+</w:r>
+<w:r>
+<w:rPr>
+<w:rFonts w:hAnsi="標楷體"/>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:t>
+風險價格係數</w:t>
+</w:r>
+</w:p>
+</w:tc>
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="1080" w:type="dxa"/>
+<w:vMerge w:val="restart"/>
+<w:tcBorders>
+<w:top w:val="nil"/>
+<w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+</w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+<w:vAlign w:val="center"/>
+<w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr>
+<w:widowControl/>
+<w:kinsoku/>
+<w:adjustRightInd/>
+<w:snapToGrid/>
+<w:spacing w:line="240" w:lineRule="auto"/>
+<w:jc w:val="center"/>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+</w:pPr>
+<w:r>
+<w:rPr>
+<w:rFonts w:hAnsi="標楷體"/>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:t>
+本日</w:t>
+</w:r>
+<w:r>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:br/>
+</w:r>
+<w:r>
+<w:rPr>
+<w:rFonts w:hAnsi="標楷體"/>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:t>
+風險價格</w:t>
+</w:r>
+<w:r>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:br/>
+</w:r>
+<w:r>
+<w:rPr>
+<w:rFonts w:hAnsi="標楷體"/>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:t>
+係數平均值</w:t>
+</w:r>
+</w:p>
+</w:tc>
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="2160" w:type="dxa"/>
+<w:gridSpan w:val="2"/>
+<w:tcBorders>
+<w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:left w:val="nil"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+</w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+<w:vAlign w:val="center"/>
+<w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr>
+<w:widowControl/>
+<w:kinsoku/>
+<w:adjustRightInd/>
+<w:snapToGrid/>
+<w:spacing w:line="240" w:lineRule="auto"/>
+<w:jc w:val="center"/>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+</w:pPr>
+<w:r>
+<w:rPr>
+<w:rFonts w:hAnsi="標楷體"/>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:t>
+本日收盤價</w:t>
+</w:r>
+<w:r>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:t>
+/</w:t>
+</w:r>
+<w:r>
+<w:rPr>
+<w:rFonts w:hAnsi="標楷體"/>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:t>
+結算價</w:t>
+</w:r>
+</w:p>
+</w:tc>
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="1180" w:type="dxa"/>
+<w:vMerge w:val="restart"/>
+<w:tcBorders>
+<w:top w:val="nil"/>
+<w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+</w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+<w:vAlign w:val="center"/>
+<w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr>
+<w:widowControl/>
+<w:kinsoku/>
+<w:adjustRightInd/>
+<w:snapToGrid/>
+<w:spacing w:line="240" w:lineRule="auto"/>
+<w:jc w:val="center"/>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+</w:pPr>
+<w:r>
+<w:rPr>
+<w:rFonts w:hAnsi="標楷體"/>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:t>
+本日</w:t>
+</w:r>
+<w:r>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:br/>
+</w:r>
+<w:r>
+<w:rPr>
+<w:rFonts w:hAnsi="標楷體"/>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:t>
+未沖銷</w:t>
+</w:r>
+<w:r>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:br/>
+</w:r>
+<w:r>
+<w:rPr>
+<w:rFonts w:hAnsi="標楷體"/>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:t>
+部位數</w:t>
+</w:r>
+</w:p>
+</w:tc>
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="1360" w:type="dxa"/>
+<w:vMerge w:val="restart"/>
+<w:tcBorders>
+<w:top w:val="nil"/>
+<w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+</w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+<w:vAlign w:val="center"/>
+<w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr>
+<w:widowControl/>
+<w:kinsoku/>
+<w:adjustRightInd/>
+<w:snapToGrid/>
+<w:spacing w:line="240" w:lineRule="auto"/>
+<w:jc w:val="center"/>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+</w:pPr>
+<w:r>
+<w:rPr>
+<w:rFonts w:hAnsi="標楷體"/>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:t>
+本日</w:t>
+</w:r>
+<w:r>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:br/>
+</w:r>
+<w:r>
+<w:rPr>
+<w:rFonts w:hAnsi="標楷體"/>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:t>
+成交量</w:t>
+</w:r>
+</w:p>
+</w:tc>
+</w:tr>
+<w:tr w:rsidTr="004F1206">
+<w:trPr>
+<w:trHeight w:val="705"/>
+<w:tblHeader/>
+<w:jc w:val="right"/>
+</w:trPr>
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="1150" w:type="dxa"/>
+<w:vMerge/>
+<w:tcBorders>
+<w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+</w:tcBorders>
+<w:vAlign w:val="center"/>
+<w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr>
+<w:widowControl/>
+<w:kinsoku/>
+<w:adjustRightInd/>
+<w:snapToGrid/>
+<w:spacing w:line="240" w:lineRule="auto"/>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+</w:pPr>
+</w:p>
+</w:tc>
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="1080" w:type="dxa"/>
+<w:vMerge/>
+<w:tcBorders>
+<w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+</w:tcBorders>
+<w:vAlign w:val="center"/>
+<w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr>
+<w:widowControl/>
+<w:kinsoku/>
+<w:adjustRightInd/>
+<w:snapToGrid/>
+<w:spacing w:line="240" w:lineRule="auto"/>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+</w:pPr>
+</w:p>
+</w:tc>
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="1180" w:type="dxa"/>
+<w:vMerge/>
+<w:tcBorders>
+<w:top w:val="nil"/>
+<w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+</w:tcBorders>
+<w:vAlign w:val="center"/>
+<w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr>
+<w:widowControl/>
+<w:kinsoku/>
+<w:adjustRightInd/>
+<w:snapToGrid/>
+<w:spacing w:line="240" w:lineRule="auto"/>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+</w:pPr>
+</w:p>
+</w:tc>
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="1080" w:type="dxa"/>
+<w:vMerge/>
+<w:tcBorders>
+<w:top w:val="nil"/>
+<w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+</w:tcBorders>
+<w:vAlign w:val="center"/>
+<w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr>
+<w:widowControl/>
+<w:kinsoku/>
+<w:adjustRightInd/>
+<w:snapToGrid/>
+<w:spacing w:line="240" w:lineRule="auto"/>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+</w:pPr>
+</w:p>
+</w:tc>
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="1080" w:type="dxa"/>
+<w:tcBorders>
+<w:top w:val="nil"/>
+<w:left w:val="nil"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+</w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+<w:vAlign w:val="center"/>
+<w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr>
+<w:widowControl/>
+<w:kinsoku/>
+<w:adjustRightInd/>
+<w:snapToGrid/>
+<w:spacing w:line="240" w:lineRule="auto"/>
+<w:jc w:val="center"/>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+</w:pPr>
+<w:r>
+<w:rPr>
+<w:rFonts w:hAnsi="標楷體"/>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:t>
+現貨</w:t>
+</w:r>
+</w:p>
+</w:tc>
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="1080" w:type="dxa"/>
+<w:tcBorders>
+<w:top w:val="nil"/>
+<w:left w:val="nil"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+</w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+<w:noWrap/>
+<w:vAlign w:val="center"/>
+<w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr>
+<w:widowControl/>
+<w:kinsoku/>
+<w:adjustRightInd/>
+<w:snapToGrid/>
+<w:spacing w:line="240" w:lineRule="auto"/>
+<w:jc w:val="center"/>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+</w:pPr>
+<w:r>
+<w:rPr>
+<w:rFonts w:hAnsi="標楷體"/>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+<w:t>
+期貨</w:t>
+</w:r>
+</w:p>
+</w:tc>
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="1180" w:type="dxa"/>
+<w:vMerge/>
+<w:tcBorders>
+<w:top w:val="nil"/>
+<w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+</w:tcBorders>
+<w:vAlign w:val="center"/>
+<w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr>
+<w:widowControl/>
+<w:kinsoku/>
+<w:adjustRightInd/>
+<w:snapToGrid/>
+<w:spacing w:line="240" w:lineRule="auto"/>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+</w:pPr>
+</w:p>
+</w:tc>
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="1360" w:type="dxa"/>
+<w:vMerge/>
+<w:tcBorders>
+<w:top w:val="nil"/>
+<w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+</w:tcBorders>
+<w:vAlign w:val="center"/>
+<w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr>
+<w:widowControl/>
+<w:kinsoku/>
+<w:adjustRightInd/>
+<w:snapToGrid/>
+<w:spacing w:line="240" w:lineRule="auto"/>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:sz w:val="24"/>
+<w:szCs w:val="24"/>
+</w:rPr>
+</w:pPr>
+</w:p>
+</w:tc>
+</w:tr>

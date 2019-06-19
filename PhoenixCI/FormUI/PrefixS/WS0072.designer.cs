@@ -192,17 +192,17 @@
          // 
          // txtEndDate
          // 
-         this.txtEndDate.DateTimeValue = new System.DateTime(((long)(0)));
+         this.txtEndDate.DateTimeValue = new System.DateTime(2018, 1, 1, 0, 0, 0, 0);
          this.txtEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtEndDate.EditValue = "0001/1/1 上午 12:00:00";
+         this.txtEndDate.EditValue = "2018/01/01 上午 12:00:00";
          this.txtEndDate.Location = new System.Drawing.Point(254, 24);
          this.txtEndDate.Name = "txtEndDate";
          this.txtEndDate.Properties.DisplayFormat.FormatString = "yyyyMMdd";
          this.txtEndDate.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
          this.txtEndDate.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtEndDate.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.Custom;
-         this.txtEndDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtEndDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndDate.Size = new System.Drawing.Size(100, 26);
@@ -451,7 +451,7 @@
          this.tab_IMS.Controls.Add(this.gc_IMS);
          this.tab_IMS.Controls.Add(this.panel2);
          this.tab_IMS.Name = "tab_IMS";
-         this.tab_IMS.Size = new System.Drawing.Size(1111, 405);
+         this.tab_IMS.Size = new System.Drawing.Size(808, 372);
          this.tab_IMS.Text = "B. 跨月價差設定";
          // 
          // gc_IMS
@@ -463,7 +463,7 @@
          this.gc_IMS.Name = "gc_IMS";
          this.gc_IMS.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit2});
-         this.gc_IMS.Size = new System.Drawing.Size(1111, 328);
+         this.gc_IMS.Size = new System.Drawing.Size(808, 295);
          this.gc_IMS.TabIndex = 7;
          this.gc_IMS.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_IMS});
@@ -556,7 +556,7 @@
          this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
          this.panel2.Location = new System.Drawing.Point(0, 0);
          this.panel2.Name = "panel2";
-         this.panel2.Size = new System.Drawing.Size(1111, 77);
+         this.panel2.Size = new System.Drawing.Size(808, 77);
          this.panel2.TabIndex = 6;
          // 
          // IMS_btnClear
@@ -591,7 +591,7 @@
          this.tab_ZISP.Controls.Add(this.panTabGrid);
          this.tab_ZISP.Controls.Add(this.panTabButtonBar);
          this.tab_ZISP.Name = "tab_ZISP";
-         this.tab_ZISP.Size = new System.Drawing.Size(1111, 405);
+         this.tab_ZISP.Size = new System.Drawing.Size(808, 372);
          this.tab_ZISP.Text = "C. 跨商品價差設定";
          // 
          // panTabGrid
@@ -600,7 +600,7 @@
          this.panTabGrid.Dock = System.Windows.Forms.DockStyle.Fill;
          this.panTabGrid.Location = new System.Drawing.Point(0, 77);
          this.panTabGrid.Name = "panTabGrid";
-         this.panTabGrid.Size = new System.Drawing.Size(1111, 328);
+         this.panTabGrid.Size = new System.Drawing.Size(808, 295);
          this.panTabGrid.TabIndex = 5;
          // 
          // gc_ZISP
@@ -613,7 +613,7 @@
          this.gc_ZISP.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit5,
             this.repositoryItemTextEdit6});
-         this.gc_ZISP.Size = new System.Drawing.Size(1111, 328);
+         this.gc_ZISP.Size = new System.Drawing.Size(808, 295);
          this.gc_ZISP.TabIndex = 0;
          this.gc_ZISP.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_ZISP});
@@ -811,7 +811,7 @@
          this.panTabButtonBar.Dock = System.Windows.Forms.DockStyle.Top;
          this.panTabButtonBar.Location = new System.Drawing.Point(0, 0);
          this.panTabButtonBar.Name = "panTabButtonBar";
-         this.panTabButtonBar.Size = new System.Drawing.Size(1111, 77);
+         this.panTabButtonBar.Size = new System.Drawing.Size(808, 77);
          this.panTabButtonBar.TabIndex = 4;
          // 
          // ZISP_btnClear
@@ -855,7 +855,7 @@
          this.tab_VSR.Controls.Add(this.gc_VSR);
          this.tab_VSR.Controls.Add(this.panel3);
          this.tab_VSR.Name = "tab_VSR";
-         this.tab_VSR.Size = new System.Drawing.Size(1111, 405);
+         this.tab_VSR.Size = new System.Drawing.Size(808, 372);
          this.tab_VSR.Text = "D. VSR設定";
          // 
          // gc_VSR
@@ -867,7 +867,7 @@
          this.gc_VSR.Name = "gc_VSR";
          this.gc_VSR.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit3});
-         this.gc_VSR.Size = new System.Drawing.Size(1111, 328);
+         this.gc_VSR.Size = new System.Drawing.Size(808, 295);
          this.gc_VSR.TabIndex = 9;
          this.gc_VSR.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_VSR});
@@ -960,7 +960,7 @@
          this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
          this.panel3.Location = new System.Drawing.Point(0, 0);
          this.panel3.Name = "panel3";
-         this.panel3.Size = new System.Drawing.Size(1111, 77);
+         this.panel3.Size = new System.Drawing.Size(808, 77);
          this.panel3.TabIndex = 8;
          // 
          // VSR_btnClear
@@ -995,7 +995,7 @@
          this.tab_SOM.Controls.Add(this.gc_SOM);
          this.tab_SOM.Controls.Add(this.panel4);
          this.tab_SOM.Name = "tab_SOM";
-         this.tab_SOM.Size = new System.Drawing.Size(1111, 405);
+         this.tab_SOM.Size = new System.Drawing.Size(808, 372);
          this.tab_SOM.Text = "E. SOM設定";
          // 
          // gc_SOM
@@ -1007,7 +1007,7 @@
          this.gc_SOM.Name = "gc_SOM";
          this.gc_SOM.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit4});
-         this.gc_SOM.Size = new System.Drawing.Size(1111, 328);
+         this.gc_SOM.Size = new System.Drawing.Size(808, 295);
          this.gc_SOM.TabIndex = 11;
          this.gc_SOM.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_SOM});
@@ -1100,7 +1100,7 @@
          this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
          this.panel4.Location = new System.Drawing.Point(0, 0);
          this.panel4.Name = "panel4";
-         this.panel4.Size = new System.Drawing.Size(1111, 77);
+         this.panel4.Size = new System.Drawing.Size(808, 77);
          this.panel4.TabIndex = 10;
          // 
          // SOM_btnClear

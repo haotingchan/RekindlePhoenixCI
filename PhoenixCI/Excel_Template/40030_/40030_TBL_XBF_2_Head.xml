@@ -1,0 +1,178 @@
+﻿
+<w:tbl>
+<w:tblPr>
+<w:tblW w:w="8851" w:type="dxa"/>
+<w:tblInd w:w="560" w:type="dxa"/>
+<w:tblCellMar>
+<w:left w:w="28" w:type="dxa"/>
+<w:right w:w="28" w:type="dxa"/>
+</w:tblCellMar>
+<w:tblLook w:val="04A0"/>
+</w:tblPr>
+<w:tblGrid>
+<w:gridCol w:w="2911"/>
+<w:gridCol w:w="2970"/>
+<w:gridCol w:w="2970"/>
+</w:tblGrid>
+
+
+
+<w:tr>
+<w:trPr><w:trHeight w:val="330"/></w:trPr>
+
+
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="2911" w:type="dxa"/>
+<w:gridSpan w:val="3"/>
+<w:tcBorders><w:top w:val="nil"/><w:left w:val="nil"/><w:bottom w:val="nil"/><w:right w:val="nil"/></w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+<w:noWrap/>
+<w:vAlign w:val="center"/>
+<w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr>
+<w:widowControl/>
+<w:kinsoku/>
+<w:adjustRightInd/>
+<w:snapToGrid/>
+<w:spacing w:line="240" w:lineRule="auto"/>
+<w:jc w:val="right"/>
+</w:pPr>
+<w:r w:rsidRPr="009E1495">
+<w:rPr>
+<w:rFonts w:ascii="標楷體" w:hAnsi="標楷體" w:cs="新細明體" w:hint="eastAsia"/>
+<w:snapToGrid/><w:spacing w:val="0"/><w:sz w:val="24"/><w:szCs w:val="24"/>
+</w:rPr>
+<w:t>單位：美元</w:t>
+</w:r>
+</w:p>
+</w:tc>
+</w:tr>
+
+
+<w:tr>
+<w:trPr>
+<w:trHeight w:val="330"/>
+</w:trPr>
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="8851" w:type="dxa"/>
+<w:gridSpan w:val="3"/>
+<w:tcBorders>
+<w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+<w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/>
+</w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+<w:noWrap/>
+<w:vAlign w:val="center"/>
+<w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr>
+<w:widowControl/>
+<w:kinsoku/>
+<w:adjustRightInd/>
+<w:snapToGrid/>
+<w:spacing w:line="240" w:lineRule="auto"/>
+<w:jc w:val="center"/>
+</w:pPr>
+<w:r>
+<w:rPr>
+<w:rFonts w:ascii="標楷體" w:hAnsi="標楷體" w:cs="新細明體" w:hint="eastAsia"/>
+<w:snapToGrid/>
+<w:color w:val="000000"/><w:spacing w:val="0"/><w:sz w:val="24"/><w:szCs w:val="24"/>
+</w:rPr>
+<w:t>本公司</w:t>
+</w:r>
+<w:r>
+<w:rPr>
+<w:rFonts w:ascii="標楷體" w:hAnsi="標楷體" w:cs="新細明體" w:hint="eastAsia"/>
+<w:b/>
+<w:bCs/>
+<w:snapToGrid/>
+<w:color w:val="000000"/><w:spacing w:val="0"/><w:sz w:val="24"/><w:szCs w:val="24"/>
+</w:rPr>
+<w:t>
+調整後英鎊兌美元</w:t>
+</w:r>
+<w:r>
+<w:rPr>
+<w:rFonts w:ascii="標楷體" w:hAnsi="標楷體" w:cs="新細明體" w:hint="eastAsia"/>
+<w:snapToGrid/>
+<w:color w:val="000000"/><w:spacing w:val="0"/><w:sz w:val="24"/><w:szCs w:val="24"/>
+</w:rPr>
+<w:t>
+期貨保證金占契約價值比與國際主要交易所比較表</w:t>
+</w:r>
+</w:p>
+</w:tc>
+</w:tr>
+
+
+<w:tr>
+<w:trPr>
+<w:trHeight w:val="600"/>
+</w:trPr>
+
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="2911" w:type="dxa"/>
+<w:tcBorders><w:top w:val="nil"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+<w:noWrap/><w:vAlign w:val="center"/><w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr><w:snapToGrid/><w:spacing w:line="240" w:lineRule="auto"/><w:jc w:val="center"/></w:pPr><w:r w:rsidRPr="009E1495">
+<w:rPr>
+<w:rFonts w:ascii="標楷體" w:hAnsi="標楷體" w:hint="eastAsia"/>
+<w:snapToGrid/><w:spacing w:val="0"/><w:sz w:val="22"/><w:szCs w:val="22"/></w:rPr>
+<w:t>交易所</w:t>
+</w:r>
+</w:p>
+</w:tc>
+
+
+
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="2970" w:type="dxa"/>
+<w:tcBorders><w:top w:val="nil"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+<w:noWrap/><w:vAlign w:val="center"/><w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr><w:snapToGrid/><w:spacing w:line="240" w:lineRule="auto"/><w:jc w:val="center"/></w:pPr><w:r w:rsidRPr="009E1495">
+<w:rPr>
+<w:rFonts w:eastAsia="新細明體"/>
+<w:snapToGrid/><w:spacing w:val="0"/><w:sz w:val="22"/><w:szCs w:val="22"/>
+</w:rPr>
+<w:t>XBF<w:br/>TAIFEX</w:t>
+</w:r>
+</w:p>
+</w:tc>
+
+
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="2970" w:type="dxa"/>
+<w:tcBorders><w:top w:val="nil"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+<w:noWrap/><w:vAlign w:val="center"/><w:hideMark/>
+</w:tcPr>
+<w:p>
+<w:pPr><w:snapToGrid/><w:spacing w:line="240" w:lineRule="auto"/><w:jc w:val="center"/></w:pPr><w:r w:rsidRPr="009E1495">
+<w:rPr>
+<w:rFonts w:eastAsia="新細明體"/>
+<w:snapToGrid/><w:spacing w:val="0"/><w:sz w:val="22"/><w:szCs w:val="22"/>
+</w:rPr>
+<w:t>CME</w:t>
+</w:r>
+</w:p>
+</w:tc>
+
+</w:tr>
+

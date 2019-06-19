@@ -1,0 +1,564 @@
+﻿<w:tbl>
+  <w:tblPr>
+    <w:tblW w:w="9352" w:type="dxa" />
+    <w:tblInd w:w="33" w:type="dxa" />
+    <w:tblCellMar>
+      <w:left w:w="28" w:type="dxa" />
+      <w:right w:w="28" w:type="dxa" />
+    </w:tblCellMar>
+    <w:tblLook w:val="04A0" w:firstRow="1" w:lastRow="0" w:firstColumn="1" w:lastColumn="0" w:noHBand="0" w:noVBand="1" />
+  </w:tblPr>
+  <w:tblGrid>
+    <w:gridCol w:w="3160" />
+    <w:gridCol w:w="1548" />
+    <w:gridCol w:w="1548" />
+    <w:gridCol w:w="1548" />
+    <w:gridCol w:w="1548" />
+  </w:tblGrid>
+  <w:tr w:rsidR="00260462" w:rsidRPr="00260462" w:rsidTr="00260462">
+    <w:trPr>
+      <w:trHeight w:val="313" />
+    </w:trPr>
+    <w:tc>
+      <w:tcPr>
+        <w:tcW w:w="9352" w:type="dxa" />
+        <w:gridSpan w:val="5" />
+        <w:tcBorders>
+          <w:top w:val="single" w:sz="4" w:space="0" w:color="auto" />
+          <w:left w:val="single" w:sz="4" w:space="0" w:color="auto" />
+          <w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto" />
+          <w:right w:val="single" w:sz="4" w:space="0" w:color="auto" />
+        </w:tcBorders>
+        <w:shd w:val="clear" w:color="auto" w:fill="auto" />
+        <w:vAlign w:val="center" />
+        <w:hideMark />
+      </w:tcPr>
+      <w:p w:rsidR="00260462" w:rsidRPr="00260462" w:rsidRDefault="00260462" w:rsidP="00260462">
+        <w:pPr>
+          <w:widowControl />
+          <w:kinsoku />
+          <w:adjustRightInd />
+          <w:snapToGrid />
+          <w:spacing w:line="240" w:lineRule="auto" />
+          <w:jc w:val="center" />
+          <w:rPr>
+            <w:rFonts w:ascii="標楷體" w:hAnsi="標楷體" w:cs="新細明體" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="24" />
+            <w:szCs w:val="24" />
+          </w:rPr>
+        </w:pPr>
+        <w:r w:rsidRPr="00260462">
+          <w:rPr>
+            <w:rFonts w:ascii="標楷體" w:hAnsi="標楷體" w:cs="新細明體" w:hint="eastAsia" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="24" />
+            <w:szCs w:val="24" />
+          </w:rPr>
+          <w:t>本公司美國那斯達克100期貨保證金占契約價值比與國際主要交易所比較表</w:t>
+        </w:r>
+      </w:p>
+    </w:tc>
+  </w:tr>
+  <w:tr w:rsidR="00FF0183" w:rsidRPr="00FF0183" w:rsidTr="00260462">
+    <w:trPr>
+      <w:trHeight w:val="394" />
+    </w:trPr>
+    <w:tc>
+      <w:tcPr>
+        <w:tcW w:w="3160" w:type="dxa" />
+        <w:vMerge w:val="restart" />
+        <w:tcBorders>
+          <w:top w:val="nil" />
+          <w:left w:val="single" w:sz="4" w:space="0" w:color="auto" />
+          <w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto" />
+          <w:right w:val="single" w:sz="4" w:space="0" w:color="auto" />
+        </w:tcBorders>
+        <w:shd w:val="clear" w:color="auto" w:fill="auto" />
+        <w:vAlign w:val="center" />
+        <w:hideMark />
+      </w:tcPr>
+      <w:p w:rsidR="00260462" w:rsidRPr="00260462" w:rsidRDefault="00260462" w:rsidP="00260462">
+        <w:pPr>
+          <w:widowControl />
+          <w:kinsoku />
+          <w:adjustRightInd />
+          <w:snapToGrid />
+          <w:spacing w:line="240" w:lineRule="auto" />
+          <w:jc w:val="center" />
+          <w:rPr>
+            <w:rFonts w:eastAsia="新細明體" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="22" />
+            <w:szCs w:val="22" />
+          </w:rPr>
+        </w:pPr>
+        <w:r w:rsidRPr="00260462">
+          <w:rPr>
+            <w:rFonts w:ascii="標楷體" w:hAnsi="標楷體" w:hint="eastAsia" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="22" />
+            <w:szCs w:val="22" />
+          </w:rPr>
+          <w:t>交易所</w:t>
+        </w:r>
+      </w:p>
+    </w:tc>
+    <w:tc>
+      <w:tcPr>
+        <w:tcW w:w="3095" w:type="dxa" />
+        <w:gridSpan w:val="2" />
+        <w:tcBorders>
+          <w:top w:val="single" w:sz="4" w:space="0" w:color="auto" />
+          <w:left w:val="nil" />
+          <w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto" />
+          <w:right w:val="single" w:sz="4" w:space="0" w:color="auto" />
+        </w:tcBorders>
+        <w:shd w:val="clear" w:color="auto" w:fill="auto" />
+        <w:noWrap />
+        <w:vAlign w:val="center" />
+        <w:hideMark />
+      </w:tcPr>
+      <w:p w:rsidR="00260462" w:rsidRPr="00260462" w:rsidRDefault="00260462" w:rsidP="00260462">
+        <w:pPr>
+          <w:widowControl />
+          <w:kinsoku />
+          <w:adjustRightInd />
+          <w:snapToGrid />
+          <w:spacing w:line="240" w:lineRule="auto" />
+          <w:jc w:val="center" />
+          <w:rPr>
+            <w:rFonts w:ascii="標楷體" w:hAnsi="標楷體" w:cs="新細明體" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="24" />
+            <w:szCs w:val="24" />
+          </w:rPr>
+        </w:pPr>
+        <w:r w:rsidRPr="00260462">
+          <w:rPr>
+            <w:rFonts w:ascii="標楷體" w:hAnsi="標楷體" w:cs="新細明體" w:hint="eastAsia" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="24" />
+            <w:szCs w:val="24" />
+          </w:rPr>
+          <w:t>現行比例</w:t>
+        </w:r>
+      </w:p>
+    </w:tc>
+    <w:tc>
+      <w:tcPr>
+        <w:tcW w:w="3095" w:type="dxa" />
+        <w:gridSpan w:val="2" />
+        <w:tcBorders>
+          <w:top w:val="single" w:sz="4" w:space="0" w:color="auto" />
+          <w:left w:val="nil" />
+          <w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto" />
+          <w:right w:val="single" w:sz="4" w:space="0" w:color="auto" />
+        </w:tcBorders>
+        <w:shd w:val="clear" w:color="auto" w:fill="auto" />
+        <w:noWrap />
+        <w:vAlign w:val="center" />
+        <w:hideMark />
+      </w:tcPr>
+      <w:p w:rsidR="00260462" w:rsidRPr="00260462" w:rsidRDefault="00260462" w:rsidP="00260462">
+        <w:pPr>
+          <w:widowControl />
+          <w:kinsoku />
+          <w:adjustRightInd />
+          <w:snapToGrid />
+          <w:spacing w:line="240" w:lineRule="auto" />
+          <w:jc w:val="center" />
+          <w:rPr>
+            <w:rFonts w:ascii="標楷體" w:hAnsi="標楷體" w:cs="新細明體" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="24" />
+            <w:szCs w:val="24" />
+          </w:rPr>
+        </w:pPr>
+        <w:r w:rsidRPr="00260462">
+          <w:rPr>
+            <w:rFonts w:ascii="標楷體" w:hAnsi="標楷體" w:cs="新細明體" w:hint="eastAsia" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="24" />
+            <w:szCs w:val="24" />
+          </w:rPr>
+          <w:t>調整後</w:t>
+        </w:r>
+      </w:p>
+    </w:tc>
+  </w:tr>
+  <w:tr w:rsidR="00FF0183" w:rsidRPr="00FF0183" w:rsidTr="00260462">
+    <w:trPr>
+      <w:trHeight w:val="1440" />
+    </w:trPr>
+    <w:tc>
+      <w:tcPr>
+        <w:tcW w:w="3160" w:type="dxa" />
+        <w:vMerge />
+        <w:tcBorders>
+          <w:top w:val="nil" />
+          <w:left w:val="single" w:sz="4" w:space="0" w:color="auto" />
+          <w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto" />
+          <w:right w:val="single" w:sz="4" w:space="0" w:color="auto" />
+        </w:tcBorders>
+        <w:vAlign w:val="center" />
+        <w:hideMark />
+      </w:tcPr>
+      <w:p w:rsidR="00260462" w:rsidRPr="00260462" w:rsidRDefault="00260462" w:rsidP="00260462">
+        <w:pPr>
+          <w:widowControl />
+          <w:kinsoku />
+          <w:adjustRightInd />
+          <w:snapToGrid />
+          <w:spacing w:line="240" w:lineRule="auto" />
+          <w:rPr>
+            <w:rFonts w:eastAsia="新細明體" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="22" />
+            <w:szCs w:val="22" />
+          </w:rPr>
+        </w:pPr>
+      </w:p>
+    </w:tc>
+    <w:tc>
+      <w:tcPr>
+        <w:tcW w:w="1548" w:type="dxa" />
+        <w:tcBorders>
+          <w:top w:val="nil" />
+          <w:left w:val="nil" />
+          <w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto" />
+          <w:right w:val="single" w:sz="4" w:space="0" w:color="auto" />
+        </w:tcBorders>
+        <w:shd w:val="clear" w:color="auto" w:fill="auto" />
+        <w:vAlign w:val="center" />
+        <w:hideMark />
+      </w:tcPr>
+      <w:p w:rsidR="00260462" w:rsidRPr="00260462" w:rsidRDefault="00260462" w:rsidP="00260462">
+        <w:pPr>
+          <w:widowControl />
+          <w:kinsoku />
+          <w:adjustRightInd />
+          <w:snapToGrid />
+          <w:spacing w:line="240" w:lineRule="auto" />
+          <w:jc w:val="center" />
+          <w:rPr>
+            <w:rFonts w:eastAsia="新細明體" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="22" />
+            <w:szCs w:val="22" />
+          </w:rPr>
+        </w:pPr>
+        <w:r w:rsidRPr="00260462">
+          <w:rPr>
+            <w:rFonts w:eastAsia="新細明體" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="22" />
+            <w:szCs w:val="22" />
+          </w:rPr>
+          <w:t>TAIFEX</w:t>
+        </w:r>
+        <w:r w:rsidRPr="00260462">
+          <w:rPr>
+            <w:rFonts w:eastAsia="新細明體" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="22" />
+            <w:szCs w:val="22" />
+          </w:rPr>
+          <w:br />
+          <w:t>UNF</w:t>
+        </w:r>
+        <w:r w:rsidRPr="00260462">
+          <w:rPr>
+            <w:rFonts w:eastAsia="新細明體" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="22" />
+            <w:szCs w:val="22" />
+          </w:rPr>
+          <w:br />
+          <w:t>(</w:t>
+        </w:r>
+        <w:r w:rsidRPr="00260462">
+          <w:rPr>
+            <w:rFonts w:ascii="標楷體" w:hAnsi="標楷體" w:hint="eastAsia" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="22" />
+            <w:szCs w:val="22" />
+          </w:rPr>
+          <w:t>新臺幣元</w:t>
+        </w:r>
+        <w:r w:rsidRPr="00260462">
+          <w:rPr>
+            <w:rFonts w:eastAsia="新細明體" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="22" />
+            <w:szCs w:val="22" />
+          </w:rPr>
+          <w:t>)</w:t>
+        </w:r>
+      </w:p>
+    </w:tc>
+    <w:tc>
+      <w:tcPr>
+        <w:tcW w:w="1548" w:type="dxa" />
+        <w:tcBorders>
+          <w:top w:val="nil" />
+          <w:left w:val="nil" />
+          <w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto" />
+          <w:right w:val="single" w:sz="4" w:space="0" w:color="auto" />
+        </w:tcBorders>
+        <w:shd w:val="clear" w:color="auto" w:fill="auto" />
+        <w:vAlign w:val="center" />
+        <w:hideMark />
+      </w:tcPr>
+      <w:p w:rsidR="00260462" w:rsidRPr="00260462" w:rsidRDefault="00260462" w:rsidP="00260462">
+        <w:pPr>
+          <w:widowControl />
+          <w:kinsoku />
+          <w:adjustRightInd />
+          <w:snapToGrid />
+          <w:spacing w:line="240" w:lineRule="auto" />
+          <w:jc w:val="center" />
+          <w:rPr>
+            <w:rFonts w:eastAsia="新細明體" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="22" />
+            <w:szCs w:val="22" />
+          </w:rPr>
+        </w:pPr>
+        <w:r w:rsidRPr="00260462">
+          <w:rPr>
+            <w:rFonts w:eastAsia="新細明體" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="22" />
+            <w:szCs w:val="22" />
+          </w:rPr>
+          <w:t xml:space="preserve">CME </w:t>
+        </w:r>
+        <w:r w:rsidRPr="00260462">
+          <w:rPr>
+            <w:rFonts w:eastAsia="新細明體" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="22" />
+            <w:szCs w:val="22" />
+          </w:rPr>
+          <w:br />
+          <w:t>E-mini NASDAQ 100 Futures</w:t>
+        </w:r>
+        <w:r w:rsidRPr="00260462">
+          <w:rPr>
+            <w:rFonts w:eastAsia="新細明體" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="22" />
+            <w:szCs w:val="22" />
+          </w:rPr>
+          <w:br />
+          <w:t>(</w:t>
+        </w:r>
+        <w:r w:rsidRPr="00260462">
+          <w:rPr>
+            <w:rFonts w:ascii="標楷體" w:hAnsi="標楷體" w:hint="eastAsia" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="22" />
+            <w:szCs w:val="22" />
+          </w:rPr>
+          <w:t>美元</w:t>
+        </w:r>
+        <w:r w:rsidRPr="00260462">
+          <w:rPr>
+            <w:rFonts w:eastAsia="新細明體" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="22" />
+            <w:szCs w:val="22" />
+          </w:rPr>
+          <w:t>)</w:t>
+        </w:r>
+      </w:p>
+    </w:tc>
+    <w:tc>
+      <w:tcPr>
+        <w:tcW w:w="1548" w:type="dxa" />
+        <w:tcBorders>
+          <w:top w:val="nil" />
+          <w:left w:val="nil" />
+          <w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto" />
+          <w:right w:val="single" w:sz="4" w:space="0" w:color="auto" />
+        </w:tcBorders>
+        <w:shd w:val="clear" w:color="auto" w:fill="auto" />
+        <w:vAlign w:val="center" />
+        <w:hideMark />
+      </w:tcPr>
+      <w:p w:rsidR="00260462" w:rsidRPr="00260462" w:rsidRDefault="00260462" w:rsidP="00260462">
+        <w:pPr>
+          <w:widowControl />
+          <w:kinsoku />
+          <w:adjustRightInd />
+          <w:snapToGrid />
+          <w:spacing w:line="240" w:lineRule="auto" />
+          <w:jc w:val="center" />
+          <w:rPr>
+            <w:rFonts w:eastAsia="新細明體" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="22" />
+            <w:szCs w:val="22" />
+          </w:rPr>
+        </w:pPr>
+        <w:r w:rsidRPr="00260462">
+          <w:rPr>
+            <w:rFonts w:eastAsia="新細明體" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="22" />
+            <w:szCs w:val="22" />
+          </w:rPr>
+          <w:t>TAIFEX</w:t>
+        </w:r>
+        <w:r w:rsidRPr="00260462">
+          <w:rPr>
+            <w:rFonts w:eastAsia="新細明體" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="22" />
+            <w:szCs w:val="22" />
+          </w:rPr>
+          <w:br />
+          <w:t>UNF</w:t>
+        </w:r>
+        <w:r w:rsidRPr="00260462">
+          <w:rPr>
+            <w:rFonts w:eastAsia="新細明體" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="22" />
+            <w:szCs w:val="22" />
+          </w:rPr>
+          <w:br />
+          <w:t>(</w:t>
+        </w:r>
+        <w:r w:rsidRPr="00260462">
+          <w:rPr>
+            <w:rFonts w:ascii="標楷體" w:hAnsi="標楷體" w:hint="eastAsia" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="22" />
+            <w:szCs w:val="22" />
+          </w:rPr>
+          <w:t>新臺幣元</w:t>
+        </w:r>
+        <w:r w:rsidRPr="00260462">
+          <w:rPr>
+            <w:rFonts w:eastAsia="新細明體" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="22" />
+            <w:szCs w:val="22" />
+          </w:rPr>
+          <w:t>)</w:t>
+        </w:r>
+      </w:p>
+    </w:tc>
+    <w:tc>
+      <w:tcPr>
+        <w:tcW w:w="1548" w:type="dxa" />
+        <w:tcBorders>
+          <w:top w:val="nil" />
+          <w:left w:val="nil" />
+          <w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto" />
+          <w:right w:val="single" w:sz="4" w:space="0" w:color="auto" />
+        </w:tcBorders>
+        <w:shd w:val="clear" w:color="auto" w:fill="auto" />
+        <w:vAlign w:val="center" />
+        <w:hideMark />
+      </w:tcPr>
+      <w:p w:rsidR="00260462" w:rsidRPr="00260462" w:rsidRDefault="00260462" w:rsidP="00260462">
+        <w:pPr>
+          <w:widowControl />
+          <w:kinsoku />
+          <w:adjustRightInd />
+          <w:snapToGrid />
+          <w:spacing w:line="240" w:lineRule="auto" />
+          <w:jc w:val="center" />
+          <w:rPr>
+            <w:rFonts w:eastAsia="新細明體" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="22" />
+            <w:szCs w:val="22" />
+          </w:rPr>
+        </w:pPr>
+        <w:r w:rsidRPr="00260462">
+          <w:rPr>
+            <w:rFonts w:eastAsia="新細明體" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="22" />
+            <w:szCs w:val="22" />
+          </w:rPr>
+          <w:t xml:space="preserve">CME </w:t>
+        </w:r>
+        <w:r w:rsidRPr="00260462">
+          <w:rPr>
+            <w:rFonts w:eastAsia="新細明體" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="22" />
+            <w:szCs w:val="22" />
+          </w:rPr>
+          <w:br />
+          <w:t>E-mini NASDAQ 100 Futures</w:t>
+        </w:r>
+        <w:r w:rsidRPr="00260462">
+          <w:rPr>
+            <w:rFonts w:eastAsia="新細明體" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="22" />
+            <w:szCs w:val="22" />
+          </w:rPr>
+          <w:br />
+          <w:t>(</w:t>
+        </w:r>
+        <w:r w:rsidRPr="00260462">
+          <w:rPr>
+            <w:rFonts w:ascii="標楷體" w:hAnsi="標楷體" w:hint="eastAsia" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="22" />
+            <w:szCs w:val="22" />
+          </w:rPr>
+          <w:t>美元</w:t>
+        </w:r>
+        <w:r w:rsidRPr="00260462">
+          <w:rPr>
+            <w:rFonts w:eastAsia="新細明體" />
+            <w:snapToGrid />
+            <w:spacing w:val="0" />
+            <w:sz w:val="22" />
+            <w:szCs w:val="22" />
+          </w:rPr>
+          <w:t>)</w:t>
+        </w:r>
+      </w:p>
+    </w:tc>
+  </w:tr>

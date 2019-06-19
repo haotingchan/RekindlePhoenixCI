@@ -333,8 +333,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             _workbook.LoadDocument(_lsFile);
             Worksheet worksheet = _workbook.Worksheets[SheetName];
             DateTime emdate = _emDateText.AsDateTime("yyyy/MM/dd");
-            worksheet.Cells["A1"].Value = "資料日期：\r\n" + emdate.ToLongDateString().ToString();
-            worksheet.Cells["A1"].Alignment.WrapText = true;
+            worksheet.Cells["A1"].Value = "資料日期：" + emdate.ToLongDateString().ToString();
             //確認有無資料
             DataTable dt = dao.List40011Stat(_emDateText.Replace("/", "")).Sort("seq_no,kind_id ");
             dt = dt.Filter($"prod_type ='{AsProdType}' and prod_subtype <> 'S' and osw_grp like '{GetOswGrp()}%'");
