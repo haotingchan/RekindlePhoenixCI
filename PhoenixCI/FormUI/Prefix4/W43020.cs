@@ -133,7 +133,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                 //4. 切換Sheet
                 Worksheet ws43020 = workbook.Worksheets[0];
-                ws43020.Cells[4, 11].Value = "資料日期：" + txtSDate.DateTimeValue.Year + "年" + txtSDate.DateTimeValue.Month + "月" + txtSDate.DateTimeValue.Day + "日";
+                //ws43020.Cells[4, 11].Value = "資料日期：" + txtSDate.DateTimeValue.Year + "年" + txtSDate.DateTimeValue.Month + "月" + txtSDate.DateTimeValue.Day + "日";
+                string dataDate = "資料日期：" + txtSDate.DateTimeValue.Year + "年" + txtSDate.DateTimeValue.Month + "月" + txtSDate.DateTimeValue.Day + "日";
+                //J6, O74, Q141, O212
+                ws43020.Cells[5, 9].Value = dataDate;
+                ws43020.Cells[73, 14].Value = dataDate;
+                ws43020.Cells[140, 16].Value = dataDate;
+                ws43020.Cells[211, 14].Value = dataDate;
 
                 //5. 填入資料
                 int cnt = 0;
@@ -164,13 +170,15 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         ws43020.Cells[rowStart + f, 3].Value = dr["APDK_NAME"].AsString();
                         ws43020.Cells[rowStart + f, 4].Value = dr["APDK_STOCK_ID"].AsString();
                         ws43020.Cells[rowStart + f, 5].Value = dr["PID_NAME"].AsString();
+                        ws43020.Cells[rowStart + f, 12].SetValue(dr["MG1_MIN_RISK"]);
+                        ws43020.Cells[rowStart + f + 1, 12].SetValue(dr["MG1_MIN_RISK"]);
                     }
                     ws43020.Cells[rowStart + f, 7].SetValue(dr["MGT7_AB_XXX"]);
                     ws43020.Cells[rowStart + f, 8].SetValue(dr["MG1_PRICE"]);
                     ws43020.Cells[rowStart + f, 9].SetValue(dr["MG1_XXX"]);
                     ws43020.Cells[rowStart + f, 10].SetValue(dr["MG1_RISK"]);
                     ws43020.Cells[rowStart + f, 11].SetValue(dr["MG1_CP_RISK"]);
-                    ws43020.Cells[rowStart + f, 12].SetValue(dr["MG1_MIN_RISK"]);
+                    //ws43020.Cells[rowStart + f, 12].SetValue(dr["MG1_MIN_RISK"]);
                     ws43020.Cells[rowStart + f, 13].SetValue(dr["MG1_CP_CM"]);
                     ws43020.Cells[rowStart + f, 14].SetValue(dr["MG1_CUR_CM"]);
                     ws43020.Cells[rowStart + f, 15].SetValue(dr["MG1_CHANGE_RANGE"]);
@@ -190,13 +198,15 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         ws43020.Cells[rowStart + f, 3].Value = dr["APDK_NAME"].AsString();
                         ws43020.Cells[rowStart + f, 4].Value = dr["APDK_STOCK_ID"].AsString();
                         ws43020.Cells[rowStart + f, 5].Value = dr["PID_NAME"].AsString();
+                        ws43020.Cells[rowStart + f, 12].SetValue(dr["MG1_MIN_RISK"]);
+                        ws43020.Cells[rowStart + f + 1, 12].SetValue(dr["MG1_MIN_RISK"]);
                     }
                     ws43020.Cells[rowStart + f, 7].SetValue(dr["MGT7_AB_XXX"]);
                     ws43020.Cells[rowStart + f, 8].SetValue(dr["MG1_PRICE"]);
                     ws43020.Cells[rowStart + f, 9].SetValue(dr["MG1_XXX"]);
                     ws43020.Cells[rowStart + f, 10].SetValue(dr["MG1_RISK"]);
                     ws43020.Cells[rowStart + f, 11].SetValue(dr["MG1_CP_RISK"]);
-                    ws43020.Cells[rowStart + f, 12].SetValue(dr["MG1_MIN_RISK"]);
+                    //ws43020.Cells[rowStart + f, 12].SetValue(dr["MG1_MIN_RISK"]);
                     ws43020.Cells[rowStart + f, 13].SetValue(dr["MG1_CP_CM"]);
                     ws43020.Cells[rowStart + f, 14].SetValue(dr["MG1_CUR_CM"]);
                     ws43020.Cells[rowStart + f, 15].SetValue(dr["MG1_CHANGE_RANGE"]);
@@ -216,13 +226,15 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         ws43020.Cells[rowStart + f, 3].Value = dr["APDK_NAME"].AsString();
                         ws43020.Cells[rowStart + f, 4].Value = dr["APDK_STOCK_ID"].AsString();
                         ws43020.Cells[rowStart + f, 5].Value = dr["PID_NAME"].AsString();
+                        ws43020.Cells[rowStart + f, 12].SetValue(dr["MG1_MIN_RISK"]);
+                        ws43020.Cells[rowStart + f + 1, 12].SetValue(dr["MG1_MIN_RISK"]);
                     }
                     ws43020.Cells[rowStart + f, 7].SetValue(dr["MGT7_AB_XXX"]);
                     ws43020.Cells[rowStart + f, 8].SetValue(dr["MG1_PRICE"]);
                     ws43020.Cells[rowStart + f, 9].SetValue(dr["MG1_XXX"]);
                     ws43020.Cells[rowStart + f, 10].SetValue(dr["MG1_RISK"]);
                     ws43020.Cells[rowStart + f, 11].SetValue(dr["MG1_CP_RISK"]);
-                    ws43020.Cells[rowStart + f, 12].SetValue(dr["MG1_MIN_RISK"]);
+                    //ws43020.Cells[rowStart + f, 12].SetValue(dr["MG1_MIN_RISK"]);
                     ws43020.Cells[rowStart + f, 13].SetValue(dr["MG1_CP_CM"]);
                     ws43020.Cells[rowStart + f, 14].SetValue(dr["MG1_CUR_CM"]);
                     ws43020.Cells[rowStart + f, 15].SetValue(dr["MG1_CHANGE_RANGE"]);
