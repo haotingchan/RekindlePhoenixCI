@@ -155,8 +155,10 @@
          this.emStartDate.Name = "emStartDate";
          this.emStartDate.Properties.Appearance.Options.UseTextOptions = true;
          this.emStartDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.emStartDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.emStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.emStartDate.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.emStartDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.emStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.emStartDate.Properties.Mask.ShowPlaceHolders = false;
          this.emStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.emStartDate.Size = new System.Drawing.Size(102, 28);
          this.emStartDate.StyleController = this.st_date;
@@ -171,8 +173,10 @@
          this.emEndDate.Name = "emEndDate";
          this.emEndDate.Properties.Appearance.Options.UseTextOptions = true;
          this.emEndDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.emEndDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.emEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.emEndDate.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.emEndDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.emEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.emEndDate.Properties.Mask.ShowPlaceHolders = false;
          this.emEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.emEndDate.Size = new System.Drawing.Size(102, 28);
          this.emEndDate.StyleController = this.st_date;

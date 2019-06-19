@@ -7,8 +7,11 @@ using Common;
 using DataObjects.Dao.Together.TableDao.REWARD;
 using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraGrid;
+using DevExpress.XtraGrid.Views.Grid;
 using System;
+using System.ComponentModel;
 using System.Data;
+using System.Drawing;
 
 namespace PhoenixCI.FormUI.Prefix5
 {
@@ -77,6 +80,7 @@ namespace PhoenixCI.FormUI.Prefix5
                 gvMain.SetColumnCaption("MC_MONTH", "月份");
                 gvMain.SetColumnCaption("GOODS_ID", "標的代號");
                 gvMain.SetColumnCaption("IS_NEWROW", "Is_NewRow");
+                gvMain.Columns["MC_MONTH"].AppearanceHeader.BackColor = gvMain.Columns["GOODS_ID"].AppearanceHeader.BackColor = Color.FromArgb(255, 255, 128);
 
                 //設定欄位format格式
                 RepositoryItemTextEdit month = new RepositoryItemTextEdit();
@@ -172,5 +176,57 @@ namespace PhoenixCI.FormUI.Prefix5
             base.DeleteRow(gvMain);
             return ResultStatus.Success;
         }
+
+        #region GridControl事件
+        /// <summary>
+        /// 決定哪些欄位無法編輯的事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void gvMain_ShowingEditor(object sender, CancelEventArgs e)
+        {
+            GridView gv = sender as GridView;
+            string Is_NewRow = gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["IS_NEWROW"]) == null ? "0" :
+                 gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["IS_NEWROW"]).ToString();
+
+            if (gv.IsNewItemRow(gv.FocusedRowHandle) || Is_NewRow == "1")
+            {
+                e.Cancel = false;
+                gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["IS_NEWROW"], 1);
+            }
+
+            //編輯狀態時,設定可以編輯的欄位( e.Cancel = false 等於可以編輯)
+            else if (gv.FocusedColumn.Name == "MC_MONTH" || gv.FocusedColumn.Name == "GOODS_ID")
+            {
+                e.Cancel = true;
+            }
+            else
+            {
+                e.Cancel = false;
+            }
+        }
+
+        private void gvMain_RowCellStyle(object sender, RowCellStyleEventArgs e)
+        {
+            //要用RowHandle不要用FocusedRowHandle
+            GridView gv = sender as GridView;
+            string Is_NewRow = gv.GetRowCellValue(e.RowHandle, gv.Columns["IS_NEWROW"]) == null ? "0" :
+                               gv.GetRowCellValue(e.RowHandle, gv.Columns["IS_NEWROW"]).ToString();
+
+            //描述每個欄位,在 IS_NEWROW 時候要顯示的顏色
+            //當該欄位不可編輯時,設定為灰色,AllowFocus為false(PB的wf_set_order方法)
+            switch (e.Column.FieldName)
+            {
+                case ("MC_MONTH"):
+                case ("GOODS_ID"):
+                    e.Column.OptionsColumn.AllowFocus = Is_NewRow == "1" ? true : false;
+                    e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.Silver;
+                    break;
+                default:
+                    e.Appearance.BackColor = Color.White;
+                    break;
+            }
+        }
+        #endregion
     }
 }

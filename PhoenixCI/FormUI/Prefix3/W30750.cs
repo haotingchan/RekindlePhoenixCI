@@ -45,7 +45,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //insert Row (按年分)
             if (inputYear > 0) {
                for (int i = 1; i <= inputYear; i++) {
-                  rowEnd = rowEnd + 12;
+                  rowEnd += 12;
                   //新增12筆空白列
                   for (int j = 1; j <= 12; j++) {
                      worksheet.Rows[rowEnd - 1].Insert();
@@ -75,12 +75,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
                   addRow["cp_day_count"] = 0;
                   dtDayCount.Rows.Add(addRow);
                }
-               DataView dv = dtDayCount.AsDataView();
-               dv.Sort = "AI2_YMD";
-               dtDayCount = dv.ToTable();
-               dtDayCount.AcceptChanges();
+               dtDayCount = dtDayCount.Sort("AI2_YMD");
             }
 
+            string lsYear = "";
+            int month = 1;
             foreach (DataRow r in dtDayCount.Rows) {
                DateTime aiYm = r["ai2_ymd"].AsDateTime("yyyyMM");
                TaiwanCalendar tai = new TaiwanCalendar();
@@ -89,10 +88,30 @@ namespace PhoenixCI.FormUI.Prefix3 {
                if (r["ai2_ymd"].AsDateTime("yyyyMM") < txtSDate.DateTimeValue) {
                   worksheet.Rows[oleRow].ClearContents();
                }
-               worksheet.Cells[oleRow, 0].Value = tai.GetYear(aiYm).ToString();
-               worksheet.Cells[oleRow, 1].Value = aiYm.Month.ToString();
-               worksheet.Cells[oleRow, 2].Value = r["cp_day_count"].ToString() != "0" ? r["cp_day_count"].ToString() : "";
+               if (lsYear != aiYm.Year.ToString()) {
+                  if (aiYm.Month != 1) {
+                     for (int i = 1; i < aiYm.Month; i++) {
+                        worksheet.Cells[oleRow, 0].Value = tai.GetYear(aiYm).ToString();
+                        worksheet.Cells[oleRow, 1].Value = i.ToString();
+                        worksheet.Cells[oleRow, 2].Value = "";
+                        oleRow++;
+                        month++;
+                     }
+                  }
+                  lsYear = aiYm.Year.ToString();
+                  month = 1;
+               }
 
+               if (aiYm.Month == month) {
+                  worksheet.Cells[oleRow, 0].Value = tai.GetYear(aiYm).ToString();
+                  worksheet.Cells[oleRow, 1].Value = aiYm.Month.ToString();
+                  worksheet.Cells[oleRow, 2].Value = r["cp_day_count"].ToString() != "0" ? r["cp_day_count"].ToString() : "";
+               } else {
+                  worksheet.Cells[oleRow, 0].Value = tai.GetYear(aiYm).ToString();
+                  worksheet.Cells[oleRow, 1].Value = month.ToString();
+                  worksheet.Cells[oleRow, 2].Value = "";
+               }
+               month++;
                //日均量總計
                if (colTot > 0) {
                   int cpMQnty = dtAI2.Compute("SUM(ai2_m_qnty)", "ai2_ymd=" + r["ai2_ymd"].ToString()).AsInt();
