@@ -25,7 +25,7 @@
       private void InitializeComponent() {
          this.labMsg = new System.Windows.Forms.Label();
          this.panFilter = new System.Windows.Forms.GroupBox();
-         this.label1 = new System.Windows.Forms.Label();
+         this.txtDate = new BaseGround.Widget.TextDateEdit();
          this.grpRbDate = new System.Windows.Forms.GroupBox();
          this.txtSid = new DevExpress.XtraEditors.TextEdit();
          this.gbItem = new DevExpress.XtraEditors.RadioGroup();
@@ -33,10 +33,11 @@
          this.grpChkModel = new System.Windows.Forms.GroupBox();
          this.chkModel = new DevExpress.XtraEditors.CheckedListBoxControl();
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
-         this.txtDate = new BaseGround.Widget.TextDateEdit();
+         this.labKind = new System.Windows.Forms.Label();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          this.panFilter.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).BeginInit();
          this.grpRbDate.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.txtSid.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gbItem.Properties)).BeginInit();
@@ -44,25 +45,25 @@
          ((System.ComponentModel.ISupportInitialize)(this.chkModel)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
          this.r_frame.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
          // 
          this.panParent.Controls.Add(this.r_frame);
-         this.panParent.Size = new System.Drawing.Size(464, 450);
+         this.panParent.Size = new System.Drawing.Size(468, 525);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(464, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(468, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // labMsg
          // 
          this.labMsg.AutoSize = true;
          this.labMsg.ForeColor = System.Drawing.Color.Blue;
-         this.labMsg.Location = new System.Drawing.Point(20, 392);
+         this.labMsg.Location = new System.Drawing.Point(15, 415);
+         this.labMsg.MaximumSize = new System.Drawing.Size(378, 120);
          this.labMsg.Name = "labMsg";
          this.labMsg.Size = new System.Drawing.Size(85, 20);
          this.labMsg.TabIndex = 10;
@@ -72,37 +73,46 @@
          // panFilter
          // 
          this.panFilter.Controls.Add(this.txtDate);
-         this.panFilter.Controls.Add(this.label1);
+         this.panFilter.Controls.Add(this.labKind);
          this.panFilter.Controls.Add(this.grpRbDate);
          this.panFilter.Controls.Add(this.label9);
          this.panFilter.Controls.Add(this.grpChkModel);
          this.panFilter.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
          this.panFilter.ForeColor = System.Drawing.Color.Navy;
-         this.panFilter.Location = new System.Drawing.Point(24, 23);
+         this.panFilter.Location = new System.Drawing.Point(20, 15);
          this.panFilter.Name = "panFilter";
-         this.panFilter.Size = new System.Drawing.Size(381, 362);
+         this.panFilter.Size = new System.Drawing.Size(378, 390);
          this.panFilter.TabIndex = 76;
          this.panFilter.TabStop = false;
          this.panFilter.Text = "請輸入交易日期";
          // 
-         // label1
+         // txtDate
          // 
-         this.label1.AutoSize = true;
-         this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F);
-         this.label1.ForeColor = System.Drawing.Color.Black;
-         this.label1.Location = new System.Drawing.Point(32, 38);
-         this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(57, 20);
-         this.label1.TabIndex = 83;
-         this.label1.Text = "日期：";
+         this.txtDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtDate.EditValue = "2018/12/01";
+         this.txtDate.EnterMoveNextControl = true;
+         this.txtDate.Location = new System.Drawing.Point(90, 42);
+         this.txtDate.MenuManager = this.ribbonControl;
+         this.txtDate.Name = "txtDate";
+         this.txtDate.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtDate.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.txtDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.txtDate.Properties.Mask.ShowPlaceHolders = false;
+         this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtDate.Size = new System.Drawing.Size(100, 26);
+         this.txtDate.TabIndex = 89;
+         this.txtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // grpRbDate
          // 
          this.grpRbDate.Controls.Add(this.txtSid);
          this.grpRbDate.Controls.Add(this.gbItem);
-         this.grpRbDate.Location = new System.Drawing.Point(27, 67);
+         this.grpRbDate.Location = new System.Drawing.Point(27, 90);
          this.grpRbDate.Name = "grpRbDate";
-         this.grpRbDate.Size = new System.Drawing.Size(328, 197);
+         this.grpRbDate.Size = new System.Drawing.Size(325, 200);
          this.grpRbDate.TabIndex = 88;
          this.grpRbDate.TabStop = false;
          this.grpRbDate.Text = "查詢條件";
@@ -110,7 +120,7 @@
          // txtSid
          // 
          this.txtSid.EditValue = "";
-         this.txtSid.Location = new System.Drawing.Point(135, 155);
+         this.txtSid.Location = new System.Drawing.Point(143, 159);
          this.txtSid.MenuManager = this.ribbonControl;
          this.txtSid.Name = "txtSid";
          this.txtSid.Properties.Appearance.Options.UseTextOptions = true;
@@ -123,7 +133,7 @@
          // 
          this.gbItem.EditValue = "rbSid";
          this.gbItem.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-         this.gbItem.Location = new System.Drawing.Point(12, 20);
+         this.gbItem.Location = new System.Drawing.Point(18, 24);
          this.gbItem.Name = "gbItem";
          this.gbItem.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
          this.gbItem.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
@@ -137,7 +147,9 @@
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rbAll", "股票期貨暨選擇權上市標的證券"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rbAdj", "本日保證金異動標的證券"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rbSid", "選擇單一證券")});
-         this.gbItem.Size = new System.Drawing.Size(316, 170);
+         this.gbItem.Properties.LookAndFeel.SkinName = "Visual Studio 2013 Light";
+         this.gbItem.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
+         this.gbItem.Size = new System.Drawing.Size(286, 170);
          this.gbItem.TabIndex = 77;
          // 
          // label9
@@ -152,9 +164,9 @@
          // grpChkModel
          // 
          this.grpChkModel.Controls.Add(this.chkModel);
-         this.grpChkModel.Location = new System.Drawing.Point(27, 270);
+         this.grpChkModel.Location = new System.Drawing.Point(27, 295);
          this.grpChkModel.Name = "grpChkModel";
-         this.grpChkModel.Size = new System.Drawing.Size(328, 68);
+         this.grpChkModel.Size = new System.Drawing.Size(325, 70);
          this.grpChkModel.TabIndex = 87;
          this.grpChkModel.TabStop = false;
          this.grpChkModel.Text = "模型";
@@ -177,10 +189,13 @@
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkSma", "SMA", System.Windows.Forms.CheckState.Checked),
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkEwma", "EWMA"),
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkMaxVol", "MaxVol")});
-         this.chkModel.Location = new System.Drawing.Point(18, 23);
+         this.chkModel.Location = new System.Drawing.Point(20, 26);
+         this.chkModel.LookAndFeel.SkinName = "Office 2013";
+         this.chkModel.LookAndFeel.UseDefaultLookAndFeel = false;
          this.chkModel.MultiColumn = true;
          this.chkModel.Name = "chkModel";
          this.chkModel.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+         this.chkModel.ShowFocusRect = false;
          this.chkModel.Size = new System.Drawing.Size(304, 34);
          this.chkModel.TabIndex = 6;
          // 
@@ -191,43 +206,34 @@
          this.r_frame.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.r_frame.Controls.Add(this.panFilter);
          this.r_frame.Controls.Add(this.labMsg);
-         this.r_frame.Location = new System.Drawing.Point(15, 15);
+         this.r_frame.Location = new System.Drawing.Point(30, 30);
          this.r_frame.Name = "r_frame";
-         this.r_frame.Size = new System.Drawing.Size(432, 420);
+         this.r_frame.Size = new System.Drawing.Size(418, 465);
          this.r_frame.TabIndex = 77;
          // 
-         // txtDate
+         // labKind
          // 
-         this.txtDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtDate.EditValue = "2018/12/01";
-         this.txtDate.EnterMoveNextControl = true;
-         this.txtDate.Location = new System.Drawing.Point(85, 35);
-         this.txtDate.MenuManager = this.ribbonControl;
-         this.txtDate.Name = "txtDate";
-         this.txtDate.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtDate.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
-         this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-         this.txtDate.Properties.Mask.ShowPlaceHolders = false;
-         this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtDate.Size = new System.Drawing.Size(100, 26);
-         this.txtDate.TabIndex = 89;
-         this.txtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         this.labKind.AutoSize = true;
+         this.labKind.ForeColor = System.Drawing.Color.Black;
+         this.labKind.Location = new System.Drawing.Point(37, 45);
+         this.labKind.Name = "labKind";
+         this.labKind.Size = new System.Drawing.Size(58, 21);
+         this.labKind.TabIndex = 90;
+         this.labKind.Text = "日期：";
          // 
          // W43032
          // 
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(464, 480);
+         this.ClientSize = new System.Drawing.Size(468, 555);
          this.Name = "W43032";
          this.Text = "W43032";
          this.panParent.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
          this.panFilter.ResumeLayout(false);
          this.panFilter.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).EndInit();
          this.grpRbDate.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.txtSid.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gbItem.Properties)).EndInit();
@@ -236,7 +242,6 @@
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).EndInit();
          this.r_frame.ResumeLayout(false);
          this.r_frame.PerformLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -252,7 +257,7 @@
       private System.Windows.Forms.GroupBox grpChkModel;
       private DevExpress.XtraEditors.CheckedListBoxControl chkModel;
       private DevExpress.XtraEditors.PanelControl r_frame;
-      private System.Windows.Forms.Label label1;
       private BaseGround.Widget.TextDateEdit txtDate;
+      private System.Windows.Forms.Label labKind;
    }
 }

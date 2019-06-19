@@ -1,0 +1,34 @@
+﻿
+<w:tc>
+<w:tcPr>
+<w:tcW w:w="2240" w:type="dxa"/>
+<w:tcBorders><w:top w:val="nil"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders>
+<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+<w:hideMark/>
+</w:tcPr>
+<w:p>
+
+
+<w:pPr>
+<w:widowControl/>
+<w:kinsoku/>
+<w:adjustRightInd/>
+<w:snapToGrid/>
+<w:spacing w:line="500" w:lineRule="exact"/>
+<w:jc w:val="center"/>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:szCs w:val="28"/>
+</w:rPr>
+</w:pPr>
+
+
+<w:r>
+<w:rPr>
+<w:snapToGrid/>
+<w:spacing w:val="0"/>
+<w:szCs w:val="28"/>
+</w:rPr>
+<w:t>
+

@@ -1,0 +1,45 @@
+﻿<w:tr w:rsidR="00260462" w:rsidRPr="006B3F40" w:rsidTr="005F11DB">
+	<w:trPr>
+		<w:trHeight w:val="630"/>
+	</w:trPr>
+	<w:tc>
+		<w:tcPr>
+			<w:tcW w:w="1531" w:type="dxa"/>
+			<w:tcBorders>
+				<w:top w:val="nil"/>
+				<w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+				<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+				<w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+			</w:tcBorders>
+			<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+			<w:vAlign w:val="center"/>
+			<w:hideMark/>
+		</w:tcPr>
+		<w:p w:rsidR="006B3F40" w:rsidRPr="006B3F40" w:rsidRDefault="006B3F40" w:rsidP="006B3F40">
+			<w:pPr>
+				<w:widowControl/>
+				<w:kinsoku/>
+				<w:adjustRightInd/>
+				<w:snapToGrid/>
+				<w:spacing w:line="240" w:lineRule="auto"/>
+				<w:jc w:val="center"/>
+				<w:rPr>
+					<w:rFonts w:ascii="標楷體" w:hAnsi="標楷體" w:cs="新細明體"/>
+					<w:snapToGrid/>
+					<w:spacing w:val="0"/>
+					<w:sz w:val="22"/>
+					<w:szCs w:val="22"/>
+				</w:rPr>
+			</w:pPr>
+			<w:r w:rsidRPr="006B3F40">
+				<w:rPr>
+					<w:rFonts w:ascii="標楷體" w:hAnsi="標楷體" w:cs="新細明體" w:hint="eastAsia"/>
+					<w:snapToGrid/>
+					<w:spacing w:val="0"/>
+					<w:sz w:val="22"/>
+					<w:szCs w:val="22"/>
+				</w:rPr>
+				<w:t>東證期貨契約結算保證金</w:t>
+			</w:r>
+		</w:p>
+	</w:tc>

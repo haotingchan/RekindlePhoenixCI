@@ -142,6 +142,8 @@
          this.gbMarket.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rbMarket0", "一般"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rbMarket1", "盤後")});
+         this.gbMarket.Properties.LookAndFeel.SkinName = "Office 2013";
+         this.gbMarket.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbMarket.Size = new System.Drawing.Size(174, 35);
          this.gbMarket.TabIndex = 0;
          // 

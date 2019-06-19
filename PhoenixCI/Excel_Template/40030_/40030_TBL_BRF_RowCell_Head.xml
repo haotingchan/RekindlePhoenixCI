@@ -1,0 +1,39 @@
+﻿<w:tc>
+	<w:tcPr>
+		<w:tcW w:w="1502" w:type="dxa"/>
+		<w:tcBorders>
+			<w:top w:val="nil"/>
+			<w:left w:val="nil"/>
+			<w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+			<w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+		</w:tcBorders>
+		<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+		<w:noWrap/>
+		<w:vAlign w:val="center"/>
+		<w:hideMark/>
+	</w:tcPr>
+	<w:p w:rsidR="00AB2103" w:rsidRPr="006C525B" w:rsidRDefault="00AB2103" w:rsidP="00047B52">
+		<w:pPr>
+			<w:widowControl/>
+			<w:kinsoku/>
+			<w:adjustRightInd/>
+			<w:snapToGrid/>
+			<w:spacing w:line="240" w:lineRule="auto"/>
+			<w:jc w:val="center"/>
+			<w:rPr>
+				<w:rFonts w:eastAsia="新細明體"/>
+				<w:snapToGrid/>
+				<w:spacing w:val="0"/>
+				<w:sz w:val="24"/>
+				<w:szCs w:val="24"/>
+			</w:rPr>
+		</w:pPr>
+		<w:r w:rsidRPr="006C525B">
+			<w:rPr>
+				<w:rFonts w:eastAsia="新細明體"/>
+				<w:snapToGrid/>
+				<w:spacing w:val="0"/>
+				<w:sz w:val="24"/>
+				<w:szCs w:val="24"/>
+			</w:rPr>
+			<w:t>
