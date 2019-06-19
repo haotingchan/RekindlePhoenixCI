@@ -625,6 +625,7 @@
             this.gvDetail.RowCellStyle += new DevExpress.XtraGrid.Views.Grid.RowCellStyleEventHandler(this.gvDetail_RowCellStyle);
             this.gvDetail.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gvDetail_ShowingEditor);
             this.gvDetail.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gvDetail_CellValueChanged);
+            this.gvDetail.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gvDetail_CustomColumnDisplayText);
             // 
             // gridBand2
             // 

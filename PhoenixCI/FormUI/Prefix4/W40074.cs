@@ -646,7 +646,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 case "MM_B":
                 case "IM_A":
                 case "IM_B":
-                    e.Column.DisplayFormat.FormatString = amt_type == "P" ? "{0:0.####%}" : "#,###";
+                    //e.Column.DisplayFormat.FormatString = amt_type == "P" ? "{0:0.####%}" : "#,###";
                     break;
             }
         }
@@ -661,6 +661,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             string prod_type = gv.GetRowCellValue(gv.FocusedRowHandle, "PROD_TYPE").ToString();
             string prod_subtype = gv.GetRowCellValue(gv.FocusedRowHandle, "PROD_SUBTYPE").ToString();
             string cnd_param_key = gv.GetRowCellValue(gv.FocusedRowHandle, "CND_PARAM_KEY").ToString();
+            //string op_type = gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["OP_TYPE"]) == null ? "I" :
+            //     gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["OP_TYPE"]).ToString();
             if (gv.FocusedColumn.Name == "CM_B" ||
                 gv.FocusedColumn.Name == "MM_B" ||
                 gv.FocusedColumn.Name == "IM_B") {
@@ -671,6 +673,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 e.Cancel = prod_subtype != "S" ? true : false;
                 if (cnd_param_key.IndexOf("ST%") >= 0) e.Cancel = false;
             }
+            //if (gv.FocusedColumn.Name == "PROD_SEQ_NO") e.Cancel = op_type == "I" ? false : true;
         }
 
         private void gvMain_CellValueChanging(object sender, CellValueChangedEventArgs e) {
@@ -881,6 +884,23 @@ namespace PhoenixCI.FormUI.Prefix4 {
             foreach (DataRow dr in dtGrid.Rows) {
                 if (dr["ADJ_CODE"].AsString() == "Y") dr["PUB_YMD"] = is_pre_ymd;
                 if (dr["ADJ_CODE"].AsString() == "D") dr["PUB_YMD"] = ymd;
+            }
+        }
+
+        private void gvMain_CustomColumnDisplayText(object sender, CustomColumnDisplayTextEventArgs e) {
+            ColumnView view = sender as ColumnView;
+            if ((e.Column.FieldName == "CM_A" ||
+                 e.Column.FieldName == "CM_B" ||
+                 e.Column.FieldName == "MM_A" ||
+                 e.Column.FieldName == "MM_B" ||
+                 e.Column.FieldName == "IM_A" ||
+                 e.Column.FieldName == "IM_B") && e.ListSourceRowIndex != DevExpress.XtraGrid.GridControl.InvalidRowHandle) {
+                string amt_type = view.GetListSourceRowCellValue(e.ListSourceRowIndex, "AMT_TYPE").AsString();
+                decimal value = e.Value.AsDecimal();
+                switch (amt_type) {
+                    case "P": e.DisplayText = string.Format("{0:0.###%}", value); break;
+                    default: e.DisplayText = string.Format("{0:#,###}", value); break;
+                }
             }
         }
     }
