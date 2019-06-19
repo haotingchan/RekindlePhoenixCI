@@ -1752,8 +1752,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
                searchDate = c.CheckedDate;
 
                if (CheckedItems.Count == 3) {
-                  if (CheckedItems[0].CheckedDate == CheckedItems[1].CheckedDate && CheckedItems[0].CheckedDate == CheckedItems[2].CheckedDate)
+                  if (CheckedItems[0].CheckedDate == CheckedItems[1].CheckedDate && CheckedItems[0].CheckedDate == CheckedItems[2].CheckedDate) {
                      searchDate = CheckedItems.FirstOrDefault().CheckedDate;
+                     OswGrp = "%";
+                  }
                }
 
                //Abroad

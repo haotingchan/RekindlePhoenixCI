@@ -133,6 +133,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             Workbook workbook = new Workbook();
 
             foreach (DataRow exportDr in exportDt.Rows) {
+               int noData = 0;
                foreach (CheckedListBoxItem ch in ModelTypies.CheckedItems) {
                   string kindId = exportDr["MG1_KIND_ID"].AsString();
                   string subType = exportDr["MG1_PROD_SUBTYPE"].AsString();
@@ -146,12 +147,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   if (importData == null) {
                      MessageDisplay.Info($"({kindId }_{ch.Description})資料不足2筆，無法產出報表!");
                      result = ResultStatus.FailButNext;
+                     noData++;
                      continue;
                   }
 
                   if (importData.Rows.Count < 2) {
                      MessageDisplay.Info($"({kindId }_{ch.Description})資料不足2筆，無法產出報表!");
                      result = ResultStatus.FailButNext;
+                     noData++;
                      continue;
                   }
 
@@ -217,6 +220,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   workbook.SaveDocument(destinationFilePath);
                   result = ResultStatus.Success;
                }
+               //如果不相等, 表示並非所有參數都無資料
+               if (noData != ModelTypies.CheckedItems.Count) result = ResultStatus.Success;
             }
          } catch (Exception ex) {
             ExportShow.Text = "轉檔失敗";
