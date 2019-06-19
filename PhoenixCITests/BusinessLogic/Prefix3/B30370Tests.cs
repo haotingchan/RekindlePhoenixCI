@@ -35,8 +35,8 @@ namespace PhoenixCI.BusinessLogic.Prefix3.Tests
       [TestInitialize]
       public void Setup()
       {
-         //b30370 = new B30370(destinationFilePath, "2018/10");
-         b30370 = new B30370(destinationFilePath, "2005/10");
+         b30370 = new B30370(destinationFilePath, "2018/12");
+         //b30370 = new B30370(destinationFilePath, "2005/10");
          //b30370 = new B30370(destinationFilePath, "2005/12");
       }
 
