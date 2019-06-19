@@ -107,6 +107,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                } else {
                   if (dc.ColumnName == "TFXMSE_W_TIME") {
                      gvMain.Columns[dc.ColumnName].AppearanceCell.TextOptions.HAlignment = HorzAlignment.Center;
+                            gvMain.Columns[dc.ColumnName].DisplayFormat.FormatType = FormatType.DateTime;
+                            gvMain.Columns[dc.ColumnName].DisplayFormat.FormatString = "yyyy/MM/dd HH:mm:ss";
                   }
                   gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = Color.FromArgb(128 , 255 , 255);
                }
@@ -151,6 +153,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gvMain.Columns["TFXMSE_OPT_XXX"].ColumnEdit = opt;
             opt.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             opt.Mask.EditMask = "##########0.0000";
+                
 
             //1.3 設定隱藏欄位
             gvMain.Columns["TFXMSE_SP_W_TIME"].Visible = false;
@@ -180,7 +183,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          DialogResult myDialogResult = ConfirmToExitWithoutSave(dtChange);
 
-         if (myDialogResult == DialogResult.Yes) { return ProcessSaveFlow(); } else if (myDialogResult == DialogResult.No) { return ResultStatus.Success; } else if (myDialogResult == DialogResult.Cancel) { return ResultStatus.Fail; }
+         if (myDialogResult == DialogResult.Yes) { return ResultStatus.Success; } else if (myDialogResult == DialogResult.No) { return ResultStatus.FailButNext; } else if (myDialogResult == DialogResult.Cancel) { return ResultStatus.Fail; }
 
          return ResultStatus.Success;
       }
@@ -217,52 +220,55 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      dr["TFXMSE_W_TIME"] = DateTime.Now;
                      dr["TFXMSE_W_USER_ID"] = GlobalInfo.USER_ID;
 
-                     if (dr.RowState == DataRowState.Added) {
-                        foreach (DataRow drAdd in dtForAdd.Rows) {
-                           drAdd["TFXMSE_W_TIME"] = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
-                           drAdd["TFXMSE_W_USER_ID"] = GlobalInfo.USER_ID;
-                        }
-                        gvMain.SetRowCellValue(gvMain.FocusedRowHandle , "TFXMSE_W_TIME" , DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
-                        gvMain.SetRowCellValue(gvMain.FocusedRowHandle , "TFXMSE_W_USER_ID" , GlobalInfo.USER_ID);
-                        gvMain.CloseEditor();
-                        gvMain.UpdateCurrentRow();
-                     }
+                     //if (dr.RowState == DataRowState.Added) {
+                     //   foreach (DataRow drAdd in dtForAdd.Rows) {
+                     //      drAdd["TFXMSE_W_TIME"] = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+                     //      drAdd["TFXMSE_W_USER_ID"] = GlobalInfo.USER_ID;
+                     //   }
+                     //   gvMain.SetRowCellValue(gvMain.FocusedRowHandle , "TFXMSE_W_TIME" , DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+                     //   gvMain.SetRowCellValue(gvMain.FocusedRowHandle , "TFXMSE_W_USER_ID" , GlobalInfo.USER_ID);
+                     //   gvMain.CloseEditor();
+                     //   gvMain.UpdateCurrentRow();
+                     //}
 
-                     if (dr.RowState == DataRowState.Modified) {
-                        foreach (DataRow drMod in dtForModified.Rows) {
-                           drMod["TFXMSE_W_TIME"] = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
-                           drMod["TFXMSE_W_USER_ID"] = GlobalInfo.USER_ID;
-                        }
-                        gvMain.SetRowCellValue(gvMain.FocusedRowHandle , "TFXMSE_W_TIME" , DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
-                        gvMain.SetRowCellValue(gvMain.FocusedRowHandle , "TFXMSE_W_USER_ID" , GlobalInfo.USER_ID);
-                        gvMain.CloseEditor();
-                        gvMain.UpdateCurrentRow();
-                     }
+                     //if (dr.RowState == DataRowState.Modified) {
+                     //   foreach (DataRow drMod in dtForModified.Rows) {
+                     //      drMod["TFXMSE_W_TIME"] = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+                     //      drMod["TFXMSE_W_USER_ID"] = GlobalInfo.USER_ID;
+                     //   }
+                     //   gvMain.SetRowCellValue(gvMain.FocusedRowHandle , "TFXMSE_W_TIME" , DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+                     //   gvMain.SetRowCellValue(gvMain.FocusedRowHandle , "TFXMSE_W_USER_ID" , GlobalInfo.USER_ID);
+                     //   gvMain.CloseEditor();
+                     //   gvMain.UpdateCurrentRow();
+                     //}
 
-                     if (dr.RowState == DataRowState.Deleted) {
-                        dr.Delete();
-                     }
+                     //if (dr.RowState == DataRowState.Deleted) {
+                     //   dr.Delete();
+                     //}
                   }
                }
             }
 
-            DataTable dtCloned = dtCurrent.Clone();
-            dtCloned.Columns["TFXMSE_W_TIME"].DataType = typeof(DateTime);
-            foreach (DataRow row in dtCurrent.Rows) {
-               if (row.RowState == DataRowState.Deleted) continue;
-               dtCloned.ImportRow(row);
-            }
+                //DataTable dtCloned = dtCurrent.Clone();
+                //dtCloned.Columns["TFXMSE_W_TIME"].DataType = typeof(DateTime);
+                //foreach (DataRow row in dtCurrent.Rows) {
+                //    if (row.RowState == DataRowState.Deleted) continue;
+                //    dtCloned.ImportRow(row);
+                //}
 
-            ResultData result = new TFXMSE().UpdateData(dtCloned);
+                ResultData result = new TFXMSE().UpdateData(dtCurrent);
             if (result.Status == ResultStatus.Fail) {
-               return ResultStatus.Fail;
+                    MessageDisplay.Error("儲存失敗");
+               return ResultStatus.FailButNext;
             }
 
             PrintOrExportChangedByKen(gcMain , dtForAdd , dtForDeleted , dtForModified);
 
          } catch (Exception ex) {
-            throw ex;
-         }
+                MessageDisplay.Error("儲存錯誤");
+                WriteLog(ex, "", false);
+                return ResultStatus.FailButNext;
+            }
          return ResultStatus.Success;
       }
 

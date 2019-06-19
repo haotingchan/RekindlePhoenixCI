@@ -527,8 +527,9 @@
          // repositoryItemTextEdit1
          // 
          this.repositoryItemTextEdit1.AutoHeight = false;
-         this.repositoryItemTextEdit1.Mask.EditMask = "n";
-         this.repositoryItemTextEdit1.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+         this.repositoryItemTextEdit1.Mask.EditMask = "[0-9]+(\\.[0-9]{0,4})";
+         this.repositoryItemTextEdit1.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.repositoryItemTextEdit1.Mask.ShowPlaceHolders = false;
          this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
          // 
          // SP2_SPAN_CODE

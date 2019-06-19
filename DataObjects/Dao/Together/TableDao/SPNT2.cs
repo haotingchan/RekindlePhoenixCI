@@ -1,4 +1,5 @@
 ﻿using BusinessObjects;
+using System;
 using System.Data;
 /// <summary>
 /// Winni, 2019/4/10
@@ -12,8 +13,8 @@ namespace DataObjects.Dao.Together.TableDao {
       /// <param name="inputData"></param>
       /// <returns></returns>
       public ResultData UpdateData(DataTable inputData) {
-
-         string sql = @"
+            try {
+                string sql = @"
 select 
     spnt2_kind_id,
     spnt2_delta_xxx,
@@ -22,6 +23,10 @@ select
 from ci.spnt2
 ";
          return db.UpdateOracleDB(inputData , sql);
-      }
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
    }
 }

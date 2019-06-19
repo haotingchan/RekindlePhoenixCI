@@ -109,8 +109,22 @@ namespace PhoenixCI.FormUI.Prefix4 {
       protected override ResultStatus Export() {
 
          try {
-            //1. ready
-            panFilter.Enabled = false;
+                #region 日期檢核
+                if (!txtStartDate.IsDate(txtStartDate.Text, CheckDate.Start)
+                         || !txtEndDate.IsDate(txtEndDate.Text, CheckDate.End)) {
+                    labMsg.Visible = false;
+                    return ResultStatus.Fail; ;
+                }
+
+                if (string.Compare(txtStartDate.Text, txtEndDate.Text) > 0) {
+                    MessageDisplay.Error(CheckDate.Datedif, GlobalInfo.ErrorText);
+                    labMsg.Visible = false;
+                    return ResultStatus.Fail; ;
+                }
+                #endregion
+
+                //1. ready
+                panFilter.Enabled = false;
             labMsg.Visible = true;
             labMsg.Text = "轉檔中...";
             this.Cursor = Cursors.WaitCursor;

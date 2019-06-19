@@ -97,33 +97,45 @@ namespace PhoenixCI.FormUI.Prefix4 {
             item3.Description = "MaxVol";
             item3.Value = "M";
             RadioGroupItem item4 = new RadioGroupItem();
-            item4.Description = "使用者自訂";
-            item4.Value = "U";
+            item4.Description = "FUT-SMA";
+            item4.Value = "s";
+            RadioGroupItem item5 = new RadioGroupItem();
+            item5.Description = "FUT-EWMA";
+            item5.Value = "e";
+            RadioGroupItem item6 = new RadioGroupItem();
+            item6.Description = "FUT-MaxVol";
+            item6.Value = "m";
+            RadioGroupItem item7 = new RadioGroupItem();
+            item7.Description = "使用者自訂";
+            item7.Value = "U";
 
             RepositoryItemRadioGroup repositoryItemRadioGroup = new RepositoryItemRadioGroup();
             repositoryItemRadioGroup.Items.Add(item1);
             repositoryItemRadioGroup.Items.Add(item2);
             repositoryItemRadioGroup.Items.Add(item3);
             repositoryItemRadioGroup.Items.Add(item4);
-            repositoryItemRadioGroup.Columns = 4;
+            repositoryItemRadioGroup.Items.Add(item5);
+            repositoryItemRadioGroup.Items.Add(item6);
+            repositoryItemRadioGroup.Items.Add(item7);
+            repositoryItemRadioGroup.Columns = 7;
             ADJ_RSN.ColumnEdit = repositoryItemRadioGroup;
             //ADJ_RSN.ColumnEdit.Appearance.TextOptions.HAlignment = HorzAlignment.Near;
 
             //不處理/觀察/調整 RadioGroup
-            RadioGroupItem item5 = new RadioGroupItem();
-            item5.Description = "　　";
-            item5.Value = "N";
-            RadioGroupItem item6 = new RadioGroupItem();
-            item6.Description = "　　";
-            item6.Value = " ";
-            RadioGroupItem item7 = new RadioGroupItem();
-            item7.Description = "　　";
-            item7.Value = "Y";
+            RadioGroupItem item8 = new RadioGroupItem();
+            item8.Description = "　　";
+            item8.Value = "N";
+            RadioGroupItem item9 = new RadioGroupItem();
+            item9.Description = "　　";
+            item9.Value = " ";
+            RadioGroupItem item10 = new RadioGroupItem();
+            item10.Description = "　　";
+            item10.Value = "Y";
 
             RepositoryItemRadioGroup repositoryItemRadioGroup2 = new RepositoryItemRadioGroup();
-            repositoryItemRadioGroup2.Items.Add(item5);
-            repositoryItemRadioGroup2.Items.Add(item6);
-            repositoryItemRadioGroup2.Items.Add(item7);
+            repositoryItemRadioGroup2.Items.Add(item8);
+            repositoryItemRadioGroup2.Items.Add(item9);
+            repositoryItemRadioGroup2.Items.Add(item10);
             repositoryItemRadioGroup2.Columns = 3;
             ADJ_CODE.ColumnEdit = repositoryItemRadioGroup2;
             ADJ_CODE.ColumnEdit.Appearance.TextOptions.HAlignment = HorzAlignment.Center;
@@ -258,6 +270,15 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 foreach (DataRow dr in dtFiltered.Rows) {
                     kindID = dr["KIND_ID"].AsString();
                     issueBeginYmd = dr["ISSUE_BEGIN_YMD"].AsString();
+                    adjRsn = dr["ADJ_RSN"].AsString();
+                    curCm = dr["CUR_CM"].AsDecimal();
+                    if (adjRsn == "S") cm = dr["SMA_CM"].AsDecimal();
+                    if (adjRsn == "E") cm = dr["EWMA_CM"].AsDecimal();
+                    if (adjRsn == "M") cm = dr["MAXV_CM"].AsDecimal();
+                    if (adjRsn == "s") cm = dr["FUT_SMA_CM"].AsDecimal();
+                    if (adjRsn == "e") cm = dr["FUT_EWMA_CM"].AsDecimal();
+                    if (adjRsn == "m") cm = dr["FUT_MAXV_CM"].AsDecimal();
+                    if (adjRsn == "U") cm = dr["USER_CM"].AsDecimal();
                     if (dr["ADJ_CODE"].AsString() == "Y") {
                         /******************************************
                            確認商品是否在同一交易日不同情境下設定過
@@ -267,7 +288,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         adjTypeName = dtCheck.Rows[0]["LS_ADJ_TYPE_NAME"].AsString();
                         if (count > 0) {
                             MessageDisplay.Error(kindID + ",交易日(" + ymd + ")在" + adjTypeName + "已有資料");
-                            return ResultStatus.Fail;
+                            return ResultStatus.FailButNext;
                         }
                         /*********************************
                         確認商品是否在同一生效日區間設定過
@@ -280,31 +301,26 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         tradeYmd = dtCheck.Rows[0]["LS_TRADE_YMD"].AsString();
                         if (count > 0) {
                             MessageDisplay.Error(kindID + "," + adjTypeName + ",交易日(" + tradeYmd + ")在同一生效日區間內已有資料");
-                            return ResultStatus.Fail;
-                        }
-                        /**************************************
-                        判斷調整前後值不同，相同則警示且無法存檔
-                        **************************************/
-                        adjRsn = dr["ADJ_RSN"].AsString();
-                        curCm = dr["CUR_CM"].AsDecimal();
-                        if (adjRsn == "S") cm = dr["SMA_CM"].AsDecimal();
-                        if (adjRsn == "E") cm = dr["EWMA_CM"].AsDecimal();
-                        if (adjRsn == "M") cm = dr["MAXV_CM"].AsDecimal();
-                        if (adjRsn == "U") {
-                            cm = dr["USER_CM"].AsDecimal();
-                            if (cm == 0) {
-                                MessageDisplay.Error(kindID + ",請輸入保證金金額");
-                                return ResultStatus.Fail;
-                            }
-                        }
-                        if (cm == 0) {
-                            MessageDisplay.Error(kindID + ",保證金計算值為空，請選擇其他模型");
-                            return ResultStatus.Fail;
+                            return ResultStatus.FailButNext;
                         }
                         if (cm == curCm) {
                             MessageDisplay.Error(kindID + ",調整前後保證金一致，請重新輸入");
-                            return ResultStatus.Fail;
+                            return ResultStatus.FailButNext;
                         }
+                    }//if (dr["ADJ_CODE"].AsString() == "Y")
+
+                    /**************************************
+                    判斷調整前後值不同，相同則警示且無法存檔
+                    **************************************/
+                    if (adjRsn == "U") {
+                        if (cm == 0) {
+                            MessageDisplay.Error(kindID + ",請輸入保證金金額");
+                            return ResultStatus.FailButNext;
+                        }
+                    }
+                    if (cm == 0) {
+                        MessageDisplay.Error(kindID + ",保證金計算值為空，請選擇其他模型");
+                        return ResultStatus.FailButNext;
                     }
                 }
                 #endregion
@@ -357,7 +373,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         //刪除已存在資料
                         if (daoMGD2.DeleteMGD2(ymd, adjType, kindID) < 0) {
                             MessageDisplay.Error("MGD2資料刪除失敗");
-                            return ResultStatus.Fail;
+                            return ResultStatus.FailButNext;
                         }
                     }
                     //判斷是否重新塞入新資料
@@ -396,7 +412,25 @@ namespace PhoenixCI.FormUI.Prefix4 {
                             MM = dr["MAXV_MM"].AsDecimal();
                             IM = dr["MAXV_IM"].AsDecimal();
                         }
-                        if (adjRsn == "M") {
+                        if (adjRsn == "s") {
+                            rate = dr["FUT_SMA_ADJ_RATE"].AsDecimal();
+                            cm = dr["FUT_SMA_CM"].AsDecimal();
+                            MM = dr["FUT_SMA_MM"].AsDecimal();
+                            IM = dr["FUT_SMA_IM"].AsDecimal();
+                        }
+                        if (adjRsn == "e") {
+                            rate = dr["FUT_EWMA_ADJ_RATE"].AsDecimal();
+                            cm = dr["FUT_EWMA_CM"].AsDecimal();
+                            MM = dr["FUT_EWMA_MM"].AsDecimal();
+                            IM = dr["FUT_EWMA_IM"].AsDecimal();
+                        }
+                        if (adjRsn == "m") {
+                            rate = dr["FUT_MAXV_ADJ_RATE"].AsDecimal();
+                            cm = dr["FUT_MAXV_CM"].AsDecimal();
+                            MM = dr["FUT_MAXV_MM"].AsDecimal();
+                            IM = dr["FUT_MAXV_IM"].AsDecimal();
+                        }
+                        if (adjRsn == "U") {
                             if (kindID == "MXF") {
                                 found2 = dtFiltered.Rows.IndexOf(dtFiltered.Select("kind_id = 'TXF'").FirstOrDefault());
                                 cm = dtFiltered.Rows[found2]["USER_CM"].AsDecimal();
@@ -443,7 +477,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                             found2 = dtTemp.Rows.IndexOf(dtTemp.Select("kind_id = '" + kindID + "' and ab_type = 'B'").FirstOrDefault());
                             if (found2 < 0) {
                                 MessageDisplay.Error(kindID + "無保證金B值資料!");
-                                return ResultStatus.Fail;
+                                return ResultStatus.FailButNext;
                             }
 
                             found = dtEmpty.Rows.Count - 1;
@@ -467,6 +501,21 @@ namespace PhoenixCI.FormUI.Prefix4 {
                                 dtEmpty.Rows[found]["MGD2_MM"] = dtTemp.Rows[found2]["MAXV_MM"];
                                 dtEmpty.Rows[found]["MGD2_IM"] = dtTemp.Rows[found2]["MAXV_IM"];
                             }
+                            if (adjRsn == "s") {
+                                dtEmpty.Rows[found]["MGD2_CM"] = dtTemp.Rows[found2]["FUT_SMA_CM"];
+                                dtEmpty.Rows[found]["MGD2_MM"] = dtTemp.Rows[found2]["FUT_SMA_MM"];
+                                dtEmpty.Rows[found]["MGD2_IM"] = dtTemp.Rows[found2]["FUT_SMA_IM"];
+                            }
+                            if (adjRsn == "e") {
+                                dtEmpty.Rows[found]["MGD2_CM"] = dtTemp.Rows[found2]["FUT_EWMA_CM"];
+                                dtEmpty.Rows[found]["MGD2_MM"] = dtTemp.Rows[found2]["FUT_EWMA_MM"];
+                                dtEmpty.Rows[found]["MGD2_IM"] = dtTemp.Rows[found2]["FUT_EWMA_IM"];
+                            }
+                            if (adjRsn == "m") {
+                                dtEmpty.Rows[found]["MGD2_CM"] = dtTemp.Rows[found2]["FUT_MAXV_CM"];
+                                dtEmpty.Rows[found]["MGD2_MM"] = dtTemp.Rows[found2]["FUT_MAXV_MM"];
+                                dtEmpty.Rows[found]["MGD2_IM"] = dtTemp.Rows[found2]["FUT_MAXV_IM"];
+                            }
                             if (adjRsn == "U") {
                                 cm = dao40070.GetMarginVal(kindID, cm, 0, "CM_B");
                                 dtEmpty.Rows[found]["MGD2_CM"] = cm;
@@ -487,7 +536,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 ResultData myResultData = daoMGD2.UpdateMGD2(dtEmpty);
                 if (myResultData.Status == ResultStatus.Fail) {
                     MessageDisplay.Error("更新資料庫MGD2錯誤! ");
-                    return ResultStatus.Fail;
+                    return ResultStatus.FailButNext;
                 }
 
                 //ids_old.update()
@@ -495,16 +544,20 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     myResultData = daoMGD2L.UpdateMGD2L(dtMGD2Log);
                     if (myResultData.Status == ResultStatus.Fail) {
                         MessageDisplay.Error("更新資料庫MGD2L錯誤! ");
-                        return ResultStatus.Fail;
+                        return ResultStatus.FailButNext;
                     }
                 }
 
                 ReportHelper _ReportHelper = new ReportHelper(gcMain, _ProgramID, this.Text);
+                CommonReportLandscapeA3 reportLandscape = new CommonReportLandscapeA3();//設定為橫向列印
+                reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
+                reportLandscape.IsHandlePersonVisible = false;
+                reportLandscape.IsManagerVisible = false;
+                _ReportHelper.Create(reportLandscape);
                 _ReportHelper.Export(FileType.PDF, _ReportHelper.FilePath);
                 MessageDisplay.Info("報表儲存完成!");
             }
             catch (Exception ex) {
-
                 MessageDisplay.Error("儲存錯誤");
                 throw ex;
             }
@@ -605,51 +658,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
         #endregion
 
         #region GridView Events
-        private void gvMain_CellValueChanged(object sender, CellValueChangedEventArgs e) {
-            //GridView gv = sender as GridView;
-            //int ll_found;
-            //gv.CloseEditor();
-            //gv.UpdateCurrentRow();
-            //DataTable dt = (DataTable)gcMain.DataSource;
-            //string ls_kind_id = gv.GetRowCellValue(e.RowHandle, "KIND_ID").AsString();
-            //if (e.Column.Name == "ADJ_CODE") {
-            //    if (e.Value.AsString() != "Y") {
-            //        gv.SetRowCellValue(e.RowHandle, "ISSUE_BEGIN_YMD", nullYmd);
-            //    }
-            //    else {
-            //        switch (gv.GetRowCellValue(e.RowHandle, "OSW_GRP").AsString()) {
-            //            case "5":
-            //                gv.SetRowCellValue(e.RowHandle, "ISSUE_BEGIN_YMD", txtDateG5.DateTimeValue.ToString("yyyyMMdd"));
-            //                break;
-            //            case "7":
-            //                gv.SetRowCellValue(e.RowHandle, "ISSUE_BEGIN_YMD", txtDateG7.DateTimeValue.ToString("yyyyMMdd"));
-            //                break;
-            //            default:
-            //                gv.SetRowCellValue(e.RowHandle, "ISSUE_BEGIN_YMD", txtDateG1.DateTimeValue.ToString("yyyyMMdd"));
-            //                break;
-            //        }
-            //    }
-            //    if (ls_kind_id == "TXF") {
-            //        ll_found = dt.Rows.IndexOf(dt.Select("kind_id ='MXF'").FirstOrDefault());
-            //        gv.SetRowCellValue(ll_found, "ADJ_CODE", e.Value);
-            //        gv.SetRowCellValue(ll_found, "ISSUE_BEGIN_YMD", gv.GetRowCellValue(e.RowHandle, "ISSUE_BEGIN_YMD"));
-            //    }
-            //}
-            //if (e.Column.Name == "ADJ_RSN") {
-            //    if (ls_kind_id == "TXF") {
-            //        ll_found = dt.Rows.IndexOf(dt.Select("kind_id ='MXF'").FirstOrDefault());
-            //        gv.SetRowCellValue(ll_found, "ADJ_RSN", e.Value);
-            //    }
-            //}
-            //if (e.Column.Name == "USER_CM") {
-            //    if (ls_kind_id == "TXF") {
-            //        ll_found = dt.Rows.IndexOf(dt.Select("kind_id ='MXF'").FirstOrDefault());
-            //        gv.SetRowCellValue(ll_found, "USER_CM", dao40070.GetMarginVal("MXF", e.Value.AsInt(), 0, "MTX_CM"));
-            //    }
-            //}
-            //gv.RefreshRow(e.RowHandle);
-        }
-
         private void gvMain_CellValueChanging(object sender, CellValueChangedEventArgs e) {
             GridView gv = sender as GridView;
             int ll_found;

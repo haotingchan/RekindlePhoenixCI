@@ -77,12 +77,13 @@
          this.SPAN_ZISP_COM_PROD2 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.gridBand4 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.SPAN_ZISP_CREDIT = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+         this.repositoryItemTextEdit5 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
          this.gridBand5 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.SPAN_ZISP_DPSR2 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.SPAN_ZISP_DPSR1 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+         this.SPAN_ZISP_DPSR2 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.band10 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.SPAN_ZISP_PRIORITY = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-         this.repositoryItemTextEdit5 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+         this.repositoryItemTextEdit6 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
          this.SPAN_ZISP_USER_ID = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.SPAN_ZISP_W_TIME = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.IS_NEWROW = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -147,6 +148,7 @@
          ((System.ComponentModel.ISupportInitialize)(this.gc_ZISP)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gv_ZISP)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit5)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit6)).BeginInit();
          this.panTabButtonBar.SuspendLayout();
          this.tab_VSR.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gc_VSR)).BeginInit();
@@ -349,8 +351,9 @@
          this.repositoryItemTextEdit1.AllowNullInput = DevExpress.Utils.DefaultBoolean.False;
          this.repositoryItemTextEdit1.AutoHeight = false;
          this.repositoryItemTextEdit1.Mask.BeepOnError = true;
-         this.repositoryItemTextEdit1.Mask.EditMask = "\\d+";
+         this.repositoryItemTextEdit1.Mask.EditMask = "[-+]?[0-9]+(\\.[0-9]{0,4})";
          this.repositoryItemTextEdit1.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.repositoryItemTextEdit1.Mask.ShowPlaceHolders = false;
          this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
          this.repositoryItemTextEdit1.ShowNullValuePromptWhenFocused = true;
          // 
@@ -522,8 +525,9 @@
          // repositoryItemTextEdit2
          // 
          this.repositoryItemTextEdit2.AutoHeight = false;
-         this.repositoryItemTextEdit2.Mask.EditMask = "\\d+";
+         this.repositoryItemTextEdit2.Mask.EditMask = "[-+]?[0-9]+(\\.[0-9]{0,4})";
          this.repositoryItemTextEdit2.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.repositoryItemTextEdit2.Mask.ShowPlaceHolders = false;
          this.repositoryItemTextEdit2.Name = "repositoryItemTextEdit2";
          // 
          // gridColumn6
@@ -607,7 +611,8 @@
          this.gc_ZISP.MenuManager = this.ribbonControl;
          this.gc_ZISP.Name = "gc_ZISP";
          this.gc_ZISP.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
-            this.repositoryItemTextEdit5});
+            this.repositoryItemTextEdit5,
+            this.repositoryItemTextEdit6});
          this.gc_ZISP.Size = new System.Drawing.Size(1111, 328);
          this.gc_ZISP.TabIndex = 0;
          this.gc_ZISP.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -704,22 +709,41 @@
          // SPAN_ZISP_CREDIT
          // 
          this.SPAN_ZISP_CREDIT.Caption = "跨商品價差折抵率";
-         this.SPAN_ZISP_CREDIT.DisplayFormat.FormatString = "0,0.0";
-         this.SPAN_ZISP_CREDIT.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
+         this.SPAN_ZISP_CREDIT.ColumnEdit = this.repositoryItemTextEdit5;
+         this.SPAN_ZISP_CREDIT.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
          this.SPAN_ZISP_CREDIT.FieldName = "SPAN_ZISP_CREDIT";
          this.SPAN_ZISP_CREDIT.Name = "SPAN_ZISP_CREDIT";
          this.SPAN_ZISP_CREDIT.OptionsColumn.ShowCaption = false;
          this.SPAN_ZISP_CREDIT.Visible = true;
          this.SPAN_ZISP_CREDIT.Width = 188;
          // 
+         // repositoryItemTextEdit5
+         // 
+         this.repositoryItemTextEdit5.AutoHeight = false;
+         this.repositoryItemTextEdit5.Mask.EditMask = "[0-9]+(\\.[0-9]{0,4})";
+         this.repositoryItemTextEdit5.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.repositoryItemTextEdit5.Mask.ShowPlaceHolders = false;
+         this.repositoryItemTextEdit5.MaxLength = 4;
+         this.repositoryItemTextEdit5.Name = "repositoryItemTextEdit5";
+         // 
          // gridBand5
          // 
          this.gridBand5.Caption = "契約價值耗用比率";
-         this.gridBand5.Columns.Add(this.SPAN_ZISP_DPSR2);
          this.gridBand5.Columns.Add(this.SPAN_ZISP_DPSR1);
+         this.gridBand5.Columns.Add(this.SPAN_ZISP_DPSR2);
          this.gridBand5.Name = "gridBand5";
          this.gridBand5.VisibleIndex = 4;
          this.gridBand5.Width = 289;
+         // 
+         // SPAN_ZISP_DPSR1
+         // 
+         this.SPAN_ZISP_DPSR1.ColumnEdit = this.repositoryItemTextEdit5;
+         this.SPAN_ZISP_DPSR1.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+         this.SPAN_ZISP_DPSR1.FieldName = "SPAN_ZISP_DPSR1";
+         this.SPAN_ZISP_DPSR1.Name = "SPAN_ZISP_DPSR1";
+         this.SPAN_ZISP_DPSR1.OptionsColumn.ShowCaption = false;
+         this.SPAN_ZISP_DPSR1.Visible = true;
+         this.SPAN_ZISP_DPSR1.Width = 151;
          // 
          // SPAN_ZISP_DPSR2
          // 
@@ -727,23 +751,13 @@
          this.SPAN_ZISP_DPSR2.AppearanceHeader.TextOptions.Trimming = DevExpress.Utils.Trimming.None;
          this.SPAN_ZISP_DPSR2.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.NoWrap;
          this.SPAN_ZISP_DPSR2.Caption = "契約價值耗用比率";
-         this.SPAN_ZISP_DPSR2.DisplayFormat.FormatString = "0,0.0";
-         this.SPAN_ZISP_DPSR2.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
+         this.SPAN_ZISP_DPSR2.ColumnEdit = this.repositoryItemTextEdit5;
+         this.SPAN_ZISP_DPSR2.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
          this.SPAN_ZISP_DPSR2.FieldName = "SPAN_ZISP_DPSR2";
          this.SPAN_ZISP_DPSR2.Name = "SPAN_ZISP_DPSR2";
          this.SPAN_ZISP_DPSR2.OptionsColumn.ShowCaption = false;
          this.SPAN_ZISP_DPSR2.Visible = true;
          this.SPAN_ZISP_DPSR2.Width = 138;
-         // 
-         // SPAN_ZISP_DPSR1
-         // 
-         this.SPAN_ZISP_DPSR1.DisplayFormat.FormatString = "0,0.0";
-         this.SPAN_ZISP_DPSR1.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
-         this.SPAN_ZISP_DPSR1.FieldName = "SPAN_ZISP_DPSR1";
-         this.SPAN_ZISP_DPSR1.Name = "SPAN_ZISP_DPSR1";
-         this.SPAN_ZISP_DPSR1.OptionsColumn.ShowCaption = false;
-         this.SPAN_ZISP_DPSR1.Visible = true;
-         this.SPAN_ZISP_DPSR1.Width = 151;
          // 
          // band10
          // 
@@ -756,19 +770,19 @@
          // SPAN_ZISP_PRIORITY
          // 
          this.SPAN_ZISP_PRIORITY.Caption = "優先順序";
-         this.SPAN_ZISP_PRIORITY.ColumnEdit = this.repositoryItemTextEdit5;
+         this.SPAN_ZISP_PRIORITY.ColumnEdit = this.repositoryItemTextEdit6;
          this.SPAN_ZISP_PRIORITY.FieldName = "SPAN_ZISP_PRIORITY";
          this.SPAN_ZISP_PRIORITY.Name = "SPAN_ZISP_PRIORITY";
          this.SPAN_ZISP_PRIORITY.OptionsColumn.ShowCaption = false;
          this.SPAN_ZISP_PRIORITY.Visible = true;
          // 
-         // repositoryItemTextEdit5
+         // repositoryItemTextEdit6
          // 
-         this.repositoryItemTextEdit5.AutoHeight = false;
-         this.repositoryItemTextEdit5.Mask.EditMask = "\\d+";
-         this.repositoryItemTextEdit5.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-         this.repositoryItemTextEdit5.MaxLength = 4;
-         this.repositoryItemTextEdit5.Name = "repositoryItemTextEdit5";
+         this.repositoryItemTextEdit6.AutoHeight = false;
+         this.repositoryItemTextEdit6.Mask.EditMask = "\\d+";
+         this.repositoryItemTextEdit6.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.repositoryItemTextEdit6.Mask.ShowPlaceHolders = false;
+         this.repositoryItemTextEdit6.Name = "repositoryItemTextEdit6";
          // 
          // SPAN_ZISP_USER_ID
          // 
@@ -915,8 +929,9 @@
          // repositoryItemTextEdit3
          // 
          this.repositoryItemTextEdit3.AutoHeight = false;
-         this.repositoryItemTextEdit3.Mask.EditMask = "\\d+";
+         this.repositoryItemTextEdit3.Mask.EditMask = "[-+]?[0-9]+(\\.[0-9]{0,4})";
          this.repositoryItemTextEdit3.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.repositoryItemTextEdit3.Mask.ShowPlaceHolders = false;
          this.repositoryItemTextEdit3.Name = "repositoryItemTextEdit3";
          // 
          // gridColumn14
@@ -1054,8 +1069,9 @@
          // repositoryItemTextEdit4
          // 
          this.repositoryItemTextEdit4.AutoHeight = false;
-         this.repositoryItemTextEdit4.Mask.EditMask = "\\d+";
+         this.repositoryItemTextEdit4.Mask.EditMask = "[-+]?[0-9]+(\\.[0-9]{0,4})";
          this.repositoryItemTextEdit4.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.repositoryItemTextEdit4.Mask.ShowPlaceHolders = false;
          this.repositoryItemTextEdit4.Name = "repositoryItemTextEdit4";
          // 
          // gridColumn22
@@ -1147,6 +1163,7 @@
          ((System.ComponentModel.ISupportInitialize)(this.gc_ZISP)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gv_ZISP)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit5)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit6)).EndInit();
          this.panTabButtonBar.ResumeLayout(false);
          this.tab_VSR.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.gc_VSR)).EndInit();
@@ -1259,11 +1276,12 @@
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn SPAN_ZISP_USER_ID;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn SPAN_ZISP_W_TIME;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn IS_NEWROW;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand2;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand3;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand7;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand4;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand5;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand band10;
-    }
+      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand2;
+      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand3;
+      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand7;
+      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand4;
+      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand5;
+      private DevExpress.XtraGrid.Views.BandedGrid.GridBand band10;
+      private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit6;
+   }
 }

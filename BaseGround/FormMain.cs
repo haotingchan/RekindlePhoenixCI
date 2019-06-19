@@ -21,15 +21,14 @@ namespace BaseGround {
     public partial class FormMain : DevExpress.XtraBars.Ribbon.RibbonForm {
         public FormMain() {
             InitializeComponent();
-            ServiceCommon serviceCommon = new ServiceCommon();
             TXN daoTXN = new TXN();
             DataTable dt = new DataTable();
             if (GlobalInfo.USER_ID == GlobalDaoSetting.GetConnectionInfo.ConnectionName) {
                 dt = Task.Run(() => daoTXN.ListData()).Result;
             }
             else {
-                //dt = Task.Run(() => serviceCommon.ListTxnByUser(GlobalInfo.USER_ID)).Result;
-                dt = Task.Run(() => daoTXN.ListData()).Result;
+                dt = Task.Run(() => daoTXN.ListTxnByUser(GlobalInfo.USER_ID)).Result;
+                //dt = Task.Run(() => daoTXN.ListData()).Result;
             }
 
             AccordionControlElement item = null;
@@ -122,19 +121,22 @@ namespace BaseGround {
             toolStripStatusLabelServerName.Text = GlobalDaoSetting.GetConnectionInfo.ConnectionName;
             toolStripStatusLabelDBName.Text = GlobalDaoSetting.Database;
             toolStripStatusLabelUserName.Text = GlobalInfo.USER_NAME;
-            toolStripStatusLabelVersionNum.Text = new AP().GetMaxVersion();
+            //toolStripStatusLabelVersionNum.Text = new DateTime(2000,1,1).AddDays(Assembly.GetExecutingAssembly().GetName().Version.Build).ToString("yyyy/MM/dd");
+            toolStripStatusLabelVersionNum.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-            switch (SystemStatus.SystemType) {
-                case SystemType.CI:
-                    this.Text = "交易資訊統計管理系統";
-                    break;
-
-                default:
-                    break;
-            }
+            this.Text = "交易資訊統計管理系統";
         }
 
-        public FormMain(string txnID, string txnName) : this() {
+        public FormMain(string txnID, string txnName) {
+            InitializeComponent();
+
+            toolStripStatusLabelServerName.Text = GlobalDaoSetting.GetConnectionInfo.ConnectionName;
+            toolStripStatusLabelDBName.Text = GlobalDaoSetting.Database;
+            toolStripStatusLabelUserName.Text = GlobalInfo.USER_NAME;
+            toolStripStatusLabelVersionNum.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+            this.Text = "交易資訊統計管理系統";
+
             OpenForm(txnID, txnName).CloseBox = false;
             scSearch.Visible = false;
             sidePanelMenu.Visible = false;

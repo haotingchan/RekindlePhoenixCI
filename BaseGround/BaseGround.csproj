@@ -223,7 +223,6 @@
     <EmbeddedResource Include="FormParent.resx">
       <DependentUpon>FormParent.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Report\CommonReportLandscapeA3.resx">
       <DependentUpon>CommonReportLandscapeA3.cs</DependentUpon>
     </EmbeddedResource>

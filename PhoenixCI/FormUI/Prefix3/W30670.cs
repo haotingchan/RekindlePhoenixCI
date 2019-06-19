@@ -77,11 +77,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
          #region 日期檢核
          if (!txtStartYMD.IsDate(txtStartYMD.Text , CheckDate.Start)
                   || !txtEndYMD.IsDate(txtEndYMD.Text , CheckDate.End)) {
-            return ResultStatus.Fail; ;
+                labMsg.Visible = false;
+                return ResultStatus.Fail; ;
          }
 
          if (string.Compare(txtStartYMD.Text , txtEndYMD.Text) > 0) {
-            MessageDisplay.Error(GlobalInfo.ErrorText , CheckDate.Datedif);
+            MessageDisplay.Error(CheckDate.Datedif,GlobalInfo.ErrorText);
+                labMsg.Visible = false;
             return ResultStatus.Fail; ;
          }
          #endregion

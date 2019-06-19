@@ -46,12 +46,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
             return ResultStatus.Success;
         }
 
-        protected override ResultStatus CheckShield() {
-            base.CheckShield();
-
-            return ResultStatus.Success;
-        }
-
         protected void ShowMsg(string msg) {
             lblProcessing.Text = msg;
             this.Refresh();
@@ -60,9 +54,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
         protected override ResultStatus Export() {
             base.Export();
-          
-            if(!ManipulateExcel())return ResultStatus.Fail;
-            lblProcessing.Visible = false;
+
+            if (!ManipulateExcel()) {
+                ShowMsg("");
+                return ResultStatus.Fail;
+            }
             return ResultStatus.Success;
         }
 
@@ -115,13 +111,13 @@ namespace PhoenixCI.FormUI.Prefix5 {
                     worksheet.Cells[rowNum, 1].Value = dtContent.Rows[i]["fut_id"].AsString();
                     worksheet.Cells[rowNum, 2].Value = dtContent.Rows[i]["acctno"].AsString();
                     worksheet.Cells[rowNum, 3].Value = dtContent.Rows[i]["param_key"].AsString();
-                    worksheet.Cells[rowNum, 4].Value = dtContent.Rows[i]["valid_cnt"].AsDecimal();
-                    worksheet.Cells[rowNum, 5].Value = dtContent.Rows[i]["valid_time"].AsDecimal();
-                    worksheet.Cells[rowNum, 6].Value = dtContent.Rows[i]["valid_result"].AsDecimal();
-                    worksheet.Cells[rowNum, 7].Value = dtContent.Rows[i]["qty"].AsDecimal();
-                    worksheet.Cells[rowNum, 8].Value = dtContent.Rows[i]["nqty"].AsDecimal();
+                    worksheet.Cells[rowNum, 4].SetValue(dtContent.Rows[i]["valid_cnt"]);
+                    worksheet.Cells[rowNum, 5].SetValue(dtContent.Rows[i]["valid_time"]);
+                    worksheet.Cells[rowNum, 6].SetValue(dtContent.Rows[i]["valid_result"]);
+                    worksheet.Cells[rowNum, 7].SetValue(dtContent.Rows[i]["qty"]);
+                    worksheet.Cells[rowNum, 8].SetValue(dtContent.Rows[i]["nqty"]);
                     worksheet.Cells[rowNum, 9].Value = dtContent.Rows[i]["prod_type"].AsString();
-                    worksheet.Cells[rowNum, 10].Value = dtContent.Rows[i]["drank"].AsDecimal();
+                    worksheet.Cells[rowNum, 10].SetValue(dtContent.Rows[i]["drank"]);
 
                 }
                 //workbook.SaveDocument(excelDestinationPath);
@@ -139,6 +135,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 if (dtContentETF.Rows.Count == 0) {
                     MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromDate.Text, this.Text));
                 }
+                else {
                 //存CSV
                
                 string etfFileName = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH,"50072_ETF_"+DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss")+".csv");
@@ -157,6 +154,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
                 File.WriteAllText(etfFileName, sbETF.ToString());
 
+                }
+
+
                 /******************
                 TXF
                 ******************/
@@ -167,6 +167,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 if (dtContentTXF.Rows.Count == 0) {
                     MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromDate.Text, this.Text));
                 }
+                else {
                 //存CSV
                 string txfFileName = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, "50072_TXF_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".csv");
                 File.Create(txfFileName).Close();
@@ -184,44 +185,22 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 }
 
                 File.WriteAllText(txfFileName, sbTXF.ToString());
+                }
+
 
                 #endregion
 
                 #region MTX 已廢除
-                //讀取資料
-                //DataTable dtContentMTX = dao50072.ListData_mtx(txtFromDate.FormatValue, txtToDate.FormatValue);
-                //if (dtContent.Rows.Count == 0) {
-                //    MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromDate.Text, this.Text));
-                //}
-
-                //填資料
-                //Workbook workbookMTX = new Workbook();
-                //workbook.LoadDocument(excelDestinationPath);
-                //Worksheet worksheetMTX = workbook.Worksheets[1];
-
-                //for (i = 0; i < dtContentMTX.Rows.Count; i++) {
-
-                //    int ii_ole_row = i + 3;
-
-                //        worksheetMTX.Cells[ii_ole_row, 0].Value = dtContentMTX.Rows[i]["yymmdd"].AsString();
-                //        worksheetMTX.Cells[ii_ole_row, 1].Value = dtContentMTX.Rows[i]["fcm_no"].AsString();
-                //        worksheetMTX.Cells[ii_ole_row, 2].Value = dtContentMTX.Rows[i]["acc_no"].AsString();
-                //        worksheetMTX.Cells[ii_ole_row, 3].Value = dtContentMTX.Rows[i]["auction_rate"].AsString();
-                //        worksheetMTX.Cells[ii_ole_row, 4].Value = dtContentMTX.Rows[i]["buy_keep_time"].AsString();
-                //        worksheetMTX.Cells[ii_ole_row, 5].Value = dtContentMTX.Rows[i]["sell_keep_time"].AsString();
-                //        worksheetMTX.Cells[ii_ole_row, 6].Value = dtContentMTX.Rows[i]["match_rate"].AsString();
-
-                //}
 
                 #endregion
 
                 //若所有Sheet皆無資料時，刪除檔案
-                if (dtContent.Rows.Count==0 && dtContentETF.Rows.Count==0 && dtContentTXF.Rows.Count == 0) {
+                if (dtContent.Rows.Count == 0) {
                     try {
                         workbook = null;
                         System.IO.File.Delete(file);
-                        System.IO.File.Delete(etfFileName);
-                        System.IO.File.Delete(txfFileName);
+                        //System.IO.File.Delete(etfFileName);
+                        //System.IO.File.Delete(txfFileName);
                     }
                     catch (Exception) {
                         //

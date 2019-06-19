@@ -244,12 +244,18 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     return ResultStatus.Success;
                 }
                 //如果有資料，就copy到Grid
+                DataTable dtGrid = (DataTable)gcMain.DataSource;
                 dtAMIFU.Columns.Add("Is_NewRow", typeof(string));
+                //如果是本來沒有的資料，Is_NewRow給1
                 foreach (DataRow dr in dtAMIFU.Rows) {
-                    dr["Is_NewRow"] = "1";
+                    found = dtGrid.Rows.IndexOf(dtGrid.Select("amif_kind_id='" + dr["AMIF_KIND_ID"].AsString() +
+                                                              "' and amif_settle_date='" + dr["AMIF_SETTLE_DATE"].AsString() + "'").FirstOrDefault());
+                    if (found < 0) {
+                        //dtGrid.Rows.InsertAt(dr, 0);
+                        dtGrid.ImportRow(dr);
+                        dtGrid.Rows[dtGrid.Rows.Count - 1]["Is_NewRow"] = "1";
+                    }
                 }
-                gcMain.DataSource = dtAMIFU;
-                gcMain.RefreshDataSource();
                 //補沒有轉入商品之空白
                 if (ddlType.Text == "16:15收盤") {
                     DataView dv = dtRPT.AsDataView();
@@ -266,10 +272,12 @@ namespace PhoenixCI.FormUI.Prefix2 {
                         settleDate = "指數";
                     }
                     //應該要用gridview的資料判斷，但在這個階段其資料等於dtAMIFU，故利用後者做判斷是否要新增資料列
-                    if (dtAMIFU.Select("AMIF_KIND_ID='" + kindId + "' and AMIF_SETTLE_DATE='" + settleDate + "'").Length == 0) {
+                    if (dtGrid.Select("AMIF_KIND_ID='" + kindId + "' and AMIF_SETTLE_DATE='" + settleDate + "'").Length == 0) {
                         InsertRow(kindId, settleDate, dtRPT.Rows[i]["RPT_SEQ_NO"].AsInt());
                     }
                 }
+                gcMain.DataSource = dtGrid;
+                gcMain.RefreshDataSource();
                 gvMain.BeginSort();
                 try {
                     gvMain.ClearSorting();
@@ -1335,7 +1343,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             ClosePrice();
 
             // 檢查收盤價為0
-            if (gvMain.GetRowCellValue(found, "AMIF_CLOSE_PRICE").AsDecimal()==0) {
+            if (gvMain.GetRowCellValue(found, "AMIF_CLOSE_PRICE").AsDecimal() == 0) {
                 DialogResult result = MessageDisplay.Choose(gvMain.GetRowCellValue(found, "AMIF_KIND_ID").AsString() +
                                                             " 今日收盤價為0，是否要複製前日收盤價？");
                 if (result == DialogResult.Yes) {

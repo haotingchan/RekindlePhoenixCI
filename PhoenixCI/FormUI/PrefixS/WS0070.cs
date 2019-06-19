@@ -33,6 +33,7 @@ namespace PhoenixCI.FormUI.PrefixS {
          InitializeComponent();
          daoS0070 = new DS0070();
          daoCod = new COD();
+         _IsProcessRunAsync = true;//非同步執行
 
          Retrieve();
       }
@@ -170,6 +171,13 @@ namespace PhoenixCI.FormUI.PrefixS {
                return ResultStatus.FailButNext;
             }
 
+            //檢查日期區間
+            if (!CheckPeriod()) return ResultStatus.FailButNext;
+
+            //檢查REQ區間(0.1~5)
+            if (!CheckREQValue()) return ResultStatus.FailButNext;
+
+            //檢查帳號及壓力測試參數
             DataTable dtExAccount = (DataTable)gcExAccount.DataSource;
             GenWTime(dtExAccount, "SPAN_ACCT_W_TIME", "SPAN_ACCT_USER_ID");
             if (!checkExAccount()) return ResultStatus.FailButNext;
@@ -189,22 +197,26 @@ namespace PhoenixCI.FormUI.PrefixS {
       }
 
       protected override ResultStatus RunBefore(PokeBall args) {
-         ResultStatus resultStatus = ResultStatus.Fail;
+         ResultStatus resultStatus = ResultStatus.Success;
 
          if (checkChanged()) {
             MessageDisplay.Info("資料有變更, 請先存檔!");
             resultStatus = ResultStatus.FailButNext;
-         } else {
-            Run(args);
-         }
+         } //else {
+         //   resultStatus = Run(args);
+         //}
          return resultStatus;
       }
 
       protected override ResultStatus Run(PokeBall args) {
+         string re = "N";
          if (!checkChanged()) {
-            PbFunc.f_bat_span("S0070", "ST", GlobalInfo.USER_ID);
+            //re="N"代表執行錯誤
+            re = PbFunc.f_bat_span("S0070", "ST", GlobalInfo.USER_ID);
          }
-         return base.Run(args);
+         if (re == "Y") return ResultStatus.Success;
+
+         return ResultStatus.Fail;
       }
 
       protected override ResultStatus ActivatedForm() {
@@ -276,8 +288,17 @@ namespace PhoenixCI.FormUI.PrefixS {
 
          foreach (DataRow r in dtExAccount.Rows) {
             if (r.RowState != DataRowState.Deleted) {
-               if (r["SPAN_ACCT_FCM_NO"].AsString().SubStr(4, 3) == "999") {
+
+               //期貨商代號欄位必須為7碼，末3碼不為999
+               if (r["SPAN_ACCT_FCM_NO"].AsString().SubStr(4, 3) == "999" ||
+                   r["SPAN_ACCT_FCM_NO"].AsString().Length != 7) {
                   MessageDisplay.Info("期貨商代號欄位必須為7碼，末3碼不為999");
+                  return false;
+               }
+
+               //交易人代號欄位必須為7碼
+               if (r["SPAN_ACCT_ACC_NO"].AsString().Length != 7) {
+                  MessageDisplay.Info("交易人代號欄位必須為7碼");
                   return false;
                }
             }

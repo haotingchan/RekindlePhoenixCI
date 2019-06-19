@@ -408,8 +408,8 @@ namespace BaseGround.Shared {
                   li_rtn = jLOG.GetJobCount(adt_date, ls_osw_grp);
 
                   if ((li_rtn < 2 && ls_osw_grp != "7") || (li_rtn < 1 && ls_osw_grp == "7")) {
-                     res = "機房「130C」批次（群組:" + k.ToString() + "）作業尚未完成";
-                     break;
+                     return "機房「130C」批次（群組:" + k.ToString() + "）作業尚未完成";
+                     //break;
                   }
                }//for
                #endregion
@@ -1426,31 +1426,34 @@ namespace BaseGround.Shared {
             ls_err = gs_batch_path + as_txn_id + ".log";
             ls_flag = "";
             File.Delete(ls_err);
-            File.Delete(ls_flag);
+            //File.Delete(ls_flag);
 
             //*.Bat 以下指令是確保dos中之上一指令執行完畢繼續下一指令行(dos 為單一視窗),echo XXX
-            var processInfo = new ProcessStartInfo(ls_oper_bat);
+            string arguments = as_user_id + ">" + ls_err;
 
-            processInfo.CreateNoWindow = true;
+            var processInfo = new ProcessStartInfo(ls_oper_bat, arguments);
 
+            processInfo.CreateNoWindow = false;
             processInfo.UseShellExecute = false;
-
             processInfo.RedirectStandardError = true;
             processInfo.RedirectStandardOutput = true;
 
             var process = Process.Start(processInfo);
 
-            process.Start();
+            bool start = process.Start();
 
-            process.WaitForExit();
-
-            string output = process.StandardOutput.ReadToEnd();
+            //string output = process.StandardOutput.ReadToEnd();
             string error = process.StandardError.ReadToEnd();
-            if (!string.IsNullOrEmpty(error)) {
+            if (!start) {
+               MessageDisplay.Error(error);
                MessageDisplay.Error("(作業代號：" + as_txn_id + ")執行「" + (ls_oper_bat.Trim()) + "」失敗，請聯絡 SPAN 負責人！");
                return "N";
             }
 
+            process.WaitForExit();
+            process.Close();
+
+            MessageDisplay.Info("(作業代號：" + as_txn_id + ")已執行「" + (ls_oper_bat.Trim()) + "」，請到「" + (ls_oper_bat.Trim()) + "」查輸出結果！");
             return "Y";
          } catch (Exception ex) {
             throw ex;

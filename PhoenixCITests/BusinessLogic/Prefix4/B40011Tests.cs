@@ -30,7 +30,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4.Tests
       [TestInitialize]
       public void Setup()
       {
-         b40011 = new B40011("40011", destinationFilePath, "2018/10/12");
+         b40011 = new B40011("40011", destinationFilePath, "2019/05/22");
       }
 
 

@@ -93,7 +93,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
          Prod_ct.EditValue = " ";
          Kind_id_st.SetDataTable(daoAPDK.ListKind2(), "APDK_KIND_ID_STO", "APDK_KIND_ID_STO", TextEditStyles.DisableTextEditor, null);
          Kind_id_st.EditValue = " ";
-         Kind_id_O.SetDataTable(daoAPDK.ListKindId(), "APDK_KIND_ID", "APDK_KIND_ID", TextEditStyles.DisableTextEditor, null);
+         Kind_id_O.SetDataTable(daoAPDK.ListAll3(), "MARKET_CODE", "PDK_KIND_ID", TextEditStyles.DisableTextEditor, null);
          Kind_id_O.EditValue = " ";
 
 
@@ -158,7 +158,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
             gvPrint.SetColumnCaption(dc.ColumnName, showColCaption[dtTarget.Columns.IndexOf(dc)]);
             gvPrint.Columns[dc.ColumnName].OptionsColumn.AllowEdit = false;
             gvPrint.Columns[dc.ColumnName].AppearanceHeader.TextOptions.WordWrap = WordWrap.Wrap;
-            //gvPrint.Columns[dc.ColumnName].AppearanceCell.TextOptions.WordWrap = WordWrap.Wrap;
             gvPrint.Columns[dc.ColumnName].OptionsColumn.AllowMerge = DefaultBoolean.False;
 
             //前4個欄位合併 (一樣的值不顯示)
@@ -278,6 +277,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
          return ResultStatus.Success;
       }
 
+      /// <summary>
+      /// 日夜盤 商品下拉選單不同
+      /// </summary>
+      /// <param name="sender"></param>
+      /// <param name="e"></param>
       private void MarketTime_EditValueChanged(object sender, EventArgs e) {
          LookUpEdit lookupItem = sender as LookUpEdit;
          string marktCodeFilter = "AND APDK_MARKET_CODE in ('1',' ')";
@@ -300,6 +304,10 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
       }
 
+      /// <summary>
+      /// 組列印時的查詢條件
+      /// </summary>
+      /// <returns>查詢條件字串</returns>
       private string GenPrintMemo() {
          string fcm = "造市者:" + Fcm_SNo.EditValue.AsString() + "~" + Fcm_ENo.EditValue.AsString() + ",";
 
@@ -324,6 +332,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
          return printMemo;
       }
 
+      /// <summary>
+      /// 查詢條件修改時, 關閉列印及輸出按鈕
+      /// </summary>
+      /// <param name="sender"></param>
+      /// <param name="e"></param>
       private void EditValueChanged(object sender, EventArgs e) {
          _ToolBtnExport.Enabled = false;
          _ToolBtnPrintAll.Enabled = false;

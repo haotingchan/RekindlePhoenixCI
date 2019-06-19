@@ -175,8 +175,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
                     ws30202.Cells[rowIndex, 1].Value = pAvgQnty;
                     ws30202.Cells[rowIndex, 2].Value = pAvgOi;
                     //本次檢視之數值
-                    ws30202.Cells[rowIndex, 3].Value = dr["C_AVG_QNTY"].AsDecimal();
-                    ws30202.Cells[rowIndex, 4].Value = dr["C_AVG_OI"].AsDecimal();
+                    ws30202.Cells[rowIndex, 3].SetValue(dr["C_AVG_QNTY"]);
+                    ws30202.Cells[rowIndex, 4].SetValue(dr["C_AVG_OI"]);
                     //相較前次數值增減幅度
                     if (pAvgQnty > pAvgOi) value1 = pAvgQnty; else value1 = pAvgOi;
                     if (value1 == 0) changeRange = -1; else changeRange = Math.Round(dr["C_MAX_VALUE"].AsDecimal() / value1 - 1, 4, MidpointRounding.AwayFromZero);

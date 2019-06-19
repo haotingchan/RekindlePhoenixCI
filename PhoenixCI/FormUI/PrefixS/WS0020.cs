@@ -2,7 +2,6 @@
 using System.Data;
 using BaseGround;
 using BusinessObjects.Enums;
-using System.IO;
 using Common;
 using DevExpress.Spreadsheet;
 using DataObjects.Dao.Together.SpecificDao;
@@ -39,7 +38,7 @@ namespace PhoenixCI.FormUI.PrefixS {
                return ResultStatus.Fail;
             }
 
-            string destinationFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);//Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, Filename);
+            string destinationFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
 
             workbook.LoadDocument(destinationFilePath);
 

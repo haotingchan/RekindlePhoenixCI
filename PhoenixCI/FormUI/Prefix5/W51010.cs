@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Data;
-using System.Windows.Forms;
 using System.ComponentModel;
 using BaseGround;
 using BaseGround.Shared;
 using BaseGround.Report;
-using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using BusinessObjects.Enums;
 using Common;
@@ -91,11 +89,15 @@ namespace PhoenixCI.FormUI.Prefix5 {
                MessageDisplay.Info("沒有變更資料, 不需要存檔!");
                return ResultStatus.FailButNext;
             }
-            ResultData result = dao51010.UpdateData(dt);//base.Save_Override(dt, "DTS");
+
+            if (!checkDuplicate(dt.GetChanges(DataRowState.Added))) return ResultStatus.FailButNext;
+
+            ResultData result = dao51010.UpdateData(dt);
             if (result.Status == ResultStatus.Fail) {
                MessageDisplay.Error("儲存失敗");
                return ResultStatus.Fail;
             }
+
          } catch (Exception ex) {
             throw ex;
          }
@@ -138,6 +140,19 @@ namespace PhoenixCI.FormUI.Prefix5 {
          foreach (DataColumn column in dtSource.Columns) {
             if (dtSource.Rows.OfType<DataRow>().Where(r => r.RowState != DataRowState.Deleted).Any(r => r.IsNull(column))) {
                MessageDisplay.Error("尚未填寫完成");
+               return false;
+            }
+         }
+         return true;
+      }
+
+      private bool checkDuplicate(DataTable dtAdd) {
+
+         foreach (DataRow dr in dtAdd.Rows) {
+            string dtTmp = dao51010.GetDuplicate(Convert.ToDateTime(dr["dts_date"]).ToShortDateString());
+
+            if (!string.IsNullOrEmpty(dtTmp)) {
+               MessageDisplay.Error("不可設定重複日期 !");
                return false;
             }
          }

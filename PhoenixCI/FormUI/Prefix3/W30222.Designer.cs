@@ -76,6 +76,7 @@
             this.PLS1_LEVEL_ADJ_ORG = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.Is_NewRow = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
@@ -85,6 +86,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
             this.SuspendLayout();
             // 
             // panParent
@@ -96,7 +98,7 @@
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(1124, 43);
+            this.ribbonControl.Size = new System.Drawing.Size(1124, 30);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // panelControl1
@@ -114,7 +116,7 @@
             this.panelControl1.Controls.Add(this.label1);
             this.panelControl1.Controls.Add(this.label3);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelControl1.Location = new System.Drawing.Point(0, 43);
+            this.panelControl1.Location = new System.Drawing.Point(0, 30);
             this.panelControl1.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
             this.panelControl1.LookAndFeel.UseDefaultLookAndFeel = false;
             this.panelControl1.Name = "panelControl1";
@@ -127,7 +129,7 @@
             this.lblEff.ForeColor = System.Drawing.Color.Red;
             this.lblEff.Location = new System.Drawing.Point(760, 32);
             this.lblEff.Name = "lblEff";
-            this.lblEff.Size = new System.Drawing.Size(0, 30);
+            this.lblEff.Size = new System.Drawing.Size(0, 20);
             this.lblEff.TabIndex = 26;
             // 
             // btnPrev
@@ -146,7 +148,7 @@
             this.label5.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
             this.label5.Location = new System.Drawing.Point(385, 58);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(174, 31);
+            this.label5.Size = new System.Drawing.Size(118, 21);
             this.label5.TabIndex = 24;
             this.label5.Text = "(含不變＆新增)";
             // 
@@ -166,7 +168,7 @@
             this.txtEffDateLower.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtEffDateLower.Properties.Mask.ShowPlaceHolders = false;
             this.txtEffDateLower.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtEffDateLower.Size = new System.Drawing.Size(105, 40);
+            this.txtEffDateLower.Size = new System.Drawing.Size(105, 28);
             this.txtEffDateLower.TabIndex = 19;
             this.txtEffDateLower.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -176,7 +178,7 @@
             this.label2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
             this.label2.Location = new System.Drawing.Point(30, 32);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(134, 31);
+            this.label2.Size = new System.Drawing.Size(90, 21);
             this.label2.TabIndex = 20;
             this.label2.Text = "計算日期：";
             // 
@@ -186,7 +188,7 @@
             this.label4.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
             this.label4.Location = new System.Drawing.Point(585, 32);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(86, 31);
+            this.label4.Size = new System.Drawing.Size(58, 21);
             this.label4.TabIndex = 23;
             this.label4.Text = "降低：";
             // 
@@ -206,7 +208,7 @@
             this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtDate.Size = new System.Drawing.Size(105, 40);
+            this.txtDate.Size = new System.Drawing.Size(105, 28);
             this.txtDate.TabIndex = 17;
             this.txtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -226,7 +228,7 @@
             this.txtEffDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtEffDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtEffDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtEffDate.Size = new System.Drawing.Size(105, 40);
+            this.txtEffDate.Size = new System.Drawing.Size(105, 28);
             this.txtEffDate.TabIndex = 18;
             this.txtEffDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
@@ -236,7 +238,7 @@
             this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
             this.label1.Location = new System.Drawing.Point(289, 32);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(134, 31);
+            this.label1.Size = new System.Drawing.Size(90, 21);
             this.label1.TabIndex = 21;
             this.label1.Text = "公告日期：";
             // 
@@ -246,7 +248,7 @@
             this.label3.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
             this.label3.Location = new System.Drawing.Point(385, 32);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(86, 31);
+            this.label3.Size = new System.Drawing.Size(58, 21);
             this.label3.TabIndex = 22;
             this.label3.Text = "提高：";
             // 
@@ -257,7 +259,9 @@
             this.gcMain.MainView = this.gvMain;
             this.gcMain.MenuManager = this.ribbonControl;
             this.gcMain.Name = "gcMain";
-            this.gcMain.Size = new System.Drawing.Size(1124, 574);
+            this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repositoryItemTextEdit1});
+            this.gcMain.Size = new System.Drawing.Size(1124, 587);
             this.gcMain.TabIndex = 0;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -422,6 +426,7 @@
             // PLS1_QNTY
             // 
             this.PLS1_QNTY.Caption = "PLS1_QNTY";
+            this.PLS1_QNTY.ColumnEdit = this.repositoryItemTextEdit1;
             this.PLS1_QNTY.FieldName = "PLS1_QNTY";
             this.PLS1_QNTY.Name = "PLS1_QNTY";
             this.PLS1_QNTY.Visible = true;
@@ -443,6 +448,7 @@
             // PLS1_STKOUT
             // 
             this.PLS1_STKOUT.Caption = "PLS1_STKOUT";
+            this.PLS1_STKOUT.ColumnEdit = this.repositoryItemTextEdit1;
             this.PLS1_STKOUT.FieldName = "PLS1_STKOUT";
             this.PLS1_STKOUT.Name = "PLS1_STKOUT";
             this.PLS1_STKOUT.Visible = true;
@@ -595,14 +601,13 @@
             // 
             // gridBand14
             // 
-            this.gridBand14.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+            this.gridBand14.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.gridBand14.AppearanceHeader.Options.UseBackColor = true;
             this.gridBand14.Columns.Add(this.COMPUTE_1);
             this.gridBand14.Columns.Add(this.KIND_GRP2);
             this.gridBand14.Columns.Add(this.OP_TYPE);
             this.gridBand14.Name = "gridBand14";
-            this.gridBand14.Visible = false;
-            this.gridBand14.VisibleIndex = -1;
+            this.gridBand14.VisibleIndex = 10;
             this.gridBand14.Width = 75;
             // 
             // COMPUTE_1
@@ -610,6 +615,7 @@
             this.COMPUTE_1.Caption = "COMPUTE_1";
             this.COMPUTE_1.FieldName = "COMPUTE_1";
             this.COMPUTE_1.Name = "COMPUTE_1";
+            this.COMPUTE_1.Visible = true;
             // 
             // KIND_GRP2
             // 
@@ -696,15 +702,20 @@
             // 
             this.panel1.Controls.Add(this.gcMain);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 136);
+            this.panel1.Location = new System.Drawing.Point(0, 123);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1124, 574);
+            this.panel1.Size = new System.Drawing.Size(1124, 587);
             this.panel1.TabIndex = 4;
+            // 
+            // repositoryItemTextEdit1
+            // 
+            this.repositoryItemTextEdit1.AutoHeight = false;
+            this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
             // 
             // W30222
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1124, 710);
             this.Controls.Add(this.panel1);
@@ -725,6 +736,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -770,6 +782,7 @@
         private System.Windows.Forms.Label lblEff;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn COMPUTE_1;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn OP_TYPE;
+        private System.Windows.Forms.Panel panel1;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand1;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand2;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand3;
@@ -784,6 +797,6 @@
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand12;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand13;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand14;
-        private System.Windows.Forms.Panel panel1;
+        private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit1;
     }
 }

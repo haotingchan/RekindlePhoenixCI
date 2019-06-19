@@ -189,59 +189,66 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       protected override ResultStatus Save(PokeBall pokeBall) {
+            try {
+                gvMain.CloseEditor();
+                gvMain.UpdateCurrentRow();
+                ResultStatus resultStatus = ResultStatus.Fail;
 
-         gvMain.CloseEditor();
-         gvMain.UpdateCurrentRow();
-         ResultStatus resultStatus = ResultStatus.Fail;
+                DataTable dt = (DataTable)gcMain.DataSource;
+                DataTable dtChange = dt.GetChanges();
+                DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
+                DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
 
-         DataTable dt = (DataTable)gcMain.DataSource;
-         DataTable dtChange = dt.GetChanges();
-         DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
-         DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
+                if (dtChange != null) {
+                    if (dtChange.Rows.Count == 0) {
+                        MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+                        return ResultStatus.Fail;
+                    }
+                    else {
+                        foreach (DataRow dr in dt.Rows) {
+                            if (dr.RowState == DataRowState.Added) {
 
-         if (dtChange != null) {
-            if (dtChange.Rows.Count == 0) {
-               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
-               return ResultStatus.Fail;
-            } else {
-               foreach (DataRow dr in dt.Rows) {
-                  if (dr.RowState == DataRowState.Added) {
+                                foreach (DataRow drAdd in dtForAdd.Rows) {
+                                    for (int w = 0; w < dtForAdd.Rows.Count; w++) {
+                                        if (string.IsNullOrEmpty(drAdd[w].AsString())) {
+                                            MessageDisplay.Info("新增資料欄位不可為空!");
+                                            return ResultStatus.Fail;
+                                        }
+                                    }
+                                }
 
-                     foreach (DataRow drAdd in dtForAdd.Rows) {
-                        for (int w = 0 ; w < dtForAdd.Rows.Count ; w++) {
-                           if (string.IsNullOrEmpty(drAdd[w].AsString())) {
-                              MessageDisplay.Info("新增資料欄位不可為空!");
-                              return ResultStatus.Fail;
-                           }
+                                dr["MGT4_W_TIME"] = DateTime.Now;
+                                dr["MGT4_W_USER_ID"] = GlobalInfo.USER_ID;
+                            }
+
+                            if (dr.RowState == DataRowState.Modified) {
+                                dr["MGT4_W_TIME"] = DateTime.Now;
+                                dr["MGT4_W_USER_ID"] = GlobalInfo.USER_ID;
+                            }
                         }
-                     }
 
-                     dr["MGT4_W_TIME"] = DateTime.Now;
-                     dr["MGT4_W_USER_ID"] = GlobalInfo.USER_ID;
-                  }
+                        dt.Columns.Remove("IS_NEWROW");
+                        ResultData result = new MGT4().UpdateData(dt);//base.Save_Override(dt, "MGT4");
+                        if (result.Status == ResultStatus.Fail) {
+                            return ResultStatus.Fail;
+                        }
+                    }
 
-                  if (dr.RowState == DataRowState.Modified) {
-                     dr["MGT4_W_TIME"] = DateTime.Now;
-                     dr["MGT4_W_USER_ID"] = GlobalInfo.USER_ID;
-                  }
-               }
+                    if (resultStatus == ResultStatus.Success) {
 
-               dt.Columns.Remove("IS_NEWROW");
-               ResultData result = new MGT4().UpdateData(dt);//base.Save_Override(dt, "MGT4");
-               if (result.Status == ResultStatus.Fail) {
-                  return ResultStatus.Fail;
-               }
+                        PrintableComponent = gcMain;
+                    }
+                }
+
+                //不要自動列印
+                _IsPreventFlowPrint = true;
             }
-
-            if (resultStatus == ResultStatus.Success) {
-
-               PrintableComponent = gcMain;
+            catch (Exception ex) {
+                MessageDisplay.Error("儲存錯誤");
+                WriteLog(ex, "", false);
+                return ResultStatus.FailButNext;
             }
-         }
-
-         //不要自動列印
-         _IsPreventFlowPrint = true;
-         return ResultStatus.Success;
+            return ResultStatus.Success;
       }
 
       protected override ResultStatus Print(ReportHelper reportHelper) {

@@ -23,6 +23,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
          this._TxnID = "40013";
          this._lsFile = FilePath;
          this._emDateText = emDate;
+         this._workbook = new Workbook();
          this.dao = new D4001x().ConcreteDao(daoID);
       }
 
@@ -35,24 +36,9 @@ namespace PhoenixCI.BusinessLogic.Prefix4
          return "7";
       }
 
-      /// <summary>
-      /// 寫入 現行收取保證金金額 資料表
-      /// </summary>
-      /// <param name="worksheet"></param>
-      /// <param name="dtR1"></param>
-      protected override void WriteFutR1Data(Worksheet worksheet, DataTable dtR1)
+      protected override int FutWorkItemCellDist()
       {
-         worksheet.Import(dtR1, false, 2, 2);
-      }
-
-      /// <summary>
-      /// 寫入 本日結算保證金計算 資料表
-      /// </summary>
-      /// <param name="worksheet"></param>
-      /// <param name="dtR2"></param>
-      protected override void WriteFutR2Data(Worksheet worksheet, DataTable dtR2)
-      {
-         worksheet.Import(dtR2, false, 23, 2);
+         return 2;
       }
 
    }

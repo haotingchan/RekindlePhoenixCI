@@ -535,23 +535,23 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     ws.Cells[rowIndex - 4, 2].SetRichText(richText);
                 }
             }
-            //DataView dv = dt.AsDataView();
-            //dv.RowFilter = "ABS(YS_UPDOWN * 100) >= " + txtUpDown.Text + " or ABS(YI_UPDOWN*100) >= " + txtUpDown.Text;
-            //dv.Sort = "ABS(YS_UPDOWN) DESC, APDK_KIND_GRP2, APDK_KIND_LEVEL DESC, MGR3_KIND_ID";
-            //dt = dv.ToTable();
+            DataView dv = dt.AsDataView();
+            dv.RowFilter = "(YS_UPDOWN_ABS*100) >= " + txtUpDown.Text + " or (YI_UPDOWN_ABS*100) >= " + txtUpDown.Text;
+            dv.Sort = "YS_UPDOWN_ABS DESC, APDK_KIND_GRP2, APDK_KIND_LEVEL DESC, MGR3_KIND_ID";
+            dt = dv.ToTable();
             //dt = dt.AsEnumerable().Where(x => Math.Round(Math.Abs(x.Field<decimal>("YS_UPDOWN") * 100),16) >= txtUpDown.AsDecimal() ||
             //                        Math.Round(Math.Abs(x.Field<decimal>("YI_UPDOWN") * 100), 16) >= txtUpDown.AsDecimal())
             //                      .OrderByDescending(x => Math.Round(Math.Abs(x.Field<decimal>("YS_UPDOWN")),16))
             //                      .ThenBy(x => x.Field<string>("APDK_KIND_GRP2"))
             //                      .ThenByDescending(x => x.Field<int>("APDK_KIND_LEVEL"))
             //                      .ThenBy(x => x.Field<string>("MGR3_KIND_ID")).CopyToDataTable();
-            dt = dt.AsEnumerable().Where(x => Math.Round(Math.Abs(x.Field<decimal>("YS_UPDOWN") * 100), 15,MidpointRounding.AwayFromZero) >= txtUpDown.AsDecimal() ||
-                                 Math.Round(Math.Abs(x.Field<decimal>("YI_UPDOWN") * 100), 15, MidpointRounding.AwayFromZero) >= txtUpDown.AsDecimal())
-                                 .OrderByDescending(x => Math.Abs(x.Field<decimal>("YS_UPDOWN")))
-                                 .ThenBy(x => x.Field<string>("APDK_KIND_GRP2"))
-                                 .ThenByDescending(x => x.Field<Int16>("APDK_KIND_LEVEL"))
-                                 .ThenBy(x => x.Field<string>("MGR3_KIND_ID"))
-                                .CopyToDataTable();
+            //dt = dt.AsEnumerable().Where(x => Math.Round(Math.Abs(x.Field<decimal>("YS_UPDOWN") * 100), 15,MidpointRounding.AwayFromZero) >= txtUpDown.AsDecimal() ||
+            //                     Math.Round(Math.Abs(x.Field<decimal>("YI_UPDOWN") * 100), 15, MidpointRounding.AwayFromZero) >= txtUpDown.AsDecimal())
+            //                     .OrderByDescending(x => Math.Abs(x.Field<decimal>("YS_UPDOWN")))
+            //                     .ThenBy(x => x.Field<string>("APDK_KIND_GRP2"))
+            //                     .ThenByDescending(x => x.Field<Int16>("APDK_KIND_LEVEL"))
+            //                     .ThenBy(x => x.Field<string>("MGR3_KIND_ID"))
+            //                    .CopyToDataTable();
 
             f = 0;
             foreach (DataRow dr in dt.Rows) {

@@ -34,14 +34,14 @@ namespace DataObjects.Dao.Together {
             };
 
             string sql = @"
-select count(0) as li_rtn
+select count(*) as li_rtn
 from (
     select JLOG_WORKFLOW
     from CI.JLOG
     where JLOG_WORKFLOW in ('wf_FB_AI0130C', 'wf_OB_AI0130C')
-    and JLOG_ID = :jobId
+    and TRIM(JLOG_ID) = :jobId
     and JLOG_DATE >= :adt_date
-    and JLOG_OSW_GRP = :ls_osw_grp
+    and TRIM(JLOG_OSW_GRP) = :ls_osw_grp
     group by JLOG_WORKFLOW
 )
 ";

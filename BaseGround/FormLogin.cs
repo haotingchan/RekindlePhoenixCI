@@ -66,7 +66,7 @@ namespace BaseGround
 
                         //判斷過期
                         DateTime wDate = Convert.ToDateTime(result.ReturnData.Rows[0]["UPF_W_TIME"]);
-                        double dateDiff = (wDate - DateTime.Today).TotalDays;
+                        double dateDiff = (DateTime.Today - wDate).TotalDays;
                         if (dateDiff > 90)
                         {
                             MessageDisplay.Warning("密碼已過期,請重新變更密碼才可進入!");

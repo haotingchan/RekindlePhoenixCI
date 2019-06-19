@@ -19,6 +19,7 @@ using System.Xml;
 using DevExpress.XtraRichEdit;
 using DevExpress.XtraRichEdit.API.Native;
 using Table = DevExpress.XtraRichEdit.API.Native.Table;
+using DevExpress.Office;
 
 /// <summary>
 /// 40090 依照類別產檔, word / excel / ifd
@@ -79,12 +80,17 @@ namespace PhoenixCI.FormUI.Prefix4 {
             IExport40xxxData xmlData = CreateXmlData(GetType(), "ExportXml" + AdjType, args);
             ReturnMessageClass msg = xmlData.GetData();
 
+
             //無資料時不產檔
             if (msg.Status != ResultStatus.Success) {
                ExportShow.Text = MessageDisplay.MSG_IMPORT_FAIL;
-               MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
+
+               if (AdjType != "0B")
+                  MessageDisplay.Info($"{txtDate.DateTimeValue.ToShortDateString()},{_ProgramID}-{ddlAdjType.Properties.GetDisplayText(AdjType)},{MessageDisplay.MSG_NO_DATA}");
+
                return msg.Status;
             }
+
 
             msg = xmlData.Export();
 
@@ -194,7 +200,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                   GenKindNameList(dr, prepoStr, abbrName, fullName);
 
-                  string subTypeName = GetProdSubTypeDesc(dr["prod_subtype"].AsString());
+                  string subTypeName = GetProdSubTypeDesc(dr["prod_subtype"].AsString()) + "契約";
                   if (!subTypeString.Exists(s => s == subTypeName)) {
                      subTypeString.Add(subTypeName);
 
@@ -423,12 +429,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   rowIndex += 3;
                }
                //刪除空白列 template 576行後表格不同
-               if (rowIndex < 576)
-                  ws.Range[$"{rowIndex}:575"].Delete();
-            }//if (drsTmp.Count > 0)
-            else {
-               ws.Range["1:575"].Delete();
-               rowIndex = 1;
+               //   if (rowIndex < 576)
+               //      ws.Range[$"{rowIndex}:575"].Delete();
+               //}//if (drsTmp.Count > 0)
+               //else {
+               //   ws.Range["1:575"].Delete();
+               //   rowIndex = 1;
             }
 
             //比例 template 576行後表格不同
@@ -460,9 +466,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   rowIndex += 4;
                }
             }//if (drsTmp.Count > 0)
-            else {
-               ws.Range[$"{rowIndex}:882"].Delete();
-            }
+            //else {
+            //   ws.Range[$"{rowIndex}:882"].Delete();
+            //}
 
             ws.ScrollTo(0, 0);
          }
@@ -502,13 +508,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   }
                   rowIndex += 3;
                }
-               //刪除空白列 template 211行後表格不同
-               if (rowIndex < 210)
-                  ws.Range[$"{rowIndex}:210"].Delete();
-            } else {
-               //用刪除的方式會造成template 跑掉, 所以改用隱藏
-               ws.Rows.Hide(0, 209);
-               rowIndex = 211;//從 row 212 開始填值
+               //   //刪除空白列 template 211行後表格不同
+               //   if (rowIndex < 210)
+               //      ws.Range[$"{rowIndex}:210"].Delete();
+               //} else {
+               //   //用刪除的方式會造成template 跑掉, 所以改用隱藏
+               //   ws.Rows.Hide(0, 209);
+               //   rowIndex = 211;//從 row 212 開始填值
             }
 
             //比例
@@ -549,9 +555,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   rowIndex += 4;
                }
             }//if (drsTmp.Count > 0)
-            else {
-               ws.Range[$"{rowIndex}:440"].Delete();
-            }
+            //else {
+            //   ws.Range[$"{rowIndex}:440"].Delete();
+            //}
             ws.ScrollTo(0, 0);
          }
 
@@ -562,12 +568,22 @@ namespace PhoenixCI.FormUI.Prefix4 {
          /// <param name="dt"></param>
          protected virtual void WordFut(Document rtfDoc, DataTable dt) {
             //dt = dt.Sort("prod_type A, amt_type A");
+            rtfDoc.AppendText("本次保證金調整情形列表如下：");
+            //設定自型 & 字體大小
+            CharacterProperties characterProps = rtfDoc.BeginUpdateCharacters(rtfDoc.Paragraphs.Last().Range);
+            characterProps.FontSize = 14;
+            characterProps.Bold = false;
+            characterProps.FontName = "標楷體";
+            rtfDoc.EndUpdateCharacters(characterProps);
+
+            rtfDoc.AppendText(Environment.NewLine);
 
             foreach (DataRow dr in dt.Rows) {
                rtfDoc.AppendText(Environment.NewLine);
                string amtType = dr["amt_type"].AsString();
                string prodsubType = dr["prod_subtype"].AsString();
                string prodType = dr["prod_type"].AsString();
+               string adjType = dr["adj_type"].AsString();
 
                Table futTable = CreateTable(rtfDoc, 4, 7);
                #region 幣別 / 比例
@@ -585,7 +601,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                #endregion
 
                #region 表頭
-               string kindout = prodsubType == "S" ? $"{dr["kind_id_out"].AsString()}({dr["kind_abbr_name"].AsString()})" : dr["kind_id_out"].AsString();
+               string kindout = prodsubType == "S" ? $"{dr["kind_id_out"].AsString()}{Characters.LineBreak}({dr["kind_abbr_name"].AsString()})" : dr["kind_id_out"].AsString();
                WordTableCell = futTable[1, 0];
                rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, kindout);
                WordTableCell.PreferredWidthType = WidthType.Fixed;
@@ -597,25 +613,38 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   futTable.Rows.Append();
 
                   WordTableCell = futTable[3, 0];
-                  rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, "風險保證金（A值）");
+                  WordTableCell.PreferredWidthType = WidthType.Fixed;
+                  WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.36f);
+                  rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, $"風險保證金{Characters.LineBreak}（A值）");
+
                   WordTableCell = futTable[4, 0];
-                  rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, "風險保證金最低值（B值）");
+                  WordTableCell.PreferredWidthType = WidthType.Fixed;
+                  WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.36f);
+                  rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, $"風險保證金最低值{Characters.LineBreak}（B值）");
                } else {
                   WordTableCell = futTable[3, 0];
+                  WordTableCell.PreferredWidthType = WidthType.Fixed;
+                  WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.36f);
                   rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, "保證金");
                }
 
                string AfterAdjust = amtType == "F" ? "調整後保證金金額" : "調整後保證金適用比例";
+               AfterAdjust = adjType == "3" ? $"調整後保證金金額{Characters.LineBreak}({dr["m_level_name"].AsString()})" : AfterAdjust;
                WordTableCell = futTable[1, 1];
                rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, AfterAdjust);
                futTable.MergeCells(WordTableCell, futTable[1, 3]);
+               WordTableCell.PreferredWidthType = WidthType.Fixed;
+               WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(6.77f);
 
                string BeforeAdjust = amtType == "F" ? "調整前保證金金額" : "調整前保證金適用比例";
+               BeforeAdjust = adjType == "3" ? $"調整後保證金金額{Characters.LineBreak}({dr["cur_level_name"].AsString()})" : BeforeAdjust;
                WordTableCell = futTable[1, 2];
                rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, BeforeAdjust);
                futTable.MergeCells(WordTableCell, futTable[1, 4]);
+               WordTableCell.PreferredWidthType = WidthType.Fixed;
+               WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(6.77f);
 
-               string[] colName = new string[] { "原始保證金", "維持保證金", "結算保證金" };
+               string[] colName = new string[] { $"原始保證金{Characters.LineBreak}", $"維持保證金{Characters.LineBreak}", $"結算保證金{Characters.LineBreak}" };
                string[] colNameOpt = new string[] { "計算賣出選擇權原始保證金之適用", "計算賣出選擇權維持保證金之適用", "計算賣出選擇權結算保證金之適用" };
                string persentOrCurrency = "";
 
@@ -640,12 +669,16 @@ namespace PhoenixCI.FormUI.Prefix4 {
                int k = 1;
                foreach (string c in colName) {
                   WordTableCell = futTable[2, k];
+                  WordTableCell.PreferredWidthType = WidthType.Fixed;
+                  WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.26f);
                   rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, $"{c}{persentOrCurrency}");
                   k++;
                }
 
                foreach (string c in colName) {
                   WordTableCell = futTable[2, k];
+                  WordTableCell.PreferredWidthType = WidthType.Fixed;
+                  WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.26f);
                   rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, $"{c}{persentOrCurrency}");
                   k++;
                }
@@ -653,7 +686,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                #region 填值
                foreach (string c in ColsA) {
-                  string stringVal = amtType == "P" ? dr[c].AsPercent(2) : dr[c].AsString();
+                  string stringVal = amtType == "P" ? dr[c].AsPercent(2) : dr[c].AsDecimal().ToString("#,##0.##");
 
                   WordTableCell = futTable[3, Array.IndexOf(ColsA, c) + 1];
                   rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, stringVal);
@@ -661,7 +694,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                if (dr["prod_type"].AsString() == "O") {
                   foreach (string c in ColsB) {
-                     string stringVal = amtType == "P" ? dr[c].AsPercent(2) : dr[c].AsString();
+                     string stringVal = amtType == "P" ? dr[c].AsPercent(2) : dr[c].AsDecimal().ToString("#,##0.##");
 
                      WordTableCell = futTable[4, Array.IndexOf(ColsB, c) + 1];
                      rtfDoc.InsertSingleLineText(WordTableCell.Range.Start, stringVal);
@@ -669,6 +702,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                }
                #endregion
             }
+
+            SetAllNumberAndEnglishFont(rtfDoc);
          }
 
          protected virtual void WordSpan(DataTable dtSpan) {
@@ -771,7 +806,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             Table wordtable = rtfDoc.Tables.Create(rtfDoc.Range.End, rowcount, colcount);
             wordtable.TableAlignment = TableRowAlignment.Right;
             wordtable.PreferredWidthType = WidthType.Fixed;
-            wordtable.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(16.7f);
+            wordtable.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(17f);
             ParagraphProperties ParagraphProps = rtfDoc.BeginUpdateParagraphs(wordtable.Range);
 
             // 預設Table內容都全部置中
@@ -784,7 +819,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             // 預設Table內的字體
             CharacterProperties tableProp = rtfDoc.BeginUpdateCharacters(wordtable.Range);
             tableProp.FontName = "標楷體";
-            tableProp.FontSize = 12;
+            tableProp.FontSize = 11;
             rtfDoc.EndUpdateCharacters(tableProp);
 
             // 垂直置中
@@ -794,6 +829,28 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             return wordtable;
          }
+
+         /// <summary>
+         /// 將整份文件的英文和數字的字型設成某個字型
+         /// </summary>
+         protected virtual void SetAllNumberAndEnglishFont(Document doc) {
+            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"[A-Za-z0-9\)\(\.\,]+");
+            DocumentRange[] foundNumberAndEnglish = doc.FindAll(regex);
+
+            foreach (DocumentRange r in foundNumberAndEnglish) {
+               SetNumberAndEnglishFontName(doc, r);
+            }
+         }
+
+         /// <summary>
+         /// 設定英文和數字的字型
+         /// </summary>
+         protected virtual void SetNumberAndEnglishFontName(Document doc, DocumentRange docRange) {
+            CharacterProperties cp = doc.BeginUpdateCharacters(docRange);
+            cp.FontName = "Times New Roman";
+            doc.EndUpdateCharacters(cp);
+         }
+
       }
 
       /// <summary>
@@ -985,7 +1042,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                   GenKindNameList(dr, prepoStr, abbrName, fullName);
 
-                  string subTypeName = GetProdSubTypeDesc(dr["prod_subtype"].AsString());
+                  string subTypeName = GetProdSubTypeDesc(dr["prod_subtype"].AsString()) + "契約";
                   if (!subTypeString.Exists(s => s == subTypeName)) {
                      subTypeString.Add(subTypeName);
 
@@ -1089,21 +1146,36 @@ namespace PhoenixCI.FormUI.Prefix4 {
          }
 
          public override ReturnMessageClass GetData() {
-            ReturnMessageClass msg = new ReturnMessageClass(MessageDisplay.MSG_NO_DATA);
+            ReturnMessageClass msg = new ReturnMessageClass();
 
             Dt = Dao.GetData(TxtDate, AsAdjType, AdjType.SubStr(1, 1));
+
+            if (Dt == null)
+               MessageDisplay.Info($"{TxtDate.AsDateTime("yyyyMMdd").ToShortDateString()},40090-一般,{MessageDisplay.MSG_NO_DATA}");
+
+            if (Dt != null) {
+               if (Dt.Rows.Count <= 0)
+                  MessageDisplay.Info($"{TxtDate.AsDateTime("yyyyMMdd").ToShortDateString()},40090-一般,{MessageDisplay.MSG_NO_DATA}");
+            }
 
             //一般 / 股票 要多撈一次資料
             if (AdjType == "0B") {
                DataTable dtTmp = Dao.GetData(TxtDate, "3", AdjType.SubStr(1, 1));
                if (dtTmp != null) {
-                  if (dtTmp.Rows.Count > 0) {
+
+                  if (dtTmp.Rows.Count <= 0) {
+                     MessageDisplay.Info($"{TxtDate.AsDateTime("yyyyMMdd").ToShortDateString()},40090-股票,{MessageDisplay.MSG_NO_DATA}");
+                     msg.Status = ResultStatus.Fail;
+
+                  } else {
                      foreach (DataRow r in dtTmp.Rows) {
                         DataRow addRow = r;
                         Dt.ImportRow(r);
                      }
                   }
                }
+            } else {
+               MessageDisplay.Info($"{TxtDate.AsDateTime("yyyyMMdd").ToShortDateString()},40090-股票,{MessageDisplay.MSG_NO_DATA}");
             }
 
             if (Dt == null) {
@@ -1227,7 +1299,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
 
             int count = Dt.AsEnumerable().Count();
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("主旨")[0].ChildNodes[0], "#kind_name_list#", GenArrayTxt(KindNameList));
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("主旨")[0].ChildNodes[0].ChildNodes[0], "#kind_name_list#", GenArrayTxt(KindNameList));
 
             //Gen element
             int liPoint = 0;
@@ -1278,7 +1350,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             string issueBeginDate = Dt.Rows[0]["issue_begin_ymd"].AsString();
             issueBeginDate = issueBeginDate.AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[2], "#issue_begin_ymd#", issueBeginDate);
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[2].ChildNodes[0], "#issue_begin_ymd#", issueBeginDate);
 
             Doc.Save(FilePath);
          }
@@ -1301,10 +1373,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
 
             int count = Dt.AsEnumerable().Count();
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("主旨")[0].ChildNodes[0], "#kind_name_list#", GenArrayTxt(KindNameList));
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[2], "#year#", DateTime.Now.AsTaiwanDateTime("{1}", 3));
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[2], "#quarterly#", DateTime.Now.GetQuarter().ToString());
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[3], "#count#", Dt.AsEnumerable().Count().ToString());
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("主旨")[0].ChildNodes[0].ChildNodes[0], "#kind_name_list#", GenArrayTxt(KindNameList));
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[2].ChildNodes[0], "#year#", DateTime.Now.AsTaiwanDateTime("{1}", 3));
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[2].ChildNodes[0], "#quarterly#", DateTime.Now.GetQuarter().ToString());
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[3].ChildNodes[0], "#count#", Dt.AsEnumerable().Count().ToString());
 
             for (int i = 1; i <= 2; i++) {
                List<DataRow> drs = Dt.Select($"adj_rsn = '{i}'").ToList();
@@ -1322,7 +1394,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             string issueBeginDate = Dt.Rows[0]["issue_begin_ymd"].AsString();
             issueBeginDate = issueBeginDate.AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[4], "#issue_begin_ymd#", issueBeginDate);
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[4].ChildNodes[0], "#issue_begin_ymd#", issueBeginDate);
 
             Doc.Save(FilePath);
          }
@@ -1398,9 +1470,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //說明二
             List<DataRow> drs3 = Dt.Select($"adj_type = '3'").ToList();
 
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[2], "#year#", DateTime.Now.AsTaiwanDateTime("{0}年{1}月{2}日", 3));
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[2], "#quarterly#", DateTime.Now.GetQuarter().ToString());
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[2], "#count#", drs3.Count().ToString());
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[2].ChildNodes[0], "#year#", DateTime.Now.AsTaiwanDateTime("{0}年{1}月{2}日", 3));
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[2].ChildNodes[0], "#quarterly#", DateTime.Now.GetQuarter().ToString());
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[2].ChildNodes[0], "#count#", drs3.Count().ToString());
 
             for (int i = 1; i <= 2; i++) {
                List<DataRow> drs = drs3.Where(r => r.Field<string>("adj_rsn") == i.ToString()).ToList();
@@ -1419,7 +1491,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //說明三
             string issueBeginDate = Dt.Rows[0]["issue_begin_ymd"].AsString();
             issueBeginDate = issueBeginDate.AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[3], "#issue_begin_ymd#", issueBeginDate);
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[3].ChildNodes[0], "#issue_begin_ymd#", issueBeginDate);
 
             Doc.Save(FilePath);
          }
@@ -1485,14 +1557,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
             grpList.Add("「保證金調整審核會議紀錄」");
             grpList.Add("「保證金調整影響說明」");
 
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("主旨")[0].ChildNodes[0], "#kind_name_list#", GenArrayTxt(KindNameList));
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[0], "#full_name_llist#", GenArrayTxt(KindNameList_Desc));
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("主旨")[0].ChildNodes[0].ChildNodes[0], "#kind_name_list#", GenArrayTxt(KindNameList));
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[0].ChildNodes[0], "#full_name_llist#", GenArrayTxt(KindNameList_Desc));
 
             string issueBeginDate = Dt.Rows[0]["issue_begin_ymd"].AsString();
             issueBeginDate = issueBeginDate.AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[1], "#issue_begin_ymd#", issueBeginDate);
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[1].ChildNodes[0], "#issue_begin_ymd#", issueBeginDate);
 
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[2], "#osw_grp_list#", GenArrayTxt(grpList));
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[2].ChildNodes[0], "#osw_grp_list#", GenArrayTxt(grpList));
 
             Doc.Save(FilePath);
          }
@@ -1520,15 +1592,15 @@ namespace PhoenixCI.FormUI.Prefix4 {
                GenKindNameList(dr, prepoStr, abbrName, fullName);
             }
 
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("主旨")[0].ChildNodes[0], "#kind_name_list#", GenArrayTxt(KindNameList));
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[0], "#full_name_llist#", GenArrayTxt(KindNameList_Desc));
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("主旨")[0].ChildNodes[0].ChildNodes[0], "#kind_name_list#", GenArrayTxt(KindNameList));
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[0].ChildNodes[0], "#full_name_llist#", GenArrayTxt(KindNameList_Desc));
 
             string issueBeginDate = Dt.Rows[0]["issue_begin_ymd"].AsString();
             issueBeginDate = issueBeginDate.AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[1], "#issue_begin_ymd#", issueBeginDate);
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[1].ChildNodes[0], "#issue_begin_ymd#", issueBeginDate);
 
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[2], "#year#", TxtDate.AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}", 3));
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[2], "#quarterly#", TxtDate.AsDateTime("yyyyMMdd").GetQuarter().ToString());
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[2].ChildNodes[0], "#year#", TxtDate.AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}", 3));
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[2].ChildNodes[0], "#quarterly#", TxtDate.AsDateTime("yyyyMMdd").GetQuarter().ToString());
 
             Doc.Save(FilePath);
          }
@@ -1591,7 +1663,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                                                                   "之選擇權契約保證金狀況表(" + taiYmd + ")」";
                   }
                }//if (dr["adj_subtype"].AsString() == "0")
-               //股票
+                //股票
                else {
                   grp = "{0}年第{1}季股票期貨保證金適用風險價格係數估算結果說明";
                   grp = string.Format(grp, ymd.AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}", 3), ymd.AsDateTime("yyyyMMdd").GetQuarter().ToString());
@@ -1603,14 +1675,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
             grpList.Add("「保證金調整審核會議紀錄」");
             grpList.Add("「保證金調整影響說明」");
 
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("主旨")[0].ChildNodes[0], "#kind_name_list#", GenArrayTxt(KindNameList));
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[0], "#full_name_llist#", GenArrayTxt(KindNameList_Desc));
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("主旨")[0].ChildNodes[0].ChildNodes[0], "#kind_name_list#", GenArrayTxt(KindNameList));
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[0].ChildNodes[0], "#full_name_llist#", GenArrayTxt(KindNameList_Desc));
 
             string issueBeginDate = Dt.Rows[0]["issue_begin_ymd"].AsString();
             issueBeginDate = issueBeginDate.AsDateTime("yyyyMMdd").AsTaiwanDateTime("{0}年{1}月{2}日", 3);
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[1], "#issue_begin_ymd#", issueBeginDate);
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[1].ChildNodes[0], "#issue_begin_ymd#", issueBeginDate);
 
-            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[2], "#osw_grp_list#", GenArrayTxt(grpList));
+            ReplaceXmlInnterText(Doc.GetElementsByTagName("段落")[0].ChildNodes[2].ChildNodes[0], "#osw_grp_list#", GenArrayTxt(grpList));
 
             Doc.Save(FilePath);
          }

@@ -4,6 +4,7 @@ using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
+using DevExpress.Spreadsheet.Charts;
 using DevExpress.XtraEditors.Controls;
 using System;
 using System.Data;
@@ -106,6 +107,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             int row = 1;
             wf_30392_1(workbook , "I5F" , "30392_2(I5F)" , ldt_sdate , ldt_edate , row);
+
 
             row = 3;
             wf_30392_1abc(workbook , "I5F" , "data_30392_2abc" , row);
@@ -258,6 +260,25 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             ws1.Range["A1"].Select();
             ws1.ScrollToRow(0);
+
+            //30392_2a 圖表範圍特殊處理 資料來源 30392_2(I5F)
+            if (ws1.Name == "30392_2(I5F)") {
+               //圖表重選範圍, 四條線都要重設
+               ChartObject chartObjs = workbook.ChartSheets["30392_2a"].Chart;
+               ChartData newChartData = new ChartData();
+               //印度50期貨總成交量
+               newChartData.RangeValue = ws1.Range["D4:D"+ (row + 1).AsString()];
+               chartObjs.Series[0].Values = newChartData;
+               //印度期貨總未平倉量
+               newChartData.RangeValue = ws1.Range["E4:E"+ (row + 1).AsString()];
+               chartObjs.Series[1].Values = newChartData;
+               //印度50期貨價格
+               newChartData.RangeValue = ws1.Range["B4:B"+ (row + 1).AsString()];
+               chartObjs.Series[2].Values = newChartData;
+               //現貨價格
+               newChartData.RangeValue = ws1.Range["G4:G"+ (row + 1).AsString()];
+               chartObjs.Series[3].Values = newChartData;
+            }
 
             //5. 表尾
             DataTable dtAi2Ym = dao30392.d_ai2_ym(kindId , ldt_sdate.ToString("yyyyMM") , ldt_edate.ToString("yyyyMM"));

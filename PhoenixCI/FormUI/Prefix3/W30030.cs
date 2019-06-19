@@ -133,7 +133,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 }
                 kindId = dr["AI2_PARAM_KEY"].AsString();
                 colNum = dr["RPT_SEQ_NO"].AsInt() - 1;
-                ws30030.Cells[rowNum, colNum].Value = dr["AI2_M_QNTY"].AsDecimal();
+                ws30030.Cells[rowNum, colNum].SetValue(dr["AI2_M_QNTY"]);
                 /* 未沖銷量 */
                 DataRow[] find = dtRPT.Select("rpt_value like 'OI%'");
                 if (find.Length != 0) {
@@ -144,7 +144,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 }
                 if (found >= 0) {
                     found = dtRPT.Rows[found]["RPT_SEQ_NO"].AsInt();
-                    ws30030.Cells[rowNum, found - 1].Value = dt30031.Compute("sum(AI2_OI)", $@"AI2_YMD='{ymd}'").AsDecimal();
+                    ws30030.Cells[rowNum, found - 1].SetValue(dt30031.Compute("sum(AI2_OI)", $@"AI2_YMD='{ymd}'"));
                 }
             }
             ws30030.Cells[rowTol + 1, 0].Value = "合計(" + (txtEDate.DateTimeValue.Year - 1911).AsString() + '/' + txtEDate.DateTimeValue.Month.AsString() + ')';
@@ -307,7 +307,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 ym = (eymd.SubStr(4, 2).AsInt() + 1).AsString() + "01";
             }
             else {
-                ym = eymd.SubStr(0, 4) + ("0" + (eymd.SubStr(4, 2).AsInt() + 1).AsString()).SubStr(1, 2);
+                ym = eymd.SubStr(0, 4) + ("0" + (eymd.SubStr(4, 2).AsInt() + 1).AsString()).SubStr(0, 2);
             }
             ym = PbFunc.relativedate((ym.SubStr(0, 4) + "/" + ym.SubStr(4, 2) + "/01").AsDateTime("yyyy/MM/dd"), -1).ToString("yyyyMMdd");
             DataTable dt30034 = dao30030.d_30034(txtSDate.Text.SubStr(0, 4) + "0101",

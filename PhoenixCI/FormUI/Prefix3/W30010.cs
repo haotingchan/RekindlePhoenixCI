@@ -423,12 +423,12 @@ namespace PhoenixCI.FormUI.Prefix3 {
                                                 3, MidpointRounding.AwayFromZero);
                         ws30011.Cells[rowIndex, 7].Value = value2;
                     }
-                    ws30011.Cells[rowIndex, 8].Value = dr["AMIF_M_QNTY_TAL"].AsDecimal();
+                    ws30011.Cells[rowIndex, 8].SetValue(dr["AMIF_M_QNTY_TAL"]);
                     if (settleDate != "指數") {
                         if (kindID.SubStr(0, 3) != "STW") {
-                            ws30011.Cells[rowIndex, 9].Value = dr["AMIF_SETTLE_PRICE"].AsDecimal();
+                            ws30011.Cells[rowIndex, 9].SetValue(dr["AMIF_SETTLE_PRICE"]);
                         }
-                        ws30011.Cells[rowIndex, 10].Value = dr["AMIF_OPEN_INTEREST"].AsDecimal();
+                        ws30011.Cells[rowIndex, 10].SetValue(dr["AMIF_OPEN_INTEREST"]);
                     }
                     rowCnt = rowCnt + 1;
                 }//foreach (DataRow dr in dt30011.Rows)
@@ -503,16 +503,16 @@ namespace PhoenixCI.FormUI.Prefix3 {
                         ws30013.Cells[rowIndex, 3 + colAdd].Value = "停止交易";
                     }
                     else {
-                        ws30013.Cells[rowIndex, 3 + colAdd].Value = dr["M_QNTY"].AsDecimal();
+                        ws30013.Cells[rowIndex, 3 + colAdd].SetValue(dr["M_QNTY"]);
                     }
-                    ws30013.Cells[rowIndex, 4 + colAdd].Value = dr["OPEN_INTEREST"].AsDecimal();
+                    ws30013.Cells[rowIndex, 4 + colAdd].SetValue(dr["OPEN_INTEREST"]);
                 }
                 rowStart = rowIndex;
 
                 //刪除空白列
-                rowStart = rowStart + 5;
+                //rowStart = rowStart + 5;
                 if (totalRowcount > rowStart) {
-                    delRange = ws30013.Range[(rowStart + 1).ToString() + ":" + (totalRowcount).ToString()];
+                    delRange = ws30013.Range[(rowStart+1+1).ToString() + ":" + (totalRowcount+1).ToString()];
                     delRange.Delete(DeleteMode.EntireRow);
                 }
                 rowIndex = rowStart + 1;

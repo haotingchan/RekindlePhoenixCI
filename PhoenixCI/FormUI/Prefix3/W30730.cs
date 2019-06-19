@@ -47,7 +47,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                dtAM6.Rows[0]["am6_trade_aux"] = 0;
             }
 
-            string destinationFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);//Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, Filename);
+            string destinationFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
             int oleRow = 1;
 
             workbook.LoadDocument(destinationFilePath);

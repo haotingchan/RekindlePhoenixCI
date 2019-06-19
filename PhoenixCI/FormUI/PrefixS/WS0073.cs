@@ -28,6 +28,8 @@ namespace PhoenixCI.FormUI.PrefixS {
          daoS0073 = new DS0073();
          daoCod = new COD();
          GridHelper.SetCommonGrid(gvMain);
+         _IsProcessRunAsync = true;//非同步執行
+
          this.Text = _ProgramID + "─" + _ProgramName;
 
          #region Set DropDownList
@@ -123,7 +125,6 @@ namespace PhoenixCI.FormUI.PrefixS {
 
             resultStatus = savePeriod();
             if (resultStatus != ResultStatus.Success) {
-               //MessageDisplay.Error("儲存錯誤!");
                return ResultStatus.Fail;
             }
 
@@ -174,22 +175,27 @@ namespace PhoenixCI.FormUI.PrefixS {
       }
 
       protected override ResultStatus RunBefore(PokeBall args) {
-         ResultStatus resultStatus = ResultStatus.Fail;
+         ResultStatus resultStatus = ResultStatus.Success;
 
          if (checkChanged()) {
             MessageDisplay.Info("資料有變更, 請先存檔!");
             resultStatus = ResultStatus.FailButNext;
-         } else {
-            if (base.RunBefore(args) == ResultStatus.Success) Run(args);
-         }
+         } 
+         //else {
+         //   resultStatus = Run(args);
+         //}
          return resultStatus;
       }
 
       protected override ResultStatus Run(PokeBall args) {
+         string re = "N";
          if (!checkChanged()) {
-            PbFunc.f_bat_span("S0073", "MARGIN", GlobalInfo.USER_ID);
+            //re="N"代表執行錯誤
+            re = PbFunc.f_bat_span("S0073", "MARGIN", GlobalInfo.USER_ID);
          }
-         return base.Run(args);
+         if (re == "Y") return ResultStatus.Success;
+
+         return ResultStatus.Fail;
       }
 
       /// <summary>

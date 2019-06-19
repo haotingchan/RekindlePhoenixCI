@@ -472,7 +472,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
             foreach (DataRow dr in dt.Rows) {
                 rowIndex++;
                 for (int f = 0; f < 15; f++) {
-                    ws.Cells[rowIndex, f].SetValue(dr[f]);
+                    //標的證券代號要轉成int否則template會莫名其妙補0
+                    if (f == 5) {
+                        ws.Cells[rowIndex, f].SetValue(dr[f].AsInt());
+                    }
+                    else {
+                        ws.Cells[rowIndex, f].SetValue(dr[f]);
+                    }
                 }
             }//foreach (DataRow dr in dt.Rows)
 

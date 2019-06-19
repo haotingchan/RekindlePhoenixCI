@@ -336,7 +336,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     if (ls_level == "Z" && dr["PROD_TYPE"].AsString() == "O") {
                         if (dr["CM_B"] == DBNull.Value || dr["MM_B"] == DBNull.Value || dr["IM_B"] == DBNull.Value) {
                             MessageDisplay.Error(ls_stock_id + "," + ls_kind_id + "的保證金B值未輸入完成");
-                            return ResultStatus.Fail;
+                            return ResultStatus.FailButNext;
                         }
                     }
 
@@ -365,7 +365,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         li_prod_seq = dao40074.getProd(ls_kind_id, dr["PROD_SUBTYPE"].AsString());
                         if (li_prod_seq != dr["PROD_SEQ_NO"].AsInt()) {
                             MessageDisplay.Error(ls_kind_id + "與商品類別不符，請確認");
-                            return ResultStatus.Fail;
+                            return ResultStatus.FailButNext;
                         }
                         /*****************************************
                            檢查商品代號是否存在及相關資料是否正確
@@ -373,7 +373,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         DataTable dtCheck = dao40074.checkProd(ls_kind_id);
                         if (dtCheck.Rows.Count == 0) {
                             MessageDisplay.Error(ls_kind_id + "不存在，請重新設定商品代號");
-                            return ResultStatus.Fail;
+                            return ResultStatus.FailButNext;
                         }
                         li_count = dtCheck.Rows[0]["LI_COUNT"].AsInt();
                         ls_currency_type = dtCheck.Rows[0]["LS_CURRENCY_TYPE"].AsString();
@@ -381,16 +381,16 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                         if (li_count == 0) {
                             MessageDisplay.Error(ls_kind_id + "不存在，請重新設定商品代號");
-                            return ResultStatus.Fail;
+                            return ResultStatus.FailButNext;
                         }
                         else {
                             if (dr["CURRENCY_TYPE"].AsString() != ls_currency_type) {
                                 MessageDisplay.Error(ls_kind_id + "的幣別設定錯誤，請重新設定填寫");
-                                return ResultStatus.Fail;
+                                return ResultStatus.FailButNext;
                             }
                             if (dr["prod_subtype"].AsString() == "S" && ls_stock_id != ls_stock_id_ck) {
                                 MessageDisplay.Error(ls_kind_id + "的股票代號設定錯誤，請重新設定填寫");
-                                return ResultStatus.Fail;
+                                return ResultStatus.FailButNext;
                             }
                         }
 
@@ -400,13 +400,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         DataTable dtSet = dao40071.IsSetOnSameDay(ls_kind_id, ymd, is_adj_type);
                         if (dtSet.Rows.Count == 0) {
                             MessageDisplay.Error("MGD2 " + ls_kind_id + " 無任何資料！");
-                            return ResultStatus.Fail;
+                            return ResultStatus.FailButNext;
                         }
                         li_count = dtSet.Rows[0]["LI_COUNT"].AsInt();
                         ls_adj_type_name = dtSet.Rows[0]["LS_ADJ_TYPE_NAME"].AsString();
                         if (li_count > 0) {
                             MessageDisplay.Error(ls_kind_id + ",交易日(" + ymd + ")在" + ls_adj_type_name + "已有資料");
-                            return ResultStatus.Fail;
+                            return ResultStatus.FailButNext;
                         }
                         /*********************************
                         確認商品是否在同一生效日區間設定過
@@ -419,7 +419,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         ls_trade_ymd = dtSet.Rows[0]["LS_TRADE_YMD"].AsString();
                         if (li_count > 0) {
                             MessageDisplay.Error(ls_kind_id + "," + ls_adj_type_name + ",交易日(" + ls_trade_ymd + ")在同一生效日區間內已有資料");
-                            return ResultStatus.Fail;
+                            return ResultStatus.FailButNext;
                         }
 
                     }//if (ls_op_type != " ")
@@ -458,7 +458,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         //刪除已存在資料
                         if (daoMGD2.DeleteMGD2(ymd, is_adj_type, ls_stock_id, ls_kind_id) < 0) {
                             MessageDisplay.Error("MGD2資料刪除失敗");
-                            return ResultStatus.Fail;
+                            return ResultStatus.FailButNext;
                         }
 
                         ii_curr_row = dtTemp.Rows.Count;
@@ -521,7 +521,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     ls_stock_id = drDel["STOCK_ID"].AsString();
                     if (daoMGD2.DeleteMGD2(ymd, is_adj_type, ls_stock_id, ls_kind_id) < 0) {
                         MessageDisplay.Error("MGD2資料刪除失敗");
-                        return ResultStatus.Fail;
+                        return ResultStatus.FailButNext;
                     }
                 }
 
@@ -530,7 +530,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 ResultData myResultData = daoMGD2.UpdateMGD2(dtTemp);
                 if (myResultData.Status == ResultStatus.Fail) {
                     MessageDisplay.Error("更新資料庫MGD2錯誤! ");
-                    return ResultStatus.Fail;
+                    return ResultStatus.FailButNext;
                 }
 
                 //ids_old.update()
@@ -538,19 +538,20 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     myResultData = daoMGD2L.UpdateMGD2L(dtMGD2Log);
                     if (myResultData.Status == ResultStatus.Fail) {
                         MessageDisplay.Error("更新資料庫MGD2L錯誤! ");
-                        return ResultStatus.Fail;
+                        return ResultStatus.FailButNext;
                     }
                 }
                 //Write LOGF
                 WriteLog("變更資料 ", "Info", "I");
-                //列印
+                //報表儲存pdf
                 ReportHelper _ReportHelper = new ReportHelper(gcMain, _ProgramID, this.Text);
-                Print(_ReportHelper);
-                //for     i = 1 to dw_1.rowcount()
-                //      dw_1.setitem(i, "op_type", ' ')
-                //next
-                //messagebox(gs_t_result, gs_m_ok, Information!)
-                //wf_clear_ymd()
+                CommonReportLandscapeA3 reportLandscape = new CommonReportLandscapeA3();//設定為橫向列印
+                reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
+                reportLandscape.IsHandlePersonVisible = false;
+                reportLandscape.IsManagerVisible = false;
+                _ReportHelper.Create(reportLandscape);
+                _ReportHelper.Export(FileType.PDF, _ReportHelper.FilePath);
+                MessageDisplay.Info("報表儲存完成!");
             }
             catch (Exception ex) {
                 MessageDisplay.Error("儲存錯誤");
@@ -674,17 +675,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
         private void gvMain_CellValueChanging(object sender, CellValueChangedEventArgs e) {
             GridView gv = sender as GridView;
-        }
-
-        private void gvMain_InitNewRow(object sender, InitNewRowEventArgs e) {
-            GridView gv = sender as GridView;
-            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["OP_TYPE"], "I");
-            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["CND_PARAM_KEY"], "%");
-            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["ABROAD"], "          ");
-        }
-
-        private void gvMain_CellValueChanged(object sender, CellValueChangedEventArgs e) {
-            GridView gv = sender as GridView;
             string ls_prod_subtype, ls_prod_type, ls_param_key, ls_abroad, ls_kind_id;
             int ll_found = -1;
             ymd = txtSDate.DateTimeValue.ToString("yyyyMMdd");
@@ -770,6 +760,102 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     gv.SetRowCellValue(e.RowHandle, "IM_B", 0);
                 }
             }
+        }
+
+        private void gvMain_InitNewRow(object sender, InitNewRowEventArgs e) {
+            GridView gv = sender as GridView;
+            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["OP_TYPE"], "I");
+            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["CND_PARAM_KEY"], "%");
+            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["ABROAD"], "          ");
+        }
+
+        private void gvMain_CellValueChanged(object sender, CellValueChangedEventArgs e) {
+            //GridView gv = sender as GridView;
+            //string ls_prod_subtype, ls_prod_type, ls_param_key, ls_abroad, ls_kind_id;
+            //int ll_found = -1;
+            //ymd = txtSDate.DateTimeValue.ToString("yyyyMMdd");
+            //ls_param_key = gv.GetRowCellValue(e.RowHandle, "CND_PARAM_KEY").AsString();
+            //if (e.Column.Name != "OP_TYPE") {
+            //    //如果OP_TYPE是I則固定不變
+            //    if (gv.GetRowCellValue(e.RowHandle, "OP_TYPE").ToString() == " ") gv.SetRowCellValue(e.RowHandle, "OP_TYPE", "U");
+            //}
+            //if (e.Column.Name == "M_LEVEL") {
+            //    //如果改變級距
+            //    string level = e.Value.AsString();
+            //    if (gv.GetRowCellValue(e.RowHandle, "PROD_TYPE").AsString() == "F") {
+            //        DataRow dr = dtFLevel.Select("mgrt1_level = '" + level + "'")[0];
+            //        gv.SetRowCellValue(e.RowHandle, "CM_A", dr["MGRT1_CM_RATE"]);
+            //        gv.SetRowCellValue(e.RowHandle, "MM_A", dr["MGRT1_MM_RATE"]);
+            //        gv.SetRowCellValue(e.RowHandle, "IM_A", dr["MGRT1_IM_RATE"]);
+            //    }
+            //    if (gv.GetRowCellValue(e.RowHandle, "PROD_TYPE").AsString() == "O") {
+            //        DataRow dr = dtOLevel.Select("mgrt1_level = '" + level + "'")[0];
+            //        gv.SetRowCellValue(e.RowHandle, "CM_A", dr["MGRT1_CM_RATE"]);
+            //        gv.SetRowCellValue(e.RowHandle, "MM_A", dr["MGRT1_MM_RATE"]);
+            //        gv.SetRowCellValue(e.RowHandle, "IM_A", dr["MGRT1_IM_RATE"]);
+            //        gv.SetRowCellValue(e.RowHandle, "CM_B", dr["MGRT1_CM_RATE_B"]);
+            //        gv.SetRowCellValue(e.RowHandle, "MM_B", dr["MGRT1_MM_RATE_B"]);
+            //        gv.SetRowCellValue(e.RowHandle, "IM_B", dr["MGRT1_IM_RATE_B"]);
+            //    }
+            //}
+            //if (e.Column.Name == "PROD_SEQ_NO") {
+            //    //如果改變商品類
+            //    DataRow dr = dtProdType.Select("prod_seq_no = '" + e.Value.AsString() + "'")[0];
+            //    gv.SetRowCellValue(e.RowHandle, "KIND_ID", "");
+            //    gv.SetRowCellValue(e.RowHandle, "STOCK_ID", " ");
+            //    gv.SetRowCellValue(e.RowHandle, "M_LEVEL", "");
+            //    gv.SetRowCellValue(e.RowHandle, "PROD_SUBTYPE", dr["CND_PROD_SUBTYPE"]);
+            //    gv.SetRowCellValue(e.RowHandle, "CND_PARAM_KEY", dr["CND_PARAM_KEY"]);
+            //    gv.SetRowCellValue(e.RowHandle, "ABROAD", dr["CND_ABROAD"]);
+            //}
+            //if (e.Column.Name == "KIND_ID") {
+            //    //商品那欄除了下拉選單已外也可手動key入，key入後會檢查是否正確
+            //    //若kind_id值為空(即預設值)，則視為使用者尚未填寫，不在此進行檢核，否則會進入無限迴圈
+            //    //若使用者未輸入kind_id逕行存檔，存檔時仍會再判斷一次
+            //    ls_prod_subtype = gv.GetRowCellValue(e.RowHandle, "PROD_SUBTYPE").AsString();
+            //    ls_abroad = gv.GetRowCellValue(e.RowHandle, "ABROAD").ToString();
+            //    ls_kind_id = gv.GetRowCellValue(e.RowHandle, "KIND_ID").AsString();
+            //    if (ls_kind_id != "") {
+            //        DataTable dtKindCheck = new DataTable();
+            //        if (ls_prod_subtype == "S") {
+            //            if (gv.GetRowCellValue(e.RowHandle, "ADJ_CODE").AsString() == "D") {
+            //                dtKindCheck = dao40071.dddw_pdk_kind_id_40071(ymd, ls_param_key);
+            //                ll_found = dtKindCheck.Rows.IndexOf(dtKindCheck.Select("kind_id = '" + ls_kind_id + "'").FirstOrDefault());
+
+            //            }
+            //            if (gv.GetRowCellValue(e.RowHandle, "ADJ_CODE").AsString() == "Y") {
+            //                dtKindCheck = dao40074.dddw_pdk_kind_id_40074(ls_param_key);
+            //                ll_found = dtKindCheck.Rows.IndexOf(dtKindCheck.Select("kind_id = '" + ls_kind_id + "'").FirstOrDefault());
+            //            }
+            //        }
+            //        else {
+            //            dtKindCheck = dao40071.dddw_mgt2_kind(ls_prod_subtype + "%", ls_abroad);
+            //            ll_found = dtKindCheck.Rows.IndexOf(dtKindCheck.Select("kind_id = '" + ls_kind_id + "'").FirstOrDefault());
+            //        }
+            //        if (ll_found == -1) {
+            //            MessageDisplay.Error("商品代號輸入錯誤");
+            //            gv.SetRowCellValue(e.RowHandle, "KIND_ID", "");
+            //        }
+            //        else {
+            //            gv.SetRowCellValue(e.RowHandle, "PROD_TYPE", dtKindCheck.Rows[ll_found]["PROD_TYPE"]);
+            //            gv.SetRowCellValue(e.RowHandle, "PARAM_KEY", dtKindCheck.Rows[ll_found]["PARAM_KEY"].AsString());
+            //            gv.SetRowCellValue(e.RowHandle, "SEQ_NO", dtKindCheck.Rows[ll_found]["SEQ_NO"]);
+            //        }
+            //    }
+            //}
+            //if (e.Column.Name == "ADJ_CODE") {
+            //    //改變調整狀態(上市/下市)時，//同步公布日期
+            //    if (e.Value.AsString() == "Y") gv.SetRowCellValue(e.RowHandle, "PUB_YMD", is_pre_ymd);
+            //    if (e.Value.AsString() == "D") {
+            //        gv.SetRowCellValue(e.RowHandle, "PUB_YMD", ymd);
+            //        gv.SetRowCellValue(e.RowHandle, "CM_A", 0);
+            //        gv.SetRowCellValue(e.RowHandle, "MM_A", 0);
+            //        gv.SetRowCellValue(e.RowHandle, "IM_A", 0);
+            //        gv.SetRowCellValue(e.RowHandle, "CM_B", 0);
+            //        gv.SetRowCellValue(e.RowHandle, "MM_B", 0);
+            //        gv.SetRowCellValue(e.RowHandle, "IM_B", 0);
+            //    }
+            //}
         }
         #endregion
 

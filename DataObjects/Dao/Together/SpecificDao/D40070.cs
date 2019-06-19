@@ -39,14 +39,14 @@ namespace DataObjects.Dao.Together.SpecificDao {
         /// <param name="adc_m2"></param>
         /// <param name="as_tyep"></param>
         /// <returns></returns>
-        public decimal GetMarginVal(string as_kind_id, decimal adc_m1, decimal adc_m2, string as_tyep) {
+        public decimal GetMarginVal(string as_kind_id, decimal adc_m1, decimal adc_m2, string as_type) {
 
             decimal ldc_m;
             object[] parms = {
                 ":as_kind_id", as_kind_id,
                 ":adc_m1", adc_m1,
                 ":adc_m2", adc_m2,
-                ":as_tyep", as_tyep
+                ":as_type", as_type
             };
 
             string sql =

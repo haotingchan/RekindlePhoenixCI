@@ -30,7 +30,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4.Tests
       [TestInitialize]
       public void Setup()
       {
-         b40012 = new B40012("40012", destinationFilePath, "2018/10/12");
+         b40012 = new B40012("40012", destinationFilePath, "2019/05/22");
       }
 
 
@@ -47,5 +47,20 @@ namespace PhoenixCI.BusinessLogic.Prefix4.Tests
          string msgText = b40012.WfOptionSheet();
          Assert.IsNotNull(msgText);
       }
+
+      [TestMethod()]
+      public void WfStatFTest()
+      {
+         string msgText = b40012.WfStat("F", "fut_3index");
+         Assert.IsNotNull(msgText);
+      }
+
+      [TestMethod()]
+      public void WfStatOTest()
+      {
+         string msgText = b40012.WfStat("O", "opt_3index");
+         Assert.IsNotNull(msgText);
+      }
+
    }
 }

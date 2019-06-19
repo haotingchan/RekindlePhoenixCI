@@ -28,6 +28,7 @@
       private void InitializeComponent()
       {
          this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
+         this.EWMAbtn = new System.Windows.Forms.Button();
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
          this.stMsgTxt = new System.Windows.Forms.Label();
          this.gb1_label = new System.Windows.Forms.Label();
@@ -38,6 +39,7 @@
          this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
          this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
          this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
+         this.oswGrpLookItem = new DevExpress.XtraEditors.LookUpEdit();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
          this.panelControl2.SuspendLayout();
@@ -50,26 +52,39 @@
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.oswGrpLookItem.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
          // 
-         this.panParent.Size = new System.Drawing.Size(532, 255);
+         this.panParent.Size = new System.Drawing.Size(763, 272);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(532, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(763, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // panelControl2
          // 
+         this.panelControl2.Controls.Add(this.oswGrpLookItem);
+         this.panelControl2.Controls.Add(this.EWMAbtn);
          this.panelControl2.Controls.Add(this.r_frame);
          this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
          this.panelControl2.Location = new System.Drawing.Point(0, 30);
          this.panelControl2.Name = "panelControl2";
-         this.panelControl2.Size = new System.Drawing.Size(532, 255);
+         this.panelControl2.Size = new System.Drawing.Size(763, 272);
          this.panelControl2.TabIndex = 1;
+         // 
+         // EWMAbtn
+         // 
+         this.EWMAbtn.Location = new System.Drawing.Point(543, 107);
+         this.EWMAbtn.Name = "EWMAbtn";
+         this.EWMAbtn.Size = new System.Drawing.Size(106, 37);
+         this.EWMAbtn.TabIndex = 5;
+         this.EWMAbtn.Text = "EWMA計算";
+         this.EWMAbtn.UseVisualStyleBackColor = true;
+         this.EWMAbtn.Click += new System.EventHandler(this.EWMAbtn_Click);
          // 
          // r_frame
          // 
@@ -132,11 +147,14 @@
          this.emDate.Name = "emDate";
          this.emDate.Properties.Appearance.Options.UseTextOptions = true;
          this.emDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.emDate.Properties.EditFormat.FormatString = "yyyy/MM/dd";
          this.emDate.Properties.Mask.EditMask = "yyyy/MM/dd";
          this.emDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.emDate.Properties.Mask.ShowPlaceHolders = false;
          this.emDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.emDate.Size = new System.Drawing.Size(95, 28);
          this.emDate.TabIndex = 4;
+         this.emDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
          // 
          // stDate
          // 
@@ -182,12 +200,22 @@
          this.layoutControlItem3.Size = new System.Drawing.Size(0, 0);
          this.layoutControlItem3.TextSize = new System.Drawing.Size(50, 20);
          // 
+         // oswGrpLookItem
+         // 
+         this.oswGrpLookItem.Location = new System.Drawing.Point(523, 65);
+         this.oswGrpLookItem.MenuManager = this.ribbonControl;
+         this.oswGrpLookItem.Name = "oswGrpLookItem";
+         this.oswGrpLookItem.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.oswGrpLookItem.Size = new System.Drawing.Size(156, 26);
+         this.oswGrpLookItem.TabIndex = 6;
+         // 
          // W40011
          // 
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(532, 285);
+         this.ClientSize = new System.Drawing.Size(763, 302);
          this.Controls.Add(this.panelControl2);
          this.Name = "W40011";
          this.Text = "W40011";
@@ -208,6 +236,7 @@
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.oswGrpLookItem.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -225,5 +254,7 @@
       private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup1;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
       private System.Windows.Forms.Label stDate;
+      private System.Windows.Forms.Button EWMAbtn;
+      private DevExpress.XtraEditors.LookUpEdit oswGrpLookItem;
    }
 }

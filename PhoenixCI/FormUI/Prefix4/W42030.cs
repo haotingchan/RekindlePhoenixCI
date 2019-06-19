@@ -84,7 +84,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 if (rtn == 0) {
                     DialogResult result = MessageDisplay.Choose(" 當日上市證券保證金適用比例資料未轉入完畢,是否要繼續?");
                     if (result == DialogResult.No) {
-                        lblProcessing.Visible = false;
+                        ShowMsg("");
                         return ResultStatus.Fail;
                     }
                 }
@@ -94,7 +94,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 if (rtnStr != "") {
                     DialogResult result = MessageDisplay.Choose(txtSDate.Text + "-" + rtnStr + "，是否要繼續?");
                     if (result == DialogResult.No) {
-                        lblProcessing.Visible = false;
+                        ShowMsg("");
                         return ResultStatus.Fail;
                     }
                 }
@@ -109,12 +109,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 DataTable dt42030 = dao42030.d_42030(ymd);
                 if (dt42030.Rows.Count == 0) {
                     MessageDisplay.Info(txtSDate.Text + "," + rptId + '－' + rptName + ",讀取「當日上市證券保證金適用比例」無任何資料!");
+                    ShowMsg("");
                     return ResultStatus.Fail;
                 }
 
                 //2. 複製檔案
                 file = PbFunc.wf_copy_file(rptId, rptId);
                 if (file == "") {
+                    ShowMsg("");
                     return ResultStatus.Fail;
                 }
 
@@ -144,6 +146,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
             catch (Exception ex) {
                 MessageDisplay.Error("輸出錯誤");
+                ShowMsg("轉檔錯誤");
                 throw ex;
             }
             finally {

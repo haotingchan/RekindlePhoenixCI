@@ -31,6 +31,7 @@ namespace PhoenixCI.FormUI.PrefixS {
       protected string is_fm_ymd;
       protected string is_to_ymd;
       protected DateTime is_max_ymd;
+      //grid欄位不同, 分為兩塊模組
       protected string[] modules1 = { "PSR", "VSR", "IMS", "SOM" };
       protected string[] modules2 = { "ZISP" };
 
@@ -40,6 +41,8 @@ namespace PhoenixCI.FormUI.PrefixS {
          txtStartDate.EnterMoveNextControl = true;
          txtEndDate.EnterMoveNextControl = true;
          GridHelper.SetCommonGrid(gv_ZISP);
+         _IsProcessRunAsync = true;//非同步執行
+
          for (int i = 0; i < modules1.Length; i++) {
             GridView gv = GetGridView(modules1[i]);
 
@@ -65,11 +68,7 @@ namespace PhoenixCI.FormUI.PrefixS {
          SPAN_ZISP_COM_PROD1.ColumnEdit = cbxProd;
          SPAN_ZISP_COM_PROD2.ColumnEdit = cbxProd;
 
-         DataTable dtContentType = daoCod.ListByCol2("S0072", "PSR_CONTENT_TYPE");
-         RepositoryItemLookUpEdit cbxContentType = new RepositoryItemLookUpEdit();
-         cbxContentType.SetColumnLookUp(dtContentType, "COD_ID", "COD_DESC", TextEditStyles.DisableTextEditor);
-         gc_PSR.RepositoryItems.Add(cbxContentType);
-         PSR_SPAN_CONTENT_TYPE.ColumnEdit = cbxContentType;
+         //PSR_SPAN_CONTENT_TYPE.ColumnEdit = cbxContentType;
 
          //grid 細部設定
          foreach (GridColumn col in gv_ZISP.Columns) {
@@ -88,6 +87,13 @@ namespace PhoenixCI.FormUI.PrefixS {
             gc.RepositoryItems.Add(cbxProd);
             gv.Columns["SPAN_CONTENT_CLASS"].ColumnEdit = cbxProdType;
             gv.Columns["SPAN_CONTENT_CC"].ColumnEdit = cbxProd;
+
+            DataTable dtContentType = daoCod.ListByCol2("S0072", $"{modules1[i]}_CONTENT_TYPE");
+            RepositoryItemLookUpEdit cbxContentType = new RepositoryItemLookUpEdit();
+            cbxContentType.SetColumnLookUp(dtContentType, "COD_ID", "COD_DESC", TextEditStyles.DisableTextEditor);
+            gc_PSR.RepositoryItems.Add(cbxContentType);
+            gv.Columns["SPAN_CONTENT_TYPE"].ColumnEdit = cbxContentType;
+
             gv.ShownEditor += GridView_ShownEditor;
          }
          gv_ZISP.ShownEditor += ZISP_gridView_ShownEditor;
@@ -100,7 +106,10 @@ namespace PhoenixCI.FormUI.PrefixS {
          setDatePeriod();
 
          for (int i = 0; i < modules1.Length; i++) {
-            DataTable dt = daoS0072.ListSpanContentByModule(modules1[i], GlobalInfo.USER_ID);
+            string module = modules1[i];
+            //IMS DB 存 INTERMONTH, 特殊處理
+            if (module == "IMS") module = "INTERMONTH";
+            DataTable dt = daoS0072.ListSpanContentByModule(module, GlobalInfo.USER_ID);
             GridView gv = GetGridView(modules1[i]);
 
             gv.GridControl.DataSource = dt;
@@ -171,22 +180,27 @@ namespace PhoenixCI.FormUI.PrefixS {
       }
 
       protected override ResultStatus RunBefore(PokeBall args) {
-         ResultStatus resultStatus = ResultStatus.Fail;
+         ResultStatus resultStatus = ResultStatus.Success;
 
          if (checkChanged()) {
             MessageDisplay.Info("資料有變更, 請先存檔!");
             resultStatus = ResultStatus.FailButNext;
-         } else {
-            Run(args);
          }
+         //else {
+         //   resultStatus = Run(args);
+         //}
          return resultStatus;
       }
 
       protected override ResultStatus Run(PokeBall args) {
+         string re = "N";
          if (!checkChanged()) {
-            PbFunc.f_bat_span("S0072", "SPN", GlobalInfo.USER_ID);
+            //re="N"代表執行錯誤
+            re = PbFunc.f_bat_span("S0072", "SPN", GlobalInfo.USER_ID);
          }
-         return base.Run(args);
+         if (re == "Y") return ResultStatus.Success;
+
+         return ResultStatus.Fail;
       }
 
       private ResultStatus savePeriod() {
@@ -258,6 +272,8 @@ namespace PhoenixCI.FormUI.PrefixS {
       private void InitNewRow(object sender, InitNewRowEventArgs e) {
          GridView gv = sender as GridView;
          string module = gv.Name.Split('_')[1];
+         //IMS DB 存 INTERMONTH
+         if (module == "IMS") module = "INTERMONTH";
 
          gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["IS_NEWROW"], 1);
          gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["SPAN_CONTENT_MODULE"], module);
@@ -376,6 +392,11 @@ namespace PhoenixCI.FormUI.PrefixS {
 
             gv_ZISP.UpdateCurrentRow();
 
+            if (dtHZISP.Rows.Count <= 0) {
+               MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
+               return;
+            }
+
             for (int i = 0; i < dtHZISP.Rows.Count; i++) {
                gv_ZISP.AddNewRow();
                gv_ZISP.UpdateCurrentRow();
@@ -395,6 +416,9 @@ namespace PhoenixCI.FormUI.PrefixS {
       private void SpanTabControl_SelectedPageChanged(object sender, DevExpress.XtraTab.TabPageChangedEventArgs e) {
          if (e.Page.Name != "tab_ZISP") {
             string module = e.Page.Name.Split('_')[1];
+            ////IMS DB 存 INTERMONTH
+            //if (module == "IMS") module = "INTERMONTH";
+
             string cod_col_id = module + "_CONTENT_TYPE";
 
             DataTable dtContentType = daoCod.ListByCol2("S0072", cod_col_id);
@@ -507,6 +531,23 @@ namespace PhoenixCI.FormUI.PrefixS {
             for (int j = 0; j < dt.Rows.Count; j++) {
                if (dt.Rows[j].RowState != DataRowState.Deleted) {
                   dt.Rows[j][6] = DateTime.Now; //更新寫入時間
+               }
+            }
+
+            //檢查設定方式, 有"增減"字樣時, 不可輸入負值
+            RepositoryItemTextEdit txt = (RepositoryItemTextEdit)gv.Columns["SPAN_CONTENT_VALUE"].ColumnEdit;
+            RepositoryItemLookUpEdit lookup = (RepositoryItemLookUpEdit)gv.Columns["SPAN_CONTENT_TYPE"].ColumnEdit;
+
+            foreach (DataRow dr in dt.Rows) {
+               string contentType = dr["SPAN_CONTENT_TYPE"].ToString();
+               string displayTxt = lookup.GetDisplayValueByKeyValue(contentType).ToString();
+
+               if (displayTxt.IndexOf("增減") < 0) {
+
+                  if (dr["SPAN_CONTENT_VALUE"].AsDecimal() < 0) {
+                     MessageDisplay.Error($"{displayTxt}不可輸入負值 !");
+                     return false;
+                  }
                }
             }
 
