@@ -34,7 +34,6 @@
          this.gb_1 = new DevExpress.XtraEditors.PanelControl();
          this.emMonth = new BaseGround.Widget.TextDateEdit();
          this.st_3 = new System.Windows.Forms.Label();
-         this.textEdit1 = new DevExpress.XtraEditors.TextEdit();
          this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
          this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
          this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
@@ -46,7 +45,6 @@
          ((System.ComponentModel.ISupportInitialize)(this.gb_1)).BeginInit();
          this.gb_1.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.emMonth.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
@@ -129,8 +127,10 @@
          this.emMonth.Name = "emMonth";
          this.emMonth.Properties.Appearance.Options.UseTextOptions = true;
          this.emMonth.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.emMonth.Properties.Mask.EditMask = "yyyy/MM";
-         this.emMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.emMonth.Properties.EditFormat.FormatString = "yyyyMM";
+         this.emMonth.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])";
+         this.emMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.emMonth.Properties.Mask.ShowPlaceHolders = false;
          this.emMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.emMonth.Size = new System.Drawing.Size(71, 28);
          this.emMonth.TabIndex = 4;
@@ -144,14 +144,6 @@
          this.st_3.Size = new System.Drawing.Size(58, 21);
          this.st_3.TabIndex = 0;
          this.st_3.Text = "月份：";
-         // 
-         // textEdit1
-         // 
-         this.textEdit1.Location = new System.Drawing.Point(5, 5);
-         this.textEdit1.MenuManager = this.ribbonControl;
-         this.textEdit1.Name = "textEdit1";
-         this.textEdit1.Size = new System.Drawing.Size(111, 26);
-         this.textEdit1.TabIndex = 4;
          // 
          // layoutControlItem1
          // 
@@ -201,7 +193,6 @@
          this.gb_1.ResumeLayout(false);
          this.gb_1.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.emMonth.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
@@ -217,7 +208,6 @@
       private System.Windows.Forms.Label gb1_label;
       private DevExpress.XtraEditors.PanelControl gb_1;
       private System.Windows.Forms.Label st_3;
-      private DevExpress.XtraEditors.TextEdit textEdit1;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
       private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup1;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;

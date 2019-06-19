@@ -195,8 +195,9 @@
          this.emMonth.Name = "emMonth";
          this.emMonth.Properties.Appearance.Options.UseTextOptions = true;
          this.emMonth.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.emMonth.Properties.Mask.EditMask = "yyyy/MM";
-         this.emMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.emMonth.Properties.EditFormat.FormatString = "yyyyMM";
+         this.emMonth.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])";
+         this.emMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.emMonth.Properties.Mask.ShowPlaceHolders = false;
          this.emMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.emMonth.Size = new System.Drawing.Size(75, 28);
