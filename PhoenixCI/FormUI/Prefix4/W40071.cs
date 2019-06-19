@@ -581,6 +581,35 @@ namespace PhoenixCI.FormUI.Prefix4 {
         }
 
         #region GridView Events
+
+        /// <summary>
+        /// 保證金的兩種格式切換: 百分比/金額
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void gvDetail_CustomColumnDisplayText(object sender, CustomColumnDisplayTextEventArgs e) {
+            ColumnView view = sender as ColumnView;
+            if ((e.Column.FieldName == "CM_CUR_A" ||
+                 e.Column.FieldName == "CM_CUR_B" ||
+                 e.Column.FieldName == "MM_CUR_A" ||
+                 e.Column.FieldName == "MM_CUR_B" ||
+                 e.Column.FieldName == "IM_CUR_A" ||
+                 e.Column.FieldName == "IM_CUR_B" ||
+                 e.Column.FieldName == "CM_A" ||
+                 e.Column.FieldName == "CM_B" ||
+                 e.Column.FieldName == "MM_A" ||
+                 e.Column.FieldName == "MM_B" ||
+                 e.Column.FieldName == "IM_A" ||
+                 e.Column.FieldName == "IM_B") && e.ListSourceRowIndex != DevExpress.XtraGrid.GridControl.InvalidRowHandle) {
+                string amt_type = view.GetListSourceRowCellValue(e.ListSourceRowIndex, "AMT_TYPE").AsString();
+                decimal value = e.Value.AsDecimal();
+                switch (amt_type) {
+                    case "P": e.DisplayText = string.Format("{0:0.###%}", value); break;
+                    default: e.DisplayText = string.Format("{0:#,###}", value); break;
+                }
+            }
+        }
+
         private void gvDetail_RowCellStyle(object sender, RowCellStyleEventArgs e) {
             GridView gv = sender as GridView;
             string amt_type = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMT_TYPE"]).AsString();
@@ -599,7 +628,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 case "MM_CUR_B":
                 case "IM_CUR_A":
                 case "IM_CUR_B":
-                    e.Column.DisplayFormat.FormatString = amt_type == "P" ? "{0:0.###%}" : "#,###";
+                    //e.Column.DisplayFormat.FormatString = amt_type == "P" ? "{0:0.###%}" : "#,###";
                     e.Appearance.BackColor = Color.FromArgb(224, 224, 224);
                     break;
                 case "CM_A":
@@ -608,7 +637,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 case "MM_B":
                 case "IM_A":
                 case "IM_B":
-                    e.Column.DisplayFormat.FormatString = amt_type == "P" ? "{0:0.###%}" : "#,###";
+                    //e.Column.DisplayFormat.FormatString = amt_type == "P" ? "{0:0.###%}" : "#,###";
                     break;
             }
         }

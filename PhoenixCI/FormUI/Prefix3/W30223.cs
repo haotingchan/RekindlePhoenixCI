@@ -183,7 +183,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                         str = str + drFind["PLS2_KIND_ID2"].AsString() + ",";
                     }
                 }
-                ws.Cells[rowIndex, 8].Value = str.SubStr(0, str.Length - 1);
+                ws.Cells[rowIndex, 9].Value = str.SubStr(0, str.Length - 1);
             }//foreach (DataRow dr in dtFiltered.Rows)
 
             //刪除空白列
@@ -232,7 +232,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                         str = str + drFind["PLS2_KIND_ID2"].AsString() + ",";
                     }
                 }
-                ws.Cells[rowIndex, 8].Value = str.SubStr(0, str.Length - 1);
+                ws.Cells[rowIndex, 9].Value = str.SubStr(0, str.Length - 1);
             }//foreach (DataRow dr in dtFiltered.Rows)
 
             //刪除空白列
@@ -261,7 +261,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
         /// <param name="dt"></param>
         /// <param name="ws"></param>
         protected void wf_30223_eng2(DataTable dt, Worksheet ws) {
-            string str, raiseYmd, lowerYmd;
+            string str, raiseYmd, lowerYmd=null;
             int rowIndex, rowTotal, rowMinus, seq;
             Range range;
 
@@ -301,7 +301,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                         str = str + drFind["PLS2_KIND_ID2"].AsString() + ",";
                     }
                 }
-                ws.Cells[rowIndex, 9].Value = str.SubStr(0, str.Length - 1);
+                ws.Cells[rowIndex, 10].Value = str.SubStr(0, str.Length - 1);
 
             }//foreach (DataRow dr in dtFiltered.Rows)
 
@@ -319,12 +319,12 @@ namespace PhoenixCI.FormUI.Prefix3 {
             rowIndex = 509 - rowMinus - 1;
             rowTotal = 500 + rowIndex;
             seq = 0;
-            lowerYmd = dtFiltered.Rows[0]["PLS2_EFFECTIVE_YMD"].AsDateTime("yyyyMMdd").ToString("yyyy/MM/dd");
 
             foreach (DataRow dr in dtFiltered.Rows) {
                 if (dr["PLS2_KIND_ID2"].AsString() != dr["APDK_KIND_GRP2"].AsString()) continue;
                 seq = seq + 1;
                 rowIndex = rowIndex + 1;
+                lowerYmd = dtFiltered.Rows[0]["PLS2_EFFECTIVE_YMD"].AsDateTime("yyyyMMdd").ToString("yyyy/MM/dd");
 
                 ws.Cells[rowIndex, 0].Value = seq.AsString();
                 ws.Cells[rowIndex, 1].Value = dr["PLS2_KIND_ID2"].AsString();
@@ -345,7 +345,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                         str = str + drFind["PLS2_KIND_ID2"].AsString() + ",";
                     }
                 }
-                ws.Cells[rowIndex, 9].Value = str.SubStr(0, str.Length - 1);
+                ws.Cells[rowIndex, 10].Value = str.SubStr(0, str.Length - 1);
             }//foreach (DataRow dr in dtFiltered.Rows)
 
             //刪除空白列

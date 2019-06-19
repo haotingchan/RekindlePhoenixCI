@@ -114,7 +114,7 @@
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(1222, 43);
+            this.ribbonControl.Size = new System.Drawing.Size(1222, 30);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // panel1
@@ -125,7 +125,7 @@
             this.panel1.Controls.Add(this.txtSDate);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 43);
+            this.panel1.Location = new System.Drawing.Point(0, 30);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1222, 87);
             this.panel1.TabIndex = 3;
@@ -137,7 +137,7 @@
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label3.Location = new System.Drawing.Point(210, 47);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(638, 31);
+            this.label3.Size = new System.Drawing.Size(426, 21);
             this.label3.TabIndex = 23;
             this.label3.Text = "下市：生效日期為下市日期之前一日，公布日期為生效日期";
             // 
@@ -148,7 +148,7 @@
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label2.Location = new System.Drawing.Point(24, 32);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(110, 31);
+            this.label2.Size = new System.Drawing.Size(74, 21);
             this.label2.TabIndex = 22;
             this.label2.Text = "生效日期";
             // 
@@ -167,7 +167,7 @@
             this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtSDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtSDate.Size = new System.Drawing.Size(100, 38);
+            this.txtSDate.Size = new System.Drawing.Size(100, 26);
             this.txtSDate.TabIndex = 21;
             this.txtSDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             this.txtSDate.EditValueChanged += new System.EventHandler(this.txtSDate_EditValueChanged);
@@ -179,7 +179,7 @@
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
             this.label1.Location = new System.Drawing.Point(210, 17);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(638, 31);
+            this.label1.Size = new System.Drawing.Size(426, 21);
             this.label1.TabIndex = 20;
             this.label1.Text = "上市：生效日期為上市日期，公布日期為生效日期之前一日";
             // 
@@ -188,9 +188,9 @@
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
             this.panel2.Controls.Add(this.gcMain);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 130);
+            this.panel2.Location = new System.Drawing.Point(0, 117);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1222, 659);
+            this.panel2.Size = new System.Drawing.Size(1222, 672);
             this.panel2.TabIndex = 4;
             // 
             // gcMain
@@ -204,7 +204,7 @@
             this.repositoryItemTextEdit2,
             this.repositoryItemTextEdit1,
             this.repositoryItemTextEdit3});
-            this.gcMain.Size = new System.Drawing.Size(1222, 659);
+            this.gcMain.Size = new System.Drawing.Size(1222, 672);
             this.gcMain.TabIndex = 3;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -279,6 +279,7 @@
             this.gvMain.InitNewRow += new DevExpress.XtraGrid.Views.Grid.InitNewRowEventHandler(this.gvMain_InitNewRow);
             this.gvMain.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gvMain_CellValueChanged);
             this.gvMain.CellValueChanging += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gvMain_CellValueChanging);
+            this.gvMain.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gvMain_CustomColumnDisplayText);
             // 
             // gridBand2
             // 
@@ -703,7 +704,6 @@
             this.PUB_YMD.ColumnEdit = this.repositoryItemTextEdit2;
             this.PUB_YMD.FieldName = "PUB_YMD";
             this.PUB_YMD.Name = "PUB_YMD";
-            this.PUB_YMD.OptionsColumn.AllowEdit = false;
             this.PUB_YMD.Visible = true;
             this.PUB_YMD.Width = 115;
             // 
@@ -944,7 +944,7 @@
             // W40074
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1222, 789);
             this.Controls.Add(this.panel2);
