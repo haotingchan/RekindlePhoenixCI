@@ -3375,7 +3375,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             string ocfNextDate = PbFunc.f_get_ocf_next_n_day(checkedDate, 10).ToString("MM/dd");
 
             tmpStr = $"暫不調整，觀察▲▲10個交易日(至▲▲{ocfNextDate})，惟仍須持續注意各契約保證金變動幅度及未沖銷部位數變化之狀況，於必要時隨時召開會議討論是否調整保證金。";
-            SetInnerText(tmpStr);
+            SetInnerText(tmpStr, false);
 
          }
 
