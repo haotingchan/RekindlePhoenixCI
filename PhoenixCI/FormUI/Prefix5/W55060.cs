@@ -120,6 +120,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 DataTable dt55060_1 = dao55060.d_55060_1(asSymd, asEymd);
                 if (dt55060_1.Rows.Count == 0) {
                     MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromMonth.Text + "-" + txtToMonth.Text, rptId + "－" + rptName));
+                    ShowMsg("");
                 }
 
                 /******************
@@ -164,6 +165,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 DataTable dt55060_2 = dao55060.d_55060_2(asSdate, asEdate);
                 if (dt55060_2.Rows.Count == 0) {
                     MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromMonth.Text + "-" + txtToMonth.Text, rptId + "－" + rptName));
+                    ShowMsg("");
                 }
 
                 /******************
@@ -202,6 +204,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 DataTable dt55060_3 = dao55060.d_55060_3(asSym, asEym);
                 if (dt55060_3.Rows.Count == 0) {
                     MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromMonth.Text + "-" + txtToMonth.Text, rptId + "－" + rptName));
+                    ShowMsg("");
                 }
 
                 /******************
