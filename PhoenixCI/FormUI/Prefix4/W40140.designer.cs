@@ -26,8 +26,9 @@
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
          this.labMsg = new System.Windows.Forms.Label();
          this.panFilter = new System.Windows.Forms.GroupBox();
-         this.label3 = new System.Windows.Forms.Label();
          this.txtStartDate = new BaseGround.Widget.TextDateEdit();
+         this.label3 = new System.Windows.Forms.Label();
+         this.chkTxt = new System.Windows.Forms.CheckBox();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
@@ -38,6 +39,7 @@
          // 
          // panParent
          // 
+         this.panParent.Controls.Add(this.chkTxt);
          this.panParent.Controls.Add(this.r_frame);
          this.panParent.Size = new System.Drawing.Size(645, 405);
          // 
@@ -85,16 +87,6 @@
          this.panFilter.TabStop = false;
          this.panFilter.Text = "請輸入交易日期";
          // 
-         // label3
-         // 
-         this.label3.AutoSize = true;
-         this.label3.ForeColor = System.Drawing.Color.Black;
-         this.label3.Location = new System.Drawing.Point(37, 45);
-         this.label3.Name = "label3";
-         this.label3.Size = new System.Drawing.Size(58, 21);
-         this.label3.TabIndex = 2;
-         this.label3.Text = "日期：";
-         // 
          // txtStartDate
          // 
          this.txtStartDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
@@ -115,6 +107,28 @@
          this.txtStartDate.TabIndex = 84;
          this.txtStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
+         // label3
+         // 
+         this.label3.AutoSize = true;
+         this.label3.ForeColor = System.Drawing.Color.Black;
+         this.label3.Location = new System.Drawing.Point(37, 45);
+         this.label3.Name = "label3";
+         this.label3.Size = new System.Drawing.Size(58, 21);
+         this.label3.TabIndex = 2;
+         this.label3.Text = "日期：";
+         // 
+         // chkTxt
+         // 
+         this.chkTxt.AutoSize = true;
+         this.chkTxt.Checked = true;
+         this.chkTxt.CheckState = System.Windows.Forms.CheckState.Checked;
+         this.chkTxt.Location = new System.Drawing.Point(447, 89);
+         this.chkTxt.Name = "chkTxt";
+         this.chkTxt.Size = new System.Drawing.Size(60, 24);
+         this.chkTxt.TabIndex = 82;
+         this.chkTxt.Text = "計算";
+         this.chkTxt.UseVisualStyleBackColor = true;
+         // 
          // W40140
          // 
          this.Appearance.Options.UseFont = true;
@@ -124,6 +138,7 @@
          this.Name = "W40140";
          this.Text = "W40140";
          this.panParent.ResumeLayout(false);
+         this.panParent.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).EndInit();
          this.r_frame.ResumeLayout(false);
@@ -142,5 +157,6 @@
       private System.Windows.Forms.GroupBox panFilter;
       private System.Windows.Forms.Label label3;
       private BaseGround.Widget.TextDateEdit txtStartDate;
+      private System.Windows.Forms.CheckBox chkTxt;
    }
 }
