@@ -1,9 +1,9 @@
-﻿<w:tbl><w:tblPr><w:tblW w:w="9180" w:type="dxa"/><w:jc w:val="right"/>
-<w:tblCellMar><w:left w:w="28" w:type="dxa"/>
+﻿<w:tbl><w:tblPr><w:tblW w:w="9020" w:type="dxa"/><w:jc w:val="right"/>
+<w:tblInd w:w="15" w:type="dxa"/><w:tblCellMar><w:left w:w="28" w:type="dxa"/>
 <w:right w:w="28" w:type="dxa"/></w:tblCellMar>
 <w:tblLook w:val="04A0"/></w:tblPr>
 <w:tblGrid>
-<w:gridCol w:w="1500"/><w:gridCol w:w="1280"/><w:gridCol w:w="1280"/>
+<w:gridCol w:w="1340"/><w:gridCol w:w="1280"/><w:gridCol w:w="1280"/>
 <w:gridCol w:w="1280"/><w:gridCol w:w="1280"/><w:gridCol w:w="1280"/><w:gridCol w:w="1280"/>
 </w:tblGrid>
 <w:tr>

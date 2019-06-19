@@ -30,7 +30,6 @@
          this.txtDate = new BaseGround.Widget.TextDateEdit();
          this.label1 = new System.Windows.Forms.Label();
          this.label9 = new System.Windows.Forms.Label();
-         this.dwMsg = new DevExpress.XtraEditors.LookUpEdit();
          this.labKind = new System.Windows.Forms.Label();
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
          this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
@@ -40,6 +39,7 @@
          this.label5 = new System.Windows.Forms.Label();
          this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
          this.groupBox2 = new System.Windows.Forms.GroupBox();
+         this.dwMsg = new DevExpress.XtraEditors.LookUpEdit();
          this.txtEndTime = new DevExpress.XtraEditors.TextEdit();
          this.txtStartTime = new DevExpress.XtraEditors.TextEdit();
          this.txtEndDate = new BaseGround.Widget.TextDateEdit();
@@ -59,7 +59,6 @@
          this.panFilter.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gbType)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.dwMsg.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
          this.r_frame.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -69,6 +68,7 @@
          ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
          this.panelControl2.SuspendLayout();
          this.groupBox2.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.dwMsg.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtEndTime.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtStartTime.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).BeginInit();
@@ -88,12 +88,12 @@
          this.panParent.Controls.Add(this.panelControl2);
          this.panParent.Controls.Add(this.panelControl1);
          this.panParent.Controls.Add(this.r_frame);
-         this.panParent.Size = new System.Drawing.Size(811, 732);
+         this.panParent.Size = new System.Drawing.Size(815, 745);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(811, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(815, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // panFilter
@@ -106,9 +106,9 @@
          this.panFilter.Controls.Add(this.label9);
          this.panFilter.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
          this.panFilter.ForeColor = System.Drawing.Color.Navy;
-         this.panFilter.Location = new System.Drawing.Point(24, 19);
+         this.panFilter.Location = new System.Drawing.Point(20, 15);
          this.panFilter.Name = "panFilter";
-         this.panFilter.Size = new System.Drawing.Size(722, 173);
+         this.panFilter.Size = new System.Drawing.Size(725, 175);
          this.panFilter.TabIndex = 76;
          this.panFilter.TabStop = false;
          this.panFilter.Text = "請輸入交易日期";
@@ -146,9 +146,12 @@
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkType2e", "處置股票調整回調"),
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkType4", "上下市商品")});
          this.gbType.Location = new System.Drawing.Point(118, 71);
+         this.gbType.LookAndFeel.SkinName = "Office 2013";
+         this.gbType.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbType.MultiColumn = true;
          this.gbType.Name = "gbType";
          this.gbType.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+         this.gbType.ShowFocusRect = false;
          this.gbType.Size = new System.Drawing.Size(486, 98);
          this.gbType.TabIndex = 1;
          // 
@@ -202,22 +205,6 @@
          this.label9.Size = new System.Drawing.Size(0, 21);
          this.label9.TabIndex = 86;
          // 
-         // dwMsg
-         // 
-         this.dwMsg.Location = new System.Drawing.Point(133, 153);
-         this.dwMsg.Name = "dwMsg";
-         this.dwMsg.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-         this.dwMsg.Properties.Appearance.Options.UseBackColor = true;
-         this.dwMsg.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-         this.dwMsg.Properties.AppearanceDisabled.Options.UseBackColor = true;
-         this.dwMsg.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.dwMsg.Properties.ButtonsStyle = DevExpress.XtraEditors.Controls.BorderStyles.Flat;
-         this.dwMsg.Properties.NullText = "";
-         this.dwMsg.Properties.PopupSizeable = false;
-         this.dwMsg.Size = new System.Drawing.Size(100, 26);
-         this.dwMsg.TabIndex = 7;
-         // 
          // labKind
          // 
          this.labKind.AutoSize = true;
@@ -235,9 +222,9 @@
          this.r_frame.Appearance.Options.UseBackColor = true;
          this.r_frame.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.r_frame.Controls.Add(this.panFilter);
-         this.r_frame.Location = new System.Drawing.Point(15, 15);
+         this.r_frame.Location = new System.Drawing.Point(30, 30);
          this.r_frame.Name = "r_frame";
-         this.r_frame.Size = new System.Drawing.Size(766, 212);
+         this.r_frame.Size = new System.Drawing.Size(765, 210);
          this.r_frame.TabIndex = 77;
          // 
          // panelControl1
@@ -246,9 +233,9 @@
          this.panelControl1.Appearance.Options.UseBackColor = true;
          this.panelControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.panelControl1.Controls.Add(this.groupBox1);
-         this.panelControl1.Location = new System.Drawing.Point(397, 234);
+         this.panelControl1.Location = new System.Drawing.Point(415, 250);
          this.panelControl1.Name = "panelControl1";
-         this.panelControl1.Size = new System.Drawing.Size(384, 234);
+         this.panelControl1.Size = new System.Drawing.Size(380, 230);
          this.panelControl1.TabIndex = 78;
          // 
          // groupBox1
@@ -258,7 +245,7 @@
          this.groupBox1.Controls.Add(this.label5);
          this.groupBox1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
          this.groupBox1.ForeColor = System.Drawing.Color.Navy;
-         this.groupBox1.Location = new System.Drawing.Point(24, 19);
+         this.groupBox1.Location = new System.Drawing.Point(20, 15);
          this.groupBox1.Name = "groupBox1";
          this.groupBox1.Size = new System.Drawing.Size(340, 195);
          this.groupBox1.TabIndex = 76;
@@ -295,8 +282,11 @@
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkOptMoney", "選擇權保證金（選擇權交易系統30004）", System.Windows.Forms.CheckState.Checked),
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkAllMoney", "全部保證金    （結算系統7122）", System.Windows.Forms.CheckState.Checked)});
          this.gbMoney.Location = new System.Drawing.Point(22, 32);
+         this.gbMoney.LookAndFeel.SkinName = "Office 2013";
+         this.gbMoney.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbMoney.Name = "gbMoney";
          this.gbMoney.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+         this.gbMoney.ShowFocusRect = false;
          this.gbMoney.Size = new System.Drawing.Size(312, 123);
          this.gbMoney.TabIndex = 8;
          // 
@@ -315,31 +305,46 @@
          this.panelControl2.Appearance.Options.UseBackColor = true;
          this.panelControl2.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.panelControl2.Controls.Add(this.groupBox2);
-         this.panelControl2.Location = new System.Drawing.Point(15, 234);
+         this.panelControl2.Location = new System.Drawing.Point(30, 250);
          this.panelControl2.Name = "panelControl2";
-         this.panelControl2.Size = new System.Drawing.Size(376, 234);
+         this.panelControl2.Size = new System.Drawing.Size(375, 230);
          this.panelControl2.TabIndex = 79;
          // 
          // groupBox2
          // 
+         this.groupBox2.Controls.Add(this.dwMsg);
          this.groupBox2.Controls.Add(this.txtEndTime);
          this.groupBox2.Controls.Add(this.txtStartTime);
          this.groupBox2.Controls.Add(this.txtEndDate);
          this.groupBox2.Controls.Add(this.txtStartDate);
          this.groupBox2.Controls.Add(this.label10);
          this.groupBox2.Controls.Add(this.label14);
-         this.groupBox2.Controls.Add(this.dwMsg);
          this.groupBox2.Controls.Add(this.gbMsg);
          this.groupBox2.Controls.Add(this.labKind);
          this.groupBox2.Controls.Add(this.label17);
          this.groupBox2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
          this.groupBox2.ForeColor = System.Drawing.Color.Navy;
-         this.groupBox2.Location = new System.Drawing.Point(24, 19);
+         this.groupBox2.Location = new System.Drawing.Point(20, 15);
          this.groupBox2.Name = "groupBox2";
-         this.groupBox2.Size = new System.Drawing.Size(333, 195);
+         this.groupBox2.Size = new System.Drawing.Size(335, 195);
          this.groupBox2.TabIndex = 76;
          this.groupBox2.TabStop = false;
          this.groupBox2.Text = "轉出公告文字檔";
+         // 
+         // dwMsg
+         // 
+         this.dwMsg.Location = new System.Drawing.Point(133, 152);
+         this.dwMsg.Name = "dwMsg";
+         this.dwMsg.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+         this.dwMsg.Properties.AppearanceDisabled.Options.UseBackColor = true;
+         this.dwMsg.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.dwMsg.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.dwMsg.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
+         this.dwMsg.Properties.NullText = "";
+         this.dwMsg.Properties.PopupSizeable = false;
+         this.dwMsg.Size = new System.Drawing.Size(100, 26);
+         this.dwMsg.TabIndex = 95;
          // 
          // txtEndTime
          // 
@@ -453,8 +458,11 @@
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkFutMsg", "期貨公告　（期貨交易系統A0001）", System.Windows.Forms.CheckState.Checked),
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkOptMsg", "選擇權公告（選擇權交易系統A0001）", System.Windows.Forms.CheckState.Checked)});
          this.gbMsg.Location = new System.Drawing.Point(19, 28);
+         this.gbMsg.LookAndFeel.SkinName = "Office 2013";
+         this.gbMsg.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbMsg.Name = "gbMsg";
          this.gbMsg.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+         this.gbMsg.ShowFocusRect = false;
          this.gbMsg.Size = new System.Drawing.Size(291, 62);
          this.gbMsg.TabIndex = 2;
          // 
@@ -473,9 +481,9 @@
          this.panelControl3.Appearance.Options.UseBackColor = true;
          this.panelControl3.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.panelControl3.Controls.Add(this.groupBox3);
-         this.panelControl3.Location = new System.Drawing.Point(15, 475);
+         this.panelControl3.Location = new System.Drawing.Point(30, 490);
          this.panelControl3.Name = "panelControl3";
-         this.panelControl3.Size = new System.Drawing.Size(565, 233);
+         this.panelControl3.Size = new System.Drawing.Size(560, 225);
          this.panelControl3.TabIndex = 80;
          // 
          // groupBox3
@@ -484,9 +492,9 @@
          this.groupBox3.Controls.Add(this.label20);
          this.groupBox3.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
          this.groupBox3.ForeColor = System.Drawing.Color.Navy;
-         this.groupBox3.Location = new System.Drawing.Point(24, 19);
+         this.groupBox3.Location = new System.Drawing.Point(20, 15);
          this.groupBox3.Name = "groupBox3";
-         this.groupBox3.Size = new System.Drawing.Size(519, 191);
+         this.groupBox3.Size = new System.Drawing.Size(520, 190);
          this.groupBox3.TabIndex = 76;
          this.groupBox3.TabStop = false;
          this.groupBox3.Text = "SPAN參數";
@@ -512,9 +520,12 @@
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkScS1030", "跨商品價差Spread credit（期貨交易系統S1130）", System.Windows.Forms.CheckState.Checked),
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkS1020", "跨月價差（期貨交易系統S1120）", System.Windows.Forms.CheckState.Checked)});
          this.gbSpan.Location = new System.Drawing.Point(27, 28);
+         this.gbSpan.LookAndFeel.SkinName = "Office 2013";
+         this.gbSpan.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbSpan.Name = "gbSpan";
          this.gbSpan.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-         this.gbSpan.Size = new System.Drawing.Size(451, 160);
+         this.gbSpan.ShowFocusRect = false;
+         this.gbSpan.Size = new System.Drawing.Size(451, 157);
          this.gbSpan.TabIndex = 9;
          // 
          // label20
@@ -531,7 +542,7 @@
          this.chkTxt.AutoSize = true;
          this.chkTxt.Checked = true;
          this.chkTxt.CheckState = System.Windows.Forms.CheckState.Checked;
-         this.chkTxt.Location = new System.Drawing.Point(615, 543);
+         this.chkTxt.Location = new System.Drawing.Point(615, 564);
          this.chkTxt.Name = "chkTxt";
          this.chkTxt.Size = new System.Drawing.Size(140, 24);
          this.chkTxt.TabIndex = 81;
@@ -542,7 +553,7 @@
          // 
          this.labMsg.AutoSize = true;
          this.labMsg.ForeColor = System.Drawing.Color.Blue;
-         this.labMsg.Location = new System.Drawing.Point(611, 475);
+         this.labMsg.Location = new System.Drawing.Point(611, 498);
          this.labMsg.Name = "labMsg";
          this.labMsg.Size = new System.Drawing.Size(85, 20);
          this.labMsg.TabIndex = 93;
@@ -554,7 +565,7 @@
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(811, 762);
+         this.ClientSize = new System.Drawing.Size(815, 775);
          this.Name = "W40180";
          this.Text = "W40180";
          this.panParent.ResumeLayout(false);
@@ -564,7 +575,6 @@
          this.panFilter.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gbType)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.dwMsg.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).EndInit();
          this.r_frame.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
@@ -576,6 +586,7 @@
          this.panelControl2.ResumeLayout(false);
          this.groupBox2.ResumeLayout(false);
          this.groupBox2.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.dwMsg.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtEndTime.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtStartTime.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).EndInit();
@@ -593,7 +604,6 @@
 
       #endregion
       private System.Windows.Forms.GroupBox panFilter;
-      private DevExpress.XtraEditors.LookUpEdit dwMsg;
       private System.Windows.Forms.Label label8;
       private System.Windows.Forms.Label labKind;
       private System.Windows.Forms.Label label9;
@@ -623,5 +633,6 @@
       private DevExpress.XtraEditors.TextEdit txtStartTime;
       private System.Windows.Forms.CheckBox chkTxt;
       private System.Windows.Forms.Label labMsg;
+      private DevExpress.XtraEditors.LookUpEdit dwMsg;
    }
 }

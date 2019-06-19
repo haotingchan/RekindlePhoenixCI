@@ -28,12 +28,11 @@
          this.panFilter = new System.Windows.Forms.GroupBox();
          this.label9 = new System.Windows.Forms.Label();
          this.txtStartDate = new BaseGround.Widget.TextDateEdit();
+         this.label5 = new System.Windows.Forms.Label();
          this.label6 = new System.Windows.Forms.Label();
          this.txtEndDate = new BaseGround.Widget.TextDateEdit();
-         this.label14 = new System.Windows.Forms.Label();
-         this.label5 = new System.Windows.Forms.Label();
-         this.txtSecondMon = new DevExpress.XtraEditors.TextEdit();
          this.txtFirstMon = new DevExpress.XtraEditors.TextEdit();
+         this.label14 = new System.Windows.Forms.Label();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
@@ -41,14 +40,13 @@
          this.panFilter.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtSecondMon.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtFirstMon.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
          // 
          this.panParent.Controls.Add(this.r_frame);
-         this.panParent.Size = new System.Drawing.Size(560, 325);
+         this.panParent.Size = new System.Drawing.Size(560, 280);
          // 
          // ribbonControl
          // 
@@ -65,14 +63,14 @@
          this.r_frame.Controls.Add(this.panFilter);
          this.r_frame.Location = new System.Drawing.Point(30, 30);
          this.r_frame.Name = "r_frame";
-         this.r_frame.Size = new System.Drawing.Size(510, 265);
+         this.r_frame.Size = new System.Drawing.Size(510, 220);
          this.r_frame.TabIndex = 93;
          // 
          // labMsg
          // 
          this.labMsg.AutoSize = true;
          this.labMsg.ForeColor = System.Drawing.Color.Blue;
-         this.labMsg.Location = new System.Drawing.Point(15, 215);
+         this.labMsg.Location = new System.Drawing.Point(16, 170);
          this.labMsg.MaximumSize = new System.Drawing.Size(470, 120);
          this.labMsg.Name = "labMsg";
          this.labMsg.Size = new System.Drawing.Size(85, 20);
@@ -87,7 +85,6 @@
          this.panFilter.Controls.Add(this.txtStartDate);
          this.panFilter.Controls.Add(this.label5);
          this.panFilter.Controls.Add(this.label6);
-         this.panFilter.Controls.Add(this.txtSecondMon);
          this.panFilter.Controls.Add(this.txtEndDate);
          this.panFilter.Controls.Add(this.txtFirstMon);
          this.panFilter.Controls.Add(this.label14);
@@ -95,7 +92,7 @@
          this.panFilter.ForeColor = System.Drawing.Color.Navy;
          this.panFilter.Location = new System.Drawing.Point(20, 15);
          this.panFilter.Name = "panFilter";
-         this.panFilter.Size = new System.Drawing.Size(470, 190);
+         this.panFilter.Size = new System.Drawing.Size(470, 145);
          this.panFilter.TabIndex = 6;
          this.panFilter.TabStop = false;
          this.panFilter.Text = "請輸入交易日期";
@@ -130,6 +127,17 @@
          this.txtStartDate.TabIndex = 0;
          this.txtStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
+         // label5
+         // 
+         this.label5.AutoSize = true;
+         this.label5.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.label5.ForeColor = System.Drawing.Color.Navy;
+         this.label5.Location = new System.Drawing.Point(292, 89);
+         this.label5.Name = "label5";
+         this.label5.Size = new System.Drawing.Size(137, 20);
+         this.label5.TabIndex = 99;
+         this.label5.Text = "（空白代表全部）";
+         // 
          // label6
          // 
          this.label6.AutoSize = true;
@@ -160,6 +168,14 @@
          this.txtEndDate.TabIndex = 4;
          this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
+         // txtFirstMon
+         // 
+         this.txtFirstMon.Location = new System.Drawing.Point(191, 87);
+         this.txtFirstMon.MenuManager = this.ribbonControl;
+         this.txtFirstMon.Name = "txtFirstMon";
+         this.txtFirstMon.Size = new System.Drawing.Size(100, 26);
+         this.txtFirstMon.TabIndex = 97;
+         // 
          // label14
          // 
          this.label14.AutoSize = true;
@@ -169,39 +185,12 @@
          this.label14.TabIndex = 6;
          this.label14.Text = "～";
          // 
-         // label5
-         // 
-         this.label5.AutoSize = true;
-         this.label5.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.label5.ForeColor = System.Drawing.Color.Navy;
-         this.label5.Location = new System.Drawing.Point(297, 88);
-         this.label5.Name = "label5";
-         this.label5.Size = new System.Drawing.Size(137, 20);
-         this.label5.TabIndex = 99;
-         this.label5.Text = "（空白代表全部）";
-         // 
-         // txtSecondMon
-         // 
-         this.txtSecondMon.Location = new System.Drawing.Point(191, 134);
-         this.txtSecondMon.MenuManager = this.ribbonControl;
-         this.txtSecondMon.Name = "txtSecondMon";
-         this.txtSecondMon.Size = new System.Drawing.Size(100, 26);
-         this.txtSecondMon.TabIndex = 98;
-         // 
-         // txtFirstMon
-         // 
-         this.txtFirstMon.Location = new System.Drawing.Point(191, 87);
-         this.txtFirstMon.MenuManager = this.ribbonControl;
-         this.txtFirstMon.Name = "txtFirstMon";
-         this.txtFirstMon.Size = new System.Drawing.Size(100, 26);
-         this.txtFirstMon.TabIndex = 97;
-         // 
          // W30683
          // 
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(560, 355);
+         this.ClientSize = new System.Drawing.Size(560, 310);
          this.Name = "W30683";
          this.Text = "W30683";
          this.panParent.ResumeLayout(false);
@@ -213,7 +202,6 @@
          this.panFilter.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtSecondMon.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtFirstMon.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
@@ -230,7 +218,6 @@
       private BaseGround.Widget.TextDateEdit txtEndDate;
       private System.Windows.Forms.Label label14;
       private System.Windows.Forms.Label label5;
-      private DevExpress.XtraEditors.TextEdit txtSecondMon;
       private DevExpress.XtraEditors.TextEdit txtFirstMon;
    }
 }
