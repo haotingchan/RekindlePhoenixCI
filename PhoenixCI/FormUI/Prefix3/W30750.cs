@@ -45,7 +45,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //insert Row (按年分)
             if (inputYear > 0) {
                for (int i = 1; i <= inputYear; i++) {
-                  rowEnd = rowEnd + 12;
+                  rowEnd += 12;
                   //新增12筆空白列
                   for (int j = 1; j <= 12; j++) {
                      worksheet.Rows[rowEnd - 1].Insert();
@@ -75,12 +75,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
                   addRow["cp_day_count"] = 0;
                   dtDayCount.Rows.Add(addRow);
                }
-               DataView dv = dtDayCount.AsDataView();
-               dv.Sort = "AI2_YMD";
-               dtDayCount = dv.ToTable();
-               dtDayCount.AcceptChanges();
+               dtDayCount = dtDayCount.Sort("AI2_YMD");
             }
 
+            string lsYear = "";
             foreach (DataRow r in dtDayCount.Rows) {
                DateTime aiYm = r["ai2_ymd"].AsDateTime("yyyyMM");
                TaiwanCalendar tai = new TaiwanCalendar();
@@ -89,9 +87,25 @@ namespace PhoenixCI.FormUI.Prefix3 {
                if (r["ai2_ymd"].AsDateTime("yyyyMM") < txtSDate.DateTimeValue) {
                   worksheet.Rows[oleRow].ClearContents();
                }
+               if (lsYear != aiYm.Year.ToString()) {
+                  if (aiYm.Month != 1) {
+                     for (int i = 1; i < aiYm.Month; i++) {
+                        worksheet.Cells[oleRow, 0].Value = tai.GetYear(aiYm).ToString();
+                        worksheet.Cells[oleRow, 1].Value = i.ToString();
+                        worksheet.Cells[oleRow, 2].Value = "";
+                        oleRow++;
+                     }
+                  }
+                  lsYear = aiYm.Year.ToString();
+               }
+
                worksheet.Cells[oleRow, 0].Value = tai.GetYear(aiYm).ToString();
                worksheet.Cells[oleRow, 1].Value = aiYm.Month.ToString();
                worksheet.Cells[oleRow, 2].Value = r["cp_day_count"].ToString() != "0" ? r["cp_day_count"].ToString() : "";
+               //DateTime lastAiYm = dtDayCount.Rows[dtDayCount.Rows.IndexOf(r) - 1]["ai2_ymd"].AsDateTime("yyyyMM");
+               //worksheet.Cells[oleRow, 0].Value = tai.GetYear(lastAiYm).ToString();
+               //worksheet.Cells[oleRow, 1].Value = lastAiYm.Month.ToString();
+               //worksheet.Cells[oleRow, 2].Value = "";
 
                //日均量總計
                if (colTot > 0) {

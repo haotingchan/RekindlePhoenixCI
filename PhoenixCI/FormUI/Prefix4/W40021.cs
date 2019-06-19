@@ -94,7 +94,19 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //2.填資料
             //Sheet:標的現貨收盤價&開盤參考價
             bool result1 = false, result2 = false;
-            result1 = wf_40021(workbook);
+
+            //資料儲存至Table
+            if (chkTxt.Checked = true) {
+               result1 = wf_40021(workbook);
+               if (ls_logf == "Y") {
+                  //wf_logt("40021");
+
+                  //is_log_time = is_log_time + " - " + string(now())
+                  //f_write_logf(is_txn_id , 'T' , txd_id + ',' + is_log_time)
+                  //is_log_time = string(now())
+               }
+            }
+
 
             //Sheet:Span參數日狀況表(一)(二)(三)
             result2 = wf_40020_7(workbook);
@@ -102,7 +114,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             if (!result1 && !result2) {
                try {
                   workbook = null;
-                  System.IO.File.Delete(excelDestinationPath);
+                  File.Delete(excelDestinationPath);
                } catch (Exception) {
                   //
                }
@@ -269,7 +281,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             } else {
                //刪除"無契約變動"說明文字
                Range ra = ws2.Rows[ii_ole_row2];
-               ws2.DeleteCells(ra,DeleteMode.EntireRow);
+               ws2.DeleteCells(ra , DeleteMode.EntireRow);
                ws2.Range["A1"].Select();
 
                //寫調整契約

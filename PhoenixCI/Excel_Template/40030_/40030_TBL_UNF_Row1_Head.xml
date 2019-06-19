@@ -1,0 +1,72 @@
+﻿  <w:tr w:rsidR="001059AB" w:rsidRPr="001059AB" w:rsidTr="006C5D7D">
+  <w:trPr>
+    <w:trHeight w:val="274" />
+  </w:trPr>
+  <w:tc>
+    <w:tcPr>
+      <w:tcW w:w="1985" w:type="dxa" />
+      <w:tcBorders>
+        <w:top w:val="single" w:sz="6" w:space="0" w:color="auto" />
+        <w:left w:val="single" w:sz="6" w:space="0" w:color="auto" />
+        <w:bottom w:val="single" w:sz="6" w:space="0" w:color="auto" />
+        <w:right w:val="single" w:sz="6" w:space="0" w:color="auto" />
+      </w:tcBorders>
+    </w:tcPr>
+    <w:p w:rsidR="006C5D7D" w:rsidRPr="001059AB" w:rsidRDefault="006C5D7D" w:rsidP="005C30A7">
+      <w:pPr>
+        <w:kinsoku />
+        <w:autoSpaceDE w:val="0" />
+        <w:autoSpaceDN w:val="0" />
+        <w:snapToGrid />
+        <w:spacing w:line="240" w:lineRule="auto" />
+        <w:jc w:val="center" />
+        <w:rPr>
+          <w:rFonts w:ascii="標楷體" w:cs="標楷體" />
+          <w:snapToGrid />
+          <w:spacing w:val="0" />
+          <w:sz w:val="22" />
+          <w:szCs w:val="22" />
+        </w:rPr>
+      </w:pPr>
+      <w:r w:rsidRPr="001059AB">
+        <w:rPr>
+          <w:rFonts w:ascii="標楷體" w:cs="標楷體" w:hint="eastAsia" />
+          <w:snapToGrid />
+          <w:spacing w:val="0" />
+          <w:sz w:val="22" />
+          <w:szCs w:val="22" />
+        </w:rPr>
+        <w:t>那斯達克100期貨</w:t>
+      </w:r>
+    </w:p>
+    <w:p w:rsidR="006C5D7D" w:rsidRPr="001059AB" w:rsidRDefault="006C5D7D" w:rsidP="006C5D7D">
+      <w:pPr>
+        <w:kinsoku />
+        <w:autoSpaceDE w:val="0" />
+        <w:autoSpaceDN w:val="0" />
+        <w:snapToGrid />
+        <w:spacing w:line="240" w:lineRule="auto" />
+        <w:jc w:val="center" />
+        <w:rPr>
+          <w:rFonts w:ascii="標楷體" w:cs="標楷體" />
+          <w:snapToGrid />
+          <w:spacing w:val="0" />
+          <w:sz w:val="22" />
+          <w:szCs w:val="22" />
+        </w:rPr>
+      </w:pPr>
+      <w:r w:rsidRPr="001059AB">
+        <w:rPr>
+          <w:rFonts w:ascii="標楷體" w:cs="標楷體" w:hint="eastAsia" />
+          <w:snapToGrid />
+          <w:spacing w:val="0" />
+          <w:sz w:val="22" />
+          <w:szCs w:val="22" />
+        </w:rPr>
+        <w:t>契約結算保證金</w:t>
+      </w:r>
+    </w:p>
+  </w:tc>
+
+    
+

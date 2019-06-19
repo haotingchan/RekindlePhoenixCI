@@ -1,0 +1,15 @@
+﻿<w:p>
+  <w:pPr>
+    <w:pStyle w:val="a3" />
+    <w:tabs>
+      <w:tab w:val="left" w:pos="1418" />
+    </w:tabs>
+    <w:kinsoku />
+    <w:spacing w:line="500" w:lineRule="exact" />
+    <w:ind w:left="1559" w:rightChars="8" w:right="26" w:hanging="1559" />
+    <w:jc w:val="both" />
+  </w:pPr>
+  <w:r>
+    <w:t>壹、討論事項</w:t>
+  </w:r>
+</w:p>
