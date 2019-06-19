@@ -115,9 +115,10 @@ namespace DataObjects.Dao.Together.SpecificDao {
                                   when SP1_TYPE = 'SD' then 'Delta耗用比率'
                                   when SP1_TYPE = 'SS' then '跨商品折抵率' end as SP1_TYPE,
                               SPT1_COM_ID ,    
-                                 case when SP1_TYPE ='SV' then (SP1_RATE *100) ||'%' else '1:'|| TO_CHAR(SP1_RATE,'0.00') end as SP1_RATE,  
-                                 case when SP1_TYPE ='SV' then (SP1_CUR_RATE *100) ||'%' else '1:'|| TO_CHAR(SP1_CUR_RATE, '0.00') end as SP1_CUR_RATE ,                                 
-                                 SP1_CHANGE_RANGE *100||'%' as SP1_CHANGE_RANGE
+                                 case when SP1_TYPE ='SV' then (SP1_RATE *100) ||'%' else '1:'|| TRIM(TO_CHAR(SP1_RATE,'0.00')) end as SP1_RATE,  
+                                 case when SP1_TYPE ='SV' then (SP1_CUR_RATE *100) ||'%' else '1:'|| TRIM(TO_CHAR(SP1_CUR_RATE, '0.00')) end as SP1_CUR_RATE ,   
+                                 SP1_CHANGE_RANGE *100||'%' as SP1_CHANGE_RANGE,
+                                 SP1_SEQ_NO
                             FROM ci.SPT1,   
                               ci.SP1,ci.SP2
                            WHERE SP1_KIND_ID1 = SPT1_KIND_ID1 
@@ -129,7 +130,7 @@ namespace DataObjects.Dao.Together.SpecificDao {
                              AND( (SP1_OSW_GRP LIKE :as_osw_grp {0}){1})
                              AND SP1_KIND_ID1 = SP2_KIND_ID1(+)
                              AND SP1_KIND_ID2 = SP2_KIND_ID2(+)
-                         order by  sp1_date desc, sp1_seq_no asc, sp1_kind_id1 asc, sp1_kind_id2 asc", notIn, asIn);
+                         ORDER BY  SP1_DATE DESC, SP1_SEQ_NO ASC, SP1_KIND_ID1 ASC, SP1_KIND_ID2 ASC", notIn, asIn);
 
          DataTable dtResult = db.GetDataTable(sql, parms);
 

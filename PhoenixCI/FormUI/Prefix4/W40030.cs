@@ -1771,13 +1771,16 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   DtSpanTable.Merge(Dao40030.GetSpanTableData(searchDate, OswGrp, "ETC", ""));
                }
 
-               if (DtSpan != null)
-                  if (DtSpan.Rows.Count > 0) DtSpan = DtSpan.Sort("SP1_SEQ_NO");
-
-               if (DtSpanTable != null)
-                  if (DtSpanTable.Rows.Count > 0)
-                     DtSpanTable = DtSpanTable.AsEnumerable().OrderByDescending(s => s.Field<string>("SP1_TYPE")).CopyToDataTable();
             }
+
+            if (DtSpan != null)
+               if (DtSpan.Rows.Count > 0) DtSpan = DtSpan.Sort("SP1_SEQ_NO ASC");
+
+            if (DtSpanTable != null)
+               if (DtSpanTable.Rows.Count > 0) {
+                  DtSpanTable = DtSpanTable.Sort("SP1_SEQ_NO ASC");
+                  DtSpanTable.Columns.Remove("SP1_SEQ_NO");
+               }
 
             if (Dt != null) {
                if (Dt.Rows.Count > 0) {

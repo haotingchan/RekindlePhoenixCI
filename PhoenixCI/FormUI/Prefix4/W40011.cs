@@ -168,6 +168,11 @@ namespace PhoenixCI.FormUI.Prefix4
          return ResultStatus.Success;
       }
 
+      /// <summary>
+      /// 複製40010template並改變檔名
+      /// </summary>
+      /// <param name="kindID"></param>
+      /// <returns></returns>
       private static string CopyWemaTemplateFile(string kindID)
       {
          string filepath;
@@ -186,41 +191,54 @@ namespace PhoenixCI.FormUI.Prefix4
          }
 
          B40010 b40010 = new B40010(emDate.Text);
+         //選取時段
          string oswGrp = oswGrpLookItem.EditValue.AsString() + "%";
 
          string filepath = "";
          string[] pathList = null;
+         string NoDataMessage = $"計算{emDate.Text}_{oswGrpLookItem.Text}-EWMA,{MessageDisplay.MSG_NO_DATA}";
+
          try {
+            //dtMGR2暫存所有要update的資料
             DataTable dtMGR2 = b40010.MGR2DataClone();
+            //商品清單
             DataTable dt = b40010.ProductList(oswGrp);
             int prodCount = dt.Rows.Count;
             pathList = new string[prodCount];
-            if (prodCount <= 0)
-               MessageDisplay.Info(emDate.Text + MessageDisplay.MSG_NO_DATA);
+
+            if (prodCount <= 0) {
+               MessageDisplay.Info(NoDataMessage);
+               return;
+            }
 
             this.Cursor = Cursors.WaitCursor;
             ShowMsg($"EWMA 計算中...");
 
             DataRow dataRow = null;
 
+            //讀取每個商品的EWMA
             int k = 0;
+            //平行處理每個商品
             var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount / 2 };
             Parallel.ForEach(dt.AsEnumerable(), options, (dr, state) => {
                string kindID = dr["MG1_KIND_ID"].AsString();
-
+               //複製template
                filepath = CopyWemaTemplateFile(kindID);
+               //記錄所產商品的檔案路徑
                pathList[k++] = filepath;
+               //產出經Excel計算後的資料
                dataRow = b40010.ComputeEWMA(filepath, kindID);
 
                if (dataRow == null)
                   return;
 
-               dtMGR2.ImportRow(dataRow); ;
+               //每筆計算後的資料暫存至DataTable
+               dtMGR2.ImportRow(dataRow);
             });
 
             if (dtMGR2.Rows.Count > 0) {
                ShowMsg($"EWMA 寫入資料庫...");
-               //Save
+               //儲存至DB並呼叫SP
                b40010.MGR2SaveToDB(dtMGR2, oswGrp);
                MessageDisplay.Info(MessageDisplay.MSG_IMPORT);
             }
@@ -230,7 +248,7 @@ namespace PhoenixCI.FormUI.Prefix4
                   if (File.Exists(path))
                      File.Delete(path);
                }
-               MessageDisplay.Info($"{emDate.Text},40011_stat－保證金狀況表,無任何資料!");
+               MessageDisplay.Info(NoDataMessage);
             }
 
          }
