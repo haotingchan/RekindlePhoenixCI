@@ -192,7 +192,7 @@ namespace PhoenixCI.FormUI.Prefix4
 
          B40010 b40010 = new B40010(emDate.Text);
          //選取時段
-         string oswGrp = oswGrpLookItem.EditValue.AsString() + "%";
+         string oswGrp = oswGrpLookItem.EditValue.AsString();
 
          string filepath = "";
          string[] pathList = null;
@@ -202,7 +202,7 @@ namespace PhoenixCI.FormUI.Prefix4
             //dtMGR2暫存所有要update的資料
             DataTable dtMGR2 = b40010.MGR2DataClone();
             //商品清單
-            DataTable dt = b40010.ProductList(oswGrp);
+            DataTable dt = b40010.ProductList(oswGrp + "%");
             int prodCount = dt.Rows.Count;
             pathList = new string[prodCount];
 
