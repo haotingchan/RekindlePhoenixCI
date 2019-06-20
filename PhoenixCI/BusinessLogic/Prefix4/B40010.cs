@@ -93,25 +93,29 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             worksheet.Cells["B1"].SetValue(RowData.Rows[0]["MGP1_PROD_TYPE"]);
             worksheet.Cells["C1"].SetValue(RowData.Rows[0]["KIND_ID"]);
             worksheet.Cells["D1"].SetValue(RowData.Rows[0]["MG1_CURRENCY_TYPE"]);
-            worksheet.Cells["E1"].SetValue(RowData.Rows[0]["MG1_PARAM_KEY"]);
+            worksheet.Cells["E1"].SetValue(RowData.Rows[0]["MG1_PARAM_KEY"].AsString());//E1那欄文字加trim
             worksheet.Cells["F1"].SetValue(RowData.Rows[0]["MG1_M_KIND_ID"]);
             worksheet.Cells["G1"].SetValue(RowData.Rows[0]["MG1_OSW_GRP"]);
             worksheet.Cells["N1"].SetValue(RowData.Rows[0]["MG1_MIN_RISK"]);
 
-
+            //契約規格
+            worksheet.Cells["O3"].SetValue(RowData.Rows[0]["MG1_XXX"]);
+            //現行結算保證金
+            worksheet.Cells["P3"].SetValue(RowData.Rows[0]["MG1_CUR_CM"]);
 
             //2.寫入40010template計算EWMA
-            //寫入O欄跟P欄
-            DataTable tempData = RowData.Copy();
-            foreach (DataColumn col in RowData.Columns) {
-               if (col.ColumnName == "MG1_XXX" || col.ColumnName == "MG1_CUR_CM")
-                  continue;
+            ////寫入O欄跟P欄
+            //DataTable tempData = RowData.Copy();
+            //foreach (DataColumn col in RowData.Columns) {
+            //   if (col.ColumnName == "MG1_XXX" || col.ColumnName == "MG1_CUR_CM")
+            //      continue;
 
-               tempData.Columns.Remove(col.ColumnName);
-            }
-            tempData.Columns["MG1_XXX"].SetOrdinal(0);
-            tempData.Columns["MG1_CUR_CM"].SetOrdinal(1);
-            worksheet.Import(tempData, false, 2, 14);
+            //   tempData.Columns.Remove(col.ColumnName);
+            //}
+            //tempData.Columns["MG1_XXX"].SetOrdinal(0);
+            //tempData.Columns["MG1_CUR_CM"].SetOrdinal(1);
+            //worksheet.Import(tempData, false, 2, 14);
+
             //共16欄位 取前7欄位
             int k = RowData.Columns.Count;
             while (k > 7) {
