@@ -31,8 +31,8 @@ where TRIM(AI2_YMD) >= :is_end_ymd||'01'
         public DataTable GetProdData(string sym, string eym, string eymd) {
 
             object[] parms = {
-                ":as_eym", sym,
-                ":as_sym", eym,
+                ":as_eym", eym,
+                ":as_sym", sym,
                 ":as_eymd", eymd
             };
 

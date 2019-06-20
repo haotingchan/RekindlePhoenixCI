@@ -741,7 +741,7 @@
          this.CPR_SELECT.Name = "CPR_SELECT";
          this.CPR_SELECT.Visible = true;
          this.CPR_SELECT.VisibleIndex = 0;
-         this.CPR_SELECT.Width = 40;
+         this.CPR_SELECT.Width = 62;
          // 
          // repositoryItemCheckEdit1
          // 
@@ -761,7 +761,7 @@
          this.P_KIND_ID2.OptionsColumn.AllowEdit = false;
          this.P_KIND_ID2.Visible = true;
          this.P_KIND_ID2.VisibleIndex = 1;
-         this.P_KIND_ID2.Width = 62;
+         this.P_KIND_ID2.Width = 56;
          // 
          // P_NAME
          // 
@@ -773,7 +773,7 @@
          this.P_NAME.OptionsColumn.AllowEdit = false;
          this.P_NAME.Visible = true;
          this.P_NAME.VisibleIndex = 2;
-         this.P_NAME.Width = 223;
+         this.P_NAME.Width = 207;
          // 
          // btnTest
          // 

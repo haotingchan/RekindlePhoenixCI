@@ -4168,7 +4168,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                WordTableCell.PreferredWidthType = WidthType.Fixed;
                WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.65f);
                WordTableCell.VerticalAlignment = TableCellVerticalAlignment.Center;
-               WordTable.MergeCells(WordTableCell, WordTable[0, IkindInfo.ColCount]);
+               WordTable.MergeCells(WordTableCell, WordTable[0, IkindInfo.ColCount - 1]);
 
                //欄位名
                int k = 0;
