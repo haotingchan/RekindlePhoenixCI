@@ -64,9 +64,9 @@
             // 
             // txtMonth
             // 
-            this.txtMonth.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+            this.txtMonth.DateTimeValue = new System.DateTime(2018, 1, 1, 0, 0, 0, 0);
             this.txtMonth.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
-            this.txtMonth.EditValue = "2018/12";
+            this.txtMonth.EditValue = "2018/01";
             this.txtMonth.EnterMoveNextControl = true;
             this.txtMonth.Location = new System.Drawing.Point(100, 43);
             this.txtMonth.MenuManager = this.ribbonControl;
@@ -74,8 +74,8 @@
             this.txtMonth.Properties.Appearance.Options.UseTextOptions = true;
             this.txtMonth.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.txtMonth.Properties.EditFormat.FormatString = "yyyyMM";
-            this.txtMonth.Properties.Mask.EditMask = "yyyy/MM";
-            this.txtMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtMonth.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])";
+            this.txtMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtMonth.Properties.Mask.ShowPlaceHolders = false;
             this.txtMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtMonth.Size = new System.Drawing.Size(100, 26);
