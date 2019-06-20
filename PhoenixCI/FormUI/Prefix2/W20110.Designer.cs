@@ -421,8 +421,6 @@
             // max10digit0
             // 
             this.max10digit0.AutoHeight = false;
-            this.max10digit0.DisplayFormat.FormatString = "0,###";
-            this.max10digit0.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.max10digit0.MaxLength = 10;
             this.max10digit0.Name = "max10digit0";
             // 

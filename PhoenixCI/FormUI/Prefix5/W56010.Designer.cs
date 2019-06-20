@@ -26,6 +26,7 @@
             this.panelControl = new DevExpress.XtraEditors.PanelControl();
             this.lblProcessing = new System.Windows.Forms.Label();
             this.grpxDescription = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.dwProdCond = new DevExpress.XtraEditors.LookUpEdit();
             this.dwEbrkno = new DevExpress.XtraEditors.LookUpEdit();
             this.rdoGroup = new DevExpress.XtraEditors.RadioGroup();
@@ -37,7 +38,6 @@
             this.txtFromMonth = new BaseGround.Widget.TextDateEdit();
             this.label1 = new System.Windows.Forms.Label();
             this.lblDate = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl)).BeginInit();
@@ -110,6 +110,16 @@
             this.grpxDescription.TabIndex = 12;
             this.grpxDescription.TabStop = false;
             this.grpxDescription.Text = "請輸入交易日期";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.label3.Location = new System.Drawing.Point(355, 120);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(186, 21);
+            this.label3.TabIndex = 15;
+            this.label3.Text = "（空白代表不設定條件）";
             // 
             // dwProdCond
             // 
@@ -196,8 +206,8 @@
             this.txtToMonth.Properties.Appearance.Options.UseTextOptions = true;
             this.txtToMonth.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.txtToMonth.Properties.EditFormat.FormatString = "yyyyMM";
-            this.txtToMonth.Properties.Mask.EditMask = "yyyy/MM";
-            this.txtToMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtToMonth.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])";
+            this.txtToMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtToMonth.Properties.Mask.ShowPlaceHolders = false;
             this.txtToMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtToMonth.Size = new System.Drawing.Size(100, 26);
@@ -216,8 +226,8 @@
             this.txtFromMonth.Properties.Appearance.Options.UseTextOptions = true;
             this.txtFromMonth.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.txtFromMonth.Properties.EditFormat.FormatString = "yyyyMM";
-            this.txtFromMonth.Properties.Mask.EditMask = "yyyy/MM";
-            this.txtFromMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtFromMonth.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])";
+            this.txtFromMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtFromMonth.Properties.Mask.ShowPlaceHolders = false;
             this.txtFromMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtFromMonth.Size = new System.Drawing.Size(100, 26);
@@ -243,16 +253,6 @@
             this.lblDate.Size = new System.Drawing.Size(58, 21);
             this.lblDate.TabIndex = 2;
             this.lblDate.Text = "月份：";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-            this.label3.Location = new System.Drawing.Point(355, 120);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(186, 21);
-            this.label3.TabIndex = 15;
-            this.label3.Text = "（空白代表不設定條件）";
             // 
             // W56010
             // 

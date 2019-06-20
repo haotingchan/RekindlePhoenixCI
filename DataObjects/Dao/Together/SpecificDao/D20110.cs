@@ -213,7 +213,7 @@ FROM
      and U.AMIFU_DATA_SOURCE = 'U'
      and U.AMIFU_KIND_ID = R_KIND_ID(+)
      and U.AMIFU_KIND_ID = rpt_kind_id(+)) A
-ORDER BY RPT_SEQ_NO, AMIF_KIND_ID, AMIF_SETTLE_DATE
+ORDER BY RPT_SEQ_NO, AMIFU_KIND_ID, AMIFU_SETTLE_DATE
 ";
             DataTable dtResult = db.GetDataTable(sql, parms);
 
@@ -406,6 +406,76 @@ ORDER BY PDK_KIND_ID
             DataTable dtResult = db.GetDataTable(sql, null);
 
             return dtResult;
+        }
+
+        public ResultData UpdateAMIF(DataTable inputData) {
+
+            string tableName = "CI.AMIF";
+            string keysColumnList = "AMIF_DATE, AMIF_PROD_ID";
+            string insertColumnList = @"AMIF_DATE, 
+                                        AMIF_KIND_ID, 
+                                        AMIF_SETTLE_DATE, 
+                                        AMIF_OPEN_PRICE, 
+                                        AMIF_HIGH_PRICE, 
+                                        AMIF_LOW_PRICE,   
+                                        AMIF_CLOSE_PRICE, 
+                                        AMIF_UP_DOWN_VAL,
+                                        AMIF_SETTLE_PRICE, 
+                                        AMIF_M_QNTY_TAL,    
+                                        AMIF_OPEN_INTEREST,   
+                                        AMIF_SUM_AMT,       
+                                        AMIF_PROD_TYPE,   
+                                        AMIF_PROD_SUBTYPE,   
+                                        AMIF_DATA_SOURCE,
+                                        AMIF_EXCHANGE_RATE,
+                                        AMIF_M_TIME,  
+                                        AMIF_PARAM_KEY,   
+                                        AMIF_STRIKE_PRICE, 
+                                        AMIF_PC_CODE,    
+                                        AMIF_PROD_ID,       
+                                        AMIF_YEAR, 
+                                        AMIF_MTH_SEQ_NO,
+                                        AMIF_OSW_GRP";
+            string updateColumnList = insertColumnList;
+            try {
+                //update to DB
+                return SaveForChanged(inputData, tableName, insertColumnList, updateColumnList, keysColumnList);
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        public ResultData UpdateData(DataTable inputData) {
+
+            string sql = @"
+SELECT AMIF_DATE, 
+       AMIF_KIND_ID, 
+       AMIF_SETTLE_DATE, 
+       AMIF_OPEN_PRICE, 
+       AMIF_HIGH_PRICE, 
+       AMIF_LOW_PRICE,   
+       AMIF_CLOSE_PRICE, 
+       AMIF_UP_DOWN_VAL,
+       AMIF_SETTLE_PRICE, 
+       AMIF_M_QNTY_TAL,    
+       AMIF_OPEN_INTEREST,   
+       AMIF_SUM_AMT,       
+       AMIF_PROD_TYPE,   
+       AMIF_PROD_SUBTYPE,   
+       AMIF_DATA_SOURCE,
+       AMIF_EXCHANGE_RATE,
+       AMIF_M_TIME,  
+       AMIF_PARAM_KEY,   
+       AMIF_STRIKE_PRICE, 
+       AMIF_PC_CODE,    
+       AMIF_PROD_ID,       
+       AMIF_YEAR, 
+       AMIF_MTH_SEQ_NO,
+       AMIF_OSW_GRP
+FROM CI.AMIF
+";
+            return db.UpdateOracleDB(inputData, sql);
         }
 
         #region SP
