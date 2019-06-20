@@ -156,6 +156,7 @@
          this.txtEDate.Name = "txtEDate";
          this.txtEDate.Properties.Appearance.Options.UseTextOptions = true;
          this.txtEDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtEDate.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtEDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
          this.txtEDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtEDate.Properties.Mask.ShowPlaceHolders = false;
@@ -175,6 +176,7 @@
          this.txtSDate.Name = "txtSDate";
          this.txtSDate.Properties.Appearance.Options.UseTextOptions = true;
          this.txtSDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtSDate.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtSDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
          this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtSDate.Properties.Mask.ShowPlaceHolders = false;
@@ -215,14 +217,19 @@
          // 
          // gvExport
          // 
+         this.gvExport.Appearance.BandPanel.Options.UseTextOptions = true;
+         this.gvExport.Appearance.BandPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
          this.gvExport.Appearance.HeaderPanel.Options.UseTextOptions = true;
          this.gvExport.Appearance.HeaderPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
          this.gvExport.AppearancePrint.BandPanel.Font = new System.Drawing.Font("Microsoft YaHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+         this.gvExport.AppearancePrint.BandPanel.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
          this.gvExport.AppearancePrint.BandPanel.Options.UseFont = true;
          this.gvExport.AppearancePrint.BandPanel.Options.UseTextOptions = true;
          this.gvExport.AppearancePrint.BandPanel.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+         this.gvExport.AppearancePrint.BandPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
          this.gvExport.AppearancePrint.HeaderPanel.Font = new System.Drawing.Font("Microsoft YaHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
          this.gvExport.AppearancePrint.HeaderPanel.Options.UseFont = true;
+         this.gvExport.BandPanelRowHeight = 50;
          this.gvExport.Bands.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.GridBand[] {
             this.gridBand8,
             this.gridBand13,
@@ -446,6 +453,7 @@
          // bandedGridColumn8
          // 
          this.bandedGridColumn8.Caption = "時間(秒)";
+         this.bandedGridColumn8.DisplayFormat.FormatString = "f3";
          this.bandedGridColumn8.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
          this.bandedGridColumn8.FieldName = "MIN_DIFF_TIME";
          this.bandedGridColumn8.MinWidth = 30;
@@ -758,8 +766,6 @@
          // 
          // NO_TWO_SIDE_TIME
          // 
-         this.NO_TWO_SIDE_TIME.DisplayFormat.FormatString = "n2";
-         this.NO_TWO_SIDE_TIME.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
          this.NO_TWO_SIDE_TIME.FieldName = "NO_TWO_SIDE_TIME";
          this.NO_TWO_SIDE_TIME.MinWidth = 30;
          this.NO_TWO_SIDE_TIME.Name = "NO_TWO_SIDE_TIME";
@@ -820,17 +826,6 @@
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn MIN_DIFF_TIME;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn NO_TWO_SIDE_TIME;
         private System.Windows.Forms.Label labTime;
-      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand1;
-      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand2;
-      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand3;
-      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand4;
-      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand5;
-      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand9;
-      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand10;
-      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand6;
-      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand11;
-      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand12;
-      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand7;
       private DevExpress.XtraGrid.GridControl gcExport;
       private DevExpress.XtraGrid.Views.BandedGrid.BandedGridView gvExport;
       private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn1;
@@ -842,6 +837,17 @@
       private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn7;
       private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn8;
       private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn bandedGridColumn9;
+      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand1;
+      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand2;
+      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand3;
+      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand4;
+      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand5;
+      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand9;
+      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand10;
+      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand6;
+      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand11;
+      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand12;
+      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand7;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand8;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand13;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand14;
