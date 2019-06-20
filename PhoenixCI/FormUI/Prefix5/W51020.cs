@@ -14,8 +14,12 @@ using System.Drawing;
 using BaseGround.Shared;
 using System;
 
+/// <summary>
+/// david 2019/03/18
+/// </summary>
 namespace PhoenixCI.FormUI.Prefix5 {
    public partial class W51020 : FormParent {
+      //不可編輯欄位
       private string disableCol = "MMFT_MARKET_CODE";
       private string disableCol2 = "MMFT_ID";
 

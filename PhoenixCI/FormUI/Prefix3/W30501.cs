@@ -10,6 +10,9 @@ using DevExpress.Spreadsheet;
 using BaseGround.Report;
 using DevExpress.XtraPrinting;
 
+/// <summary>
+/// david 2019/03/18
+/// </summary>
 namespace PhoenixCI.FormUI.Prefix3 {
    public partial class W30501 : FormParent {
       private D30501 dao30501;

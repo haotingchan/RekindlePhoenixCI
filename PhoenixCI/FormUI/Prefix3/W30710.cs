@@ -8,6 +8,9 @@ using BaseGround.Shared;
 using DataObjects.Dao.Together;
 using DevExpress.Spreadsheet.Charts;
 
+/// <summary>
+/// david 2019/03/18
+/// </summary>
 namespace PhoenixCI.FormUI.Prefix3 {
    public partial class W30710 : FormParent {
       private AI3 daoAI3;

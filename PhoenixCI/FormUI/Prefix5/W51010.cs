@@ -15,9 +15,12 @@ using System.Drawing;
 using System.Linq;
 using System.Collections.Generic;
 
+/// <summary>
+/// david 2019/03/18
+/// </summary>
 namespace PhoenixCI.FormUI.Prefix5 {
    public partial class W51010 : FormParent {
-      private string disableCol = "DTS_DATE";
+      private string disableCol = "DTS_DATE";//不可編輯欄位
 
       private D51010 dao51010;
       private RepositoryItemLookUpEdit _RepLookUpEdit;
@@ -90,6 +93,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                return ResultStatus.FailButNext;
             }
 
+            //檢查重複key 值
             if (!checkDuplicate(dt.GetChanges(DataRowState.Added))) return ResultStatus.FailButNext;
 
             ResultData result = dao51010.UpdateData(dt);
@@ -135,6 +139,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
          return ResultStatus.Success;
       }
 
+      /// <summary>
+      /// 檢查grid是否填寫完畢
+      /// </summary>
+      /// <param name="dtSource"></param>
+      /// <returns></returns>
       private bool checkComplete(DataTable dtSource) {
 
          foreach (DataColumn column in dtSource.Columns) {
@@ -146,6 +155,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
          return true;
       }
 
+      /// <summary>
+      /// 檢查新增資料是否重複
+      /// </summary>
+      /// <param name="dtAdd">新增data</param>
+      /// <returns></returns>
       private bool checkDuplicate(DataTable dtAdd) {
 
          foreach (DataRow dr in dtAdd.Rows) {
