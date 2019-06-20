@@ -210,7 +210,7 @@ FROM
           A.AMM0_KIND_ID,
           A.AMM0_PROD_ID) main
 ORDER BY  
-decode(:as_sort_type,'F',AMM0_BRK_NO,AMM0_BRK_NO||AMM0_ACC_NO ,AMM0_PROD_TYPE||AMM0_PROD_ID ),
+decode(:as_sort_type,'F',AMM0_BRK_NO||AMM0_ACC_NO ,AMM0_PROD_TYPE||AMM0_PROD_ID ),
 decode(:as_sort_type ,'F',AMM0_PROD_TYPE||AMM0_PROD_ID, AMM0_BRK_NO||AMM0_ACC_NO )
 ", iswhere);
          DataTable dt = db.GetDataTable(sql, parms);
@@ -316,7 +316,7 @@ FROM
           A.AMM0_KIND_ID,
           A.AMM0_PROD_ID) main
 ORDER BY  
-decode(:as_sort_type,'F',AMM0_BRK_NO,AMM0_BRK_NO||AMM0_ACC_NO ,AMM0_PROD_TYPE||AMM0_PROD_ID ),
+decode(:as_sort_type,'F',AMM0_BRK_NO||AMM0_ACC_NO ,AMM0_PROD_TYPE||AMM0_PROD_ID ),
 decode(:as_sort_type ,'F',AMM0_PROD_TYPE||AMM0_PROD_ID, AMM0_BRK_NO||AMM0_ACC_NO )
 ", iswhere);
          DataTable dt = db.GetDataTable(sql, parms);
