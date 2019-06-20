@@ -109,7 +109,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //無資料時不產檔
             if (msg.Status != ResultStatus.Success) {
                ExportShow.Text = MessageDisplay.MSG_IMPORT_FAIL;
-               MessageDisplay.Info($"{txtDate.DateTimeValue.ToShortDateString()},{_ProgramID}-{ddlAdjType.Properties.GetDisplayText(AdjType)},{MessageDisplay.MSG_NO_DATA}");
+
+               if (AdjType == "0B")
+                  MessageDisplay.Info($"{txtDate.DateTimeValue.ToShortDateString()},{_ProgramID}-{ddlAdjType.Properties.GetDisplayText(AdjType)},{MessageDisplay.MSG_NO_DATA}");
+               else
+                  MessageDisplay.Info($"{msg.ReturnMessage},{MessageDisplay.MSG_NO_DATA}");
+
                return msg.Status;
             }
 
@@ -1769,7 +1774,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
                DataColumn[] keys = new DataColumn[1];
                keys[0] = Dt.Columns["kind_id_out"];
                Dt.PrimaryKey = keys;
-               Dt.Merge(Dao40030.GetData(searchDate.ToString("yyyyMMdd"), OswGrp, AsAdjType, AdjType.SubStr(1, 1)));
+               DataTable dtMain = Dao40030.GetData(searchDate.ToString("yyyyMMdd"), OswGrp, AsAdjType, AdjType.SubStr(1, 1));
+               if (dtMain.Rows.Count > 0) {
+                  Dt.Merge(dtMain);
+               } else {
+                  msg.ReturnMessage += $"{c.CheckedDate.ToShortDateString()},40030-一般{Characters.LineBreak}";
+               }
 
                //Span
                OswGrp = OswGrp == "%" ? "%" : $"{c.CheckedValue}%";
@@ -1961,6 +1971,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          /// <param name="checkedDate"></param>
          protected virtual void SetFirstCaseIndexDesc(DataTable dtIndex, string descPoint, DateTime checkedDate) {
             string tmpStr = "";
+            int node = 0;
             List<string> kindNameList = wfKindIdC(dtIndex);
 
             List<string> adjRateList = new List<string>();
@@ -1986,262 +1997,276 @@ namespace PhoenixCI.FormUI.Prefix4 {
             });
 
 
-            tmpStr = string.Format("(一) 保證金變動幅度達10%，且進位後金額有變動之天數：觀察{0}，{1}為{2}達調整標準。",
+            tmpStr = string.Format($"({ChineseNumber[++node]}) 保證金變動幅度達10%，且進位後金額有變動之天數：觀察{0}，{1}為{2}達調整標準。",
                                     GenArrayTxt(kindNameList), SingleOrMore(dtIndex), GenArrayTxt(dayCntList));
             SetInnerText(tmpStr, true, 4.11f, 1.25f);
 
-            //(二)
+            #region 二
             List<DateTime> deliveryDateList = new List<DateTime>();
             tmpList.ForEach(l => {
                if (!deliveryDateList.Exists(d => d == l.Field<DateTime>("i_mth_delivery_date")))
                   deliveryDateList.Add(l.Field<DateTime>("i_mth_delivery_date"));
             });
 
+            List<string> kindTypeList1 = new List<string>();// for type1
+            List<string> kindTypeList2 = new List<string>();//for type2
+            List<string> oiTypeList1 = new List<string>();// for type1
+            List<string> oiTypeList2 = new List<string>();//for type2
+            List<string> oiRateList = new List<string>();
+            List<string> monthOiRateList = new List<string>();
+            string settleMonth = "";
             foreach (DateTime deliveryDate in deliveryDateList) {
                DataTable dtDelivery = dtIndex.Select("prod_subtype = 'I' and kind_id <> 'MXF' and i_mth_delivery_date = " +
                                                       "'" + deliveryDate.ToString("yyyy/MM/dd") + "'").CopyToDataTable();
 
                List<DataRow> drsDelivery = dtDelivery.AsEnumerable().ToList();
                DateTime isEndDate = PbFunc.f_get_ocf_next_n_day(deliveryDate, -7);
-               List<string> kindTypeList = new List<string>();
-               List<string> oiTypeList = new List<string>();
-               List<string> oiRateList = new List<string>();
-               List<string> monthOiRateList = new List<string>();
-
-               drsDelivery.ForEach(r => kindTypeList.Add(r.Field<string>("kind_id_out").AsString()));
-               drsDelivery.ForEach(r => oiTypeList.Add($"{r.Field<decimal>("i_oi").ToString("#,##0")}口"));
 
                if ((checkedDate < isEndDate) || (checkedDate >= deliveryDate)) {
-                  //type1
+                  //type1 參數
+                  drsDelivery.ForEach(r => kindTypeList1.Add(r.Field<string>("kind_id_out").AsString()));
+                  drsDelivery.ForEach(r => oiTypeList1.Add($"{r.Field<decimal>("i_oi").ToString("#,##0")}口"));
+
                   drsDelivery.ForEach(d => {
                      if (d.Field<decimal>("i_oi_rate").AsDouble() < 0.01 && d.Field<decimal>("i_oi") > 0)
                         oiRateList.Add("小於0.01%");
                      else
                         oiRateList.Add(Math.Round(d.Field<decimal>("i_oi_rate"), 2, MidpointRounding.AwayFromZero).AsString() + "%");
                   });
-
-                  tmpStr = string.Format("(二) 未沖銷部位數：{0} {1}未沖銷部位數{2}為{3}，占全市場未沖銷部位之比例{2}為{4}。",
-                                          checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3), GenArrayTxt(kindTypeList), SingleOrMore(dtDelivery),
-                                          GenArrayTxt(oiTypeList), GenArrayTxt(oiRateList));
-
                } else {
-                  //type2
-                  drsDelivery.ForEach(r => monthOiRateList.Add($"{r.Field<decimal>("i_mth_oi").ToString("#,##0")}口"));
-                  string settleMonth = dtDelivery.Rows[0]["i_mth_settle_date"].AsDateTime("yyyyMM").Month.AsString();
+                  //type2 參數
+                  drsDelivery.ForEach(r => kindTypeList2.Add(r.Field<string>("kind_id_out").AsString()));
+                  drsDelivery.ForEach(r => oiTypeList2.Add($"{r.Field<decimal>("i_oi").ToString("#,##0")}口"));
 
-                  tmpStr = string.Format("(二) 臨屆契約到期日之未沖銷部位數：考量將屆{0}月份契約到期結算，未沖銷部位較高({1} {2}未沖銷部位數為" +
-                                       "{3}，其中{0}月份契約為{4})，需考量到期結算前調整保證金對交易人及市場之影響。",
-                                       settleMonth, checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3),
-                                       GenArrayTxt(kindTypeList), GenArrayTxt(oiTypeList), GenArrayTxt(monthOiRateList));
+                  drsDelivery.ForEach(r => monthOiRateList.Add($"{r.Field<decimal>("i_mth_oi").ToString("#,##0")}口"));
+                  settleMonth = dtDelivery.Rows[0]["i_mth_settle_date"].AsDateTime("yyyyMM").Month.AsString();
+               }
+            }
+
+            if (kindTypeList1.Count > 0) {
+               //type1
+               string single = kindTypeList1.Count > 0 ? "分別" : "";
+
+               tmpStr = string.Format($"({ChineseNumber[++node]}) 未沖銷部位數：{0} {1}未沖銷部位數{2}為{3}，占全市場未沖銷部位之比例{2}為{4}。",
+                                       checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3), GenArrayTxt(kindTypeList1), single,
+                                       GenArrayTxt(oiTypeList1), GenArrayTxt(oiRateList));
+
+            }
+            if (kindTypeList2.Count > 0) {
+               //type2
+               tmpStr = string.Format($"({ChineseNumber[++node]}) 臨屆契約到期日之未沖銷部位數：考量將屆{0}月份契約到期結算，未沖銷部位較高({1} {2}未沖銷部位數為" +
+                                    "{3}，其中{0}月份契約為{4})，需考量到期結算前調整保證金對交易人及市場之影響。",
+                                    settleMonth, checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3),
+                                    GenArrayTxt(kindTypeList2), GenArrayTxt(oiTypeList2), GenArrayTxt(monthOiRateList));
+            }
+
+            SetInnerText(tmpStr, true, 4.11f, 1.25f);
+
+            dtIndex = dtIndex.Select("prod_subtype='I' and kind_id<>'MXF'").CopyToDataTable();
+            #endregion
+
+            #region 三
+            SetInnerText($"({ChineseNumber[++node]}) 現貨及期貨市場漲跌變化：", true, 4.11f, 1.25f);
+            int thridNode = 0;
+            foreach (DataRow dr in dtIndex.Rows) {
+               string prodType = dr["prod_type"].AsString();
+
+               if (prodType == "O") {
+                  List<DataRow> drsF = dtIndex.Select($"prod_type='F' and stock_id ='{dr["stock_id"].AsString()}'").ToList();
+                  if (drsF.Count > 0) continue;
                }
 
-               SetInnerText(tmpStr, true, 4.11f, 1.25f);
+               string kindIdOut = dr["kind_id_out"].AsString();
+               tmpStr = $"{kindIdOut.SubStr(0, 2)}現貨";
 
-               dtIndex = dtIndex.Select("prod_subtype='I' and kind_id<>'MXF'").CopyToDataTable();
+               decimal upDownPoint = GetUpDown("O", dr);
+               decimal upDownPoint2 = GetUpDown("F", dr);
+               decimal rateDiff = dr["m_cm"].AsDecimal() - dr["cur_cm"].AsDecimal();
 
-               #region 三
-               SetInnerText("(三) 現貨及期貨市場漲跌變化：", true, 4.11f, 1.25f);
-               int thridNode = 0;
-               foreach (DataRow dr in dtIndex.Rows) {
-                  string prodType = dr["prod_type"].AsString();
+               //現貨
+               tmpStr += GenProdString("O", dr);
 
-                  if (prodType == "O") {
-                     List<DataRow> drsF = dtIndex.Select($"prod_type='F' and stock_id ='{dr["stock_id"].AsString()}'").ToList();
-                     if (drsF.Count > 0) continue;
-                  }
+               //期貨
+               tmpStr += $"{kindIdOut.SubStr(0, 2)}期貨";
+               tmpStr += GenProdString("F", dr);
 
-                  string kindIdOut = dr["kind_id_out"].AsString();
-                  tmpStr = $"{kindIdOut.SubStr(0, 2)}現貨";
+               tmpStr = tmpStr.TrimEnd('、');
+               tmpStr += "，";
+               if (prodType == "F") {
+                  DataRow drO = dtIndex.Select($"prod_type='O' and stock_id ='{dr["stock_id"].AsString()}'").FirstOrDefault();
+                  string warn = "";
+                  if (drO != null) {
+                     decimal rateDiff2 = drO["m_cm"].AsDecimal() - drO["cur_cm"].AsDecimal();
+                     //保證金:+都漲,-都跌,x不同
+                     if (rateDiff > 0 && rateDiff2 > 0)
+                        warn = "+";
+                     else if (rateDiff < 0 && rateDiff2 < 0)
+                        warn = "-";
+                     else
+                        warn = "x";
 
-                  decimal upDownPoint = GetUpDown("O", dr);
-                  decimal upDownPoint2 = GetUpDown("F", dr);
-                  decimal rateDiff = dr["m_cm"].AsDecimal() - dr["cur_cm"].AsDecimal();
+                     //現貨&期貨相同
+                     //期貨&選擇權保證金相同
+                     if (upDownPoint == upDownPoint2 || upDownPoint == 0 || upDownPoint2 == 0) {
+                        if (warn != "x") {
+                           tmpStr += $"{kindIdOut}及{drO["kind_id_out"].AsString()}保證金調整之方向與現貨及期貨市場漲跌方向";
+                           tmpStr += MarketDirectionWarn(upDownPoint, warn);
 
-                  //現貨
-                  tmpStr += GenProdString("O", dr);
-
-                  //期貨
-                  tmpStr += $"{kindIdOut.SubStr(0, 2)}期貨";
-                  tmpStr += GenProdString("F", dr);
-
-                  tmpStr = tmpStr.TrimEnd('、');
-                  tmpStr += "，";
-                  if (prodType == "F") {
-                     DataRow drO = dtIndex.Select($"prod_type='O' and stock_id ='{dr["stock_id"].AsString()}'").FirstOrDefault();
-                     string warn = "";
-                     if (drO != null) {
-                        decimal rateDiff2 = drO["m_cm"].AsDecimal() - drO["cur_cm"].AsDecimal();
-                        //保證金:+都漲,-都跌,x不同
-                        if (rateDiff > 0 && rateDiff2 > 0)
-                           warn = "+";
-                        else if (rateDiff < 0 && rateDiff2 < 0)
-                           warn = "-";
-                        else
-                           warn = "x";
-
-                        //現貨&期貨相同
+                        } //期貨&選擇權保證金不同
+                        else {
+                           tmpStr += $"{kindIdOut}保證金調整之方向與現貨市場漲跌方向";
+                           tmpStr += MarketDirection(upDownPoint, rateDiff);
+                           tmpStr += $"{drO["kind_id_out"].AsString()}保證金調整之方向與現貨市場漲跌方向";
+                           tmpStr += MarketDirection(upDownPoint2, rateDiff2);
+                        }
+                     } else {
+                        //現貨&期貨不同
                         //期貨&選擇權保證金相同
-                        if (upDownPoint == upDownPoint2 || upDownPoint == 0 || upDownPoint2 == 0) {
-                           if (warn != "x") {
-                              tmpStr += $"{kindIdOut}及{drO["kind_id_out"].AsString()}保證金調整之方向與現貨及期貨市場漲跌方向";
-                              tmpStr += MarketDirectionWarn(upDownPoint, warn);
+                        if (warn != "x") {
+                           tmpStr += $"{kindIdOut}及{drO["kind_id_out"].AsString()}保證金調整之方向與現貨市場漲跌方向";
 
-                           } //期貨&選擇權保證金不同
-                           else {
-                              tmpStr += $"{kindIdOut}保證金調整之方向與現貨市場漲跌方向";
-                              tmpStr += MarketDirection(upDownPoint, rateDiff);
-                              tmpStr += $"{drO["kind_id_out"].AsString()}保證金調整之方向與現貨市場漲跌方向";
+                           tmpStr += MarketDirectionWarn(upDownPoint, warn);
+
+                           if (upDownPoint2 != 0) tmpStr += $"，與期貨市場漲跌方向{MarketDirectionWarn(upDownPoint2, warn)}";
+                        } //期貨&選擇權保證金不同
+                        else {
+                           //FUT
+                           tmpStr += $"{kindIdOut}保證金調整之方向與現貨市場漲跌方向";
+                           tmpStr += MarketDirection(upDownPoint, rateDiff);
+
+                           if (upDownPoint2 != 0) {
+                              tmpStr = "；與期貨市場漲跌方向";
+                              tmpStr += MarketDirection(upDownPoint2, rateDiff);
+                           }
+                           //OPT
+                           tmpStr += $"，{drO["kind_id_out"].AsString()}保證金調整之方向與現貨市場漲跌方向";
+                           tmpStr += MarketDirection(upDownPoint, rateDiff2);
+
+                           if (upDownPoint2 != 0) {
+                              tmpStr = "；與期貨市場漲跌方向";
                               tmpStr += MarketDirection(upDownPoint2, rateDiff2);
                            }
-                        } else {
-                           //現貨&期貨不同
-                           //期貨&選擇權保證金相同
-                           if (warn != "x") {
-                              tmpStr += $"{kindIdOut}及{drO["kind_id_out"].AsString()}保證金調整之方向與現貨市場漲跌方向";
-
-                              tmpStr += MarketDirectionWarn(upDownPoint, warn);
-
-                              if (upDownPoint2 != 0) tmpStr += $"，與期貨市場漲跌方向{MarketDirectionWarn(upDownPoint2, warn)}";
-                           } //期貨&選擇權保證金不同
-                           else {
-                              //FUT
-                              tmpStr += $"{kindIdOut}保證金調整之方向與現貨市場漲跌方向";
-                              tmpStr += MarketDirection(upDownPoint, rateDiff);
-
-                              if (upDownPoint2 != 0) {
-                                 tmpStr = "；與期貨市場漲跌方向";
-                                 tmpStr += MarketDirection(upDownPoint2, rateDiff);
-                              }
-                              //OPT
-                              tmpStr += $"，{drO["kind_id_out"].AsString()}保證金調整之方向與現貨市場漲跌方向";
-                              tmpStr += MarketDirection(upDownPoint, rateDiff2);
-
-                              if (upDownPoint2 != 0) {
-                                 tmpStr = "；與期貨市場漲跌方向";
-                                 tmpStr += MarketDirection(upDownPoint2, rateDiff2);
-                              }
-                           }
                         }
-                        SetInnerText($"{++thridNode}. {tmpStr}", true, 4.17f, 0.6f);
-                        continue;
-                     }//if (drO != null)
-                      //無選擇權狀況
-                      //現貨&期貨相同
-                     if ((upDownPoint > 0 && upDownPoint2 > 0) || (upDownPoint < 0 && upDownPoint2 < 0)
-                           || upDownPoint == 0 || upDownPoint2 == 0) {
-                        tmpStr += $"{kindIdOut}保證金調整之方向與現貨及期貨市場漲跌方向{MarketDirection(upDownPoint, rateDiff)}";
-                     } //現貨&期貨不同	
-                     else {
-                        tmpStr += $"{kindIdOut}保證金調整之方向與現貨市場漲跌方向{MarketDirection(upDownPoint, rateDiff)}";
-                        tmpStr += $"；與期貨市場漲跌方向{MarketDirection(upDownPoint2, rateDiff)}";
                      }
-                  } //if(prodType == "F")
+                     SetInnerText($"{++thridNode}. {tmpStr}", true, 4.17f, 0.6f);
+                     continue;
+                  }//if (drO != null)
+                   //無選擇權狀況
+                   //現貨&期貨相同
+                  if ((upDownPoint > 0 && upDownPoint2 > 0) || (upDownPoint < 0 && upDownPoint2 < 0)
+                        || upDownPoint == 0 || upDownPoint2 == 0) {
+                     tmpStr += $"{kindIdOut}保證金調整之方向與現貨及期貨市場漲跌方向{MarketDirection(upDownPoint, rateDiff)}";
+                  } //現貨&期貨不同	
                   else {
-                     //單一狀況
-                     //現貨&期貨相同
-                     if ((upDownPoint > 0 && upDownPoint2 > 0) || (upDownPoint < 0 && upDownPoint2 < 0)
-                           || upDownPoint == 0 || upDownPoint2 == 0) {
-                        tmpStr += $"{kindIdOut}保證金調整之方向與現貨及期貨市場漲跌方向{MarketDirection(upDownPoint, rateDiff)}";
-                     } //現貨&期貨不同	
-                     else {
-                        tmpStr += $"{kindIdOut}保證金調整之方向與現貨市場漲跌方向{MarketDirection(upDownPoint, rateDiff)}";
-                        tmpStr += $"；與期貨市場漲跌方向{MarketDirection(upDownPoint2, rateDiff)}";
-                     }
+                     tmpStr += $"{kindIdOut}保證金調整之方向與現貨市場漲跌方向{MarketDirection(upDownPoint, rateDiff)}";
+                     tmpStr += $"；與期貨市場漲跌方向{MarketDirection(upDownPoint2, rateDiff)}";
                   }
-                  tmpStr += "。";
-                  decimal isZero = GetUpDown("F", dr);
-                  if (dr["prod_subtype"].AsString() == "C" || isZero == 0) tmpStr += "▲▲▲";
+               } //if(prodType == "F")
+               else {
+                  //單一狀況
+                  //現貨&期貨相同
+                  if ((upDownPoint > 0 && upDownPoint2 > 0) || (upDownPoint < 0 && upDownPoint2 < 0)
+                        || upDownPoint == 0 || upDownPoint2 == 0) {
+                     tmpStr += $"{kindIdOut}保證金調整之方向與現貨及期貨市場漲跌方向{MarketDirection(upDownPoint, rateDiff)}";
+                  } //現貨&期貨不同	
+                  else {
+                     tmpStr += $"{kindIdOut}保證金調整之方向與現貨市場漲跌方向{MarketDirection(upDownPoint, rateDiff)}";
+                     tmpStr += $"；與期貨市場漲跌方向{MarketDirection(upDownPoint2, rateDiff)}";
+                  }
+               }
+               tmpStr += "。";
+               decimal isZero = GetUpDown("F", dr);
+               if (dr["prod_subtype"].AsString() == "C" || isZero == 0) tmpStr += "▲▲▲";
 
-                  SetInnerText($"{++thridNode}. {tmpStr}", true, 4.17f, 0.6f);
-               }//foreach (DataRow dr in dtIndex.Rows) 
-               #endregion
+               SetInnerText($"{++thridNode}. {tmpStr}", true, 4.17f, 0.6f);
+            }//foreach (DataRow dr in dtIndex.Rows) 
+            #endregion
 
-               #region 四
-               string prep = dtIndex.Rows.Count == 1 ? "係因其" : "係因：";
-               tmpStr = string.Format("(四) 觀察{0}保證金變動幅度達10%，{1}", GenArrayTxt(wfKindIdE(dtIndex)), prep);
+            #region 四
+            string prep = dtIndex.Rows.Count == 1 ? "係因其" : "係因：";
+            tmpStr = string.Format($"({ChineseNumber[++node]}) 觀察{0}保證金變動幅度達10%，{1}", GenArrayTxt(wfKindIdE(dtIndex)), prep);
+
+            //只有一筆資料時特殊處理
+            if (dtIndex.Rows.Count != 1)
+               SetInnerText(tmpStr, true, 4.11f, 1.25f);
+
+            int forthNode = 0;
+
+            foreach (DataRow dr in dtIndex.Rows) {
+               string prodType = dr["prod_type"].AsString();
+
+               string FOrN = prodType == "F" ? "期貨" : "現貨";
 
                //只有一筆資料時特殊處理
                if (dtIndex.Rows.Count != 1)
+                  tmpStr = $"{++forthNode}. 近期{dr["kind_id_out"].AsString()}之{FOrN}指數";
+               else
+                  tmpStr += $"近期{dr["kind_id_out"].AsString()}之{FOrN}指數";
+
+               DataRow drFind = dtIndex.AsEnumerable().Where(d => d.Field<string>("stock_id").AsString() == dr["stock_id"].AsString()).FirstOrDefault();
+               if (drFind != null) {
+
+                  decimal idValue = prodType == "F" ? drFind["m_up_down"].AsDecimal() :
+                                       drFind["oth_up_down"].AsDecimal();
+
+                  tmpStr += idValue > 0 ? "上漲" : "下跌";
+               }
+
+               tmpStr += "，且風險價格係數";
+               decimal mDayRisk = dr["m_day_risk"].AsDecimal();
+               decimal lastDayRisk = dr["last_risk"].AsDecimal();
+
+
+               if (mDayRisk == lastDayRisk)
+                  tmpStr += "變動幅度為0";
+               else if (mDayRisk > lastDayRisk)
+                  tmpStr += "上揚";
+               else
+                  tmpStr += "下降";
+
+               tmpStr += $"，致{dr["kind_id_out"].AsString()}本日結算保證金隨之";
+
+               if (dr["m_cm"].AsDecimal() > dr["cur_cm"].AsDecimal())
+                  tmpStr += "提高。";
+               else
+                  tmpStr += "降低。";
+
+               tmpStr += "▲▲▲";
+
+               //只有一筆資料時特殊處理
+               if (dtIndex.Rows.Count != 1)
+                  SetInnerText(tmpStr, true, 4.17f, 0.6f);
+               else
                   SetInnerText(tmpStr, true, 4.11f, 1.25f);
-
-               int forthNode = 0;
-
-               foreach (DataRow dr in dtIndex.Rows) {
-                  string prodType = dr["prod_type"].AsString();
-
-                  string FOrN = prodType == "F" ? "期貨" : "現貨";
-
-                  //只有一筆資料時特殊處理
-                  if (dtIndex.Rows.Count != 1)
-                     tmpStr = $"{++forthNode}. 近期{dr["kind_id_out"].AsString()}之{FOrN}指數";
-                  else
-                     tmpStr += $"近期{dr["kind_id_out"].AsString()}之{FOrN}指數";
-
-                  DataRow drFind = dtIndex.AsEnumerable().Where(d => d.Field<string>("stock_id").AsString() == dr["stock_id"].AsString()).FirstOrDefault();
-                  if (drFind != null) {
-
-                     decimal idValue = prodType == "F" ? drFind["m_up_down"].AsDecimal() :
-                                          drFind["oth_up_down"].AsDecimal();
-
-                     tmpStr += idValue > 0 ? "上漲" : "下跌";
-                  }
-
-                  tmpStr += "，且風險價格係數";
-                  decimal mDayRisk = dr["m_day_risk"].AsDecimal();
-                  decimal lastDayRisk = dr["last_risk"].AsDecimal();
-
-
-                  if (mDayRisk == lastDayRisk)
-                     tmpStr += "變動幅度為0";
-                  else if (mDayRisk > lastDayRisk)
-                     tmpStr += "上揚";
-                  else
-                     tmpStr += "下降";
-
-                  tmpStr += $"，致{dr["kind_id_out"].AsString()}本日結算保證金隨之";
-
-                  if (dr["m_cm"].AsDecimal() > dr["cur_cm"].AsDecimal())
-                     tmpStr += "提高。";
-                  else
-                     tmpStr += "降低。";
-
-                  tmpStr += "▲▲▲";
-
-                  //只有一筆資料時特殊處理
-                  if (dtIndex.Rows.Count != 1)
-                     SetInnerText(tmpStr, true, 4.17f, 0.6f);
-                  else
-                     SetInnerText(tmpStr, true, 4.11f, 1.25f);
-               }
-               #endregion
-
-               #region 五
-               SetInnerText("(五) 結算保證金占契約總值比例與國際主要交易所比較：", true, 4.11f, 1.25f);
-               //特殊處理, 排除以下幾檔
-               dtIndex = dtIndex.Select("kind_id <>'RTF' and kind_id <>'MXF' and kind_id <>'TGF' and prod_type <>'O'").CopyToDataTable();
-               dtIndex = dtIndex.Sort("SEQ_NO ASC, PROD_TYPE ASC, KIND_GRP2 ASC, KIND_ID ASC, AB_TYPE ASC");
-               int node = 0;
-               foreach (DataRow dr in dtIndex.Rows) {
-                  string kindId = dr["kind_id"].AsString();
-
-                  DataRow drAbroad = DtAbroad.AsEnumerable().
-                                        Where(a => a.Field<string>("kind_id").AsString() == kindId).FirstOrDefault();
-
-                  if (drAbroad != null) {
-                     string str1 = GetSpot(kindId, "TAIFEX", "cur");
-                     string str2 = GetSpot(kindId, "TAIFEX", "m");
-                     tmpStr = dtIndex.Rows.Count > 0 ? $"{++node}. " : "  ";
-
-                     tmpStr += $"現行本公司{kindId}結算保證金占契約總值比例{str1}，倘{checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3)}" +
-                              $"依說明二調整，則本公司{kindId}結算保證金占契約總值比例{str2}。";
-
-                     SetInnerText(tmpStr, true, 4.17f, 0.6f);
-
-                     DrowCompareTableI(kindId);
-                  }
-               }
-               #endregion
             }
+            #endregion
+
+            #region 五
+            SetInnerText($"({ChineseNumber[++node]}) 結算保證金占契約總值比例與國際主要交易所比較：", true, 4.11f, 1.25f);
+            //特殊處理, 排除以下幾檔
+            dtIndex = dtIndex.Select("kind_id <>'RTF' and kind_id <>'MXF' and kind_id <>'TGF' and prod_type <>'O'").CopyToDataTable();
+            dtIndex = dtIndex.Sort("SEQ_NO ASC, PROD_TYPE ASC, KIND_GRP2 ASC, KIND_ID ASC, AB_TYPE ASC");
+            int fifthNode = 0;
+            foreach (DataRow dr in dtIndex.Rows) {
+               string kindId = dr["kind_id"].AsString();
+
+               DataRow drAbroad = DtAbroad.AsEnumerable().
+                                     Where(a => a.Field<string>("kind_id").AsString() == kindId).FirstOrDefault();
+
+               if (drAbroad != null) {
+                  string str1 = GetSpot(kindId, "TAIFEX", "cur");
+                  string str2 = GetSpot(kindId, "TAIFEX", "m");
+                  tmpStr = dtIndex.Rows.Count > 0 ? $"{++fifthNode}. " : "  ";
+
+                  tmpStr += $"現行本公司{kindId}結算保證金占契約總值比例{str1}，倘{checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3)}" +
+                           $"依說明二調整，則本公司{kindId}結算保證金占契約總值比例{str2}。";
+
+                  SetInnerText(tmpStr, true, 4.17f, 0.6f);
+
+                  DrowCompareTableI(kindId);
+               }
+            }
+            #endregion
          }
 
          /// <summary>
@@ -2252,6 +2277,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          /// <param name="checkedDate"></param>
          protected virtual void SetFirstCaseGoldDesc(DataTable dtGold, string descPoint, DateTime checkedDate) {
             string tmpStr = "";
+            int node = 0;
             List<string> kindNameList = wfKindIdC(dtGold);
 
             List<string> adjRateList = new List<string>();
@@ -2277,250 +2303,266 @@ namespace PhoenixCI.FormUI.Prefix4 {
             });
 
 
-            tmpStr = string.Format("(一) 保證金變動幅度達10%，且進位後金額有變動之天數：觀察{0}，{1}為{2}達調整標準。",
+            tmpStr = string.Format($"({ChineseNumber[++node]}) 保證金變動幅度達10%，且進位後金額有變動之天數：觀察{0}，{1}為{2}達調整標準。",
                                     GenArrayTxt(kindNameList), SingleOrMore(dtGold), GenArrayTxt(dayCntList));
             SetInnerText(tmpStr, true, 4.11f, 1.25f);
 
-            //(二)
+            #region 二
             List<DateTime> deliveryDateList = new List<DateTime>();
             tmpList.ForEach(l => {
                if (!deliveryDateList.Exists(d => d == l.Field<DateTime>("i_mth_delivery_date")))
                   deliveryDateList.Add(l.Field<DateTime>("i_mth_delivery_date"));
             });
 
+            List<string> kindTypeList1 = new List<string>();// for type1
+            List<string> kindTypeList2 = new List<string>();//for type2
+            List<string> oiTypeList1 = new List<string>();// for type1
+            List<string> oiTypeList2 = new List<string>();//for type2
+            List<string> oiRateList = new List<string>();
+            List<string> monthOiRateList = new List<string>();
+            string settleMonth = "";
             foreach (DateTime deliveryDate in deliveryDateList) {
-               List<DataRow> drsDelivery = dtGold.Select("prod_subtype = 'C' and(kind_id = 'GDF' or kind_id = 'TGF') and " +
-                                                           "i_mth_delivery_date ='" + deliveryDate + "'").ToList();
+               DataTable dtDelivery = dtGold.Select("prod_subtype = 'C' and(kind_id = 'GDF' or kind_id = 'TGF') and " +
+                                                           "i_mth_delivery_date ='" + deliveryDate + "'").CopyToDataTable();
 
+               List<DataRow> drsDelivery = dtDelivery.AsEnumerable().ToList();
                DateTime isEndDate = PbFunc.f_get_ocf_next_n_day(deliveryDate, -7);
-               List<string> kindTypeList = new List<string>();
-               List<string> oiTypeList = new List<string>();
-               List<string> oiRateList = new List<string>();
-               List<string> monthOiRateList = new List<string>();
 
-               drsDelivery.ForEach(r => kindTypeList.Add(r.Field<string>("kind_id_out").AsString()));
-               drsDelivery.ForEach(r => oiTypeList.Add($"{r.Field<decimal>("i_oi").ToString("#,##0")}口"));
+               if ((checkedDate < isEndDate) || (checkedDate >= deliveryDate)) {
+                  //type1 參數
+                  drsDelivery.ForEach(r => kindTypeList1.Add(r.Field<string>("kind_id_out").AsString()));
+                  drsDelivery.ForEach(r => oiTypeList1.Add($"{r.Field<decimal>("i_oi").ToString("#,##0")}口"));
 
-               if (checkedDate < isEndDate || checkedDate >= deliveryDate.AsDateTime("yyyyMMdd")) {
-                  //type1
                   drsDelivery.ForEach(d => {
                      if (d.Field<decimal>("i_oi_rate").AsDouble() < 0.01 && d.Field<decimal>("i_oi") > 0)
                         oiRateList.Add("小於0.01%");
                      else
                         oiRateList.Add(Math.Round(d.Field<decimal>("i_oi_rate"), 2, MidpointRounding.AwayFromZero).AsString() + "%");
                   });
-
-                  tmpStr = string.Format("(二) 未沖銷部位數：{0} {1}未沖銷部位數{2}為{3}，占全市場未沖銷部位之比例{2}為{4}。",
-                                          checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3), GenArrayTxt(kindTypeList), SingleOrMore(drsDelivery.CopyToDataTable()),
-                                          GenArrayTxt(oiTypeList), GenArrayTxt(oiRateList));
-
                } else {
-                  //type2
-                  drsDelivery.ForEach(r => monthOiRateList.Add($"{r.Field<decimal>("i_mth_oi").ToString("#,##0")}口"));
-                  string settleMonth = drsDelivery.FirstOrDefault().Field<string>("i_mth_settle_date").AsDateTime("yyyyMMdd").Month.AsString();
+                  //type2 參數
+                  drsDelivery.ForEach(r => kindTypeList2.Add(r.Field<string>("kind_id_out").AsString()));
+                  drsDelivery.ForEach(r => oiTypeList2.Add($"{r.Field<decimal>("i_oi").ToString("#,##0")}口"));
 
-                  tmpStr = string.Format("(二) 臨屆契約到期日之未沖銷部位數：考量將屆{0}月份契約到期結算，未沖銷部位較高({1} {2}未沖銷部位數為" +
+                  drsDelivery.ForEach(r => monthOiRateList.Add($"{r.Field<decimal>("i_mth_oi").ToString("#,##0")}口"));
+                  settleMonth = dtDelivery.Rows[0]["i_mth_settle_date"].AsDateTime("yyyyMM").Month.AsString();
+               }
+            }
+
+            if (kindTypeList1.Count > 0) {
+               //type1
+               string single = kindTypeList1.Count > 0 ? "分別" : "";
+
+               tmpStr = string.Format($"({ChineseNumber[++node]}) 未沖銷部位數：{0} {1}未沖銷部位數{2}為{3}，占全市場未沖銷部位之比例{2}為{4}。",
+                                       checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3), GenArrayTxt(kindTypeList1), single,
+                                       GenArrayTxt(oiTypeList1), GenArrayTxt(oiRateList));
+
+            }
+            if (kindTypeList2.Count > 0) {
+               //type2
+               tmpStr = string.Format($"({ChineseNumber[++node]}) 臨屆契約到期日之未沖銷部位數：考量將屆{0}月份契約到期結算，未沖銷部位較高({1} {2}未沖銷部位數為" +
                                        "{3}，其中{0}月份契約為{4})，需考量到期結算前調整保證金對交易人及市場之影響。",
-                                       settleMonth, checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3),
-                                       GenArrayTxt(kindTypeList), GenArrayTxt(oiTypeList), GenArrayTxt(monthOiRateList));
+                                    settleMonth, checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3),
+                                    GenArrayTxt(kindTypeList2), GenArrayTxt(oiTypeList2), GenArrayTxt(monthOiRateList));
+            }
+
+            SetInnerText(tmpStr, true, 4.11f, 1.25f);
+
+            dtGold = dtGold.Select("prod_subtype = 'C' and (kind_id = 'GDF' or kind_id='TGF')").CopyToDataTable();
+            #endregion
+
+            #region 三
+            SetInnerText($"({ChineseNumber[++node]}) 現貨及期貨市場漲跌變化：", true, 4.11f, 1.25f);
+            int thridNode = 0;
+            foreach (DataRow dr in dtGold.Rows) {
+               string prodType = dr["prod_type"].AsString();
+
+               if (prodType == "O") {
+                  List<DataRow> drsF = dtGold.Select($"prod_type='F' and stock_id ='{dr["stock_id"].AsString()}'").ToList();
+                  if (drsF.Count > 0) continue;
                }
 
-               SetInnerText(tmpStr, true, 4.11f, 1.25f);
+               string kindIdOut = dr["kind_id_out"].AsString();
+               tmpStr = $"{kindIdOut.SubStr(0, 2)}現貨";
 
-               dtGold = dtGold.Select("prod_subtype = 'C' and (kind_id = 'GDF' or kind_id='TGF')").CopyToDataTable();
+               decimal upDownPoint = GetUpDown("O", dr);
+               decimal upDownPoint2 = GetUpDown("F", dr);
+               decimal rateDiff = dr["m_cm"].AsDecimal() - dr["cur_cm"].AsDecimal();
 
-               #region 三
-               SetInnerText("(三) 現貨及期貨市場漲跌變化：", true, 4.11f, 1.25f);
-               int thridNode = 0;
-               foreach (DataRow dr in dtGold.Rows) {
-                  string prodType = dr["prod_type"].AsString();
+               //現貨
+               tmpStr += GenProdString("O", dr);
 
-                  if (prodType == "O") {
-                     List<DataRow> drsF = dtGold.Select($"prod_type='F' and stock_id ='{dr["stock_id"].AsString()}'").ToList();
-                     if (drsF.Count > 0) continue;
-                  }
+               //期貨
+               tmpStr += $"{kindIdOut.SubStr(0, 2)}期貨";
+               tmpStr += GenProdString("F", dr);
 
-                  string kindIdOut = dr["kind_id_out"].AsString();
-                  tmpStr = $"{kindIdOut.SubStr(0, 2)}現貨";
+               tmpStr = tmpStr.TrimEnd('、');
+               tmpStr += "，";
+               if (prodType == "F") {
+                  DataRow drO = dtGold.Select($"prod_type='O' and stock_id ='{dr["stock_id"].AsString()}'").FirstOrDefault();
+                  string warn = "";
+                  if (drO != null) {
+                     decimal rateDiff2 = drO["m_cm"].AsDecimal() - drO["cur_cm"].AsDecimal();
+                     //保證金:+都漲,-都跌,x不同
+                     if (rateDiff > 0 && rateDiff2 > 0)
+                        warn = "+";
+                     else if (rateDiff < 0 && rateDiff2 < 0)
+                        warn = "-";
+                     else
+                        warn = "x";
 
-                  decimal upDownPoint = GetUpDown("O", dr);
-                  decimal upDownPoint2 = GetUpDown("F", dr);
-                  decimal rateDiff = dr["m_cm"].AsDecimal() - dr["cur_cm"].AsDecimal();
+                     //現貨&期貨相同
+                     //期貨&選擇權保證金相同
+                     if (upDownPoint == upDownPoint2 || upDownPoint == 0 || upDownPoint2 == 0) {
+                        if (warn != "x") {
+                           tmpStr += $"{kindIdOut}及{drO["kind_id_out"].AsString()}保證金調整之方向與現貨及期貨市場漲跌方向";
+                           tmpStr += MarketDirectionWarn(upDownPoint, warn);
 
-                  //現貨
-                  tmpStr += GenProdString("O", dr);
-
-                  //期貨
-                  tmpStr += $"{kindIdOut.SubStr(0, 2)}期貨";
-                  tmpStr += GenProdString("F", dr);
-
-                  tmpStr = tmpStr.TrimEnd('、');
-                  tmpStr += "，";
-                  if (prodType == "F") {
-                     DataRow drO = dtGold.Select($"prod_type='O' and stock_id ='{dr["stock_id"].AsString()}'").FirstOrDefault();
-                     string warn = "";
-                     if (drO != null) {
-                        decimal rateDiff2 = drO["m_cm"].AsDecimal() - drO["cur_cm"].AsDecimal();
-                        //保證金:+都漲,-都跌,x不同
-                        if (rateDiff > 0 && rateDiff2 > 0)
-                           warn = "+";
-                        else if (rateDiff < 0 && rateDiff2 < 0)
-                           warn = "-";
-                        else
-                           warn = "x";
-
-                        //現貨&期貨相同
+                        } //期貨&選擇權保證金不同
+                        else {
+                           tmpStr += $"{kindIdOut}保證金調整之方向與現貨及期貨市場漲跌方向";
+                           tmpStr += MarketDirection(upDownPoint, rateDiff);
+                           tmpStr += $"{drO["kind_id_out"].AsString()}保證金調整之方向與現貨及期貨市場漲跌方向";
+                           tmpStr += MarketDirection(upDownPoint2, rateDiff2);
+                        }
+                     } else {
+                        //現貨&期貨不同
                         //期貨&選擇權保證金相同
-                        if (upDownPoint == upDownPoint2 || upDownPoint == 0 || upDownPoint2 == 0) {
-                           if (warn != "x") {
-                              tmpStr += $"{kindIdOut}及{drO["kind_id_out"].AsString()}保證金調整之方向與現貨及期貨市場漲跌方向";
-                              tmpStr += MarketDirectionWarn(upDownPoint, warn);
+                        if (warn != "x") {
+                           tmpStr += $"{kindIdOut}及{drO["kind_id_out"].AsString()}保證金調整之方向與現貨及期貨市場漲跌方向";
 
-                           } //期貨&選擇權保證金不同
-                           else {
-                              tmpStr += $"{kindIdOut}保證金調整之方向與現貨及期貨市場漲跌方向";
-                              tmpStr += MarketDirection(upDownPoint, rateDiff);
-                              tmpStr += $"{drO["kind_id_out"].AsString()}保證金調整之方向與現貨及期貨市場漲跌方向";
+                           tmpStr += MarketDirectionWarn(upDownPoint, warn);
+
+                           if (upDownPoint2 != 0) tmpStr += $"，與期貨市場漲跌方向{MarketDirectionWarn(upDownPoint2, warn)}";
+                        } //期貨&選擇權保證金不同
+                        else {
+                           //FUT
+                           tmpStr += $"{kindIdOut}保證金調整之方向與現貨及期貨市場漲跌方向";
+                           tmpStr += MarketDirection(upDownPoint, rateDiff);
+
+                           if (upDownPoint2 != 0) {
+                              tmpStr = "；與期貨市場漲跌方向";
+                              tmpStr += MarketDirection(upDownPoint2, rateDiff);
+                           }
+                           //OPT
+                           tmpStr += $"，{drO["kind_id_out"].AsString()}保證金調整之方向與現貨市場漲跌方向";
+                           tmpStr += MarketDirection(upDownPoint, rateDiff2);
+
+                           if (upDownPoint2 != 0) {
+                              tmpStr = "；與期貨市場漲跌方向";
                               tmpStr += MarketDirection(upDownPoint2, rateDiff2);
                            }
-                        } else {
-                           //現貨&期貨不同
-                           //期貨&選擇權保證金相同
-                           if (warn != "x") {
-                              tmpStr += $"{kindIdOut}及{drO["kind_id_out"].AsString()}保證金調整之方向與現貨及期貨市場漲跌方向";
-
-                              tmpStr += MarketDirectionWarn(upDownPoint, warn);
-
-                              if (upDownPoint2 != 0) tmpStr += $"，與期貨市場漲跌方向{MarketDirectionWarn(upDownPoint2, warn)}";
-                           } //期貨&選擇權保證金不同
-                           else {
-                              //FUT
-                              tmpStr += $"{kindIdOut}保證金調整之方向與現貨及期貨市場漲跌方向";
-                              tmpStr += MarketDirection(upDownPoint, rateDiff);
-
-                              if (upDownPoint2 != 0) {
-                                 tmpStr = "；與期貨市場漲跌方向";
-                                 tmpStr += MarketDirection(upDownPoint2, rateDiff);
-                              }
-                              //OPT
-                              tmpStr += $"，{drO["kind_id_out"].AsString()}保證金調整之方向與現貨市場漲跌方向";
-                              tmpStr += MarketDirection(upDownPoint, rateDiff2);
-
-                              if (upDownPoint2 != 0) {
-                                 tmpStr = "；與期貨市場漲跌方向";
-                                 tmpStr += MarketDirection(upDownPoint2, rateDiff2);
-                              }
-                           }
                         }
-                     }//if (drO != null)
-                      //無選擇權狀況
-                      //現貨&期貨相同
-                     if ((upDownPoint > 0 && upDownPoint2 > 0) || (upDownPoint < 0 && upDownPoint2 < 0)
-                           || upDownPoint == 0 || upDownPoint2 == 0) {
-                        tmpStr += $"{kindIdOut}保證金調整之方向與現貨及期貨市場漲跌方向{MarketDirection(upDownPoint, rateDiff)}";
-                     } //現貨&期貨不同	
-                     else {
-                        tmpStr += $"{kindIdOut}保證金調整之方向與現貨及期貨市場漲跌方向{MarketDirection(upDownPoint, rateDiff)}";
-                        tmpStr += $"；與期貨市場漲跌方向{MarketDirection(upDownPoint2, rateDiff)}";
                      }
-                  } //if(prodType == "F")
+                  }//if (drO != null)
+                   //無選擇權狀況
+                   //現貨&期貨相同
+                  if ((upDownPoint > 0 && upDownPoint2 > 0) || (upDownPoint < 0 && upDownPoint2 < 0)
+                        || upDownPoint == 0 || upDownPoint2 == 0) {
+                     tmpStr += $"{kindIdOut}保證金調整之方向與現貨及期貨市場漲跌方向{MarketDirection(upDownPoint, rateDiff)}";
+                  } //現貨&期貨不同	
                   else {
-                     //單一狀況
-                     //現貨&期貨相同
-                     if ((upDownPoint > 0 && upDownPoint2 > 0) || (upDownPoint < 0 && upDownPoint2 < 0)
-                           || upDownPoint == 0 || upDownPoint2 == 0) {
-                        tmpStr += $"{kindIdOut}保證金調整之方向與現貨及期貨市場漲跌方向{MarketDirection(upDownPoint, rateDiff)}";
-                     } //現貨&期貨不同	
-                     else {
-                        tmpStr += $"{kindIdOut}保證金調整之方向與現貨及期貨市場漲跌方向{MarketDirection(upDownPoint, rateDiff)}";
-                        tmpStr += $"；與期貨市場漲跌方向{MarketDirection(upDownPoint2, rateDiff)}";
-                     }
+                     tmpStr += $"{kindIdOut}保證金調整之方向與現貨及期貨市場漲跌方向{MarketDirection(upDownPoint, rateDiff)}";
+                     tmpStr += $"；與期貨市場漲跌方向{MarketDirection(upDownPoint2, rateDiff)}";
                   }
-                  tmpStr += "。";
-                  decimal isZero = GetUpDown("F", dr);
-                  if (dr["prod_subtype"].AsString() == "C" || isZero == 0) tmpStr += "▲▲▲";
-
-                  SetInnerText($"{++thridNode}. {tmpStr}", true, 4.17f, 0.6f);
-               }//foreach (DataRow dr in dtIndex.Rows) 
-               #endregion
-
-               #region 四
-               string prep = dtGold.Rows.Count == 1 ? "係因其" : "係因: ";
-               tmpStr = string.Format("(四) 觀察{0}保證金變動幅度達10%，{1}", GenArrayTxt(wfKindIdE(dtGold)), prep);
-               SetInnerText(tmpStr, true, 4.11f, 1.25f);
-               int node = 1;
-
-               foreach (DataRow dr in dtGold.Rows) {
-                  string prodType = dr["prod_type"].AsString();
-
-                  string FOrN = prodType == "F" ? "期貨" : "現貨";
-
-                  tmpStr = $"{node}. 近期{dr["kind_id_out"].AsString()}之{FOrN}指數";
-
-                  DataRow drFind = dtGold.AsEnumerable().Where(d => d.Field<string>("stock_id").AsString() == dr["stock_id"].AsString()).FirstOrDefault();
-                  if (drFind != null) {
-
-                     decimal idValue = prodType == "F" ? drFind["m_up_down"].AsDecimal() :
-                                          drFind["oth_up_down"].AsDecimal();
-
-                     tmpStr += idValue > 0 ? "上漲" : "下跌";
+               } //if(prodType == "F")
+               else {
+                  //單一狀況
+                  //現貨&期貨相同
+                  if ((upDownPoint > 0 && upDownPoint2 > 0) || (upDownPoint < 0 && upDownPoint2 < 0)
+                        || upDownPoint == 0 || upDownPoint2 == 0) {
+                     tmpStr += $"{kindIdOut}保證金調整之方向與現貨及期貨市場漲跌方向{MarketDirection(upDownPoint, rateDiff)}";
+                  } //現貨&期貨不同	
+                  else {
+                     tmpStr += $"{kindIdOut}保證金調整之方向與現貨及期貨市場漲跌方向{MarketDirection(upDownPoint, rateDiff)}";
+                     tmpStr += $"；與期貨市場漲跌方向{MarketDirection(upDownPoint2, rateDiff)}";
                   }
+               }
+               tmpStr += "。";
+               decimal isZero = GetUpDown("F", dr);
+               if (dr["prod_subtype"].AsString() == "C" || isZero == 0) tmpStr += "▲▲▲";
 
-                  tmpStr += "，且風險價格係數";
-                  decimal mDayRisk = dr["m_day_risk"].AsDecimal();
-                  decimal lastDayRisk = dr["last_risk"].AsDecimal();
+               SetInnerText($"{++thridNode}. {tmpStr}", true, 4.17f, 0.6f);
+            }//foreach (DataRow dr in dtIndex.Rows) 
+            #endregion
 
-                  if (mDayRisk == lastDayRisk)
-                     tmpStr += "變動幅度為0";
-                  else if (mDayRisk > lastDayRisk)
-                     tmpStr += "上揚";
-                  else
-                     tmpStr += "下降";
+            #region 四
+            string prep = dtGold.Rows.Count == 1 ? "係因其" : "係因: ";
+            tmpStr = string.Format($"({ChineseNumber[++node]}) 觀察{0}保證金變動幅度達10%，{1}", GenArrayTxt(wfKindIdE(dtGold)), prep);
+            SetInnerText(tmpStr, true, 4.11f, 1.25f);
+            int forthNode = 1;
 
-                  tmpStr += $"，致{dr["kind_id_out"].AsString()}本日結算保證金隨之";
+            foreach (DataRow dr in dtGold.Rows) {
+               string prodType = dr["prod_type"].AsString();
 
-                  if (dr["m_cm"].AsDecimal() > dr["cur_cm"].AsDecimal())
-                     tmpStr += "提高。";
-                  else
-                     tmpStr += "降低。";
+               string FOrN = prodType == "F" ? "期貨" : "現貨";
 
-                  tmpStr += "▲▲▲";
+               tmpStr = $"{forthNode}. 近期{dr["kind_id_out"].AsString()}之{FOrN}指數";
+
+               DataRow drFind = dtGold.AsEnumerable().Where(d => d.Field<string>("stock_id").AsString() == dr["stock_id"].AsString()).FirstOrDefault();
+               if (drFind != null) {
+
+                  decimal idValue = prodType == "F" ? drFind["m_up_down"].AsDecimal() :
+                                       drFind["oth_up_down"].AsDecimal();
+
+                  tmpStr += idValue > 0 ? "上漲" : "下跌";
+               }
+
+               tmpStr += "，且風險價格係數";
+               decimal mDayRisk = dr["m_day_risk"].AsDecimal();
+               decimal lastDayRisk = dr["last_risk"].AsDecimal();
+
+               if (mDayRisk == lastDayRisk)
+                  tmpStr += "變動幅度為0";
+               else if (mDayRisk > lastDayRisk)
+                  tmpStr += "上揚";
+               else
+                  tmpStr += "下降";
+
+               tmpStr += $"，致{dr["kind_id_out"].AsString()}本日結算保證金隨之";
+
+               if (dr["m_cm"].AsDecimal() > dr["cur_cm"].AsDecimal())
+                  tmpStr += "提高。";
+               else
+                  tmpStr += "降低。";
+
+               tmpStr += "▲▲▲";
+
+               SetInnerText(tmpStr, true, 4.17f, 0.6f);
+
+               forthNode++;
+            }
+            #endregion
+
+            #region 五
+            SetInnerText($"({ChineseNumber[++node]}) 結算保證金占契約總值比例與國際主要交易所比較：", true, 4.11f, 1.25f);
+            //特殊處理, 排除以下幾檔
+            dtGold = dtGold.Select("kind_id <>'RTF' and kind_id <>'MXF' and kind_id <>'TGF' and prod_type <>'O'").CopyToDataTable();
+            foreach (DataRow dr in dtGold.Rows) {
+               string kindId = dr["kind_id"].AsString();
+
+               DataRow drAbroad = DtAbroad.AsEnumerable().
+                                     Where(a => a.Field<string>("kind_id").AsString() == kindId).FirstOrDefault();
+
+               if (drAbroad != null) {
+
+                  kindId = "GOLD";//不知原因
+
+                  string str1 = GetSpot("GDF", "TAIFEX", "cur");
+                  string str2 = GetSpot("TGF", "TAIFEX", "cur");
+                  tmpStr = $"1. {WfCampreGold(str1, str2)}";
 
                   SetInnerText(tmpStr, true, 4.17f, 0.6f);
 
-                  node++;
+                  str1 = GetSpot("GDF", "TAIFEX", "m");
+                  str2 = GetSpot("TGF", "TAIFEX", "m");
+                  tmpStr = $"2. 倘{checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3)}依說明二調整，則{WfCampreGold(str1, str2)}。";
+                  SetInnerText(tmpStr, true, 4.17f, 0.6f);
+                  DrowCompareTableE(kindId);
                }
-               #endregion
-
-               #region 五
-               SetInnerText("(五) 結算保證金占契約總值比例與國際主要交易所比較：", true, 4.11f, 1.25f);
-               //特殊處理, 排除以下幾檔
-               dtGold = dtGold.Select("kind_id <>'RTF' and kind_id <>'MXF' and kind_id <>'TGF' and prod_type <>'O'").CopyToDataTable();
-               foreach (DataRow dr in dtGold.Rows) {
-                  string kindId = dr["kind_id"].AsString();
-
-                  DataRow drAbroad = DtAbroad.AsEnumerable().
-                                        Where(a => a.Field<string>("kind_id").AsString() == kindId).FirstOrDefault();
-
-                  if (drAbroad != null) {
-
-                     kindId = "GOLD";//不知原因
-
-                     string str1 = GetSpot("GDF", "TAIFEX", "cur");
-                     string str2 = GetSpot("TGF", "TAIFEX", "cur");
-                     tmpStr = $"1. {WfCampreGold(str1, str2)}";
-
-                     SetInnerText(tmpStr, true, 4.17f, 0.6f);
-
-                     str1 = GetSpot("GDF", "TAIFEX", "m");
-                     str2 = GetSpot("TGF", "TAIFEX", "m");
-                     tmpStr = $"2. 倘{checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3)}依說明二調整，則{WfCampreGold(str1, str2)}。";
-                     SetInnerText(tmpStr, true, 4.17f, 0.6f);
-                     DrowCompareTableE(kindId);
-                  }
-               }
-               #endregion
             }
+            #endregion
+
          }
 
          /// <summary>
@@ -2531,6 +2573,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          /// <param name="checkedDate"></param>
          protected virtual void SetFirstCaseBRFDesc(DataTable dtBRF, string descPoint, DateTime checkedDate) {
             string tmpStr = "";
+            int node = 0;
             List<string> kindNameList = wfKindIdC(dtBRF);
 
             List<string> adjRateList = new List<string>();
@@ -2556,135 +2599,151 @@ namespace PhoenixCI.FormUI.Prefix4 {
             });
 
 
-            tmpStr = string.Format("(一) 保證金變動幅度達10%，且進位後金額有變動之天數：觀察{0}，{1}為{2}達調整標準。",
+            tmpStr = string.Format($"({ChineseNumber[++node]}) 保證金變動幅度達10%，且進位後金額有變動之天數：觀察{0}，{1}為{2}達調整標準。",
                                     GenArrayTxt(kindNameList), SingleOrMore(dtBRF), GenArrayTxt(dayCntList));
             SetInnerText(tmpStr, true, 4.11f, 1.25f);
 
-            //(二)
+            #region 二
             List<DateTime> deliveryDateList = new List<DateTime>();
             tmpList.ForEach(l => {
                if (!deliveryDateList.Exists(d => d == l.Field<DateTime>("i_mth_delivery_date")))
                   deliveryDateList.Add(l.Field<DateTime>("i_mth_delivery_date"));
             });
 
+            List<string> kindTypeList1 = new List<string>();// for type1
+            List<string> kindTypeList2 = new List<string>();//for type2
+            List<string> oiTypeList1 = new List<string>();// for type1
+            List<string> oiTypeList2 = new List<string>();//for type2
+            List<string> oiRateList = new List<string>();
+            List<string> monthOiRateList = new List<string>();
+            string settleMonth = "";
             foreach (DateTime deliveryDate in deliveryDateList) {
-               List<DataRow> drsDelivery = dtBRF.Select("prod_subtype = 'C' and kind_id = 'BRF' and " +
-                                                           "i_mth_delivery_date ='" + deliveryDate + "'").ToList();
+               DataTable dtDelivery = dtBRF.Select("prod_subtype = 'C' and kind_id = 'BRF' and " +
+                                                           "i_mth_delivery_date ='" + deliveryDate + "'").CopyToDataTable();
 
+               List<DataRow> drsDelivery = dtDelivery.AsEnumerable().ToList();
                DateTime isEndDate = PbFunc.f_get_ocf_next_n_day(deliveryDate, -7);
-               List<string> kindTypeList = new List<string>();
-               List<string> oiTypeList = new List<string>();
-               List<string> oiRateList = new List<string>();
-               List<string> monthOiRateList = new List<string>();
 
-               drsDelivery.ForEach(r => kindTypeList.Add(r.Field<string>("kind_id_out").AsString()));
-               drsDelivery.ForEach(r => oiTypeList.Add($"{r.Field<decimal>("i_oi").ToString("#,##0")}口"));
+               if ((checkedDate < isEndDate) || (checkedDate >= deliveryDate)) {
+                  //type1 參數
+                  drsDelivery.ForEach(r => kindTypeList1.Add(r.Field<string>("kind_id_out").AsString()));
+                  drsDelivery.ForEach(r => oiTypeList1.Add($"{r.Field<decimal>("i_oi").ToString("#,##0")}口"));
 
-               if (checkedDate < isEndDate || checkedDate >= deliveryDate.AsDateTime("yyyyMMdd")) {
-                  //type1
                   drsDelivery.ForEach(d => {
                      if (d.Field<decimal>("i_oi_rate").AsDouble() < 0.01 && d.Field<decimal>("i_oi") > 0)
                         oiRateList.Add("小於0.01%");
                      else
                         oiRateList.Add(Math.Round(d.Field<decimal>("i_oi_rate"), 2, MidpointRounding.AwayFromZero).AsString() + "%");
                   });
-
-                  tmpStr = string.Format("(二) 未沖銷部位數：{0} {1}未沖銷部位數{2}為{3}，占全市場未沖銷部位之比例{2}為{4}。",
-                                          checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3), GenArrayTxt(kindTypeList), SingleOrMore(drsDelivery.CopyToDataTable()),
-                                          GenArrayTxt(oiTypeList), GenArrayTxt(oiRateList));
-
                } else {
-                  //type2
+                  //type2 參數
+                  drsDelivery.ForEach(r => kindTypeList2.Add(r.Field<string>("kind_id_out").AsString()));
+                  drsDelivery.ForEach(r => oiTypeList2.Add($"{r.Field<decimal>("i_oi").ToString("#,##0")}口"));
+
                   drsDelivery.ForEach(r => monthOiRateList.Add($"{r.Field<decimal>("i_mth_oi").ToString("#,##0")}口"));
-                  string settleMonth = drsDelivery.FirstOrDefault().Field<string>("i_mth_settle_date").AsDateTime("yyyyMMdd").Month.AsString();
-
-                  tmpStr = string.Format("(二) 臨屆契約到期日之未沖銷部位數：考量將屆{0}月份契約到期結算，未沖銷部位較高({1} {2}未沖銷部位數為" +
-                                       "{3}，其中{0}月份契約為{4})，需考量到期結算前調整保證金對交易人及市場之影響。",
-                                       settleMonth, checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3),
-                                       GenArrayTxt(kindTypeList), GenArrayTxt(oiTypeList), GenArrayTxt(monthOiRateList));
+                  settleMonth = dtDelivery.Rows[0]["i_mth_settle_date"].AsDateTime("yyyyMM").Month.AsString();
                }
-
-               SetInnerText(tmpStr, true, 4.11f, 1.25f);
-
-               dtBRF = dtBRF.Select("prod_subtype = 'C' and kind_id = 'BRF'").CopyToDataTable();
-               #region 三
-               string prep = dtBRF.Rows.Count == 1 ? "係因其" : "係因: ";
-               tmpStr = string.Format("(三) 觀察{0}保證金變動幅度達10%，{1}", GenArrayTxt(wfKindIdE(dtBRF)), prep);
-               if (dtBRF.Rows.Count > 1) SetInnerText(tmpStr, true, 4.11f, 1.25f);//超過一筆時要有小點
-               int node = 1;
-
-               foreach (DataRow dr in dtBRF.Rows) {
-                  string prodType = dr["prod_type"].AsString();
-
-                  string FOrN = prodType == "F" ? "期貨" : "現貨";
-                  if (dtBRF.Rows.Count > 1)
-                     tmpStr = $"{node}. 近期{dr["kind_id_out"].AsString()}之{FOrN}指數";
-                  else
-                     tmpStr += $"近期{dr["kind_id_out"].AsString()}之{FOrN}指數";
-
-                  DataRow drFind = dtBRF.AsEnumerable().Where(d => d.Field<string>("stock_id").AsString() == dr["stock_id"].AsString()).FirstOrDefault();
-                  if (drFind != null) {
-
-                     decimal idValue = prodType == "F" ? drFind["m_up_down"].AsDecimal() :
-                                          drFind["oth_up_down"].AsDecimal();
-
-                     tmpStr += idValue > 0 ? "上漲" : "下跌";
-                  }
-
-                  tmpStr += "，且風險價格係數";
-                  decimal mDayRisk = dr["m_day_risk"].AsDecimal();
-                  decimal lastDayRisk = dr["last_risk"].AsDecimal();
-
-                  if (mDayRisk == lastDayRisk)
-                     tmpStr += "變動幅度為0";
-                  else if (mDayRisk > lastDayRisk)
-                     tmpStr += "上揚";
-                  else
-                     tmpStr += "下降";
-
-                  tmpStr += $"，致{dr["kind_id_out"].AsString()}本日結算保證金隨之";
-
-                  if (dr["m_cm"].AsDecimal() > dr["cur_cm"].AsDecimal())
-                     tmpStr += "提高。";
-                  else
-                     tmpStr += "降低。";
-
-                  //tmpStr += "▲▲▲";
-
-                  if (dtBRF.Rows.Count > 1)
-                     SetInnerText(tmpStr, true, 4.17f, 0.6f);
-                  else
-                     SetInnerText(tmpStr, true, 4.11f, 1.25f);
-
-                  node++;
-               }
-               #endregion
-
-               #region 四
-               SetInnerText("(四) 結算保證金占契約總值比例與國際主要交易所比較：", true, 4.11f, 1.25f);
-               //特殊處理, 排除以下幾檔
-               dtBRF = dtBRF.Select("kind_id <>'RTF' and kind_id <>'MXF' and kind_id <>'TGF' and prod_type <>'O'").CopyToDataTable();
-               foreach (DataRow dr in dtBRF.Rows) {
-                  string kindId = dr["kind_id"].AsString();
-
-                  DataRow drAbroad = DtAbroad.AsEnumerable().
-                                        Where(a => a.Field<string>("kind_id").AsString() == kindId).FirstOrDefault();
-
-                  if (drAbroad != null) {
-                     string str1 = GetSpot(kindId, "TAIFEX", "cur");
-                     string str2 = GetSpot(kindId, "TAIFEX", "m");
-
-                     tmpStr = $"  現行本公司{kindId}結算保證金占契約總值比例{str1}，倘{checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3)}" +
-                              $"依說明二調整，則本公司{kindId}結算保證金占契約總值比例{str2}。";
-
-                     SetInnerText(tmpStr, true, 4.17f, 0.6f);
-
-                     DrowCompareTableI(kindId);
-                  }
-
-               }
-               #endregion
             }
+
+            if (kindTypeList1.Count > 0) {
+               //type1
+               string single = kindTypeList1.Count > 0 ? "分別" : "";
+
+               tmpStr = string.Format($"({ChineseNumber[++node]}) 未沖銷部位數：{0} {1}未沖銷部位數{2}為{3}，占全市場未沖銷部位之比例{2}為{4}。",
+                                       checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3), GenArrayTxt(kindTypeList1), single,
+                                       GenArrayTxt(oiTypeList1), GenArrayTxt(oiRateList));
+
+            }
+            if (kindTypeList2.Count > 0) {
+               //type2
+               tmpStr = string.Format($"({ChineseNumber[++node]}) 臨屆契約到期日之未沖銷部位數：考量將屆{0}月份契約到期結算，未沖銷部位較高({1} {2}未沖銷部位數為" +
+                                       "{3}，其中{0}月份契約為{4})，需考量到期結算前調整保證金對交易人及市場之影響。",
+                                    settleMonth, checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3),
+                                    GenArrayTxt(kindTypeList2), GenArrayTxt(oiTypeList2), GenArrayTxt(monthOiRateList));
+            }
+
+            SetInnerText(tmpStr, true, 4.11f, 1.25f);
+
+            dtBRF = dtBRF.Select("prod_subtype = 'C' and kind_id = 'BRF'").CopyToDataTable();
+            #endregion
+
+            #region 三
+            string prep = dtBRF.Rows.Count == 1 ? "係因其" : "係因: ";
+            tmpStr = string.Format($"({ChineseNumber[++node]}) 觀察{0}保證金變動幅度達10%，{1}", GenArrayTxt(wfKindIdE(dtBRF)), prep);
+            if (dtBRF.Rows.Count > 1) SetInnerText(tmpStr, true, 4.11f, 1.25f);//超過一筆時要有小點
+            int thirdNode = 1;
+
+            foreach (DataRow dr in dtBRF.Rows) {
+               string prodType = dr["prod_type"].AsString();
+
+               string FOrN = prodType == "F" ? "期貨" : "現貨";
+               if (dtBRF.Rows.Count > 1)
+                  tmpStr = $"{thirdNode}. 近期{dr["kind_id_out"].AsString()}之{FOrN}指數";
+               else
+                  tmpStr += $"近期{dr["kind_id_out"].AsString()}之{FOrN}指數";
+
+               DataRow drFind = dtBRF.AsEnumerable().Where(d => d.Field<string>("stock_id").AsString() == dr["stock_id"].AsString()).FirstOrDefault();
+               if (drFind != null) {
+
+                  decimal idValue = prodType == "F" ? drFind["m_up_down"].AsDecimal() :
+                                       drFind["oth_up_down"].AsDecimal();
+
+                  tmpStr += idValue > 0 ? "上漲" : "下跌";
+               }
+
+               tmpStr += "，且風險價格係數";
+               decimal mDayRisk = dr["m_day_risk"].AsDecimal();
+               decimal lastDayRisk = dr["last_risk"].AsDecimal();
+
+               if (mDayRisk == lastDayRisk)
+                  tmpStr += "變動幅度為0";
+               else if (mDayRisk > lastDayRisk)
+                  tmpStr += "上揚";
+               else
+                  tmpStr += "下降";
+
+               tmpStr += $"，致{dr["kind_id_out"].AsString()}本日結算保證金隨之";
+
+               if (dr["m_cm"].AsDecimal() > dr["cur_cm"].AsDecimal())
+                  tmpStr += "提高。";
+               else
+                  tmpStr += "降低。";
+
+               //tmpStr += "▲▲▲";
+
+               if (dtBRF.Rows.Count > 1)
+                  SetInnerText(tmpStr, true, 4.17f, 0.6f);
+               else
+                  SetInnerText(tmpStr, true, 4.11f, 1.25f);
+
+               node++;
+            }
+            #endregion
+
+            #region 四
+            SetInnerText("(四) 結算保證金占契約總值比例與國際主要交易所比較：", true, 4.11f, 1.25f);
+            //特殊處理, 排除以下幾檔
+            dtBRF = dtBRF.Select("kind_id <>'RTF' and kind_id <>'MXF' and kind_id <>'TGF' and prod_type <>'O'").CopyToDataTable();
+            foreach (DataRow dr in dtBRF.Rows) {
+               string kindId = dr["kind_id"].AsString();
+
+               DataRow drAbroad = DtAbroad.AsEnumerable().
+                                     Where(a => a.Field<string>("kind_id").AsString() == kindId).FirstOrDefault();
+
+               if (drAbroad != null) {
+                  string str1 = GetSpot(kindId, "TAIFEX", "cur");
+                  string str2 = GetSpot(kindId, "TAIFEX", "m");
+
+                  tmpStr = $"  現行本公司{kindId}結算保證金占契約總值比例{str1}，倘{checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3)}" +
+                           $"依說明二調整，則本公司{kindId}結算保證金占契約總值比例{str2}。";
+
+                  SetInnerText(tmpStr, true, 4.17f, 0.6f);
+
+                  DrowCompareTableI(kindId);
+               }
+
+            }
+            #endregion
          }
 
          /// <summary>
@@ -2868,7 +2927,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                if (drsDelivery.Count <= 0) continue;
 
                DataTable dtDelivery = drsDelivery.CopyToDataTable();
-               dtDelivery = dtDelivery.Sort("APDK_KIND_GRP2 ASC, APDK_KIND_LEVEL ASC, MGR3_KIND_ID ASC");
+               dtDelivery = dtDelivery.Sort("SEQ_NO ASC, PROD_TYPE ASC, KIND_GRP2 ASC, KIND_ID ASC, AB_TYPE ASC");
 
                drsDelivery = dtDelivery.AsEnumerable().ToList();
                DateTime isEndDate = PbFunc.f_get_ocf_next_n_day(deliveryDate, -7);
@@ -2907,7 +2966,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                SetInnerText(tmpStr, true, 4.11f, 1.25f);
 
                dtTemp = dtTemp.Select("prod_subtype='E' and kind_id<>'MXF'").CopyToDataTable();
-               dtTemp = dtTemp.Sort("APDK_KIND_GRP2 ASC, APDK_KIND_LEVEL ASC, MGR3_KIND_ID ASC");
+               dtTemp = dtTemp.Sort("SEQ_NO ASC, PROD_TYPE ASC, KIND_GRP2 ASC, KIND_ID ASC, AB_TYPE ASC");
 
                #region 三
                SetInnerText("(三) 現貨及期貨市場漲跌變化：", true, 4.11f, 1.25f);
@@ -3282,28 +3341,37 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   string toDate = PbFunc.f_get_ocf_next_n_day(checkedDate, 10).AsTaiwanDateTime("{0}/{1}/{2}", 3);
                   tmpStr += $"觀察▲▲10個交易日(至▲▲{toDate})，惟仍須持續注意各契約保證金變動幅度及未沖銷部位數變化之狀況，於必要時隨時召開會議討論是否調整保證金。";
                } else {
-                  //有選grp1的情況, 要區分日期
-                  tmpStr += "觀察▲▲10個交易日";
-
+                  //有選grp1的情況
                   DateTime grp1Date = CheckedItems.Where(c => c.CheckedValue == 1).FirstOrDefault().CheckedDate;
                   DateTime grp2Date = CheckedItems.Where(c => c.CheckedValue == 5).FirstOrDefault().CheckedDate;
-                  drsTemp = dtTemp.Select($"prod_subtype = 'S'  and adj_code = ' ' and data_ymd = '{grp1Date.ToString("yyyyMMdd")}'").ToList();
 
-                  if (drsTemp.Count > 0) {
-                     string toDate = PbFunc.f_get_ocf_next_n_day(grp1Date, 10).AsTaiwanDateTime("{0}/{1}/{2}", 3);
-                     DataTable drsTable = drsTemp.CopyToDataTable();
-                     drsTable = drsTable.Sort("SEQ_NO ASC, PROD_TYPE ASC, KIND_GRP2 ASC, KIND_ID ASC, AB_TYPE ASC");
+                  //grp1 日期與 grp2 日期相等
+                  if (grp1Date == grp2Date) {
+                     DateTime checkedDate = CheckedItems.Where(c => c.CheckedValue == 5).FirstOrDefault().CheckedDate;
+                     string toDate = PbFunc.f_get_ocf_next_n_day(checkedDate, 10).AsTaiwanDateTime("{0}/{1}/{2}", 3);
+                     tmpStr += $"觀察▲▲10個交易日(至▲▲{toDate})，惟仍須持續注意各契約保證金變動幅度及未沖銷部位數變化之狀況，於必要時隨時召開會議討論是否調整保證金。";
+                  } else {
+                     //日期不相等, 要區分日期
+                     tmpStr += "觀察▲▲10個交易日(";
 
-                     tmpStr += $"{GenArrayTxt(wfKindIdE(drsTable))}至▲▲{toDate}";
+                     drsTemp = dtTemp.Select($"prod_subtype = 'S'  and adj_code = ' ' and data_ymd = '{grp1Date.ToString("yyyyMMdd")}'").ToList();
+
+                     if (drsTemp.Count > 0) {
+                        string toDate = PbFunc.f_get_ocf_next_n_day(grp1Date, 10).AsTaiwanDateTime("{0}/{1}/{2}", 3);
+                        DataTable drsTable = drsTemp.CopyToDataTable();
+                        drsTable = drsTable.Sort("SEQ_NO ASC, PROD_TYPE ASC, KIND_GRP2 ASC, KIND_ID ASC, AB_TYPE ASC");
+
+                        tmpStr += $"{GenArrayTxt(wfKindIdE(drsTable))}至▲▲{toDate}";
+                     }
+
+                     drsTemp = dtTemp.Select($"prod_subtype = 'S'  and adj_code = ' ' and data_ymd = '{grp2Date.ToString("yyyyMMdd")}'").ToList();
+                     if (drsTemp.Count > 0) {
+                        string toDate = PbFunc.f_get_ocf_next_n_day(grp1Date, 10).AsTaiwanDateTime("{0}/{1}/{2}", 3);
+                        tmpStr += $"其餘契約至▲▲{toDate}";
+                     }
+
+                     tmpStr += ")，惟仍須持續注意各契約保證金變動幅度及未沖銷部位數變化之狀況，於必要時隨時召開會議討論是否調整保證金。";
                   }
-
-                  drsTemp = dtTemp.Select($"prod_subtype = 'S'  and adj_code = ' ' and data_ymd = '{grp2Date.ToString("yyyyMMdd")}'").ToList();
-                  if (drsTemp.Count > 0) {
-                     string toDate = PbFunc.f_get_ocf_next_n_day(grp1Date, 10).AsTaiwanDateTime("{0}/{1}/{2}", 3);
-                     tmpStr += $"其餘契約至▲▲{toDate}";
-                  }
-
-                  tmpStr += "，惟仍須持續注意各契約保證金變動幅度及未沖銷部位數變化之狀況，於必要時隨時召開會議討論是否調整保證金。";
                }
 
                SetInnerText($"{ChineseNumber[++licnt]}、{tmpStr}");
@@ -4161,7 +4229,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             WordTable.MergeCells(WordTableCell, WordTable[0, 6]);
 
             SetTableStr(1, 5, "未沖銷部位數");
+            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.53f);
+            WordTableCell.VerticalAlignment = TableCellVerticalAlignment.Center;
+
             SetTableStr(1, 6, "成交量");
+            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.22f);
+            WordTableCell.VerticalAlignment = TableCellVerticalAlignment.Center;
 
             string[] dbcols = new string[] { "adj_rate", "m_day_risk", "m_price", "i_oi", "i_qnty" };
             string[] fieldFormat = new string[] { "%", "%", "#,##0.##", "#,##0", "#,##0" };
@@ -4226,6 +4299,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             WordTable.MergeCells(WordTableCell, WordTable[2, 0]);
 
             SetTableStr(0, 1, "股票期貨中文簡稱");
+            WordTableCell.PreferredWidthType = WidthType.Fixed;
+            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.9f);
             WordTable.MergeCells(WordTableCell, WordTable[2, 1]);
 
             SetTableStr(0, 2, "風險價格係數");
@@ -4236,14 +4311,23 @@ namespace PhoenixCI.FormUI.Prefix4 {
             WordTable.MergeCells(WordTable[0, 2], WordTable[0, 3]);
 
             SetTableStr(1, 2, "本日30天期風險價格係數");
+            WordTableCell.PreferredWidthType = WidthType.Fixed;
+            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.08f);
             WordTable.MergeCells(WordTableCell, WordTable[2, 2]);
 
+
             SetTableStr(1, 3, "本日風險價格係數平均值");
+            WordTableCell.PreferredWidthType = WidthType.Fixed;
+            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.9f);
             WordTable.MergeCells(WordTableCell, WordTable[2, 3]);
 
             SetTableStr(1, 4, "本日收盤價/結算價");
             SetTableStr(1, 6, "本日未沖銷部位數");
+            WordTableCell.PreferredWidthType = WidthType.Fixed;
+            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.08f);
             SetTableStr(1, 7, "本日成交量");
+            WordTableCell.PreferredWidthType = WidthType.Fixed;
+            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.9f);
             WordTable.MergeCells(WordTableCell, WordTable[2, 7]);
             WordTable.MergeCells(WordTable[1, 6], WordTable[2, 6]);
             WordTable.MergeCells(WordTable[1, 4], WordTable[1, 5]);
