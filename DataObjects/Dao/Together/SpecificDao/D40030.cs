@@ -71,6 +71,9 @@ namespace DataObjects.Dao.Together.SpecificDao {
          string sql = string.Format(
                    @"SELECT SP1_DATE,   
                SP1_TYPE,   
+               case when SP1_TYPE = 'SV' then 'VSR'
+                    when SP1_TYPE = 'SD' then 'Delta耗用比率'
+                    when SP1_TYPE = 'SS' then '跨商品折抵率' end as SP1_TYPE_RE,
                SP1_KIND_ID1,   
                SP1_KIND_ID2,   
                SPT1_KIND_ID1_OUT ,  

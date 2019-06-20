@@ -514,8 +514,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
         private void btnPrev_Click(object sender, EventArgs e) {
             try {
                 if (gvMain.RowCount == 0) {
-                    MessageDisplay.Error("請先執行「讀取／預覽」!");
-                    return;
+                    DataTable dt30222 = dao30222.d_30222("");//給一個空的，才能不讀取直接加入前次公告資料
+                        dt30222.Columns.Add("Is_NewRow", typeof(string));
+                        gcMain.DataSource = dt30222;
                 }
                 string ymd = txtDate.Text.Replace("/", "");
                 gvMain.CloseEditor();

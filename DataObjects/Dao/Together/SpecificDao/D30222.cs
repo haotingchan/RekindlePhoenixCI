@@ -227,7 +227,7 @@ select max(case when PLS2_LEVEL_ADJ = '-' then PLS2_EFFECTIVE_YMD else ' ' end) 
 @"
 SELECT COUNT(*) AS I 
 FROM CI.PLS2 
-WHERE PLS2_YMD = :LS_EFF_YMD
+WHERE PLS2_YMD = :ls_eff_ymd
 ";
             DataTable dtResult = db.GetDataTable(sql, parms);
             if (dtResult.Rows.Count > 0)
