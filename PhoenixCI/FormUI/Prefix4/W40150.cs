@@ -108,6 +108,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dt = new D40150().GetDataList(txtStartDate.DateTimeValue);
             if (dt.Rows.Count <= 0) {
                MessageDisplay.Info(String.Format("{0},讀取「SPAN參數一覽表」無任何資料!" , txtStartDate.Text));
+                    return false;
             }//if (dt.Rows.Count <= 0 )
 
             DataTable dtSp2 = new D40150().ListSp2ByDate(txtStartDate.DateTimeValue);
@@ -170,7 +171,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dt2 = new D40150().ListByDate(txtStartDate.DateTimeValue);
             if (dt2.Rows.Count <= 0) {
                MessageDisplay.Info(String.Format("{0},讀取「SPAN參數一覽表」無任何資料!" , txtStartDate.Text));
-            }//if (dt.Rows.Count <= 0 )
+                    return false;
+                }//if (dt.Rows.Count <= 0 )
 
             DataTable dtSp2 = new D40150().ListSp2ByDate(txtStartDate.DateTimeValue);
 

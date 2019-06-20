@@ -96,8 +96,8 @@
             this.txtMonth.Properties.Appearance.Options.UseTextOptions = true;
             this.txtMonth.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.txtMonth.Properties.EditFormat.FormatString = "yyyyMM";
-            this.txtMonth.Properties.Mask.EditMask = "yyyy/MM";
-            this.txtMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtMonth.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])";
+            this.txtMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtMonth.Properties.Mask.ShowPlaceHolders = false;
             this.txtMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtMonth.Size = new System.Drawing.Size(100, 28);

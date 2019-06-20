@@ -32,12 +32,12 @@
             this.MPDF_YM = new DevExpress.XtraGrid.Columns.GridColumn();
             this.MPDF_FCM_NO = new DevExpress.XtraGrid.Columns.GridColumn();
             this.MPDF_ACC_NO = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemTextEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.MPDF_STATUS = new DevExpress.XtraGrid.Columns.GridColumn();
             this.MPDF_KIND_ID = new DevExpress.XtraGrid.Columns.GridColumn();
             this.MPDF_EFF_DATE = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.Is_NewRow = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.repositoryItemTextEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -46,8 +46,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
             this.SuspendLayout();
             // 
             // panParent
@@ -101,8 +101,8 @@
             this.txtMonth.Properties.Appearance.Options.UseTextOptions = true;
             this.txtMonth.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.txtMonth.Properties.EditFormat.FormatString = "yyyyMM";
-            this.txtMonth.Properties.Mask.EditMask = "yyyy/MM";
-            this.txtMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtMonth.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])";
+            this.txtMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtMonth.Properties.Mask.ShowPlaceHolders = false;
             this.txtMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtMonth.Size = new System.Drawing.Size(100, 28);
@@ -191,6 +191,12 @@
             this.MPDF_ACC_NO.VisibleIndex = 2;
             this.MPDF_ACC_NO.Width = 120;
             // 
+            // repositoryItemTextEdit2
+            // 
+            this.repositoryItemTextEdit2.AutoHeight = false;
+            this.repositoryItemTextEdit2.MaxLength = 7;
+            this.repositoryItemTextEdit2.Name = "repositoryItemTextEdit2";
+            // 
             // MPDF_STATUS
             // 
             this.MPDF_STATUS.AppearanceCell.BackColor = System.Drawing.Color.Silver;
@@ -245,12 +251,6 @@
             this.Is_NewRow.FieldName = "Is_NewRow";
             this.Is_NewRow.Name = "Is_NewRow";
             // 
-            // repositoryItemTextEdit2
-            // 
-            this.repositoryItemTextEdit2.AutoHeight = false;
-            this.repositoryItemTextEdit2.MaxLength = 7;
-            this.repositoryItemTextEdit2.Name = "repositoryItemTextEdit2";
-            // 
             // W50120
             // 
             this.Appearance.Options.UseFont = true;
@@ -274,8 +274,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
