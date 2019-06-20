@@ -268,6 +268,8 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                      R2rowIndex = R2rowIndex + 1;
 
                   for (int j = 7 - 1; j < 14; j++) {
+                     if (dr["MG1_AB_TYPE"].AsString() == "B" && dt.Columns[j].ColumnName == "MG1_MIN_RISK")
+                        continue;
                      worksheet.Rows[R2rowIndex - 1][j - 3].SetValue(dr[j]);
                   }
                }//if (R2rowIndex > 0)

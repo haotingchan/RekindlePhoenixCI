@@ -92,9 +92,10 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             worksheet.Cells["A1"].SetValue(RowData.Rows[0]["MG1_PROD_SUBTYPE"]);
             worksheet.Cells["B1"].SetValue(RowData.Rows[0]["MGP1_PROD_TYPE"]);
             worksheet.Cells["C1"].SetValue(RowData.Rows[0]["KIND_ID"]);
-            worksheet.Cells["D1"].SetValue(RowData.Rows[0]["MG1_PARAM_KEY"]);
-            worksheet.Cells["E1"].SetValue(RowData.Rows[0]["MG1_M_KIND_ID"]);
-            worksheet.Cells["F1"].SetValue(RowData.Rows[0]["MG1_OSW_GRP"]);
+            worksheet.Cells["D1"].SetValue(RowData.Rows[0]["MG1_CURRENCY_TYPE"]);
+            worksheet.Cells["E1"].SetValue(RowData.Rows[0]["MG1_PARAM_KEY"]);
+            worksheet.Cells["F1"].SetValue(RowData.Rows[0]["MG1_M_KIND_ID"]);
+            worksheet.Cells["G1"].SetValue(RowData.Rows[0]["MG1_OSW_GRP"]);
             worksheet.Cells["P3"].SetValue(RowData.Rows[0]["MG1_CUR_CM"]);
             worksheet.Cells["N1"].SetValue(RowData.Rows[0]["MG1_MIN_RISK"]);
             worksheet.Cells["O3"].SetValue(RowData.Rows[0]["MG1_XXX"]);
@@ -123,7 +124,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             //日期
             row["MGR2_YMD"] = worksheet.Cells["B3"].Value.DateTimeValue.ToString("yyyyMMdd");
             //股票代號
-            row["MGR2_M_KIND_ID"] = worksheet.Cells["E1"].Value;
+            row["MGR2_M_KIND_ID"] = worksheet.Cells["F1"].Value;
             //B開參/最低價 (A-B)
             row["MGR2_PRICE1"] = worksheet.Cells["E3"].Value.NumericValue;
             //A收盤價/最高價/開參 (A-B)
@@ -153,7 +154,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             //子類別
             row["MGR2_PROD_SUBTYPE"] = worksheet.Cells["A1"].Value;
             //契約對照瑪
-            row["MGR2_PARAM_KEY"] = worksheet.Cells["D1"].Value;
+            row["MGR2_PARAM_KEY"] = worksheet.Cells["E1"].Value;
             //計算的風險價格係數
             row["MGR2_CP_RATE"] = worksheet.Cells["M3"].Value.NumericValue;
             //計算的風險價格係數(涵蓋1日)
@@ -161,7 +162,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             //轉檔時間
             row["MGR2_W_TIME"] = DateTime.Now;
             //收盤群組
-            row["MGR2_OSW_GRP"] = worksheet.Cells["F1"].Value;
+            row["MGR2_OSW_GRP"] = worksheet.Cells["G1"].Value;
 
          }
          catch (Exception ex) {
