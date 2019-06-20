@@ -1280,8 +1280,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
          public AmtType40110P(DataRow dr) {
             CurrencyName = "單位：比例(%)";
             MoneyOrPercent = "比例";
-            NumberFormat = "#0.00%";
-            NumberFormatB = "#0.000%";//特殊處理, 當P有B值時, 要顯示到小數點第三位
+            NumberFormat = "#,##0.00%";
+            NumberFormatB = "#,##0.000%";//特殊處理, 當P有B值時, 要顯示到小數點第三位
 
             ProdName = dr["kind_id_out"].AsString() + Characters.LineBreak + "(" + dr["kind_abbr_name"].AsString() + ")";
 

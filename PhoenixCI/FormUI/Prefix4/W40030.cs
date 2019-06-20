@@ -2150,7 +2150,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                            }
                         }
                      }
-                     SetInnerText($"{++thridNode}. {tmpStr}", true, 4.17f, 0.6f);
+                     SetInnerText($"{++thridNode}. {tmpStr}。", true, 4.17f, 0.6f);
                      continue;
                   }//if (drO != null)
                    //無選擇權狀況
@@ -3612,7 +3612,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             tmpStr = drsSpan.Count == 0 ? "前揭參數" : GenArrayTxt(kindNameSpan);
 
-            SetInnerText($"經考量市場風險{tmpStr}調整如說明二。", false);
+            SetInnerText($"經考量市場風險，{tmpStr}調整如說明二。", false);
          }
 
          protected override void DrowTable(DataTable dataTable) {

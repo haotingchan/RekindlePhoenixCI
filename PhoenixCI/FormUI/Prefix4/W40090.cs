@@ -1040,6 +1040,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   string abbrName = dr["KIND_ABBR_NAME"].AsString();
                   string fullName = $"本公司{dr["rule_full_name"].AsString()}交易規則";
 
+                  if (dr["prod_subtype"].AsString() == "S") abbrName += $"契約({dr["kind_id"]})";
+
                   GenKindNameList(dr, prepoStr, abbrName, fullName);
 
                   string subTypeName = GetProdSubTypeDesc(dr["prod_subtype"].AsString()) + "契約";
@@ -1047,6 +1049,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      subTypeString.Add(subTypeName);
 
                      //rfa 檔會用到的參數
+                     adjRate.Add(dr["adj_rate"].AsPercent(2));
+                  } else {
+
+                     subTypeString.Add(abbrName);
                      adjRate.Add(dr["adj_rate"].AsPercent(2));
                   }
                }
