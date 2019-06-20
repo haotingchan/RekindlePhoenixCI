@@ -24,6 +24,7 @@
         /// </summary>
         private void InitializeComponent() {
          this.panFilter = new System.Windows.Forms.GroupBox();
+         this.txtSDate = new BaseGround.Widget.TextDateEdit();
          this.gcExport = new DevExpress.XtraGrid.GridControl();
          this.gvExport = new DevExpress.XtraGrid.Views.Grid.GridView();
          this.repositoryItemCheckEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
@@ -40,10 +41,10 @@
          this.labSort = new System.Windows.Forms.Label();
          this.gcMain = new DevExpress.XtraGrid.GridControl();
          this.gvMain = new DevExpress.XtraGrid.Views.Grid.GridView();
-         this.txtSDate = new BaseGround.Widget.TextDateEdit();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          this.panFilter.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gcExport)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvExport)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit2)).BeginInit();
@@ -53,7 +54,6 @@
          ((System.ComponentModel.ISupportInitialize)(this.ddlSubType.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -93,6 +93,26 @@
          this.panFilter.TabIndex = 25;
          this.panFilter.TabStop = false;
          this.panFilter.Text = "請輸入查詢條件";
+         // 
+         // txtSDate
+         // 
+         this.txtSDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtSDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtSDate.EditValue = "2018/12/01";
+         this.txtSDate.EnterMoveNextControl = true;
+         this.txtSDate.Location = new System.Drawing.Point(110, 28);
+         this.txtSDate.MenuManager = this.ribbonControl;
+         this.txtSDate.Name = "txtSDate";
+         this.txtSDate.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtSDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtSDate.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.txtSDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.txtSDate.Properties.Mask.ShowPlaceHolders = false;
+         this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtSDate.Size = new System.Drawing.Size(100, 26);
+         this.txtSDate.TabIndex = 76;
+         this.txtSDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // gcExport
          // 
@@ -284,25 +304,6 @@
          this.gvMain.OptionsView.ColumnAutoWidth = false;
          this.gvMain.OptionsView.ShowGroupPanel = false;
          // 
-         // txtSDate
-         // 
-         this.txtSDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtSDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtSDate.EditValue = "2018/12";
-         this.txtSDate.EnterMoveNextControl = true;
-         this.txtSDate.Location = new System.Drawing.Point(110, 28);
-         this.txtSDate.MenuManager = this.ribbonControl;
-         this.txtSDate.Name = "txtSDate";
-         this.txtSDate.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtSDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtSDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-         this.txtSDate.Properties.Mask.ShowPlaceHolders = false;
-         this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtSDate.Size = new System.Drawing.Size(100, 26);
-         this.txtSDate.TabIndex = 76;
-         this.txtSDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-         // 
          // W48010
          // 
          this.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
@@ -317,6 +318,7 @@
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
          this.panFilter.ResumeLayout(false);
          this.panFilter.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gcExport)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvExport)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit2)).EndInit();
@@ -326,7 +328,6 @@
          ((System.ComponentModel.ISupportInitialize)(this.ddlSubType.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 

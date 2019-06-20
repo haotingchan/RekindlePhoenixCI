@@ -33,12 +33,12 @@
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
          this.labMsg = new System.Windows.Forms.Label();
          this.panFilter = new System.Windows.Forms.GroupBox();
+         this.label10 = new System.Windows.Forms.Label();
+         this.label9 = new System.Windows.Forms.Label();
+         this.label8 = new System.Windows.Forms.Label();
+         this.label7 = new System.Windows.Forms.Label();
          this.label5 = new System.Windows.Forms.Label();
          this.label6 = new System.Windows.Forms.Label();
-         this.label7 = new System.Windows.Forms.Label();
-         this.label8 = new System.Windows.Forms.Label();
-         this.label9 = new System.Windows.Forms.Label();
-         this.label10 = new System.Windows.Forms.Label();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtAllEymd.Properties)).BeginInit();
@@ -67,7 +67,7 @@
          // 
          this.txtAllEymd.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
          this.txtAllEymd.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtAllEymd.EditValue = "2018/12";
+         this.txtAllEymd.EditValue = "2018/12/01";
          this.txtAllEymd.EnterMoveNextControl = true;
          this.txtAllEymd.Location = new System.Drawing.Point(220, 132);
          this.txtAllEymd.MenuManager = this.ribbonControl;
@@ -75,8 +75,8 @@
          this.txtAllEymd.Properties.Appearance.Options.UseTextOptions = true;
          this.txtAllEymd.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.txtAllEymd.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtAllEymd.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtAllEymd.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtAllEymd.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtAllEymd.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtAllEymd.Properties.Mask.ShowPlaceHolders = false;
          this.txtAllEymd.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtAllEymd.Size = new System.Drawing.Size(100, 26);
@@ -87,7 +87,7 @@
          // 
          this.txtAllSymd.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
          this.txtAllSymd.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtAllSymd.EditValue = "2018/12";
+         this.txtAllSymd.EditValue = "2018/12/01";
          this.txtAllSymd.EnterMoveNextControl = true;
          this.txtAllSymd.Location = new System.Drawing.Point(92, 132);
          this.txtAllSymd.MenuManager = this.ribbonControl;
@@ -95,8 +95,8 @@
          this.txtAllSymd.Properties.Appearance.Options.UseTextOptions = true;
          this.txtAllSymd.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.txtAllSymd.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtAllSymd.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtAllSymd.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtAllSymd.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtAllSymd.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtAllSymd.Properties.Mask.ShowPlaceHolders = false;
          this.txtAllSymd.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtAllSymd.Size = new System.Drawing.Size(100, 26);
@@ -107,7 +107,7 @@
          // 
          this.txtAftEymd.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
          this.txtAftEymd.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtAftEymd.EditValue = "2018/12";
+         this.txtAftEymd.EditValue = "2018/12/01";
          this.txtAftEymd.EnterMoveNextControl = true;
          this.txtAftEymd.Location = new System.Drawing.Point(220, 87);
          this.txtAftEymd.MenuManager = this.ribbonControl;
@@ -115,8 +115,8 @@
          this.txtAftEymd.Properties.Appearance.Options.UseTextOptions = true;
          this.txtAftEymd.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.txtAftEymd.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtAftEymd.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtAftEymd.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtAftEymd.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtAftEymd.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtAftEymd.Properties.Mask.ShowPlaceHolders = false;
          this.txtAftEymd.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtAftEymd.Size = new System.Drawing.Size(100, 26);
@@ -127,7 +127,7 @@
          // 
          this.txtPrevEymd.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
          this.txtPrevEymd.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtPrevEymd.EditValue = "2018/12";
+         this.txtPrevEymd.EditValue = "2018/12/01";
          this.txtPrevEymd.EnterMoveNextControl = true;
          this.txtPrevEymd.Location = new System.Drawing.Point(220, 42);
          this.txtPrevEymd.MenuManager = this.ribbonControl;
@@ -135,8 +135,8 @@
          this.txtPrevEymd.Properties.Appearance.Options.UseTextOptions = true;
          this.txtPrevEymd.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.txtPrevEymd.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtPrevEymd.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtPrevEymd.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtPrevEymd.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtPrevEymd.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtPrevEymd.Properties.Mask.ShowPlaceHolders = false;
          this.txtPrevEymd.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtPrevEymd.Size = new System.Drawing.Size(100, 26);
@@ -147,7 +147,7 @@
          // 
          this.txtAftSymd.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
          this.txtAftSymd.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtAftSymd.EditValue = "2018/12";
+         this.txtAftSymd.EditValue = "2018/12/01";
          this.txtAftSymd.EnterMoveNextControl = true;
          this.txtAftSymd.Location = new System.Drawing.Point(92, 87);
          this.txtAftSymd.MenuManager = this.ribbonControl;
@@ -155,8 +155,8 @@
          this.txtAftSymd.Properties.Appearance.Options.UseTextOptions = true;
          this.txtAftSymd.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.txtAftSymd.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtAftSymd.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtAftSymd.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtAftSymd.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtAftSymd.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtAftSymd.Properties.Mask.ShowPlaceHolders = false;
          this.txtAftSymd.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtAftSymd.Size = new System.Drawing.Size(100, 26);
@@ -167,7 +167,7 @@
          // 
          this.txtPrevSymd.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
          this.txtPrevSymd.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtPrevSymd.EditValue = "2018/12";
+         this.txtPrevSymd.EditValue = "2018/12/01";
          this.txtPrevSymd.EnterMoveNextControl = true;
          this.txtPrevSymd.Location = new System.Drawing.Point(92, 42);
          this.txtPrevSymd.MenuManager = this.ribbonControl;
@@ -175,8 +175,8 @@
          this.txtPrevSymd.Properties.Appearance.Options.UseTextOptions = true;
          this.txtPrevSymd.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.txtPrevSymd.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtPrevSymd.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtPrevSymd.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtPrevSymd.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtPrevSymd.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtPrevSymd.Properties.Mask.ShowPlaceHolders = false;
          this.txtPrevSymd.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtPrevSymd.Size = new System.Drawing.Size(100, 26);
@@ -243,6 +243,44 @@
          this.panFilter.TabStop = false;
          this.panFilter.Text = "請輸入交易日期";
          // 
+         // label10
+         // 
+         this.label10.AutoSize = true;
+         this.label10.Location = new System.Drawing.Point(194, 135);
+         this.label10.Name = "label10";
+         this.label10.Size = new System.Drawing.Size(26, 21);
+         this.label10.TabIndex = 82;
+         this.label10.Text = "～";
+         // 
+         // label9
+         // 
+         this.label9.AutoSize = true;
+         this.label9.ForeColor = System.Drawing.Color.Black;
+         this.label9.Location = new System.Drawing.Point(37, 135);
+         this.label9.Name = "label9";
+         this.label9.Size = new System.Drawing.Size(58, 21);
+         this.label9.TabIndex = 81;
+         this.label9.Text = "本週：";
+         // 
+         // label8
+         // 
+         this.label8.AutoSize = true;
+         this.label8.Location = new System.Drawing.Point(194, 90);
+         this.label8.Name = "label8";
+         this.label8.Size = new System.Drawing.Size(26, 21);
+         this.label8.TabIndex = 80;
+         this.label8.Text = "～";
+         // 
+         // label7
+         // 
+         this.label7.AutoSize = true;
+         this.label7.ForeColor = System.Drawing.Color.Black;
+         this.label7.Location = new System.Drawing.Point(37, 90);
+         this.label7.Name = "label7";
+         this.label7.Size = new System.Drawing.Size(58, 21);
+         this.label7.TabIndex = 9;
+         this.label7.Text = "本週：";
+         // 
          // label5
          // 
          this.label5.AutoSize = true;
@@ -261,44 +299,6 @@
          this.label6.Size = new System.Drawing.Size(58, 21);
          this.label6.TabIndex = 2;
          this.label6.Text = "上週：";
-         // 
-         // label7
-         // 
-         this.label7.AutoSize = true;
-         this.label7.ForeColor = System.Drawing.Color.Black;
-         this.label7.Location = new System.Drawing.Point(37, 90);
-         this.label7.Name = "label7";
-         this.label7.Size = new System.Drawing.Size(58, 21);
-         this.label7.TabIndex = 9;
-         this.label7.Text = "本週：";
-         // 
-         // label8
-         // 
-         this.label8.AutoSize = true;
-         this.label8.Location = new System.Drawing.Point(194, 90);
-         this.label8.Name = "label8";
-         this.label8.Size = new System.Drawing.Size(26, 21);
-         this.label8.TabIndex = 80;
-         this.label8.Text = "～";
-         // 
-         // label9
-         // 
-         this.label9.AutoSize = true;
-         this.label9.ForeColor = System.Drawing.Color.Black;
-         this.label9.Location = new System.Drawing.Point(37, 135);
-         this.label9.Name = "label9";
-         this.label9.Size = new System.Drawing.Size(58, 21);
-         this.label9.TabIndex = 81;
-         this.label9.Text = "本週：";
-         // 
-         // label10
-         // 
-         this.label10.AutoSize = true;
-         this.label10.Location = new System.Drawing.Point(194, 135);
-         this.label10.Name = "label10";
-         this.label10.Size = new System.Drawing.Size(26, 21);
-         this.label10.TabIndex = 82;
-         this.label10.Text = "～";
          // 
          // W30660
          // 

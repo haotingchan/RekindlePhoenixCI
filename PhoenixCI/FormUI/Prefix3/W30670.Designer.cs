@@ -120,7 +120,7 @@
          // 
          this.txtEndYMD.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
          this.txtEndYMD.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtEndYMD.EditValue = "2018/12";
+         this.txtEndYMD.EditValue = "2018/12/01";
          this.txtEndYMD.EnterMoveNextControl = true;
          this.txtEndYMD.Location = new System.Drawing.Point(220, 42);
          this.txtEndYMD.MenuManager = this.ribbonControl;
@@ -128,8 +128,8 @@
          this.txtEndYMD.Properties.Appearance.Options.UseTextOptions = true;
          this.txtEndYMD.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.txtEndYMD.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtEndYMD.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtEndYMD.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtEndYMD.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtEndYMD.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtEndYMD.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndYMD.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndYMD.Size = new System.Drawing.Size(100, 26);
@@ -140,7 +140,7 @@
          // 
          this.txtStartYMD.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
          this.txtStartYMD.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtStartYMD.EditValue = "2018/12";
+         this.txtStartYMD.EditValue = "2018/12/01";
          this.txtStartYMD.EnterMoveNextControl = true;
          this.txtStartYMD.Location = new System.Drawing.Point(92, 42);
          this.txtStartYMD.MenuManager = this.ribbonControl;
@@ -148,8 +148,8 @@
          this.txtStartYMD.Properties.Appearance.Options.UseTextOptions = true;
          this.txtStartYMD.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.txtStartYMD.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtStartYMD.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtStartYMD.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtStartYMD.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtStartYMD.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtStartYMD.Properties.Mask.ShowPlaceHolders = false;
          this.txtStartYMD.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtStartYMD.Size = new System.Drawing.Size(100, 26);

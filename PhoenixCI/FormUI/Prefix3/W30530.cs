@@ -42,9 +42,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
             string startYear = worksheet.Cells[2, 1].Value.ToString();
             int rowTol = worksheet.Cells[2, 0].Value.AsInt();
             List<int> ListBIndex = new List<int>();
+            int rowStart = 4;
 
             for (int i = 1; i <= idfgCount; i++) {
-               int rowStart = 4;
+               rowStart = 4;
                int bIndex = GetBIndex(i, ListBIndex);
                int ymd = 0;
 
@@ -66,7 +67,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
                for (int j = startYear.AsInt(); j <= inputYear.AsInt(); j++) {
                   DataTable dtYear = dtYearData.Filter("AM2_YMD = " + j.ToString());
                   if (ymd != j) {
-                     rowStart++;
+                     //有資料時才增加列數
+                     if (dtYear.Rows.Count > 0) {
+                        rowStart++;
+                     }
+
                      ymd = j;
                   }
                   foreach (DataRow dr in dtYear.Rows) {
@@ -79,7 +84,12 @@ namespace PhoenixCI.FormUI.Prefix3 {
                for (int j = (inputYear.ToString() + "01").AsInt(); j <= inputMonth.AsInt(); j++) {
                   DataTable dtMon = dtMontData.Filter("AM2_YMD = " + j.ToString());
                   if (ymd != j) {
-                     rowStart++;
+
+                     //有資料時才增加列數
+                     if (dtMon.Rows.Count > 0) {
+                        rowStart++;
+                     }
+
                      ymd = j;
                   }
                   foreach (DataRow dr in dtMon.Rows) {
@@ -87,6 +97,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
                      worksheet.Cells[rowStart, dr["BS_Index"].AsInt()].Value = dr["am2_m_qnty"].AsDecimal();
                   }
                }
+            }
+
+            if (rowTol < 38) {
+               Range ra = worksheet.Range[(rowStart + 2).ToString() + ":39"];
+               ra.Delete(DeleteMode.EntireRow);
             }
 
             worksheet.ScrollToRow(0);

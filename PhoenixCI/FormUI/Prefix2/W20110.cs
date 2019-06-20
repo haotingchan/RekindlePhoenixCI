@@ -1312,9 +1312,9 @@ namespace PhoenixCI.FormUI.Prefix2 {
         /// <param name="e"></param>
         private void btnI5F_Click(object sender, EventArgs e) {
 
-            DataTable dtI5F = dao20110.d_20110_amifu(txtDate.DateTimeValue);
+            DataTable dtI5F = dao20110.d_20110_i5f(txtDate.DateTimeValue);
             DataView dv = dtI5F.AsDataView();
-            dv.RowFilter = " amifu_kind_id = 'I5F'";
+            dv.RowFilter = " AMIFU_KIND_ID = 'I5F'";
             dtI5F = dv.ToTable();
 
             if (dtI5F.Rows.Count == 0) {
