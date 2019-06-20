@@ -796,6 +796,9 @@ namespace PhoenixCI.FormUI.Prefix5
       protected override ResultStatus Print(ReportHelper reportHelper)
       {
          CommonReportPortraitA4 reportPortraitA4 = new CommonReportPortraitA4();
+         if (_defReport == null)
+            _defReport = new defReport();
+
          _defReport.SetMemoInPageFooter("註：★代表收盤前40秒間詢價");
          XtraReport xtraReport = reportHelper.CreateCompositeReport(_defReport, reportPortraitA4);
          string dateCondition = DateText() == "" ? "" : "," + DateText();
