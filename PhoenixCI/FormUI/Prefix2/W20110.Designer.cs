@@ -47,6 +47,7 @@
             this.max8digit4 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.AMIF_M_QNTY_TAL = new DevExpress.XtraGrid.Columns.GridColumn();
             this.AMIF_OPEN_INTEREST = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.max10digit0 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.AMIF_SUM_AMT = new DevExpress.XtraGrid.Columns.GridColumn();
             this.max12digit4 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.AMIF_CLOSE_PRICE_Y = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -73,6 +74,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.max11digit4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.max8digit4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.max10digit0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.max12digit4)).BeginInit();
             this.SuspendLayout();
             // 
@@ -228,7 +230,8 @@
             this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.max11digit4,
             this.max8digit4,
-            this.max12digit4});
+            this.max12digit4,
+            this.max10digit0});
             this.gcMain.Size = new System.Drawing.Size(1146, 651);
             this.gcMain.TabIndex = 0;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -408,11 +411,20 @@
             this.AMIF_OPEN_INTEREST.AppearanceHeader.Options.UseTextOptions = true;
             this.AMIF_OPEN_INTEREST.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.AMIF_OPEN_INTEREST.Caption = "未平倉量";
+            this.AMIF_OPEN_INTEREST.ColumnEdit = this.max10digit0;
             this.AMIF_OPEN_INTEREST.FieldName = "AMIF_OPEN_INTEREST";
             this.AMIF_OPEN_INTEREST.Name = "AMIF_OPEN_INTEREST";
             this.AMIF_OPEN_INTEREST.Visible = true;
             this.AMIF_OPEN_INTEREST.VisibleIndex = 8;
             this.AMIF_OPEN_INTEREST.Width = 100;
+            // 
+            // max10digit0
+            // 
+            this.max10digit0.AutoHeight = false;
+            this.max10digit0.DisplayFormat.FormatString = "0,###";
+            this.max10digit0.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.max10digit0.MaxLength = 10;
+            this.max10digit0.Name = "max10digit0";
             // 
             // AMIF_SUM_AMT
             // 
@@ -568,6 +580,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.max11digit4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.max8digit4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.max10digit0)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.max12digit4)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -615,5 +628,6 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit max11digit4;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit max8digit4;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit max12digit4;
+        private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit max10digit0;
     }
 }

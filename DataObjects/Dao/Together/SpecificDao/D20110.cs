@@ -73,12 +73,17 @@ ORDER BY RPT_SEQ_NO, AMIF_KIND_ID, AMIF_SETTLE_DATE
             return dtResult;
         }
 
+        /// <summary>
+        /// 因為這張table可能會塞進grid，所以欄位名稱在撈取時改成和grid一樣
+        /// </summary>
+        /// <param name="as_date"></param>
+        /// <returns></returns>
         public DataTable d_20110_amifu(DateTime as_date) {
 
             object[] parms = {
                 ":as_date", as_date
             };
-
+            
             string sql =
 @"
 SELECT A.*
@@ -137,6 +142,77 @@ FROM
       and U.AMIFU_DATA_SOURCE = 'U'
       and U.AMIFU_KIND_ID = R_KIND_ID(+)
       and U.AMIFU_KIND_ID = rpt_kind_id(+)) A
+ORDER BY RPT_SEQ_NO, AMIF_KIND_ID, AMIF_SETTLE_DATE
+";
+            DataTable dtResult = db.GetDataTable(sql, parms);
+
+            return dtResult;
+        }
+
+        public DataTable d_20110_i5f(DateTime as_date) {
+
+            object[] parms = {
+                ":as_date", as_date
+            };
+
+            string sql =
+@"
+SELECT A.*
+FROM
+    (SELECT U.AMIFU_DATE,   
+         U.AMIFU_KIND_ID,   
+         U.AMIFU_SETTLE_DATE,   
+         U.AMIFU_OPEN_PRICE,   
+         U.AMIFU_HIGH_PRICE,   
+         U.AMIFU_LOW_PRICE,   
+         U.AMIFU_CLOSE_PRICE,   
+         U.AMIFU_UP_DOWN_VAL,   
+         U.AMIFU_SETTLE_PRICE,   
+         U.AMIFU_M_QNTY_TAL,   
+         U.AMIFU_OPEN_INTEREST,   
+         U.AMIFU_SUM_AMT,   
+         U.AMIFU_PROD_TYPE,   
+         U.AMIFU_PROD_SUBTYPE,   
+         U.AMIFU_DATA_SOURCE,   
+         U.AMIFU_EXCHANGE_RATE,   
+         U.AMIFU_INS_TIME  ,  
+         U.AMIFU_KIND_ID as AMIF_PARAM_KEY,   
+         0 as AMIF_STRIKE_PRICE, 
+         ' ' as AMIF_PC_CODE,    
+         TRIM(U.AMIFU_KIND_ID)||substr(U.AMIFU_SETTLE_DATE,5,2) as AMIF_PROD_ID,       
+         rpt_seq as RPT_SEQ_NO,
+         'I' as OP_TYPE ,
+         U.AMIFU_CLOSE_PRICE as AMIF_CLOSE_PRICE_Y,
+         ' ' as AMIF_CLOSE_PRICE_Y_FLAG,
+         to_char(U.AMIFU_DATE,'yyyy') as AMIF_YEAR,
+         0 as AMIF_CLOSE_PRICE_ORIG,
+         U.AMIFU_ERR_TEXT,
+         NVL(R_OPEN_PRICE,U.AMIFU_OPEN_PRICE) as R_OPEN_PRICE,
+         NVL(R_HIGH_PRICE,U.AMIFU_HIGH_PRICE) AS R_HIGH_PRICE,   
+         NVL(R_LOW_PRICE,U.AMIFU_LOW_PRICE) AS R_LOW_PRICE,   
+         NVL(R_CLOSE_PRICE,U.AMIFU_CLOSE_PRICE) AS R_CLOSE_PRICE  ,
+         AMIFU_M_QNTY_TAL as R_M_QNTY_TAL,    
+         AMIFU_OPEN_INTEREST as R_OPEN_INTEREST  ,   
+         000000.0000 as R_UP_DOWN_VAL,
+         0 as MTH_SEQ_NO,
+         TRIM(rpt_grp) AS RPT_OSW_GRP
+    FROM CI.AMIFU U,
+        (select R.AMIFU_KIND_ID AS R_KIND_ID,
+                R.AMIFU_OPEN_PRICE as R_OPEN_PRICE,
+                R.AMIFU_HIGH_PRICE AS R_HIGH_PRICE,   
+                R.AMIFU_LOW_PRICE AS R_LOW_PRICE,   
+                R.AMIFU_CLOSE_PRICE AS R_CLOSE_PRICE  
+           FROM ci.AMIFU R
+          WHERE R.AMIFU_DATE = :as_date
+            AND R.AMIFU_DATA_SOURCE = 'R') R,   
+         (select RPT_VALUE as rpt_kind_id, RPT_VALUE_4 as rpt_grp, min(RPT.RPT_SEQ_NO) as rpt_seq
+            from ci.RPT
+           where RPT.RPT_TXD_ID = '20110'
+           group by RPT_VALUE,RPT_VALUE_4  ) RP
+   WHERE U.AMIFU_DATE = :as_date    
+     and U.AMIFU_DATA_SOURCE = 'U'
+     and U.AMIFU_KIND_ID = R_KIND_ID(+)
+     and U.AMIFU_KIND_ID = rpt_kind_id(+)) A
 ORDER BY RPT_SEQ_NO, AMIF_KIND_ID, AMIF_SETTLE_DATE
 ";
             DataTable dtResult = db.GetDataTable(sql, parms);
