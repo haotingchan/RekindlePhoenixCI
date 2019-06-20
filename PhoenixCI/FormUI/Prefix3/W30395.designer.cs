@@ -24,10 +24,10 @@
       /// </summary>
       private void InitializeComponent() {
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
+         this.labMsg = new System.Windows.Forms.Label();
          this.panFilter = new System.Windows.Forms.GroupBox();
          this.txtStartMonth = new BaseGround.Widget.TextDateEdit();
          this.label1 = new System.Windows.Forms.Label();
-         this.labMsg = new System.Windows.Forms.Label();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
@@ -59,6 +59,18 @@
          this.r_frame.Size = new System.Drawing.Size(400, 175);
          this.r_frame.TabIndex = 78;
          // 
+         // labMsg
+         // 
+         this.labMsg.AutoSize = true;
+         this.labMsg.ForeColor = System.Drawing.Color.Blue;
+         this.labMsg.Location = new System.Drawing.Point(15, 125);
+         this.labMsg.MaximumSize = new System.Drawing.Size(360, 120);
+         this.labMsg.Name = "labMsg";
+         this.labMsg.Size = new System.Drawing.Size(85, 20);
+         this.labMsg.TabIndex = 84;
+         this.labMsg.Text = "開始轉檔...";
+         this.labMsg.Visible = false;
+         // 
          // panFilter
          // 
          this.panFilter.Controls.Add(this.txtStartMonth);
@@ -84,8 +96,8 @@
          this.txtStartMonth.Properties.Appearance.Options.UseTextOptions = true;
          this.txtStartMonth.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.txtStartMonth.Properties.EditFormat.FormatString = "yyyyMM";
-         this.txtStartMonth.Properties.Mask.EditMask = "yyyy/MM";
-         this.txtStartMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtStartMonth.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])";
+         this.txtStartMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtStartMonth.Properties.Mask.ShowPlaceHolders = false;
          this.txtStartMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtStartMonth.Size = new System.Drawing.Size(100, 26);
@@ -102,18 +114,6 @@
          this.label1.Size = new System.Drawing.Size(58, 21);
          this.label1.TabIndex = 83;
          this.label1.Text = "月份：";
-         // 
-         // labMsg
-         // 
-         this.labMsg.AutoSize = true;
-         this.labMsg.ForeColor = System.Drawing.Color.Blue;
-         this.labMsg.Location = new System.Drawing.Point(15, 125);
-         this.labMsg.MaximumSize = new System.Drawing.Size(360, 120);
-         this.labMsg.Name = "labMsg";
-         this.labMsg.Size = new System.Drawing.Size(85, 20);
-         this.labMsg.TabIndex = 84;
-         this.labMsg.Text = "開始轉檔...";
-         this.labMsg.Visible = false;
          // 
          // W30395
          // 
