@@ -39,20 +39,7 @@ namespace DataObjects.Dao.Together.SpecificDao
                               (select MG1_M_KIND_ID,MG1_KIND_ID,MG1_PROD_SUBTYPE,MG1_PARAM_KEY,MG1_OSW_GRP,MG1_MIN_RISK,MG1_CUR_CM,MG1_XXX
                                 from ci.MG1_3M 
                                where trim(MG1_KIND_ID) = :as_kind_id and MG1_AB_TYPE in('A','-')  and MG1_YMD = :as_eymd and MG1_MODEL_TYPE = 'S')               
-                        where MGP1_YMD >= (
-                                    SELECT OCF_YMD 
-                                    FROM(
-                                            SELECT OCF_YMD,DAY_NUM 
-                                            FROM
-                                                    (SELECT OCF_YMD,
-                                                              ROW_NUMBER() OVER (ORDER BY OCF_YMD desc) as DAY_NUM
-                                                        FROM ci.AOCF
-                                                      WHERE OCF_YMD <=  :as_eymd
-                                                         AND OCF_YMD >= SUBSTR('20190522',0,4)-10|| '0101')
-                                              WHERE DAY_NUM = 2500
-                                      )
-                            )
-                          and MGP1_YMD <= :as_eymd
+                        where MGP1_YMD <= :as_eymd
                           and trim(MG1_KIND_ID) = :as_kind_id --BY 單一商品用條件
                           and MGP1_M_KIND_ID = MG1_M_KIND_ID
                         order by MG1_KIND_ID ,MGP1_YMD DESC";
