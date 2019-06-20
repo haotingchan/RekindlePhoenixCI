@@ -113,8 +113,8 @@
             this.txtStartDate.Properties.Appearance.Options.UseTextOptions = true;
             this.txtStartDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.txtStartDate.Properties.EditFormat.FormatString = "yyyyMM";
-            this.txtStartDate.Properties.Mask.EditMask = "yyyy/MM";
-            this.txtStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtStartDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])";
+            this.txtStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtStartDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtStartDate.Size = new System.Drawing.Size(118, 28);
@@ -143,8 +143,8 @@
             this.txtEndDate.Properties.Appearance.Options.UseTextOptions = true;
             this.txtEndDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.txtEndDate.Properties.EditFormat.FormatString = "yyyyMM";
-            this.txtEndDate.Properties.Mask.EditMask = "yyyy/MM";
-            this.txtEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtEndDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])";
+            this.txtEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtEndDate.Size = new System.Drawing.Size(118, 28);

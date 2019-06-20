@@ -213,7 +213,7 @@ FROM
      and U.AMIFU_DATA_SOURCE = 'U'
      and U.AMIFU_KIND_ID = R_KIND_ID(+)
      and U.AMIFU_KIND_ID = rpt_kind_id(+)) A
-ORDER BY RPT_SEQ_NO, AMIF_KIND_ID, AMIF_SETTLE_DATE
+ORDER BY RPT_SEQ_NO, AMIFU_KIND_ID, AMIFU_SETTLE_DATE
 ";
             DataTable dtResult = db.GetDataTable(sql, parms);
 

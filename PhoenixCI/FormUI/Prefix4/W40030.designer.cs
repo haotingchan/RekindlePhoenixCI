@@ -23,6 +23,7 @@
       /// the contents of this method with the code editor.
       /// </summary>
       private void InitializeComponent() {
+         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(W40030));
          this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
          this.grpxDescription = new System.Windows.Forms.GroupBox();
          this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -32,12 +33,14 @@
          this.label2 = new System.Windows.Forms.Label();
          this.txtDate5 = new BaseGround.Widget.TextDateEdit();
          this.txtDate7 = new BaseGround.Widget.TextDateEdit();
+         this.ExportShow = new System.Windows.Forms.Label();
          this.label1 = new System.Windows.Forms.Label();
          this.ddlAdjType = new DevExpress.XtraEditors.LookUpEdit();
          this.txtDate = new BaseGround.Widget.TextDateEdit();
          this.lblDate = new System.Windows.Forms.Label();
-         this.ExportShow = new System.Windows.Forms.Label();
          this.panel1 = new System.Windows.Forms.Panel();
+         this.label3 = new System.Windows.Forms.Label();
+         this.pictureBox1 = new System.Windows.Forms.PictureBox();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -51,17 +54,20 @@
          ((System.ComponentModel.ISupportInitialize)(this.ddlAdjType.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).BeginInit();
          this.panel1.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
          // 
+         this.panParent.Controls.Add(this.pictureBox1);
+         this.panParent.Controls.Add(this.label3);
          this.panParent.Controls.Add(this.panel1);
-         this.panParent.Size = new System.Drawing.Size(713, 499);
+         this.panParent.Size = new System.Drawing.Size(801, 630);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(713, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(801, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // panelControl1
@@ -69,7 +75,7 @@
          this.panelControl1.Dock = System.Windows.Forms.DockStyle.Fill;
          this.panelControl1.Location = new System.Drawing.Point(0, 30);
          this.panelControl1.Name = "panelControl1";
-         this.panelControl1.Size = new System.Drawing.Size(713, 499);
+         this.panelControl1.Size = new System.Drawing.Size(801, 630);
          this.panelControl1.TabIndex = 0;
          // 
          // grpxDescription
@@ -86,7 +92,7 @@
          this.grpxDescription.ForeColor = System.Drawing.Color.Navy;
          this.grpxDescription.Location = new System.Drawing.Point(3, 22);
          this.grpxDescription.Name = "grpxDescription";
-         this.grpxDescription.Size = new System.Drawing.Size(499, 328);
+         this.grpxDescription.Size = new System.Drawing.Size(583, 328);
          this.grpxDescription.TabIndex = 13;
          this.grpxDescription.TabStop = false;
          this.grpxDescription.Text = "請輸入交易日期";
@@ -207,6 +213,16 @@
          this.txtDate7.TabIndex = 20;
          this.txtDate7.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
+         // ExportShow
+         // 
+         this.ExportShow.AutoSize = true;
+         this.ExportShow.ForeColor = System.Drawing.Color.Navy;
+         this.ExportShow.Location = new System.Drawing.Point(37, 282);
+         this.ExportShow.Name = "ExportShow";
+         this.ExportShow.Size = new System.Drawing.Size(56, 21);
+         this.ExportShow.TabIndex = 14;
+         this.ExportShow.Text = "label1";
+         // 
          // label1
          // 
          this.label1.AutoSize = true;
@@ -266,31 +282,40 @@
          this.lblDate.TabIndex = 2;
          this.lblDate.Text = "日期：";
          // 
-         // ExportShow
-         // 
-         this.ExportShow.AutoSize = true;
-         this.ExportShow.ForeColor = System.Drawing.Color.Navy;
-         this.ExportShow.Location = new System.Drawing.Point(37, 282);
-         this.ExportShow.Name = "ExportShow";
-         this.ExportShow.Size = new System.Drawing.Size(56, 21);
-         this.ExportShow.TabIndex = 14;
-         this.ExportShow.Text = "label1";
-         // 
          // panel1
          // 
          this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
          this.panel1.Controls.Add(this.grpxDescription);
          this.panel1.Location = new System.Drawing.Point(30, 30);
          this.panel1.Name = "panel1";
-         this.panel1.Size = new System.Drawing.Size(508, 356);
+         this.panel1.Size = new System.Drawing.Size(601, 360);
          this.panel1.TabIndex = 14;
+         // 
+         // label3
+         // 
+         this.label3.AutoSize = true;
+         this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(84)))), ((int)(((byte)(150)))));
+         this.label3.Location = new System.Drawing.Point(30, 393);
+         this.label3.Name = "label3";
+         this.label3.Size = new System.Drawing.Size(89, 20);
+         this.label3.TabIndex = 15;
+         this.label3.Text = "操作說明：";
+         // 
+         // pictureBox1
+         // 
+         this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+         this.pictureBox1.Location = new System.Drawing.Point(30, 417);
+         this.pictureBox1.Name = "pictureBox1";
+         this.pictureBox1.Size = new System.Drawing.Size(601, 151);
+         this.pictureBox1.TabIndex = 16;
+         this.pictureBox1.TabStop = false;
          // 
          // W40030
          // 
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(713, 529);
+         this.ClientSize = new System.Drawing.Size(801, 660);
          this.Controls.Add(this.panelControl1);
          this.Name = "W40030";
          this.Text = "40030";
@@ -298,6 +323,7 @@
          this.Controls.SetChildIndex(this.panelControl1, 0);
          this.Controls.SetChildIndex(this.panParent, 0);
          this.panParent.ResumeLayout(false);
+         this.panParent.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
          this.grpxDescription.ResumeLayout(false);
@@ -313,6 +339,7 @@
          ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).EndInit();
          this.panel1.ResumeLayout(false);
          this.panel1.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -335,5 +362,7 @@
       private System.Windows.Forms.GroupBox groupBox1;
       private DevExpress.XtraEditors.CheckedListBoxControl MarketTimes;
       private System.Windows.Forms.Panel panel1;
+      private System.Windows.Forms.PictureBox pictureBox1;
+      private System.Windows.Forms.Label label3;
    }
 }
