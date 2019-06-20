@@ -89,7 +89,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
          gcMain.DataSource = returnTable;
          gcExport.DataSource = returnTable;
-         gvMain.Columns["PROD_ID"].SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
 
          string txtFilePath = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH, _ProgramID + ".txt");
          using (TextReader tr = new StreamReader(txtFilePath, System.Text.Encoding.Default)) {
@@ -100,6 +99,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          }
 
          GridHelper.SetCommonGrid(gvMain);
+         gvMain.SelectRow(0);
          gcMain.Focus();
          _ToolBtnExport.Enabled = true;
          _ToolBtnPrintAll.Enabled = true;

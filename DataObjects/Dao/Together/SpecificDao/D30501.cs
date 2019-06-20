@@ -46,7 +46,8 @@ namespace DataObjects.Dao.Together.SpecificDao {
      AND D.BST1_KIND_ID  = B.BST1_KIND_ID(+)
      AND D.B_MAX_QNTY = B.BST1_B_MAX_QNTY(+)
      AND D.BST1_KIND_ID  = S.BST1_KIND_ID(+)
-     AND D.S_MAX_QNTY = S.BST1_S_MAX_QNTY(+)";
+     AND D.S_MAX_QNTY = S.BST1_S_MAX_QNTY(+)
+      ORDER BY PROD_ID";
 
             return db.GetDataTable(sql, parms);
         }

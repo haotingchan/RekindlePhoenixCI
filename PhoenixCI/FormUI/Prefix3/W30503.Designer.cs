@@ -161,8 +161,10 @@
          this.emStartMth.Name = "emStartMth";
          this.emStartMth.Properties.Appearance.Options.UseTextOptions = true;
          this.emStartMth.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.emStartMth.Properties.Mask.EditMask = "yyyy/MM";
-         this.emStartMth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.emStartMth.Properties.EditFormat.FormatString = "yyyyMM";
+         this.emStartMth.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])";
+         this.emStartMth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.emStartMth.Properties.Mask.ShowPlaceHolders = false;
          this.emStartMth.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.emStartMth.Size = new System.Drawing.Size(71, 28);
          this.emStartMth.StyleController = this.stMonth;
@@ -177,8 +179,10 @@
          this.emEndMth.Name = "emEndMth";
          this.emEndMth.Properties.Appearance.Options.UseTextOptions = true;
          this.emEndMth.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.emEndMth.Properties.Mask.EditMask = "yyyy/MM";
-         this.emEndMth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.emEndMth.Properties.EditFormat.FormatString = "yyyyMM";
+         this.emEndMth.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])";
+         this.emEndMth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.emEndMth.Properties.Mask.ShowPlaceHolders = false;
          this.emEndMth.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.emEndMth.Size = new System.Drawing.Size(79, 28);
          this.emEndMth.StyleController = this.stMonth;
