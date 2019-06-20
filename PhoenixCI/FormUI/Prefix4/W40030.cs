@@ -102,11 +102,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   });
             }
 
+            //1. 從DB SP SP_H_TXN_40030_MG_DETL 取資料
             object[] args = { TxtDate, AdjType, _ProgramID, checkedItems };
             IExport40xxxData xmlData = CreateXmlData(GetType(), "ExportWord" + AdjType, args);
             ReturnMessageClass msg = xmlData.GetData();
 
-            //無資料時不產檔
+            //1.1 無資料時不產檔
             if (msg.Status != ResultStatus.Success) {
                ExportShow.Text = MessageDisplay.MSG_IMPORT_FAIL;
 
@@ -118,6 +119,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                return msg.Status;
             }
 
+            // 輸出 rtf
             msg = xmlData.Export();
 
             if (msg.Status == ResultStatus.Fail) {
@@ -725,6 +727,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             ParagraphProps.LineSpacing = DevExpress.Office.Utils.Units.PointsToDocuments(27);
 
             if (hasFirstIndent) {
+               //設定凸排
                ParagraphProps.FirstLineIndentType = ParagraphFirstLineIndent.Hanging;
                ParagraphProps.FirstLineIndent = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(fitstLineIndent);
             }
@@ -746,13 +749,15 @@ namespace PhoenixCI.FormUI.Prefix4 {
             if (hasNewLine) Doc.AppendText(Environment.NewLine);
             Doc.AppendText(str);
 
+            //段落設定
             ParagraphProps = Doc.BeginUpdateParagraphs(Doc.Paragraphs.Last().Range);
-            ParagraphProps.Alignment = ParagraphAlignment.Left;
-            ParagraphProps.LeftIndent = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(0);
+            ParagraphProps.Alignment = ParagraphAlignment.Left;//靠左對其
+            ParagraphProps.LeftIndent = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(0);//縮排
             ParagraphProps.LineSpacing = DevExpress.Office.Utils.Units.PointsToDocuments(27);
             ParagraphProps.FirstLineIndentType = ParagraphFirstLineIndent.None;
             Doc.EndUpdateParagraphs(ParagraphProps);
 
+            //文章設定
             CharacterProps = Doc.BeginUpdateCharacters(Doc.Paragraphs.Last().Range);
             CharacterProps.FontSize = 14;
             CharacterProps.FontName = "標楷體";
@@ -1442,6 +1447,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   List<DataRow> drsTemp = Dt.Select("prod_subtype in ('I', 'B', 'C') and data_ymd = " +
                                                 "'" + c.CheckedDate.ToString("yyyyMMdd") + "'").ToList();
 
+                  //判斷日期是否一樣, 一樣的話跳過
                   if (CheckedItems.IndexOf(c) != 0) {
                      if (CheckedItems.Exists(i => i.CheckedDate == c.CheckedDate))
                         continue;
@@ -1449,7 +1455,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                   if (drsTemp.Count > 0) {
                      DataTable dtTemp = drsTemp.CopyToDataTable();
-                     dtTemp = dtTemp.Sort("SEQ_NO ASC, PROD_TYPE ASC, KIND_GRP2 ASC, KIND_ID ASC, AB_TYPE ASC");
+                     dtTemp = dtTemp.Sort("SEQ_NO ASC, PROD_TYPE ASC, KIND_GRP2 ASC, KIND_ID ASC, AB_TYPE ASC");//排序
 
                      //案由一後文字
                      SetCase(++caseNo, "檢陳本公司{0}保證金調整案，謹提請討論。", GenArrayTxt(wfKindIdC(dtTemp)));
@@ -1986,7 +1992,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                                     GenArrayTxt(adjRateList), GenArrayTxt(lastAdjRateList));
             SetInnerText(tmpStr);
 
-            //(一)
+            //(一) 
             kindNameList.Clear();
             tmpList.ForEach(l => kindNameList.Add(l.Field<string>("kind_id_out").AsString()));
             List<string> dayCntList = new List<string>();
@@ -4610,7 +4616,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       /// <summary>
-      /// 指數類商品參數
+      /// 指數類商品參數 kinf_id
       /// </summary>
       private interface I40030KindInfoI {
          int RowCount { get; set; }
@@ -4756,7 +4762,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       /// <summary>
-      /// ETF 商品參數
+      /// ETF 商品參數 kinf_id
       /// </summary>
       private interface I40030KindInfoE {
          int RowCount { get; set; }

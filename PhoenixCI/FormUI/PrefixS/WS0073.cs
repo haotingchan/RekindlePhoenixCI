@@ -12,6 +12,9 @@ using Common;
 using DataObjects.Dao.Together;
 using DevExpress.XtraEditors;
 
+/// <summary>
+/// david 2019/03/18
+/// </summary>
 namespace PhoenixCI.FormUI.PrefixS {
    public partial class WS0073 : FormParent {
       protected DS0073 daoS0073;
@@ -128,6 +131,7 @@ namespace PhoenixCI.FormUI.PrefixS {
                return ResultStatus.Fail;
             }
 
+            //複寫userId
             dt.Rows[0].SetField("SPAN_MARGIN_USER_ID", GlobalInfo.USER_ID);
             resultStatus = daoS0073.UpdateAllDB(periodTable, dt);
             if (resultStatus != ResultStatus.Success) {

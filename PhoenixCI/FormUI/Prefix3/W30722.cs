@@ -9,6 +9,9 @@ using System.Globalization;
 using BaseGround.Shared;
 using System.IO;
 
+/// <summary>
+/// david 2019/03/18
+/// </summary>
 namespace PhoenixCI.FormUI.Prefix3 {
    public partial class W30722 : FormParent {
       private RPT daoRPT;

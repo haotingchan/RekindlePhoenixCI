@@ -16,6 +16,9 @@ using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
 
+/// <summary>
+/// david 2019/03/18
+/// </summary>
 namespace PhoenixCI.FormUI.Prefix4 {
    public partial class W40041 : FormParent {
       private D40041 dao40041;
@@ -132,8 +135,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             Workbook workbook = new Workbook();
 
+            //user 所選之要匯出商品
             foreach (DataRow exportDr in exportDt.Rows) {
                int noData = 0;
+               //user 所選要匯出商品的 modelType
                foreach (CheckedListBoxItem ch in ModelTypies.CheckedItems) {
                   string kindId = exportDr["MG1_KIND_ID"].AsString();
                   string subType = exportDr["MG1_PROD_SUBTYPE"].AsString();
@@ -181,7 +186,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                   #endregion
 
-                  #region Gen Figure
+                  #region Gen Figure 重組圖表資料
                   sheetIndex = prodType == "O" ? 3 : 1;
 
                   worksheet = workbook.Worksheets[sheetIndex];

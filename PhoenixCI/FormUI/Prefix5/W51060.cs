@@ -11,6 +11,9 @@ using DevExpress.XtraGrid.Views.Grid;
 using BusinessObjects;
 using System.Linq;
 
+/// <summary>
+/// david 2019/03/18
+/// </summary>
 namespace PhoenixCI.FormUI.Prefix5 {
    public partial class W51060 : FormParent {
       private string allowCol = "MMIQ_INVALID_QNTY";//可編輯欄位

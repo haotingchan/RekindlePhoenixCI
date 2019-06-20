@@ -15,6 +15,9 @@ using DevExpress.XtraEditors;
 using DevExpress.XtraGrid.Views.Base;
 using System.Linq;
 
+/// <summary>
+/// david 2019/03/18
+/// </summary>
 namespace PhoenixCI.FormUI.PrefixS {
    public partial class WS0071 : FormParent {
       protected DS0071 daoS0071;
@@ -354,7 +357,7 @@ namespace PhoenixCI.FormUI.PrefixS {
       }
 
       /// <summary>
-      /// 檢查表單欄位
+      /// 檢查表單欄位是否修改
       /// </summary>
       private bool checkChanged() {
 

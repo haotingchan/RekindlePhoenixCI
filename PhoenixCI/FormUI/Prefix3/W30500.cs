@@ -9,6 +9,9 @@ using BaseGround.Shared;
 using DevExpress.Spreadsheet;
 using BaseGround.Report;
 
+/// <summary>
+/// david 2019/03/18
+/// </summary>
 namespace PhoenixCI.FormUI.Prefix3 {
    public partial class W30500 : FormParent {
       private D30500 dao30500;
@@ -76,6 +79,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          string eymd = txtEDate.DateTimeValue.ToString("yyyyMMdd");
          FooterMemo = "";
 
+         // 取資料 
          returnTable = dao30500.ListData(symd, eymd);
          if (returnTable.Rows.Count == 0) {
             _ToolBtnExport.Enabled = false;

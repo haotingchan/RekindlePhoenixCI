@@ -7,6 +7,9 @@ using DevExpress.Spreadsheet;
 using DataObjects.Dao.Together.SpecificDao;
 using BaseGround.Shared;
 
+/// <summary>
+/// david 2019/03/18
+/// </summary>
 namespace PhoenixCI.FormUI.Prefix3 {
    public partial class W30730 : FormParent {
       private D30730 dao30730;

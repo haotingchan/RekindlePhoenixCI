@@ -15,6 +15,9 @@ using BusinessObjects.Enums;
 using DevExpress.XtraGrid.Views.Grid;
 using BusinessObjects;
 
+/// <summary>
+/// david 2019/03/18
+/// </summary>
 namespace PhoenixCI.FormUI.PrefixS {
    public partial class WS0070 : FormParent {
       protected DS0070 daoS0070;
