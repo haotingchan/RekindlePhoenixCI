@@ -25,6 +25,7 @@
       private void InitializeComponent() {
          this.labMsg = new System.Windows.Forms.Label();
          this.panFilter = new System.Windows.Forms.GroupBox();
+         this.dwKindId = new DevExpress.XtraEditors.LookUpEdit();
          this.grpRbDate = new System.Windows.Forms.GroupBox();
          this.txtDate = new BaseGround.Widget.TextDateEdit();
          this.txtEndDate = new BaseGround.Widget.TextDateEdit();
@@ -40,10 +41,10 @@
          this.grpChkModel = new System.Windows.Forms.GroupBox();
          this.chkModel = new DevExpress.XtraEditors.CheckedListBoxControl();
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
-         this.dwKindId = new DevExpress.XtraEditors.LookUpEdit();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          this.panFilter.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.dwKindId.Properties)).BeginInit();
          this.grpRbDate.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).BeginInit();
@@ -54,7 +55,6 @@
          ((System.ComponentModel.ISupportInitialize)(this.chkModel)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
          this.r_frame.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.dwKindId.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -97,6 +97,21 @@
          this.panFilter.TabStop = false;
          this.panFilter.Text = "請輸入交易日期";
          // 
+         // dwKindId
+         // 
+         this.dwKindId.Location = new System.Drawing.Point(86, 157);
+         this.dwKindId.Name = "dwKindId";
+         this.dwKindId.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+         this.dwKindId.Properties.AppearanceDisabled.Options.UseBackColor = true;
+         this.dwKindId.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.dwKindId.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.dwKindId.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
+         this.dwKindId.Properties.NullText = "";
+         this.dwKindId.Properties.PopupSizeable = false;
+         this.dwKindId.Size = new System.Drawing.Size(274, 26);
+         this.dwKindId.TabIndex = 94;
+         // 
          // grpRbDate
          // 
          this.grpRbDate.Controls.Add(this.txtDate);
@@ -118,7 +133,7 @@
          // 
          this.txtDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
          this.txtDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtDate.EditValue = "2018/12";
+         this.txtDate.EditValue = "2018/12/01";
          this.txtDate.EnterMoveNextControl = true;
          this.txtDate.Location = new System.Drawing.Point(117, 68);
          this.txtDate.MenuManager = this.ribbonControl;
@@ -126,8 +141,8 @@
          this.txtDate.Properties.Appearance.Options.UseTextOptions = true;
          this.txtDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.txtDate.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtDate.Size = new System.Drawing.Size(100, 26);
@@ -138,7 +153,7 @@
          // 
          this.txtEndDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
          this.txtEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtEndDate.EditValue = "2018/12";
+         this.txtEndDate.EditValue = "2018/12/01";
          this.txtEndDate.EnterMoveNextControl = true;
          this.txtEndDate.Location = new System.Drawing.Point(247, 31);
          this.txtEndDate.MenuManager = this.ribbonControl;
@@ -146,8 +161,8 @@
          this.txtEndDate.Properties.Appearance.Options.UseTextOptions = true;
          this.txtEndDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.txtEndDate.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtEndDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtEndDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndDate.Size = new System.Drawing.Size(100, 26);
@@ -158,7 +173,7 @@
          // 
          this.txtStartDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
          this.txtStartDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtStartDate.EditValue = "2018/12";
+         this.txtStartDate.EditValue = "2018/12/01";
          this.txtStartDate.EnterMoveNextControl = true;
          this.txtStartDate.Location = new System.Drawing.Point(117, 31);
          this.txtStartDate.MenuManager = this.ribbonControl;
@@ -166,8 +181,8 @@
          this.txtStartDate.Properties.Appearance.Options.UseTextOptions = true;
          this.txtStartDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.txtStartDate.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtStartDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtStartDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtStartDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtStartDate.Size = new System.Drawing.Size(100, 26);
@@ -317,21 +332,6 @@
          this.r_frame.Size = new System.Drawing.Size(505, 375);
          this.r_frame.TabIndex = 77;
          // 
-         // dwKindId
-         // 
-         this.dwKindId.Location = new System.Drawing.Point(86, 157);
-         this.dwKindId.Name = "dwKindId";
-         this.dwKindId.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-         this.dwKindId.Properties.AppearanceDisabled.Options.UseBackColor = true;
-         this.dwKindId.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.dwKindId.Properties.LookAndFeel.SkinName = "The Bezier";
-         this.dwKindId.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
-         this.dwKindId.Properties.NullText = "";
-         this.dwKindId.Properties.PopupSizeable = false;
-         this.dwKindId.Size = new System.Drawing.Size(274, 26);
-         this.dwKindId.TabIndex = 94;
-         // 
          // W40170
          // 
          this.Appearance.Options.UseFont = true;
@@ -344,6 +344,7 @@
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
          this.panFilter.ResumeLayout(false);
          this.panFilter.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.dwKindId.Properties)).EndInit();
          this.grpRbDate.ResumeLayout(false);
          this.grpRbDate.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).EndInit();
@@ -356,7 +357,6 @@
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).EndInit();
          this.r_frame.ResumeLayout(false);
          this.r_frame.PerformLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.dwKindId.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 

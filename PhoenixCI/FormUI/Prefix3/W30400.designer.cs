@@ -25,19 +25,19 @@
         private void InitializeComponent() {
          this.label2 = new System.Windows.Forms.Label();
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
+         this.labMsg = new System.Windows.Forms.Label();
          this.panFilter = new System.Windows.Forms.GroupBox();
+         this.txtKindId = new DevExpress.XtraEditors.TextEdit();
+         this.label1 = new System.Windows.Forms.Label();
          this.txtMon = new BaseGround.Widget.TextDateEdit();
          this.lblDate = new System.Windows.Forms.Label();
-         this.label1 = new System.Windows.Forms.Label();
-         this.txtKindId = new DevExpress.XtraEditors.TextEdit();
-         this.labMsg = new System.Windows.Forms.Label();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
          this.r_frame.SuspendLayout();
          this.panFilter.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.txtMon.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtKindId.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtMon.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -74,6 +74,18 @@
          this.r_frame.Size = new System.Drawing.Size(450, 220);
          this.r_frame.TabIndex = 79;
          // 
+         // labMsg
+         // 
+         this.labMsg.AutoSize = true;
+         this.labMsg.ForeColor = System.Drawing.Color.Blue;
+         this.labMsg.Location = new System.Drawing.Point(15, 170);
+         this.labMsg.MaximumSize = new System.Drawing.Size(360, 120);
+         this.labMsg.Name = "labMsg";
+         this.labMsg.Size = new System.Drawing.Size(85, 20);
+         this.labMsg.TabIndex = 80;
+         this.labMsg.Text = "開始轉檔...";
+         this.labMsg.Visible = false;
+         // 
          // panFilter
          // 
          this.panFilter.Controls.Add(this.txtKindId);
@@ -90,6 +102,29 @@
          this.panFilter.TabStop = false;
          this.panFilter.Text = "請輸入交易日期";
          // 
+         // txtKindId
+         // 
+         this.txtKindId.EditValue = "%";
+         this.txtKindId.Location = new System.Drawing.Point(155, 87);
+         this.txtKindId.MenuManager = this.ribbonControl;
+         this.txtKindId.Name = "txtKindId";
+         this.txtKindId.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtKindId.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtKindId.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtKindId.Size = new System.Drawing.Size(61, 26);
+         this.txtKindId.TabIndex = 12;
+         // 
+         // label1
+         // 
+         this.label1.AutoSize = true;
+         this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.label1.ForeColor = System.Drawing.Color.Black;
+         this.label1.Location = new System.Drawing.Point(37, 90);
+         this.label1.Name = "label1";
+         this.label1.Size = new System.Drawing.Size(122, 21);
+         this.label1.TabIndex = 80;
+         this.label1.Text = "股票期貨代號：";
+         // 
          // txtMon
          // 
          this.txtMon.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
@@ -102,8 +137,8 @@
          this.txtMon.Properties.Appearance.Options.UseTextOptions = true;
          this.txtMon.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.txtMon.Properties.EditFormat.FormatString = "yyyyMM";
-         this.txtMon.Properties.Mask.EditMask = "yyyy/MM";
-         this.txtMon.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtMon.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])";
+         this.txtMon.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtMon.Properties.Mask.ShowPlaceHolders = false;
          this.txtMon.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtMon.Size = new System.Drawing.Size(100, 26);
@@ -121,41 +156,6 @@
          this.lblDate.TabIndex = 83;
          this.lblDate.Text = "月份：";
          // 
-         // label1
-         // 
-         this.label1.AutoSize = true;
-         this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.label1.ForeColor = System.Drawing.Color.Black;
-         this.label1.Location = new System.Drawing.Point(37, 90);
-         this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(122, 21);
-         this.label1.TabIndex = 80;
-         this.label1.Text = "股票期貨代號：";
-         // 
-         // txtKindId
-         // 
-         this.txtKindId.EditValue = "%";
-         this.txtKindId.Location = new System.Drawing.Point(155, 87);
-         this.txtKindId.MenuManager = this.ribbonControl;
-         this.txtKindId.Name = "txtKindId";
-         this.txtKindId.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtKindId.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtKindId.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtKindId.Size = new System.Drawing.Size(61, 26);
-         this.txtKindId.TabIndex = 12;
-         // 
-         // labMsg
-         // 
-         this.labMsg.AutoSize = true;
-         this.labMsg.ForeColor = System.Drawing.Color.Blue;
-         this.labMsg.Location = new System.Drawing.Point(15, 170);
-         this.labMsg.MaximumSize = new System.Drawing.Size(360, 120);
-         this.labMsg.Name = "labMsg";
-         this.labMsg.Size = new System.Drawing.Size(85, 20);
-         this.labMsg.TabIndex = 80;
-         this.labMsg.Text = "開始轉檔...";
-         this.labMsg.Visible = false;
-         // 
          // W30400
          // 
          this.Appearance.Options.UseFont = true;
@@ -171,8 +171,8 @@
          this.r_frame.PerformLayout();
          this.panFilter.ResumeLayout(false);
          this.panFilter.PerformLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.txtMon.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtKindId.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtMon.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
