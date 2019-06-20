@@ -81,6 +81,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 DataTable dt_55060_after_export = dao55060.d_55060_after_export(lsYM);
                 if (dt_55060_after_export.Rows[0]["ld_disc_qnty"].AsString() == "0") {
                     MessageBox.Show(lsYM + "「結算手續費」的可折抵口數皆為０，" + Environment.NewLine + "請確認結算手續費作業是否已完成！", "警告", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    ShowMsg("轉檔成功");
                     return ResultStatus.Success;
                 }
                 ShowMsg("轉檔成功");

@@ -152,6 +152,7 @@
          this.txtEDate.Name = "txtEDate";
          this.txtEDate.Properties.Appearance.Options.UseTextOptions = true;
          this.txtEDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtEDate.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtEDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
          this.txtEDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtEDate.Properties.Mask.ShowPlaceHolders = false;
@@ -171,6 +172,7 @@
          this.txtSDate.Name = "txtSDate";
          this.txtSDate.Properties.Appearance.Options.UseTextOptions = true;
          this.txtSDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtSDate.Properties.EditFormat.FormatString = "yyyyMMdd";
          this.txtSDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
          this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtSDate.Properties.Mask.ShowPlaceHolders = false;
@@ -208,6 +210,7 @@
          this.gcExport.TabIndex = 11;
          this.gcExport.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvExport});
+         this.gcExport.Visible = false;
          // 
          // gvExport
          // 

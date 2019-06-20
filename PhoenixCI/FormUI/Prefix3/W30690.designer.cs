@@ -694,7 +694,7 @@
          this.panProd.ForeColor = System.Drawing.Color.Navy;
          this.panProd.Location = new System.Drawing.Point(5, 237);
          this.panProd.Name = "panProd";
-         this.panProd.Size = new System.Drawing.Size(349, 446);
+         this.panProd.Size = new System.Drawing.Size(367, 446);
          this.panProd.TabIndex = 21;
          this.panProd.TabStop = false;
          this.panProd.Text = "請選擇標的名稱";
@@ -708,7 +708,7 @@
          this.gcMain.Name = "gcMain";
          this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit1});
-         this.gcMain.Size = new System.Drawing.Size(343, 420);
+         this.gcMain.Size = new System.Drawing.Size(361, 420);
          this.gcMain.TabIndex = 15;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -741,7 +741,7 @@
          this.CPR_SELECT.Name = "CPR_SELECT";
          this.CPR_SELECT.Visible = true;
          this.CPR_SELECT.VisibleIndex = 0;
-         this.CPR_SELECT.Width = 40;
+         this.CPR_SELECT.Width = 62;
          // 
          // repositoryItemCheckEdit1
          // 
@@ -761,7 +761,7 @@
          this.P_KIND_ID2.OptionsColumn.AllowEdit = false;
          this.P_KIND_ID2.Visible = true;
          this.P_KIND_ID2.VisibleIndex = 1;
-         this.P_KIND_ID2.Width = 62;
+         this.P_KIND_ID2.Width = 56;
          // 
          // P_NAME
          // 
@@ -773,7 +773,7 @@
          this.P_NAME.OptionsColumn.AllowEdit = false;
          this.P_NAME.Visible = true;
          this.P_NAME.VisibleIndex = 2;
-         this.P_NAME.Width = 223;
+         this.P_NAME.Width = 207;
          // 
          // btnTest
          // 
@@ -782,7 +782,7 @@
          this.btnTest.Location = new System.Drawing.Point(8, 686);
          this.btnTest.Margin = new System.Windows.Forms.Padding(0);
          this.btnTest.Name = "btnTest";
-         this.btnTest.Size = new System.Drawing.Size(343, 28);
+         this.btnTest.Size = new System.Drawing.Size(361, 28);
          this.btnTest.TabIndex = 14;
          this.btnTest.Text = "轉波動度及振幅現貨資料 to csv";
          this.btnTest.UseVisualStyleBackColor = true;
@@ -791,11 +791,11 @@
          // 
          // gcMsg
          // 
-         this.gcMsg.Location = new System.Drawing.Point(360, 371);
+         this.gcMsg.Location = new System.Drawing.Point(378, 371);
          this.gcMsg.MainView = this.gvMsg;
          this.gcMsg.MenuManager = this.ribbonControl;
          this.gcMsg.Name = "gcMsg";
-         this.gcMsg.Size = new System.Drawing.Size(516, 333);
+         this.gcMsg.Size = new System.Drawing.Size(498, 333);
          this.gcMsg.TabIndex = 23;
          this.gcMsg.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMsg});
