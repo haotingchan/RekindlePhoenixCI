@@ -120,16 +120,21 @@ namespace PhoenixCI.FormUI.Prefix2 {
             //原本資料在這邊撈，移到外面去
 
             //沒有新增資料時,則自動新增內容
-            if (dtCheck.Rows.Count == 0) {
-                dtCheck.Columns.Add("Is_NewRow", typeof(string));
-                gcMain.DataSource = dtCheck;
-                InsertRow();
-            }
-            else {
-                dtCheck.Columns.Add("Is_NewRow", typeof(string));
-                gcMain.DataSource = dtCheck;
-                gcMain.Focus();
-            }
+            //if (dtCheck.Rows.Count == 0) {
+            //    dtCheck.Columns.Add("Is_NewRow", typeof(string));
+            //    gcMain.DataSource = dtCheck;
+            //    InsertRow();
+            //}
+            //else {
+            //    dtCheck.Columns.Add("Is_NewRow", typeof(string));
+            //    gcMain.DataSource = dtCheck;
+            //    gcMain.Focus();
+            //}
+
+            dtCheck.Columns.Add("Is_NewRow", typeof(string));
+            gcMain.DataSource = dtCheck;
+            InsertRow();
+            gcMain.Focus();
 
             //call OCFG的f_get_txn_osw_grp
             if (daoOCFG.f_get_txn_osw_grp(_ProgramID) == "1" ||
@@ -365,7 +370,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     DialogResult result = MessageBox.Show(org.ToString("yyyy/MM/dd") + "原有資料將全部刪除,是否繼續存檔?",
                                                           "警告訊息", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (result == DialogResult.No) {
-                        return ResultStatus.Fail;
+                        return ResultStatus.FailButNext;
                     }
                 }
                 Cursor.Current = Cursors.WaitCursor;
@@ -381,6 +386,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 //賦值
                 for (i = 0; i < dt.Rows.Count; i++) {
                     DataRow dr = dt.Rows[i];
+                    if (dr.RowState == DataRowState.Deleted) continue;
                     dr["AMIF_DATE"] = txtDate.DateTimeValue;
                     if (kindId != dr["AMIF_KIND_ID"].AsString()) {
                         kindId = dr["AMIF_KIND_ID"].AsString() + "    ";
@@ -406,7 +412,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                         DialogResult result = MessageBox.Show(kindId + " 收盤價為0，是否要繼續存檔?",
                                                           "錯誤訊息", MessageBoxButtons.OKCancel, MessageBoxIcon.Stop);
                         if (result == DialogResult.Cancel) {
-                            return ResultStatus.Fail;
+                            return ResultStatus.FailButNext;
                         }
                     }
                     dr["AMIF_YEAR"] = txtDate.Text.SubStr(0, 4);
@@ -433,7 +439,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     if (dr["AMIF_CLOSE_PRICE"].AsDecimal() != dr["AMIF_CLOSE_PRICE_ORIG"].AsDecimal()) {
                         lastDate = PbFunc.relativedate(lastDate, -1);
                     }
-                }
+                }//for (i = 0; i < dt.Rows.Count; i++)
                 #endregion
 
                 #region ue_save
@@ -444,7 +450,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 string prodType = "M";
                 date = txtDate.DateTimeValue;
                 if (F20110SP(date, "20110") != "") {
-                    return ResultStatus.Fail;
+                    return ResultStatus.FailButNext;
                 }
                 /*******************
                 轉統計資料AI6
@@ -456,7 +462,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                         date = lastDate;
                         if (dao20110.sp_H_gen_AI6(date).Status != ResultStatus.Success) {
                             MessageBox.Show("執行SP(sp_H_gen_AI6)-" + date.ToString("yyyy/MM/dd") + "錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                            return ResultStatus.Fail;
+                            return ResultStatus.FailButNext;
                         }
                         else {
                             rtn = 0;
@@ -467,41 +473,15 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 //先把指數改回000000
                 for (i = 0; i < dt.Rows.Count; i++) {
                     DataRow dr = dt.Rows[i];
+                    if (dr.RowState == DataRowState.Deleted) continue;
                     if (dr.RowState != DataRowState.Unchanged && dr["AMIF_SETTLE_DATE"].AsString() == "指數") {
                         dr["AMIF_SETTLE_DATE"] = "000000";
                     }
                 }
-                string tableName = "CI.AMIF";
-                string keysColumnList = "AMIF_DATE, AMIF_PROD_ID";
-                string insertColumnList = @"AMIF_DATE, 
-                                            AMIF_KIND_ID, 
-                                            AMIF_SETTLE_DATE, 
-                                            AMIF_OPEN_PRICE, 
-                                            AMIF_HIGH_PRICE, 
-                                            AMIF_LOW_PRICE,   
-                                            AMIF_CLOSE_PRICE, 
-                                            AMIF_UP_DOWN_VAL,
-                                            AMIF_SETTLE_PRICE, 
-                                            AMIF_M_QNTY_TAL,    
-                                            AMIF_OPEN_INTEREST,   
-                                            AMIF_SUM_AMT,       
-                                            AMIF_PROD_TYPE,   
-                                            AMIF_PROD_SUBTYPE,   
-                                            AMIF_DATA_SOURCE,
-                                            AMIF_EXCHANGE_RATE,
-                                            AMIF_M_TIME,  
-                                            AMIF_PARAM_KEY,   
-                                            AMIF_STRIKE_PRICE, 
-                                            AMIF_PC_CODE,    
-                                            AMIF_PROD_ID,       
-                                            AMIF_YEAR, 
-                                            AMIF_MTH_SEQ_NO,
-                                            AMIF_OSW_GRP";
-                string updateColumnList = insertColumnList;
                 try {
-                    ResultData myResultData = serviceCommon.SaveForChanged(dt, tableName, insertColumnList, updateColumnList, keysColumnList, pokeBall);
+                    ResultData myResultData = dao20110.UpdateAMIF(dt);
                     if (myResultData.Status == ResultStatus.Fail) {
-                        return ResultStatus.Fail;
+                        return ResultStatus.FailButNext;
                     }
                     else {
                         PbFunc.f_write_logf(_ProgramID, "I", "變更資料");
