@@ -4242,7 +4242,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                TableRow tableRow = WordTable.Rows.Append();
                WordTableCell = tableRow.FirstCell;
 
-               Doc.InsertSingleLineText(WordTableCell.Range.Start, $"{dr["kind_id"].AsString()}({dr["kind_abbr_name"].AsString()})");
+               Doc.InsertSingleLineText(WordTableCell.Range.Start, $"{dr["kind_id"].AsString()}{Characters.LineBreak}({dr["kind_abbr_name"].AsString()})");
                Doc.InsertSingleLineText(WordTable[tableRow.Index, 1].Range.Start, dr["data_ymd"].AsDateTime("yyyyMMdd").ToString("yyyy/MM/dd"));
 
                int formatindex = 0;
@@ -4773,6 +4773,162 @@ namespace PhoenixCI.FormUI.Prefix4 {
                                       $"NYSE/LIFFE{Characters.LineBreak}(美元)",
                                       $"CME/COMEX{Characters.LineBreak}(美元)",
                                       $"TOCOM{Characters.LineBreak}(日幣)"};
+         }
+
+         public string[] DbCol(string nowORAfter) {
+            string[] dbCurCols = new string[] { "cur_cm", "cur_cm_rate", "cur_im_rate" };
+            string[] dbMCols = new string[] { "m_cm", "m_cm_rate", "m_im_rate" };
+
+            return nowORAfter == "現行" ? dbCurCols : dbMCols;
+         }
+      }
+
+      private class KindInfo40030XBF : I40030KindInfoE {
+         public int RowCount { get; set; }
+         public int ColCount { get; set; }
+         public string[] NowOrAfter { get; set; }
+         public string[] TableName { get; set; }
+         public string[] ColTtile { get; set; }
+         public string[] RowTitle { get; set; }
+         public string[] FieldFormat { get; set; }
+
+         public KindInfo40030XBF() {
+            RowCount = 2;
+            ColCount = 3;
+            NowOrAfter = new string[] { "現行", "調整後" };
+            TableName = new string[] { "本公司{0}英鎊兌美元匯率期貨保證金占契約價值比與國際主要交易所比較表",
+                                       "本公司{0}英鎊兌美元匯率期貨保證金與國際主要交易所保證金比較表" };
+
+            FieldFormat = new string[] { "#,##0.##", "%", "%" };
+            RowTitle = new string[] { $"英鎊兌美元{Characters.LineBreak}匯率期貨契約{Characters.LineBreak}結算保證金", "結算保證金占契約總值比例", "原始保證金占契約總值比例" };
+            ColTtile = new string[] { "交易所",
+                                      $"XBF{Characters.LineBreak}TAIFEX",
+                                      $"CME{Characters.LineBreak}"};
+         }
+
+         public string[] DbCol(string nowORAfter) {
+            string[] dbCurCols = new string[] { "cur_cm", "cur_cm_rate", "cur_im_rate" };
+            string[] dbMCols = new string[] { "m_cm", "m_cm_rate", "m_im_rate" };
+
+            return nowORAfter == "現行" ? dbCurCols : dbMCols;
+         }
+      }
+
+      private class KindInfo40030XEF : I40030KindInfoE {
+         public int RowCount { get; set; }
+         public int ColCount { get; set; }
+         public string[] NowOrAfter { get; set; }
+         public string[] TableName { get; set; }
+         public string[] ColTtile { get; set; }
+         public string[] RowTitle { get; set; }
+         public string[] FieldFormat { get; set; }
+
+         public KindInfo40030XEF() {
+            RowCount = 2;
+            ColCount = 3;
+            NowOrAfter = new string[] { "現行", "調整後" };
+            TableName = new string[] { "本公司{0}歐元兌美元匯率期貨保證金占契約價值比與國際主要交易所比較表",
+                                       "本公司{0}歐元兌美元匯率期貨保證金與國際主要交易所保證金比較表" };
+
+            FieldFormat = new string[] { "#,##0.##", "%", "%" };
+            RowTitle = new string[] { $"歐元兌美元{Characters.LineBreak}匯率期貨契約{Characters.LineBreak}結算保證金", "結算保證金占契約總值比例", "原始保證金占契約總值比例" };
+            ColTtile = new string[] { "交易所",
+                                      $"XEF{Characters.LineBreak}TAIFEX",
+                                      $"CME{Characters.LineBreak}"};
+         }
+
+         public string[] DbCol(string nowORAfter) {
+            string[] dbCurCols = new string[] { "cur_cm", "cur_cm_rate", "cur_im_rate" };
+            string[] dbMCols = new string[] { "m_cm", "m_cm_rate", "m_im_rate" };
+
+            return nowORAfter == "現行" ? dbCurCols : dbMCols;
+         }
+      }
+
+      private class KindInfo40030XJF : I40030KindInfoE {
+         public int RowCount { get; set; }
+         public int ColCount { get; set; }
+         public string[] NowOrAfter { get; set; }
+         public string[] TableName { get; set; }
+         public string[] ColTtile { get; set; }
+         public string[] RowTitle { get; set; }
+         public string[] FieldFormat { get; set; }
+
+         public KindInfo40030XJF() {
+            RowCount = 2;
+            ColCount = 3;
+            NowOrAfter = new string[] { "現行", "調整後" };
+            TableName = new string[] { "本公司{0}美元兌日圓匯率期貨保證金占契約價值比與國際主要交易所比較表",
+                                       "本公司{0}美元兌日圓匯率期貨保證金與國際主要交易所保證金比較表" };
+
+            FieldFormat = new string[] { "#,##0.##", "%", "%" };
+            RowTitle = new string[] { $"美元兌日圓{Characters.LineBreak}匯率期貨契約{Characters.LineBreak}結算保證金", "結算保證金占契約總值比例", "原始保證金占契約總值比例" };
+            ColTtile = new string[] { "交易所",
+                                      $"XJF{Characters.LineBreak}TAIFEX",
+                                      $"SGX{Characters.LineBreak}"};
+         }
+
+         public string[] DbCol(string nowORAfter) {
+            string[] dbCurCols = new string[] { "cur_cm", "cur_cm_rate", "cur_im_rate" };
+            string[] dbMCols = new string[] { "m_cm", "m_cm_rate", "m_im_rate" };
+
+            return nowORAfter == "現行" ? dbCurCols : dbMCols;
+         }
+      }
+
+      private class KindInfo40030XAF : I40030KindInfoE {
+         public int RowCount { get; set; }
+         public int ColCount { get; set; }
+         public string[] NowOrAfter { get; set; }
+         public string[] TableName { get; set; }
+         public string[] ColTtile { get; set; }
+         public string[] RowTitle { get; set; }
+         public string[] FieldFormat { get; set; }
+
+         public KindInfo40030XAF() {
+            RowCount = 2;
+            ColCount = 3;
+            NowOrAfter = new string[] { "現行", "調整後" };
+            TableName = new string[] { "本公司{0}澳幣兌美元匯率期貨保證金占契約價值比與國際主要交易所比較表",
+                                       "本公司{0}澳幣兌美元匯率期貨保證金與國際主要交易所保證金比較表" };
+
+            FieldFormat = new string[] { "#,##0.##", "%", "%" };
+            RowTitle = new string[] { $"澳幣兌美元{Characters.LineBreak}匯率期貨契約{Characters.LineBreak}結算保證金", "結算保證金占契約總值比例", "原始保證金占契約總值比例" };
+            ColTtile = new string[] { "交易所",
+                                      $"XAF{Characters.LineBreak}TAIFEX",
+                                      $"CME{Characters.LineBreak}"};
+         }
+
+         public string[] DbCol(string nowORAfter) {
+            string[] dbCurCols = new string[] { "cur_cm", "cur_cm_rate", "cur_im_rate" };
+            string[] dbMCols = new string[] { "m_cm", "m_cm_rate", "m_im_rate" };
+
+            return nowORAfter == "現行" ? dbCurCols : dbMCols;
+         }
+      }
+
+      private class KindInfo40030RHF : I40030KindInfoE {
+         public int RowCount { get; set; }
+         public int ColCount { get; set; }
+         public string[] NowOrAfter { get; set; }
+         public string[] TableName { get; set; }
+         public string[] ColTtile { get; set; }
+         public string[] RowTitle { get; set; }
+         public string[] FieldFormat { get; set; }
+
+         public KindInfo40030RHF() {
+            RowCount = 2;
+            ColCount = 6;
+            NowOrAfter = new string[] { "現行", "調整後" };
+            TableName = new string[] { "本公司{0}美元兌人民幣匯率期貨保證金占契約價值比與國際主要交易所比較表",
+                                       "本公司{0}美元兌人民幣匯率期貨保證金與國際主要交易所保證金比較表" };
+
+            FieldFormat = new string[] { "#,##0.##", "%", "%" };
+            RowTitle = new string[] { $"美元兌人民幣{Characters.LineBreak}匯率期貨契約{Characters.LineBreak}結算保證金", "結算保證金占契約總值比例", "原始保證金占契約總值比例" };
+            ColTtile = new string[] { "交易所",
+                                      $"RHF{Characters.LineBreak}TAIFEX",
+                                      $"RTF{Characters.LineBreak}TAIFEX",
+                                      "HKEX","CME","SGX"};
          }
 
          public string[] DbCol(string nowORAfter) {
