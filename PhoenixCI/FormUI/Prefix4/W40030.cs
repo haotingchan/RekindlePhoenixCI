@@ -742,8 +742,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
          /// 設定標題
          /// </summary>
          /// <param name="str">標題文字</param>
-         protected virtual void SetSubjectText(string str) {
-            Doc.AppendText(Environment.NewLine);
+         protected virtual void SetSubjectText(string str, bool hasBold = true, bool hasNewLine = true) {
+            if (hasNewLine) Doc.AppendText(Environment.NewLine);
             Doc.AppendText(str);
 
             ParagraphProps = Doc.BeginUpdateParagraphs(Doc.Paragraphs.Last().Range);
@@ -755,8 +755,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             CharacterProps = Doc.BeginUpdateCharacters(Doc.Paragraphs.Last().Range);
             CharacterProps.FontSize = 14;
-            CharacterProps.Bold = true;
             CharacterProps.FontName = "標楷體";
+            if (hasBold)
+               CharacterProps.Bold = true;
             Doc.EndUpdateCharacters(CharacterProps);
          }
 
@@ -2109,7 +2110,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                      //現貨&期貨相同
                      //期貨&選擇權保證金相同
-                     if (upDownPoint == upDownPoint2 || upDownPoint == 0 || upDownPoint2 == 0) {
+                     if (warn == "+" || warn == "-" || upDownPoint == 0 || upDownPoint2 == 0) {
                         if (warn != "x") {
                            tmpStr += $"{kindIdOut}及{drO["kind_id_out"].AsString()}保證金調整之方向與現貨及期貨市場漲跌方向";
                            tmpStr += MarketDirectionWarn(upDownPoint, warn);
@@ -2150,7 +2151,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                            }
                         }
                      }
-                     SetInnerText($"{++thridNode}. {tmpStr}", true, 4.17f, 0.6f);
+                     SetInnerText($"{++thridNode}. {tmpStr}。", true, 4.17f, 0.6f);
                      continue;
                   }//if (drO != null)
                    //無選擇權狀況
@@ -2417,7 +2418,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                      //現貨&期貨相同
                      //期貨&選擇權保證金相同
-                     if (upDownPoint == upDownPoint2 || upDownPoint == 0 || upDownPoint2 == 0) {
+                     if (warn == "+" || warn == "-" || upDownPoint == 0 || upDownPoint2 == 0) {
                         if (warn != "x") {
                            tmpStr += $"{kindIdOut}及{drO["kind_id_out"].AsString()}保證金調整之方向與現貨及期貨市場漲跌方向";
                            tmpStr += MarketDirectionWarn(upDownPoint, warn);
@@ -2953,7 +2954,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      if (d.Field<decimal>("i_oi_rate").AsDouble() < 0.01 && d.Field<decimal>("i_oi") > 0)
                         oiRateList.Add("小於0.01%");
                      else
-                        oiRateList.Add(d.Field<decimal>("i_oi_rate").AsPercent(2));
+                        oiRateList.Add(d.Field<decimal>("i_oi_rate").ToString("#,##0.##") + "%");
                   });
 
                   tmpStr = string.Format("(二) 未沖銷部位數：{0} {1}未沖銷部位數{2}為{3}，占全市場未沖銷部位之比例{2}為{4}。",
@@ -3095,8 +3096,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                #region 四
                string prep = dtTemp.Rows.Count == 1 ? "係因其" : "係因：";
-               tmpStr = string.Format("(四) 觀察{0}保證金變動幅度達10%，{1}", GenArrayTxt(wfKindIdE(dtTemp)), prep);
-               SetInnerText(tmpStr, true, 4.11f, 1.25f);
+               tmpStr = string.Format("(四) 觀察{0}保證金變動幅度達5%，{1}", GenArrayTxt(wfKindIdE(dtTemp)), prep);
+
+               if (dtTemp.Rows.Count > 1)
+                  SetInnerText(tmpStr, true, 4.11f, 1.25f);
+
                int node = 1;
 
                foreach (DataRow dr in dtTemp.Rows) {
@@ -3104,7 +3108,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                   string FOrN = prodType == "F" ? "期貨" : "現貨";
 
-                  tmpStr = $"{node}. 近期{dr["kind_id_out"].AsString()}之{FOrN}指數";
+                  if (dtTemp.Rows.Count > 1)
+                     tmpStr = $"{node}. 近期{dr["kind_id_out"].AsString()}之{FOrN}指數";
+                  else
+                     tmpStr += $"近期{dr["kind_id_out"].AsString()}之{FOrN}指數";
 
                   DataRow drFind = dtTemp.AsEnumerable().Where(d => d.Field<string>("stock_id").AsString() == dr["stock_id"].AsString()).FirstOrDefault();
                   if (drFind != null) {
@@ -3136,7 +3143,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                   tmpStr += "▲▲▲";
 
-                  SetInnerText(tmpStr, true, 4.17f, 0.6f);
+                  if (dtTemp.Rows.Count > 1)
+                     SetInnerText(tmpStr, true, 4.17f, 0.6f);
+                  else
+                     SetInnerText(tmpStr, true, 4.11f, 1.25f);
 
                   node++;
                }
@@ -3157,7 +3167,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      string str2 = GetSpot(kindId, "TAIFEX", "m");
                      tmpStr = dtTemp.Rows.Count > 0 ? $"{++node}. " : "  ";
 
-                     tmpStr = $"現行本公司{kindId}結算保證金占契約總值比例{str1}倘{checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3)}" +
+                     tmpStr = $"  現行本公司{kindId}結算保證金占契約總值比例{str1}，倘{checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3)}" +
                               $"依說明二調整，則本公司{kindId}結算保證金占契約總值比例{str2}。";
 
                      SetInnerText(tmpStr, true, 4.17f, 0.6f);
@@ -3182,7 +3192,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             string tmpStr = "";
             string checkedDateStr = checkedDate.ToString("yyyyMMdd");
 
-            SetInnerText($"{descPoint} 綜上，經考量市場風險，建議如下：");
+            SetInnerText($"{descPoint}綜上，經考量市場風險，建議如下：");
 
             //(一)
             //調整
@@ -3217,7 +3227,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             drsTemp = dtTemp.Select("prod_subtype = 'E'  and adj_rate > 0 and adj_code = ' '").ToList();
             if (drsTemp.Count > 0) {
                List<string> adjRateList = new List<string>();
-               drsTemp.ForEach(r => adjRateList.Add((r.Field<object>("adj_rate").AsDecimal() * 100).ToString("#,##0") + "%"));
+               drsTemp.ForEach(r => adjRateList.Add((r.Field<object>("adj_rate").AsDecimal() * 100).ToString("#,##0.##") + "%"));
 
                tmpStr = string.Format("({0}) {1}之保證金變動幅度達{2}，考量本公司匯率期貨契約於國際市場之競爭性，建議暫不調整。",
                                       ChineseNumber[++point], GenArrayTxt(wfKindIdE(drsTemp.CopyToDataTable())), GenArrayTxt(adjRateList));
@@ -3444,6 +3454,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //三
             tmpStr = $"前揭股票期貨{checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3)}之風險價格係數平均值、30天期風險價格係數近月合約之結算價、各月份契約合計成交量及未沖銷部位，列表如下：";
             SetInnerText($"{ChineseNumber[++licnt]}、{tmpStr}");
+            dtSTF = dtSTF.Sort("MGR3_CUR_LEVEL,MGR3_KIND_ID");
             DrowSTFTable(dtSTF);
 
             //四
@@ -3602,7 +3613,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             tmpStr = drsSpan.Count == 0 ? "前揭參數" : GenArrayTxt(kindNameSpan);
 
-            SetInnerText($"經考量市場風險{tmpStr}調整如說明二。", false);
+            SetInnerText($"經考量市場風險，{tmpStr}調整如說明二。", false);
          }
 
          protected override void DrowTable(DataTable dataTable) {
@@ -4346,6 +4357,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             string[] colName = new string[] { "t_30_rate", "mgr2_day_rate", "tfxm1_price", "ai5_price", "ai2_oi", "ai2_m_qnty" };
             string[] fieldFormat = new string[] { "%", "%", "#,##0.##", "#,##0.##", "#,##0", "#,##0" };
+
             foreach (DataRow dr in dtSTF.Rows) {
                TableRow tableRow = WordTable.Rows.Append();
                WordTableCell = tableRow.FirstCell;

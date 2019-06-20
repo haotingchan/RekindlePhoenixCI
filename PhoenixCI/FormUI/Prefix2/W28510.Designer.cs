@@ -31,6 +31,9 @@
          this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
          this.gcMain = new DevExpress.XtraGrid.GridControl();
          this.gvMain = new DevExpress.XtraGrid.Views.Grid.GridView();
+         this.AM2F_YM = new DevExpress.XtraGrid.Columns.GridColumn();
+         this.AM2F_MARKET_CODE = new DevExpress.XtraGrid.Columns.GridColumn();
+         this.AM2F_KIND_ID = new DevExpress.XtraGrid.Columns.GridColumn();
          this.AM2F_PC_CODE = new DevExpress.XtraGrid.Columns.GridColumn();
          this.AM2F_ACC_CODE = new DevExpress.XtraGrid.Columns.GridColumn();
          this.AM2F_SETTLE_MONTH1 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -98,9 +101,6 @@
          this.AM2F_SPOS13 = new DevExpress.XtraGrid.Columns.GridColumn();
          this.AM2F_L_BPOS13 = new DevExpress.XtraGrid.Columns.GridColumn();
          this.AM2F_L_SPOS13 = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.AM2F_YM = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.AM2F_KIND_ID = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.AM2F_MARKET_CODE = new DevExpress.XtraGrid.Columns.GridColumn();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          this.grpxDescription.SuspendLayout();
@@ -121,6 +121,7 @@
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
+         this.ribbonControl.Size = new System.Drawing.Size(836, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // grpxDescription
@@ -146,8 +147,10 @@
          this.txtMonth.Name = "txtMonth";
          this.txtMonth.Properties.Appearance.Options.UseTextOptions = true;
          this.txtMonth.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtMonth.Properties.Mask.EditMask = "yyyy/MM";
-         this.txtMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtMonth.Properties.EditFormat.FormatString = "yyyyMM";
+         this.txtMonth.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])";
+         this.txtMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.txtMonth.Properties.Mask.ShowPlaceHolders = false;
          this.txtMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtMonth.Size = new System.Drawing.Size(120, 26);
          this.txtMonth.TabIndex = 6;
@@ -283,6 +286,30 @@
          this.gvMain.GridControl = this.gcMain;
          this.gvMain.Name = "gvMain";
          this.gvMain.OptionsView.ColumnAutoWidth = false;
+         // 
+         // AM2F_YM
+         // 
+         this.AM2F_YM.Caption = "年月";
+         this.AM2F_YM.FieldName = "AM2F_YM";
+         this.AM2F_YM.Name = "AM2F_YM";
+         this.AM2F_YM.Visible = true;
+         this.AM2F_YM.VisibleIndex = 0;
+         // 
+         // AM2F_MARKET_CODE
+         // 
+         this.AM2F_MARKET_CODE.Caption = "市場別";
+         this.AM2F_MARKET_CODE.FieldName = "AM2F_MARKET_CODE";
+         this.AM2F_MARKET_CODE.Name = "AM2F_MARKET_CODE";
+         this.AM2F_MARKET_CODE.Visible = true;
+         this.AM2F_MARKET_CODE.VisibleIndex = 1;
+         // 
+         // AM2F_KIND_ID
+         // 
+         this.AM2F_KIND_ID.Caption = "商品";
+         this.AM2F_KIND_ID.FieldName = "AM2F_KIND_ID";
+         this.AM2F_KIND_ID.Name = "AM2F_KIND_ID";
+         this.AM2F_KIND_ID.Visible = true;
+         this.AM2F_KIND_ID.VisibleIndex = 2;
          // 
          // AM2F_PC_CODE
          // 
@@ -819,30 +846,6 @@
          this.AM2F_L_SPOS13.Name = "AM2F_L_SPOS13";
          this.AM2F_L_SPOS13.Visible = true;
          this.AM2F_L_SPOS13.VisibleIndex = 69;
-         // 
-         // AM2F_YM
-         // 
-         this.AM2F_YM.Caption = "年月";
-         this.AM2F_YM.FieldName = "AM2F_YM";
-         this.AM2F_YM.Name = "AM2F_YM";
-         this.AM2F_YM.Visible = true;
-         this.AM2F_YM.VisibleIndex = 0;
-         // 
-         // AM2F_KIND_ID
-         // 
-         this.AM2F_KIND_ID.Caption = "商品";
-         this.AM2F_KIND_ID.FieldName = "AM2F_KIND_ID";
-         this.AM2F_KIND_ID.Name = "AM2F_KIND_ID";
-         this.AM2F_KIND_ID.Visible = true;
-         this.AM2F_KIND_ID.VisibleIndex = 2;
-         // 
-         // AM2F_MARKET_CODE
-         // 
-         this.AM2F_MARKET_CODE.Caption = "市場別";
-         this.AM2F_MARKET_CODE.FieldName = "AM2F_MARKET_CODE";
-         this.AM2F_MARKET_CODE.Name = "AM2F_MARKET_CODE";
-         this.AM2F_MARKET_CODE.Visible = true;
-         this.AM2F_MARKET_CODE.VisibleIndex = 1;
          // 
          // W28510
          // 
