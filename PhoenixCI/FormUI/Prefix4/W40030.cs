@@ -742,8 +742,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
          /// 設定標題
          /// </summary>
          /// <param name="str">標題文字</param>
-         protected virtual void SetSubjectText(string str) {
-            Doc.AppendText(Environment.NewLine);
+         protected virtual void SetSubjectText(string str, bool hasBold = true, bool hasNewLine = true) {
+            if (hasNewLine) Doc.AppendText(Environment.NewLine);
             Doc.AppendText(str);
 
             ParagraphProps = Doc.BeginUpdateParagraphs(Doc.Paragraphs.Last().Range);
@@ -755,8 +755,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             CharacterProps = Doc.BeginUpdateCharacters(Doc.Paragraphs.Last().Range);
             CharacterProps.FontSize = 14;
-            CharacterProps.Bold = true;
             CharacterProps.FontName = "標楷體";
+            if (hasBold)
+               CharacterProps.Bold = true;
             Doc.EndUpdateCharacters(CharacterProps);
          }
 
@@ -2150,7 +2151,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                            }
                         }
                      }
-                     SetInnerText($"{++thridNode}. {tmpStr}", true, 4.17f, 0.6f);
+                     SetInnerText($"{++thridNode}. {tmpStr}。", true, 4.17f, 0.6f);
                      continue;
                   }//if (drO != null)
                    //無選擇權狀況
@@ -2417,7 +2418,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                      //現貨&期貨相同
                      //期貨&選擇權保證金相同
-                     if (warn == "+" || warn == "-"  || upDownPoint == 0 || upDownPoint2 == 0) {
+                     if (warn == "+" || warn == "-" || upDownPoint == 0 || upDownPoint2 == 0) {
                         if (warn != "x") {
                            tmpStr += $"{kindIdOut}及{drO["kind_id_out"].AsString()}保證金調整之方向與現貨及期貨市場漲跌方向";
                            tmpStr += MarketDirectionWarn(upDownPoint, warn);
@@ -3453,7 +3454,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //三
             tmpStr = $"前揭股票期貨{checkedDate.AsTaiwanDateTime("{0}/{1}/{2}", 3)}之風險價格係數平均值、30天期風險價格係數近月合約之結算價、各月份契約合計成交量及未沖銷部位，列表如下：";
             SetInnerText($"{ChineseNumber[++licnt]}、{tmpStr}");
-            dtSTF = dtSTF.Sort("APDK_KIND_GRP2 ASC, APDK_KIND_LEVEL ASC, MGR3_KIND_ID ASC");
+            dtSTF = dtSTF.Sort("MGR3_CUR_LEVEL,MGR3_KIND_ID");
             DrowSTFTable(dtSTF);
 
             //四
@@ -3612,7 +3613,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             tmpStr = drsSpan.Count == 0 ? "前揭參數" : GenArrayTxt(kindNameSpan);
 
-            SetInnerText($"經考量市場風險{tmpStr}調整如說明二。", false);
+            SetInnerText($"經考量市場風險，{tmpStr}調整如說明二。", false);
          }
 
          protected override void DrowTable(DataTable dataTable) {
@@ -4356,6 +4357,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             string[] colName = new string[] { "t_30_rate", "mgr2_day_rate", "tfxm1_price", "ai5_price", "ai2_oi", "ai2_m_qnty" };
             string[] fieldFormat = new string[] { "%", "%", "#,##0.##", "#,##0.##", "#,##0", "#,##0" };
+
             foreach (DataRow dr in dtSTF.Rows) {
                TableRow tableRow = WordTable.Rows.Append();
                WordTableCell = tableRow.FirstCell;

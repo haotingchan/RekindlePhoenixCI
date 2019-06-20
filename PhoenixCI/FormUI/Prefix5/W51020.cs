@@ -98,7 +98,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
             //列印新增 刪除 修改 的資料
             PrintOrExportChangedByKen(gcMain, dtForAdd, dtForDeleted, dtForModified);
          } catch (Exception ex) {
-            throw ex;
+            MessageDisplay.Error("儲存錯誤");
+            WriteLog(ex, "", false);
+            return ResultStatus.Fail;
          }
          return ResultStatus.Success;
       }
