@@ -316,6 +316,8 @@
          // 
          // bandedGridColumn3
          // 
+         this.bandedGridColumn3.DisplayFormat.FormatString = "f3";
+         this.bandedGridColumn3.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
          this.bandedGridColumn3.FieldName = "WEIGHT_DIFF";
          this.bandedGridColumn3.MinWidth = 30;
          this.bandedGridColumn3.Name = "bandedGridColumn3";
@@ -338,6 +340,7 @@
          // 
          // bandedGridColumn4
          // 
+         this.bandedGridColumn4.DisplayFormat.FormatString = "f3";
          this.bandedGridColumn4.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
          this.bandedGridColumn4.FieldName = "SIMPLE_DIFF";
          this.bandedGridColumn4.MinWidth = 30;
@@ -376,6 +379,8 @@
          // bandedGridColumn5
          // 
          this.bandedGridColumn5.Caption = "價差(單位：點)";
+         this.bandedGridColumn5.DisplayFormat.FormatString = "f3";
+         this.bandedGridColumn5.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
          this.bandedGridColumn5.FieldName = "MAX_DIFF";
          this.bandedGridColumn5.MinWidth = 30;
          this.bandedGridColumn5.Name = "bandedGridColumn5";
@@ -397,6 +402,8 @@
          // bandedGridColumn6
          // 
          this.bandedGridColumn6.Caption = "時間(秒)";
+         this.bandedGridColumn6.DisplayFormat.FormatString = "f3";
+         this.bandedGridColumn6.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
          this.bandedGridColumn6.FieldName = "MAX_DIFF_TIME";
          this.bandedGridColumn6.MinWidth = 30;
          this.bandedGridColumn6.Name = "bandedGridColumn6";
@@ -433,6 +440,8 @@
          // bandedGridColumn7
          // 
          this.bandedGridColumn7.Caption = "價差(單位：點)";
+         this.bandedGridColumn7.DisplayFormat.FormatString = "f3";
+         this.bandedGridColumn7.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
          this.bandedGridColumn7.FieldName = "MIN_DIFF";
          this.bandedGridColumn7.MinWidth = 30;
          this.bandedGridColumn7.Name = "bandedGridColumn7";
@@ -476,6 +485,7 @@
          // 
          // bandedGridColumn9
          // 
+         this.bandedGridColumn9.DisplayFormat.FormatString = "f3";
          this.bandedGridColumn9.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
          this.bandedGridColumn9.FieldName = "NO_TWO_SIDE_TIME";
          this.bandedGridColumn9.MinWidth = 30;
