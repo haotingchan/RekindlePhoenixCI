@@ -301,6 +301,8 @@
          // 
          // bandedGridColumn3
          // 
+         this.bandedGridColumn3.DisplayFormat.FormatString = "f3";
+         this.bandedGridColumn3.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
          this.bandedGridColumn3.FieldName = "B_WEIGHT_QNTY";
          this.bandedGridColumn3.MinWidth = 30;
          this.bandedGridColumn3.Name = "bandedGridColumn3";
@@ -322,6 +324,8 @@
          // 
          // bandedGridColumn4
          // 
+         this.bandedGridColumn4.DisplayFormat.FormatString = "f3";
+         this.bandedGridColumn4.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
          this.bandedGridColumn4.FieldName = "S_WEIGHT_QNTY";
          this.bandedGridColumn4.MinWidth = 30;
          this.bandedGridColumn4.Name = "bandedGridColumn4";
@@ -356,6 +360,8 @@
          // 
          // bandedGridColumn5
          // 
+         this.bandedGridColumn5.DisplayFormat.FormatString = "f3";
+         this.bandedGridColumn5.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
          this.bandedGridColumn5.FieldName = "B_MAX_QNTY";
          this.bandedGridColumn5.MinWidth = 30;
          this.bandedGridColumn5.Name = "bandedGridColumn5";
@@ -377,6 +383,7 @@
          // 
          // bandedGridColumn6
          // 
+         this.bandedGridColumn6.DisplayFormat.FormatString = "f3";
          this.bandedGridColumn6.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
          this.bandedGridColumn6.FieldName = "B_MAX_SEC";
          this.bandedGridColumn6.MinWidth = 30;
@@ -412,6 +419,8 @@
          // 
          // bandedGridColumn7
          // 
+         this.bandedGridColumn7.DisplayFormat.FormatString = "f3";
+         this.bandedGridColumn7.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
          this.bandedGridColumn7.FieldName = "S_MAX_QNTY";
          this.bandedGridColumn7.MinWidth = 30;
          this.bandedGridColumn7.Name = "bandedGridColumn7";
@@ -433,6 +442,7 @@
          // 
          // bandedGridColumn8
          // 
+         this.bandedGridColumn8.DisplayFormat.FormatString = "f3";
          this.bandedGridColumn8.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
          this.bandedGridColumn8.FieldName = "S_MAX_SEC";
          this.bandedGridColumn8.MinWidth = 30;
