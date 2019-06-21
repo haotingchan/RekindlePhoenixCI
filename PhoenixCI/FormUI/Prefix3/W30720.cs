@@ -24,12 +24,6 @@ namespace PhoenixCI.FormUI.Prefix3
 
          this.Text = _ProgramID + "─" + _ProgramName;
       }
-      public override ResultStatus BeforeOpen()
-      {
-         base.BeforeOpen();
-
-         return ResultStatus.Success;
-      }
 
       protected override ResultStatus Open()
       {
@@ -37,12 +31,6 @@ namespace PhoenixCI.FormUI.Prefix3
          emMonth.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
          sleYear.Text = GlobalInfo.OCF_DATE.ToString("yyyy");
 
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus AfterOpen()
-      {
-         base.AfterOpen();
          return ResultStatus.Success;
       }
 
@@ -94,13 +82,18 @@ namespace PhoenixCI.FormUI.Prefix3
          this.Refresh();
          Thread.Sleep(5);
       }
+      private string _msg;
       /// <summary>
       /// show文字訊息
       /// </summary>
       private string OutputShowMessage {
          set {
-            if (value != MessageDisplay.MSG_OK)
+            _msg = value;
+            if (_msg != MessageDisplay.MSG_OK)
                MessageDisplay.Info(value);
+         }
+         get {
+            return _msg != MessageDisplay.MSG_OK ? string.Empty : _msg;
          }
       }
 
@@ -115,6 +108,8 @@ namespace PhoenixCI.FormUI.Prefix3
 
             ShowMsg("30720－月份交易量彙總表 轉檔中...");
             OutputShowMessage = b30720.WF30720();
+            if (string.IsNullOrEmpty(OutputShowMessage))
+               return ResultStatus.Fail;
 
          }
          catch (Exception ex) {
@@ -128,21 +123,6 @@ namespace PhoenixCI.FormUI.Prefix3
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Export(ReportHelper reportHelper)
-      {
-         base.Export(reportHelper);
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus CheckShield()
-      {
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus COMPLETE()
-      {
-         return ResultStatus.Success;
-      }
       private void rgDate_SelectedIndexChanged(object sender, EventArgs e)
       {
          DevExpress.XtraEditors.RadioGroup rb = sender as DevExpress.XtraEditors.RadioGroup;

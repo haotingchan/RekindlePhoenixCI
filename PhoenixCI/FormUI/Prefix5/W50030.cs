@@ -751,7 +751,7 @@ namespace PhoenixCI.FormUI.Prefix5
             //商品名稱會根據列印順序有所不同
             ReportProp productName = new ReportProp { DataColumn = "AMM0_PROD_ID", Caption = "商品名稱", CellWidth = 100 };
             if (_D500Xx.SortType == "P") {
-               caption.Insert(1, productName);//選擇商品，商品名稱會位於第二欄
+               caption.Insert(2, productName);//選擇商品，商品名稱會位於第三欄
             }
             else {
                caption.Insert(5, productName);//選擇造勢者，商品名稱會位於第六欄

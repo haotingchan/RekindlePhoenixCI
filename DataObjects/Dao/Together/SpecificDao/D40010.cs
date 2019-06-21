@@ -27,7 +27,7 @@ namespace DataObjects.Dao.Together.SpecificDao
                               MGP1_V_SMA, --F 當日漲跌點數
                               MGP1_RTN_SMA, --G |報酬率|
                               MG1_PROD_SUBTYPE,  --A1 SUBTYPE
-                              MGP1_PROD_TYPE,  --B1 TYPE
+                              MG1_PROD_TYPE,  --B1 TYPE
                               MG1_KIND_ID as KIND_ID, --C1 KIND_ID
                               MG1_CURRENCY_TYPE, --D1 幣別
                               MG1_PARAM_KEY,  --E1 PARAM_KEY
@@ -37,7 +37,7 @@ namespace DataObjects.Dao.Together.SpecificDao
                               MG1_MIN_RISK, --N1 最小風險價格係數
                               MG1_XXX --O3 契約規格
                          from ci.MGP1_SMA,
-                             (select MG1_M_KIND_ID,MG1_KIND_ID,MG1_PROD_SUBTYPE,MG1_PARAM_KEY,MG1_OSW_GRP,MG1_MIN_RISK,MG1_CUR_CM,MG1_XXX,MG1_CURRENCY_TYPE
+                             (select MG1_M_KIND_ID,MG1_KIND_ID,MG1_PROD_SUBTYPE,MG1_PARAM_KEY,MG1_OSW_GRP,MG1_MIN_RISK,MG1_CUR_CM,MG1_XXX,MG1_CURRENCY_TYPE,MG1_PROD_TYPE
                                from ci.MG1_3M
                               where trim(MG1_KIND_ID) = :as_kind_id and MG1_AB_TYPE in('A','-')  and MG1_YMD = :as_eymd and MG1_MODEL_TYPE = 'S')
                        where MGP1_YMD <= :as_eymd

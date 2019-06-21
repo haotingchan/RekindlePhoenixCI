@@ -29,6 +29,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
     public partial class W30222 : FormParent {
 
         private D30222 dao30222;
+        private D30221 dao30221;
         private D30203 dao30203;
         private RepositoryItemLookUpEdit statusLookUpEdit;
         private RepositoryItemLookUpEdit levelLookUpEdit;
@@ -42,6 +43,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             GridHelper.SetCommonGrid(gvMain);
             dao30222 = new D30222();
             dao30203 = new D30203();
+            dao30221 = new D30221();
         }
 
         protected override ResultStatus ActivatedForm() {
@@ -103,6 +105,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
         protected override ResultStatus Retrieve() {
 
             try {
+                gcMain.DataSource = null;//清空grid
                 //1. 讀取資料
                 string ymd = txtDate.Text.Replace("/", "");
 
@@ -123,8 +126,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
                     return ResultStatus.Fail;
                 }
 
-                DateTime raiseYmd = dtPostDate.Rows[0]["RAISE_YMD"].AsDateTime("yyyyMMdd");
-                DateTime lowerYmd = dtPostDate.Rows[0]["LOWER_YMD"].AsDateTime("yyyyMMdd");
+                DateTime raiseYmd = dtPostDate.Rows[0]["RAISE_YMD"].AsString() != "" ? dtPostDate.Rows[0]["RAISE_YMD"].AsDateTime("yyyyMMdd") : "1901/01/01".AsDateTime("yyyy/MM/dd");
+                DateTime lowerYmd = dtPostDate.Rows[0]["LOWER_YMD"].AsString() != "" ? dtPostDate.Rows[0]["LOWER_YMD"].AsDateTime("yyyyMMdd") : "1901/01/01".AsDateTime("yyyy/MM/dd");
                 int liCount = dtPostDate.Rows[0]["LI_COUNT"].AsInt();
 
                 if (raiseYmd != default(DateTime)) {
@@ -144,7 +147,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 DialogResult result = MessageDisplay.Choose("已確認資料，按「是」讀取已存檔資料，按「否」為重新產製資料");
                 if (result == DialogResult.No) return ResultStatus.Fail;
 
-                DataTable dt30222PLS2 = dao30222.d_30222_pls2(ymd);
+                DataTable dt30222PLS2 = dao30222.d_30222_pls2(ymd); //lds_2
                 if (dt30222PLS2.Rows.Count == 0) {
                     MessageDisplay.Info("PL2無任何資料!");
                     return ResultStatus.Fail;
@@ -232,6 +235,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 //2. 寫入DB
                 ResultData myResultData = dao30203.updatePLLOG(dtPLLOG);
                 #endregion
+                showMsg = "PLS1更新資料庫錯誤! ";
+                myResultData = dao30222.updatePLS1(dtGridView);//更新PLS1
 
                 int f;
                 string ymd, effYmd, effYmdLower;
@@ -241,13 +246,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 f = dao30222.checkData(ymd);
                 if (f > 0) {
                     DialogResult result = MessageDisplay.Choose("已確認,是否刪除舊有資料?");
-                    if (result == DialogResult.No) return ResultStatus.Fail;
+                    if (result == DialogResult.No) return ResultStatus.FailButNext;
                     //3.1 刪除PLS2
                     showMsg = "PLS2刪除失敗";
                     delResult = dao30222.DeletePLS2ByDate(ymd);
                     if (!delResult) {
                         MessageDisplay.Error(showMsg);
-                        return ResultStatus.Fail;
+                        return ResultStatus.FailButNext;
                     }
                 }
                 //4. 新增PLS2
@@ -515,8 +520,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             try {
                 if (gvMain.RowCount == 0) {
                     DataTable dt30222 = dao30222.d_30222("");//給一個空的，才能不讀取直接加入前次公告資料
-                        dt30222.Columns.Add("Is_NewRow", typeof(string));
-                        gcMain.DataSource = dt30222;
+                    dt30222.Columns.Add("Is_NewRow", typeof(string));
+                    gcMain.DataSource = dt30222;
                 }
                 string ymd = txtDate.Text.Replace("/", "");
                 gvMain.CloseEditor();

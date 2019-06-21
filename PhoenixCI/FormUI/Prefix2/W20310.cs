@@ -30,6 +30,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             daoAA1 = new AA1();
             txtStartDate.EditValue = GlobalInfo.OCF_DATE.Year + "/01";
             txtEndDate.EditValue = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
+            GridHelper.SetCommonGrid(gvMain);
         }
 
         protected override ResultStatus Open() {
