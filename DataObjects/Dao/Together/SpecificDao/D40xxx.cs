@@ -42,6 +42,11 @@ namespace DataObjects.Dao.Together.SpecificDao {
          return dt;
       }
 
+      /// <summary>
+      /// 取得SPAN資料
+      /// </summary>
+      /// <param name="asDate"></param>
+      /// <returns></returns>
       public DataTable GetSpanData(DateTime asDate) {
          object[] parms = {
                 ":AD_DATE",asDate
