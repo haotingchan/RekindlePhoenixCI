@@ -7,6 +7,7 @@ using BaseGround.Shared;
 using Common;
 using System.Threading;
 using PhoenixCI.BusinessLogic.Prefix3;
+using System.IO;
 /// <summary>
 /// john,20190328,交易量資料轉檔作業
 /// </summary>
@@ -43,13 +44,6 @@ namespace PhoenixCI.FormUI.Prefix3
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Print(ReportHelper reportHelper)
-      {
-         base.Print(reportHelper);
-
-         return ResultStatus.Success;
-      }
-
       private bool StartExport()
       {
          if (!emMonth.IsDate(emMonth.Text, "日期輸入錯誤!")) {
@@ -82,37 +76,30 @@ namespace PhoenixCI.FormUI.Prefix3
          this.Refresh();
          Thread.Sleep(5);
       }
-      private string _msg;
-      /// <summary>
-      /// show文字訊息
-      /// </summary>
-      private string OutputShowMessage {
-         set {
-            _msg = value;
-            if (_msg != MessageDisplay.MSG_OK)
-               MessageDisplay.Info(value);
-         }
-         get {
-            return _msg != MessageDisplay.MSG_OK ? string.Empty : _msg;
-         }
-      }
 
       protected override ResultStatus Export()
       {
          if (!StartExport()) {
             return ResultStatus.Fail;
          }
+
+         string lsFile = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
+         MessageDisplay message = new MessageDisplay();
          try {
-            string lsFile = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
+            
             b30720 = new B30720(lsFile, emMonth.Text, sleYear.Text, rgDate.EditValue.ToString(), rgTime.EditValue.ToString());
 
             ShowMsg("30720－月份交易量彙總表 轉檔中...");
-            OutputShowMessage = b30720.WF30720();
-            if (string.IsNullOrEmpty(OutputShowMessage))
+            message.OutputShowMessage = b30720.WF30720();
+
+            if (string.IsNullOrEmpty(message.OutputShowMessage)) {
                return ResultStatus.Fail;
+            }
 
          }
          catch (Exception ex) {
+            if (File.Exists(lsFile))
+               File.Delete(lsFile);
             WriteLog(ex);
             return ResultStatus.Fail;
          }

@@ -541,16 +541,6 @@ namespace PhoenixCI.FormUI.Prefix5
          StartRetrieve("0000000", "Z999999");
          _D500Xx.Filename = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, _ProgramID + "_" + DateTime.Now.ToString("yyyy.MM.dd") + "-" + DateTime.Now.ToString("HH.mm.ss") + ".csv");
          try {
-            /******************
-      開啟檔案
-      ******************/
-            Workbook workbook = new Workbook();
-            //判斷檔案是否存在,不存在就開一個新檔案
-            if (!File.Exists(_D500Xx.Filename)) {
-               File.Create(_D500Xx.Filename).Close();
-            }
-
-            workbook.LoadDocument(_D500Xx.Filename);
             /* 商品群組 */
             string isKey = dwProdCt.SelectedText.Trim() + "%";
             if (string.IsNullOrEmpty(isKey) || dwProdCt.Enabled == false) {
@@ -647,10 +637,20 @@ namespace PhoenixCI.FormUI.Prefix5
                _D500Xx.Sbrkno, _D500Xx.Ebrkno, isKey, prodSubtype, kindID2, lsText);
             if (_Data.Rows.Count <= 0) {
                EndExport();
-               return ResultStatus.Success;
+               return ResultStatus.Fail;
             }
             /******************
-            切換Sheet
+             開啟檔案
+            ******************/
+            Workbook workbook = new Workbook();
+            //判斷檔案是否存在,不存在就開一個新檔案
+            if (!File.Exists(_D500Xx.Filename)) {
+               File.Create(_D500Xx.Filename).Close();
+            }
+
+            workbook.LoadDocument(_D500Xx.Filename);
+            /******************
+             切換Sheet
             ******************/
             Worksheet worksheet = workbook.Worksheets[0];
             workbook.Options.Export.Csv.WritePreamble = true;//不加這段中文會是亂碼

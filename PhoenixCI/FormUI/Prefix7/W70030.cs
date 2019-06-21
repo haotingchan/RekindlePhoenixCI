@@ -62,14 +62,6 @@ namespace PhoenixCI.FormUI.Prefix7
       private bool StartExport()
       {
          /*******************
-         點選儲存檔案之目錄
-         *******************/
-         //檔名	= 報表型態(起-迄).xls
-         saveFilePath = PbFunc.wf_GetFileSaveName($"dgbas({emMonth.Text.Replace("/", "").SubStr(0, 6)}).xls");
-         if (string.IsNullOrEmpty(saveFilePath)) {
-            return false;
-         }
-         /*******************
          Messagebox
          *******************/
          stMsgTxt.Visible = true;
@@ -97,6 +89,19 @@ namespace PhoenixCI.FormUI.Prefix7
          try {
             string lsYM = emMonth.Text.Replace("/", "").SubStr(0, 6);
             DataTable dt = dao70030.ListAll(lsYM);
+            if (dt.Rows.Count <= 0) {
+               MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
+               return ResultStatus.Fail;
+            }
+
+            /*******************
+            點選儲存檔案之目錄
+            *******************/
+            //檔名	= 報表型態(起-迄).xls
+            saveFilePath = PbFunc.wf_GetFileSaveName($"dgbas({emMonth.Text.Replace("/", "").SubStr(0, 6)}).xls");
+            if (string.IsNullOrEmpty(saveFilePath)) {
+               return ResultStatus.Fail;
+            }
             /*******************
             轉統計資料RAM1
             *******************/
