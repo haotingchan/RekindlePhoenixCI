@@ -41,5 +41,25 @@ namespace Common {
       public static DialogResult Choose(string content,MessageBoxDefaultButton defaultButton = MessageBoxDefaultButton.Button2,string caption = "注意") {
          return MessageBox.Show(content, caption, MessageBoxButtons.YesNo, MessageBoxIcon.Information, defaultButton);
       }
+
+      /// <summary>
+      /// 紀錄處理完成的狀態，如果是MessageDisplay.MSG_OK以外的訊息則為空值
+      /// </summary>
+      protected string _msg;
+      /// <summary>
+      /// show文字訊息
+      /// </summary>
+      public string OutputShowMessage {
+         set {
+            if (value != MSG_OK)
+               Info(value);
+            else
+               _msg = value;
+         }
+         get {
+            return _msg;
+         }
+      }
+
    }
 }
