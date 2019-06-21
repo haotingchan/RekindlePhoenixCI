@@ -265,6 +265,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
          }
 
+         /// <summary>
+         /// 新增說明tag
+         /// </summary>
+         /// <param name="dr"></param>
+         /// <param name="abbrName">商品中說明</param>
          protected virtual void MakeDescElement(DataRow dr, string abbrName) {
             DateTime beginYmd = dr["issue_begin_ymd"].AsDateTime("yyyyMMdd");
             string issueBeginYmd = beginYmd.AsTaiwanDateTime("{0}年{1}月{2}日", 3);
