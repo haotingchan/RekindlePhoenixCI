@@ -280,7 +280,8 @@ namespace DataObjects.Dao.Together.SpecificDao
                        WHERE APDK_PROD_TYPE = 'O'
                            and APDK_PROD_SUBTYPE = 'S'
                GROUP BY SUBSTR(APDK.APDK_KIND_ID,1,2)) P
-               WHERE I.AI2_KIND_ID_2 = P.APDK_KIND_ID_2";
+               WHERE I.AI2_KIND_ID_2 = P.APDK_KIND_ID_2
+               ORDER BY I.AI2_KIND_ID_2";
          DataTable dtResult = db.GetDataTable(sql, parms);
          return dtResult;
       }
