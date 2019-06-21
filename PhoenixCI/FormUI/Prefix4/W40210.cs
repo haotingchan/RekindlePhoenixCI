@@ -128,7 +128,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                 //0.檢查日期跟商品是否有選擇正確
                 //todo check
-                if (cbxProd.SelectedItems.Count == 0) {
+                if (cbxProd.CheckedItemsCount < 1) {
                     MessageDisplay.Warning("請勾選商品!");
                     return ResultStatus.Fail;
                 }
@@ -139,10 +139,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 ShowMsg("訊息：資料轉出中........");
                 //1.設定一些變數,把邏輯直接寫在該變數屬性內
                 List<string> listCode = new List<string>();//多筆,用逗號分隔
-                if (cbxProd.Items[0].CheckState == System.Windows.Forms.CheckState.Checked) {
+                if (cbxProd.Items[0].CheckState == CheckState.Checked) {
                     listCode.Add("1");
                 }
-                if (cbxProd.Items[1].CheckState == System.Windows.Forms.CheckState.Checked) {
+                if (cbxProd.Items[1].CheckState == CheckState.Checked) {
                     listCode.Add("5");
                 }
 
@@ -165,8 +165,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 workbook.LoadDocument(excelDestinationPath);
 
                 //3.write sheet data
-                if (cbxProd.Items[0].CheckState == System.Windows.Forms.CheckState.Checked
-                   || cbxProd.Items[1].CheckState == System.Windows.Forms.CheckState.Checked) {
+                if (cbxProd.Items[0].CheckState == CheckState.Checked
+                   || cbxProd.Items[1].CheckState == CheckState.Checked) {
                     //3.1 現貨data
                     wf_40210_3_old(workbook, StartDate, EndDate, listCode, TotalDayCount);
 
@@ -187,11 +187,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 }//if (cbxProd.Items[0].CheckState || cbxProd.Items[1].CheckState)
 
                 //3.7 STC VSR計算
-                if (cbxProd.Items[2].CheckState == System.Windows.Forms.CheckState.Checked)
+                if (cbxProd.Items[2].CheckState == CheckState.Checked)
                     wf_40210_1(workbook, "STC", StartDate, EndDate, chi_150, chi_180, v365, TotalDayCount);
 
                 //3.8 ETC VSR計算
-                if (cbxProd.Items[3].CheckState == System.Windows.Forms.CheckState.Checked)
+                if (cbxProd.Items[3].CheckState == CheckState.Checked)
                     wf_40210_1(workbook, "ETC", StartDate, EndDate, chi_150, chi_180, v365, TotalDayCount);
 
 

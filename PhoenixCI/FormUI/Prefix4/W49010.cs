@@ -190,7 +190,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                ResultData result = new HCPR().UpdateData(dtChange);
                if (result.Status == ResultStatus.Fail) {
-                  return ResultStatus.Fail;
+                  MessageDisplay.Error("儲存失敗");
+                  return ResultStatus.FailButNext;
                }
 
                printStep = 2; //儲存後列印已確認單
@@ -198,8 +199,39 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
 
          } catch (Exception ex) {
-            throw ex;
+            MessageDisplay.Error("儲存錯誤");
+            WriteLog(ex , "" , false);
+            return ResultStatus.FailButNext;
          } finally {
+            DataTable dtAll = dao49010.GetDataList();
+            DataTable dt = dtAll.Clone();
+            gcMain.DataSource = dt;
+
+            gvMain.AppearancePrint.BandPanel.Options.UseTextOptions = true;
+            gvMain.AppearancePrint.BandPanel.TextOptions.WordWrap = WordWrap.Wrap;
+            gvMain.AppearancePrint.BandPanel.Font = new Font("Microsoft YaHei" , 11);
+
+            gvMain.AppearancePrint.Row.Font = new Font("Microsoft YaHei" , 11);
+            gvMain.OptionsPrint.AllowMultilineHeaders = true;
+            gvMain.AppearancePrint.GroupRow.Font = new Font("Microsoft YaHei" , 11);
+
+            gvMain.BestFitColumns();
+            GridHelper.SetCommonGrid(gvMain);
+
+            gridBand9.AppearanceHeader.TextOptions.WordWrap = WordWrap.Wrap;
+
+            gridBand9.Caption = "(輸入方式：如3.5%，則輸入0.035)";
+
+            gvMain.Columns["CPR_PROD_SUBTYPE"].ColumnEdit = lupProdSubtype;
+            gvMain.Columns["CPR_KIND_ID"].ColumnEdit = lupKindId;
+
+            //製作連動下拉選單(觸發事件)
+            gvMain.ShownEditor += gvMain_ShownEditor;
+            lupProdSubtype.EditValueChanged += lupProdSubtype_EditValueChanged;
+
+            //gcMain.Visible = true;
+            gcMain.Focus();
+            _ToolBtnPrintAll.Enabled = false;//列印
             this.Refresh();
          }
          gcMain.Visible = false;
@@ -207,7 +239,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       protected override ResultStatus InsertRow() {
-         DataTable dt = (DataTable)gcMain.DataSource;
+         //DataTable dt = (DataTable)gcMain.DataSource;
          gvMain.AddNewRow();
          gvMain.OptionsView.RowAutoHeight = true; //整個grid設定要開，不然設定column會無效
 

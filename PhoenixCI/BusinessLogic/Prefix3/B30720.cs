@@ -98,6 +98,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             }
 
             if (dt.Rows.Count <= 0) {
+               File.Delete(newFilePath);
                return $"{lsYMD},30720－月份交易量彙總表,無任何資料!";
             }
             foreach (DataRow dr in dt.Rows) {
@@ -108,7 +109,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             }
             
             worksheet.ScrollTo(0, 0);//直接滾動到最上面，不然看起來很像少行數
-            
+            workbook.SaveDocument(newFilePath);//存檔
          }
          catch (Exception ex) {
             File.Delete(newFilePath);
@@ -117,9 +118,6 @@ namespace PhoenixCI.BusinessLogic.Prefix3
 #else
             throw ex;
 #endif
-         }
-         finally {
-            workbook.SaveDocument(newFilePath);//存檔
          }
 
          return MessageDisplay.MSG_OK;

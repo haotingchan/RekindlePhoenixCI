@@ -15,6 +15,9 @@ using DevExpress.Data;
 using DevExpress.XtraEditors;
 using System.Drawing;
 
+/// <summary>
+/// david 2019/03/18
+/// </summary>
 namespace PhoenixCI.FormUI.Prefix5 {
    public partial class W50010 : FormParent {
       private D50010 dao50010;
@@ -22,12 +25,18 @@ namespace PhoenixCI.FormUI.Prefix5 {
       protected APDK daoAPDK;
 
       #region get UI Value
+      /// <summary>
+      /// 商品群組
+      /// </summary>
       public string paramKey {
          get {
             return string.IsNullOrEmpty(Prod_ct.EditValue.AsString()) ? "" : Prod_ct.EditValue.AsString();
          }
       }
 
+      /// <summary>
+      /// 二碼商品
+      /// </summary>
       public string kindIdSt {
          get {
             return string.IsNullOrEmpty(Kind_id_st.EditValue.AsString()) ? "" : Kind_id_st.EditValue.AsString();
@@ -35,12 +44,18 @@ namespace PhoenixCI.FormUI.Prefix5 {
          }
       }
 
+      /// <summary>
+      /// 造市商品
+      /// </summary>
       public string kindIdO {
          get {
             return string.IsNullOrEmpty(Kind_id_O.EditValue.AsString()) ? "" : Kind_id_O.EditValue.AsString();
          }
       }
 
+      /// <summary>
+      /// 商品序列
+      /// </summary>
       public string prodSort {
          get {
             //return string.IsNullOrEmpty(Txt_prod_sort.EditValue.AsString()) ? "" :
@@ -50,6 +65,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
          }
       }
 
+      /// <summary>
+      /// 起始期貨商代號
+      /// </summary>
       public string fcmSNo {
          get {
             return string.IsNullOrEmpty(Fcm_SNo.EditValue.AsString()) ? "" : Fcm_SNo.EditValue.AsString();
@@ -57,6 +75,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
          }
       }
 
+      /// <summary>
+      /// 截止期貨商代號
+      /// </summary>
       public string fcmENo {
          get {
             return string.IsNullOrEmpty(Fcm_ENo.EditValue.AsString()) ? "" : Fcm_ENo.EditValue.AsString();
@@ -64,12 +85,18 @@ namespace PhoenixCI.FormUI.Prefix5 {
          }
       }
 
+      /// <summary>
+      /// 列印順序
+      /// </summary>
       public string printSort {
          get {
             return PrintSort.EditValue.AsString();
          }
       }
 
+      /// <summary>
+      /// 盤別
+      /// </summary>
       public string matketTime {
          get {
             return MarketTime.EditValue.AsString();

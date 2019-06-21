@@ -10,6 +10,9 @@ using BusinessObjects;
 using BaseGround.Report;
 using BaseGround.Widget;
 
+/// <summary>
+/// david 2019/03/18
+/// </summary>
 namespace PhoenixCI.FormUI.PrefixS {
    public partial class WS0011 : FormParent {
       private DS0011 daoS0011;
@@ -223,7 +226,7 @@ namespace PhoenixCI.FormUI.PrefixS {
       /// <summary>
       /// 根據user所選列來確定search Date
       /// </summary>
-      /// <param name="userSelect"></param>
+      /// <param name="userSelect">user 所選群組</param>
       /// <returns></returns>
       private DateTime GetDateByUserSelect(string userSelect) {
 

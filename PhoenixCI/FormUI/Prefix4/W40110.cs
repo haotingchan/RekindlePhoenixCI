@@ -593,10 +593,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             WordTableCell.VerticalAlignment = TableCellVerticalAlignment.Center;
             WordTable.MergeCells(WordTableCell, WordTable[1, 0]);
 
-            SetTableStr(0, 1, "調整後保證金金額");
+            SetTableStr(0, 1, "調整前保證金金額");
             WordTable.MergeCells(WordTableCell, WordTable[0, 3]);
 
-            SetTableStr(0, 2, "調整前保證金金額");
+            SetTableStr(0, 2, "調整後保證金金額");
             WordTable.MergeCells(WordTableCell, WordTable[0, 4]);
 
             SetTableTitle(TableTitle, 1, "{0}{1}保證金", Environment.NewLine);
@@ -1056,11 +1056,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
       private class ExportWord1B : ExportWordVacationAdjust {
          public ExportWord1B(D40xxx dao, string txtdate, string adjtype, string programId) : base(dao, txtdate, adjtype, programId) {
             FileChName = "40110_新聞稿_春節調整";
+            ColName = new string[] { "cur_im2", "cur_im1", "cur_im", "m_im2", "m_im1", "m_im" };
+            ColNameB = new string[] { "cur_cm_b", "cur_mm_b", "cur_im_b", "m_cm_b", "m_mm_b", "m_im_b" };
          }
 
          public override ReturnMessageClass Export() {
             ReturnMessageClass msg = base.Export();
-            return msg;            
+            return msg;
          }
 
          /// <summary>

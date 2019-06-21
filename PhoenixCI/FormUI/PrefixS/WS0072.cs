@@ -149,12 +149,13 @@ namespace PhoenixCI.FormUI.PrefixS {
             return ResultStatus.FailButNext;
          }
 
-         //儲存日期區間
+         //1.儲存日期區間
          if (savePeriod() != ResultStatus.Success) return resultStatus;
 
-         //儲存VSR PSR InterMonth SOM 
+         //2.儲存VSR PSR InterMonth SOM 
          if (!checkComplete()) return ResultStatus.FailButNext;
 
+         //存module 1
          for (int i = 0; i < modules1.Length; i++) {
             GridView gv = GetGridView(modules1[i]);
 
@@ -165,6 +166,7 @@ namespace PhoenixCI.FormUI.PrefixS {
             resultStatus = daoS0072.udpateSpanContentData(dt).Status;
          }
 
+         //存module 2
          for (int i = 0; i < modules2.Length; i++) {
             GridView gv = GetGridView(modules2[i]);
 
@@ -397,6 +399,7 @@ namespace PhoenixCI.FormUI.PrefixS {
                return;
             }
 
+            //塞資料進grid
             for (int i = 0; i < dtHZISP.Rows.Count; i++) {
                gv_ZISP.AddNewRow();
                gv_ZISP.UpdateCurrentRow();
@@ -421,6 +424,7 @@ namespace PhoenixCI.FormUI.PrefixS {
 
             string cod_col_id = module + "_CONTENT_TYPE";
 
+            //取得資料
             DataTable dtContentType = daoCod.ListByCol2("S0072", cod_col_id);
             RepositoryItemLookUpEdit cbxContentType = new RepositoryItemLookUpEdit();
             cbxContentType.SetColumnLookUp(dtContentType, "COD_ID", "COD_DESC", TextEditStyles.DisableTextEditor);

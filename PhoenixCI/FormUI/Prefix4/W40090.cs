@@ -322,12 +322,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          protected virtual string GenArrayTxt(List<string> kindNameList) {
             string result = "";
-            int k = 1;
+            int k = 0;
 
             foreach (string s in kindNameList) {
                result += s;
                if (k < kindNameList.Count()) {
-                  if (s != kindNameList[kindNameList.Count() - 2]) {
+                  if (k != (kindNameList.Count() - 2)) {
                      result += "、";
                   } else {
                      result += "及";
@@ -429,13 +429,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   rowIndex += 3;
                }
                //刪除空白列 template 576行後表格不同
-               //   if (rowIndex < 576)
-               //      ws.Range[$"{rowIndex}:575"].Delete();
-               //}//if (drsTmp.Count > 0)
-               //else {
-               //   ws.Range["1:575"].Delete();
-               //   rowIndex = 1;
-            }
+               if (rowIndex < 576)
+                  ws.Range[$"{rowIndex}:575"].Delete();
+            //}//if (drsTmp.Count > 0)
+             //else {
+             //   ws.Range["1:575"].Delete();
+             //   rowIndex = 1;
+         }
 
             //比例 template 576行後表格不同
             drsTmp = dtFut.Select("prod_type='F' and amt_type = 'P'").ToList();
@@ -508,9 +508,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   }
                   rowIndex += 3;
                }
-               //   //刪除空白列 template 211行後表格不同
-               //   if (rowIndex < 210)
-               //      ws.Range[$"{rowIndex}:210"].Delete();
+               //刪除空白列 template 211行後表格不同
+               if (rowIndex < 210)
+                  ws.Range[$"{rowIndex}:210"].Delete();
                //} else {
                //   //用刪除的方式會造成template 跑掉, 所以改用隱藏
                //   ws.Rows.Hide(0, 209);
@@ -1050,11 +1050,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                      //rfa 檔會用到的參數
                      adjRate.Add(dr["adj_rate"].AsPercent(2));
-                  } else {
+                  } 
+                  //else {
 
-                     subTypeString.Add(abbrName);
-                     adjRate.Add(dr["adj_rate"].AsPercent(2));
-                  }
+                  //   subTypeString.Add(abbrName);
+                  //   adjRate.Add(dr["adj_rate"].AsPercent(2));
+                  //}
                }
 
                string implBeginDate = Dt.Rows[0]["impl_begin_ymd"].AsString();

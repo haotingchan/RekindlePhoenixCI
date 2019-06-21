@@ -8,6 +8,9 @@ using DataObjects.Dao.Together;
 using System.Globalization;
 using BaseGround.Shared;
 
+/// <summary>
+/// david 2019/03/18
+/// </summary>
 namespace PhoenixCI.FormUI.Prefix3 {
    public partial class W30723 : FormParent {
       private RPT daoRPT;
@@ -141,6 +144,12 @@ namespace PhoenixCI.FormUI.Prefix3 {
          return ResultStatus.Success;
       }
 
+      /// <summary>
+      /// 去得excel 欄位數
+      /// </summary>
+      /// <param name="idfgType"></param>
+      /// <param name="BsCode"></param>
+      /// <returns></returns>
       private int GetCol(int idfgType, string BsCode) {
          int oleCol = 0;
 
@@ -184,6 +193,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
          return oleCol;
       }
 
+      /// <summary>
+      /// 期貨商代碼
+      /// </summary>
       private enum FuturesBroker {
          //證券自營
          SecuritiesDealer = 1,

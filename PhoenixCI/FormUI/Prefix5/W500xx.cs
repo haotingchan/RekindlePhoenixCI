@@ -640,6 +640,8 @@ namespace PhoenixCI.FormUI.Prefix5
       protected override ResultStatus Print(ReportHelper reportHelper)
       {
          CommonReportPortraitA4 reportPortraitA4 = new CommonReportPortraitA4();
+         if (_defReport == null)
+            _defReport = new defReport();
          XtraReport xtraReport = reportHelper.CreateCompositeReport(_defReport, reportPortraitA4);
          string dateCondition = DateText() == "" ? "" : "," + DateText();
          reportHelper.LeftMemo = ConditionText() + dateCondition;
