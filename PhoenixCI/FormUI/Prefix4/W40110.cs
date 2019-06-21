@@ -496,8 +496,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          public ExportWordVacationAdjust(D40xxx dao, string txtdate, string adjtype, string programId) : base(dao, txtdate, adjtype, programId) {
             TableTitle = new string[] { $"結算{Characters.LineBreak}", $"維持{Characters.LineBreak}", $"原始{Characters.LineBreak}" };
-            ColName = new string[] { "m_im2", "m_im1", "m_im", "cur_im2", "cur_im1", "cur_im" };
-            ColNameB = new string[] {  "m_cm_b", "m_mm_b", "m_im_b", "cur_cm_b", "cur_mm_b", "cur_im_b" };
+            ColName = new string[] { "cur_im2", "cur_im1", "cur_im", "m_im2", "m_im1", "m_im" };
+            ColNameB = new string[] { "cur_cm_b", "cur_mm_b", "cur_im_b", "m_cm_b", "m_mm_b", "m_im_b" };
             AppendText = "※本公司上揭契約公告之保證金收取金額，小型美元兌人民幣期貨、美元兌人民幣期貨、" +
                         "小型美元兌人民幣選擇權及美元兌人民幣選擇權為人民幣計價；澳幣兌美元期貨、英鎊兌美元期貨、歐元兌美元期貨為美元計價；美元兌日圓期貨為日圓計價。";
          }
@@ -1062,7 +1062,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          public override ReturnMessageClass Export() {
             ReturnMessageClass msg = base.Export();
-            return msg;            
+            return msg;
          }
 
          /// <summary>
