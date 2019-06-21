@@ -65,12 +65,12 @@
          // 
          this.panParent.Controls.Add(this.panelGrid);
          this.panParent.Controls.Add(this.panFilter);
-         this.panParent.Size = new System.Drawing.Size(996, 674);
+         this.panParent.Size = new System.Drawing.Size(896, 674);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(996, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(896, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // panFilter
@@ -88,7 +88,7 @@
          this.panFilter.Dock = System.Windows.Forms.DockStyle.Top;
          this.panFilter.Location = new System.Drawing.Point(12, 12);
          this.panFilter.Name = "panFilter";
-         this.panFilter.Size = new System.Drawing.Size(972, 155);
+         this.panFilter.Size = new System.Drawing.Size(872, 155);
          this.panFilter.TabIndex = 78;
          // 
          // groupBox2
@@ -96,9 +96,11 @@
          this.groupBox2.AutoSize = true;
          this.groupBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
          this.groupBox2.Controls.Add(this.gbPrice);
-         this.groupBox2.Location = new System.Drawing.Point(693, 3);
+         this.groupBox2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
+         this.groupBox2.ForeColor = System.Drawing.Color.Navy;
+         this.groupBox2.Location = new System.Drawing.Point(698, 5);
          this.groupBox2.Name = "groupBox2";
-         this.groupBox2.Size = new System.Drawing.Size(161, 135);
+         this.groupBox2.Size = new System.Drawing.Size(149, 136);
          this.groupBox2.TabIndex = 93;
          this.groupBox2.TabStop = false;
          this.groupBox2.Text = "輸出選擇";
@@ -106,17 +108,21 @@
          // gbPrice
          // 
          this.gbPrice.EditValue = "rb_price_2";
-         this.gbPrice.Location = new System.Drawing.Point(19, 34);
+         this.gbPrice.Location = new System.Drawing.Point(24, 34);
          this.gbPrice.Name = "gbPrice";
          this.gbPrice.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
+         this.gbPrice.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
          this.gbPrice.Properties.Appearance.Options.UseBackColor = true;
+         this.gbPrice.Properties.Appearance.Options.UseForeColor = true;
          this.gbPrice.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.gbPrice.Properties.Columns = 1;
          this.gbPrice.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_price_0", "最大價差"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_price_1", "最小價差"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_price_2", "平均價差")});
-         this.gbPrice.Size = new System.Drawing.Size(115, 73);
+         this.gbPrice.Properties.LookAndFeel.SkinName = "Office 2013";
+         this.gbPrice.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
+         this.gbPrice.Size = new System.Drawing.Size(115, 74);
          this.gbPrice.TabIndex = 94;
          // 
          // groupBox1
@@ -126,9 +132,11 @@
          this.groupBox1.Controls.Add(this.gbItem);
          this.groupBox1.Controls.Add(this.dw_sbrkno);
          this.groupBox1.Controls.Add(this.dw_prod_kd);
-         this.groupBox1.Location = new System.Drawing.Point(223, 3);
+         this.groupBox1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
+         this.groupBox1.ForeColor = System.Drawing.Color.Navy;
+         this.groupBox1.Location = new System.Drawing.Point(223, 5);
          this.groupBox1.Name = "groupBox1";
-         this.groupBox1.Size = new System.Drawing.Size(464, 135);
+         this.groupBox1.Size = new System.Drawing.Size(464, 136);
          this.groupBox1.TabIndex = 8;
          this.groupBox1.TabStop = false;
          this.groupBox1.Text = "輸入選擇";
@@ -136,36 +144,44 @@
          // gbItem
          // 
          this.gbItem.EditValue = "rb_item_0";
-         this.gbItem.Location = new System.Drawing.Point(27, 28);
+         this.gbItem.Location = new System.Drawing.Point(17, 28);
          this.gbItem.Name = "gbItem";
          this.gbItem.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
+         this.gbItem.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
          this.gbItem.Properties.Appearance.Options.UseBackColor = true;
+         this.gbItem.Properties.Appearance.Options.UseForeColor = true;
          this.gbItem.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.gbItem.Properties.Columns = 1;
          this.gbItem.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_item_0", "造市者"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_item_1", "商品")});
-         this.gbItem.Size = new System.Drawing.Size(78, 79);
+         this.gbItem.Properties.LookAndFeel.SkinName = "Office 2013";
+         this.gbItem.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
+         this.gbItem.Size = new System.Drawing.Size(78, 80);
          this.gbItem.TabIndex = 9;
          this.gbItem.SelectedIndexChanged += new System.EventHandler(this.gbItem_SelectedIndexChanged);
          // 
          // dw_sbrkno
          // 
-         this.dw_sbrkno.Location = new System.Drawing.Point(111, 37);
+         this.dw_sbrkno.Location = new System.Drawing.Point(101, 38);
          this.dw_sbrkno.MenuManager = this.ribbonControl;
          this.dw_sbrkno.Name = "dw_sbrkno";
          this.dw_sbrkno.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.dw_sbrkno.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.dw_sbrkno.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.dw_sbrkno.Size = new System.Drawing.Size(335, 26);
          this.dw_sbrkno.TabIndex = 79;
          // 
          // dw_prod_kd
          // 
-         this.dw_prod_kd.Location = new System.Drawing.Point(111, 72);
+         this.dw_prod_kd.Location = new System.Drawing.Point(101, 74);
          this.dw_prod_kd.MenuManager = this.ribbonControl;
          this.dw_prod_kd.Name = "dw_prod_kd";
          this.dw_prod_kd.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.dw_prod_kd.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.dw_prod_kd.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.dw_prod_kd.Size = new System.Drawing.Size(161, 26);
          this.dw_prod_kd.TabIndex = 92;
          // 
@@ -175,7 +191,7 @@
          this.txtEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtEndDate.EditValue = "2018/12/01";
          this.txtEndDate.EnterMoveNextControl = true;
-         this.txtEndDate.Location = new System.Drawing.Point(108, 61);
+         this.txtEndDate.Location = new System.Drawing.Point(110, 62);
          this.txtEndDate.MenuManager = this.ribbonControl;
          this.txtEndDate.Name = "txtEndDate";
          this.txtEndDate.Properties.Appearance.Options.UseTextOptions = true;
@@ -195,7 +211,7 @@
          this.txtStartDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtStartDate.EditValue = "2018/12/01";
          this.txtStartDate.EnterMoveNextControl = true;
-         this.txtStartDate.Location = new System.Drawing.Point(108, 26);
+         this.txtStartDate.Location = new System.Drawing.Point(110, 17);
          this.txtStartDate.MenuManager = this.ribbonControl;
          this.txtStartDate.Name = "txtStartDate";
          this.txtStartDate.Properties.Appearance.Options.UseTextOptions = true;
@@ -212,7 +228,7 @@
          // gbMarket
          // 
          this.gbMarket.EditValue = "rb_market_0";
-         this.gbMarket.Location = new System.Drawing.Point(53, 96);
+         this.gbMarket.Location = new System.Drawing.Point(55, 106);
          this.gbMarket.Name = "gbMarket";
          this.gbMarket.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
          this.gbMarket.Properties.Appearance.Options.UseBackColor = true;
@@ -220,13 +236,15 @@
          this.gbMarket.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_market_0", "一般"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_market_1", "盤後")});
+         this.gbMarket.Properties.LookAndFeel.SkinName = "Office 2013";
+         this.gbMarket.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbMarket.Size = new System.Drawing.Size(155, 35);
          this.gbMarket.TabIndex = 79;
          // 
          // label3
          // 
          this.label3.AutoSize = true;
-         this.label3.Location = new System.Drawing.Point(67, 64);
+         this.label3.Location = new System.Drawing.Point(15, 65);
          this.label3.Name = "label3";
          this.label3.Size = new System.Drawing.Size(41, 20);
          this.label3.TabIndex = 8;
@@ -235,7 +253,7 @@
          // label2
          // 
          this.label2.AutoSize = true;
-         this.label2.Location = new System.Drawing.Point(19, 29);
+         this.label2.Location = new System.Drawing.Point(15, 20);
          this.label2.Name = "label2";
          this.label2.Size = new System.Drawing.Size(89, 20);
          this.label2.TabIndex = 7;
@@ -250,7 +268,7 @@
          this.panelGrid.Dock = System.Windows.Forms.DockStyle.Fill;
          this.panelGrid.Location = new System.Drawing.Point(12, 167);
          this.panelGrid.Name = "panelGrid";
-         this.panelGrid.Size = new System.Drawing.Size(972, 495);
+         this.panelGrid.Size = new System.Drawing.Size(872, 495);
          this.panelGrid.TabIndex = 79;
          // 
          // gcMain
@@ -262,7 +280,7 @@
          this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit1,
             this.repositoryItemTextEdit2});
-         this.gcMain.Size = new System.Drawing.Size(972, 495);
+         this.gcMain.Size = new System.Drawing.Size(872, 495);
          this.gcMain.TabIndex = 2;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -297,7 +315,7 @@
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(996, 704);
+         this.ClientSize = new System.Drawing.Size(896, 704);
          this.Name = "W50040";
          this.Text = "W500400";
          this.panParent.ResumeLayout(false);

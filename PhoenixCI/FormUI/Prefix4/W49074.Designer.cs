@@ -80,6 +80,9 @@
          // 
          // panelControl1
          // 
+         this.panelControl1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.panelControl1.Appearance.Options.UseBackColor = true;
+         this.panelControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.panelControl1.Controls.Add(this.lblDate);
          this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
          this.panelControl1.Location = new System.Drawing.Point(0, 30);
@@ -92,7 +95,7 @@
          this.lblDate.AutoSize = true;
          this.lblDate.BackColor = System.Drawing.Color.Transparent;
          this.lblDate.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
-         this.lblDate.Location = new System.Drawing.Point(25, 14);
+         this.lblDate.Location = new System.Drawing.Point(23, 12);
          this.lblDate.Name = "lblDate";
          this.lblDate.Size = new System.Drawing.Size(74, 21);
          this.lblDate.TabIndex = 18;
@@ -100,6 +103,9 @@
          // 
          // panelControl2
          // 
+         this.panelControl2.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.panelControl2.Appearance.Options.UseBackColor = true;
+         this.panelControl2.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.panelControl2.Controls.Add(this.btnSubAdd);
          this.panelControl2.Controls.Add(this.btnSubDel);
          this.panelControl2.Controls.Add(this.label3);
@@ -111,6 +117,8 @@
          // 
          // btnSubAdd
          // 
+         this.btnSubAdd.Appearance.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
+         this.btnSubAdd.Appearance.Options.UseFont = true;
          this.btnSubAdd.Location = new System.Drawing.Point(134, 6);
          this.btnSubAdd.Name = "btnSubAdd";
          this.btnSubAdd.Size = new System.Drawing.Size(87, 37);
@@ -120,6 +128,8 @@
          // 
          // btnSubDel
          // 
+         this.btnSubDel.Appearance.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
+         this.btnSubDel.Appearance.Options.UseFont = true;
          this.btnSubDel.Location = new System.Drawing.Point(235, 6);
          this.btnSubDel.Name = "btnSubDel";
          this.btnSubDel.Size = new System.Drawing.Size(87, 37);

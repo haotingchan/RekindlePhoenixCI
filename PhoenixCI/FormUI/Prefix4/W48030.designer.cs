@@ -28,8 +28,10 @@
          this.label1 = new System.Windows.Forms.Label();
          this.btnFirstFilter = new System.Windows.Forms.Button();
          this.labEndDate = new System.Windows.Forms.Label();
-         this.labMsg = new System.Windows.Forms.Label();
          this.panFilter = new System.Windows.Forms.GroupBox();
+         this.labMsg = new System.Windows.Forms.Label();
+         this.groupBox1 = new System.Windows.Forms.GroupBox();
+         this.chkModel = new DevExpress.XtraEditors.CheckedListBoxControl();
          this.gcDate = new DevExpress.XtraGrid.GridControl();
          this.gvDate = new DevExpress.XtraGrid.Views.Grid.GridView();
          this.AI2_SELECT = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -60,13 +62,14 @@
          this.CPR_PARAM_KEY = new DevExpress.XtraGrid.Columns.GridColumn();
          this.CPR_MODIFY_FLAG = new DevExpress.XtraGrid.Columns.GridColumn();
          this.CPR_PRICE_RISK_RATE_ORG = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.groupBox1 = new System.Windows.Forms.GroupBox();
-         this.chkModel = new DevExpress.XtraEditors.CheckedListBoxControl();
+         this.r_frame = new DevExpress.XtraEditors.PanelControl();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          this.panFirst.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).BeginInit();
          this.panFilter.SuspendLayout();
+         this.groupBox1.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.chkModel)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gcDate)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvDate)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit2)).BeginInit();
@@ -77,23 +80,21 @@
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).BeginInit();
-         this.groupBox1.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.chkModel)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
+         this.r_frame.SuspendLayout();
          this.SuspendLayout();
          // 
          // panParent
          // 
-         this.panParent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
-         this.panParent.Controls.Add(this.groupBox1);
-         this.panParent.Controls.Add(this.panFilter);
+         this.panParent.Controls.Add(this.r_frame);
          this.panParent.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.panParent.Size = new System.Drawing.Size(870, 735);
+         this.panParent.Size = new System.Drawing.Size(945, 815);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
          this.ribbonControl.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.ribbonControl.Size = new System.Drawing.Size(870, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(945, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // panFirst
@@ -102,11 +103,11 @@
          this.panFirst.Controls.Add(this.label1);
          this.panFirst.Controls.Add(this.btnFirstFilter);
          this.panFirst.Controls.Add(this.labEndDate);
-         this.panFirst.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.panFirst.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
          this.panFirst.ForeColor = System.Drawing.Color.Navy;
-         this.panFirst.Location = new System.Drawing.Point(17, 28);
+         this.panFirst.Location = new System.Drawing.Point(16, 28);
          this.panFirst.Name = "panFirst";
-         this.panFirst.Size = new System.Drawing.Size(823, 88);
+         this.panFirst.Size = new System.Drawing.Size(823, 105);
          this.panFirst.TabIndex = 6;
          this.panFirst.TabStop = false;
          this.panFirst.Text = "1.設定初步條件";
@@ -117,7 +118,7 @@
          this.txtEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtEndDate.EditValue = "2018/12/01";
          this.txtEndDate.EnterMoveNextControl = true;
-         this.txtEndDate.Location = new System.Drawing.Point(105, 27);
+         this.txtEndDate.Location = new System.Drawing.Point(126, 34);
          this.txtEndDate.MenuManager = this.ribbonControl;
          this.txtEndDate.Name = "txtEndDate";
          this.txtEndDate.Properties.Appearance.Options.UseTextOptions = true;
@@ -134,19 +135,19 @@
          // label1
          // 
          this.label1.AutoSize = true;
-         this.label1.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.label1.ForeColor = System.Drawing.Color.Black;
-         this.label1.Location = new System.Drawing.Point(45, 57);
+         this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.label1.ForeColor = System.Drawing.Color.Red;
+         this.label1.Location = new System.Drawing.Point(40, 69);
          this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(247, 16);
+         this.label1.Size = new System.Drawing.Size(257, 20);
          this.label1.TabIndex = 3;
-         this.label1.Text = "(修改完日期後,按Enter可直接查詢)";
+         this.label1.Text = "日期調整後請按Enter更新畫面資料";
          // 
          // btnFirstFilter
          // 
-         this.btnFirstFilter.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.btnFirstFilter.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.btnFirstFilter.ForeColor = System.Drawing.Color.Black;
-         this.btnFirstFilter.Location = new System.Drawing.Point(289, 25);
+         this.btnFirstFilter.Location = new System.Drawing.Point(302, 32);
          this.btnFirstFilter.Margin = new System.Windows.Forms.Padding(0);
          this.btnFirstFilter.Name = "btnFirstFilter";
          this.btnFirstFilter.Size = new System.Drawing.Size(77, 32);
@@ -158,45 +159,87 @@
          // labEndDate
          // 
          this.labEndDate.AutoSize = true;
-         this.labEndDate.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.labEndDate.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
          this.labEndDate.ForeColor = System.Drawing.Color.Black;
-         this.labEndDate.Location = new System.Drawing.Point(16, 33);
+         this.labEndDate.Location = new System.Drawing.Point(40, 37);
          this.labEndDate.Name = "labEndDate";
-         this.labEndDate.Size = new System.Drawing.Size(93, 16);
+         this.labEndDate.Size = new System.Drawing.Size(90, 21);
          this.labEndDate.TabIndex = 2;
          this.labEndDate.Text = "查詢日期：";
-         // 
-         // labMsg
-         // 
-         this.labMsg.AutoSize = true;
-         this.labMsg.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.labMsg.ForeColor = System.Drawing.Color.Blue;
-         this.labMsg.Location = new System.Drawing.Point(448, 334);
-         this.labMsg.Name = "labMsg";
-         this.labMsg.Size = new System.Drawing.Size(184, 16);
-         this.labMsg.TabIndex = 18;
-         this.labMsg.Text = "訊息：資料轉出中........";
-         this.labMsg.Visible = false;
+         this.labEndDate.Click += new System.EventHandler(this.labEndDate_Click);
          // 
          // panFilter
          // 
+         this.panFilter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
          this.panFilter.Controls.Add(this.labMsg);
+         this.panFilter.Controls.Add(this.groupBox1);
          this.panFilter.Controls.Add(this.gcDate);
          this.panFilter.Controls.Add(this.labDateDesc);
          this.panFilter.Controls.Add(this.panSecond);
          this.panFilter.Controls.Add(this.panFirst);
-         this.panFilter.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.panFilter.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
          this.panFilter.ForeColor = System.Drawing.Color.Navy;
-         this.panFilter.Location = new System.Drawing.Point(5, 6);
+         this.panFilter.Location = new System.Drawing.Point(20, 15);
          this.panFilter.Name = "panFilter";
-         this.panFilter.Size = new System.Drawing.Size(853, 608);
+         this.panFilter.Size = new System.Drawing.Size(855, 720);
          this.panFilter.TabIndex = 19;
          this.panFilter.TabStop = false;
          this.panFilter.Text = "請輸入查詢條件";
          // 
+         // labMsg
+         // 
+         this.labMsg.AutoSize = true;
+         this.labMsg.ForeColor = System.Drawing.Color.Blue;
+         this.labMsg.Location = new System.Drawing.Point(446, 367);
+         this.labMsg.MaximumSize = new System.Drawing.Size(389, 120);
+         this.labMsg.Name = "labMsg";
+         this.labMsg.Size = new System.Drawing.Size(86, 21);
+         this.labMsg.TabIndex = 86;
+         this.labMsg.Text = "開始轉檔...";
+         this.labMsg.Visible = false;
+         // 
+         // groupBox1
+         // 
+         this.groupBox1.Controls.Add(this.chkModel);
+         this.groupBox1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
+         this.groupBox1.ForeColor = System.Drawing.Color.Navy;
+         this.groupBox1.Location = new System.Drawing.Point(16, 632);
+         this.groupBox1.Name = "groupBox1";
+         this.groupBox1.Size = new System.Drawing.Size(416, 70);
+         this.groupBox1.TabIndex = 85;
+         this.groupBox1.TabStop = false;
+         this.groupBox1.Text = "3.指標種類";
+         // 
+         // chkModel
+         // 
+         this.chkModel.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.chkModel.Appearance.Options.UseBackColor = true;
+         this.chkModel.Appearance.Options.UseTextOptions = true;
+         this.chkModel.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
+         this.chkModel.AppearanceSelected.BackColor = System.Drawing.Color.White;
+         this.chkModel.AppearanceSelected.BackColor2 = System.Drawing.Color.White;
+         this.chkModel.AppearanceSelected.Options.UseBackColor = true;
+         this.chkModel.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+         this.chkModel.ColumnWidth = 130;
+         this.chkModel.HotTrackSelectMode = DevExpress.XtraEditors.HotTrackSelectMode.SelectItemOnClick;
+         this.chkModel.ItemAutoHeight = true;
+         this.chkModel.ItemPadding = new System.Windows.Forms.Padding(5);
+         this.chkModel.Items.AddRange(new DevExpress.XtraEditors.Controls.CheckedListBoxItem[] {
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkSma", "SMA"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkEwma", "EWMA"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkMax", "Max")});
+         this.chkModel.Location = new System.Drawing.Point(20, 26);
+         this.chkModel.LookAndFeel.SkinName = "Office 2013";
+         this.chkModel.LookAndFeel.UseDefaultLookAndFeel = false;
+         this.chkModel.MultiColumn = true;
+         this.chkModel.Name = "chkModel";
+         this.chkModel.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+         this.chkModel.Size = new System.Drawing.Size(393, 34);
+         this.chkModel.TabIndex = 25;
+         // 
          // gcDate
          // 
-         this.gcDate.Location = new System.Drawing.Point(451, 145);
+         this.gcDate.Location = new System.Drawing.Point(450, 177);
          this.gcDate.MainView = this.gvDate;
          this.gcDate.MenuManager = this.ribbonControl;
          this.gcDate.Name = "gcDate";
@@ -316,11 +359,11 @@
          // labDateDesc
          // 
          this.labDateDesc.AutoSize = true;
-         this.labDateDesc.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.labDateDesc.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
          this.labDateDesc.ForeColor = System.Drawing.Color.Black;
-         this.labDateDesc.Location = new System.Drawing.Point(448, 122);
+         this.labDateDesc.Location = new System.Drawing.Point(446, 150);
          this.labDateDesc.Name = "labDateDesc";
-         this.labDateDesc.Size = new System.Drawing.Size(127, 16);
+         this.labDateDesc.Size = new System.Drawing.Size(122, 21);
          this.labDateDesc.TabIndex = 24;
          this.labDateDesc.Text = "圖表資料區間：";
          // 
@@ -331,9 +374,9 @@
          this.panSecond.Controls.Add(this.btnClearAll);
          this.panSecond.Controls.Add(this.btnChooseAll);
          this.panSecond.Controls.Add(this.gcKind);
-         this.panSecond.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.panSecond.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
          this.panSecond.ForeColor = System.Drawing.Color.Navy;
-         this.panSecond.Location = new System.Drawing.Point(17, 122);
+         this.panSecond.Location = new System.Drawing.Point(16, 142);
          this.panSecond.Name = "panSecond";
          this.panSecond.Size = new System.Drawing.Size(416, 480);
          this.panSecond.TabIndex = 21;
@@ -342,32 +385,35 @@
          // 
          // cbxSubType
          // 
-         this.cbxSubType.Location = new System.Drawing.Point(105, 29);
+         this.cbxSubType.Location = new System.Drawing.Point(127, 34);
          this.cbxSubType.Name = "cbxSubType";
-         this.cbxSubType.Properties.Appearance.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.cbxSubType.Properties.Appearance.Options.UseFont = true;
+         this.cbxSubType.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+         this.cbxSubType.Properties.AppearanceDisabled.Options.UseBackColor = true;
          this.cbxSubType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.cbxSubType.Size = new System.Drawing.Size(121, 22);
-         this.cbxSubType.TabIndex = 2;
-         this.cbxSubType.EditValueChanged += new System.EventHandler(this.cbxSubType_EditValueChanged);
+         this.cbxSubType.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.cbxSubType.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
+         this.cbxSubType.Properties.NullText = "";
+         this.cbxSubType.Properties.PopupSizeable = false;
+         this.cbxSubType.Size = new System.Drawing.Size(121, 26);
+         this.cbxSubType.TabIndex = 99;
          // 
          // labSubType
          // 
          this.labSubType.AutoSize = true;
-         this.labSubType.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.labSubType.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
          this.labSubType.ForeColor = System.Drawing.Color.Black;
-         this.labSubType.Location = new System.Drawing.Point(16, 32);
+         this.labSubType.Location = new System.Drawing.Point(40, 37);
          this.labSubType.Name = "labSubType";
-         this.labSubType.Size = new System.Drawing.Size(93, 16);
+         this.labSubType.Size = new System.Drawing.Size(90, 21);
          this.labSubType.TabIndex = 26;
          this.labSubType.Text = "契約種類：";
          // 
          // btnClearAll
          // 
-         this.btnClearAll.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.btnClearAll.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
          this.btnClearAll.ForeColor = System.Drawing.Color.Black;
-         this.btnClearAll.Location = new System.Drawing.Point(109, 58);
+         this.btnClearAll.Location = new System.Drawing.Point(140, 75);
          this.btnClearAll.Margin = new System.Windows.Forms.Padding(0);
          this.btnClearAll.Name = "btnClearAll";
          this.btnClearAll.Size = new System.Drawing.Size(77, 32);
@@ -378,9 +424,9 @@
          // 
          // btnChooseAll
          // 
-         this.btnChooseAll.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.btnChooseAll.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
          this.btnChooseAll.ForeColor = System.Drawing.Color.Black;
-         this.btnChooseAll.Location = new System.Drawing.Point(19, 58);
+         this.btnChooseAll.Location = new System.Drawing.Point(45, 75);
          this.btnChooseAll.Margin = new System.Windows.Forms.Padding(0);
          this.btnChooseAll.Name = "btnChooseAll";
          this.btnChooseAll.Size = new System.Drawing.Size(77, 32);
@@ -392,7 +438,7 @@
          // gcKind
          // 
          this.gcKind.Dock = System.Windows.Forms.DockStyle.Bottom;
-         this.gcKind.Location = new System.Drawing.Point(3, 103);
+         this.gcKind.Location = new System.Drawing.Point(3, 127);
          this.gcKind.MainView = this.gvKind;
          this.gcKind.MenuManager = this.ribbonControl;
          this.gcKind.Name = "gcKind";
@@ -400,7 +446,7 @@
             this.repositoryItemCheckEdit1,
             this.repositoryItemTextEdit1,
             this.repositoryItemTextEdit2});
-         this.gcKind.Size = new System.Drawing.Size(410, 374);
+         this.gcKind.Size = new System.Drawing.Size(410, 350);
          this.gcKind.TabIndex = 5;
          this.gcKind.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvKind});
@@ -565,49 +611,23 @@
          this.CPR_PRICE_RISK_RATE_ORG.FieldName = "CPR_PRICE_RISK_RATE_ORG";
          this.CPR_PRICE_RISK_RATE_ORG.Name = "CPR_PRICE_RISK_RATE_ORG";
          // 
-         // groupBox1
+         // r_frame
          // 
-         this.groupBox1.Controls.Add(this.chkModel);
-         this.groupBox1.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.groupBox1.ForeColor = System.Drawing.Color.Navy;
-         this.groupBox1.Location = new System.Drawing.Point(5, 632);
-         this.groupBox1.Name = "groupBox1";
-         this.groupBox1.Size = new System.Drawing.Size(433, 70);
-         this.groupBox1.TabIndex = 85;
-         this.groupBox1.TabStop = false;
-         this.groupBox1.Text = "3.指標種類";
-         // 
-         // chkModel
-         // 
-         this.chkModel.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
-         this.chkModel.Appearance.Options.UseBackColor = true;
-         this.chkModel.Appearance.Options.UseTextOptions = true;
-         this.chkModel.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
-         this.chkModel.AppearanceSelected.BackColor = System.Drawing.Color.White;
-         this.chkModel.AppearanceSelected.BackColor2 = System.Drawing.Color.White;
-         this.chkModel.AppearanceSelected.Options.UseBackColor = true;
-         this.chkModel.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-         this.chkModel.ColumnWidth = 130;
-         this.chkModel.HotTrackSelectMode = DevExpress.XtraEditors.HotTrackSelectMode.SelectItemOnClick;
-         this.chkModel.ItemAutoHeight = true;
-         this.chkModel.ItemPadding = new System.Windows.Forms.Padding(5);
-         this.chkModel.Items.AddRange(new DevExpress.XtraEditors.Controls.CheckedListBoxItem[] {
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkSma", "SMA"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkEwma", "EWMA"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkMax", "Max")});
-         this.chkModel.Location = new System.Drawing.Point(20, 26);
-         this.chkModel.MultiColumn = true;
-         this.chkModel.Name = "chkModel";
-         this.chkModel.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-         this.chkModel.Size = new System.Drawing.Size(390, 34);
-         this.chkModel.TabIndex = 25;
+         this.r_frame.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.r_frame.Appearance.Options.UseBackColor = true;
+         this.r_frame.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+         this.r_frame.Controls.Add(this.panFilter);
+         this.r_frame.Location = new System.Drawing.Point(30, 30);
+         this.r_frame.Name = "r_frame";
+         this.r_frame.Size = new System.Drawing.Size(895, 755);
+         this.r_frame.TabIndex = 78;
          // 
          // W48030
          // 
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(870, 765);
+         this.ClientSize = new System.Drawing.Size(945, 845);
          this.Name = "W48030";
          this.Text = "W48030";
          this.panParent.ResumeLayout(false);
@@ -617,6 +637,8 @@
          ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).EndInit();
          this.panFilter.ResumeLayout(false);
          this.panFilter.PerformLayout();
+         this.groupBox1.ResumeLayout(false);
+         ((System.ComponentModel.ISupportInitialize)(this.chkModel)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gcDate)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvDate)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit2)).EndInit();
@@ -628,8 +650,8 @@
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).EndInit();
-         this.groupBox1.ResumeLayout(false);
-         ((System.ComponentModel.ISupportInitialize)(this.chkModel)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.r_frame)).EndInit();
+         this.r_frame.ResumeLayout(false);
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -639,7 +661,6 @@
 
         private System.Windows.Forms.GroupBox panFirst;
         private System.Windows.Forms.Label labEndDate;
-        private System.Windows.Forms.Label labMsg;
         private System.Windows.Forms.GroupBox panFilter;
         private System.Windows.Forms.GroupBox panSecond;
         private DevExpress.XtraGrid.GridControl gcKind;
@@ -658,7 +679,6 @@
         private System.Windows.Forms.Button btnClearAll;
         private System.Windows.Forms.Button btnChooseAll;
         private System.Windows.Forms.Button btnFirstFilter;
-        private DevExpress.XtraEditors.LookUpEdit cbxSubType;
         private System.Windows.Forms.Label labSubType;
         private DevExpress.XtraGrid.Columns.GridColumn EDATE;
         private DevExpress.XtraGrid.Columns.GridColumn DAY_CNT;
@@ -676,5 +696,8 @@
       private BaseGround.Widget.TextDateEdit txtEndDate;
       private System.Windows.Forms.GroupBox groupBox1;
       private DevExpress.XtraEditors.CheckedListBoxControl chkModel;
+      private DevExpress.XtraEditors.LookUpEdit cbxSubType;
+      private System.Windows.Forms.Label labMsg;
+      private DevExpress.XtraEditors.PanelControl r_frame;
    }
 }
