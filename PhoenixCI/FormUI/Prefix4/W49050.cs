@@ -30,8 +30,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
       public W49050(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
-         this.Text = _ProgramID + "─" + _ProgramName;        
-         txtEndYear.Text= GlobalInfo.OCF_DATE.ToString("yyyy");
+         this.Text = _ProgramID + "─" + _ProgramName;
+         txtEndYear.Text = GlobalInfo.OCF_DATE.ToString("yyyy");
          txtStartYear.Text = txtEndYear.Text;
          dao49050 = new D49050();
       }
@@ -69,9 +69,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
          try {
 
             DataTable dt = dao49050.GetDataList();
-                if (dt.Rows.Count==0) {
-                    MessageDisplay.Info("無任何資料!");
-                }
+            if (dt.Rows.Count == 0) {
+               MessageDisplay.Info("無任何資料!");
+               InsertRow();
+            }
 
             //0.check (沒有資料時,則自動新增一筆)
             if (dt.Rows.Count <= 0) {
@@ -83,7 +84,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gcMain.RepositoryItems.Add(memo);
             gvMain.Columns["MGT3_MEMO"].ColumnEdit = memo;
             memo.MaxLength = 30;
-           
+
             //2. 設定gvMain
             gcMain.Visible = true;
             gcMain.DataSource = dt;
@@ -156,18 +157,18 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       protected override ResultStatus InsertRow() {
-            //DataTable dt = (DataTable)gcMain.DataSource;
-            //gvMain.AddNewRow();
+         //DataTable dt = (DataTable)gcMain.DataSource;
+         //gvMain.AddNewRow();
 
-            //gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["IS_NEWROW"] , 1);
+         //gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["IS_NEWROW"] , 1);
 
-            //gvMain.Focus();
-            //gvMain.FocusedColumn = gvMain.Columns[0];
-            base.InsertRow(gvMain);
-            gvMain.Focus();
-            gvMain.FocusedColumn = gvMain.VisibleColumns[0];
+         //gvMain.Focus();
+         //gvMain.FocusedColumn = gvMain.Columns[0];
+         base.InsertRow(gvMain);
+         gvMain.Focus();
+         gvMain.FocusedColumn = gvMain.VisibleColumns[0];
 
-            return ResultStatus.Success;
+         return ResultStatus.Success;
       }
 
       protected override ResultStatus DeleteRow() {
@@ -242,12 +243,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
          }//switch (e.Column.FieldName) 
       }
 
-        private void gvMain_InitNewRow(object sender, InitNewRowEventArgs e) {
-            GridView gv = sender as GridView;
-            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["IS_NEWROW"], 1);
+      private void gvMain_InitNewRow(object sender , InitNewRowEventArgs e) {
+         GridView gv = sender as GridView;
+         gv.SetRowCellValue(gv.FocusedRowHandle , gv.Columns["IS_NEWROW"] , 1);
 
-        }
-        //#endregion
+      }
+      //#endregion
 
-    }
+   }
 }
