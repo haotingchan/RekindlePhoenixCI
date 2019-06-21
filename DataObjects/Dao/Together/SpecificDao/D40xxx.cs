@@ -42,6 +42,11 @@ namespace DataObjects.Dao.Together.SpecificDao {
          return dt;
       }
 
+      /// <summary>
+      /// 取得SPAN資料
+      /// </summary>
+      /// <param name="asDate"></param>
+      /// <returns></returns>
       public DataTable GetSpanData(DateTime asDate) {
          object[] parms = {
                 ":AD_DATE",asDate
@@ -52,16 +57,16 @@ namespace DataObjects.Dao.Together.SpecificDao {
                            WHEN SP1_TYPE = 'SV' THEN 'VSR'   
                            WHEN SP1_TYPE = 'SS' THEN '跨商品折抵率' END AS SP1_TYPE ,
                            SPT1_COM_ID  ,  
-                           SP1_CUR_RATE ,
                            SP1_RATE1 ,
+                           SP1_CUR_RATE,
                            SP1_CHANGE_RANGE
                   FROM(
                         SELECT
                          SP1_TYPE ,
                          SPT1_COM_ID ,  
-                         CASE WHEN SP1_TYPE <> 'SV' THEN CONCAT( '1:', TO_CHAR(SP1_CUR_RATE , '0.00')) ELSE TO_CHAR(SP1_CUR_RATE , '0.00') ||'%' END AS SP1_CUR_RATE , 
-                         CASE WHEN SP1_TYPE <> 'SV' THEN CONCAT( '1:', TO_CHAR(SP1_RATE , '0.00')) ELSE TO_CHAR(SP1_RATE , '0.00') ||'%' END AS SP1_RATE1 ,   
-                        ROUND(SP1_CHANGE_RANGE *100 , 1) ||'%' AS SP1_CHANGE_RANGE,
+                         CASE WHEN SP1_TYPE <> 'SV' THEN CONCAT( '1:', TO_CHAR(SP1_CUR_RATE , '0.00')) ELSE  TO_CHAR(ROUND(SP1_CUR_RATE *100 , 1),'90.9')||'%' END AS SP1_CUR_RATE , 
+                         CASE WHEN SP1_TYPE <> 'SV' THEN CONCAT( '1:', TO_CHAR(SP1_RATE , '0.00')) ELSE TO_CHAR(ROUND(SP1_RATE *100 , 1),'90.9')||'%' END AS SP1_RATE1 ,   
+                         TO_CHAR(ROUND(SP1_CHANGE_RANGE *100 , 1),'90.99')||'%' AS SP1_CHANGE_RANGE,
                         SP1_SEQ_NO
                          FROM CI.SPT1,   
                               CI.SP1 ,CI.SP2
