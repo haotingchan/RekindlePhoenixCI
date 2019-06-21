@@ -1050,11 +1050,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                      //rfa 檔會用到的參數
                      adjRate.Add(dr["adj_rate"].AsPercent(2));
-                  } else {
+                  } 
+                  //else {
 
-                     subTypeString.Add(abbrName);
-                     adjRate.Add(dr["adj_rate"].AsPercent(2));
-                  }
+                  //   subTypeString.Add(abbrName);
+                  //   adjRate.Add(dr["adj_rate"].AsPercent(2));
+                  //}
                }
 
                string implBeginDate = Dt.Rows[0]["impl_begin_ymd"].AsString();
