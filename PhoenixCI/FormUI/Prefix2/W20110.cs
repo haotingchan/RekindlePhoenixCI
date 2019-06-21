@@ -22,6 +22,7 @@ using DevExpress.Spreadsheet;
 using BusinessObjects;
 using static DataObjects.Dao.DataGate;
 using System.Linq;
+using System.Threading;
 
 /// <summary>
 /// Lukas, 2019/1/29
@@ -489,6 +490,11 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 }
                 catch (Exception ex) {
                     MessageBox.Show(ex.Message);
+                }
+                finally {
+                    this.Cursor = Cursors.Arrow;
+                    this.Refresh();
+                    Thread.Sleep(5);
                 }
 
                 #endregion
