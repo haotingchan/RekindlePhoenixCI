@@ -120,7 +120,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             //先確認有沒有資料(這邊不直接下Retrieve是為了不跳錯誤訊息)
             //原本資料在這邊撈，移到外面去
 
-            //沒有新增資料時,則自動新增內容
+            //沒有新增資料時,則自動新增內容(PB不管怎樣都會新增，故把這段註解掉
             //if (dtCheck.Rows.Count == 0) {
             //    dtCheck.Columns.Add("Is_NewRow", typeof(string));
             //    gcMain.DataSource = dtCheck;
