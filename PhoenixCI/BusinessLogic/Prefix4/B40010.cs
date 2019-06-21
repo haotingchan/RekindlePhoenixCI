@@ -90,7 +90,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             }
 
             worksheet.Cells["A1"].SetValue(RowData.Rows[0]["MG1_PROD_SUBTYPE"]);
-            worksheet.Cells["B1"].SetValue(RowData.Rows[0]["MGP1_PROD_TYPE"]);
+            worksheet.Cells["B1"].SetValue(RowData.Rows[0]["MG1_PROD_TYPE"]);
             worksheet.Cells["C1"].SetValue(RowData.Rows[0]["KIND_ID"]);
             worksheet.Cells["D1"].SetValue(RowData.Rows[0]["MG1_CURRENCY_TYPE"]);
             worksheet.Cells["E1"].SetValue(RowData.Rows[0]["MG1_PARAM_KEY"].AsString());//E1那欄文字加trim

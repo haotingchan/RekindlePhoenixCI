@@ -49,8 +49,8 @@ SELECT PLS1_YMD AS PLS1_EFFECTIVE_YMD,
          KIND_GRP2 ,
          PLS1_W_TIME,PLS1_W_USER_ID,
          ' ' AS OP_TYPE  ,
-         case when PLS1_QNTY=0 then null else PLS1_QNTY end as PLS1_QNTY,
-         case when PLS1_STKOUT=0 then null else PLS1_STKOUT end as PLS1_STKOUT,   
+         PLS1_QNTY,   
+         PLS1_STKOUT,   
          PLS1_CP_LEVEL AS PLS1_LEVEL_ORG,
          PLS1_LEVEL_ADJ AS PLS1_LEVEL_ADJ_ORG,
          --CASE WHEN pls1_kind_id2 <> kind_grp2 THEN '小型' ELSE ' ' END as COMPUTE_1
@@ -300,6 +300,43 @@ FROM CI.PLS2
 ";
 
             return db.UpdateOracleDB(inputData, sql);
+        }
+
+        public ResultData updatePLS1(DataTable inputData) {
+
+            string tableName = "CI.PLS1";
+            string keysColumnList = "PLS1_YMD, PLS1_SID";
+            string insertColumnList = @"PLS1_YMD,       
+                                        PLS1_KIND_ID2,  
+                                        PLS1_FUT,       
+                                        PLS1_OPT,       
+                                        PLS1_SID,
+
+                                        PLS1_QNTY,      
+                                        PLS1_STKOUT,    
+                                        PLS1_CUR_LEVEL, 
+                                        PLS1_CUR_NATURE,
+                                        PLS1_CUR_LEGAL, 
+
+                                        PLS1_CUR_999,   
+                                        PLS1_CP_LEVEL,  
+                                        PLS1_CP_NATURE, 
+                                        PLS1_CP_LEGAL,  
+                                        PLS1_CP_999,   
+
+                                        PLS1_LEVEL_ADJ, 
+                                        PLS1_W_TIME,    
+                                        PLS1_W_USER_ID";
+            string updateColumnList = insertColumnList;
+            try {
+
+                //update to DB
+                return SaveForAll(inputData, tableName, insertColumnList, updateColumnList, keysColumnList);
+
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
         }
 
         /// <summary>

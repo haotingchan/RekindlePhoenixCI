@@ -257,8 +257,8 @@
             // repositoryItemTextEdit2
             // 
             this.repositoryItemTextEdit2.AutoHeight = false;
-            this.repositoryItemTextEdit2.DisplayFormat.FormatString = "0,00";
-            this.repositoryItemTextEdit2.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
+            this.repositoryItemTextEdit2.DisplayFormat.FormatString = "#,##0";
+            this.repositoryItemTextEdit2.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.repositoryItemTextEdit2.MaxLength = 18;
             this.repositoryItemTextEdit2.Name = "repositoryItemTextEdit2";
             // 
@@ -272,8 +272,6 @@
             this.AA1_TSE.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.AA1_TSE.Caption = "TWSE";
             this.AA1_TSE.ColumnEdit = this.repositoryItemTextEdit2;
-            this.AA1_TSE.DisplayFormat.FormatString = "0,00";
-            this.AA1_TSE.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
             this.AA1_TSE.FieldName = "AA1_TSE";
             this.AA1_TSE.Name = "AA1_TSE";
             this.AA1_TSE.OptionsColumn.FixedWidth = true;
@@ -291,8 +289,6 @@
             this.AA1_OTC.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.AA1_OTC.Caption = "OTC";
             this.AA1_OTC.ColumnEdit = this.repositoryItemTextEdit2;
-            this.AA1_OTC.DisplayFormat.FormatString = "0,00";
-            this.AA1_OTC.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
             this.AA1_OTC.FieldName = "AA1_OTC";
             this.AA1_OTC.Name = "AA1_OTC";
             this.AA1_OTC.OptionsColumn.FixedWidth = true;

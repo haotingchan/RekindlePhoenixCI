@@ -233,6 +233,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
         }
 
         protected override ResultStatus Save(PokeBall pokeBall) {
+            string ShowMsg = "儲存錯誤";
             try {
                 if (gvMain.RowCount == 0) {
                     MessageDisplay.Info("沒有變更資料,不需要存檔!");
@@ -371,6 +372,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         }//foreach (DataRow drMGD2 in dtMGD2.Rows)
 
                         //刪除已存在資料
+                        ShowMsg = "MGD2資料刪除失敗";
                         if (daoMGD2.DeleteMGD2(ymd, adjType, kindID) < 0) {
                             MessageDisplay.Error("MGD2資料刪除失敗");
                             return ResultStatus.FailButNext;
@@ -533,6 +535,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 //end   if
 
                 //dw_3.update()
+                ShowMsg = "更新資料庫MGD2錯誤! ";
                 ResultData myResultData = daoMGD2.UpdateMGD2(dtEmpty);
                 if (myResultData.Status == ResultStatus.Fail) {
                     MessageDisplay.Error("更新資料庫MGD2錯誤! ");
@@ -540,6 +543,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 }
 
                 //ids_old.update()
+                ShowMsg = "更新資料庫MGD2L錯誤! ";
                 if (dtMGD2Log.Rows.Count > 0) {
                     myResultData = daoMGD2L.UpdateMGD2L(dtMGD2Log);
                     if (myResultData.Status == ResultStatus.Fail) {
@@ -558,8 +562,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 MessageDisplay.Info("報表儲存完成!");
             }
             catch (Exception ex) {
-                MessageDisplay.Error("儲存錯誤");
-                throw ex;
+                MessageDisplay.Error(ShowMsg);
+                WriteLog(ex, "", false);
+                //throw ex;
             }
             return ResultStatus.Success;
         }
