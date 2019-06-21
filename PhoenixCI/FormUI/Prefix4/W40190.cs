@@ -91,31 +91,34 @@ namespace PhoenixCI.FormUI.Prefix4
          Thread.Sleep(5);
       }
 
-      private string OutputShowMessage {
-         set {
-            if (value != MessageDisplay.MSG_OK)
-               MessageDisplay.Info(value);
-         }
-      }
-
       protected override ResultStatus Export()
       {
          if (!StartExport()) {
             return ResultStatus.Fail;
          }
          string saveFilePath = PbFunc.wf_copy_file(_ProgramID, "40190");
+         MessageDisplay message = new MessageDisplay();
          try {
             b40190 = new B40190(saveFilePath,emDate.Text);
 
             ShowMsg("40190_1－期貨保證金 轉檔中...");
-            OutputShowMessage = b40190.Wf40191();
+            message.OutputShowMessage = b40190.Wf40191();
             ShowMsg("40192－選擇權保證金 轉檔中...");
-            OutputShowMessage = b40190.Wf40192();
+            message.OutputShowMessage = b40190.Wf40192();
             ShowMsg("40193－調整狀況 轉檔中...");
-            OutputShowMessage = b40190.Wf40193();
+            message.OutputShowMessage = b40190.Wf40193();
+
+            //沒有任何資料時刪除檔案
+            if (string.IsNullOrEmpty(message.OutputShowMessage)) {
+               //要跳3次無任何資料才能刪除
+               if (File.Exists(saveFilePath))
+                  File.Delete(saveFilePath);
+               return ResultStatus.Fail;
+            }
          }
          catch (Exception ex) {
-            File.Delete(saveFilePath);
+            if (File.Exists(saveFilePath))
+               File.Delete(saveFilePath);
             WriteLog(ex);
             return ResultStatus.Fail;
          }

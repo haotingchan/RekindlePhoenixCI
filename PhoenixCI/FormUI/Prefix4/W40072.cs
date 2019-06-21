@@ -183,7 +183,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         dtDetail.Rows[ii_curr_row]["PROD_TYPE"] = dr["MGD2_PROD_TYPE"];
                         dtDetail.Rows[ii_curr_row]["KIND_ID"] = dr["MGD2_KIND_ID"];
                         dtDetail.Rows[ii_curr_row]["STOCK_ID"] = dr["MGD2_STOCK_ID"];
-                        dtDetail.Rows[ii_curr_row]["ADJ_RATE"] = dr["MGD2_ADJ_RATE"];
+                        dtDetail.Rows[ii_curr_row]["ADJ_RATE"] = dr["MGD2_ADJ_RATE"].AsDecimal() + 1;
                         dtDetail.Rows[ii_curr_row]["DATA_FLAG"] = "Y";
 
                         dtDetail.Rows[ii_curr_row]["PROD_SUBTYPE"] = dr["MGD2_PROD_SUBTYPE"];
@@ -780,6 +780,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     dtGrid.ImportRow(drTemp);
                 }
                 dtGrid.AcceptChanges();
+                gcDetail.DataSource = dtGrid;
             }//foreach (DataRow drInput in dtInput.Rows)
 
             //sort("stock_id A prod_type A ")

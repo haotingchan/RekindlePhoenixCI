@@ -74,6 +74,11 @@ namespace PhoenixCI.FormUI.Prefix2
 
       private bool WfChkDate()
       {
+         //確認：比對日期
+         if (!emProdDate.IsDate(emProdDate.Text, "「比對期貨/選擇權商品基準日期」非正確日期格式")) {
+            return false;
+         }
+
          string lsYMD;
          //確認：計算日期
          lsYMD = emDate.Text.Replace("/", "");
@@ -81,6 +86,7 @@ namespace PhoenixCI.FormUI.Prefix2
          if (ChooseResult == DialogResult.No) {
             return false;
          }
+
          Retrieve();
          DataTable dt = (DataTable)gcMain.DataSource;
 
@@ -101,10 +107,7 @@ namespace PhoenixCI.FormUI.Prefix2
             dao20231.DeletePLS4(lsYMD);
 
          }
-         //確認：比對日期
-         if (!emProdDate.IsDate(emProdDate.Text, "「比對期貨/選擇權商品基準日期」非正確日期格式")) {
-            return false;
-         }
+         
          DialogResult ChooseResult3 = MessageBox.Show($"請確認「比對期貨/選擇權商品基準日期 :{emDate.Text}」是否正確?", "注意", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
          if (ChooseResult3 == DialogResult.Cancel) {
             return false;
