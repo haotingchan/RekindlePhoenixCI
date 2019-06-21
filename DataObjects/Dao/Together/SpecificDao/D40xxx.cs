@@ -61,7 +61,7 @@ namespace DataObjects.Dao.Together.SpecificDao {
                          SPT1_COM_ID ,  
                          CASE WHEN SP1_TYPE <> 'SV' THEN CONCAT( '1:', TO_CHAR(SP1_CUR_RATE , '0.00')) ELSE TO_CHAR(SP1_CUR_RATE , '0.00') ||'%' END AS SP1_CUR_RATE , 
                          CASE WHEN SP1_TYPE <> 'SV' THEN CONCAT( '1:', TO_CHAR(SP1_RATE , '0.00')) ELSE TO_CHAR(SP1_RATE , '0.00') ||'%' END AS SP1_RATE1 ,   
-                        ROUND(SP1_CHANGE_RANGE *100 , 1) ||'%' AS SP1_CHANGE_RANGE,
+                         TO_CHAR(ROUND(SP1_CHANGE_RANGE *100 , 1),'99.9')||'%' AS SP1_CHANGE_RANGE,
                         SP1_SEQ_NO
                          FROM CI.SPT1,   
                               CI.SP1 ,CI.SP2
