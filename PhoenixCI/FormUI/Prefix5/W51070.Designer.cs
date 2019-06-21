@@ -115,6 +115,8 @@
          this.gbType.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rbTypeFut", "期貨"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rbTypeOpt", "選擇權")});
+         this.gbType.Properties.LookAndFeel.SkinName = "Office 2013";
+         this.gbType.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbType.Size = new System.Drawing.Size(159, 35);
          this.gbType.TabIndex = 81;
          this.gbType.EditValueChanged += new System.EventHandler(this.gbType_EditValueChanged);
@@ -139,6 +141,8 @@
          this.gbMarket.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rbMarket0", "一般"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rbMarket1", "夜盤")});
+         this.gbMarket.Properties.LookAndFeel.SkinName = "Office 2013";
+         this.gbMarket.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbMarket.Size = new System.Drawing.Size(146, 35);
          this.gbMarket.TabIndex = 79;
          this.gbMarket.EditValueChanged += new System.EventHandler(this.gbMarket_EditValueChanged);

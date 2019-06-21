@@ -61,16 +61,19 @@
          // 
          this.panParent.Controls.Add(this.gcMain);
          this.panParent.Location = new System.Drawing.Point(0, 100);
-         this.panParent.Size = new System.Drawing.Size(899, 545);
+         this.panParent.Size = new System.Drawing.Size(890, 495);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(899, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(890, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // panelControl1
          // 
+         this.panelControl1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.panelControl1.Appearance.Options.UseBackColor = true;
+         this.panelControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.panelControl1.Controls.Add(this.txtEndDate);
          this.panelControl1.Controls.Add(this.txtStartDate);
          this.panelControl1.Controls.Add(this.label1);
@@ -78,7 +81,7 @@
          this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
          this.panelControl1.Location = new System.Drawing.Point(0, 30);
          this.panelControl1.Name = "panelControl1";
-         this.panelControl1.Size = new System.Drawing.Size(899, 70);
+         this.panelControl1.Size = new System.Drawing.Size(890, 70);
          this.panelControl1.TabIndex = 0;
          // 
          // txtEndDate
@@ -87,7 +90,7 @@
          this.txtEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtEndDate.EditValue = "2018/12/01";
          this.txtEndDate.EnterMoveNextControl = true;
-         this.txtEndDate.Location = new System.Drawing.Point(248, 23);
+         this.txtEndDate.Location = new System.Drawing.Point(243, 23);
          this.txtEndDate.MenuManager = this.ribbonControl;
          this.txtEndDate.Name = "txtEndDate";
          this.txtEndDate.Properties.Appearance.Options.UseTextOptions = true;
@@ -125,7 +128,7 @@
          // 
          this.label1.AutoSize = true;
          this.label1.BackColor = System.Drawing.Color.Transparent;
-         this.label1.Location = new System.Drawing.Point(221, 26);
+         this.label1.Location = new System.Drawing.Point(219, 24);
          this.label1.Name = "label1";
          this.label1.Size = new System.Drawing.Size(21, 20);
          this.label1.TabIndex = 20;
@@ -135,7 +138,7 @@
          // 
          this.lblDate.AutoSize = true;
          this.lblDate.BackColor = System.Drawing.Color.Transparent;
-         this.lblDate.Location = new System.Drawing.Point(29, 26);
+         this.lblDate.Location = new System.Drawing.Point(24, 26);
          this.lblDate.Name = "lblDate";
          this.lblDate.Size = new System.Drawing.Size(89, 20);
          this.lblDate.TabIndex = 18;
@@ -146,7 +149,7 @@
          this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
          this.panelControl2.Location = new System.Drawing.Point(0, 100);
          this.panelControl2.Name = "panelControl2";
-         this.panelControl2.Size = new System.Drawing.Size(899, 545);
+         this.panelControl2.Size = new System.Drawing.Size(890, 495);
          this.panelControl2.TabIndex = 1;
          // 
          // gcMain
@@ -160,7 +163,7 @@
             this.MG8_CMTextEdit,
             this.MG8_MMTextEdit1,
             this.MG8_IMTextEdit1});
-         this.gcMain.Size = new System.Drawing.Size(875, 521);
+         this.gcMain.Size = new System.Drawing.Size(866, 471);
          this.gcMain.TabIndex = 0;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -313,7 +316,7 @@
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(899, 645);
+         this.ClientSize = new System.Drawing.Size(890, 595);
          this.Controls.Add(this.panelControl2);
          this.Controls.Add(this.panelControl1);
          this.Name = "W49060";

@@ -35,8 +35,8 @@
          this.cbxFcmStartNo = new DevExpress.XtraEditors.LookUpEdit();
          this.cbxFcmEndNo = new DevExpress.XtraEditors.LookUpEdit();
          this.cbxProdType = new DevExpress.XtraEditors.LookUpEdit();
-         this.labMsg = new System.Windows.Forms.Label();
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
+         this.labMsg = new System.Windows.Forms.Label();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          this.panFilter.SuspendLayout();
@@ -53,12 +53,12 @@
          // panParent
          // 
          this.panParent.Controls.Add(this.r_frame);
-         this.panParent.Size = new System.Drawing.Size(1034, 581);
+         this.panParent.Size = new System.Drawing.Size(810, 355);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(1034, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(810, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // panFilter
@@ -74,11 +74,11 @@
          this.panFilter.Controls.Add(this.cbxFcmStartNo);
          this.panFilter.Controls.Add(this.cbxFcmEndNo);
          this.panFilter.Controls.Add(this.cbxProdType);
-         this.panFilter.Font = new System.Drawing.Font("新細明體", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.panFilter.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
          this.panFilter.ForeColor = System.Drawing.Color.Navy;
-         this.panFilter.Location = new System.Drawing.Point(17, 14);
+         this.panFilter.Location = new System.Drawing.Point(20, 15);
          this.panFilter.Name = "panFilter";
-         this.panFilter.Size = new System.Drawing.Size(820, 215);
+         this.panFilter.Size = new System.Drawing.Size(720, 220);
          this.panFilter.TabIndex = 6;
          this.panFilter.TabStop = false;
          this.panFilter.Text = "請輸入交易日期";
@@ -89,7 +89,7 @@
          this.txtEndMonth.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
          this.txtEndMonth.EditValue = "2018/12";
          this.txtEndMonth.EnterMoveNextControl = true;
-         this.txtEndMonth.Location = new System.Drawing.Point(264, 40);
+         this.txtEndMonth.Location = new System.Drawing.Point(260, 37);
          this.txtEndMonth.MenuManager = this.ribbonControl;
          this.txtEndMonth.Name = "txtEndMonth";
          this.txtEndMonth.Properties.Appearance.Options.UseTextOptions = true;
@@ -109,7 +109,7 @@
          this.txtStartMonth.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
          this.txtStartMonth.EditValue = "2018/12";
          this.txtStartMonth.EnterMoveNextControl = true;
-         this.txtStartMonth.Location = new System.Drawing.Point(137, 40);
+         this.txtStartMonth.Location = new System.Drawing.Point(137, 37);
          this.txtStartMonth.MenuManager = this.ribbonControl;
          this.txtStartMonth.Name = "txtStartMonth";
          this.txtStartMonth.Properties.Appearance.Options.UseTextOptions = true;
@@ -133,7 +133,9 @@
          this.rgpType.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
             new DevExpress.XtraEditors.Controls.RadioGroupItem("fcm", "依期貨商別"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("product", "依商品別")});
-         this.rgpType.Size = new System.Drawing.Size(283, 40);
+         this.rgpType.Properties.LookAndFeel.SkinName = "Office 2013";
+         this.rgpType.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
+         this.rgpType.Size = new System.Drawing.Size(250, 40);
          this.rgpType.TabIndex = 4;
          this.rgpType.EditValueChanged += new System.EventHandler(this.rgpType_EditValueChanged);
          // 
@@ -142,7 +144,7 @@
          this.labProdType.AutoSize = true;
          this.labProdType.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.labProdType.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-         this.labProdType.Location = new System.Drawing.Point(42, 180);
+         this.labProdType.Location = new System.Drawing.Point(37, 175);
          this.labProdType.Name = "labProdType";
          this.labProdType.Size = new System.Drawing.Size(89, 20);
          this.labProdType.TabIndex = 17;
@@ -153,7 +155,7 @@
          this.labFcmNo.AutoSize = true;
          this.labFcmNo.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.labFcmNo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-         this.labFcmNo.Location = new System.Drawing.Point(58, 84);
+         this.labFcmNo.Location = new System.Drawing.Point(37, 85);
          this.labFcmNo.Name = "labFcmNo";
          this.labFcmNo.Size = new System.Drawing.Size(73, 20);
          this.labFcmNo.TabIndex = 16;
@@ -162,18 +164,18 @@
          // label1
          // 
          this.label1.AutoSize = true;
-         this.label1.Location = new System.Drawing.Point(399, 84);
+         this.label1.Location = new System.Drawing.Point(393, 85);
          this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(16, 15);
+         this.label1.Size = new System.Drawing.Size(22, 21);
          this.label1.TabIndex = 14;
          this.label1.Text = "~";
          // 
          // lbl1
          // 
          this.lbl1.AutoSize = true;
-         this.lbl1.Location = new System.Drawing.Point(243, 43);
+         this.lbl1.Location = new System.Drawing.Point(239, 40);
          this.lbl1.Name = "lbl1";
-         this.lbl1.Size = new System.Drawing.Size(16, 15);
+         this.lbl1.Size = new System.Drawing.Size(22, 21);
          this.lbl1.TabIndex = 11;
          this.lbl1.Text = "~";
          // 
@@ -182,7 +184,7 @@
          this.labDate.AutoSize = true;
          this.labDate.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.labDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-         this.labDate.Location = new System.Drawing.Point(74, 43);
+         this.labDate.Location = new System.Drawing.Point(37, 40);
          this.labDate.Name = "labDate";
          this.labDate.Size = new System.Drawing.Size(57, 20);
          this.labDate.TabIndex = 2;
@@ -190,60 +192,67 @@
          // 
          // cbxFcmStartNo
          // 
-         this.cbxFcmStartNo.Location = new System.Drawing.Point(137, 81);
+         this.cbxFcmStartNo.Location = new System.Drawing.Point(137, 82);
          this.cbxFcmStartNo.Name = "cbxFcmStartNo";
          this.cbxFcmStartNo.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.cbxFcmStartNo.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.cbxFcmStartNo.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.cbxFcmStartNo.Size = new System.Drawing.Size(250, 26);
          this.cbxFcmStartNo.TabIndex = 2;
          // 
          // cbxFcmEndNo
          // 
-         this.cbxFcmEndNo.Location = new System.Drawing.Point(424, 81);
+         this.cbxFcmEndNo.Location = new System.Drawing.Point(417, 82);
          this.cbxFcmEndNo.Name = "cbxFcmEndNo";
          this.cbxFcmEndNo.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.cbxFcmEndNo.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.cbxFcmEndNo.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.cbxFcmEndNo.Size = new System.Drawing.Size(250, 26);
          this.cbxFcmEndNo.TabIndex = 3;
          // 
          // cbxProdType
          // 
-         this.cbxProdType.Location = new System.Drawing.Point(137, 177);
+         this.cbxProdType.Location = new System.Drawing.Point(137, 172);
          this.cbxProdType.Name = "cbxProdType";
          this.cbxProdType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.cbxProdType.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.cbxProdType.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.cbxProdType.Size = new System.Drawing.Size(250, 26);
          this.cbxProdType.TabIndex = 5;
-         // 
-         // labMsg
-         // 
-         this.labMsg.AutoSize = true;
-         this.labMsg.ForeColor = System.Drawing.Color.Blue;
-         this.labMsg.Location = new System.Drawing.Point(13, 235);
-         this.labMsg.Name = "labMsg";
-         this.labMsg.Size = new System.Drawing.Size(169, 20);
-         this.labMsg.TabIndex = 18;
-         this.labMsg.Text = "訊息：資料轉出中........";
-         this.labMsg.Visible = false;
          // 
          // r_frame
          // 
          this.r_frame.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
          this.r_frame.Appearance.Options.UseBackColor = true;
          this.r_frame.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-         this.r_frame.Controls.Add(this.panFilter);
          this.r_frame.Controls.Add(this.labMsg);
-         this.r_frame.Location = new System.Drawing.Point(36, 33);
+         this.r_frame.Controls.Add(this.panFilter);
+         this.r_frame.Location = new System.Drawing.Point(30, 30);
          this.r_frame.Name = "r_frame";
-         this.r_frame.Size = new System.Drawing.Size(853, 264);
+         this.r_frame.Size = new System.Drawing.Size(760, 295);
          this.r_frame.TabIndex = 79;
+         // 
+         // labMsg
+         // 
+         this.labMsg.AutoSize = true;
+         this.labMsg.ForeColor = System.Drawing.Color.Blue;
+         this.labMsg.Location = new System.Drawing.Point(15, 245);
+         this.labMsg.MaximumSize = new System.Drawing.Size(720, 120);
+         this.labMsg.Name = "labMsg";
+         this.labMsg.Size = new System.Drawing.Size(85, 20);
+         this.labMsg.TabIndex = 81;
+         this.labMsg.Text = "開始轉檔...";
+         this.labMsg.Visible = false;
          // 
          // W55020
          // 
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(1034, 611);
+         this.ClientSize = new System.Drawing.Size(810, 385);
          this.Name = "W55020";
          this.Text = "W55020";
          this.panParent.ResumeLayout(false);
@@ -276,9 +285,9 @@
         private DevExpress.XtraEditors.LookUpEdit cbxFcmStartNo;
         private DevExpress.XtraEditors.LookUpEdit cbxFcmEndNo;
         private DevExpress.XtraEditors.LookUpEdit cbxProdType;
-        private System.Windows.Forms.Label labMsg;
       private BaseGround.Widget.TextDateEdit txtEndMonth;
       private BaseGround.Widget.TextDateEdit txtStartMonth;
       private DevExpress.XtraEditors.PanelControl r_frame;
+      private System.Windows.Forms.Label labMsg;
    }
 }

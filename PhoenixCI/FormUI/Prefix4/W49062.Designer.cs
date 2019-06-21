@@ -33,11 +33,11 @@
          this.label3 = new System.Windows.Forms.Label();
          this.label1 = new System.Windows.Forms.Label();
          this.gbItem = new DevExpress.XtraEditors.RadioGroup();
-         this.dwFId = new DevExpress.XtraEditors.LookUpEdit();
          this.label2 = new System.Windows.Forms.Label();
-         this.dwKindId = new DevExpress.XtraEditors.LookUpEdit();
          this.labKind = new System.Windows.Forms.Label();
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
+         this.dwFId = new DevExpress.XtraEditors.LookUpEdit();
+         this.dwKindId = new DevExpress.XtraEditors.LookUpEdit();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          this.grpRbDate.SuspendLayout();
@@ -47,28 +47,29 @@
          ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gbItem.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.dwFId.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.dwKindId.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
          this.r_frame.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.dwFId.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.dwKindId.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
          // 
          this.panParent.Controls.Add(this.r_frame);
-         this.panParent.Size = new System.Drawing.Size(627, 312);
+         this.panParent.Size = new System.Drawing.Size(640, 385);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(627, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(640, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // labMsg
          // 
          this.labMsg.AutoSize = true;
          this.labMsg.ForeColor = System.Drawing.Color.Blue;
-         this.labMsg.Location = new System.Drawing.Point(29, 245);
+         this.labMsg.Location = new System.Drawing.Point(25, 275);
+         this.labMsg.MaximumSize = new System.Drawing.Size(530, 120);
          this.labMsg.Name = "labMsg";
          this.labMsg.Size = new System.Drawing.Size(85, 20);
          this.labMsg.TabIndex = 10;
@@ -85,9 +86,11 @@
          this.grpRbDate.Controls.Add(this.label3);
          this.grpRbDate.Controls.Add(this.label1);
          this.grpRbDate.Controls.Add(this.gbItem);
-         this.grpRbDate.Location = new System.Drawing.Point(33, 94);
+         this.grpRbDate.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
+         this.grpRbDate.ForeColor = System.Drawing.Color.Navy;
+         this.grpRbDate.Location = new System.Drawing.Point(30, 115);
          this.grpRbDate.Name = "grpRbDate";
-         this.grpRbDate.Size = new System.Drawing.Size(531, 148);
+         this.grpRbDate.Size = new System.Drawing.Size(530, 150);
          this.grpRbDate.TabIndex = 89;
          this.grpRbDate.TabStop = false;
          this.grpRbDate.Text = "報表類別";
@@ -197,7 +200,7 @@
          this.label3.AutoSize = true;
          this.label3.Location = new System.Drawing.Point(382, 68);
          this.label3.Name = "label3";
-         this.label3.Size = new System.Drawing.Size(25, 20);
+         this.label3.Size = new System.Drawing.Size(26, 21);
          this.label3.TabIndex = 83;
          this.label3.Text = "～";
          // 
@@ -206,7 +209,7 @@
          this.label1.AutoSize = true;
          this.label1.Location = new System.Drawing.Point(302, 106);
          this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(25, 20);
+         this.label1.Size = new System.Drawing.Size(26, 21);
          this.label1.TabIndex = 80;
          this.label1.Text = "～";
          // 
@@ -226,58 +229,30 @@
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rbNewDate", "「保證金調整」最新及次新生效日資料："),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rbOldDate", "「保證金調整」歷史生效日資料："),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rbHistory", "「保證金」歷史資料：")});
+         this.gbItem.Properties.LookAndFeel.SkinName = "Office 2013 Light Gray";
+         this.gbItem.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbItem.Size = new System.Drawing.Size(513, 122);
          this.gbItem.TabIndex = 2;
-         // 
-         // dwFId
-         // 
-         this.dwFId.Location = new System.Drawing.Point(161, 28);
-         this.dwFId.Name = "dwFId";
-         this.dwFId.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-         this.dwFId.Properties.Appearance.Options.UseBackColor = true;
-         this.dwFId.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-         this.dwFId.Properties.AppearanceDisabled.Options.UseBackColor = true;
-         this.dwFId.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.dwFId.Properties.ButtonsStyle = DevExpress.XtraEditors.Controls.BorderStyles.Flat;
-         this.dwFId.Properties.NullText = "";
-         this.dwFId.Properties.PopupSizeable = false;
-         this.dwFId.Size = new System.Drawing.Size(403, 26);
-         this.dwFId.TabIndex = 0;
          // 
          // label2
          // 
          this.label2.AutoSize = true;
+         this.label2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
          this.label2.ForeColor = System.Drawing.Color.Black;
-         this.label2.Location = new System.Drawing.Point(29, 31);
+         this.label2.Location = new System.Drawing.Point(25, 30);
          this.label2.Name = "label2";
-         this.label2.Size = new System.Drawing.Size(125, 20);
+         this.label2.Size = new System.Drawing.Size(126, 21);
          this.label2.TabIndex = 88;
          this.label2.Text = "交易所 + 商品：";
-         // 
-         // dwKindId
-         // 
-         this.dwKindId.Location = new System.Drawing.Point(161, 62);
-         this.dwKindId.Name = "dwKindId";
-         this.dwKindId.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-         this.dwKindId.Properties.Appearance.Options.UseBackColor = true;
-         this.dwKindId.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-         this.dwKindId.Properties.AppearanceDisabled.Options.UseBackColor = true;
-         this.dwKindId.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.dwKindId.Properties.ButtonsStyle = DevExpress.XtraEditors.Controls.BorderStyles.Flat;
-         this.dwKindId.Properties.NullText = "";
-         this.dwKindId.Properties.PopupSizeable = false;
-         this.dwKindId.Size = new System.Drawing.Size(159, 26);
-         this.dwKindId.TabIndex = 1;
          // 
          // labKind
          // 
          this.labKind.AutoSize = true;
+         this.labKind.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
          this.labKind.ForeColor = System.Drawing.Color.Black;
-         this.labKind.Location = new System.Drawing.Point(29, 65);
+         this.labKind.Location = new System.Drawing.Point(25, 75);
          this.labKind.Name = "labKind";
-         this.labKind.Size = new System.Drawing.Size(89, 20);
+         this.labKind.Size = new System.Drawing.Size(90, 21);
          this.labKind.TabIndex = 85;
          this.labKind.Text = "契約類別：";
          // 
@@ -286,23 +261,53 @@
          this.r_frame.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
          this.r_frame.Appearance.Options.UseBackColor = true;
          this.r_frame.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+         this.r_frame.Controls.Add(this.dwKindId);
+         this.r_frame.Controls.Add(this.dwFId);
          this.r_frame.Controls.Add(this.grpRbDate);
          this.r_frame.Controls.Add(this.labMsg);
          this.r_frame.Controls.Add(this.label2);
-         this.r_frame.Controls.Add(this.dwFId);
-         this.r_frame.Controls.Add(this.dwKindId);
          this.r_frame.Controls.Add(this.labKind);
-         this.r_frame.Location = new System.Drawing.Point(15, 15);
+         this.r_frame.Location = new System.Drawing.Point(30, 30);
          this.r_frame.Name = "r_frame";
-         this.r_frame.Size = new System.Drawing.Size(598, 281);
+         this.r_frame.Size = new System.Drawing.Size(590, 325);
          this.r_frame.TabIndex = 77;
+         // 
+         // dwFId
+         // 
+         this.dwFId.Location = new System.Drawing.Point(157, 27);
+         this.dwFId.Name = "dwFId";
+         this.dwFId.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+         this.dwFId.Properties.AppearanceDisabled.Options.UseBackColor = true;
+         this.dwFId.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.dwFId.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.dwFId.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
+         this.dwFId.Properties.NullText = "";
+         this.dwFId.Properties.PopupSizeable = false;
+         this.dwFId.Size = new System.Drawing.Size(403, 26);
+         this.dwFId.TabIndex = 100;
+         // 
+         // dwKindId
+         // 
+         this.dwKindId.Location = new System.Drawing.Point(157, 72);
+         this.dwKindId.Name = "dwKindId";
+         this.dwKindId.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+         this.dwKindId.Properties.AppearanceDisabled.Options.UseBackColor = true;
+         this.dwKindId.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.dwKindId.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.dwKindId.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
+         this.dwKindId.Properties.NullText = "";
+         this.dwKindId.Properties.PopupSizeable = false;
+         this.dwKindId.Size = new System.Drawing.Size(159, 26);
+         this.dwKindId.TabIndex = 101;
          // 
          // W49062
          // 
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(627, 342);
+         this.ClientSize = new System.Drawing.Size(640, 415);
          this.Name = "W49062";
          this.Text = "W49062";
          this.panParent.ResumeLayout(false);
@@ -315,11 +320,11 @@
          ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gbItem.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.dwFId.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.dwKindId.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).EndInit();
          this.r_frame.ResumeLayout(false);
          this.r_frame.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.dwFId.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.dwKindId.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -327,10 +332,8 @@
 
       #endregion
       private System.Windows.Forms.Label labMsg;
-      private DevExpress.XtraEditors.LookUpEdit dwKindId;
       private System.Windows.Forms.Label labKind;
       private DevExpress.XtraEditors.PanelControl r_frame;
-      private DevExpress.XtraEditors.LookUpEdit dwFId;
       private System.Windows.Forms.Label label2;
       private System.Windows.Forms.GroupBox grpRbDate;
       private System.Windows.Forms.Label label3;
@@ -341,5 +344,7 @@
       private BaseGround.Widget.TextDateEdit txtEndDate;
       private BaseGround.Widget.TextDateEdit txtStartDate;
       private BaseGround.Widget.TextDateEdit txtDate;
+      private DevExpress.XtraEditors.LookUpEdit dwKindId;
+      private DevExpress.XtraEditors.LookUpEdit dwFId;
    }
 }
