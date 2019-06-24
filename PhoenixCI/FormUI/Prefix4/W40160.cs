@@ -119,22 +119,22 @@ namespace PhoenixCI.FormUI.Prefix4 {
       protected override ResultStatus Export() {
          try {
 
-                #region 日期檢核
-                if (!txtStartDate.IsDate(txtStartDate.Text, CheckDate.Start)
-                         || !txtEndDate.IsDate(txtEndDate.Text, CheckDate.End)) {
-                    labMsg.Visible = false;
-                    return ResultStatus.Fail; ;
-                }
+            #region 日期檢核
+            if (!txtStartDate.IsDate(txtStartDate.Text , CheckDate.Start)
+                     || !txtEndDate.IsDate(txtEndDate.Text , CheckDate.End)) {
+               labMsg.Visible = false;
+               return ResultStatus.Fail; ;
+            }
 
-                if (string.Compare(txtStartDate.Text, txtEndDate.Text) > 0) {
-                    MessageDisplay.Error(CheckDate.Datedif, GlobalInfo.ErrorText);
-                    labMsg.Visible = false;
-                    return ResultStatus.Fail; ;
-                }
-                #endregion
+            if (string.Compare(txtStartDate.Text , txtEndDate.Text) > 0) {
+               MessageDisplay.Error(CheckDate.Datedif , GlobalInfo.ErrorText);
+               labMsg.Visible = false;
+               return ResultStatus.Fail; ;
+            }
+            #endregion
 
-                //1. ready
-                panFilter.Enabled = false;
+            //1. ready
+            panFilter.Enabled = false;
             labMsg.Visible = true;
             labMsg.Text = "轉檔中...";
             this.Cursor = Cursors.WaitCursor;
@@ -193,7 +193,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   case "chkEwma":
                      modelType = "E";
                      modelName = item.Description;
-                     kindId = dwKindId.EditValue.AsString(); 
+                     kindId = dwKindId.EditValue.AsString();
 
                      //一個商品產生一個檔
                      if (kindId == "%") {
@@ -208,7 +208,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   case "chkMaxVol":
                      modelType = "M";
                      modelName = item.Description;
-                     kindId = dwKindId.EditValue.AsString(); 
+                     kindId = dwKindId.EditValue.AsString();
 
                      //一個商品產生一個檔
                      if (kindId == "%") {
@@ -220,14 +220,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         res += wf_40160(modelType , startYmd , endYmd , kindId , modelName);
                      }
                      break;
-                    }//switch (item.Value)
-                    if (res <= 0) {
-                        MessageDisplay.Info("查無資料!");
-                        return ResultStatus.Fail;
-                    }
-                }//foreach (CheckedListBoxItem item in chkModel.Items)
+               }//switch (item.Value)
+               if (res <= 0) {
+                  MessageDisplay.Info("查無資料!");
+                  return ResultStatus.Fail;
+               }
+            }//foreach (CheckedListBoxItem item in chkModel.Items)
 
-                return ResultStatus.Success;
+            return ResultStatus.Success;
          } catch (Exception ex) {
             WriteLog(ex);
          } finally {
