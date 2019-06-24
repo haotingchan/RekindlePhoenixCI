@@ -205,7 +205,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
          return ResultStatus.Fail;
       }
 
-
       protected override ResultStatus Export() {
 
          //讀取資料
@@ -243,7 +242,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             _ReportHelper.Create(reportLandscape);
 
             _ReportHelper.Print();
-            _ReportHelper.Export(FileType.PDF , _ReportHelper.FilePath);
+            //_ReportHelper.Export(FileType.PDF , _ReportHelper.FilePath);
 
             return ResultStatus.Success;
          } catch (Exception ex) {

@@ -131,6 +131,8 @@
          // 
          this.ddlScCode.Location = new System.Drawing.Point(131, 32);
          this.ddlScCode.Name = "ddlScCode";
+         this.ddlScCode.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+         this.ddlScCode.Properties.Appearance.Options.UseBackColor = true;
          this.ddlScCode.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
          this.ddlScCode.Properties.AppearanceDisabled.Options.UseBackColor = true;
          this.ddlScCode.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {

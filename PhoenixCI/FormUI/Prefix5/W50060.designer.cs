@@ -232,6 +232,8 @@
          this.ddlb_1.Location = new System.Drawing.Point(649, 62);
          this.ddlb_1.MenuManager = this.ribbonControl;
          this.ddlb_1.Name = "ddlb_1";
+         this.ddlb_1.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+         this.ddlb_1.Properties.Appearance.Options.UseBackColor = true;
          this.ddlb_1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
          this.ddlb_1.Properties.Items.AddRange(new object[] {

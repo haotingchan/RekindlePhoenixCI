@@ -17,6 +17,14 @@ namespace BaseGround
         public FormLogin()
         {
             InitializeComponent();
+            this.InputLanguageChanged += new InputLanguageChangedEventHandler(languageChange);   // 輸入法改變時呼叫 
+            txtID.ImeMode = System.Windows.Forms.ImeMode.OnHalf; // 預設txtID的輸入法為半型
+            txtPassword.ImeMode = System.Windows.Forms.ImeMode.OnHalf; // 預設txtPassword的輸入法為半型
+        }
+
+        private void languageChange(Object sender, InputLanguageChangedEventArgs e) {
+            txtID.ImeMode = System.Windows.Forms.ImeMode.OnHalf;  // 將txtID的輸入法變半型 
+            txtPassword.ImeMode = System.Windows.Forms.ImeMode.OnHalf; // 將txtPassword的輸入法變半型
         }
 
         private void btnYes_Click(object sender, EventArgs e)
