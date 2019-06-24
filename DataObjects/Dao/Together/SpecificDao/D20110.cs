@@ -124,7 +124,8 @@ FROM
            AMIFU_OPEN_INTEREST as R_OPEN_INTEREST  ,   
            000000.0000 as R_UP_DOWN_VAL,
            0 as MTH_SEQ_NO,
-           TRIM(rpt_grp) AS RPT_OSW_GRP
+           TRIM(rpt_grp) AS RPT_OSW_GRP,
+           ' ' as Is_NewRow
     FROM CI.AMIFU U,
         (select R.AMIFU_KIND_ID AS R_KIND_ID,
                 R.AMIFU_OPEN_PRICE as R_OPEN_PRICE,
