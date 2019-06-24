@@ -56,8 +56,8 @@ and PDK_DATE >= TO_DATE(:as_ymd, 'YYYY/MM/DD') - INTERVAL '90' DAY
          string sql = @"
 select 'Y' as AI2_SELECT,
     mon_diff,
-    case when to_number(to_char(sdate,'DD')) > to_number(to_char(:ad_next_edate,'DD')) then sdate - (to_number(to_char(sdate,'DD')) - to_number(to_char(:ad_next_edate,'DD'))) else sdate end as sdate,
-    :ad_edate as edate,
+    to_char(case when to_number(to_char(sdate,'DD')) > to_number(to_char(:ad_next_edate,'DD')) then sdate - (to_number(to_char(sdate,'DD')) - to_number(to_char(:ad_next_edate,'DD'))) else sdate end,'yyyy/mm/dd') as sdate,
+    to_char(:ad_edate,'yyyy/mm/dd') as edate,
     count(*) as day_cnt 
 from ci.ai2,
 (
@@ -150,9 +150,10 @@ order by prod_type , cpr_kind_id";
             };
 
          string sql = @"
-select mg1_ymd, 
-    round(mg1_cp_risk, 4) as mg1_risk,
-    mg1_min_risk
+select 
+   to_char(to_date(mg1_ymd,'yyyymmdd'),'yyyy/mm/dd') as mg1_ymd, 
+   round(mg1_cp_risk, 4) as mg1_risk,
+   mg1_min_risk
 from ci.mg1_3m
 where trim(mg1_kind_id) = :as_kind_id
 and mg1_ymd >= :ad_sdate
