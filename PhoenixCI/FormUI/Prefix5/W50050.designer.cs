@@ -204,6 +204,8 @@
          this.ddlb_2.Location = new System.Drawing.Point(883, 62);
          this.ddlb_2.MenuManager = this.ribbonControl;
          this.ddlb_2.Name = "ddlb_2";
+         this.ddlb_2.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+         this.ddlb_2.Properties.Appearance.Options.UseBackColor = true;
          this.ddlb_2.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
          this.ddlb_2.Properties.Items.AddRange(new object[] {
@@ -219,6 +221,8 @@
             "價外第4檔",
             "價外第5檔",
             "價平"});
+         this.ddlb_2.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.ddlb_2.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.ddlb_2.Properties.PopupSizeable = true;
          this.ddlb_2.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
          this.ddlb_2.Size = new System.Drawing.Size(171, 26);
@@ -229,12 +233,16 @@
          this.ddlb_1.Location = new System.Drawing.Point(649, 62);
          this.ddlb_1.MenuManager = this.ribbonControl;
          this.ddlb_1.Name = "ddlb_1";
+         this.ddlb_1.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+         this.ddlb_1.Properties.Appearance.Options.UseBackColor = true;
          this.ddlb_1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
          this.ddlb_1.Properties.Items.AddRange(new object[] {
             " ",
             "買權",
             "賣權"});
+         this.ddlb_1.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.ddlb_1.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.ddlb_1.Size = new System.Drawing.Size(93, 26);
          this.ddlb_1.TabIndex = 79;
          // 
@@ -245,6 +253,8 @@
          this.dwProd.Name = "dwProd";
          this.dwProd.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.dwProd.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.dwProd.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.dwProd.Size = new System.Drawing.Size(121, 26);
          this.dwProd.TabIndex = 92;
          // 
@@ -255,6 +265,8 @@
          this.dwBrkno.Name = "dwBrkno";
          this.dwBrkno.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.dwBrkno.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.dwBrkno.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.dwBrkno.Size = new System.Drawing.Size(335, 26);
          this.dwBrkno.TabIndex = 79;
          // 

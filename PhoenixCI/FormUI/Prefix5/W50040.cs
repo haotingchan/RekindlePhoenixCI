@@ -107,7 +107,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             _ReportHelper.Create(reportLandscape);
 
             _ReportHelper.Print();
-            _ReportHelper.Export(FileType.PDF , _ReportHelper.FilePath);
+            //_ReportHelper.Export(FileType.PDF , _ReportHelper.FilePath);
 
             return ResultStatus.Success;
          } catch (Exception ex) {
@@ -215,6 +215,10 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
                gvMain.Columns["SORT_TYPE"].Visible = false;
 
+               gvMain.Columns["AMM1_KIND_ID2"].VisibleIndex = 0;
+               gvMain.Columns["AMM1_ACC_NO"].VisibleIndex = 1;
+               gvMain.Columns["AMM1_FCM_NO"].VisibleIndex = 2;
+
                //針對每個欄位做值轉換
                //若AMM1_KIND_ID2取的值長度為2，後面加上AMM1_PROD_TYPE的值，若不為2直接取AMM1_KIND_ID2值即可
                foreach (DataRow dr in defaultTable.Rows) {
@@ -239,6 +243,13 @@ namespace PhoenixCI.FormUI.Prefix5 {
                gvMain.Columns["AMM1_KIND_ID2"].Visible = false;
                gvMain.Columns["AMM1_PROD_TYPE"].Visible = false;
                gvMain.Columns["SORT_TYPE"].Visible = false;
+
+               gvMain.ClearSorting();
+
+               gvMain.Columns["AMM1_FCM_NO"].VisibleIndex = 0;
+               gvMain.Columns["ABRK_ABBR_NAME"].VisibleIndex = 1;
+               gvMain.Columns["AMM1_ACC_NO"].VisibleIndex = 2;
+               gvMain.Columns["AMM1_KIND_ID2"].VisibleIndex = 3;
 
                foreach (DataRow dr in defaultTable.Rows) {
                   dr["AMM1_FCM_NO"] = dr["AMM1_FCM_NO"].AsString();

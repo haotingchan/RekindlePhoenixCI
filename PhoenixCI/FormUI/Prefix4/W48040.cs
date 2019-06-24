@@ -13,7 +13,6 @@ using System.Windows.Forms;
 
 /// <summary>
 /// ken,2019/3/5
-/// TODO:左邊grid 有兩個欄位要顯示%
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix4 {
    /// <summary>
@@ -215,13 +214,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   int pos = 1;
                   foreach (DataRow drDate in dtDate.Rows) {
 
-                     worksheet.Cells[pos , 5].Value = drDate["SDATE"].AsDateTime();//資料起日
-                     worksheet.Cells[pos , 6].Value = drDate["EDATE"].AsDateTime();//資料迄日
+                     worksheet.Cells[pos , 5].Value = drDate["SDATE"].AsString();//資料起日
+                     worksheet.Cells[pos , 6].Value = drDate["EDATE"].AsString();//資料迄日
                      worksheet.Cells[pos , 7].Value = drDate["DAY_CNT"].AsInt();//天數
 
                      //ken,使用DataView的Find之前,要指定Sort欄位(可多個欄位)
                      DataView dvSingleTemp = new DataView(dtSingleKind , "" , "mg1_ymd" , DataViewRowState.CurrentRows);
-                     int filterIndex = dvSingleTemp.Find(drDate["SDATE"].AsDateTime());
+                     int filterIndex = dvSingleTemp.Find(drDate["SDATE"].AsString());
                      if (filterIndex >= 0) {
                         worksheet.Cells[pos , 8].Value = rowIndex + filterIndex;//起日位址(FirstRowIndex)
                      } else {

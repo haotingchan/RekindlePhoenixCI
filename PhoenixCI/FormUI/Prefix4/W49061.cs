@@ -53,7 +53,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dtKind = cod.ListByCol("MGT8" , "MGT8_KIND_TYPE" , " " , "  ");
             Extension.SetColumnLookUp(lupKind , dtKind , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
             gcMain.RepositoryItems.Add(lupKind);
-            
+
             //國內外
             List<LookupItem> dtForeign = new List<LookupItem>(){
                                             new LookupItem() { ValueMember = " ", DisplayMember = "國內"},
@@ -192,26 +192,26 @@ namespace PhoenixCI.FormUI.Prefix4 {
          return ResultStatus.Fail;
       }
 
-        private bool checkComplete(DataTable dtSource) {
+      private bool checkComplete(DataTable dtSource) {
 
-            foreach (DataColumn column in dtSource.Columns) {
-                if (dtSource.Rows.OfType<DataRow>().Where(r => r.RowState != DataRowState.Deleted).Any(r => r.IsNull(column))) {
-                    MessageDisplay.Error("尚未填寫完成");
-                    return false;
-                }
+         foreach (DataColumn column in dtSource.Columns) {
+            if (dtSource.Rows.OfType<DataRow>().Where(r => r.RowState != DataRowState.Deleted).Any(r => r.IsNull(column))) {
+               MessageDisplay.Error("尚未填寫完成");
+               return false;
             }
-            return true;
-        }
+         }
+         return true;
+      }
 
-        protected override ResultStatus Save(PokeBall poke) {
+      protected override ResultStatus Save(PokeBall poke) {
          try {
-                gvMain.CloseEditor();
-                gvMain.UpdateCurrentRow();
-                DataTable dtCurrent = (DataTable)gcMain.DataSource;
+            gvMain.CloseEditor();
+            gvMain.UpdateCurrentRow();
+            DataTable dtCurrent = (DataTable)gcMain.DataSource;
 
-                //檢查是否有空值
-                //if (!checkComplete(dtCurrent)) return ResultStatus.FailButNext;
-                DataTable dtChange = dtCurrent.GetChanges();
+            //檢查是否有空值
+            //if (!checkComplete(dtCurrent)) return ResultStatus.FailButNext;
+            DataTable dtChange = dtCurrent.GetChanges();
             DataTable dtForAdd = dtCurrent.GetChanges(DataRowState.Added);
             DataTable dtForModified = dtCurrent.GetChanges(DataRowState.Modified);
             DataTable dtForDeleted = dtCurrent.GetChanges(DataRowState.Deleted);
@@ -263,10 +263,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             AfterSaveForPrint(gcMain , dtForAdd , dtForDeleted , dtForModified);
 
          } catch (Exception ex) {
-                MessageDisplay.Error("儲存錯誤");
-                WriteLog(ex, "", false);
-                return ResultStatus.FailButNext;
-            }
+            MessageDisplay.Error("儲存錯誤");
+            WriteLog(ex , "" , false);
+            return ResultStatus.FailButNext;
+         }
          return ResultStatus.Success;
       }
 
@@ -363,9 +363,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
          gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MGT8_AMT_TYPE"] , "A");
          gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MGT8_STRUTURE"] , " ");
          gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["IS_NEWROW"] , 1);
-            gvMain.SetRowCellValue(GridControl.NewItemRowHandle, gvMain.Columns["MGT8_XXX"], 0);
+         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MGT8_XXX"] , 0);
 
-            gvMain.Focus();
+         gvMain.Focus();
          gvMain.FocusedColumn = gvMain.Columns[0];
 
          return ResultStatus.Success;

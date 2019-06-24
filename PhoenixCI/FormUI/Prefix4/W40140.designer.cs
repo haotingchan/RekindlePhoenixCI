@@ -128,6 +128,7 @@
          this.chkTxt.TabIndex = 82;
          this.chkTxt.Text = "計算";
          this.chkTxt.UseVisualStyleBackColor = true;
+         this.chkTxt.Visible = false;
          // 
          // W40140
          // 
