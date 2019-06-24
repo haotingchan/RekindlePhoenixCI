@@ -18,6 +18,8 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    {
       private readonly Workbook _workbook;
       private string _emMonthText;
+      private readonly AI3 daoAI3;
+      private readonly AM2 daoAM2;
 
       /// <summary>
       /// 
@@ -28,7 +30,9 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       {
          _workbook = Workbook;
          _emMonthText = datetime;
-         
+         daoAI3 = new AI3();
+         daoAM2 = new AM2();
+
       }
       /// <summary>
       /// 判斷要填入買或賣的欄位
@@ -111,7 +115,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             worksheet.Range["A1"].Select();
             int addRowCount = 0;//總計寫入的行數
             //讀取資料
-            DataTable dtAI3 = new AI3().ListAI3(IsKindID, StartDate, EndDate);
+            DataTable dtAI3 = daoAI3.ListAI3(IsKindID, StartDate, EndDate);
             //寫入資料
             DateTime ldtYMD = new DateTime(1900, 1, 1);
             foreach (DataRow row in dtAI3.Rows) {
@@ -167,7 +171,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             worksheet.Rows[sumRowIndex][1 - 1].Value = $"{PbFunc.Left(_emMonthText, 4).AsInt() - 1911}小計";
             string lsYMD = "";
             //讀取資料
-            DataTable dt = new AM2().ListAM2(IsKindID, $"{PbFunc.Left(_emMonthText, 4)}01", _emMonthText.Replace("/", ""));
+            DataTable dt = daoAM2.ListAM2(IsKindID, $"{PbFunc.Left(_emMonthText, 4)}01", _emMonthText.Replace("/", ""));
             //寫入資料
             foreach (DataRow row in dt.Rows) {
                if (lsYMD != row["AM2_YMD"].AsString()) {
