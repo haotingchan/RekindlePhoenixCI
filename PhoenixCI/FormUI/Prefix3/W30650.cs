@@ -147,8 +147,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
                         colNum += 3;
                         worksheet.Cells[header - 1, colNum - 1].Value = ymd.SubStr(0, 4) + "/" + ymd.SubStr(4, 2) + Environment.NewLine
                                                                               + "合計" + (char)13 + (char)10 + "交易量";
+                        worksheet.Cells[header - 1, colNum - 1].Alignment.WrapText = true;
                         worksheet.Cells[header - 1, colNum].Value = "當沖" + (char)13 + (char)10 + "交易量";
+                        worksheet.Cells[header - 1, colNum].Alignment.WrapText = true;
                         worksheet.Cells[header - 1, colNum + 1].Value = "當沖" + (char)13 + (char)10 + "比率" + (char)13 + (char)10 + "%";
+                        worksheet.Cells[header - 1, colNum + 1].Alignment.WrapText = true;
 
                         decimal cpTotQnty = dr["cp_tot_qnty"].AsDecimal();
                         decimal cpTotDtQnty = dr["cp_tot_dt_qnty"].AsDecimal();

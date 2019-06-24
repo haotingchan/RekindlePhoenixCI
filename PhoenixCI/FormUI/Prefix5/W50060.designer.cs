@@ -82,12 +82,12 @@
          // 
          this.panParent.Controls.Add(this.gcMain);
          this.panParent.Controls.Add(this.panFilter);
-         this.panParent.Size = new System.Drawing.Size(1042, 655);
+         this.panParent.Size = new System.Drawing.Size(1040, 655);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(1042, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(1040, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // label9
@@ -203,6 +203,8 @@
          this.dw_prod_kd.Name = "dw_prod_kd";
          this.dw_prod_kd.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.dw_prod_kd.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.dw_prod_kd.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.dw_prod_kd.Properties.NullText = "";
          this.dw_prod_kd.Properties.PopupSizeable = false;
          this.dw_prod_kd.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
@@ -218,6 +220,8 @@
          this.dw_sbrkno.Properties.AppearanceDisabled.Options.UseBackColor = true;
          this.dw_sbrkno.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.dw_sbrkno.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.dw_sbrkno.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.dw_sbrkno.Properties.NullText = "";
          this.dw_sbrkno.Properties.PopupSizeable = false;
          this.dw_sbrkno.Size = new System.Drawing.Size(365, 26);
@@ -234,6 +238,8 @@
             " ",
             "買權",
             "賣權"});
+         this.ddlb_1.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.ddlb_1.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.ddlb_1.Size = new System.Drawing.Size(117, 26);
          this.ddlb_1.TabIndex = 77;
          // 
@@ -323,7 +329,7 @@
          this.panelControl3.Dock = System.Windows.Forms.DockStyle.Fill;
          this.panelControl3.Location = new System.Drawing.Point(0, 30);
          this.panelControl3.Name = "panelControl3";
-         this.panelControl3.Size = new System.Drawing.Size(1042, 655);
+         this.panelControl3.Size = new System.Drawing.Size(1040, 655);
          this.panelControl3.TabIndex = 2;
          // 
          // gcMain
@@ -332,7 +338,7 @@
          this.gcMain.Location = new System.Drawing.Point(12, 162);
          this.gcMain.MainView = this.gvMain;
          this.gcMain.Name = "gcMain";
-         this.gcMain.Size = new System.Drawing.Size(1018, 481);
+         this.gcMain.Size = new System.Drawing.Size(1016, 481);
          this.gcMain.TabIndex = 1;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -524,7 +530,7 @@
          this.panFilter.Dock = System.Windows.Forms.DockStyle.Top;
          this.panFilter.Location = new System.Drawing.Point(12, 12);
          this.panFilter.Name = "panFilter";
-         this.panFilter.Size = new System.Drawing.Size(1018, 150);
+         this.panFilter.Size = new System.Drawing.Size(1016, 150);
          this.panFilter.TabIndex = 79;
          // 
          // W50060
@@ -532,7 +538,7 @@
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(1042, 685);
+         this.ClientSize = new System.Drawing.Size(1040, 685);
          this.Controls.Add(this.panelControl3);
          this.Name = "W50060";
          this.Text = "XtraForm1";

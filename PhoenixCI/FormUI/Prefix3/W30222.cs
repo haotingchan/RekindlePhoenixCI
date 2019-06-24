@@ -112,6 +112,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 DataTable dt30222 = dao30222.d_30222(ymd);
                 if (dt30222.Rows.Count == 0) {
                     MessageDisplay.Info("PL1無任何資料!");
+                    gcMain.DataSource = dt30222;//空的還是要放進Grid，因為後面可能要塞資料
                 }
                 else {
                     dt30222.Columns.Add("Is_NewRow", typeof(string));
@@ -191,7 +192,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 gcMain.DataSource = dtGridView;
             }
             catch (Exception ex) {
-                throw ex;
+                MessageDisplay.Error("讀取錯誤");
+                WriteLog(ex, "", false);
             }
             return ResultStatus.Success;
         }

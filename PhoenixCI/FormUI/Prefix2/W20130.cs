@@ -169,7 +169,9 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 ResultData ResultData = serviceCommon.SaveForChanged(dt, tableName, insertColumnList, updateColumnList, keysColumnList, pokeBall);
             }
             catch (Exception ex) {
-                MessageBox.Show(ex.Message);
+                MessageDisplay.Error("儲存錯誤");
+                WriteLog(ex, "", false);
+                return ResultStatus.FailButNext;
             }
             //把所有新增和修改的Row,INSERT到歷史檔AM12L
             try {
@@ -184,7 +186,9 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 }
             }
             catch (Exception ex) {
-                MessageBox.Show(ex.Message);
+                MessageDisplay.Error("儲存錯誤");
+                WriteLog(ex, "", false);
+                return ResultStatus.FailButNext;
             }
 
             //不要自動列印

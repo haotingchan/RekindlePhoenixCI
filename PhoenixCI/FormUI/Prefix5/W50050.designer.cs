@@ -87,12 +87,12 @@
          // 
          this.panParent.Controls.Add(this.panelGrid);
          this.panParent.Controls.Add(this.panFilter);
-         this.panParent.Size = new System.Drawing.Size(996, 674);
+         this.panParent.Size = new System.Drawing.Size(1110, 655);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(996, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(1110, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // panFilter
@@ -122,13 +122,13 @@
          this.panFilter.Dock = System.Windows.Forms.DockStyle.Top;
          this.panFilter.Location = new System.Drawing.Point(12, 12);
          this.panFilter.Name = "panFilter";
-         this.panFilter.Size = new System.Drawing.Size(972, 136);
+         this.panFilter.Size = new System.Drawing.Size(1086, 150);
          this.panFilter.TabIndex = 78;
          // 
          // txtEndTime
          // 
          this.txtEndTime.EditValue = "08:45";
-         this.txtEndTime.Location = new System.Drawing.Point(211, 51);
+         this.txtEndTime.Location = new System.Drawing.Point(216, 62);
          this.txtEndTime.MenuManager = this.ribbonControl;
          this.txtEndTime.Name = "txtEndTime";
          this.txtEndTime.Properties.Appearance.Options.UseTextOptions = true;
@@ -147,7 +147,7 @@
          this.txtEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtEndDate.EditValue = "2018/12/01";
          this.txtEndDate.EnterMoveNextControl = true;
-         this.txtEndDate.Location = new System.Drawing.Point(105, 51);
+         this.txtEndDate.Location = new System.Drawing.Point(110, 62);
          this.txtEndDate.MenuManager = this.ribbonControl;
          this.txtEndDate.Name = "txtEndDate";
          this.txtEndDate.Properties.Appearance.Options.UseTextOptions = true;
@@ -167,7 +167,7 @@
          this.txtStartDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtStartDate.EditValue = "2018/12/01";
          this.txtStartDate.EnterMoveNextControl = true;
-         this.txtStartDate.Location = new System.Drawing.Point(105, 16);
+         this.txtStartDate.Location = new System.Drawing.Point(110, 17);
          this.txtStartDate.MenuManager = this.ribbonControl;
          this.txtStartDate.Name = "txtStartDate";
          this.txtStartDate.Properties.Appearance.Options.UseTextOptions = true;
@@ -183,7 +183,7 @@
          // 
          // sle_1
          // 
-         this.sle_1.Location = new System.Drawing.Point(575, 91);
+         this.sle_1.Location = new System.Drawing.Point(649, 107);
          this.sle_1.MenuManager = this.ribbonControl;
          this.sle_1.Name = "sle_1";
          this.sle_1.Properties.Mask.EditMask = "n";
@@ -193,7 +193,7 @@
          // label1
          // 
          this.label1.AutoSize = true;
-         this.label1.Location = new System.Drawing.Point(698, 94);
+         this.label1.Location = new System.Drawing.Point(772, 110);
          this.label1.Name = "label1";
          this.label1.Size = new System.Drawing.Size(81, 20);
          this.label1.TabIndex = 82;
@@ -201,7 +201,7 @@
          // 
          // ddlb_2
          // 
-         this.ddlb_2.Location = new System.Drawing.Point(775, 51);
+         this.ddlb_2.Location = new System.Drawing.Point(883, 62);
          this.ddlb_2.MenuManager = this.ribbonControl;
          this.ddlb_2.Name = "ddlb_2";
          this.ddlb_2.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
@@ -226,7 +226,7 @@
          // 
          // ddlb_1
          // 
-         this.ddlb_1.Location = new System.Drawing.Point(575, 51);
+         this.ddlb_1.Location = new System.Drawing.Point(649, 62);
          this.ddlb_1.MenuManager = this.ribbonControl;
          this.ddlb_1.Name = "ddlb_1";
          this.ddlb_1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
@@ -240,7 +240,7 @@
          // 
          // dwProd
          // 
-         this.dwProd.Location = new System.Drawing.Point(378, 51);
+         this.dwProd.Location = new System.Drawing.Point(401, 62);
          this.dwProd.MenuManager = this.ribbonControl;
          this.dwProd.Name = "dwProd";
          this.dwProd.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
@@ -250,7 +250,7 @@
          // 
          // dwBrkno
          // 
-         this.dwBrkno.Location = new System.Drawing.Point(378, 16);
+         this.dwBrkno.Location = new System.Drawing.Point(401, 17);
          this.dwBrkno.MenuManager = this.ribbonControl;
          this.dwBrkno.Name = "dwBrkno";
          this.dwBrkno.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
@@ -261,7 +261,7 @@
          // label9
          // 
          this.label9.AutoSize = true;
-         this.label9.Location = new System.Drawing.Point(489, 94);
+         this.label9.Location = new System.Drawing.Point(554, 110);
          this.label9.Name = "label9";
          this.label9.Size = new System.Drawing.Size(89, 20);
          this.label9.TabIndex = 91;
@@ -270,7 +270,7 @@
          // label8
          // 
          this.label8.AutoSize = true;
-         this.label8.Location = new System.Drawing.Point(674, 54);
+         this.label8.Location = new System.Drawing.Point(772, 65);
          this.label8.Name = "label8";
          this.label8.Size = new System.Drawing.Size(105, 20);
          this.label8.TabIndex = 90;
@@ -279,7 +279,7 @@
          // label7
          // 
          this.label7.AutoSize = true;
-         this.label7.Location = new System.Drawing.Point(505, 54);
+         this.label7.Location = new System.Drawing.Point(554, 65);
          this.label7.Name = "label7";
          this.label7.Size = new System.Drawing.Size(73, 20);
          this.label7.TabIndex = 89;
@@ -288,7 +288,7 @@
          // label6
          // 
          this.label6.AutoSize = true;
-         this.label6.Location = new System.Drawing.Point(325, 54);
+         this.label6.Location = new System.Drawing.Point(322, 65);
          this.label6.Name = "label6";
          this.label6.Size = new System.Drawing.Size(57, 20);
          this.label6.TabIndex = 88;
@@ -297,7 +297,7 @@
          // label5
          // 
          this.label5.AutoSize = true;
-         this.label5.Location = new System.Drawing.Point(309, 19);
+         this.label5.Location = new System.Drawing.Point(322, 20);
          this.label5.Name = "label5";
          this.label5.Size = new System.Drawing.Size(73, 20);
          this.label5.TabIndex = 87;
@@ -306,7 +306,7 @@
          // gbMarket
          // 
          this.gbMarket.EditValue = "rbMarket0";
-         this.gbMarket.Location = new System.Drawing.Point(105, 86);
+         this.gbMarket.Location = new System.Drawing.Point(110, 102);
          this.gbMarket.Name = "gbMarket";
          this.gbMarket.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
          this.gbMarket.Properties.Appearance.Options.UseBackColor = true;
@@ -314,13 +314,15 @@
          this.gbMarket.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rbMarket0", "一般"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rbMarket1", "盤後")});
+         this.gbMarket.Properties.LookAndFeel.SkinName = "Office 2013";
+         this.gbMarket.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbMarket.Size = new System.Drawing.Size(174, 35);
          this.gbMarket.TabIndex = 79;
          // 
          // label4
          // 
          this.label4.AutoSize = true;
-         this.label4.Location = new System.Drawing.Point(16, 94);
+         this.label4.Location = new System.Drawing.Point(15, 110);
          this.label4.Name = "label4";
          this.label4.Size = new System.Drawing.Size(89, 20);
          this.label4.TabIndex = 9;
@@ -329,7 +331,7 @@
          // label3
          // 
          this.label3.AutoSize = true;
-         this.label3.Location = new System.Drawing.Point(64, 54);
+         this.label3.Location = new System.Drawing.Point(15, 65);
          this.label3.Name = "label3";
          this.label3.Size = new System.Drawing.Size(41, 20);
          this.label3.TabIndex = 8;
@@ -338,7 +340,7 @@
          // label2
          // 
          this.label2.AutoSize = true;
-         this.label2.Location = new System.Drawing.Point(16, 19);
+         this.label2.Location = new System.Drawing.Point(15, 20);
          this.label2.Name = "label2";
          this.label2.Size = new System.Drawing.Size(89, 20);
          this.label2.TabIndex = 7;
@@ -347,7 +349,7 @@
          // txtStartTime
          // 
          this.txtStartTime.EditValue = "08:45";
-         this.txtStartTime.Location = new System.Drawing.Point(211, 16);
+         this.txtStartTime.Location = new System.Drawing.Point(216, 17);
          this.txtStartTime.MenuManager = this.ribbonControl;
          this.txtStartTime.Name = "txtStartTime";
          this.txtStartTime.Properties.Appearance.Options.UseTextOptions = true;
@@ -367,9 +369,9 @@
          this.panelGrid.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.panelGrid.Controls.Add(this.gcMain);
          this.panelGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.panelGrid.Location = new System.Drawing.Point(12, 148);
+         this.panelGrid.Location = new System.Drawing.Point(12, 162);
          this.panelGrid.Name = "panelGrid";
-         this.panelGrid.Size = new System.Drawing.Size(972, 514);
+         this.panelGrid.Size = new System.Drawing.Size(1086, 481);
          this.panelGrid.TabIndex = 79;
          // 
          // gcMain
@@ -381,7 +383,7 @@
          this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit1,
             this.repositoryItemTextEdit2});
-         this.gcMain.Size = new System.Drawing.Size(972, 514);
+         this.gcMain.Size = new System.Drawing.Size(1086, 481);
          this.gcMain.TabIndex = 2;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -569,7 +571,7 @@
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(996, 704);
+         this.ClientSize = new System.Drawing.Size(1110, 685);
          this.Name = "W50050";
          this.Text = "W500500";
          this.panParent.ResumeLayout(false);

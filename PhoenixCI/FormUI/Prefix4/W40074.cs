@@ -32,11 +32,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
         /// <summary>
         /// 調整類型 0一般 1長假 2處置股票 3股票
         /// </summary>
-        protected string is_adj_type { get; set; }
+        protected string isAdjType { get; set; }
         /// <summary>
         /// 前一營業日
         /// </summary>
-        protected string is_pre_ymd { get; set; }
+        protected string preYmd { get; set; }
         /// <summary>
         /// 交易日期
         /// </summary>
@@ -166,7 +166,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             txtSDate.EditValue = "2019/03/20";
 #endif
             ymd = txtSDate.DateTimeValue.ToString("yyyyMMdd");
-            is_adj_type = "4";
+            isAdjType = "4";
 
             return ResultStatus.Success;
         }
@@ -199,11 +199,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     return ResultStatus.Fail;
                 }
 
-                int ii_curr_row = 0, li_prod_seq = 0;
-                string ls_kind_id = "", ls_ab_type, ls_stock_id, ls_prod_subtype;
+                int currRow = 0, prodSeq = 0;
+                string kindID = "", abType, stockID, prodSubtype;
                 //讀取資料
                 ymd = txtSDate.DateTimeValue.ToString("yyyyMMdd");
-                DataTable dtMGD2 = dao40071.d_40071(ymd, is_adj_type);
+                DataTable dtMGD2 = dao40071.d_40071(ymd, isAdjType);
                 if (dtMGD2.Rows.Count == 0) {
                     MessageDisplay.Error("無任何資料！");
                     gcMain.DataSource = dao40074.d_40074();
@@ -216,39 +216,39 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                 txtSDate.Text = dtMGD2.Rows[0]["MGD2_YMD"].AsDateTime("yyyyMMdd").ToString("yyyy/MM/dd");
                 foreach (DataRow dr in dtMGD2.Rows) {
-                    if (ls_kind_id != dr["MGD2_KIND_ID"].AsString()) {
-                        ls_kind_id = dr["MGD2_KIND_ID"].AsString();
-                        ls_prod_subtype = dr["MGD2_PROD_SUBTYPE"].AsString();
-                        ii_curr_row = dtGrid.Rows.Count;
+                    if (kindID != dr["MGD2_KIND_ID"].AsString()) {
+                        kindID = dr["MGD2_KIND_ID"].AsString();
+                        prodSubtype = dr["MGD2_PROD_SUBTYPE"].AsString();
+                        currRow = dtGrid.Rows.Count;
                         dtGrid.Rows.Add();
-                        dtGrid.Rows[ii_curr_row]["PROD_TYPE"] = dr["MGD2_PROD_TYPE"];
-                        dtGrid.Rows[ii_curr_row]["KIND_ID"] = ls_kind_id;
-                        dtGrid.Rows[ii_curr_row]["STOCK_ID"] = dr["MGD2_STOCK_ID"];
-                        dtGrid.Rows[ii_curr_row]["PROD_SUBTYPE"] = ls_prod_subtype;
-                        dtGrid.Rows[ii_curr_row]["PARAM_KEY"] = dr["MGD2_PARAM_KEY"];
+                        dtGrid.Rows[currRow]["PROD_TYPE"] = dr["MGD2_PROD_TYPE"];
+                        dtGrid.Rows[currRow]["KIND_ID"] = kindID;
+                        dtGrid.Rows[currRow]["STOCK_ID"] = dr["MGD2_STOCK_ID"];
+                        dtGrid.Rows[currRow]["PROD_SUBTYPE"] = prodSubtype;
+                        dtGrid.Rows[currRow]["PARAM_KEY"] = dr["MGD2_PARAM_KEY"];
 
-                        dtGrid.Rows[ii_curr_row]["M_LEVEL"] = dr["MGD2_LEVEL"]; ;
-                        dtGrid.Rows[ii_curr_row]["CURRENCY_TYPE"] = dr["MGD2_CURRENCY_TYPE"];
-                        dtGrid.Rows[ii_curr_row]["SEQ_NO"] = dr["MGD2_SEQ_NO"];
-                        dtGrid.Rows[ii_curr_row]["OSW_GRP"] = dr["MGD2_OSW_GRP"].AsString();
-                        dtGrid.Rows[ii_curr_row]["AMT_TYPE"] = dr["MGD2_AMT_TYPE"];
+                        dtGrid.Rows[currRow]["M_LEVEL"] = dr["MGD2_LEVEL"]; ;
+                        dtGrid.Rows[currRow]["CURRENCY_TYPE"] = dr["MGD2_CURRENCY_TYPE"];
+                        dtGrid.Rows[currRow]["SEQ_NO"] = dr["MGD2_SEQ_NO"];
+                        dtGrid.Rows[currRow]["OSW_GRP"] = dr["MGD2_OSW_GRP"].AsString();
+                        dtGrid.Rows[currRow]["AMT_TYPE"] = dr["MGD2_AMT_TYPE"];
 
-                        dtGrid.Rows[ii_curr_row]["ADJ_CODE"] = dr["MGD2_ADJ_CODE"];
-                        dtGrid.Rows[ii_curr_row]["PUB_YMD"] = dr["MGD2_PUB_YMD"];
-                        dtGrid.Rows[ii_curr_row]["OP_TYPE"] = " "; //預設為空格
+                        dtGrid.Rows[currRow]["ADJ_CODE"] = dr["MGD2_ADJ_CODE"];
+                        dtGrid.Rows[currRow]["PUB_YMD"] = dr["MGD2_PUB_YMD"];
+                        dtGrid.Rows[currRow]["OP_TYPE"] = " "; //預設為空格
 
-                        li_prod_seq = dao40074.getProd(ls_kind_id, ls_prod_subtype);
+                        prodSeq = dao40074.getProd(kindID, prodSubtype);
                     }
-                    dtGrid.Rows[ii_curr_row]["PROD_SEQ_NO"] = li_prod_seq;
+                    dtGrid.Rows[currRow]["PROD_SEQ_NO"] = prodSeq;
                     if (dr["MGD2_AB_TYPE"].AsString() == "B") {
-                        dtGrid.Rows[ii_curr_row]["CM_B"] = dr["MGD2_CM"];
-                        dtGrid.Rows[ii_curr_row]["MM_B"] = dr["MGD2_MM"];
-                        dtGrid.Rows[ii_curr_row]["IM_B"] = dr["MGD2_IM"];
+                        dtGrid.Rows[currRow]["CM_B"] = dr["MGD2_CM"];
+                        dtGrid.Rows[currRow]["MM_B"] = dr["MGD2_MM"];
+                        dtGrid.Rows[currRow]["IM_B"] = dr["MGD2_IM"];
                     }
                     else {
-                        dtGrid.Rows[ii_curr_row]["CM_A"] = dr["MGD2_CM"];
-                        dtGrid.Rows[ii_curr_row]["MM_A"] = dr["MGD2_MM"];
-                        dtGrid.Rows[ii_curr_row]["IM_A"] = dr["MGD2_IM"];
+                        dtGrid.Rows[currRow]["CM_A"] = dr["MGD2_CM"];
+                        dtGrid.Rows[currRow]["MM_A"] = dr["MGD2_MM"];
+                        dtGrid.Rows[currRow]["IM_A"] = dr["MGD2_IM"];
                     }
                 }//foreach (DataRow dr in dtMGD2.Rows)
 
@@ -305,15 +305,15 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 gvMain.CloseEditor();
                 gvMain.UpdateCurrentRow();
 
-                string ls_stock_id, ls_ymd, ls_kind_id, ls_adj_type_name, ls_op_type, ls_dbname, ls_stock_id_ck;
-                string ls_issue_begin_ymd, ls_trade_ymd, ls_mocf_ymd, ls_next_ymd, ls_level, ls_currency_type;
-                int ii_curr_row, ll_found, li_count, li_row, li_col, li_prod_seq;
-                decimal ldbl_rate;
-                DateTime ldt_w_TIME = DateTime.Now;
+                string stockID, ymd, kindID, adjTypeName, opType, dbname, stockIDCk;
+                string issueBeginYmd, tradeYmd, mocfYmd, nextYmd, level, currencyType;
+                int currRow, found, count, row, col, prodSeq;
+                decimal ldblRate;
+                DateTime ldtWTIME = DateTime.Now;
 
                 DataTable dtGrid = (DataTable)gcMain.DataSource;
-                ll_found = dtGrid.Rows.IndexOf(dtGrid.Select("OP_TYPE <> ' '").FirstOrDefault());
-                if (ll_found + dtDel.Rows.Count == -1) {
+                found = dtGrid.Rows.IndexOf(dtGrid.Select("OP_TYPE <> ' '").FirstOrDefault());
+                if (found + dtDel.Rows.Count == -1) {
                     MessageDisplay.Warning("沒有變更資料,不需要存檔!");
                     return ResultStatus.Fail;
                 }
@@ -322,74 +322,74 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 DataTable dtMGD2Log = dao40071.d_40071_log(); //ids_old 
                 dtMGD2Log.Clear(); //只取schema
 
-                ymd = txtSDate.DateTimeValue.ToString("yyyyMMdd");
-                ls_issue_begin_ymd = ymd;
-                dtMGD2 = dao40071.d_40071(ymd, is_adj_type);
+                this.ymd = txtSDate.DateTimeValue.ToString("yyyyMMdd");
+                issueBeginYmd = this.ymd;
+                dtMGD2 = dao40071.d_40071(this.ymd, isAdjType);
 
                 foreach (DataRow dr in dtGrid.Rows) {
-                    ls_op_type = dr["OP_TYPE"].ToString();
-                    ls_stock_id = dr["STOCK_ID"].AsString();
-                    ls_kind_id = dr["KIND_ID"].AsString();
-                    ls_level = dr["M_LEVEL"].AsString();
+                    opType = dr["OP_TYPE"].ToString();
+                    stockID = dr["STOCK_ID"].AsString();
+                    kindID = dr["KIND_ID"].AsString();
+                    level = dr["M_LEVEL"].AsString();
 
                     //檢查調整後級距為從其高且商品類別為選擇權時，是否有輸入保證金B值
-                    if (ls_level == "Z" && dr["PROD_TYPE"].AsString() == "O") {
+                    if (level == "Z" && dr["PROD_TYPE"].AsString() == "O") {
                         if (dr["CM_B"] == DBNull.Value || dr["MM_B"] == DBNull.Value || dr["IM_B"] == DBNull.Value) {
-                            MessageDisplay.Error(ls_stock_id + "," + ls_kind_id + "的保證金B值未輸入完成");
+                            MessageDisplay.Error(stockID + "," + kindID + "的保證金B值未輸入完成");
                             return ResultStatus.FailButNext;
                         }
                     }
 
                     //檢查有異動的資料
-                    if (ls_op_type != " ") {
+                    if (opType != " ") {
                         //資料修改，將修改前舊資料寫入log
-                        if (ls_op_type == "U") {
-                            dtMGD2.Filter("mgd2_kind_id = '" + ls_kind_id + "'");
+                        if (opType == "U") {
+                            dtMGD2.Filter("mgd2_kind_id = '" + kindID + "'");
                             foreach (DataRow drU in dtMGD2.Rows) {
-                                ii_curr_row = dtMGD2Log.Rows.Count;
+                                currRow = dtMGD2Log.Rows.Count;
                                 dtMGD2Log.Rows.Add();
-                                for (li_col = 0; li_col < dtMGD2.Columns.Count; li_col++) {
+                                for (col = 0; col < dtMGD2.Columns.Count; col++) {
                                     //先取欄位名稱，因為兩張table欄位順序不一致
-                                    ls_dbname = dtMGD2.Columns[li_col].ColumnName;
-                                    if (ls_dbname == "CPSORT") continue; //這個欄位是拿來排序用的，故無需複製
-                                    dtMGD2Log.Rows[ii_curr_row][ls_dbname] = drU[li_col];
+                                    dbname = dtMGD2.Columns[col].ColumnName;
+                                    if (dbname == "CPSORT") continue; //這個欄位是拿來排序用的，故無需複製
+                                    dtMGD2Log.Rows[currRow][dbname] = drU[col];
                                 }
-                                dtMGD2Log.Rows[ii_curr_row]["MGD2_L_TYPE"] = "U";
-                                dtMGD2Log.Rows[ii_curr_row]["MGD2_L_USER_ID"] = GlobalInfo.USER_ID;
-                                dtMGD2Log.Rows[ii_curr_row]["MGD2_L_TIME"] = ldt_w_TIME;
+                                dtMGD2Log.Rows[currRow]["MGD2_L_TYPE"] = "U";
+                                dtMGD2Log.Rows[currRow]["MGD2_L_USER_ID"] = GlobalInfo.USER_ID;
+                                dtMGD2Log.Rows[currRow]["MGD2_L_TIME"] = ldtWTIME;
                             }
                         }
                         /*******************************************
                            檢查商品與類別是否符合
                         *******************************************/
-                        li_prod_seq = dao40074.getProd(ls_kind_id, dr["PROD_SUBTYPE"].AsString());
-                        if (li_prod_seq != dr["PROD_SEQ_NO"].AsInt()) {
-                            MessageDisplay.Error(ls_kind_id + "與商品類別不符，請確認");
+                        prodSeq = dao40074.getProd(kindID, dr["PROD_SUBTYPE"].AsString());
+                        if (prodSeq != dr["PROD_SEQ_NO"].AsInt()) {
+                            MessageDisplay.Error(kindID + "與商品類別不符，請確認");
                             return ResultStatus.FailButNext;
                         }
                         /*****************************************
                            檢查商品代號是否存在及相關資料是否正確
                         ******************************************/
-                        DataTable dtCheck = dao40074.checkProd(ls_kind_id);
+                        DataTable dtCheck = dao40074.checkProd(kindID);
                         if (dtCheck.Rows.Count == 0) {
-                            MessageDisplay.Error(ls_kind_id + "不存在，請重新設定商品代號");
+                            MessageDisplay.Error(kindID + "不存在，請重新設定商品代號");
                             return ResultStatus.FailButNext;
                         }
-                        li_count = dtCheck.Rows[0]["LI_COUNT"].AsInt();
-                        ls_currency_type = dtCheck.Rows[0]["LS_CURRENCY_TYPE"].AsString();
-                        ls_stock_id_ck = dtCheck.Rows[0]["LS_STOCK_ID_CK"].AsString();
+                        count = dtCheck.Rows[0]["LI_COUNT"].AsInt();
+                        currencyType = dtCheck.Rows[0]["LS_CURRENCY_TYPE"].AsString();
+                        stockIDCk = dtCheck.Rows[0]["LS_STOCK_ID_CK"].AsString();
 
-                        if (li_count == 0) {
-                            MessageDisplay.Error(ls_kind_id + "不存在，請重新設定商品代號");
+                        if (count == 0) {
+                            MessageDisplay.Error(kindID + "不存在，請重新設定商品代號");
                             return ResultStatus.FailButNext;
                         }
                         else {
-                            if (dr["CURRENCY_TYPE"].AsString() != ls_currency_type) {
-                                MessageDisplay.Error(ls_kind_id + "的幣別設定錯誤，請重新設定填寫");
+                            if (dr["CURRENCY_TYPE"].AsString() != currencyType) {
+                                MessageDisplay.Error(kindID + "的幣別設定錯誤，請重新設定填寫");
                                 return ResultStatus.FailButNext;
                             }
-                            if (dr["prod_subtype"].AsString() == "S" && ls_stock_id != ls_stock_id_ck) {
-                                MessageDisplay.Error(ls_kind_id + "的股票代號設定錯誤，請重新設定填寫");
+                            if (dr["prod_subtype"].AsString() == "S" && stockID != stockIDCk) {
+                                MessageDisplay.Error(kindID + "的股票代號設定錯誤，請重新設定填寫");
                                 return ResultStatus.FailButNext;
                             }
                         }
@@ -397,15 +397,15 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         /******************************************
                            確認商品是否在同一交易日不同情境下設定過
                         ******************************************/
-                        DataTable dtSet = dao40071.IsSetOnSameDay(ls_kind_id, ymd, is_adj_type);
+                        DataTable dtSet = dao40071.IsSetOnSameDay(kindID, this.ymd, isAdjType);
                         if (dtSet.Rows.Count == 0) {
-                            MessageDisplay.Error("MGD2 " + ls_kind_id + " 無任何資料！");
+                            MessageDisplay.Error("MGD2 " + kindID + " 無任何資料！");
                             return ResultStatus.FailButNext;
                         }
-                        li_count = dtSet.Rows[0]["LI_COUNT"].AsInt();
-                        ls_adj_type_name = dtSet.Rows[0]["LS_ADJ_TYPE_NAME"].AsString();
-                        if (li_count > 0) {
-                            MessageDisplay.Error(ls_kind_id + ",交易日(" + ymd + ")在" + ls_adj_type_name + "已有資料");
+                        count = dtSet.Rows[0]["LI_COUNT"].AsInt();
+                        adjTypeName = dtSet.Rows[0]["LS_ADJ_TYPE_NAME"].AsString();
+                        if (count > 0) {
+                            MessageDisplay.Error(kindID + ",交易日(" + this.ymd + ")在" + adjTypeName + "已有資料");
                             return ResultStatus.FailButNext;
                         }
                         /*********************************
@@ -413,12 +413,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         生效起日若與生效迄日相同，不重疊
                         ex: 10/11的至10/31一般交易時段結束止，10/30的從10/31一般交易時段結束後始>>應不重疊
                         *************************************/
-                        dtSet = dao40071.IsSetInSameSession(ls_kind_id, ymd, ls_issue_begin_ymd);
-                        li_count = dtSet.Rows[0]["LI_COUNT"].AsInt();
-                        ls_adj_type_name = dtSet.Rows[0]["LS_ADJ_TYPE_NAME"].AsString();
-                        ls_trade_ymd = dtSet.Rows[0]["LS_TRADE_YMD"].AsString();
-                        if (li_count > 0) {
-                            MessageDisplay.Error(ls_kind_id + "," + ls_adj_type_name + ",交易日(" + ls_trade_ymd + ")在同一生效日區間內已有資料");
+                        dtSet = dao40071.IsSetInSameSession(kindID, this.ymd, issueBeginYmd);
+                        count = dtSet.Rows[0]["LI_COUNT"].AsInt();
+                        adjTypeName = dtSet.Rows[0]["LS_ADJ_TYPE_NAME"].AsString();
+                        tradeYmd = dtSet.Rows[0]["LS_TRADE_YMD"].AsString();
+                        if (count > 0) {
+                            MessageDisplay.Error(kindID + "," + adjTypeName + ",交易日(" + tradeYmd + ")在同一生效日區間內已有資料");
                             return ResultStatus.FailButNext;
                         }
 
@@ -427,99 +427,99 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                 //把刪除的資料寫進log
                 foreach (DataRow drDel in dtDel.Rows) {
-                    ls_kind_id = drDel["KIND_ID"].AsString();
-                    dtMGD2.Filter("mgd2_kind_id = '" + ls_kind_id + "'");
+                    kindID = drDel["KIND_ID"].AsString();
+                    dtMGD2.Filter("mgd2_kind_id = '" + kindID + "'");
                     foreach (DataRow drD in dtMGD2.Rows) {
-                        ii_curr_row = dtMGD2Log.Rows.Count;
+                        currRow = dtMGD2Log.Rows.Count;
                         dtMGD2Log.Rows.Add();
-                        for (li_col = 0; li_col < dtMGD2.Columns.Count; li_col++) {
+                        for (col = 0; col < dtMGD2.Columns.Count; col++) {
                             //先取欄位名稱，因為兩張table欄位順序不一致
-                            ls_dbname = dtMGD2.Columns[li_col].ColumnName;
-                            if (ls_dbname == "CPSORT") continue; //這個欄位是拿來排序用的，故無需複製
-                            dtMGD2Log.Rows[ii_curr_row][ls_dbname] = drD[li_col];
+                            dbname = dtMGD2.Columns[col].ColumnName;
+                            if (dbname == "CPSORT") continue; //這個欄位是拿來排序用的，故無需複製
+                            dtMGD2Log.Rows[currRow][dbname] = drD[col];
                         }
-                        dtMGD2Log.Rows[ii_curr_row]["MGD2_L_TYPE"] = "D";
-                        dtMGD2Log.Rows[ii_curr_row]["MGD2_L_USER_ID"] = GlobalInfo.USER_ID;
-                        dtMGD2Log.Rows[ii_curr_row]["MGD2_L_TIME"] = ldt_w_TIME;
+                        dtMGD2Log.Rows[currRow]["MGD2_L_TYPE"] = "D";
+                        dtMGD2Log.Rows[currRow]["MGD2_L_USER_ID"] = GlobalInfo.USER_ID;
+                        dtMGD2Log.Rows[currRow]["MGD2_L_TIME"] = ldtWTIME;
                     }
                 }
                 #endregion
 
-                string ls_prod_type;
+                string prodType;
                 DataTable dtTemp = dao40072.d_40072(); //ids_tmp
 
                 foreach (DataRow dr in dtGrid.Rows) {
-                    ls_op_type = dr["OP_TYPE"].ToString();
+                    opType = dr["OP_TYPE"].ToString();
                     //只更新有異動的資料
-                    if (ls_op_type != " ") {
-                        ls_kind_id = dr["KIND_ID"].AsString();
-                        ls_stock_id = dr["KIND_ID"].AsString();
+                    if (opType != " ") {
+                        kindID = dr["KIND_ID"].AsString();
+                        stockID = dr["KIND_ID"].AsString();
 
                         //刪除已存在資料
-                        if (daoMGD2.DeleteMGD2(ymd, is_adj_type, ls_stock_id, ls_kind_id) < 0) {
+                        if (daoMGD2.DeleteMGD2(this.ymd, isAdjType, stockID, kindID) < 0) {
                             MessageDisplay.Error("MGD2資料刪除失敗");
                             return ResultStatus.FailButNext;
                         }
 
-                        ii_curr_row = dtTemp.Rows.Count;
-                        ls_prod_type = dr["PROD_TYPE"].AsString();
+                        currRow = dtTemp.Rows.Count;
+                        prodType = dr["PROD_TYPE"].AsString();
                         dtTemp.Rows.Add();
-                        dtTemp.Rows[ii_curr_row]["MGD2_YMD"] = ymd;
-                        dtTemp.Rows[ii_curr_row]["MGD2_PROD_TYPE"] = ls_prod_type;
-                        dtTemp.Rows[ii_curr_row]["MGD2_KIND_ID"] = ls_kind_id;
-                        dtTemp.Rows[ii_curr_row]["MGD2_STOCK_ID"] = ls_stock_id;
-                        dtTemp.Rows[ii_curr_row]["MGD2_ADJ_TYPE"] = is_adj_type;
+                        dtTemp.Rows[currRow]["MGD2_YMD"] = this.ymd;
+                        dtTemp.Rows[currRow]["MGD2_PROD_TYPE"] = prodType;
+                        dtTemp.Rows[currRow]["MGD2_KIND_ID"] = kindID;
+                        dtTemp.Rows[currRow]["MGD2_STOCK_ID"] = stockID;
+                        dtTemp.Rows[currRow]["MGD2_ADJ_TYPE"] = isAdjType;
 
-                        dtTemp.Rows[ii_curr_row]["MGD2_ADJ_CODE"] = dr["ADJ_CODE"];
-                        dtTemp.Rows[ii_curr_row]["MGD2_PUB_YMD"] = dr["PUB_YMD"];
-                        dtTemp.Rows[ii_curr_row]["MGD2_ISSUE_BEGIN_YMD"] = ls_issue_begin_ymd;
-                        dtTemp.Rows[ii_curr_row]["MGD2_PROD_SUBTYPE"] = dr["PROD_SUBTYPE"].AsString();
-                        dtTemp.Rows[ii_curr_row]["MGD2_PARAM_KEY"] = dr["PARAM_KEY"];
+                        dtTemp.Rows[currRow]["MGD2_ADJ_CODE"] = dr["ADJ_CODE"];
+                        dtTemp.Rows[currRow]["MGD2_PUB_YMD"] = dr["PUB_YMD"];
+                        dtTemp.Rows[currRow]["MGD2_ISSUE_BEGIN_YMD"] = issueBeginYmd;
+                        dtTemp.Rows[currRow]["MGD2_PROD_SUBTYPE"] = dr["PROD_SUBTYPE"].AsString();
+                        dtTemp.Rows[currRow]["MGD2_PARAM_KEY"] = dr["PARAM_KEY"];
 
-                        dtTemp.Rows[ii_curr_row]["MGD2_CUR_CM"] = 0;
-                        dtTemp.Rows[ii_curr_row]["MGD2_CUR_MM"] = 0;
-                        dtTemp.Rows[ii_curr_row]["MGD2_CUR_IM"] = 0;
-                        dtTemp.Rows[ii_curr_row]["MGD2_CUR_LEVEL"] = 0;
-                        dtTemp.Rows[ii_curr_row]["MGD2_CM"] = dr["CM_A"];
+                        dtTemp.Rows[currRow]["MGD2_CUR_CM"] = 0;
+                        dtTemp.Rows[currRow]["MGD2_CUR_MM"] = 0;
+                        dtTemp.Rows[currRow]["MGD2_CUR_IM"] = 0;
+                        dtTemp.Rows[currRow]["MGD2_CUR_LEVEL"] = 0;
+                        dtTemp.Rows[currRow]["MGD2_CM"] = dr["CM_A"];
 
-                        dtTemp.Rows[ii_curr_row]["MGD2_MM"] = dr["MM_A"];
-                        dtTemp.Rows[ii_curr_row]["MGD2_IM"] = dr["IM_A"];
-                        dtTemp.Rows[ii_curr_row]["MGD2_LEVEL"] = dr["M_LEVEL"];
-                        dtTemp.Rows[ii_curr_row]["MGD2_CURRENCY_TYPE"] = dr["CURRENCY_TYPE"];
-                        dtTemp.Rows[ii_curr_row]["MGD2_SEQ_NO"] = dr["SEQ_NO"];
+                        dtTemp.Rows[currRow]["MGD2_MM"] = dr["MM_A"];
+                        dtTemp.Rows[currRow]["MGD2_IM"] = dr["IM_A"];
+                        dtTemp.Rows[currRow]["MGD2_LEVEL"] = dr["M_LEVEL"];
+                        dtTemp.Rows[currRow]["MGD2_CURRENCY_TYPE"] = dr["CURRENCY_TYPE"];
+                        dtTemp.Rows[currRow]["MGD2_SEQ_NO"] = dr["SEQ_NO"];
 
-                        dtTemp.Rows[ii_curr_row]["MGD2_OSW_GRP"] = dr["OSW_GRP"];
-                        dtTemp.Rows[ii_curr_row]["MGD2_AMT_TYPE"] = dr["AMT_TYPE"];
-                        dtTemp.Rows[ii_curr_row]["MGD2_W_TIME"] = ldt_w_TIME;
-                        dtTemp.Rows[ii_curr_row]["MGD2_W_USER_ID"] = GlobalInfo.USER_ID;
+                        dtTemp.Rows[currRow]["MGD2_OSW_GRP"] = dr["OSW_GRP"];
+                        dtTemp.Rows[currRow]["MGD2_AMT_TYPE"] = dr["AMT_TYPE"];
+                        dtTemp.Rows[currRow]["MGD2_W_TIME"] = ldtWTIME;
+                        dtTemp.Rows[currRow]["MGD2_W_USER_ID"] = GlobalInfo.USER_ID;
 
                         /******************************
                               AB TYTPE：	-期貨
                                           A選擇權A值
                                           B選擇權B值
                         *******************************/
-                        if (ls_prod_type == "F") {
-                            dtTemp.Rows[ii_curr_row]["MGD2_AB_TYPE"] = "-";
+                        if (prodType == "F") {
+                            dtTemp.Rows[currRow]["MGD2_AB_TYPE"] = "-";
                         }
                         else {
-                            dtTemp.Rows[ii_curr_row]["MGD2_AB_TYPE"] = "A";
+                            dtTemp.Rows[currRow]["MGD2_AB_TYPE"] = "A";
                             //複製一筆一樣的，AB Type分開存
-                            dtTemp.ImportRow(dtTemp.Rows[ii_curr_row]);
+                            dtTemp.ImportRow(dtTemp.Rows[currRow]);
                             //dtTemp.Rows.Add(dtTemp.Rows[ii_curr_row]);//會跳錯
-                            ii_curr_row = dtTemp.Rows.Count - 1;
-                            dtTemp.Rows[ii_curr_row]["MGD2_AB_TYPE"] = "B";
-                            dtTemp.Rows[ii_curr_row]["MGD2_CM"] = dr["CM_B"];
-                            dtTemp.Rows[ii_curr_row]["MGD2_MM"] = dr["MM_B"];
-                            dtTemp.Rows[ii_curr_row]["MGD2_IM"] = dr["IM_B"];
+                            currRow = dtTemp.Rows.Count - 1;
+                            dtTemp.Rows[currRow]["MGD2_AB_TYPE"] = "B";
+                            dtTemp.Rows[currRow]["MGD2_CM"] = dr["CM_B"];
+                            dtTemp.Rows[currRow]["MGD2_MM"] = dr["MM_B"];
+                            dtTemp.Rows[currRow]["MGD2_IM"] = dr["IM_B"];
                         }
                     }//if (ls_op_type != " ")
                 }//foreach (DataRow dr in dtGrid.Rows)
 
                 //刪除資料
                 foreach (DataRow drDel in dtDel.Rows) {
-                    ls_kind_id = drDel["KIND_ID"].AsString();
-                    ls_stock_id = drDel["STOCK_ID"].AsString();
-                    if (daoMGD2.DeleteMGD2(ymd, is_adj_type, ls_stock_id, ls_kind_id) < 0) {
+                    kindID = drDel["KIND_ID"].AsString();
+                    stockID = drDel["STOCK_ID"].AsString();
+                    if (daoMGD2.DeleteMGD2(this.ymd, isAdjType, stockID, kindID) < 0) {
                         MessageDisplay.Error("MGD2資料刪除失敗");
                         return ResultStatus.FailButNext;
                     }
@@ -587,30 +587,30 @@ namespace PhoenixCI.FormUI.Prefix4 {
             GridView gv = sender as GridView;
             gv.CloseEditor();
             gv.UpdateCurrentRow();
-            string ls_prod_type, ls_prod_subtype, ls_param_key, ls_abroad;
+            string prodType, prodSubtype, paramKey, abroad;
             DataTable dtKind = new DataTable();
             ymd = txtSDate.DateTimeValue.ToString("yyyyMMdd");
             if (e.Column.FieldName == "KIND_ID") {
-                ls_prod_subtype = gv.GetRowCellValue(e.RowHandle, "PROD_SUBTYPE").AsString();
-                ls_param_key = gv.GetRowCellValue(e.RowHandle, "CND_PARAM_KEY").AsString();
-                ls_abroad = gv.GetRowCellValue(e.RowHandle, "ABROAD") == null ? null :
+                prodSubtype = gv.GetRowCellValue(e.RowHandle, "PROD_SUBTYPE").AsString();
+                paramKey = gv.GetRowCellValue(e.RowHandle, "CND_PARAM_KEY").AsString();
+                abroad = gv.GetRowCellValue(e.RowHandle, "ABROAD") == null ? null :
                             gv.GetRowCellValue(e.RowHandle, "ABROAD").ToString();
-                if (ls_prod_subtype == "S") {
+                if (prodSubtype == "S") {
                     if (gv.GetRowCellValue(e.RowHandle, "ADJ_CODE").AsString() == "D") {
-                        dtKind = dao40071.dddw_pdk_kind_id_40071(ymd, ls_param_key);
+                        dtKind = dao40071.dddw_pdk_kind_id_40071(ymd, paramKey);
                         kindIDLookUpEdit.SetColumnLookUp(dtKind, "KIND_ID", "KIND_ID", TextEditStyles.Standard, null);
                         gcMain.RepositoryItems.Add(kindIDLookUpEdit);
                         e.RepositoryItem = kindIDLookUpEdit;
                     }
                     if (gv.GetRowCellValue(e.RowHandle, "ADJ_CODE").AsString() == "Y") {
-                        dtKind = dao40074.dddw_pdk_kind_id_40074(ls_param_key);
+                        dtKind = dao40074.dddw_pdk_kind_id_40074(paramKey);
                         kindIDLookUpEdit.SetColumnLookUp(dtKind, "KIND_ID", "KIND_ID", TextEditStyles.Standard, null);
                         gcMain.RepositoryItems.Add(kindIDLookUpEdit);
                         e.RepositoryItem = kindIDLookUpEdit;
                     }
                 }
                 else {
-                    dtKind = dao40071.dddw_mgt2_kind(ls_prod_subtype + "%", ls_abroad);
+                    dtKind = dao40071.dddw_mgt2_kind(prodSubtype + "%", abroad);
                     kindIDLookUpEdit.SetColumnLookUp(dtKind, "KIND_ID", "KIND_ID", TextEditStyles.Standard, null);
                     gcMain.RepositoryItems.Add(kindIDLookUpEdit);
                     e.RepositoryItem = kindIDLookUpEdit;
@@ -621,24 +621,24 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 }
             }
             if (e.Column.FieldName == "M_LEVEL") {
-                ls_prod_type = gv.GetRowCellValue(e.RowHandle, "PROD_TYPE").AsString();
-                if (ls_prod_type == "F") e.RepositoryItem = fLevelLookUpEdit;
-                if (ls_prod_type == "O") e.RepositoryItem = oLevelLookUpEdit;
+                prodType = gv.GetRowCellValue(e.RowHandle, "PROD_TYPE").AsString();
+                if (prodType == "F") e.RepositoryItem = fLevelLookUpEdit;
+                if (prodType == "O") e.RepositoryItem = oLevelLookUpEdit;
             }
         }
 
         private void gvMain_RowCellStyle(object sender, RowCellStyleEventArgs e) {
             GridView gv = sender as GridView;
-            string amt_type = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMT_TYPE"]).AsString();
-            string op_type = gv.GetRowCellValue(e.RowHandle, gv.Columns["OP_TYPE"]) == null ? "I" :
+            string amtType = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMT_TYPE"]).AsString();
+            string opType = gv.GetRowCellValue(e.RowHandle, gv.Columns["OP_TYPE"]) == null ? "I" :
                              gv.GetRowCellValue(e.RowHandle, gv.Columns["OP_TYPE"]).ToString();
             switch (e.Column.FieldName) {
                 case "KIND_ID":
                 case "STOCK_ID":
                 case "M_LEVEL":
                 case "PROD_SEQ_NO":
-                    e.Appearance.BackColor = op_type == "I" ? Color.White : Color.FromArgb(224, 224, 224);
-                    e.Column.OptionsColumn.AllowEdit = op_type == "I" ? true : false;
+                    e.Appearance.BackColor = opType == "I" ? Color.White : Color.FromArgb(224, 224, 224);
+                    e.Column.OptionsColumn.AllowEdit = opType == "I" ? true : false;
                     break;
                 case "CM_A":
                 case "CM_B":
@@ -658,30 +658,30 @@ namespace PhoenixCI.FormUI.Prefix4 {
         /// <param name="e"></param>
         private void gvMain_ShowingEditor(object sender, CancelEventArgs e) {
             GridView gv = sender as GridView;
-            string prod_type = gv.GetRowCellValue(gv.FocusedRowHandle, "PROD_TYPE").ToString();
-            string prod_subtype = gv.GetRowCellValue(gv.FocusedRowHandle, "PROD_SUBTYPE").ToString();
-            string cnd_param_key = gv.GetRowCellValue(gv.FocusedRowHandle, "CND_PARAM_KEY").ToString();
+            string prodType = gv.GetRowCellValue(gv.FocusedRowHandle, "PROD_TYPE").ToString();
+            string prodSubtype = gv.GetRowCellValue(gv.FocusedRowHandle, "PROD_SUBTYPE").ToString();
+            string cndParamKey = gv.GetRowCellValue(gv.FocusedRowHandle, "CND_PARAM_KEY").ToString();
             //string op_type = gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["OP_TYPE"]) == null ? "I" :
             //     gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["OP_TYPE"]).ToString();
             if (gv.FocusedColumn.Name == "CM_B" ||
                 gv.FocusedColumn.Name == "MM_B" ||
                 gv.FocusedColumn.Name == "IM_B") {
-                e.Cancel = prod_type == "F" ? true : false;
+                e.Cancel = prodType == "F" ? true : false;
             }
             if (gv.FocusedColumn.Name == "STOCK_ID" ||
                 gv.FocusedColumn.Name == "M_LEVEL") {
-                e.Cancel = prod_subtype != "S" ? true : false;
-                if (cnd_param_key.IndexOf("ST%") >= 0) e.Cancel = false;
+                e.Cancel = prodSubtype != "S" ? true : false;
+                if (cndParamKey.IndexOf("ST%") >= 0) e.Cancel = false;
             }
             //if (gv.FocusedColumn.Name == "PROD_SEQ_NO") e.Cancel = op_type == "I" ? false : true;
         }
 
         private void gvMain_CellValueChanging(object sender, CellValueChangedEventArgs e) {
             GridView gv = sender as GridView;
-            string ls_prod_subtype, ls_prod_type, ls_param_key, ls_abroad, ls_kind_id;
-            int ll_found = -1;
+            string prodSubtype, prodType, paramKey, abroad, kindID;
+            int found = -1;
             ymd = txtSDate.DateTimeValue.ToString("yyyyMMdd");
-            ls_param_key = gv.GetRowCellValue(e.RowHandle, "CND_PARAM_KEY").AsString();
+            paramKey = gv.GetRowCellValue(e.RowHandle, "CND_PARAM_KEY").AsString();
             if (e.Column.Name != "OP_TYPE") {
                 //如果OP_TYPE是I則固定不變
                 if (gv.GetRowCellValue(e.RowHandle, "OP_TYPE").ToString() == " ") gv.SetRowCellValue(e.RowHandle, "OP_TYPE", "U");
@@ -719,40 +719,40 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 //商品那欄除了下拉選單已外也可手動key入，key入後會檢查是否正確
                 //若kind_id值為空(即預設值)，則視為使用者尚未填寫，不在此進行檢核，否則會進入無限迴圈
                 //若使用者未輸入kind_id逕行存檔，存檔時仍會再判斷一次
-                ls_prod_subtype = gv.GetRowCellValue(e.RowHandle, "PROD_SUBTYPE").AsString();
-                ls_abroad = gv.GetRowCellValue(e.RowHandle, "ABROAD").ToString();
-                ls_kind_id = gv.GetRowCellValue(e.RowHandle, "KIND_ID").AsString();
-                if (ls_kind_id != "") {
+                prodSubtype = gv.GetRowCellValue(e.RowHandle, "PROD_SUBTYPE").AsString();
+                abroad = gv.GetRowCellValue(e.RowHandle, "ABROAD").ToString();
+                kindID = gv.GetRowCellValue(e.RowHandle, "KIND_ID").AsString();
+                if (kindID != "") {
                     DataTable dtKindCheck = new DataTable();
-                    if (ls_prod_subtype == "S") {
+                    if (prodSubtype == "S") {
                         if (gv.GetRowCellValue(e.RowHandle, "ADJ_CODE").AsString() == "D") {
-                            dtKindCheck = dao40071.dddw_pdk_kind_id_40071(ymd, ls_param_key);
-                            ll_found = dtKindCheck.Rows.IndexOf(dtKindCheck.Select("kind_id = '" + ls_kind_id + "'").FirstOrDefault());
+                            dtKindCheck = dao40071.dddw_pdk_kind_id_40071(ymd, paramKey);
+                            found = dtKindCheck.Rows.IndexOf(dtKindCheck.Select("kind_id = '" + kindID + "'").FirstOrDefault());
 
                         }
                         if (gv.GetRowCellValue(e.RowHandle, "ADJ_CODE").AsString() == "Y") {
-                            dtKindCheck = dao40074.dddw_pdk_kind_id_40074(ls_param_key);
-                            ll_found = dtKindCheck.Rows.IndexOf(dtKindCheck.Select("kind_id = '" + ls_kind_id + "'").FirstOrDefault());
+                            dtKindCheck = dao40074.dddw_pdk_kind_id_40074(paramKey);
+                            found = dtKindCheck.Rows.IndexOf(dtKindCheck.Select("kind_id = '" + kindID + "'").FirstOrDefault());
                         }
                     }
                     else {
-                        dtKindCheck = dao40071.dddw_mgt2_kind(ls_prod_subtype + "%", ls_abroad);
-                        ll_found = dtKindCheck.Rows.IndexOf(dtKindCheck.Select("kind_id = '" + ls_kind_id + "'").FirstOrDefault());
+                        dtKindCheck = dao40071.dddw_mgt2_kind(prodSubtype + "%", abroad);
+                        found = dtKindCheck.Rows.IndexOf(dtKindCheck.Select("kind_id = '" + kindID + "'").FirstOrDefault());
                     }
-                    if (ll_found == -1) {
+                    if (found == -1) {
                         MessageDisplay.Error("商品代號輸入錯誤");
                         gv.SetRowCellValue(e.RowHandle, "KIND_ID", "");
                     }
                     else {
-                        gv.SetRowCellValue(e.RowHandle, "PROD_TYPE", dtKindCheck.Rows[ll_found]["PROD_TYPE"]);
-                        gv.SetRowCellValue(e.RowHandle, "PARAM_KEY", dtKindCheck.Rows[ll_found]["PARAM_KEY"].AsString());
-                        gv.SetRowCellValue(e.RowHandle, "SEQ_NO", dtKindCheck.Rows[ll_found]["SEQ_NO"]);
+                        gv.SetRowCellValue(e.RowHandle, "PROD_TYPE", dtKindCheck.Rows[found]["PROD_TYPE"]);
+                        gv.SetRowCellValue(e.RowHandle, "PARAM_KEY", dtKindCheck.Rows[found]["PARAM_KEY"].AsString());
+                        gv.SetRowCellValue(e.RowHandle, "SEQ_NO", dtKindCheck.Rows[found]["SEQ_NO"]);
                     }
                 }
             }
             if (e.Column.Name == "ADJ_CODE") {
                 //改變調整狀態(上市/下市)時，//同步公布日期
-                if (e.Value.AsString() == "Y") gv.SetRowCellValue(e.RowHandle, "PUB_YMD", is_pre_ymd);
+                if (e.Value.AsString() == "Y") gv.SetRowCellValue(e.RowHandle, "PUB_YMD", preYmd);
                 if (e.Value.AsString() == "D") {
                     gv.SetRowCellValue(e.RowHandle, "PUB_YMD", ymd);
                     gv.SetRowCellValue(e.RowHandle, "CM_A", 0);
@@ -869,20 +869,20 @@ namespace PhoenixCI.FormUI.Prefix4 {
         /// <param name="e"></param>
         private void txtSDate_EditValueChanged(object sender, EventArgs e) {
             if (txtSDate.Text.Length < 10) return;//防止還沒輸入完就觸發事件
-            string ls_mocf_ymd;
+            string mocfYmd;
             ymd = txtSDate.DateTimeValue.ToString("yyyyMMdd");
 
             //交易日+1個月
-            ls_mocf_ymd = PbFunc.relativedate(txtSDate.DateTimeValue, -30).ToString("yyyyMMdd");
+            mocfYmd = PbFunc.relativedate(txtSDate.DateTimeValue, -30).ToString("yyyyMMdd");
             /*前一營業日*/
-            is_pre_ymd = daoMOCF.GetPrevTradeDay(ymd, ls_mocf_ymd);
+            preYmd = daoMOCF.GetPrevTradeDay(ymd, mocfYmd);
             //同步公布日期	 
 
             gvMain.CloseEditor();
             gvMain.UpdateCurrentRow();
             DataTable dtGrid = (DataTable)gcMain.DataSource;
             foreach (DataRow dr in dtGrid.Rows) {
-                if (dr["ADJ_CODE"].AsString() == "Y") dr["PUB_YMD"] = is_pre_ymd;
+                if (dr["ADJ_CODE"].AsString() == "Y") dr["PUB_YMD"] = preYmd;
                 if (dr["ADJ_CODE"].AsString() == "D") dr["PUB_YMD"] = ymd;
             }
         }
@@ -895,9 +895,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                  e.Column.FieldName == "MM_B" ||
                  e.Column.FieldName == "IM_A" ||
                  e.Column.FieldName == "IM_B") && e.ListSourceRowIndex != DevExpress.XtraGrid.GridControl.InvalidRowHandle) {
-                string amt_type = view.GetListSourceRowCellValue(e.ListSourceRowIndex, "AMT_TYPE").AsString();
+                string amtType = view.GetListSourceRowCellValue(e.ListSourceRowIndex, "AMT_TYPE").AsString();
                 decimal value = e.Value.AsDecimal();
-                switch (amt_type) {
+                switch (amtType) {
                     case "P": e.DisplayText = string.Format("{0:0.###%}", value); break;
                     default: e.DisplayText = string.Format("{0:#,###}", value); break;
                 }

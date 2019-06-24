@@ -400,5 +400,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       #endregion
+
+      private void labEndDate_Click(object sender , EventArgs e) {
+
+      }
    }
 }
