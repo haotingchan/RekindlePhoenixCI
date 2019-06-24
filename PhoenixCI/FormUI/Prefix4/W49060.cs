@@ -150,6 +150,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
       protected override ResultStatus Save(PokeBall pokeBall) {
          try {
+
+            if(gcMain.DataSource == null) {
+               MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
+               return ResultStatus.FailButNext;
+            }
+
             DataTable dt = (DataTable)gcMain.DataSource; //mg8
             gvMain.CloseEditor();
             gvMain.UpdateCurrentRow();
@@ -158,6 +164,16 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
             DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
             DataTable dtForDeleted = dt.GetChanges(DataRowState.Deleted);
+
+
+            if (dtChange == null) {
+               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+               return ResultStatus.Fail;
+            }
+            if (dtChange.Rows.Count == 0) {
+               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+               return ResultStatus.Fail;
+            }
 
             #region save
             foreach (DataRow dr in dt.Rows) {

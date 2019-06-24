@@ -65,8 +65,8 @@ namespace DataObjects.Dao.Together.SpecificDao {
          string sql = string.Format(@"
 select to_char(AMM1_DATE,'yyyy/MM/dd') as AMM1_DATE,
     AMM1_FCM_NO,
-    ABRK_ABBR_NAME,
-    AMM1_ACC_NO,  
+    AMM1_ACC_NO,
+    ABRK_ABBR_NAME,     
     AMM1_PROD_TYPE,
     AMM1_KIND_ID2,
     O_OUT5,O_OUT4,O_OUT3,O_OUT2,O_OUT1,
