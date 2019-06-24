@@ -131,6 +131,7 @@
          this.txtEndDate.Size = new System.Drawing.Size(100, 26);
          this.txtEndDate.TabIndex = 90;
          this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         this.txtEndDate.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtEndDate_KeyDown);
          // 
          // label1
          // 
@@ -154,6 +155,7 @@
          this.btnFirstFilter.TabIndex = 87;
          this.btnFirstFilter.Text = "查詢";
          this.btnFirstFilter.UseVisualStyleBackColor = true;
+         this.btnFirstFilter.Click += new System.EventHandler(this.btnFirstFilter_Click);
          // 
          // labEndDate
          // 
@@ -383,6 +385,7 @@
          this.cbxSubType.Properties.PopupSizeable = false;
          this.cbxSubType.Size = new System.Drawing.Size(121, 26);
          this.cbxSubType.TabIndex = 100;
+         this.cbxSubType.EditValueChanged += new System.EventHandler(this.cbxSubType_EditValueChanged);
          // 
          // labSubType
          // 
