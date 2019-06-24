@@ -71,6 +71,12 @@ namespace PhoenixCI.FormUI.Prefix5
          _Report = new XtraReport();
       }
 
+      /// <summary>
+      /// 讀取前條件檢核
+      /// </summary>
+      /// <param name="sbrkno">造市者代號起始</param>
+      /// <param name="ebrkno">造市者代號迄止</param>
+      /// <returns></returns>
       private bool StartRetrieve(string sbrkno = "", string ebrkno = "")
       {
          /*******************
@@ -176,15 +182,6 @@ namespace PhoenixCI.FormUI.Prefix5
          return true;
       }
 
-      private bool EndRetrieve(DataTable dt)
-      {
-         if (dt.Rows.Count <= 0) {
-            MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
-            return false;
-         }
-         return true;
-      }
-
       /// <summary>
       /// 匯出轉檔前的狀態顯示
       /// </summary>
@@ -211,17 +208,19 @@ namespace PhoenixCI.FormUI.Prefix5
       /// <summary>
       /// 轉檔結束後
       /// </summary>
-      private void EndExport()
+      private void EndExport(string msg = "轉檔完成!")
       {
-         stMsgTxt.Text = "轉檔完成!";
+         stMsgTxt.Text = msg;
          this.Refresh();
          Thread.Sleep(5);
-         //is_time = is_time + "～" + DateTime.Now;
-         //PbFunc.messageBox(GlobalInfo.gs_t_result + " " + is_time, "轉檔完成!", MessageBoxIcon.Information);
          stMsgTxt.Visible = false;
          this.Cursor = Cursors.Arrow;
       }
 
+      /// <summary>
+      /// 顯示選取條件
+      /// </summary>
+      /// <returns></returns>
       private string ConditionText()
       {
          string lsText;
@@ -264,6 +263,10 @@ namespace PhoenixCI.FormUI.Prefix5
          return lsText;
       }
 
+      /// <summary>
+      /// 顯示日期條件
+      /// </summary>
+      /// <returns></returns>
       private string DateText()
       {
          /*******************
@@ -277,44 +280,6 @@ namespace PhoenixCI.FormUI.Prefix5
             lsText = lsText + '～' + _D500Xx.Edate;
          }
          return lsText;
-      }
-
-      private void WfGbReportType(string AsType)
-      {
-
-         switch (AsType) {
-            case "M":
-               /* 只有月份 */
-               gbReportType.EditValue = "rb_month";
-               gpDate.Visibility = LayoutVisibility.Never;
-               gbReportType.Visible = false;
-               break;
-            case "m":
-               gbReportType.EditValue = "rb_month";
-               gbReportType.Visible = false;
-               gpDate.Visibility = LayoutVisibility.Never;
-               /* 無迄止值 */
-               emEndYM.Visible = false;
-               stMonth.Visibility = LayoutVisibility.Never;
-               break;
-            case "D":
-               /* 只有日期 */
-               gbReportType.EditValue = "rb_date";
-               gpMonth.Visibility = LayoutVisibility.Never;
-               gbReportType.Visible = false;
-               break;
-            case "d":
-               /* 只有日期 */
-               gbReportType.EditValue = "rb_date";
-               gpMonth.Visibility = LayoutVisibility.Never;
-               gbReportType.Visible = false;
-               /* 無迄止值 */
-               stDate.Visibility = LayoutVisibility.Never;
-               emEndDate.Visible = false;
-               break;
-            default:
-               break;
-         }
       }
 
       /// <summary>
@@ -378,71 +343,9 @@ namespace PhoenixCI.FormUI.Prefix5
          return subtype;
       }
 
-      private void WfGbGroup(bool VisibleValue, bool EnableValue, string AsType)
-      {
-         gbGroup.Visible = VisibleValue;
-         gb2.Visible = VisibleValue;
-         gbGroup.Enabled = EnableValue;
-
-         switch (AsType) {
-            case "1":
-               gbGroup.EditValue = "rb_gall";
-               break;
-            case "2":
-               gbGroup.EditValue = "rb_gparam";
-               break;
-            case "3":
-               gbGroup.EditValue = "rb_gkind";
-               break;
-            case "4":
-               gbGroup.EditValue = "rb_gkind2";
-               break;
-            case "5":
-               gbGroup.EditValue = "rb_gprod";
-               break;
-            default:
-               break;
-         }
-      }
-
-      private void WfGbPrintSort(bool VisibleValue, bool EnableValue, string AsType)
-      {
-         gbPrintSort.Visible = VisibleValue;
-         gb4.Visible = VisibleValue;
-         gbPrintSort.Enabled = EnableValue;
-
-         switch (AsType) {
-            case "1":
-               gbPrintSort.EditValue = "rb_mmk";
-               break;
-
-            case "2":
-               gbPrintSort.EditValue = "rb_prod";
-               break;
-            default:
-               break;
-         }
-      }
-
-      private void WfGrpDetial(bool VisibleValue, bool EnableValue, string AsType)
-      {
-         gbDetial.Visible = VisibleValue;
-         gb3.Visible = VisibleValue;
-         gbDetial.Enabled = EnableValue;
-
-         switch (AsType) {
-            case "1":
-               gbDetial.EditValue = "rb_gdate";
-               break;
-
-            case "2":
-               gbDetial.EditValue = "rb_gnodate";
-               break;
-            default:
-               break;
-         }
-      }
-
+      /// <summary>
+      /// 轉檔失敗刪除檔案
+      /// </summary>
       private void WfRunError()
       {
          /*******************
@@ -456,6 +359,10 @@ namespace PhoenixCI.FormUI.Prefix5
          File.Delete(_D500Xx.Filename);
       }
 
+      /// <summary>
+      /// 報表資料篩選
+      /// </summary>
+      /// <returns></returns>
       protected bool GetData()
       {
          /* 報表內容 */
@@ -485,6 +392,28 @@ namespace PhoenixCI.FormUI.Prefix5
             return false;
          }
          return true;
+      }
+
+      /// <summary>
+      /// 顯示報表
+      /// </summary>
+      /// <param name="report"></param>
+      private void ShowReport(XtraReport report)
+      {
+         documentViewer1.DocumentSource = report;
+         report.CreateDocument(true);
+      }
+
+      /// <summary>
+      /// 顯示Label訊息
+      /// </summary>
+      /// <param name="msg"></param>
+      protected void ShowMsg(string msg)
+      {
+         stMsgTxt.Visible = true;
+         stMsgTxt.Text = msg;
+         this.Refresh();
+         Thread.Sleep(5);
       }
 
       private void gbGroup_EditValueChanged(object sender, EventArgs e)
@@ -626,7 +555,7 @@ namespace PhoenixCI.FormUI.Prefix5
          *******************/
          //GlobalInfo.OCF_DATE = serviceCommon.GetOCF().OCF_DATE;
          emEndDate.EditValue = GlobalInfo.OCF_DATE;
-         emStartDate.EditValue = new DateTime(GlobalInfo.OCF_DATE.Year, GlobalInfo.OCF_DATE.Month, 01);
+         emStartDate.DateTimeValue = new DateTime(GlobalInfo.OCF_DATE.Year, GlobalInfo.OCF_DATE.Month, 01);
          emStartYM.EditValue = GlobalInfo.OCF_DATE;
          emEndYM.EditValue = GlobalInfo.OCF_DATE;
          /* 造市者代號 */
@@ -655,11 +584,6 @@ namespace PhoenixCI.FormUI.Prefix5
 
          gbGroup.EditValueChanged += gbGroup_EditValueChanged;
          gbMarket.EditValueChanged += gbMarket_EditValueChanged;
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus AfterOpen()
-      {
          return ResultStatus.Success;
       }
 
@@ -759,8 +683,7 @@ namespace PhoenixCI.FormUI.Prefix5
             _Report = new defReport(_Data, caption);
          }
 
-         documentViewer1.DocumentSource = _Report;
-         _Report.CreateDocument(true);
+         ShowReport(_Report);
 
          _ToolBtnPrintAll.Enabled = true;
          _ToolBtnExport.Enabled = true;
@@ -873,13 +796,27 @@ namespace PhoenixCI.FormUI.Prefix5
 
       protected override ResultStatus Print(ReportHelper reportHelper)
       {
-         CommonReportLandscapeA4 reportLandscapeA4 = new CommonReportLandscapeA4();
-         XtraReport xtraReport = reportHelper.CreateCompositeReport(_Report, reportLandscapeA4);
-         string dateCondition = DateText() == "" ? "" : "," + DateText();
-         reportHelper.LeftMemo = ConditionText() + dateCondition;
-         reportHelper.Create(xtraReport);
+         ShowMsg("列印中...");
+         try {
+            CommonReportLandscapeA4 reportLandscapeA4 = new CommonReportLandscapeA4();
+            if (_Report == null)
+               _Report = new XtraReport();
+            XtraReport xtraReport = reportHelper.CreateCompositeReport(_Report, reportLandscapeA4);
+            string dateCondition = DateText() == "" ? "" : "," + DateText();
+            reportHelper.LeftMemo = ConditionText() + dateCondition;
+            reportHelper.Create(xtraReport);
 
-         reportHelper.Print();
+            reportHelper.Print(reportHelper.MainReport);
+            ShowReport(_Report);//xtraReport列印後畫面會莫名被清空,所以重新讓它顯示
+         }
+         catch (Exception ex) {
+            WriteLog(ex);
+            throw ex;
+         }
+         finally {
+            EndExport("列印完成!");
+         }
+
          return ResultStatus.Success;
       }
 

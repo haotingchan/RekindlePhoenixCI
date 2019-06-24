@@ -21,8 +21,14 @@ using DevExpress.Spreadsheet;
 using System.Drawing;
 using PhoenixCI.BusinessLogic.Prefix5;
 
+/// <summary>
+/// John,201906024,不符造市規定統計表
+/// </summary>
 namespace PhoenixCI.FormUI.Prefix5
 {
+   /// <summary>
+   /// 不符造市規定統計表
+   /// </summary>
    public partial class W50032 : FormParent
    {
       public D500xx _D500Xx { get; set; }
@@ -44,6 +50,12 @@ namespace PhoenixCI.FormUI.Prefix5
          b50032 = new B50032();
       }
 
+      /// <summary>
+      /// 讀取前條件檢核
+      /// </summary>
+      /// <param name="sbrkno">造市者代號起始</param>
+      /// <param name="ebrkno">造市者代號迄止</param>
+      /// <returns></returns>
       private bool StartRetrieve(string sbrkno = "", string ebrkno = "")
       {
          /*******************
@@ -162,6 +174,10 @@ namespace PhoenixCI.FormUI.Prefix5
          this.Cursor = Cursors.Arrow;
       }
 
+      /// <summary>
+      /// 顯示選取條件
+      /// </summary>
+      /// <returns></returns>
       private string ConditionText()
       {
          string lsText;
@@ -201,6 +217,10 @@ namespace PhoenixCI.FormUI.Prefix5
          return lsText;
       }
 
+      /// <summary>
+      /// 顯示日期條件
+      /// </summary>
+      /// <returns></returns>
       private string DateText()
       {
          /*******************
@@ -216,6 +236,9 @@ namespace PhoenixCI.FormUI.Prefix5
          return lsText;
       }
 
+      /// <summary>
+      /// 轉檔失敗刪除檔案
+      /// </summary>
       private void WfRunError()
       {
          /*******************
@@ -229,6 +252,10 @@ namespace PhoenixCI.FormUI.Prefix5
          File.Delete(_D500Xx.Filename);
       }
 
+      /// <summary>
+      /// 報表資料篩選
+      /// </summary>
+      /// <returns></returns>
       protected bool GetData()
       {
          _ToolBtnPrintAll.Enabled = true;
@@ -242,6 +269,28 @@ namespace PhoenixCI.FormUI.Prefix5
             return false;
          }
          return true;
+      }
+
+      /// <summary>
+      /// 顯示Label訊息
+      /// </summary>
+      /// <param name="msg"></param>
+      protected void ShowMsg(string msg)
+      {
+         stMsgTxt.Visible = true;
+         stMsgTxt.Text = msg;
+         this.Refresh();
+         Thread.Sleep(5);
+      }
+
+      /// <summary>
+      /// 顯示報表
+      /// </summary>
+      /// <param name="report"></param>
+      private void ShowReport(XtraReport report)
+      {
+         documentViewer1.DocumentSource = report;
+         report.CreateDocument(true);
       }
 
       protected override ResultStatus Open()
@@ -320,8 +369,7 @@ namespace PhoenixCI.FormUI.Prefix5
             new ReportProp{DataColumn="AMM0_KEEP_FLAG",Caption= "符合報價每日平均維持時間",CellWidth=55,textAlignment=TextAlignment.MiddleCenter,DetailRowFontSize=10,HeaderFontSize=8}
             };
             _defReport = new defReport(_Data, caption);
-            documentViewer1.DocumentSource = _defReport;
-            _defReport.CreateDocument(true);
+            ShowReport(_defReport);
 
             ShowMsg("匯出檔案...");
             string destinationFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, "50032.xlsx");
@@ -350,14 +398,6 @@ namespace PhoenixCI.FormUI.Prefix5
          }
 
          return ResultStatus.Success;
-      }
-
-      protected void ShowMsg(string msg)
-      {
-         stMsgTxt.Visible = true;
-         stMsgTxt.Text = msg;
-         this.Refresh();
-         Thread.Sleep(5);
       }
 
       protected override ResultStatus Export()
@@ -436,16 +476,19 @@ namespace PhoenixCI.FormUI.Prefix5
          try {
             //ShowFormWait();
             CommonReportLandscapeA4 reportLandscapeA4 = new CommonReportLandscapeA4();
+            if (_defReport == null)
+               _defReport = new defReport();
             XtraReport xtraReport = reportHelper.CreateCompositeReport(_defReport, reportLandscapeA4);
             string dateCondition = DateText() == "" ? "" : "," + DateText();
             reportHelper.LeftMemo = ConditionText() + dateCondition;
             reportHelper.Create(xtraReport);
 
-            //reportHelper.Preview();
-            base.Print(reportHelper);
+            reportHelper.Print(reportHelper.MainReport);
+            ShowReport(_defReport);//xtraReport列印後畫面會莫名被清空,所以重新讓它顯示
             //CloseFormWait();
          }
          catch (Exception ex) {
+            WriteLog(ex);
             throw ex;
          }
          finally {
