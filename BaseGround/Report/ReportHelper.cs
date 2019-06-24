@@ -233,6 +233,21 @@ namespace BaseGround.Report
          }
       }
 
+      /// <summary>
+      /// 非同步列印 但只能印XtraReport的元件
+      /// </summary>
+      public void Print(XtraReport report)
+      {
+         AddReportTitleForNight();
+
+         report.CreateDocument();
+
+         var storage = new DevExpress.XtraPrinting.Caching.MemoryDocumentStorage();
+         var cachedReportSource = new DevExpress.XtraPrinting.Caching.CachedReportSource(report, storage);
+         ReportPrintTool printTool = new ReportPrintTool(cachedReportSource);
+         printTool.Print();
+      }
+
       public void Export(FileType fileType, string path)
       {
          AddReportTitleForNight();
@@ -276,7 +291,7 @@ namespace BaseGround.Report
       /// <summary>
       /// 如果是夜盤的報表，標題後面都加(夜盤)兩個字
       /// </summary>
-      public void AddReportTitleForNight()
+      private void AddReportTitleForNight()
       {
          if (SystemStatus.SystemType == SystemType.FutureNight || SystemStatus.SystemType == SystemType.OptionNight) {
             ReportTitle += "(夜盤)";
