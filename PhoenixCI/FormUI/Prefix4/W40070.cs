@@ -45,6 +45,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             GridHelper.SetCommonGrid(gvMain);
             gvMain.AppearancePrint.BandPanel.Font = new Font("Microsoft YaHei", 10);
             gvMain.AppearancePrint.BandPanel.TextOptions.WordWrap = WordWrap.Wrap;
+            gvMain.AppearancePrint.GroupRow.Font = new Font("Microsoft YaHei", 10);
         }
 
         protected override ResultStatus Open() {
