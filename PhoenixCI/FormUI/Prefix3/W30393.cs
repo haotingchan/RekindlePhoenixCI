@@ -11,6 +11,8 @@ using System.IO;
 using System.Data;
 using DataObjects.Dao.Together;
 using DevExpress.Spreadsheet;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 /// <summary>
 /// john,20190307,匯率類期貨契約價量資料
 /// </summary>
