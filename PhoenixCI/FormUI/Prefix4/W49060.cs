@@ -388,8 +388,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       protected override ResultStatus InsertRow() {
-         DataTable dt = (DataTable)gcMain.DataSource;
-         gvMain.AddNewRow();
+
+         DataTable dt = new MG8().ListData(StartDate , EndDate);
+         DataTable dtTemp = dt.Clone();
+         gcMain.DataSource = dtTemp;
+
+         base.InsertRow(gvMain);
 
          gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MG8_EFFECT_YMD"] , DateTime.Now.ToString("yyyy/MM/dd"));
          gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MG8_ISSUE_YMD"] , DateTime.Now.ToString("yyyy/MM/dd"));
@@ -398,8 +402,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
          gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MG8_IM"] , 0);
          gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["IS_NEWROW"] , 1);
 
+         gcMain.Visible = true;
          gvMain.Focus();
-         gvMain.FocusedColumn = gvMain.Columns[0];
+         GridHelper.SetCommonGrid(gvMain);
+         //gvMain.FocusedColumn = gvMain.Columns[0];
+         gvMain.FocusedColumn = gvMain.VisibleColumns[0];
 
          return ResultStatus.Success;
       }
