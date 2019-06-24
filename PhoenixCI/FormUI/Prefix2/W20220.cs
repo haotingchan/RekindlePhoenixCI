@@ -191,7 +191,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 CommonReportPortraitA4 report = new CommonReportPortraitA4();
                 report.printableComponentContainerMain.PrintableComponent = gcMain;
                 _ReportHelper.Create(report);
-
+                _ReportHelper.Export(FileType.PDF, _ReportHelper.FilePath);
                 base.Print(_ReportHelper);
             }
             catch (Exception ex) {
@@ -273,7 +273,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             switch (e.Column.FieldName) {
                 case ("PLT1_PROD_TYPE"):
                 case ("PLT1_PROD_SUBTYPE"):
-                    e.Column.OptionsColumn.AllowFocus = Is_NewRow == "1" ? true : false;
+                    //e.Column.OptionsColumn.AllowFocus = Is_NewRow == "1" ? true : false;
                     e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.FromArgb(224, 224, 224);
                     break;
                 default:
