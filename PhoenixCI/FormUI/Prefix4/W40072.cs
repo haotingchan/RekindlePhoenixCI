@@ -497,9 +497,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 //Write LOGF
                 WriteLog("變更資料 ", "Info", "I");
                 //報表儲存pdf
-                ReportHelper _ReportHelper = new ReportHelper(gcMain, _ProgramID, this.Text);
+                ReportHelper _ReportHelper = new ReportHelper(gcDetail, _ProgramID, this.Text);
                 CommonReportLandscapeA3 reportLandscape = new CommonReportLandscapeA3();//設定為橫向列印
-                reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
+                reportLandscape.printableComponentContainerMain.PrintableComponent = gcDetail;
                 reportLandscape.IsHandlePersonVisible = false;
                 reportLandscape.IsManagerVisible = false;
                 _ReportHelper.Create(reportLandscape);
