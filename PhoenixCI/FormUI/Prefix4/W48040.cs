@@ -9,6 +9,7 @@ using DevExpress.XtraEditors.Controls;
 using System;
 using System.Data;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 /// <summary>
@@ -219,8 +220,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      worksheet.Cells[pos , 7].Value = drDate["DAY_CNT"].AsInt();//天數
 
                      //ken,使用DataView的Find之前,要指定Sort欄位(可多個欄位)
-                     DataView dvSingleTemp = new DataView(dtSingleKind , "" , "mg1_ymd" , DataViewRowState.CurrentRows);
-                     int filterIndex = dvSingleTemp.Find(drDate["SDATE"].AsString());
+                     int filterIndex = dtSingleKind.Rows.IndexOf(dtSingleKind.Select($"mg1_ymd >= '{drDate["SDATE"].AsString()}'").FirstOrDefault());
                      if (filterIndex >= 0) {
                         worksheet.Cells[pos , 8].Value = rowIndex + filterIndex;//起日位址(FirstRowIndex)
                      } else {
