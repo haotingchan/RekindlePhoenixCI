@@ -11,6 +11,8 @@ using BusinessObjects;
 using DataObjects.Dao.Together.TableDao;
 using BaseGround.Shared;
 using Common;
+using DataObjects.Dao.Together.SpecificDao;
+using DevExpress.XtraGrid.Views.Base;
 
 /// <summary>
 /// Lukas, 2019/1/22
@@ -23,11 +25,13 @@ namespace PhoenixCI.FormUI.Prefix2 {
 
         private ReportHelper _ReportHelper;
         private AA1 daoAA1;
+        private D20310 dao20310;
 
         public W20310(string programID, string programName) : base(programID, programName) {
             InitializeComponent();
             this.Text = _ProgramID + "─" + _ProgramName;
             daoAA1 = new AA1();
+            dao20310 = new D20310();
             txtStartDate.EditValue = GlobalInfo.OCF_DATE.Year + "/01";
             txtEndDate.EditValue = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
             GridHelper.SetCommonGrid(gvMain);
@@ -180,12 +184,22 @@ namespace PhoenixCI.FormUI.Prefix2 {
         /// <param name="e"></param>
         private void gvMain_InitNewRow(object sender, InitNewRowEventArgs e) {
             GridView gv = sender as GridView;
+            //string sym = txtStartDate.Text.Replace("/", "");
+            string eym = txtEndDate.Text.Replace("/", "");
+            DataTable dtAmt = dao20310.TotalAMT(eym);
+            DataTable dtDay = dao20310.OCFDaysCnt(eym);
             gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"], 1);
 
             //直接設定值給dataTable(have UI)
-            gv.SetRowCellValue(e.RowHandle, gv.Columns["AA1_YM"], txtEndDate.Text.Replace("/", ""));
+            gv.SetRowCellValue(e.RowHandle, gv.Columns["AA1_YM"], eym);
             gv.SetRowCellValue(e.RowHandle, gv.Columns["AA1_SGX_DT"], 0);
-
+            if (dtAmt.Rows.Count > 0) gv.SetRowCellValue(e.RowHandle, gv.Columns["AA1_TAIFEX"], dtAmt.Rows[0]["TOTALAMT"]);
+            if (dtDay.Rows.Count > 0) {
+                gv.SetRowCellValue(e.RowHandle, gv.Columns["AA1_DAY_COUNT"], dtDay.Rows[0]["DAYSCNT"]);
+                string maxDay = dtDay.Rows[0]["MAXDAY"].AsString();
+                DataTable dtRate = dao20310.ExchangeRate(maxDay);
+                if (dtRate.Rows.Count > 0) gv.SetRowCellValue(e.RowHandle, gv.Columns["AA1_US_RATE"], dtRate.Rows[0]["HEXRT_EXCHANGE_RATE"]);
+            }
         }
 
         /// <summary>
@@ -231,6 +245,28 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     break;
             }//switch (e.Column.FieldName) {
 
+        }
+
+        private void gvMain_CellValueChanged(object sender, CellValueChangedEventArgs e) {
+            GridView gv = sender as GridView;
+            //DataTable dt = (DataTable)gcMain.DataSource;
+            if (e.Column.FieldName == "AA1_YM") {
+                //先清空
+                gv.SetRowCellValue(e.RowHandle, gv.Columns["AA1_TAIFEX"],null);
+                gv.SetRowCellValue(e.RowHandle, gv.Columns["AA1_DAY_COUNT"], null);
+                gv.SetRowCellValue(e.RowHandle, gv.Columns["AA1_US_RATE"], null);
+
+                string eym = e.Value.AsString();
+                DataTable dtAmt = dao20310.TotalAMT(eym);
+                DataTable dtDay = dao20310.OCFDaysCnt(eym);
+                if (dtAmt.Rows.Count > 0) gv.SetRowCellValue(e.RowHandle, gv.Columns["AA1_TAIFEX"], dtAmt.Rows[0]["TOTALAMT"]);
+                if (dtDay.Rows.Count > 0) {
+                    gv.SetRowCellValue(e.RowHandle, gv.Columns["AA1_DAY_COUNT"], dtDay.Rows[0]["DAYSCNT"]);
+                    string maxDay = dtDay.Rows[0]["MAXDAY"].AsString();
+                    DataTable dtRate = dao20310.ExchangeRate(maxDay);
+                    if (dtRate.Rows.Count > 0) gv.SetRowCellValue(e.RowHandle, gv.Columns["AA1_US_RATE"], dtRate.Rows[0]["HEXRT_EXCHANGE_RATE"]);
+                }
+            }
         }
 
         #endregion
