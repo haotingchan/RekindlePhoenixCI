@@ -173,7 +173,6 @@
          this.inputPanel.AutoSize = true;
          this.inputPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
          this.inputPanel.Controls.Add(this.gb4);
-         this.inputPanel.Controls.Add(this.gb3Label);
          this.inputPanel.Controls.Add(this.gb3);
          this.inputPanel.Controls.Add(this.gb2Label);
          this.inputPanel.Controls.Add(this.gb2);
@@ -234,7 +233,7 @@
          this.gb3Label.AutoSize = true;
          this.gb3Label.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.gb3Label.ForeColor = System.Drawing.Color.Maroon;
-         this.gb3Label.Location = new System.Drawing.Point(652, 109);
+         this.gb3Label.Location = new System.Drawing.Point(10, -3);
          this.gb3Label.Name = "gb3Label";
          this.gb3Label.Size = new System.Drawing.Size(60, 17);
          this.gb3Label.TabIndex = 17;
@@ -243,6 +242,7 @@
          // gb3
          // 
          this.gb3.Controls.Add(this.gbDetial);
+         this.gb3.Controls.Add(this.gb3Label);
          this.gb3.Location = new System.Drawing.Point(649, 115);
          this.gb3.Margin = new System.Windows.Forms.Padding(0);
          this.gb3.Name = "gb3";
@@ -387,7 +387,7 @@
          this.emEndDate.Name = "emEndDate";
          this.emEndDate.Properties.Appearance.Options.UseTextOptions = true;
          this.emEndDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.emEndDate.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.emEndDate.Properties.EditFormat.FormatString = "yyyy/MM/dd";
          this.emEndDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
          this.emEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.emEndDate.Properties.Mask.ShowPlaceHolders = false;
@@ -406,7 +406,7 @@
          this.emStartDate.Name = "emStartDate";
          this.emStartDate.Properties.Appearance.Options.UseTextOptions = true;
          this.emStartDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.emStartDate.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.emStartDate.Properties.EditFormat.FormatString = "yyyy/MM/dd";
          this.emStartDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
          this.emStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.emStartDate.Properties.Mask.ShowPlaceHolders = false;
@@ -486,7 +486,7 @@
          this.emStartYM.Name = "emStartYM";
          this.emStartYM.Properties.Appearance.Options.UseTextOptions = true;
          this.emStartYM.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.emStartYM.Properties.EditFormat.FormatString = "yyyyMM";
+         this.emStartYM.Properties.EditFormat.FormatString = "yyyy/MM";
          this.emStartYM.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])";
          this.emStartYM.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.emStartYM.Properties.Mask.ShowPlaceHolders = false;
@@ -505,7 +505,7 @@
          this.emEndYM.Name = "emEndYM";
          this.emEndYM.Properties.Appearance.Options.UseTextOptions = true;
          this.emEndYM.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.emEndYM.Properties.EditFormat.FormatString = "yyyyMM";
+         this.emEndYM.Properties.EditFormat.FormatString = "yyyy/MM";
          this.emEndYM.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])";
          this.emEndYM.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.emEndYM.Properties.Mask.ShowPlaceHolders = false;
@@ -823,6 +823,7 @@
          ((System.ComponentModel.ISupportInitialize)(this.gbPrintSort.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gb3)).EndInit();
          this.gb3.ResumeLayout(false);
+         this.gb3.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gbDetial.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gb2)).EndInit();
          this.gb2.ResumeLayout(false);

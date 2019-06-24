@@ -52,7 +52,10 @@ namespace PhoenixCI.FormUI.Prefix2 {
             daoAPDK = new APDK();
             txtDate.DateTimeValue = GlobalInfo.OCF_DATE;
             //在這邊先撈，因為在不同的事件中會重複用到
-            dtCheck = dao20110.d_20110(txtDate.Text.AsDateTime());
+#if DEBUG
+            txtDate.Text = "2019/04/10";
+#endif
+            dtCheck = dao20110.d_20110(txtDate.DateTimeValue);
         }
 
         protected override ResultStatus Open() {
@@ -96,6 +99,10 @@ namespace PhoenixCI.FormUI.Prefix2 {
                                         new LookupItem() { ValueMember = "2", DisplayMember = "全部收盤" }};
             Extension.SetDataTable(ddlType, ddlb_grp, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor, "");
             #endregion
+
+#if DEBUG
+            txtDate.Text = "2019/04/10";
+#endif
 
             return ResultStatus.Success;
         }
@@ -257,9 +264,11 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     found = dtGrid.Rows.IndexOf(dtGrid.Select("amif_kind_id='" + dr["AMIF_KIND_ID"].AsString() +
                                                               "' and amif_settle_date='" + dr["AMIF_SETTLE_DATE"].AsString() + "'").FirstOrDefault());
                     if (found < 0) {
-                        //dtGrid.Rows.InsertAt(dr, 0);
+                        dr.SetAdded(); //很重要，沒改的話後面沒辦法Insert這筆資料到DB，會判斷成Update
+                        dr["Is_NewRow"] = "1";
                         dtGrid.ImportRow(dr);
-                        dtGrid.Rows[dtGrid.Rows.Count - 1]["Is_NewRow"] = "1";
+                        DataTable dtChange = dtGrid.GetChanges();
+                        DataTable dtForAdd = dtGrid.GetChanges(DataRowState.Added);
                     }
                 }
                 //補沒有轉入商品之空白
@@ -280,10 +289,12 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     //應該要用gridview的資料判斷，但在這個階段其資料等於dtAMIFU，故利用後者做判斷是否要新增資料列
                     if (dtGrid.Select("AMIF_KIND_ID='" + kindId + "' and AMIF_SETTLE_DATE='" + settleDate + "'").Length == 0) {
                         InsertRow(kindId, settleDate, dtRPT.Rows[i]["RPT_SEQ_NO"].AsInt());
+                        DataTable dtChange = dtGrid.GetChanges();
+                        DataTable dtForAdd = dtGrid.GetChanges(DataRowState.Added);
                     }
                 }
                 gcMain.DataSource = dtGrid;
-                gcMain.RefreshDataSource();
+                //gcMain.RefreshDataSource();
                 gvMain.BeginSort();
                 try {
                     gvMain.ClearSorting();
@@ -343,10 +354,12 @@ namespace PhoenixCI.FormUI.Prefix2 {
         protected override ResultStatus Save(PokeBall pokeBall) {
             //base.Save(gcMain);
 
-            gvMain.CloseEditor();
-            gvMain.UpdateCurrentRow();
+            //gvMain.CloseEditor();
+            //gvMain.UpdateCurrentRow();
             DataTable dt = (DataTable)gcMain.DataSource;
             DataTable dtChange = dt.GetChanges();
+            DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
+            DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
             if (dtChange == null) {
                 MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return ResultStatus.Fail;

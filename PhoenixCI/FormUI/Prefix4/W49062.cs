@@ -202,7 +202,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
           case "Y": return 1;
        }
        return 2;
-    });
+    }).ThenBy(x => {
+        switch (x.Field<string>("mgt8_amt_type")) {
+            case "A": return 1;
+        }
+        return 2;
+    }).ThenBy(x => x.Field<string>("f_name")).ThenByDescending(x => x.Field<string>("ymd"));
 
                if (dt.Rows.Count <= 0) {
                   MessageDisplay.Info(string.Format("{0},{1},{2}-{3},無任何資料!" , startDate , endDate , rptId , rptName));
