@@ -28,6 +28,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
       public string F70010ByMarketCodeExport(string rgDateSelected, string saveFilePath, string symd, string eymd, string SumType, string ProdType, string MarketCode,bool isEnglish)
       {
          if (rgDateSelected.Equals("rb_week")) {
+            //週期
             if (!isEnglish) {
                return b700xxFunc.F70010WeekByMarketCode(saveFilePath, symd, eymd, SumType, ProdType, MarketCode);
             }
@@ -36,6 +37,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
             }
          }//if (rgDate.EditValue.Equals("rb_week"))
          else {
+            //日期/月份/年度
             if (!isEnglish) {
                return b700xxFunc.F70010YmdByMarketCode(saveFilePath, symd, eymd, SumType, ProdType, MarketCode);
             }

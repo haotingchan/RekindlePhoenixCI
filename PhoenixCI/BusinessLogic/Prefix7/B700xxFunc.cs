@@ -122,9 +122,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                toInsert["am0_ymd"] = "99999999";
                toInsert["ymd_end"] = "99999999";
                dtYMD.Rows.Add(toInsert);
-               DataView dsDv = dtYMD.AsDataView();
-               dsDv.Sort = "am0_ymd";
-               dtYMD = dsDv.ToTable();
+               dtYMD.Sort("am0_ymd");
             }
             catch (Exception ex) {
                throw new Exception("日期:週-" + ex.Message);
@@ -230,8 +228,6 @@ namespace PhoenixCI.BusinessLogic.Prefix7
          return MessageDisplay.MSG_OK;
       }
 
-
-
       /// <summary>
       /// 重複寫入文字並換行
       /// </summary>
@@ -245,6 +241,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
             }
          }
       }
+
       /// <summary>
       /// 作業:轉70010 週檔 (公司網站\統計資料\週)英文版
       /// |
@@ -274,6 +271,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
          ********************************/
          return F70010WeekByMarketCode(SaveFilePath, lsStartYMD, lsEndYMD, lsSumType, lsProdType, lsMarketCode, true);
       }
+
       /// <summary>
       /// 作業:轉70010 週檔 (公司網站\統計資料\週)
       /// |
@@ -285,10 +283,11 @@ namespace PhoenixCI.BusinessLogic.Prefix7
       /// <param name="lsSumType"></param>
       /// <param name="lsProdType"></param>
       /// <returns></returns>
-      public string F70010WeekHis(string SaveFilePath, string lsStartYMD, string lsEndYMD, string lsSumType, string lsProdType)
-      {
-         return "";
-      }
+      //public string F70010WeekHis(string SaveFilePath, string lsStartYMD, string lsEndYMD, string lsSumType, string lsProdType)
+      //{
+      //   return "";
+      //}
+
       /// <summary>
       /// 作業:轉70010 週檔 (公司網站\統計資料\週)
       /// |
@@ -619,28 +618,43 @@ namespace PhoenixCI.BusinessLogic.Prefix7
             decimal ldSum, ldVal;
             DataTable newDsYMD = dtYMD;
             DataTable newDt = dt;
+            int useCpuCount = Environment.ProcessorCount > 3 ? 2 : 1;//限制cpu使用數目
             for (int liAreaCnt = 1; liAreaCnt <= liArea; liAreaCnt++) {
                try {
                   if (liArea == 2) {
                      if (liAreaCnt == 1) {
-                        newDsYMD = dtYMD.Filter("Substring(am0_ymd,6,2) <= '15' and  am0_ymd <> '99999999' ");
-                        newDt = dt.Filter("Substring(am0_ymd,6,2) <= '15' and  am0_ymd <> '99999999' ");
+                        newDsYMD = dtYMD.AsEnumerable().AsParallel().WithDegreeOfParallelism(useCpuCount)
+                           .Where(r => r.Field<object>("am0_ymd").AsString().SubStr(6, 2).AsInt() <= 15).CopyToDataTable();
+
+                        newDt = dt.AsEnumerable().AsParallel().WithDegreeOfParallelism(useCpuCount)
+                           .Where(r => r.Field<object>("am0_ymd").AsString().SubStr(6, 2).AsInt() <= 15).CopyToDataTable();
+
                      }
                      else {
-                        newDsYMD = dtYMD.Filter("Substring(am0_ymd,6,2) > '15' or am0_ymd = '99999999' ");
-                        newDt = dt.Filter("Substring(am0_ymd,6,2) > '15' or am0_ymd = '99999999' ");
+                        newDsYMD = dtYMD.AsEnumerable().AsParallel().WithDegreeOfParallelism(useCpuCount)
+                           .Where(r => r.Field<object>("am0_ymd").AsString().SubStr(6, 2).AsInt() > 15).CopyToDataTable();
+
+                        newDt = dt.AsEnumerable().AsParallel().WithDegreeOfParallelism(useCpuCount)
+                           .Where(r => r.Field<object>("am0_ymd").AsString().SubStr(6, 2).AsInt() > 15).CopyToDataTable();
+
                         for (int k = 1; k <= 8; k++) {
                            WriteFile(SaveFilePath, "");
                         }
                      }
+
+                     if (newDsYMD.Rows.Count > 0 && newDt.Rows.Count > 0) {
+                        newDsYMD.Sort("am0_ymd");
+                        newDt.Sort("am0_ymd");
+                     }
+                        
                   }
 
                   lsOutput1 = !selectEng ? "期貨商代號" + "," + "名稱" : " Sequential No.";
                   lsOutput2 = !selectEng ? "Date" + "," : "Date";
                   liAreaCnt = 1;
-                  foreach (DataRow ymdRow in dtYMD.Rows) {
+                  foreach (DataRow ymdRow in newDsYMD.Rows) {
                      lsYMD = ymdRow["am0_ymd"].AsString();
-                     if (liArea == 2 && PbFunc.Right(lsEndYMD, 2).AsInt() > 15 && liAreaCnt == 1) {
+                     if (liArea == 2 && PbFunc.Right(lsYMD, 2).AsInt() > 15 && liAreaCnt == 1) {
                         liAreaCnt = 2;
                      }
                      lsOutput2 = lsOutput2 + "," + lsYMD + ",".PadRight(newdtPK.Rows.Count, ',');
@@ -691,7 +705,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                      lsOutput1 = !selectEng ? (lsBrkNo + "," + lsBrkName) : lsBrkNo;//轉英文只秀編號
 
                      //日期
-                     foreach (DataRow ymdRow in dtYMD.Rows) {
+                     foreach (DataRow ymdRow in newDsYMD.Rows) {
                         lsYMD = ymdRow["AM0_YMD"].AsString();
                         lsOpenDataStr = lsBrkNo + "," + lsBrkName + "," + lsYMD;
                         ldSum = 0;
@@ -742,6 +756,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
          }
          return MessageDisplay.MSG_OK;
       }
+
       /// <summary>
       /// 作業:轉70010 日,月,年檔 (公司網站\統計資料\日,月,年)英文版
       /// |
@@ -759,6 +774,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
       {
          return F70010YmdByMarketCode(SaveFilePath, lsStartYMD, lsEndYMD, lsSumType, lsProdType, lsMarketCode, true);
       }
+
       /// <summary>
       /// 作業:轉"歷史"70010日,月,年檔 (公司網站\統計資料\日,月,年)
       /// |
@@ -770,10 +786,11 @@ namespace PhoenixCI.BusinessLogic.Prefix7
       /// <param name="lsSumType"></param>
       /// <param name="lsProdType"></param>
       /// <returns></returns>
-      public string F70010YmdHis(string SaveFilePath, string lsStartYMD, string lsEndYMD, string lsSumType, string lsProdType)
-      {
-         return "";
-      }
+      //public string F70010YmdHis(string SaveFilePath, string lsStartYMD, string lsEndYMD, string lsSumType, string lsProdType)
+      //{
+      //   return "";
+      //}
+
       /// <summary>
       /// 作業:轉70010 日,月,年檔 (公司網站\統計資料\日,月,年)
       /// |
@@ -785,10 +802,11 @@ namespace PhoenixCI.BusinessLogic.Prefix7
       /// <param name="lsSumType"></param>
       /// <param name="lsProdType"></param>
       /// <returns></returns>
-      public string F70010YmdOrg(string SaveFilePath, string lsStartYMD, string lsEndYMD, string lsSumType, string lsProdType)
-      {
-         return "";
-      }
+      //public string F70010YmdOrg(string SaveFilePath, string lsStartYMD, string lsEndYMD, string lsSumType, string lsProdType)
+      //{
+      //   return "";
+      //}
+
       /// <summary>
       /// 作業: 轉70010 日, 月, 年檔 (公司網站\統計資料\日 , 月 , 年)
       /// |
