@@ -130,8 +130,8 @@ namespace PhoenixCI.FormUI.Prefix7
                   || !this.emEndMth.IsDate(Emth, CheckDate.End)) {
                   return false;
                }
-               ldStart = Convert.ToDateTime(emStartMth);
-               ldEnd = PbFunc.relativedate(Convert.ToDateTime(emEndMth), 31);
+               ldStart = Convert.ToDateTime(Smth);
+               ldEnd = PbFunc.relativedate(Convert.ToDateTime(Emth), 31);
                if (ldEnd.Month != PbFunc.Right(emStartMth.Text, 2).AsInt()) {
                   ldEnd = PbFunc.relativedate(ldEnd, -ldEnd.Day);
                }
