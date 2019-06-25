@@ -106,12 +106,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //填入資料
             rowNum = 0;
             if (dt30220.Rows.Count > 0) {
+                string pls3ymd = "";
+                if (dt30220.Rows[0]["PLS3_YM3"] != DBNull.Value) pls3ymd = dt30220.Rows[0]["PLS3_YM3"].AsDateTime("yyyyMM").ToString("yyyy/MM");
                 if (dt30220.Rows[0]["PLS3_YM1"] != DBNull.Value) ws30220.Cells[0, 4].Value = dt30220.Rows[0]["PLS3_YM1"].AsDateTime("yyyyMM").ToString("yyyy/MM");
                 if (dt30220.Rows[0]["PLS3_YM2"] != DBNull.Value) ws30220.Cells[0, 5].Value = dt30220.Rows[0]["PLS3_YM2"].AsDateTime("yyyyMM").ToString("yyyy/MM");
                 if (dt30220.Rows[0]["PLS3_YM3"] != DBNull.Value) ws30220.Cells[0, 6].Value = dt30220.Rows[0]["PLS3_YM3"].AsDateTime("yyyyMM").ToString("yyyy/MM");
                 if (dt30220.Rows[0]["PLS3_YM1"] != DBNull.Value) ws30220.Cells[0, 7].Value = dt30220.Rows[0]["PLS3_YM1"].AsDateTime("yyyyMM").ToString("yyyy/MM") +
-                                                                                             "－" + dt30220.Rows[0]["PLS3_YM3"].AsDateTime("yyyyMM").ToString("yyyy/MM") +
-                                                                                             "\r" + "\n" + ws30220.Cells[0, 7].Value.AsString();
+                                                                                             "－" + pls3ymd + "\r" + "\n" + ws30220.Cells[0, 7].Value.AsString();
                 ws30220.Cells[0, 8].Value = txtStkoutDate.Text + "\r" + "\n" + ws30220.Cells[0, 8].Value.AsString();
             }
 
