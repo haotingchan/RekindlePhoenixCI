@@ -88,7 +88,7 @@
          // 
          this.panParent.Controls.Add(this.r_frame);
          this.panParent.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.panParent.Size = new System.Drawing.Size(945, 815);
+         this.panParent.Size = new System.Drawing.Size(945, 753);
          // 
          // ribbonControl
          // 
@@ -131,6 +131,7 @@
          this.txtEndDate.Size = new System.Drawing.Size(100, 26);
          this.txtEndDate.TabIndex = 84;
          this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         this.txtEndDate.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtEndDate_KeyDown);
          // 
          // label1
          // 
@@ -166,7 +167,6 @@
          this.labEndDate.Size = new System.Drawing.Size(90, 21);
          this.labEndDate.TabIndex = 2;
          this.labEndDate.Text = "查詢日期：";
-         this.labEndDate.Click += new System.EventHandler(this.labEndDate_Click);
          // 
          // panFilter
          // 
@@ -181,7 +181,7 @@
          this.panFilter.ForeColor = System.Drawing.Color.Navy;
          this.panFilter.Location = new System.Drawing.Point(20, 15);
          this.panFilter.Name = "panFilter";
-         this.panFilter.Size = new System.Drawing.Size(855, 720);
+         this.panFilter.Size = new System.Drawing.Size(855, 682);
          this.panFilter.TabIndex = 19;
          this.panFilter.TabStop = false;
          this.panFilter.Text = "請輸入查詢條件";
@@ -203,7 +203,7 @@
          this.groupBox1.Controls.Add(this.chkModel);
          this.groupBox1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
          this.groupBox1.ForeColor = System.Drawing.Color.Navy;
-         this.groupBox1.Location = new System.Drawing.Point(16, 632);
+         this.groupBox1.Location = new System.Drawing.Point(16, 600);
          this.groupBox1.Name = "groupBox1";
          this.groupBox1.Size = new System.Drawing.Size(416, 70);
          this.groupBox1.TabIndex = 85;
@@ -378,7 +378,7 @@
          this.panSecond.ForeColor = System.Drawing.Color.Navy;
          this.panSecond.Location = new System.Drawing.Point(16, 142);
          this.panSecond.Name = "panSecond";
-         this.panSecond.Size = new System.Drawing.Size(416, 480);
+         this.panSecond.Size = new System.Drawing.Size(416, 450);
          this.panSecond.TabIndex = 21;
          this.panSecond.TabStop = false;
          this.panSecond.Text = "2.選擇契約";
@@ -397,6 +397,7 @@
          this.cbxSubType.Properties.PopupSizeable = false;
          this.cbxSubType.Size = new System.Drawing.Size(121, 26);
          this.cbxSubType.TabIndex = 99;
+         this.cbxSubType.EditValueChanged += new System.EventHandler(this.cbxSubType_EditValueChanged);
          // 
          // labSubType
          // 
@@ -438,7 +439,7 @@
          // gcKind
          // 
          this.gcKind.Dock = System.Windows.Forms.DockStyle.Bottom;
-         this.gcKind.Location = new System.Drawing.Point(3, 127);
+         this.gcKind.Location = new System.Drawing.Point(3, 125);
          this.gcKind.MainView = this.gvKind;
          this.gcKind.MenuManager = this.ribbonControl;
          this.gcKind.Name = "gcKind";
@@ -446,7 +447,7 @@
             this.repositoryItemCheckEdit1,
             this.repositoryItemTextEdit1,
             this.repositoryItemTextEdit2});
-         this.gcKind.Size = new System.Drawing.Size(410, 350);
+         this.gcKind.Size = new System.Drawing.Size(410, 322);
          this.gcKind.TabIndex = 5;
          this.gcKind.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvKind});
@@ -619,7 +620,7 @@
          this.r_frame.Controls.Add(this.panFilter);
          this.r_frame.Location = new System.Drawing.Point(30, 30);
          this.r_frame.Name = "r_frame";
-         this.r_frame.Size = new System.Drawing.Size(895, 755);
+         this.r_frame.Size = new System.Drawing.Size(895, 711);
          this.r_frame.TabIndex = 78;
          // 
          // W48030
@@ -627,7 +628,7 @@
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(945, 845);
+         this.ClientSize = new System.Drawing.Size(945, 783);
          this.Name = "W48030";
          this.Text = "W48030";
          this.panParent.ResumeLayout(false);
