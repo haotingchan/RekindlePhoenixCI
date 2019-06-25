@@ -27,7 +27,8 @@ namespace DataObjects.Dao.Together.SpecificDao {
 
             string sql =
 @"
-SELECT PLS1_YMD AS PLS1_EFFECTIVE_YMD,
+SELECT A.*, CASE WHEN pls1_kind_id2 <> kind_grp2 THEN '小型' ELSE ' ' END as COMPUTE_1 From
+(SELECT PLS1_YMD AS PLS1_EFFECTIVE_YMD,
          PLS1_YMD,   
          NVL(KIND_ID2,PLS1_KIND_ID2) AS PLS1_KIND_ID2,   
          CASE WHEN F_KIND_ID2 IS NULL THEN ' '
@@ -52,9 +53,7 @@ SELECT PLS1_YMD AS PLS1_EFFECTIVE_YMD,
          PLS1_QNTY,   
          PLS1_STKOUT,   
          PLS1_CP_LEVEL AS PLS1_LEVEL_ORG,
-         PLS1_LEVEL_ADJ AS PLS1_LEVEL_ADJ_ORG,
-         CASE WHEN pls1_kind_id2 <> kind_grp2 THEN '小型' ELSE ' ' END as COMPUTE_1
-         --' ' as COMPUTE_1
+         PLS1_LEVEL_ADJ AS PLS1_LEVEL_ADJ_ORG
     FROM CI.PLS1,
         --契約基本資料
         (SELECT NVL(F.APDK_KIND_GRP2,O.APDK_KIND_GRP2) AS KIND_GRP2,
@@ -92,7 +91,7 @@ SELECT PLS1_YMD AS PLS1_EFFECTIVE_YMD,
                 F.APDK_KIND_ID2 = O.APDK_KIND_ID2 )   
    WHERE CI.PLS1.PLS1_YMD = :AS_YMD    
     AND  PLS1_KIND_ID2 = KIND_GRP2(+) 
-   ORDER BY KIND_GRP2, PLS1_KIND_ID2
+   ORDER BY KIND_GRP2, PLS1_KIND_ID2) A
 ";
             DataTable dtResult = db.GetDataTable(sql, parms);
 
