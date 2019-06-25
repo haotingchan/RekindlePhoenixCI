@@ -111,7 +111,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
                 DataTable dt30222 = dao30222.d_30222(ymd);
                 if (dt30222.Rows.Count == 0) {
-                    MessageDisplay.Info("PL1無任何資料!");
+                    MessageDisplay.Info("PLS1無任何資料!");
                     gcMain.DataSource = dt30222;//空的還是要放進Grid，因為後面可能要塞資料
                 }
                 else {
@@ -150,7 +150,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
                 DataTable dt30222PLS2 = dao30222.d_30222_pls2(ymd); //lds_2
                 if (dt30222PLS2.Rows.Count == 0) {
-                    MessageDisplay.Info("PL2無任何資料!");
+                    MessageDisplay.Info("PLS2無任何資料!");
                     return ResultStatus.Fail;
                 }
 

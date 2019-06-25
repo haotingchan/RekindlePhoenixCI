@@ -53,8 +53,8 @@ SELECT PLS1_YMD AS PLS1_EFFECTIVE_YMD,
          PLS1_STKOUT,   
          PLS1_CP_LEVEL AS PLS1_LEVEL_ORG,
          PLS1_LEVEL_ADJ AS PLS1_LEVEL_ADJ_ORG,
-         --CASE WHEN pls1_kind_id2 <> kind_grp2 THEN '小型' ELSE ' ' END as COMPUTE_1
-         ' ' as COMPUTE_1
+         CASE WHEN pls1_kind_id2 <> kind_grp2 THEN '小型' ELSE ' ' END as COMPUTE_1
+         --' ' as COMPUTE_1
     FROM CI.PLS1,
         --契約基本資料
         (SELECT NVL(F.APDK_KIND_GRP2,O.APDK_KIND_GRP2) AS KIND_GRP2,

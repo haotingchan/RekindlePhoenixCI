@@ -52,7 +52,16 @@ namespace CI {
 #endif
 
          string reportDirectoryPath = "";
-         reportDirectoryPath = Path.Combine(Application.StartupPath, "Report", DateTime.Now.ToString("yyyyMMdd"));
+
+        if (GlobalDaoSetting.GetConnectionInfo.ConnectionName == "CIN2")
+        {
+            reportDirectoryPath = Path.Combine(Application.StartupPath, "Report", DateTime.Now.ToString("yyyyMMdd"));
+        }
+        else
+        {
+            reportDirectoryPath = Path.Combine(Application.StartupPath, "Excel_Report", DateTime.Now.ToString("yyyyMMdd"));
+        }
+         
 
          string excelTemplateDirectoryPath = "";
          excelTemplateDirectoryPath = Path.Combine(Application.StartupPath, "Excel_Template");

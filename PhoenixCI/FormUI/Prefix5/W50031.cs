@@ -430,7 +430,7 @@ namespace PhoenixCI.FormUI.Prefix5
          Input Condition
          *******************/
          //GlobalInfo.OCF_DATE = serviceCommon.GetOCF().OCF_DATE;
-         emEndDate.EditValue = GlobalInfo.OCF_DATE;
+         emEndDate.DateTimeValue = GlobalInfo.OCF_DATE;
          emStartDate.DateTimeValue = new DateTime(GlobalInfo.OCF_DATE.Year, GlobalInfo.OCF_DATE.Month, 01);
 #if DEBUG
          emEndDate.DateTimeValue = new DateTime(2018, 06, 15);
