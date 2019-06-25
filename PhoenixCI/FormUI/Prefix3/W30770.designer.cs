@@ -55,12 +55,12 @@
          // 
          this.panParent.Controls.Add(this.r_frame);
          this.panParent.Controls.Add(this.ddlOswGrp);
-         this.panParent.Size = new System.Drawing.Size(600, 370);
+         this.panParent.Size = new System.Drawing.Size(630, 370);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(600, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(630, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // txtEndDate
@@ -201,7 +201,7 @@
          this.ddlOswGrp.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.ddlOswGrp.Properties.NullText = "";
          this.ddlOswGrp.Properties.PopupSizeable = false;
-         this.ddlOswGrp.Size = new System.Drawing.Size(122, 26);
+         this.ddlOswGrp.Size = new System.Drawing.Size(150, 26);
          this.ddlOswGrp.TabIndex = 6;
          this.ddlOswGrp.Visible = false;
          // 
@@ -284,7 +284,7 @@
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(600, 400);
+         this.ClientSize = new System.Drawing.Size(630, 400);
          this.Name = "W30770";
          this.Text = "W30770";
          this.panParent.ResumeLayout(false);
