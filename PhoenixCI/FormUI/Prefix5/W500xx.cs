@@ -63,6 +63,12 @@ namespace PhoenixCI.FormUI.Prefix5
          _D500Xx = new D500xx();
       }
 
+      /// <summary>
+      /// 讀取前條件檢核
+      /// </summary>
+      /// <param name="sbrkno">造市者代號起始</param>
+      /// <param name="ebrkno">造市者代號迄止</param>
+      /// <returns></returns>
       private bool StartRetrieve(string sbrkno = "", string ebrkno = "")
       {
          /*******************
@@ -630,10 +636,10 @@ namespace PhoenixCI.FormUI.Prefix5
          Input Condition
          *******************/
          //GlobalInfo.OCF_DATE = serviceCommon.GetOCF().OCF_DATE;
-         emEndDate.EditValue = GlobalInfo.OCF_DATE;
+         emEndDate.DateTimeValue = GlobalInfo.OCF_DATE;
          emStartDate.DateTimeValue = new DateTime(GlobalInfo.OCF_DATE.Year, GlobalInfo.OCF_DATE.Month, 01);
-         emStartYM.EditValue = GlobalInfo.OCF_DATE;
-         emEndYM.EditValue = GlobalInfo.OCF_DATE;
+         emStartYM.DateTimeValue = GlobalInfo.OCF_DATE;
+         emEndYM.DateTimeValue = GlobalInfo.OCF_DATE;
          /* 造市者代號 */
          //起始選項
          dwSbrkno.SetDataTable(daoABRK.ListAll2(), "ABRK_NO", "CP_DISPLAY", TextEditStyles.Standard, null);

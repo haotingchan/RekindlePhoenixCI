@@ -26,6 +26,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       private readonly string _emMonthText;
       private readonly AI2 daoAI2;
       private readonly AI3 daoAI3;
+      private readonly B30398 b30398;
 
       /// <summary>
       /// 
@@ -39,6 +40,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
 
          daoAI2 = new AI2();
          daoAI3 = new AI3();
+         b30398 = new B30398(workbook, datetime);
       }
       /// <summary>
       /// 重新選取圖表資料範圍
@@ -145,7 +147,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       public string Wf30393abc(string IsKindID, string SheetName, int RowIndex = 3, int RowTotal = 12)
       {
          try {
-            return new B30398(_workbook, _emMonthText).Wf30333(IsKindID, SheetName);
+            return b30398.Wf30333(IsKindID, SheetName);
          }
          catch (Exception ex) {
             throw ex;
