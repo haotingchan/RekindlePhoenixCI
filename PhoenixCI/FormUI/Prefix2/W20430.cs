@@ -172,6 +172,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 }
                 //列印(新增/刪除/修改)
                 PrintOrExportChangedByKen(gcMain, dtForAdd, dtForDeleted, dtForModified);
+                dtForDeleted.Clear();
                 _IsPreventFlowPrint = true;
             }
             //不要自動列印
