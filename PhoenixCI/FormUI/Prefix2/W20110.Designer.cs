@@ -63,6 +63,7 @@
             this.R_UP_DOWN_VAL = new DevExpress.XtraGrid.Columns.GridColumn();
             this.R_OPEN_INTEREST = new DevExpress.XtraGrid.Columns.GridColumn();
             this.AMIFU_ERR_TEXT = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.AMIF_DATE = new DevExpress.XtraGrid.Columns.GridColumn();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -262,7 +263,8 @@
             this.R_CLOSE_PRICE,
             this.R_UP_DOWN_VAL,
             this.R_OPEN_INTEREST,
-            this.AMIFU_ERR_TEXT});
+            this.AMIFU_ERR_TEXT,
+            this.AMIF_DATE});
             this.gvMain.GridControl = this.gcMain;
             this.gvMain.Name = "gvMain";
             this.gvMain.OptionsView.ColumnAutoWidth = false;
@@ -552,6 +554,12 @@
             this.AMIFU_ERR_TEXT.FieldName = "AMIFU_ERR_TEXT";
             this.AMIFU_ERR_TEXT.Name = "AMIFU_ERR_TEXT";
             // 
+            // AMIF_DATE
+            // 
+            this.AMIF_DATE.Caption = "AMIF_DATE";
+            this.AMIF_DATE.FieldName = "AMIF_DATE";
+            this.AMIF_DATE.Name = "AMIF_DATE";
+            // 
             // W20110
             // 
             this.Appearance.Options.UseFont = true;
@@ -627,5 +635,6 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit max8digit4;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit max12digit4;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit max10digit0;
+        private DevExpress.XtraGrid.Columns.GridColumn AMIF_DATE;
     }
 }

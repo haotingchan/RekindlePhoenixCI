@@ -315,22 +315,25 @@ namespace PhoenixCI.BusinessLogic.Prefix7
          RETURN:E代表error
                 Y代表成功
          ********************************/
+
+         D70050 dao70050 = new D70050();
+         D70010 dao70010 = new D70010();
+         ///******************
+         //讀取資料
+         //******************/
+         DataTable dt = dao70050.ListAll(lsStartYMD, lsEndYMD, lsSumType, lsProdType, lsKindId2, lsParamKey);
+         if (dt.Rows.Count <= 0) {
+            return $@"轉{lsParamKey}-交易量資料轉檔作業(週)({lsStartYMD}-{lsEndYMD})(期貨/選擇權:{ lsProdType })筆數為０!";
+         }
+
          //避免重複寫入
          if (File.Exists(SaveFilePath)) {
             File.Delete(SaveFilePath);
          }
          File.Create(SaveFilePath).Close();
 
-         D70050 dao70050 = new D70050();
-         D70010 dao70010 = new D70010();
          try {
-            ///******************
-            //讀取資料
-            //******************/
-            DataTable dt = dao70050.ListAll(lsStartYMD, lsEndYMD, lsSumType, lsProdType, lsKindId2, lsParamKey);
-            if (dt.Rows.Count <= 0) {
-               return $@"轉{lsParamKey}-交易量資料轉檔作業(週)({lsStartYMD}-{lsEndYMD})(期貨/選擇權:{ lsProdType })筆數為０!";
-            }
+            
             /* 期貨商 */
             DataTable dtBRK;
             dtBRK = dao70050.List70050brk(lsStartYMD, lsEndYMD, lsSumType, lsProdType, lsKindId2, lsParamKey);
@@ -746,7 +749,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
             if (lsProdType == "O" && lsSumType == "D" && !selectEng) {
                dt = dao70010.ListRowdataOpendata(lsEndYMD, lsEndYMD, lsMarketCode);
                ExportOptions csvref = new ExportOptions();
-               csvref.HasHeader = true;
+               csvref.HasHeader = false;
                csvref.Encoding = System.Text.Encoding.GetEncoding(950);//ASCII
                ExportHelper.ToCsv(dt, PbFunc.f_chg_filename(SaveFilePath, "_W_opendata"), csvref);
             }
@@ -839,6 +842,14 @@ namespace PhoenixCI.BusinessLogic.Prefix7
          D70050 dao70050 = new D70050();
          D70010 dao70010 = new D70010();
 
+         ///******************
+         //讀取資料
+         //******************/
+         DataTable dt = dao70050.ListAll(lsStartYMD, lsEndYMD, lsSumType, lsProdType, isKindId2, isParamKey);
+         if (dt.Rows.Count <= 0) {
+            return $@"轉{isParamKey}-交易量資料轉檔作業({lsSumType})({lsStartYMD}-{lsEndYMD})(期貨/選擇權:{ lsProdType })筆數為０!";
+         }
+
          //避免重複寫入
          if (File.Exists(SaveFilePath)) {
             File.Delete(SaveFilePath);
@@ -846,13 +857,6 @@ namespace PhoenixCI.BusinessLogic.Prefix7
          File.Create(SaveFilePath).Close();
 
          try {
-            ///******************
-            //讀取資料
-            //******************/
-            DataTable dt = dao70050.ListAll(lsStartYMD, lsEndYMD, lsSumType, lsProdType, isKindId2, isParamKey);
-            if (dt.Rows.Count <= 0) {
-               throw new System.Exception($@"轉{isParamKey}-交易量資料轉檔作業({lsSumType})({lsStartYMD}-{lsEndYMD})(期貨/選擇權:{ lsProdType })筆數為０!");
-            }
 
             /* 期貨商 */
             DataTable dtBRK;

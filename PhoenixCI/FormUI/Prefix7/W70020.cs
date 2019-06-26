@@ -61,13 +61,6 @@ namespace PhoenixCI.FormUI.Prefix7
          return ResultStatus.Success;
       }
 
-      private string OutputShowMessage {
-         set {
-            if (value != MessageDisplay.MSG_OK)
-               MessageDisplay.Info(value);
-         }
-      }
-
       private bool StartExport()
       {
          /* 條件值檢核*/
@@ -172,24 +165,28 @@ namespace PhoenixCI.FormUI.Prefix7
             string endDate = emEndDate.Text.Replace("/", "").SubStr(0, 8);
             //資料來源
             b70020 = new B70020(saveFilePath);
+            MessageDisplay message = new MessageDisplay();
             switch (rgData.EditValue) {
                case "rb_0"://自營商成交量(身份碼8,2)
-                  OutputShowMessage = b70020.ExportAM8(startDate, endDate, lsMarketCode);
+                  message.OutputShowMessage = b70020.ExportAM8(startDate, endDate, lsMarketCode);
                   break;
                case "rb_mtf"://成交資料
-                  OutputShowMessage = b70020.ExportListO(startDate, endDate, lsMarketCode);
+                  message.OutputShowMessage = b70020.ExportListO(startDate, endDate, lsMarketCode);
                   break;
                case "rb_mmk"://造市者資料
-                  OutputShowMessage = b70020.ExportListM(startDate, endDate, lsMarketCode);
+                  message.OutputShowMessage = b70020.ExportListM(startDate, endDate, lsMarketCode);
                   break;
                default:
                   break;
             }
             WriteLog("轉出檔案:" + saveFilePath, "Info", "E");
 
+            if (string.IsNullOrEmpty(message.OutputShowMessage))
+               return ResultStatus.Fail;
          }
          catch (Exception ex) {
-            File.Delete(saveFilePath);
+            if (File.Exists(saveFilePath))
+               File.Delete(saveFilePath);
             WriteLog(ex);
             return ResultStatus.Fail;
          }
