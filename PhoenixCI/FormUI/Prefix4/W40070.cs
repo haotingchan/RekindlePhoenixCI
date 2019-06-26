@@ -537,16 +537,17 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                 //dw_3.update()
                 ShowMsg = "更新資料庫MGD2錯誤! ";
-                ResultData myResultData = daoMGD2.UpdateMGD2(dtEmpty);
-                if (myResultData.Status == ResultStatus.Fail) {
-                    MessageDisplay.Error("更新資料庫MGD2錯誤! ");
-                    return ResultStatus.FailButNext;
+                if (dtEmpty.Rows.Count > 0) {
+                    ResultData myResultData = daoMGD2.UpdateMGD2(dtEmpty);
+                    if (myResultData.Status == ResultStatus.Fail) {
+                        MessageDisplay.Error("更新資料庫MGD2錯誤! ");
+                        return ResultStatus.FailButNext;
+                    }
                 }
-
                 //ids_old.update()
                 ShowMsg = "更新資料庫MGD2L錯誤! ";
                 if (dtMGD2Log.Rows.Count > 0) {
-                    myResultData = daoMGD2L.UpdateMGD2L(dtMGD2Log);
+                    ResultData myResultData = daoMGD2L.UpdateMGD2L(dtMGD2Log);
                     if (myResultData.Status == ResultStatus.Fail) {
                         MessageDisplay.Error("更新資料庫MGD2L錯誤! ");
                         return ResultStatus.FailButNext;
