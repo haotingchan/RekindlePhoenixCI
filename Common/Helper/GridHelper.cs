@@ -1,4 +1,6 @@
 ﻿using Common.Helper.FormatHelper;
+using DevExpress.LookAndFeel;
+using DevExpress.Skins;
 using DevExpress.Utils;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Repository;
@@ -15,7 +17,19 @@ using System.Windows.Forms;
 
 namespace Common {
    public static class GridHelper {
-        public static void SetCommonGrid(GridView gv)
+
+        public static Color PK = Color.FromArgb(255, 255, 128);
+        public static Color NORMAL = Color.FromArgb(128, 255, 255);
+        public static Color DEFAULT = EditorsSkins.GetSkin(UserLookAndFeel.Default)[EditorsSkins.SkinTextBox].Color.BackColor;
+
+        /// <summary>
+        /// GridView 基本設定
+        /// </summary>
+        /// <param name="gv"></param>
+        /// <param name="isModify">是否為維護功能</param>
+        /// <param name="pkColumn">Pimary Key欄位(預設為null)</param>
+        /// <param name="normalColumn">一般欄位(預設為null)</param>
+        public static void SetCommonGrid(GridView gv, bool isModify = false, GridColumn[] pkColumn = null, GridColumn[] normalColumn = null)
         {
             // 關掉Group的Panel
             gv.OptionsView.ShowGroupPanel = false;

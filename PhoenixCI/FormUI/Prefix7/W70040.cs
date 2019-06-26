@@ -178,13 +178,6 @@ namespace PhoenixCI.FormUI.Prefix7
          return true;
       }
 
-      private string OutputShowMessage {
-         set {
-            if (value != MessageDisplay.MSG_OK)
-               MessageDisplay.Info(value);
-         }
-      }
-
       protected void EndExport()
       {
          st_msg_txt.Text = "轉檔完成!";
@@ -199,16 +192,21 @@ namespace PhoenixCI.FormUI.Prefix7
          if (!StartExport()) {
             return ResultStatus.Fail;
          }
+         MessageDisplay message = new MessageDisplay();
          try {
             if (rgDate.EditValue.Equals("rb_week")) {
-               OutputShowMessage = B700xxFunc.F70010WeekW(saveFilePath, startYMD, endYMD, sumType, isKindId2, isParamKey, isProdType);
+               message.OutputShowMessage = B700xxFunc.F70010WeekW(saveFilePath, startYMD, endYMD, sumType, isKindId2, isParamKey, isProdType);
             }//if (rgDate.EditValue.Equals("rb_week"))
             else {
-               OutputShowMessage = B700xxFunc.F70010YmdW(saveFilePath, startYMD, endYMD, sumType, isKindId2, isParamKey, isProdType);
+               message.OutputShowMessage = B700xxFunc.F70010YmdW(saveFilePath, startYMD, endYMD, sumType, isKindId2, isParamKey, isProdType);
             }
+
+            if (string.IsNullOrEmpty(message.OutputShowMessage))
+               return ResultStatus.Fail;
          }
          catch (Exception ex) {
-            File.Delete(saveFilePath);
+            if (File.Exists(saveFilePath))
+               File.Delete(saveFilePath);
             WriteLog(ex);
             return ResultStatus.Fail;
          }
