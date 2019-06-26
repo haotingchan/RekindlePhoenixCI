@@ -234,7 +234,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             //讀取資料
             DataTable dtNotETF = dao40040.List40040SP(emdate, _oswGrpVal);
             //dt.Filter("PDK_PARAM_KEY not in ('ETF','ETC')").Sort("RPT_SEQ_NO, DATA_KIND_ID");
-            DataTable dt = dtNotETF.Filter("NOT (PDK_PARAM_KEY = 'Tokyo' OR PDK_PARAM_KEY = 'Paris')").Sort("RPT_SEQ_NO, DATA_KIND_ID");
+            DataTable dt = dtNotETF.Filter("PDK_PARAM_KEY not in ('ETF','ETC')").Sort("RPT_SEQ_NO, DATA_KIND_ID");
             if (dt.Rows.Count <= 0) {
                return MessageDisplay.MSG_NO_DATA;
             }
