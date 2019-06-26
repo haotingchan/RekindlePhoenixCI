@@ -36,7 +36,7 @@
             this.RPTF_SEQ_NO = new DevExpress.XtraGrid.Columns.GridColumn();
             this.RPTF_TEXT = new DevExpress.XtraGrid.Columns.GridColumn();
             this.lblYear = new System.Windows.Forms.Label();
-            this.txtYear = new DevExpress.XtraEditors.TextEdit();
+            this.txtYear = new BaseGround.Widget.TextDateEdit();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
@@ -49,12 +49,12 @@
             this.panParent.Controls.Add(this.txtYear);
             this.panParent.Controls.Add(this.lblYear);
             this.panParent.Controls.Add(this.gcMain);
-            this.panParent.Size = new System.Drawing.Size(1027, 538);
+            this.panParent.Size = new System.Drawing.Size(1027, 536);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(1027, 30);
+            this.ribbonControl.Size = new System.Drawing.Size(1027, 32);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // gcMain
@@ -65,7 +65,7 @@
             this.gcMain.Location = new System.Drawing.Point(12, 44);
             this.gcMain.MainView = this.gvMain;
             this.gcMain.Name = "gcMain";
-            this.gcMain.Size = new System.Drawing.Size(1000, 479);
+            this.gcMain.Size = new System.Drawing.Size(1000, 477);
             this.gcMain.TabIndex = 0;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -133,13 +133,22 @@
             // 
             // txtYear
             // 
+            this.txtYear.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
+            this.txtYear.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Year;
+            this.txtYear.EditValue = "2019/01/01";
             this.txtYear.Location = new System.Drawing.Point(78, 10);
             this.txtYear.Name = "txtYear";
             this.txtYear.Properties.Appearance.Options.UseTextOptions = true;
             this.txtYear.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtYear.Properties.EditFormat.FormatString = "yyyy";
+            this.txtYear.Properties.Mask.EditMask = "[1-9]\\d{3}";
+            this.txtYear.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
+            this.txtYear.Properties.Mask.ShowPlaceHolders = false;
+            this.txtYear.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtYear.Properties.MaxLength = 4;
-            this.txtYear.Size = new System.Drawing.Size(63, 26);
-            this.txtYear.TabIndex = 3;
+            this.txtYear.Size = new System.Drawing.Size(63, 20);
+            this.txtYear.TabIndex = 5;
+            this.txtYear.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
             // 
             // W60311
             // 
@@ -165,11 +174,11 @@
         private DevExpress.XtraGrid.GridControl gcMain;
         private DevExpress.XtraGrid.Views.Grid.GridView gvMain;
         private System.Windows.Forms.Label lblYear;
-        private DevExpress.XtraEditors.TextEdit txtYear;
         private DevExpress.XtraGrid.Columns.GridColumn RPTF_TXN_ID;
         private DevExpress.XtraGrid.Columns.GridColumn RPTF_TXD_ID;
         private DevExpress.XtraGrid.Columns.GridColumn RPTF_KEY;
         private DevExpress.XtraGrid.Columns.GridColumn RPTF_SEQ_NO;
         private DevExpress.XtraGrid.Columns.GridColumn RPTF_TEXT;
+        private BaseGround.Widget.TextDateEdit txtYear;
     }
 }

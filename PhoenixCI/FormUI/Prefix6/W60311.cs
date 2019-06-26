@@ -7,7 +7,9 @@ using Common;
 using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.XtraGrid.Columns;
+using System;
 using System.Data;
+using System.Drawing;
 
 namespace PhoenixCI.FormUI.Prefix6
 {
@@ -19,19 +21,19 @@ namespace PhoenixCI.FormUI.Prefix6
       private D60310 dao60310;
       private RPTF daoRPTF;
 
-      public W60311(string programID, string programName) : base(programID, programName)
+        public W60311(string programID, string programName) : base(programID, programName)
         {
             InitializeComponent();
 
-            GridHelper.SetCommonGrid(gvMain);
+            GridHelper.SetCommonGrid(gvMain, true,new GridColumn[] { RPTF_KEY});
             PrintableComponent = gcMain;
             this.Text = _ProgramID + "─" + _ProgramName;
 
             txtYear.Text = GlobalInfo.OCF_DATE.ToString("yyyy");
 
-         dao60310 = new D60310();
-         daoRPTF = new RPTF();
-      }
+            dao60310 = new D60310();
+            daoRPTF = new RPTF();
+        }
 
         public override ResultStatus BeforeOpen()
         {
@@ -44,7 +46,9 @@ namespace PhoenixCI.FormUI.Prefix6
         {
             base.Open();
 
-            Retrieve();
+            DataTable dt = daoRPTF.ListData(_RptfTxnId, _RptfTxdId, txtYear.Text);
+            gcMain.DataSource = dt;
+
             GridHelper.AddOpType(gcMain, new GridColumn[] { RPTF_KEY });
 
             if (gvMain.RowCount == 0)
@@ -79,7 +83,13 @@ namespace PhoenixCI.FormUI.Prefix6
         {
             base.Retrieve(gcMain);
 
-            gcMain.DataSource = daoRPTF.ListData(_RptfTxnId, _RptfTxdId, txtYear.Text);
+            DataTable dt = daoRPTF.ListData(_RptfTxnId, _RptfTxdId, txtYear.Text);
+            gcMain.DataSource = dt;
+
+            if (dt.Rows.Count == 0)
+            {
+                MessageDisplay.Info(GlobalInfo.MsgNoData);
+            }
 
             return ResultStatus.Success;
         }
@@ -105,21 +115,28 @@ namespace PhoenixCI.FormUI.Prefix6
 
         protected override ResultStatus Save(PokeBall pokeBall)
         {
-            base.Save(gcMain);
+            try
+            {
+                ResultStatus myCheckResult = CheckShield();
+                if (myCheckResult != ResultStatus.Success) return myCheckResult;
+                if (myCheckResult == ResultStatus.Success)
+                {
+                    base.Save(gcMain);
+                    DataTable dt = (DataTable)gcMain.DataSource;
 
-            DataTable dt = (DataTable)gcMain.DataSource;
+                    ResultData result = new RPTF().UpdateData(dt.GetChanges());
 
-            string tableName = "ci.RPTF";
-            string keysColumnList = "RPTF_TXN_ID, RPTF_TXD_ID, RPTF_KEY, RPTF_SEQ_NO";
-            string insertColumnList = "RPTF_TXN_ID, RPTF_TXD_ID, RPTF_KEY, RPTF_SEQ_NO, RPTF_TEXT";
-            string updateColumnList = "RPTF_TXN_ID, RPTF_TXD_ID, RPTF_KEY, RPTF_SEQ_NO, RPTF_TEXT";
-
-            ResultData myResultData = serviceCommon.SaveForChanged(dt, tableName, insertColumnList, updateColumnList, keysColumnList, pokeBall);
-
-            _IsPreventFlowPrint = true;
-            _IsPreventFlowExport = true;
-
+                    _IsPreventFlowPrint = true;
+                    _IsPreventFlowExport = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageDisplay.Error(ex.Message);
+                throw;
+            }
             return ResultStatus.Success;
+                
         }
 
         protected override ResultStatus Run(PokeBall args)
@@ -164,13 +181,11 @@ namespace PhoenixCI.FormUI.Prefix6
         protected override ResultStatus InsertRow()
         {
             base.InsertRow(gvMain);
-
             gvMain.GetFocusedDataRow()["OP_TYPE"] = "I";
             gvMain.GetFocusedDataRow()["RPTF_KEY"] = txtYear.Text;
             gvMain.Focus();
 
             gvMain.FocusedColumn = gvMain.Columns["RPTF_SEQ_NO"];
-
             return ResultStatus.Success;
         }
 
