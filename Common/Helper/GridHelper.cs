@@ -52,6 +52,22 @@ namespace Common {
                 column.OptionsColumn.AllowMove = false;
                 // 關閉過濾欄位
                 column.OptionsFilter.AllowFilter = false;
+
+                if (isModify)
+                {
+                    if (pkColumn != null && Array.IndexOf(pkColumn,column) >= 0)
+                    {
+                        column.AppearanceHeader.BackColor = PK;
+                    }
+                    else if((normalColumn != null && Array.IndexOf(normalColumn, column) >= 0) ||　normalColumn == null)
+                    {
+                        column.AppearanceHeader.BackColor = NORMAL;
+                    }
+                    else
+                    {
+                        column.AppearanceHeader.BackColor = DEFAULT;
+                    }
+                }
             }
 
             gv.Appearance.HeaderPanel.Options.UseTextOptions = true;
