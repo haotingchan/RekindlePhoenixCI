@@ -734,7 +734,7 @@ namespace PhoenixCI.FormUI.Prefix5
             worksheet.Cells["E3"].Value = lsRptName;
             int rowIndex = 4; int k = 1;
             string datatype = "";
-            //if		mid(string(ids_1.dataobject),1,13) <> "d_50030_accu"	then
+            //if	mid(string(ids_1.dataobject),1,13) <> "d_50030_accu"	then
             if (gbDetial.EditValue.Equals("rb_gdate")) {
                datatype = "D";
             }
@@ -761,7 +761,7 @@ namespace PhoenixCI.FormUI.Prefix5
                worksheet.Rows[rowIndex][index++].SetValue(row["AMM0_MARKET_M_QNTY"]);
                worksheet.Rows[rowIndex][index++].SetValue(row["CP_KEEP_TIME"]);
                index = 0;
-               if (_D500Xx.DataType == "D") {
+               if (datatype == "D") {
                   worksheet.Rows[rowIndex][9 - 1].SetValue(row["MMK_QNTY"]);
                   worksheet.Rows[rowIndex][17 - 1].SetValue(row["AMM0_KEEP_FLAG"]);
                   worksheet.Rows[rowIndex][18 - 1].SetValue(row["AMM0_TRD_INVALID_QNTY"]);

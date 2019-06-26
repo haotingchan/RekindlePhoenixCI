@@ -55,8 +55,8 @@ FROM
          amm0_om_qnty + amm0_qm_qnty + amm0_iqm_qnty as AMM0_TOT_QNTY,
         AMM0_RQ_RATE as AMM0_MMK_RATE,         
          case when amm0_sum_type = 'D' 
-              then ceil(trunc(amm0_keep_time,0) / 60/ amm0_day_count) 
-              else ceil(amm0_keep_time / 60 / amm0_day_count) end as AMM0_KEEP_TIME,
+              then ceil(nvl(trunc(amm0_keep_time,0) / 60/ NULLIF(amm0_day_count,0),0)) 
+              else ceil(nvl(amm0_keep_time / 60 / NULLIF(amm0_day_count,0),0)) end as AMM0_KEEP_TIME,
          round(AMM0_VALID_RESULT,1) AS AMM0_RESULT,
          AMM0_CONTRACT_CNT
     FROM ci.AMM0,ci.AMMF
@@ -112,8 +112,8 @@ FROM
          amm0_om_qnty + amm0_qm_qnty + amm0_iqm_qnty as AMM0_TOT_QNTY,
         AMM0_RQ_RATE as AMM0_MMK_RATE,         
          case when amm0_sum_type = 'D' 
-              then ceil(trunc(amm0_keep_time,0) / 60/ amm0_day_count) 
-              else ceil(amm0_keep_time / 60 / amm0_day_count) end as AMM0_KEEP_TIME,
+              then ceil(nvl(trunc(amm0_keep_time,0) / 60/ NULLIF(amm0_day_count,0),0))
+              else ceil(nvl(amm0_keep_time / 60 / NULLIF(amm0_day_count,0),0)) end as AMM0_KEEP_TIME,
          round(AMM0_VALID_RESULT,1) AS AMM0_RESULT,
          AMM0_CONTRACT_CNT
     FROM ci.AMM0AH,ci.AMMF

@@ -93,7 +93,7 @@ FROM
          AMM0_RQ_RATE,
          AMMF_RFC_MIN_CNT as MMF_RFC_MIN_CNT,
          AMMF_CP_KIND,
-         ((AMM0_OM_QNTY + AMM0_QM_QNTY + nvl(AMM0_IQM_QNTY,0))+decode(NULLIF(AMM0_BTRADE_M_QNTY,null),0,AMM0_BTRADE_M_QNTY)) as CP_M_QNTY
+         (AMM0_OM_QNTY + AMM0_QM_QNTY + nvl(AMM0_IQM_QNTY,0))+decode(AMM0_BTRADE_M_QNTY,null,0,AMM0_BTRADE_M_QNTY) as CP_M_QNTY
     FROM ci.AMM0,ci.AMMF
    WHERE AMM0_SUM_TYPE = :as_sum_type  AND  
          AMM0_SUM_SUBTYPE = :as_sum_subtype   AND  
@@ -406,7 +406,7 @@ FROM
          AMM0_RQ_RATE,
          AMMF_RFC_MIN_CNT as MMF_RFC_MIN_CNT,
          AMMF_CP_KIND,
-         ((AMM0_OM_QNTY + AMM0_QM_QNTY + nvl(AMM0_IQM_QNTY,0))+decode(NULLIF(AMM0_BTRADE_M_QNTY,null),0,AMM0_BTRADE_M_QNTY)) as CP_M_QNTY
+         (AMM0_OM_QNTY + AMM0_QM_QNTY + nvl(AMM0_IQM_QNTY,0))+decode(AMM0_BTRADE_M_QNTY,null,0,AMM0_BTRADE_M_QNTY) as CP_M_QNTY
     FROM ci.AMM0AH,ci.AMMF
    WHERE AMM0_SUM_TYPE = :as_sum_type  AND  
          AMM0_SUM_SUBTYPE = :as_sum_subtype   AND  

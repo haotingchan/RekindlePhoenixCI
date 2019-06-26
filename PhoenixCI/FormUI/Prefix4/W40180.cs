@@ -189,13 +189,17 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      break;
                }
 
-               foreach (CheckedListBoxItem item in gbMoney.Items) {
-                  if (item.Value.AsString() == "chkFutMoney") {
-                     wf_40180_fut_30004(ls_osw_grp);
-                  } else if (item.Value.AsString() == "chkOptMoney") {
-                     //選擇權
-                     wf_40180_opt_30004(ls_osw_grp);
-                  }
+               //foreach (CheckedListBoxItem item in gbMoney.Items) {
+               //   if (item.Value.AsString() == "chkFutMoney") {
+               //      wf_40180_fut_30004(ls_osw_grp);
+               //   } else if (item.Value.AsString() == "chkOptMoney") {
+               //      //選擇權
+               //      wf_40180_opt_30004(ls_osw_grp);
+               //   }
+               //}
+
+               if (gbMoney.SelectedValue.AsString() == "chkFutMoney") {
+                  wf_40180_fut_30004(ls_osw_grp);
                }
 
                foreach (CheckedListBoxItem item in gbSpan.Items) {
@@ -210,6 +214,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   } else if (item.Value.AsString() == "chkS1020") {
                      wf_40180_s1020(ls_osw_grp);
                   }
+               }
+
+               //選擇權
+               if (gbMoney.SelectedValue.AsString() == "chkOptMoney") {
+                  wf_40180_opt_30004(ls_osw_grp);
                }
             }
 

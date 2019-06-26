@@ -44,6 +44,10 @@ namespace PhoenixCI.FormUI.Prefix7
          //日期
          emStartDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/01");
          emEndDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
+#if DEBUG
+         emStartDate.Text = "2019/03/01";
+         emEndDate.Text = "2019/03/31";
+#endif
          //週期
          emStartDate1.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/01");
          emEndDate1.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
@@ -126,8 +130,8 @@ namespace PhoenixCI.FormUI.Prefix7
                   || !this.emEndMth.IsDate(Emth, CheckDate.End)) {
                   return false;
                }
-               ldStart = Convert.ToDateTime(emStartMth);
-               ldEnd = PbFunc.relativedate(Convert.ToDateTime(emEndMth), 31);
+               ldStart = Convert.ToDateTime(Smth);
+               ldEnd = PbFunc.relativedate(Convert.ToDateTime(Emth), 31);
                if (ldEnd.Month != PbFunc.Right(emStartMth.Text, 2).AsInt()) {
                   ldEnd = PbFunc.relativedate(ldEnd, -ldEnd.Day);
                }
