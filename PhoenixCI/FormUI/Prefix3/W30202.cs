@@ -372,7 +372,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                 }
                 catch (Exception ex) {
                     MessageDisplay.Error("計算結果新增至資料庫錯誤! ");
-                    WriteLog(ex);
+                    WriteLog(ex,"", false);
                     return ResultStatus.Fail;
                 }
                 #endregion
