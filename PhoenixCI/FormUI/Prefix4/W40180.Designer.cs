@@ -129,9 +129,6 @@
          this.gbType.Appearance.Options.UseBackColor = true;
          this.gbType.Appearance.Options.UseTextOptions = true;
          this.gbType.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
-         this.gbType.AppearanceSelected.BackColor = System.Drawing.Color.White;
-         this.gbType.AppearanceSelected.BackColor2 = System.Drawing.Color.White;
-         this.gbType.AppearanceSelected.Options.UseBackColor = true;
          this.gbType.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.gbType.ColumnWidth = 160;
          this.gbType.HotTrackSelectMode = DevExpress.XtraEditors.HotTrackSelectMode.SelectItemOnClick;
@@ -154,6 +151,7 @@
          this.gbType.ShowFocusRect = false;
          this.gbType.Size = new System.Drawing.Size(486, 98);
          this.gbType.TabIndex = 1;
+         this.gbType.DrawItem += new DevExpress.XtraEditors.ListBoxDrawItemEventHandler(this.gbType_DrawItem);
          // 
          // label2
          // 
@@ -269,9 +267,6 @@
          this.gbMoney.Appearance.Options.UseBackColor = true;
          this.gbMoney.Appearance.Options.UseTextOptions = true;
          this.gbMoney.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
-         this.gbMoney.AppearanceSelected.BackColor = System.Drawing.Color.White;
-         this.gbMoney.AppearanceSelected.BackColor2 = System.Drawing.Color.White;
-         this.gbMoney.AppearanceSelected.Options.UseBackColor = true;
          this.gbMoney.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.gbMoney.ColumnWidth = 160;
          this.gbMoney.HotTrackSelectMode = DevExpress.XtraEditors.HotTrackSelectMode.SelectItemOnClick;
@@ -289,6 +284,7 @@
          this.gbMoney.ShowFocusRect = false;
          this.gbMoney.Size = new System.Drawing.Size(312, 123);
          this.gbMoney.TabIndex = 8;
+         this.gbMoney.DrawItem += new DevExpress.XtraEditors.ListBoxDrawItemEventHandler(this.gbMoney_DrawItem);
          // 
          // label5
          // 
@@ -446,9 +442,6 @@
          this.gbMsg.Appearance.Options.UseBackColor = true;
          this.gbMsg.Appearance.Options.UseTextOptions = true;
          this.gbMsg.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
-         this.gbMsg.AppearanceSelected.BackColor = System.Drawing.Color.White;
-         this.gbMsg.AppearanceSelected.BackColor2 = System.Drawing.Color.White;
-         this.gbMsg.AppearanceSelected.Options.UseBackColor = true;
          this.gbMsg.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.gbMsg.ColumnWidth = 160;
          this.gbMsg.HotTrackSelectMode = DevExpress.XtraEditors.HotTrackSelectMode.SelectItemOnClick;
@@ -465,6 +458,7 @@
          this.gbMsg.ShowFocusRect = false;
          this.gbMsg.Size = new System.Drawing.Size(291, 62);
          this.gbMsg.TabIndex = 2;
+         this.gbMsg.DrawItem += new DevExpress.XtraEditors.ListBoxDrawItemEventHandler(this.gbMsg_DrawItem);
          // 
          // label17
          // 
@@ -505,9 +499,6 @@
          this.gbSpan.Appearance.Options.UseBackColor = true;
          this.gbSpan.Appearance.Options.UseTextOptions = true;
          this.gbSpan.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
-         this.gbSpan.AppearanceSelected.BackColor = System.Drawing.Color.White;
-         this.gbSpan.AppearanceSelected.BackColor2 = System.Drawing.Color.White;
-         this.gbSpan.AppearanceSelected.Options.UseBackColor = true;
          this.gbSpan.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.gbSpan.ColumnWidth = 160;
          this.gbSpan.HotTrackSelectMode = DevExpress.XtraEditors.HotTrackSelectMode.SelectItemOnClick;
@@ -527,6 +518,7 @@
          this.gbSpan.ShowFocusRect = false;
          this.gbSpan.Size = new System.Drawing.Size(451, 157);
          this.gbSpan.TabIndex = 9;
+         this.gbSpan.DrawItem += new DevExpress.XtraEditors.ListBoxDrawItemEventHandler(this.gbSpan_DrawItem);
          // 
          // label20
          // 

@@ -6,6 +6,7 @@ using Common.Helper;
 using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DataObjects.Dao.Together.TableDao;
+using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
 using System;
 using System.Collections.Generic;
@@ -105,13 +106,16 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             #region 日期txtEdit檢核
             int w = 0;
-            foreach (CheckedListBoxItem item in gbMsg.Items) {
-               if (item.Value.AsString() == "chkFutMsg" || item.Value.AsString() == "chkOptMsg") {
-                  if (w >= 1) continue;
-                  w++;
-                  DialogResult res = MessageDisplay.Choose("請確認公告開始及結束公告時間!");
-                  if (res == DialogResult.No) {
-                     return ResultStatus.Fail;
+
+            if (gbMsg.CheckedItemsCount > 0) {
+               foreach (CheckedListBoxItem item in gbMsg.Items) {
+                  if (item.Value.AsString() == "chkFutMsg" || item.Value.AsString() == "chkOptMsg") {
+                     if (w >= 1) continue;
+                     w++;
+                     DialogResult res = MessageDisplay.Choose("請確認公告開始及結束公告時間!");
+                     if (res == DialogResult.No) {
+                        return ResultStatus.Fail;
+                     }
                   }
                }
             }
@@ -127,6 +131,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             is_adj_type.Clear();
             is_adj_type_rtn.Clear();
             foreach (CheckedListBoxItem item in gbType.Items) {
+               if (item.CheckState != CheckState.Checked) continue;
+
                string type = item.Value.AsString();
                switch (type) {
                   case "chkType0":
@@ -169,6 +175,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //轉文字檔
             string ls_osw_grp = "%";
             foreach (CheckedListBoxItem item in gbMsg.Items) {
+
+               if (item.CheckState != CheckState.Checked) continue;
+
                if (item.Value.AsString() == "chkFutMsg") {
                   wf_40180_fut_a0001(ls_osw_grp);
                } else if (item.Value.AsString() == "chkOptMsg") {
@@ -189,24 +198,26 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      break;
                }
 
-               //foreach (CheckedListBoxItem item in gbMoney.Items) {
-               //   if (item.Value.AsString() == "chkFutMoney") {
-               //      wf_40180_fut_30004(ls_osw_grp);
-               //   } else if (item.Value.AsString() == "chkOptMoney") {
-               //      //選擇權
-               //      wf_40180_opt_30004(ls_osw_grp);
-               //   }
-               //}
+               foreach (CheckedListBoxItem item in gbMoney.Items) {
 
-               if (gbMoney.SelectedValue.AsString() == "chkFutMoney") {
-                  wf_40180_fut_30004(ls_osw_grp);
+                  if (item.CheckState != CheckState.Checked) continue;
+
+                  if (item.Value.AsString() == "chkFutMoney") {
+                     wf_40180_fut_30004(ls_osw_grp);
+                  } else if (item.Value.AsString() == "chkOptMoney") {
+                     //選擇權
+                     wf_40180_opt_30004(ls_osw_grp);
+                  }
                }
 
                foreach (CheckedListBoxItem item in gbSpan.Items) {
+
+                  if (item.CheckState != CheckState.Checked) continue;
+
                   if (item.Value.AsString() == "chkVsrS1010") {
                      wf_40180_s1010_vsr(ls_osw_grp); //2018/06/13
                   } else if (item.Value.AsString() == "chkPsrS1010") {
-                     //wf_40180_s1010_psr(ls_osw_grp); //(待 ci.hzparm , ci.mgd2 補資料 目前查不到資料)
+                     wf_40180_s1010_psr(ls_osw_grp); //(待 ci.hzparm , ci.mgd2 補資料 目前查不到資料)
                   } else if (item.Value.AsString() == "chkDpsrS1030") {
                      wf_40180_s1030_dpsr(ls_osw_grp); //2018/06/13
                   } else if (item.Value.AsString() == "chkScS1030") {
@@ -216,10 +227,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   }
                }
 
-               //選擇權
-               if (gbMoney.SelectedValue.AsString() == "chkOptMoney") {
-                  wf_40180_opt_30004(ls_osw_grp);
-               }
             }
 
             if (gbMoney.Items[2].CheckState == CheckState.Checked) {
@@ -558,8 +565,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             string ls_file_grp = wf_file_grp(ls_osw_grp);
 
-            if (gbType.CheckedItems.AsString() == "chkType4")
-               is_adj_type.Add("'4'");
+            foreach (CheckedListBoxItem item in gbType.Items) {
+
+               if (item.CheckState != CheckState.Checked) continue;
+
+               if (item.Value.AsString() == "chkType4") {
+                  is_adj_type.Add("'4'");
+               }
+            }
 
             //讀取資料
             string ymd = txtDate.DateTimeValue.ToString("yyyyMMdd");
@@ -722,7 +735,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
       #endregion
 
-      #region wf_40180_s1010_psr (待 ci.hzparm , ci.mgd2 補資料 目前查不到資料)
+      #region wf_40180_s1010_psr 
       protected void wf_40180_s1010_psr(string ls_osw_grp) {
          try {
             string rptName = "Span PSR(結算保證金)文字檔";
@@ -775,12 +788,17 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                //先前組合碼已列示
                if (pos > 0) {
-                  if (dt.Select("comb_prod='" + ls_comb + "'").Length != 0) {
-                     found = dt.Rows.IndexOf(dt.Select("comb_prod='" + ls_comb + "'")[0]);
+
+                  DataTable dtTmp = dt.Clone();
+                  for (int w = 0 ; w < pos ; w++) {
+                     dtTmp.ImportRow(dt.Rows[w]);
+                  }
+
+                  if (dtTmp.Select("comb_prod='" + ls_comb + "'").Length != 0) {
+                     found = dtTmp.Rows.IndexOf(dtTmp.Select("comb_prod='" + ls_comb + "'")[0]);
                      if (found >= 0)
                         continue;
                   }
-
                }
 
                ls_txt += kindId + '\t' + mgd2Cm + Environment.NewLine;
@@ -794,9 +812,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      if (dt.Select("mgd2_kind_id='MXF'").Length != 0) {
                         found = dt.Rows.IndexOf(dt.Select("mgd2_kind_id='MXF'")[0]);
                         ls_txt += dt.Rows[found]["mgd2_cm"] + Environment.NewLine;
-                     } else {
-                        ls_txt += dr["mgd2_cm"] + Environment.NewLine;
                      }
+                  } else {
+                     ls_txt += dr["mgd2_cm"] + Environment.NewLine;
                   }
                }
             }//foreach (DataRow dr in dt.Rows)
@@ -814,7 +832,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             #region 40180_fut_S1110(PSR)_
             string ls_txt2 = "";
+            pos = -1;
             foreach (DataRow dr in dt.Rows) {
+               pos++;
+
                //組合商品
                //找組合碼comb_prod
                int found2 = 0;
@@ -838,8 +859,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                //先前組合碼已列示
                if (pos > 0) {
-                  if (dt.Select("comb_prod='" + ls_comb + "'").Length != 0) {
-                     found2 = dt.Rows.IndexOf(dt.Select("comb_prod='" + ls_comb + "'")[0]);
+
+                  DataTable dtTmp2 = dt.Clone();
+                  for (int w = 0 ; w < pos ; w++) {
+                     dtTmp2.ImportRow(dt.Rows[w]);
+                  }
+
+                  if (dtTmp2.Select("comb_prod='" + ls_comb + "'").Length != 0) {
+                     found2 = dtTmp2.Rows.IndexOf(dtTmp2.Select("comb_prod='" + ls_comb + "'")[0]);
                      if (found2 >= 0)
                         continue;
                   }
@@ -849,8 +876,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                //找組合碼的其它商品
                DataTable dtZfilter2 = dtZ.Filter("zparm_prod_id<>'" + kindId + "' and zparm_comb_prod='" + ls_comb + "'");
-               foreach (DataRow drZ2 in dtZfilter2.Rows) {
-                  string zparmProdId = drZ2["zparm_prod_id"].AsString();
+               dtZfilter2.DefaultView.Sort = "zparm_prod_id desc"; //為了要跟PB的排序一樣
+               DataTable dtZfilter3 = dtZfilter2.DefaultView.ToTable();
+
+               foreach (DataRow drZ3 in dtZfilter3.Rows) {
+                  string zparmProdId = drZ3["zparm_prod_id"].AsString();
                   ls_txt2 += zparmProdId + '\t';
 
                   if (zparmProdId == "MXF") {
@@ -858,12 +888,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         found2 = dt.Rows.IndexOf(dt.Select("mgd2_kind_id='MXF'")[0]);
                      }
                      decimal mgd2Cm2 = dt.Rows[found2]["mgd2_cm"].AsDecimal();
-                     ls_txt2 += mgd2Cm2 + '\t';
+                     ls_txt2 += mgd2Cm2 + "   ";
                   } else {
-                     ls_txt2 += mgd2Cm + '\t';
+                     ls_txt2 += mgd2Cm + "   ";
                   }
 
-                  ls_txt2 += issueBeginYmd + '\t' + oswGrp2 + Environment.NewLine;
+                  ls_txt2 += issueBeginYmd + "   " + oswGrp2 + Environment.NewLine;
 
                }//foreach (DataRow drZ2 in dtZfilter2.Rows)
             }//foreach (DataRow dr in dt.Rows)
@@ -924,14 +954,16 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             }//foreach (DataRow dr in dt.Rows)
 
-            //_fut_S1020_文字檔
-            string fileName = _ProgramID + "_fut_S1020_" + ls_file_grp + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".txt";
-            string filePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , fileName);
+            if (ls_txt.Length != 0) {
+               //_fut_S1020_文字檔
+               string fileName = _ProgramID + "_fut_S1020_" + ls_file_grp + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".txt";
+               string filePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , fileName);
 
-            bool IsSuccess = ToText(ls_txt , filePath , System.Text.Encoding.GetEncoding(950));
-            if (!IsSuccess) {
-               MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!");
-               return;
+               bool IsSuccess = ToText(ls_txt , filePath , System.Text.Encoding.GetEncoding(950));
+               if (!IsSuccess) {
+                  MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!");
+                  return;
+               }
             }
             #endregion
 
@@ -952,14 +984,16 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             }//foreach (DataRow dr in dt.Rows)
 
-            //fut_S1120文字檔
-            string fileName2 = _ProgramID + "_fut_S1120_" + ls_file_grp + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".txt";
-            string filePath2 = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , fileName2);
+            if (ls_txt2.Length != 0) {
+               //fut_S1120文字檔
+               string fileName2 = _ProgramID + "_fut_S1120_" + ls_file_grp + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".txt";
+               string filePath2 = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , fileName2);
 
-            bool IsSuccess2 = ToText(ls_txt2 , filePath2 , System.Text.Encoding.GetEncoding(950));
-            if (!IsSuccess2) {
-               MessageDisplay.Error("文字檔「" + filePath2 + "」Open檔案錯誤!");
-               return;
+               bool IsSuccess2 = ToText(ls_txt2 , filePath2 , System.Text.Encoding.GetEncoding(950));
+               if (!IsSuccess2) {
+                  MessageDisplay.Error("文字檔「" + filePath2 + "」Open檔案錯誤!");
+                  return;
+               }
             }
             #endregion
 
@@ -1184,6 +1218,27 @@ namespace PhoenixCI.FormUI.Prefix4 {
          string startDate = textEditor.EditValue.AsDateTime().ToString("yyyyMMdd");
          string endDate = textEditor.EditValue.AsDateTime().AddDays(30).ToString("yyyyMMdd");
          txtEndDate.DateTimeValue = new MOCF().GetSpecOcfDay(startDate , endDate , 2);
+      }
+
+      /// <summary>
+      /// set checkbox list focus background color
+      /// </summary>
+      /// <param name="sender"></param>
+      /// <param name="e"></param>
+      private void gbType_DrawItem(object sender , ListBoxDrawItemEventArgs e) {
+         e.AllowDrawSkinBackground = false;
+      }
+
+      private void gbMsg_DrawItem(object sender , ListBoxDrawItemEventArgs e) {
+         e.AllowDrawSkinBackground = false;
+      }
+
+      private void gbMoney_DrawItem(object sender , ListBoxDrawItemEventArgs e) {
+         e.AllowDrawSkinBackground = false;
+      }
+
+      private void gbSpan_DrawItem(object sender , ListBoxDrawItemEventArgs e) {
+         e.AllowDrawSkinBackground = false;
       }
 
    }
