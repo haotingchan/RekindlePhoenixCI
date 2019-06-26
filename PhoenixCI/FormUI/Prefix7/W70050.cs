@@ -187,28 +187,26 @@ namespace PhoenixCI.FormUI.Prefix7
          stMsgTxt.Visible = false;
       }
 
-      private string OutputShowMessage {
-         set {
-            if (value != MessageDisplay.MSG_OK)
-               MessageDisplay.Info(value);
-         }
-      }
-
       protected override ResultStatus Export()
       {
          if (!StartExport()) {
             return ResultStatus.Fail;
          }
+         MessageDisplay message = new MessageDisplay();
          try {
             if (rgDate.EditValue.Equals("rb_week")) {
-               OutputShowMessage = b700xxFunc.F70010WeekW(saveFilePath, startYMD, endYMD, sumType, isKindId2, isParamKey, isProdType);
+               message.OutputShowMessage = b700xxFunc.F70010WeekW(saveFilePath, startYMD, endYMD, sumType, isKindId2, isParamKey, isProdType);
             }//if (rgDate.EditValue.Equals("rb_week"))
             else {
-               OutputShowMessage = b700xxFunc.F70010YmdW(saveFilePath, startYMD, endYMD, sumType, isKindId2, isParamKey, isProdType);
+               message.OutputShowMessage = b700xxFunc.F70010YmdW(saveFilePath, startYMD, endYMD, sumType, isKindId2, isParamKey, isProdType);
             }
+
+            if (string.IsNullOrEmpty(message.OutputShowMessage))
+               return ResultStatus.Fail;
          }
          catch (Exception ex) {
-            File.Delete(saveFilePath);
+            if (File.Exists(saveFilePath))
+               File.Delete(saveFilePath);
             WriteLog(ex);
             return ResultStatus.Fail;
          }

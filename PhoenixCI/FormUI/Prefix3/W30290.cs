@@ -142,6 +142,7 @@ namespace PhoenixCI.FormUI.Prefix3
                   this.Cursor = Cursors.WaitCursor;
                   ShowMsg("存檔中...");
                   ResultData myResultData = b30290.UpdateData(dtChange);
+                  retrieveChoose = DialogResult.None;
                }
                catch (Exception ex) {
                   WriteLog(ex);
@@ -160,8 +161,7 @@ namespace PhoenixCI.FormUI.Prefix3
          finally {
             Export();//存檔後轉出Excel
          }
-
-         retrieveChoose = DialogResult.None;
+         
          return ResultStatus.Success;
       }
 

@@ -31,6 +31,9 @@ namespace PhoenixCI.BusinessLogic.Prefix7
       {
          try {
             DataTable dt = dao70020.ListM(startDate, endDate, "M", lsMarketCode);
+            if (dt.Rows.Count <= 0) {
+               return MessageDisplay.MSG_NO_DATA;
+            }
             dt.Columns["RAMM1_BRK_TYPE"].ColumnName = "自營商(9)/一般法人(0)";
             dt.Columns["KIND_ID"].ColumnName = "商品";
             dt.Columns["BO"].ColumnName = "買一般委託";
@@ -57,6 +60,9 @@ namespace PhoenixCI.BusinessLogic.Prefix7
       {
          try {
             DataTable dt = dao70020.ListO(startDate, endDate, "O", lsMarketCode);
+            if (dt.Rows.Count <= 0) {
+               return MessageDisplay.MSG_NO_DATA;
+            }
             dt.Columns["RAMM1_BRK_TYPE"].ColumnName = "自營商(9)/一般法人(0)";
             dt.Columns["KIND_ID"].ColumnName = "商品";
             dt.Columns["BO"].ColumnName = "買一般委託";
@@ -83,6 +89,9 @@ namespace PhoenixCI.BusinessLogic.Prefix7
       {
          try {
             DataTable dtAM8 = dao70020.ListAM8(startDate, endDate, lsMarketCode);
+            if (dtAM8.Rows.Count<=0) {
+               return MessageDisplay.MSG_NO_DATA;
+            }
             DataView dsDv = dtAM8.AsDataView();
             dsDv.Sort = "AM8_YMD,AM8_PROD_TYPE,AM8_FCM_NO,AM8_PARAM_KEY,qnty_8 Desc,qnty_2 Desc";
             dtAM8 = dsDv.ToTable();

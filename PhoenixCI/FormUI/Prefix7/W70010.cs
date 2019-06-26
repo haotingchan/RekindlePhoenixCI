@@ -209,13 +209,6 @@ namespace PhoenixCI.FormUI.Prefix7
          stMsgTxt.Visible = false;
       }
 
-      private string OutputShowMessage {
-         set {
-            if (value != MessageDisplay.MSG_OK)
-               MessageDisplay.Info(value);
-         }
-      }
-
       protected override ResultStatus Export()
       {
          if (!StartExport()) {
@@ -223,11 +216,16 @@ namespace PhoenixCI.FormUI.Prefix7
          }
 
          try {
-            OutputShowMessage = b70010.F70010ByMarketCodeExport(rgDate.EditValue.AsString(), saveFilePath, isSymd, isEymd, sumType, isProdType, isMarketCode, cbxEng.Checked);
-            EndExport();
+            MessageDisplay message = new MessageDisplay();
+            message.OutputShowMessage = b70010.F70010ByMarketCodeExport(rgDate.EditValue.AsString(), saveFilePath, isSymd, isEymd, sumType, isProdType, isMarketCode, cbxEng.Checked);
+
+            if (string.IsNullOrEmpty(message.OutputShowMessage))
+               return ResultStatus.Fail;
+
          }
          catch (Exception ex) {
-            File.Delete(saveFilePath);
+            if (File.Exists(saveFilePath))
+               File.Delete(saveFilePath);
             WriteLog(ex);
             return ResultStatus.Fail;
          }
