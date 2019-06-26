@@ -230,7 +230,7 @@ from(
                ci.mgd2,   
                ci.mgt2,  
                ci.apdk  
-            where  mgd2_kind_id = mgt2_kind_id(+)    
+            where mgd2_kind_id = mgt2_kind_id(+)    
             and mgd2_prod_type = apdk_prod_type    
             and mgd2_kind_id = apdk_kind_id    
             and mgd2_issue_end_ymd = :txtDate    
@@ -241,7 +241,7 @@ from(
       )a
    )
 where row_num = 1
-order by mgd2_ymd , mgd2_seq_no , decode(apdk_remark,'M',1,0) , substr(mgd2_kind_id,1,2) ,
+order by decode(mgd2_seq_no,'',0,mgd2_seq_no) , decode(apdk_remark,'M',1,0) , substr(mgd2_kind_id,1,2) ,
 decode(substr(mgd2_kind_id,3,1) , mgd2_prod_type ,' ',substr(mgd2_kind_id,3,1)) , mgd2_ab_type
 " , selectAdjType , selectAdjTypeRtn);
 
@@ -347,7 +347,7 @@ from
         ) a
     ) m 
 where row_num = 1
-order by mgd2_ymd , mgd2_seq_no , decode(apdk_remark,'M',1,0) , mgd2_kind_id
+order by decode(mgd2_seq_no,'',0,mgd2_seq_no) , decode(apdk_remark,'M',1,0) , mgd2_kind_id
 " , selectAdjType , selectAdjTypeRtn);
 
          DataTable dtResult = db.GetDataTable(sql , parms);
