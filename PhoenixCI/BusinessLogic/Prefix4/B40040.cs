@@ -218,6 +218,10 @@ namespace PhoenixCI.BusinessLogic.Prefix4
          return txt;
       }
 
+      /// <summary>
+      /// 保證金調整檢核表
+      /// </summary>
+      /// <returns></returns>
       public string WfSheetOne()
       {
          Workbook workbook = new Workbook();
@@ -225,181 +229,70 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets[(int)SheetName.SheetOne];
             DateTime emdate = _emDateText.AsDateTime("yyyy/MM/dd");
-            worksheet.Cells["O1"].Value = "資料日期：" + emdate.ToLongDateString();
-
-            //前一交易日
-            DateTime dateLast = dao40040.GetDateLast(emdate, (int)SheetName.SheetOne);
+            worksheet.Cells["N1"].Value = "資料日期：" + emdate.ToLongDateString();
 
             //讀取資料
-            DataTable dt = dao40040.ListData(emdate, $"{_oswGrpVal}%");
+            DataTable dtNotETF = dao40040.List40040SP(emdate, _oswGrpVal);
+            //dt.Filter("PDK_PARAM_KEY not in ('ETF','ETC')").Sort("RPT_SEQ_NO, DATA_KIND_ID");
+            DataTable dt = dtNotETF.Filter("NOT (PDK_PARAM_KEY = 'Tokyo' OR PDK_PARAM_KEY = 'Paris')").Sort("RPT_SEQ_NO, DATA_KIND_ID");
             if (dt.Rows.Count <= 0) {
                return MessageDisplay.MSG_NO_DATA;
             }
 
-            //讀取資料(現貨資料)
-            DataTable dtMg6 = dao40040.ListMg6Data(emdate, dateLast, "%");
-
-            //讀取Mg8資料
-            DataTable dtMg8 = dao40040.ListMg8Data(emdate, "%");
-
-            //保證金變動幅度達10%，分別為第n天
-            DataTable dtDay = dao40040.ListDayData(emdate);
-
+            //本日檢核結果表
+            int rowIndex = 7;
             foreach (DataRow row in dt.Rows) {
-               int rowIndex = row["RPT_SEQ_NO"].AsInt();
-               if (rowIndex <= 0)
-                  continue;
+               worksheet.Cells[$"B{rowIndex}"].SetValue(row["DATA_KIND_ID"]);
 
-               #region 第B欄
-               worksheet.Cells[$"B{rowIndex}"].Value = row["MGT2_KIND_ID_OUT"].AsString();
+               #region 1.各項指標計算結算保證金變動幅度
+               //1.簡單移動平均法(SMA)
+               worksheet.Cells[$"C{rowIndex}"].SetValue(row["SMA_CHANGE_RANGE"]);
+               worksheet.Cells[$"D{rowIndex}"].SetValue(row["SMA_DAY_CNT"]);
+               //2.加權指數移動平均法(EWMA)
+               worksheet.Cells[$"E{rowIndex}"].SetValue(row["EWMA_CHANGE_RANGE"]);
+               worksheet.Cells[$"F{rowIndex}"].SetValue(row["EWMA_DAY_CNT"]);
+               //3.簡單移動平均法
+               worksheet.Cells[$"G{rowIndex}"].SetValue(row["MAXV_CHANGE_RANGE"]);
+               worksheet.Cells[$"H{rowIndex}"].SetValue(row["MAXV_DAY_CNT"]);
                #endregion
 
-               if (row["MG1_CHANGE_FLAG"].AsString() != "Y")
-                  continue;
-
-               //1.保證金變動幅度之趨勢/
-               //15%≧X≧10%
-               decimal mg1ChangeRange = row["MG1_CHANGE_RANGE"].AsDecimal();
-               decimal Percent10 = row["MG1_PROD_SUBTYPE"].AsString() == "E" ? 0.05m : 0.1m;
-               decimal Percent15 = row["MG1_PROD_SUBTYPE"].AsString() == "E" ? 0.1m : 0.15m;
-               #region 第C欄
-               if (Math.Abs(mg1ChangeRange) >= Percent10 && Math.Abs(mg1ChangeRange) < Percent15) {
-                  worksheet.Cells[$"C{rowIndex}"].SetValue(mg1ChangeRange);
-               }
-               #endregion
-               //X≧15%
-               #region 第D欄
-               if (Math.Abs(mg1ChangeRange) >= Percent15) {
-                  worksheet.Cells[$"D{rowIndex}"].SetValue(mg1ChangeRange);
-               }
+               #region 2.未沖銷部位數
+               //當日未沖銷部位數及比例
+               worksheet.Cells[$"I{rowIndex}"].SetValue(row["OI"]);
+               worksheet.Cells[$"J{rowIndex}"].SetValue(row["OI_RATE"]);
+               //屆到期日前7個交易日
+               worksheet.Cells[$"K{rowIndex}"].SetValue(row["DELIVERY_FLAG"]);
                #endregion
 
-               //前一交易日保證金變動幅度
-               var ldValue = row["MG1_CHANGE_RANGE_LAST"];
-               #region 第E欄
-               worksheet.Cells[$"E{rowIndex}"].SetValue(ldValue == DBNull.Value ? "▲" : ldValue);
-               #endregion
-               #region 第F欄
-               worksheet.Cells[$"F{rowIndex}"].SetValue(ldValue == DBNull.Value ? "▲" : OX(row));
-               #endregion
-
-               //達得調整標準天數
-               string kindID = row["MG1_KIND_ID"].AsString();
-               #region 第G欄
-               int dtDayIndex = dtDay.Rows.IndexOf(dtDay.Select($@"mg1_kind_id ='{kindID}'").FirstOrDefault());
-               worksheet.Cells[$"G{rowIndex}"].SetValue(dtDayIndex > -1 ? (long)dtDay.Rows[dtDayIndex]["DAY_CNT"].AsDecimal() : 1);
+               #region 3.現貨、期貨漲跌
+               //現貨 漲跌(比例 %) (註1)
+               var updown = row["SPOT_UP_DOWN"];
+               decimal rateMUL100 = row["SPOT_RATE"].AsDecimal() * 100;
+               string flag = FlagStr(updown.AsDecimal());
+               worksheet.Cells[$"L{rowIndex}"].SetValue(updown == DBNull.Value ? "-" : WriteUpDownPercent(updown.AsDecimal(), rateMUL100, "E", flag));
+               //期貨 漲跌(比例 %)
+               var fupdown = row["FUT_UP_DOWN"];
+               string flag2 = FlagStr(fupdown.AsDecimal());
+               decimal frateMUL100 = row["FUT_RATE"].AsDecimal() * 100;
+               worksheet.Cells[$"M{rowIndex}"].SetValue(WriteUpDownPercent(fupdown.AsDecimal(), frateMUL100, "E", flag2));
                #endregion
 
-               //2.未沖銷部位數/
-               var ai2OI = row["AI2_OI"];
-               if (ai2OI != DBNull.Value) {
-                  #region 第H欄
-                  worksheet.Cells[$"H{rowIndex}"].SetValue(ai2OI);
-                  #endregion
-                  #region 第I欄
-                  var oiRate = row["OI_RATE"];
-                  worksheet.Cells[$"I{rowIndex}"].SetValue(oiRate.AsDecimal() < 0.0001m && ai2OI.AsDecimal() > 0 ? "小於0.01%" : oiRate);
-                  #endregion
-                  #region 第J欄
-                  decimal TotOIiRound = Math.Round(dt.Rows[0]["TOT_OI"].AsDecimal() * 0.005m, 0, MidpointRounding.AwayFromZero);
-                  worksheet.Cells[$"J{rowIndex}"].SetValue(ai2OI.AsDecimal() >= TotOIiRound ? "O" : "X");
-                  #endregion
-                  //屆到期日前7個交易日
-                  #region 第K欄
-                  worksheet.Cells[$"K{rowIndex}"].SetValue(
-                                 row["APROD_7DATE"].AsDateTime() <= emdate && row["APROD_DELIVERY_DATE"].AsDateTime() > emdate ? "O" : "X"
-                                 );
-                  #endregion
-               }
+               #region 4.與國外水準相較
+               //原始保證金占本日契約價值比率
+               worksheet.Cells[$"N{rowIndex}"].SetValue(row["CUR_IM_RATE"]);
+               worksheet.Cells[$"O{rowIndex}"].SetValue(row["ADJ_IM_RATE"]);
+               worksheet.Cells[$"P{rowIndex}"].SetValue(row["F_RATE"]);
+               worksheet.Cells[$"Q{rowIndex}"].SetValue(row["F_EXCHANGE"]);
+               #endregion
 
-               //3.現貨、期貨漲跌/
-               int dtMg6Index = dtMg6.Rows.IndexOf(dtMg6.Select($@"F_KIND_ID ='{kindID}' or O_KIND_ID='{kindID}'").FirstOrDefault());
-               if (dtMg6Index > -1) {
-                  string colTxt = dtMg6.Rows[dtMg6Index]["O_KIND_ID"] == DBNull.Value ? "PDK" : "O";
-                  string prodSubtype = dtMg6.Rows[dtMg6Index]["APDK_PROD_SUBTYPE"].AsString();
-                  //現貨
-                  #region 第L欄
-                  var updown = dtMg6.Rows[dtMg6Index][colTxt + "_UP_DOWN"];
-                  decimal rateMUL100 = dtMg6.Rows[dtMg6Index][colTxt + "_RETURN_RATE"].AsDecimal() * 100;
-                  string flag = FlagStr(updown.AsDecimal());
-                  worksheet.Cells[$"L{rowIndex}"].SetValue(updown == DBNull.Value ? "-" : WriteUpDownPercent(updown.AsDecimal(), rateMUL100, prodSubtype, flag));
-                  #endregion
-                  //現貨漲跌與保證金調整方向相同
-                  #region 第N欄
-                  switch (kindID) {
-                     case "GDF":
-                     case "TGF":
-                     case "TGO":
-                     case "GBF":
-                     case "CPF":
-                        flag = "-";
-                        break;
-                     default:
-                        break;
-                  }
-
-                  if (flag == "-") {
-                     //ls_flag = '-'  then 後面沒有要做什麼 只是做個條件區分
-                  }
-                  else if (row["MG1_CM_LAST"] == DBNull.Value) {
-                     flag = "";
-                  }
-                  else {
-                     flag = WriteFlag(flag, row);
-                  }
-
-                  worksheet.Cells[$"N{rowIndex}"].SetValue(flag);
-                  #endregion
-
-                  //期貨 
-                  #region 第M欄
-                  var fupdown = dtMg6.Rows[dtMg6Index]["F_UP_DOWN"];
-                  string flag2 = FlagStr(fupdown.AsDecimal());
-                  decimal frateMUL100 = dtMg6.Rows[dtMg6Index]["F_RETURN_RATE"].AsDecimal() * 100;
-                  worksheet.Cells[$"M{rowIndex}"].SetValue(WriteUpDownPercent(fupdown.AsDecimal(), frateMUL100, prodSubtype, flag2));
-                  #endregion
-                  //期貨漲跌與保證金調整方向相同
-                  #region 第O欄
-                  var cmlast = row["MG1_CM_LAST"];
-                  worksheet.Cells[$"O{rowIndex}"].SetValue(cmlast == DBNull.Value ? "" : WriteFlag(flag2, row));
-                  #endregion
-
-               }// if (dtMg6Index > -1)
-
-               //4.與國外水準相較/
-               int dtMg8Index = dtMg8.Rows.IndexOf(dtMg8.Select($"mg1_kind_id ='{kindID}' and com ='TAIFEX'").FirstOrDefault());
-               if (dtMg8Index > -1) {
-                  #region 第P欄
-                  worksheet.Cells[$"P{rowIndex}"].SetValue(Foreign(kindID, "BEF", dtMg8, dtMg8Index));
-                  #endregion
-                  #region 第Q欄
-                  worksheet.Cells[$"Q{rowIndex}"].SetValue(Foreign(kindID, "AFT", dtMg8, dtMg8Index));
-                  #endregion
-               }
-            }//foreach (DataRow row in dt.Rows)
-
-            //重大事件
-            StringBuilder sb = new StringBuilder("");
-            DataTable dtMgt3 = dao40040.ListMgt3Data(emdate);
-            int mgt3Count = dtMgt3.Rows.Count;
-            for (int k = 0; k < mgt3Count; k++) {
-               DataRow dr = dtMgt3.Rows[k];
-               string memo = PbFunc.f_conv_date(dr["MGT3_DATE_TO"].AsDateTime(), 3) + dr["MGT3_MEMO"].AsString();
-               sb.Append(memo);
-               sb.Append(FlagMerge(mgt3Count, k));
-            }
-
-            if (sb.ToString() != "") {
-               int mg1flagYcount = dt.Select("mg1_change_flag = 'Y'").Length;
-               if (mg1flagYcount > 0)
-                  worksheet.Cells[$"R16"].SetValue(sb.ToString());
+               rowIndex++;
             }
             //save
             worksheet.ScrollTo(0, 0);
          }
          catch (Exception ex) {
 #if DEBUG
-            throw new Exception($"Wf40040:" + ex.Message);
+            throw new Exception($"WfSheetOne:" + ex.Message);
 #else
             throw ex;
 #endif
@@ -410,6 +303,10 @@ namespace PhoenixCI.BusinessLogic.Prefix4
          return MessageDisplay.MSG_OK;
       }
 
+      /// <summary>
+      /// 保證金調整檢核表(ETF_ETC類)
+      /// </summary>
+      /// <returns></returns>
       public string WfSheetTwo()
       {
          Workbook workbook = new Workbook();
@@ -419,137 +316,69 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             DateTime emdate = _emDateText.AsDateTime("yyyy/MM/dd");
             worksheet.Cells["P1"].Value = "資料日期：" + emdate.ToLongDateString();
 
-            //前一交易日
-            DateTime dateLast = dao40040.GetDateLast(emdate, (int)SheetName.SheetTwo);
-
             //讀取資料
-            DataTable dtETF = dao40040.ListEtfData(emdate, dateLast, $"{_oswGrpVal}%");
-            if (dtETF.Rows.Count <= 0) {
+            DataTable dtETF = dao40040.List40040SP(emdate, _oswGrpVal);
+            //dt.Filter("PDK_PARAM_KEY in ('ETF','ETC')").Sort("RPT_SEQ_NO, DATA_KIND_ID");
+            DataTable dt = dtETF.Filter("PDK_PARAM_KEY in ('ETF','ETC')").Sort("RPT_SEQ_NO, DATA_KIND_ID");
+            if (dt.Rows.Count <= 0) {
                return MessageDisplay.MSG_NO_DATA;
             }
 
-            //讀取資料(現貨資料)
-            DataTable dtEtfMg6 = dao40040.ListEtfMg6Data(emdate);
+            //本日檢核結果表
+            int rowIndex = 7;
+            foreach (DataRow row in dt.Rows) {
+               //序號
+               worksheet.Cells[$"B{rowIndex}"].SetValue(row["RPT_SEQ_NO"]);
+               //股票期貨英文代碼
+               worksheet.Cells[$"C{rowIndex}"].SetValue(row["DATA_KIND_ID"]);
+               //股票期貨中文簡稱
+               worksheet.Cells[$"D{rowIndex}"].SetValue(row["PDK_NAME"]);
+               //股票期貨標的證券代號
+               worksheet.Cells[$"E{rowIndex}"].SetValue(row["PDK_STOCK_ID"]);
+               //上市/上櫃類別
+               worksheet.Cells[$"F{rowIndex}"].SetValue(row["PID_NAME"]);
 
-            //保證金變動幅度達10%，分別為第n天
-            DataTable dtDay = dao40040.ListDayData(emdate);
-
-            foreach (DataRow row in dtETF.Rows) {
-               int rowIndex = row["SN"].AsInt() + 10;
-
-               #region 第B、C、D、E、F欄
-               worksheet.Cells[$"B{rowIndex}"].Value = row["SN"].AsInt();
-               worksheet.Cells[$"C{rowIndex}"].Value = row["MGT2_KIND_ID_OUT"].AsString();
-               worksheet.Cells[$"D{rowIndex}"].Value = row["APDK_NAME"].AsString();
-               worksheet.Cells[$"E{rowIndex}"].Value = row["APDK_STOCK_ID"].AsString();
-               worksheet.Cells[$"F{rowIndex}"].Value = row["PID_NAME"].AsString();
+               #region 1.各項指標計算結算保證金變動幅度
+               //1.簡單移動平均法(SMA)
+               worksheet.Cells[$"G{rowIndex}"].SetValue(row["SMA_CHANGE_RANGE"]);
+               worksheet.Cells[$"H{rowIndex}"].SetValue(row["SMA_DAY_CNT"]);
+               //2.加權指數移動平均法(EWMA)
+               worksheet.Cells[$"I{rowIndex}"].SetValue(row["EWMA_CHANGE_RANGE"]);
+               worksheet.Cells[$"J{rowIndex}"].SetValue(row["EWMA_DAY_CNT"]);
+               //3.簡單移動平均法
+               worksheet.Cells[$"K{rowIndex}"].SetValue(row["MAXV_CHANGE_RANGE"]);
+               worksheet.Cells[$"L{rowIndex}"].SetValue(row["MAXV_DAY_CNT"]);
                #endregion
 
-               if (row["MG1_CHANGE_FLAG"].AsString() != "Y")
-                  continue;
-
-               //1.保證金變動幅度之趨勢/
-               //15%≧X≧10%
-               decimal mg1ChangeRange = row["MG1_CHANGE_RANGE"].AsDecimal();
-               #region 第G欄
-               if (Math.Abs(mg1ChangeRange) >= 0.1m && Math.Abs(mg1ChangeRange) <= 0.15m) {
-                  worksheet.Cells[$"G{rowIndex}"].SetValue(mg1ChangeRange);
-               }
-               #endregion
-               //X>15%
-               #region 第H欄
-               if (Math.Abs(mg1ChangeRange) > 0.15m) {
-                  worksheet.Cells[$"H{rowIndex}"].SetValue(mg1ChangeRange);
-               }
+               #region 2.未沖銷部位數
+               //當日未沖銷部位數及比例
+               worksheet.Cells[$"M{rowIndex}"].SetValue(row["OI"]);
+               worksheet.Cells[$"N{rowIndex}"].SetValue(row["OI_RATE"]);
+               //屆到期日前7個交易日
+               worksheet.Cells[$"O{rowIndex}"].SetValue(row["DELIVERY_FLAG"]);
                #endregion
 
-               //前一交易日保證金變動幅度
-               var ldValue = row["MG1_CHANGE_RANGE_LAST"];
-               #region 第I欄
-               worksheet.Cells[$"I{rowIndex}"].SetValue(ldValue == DBNull.Value ? " " : ldValue);
-               #endregion
-               #region 第J欄
-               worksheet.Cells[$"J{rowIndex}"].SetValue(ldValue == DBNull.Value ? " " : OX(row));
-               #endregion
-
-               //達得調整標準天數
-               string kindID = row["MG1_KIND_ID"].AsString();
-               #region 第K欄
-               int dtDayIndex = dtDay.Rows.IndexOf(dtDay.Select($@"mg1_kind_id ='{kindID}'").FirstOrDefault());
-               worksheet.Cells[$"K{rowIndex}"].SetValue(dtDayIndex > -1 ? (long)dtDay.Rows[dtDayIndex]["DAY_CNT"].AsDecimal() : 1);
+               #region 3.現貨、期貨漲跌
+               //現貨 漲跌(比例 %) (註1)
+               var updown = row["SPOT_UP_DOWN"];
+               decimal rateMUL100 = row["SPOT_RATE"].AsDecimal() * 100;
+               string flag = FlagStr(updown.AsDecimal());
+               worksheet.Cells[$"P{rowIndex}"].SetValue(updown == DBNull.Value ? "-" : WriteUpDownPercent(updown.AsDecimal(), rateMUL100, "E", flag));
+               //期貨 漲跌(比例 %)
+               var fupdown = row["FUT_UP_DOWN"];
+               string flag2 = FlagStr(fupdown.AsDecimal());
+               decimal frateMUL100 = row["FUT_RATE"].AsDecimal() * 100;
+               worksheet.Cells[$"Q{rowIndex}"].SetValue(WriteUpDownPercent(fupdown.AsDecimal(), frateMUL100, "E", flag2));
                #endregion
 
-               //2.未沖銷部位數/
-               var ai2OI = row["AI2_OI"];
-               if (ai2OI != DBNull.Value) {
-                  #region 第L欄
-                  worksheet.Cells[$"L{rowIndex}"].SetValue(ai2OI);
-                  #endregion
-                  #region 第M欄
-                  var oiRate = row["OI_RATE"];
-                  worksheet.Cells[$"M{rowIndex}"].SetValue(oiRate.AsDecimal() < 0.0001m && ai2OI.AsDecimal() > 0 ? "小於0.01%" : oiRate);
-                  #endregion
-                  #region 第N欄
-                  decimal TotOIiRound = Math.Round(dtETF.Rows[0]["TOT_OI"].AsDecimal() * 0.005m, 0, MidpointRounding.AwayFromZero);
-                  worksheet.Cells[$"N{rowIndex}"].SetValue(ai2OI.AsDecimal() >= TotOIiRound ? "O" : "X");
-                  #endregion
-                  //屆到期日前7個交易日
-                  #region 第O欄
-                  worksheet.Cells[$"O{rowIndex}"].SetValue(
-                                 row["APROD_7DATE"].AsDateTime() <= emdate && row["APROD_DELIVERY_DATE"].AsDateTime() > emdate ? "O" : "X"
-                                 );
-                  #endregion
-               }
-
-               //3.現貨、期貨漲跌/
-               int dtMg6EtfIndex = dtEtfMg6.Rows.IndexOf(dtEtfMg6.Select($@"trim(mg6_kind_id) ='{kindID}'").FirstOrDefault());
-               if (dtMg6EtfIndex > -1) {
-                  string prodSubtype = "";
-                  //現貨漲跌幅度
-                  #region 第P欄
-                  var updown = dtEtfMg6.Rows[dtMg6EtfIndex]["MG6_UP_DOWN"];
-                  decimal rateMUL100 = dtEtfMg6.Rows[dtMg6EtfIndex]["MG6_RETURN_RATE"].AsDecimal() * 100;
-                  string flag = FlagStr(updown.AsDecimal());
-                  worksheet.Cells[$"P{rowIndex}"].SetValue(updown == DBNull.Value ? updown : WriteUpDownPercent(updown.AsDecimal(), rateMUL100, prodSubtype, flag));
-                  #endregion
-                  //現貨漲跌與保證金調整方向相同
-                  var cmlast = row["MG1_CM_LAST"];
-                  #region 第R欄
-                  worksheet.Cells[$"R{rowIndex}"].SetValue(cmlast == DBNull.Value ? "" : WriteFlag(flag, row));
-                  #endregion
-
-                  //期貨漲跌幅度
-                  if (row["APDK_PROD_TYPE"].AsString() == "O") {
-                     dtMg6EtfIndex = dtEtfMg6.Rows.IndexOf(dtEtfMg6.Select($@"apdk_stock_id = '{row["APDK_STOCK_ID"].AsString()}' and mg6_prod_type ='F' and kind_seq_no = 1").FirstOrDefault());
-                     if (dtMg6EtfIndex <= -1)
-                        continue;
-                  }
-                  #region 第Q欄
-                  var fupdown = dtEtfMg6.Rows[dtMg6EtfIndex]["AI5_UP_DOWN"];
-                  string flag2 = FlagStr(fupdown.AsDecimal());
-                  decimal frateMUL100 = dtEtfMg6.Rows[dtMg6EtfIndex]["AI5_RETURN_RATE"].AsDecimal() * 100;
-                  worksheet.Cells[$"Q{rowIndex}"].SetValue(WriteUpDownPercent(fupdown.AsDecimal(), frateMUL100, prodSubtype, flag2));
-                  #endregion
-                  //期貨漲跌與保證金調整方向相同
-                  #region 第S欄
-                  worksheet.Cells[$"S{rowIndex}"].SetValue(cmlast == DBNull.Value ? "" : WriteFlag(flag2, row));
-                  #endregion
-
-               }// if (dtMg6EtfIndex > -1)
-
-            }//foreach (DataRow row in dt.Rows)
-
-            //刪除空白列
-            int rowCount = dtETF.Rows.Count;
-            if (50 > rowCount) {
-               worksheet.Rows.Hide(rowCount + 10, 60 - 1);
+               rowIndex++;
             }
             //save
             worksheet.ScrollTo(0, 0);
          }
          catch (Exception ex) {
 #if DEBUG
-            throw new Exception($"Wf40040ETF:" + ex.Message);
+            throw new Exception($"WfSheetOne:" + ex.Message);
 #else
             throw ex;
 #endif
@@ -559,6 +388,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
          }
          return MessageDisplay.MSG_OK;
       }
+
 
       public string Wf40040()
       {
@@ -909,7 +739,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets[(int)SheetName.SheetSPAN];
             DateTime emdate = _emDateText.AsDateTime("yyyy/MM/dd");
-            worksheet.Cells["M2"].Value =emdate.ToLongDateString();
+            worksheet.Cells["M2"].Value = emdate.ToLongDateString();
             DateTime startDate = worksheet.Cells["K2"].Value.AsDateTime();
 
             //1.本日波動度偵測全距(VSR)變動狀況

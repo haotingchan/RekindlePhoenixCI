@@ -137,9 +137,9 @@ namespace PhoenixCI.FormUI.Prefix4
          try {
             //轉檔
             ShowMsg($"{_ProgramID}－保證金調整檢核表 轉檔中...");
-            OutputShowMessage = b40040.Wf40040();
+            OutputShowMessage = b40040.WfSheetOne();
             ShowMsg($"{_ProgramID}－保證金調整檢核表 轉檔中...");
-            OutputShowMessage = b40040.Wf40040ETF();
+            OutputShowMessage = b40040.WfSheetTwo();
             ShowMsg($"{_ProgramID}_SPAN－SPAN參數檔檢核結果 轉檔中...");
             OutputShowMessage = b40040.Wf40040SPAN();
          }

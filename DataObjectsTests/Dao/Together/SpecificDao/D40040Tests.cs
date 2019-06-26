@@ -100,5 +100,12 @@ namespace DataObjects.Dao.Together.SpecificDao.Tests
          //2018/10/12的資料有9筆
          Assert.AreEqual(9, dt.Rows.Count);
       }
+
+      [TestMethod()]
+      public void List40040SPTest()
+      {
+         DataTable dt = new D40040().List40040SP(new DateTime(2018, 10, 12), "%");
+         Assert.IsNotNull(dt);
+      }
    }
 }
