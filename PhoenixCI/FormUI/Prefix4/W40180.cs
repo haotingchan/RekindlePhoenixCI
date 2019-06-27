@@ -198,16 +198,21 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      break;
                }
 
-               foreach (CheckedListBoxItem item in gbMoney.Items) {
+               //foreach (CheckedListBoxItem item in gbMoney.Items) {
 
-                  if (item.CheckState != CheckState.Checked) continue;
+               //   if (item.CheckState != CheckState.Checked) continue;
 
-                  if (item.Value.AsString() == "chkFutMoney") {
-                     wf_40180_fut_30004(ls_osw_grp);
-                  } else if (item.Value.AsString() == "chkOptMoney") {
-                     //選擇權
-                     wf_40180_opt_30004(ls_osw_grp);
-                  }
+               //   if (item.Value.AsString() == "chkFutMoney") {
+               //      wf_40180_fut_30004(ls_osw_grp);
+               //   } else if (item.Value.AsString() == "chkOptMoney") {
+               //      //選擇權
+               //      wf_40180_opt_30004(ls_osw_grp);
+               //   }
+               //}
+
+               //chkFutMoney
+               if (gbMoney.Items[0].CheckState.ToString() == "Checked") {
+                  wf_40180_fut_30004(ls_osw_grp);
                }
 
                foreach (CheckedListBoxItem item in gbSpan.Items) {
@@ -225,6 +230,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   } else if (item.Value.AsString() == "chkS1020") {
                      wf_40180_s1020(ls_osw_grp);
                   }
+               }
+
+               //選擇權 chkOptMoney
+               if (gbMoney.Items[1].CheckState.ToString() == "Checked") {
+                  wf_40180_opt_30004(ls_osw_grp);
                }
 
             }
@@ -376,11 +386,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
                MessageDisplay.Info(string.Format("{0},{1}－{2},讀取「期貨調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName));
                return;
             }
-
+               
             //主旨
-            string fromTime = txtStartDate.Text + " " + txtStartTime.Text + " ";
-            string toTime = txtEndDate.Text + " " + txtEndTime.Text + " ";
-            string ls_head = fromTime + '\t' + toTime + " " + dwMsg.EditValue.AsString() + '\t';
+            string fromTime = string.Format("{0} {1}", txtStartDate.Text, txtStartTime.Text);
+            string toTime = string.Format("{0} {1}" , txtEndDate.Text , txtEndTime.Text);
+            string ls_head = fromTime + "\t" + toTime + "\t" + dwMsg.EditValue.AsString() + "\t";
 
             string ls_txt = "";
             foreach (DataRow dr in dt.Rows) {
@@ -472,9 +482,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
 
             //主旨           
-            string fromTime = txtStartDate.Text + " " + txtStartTime.Text + " ";
-            string toTime = txtEndDate.Text + " " + txtEndTime.Text + " ";
-            string ls_head = fromTime + '\t' + toTime + " " + dwMsg.EditValue.AsString() + '\t';
+            string fromTime = string.Format("{0} {1}" , txtStartDate.Text , txtStartTime.Text);
+            string toTime = string.Format("{0} {1}" , txtEndDate.Text , txtEndTime.Text);
+            string ls_head = fromTime + "\t" + toTime + "\t" + dwMsg.EditValue.AsString() + "\t";
 
             int pos = -1;
             string ls_txt = "";
@@ -593,7 +603,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                string prodType = dr["mgd2_prod_type"].AsString();
                decimal mgd2Cm = dr["mgd2_cm"].AsDecimal();
                decimal mgd2Im = dr["mgd2_im"].AsDecimal();
-               ls_txt += kindId + '\t' + prodType + '\t' + mgd2Cm + '\t' + mgd2Im + '\t' + mgd2Cm + Environment.NewLine;
+               ls_txt += kindId + "\t" + prodType + "\t" + mgd2Cm + "\t" + mgd2Im + "\t" + mgd2Cm + Environment.NewLine;
             }
 
             //開啟文字檔
@@ -644,7 +654,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                string prodType = dr["mgd2_prod_type"].AsString();
                decimal mgd2Cm = dr["mgd2_cm"].AsDecimal();
                decimal cpCm = dr["cp_cm"].AsDecimal();
-               ls_txt += kindId + '\t' + prodType + '\t' + mgd2Cm + '\t' + cpCm + '\t' + mgd2Cm + '\t' + mgd2Cm + '\t' + mgd2Cm + Environment.NewLine;
+               ls_txt += kindId + "\t" + prodType + "\t" + mgd2Cm + "\t" + cpCm + "\t" + mgd2Cm + "\t" + mgd2Cm + "\t" + mgd2Cm + Environment.NewLine;
             }
 
             //開啟文字檔
@@ -689,7 +699,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                //(1)
                string kindId1Out = dr["spt1_kind_id1_out"].AsString();
                decimal sp1Rate = dr["sp1_rate"].AsDecimal();
-               ls_txt += kindId1Out + '\t' + sp1Rate + Environment.NewLine;
+               ls_txt += kindId1Out + "\t" + sp1Rate + Environment.NewLine;
             }
 
             //fut_S1010(VSR)文字檔
@@ -715,7 +725,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                string sp2_osw_grp = wf_conv_osw_grp(ls_osw_grp);
 
-               ls_txt2 += kindId1Out + '\t' + sp1Rate + '\t' + sp2ValueDate + '\t' + sp2_osw_grp + Environment.NewLine;
+               ls_txt2 += kindId1Out + "\t" + sp1Rate + "\t" + sp2ValueDate + "\t" + sp2_osw_grp + Environment.NewLine;
             }
 
             //fut_S1110(VSR)文字檔
@@ -779,7 +789,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                string kindId = dr["mgd2_kind_id"].AsString();
                decimal mgd2Cm = dr["mgd2_cm"].AsDecimal();
                if (found < 0) {
-                  ls_txt += kindId + '\t' + mgd2Cm + Environment.NewLine;
+                  ls_txt += kindId + "\t" + mgd2Cm + Environment.NewLine;
                   continue;
                }
 
@@ -801,13 +811,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   }
                }
 
-               ls_txt += kindId + '\t' + mgd2Cm + Environment.NewLine;
+               ls_txt += kindId + "\t" + mgd2Cm + Environment.NewLine;
 
                //找組合碼的其它商品
                DataTable dtZfilter = dtZ.Filter("zparm_prod_id<>'" + kindId + "' and zparm_comb_prod='" + ls_comb + "'");
                foreach (DataRow drZ in dtZfilter.Rows) {
                   string prodId = drZ["zparm_prod_id"].AsString();
-                  ls_txt += prodId + '\t';
+                  ls_txt += prodId + "\t";
                   if (prodId == "MXF") {
                      if (dt.Select("mgd2_kind_id='MXF'").Length != 0) {
                         found = dt.Rows.IndexOf(dt.Select("mgd2_kind_id='MXF'")[0]);
@@ -850,7 +860,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                string oswGrp2 = wf_conv_osw_grp(mgd2OswGrp);
 
                if (found2 < 0) {
-                  ls_txt2 += kindId + '\t' + mgd2Cm + '\t' + issueBeginYmd + '\t' + oswGrp2 + Environment.NewLine;
+                  ls_txt2 += kindId + "\t" + mgd2Cm + "\t" + issueBeginYmd + "\t" + oswGrp2 + Environment.NewLine;
                   continue;
                }
 
@@ -872,28 +882,28 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   }
                }
 
-               ls_txt2 += kindId + '\t' + mgd2Cm + '\t' + issueBeginYmd + '\t' + oswGrp2 + Environment.NewLine;
+               ls_txt2 += kindId + "\t" + mgd2Cm + "\t" + issueBeginYmd + "\t" + oswGrp2 + Environment.NewLine;
 
                //找組合碼的其它商品
                DataTable dtZfilter2 = dtZ.Filter("zparm_prod_id<>'" + kindId + "' and zparm_comb_prod='" + ls_comb + "'");
-               dtZfilter2.DefaultView.Sort = "zparm_prod_id desc"; //為了要跟PB的排序一樣
-               DataTable dtZfilter3 = dtZfilter2.DefaultView.ToTable();
+               //dtZfilter2.DefaultView.Sort = "zparm_prod_id desc"; //為了要跟PB的排序一樣
+               //DataTable dtZfilter3 = dtZfilter2.DefaultView.ToTable();
 
-               foreach (DataRow drZ3 in dtZfilter3.Rows) {
-                  string zparmProdId = drZ3["zparm_prod_id"].AsString();
-                  ls_txt2 += zparmProdId + '\t';
+               foreach (DataRow drZ2 in dtZfilter2.Rows) {
+                  string zparmProdId = drZ2["zparm_prod_id"].AsString();
+                  ls_txt2 += zparmProdId + "\t";
 
                   if (zparmProdId == "MXF") {
                      if (dt.Select("mgd2_kind_id='MXF'").Length != 0) {
                         found2 = dt.Rows.IndexOf(dt.Select("mgd2_kind_id='MXF'")[0]);
                      }
                      decimal mgd2Cm2 = dt.Rows[found2]["mgd2_cm"].AsDecimal();
-                     ls_txt2 += mgd2Cm2 + "   ";
+                     ls_txt2 += mgd2Cm2 + "\t";
                   } else {
-                     ls_txt2 += mgd2Cm + "   ";
+                     ls_txt2 += mgd2Cm + "\t";
                   }
 
-                  ls_txt2 += issueBeginYmd + "   " + oswGrp2 + Environment.NewLine;
+                  ls_txt2 += issueBeginYmd + "\t" + oswGrp2 + Environment.NewLine;
 
                }//foreach (DataRow drZ2 in dtZfilter2.Rows)
             }//foreach (DataRow dr in dt.Rows)
@@ -950,7 +960,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                decimal mgd2Cm = dr["mgd2_cm"].AsDecimal();
                if (kindId == "MXF" || paramKey == "STC" || paramKey == "STF") continue;
 
-               ls_txt += kindId + '\t' + mgd2Cm + Environment.NewLine;
+               ls_txt += kindId + "\t" + mgd2Cm + Environment.NewLine;
 
             }//foreach (DataRow dr in dt.Rows)
 
@@ -980,7 +990,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                string oswGrp2 = wf_conv_osw_grp(mgd2OswGrp);
 
-               ls_txt2 += kindId + '\t' + mgd2Cm + '\t' + issueBeginYmd + '\t' + oswGrp2 + Environment.NewLine;
+               ls_txt2 += kindId + "\t" + mgd2Cm + "\t" + issueBeginYmd + "\t" + oswGrp2 + Environment.NewLine;
 
             }//foreach (DataRow dr in dt.Rows)
 
@@ -1029,7 +1039,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                string kindId1Out = dr["spt1_kind_id1_out"].AsString();
                string kindId2Out = dr["spt1_kind_id2_out"].AsString();
                decimal sp1Rate = dr["sp1_rate"].AsDecimal();
-               ls_txt += kindId1Out + '\t' + kindId2Out + '\t' + sp1Rate + Environment.NewLine;
+               ls_txt += kindId1Out + "\t" + kindId2Out + "\t" + sp1Rate + Environment.NewLine;
             }
 
             //fut_S1030(Delta Per Spread Ratio)文字檔
@@ -1055,7 +1065,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                string sp2ValueDate = dr["sp2_value_date"].AsDateTime().ToString("yyyyMMdd");
                string sp2OswGrp = dr["sp2_osw_grp"].AsString();
                string og = wf_conv_osw_grp(sp2OswGrp);
-               ls_txt2 += kindId1Out + '\t' + kindId2Out + '\t' + sp1Rate + '\t' + sp2ValueDate + '\t' + og + Environment.NewLine;
+               ls_txt2 += kindId1Out + "\t" + kindId2Out + "\t" + sp1Rate + "\t" + sp2ValueDate + "\t" + og + Environment.NewLine;
             }
 
             //fut_S1130(Delta Per Spread Ratio)文字檔
@@ -1101,7 +1111,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                string kindId1Out = dr["spt1_kind_id1_out"].AsString();
                string kindId2Out = dr["spt1_kind_id2_out"].AsString();
                decimal sp1Rate = dr["sp1_rate"].AsDecimal();
-               ls_txt += kindId1Out + '\t' + kindId2Out + '\t' + sp1Rate + Environment.NewLine;
+               ls_txt += kindId1Out + "\t" + kindId2Out + "\t" + sp1Rate + Environment.NewLine;
             }
 
             //fut_S1030(Spread credit)文字檔
@@ -1127,7 +1137,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                string sp2ValueDate = dr["sp2_value_date"].AsDateTime().ToString("yyyyMMdd");
                string sp2OswGrp = dr["sp2_osw_grp"].AsString();
                string og = wf_conv_osw_grp(sp2OswGrp);
-               ls_txt2 += kindId1Out + '\t' + kindId2Out + '\t' + sp1Rate + '\t' + sp2ValueDate + '\t' + og + Environment.NewLine;
+               ls_txt2 += kindId1Out + "\t" + kindId2Out + "\t" + sp1Rate + "\t" + sp2ValueDate + "\t" + og + Environment.NewLine;
             }
 
             //fut_S1130(Spread credit)文字檔

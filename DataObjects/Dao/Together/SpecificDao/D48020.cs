@@ -6,19 +6,19 @@ using System.Reflection;
 /// ken,2019/3/20
 /// </summary>
 namespace DataObjects.Dao.Together.SpecificDao {
-    /// <summary>
-    /// 最小風險價格係數歷次調整資料查詢
-    /// </summary>
-    public class D48020 : DataGate {
+   /// <summary>
+   /// 最小風險價格係數歷次調整資料查詢
+   /// </summary>
+   public class D48020 : DataGate {
 
 
-        /// <summary>
-        /// 契約代號 return mgt2_seq_no/mgt2_kind_id/mgt2_prod_subtype (同48010)
-        /// </summary>
-        /// <returns></returns>
-        public DataTable ListKind() {
+      /// <summary>
+      /// 契約代號 return mgt2_seq_no/mgt2_kind_id/mgt2_prod_subtype (同48010)
+      /// </summary>
+      /// <returns></returns>
+      public DataTable ListKind() {
 
-            string sql = @"
+         string sql = @"
 select mgt2_seq_no,
     mgt2_kind_id,
     mgt2_prod_subtype
@@ -28,83 +28,137 @@ or mgt2_kind_id in ('ETF','ETC'))
 order by mgt2_seq_no";
 
 
-            DataTable dtResult = db.GetDataTable(sql, null);
+         DataTable dtResult = db.GetDataTable(sql , null);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        /// <summary>
-        /// 針對不同的grid data source,合併相同的輸入與輸出
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public I48020GridData CreateGridData(Type type, string name) {
-            string AssemblyName = type.Namespace.Split('.')[0];//最後compile出來的dll名稱
-            string className = type.FullName + name;//完整的class路徑
+      /// <summary>
+      /// 針對不同的grid data source,合併相同的輸入與輸出
+      /// </summary>
+      /// <param name="name"></param>
+      /// <returns></returns>
+      public I48020GridData CreateGridData(Type type , string name) {
+         string AssemblyName = type.Namespace.Split('.')[0];//最後compile出來的dll名稱
+         string className = type.FullName + name;//完整的class路徑
 
-            // 這裡就是Reflection，直接依照className實體化具體類別
-            return (I48020GridData)Assembly.Load(AssemblyName).CreateInstance(className);
-        }
+         // 這裡就是Reflection，直接依照className實體化具體類別
+         return (I48020GridData)Assembly.Load(AssemblyName).CreateInstance(className);
+      }
 
-    }
+      /// <summary>
+      /// for export, return 12 fields
+      /// </summary>
+      /// <param name="as_sdate">yyyy/MM/dd</param>
+      /// <param name="as_edate">yyyy/MM/dd</param>
+      /// <param name="as_prod_subtype"></param>
+      /// <param name="as_kind_id"></param>
+      /// <param name="as_sort_type"></param>
+      /// <param name="as_export"> Y = Export / N = Retrieve</param>
+      /// <returns></returns>
+      public DataTable ListAll2(DateTime as_sdate ,DateTime as_edate , string as_prod_subtype , string as_kind_id , string as_sort_type , string as_export = "Y") {
 
-    public class Q48020 {
-        public DateTime as_sdate { get; set; }
-        public DateTime as_edate { get; set; }
-        public string as_prod_subtype { get; set; }
-        public string as_kind_id { get; set; }
-        /// <summary>
-        /// 只為了排序,value=DATE/KIND
-        /// </summary>
-        public string as_sort_type { get; set; }
+         object[] parms = {
+                ":as_sdate", as_sdate,
+                ":as_edate", as_edate,
+                ":as_prod_subtype", as_prod_subtype,
+                ":as_kind_id", as_kind_id,
+                ":as_sort_type", as_sort_type,
+                ":as_export", as_export
+            };
 
-        public Q48020(DateTime as_sdate, DateTime as_edate, string as_prod_subtype, string as_kind_id, string as_sort_type = "DATE") {
-            this.as_sdate = as_sdate;
-            this.as_edate = as_edate;
-            this.as_prod_subtype = as_prod_subtype;
-            this.as_kind_id = as_kind_id;
-            this.as_sort_type = as_sort_type;
-        }
+         string sql = @"
+select 
+   cpr_data_num,
+   cpr_prod_subtype,
+   cpr_kind_id,
+   to_char(cpr_effective_date,'yyyy/mm/dd') as cpr_effective_date,
+   cpr_price_risk_rate,
+   
+   to_char(cpr_approval_date,'yyyy/mm/dd') as cpr_approval_date,
+   cpr_approval_number,
+   cpr_remark,
+   decode(:as_export,'Y',to_char(cpr_w_time,'yyyy/mm/dd hh24:mi:ss.ff') ,to_char(cpr_w_time,'yyyy/mm/dd hh24:mi:ss')) as cpr_w_time,
+   --cpr_w_time,
+   cpr_w_user_id,
+   
+   nvl(mgt2_seq_no,999) as mgt2_seq_no,
+   nvl(mgt2_prod_type,' ') as prod_type
+from 
+   ci.hcpr,
+   ci.mgt2
+where cpr_kind_id = mgt2_kind_id(+)
+and cpr_prod_subtype like :as_prod_subtype
+and cpr_kind_id like :as_kind_id
+and cpr_effective_date >= :as_sdate
+and cpr_effective_date <= :as_edate
+order by decode(:as_sort_type,'DATE',cpr_effective_date,to_char(sysdate,'yyyy/mm/dd')), cpr_prod_subtype , prod_type , cpr_kind_id , cpr_effective_date , cpr_data_num
+";
 
-        /// <summary>
-        /// convert all Properties to object[]
-        /// </summary>
-        /// <returns></returns>
-        public object[] ToParam() {
-            object[] aryParam = new object[GetType().GetProperties().Length * 2];
-            int pos = 0;
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
-            foreach (var prop in GetType().GetProperties()) {
-                aryParam[pos++] = ":" + prop.Name;//":"其實可不用
-                aryParam[pos++] = prop.GetValue(this);
-            }
+         return dtResult;
+      }
 
-            return aryParam;
-        }
-    }
+   }
 
-    public interface I48020GridData {
+   public class Q48020 {
+      public DateTime as_sdate { get; set; }
+      public DateTime as_edate { get; set; }
+      public string as_prod_subtype { get; set; }
+      public string as_kind_id { get; set; }
+      /// <summary>
+      /// 只為了排序,value=DATE/KIND
+      /// </summary>
+      public string as_sort_type { get; set; }
 
-        DataTable ListAll(Q48020 query);
-    }
+      public Q48020(DateTime as_sdate , DateTime as_edate , string as_prod_subtype , string as_kind_id , string as_sort_type = "DATE") {
+         this.as_sdate = as_sdate;
+         this.as_edate = as_edate;
+         this.as_prod_subtype = as_prod_subtype;
+         this.as_kind_id = as_kind_id;
+         this.as_sort_type = as_sort_type;
+      }
 
-    /// <summary>
-    /// 重點資料
-    /// </summary>
-    public class D48020KeyInfo : DataGate, I48020GridData {
+      /// <summary>
+      /// convert all Properties to object[]
+      /// </summary>
+      /// <returns></returns>
+      public object[] ToParam() {
+         object[] aryParam = new object[GetType().GetProperties().Length * 2];
+         int pos = 0;
 
-        /// <summary>
-        /// 重點資料, return 9 fields
-        /// </summary>
-        /// <param name="query">ref Q48020</param>
-        /// <returns></returns>
-        public DataTable ListAll(Q48020 query) {
+         foreach (var prop in GetType().GetProperties()) {
+            aryParam[pos++] = ":" + prop.Name;//":"其實可不用
+            aryParam[pos++] = prop.GetValue(this);
+         }
 
-            object[] parms = query.ToParam();
+         return aryParam;
+      }
+   }
 
-            string sort = (query.as_sort_type == "DATE" ? "cpr_effective_date" : "cpr_prod_subtype");
+   public interface I48020GridData {
 
-            string sql = string.Format(@"
+      DataTable ListAll(Q48020 query);
+   }
+
+   /// <summary>
+   /// 重點資料
+   /// </summary>
+   public class D48020KeyInfo : DataGate, I48020GridData {
+
+      /// <summary>
+      /// 重點資料, return 9 fields
+      /// </summary>
+      /// <param name="query">ref Q48020</param>
+      /// <returns></returns>
+      public DataTable ListAll(Q48020 query) {
+
+         object[] parms = query.ToParam();
+
+         string sort = (query.as_sort_type == "DATE" ? "cpr_effective_date" : "cpr_prod_subtype");
+
+         string sql = string.Format(@"
 select cpr_data_num,
     cpr_prod_subtype,
     cod.cod_desc,
@@ -136,30 +190,30 @@ order by {0} , cpr_prod_subtype , prod_type , cpr_kind_id , cpr_effective_date ,
 " , sort);
 
 
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
-            return dtResult;
-        }
-    }
+         return dtResult;
+      }
+   }
 
-    /// <summary>
-    /// 明細資料
-    /// </summary>
-    public class D48020Detail : DataGate, I48020GridData {
+   /// <summary>
+   /// 明細資料
+   /// </summary>
+   public class D48020Detail : DataGate, I48020GridData {
 
 
-        /// <summary>
-        /// 明細資料, return 13 fields
-        /// </summary>
-        /// <param name="query">ref Q48020</param>
-        /// <returns></returns>
-        public DataTable ListAll(Q48020 query) {
+      /// <summary>
+      /// 明細資料, return 13 fields
+      /// </summary>
+      /// <param name="query">ref Q48020</param>
+      /// <returns></returns>
+      public DataTable ListAll(Q48020 query) {
 
-            object[] parms = query.ToParam();
+         object[] parms = query.ToParam();
 
-            string sort = (query.as_sort_type == "DATE" ? "cpr_effective_date" : "cpr_prod_subtype");
+         string sort = (query.as_sort_type == "DATE" ? "cpr_effective_date" : "cpr_prod_subtype");
 
-            string sql = string.Format(@"
+         string sql = string.Format(@"
 select cpr_data_num,
     cpr_prod_subtype,
     cod.cod_desc,
@@ -190,9 +244,9 @@ order by {0} , cpr_prod_subtype , prod_type , cpr_kind_id , cpr_effective_date ,
 " , sort);
 
 
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
-            return dtResult;
-        }
-    }
+         return dtResult;
+      }
+   }
 }

@@ -6,12 +6,14 @@ using Common;
 using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
+using DevExpress.Utils;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraPrinting;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.IO;
 
 /// <summary>
@@ -68,6 +70,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          lupSubType.SetColumnLookUp(dtSubType , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , null);
          gcMain.RepositoryItems.Add(lupSubType);
+
          //ken,設定選單事件
          this.ddlSubType.EditValueChanged += new System.EventHandler(this.ddlSubType_EditValueChanged);
 
@@ -158,14 +161,28 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gvMain.Columns.Clear();
             gcMain.DataSource = dtExport;
 
+            gvMain.AppearancePrint.HeaderPanel.Options.UseTextOptions = true;
+            gvMain.AppearancePrint.HeaderPanel.TextOptions.WordWrap = WordWrap.Wrap;
+            gvMain.AppearancePrint.HeaderPanel.Font = new Font("Microsoft YaHei" , 11);
+
+            gvMain.AppearancePrint.Row.Font = new Font("Microsoft YaHei" , 11);
+            gvMain.OptionsPrint.AllowMultilineHeaders = true;
+            gvMain.AppearancePrint.GroupRow.Font = new Font("Microsoft YaHei" , 11);
+
             //3.2設定每個欄位的caption
             gvMain.SetColumnCaption("CPR_PROD_SUBTYPE" , "契約類別");
             gvMain.Columns["CPR_PROD_SUBTYPE"].ColumnEdit = lupSubType;
             gvMain.SetColumnCaption("CPR_KIND_ID" , "契約代號");
             gvMain.SetColumnCaption("CPR_EFFECTIVE_DATE" , "系統生效日");
             gvMain.SetColumnCaption("CPR_PRICE_RISK_RATE" , $"最小風險{Environment.NewLine}價格係數");
-            gvMain.SetColumnCaption("CPR_APPROVAL_DATE" , $"核定{Environment.NewLine}日期");
 
+            RepositoryItemTextEdit priceRiskRate = new RepositoryItemTextEdit();
+            gcMain.RepositoryItems.Add(priceRiskRate);
+            gvMain.Columns["CPR_PRICE_RISK_RATE"].ColumnEdit = priceRiskRate;
+            priceRiskRate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            priceRiskRate.DisplayFormat.FormatString = "P";
+
+            gvMain.SetColumnCaption("CPR_APPROVAL_DATE" , $"核定{Environment.NewLine}日期");
             gvMain.SetColumnCaption("CPR_APPROVAL_NUMBER" , "核定文號及日期");
             gvMain.SetColumnCaption("CPR_REMARK" , "備註");
             gvMain.SetColumnCaption("CPR_W_TIME" , "異動時間");
@@ -321,7 +338,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                _ReportHelper.Create(reportPortrait);
             } else {
                //明細資料,欄位比較多
-               CommonReportLandscapeA4 reportLandscape = new CommonReportLandscapeA4();//設定為橫向列印
+               CommonReportLandscapeA3 reportLandscape = new CommonReportLandscapeA3();//設定為橫向列印
                reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
                reportLandscape.IsHandlePersonVisible = false;
                reportLandscape.IsManagerVisible = false;
@@ -338,8 +355,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
          }
          return ResultStatus.Fail;
       }
-
-
 
       private void ddlSubType_EditValueChanged(object sender , EventArgs e) {
          DevExpress.XtraEditors.LookUpEdit ddl = (sender as DevExpress.XtraEditors.LookUpEdit);

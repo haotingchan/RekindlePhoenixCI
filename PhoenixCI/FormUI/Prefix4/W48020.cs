@@ -5,11 +5,14 @@ using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
+using DevExpress.Utils;
 using DevExpress.XtraEditors.Controls;
+using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraPrinting;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.IO;
 
 /// <summary>
@@ -23,6 +26,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
       protected D48020 dao48020;
       protected static string ChooseSingleKind = "選單一契約";
       protected DataTable dtTarget;
+      private RepositoryItemLookUpEdit lupSubType;
 
       public W48020(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
@@ -45,9 +49,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
       protected override ResultStatus Open() {
          base.Open();
          txtSDate.EditValue = GlobalInfo.OCF_DATE;
+         lupSubType = new RepositoryItemLookUpEdit();
 
 #if DEBUG
-         //ken test
          //txtSDate.DateTimeValue = DateTime.ParseExact("2018/06/15", "yyyy/MM/dd", null);
          //this.Text += "(開啟測試模式),ocfDate=2018/06/15";
 #endif
@@ -61,6 +65,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
          drTemp["COD_SEQ_NO"] = -1;
          dtSubType.Rows.InsertAt(drTemp , 0);
          Extension.SetDataTable(ddlSubType , dtSubType , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
+
+         lupSubType.SetColumnLookUp(dtSubType , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , null);
+         gcMain.RepositoryItems.Add(lupSubType);
+
          //ken,設定選單事件
          this.ddlSubType.EditValueChanged += new System.EventHandler(this.ddlSubType_EditValueChanged);
 
@@ -138,29 +146,53 @@ namespace PhoenixCI.FormUI.Prefix4 {
             Q48020 q48020 = new Q48020(startDate , endDate , subType , kindId , ddlSort.EditValue.AsString());
             dtTarget = gridData.ListAll(q48020);
 
+            DataTable dtExport = dao48020.ListAll2(startDate , endDate , subType , kindId , ddlSort.EditValue.AsString() , "N");
+
             //3.1開始設定Grid
             gcMain.Visible = true;
             gvMain.Columns.Clear();
-            gcMain.DataSource = dtTarget;
+            gcMain.DataSource = dtExport;
+
+            gvMain.AppearancePrint.HeaderPanel.Options.UseTextOptions = true;
+            gvMain.AppearancePrint.HeaderPanel.TextOptions.WordWrap = WordWrap.Wrap;
+            gvMain.AppearancePrint.HeaderPanel.Font = new Font("Microsoft YaHei" , 11);
+
+            gvMain.AppearancePrint.Row.Font = new Font("Microsoft YaHei" , 11);
+            gvMain.OptionsPrint.AllowMultilineHeaders = true;
+            gvMain.AppearancePrint.GroupRow.Font = new Font("Microsoft YaHei" , 11);
 
             //3.2設定每個欄位的caption
             gvMain.SetColumnCaption("CPR_DATA_NUM" , "次數");
-            gvMain.SetColumnCaption("COD_DESC" , "契約類別");
+            gvMain.SetColumnCaption("CPR_PROD_SUBTYPE" , "契約類別");
+            gvMain.Columns["CPR_PROD_SUBTYPE"].ColumnEdit = lupSubType;
             gvMain.SetColumnCaption("CPR_KIND_ID" , "契約代號");
             gvMain.SetColumnCaption("CPR_EFFECTIVE_DATE" , "系統生效日");
-            gvMain.SetColumnCaption("CPR_PRICE_RISK_RATE" , "最小風險價格係數");
-            gvMain.SetColumnCaption("CPR_APPROVAL_DATE" , "核定日期");
+            gvMain.SetColumnCaption("CPR_PRICE_RISK_RATE" , $"最小風險{Environment.NewLine}價格係數");
+
+            RepositoryItemTextEdit priceRiskRate = new RepositoryItemTextEdit();
+            gcMain.RepositoryItems.Add(priceRiskRate);
+            gvMain.Columns["CPR_PRICE_RISK_RATE"].ColumnEdit = priceRiskRate;
+            priceRiskRate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            priceRiskRate.DisplayFormat.FormatString = "P";
+
+            gvMain.SetColumnCaption("CPR_APPROVAL_DATE" , $"核定{Environment.NewLine}日期");
 
             gvMain.SetColumnCaption("CPR_APPROVAL_NUMBER" , "核定文號及日期");
             gvMain.SetColumnCaption("CPR_REMARK" , "備註");
             gvMain.SetColumnCaption("CPR_W_TIME" , "異動時間");
             gvMain.SetColumnCaption("CPR_W_USER_ID" , "異動人員");
 
-
             //3.3設定隱藏欄位
-            gvMain.Columns["CPR_PROD_SUBTYPE"].Visible = false;
+            //gvMain.Columns["CPR_PROD_SUBTYPE"].Visible = false;
             gvMain.Columns["MGT2_SEQ_NO"].Visible = false;//ken,從頭到尾都沒用到...
             gvMain.Columns["PROD_TYPE"].Visible = false;
+
+            if (ddlData.EditValue.AsString() == "KeyInfo") {
+               gvMain.Columns["CPR_APPROVAL_NUMBER"].Visible = false;
+               gvMain.Columns["CPR_REMARK"].Visible = false;
+               gvMain.Columns["CPR_W_TIME"].Visible = false;
+               gvMain.Columns["CPR_W_USER_ID"].Visible = false;
+            }
 
             //3.4統一設定欄位靠左靠右把一些欄位靠左
             gvMain.Appearance.Row.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;//設定全部欄位先置中
@@ -168,19 +200,19 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gvMain.SetColumnHAlignment("CPR_REMARK" , DevExpress.Utils.HorzAlignment.Default);
 
             //3.5設定每個column header是否自動折行
-            gvMain.SetColumnHeaderWrap("CPR_DATA_NUM" , 60);
-            gvMain.SetColumnHeaderWrap("COD_DESC" , 90);
-            gvMain.SetColumnHeaderWrap("CPR_KIND_ID" , 100);
-            gvMain.SetColumnHeaderWrap("CPR_PRICE_RISK_RATE" , 200);
-            gvMain.SetColumnHeaderWrap("CPR_APPROVAL_DATE" , 120);
+            //gvMain.SetColumnHeaderWrap("CPR_DATA_NUM" , 60);
+            //gvMain.SetColumnHeaderWrap("COD_DESC" , 90);
+            //gvMain.SetColumnHeaderWrap("CPR_KIND_ID" , 100);
+            //gvMain.SetColumnHeaderWrap("CPR_PRICE_RISK_RATE" , 200);
+            //gvMain.SetColumnHeaderWrap("CPR_APPROVAL_DATE" , 120);
 
             //3.6設定每個column是否自動折行
-            gvMain.SetColumnWrap("CPR_APPROVAL_NUMBER" , 280);
-            gvMain.SetColumnWrap("CPR_REMARK" , 140);
-            gvMain.SetColumnWrap("CPR_W_TIME" , 100);
+            gvMain.SetColumnWrap("CPR_APPROVAL_NUMBER" , 350);
+            gvMain.SetColumnWrap("CPR_REMARK" , 160);
 
             //3.7設定每個column自動擴展
             gvMain.BestFitColumns();
+            GridHelper.SetCommonGrid(gvMain);
 
             return ResultStatus.Success;
          } catch (Exception ex) {
@@ -209,38 +241,68 @@ namespace PhoenixCI.FormUI.Prefix4 {
             labMsg.Text = "訊息：資料轉出中........";
             this.Refresh();
 
+            string subType = ddlSubType.EditValue.AsString();
+            string kindId = "%";
+            if (ddlSubType.Text == ChooseSingleKind) {
+               subType = "%";
+               kindId = ddlKind.EditValue.AsString() + "%";
+            }//if (ddlSubType.Text == ChooseSingleKind)
+
+            DateTime startDate = DateTime.ParseExact(txtSDate.Text + "/01/01" , "yyyy/MM/dd" , null);
+            DateTime endDate = DateTime.ParseExact(txtEDate.Text + "/12/31" , "yyyy/MM/dd" , null);
+
+            DataTable dtExport = dao48020.ListAll2(startDate , endDate , subType , kindId , ddlSort.EditValue.AsString() , "Y");
+
+            if (ddlData.EditValue.AsString() == "KeyInfo") {
+               dtExport.Columns.Remove("CPR_APPROVAL_NUMBER");
+               dtExport.Columns.Remove("CPR_REMARK");
+               dtExport.Columns.Remove("CPR_W_TIME");
+               dtExport.Columns.Remove("CPR_W_USER_ID");
+               dtExport.Columns.Remove("MGT2_SEQ_NO");
+               dtExport.AcceptChanges();
+            } else {
+               dtExport.Columns.Remove("MGT2_SEQ_NO");
+               dtExport.AcceptChanges();
+            }
+
             //2.1 設定gvExport
             gvExport.Columns.Clear();
             gvExport.OptionsBehavior.AutoPopulateColumns = true;
-            gcExport.DataSource = dtTarget;
+            gcExport.DataSource = dtExport;
             gvExport.BestFitColumns();
 
-            //2.2重新設定隱藏欄位不輸出
-            gvExport.Columns["MGT2_SEQ_NO"].Visible = false;//ken,從頭到尾都沒用到...
-            gvExport.Columns["CPR_EFFECTIVE_DATE"].AbsoluteIndex += 1;//ken,你碼看到的欄位順序跟匯出的不同
+            //2.2設定caption
+            if (ddlData.EditValue.AsString() == "KeyInfo") {
+               gvExport.SetColumnCaption("CPR_DATA_NUM" , "次數");
+               gvExport.SetColumnCaption("CPR_PROD_SUBTYPE" , "契約類別");
+               gvExport.SetColumnCaption("CPR_KIND_ID" , "契約代號");
+               gvExport.SetColumnCaption("CPR_PRICE_RISK_RATE" , "最小風險價格係數");
+               gvExport.Columns["CPR_PRICE_RISK_RATE"].DisplayFormat.FormatString = "##0.######";
+               gvExport.SetColumnCaption("CPR_EFFECTIVE_DATE" , "系統生效日");
+               gvExport.SetColumnCaption("CPR_APPROVAL_DATE" , "主管機關核准日期");
+               gvExport.SetColumnCaption("PROD_TYPE" , "prod_type");
+            } else {
+               gvExport.SetColumnCaption("CPR_DATA_NUM" , "次數");
+               gvExport.SetColumnCaption("CPR_PROD_SUBTYPE" , "契約類別(I指數C黃金R利率S股票)");
+               gvExport.SetColumnCaption("CPR_KIND_ID" , "契約代號");
+               gvExport.SetColumnCaption("CPR_PRICE_RISK_RATE" , "最小風險價格係數(已下市契約之最小風險價格係數顯示空白；有效契約之最小風險價格係數不可為空白)");
+               gvExport.Columns["CPR_PRICE_RISK_RATE"].DisplayFormat.FormatString = "##0.######";
+               gvExport.SetColumnCaption("CPR_EFFECTIVE_DATE" , "系統生效日");
+               gvExport.SetColumnCaption("CPR_APPROVAL_DATE" , "主管機關核准日期");
 
-            //2.3設定caption
-            gvExport.SetColumnCaption("CPR_DATA_NUM" , "次數");
-            gvExport.SetColumnCaption("CPR_PROD_SUBTYPE" , (ddlData.EditValue.AsString() == "KeyInfo" ?
-                                                                                                "契約類別" :
-                                                                                                "契約類別(I指數C黃金R利率S股票)"));
-            gvExport.SetColumnCaption("CPR_KIND_ID" , "契約代號");
-            gvExport.SetColumnCaption("CPR_EFFECTIVE_DATE" , "系統生效日");
-            gvExport.SetColumnCaption("CPR_PRICE_RISK_RATE" , (ddlData.EditValue.AsString() == "KeyInfo" ?
-                                    "最小風險價格係數" :
-                                    "最小風險價格係數(已下市契約之最小風險價格係數顯示空白；有效契約之最小風險價格係數不可為空白)"));
-            gvExport.SetColumnCaption("CPR_APPROVAL_DATE" , "主管機關核准日期");
+               //只有detail才有以下這些欄位
+               gvExport.SetColumnCaption("CPR_APPROVAL_NUMBER" , "主管機關核准文號");
+               gvExport.SetColumnCaption("CPR_REMARK" , "備註");
+               gvExport.SetColumnCaption("CPR_W_TIME" , "異動時間");
+               gvExport.SetColumnCaption("CPR_W_USER_ID" , "異動人員");
 
-            //2.3只有detail才有以下這些欄位,有做一個擴充函數,就算沒有這些欄位,設定也不會發生錯誤
-            gvExport.SetColumnCaption("CPR_APPROVAL_NUMBER" , "主管機關核准文號");
-            gvExport.SetColumnCaption("CPR_REMARK" , "備註");
-            gvExport.SetColumnCaption("CPR_W_TIME" , "異動時間");
-            gvExport.SetColumnCaption("CPR_W_USER_ID" , "異動人員");
+               gvExport.SetColumnCaption("PROD_TYPE" , "prod_type");
+            }
 
-            //2.4統一設定欄位靠左靠右把一些欄位靠左(沒影響到excel)
-            gvExport.Appearance.Row.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;//設定全部欄位先置中
-            gvExport.SetColumnHAlignment("CPR_APPROVAL_NUMBER" , DevExpress.Utils.HorzAlignment.Default);
-            gvExport.SetColumnHAlignment("CPR_REMARK" , DevExpress.Utils.HorzAlignment.Default);
+            //2.3統一設定欄位靠左靠右把一些欄位靠左(沒影響到excel)
+            //gvExport.Appearance.Row.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;//設定全部欄位先置中
+            //gvExport.SetColumnHAlignment("CPR_APPROVAL_NUMBER" , DevExpress.Utils.HorzAlignment.Default);
+            //gvExport.SetColumnHAlignment("CPR_REMARK" , DevExpress.Utils.HorzAlignment.Default);
 
             //3.gird export to excel
             string excelDestinationPath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH ,
@@ -282,7 +344,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                _ReportHelper.Create(reportPortrait);
             } else {
                //明細資料,欄位比較多
-               CommonReportLandscapeA4 reportLandscape = new CommonReportLandscapeA4();//設定為橫向列印
+               CommonReportLandscapeA3 reportLandscape = new CommonReportLandscapeA3();//設定為橫向列印
                reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
                reportLandscape.IsHandlePersonVisible = false;
                reportLandscape.IsManagerVisible = false;
@@ -304,8 +366,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
          }
          return ResultStatus.Fail;
       }
-
-
 
       private void ddlSubType_EditValueChanged(object sender , EventArgs e) {
          DevExpress.XtraEditors.LookUpEdit ddl = (sender as DevExpress.XtraEditors.LookUpEdit);
