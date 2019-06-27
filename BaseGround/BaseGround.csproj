@@ -206,12 +206,6 @@
     <Compile Include="Widget\TextDateEdit.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Widget\ucW500xx.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Widget\ucW500xx.Designer.cs">
-      <DependentUpon>ucW500xx.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="FormLogin.resx">
@@ -243,9 +237,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormWait.resx">
       <DependentUpon>FormWait.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Widget\ucW500xx.resx">
-      <DependentUpon>ucW500xx.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
