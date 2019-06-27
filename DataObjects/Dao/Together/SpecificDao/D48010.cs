@@ -6,19 +6,19 @@ using System.Reflection;
 /// ken,2019/3/18
 /// </summary>
 namespace DataObjects.Dao.Together.SpecificDao {
-    /// <summary>
-    /// 最小風險價格係數現況查詢
-    /// </summary>
-    public class D48010 : DataGate {
+   /// <summary>
+   /// 最小風險價格係數現況查詢
+   /// </summary>
+   public class D48010 : DataGate {
 
 
-        /// <summary>
-        /// 契約代號 return mgt2_seq_no/mgt2_kind_id/mgt2_prod_subtype
-        /// </summary>
-        /// <returns></returns>
-        public DataTable ListKind() {
+      /// <summary>
+      /// 契約代號 return mgt2_seq_no/mgt2_kind_id/mgt2_prod_subtype
+      /// </summary>
+      /// <returns></returns>
+      public DataTable ListKind() {
 
-            string sql = @"
+         string sql = @"
 select mgt2_seq_no,
     mgt2_kind_id,
     mgt2_prod_subtype
@@ -28,96 +28,154 @@ or mgt2_kind_id in ('ETF','ETC'))
 order by mgt2_seq_no";
 
 
-            DataTable dtResult = db.GetDataTable(sql, null);
+         DataTable dtResult = db.GetDataTable(sql , null);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        // 專案的namespace
-        //private static readonly string AssemblyName = "DataObjects";//其實就是最後compile出來的dll名稱
+      // 專案的namespace
+      //private static readonly string AssemblyName = "DataObjects";//其實就是最後compile出來的dll名稱
 
-        /// <summary>
-        /// 針對不同的grid data source,合併相同的輸入與輸出
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public IGridData CreateGridData(Type type, string name) {
+      /// <summary>
+      /// 針對不同的grid data source,合併相同的輸入與輸出
+      /// </summary>
+      /// <param name="name"></param>
+      /// <returns></returns>
+      public IGridData CreateGridData(Type type , string name) {
 
-            //string className = string.Format("{0}.Dao.Together.SpecificDao.{1}",AssemblyName, name);//完整的class路徑
+         //string className = string.Format("{0}.Dao.Together.SpecificDao.{1}",AssemblyName, name);//完整的class路徑
 
-            string AssemblyName = type.Namespace.Split('.')[0];//最後compile出來的dll名稱
-            string className = type.FullName + name;//完整的class路徑
+         string AssemblyName = type.Namespace.Split('.')[0];//最後compile出來的dll名稱
+         string className = type.FullName + name;//完整的class路徑
 
-            // 這裡就是Reflection，直接依照className實體化具體類別
-            return (IGridData)Assembly.Load(AssemblyName).CreateInstance(className);
-        }
+         // 這裡就是Reflection，直接依照className實體化具體類別
+         return (IGridData)Assembly.Load(AssemblyName).CreateInstance(className);
+      }
 
-    }
+      /// <summary>
+      /// for export, return 11 fields
+      /// </summary>
+      /// <param name="ad_date">yyyy/MM/dd</param>
+      /// <param name="as_prod_subtype"></param>
+      /// <param name="as_kind_id"></param>
+      /// <param name="as_sort_type"></param>
+      /// <param name="as_export"> Y = Export / N = Retrieve</param>
+      /// <returns></returns>
+      public DataTable ListAll2(DateTime ad_date , string as_prod_subtype , string as_kind_id , string as_sort_type, string as_export = "Y") {
 
-    public class Q48010 {
-        public DateTime ad_date { get; set; }
-        public string as_prod_subtype { get; set; }
-        public string as_kind_id { get; set; }
-        /// <summary>
-        /// 只為了排序,value=DATE/KIND
-        /// </summary>
-        public string as_sort_type { get; set; }
+         object[] parms = {
+                ":ad_date", ad_date,
+                ":as_prod_subtype", as_prod_subtype,
+                ":as_kind_id", as_kind_id,
+                ":as_sort_type", as_sort_type,
+                ":as_export", as_export
+            };
 
-        public Q48010(DateTime ad_date, string as_prod_subtype, string as_kind_id, string as_sort_type = "DATE") {
-            this.ad_date = ad_date;
-            this.as_prod_subtype = as_prod_subtype;
-            this.as_kind_id = as_kind_id;
-            this.as_sort_type = as_sort_type;
-        }
+         string sql = @"
+select 
+   cpr_prod_subtype,
+   cpr_kind_id,
+   cpr_price_risk_rate,
+   to_char(cpr_effective_date,'yyyy/mm/dd') as cpr_effective_date,
+   to_char(cpr_approval_date,'yyyy/mm/dd') as cpr_approval_date,
 
-        /// <summary>
-        /// convert all Properties to object[]
-        /// </summary>
-        /// <returns></returns>
-        public object[] ToParam() {
-            object[] aryParam = new object[GetType().GetProperties().Length * 2];
-            int pos = 0;
+   cpr_approval_number,
+   cpr_remark,
+   decode(:as_export,'Y',to_char(cpr_w_time,'yyyy/mm/dd hh24:mi:ss.ff') ,to_char(cpr_w_time,'yyyy/mm/dd hh24:mi:ss')) as cpr_w_time,
+   cpr_w_user_id, 
+   nvl(mgt2_seq_no,999) as seq_no,
 
-            foreach (var prop in GetType().GetProperties()) {
-                aryParam[pos++] = ":" + prop.Name;//":"其實可不用
-                aryParam[pos++] = prop.GetValue(this);
-            }
+   mgt2_prod_type as prod_type
+from 
+   ci.hcpr,
+   ci.mgt2,
+   (select 
+      cpr_kind_id as max_kind_id,
+      max(cpr_effective_date) as max_effective_date
+    from ci.hcpr
+    where cpr_effective_date <= :ad_date
+    group by cpr_kind_id)
+where cpr_kind_id = mgt2_kind_id(+)
+and (nvl(mgt2_data_type,' ') = ' ' or mgt2_kind_id in ('ETF','ETC'))
+and cpr_prod_subtype like :as_prod_subtype
+and cpr_kind_id like :as_kind_id
+and cpr_kind_id = max_kind_id
+and cpr_effective_date = max_effective_date
+and nvl(cpr_price_risk_rate,-999) <> -999
+order by decode(:as_sort_type,'DATE',cpr_effective_date,cpr_prod_subtype) , cpr_prod_subtype , prod_type , cpr_kind_id , cpr_effective_date
+";
 
-            return aryParam;
-        }
-    }
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
-    public interface IGridData {
-        //第一次改寫(廢除)
-        DataTable ListAll(DateTime ad_date, string as_prod_subtype, string as_kind_id, string as_sort_type = "DATE");
+         return dtResult;
+      }
 
-        DataTable ListAll(Q48010 query);
-    }
+   }
 
-    /// <summary>
-    /// 重點資料
-    /// </summary>
-    public class D48010KeyInfo : DataGate, IGridData {
+   public class Q48010 {
+      public DateTime ad_date { get; set; }
+      public string as_prod_subtype { get; set; }
+      public string as_kind_id { get; set; }
+      /// <summary>
+      /// 只為了排序,value=DATE/KIND
+      /// </summary>
+      public string as_sort_type { get; set; }
 
-        /// <summary>
-        /// 第一次改寫(廢除) 重點資料, return 8 fields
-        /// </summary>
-        /// <param name="ad_date"></param>
-        /// <param name="as_prod_subtype"></param>
-        /// <param name="as_kind_id"></param>
-        /// <param name="as_sort_type">只為了排序,value=DATE/KIND</param>
-        /// <returns></returns>
-        public DataTable ListAll(DateTime ad_date, string as_prod_subtype, string as_kind_id, string as_sort_type = "DATE") {
+      public Q48010(DateTime ad_date , string as_prod_subtype , string as_kind_id , string as_sort_type = "DATE") {
+         this.ad_date = ad_date;
+         this.as_prod_subtype = as_prod_subtype;
+         this.as_kind_id = as_kind_id;
+         this.as_sort_type = as_sort_type;
+      }
 
-            object[] parms = {
+      /// <summary>
+      /// convert all Properties to object[]
+      /// </summary>
+      /// <returns></returns>
+      public object[] ToParam() {
+         object[] aryParam = new object[GetType().GetProperties().Length * 2];
+         int pos = 0;
+
+         foreach (var prop in GetType().GetProperties()) {
+            aryParam[pos++] = ":" + prop.Name;//":"其實可不用
+            aryParam[pos++] = prop.GetValue(this);
+         }
+
+         return aryParam;
+      }
+   }
+
+   public interface IGridData {
+      //第一次改寫(廢除)
+      DataTable ListAll(DateTime ad_date , string as_prod_subtype , string as_kind_id , string as_sort_type = "DATE");
+
+      DataTable ListAll(Q48010 query);
+   }
+
+   /// <summary>
+   /// 重點資料
+   /// </summary>
+   public class D48010KeyInfo : DataGate, IGridData {
+
+      /// <summary>
+      /// 第一次改寫(廢除) 重點資料, return 8 fields
+      /// </summary>
+      /// <param name="ad_date"></param>
+      /// <param name="as_prod_subtype"></param>
+      /// <param name="as_kind_id"></param>
+      /// <param name="as_sort_type">只為了排序,value=DATE/KIND</param>
+      /// <returns></returns>
+      public DataTable ListAll(DateTime ad_date , string as_prod_subtype , string as_kind_id , string as_sort_type = "DATE") {
+
+         object[] parms = {
                 ":ad_date", ad_date,
                 ":as_prod_subtype", as_prod_subtype,
                 ":as_kind_id", as_kind_id
             };
 
-            string sort = (as_sort_type == "DATE" ? "cpr_effective_date" : "cpr_prod_subtype");
+         string sort = (as_sort_type == "DATE" ? "cpr_effective_date" : "cpr_prod_subtype");
 
-            string sql = string.Format(@"
+         string sql = string.Format(@"
 select cpr_prod_subtype,
     cod.cod_desc,
     cpr_kind_id,
@@ -149,26 +207,26 @@ select cpr_prod_subtype,
    and cpr_prod_subtype like :as_prod_subtype
    and cpr_kind_id like :as_kind_id
 order by {0} , cpr_prod_subtype , prod_type , cpr_kind_id , cpr_effective_date
-", sort);
+" , sort);
 
 
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        /// <summary>
-        /// 重點資料, return 8 fields
-        /// </summary>
-        /// <param name="query">ref Q48010</param>
-        /// <returns></returns>
-        public DataTable ListAll(Q48010 query) {
+      /// <summary>
+      /// 重點資料, return 8 fields
+      /// </summary>
+      /// <param name="query">ref Q48010</param>
+      /// <returns></returns>
+      public DataTable ListAll(Q48010 query) {
 
-            object[] parms = query.ToParam();
+         object[] parms = query.ToParam();
 
-            string sort = (query.as_sort_type == "DATE" ? "cpr_effective_date" : "cpr_prod_subtype");
+         string sort = (query.as_sort_type == "DATE" ? "cpr_effective_date" : "cpr_prod_subtype");
 
-            string sql = string.Format(@"
+         string sql = string.Format(@"
 select cpr_prod_subtype,
     cod.cod_desc,
     cpr_kind_id,
@@ -200,39 +258,40 @@ select cpr_prod_subtype,
    and cpr_prod_subtype like :as_prod_subtype
    and cpr_kind_id like :as_kind_id
 order by {0} , cpr_prod_subtype , prod_type , cpr_kind_id , cpr_effective_date
-", sort);
+" , sort);
 
 
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
-            return dtResult;
-        }
-    }
+         return dtResult;
+      }
 
-    /// <summary>
-    /// 明細資料
-    /// </summary>
-    public class D48010Detail : DataGate, IGridData {
+   }
 
-        /// <summary>
-        /// 第一次改寫(廢除) 明細資料, return 12 fields
-        /// </summary>
-        /// <param name="ad_date"></param>
-        /// <param name="as_prod_subtype"></param>
-        /// <param name="as_kind_id"></param>
-        /// <param name="as_sort_type">只為了排序,value=DATE/KIND</param>
-        /// <returns></returns>
-        public DataTable ListAll(DateTime ad_date, string as_prod_subtype, string as_kind_id, string as_sort_type = "DATE") {
+   /// <summary>
+   /// 明細資料
+   /// </summary>
+   public class D48010Detail : DataGate, IGridData {
 
-            object[] parms = {
+      /// <summary>
+      /// 第一次改寫(廢除) 明細資料, return 12 fields
+      /// </summary>
+      /// <param name="ad_date"></param>
+      /// <param name="as_prod_subtype"></param>
+      /// <param name="as_kind_id"></param>
+      /// <param name="as_sort_type">只為了排序,value=DATE/KIND</param>
+      /// <returns></returns>
+      public DataTable ListAll(DateTime ad_date , string as_prod_subtype , string as_kind_id , string as_sort_type = "DATE") {
+
+         object[] parms = {
                 ":ad_date", ad_date,
                 ":as_prod_subtype", as_prod_subtype,
                 ":as_kind_id", as_kind_id
             };
 
-            string sort = (as_sort_type == "DATE" ? "cpr_effective_date" : "cpr_prod_subtype");
+         string sort = (as_sort_type == "DATE" ? "cpr_effective_date" : "cpr_prod_subtype");
 
-            string sql = string.Format(@"
+         string sql = string.Format(@"
 select cpr_prod_subtype,
     cod.cod_desc,
     cpr_kind_id,
@@ -264,26 +323,26 @@ select cpr_prod_subtype,
    and cpr_prod_subtype like :as_prod_subtype
    and cpr_kind_id like :as_kind_id
 order by {0} , cpr_prod_subtype , prod_type , cpr_kind_id , cpr_effective_date
-", sort);
+" , sort);
 
 
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        /// <summary>
-        /// 明細資料, return 12 fields
-        /// </summary>
-        /// <param name="query">ref Q48010</param>
-        /// <returns></returns>
-        public DataTable ListAll(Q48010 query) {
+      /// <summary>
+      /// 明細資料, return 12 fields
+      /// </summary>
+      /// <param name="query">ref Q48010</param>
+      /// <returns></returns>
+      public DataTable ListAll(Q48010 query) {
 
-            object[] parms = query.ToParam();
+         object[] parms = query.ToParam();
 
-            string sort = (query.as_sort_type == "DATE" ? "cpr_effective_date" : "cpr_prod_subtype");
+         string sort = (query.as_sort_type == "DATE" ? "cpr_effective_date" : "cpr_prod_subtype");
 
-            string sql = string.Format(@"
+         string sql = string.Format(@"
 select cpr_prod_subtype,
     cod.cod_desc,
     cpr_kind_id,
@@ -315,12 +374,12 @@ select cpr_prod_subtype,
    and cpr_prod_subtype like :as_prod_subtype
    and cpr_kind_id like :as_kind_id
 order by {0} , cpr_prod_subtype , prod_type , cpr_kind_id , cpr_effective_date
-", sort);
+" , sort);
 
 
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
-            return dtResult;
-        }
-    }
+         return dtResult;
+      }
+   }
 }
