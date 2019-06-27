@@ -22,10 +22,11 @@ namespace DataObjects.Dao.Together.SpecificDao {
         /// </summary>
         /// <param name="as_ym">年月</param>
         /// <returns></returns>
-        public DataTable ListByDate(string as_ym) {
+        public DataTable ListByDate(string as_ym, string as_session="0") {
 
             object[] parms = {
-                "@as_ym",as_ym
+                ":as_ym",as_ym,
+                ":as_session", as_session
             };
 
             string sql =
@@ -44,11 +45,12 @@ FROM (SELECT FEETRD_FCM_NO,FEETRD_ACC_NO,
         WHERE FEETRD_YM = :as_ym    
          AND FEETRD_FCM_KIND = '3'
          AND (FEETRD_PARAM_KEY = FEETRD_KIND_ID or FEETRD_KIND_ID = 'TXW')
-         --AND FEETRD_SESSION = :as_session
-        Order By feetrd_fcm_no,
-             feetrd_acc_no,
-             rpt_seq_no) a
+         AND FEETRD_SESSION = :as_session
+        ) a
 WHERE a.rpt_seq_no <> 0
+Order By feetrd_fcm_no,
+             feetrd_acc_no,
+             rpt_seq_no
                     ";
             DataTable dtResult = db.GetDataTable(sql, parms);
 
