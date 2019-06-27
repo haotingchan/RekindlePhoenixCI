@@ -233,8 +233,9 @@ namespace PhoenixCI.BusinessLogic.Prefix4
 
             //讀取資料
             DataTable dtNotETF = dao40040.List40040SP(emdate, _oswGrpVal);
-            //dt.Filter("PDK_PARAM_KEY not in ('ETF','ETC')").Sort("RPT_SEQ_NO, DATA_KIND_ID");
-            DataTable dt = dtNotETF.Filter("PDK_PARAM_KEY not in ('ETF','ETC')").Sort("RPT_SEQ_NO, DATA_KIND_ID");
+            //dt.Filter("ISNULL(PDK_PARAM_KEY,'') not in ('ETF','ETC')").Sort("RPT_SEQ_NO, DATA_KIND_ID");
+            //DataTable dt = dtNotETF.AsEnumerable().Where(r => r.Field<object>("PDK_PARAM_KEY").AsString()!="ETF" && r.Field<object>("PDK_PARAM_KEY").AsString() != "ETC").CopyToDataTable().Sort("RPT_SEQ_NO, DATA_KIND_ID");
+            DataTable dt = dtNotETF.Filter("ISNULL(PDK_PARAM_KEY,'') not in ('ETF','ETC')").Sort("RPT_SEQ_NO, DATA_KIND_ID");
             if (dt.Rows.Count <= 0) {
                return MessageDisplay.MSG_NO_DATA;
             }
