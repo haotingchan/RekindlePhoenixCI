@@ -57,7 +57,7 @@
             this.panelControl.Location = new System.Drawing.Point(30, 30);
             this.panelControl.Margin = new System.Windows.Forms.Padding(15);
             this.panelControl.Name = "panelControl";
-            this.panelControl.Size = new System.Drawing.Size(323, 164);
+            this.panelControl.Size = new System.Drawing.Size(442, 164);
             this.panelControl.TabIndex = 20;
             // 
             // lblProcessing
