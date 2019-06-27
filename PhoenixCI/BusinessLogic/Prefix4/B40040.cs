@@ -329,7 +329,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             int rowIndex = 7;
             foreach (DataRow row in dt.Rows) {
                //序號
-               worksheet.Cells[$"B{rowIndex}"].SetValue(row["RPT_SEQ_NO"]);
+               worksheet.Cells[$"B{rowIndex}"].SetValue(rowIndex - 6);
                //股票期貨英文代碼
                worksheet.Cells[$"C{rowIndex}"].SetValue(row["DATA_KIND_ID"]);
                //股票期貨中文簡稱
