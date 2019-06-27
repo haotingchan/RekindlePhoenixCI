@@ -495,7 +495,8 @@ namespace PhoenixCI.FormUI.Prefix5
          stMsgTxt.Visible = true;
          stMsgTxt.Text = "轉檔有錯誤!";
 
-         File.Delete(_D500Xx.Filename);
+         if (File.Exists(_D500Xx.Filename))
+            File.Delete(_D500Xx.Filename);
       }
 
       private void gbGroup_EditValueChanged(object sender, EventArgs e)

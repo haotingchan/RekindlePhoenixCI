@@ -479,7 +479,8 @@ namespace PhoenixCI.FormUI.Prefix5
          stMsgTxt.Visible = true;
          stMsgTxt.Text = "轉檔有錯誤!";
 
-         File.Delete(_D500Xx.Filename);
+         if (File.Exists(_D500Xx.Filename))
+            File.Delete(_D500Xx.Filename);
       }
 
       private void gbGroup_EditValueChanged(object sender, EventArgs e)
@@ -738,23 +739,19 @@ namespace PhoenixCI.FormUI.Prefix5
 
       protected override ResultStatus Export()
       {
-         if (_defReport == null) {
-            MessageDisplay.Info("請先按讀取!");
-            return ResultStatus.Fail;
-         }
 
          string lsRptName = ConditionText().Trim();
          StartExport(_ProgramID, lsRptName);
 
          try {
-            
-            //開啟檔案
-            Workbook workbook = new Workbook();
 
             //讀取資料
-            if (_Data.Rows.Count <= 0) {
+            if (_Data == null || _Data.Rows.Count <= 0|| _defReport == null) {
+               MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
                return ResultStatus.Fail;
             }
+            //開啟檔案
+            Workbook workbook = new Workbook();
             //複製檔案
             _D500Xx.Filename = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
             if (_D500Xx.Filename == "") {

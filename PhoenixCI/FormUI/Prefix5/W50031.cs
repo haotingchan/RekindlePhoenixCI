@@ -313,7 +313,8 @@ namespace PhoenixCI.FormUI.Prefix5
          stMsgTxt.Visible = true;
          stMsgTxt.Text = "轉檔有錯誤!";
 
-         File.Delete(_D500Xx.Filename);
+         if (File.Exists(_D500Xx.Filename))
+            File.Delete(_D500Xx.Filename);
       }
 
       private void gbGroup_EditValueChanged(object sender, EventArgs e)
@@ -574,7 +575,7 @@ namespace PhoenixCI.FormUI.Prefix5
                (marketCode, sumSubtype, detailType, _D500Xx.Sdate, _D500Xx.Edate,
                _D500Xx.Sbrkno, _D500Xx.Ebrkno, isKey, prodSubtype, kindID2, lsText);
             if (_Data.Rows.Count <= 0) {
-               EndExport();
+               MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
                return ResultStatus.Fail;
             }
             /******************

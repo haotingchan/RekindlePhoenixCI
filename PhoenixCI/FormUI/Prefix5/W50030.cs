@@ -356,7 +356,8 @@ namespace PhoenixCI.FormUI.Prefix5
          stMsgTxt.Visible = true;
          stMsgTxt.Text = "轉檔有錯誤!";
 
-         File.Delete(_D500Xx.Filename);
+         if (File.Exists(_D500Xx.Filename))
+            File.Delete(_D500Xx.Filename);
       }
 
       /// <summary>
@@ -695,30 +696,28 @@ namespace PhoenixCI.FormUI.Prefix5
          base.Export();
          string lsRptName = ConditionText().Trim();
          StartExport(_ProgramID, lsRptName);
-         /******************
-         複製檔案
-         ******************/
-         _D500Xx.Filename = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
-         if (string.IsNullOrEmpty(_D500Xx.Filename)) {
-            return ResultStatus.Fail;
-         }
-         Workbook workbook = new Workbook();
+         
 
          try {
-            _D500Xx.LogText = _D500Xx.Filename;
+            //讀取資料
+            if (_Data == null || _Data.Rows.Count <= 0) {
+               MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
+               return ResultStatus.Fail;
+            }
+            /******************
+         複製檔案
+         ******************/
+            _D500Xx.Filename = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
+            if (string.IsNullOrEmpty(_D500Xx.Filename)) {
+               return ResultStatus.Fail;
+            }
+            
             /******************
             開啟檔案
             ******************/
+            Workbook workbook = new Workbook();
             workbook.LoadDocument(_D500Xx.Filename);
-
-            /******************
-            讀取資料
-            ******************/
-
-            if (_Data == null || _Data.Rows.Count <= 0) {
-               EndExport();
-               return ResultStatus.Fail;
-            }
+            _D500Xx.LogText = _D500Xx.Filename;
             /******************
             切換Sheet
             ******************/
@@ -781,14 +780,13 @@ namespace PhoenixCI.FormUI.Prefix5
             if (datatype == "D" && !gbGroup.EditValue.Equals("rb_gparam")) {
                worksheet.Columns[17 - 1].Delete();
             }
-
+            workbook.SaveDocument(_D500Xx.Filename);
          }
          catch (Exception ex) {
             WriteLog(ex);
             WfRunError();
          }
          finally {
-            workbook.SaveDocument(_D500Xx.Filename);
             EndExport();
          }
          return ResultStatus.Success;
