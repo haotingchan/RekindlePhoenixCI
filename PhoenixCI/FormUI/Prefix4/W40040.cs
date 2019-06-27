@@ -74,15 +74,11 @@ namespace PhoenixCI.FormUI.Prefix4
          
 
          string chkAi2 ="";
-         switch (oswGrp) {
-            case "1":
-               chkAi2 = PbFunc.f_chk_ai2(emDate.Text.Replace("/", ""), oswGrp, "N", oswGrpLookItem.SelectedText, 2);
-               break;
-            case "5":
-               chkAi2 = PbFunc.f_chk_ai2(emDate.Text.Replace("/", ""), oswGrp, "N", oswGrpLookItem.SelectedText, 1);
-               break;
-            default:
-               break;
+         if (oswGrp=="1"|| oswGrp=="%") {
+            chkAi2 = PbFunc.f_chk_ai2(emDate.Text.Replace("/", ""), oswGrp, "N", oswGrpLookItem.SelectedText, 2);
+         }
+         else if (oswGrp == "5" || oswGrp == "%") {
+            chkAi2 = PbFunc.f_chk_ai2(emDate.Text.Replace("/", ""), oswGrp, "N", oswGrpLookItem.SelectedText, 1);
          }
 
          if (chkAi2 != "") {

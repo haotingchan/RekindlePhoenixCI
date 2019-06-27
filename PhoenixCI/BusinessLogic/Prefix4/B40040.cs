@@ -233,8 +233,9 @@ namespace PhoenixCI.BusinessLogic.Prefix4
 
             //讀取資料
             DataTable dtNotETF = dao40040.List40040SP(emdate, _oswGrpVal);
-            //dt.Filter("PDK_PARAM_KEY not in ('ETF','ETC')").Sort("RPT_SEQ_NO, DATA_KIND_ID");
-            DataTable dt = dtNotETF.Filter("PDK_PARAM_KEY not in ('ETF','ETC')").Sort("RPT_SEQ_NO, DATA_KIND_ID");
+            //dt.Filter("ISNULL(PDK_PARAM_KEY,'') not in ('ETF','ETC')").Sort("RPT_SEQ_NO, DATA_KIND_ID");
+            //DataTable dt = dtNotETF.AsEnumerable().Where(r => r.Field<object>("PDK_PARAM_KEY").AsString()!="ETF" && r.Field<object>("PDK_PARAM_KEY").AsString() != "ETC").CopyToDataTable().Sort("RPT_SEQ_NO, DATA_KIND_ID");
+            DataTable dt = dtNotETF.Filter("ISNULL(PDK_PARAM_KEY,'') not in ('ETF','ETC')").Sort("RPT_SEQ_NO, DATA_KIND_ID");
             if (dt.Rows.Count <= 0) {
                return MessageDisplay.MSG_NO_DATA;
             }
@@ -246,14 +247,23 @@ namespace PhoenixCI.BusinessLogic.Prefix4
 
                #region 1.各項指標計算結算保證金變動幅度
                //1.簡單移動平均法(SMA)
-               worksheet.Cells[$"C{rowIndex}"].SetValue(row["SMA_CHANGE_RANGE"]);
-               worksheet.Cells[$"D{rowIndex}"].SetValue(row["SMA_DAY_CNT"]);
+               if (row["SMA_CHANGE_FLAG"].AsString() == "Y") {
+                  worksheet.Cells[$"C{rowIndex}"].SetValue(row["SMA_CHANGE_RANGE"]);
+                  worksheet.Cells[$"D{rowIndex}"].SetValue(row["SMA_DAY_CNT"]);
+               }
+
                //2.加權指數移動平均法(EWMA)
-               worksheet.Cells[$"E{rowIndex}"].SetValue(row["EWMA_CHANGE_RANGE"]);
-               worksheet.Cells[$"F{rowIndex}"].SetValue(row["EWMA_DAY_CNT"]);
+               if (row["EWMA_CHANGE_FLAG"].AsString() == "Y") {
+                  worksheet.Cells[$"E{rowIndex}"].SetValue(row["EWMA_CHANGE_RANGE"]);
+                  worksheet.Cells[$"F{rowIndex}"].SetValue(row["EWMA_DAY_CNT"]);
+               }
+
                //3.簡單移動平均法
-               worksheet.Cells[$"G{rowIndex}"].SetValue(row["MAXV_CHANGE_RANGE"]);
-               worksheet.Cells[$"H{rowIndex}"].SetValue(row["MAXV_DAY_CNT"]);
+               if (row["MAXV_CHANGE_FLAG"].AsString() == "Y") {
+                  worksheet.Cells[$"G{rowIndex}"].SetValue(row["MAXV_CHANGE_RANGE"]);
+                  worksheet.Cells[$"H{rowIndex}"].SetValue(row["MAXV_DAY_CNT"]);
+               }
+                  
                #endregion
 
                #region 2.未沖銷部位數
@@ -328,7 +338,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             int rowIndex = 7;
             foreach (DataRow row in dt.Rows) {
                //序號
-               worksheet.Cells[$"B{rowIndex}"].SetValue(row["RPT_SEQ_NO"]);
+               worksheet.Cells[$"B{rowIndex}"].SetValue(rowIndex - 6);
                //股票期貨英文代碼
                worksheet.Cells[$"C{rowIndex}"].SetValue(row["DATA_KIND_ID"]);
                //股票期貨中文簡稱
@@ -340,14 +350,22 @@ namespace PhoenixCI.BusinessLogic.Prefix4
 
                #region 1.各項指標計算結算保證金變動幅度
                //1.簡單移動平均法(SMA)
-               worksheet.Cells[$"G{rowIndex}"].SetValue(row["SMA_CHANGE_RANGE"]);
-               worksheet.Cells[$"H{rowIndex}"].SetValue(row["SMA_DAY_CNT"]);
+               if (row["SMA_CHANGE_FLAG"].AsString() == "Y") {
+                  worksheet.Cells[$"G{rowIndex}"].SetValue(row["SMA_CHANGE_RANGE"]);
+                  worksheet.Cells[$"H{rowIndex}"].SetValue(row["SMA_DAY_CNT"]);
+               }
+
                //2.加權指數移動平均法(EWMA)
-               worksheet.Cells[$"I{rowIndex}"].SetValue(row["EWMA_CHANGE_RANGE"]);
-               worksheet.Cells[$"J{rowIndex}"].SetValue(row["EWMA_DAY_CNT"]);
+               if (row["EWMA_CHANGE_FLAG"].AsString() == "Y") {
+                  worksheet.Cells[$"I{rowIndex}"].SetValue(row["EWMA_CHANGE_RANGE"]);
+                  worksheet.Cells[$"J{rowIndex}"].SetValue(row["EWMA_DAY_CNT"]);
+               }
+
                //3.簡單移動平均法
-               worksheet.Cells[$"K{rowIndex}"].SetValue(row["MAXV_CHANGE_RANGE"]);
-               worksheet.Cells[$"L{rowIndex}"].SetValue(row["MAXV_DAY_CNT"]);
+               if (row["MAXV_CHANGE_FLAG"].AsString() == "Y") {
+                  worksheet.Cells[$"K{rowIndex}"].SetValue(row["MAXV_CHANGE_RANGE"]);
+                  worksheet.Cells[$"L{rowIndex}"].SetValue(row["MAXV_DAY_CNT"]);
+               }
                #endregion
 
                #region 2.未沖銷部位數
