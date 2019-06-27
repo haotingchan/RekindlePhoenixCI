@@ -31,20 +31,20 @@ namespace PhoenixCI.BusinessLogic.Prefix4.Tests
       [TestInitialize]
       public void Setup()
       {
-         b40040 = new B40040(destinationFilePath, "2018/10/12", "%");
+         b40040 = new B40040(destinationFilePath, "2018/10/12", "1");
       }
 
       [TestMethod()]
       public void Wf40040_Test()
       {
-         string msgText = b40040.Wf40040();
+         string msgText = b40040.WfSheetOne();
          Assert.IsNotNull(msgText);
       }
 
       [TestMethod()]
       public void Wf40040ETF_Test()
       {
-         string msgText = b40040.Wf40040ETF();
+         string msgText = b40040.WfSheetTwo();
          Assert.IsNotNull(msgText);
       }
 

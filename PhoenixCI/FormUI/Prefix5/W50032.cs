@@ -249,7 +249,8 @@ namespace PhoenixCI.FormUI.Prefix5
          stMsgTxt.Visible = true;
          stMsgTxt.Text = "轉檔有錯誤!";
 
-         File.Delete(_D500Xx.Filename);
+         if (File.Exists(_D500Xx.Filename))
+            File.Delete(_D500Xx.Filename);
       }
 
       /// <summary>
@@ -404,15 +405,6 @@ namespace PhoenixCI.FormUI.Prefix5
       {
          string rptName = ConditionText().Trim();
          StartExport(_ProgramID, "造市者報表");
-         /******************
-         複製檔案
-         ******************/
-         string lsFile = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
-
-         if (lsFile == "") {
-            return ResultStatus.Fail;
-         }
-         _D500Xx.LogText = lsFile;
 
          if (rptName == "") {
             rptName = "報表條件：" + "(" + DateText() + ")";
@@ -421,22 +413,29 @@ namespace PhoenixCI.FormUI.Prefix5
             rptName = ConditionText().Trim() + " " + "(" + DateText() + ")";
          }
 
-
-         /******************
-         開啟檔案
-         ******************/
-         Workbook workbook = new Workbook();
-         workbook.LoadDocument(lsFile);
-         /******************
-         切換Sheet
-         ******************/
-         Worksheet worksheet = workbook.Worksheets[0];
-         worksheet.Cells["E3"].Value = rptName;
-
          try {
-            if (_Data == null) {
+            if (_Data == null || _Data.Rows.Count <= 0) {
+               MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
                return ResultStatus.Fail;
             }
+
+            //複製檔案
+            string lsFile = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
+
+            if (lsFile == "") {
+               return ResultStatus.Fail;
+            }
+            _D500Xx.LogText = lsFile;
+
+            //開啟檔案
+            Workbook workbook = new Workbook();
+            workbook.LoadDocument(lsFile);
+            /******************
+            切換Sheet
+            ******************/
+            Worksheet worksheet = workbook.Worksheets[0];
+            worksheet.Cells["E3"].Value = rptName;
+
             int rowIndex = 5;
             foreach (DataRow row in _Data.Rows) {
                worksheet.Cells[$"A{rowIndex}"].SetValue(row["CP_ROW"]);
@@ -456,14 +455,15 @@ namespace PhoenixCI.FormUI.Prefix5
                worksheet.Cells[$"O{rowIndex}"].SetValue(row["AMM0_MARKET_M_QNTY"]);
                worksheet.Cells[$"P{rowIndex}"].SetValue(row["AMM0_KEEP_FLAG"]);
                rowIndex = rowIndex + 1;
-            }
+            }//foreach (DataRow row in _Data.Rows
+
+            workbook.SaveDocument(lsFile);
          }
          catch (Exception ex) {
             WriteLog(ex);
             WfRunError();
          }
          finally {
-            workbook.SaveDocument(lsFile);
             EndExport();
          }
 

@@ -109,15 +109,6 @@ namespace PhoenixCI.FormUI.Prefix3
          this.Refresh();
          Thread.Sleep(5);
       }
-      /// <summary>
-      /// show文字訊息
-      /// </summary>
-      private string OutputShowMessage {
-         set {
-            if (value != MessageDisplay.MSG_OK)
-               MessageDisplay.Info(value);
-         }
-      }
 
       protected override ResultStatus Export()
       {
@@ -128,20 +119,26 @@ namespace PhoenixCI.FormUI.Prefix3
          try {
             
             b30790 = new B30790(lsFile, emStartDate.Text, emEndDate.Text, emTxStartDate.Text, emTxEndDate.Text);
-
+            MessageDisplay message = new MessageDisplay();
             if (chkAvg.Checked) {
                ShowMsg("30790－盤後交易時段分時交易量分布 轉檔中...");
-               OutputShowMessage = b30790.Wf30790();
+               message.OutputShowMessage = b30790.Wf30790();
             }
             //TX每日日盤及夜盤之振幅及收盤價
             if (chkTx.Checked) {
                ShowMsg("30790_4－盤後交易時段分時交易量分布 轉檔中...");
-               OutputShowMessage = b30790.Wf30790four();
+               message.OutputShowMessage = b30790.Wf30790four();
             }
-
+            if (string.IsNullOrEmpty(message.OutputShowMessage)) {
+               if (File.Exists(lsFile))
+                  File.Delete(lsFile);
+               return ResultStatus.Fail;
+            }
          }
          catch (Exception ex) {
             WriteLog(ex);
+            if (File.Exists(lsFile))
+               File.Delete(lsFile);
             return ResultStatus.Fail;
          }
          finally {

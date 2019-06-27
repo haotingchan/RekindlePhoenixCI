@@ -22,7 +22,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// </summary>
       /// <param name="FilePath">Excel_Template</param>
       /// <param name="DatetimeVal">em_month.Text</param>
-      public B30380(string FilePath,string DatetimeVal)
+      public B30380(string FilePath, string DatetimeVal)
       {
          _lsFile = FilePath;
          _emMonthText = DatetimeVal;
@@ -52,7 +52,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             if (dt.Rows.Count <= 0) {
                return $"{StartDate.ToShortDateString()}～{EndDate.ToShortDateString()},30311－{RptName},{IsKindID}無任何資料!";
             }
-            
+
             DateTime ldtYMD = new DateTime(1900, 1, 1);
 
             RowTotal = 32 + 1;//Excel的Column預留數 預留顯示32行加上隱藏的1行
@@ -73,7 +73,9 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             //刪除空白列
             if (RowTotal > addRowCount) {
                //worksheet.Rows.Remove(RowIndex + 1, RowTotal - addRowCount);
+               worksheet.Range[$"{RowIndex + 2}:{RowTotal + 2}"].Clear();//清空沒有必要的數值
                worksheet.Rows.Hide(RowIndex + 1, RowIndex + (RowTotal - addRowCount));
+               //worksheet.Range[$"{RowIndex + 2}:{RowTotal + 2}"].Delete();
             }
 
          }
@@ -114,7 +116,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             if (dt.Rows.Count <= 0) {
                return $"{StartDate.ToShortDateString()}～{EndDate.ToShortDateString()},30311－{RptName},{IsKindID}無任何資料!";
             }
-            
+
             DateTime ldtYMD = new DateTime(1900, 1, 1);
 
             RowTotal = 32 + 1;//Excel的Column預留數 預留顯示32行加上隱藏的1行
@@ -135,7 +137,9 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             //刪除空白列
             if (RowTotal > addRowCount) {
                //worksheet.Rows.Remove(RowIndex + 1, RowTotal - addRowCount);
+               worksheet.Range[$"{RowIndex + 2}:{RowTotal + 2}"].Clear();//清空沒有必要的數值
                worksheet.Rows.Hide(RowIndex + 1, RowIndex + (RowTotal - addRowCount));
+               //worksheet.Range[$"{RowIndex + 2}:{RowTotal + 2}"].Delete();
             }
 
          }

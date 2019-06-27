@@ -54,7 +54,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="RowIndex">Excel的Row位置</param>
       /// <param name="RowTotal">Excel的Column預留數</param>
       /// <returns></returns>
-      public string Wf30396(string IsKindID = "BRF", string SheetName = "30396", int RowIndex=1, int RowTotal=33)
+      public string Wf30396(string IsKindID = "BRF", string SheetName = "30396", int RowIndex = 1, int RowTotal = 33)
       {
          try {
             //前月倒數2天交易日
@@ -67,11 +67,11 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             //無前月資料
 
             int addRowCount = 0;//總計寫入的行數
-            
+
             DataTable dtAI3 = new AI3().ListAI3(IsKindID, StartDate, EndDate);
             //讀取資料
             string firstDATE = dtAI3.AsEnumerable().FirstOrDefault()["AI3_DATE"].AsDateTime().ToString("yyyy/MM");
-            if (firstDATE==_emMonthText) {
+            if (firstDATE == _emMonthText) {
                RowIndex = RowIndex + 2;
             }
             //寫入資料
@@ -84,7 +84,9 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                   worksheet.Rows[RowIndex][1 - 1].Value = ldtYMD.ToString("MM/dd");
                }
                //if  not isnull(ld_val) then  iole_1.application.activecell(ii_ole_row, 3).value = ids_1.getitemdecimal(i, "ai3_close_price") - ids_1.getitemdecimal(i, "ai3_last_close_price")
-               //這段在PB不會執行成功 有寫跟沒寫一樣
+               //pb這段只會在Excel隱藏的欄位執行成功
+               if (RowIndex == 2 && row["AI3_LAST_CLOSE_PRICE"] != DBNull.Value)
+                  worksheet.Rows[RowIndex][3 - 1].Value = row["AI3_CLOSE_PRICE"].AsDecimal() - row["AI3_LAST_CLOSE_PRICE"].AsDecimal();
                worksheet.Rows[RowIndex][2 - 1].Value = row["AI3_CLOSE_PRICE"].AsDecimal();
                worksheet.Rows[RowIndex][4 - 1].Value = row["AI3_M_QNTY"].AsDecimal();
                worksheet.Rows[RowIndex][5 - 1].Value = row["AI3_OI"].AsDecimal();
@@ -95,7 +97,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                //重新選取圖表範圍
                ResetChartData(RowIndex + 1, _workbook, worksheet, $"{SheetName}a");//ex:30396a
             }
-            
+
          }
          catch (Exception ex) {
 #if DEBUG
@@ -116,7 +118,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="RowIndex">Excel的Row位置</param>
       /// <param name="RowTotal">Excel的Column預留數</param>
       /// <returns></returns>
-      public string Wf30396abc(string IsKindID= "BRF", string SheetName= "data_30396abc", int RowIndex = 3, int RowTotal = 12)
+      public string Wf30396abc(string IsKindID = "BRF", string SheetName = "data_30396abc", int RowIndex = 3, int RowTotal = 12)
       {
          try {
             return new B30398(_workbook, _emMonthText).Wf30333(IsKindID, SheetName);
@@ -126,6 +128,6 @@ namespace PhoenixCI.BusinessLogic.Prefix3
          }
       }
 
-      
+
    }
 }

@@ -354,7 +354,8 @@ namespace PhoenixCI.FormUI.Prefix5
          stMsgTxt.Visible = true;
          stMsgTxt.Text = "轉檔有錯誤!";
 
-         File.Delete(_D500Xx.Filename);
+         if (File.Exists(_D500Xx.Filename))
+            File.Delete(_D500Xx.Filename);
       }
 
       /// <summary>
@@ -668,6 +669,12 @@ namespace PhoenixCI.FormUI.Prefix5
                else {
                   dt = dao50020.List50020d(emStartDate.DateTimeValue, emEndDate.DateTimeValue);
                }
+
+               if (dt.Rows.Count <= 0) {
+                  MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
+                  return ResultStatus.Fail;
+               }
+
                dt.Columns["DATA_DATE"].ColumnName = "交易日期";
                dt.Columns["FCM"].ColumnName = "期貨商";
                dt.Columns["PROD"].ColumnName = "商品";
@@ -683,6 +690,12 @@ namespace PhoenixCI.FormUI.Prefix5
             }
 
             Retrieve();
+
+            //讀取資料
+            if (_Data.Rows.Count <= 0) {
+               MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
+               return ResultStatus.Fail;
+            }
 
             //複製檔案
             _D500Xx.Filename = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
@@ -702,11 +715,7 @@ namespace PhoenixCI.FormUI.Prefix5
             //切換Sheet
             Worksheet worksheet = workbook.Worksheets[0];
             worksheet.Cells["E3"].Value = lsRptName;
-            //讀取資料
-            if (_Data.Rows.Count <= 0) {
-               MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
-               return ResultStatus.Fail;
-            }
+            
             worksheet.Import(_Data, false, 4, 0);
             workbook.SaveDocument(_D500Xx.Filename);
          }

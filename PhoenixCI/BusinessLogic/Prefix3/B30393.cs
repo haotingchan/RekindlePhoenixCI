@@ -89,7 +89,9 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                   worksheet.Rows[RowIndex][1 - 1].Value = ldtYMD.ToString("MM/dd");
                }
                //if  not isnull(ld_val) then  iole_1.application.activecell(ii_ole_row, 3).value = ids_1.getitemdecimal(i, "ai3_close_price") - ids_1.getitemdecimal(i, "ai3_last_close_price")
-               //這段在PB不會執行成功 有寫跟沒寫一樣
+               //pb這段只會在Excel隱藏的欄位執行成功
+               if (RowIndex == 2 && row["AI3_LAST_CLOSE_PRICE"] != DBNull.Value)
+                  worksheet.Rows[RowIndex][3 - 1].Value = row["AI3_CLOSE_PRICE"].AsDecimal() - row["AI3_LAST_CLOSE_PRICE"].AsDecimal();
                worksheet.Rows[RowIndex][2 - 1].Value = row["AI3_CLOSE_PRICE"].AsDecimal();
                worksheet.Rows[RowIndex][4 - 1].Value = row["AI3_M_QNTY"].AsDecimal();
                worksheet.Rows[RowIndex][5 - 1].Value = row["AI3_OI"].AsDecimal();

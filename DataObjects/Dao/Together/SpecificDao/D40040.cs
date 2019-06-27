@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using BusinessObjects;
+using Common;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -640,6 +641,24 @@ namespace DataObjects.Dao.Together.SpecificDao
          return dtResult;
       }
 
+      /// <summary>
+      /// CI.sp_H_txn_40040_stat
+      /// </summary>
+      /// <param name="as_date"></param>
+      /// <param name="as_osw_grp"></param>
+      /// <returns></returns>
+      public DataTable List40040SP(DateTime as_date, string as_osw_grp)
+      {
+         List<DbParameterEx> parms = new List<DbParameterEx>() {
+            new DbParameterEx("as_date",as_date),
+            new DbParameterEx("as_osw_grp",as_osw_grp)
+            //new DbParameterEx("RETURNPARAMETER",0)
+         };
+
+         string sql = "CI.sp_H_txn_40040_stat";
+         DataTable dt = db.ExecuteStoredProcedureEx(sql, parms, true);
+         return dt;
+      }
 
    }
 }
