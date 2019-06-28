@@ -2,6 +2,7 @@
 using ActionService.DbDirect;
 using BaseGround;
 using BaseGround.Report;
+using BaseGround.Shared;
 using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
@@ -108,7 +109,7 @@ namespace PhoenixCI.FormUI.Prefix6
                 //轉統計資料W_AM
                 ResultData resultData = new ServiceCommon().ExecuteStoredProcedure("ci.sp_H_stt_W_AM", listParams, true);
 
-                string excelDestinationPath = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
+                string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID, _ProgramID); //CopyExcelTemplateFile(_ProgramID, FileType.XLS);
 
                 ManipulateExcel(excelDestinationPath);
 
