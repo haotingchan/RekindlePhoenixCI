@@ -518,7 +518,7 @@ namespace BaseGround {
                //開始前執行特別的Function
                string rtnText = RunBeforeEveryItem(args);
                if (!string.IsNullOrEmpty(rtnText)) {
-                  if (PbFunc.Left(rtnText, 4) == "不須執行") {
+                  if (PbFunc.Left(rtnText, 4) == "不需執行") {
                      LOGSP_MSG = "完成! (" + rtnText + ")";
                      gv.SetRowCellValue(i, "ERR_MSG", LOGSP_MSG);
                      gv.SetRowCellValue(i, "TXF_DEFAULT", 0);
@@ -659,16 +659,10 @@ namespace BaseGround {
                this.Invoke(new MethodInvoker(() => { gv.SetRowCellValue(i, "ERR_MSG", ""); }));
             }
 
-
-            if (i == gv.RowCount - 1) {
-               List<BO_OCF> ocfList = servicePrefix1.ListOCFList();
-               if (ocfList[1].OCF_DATE > ocfList[1].OCF_DATE) {
-
-               }
-            }
+             servicePrefix1.setOCF();
          }
 
-
+         //全部結束
          servicePrefix1.SetTXF1(" ", _ProgramID);
 
          this.Invoke(new MethodInvoker(() => { SplashScreenManager.CloseForm(); }));

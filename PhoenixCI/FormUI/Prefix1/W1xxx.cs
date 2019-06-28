@@ -23,7 +23,7 @@ namespace PhoenixCI.FormUI.Prefix1
         {
             InitializeComponent();
 
-            GridHelper.SetCommonGrid(gvMain);
+            GridHelper.SetCommonGrid(gvMain,true);
             GridHelper.SetCommonGrid(gvSpLog);
 
             PrintableComponent = gcMain;
@@ -132,6 +132,13 @@ namespace PhoenixCI.FormUI.Prefix1
             return result;
         }
 
+        protected override string RunBeforeEveryItem(PokeBall args)
+        {
+            base.RunBeforeEveryItem(args);
+
+            return "";
+        }
+
         protected override ResultStatus RunAfterEveryItem(PokeBall args)
         {
             base.RunAfterEveryItem(args);
@@ -150,6 +157,7 @@ namespace PhoenixCI.FormUI.Prefix1
 
         protected override ResultStatus Print(ReportHelper reportHelper)
         {
+            Retrieve();
             base.Print(reportHelper);
 
             return ResultStatus.Success;

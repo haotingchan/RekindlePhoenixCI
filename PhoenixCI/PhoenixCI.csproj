@@ -232,6 +232,18 @@
     <Compile Include="FormUI\Prefix1\W10022.Designer.cs">
       <DependentUpon>W10022.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormUI\Prefix1\W10053.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix1\W10053.Designer.cs">
+      <DependentUpon>W10053.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormUI\Prefix1\W10052.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix1\W10052.Designer.cs">
+      <DependentUpon>W10052.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormUI\Prefix1\W1xxx.cs">
       <SubType>Form</SubType>
     </Compile>
