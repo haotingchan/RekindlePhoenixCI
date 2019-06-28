@@ -1,6 +1,7 @@
 ﻿using ActionService;
 using BaseGround;
 using BaseGround.Report;
+using BaseGround.Shared;
 using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
@@ -8,6 +9,7 @@ using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
 using System.Data;
+using System.IO;
 
 namespace PhoenixCI.FormUI.Prefix6
 {
@@ -97,15 +99,19 @@ namespace PhoenixCI.FormUI.Prefix6
 
         protected override ResultStatus Export()
         {
+            if (txtStartDate.DateTimeValue > txtEndDate.DateTimeValue)
+            {
+                MessageDisplay.Error("起始日期不得大於結束日期!");
+                return ResultStatus.Fail;
+            }
+
             ExportShow.Text = "轉檔中...";
             ExportShow.Show();
             try
             {
                 base.Export();
-
-                string excelDestinationPath = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
-
-                ManipulateExcel(excelDestinationPath);
+                
+                return ManipulateExcel();
             }
             catch (Exception ex)
             {
@@ -113,29 +119,30 @@ namespace PhoenixCI.FormUI.Prefix6
                 WriteLog(ex);
                 return ResultStatus.Fail;
             }
-            ExportShow.Text = "轉檔成功!";
-
-
-            return ResultStatus.Success;
         }
 
-        private void ManipulateExcel(string excelDestinationPath)
+        private ResultStatus ManipulateExcel()
         {
+            string excelDestinationPath = "";
             Workbook workbook = new Workbook();
-            workbook.LoadDocument(excelDestinationPath);
-
-            Worksheet worksheet = workbook.Worksheets[0];
 
             DataTable dtContent = dao60320.ListData(txtStartDate.FormatValue, txtEndDate.FormatValue);
 
             if (dtContent.Rows.Count == 0)
             {
                 MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtStartDate.Text, this.Text));
+                ExportShow.Text = "轉檔失敗";
+                return ResultStatus.Fail;
             }
             else
             {
-                #region 明細
+                excelDestinationPath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
 
+                workbook.LoadDocument(excelDestinationPath);
+
+                Worksheet worksheet = workbook.Worksheets[0];
+
+                #region 明細
                 int rowIndex = 7;
                 foreach (DataRow row in dtContent.Rows)
                 {
@@ -164,10 +171,13 @@ namespace PhoenixCI.FormUI.Prefix6
                     worksheet.Rows.Remove(rowIndex, 306 - rowIndex + 1);
                 }
                 worksheet.Range["A1"].Select();
+                workbook.SaveDocument(excelDestinationPath);
 
+                ExportShow.Text = "轉檔成功!";
+
+                return ResultStatus.Success;
                 #endregion 明細
             }
-            workbook.SaveDocument(excelDestinationPath);
         }
 
         protected override ResultStatus Print(ReportHelper reportHelper)

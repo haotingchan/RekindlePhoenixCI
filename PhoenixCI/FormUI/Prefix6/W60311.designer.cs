@@ -37,11 +37,13 @@
             this.RPTF_TEXT = new DevExpress.XtraGrid.Columns.GridColumn();
             this.lblYear = new System.Windows.Forms.Label();
             this.txtYear = new BaseGround.Widget.TextDateEdit();
+            this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtYear.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
             this.SuspendLayout();
             // 
             // panParent
@@ -49,12 +51,12 @@
             this.panParent.Controls.Add(this.txtYear);
             this.panParent.Controls.Add(this.lblYear);
             this.panParent.Controls.Add(this.gcMain);
-            this.panParent.Size = new System.Drawing.Size(1027, 536);
+            this.panParent.Size = new System.Drawing.Size(1027, 538);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(1027, 32);
+            this.ribbonControl.Size = new System.Drawing.Size(1027, 30);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // gcMain
@@ -65,7 +67,9 @@
             this.gcMain.Location = new System.Drawing.Point(12, 44);
             this.gcMain.MainView = this.gvMain;
             this.gcMain.Name = "gcMain";
-            this.gcMain.Size = new System.Drawing.Size(1000, 477);
+            this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repositoryItemTextEdit1});
+            this.gcMain.Size = new System.Drawing.Size(1000, 479);
             this.gcMain.TabIndex = 0;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -116,6 +120,7 @@
             // RPTF_TEXT
             // 
             this.RPTF_TEXT.Caption = "文字說明";
+            this.RPTF_TEXT.ColumnEdit = this.repositoryItemTextEdit1;
             this.RPTF_TEXT.FieldName = "RPTF_TEXT";
             this.RPTF_TEXT.Name = "RPTF_TEXT";
             this.RPTF_TEXT.Visible = true;
@@ -146,9 +151,15 @@
             this.txtYear.Properties.Mask.ShowPlaceHolders = false;
             this.txtYear.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtYear.Properties.MaxLength = 4;
-            this.txtYear.Size = new System.Drawing.Size(63, 20);
+            this.txtYear.Size = new System.Drawing.Size(63, 26);
             this.txtYear.TabIndex = 5;
             this.txtYear.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
+            // 
+            // repositoryItemTextEdit1
+            // 
+            this.repositoryItemTextEdit1.AutoHeight = false;
+            this.repositoryItemTextEdit1.MaxLength = 200;
+            this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
             // 
             // W60311
             // 
@@ -164,6 +175,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtYear.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -180,5 +192,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn RPTF_SEQ_NO;
         private DevExpress.XtraGrid.Columns.GridColumn RPTF_TEXT;
         private BaseGround.Widget.TextDateEdit txtYear;
+        private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit1;
     }
 }
