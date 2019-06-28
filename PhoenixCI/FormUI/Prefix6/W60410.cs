@@ -1,6 +1,7 @@
 ﻿using ActionService;
 using BaseGround;
 using BaseGround.Report;
+using BaseGround.Shared;
 using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
@@ -9,6 +10,7 @@ using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
 using System.Data;
+using System.IO;
 using System.Linq;
 
 namespace PhoenixCI.FormUI.Prefix6
@@ -46,7 +48,9 @@ namespace PhoenixCI.FormUI.Prefix6
 
         private DateTime _3M;
 
-      private D60410 dao60410;
+        private D60410 dao60410;
+
+        private int flag;
 
         public W60410(string programID, string programName) : base(programID, programName)
         {
@@ -129,16 +133,28 @@ namespace PhoenixCI.FormUI.Prefix6
             ExportShow.Text = "轉檔中...";
             ExportShow.Show();
 
+            string excelDestinationPath = "";
+
             try
             {
                 base.Export();
 
-                string excelDestinationPath = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
+                excelDestinationPath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
+
+                flag = 0;
 
                 ManipulateExcel(excelDestinationPath);
+
+                if (flag == 0)
+                {
+                    File.Delete(excelDestinationPath);
+                    ExportShow.Text = "轉檔失敗";
+                    return ResultStatus.Fail;
+                }
             }
             catch (Exception ex)
             {
+                File.Delete(excelDestinationPath);
                 ExportShow.Text = "轉檔失敗";
                 WriteLog(ex);
                 return ResultStatus.Fail;
@@ -188,6 +204,7 @@ namespace PhoenixCI.FormUI.Prefix6
                     }
                 }
                 worksheet.Range["A1"].Select();
+                flag++;
 
                 #endregion 明細
             }
@@ -232,6 +249,7 @@ namespace PhoenixCI.FormUI.Prefix6
                         }
                     }
                 }
+                flag++;
             }
 
             //1. 未符合「成份股檔數≧10」
@@ -310,6 +328,7 @@ namespace PhoenixCI.FormUI.Prefix6
                         worksheet.Cells[row, j].SetValue(dtContent2.Rows[i][j]);
                     }
                 }
+                flag++;
             }
 
             #endregion 60410_2
@@ -331,6 +350,7 @@ namespace PhoenixCI.FormUI.Prefix6
                         worksheet.Cells[row, j].SetValue(dtContent3.Rows[i][j]);
                     }
                 }
+                flag++;
             }
 
             #endregion 60410_3

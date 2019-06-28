@@ -391,9 +391,9 @@
         private DevExpress.XtraGrid.Columns.GridColumn gcol_gcLogsp_LOGSP_BEGIN_TIME;
         private DevExpress.XtraGrid.Columns.GridColumn gcol_gcLogsp_LOGSP_END_TIME;
         public DevExpress.XtraGrid.Columns.GridColumn gcol_gcLogsp_LOGSP_MSG;
-        private BaseGround.Widget.TextDateEdit txtOcfDate;
         private System.Windows.Forms.Button btnUnselectedAll;
         private System.Windows.Forms.Button btnSelectAll;
-        private System.Windows.Forms.Label lblOcfDate;
+        protected BaseGround.Widget.TextDateEdit txtOcfDate;
+        protected System.Windows.Forms.Label lblOcfDate;
     }
 }

@@ -42,11 +42,12 @@ FROM {0}.OCF", _dbType);
         }
 
         public BO_OCF GetOCF() {
-            BO_OCF boOCF = new BO_OCF();
+            BO_OCF boOCF = null;
 
             DataTable dt = GetData();
 
             if (dt.Rows.Count != 0) {
+                boOCF = new BO_OCF();
                 boOCF.OCF_DATE = Convert.ToDateTime(dt.Rows[0]["OCF_DATE"]);
                 boOCF.OCF_NEXT_DATE = Convert.ToDateTime(dt.Rows[0]["OCF_NEXT_DATE"]);
                 boOCF.OCF_PREV_DATE = Convert.ToDateTime(dt.Rows[0]["OCF_PREV_DATE"]);
@@ -115,6 +116,38 @@ FROM {0}.OCF", _dbType);
             }
 
             return list;
+        }
+
+        public ResultData UpdateCI()
+        {   
+            #region sql
+
+            string sql1 =
+                @"
+                SELECT 
+                            CASE WHEN F.OCF_DATE > O.OCF_DATE THEN O.OCF_DATE ELSE F.OCF_DATE END AS OCF_DATE,
+                            CASE WHEN F.OCF_DATE > O.OCF_DATE THEN O.OCF_PREV_DATE ELSE F.OCF_PREV_DATE END AS OCF_PREV_DATE,
+                            CASE WHEN F.OCF_DATE > O.OCF_DATE THEN O.OCF_NEXT_DATE ELSE F.OCF_NEXT_DATE END AS OCF_NEXT_DATE,
+                            F.OCF_OPEN_TIME,
+                            F.OCF_CLOSE_TIME 
+                FROM  FUT.OCF F,OPT.OCF O,CI.OCF C
+                ";
+
+            string sql =
+                @"
+                  SELECT
+                                 OCF_DATE,   
+                                 OCF_PREV_DATE,   
+                                 OCF_NEXT_DATE,   
+                                 OCF_OPEN_TIME,   
+                                 OCF_CLOSE_TIME
+                    FROM   ci.OCF  
+                ";
+
+            #endregion sql
+            DataTable dtResult = db.GetDataTable(sql1, null);
+
+            return db.UpdateOracleDB(dtResult, sql);
         }
     }
 }

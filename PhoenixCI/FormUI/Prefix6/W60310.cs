@@ -1,6 +1,7 @@
 ﻿using ActionService;
 using BaseGround;
 using BaseGround.Report;
+using BaseGround.Shared;
 using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
@@ -106,7 +107,7 @@ namespace PhoenixCI.FormUI.Prefix6
             {
                 base.Export();
 
-                string excelDestinationPath = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
+                string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID, _ProgramID); //CopyExcelTemplateFile(_ProgramID, FileType.XLS);
 
                 ManipulateExcel(excelDestinationPath);
             }

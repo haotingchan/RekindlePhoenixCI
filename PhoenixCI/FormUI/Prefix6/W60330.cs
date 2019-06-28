@@ -95,6 +95,12 @@ namespace PhoenixCI.FormUI.Prefix6
 
         protected override ResultStatus Export()
         {
+            if (txtStartMonth.DateTimeValue > txtEndMonth.DateTimeValue)
+            {
+                MessageDisplay.Error("起始日期不得大於結束日期!");
+                return ResultStatus.Fail;
+            }
+
             ExportShow.Text = "轉檔中...";
             ExportShow.Show();
 
@@ -102,9 +108,7 @@ namespace PhoenixCI.FormUI.Prefix6
             {
                 base.Export();
 
-                string excelDestinationPath = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
-
-                ManipulateExcel(excelDestinationPath);
+                return ManipulateExcel();
             }
             catch (Exception ex)
             {
@@ -112,18 +116,14 @@ namespace PhoenixCI.FormUI.Prefix6
                 WriteLog(ex);
                 return ResultStatus.Fail;
             }
-            ExportShow.Text = "轉檔成功!";
-
-
-            return ResultStatus.Success;
         }
 
-        private void ManipulateExcel(string excelDestinationPath)
+        private ResultStatus ManipulateExcel()
         {
-            Workbook workbook = new Workbook();
-            workbook.LoadDocument(excelDestinationPath);
+            string excelDestinationPath = "";
 
-            Worksheet worksheet = workbook.Worksheets[0];
+            Workbook workbook = new Workbook();
+            
 
             DataTable dtContent = dao60330.ListData(txtStartMonth.FormatValue, txtEndMonth.FormatValue);
 
@@ -136,10 +136,15 @@ namespace PhoenixCI.FormUI.Prefix6
             if (dtContent.Rows.Count == 0)
             {
                 MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtStartMonth.Text, this.Text));
+                ExportShow.Text = "轉檔失敗";
+                return ResultStatus.Fail;
             }
             else
             {
                 #region 明細
+                workbook.LoadDocument(excelDestinationPath);
+
+                Worksheet worksheet = workbook.Worksheets[0];
 
                 worksheet.Cells[2, 0].Value = txtStartMonth.Text + "～" + txtEndMonth.Text + worksheet.Cells[2, 0].Value;
                 worksheet.Cells[2, 8].Value = cpDayCnt.CP_DAY_CNT.AsString();
@@ -165,10 +170,12 @@ namespace PhoenixCI.FormUI.Prefix6
                     worksheet.Rows.Remove(rowIndex, 103 - rowIndex + 1);
                 }
                 worksheet.Range["A1"].Select();
+                workbook.SaveDocument(excelDestinationPath);
 
+                ExportShow.Text = "轉檔成功!";
+                return ResultStatus.Success;
                 #endregion 明細
             }
-            workbook.SaveDocument(excelDestinationPath);
         }
 
         protected override ResultStatus Print(ReportHelper reportHelper)

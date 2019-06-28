@@ -2,6 +2,7 @@
 using ActionService.DbDirect;
 using BaseGround;
 using BaseGround.Report;
+using BaseGround.Shared;
 using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
@@ -10,6 +11,7 @@ using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
 using System.Data;
+using System.IO;
 using System.Linq;
 
 namespace PhoenixCI.FormUI.Prefix6
@@ -18,7 +20,7 @@ namespace PhoenixCI.FormUI.Prefix6
    {
 
       private D60210 dao60210;
-
+      private  int flag;
         public W60210(string programID, string programName) : base(programID, programName)
         {
             InitializeComponent();
@@ -98,16 +100,26 @@ namespace PhoenixCI.FormUI.Prefix6
       {
             ExportShow.Text = "轉檔中...";
             ExportShow.Show();
+            string excelDestinationPath="";
             try
             {
                 base.Export();
 
-                string excelDestinationPath = CopyExcelTemplateFile(_ProgramID, FileType.XLS);
+                excelDestinationPath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);// CopyExcelTemplateFile(_ProgramID, FileType.XLS);
+                flag = 0;
 
                 ManipulateExcel(excelDestinationPath);
+
+                if (flag == 0)
+                {
+                    File.Delete(excelDestinationPath);
+                    ExportShow.Text = "轉檔失敗";
+                    return ResultStatus.Fail;
+                }
             }
             catch (Exception ex)
             {
+                File.Delete(excelDestinationPath);
                 ExportShow.Text = "轉檔失敗";
                 WriteLog(ex);
                 return ResultStatus.Fail;
@@ -126,6 +138,7 @@ namespace PhoenixCI.FormUI.Prefix6
          Worksheet worksheet = workbook.Worksheets[0];
 
          worksheet.Cells[0, 0].Value = txtDate.Text + worksheet.Cells[0, 0].Value;
+
 
          #region 602111
 
@@ -148,6 +161,7 @@ namespace PhoenixCI.FormUI.Prefix6
                   worksheet.Cells[rowIndex - 1, 5].Value = amif_sum_amt;
                }
             }
+                flag++;
          }
 
          #endregion 602111
@@ -196,6 +210,7 @@ namespace PhoenixCI.FormUI.Prefix6
                   worksheet.Cells[rowIndex - 1, 5].Value = groupKindId.Qty;
                }
             }
+             flag++;
          }
 
          #endregion 602112
@@ -250,6 +265,7 @@ namespace PhoenixCI.FormUI.Prefix6
                   worksheet.Cells[rowIndex - 1, 5].Value = groupSum.Qty;
                }
             }
+             flag++;
          }
 
          #endregion 602113
