@@ -752,7 +752,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 for (col = 0; col < dtInput.Columns.Count; col++) {
                     if (dtInput.Columns[col].ColumnName == "CPSORT") continue; //這欄是排序用的毋須判斷
                     if (drInput[col] == DBNull.Value || drInput[col].ToString() == "") {
-                        MessageDisplay.Error("請確認資料是否輸入完成!");
+                        MessageDisplay.Warning("請確認資料是否輸入完成!");
                         return;
                     }
                 }

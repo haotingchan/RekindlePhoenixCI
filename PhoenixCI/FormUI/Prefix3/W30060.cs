@@ -124,7 +124,12 @@ namespace PhoenixCI.FormUI.Prefix3 {
                     wf_30060(ws30060, dt30060);
                 }
 
-                if (dt30060.Rows.Count == 0) {
+                //週到期商品 2019/06/28 新增sheet 不分日夜盤
+                DataTable dtProd = dao30060.d_30060_prod(symd, eymd);
+                ws30060 = workbook.Worksheets[2];
+                wf_30060_prod(ws30060, dtProd);
+
+                if (dt30060.Rows.Count == 0 && dtProd.Rows.Count==0) {
                     workbook = null;
                     File.Delete(file);
                     return ResultStatus.Fail;
@@ -149,6 +154,27 @@ namespace PhoenixCI.FormUI.Prefix3 {
         }
 
         private void wf_30060(Worksheet ws30060, DataTable dt) {
+            int rowNum = 0, colNum;
+            string ymd;
+
+            ymd = "";
+            foreach (DataRow dr in dt.Rows) {
+                if (ymd != dr["AI2_YMD"].AsString()) {
+                    ymd = dr["AI2_YMD"].AsString();
+                    rowNum = rowNum + 1;
+                    ws30060.Cells[rowNum, 0].Value = ymd.SubStr(0, 4) + "/" + ymd.SubStr(4, 2) + "/" + ymd.SubStr(6, 2);
+                }
+                // 交易量
+                colNum = dr["M_COL_SEQ"].AsInt() - 1;
+                ws30060.Cells[rowNum, colNum].SetValue(dr["AI2_M_QNTY"]);
+                // OI
+                colNum = dr["OI_COL_SEQ"].AsInt() - 1;
+                ws30060.Cells[rowNum, colNum].SetValue(dr["AI2_OI"]);
+            }
+
+        }
+
+        private void wf_30060_prod(Worksheet ws30060, DataTable dt) {
             int rowNum = 0, colNum;
             string ymd;
 
