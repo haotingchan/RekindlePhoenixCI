@@ -288,6 +288,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 dtMGD2Log.Clear(); //只取schema
 
                 for (int f = 0; f < dtGrid.Rows.Count; f++) {
+                    if (dtGrid.Rows[f].RowState == DataRowState.Deleted) continue;
                     DataRow dr = dtGrid.Rows[f];
                     opType = dr["OP_TYPE"].ToString();
                     flag = dr["DATA_FLAG"].AsString();
@@ -395,6 +396,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                 DataTable dtTemp = dao40072.d_40072(); //ids_tmp
                 foreach (DataRow dr in dtGrid.Rows) {
+                    if (dr.RowState == DataRowState.Deleted) continue;
                     opType = dr["OP_TYPE"].ToString();
                     //只更新有異動的資料
                     if (opType != " ") {

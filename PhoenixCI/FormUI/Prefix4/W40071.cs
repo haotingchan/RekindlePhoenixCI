@@ -329,6 +329,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 }
 
                 foreach (DataRow dr in dtGrid.Rows) {
+                    if (dr.RowState == DataRowState.Deleted) continue;
                     opType = dr["OP_TYPE"].ToString();
                     //只更新有異動的資料
                     if (opType != " ") {
@@ -443,6 +444,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 dtTemp.Clear(); // 只取schema
 
                 foreach (DataRow dr in dtGrid.Rows) {
+                    if (dr.RowState == DataRowState.Deleted) continue;
                     opType = dr["OP_TYPE"].ToString();
                     //只更新有異動的資料
                     if (opType != " ") {
