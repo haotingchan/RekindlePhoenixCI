@@ -135,7 +135,7 @@
          this.txtDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtDate.Size = new System.Drawing.Size(100, 26);
-         this.txtDate.TabIndex = 87;
+         this.txtDate.TabIndex = 0;
          this.txtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // label9
@@ -152,7 +152,7 @@
          this.btnSp.Location = new System.Drawing.Point(537, 85);
          this.btnSp.Name = "btnSp";
          this.btnSp.Size = new System.Drawing.Size(86, 41);
-         this.btnSp.TabIndex = 12;
+         this.btnSp.TabIndex = 2;
          this.btnSp.Text = "SP";
          this.btnSp.UseVisualStyleBackColor = true;
          this.btnSp.Click += new System.EventHandler(this.btnSp_Click);
@@ -162,7 +162,7 @@
          this.btnStwd.Location = new System.Drawing.Point(434, 85);
          this.btnStwd.Name = "btnStwd";
          this.btnStwd.Size = new System.Drawing.Size(86, 41);
-         this.btnStwd.TabIndex = 11;
+         this.btnStwd.TabIndex = 1;
          this.btnStwd.Text = "STWD";
          this.btnStwd.UseVisualStyleBackColor = true;
          this.btnStwd.Click += new System.EventHandler(this.btnStwd_Click);

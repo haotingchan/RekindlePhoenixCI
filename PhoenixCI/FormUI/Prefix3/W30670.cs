@@ -71,15 +71,14 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
       protected override ResultStatus Export() {
 
-         base.Export();
          labMsg.Visible = true;
 
          #region 日期檢核
-         if (!txtStartYMD.IsDate(txtStartYMD.Text , CheckDate.Start)
-                  || !txtEndYMD.IsDate(txtEndYMD.Text , CheckDate.End)) {
-                labMsg.Visible = false;
-                return ResultStatus.Fail; ;
-         }
+         //if (!txtStartYMD.IsDate(txtStartYMD.Text , CheckDate.Start)
+         //         || !txtEndYMD.IsDate(txtEndYMD.Text , CheckDate.End)) {
+         //       labMsg.Visible = false;
+         //       return ResultStatus.Fail; ;
+         //}
 
          if (string.Compare(txtStartYMD.Text , txtEndYMD.Text) > 0) {
             MessageDisplay.Error(CheckDate.Datedif,GlobalInfo.ErrorText);
@@ -239,8 +238,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //讀取資料：走勢圖
             DataTable dtTrend = dao30670.d30670_AI3(maxDate , kindName);
             if (dtTrend.Rows.Count <= 0) {
-               labMsg.Text = String.Format("{0}-{1}" , StartDate , EndDate) + "," + rptFileName + '－' + rptFuncName + "無任何資料!";
-               MessageDisplay.Info(String.Format("{0}-{1},{2}-{3}無任何資料!" , StartDate , EndDate , rptFileName , rptFuncName));
+               labMsg.Text = string.Format("{0}-{1}" , StartDate , EndDate) + "," + rptFileName + '－' + rptFuncName + "無任何資料!";
+               MessageDisplay.Info(string.Format("{0}-{1},{2}-{3}無任何資料!" , txtStartYMD.Text , txtEndYMD.Text , rptFileName , rptFuncName),"處理結果");
                return false;
             }
 
@@ -271,7 +270,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
 
             if (cellRow < 30) {
-               MessageDisplay.Info(String.Format("{0}-{1},{2}-{3}筆數不足30筆" , StartDate , EndDate , rptFileName , rptFuncName));
+               MessageDisplay.Info(string.Format("{0}-{1},{2}-{3}筆數不足30筆" , txtStartYMD.Text , txtEndYMD.Text , rptFileName , rptFuncName),"處理結果");
                for (int w = cellRow ; w <= 30 ; w++) {
                   cellRow++;
                   worksheet.Cells[cellRow , 0].Value = "";
@@ -316,8 +315,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
          int cellCol, cellRow;
          DataTable dtMon = dao30670.d30670_AI2_SEQ(StartDate , EndDate , kindName);
          if (dtMon.Rows.Count <= 0) {
-            labMsg.Text = String.Format("{0}-{1}" , StartDate , EndDate) + "," + rptFileName + '－' + rptFuncName + "(到期月份),無任何資料!";
-            MessageDisplay.Info(String.Format("{0}-{1},{2}-{3}(到期月份),無任何資料!" , StartDate , EndDate , rptFileName , rptFuncName));
+            labMsg.Text = string.Format("{0}-{1}" , StartDate , EndDate) + "," + rptFileName + '－' + rptFuncName + "(到期月份),無任何資料!";
+            MessageDisplay.Info(string.Format("{0}-{1},{2}-{3}(到期月份),無任何資料!" , txtStartYMD.Text , txtEndYMD.Text , rptFileName , rptFuncName) , "處理結果");
             return;
          }
 
@@ -342,8 +341,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
          int cellCol, cellRow;
          DataTable dtDate = dao30670.d30670_AI2_YMD(StartDate , EndDate , kindName);
          if (dtDate.Rows.Count <= 0) {
-            labMsg.Text = String.Format("{0}-{1}" , StartDate , EndDate) + "," + rptFileName + '－' + rptFuncName + "(日期),無任何資料!";
-            MessageDisplay.Info(String.Format("{0}-{1},{2}-{3}(日期),無任何資料!" , StartDate , EndDate , rptFileName , rptFuncName));
+            labMsg.Text = string.Format("{0}-{1}" , StartDate , EndDate) + "," + rptFileName + '－' + rptFuncName + "(日期),無任何資料!";
+            MessageDisplay.Info(string.Format("{0}-{1},{2}-{3}(日期),無任何資料!" , txtStartYMD.Text , txtEndYMD.Text , rptFileName , rptFuncName) , "處理結果");
             return;
          }
 
@@ -353,7 +352,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             string tmp = dtDate.Rows[w]["AI2_YMD"].AsString();
             worksheet.Cells[cellRow , 0].Value = tmp.AsDateTime("yyyyMMdd");
             //worksheet.Cells[cellRow , 0].Value = tmp.SubStr(0 , 4) + "/" + tmp.SubStr(4 , 2) + "/" + tmp.SubStr(6 , 2);
-            //worksheet.Cells[cellRow , 0].Value = String.Format("yyyy/MM/dd",dtDate.Rows[w]["AI2_YMD"]);
+            //worksheet.Cells[cellRow , 0].Value = string.Format("yyyy/MM/dd",dtDate.Rows[w]["AI2_YMD"]);
 
             cellCol = dtDate.Rows[w]["RPT_M_COL"].AsInt() - 1;
             worksheet.Cells[cellRow , cellCol].Value = dtDate.Rows[w]["SUM_QNTY"].AsDecimal();
@@ -373,8 +372,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
          DataTable dtMoney = dao30670.d30670_AA2_AMT(StartDate , EndDate , kindName);
          if (dtMoney.Rows.Count <= 0) {
 
-            labMsg.Text = String.Format("{0}-{1}" , StartDate , EndDate) + "," + rptFileName + '－' + rptFuncName + "(amt),無任何資料!";
-            MessageDisplay.Info(String.Format("{0}-{1},{2}-{3}(amt),無任何資料!" , StartDate , EndDate , rptFileName , rptFuncName));
+            labMsg.Text = string.Format("{0}-{1}" , StartDate , EndDate) + "," + rptFileName + '－' + rptFuncName + "(amt),無任何資料!";
+            MessageDisplay.Info(string.Format("{0}-{1},{2}-{3}(amt),無任何資料!" , txtStartYMD.Text , txtEndYMD.Text , rptFileName , rptFuncName) , "處理結果");
             return;
          }
 

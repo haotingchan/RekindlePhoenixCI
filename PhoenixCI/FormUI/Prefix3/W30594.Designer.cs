@@ -161,7 +161,7 @@
          this.gbProd.Properties.LookAndFeel.SkinName = "Visual Studio 2013 Light";
          this.gbProd.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbProd.Size = new System.Drawing.Size(307, 35);
-         this.gbProd.TabIndex = 4;
+         this.gbProd.TabIndex = 3;
          // 
          // label10
          // 
@@ -231,7 +231,7 @@
          this.txtEndYMD.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndYMD.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndYMD.Size = new System.Drawing.Size(100, 26);
-         this.txtEndYMD.TabIndex = 4;
+         this.txtEndYMD.TabIndex = 1;
          this.txtEndYMD.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtStartYMD
@@ -294,9 +294,8 @@
          this.chkGroup.LookAndFeel.UseDefaultLookAndFeel = false;
          this.chkGroup.Name = "chkGroup";
          this.chkGroup.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-         this.chkGroup.ShowFocusRect = false;
          this.chkGroup.Size = new System.Drawing.Size(515, 218);
-         this.chkGroup.TabIndex = 5;
+         this.chkGroup.TabIndex = 4;
          this.chkGroup.ItemCheck += new DevExpress.XtraEditors.Controls.ItemCheckEventHandler(this.chkGroup_ItemCheck);
          this.chkGroup.DrawItem += new DevExpress.XtraEditors.ListBoxDrawItemEventHandler(this.chkGroup_DrawItem);
          // 

@@ -137,7 +137,7 @@
          this.btn33.Location = new System.Drawing.Point(645, 115);
          this.btn33.Name = "btn33";
          this.btn33.Size = new System.Drawing.Size(36, 27);
-         this.btn33.TabIndex = 95;
+         this.btn33.TabIndex = 9;
          this.btn33.Text = "...";
          this.btn33.Click += new System.EventHandler(this.btn33_Click);
          // 
@@ -148,14 +148,14 @@
          this.txt33.Name = "txt33";
          this.txt33.Properties.ReadOnly = true;
          this.txt33.Size = new System.Drawing.Size(405, 26);
-         this.txt33.TabIndex = 94;
+         this.txt33.TabIndex = 8;
          // 
          // btn22
          // 
          this.btn22.Location = new System.Drawing.Point(645, 73);
          this.btn22.Name = "btn22";
          this.btn22.Size = new System.Drawing.Size(36, 27);
-         this.btn22.TabIndex = 93;
+         this.btn22.TabIndex = 6;
          this.btn22.Text = "...";
          this.btn22.Click += new System.EventHandler(this.btn22_Click);
          // 
@@ -166,14 +166,14 @@
          this.txt22.Name = "txt22";
          this.txt22.Properties.ReadOnly = true;
          this.txt22.Size = new System.Drawing.Size(405, 26);
-         this.txt22.TabIndex = 92;
+         this.txt22.TabIndex = 5;
          // 
          // btn11
          // 
          this.btn11.Location = new System.Drawing.Point(645, 28);
          this.btn11.Name = "btn11";
          this.btn11.Size = new System.Drawing.Size(36, 27);
-         this.btn11.TabIndex = 91;
+         this.btn11.TabIndex = 3;
          this.btn11.Text = "...";
          this.btn11.Click += new System.EventHandler(this.btn11_Click);
          // 
@@ -184,7 +184,7 @@
          this.txt11.Name = "txt11";
          this.txt11.Properties.ReadOnly = true;
          this.txt11.Size = new System.Drawing.Size(405, 26);
-         this.txt11.TabIndex = 90;
+         this.txt11.TabIndex = 2;
          // 
          // txtDate33
          // 
@@ -203,7 +203,7 @@
          this.txtDate33.Properties.Mask.ShowPlaceHolders = false;
          this.txtDate33.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtDate33.Size = new System.Drawing.Size(99, 26);
-         this.txtDate33.TabIndex = 89;
+         this.txtDate33.TabIndex = 7;
          this.txtDate33.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtDate22
@@ -223,7 +223,7 @@
          this.txtDate22.Properties.Mask.ShowPlaceHolders = false;
          this.txtDate22.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtDate22.Size = new System.Drawing.Size(99, 26);
-         this.txtDate22.TabIndex = 88;
+         this.txtDate22.TabIndex = 4;
          this.txtDate22.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtDate11
@@ -243,7 +243,7 @@
          this.txtDate11.Properties.Mask.ShowPlaceHolders = false;
          this.txtDate11.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtDate11.Size = new System.Drawing.Size(99, 26);
-         this.txtDate11.TabIndex = 87;
+         this.txtDate11.TabIndex = 1;
          this.txtDate11.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // chkGroup1
@@ -265,8 +265,9 @@
          this.chkGroup1.Location = new System.Drawing.Point(20, 22);
          this.chkGroup1.Name = "chkGroup1";
          this.chkGroup1.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+         this.chkGroup1.ShowFocusRect = false;
          this.chkGroup1.Size = new System.Drawing.Size(73, 134);
-         this.chkGroup1.TabIndex = 6;
+         this.chkGroup1.TabIndex = 0;
          // 
          // label9
          // 
@@ -288,7 +289,7 @@
          this.txtEnd.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEnd.Properties.MaxLength = 20;
          this.txtEnd.Size = new System.Drawing.Size(189, 26);
-         this.txtEnd.TabIndex = 4;
+         this.txtEnd.TabIndex = 20;
          // 
          // r_frame
          // 
@@ -356,7 +357,7 @@
          this.btn3.Location = new System.Drawing.Point(645, 115);
          this.btn3.Name = "btn3";
          this.btn3.Size = new System.Drawing.Size(36, 27);
-         this.btn3.TabIndex = 95;
+         this.btn3.TabIndex = 19;
          this.btn3.Text = "...";
          this.btn3.Click += new System.EventHandler(this.btn3_Click);
          // 
@@ -367,14 +368,14 @@
          this.txt3.Name = "txt3";
          this.txt3.Properties.ReadOnly = true;
          this.txt3.Size = new System.Drawing.Size(405, 26);
-         this.txt3.TabIndex = 94;
+         this.txt3.TabIndex = 18;
          // 
          // btn2
          // 
          this.btn2.Location = new System.Drawing.Point(645, 73);
          this.btn2.Name = "btn2";
          this.btn2.Size = new System.Drawing.Size(36, 27);
-         this.btn2.TabIndex = 93;
+         this.btn2.TabIndex = 16;
          this.btn2.Text = "...";
          this.btn2.Click += new System.EventHandler(this.btn2_Click);
          // 
@@ -385,14 +386,14 @@
          this.txt2.Name = "txt2";
          this.txt2.Properties.ReadOnly = true;
          this.txt2.Size = new System.Drawing.Size(405, 26);
-         this.txt2.TabIndex = 92;
+         this.txt2.TabIndex = 15;
          // 
          // btn1
          // 
          this.btn1.Location = new System.Drawing.Point(645, 28);
          this.btn1.Name = "btn1";
          this.btn1.Size = new System.Drawing.Size(36, 27);
-         this.btn1.TabIndex = 91;
+         this.btn1.TabIndex = 13;
          this.btn1.Text = "...";
          this.btn1.Click += new System.EventHandler(this.btn1_Click);
          // 
@@ -403,7 +404,7 @@
          this.txt1.Name = "txt1";
          this.txt1.Properties.ReadOnly = true;
          this.txt1.Size = new System.Drawing.Size(405, 26);
-         this.txt1.TabIndex = 90;
+         this.txt1.TabIndex = 12;
          // 
          // txtDate3
          // 
@@ -422,7 +423,7 @@
          this.txtDate3.Properties.Mask.ShowPlaceHolders = false;
          this.txtDate3.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtDate3.Size = new System.Drawing.Size(99, 26);
-         this.txtDate3.TabIndex = 89;
+         this.txtDate3.TabIndex = 17;
          this.txtDate3.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtDate2
@@ -442,7 +443,7 @@
          this.txtDate2.Properties.Mask.ShowPlaceHolders = false;
          this.txtDate2.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtDate2.Size = new System.Drawing.Size(99, 26);
-         this.txtDate2.TabIndex = 88;
+         this.txtDate2.TabIndex = 14;
          this.txtDate2.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtDate1
@@ -462,7 +463,7 @@
          this.txtDate1.Properties.Mask.ShowPlaceHolders = false;
          this.txtDate1.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtDate1.Size = new System.Drawing.Size(99, 26);
-         this.txtDate1.TabIndex = 87;
+         this.txtDate1.TabIndex = 11;
          this.txtDate1.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // chkGroup2
@@ -484,8 +485,9 @@
          this.chkGroup2.Location = new System.Drawing.Point(20, 22);
          this.chkGroup2.Name = "chkGroup2";
          this.chkGroup2.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+         this.chkGroup2.ShowFocusRect = false;
          this.chkGroup2.Size = new System.Drawing.Size(73, 134);
-         this.chkGroup2.TabIndex = 6;
+         this.chkGroup2.TabIndex = 10;
          // 
          // label1
          // 

@@ -59,6 +59,12 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
       protected override ResultStatus Export() {
          try {
+            #region 輸入&日期檢核
+            if (string.Compare(txtStartYMD.Text , txtEndYMD.Text) > 0) {
+               MessageDisplay.Error(CheckDate.Datedif , GlobalInfo.ErrorText);
+               return ResultStatus.Fail;
+            }
+            #endregion
 
             //0. ready
             panFilter.Enabled = false;
@@ -164,7 +170,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             DataTable dt = dao30593.GetData(StartYMD , EndYMD , ls_market_code);
             if (dt.Rows.Count <= 0) {
                ShowMsg(string.Format("{0},{1}－{2},無任何資料!" , txtStartYMD.DateTimeValue.ToString("yyyyMM") , _ProgramID , rptName));
-               MessageDisplay.Info(string.Format("{0},{1}－{2},(市場總成交量雙邊(A)無任何資料!" , txtStartYMD.DateTimeValue.ToString("yyyyMM") , _ProgramID , rptName));
+               MessageDisplay.Info(string.Format("{0},{1}－{2},(市場總成交量雙邊(A)無任何資料!" , txtStartYMD.DateTimeValue.ToString("yyyyMM") , _ProgramID , rptName) , "處理結果");
                return false;
             }
 

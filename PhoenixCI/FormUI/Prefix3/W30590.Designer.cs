@@ -157,7 +157,6 @@
          this.chkGroup.LookAndFeel.UseDefaultLookAndFeel = false;
          this.chkGroup.Name = "chkGroup";
          this.chkGroup.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-         this.chkGroup.ShowFocusRect = false;
          this.chkGroup.Size = new System.Drawing.Size(515, 218);
          this.chkGroup.TabIndex = 5;
          this.chkGroup.ItemCheck += new DevExpress.XtraEditors.Controls.ItemCheckEventHandler(this.chkGroup_ItemCheck);
@@ -294,7 +293,7 @@
          this.txtEndYMD.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndYMD.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndYMD.Size = new System.Drawing.Size(100, 26);
-         this.txtEndYMD.TabIndex = 4;
+         this.txtEndYMD.TabIndex = 1;
          this.txtEndYMD.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtStartYMD
