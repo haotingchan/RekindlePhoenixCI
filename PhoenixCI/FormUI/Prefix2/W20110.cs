@@ -402,8 +402,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     DataRow dr = dt.Rows[i];
                     if (dr.RowState == DataRowState.Deleted) continue;
                     dr["AMIF_DATE"] = txtDate.DateTimeValue;
-                    if (kindId != dr["AMIF_KIND_ID"].AsString()) {
-                        kindId = dr["AMIF_KIND_ID"].AsString() + "    ";
+                    if (kindId != dr["AMIF_KIND_ID"].ToString()) {
+                        kindId = dr["AMIF_KIND_ID"].ToString();
                         settleDate = dr["AMIF_SETTLE_DATE"].AsString();
                         seqNo = 1;
                     }
@@ -411,7 +411,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                         settleDate = dr["AMIF_SETTLE_DATE"].AsString();
                         seqNo = seqNo + 1;
                     }
-                    if (settleDate != "000000") {
+                    if (settleDate != "指數") {//這時候還沒轉回000000，所以用指數判斷
                         dr["AMIF_MTH_SEQ_NO"] = seqNo;
                     }
                     if (dr.RowState == DataRowState.Unchanged) {
@@ -437,14 +437,14 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     dr["AMIF_PROD_SUBTYPE"] = dtAPDK.Rows[0]["APDK_PROD_SUBTYPE"].AsString();
                     dr["AMIF_PARAM_KEY"] = dtAPDK.Rows[0]["APDK_PARAM_KEY"].AsString();
                     dr["AMIF_M_TIME"] = updTime;
-                    if (settleDate == "指數") {
-                        dr["AMIF_MTH_SEQ_NO"] = seqNo;
-                    }
 
                     //商品3碼+月2碼
                     if (settleDate != "指數" && settleDate.SubStr(settleDate.Length - 2, 2) != "00") {
+                        int ascii = (settleDate.SubStr(settleDate.Length - 2, 2)).AsInt() + 64;
+                        char character = (char)ascii;
+                        string text = character.ToString();
                         dr["AMIF_PROD_ID"] = dtAPDK.Rows[0]["APDK_KIND_ID"].AsString() +
-                                             ((settleDate.SubStr(settleDate.Length - 2, 2)).AsInt() + 64).AsString() +
+                                             text +
                                              settleDate.SubStr(3, 1);
                     }
                     else {
@@ -725,8 +725,13 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     gv.SetRowCellValue(e.RowHandle, gv.Columns["AMIF_UP_DOWN_VAL"], 0);
                 }
                 else {
-                    gv.SetRowCellValue(e.RowHandle, gv.Columns["AMIF_UP_DOWN_VAL"],
-                        e.Value.AsDecimal() - gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_CLOSE_PRICE_Y"]).AsDecimal());
+                    if (gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_CLOSE_PRICE_Y"]) != DBNull.Value) {
+                        gv.SetRowCellValue(e.RowHandle, gv.Columns["AMIF_UP_DOWN_VAL"],
+                            e.Value.AsDecimal() - gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_CLOSE_PRICE_Y"]).AsDecimal());
+                    }
+                    else {
+                        gv.SetRowCellValue(e.RowHandle, gv.Columns["AMIF_UP_DOWN_VAL"],null);
+                    }
                 }
             }
             /***************
