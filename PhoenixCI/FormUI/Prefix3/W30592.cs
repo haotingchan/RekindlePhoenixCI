@@ -67,6 +67,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
       protected override ResultStatus Export() {
          try {
+            #region 輸入&日期檢核
+            if (string.Compare(txtStartYMD.Text , txtEndYMD.Text) > 0) {
+               MessageDisplay.Error(CheckDate.Datedif , GlobalInfo.ErrorText);
+               return ResultStatus.Fail;
+            }
+            #endregion
+
             //0. ready
             panFilter.Enabled = false;
             labMsg.Visible = true;
@@ -114,7 +121,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
                if (chkGroup.CheckedItemsCount == 1) {
                   foreach (CheckedListBoxItem item in chkGroup.Items) {
-                     if(item.Value.AsString() == "chkRmb") {
+                     if (item.Value.AsString() == "chkRmb") {
                         File.Delete(destinationFilePath);
                      }
                   }
@@ -135,8 +142,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
                            try {
                               workbook = null;
                               File.Delete(destinationFilePath);
-                           } catch (Exception) {
-                              //
+                           } catch (Exception ex) {
+                              WriteLog(ex);
                            }
                            return ResultStatus.Fail;
                         } else {
@@ -192,7 +199,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             DataTable dt = dao30592.GetData(StartYMD , EndYMD , ls_market_code);
             if (dt.Rows.Count <= 0) {
                ShowMsg(string.Format("{0},{1}－{2},無任何資料!" , txtStartYMD.DateTimeValue.ToString("yyyyMM") , _ProgramID , rptName));
-               MessageDisplay.Info(string.Format("{0},{1}－{2},(市場總成交量雙邊(A)無任何資料!" , txtStartYMD.DateTimeValue.ToString("yyyyMM") , _ProgramID , rptName));
+               MessageDisplay.Info(string.Format("{0},{1}－{2},(市場總成交量雙邊(A)無任何資料!" , txtStartYMD.DateTimeValue.ToString("yyyyMM") , _ProgramID , rptName) , "處理結果");
                workbook = null;
                File.Delete(destinationFilePath);
                return false;
@@ -209,7 +216,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //要再判斷一次
             if (dtFilter.Rows.Count <= 0) {
                ShowMsg(string.Format("{0},{1}－{2},無任何資料!" , txtStartYMD.DateTimeValue.ToString("yyyyMM") , _ProgramID , rptName));
-               MessageDisplay.Info(string.Format("{0},{1}－{2},(市場總成交量雙邊(A)無任何資料!" , txtStartYMD.DateTimeValue.ToString("yyyyMM") , _ProgramID , rptName));
+               MessageDisplay.Info(string.Format("{0},{1}－{2},(市場總成交量雙邊(A)無任何資料!" , txtStartYMD.DateTimeValue.ToString("yyyyMM") , _ProgramID , rptName) , "處理結果");
                workbook = null;
                File.Delete(destinationFilePath);
                return false;
@@ -336,7 +343,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             DataTable dt = dao30592.GetRmbData(StartYMD , EndYMD);
             if (dt.Rows.Count <= 0) {
                ShowMsg(string.Format("{0},{1}－{2},無任何資料!" , txtStartYMD.Text , rptId , rptName));
-               MessageDisplay.Info(string.Format("{0}～{1},{2}－{3}, RHF&RTF無成交量資料!" , txtStartYMD.Text , txtEndYMD.Text , rptId , rptName));
+               MessageDisplay.Info(string.Format("{0}～{1},{2}－{3}, RHF&RTF無成交量資料!" , txtStartYMD.Text , txtEndYMD.Text , rptId , rptName) , "處理結果");
                workbook = null;
                File.Delete(excelDestinationPath);
                return;

@@ -80,7 +80,7 @@
          this.txtAllEymd.Properties.Mask.ShowPlaceHolders = false;
          this.txtAllEymd.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtAllEymd.Size = new System.Drawing.Size(100, 26);
-         this.txtAllEymd.TabIndex = 81;
+         this.txtAllEymd.TabIndex = 5;
          this.txtAllEymd.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtAllSymd
@@ -100,7 +100,7 @@
          this.txtAllSymd.Properties.Mask.ShowPlaceHolders = false;
          this.txtAllSymd.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtAllSymd.Size = new System.Drawing.Size(100, 26);
-         this.txtAllSymd.TabIndex = 80;
+         this.txtAllSymd.TabIndex = 4;
          this.txtAllSymd.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtAftEymd
@@ -120,7 +120,7 @@
          this.txtAftEymd.Properties.Mask.ShowPlaceHolders = false;
          this.txtAftEymd.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtAftEymd.Size = new System.Drawing.Size(100, 26);
-         this.txtAftEymd.TabIndex = 79;
+         this.txtAftEymd.TabIndex = 3;
          this.txtAftEymd.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtPrevEymd
@@ -140,7 +140,7 @@
          this.txtPrevEymd.Properties.Mask.ShowPlaceHolders = false;
          this.txtPrevEymd.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtPrevEymd.Size = new System.Drawing.Size(100, 26);
-         this.txtPrevEymd.TabIndex = 77;
+         this.txtPrevEymd.TabIndex = 1;
          this.txtPrevEymd.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtAftSymd
@@ -160,7 +160,7 @@
          this.txtAftSymd.Properties.Mask.ShowPlaceHolders = false;
          this.txtAftSymd.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtAftSymd.Size = new System.Drawing.Size(100, 26);
-         this.txtAftSymd.TabIndex = 78;
+         this.txtAftSymd.TabIndex = 2;
          this.txtAftSymd.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtPrevSymd
@@ -180,7 +180,7 @@
          this.txtPrevSymd.Properties.Mask.ShowPlaceHolders = false;
          this.txtPrevSymd.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtPrevSymd.Size = new System.Drawing.Size(100, 26);
-         this.txtPrevSymd.TabIndex = 76;
+         this.txtPrevSymd.TabIndex = 0;
          this.txtPrevSymd.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // chkDetail
@@ -190,7 +190,7 @@
          this.chkDetail.Location = new System.Drawing.Point(339, 134);
          this.chkDetail.Name = "chkDetail";
          this.chkDetail.Size = new System.Drawing.Size(157, 25);
-         this.chkDetail.TabIndex = 17;
+         this.chkDetail.TabIndex = 6;
          this.chkDetail.Text = "產出每日明細資料";
          this.chkDetail.UseVisualStyleBackColor = true;
          // 

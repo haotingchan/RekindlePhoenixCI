@@ -79,16 +79,16 @@ namespace PhoenixCI.FormUI.Prefix3 {
          base.Export();
 
             #region 日期檢核
-            if (!txtStartYMD.IsDate(txtStartYMD.Text, CheckDate.Start)
-                     || !txtEndYMD.IsDate(txtEndYMD.Text, CheckDate.End)) {
-                labMsg.Visible = false;
-                return ResultStatus.Fail; ;
-            }
+            //if (!txtStartYMD.IsDate(txtStartYMD.Text, CheckDate.Start)
+            //         || !txtEndYMD.IsDate(txtEndYMD.Text, CheckDate.End)) {
+            //    labMsg.Visible = false;
+            //    return ResultStatus.Fail; ;
+            //}
 
             if (string.Compare(txtStartYMD.Text, txtEndYMD.Text) > 0) {
                 MessageDisplay.Error(CheckDate.Datedif, GlobalInfo.ErrorText);
                 labMsg.Visible = false;
-                return ResultStatus.Fail; ;
+                return ResultStatus.Fail;
             }
             #endregion
 
@@ -206,8 +206,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
 
             if (dtData.Rows.Count <= 0) {
-               labMsg.Text = String.Format("{0},{1}-{2},無任何資料!" , StartDate.SubStr(0 , 6) , _ProgramID , fileName);
-               MessageDisplay.Info(String.Format("{0},{1}-{2},無任何資料!" , StartDate.SubStr(0 , 6) , _ProgramID , fileName));
+               labMsg.Text = string.Format("{0},{1}-{2},無任何資料!" , StartDate.SubStr(0 , 6) , _ProgramID , fileName);
+               MessageDisplay.Info(string.Format("{0},{1}-{2},無任何資料!" , StartDate.SubStr(0 , 6) , _ProgramID , fileName),"處理結果");
                return 0;
             }
 

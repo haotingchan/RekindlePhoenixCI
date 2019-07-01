@@ -112,7 +112,7 @@
          this.txtKindId.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.txtKindId.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtKindId.Size = new System.Drawing.Size(61, 26);
-         this.txtKindId.TabIndex = 12;
+         this.txtKindId.TabIndex = 1;
          // 
          // label1
          // 

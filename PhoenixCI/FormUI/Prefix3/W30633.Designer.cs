@@ -79,7 +79,7 @@
          this.txtPrevEndYM.Properties.Mask.ShowPlaceHolders = false;
          this.txtPrevEndYM.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtPrevEndYM.Size = new System.Drawing.Size(100, 26);
-         this.txtPrevEndYM.TabIndex = 79;
+         this.txtPrevEndYM.TabIndex = 4;
          this.txtPrevEndYM.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtPrevStartYM
@@ -99,7 +99,7 @@
          this.txtPrevStartYM.Properties.Mask.ShowPlaceHolders = false;
          this.txtPrevStartYM.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtPrevStartYM.Size = new System.Drawing.Size(100, 26);
-         this.txtPrevStartYM.TabIndex = 78;
+         this.txtPrevStartYM.TabIndex = 3;
          this.txtPrevStartYM.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtAftEndYM
@@ -119,7 +119,7 @@
          this.txtAftEndYM.Properties.Mask.ShowPlaceHolders = false;
          this.txtAftEndYM.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtAftEndYM.Size = new System.Drawing.Size(100, 26);
-         this.txtAftEndYM.TabIndex = 77;
+         this.txtAftEndYM.TabIndex = 2;
          this.txtAftEndYM.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtAftStartYM
@@ -139,7 +139,7 @@
          this.txtAftStartYM.Properties.Mask.ShowPlaceHolders = false;
          this.txtAftStartYM.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtAftStartYM.Size = new System.Drawing.Size(100, 26);
-         this.txtAftStartYM.TabIndex = 76;
+         this.txtAftStartYM.TabIndex = 1;
          this.txtAftStartYM.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // r_frame
@@ -203,7 +203,7 @@
          this.dwParamKey.Properties.NullText = "";
          this.dwParamKey.Properties.PopupSizeable = false;
          this.dwParamKey.Size = new System.Drawing.Size(228, 26);
-         this.dwParamKey.TabIndex = 83;
+         this.dwParamKey.TabIndex = 0;
          // 
          // gbMarket
          // 
@@ -223,7 +223,7 @@
          this.gbMarket.Properties.LookAndFeel.SkinName = "Visual Studio 2013 Light";
          this.gbMarket.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbMarket.Size = new System.Drawing.Size(197, 35);
-         this.gbMarket.TabIndex = 82;
+         this.gbMarket.TabIndex = 5;
          // 
          // label4
          // 

@@ -179,7 +179,7 @@
          this.txtSDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtSDate.Size = new System.Drawing.Size(100, 26);
-         this.txtSDate.TabIndex = 15;
+         this.txtSDate.TabIndex = 0;
          this.txtSDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // cbxNews
