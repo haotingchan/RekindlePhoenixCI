@@ -103,13 +103,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             #region 輸入&日期檢核
 
-            if (!txtStartDate.IsDate(txtStartDate.Text , CheckDate.Start)
-                  || !txtEndDate.IsDate(txtEndDate.Text , CheckDate.End)) {
-               return ResultStatus.Fail;
-            }
+            //if (!txtStartDate.IsDate(txtStartDate.Text , CheckDate.Start)
+            //      || !txtEndDate.IsDate(txtEndDate.Text , CheckDate.End)) {
+            //   return ResultStatus.Fail;
+            //}
 
             if (string.Compare(txtStartDate.Text , txtEndDate.Text) > 0) {
-               MessageDisplay.Error(GlobalInfo.ErrorText , CheckDate.Datedif);
+               MessageDisplay.Error(CheckDate.Datedif , GlobalInfo.ErrorText);
                return ResultStatus.Fail;
             }
             #endregion
@@ -132,7 +132,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //4. 年月表頭
             DataTable dtAi2Ymd = new AI2().ListWeek(txtStartDate.DateTimeValue , txtEndDate.DateTimeValue , "D" , "F");
             if (dtAi2Ymd.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0}~{1},{2}-年月,無任何資料!" , StartDate , EndDate , _ProgramID));
+               MessageDisplay.Info(string.Format("{0}~{1},{2}-年月,無任何資料!" , StartDate , EndDate , _ProgramID) , "處理結果");
                WriteLog(string.Format("{0}~{1},{2}-年月,無任何資料!" , StartDate , EndDate , _ProgramID));
             }//if (dtAi2Ymd.Rows.Count <= 0)
 
@@ -156,6 +156,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
             res1 = wf_30417(workbook , SheetNo.tradeSum , rowNum , dtYmd);
             res2 = wf_30418(workbook , SheetNo.dailyAvg , rowNum , dtYmd);
             res3 = wf_30419(workbook , SheetNo.oint , rowNum , dtYmd);
+
+            if (!res1 && !res2 && !res3) {
+               File.Delete(excelDestinationPath);
+               return ResultStatus.Fail;
+            }
 
             //6. save 
             workbook.SaveDocument(excelDestinationPath);
@@ -196,7 +201,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //2. 讀取資料
             DataTable dt = new D30417().ListData(StartDate , EndDate);
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info(String.Format("{0}~{1},{2} - {3},無任何資料!" , StartDate , EndDate , _ProgramID , rptName));
+               MessageDisplay.Info(String.Format("{0}~{1},{2} - {3},無任何資料!" , StartDate , EndDate , _ProgramID , rptName) , "處理結果");
                return false;
             } //if (dt.Rows.Count <= 0 )
 
@@ -221,7 +226,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                   string eDate = dr["endDate"].AsString().SubStr(0 , 10);
 
                   ws30417.Cells[tmpRow , 0].Value = sumDayCount;
-                  ws30417.Cells[tmpRow , 1].Value = string.Format("{0}~{1}" , sDate , eDate);
+                  ws30417.Cells[tmpRow , 1].Value = string.Format("{0}～{1}" , sDate , eDate);
                   ws30417.Cells[tmpRow , 2].Value = sumMQnty;
                   ws30417.Cells[tmpRow , 4].Value = sumOi;
                   ws30417.Cells[tmpRow , 6].Value = sumCnt;
@@ -234,8 +239,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             return true;
          } catch (Exception ex) {
+            WriteLog(ex);
             return false;
-            throw ex;
          }
       }
 
@@ -249,14 +254,14 @@ namespace PhoenixCI.FormUI.Prefix3 {
       protected bool wf_30418(Workbook workbook , SheetNo sheetNo , int rowNum , DataTable dtYmd) {
 
          string rptName = "股票期貨各標的每週日均量統計表"; //報表標題名稱
-         labMsg.Text = "30419－" + rptName + " 轉檔中...";
+         labMsg.Text = "30418－" + rptName + " 轉檔中...";
 
          try {
             #region 30418
             //1. 表頭
             DataTable dtProd = new D30414().ListProdByMon(StartMon , EndMon);
             if (dtProd.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0}~{1},30418 - 商品檔,無任何資料!" , StartMon , EndMon));
+               MessageDisplay.Info(string.Format("{0}~{1},30418 - 商品檔,無任何資料!" , StartMon , EndMon) , "處理結果");
                return false;
             }//if (dtProd.Rows.Count <= 0)
 
@@ -287,7 +292,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             DataTable dt = new D30417().ListData2(StartDate , EndDate);
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info(String.Format("{0}~{1},{2} - {3},無任何資料!" , StartDate , EndDate , _ProgramID , rptName));
+               MessageDisplay.Info(String.Format("{0}~{1},30418 - {2},無任何資料!" , StartDate , EndDate , rptName) , "處理結果");
                return false;
             } //if (dt.Rows.Count <= 0 )
 
@@ -326,8 +331,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             return true;
          } catch (Exception ex) {
+            WriteLog(ex);
             return false;
-            throw ex;
          }
       }
 
@@ -348,7 +353,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //1. 表頭
             DataTable dtProd = new D30414().ListProdByMon(StartMon , EndMon);
             if (dtProd.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0}~{1},30418 - 商品檔,無任何資料!" , StartMon , EndMon));
+               MessageDisplay.Info(string.Format("{0}~{1},30419 - 商品檔,無任何資料!" , StartMon , EndMon) , "處理結果");
                return false;
             }//if (dtProd.Rows.Count <= 0)
 
@@ -374,12 +379,12 @@ namespace PhoenixCI.FormUI.Prefix3 {
                string sDate = dr["startDate"].AsString().SubStr(0 , 10);
                string eDate = dr["endDate"].AsString().SubStr(0 , 10);
 
-               ws30419.Cells[1 , tmpCol].Value = string.Format("{0}~{1}" , sDate + Environment.NewLine , Environment.NewLine + eDate);
+               ws30419.Cells[1 , tmpCol].Value = string.Format("{0}～{1}" , sDate + Environment.NewLine , Environment.NewLine + eDate);
             }//foreach (DataRow dr in dtTmp.Rows)
 
             DataTable dt = new D30417().ListData2(StartDate , EndDate);
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info(String.Format("{0}~{1},{2} - {3},無任何資料!" , StartDate , EndDate , _ProgramID , rptName));
+               MessageDisplay.Info(String.Format("{0}~{1},30419 - {2},無任何資料!" , StartDate , EndDate , rptName) , "處理結果");
                return false;
             } //if (dt.Rows.Count <= 0 )
 
@@ -404,7 +409,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                      if (sumDayCount == 0) {
                         yAvgOi = 0;
                      } else {
-                        yAvgOi = Math.Round(sumOi / sumDayCount , 0);
+                        yAvgOi = Math.Round(sumOi / sumDayCount , 0 , MidpointRounding.AwayFromZero);
                      }
                      ws30419.Cells[rowNum , pos1 + 1].Value = yAvgOi;
                   }//if (dtTmp.Rows.Count < 0)
@@ -418,8 +423,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             return true;
          } catch (Exception ex) {
+            WriteLog(ex);
             return false;
-            throw ex;
          }
       }
    }

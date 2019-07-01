@@ -1,4 +1,5 @@
 ﻿using BaseGround;
+using BaseGround.Shared;
 using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together.SpecificDao;
@@ -10,11 +11,8 @@ using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
-using BaseGround.Shared;
-using System.Data.OleDb;
-using System.Globalization;
 
-//TODO : servername登入才會看到chkTest選項(決定是否產txt檔)
+//TODO : (CIN)servername登入才會看到chkTest選項(決定是否產txt檔) 
 
 /// <summary>
 /// Winni, 2019/04/17
