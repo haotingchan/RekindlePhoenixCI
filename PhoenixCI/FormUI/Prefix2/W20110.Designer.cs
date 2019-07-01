@@ -64,6 +64,21 @@
             this.R_OPEN_INTEREST = new DevExpress.XtraGrid.Columns.GridColumn();
             this.AMIFU_ERR_TEXT = new DevExpress.XtraGrid.Columns.GridColumn();
             this.AMIF_DATE = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.AMIF_STRIKE_PRICE = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.AMIF_SETTLE_PRICE = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.AMIF_PROD_TYPE = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.AMIF_PROD_SUBTYPE = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.AMIF_DATA_SOURCE = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.AMIF_M_TIME = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.AMIF_PARAM_KEY = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.AMIF_PC_CODE = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.AMIF_PROD_ID = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.OP_TYPE = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.AMIF_CLOSE_PRICE_Y_FLAG = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.AMIF_YEAR = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.AMIF_CLOSE_PRICE_ORIG = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.AMIF_MTH_SEQ_NO = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.AMIF_OSW_GRP = new DevExpress.XtraGrid.Columns.GridColumn();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -264,7 +279,22 @@
             this.R_UP_DOWN_VAL,
             this.R_OPEN_INTEREST,
             this.AMIFU_ERR_TEXT,
-            this.AMIF_DATE});
+            this.AMIF_DATE,
+            this.AMIF_STRIKE_PRICE,
+            this.AMIF_SETTLE_PRICE,
+            this.AMIF_PROD_TYPE,
+            this.AMIF_PROD_SUBTYPE,
+            this.AMIF_DATA_SOURCE,
+            this.AMIF_M_TIME,
+            this.AMIF_PARAM_KEY,
+            this.AMIF_PC_CODE,
+            this.AMIF_PROD_ID,
+            this.OP_TYPE,
+            this.AMIF_CLOSE_PRICE_Y_FLAG,
+            this.AMIF_YEAR,
+            this.AMIF_CLOSE_PRICE_ORIG,
+            this.AMIF_MTH_SEQ_NO,
+            this.AMIF_OSW_GRP});
             this.gvMain.GridControl = this.gcMain;
             this.gvMain.Name = "gvMain";
             this.gvMain.OptionsView.ColumnAutoWidth = false;
@@ -560,6 +590,96 @@
             this.AMIF_DATE.FieldName = "AMIF_DATE";
             this.AMIF_DATE.Name = "AMIF_DATE";
             // 
+            // AMIF_STRIKE_PRICE
+            // 
+            this.AMIF_STRIKE_PRICE.Caption = "AMIF_STRIKE_PRICE";
+            this.AMIF_STRIKE_PRICE.FieldName = "AMIF_STRIKE_PRICE";
+            this.AMIF_STRIKE_PRICE.Name = "AMIF_STRIKE_PRICE";
+            // 
+            // AMIF_SETTLE_PRICE
+            // 
+            this.AMIF_SETTLE_PRICE.Caption = "AMIF_SETTLE_PRICE";
+            this.AMIF_SETTLE_PRICE.FieldName = "AMIF_SETTLE_PRICE";
+            this.AMIF_SETTLE_PRICE.Name = "AMIF_SETTLE_PRICE";
+            // 
+            // AMIF_PROD_TYPE
+            // 
+            this.AMIF_PROD_TYPE.Caption = "AMIF_PROD_TYPE";
+            this.AMIF_PROD_TYPE.FieldName = "AMIF_PROD_TYPE";
+            this.AMIF_PROD_TYPE.Name = "AMIF_PROD_TYPE";
+            // 
+            // AMIF_PROD_SUBTYPE
+            // 
+            this.AMIF_PROD_SUBTYPE.Caption = "AMIF_PROD_SUBTYPE";
+            this.AMIF_PROD_SUBTYPE.FieldName = "AMIF_PROD_SUBTYPE";
+            this.AMIF_PROD_SUBTYPE.Name = "AMIF_PROD_SUBTYPE";
+            // 
+            // AMIF_DATA_SOURCE
+            // 
+            this.AMIF_DATA_SOURCE.Caption = "AMIF_DATA_SOURCE";
+            this.AMIF_DATA_SOURCE.FieldName = "AMIF_DATA_SOURCE";
+            this.AMIF_DATA_SOURCE.Name = "AMIF_DATA_SOURCE";
+            // 
+            // AMIF_M_TIME
+            // 
+            this.AMIF_M_TIME.Caption = "AMIF_M_TIME";
+            this.AMIF_M_TIME.FieldName = "AMIF_M_TIME";
+            this.AMIF_M_TIME.Name = "AMIF_M_TIME";
+            // 
+            // AMIF_PARAM_KEY
+            // 
+            this.AMIF_PARAM_KEY.Caption = "AMIF_PARAM_KEY";
+            this.AMIF_PARAM_KEY.FieldName = "AMIF_PARAM_KEY";
+            this.AMIF_PARAM_KEY.Name = "AMIF_PARAM_KEY";
+            // 
+            // AMIF_PC_CODE
+            // 
+            this.AMIF_PC_CODE.Caption = "AMIF_PC_CODE";
+            this.AMIF_PC_CODE.FieldName = "AMIF_PC_CODE";
+            this.AMIF_PC_CODE.Name = "AMIF_PC_CODE";
+            // 
+            // AMIF_PROD_ID
+            // 
+            this.AMIF_PROD_ID.Caption = "AMIF_PROD_ID";
+            this.AMIF_PROD_ID.FieldName = "AMIF_PROD_ID";
+            this.AMIF_PROD_ID.Name = "AMIF_PROD_ID";
+            // 
+            // OP_TYPE
+            // 
+            this.OP_TYPE.Caption = "OP_TYPE";
+            this.OP_TYPE.FieldName = "OP_TYPE";
+            this.OP_TYPE.Name = "OP_TYPE";
+            // 
+            // AMIF_CLOSE_PRICE_Y_FLAG
+            // 
+            this.AMIF_CLOSE_PRICE_Y_FLAG.Caption = "AMIF_CLOSE_PRICE_Y_FLAG";
+            this.AMIF_CLOSE_PRICE_Y_FLAG.FieldName = "AMIF_CLOSE_PRICE_Y_FLAG";
+            this.AMIF_CLOSE_PRICE_Y_FLAG.Name = "AMIF_CLOSE_PRICE_Y_FLAG";
+            // 
+            // AMIF_YEAR
+            // 
+            this.AMIF_YEAR.Caption = "AMIF_YEAR";
+            this.AMIF_YEAR.FieldName = "AMIF_YEAR";
+            this.AMIF_YEAR.Name = "AMIF_YEAR";
+            // 
+            // AMIF_CLOSE_PRICE_ORIG
+            // 
+            this.AMIF_CLOSE_PRICE_ORIG.Caption = "AMIF_CLOSE_PRICE_ORIG";
+            this.AMIF_CLOSE_PRICE_ORIG.FieldName = "AMIF_CLOSE_PRICE_ORIG";
+            this.AMIF_CLOSE_PRICE_ORIG.Name = "AMIF_CLOSE_PRICE_ORIG";
+            // 
+            // AMIF_MTH_SEQ_NO
+            // 
+            this.AMIF_MTH_SEQ_NO.Caption = "AMIF_MTH_SEQ_NO";
+            this.AMIF_MTH_SEQ_NO.FieldName = "AMIF_MTH_SEQ_NO";
+            this.AMIF_MTH_SEQ_NO.Name = "AMIF_MTH_SEQ_NO";
+            // 
+            // AMIF_OSW_GRP
+            // 
+            this.AMIF_OSW_GRP.Caption = "AMIF_OSW_GRP";
+            this.AMIF_OSW_GRP.FieldName = "AMIF_OSW_GRP";
+            this.AMIF_OSW_GRP.Name = "AMIF_OSW_GRP";
+            // 
             // W20110
             // 
             this.Appearance.Options.UseFont = true;
@@ -636,5 +756,20 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit max12digit4;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit max10digit0;
         private DevExpress.XtraGrid.Columns.GridColumn AMIF_DATE;
+        private DevExpress.XtraGrid.Columns.GridColumn AMIF_STRIKE_PRICE;
+        private DevExpress.XtraGrid.Columns.GridColumn AMIF_SETTLE_PRICE;
+        private DevExpress.XtraGrid.Columns.GridColumn AMIF_PROD_TYPE;
+        private DevExpress.XtraGrid.Columns.GridColumn AMIF_PROD_SUBTYPE;
+        private DevExpress.XtraGrid.Columns.GridColumn AMIF_DATA_SOURCE;
+        private DevExpress.XtraGrid.Columns.GridColumn AMIF_M_TIME;
+        private DevExpress.XtraGrid.Columns.GridColumn AMIF_PARAM_KEY;
+        private DevExpress.XtraGrid.Columns.GridColumn AMIF_PC_CODE;
+        private DevExpress.XtraGrid.Columns.GridColumn AMIF_PROD_ID;
+        private DevExpress.XtraGrid.Columns.GridColumn OP_TYPE;
+        private DevExpress.XtraGrid.Columns.GridColumn AMIF_CLOSE_PRICE_Y_FLAG;
+        private DevExpress.XtraGrid.Columns.GridColumn AMIF_YEAR;
+        private DevExpress.XtraGrid.Columns.GridColumn AMIF_CLOSE_PRICE_ORIG;
+        private DevExpress.XtraGrid.Columns.GridColumn AMIF_MTH_SEQ_NO;
+        private DevExpress.XtraGrid.Columns.GridColumn AMIF_OSW_GRP;
     }
 }
