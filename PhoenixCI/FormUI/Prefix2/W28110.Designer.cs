@@ -155,7 +155,6 @@
          this.btnSp.TabIndex = 12;
          this.btnSp.Text = "SP";
          this.btnSp.UseVisualStyleBackColor = true;
-         this.btnSp.Visible = false;
          this.btnSp.Click += new System.EventHandler(this.btnSp_Click);
          // 
          // btnStwd
@@ -166,7 +165,6 @@
          this.btnStwd.TabIndex = 11;
          this.btnStwd.Text = "STWD";
          this.btnStwd.UseVisualStyleBackColor = true;
-         this.btnStwd.Visible = false;
          this.btnStwd.Click += new System.EventHandler(this.btnStwd_Click);
          // 
          // panelControl2

@@ -211,7 +211,9 @@
          this.ddlType.Location = new System.Drawing.Point(89, 72);
          this.ddlType.MenuManager = this.ribbonControl;
          this.ddlType.Name = "ddlType";
+         this.ddlType.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
          this.ddlType.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
+         this.ddlType.Properties.Appearance.Options.UseBackColor = true;
          this.ddlType.Properties.Appearance.Options.UseForeColor = true;
          this.ddlType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});

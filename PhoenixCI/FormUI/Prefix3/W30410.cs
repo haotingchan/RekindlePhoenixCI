@@ -7,6 +7,7 @@ using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -96,10 +97,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //   return ResultStatus.Fail; ;
             //}
 
-            //if (string.Compare(txtStartDate.Text , txtEndDate.Text) > 0) {
-            //   MessageDisplay.Error(GlobalInfo.ErrorText , CheckDate.Datedif);
-            //   return ResultStatus.Fail; ;
-            //}
+            if (string.Compare(txtStartDate.Text , txtEndDate.Text) > 0) {
+               MessageDisplay.Error(CheckDate.Datedif , GlobalInfo.ErrorText);
+               return ResultStatus.Fail; ;
+            }
             #endregion
 
             //1. ready
@@ -130,7 +131,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             res3 = wf_30412(workbook , SheetNo.oint , row);
 
             if (!res1 && !res2 && !res3) {
-               //關閉檔案
+               File.Delete(excelDestinationPath);
+               return ResultStatus.Fail;
             }
 
             //5. save 
@@ -168,22 +170,22 @@ namespace PhoenixCI.FormUI.Prefix3 {
          try {
             //1. 取得資料最大日期, 抓取OI用
             string maxDate = new D30410().GetMaxDate(StartDate , EndDate);
-            if (String.IsNullOrEmpty(maxDate)) {
-               MessageDisplay.Info(String.Format("{0}~{1},{2} - {3},無任何資料!" , StartDate , EndDate , _ProgramID , rptName));
+            if (string.IsNullOrEmpty(maxDate)) {
+               MessageDisplay.Info(string.Format("{0}~{1},{2} - {3},無任何資料!" , StartDate , EndDate , _ProgramID , rptName) , "處理結果");
                return false;
-            }//if (String.IsNullOrEmpty(maxDate))
+            }//if (string.IsNullOrEmpty(maxDate))
 
             //2. 讀取資料
             string eDate = maxDate;
             DataTable dt30410 = new D30410().ListData(StartDate , eDate);
             if (dt30410.Rows.Count <= 0) {
-               MessageDisplay.Info(String.Format("{0}~{1},{2} - {3},無任何資料!" , StartDate , eDate , _ProgramID , rptName));
+               MessageDisplay.Info(string.Format("{0}~{1},{2} - {3},無任何資料!" , StartDate , eDate , _ProgramID , rptName) , "處理結果");
             } //if (dt.Rows.Count <= 0 )
 
             //3. 切換Sheet
             Worksheet ws = workbook.Worksheets[(int)sheetNo];
-            ws.Cells[1 , 0].Value = StartDate;
-            ws.Cells[1 , 1].Value = EndDate;
+            ws.Cells[1 , 0].Value = txtStartDate.Text;
+            ws.Cells[1 , 1].Value = txtEndDate.Text;
 
             int rowTotal = new RPT().DataByRptId("30410" , "30410").AsInt(); //將rowTotal轉為int使用
             rowTotal += row;
@@ -217,8 +219,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             return true;
          } catch (Exception ex) {
+            WriteLog(ex);
             return false;
-            throw ex;
          }
       }
 
@@ -239,24 +241,24 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             //1. 取得資料最大日期, 抓取OI用 (在wf_30410取得)
             string maxDate = new D30410().GetMaxDate(StartDate , EndDate);
-            if (String.IsNullOrEmpty(maxDate)) {
-               MessageDisplay.Info(String.Format("{0}~{1},{2} - {3},無任何資料!" , StartDate , EndDate , _ProgramID , rptName));
+            if (string.IsNullOrEmpty(maxDate)) {
+               MessageDisplay.Info(string.Format("{0}~{1},{2} - {3},無任何資料!" , StartDate , EndDate , rptId , rptName) , "處理結果");
                return false;
-            }//if (String.IsNullOrEmpty(maxDate))
+            }//if (string.IsNullOrEmpty(maxDate))
             DateTime eDate = DateTime.ParseExact(maxDate , "yyyyMMdd" , null); //yyyy/MM/dd
 
             //2. 讀取資料
             DataTable dt30411 = new D30410().ListData2(txtStartDate.DateTimeValue , eDate);
             if (dt30411.Rows.Count <= 0) {
-               MessageDisplay.Info(String.Format("{0}~{1},{2} - {3},無任何資料!" , txtStartDate.Text , txtEndDate.Text , rptId , rptName));
+               MessageDisplay.Info(string.Format("{0}~{1},{2} - {3},無任何資料!" , txtStartDate.Text , txtEndDate.Text , rptId , rptName) , "處理結果");
                return false;
             } //if (dt.Rows.Count <= 0 )
 
             //3. 切換Sheet
             Worksheet ws30411 = workbook.Worksheets[(int)sheetNo];
             ws30411.Range["A1"].Select();
-            ws30411.Cells[1 , 0].Value = StartDate;
-            ws30411.Cells[1 , 1].Value = EndDate;
+            ws30411.Cells[1 , 0].Value = txtStartDate.Text;
+            ws30411.Cells[1 , 1].Value = txtEndDate.Text;
 
             //3.1 撈資料列總數
             //PB這邊帶入參數為txnId = 30410 , txdId = 30410,兩者撈出皆為500 
@@ -305,8 +307,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             return true;
          } catch (Exception ex) {
+            WriteLog(ex);
             return false;
-            throw ex;
          }
       }
 
@@ -326,24 +328,24 @@ namespace PhoenixCI.FormUI.Prefix3 {
          try {
             //1. 取得資料最大日期, 抓取OI用 (在wf_30410取得)
             string maxDate = new D30410().GetMaxDate(StartDate , EndDate);
-            if (String.IsNullOrEmpty(maxDate)) {
-               MessageDisplay.Info(String.Format("{0}~{1},{2} - {3},無任何資料!" , StartDate , EndDate , _ProgramID , rptName));
+            if (string.IsNullOrEmpty(maxDate)) {
+               MessageDisplay.Info(string.Format("{0}~{1},{2} - {3},無任何資料!" , StartDate , EndDate , rptId , rptName) , "處理結果");
                return false;
-            }//if (String.IsNullOrEmpty(maxDate))
+            }//if (string.IsNullOrEmpty(maxDate))
             DateTime eDate = DateTime.ParseExact(maxDate , "yyyyMMdd" , null); //yyyy/MM/dd
 
             //2. 讀取資料
             DataTable dt30412 = new D30410().ListData2(txtStartDate.DateTimeValue , eDate);
             if (dt30412.Rows.Count <= 0) {
-               MessageDisplay.Info(String.Format("{0}~{1},{2} - {3},無任何資料!" , txtStartDate.Text , txtEndDate.Text , rptId , rptName));
+               MessageDisplay.Info(string.Format("{0}~{1},{2} - {3},無任何資料!" , txtStartDate.Text , txtEndDate.Text , rptId , rptName) , "處理結果");
                return false;
             } //if (dt.Rows.Count <= 0 )
 
             //3. 切換Sheet
             Worksheet ws30412 = workbook.Worksheets[(int)sheetNo];
             ws30412.Range["A1"].Select();
-            ws30412.Cells[1 , 0].Value = StartDate;
-            ws30412.Cells[1 , 1].Value = EndDate;
+            ws30412.Cells[1 , 0].Value = txtStartDate.Text;
+            ws30412.Cells[1 , 1].Value = txtEndDate.Text;
 
             //3.1 撈資料列總數
             //PB這邊帶入參數為txnId = 30410 , txdId = 30410,兩者撈出皆為500 
@@ -392,8 +394,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             return true;
          } catch (Exception ex) {
+            WriteLog(ex);
             return false;
-            throw ex;
          }
       }
    }
