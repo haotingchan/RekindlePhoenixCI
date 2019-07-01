@@ -40,21 +40,21 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
          try {
             #region 輸入&日期檢核 (exportbefore)
-            //if (!txtStartMon.IsDate(txtStartMon.Text , CheckDate.Start)
-            //      || !txtEndMon.IsDate(txtEndMon.Text , CheckDate.End)) {
-            //   return ResultStatus.Fail;
-            //}
+            if (!txtStartMon.IsDate(txtStartMon.Text , CheckDate.Start)
+                  || !txtEndMon.IsDate(txtEndMon.Text , CheckDate.End)) {
+               return ResultStatus.Fail;
+            }
 
-            //if (string.Compare(txtStartMon.Text , txtEndMon.Text) > 0) {
-            //   MessageDisplay.Error(GlobalInfo.ErrorText , "月份起始年月不可小於迄止年月!"); //若多隻功能皆有相同訊息可再寫入CheckDate Enum中
-            //   return ResultStatus.Fail;
-            //}
+            if (string.Compare(txtStartMon.Text , txtEndMon.Text) > 0) {
+               MessageDisplay.Error("月份起始年月不可小於迄止年月!" , GlobalInfo.ErrorText);//若多隻功能皆有相同訊息可再寫入CheckDate Enum中
+               return ResultStatus.Fail;
+            }
 
-            //if (txtStartMon.Text.SubStr(0 , 4).AsInt() < txtEndMon.Text.SubStr(0 , 4).AsInt() &&
-            //   txtStartMon.Text.SubStr(5 , 2).AsInt() < txtEndMon.Text.SubStr(5 , 2).AsInt()) {
-            //   MessageDisplay.Error(GlobalInfo.ErrorText , "最大查詢範圍為12個月!"); //若多隻功能皆有相同訊息可再寫入CheckDate Enum中
-            //   return ResultStatus.Fail;
-            //}
+            if (txtStartMon.Text.SubStr(0 , 4).AsInt() < txtEndMon.Text.SubStr(0 , 4).AsInt() &&
+               txtStartMon.Text.SubStr(5 , 2).AsInt() < txtEndMon.Text.SubStr(5 , 2).AsInt()) {
+               MessageDisplay.Error("最大查詢範圍為12個月!" , GlobalInfo.ErrorText); //若多隻功能皆有相同訊息可再寫入CheckDate Enum中
+               return ResultStatus.Fail;
+            }
             #endregion
 
             //1. ready

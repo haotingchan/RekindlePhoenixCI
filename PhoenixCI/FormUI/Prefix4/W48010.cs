@@ -50,7 +50,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
       protected override ResultStatus Open() {
          base.Open();
-         txtSDate.EditValue = GlobalInfo.OCF_DATE;
+         txtSDate.DateTimeValue = GlobalInfo.OCF_DATE;
          lupSubType = new RepositoryItemLookUpEdit();
 
 #if DEBUG

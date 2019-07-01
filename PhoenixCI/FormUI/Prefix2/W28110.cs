@@ -1,11 +1,9 @@
 ﻿using BaseGround;
 using BaseGround.Shared;
-using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together.SpecificDao;
 using DataObjects.Dao.Together.TableDao;
-using DevExpress.Utils;
 using DevExpress.XtraGrid.Views.Grid;
 using System;
 using System.ComponentModel;
@@ -14,6 +12,8 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+
+//TODO : (CIN)servername登入才會看到STWD,SP Button 
 
 /// <summary>
 /// Winni, 2019/02/12
@@ -248,32 +248,32 @@ namespace PhoenixCI.FormUI.Prefix2 {
             foreach (DataRow dr in dt.Rows) {
 
                //彙總資料,直接匯入,不需做移位處理	
-               if (String.IsNullOrEmpty(dr["STW_SETTLE_M"].AsString())) {
+               if (string.IsNullOrEmpty(dr["STW_SETTLE_M"].AsString())) {
                   dr["STW_OPEN_1"] = dr["STW_OPEN_1"].AsString();
                   dr["STW_HIGH"] = dr["STW_HIGH"].AsString();
                   dr["STW_LOW"] = dr["STW_LOW"].AsString();
                   dr["STW_CLSE_1"] = dr["STW_CLSE_1"].AsString();
                } else {
                   //防止使用者用excel編輯後格式跑掉,先將值固定格式化為9位文字,未滿9位前面補0 	
-                  if (!String.IsNullOrEmpty(dr["STW_OPEN_1"].AsString())) {
+                  if (!string.IsNullOrEmpty(dr["STW_OPEN_1"].AsString())) {
                      dr["STW_OPEN_1"] = dr["STW_OPEN_1"].AsString().PadLeft(fillZero , '0');
                   }
-                  if (!String.IsNullOrEmpty(dr["STW_OPEN_2"].AsString())) {
+                  if (!string.IsNullOrEmpty(dr["STW_OPEN_2"].AsString())) {
                      dr["STW_OPEN_2"] = dr["STW_OPEN_2"].AsString().PadLeft(fillZero , '0');
                   }
-                  if (!String.IsNullOrEmpty(dr["STW_HIGH"].AsString())) {
+                  if (!string.IsNullOrEmpty(dr["STW_HIGH"].AsString())) {
                      dr["STW_HIGH"] = dr["STW_HIGH"].AsString().PadLeft(fillZero , '0');
                   }
-                  if (!String.IsNullOrEmpty(dr["STW_LOW"].AsString())) {
+                  if (!string.IsNullOrEmpty(dr["STW_LOW"].AsString())) {
                      dr["STW_LOW"] = dr["STW_LOW"].AsString().PadLeft(fillZero , '0');
                   }
-                  if (!String.IsNullOrEmpty(dr["STW_CLSE_1"].AsString())) {
+                  if (!string.IsNullOrEmpty(dr["STW_CLSE_1"].AsString())) {
                      dr["STW_CLSE_1"] = dr["STW_CLSE_1"].AsString().PadLeft(fillZero , '0');
                   }
-                  if (!String.IsNullOrEmpty(dr["STW_CLSE_2"].AsString())) {
+                  if (!string.IsNullOrEmpty(dr["STW_CLSE_2"].AsString())) {
                      dr["STW_CLSE_2"] = dr["STW_CLSE_2"].AsString().PadLeft(fillZero , '0');
                   }
-                  if (!String.IsNullOrEmpty(dr["STW_SETTLE"].AsString())) {
+                  if (!string.IsNullOrEmpty(dr["STW_SETTLE"].AsString())) {
                      dr["STW_SETTLE"] = dr["STW_SETTLE"].AsString().PadLeft(fillZero - 1 , '0');
                      if (dr["STW_SETTLE"].AsDecimal() == 0) {
                         LastTradeDay = true;
@@ -282,7 +282,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                }//if (String.IsNullOrEmpty(dr["STW_SETTLE_M"].AsString())) {
 
                #region 需求9800451(全部往前移1位)
-               if (String.IsNullOrEmpty(dr["STW_SETTLE_M"].AsString())) {
+               if (string.IsNullOrEmpty(dr["STW_SETTLE_M"].AsString())) {
                   dr["STW_SETTLE_M"] = "99";
                }
                #endregion
@@ -291,26 +291,26 @@ namespace PhoenixCI.FormUI.Prefix2 {
                if (dr["STW_SETTLE_M"].AsString().Length == 1) {
                   dr["STW_SETTLE_M"] = ("00" + dr["STW_SETTLE_M"].AsString()).Substring(1 , 2);
                }
-               if (String.IsNullOrEmpty(dr["STW_SETTLE_Y"].AsString())) {
+               if (string.IsNullOrEmpty(dr["STW_SETTLE_Y"].AsString())) {
                   dr["STW_SETTLE_Y"] = "9999";
                }
-               if (String.IsNullOrEmpty(dr["STW_RECTYP"].AsString())) {
+               if (string.IsNullOrEmpty(dr["STW_RECTYP"].AsString())) {
                   if (dr["STW_SETTLE_M"].AsString() == "") {
                      dr["STW_RECTYP"] = " ";
                   } else {
                      dr["STW_RECTYP"] = "A";
                   }
                }
-               if (String.IsNullOrEmpty(dr["STW_VOLUMN"].AsString())) {
+               if (string.IsNullOrEmpty(dr["STW_VOLUMN"].AsString())) {
                   dr["STW_VOLUMN"] = "0";
                }
-               if (String.IsNullOrEmpty(dr["STW_OINT"].AsString())) {
+               if (string.IsNullOrEmpty(dr["STW_OINT"].AsString())) {
                   dr["STW_OINT"] = "0";
                }
                #endregion
 
                #region 需求單9800144(當結算價=0,則OI=0)
-               if (String.IsNullOrEmpty(dr["STW_SETTLE"].AsString())) {
+               if (string.IsNullOrEmpty(dr["STW_SETTLE"].AsString())) {
                   dr["STW_SETTLE"] = "0";
                }
 
@@ -357,7 +357,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             int tmpDiv; //tmpDiv
             DataTable dtAmif = new DataTable();
             dtAmif = dao28110.getAmifData(txtDate.DateTimeValue);
-            if (String.IsNullOrEmpty(dtAmif.Rows.Count.AsString())) {
+            if (string.IsNullOrEmpty(dtAmif.Rows.Count.AsString())) {
                return ResultStatus.Fail;
             }
 
@@ -383,7 +383,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                   //Open
                   if (drAmif["AMIF_OPEN_PRICE"].AsDecimal() != drSTW["STW_OPEN_1"].AsDecimal() / tmpDiv) {
                      string temp = "更新20110,open:" + drAmif["AMIF_OPEN_PRICE"].AsString() + "," +
-                                              String.Format("#0.0#" , drSTW["STW_OPEN_1"].AsDecimal() / tmpDiv).Trim();
+                                              string.Format("#0.0#" , drSTW["STW_OPEN_1"].AsDecimal() / tmpDiv).Trim();
                      WriteLog(temp , "Info" , "E");
                   }
                   drAmif["AMIF_OPEN_PRICE"] = drSTW["STW_OPEN_1"].AsDecimal() / tmpDiv;
@@ -391,7 +391,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                   //High
                   if (drAmif["AMIF_HIGH_PRICE"].AsDecimal() != drSTW["STW_HIGH"].AsDecimal() / tmpDiv) {
                      string temp = "更新20110,high:" + drAmif["AMIF_HIGH_PRICE"].AsString() + "," +
-                                              String.Format("#0.0#" , drSTW["STW_HIGH"].AsDecimal() / tmpDiv).Trim();
+                                              string.Format("#0.0#" , drSTW["STW_HIGH"].AsDecimal() / tmpDiv).Trim();
                      WriteLog(temp , "Info" , "E");
                   }
                   drAmif["AMIF_HIGH_PRICE"] = drSTW["STW_HIGH"].AsDecimal() / tmpDiv;
@@ -399,7 +399,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                   //Low
                   if (drAmif["AMIF_LOW_PRICE"].AsDecimal() != drSTW["STW_LOW"].AsDecimal() / tmpDiv) {
                      string temp = "更新20110,low:" + drAmif["AMIF_LOW_PRICE"].AsString() + "," +
-                                              String.Format("#0.0#" , drSTW["STW_LOW"].AsDecimal() / tmpDiv).Trim();
+                                              string.Format("#0.0#" , drSTW["STW_LOW"].AsDecimal() / tmpDiv).Trim();
                      WriteLog(temp , "Info" , "E");
                   }
                   drAmif["AMIF_LOW_PRICE"] = drSTW["STW_LOW"].AsDecimal() / tmpDiv;
@@ -407,7 +407,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                   //Close
                   if (drAmif["AMIF_CLOSE_PRICE"].AsDecimal() != drSTW["STW_CLSE_1"].AsDecimal() / tmpDiv) {
                      string temp = "更新20110,close:" + drAmif["AMIF_CLOSE_PRICE"].AsString() + "," +
-                                              String.Format("#0.0#" , drSTW["STW_CLSE_1"].AsDecimal() / tmpDiv).Trim();
+                                              string.Format("#0.0#" , drSTW["STW_CLSE_1"].AsDecimal() / tmpDiv).Trim();
                      WriteLog(temp , "Info" , "E");
                   }
                   drAmif["AMIF_CLOSE_PRICE"] = drSTW["STW_CLSE_1"].AsDecimal() / tmpDiv;
@@ -429,7 +429,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                   //Settle
                   if (drAmif["AMIF_SETTLE_PRICE"].AsDecimal() != drSTW["STW_SETTLE"].AsDecimal() / tmpDiv) {
                      string temp = "更新20110,settle:" + drAmif["AMIF_SETTLE_PRICE"].AsString() + "," +
-                                              String.Format("#0.0#" , drSTW["STW_SETTLE"].AsDecimal() / tmpDiv).Trim();
+                                              string.Format("#0.0#" , drSTW["STW_SETTLE"].AsDecimal() / tmpDiv).Trim();
                      WriteLog(temp , "Info" , "E");
                   }
                   drAmif["AMIF_SETTLE_PRICE"] = drSTW["STW_SETTLE"].AsDecimal() / tmpDiv;
@@ -437,7 +437,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                   //Qnty
                   if (drAmif["AMIF_M_QNTY_TAL"].AsDecimal() != drSTW["STW_VOLUMN"].AsDecimal() / tmpDiv) {
                      string temp = "更新20110,qnty:" + drAmif["AMIF_M_QNTY_TAL"].AsString() + "," +
-                                              String.Format("#0" , drSTW["STW_VOLUMN"].AsDecimal() / tmpDiv).Trim();
+                                              string.Format("#0" , drSTW["STW_VOLUMN"].AsDecimal() / tmpDiv).Trim();
                      WriteLog(temp , "Info" , "E");
                   }
                   drAmif["AMIF_M_QNTY_TAL"] = drSTW["STW_VOLUMN"].AsDecimal();
@@ -445,7 +445,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                   //Oi
                   if (drAmif["AMIF_OPEN_INTEREST"].AsDecimal() != drSTW["STW_OINT"].AsDecimal()) {
                      string temp = "更新20110,oi:" + drAmif["AMIF_OPEN_INTEREST"].AsString() + "," +
-                                              String.Format("#0" , drSTW["STW_OINT"].AsDecimal()).Trim();
+                                              string.Format("#0" , drSTW["STW_OINT"].AsDecimal()).Trim();
                      WriteLog(temp , "Info" , "E");
                   }
                   drAmif["AMIF_OPEN_INTEREST"] = drSTW["STW_OINT"].AsDecimal();
