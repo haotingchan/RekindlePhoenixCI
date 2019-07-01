@@ -1098,7 +1098,8 @@ namespace BaseGround.Shared {
          OCF ocf = new OCF(dbType);
          BO_OCF boOCF = ocf.GetOCF();
          if (boOCF == null) {
-            throw new Exception("交易日期檔(OCF)讀取錯誤!");
+                MessageDisplay.Error("交易日期檔(OCF)讀取錯誤!");
+                return "";
          }
          DateTime ldt_date = boOCF.OCF_DATE;
          DateTime ldt_next_date = boOCF.OCF_NEXT_DATE;

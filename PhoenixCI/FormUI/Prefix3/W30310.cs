@@ -101,19 +101,30 @@ namespace PhoenixCI.FormUI.Prefix3
          }
 
          string lsFile = PbFunc.wf_copy_file(_ProgramID, "30310");
+         MessageDisplay message = new MessageDisplay();
+
          try {
             b30310 = new B30310(lsFile, emMonth.Text);
             ShowMsg("30310－我國臺股期貨契約價量資料30311_1 轉檔中...");
-            OutputShowMessage = b30310.Wf30310one("TXF", "30311_1");
+            message.OutputShowMessage = b30310.Wf30310one("TXF", "30311_1");
             ShowMsg("30310－我國臺股期貨契約價量資料30311_2(EXF) 轉檔中...");
-            OutputShowMessage = b30310.Wf30310two("EXF", "30311_2(EXF)");
+            message.OutputShowMessage = b30310.Wf30310two("EXF", "30311_2(EXF)");
             ShowMsg("30310－我國臺股期貨契約價量資料30311_3(FXF) 轉檔中...");
-            OutputShowMessage = b30310.Wf30310two("FXF", "30311_3(FXF)");
+            message.OutputShowMessage = b30310.Wf30310two("FXF", "30311_3(FXF)");
             ShowMsg("30313－當年每月日均量統計表 轉檔中...");
-            OutputShowMessage = b30310.Wf30310four();
+            message.OutputShowMessage = b30310.Wf30310four();
+
+            //連續跳四次無資料刪除檔案
+            if (string.IsNullOrEmpty(message.OutputShowMessage)) {
+               if (File.Exists(lsFile))
+                  File.Delete(lsFile);
+               return ResultStatus.Fail;
+            }
+               
          }
          catch (Exception ex) {
-            File.Delete(lsFile);
+            if (File.Exists(lsFile))
+               File.Delete(lsFile);
             WriteLog(ex);
             return ResultStatus.Fail;
          }

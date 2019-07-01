@@ -90,9 +90,14 @@ namespace ActionServiceW.DbDirect.Prefix
         public bool SetTXF1(string TXF_TID,string TXF_TXN_ID) {
             return daoTXF1.UpdateTid(TXF_TID,TXF_TXN_ID);
         }
+        public ResultData setOCF()
+        {
+            return daoOCF.UpdateCI();
+        }
 
         public DataTable CheckTXF2(string TXF2_TXN_ID,string TXF2_TID) {
             return daoTXF2.ListDataByTXN(TXF2_TXN_ID, TXF2_TID);
         }
+
     }
 }

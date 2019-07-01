@@ -21,11 +21,11 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       private string _emMonthText;
 
       /// <summary>
-      /// 
+      /// 指數期貨價量資料
       /// </summary>
       /// <param name="FilePath">Excel_Template</param>
       /// <param name="datetime">em_month.Text</param>
-      public B30320(string FilePath,string datetime)
+      public B30320(string FilePath, string datetime)
       {
          dao30320 = new D30320();
          _lsFile = FilePath;
@@ -66,18 +66,19 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             if (dt.Rows.Count <= 0) {
                return $"{LastTradeDate.ToShortDateString()}～{_emMonthText.AsDateTime().ToString("yyyy/MM/31")},30321－指數期貨價量資料,無任何資料!";
             }
-            
+
             string lsYMD = "";
 
             int rowIndex = 1;
             int RowTotal = 32 + 1;//Excel的Column預留數 預留顯示32行加上隱藏的1行
             int addRowCount = 0;//總計寫入的行數
             foreach (DataRow row in dt.Rows) {
+               //不同的日期就寫入新的一行
                if (lsYMD != row["AI2_YMD"].AsString()) {
                   lsYMD = row["AI2_YMD"].AsString();
                   rowIndex = rowIndex + 1;
                   addRowCount++;
-                  worksheet.Rows[rowIndex][1 - 1].Value = lsYMD.AsDateTime("yyyyMMdd").ToString("MM/dd");
+                  worksheet.Cells[$"A{rowIndex + 1}"].Value = lsYMD.AsDateTime("yyyyMMdd").ToString("MM/dd");
                }
                int columnIndex = row["RPT_SEQ_NO"].AsInt();
                worksheet.Rows[rowIndex][columnIndex - 1].Value = row["AI2_M_QNTY"].AsDecimal();
@@ -128,12 +129,13 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             if (dt.Rows.Count <= 0) {
                return $"{ldtSdate.ToShortDateString()}～{_emMonthText.AsDateTime().ToString("yyyy/MM/31")},30322－指數期貨價量資料,無任何資料!";
             }
-            
+
             int rowIndex = 1;
             int RowTotal = 32;//Excel的Column預留數32
             int addRowCount = 0;//總計寫入的行數
             lsYMD = "";
             foreach (DataRow row in dt.Rows) {
+               //不同的日期就寫入新的一行
                if (lsYMD != row["AI3_DATE"].AsString()) {
                   lsYMD = row["AI3_DATE"].AsString();
                   rowIndex = rowIndex + 1;

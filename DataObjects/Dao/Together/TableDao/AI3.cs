@@ -98,7 +98,7 @@ where rownum=1", interval);
       {
          object[] parms =
          {
-            "as_kind_id",as_kind_id,
+            ":as_kind_id",as_kind_id,
             ":as_sdate", as_sdate,
             ":as_edate", as_edate
             };
