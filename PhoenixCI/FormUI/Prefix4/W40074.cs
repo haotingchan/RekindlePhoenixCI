@@ -327,6 +327,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 dtMGD2 = dao40071.d_40071(this.ymd, isAdjType);
 
                 foreach (DataRow dr in dtGrid.Rows) {
+                    if (dr.RowState == DataRowState.Deleted) continue;
                     opType = dr["OP_TYPE"].ToString();
                     stockID = dr["STOCK_ID"].AsString();
                     kindID = dr["KIND_ID"].AsString();
@@ -449,6 +450,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 DataTable dtTemp = dao40072.d_40072(); //ids_tmp
 
                 foreach (DataRow dr in dtGrid.Rows) {
+                    if (dr.RowState == DataRowState.Deleted) continue;
                     opType = dr["OP_TYPE"].ToString();
                     //只更新有異動的資料
                     if (opType != " ") {

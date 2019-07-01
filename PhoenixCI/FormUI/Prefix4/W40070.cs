@@ -270,6 +270,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 cbxCode.Checked = true;
 
                 foreach (DataRow dr in dtFiltered.Rows) {
+                    if (dr.RowState == DataRowState.Deleted) continue;
                     kindID = dr["KIND_ID"].AsString();
                     issueBeginYmd = dr["ISSUE_BEGIN_YMD"].AsString();
                     adjRsn = dr["ADJ_RSN"].AsString();
@@ -344,6 +345,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 dtEmpty.Columns.Remove(dtEmpty.Columns["CPSORT"]);//刪除排序用的運算欄位
 
                 foreach (DataRow dr in dtFiltered.Rows) {
+                    if (dr.RowState == DataRowState.Deleted) continue;
                     kindID = dr["KIND_ID"].ToString();
                     issueBeginYmd = dr["ISSUE_BEGIN_YMD"].AsString();
                     adjRsn = dr["ADJ_RSN"].AsString();
