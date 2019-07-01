@@ -219,8 +219,24 @@ namespace PhoenixCI.FormUI.Prefix4
             //讀取每個商品的EWMA
             int k = 0;
             //平行處理每個商品
-            var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount / 2 };
-            Parallel.ForEach(dt.AsEnumerable(), options, (dr, state) => {
+            //var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount / 2 };
+            //Parallel.ForEach(dt.AsEnumerable(), options, (dr, state) => {
+            //   string kindID = dr["MG1_KIND_ID"].AsString();
+            //   //複製template
+            //   filepath = CopyWemaTemplateFile(kindID);
+            //   //記錄所產商品的檔案路徑
+            //   pathList[k++] = filepath;
+            //   //產出經Excel計算後的資料
+            //   dataRow = b40010.ComputeEWMA(filepath, kindID);
+
+            //   if (dataRow == null)
+            //      return;
+
+            //   //每筆計算後的資料暫存至DataTable
+            //   dtMGR2.ImportRow(dataRow);
+            //});
+
+            foreach (DataRow dr in dt.Rows) {
                string kindID = dr["MG1_KIND_ID"].AsString();
                //複製template
                filepath = CopyWemaTemplateFile(kindID);
@@ -234,7 +250,7 @@ namespace PhoenixCI.FormUI.Prefix4
 
                //每筆計算後的資料暫存至DataTable
                dtMGR2.ImportRow(dataRow);
-            });
+            }
 
             if (dtMGR2.Rows.Count > 0) {
                ShowMsg($"EWMA 寫入資料庫...");

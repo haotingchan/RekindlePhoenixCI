@@ -21,7 +21,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
       /// </summary>
       /// <param name="filePath">存檔路徑</param>
       /// <param name="dataTable">要輸出的資料</param>
-      private void SaveExcel(string filePath, DataTable dataTable, bool addHeader = false, int firstRowIndex = 0, int firstColIndex = 0)
+      private void SaveExcel(string filePath, DataTable dataTable, bool addHeader = true, int firstRowIndex = 0, int firstColIndex = 0)
       {
          try {
             Workbook wb = new Workbook();
@@ -103,7 +103,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                File.Delete(openData);
             }
             File.Create(openData).Close();
-            WriteFile(openData, "期貨商代號,期貨商名稱,日期,商品,交易量");
+            //WriteFile(openData, "期貨商代號,期貨商名稱,日期,商品,交易量");
          }
 
          D70010 dao70010 = new D70010();
@@ -174,40 +174,83 @@ namespace PhoenixCI.BusinessLogic.Prefix7
             catch (Exception ex) {
                throw new Exception("日期:週-" + ex.Message);
             }
+
+            //主要的資料
+            DataTable workTable = new DataTable();
+            //opendata DataTable
+            DataTable opendataTable = new DataTable();
+            opendataTable.Columns.Add("期貨商代號", typeof(string));
+            opendataTable.Columns.Add("期貨商名稱", typeof(string));
+            opendataTable.Columns.Add("日期", typeof(string));
+            opendataTable.Columns.Add("商品", typeof(string));
+            opendataTable.Columns.Add("交易量", typeof(string));
             /******************
             表頭
             ******************/
             lsStr = "";
-            string lsOutput1, lsOutput2, lsOpenDataStr;
-            string writeOpenData = "";
+
+            //StringBuilder lsOutput1 = new StringBuilder();
+            //StringBuilder lsOutput2 = new StringBuilder();
+
             decimal ldSum = 0;
             try {
-               lsOutput1 = !selectEng ? "期貨商代號" + "," + "名稱" : " Sequential No.";
-               lsOutput2 = !selectEng ? "Date" + "," : "Date";
+               //lsOutput1.Append(!selectEng ? "期貨商代號" + "," + "名稱" : " Sequential No.");
+               DataRow headerRow = workTable.NewRow();
+               if (!selectEng) {
+                  workTable.Columns.Add("期貨商代號", typeof(string));
+                  workTable.Columns.Add("名稱", typeof(string));
+                  headerRow[0] = "Date";
+                  headerRow[1] = "";
+               }
+               else {
+                  workTable.Columns.Add("Sequential No.", typeof(string));
+                  headerRow[0] = "Date";
+               }
+
+               int ParamKeyCount = 2;//在商品代號和名稱之後，從第三欄開始
+               //lsOutput2.Append(!selectEng ? "Date" + "," : "Date");
                foreach (DataRow ymdRow in dtYMD.Rows) {
                   lsYMD = ymdRow["am0_ymd"].AsString();
-                  lsOutput2 = lsOutput2 + "," + lsYMD + " - " + ymdRow["ymd_end"].AsString() + ",".PadRight(newdtPK.Rows.Count, ',');
+
                   if (lsYMD == "99999999") {
                      lsStr = !selectEng ? "總計" : "Year-To-Date Volume of";
                   }
+
+                  string pkYMD = "";
                   foreach (DataRow pkRow in newdtPK.Rows) {
                      lsParamKey = pkRow["am0_param_key"].AsString();
                      /*******************
                      換商品代號
                      *******************/
                      lsParamKey = pkRow["rpt_value_2"].AsString();
-                     lsOutput1 = lsOutput1 + "," + lsStr + lsParamKey;
+                     //lsOutput1.Append("," + lsStr + lsParamKey);
+                     workTable.Columns.Add(lsStr + lsParamKey, typeof(string));
+                     if (pkYMD == lsYMD) {
+                        headerRow[ParamKeyCount++] = "";
+                     }
+                     else {
+                        pkYMD = lsYMD;
+                        headerRow[ParamKeyCount++] = lsYMD + " - " + ymdRow["ymd_end"].AsString();
+                     }
+
                   }//foreach(DataRow pkRow in newdtPK.Rows)
+
+                  //lsOutput2.Append("," + lsYMD + " - " + ymdRow["ymd_end"].AsString() + ",".PadRight(newdtPK.Rows.Count, ','));
+
+
                   if (lsYMD == "99999999") {
-                     lsOutput1 = lsOutput1 + "," + (!selectEng ? lsStr : "Year-To-Date Market Volume");
+                     //lsOutput1.Append("," + (!selectEng ? lsStr : "Year-To-Date Market Volume"));
+                     workTable.Columns.Add(!selectEng ? lsStr : "Year-To-Date Market Volume", typeof(string));
                   }
                   else {
-                     lsOutput1 = lsOutput1 + "," + (!selectEng ? "小計" : "Subtotal");
+                     //lsOutput1.Append("," + (!selectEng ? "小計" : "Subtotal"));
+                     workTable.Columns.Add(!selectEng ? "小計" : "Subtotal", typeof(string));
                   }
                }//foreach (DataRow ymdRow in dtYMD.Rows)
-               lsOutput1 = lsOutput1 + "," + (!selectEng ? "市佔率" : "YTD Market shares(%)");
-               WriteFile(SaveFilePath, lsOutput1);
-               WriteFile(SaveFilePath, lsOutput2);
+               //lsOutput1.Append("," + (!selectEng ? "市佔率" : "YTD Market shares(%)"));
+               workTable.Columns.Add(!selectEng ? "市佔率" : "YTD Market shares(%)", typeof(string));
+               //新增兩列表頭
+               workTable.Rows.Add(headerRow);
             }
             catch (Exception ex) {
                throw new Exception("表頭:" + ex.Message);
@@ -218,6 +261,8 @@ namespace PhoenixCI.BusinessLogic.Prefix7
             DataRow newRow = dt.NewRow();
             newRow["am0_ymd"] = "20060101";
             dt.Rows.Add(newRow);
+
+            DataRow contentRow = workTable.NewRow();
             /*******************
             OpenData
             *******************/
@@ -234,8 +279,16 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                      lsBrkNo = lsBrkNo4.Trim() + "000";
                   }
                   lsBrkName = daoABRK.GetNameByNo(lsBrkNo);// f_get_abrk_name(lsBrkNo,'0')	
-                  lsOutput1 = !selectEng ? (lsBrkNo + "," + lsBrkName) : lsBrkNo;//轉英文只秀編號
+                  //lsOutput1 = new StringBuilder(!selectEng ? (lsBrkNo + "," + lsBrkName) : lsBrkNo);//轉英文只秀編號
+                  if (!selectEng) {
+                     contentRow[0] = lsBrkNo;
+                     contentRow[1] = lsBrkName;
+                  }
+                  else {
+                     contentRow[0] = lsBrkNo;
+                  }
                   //日期
+                  int colIndex = 0;
                   foreach (DataRow ymdRow in dtYMD.Rows) {
                      lsYMD = ymdRow["am0_ymd"].AsString();
                      DataTable newdt = dt.Filter($@"am0_brk_no4='{ lsBrkNo4 }' and am0_brk_type='{ lsBrkType }' and am0_ymd>='{ ymdRow["am0_ymd"].AsString() }' and am0_ymd<='{ ymdRow["ymd_end"].AsString() }'");
@@ -246,24 +299,33 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                            newdtPK.Rows[foundIndex]["qnty"] = ll_qnty;
                         }
                      }
-                     lsOpenDataStr = lsBrkNo + "," + lsBrkName + "," + ymdRow["am0_ymd"].AsString() + " - " + ymdRow["ymd_end"].AsString();
+
                      if (newdtPK.Rows.Count > 1)
                         ldSum = newdtPK.Compute("sum(qnty)", "").AsDecimal();//ldSum = newdtPK.getitemdecimal(1,"cp_sum_qnty")
 
+                     //string lsOpenDataStr = lsBrkNo + "," + lsBrkName + "," + ymdRow["am0_ymd"].AsString() + " - " + ymdRow["ymd_end"].AsString();
                      //商品
                      foreach (DataRow pkRow in newdtPK.Rows) {
-                        lsOutput1 = lsOutput1 + "," + pkRow["qnty"];
+                        //lsOutput1.Append("," + pkRow["qnty"]);
+                        contentRow[colIndex++] = pkRow["qnty"].AsString();
                         if (lsYMD.SubStr(0, 8) != "99999999" && !selectEng) {
-                           writeOpenData = lsOpenDataStr + "," + pkRow["am0_param_key"].AsString() + "," + pkRow["qnty"].AsString();
-                           WriteFile(openData, writeOpenData);
+                           //string writeOpenData = lsOpenDataStr + "," + pkRow["am0_param_key"].AsString() + "," + pkRow["qnty"].AsString();
+                           opendataTable.Rows.Add(new object[] { lsBrkNo, lsBrkName, ymdRow["am0_ymd"].AsString() + " - " + ymdRow["ymd_end"].AsString(), pkRow["am0_param_key"].AsString(), pkRow["qnty"].AsString() });
                         }
                         pkRow["qnty"] = 0;
                      }//foreach(DataRow pkRow in newdtPK.Rows)
-                     lsOutput1 = lsOutput1 + "," + ldSum.AsString();
+                     //lsOutput1.Append("," + ldSum.AsString());
+                     contentRow[colIndex++] = ldSum.AsString();
                   }//foreach (DataRow ymdRow in dtYMD.Rows)
-                  lsOutput1 = lsOutput1 + $",{brkRow["cp_rate"].AsDecimal().ToString("n")}";
-                  WriteFile(SaveFilePath, lsOutput1);
+                  //lsOutput1.Append($",{brkRow["cp_rate"].AsDecimal().ToString("n")}");
+                  contentRow[colIndex++] = brkRow["cp_rate"].AsDecimal().ToString("n");
+
+                  workTable.Rows.Add(contentRow);
                }//foreach (DataRow brkRow in dtBRK.Rows)
+
+               //存檔
+               SaveExcel(SaveFilePath, workTable);
+               SaveExcel(openData, opendataTable);
             }
             catch (Exception ex) {
                throw new Exception("內容:" + ex.Message);
@@ -422,46 +484,73 @@ namespace PhoenixCI.BusinessLogic.Prefix7
             catch (Exception ex) {
                throw new Exception("日期:週-" + ex.Message);
             }
+
+            //主要的資料
+            DataTable workTable = new DataTable();
+
             /******************
             表頭
             ******************/
             lsStr = "";
-            string lsOutput1, lsOutput2;
             decimal ldSum = 0;
             DataTable newDsYMD = dtYMD;
+            DataRow headerRow = workTable.NewRow();
+            workTable.Columns.Add("期貨商代號", typeof(string));
+            workTable.Columns.Add("名稱", typeof(string));
+            headerRow[0] = "Date";
+            headerRow[1] = "";
+
+            //StringBuilder lsOutput1 = new StringBuilder("期貨商代號" + "," + "名稱");
+            //StringBuilder lsOutput2 = new StringBuilder("Date" + ",");
+
             try {
-               lsOutput1 = "期貨商代號" + "," + "名稱";
-               lsOutput2 = "Date" + ",";
+               int ParamKeyCount = 1;
                foreach (DataRow ymdRow in dtYMD.Rows) {
                   lsYMD = ymdRow["am0_ymd"].AsString();
-                  lsOutput2 = lsOutput2 + "," + lsYMD + " - " + ymdRow["ymd_end"].AsString();
-                  if (lsKindId2 == "%") {
-                     lsOutput2 = lsOutput2 + ",".PadRight(newdtPK.Rows.Count, ',');
-                  }
 
                   if (lsYMD == "99999999") {
                      lsStr = "總計";
                   }
+                  string pkYMD = "";
                   foreach (DataRow pkRow in newdtPK.Rows) {
                      lsParamKey = pkRow["am0_param_key"].AsString();
                      /*******************
                      換商品代號
                      *******************/
                      lsParamKey = pkRow["rpt_value_2"].AsString();
-                     lsOutput1 = lsOutput1 + "," + lsStr + lsParamKey;
-                  }//foreach(DataRow pkRow in newdtPK.Rows)
-                  if (lsKindId2 == "%") {
-                     if (lsYMD == "99999999") {
-                        lsOutput1 = lsOutput1 + "," + lsStr;
+                     workTable.Columns.Add(lsYMD + " - " + ymdRow["ymd_end"].AsString(), typeof(string));
+                     //lsOutput1.Append("," + lsStr + lsParamKey);
+                     workTable.Columns.Add(lsStr + lsParamKey, typeof(string));
+                     if (pkYMD == lsYMD && lsKindId2 == "%") {
+                        headerRow[ParamKeyCount++] = "";
                      }
                      else {
-                        lsOutput1 = lsOutput1 + "," + "小計";
+                        pkYMD = lsYMD;
+                        headerRow[ParamKeyCount++] = lsYMD + " - " + ymdRow["ymd_end"].AsString();
+                     }
+                  }//foreach(DataRow pkRow in newdtPK.Rows)
+
+                  //lsOutput2.Append("," + lsYMD + " - " + ymdRow["ymd_end"].AsString());
+                  //if (lsKindId2 == "%") {
+                  //   lsOutput2.Append(",".PadRight(newdtPK.Rows.Count, ','));
+                  //}
+
+                  if (lsKindId2 == "%") {
+                     if (lsYMD == "99999999") {
+                        //lsOutput1.Append("," + lsStr);
+                        workTable.Columns.Add(lsStr, typeof(string));
+                     }
+                     else {
+                        //lsOutput1.Append("," + "小計");
+                        workTable.Columns.Add("小計", typeof(string));
                      }
                   }
                }//foreach (DataRow ymdRow in dtYMD.Rows)
-               lsOutput1 = lsOutput1 + "," + "市佔率";
-               WriteFile(SaveFilePath, lsOutput1);
-               WriteFile(SaveFilePath, lsOutput2);
+               //lsOutput1.Append("," + "市佔率");
+               headerRow[ParamKeyCount++] = "市佔率";
+
+               //新增兩列表頭
+               workTable.Rows.Add(headerRow);
             }
             catch (Exception ex) {
                throw new Exception("表頭:" + ex.Message);
@@ -473,6 +562,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
             newRow["am0_ymd"] = "20060101";
             dt.Rows.Add(newRow);
             //期貨商代號&名稱
+            DataRow contentRow = workTable.NewRow();
             try {
                foreach (DataRow brkRow in dtBRK.Rows) {
                   lsBrkNo4 = brkRow["am0_brk_no4"].AsString();
@@ -484,9 +574,12 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                      lsBrkNo = lsBrkNo4.Trim() + "000";
                   }
                   string lsBrkName = new ABRK().GetNameByNo(lsBrkNo);// f_get_abrk_name(lsBrkNo,'0')	
-                  lsOutput1 = lsBrkNo + "," + lsBrkName;
+                  //lsOutput1 = new StringBuilder(lsBrkNo + "," + lsBrkName);
+                  contentRow[0] = lsBrkNo;
+                  contentRow[1] = lsBrkName;
 
                   //日期
+                  int colIndex = 0;
                   foreach (DataRow ymdRow in dtYMD.Rows) {
                      //將週日期區間數量相加
                      DataTable newDt = dt.Filter($@"am0_brk_no4='{ lsBrkNo4 }' and am0_brk_type='{ lsBrkType }' and am0_ymd>='{ ymdRow["am0_ymd"].AsString() }' and am0_ymd<='{ ymdRow["ymd_end"].AsString() }'");
@@ -502,18 +595,24 @@ namespace PhoenixCI.BusinessLogic.Prefix7
 
                      //商品
                      foreach (DataRow pkRow in newdtPK.Rows) {
-                        lsOutput1 = lsOutput1 + "," + pkRow["qnty"];
+                        contentRow[colIndex++] = pkRow["qnty"].AsString();
                         pkRow["qnty"] = 0;
                      }//foreach(DataRow pkRow in newdtPK.Rows)
 
                      if (lsKindId2 == "%") {
-                        lsOutput1 = lsOutput1 + "," + ldSum.AsString();
+                        //lsOutput1.Append(lsOutput1 + "," + ldSum.AsString());
+                        contentRow[colIndex++] = ldSum.AsString();
                      }
 
                   }//foreach (DataRow ymdRow in dtYMD.Rows)
-                  lsOutput1 = lsOutput1 + $",{brkRow["cp_rate"].AsDecimal().ToString("n")}";
-                  WriteFile(SaveFilePath, lsOutput1);
+                  //lsOutput1.Append($",{brkRow["cp_rate"].AsDecimal().ToString("n")}");
+                  contentRow[colIndex++] = brkRow["cp_rate"].AsDecimal().ToString("n");
+                  //新增一行
+                  workTable.Rows.Add(contentRow);
                }//foreach (DataRow brkRow in dtBRK.Rows)
+
+               //存檔
+               SaveExcel(SaveFilePath, workTable);
             }
             catch (Exception ex) {
                throw new Exception("內容:" + ex.Message);
@@ -577,7 +676,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                   File.Delete(openData);
                }
                File.Create(openData).Close();
-               WriteFile(openData, "期貨商代號,期貨商名稱,日期,商品,交易量");
+               //WriteFile(openData, "期貨商代號,期貨商名稱,日期,商品,交易量");
             }
 
             /* 期貨商 */
@@ -651,11 +750,25 @@ namespace PhoenixCI.BusinessLogic.Prefix7
             表頭
             ******************/
             lsStr = "";
-            string lsOutput1, lsOutput2, lsOpenDataStr;
-            string writeOpenData = "";
+
+
+            //主要的資料
+            DataTable workTable = new DataTable();
+            //opendata DataTable
+            DataTable opendataTable = new DataTable();
+            opendataTable.Columns.Add("期貨商代號", typeof(string));
+            opendataTable.Columns.Add("期貨商名稱", typeof(string));
+            opendataTable.Columns.Add("日期", typeof(string));
+            opendataTable.Columns.Add("商品", typeof(string));
+            opendataTable.Columns.Add("交易量", typeof(string));
+
+            //StringBuilder lsOutput1 = new StringBuilder();
+            //StringBuilder lsOutput2 = new StringBuilder();
+
             decimal ldSum, ldVal;
             DataTable newDsYMD = dtYMD;
             DataTable newDt = dt;
+
             int useCpuCount = Environment.ProcessorCount > 3 ? 2 : 1;//限制cpu使用數目
             for (int liAreaCnt = 1; liAreaCnt <= liArea; liAreaCnt++) {
                try {
@@ -676,7 +789,8 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                            .Where(r => r.Field<object>("am0_ymd").AsString().SubStr(6, 2).AsInt() > 15).CopyToDataTable();
 
                         for (int k = 1; k <= 8; k++) {
-                           WriteFile(SaveFilePath, "");
+                           //WriteFile(SaveFilePath, "");
+                           workTable.Rows.Add(workTable.NewRow());
                         }
                      }
 
@@ -686,39 +800,70 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                      }
 
                   }
-
-                  lsOutput1 = !selectEng ? "期貨商代號" + "," + "名稱" : " Sequential No.";
-                  lsOutput2 = !selectEng ? "Date" + "," : "Date";
+                  DataRow headerRow = workTable.NewRow();
+                  if (!selectEng) {
+                     workTable.Columns.Add("期貨商代號", typeof(string));
+                     workTable.Columns.Add("名稱", typeof(string));
+                     headerRow[0] = "Date";
+                     headerRow[1] = "";
+                  }
+                  else {
+                     workTable.Columns.Add("Sequential No.", typeof(string));
+                     headerRow[0] = "Date";
+                  }
+                  //lsOutput1 = new StringBuilder(!selectEng ? "期貨商代號" + "," + "名稱" : " Sequential No.");
+                  //lsOutput2 = new StringBuilder(!selectEng ? "Date" + "," : "Date");
                   liAreaCnt = 1;
+                  int ParamKeyCount = 1;
                   foreach (DataRow ymdRow in newDsYMD.Rows) {
                      lsYMD = ymdRow["am0_ymd"].AsString();
                      if (liArea == 2 && PbFunc.Right(lsYMD, 2).AsInt() > 15 && liAreaCnt == 1) {
                         liAreaCnt = 2;
                      }
-                     lsOutput2 = lsOutput2 + "," + lsYMD + ",".PadRight(newdtPK.Rows.Count, ',');
+                     
                      if (lsYMD == "99999999") {
                         lsStr = !selectEng ? "總計" : "Year-To-Date Volume of";
                      }
+
+                     string pkYMD = "";
                      foreach (DataRow pkRow in newdtPK.Rows) {
                         lsParamKey = pkRow["am0_param_key"].AsString();
                         /*******************
                         換商品代號
                         *******************/
                         lsParamKey = pkRow["rpt_value_2"].AsString();
-                        lsOutput1 = lsOutput1 + "," + lsStr + lsParamKey;
+                        //lsOutput1.Append("," + lsStr + lsParamKey);
+
+                        workTable.Columns.Add(lsYMD, typeof(string));
+                        //lsOutput1.Append("," + lsStr + lsParamKey);
+                        workTable.Columns.Add(lsStr + lsParamKey, typeof(string));
+                        if (pkYMD == lsYMD) {
+                           headerRow[ParamKeyCount++] = "";
+                        }
+                        else {
+                           pkYMD = lsYMD;
+                           headerRow[ParamKeyCount++] = lsYMD + " - " + ymdRow["ymd_end"].AsString();
+                        }
                      }//foreach(DataRow pkRow in newdtPK.Rows)
+
+                     //lsOutput2.Append("," + lsYMD + ",".PadRight(newdtPK.Rows.Count, ','));
+
                      if (lsYMD == "99999999") {
-                        lsOutput1 = lsOutput1 + "," + (!selectEng ? lsStr : "Year-To-Date Market Volume");
+                        //lsOutput1.Append("," + (!selectEng ? lsStr : "Year-To-Date Market Volume"));
+                        headerRow[ParamKeyCount++] = !selectEng ? lsStr : "Year-To-Date Market Volume";
                      }
                      else {
-                        lsOutput1 = lsOutput1 + "," + (!selectEng ? "小計" : "Subtotal");
+                        //lsOutput1.Append("," + (!selectEng ? "小計" : "Subtotal"));
+                        headerRow[ParamKeyCount++] = !selectEng ? "小計" : "Subtotal";
                      }
                   }//foreach (DataRow ymdRow in dtYMD.Rows)
                   if (liAreaCnt == liArea && lsSumType != "Y") {
-                     lsOutput1 = lsOutput1 + "," + (!selectEng ? "市佔率" : "YTD Market shares(%)");
+                     headerRow[ParamKeyCount++] = !selectEng ? "市佔率" : "YTD Market shares(%)";
+                     //lsOutput1.Append("," + (!selectEng ? "市佔率" : "YTD Market shares(%)"));
                   }
-                  WriteFile(SaveFilePath, lsOutput1);
-                  WriteFile(SaveFilePath, lsOutput2);
+                  //新增兩列表頭
+                  workTable.Rows.Add(headerRow);
+
                }
                catch (Exception ex) {
                   throw new Exception("表頭:" + ex.Message);
@@ -728,6 +873,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                OpenData
                *******************/
                //期貨商代號&名稱
+               DataRow contentRow = workTable.NewRow();
                ABRK daoABRK = new ABRK();
                try {
                   foreach (DataRow brkRow in dtBRK.Rows) {
@@ -740,12 +886,20 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                         lsBrkNo = lsBrkNo4.Trim() + "000";
                      }
                      lsBrkName = daoABRK.GetNameByNo(lsBrkNo);// f_get_abrk_name(lsBrkNo,'0')	
-                     lsOutput1 = !selectEng ? (lsBrkNo + "," + lsBrkName) : lsBrkNo;//轉英文只秀編號
+                     //lsOutput1 = new StringBuilder(!selectEng ? (lsBrkNo + "," + lsBrkName) : lsBrkNo);//轉英文只秀編號
+                     if (!selectEng) {
+                        contentRow[0] = lsBrkNo;
+                        contentRow[1] = lsBrkName;
+                     }
+                     else {
+                        contentRow[0] = lsBrkNo;
+                     }
 
                      //日期
+                     int colIndex = 2;
                      foreach (DataRow ymdRow in newDsYMD.Rows) {
                         lsYMD = ymdRow["AM0_YMD"].AsString();
-                        lsOpenDataStr = lsBrkNo + "," + lsBrkName + "," + lsYMD;
+                        string lsOpenDataStr = lsBrkNo + "," + lsBrkName + "," + lsYMD;
                         ldSum = 0;
                         //商品
                         foreach (DataRow pkRow in newdtPK.Rows) {
@@ -760,19 +914,29 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                            else {
                               ldVal = 0;
                            }
-                           lsOutput1 = lsOutput1 + "," + ldVal.AsString();
+                           //lsOutput1.Append("," + ldVal.AsString());
+                           contentRow[colIndex++] = ldVal.AsString();
                            if (lsYMD != "99999999" && !selectEng) {
-                              writeOpenData = lsOpenDataStr + "," + lsParamKey + "," + ldVal.AsString();
-                              WriteFile(openData, writeOpenData);
+                              string writeOpenData = lsOpenDataStr + "," + lsParamKey + "," + ldVal.AsString();
+                              DataRow newrow = opendataTable.NewRow();
+                              newrow[0] = writeOpenData;
+                              opendataTable.Rows.Add(newrow[0]);
                            }
                         }//foreach(DataRow pkRow in newdtPK.Rows)
-                        lsOutput1 = lsOutput1 + "," + ldSum.AsString();
+                        contentRow[colIndex++] = ldSum.AsString();
+                        //lsOutput1.Append("," + ldSum.AsString());
                      }//foreach (DataRow ymdRow in dtYMD.Rows)
                      if (liAreaCnt == liArea && lsSumType != "Y") {
-                        lsOutput1 = lsOutput1 + $",{brkRow["CP_RATE"].AsDecimal().ToString("n")}";
+                        //lsOutput1.Append($",{brkRow["CP_RATE"].AsDecimal().ToString("n")}");
+                        contentRow[colIndex++] = brkRow["CP_RATE"].AsDecimal().ToString("n");
                      }
-                     WriteFile(SaveFilePath, lsOutput1);
+                     //新增一行
+                     workTable.Rows.Add(contentRow);
                   }//foreach (DataRow brkRow in dtBRK.Rows)
+
+                  //存檔
+                  SaveExcel(SaveFilePath, workTable);
+                  SaveExcel(openData, opendataTable);
                }
                catch (Exception ex) {
                   throw new Exception("內容:" + ex.Message);
@@ -783,10 +947,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
              *******************/
             if (lsProdType == "O" && lsSumType == "D" && !selectEng) {
                dt = dao70010.ListRowdataOpendata(lsEndYMD, lsEndYMD, lsMarketCode);
-               ExportOptions csvref = new ExportOptions();
-               csvref.HasHeader = false;
-               csvref.Encoding = System.Text.Encoding.GetEncoding(950);//ASCII
-               ExportHelper.ToCsv(dt, PbFunc.f_chg_filename(SaveFilePath, "_W_opendata"), csvref);
+               SaveExcel(PbFunc.f_chg_filename(SaveFilePath, "_W_opendata"), dt, false);
             }
          }
          catch (Exception ex) {
@@ -911,23 +1072,27 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                dtPK = dao70010.ListParamKey("70050");
             }
             DataTable newdtPK = dtPK.Filter($@"am0_param_key like '{ isKindId2 }'");
+
             string lsBrkNo, lsBrkNo4, lsBrkType, lsYMD, lsStr;
+            //主要的資料
+            DataTable workTable = new DataTable();
+            workTable.Columns.Add("DATA", typeof(string));
             /******************
             表頭
             ******************/
             lsStr = "";
-            string lsOutput1, lsOutput2;
+            StringBuilder lsOutput1, lsOutput2;
             decimal ldSum;
             DataTable newDsYMD = dtYMD;
             DataTable newDt = dt;
             try {
-               lsOutput1 = "期貨商代號" + "," + "名稱";
-               lsOutput2 = "Date" + ",";
+               lsOutput1 = new StringBuilder("期貨商代號" + "," + "名稱");
+               lsOutput2 = new StringBuilder("Date" + ",");
                foreach (DataRow ymdRow in dtYMD.Rows) {
                   lsYMD = ymdRow["am0_ymd"].AsString();
-                  lsOutput2 = lsOutput2 + "," + lsYMD;
+                  lsOutput2.Append("," + lsYMD);
                   if (isKindId2 == "%") {
-                     lsOutput2 = lsOutput2 + ",".PadRight(newdtPK.Rows.Count, ',');
+                     lsOutput2.Append(",".PadRight(newdtPK.Rows.Count, ','));
                   }
 
                   if (lsYMD == "99999999") {
@@ -939,20 +1104,28 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                      換商品代號
                      *******************/
                      isParamKey = pkRow["rpt_value_2"].AsString();
-                     lsOutput1 = lsOutput1 + "," + lsStr + isParamKey;
+                     lsOutput1.Append("," + lsStr + isParamKey);
                   }//foreach(DataRow pkRow in newdtPK.Rows)
                   if (isKindId2 == "%") {
                      if (lsYMD == "99999999") {
-                        lsOutput1 = lsOutput1 + "," + lsStr;
+                        lsOutput1.Append("," + lsStr);
                      }
                      else {
-                        lsOutput1 = lsOutput1 + "," + "小計";
+                        lsOutput1.Append("," + "小計");
                      }
                   }
                }//foreach (DataRow ymdRow in dtYMD.Rows)
-               lsOutput1 = lsOutput1 + "," + "市佔率";
-               WriteFile(SaveFilePath, lsOutput1);
-               WriteFile(SaveFilePath, lsOutput2);
+               lsOutput1.Append("," + "市佔率");
+
+               //新增兩列表頭
+               //第一行
+               DataRow workRow = workTable.NewRow();
+               workRow["DATA"] = lsOutput1.ToString();
+               workTable.Rows.Add(workRow["DATA"]);
+               //第二行
+               DataRow workRow2 = workTable.NewRow();
+               workRow2["DATA"] = lsOutput2.ToString();
+               workTable.Rows.Add(workRow2["DATA"]);
             }
             catch (Exception ex) {
                throw new Exception("表頭:" + ex.Message);
@@ -970,7 +1143,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                      lsBrkNo = lsBrkNo4.Trim() + "000";
                   }
                   string lsBrkName = new ABRK().GetNameByNo(lsBrkNo);// f_get_abrk_name(lsBrkNo,'0')	
-                  lsOutput1 = lsBrkNo + "," + lsBrkName;
+                  lsOutput1 = new StringBuilder(lsBrkNo + "," + lsBrkName);
 
                   //日期
                   foreach (DataRow ymdRow in dtYMD.Rows) {
@@ -982,22 +1155,28 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                         int foundIndex = newDt.Rows.IndexOf(newDt.Select($@"am0_brk_no4='{ lsBrkNo4 }' and am0_brk_type='{lsBrkType}' and am0_ymd='{ lsYMD }' and am0_param_key='{ isParamKey}'").FirstOrDefault());
                         /* 沒有填0 */
                         if (foundIndex > -1) {
-                           lsOutput1 = lsOutput1 + "," + newDt.Rows[foundIndex]["qnty"].AsDecimal();
+                           lsOutput1.Append("," + newDt.Rows[foundIndex]["qnty"].AsDecimal());
                            //ldSum = dt.getitemdecimal(foundIndex,"cp_sum_qnty")
                            //ldSum = (from dt in dt.AsEnumerable() where dt.Field<string>("am0_brk_no4") == lsBrkNo4 && dt.Field<string>("am0_brk_type") == lsBrkType && dt.Field<string>("am0_ymd") == lsYMD select dt).ToList().Sum(x=>x.Field<decimal>("qnty"));
                            ldSum = dt.Compute("sum(qnty)", $@"am0_brk_no4='{lsBrkNo4}' and am0_brk_type='{lsBrkType}' and am0_ymd='{lsYMD }'").AsDecimal();
                         }
                         else {
-                           lsOutput1 = lsOutput1 + ",0";
+                           lsOutput1.Append(",0");
                         }
                      }//foreach(DataRow pkRow in newdtPK.Rows)
                      if (isKindId2 == "%") {
-                        lsOutput1 = lsOutput1 + "," + ldSum.AsString();
+                        lsOutput1.Append("," + ldSum.AsString());
                      }
                   }//foreach (DataRow ymdRow in dtYMD.Rows)
-                  lsOutput1 = lsOutput1 + $",{brkRow["cp_rate"].AsDecimal().ToString("n")}";
-                  WriteFile(SaveFilePath, lsOutput1);
+                  lsOutput1.Append($",{brkRow["cp_rate"].AsDecimal().ToString("n")}");
+                  //新增一行
+                  DataRow workRow = workTable.NewRow();
+                  workRow["DATA"] = lsOutput1.ToString();
+                  workTable.Rows.Add(workRow["DATA"]);
                }//foreach (DataRow brkRow in dtBRK.Rows)
+
+               //存檔
+               SaveExcel(SaveFilePath, workTable);
             }
             catch (Exception ex) {
                throw new Exception("內容:" + ex.Message);
