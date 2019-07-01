@@ -5,6 +5,7 @@ using DevExpress.Spreadsheet;
 using System;
 using System.Data;
 using System.IO;
+using System.Threading;
 /// <summary>
 /// john,20190619
 /// </summary>
@@ -78,6 +79,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
          try {
             //切換Sheet
             workbook.LoadDocument(FilePath);
+            Thread.Sleep(0);
             Worksheet worksheet = workbook.Worksheets["Rawdata"];
             DateTime emdate = _emDateText.AsDateTime("yyyy/MM/dd");
 
@@ -124,6 +126,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             }
 
             worksheet.Import(RowData, false, 2, 0);
+            Thread.Sleep(0);
             worksheet.ScrollTo(0, 0);
             //save
             workbook.SaveDocument(FilePath);
