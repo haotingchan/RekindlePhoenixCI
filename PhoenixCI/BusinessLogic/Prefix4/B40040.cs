@@ -267,10 +267,10 @@ namespace PhoenixCI.BusinessLogic.Prefix4
 
                #endregion
 
-               //若碰上3個模組的flag皆為N，2、3、4項下的內容文字為白色
-               if (row["SMA_CHANGE_FLAG"].AsString() == "N" &&
-                  row["EWMA_CHANGE_FLAG"].AsString() == "N" &&
-                  row["MAXV_CHANGE_FLAG"].AsString() == "N") {
+               //若碰上3個模組的flag皆不為Y，2、3、4項下的內容文字為白色
+               if (row["SMA_CHANGE_FLAG"].AsString() != "Y" &&
+                  row["EWMA_CHANGE_FLAG"].AsString() != "Y" &&
+                  row["MAXV_CHANGE_FLAG"].AsString() != "Y") {
                   worksheet.Range[$"I{rowIndex}:Q{rowIndex}"].Font.Color = Color.White;
                }
 
@@ -376,10 +376,10 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                }
                #endregion
 
-               //若碰上3個模組的flag皆為N，2、3項下的內容文字為白色
-               if (row["SMA_CHANGE_FLAG"].AsString() == "N" &&
-                  row["EWMA_CHANGE_FLAG"].AsString() == "N" &&
-                  row["MAXV_CHANGE_FLAG"].AsString() == "N") {
+               //若碰上3個模組的flag不為Y，2、3項下的內容文字為白色
+               if (row["SMA_CHANGE_FLAG"].AsString() != "Y" &&
+                  row["EWMA_CHANGE_FLAG"].AsString() != "Y" &&
+                  row["MAXV_CHANGE_FLAG"].AsString() != "Y") {
                   worksheet.Range[$"M{rowIndex}:Q{rowIndex}"].Font.Color = Color.White;
                }
 
