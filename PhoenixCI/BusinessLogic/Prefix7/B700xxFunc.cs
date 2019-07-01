@@ -4,6 +4,7 @@ using Common;
 using Common.Helper;
 using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
+using DevExpress.Spreadsheet;
 using System;
 using System.Data;
 using System.Globalization;
@@ -15,6 +16,52 @@ namespace PhoenixCI.BusinessLogic.Prefix7
 {
    public class B700xxFunc
    {
+      /// <summary>
+      /// 存Csv
+      /// </summary>
+      /// <param name="filePath">存檔路徑</param>
+      /// <param name="dataTable">要輸出的資料</param>
+      private void SaveExcel(string filePath, DataTable dataTable, bool addHeader = false, int firstRowIndex = 0, int firstColIndex = 0)
+      {
+         try {
+            Workbook wb = new Workbook();
+            wb.Options.Export.Csv.WritePreamble = true;
+            wb.Worksheets[0].Import(dataTable, addHeader, firstRowIndex, firstColIndex);
+            wb.Worksheets[0].Name = SheetName(filePath);
+            //存檔
+            wb.SaveDocument(filePath, DocumentFormat.Csv);
+         }
+         catch (Exception ex) {
+            throw ex;
+         }
+      }
+
+      /// <summary>
+      /// 用檔案名稱命名sheet 且不超過31個字元
+      /// </summary>
+      /// <param name="filePath"></param>
+      /// <returns></returns>
+      private string SheetName(string filePath)
+      {
+         string filename = Path.GetFileNameWithoutExtension(filePath);
+         int nameLen = filename.Length > 31 ? 31 : filename.Length;//sheetName不能超過31字
+         return filename.Substring(0, nameLen);
+      }
+
+      /// <summary>
+      /// 重複寫入文字並換行
+      /// </summary>
+      /// <param name="openData">檔案路徑</param>
+      /// <param name="textToAdd">文字內容</param>
+      private void WriteFile(string openData, string textToAdd)
+      {
+         using (FileStream fs = new FileStream(openData, FileMode.Append)) {
+            using (StreamWriter writer = new StreamWriter(fs, Encoding.GetEncoding(950))) {
+               writer.WriteLine(textToAdd);
+            }
+         }
+      }
+
       /// <summary>
       /// 作業:轉70010 週檔 (公司網站\統計資料\週)
       /// |
@@ -216,7 +263,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                   }//foreach (DataRow ymdRow in dtYMD.Rows)
                   lsOutput1 = lsOutput1 + $",{brkRow["cp_rate"].AsDecimal().ToString("n")}";
                   WriteFile(SaveFilePath, lsOutput1);
-               }
+               }//foreach (DataRow brkRow in dtBRK.Rows)
             }
             catch (Exception ex) {
                throw new Exception("內容:" + ex.Message);
@@ -228,19 +275,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
          return MessageDisplay.MSG_OK;
       }
 
-      /// <summary>
-      /// 重複寫入文字並換行
-      /// </summary>
-      /// <param name="openData">檔案路徑</param>
-      /// <param name="textToAdd">文字內容</param>
-      private void WriteFile(string openData, string textToAdd)
-      {
-         using (FileStream fs = new FileStream(openData, FileMode.Append)) {
-            using (StreamWriter writer = new StreamWriter(fs, Encoding.GetEncoding(950))) {
-               writer.WriteLine(textToAdd);
-            }
-         }
-      }
+
 
       /// <summary>
       /// 作業:轉70010 週檔 (公司網站\統計資料\週)英文版
@@ -333,7 +368,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
          File.Create(SaveFilePath).Close();
 
          try {
-            
+
             /* 期貨商 */
             DataTable dtBRK;
             dtBRK = dao70050.List70050brk(lsStartYMD, lsEndYMD, lsSumType, lsProdType, lsKindId2, lsParamKey);
@@ -649,7 +684,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                         newDsYMD.Sort("am0_ymd");
                         newDt.Sort("am0_ymd");
                      }
-                        
+
                   }
 
                   lsOutput1 = !selectEng ? "期貨商代號" + "," + "名稱" : " Sequential No.";

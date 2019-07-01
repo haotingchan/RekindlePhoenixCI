@@ -231,7 +231,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             if (dt.Rows.Count <= 0) {
                return $"{emDateTxt},30290－個股類部位限制公告表,無任何資料!";
             }
-
+            //取得最大日期
             string date = dt.AsEnumerable().Select(dr => dr.Field<string>("PLP13_ISSUE_YMD")).Max().AsDateTime("yyyyMMdd").ToString("yyyy/MM/dd");
             ChStock(workbook, dt, date);
             EngStock(workbook, dt, date);

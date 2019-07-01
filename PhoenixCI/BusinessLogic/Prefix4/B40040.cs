@@ -5,6 +5,7 @@ using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
 using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -263,8 +264,15 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                   worksheet.Cells[$"G{rowIndex}"].SetValue(row["MAXV_CHANGE_RANGE"]);
                   worksheet.Cells[$"H{rowIndex}"].SetValue(row["MAXV_DAY_CNT"]);
                }
-                  
+
                #endregion
+
+               //若碰上3個模組的flag皆為N，2、3、4項下的內容文字為白色
+               if (row["SMA_CHANGE_FLAG"].AsString() == "N" &&
+                  row["EWMA_CHANGE_FLAG"].AsString() == "N" &&
+                  row["MAXV_CHANGE_FLAG"].AsString() == "N") {
+                  worksheet.Range[$"I{rowIndex}:Q{rowIndex}"].Font.Color = Color.White;
+               }
 
                #region 2.未沖銷部位數
                //當日未沖銷部位數及比例
@@ -367,6 +375,13 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                   worksheet.Cells[$"L{rowIndex}"].SetValue(row["MAXV_DAY_CNT"]);
                }
                #endregion
+
+               //若碰上3個模組的flag皆為N，2、3項下的內容文字為白色
+               if (row["SMA_CHANGE_FLAG"].AsString() == "N" &&
+                  row["EWMA_CHANGE_FLAG"].AsString() == "N" &&
+                  row["MAXV_CHANGE_FLAG"].AsString() == "N") {
+                  worksheet.Range[$"M{rowIndex}:Q{rowIndex}"].Font.Color = Color.White;
+               }
 
                #region 2.未沖銷部位數
                //當日未沖銷部位數及比例
