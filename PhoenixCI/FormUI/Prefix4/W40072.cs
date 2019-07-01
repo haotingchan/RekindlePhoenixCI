@@ -288,6 +288,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 dtMGD2Log.Clear(); //只取schema
 
                 for (int f = 0; f < dtGrid.Rows.Count; f++) {
+                    if (dtGrid.Rows[f].RowState == DataRowState.Deleted) continue;
                     DataRow dr = dtGrid.Rows[f];
                     opType = dr["OP_TYPE"].ToString();
                     flag = dr["DATA_FLAG"].AsString();
@@ -395,6 +396,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                 DataTable dtTemp = dao40072.d_40072(); //ids_tmp
                 foreach (DataRow dr in dtGrid.Rows) {
+                    if (dr.RowState == DataRowState.Deleted) continue;
                     opType = dr["OP_TYPE"].ToString();
                     //只更新有異動的資料
                     if (opType != " ") {
@@ -750,7 +752,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 for (col = 0; col < dtInput.Columns.Count; col++) {
                     if (dtInput.Columns[col].ColumnName == "CPSORT") continue; //這欄是排序用的毋須判斷
                     if (drInput[col] == DBNull.Value || drInput[col].ToString() == "") {
-                        MessageDisplay.Error("請確認資料是否輸入完成!");
+                        MessageDisplay.Warning("請確認資料是否輸入完成!");
                         return;
                     }
                 }

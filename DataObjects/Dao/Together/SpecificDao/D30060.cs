@@ -89,5 +89,37 @@ order by AI2_YMD, OI_COL_SEQ
 
             return dtResult;
         }
+
+        public DataTable d_30060_prod(string as_symd, string as_eymd) {
+
+            object[] parms = {
+                ":as_symd", as_symd,
+                ":as_eymd", as_eymd
+            };
+
+            string sql = @"
+select AI2_YMD,
+       AI2_PARAM_KEY,
+       sum(AI2_M_QNTY)as AI2_M_QNTY ,
+       sum(AI2_OI) as AI2_OI,
+       RPT_LEVEL_1 as M_COL_SEQ,RPT_LEVEL_2 as OI_COL_SEQ
+from ci.AI2 ,ci.RPT,ci.APDK
+where AI2_SUM_TYPE = 'D'
+  and AI2_SUM_SUBTYPE = '4'
+  and AI2_YMD >= :as_symd
+  and AI2_YMD <= :as_eymd
+  and AI2_PROD_TYPE IN ('F','O') 
+  and RPT_TXN_ID = '30060' and RPT_TXD_ID = '30060'
+  and AI2_PROD_TYPE = RPT_VALUE_2(+)
+  and AI2_PARAM_KEY = RPT_VALUE(+)
+  and AI2_KIND_ID = APDK_KIND_ID
+  and APDK_EXPIRY_TYPE = 'W'
+  group by AI2_YMD,AI2_PARAM_KEY,RPT_LEVEL_1,RPT_LEVEL_2
+order by AI2_YMD, OI_COL_SEQ
+";
+            DataTable dtResult = db.GetDataTable(sql, parms);
+
+            return dtResult;
+        }
     }
 }
