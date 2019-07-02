@@ -5,7 +5,6 @@ using Common;
 using DataObjects.Dao.Together;
 using DevExpress.Spreadsheet;
 using DevExpress.XtraEditors;
-using DevExpress.XtraEditors.Controls;
 using System;
 using System.Data;
 using System.IO;
@@ -56,6 +55,12 @@ namespace PhoenixCI.FormUI.Prefix3 {
       protected override ResultStatus Export() {
 
          try {
+            #region 輸入&日期檢核
+            if (string.Compare(txtStartYMD.Text , txtEndYMD.Text) > 0) {
+               MessageDisplay.Error(CheckDate.Datedif , GlobalInfo.ErrorText);
+               return ResultStatus.Fail;
+            }
+            #endregion
 
             //0. ready
             panFilter.Enabled = false;
@@ -65,43 +70,48 @@ namespace PhoenixCI.FormUI.Prefix3 {
             this.Refresh();
             Thread.Sleep(5);
 
-            string tempMarketCode;
-            //RadioButton (rbMarket0 = 一般 / rbMarket1 = 盤後 / rbMarketAll = 全部)
-            if (gbMarket.EditValue.ToString() == "rbMarket0") {
-               tempMarketCode = "一般";
-            } else if (gbMarket.EditValue.ToString() == "rbMarket1") {
-               tempMarketCode = "盤後";
-            } else {
-               tempMarketCode = "全部";
-            }
-            //1.複製檔案 & 開啟檔案 (因檔案需因MarketCode更動，所以另外寫)
-            string originalFilePath = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH , _ProgramID + "." + FileType.XLS.ToString().ToLower());
-
-            string destinationFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH ,
-                _ProgramID + "_" + tempMarketCode + "_" + DateTime.Now.ToString("yyyy.MM.dd") + "-" + DateTime.Now.ToString("HH.mm.ss") + "." + FileType.XLS.ToString().ToLower());
-
-            File.Copy(originalFilePath , destinationFilePath , true);
-
-            Workbook workbook = new Workbook();
-            workbook.LoadDocument(destinationFilePath);
-            Worksheet worksheet = workbook.Worksheets[0];
-
-            //2.填資料
-            bool result = false;
-            result = wf_Export(workbook , worksheet);  //function 30594
-
-            if (!result) {
-               workbook = null;
-               File.Delete(destinationFilePath);
+            //判斷是否至少勾選一個選項
+            if (chkGroup.CheckedItemsCount < 1) {
+               MessageDisplay.Warning("請勾選至少一個選項!");
                return ResultStatus.Fail;
-            }
+            } else {
+               string tempMarketCode;
+               //RadioButton (rbMarket0 = 一般 / rbMarket1 = 盤後 / rbMarketAll = 全部)
+               if (gbMarket.EditValue.ToString() == "rbMarket0") {
+                  tempMarketCode = "一般";
+               } else if (gbMarket.EditValue.ToString() == "rbMarket1") {
+                  tempMarketCode = "盤後";
+               } else {
+                  tempMarketCode = "全部";
+               }
+               //1.複製檔案 & 開啟檔案 (因檔案需因MarketCode更動，所以另外寫)
+               string originalFilePath = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH , _ProgramID + "." + FileType.XLS.ToString().ToLower());
 
-            //3.存檔
-            workbook.SaveDocument(destinationFilePath);
-            labMsg.Visible = false;
+               string destinationFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH ,
+                   _ProgramID + "_" + tempMarketCode + "_" + DateTime.Now.ToString("yyyy.MM.dd") + "-" + DateTime.Now.ToString("HH.mm.ss") + "." + FileType.XLS.ToString().ToLower());
+
+               File.Copy(originalFilePath , destinationFilePath , true);
+
+               Workbook workbook = new Workbook();
+               workbook.LoadDocument(destinationFilePath);
+               Worksheet worksheet = workbook.Worksheets[0];
+
+               //2.填資料
+               bool result = false;
+               result = wf_Export(workbook , worksheet);  //function 30594
+
+               if (!result) {
+                  workbook = null;
+                  File.Delete(destinationFilePath);
+                  return ResultStatus.Fail;
+               }
+
+               //3.存檔
+               workbook.SaveDocument(destinationFilePath);
+               labMsg.Visible = false;
+            }
 
             return ResultStatus.Success;
-
          } catch (Exception ex) {
             WriteLog(ex);
          } finally {
@@ -148,15 +158,15 @@ namespace PhoenixCI.FormUI.Prefix3 {
                ls_market_code = "%";
             }
 
-            string StartYMD = txtStartYMD.Text.Replace("/" , "");
-            string EndYMD = txtEndYMD.Text.Replace("/" , "");
+            string StartYMD = txtStartYMD.Text.AsDateTime().ToString("yyyyMMdd");
+            string EndYMD = txtEndYMD.Text.AsDateTime().ToString("yyyyMMdd");
 
             DataTable dt = new DataTable();
             dt = dao30594.GetData(ls_expiry_type , ls_pc_code , ls_kind_id2 , StartYMD , EndYMD , ls_market_code);
             if (dt.Rows.Count <= 0) {
 
-               labMsg.Text = String.Format("{0}:yyyymm" , StartYMD) + "," + _ProgramID + '－' + _ProgramName + ",無任何資料!";
-               MessageDisplay.Info(string.Format("{0:yyyymm},{1}–市場總成交量雙邊(A)無任何資料!" , StartYMD , this.Text));
+               labMsg.Text = StartYMD.SubStr(0 , 6) + "," + _ProgramID + '－' + _ProgramName + "(市場總成交量雙邊(A)無任何資料!";
+               MessageDisplay.Info(labMsg.Text , "處理結果");
                return false;
             }
             #endregion

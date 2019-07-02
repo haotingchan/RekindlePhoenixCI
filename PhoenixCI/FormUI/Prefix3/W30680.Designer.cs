@@ -72,7 +72,7 @@
          this.chkGroup.Name = "chkGroup";
          this.chkGroup.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
          this.chkGroup.Size = new System.Drawing.Size(394, 121);
-         this.chkGroup.TabIndex = 4;
+         this.chkGroup.TabIndex = 2;
          this.chkGroup.DrawItem += new DevExpress.XtraEditors.ListBoxDrawItemEventHandler(this.chkGroup_DrawItem);
          // 
          // r_frame
@@ -133,7 +133,7 @@
          this.txtEndYMD.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndYMD.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndYMD.Size = new System.Drawing.Size(100, 26);
-         this.txtEndYMD.TabIndex = 4;
+         this.txtEndYMD.TabIndex = 1;
          this.txtEndYMD.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtStartYMD

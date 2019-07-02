@@ -84,7 +84,7 @@
          this.txtEndMon.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndMon.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndMon.Size = new System.Drawing.Size(100, 26);
-         this.txtEndMon.TabIndex = 8;
+         this.txtEndMon.TabIndex = 1;
          this.txtEndMon.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtStartMon
@@ -104,7 +104,7 @@
          this.txtStartMon.Properties.Mask.ShowPlaceHolders = false;
          this.txtStartMon.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtStartMon.Size = new System.Drawing.Size(100, 26);
-         this.txtStartMon.TabIndex = 3;
+         this.txtStartMon.TabIndex = 0;
          this.txtStartMon.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // label1

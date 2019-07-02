@@ -135,9 +135,8 @@
          this.chkGroup.LookAndFeel.UseDefaultLookAndFeel = false;
          this.chkGroup.Name = "chkGroup";
          this.chkGroup.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-         this.chkGroup.ShowFocusRect = false;
          this.chkGroup.Size = new System.Drawing.Size(362, 182);
-         this.chkGroup.TabIndex = 5;
+         this.chkGroup.TabIndex = 4;
          this.chkGroup.DrawItem += new DevExpress.XtraEditors.ListBoxDrawItemEventHandler(this.chkGroup_DrawItem);
          // 
          // ddlProd
@@ -145,6 +144,8 @@
          this.ddlProd.Location = new System.Drawing.Point(92, 87);
          this.ddlProd.MenuManager = this.ribbonControl;
          this.ddlProd.Name = "ddlProd";
+         this.ddlProd.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+         this.ddlProd.Properties.Appearance.Options.UseBackColor = true;
          this.ddlProd.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
          this.ddlProd.Properties.Items.AddRange(new object[] {
@@ -156,7 +157,7 @@
          this.ddlProd.Properties.LookAndFeel.SkinName = "The Bezier";
          this.ddlProd.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.ddlProd.Size = new System.Drawing.Size(131, 26);
-         this.ddlProd.TabIndex = 81;
+         this.ddlProd.TabIndex = 3;
          // 
          // gbMarket
          // 
@@ -215,7 +216,7 @@
          this.txtEndYMD.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndYMD.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndYMD.Size = new System.Drawing.Size(100, 26);
-         this.txtEndYMD.TabIndex = 4;
+         this.txtEndYMD.TabIndex = 1;
          this.txtEndYMD.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtStartYMD

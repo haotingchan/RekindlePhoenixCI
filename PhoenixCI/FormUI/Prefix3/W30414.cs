@@ -74,7 +74,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
          try {
 
             #region 輸入&日期檢核
-
             if (txtStartMon.Text.SubStr(0 , 4) != txtEndMon.Text.SubStr(0 , 4)) {
                MessageDisplay.Error("不可跨年度查詢!" , GlobalInfo.ErrorText);
                return ResultStatus.Fail;

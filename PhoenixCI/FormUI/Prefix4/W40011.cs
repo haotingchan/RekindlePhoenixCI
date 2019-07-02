@@ -236,6 +236,24 @@ namespace PhoenixCI.FormUI.Prefix4
                dtMGR2.ImportRow(dataRow);
             });
 
+            //foreach (DataRow dr in dt.Rows) {
+            //   string kindID = dr["MG1_KIND_ID"].AsString();
+            //   ShowMsg($"EWMA_{kindID} 計算中...");
+            //   //複製template
+            //   filepath = CopyWemaTemplateFile(kindID);
+            //   //記錄所產商品的檔案路徑
+            //   pathList[k++] = filepath;
+            //   //產出經Excel計算後的資料
+            //   dataRow = b40010.ComputeEWMA(filepath, kindID);
+            //   Thread.Sleep(0);
+
+            //   if (dataRow == null)
+            //      continue;
+
+            //   //每筆計算後的資料暫存至DataTable
+            //   dtMGR2.ImportRow(dataRow);
+            //}
+
             if (dtMGR2.Rows.Count > 0) {
                ShowMsg($"EWMA 寫入資料庫...");
                //儲存至DB並呼叫SP

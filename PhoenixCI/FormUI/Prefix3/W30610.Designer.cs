@@ -79,13 +79,14 @@
          this.gbStatistics.Properties.Appearance.Options.UseForeColor = true;
          this.gbStatistics.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.gbStatistics.Properties.Columns = 1;
+         this.gbStatistics.Properties.EnableFocusRect = true;
          this.gbStatistics.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rbMon", "月統計 – 月份："),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rbDay", "日明細 – 日期：")});
          this.gbStatistics.Properties.LookAndFeel.SkinName = "Visual Studio 2013 Light";
          this.gbStatistics.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbStatistics.Size = new System.Drawing.Size(133, 99);
-         this.gbStatistics.TabIndex = 11;
+         this.gbStatistics.TabIndex = 0;
          // 
          // r_frame
          // 
@@ -148,7 +149,7 @@
          this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndDate.Size = new System.Drawing.Size(100, 26);
-         this.txtEndDate.TabIndex = 82;
+         this.txtEndDate.TabIndex = 4;
          this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtStartDate
@@ -168,7 +169,7 @@
          this.txtStartDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtStartDate.Size = new System.Drawing.Size(100, 26);
-         this.txtStartDate.TabIndex = 81;
+         this.txtStartDate.TabIndex = 3;
          this.txtStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtEndMonth
@@ -188,7 +189,7 @@
          this.txtEndMonth.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndMonth.Size = new System.Drawing.Size(100, 26);
-         this.txtEndMonth.TabIndex = 80;
+         this.txtEndMonth.TabIndex = 2;
          this.txtEndMonth.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtStartMonth
@@ -208,7 +209,7 @@
          this.txtStartMonth.Properties.Mask.ShowPlaceHolders = false;
          this.txtStartMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtStartMonth.Size = new System.Drawing.Size(100, 26);
-         this.txtStartMonth.TabIndex = 78;
+         this.txtStartMonth.TabIndex = 1;
          this.txtStartMonth.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // label3

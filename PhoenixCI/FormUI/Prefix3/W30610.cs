@@ -27,7 +27,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
       private D30610 dao30610;
 
       public W30610(string programID , string programName) : base(programID , programName) {
-         InitializeComponent();       
+         InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
 
          dao30610 = new D30610();
@@ -66,6 +66,20 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
       protected override ResultStatus Export() {
          try {
+            #region 輸入&日期檢核
+            if (gbStatistics.EditValue.AsString() == "rbMon") {
+               if (string.Compare(txtStartMonth.Text , txtEndMonth.Text) > 0) {
+                  MessageDisplay.Error("月份起始年月不可小於迄止年月!" , GlobalInfo.ErrorText);
+                  return ResultStatus.Fail;
+               }
+            } else {
+               if (string.Compare(txtStartDate.Text , txtEndDate.Text) > 0) {
+                  MessageDisplay.Error(CheckDate.Datedif , GlobalInfo.ErrorText);
+                  return ResultStatus.Fail;
+               }
+            }
+            #endregion
+
             //0. ready
             panFilter.Enabled = false;
             labMsg.Visible = true;
@@ -124,7 +138,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             DateTime endDay = PbFunc.f_get_end_day("AI2" , "TXF" , txtEndMonth.Text);
             DataTable dtContent = dao30610.GetMonData(txtStartMonth.DateTimeValue , endDay); ; //月明細表
             if (dtContent.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0}~{1},{2}-{3},無任何資料!" , txtStartMonth.Text , txtEndMonth.Text , rptId , rptName));
+               MessageDisplay.Info(string.Format("{0}~{1},{2}-{3},無任何資料!" , txtStartMonth.Text , txtEndMonth.Text , rptId , rptName) , "處理結果");
                return false;
             }
 
@@ -158,7 +172,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //if (li_ole_end_row < li_ole_row_tol) {
             //   worksheet.Rows.Remove(ii_ole_row , li_ole_row_tol - ii_ole_row);
             //}
-            if (li_ole_row_tol> dtContent.Rows.Count + 4) {
+            if (li_ole_row_tol > dtContent.Rows.Count + 4) {
                Range ra = worksheet.Range[(dtContent.Rows.Count + 4).AsString() + ":183"];
                ra.Delete(DeleteMode.EntireRow);
             }
@@ -185,7 +199,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //每日
             DataTable dtContent = dao30610.GetDayData(txtStartDate.DateTimeValue , txtEndDate.DateTimeValue); ; //日明細表
             if (dtContent.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0}~{1},{2}-{3},無任何資料!" , txtStartDate.Text , txtEndDate.Text , rptId , rptName));
+               MessageDisplay.Info(string.Format("{0}~{1},{2}-{3},無任何資料!" , txtStartDate.Text , txtEndDate.Text , rptId , rptName) , "處理結果");
                return false;
             }
 

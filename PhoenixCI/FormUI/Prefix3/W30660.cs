@@ -119,6 +119,21 @@ namespace PhoenixCI.FormUI.Prefix3 {
       protected override ResultStatus Export() {
 
          try {
+            #region 日期檢核
+            if (string.Compare(txtPrevSymd.Text , txtPrevEymd.Text) > 0) {
+               MessageDisplay.Error("上週起始日期不可小於迄止日期!" , GlobalInfo.ErrorText);
+               return ResultStatus.Fail;
+            }
+            if (string.Compare(txtAftSymd.Text , txtAftEymd.Text) > 0) {
+               MessageDisplay.Error("本週起始日期不可小於迄止日期!" , GlobalInfo.ErrorText);
+               return ResultStatus.Fail;
+            }
+            if (string.Compare(txtAllSymd.Text , txtAllEymd.Text) > 0) {
+               MessageDisplay.Error("全期起始日期不可小於迄止日期!" , GlobalInfo.ErrorText);
+               return ResultStatus.Fail;
+            }
+            #endregion
+
             //0. ready
             panFilter.Enabled = false;
             labMsg.Visible = true;
@@ -182,7 +197,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
 
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , AllStart + "-" + AllEnd , this.Text));
+               MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , AllStart + "-" + AllEnd , this.Text) , "處理結果");
                return false;
             }
 

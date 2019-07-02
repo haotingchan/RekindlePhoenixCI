@@ -80,9 +80,8 @@
          this.chkGroup.LookAndFeel.UseDefaultLookAndFeel = false;
          this.chkGroup.Name = "chkGroup";
          this.chkGroup.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-         this.chkGroup.ShowFocusRect = false;
          this.chkGroup.Size = new System.Drawing.Size(362, 218);
-         this.chkGroup.TabIndex = 5;
+         this.chkGroup.TabIndex = 4;
          this.chkGroup.DrawItem += new DevExpress.XtraEditors.ListBoxDrawItemEventHandler(this.chkGroup_DrawItem);
          // 
          // ddlProd

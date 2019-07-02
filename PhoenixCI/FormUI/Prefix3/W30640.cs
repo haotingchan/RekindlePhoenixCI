@@ -1,14 +1,11 @@
 ﻿using BaseGround;
-using BaseGround.Report;
 using BaseGround.Shared;
-using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together;
 using DevExpress.Spreadsheet;
 using System;
 using System.Data;
-using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
@@ -71,6 +68,12 @@ namespace PhoenixCI.FormUI.Prefix3 {
       protected override ResultStatus Export() {
 
          try {
+            #region 日期檢核
+            if (string.Compare(txtStartMonth.Text , txtEndMonth.Text) > 0) {
+               MessageDisplay.Error("月份起始年月不可小於迄止年月!" , GlobalInfo.ErrorText);
+               return ResultStatus.Fail;
+            }
+            #endregion
 
             //0. ready
             panFilter.Enabled = false;
@@ -121,8 +124,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             int li_ole_col, li_header = 0;
 
             DataTable dt = dao30640.GetData(as_symd , as_eymd);
-            if (dt.Rows.Count == 0) {
-               MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtStartMonth.Text + "-" + txtEndMonth.Text , this.Text));
+            if (dt.Rows.Count <= 0) {
+               MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtStartMonth.Text + "-" + txtEndMonth.Text , this.Text) , "處理結果");
                return false;
             }
 
