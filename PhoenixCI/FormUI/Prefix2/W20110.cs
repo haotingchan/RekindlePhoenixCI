@@ -905,6 +905,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 gvMain.SetRowCellValue(gvMain.FocusedRowHandle, gvMain.Columns["AMIF_SUM_AMT"], 0);
                 //用來判斷是否為new row
                 gvMain.SetRowCellValue(gvMain.FocusedRowHandle, gvMain.Columns["Is_NewRow"], "1");
+                gvMain.SetRowCellValue(gvMain.FocusedRowHandle, gvMain.Columns["OP_TYPE"], "I");
             }
             catch (Exception ex) {
                 MessageBox.Show(ex.Message);
