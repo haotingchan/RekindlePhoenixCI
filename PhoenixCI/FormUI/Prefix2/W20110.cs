@@ -267,10 +267,10 @@ namespace PhoenixCI.FormUI.Prefix2 {
                         dr.SetAdded(); //很重要，沒改的話後面沒辦法Insert這筆資料到DB，會判斷成Update
                         dr["Is_NewRow"] = "1";
                         dtGrid.ImportRow(dr);
-                        DataTable dtChange = dtGrid.GetChanges();
-                        DataTable dtForAdd = dtGrid.GetChanges(DataRowState.Added);
                     }
                 }
+                gcMain.DataSource = dtGrid;
+                dtGrid = (DataTable)gcMain.DataSource;
                 //補沒有轉入商品之空白
                 if (ddlType.Text == "16:15收盤") {
                     DataView dv = dtRPT.AsDataView();
@@ -289,12 +289,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     //應該要用gridview的資料判斷，但在這個階段其資料等於dtAMIFU，故利用後者做判斷是否要新增資料列
                     if (dtGrid.Select("AMIF_KIND_ID='" + kindId + "' and AMIF_SETTLE_DATE='" + settleDate + "'").Length == 0) {
                         InsertRow(kindId, settleDate, dtRPT.Rows[i]["RPT_SEQ_NO"].AsInt());
-                        DataTable dtChange = dtGrid.GetChanges();
-                        DataTable dtForAdd = dtGrid.GetChanges(DataRowState.Added);
                     }
                 }
-                gcMain.DataSource = dtGrid;
-                //gcMain.RefreshDataSource();
                 gvMain.BeginSort();
                 try {
                     gvMain.ClearSorting();

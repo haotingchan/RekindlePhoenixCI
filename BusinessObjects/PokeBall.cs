@@ -11,6 +11,8 @@ namespace BusinessObjects
 
         public string TXF_TID;
 
+        public string TXF_TID_NAME;
+
         public GridControl GridControlMain;
 
         public GridControl GridControlSecond;
