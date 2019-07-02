@@ -414,12 +414,15 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     if (settleDate != "指數") {//這時候還沒轉回000000，所以用指數判斷
                         dr["AMIF_MTH_SEQ_NO"] = seqNo;
                     }
+                    else {
+                        dr["AMIF_MTH_SEQ_NO"] = 0; //其餘補0(PB code沒有這樣寫，結果是有補0的，只好加在這)
+                    }
                     if (dr.RowState == DataRowState.Unchanged) {
                         continue;
                     }
 
                     //若是空值則填入0
-                    if (dr["AMIF_CLOSE_PRICE"] == null) {
+                    if (dr["AMIF_CLOSE_PRICE"] == DBNull.Value) {
                         dr["AMIF_CLOSE_PRICE"] = 0;
                     }
                     if (dr["AMIF_CLOSE_PRICE"].AsDecimal() == 0) {
@@ -902,6 +905,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 gvMain.SetRowCellValue(gvMain.FocusedRowHandle, gvMain.Columns["AMIF_SUM_AMT"], 0);
                 //用來判斷是否為new row
                 gvMain.SetRowCellValue(gvMain.FocusedRowHandle, gvMain.Columns["Is_NewRow"], "1");
+                gvMain.SetRowCellValue(gvMain.FocusedRowHandle, gvMain.Columns["OP_TYPE"], "I");
             }
             catch (Exception ex) {
                 MessageBox.Show(ex.Message);
