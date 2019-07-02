@@ -138,7 +138,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             WriteFile(lsSellFile, lsStr);
             lsStr = "排序" + lsTab + "商品代碼" + lsTab + "商品名稱";
             foreach (DataRow row in AI2dt.Rows) {
-               lsStr = lsStr + lsTab + $"{row["startDate"].AsDateTime().ToString("yyyy/MM/dd")}~{row["endDate"].AsDateTime().ToString("yyyy/MM/dd")}";
+               lsStr = lsStr + lsTab + $"{row["startDate"].AsDateTime().ToString("yyyy/MM/dd")}～{row["endDate"].AsDateTime().ToString("yyyy/MM/dd")}";
             }
             WriteFile(_lsFile, lsStr);//FileWrite(li_FileNum, ls_str)
             WriteFile(lsSellFile, lsStr);//FileWrite(li_FileNum2, ls_str)
