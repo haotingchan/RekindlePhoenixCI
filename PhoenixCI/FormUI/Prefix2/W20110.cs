@@ -1238,14 +1238,14 @@ namespace PhoenixCI.FormUI.Prefix2 {
             /*******************
             轉統計資料AI3
             *******************/
-            //if (dao20110.sp_H_stt_AI3(date).Status != ResultStatus.Success) {
-            //    MessageBox.Show("執行SP(sp_H_stt_AI3)錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-            //    return "E";
-            //}
-            //else {
-            //    rtn = 0;
-            //}
-            //PbFunc.f_write_logf(_ProgramID, "E", "執行sp_H_stt_AI3");
+            if (dao20110.sp_H_stt_AI3(date).Status != ResultStatus.Success) {
+                MessageBox.Show("執行SP(sp_H_stt_AI3)錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return "E";
+            }
+            else {
+                rtn = 0;
+            }
+            PbFunc.f_write_logf(_ProgramID, "E", "執行sp_H_stt_AI3");
             /*******************
             更新AI6 (震幅波動度)
             *******************/
