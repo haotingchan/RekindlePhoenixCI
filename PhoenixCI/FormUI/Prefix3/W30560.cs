@@ -7,6 +7,7 @@ using System.Threading;
 using BaseGround.Shared;
 using Common;
 using PhoenixCI.BusinessLogic.Prefix3;
+using System.IO;
 /// <summary>
 /// john,20190318,國內股票選擇權交易概況表
 /// </summary>
@@ -96,25 +97,27 @@ namespace PhoenixCI.FormUI.Prefix3
          Thread.Sleep(5);
       }
 
-      private string OutputShowMessage {
-         set {
-            if (value != MessageDisplay.MSG_OK)
-               MessageDisplay.Info(value);
-         }
-      }
-
       protected override ResultStatus Export()
       {
+         if (!StartExport()) {
+            return ResultStatus.Fail;
+         }
+         string lsFile = PbFunc.wf_copy_file(_ProgramID, "30560");
+         MessageDisplay message = new MessageDisplay();
          try {
-            if (!StartExport()) {
-               return ResultStatus.Fail;
-            }
-            string lsFile = PbFunc.wf_copy_file(_ProgramID, "30560");
             b30560 = new B30560(lsFile, emMonth.Text);
             ShowMsg("30561－國內股票選擇權及黃金選擇權交易概況表 轉檔中...");
-            OutputShowMessage = b30560.Wf30561();
+            message.OutputShowMessage = b30560.Wf30561();
+
+            if (string.IsNullOrEmpty(message.OutputShowMessage)) {
+               if (File.Exists(lsFile))
+                  File.Delete(lsFile);
+               return ResultStatus.Fail;
+            }
          }
          catch (Exception ex) {
+            if (File.Exists(lsFile))
+               File.Delete(lsFile);
             WriteLog(ex);
             return ResultStatus.Fail;
          }
@@ -124,21 +127,5 @@ namespace PhoenixCI.FormUI.Prefix3
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Export(ReportHelper reportHelper)
-      {
-         base.Export(reportHelper);
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus CheckShield()
-      {
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus COMPLETE()
-      {
-         return ResultStatus.Success;
-      }
    }
 }
