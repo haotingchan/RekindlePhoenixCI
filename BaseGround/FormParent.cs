@@ -463,6 +463,7 @@ namespace BaseGround {
             string TXF_ARG = gv.GetRowCellValue(i, "TXF_ARG").AsString();
             string TXF_PERIOD = gv.GetRowCellValue(i, "TXF_PERIOD").AsString();
             args.TXF_TID = TXF_TID;
+            args.TXF_TID_NAME = TXF_TID_NAME;
 
             if (TXF_DEFAULT == "1") {
                DateTime LOGSP_DATE = args.OcfDate;
@@ -604,7 +605,8 @@ namespace BaseGround {
                      break;
 
                   case "W":
-                     resultData.Status = ExecuteForm();
+                       this.Invoke(new MethodInvoker(() => { resultData.Status = ExecuteForm(args); }));
+                            
                      break;
 
                   default:
@@ -659,8 +661,8 @@ namespace BaseGround {
                this.Invoke(new MethodInvoker(() => { gv.SetRowCellValue(i, "ERR_MSG", ""); }));
             }
 
-             servicePrefix1.setOCF();
          }
+       // servicePrefix1.setOCF();
 
          //全部結束
          servicePrefix1.SetTXF1(" ", _ProgramID);
@@ -670,8 +672,30 @@ namespace BaseGround {
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus ExecuteForm() {
-         return ResultStatus.Success;
+      protected virtual ResultStatus ExecuteForm(PokeBall args) {
+            var dllIndividual = Assembly.LoadFile(Application.ExecutablePath);
+            string typeFormat = "{0}.FormUI.Prefix{1}.W{2}";
+            string txnId = args.TXF_TID.Substring(2, 5);
+            Type myType = dllIndividual.GetType(string.Format(typeFormat, Path.GetFileNameWithoutExtension(Application.ExecutablePath), txnId.Substring(0, 1), txnId));
+
+            if (myType == null)
+            {
+                MessageDisplay.Error("無此程式");
+            }
+
+            object myObj = Activator.CreateInstance(myType, txnId, args.TXF_TID_NAME);
+
+            FormParent formInstance = (FormParent)myObj;
+
+
+            if (formInstance.BeforeOpen() == ResultStatus.Success)
+            {
+                formInstance.MdiParent = this.MdiParent;
+                formInstance.StartPosition = FormStartPosition.Manual;
+                formInstance.WindowState = FormWindowState.Maximized;
+                formInstance.Show();
+            }
+            return ResultStatus.Success;
       }
 
       protected virtual ResultStatus RunAfterEveryItem(PokeBall args) {

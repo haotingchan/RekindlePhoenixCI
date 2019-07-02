@@ -109,9 +109,6 @@
         }
 
         #endregion
-        public DevExpress.XtraGrid.Columns.GridColumn UPF_USER_ID;
-        public DevExpress.XtraGrid.Columns.GridColumn UPF_EMPLOYEE_ID;
-        public DevExpress.XtraGrid.Columns.GridColumn UPF_DPT_ID;
         private BaseGround.Widget.TextDateEdit txtPrevOcfDate;
         private System.Windows.Forms.Label lblPrevOcfDate;
     }
