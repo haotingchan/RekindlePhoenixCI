@@ -245,7 +245,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      li_b1++;
                      tmpRow = li_b1;
                      if (li_b1 == li_b1_end + 1) {
-                        MessageDisplay.Warning("國外「金額類型」保證金資料超過1000筆，只顯示1000筆資料！");
+                        //MessageDisplay.Warning("國外「金額類型」保證金資料超過1000筆，只顯示1000筆資料！");
                      }
                      if (li_b1 > li_b1_end) {
                         continue;
@@ -254,7 +254,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      li_b2++;
                      tmpRow = li_b2;
                      if (li_b2 == li_b2_end + 1) {
-                        MessageDisplay.Warning("國外「比例類型」保證金資料超過1000筆，只顯示1000筆資料！");
+                        //MessageDisplay.Warning("國外「比例類型」保證金資料超過1000筆，只顯示1000筆資料！");
                      }
                      if (li_b2 > li_b2_end) {
                         continue;
