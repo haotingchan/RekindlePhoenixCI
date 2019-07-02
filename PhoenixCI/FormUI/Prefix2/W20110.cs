@@ -414,12 +414,15 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     if (settleDate != "指數") {//這時候還沒轉回000000，所以用指數判斷
                         dr["AMIF_MTH_SEQ_NO"] = seqNo;
                     }
+                    else {
+                        dr["AMIF_MTH_SEQ_NO"] = 0; //其餘補0(PB code沒有這樣寫，結果是有補0的，只好加在這)
+                    }
                     if (dr.RowState == DataRowState.Unchanged) {
                         continue;
                     }
 
                     //若是空值則填入0
-                    if (dr["AMIF_CLOSE_PRICE"] == null) {
+                    if (dr["AMIF_CLOSE_PRICE"] == DBNull.Value) {
                         dr["AMIF_CLOSE_PRICE"] = 0;
                     }
                     if (dr["AMIF_CLOSE_PRICE"].AsDecimal() == 0) {
@@ -1235,14 +1238,14 @@ namespace PhoenixCI.FormUI.Prefix2 {
             /*******************
             轉統計資料AI3
             *******************/
-            if (dao20110.sp_H_stt_AI3(date).Status != ResultStatus.Success) {
-                MessageBox.Show("執行SP(sp_H_stt_AI3)錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                return "E";
-            }
-            else {
-                rtn = 0;
-            }
-            PbFunc.f_write_logf(_ProgramID, "E", "執行sp_H_stt_AI3");
+            //if (dao20110.sp_H_stt_AI3(date).Status != ResultStatus.Success) {
+            //    MessageBox.Show("執行SP(sp_H_stt_AI3)錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            //    return "E";
+            //}
+            //else {
+            //    rtn = 0;
+            //}
+            //PbFunc.f_write_logf(_ProgramID, "E", "執行sp_H_stt_AI3");
             /*******************
             更新AI6 (震幅波動度)
             *******************/
