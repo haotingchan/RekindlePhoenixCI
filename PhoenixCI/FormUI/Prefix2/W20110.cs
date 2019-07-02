@@ -267,10 +267,10 @@ namespace PhoenixCI.FormUI.Prefix2 {
                         dr.SetAdded(); //很重要，沒改的話後面沒辦法Insert這筆資料到DB，會判斷成Update
                         dr["Is_NewRow"] = "1";
                         dtGrid.ImportRow(dr);
-                        DataTable dtChange = dtGrid.GetChanges();
-                        DataTable dtForAdd = dtGrid.GetChanges(DataRowState.Added);
                     }
                 }
+                gcMain.DataSource = dtGrid;
+                dtGrid = (DataTable)gcMain.DataSource;
                 //補沒有轉入商品之空白
                 if (ddlType.Text == "16:15收盤") {
                     DataView dv = dtRPT.AsDataView();
@@ -289,12 +289,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     //應該要用gridview的資料判斷，但在這個階段其資料等於dtAMIFU，故利用後者做判斷是否要新增資料列
                     if (dtGrid.Select("AMIF_KIND_ID='" + kindId + "' and AMIF_SETTLE_DATE='" + settleDate + "'").Length == 0) {
                         InsertRow(kindId, settleDate, dtRPT.Rows[i]["RPT_SEQ_NO"].AsInt());
-                        DataTable dtChange = dtGrid.GetChanges();
-                        DataTable dtForAdd = dtGrid.GetChanges(DataRowState.Added);
                     }
                 }
-                gcMain.DataSource = dtGrid;
-                //gcMain.RefreshDataSource();
                 gvMain.BeginSort();
                 try {
                     gvMain.ClearSorting();
@@ -414,12 +410,15 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     if (settleDate != "指數") {//這時候還沒轉回000000，所以用指數判斷
                         dr["AMIF_MTH_SEQ_NO"] = seqNo;
                     }
+                    else {
+                        dr["AMIF_MTH_SEQ_NO"] = 0; //其餘補0(PB code沒有這樣寫，結果是有補0的，只好加在這)
+                    }
                     if (dr.RowState == DataRowState.Unchanged) {
                         continue;
                     }
 
                     //若是空值則填入0
-                    if (dr["AMIF_CLOSE_PRICE"] == null) {
+                    if (dr["AMIF_CLOSE_PRICE"] == DBNull.Value) {
                         dr["AMIF_CLOSE_PRICE"] = 0;
                     }
                     if (dr["AMIF_CLOSE_PRICE"].AsDecimal() == 0) {
@@ -563,16 +562,24 @@ namespace PhoenixCI.FormUI.Prefix2 {
         private void gvMain_RowCellStyle(object sender, RowCellStyleEventArgs e) {
             //要用RowHandle不要用FocusedRowHandle
             GridView gv = sender as GridView;
+            decimal amifUpDownVal, amifOpenPrice, amifHighPrice, amifMQntyTal, amifLowPrice, amifClosePrice, amifOpenInterest;
             string Is_NewRow = gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
                                gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]).ToString();
             string amifuErrText = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIFU_ERR_TEXT"]).AsString();
-            decimal amifOpenPrice = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_OPEN_PRICE"]).AsDecimal();
-            decimal amifHighPrice = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_HIGH_PRICE"]).AsDecimal();
-            decimal amifMQntyTal = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_M_QNTY_TAL"]).AsDecimal();
-            decimal amifLowPrice = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_LOW_PRICE"]).AsDecimal();
-            decimal amifClosePrice = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_CLOSE_PRICE"]).AsDecimal();
-            decimal amifUpDownVal = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_UP_DOWN_VAL"]).AsDecimal();
-            decimal amifOpenInterest = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_OPEN_INTEREST"]).AsDecimal();
+            amifOpenPrice = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_OPEN_PRICE"])!=DBNull.Value?
+                            gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_OPEN_PRICE"]).AsDecimal():-1;
+            amifHighPrice = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_HIGH_PRICE"])!=DBNull.Value?
+                            gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_HIGH_PRICE"]).AsDecimal():-1;
+            amifMQntyTal = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_M_QNTY_TAL"])!=DBNull.Value?
+                           gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_M_QNTY_TAL"]).AsDecimal():-1;
+            amifLowPrice = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_LOW_PRICE"])!=DBNull.Value?
+                           gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_LOW_PRICE"]).AsDecimal():-1;
+            amifClosePrice = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_CLOSE_PRICE"])!=DBNull.Value?
+                             gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_CLOSE_PRICE"]).AsDecimal():-1;
+            amifUpDownVal = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_UP_DOWN_VAL"]) != DBNull.Value ? 
+                            gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_UP_DOWN_VAL"]).AsDecimal() : -1;
+            amifOpenInterest = gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_OPEN_INTEREST"])!=DBNull.Value?
+                               gv.GetRowCellValue(e.RowHandle, gv.Columns["AMIF_OPEN_INTEREST"]).AsDecimal():-1;
 
             //描述每個欄位,在is_newRow時候要顯示的顏色
             //當該欄位不可編輯時,設定為灰色 Color.FromArgb(224, 224, 224)
@@ -584,7 +591,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 case ("AMIF_OPEN_PRICE"):
                     if (amifuErrText == null || amifuErrText == "") {
                         if (amifOpenPrice != gv.GetRowCellValue(e.RowHandle, gv.Columns["R_OPEN_PRICE"]).AsDecimal() ||
-                            gv.GetRowCellValue(e.RowHandle, gv.Columns["R_OPEN_PRICE"]).AsString() == null) {
+                            gv.GetRowCellValue(e.RowHandle, gv.Columns["R_OPEN_PRICE"]) == DBNull.Value) {
                             e.Appearance.BackColor = Color.FromArgb(255, 168, 255);
                         }
                     }
@@ -595,7 +602,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 case ("AMIF_HIGH_PRICE"):
                     if (amifuErrText == null || amifuErrText == "") {
                         if (amifHighPrice != gv.GetRowCellValue(e.RowHandle, gv.Columns["R_HIGH_PRICE"]).AsDecimal() ||
-                            gv.GetRowCellValue(e.RowHandle, gv.Columns["R_HIGH_PRICE"]).AsString() == null) {
+                            gv.GetRowCellValue(e.RowHandle, gv.Columns["R_HIGH_PRICE"]) == DBNull.Value) {
                             e.Appearance.BackColor = Color.FromArgb(255, 168, 255);
                         }
                     }
@@ -606,7 +613,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 case ("AMIF_M_QNTY_TAL"):
                     if (amifuErrText == null || amifuErrText == "") {
                         if (amifMQntyTal != gv.GetRowCellValue(e.RowHandle, gv.Columns["R_M_QNTY_TAL"]).AsDecimal() ||
-                            gv.GetRowCellValue(e.RowHandle, gv.Columns["R_M_QNTY_TAL"]).AsString() == null) {
+                            gv.GetRowCellValue(e.RowHandle, gv.Columns["R_M_QNTY_TAL"]) == DBNull.Value) {
                             e.Appearance.BackColor = Color.FromArgb(255, 168, 255);
                         }
                     }
@@ -617,7 +624,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 case ("AMIF_LOW_PRICE"):
                     if (amifuErrText == null || amifuErrText == "") {
                         if (amifLowPrice != gv.GetRowCellValue(e.RowHandle, gv.Columns["R_LOW_PRICE"]).AsDecimal() ||
-                            gv.GetRowCellValue(e.RowHandle, gv.Columns["R_LOW_PRICE"]).AsString() == null) {
+                            gv.GetRowCellValue(e.RowHandle, gv.Columns["R_LOW_PRICE"]) == DBNull.Value) {
                             e.Appearance.BackColor = Color.FromArgb(255, 168, 255);
                         }
                     }
@@ -628,7 +635,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 case ("AMIF_CLOSE_PRICE"):
                     if (amifuErrText == null || amifuErrText == "") {
                         if (amifClosePrice != gv.GetRowCellValue(e.RowHandle, gv.Columns["R_CLOSE_PRICE"]).AsDecimal() ||
-                            gv.GetRowCellValue(e.RowHandle, gv.Columns["R_CLOSE_PRICE"]).AsString() == null) {
+                            gv.GetRowCellValue(e.RowHandle, gv.Columns["R_CLOSE_PRICE"]) == DBNull.Value) {
                             e.Appearance.BackColor = Color.FromArgb(255, 168, 255);
                         }
                     }
@@ -639,7 +646,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 case ("AMIF_UP_DOWN_VAL"):
                     if (amifuErrText == null || amifuErrText == "") {
                         if (amifUpDownVal != gv.GetRowCellValue(e.RowHandle, gv.Columns["R_UP_DOWN_VAL"]).AsDecimal() ||
-                            gv.GetRowCellValue(e.RowHandle, gv.Columns["R_UP_DOWN_VAL"]).AsString() == null) {
+                            gv.GetRowCellValue(e.RowHandle, gv.Columns["R_UP_DOWN_VAL"]) == DBNull.Value) {
                             e.Appearance.BackColor = Color.FromArgb(255, 168, 255);
                         }
                     }
@@ -650,7 +657,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 case ("AMIF_OPEN_INTEREST"):
                     if (amifuErrText == null || amifuErrText == "") {
                         if (amifOpenInterest != gv.GetRowCellValue(e.RowHandle, gv.Columns["R_OPEN_INTEREST"]).AsDecimal() ||
-                            gv.GetRowCellValue(e.RowHandle, gv.Columns["R_OPEN_INTEREST"]).AsString() == null) {
+                            gv.GetRowCellValue(e.RowHandle, gv.Columns["R_OPEN_INTEREST"]) == DBNull.Value) {
                             e.Appearance.BackColor = Color.FromArgb(255, 168, 255);
                         }
                     }
@@ -902,6 +909,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 gvMain.SetRowCellValue(gvMain.FocusedRowHandle, gvMain.Columns["AMIF_SUM_AMT"], 0);
                 //用來判斷是否為new row
                 gvMain.SetRowCellValue(gvMain.FocusedRowHandle, gvMain.Columns["Is_NewRow"], "1");
+                gvMain.SetRowCellValue(gvMain.FocusedRowHandle, gvMain.Columns["OP_TYPE"], "I");
             }
             catch (Exception ex) {
                 MessageBox.Show(ex.Message);
