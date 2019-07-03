@@ -153,7 +153,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             }
             DataTable dt = dao30506.GetData(startDate.ToString("yyyyMM01"), endDate.ToString("yyyyMM31"));
             if (dt.Rows.Count <= 0) {
-               return $"{startDate.ToShortDateString()}~{endDate.ToShortDateString()},{lsRptId}－{lsRptName}無任何資料!";
+               return $"{startDate.ToShortDateString()}～{endDate.ToShortDateString()},{lsRptId}－{lsRptName}無任何資料!";
             }
 
             for (int k=0;k<AI2dt.Rows.Count;k++) {
