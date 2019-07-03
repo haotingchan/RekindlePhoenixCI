@@ -247,24 +247,19 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                worksheet.Cells[$"B{rowIndex}"].SetValue(row["DATA_KIND_ID"]);
 
                #region 1.各項指標計算結算保證金變動幅度
-               //1.簡單移動平均法(SMA)
-               if (row["SMA_CHANGE_FLAG"].AsString() == "Y") {
+               if (row["SMA_CHANGE_FLAG"].AsString() == "Y" || 
+                  row["EWMA_CHANGE_FLAG"].AsString() == "Y" || 
+                  row["MAXV_CHANGE_FLAG"].AsString() == "Y"){
+                  //1.簡單移動平均法(SMA)
                   worksheet.Cells[$"C{rowIndex}"].SetValue(row["SMA_CHANGE_RANGE"]);
                   worksheet.Cells[$"D{rowIndex}"].SetValue(row["SMA_DAY_CNT"]);
-               }
-
-               //2.加權指數移動平均法(EWMA)
-               if (row["EWMA_CHANGE_FLAG"].AsString() == "Y") {
+                  //2.加權指數移動平均法(EWMA)
                   worksheet.Cells[$"E{rowIndex}"].SetValue(row["EWMA_CHANGE_RANGE"]);
                   worksheet.Cells[$"F{rowIndex}"].SetValue(row["EWMA_DAY_CNT"]);
-               }
-
-               //3.簡單移動平均法
-               if (row["MAXV_CHANGE_FLAG"].AsString() == "Y") {
+                  //3.簡單移動平均法
                   worksheet.Cells[$"G{rowIndex}"].SetValue(row["MAXV_CHANGE_RANGE"]);
                   worksheet.Cells[$"H{rowIndex}"].SetValue(row["MAXV_DAY_CNT"]);
                }
-
                #endregion
 
                //若碰上3個模組的flag皆不為Y，2、3、4項下的內容文字為白色
@@ -357,20 +352,16 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                worksheet.Cells[$"F{rowIndex}"].SetValue(row["PID_NAME"]);
 
                #region 1.各項指標計算結算保證金變動幅度
-               //1.簡單移動平均法(SMA)
-               if (row["SMA_CHANGE_FLAG"].AsString() == "Y") {
+               if(row["SMA_CHANGE_FLAG"].AsString() == "Y" || 
+                  row["EWMA_CHANGE_FLAG"].AsString() == "Y" || 
+                  row["MAXV_CHANGE_FLAG"].AsString() == "Y") {
+                  //1.簡單移動平均法(SMA)
                   worksheet.Cells[$"G{rowIndex}"].SetValue(row["SMA_CHANGE_RANGE"]);
                   worksheet.Cells[$"H{rowIndex}"].SetValue(row["SMA_DAY_CNT"]);
-               }
-
-               //2.加權指數移動平均法(EWMA)
-               if (row["EWMA_CHANGE_FLAG"].AsString() == "Y") {
+                  //2.加權指數移動平均法(EWMA)
                   worksheet.Cells[$"I{rowIndex}"].SetValue(row["EWMA_CHANGE_RANGE"]);
                   worksheet.Cells[$"J{rowIndex}"].SetValue(row["EWMA_DAY_CNT"]);
-               }
-
-               //3.簡單移動平均法
-               if (row["MAXV_CHANGE_FLAG"].AsString() == "Y") {
+                  //3.簡單移動平均法
                   worksheet.Cells[$"K{rowIndex}"].SetValue(row["MAXV_CHANGE_RANGE"]);
                   worksheet.Cells[$"L{rowIndex}"].SetValue(row["MAXV_DAY_CNT"]);
                }
