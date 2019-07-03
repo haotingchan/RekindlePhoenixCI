@@ -146,7 +146,7 @@ namespace DataObjects.Dao.Together.SpecificDao
       {
          string sql =@"SELECT NVL(MAX(AI2_YMD),'') FROM CI.AI2";
          DataTable dtResult = db.GetDataTable(sql, null);
-         return dtResult.Rows[0][0].AsInt().ToString("0000/00/00");
+         return dtResult.Rows[0][0].AsString();
       }
    }
 }
