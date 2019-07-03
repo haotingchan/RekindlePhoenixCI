@@ -787,9 +787,9 @@ namespace PhoenixCI.BusinessLogic.Prefix7
 
                         workTable = new DataTable();
 
-                        arrayLen = newDsYMD.Rows.Count * (newdtPK.Rows.Count + 1) + 2;
+                        arrayLen = 2 + newDsYMD.Rows.Count * (newdtPK.Rows.Count + 1);//期貨商代號+名稱+商品+小計
                         if (selectEng)
-                           arrayLen = arrayLen - 1;
+                           arrayLen = arrayLen - 1;//-名稱
                      }
                      else {
                         newDsYMD = dtYMD.AsEnumerable().AsParallel().WithDegreeOfParallelism(useCpuCount)
@@ -799,9 +799,9 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                            .Where(r => r.Field<object>("am0_ymd").AsString().SubStr(6, 2).AsInt() > 15).CopyToDataTable();
 
                         workTable = new DataTable();
-                        arrayLen = newDsYMD.Rows.Count * (newdtPK.Rows.Count + 1) + 2 + 1;
+                        arrayLen = 2 + newDsYMD.Rows.Count * (newdtPK.Rows.Count + 1) + 1;//期貨商代號+名稱+商品+小計+市佔率
                         if (selectEng)
-                           arrayLen = arrayLen - 1;
+                           arrayLen = arrayLen - 1;//-名稱
                      }
 
                      if (newDsYMD.Rows.Count > 0 && newDt.Rows.Count > 0) {
@@ -811,9 +811,13 @@ namespace PhoenixCI.BusinessLogic.Prefix7
 
                   }//if (liArea == 2)
                   else {
-                     arrayLen = dtYMD.Rows.Count * (newdtPK.Rows.Count + 1) + 2 + 1;
+                     if (lsSumType != "Y")
+                        arrayLen = 2 + dtYMD.Rows.Count * (newdtPK.Rows.Count + 1) + 1;//期貨商代號+名稱+商品+小計+市佔率
+                     else
+                        arrayLen = 2 + dtYMD.Rows.Count * (newdtPK.Rows.Count + 1);//期貨商代號+名稱+商品+小計
+
                      if (selectEng)
-                        arrayLen = arrayLen - 1;
+                        arrayLen = arrayLen - 1;//-名稱
                   }
 
                   int ParamKeyCount = 0;

@@ -134,7 +134,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             {
                worksheet.Rows.Remove(RowIndex + 1, rowTotal - addCount);
                //表格最後一行設回原本的框線
-               int lineIndex = RowIndex + 2;
+               int lineIndex = RowIndex + 1;
                worksheet.Range[$"A{lineIndex}:G{lineIndex}"].Borders.BottomBorder.LineStyle = BorderLineStyle.Thin;
                worksheet.Range[$"A{lineIndex}:G{lineIndex}"].Borders.BottomBorder.Color = Color.Black;
                worksheet.ScrollTo(0, 0);//直接滾動到最上面，不然看起來很像少行數

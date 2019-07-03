@@ -45,12 +45,26 @@ namespace PhoenixCI.FormUI.Prefix3
       {
          base.AfterOpen();
          string lsYMD = new D30790().MaxDate();
+         DateTime date;
          if (!string.IsNullOrEmpty(lsYMD)) {
-            emEndDate.Text = lsYMD;
+            if (lsYMD.Length == 8)
+               date = lsYMD.AsDateTime("yyyyMMdd");
+            else if (lsYMD.Length == 6)
+               date = lsYMD.AsDateTime("yyyyMM");
+            else
+               date = DateTime.MinValue;
+
+            emEndDate.DateTimeValue = date;
          }
-         emStartDate.Text = PbFunc.relativedate(lsYMD.AsDateTime(), -6).ToString("yyyy/MM/dd");
+         else {
+            return ResultStatus.Fail;
+         }
+
+         if (date != DateTime.MinValue)
+            emStartDate.DateTimeValue = PbFunc.relativedate(date, -6);
+
          emStartDate.Focus();
-         emTxEndDate.Text = lsYMD;
+         emTxEndDate.DateTimeValue = date;
          return ResultStatus.Success;
       }
 
@@ -117,7 +131,7 @@ namespace PhoenixCI.FormUI.Prefix3
          }
          string lsFile = PbFunc.wf_copy_file(_ProgramID, "30790");
          try {
-            
+
             b30790 = new B30790(lsFile, emStartDate.Text, emEndDate.Text, emTxStartDate.Text, emTxEndDate.Text);
             MessageDisplay message = new MessageDisplay();
             if (chkAvg.Checked) {
