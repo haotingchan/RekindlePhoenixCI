@@ -204,7 +204,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 }
             }
             catch (Exception ex) {
-                PbFunc.f_write_logf(_ProgramID, "error", "gvMain_ShowingEditor error,des=" + ex.ToString());
+                WriteLog("gvMain_ShowingEditor error,des=" + ex.ToString());
             }
         }
 
@@ -232,7 +232,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 }//switch (e.Column.FieldName) {
             }
             catch (Exception ex) {
-                PbFunc.f_write_logf(_ProgramID, "error", "gvMain_RowCellStyle error,des=" + ex.ToString());
+                WriteLog("gvMain_RowCellStyle error,des=" + ex.ToString());
             }
         }
 

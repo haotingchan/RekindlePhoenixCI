@@ -101,33 +101,39 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
                 // 3. 匯出資料
                 DataTable dt30060 = new DataTable();
+                DataTable dtProd = new DataTable();
                 if (cbxDay.Checked) {
                     // 切換Sheet
                     ws30060 = workbook.Worksheets[0];
                     // 讀取資料
-                     dt30060 = dao30060.d_30060(symd, eymd,"0");
+                     dt30060 = dao30060.d_30060(symd, eymd,"%"); //不分日夜盤
                     if (dt30060.Rows.Count == 0) {
                         MessageDisplay.Info(GlobalInfo.OCF_DATE.ToString("yyyyMM") + "," + rptId + '－' + rptName + ",無任何資料!");
                         ShowMsg("");
                     }
                     wf_30060(ws30060, dt30060);
+                    //週到期商品 2019/06/28 新增sheet3 不分日夜盤
+                    dtProd = dao30060.d_30060_prod(symd, eymd, "%");
+                    ws30060 = workbook.Worksheets[2];
+                    wf_30060_prod(ws30060, dtProd);
                 }
                 if (cbxNight.Checked) {
                     // 切換Sheet
                     ws30060 = workbook.Worksheets[1];
                     // 讀取資料
-                     dt30060 = dao30060.d_30060(symd, eymd, "1");
+                     dt30060 = dao30060.d_30060(symd, eymd, "1"); //夜盤
                     if (dt30060.Rows.Count == 0) {
                         MessageDisplay.Info(GlobalInfo.OCF_DATE.ToString("yyyyMM") + "," + rptId + '－' + rptName + ",無任何資料!");
                         ShowMsg("");
                     }
                     wf_30060(ws30060, dt30060);
+                    //週到期商品 2019/06/28 新增sheet4 夜盤
+                    dtProd = dao30060.d_30060_prod(symd, eymd, "1");
+                    ws30060 = workbook.Worksheets[3];
+                    wf_30060_prod(ws30060, dtProd);
                 }
 
-                //週到期商品 2019/06/28 新增sheet 不分日夜盤
-                DataTable dtProd = dao30060.d_30060_prod(symd, eymd);
-                ws30060 = workbook.Worksheets[2];
-                wf_30060_prod(ws30060, dtProd);
+
 
                 if (dt30060.Rows.Count == 0 && dtProd.Rows.Count==0) {
                     workbook = null;

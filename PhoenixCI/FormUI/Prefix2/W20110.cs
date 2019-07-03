@@ -43,6 +43,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
         private APDK daoAPDK;
         protected DataTable dtCheck;
         protected DataTable dtProd;
+        protected RepositoryItemLookUpEdit ddlProd;
 
         public W20110(string programID, string programName) : base(programID, programName) {
             InitializeComponent();
@@ -50,6 +51,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             GridHelper.SetCommonGrid(gvMain);
             dao20110 = new D20110();
             daoAPDK = new APDK();
+            ddlProd = new RepositoryItemLookUpEdit();
             txtDate.DateTimeValue = GlobalInfo.OCF_DATE;
             //在這邊先撈，因為在不同的事件中會重複用到
 #if DEBUG
@@ -71,7 +73,6 @@ namespace PhoenixCI.FormUI.Prefix2 {
 
             #region 處理下拉選單
             //商品下拉選單
-            RepositoryItemLookUpEdit ddlProd = new RepositoryItemLookUpEdit();
             dtProd = dao20110.ListAllF_20110();
 
             #region 資料表內的資料不乾淨,比下拉選單項目還多,必須先做資料合併再設定到下拉選單中
@@ -182,6 +183,24 @@ namespace PhoenixCI.FormUI.Prefix2 {
             }
 
             returnTable.Columns.Add("Is_NewRow", typeof(string));
+
+            #region 資料表內的資料不乾淨,比下拉選單項目還多,必須先做資料合併再設定到下拉選單中
+            DataView view = new DataView(returnTable);
+            DataTable dtTemp = view.ToTable(true, "AMIF_KIND_ID");
+            dtTemp.Columns[0].ColumnName = "PDK_KIND_ID";
+            foreach (DataRow dr in dtTemp.Rows) {
+                dr[0] = dr[0].AsString() + "    ";
+            }
+            dtTemp.PrimaryKey = new DataColumn[] { dtTemp.Columns["PDK_KIND_ID"] };
+            dtProd.PrimaryKey = new DataColumn[] { dtProd.Columns["PDK_KIND_ID"] };
+            dtTemp.Merge(dtProd, false);
+            dtProd = dtTemp;
+
+            ddlProd.SetColumnLookUp(dtProd, "PDK_KIND_ID", "PDK_KIND_ID", TextEditStyles.DisableTextEditor, "");
+            gcMain.RepositoryItems.Add(ddlProd);
+            AMIF_KIND_ID.ColumnEdit = ddlProd;
+            #endregion
+
             gcMain.DataSource = returnTable;
             gcMain.Focus();
 
@@ -228,6 +247,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 DataTable dtRPT = daoRPT.ListAllByTXD_ID("20110");
                 int rowNum, seqNo, rtn;
                 string subType, settleDate, rtnStr;
+                DataView view;
+                DataTable dtTemp;
                 //如果資料表(AMIFU)沒資料
                 if (dtAMIFU.Rows.Count == 0) {
                     //PB: wf_insert_all_zero()
@@ -254,6 +275,24 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     //要Focus新資料列以外的地方Sort才會生效。
                     gvMain.FocusedRowHandle = 0;
                     ClosePrice();
+
+                    #region 資料表內的資料不乾淨,比下拉選單項目還多,必須先做資料合併再設定到下拉選單中
+                    view = new DataView(dtRPT);
+                    dtTemp = view.ToTable(true, "RPT_VALUE");
+                    dtTemp.Columns[0].ColumnName = "PDK_KIND_ID";
+                    foreach (DataRow dr in dtTemp.Rows) {
+                        dr[0] = dr[0].AsString() + "    ";
+                    }
+                    dtTemp.PrimaryKey = new DataColumn[] { dtTemp.Columns["PDK_KIND_ID"] };
+                    dtProd.PrimaryKey = new DataColumn[] { dtProd.Columns["PDK_KIND_ID"] };
+                    dtTemp.Merge(dtProd, false);
+                    dtProd = dtTemp;
+
+                    ddlProd.SetColumnLookUp(dtProd, "PDK_KIND_ID", "PDK_KIND_ID", TextEditStyles.DisableTextEditor, "");
+                    gcMain.RepositoryItems.Add(ddlProd);
+                    AMIF_KIND_ID.ColumnEdit = ddlProd;
+                    #endregion
+
                     return ResultStatus.Success;
                 }
                 //如果有資料，就copy到Grid
@@ -307,6 +346,23 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 //前日收盤價
                 ClosePrice();
 
+                #region 資料表內的資料不乾淨,比下拉選單項目還多,必須先做資料合併再設定到下拉選單中
+                view = new DataView(dtAMIFU);
+                dtTemp = view.ToTable(true, "AMIF_KIND_ID");
+                dtTemp.Columns[0].ColumnName = "PDK_KIND_ID";
+                foreach (DataRow dr in dtTemp.Rows) {
+                    dr[0] = dr[0].AsString() + "    ";
+                }
+                dtTemp.PrimaryKey = new DataColumn[] { dtTemp.Columns["PDK_KIND_ID"] };
+                dtProd.PrimaryKey = new DataColumn[] { dtProd.Columns["PDK_KIND_ID"] };
+                dtTemp.Merge(dtProd, false);
+                dtProd = dtTemp;
+
+                ddlProd.SetColumnLookUp(dtProd, "PDK_KIND_ID", "PDK_KIND_ID", TextEditStyles.DisableTextEditor, "");
+                gcMain.RepositoryItems.Add(ddlProd);
+                AMIF_KIND_ID.ColumnEdit = ddlProd;
+                #endregion
+
                 //JPX下載檔案檢核
                 DataTable dtJTW = (DataTable)gcMain.DataSource;
                 if (dtJTW.Select("AMIF_KIND_ID = 'JTW'").Length > 0) {
@@ -337,7 +393,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
                         gvMain.SetRowCellValue(i, gvMain.Columns["AMIF_UP_DOWN_VAL"], 0);
                     }
                 }
-            }
+            }//if (found == 0)
+
             return ResultStatus.Success;
         }
 
@@ -497,7 +554,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                         return ResultStatus.FailButNext;
                     }
                     else {
-                        PbFunc.f_write_logf(_ProgramID, "I", "變更資料");
+                        WriteLog("變更資料","Info", "I");
                     }
                 }
                 catch (Exception ex) {
@@ -1201,89 +1258,92 @@ namespace PhoenixCI.FormUI.Prefix2 {
             轉統計資料TDT
             *******************/
             if (dao20110.sp_U_gen_H_TDT(date, prodType).Status != ResultStatus.Success) {
-                MessageBox.Show("執行SP(sp_U_gen_H_TDT(" + prodType + "))錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                MessageDisplay.Error("執行SP(sp_U_gen_H_TDT(" + prodType + "))錯誤! ");
                 return "E";
             }
             else {
                 rtn = 0;
             }
-            PbFunc.f_write_logf(_ProgramID, "E", "執行sp_U_gen_H_TDT(" + prodType + ")");
+            WriteLog("執行sp_U_gen_H_TDT(" + prodType + ")", "Info", "E");
 
             if (txnId == "20110") {
                 prodType = "J";
                 if (dao20110.sp_U_gen_H_TDT(date, prodType).Status != ResultStatus.Success) {
-                    MessageBox.Show("執行SP(sp_U_gen_H_TDT(" + prodType + "))錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    MessageDisplay.Error("執行SP(sp_U_gen_H_TDT(" + prodType + "))錯誤! ");
                     return "E";
                 }
                 else {
                     rtn = 0;
                 }
-                PbFunc.f_write_logf(_ProgramID, "E", "執行sp_U_gen_H_TDT(" + prodType + ")");
+                WriteLog("執行sp_U_gen_H_TDT(" + prodType + ")", "Info", "E");
 
                 //JTX 日統計AI2
                 if (dao20110.sp_U_stt_H_AI2_Day(date, prodType).Status != ResultStatus.Success) {
-                    MessageBox.Show("執行SP(sp_U_stt_H_AI2_Day)錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    MessageDisplay.Error("執行SP(sp_U_stt_H_AI2_Day)錯誤! ");
                     return "E";
                 }
                 else {
                     rtn = 0;
                 }
-                PbFunc.f_write_logf(_ProgramID, "E", "執行sp_U_stt_H_AI2_Day");
+                WriteLog("執行sp_U_stt_H_AI2_Day", "Info", "E");
 
                 //JTX 月統計AI2
                 if (dao20110.sp_U_stt_H_AI2_Month(date, prodType).Status != ResultStatus.Success) {
-                    MessageBox.Show("執行SP(sp_U_stt_H_AI2_Month)錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    MessageDisplay.Error("執行SP(sp_U_stt_H_AI2_Month)錯誤! ");
                     return "E";
                 }
                 else {
                     rtn = 0;
                 }
-                PbFunc.f_write_logf(_ProgramID, "E", "執行sp_U_stt_H_AI2_Month");
+                WriteLog("執行sp_U_stt_H_AI2_Month", "Info", "E");
             }
             /*******************
             轉統計資料AI3
             *******************/
             if (dao20110.sp_H_stt_AI3(date).Status != ResultStatus.Success) {
-                MessageBox.Show("執行SP(sp_H_stt_AI3)錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                MessageDisplay.Error("執行SP(sp_H_stt_AI3)錯誤! ");
                 return "E";
             }
             else {
                 rtn = 0;
             }
-            PbFunc.f_write_logf(_ProgramID, "E", "執行sp_H_stt_AI3");
+            WriteLog("執行sp_H_stt_AI3", "Info", "E");
+
             /*******************
             更新AI6 (震幅波動度)
             *******************/
             if (dao20110.sp_H_gen_AI6(date).Status != ResultStatus.Success) {
-                MessageBox.Show("執行SP(sp_H_gen_AI6)錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                MessageDisplay.Error("執行SP(sp_H_gen_AI6)錯誤! ");
                 return "E";
             }
             else {
                 rtn = 0;
             }
-            PbFunc.f_write_logf(_ProgramID, "E", "執行sp_H_gen_AI6");
+            WriteLog("執行sp_H_gen_AI6", "Info", "E");
+
             /*******************
             更新AA3
             *******************/
             if (dao20110.sp_H_upd_AA3(date).Status != ResultStatus.Success) {
-                MessageBox.Show("執行SP(sp_H_upd_AA3)錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                MessageDisplay.Error("執行SP(sp_H_upd_AA3)錯誤! ");
                 return "E";
             }
             else {
                 rtn = 0;
             }
-            PbFunc.f_write_logf(_ProgramID, "E", "執行sp_H_upd_AA3");
+            WriteLog("執行sp_H_upd_AA3", "Info", "E");
+
             /*******************
             更新AI8
             *******************/
             if (dao20110.sp_H_gen_H_AI8(date).Status != ResultStatus.Success) {
-                MessageBox.Show("執行SP(sp_H_gen_H_AI8)錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                MessageDisplay.Error("執行SP(sp_H_gen_H_AI8)錯誤! ");
                 return "E";
             }
             else {
                 rtn = 0;
             }
-            PbFunc.f_write_logf(_ProgramID, "E", "執行sp_H_gen_H_AI8");
+            WriteLog("執行sp_H_gen_H_AI8", "Info", "E");
 
             return "";
         }
