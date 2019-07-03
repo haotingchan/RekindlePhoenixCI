@@ -72,6 +72,10 @@ namespace PhoenixCI.FormUI.Prefix2
 
       }
 
+      /// <summary>
+      /// 確認日期 有資料時清除PLS4相關日期資料
+      /// </summary>
+      /// <returns></returns>
       private bool WfChkDate()
       {
          //確認：比對日期
@@ -87,6 +91,7 @@ namespace PhoenixCI.FormUI.Prefix2
             return false;
          }
 
+         //重新讀取資料
          Retrieve();
          DataTable dt = (DataTable)gcMain.DataSource;
 
@@ -103,9 +108,8 @@ namespace PhoenixCI.FormUI.Prefix2
             if (ChooseResult2 == DialogResult.Cancel) {
                return false;
             }
-
+            //刪除相關日期條件已存在的資料
             dao20231.DeletePLS4(lsYMD);
-
          }
          
          DialogResult ChooseResult3 = MessageBox.Show($"請確認「比對期貨/選擇權商品基準日期 :{emDate.Text}」是否正確?", "注意", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
@@ -179,6 +183,7 @@ namespace PhoenixCI.FormUI.Prefix2
          string Is_NewRow = gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
              gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"]).ToString();
 
+         //判斷哪些欄位可以編輯
          if (gv.IsNewItemRow(gv.FocusedRowHandle) || Is_NewRow == "1") {
             e.Cancel = false;
             gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"], 1);
@@ -196,6 +201,7 @@ namespace PhoenixCI.FormUI.Prefix2
          GridView gv = sender as GridView;
          string isNewRow = gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
               gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]).ToString();
+         //新增時顏色轉為白底
          if (e.Column.FieldName == "PLS4_SID" || e.Column.FieldName == "PLS4_KIND_ID2")
             e.Appearance.BackColor = isNewRow == "1" ? Color.White : Color.FromArgb(224, 224, 224);
       }
@@ -222,7 +228,7 @@ namespace PhoenixCI.FormUI.Prefix2
          //存檔前檢查
          if (getDeleteCount == 0 && dtChange != null)//無法經由資料列存取已刪除的資料列資訊。
          {
-            // 寫入DB
+            //更新變動日期與使用者ID
             foreach (DataRow dr in dt.Rows) {
                if (dr.RowState == DataRowState.Modified) {
                   dr["PLS4_W_USER_ID"] = GlobalInfo.USER_ID;
@@ -233,7 +239,9 @@ namespace PhoenixCI.FormUI.Prefix2
          }
          if (dtChange != null) {
             try {
+               // 寫入DB
                ResultData myResultData = dao20231.UpdatePLS4(dt);
+               //產出txt檔案
                Common.Helper.ExportHelper.ToText(dt, Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, "20231.txt"));
             }
             catch (Exception ex) {
@@ -251,7 +259,7 @@ namespace PhoenixCI.FormUI.Prefix2
       {
          try {
             ReportHelper reportHelper = new ReportHelper(gcMain, _ProgramID, _ProgramID + _ProgramName);
-            reportHelper.Print();
+            reportHelper.Print();//列印
 
          }
          catch (Exception ex) {
@@ -276,13 +284,6 @@ namespace PhoenixCI.FormUI.Prefix2
          return ResultStatus.Success;
       }
 
-      public override ResultStatus BeforeOpen()
-      {
-         base.BeforeOpen();
-
-         return ResultStatus.Success;
-      }
-
       protected override ResultStatus Open()
       {
          base.Open();
@@ -294,6 +295,10 @@ namespace PhoenixCI.FormUI.Prefix2
          return ResultStatus.Success;
       }
 
+      /// <summary>
+      /// 這功能user沒什麼在使用 用pb測試也發現這功能怪怪的 所以邏輯就照pb翻
+      /// </summary>
+      /// <returns></returns>
       protected override ResultStatus Import()
       {
          Stream openFile = PbFunc.wf_getfileopenname("20231.txt", "*.txt (*.txt)|*.txt");
@@ -351,6 +356,7 @@ namespace PhoenixCI.FormUI.Prefix2
          gcMain.DataSource = chkData;
          gcMain.EndUpdate();
 
+         //匯入之後股票代號和個股商品2碼為可編輯狀態
          PLS4_SID.AppearanceCell.BackColor = Color.White;
          PLS4_SID.OptionsColumn.AllowEdit = true;
          PLS4_KIND_ID2.AppearanceCell.BackColor = Color.White;
@@ -359,11 +365,15 @@ namespace PhoenixCI.FormUI.Prefix2
          string filepath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, "");
          gvMain.ExportToXlsx(filepath);
          //Write LOGF
-         WriteLog(_ProgramID, "E", "轉出檔案:" + filepath);
+         WriteLog("轉出檔案:" + filepath, "E");
          EndExport();
          return ResultStatus.Success;
       }
 
+      /// <summary>
+      /// show出訊息在label
+      /// </summary>
+      /// <param name="msg"></param>
       protected void ShowMsg(string msg)
       {
          stMsgTxt.Visible = true;
@@ -383,7 +393,7 @@ namespace PhoenixCI.FormUI.Prefix2
 
       private void gvMain_CustomDrawRowIndicator(object sender, RowIndicatorCustomDrawEventArgs e)
       {
-
+         //編排流水號
          e.Appearance.DrawBackground(e.Cache, e.Bounds);
          if (e.Info.Kind == DevExpress.Utils.Drawing.IndicatorKind.Header) {
             e.Appearance.BackColor = Color.FromArgb(192, 220, 192);
@@ -413,8 +423,9 @@ namespace PhoenixCI.FormUI.Prefix2
          string lsymd = emDate.Text.Replace("/", "");
          string lspdkymd = emProdDate.Text.Replace("/", "");
          DataTable insertData = dao20231.ListHpdkData(lspdkymd);
-         DataTable data = dao20231.List20231(lsymd).Clone();//dw_1.reset()
-                                                            //InsertData寫入List20231
+         DataTable data = dao20231.List20231(lsymd).Clone();//dw_1.reset(); InsertData寫入List20231
+
+         //判斷新增行列
          data.Columns.Add("Is_NewRow", typeof(string));
 
          if (insertData.Rows.Count > 0) {
@@ -432,6 +443,11 @@ namespace PhoenixCI.FormUI.Prefix2
          gcMain.EndUpdate();
       }
 
+      /// <summary>
+      /// 開啟新增個股契約視窗
+      /// </summary>
+      /// <param name="sender"></param>
+      /// <param name="e"></param>
       private void btnAdd_Click(object sender, EventArgs e)
       {
          FormMain frmMain = (FormMain)this.MdiParent;
@@ -443,11 +459,12 @@ namespace PhoenixCI.FormUI.Prefix2
          if (e.RowHandle < 0 || gvMain.Columns.Count == 0) {
             return;
          }
-         gvMain.FocusedColumn = gvMain.Columns["PLS4_KIND_ID2"];
+         //點擊資料列 預設是focuse到個股商品2碼 如為可編輯狀態則focuse到股票代號
+         gvMain.FocusedColumn = gvMain.Columns["PLS4_KIND_ID2"];//個股商品2碼
          string Is_NewRow = gvMain.GetRowCellValue(gvMain.FocusedRowHandle, gvMain.Columns["Is_NewRow"]) == null ? "0" :
              gvMain.GetRowCellValue(gvMain.FocusedRowHandle, gvMain.Columns["Is_NewRow"]).ToString();
          if (Is_NewRow == "1") {
-            gvMain.FocusedColumn = gvMain.Columns["PLS4_SID"];
+            gvMain.FocusedColumn = gvMain.Columns["PLS4_SID"];//股票代號
          }
          gvMain.FocusedRowHandle = e.RowHandle;
          gvMain.ShowEditor();
@@ -458,21 +475,22 @@ namespace PhoenixCI.FormUI.Prefix2
          GridView gv = sender as GridView;
          string isNewRow = gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
               gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]).ToString();
+         //isNewRow=1是新增、新增代表可編輯 其餘皆不可編輯
          switch (e.Column.FieldName) {
-            case "PLS4_SID":
+            case "PLS4_SID"://股票代號
                if (isNewRow == "1") {
-                  e.RepositoryItem = SIDdefTextEdit;
+                  e.RepositoryItem = SIDdefTextEdit;//白底、可編輯
                }
                else {
-                  e.RepositoryItem = SIDTextEdit;
+                  e.RepositoryItem = SIDTextEdit;//灰底、不可編輯
                }
                break;
-            case "PLS4_KIND_ID2":
+            case "PLS4_KIND_ID2"://個股商品2碼
                if (isNewRow == "1") {
-                  e.RepositoryItem = kindIDdefTextEdit;
+                  e.RepositoryItem = kindIDdefTextEdit;//白底、可編輯
                }
                else {
-                  e.RepositoryItem = KindIDTextEdit;
+                  e.RepositoryItem = KindIDTextEdit;//灰底、不可編輯
                }
                break;
          }

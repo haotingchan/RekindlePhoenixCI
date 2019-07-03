@@ -8,6 +8,12 @@ namespace PhoenixCI.BusinessLogic.Prefix2
    /// </summary>
    public class B20231
    {
+      /// <summary>
+      /// 20231 Import匯入資料時 讀取txt轉為DataTable
+      /// </summary>
+      /// <param name="openFile">檔案Stream</param>
+      /// <param name="dtReadTxt">要轉出的DataTable結構</param>
+      /// <returns></returns>
       public DataTable TxtWriteToDataTable(Stream openFile, DataTable dtReadTxt)
       {
          using (TextReader tr = new StreamReader(openFile)) {
