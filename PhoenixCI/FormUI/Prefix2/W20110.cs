@@ -309,6 +309,24 @@ namespace PhoenixCI.FormUI.Prefix2 {
                     }
                 }
                 gcMain.DataSource = dtGrid;
+
+                #region 資料表內的資料不乾淨,比下拉選單項目還多,必須先做資料合併再設定到下拉選單中
+                view = new DataView(dtRPT);
+                dtTemp = view.ToTable(true, "RPT_VALUE");
+                dtTemp.Columns[0].ColumnName = "PDK_KIND_ID";
+                foreach (DataRow dr in dtTemp.Rows) {
+                    dr[0] = dr[0].AsString() + "    ";
+                }
+                dtTemp.PrimaryKey = new DataColumn[] { dtTemp.Columns["PDK_KIND_ID"] };
+                dtProd.PrimaryKey = new DataColumn[] { dtProd.Columns["PDK_KIND_ID"] };
+                dtTemp.Merge(dtProd, false);
+                dtProd = dtTemp;
+
+                ddlProd.SetColumnLookUp(dtProd, "PDK_KIND_ID", "PDK_KIND_ID", TextEditStyles.DisableTextEditor, "");
+                gcMain.RepositoryItems.Add(ddlProd);
+                AMIF_KIND_ID.ColumnEdit = ddlProd;
+                #endregion
+
                 dtGrid = (DataTable)gcMain.DataSource;
                 //補沒有轉入商品之空白
                 if (ddlType.Text == "16:15收盤") {
@@ -346,23 +364,6 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 //前日收盤價
                 ClosePrice();
 
-                #region 資料表內的資料不乾淨,比下拉選單項目還多,必須先做資料合併再設定到下拉選單中
-                view = new DataView(dtAMIFU);
-                dtTemp = view.ToTable(true, "AMIF_KIND_ID");
-                dtTemp.Columns[0].ColumnName = "PDK_KIND_ID";
-                foreach (DataRow dr in dtTemp.Rows) {
-                    dr[0] = dr[0].AsString() + "    ";
-                }
-                dtTemp.PrimaryKey = new DataColumn[] { dtTemp.Columns["PDK_KIND_ID"] };
-                dtProd.PrimaryKey = new DataColumn[] { dtProd.Columns["PDK_KIND_ID"] };
-                dtTemp.Merge(dtProd, false);
-                dtProd = dtTemp;
-
-                ddlProd.SetColumnLookUp(dtProd, "PDK_KIND_ID", "PDK_KIND_ID", TextEditStyles.DisableTextEditor, "");
-                gcMain.RepositoryItems.Add(ddlProd);
-                AMIF_KIND_ID.ColumnEdit = ddlProd;
-                #endregion
-
                 //JPX下載檔案檢核
                 DataTable dtJTW = (DataTable)gcMain.DataSource;
                 if (dtJTW.Select("AMIF_KIND_ID = 'JTW'").Length > 0) {
@@ -373,8 +374,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 }
                 if (rtn >= 0) {
                     if (gvMain.GetRowCellValue(rtn, gvMain.Columns["Is_NewRow"]).AsString() == "1") {
-                        DialogResult result = MessageBox.Show("請問是否要下載JPX網頁「http://www.jpx.co.jp/english/markets/derivatives/trading-volume/index.html」資料？",
-                                                              "請選擇", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        DialogResult result = MessageDisplay.Choose("請問是否要下載JPX網頁「http://www.jpx.co.jp/english/markets/derivatives/trading-volume/index.html」資料？");
                         if (result == DialogResult.Yes) {
                             JpxGetFile();
                         }
