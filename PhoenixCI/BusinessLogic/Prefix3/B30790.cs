@@ -63,7 +63,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             }
 
             worksheet.Range["A1"].Select();
-            worksheet.Cells["C2"].Value = $"{_startDateText}-{_endDateText}";
+            worksheet.Cells["C2"].Value = $"{_startDateText}－{_endDateText}";
             int rowsCount = 0;
             int rowIndex = 4 - 1;
             for (int j = 0; j < dt.Rows.Count; j++) {
@@ -71,10 +71,10 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                int beginTime = row["BEGIN_TIME"].AsInt();
                string timeFormat = "00:00";
                if (j == 0) {
-                  worksheet.Rows[rowIndex][1 - 1].Value = beginTime.ToString(timeFormat);
-                  worksheet.Rows[rowIndex][2 - 1].Value = row["BEGIN_TYPE"].AsString();
-                  worksheet.Rows[rowIndex][3 - 1].Value = row["END_TIME"].AsInt().ToString(timeFormat);
-                  worksheet.Rows[rowIndex][4 - 1].Value = row["END_TYPE"].AsString();
+                  worksheet.Cells[$"A{rowIndex - 1}"].Value = row["BEGIN_TYPE"].AsString();
+                  worksheet.Cells[$"B{rowIndex - 1}"].Value = row["END_TIME"].AsInt().ToString(timeFormat);
+                  worksheet.Cells[$"C{rowIndex - 1}"].Value = row["END_TYPE"].AsString();
+                  worksheet.Cells[$"D{rowIndex - 1}"].Value = beginTime.ToString(timeFormat);
                }
                else if (j > 0) {
                   if (beginTime != dt.Rows[j - 1]["BEGIN_TIME"].AsInt()) {
@@ -85,10 +85,10 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                      else {
                         rowIndex = rowIndex + 1;
 
-                        worksheet.Rows[rowIndex][1 - 1].Value = beginTime.ToString(timeFormat);
-                        worksheet.Rows[rowIndex][2 - 1].Value = row["BEGIN_TYPE"].AsString();
-                        worksheet.Rows[rowIndex][3 - 1].Value = row["END_TIME"].AsInt().ToString(timeFormat);
-                        worksheet.Rows[rowIndex][4 - 1].Value = row["END_TYPE"].AsString();
+                        worksheet.Cells[$"A{rowIndex - 1}"].Value = beginTime.ToString(timeFormat);
+                        worksheet.Cells[$"B{rowIndex - 1}"].Value = row["BEGIN_TYPE"].AsString();
+                        worksheet.Cells[$"C{rowIndex - 1}"].Value = row["END_TIME"].AsInt().ToString(timeFormat);
+                        worksheet.Cells[$"D{rowIndex - 1}"].Value = row["END_TYPE"].AsString();
 
                         rowsCount = rowIndex;
                      }
@@ -116,10 +116,9 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                   workbook.Worksheets[k].ScrollTo(0, 0);//直接滾動到最上面，不然看起來很像少行數
                }
             }
-            
+
          }
-         catch (Exception ex)
-         {
+         catch (Exception ex) {
 #if DEBUG
             throw new Exception("Wf30790:" + ex.Message);
 #else
@@ -151,7 +150,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             if (dt.Rows.Count <= 0) {
                return $"{_startDateText},{_endDateText},30790_4－TX每日日盤及夜盤之振幅及收盤價,無任何資料!";
             }
-            worksheet.Cells["B2"].Value = $"{_txStartDateText}-{_txEndDateText}";
+            worksheet.Cells["B2"].Value = $"{_txStartDateText}－{_txEndDateText}";
             //從第四行(0~3)開始寫入
             worksheet.Import(dt, false, 3, 0);
             worksheet.ScrollTo(0, 0);//直接滾動到最上面，不然看起來很像少行數
