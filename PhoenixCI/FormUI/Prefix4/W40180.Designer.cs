@@ -130,6 +130,7 @@
          this.gbType.Appearance.Options.UseTextOptions = true;
          this.gbType.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
          this.gbType.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+         this.gbType.CheckOnClick = true;
          this.gbType.ColumnWidth = 160;
          this.gbType.HotTrackSelectMode = DevExpress.XtraEditors.HotTrackSelectMode.SelectItemOnClick;
          this.gbType.ItemAutoHeight = true;
@@ -147,7 +148,7 @@
          this.gbType.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbType.MultiColumn = true;
          this.gbType.Name = "gbType";
-         this.gbType.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+         this.gbType.SelectionMode = System.Windows.Forms.SelectionMode.None;
          this.gbType.ShowFocusRect = false;
          this.gbType.Size = new System.Drawing.Size(486, 98);
          this.gbType.TabIndex = 1;
@@ -268,6 +269,7 @@
          this.gbMoney.Appearance.Options.UseTextOptions = true;
          this.gbMoney.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
          this.gbMoney.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+         this.gbMoney.CheckOnClick = true;
          this.gbMoney.ColumnWidth = 160;
          this.gbMoney.HotTrackSelectMode = DevExpress.XtraEditors.HotTrackSelectMode.SelectItemOnClick;
          this.gbMoney.ItemAutoHeight = true;
@@ -280,7 +282,7 @@
          this.gbMoney.LookAndFeel.SkinName = "Office 2013";
          this.gbMoney.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbMoney.Name = "gbMoney";
-         this.gbMoney.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+         this.gbMoney.SelectionMode = System.Windows.Forms.SelectionMode.None;
          this.gbMoney.ShowFocusRect = false;
          this.gbMoney.Size = new System.Drawing.Size(312, 123);
          this.gbMoney.TabIndex = 8;
@@ -443,6 +445,7 @@
          this.gbMsg.Appearance.Options.UseTextOptions = true;
          this.gbMsg.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
          this.gbMsg.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+         this.gbMsg.CheckOnClick = true;
          this.gbMsg.ColumnWidth = 160;
          this.gbMsg.HotTrackSelectMode = DevExpress.XtraEditors.HotTrackSelectMode.SelectItemOnClick;
          this.gbMsg.ItemAutoHeight = true;
@@ -454,7 +457,7 @@
          this.gbMsg.LookAndFeel.SkinName = "Office 2013";
          this.gbMsg.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbMsg.Name = "gbMsg";
-         this.gbMsg.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+         this.gbMsg.SelectionMode = System.Windows.Forms.SelectionMode.None;
          this.gbMsg.ShowFocusRect = false;
          this.gbMsg.Size = new System.Drawing.Size(291, 62);
          this.gbMsg.TabIndex = 2;
@@ -500,6 +503,7 @@
          this.gbSpan.Appearance.Options.UseTextOptions = true;
          this.gbSpan.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
          this.gbSpan.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+         this.gbSpan.CheckOnClick = true;
          this.gbSpan.ColumnWidth = 160;
          this.gbSpan.HotTrackSelectMode = DevExpress.XtraEditors.HotTrackSelectMode.SelectItemOnClick;
          this.gbSpan.ItemAutoHeight = true;
@@ -514,7 +518,7 @@
          this.gbSpan.LookAndFeel.SkinName = "Office 2013";
          this.gbSpan.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbSpan.Name = "gbSpan";
-         this.gbSpan.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+         this.gbSpan.SelectionMode = System.Windows.Forms.SelectionMode.None;
          this.gbSpan.ShowFocusRect = false;
          this.gbSpan.Size = new System.Drawing.Size(451, 157);
          this.gbSpan.TabIndex = 9;

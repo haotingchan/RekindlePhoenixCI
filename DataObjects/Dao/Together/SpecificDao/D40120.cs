@@ -31,27 +31,30 @@ namespace DataObjects.Dao.Together.SpecificDao {
                 ":ad_date", ad_date
             };
 
-
             string sql = @"
-SELECT MG2_DATE,   
-         MG2_KIND_ID,   
-         MG2_VALUE_DATE,   
-         MG1_CHANGE_RANGE,   
-         MGT2_KIND_ID_OUT,   
-
-         MGT2_ABBR_NAME,   
-         MGT2_PROD_TYPE,   
-         MGT2_SEQ_NO,   
-         MG1_CHANGE_COND  
-    FROM CI.MG1,   
-         CI.MG2,   
-         CI.MGT2 
-   WHERE MG2_KIND_ID = MG1_KIND_ID   
-     AND MG2_DATE = MG1_DATE 
-     AND MG2_KIND_ID = MGT2_KIND_ID
-     AND MG1_TYPE in ( '-','A' ) 
-     AND MG2_VALUE_DATE = :ad_date     
-order by mg2_date , mgt2_seq_no , mg2_kind_id
+select 
+   to_date(mgd2_ymd,'YYYYMMDD')as mgd2_ymd,
+   mgd2_kind_id,
+   to_date(mgd2_issue_begin_ymd,'YYYYMMDD') as mgd2_issue_begin_ymd,
+   mgd2_adj_rate,
+   mgt2_kind_id_out,   
+   mgt2_abbr_name,   
+   mgt2_prod_type,   
+   mgt2_seq_no,   
+   mg1_change_cond
+from 
+   ci.mgd2,   
+   ci.mgt2,
+   ci.mg1_3m
+where mgd2_issue_begin_ymd = to_char(:ad_date,'YYYYMMDD')
+and mgd2_prod_type = mgt2_prod_type
+and mgd2_ab_type in ('-','A')
+and mgd2_kind_id = mgt2_kind_id
+and mgd2_ymd = mg1_ymd
+and nvl(mgd2_adj_rsn,'S') = mg1_model_type
+and mgd2_kind_id = mg1_kind_id
+and mgd2_ab_type = mg1_ab_type
+order by mgd2_ymd , mgt2_seq_no , mgd2_kind_id 
 ";
 
             DataTable dtResult = db.GetDataTable(sql, parms);

@@ -73,8 +73,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         pos++;
                         string abbrName = dr["mgt2_abbr_name"].AsString();
                         string kindIdOut = dr["mgt2_kind_id_out"].AsString();
-                        Decimal changeRange = Math.Round(dr["mg1_change_range"].AsDecimal() * 100, 1);
-                        string kindId = dr["mg2_kind_id"].AsString();
+                        Decimal changeRange = Math.Round(dr["mgd2_adj_rate"].AsDecimal() * 100, 1);
+                        string kindId = dr["mgd2_kind_id"].AsString();
 
                         resFuture += abbrName;
                         tempFuture += kindIdOut + "：" + changeRange.ToString() + "%";
@@ -83,7 +83,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         if (kindIdOut == taiwanFuture) {
                             //dtMgt2 return mgt2_group_kind_id/mgt2_prod_type/mgt2_kind_id/mgt2_kind_id_out/mgt2_abbr_name/mgt2_name
                             DataTable dtMgt2 = new D40120().ListMgt2ByKindId(kindIdOut);
-                            DataTable dttempFuture = dtMgt2.Filter(string.Format("mgt2_kind_id <> '{0}'", kindId));
+                            DataTable dttempFuture = dtMgt2.Filter(string.Format("mgt2_prod_type='F' and mgt2_kind_id <> '{0}'" , kindId));
 
                             foreach (DataRow drtempFuture in dttempFuture.Rows) {
                                 string abbrName2 = drtempFuture["mgt2_abbr_name"].AsString();
@@ -120,11 +120,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
 
                     #region //1.4.2分日期轉字串
-                    DateTime ldt_date = dtFuture.Rows[0]["mg2_date"].AsDateTime();
-                    DataTable dtDate = dtFuture.Filter(string.Format("mg2_date=#{0}#", ldt_date.ToString("yyyy/MM/dd")));//mm/dd/yyyy
+                    DateTime ldt_date = dtFuture.Rows[0]["mgd2_ymd"].AsDateTime();
+                    DataTable dtDate = dtFuture.Filter(string.Format("mgt2_prod_type='F' and mgd2_ymd =#{0}#" , ldt_date.ToString("yyyy/MM/dd")));//mm/dd/yyyy
 
                     while (ldt_date != DateTime.MinValue) {
-                        DateTime lastMg2Date = dtFuture.Rows[dtFuture.Rows.Count - 1]["mg2_date"].AsDateTime();
+                        DateTime lastMg2Date = dtFuture.Rows[dtFuture.Rows.Count - 1]["mgd2_ymd"].AsDateTime();
                         tempFuture = PbFunc.f_conv_date(lastMg2Date, 3) + "前揭商品之結算保證金變動幅度";
                         if (dtFuture.Rows.Count >= 2)
                             tempFuture += "分別為 ";
@@ -133,7 +133,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                         for (int k = 0;k < dtFuture.Rows.Count;k++) {
                             string kindIdOut = dtFuture.Rows[k]["mgt2_kind_id_out"].AsString();
-                            Decimal changeRange = Math.Round(dtFuture.Rows[k]["mg1_change_range"].AsDecimal() * 100, 1);
+                            Decimal changeRange = Math.Round(dtFuture.Rows[k]["mgd2_adj_rate"].AsDecimal() * 100, 1);
                             tempFuture += kindIdOut + "：" + changeRange + "%";
                             if (k == dtFuture.Rows.Count - 2) {
                                 tempFuture += "及";
@@ -146,9 +146,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                         resFuture += tempFuture + "，";
 
-                        DataTable dtDate2 = dtFuture.Filter(string.Format("mg2_date > #{0}#", ldt_date.ToString("yyyy/MM/dd")));//mm/dd/yyyy
+                        DataTable dtDate2 = dtFuture.Filter(string.Format("mgt2_prod_type='F' and mgd2_ymd > #{0}#" , ldt_date.ToString("yyyy/MM/dd")));//mm/dd/yyyy
                         if (dtDate2.Rows.Count > 0) {
-                            ldt_date = dtDate2.Rows[0]["mg2_date"].AsDateTime();
+                            ldt_date = dtDate2.Rows[0]["mgd2_ymd"].AsDateTime();
                         } else {
                             break;// ldt_date = DateTime.MinValue;
                         }
@@ -173,7 +173,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         pos++;
                         string abbrName = dr["mgt2_abbr_name"].AsString();
                         string kindIdOut = dr["mgt2_kind_id_out"].AsString();
-                        Decimal changeRange = Math.Round(dr["mg1_change_range"].AsDecimal() * 100, 1);
+                        Decimal changeRange = Math.Round(dr["mgd2_adj_rate"].AsDecimal() * 100, 1);
 
                         resOption += abbrName;
                         tempFutureOption += kindIdOut + "：" + changeRange.ToString() + "%";

@@ -201,7 +201,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
             return ResultStatus.Success;
          } catch (Exception ex) {
-            PbFunc.f_write_logf(_ProgramID , "Error" , ex.Message);
+            WriteLog(ex);
          } finally {
             labMsg.Text = "";
             labMsg.Visible = false;

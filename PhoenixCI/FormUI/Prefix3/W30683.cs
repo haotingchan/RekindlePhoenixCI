@@ -114,7 +114,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             return ResultStatus.Success;
 
          } catch (Exception ex) {
-            PbFunc.f_write_logf(_ProgramID , "error" , ex.Message);
+            WriteLog(ex);
             return ResultStatus.Fail;
 
          } finally {

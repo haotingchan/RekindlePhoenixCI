@@ -554,7 +554,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
          } else {
             rtn = 0;
          }
-         PbFunc.f_write_logf(_ProgramID , "E" , "執行sp_U_gen_H_TDT(" + prodType + ")");
+         WriteLog("執行sp_U_gen_H_TDT(" + prodType + ")" , "Info" , "E");
 
          if (txnId == "20110") {
             prodType = "J";
@@ -564,7 +564,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             } else {
                rtn = 0;
             }
-            PbFunc.f_write_logf(_ProgramID , "E" , "執行sp_U_gen_H_TDT(" + prodType + ")");
+            WriteLog("執行sp_U_gen_H_TDT(" + prodType + ")" , "Info" , "E");
 
             //JTX 日統計AI2
             if (dao20110.sp_U_stt_H_AI2_Day(date , prodType).Status != ResultStatus.Success) {
@@ -573,7 +573,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             } else {
                rtn = 0;
             }
-            PbFunc.f_write_logf(_ProgramID , "E" , "執行sp_U_stt_H_AI2_Day");
+            WriteLog("執行sp_U_stt_H_AI2_Day" , "Info" , "E");
 
             //JTX 月統計AI2
             if (dao20110.sp_U_stt_H_AI2_Month(date , prodType).Status != ResultStatus.Success) {
@@ -582,7 +582,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             } else {
                rtn = 0;
             }
-            PbFunc.f_write_logf(_ProgramID , "E" , "執行sp_U_stt_H_AI2_Month");
+            WriteLog("執行sp_U_stt_H_AI2_Month" , "Info" , "E");
          }
          /*******************
          轉統計資料AI3
@@ -593,7 +593,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
          } else {
             rtn = 0;
          }
-         PbFunc.f_write_logf(_ProgramID , "E" , "執行sp_H_stt_AI3");
+         WriteLog("執行sp_H_stt_AI3" , "Info" , "E");
+
          /*******************
          更新AI6 (震幅波動度)
          *******************/
@@ -603,7 +604,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
          } else {
             rtn = 0;
          }
-         PbFunc.f_write_logf(_ProgramID , "E" , "執行sp_H_gen_AI6");
+         WriteLog("執行sp_H_gen_AI6" , "Info" , "E");
+
          /*******************
          更新AA3
          *******************/
@@ -613,7 +615,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
          } else {
             rtn = 0;
          }
-         PbFunc.f_write_logf(_ProgramID , "E" , "執行sp_H_upd_AA3");
+         WriteLog("執行sp_H_upd_AA3" , "Info" , "E");
+
          /*******************
          更新AI8
          *******************/
@@ -623,7 +626,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
          } else {
             rtn = 0;
          }
-         PbFunc.f_write_logf(_ProgramID , "E" , "執行sp_H_gen_H_AI8");
+         WriteLog("執行sp_H_gen_H_AI8" , "Info" , "E");
 
          return "";
       }

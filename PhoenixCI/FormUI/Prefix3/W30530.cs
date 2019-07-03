@@ -9,6 +9,7 @@ using DataObjects.Dao.Together.SpecificDao;
 using System.Globalization;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 
 namespace PhoenixCI.FormUI.Prefix3 {
    public partial class W30530 : FormParent {
@@ -60,6 +61,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                if (dtYearData.Rows.Count <= 0) {
                   ExportShow.Hide();
                   MessageDisplay.Info(inputMonth + "," + _ProgramID + '－' + _ProgramName + ",無任何資料!");
+                  File.Delete(destinationFilePath);
                   return ResultStatus.Fail;
                }
 

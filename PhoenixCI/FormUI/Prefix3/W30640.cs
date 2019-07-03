@@ -170,7 +170,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
             return true;
          } catch (Exception ex) { //失敗寫LOG
-            PbFunc.f_write_logf(_ProgramID , "error" , ex.Message);
+            WriteLog(ex);
             return false;
          }
 

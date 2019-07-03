@@ -260,7 +260,7 @@
          this.label9.Name = "label9";
          this.label9.Size = new System.Drawing.Size(58, 21);
          this.label9.TabIndex = 81;
-         this.label9.Text = "本週：";
+         this.label9.Text = "全期：";
          // 
          // label8
          // 
