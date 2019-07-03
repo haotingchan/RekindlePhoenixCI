@@ -111,20 +111,17 @@ namespace PhoenixCI.FormUI.Prefix4 {
       protected override ResultStatus Export() {
 
          #region 日期檢核
-         //if (gbItem.EditValue.AsString() == "rbNewDate") {
-         //   if (!txtDate.IsDate(txtDate.Text , "日期輸入錯誤!") ||
-         //      !txtEndDate.IsDate(txtEndDate.Text , "日期輸入錯誤!")) {
-         //      txtEndDate.Focus();
-         //      MessageDisplay.Error("日期輸入錯誤!");
-         //      return ResultStatus.Fail;
-         //   }
-         //} else if (gbItem.EditValue.AsString() == "rbOleDate") {
-         //   if (!txtStartDate.IsDate(txtDate.Text , "日期輸入錯誤!") || !txtEndDate.IsDate(txtEndDate.Text , "日期輸入錯誤!")) {
-         //      txtStartDate.Focus();
-         //      MessageDisplay.Error("日期輸入錯誤!");
-         //      return ResultStatus.Fail;
-         //   }
-         //}
+         if (string.Compare(txtStartDate.Text , txtEndDate.Text) > 0) {
+            MessageDisplay.Error(CheckDate.Datedif , GlobalInfo.ErrorText);
+            labMsg.Visible = false;
+            return ResultStatus.Fail;
+         }
+
+         if (string.Compare(txtStartDate2.Text , txtEndDate2.Text) > 0) {
+            MessageDisplay.Error(CheckDate.Datedif , GlobalInfo.ErrorText);
+            labMsg.Visible = false;
+            return ResultStatus.Fail;
+         }
          #endregion
 
          try {
@@ -148,7 +145,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
             ShowMsg(rptId + "-" + rptName + " 轉檔中...");
 
             //3.1 copy template xls to target path
-            //string excelDestinationPath = PbFunc.wf_copy_file(rptId , rptId);
             string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , rptId);
 
             //3.2 open xls
@@ -185,32 +181,42 @@ namespace PhoenixCI.FormUI.Prefix4 {
                seqNo = 9999;
             }
 
-            //SP return dt (sort已於SP內改寫)
+            //SP return dt
             DataTable dt = new DataTable();
             if (gbItem.EditValue.AsString() == "rbHistory") {
                dt = dao49062.ExecuteStoredProcedure2(startDate , endDate , fId , kindId , seqNo);
+
+               if (dt.Rows.Count <= 0) {
+                  MessageDisplay.Info(string.Format("{0},{1},{2}-{3},無任何資料!" , startDate , endDate , rptId , rptName));
+                  File.Delete(excelDestinationPath);
+                  return ResultStatus.FailButNext;
+               }
+
                var result = dt.AsEnumerable().OrderBy(x => {
                   switch (x.Field<string>("mgt8_foreign")) {
                      case "Y": return 1;
                   }
                   return 2;
                }).
-                                           ThenBy(x => {
-                                              switch (x.Field<string>("mgt8_amt_type")) {
-                                                 case "A": return 1;
-                                              }
-                                              return 2;
-                                           }).
-                                           ThenBy(x => x.Field<string>("f_name")).
-                                           ThenByDescending(x => x.Field<string>("detl_ymd"));
+                           ThenBy(x => {
+                              switch (x.Field<string>("mgt8_amt_type")) {
+                                 case "A": return 1;
+                              }
+                              return 2;
+                           }).
+                           ThenBy(x => x.Field<string>("f_name")).
+                           ThenByDescending(x => x.Field<string>("detl_ymd"));
 
                dt = result.CopyToDataTable();
-               if (dt.Rows.Count <= 0) {
-                  MessageDisplay.Info(string.Format("{0},{1},{2}-{3},無任何資料!" , startDate , endDate , rptId , rptName));
-               }
+               
             } else {
                dt = dao49062.ExecuteStoredProcedure(startDate , endDate , fId , kindId , seqNo);
-               //dt.DefaultView.Sort = "";
+
+               if (dt.Rows.Count <= 0) {
+                  MessageDisplay.Info(string.Format("{0},{1},{2}-{3},無任何資料!" , startDate , endDate , rptId , rptName));
+                  File.Delete(excelDestinationPath);
+                  return ResultStatus.FailButNext;
+               }
 
                var result = dt.AsEnumerable().OrderBy(x => {
                   switch (x.Field<string>("mgt8_foreign")) {
@@ -218,19 +224,16 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   }
                   return 2;
                }).
-                                                               ThenBy(x => {
-                                                                  switch (x.Field<string>("mgt8_amt_type")) {
-                                                                     case "A": return 1;
-                                                                  }
-                                                                  return 2;
-                                                               }).
-                                                               ThenBy(x => x.Field<string>("f_name")).
-                                                               ThenByDescending(x => x.Field<string>("eff_ymd"));
+                           ThenBy(x => {
+                              switch (x.Field<string>("mgt8_amt_type")) {
+                                 case "A": return 1;
+                              }
+                              return 2;
+                           }).
+                           ThenBy(x => x.Field<string>("f_name")).
+                           ThenByDescending(x => x.Field<string>("eff_ymd"));
 
-               dt = result.CopyToDataTable();
-               if (dt.Rows.Count <= 0) {
-                  MessageDisplay.Info(string.Format("{0},{1},{2}-{3},無任何資料!" , startDate , endDate , rptId , rptName));
-               }
+               dt = result.CopyToDataTable();             
             }
 
             int tmpRow = 0, rowNum = 0;
@@ -284,7 +287,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      ymd = DateTime.ParseExact(dr["detl_ymd"].AsString() , "yyyyMMdd" , null).ToString("yyyy/MM/dd");
                   } catch (Exception ex) {
                      WriteLog(ex);
-                     MessageDisplay.Error("日期轉換失敗");
+                     MessageDisplay.Error("日期轉換失敗");                    
                      return ResultStatus.FailButNext;
                   }
                } else {
