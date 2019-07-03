@@ -100,13 +100,6 @@ namespace PhoenixCI.FormUI.Prefix3
          Thread.Sleep(5);
       }
 
-      private string OutputShowMessage {
-         set {
-            if (value != MessageDisplay.MSG_OK)
-               MessageDisplay.Info(value);
-         }
-      }
-
       protected override ResultStatus Export()
       {
 
@@ -114,18 +107,24 @@ namespace PhoenixCI.FormUI.Prefix3
             return ResultStatus.Fail;
          }
          string saveFilePath = PbFunc.wf_copy_file(_ProgramID, "30506");
-         string msg;
+         MessageDisplay message = new MessageDisplay();
          try {
             //轉報表
             b30506 = new B30506(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, saveFilePath, emStartMth.Text, emEndMth.Text);
             ShowMsg("30506－股票期貨最近月份契約最佳1檔加權平均委託買、賣數量月資料統計表 轉檔中...");
-            msg = b30506.WF30506();
-            OutputShowMessage = msg;
+            message.OutputShowMessage = b30506.WF30506();
             ShowMsg("30507－股票期貨最近月份契約最佳1檔加權平均委託買進數量日資料統計表(單位：口) 轉檔中...");
-            OutputShowMessage = b30506.WF30507();
+            message.OutputShowMessage = b30506.WF30507();
+
+            if (string.IsNullOrEmpty(message.OutputShowMessage)) {
+               if (File.Exists(saveFilePath))
+                  File.Delete(saveFilePath);
+               return ResultStatus.Fail;
+            }
          }
          catch (Exception ex) {
-            File.Delete(saveFilePath);
+            if (File.Exists(saveFilePath))
+               File.Delete(saveFilePath);
             WriteLog(ex);
             return ResultStatus.Fail;
          }
@@ -133,10 +132,6 @@ namespace PhoenixCI.FormUI.Prefix3
             EndExport();
          }
 
-         if (msg != MessageDisplay.MSG_OK) {
-            File.Delete(saveFilePath);
-            return ResultStatus.Fail;
-         }
          return ResultStatus.Success;
       }
    }

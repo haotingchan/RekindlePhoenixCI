@@ -113,7 +113,7 @@
             this.cbxDay.Name = "cbxDay";
             this.cbxDay.Size = new System.Drawing.Size(61, 25);
             this.cbxDay.TabIndex = 0;
-            this.cbxDay.Text = "一般";
+            this.cbxDay.Text = "全部";
             this.cbxDay.UseVisualStyleBackColor = true;
             // 
             // txtEDate

@@ -359,7 +359,7 @@ namespace PhoenixCI.FormUI.Prefix2
          string filepath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, "");
          gvMain.ExportToXlsx(filepath);
          //Write LOGF
-         PbFunc.f_write_logf(_ProgramID, "E", "轉出檔案:" + filepath);
+         WriteLog(_ProgramID, "E", "轉出檔案:" + filepath);
          EndExport();
          return ResultStatus.Success;
       }

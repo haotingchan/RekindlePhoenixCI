@@ -117,11 +117,11 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             //讀取資料
             DataTable AI2dt = PbFunc.f_week(startDate.ToString("yyyyMMdd"), endDate.ToString("yyyyMMdd"));
             if (AI2dt.Rows.Count <= 0) {
-               return $"{DateTime.Now.ToShortDateString()},30508－年月,無任何資料!";
+               return $"{startDate.ToShortDateString()}～{endDate.ToShortDateString()},30508－年月,無任何資料!";
             }
             DataTable dt = new D30508().GetData(startDate, endDate);
             if (dt.Rows.Count <= 0) {
-               return $"{DateTime.Now.ToShortDateString()},{lsRptId}－{lsRptName}無任何資料!";
+               return $"{startDate.ToShortDateString()}～{endDate.ToShortDateString()},{lsRptId}－{lsRptName}無任何資料!";
             }
             //產生檔案
             CreateCsvFile(_lsFile);
@@ -138,7 +138,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             WriteFile(lsSellFile, lsStr);
             lsStr = "排序" + lsTab + "商品代碼" + lsTab + "商品名稱";
             foreach (DataRow row in AI2dt.Rows) {
-               lsStr = lsStr + lsTab + $"{row["startDate"].AsDateTime().ToString("yyyy/MM/dd")}~{row["endDate"].AsDateTime().ToString("yyyy/MM/dd")}";
+               lsStr = lsStr + lsTab + $"{row["startDate"].AsDateTime().ToString("yyyy/MM/dd")}～{row["endDate"].AsDateTime().ToString("yyyy/MM/dd")}";
             }
             WriteFile(_lsFile, lsStr);//FileWrite(li_FileNum, ls_str)
             WriteFile(lsSellFile, lsStr);//FileWrite(li_FileNum2, ls_str)

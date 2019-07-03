@@ -147,13 +147,13 @@ namespace PhoenixCI.FormUI.Prefix4
 
       protected override ResultStatus Export()
       {
-         
+
          string saveFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
          try {
             if (!StartExport()) {
                return ResultStatus.Fail;
             }
-            b40042 = new B40042(saveFilePath, DateLabel.Text);
+            b40042 = new B40042(saveFilePath, DateLabel.Text, GlobalInfo.USER_ID);
 
             ShowMsg($"{_ProgramID}_mg1－股票期貨保證金狀況表－標的證券為受益憑證 轉檔中...");
             OutputShowMessage = b40042.Wf40042();

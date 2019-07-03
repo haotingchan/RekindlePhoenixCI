@@ -473,7 +473,7 @@
             // max12digit4
             // 
             this.max12digit4.AutoHeight = false;
-            this.max12digit4.DisplayFormat.FormatString = "0.####";
+            this.max12digit4.DisplayFormat.FormatString = "#.####";
             this.max12digit4.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.max12digit4.EditFormat.FormatString = "0.####";
             this.max12digit4.EditFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
