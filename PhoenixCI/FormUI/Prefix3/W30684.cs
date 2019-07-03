@@ -1,14 +1,9 @@
 ﻿using BaseGround;
-using BaseGround.Report;
-using BaseGround.Shared;
-using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together;
-using DevExpress.Spreadsheet;
 using System;
 using System.Data;
-using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
@@ -119,7 +114,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             return ResultStatus.Success;
 
          } catch (Exception ex) {
-            PbFunc.f_write_logf(_ProgramID , "error" , ex.Message);
+            WriteLog(ex);
             labMsg.Text = "轉檔失敗";
 
          } finally {

@@ -125,14 +125,14 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             DataTable dt = dao30640.GetData(as_symd , as_eymd);
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtStartMonth.Text + "-" + txtEndMonth.Text , this.Text) , "處理結果");
+               MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtStartMonth.Text + "－" + txtEndMonth.Text , this.Text) , "處理結果");
                return false;
             }
 
             li_header = 10;
             //PB有寫這段可是報表未顯示，先備註
             //worksheet.Cells[1 , 5].Value = txtStartMonth.Text.Replace("/" , "") + " - " + txtEndMonth.Text.Replace("/" , "") + worksheet.Cells[1 , 5].Value;
-            worksheet.Cells[li_header - 4 , 0].Value = "查詢條件：" + txtStartMonth.Text.Replace("/" , "") + " - " + txtEndMonth.Text.Replace("/" , "");
+            worksheet.Cells[li_header - 4 , 0].Value = "查詢條件：" + txtStartMonth.Text.Replace("/" , "") + "－" + txtEndMonth.Text.Replace("/" , "");
 
             //依資料條件判斷去填excel計算欄位
             for (int i = 0 ; i < dt.Rows.Count ; i++) {
@@ -170,7 +170,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
             return true;
          } catch (Exception ex) { //失敗寫LOG
-            PbFunc.f_write_logf(_ProgramID , "error" , ex.Message);
+            WriteLog(ex);
             return false;
          }
 
