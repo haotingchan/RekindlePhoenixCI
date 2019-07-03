@@ -421,7 +421,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   txt3 = ls_head + "維持保證金適用比例調整為" + string.Format("{0:0.00%}" , mgd2Mm) + "," + Environment.NewLine;
 
                   //(4)
-                  txt4 = ls_head + "原始保證金適用比例調整為" + string.Format("{0:0.00%}" , mgd2Im) + "," + Environment.NewLine;
+                  txt4 = ls_head + "原始保證金適用比例調整為" + string.Format("{0:0.00%}" , mgd2Im) + Environment.NewLine;
 
                } else {
                   //(1)

@@ -174,12 +174,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gvMain.Columns["CPR_PROD_SUBTYPE"].ColumnEdit = lupSubType;
             gvMain.SetColumnCaption("CPR_KIND_ID" , "契約代號");
             gvMain.SetColumnCaption("CPR_EFFECTIVE_DATE" , "系統生效日");
-            gvMain.SetColumnCaption("CPR_PRICE_RISK_RATE" , $"最小風險{Environment.NewLine}價格係數");
+            gvMain.SetColumnCaption("CPR_PRICE_RISK_RATE" , "最小風險價格係數");
 
             RepositoryItemTextEdit priceRiskRate = new RepositoryItemTextEdit();
             gcMain.RepositoryItems.Add(priceRiskRate);
             gvMain.Columns["CPR_PRICE_RISK_RATE"].ColumnEdit = priceRiskRate;
-            priceRiskRate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            priceRiskRate.DisplayFormat.FormatType = FormatType.Numeric;
             priceRiskRate.DisplayFormat.FormatString = "P";
 
             gvMain.SetColumnCaption("CPR_APPROVAL_DATE" , $"核定{Environment.NewLine}日期");
@@ -201,9 +201,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
 
             //3.4統一設定欄位靠左靠右把一些欄位靠左
-            gvMain.Appearance.Row.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;//設定全部欄位先置中
-            gvMain.SetColumnHAlignment("CPR_APPROVAL_NUMBER" , DevExpress.Utils.HorzAlignment.Default);
-            gvMain.SetColumnHAlignment("CPR_REMARK" , DevExpress.Utils.HorzAlignment.Default);
+            gvMain.Appearance.Row.TextOptions.HAlignment = HorzAlignment.Center;//設定全部欄位先置中
+            gvMain.SetColumnHAlignment("CPR_APPROVAL_NUMBER" , HorzAlignment.Default);
+            gvMain.SetColumnHAlignment("CPR_REMARK" , HorzAlignment.Default);
 
             //3.5設定每個column header是否自動折行
             //gvMain.SetColumnHeaderWrap("COD_DESC" , 70);
@@ -213,6 +213,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //3.6設定每個column是否自動折行
             gvMain.SetColumnWrap("CPR_APPROVAL_NUMBER" , 350);
             gvMain.SetColumnWrap("CPR_REMARK" , 160);
+
+            //3.7調整gird欄位順序(這兩個欄位retrieve跟export的順序顛倒)
+            gvMain.Columns["CPR_EFFECTIVE_DATE"].VisibleIndex = 2;
+            gvMain.Columns["CPR_PRICE_RISK_RATE"].VisibleIndex = 3;
 
             //3.7設定每個column自動擴展
             gvMain.BestFitColumns();

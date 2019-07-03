@@ -72,8 +72,8 @@ select
    cpr_data_num,
    cpr_prod_subtype,
    cpr_kind_id,
-   to_char(cpr_effective_date,'yyyy/mm/dd') as cpr_effective_date,
    cpr_price_risk_rate,
+   to_char(cpr_effective_date,'yyyy/mm/dd') as cpr_effective_date,  
    
    to_char(cpr_approval_date,'yyyy/mm/dd') as cpr_approval_date,
    cpr_approval_number,

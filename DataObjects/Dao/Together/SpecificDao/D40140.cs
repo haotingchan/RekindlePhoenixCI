@@ -21,33 +21,36 @@ namespace DataObjects.Dao.Together.SpecificDao {
       }
 
       /// <summary>
-      /// get CI.MG1/CI.MGT6/CI.MGT2/CI.MG2 data (d40140_1_mg1)
-      /// return MG1_CUR_CM/MG1_CM/MG1_CHANGE_RANGE/MG1_IM/MG1_KIND_ID/MGT2_ABBR_NAME 6 fields 
+      /// get ci.mgd2/ci.mgt2/ci.mgt6 data (d40140_1_mg1)
+      /// return mgd2_cur_cm/mgd2_cm/mgd2_adj_rate/mgd2_im/mgd2_kind_id/mgt2_abbr_name 6 fields 
       /// </summary>
-      /// <param name="isDate">yyyy/MM/dd</param>
+      /// <param name="as_date">yyyy/MM/dd</param>
       /// <returns></returns>
-      public DataTable GetGoldData(DateTime isDate) {
+      public DataTable GetGoldData(DateTime as_date) {
 
          object[] parms = {
-                ":isDate", isDate
+                ":as_date", as_date
             };
 
 
          string sql = @"
-SELECT 
-   MGD2_CUR_CM,   
-   MGD2_CM,   
-   MGD2_ADJ_RATE,   
-   MGD2_IM,   
-   MGD2_KIND_ID,   
-   MGT2_ABBR_NAME  
-FROM ci.MGD2,ci.MGT2,ci.MGT6
-WHERE MGD2_YMD = TO_CHAR(:isDate,'YYYYMMDD')
-AND MGD2_PROD_TYPE = MGT2_PROD_TYPE
-AND MGD2_KIND_ID = MGT2_KIND_ID
-AND MGD2_KIND_ID = MGT6_KIND_ID
-AND MGT6_GRP_ID = 'GOLD'
-AND MGD2_ADJ_CODE = 'Y' 
+select 
+   mgd2_cur_cm,   
+   mgd2_cm,   
+   mgd2_adj_rate,   
+   mgd2_im,   
+   mgd2_kind_id,   
+   mgt2_abbr_name  
+from 
+   ci.mgd2,   
+   ci.mgt2,
+   ci.mgt6
+where mgd2_ymd = to_char(:as_date,'YYYYMMDD')
+and mgd2_prod_type = mgt2_prod_type
+and mgd2_kind_id = mgt2_kind_id
+and mgd2_kind_id = mgt6_kind_id
+and mgt6_grp_id = 'GOLD'
+and mgd2_adj_code = 'Y' 
 ";
 
          DataTable dtResult = db.GetDataTable(sql , parms);
@@ -56,80 +59,85 @@ AND MGD2_ADJ_CODE = 'Y'
       }
 
       /// <summary>
-      /// get CI.MG1/CI.RPT/CI.MG8D/CI.MG8/CI.MG9/CI.MGT8/CI.HEXRT data return 12 fields (d40140_2) 
+      /// get ci.mg1_3m/ci.rpt/ci.mg8d/ci.mg8/ci.mg9/ci.mgt8/ci.hexrt data return 12 fields (d40140_2) 
       /// </summary>
-      /// <param name="isDate">yyyy/MM/dd</param>
+      /// <param name="ad_date">yyyy/MM/dd</param>
       /// <returns></returns>
-      public DataTable ListMoneyData(DateTime isDate) {
+      public DataTable ListMoneyData(DateTime ad_date) {
 
          object[] parms = {
-                ":isDate", isDate
+                ":ad_date", ad_date
             };
 
 
          string sql = @"
-SELECT 
-	'1' AS DATA_TYPE,
-	'TAIFEX'AS COM,
-	MG1_KIND_ID,
-	MG1_CM,
-	MG1_MM,
-	MG1_IM,
-	MG1_PRICE,
-	0 AS EXCHANGE_RATE,
-	SEQ_NO AS RPT_SEQ_NO,
-	MG1_IM AS OUT_IM,
-	'' AS F_NAME,
-	MG1_XXX
-FROM CI.MG1,
-    (SELECT RPT_VALUE, MIN(RPT_SEQ_NO) AS SEQ_NO 
-	 FROM CI.RPT
-	 WHERE RPT_TXD_ID = '40140_2'
-	 GROUP BY RPT_VALUE) R
-WHERE MG1_DATE = :isDate
-AND MG1_KIND_ID IN ('GDF','TGF')
-AND MG1_KIND_ID = RPT_VALUE
-UNION ALL
-SELECT 
-	'2',
-	MGT8_F_ID,
-	MGT8_PDK_KIND_ID,
-	MG8_CM,
-	MG8_MM,
-	MG8_IM,
-	MG9_PRICE,
-	NVL(CASE WHEN HEXRT_COUNT_CURRENCY <> '1' THEN HEXRT_MARKET_EXCHANGE_RATE ELSE HEXRT_EXCHANGE_RATE END,0),
-	SEQ_NO,
-	MG8_IM AS OUT_IM,       
-	MGT8_F_EXCHANGE,
-	MGT8_XXX
-FROM CI.MG8D,CI.MG8,CI.MG9,CI.MGT8,
-    (SELECT RPT_VALUE, MIN(RPT_SEQ_NO) AS SEQ_NO 
-	 FROM CI.RPT
-	 WHERE RPT_TXD_ID = '40140_2'
-	 GROUP BY RPT_VALUE) R,
-	(SELECT HEXRT_CURRENCY_TYPE,
-		HEXRT_COUNT_CURRENCY,
-		HEXRT_EXCHANGE_RATE,
-		HEXRT_MARKET_EXCHANGE_RATE
-     FROM CI.HEXRT
-     WHERE HEXRT_DATE = :isDate) E
-WHERE MG8D_YMD = TO_CHAR(:isDate,'YYYYMMDD')
+select 
+   '1' as data_type,
+   'TAIFEX'as com,
+   mg1_kind_id,
+   mg1_cm,
+   mg1_mm,
+   mg1_im,
+   mg1_price,
+   0 as exchange_rate,
+   seq_no as rpt_seq_no,
+   mg1_im as out_im,
+   '' as f_name,
+   mg1_xxx
+from 
+   ci.mg1_3m,
+   (select rpt_value,min(rpt_seq_no) as seq_no 
+    from ci.rpt
+    where rpt_txd_id = '40140_2'
+    group by rpt_value) r
+where mg1_ymd = to_char(:ad_date,'YYYYMMDD')
+and mg1_model_type = 'S'
+and mg1_kind_id in ('GDF','TGF')
+and mg1_kind_id = rpt_value
+
+union all
+
+select 
+   '2',
+   mgt8_f_id,
+   mgt8_pdk_kind_id,
+   mg8_cm,
+   mg8_mm,
+   mg8_im,
+   mg9_price,
+   nvl(case when hexrt_count_currency <> '1' then hexrt_market_exchange_rate else hexrt_exchange_rate end,0),
+   seq_no,
+   mg8_im as out_im,       
+   mgt8_f_exchange,
+   mgt8_xxx
+from 
+   ci.mg8d,
+   ci.mg8,
+   ci.mg9,
+   ci.mgt8,
+   (select rpt_value,min(rpt_seq_no) as seq_no 
+    from ci.rpt
+    where rpt_txd_id = '40140_2'
+    group by rpt_value) r,
+   (select hexrt_currency_type,hexrt_count_currency,hexrt_exchange_rate,hexrt_market_exchange_rate
+    from ci.hexrt
+    where hexrt_date = :ad_date) e
+where mg8d_ymd = to_char(:ad_date,'YYYYMMDD')
 --保證金
-AND MG8D_EFFECT_YMD = MG8_EFFECT_YMD
-AND MG8D_F_ID = MG8_F_ID
+and mg8d_effect_ymd = mg8_effect_ymd
+and mg8d_f_id = mg8_f_id
 --基本資料
-AND MG8D_F_ID = MGT8_F_ID
-AND MGT8_PDK_KIND_ID = 'GDF' 
+and mg8d_f_id = mgt8_f_id
+and mgt8_pdk_kind_id = 'GDF' 
 --報表位置
-AND MG8D_F_ID = RPT_VALUE(+)
+and mg8d_f_id = rpt_value(+)
 --價格
-AND MG8D_YMD = MG9_YMD
-AND MG8D_F_ID = MG9_F_ID
+and mg8d_ymd = mg9_ymd
+and mg8d_f_id = mg9_f_id
 --匯率
-AND MGT8_CURRENCY_TYPE = HEXRT_CURRENCY_TYPE(+)   
-AND CASE WHEN MGT8_F_ID = 'TOC01' THEN '2' ELSE '1' END = HEXRT_COUNT_CURRENCY(+)
-ORDER BY RPT_SEQ_NO
+and mgt8_currency_type = hexrt_currency_type(+)   
+and case when mgt8_f_id = 'TOC01' then '2' else '1' end = hexrt_count_currency(+)
+order by rpt_seq_no
 ";
 
          DataTable dtResult = db.GetDataTable(sql , parms);

@@ -167,7 +167,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gvMain.Columns["CPR_PROD_SUBTYPE"].ColumnEdit = lupSubType;
             gvMain.SetColumnCaption("CPR_KIND_ID" , "契約代號");
             gvMain.SetColumnCaption("CPR_EFFECTIVE_DATE" , "系統生效日");
-            gvMain.SetColumnCaption("CPR_PRICE_RISK_RATE" , $"最小風險{Environment.NewLine}價格係數");
+            gvMain.SetColumnCaption("CPR_PRICE_RISK_RATE" , "最小風險價格係數");
 
             RepositoryItemTextEdit priceRiskRate = new RepositoryItemTextEdit();
             gcMain.RepositoryItems.Add(priceRiskRate);
@@ -209,6 +209,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //3.6設定每個column是否自動折行
             gvMain.SetColumnWrap("CPR_APPROVAL_NUMBER" , 350);
             gvMain.SetColumnWrap("CPR_REMARK" , 160);
+
+            //3.7調整gird欄位順序(這兩個欄位retrieve跟export的順序顛倒)
+            gvMain.Columns["CPR_EFFECTIVE_DATE"].VisibleIndex = 3;
+            gvMain.Columns["CPR_PRICE_RISK_RATE"].VisibleIndex = 4;
 
             //3.7設定每個column自動擴展
             gvMain.BestFitColumns();

@@ -51,7 +51,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
       /// <returns></returns>
       protected override ResultStatus Export() {
          try {
-
             //0. ready
             panFilter.Enabled = false;
             labMsg.Visible = true;
@@ -63,9 +62,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //1. 寫資料到文字檔
             bool isText = false;
             isText = wf_40140_1();
-            if (!isText) {
-               return ResultStatus.Fail;
-            }
 
             //2. 複製、開啟檔案(wf_40140_2)
             ShowMsg("40140_2-保證金比較 轉檔中...");
@@ -78,19 +74,21 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //2.1 填資料
             DataTable dt = new D40140().ListMoneyData(txtStartDate.DateTimeValue);
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info(String.Format("{0},讀取「國外保證金資料」無任何資料!" , txtStartDate.Text));
+               MessageDisplay.Info(string.Format("{0},讀取「國外保證金資料」無任何資料!" , txtStartDate.Text));
                File.Delete(excelDestinationPath);
+               return ResultStatus.Fail;
             }//if (dt.Rows.Count <= 0 )
 
+            //wf_40140_2()
             foreach (DataRow dr in dt.Rows) {
                int rptSeqNo = dr["rpt_seq_no"].AsInt();
                string com = dr["com"].AsString();
-               Decimal mg1Cm = dr["mg1_cm"].AsDecimal();
-               Decimal mg1Mm = dr["mg1_mm"].AsDecimal();
-               Decimal mg1Im = dr["mg1_im"].AsDecimal();
-               Decimal exchangeRate = dr["exchange_rate"].AsDecimal();
-               Decimal mg1Price = dr["mg1_price"].AsDecimal();
-               Decimal mg1Xxx = dr["mg1_xxx"].AsDecimal();
+               decimal mg1Cm = dr["mg1_cm"].AsDecimal();
+               decimal mg1Mm = dr["mg1_mm"].AsDecimal();
+               decimal mg1Im = dr["mg1_im"].AsDecimal();
+               decimal exchangeRate = dr["exchange_rate"].AsDecimal();
+               decimal mg1Price = dr["mg1_price"].AsDecimal();
+               decimal mg1Xxx = dr["mg1_xxx"].AsDecimal();
 
                rptSeqNo += 2;
                worksheet.Cells[3 , rptSeqNo - 1].Value = mg1Cm;
@@ -105,7 +103,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
                } else {
                   worksheet.Cells[7 , rptSeqNo - 1].Value = mg1Price * mg1Xxx;
                }//if (com == "TOC01")
-
             }//foreach (DataRow dr in dt.Rows)
 
             //3. 關閉、儲存檔案
@@ -151,9 +148,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //dtGold 黃金期貨
             DataTable dtGold = new D40140().GetGoldData(txtStartDate.DateTimeValue); //d_40140_1_mg1
             if (dtGold.Rows.Count <= 0) {
-               MessageDisplay.Info(String.Format("{0},無任何「調整黃金期貨契約」資料!" , txtStartDate.Text));
-               //return false;
+               MessageDisplay.Info(string.Format("{0},無任何「調整黃金期貨契約」資料!" , txtStartDate.Text));
+               return false;
             }
+
             int dataGoldNum = dtGold.Rows.Count;
 
             //dt 國外保證金
@@ -166,9 +164,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
             foreach (DataRow dr in dt.Rows) {
                pos++;
                string com = dr["com"].AsString();
-               Decimal outIm = dr["out_im"].AsDecimal();
-               Decimal exchangeRate = dr["exchange_rate"].AsDecimal();
-               Decimal mg1Im = dr["mg1_im"].AsDecimal();
+               decimal outIm = dr["out_im"].AsDecimal();
+               decimal exchangeRate = dr["exchange_rate"].AsDecimal();
+               decimal mg1Im = dr["mg1_im"].AsDecimal();
                dr.BeginEdit();
                if (com == "TOC01" && exchangeRate > 0) {
                   dr["out_im"] = Math.Round((mg1Im / exchangeRate * 3.11m) , 0 , MidpointRounding.AwayFromZero);
