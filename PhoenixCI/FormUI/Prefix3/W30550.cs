@@ -91,28 +91,28 @@ namespace PhoenixCI.FormUI.Prefix3
          Thread.Sleep(5);
       }
 
-      private string OutputShowMessage {
-         set {
-            if (value != MessageDisplay.MSG_OK)
-               MessageDisplay.Info(value);
-         }
-      }
-
       protected override ResultStatus Export()
       {
          if (!StartExport()) {
             return ResultStatus.Fail;
          }
          string lsFile = PbFunc.wf_copy_file(_ProgramID, "30550");
+         MessageDisplay message = new MessageDisplay();
          try {
             b30550 = new B30550(lsFile, emMonth.Text);
 
             //30550
             ShowMsg("30550－國內股價指數選擇權交易概況明細表 轉檔中...");
-            OutputShowMessage = b30550.Wf30550();
+            message.OutputShowMessage = b30550.Wf30550();
+            if (string.IsNullOrEmpty(message.OutputShowMessage)) {
+               if (File.Exists(lsFile))
+                  File.Delete(lsFile);
+               return ResultStatus.Fail;
+            }
          }
          catch (Exception ex) {
-            File.Delete(lsFile);
+            if (File.Exists(lsFile))
+               File.Delete(lsFile);
             WriteLog(ex);
             return ResultStatus.Fail;
          }
@@ -122,21 +122,5 @@ namespace PhoenixCI.FormUI.Prefix3
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Export(ReportHelper reportHelper)
-      {
-         base.Export(reportHelper);
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus CheckShield()
-      {
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus COMPLETE()
-      {
-         return ResultStatus.Success;
-      }
    }
 }

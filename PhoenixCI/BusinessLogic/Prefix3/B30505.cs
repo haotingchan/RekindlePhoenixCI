@@ -87,11 +87,11 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             //讀取資料
             DataTable AI2dt = PbFunc.f_week(startDate.ToString("yyyyMMdd"), endDate.ToString("yyyyMMdd"));
             if (AI2dt.Rows.Count <= 0) {
-               return $"{DateTime.Now.ToShortDateString()},30505－年月,無任何資料!";
+               return $"{startDate.ToString("yyyyMMdd")}～{endDate.ToString("yyyyMMdd")},30505－年月,無任何資料!";
             }
             DataTable dt = new D30505().GetData(startDate, endDate);
             if (dt.Rows.Count <= 0) {
-               return $"{DateTime.Now.ToShortDateString()},{lsRptId}－{lsRptName}無任何資料!";
+               return $"{startDate.ToString("yyyyMMdd")}～{endDate.ToString("yyyyMMdd")},{lsRptId}－{lsRptName}無任何資料!";
             }
 
             //產生檔案
@@ -105,7 +105,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             workTable.Columns.Add("商品代碼", typeof(string));
             workTable.Columns.Add("商品名稱", typeof(string));
             foreach (DataRow row in AI2dt.Rows) {
-               string dateColStr = $"{row["startDate"].AsDateTime().ToString("yyyy/MM/dd")}~{row["endDate"].AsDateTime().ToString("yyyy/MM/dd")}";
+               string dateColStr = $"{row["startDate"].AsDateTime().ToString("yyyy/MM/dd")}～{row["endDate"].AsDateTime().ToString("yyyy/MM/dd")}";
                workTable.Columns.Add(dateColStr, typeof(string));
             }
 

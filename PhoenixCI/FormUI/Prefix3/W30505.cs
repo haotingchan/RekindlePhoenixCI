@@ -111,16 +111,24 @@ namespace PhoenixCI.FormUI.Prefix3
          if (!ExportBefore()) {
             return ResultStatus.Fail;
          }
+         MessageDisplay message = new MessageDisplay();
+         string saveFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, $@"30505_{DateTime.Now.ToString("yyyy.MM.dd")}-{DateTime.Now.ToString("HH.mm.ss")}.csv");
          try {
             //資料來源
-
-            string saveFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH,$@"30505_{DateTime.Now.ToString("yyyy.MM.dd")}-{DateTime.Now.ToString("HH.mm.ss")}.csv");
             b30505 = new B30505(saveFilePath, emStartDate.Text, emEndDate.Text);
 
             ShowMsg("30505－股票期貨最近月份契約買賣價差週資料統計表(單位：tick) 轉檔中...");
-            OutputShowMessage = b30505.Wf30505();
+            message.OutputShowMessage = b30505.Wf30505();
+
+            if (string.IsNullOrEmpty(message.OutputShowMessage)) {
+               if (File.Exists(saveFilePath))
+                  File.Delete(saveFilePath);
+               return ResultStatus.Fail;
+            }
          }
          catch (Exception ex) {
+            if (File.Exists(saveFilePath))
+               File.Delete(saveFilePath);
             WriteLog(ex);
             return ResultStatus.Fail;
          }
@@ -138,21 +146,5 @@ namespace PhoenixCI.FormUI.Prefix3
          }
       }
 
-      protected override ResultStatus Export(ReportHelper reportHelper)
-      {
-         base.Export(reportHelper);
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus CheckShield()
-      {
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus COMPLETE()
-      {
-         return ResultStatus.Success;
-      }
    }
 }
