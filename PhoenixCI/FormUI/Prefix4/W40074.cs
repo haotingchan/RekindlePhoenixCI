@@ -297,10 +297,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
         protected override ResultStatus Save(PokeBall pokeBall) {
             try {
-                if (gvMain.RowCount == 0) {
-                    MessageDisplay.Info("沒有變更資料,不需要存檔!");
-                    return ResultStatus.Fail;
-                }
+
                 #region ue_save_before
                 gvMain.CloseEditor();
                 gvMain.UpdateCurrentRow();
@@ -315,7 +312,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 found = dtGrid.Rows.IndexOf(dtGrid.Select("OP_TYPE <> ' '").FirstOrDefault());
                 if (found + dtDel.Rows.Count == -1) {
                     MessageDisplay.Warning("沒有變更資料,不需要存檔!");
-                    return ResultStatus.Fail;
+                    return ResultStatus.FailButNext;
                 }
 
                 DataTable dtMGD2; //ids_mgd2
