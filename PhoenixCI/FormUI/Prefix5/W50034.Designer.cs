@@ -33,7 +33,6 @@
          this.gb4 = new DevExpress.XtraEditors.PanelControl();
          this.gb4Label = new System.Windows.Forms.Label();
          this.gbPrintSort = new DevExpress.XtraEditors.RadioGroup();
-         this.gb3Label = new System.Windows.Forms.Label();
          this.gb2Label = new System.Windows.Forms.Label();
          this.gb2 = new DevExpress.XtraEditors.PanelControl();
          this.gbGroup = new DevExpress.XtraEditors.RadioGroup();
@@ -77,6 +76,7 @@
          this.st1 = new DevExpress.XtraLayout.LayoutControlItem();
          this.gb3 = new DevExpress.XtraEditors.PanelControl();
          this.gbDetial = new DevExpress.XtraEditors.RadioGroup();
+         this.gb3Label = new System.Windows.Forms.Label();
          this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.dw1)).BeginInit();
@@ -164,6 +164,7 @@
          this.documentViewer1.Location = new System.Drawing.Point(2, 2);
          this.documentViewer1.Name = "documentViewer1";
          this.documentViewer1.Size = new System.Drawing.Size(786, 334);
+         this.documentViewer1.Status = " ";
          this.documentViewer1.TabIndex = 0;
          // 
          // inputPanel
@@ -227,17 +228,6 @@
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_prod", "商品")});
          this.gbPrintSort.Size = new System.Drawing.Size(80, 53);
          this.gbPrintSort.TabIndex = 0;
-         // 
-         // gb3Label
-         // 
-         this.gb3Label.AutoSize = true;
-         this.gb3Label.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.gb3Label.ForeColor = System.Drawing.Color.Maroon;
-         this.gb3Label.Location = new System.Drawing.Point(7, -3);
-         this.gb3Label.Name = "gb3Label";
-         this.gb3Label.Size = new System.Drawing.Size(60, 17);
-         this.gb3Label.TabIndex = 17;
-         this.gb3Label.Text = "報表內容";
          // 
          // gb2Label
          // 
@@ -786,6 +776,17 @@
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gnodate", "不分日期")});
          this.gbDetial.Size = new System.Drawing.Size(89, 55);
          this.gbDetial.TabIndex = 0;
+         // 
+         // gb3Label
+         // 
+         this.gb3Label.AutoSize = true;
+         this.gb3Label.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.gb3Label.ForeColor = System.Drawing.Color.Maroon;
+         this.gb3Label.Location = new System.Drawing.Point(7, -3);
+         this.gb3Label.Name = "gb3Label";
+         this.gb3Label.Size = new System.Drawing.Size(60, 17);
+         this.gb3Label.TabIndex = 17;
+         this.gb3Label.Text = "報表內容";
          // 
          // panelControl1
          // 
