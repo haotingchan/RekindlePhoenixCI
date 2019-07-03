@@ -46,7 +46,7 @@ order by param_prod_type , param_key";
             string sql = @"
 SELECT A.*,
 (CASE WHEN TRIM(PARAM_KEY) IS NULL THEN TRIM(PARAM_NAME)
-     ELSE TRIM(PARAM_KEY)||' – '||TRIM(PARAM_NAME) END) AS CP_DISPLAY
+     ELSE TRIM(PARAM_KEY)||'－'||TRIM(PARAM_NAME) END) AS CP_DISPLAY
 FROM (SELECT PARAM_KEY,   
        PARAM_NAME,   
        PARAM_PROD_TYPE,   
