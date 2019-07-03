@@ -71,10 +71,12 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                int beginTime = row["BEGIN_TIME"].AsInt();
                string timeFormat = "00:00";
                if (j == 0) {
-                  worksheet.Cells[$"A{rowIndex - 1}"].Value = row["BEGIN_TYPE"].AsString();
-                  worksheet.Cells[$"B{rowIndex - 1}"].Value = row["END_TIME"].AsInt().ToString(timeFormat);
-                  worksheet.Cells[$"C{rowIndex - 1}"].Value = row["END_TYPE"].AsString();
-                  worksheet.Cells[$"D{rowIndex - 1}"].Value = beginTime.ToString(timeFormat);
+                  //起時
+                  worksheet.Cells[$"A{rowIndex + 1}"].Value = row["BEGIN_TYPE"].AsString();
+                  worksheet.Cells[$"B{rowIndex + 1}"].Value = row["END_TIME"].AsInt().ToString(timeFormat);
+                  //迄時
+                  worksheet.Cells[$"C{rowIndex + 1}"].Value = row["END_TYPE"].AsString();
+                  worksheet.Cells[$"D{rowIndex + 1}"].Value = beginTime.ToString(timeFormat);
                }
                else if (j > 0) {
                   if (beginTime != dt.Rows[j - 1]["BEGIN_TIME"].AsInt()) {
@@ -84,11 +86,12 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                      }
                      else {
                         rowIndex = rowIndex + 1;
-
-                        worksheet.Cells[$"A{rowIndex - 1}"].Value = beginTime.ToString(timeFormat);
-                        worksheet.Cells[$"B{rowIndex - 1}"].Value = row["BEGIN_TYPE"].AsString();
-                        worksheet.Cells[$"C{rowIndex - 1}"].Value = row["END_TIME"].AsInt().ToString(timeFormat);
-                        worksheet.Cells[$"D{rowIndex - 1}"].Value = row["END_TYPE"].AsString();
+                        //起時
+                        worksheet.Cells[$"A{rowIndex + 1}"].Value = beginTime.ToString(timeFormat);
+                        worksheet.Cells[$"B{rowIndex + 1}"].Value = row["BEGIN_TYPE"].AsString();
+                        //迄時
+                        worksheet.Cells[$"C{rowIndex + 1}"].Value = row["END_TIME"].AsInt().ToString(timeFormat);
+                        worksheet.Cells[$"D{rowIndex + 1}"].Value = row["END_TYPE"].AsString();
 
                         rowsCount = rowIndex;
                      }
@@ -97,14 +100,17 @@ namespace PhoenixCI.BusinessLogic.Prefix3
 
                //TX振幅
                if (row["KIND_ID"].AsString() == "TXF") {
-                  workbook.Worksheets[1 - 1].Rows[rowIndex][5 - 1].SetValue(row["AVG_TX_HIGH_LOW"]);
+                  workbook.Worksheets[1 - 1].Cells[$"E{rowIndex + 1}"].SetValue(row["AVG_TX_HIGH_LOW"]);
                }
                //量
                int seqNO = row["SEQ_NO"].AsInt();
-               workbook.Worksheets[1 - 1].Rows[rowIndex][seqNO - 1].SetValue(row["AVG_QNTY"]);
-               workbook.Worksheets[2 - 1].Rows[rowIndex][seqNO - 1].SetValue(row["M_QNTY"]);
+               //日均量
+               workbook.Worksheets["日均量"].Rows[rowIndex][seqNO - 1].SetValue(row["AVG_QNTY"]);
+               //總量
+               workbook.Worksheets["總量"].Rows[rowIndex][seqNO - 1].SetValue(row["M_QNTY"]);
                if (beginTime != 9999) {
-                  workbook.Worksheets[3 - 1].Rows[rowIndex][seqNO - 1].SetValue(row["M_RATE"]);
+                  //比重
+                  workbook.Worksheets["比重"].Rows[rowIndex][seqNO - 1].SetValue(row["M_RATE"]);
                }
 
             }//for (int j = 0; j < dt.Rows.Count; j++)
@@ -143,7 +149,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             DateTime endDate = _txEndDateText.AsDateTime("yyyy/MM/dd");
             //切換Sheet
             workbook.LoadDocument(_lsFile);
-            Worksheet worksheet = workbook.Worksheets[3];
+            Worksheet worksheet = workbook.Worksheets["TX振幅"];
 
             //讀取資料
             DataTable dt = dao30790.Get30790_4Data(startDate, endDate);
