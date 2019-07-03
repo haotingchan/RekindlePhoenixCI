@@ -69,7 +69,7 @@
          this.chkGroup.ItemPadding = new System.Windows.Forms.Padding(5);
          this.chkGroup.Items.AddRange(new DevExpress.XtraEditors.Controls.CheckedListBoxItem[] {
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkMonQnty", "交易量"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkOI", "未平昌量"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkOI", "未平倉量"),
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkMonCnt", "成交筆數"),
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkAmt", "成交金額(權利金 * 契約乘數 * 成交口數)"),
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkAcc", "交易戶數"),
@@ -89,6 +89,8 @@
          this.ddlProd.Location = new System.Drawing.Point(92, 87);
          this.ddlProd.MenuManager = this.ribbonControl;
          this.ddlProd.Name = "ddlProd";
+         this.ddlProd.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+         this.ddlProd.Properties.Appearance.Options.UseBackColor = true;
          this.ddlProd.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
          this.ddlProd.Properties.Items.AddRange(new object[] {

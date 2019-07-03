@@ -233,11 +233,11 @@
          this.chkGroup.ItemPadding = new System.Windows.Forms.Padding(5);
          this.chkGroup.Items.AddRange(new DevExpress.XtraEditors.Controls.CheckedListBoxItem[] {
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkMonQnty", "交易量"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkOI", "未平昌量"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkOI", "未平倉量"),
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkMonCnt", "成交筆數"),
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkAmt", "成交金額(權利金 * 契約乘數 * 成交口數)"),
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkAcc", "交易戶數"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkId", "交易人數(ID數)")});
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkId", "交易人數")});
          this.chkGroup.Location = new System.Drawing.Point(96, 129);
          this.chkGroup.LookAndFeel.SkinName = "Office 2013";
          this.chkGroup.LookAndFeel.UseDefaultLookAndFeel = false;

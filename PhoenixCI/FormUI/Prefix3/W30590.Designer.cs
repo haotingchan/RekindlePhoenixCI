@@ -146,7 +146,7 @@
          this.chkGroup.ItemPadding = new System.Windows.Forms.Padding(5);
          this.chkGroup.Items.AddRange(new DevExpress.XtraEditors.Controls.CheckedListBoxItem[] {
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkMonQnty", "交易量"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkOI", "未平昌量"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkOI", "未平倉量"),
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkMonCnt", "成交筆數"),
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkAmt", "成交金額(權利金 * 契約乘數 * 成交口數)"),
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkAmtStk", "名目契約價值(現貨收盤價 * 契約乘數 * 成交口數)"),
