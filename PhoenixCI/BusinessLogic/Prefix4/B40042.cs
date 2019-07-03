@@ -1,5 +1,6 @@
 ﻿using BaseGround.Shared;
 using Common;
+using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
@@ -29,6 +30,8 @@ namespace PhoenixCI.BusinessLogic.Prefix4
       /// </summary>
       private readonly string _emDateText;
 
+      private readonly string _gsUserID;
+
       private readonly B40011 b40011;
 
       private readonly B40012 b40012;
@@ -40,10 +43,11 @@ namespace PhoenixCI.BusinessLogic.Prefix4
          dao40042 = new D40042();
       }
 
-      public B40042(string FilePath, string emDate)
+      public B40042(string FilePath, string emDate, string gsUserID)
       {
          this._lsFile = FilePath;
          this._emDateText = emDate;
+         this._gsUserID = gsUserID;
          dao40042 = new D40042();
          b40011 = new B40011("40042_40011", FilePath, emDate);
          b40012 = new B40012("40042_40012", FilePath, emDate);
@@ -247,40 +251,63 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             //My_SP1
             logtext = "執行fut.sp_H_gen_H_TFXM1U";
             dao40042.SP_F_GEN_H_TFXM1U_F();
-            PbFunc.f_write_logf(TxnID, "E", logtext);
+            WriteLogf(TxnID, "E", logtext);
             //My_SP2
             logtext = "執行opt.sp_O_gen_H_MGR1U";
             dao40042.SP_O_GEN_H_MGR1U();
-            PbFunc.f_write_logf(TxnID, "E", logtext);
+            WriteLogf(TxnID, "E", logtext);
             //My_SP3
             logtext = "執行opt.sp_O_gen_H_MGR2U_I";
             dao40042.SP_O_GEN_H_MGR2U_I();
-            PbFunc.f_write_logf(TxnID, "E", logtext);
+            WriteLogf(TxnID, "E", logtext);
             //My_SP4
             logtext = "執行opt.sp_O_gen_H_MGR2U_STF";
             dao40042.SP_O_GEN_H_MGR2U_STF();
-            PbFunc.f_write_logf(TxnID, "E", logtext);
+            WriteLogf(TxnID, "E", logtext);
             //My_SP5
             logtext = "執行fut.sp_F_gen_H_MG1U_S";
             dao40042.SP_F_GEN_H_MG1U_S();
-            PbFunc.f_write_logf(TxnID, "E", logtext);
+            WriteLogf(TxnID, "E", logtext);
             //My_SP6
             logtext = "執行fut.sp_F_gen_H_MG1U_I";
             dao40042.SP_F_GEN_H_MG1U_I();
-            PbFunc.f_write_logf(TxnID, "E", logtext);
+            WriteLogf(TxnID, "E", logtext);
             //My_SP7
             logtext = "執行opt.sp_O_gen_H_MG1U_S";
             dao40042.SP_O_GEN_H_MG1U_S();
-            PbFunc.f_write_logf(TxnID, "E", logtext);
+            WriteLogf(TxnID, "E", logtext);
             //My_SP8
             logtext = "執行opt.sp_O_gen_H_MG1U_I";
             dao40042.SP_O_GEN_H_MG1U_I();
-            PbFunc.f_write_logf(TxnID, "E", logtext);
+            WriteLogf(TxnID, "E", logtext);
          }
          catch (Exception ex) {
             throw new Exception($"{logtext}:" + ex.Message);
          }
          return "";
+      }
+
+      /// <summary>
+      /// 此func 已移至 Form Parent WriteLog()
+      /// </summary>
+      /// <param name="gs_txn_id"></param>
+      /// <param name="as_type"></param>
+      /// <param name="as_text"></param>
+      /// <returns>正常回傳0,失敗回傳-1</returns>
+      private int WriteLogf(string gs_txn_id, string as_type, string as_text)
+      {
+         try {
+            as_text = as_text.SubStr(0, 100);//取前100字元
+
+            LOGF logf = new LOGF();
+            logf.Insert(_gsUserID, gs_txn_id, as_text, as_type);
+            return 0;
+         }
+         catch (Exception ex) {
+            //寫db log失敗,只好寫入本地端的file
+            //這段再找時間補
+            return -1;
+         }
       }
 
    }
