@@ -31,12 +31,6 @@ namespace PhoenixCI.FormUI.Prefix7
          b70010 = new B70010();
          dao70010 = new D70010();
       }
-      public override ResultStatus BeforeOpen()
-      {
-         base.BeforeOpen();
-
-         return ResultStatus.Success;
-      }
 
       protected override ResultStatus Open()
       {
