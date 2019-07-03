@@ -28,31 +28,62 @@ namespace PhoenixCI.BusinessLogic.Prefix3
          _txnID = ProgramID;
       }
 
+      /// <summary>
+      /// 生效日期清單
+      /// </summary>
+      /// <param name="emDateText"></param>
+      /// <returns></returns>
       public DataTable GetEffectiveYMD(string emDateText)
       {
          return dao30290.ListEffectiveYmd(emDateText.Replace("/", ""));
       }
 
+      /// <summary>
+      /// 產生新資料
+      /// </summary>
+      /// <param name="isCalYMD"></param>
+      /// <param name="isYMD"></param>
+      /// <returns></returns>
       public DataTable ListInsertGridData(string isCalYMD, string isYMD)
       {
          return dao30290.ListInsertData(isCalYMD.Replace("/", ""), isYMD);
       }
 
+      /// <summary>
+      /// 已存檔資料
+      /// </summary>
+      /// <param name="isYMD"></param>
+      /// <returns></returns>
       public DataTable List30290GridData(string isYMD)
       {
          return dao30290.List30290Data(isYMD);
       }
 
+      /// <summary>
+      /// 相同生效日期資料總數
+      /// </summary>
+      /// <param name="YMD"></param>
+      /// <returns></returns>
       public int DataCount(string YMD)
       {
          return dao30290.PLP13ListCount(YMD);
       }
 
+      /// <summary>
+      /// 刪除PLP13資料
+      /// </summary>
+      /// <param name="isYMD"></param>
+      /// <returns></returns>
       public bool DeleteData(string isYMD)
       {
          return dao30290.DeletePLP13(isYMD);
       }
 
+      /// <summary>
+      /// 新增PLP13資料
+      /// </summary>
+      /// <param name="inputData"></param>
+      /// <returns></returns>
       public ResultData UpdateData(DataTable inputData)
       {
          return dao30290.UpdatePLP13(inputData);

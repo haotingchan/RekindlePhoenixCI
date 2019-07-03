@@ -164,6 +164,7 @@
          this.documentViewer1.Location = new System.Drawing.Point(2, 2);
          this.documentViewer1.Name = "documentViewer1";
          this.documentViewer1.Size = new System.Drawing.Size(786, 334);
+         this.documentViewer1.Status = " ";
          this.documentViewer1.TabIndex = 0;
          // 
          // inputPanel
@@ -387,7 +388,7 @@
          this.emEndDate.Name = "emEndDate";
          this.emEndDate.Properties.Appearance.Options.UseTextOptions = true;
          this.emEndDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.emEndDate.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.emEndDate.Properties.EditFormat.FormatString = "yyyy/MM/dd";
          this.emEndDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
          this.emEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.emEndDate.Properties.Mask.ShowPlaceHolders = false;
@@ -406,7 +407,7 @@
          this.emStartDate.Name = "emStartDate";
          this.emStartDate.Properties.Appearance.Options.UseTextOptions = true;
          this.emStartDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.emStartDate.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.emStartDate.Properties.EditFormat.FormatString = "yyyy/MM/dd";
          this.emStartDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
          this.emStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.emStartDate.Properties.Mask.ShowPlaceHolders = false;
@@ -486,7 +487,7 @@
          this.emStartYM.Name = "emStartYM";
          this.emStartYM.Properties.Appearance.Options.UseTextOptions = true;
          this.emStartYM.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.emStartYM.Properties.EditFormat.FormatString = "yyyyMM";
+         this.emStartYM.Properties.EditFormat.FormatString = "yyyy/MM";
          this.emStartYM.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])";
          this.emStartYM.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.emStartYM.Properties.Mask.ShowPlaceHolders = false;
@@ -505,7 +506,7 @@
          this.emEndYM.Name = "emEndYM";
          this.emEndYM.Properties.Appearance.Options.UseTextOptions = true;
          this.emEndYM.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.emEndYM.Properties.EditFormat.FormatString = "yyyyMM";
+         this.emEndYM.Properties.EditFormat.FormatString = "yyyy/MM";
          this.emEndYM.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])";
          this.emEndYM.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.emEndYM.Properties.Mask.ShowPlaceHolders = false;

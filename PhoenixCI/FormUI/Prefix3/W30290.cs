@@ -1,35 +1,26 @@
 ﻿using System.Data;
 using System.Windows.Forms;
 using BaseGround;
-using DataObjects.Dao.Together;
-using DevExpress.XtraEditors.Repository;
-using BaseGround.Report;
 using BusinessObjects.Enums;
-using DataObjects.Dao.Together.SpecificDao;
-using DevExpress.XtraGrid.Views.Grid;
 using BusinessObjects;
-using System.ComponentModel;
 using Common;
-using System.Drawing;
 using System;
 using BaseGround.Shared;
-using System.Collections.Generic;
-using System.Data.OracleClient;
-using DataObjects.Dao.Together.TableDao;
 using PhoenixCI.BusinessLogic.Prefix3;
 using System.IO;
 using System.Threading;
-
+/// <summary>
+/// 20190422,john,30290 造市者限制設定
+/// </summary>
 namespace PhoenixCI.FormUI.Prefix3
 {
    /// <summary>
-   /// 20190422,john,30290 造市者限制設定
+   /// 造市者限制設定
    /// </summary>
    public partial class W30290 : FormParent
    {
 
       private B30290 b30290;
-      //private D30290 dao30290;
       private DialogResult retrieveChoose;
       string logtxt;
 
@@ -65,7 +56,7 @@ namespace PhoenixCI.FormUI.Prefix3
                return ResultStatus.Success;
             }
          }
-         //if (retrieveChoose == DialogResult.No)
+         //已存在相同生效日期資料，按「否」重新產至資料
          RowsCopy(isYMD);
 
          return ResultStatus.Success;
@@ -106,7 +97,7 @@ namespace PhoenixCI.FormUI.Prefix3
          DataTable dt = (DataTable)gcMain.DataSource;
          DataTable dtChange = dt.GetChanges();
 
-         ////存檔前檢查
+         //存檔前檢查
          try {
             //無法經由資料列存取已刪除的資料列資訊。
             if (dtChange != null) {
@@ -123,12 +114,12 @@ namespace PhoenixCI.FormUI.Prefix3
                if (dataCount > 0) {
                   DialogResult ChooseResult = MessageDisplay.Choose("已存在相同生效日期資料，請問是否繼續儲存?");
                   if (ChooseResult == DialogResult.Yes)
-                     if (retrieveChoose == DialogResult.No)
-                        if (!b30290.DeleteData(isYMD))
+                     if (retrieveChoose == DialogResult.No)//一開始讀取資料按「否」重新產至資料
+                        if (!b30290.DeleteData(isYMD))//刪除已有的資料
                            return ResultStatus.Fail;
                }
 
-               //儲存PLP13
+               //變更儲存日期以及USER_ID
                foreach (DataRow dr in dt.Rows) {
                   if (dr.RowState != DataRowState.Deleted) {
                      dr["PLP13_W_TIME"] = DateTime.Now;
@@ -141,7 +132,9 @@ namespace PhoenixCI.FormUI.Prefix3
                   dtChange = dt.GetChanges();
                   this.Cursor = Cursors.WaitCursor;
                   ShowMsg("存檔中...");
+                  //儲存PLP13
                   ResultData myResultData = b30290.UpdateData(dtChange);
+                  //初始訊息選擇狀態
                   retrieveChoose = DialogResult.None;
                }
                catch (Exception ex) {
@@ -180,36 +173,20 @@ namespace PhoenixCI.FormUI.Prefix3
          return ResultStatus.Success;
       }
 
-      public override ResultStatus BeforeOpen()
-      {
-         base.BeforeOpen();
-
-         return ResultStatus.Success;
-      }
-
       protected override ResultStatus Open()
       {
          base.Open();
 
          b30290 = new B30290(_ProgramID);
+         //生效日期下拉選單
          YMDlookUpEdit.SetDataTable(b30290.GetEffectiveYMD(emDate.Text).Clone(), "YMD", "YMD", DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor, "");
 
          emDate.Text = b30290.LastQuarter(GlobalInfo.OCF_DATE);
+         //計算日期Leave事件綁定
          this.emDate.Leave += new System.EventHandler(this.emDate_Leave);
+         //生效日期下拉選單事件綁定
          this.YMDlookUpEdit.Properties.EditValueChanged += new System.EventHandler(this.YMDlookUpEdit_Properties_EditValueChanged);
          return ResultStatus.Success;
-      }
-
-      protected override ResultStatus AfterOpen()
-      {
-         base.AfterOpen();
-
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus BeforeClose()
-      {
-         return base.BeforeClose();
       }
 
       private bool StartExport()
@@ -257,42 +234,35 @@ namespace PhoenixCI.FormUI.Prefix3
          Thread.Sleep(5);
       }
 
-      private string OutputShowMessage {
-         set {
-            if (value != MessageDisplay.MSG_OK)
-               MessageDisplay.Info(value);
-         }
-      }
-
       protected override ResultStatus Export()
       {
          if (!StartExport()) {
             return ResultStatus.Fail;
          }
          string saveFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
-         string msg;
          logtxt = saveFilePath;
          //Write LOGF
          WriteLog("轉出檔案:" + logtxt, "Info", "E", false);
          try {
+            MessageDisplay message = new MessageDisplay();
             //Sheet : rpt_future
             string isYMD = YMDlookUpEdit.EditValue.AsString();
-            msg = b30290.WfExport(saveFilePath, isYMD, emDate.Text, GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH);
-            OutputShowMessage = msg;
+            message.OutputShowMessage = b30290.WfExport(saveFilePath, isYMD, emDate.Text, GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH);
+            if (string.IsNullOrEmpty(message.OutputShowMessage)) {
+               ShowMsg("轉檔有誤!");
+               if (File.Exists(saveFilePath))
+                  File.Delete(saveFilePath);
+               return ResultStatus.Fail;
+            }
          }
          catch (Exception ex) {
-            File.Delete(saveFilePath);
+            if (File.Exists(saveFilePath))
+               File.Delete(saveFilePath);
             WriteLog(ex);
             return ResultStatus.Fail;
          }
          finally {
             EndExport();
-         }
-
-         if (msg != MessageDisplay.MSG_OK) {
-            ShowMsg("轉檔有誤!");
-            File.Delete(saveFilePath);
-            return ResultStatus.Fail;
          }
 
          return ResultStatus.Success;
@@ -306,11 +276,13 @@ namespace PhoenixCI.FormUI.Prefix3
 
       private void emDate_Leave(object sender, EventArgs e)
       {
+         //每次輸入完畢重新搜尋下拉選單資料
          YMDlookUpEdit.SetDataTable(b30290.GetEffectiveYMD(emDate.Text), "YMD", "YMD", DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor, "");
       }
 
       private void YMDlookUpEdit_Properties_EditValueChanged(object sender, EventArgs e)
       {
+         //選取下拉選單重新刷新頁面
          gcMain.DataSource = new DataTable();
          _ToolBtnSave.Enabled = false;
          _ToolBtnDel.Enabled = false;

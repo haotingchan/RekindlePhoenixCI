@@ -232,6 +232,7 @@ namespace PhoenixCI.FormUI.Prefix2
 
       protected override ResultStatus InsertRow()
       {
+         //隱藏GridView時 按下新增同時顯示GridView
          if (gcMain.Visible == false) {
             StartShowGridView();
             EnabledGridViewBtn(true);
@@ -384,6 +385,7 @@ namespace PhoenixCI.FormUI.Prefix2
       protected override ResultStatus Open()
       {
          base.Open();
+         //進入程式就直接載入GridView
          StartShowGridView();
          return ResultStatus.Success;
       }
