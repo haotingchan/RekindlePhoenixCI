@@ -63,7 +63,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             }
 
             worksheet.Range["A1"].Select();
-            worksheet.Cells["C2"].Value = $"{_startDateText}－{_endDateText}";
+            worksheet.Cells["C2"].Value = $"{_startDateText} - {_endDateText}";
             int rowsCount = 0;
             int rowIndex = 4 - 1;
             for (int j = 0; j < dt.Rows.Count; j++) {
@@ -156,7 +156,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             if (dt.Rows.Count <= 0) {
                return $"{_startDateText},{_endDateText},30790_4－TX每日日盤及夜盤之振幅及收盤價,無任何資料!";
             }
-            worksheet.Cells["B2"].Value = $"{_txStartDateText}－{_txEndDateText}";
+            worksheet.Cells["B2"].Value = $"{_txStartDateText} - {_txEndDateText}";
             //從第四行(0~3)開始寫入
             worksheet.Import(dt, false, 3, 0);
             worksheet.ScrollTo(0, 0);//直接滾動到最上面，不然看起來很像少行數

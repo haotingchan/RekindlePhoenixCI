@@ -99,7 +99,7 @@ namespace PhoenixCI.FormUI.Prefix4
             DataTable dt = new D40060().GetData(emDate.Text.AsDateTime(), emYear.Text, $"{oswGrpLookItem.EditValue.AsString()}%");
             if (dt.Rows.Count <= 0) {
                MessageDisplay.Info(emDate.Text + ",讀取「Span歷次調整紀錄」無任何資料!");
-               return ResultStatus.Success;
+               return ResultStatus.Fail;
             }
             //複製template
             saveFilePath = PbFunc.wf_copy_file(_ProgramID, "40060");

@@ -101,7 +101,7 @@ namespace PhoenixCI.FormUI.Prefix4
             DataTable dt = new D40050().GetData(emDate.Text.AsDateTime(), (emYear.Text + "/01/01").AsDateTime(), $"{oswGrpLookItem.EditValue.AsString()}%");
             if (dt.Rows.Count <= 0) {
                MessageDisplay.Info(emDate.Text + ",讀取「保證金歷次調整紀錄」無任何資料!");
-               return ResultStatus.Success;
+               return ResultStatus.Fail;
             }
             //複製template
             saveFilePath = PbFunc.wf_copy_file(_ProgramID, "40050");
