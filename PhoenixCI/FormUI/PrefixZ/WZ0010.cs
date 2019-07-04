@@ -28,7 +28,7 @@ namespace PhoenixCI.FormUI.PrefixZ
         {
             InitializeComponent();
 
-            GridHelper.SetCommonGrid(gvMain);
+            GridHelper.SetCommonGrid(gvMain,true,new GridColumn[] { UPF_USER_ID});
             PrintableComponent = gcMain;
             this.Text = _ProgramID + "─" + _ProgramName;
 
@@ -59,10 +59,10 @@ namespace PhoenixCI.FormUI.PrefixZ
             gcMain.DataSource = daoUPF.ListDataByDept("");
             UPF_DPT_ID.ColumnEdit = repLookUp;
 
-            if (GlobalInfo.USER_ID.ToUpper() != GlobalDaoSetting.GetConnectionInfo.ConnectionName)
-            {
-                btnPrint.Visible = false;
-            }
+            //if (GlobalInfo.USER_ID.ToUpper() != GlobalDaoSetting.GetConnectionInfo.ConnectionName)
+            //{
+            //    btnPrint.Visible = false;
+            //}
 
             gvMain.BestFitColumns();
 
@@ -400,20 +400,19 @@ namespace PhoenixCI.FormUI.PrefixZ
 
             ReportHelper reportHelper;
 
-            if (dtForAdd != null)
-                if (dtForAdd.Rows.Count != 0)
-                {
-                    reportHelper = PrintOrExportSetting();
-                    reportHelper.IsHandlePersonVisible = true;
-                    reportHelper.IsManagerVisible = true;
-                    gridControlPrint.DataSource = dtForAdd;
-                    reportHelper.ReportTitle = originReportTitle + "─" + "新增";
+            DataTable dt = ((DataView)gvMain.DataSource).ToTable().Clone();
+            dt.ImportRow(((DataRowView)gvMain.GetFocusedRow()).Row);
 
-                    reportHelper.Create(GenerateReport(gridControlPrint));
+            reportHelper = PrintOrExportSetting();
+            reportHelper.IsHandlePersonVisible = true;
+            reportHelper.IsManagerVisible = true;
+            gridControlPrint.DataSource = dt;
+            reportHelper.ReportTitle = originReportTitle;
 
-                    Print(reportHelper);
-                    Export(reportHelper);
-                }
+            reportHelper.Create(GenerateReport(gridControlPrint));
+
+            Print(reportHelper);
+            Export(reportHelper);
         }
     }
 }
