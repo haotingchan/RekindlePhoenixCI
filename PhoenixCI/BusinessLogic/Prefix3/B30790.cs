@@ -72,11 +72,11 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                string timeFormat = "00:00";
                if (j == 0) {
                   //起時
-                  worksheet.Cells[$"A{rowIndex + 1}"].Value = row["BEGIN_TYPE"].AsString();
-                  worksheet.Cells[$"B{rowIndex + 1}"].Value = row["END_TIME"].AsInt().ToString(timeFormat);
+                  worksheet.Rows[rowIndex][1 - 1].Value = beginTime.ToString(timeFormat);
+                  worksheet.Rows[rowIndex][2 - 1].Value = row["BEGIN_TYPE"].AsString();
                   //迄時
-                  worksheet.Cells[$"C{rowIndex + 1}"].Value = row["END_TYPE"].AsString();
-                  worksheet.Cells[$"D{rowIndex + 1}"].Value = beginTime.ToString(timeFormat);
+                  worksheet.Rows[rowIndex][3 - 1].Value = row["END_TIME"].AsInt().ToString(timeFormat);
+                  worksheet.Rows[rowIndex][4 - 1].Value = row["END_TYPE"].AsString();
                }
                else if (j > 0) {
                   if (beginTime != dt.Rows[j - 1]["BEGIN_TIME"].AsInt()) {
@@ -87,11 +87,11 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                      else {
                         rowIndex = rowIndex + 1;
                         //起時
-                        worksheet.Cells[$"A{rowIndex + 1}"].Value = beginTime.ToString(timeFormat);
-                        worksheet.Cells[$"B{rowIndex + 1}"].Value = row["BEGIN_TYPE"].AsString();
+                        worksheet.Rows[rowIndex][1 - 1].Value = beginTime.ToString(timeFormat);
+                        worksheet.Rows[rowIndex][2 - 1].Value = row["BEGIN_TYPE"].AsString();
                         //迄時
-                        worksheet.Cells[$"C{rowIndex + 1}"].Value = row["END_TIME"].AsInt().ToString(timeFormat);
-                        worksheet.Cells[$"D{rowIndex + 1}"].Value = row["END_TYPE"].AsString();
+                        worksheet.Rows[rowIndex][3 - 1].Value = row["END_TIME"].AsInt().ToString(timeFormat);
+                        worksheet.Rows[rowIndex][4 - 1].Value = row["END_TYPE"].AsString();
 
                         rowsCount = rowIndex;
                      }
@@ -100,7 +100,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
 
                //TX振幅
                if (row["KIND_ID"].AsString() == "TXF") {
-                  workbook.Worksheets[1 - 1].Cells[$"E{rowIndex + 1}"].SetValue(row["AVG_TX_HIGH_LOW"]);
+                  workbook.Worksheets[1 - 1].Cells[$"E{rowIndex}"].SetValue(row["AVG_TX_HIGH_LOW"]);
                }
                //量
                int seqNO = row["SEQ_NO"].AsInt();
