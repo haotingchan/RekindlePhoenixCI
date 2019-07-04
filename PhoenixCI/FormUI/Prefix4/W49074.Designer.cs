@@ -188,7 +188,7 @@
          // 
          // gridColumn1
          // 
-         this.gridColumn1.AppearanceHeader.BackColor = System.Drawing.Color.Yellow;
+         this.gridColumn1.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
          this.gridColumn1.AppearanceHeader.Options.UseBackColor = true;
          this.gridColumn1.AppearanceHeader.Options.UseTextOptions = true;
          this.gridColumn1.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -256,7 +256,7 @@
          // 
          // RPTF_SEQ_NO
          // 
-         this.RPTF_SEQ_NO.AppearanceHeader.BackColor = System.Drawing.Color.Yellow;
+         this.RPTF_SEQ_NO.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
          this.RPTF_SEQ_NO.AppearanceHeader.Options.UseBackColor = true;
          this.RPTF_SEQ_NO.AppearanceHeader.Options.UseTextOptions = true;
          this.RPTF_SEQ_NO.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;

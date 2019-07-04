@@ -122,14 +122,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
          }
 
          if (chkModel.CheckedItemsCount < 1) {
-            MessageDisplay.Error("請至少勾選一種指標種類");
+            MessageDisplay.Error("請至少勾選一種指標種類" , GlobalInfo.ErrorText);
             return ResultStatus.Fail;
          }
 
          //1.2檢查統計資料是否已經轉入完畢
          string FinishedJob = PbFunc.f_get_jsw(_ProgramID , "E" , txtEndDate.Text);
          if (FinishedJob != "Y") {
-            DialogResult chooseResult = MessageDisplay.Choose(string.Format("{0} 統計資料未轉入完畢,是否要繼續?" , txtEndDate.Text));
+            DialogResult chooseResult = MessageDisplay.Choose(string.Format("{0} 統計資料未轉入完畢,是否要繼續?" , txtEndDate.Text) , MessageBoxDefaultButton.Button2 , GlobalInfo.QuestionText);
             if (chooseResult != DialogResult.Yes) {
                return ResultStatus.Fail;
             }
@@ -252,11 +252,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
 
                   //2.8寫入[註3]資訊
-                  riskRateOrg = Math.Round(riskRateOrg * 100 , 1);
+                  riskRateOrg = Math.Round(riskRateOrg * 100 , 1 , MidpointRounding.AwayFromZero);
                   if (lastRiskRate == 0) {
                      worksheet.Cells[18 , 0].Value = string.Format("註3：上市日起至今最小風險價格係數均為{0}%" , riskRateOrg.ToString());
                   } else {
-                     lastRiskRate = Math.Round(lastRiskRate * 100 , 1);
+                     lastRiskRate = Math.Round(lastRiskRate * 100 , 1 , MidpointRounding.AwayFromZero);
                      worksheet.Cells[18 , 0].Value = string.Format("註3：最小風險價格係數自{0}起由{1}%調整為{2}" ,
                                                                  effDate ,
                                                                  lastRiskRate.ToString() ,

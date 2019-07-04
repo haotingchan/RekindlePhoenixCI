@@ -102,15 +102,15 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                //設定欄位header顏色
                if (dc.ColumnName == "TFXMSE_PID") {
-                  gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = Color.FromArgb(255 , 255 , 128);
+                  gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = GridHelper.PK;
                   gvMain.Columns[dc.ColumnName].AppearanceCell.TextOptions.HAlignment = HorzAlignment.Center;
                } else {
                   if (dc.ColumnName == "TFXMSE_W_TIME") {
                      gvMain.Columns[dc.ColumnName].AppearanceCell.TextOptions.HAlignment = HorzAlignment.Center;
-                            gvMain.Columns[dc.ColumnName].DisplayFormat.FormatType = FormatType.DateTime;
-                            gvMain.Columns[dc.ColumnName].DisplayFormat.FormatString = "yyyy/MM/dd HH:mm:ss";
+                     gvMain.Columns[dc.ColumnName].DisplayFormat.FormatType = FormatType.DateTime;
+                     gvMain.Columns[dc.ColumnName].DisplayFormat.FormatString = "yyyy/MM/dd HH:mm:ss";
                   }
-                  gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = Color.FromArgb(128 , 255 , 255);
+                  gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = GridHelper.NORMAL;
                }
             }
 
@@ -153,7 +153,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gvMain.Columns["TFXMSE_OPT_XXX"].ColumnEdit = opt;
             opt.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             opt.Mask.EditMask = "##########0.0000";
-                
+
 
             //1.3 設定隱藏欄位
             gvMain.Columns["TFXMSE_SP_W_TIME"].Visible = false;
@@ -200,11 +200,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dtForDeleted = dtCurrent.GetChanges(DataRowState.Deleted);
 
             if (dtChange == null) {
-               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+               MessageDisplay.Warning("沒有變更資料,不需要存檔!" , GlobalInfo.WarningText);
                return ResultStatus.Fail;
             }
             if (dtChange.Rows.Count == 0) {
-               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+               MessageDisplay.Warning("沒有變更資料,不需要存檔!" , GlobalInfo.WarningText);
                return ResultStatus.Fail;
             }
 
@@ -249,26 +249,26 @@ namespace PhoenixCI.FormUI.Prefix4 {
                }
             }
 
-                //DataTable dtCloned = dtCurrent.Clone();
-                //dtCloned.Columns["TFXMSE_W_TIME"].DataType = typeof(DateTime);
-                //foreach (DataRow row in dtCurrent.Rows) {
-                //    if (row.RowState == DataRowState.Deleted) continue;
-                //    dtCloned.ImportRow(row);
-                //}
+            //DataTable dtCloned = dtCurrent.Clone();
+            //dtCloned.Columns["TFXMSE_W_TIME"].DataType = typeof(DateTime);
+            //foreach (DataRow row in dtCurrent.Rows) {
+            //    if (row.RowState == DataRowState.Deleted) continue;
+            //    dtCloned.ImportRow(row);
+            //}
 
-                ResultData result = new TFXMSE().UpdateData(dtCurrent);
+            ResultData result = new TFXMSE().UpdateData(dtCurrent);
             if (result.Status == ResultStatus.Fail) {
-                    MessageDisplay.Error("儲存失敗");
+               MessageDisplay.Error("儲存失敗" , GlobalInfo.ErrorText);
                return ResultStatus.FailButNext;
             }
 
             PrintOrExportChangedByKen(gcMain , dtForAdd , dtForDeleted , dtForModified);
 
          } catch (Exception ex) {
-                MessageDisplay.Error("儲存錯誤");
-                WriteLog(ex, "", false);
-                return ResultStatus.FailButNext;
-            }
+            MessageDisplay.Error("儲存錯誤" , GlobalInfo.ErrorText);
+            WriteLog(ex , "" , false);
+            return ResultStatus.FailButNext;
+         }
          return ResultStatus.Success;
       }
 

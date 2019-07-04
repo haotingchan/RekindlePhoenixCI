@@ -78,7 +78,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             //判斷是否至少勾選一個選項
             if (chkGroup.CheckedItemsCount < 1) {
-               MessageDisplay.Warning("請勾選至少一個選項!");
+               MessageDisplay.Warning("請勾選至少一個選項!" , GlobalInfo.WarningText);
                return ResultStatus.Fail;
             } else {
                string tempMarketCode;
@@ -188,7 +188,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             if (dt.Rows.Count <= 0) {
 
                labMsg.Text = StartYMD + "," + _ProgramID + '－' + _ProgramName + ",無任何資料!";
-               MessageDisplay.Info(string.Format("{0},{1}–市場總成交量雙邊(A)無任何資料!" , StartYMD , this.Text) , "處理結果");
+               MessageDisplay.Info(string.Format("{0},{1}–市場總成交量雙邊(A)無任何資料!" , StartYMD , this.Text) , GlobalInfo.ResultText);
                return false;
             }
             #endregion
@@ -333,13 +333,5 @@ namespace PhoenixCI.FormUI.Prefix3 {
          }
       }
 
-      /// <summary>
-      /// set checkbox list focus background color
-      /// </summary>
-      /// <param name="sender"></param>
-      /// <param name="e"></param>
-      private void chkGroup_DrawItem(object sender , ListBoxDrawItemEventArgs e) {
-         e.AllowDrawSkinBackground = false;
-      }
    }
 }

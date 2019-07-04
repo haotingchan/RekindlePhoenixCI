@@ -23,14 +23,14 @@
       /// the contents of this method with the code editor.
       /// </summary>
       private void InitializeComponent() {
-         DevExpress.XtraEditors.Repository.RepositoryItemDateEdit repositoryItemDateEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemDateEdit();
+         this.repositoryItemDateEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemDateEdit();
          this.panel1 = new System.Windows.Forms.Panel();
+         this.txtDate2 = new BaseGround.Widget.TextDateEdit();
+         this.txtDate1 = new BaseGround.Widget.TextDateEdit();
          this.groupBox2 = new System.Windows.Forms.GroupBox();
          this.ddlAdjust = new DevExpress.XtraEditors.LookUpEdit();
          this.labG2 = new System.Windows.Forms.Label();
-         this.txtDate2 = new BaseGround.Widget.TextDateEdit();
          this.labG1 = new System.Windows.Forms.Label();
-         this.txtDate1 = new BaseGround.Widget.TextDateEdit();
          this.lblDate = new System.Windows.Forms.Label();
          this.txtTradeDate = new BaseGround.Widget.TextDateEdit();
          this.panel2 = new System.Windows.Forms.Panel();
@@ -50,17 +50,17 @@
          this.SP2_SPAN_CODE_ORG = new DevExpress.XtraGrid.Columns.GridColumn();
          this.SP2_ADJ_CODE_ORG = new DevExpress.XtraGrid.Columns.GridColumn();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1.CalendarTimeProperties)).BeginInit();
          this.panel1.SuspendLayout();
-         this.groupBox2.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.ddlAdjust.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate2.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate1.Properties)).BeginInit();
+         this.groupBox2.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.ddlAdjust.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtTradeDate.Properties)).BeginInit();
          this.panel2.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(repositoryItemDateEdit2.CalendarTimeProperties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(repositoryItemDateEdit2)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -72,6 +72,18 @@
          this.ribbonControl.ExpandCollapseItem.Id = 0;
          this.ribbonControl.Size = new System.Drawing.Size(939, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
+         // 
+         // repositoryItemDateEdit1
+         // 
+         this.repositoryItemDateEdit1.AutoHeight = false;
+         this.repositoryItemDateEdit1.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.repositoryItemDateEdit1.DisplayFormat.FormatString = "yyyy/MM/dd";
+         this.repositoryItemDateEdit1.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+         this.repositoryItemDateEdit1.EditFormat.FormatString = "yyyy/MM/dd";
+         this.repositoryItemDateEdit1.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+         this.repositoryItemDateEdit1.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.repositoryItemDateEdit1.Name = "repositoryItemDateEdit1";
          // 
          // panel1
          // 
@@ -88,6 +100,46 @@
          this.panel1.Name = "panel1";
          this.panel1.Size = new System.Drawing.Size(939, 95);
          this.panel1.TabIndex = 0;
+         // 
+         // txtDate2
+         // 
+         this.txtDate2.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtDate2.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtDate2.EditValue = "2018/12/01";
+         this.txtDate2.EnterMoveNextControl = true;
+         this.txtDate2.Location = new System.Drawing.Point(402, 62);
+         this.txtDate2.MenuManager = this.ribbonControl;
+         this.txtDate2.Name = "txtDate2";
+         this.txtDate2.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtDate2.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtDate2.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.txtDate2.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtDate2.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.txtDate2.Properties.Mask.ShowPlaceHolders = false;
+         this.txtDate2.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtDate2.Size = new System.Drawing.Size(100, 26);
+         this.txtDate2.TabIndex = 2;
+         this.txtDate2.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         // 
+         // txtDate1
+         // 
+         this.txtDate1.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtDate1.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtDate1.EditValue = "2018/12/01";
+         this.txtDate1.EnterMoveNextControl = true;
+         this.txtDate1.Location = new System.Drawing.Point(402, 17);
+         this.txtDate1.MenuManager = this.ribbonControl;
+         this.txtDate1.Name = "txtDate1";
+         this.txtDate1.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtDate1.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtDate1.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.txtDate1.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtDate1.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.txtDate1.Properties.Mask.ShowPlaceHolders = false;
+         this.txtDate1.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtDate1.Size = new System.Drawing.Size(100, 26);
+         this.txtDate1.TabIndex = 1;
+         this.txtDate1.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // groupBox2
          // 
@@ -111,7 +163,7 @@
          this.ddlAdjust.Properties.LookAndFeel.SkinName = "The Bezier";
          this.ddlAdjust.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.ddlAdjust.Size = new System.Drawing.Size(159, 26);
-         this.ddlAdjust.TabIndex = 0;
+         this.ddlAdjust.TabIndex = 3;
          this.ddlAdjust.EditValueChanged += new System.EventHandler(this.ddlAdjust_EditValueChanged);
          // 
          // labG2
@@ -125,26 +177,6 @@
          this.labG2.TabIndex = 8;
          this.labG2.Text = "Group2生效日期：";
          // 
-         // txtDate2
-         // 
-         this.txtDate2.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtDate2.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtDate2.EditValue = "2018/12/01";
-         this.txtDate2.EnterMoveNextControl = true;
-         this.txtDate2.Location = new System.Drawing.Point(402, 62);
-         this.txtDate2.MenuManager = this.ribbonControl;
-         this.txtDate2.Name = "txtDate2";
-         this.txtDate2.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtDate2.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtDate2.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtDate2.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
-         this.txtDate2.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-         this.txtDate2.Properties.Mask.ShowPlaceHolders = false;
-         this.txtDate2.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtDate2.Size = new System.Drawing.Size(100, 26);
-         this.txtDate2.TabIndex = 7;
-         this.txtDate2.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-         // 
          // labG1
          // 
          this.labG1.AutoSize = true;
@@ -155,26 +187,6 @@
          this.labG1.Size = new System.Drawing.Size(146, 20);
          this.labG1.TabIndex = 6;
          this.labG1.Text = "Group1生效日期：";
-         // 
-         // txtDate1
-         // 
-         this.txtDate1.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtDate1.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtDate1.EditValue = "2018/12/01";
-         this.txtDate1.EnterMoveNextControl = true;
-         this.txtDate1.Location = new System.Drawing.Point(402, 17);
-         this.txtDate1.MenuManager = this.ribbonControl;
-         this.txtDate1.Name = "txtDate1";
-         this.txtDate1.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtDate1.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtDate1.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtDate1.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
-         this.txtDate1.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-         this.txtDate1.Properties.Mask.ShowPlaceHolders = false;
-         this.txtDate1.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtDate1.Size = new System.Drawing.Size(100, 26);
-         this.txtDate1.TabIndex = 5;
-         this.txtDate1.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // lblDate
          // 
@@ -204,7 +216,7 @@
          this.txtTradeDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtTradeDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtTradeDate.Size = new System.Drawing.Size(100, 26);
-         this.txtTradeDate.TabIndex = 3;
+         this.txtTradeDate.TabIndex = 0;
          this.txtTradeDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // panel2
@@ -261,6 +273,8 @@
          // 
          // OSW_GRP
          // 
+         this.OSW_GRP.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.OSW_GRP.AppearanceHeader.Options.UseBackColor = true;
          this.OSW_GRP.Caption = "群組";
          this.OSW_GRP.FieldName = "OSW_GRP";
          this.OSW_GRP.Name = "OSW_GRP";
@@ -275,6 +289,8 @@
          // 
          // SP1_DATE
          // 
+         this.SP1_DATE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.SP1_DATE.AppearanceHeader.Options.UseBackColor = true;
          this.SP1_DATE.Caption = "日期";
          this.SP1_DATE.FieldName = "SP1_DATE";
          this.SP1_DATE.Name = "SP1_DATE";
@@ -284,6 +300,8 @@
          // 
          // SP1_TYPE
          // 
+         this.SP1_TYPE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.SP1_TYPE.AppearanceHeader.Options.UseBackColor = true;
          this.SP1_TYPE.Caption = "資料類別";
          this.SP1_TYPE.FieldName = "SP1_TYPE";
          this.SP1_TYPE.Name = "SP1_TYPE";
@@ -299,6 +317,8 @@
          // 
          // SP1_KIND_ID1
          // 
+         this.SP1_KIND_ID1.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.SP1_KIND_ID1.AppearanceHeader.Options.UseBackColor = true;
          this.SP1_KIND_ID1.Caption = "商品1";
          this.SP1_KIND_ID1.FieldName = "SP1_KIND_ID1";
          this.SP1_KIND_ID1.Name = "SP1_KIND_ID1";
@@ -309,6 +329,8 @@
          // 
          // SP1_KIND_ID2
          // 
+         this.SP1_KIND_ID2.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.SP1_KIND_ID2.AppearanceHeader.Options.UseBackColor = true;
          this.SP1_KIND_ID2.Caption = "商品2";
          this.SP1_KIND_ID2.FieldName = "SP1_KIND_ID2";
          this.SP1_KIND_ID2.Name = "SP1_KIND_ID2";
@@ -319,6 +341,8 @@
          // 
          // SP1_CHANGE_RANGE
          // 
+         this.SP1_CHANGE_RANGE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.SP1_CHANGE_RANGE.AppearanceHeader.Options.UseBackColor = true;
          this.SP1_CHANGE_RANGE.Caption = "變動幅度";
          this.SP1_CHANGE_RANGE.FieldName = "SP1_CHANGE_RANGE";
          this.SP1_CHANGE_RANGE.Name = "SP1_CHANGE_RANGE";
@@ -328,6 +352,8 @@
          // 
          // SP2_ADJ_CODE
          // 
+         this.SP2_ADJ_CODE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.SP2_ADJ_CODE.AppearanceHeader.Options.UseBackColor = true;
          this.SP2_ADJ_CODE.Caption = " 觀察／調整";
          this.SP2_ADJ_CODE.FieldName = "SP2_ADJ_CODE";
          this.SP2_ADJ_CODE.Name = "SP2_ADJ_CODE";
@@ -337,17 +363,10 @@
          // 
          // SP2_VALUE_DATE
          // 
+         this.SP2_VALUE_DATE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.SP2_VALUE_DATE.AppearanceHeader.Options.UseBackColor = true;
          this.SP2_VALUE_DATE.Caption = "生效日期";
-         repositoryItemDateEdit2.AutoHeight = false;
-         repositoryItemDateEdit2.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         repositoryItemDateEdit2.DisplayFormat.FormatString = "yyyy/MM/dd";
-         repositoryItemDateEdit2.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-         repositoryItemDateEdit2.EditFormat.FormatString = "yyyy/MM/dd";
-         repositoryItemDateEdit2.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-         repositoryItemDateEdit2.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
-         repositoryItemDateEdit2.Name = "repositoryItemDateEdit1";
-         this.SP2_VALUE_DATE.ColumnEdit = repositoryItemDateEdit2;
+         this.SP2_VALUE_DATE.ColumnEdit = this.repositoryItemDateEdit1;
          this.SP2_VALUE_DATE.FieldName = "SP2_VALUE_DATE";
          this.SP2_VALUE_DATE.Name = "SP2_VALUE_DATE";
          this.SP2_VALUE_DATE.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
@@ -387,18 +406,18 @@
          this.Controls.SetChildIndex(this.panel1, 0);
          this.Controls.SetChildIndex(this.panel2, 0);
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1.CalendarTimeProperties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemDateEdit1)).EndInit();
          this.panel1.ResumeLayout(false);
          this.panel1.PerformLayout();
-         this.groupBox2.ResumeLayout(false);
-         ((System.ComponentModel.ISupportInitialize)(this.ddlAdjust.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate2.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate1.Properties)).EndInit();
+         this.groupBox2.ResumeLayout(false);
+         ((System.ComponentModel.ISupportInitialize)(this.ddlAdjust.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtTradeDate.Properties)).EndInit();
          this.panel2.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(repositoryItemDateEdit2.CalendarTimeProperties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(repositoryItemDateEdit2)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -431,5 +450,6 @@
       private System.Windows.Forms.GroupBox groupBox2;
       private DevExpress.XtraEditors.LookUpEdit ddlAdjust;
       private DevExpress.XtraGrid.Columns.GridColumn OSW_GRP;
+      private DevExpress.XtraEditors.Repository.RepositoryItemDateEdit repositoryItemDateEdit1;
    }
 }

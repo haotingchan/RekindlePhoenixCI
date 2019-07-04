@@ -109,22 +109,22 @@ namespace PhoenixCI.FormUI.Prefix4 {
       protected override ResultStatus Export() {
 
          try {
-                #region 日期檢核
-                if (!txtStartDate.IsDate(txtStartDate.Text, CheckDate.Start)
-                         || !txtEndDate.IsDate(txtEndDate.Text, CheckDate.End)) {
-                    labMsg.Visible = false;
-                    return ResultStatus.Fail; ;
-                }
+            #region 日期檢核
+            //if (!txtStartDate.IsDate(txtStartDate.Text, CheckDate.Start)
+            //         || !txtEndDate.IsDate(txtEndDate.Text, CheckDate.End)) {
+            //    labMsg.Visible = false;
+            //    return ResultStatus.Fail; ;
+            //}
 
-                if (string.Compare(txtStartDate.Text, txtEndDate.Text) > 0) {
-                    MessageDisplay.Error(CheckDate.Datedif, GlobalInfo.ErrorText);
-                    labMsg.Visible = false;
-                    return ResultStatus.Fail; ;
-                }
-                #endregion
+            if (string.Compare(txtStartDate.Text , txtEndDate.Text) > 0) {
+               MessageDisplay.Error(CheckDate.Datedif , GlobalInfo.ErrorText);
+               labMsg.Visible = false;
+               return ResultStatus.Fail; ;
+            }
+            #endregion
 
-                //1. ready
-                panFilter.Enabled = false;
+            //1. ready
+            panFilter.Enabled = false;
             labMsg.Visible = true;
             labMsg.Text = "轉檔中...";
             this.Cursor = Cursors.WaitCursor;
@@ -153,7 +153,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             //4. 模型代碼
             if (chkModel.CheckedItemsCount < 1) {
-               MessageDisplay.Error("請勾選要匯出的報表!");
+               MessageDisplay.Error("請勾選要匯出的報表!" , GlobalInfo.ErrorText);
                return ResultStatus.Fail;
             }
 
@@ -202,7 +202,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      //一個商品產生一個檔
                      if (kindId == "%") {
                         foreach (DataRow dr in dtKindId.Rows) {
-                           if (dr["RPT_KEY"].AsString() == "%") continue; 
+                           if (dr["RPT_KEY"].AsString() == "%") continue;
                            res += wf_40170(modelType , startYmd , endYmd , dr["RPT_KEY"].AsString() , modelName);
                         }
                      } else {
@@ -212,7 +212,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                }//switch (item.Value)
 
                if (res <= 0) {
-                  MessageDisplay.Info("查無資料!");
+                  MessageDisplay.Info(MessageDisplay.MSG_NO_DATA , GlobalInfo.ResultText);
                   return ResultStatus.Fail;
                }
             }//foreach (CheckedListBoxItem item in chkModel.Items)

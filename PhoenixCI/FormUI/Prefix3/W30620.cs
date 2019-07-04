@@ -122,7 +122,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //先跑各商品每月平均震幅明細表
             DataTable dt30620_1 = dao30620.GetListAavg(as_symd , as_eymd);
             if (dt30620_1.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0}~{1},{2}－{3},無任何資料!" , txtStartMonth.Text , txtEndMonth.Text , rptId , rptName) , "處理結果");
+               MessageDisplay.Info(string.Format("{0}~{1},{2}－{3},無任何資料!" , txtStartMonth.Text , txtEndMonth.Text , rptId , rptName) , GlobalInfo.ResultText);
                return false;
             }
 
@@ -170,7 +170,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             DataTable dt30620_2 = dao30620.GetListVol(as_symd , as_eymd);
             if (dt30620_2.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0}~{1},{2}－{3},無任何資料!" , txtStartMonth.Text , txtEndMonth.Text , rptId , rptName) , "處理結果");
+               MessageDisplay.Info(string.Format("{0}~{1},{2}－{3},無任何資料!" , txtStartMonth.Text , txtEndMonth.Text , rptId , rptName) , GlobalInfo.ResultText);
                return false;
             }
 

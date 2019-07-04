@@ -184,7 +184,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             dt = dao30633.GetData(ls_market_code , PrevStart , PrevEnd , ls_sum_subtype , ls_param_key , AftStart , AftEnd);
             if (dt.Rows.Count <= 0) {
                MessageDisplay.Info(string.Format("{0}-{1}~{2}-{3},{4}–無任何資料!" , txtPrevStartYM.Text , txtPrevEndYM.Text ,
-                                                                           txtAftStartYM.Text , txtAftEndYM.Text , _ProgramID) , "處理結果");
+                                                                           txtAftStartYM.Text , txtAftEndYM.Text , _ProgramID) , GlobalInfo.ResultText);
                return ResultStatus.Fail;
             }
 

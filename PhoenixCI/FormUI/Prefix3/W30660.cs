@@ -197,7 +197,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
 
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , AllStart + "-" + AllEnd , this.Text) , "處理結果");
+               MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , AllStart + "-" + AllEnd , this.Text) , GlobalInfo.ResultText);
                return false;
             }
 

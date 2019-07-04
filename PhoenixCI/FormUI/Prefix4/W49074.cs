@@ -1,24 +1,15 @@
 ﻿using BaseGround;
 using BaseGround.Report;
-using BaseGround.Shared;
 using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
-using DataObjects.Dao.Together.SpecificDao;
-using DataObjects.Dao.Together.TableDao;
-using DevExpress.XtraEditors.Controls;
-using DevExpress.XtraEditors.Repository;
-using DevExpress.XtraGrid;
-using DevExpress.XtraGrid.Views.Grid;
-using System;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Windows.Forms;
-using DevExpress.XtraGrid.Views.Base;
-using DevExpress.XtraGrid.Columns;
 using DataObjects.Dao.Together;
+using DataObjects.Dao.Together.SpecificDao;
+using DevExpress.XtraGrid;
+using DevExpress.XtraGrid.Columns;
+using DevExpress.XtraGrid.Views.Base;
+using System;
+using System.Data;
 
 /// <summary>
 /// Winni, 2019/4/15
@@ -127,13 +118,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dtSubForDeleted = dtSubCur.GetChanges(DataRowState.Deleted);
 
             if (dtMainChange == null && dtSubChange == null) {
-               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+               MessageDisplay.Warning("沒有變更資料,不需要存檔!" , GlobalInfo.WarningText);
                return ResultStatus.Fail;
             }
 
             //若資料為null 用 Rows.Count 會造成exception
             //if (dtMainChange.Rows.Count == 0 && dtSubChange.Rows.Count == 0) {
-            //   MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+            //   MessageDisplay.Warning("沒有變更資料,不需要存檔!",GlobalInfo.WarningText);
             //   return ResultStatus.Fail;
             //}
 
@@ -167,8 +158,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                result = new RPTF().UpdateData(dtMainChange);
             } else {
                result = new RPTF().UpdateData(dtSubChange);
-            }           
-            
+            }
+
             if (result.Status == ResultStatus.Fail) {
                return ResultStatus.Fail;
             }

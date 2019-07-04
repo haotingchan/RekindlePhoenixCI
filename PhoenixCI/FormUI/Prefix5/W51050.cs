@@ -4,7 +4,6 @@ using BaseGround.Shared;
 using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
-using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DataObjects.Dao.Together.TableDao;
 using DevExpress.XtraEditors.Controls;
@@ -16,7 +15,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Windows.Forms;
 
 /// <summary>
 /// Winni, 2019/3/29 修改
@@ -113,11 +111,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
             DataTable dtForDeleted = dtCurrent.GetChanges(DataRowState.Deleted);
 
             if (dtChange == null) {
-               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+               MessageDisplay.Warning("沒有變更資料,不需要存檔!" , GlobalInfo.WarningText);
                return ResultStatus.Fail;
             }
             if (dtChange.Rows.Count == 0) {
-               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+               MessageDisplay.Warning("沒有變更資料,不需要存檔!" , GlobalInfo.WarningText);
                return ResultStatus.Fail;
             }
 
@@ -132,16 +130,16 @@ namespace PhoenixCI.FormUI.Prefix5 {
             dtChange = dtCurrent.GetChanges();
             ResultData result = new MMFO().UpdateData(dtChange);
             if (result.Status == ResultStatus.Fail) {
-                    MessageDisplay.Error("儲存錯誤");
+               MessageDisplay.Error("儲存錯誤" , GlobalInfo.ErrorText);
                return ResultStatus.Fail;
             }
             PrintOrExportChangedByKen(gcMain , dtForAdd , dtForDeleted , dtForModified);
 
          } catch (Exception ex) {
-                MessageDisplay.Error("儲存錯誤");
-                WriteLog(ex,"",false);
-                return ResultStatus.FailButNext;
-            }
+            MessageDisplay.Error("儲存錯誤" , GlobalInfo.ErrorText);
+            WriteLog(ex , "" , false);
+            return ResultStatus.FailButNext;
+         }
          return ResultStatus.Success;
 
       }

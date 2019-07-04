@@ -81,6 +81,13 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
          try {
 
+            #region 輸入&日期檢核
+            if (string.Compare(txtStartDate.Text , txtEndDate.Text) > 0) {
+               MessageDisplay.Error(CheckDate.Datedif , GlobalInfo.ErrorText);
+               return ResultStatus.Fail;
+            }
+            #endregion
+
             //DbName
             if (gbMarket.EditValue.AsString() == "rbMarket0") {
                dbName = "ammd"; //一般
@@ -169,7 +176,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                                                                   pcCode , li_p_seq_no1 , li_p_seq_no2 , dbName);
 
             if (defaultTable.Rows.Count <= 0) {
-               MessageDisplay.Info("無任何資料!");
+               MessageDisplay.Info(MessageDisplay.MSG_NO_DATA , GlobalInfo.ResultText);
                _ToolBtnExport.Enabled = false;
                this.Cursor = Cursors.Arrow;
                return ResultStatus.Fail;
@@ -211,7 +218,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
          defaultTable = dao50050.ListAll(brkNo , accNo , time1 , time2 , prodKindId ,
                                  settleDate , pcCode , li_p_seq_no1 , li_p_seq_no2 , dbName , "Y");
          if (defaultTable.Rows.Count <= 0) {
-            MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtStartDate.Text , this.Text));
+            MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtStartDate.Text , this.Text) , GlobalInfo.ResultText);
             return ResultStatus.Fail;
          }
          this.Cursor = Cursors.WaitCursor;

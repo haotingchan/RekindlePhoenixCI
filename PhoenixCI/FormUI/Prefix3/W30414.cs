@@ -108,7 +108,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //4. 年月表頭
             DataTable dtYm = new D30414().ListTitleByMon(StartMon , EndMon);
             if (dtYm.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0}~{1},{2}-年月,無任何資料!" , StartMon , EndMon , _ProgramID) , "處理結果");
+               MessageDisplay.Info(string.Format("{0}~{1},{2}-年月,無任何資料!" , StartMon , EndMon , _ProgramID) , GlobalInfo.ResultText);
                WriteLog(string.Format("{0}~{1},{2}-年月,無任何資料!" , StartMon , EndMon , _ProgramID));
             }//if (dtYm.Rows.Count <= 0)
 
@@ -165,7 +165,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //2. 讀取資料
             DataTable dt = new D30414().ListData(StartMon , EndMon);
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info(String.Format("{0}~{1},{2} - {3},無任何資料!" , StartMon , EndMon , _ProgramID , rptName) , "處理結果");
+               MessageDisplay.Info(String.Format("{0}~{1},{2} - {3},無任何資料!" , StartMon , EndMon , _ProgramID , rptName) , GlobalInfo.ResultText);
                return false;
             } //if (dt.Rows.Count <= 0 )
 
@@ -255,7 +255,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //1. 表頭
             DataTable dtProd = new D30414().ListProdByMon(StartMon , EndMon);
             if (dtProd.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0}~{1},30415 - 商品檔,無任何資料!" , StartMon , EndMon) , "處理結果");
+               MessageDisplay.Info(string.Format("{0}~{1},30415 - 商品檔,無任何資料!" , StartMon , EndMon) , GlobalInfo.ResultText);
                return false;
             }//if (dtProd.Rows.Count <= 0)
 
@@ -368,7 +368,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //1. 表頭
             DataTable dtProd = new D30414().ListProdByMon(StartMon , EndMon);
             if (dtProd.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0}~{1},30416 - 商品檔,無任何資料!" , StartMon , EndMon) , "處理結果");
+               MessageDisplay.Info(string.Format("{0}~{1},30416 - 商品檔,無任何資料!" , StartMon , EndMon) , GlobalInfo.ResultText);
                return false;
             }//if (dtProd.Rows.Count <= 0)
 
@@ -403,7 +403,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             DataTable dt30416 = new D30414().ListDataByMon(StartMon , EndMon);
             if (dt30416.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0}~{1},30416 - 股票期貨各標的每月日均未平倉量統計表,無任何資料!" , StartMon , EndMon) , "處理結果");
+               MessageDisplay.Info(string.Format("{0}~{1},30416 - 股票期貨各標的每月日均未平倉量統計表,無任何資料!" , StartMon , EndMon) , GlobalInfo.ResultText);
                return false;
             }//if (dt30415.Rows.Count <= 0)
 

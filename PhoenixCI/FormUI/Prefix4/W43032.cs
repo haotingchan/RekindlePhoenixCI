@@ -80,7 +80,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          #region 證券代號檢核
          if (gbItem.EditValue.AsString() == "rbSid") {
             if (string.IsNullOrEmpty(txtSid.Text)) {
-               MessageDisplay.Error("請輸入單一證券代號!");
+               MessageDisplay.Error("請輸入單一證券代號!" , GlobalInfo.ErrorText);
                return ResultStatus.Fail;
             }
          }
@@ -112,7 +112,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             //3. 模型代碼
             if (chkModel.CheckedItemsCount == 0) {
-               MessageDisplay.Error("請勾選要匯出的報表!");
+               MessageDisplay.Error("請勾選要匯出的報表!" , GlobalInfo.ErrorText);
                return ResultStatus.Fail; ;
             }
 
@@ -176,7 +176,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             if (dtTmp.Rows.Count <= 0) {
                MessageDisplay.Info(string.Format("{0},{1},{2}-{3},無任何資料!" ,
-                                          txtDate.Text , modelName , _ProgramID , rptName));
+                                          txtDate.Text , modelName , _ProgramID , rptName) , GlobalInfo.ResultText);
                return 0;
             }
             string stockId, etfFileName;

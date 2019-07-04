@@ -152,7 +152,6 @@
          this.gbType.ShowFocusRect = false;
          this.gbType.Size = new System.Drawing.Size(486, 98);
          this.gbType.TabIndex = 1;
-         this.gbType.DrawItem += new DevExpress.XtraEditors.ListBoxDrawItemEventHandler(this.gbType_DrawItem);
          // 
          // label2
          // 
@@ -286,7 +285,6 @@
          this.gbMoney.ShowFocusRect = false;
          this.gbMoney.Size = new System.Drawing.Size(312, 123);
          this.gbMoney.TabIndex = 8;
-         this.gbMoney.DrawItem += new DevExpress.XtraEditors.ListBoxDrawItemEventHandler(this.gbMoney_DrawItem);
          // 
          // label5
          // 
@@ -342,7 +340,7 @@
          this.dwMsg.Properties.NullText = "";
          this.dwMsg.Properties.PopupSizeable = false;
          this.dwMsg.Size = new System.Drawing.Size(100, 26);
-         this.dwMsg.TabIndex = 95;
+         this.dwMsg.TabIndex = 7;
          // 
          // txtEndTime
          // 
@@ -461,7 +459,6 @@
          this.gbMsg.ShowFocusRect = false;
          this.gbMsg.Size = new System.Drawing.Size(291, 62);
          this.gbMsg.TabIndex = 2;
-         this.gbMsg.DrawItem += new DevExpress.XtraEditors.ListBoxDrawItemEventHandler(this.gbMsg_DrawItem);
          // 
          // label17
          // 
@@ -522,7 +519,6 @@
          this.gbSpan.ShowFocusRect = false;
          this.gbSpan.Size = new System.Drawing.Size(451, 157);
          this.gbSpan.TabIndex = 9;
-         this.gbSpan.DrawItem += new DevExpress.XtraEditors.ListBoxDrawItemEventHandler(this.gbSpan_DrawItem);
          // 
          // label20
          // 
@@ -541,7 +537,7 @@
          this.chkTxt.Location = new System.Drawing.Point(615, 564);
          this.chkTxt.Name = "chkTxt";
          this.chkTxt.Size = new System.Drawing.Size(140, 24);
-         this.chkTxt.TabIndex = 81;
+         this.chkTxt.TabIndex = 10;
          this.chkTxt.Text = "傳送到結算系統";
          this.chkTxt.UseVisualStyleBackColor = true;
          // 

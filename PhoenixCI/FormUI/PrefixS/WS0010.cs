@@ -134,7 +134,7 @@ namespace PhoenixCI.FormUI.PrefixS {
 
             //1.1 check row count
             if (dtContent.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , searchDate , _ProgramID + "－" + ls_rpt_name));
+               MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , searchDate , _ProgramID + "－" + ls_rpt_name) , GlobalInfo.ResultText);
                return false;
             }
 

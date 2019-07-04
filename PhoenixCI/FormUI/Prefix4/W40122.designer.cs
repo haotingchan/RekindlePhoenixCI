@@ -102,7 +102,7 @@
          this.txtStartDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtStartDate.Size = new System.Drawing.Size(100, 26);
-         this.txtStartDate.TabIndex = 77;
+         this.txtStartDate.TabIndex = 0;
          this.txtStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // label3

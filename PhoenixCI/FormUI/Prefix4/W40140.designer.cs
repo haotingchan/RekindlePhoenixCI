@@ -28,7 +28,6 @@
          this.panFilter = new System.Windows.Forms.GroupBox();
          this.txtStartDate = new BaseGround.Widget.TextDateEdit();
          this.label3 = new System.Windows.Forms.Label();
-         this.chkTxt = new System.Windows.Forms.CheckBox();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
@@ -39,14 +38,13 @@
          // 
          // panParent
          // 
-         this.panParent.Controls.Add(this.chkTxt);
          this.panParent.Controls.Add(this.r_frame);
-         this.panParent.Size = new System.Drawing.Size(645, 405);
+         this.panParent.Size = new System.Drawing.Size(595, 405);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(645, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(595, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // r_frame
@@ -104,7 +102,7 @@
          this.txtStartDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtStartDate.Size = new System.Drawing.Size(100, 26);
-         this.txtStartDate.TabIndex = 84;
+         this.txtStartDate.TabIndex = 0;
          this.txtStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // label3
@@ -117,29 +115,15 @@
          this.label3.TabIndex = 2;
          this.label3.Text = "日期：";
          // 
-         // chkTxt
-         // 
-         this.chkTxt.AutoSize = true;
-         this.chkTxt.Checked = true;
-         this.chkTxt.CheckState = System.Windows.Forms.CheckState.Checked;
-         this.chkTxt.Location = new System.Drawing.Point(447, 89);
-         this.chkTxt.Name = "chkTxt";
-         this.chkTxt.Size = new System.Drawing.Size(60, 24);
-         this.chkTxt.TabIndex = 82;
-         this.chkTxt.Text = "計算";
-         this.chkTxt.UseVisualStyleBackColor = true;
-         this.chkTxt.Visible = false;
-         // 
          // W40140
          // 
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(645, 435);
+         this.ClientSize = new System.Drawing.Size(595, 435);
          this.Name = "W40140";
          this.Text = "W40140";
          this.panParent.ResumeLayout(false);
-         this.panParent.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).EndInit();
          this.r_frame.ResumeLayout(false);
@@ -158,6 +142,5 @@
       private System.Windows.Forms.GroupBox panFilter;
       private System.Windows.Forms.Label label3;
       private BaseGround.Widget.TextDateEdit txtStartDate;
-      private System.Windows.Forms.CheckBox chkTxt;
    }
 }

@@ -84,7 +84,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             DialogResult liRtn;
 
             if (lsRtn != "Y") {
-               liRtn = MessageDisplay.Choose(String.Format("{0} 統計資料未轉入完畢,是否要繼續?" , txtEndDate.Text));
+               liRtn = MessageDisplay.Choose(string.Format("{0} 統計資料未轉入完畢,是否要繼續?" , txtEndDate.Text) , MessageBoxDefaultButton.Button2 , GlobalInfo.QuestionText);
                if (liRtn == DialogResult.No) {
                   labMsg.Visible = false;
                   Cursor.Current = Cursors.Arrow;
@@ -171,7 +171,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //1. 取得資料最大日期, 抓取OI用
             string maxDate = new D30410().GetMaxDate(StartDate , EndDate);
             if (string.IsNullOrEmpty(maxDate)) {
-               MessageDisplay.Info(string.Format("{0}~{1},{2} - {3},無任何資料!" , StartDate , EndDate , _ProgramID , rptName) , "處理結果");
+               MessageDisplay.Info(string.Format("{0}~{1},{2} - {3},無任何資料!" , StartDate , EndDate , _ProgramID , rptName) , GlobalInfo.ResultText);
                return false;
             }//if (string.IsNullOrEmpty(maxDate))
 
@@ -179,7 +179,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             string eDate = maxDate;
             DataTable dt30410 = new D30410().ListData(StartDate , eDate);
             if (dt30410.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0}~{1},{2} - {3},無任何資料!" , StartDate , eDate , _ProgramID , rptName) , "處理結果");
+               MessageDisplay.Info(string.Format("{0}~{1},{2} - {3},無任何資料!" , StartDate , eDate , _ProgramID , rptName) , GlobalInfo.ResultText);
             } //if (dt.Rows.Count <= 0 )
 
             //3. 切換Sheet
@@ -242,7 +242,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //1. 取得資料最大日期, 抓取OI用 (在wf_30410取得)
             string maxDate = new D30410().GetMaxDate(StartDate , EndDate);
             if (string.IsNullOrEmpty(maxDate)) {
-               MessageDisplay.Info(string.Format("{0}~{1},{2} - {3},無任何資料!" , StartDate , EndDate , rptId , rptName) , "處理結果");
+               MessageDisplay.Info(string.Format("{0}~{1},{2} - {3},無任何資料!" , StartDate , EndDate , rptId , rptName) , GlobalInfo.ResultText);
                return false;
             }//if (string.IsNullOrEmpty(maxDate))
             DateTime eDate = DateTime.ParseExact(maxDate , "yyyyMMdd" , null); //yyyy/MM/dd
@@ -250,7 +250,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //2. 讀取資料
             DataTable dt30411 = new D30410().ListData2(txtStartDate.DateTimeValue , eDate);
             if (dt30411.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0}~{1},{2} - {3},無任何資料!" , txtStartDate.Text , txtEndDate.Text , rptId , rptName) , "處理結果");
+               MessageDisplay.Info(string.Format("{0}~{1},{2} - {3},無任何資料!" , txtStartDate.Text , txtEndDate.Text , rptId , rptName) , GlobalInfo.ResultText);
                return false;
             } //if (dt.Rows.Count <= 0 )
 
@@ -329,7 +329,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //1. 取得資料最大日期, 抓取OI用 (在wf_30410取得)
             string maxDate = new D30410().GetMaxDate(StartDate , EndDate);
             if (string.IsNullOrEmpty(maxDate)) {
-               MessageDisplay.Info(string.Format("{0}~{1},{2} - {3},無任何資料!" , StartDate , EndDate , rptId , rptName) , "處理結果");
+               MessageDisplay.Info(string.Format("{0}~{1},{2} - {3},無任何資料!" , StartDate , EndDate , rptId , rptName) , GlobalInfo.ResultText);
                return false;
             }//if (string.IsNullOrEmpty(maxDate))
             DateTime eDate = DateTime.ParseExact(maxDate , "yyyyMMdd" , null); //yyyy/MM/dd
@@ -337,7 +337,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //2. 讀取資料
             DataTable dt30412 = new D30410().ListData2(txtStartDate.DateTimeValue , eDate);
             if (dt30412.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0}~{1},{2} - {3},無任何資料!" , txtStartDate.Text , txtEndDate.Text , rptId , rptName) , "處理結果");
+               MessageDisplay.Info(string.Format("{0}~{1},{2} - {3},無任何資料!" , txtStartDate.Text , txtEndDate.Text , rptId , rptName) , GlobalInfo.ResultText);
                return false;
             } //if (dt.Rows.Count <= 0 )
 

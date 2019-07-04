@@ -114,7 +114,7 @@
          this.txtStartYear.Properties.Appearance.Options.UseTextOptions = true;
          this.txtStartYear.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.txtStartYear.Size = new System.Drawing.Size(100, 26);
-         this.txtStartYear.TabIndex = 21;
+         this.txtStartYear.TabIndex = 0;
          // 
          // txtEndYear
          // 
@@ -125,7 +125,7 @@
          this.txtEndYear.Properties.Appearance.Options.UseTextOptions = true;
          this.txtEndYear.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.txtEndYear.Size = new System.Drawing.Size(100, 26);
-         this.txtEndYear.TabIndex = 22;
+         this.txtEndYear.TabIndex = 1;
          // 
          // panelControl2
          // 
@@ -170,7 +170,7 @@
          // 
          // MGT3_DATE_FM
          // 
-         this.MGT3_DATE_FM.AppearanceHeader.BackColor = System.Drawing.Color.Yellow;
+         this.MGT3_DATE_FM.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
          this.MGT3_DATE_FM.AppearanceHeader.Options.UseBackColor = true;
          this.MGT3_DATE_FM.AppearanceHeader.Options.UseTextOptions = true;
          this.MGT3_DATE_FM.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -196,7 +196,7 @@
          // 
          // MGT3_DATE_TO
          // 
-         this.MGT3_DATE_TO.AppearanceHeader.BackColor = System.Drawing.Color.Yellow;
+         this.MGT3_DATE_TO.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
          this.MGT3_DATE_TO.AppearanceHeader.Options.UseBackColor = true;
          this.MGT3_DATE_TO.AppearanceHeader.Options.UseTextOptions = true;
          this.MGT3_DATE_TO.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;

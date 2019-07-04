@@ -120,13 +120,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             DataTable dtContent = dao30650.GetData(startDate , endDate);
             if (dtContent.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0}～{1},{2}－{3},無任何資料!" , txtStartMonth.Text , txtEndMonth.Text , _ProgramID , rptName) , "處理結果");
+               MessageDisplay.Info(string.Format("{0}～{1},{2}－{3},無任何資料!" , txtStartMonth.Text , txtEndMonth.Text , _ProgramID , rptName) , GlobalInfo.ResultText);
                return false;
             }
 
             DataTable dtTmp = dao30650.GetTmpData(startDate , endDate);
             if (dtTmp.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0}～{1},{2}－{3}(合計),無任何資料!" , txtStartMonth.Text , txtEndMonth.Text , _ProgramID , rptName) , "處理結果");
+               MessageDisplay.Info(string.Format("{0}～{1},{2}－{3}(合計),無任何資料!" , txtStartMonth.Text , txtEndMonth.Text , _ProgramID , rptName) , GlobalInfo.ResultText);
                return false;
             }
 

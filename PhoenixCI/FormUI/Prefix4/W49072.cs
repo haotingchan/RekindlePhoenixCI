@@ -10,11 +10,8 @@ using DataObjects.Dao.Together.TableDao;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraGrid;
-using DevExpress.XtraGrid.Views.Grid;
 using System;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 
 /// <summary>
 /// Winni, 2019/4/10
@@ -98,6 +95,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             gvMain.SetColumnCaption("IS_NEWROW" , "Is_NewRow");
 
+            //設定欄位header顏色
+            gvMain.Columns["SPNT1_TYPE"].AppearanceHeader.BackColor = GridHelper.PK;
+            gvMain.Columns["SPNT1_DAYS"].AppearanceHeader.BackColor = GridHelper.PK;
+            gvMain.Columns["SPNT1_VAL"].AppearanceHeader.BackColor = GridHelper.PK;
+
             //1.2 設定欄位format格式
             RepositoryItemTextEdit type = new RepositoryItemTextEdit();
             gcMain.RepositoryItems.Add(type);
@@ -106,7 +108,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
             type.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             type.DisplayFormat.FormatString = "###0.########";
             type.Mask.EditMask = "####0.########";
-            
 
             //1.3 設定隱藏欄位
             gvMain.Columns["SPNT1_W_TIME"].Visible = false;
@@ -137,11 +138,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dtForDeleted = dtCurrent.GetChanges(DataRowState.Deleted);
 
             if (dtChange == null) {
-               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+               MessageDisplay.Warning("沒有變更資料,不需要存檔!" , GlobalInfo.WarningText);
                return ResultStatus.Fail;
             }
             if (dtChange.Rows.Count == 0) {
-               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+               MessageDisplay.Warning("沒有變更資料,不需要存檔!" , GlobalInfo.WarningText);
                return ResultStatus.Fail;
             }
 
@@ -160,7 +161,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
 
          } catch (Exception ex) {
-            throw ex;
+            WriteLog(ex);
          }
          return ResultStatus.Success;
       }
@@ -196,6 +197,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
       protected override ResultStatus DeleteRow() {
          base.DeleteRow(gvMain);
          return ResultStatus.Success;
-      }     
+      }
    }
 }

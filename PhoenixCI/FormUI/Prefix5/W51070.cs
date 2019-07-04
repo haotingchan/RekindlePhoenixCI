@@ -9,7 +9,6 @@ using DevExpress.Utils;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraGrid;
-using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
 using System;
@@ -181,11 +180,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
             DataTable dtForDeleted = dtCurrent.GetChanges(DataRowState.Deleted);
 
             if (dtChange == null) {
-               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+               MessageDisplay.Warning("沒有變更資料,不需要存檔!" , GlobalInfo.WarningText);
                return ResultStatus.Fail;
             }
             if (dtChange.Rows.Count == 0) {
-               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+               MessageDisplay.Warning("沒有變更資料,不需要存檔!" , GlobalInfo.WarningText);
                return ResultStatus.Fail;
             }
 
@@ -224,7 +223,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             //AfterSaveForPrint(gcMain , dtChange , systemType);
 
          } catch (Exception ex) {
-            throw ex;
+            WriteLog(ex);
          }
          return ResultStatus.Success;
       }

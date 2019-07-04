@@ -83,7 +83,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             DataTable dt = new D30201().ListData(startMon , endMon);
             DataTable dtFilter = dt.Filter("rpt_seq_no > 0");
             if (dtFilter.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0}-{1},{2},無任何資料" , txtStartMon , txtEndMon , this.Text));
+               MessageDisplay.Info(string.Format("{0}-{1},{2},無任何資料" , txtStartMon , txtEndMon , this.Text) , GlobalInfo.ResultText);
                return ResultStatus.Fail;
             }//if (dtFilter.Rows.Count <= 0)
 

@@ -82,7 +82,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
          //讀取資料
          DataTable rep = dao50040.ListAll(txtStartDate.DateTimeValue , txtEndDate.DateTimeValue , ls_sort_type , li_val , ls_fcm_no , ls_kind_id2 , dbName , "Y");
          if (rep.Rows.Count <= 0) {
-            MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtStartDate.Text , this.Text));
+            MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtStartDate.Text , this.Text) , GlobalInfo.ResultText);
             return ResultStatus.Fail;
          }
 
@@ -123,6 +123,14 @@ namespace PhoenixCI.FormUI.Prefix5 {
          this.Cursor = Cursors.WaitCursor;
 
          try {
+
+            #region 輸入&日期檢核
+            if (string.Compare(txtStartDate.Text , txtEndDate.Text) > 0) {
+               MessageDisplay.Error(CheckDate.Datedif , GlobalInfo.ErrorText);
+               return ResultStatus.Fail;
+            }
+            #endregion
+
             //報表內容
             if (gbMarket.EditValue.ToString() == "rb_market_0") {
                dbName = "AMM1";
@@ -162,7 +170,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             DataTable defaultTable = dao50040.ListAll(txtStartDate.DateTimeValue , txtEndDate.DateTimeValue , ls_sort_type , li_val , ls_fcm_no , ls_kind_id2 , dbName);
 
             if (defaultTable.Rows.Count <= 0) {
-               MessageDisplay.Info("無任何資料!");
+               MessageDisplay.Info(MessageDisplay.MSG_NO_DATA , GlobalInfo.ResultText);
                gcMain.DataSource = null;
                gcMain.Visible = false;
                _ToolBtnExport.Enabled = false;
@@ -176,7 +184,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
             //1.1 設定欄位caption
             gvMain.SetColumnCaption("AMM1_DATE" , "資料日期");
-            gvMain.SetColumnCaption("AMM1_FCM_NO" , "造市者代號");          
+            gvMain.SetColumnCaption("AMM1_FCM_NO" , "造市者代號");
             gvMain.SetColumnCaption("ABRK_ABBR_NAME" , "造市者名稱");
             gvMain.SetColumnCaption("AMM1_ACC_NO" , "帳號");
             gvMain.SetColumnCaption("AMM1_PROD_TYPE" , "AMM1_PROD_TYPE");
@@ -199,7 +207,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             gvMain.SetColumnCaption("SORT_TYPE" , "SORT_TYPE");
 
             foreach (GridColumn item in gvMain.Columns) {
-               item.AppearanceHeader.BackColor = Color.FromArgb(128 , 255 , 255);
+               item.AppearanceHeader.BackColor = GridHelper.NORMAL;
             }
 
             if (ls_sort_type == "F") {

@@ -127,9 +127,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                //設定欄位header顏色
                if (dc.ColumnName == "MGT8_F_ID") {
-                  gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = Color.Yellow;
+                  gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = GridHelper.PK;
                } else {
-                  gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = Color.FromArgb(128 , 255 , 255);
+                  gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = GridHelper.NORMAL;
                }
             }
 
@@ -196,7 +196,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          foreach (DataColumn column in dtSource.Columns) {
             if (dtSource.Rows.OfType<DataRow>().Where(r => r.RowState != DataRowState.Deleted).Any(r => r.IsNull(column))) {
-               MessageDisplay.Error("尚未填寫完成");
+               MessageDisplay.Error("尚未填寫完成" , GlobalInfo.ErrorText);
                return false;
             }
          }
@@ -217,11 +217,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dtForDeleted = dtCurrent.GetChanges(DataRowState.Deleted);
 
             if (dtChange == null) {
-               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+               MessageDisplay.Warning("沒有變更資料,不需要存檔!" , GlobalInfo.WarningText);
                return ResultStatus.Fail;
             }
             if (dtChange.Rows.Count == 0) {
-               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+               MessageDisplay.Warning("沒有變更資料,不需要存檔!" , GlobalInfo.WarningText);
                return ResultStatus.Fail;
             }
 
@@ -238,7 +238,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   }
 
                   //else {
-                  //   MessageDisplay.Info("新增資料欄位不可為空!");
+                  //   MessageDisplay.Warning("新增資料欄位不可為空!",GlobalInfo.WarningText);
                   //   return ResultStatus.FailButNext;
                   //}
 
@@ -263,7 +263,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             AfterSaveForPrint(gcMain , dtForAdd , dtForDeleted , dtForModified);
 
          } catch (Exception ex) {
-            MessageDisplay.Error("儲存錯誤");
+            MessageDisplay.Error("儲存錯誤" , GlobalInfo.ErrorText);
             WriteLog(ex , "" , false);
             return ResultStatus.FailButNext;
          }

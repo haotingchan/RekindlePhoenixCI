@@ -101,7 +101,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
 
                   #region 11 / 22 / 33
                   if (string.IsNullOrEmpty(txt.Text) || !File.Exists(txt.Text)) {
-                     MessageDisplay.Info("請輸入正確資料來源路徑!");
+                     MessageDisplay.Info("請輸入正確資料來源路徑!" , GlobalInfo.ResultText);
                      txt.BackColor = Color.Red;
                      return ResultStatus.Fail;
                   }
@@ -133,7 +133,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
 
                   #region 1 / 2 / 3
                   if (string.IsNullOrEmpty(txt.Text) || !File.Exists(txt.Text)) {
-                     MessageDisplay.Info("請輸入正確資料來源路徑!");
+                     MessageDisplay.Info("請輸入正確資料來源路徑!" , GlobalInfo.ResultText);
                      txt.BackColor = Color.Red;
                      return ResultStatus.Fail;
                   }
@@ -193,7 +193,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             //string tmpDate = (tmp.Substring(0 , 3).AsInt() - 1911).AsString() + tmp.Substring(3 , 2);
             //string tmpDate = "201810";
             if (tmpDate != txtDate) {
-               MessageDisplay.Error(string.Format("轉檔檔案之年月= {0} ,與輸入條件= {1} 不符" , tmpDate , txtDate));
+               MessageDisplay.Error(string.Format("轉檔檔案之年月= {0} ,與輸入條件= {1} 不符" , tmpDate , txtDate) , GlobalInfo.ErrorText);
                return null;
             }
 
@@ -213,7 +213,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             int space = 0;
             for (int k = 6 ; k < 9999 ; k++) {
                pos++;
-               ShowMsg(string.Format("訊息：{0} 轉TXT，處理筆數：{1}" , filename, pos));
+               ShowMsg(string.Format("訊息：{0} 轉TXT，處理筆數：{1}" , filename , pos));
 
                string sid = worksheet.Cells[k , 0].Value.AsString();
 
@@ -293,7 +293,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             string tmp = worksheet.Cells[1 , 0].Value.AsString().Replace("民" , "").Replace("國" , "").Replace("年" , "").Replace("月" , "");
             string tmpDate = (tmp.Substring(0 , 3).AsInt() + 1911).AsString() + tmp.Substring(3 , 2);
             if (tmpDate != txtDate) {
-               MessageDisplay.Error(string.Format("轉檔檔案之年月= {0} ,與輸入條件= {1} 不符" , tmpDate , txtDate));
+               MessageDisplay.Error(string.Format("轉檔檔案之年月= {0} ,與輸入條件= {1} 不符" , tmpDate , txtDate) , GlobalInfo.ErrorText);
                return null;
             }
 

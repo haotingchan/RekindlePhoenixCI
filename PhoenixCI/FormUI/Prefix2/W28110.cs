@@ -105,11 +105,11 @@ namespace PhoenixCI.FormUI.Prefix2 {
          if (msgResult == DialogResult.Yes) {
             DataTable dtTmp = daoSTW.GetDataByDate(DateYmd);
             if (dtTmp.Rows.Count <= 0) {
-               MessageDisplay.Error("刪除 " + txtDate.Text + " 資料失敗! ");
+               MessageDisplay.Error("刪除 " + txtDate.Text + " 資料失敗! " , GlobalInfo.ErrorText);
                return ResultStatus.Fail;
             }
             daoSTW.DeleteByDate(DateYmd);
-            MessageDisplay.Info("刪除完成!");
+            MessageDisplay.Info("刪除完成!" , GlobalInfo.ResultText);
          }
 
          return ResultStatus.Success;
@@ -124,7 +124,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
          try {
             DataTable dt = daoSTW.GetDataByDate(DateYmd);
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info("無任何資料");
+               MessageDisplay.Info(MessageDisplay.MSG_NO_DATA , GlobalInfo.ResultText);
             }
 
             //1. 設定gvMain
@@ -142,7 +142,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                gvMain.SetColumnCaption(dc.ColumnName , showColCaption[dt.Columns.IndexOf(dc)]);
 
                //設定欄位header顏色
-               gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = Color.FromArgb(128 , 255 , 255);
+               gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = GridHelper.NORMAL;
             }
 
             //1.2 設定欄位順序
@@ -212,7 +212,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             DataTable dt = dv.ToTable();
 
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Error("沒有TW的資料");
+               MessageDisplay.Error("沒有TW的資料" , GlobalInfo.ErrorText);
                return ResultStatus.Fail;
             }
             #endregion
@@ -326,7 +326,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             if (dt.GetChanges().Rows != null) {
                if (dt.GetChanges().Rows.Count <= 0) {
                   WriteLog("寫入STW錯誤!" , "Error" , "I");
-                  MessageDisplay.Error("寫入STW錯誤!");
+                  MessageDisplay.Error("寫入STW錯誤!" , GlobalInfo.ErrorText);
                   return ResultStatus.Fail;
                }
 
@@ -345,7 +345,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                   int updateNum = daoSTW.updateOI(tmp , year , month);
                   if (updateNum == -1) {
                      WriteLog("SQL error!" , "Error" , "I");
-                     MessageDisplay.Error("SQL error!");
+                     MessageDisplay.Error("SQL error!" , GlobalInfo.ErrorText);
                      return ResultStatus.Fail;
                   }
                }
@@ -465,7 +465,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                if (dtAmif.GetChanges().Rows.Count > 0) {
                   resultStatus = daoAMIF.UpdateData(dtAmif).Status; //commit
                } else {
-                  MessageDisplay.Error("更新28110資料錯誤!");
+                  MessageDisplay.Error("更新28110資料錯誤!" , GlobalInfo.ErrorText);
                   return ResultStatus.Fail;
                }
                WriteLog("更新20110資料" , "Info" , "E");

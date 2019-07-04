@@ -142,7 +142,7 @@
          this.ddlScCode.Properties.NullText = "";
          this.ddlScCode.Properties.PopupSizeable = false;
          this.ddlScCode.Size = new System.Drawing.Size(167, 26);
-         this.ddlScCode.TabIndex = 95;
+         this.ddlScCode.TabIndex = 4;
          // 
          // label2
          // 
@@ -250,7 +250,7 @@
          this.ddlOsfOrderCond.Properties.NullText = "";
          this.ddlOsfOrderCond.Properties.PopupSizeable = false;
          this.ddlOsfOrderCond.Size = new System.Drawing.Size(122, 26);
-         this.ddlOsfOrderCond.TabIndex = 98;
+         this.ddlOsfOrderCond.TabIndex = 10;
          // 
          // ddlOsfOrderType
          // 
@@ -265,7 +265,7 @@
          this.ddlOsfOrderType.Properties.NullText = "";
          this.ddlOsfOrderType.Properties.PopupSizeable = false;
          this.ddlOsfOrderType.Size = new System.Drawing.Size(122, 26);
-         this.ddlOsfOrderType.TabIndex = 97;
+         this.ddlOsfOrderType.TabIndex = 9;
          // 
          // label10
          // 
@@ -454,7 +454,7 @@
          this.rdoSource.Properties.LookAndFeel.SkinName = "Visual Studio 2013 Light";
          this.rdoSource.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.rdoSource.Size = new System.Drawing.Size(170, 35);
-         this.rdoSource.TabIndex = 92;
+         this.rdoSource.TabIndex = 0;
          // 
          // label11
          // 
@@ -484,7 +484,7 @@
          this.rdoReportType.Properties.LookAndFeel.SkinName = "Visual Studio 2013 Light";
          this.rdoReportType.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.rdoReportType.Size = new System.Drawing.Size(170, 35);
-         this.rdoReportType.TabIndex = 93;
+         this.rdoReportType.TabIndex = 1;
          this.rdoReportType.SelectedIndexChanged += new System.EventHandler(this.rdoReportType_SelectedIndexChanged);
          // 
          // txtMth2
@@ -493,7 +493,7 @@
          this.txtMth2.MenuManager = this.ribbonControl;
          this.txtMth2.Name = "txtMth2";
          this.txtMth2.Size = new System.Drawing.Size(100, 26);
-         this.txtMth2.TabIndex = 98;
+         this.txtMth2.TabIndex = 8;
          // 
          // txtStartDate
          // 
@@ -512,7 +512,7 @@
          this.txtStartDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtStartDate.Size = new System.Drawing.Size(100, 26);
-         this.txtStartDate.TabIndex = 0;
+         this.txtStartDate.TabIndex = 2;
          this.txtStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtMth1
@@ -521,7 +521,7 @@
          this.txtMth1.MenuManager = this.ribbonControl;
          this.txtMth1.Name = "txtMth1";
          this.txtMth1.Size = new System.Drawing.Size(100, 26);
-         this.txtMth1.TabIndex = 97;
+         this.txtMth1.TabIndex = 7;
          // 
          // label5
          // 
@@ -560,7 +560,7 @@
          this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndDate.Size = new System.Drawing.Size(100, 26);
-         this.txtEndDate.TabIndex = 4;
+         this.txtEndDate.TabIndex = 3;
          this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // label14

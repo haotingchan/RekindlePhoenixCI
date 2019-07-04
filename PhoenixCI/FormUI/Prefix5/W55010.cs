@@ -48,6 +48,14 @@ namespace PhoenixCI.FormUI.Prefix5 {
       protected override ResultStatus Export() {
          base.Export();
 
+         #region 輸入&日期檢核
+         if (string.Compare(txtFromDate.Text , txtToDate.Text) > 0) {
+            MessageDisplay.Error("月份起始年月不可小於迄止年月!" , GlobalInfo.ErrorText);
+            return ResultStatus.Fail;
+         }
+         #endregion
+
+
          int li_run_times; //單月報表需抓取資料庫的次數(月份數) 可先設定200806-200808
          DateTime ldt_ym;
          int sYear = txtFromDate.Text.SubStr(0 , 4).AsInt(); //起年
@@ -115,7 +123,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
          //讀取資料
          DataTable dtContent = dao55010.ListDataSingleMonth(txtFromDate.FormatValue , txtToDate.FormatValue);
          if (dtContent.Rows.Count == 0) {
-            MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtFromDate.Text , this.Text));
+            MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtFromDate.Text , this.Text) , GlobalInfo.ResultText);
             return false;
          }
 
@@ -172,7 +180,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
          //讀取資料
          DataTable dtContent = dao55010.ListDataMultiMonth(txtFromDate.FormatValue , txtToDate.FormatValue);
          if (dtContent.Rows.Count <= 0) {
-            MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtFromDate.Text , this.Text));
+            MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtFromDate.Text , this.Text) , GlobalInfo.ResultText);
             return false;
          }
 

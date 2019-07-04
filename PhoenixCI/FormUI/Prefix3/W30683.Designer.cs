@@ -157,7 +157,7 @@
          this.txtSecondMon.MenuManager = this.ribbonControl;
          this.txtSecondMon.Name = "txtSecondMon";
          this.txtSecondMon.Size = new System.Drawing.Size(100, 26);
-         this.txtSecondMon.TabIndex = 98;
+         this.txtSecondMon.TabIndex = 3;
          this.txtSecondMon.Visible = false;
          // 
          // txtEndDate
@@ -177,7 +177,7 @@
          this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndDate.Size = new System.Drawing.Size(100, 26);
-         this.txtEndDate.TabIndex = 4;
+         this.txtEndDate.TabIndex = 1;
          this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtFirstMon
@@ -186,7 +186,7 @@
          this.txtFirstMon.MenuManager = this.ribbonControl;
          this.txtFirstMon.Name = "txtFirstMon";
          this.txtFirstMon.Size = new System.Drawing.Size(100, 26);
-         this.txtFirstMon.TabIndex = 97;
+         this.txtFirstMon.TabIndex = 2;
          // 
          // label14
          // 

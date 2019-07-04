@@ -69,13 +69,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
             res1 = wf_40150(workbook , SheetNo.DPSR);
             res2 = wf_40152(workbook , SheetNo.VSR);
 
-                //2.3 關閉、儲存檔案
-                if (!res1 && !res2) {
-                    workbook = null;
-                    File.Delete(excelDestinationPath);
-                    labMsg.Visible = false;
-                    return ResultStatus.Fail;
-                }
+            //2.3 關閉、儲存檔案
+            if (!res1 && !res2) {
+               workbook = null;
+               File.Delete(excelDestinationPath);
+               labMsg.Visible = false;
+               return ResultStatus.Fail;
+            }
             workbook.SaveDocument(excelDestinationPath);
             labMsg.Visible = false;
 
@@ -107,8 +107,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //2. 填資料
             DataTable dt = new D40150().GetDataList(txtStartDate.DateTimeValue);
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info(String.Format("{0},讀取「SPAN參數一覽表」無任何資料!" , txtStartDate.Text));
-                    return false;
+               MessageDisplay.Info(string.Format("{0},讀取「SPAN參數一覽表」無任何資料!" , txtStartDate.Text) , GlobalInfo.ResultText);
+               return false;
             }//if (dt.Rows.Count <= 0 )
 
             DataTable dtSp2 = new D40150().ListSp2ByDate(txtStartDate.DateTimeValue);
@@ -170,9 +170,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //2. 填資料
             DataTable dt2 = new D40150().ListByDate(txtStartDate.DateTimeValue);
             if (dt2.Rows.Count <= 0) {
-               MessageDisplay.Info(String.Format("{0},讀取「SPAN參數一覽表」無任何資料!" , txtStartDate.Text));
-                    return false;
-                }//if (dt.Rows.Count <= 0 )
+               MessageDisplay.Info(string.Format("{0},讀取「SPAN參數一覽表」無任何資料!" , txtStartDate.Text) , GlobalInfo.ResultText);
+               return false;
+            }//if (dt.Rows.Count <= 0 )
 
             DataTable dtSp2 = new D40150().ListSp2ByDate(txtStartDate.DateTimeValue);
 

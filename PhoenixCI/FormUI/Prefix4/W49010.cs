@@ -1,7 +1,6 @@
 ﻿using BaseGround;
 using BaseGround.Report;
 using BaseGround.Shared;
-using BaseGround.Widget;
 using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
@@ -12,11 +11,9 @@ using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraGrid;
-using DevExpress.XtraGrid.Views.BandedGrid;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
 using System;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
@@ -70,8 +67,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             gvMain.AppearancePrint.BandPanel.Options.UseTextOptions = true;
             gvMain.AppearancePrint.BandPanel.TextOptions.WordWrap = WordWrap.Wrap;
-            gvMain.AppearancePrint.BandPanel.Font= new Font("Microsoft YaHei" , 11);
-       
+            gvMain.AppearancePrint.BandPanel.Font = new Font("Microsoft YaHei" , 11);
+
             gvMain.AppearancePrint.Row.Font = new Font("Microsoft YaHei" , 11);
             gvMain.OptionsPrint.AllowMultilineHeaders = true;
             gvMain.AppearancePrint.GroupRow.Font = new Font("Microsoft YaHei" , 11);
@@ -142,18 +139,18 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dtChange = dtCurrent.GetChanges();
 
             if (dtChange == null) {
-               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+               MessageDisplay.Warning("沒有變更資料,不需要存檔!" , GlobalInfo.WarningText);
                return ResultStatus.Fail;
             }
             if (dtChange.Rows.Count == 0) {
-               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+               MessageDisplay.Warning("沒有變更資料,不需要存檔!" , GlobalInfo.WarningText);
                return ResultStatus.Fail;
             }
 
             DialogResult liRtn;
             int pos = -1;
             foreach (DataRow dr in dtChange.Rows) {
-               pos ++;
+               pos++;
                if (dr.RowState == DataRowState.Added || dr.RowState == DataRowState.Modified) {
                   dr["CPR_W_TIME"] = DateTime.Now;
                   dr["CPR_W_USER_ID"] = GlobalInfo.USER_ID;
@@ -162,7 +159,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   if (dr["CPR_PRICE_RISK_RATE"] == DBNull.Value) {
                      string kind = dr["CPR_KIND_ID"].AsString();
 
-                     liRtn = MessageDisplay.Choose(string.Format("{0}最小風險價格係數欄位為空白，請確認是否為已下市契約" , kind));
+                     liRtn = MessageDisplay.Choose(string.Format("{0}最小風險價格係數欄位為空白，請確認是否為已下市契約" , kind) , MessageBoxDefaultButton.Button2 , GlobalInfo.QuestionText);
                      if (liRtn == DialogResult.No) {
                         return ResultStatus.Fail;
                      } else {
@@ -183,14 +180,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             printStep = 1; //跑儲存前確認單
             CheckPrint(gcMain , dtChange , printStep);
-            liRtn = MessageDisplay.Choose("已列印確認單，點選確認進行儲存資料");
+            liRtn = MessageDisplay.Choose("已列印確認單，點選確認進行儲存資料" , MessageBoxDefaultButton.Button2 , GlobalInfo.QuestionText);
             if (liRtn == DialogResult.No) {
                return ResultStatus.Fail;
             } else {
 
                ResultData result = new HCPR().UpdateData(dtChange);
                if (result.Status == ResultStatus.Fail) {
-                  MessageDisplay.Error("儲存失敗");
+                  MessageDisplay.Error("儲存失敗" , GlobalInfo.ErrorText);
                   return ResultStatus.FailButNext;
                }
 
@@ -199,7 +196,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
 
          } catch (Exception ex) {
-            MessageDisplay.Error("儲存錯誤");
+            MessageDisplay.Error("儲存錯誤" , GlobalInfo.ErrorText);
             WriteLog(ex , "" , false);
             return ResultStatus.FailButNext;
          } finally {
@@ -302,7 +299,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             reportHelper.Export(FileType.PDF , reportHelper.FilePath);
 
          } catch (Exception ex) {
-            throw ex;
+            WriteLog(ex);
          }
       }
 

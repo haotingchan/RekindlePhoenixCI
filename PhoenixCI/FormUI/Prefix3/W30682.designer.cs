@@ -117,7 +117,7 @@
          this.gbType.Properties.LookAndFeel.SkinName = "Visual Studio 2013 Light";
          this.gbType.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbType.Size = new System.Drawing.Size(170, 35);
-         this.gbType.TabIndex = 92;
+         this.gbType.TabIndex = 2;
          // 
          // label9
          // 
@@ -146,7 +146,7 @@
          this.gbReport.Properties.LookAndFeel.SkinName = "Visual Studio 2013 Light";
          this.gbReport.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbReport.Size = new System.Drawing.Size(170, 35);
-         this.gbReport.TabIndex = 93;
+         this.gbReport.TabIndex = 3;
          // 
          // txtStartDate
          // 
@@ -205,7 +205,7 @@
          this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndDate.Size = new System.Drawing.Size(100, 26);
-         this.txtEndDate.TabIndex = 4;
+         this.txtEndDate.TabIndex = 1;
          this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // label14

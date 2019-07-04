@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.IO;
-using BaseGround;
+﻿using BaseGround;
 using BaseGround.Shared;
 using BusinessObjects.Enums;
 using Common;
@@ -10,6 +6,10 @@ using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraPrinting;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
 
 /// <summary>
 /// ken,2019/4/9
@@ -68,7 +68,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             string temp = "";
 
             //跑前七個
-            for (int k = 0;k < 7;k++) {
+            for (int k = 0 ; k < 7 ; k++) {
                if (chkLevel.Items[k].CheckState == System.Windows.Forms.CheckState.Checked)
                   temp += ",'" + chkLevel.Items[k].Value + "'";
             }
@@ -92,7 +92,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
       #endregion
 
 
-      public W30681(string programID, string programName) : base(programID, programName) {
+      public W30681(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
 
@@ -113,17 +113,17 @@ namespace PhoenixCI.FormUI.Prefix3 {
                                         new LookupItem() { ValueMember = "%", DisplayMember = "% (全部)"},
                                         new LookupItem() { ValueMember = "S%", DisplayMember = "S (單式)" },
                                         new LookupItem() { ValueMember = "C%", DisplayMember = "C (複式)" }};
-         Extension.SetDataTable(ddlScCode, lstScCode, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor);
+         Extension.SetDataTable(ddlScCode , lstScCode , "ValueMember" , "DisplayMember" , TextEditStyles.DisableTextEditor);
          ddlScCode.ItemIndex = 0;
 
          //設定 委託單方式 下拉選單
-         DataTable dtOsfOrderType = new COD().ListByCol3("OSF", "OSF_ORDER_TYPE", "全部", "%");
-         Extension.SetDataTable(ddlOsfOrderType, dtOsfOrderType, "COD_ID", "CP_DISPLAY", TextEditStyles.DisableTextEditor);
+         DataTable dtOsfOrderType = new COD().ListByCol3("OSF" , "OSF_ORDER_TYPE" , "全部" , "%");
+         Extension.SetDataTable(ddlOsfOrderType , dtOsfOrderType , "COD_ID" , "CP_DISPLAY" , TextEditStyles.DisableTextEditor);
          ddlOsfOrderType.ItemIndex = 0;
 
          //設定 委託單條件 下拉選單
-         DataTable dtOsfOrderCond = new COD().ListByCol3("OSF", "OSF_ORDER_COND", "全部", "%");
-         Extension.SetDataTable(ddlOsfOrderCond, dtOsfOrderCond, "COD_ID", "CP_DISPLAY", TextEditStyles.DisableTextEditor);
+         DataTable dtOsfOrderCond = new COD().ListByCol3("OSF" , "OSF_ORDER_COND" , "全部" , "%");
+         Extension.SetDataTable(ddlOsfOrderCond , dtOsfOrderCond , "COD_ID" , "CP_DISPLAY" , TextEditStyles.DisableTextEditor);
          ddlOsfOrderCond.ItemIndex = 0;
 
          return ResultStatus.Success;
@@ -136,8 +136,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
          txtStartDate.EditValue = txtEndDate.DateTimeValue;
 
 #if DEBUG
-         txtStartDate.DateTimeValue = DateTime.ParseExact("2017/10/11", "yyyy/MM/dd", null);
-         txtEndDate.DateTimeValue = DateTime.ParseExact("2018/10/11", "yyyy/MM/dd", null);
+         txtStartDate.DateTimeValue = DateTime.ParseExact("2017/10/11" , "yyyy/MM/dd" , null);
+         txtEndDate.DateTimeValue = DateTime.ParseExact("2018/10/11" , "yyyy/MM/dd" , null);
          this.Text += "(開啟測試模式)";
 #endif
 
@@ -166,6 +166,14 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
       protected override ResultStatus Export() {
          try {
+
+            #region 輸入&日期檢核
+            if (string.Compare(txtStartDate.Text , txtEndDate.Text) > 0) {
+               MessageDisplay.Error(CheckDate.Datedif , GlobalInfo.ErrorText);
+               return ResultStatus.Fail;
+            }
+            #endregion
+
             //1.開始轉出資料
             panFilter.Enabled = false;
             labMsg.Visible = true;
@@ -208,19 +216,19 @@ namespace PhoenixCI.FormUI.Prefix3 {
          try {
 
             string reportId = "30681_s";
-            string excelDestinationPath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH,
-                                                      string.Format("{0}_{1}.csv", reportId, DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss")));
+            string excelDestinationPath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH ,
+                                                      string.Format("{0}_{1}.csv" , reportId , DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss")));
 
             //1.get dataTable
-            DataTable dtTarget = dao30681.d_30681_s(txtStartDate.DateTimeValue, txtEndDate.DateTimeValue, ddlScCode.EditValue.AsString(),
-                                                        txtKind1.Text, txtKind2.Text, Mth1, Mth2);
+            DataTable dtTarget = dao30681.d_30681_s(txtStartDate.DateTimeValue , txtEndDate.DateTimeValue , ddlScCode.EditValue.AsString() ,
+                                                        txtKind1.Text , txtKind2.Text , Mth1 , Mth2);
             if (dtTarget.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0},{1}－{2},無任何資料!", txtStartDate.DateTimeValue.ToString("yyyyMM"), reportId, ReportName));
+               MessageDisplay.Info(string.Format("{0},{1}－{2},無任何資料!" , txtStartDate.DateTimeValue.ToString("yyyyMM") , reportId , ReportName) , GlobalInfo.ResultText);
                return ResultStatus.Fail;
             }
 
             //2.Export Csv
-            ExportCsv(dtTarget, excelDestinationPath);
+            ExportCsv(dtTarget , excelDestinationPath);
 
             return ResultStatus.Success;
          } catch (Exception ex) {
@@ -233,19 +241,19 @@ namespace PhoenixCI.FormUI.Prefix3 {
          try {
 
             string reportId = "30681_s_new";
-            string excelDestinationPath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH,
-                                                      string.Format("{0}_{1}.csv", reportId, DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss")));
+            string excelDestinationPath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH ,
+                                                      string.Format("{0}_{1}.csv" , reportId , DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss")));
 
             //1.get dataTable
-            DataTable dtTarget = dao30681.d_30681_s_new(txtStartDate.DateTimeValue, txtEndDate.DateTimeValue, ddlScCode.EditValue.AsString(),
-                                                        txtKind1.Text, txtKind2.Text, Mth1, Mth2);
+            DataTable dtTarget = dao30681.d_30681_s_new(txtStartDate.DateTimeValue , txtEndDate.DateTimeValue , ddlScCode.EditValue.AsString() ,
+                                                        txtKind1.Text , txtKind2.Text , Mth1 , Mth2);
             if (dtTarget.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0},{1}－{2},無任何資料!", txtStartDate.DateTimeValue.ToString("yyyyMM"), reportId, ReportName));
+               MessageDisplay.Info(string.Format("{0},{1}－{2},無任何資料!" , txtStartDate.DateTimeValue.ToString("yyyyMM") , reportId , ReportName), GlobalInfo.ResultText);
                return ResultStatus.Fail;
             }
 
             //2.Export Csv
-            ExportCsv(dtTarget, excelDestinationPath);
+            ExportCsv(dtTarget , excelDestinationPath);
 
             return ResultStatus.Success;
          } catch (Exception ex) {
@@ -258,20 +266,20 @@ namespace PhoenixCI.FormUI.Prefix3 {
          try {
 
             string reportId = "30681_d";
-            string excelDestinationPath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH,
-                                                      string.Format("{0}_{1}.csv", reportId, DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss")));
+            string excelDestinationPath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH ,
+                                                      string.Format("{0}_{1}.csv" , reportId , DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss")));
 
             //1.get dataTable
-            DataTable dtTarget = dao30681.d_30681_d(txtStartDate.DateTimeValue, txtEndDate.DateTimeValue, ddlScCode.EditValue.AsString(),
-                                                        txtKind1.Text, txtKind2.Text, Mth1, Mth2,
-                                                        ddlOsfOrderType.EditValue.AsString(), ddlOsfOrderCond.EditValue.AsString(), DetailLevelList, IsLevelNull);
+            DataTable dtTarget = dao30681.d_30681_d(txtStartDate.DateTimeValue , txtEndDate.DateTimeValue , ddlScCode.EditValue.AsString() ,
+                                                        txtKind1.Text , txtKind2.Text , Mth1 , Mth2 ,
+                                                        ddlOsfOrderType.EditValue.AsString() , ddlOsfOrderCond.EditValue.AsString() , DetailLevelList , IsLevelNull);
             if (dtTarget.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0},{1}－{2},無任何資料!", txtStartDate.DateTimeValue.ToString("yyyyMM"), reportId, ReportName));
+               MessageDisplay.Info(string.Format("{0},{1}－{2},無任何資料!" , txtStartDate.DateTimeValue.ToString("yyyyMM") , reportId , ReportName), GlobalInfo.ResultText);
                return ResultStatus.Fail;
             }
 
             //2.Export Csv
-            ExportCsv(dtTarget, excelDestinationPath);
+            ExportCsv(dtTarget , excelDestinationPath);
 
             return ResultStatus.Success;
          } catch (Exception ex) {
@@ -284,20 +292,20 @@ namespace PhoenixCI.FormUI.Prefix3 {
          try {
 
             string reportId = "30681_d_new";
-            string excelDestinationPath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH,
-                                                      string.Format("{0}_{1}.csv", reportId, DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss")));
+            string excelDestinationPath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH ,
+                                                      string.Format("{0}_{1}.csv" , reportId , DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss")));
 
             //1.get dataTable
-            DataTable dtTarget = dao30681.d_30681_d_new(txtStartDate.DateTimeValue, txtEndDate.DateTimeValue, ddlScCode.EditValue.AsString(),
-                                                        txtKind1.Text, txtKind2.Text, Mth1, Mth2,
-                                                        ddlOsfOrderType.EditValue.AsString(), ddlOsfOrderCond.EditValue.AsString(), DetailLevelList, IsLevelNull);
+            DataTable dtTarget = dao30681.d_30681_d_new(txtStartDate.DateTimeValue , txtEndDate.DateTimeValue , ddlScCode.EditValue.AsString() ,
+                                                        txtKind1.Text , txtKind2.Text , Mth1 , Mth2 ,
+                                                        ddlOsfOrderType.EditValue.AsString() , ddlOsfOrderCond.EditValue.AsString() , DetailLevelList , IsLevelNull);
             if (dtTarget.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0},{1}－{2},無任何資料!", txtStartDate.DateTimeValue.ToString("yyyyMM"), reportId, ReportName));
+               MessageDisplay.Info(string.Format("{0},{1}－{2},無任何資料!" , txtStartDate.DateTimeValue.ToString("yyyyMM") , reportId , ReportName) , GlobalInfo.ResultText);
                return ResultStatus.Fail;
             }
 
             //2.Export Csv
-            ExportCsv(dtTarget, excelDestinationPath);
+            ExportCsv(dtTarget , excelDestinationPath);
 
             return ResultStatus.Success;
          } catch (Exception ex) {
@@ -310,20 +318,20 @@ namespace PhoenixCI.FormUI.Prefix3 {
          try {
 
             string reportId = "30681_d_mtf";
-            string excelDestinationPath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH,
-                                                      string.Format("{0}_{1}_成交委託明細.csv", reportId, DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss")));
+            string excelDestinationPath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH ,
+                                                      string.Format("{0}_{1}_成交委託明細.csv" , reportId , DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss")));
 
             //1.get dataTable
-            DataTable dtTarget = dao30681.d_30681_d_mtf(txtStartDate.DateTimeValue, txtEndDate.DateTimeValue, ddlScCode.EditValue.AsString(),
-                                                        txtKind1.Text, txtKind2.Text, Mth1, Mth2,
-                                                        ddlOsfOrderType.EditValue.AsString(), ddlOsfOrderCond.EditValue.AsString(), DetailLevelList, IsLevelNull);
+            DataTable dtTarget = dao30681.d_30681_d_mtf(txtStartDate.DateTimeValue , txtEndDate.DateTimeValue , ddlScCode.EditValue.AsString() ,
+                                                        txtKind1.Text , txtKind2.Text , Mth1 , Mth2 ,
+                                                        ddlOsfOrderType.EditValue.AsString() , ddlOsfOrderCond.EditValue.AsString() , DetailLevelList , IsLevelNull);
             if (dtTarget.Rows.Count <= 0) {
-               //MessageDisplay.Info(string.Format("{0},{1}－{2},無任何資料!", txtStartDate.DateTimeValue.ToString("yyyyMM"), reportId, ReportName));
+               //MessageDisplay.Info(string.Format("{0},{1}－{2},無任何資料!", txtStartDate.DateTimeValue.ToString("yyyyMM"), reportId, ReportName),GlobalInfo.ResultText);
                return ResultStatus.Fail;
             }
 
             //2.Export Csv
-            ExportCsv(dtTarget, excelDestinationPath);
+            ExportCsv(dtTarget , excelDestinationPath);
 
             return ResultStatus.Success;
          } catch (Exception ex) {
@@ -336,20 +344,20 @@ namespace PhoenixCI.FormUI.Prefix3 {
          try {
 
             string reportId = "30681_d_mtf_new";
-            string excelDestinationPath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH,
-                                                      string.Format("{0}_{1}_成交委託明細.csv", reportId, DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss")));
+            string excelDestinationPath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH ,
+                                                      string.Format("{0}_{1}_成交委託明細.csv" , reportId , DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss")));
 
             //1.get dataTable
-            DataTable dtTarget = dao30681.d_30681_d_mtf_new(txtStartDate.DateTimeValue, txtEndDate.DateTimeValue, ddlScCode.EditValue.AsString(),
-                                                           txtKind1.Text, txtKind2.Text, Mth1, Mth2,
-                                                           ddlOsfOrderType.EditValue.AsString(), ddlOsfOrderCond.EditValue.AsString(), DetailLevelList, IsLevelNull);
+            DataTable dtTarget = dao30681.d_30681_d_mtf_new(txtStartDate.DateTimeValue , txtEndDate.DateTimeValue , ddlScCode.EditValue.AsString() ,
+                                                           txtKind1.Text , txtKind2.Text , Mth1 , Mth2 ,
+                                                           ddlOsfOrderType.EditValue.AsString() , ddlOsfOrderCond.EditValue.AsString() , DetailLevelList , IsLevelNull);
             if (dtTarget.Rows.Count <= 0) {
-               //MessageDisplay.Info(string.Format("{0},{1}－{2},無任何資料!", txtStartDate.DateTimeValue.ToString("yyyyMM"), reportId, ReportName));
+               //MessageDisplay.Info(string.Format("{0},{1}－{2},無任何資料!", txtStartDate.DateTimeValue.ToString("yyyyMM"), reportId, ReportName),GlobalInfo.ResultText);
                return ResultStatus.Fail;
             }
 
             //2.Export Csv
-            ExportCsv(dtTarget, excelDestinationPath);
+            ExportCsv(dtTarget , excelDestinationPath);
 
             return ResultStatus.Success;
          } catch (Exception ex) {
@@ -363,7 +371,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
       /// 利用畫面上隱藏的grid,直接匯出CSV
       /// </summary>
       /// <param name="dtTarget"></param>
-      protected void ExportCsv(DataTable dtTarget, string filename) {
+      protected void ExportCsv(DataTable dtTarget , string filename) {
          //2.設定gvExport
          gvExport.Columns.Clear();
          gvExport.OptionsBehavior.AutoPopulateColumns = true;
@@ -378,13 +386,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
          //ken,pb的時間輸出格式為 mm/dd/yy hh24:mi:ss ,直接在sql語法調整比較快
 
-         gcExport.ExportToCsv(filename, options);
+         gcExport.ExportToCsv(filename , options);
 
          if (FlagAdmin)
             System.Diagnostics.Process.Start(filename);
       }
 
-      private void rdoReportType_SelectedIndexChanged(object sender, EventArgs e) {
+      private void rdoReportType_SelectedIndexChanged(object sender , EventArgs e) {
          bool IsEnable = (sender as DevExpress.XtraEditors.RadioGroup).SelectedIndex == 0 ? false : true;
 
          ddlOsfOrderType.Enabled =

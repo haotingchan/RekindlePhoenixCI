@@ -74,6 +74,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
          try {
 
+            #region 輸入&日期檢核
+            if (string.Compare(txtStartDate.Text , txtEndDate.Text) > 0) {
+               MessageDisplay.Error(CheckDate.Datedif , GlobalInfo.ErrorText);
+               return ResultStatus.Fail;
+            }
+            #endregion
+
             //0. ready
             panFilter.Enabled = false;
             labMsg.Visible = true;
@@ -86,7 +93,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             DataTable dtContent = daoVPR.ListByMarket(StartDate , EndDate , 'S' , 'S');
             if (dtContent.Rows.Count <= 0) {
                labMsg.Hide();
-               MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtStartDate.Text + "-" + txtEndDate.Text , this.Text));
+               MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtStartDate.Text + "-" + txtEndDate.Text , this.Text) , GlobalInfo.ResultText);
                return ResultStatus.Fail;
             }
 
@@ -128,10 +135,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
       protected override ResultStatus ExportAfter(string startTime) {
          if (exportStatus == ResultStatus.Success) {
-            MessageDisplay.Info("轉檔完成!");
+            MessageDisplay.Info("轉檔完成!" , GlobalInfo.ResultText);
             return ResultStatus.Success;
          } else {
-            MessageDisplay.Warning("轉檔失敗");
+            MessageDisplay.Error("轉檔失敗" , GlobalInfo.ErrorText);
             return ResultStatus.Fail;
          }
       }

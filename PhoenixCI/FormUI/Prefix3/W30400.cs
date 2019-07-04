@@ -163,7 +163,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //2. 讀取資料
             DataTable dt30401 = dao30400.Get30401Data(strSDate , strEDate , "F");
             if (dt30401.Rows.Count <= 0) {
-               MessageDisplay.Info(String.Format("{0}~{1},30401 - {2},無任何資料!" , sDate.ToString("yyyy/MM/dd") , eDate.ToString("yyyy/MM/dd") , rptName) , "處理結果");
+               MessageDisplay.Info(String.Format("{0}~{1},30401 - {2},無任何資料!" , sDate.ToString("yyyy/MM/dd") , eDate.ToString("yyyy/MM/dd") , rptName) , GlobalInfo.ResultText);
                return 0;
             } //if (dt30401.Rows.Count <= 0)
 
@@ -223,7 +223,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //1. 讀取資料
             DataTable dt30402 = dao30400.Get30402Data(strMon , "F");
             if (dt30402.Rows.Count <= 0) {
-               MessageDisplay.Info(String.Format("{0},30402 - {1},無任何資料!" , strMon , rptName) , "處理結果");
+               MessageDisplay.Info(String.Format("{0},30402 - {1},無任何資料!" , strMon , rptName) , GlobalInfo.ResultText);
                return 0;
             } //if (dt30401.Rows.Count <= 0)
 
@@ -282,7 +282,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             DataTable dt30403 = dao30400.Get30403Data(sDate , lastTradeDate);
             if (dt30403.Rows.Count <= 0) {
                DateTime startDate = DateTime.ParseExact(sDate , "yyyyMMdd" , null);
-               MessageDisplay.Info(String.Format("{0}~,30403 - {1},無任何資料!" , startDate.ToString("yyyy/MM/dd") , rptName) , "處理結果");
+               MessageDisplay.Info(String.Format("{0}~,30403 - {1},無任何資料!" , startDate.ToString("yyyy/MM/dd") , rptName) , GlobalInfo.ResultText);
                return 0;
             } //if (dt30401.Rows.Count <= 0)
 
@@ -345,7 +345,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
             DataTable dt30404 = dao30400.Get30404Data(strKindId , sDate , eDate);
             if (dt30404.Rows.Count <= 0) {
-               MessageDisplay.Info(String.Format("{0}~{1},30404 - {2},無任何資料!" , sDate , eDate , rptName) , "處理結果");
+               MessageDisplay.Info(String.Format("{0}~{1},30404 - {2},無任何資料!" , sDate , eDate , rptName) , GlobalInfo.ResultText);
                return 0;
             } //if (dt30404.Rows.Count <= 0)
 
@@ -420,7 +420,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //2. 讀取資料
             DataTable dt30405 = dao30400.Get30405Data(sDate , eDate);
             if (dt30405.Rows.Count <= 0) {
-               MessageDisplay.Info(String.Format("{0}~{1},30405 - {2},無任何資料!" , sDate , eDate , rptName) , "處理結果");
+               MessageDisplay.Info(String.Format("{0}~{1},30405 - {2},無任何資料!" , sDate , eDate , rptName) , GlobalInfo.ResultText);
                return 0;
             }
 
@@ -489,7 +489,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //2. 讀取資料
             DataTable dt30406 = dao30400.Get30406Data(sDate , eDate);
             if (dt30406.Rows.Count <= 0) {
-               MessageDisplay.Info(String.Format("{0}~{1},30406 - {2},無任何資料!" , sDate , eDate , rptName) , "處理結果");
+               MessageDisplay.Info(String.Format("{0}~{1},30406 - {2},無任何資料!" , sDate , eDate , rptName) , GlobalInfo.ResultText);
                return 0;
             }
 
@@ -572,7 +572,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //3. 讀取資料
             DataTable dt30407 = dao30400.Get30406Data(sDate , eDate);
             if (dt30407.Rows.Count <= 0) {
-               MessageDisplay.Info(String.Format("{0}~{1},30406 - {2},無任何資料!" , sDate , eDate , rptName) , "處理結果");
+               MessageDisplay.Info(String.Format("{0}~{1},30406 - {2},無任何資料!" , sDate , eDate , rptName) , GlobalInfo.ResultText);
                return 0;
             }
 
@@ -639,7 +639,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //1. 讀取資料
             DataTable dt30402 = dao30400.Get30402Data(strMon , "F");
             if (dt30402.Rows.Count <= 0) {
-               MessageDisplay.Info(String.Format("{0},30402 - {1},無任何資料!" , strMon , rptName) , "處理結果");
+               MessageDisplay.Info(String.Format("{0},30402 - {1},無任何資料!" , strMon , rptName) , GlobalInfo.ResultText);
                return 0;
             } //if (dt30401.Rows.Count <= 0)
 

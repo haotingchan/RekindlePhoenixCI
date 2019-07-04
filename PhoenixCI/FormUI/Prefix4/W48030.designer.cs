@@ -129,7 +129,7 @@
          this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndDate.Size = new System.Drawing.Size(100, 26);
-         this.txtEndDate.TabIndex = 84;
+         this.txtEndDate.TabIndex = 0;
          this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          this.txtEndDate.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtEndDate_KeyDown);
          // 
@@ -220,6 +220,7 @@
          this.chkModel.AppearanceSelected.BackColor2 = System.Drawing.Color.White;
          this.chkModel.AppearanceSelected.Options.UseBackColor = true;
          this.chkModel.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+         this.chkModel.CheckOnClick = true;
          this.chkModel.ColumnWidth = 130;
          this.chkModel.HotTrackSelectMode = DevExpress.XtraEditors.HotTrackSelectMode.SelectItemOnClick;
          this.chkModel.ItemAutoHeight = true;
@@ -233,9 +234,9 @@
          this.chkModel.LookAndFeel.UseDefaultLookAndFeel = false;
          this.chkModel.MultiColumn = true;
          this.chkModel.Name = "chkModel";
-         this.chkModel.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+         this.chkModel.SelectionMode = System.Windows.Forms.SelectionMode.None;
          this.chkModel.Size = new System.Drawing.Size(393, 34);
-         this.chkModel.TabIndex = 25;
+         this.chkModel.TabIndex = 5;
          // 
          // gcDate
          // 
@@ -274,7 +275,7 @@
          // 
          // AI2_SELECT
          // 
-         this.AI2_SELECT.AppearanceHeader.BackColor = System.Drawing.Color.Cyan;
+         this.AI2_SELECT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
          this.AI2_SELECT.AppearanceHeader.Options.UseBackColor = true;
          this.AI2_SELECT.Caption = "勾選";
          this.AI2_SELECT.ColumnEdit = this.repositoryItemCheckEdit2;
@@ -294,7 +295,7 @@
          // 
          this.MON_DIFF.AppearanceCell.Options.UseTextOptions = true;
          this.MON_DIFF.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.MON_DIFF.AppearanceHeader.BackColor = System.Drawing.Color.Cyan;
+         this.MON_DIFF.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
          this.MON_DIFF.AppearanceHeader.Options.UseBackColor = true;
          this.MON_DIFF.AppearanceHeader.Options.UseTextOptions = true;
          this.MON_DIFF.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -310,7 +311,7 @@
          // 
          this.SDATE.AppearanceCell.Options.UseTextOptions = true;
          this.SDATE.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.SDATE.AppearanceHeader.BackColor = System.Drawing.Color.Cyan;
+         this.SDATE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
          this.SDATE.AppearanceHeader.Options.UseBackColor = true;
          this.SDATE.AppearanceHeader.Options.UseTextOptions = true;
          this.SDATE.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -328,7 +329,7 @@
          this.EDATE.AppearanceCell.Options.UseForeColor = true;
          this.EDATE.AppearanceCell.Options.UseTextOptions = true;
          this.EDATE.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.EDATE.AppearanceHeader.BackColor = System.Drawing.Color.Cyan;
+         this.EDATE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
          this.EDATE.AppearanceHeader.Options.UseBackColor = true;
          this.EDATE.AppearanceHeader.Options.UseTextOptions = true;
          this.EDATE.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -344,7 +345,7 @@
          // 
          this.DAY_CNT.AppearanceCell.Options.UseTextOptions = true;
          this.DAY_CNT.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.DAY_CNT.AppearanceHeader.BackColor = System.Drawing.Color.Cyan;
+         this.DAY_CNT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
          this.DAY_CNT.AppearanceHeader.Options.UseBackColor = true;
          this.DAY_CNT.AppearanceHeader.Options.UseTextOptions = true;
          this.DAY_CNT.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -396,7 +397,7 @@
          this.cbxSubType.Properties.NullText = "";
          this.cbxSubType.Properties.PopupSizeable = false;
          this.cbxSubType.Size = new System.Drawing.Size(121, 26);
-         this.cbxSubType.TabIndex = 99;
+         this.cbxSubType.TabIndex = 2;
          this.cbxSubType.EditValueChanged += new System.EventHandler(this.cbxSubType_EditValueChanged);
          // 
          // labSubType
@@ -482,7 +483,7 @@
          // 
          // CPR_SELECT
          // 
-         this.CPR_SELECT.AppearanceHeader.BackColor = System.Drawing.Color.Cyan;
+         this.CPR_SELECT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
          this.CPR_SELECT.AppearanceHeader.Options.UseBackColor = true;
          this.CPR_SELECT.Caption = "勾選";
          this.CPR_SELECT.ColumnEdit = this.repositoryItemCheckEdit1;
@@ -504,7 +505,7 @@
          // 
          this.CPR_KIND_ID.AppearanceCell.Options.UseTextOptions = true;
          this.CPR_KIND_ID.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.CPR_KIND_ID.AppearanceHeader.BackColor = System.Drawing.Color.Cyan;
+         this.CPR_KIND_ID.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
          this.CPR_KIND_ID.AppearanceHeader.Options.UseBackColor = true;
          this.CPR_KIND_ID.AppearanceHeader.Options.UseTextOptions = true;
          this.CPR_KIND_ID.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -522,7 +523,7 @@
          this.CPR_PRICE_RISK_RATE.AppearanceCell.Options.UseBackColor = true;
          this.CPR_PRICE_RISK_RATE.AppearanceCell.Options.UseTextOptions = true;
          this.CPR_PRICE_RISK_RATE.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.CPR_PRICE_RISK_RATE.AppearanceHeader.BackColor = System.Drawing.Color.Cyan;
+         this.CPR_PRICE_RISK_RATE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
          this.CPR_PRICE_RISK_RATE.AppearanceHeader.Options.UseBackColor = true;
          this.CPR_PRICE_RISK_RATE.AppearanceHeader.Options.UseTextOptions = true;
          this.CPR_PRICE_RISK_RATE.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -551,7 +552,7 @@
          this.RISK_INTERVAL.AppearanceCell.Options.UseBackColor = true;
          this.RISK_INTERVAL.AppearanceCell.Options.UseTextOptions = true;
          this.RISK_INTERVAL.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.RISK_INTERVAL.AppearanceHeader.BackColor = System.Drawing.Color.Cyan;
+         this.RISK_INTERVAL.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
          this.RISK_INTERVAL.AppearanceHeader.Options.UseBackColor = true;
          this.RISK_INTERVAL.AppearanceHeader.Options.UseTextOptions = true;
          this.RISK_INTERVAL.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;

@@ -1,14 +1,11 @@
 ﻿using BaseGround;
 using BaseGround.Report;
-using BaseGround.Shared;
 using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together.SpecificDao;
 using DataObjects.Dao.Together.TableDao;
-using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraEditors.Repository;
-using DevExpress.XtraGrid;
 using DevExpress.XtraGrid.Views.Grid;
 using System;
 using System.ComponentModel;
@@ -68,9 +65,16 @@ namespace PhoenixCI.FormUI.Prefix4 {
       protected override ResultStatus Retrieve() {
          try {
 
+            #region 輸入&日期檢核
+            if (string.Compare(txtStartYear.Text , txtEndYear.Text) > 0) {
+               MessageDisplay.Error("起始年度不可大於迄止年度!" , GlobalInfo.ErrorText);
+               return ResultStatus.Fail;
+            }
+            #endregion
+
             DataTable dt = dao49050.GetDataList();
             if (dt.Rows.Count == 0) {
-               MessageDisplay.Info("無任何資料!");
+               MessageDisplay.Info(MessageDisplay.MSG_NO_DATA , GlobalInfo.ResultText);
                InsertRow();
             }
 
@@ -114,11 +118,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dtForDeleted = dtCurrent.GetChanges(DataRowState.Deleted);
 
             if (dtChange == null) {
-               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+               MessageDisplay.Warning("沒有變更資料,不需要存檔!" , GlobalInfo.WarningText);
                return ResultStatus.Fail;
             }
             if (dtChange.Rows.Count == 0) {
-               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+               MessageDisplay.Warning("沒有變更資料,不需要存檔!" , GlobalInfo.WarningText);
                return ResultStatus.Fail;
             }
 
@@ -137,7 +141,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          } catch (Exception ex) {
             WriteLog(ex);
-            //throw ex;
          }
          _IsPreventFlowPrint = true; //不要自動列印
          return ResultStatus.Success;

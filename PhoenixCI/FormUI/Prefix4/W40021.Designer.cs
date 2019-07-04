@@ -57,7 +57,7 @@
          this.chkTxt.Location = new System.Drawing.Point(19, 28);
          this.chkTxt.Name = "chkTxt";
          this.chkTxt.Size = new System.Drawing.Size(92, 24);
-         this.chkTxt.TabIndex = 79;
+         this.chkTxt.TabIndex = 1;
          this.chkTxt.Text = "寫文字檔";
          this.chkTxt.UseVisualStyleBackColor = true;
          // 
@@ -78,7 +78,7 @@
          this.txtDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtDate.Size = new System.Drawing.Size(100, 26);
-         this.txtDate.TabIndex = 77;
+         this.txtDate.TabIndex = 0;
          this.txtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // groupAdmin

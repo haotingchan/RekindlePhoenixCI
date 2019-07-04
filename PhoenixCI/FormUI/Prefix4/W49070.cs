@@ -4,14 +4,12 @@ using BaseGround.Shared;
 using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
-using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DataObjects.Dao.Together.TableDao;
 using DevExpress.Utils;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraGrid;
-using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraGrid.Views.Grid;
 using System;
 using System.Collections.Generic;
@@ -118,9 +116,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                //設定欄位header顏色
                if (dc.ColumnName == "SPT1_KIND_ID1" || dc.ColumnName == "SPT1_KIND_ID2") {
-                  gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = Color.Yellow;
+                  gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = GridHelper.PK;
                } else {
-                  gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = Color.FromArgb(128 , 255 , 255);
+                  gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = GridHelper.NORMAL;
                }
             }
 
@@ -172,11 +170,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dtForDeleted = dtCurrent.GetChanges(DataRowState.Deleted);
 
             if (dtChange == null) {
-               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+               MessageDisplay.Warning("沒有變更資料,不需要存檔!" , GlobalInfo.WarningText);
                return ResultStatus.Fail;
             }
             if (dtChange.Rows.Count == 0) {
-               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+               MessageDisplay.Warning("沒有變更資料,不需要存檔!" , GlobalInfo.WarningText);
                return ResultStatus.Fail;
             }
 
@@ -187,12 +185,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   string kind2 = dr["SPT1_KIND_ID2"].AsString();
                   string maxSpnsRate = dr["SPT1_MAX_SPNS_RATE"].AsString();
                   if (string.IsNullOrEmpty(kind1) || string.IsNullOrEmpty(kind2)) {
-                     MessageDisplay.Error("請輸入商品名稱");
+                     MessageDisplay.Error("請輸入商品名稱" , GlobalInfo.ErrorText);
                      return ResultStatus.FailButNext;
                   }
 
                   if (kind2 != "-" && string.IsNullOrEmpty(maxSpnsRate)) {
-                     MessageDisplay.Warning("請輸入跨商品MAX折抵比率");
+                     MessageDisplay.Warning("請輸入跨商品MAX折抵比率" , GlobalInfo.WarningText);
                      return ResultStatus.FailButNext;
                   }
                }
@@ -213,16 +211,16 @@ namespace PhoenixCI.FormUI.Prefix4 {
             dtChange = dtCurrent.GetChanges();
             ResultData result = daoSPT1.UpdateSPT1(dtChange); //使用處理並行違規的function
             if (result.Status == ResultStatus.Fail) {
-               MessageDisplay.Error("儲存失敗");
+               MessageDisplay.Error("儲存失敗" , GlobalInfo.ErrorText);
                return ResultStatus.FailButNext;
             }
             AfterSaveForPrint(gcMain , dtForAdd , dtForDeleted , dtForModified);
 
          } catch (Exception ex) {
-                MessageDisplay.Error("儲存錯誤");
-                WriteLog(ex, "", false);
-                return ResultStatus.FailButNext;
-            }
+            MessageDisplay.Error("儲存錯誤" , GlobalInfo.ErrorText);
+            WriteLog(ex , "" , false);
+            return ResultStatus.FailButNext;
+         }
          return ResultStatus.Success;
       }
 

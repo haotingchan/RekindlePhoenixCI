@@ -80,7 +80,7 @@
          this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndDate.Size = new System.Drawing.Size(100, 26);
-         this.txtEndDate.TabIndex = 80;
+         this.txtEndDate.TabIndex = 4;
          this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtStartDate
@@ -100,7 +100,7 @@
          this.txtStartDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtStartDate.Size = new System.Drawing.Size(100, 26);
-         this.txtStartDate.TabIndex = 11;
+         this.txtStartDate.TabIndex = 3;
          this.txtStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtEndMonth
@@ -120,7 +120,7 @@
          this.txtEndMonth.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndMonth.Size = new System.Drawing.Size(100, 26);
-         this.txtEndMonth.TabIndex = 79;
+         this.txtEndMonth.TabIndex = 2;
          this.txtEndMonth.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtStartMonth
@@ -140,7 +140,7 @@
          this.txtStartMonth.Properties.Mask.ShowPlaceHolders = false;
          this.txtStartMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtStartMonth.Size = new System.Drawing.Size(100, 26);
-         this.txtStartMonth.TabIndex = 78;
+         this.txtStartMonth.TabIndex = 1;
          this.txtStartMonth.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // rdoGroup
@@ -163,7 +163,7 @@
          this.rdoGroup.Properties.LookAndFeel.SkinName = "Visual Studio 2013 Light";
          this.rdoGroup.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.rdoGroup.Size = new System.Drawing.Size(248, 35);
-         this.rdoGroup.TabIndex = 4;
+         this.rdoGroup.TabIndex = 5;
          // 
          // chkGroup
          // 
@@ -175,6 +175,7 @@
          this.chkGroup.AppearanceSelected.BackColor2 = System.Drawing.Color.White;
          this.chkGroup.AppearanceSelected.Options.UseBackColor = true;
          this.chkGroup.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+         this.chkGroup.CheckOnClick = true;
          this.chkGroup.HorzScrollStep = 9;
          this.chkGroup.ItemPadding = new System.Windows.Forms.Padding(11);
          this.chkGroup.Items.AddRange(new DevExpress.XtraEditors.Controls.CheckedListBoxItem[] {
@@ -184,9 +185,9 @@
          this.chkGroup.LookAndFeel.SkinName = "Office 2013";
          this.chkGroup.LookAndFeel.UseDefaultLookAndFeel = false;
          this.chkGroup.Name = "chkGroup";
-         this.chkGroup.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+         this.chkGroup.SelectionMode = System.Windows.Forms.SelectionMode.None;
          this.chkGroup.Size = new System.Drawing.Size(74, 87);
-         this.chkGroup.TabIndex = 5;
+         this.chkGroup.TabIndex = 0;
          // 
          // ddlOswGrp
          // 

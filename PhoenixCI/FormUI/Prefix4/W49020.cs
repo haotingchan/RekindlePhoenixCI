@@ -8,10 +8,8 @@ using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DataObjects.Dao.Together.TableDao;
 using DevExpress.Utils;
-using DevExpress.Utils.Drawing;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraEditors.Repository;
-using DevExpress.XtraGrid;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
 using System;
@@ -150,10 +148,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
                gvMain.OptionsView.AllowCellMerge = true;
                gvMain.Columns[dc.ColumnName].AppearanceCell.TextOptions.VAlignment = VertAlignment.Center;
                gvMain.Columns[dc.ColumnName].OptionsColumn.AllowMerge = DefaultBoolean.False;
-               gvMain.Columns[dc.ColumnName].AppearanceCell.Font = new Font("微軟正黑體",10f);
+               gvMain.Columns[dc.ColumnName].AppearanceCell.Font = new Font("微軟正黑體" , 10f);
 
                //設定column style
-               gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = (dc.ColumnName.AsString() == "MGT2_KIND_ID" ? Color.Yellow : Color.FromArgb(128 , 255 , 255));
+               gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = (dc.ColumnName.AsString() == "MGT2_KIND_ID" ? GridHelper.PK : GridHelper.NORMAL);
             }
 
             //1.2 設定隱藏欄位
@@ -195,7 +193,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          }
          return ResultStatus.Fail;
       }
-      
+
       protected override ResultStatus Save(PokeBall poke) {
          try {
             DataTable dtCurrent = (DataTable)gcMain.DataSource;
@@ -208,11 +206,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dtForDeleted = dtCurrent.GetChanges(DataRowState.Deleted);
 
             if (dtChange == null) {
-               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+               MessageDisplay.Warning("沒有變更資料,不需要存檔!" , GlobalInfo.WarningText);
                return ResultStatus.Fail;
             }
             if (dtChange.Rows.Count == 0) {
-               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+               MessageDisplay.Warning("沒有變更資料,不需要存檔!" , GlobalInfo.WarningText);
                return ResultStatus.Fail;
             }
 
@@ -232,11 +230,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
                            string strDate = DateTime.ParseExact(mgt2EndDate , "yyyyMMdd" , null).ToString("yyyy/MM/dd");
                            DateTime isEndDate;
                            if (DateTime.TryParse(strDate , out isEndDate) == false) {
-                              MessageDisplay.Error(string.Format("下市日期格式不符yyyymmdd,({0})非有效日期" , mgt2EndDate));
+                              MessageDisplay.Error(string.Format("下市日期格式不符yyyymmdd,({0})非有效日期" , mgt2EndDate) , GlobalInfo.ErrorText);
                               return ResultStatus.FailButNext;
                            }
                         } else {
-                           MessageDisplay.Error(string.Format("下市日期格式不符yyyymmdd,({0})非有效日期" , mgt2EndDate));
+                           MessageDisplay.Error(string.Format("下市日期格式不符yyyymmdd,({0})非有效日期" , mgt2EndDate) , GlobalInfo.ErrorText);
                            return ResultStatus.FailButNext;
                         }//if (int.TryParse(mgt2EndDate , out int tmp) == true)
                      }
@@ -251,10 +249,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //PrintOrExportChangedByKen(gcMain , dtForAdd , dtForDeleted , dtForModified);
 
          } catch (Exception ex) {
-                MessageDisplay.Error("儲存錯誤");
-                WriteLog(ex, "", false);
-                return ResultStatus.FailButNext;
-            }
+            MessageDisplay.Error("儲存錯誤" , GlobalInfo.ErrorText);
+            WriteLog(ex , "" , false);
+            return ResultStatus.FailButNext;
+         }
          return ResultStatus.Success;
       }
 

@@ -130,7 +130,7 @@
          this.txtEDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEDate.Properties.MaxLength = 4;
          this.txtEDate.Size = new System.Drawing.Size(63, 26);
-         this.txtEDate.TabIndex = 32;
+         this.txtEDate.TabIndex = 2;
          // 
          // txtSDate
          // 
@@ -149,7 +149,7 @@
          this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtSDate.Properties.MaxLength = 4;
          this.txtSDate.Size = new System.Drawing.Size(63, 26);
-         this.txtSDate.TabIndex = 2;
+         this.txtSDate.TabIndex = 1;
          // 
          // labDateUnit
          // 
@@ -251,7 +251,7 @@
          this.ddlKind.Properties.NullText = "";
          this.ddlKind.Properties.PopupSizeable = false;
          this.ddlKind.Size = new System.Drawing.Size(150, 26);
-         this.ddlKind.TabIndex = 103;
+         this.ddlKind.TabIndex = 4;
          // 
          // labMemo
          // 
@@ -287,7 +287,7 @@
          this.ddlSort.Properties.NullText = "";
          this.ddlSort.Properties.PopupSizeable = false;
          this.ddlSort.Size = new System.Drawing.Size(281, 26);
-         this.ddlSort.TabIndex = 101;
+         this.ddlSort.TabIndex = 5;
          // 
          // labSort
          // 
@@ -312,7 +312,7 @@
          this.ddlData.Properties.NullText = "";
          this.ddlData.Properties.PopupSizeable = false;
          this.ddlData.Size = new System.Drawing.Size(150, 26);
-         this.ddlData.TabIndex = 99;
+         this.ddlData.TabIndex = 3;
          // 
          // ddlSubType
          // 
@@ -327,7 +327,7 @@
          this.ddlSubType.Properties.NullText = "";
          this.ddlSubType.Properties.PopupSizeable = false;
          this.ddlSubType.Size = new System.Drawing.Size(150, 26);
-         this.ddlSubType.TabIndex = 98;
+         this.ddlSubType.TabIndex = 0;
          // 
          // labDate
          // 

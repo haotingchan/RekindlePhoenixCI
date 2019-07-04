@@ -112,7 +112,7 @@
          this.dwKindId.Properties.NullText = "";
          this.dwKindId.Properties.PopupSizeable = false;
          this.dwKindId.Size = new System.Drawing.Size(274, 26);
-         this.dwKindId.TabIndex = 93;
+         this.dwKindId.TabIndex = 5;
          // 
          // label7
          // 
@@ -159,7 +159,7 @@
          this.txtDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtDate.Size = new System.Drawing.Size(100, 26);
-         this.txtDate.TabIndex = 85;
+         this.txtDate.TabIndex = 3;
          this.txtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtEndDate
@@ -179,7 +179,7 @@
          this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndDate.Size = new System.Drawing.Size(100, 26);
-         this.txtEndDate.TabIndex = 84;
+         this.txtEndDate.TabIndex = 2;
          this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtStartDate
@@ -199,7 +199,7 @@
          this.txtStartDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtStartDate.Size = new System.Drawing.Size(100, 26);
-         this.txtStartDate.TabIndex = 83;
+         this.txtStartDate.TabIndex = 1;
          this.txtStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // label11
@@ -263,7 +263,7 @@
          this.gbItem.Properties.LookAndFeel.SkinName = "Visual Studio 2013 Light";
          this.gbItem.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbItem.Size = new System.Drawing.Size(100, 85);
-         this.gbItem.TabIndex = 77;
+         this.gbItem.TabIndex = 0;
          // 
          // label8
          // 
@@ -315,6 +315,7 @@
          this.chkModel.AppearanceSelected.BackColor2 = System.Drawing.Color.White;
          this.chkModel.AppearanceSelected.Options.UseBackColor = true;
          this.chkModel.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+         this.chkModel.CheckOnClick = true;
          this.chkModel.ColumnWidth = 130;
          this.chkModel.HotTrackSelectMode = DevExpress.XtraEditors.HotTrackSelectMode.SelectItemOnClick;
          this.chkModel.ItemAutoHeight = true;
@@ -328,7 +329,7 @@
          this.chkModel.LookAndFeel.UseDefaultLookAndFeel = false;
          this.chkModel.MultiColumn = true;
          this.chkModel.Name = "chkModel";
-         this.chkModel.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+         this.chkModel.SelectionMode = System.Windows.Forms.SelectionMode.None;
          this.chkModel.ShowFocusRect = false;
          this.chkModel.Size = new System.Drawing.Size(390, 34);
          this.chkModel.TabIndex = 6;

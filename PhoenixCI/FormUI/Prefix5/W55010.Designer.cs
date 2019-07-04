@@ -154,7 +154,7 @@
          this.rb_repo.Properties.LookAndFeel.SkinName = "Office 2013";
          this.rb_repo.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.rb_repo.Size = new System.Drawing.Size(233, 34);
-         this.rb_repo.TabIndex = 26;
+         this.rb_repo.TabIndex = 2;
          // 
          // label3
          // 
@@ -200,7 +200,7 @@
          this.txtToDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtToDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtToDate.Size = new System.Drawing.Size(100, 26);
-         this.txtToDate.TabIndex = 30;
+         this.txtToDate.TabIndex = 1;
          this.txtToDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtFromDate
@@ -220,7 +220,7 @@
          this.txtFromDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtFromDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtFromDate.Size = new System.Drawing.Size(100, 26);
-         this.txtFromDate.TabIndex = 29;
+         this.txtFromDate.TabIndex = 0;
          this.txtFromDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // r_frame

@@ -57,6 +57,7 @@
          this.chkGroup.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
          this.chkGroup.Appearance.Options.UseBackColor = true;
          this.chkGroup.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+         this.chkGroup.CheckOnClick = true;
          this.chkGroup.ItemPadding = new System.Windows.Forms.Padding(5);
          this.chkGroup.Items.AddRange(new DevExpress.XtraEditors.Controls.CheckedListBoxItem[] {
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkNewVixs", "新VIX統計檔", System.Windows.Forms.CheckState.Checked, 0),
@@ -70,10 +71,9 @@
          this.chkGroup.LookAndFeel.UseDefaultLookAndFeel = false;
          this.chkGroup.MultiColumn = true;
          this.chkGroup.Name = "chkGroup";
-         this.chkGroup.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+         this.chkGroup.SelectionMode = System.Windows.Forms.SelectionMode.None;
          this.chkGroup.Size = new System.Drawing.Size(394, 121);
          this.chkGroup.TabIndex = 2;
-         this.chkGroup.DrawItem += new DevExpress.XtraEditors.ListBoxDrawItemEventHandler(this.chkGroup_DrawItem);
          // 
          // r_frame
          // 

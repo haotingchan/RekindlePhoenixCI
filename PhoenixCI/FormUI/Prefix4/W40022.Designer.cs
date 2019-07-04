@@ -23,7 +23,6 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-         this.chk_40023_data = new System.Windows.Forms.CheckBox();
          this.groupAdmin = new System.Windows.Forms.GroupBox();
          this.chkTxt = new System.Windows.Forms.CheckBox();
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
@@ -52,19 +51,6 @@
          this.ribbonControl.Size = new System.Drawing.Size(595, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
-         // chk_40023_data
-         // 
-         this.chk_40023_data.AutoSize = true;
-         this.chk_40023_data.Font = new System.Drawing.Font("微軟正黑體", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.chk_40023_data.ForeColor = System.Drawing.Color.Black;
-         this.chk_40023_data.Location = new System.Drawing.Point(45, 90);
-         this.chk_40023_data.Name = "chk_40023_data";
-         this.chk_40023_data.Size = new System.Drawing.Size(215, 22);
-         this.chk_40023_data.TabIndex = 78;
-         this.chk_40023_data.Text = "產出開盤參考價 && 收盤價資料";
-         this.chk_40023_data.UseVisualStyleBackColor = true;
-         this.chk_40023_data.Visible = false;
-         // 
          // groupAdmin
          // 
          this.groupAdmin.Controls.Add(this.chkTxt);
@@ -74,7 +60,6 @@
          this.groupAdmin.TabIndex = 80;
          this.groupAdmin.TabStop = false;
          this.groupAdmin.Text = "管理者測試";
-         this.groupAdmin.Visible = false;
          // 
          // chkTxt
          // 
@@ -85,7 +70,6 @@
          this.chkTxt.TabIndex = 79;
          this.chkTxt.Text = "寫文字檔";
          this.chkTxt.UseVisualStyleBackColor = true;
-         this.chkTxt.Visible = false;
          // 
          // r_frame
          // 
@@ -96,14 +80,14 @@
          this.r_frame.Controls.Add(this.panFilter);
          this.r_frame.Location = new System.Drawing.Point(30, 30);
          this.r_frame.Name = "r_frame";
-         this.r_frame.Size = new System.Drawing.Size(400, 220);
+         this.r_frame.Size = new System.Drawing.Size(400, 175);
          this.r_frame.TabIndex = 82;
          // 
          // labMsg
          // 
          this.labMsg.AutoSize = true;
          this.labMsg.ForeColor = System.Drawing.Color.Blue;
-         this.labMsg.Location = new System.Drawing.Point(15, 170);
+         this.labMsg.Location = new System.Drawing.Point(15, 125);
          this.labMsg.MaximumSize = new System.Drawing.Size(360, 120);
          this.labMsg.Name = "labMsg";
          this.labMsg.Size = new System.Drawing.Size(85, 20);
@@ -114,14 +98,13 @@
          // panFilter
          // 
          this.panFilter.AutoSize = true;
-         this.panFilter.Controls.Add(this.chk_40023_data);
          this.panFilter.Controls.Add(this.txtDate);
          this.panFilter.Controls.Add(this.label3);
          this.panFilter.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
          this.panFilter.ForeColor = System.Drawing.Color.Navy;
          this.panFilter.Location = new System.Drawing.Point(20, 15);
          this.panFilter.Name = "panFilter";
-         this.panFilter.Size = new System.Drawing.Size(360, 145);
+         this.panFilter.Size = new System.Drawing.Size(360, 100);
          this.panFilter.TabIndex = 6;
          this.panFilter.TabStop = false;
          this.panFilter.Text = "請輸入交易日期";
@@ -182,7 +165,6 @@
         #endregion
       private System.Windows.Forms.GroupBox groupAdmin;
       private System.Windows.Forms.CheckBox chkTxt;
-      private System.Windows.Forms.CheckBox chk_40023_data;
       private DevExpress.XtraEditors.PanelControl r_frame;
       private System.Windows.Forms.Label labMsg;
       private System.Windows.Forms.GroupBox panFilter;

@@ -83,6 +83,7 @@
          this.cbxProd.AppearanceSelected.BackColor2 = System.Drawing.Color.White;
          this.cbxProd.AppearanceSelected.Options.UseBackColor = true;
          this.cbxProd.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+         this.cbxProd.CheckOnClick = true;
          this.cbxProd.ColumnWidth = 57;
          this.cbxProd.HorzScrollStep = 9;
          this.cbxProd.ItemAutoHeight = true;
@@ -96,7 +97,7 @@
          this.cbxProd.LookAndFeel.SkinName = "Office 2013";
          this.cbxProd.LookAndFeel.UseDefaultLookAndFeel = false;
          this.cbxProd.Name = "cbxProd";
-         this.cbxProd.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+         this.cbxProd.SelectionMode = System.Windows.Forms.SelectionMode.None;
          this.cbxProd.Size = new System.Drawing.Size(375, 171);
          this.cbxProd.TabIndex = 5;
          // 
@@ -200,7 +201,7 @@
          this.txtEndDate2.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndDate2.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndDate2.Size = new System.Drawing.Size(100, 26);
-         this.txtEndDate2.TabIndex = 85;
+         this.txtEndDate2.TabIndex = 3;
          this.txtEndDate2.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtEndDate
@@ -220,7 +221,7 @@
          this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndDate.Size = new System.Drawing.Size(100, 26);
-         this.txtEndDate.TabIndex = 84;
+         this.txtEndDate.TabIndex = 2;
          this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtStartDate
@@ -240,7 +241,7 @@
          this.txtStartDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtStartDate.Size = new System.Drawing.Size(100, 26);
-         this.txtStartDate.TabIndex = 83;
+         this.txtStartDate.TabIndex = 1;
          this.txtStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // label11
@@ -292,7 +293,7 @@
          this.rdoReportType.Properties.LookAndFeel.SkinName = "Visual Studio 2013 Light";
          this.rdoReportType.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.rdoReportType.Size = new System.Drawing.Size(100, 85);
-         this.rdoReportType.TabIndex = 77;
+         this.rdoReportType.TabIndex = 0;
          // 
          // label8
          // 

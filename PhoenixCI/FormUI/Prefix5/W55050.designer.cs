@@ -119,7 +119,7 @@
          this.txtEndMonth.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndMonth.Size = new System.Drawing.Size(100, 26);
-         this.txtEndMonth.TabIndex = 19;
+         this.txtEndMonth.TabIndex = 1;
          this.txtEndMonth.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtStartMonth
@@ -139,7 +139,7 @@
          this.txtStartMonth.Properties.Mask.ShowPlaceHolders = false;
          this.txtStartMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtStartMonth.Size = new System.Drawing.Size(100, 26);
-         this.txtStartMonth.TabIndex = 18;
+         this.txtStartMonth.TabIndex = 0;
          this.txtStartMonth.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // rgpType

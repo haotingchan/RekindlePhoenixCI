@@ -103,11 +103,19 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
       protected override ResultStatus Retrieve() {
          try {
+
+            #region 輸入&日期檢核
+            if (string.Compare(txtStartDate.Text , txtEndDate.Text) > 0) {
+               MessageDisplay.Error(CheckDate.Datedif , GlobalInfo.ErrorText);
+               return ResultStatus.Fail;
+            }
+            #endregion
+
             DataTable dt = new MG8().ListData(StartDate , EndDate);
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info("無任何資料");
+               MessageDisplay.Info(MessageDisplay.MSG_NO_DATA , GlobalInfo.ResultText);
             } else {
-   
+
                retDt = dt.Clone();
                foreach (DataRow r in dt.Rows) {
                   retDt.ImportRow(r);
@@ -131,7 +139,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                gvMain.Columns["MG8_ISSUE_YMD"].ColumnEdit = issueYmd;
 
             }
-          
+
             //設定gvMain
             gcMain.Visible = true;
             //gvMain.Columns.Clear();
@@ -151,8 +159,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
       protected override ResultStatus Save(PokeBall pokeBall) {
          try {
 
-            if(gcMain.DataSource == null) {
-               MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
+            if (gcMain.DataSource == null) {
+               MessageDisplay.Info(MessageDisplay.MSG_NO_DATA , GlobalInfo.ResultText);
                return ResultStatus.FailButNext;
             }
 
@@ -167,11 +175,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
 
             if (dtChange == null) {
-               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+               MessageDisplay.Warning("沒有變更資料,不需要存檔!" , GlobalInfo.WarningText);
                return ResultStatus.Fail;
             }
             if (dtChange.Rows.Count == 0) {
-               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+               MessageDisplay.Warning("沒有變更資料,不需要存檔!" , GlobalInfo.WarningText);
                return ResultStatus.Fail;
             }
 
@@ -182,7 +190,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   case DataRowState.Modified:
                      dr["MG8_W_TIME"] = DateTime.Now;
                      dr["MG8_W_USER_ID"] = GlobalInfo.USER_ID;
-                     dr["MG8_EFFECT_YMD"] = dr["MG8_EFFECT_YMD"].AsString().Replace("/","");
+                     dr["MG8_EFFECT_YMD"] = dr["MG8_EFFECT_YMD"].AsString().Replace("/" , "");
                      dr["MG8_ISSUE_YMD"] = dr["MG8_ISSUE_YMD"].AsString().Replace("/" , "");
                      break;
                   case DataRowState.Unchanged:
@@ -199,7 +207,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             dtChange = dt.GetChanges();
             ResultData res = new MG8().UpdateData(dtChange);
             if (res.Status == ResultStatus.Fail) {
-               MessageDisplay.Error("儲存失敗");
+               MessageDisplay.Error("儲存失敗" , GlobalInfo.ErrorText);
                return ResultStatus.Fail;
             } else {
                //save成功才寫異動LOG: 紀錄異動前後的值
@@ -278,14 +286,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   txt += "，";
                }
 
-               txt += string.Format("自{0}起生效。{1}" , effectYmd, Environment.NewLine);
+               txt += string.Format("自{0}起生效。{1}" , effectYmd , Environment.NewLine);
 
                string fileName = _ProgramID + "_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".txt";
                string filePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , fileName);
 
                bool IsSuccess = ToText(txt , filePath , System.Text.Encoding.GetEncoding(950));
                if (!IsSuccess) {
-                  MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!");
+                  MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!" , GlobalInfo.ErrorText);
                   return ResultStatus.Fail;
                }
                #endregion
@@ -293,7 +301,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                //轉ci.MG8D (執行ci.sp_H_stt_MG8D)
                string resInsert = dao49060.ExecuteStoredProcedure(effectYmd , fId , "I");
                if (resInsert != "0") {
-                  MessageDisplay.Error("執行SP(ci.sp_H_stt_MG8D)錯誤!");
+                  MessageDisplay.Error("執行SP(ci.sp_H_stt_MG8D)錯誤!" , GlobalInfo.ErrorText);
                   WriteLog("執行SP(ci.sp_H_stt_MG8D)-(I)錯誤!" , "Error" , "Z" , false);
                }
                WriteLog("執行ci.sp_H_stt_MG8D(I)" , "Info" , "X" , false);
@@ -308,7 +316,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                   string resDelete = dao49060.ExecuteStoredProcedure(effectYmd , fId , "D");
                   if (resDelete != "0") {
-                     MessageDisplay.Error("執行SP(ci.sp_H_stt_MG8D)錯誤!");
+                     MessageDisplay.Error("執行SP(ci.sp_H_stt_MG8D)錯誤!" , GlobalInfo.ErrorText);
                      WriteLog("執行SP(ci.sp_H_stt_MG8D)-(D)錯誤!" , "Error" , "Z" , false);
                   }
                   WriteLog("執行ci.sp_H_stt_MG8D(D)" , "Info" , "X" , false);

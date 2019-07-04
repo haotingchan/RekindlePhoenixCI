@@ -1,5 +1,4 @@
 ﻿using BaseGround;
-using BaseGround.Shared;
 using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together.TableDao;
@@ -47,20 +46,15 @@ namespace PhoenixCI.FormUI.Prefix3 {
       protected override ResultStatus Export() {
 
          try {
-                #region 日期檢核
-                if (!txtStartDate.IsDate(txtStartDate.Text, CheckDate.Start)
-                         || !txtEndDate.IsDate(txtEndDate.Text, CheckDate.End)) {
-                    labMsg.Visible = false;
-                    return ResultStatus.Fail; ;
-                }
 
-                if (string.Compare(txtStartDate.Text, txtEndDate.Text) > 0) {
-                    MessageDisplay.Error(CheckDate.Datedif, GlobalInfo.ErrorText);
-                    labMsg.Visible = false;
-                    return ResultStatus.Fail; ;
-                }
-                #endregion
-                int li_mth_seq1, li_mth_seq2 = 0;
+            #region 日期檢核
+            if (string.Compare(txtStartDate.Text , txtEndDate.Text) > 0) {
+               MessageDisplay.Error(CheckDate.Datedif , GlobalInfo.ErrorText);
+               return ResultStatus.Fail;
+            }
+            #endregion
+
+            int li_mth_seq1, li_mth_seq2 = 0;
 
             //ready
             panFilter.Enabled = false;
@@ -86,10 +80,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
             DataTable dtContent = new DataTable();
             dtContent = daoTPPINTD.d30683(txtStartDate.DateTimeValue , txtEndDate.DateTimeValue , li_mth_seq1 , li_mth_seq2 , "Y");
             if (dtContent.Rows.Count == 0) {
-               MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtEndDate.Text , this.Text));
-                    labMsg.Visible = false;
-                    return ResultStatus.Fail;
-                }
+               MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtEndDate.Text , this.Text) , GlobalInfo.ResultText);
+               labMsg.Visible = false;
+               return ResultStatus.Fail;
+            }
 
             //1.1處理資料型態
             DataTable dt = dtContent.Clone(); //轉型別用的datatable

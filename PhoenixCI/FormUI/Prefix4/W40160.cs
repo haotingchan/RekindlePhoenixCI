@@ -59,12 +59,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
          txtDay.Text = "2500";
 
          dao40160 = new D40160();
-
-#if DEBUG
-         //Winni test
-         //txtSDate.DateTimeValue = DateTime.ParseExact("2018/06/15", "yyyy/MM/dd", null);
-         //this.Text += "(開啟測試模式),ocfDate=2018/06/15";
-#endif
       }
 
       protected override ResultStatus Open() {
@@ -120,11 +114,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
          try {
 
             #region 日期檢核
-            if (!txtStartDate.IsDate(txtStartDate.Text , CheckDate.Start)
-                     || !txtEndDate.IsDate(txtEndDate.Text , CheckDate.End)) {
-               labMsg.Visible = false;
-               return ResultStatus.Fail; ;
-            }
+            //if (!txtStartDate.IsDate(txtStartDate.Text , CheckDate.Start)
+            //         || !txtEndDate.IsDate(txtEndDate.Text , CheckDate.End)) {
+            //   labMsg.Visible = false;
+            //   return ResultStatus.Fail; ;
+            //}
 
             if (string.Compare(txtStartDate.Text , txtEndDate.Text) > 0) {
                MessageDisplay.Error(CheckDate.Datedif , GlobalInfo.ErrorText);
@@ -164,7 +158,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             //4. 模型代碼
             if (chkModel.CheckedItemsCount < 1) {
-               MessageDisplay.Error("請勾選要匯出的報表!");
+               MessageDisplay.Error("請勾選要匯出的報表!" , GlobalInfo.ErrorText);
                return ResultStatus.Fail;
             }
 
@@ -222,7 +216,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      break;
                }//switch (item.Value)
                if (res <= 0) {
-                  MessageDisplay.Info("查無資料!");
+                  MessageDisplay.Info(MessageDisplay.MSG_NO_DATA , GlobalInfo.ResultText);
                   return ResultStatus.Fail;
                }
             }//foreach (CheckedListBoxItem item in chkModel.Items)

@@ -160,9 +160,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                }
                continue;
             }
-           
+
             if (dtChange == null) {
-               MessageDisplay.Warning("沒有變更資料,不需要存檔!");
+               MessageDisplay.Warning("沒有變更資料,不需要存檔!" , GlobalInfo.WarningText);
                return ResultStatus.FailButNext;
             }
 
@@ -219,7 +219,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //dw_2.update()
             ResultData myResultData = daoSP2.UpdateData(dtSp2);
             if (myResultData.Status == ResultStatus.Fail) {
-               MessageDisplay.Error("更新資料庫錯誤! ");
+               MessageDisplay.Error("更新資料庫錯誤! " , GlobalInfo.ErrorText);
                return ResultStatus.Fail;
             }
 
@@ -229,11 +229,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
 
             AfterSaveForPrint(gcMain , null , null , dtChange);
-            MessageDisplay.Info("報表儲存完成!");
+            MessageDisplay.Info("報表儲存完成!" , GlobalInfo.ResultText);
 
          } catch (Exception ex) {
-            MessageDisplay.Error("儲存錯誤");
-            throw ex;
+            WriteLog(ex);
+            MessageDisplay.Error("儲存錯誤" , GlobalInfo.ErrorText);
          }
          return ResultStatus.Success;
       }
@@ -486,14 +486,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
          if (gvMain.GetRowCellValue(ai_row , "SP2_ADJ_CODE").AsString() == "Y") {
             if (osw_grp == "1") {
                if (txtDate1.Text == "1901/01/01") {
-                  MessageDisplay.Error("請先輸入" + labG1.Text);
+                  MessageDisplay.Error("請先輸入" + labG1.Text,GlobalInfo.ErrorText);
                   return "N";
                }
                gvMain.SetRowCellValue(ai_row , "ISSUE_BEGIN_YMD" , txtDate1.DateTimeValue.ToString("yyyyMMdd"));
             }
             if (osw_grp == "5") {
                if (txtDate2.Text == "1901/01/01") {
-                  MessageDisplay.Error("請先輸入" + labG2.Text);
+                  MessageDisplay.Error("請先輸入" + labG2.Text , GlobalInfo.ErrorText);
                   return "N";
                }
                gvMain.SetRowCellValue(ai_row , "ISSUE_BEGIN_YMD" , txtDate2.DateTimeValue.ToString("yyyyMMdd"));

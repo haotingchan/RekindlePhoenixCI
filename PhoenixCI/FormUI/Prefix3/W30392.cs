@@ -162,7 +162,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             if (flag == 0) {
                File.Delete(excelDestinationPath);
-               MessageDisplay.Info("查無資料!");
+               MessageDisplay.Info(MessageDisplay.MSG_NO_DATA , GlobalInfo.ResultText);
                return ResultStatus.Fail;
             }
 
@@ -174,7 +174,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             return ResultStatus.Success;
          } catch (Exception ex) {
-            MessageDisplay.Info("查無資料!");
+            MessageDisplay.Info(MessageDisplay.MSG_NO_DATA , GlobalInfo.ResultText);
             WriteLog(ex);
          } finally {
             panFilter.Enabled = true;
@@ -204,7 +204,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             DataTable dtAi3 = dao30392.d_ai3(kindId , ldt_sdate , ldt_edate);
             if (dtAi3.Rows.Count <= 0) {
-               //MessageDisplay.Info(string.Format("{0}~{1},{2}-{3},無任何資料!" , ldt_sdate.ToString("yyyy/MM/dd") , ldt_edate.ToString("yyyy/MM/dd") , _ProgramID , rptName));
+               //MessageDisplay.Info(string.Format("{0}~{1},{2}-{3},無任何資料!" , ldt_sdate.ToString("yyyy/MM/dd") , ldt_edate.ToString("yyyy/MM/dd") , _ProgramID , rptName),GlobalInfo.ResultText);
                return;
             }
 
@@ -267,16 +267,16 @@ namespace PhoenixCI.FormUI.Prefix3 {
                ChartObject chartObjs = workbook.ChartSheets["30392_2a"].Chart;
                ChartData newChartData = new ChartData();
                //印度50期貨總成交量
-               newChartData.RangeValue = ws1.Range["D4:D"+ (row + 1).AsString()];
+               newChartData.RangeValue = ws1.Range["D4:D" + (row + 1).AsString()];
                chartObjs.Series[0].Values = newChartData;
                //印度期貨總未平倉量
-               newChartData.RangeValue = ws1.Range["E4:E"+ (row + 1).AsString()];
+               newChartData.RangeValue = ws1.Range["E4:E" + (row + 1).AsString()];
                chartObjs.Series[1].Values = newChartData;
                //印度50期貨價格
-               newChartData.RangeValue = ws1.Range["B4:B"+ (row + 1).AsString()];
+               newChartData.RangeValue = ws1.Range["B4:B" + (row + 1).AsString()];
                chartObjs.Series[2].Values = newChartData;
                //現貨價格
-               newChartData.RangeValue = ws1.Range["G4:G"+ (row + 1).AsString()];
+               newChartData.RangeValue = ws1.Range["G4:G" + (row + 1).AsString()];
                chartObjs.Series[3].Values = newChartData;
             }
 
@@ -337,7 +337,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             DataTable dtAprf = dao30392.d_30392_aprf(ldt_sdate , ldt_edate);
             if (dtAprf.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0}~{1},{2}-{3},無任何資料!" , ldt_sdate.ToString("yyyy/MM/dd") , ldt_edate.ToString("yyyy/MM/dd") , _ProgramID , rptName));
+               MessageDisplay.Info(string.Format("{0}~{1},{2}-{3},無任何資料!" , ldt_sdate.ToString("yyyy/MM/dd") , ldt_edate.ToString("yyyy/MM/dd") , _ProgramID , rptName) , GlobalInfo.ResultText);
                return;
             }
 

@@ -36,8 +36,8 @@
          this.label2 = new System.Windows.Forms.Label();
          this.labKind = new System.Windows.Forms.Label();
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
-         this.dwFId = new DevExpress.XtraEditors.LookUpEdit();
          this.dwKindId = new DevExpress.XtraEditors.LookUpEdit();
+         this.dwFId = new DevExpress.XtraEditors.LookUpEdit();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          this.grpRbDate.SuspendLayout();
@@ -49,8 +49,8 @@
          ((System.ComponentModel.ISupportInitialize)(this.gbItem.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
          this.r_frame.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.dwFId.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.dwKindId.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.dwFId.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -112,7 +112,7 @@
          this.txtEndDate2.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndDate2.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndDate2.Size = new System.Drawing.Size(100, 26);
-         this.txtEndDate2.TabIndex = 88;
+         this.txtEndDate2.TabIndex = 7;
          this.txtEndDate2.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtStartDate2
@@ -132,7 +132,7 @@
          this.txtStartDate2.Properties.Mask.ShowPlaceHolders = false;
          this.txtStartDate2.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtStartDate2.Size = new System.Drawing.Size(100, 26);
-         this.txtStartDate2.TabIndex = 87;
+         this.txtStartDate2.TabIndex = 6;
          this.txtStartDate2.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtEndDate
@@ -152,7 +152,7 @@
          this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndDate.Size = new System.Drawing.Size(100, 26);
-         this.txtEndDate.TabIndex = 86;
+         this.txtEndDate.TabIndex = 5;
          this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtStartDate
@@ -172,7 +172,7 @@
          this.txtStartDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtStartDate.Size = new System.Drawing.Size(100, 26);
-         this.txtStartDate.TabIndex = 85;
+         this.txtStartDate.TabIndex = 4;
          this.txtStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtDate
@@ -192,7 +192,7 @@
          this.txtDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtDate.Size = new System.Drawing.Size(100, 26);
-         this.txtDate.TabIndex = 84;
+         this.txtDate.TabIndex = 3;
          this.txtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // label3
@@ -272,21 +272,6 @@
          this.r_frame.Size = new System.Drawing.Size(590, 325);
          this.r_frame.TabIndex = 77;
          // 
-         // dwFId
-         // 
-         this.dwFId.Location = new System.Drawing.Point(157, 27);
-         this.dwFId.Name = "dwFId";
-         this.dwFId.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-         this.dwFId.Properties.AppearanceDisabled.Options.UseBackColor = true;
-         this.dwFId.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.dwFId.Properties.LookAndFeel.SkinName = "The Bezier";
-         this.dwFId.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
-         this.dwFId.Properties.NullText = "";
-         this.dwFId.Properties.PopupSizeable = false;
-         this.dwFId.Size = new System.Drawing.Size(403, 26);
-         this.dwFId.TabIndex = 100;
-         // 
          // dwKindId
          // 
          this.dwKindId.Location = new System.Drawing.Point(157, 72);
@@ -300,7 +285,22 @@
          this.dwKindId.Properties.NullText = "";
          this.dwKindId.Properties.PopupSizeable = false;
          this.dwKindId.Size = new System.Drawing.Size(159, 26);
-         this.dwKindId.TabIndex = 101;
+         this.dwKindId.TabIndex = 1;
+         // 
+         // dwFId
+         // 
+         this.dwFId.Location = new System.Drawing.Point(157, 27);
+         this.dwFId.Name = "dwFId";
+         this.dwFId.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+         this.dwFId.Properties.AppearanceDisabled.Options.UseBackColor = true;
+         this.dwFId.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.dwFId.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.dwFId.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
+         this.dwFId.Properties.NullText = "";
+         this.dwFId.Properties.PopupSizeable = false;
+         this.dwFId.Size = new System.Drawing.Size(403, 26);
+         this.dwFId.TabIndex = 0;
          // 
          // W49062
          // 
@@ -323,8 +323,8 @@
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).EndInit();
          this.r_frame.ResumeLayout(false);
          this.r_frame.PerformLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.dwFId.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.dwKindId.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.dwFId.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 

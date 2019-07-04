@@ -71,7 +71,7 @@
          // 
          this.MMFO_MARKET_CODE.AppearanceCell.BackColor = System.Drawing.Color.White;
          this.MMFO_MARKET_CODE.AppearanceCell.Options.UseBackColor = true;
-         this.MMFO_MARKET_CODE.AppearanceHeader.BackColor = System.Drawing.Color.Yellow;
+         this.MMFO_MARKET_CODE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
          this.MMFO_MARKET_CODE.AppearanceHeader.Options.UseBackColor = true;
          this.MMFO_MARKET_CODE.Caption = "交易時段";
          this.MMFO_MARKET_CODE.FieldName = "MMFO_MARKET_CODE";
@@ -83,7 +83,7 @@
          // 
          this.MMFO_PARAM_KEY.AppearanceCell.BackColor = System.Drawing.Color.White;
          this.MMFO_PARAM_KEY.AppearanceCell.Options.UseBackColor = true;
-         this.MMFO_PARAM_KEY.AppearanceHeader.BackColor = System.Drawing.Color.Yellow;
+         this.MMFO_PARAM_KEY.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
          this.MMFO_PARAM_KEY.AppearanceHeader.Options.UseBackColor = true;
          this.MMFO_PARAM_KEY.Caption = "商品別";
          this.MMFO_PARAM_KEY.FieldName = "MMFO_PARAM_KEY";
@@ -93,7 +93,7 @@
          // 
          // MMFO_MIN_PRICE
          // 
-         this.MMFO_MIN_PRICE.AppearanceHeader.BackColor = System.Drawing.Color.Aqua;
+         this.MMFO_MIN_PRICE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
          this.MMFO_MIN_PRICE.AppearanceHeader.Options.UseBackColor = true;
          this.MMFO_MIN_PRICE.Caption = "委託價格限制";
          this.MMFO_MIN_PRICE.ColumnEdit = this.MMFO_MIN_PRICETextEdit1;

@@ -28,8 +28,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
          this.Text = _ProgramID + "─" + _ProgramName;
 
          dao30640 = new D30640();
-         //txtStartMonth.Text = GlobalInfo.OCF_DATE.ToString("yyyy/01"); //起始月份皆設為當年1月
-         //txtEndMonth.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
       }
 
       protected override ResultStatus Open() {
@@ -125,7 +123,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             DataTable dt = dao30640.GetData(as_symd , as_eymd);
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtStartMonth.Text + "－" + txtEndMonth.Text , this.Text) , "處理結果");
+               MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtStartMonth.Text + "－" + txtEndMonth.Text , this.Text) , GlobalInfo.ResultText);
                return false;
             }
 

@@ -79,6 +79,13 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
          try {
 
+            #region 輸入&日期檢核
+            if (string.Compare(txtStartDate.Text , txtEndDate.Text) > 0) {
+               MessageDisplay.Error(CheckDate.Datedif , GlobalInfo.ErrorText);
+               return ResultStatus.Fail;
+            }
+            #endregion
+
             //報表內容
             if (gbMarket.EditValue.AsString() == "rbMarket0") {
                dbName = "ammd"; //一般
@@ -121,7 +128,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
             DataTable defaultTable = dao50060.ListData(ls_brk_no , ls_acc_no , ls_time1 , ls_time2 , ls_prod_kind_id , ls_settle_date , ls_pc_code , ld_strike_price1 , ld_strike_price2 , dbName);
             if (defaultTable.Rows.Count <= 0) {
-               MessageDisplay.Info("無任何資料!");
+               MessageDisplay.Info(MessageDisplay.MSG_NO_DATA , GlobalInfo.ResultText);
                gcMain.DataSource = null;
                gcMain.Visible = false;
                this.Cursor = Cursors.Arrow;
@@ -177,7 +184,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
          //讀取資料
          DataTable rep = dao50060.ListData(ls_brk_no , ls_acc_no , ls_time1 , ls_time2 , ls_prod_kind_id , ls_settle_date , ls_pc_code , ld_strike_price1 , ld_strike_price2 , dbName , "Y");
          if (rep.Rows.Count <= 0) {
-            MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtStartDate.Text , this.Text));
+            MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtStartDate.Text , this.Text) , GlobalInfo.ResultText);
             return ResultStatus.Fail;
          }
 
@@ -204,7 +211,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
       }
 
       protected override ResultStatus ExportAfter(string startTime) {
-         MessageDisplay.Info("轉檔完成!");
+         MessageDisplay.Info("轉檔完成!" , GlobalInfo.ResultText);
 
          return ResultStatus.Success;
       }
@@ -227,8 +234,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
             WriteLog(ex);
          }
          return ResultStatus.Fail;
-      }      
- 
+      }
+
       private void gvMain_CustomColumnDisplayText(object sender , DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventArgs e) {
          //時間格式呈現微調
          if (e.Column.FieldName == "AMMD_W_TIME") {

@@ -113,7 +113,7 @@
          this.txtEndTime.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndTime.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndTime.Size = new System.Drawing.Size(68, 26);
-         this.txtEndTime.TabIndex = 96;
+         this.txtEndTime.TabIndex = 3;
          // 
          // txtStartTime
          // 
@@ -129,7 +129,7 @@
          this.txtStartTime.Properties.Mask.ShowPlaceHolders = false;
          this.txtStartTime.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtStartTime.Size = new System.Drawing.Size(68, 26);
-         this.txtStartTime.TabIndex = 86;
+         this.txtStartTime.TabIndex = 1;
          // 
          // gbMarket
          // 
@@ -145,7 +145,7 @@
          this.gbMarket.Properties.LookAndFeel.SkinName = "Office 2013";
          this.gbMarket.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbMarket.Size = new System.Drawing.Size(174, 35);
-         this.gbMarket.TabIndex = 0;
+         this.gbMarket.TabIndex = 4;
          // 
          // txtEndDate
          // 
@@ -164,7 +164,7 @@
          this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndDate.Size = new System.Drawing.Size(100, 26);
-         this.txtEndDate.TabIndex = 95;
+         this.txtEndDate.TabIndex = 2;
          this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtStartDate
@@ -184,7 +184,7 @@
          this.txtStartDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtStartDate.Size = new System.Drawing.Size(100, 26);
-         this.txtStartDate.TabIndex = 94;
+         this.txtStartDate.TabIndex = 0;
          this.txtStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // sle_1
@@ -194,7 +194,7 @@
          this.sle_1.Name = "sle_1";
          this.sle_1.Properties.Mask.EditMask = "n";
          this.sle_1.Size = new System.Drawing.Size(117, 26);
-         this.sle_1.TabIndex = 81;
+         this.sle_1.TabIndex = 8;
          // 
          // dw_prod_kd
          // 
@@ -209,7 +209,7 @@
          this.dw_prod_kd.Properties.PopupSizeable = false;
          this.dw_prod_kd.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
          this.dw_prod_kd.Size = new System.Drawing.Size(117, 26);
-         this.dw_prod_kd.TabIndex = 78;
+         this.dw_prod_kd.TabIndex = 6;
          // 
          // dw_sbrkno
          // 
@@ -225,7 +225,7 @@
          this.dw_sbrkno.Properties.NullText = "";
          this.dw_sbrkno.Properties.PopupSizeable = false;
          this.dw_sbrkno.Size = new System.Drawing.Size(365, 26);
-         this.dw_sbrkno.TabIndex = 79;
+         this.dw_sbrkno.TabIndex = 5;
          // 
          // ddlb_1
          // 
@@ -243,7 +243,7 @@
          this.ddlb_1.Properties.LookAndFeel.SkinName = "The Bezier";
          this.ddlb_1.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.ddlb_1.Size = new System.Drawing.Size(117, 26);
-         this.ddlb_1.TabIndex = 77;
+         this.ddlb_1.TabIndex = 7;
          // 
          // sle_2
          // 
@@ -252,7 +252,7 @@
          this.sle_2.Name = "sle_2";
          this.sle_2.Properties.Mask.EditMask = "n";
          this.sle_2.Size = new System.Drawing.Size(100, 26);
-         this.sle_2.TabIndex = 76;
+         this.sle_2.TabIndex = 9;
          // 
          // label8
          // 
@@ -371,6 +371,8 @@
          // 
          this.AMMD_BRK_NO.AppearanceCell.Options.UseTextOptions = true;
          this.AMMD_BRK_NO.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.AMMD_BRK_NO.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.AMMD_BRK_NO.AppearanceHeader.Options.UseBackColor = true;
          this.AMMD_BRK_NO.AppearanceHeader.Options.UseTextOptions = true;
          this.AMMD_BRK_NO.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.AMMD_BRK_NO.Caption = "造市者代號";
@@ -381,6 +383,8 @@
          // 
          // BRK_ABBR_NAME
          // 
+         this.BRK_ABBR_NAME.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.BRK_ABBR_NAME.AppearanceHeader.Options.UseBackColor = true;
          this.BRK_ABBR_NAME.AppearanceHeader.Options.UseTextOptions = true;
          this.BRK_ABBR_NAME.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.BRK_ABBR_NAME.Caption = "造市者名稱";
@@ -393,6 +397,8 @@
          // 
          this.AMMD_ACC_NO.AppearanceCell.Options.UseTextOptions = true;
          this.AMMD_ACC_NO.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.AMMD_ACC_NO.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.AMMD_ACC_NO.AppearanceHeader.Options.UseBackColor = true;
          this.AMMD_ACC_NO.AppearanceHeader.Options.UseTextOptions = true;
          this.AMMD_ACC_NO.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.AMMD_ACC_NO.Caption = "帳號";
@@ -405,6 +411,8 @@
          // 
          this.AMMD_KIND_ID.AppearanceCell.Options.UseTextOptions = true;
          this.AMMD_KIND_ID.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.AMMD_KIND_ID.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.AMMD_KIND_ID.AppearanceHeader.Options.UseBackColor = true;
          this.AMMD_KIND_ID.AppearanceHeader.Options.UseTextOptions = true;
          this.AMMD_KIND_ID.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.AMMD_KIND_ID.Caption = "商品";
@@ -417,6 +425,8 @@
          // 
          this.AMMD_SETTLE_DATE.AppearanceCell.Options.UseTextOptions = true;
          this.AMMD_SETTLE_DATE.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.AMMD_SETTLE_DATE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.AMMD_SETTLE_DATE.AppearanceHeader.Options.UseBackColor = true;
          this.AMMD_SETTLE_DATE.AppearanceHeader.Options.UseTextOptions = true;
          this.AMMD_SETTLE_DATE.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.AMMD_SETTLE_DATE.Caption = "契約月份";
@@ -429,6 +439,8 @@
          // 
          this.AMMD_PC_CODE.AppearanceCell.Options.UseTextOptions = true;
          this.AMMD_PC_CODE.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.AMMD_PC_CODE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.AMMD_PC_CODE.AppearanceHeader.Options.UseBackColor = true;
          this.AMMD_PC_CODE.AppearanceHeader.Options.UseTextOptions = true;
          this.AMMD_PC_CODE.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.AMMD_PC_CODE.Caption = "買賣權";
@@ -439,6 +451,8 @@
          // 
          // AMMD_STRIKE_PRICE
          // 
+         this.AMMD_STRIKE_PRICE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.AMMD_STRIKE_PRICE.AppearanceHeader.Options.UseBackColor = true;
          this.AMMD_STRIKE_PRICE.AppearanceHeader.Options.UseTextOptions = true;
          this.AMMD_STRIKE_PRICE.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.AMMD_STRIKE_PRICE.Caption = "履約價格";
@@ -449,6 +463,8 @@
          // 
          // AMMD_BUY_PRICE
          // 
+         this.AMMD_BUY_PRICE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.AMMD_BUY_PRICE.AppearanceHeader.Options.UseBackColor = true;
          this.AMMD_BUY_PRICE.AppearanceHeader.Options.UseTextOptions = true;
          this.AMMD_BUY_PRICE.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.AMMD_BUY_PRICE.Caption = "買價價格";
@@ -459,6 +475,8 @@
          // 
          // AMMD_SELL_PRICE
          // 
+         this.AMMD_SELL_PRICE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.AMMD_SELL_PRICE.AppearanceHeader.Options.UseBackColor = true;
          this.AMMD_SELL_PRICE.AppearanceHeader.Options.UseTextOptions = true;
          this.AMMD_SELL_PRICE.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.AMMD_SELL_PRICE.Caption = "賣價價格";
@@ -469,6 +487,8 @@
          // 
          // AMMD_B_QNTY
          // 
+         this.AMMD_B_QNTY.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.AMMD_B_QNTY.AppearanceHeader.Options.UseBackColor = true;
          this.AMMD_B_QNTY.AppearanceHeader.Options.UseTextOptions = true;
          this.AMMD_B_QNTY.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.AMMD_B_QNTY.Caption = "委買數量";
@@ -479,6 +499,8 @@
          // 
          // AMMD_S_QNTY
          // 
+         this.AMMD_S_QNTY.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.AMMD_S_QNTY.AppearanceHeader.Options.UseBackColor = true;
          this.AMMD_S_QNTY.AppearanceHeader.Options.UseTextOptions = true;
          this.AMMD_S_QNTY.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.AMMD_S_QNTY.Caption = "委賣數量";
@@ -491,6 +513,8 @@
          // 
          this.AMMD_W_TIME.AppearanceCell.Options.UseTextOptions = true;
          this.AMMD_W_TIME.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.AMMD_W_TIME.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.AMMD_W_TIME.AppearanceHeader.Options.UseBackColor = true;
          this.AMMD_W_TIME.AppearanceHeader.Options.UseTextOptions = true;
          this.AMMD_W_TIME.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.AMMD_W_TIME.Caption = "委託時間";

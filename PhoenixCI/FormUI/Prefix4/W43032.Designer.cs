@@ -26,6 +26,7 @@
          this.labMsg = new System.Windows.Forms.Label();
          this.panFilter = new System.Windows.Forms.GroupBox();
          this.txtDate = new BaseGround.Widget.TextDateEdit();
+         this.labKind = new System.Windows.Forms.Label();
          this.grpRbDate = new System.Windows.Forms.GroupBox();
          this.txtSid = new DevExpress.XtraEditors.TextEdit();
          this.gbItem = new DevExpress.XtraEditors.RadioGroup();
@@ -33,7 +34,6 @@
          this.grpChkModel = new System.Windows.Forms.GroupBox();
          this.chkModel = new DevExpress.XtraEditors.CheckedListBoxControl();
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
-         this.labKind = new System.Windows.Forms.Label();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          this.panFilter.SuspendLayout();
@@ -103,8 +103,18 @@
          this.txtDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtDate.Size = new System.Drawing.Size(100, 26);
-         this.txtDate.TabIndex = 89;
+         this.txtDate.TabIndex = 0;
          this.txtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         // 
+         // labKind
+         // 
+         this.labKind.AutoSize = true;
+         this.labKind.ForeColor = System.Drawing.Color.Black;
+         this.labKind.Location = new System.Drawing.Point(37, 45);
+         this.labKind.Name = "labKind";
+         this.labKind.Size = new System.Drawing.Size(58, 21);
+         this.labKind.TabIndex = 90;
+         this.labKind.Text = "日期：";
          // 
          // grpRbDate
          // 
@@ -127,7 +137,7 @@
          this.txtSid.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.txtSid.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtSid.Size = new System.Drawing.Size(66, 26);
-         this.txtSid.TabIndex = 4;
+         this.txtSid.TabIndex = 2;
          // 
          // gbItem
          // 
@@ -150,7 +160,7 @@
          this.gbItem.Properties.LookAndFeel.SkinName = "Visual Studio 2013 Light";
          this.gbItem.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbItem.Size = new System.Drawing.Size(286, 170);
-         this.gbItem.TabIndex = 77;
+         this.gbItem.TabIndex = 1;
          // 
          // label9
          // 
@@ -181,6 +191,7 @@
          this.chkModel.AppearanceSelected.BackColor2 = System.Drawing.Color.White;
          this.chkModel.AppearanceSelected.Options.UseBackColor = true;
          this.chkModel.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+         this.chkModel.CheckOnClick = true;
          this.chkModel.ColumnWidth = 100;
          this.chkModel.HotTrackSelectMode = DevExpress.XtraEditors.HotTrackSelectMode.SelectItemOnClick;
          this.chkModel.ItemAutoHeight = true;
@@ -194,10 +205,10 @@
          this.chkModel.LookAndFeel.UseDefaultLookAndFeel = false;
          this.chkModel.MultiColumn = true;
          this.chkModel.Name = "chkModel";
-         this.chkModel.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+         this.chkModel.SelectionMode = System.Windows.Forms.SelectionMode.None;
          this.chkModel.ShowFocusRect = false;
          this.chkModel.Size = new System.Drawing.Size(304, 34);
-         this.chkModel.TabIndex = 6;
+         this.chkModel.TabIndex = 3;
          // 
          // r_frame
          // 
@@ -210,16 +221,6 @@
          this.r_frame.Name = "r_frame";
          this.r_frame.Size = new System.Drawing.Size(418, 465);
          this.r_frame.TabIndex = 77;
-         // 
-         // labKind
-         // 
-         this.labKind.AutoSize = true;
-         this.labKind.ForeColor = System.Drawing.Color.Black;
-         this.labKind.Location = new System.Drawing.Point(37, 45);
-         this.labKind.Name = "labKind";
-         this.labKind.Size = new System.Drawing.Size(58, 21);
-         this.labKind.TabIndex = 90;
-         this.labKind.Text = "日期：";
          // 
          // W43032
          // 

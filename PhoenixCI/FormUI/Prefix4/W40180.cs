@@ -16,6 +16,8 @@ using System.Net;
 using System.Threading;
 using System.Windows.Forms;
 
+//TODO : (CIN)servername登入才會看到[傳送到結算系統]的checkbox
+
 /// <summary>
 /// Winni, 2019/05/08
 /// </summary>
@@ -96,6 +98,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
       protected override ResultStatus Export() {
          try {
 
+            #region 輸入&日期檢核
+            if (string.Compare(txtStartDate.Text , txtEndDate.Text) > 0) {
+               MessageDisplay.Error(CheckDate.Datedif , GlobalInfo.ErrorText);
+               return ResultStatus.Fail;
+            }
+            #endregion
+
             //1. ready
             panFilter.Enabled = false;
             labMsg.Visible = true;
@@ -112,7 +121,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   if (item.Value.AsString() == "chkFutMsg" || item.Value.AsString() == "chkOptMsg") {
                      if (w >= 1) continue;
                      w++;
-                     DialogResult res = MessageDisplay.Choose("請確認公告開始及結束公告時間!");
+                     DialogResult res = MessageDisplay.Choose("請確認公告開始及結束公告時間!" , MessageBoxDefaultButton.Button2 , GlobalInfo.QuestionText);
                      if (res == DialogResult.No) {
                         return ResultStatus.Fail;
                      }
@@ -121,7 +130,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
 
             if (txtDate.Text != txtStartDate.Text) {
-               DialogResult res = MessageDisplay.Choose("生效日期 <> 開始公告日期,是否要修改日期?");
+               DialogResult res = MessageDisplay.Choose("生效日期 <> 開始公告日期,是否要修改日期?" , MessageBoxDefaultButton.Button2 , GlobalInfo.QuestionText);
                if (res == DialogResult.Yes) {
                   return ResultStatus.Fail;
                }
@@ -160,7 +169,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                (gbMsg.Items[0].CheckState == CheckState.Checked || gbMsg.Items[1].CheckState == CheckState.Checked ||
                 gbMoney.Items[0].CheckState == CheckState.Checked || gbMoney.Items[1].CheckState == CheckState.Checked ||
                 gbSpan.Items[1].CheckState == CheckState.Checked || gbSpan.Items[4].CheckState == CheckState.Checked)) {
-               MessageDisplay.Error("請勾選選項");
+               MessageDisplay.Error("請勾選選項" , GlobalInfo.ErrorText);
                return ResultStatus.Fail;
             }
 
@@ -266,7 +275,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dtAllTxt = dao40180.GetAllTxtData(ymd);
 
             if (dtAllTxt.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0},{1}－{2},讀取「保證金調整表」無任何資料!" , txtDate.Text , rptId , rptName));
+               MessageDisplay.Info(string.Format("{0},{1}－{2},讀取「保證金調整表」無任何資料!" , txtDate.Text , rptId , rptName) , GlobalInfo.ResultText);
                return;
             }
 
@@ -333,7 +342,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                //執行f_netdragon
                int li_rtn = Go("N" , userId , pwd , txtPath , targetPath + "\\" + fileName , "Y");
                if (li_rtn != 1) {
-                  MessageDisplay.Error("全部保證金7122文字檔搬檔失敗，請確認網路磁碟機連線");
+                  MessageDisplay.Error("全部保證金7122文字檔搬檔失敗，請確認網路磁碟機連線" , GlobalInfo.ErrorText);
                   return "E";
                }
                return "Y";
@@ -383,12 +392,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dt = dao40180.GetA0001TextDate(ymd , "F" , oswGrp , is_adj_type , is_adj_type_rtn);
 
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0},{1}－{2},讀取「期貨調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName));
+               MessageDisplay.Info(string.Format("{0},{1}－{2},讀取「期貨調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName) , GlobalInfo.ResultText);
                return;
             }
-               
+
             //主旨
-            string fromTime = string.Format("{0} {1}", txtStartDate.Text, txtStartTime.Text);
+            string fromTime = string.Format("{0} {1}" , txtStartDate.Text , txtStartTime.Text);
             string toTime = string.Format("{0} {1}" , txtEndDate.Text , txtEndTime.Text);
             string ls_head = fromTime + "\t" + toTime + "\t" + dwMsg.EditValue.AsString() + "\t";
 
@@ -412,7 +421,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   //(2)
                   txt2 = abbrName + "結算保證金適用比例調整為" + string.Format("{0:0.00%}" , mgd2Cm) + ",";
                   if (txt2.Length > 80) {
-                     MessageDisplay.Warning(string.Format("文字超過80字元（{0}),按確定後繼續..." , txt2));
+                     MessageDisplay.Warning(string.Format("文字超過80字元（{0}),按確定後繼續..." , txt2) , GlobalInfo.WarningText);
                      txt2 = txt2.SubStr(0 , 80);
                   }
                   txt2 = ls_head + txt2 + Environment.NewLine;
@@ -430,7 +439,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   //(2)
                   txt2 = abbrName + "結算保證金調整為" + string.Format("{0:N0}" , mgd2Cm) + ls_currency_type + ",";
                   if (txt2.Length > 80) {
-                     MessageDisplay.Warning(string.Format("文字超過80字元（{0}),按確定後繼續..." , txt2));
+                     MessageDisplay.Warning(string.Format("文字超過80字元（{0}),按確定後繼續..." , txt2) , GlobalInfo.WarningText);
                      txt2 = txt2.SubStr(0 , 80);
                   }
                   txt2 = ls_head + txt2 + Environment.NewLine;
@@ -452,7 +461,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             bool IsSuccess = ToText(ls_txt , filePath , System.Text.Encoding.GetEncoding(950));
             if (!IsSuccess) {
-               MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!");
+               MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!" , GlobalInfo.ErrorText);
                return;
             }
 
@@ -477,7 +486,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dt = dao40180.GetA0001TextDate(ymd , "O" , oswGrp , is_adj_type , is_adj_type_rtn);
 
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0},{1}－{2},讀取「選擇權調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName));
+               MessageDisplay.Info(string.Format("{0},{1}－{2},讀取「選擇權調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName) , GlobalInfo.ResultText);
                return;
             }
 
@@ -511,7 +520,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                                        string.Format("{0:0.000%}" , dt.Rows[pos + 1]["mgd2_cm"].AsDecimal()) + ",";
 
                   if (txt2.Length > 80) {
-                     MessageDisplay.Warning(string.Format("文字超過80字元（{0}),按確定後繼續..." , txt2));
+                     MessageDisplay.Warning(string.Format("文字超過80字元（{0}),按確定後繼續..." , txt2) , GlobalInfo.WarningText);
                      txt2 = txt2.SubStr(0 , 80);
                   }
                   txt2 = ls_head + txt2 + Environment.NewLine;
@@ -532,7 +541,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                        string.Format("{0:N0}" , dt.Rows[pos + 1]["mgd2_cm"].AsDecimal()) + ls_currency_type + ",";
 
                   if (txt2.Length > 80) {
-                     MessageDisplay.Warning(string.Format("文字超過80字元（{0}),按確定後繼續..." , txt2));
+                     MessageDisplay.Warning(string.Format("文字超過80字元（{0}),按確定後繼續..." , txt2) , GlobalInfo.WarningText);
                      txt2 = txt2.SubStr(0 , 80);
                   }
                   txt2 = ls_head + txt2 + Environment.NewLine;
@@ -555,7 +564,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             bool IsSuccess = ToText(ls_txt , filePath , System.Text.Encoding.GetEncoding(950));
             if (!IsSuccess) {
-               MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!");
+               MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!" , GlobalInfo.ErrorText);
                return;
             }
 
@@ -591,7 +600,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dt = dao40180.Get30004TextDate(ymd , "F" , oswGrp , is_adj_type , is_adj_type_rtn);
 
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0},{1}－{2}(_{3}),讀取「期貨調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName , ls_file_grp));
+               MessageDisplay.Info(string.Format("{0},{1}－{2}(_{3}),讀取「期貨調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName , ls_file_grp) , GlobalInfo.ResultText);
                return;
             }
 
@@ -613,7 +622,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             bool IsSuccess = ToText(ls_txt , filePath , System.Text.Encoding.GetEncoding(950));
             if (!IsSuccess) {
-               MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!");
+               MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!" , GlobalInfo.ErrorText);
                return;
             }
 
@@ -642,7 +651,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dt = dao40180.Get30004TextDate(ymd , "O" , oswGrp , is_adj_type , is_adj_type_rtn);
 
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0},{1}－{2}(_{3}),讀取「選擇權調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName , ls_file_grp));
+               MessageDisplay.Info(string.Format("{0},{1}－{2}(_{3}),讀取「選擇權調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName , ls_file_grp) , GlobalInfo.ResultText);
                return;
             }
 
@@ -664,7 +673,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             bool IsSuccess = ToText(ls_txt , filePath , System.Text.Encoding.GetEncoding(950));
             if (!IsSuccess) {
-               MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!");
+               MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!" , GlobalInfo.ErrorText);
                return;
             }
 
@@ -688,7 +697,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dt = dao40180.GetVsrTxtData(txtDate.DateTimeValue , "SV" , oswGrp);
 
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0},{1}－{2}(_{3}),讀取「期貨調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName , ls_file_grp));
+               MessageDisplay.Info(string.Format("{0},{1}－{2}(_{3}),讀取「期貨調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName , ls_file_grp) , GlobalInfo.ResultText);
                return;
             }
 
@@ -708,7 +717,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             bool IsSuccess = ToText(ls_txt , filePath , System.Text.Encoding.GetEncoding(950));
             if (!IsSuccess) {
-               MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!");
+               MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!" , GlobalInfo.ErrorText);
                return;
             }
             #endregion
@@ -734,7 +743,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             bool IsSuccess2 = ToText(ls_txt2 , filePath2 , System.Text.Encoding.GetEncoding(950));
             if (!IsSuccess2) {
-               MessageDisplay.Error("文字檔「" + filePath2 + "」Open檔案錯誤!");
+               MessageDisplay.Error("文字檔「" + filePath2 + "」Open檔案錯誤!" , GlobalInfo.ErrorText);
                return;
             }
             #endregion
@@ -760,7 +769,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dt = dao40180.Get30004TextDate(ymd , "F" , oswGrp , is_adj_type , is_adj_type_rtn);
 
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0},{1}－{2}(_{3}),讀取「期貨&選擇權調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName , ls_file_grp));
+               MessageDisplay.Info(string.Format("{0},{1}－{2}(_{3}),讀取「期貨&選擇權調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName , ls_file_grp) , GlobalInfo.ResultText);
                return;
             }
 
@@ -769,7 +778,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DateTime ldt_date = DateTime.ParseExact(dt.Rows[0]["mgd2_ymd"].AsString() , "yyyyMMdd" , null);
             DataTable dtZ = dao40180.GetHzparmData(ldt_date);
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0},{1}－{2},讀取「期貨&選擇權調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName));
+               MessageDisplay.Info(string.Format("{0},{1}－{2},讀取「期貨&選擇權調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName) , GlobalInfo.ResultText);
                return;
             }
 
@@ -835,7 +844,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             bool IsSuccess = ToText(ls_txt , filePath , System.Text.Encoding.GetEncoding(950));
             if (!IsSuccess) {
-               MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!");
+               MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!" , GlobalInfo.ErrorText);
                return;
             }
             #endregion
@@ -914,7 +923,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             bool IsSuccess2 = ToText(ls_txt2 , filePath2 , System.Text.Encoding.GetEncoding(950));
             if (!IsSuccess2) {
-               MessageDisplay.Error("文字檔「" + filePath2 + "」Open檔案錯誤!");
+               MessageDisplay.Error("文字檔「" + filePath2 + "」Open檔案錯誤!" , GlobalInfo.ErrorText);
                return;
             }
             #endregion
@@ -947,7 +956,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dt = dao40180.Get30004TextDate(ymd , "F" , oswGrp , is_adj_type , is_adj_type_rtn);
 
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0},{1}－{2}(_{3}),讀取「期貨&選擇權調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName , ls_file_grp));
+               MessageDisplay.Info(string.Format("{0},{1}－{2}(_{3}),讀取「期貨&選擇權調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName , ls_file_grp) , GlobalInfo.ResultText);
                return;
             }
 
@@ -971,7 +980,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                bool IsSuccess = ToText(ls_txt , filePath , System.Text.Encoding.GetEncoding(950));
                if (!IsSuccess) {
-                  MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!");
+                  MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!" , GlobalInfo.ErrorText);
                   return;
                }
             }
@@ -1001,7 +1010,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                bool IsSuccess2 = ToText(ls_txt2 , filePath2 , System.Text.Encoding.GetEncoding(950));
                if (!IsSuccess2) {
-                  MessageDisplay.Error("文字檔「" + filePath2 + "」Open檔案錯誤!");
+                  MessageDisplay.Error("文字檔「" + filePath2 + "」Open檔案錯誤!" , GlobalInfo.ErrorText);
                   return;
                }
             }
@@ -1026,7 +1035,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //讀取資料
             DataTable dt = dao40180.GetVsrTxtData(txtDate.DateTimeValue , "SD" , oswGrp);
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0},{1}－{2}(_{3}),讀取「期貨調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName , ls_file_grp));
+               MessageDisplay.Info(string.Format("{0},{1}－{2}(_{3}),讀取「期貨調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName , ls_file_grp) , GlobalInfo.ResultText);
                return;
             }
 
@@ -1048,7 +1057,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             bool IsSuccess = ToText(ls_txt , filePath , System.Text.Encoding.GetEncoding(950));
             if (!IsSuccess) {
-               MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!");
+               MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!" , GlobalInfo.ErrorText);
                return;
             }
             #endregion
@@ -1074,7 +1083,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             bool IsSuccess2 = ToText(ls_txt2 , filePath2 , System.Text.Encoding.GetEncoding(950));
             if (!IsSuccess) {
-               MessageDisplay.Error("文字檔「" + filePath2 + "」Open檔案錯誤!");
+               MessageDisplay.Error("文字檔「" + filePath2 + "」Open檔案錯誤!" , GlobalInfo.ErrorText);
                return;
             }
             #endregion
@@ -1098,7 +1107,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //讀取資料
             DataTable dt = dao40180.GetVsrTxtData(txtDate.DateTimeValue , "SS" , oswGrp);
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0},{1}－{2}(_{3}),讀取「期貨調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName , ls_file_grp));
+               MessageDisplay.Info(string.Format("{0},{1}－{2}(_{3}),讀取「期貨調整保證金商品設定」無任何資料!" , txtDate.Text , rptId , rptName , ls_file_grp) , GlobalInfo.ResultText);
                return;
             }
 
@@ -1120,7 +1129,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             bool IsSuccess = ToText(ls_txt , filePath , System.Text.Encoding.GetEncoding(950));
             if (!IsSuccess) {
-               MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!");
+               MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!" , GlobalInfo.ErrorText);
                return;
             }
             #endregion
@@ -1146,7 +1155,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             bool IsSuccess2 = ToText(ls_txt2 , filePath2 , System.Text.Encoding.GetEncoding(950));
             if (!IsSuccess) {
-               MessageDisplay.Error("文字檔「" + filePath2 + "」Open檔案錯誤!");
+               MessageDisplay.Error("文字檔「" + filePath2 + "」Open檔案錯誤!" , GlobalInfo.ErrorText);
                return;
             }
             #endregion
@@ -1228,27 +1237,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
          string startDate = textEditor.EditValue.AsDateTime().ToString("yyyyMMdd");
          string endDate = textEditor.EditValue.AsDateTime().AddDays(30).ToString("yyyyMMdd");
          txtEndDate.DateTimeValue = new MOCF().GetSpecOcfDay(startDate , endDate , 2);
-      }
-
-      /// <summary>
-      /// set checkbox list focus background color
-      /// </summary>
-      /// <param name="sender"></param>
-      /// <param name="e"></param>
-      private void gbType_DrawItem(object sender , ListBoxDrawItemEventArgs e) {
-         e.AllowDrawSkinBackground = false;
-      }
-
-      private void gbMsg_DrawItem(object sender , ListBoxDrawItemEventArgs e) {
-         e.AllowDrawSkinBackground = false;
-      }
-
-      private void gbMoney_DrawItem(object sender , ListBoxDrawItemEventArgs e) {
-         e.AllowDrawSkinBackground = false;
-      }
-
-      private void gbSpan_DrawItem(object sender , ListBoxDrawItemEventArgs e) {
-         e.AllowDrawSkinBackground = false;
       }
 
    }

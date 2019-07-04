@@ -88,7 +88,7 @@
          this.txtSDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtSDate.Size = new System.Drawing.Size(100, 26);
-         this.txtSDate.TabIndex = 76;
+         this.txtSDate.TabIndex = 0;
          this.txtSDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // gcExport
@@ -211,7 +211,7 @@
          this.ddlKind.Properties.NullText = "";
          this.ddlKind.Properties.PopupSizeable = false;
          this.ddlKind.Size = new System.Drawing.Size(150, 26);
-         this.ddlKind.TabIndex = 103;
+         this.ddlKind.TabIndex = 4;
          // 
          // labKind
          // 
@@ -236,7 +236,7 @@
          this.ddlSort.Properties.NullText = "";
          this.ddlSort.Properties.PopupSizeable = false;
          this.ddlSort.Size = new System.Drawing.Size(281, 26);
-         this.ddlSort.TabIndex = 101;
+         this.ddlSort.TabIndex = 3;
          // 
          // labSort
          // 
@@ -261,7 +261,7 @@
          this.ddlData.Properties.NullText = "";
          this.ddlData.Properties.PopupSizeable = false;
          this.ddlData.Size = new System.Drawing.Size(150, 26);
-         this.ddlData.TabIndex = 99;
+         this.ddlData.TabIndex = 2;
          // 
          // ddlSubType
          // 
@@ -276,7 +276,7 @@
          this.ddlSubType.Properties.NullText = "";
          this.ddlSubType.Properties.PopupSizeable = false;
          this.ddlSubType.Size = new System.Drawing.Size(150, 26);
-         this.ddlSubType.TabIndex = 98;
+         this.ddlSubType.TabIndex = 1;
          // 
          // labDate
          // 

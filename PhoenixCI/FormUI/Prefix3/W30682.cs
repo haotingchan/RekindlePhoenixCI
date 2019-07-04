@@ -1,15 +1,10 @@
 ﻿using BaseGround;
-using BaseGround.Shared;
 using BusinessObjects.Enums;
 using Common;
-using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
-using DevExpress.Spreadsheet;
 using System;
 using System.Data;
 using System.IO;
-using System.Linq;
-using System.Windows.Forms;
 
 /// <summary>
 /// Winni, 2019/3/19
@@ -49,10 +44,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
          txtStartDate.Focus();
 
 #if DEBUG
-         //winni test
-         //txtStartDate.DateTimeValue = DateTime.ParseExact("2018/10/01" , "yyyy/MM/dd" , null);
-         //txtEndDate.DateTimeValue = DateTime.ParseExact("2018/10/11" , "yyyy/MM/dd" , null);
-         //this.Text += "(開啟測試模式),Date=2018/10/01~2018/10/11";
+         txtStartDate.DateTimeValue = DateTime.ParseExact("2018/10/01" , "yyyy/MM/dd" , null);
+         txtEndDate.DateTimeValue = DateTime.ParseExact("2018/10/11" , "yyyy/MM/dd" , null);
+         this.Text += "(開啟測試模式),Date=2018/10/01~2018/10/11";
 #endif
 
       }
@@ -69,20 +63,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
          try {
 
             #region 輸入&日期檢核
-            if (!txtStartDate.IsDate(txtStartDate.Text , CheckDate.Start)
-                  || !txtEndDate.IsDate(txtEndDate.Text , CheckDate.End)) {
-                    labMsg.Visible = false;
-                    return ResultStatus.Fail; ;
-            }
-
             if (string.Compare(txtStartDate.Text , txtEndDate.Text) > 0) {
-               MessageDisplay.Error(CheckDate.Datedif, GlobalInfo.ErrorText);
-                    labMsg.Visible = false;
-                    return ResultStatus.Fail; ;
+               MessageDisplay.Error(CheckDate.Datedif , GlobalInfo.ErrorText);
+               return ResultStatus.Fail;
             }
             #endregion
 
-            string rptName, type, chk="N";
+            string rptName, type, chk = "N";
 
             //1. ready
             panFilter.Enabled = false;
@@ -114,9 +101,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
                   //讀取資料
                   DataTable dtS = new D30682().ListStatisticsData(StartDate , EndDate , type , "Y");
                   if (dtS.Rows.Count == 0) {
-                     MessageDisplay.Info(string.Format("{0}-{1},{2}-{3},無任何資料!" , StartDate , EndDate , _ProgramID , rptName));
+                     MessageDisplay.Info(string.Format("{0}-{1},{2}-{3},無任何資料!" , StartDate , EndDate , _ProgramID , rptName) , GlobalInfo.ResultText);
                      WriteLog(string.Format("{0}-{1},{2}-{3},無任何資料!" , StartDate , EndDate , _ProgramID , rptName));
-                            return;
+                     return;
                   }//if (dtS.Rows.Count == 0)
 
                   //存CSV (ps:輸出csv 都用ascii)
@@ -126,7 +113,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                   csvref.HasHeader = true;
                   csvref.Encoding = System.Text.Encoding.GetEncoding(950);//ASCII
                   Common.Helper.ExportHelper.ToCsv(dtS , etfFileName , csvref);
-                        chk = "Y";
+                  chk = "Y";
                } catch (Exception ex) {
                   WriteLog(ex);
                }
@@ -150,10 +137,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
                   //讀取資料
                   DataTable dtS = new D30682().ListDetailData(StartDate , EndDate , type , "Y");
                   if (dtS.Rows.Count == 0) {
-                     MessageDisplay.Info(string.Format("{0}-{1},{2}-{3},無任何資料!" , StartDate , EndDate , _ProgramID , rptName));
+                     MessageDisplay.Info(string.Format("{0}-{1},{2}-{3},無任何資料!" , StartDate , EndDate , _ProgramID , rptName) , GlobalInfo.ResultText);
                      WriteLog(string.Format("{0}-{1},{2}-{3},無任何資料!" , StartDate , EndDate , _ProgramID , rptName));
-                            return;
-                        }//if (dtS.Rows.Count == 0)
+                     return;
+                  }//if (dtS.Rows.Count == 0)
 
                   //處理資料型態(轉換時間格式)
                   DataTable dt = dtS.Clone(); //轉型別用的datatable
@@ -173,18 +160,17 @@ namespace PhoenixCI.FormUI.Prefix3 {
                   csvref.HasHeader = true;
                   csvref.Encoding = System.Text.Encoding.GetEncoding(950);//ASCII
                   Common.Helper.ExportHelper.ToCsv(dt , etfFileName , csvref);
-                        chk = "Y";
-                    } catch (Exception ex) {
+                  chk = "Y";
+               } catch (Exception ex) {
                   WriteLog(ex);
                }
             }
-                #endregion
-                if (chk == "Y") {
-                    return ResultStatus.Success;
-                        }
-                else {
-                    return ResultStatus.Fail;
-                }
+            #endregion
+            if (chk == "Y") {
+               return ResultStatus.Success;
+            } else {
+               return ResultStatus.Fail;
+            }
          } catch (Exception ex) {
             WriteLog(ex);
          } finally {
@@ -192,7 +178,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             labMsg.Text = "";
             labMsg.Visible = false;
          }
-            return ResultStatus.Fail;
-        }
+         return ResultStatus.Fail;
+      }
    }
 }

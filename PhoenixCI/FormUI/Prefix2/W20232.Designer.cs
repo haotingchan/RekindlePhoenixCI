@@ -256,6 +256,7 @@
          this.chkGroup1.AppearanceSelected.BackColor2 = System.Drawing.Color.White;
          this.chkGroup1.AppearanceSelected.Options.UseBackColor = true;
          this.chkGroup1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+         this.chkGroup1.CheckOnClick = true;
          this.chkGroup1.HorzScrollStep = 9;
          this.chkGroup1.ItemPadding = new System.Windows.Forms.Padding(11);
          this.chkGroup1.Items.AddRange(new DevExpress.XtraEditors.Controls.CheckedListBoxItem[] {
@@ -263,8 +264,10 @@
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("22", "年月2"),
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("33", "年月3")});
          this.chkGroup1.Location = new System.Drawing.Point(20, 22);
+         this.chkGroup1.LookAndFeel.SkinName = "Office 2013";
+         this.chkGroup1.LookAndFeel.UseDefaultLookAndFeel = false;
          this.chkGroup1.Name = "chkGroup1";
-         this.chkGroup1.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+         this.chkGroup1.SelectionMode = System.Windows.Forms.SelectionMode.None;
          this.chkGroup1.ShowFocusRect = false;
          this.chkGroup1.Size = new System.Drawing.Size(73, 134);
          this.chkGroup1.TabIndex = 0;
@@ -476,6 +479,7 @@
          this.chkGroup2.AppearanceSelected.BackColor2 = System.Drawing.Color.White;
          this.chkGroup2.AppearanceSelected.Options.UseBackColor = true;
          this.chkGroup2.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+         this.chkGroup2.CheckOnClick = true;
          this.chkGroup2.HorzScrollStep = 9;
          this.chkGroup2.ItemPadding = new System.Windows.Forms.Padding(11);
          this.chkGroup2.Items.AddRange(new DevExpress.XtraEditors.Controls.CheckedListBoxItem[] {
@@ -483,6 +487,8 @@
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("2", "年月2"),
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("3", "年月3")});
          this.chkGroup2.Location = new System.Drawing.Point(20, 22);
+         this.chkGroup2.LookAndFeel.SkinName = "Office 2013";
+         this.chkGroup2.LookAndFeel.UseDefaultLookAndFeel = false;
          this.chkGroup2.Name = "chkGroup2";
          this.chkGroup2.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
          this.chkGroup2.ShowFocusRect = false;

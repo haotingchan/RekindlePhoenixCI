@@ -66,6 +66,7 @@
          this.chkGroup.Appearance.Options.UseBackColor = true;
          this.chkGroup.Appearance.Options.UseForeColor = true;
          this.chkGroup.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+         this.chkGroup.CheckOnClick = true;
          this.chkGroup.ItemPadding = new System.Windows.Forms.Padding(5);
          this.chkGroup.Items.AddRange(new DevExpress.XtraEditors.Controls.CheckedListBoxItem[] {
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem("chkMonQnty", "交易量"),
@@ -79,10 +80,9 @@
          this.chkGroup.LookAndFeel.SkinName = "Office 2013";
          this.chkGroup.LookAndFeel.UseDefaultLookAndFeel = false;
          this.chkGroup.Name = "chkGroup";
-         this.chkGroup.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+         this.chkGroup.SelectionMode = System.Windows.Forms.SelectionMode.None;
          this.chkGroup.Size = new System.Drawing.Size(362, 218);
          this.chkGroup.TabIndex = 4;
-         this.chkGroup.DrawItem += new DevExpress.XtraEditors.ListBoxDrawItemEventHandler(this.chkGroup_DrawItem);
          // 
          // ddlProd
          // 

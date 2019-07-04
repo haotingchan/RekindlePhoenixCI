@@ -95,6 +95,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gvMain.SetColumnCaption("SPNT2_W_USER_ID" , "SPNT2_W_USER_ID");
             gvMain.SetColumnCaption("IS_NEWROW" , "Is_NewRow");
 
+            //設定欄位header顏色
+            gvMain.Columns["SPNT2_KIND_ID"].AppearanceHeader.BackColor = GridHelper.PK;
+            gvMain.Columns["SPNT2_DELTA_XXX"].AppearanceHeader.BackColor = GridHelper.PK;
+
             //1.2 設定欄位format格式
             RepositoryItemTextEdit delta = new RepositoryItemTextEdit();
             gcMain.RepositoryItems.Add(delta);
@@ -133,11 +137,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dtForDeleted = dtCurrent.GetChanges(DataRowState.Deleted);
 
             if (dtChange == null) {
-               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+               MessageDisplay.Warning("沒有變更資料,不需要存檔!" , GlobalInfo.WarningText);
                return ResultStatus.Fail;
             }
             if (dtChange.Rows.Count == 0) {
-               MessageDisplay.Choose("沒有變更資料,不需要存檔!");
+               MessageDisplay.Warning("沒有變更資料,不需要存檔!" , GlobalInfo.WarningText);
                return ResultStatus.Fail;
             }
 
@@ -156,10 +160,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
 
          } catch (Exception ex) {
-                MessageDisplay.Error("儲存錯誤");
-                WriteLog(ex, "", false);
-                return ResultStatus.FailButNext;
-            }
+            MessageDisplay.Error("儲存錯誤" , GlobalInfo.ErrorText);
+            WriteLog(ex , "" , false);
+            return ResultStatus.FailButNext;
+         }
          return ResultStatus.Success;
       }
 

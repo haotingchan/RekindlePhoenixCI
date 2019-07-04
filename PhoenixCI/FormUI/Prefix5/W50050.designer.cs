@@ -139,7 +139,7 @@
          this.txtEndTime.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndTime.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndTime.Size = new System.Drawing.Size(68, 26);
-         this.txtEndTime.TabIndex = 95;
+         this.txtEndTime.TabIndex = 3;
          // 
          // txtEndDate
          // 
@@ -158,7 +158,7 @@
          this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndDate.Size = new System.Drawing.Size(100, 26);
-         this.txtEndDate.TabIndex = 94;
+         this.txtEndDate.TabIndex = 2;
          this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtStartDate
@@ -178,7 +178,7 @@
          this.txtStartDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtStartDate.Size = new System.Drawing.Size(100, 26);
-         this.txtStartDate.TabIndex = 93;
+         this.txtStartDate.TabIndex = 0;
          this.txtStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // sle_1
@@ -188,7 +188,7 @@
          this.sle_1.Name = "sle_1";
          this.sle_1.Properties.Mask.EditMask = "n";
          this.sle_1.Size = new System.Drawing.Size(117, 26);
-         this.sle_1.TabIndex = 83;
+         this.sle_1.TabIndex = 8;
          // 
          // label1
          // 
@@ -226,7 +226,7 @@
          this.ddlb_2.Properties.PopupSizeable = true;
          this.ddlb_2.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
          this.ddlb_2.Size = new System.Drawing.Size(171, 26);
-         this.ddlb_2.TabIndex = 79;
+         this.ddlb_2.TabIndex = 9;
          // 
          // ddlb_1
          // 
@@ -244,7 +244,7 @@
          this.ddlb_1.Properties.LookAndFeel.SkinName = "The Bezier";
          this.ddlb_1.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.ddlb_1.Size = new System.Drawing.Size(93, 26);
-         this.ddlb_1.TabIndex = 79;
+         this.ddlb_1.TabIndex = 7;
          // 
          // dwProd
          // 
@@ -256,7 +256,7 @@
          this.dwProd.Properties.LookAndFeel.SkinName = "The Bezier";
          this.dwProd.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.dwProd.Size = new System.Drawing.Size(121, 26);
-         this.dwProd.TabIndex = 92;
+         this.dwProd.TabIndex = 6;
          // 
          // dwBrkno
          // 
@@ -268,7 +268,7 @@
          this.dwBrkno.Properties.LookAndFeel.SkinName = "The Bezier";
          this.dwBrkno.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.dwBrkno.Size = new System.Drawing.Size(335, 26);
-         this.dwBrkno.TabIndex = 79;
+         this.dwBrkno.TabIndex = 5;
          // 
          // label9
          // 
@@ -329,7 +329,7 @@
          this.gbMarket.Properties.LookAndFeel.SkinName = "Office 2013";
          this.gbMarket.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbMarket.Size = new System.Drawing.Size(174, 35);
-         this.gbMarket.TabIndex = 79;
+         this.gbMarket.TabIndex = 4;
          // 
          // label4
          // 
@@ -372,7 +372,7 @@
          this.txtStartTime.Properties.Mask.ShowPlaceHolders = false;
          this.txtStartTime.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtStartTime.Size = new System.Drawing.Size(68, 26);
-         this.txtStartTime.TabIndex = 85;
+         this.txtStartTime.TabIndex = 1;
          // 
          // panelGrid
          // 

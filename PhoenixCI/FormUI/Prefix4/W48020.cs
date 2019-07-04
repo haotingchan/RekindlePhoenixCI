@@ -172,7 +172,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             RepositoryItemTextEdit priceRiskRate = new RepositoryItemTextEdit();
             gcMain.RepositoryItems.Add(priceRiskRate);
             gvMain.Columns["CPR_PRICE_RISK_RATE"].ColumnEdit = priceRiskRate;
-            priceRiskRate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            priceRiskRate.DisplayFormat.FormatType = FormatType.Numeric;
             priceRiskRate.DisplayFormat.FormatString = "P";
 
             gvMain.SetColumnCaption("CPR_APPROVAL_DATE" , $"核定{Environment.NewLine}日期");

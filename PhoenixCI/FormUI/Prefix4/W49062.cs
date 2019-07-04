@@ -5,7 +5,6 @@ using Common;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using DevExpress.XtraEditors.Controls;
-using DevExpress.XtraEditors.Repository;
 using System;
 using System.Data;
 using System.IO;
@@ -187,7 +186,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                dt = dao49062.ExecuteStoredProcedure2(startDate , endDate , fId , kindId , seqNo);
 
                if (dt.Rows.Count <= 0) {
-                  MessageDisplay.Info(string.Format("{0},{1},{2}-{3},無任何資料!" , startDate , endDate , rptId , rptName));
+                  MessageDisplay.Info(string.Format("{0},{1},{2}-{3},無任何資料!" , startDate , endDate , rptId , rptName) , GlobalInfo.ResultText);
                   File.Delete(excelDestinationPath);
                   return ResultStatus.FailButNext;
                }
@@ -208,12 +207,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
                            ThenByDescending(x => x.Field<string>("detl_ymd"));
 
                dt = result.CopyToDataTable();
-               
+
             } else {
                dt = dao49062.ExecuteStoredProcedure(startDate , endDate , fId , kindId , seqNo);
 
                if (dt.Rows.Count <= 0) {
-                  MessageDisplay.Info(string.Format("{0},{1},{2}-{3},無任何資料!" , startDate , endDate , rptId , rptName));
+                  MessageDisplay.Info(string.Format("{0},{1},{2}-{3},無任何資料!" , startDate , endDate , rptId , rptName) , GlobalInfo.ResultText);
                   File.Delete(excelDestinationPath);
                   return ResultStatus.FailButNext;
                }
@@ -233,7 +232,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                            ThenBy(x => x.Field<string>("f_name")).
                            ThenByDescending(x => x.Field<string>("eff_ymd"));
 
-               dt = result.CopyToDataTable();             
+               dt = result.CopyToDataTable();
             }
 
             int tmpRow = 0, rowNum = 0;
@@ -249,7 +248,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      tmpRow = li_b1;
                      //20190702 取消只顯示1000筆的限制
                      //if (li_b1 == li_b1_end + 1) {
-                     //   MessageDisplay.Warning("國外「金額類型」保證金資料超過1000筆，只顯示1000筆資料！");
+                     //   MessageDisplay.Warning("國外「金額類型」保證金資料超過1000筆，只顯示1000筆資料！",GlobalInfo.WarningText);
                      //}
                      //if (li_b1 > li_b1_end) {
                      //   continue;
@@ -259,7 +258,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      tmpRow = li_b2;
                      //20190702 取消只顯示1000筆的限制
                      //if (li_b2 == li_b2_end + 1) {
-                     //   MessageDisplay.Warning("國外「比例類型」保證金資料超過1000筆，只顯示1000筆資料！");
+                     //   MessageDisplay.Warning("國外「比例類型」保證金資料超過1000筆，只顯示1000筆資料！",GlobalInfo.WarningText);
                      //}
                      //if (li_b2 > li_b2_end) {
                      //   continue;
@@ -287,7 +286,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      ymd = DateTime.ParseExact(dr["detl_ymd"].AsString() , "yyyyMMdd" , null).ToString("yyyy/MM/dd");
                   } catch (Exception ex) {
                      WriteLog(ex);
-                     MessageDisplay.Error("日期轉換失敗");                    
+                     MessageDisplay.Error("日期轉換失敗" , GlobalInfo.ErrorText);
                      return ResultStatus.FailButNext;
                   }
                } else {
@@ -295,7 +294,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      ymd = DateTime.ParseExact(dr["eff_ymd"].AsString() , "yyyyMMdd" , null).ToString("yyyy/MM/dd");
                   } catch (Exception ex) {
                      WriteLog(ex);
-                     MessageDisplay.Error("日期轉換失敗");
+                     MessageDisplay.Error("日期轉換失敗" , GlobalInfo.ErrorText);
                      return ResultStatus.FailButNext;
                   }
                }

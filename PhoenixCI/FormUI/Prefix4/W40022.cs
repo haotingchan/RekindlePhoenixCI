@@ -10,6 +10,8 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 
+//TODO : (CIN)servername登入才會看到[管理者測試]的選項
+
 /// <summary>
 /// Winni, 2019/05/03
 /// </summary>
@@ -63,7 +65,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //130批次作業做完
             string ls_rtn = PbFunc.f_chk_130_wf(_ProgramID , txtDate.DateTimeValue , "5");
             if (!string.IsNullOrEmpty(ls_rtn.Trim())) {
-               DialogResult liRtn = MessageDisplay.Choose(string.Format("{0}-{1}，是否要繼續?" , txtDate.Text , ls_rtn));
+               DialogResult liRtn = MessageDisplay.Choose(string.Format("{0}-{1}，是否要繼續?" , txtDate.Text , ls_rtn) , MessageBoxDefaultButton.Button2 , GlobalInfo.QuestionText);
                if (liRtn == DialogResult.No) {
                   labMsg.Visible = false;
                   Cursor.Current = Cursors.Arrow;
@@ -92,7 +94,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
 
             if (txtDate.DateTimeValue < DateTime.ParseExact("2010/10/01" , "yyyy/MM/dd" , null)) {
-               MessageDisplay.Warning("自99年10月1日起，各期貨契約之報酬率改以「當日結算價」及「當日開盤參考價」計算，故產出資料值不會異動至資料庫!");
+               MessageDisplay.Info("自99年10月1日起，各期貨契約之報酬率改以「當日結算價」及「當日開盤參考價」計算，故產出資料值不會異動至資料庫!" , GlobalInfo.WarningText);
                return ResultStatus.Fail;
             }
 
@@ -149,7 +151,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             DataTable dtContent = dao40021.GetData(txtDate.DateTimeValue , "5%" , rptId);
             if (dtContent.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0},{1}－{2},無任何資料!" , txtDate.Text , rptId , _ProgramName));
+               MessageDisplay.Info(string.Format("{0},{1}－{2},無任何資料!" , txtDate.Text , rptId , _ProgramName) , GlobalInfo.ResultText);
                return false;
             }
 
@@ -202,7 +204,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //風險價格係數
             DataTable dtRisk = dao40021.GetRiskData(txtDate.DateTimeValue , "5%");
             if (dtRisk.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0},{1}－{2},讀取「變動幅度」無任何資料!" , txtDate.Text , rptId , rptName));
+               MessageDisplay.Info(string.Format("{0},{1}－{2},讀取「變動幅度」無任何資料!" , txtDate.Text , rptId , rptName) , GlobalInfo.ResultText);
                return false;
             }
 

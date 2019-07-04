@@ -93,6 +93,13 @@ namespace PhoenixCI.FormUI.Prefix5 {
       /// <returns></returns>
       protected override ResultStatus Export() {
 
+         #region 輸入&日期檢核 (exportbefore)
+         if (string.Compare(txtStartMonth.Text , txtEndMonth.Text) > 0) {
+            MessageDisplay.Error("月份起始年月不可小於迄止年月!" , GlobalInfo.ErrorText);
+            return ResultStatus.Fail;
+         }
+         #endregion
+
          //0. ready
          panFilter.Enabled = false;
          labMsg.Visible = true;
@@ -112,7 +119,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
          if (startNo.Length > 0)
             if (endNo.Length > 0)
                if (startNo.CompareTo(endNo) > 0) {
-                  MessageDisplay.Warning("造市者代號起始不可大於迄止");
+                  MessageDisplay.Warning("造市者代號起始不可大於迄止" , GlobalInfo.WarningText);
                   cbxFcmStartNo.Focus();
                   panFilter.Enabled = true;
                   labMsg.Text = " ";
@@ -136,7 +143,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                                     endNo);
 
          if (dt.Rows.Count <= 0) {
-            MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtStartMonth.Text + "~" + txtEndMonth.Text , this.Text));
+            MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtStartMonth.Text + "~" + txtEndMonth.Text , this.Text) , GlobalInfo.ResultText);
             panFilter.Enabled = true;
             labMsg.Text = " ";
             this.Cursor = Cursors.Arrow;
@@ -152,7 +159,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             labMsg.Text = "訊息：資料轉出中........";
 
             //3.1 copy template xls to target path
-            string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
+            string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID);
 
             //3.2 open xls
             Workbook workbook = new Workbook();

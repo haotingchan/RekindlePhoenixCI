@@ -138,7 +138,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             DateTime endDay = PbFunc.f_get_end_day("AI2" , "TXF" , txtEndMonth.Text);
             DataTable dtContent = dao30610.GetMonData(txtStartMonth.DateTimeValue , endDay); ; //月明細表
             if (dtContent.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0}~{1},{2}-{3},無任何資料!" , txtStartMonth.Text , txtEndMonth.Text , rptId , rptName) , "處理結果");
+               MessageDisplay.Info(string.Format("{0}~{1},{2}-{3},無任何資料!" , txtStartMonth.Text , txtEndMonth.Text , rptId , rptName) , GlobalInfo.ResultText);
                return false;
             }
 
@@ -199,7 +199,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //每日
             DataTable dtContent = dao30610.GetDayData(txtStartDate.DateTimeValue , txtEndDate.DateTimeValue); ; //日明細表
             if (dtContent.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0}~{1},{2}-{3},無任何資料!" , txtStartDate.Text , txtEndDate.Text , rptId , rptName) , "處理結果");
+               MessageDisplay.Info(string.Format("{0}~{1},{2}-{3},無任何資料!" , txtStartDate.Text , txtEndDate.Text , rptId , rptName) , GlobalInfo.ResultText);
                return false;
             }
 

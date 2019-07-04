@@ -5,7 +5,6 @@ using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
-using DevExpress.Spreadsheet;
 using DevExpress.Utils;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraEditors.Repository;
@@ -154,7 +153,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             Q48010 q48010 = new Q48010(txtSDate.DateTimeValue , subType , kindId , ddlSort.EditValue.AsString());
             dtTarget = gridData.ListAll(q48010);
 
-            DataTable dtExport = dao48010.ListAll2(txtSDate.DateTimeValue , subType , kindId , ddlSort.EditValue.AsString(),"N");
+            DataTable dtExport = dao48010.ListAll2(txtSDate.DateTimeValue , subType , kindId , ddlSort.EditValue.AsString() , "N");
 
             //3.1開始設定Grid
             gcMain.Visible = true;
@@ -256,7 +255,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                kindId = ddlKind.EditValue.AsString() + "%";
             }//if (ddlSubType.Text == ChooseSingleKind)
 
-            DataTable dtExport = dao48010.ListAll2(txtSDate.DateTimeValue , subType , kindId , ddlSort.EditValue.AsString(),"Y");
+            DataTable dtExport = dao48010.ListAll2(txtSDate.DateTimeValue , subType , kindId , ddlSort.EditValue.AsString() , "Y");
 
             if (ddlData.EditValue.AsString() == "KeyInfo") {
                dtExport.Columns.Remove("CPR_APPROVAL_NUMBER");
@@ -273,7 +272,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gvExport.BestFitColumns();
 
             //2.2設定caption
-            if (ddlData.EditValue.AsString() == "KeyInfo") {           
+            if (ddlData.EditValue.AsString() == "KeyInfo") {
                gvExport.SetColumnCaption("CPR_PROD_SUBTYPE" , "契約類別(I指數C黃金R利率S股票)");
                gvExport.SetColumnCaption("CPR_KIND_ID" , "契約代號");
                gvExport.SetColumnCaption("CPR_PRICE_RISK_RATE" , "最小風險價格係數(已下市契約之最小風險價格係數顯示空白；有效契約之最小風險價格係數不可為空白)");

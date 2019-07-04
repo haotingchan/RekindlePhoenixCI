@@ -118,7 +118,7 @@
          this.gbType.Properties.LookAndFeel.SkinName = "Office 2013";
          this.gbType.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbType.Size = new System.Drawing.Size(159, 35);
-         this.gbType.TabIndex = 81;
+         this.gbType.TabIndex = 1;
          this.gbType.EditValueChanged += new System.EventHandler(this.gbType_EditValueChanged);
          // 
          // labSystem
@@ -144,7 +144,7 @@
          this.gbMarket.Properties.LookAndFeel.SkinName = "Office 2013";
          this.gbMarket.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbMarket.Size = new System.Drawing.Size(146, 35);
-         this.gbMarket.TabIndex = 79;
+         this.gbMarket.TabIndex = 0;
          this.gbMarket.EditValueChanged += new System.EventHandler(this.gbMarket_EditValueChanged);
          // 
          // labMarket

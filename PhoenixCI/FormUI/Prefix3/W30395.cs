@@ -122,7 +122,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             if (pos <= 0) {
                File.Delete(excelDestinationPath);
-               MessageDisplay.Info("查無資料!");
+               MessageDisplay.Info(MessageDisplay.MSG_NO_DATA , GlobalInfo.ResultText);
                return ResultStatus.Fail;
             }
 

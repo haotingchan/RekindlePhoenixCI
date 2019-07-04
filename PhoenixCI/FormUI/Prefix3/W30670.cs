@@ -81,14 +81,14 @@ namespace PhoenixCI.FormUI.Prefix3 {
          //}
 
          if (string.Compare(txtStartYMD.Text , txtEndYMD.Text) > 0) {
-            MessageDisplay.Error(CheckDate.Datedif,GlobalInfo.ErrorText);
-                labMsg.Visible = false;
+            MessageDisplay.Error(CheckDate.Datedif , GlobalInfo.ErrorText);
+            labMsg.Visible = false;
             return ResultStatus.Fail; ;
          }
          #endregion
 
          if (chkGroup.CheckedItemsCount == 0) {
-            MessageDisplay.Error("請勾選要匯出的報表!");
+            MessageDisplay.Error("請勾選要匯出的報表!" , GlobalInfo.ErrorText);
             return ResultStatus.Fail; ;
          }
 
@@ -239,7 +239,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             DataTable dtTrend = dao30670.d30670_AI3(maxDate , kindName);
             if (dtTrend.Rows.Count <= 0) {
                labMsg.Text = string.Format("{0}-{1}" , StartDate , EndDate) + "," + rptFileName + '－' + rptFuncName + "無任何資料!";
-               MessageDisplay.Info(string.Format("{0}-{1},{2}-{3}無任何資料!" , txtStartYMD.Text , txtEndYMD.Text , rptFileName , rptFuncName),"處理結果");
+               MessageDisplay.Info(string.Format("{0}-{1},{2}-{3}無任何資料!" , txtStartYMD.Text , txtEndYMD.Text , rptFileName , rptFuncName) , GlobalInfo.ResultText);
                return false;
             }
 
@@ -270,7 +270,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
 
             if (cellRow < 30) {
-               MessageDisplay.Info(string.Format("{0}-{1},{2}-{3}筆數不足30筆" , txtStartYMD.Text , txtEndYMD.Text , rptFileName , rptFuncName),"處理結果");
+               MessageDisplay.Info(string.Format("{0}-{1},{2}-{3}筆數不足30筆" , txtStartYMD.Text , txtEndYMD.Text , rptFileName , rptFuncName) , GlobalInfo.ResultText);
                for (int w = cellRow ; w <= 30 ; w++) {
                   cellRow++;
                   worksheet.Cells[cellRow , 0].Value = "";
@@ -316,7 +316,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          DataTable dtMon = dao30670.d30670_AI2_SEQ(StartDate , EndDate , kindName);
          if (dtMon.Rows.Count <= 0) {
             labMsg.Text = string.Format("{0}-{1}" , StartDate , EndDate) + "," + rptFileName + '－' + rptFuncName + "(到期月份),無任何資料!";
-            MessageDisplay.Info(string.Format("{0}-{1},{2}-{3}(到期月份),無任何資料!" , txtStartYMD.Text , txtEndYMD.Text , rptFileName , rptFuncName) , "處理結果");
+            MessageDisplay.Info(string.Format("{0}-{1},{2}-{3}(到期月份),無任何資料!" , txtStartYMD.Text , txtEndYMD.Text , rptFileName , rptFuncName) , GlobalInfo.ResultText);
             return;
          }
 
@@ -342,7 +342,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          DataTable dtDate = dao30670.d30670_AI2_YMD(StartDate , EndDate , kindName);
          if (dtDate.Rows.Count <= 0) {
             labMsg.Text = string.Format("{0}-{1}" , StartDate , EndDate) + "," + rptFileName + '－' + rptFuncName + "(日期),無任何資料!";
-            MessageDisplay.Info(string.Format("{0}-{1},{2}-{3}(日期),無任何資料!" , txtStartYMD.Text , txtEndYMD.Text , rptFileName , rptFuncName) , "處理結果");
+            MessageDisplay.Info(string.Format("{0}-{1},{2}-{3}(日期),無任何資料!" , txtStartYMD.Text , txtEndYMD.Text , rptFileName , rptFuncName) , GlobalInfo.ResultText);
             return;
          }
 
@@ -373,7 +373,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          if (dtMoney.Rows.Count <= 0) {
 
             labMsg.Text = string.Format("{0}-{1}" , StartDate , EndDate) + "," + rptFileName + '－' + rptFuncName + "(amt),無任何資料!";
-            MessageDisplay.Info(string.Format("{0}-{1},{2}-{3}(amt),無任何資料!" , txtStartYMD.Text , txtEndYMD.Text , rptFileName , rptFuncName) , "處理結果");
+            MessageDisplay.Info(string.Format("{0}-{1},{2}-{3}(amt),無任何資料!" , txtStartYMD.Text , txtEndYMD.Text , rptFileName , rptFuncName) , GlobalInfo.ResultText);
             return;
          }
 
@@ -391,13 +391,5 @@ namespace PhoenixCI.FormUI.Prefix3 {
          }
       }
 
-      /// <summary>
-      /// set checkbox list focus background color
-      /// </summary>
-      /// <param name="sender"></param>
-      /// <param name="e"></param>
-      private void chkGroup_DrawItem(object sender , ListBoxDrawItemEventArgs e) {
-         e.AllowDrawSkinBackground = false;
-      }
    }
 }

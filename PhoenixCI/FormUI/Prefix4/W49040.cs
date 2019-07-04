@@ -1,27 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using BaseGround;
+using BaseGround.Report;
+using BaseGround.Shared;
+using BusinessObjects;
+using BusinessObjects.Enums;
+using Common;
+using DataObjects.Dao.Together.TableDao;
+using DevExpress.Utils;
+using DevExpress.XtraEditors.Controls;
+using DevExpress.XtraEditors.Repository;
+using DevExpress.XtraGrid;
+using DevExpress.XtraGrid.Views.Grid;
+using System;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using BaseGround;
-using BaseGround.Shared;
-using DevExpress.XtraGrid.Views.Grid;
-using BusinessObjects.Enums;
-using BaseGround.Report;
-using BusinessObjects;
-using DataObjects.Dao.Together.TableDao;
-using Common;
-using DataObjects.Dao.Together;
-using DevExpress.XtraEditors.Repository;
-using DevExpress.XtraEditors.Controls;
-using DevExpress.XtraGrid;
-using DevExpress.XtraGrid.Columns;
-using DevExpress.Utils;
 
 /// <summary>
 /// Winni, 2019/3/19
@@ -113,14 +105,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             //好像讀取此Table都一定會有資料,先寫著
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info("無任何資料");
+               MessageDisplay.Info(MessageDisplay.MSG_NO_DATA , GlobalInfo.ResultText);
             }
 
             //2. 設定gvMain
             gvMain.Columns.Clear();
             gvMain.OptionsBehavior.AutoPopulateColumns = true;
             gcMain.DataSource = dt;
-           // GridHelper.SetCommonGrid(gvMain);
+            // GridHelper.SetCommonGrid(gvMain);
 
             string[] showColCaption = {"商品", $"類{Environment.NewLine}別", $"現行{Environment.NewLine}維持比率",
                                        $"現行{Environment.NewLine}原始比率",$"現行{Environment.NewLine}進位數",
@@ -137,9 +129,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                //設定欄位header顏色
                if (dc.ColumnName == "MGT4_KIND_ID") {
-                  gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = Color.FromArgb(255 , 255 , 128);
+                  gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = GridHelper.PK;
                } else {
-                  gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = Color.FromArgb(128 , 255 , 255);
+                  gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = GridHelper.NORMAL;
                   if (dc.ColumnName == "MGT4_M_MULTI" || dc.ColumnName == "MGT4_I_MULTI" ||
                       dc.ColumnName == "MGT4_DIGITAL" || dc.ColumnName == "MGT4_M_DIGITAL") {
                      gvMain.Columns[dc.ColumnName].AppearanceHeader.ForeColor = Color.Navy;
@@ -154,7 +146,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             //1.3 設定dropdownlist       
             gvMain.Columns["MGT4_TYPE"].ColumnEdit = lupType;
-       
+
             gcMain.DataSource = dt;
             gvMain.BestFitColumns();
             gvMain.Columns["MGT4_TYPE"].Width = 40;
@@ -189,66 +181,64 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       protected override ResultStatus Save(PokeBall pokeBall) {
-            try {
-                gvMain.CloseEditor();
-                gvMain.UpdateCurrentRow();
-                ResultStatus resultStatus = ResultStatus.Fail;
+         try {
+            gvMain.CloseEditor();
+            gvMain.UpdateCurrentRow();
+            ResultStatus resultStatus = ResultStatus.Fail;
 
-                DataTable dt = (DataTable)gcMain.DataSource;
-                DataTable dtChange = dt.GetChanges();
-                DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
-                DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
+            DataTable dt = (DataTable)gcMain.DataSource;
+            DataTable dtChange = dt.GetChanges();
+            DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
+            DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
 
-                if (dtChange != null) {
-                    if (dtChange.Rows.Count == 0) {
-                        MessageDisplay.Choose("沒有變更資料,不需要存檔!");
-                        return ResultStatus.Fail;
-                    }
-                    else {
-                        foreach (DataRow dr in dt.Rows) {
-                            if (dr.RowState == DataRowState.Added) {
+            if (dtChange != null) {
+               if (dtChange.Rows.Count == 0) {
+                  MessageDisplay.Warning("沒有變更資料,不需要存檔!" , GlobalInfo.WarningText);
+                  return ResultStatus.Fail;
+               } else {
+                  foreach (DataRow dr in dt.Rows) {
+                     if (dr.RowState == DataRowState.Added) {
 
-                                foreach (DataRow drAdd in dtForAdd.Rows) {
-                                    for (int w = 0; w < dtForAdd.Rows.Count; w++) {
-                                        if (string.IsNullOrEmpty(drAdd[w].AsString())) {
-                                            MessageDisplay.Info("新增資料欄位不可為空!");
-                                            return ResultStatus.Fail;
-                                        }
-                                    }
-                                }
-
-                                dr["MGT4_W_TIME"] = DateTime.Now;
-                                dr["MGT4_W_USER_ID"] = GlobalInfo.USER_ID;
-                            }
-
-                            if (dr.RowState == DataRowState.Modified) {
-                                dr["MGT4_W_TIME"] = DateTime.Now;
-                                dr["MGT4_W_USER_ID"] = GlobalInfo.USER_ID;
-                            }
+                        foreach (DataRow drAdd in dtForAdd.Rows) {
+                           for (int w = 0 ; w < dtForAdd.Rows.Count ; w++) {
+                              if (string.IsNullOrEmpty(drAdd[w].AsString())) {
+                                 MessageDisplay.Warning("新增資料欄位不可為空!" , GlobalInfo.WarningText);
+                                 return ResultStatus.Fail;
+                              }
+                           }
                         }
 
-                        dt.Columns.Remove("IS_NEWROW");
-                        ResultData result = new MGT4().UpdateData(dt);//base.Save_Override(dt, "MGT4");
-                        if (result.Status == ResultStatus.Fail) {
-                            return ResultStatus.Fail;
-                        }
-                    }
+                        dr["MGT4_W_TIME"] = DateTime.Now;
+                        dr["MGT4_W_USER_ID"] = GlobalInfo.USER_ID;
+                     }
 
-                    if (resultStatus == ResultStatus.Success) {
+                     if (dr.RowState == DataRowState.Modified) {
+                        dr["MGT4_W_TIME"] = DateTime.Now;
+                        dr["MGT4_W_USER_ID"] = GlobalInfo.USER_ID;
+                     }
+                  }
 
-                        PrintableComponent = gcMain;
-                    }
-                }
+                  dt.Columns.Remove("IS_NEWROW");
+                  ResultData result = new MGT4().UpdateData(dt);//base.Save_Override(dt, "MGT4");
+                  if (result.Status == ResultStatus.Fail) {
+                     return ResultStatus.Fail;
+                  }
+               }
 
-                //不要自動列印
-                _IsPreventFlowPrint = true;
+               if (resultStatus == ResultStatus.Success) {
+
+                  PrintableComponent = gcMain;
+               }
             }
-            catch (Exception ex) {
-                MessageDisplay.Error("儲存錯誤");
-                WriteLog(ex, "", false);
-                return ResultStatus.FailButNext;
-            }
-            return ResultStatus.Success;
+
+            //不要自動列印
+            _IsPreventFlowPrint = true;
+         } catch (Exception ex) {
+            MessageDisplay.Error("儲存錯誤" , GlobalInfo.ErrorText);
+            WriteLog(ex , "" , false);
+            return ResultStatus.FailButNext;
+         }
+         return ResultStatus.Success;
       }
 
       protected override ResultStatus Print(ReportHelper reportHelper) {

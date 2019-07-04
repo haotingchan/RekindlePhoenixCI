@@ -123,7 +123,7 @@
          this.gbPrice.Properties.LookAndFeel.SkinName = "Office 2013";
          this.gbPrice.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbPrice.Size = new System.Drawing.Size(115, 74);
-         this.gbPrice.TabIndex = 94;
+         this.gbPrice.TabIndex = 6;
          // 
          // groupBox1
          // 
@@ -158,7 +158,7 @@
          this.gbItem.Properties.LookAndFeel.SkinName = "Office 2013";
          this.gbItem.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbItem.Size = new System.Drawing.Size(78, 80);
-         this.gbItem.TabIndex = 9;
+         this.gbItem.TabIndex = 3;
          this.gbItem.SelectedIndexChanged += new System.EventHandler(this.gbItem_SelectedIndexChanged);
          // 
          // dw_sbrkno
@@ -171,7 +171,7 @@
          this.dw_sbrkno.Properties.LookAndFeel.SkinName = "The Bezier";
          this.dw_sbrkno.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.dw_sbrkno.Size = new System.Drawing.Size(335, 26);
-         this.dw_sbrkno.TabIndex = 79;
+         this.dw_sbrkno.TabIndex = 4;
          // 
          // dw_prod_kd
          // 
@@ -183,7 +183,7 @@
          this.dw_prod_kd.Properties.LookAndFeel.SkinName = "The Bezier";
          this.dw_prod_kd.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.dw_prod_kd.Size = new System.Drawing.Size(161, 26);
-         this.dw_prod_kd.TabIndex = 92;
+         this.dw_prod_kd.TabIndex = 5;
          // 
          // txtEndDate
          // 
@@ -202,7 +202,7 @@
          this.txtEndDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtEndDate.Size = new System.Drawing.Size(100, 26);
-         this.txtEndDate.TabIndex = 94;
+         this.txtEndDate.TabIndex = 1;
          this.txtEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // txtStartDate
@@ -222,7 +222,7 @@
          this.txtStartDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
          this.txtStartDate.Size = new System.Drawing.Size(100, 26);
-         this.txtStartDate.TabIndex = 93;
+         this.txtStartDate.TabIndex = 0;
          this.txtStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // gbMarket
@@ -239,7 +239,7 @@
          this.gbMarket.Properties.LookAndFeel.SkinName = "Office 2013";
          this.gbMarket.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbMarket.Size = new System.Drawing.Size(155, 35);
-         this.gbMarket.TabIndex = 79;
+         this.gbMarket.TabIndex = 2;
          // 
          // label3
          // 

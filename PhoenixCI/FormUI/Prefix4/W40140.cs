@@ -74,7 +74,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //2.1 填資料
             DataTable dt = new D40140().ListMoneyData(txtStartDate.DateTimeValue);
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0},讀取「國外保證金資料」無任何資料!" , txtStartDate.Text));
+               MessageDisplay.Info(string.Format("{0},讀取「國外保證金資料」無任何資料!" , txtStartDate.Text) , GlobalInfo.ResultText);
                File.Delete(excelDestinationPath);
                return ResultStatus.Fail;
             }//if (dt.Rows.Count <= 0 )
@@ -148,7 +148,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //dtGold 黃金期貨
             DataTable dtGold = new D40140().GetGoldData(txtStartDate.DateTimeValue); //d_40140_1_mg1
             if (dtGold.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0},無任何「調整黃金期貨契約」資料!" , txtStartDate.Text));
+               MessageDisplay.Info(string.Format("{0},無任何「調整黃金期貨契約」資料!" , txtStartDate.Text) , GlobalInfo.ResultText);
                return false;
             }
 
@@ -157,7 +157,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //dt 國外保證金
             DataTable dt = new D40140().ListMoneyData(txtStartDate.DateTimeValue);
             if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info(String.Format("{0},讀取「國外保證金資料」無任何資料!" , txtStartDate.Text));
+               MessageDisplay.Info(string.Format("{0},讀取「國外保證金資料」無任何資料!" , txtStartDate.Text) , GlobalInfo.ResultText);
                return false;
             }
 
@@ -207,7 +207,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   string mgt2AbbrName = dtGDF.Rows[0]["mgt2_abbr_name"].AsString();
 
                   txt += "本次調整將美元計價" + mgt2AbbrName + "結算保證金金額由原先" +
-                           string.Format("{0:N0}" , Math.Round(mgd2CurCm , 0,MidpointRounding.AwayFromZero)) + "美元向";
+                           string.Format("{0:N0}" , Math.Round(mgd2CurCm , 0 , MidpointRounding.AwayFromZero)) + "美元向";
 
                   if (mgd2CurCm > mgd2Cm) {
                      txt += "下";
@@ -236,7 +236,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   }
 
                   txt += "新臺幣計價" + mgt2AbbrName + "結算保證金金額由原先" +
-                           string.Format("{0:N0}" , Math.Round(mgd2CurCm , 0,MidpointRounding.AwayFromZero)) + "元向";
+                           string.Format("{0:N0}" , Math.Round(mgd2CurCm , 0 , MidpointRounding.AwayFromZero)) + "元向";
 
                   if (mgd2CurCm > mgd2Cm) {
                      txt += "下";
@@ -314,8 +314,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   Decimal mg1Cm = dtNYM01.Rows[0]["mg1_cm"].AsDecimal();
                   Decimal mg1Im = dtNYM01.Rows[0]["mg1_im"].AsDecimal();
 
-                  txt += "經查目前" + fName + "黃金期貨契約(契約規格100盎司)結算保證金為" + string.Format("{0:N0}" , Math.Round(mg1Cm , 0,MidpointRounding.AwayFromZero)) +
-                     "美元，原始保證金為" + string.Format("{0:N0}" , Math.Round(mg1Im , 0,MidpointRounding.AwayFromZero)) + "美元；";
+                  txt += "經查目前" + fName + "黃金期貨契約(契約規格100盎司)結算保證金為" + string.Format("{0:N0}" , Math.Round(mg1Cm , 0 , MidpointRounding.AwayFromZero)) +
+                     "美元，原始保證金為" + string.Format("{0:N0}" , Math.Round(mg1Im , 0 , MidpointRounding.AwayFromZero)) + "美元；";
                } //if (dt.Rows.Count > 0)
 
                DataTable dtCME01 = dt.Filter("com='CME01'");
@@ -356,7 +356,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             bool IsSuccess = ToText(txt , filePath , System.Text.Encoding.GetEncoding(950));
             if (!IsSuccess) {
-               MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!");
+               MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!" , GlobalInfo.ErrorText);
                return false;
             }
 
