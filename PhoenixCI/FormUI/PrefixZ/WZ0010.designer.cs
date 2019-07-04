@@ -54,13 +54,12 @@
             this.panParent.Controls.Add(this.ddlDept);
             this.panParent.Controls.Add(this.lblDpt);
             this.panParent.Controls.Add(this.gcMain);
-            this.panParent.Location = new System.Drawing.Point(0, 32);
-            this.panParent.Size = new System.Drawing.Size(762, 540);
+            this.panParent.Size = new System.Drawing.Size(762, 542);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(762, 32);
+            this.ribbonControl.Size = new System.Drawing.Size(762, 30);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // gcMain
@@ -73,7 +72,7 @@
             this.gcMain.Name = "gcMain";
             this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEditUserId});
-            this.gcMain.Size = new System.Drawing.Size(735, 481);
+            this.gcMain.Size = new System.Drawing.Size(735, 483);
             this.gcMain.TabIndex = 0;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -195,7 +194,7 @@
             this.btnPrint.Name = "btnPrint";
             this.btnPrint.Size = new System.Drawing.Size(81, 23);
             this.btnPrint.TabIndex = 14;
-            this.btnPrint.Text = "補印";
+            this.btnPrint.Text = "補印密碼";
             this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
             // 
             // WZ0010
