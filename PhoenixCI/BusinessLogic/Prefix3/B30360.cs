@@ -1,16 +1,10 @@
 ﻿using BaseGround.Shared;
 using Common;
-using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 /// <summary>
 /// 20190304,john,股票選擇權交易概況表
 /// </summary>
@@ -22,8 +16,14 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    public class B30360
    {
       private D30360 dao30360;
+      /// <summary>
+      /// 檔案輸出路徑
+      /// </summary>
       private readonly string _lsFile;
-      private string _emMonthText;
+      /// <summary>
+      /// 交易日期 月份
+      /// </summary>
+      private readonly string _emMonthText;
 
       /// <summary>
       /// 
@@ -57,16 +57,17 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                   lsYMD = row["AI2_YMD"].AsString();
                   RowIndex = RowIndex + 1;
                   addRowCount++;
+                  //日期
                   worksheet.Rows[RowIndex][1 - 1].Value = lsYMD.AsDateTime("yyyyMMdd").ToString("MM/dd");
                }
                if (row["AI2_PC_CODE"].AsString() == "C") {
-                  worksheet.Rows[RowIndex][2 - 1].Value = row["AI2_M_QNTY"].AsDecimal();
+                  worksheet.Rows[RowIndex][2 - 1].Value = row["AI2_M_QNTY"].AsDecimal();//買權成交量
                }
                else {
-                  worksheet.Rows[RowIndex][3 - 1].Value = row["AI2_M_QNTY"].AsDecimal();
+                  worksheet.Rows[RowIndex][3 - 1].Value = row["AI2_M_QNTY"].AsDecimal();//賣權成交量
                }
-               worksheet.Rows[RowIndex][6 - 1].Value = Dt.Compute("sum(AI2_MMK_QNTY)", $@"AI2_YMD='{lsYMD}'").AsDecimal();
-               worksheet.Rows[RowIndex][8 - 1].Value = Dt.Compute("sum(AI2_OI)", $@"AI2_YMD='{lsYMD}'").AsDecimal();
+               worksheet.Rows[RowIndex][6 - 1].Value = Dt.Compute("sum(AI2_MMK_QNTY)", $@"AI2_YMD='{lsYMD}'").AsDecimal();//造市者交易量
+               worksheet.Rows[RowIndex][8 - 1].Value = Dt.Compute("sum(AI2_OI)", $@"AI2_YMD='{lsYMD}'").AsDecimal();//未平倉量
             }
             //刪除空白列
             if (RowTotal > addRowCount) {
@@ -101,10 +102,9 @@ namespace PhoenixCI.BusinessLogic.Prefix3
          int addRowCount = 0;//總計寫入的行數
          foreach (DataRow row in dt.Rows) {
             string pdkName = row["PDK_NAME"].AsString();
-            worksheet.Rows[RowIndex][1 - 1].Value = pdkName + $"({row["KIND_ID_2"].AsString()})";
-            worksheet.Rows[RowIndex][2 - 1].Value = row["M_QNTY"].AsDecimal();
-            pdkName = pdkName.SubStr(0, pdkName.IndexOf("選擇"));
-            worksheet.Rows[RowIndex][4 - 1].Value = pdkName;
+            worksheet.Rows[RowIndex][1 - 1].Value = pdkName + $"({row["KIND_ID_2"].AsString()})";//股票選擇權名稱(現金交割)
+            worksheet.Rows[RowIndex][2 - 1].Value = row["M_QNTY"].AsDecimal();//成交量
+            worksheet.Rows[RowIndex][4 - 1].Value = pdkName.SubStr(0, pdkName.IndexOf("選擇"));//抓取選擇權前面的字元
             RowIndex = RowIndex + 1;
             addRowCount++;
          }
@@ -341,23 +341,22 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                   addRowCount++;
                   worksheet.Rows[RowIndex][1 - 1].Value = lsYMD.AsDateTime("yyyyMMdd").ToString("MM/dd");
                }
-               int columnIndex= row["SEQ_NO"].AsInt();
-               columnIndex = columnIndex * 2-1;
+               int columnIndex= row["SEQ_NO"].AsInt() * 2 - 1;//有合併欄位跳一欄
 
                //首筆
                if (RowIndex == 2) {
                   string kindID = row["PDK_NAME"].AsString();
-                  worksheet.Rows[0][columnIndex].Value = kindID.SubStr(0, kindID.IndexOf("選擇權")) + $"({row["DATA_KIND_ID_2"].AsString()})";
+                  worksheet.Rows[0][columnIndex].Value = kindID.SubStr(0, kindID.IndexOf("選擇權")) + $"({row["DATA_KIND_ID_2"].AsString()})";//抓取選擇權前面的字元+(DATA_KIND_ID_2)
                   worksheet.Rows[1][columnIndex].Value = "買權";
                   worksheet.Rows[1][columnIndex + 1].Value = "賣權";
                }
 
                //成交量
                if (row["AI2_PC_CODE"].AsString() == "C") {
-                  worksheet.Rows[RowIndex][columnIndex].Value = row["AI2_M_QNTY"].AsDecimal();
+                  worksheet.Rows[RowIndex][columnIndex].Value = row["AI2_M_QNTY"].AsDecimal();//賣權
                }
                else {
-                  worksheet.Rows[RowIndex][columnIndex+1].Value = row["AI2_M_QNTY"].AsDecimal();
+                  worksheet.Rows[RowIndex][columnIndex+1].Value = row["AI2_M_QNTY"].AsDecimal();//買權
                }
             }//foreach (DataRow row in dt.Rows)
 

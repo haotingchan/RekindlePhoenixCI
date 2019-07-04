@@ -1,16 +1,9 @@
 ﻿using BaseGround.Shared;
 using Common;
-using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 /// <summary>
 /// 20190223,john,臺指選擇權成交量及未平倉量變化表
 /// </summary>
@@ -23,19 +16,30 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    {
       private D30350 dao30350;
       private readonly Workbook _workbook;
+      /// <summary>
+      /// 交易日期 月份
+      /// </summary>
       private readonly string _emMonthText;
-      private readonly DateTime _StartDate, _EndDate;
+      /// <summary>
+      /// 前月倒數1天交易日
+      /// </summary>
+      private readonly DateTime _StartDate;
+      /// <summary>
+      /// 抓當月最後交易日
+      /// </summary>
+      private readonly DateTime _EndDate;
 
       /// <summary>
       /// 
       /// </summary>
       /// <param name="FilePath">Excel_Template</param>
       /// <param name="DatetimeVal">em_month.Text</param>
-      public B30350(Workbook workbook, DateTime StartDate, DateTime EndDate)
+      public B30350(Workbook workbook, string emMonth, DateTime StartDate, DateTime EndDate)
       {
          _workbook = workbook;
-         _StartDate= StartDate;
-         _EndDate= EndDate;
+         _StartDate = StartDate;
+         _EndDate = EndDate;
+         _emMonthText = emMonth;
          dao30350 = new D30350();
       }
       /// <summary>
@@ -44,7 +48,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="SheetName"></param>
       /// <param name="Dt"></param>
       /// <param name="RowIndex"></param>
-      private void WriteSheet(string SheetName, DataTable Dt, int RowIndex,int RowTotal)
+      private void WriteSheet(string SheetName, DataTable Dt, int RowIndex, int RowTotal)
       {
          try {
             //切換Sheet
@@ -57,25 +61,26 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                   lsYMD = row["AI2_YMD"].AsString();
                   RowIndex = RowIndex + 1;
                   addRowCount++;
+                  //日期
                   worksheet.Rows[RowIndex][1 - 1].Value = lsYMD.AsDateTime("yyyyMMdd").ToString("MM/dd");
                }
                if (row["AI2_PC_CODE"].AsString() == "C") {
-                  worksheet.Rows[RowIndex][2 - 1].Value = row["AI2_M_QNTY"].AsDecimal();
+                  worksheet.Rows[RowIndex][2 - 1].Value = row["AI2_M_QNTY"].AsDecimal();//買權成交量
                }
                else {
-                  worksheet.Rows[RowIndex][3 - 1].Value = row["AI2_M_QNTY"].AsDecimal();
+                  worksheet.Rows[RowIndex][3 - 1].Value = row["AI2_M_QNTY"].AsDecimal();//賣權成交量
                }
-               worksheet.Rows[RowIndex][6 - 1].Value = row["CP_SUM_AI2_MMK_QNTY"].AsDecimal();
-               worksheet.Rows[RowIndex][8 - 1].Value = row["CP_SUM_AI2_OI"].AsDecimal();
+               worksheet.Rows[RowIndex][6 - 1].Value = row["CP_SUM_AI2_MMK_QNTY"].AsDecimal();//造市者交易量
+               worksheet.Rows[RowIndex][8 - 1].Value = row["CP_SUM_AI2_OI"].AsDecimal();//未平倉量
             }
             //刪除空白列
             if (RowTotal > addRowCount) {
                worksheet.Rows.Remove(RowIndex + 1, RowTotal - addRowCount);
             }
-            
+
          }
          catch (Exception ex) {
-            MessageDisplay.Error(ex.Message, $"B30350-WriteSheet");
+            throw ex;
          }
       }
       /// <summary>
@@ -95,12 +100,12 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                   RowIndex = RowIndex + 1;
                }
                //沒有前月份,則空一列
-               //TODO 這段怪怪的,照PB邏輯這條件都會是true,改寫成直接+1
+               //PB這段怪怪的,照PB邏輯這條件都會是true,改寫成直接+1
                RowIndex = RowIndex + 1;
                break;
             case Condition30350.RowIndexAddOne:
                //沒有前月份,則空一列
-               //TODO 這段怪怪的,照PB邏輯這條件都會是true,改寫成直接+1
+               //PB這段怪怪的,照PB邏輯這條件都會是true,改寫成直接+1
                RowIndex = RowIndex + 1;
                break;
             case Condition30350.NoLastDay:
@@ -111,7 +116,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                break;
             case Condition30350.NoLastMonth:
                //沒有前月份,則空一列
-               if (dt.Rows.Count > 0 && dt.Rows[0]["AI2_YMD"].AsString().SubStr(0,6) != StartDate.ToString("yyyyMM")) {
+               if (dt.Rows.Count > 0 && dt.Rows[0]["AI2_YMD"].AsString().SubStr(0, 6) != StartDate.ToString("yyyyMM")) {
                   RowIndex = RowIndex + 1;
                }
                break;
@@ -131,7 +136,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="LastMonth">判斷沒有前月份,則空一列</param>
       /// <param name="SameYYYYMM">判斷與輸入月份相同則空一列</param>
       /// <returns></returns>
-      public string DataFrom30351(int RowIndex, int RowTotal ,string IsKindID, string SheetName, string RptName, Condition30350 condition= Condition30350.NoCondition)
+      public string DataFrom30351(int RowIndex, int RowTotal, string IsKindID, string SheetName, string RptName, Condition30350 condition = Condition30350.NoCondition)
       {
          try {
             //讀取資料
@@ -159,7 +164,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       /// <param name="SheetName">工作表</param>
       /// <param name="RptName">執行作業名稱</param>
       /// <returns></returns>
-      public string DataFrom30358(int RowIndex, int RowTotal, string IsKindID, string SheetName, string RptName,Condition30350 Condition= Condition30350.NoCondition)
+      public string DataFrom30358(int RowIndex, int RowTotal, string IsKindID, string SheetName, string RptName, Condition30350 Condition = Condition30350.NoCondition)
       {
          try {
             //讀取資料

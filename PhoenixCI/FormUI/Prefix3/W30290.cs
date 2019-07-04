@@ -21,7 +21,13 @@ namespace PhoenixCI.FormUI.Prefix3
    {
 
       private B30290 b30290;
+      /// <summary>
+      /// 已存在相同生效日期資料對話視窗選取(是/否)紀錄
+      /// </summary>
       private DialogResult retrieveChoose;
+      /// <summary>
+      /// 紀錄log string
+      /// </summary>
       string logtxt;
 
       public W30290(string programID, string programName) : base(programID, programName)
@@ -189,6 +195,10 @@ namespace PhoenixCI.FormUI.Prefix3
          return ResultStatus.Success;
       }
 
+      /// <summary>
+      /// 轉檔前檢查日期格式及其他狀態
+      /// </summary>
+      /// <returns></returns>
       private bool StartExport()
       {
          if (!emDate.IsDate(emDate.Text, "日期輸入錯誤")) {
@@ -217,7 +227,10 @@ namespace PhoenixCI.FormUI.Prefix3
          return true;
       }
 
-      protected void EndExport()
+      /// <summary>
+      /// 轉檔後清除文字訊息
+      /// </summary>
+      private void EndExport()
       {
          stMsgTxt.Text = "";
          this.Cursor = Cursors.Arrow;
@@ -226,7 +239,11 @@ namespace PhoenixCI.FormUI.Prefix3
          stMsgTxt.Visible = false;
       }
 
-      protected void ShowMsg(string msg)
+      /// <summary>
+      /// 在label上show出文字訊息
+      /// </summary>
+      /// <param name="msg"></param>
+      private void ShowMsg(string msg)
       {
          stMsgTxt.Visible = true;
          stMsgTxt.Text = msg;
@@ -239,11 +256,13 @@ namespace PhoenixCI.FormUI.Prefix3
          if (!StartExport()) {
             return ResultStatus.Fail;
          }
+         //複製template
          string saveFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
          logtxt = saveFilePath;
          //Write LOGF
          WriteLog("轉出檔案:" + logtxt, "Info", "E", false);
          try {
+            //OutputShowMessage只會儲存ok的狀態,如沒有任何一個ok代表全部function都沒有資料
             MessageDisplay message = new MessageDisplay();
             //Sheet : rpt_future
             string isYMD = YMDlookUpEdit.EditValue.AsString();

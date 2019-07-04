@@ -16,8 +16,14 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    /// </summary>
    public class B30370
    {
+      /// <summary>
+      /// 檔案輸出路徑
+      /// </summary>
       private readonly string _lsFile;
-      private string _emMonthText;
+      /// <summary>
+      /// 交易日期 月份
+      /// </summary>
+      private readonly string _emMonthText;
       private D30370 dao30370;
 
       /// <summary>
@@ -32,6 +38,11 @@ namespace PhoenixCI.BusinessLogic.Prefix3
          dao30370 = new D30370();
       }
 
+      /// <summary>
+      /// 判斷買賣欄位位置 
+      /// </summary>
+      /// <param name="row"></param>
+      /// <returns></returns>
       private static int IDFGtype(DataRow row)
       {
          int columnIndex = 0;
@@ -157,7 +168,6 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             //刪除剩餘空白列
             try {
                if (rowTol > monthCnt) {
-                  //worksheet.Rows.Hide(RowIndex, RowIndex + monthTotal - monthCnt - 1);
                   worksheet.Range[$"{RowIndex + 1}:{RowIndex + 12 - monthCnt}"].Delete();
                }
             }
@@ -196,9 +206,6 @@ namespace PhoenixCI.BusinessLogic.Prefix3
 
             //讀取資料
             DataTable dt = dao30370.Get30375Data(queryDate.AddYears(-1).ToString("yyyyMM"), queryDate.ToString("yyyyMM"));
-            //if (dt.Rows.Count<=0) {
-            //   return MessageDisplay.MSG_NO_DATA;
-            //}
 
             //總列數(C1 = 100)
             int rowTotal = worksheet.Cells["C1"].Value.AsInt();
@@ -207,26 +214,26 @@ namespace PhoenixCI.BusinessLogic.Prefix3
 
             foreach (DataRow row in dt.Rows) {//for	i = 1 to ids_1.rowcount()	- 1
                RowIndex = RowIndex + 1;
-               worksheet.Rows[RowIndex][1 - 1].Value = row["KPR_DATE"].AsDateTime().ToShortDateString();
-               worksheet.Rows[RowIndex][2 - 1].Value = row["KPR_RATE"].AsDecimal();
+               worksheet.Rows[RowIndex][1 - 1].Value = row["KPR_DATE"].AsDateTime().ToShortDateString();//日期
+               worksheet.Rows[RowIndex][2 - 1].Value = row["KPR_RATE"].AsDecimal();//維持率
                addRowCount++;
             }
 
             if (rowTotal > addRowCount && dt.Rows.Count > 0) {
-               worksheet.Rows[RowIndex][1 - 1].Value = dt.AsEnumerable().LastOrDefault()["KPR_DATE"].AsDateTime().ToShortDateString();
-               worksheet.Rows[RowIndex][2 - 1].Value = dt.AsEnumerable().LastOrDefault()["KPR_RATE"].AsDecimal();
+               worksheet.Rows[RowIndex][1 - 1].Value = dt.AsEnumerable().LastOrDefault()["KPR_DATE"].AsDateTime().ToShortDateString();//日期
+               worksheet.Rows[RowIndex][2 - 1].Value = dt.AsEnumerable().LastOrDefault()["KPR_RATE"].AsDecimal();//維持率
             }
             //刪除空白列
             if (rowTotal > addRowCount) {
                if (dt.Rows.Count > 0) {
                   worksheet.Rows.Remove(RowIndex + 1, rowTotal - addRowCount);
-                  //worksheet.Rows.Hide(RowIndex + 1, RowIndex + (rowTotal - addRowCount));
                   //重新選取圖表範圍
                   workbook.ChartSheets["30375"].Chart.Series[0].Values = new ChartData {
                      RangeValue = worksheet.Range[$@"B2:B{RowIndex + 1}"]
                   };
                }
                else {
+                  //和PB一樣留一個"維持率0%"
                   worksheet.Rows.Remove(RowIndex + 2, rowTotal - addRowCount);
                   //重新選取圖表範圍
                   workbook.ChartSheets["30375"].Chart.Series[0].Values = new ChartData {

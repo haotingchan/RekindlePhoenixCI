@@ -6,7 +6,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using BaseGround;
 using Common;
-using DevExpress.XtraEditors.Repository;
 using DataObjects.Dao.Together.SpecificDao;
 using BusinessObjects.Enums;
 using DevExpress.XtraGrid.Views.Grid;
@@ -31,9 +30,13 @@ namespace PhoenixCI.FormUI.Prefix2
    {
       #region 全域變數
       private D20231 dao20231;
-
+      /// <summary>
+      /// 計算日期
+      /// </summary>
       private string _cpYMD;
-
+      /// <summary>
+      /// 比對期貨/選擇權商品基準日期
+      /// </summary>
       private string _IsPdkYMD;
       #endregion
 
@@ -45,6 +48,7 @@ namespace PhoenixCI.FormUI.Prefix2
          PrintableComponent = gcMain;
 
          dao20231 = new D20231();
+         //統一設定下拉選單TextEditStyles
          TextEditStyles textEditStyles = TextEditStyles.DisableTextEditor;
          //期貨
          List<LookupItem> futList = new List<LookupItem>(){
@@ -52,22 +56,23 @@ namespace PhoenixCI.FormUI.Prefix2
                                         new LookupItem() { ValueMember = "F", DisplayMember = "○" }};
          Pls4FutLookUpEdit.SetColumnLookUp(futList, "ValueMember", "DisplayMember", textEditStyles, null);
          PLS4_FUT.ColumnEdit = Pls4FutLookUpEdit;
-         ////選擇權
+         //選擇權
          List<LookupItem> optList = new List<LookupItem>(){
                                         new LookupItem() { ValueMember = " ", DisplayMember = " "},
                                         new LookupItem() { ValueMember = "O", DisplayMember = "○" }};
          Pls4OptLookUpEdit.SetColumnLookUp(optList, "ValueMember", "DisplayMember", textEditStyles, null);
          PLS4_OPT.ColumnEdit = Pls4OptLookUpEdit;
-         ////商品類別
+         //商品類別
          List<LookupItem> codeList = new List<LookupItem>(){
                                         new LookupItem() { ValueMember = "I", DisplayMember = "新增"},
                                         new LookupItem() { ValueMember = "M", DisplayMember = "小型"},
                                         new LookupItem() { ValueMember = "N", DisplayMember = " " }};
          Pls4StatusCodeLookUpEdit.SetColumnLookUp(codeList, "ValueMember", "DisplayMember", textEditStyles, null);
          PLS4_STATUS_CODE.ColumnEdit = Pls4StatusCodeLookUpEdit;
-         ////上市/上櫃
+         //上市/上櫃
          Pls4PidLookUpEdit.SetColumnLookUp(new COD().ListByCol("TFXM", "TFXM_PID"), "COD_ID", "COD_DESC", textEditStyles, null);
          PLS4_PID.ColumnEdit = Pls4PidLookUpEdit;
+         //預設隱藏DataGridView
          gcMain.Visible = false;
 
       }
@@ -221,8 +226,6 @@ namespace PhoenixCI.FormUI.Prefix2
          DataTable dt = (DataTable)gcMain.DataSource;
          DataTable dtChange = dt.GetChanges();
          DataTable dtDeleteChange = dt.GetChanges(DataRowState.Deleted);
-         DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
-         DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
 
          int getDeleteCount = dtDeleteChange != null ? dtDeleteChange.Rows.Count : 0;
          //存檔前檢查
@@ -382,6 +385,9 @@ namespace PhoenixCI.FormUI.Prefix2
          Thread.Sleep(5);
       }
 
+      /// <summary>
+      /// 轉檔後清除文字訊息
+      /// </summary>
       protected void EndExport()
       {
          stMsgTxt.Text = "";

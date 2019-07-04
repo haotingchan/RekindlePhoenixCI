@@ -161,7 +161,7 @@ namespace PhoenixCI.FormUI.Prefix2
       }
 
       /// <summary>
-      /// Enabled GridView按鈕
+      /// Enabled(存檔/刪除/列印) GridView按鈕
       /// </summary>
       /// <param name="flag"></param>
       private void EnabledGridViewBtn(bool flag)
@@ -187,7 +187,9 @@ namespace PhoenixCI.FormUI.Prefix2
       }
 
       /// <summary>
-      /// 初始化轉換資料
+      /// PB[開始交易日期]欄位預設是0000/00/00 原資料格式為datetime 
+      /// 如果用datatime型別編輯操作上無法像pb一樣 所以在資料處理的過程中先把這個欄位轉成string
+      /// 存檔前再把型別轉回datatime
       /// </summary>
       /// <returns></returns>
       private DataTable StartGridViewData()
@@ -254,6 +256,12 @@ namespace PhoenixCI.FormUI.Prefix2
          return ResultStatus.Success;
       }
 
+      /// <summary>
+      /// 設定Cell Focuse
+      /// </summary>
+      /// <param name="dt"></param>
+      /// <param name="dr"></param>
+      /// <param name="colName"></param>
       private void SetFocused(DataTable dt, DataRow dr, string colName)
       {
          gvMain.FocusedRowHandle = dt.Rows.IndexOf(dr);
@@ -269,8 +277,6 @@ namespace PhoenixCI.FormUI.Prefix2
          DataTable dt = (DataTable)gcMain.DataSource;
          DataTable dtChange = dt.GetChanges();
          DataTable dtDeleteChange = dt.GetChanges(DataRowState.Deleted);
-         DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
-         DataTable dtForModified = dt.GetChanges(DataRowState.Modified);
 
          int getDeleteCount = dtDeleteChange != null ? dtDeleteChange.Rows.Count : 0;
          //存檔前檢查
@@ -309,6 +315,7 @@ namespace PhoenixCI.FormUI.Prefix2
 
             }//for (int k = 0; k < insertData.Rows.Count; k++
 
+            //填補剩餘必填欄位
             foreach (DataRow dr in data.Rows) {
                string kindidsub2 = dr["APDK_KIND_ID"].AsString().SubStr(0, 2);
                dr["APDK_KIND_ID_STO"] = kindidsub2;
@@ -323,12 +330,13 @@ namespace PhoenixCI.FormUI.Prefix2
 
             if (dtChange != null) {
                try {
+                  //儲存至DB
                   ResultData myResultData = dao20231.UpdateAPDK(data);
                }
                catch (Exception ex) {
                   WriteLog(ex);
                }
-
+               //存檔完列印結果
                ReportHelper ReportHelper = new ReportHelper(gcMain, "20231", "[20231] 部位限制個股類標的轉入－新增個股契約基本資料");
                Print(ReportHelper);
             }
@@ -394,6 +402,7 @@ namespace PhoenixCI.FormUI.Prefix2
       {
          GridView gv = sender as GridView;
          switch (e.Column.FieldName) {
+            //原PB設計[開始交易日期]輸入後檢查日期格式 只跳警示訊息 在按存檔時又會檢查一次
             case "APDK_BEGIN_DATE":
                DateTime dateTime;
                if (DateTime.TryParse(e.Value.ToString(), out dateTime)) {
@@ -409,10 +418,12 @@ namespace PhoenixCI.FormUI.Prefix2
             case "APDK_PROD_TYPE":
             case "APDK_PROD_SUBTYPE":
             case "APDK_KIND_ID":
+               //[商品子類別]不等於股票類[商品對照類別]自動帶入[商品3碼]的值
                if (gv.GetRowCellValue(e.RowHandle, gv.Columns["APDK_PROD_SUBTYPE"]).AsString() != "S") {
                   gv.SetRowCellValue(e.RowHandle, gv.Columns["APDK_PARAM_KEY"], gv.GetRowCellValue(e.RowHandle, gv.Columns["APDK_KIND_ID"]));
                }
                else {
+                  //[商品子類別]等於股票類[商品對照類別]選擇前先清空
                   gv.SetRowCellValue(e.RowHandle, gv.Columns["APDK_PARAM_KEY"], DBNull.Value);
                }
                return;
@@ -425,32 +436,43 @@ namespace PhoenixCI.FormUI.Prefix2
       {
          GridView gv = sender as GridView;
          switch (e.Column.FieldName) {
-            case "APDK_PARAM_KEY":
+            case "APDK_PARAM_KEY"://[商品對照類別]
+               //[商品子類別]選擇為股票且[系統]選擇為期貨
                if (gv.GetRowCellValue(e.RowHandle, gv.Columns["APDK_PROD_SUBTYPE"]).AsString() == "S"
                   && gv.GetRowCellValue(e.RowHandle, gv.Columns["APDK_PROD_TYPE"]).AsString() == "F") {
-                  e.RepositoryItem = ApdkParamKeyLookUpEditF;
+                  e.RepositoryItem = ApdkParamKeyLookUpEditF;//期貨下拉選單
                }
-
+               //[商品子類別]選擇為股票且[系統]選擇"不"為期貨
                if (gv.GetRowCellValue(e.RowHandle, gv.Columns["APDK_PROD_SUBTYPE"]).AsString() == "S"
                   && gv.GetRowCellValue(e.RowHandle, gv.Columns["APDK_PROD_TYPE"]).AsString() != "F") {
-                  e.RepositoryItem = ApdkParamKeyLookUpEditC;
+                  e.RepositoryItem = ApdkParamKeyLookUpEditC;//選擇權下拉選單
                }
-
+               //[商品子類別]選擇股票以外的選項[商品對照類別]帶入[商品(3碼)]欄位的值
                if (gv.GetRowCellValue(e.RowHandle, gv.Columns["APDK_PROD_SUBTYPE"]).AsString() != "S") {
                   string kindid = gv.GetRowCellValue(e.RowHandle, gv.Columns["APDK_KIND_ID"]).AsString();
                   gv.SetRowCellValue(e.RowHandle, gv.Columns["APDK_PARAM_KEY"], kindid);
-                  e.RepositoryItem = pkTextEdit;
+                  e.RepositoryItem = pkTextEdit;//更換元件為TextEdit
                }
                break;
          }
       }
 
+      /// <summary>
+      /// [商品子類別]變動後Focuse到[商品對照類別]
+      /// </summary>
+      /// <param name="sender"></param>
+      /// <param name="e"></param>
       private void ApdkProdSubtypeLookUpEdit_EditValueChanged(object sender, EventArgs e)
       {
          gvMain.FocusedColumn = gvMain.Columns["APDK_PARAM_KEY"];
          gvMain.ShowEditor();
       }
 
+      /// <summary>
+      /// [系統]欄位變動後Focuse到[商品對照類別]
+      /// </summary>
+      /// <param name="sender"></param>
+      /// <param name="e"></param>
       private void ApdkProdTypeLookUpEdit_EditValueChanged(object sender, EventArgs e)
       {
          gvMain.FocusedColumn = gvMain.Columns["APDK_PARAM_KEY"];

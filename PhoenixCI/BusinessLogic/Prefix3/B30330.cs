@@ -17,8 +17,14 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    public class B30330
    {
       private AI3 daoAI3;
+      /// <summary>
+      /// 檔案輸出路徑
+      /// </summary>
       private readonly string _lsFile;
-      private string _emMonthText;
+      /// <summary>
+      /// 交易日期 月份
+      /// </summary>
+      private readonly string _emMonthText;
 
       /// <summary>
       /// 
@@ -65,27 +71,23 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets[0];
             DateTime ldtYMD = new DateTime(1900, 1, 1);
-            worksheet.Range["A1"].Select();
 
             int rowIndex = 1;
             int RowTotal = 32 + 1;//Excel的Column預留數 預留顯示32行加上隱藏的1行
             int addRowCount = 0;//總計寫入的行數
             //讀取資料
             DataTable dt = daoAI3.ListAI3(lsKindID, StartDate, EndDate);
-            if (dt.Rows.Count <= 0) {
-               //MessageDisplay.Info($"{StartDate.ToShortDateString()}～{EndDate.ToShortDateString()},30330－十年期公債期貨契約價量資料,{lsKindID}無任何資料!");
-               //return true;
-            }
+
             foreach (DataRow row in dt.Rows) {
                if (ldtYMD != row["AI3_DATE"].AsDateTime()) {
                   ldtYMD = row["AI3_DATE"].AsDateTime();
                   rowIndex = rowIndex + 1;
                   addRowCount++;
-                  worksheet.Rows[rowIndex][1 - 1].Value = ldtYMD.ToString("MM/dd");
+                  worksheet.Rows[rowIndex][1 - 1].Value = ldtYMD.ToString("MM/dd");//日期
                }
-               worksheet.Rows[rowIndex][2 - 1].Value = row["AI3_CLOSE_PRICE"].AsDecimal();
-               worksheet.Rows[rowIndex][4 - 1].Value = row["AI3_M_QNTY"].AsDecimal();
-               worksheet.Rows[rowIndex][5 - 1].Value = row["AI3_OI"].AsDecimal();
+               worksheet.Rows[rowIndex][2 - 1].Value = row["AI3_CLOSE_PRICE"].AsDecimal();//公債期貨價格
+               worksheet.Rows[rowIndex][4 - 1].Value = row["AI3_M_QNTY"].AsDecimal();//公債期貨總成交量
+               worksheet.Rows[rowIndex][5 - 1].Value = row["AI3_OI"].AsDecimal();//公債期貨總未平倉量
             }
             //刪除空白列
             if (RowTotal > addRowCount) {
@@ -93,6 +95,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                //重新選取圖表範圍
                ResetChartData(rowIndex + 1, workbook, worksheet, "30332");
             }
+            worksheet.ScrollTo(0, 0);
          }
          catch (Exception ex) {
             throw ex;
@@ -128,19 +131,18 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             worksheet.Rows[sumRowIndex][1 - 1].Value = $"{PbFunc.Left(_emMonthText, 4).AsInt() - 1911}小計";
             string lsYMD = "";
             //讀取資料
-            DataTable dt = new AM2().ListAM2(lsKindID, $"{PbFunc.Left(_emMonthText, 4)}01", _emMonthText.Replace("/", ""));
-            if (dt.Rows.Count <= 0) {
-               //MessageDisplay.Info($"{PbFunc.Left(emMonthText, 4)}01～{emMonthText.Replace("/", "")},30330－十年期公債期貨契約價量資料,{lsKindID}無任何資料!");
-               //return true;
-            }
+            DataTable dt = new AM2().ListAM2(lsKindID, $"{PbFunc.Left(_emMonthText, 4)}01", _emMonthText.Replace("/", ""));//月份
+
             foreach (DataRow row in dt.Rows) {
                if (lsYMD != row["AM2_YMD"].AsString()) {
                   rowIndex = rowIndex + 1;
                   lsYMD = row["AM2_YMD"].AsString();
                   //li_month_cnt = li_month_cnt + 1;
                   addRowCount++;
+                  //月份
                   worksheet.Rows[rowIndex][1 - 1].Value = $"{PbFunc.Left(lsYMD, 4).AsInt() - 1911}/{PbFunc.Right(lsYMD, 2)}";
                }
+               //判斷買賣欄位位置
                int columnIndex = 0;
                switch (row["AM2_IDFG_TYPE"].AsString()) {
                   case "1":
@@ -165,14 +167,14 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                      columnIndex = (row["AM2_BS_CODE"].AsString() == "B" ? 14 : 15) - 1;
                      break;
                }
-
+               //columnIndex指定要寫入的買賣欄位
                worksheet.Rows[rowIndex][columnIndex].Value = row["AM2_M_QNTY"].AsDecimal();
             }
             //刪除空白列
             if (RowTotal > addRowCount) {
                worksheet.Rows.Remove(rowIndex + 1, RowTotal - addRowCount);
             }
-
+            worksheet.ScrollTo(0, 0);
          }
          catch (Exception ex) {
             throw ex;
