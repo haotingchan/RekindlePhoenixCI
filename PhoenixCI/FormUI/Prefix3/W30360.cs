@@ -2,7 +2,6 @@
 using System.Windows.Forms;
 using BaseGround;
 using BusinessObjects.Enums;
-using BaseGround.Report;
 using System.Threading;
 using BaseGround.Shared;
 using Common;
@@ -26,23 +25,11 @@ namespace PhoenixCI.FormUI.Prefix3
 
          this.Text = _ProgramID + "─" + _ProgramName;
       }
-      public override ResultStatus BeforeOpen()
-      {
-         base.BeforeOpen();
-
-         return ResultStatus.Success;
-      }
 
       protected override ResultStatus Open()
       {
          base.Open();
-         emMonth.Focus();
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus AfterOpen()
-      {
-         base.AfterOpen();
+         //讀取交易日
          emMonth.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
          emMonth.Focus();
          return ResultStatus.Success;
@@ -55,6 +42,9 @@ namespace PhoenixCI.FormUI.Prefix3
          return ResultStatus.Success;
       }
 
+      /// <summary>
+      /// 轉檔前檢查日期格式
+      /// </summary>
       private bool StartExport()
       {
          if (!emMonth.IsDate(emMonth.Text + "/01", "日期輸入錯誤")) {
@@ -72,7 +62,10 @@ namespace PhoenixCI.FormUI.Prefix3
          return true;
       }
 
-      protected void EndExport()
+      /// <summary>
+      /// 轉檔後清除文字訊息
+      /// </summary>
+      private void EndExport()
       {
          stMsgTxt.Text = "";
          this.Cursor = Cursors.Arrow;
@@ -81,19 +74,16 @@ namespace PhoenixCI.FormUI.Prefix3
          stMsgTxt.Visible = false;
       }
 
-      protected void ShowMsg(string msg)
+      /// <summary>
+      /// show出訊息在label
+      /// </summary>
+      /// <param name="msg"></param>
+      private void ShowMsg(string msg)
       {
          stMsgTxt.Visible = true;
          stMsgTxt.Text = msg;
          this.Refresh();
          Thread.Sleep(5);
-      }
-
-      private string OutputShowMessage {
-         set {
-            if (value != MessageDisplay.MSG_OK)
-               MessageDisplay.Info(value);
-         }
       }
 
       protected override ResultStatus Export()
@@ -102,33 +92,43 @@ namespace PhoenixCI.FormUI.Prefix3
             return ResultStatus.Fail;
          }
          string lsFile = PbFunc.wf_copy_file(_ProgramID, "30360");
+         //message.OutputShowMessage只會儲存ok的狀態,如沒有任何一個ok代表全部function都沒有資料
+         MessageDisplay message = new MessageDisplay();
          try {
             b30360 = new B30360(lsFile, emMonth.Text);
             //wf_30361()
             ShowMsg($"30361－股票選擇權交易概況表 轉檔中...");
-            OutputShowMessage = b30360.Wf30361();
+            message.OutputShowMessage = b30360.Wf30361();
             //wf_30362()
             ShowMsg($"30362－股票選擇權交易概況表 轉檔中...");
-            OutputShowMessage = b30360.Wf30362();
+            message.OutputShowMessage = b30360.Wf30362();
             //wf_30363()
             ShowMsg($"30363－股票選擇權交易概況表 轉檔中...");
-            OutputShowMessage = b30360.Wf30363();
+            message.OutputShowMessage = b30360.Wf30363();
 
             int stcCount = new D30360().ApdkSTCcount();
             if (stcCount > 0) {
                //wf_30366()
                ShowMsg($"30366－股票選擇權交易概況表 轉檔中...");
-               OutputShowMessage = b30360.Wf30366();
+               message.OutputShowMessage = b30360.Wf30366();
                //wf_30367()
                ShowMsg($"30367－股票選擇權交易概況表 轉檔中...");
-               OutputShowMessage = b30360.Wf30367();
+               message.OutputShowMessage = b30360.Wf30367();
                //wf_30368()
                ShowMsg($"30368－股票選擇權交易概況表 轉檔中...");
-               OutputShowMessage = b30360.Wf30368(); 
+               message.OutputShowMessage = b30360.Wf30368(); 
+            }
+
+            //連續跳3 or 6次無資料刪除檔案
+            if (string.IsNullOrEmpty(message.OutputShowMessage)) {
+               if (File.Exists(lsFile))
+                  File.Delete(lsFile);
+               return ResultStatus.Fail;
             }
          }
          catch (Exception ex) {
-            File.Delete(lsFile);
+            if (File.Exists(lsFile))
+               File.Delete(lsFile);
             WriteLog(ex);
             return ResultStatus.Fail;
          }

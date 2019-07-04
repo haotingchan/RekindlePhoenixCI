@@ -17,8 +17,14 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    public class B30320
    {
       private D30320 dao30320;
+      /// <summary>
+      /// 檔案輸出路徑
+      /// </summary>
       private readonly string _lsFile;
-      private string _emMonthText;
+      /// <summary>
+      /// 交易日期 月份
+      /// </summary>
+      private readonly string _emMonthText;
 
       /// <summary>
       /// 指數期貨價量資料
@@ -78,8 +84,10 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                   lsYMD = row["AI2_YMD"].AsString();
                   rowIndex = rowIndex + 1;
                   addRowCount++;
+                  //日期
                   worksheet.Cells[$"A{rowIndex + 1}"].Value = lsYMD.AsDateTime("yyyyMMdd").ToString("MM/dd");
                }
+               //寫入RPT_SEQ_NO指定的Excel欄位
                int columnIndex = row["RPT_SEQ_NO"].AsInt();
                worksheet.Rows[rowIndex][columnIndex - 1].Value = row["AI2_M_QNTY"].AsDecimal();
                worksheet.Rows[rowIndex][columnIndex + 1 - 1].Value = row["AI2_OI"].AsDecimal();
@@ -88,7 +96,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             if (RowTotal > addRowCount) {
                worksheet.Rows.Remove(rowIndex + 1, RowTotal - addRowCount);
             }
-
+            worksheet.ScrollTo(0, 0);
          }
          catch (Exception ex) {
             throw ex;
@@ -140,10 +148,11 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                   lsYMD = row["AI3_DATE"].AsString();
                   rowIndex = rowIndex + 1;
                   addRowCount++;
+                  //日期
                   worksheet.Rows[rowIndex][1 - 1].Value = row["AI3_DATE"].AsDateTime().ToString("MM/dd");
                }
-               int columnIndex = 0;
-               columnIndex = row["RPT_SEQ_NO"].AsInt();
+               //寫入RPT_SEQ_NO指定的Excel欄位
+               int columnIndex = row["RPT_SEQ_NO"].AsInt();
                worksheet.Rows[rowIndex][columnIndex - 1].Value = row["AI3_CLOSE_PRICE"].AsDecimal();
             }
             //刪除空白列
@@ -152,6 +161,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                //重新選取圖表範圍
                ResetChartData(rowIndex + 1, workbook, worksheet, "30320a");//ex:30320a
             }
+            worksheet.ScrollTo(0, 0);
          }
          catch (Exception ex) {
             throw ex;

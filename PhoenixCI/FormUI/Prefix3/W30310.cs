@@ -24,23 +24,11 @@ namespace PhoenixCI.FormUI.Prefix3
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
       }
-      public override ResultStatus BeforeOpen()
-      {
-         base.BeforeOpen();
-
-         return ResultStatus.Success;
-      }
 
       protected override ResultStatus Open()
       {
          base.Open();
-         emMonth.Focus();
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus AfterOpen()
-      {
-         base.AfterOpen();
+         //讀取交易日
          emMonth.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
          emMonth.Focus();
          return ResultStatus.Success;
@@ -53,6 +41,10 @@ namespace PhoenixCI.FormUI.Prefix3
          return ResultStatus.Success;
       }
 
+      /// <summary>
+      /// 轉檔前檢查日期格式
+      /// </summary>
+      /// <returns></returns>
       private bool StartExport()
       {
          if (!emMonth.IsDate(emMonth.Text + "/01", "日期輸入錯誤")) {
@@ -70,7 +62,10 @@ namespace PhoenixCI.FormUI.Prefix3
          return true;
       }
 
-      protected void EndExport()
+      /// <summary>
+      /// 轉檔後清除文字訊息
+      /// </summary>
+      private void EndExport()
       {
          stMsgTxt.Text = "";
          this.Cursor = Cursors.Arrow;
@@ -79,19 +74,16 @@ namespace PhoenixCI.FormUI.Prefix3
          stMsgTxt.Visible = false;
       }
 
-      protected void ShowMsg(string msg)
+      /// <summary>
+      /// show出訊息在label
+      /// </summary>
+      /// <param name="msg"></param>
+      private void ShowMsg(string msg)
       {
          stMsgTxt.Visible = true;
          stMsgTxt.Text = msg;
          this.Refresh();
          Thread.Sleep(5);
-      }
-
-      private string OutputShowMessage {
-         set {
-            if (value != MessageDisplay.MSG_OK)
-               MessageDisplay.Info(value);
-         }
       }
 
       protected override ResultStatus Export()
@@ -104,6 +96,7 @@ namespace PhoenixCI.FormUI.Prefix3
          MessageDisplay message = new MessageDisplay();
 
          try {
+            //呼叫邏輯類別
             b30310 = new B30310(lsFile, emMonth.Text);
             ShowMsg("30310－我國臺股期貨契約價量資料30311_1 轉檔中...");
             message.OutputShowMessage = b30310.Wf30310one("TXF", "30311_1");

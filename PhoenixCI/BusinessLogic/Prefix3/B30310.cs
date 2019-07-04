@@ -7,11 +7,6 @@ using DevExpress.Spreadsheet.Charts;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 /// <summary>
 /// 20190218,john,證期局七組月報
 /// </summary>
@@ -25,7 +20,13 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       private AI2 daoAI2;
       private AI3 daoAI3;
       private D30310 dao30310;
+      /// <summary>
+      /// 檔案輸出路徑
+      /// </summary>
       private readonly string _lsFile;
+      /// <summary>
+      /// 交易日期 月份
+      /// </summary>
       private readonly string _emMonthText;
 
       /// <summary>
@@ -229,7 +230,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                worksheet.Cells[$"E{rowIndex + 1}"].Value = Math.Round(dt.Rows[0]["Y_QNTY"].AsDecimal() / liDayCnt, 0);
                worksheet.Cells[$"G{rowIndex + 1}"].Value = Math.Round(dt.Rows[0]["Y_OI"].AsDecimal() / liDayCnt, 0);
             }
-
+            worksheet.ScrollTo(0, 0);
          }
          catch (Exception ex) {
             throw ex;
@@ -294,7 +295,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                   };
                }
             }
-
+            worksheet.ScrollTo(0, 0);
          }
          catch (Exception ex) {
             throw ex;

@@ -167,6 +167,13 @@ namespace PhoenixCI.BusinessLogic.Prefix3
          }
       }
 
+      /// <summary>
+      /// wf_30290_gbf()
+      /// </summary>
+      /// <param name="lsFile">產檔路徑</param>
+      /// <param name="SelDate">生效日期</param>
+      /// <param name="emDateTxt">查詢日期</param>
+      /// <returns></returns>
       public string Wf30290gbf(string lsFile, string SelDate, string emDateTxt)
       {
          Workbook workbook = new Workbook();
@@ -189,12 +196,12 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                string nearbyMth = row["PL2B_999_NEARBY_MTH"].AsString();
                string tot999 = row["PL2B_999_TOT"].AsString();
                //中文版
-               workbook.Worksheets[0].Cells[$"C{rowIndex}"].Value = string.Format("單一月份{0:N0}，各月份合計{1:N0}", legalMth.AsInt(), legalTot.AsInt());
-               workbook.Worksheets[0].Cells[$"E{rowIndex}"].Value = string.Format("單一月份{0:N0}(最近到期月份{1:N0})，各月份合計{2:N0}", mth999.AsInt(), nearbyMth.AsInt(), tot999.AsInt());
+               workbook.Worksheets[0].Cells[$"C{rowIndex}"].Value = string.Format("單一月份{0:N0}，各月份合計{1:N0}", legalMth.AsInt(), legalTot.AsInt());//自然人
+               workbook.Worksheets[0].Cells[$"E{rowIndex}"].Value = string.Format("單一月份{0:N0}(最近到期月份{1:N0})，各月份合計{2:N0}", mth999.AsInt(), nearbyMth.AsInt(), tot999.AsInt());//期貨自營商/造市者
                //英文版
                int EngRowIndex = row["E_SEQ_NO"].AsInt();
-               workbook.Worksheets[1].Cells[$"B{EngRowIndex}"].Value = string.Format("{0:N0} contracts for any single month, and {1:N0} contracts for all months combined ", legalMth.AsInt(), legalTot.AsInt());
-               workbook.Worksheets[1].Cells[$"D{EngRowIndex}"].Value = string.Format("{0:N0} contracts for any single month({1:N0} contracts for nearest month), and {2:N0} contracts for all months combined ", mth999.AsInt(), nearbyMth.AsInt(), tot999.AsInt());
+               workbook.Worksheets[1].Cells[$"B{EngRowIndex}"].Value = string.Format("{0:N0} contracts for any single month, and {1:N0} contracts for all months combined ", legalMth.AsInt(), legalTot.AsInt());//Individual
+               workbook.Worksheets[1].Cells[$"D{EngRowIndex}"].Value = string.Format("{0:N0} contracts for any single month({1:N0} contracts for nearest month), and {2:N0} contracts for all months combined ", mth999.AsInt(), nearbyMth.AsInt(), tot999.AsInt());//Proprietary Trader
             }
          }
          catch (Exception ex) {
@@ -206,6 +213,13 @@ namespace PhoenixCI.BusinessLogic.Prefix3
          return MessageDisplay.MSG_OK;
       }
 
+      /// <summary>
+      /// wf_30290_n_stock_ch() and wf_30290_n_stock_eng()
+      /// </summary>
+      /// <param name="lsFile">產檔路徑</param>
+      /// <param name="SelDate">生效日期</param>
+      /// <param name="emDateTxt">查詢日期</param>
+      /// <returns></returns>
       public string Wf30290NStock(string lsFile, string SelDate, string emDateTxt)
       {
          Workbook workbook = new Workbook();
@@ -220,8 +234,8 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             }
             else {
                string date = dt.AsEnumerable().LastOrDefault()["PLP13_ISSUE_YMD"].AsDateTime("yyyyMMdd").ToString("yyyy/MM/dd");
-               workbook.Worksheets[0].Cells["B1"].Value = workbook.Worksheets[0].Cells["B1"].Value + date;
-               workbook.Worksheets[1].Cells["A1"].Value = workbook.Worksheets[1].Cells["A1"].Value + date;
+               workbook.Worksheets[0].Cells["B1"].Value = workbook.Worksheets[0].Cells["B1"].Value + date;//最新更新(生效)日期：
+               workbook.Worksheets[1].Cells["A1"].Value = workbook.Worksheets[1].Cells["A1"].Value + date;//Effective on
             }
 
             foreach (DataRow row in dt.Rows) {
@@ -231,14 +245,14 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                var pl2Legal = row["PL2_LEGAL"];
                var pl2999 = row["PL2_999"];
                //中文版
-               workbook.Worksheets[0].Cells[$"C{ChRowIndex}"].SetValue(pl2Nature);
-               workbook.Worksheets[0].Cells[$"D{ChRowIndex}"].SetValue(pl2Legal);
-               workbook.Worksheets[0].Cells[$"E{ChRowIndex}"].SetValue(pl2999);
+               workbook.Worksheets[0].Cells[$"C{ChRowIndex}"].SetValue(pl2Nature);//自然人
+               workbook.Worksheets[0].Cells[$"D{ChRowIndex}"].SetValue(pl2Legal);//法人
+               workbook.Worksheets[0].Cells[$"E{ChRowIndex}"].SetValue(pl2999);//期貨自營商/造市者
                //英文版
                int EngRowIndex = row["E_SEQ_NO"].AsInt();
-               workbook.Worksheets[1].Cells[$"B{EngRowIndex}"].SetValue(pl2Nature);
-               workbook.Worksheets[1].Cells[$"C{EngRowIndex}"].SetValue(pl2Legal);
-               workbook.Worksheets[1].Cells[$"D{EngRowIndex}"].SetValue(pl2999);
+               workbook.Worksheets[1].Cells[$"B{EngRowIndex}"].SetValue(pl2Nature);//Individual
+               workbook.Worksheets[1].Cells[$"C{EngRowIndex}"].SetValue(pl2Legal);//Institution
+               workbook.Worksheets[1].Cells[$"D{EngRowIndex}"].SetValue(pl2999);//Proprietary Trader
             }
          }
          catch (Exception ex) {
@@ -250,6 +264,13 @@ namespace PhoenixCI.BusinessLogic.Prefix3
          return MessageDisplay.MSG_OK;
       }
 
+      /// <summary>
+      /// wf_30290_stock_ch() and wf_30290_stock_eng()
+      /// </summary>
+      /// <param name="lsFile">產檔路徑</param>
+      /// <param name="SelDate">生效日期</param>
+      /// <param name="emDateTxt">查詢日期</param>
+      /// <returns></returns>
       public string Wf30290Stock(string lsFile, string SelDate, string emDateTxt)
       {
          Workbook workbook = new Workbook();
@@ -264,7 +285,9 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             }
             //取得最大日期
             string date = dt.AsEnumerable().Select(dr => dr.Field<string>("PLP13_ISSUE_YMD")).Max().AsDateTime("yyyyMMdd").ToString("yyyy/MM/dd");
+            //個股類公告表(中文版)
             ChStock(workbook, dt, date);
+            //個股類公告表(英文版)
             EngStock(workbook, dt, date);
          }
          catch (Exception ex) {
@@ -276,9 +299,17 @@ namespace PhoenixCI.BusinessLogic.Prefix3
          return MessageDisplay.MSG_OK;
       }
 
+      /// <summary>
+      /// wf_30290_stock_ch()
+      /// </summary>
+      /// <param name="workbook">Excel</param>
+      /// <param name="dt">ListStock</param>
+      /// <param name="date">最大日期</param>
       private static void ChStock(Workbook workbook, DataTable dt, string date)
       {
+         //個股類公告表(中文版)
          Worksheet worksheet = workbook.Worksheets[2];
+         //最新更新(生效)日期：
          worksheet.Cells["B1"].Value = worksheet.Cells["B1"].Value + date;
 
          int rowIndex = 4;
@@ -290,34 +321,47 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             var pls2Legal = row["PLS2_LEGAL"];
             var pls2999 = row["PLS2_999"];
 
+            //商品代號(前2碼)
             worksheet.Cells[$"A{rowIndex}"].SetValue(row["PLS2_KIND_ID2"].AsString());
+            //級數
             worksheet.Cells[$"B{rowIndex}"].SetValue(pls2Level);
             string str = row["APDK_NAME"].AsString();
             str = str.IndexOf("小型") >= 0 ? str.SubStr(str.IndexOf("小型") + 2, 99) : str;
             str = str.IndexOf("期貨") >= 0 ? str.SubStr(0, str.IndexOf("期貨")) : str;
             str = str.IndexOf("選擇權") >= 0 ? str.SubStr(0, str.IndexOf("選擇權")) : str;
+            //標的證券簡稱
             worksheet.Cells[$"C{rowIndex}"].SetValue(str);
+            //證券代號
             worksheet.Cells[$"D{rowIndex}"].SetValue(row["PLS2_SID"]);
+
             //大型
             if (row["PLS2_KIND_ID2"].AsString() == row["APDK_KIND_GRP2"].AsString()) {
                if (row["PLS2_FUT"].AsString() == "F") {
+                  //股票期貨
                   worksheet.Cells[$"E{rowIndex}"].SetValue("○");
                }
                if (row["PLS2_OPT"].AsString() == "O") {
+                  //股票選擇權
                   worksheet.Cells[$"F{rowIndex}"].SetValue("○");
                }
+               //自然人
                worksheet.Cells[$"G{rowIndex}"].SetValue(pls2Nature);
+               //法人/期貨自營商
                worksheet.Cells[$"H{rowIndex}"].SetValue(pls2Legal);
+               //造市者
                worksheet.Cells[$"I{rowIndex}"].SetValue(pls2999);
             }
             else {//小型
                if (row["PLS2_FUT"].AsString() == "F") {
+                  //股票期貨
                   worksheet.Cells[$"E{rowIndex}"].SetValue("◎");
                   str = string.Format("與{0}期貨合併計算(依20口小型{0}期貨等於1口{0}期貨合併計算)", str);
                }
                if (row["PLS2_OPT"].AsString() == "O") {
+                  //股票選擇權
                   worksheet.Cells[$"F{rowIndex}"].SetValue("◎");
                }
+               //自然人
                worksheet.Cells[$"G{rowIndex}"].SetValue(str);
                worksheet.Cells[$"G{rowIndex}"].Font.Size = 10;
                worksheet.Cells[$"G{rowIndex}"].Alignment.Horizontal = SpreadsheetHorizontalAlignment.General;
@@ -330,9 +374,17 @@ namespace PhoenixCI.BusinessLogic.Prefix3
          }
       }
 
+      /// <summary>
+      /// wf_30290_stock_eng()
+      /// </summary>
+      /// <param name="workbook">Excel</param>
+      /// <param name="dt">ListStock</param>
+      /// <param name="date">最大日期</param>
       private static void EngStock(Workbook workbook, DataTable dt, string date)
       {
+         //個股類公告表(英文版)
          Worksheet worksheet = workbook.Worksheets[3];
+         //Stock Futures and Options (Effective on 
          worksheet.Cells["B1"].Value = worksheet.Cells["B1"].Value + date + ")";
 
          int rowIndex = 2;
@@ -344,29 +396,42 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             var pls2Legal = row["PLS2_LEGAL"];
             var pls2999 = row["PLS2_999"];
 
+            //Ticker Symbol
             worksheet.Cells[$"A{rowIndex}"].SetValue(row["PLS2_KIND_ID2"].AsString());
+            //Tier
             worksheet.Cells[$"B{rowIndex}"].SetValue(pls2Level);
+            //Stock Code 
             worksheet.Cells[$"C{rowIndex}"].SetValue(row["PLS2_SID"]);
+
             //大型
             if (row["PLS2_KIND_ID2"].AsString() == row["APDK_KIND_GRP2"].AsString()) {
                if (row["PLS2_FUT"].AsString() == "F") {
+                  //Stock Futures
                   worksheet.Cells[$"D{rowIndex}"].SetValue("○");
                }
                if (row["PLS2_OPT"].AsString() == "O") {
+                  //Stock Options
                   worksheet.Cells[$"E{rowIndex}"].SetValue("○");
                }
+               //Individual
                worksheet.Cells[$"F{rowIndex}"].SetValue(pls2Nature);
+               //Institution / Proprietary
                worksheet.Cells[$"G{rowIndex}"].SetValue(pls2Legal);
+               //Market Maker
                worksheet.Cells[$"H{rowIndex}"].SetValue(pls2999);
             }
             else {//小型
                if (row["PLS2_FUT"].AsString() == "F") {
+                  //Stock Futures
                   worksheet.Cells[$"D{rowIndex}"].SetValue("◎");
+                  //Individual
                   worksheet.Cells[$"F{rowIndex}"].Value = $"Combined with the calculation of {row["APDK_KIND_GRP2"].AsString()}F  position limit (on a pro rata basis of 20:1 contract size)";
                }
                if (row["PLS2_OPT"].AsString() == "O") {
+                  //Stock Options
                   worksheet.Cells[$"E{rowIndex}"].SetValue("◎");
                }
+               //Individual
                worksheet.Cells[$"F{rowIndex}"].Font.Size = 8;
                worksheet.Cells[$"F{rowIndex}"].Alignment.Horizontal = SpreadsheetHorizontalAlignment.General;
             }

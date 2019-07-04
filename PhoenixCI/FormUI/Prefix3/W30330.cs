@@ -2,7 +2,6 @@
 using System.Windows.Forms;
 using BaseGround;
 using BusinessObjects.Enums;
-using BaseGround.Report;
 using System.Threading;
 using BaseGround.Shared;
 using Common;
@@ -24,23 +23,11 @@ namespace PhoenixCI.FormUI.Prefix3
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
       }
-      public override ResultStatus BeforeOpen()
-      {
-         base.BeforeOpen();
-
-         return ResultStatus.Success;
-      }
 
       protected override ResultStatus Open()
       {
          base.Open();
-         emMonth.Focus();
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus AfterOpen()
-      {
-         base.AfterOpen();
+         //讀取交易日
 #if DEBUG
          emMonth.Text = "2005/12";
 #else
@@ -57,6 +44,9 @@ namespace PhoenixCI.FormUI.Prefix3
          return ResultStatus.Success;
       }
 
+      /// <summary>
+      /// 轉檔前檢查日期格式
+      /// </summary>
       private bool StartExport()
       {
          if (!emMonth.IsDate(emMonth.Text + "/01", "日期輸入錯誤")) {
@@ -74,7 +64,10 @@ namespace PhoenixCI.FormUI.Prefix3
          return true;
       }
 
-      protected void EndExport()
+      /// <summary>
+      /// 轉檔後清除文字訊息
+      /// </summary>
+      private void EndExport()
       {
          stMsgTxt.Text = "";
          this.Cursor = Cursors.Arrow;
@@ -83,19 +76,16 @@ namespace PhoenixCI.FormUI.Prefix3
          stMsgTxt.Visible = false;
       }
 
-      protected void ShowMsg(string msg)
+      /// <summary>
+      /// show出訊息在label
+      /// </summary>
+      /// <param name="msg"></param>
+      private void ShowMsg(string msg)
       {
          stMsgTxt.Visible = true;
          stMsgTxt.Text = msg;
          this.Refresh();
          Thread.Sleep(5);
-      }
-
-      private string OutputShowMessage {
-         set {
-            if (value != MessageDisplay.MSG_OK)
-               MessageDisplay.Info(value);
-         }
       }
 
       protected override ResultStatus Export()
@@ -105,16 +95,27 @@ namespace PhoenixCI.FormUI.Prefix3
          }
 
          string lsFile = PbFunc.wf_copy_file(_ProgramID, "30330");
+         //OutputShowMessage只會儲存ok的狀態,如沒有任何一個ok代表全部function都沒有資料
+         MessageDisplay message = new MessageDisplay();
          try {
+            //呼叫邏輯類別
             b30330 = new B30330(lsFile, emMonth.Text);
 
             ShowMsg("30330－「十年期公債」期貨契約價量資料 轉檔中...");
-            OutputShowMessage = b30330.Wf30331();
+            message.OutputShowMessage = b30330.Wf30331();
             ShowMsg("30333－「十年期公債」期貨契約價量資料(買賣方比重) 轉檔中...");
-            OutputShowMessage = b30330.Wf30333();
+            message.OutputShowMessage = b30330.Wf30333();
+
+            //連續跳2次無資料刪除檔案
+            if (string.IsNullOrEmpty(message.OutputShowMessage)) {
+               if (File.Exists(lsFile))
+                  File.Delete(lsFile);
+               return ResultStatus.Fail;
+            }
          }
          catch (Exception ex) {
-            File.Delete(lsFile);
+            if (File.Exists(lsFile))
+               File.Delete(lsFile);
             WriteLog(ex);
             return ResultStatus.Fail;
          }
