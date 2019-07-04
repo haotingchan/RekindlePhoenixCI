@@ -10,6 +10,7 @@ using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
 using System.Data;
+using System.IO;
 
 namespace PhoenixCI.FormUI.Prefix6
 {
@@ -100,6 +101,12 @@ namespace PhoenixCI.FormUI.Prefix6
 
         protected override ResultStatus Export()
         {
+            if (txtStartDate.DateTimeValue > txtEndDate.DateTimeValue)
+            {
+                MessageDisplay.Error("起始日期不得大於結束日期!");
+                return ResultStatus.Fail;
+            }
+
             ExportShow.Text = "轉檔中...";
             ExportShow.Show();
 
@@ -109,7 +116,7 @@ namespace PhoenixCI.FormUI.Prefix6
 
                 string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID, _ProgramID); //CopyExcelTemplateFile(_ProgramID, FileType.XLS);
 
-                ManipulateExcel(excelDestinationPath);
+                return ManipulateExcel(excelDestinationPath);
             }
             catch (Exception ex)
             {
@@ -117,11 +124,10 @@ namespace PhoenixCI.FormUI.Prefix6
                 WriteLog(ex);
                 return ResultStatus.Fail;
             }
-            ExportShow.Text = "轉檔成功!";
-            return ResultStatus.Success;
+
         }
 
-        private void ManipulateExcel(string excelDestinationPath)
+        private ResultStatus ManipulateExcel(string excelDestinationPath)
         {
             int year = txtStartDate.DateTimeValue.Year;
             string rptYear = (year - 1911).ToString();
@@ -169,6 +175,9 @@ namespace PhoenixCI.FormUI.Prefix6
             if (dtContent.Rows.Count == 0)
             {
                 MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtStartDate.Text, this.Text));
+                File.Delete(excelDestinationPath);
+                ExportShow.Text = "轉檔失敗";
+                return ResultStatus.Fail;
             }
             else
             {
@@ -254,6 +263,8 @@ namespace PhoenixCI.FormUI.Prefix6
                 }
             }
             workbook.SaveDocument(excelDestinationPath);
+            ExportShow.Text = "轉檔成功!";
+            return ResultStatus.Success;
         }
 
         protected override ResultStatus Print(ReportHelper reportHelper)
