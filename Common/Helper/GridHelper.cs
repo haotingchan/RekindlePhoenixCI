@@ -18,89 +18,80 @@ using System.Windows.Forms;
 namespace Common {
    public static class GridHelper {
 
-        public static Color PK = Color.FromArgb(255, 255, 128);
-        public static Color NORMAL = Color.FromArgb(128, 255, 255);
-        public static Color DEFAULT = EditorsSkins.GetSkin(UserLookAndFeel.Default)[EditorsSkins.SkinTextBox].Color.BackColor;
+      public static Color PK = Color.FromArgb(255 , 255 , 128);
+      public static Color NORMAL = Color.FromArgb(128 , 255 , 255);
+      public static Color DEFAULT = EditorsSkins.GetSkin(UserLookAndFeel.Default)[EditorsSkins.SkinTextBox].Color.BackColor;
+      public static Color LOCKBG = Color.FromArgb(199 , 199 , 199); //不可編輯的底色
 
-        /// <summary>
-        /// GridView 基本設定
-        /// </summary>
-        /// <param name="gv"></param>
-        /// <param name="isModify">是否為維護功能</param>
-        /// <param name="pkColumn">Pimary Key欄位(預設為null)</param>
-        /// <param name="normalColumn">一般欄位(預設為null)</param>
-        public static void SetCommonGrid(GridView gv, bool isModify = false, GridColumn[] pkColumn = null, GridColumn[] normalColumn = null)
-        {
-            // 關掉Group的Panel
-            gv.OptionsView.ShowGroupPanel = false;
+      /// <summary>
+      /// GridView 基本設定
+      /// </summary>
+      /// <param name="gv"></param>
+      /// <param name="isModify">是否為維護功能</param>
+      /// <param name="pkColumn">Pimary Key欄位(預設為null)</param>
+      /// <param name="normalColumn">一般欄位(預設為null)</param>
+      public static void SetCommonGrid(GridView gv , bool isModify = false , GridColumn[] pkColumn = null , GridColumn[] normalColumn = null) {
+         // 關掉Group的Panel
+         gv.OptionsView.ShowGroupPanel = false;
 
-            // 置中
-            for (int i = 0; i < gv.Columns.Count; i++)
-            {
-                gv.Columns[i].AppearanceHeader.TextOptions.HAlignment = HorzAlignment.Center;
-                //gv.Columns[i].AppearanceHeader.BackColor = Color.Aqua;
-                
+         // 置中
+         for (int i = 0 ; i < gv.Columns.Count ; i++) {
+            gv.Columns[i].AppearanceHeader.TextOptions.HAlignment = HorzAlignment.Center;
+            //gv.Columns[i].AppearanceHeader.BackColor = Color.Aqua;
+
+         }
+
+
+         // 關閉某些功能
+         foreach (GridColumn column in gv.Columns) {
+            // 關閉排序欄位
+            column.OptionsColumn.AllowSort = DefaultBoolean.False;
+            // 關閉移動欄位
+            column.OptionsColumn.AllowMove = false;
+            // 關閉過濾欄位
+            column.OptionsFilter.AllowFilter = false;
+
+            if (isModify) {
+               if (pkColumn != null && Array.IndexOf(pkColumn , column) >= 0) {
+                  column.AppearanceHeader.BackColor = PK;
+               } else if ((normalColumn != null && Array.IndexOf(normalColumn , column) >= 0) || normalColumn == null) {
+                  column.AppearanceHeader.BackColor = NORMAL;
+               } else {
+                  column.AppearanceHeader.BackColor = DEFAULT;
+               }
             }
-            
+         }
 
-            // 關閉某些功能
-            foreach (GridColumn column in gv.Columns)
-            {
-                // 關閉排序欄位
-                column.OptionsColumn.AllowSort = DefaultBoolean.False;
-                // 關閉移動欄位
-                column.OptionsColumn.AllowMove = false;
-                // 關閉過濾欄位
-                column.OptionsFilter.AllowFilter = false;
+         gv.Appearance.HeaderPanel.Options.UseTextOptions = true;
+         gv.Appearance.HeaderPanel.TextOptions.WordWrap = WordWrap.Wrap;
 
-                if (isModify)
-                {
-                    if (pkColumn != null && Array.IndexOf(pkColumn,column) >= 0)
-                    {
-                        column.AppearanceHeader.BackColor = PK;
-                    }
-                    else if((normalColumn != null && Array.IndexOf(normalColumn, column) >= 0) ||　normalColumn == null)
-                    {
-                        column.AppearanceHeader.BackColor = NORMAL;
-                    }
-                    else
-                    {
-                        column.AppearanceHeader.BackColor = DEFAULT;
-                    }
-                }
-            }
+         // 設定列印出來Grid的Header的字體和大小
+         gv.OptionsPrint.UsePrintStyles = true;
+         gv.AppearancePrint.HeaderPanel.Font = new Font("Microsoft YaHei" , gv.Appearance.HeaderPanel.Font.Size);
+         gv.Appearance.Empty.BackColor = Color.FromArgb(224 , 224 , 224);
+         gv.OptionsView.ColumnHeaderAutoHeight = DefaultBoolean.True;
+         gv.AppearancePrint.HeaderPanel.Options.UseTextOptions = true;
+         gv.AppearancePrint.Row.Options.UseTextOptions = true;
+         gv.AppearancePrint.HeaderPanel.TextOptions.WordWrap = WordWrap.Wrap;
 
-            gv.Appearance.HeaderPanel.Options.UseTextOptions = true;
-            gv.Appearance.HeaderPanel.TextOptions.WordWrap = WordWrap.Wrap;
+         gv.OptionsPrint.AllowMultilineHeaders = true;
 
-            // 設定列印出來Grid的Header的字體和大小
-            gv.OptionsPrint.UsePrintStyles = true;
-            gv.AppearancePrint.HeaderPanel.Font = new Font("Microsoft YaHei", gv.Appearance.HeaderPanel.Font.Size);
-            gv.Appearance.Empty.BackColor = Color.FromArgb(224, 224, 224);
-            gv.OptionsView.ColumnHeaderAutoHeight = DefaultBoolean.True;
-            gv.AppearancePrint.HeaderPanel.Options.UseTextOptions = true;
-            gv.AppearancePrint.Row.Options.UseTextOptions = true;
-            gv.AppearancePrint.HeaderPanel.TextOptions.WordWrap = WordWrap.Wrap;
+         // 設定欄位Trim
+         TrimWhenEditCell(gv.GridControl);
 
-            gv.OptionsPrint.AllowMultilineHeaders = true;
+         //隱藏Popup Menu
+         gv.OptionsMenu.EnableColumnMenu = false;
 
-            // 設定欄位Trim
-            TrimWhenEditCell(gv.GridControl);
+         // 如果Grid被Disabled的話，不要變成一片灰色
+         gv.GridControl.UseDisabledStatePainter = false;
 
-            //隱藏Popup Menu
-            gv.OptionsMenu.EnableColumnMenu = false;
+         gv.BestFitColumns();
 
-            // 如果Grid被Disabled的話，不要變成一片灰色
-            gv.GridControl.UseDisabledStatePainter = false;
-
-            gv.BestFitColumns();
-
-            // 當點擊GrivView的Editor時，無法用滑鼠滾輪滾，所以加這個讓我們可以點到欄位內容後還可以滾輪
-            gv.MouseWheel += delegate (object sender, MouseEventArgs e)
-            {
-                gv.CloseEditor();
-            };
-        }
+         // 當點擊GrivView的Editor時，無法用滑鼠滾輪滾，所以加這個讓我們可以點到欄位內容後還可以滾輪
+         gv.MouseWheel += delegate (object sender , MouseEventArgs e) {
+            gv.CloseEditor();
+         };
+      }
 
       public static void SetCommonGrid(VGridControl gridControl) {
          gridControl.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
@@ -134,55 +125,49 @@ namespace Common {
 
          resultGrid.MainView = new GridView(resultGrid);
 
-         resultGrid.MainView.Assign(sourceGrid.MainView, true);
+         resultGrid.MainView.Assign(sourceGrid.MainView , true);
 
          resultGrid.Visible = false;
 
          return resultGrid;
       }
 
-      public static void AddModifyMark(GridControl gridControl, GridColumn MODIFY_MARK) {
+      public static void AddModifyMark(GridControl gridControl , GridColumn MODIFY_MARK) {
          GridView gv = (GridView)gridControl.MainView;
 
          MODIFY_MARK.OptionsColumn.AllowEdit = false;
-            gv.DataSourceChanged += delegate (object sender, EventArgs e) {
-                DataTable dt = (DataTable)gridControl.DataSource;
-                if (!dt.Columns.Contains(MODIFY_MARK.FieldName))
-                {
-                    DataColumn mark = new DataColumn("MODIFY_MARK");
-                    mark.DefaultValue = " ";
-                    dt.Columns.Add(mark);
-                }
-            };
-            gv.CellValueChanging += delegate (object sender, CellValueChangedEventArgs e)
-            {
-                DataTable dt = (DataTable)gridControl.DataSource;
-                if (!dt.Columns.Contains(MODIFY_MARK.FieldName))
-                {
-                    DataColumn mark = new DataColumn("MODIFY_MARK");
-                    mark.DefaultValue = " ";
-                    dt.Columns.Add(mark);
-                }
+         gv.DataSourceChanged += delegate (object sender , EventArgs e) {
+            DataTable dt = (DataTable)gridControl.DataSource;
+            if (!dt.Columns.Contains(MODIFY_MARK.FieldName)) {
+               DataColumn mark = new DataColumn("MODIFY_MARK");
+               mark.DefaultValue = " ";
+               dt.Columns.Add(mark);
+            }
+         };
+         gv.CellValueChanging += delegate (object sender , CellValueChangedEventArgs e) {
+            DataTable dt = (DataTable)gridControl.DataSource;
+            if (!dt.Columns.Contains(MODIFY_MARK.FieldName)) {
+               DataColumn mark = new DataColumn("MODIFY_MARK");
+               mark.DefaultValue = " ";
+               dt.Columns.Add(mark);
+            }
 
-                if (gv.GetRowCellValue(e.RowHandle, "OP_TYPE").AsString() != "I")
-                {
-                    if (e.Value.ToString().Trim() != gv.GetRowCellValue(e.RowHandle, e.Column).ToString().Trim())
-                    {
-                        if (e.Value.ToString().Trim() != gv.GetRowCellDisplayText(e.RowHandle, e.Column).ToString().Trim())
-                        {
-                            gv.SetRowCellValue(e.RowHandle, MODIFY_MARK, "※");
-                        }
-                    }
-                }
-            };
-        }
+            if (gv.GetRowCellValue(e.RowHandle , "OP_TYPE").AsString() != "I") {
+               if (e.Value.ToString().Trim() != gv.GetRowCellValue(e.RowHandle , e.Column).ToString().Trim()) {
+                  if (e.Value.ToString().Trim() != gv.GetRowCellDisplayText(e.RowHandle , e.Column).ToString().Trim()) {
+                     gv.SetRowCellValue(e.RowHandle , MODIFY_MARK , "※");
+                  }
+               }
+            }
+         };
+      }
 
 
 
-        public static void AddModifyCheckMark(GridControl gridControl, RepositoryItemCheckEdit repCheck, GridColumn MODIFY_MARK) {
+      public static void AddModifyCheckMark(GridControl gridControl , RepositoryItemCheckEdit repCheck , GridColumn MODIFY_MARK) {
          GridView gv = (GridView)gridControl.MainView;
          MODIFY_MARK.OptionsColumn.AllowEdit = false;
-         repCheck.CheckedChanged += delegate (object sender, EventArgs e) {
+         repCheck.CheckedChanged += delegate (object sender , EventArgs e) {
             DataTable dt = (DataTable)gridControl.DataSource;
 
             if (!dt.Columns.Contains(MODIFY_MARK.FieldName)) {
@@ -193,17 +178,17 @@ namespace Common {
 
             int row = gv.FocusedRowHandle;
 
-            string mark = gv.GetRowCellValue(row, MODIFY_MARK).AsString();
+            string mark = gv.GetRowCellValue(row , MODIFY_MARK).AsString();
 
             if (String.IsNullOrEmpty(mark)) {
-               gv.SetRowCellValue(row, MODIFY_MARK, "※");
+               gv.SetRowCellValue(row , MODIFY_MARK , "※");
             } else {
-               gv.SetRowCellValue(row, MODIFY_MARK, "");
+               gv.SetRowCellValue(row , MODIFY_MARK , "");
             }
          };
       }
 
-      public static void AddRowNumber(GridControl gridControl, GridColumn ROW_NUMBER) {
+      public static void AddRowNumber(GridControl gridControl , GridColumn ROW_NUMBER) {
          ROW_NUMBER.OptionsColumn.AllowEdit = false;
          ROW_NUMBER.AppearanceCell.Options.UseTextOptions = true;
          ROW_NUMBER.AppearanceCell.TextOptions.HAlignment = HorzAlignment.Center;
@@ -211,20 +196,20 @@ namespace Common {
          ROW_NUMBER.MaxWidth = 45;
 
          GridView gv = (GridView)gridControl.MainView;
-         gv.CustomColumnDisplayText += delegate (object sender, CustomColumnDisplayTextEventArgs e) {
+         gv.CustomColumnDisplayText += delegate (object sender , CustomColumnDisplayTextEventArgs e) {
             if (e.Column.FieldName == "ROW_NUMBER") {
                e.DisplayText = (gv.GetRowHandle(e.ListSourceRowIndex) + 1).ToString();
             }
          };
       }
 
-      public static void AddOpType(GridControl gridControl, GridColumn[] readOnlyColArray) {
+      public static void AddOpType(GridControl gridControl , GridColumn[] readOnlyColArray) {
          string opTypeColumnName = "OP_TYPE";
 
          GridView gv = (GridView)gridControl.MainView;
-         
 
-         gv.ShowingEditor += delegate (object sender, System.ComponentModel.CancelEventArgs e) {
+
+         gv.ShowingEditor += delegate (object sender , System.ComponentModel.CancelEventArgs e) {
             DataTable dt = (DataTable)gridControl.DataSource;
 
             if (!dt.Columns.Contains(opTypeColumnName)) {
@@ -244,15 +229,15 @@ namespace Common {
             }
          };
 
-            
-        }
+
+      }
 
       public static void TrimWhenEditCell(GridControl gridControl) {
          GridView gv = (GridView)gridControl.MainView;
 
          TrimFormatter formatter = new TrimFormatter();
 
-         gv.ShownEditor += delegate (object sender, EventArgs e) {
+         gv.ShownEditor += delegate (object sender , EventArgs e) {
             GridView view = sender as GridView;
             if (view.ActiveEditor is TextEdit && !(view.ActiveEditor is LookUpEdit)) {
                TextEdit myTextEdit = ((TextEdit)view.ActiveEditor);
@@ -268,7 +253,7 @@ namespace Common {
       public static void TrimWhenEditCell(VGridControl gridControl) {
          TrimFormatter formatter = new TrimFormatter();
 
-         gridControl.ShownEditor += delegate (object sender, EventArgs e) {
+         gridControl.ShownEditor += delegate (object sender , EventArgs e) {
             VGridControl control = sender as VGridControl;
             if (control.ActiveEditor is TextEdit && !(control.ActiveEditor is LookUpEdit)) {
                TextEdit myTextEdit = ((TextEdit)control.ActiveEditor);
@@ -281,18 +266,18 @@ namespace Common {
          };
       }
 
-      public static bool CheckRequired(GridControl gridControl, string[] allowColumn = null) {
+      public static bool CheckRequired(GridControl gridControl , string[] allowColumn = null) {
          DataTable dt = (DataTable)gridControl.DataSource;
 
          GridView gv = (GridView)gridControl.MainView;
          GridColumnCollection columnList = gv.Columns;
 
-         for (int i = 0; i < dt.Rows.Count; i++) {
+         for (int i = 0 ; i < dt.Rows.Count ; i++) {
             foreach (DataColumn col in dt.Columns) {
                bool allowNull = false;
 
                if (allowColumn != null) {
-                  allowNull = Array.IndexOf(allowColumn, col.ColumnName) >= 0;
+                  allowNull = Array.IndexOf(allowColumn , col.ColumnName) >= 0;
                }
 
                if (dt.Rows[i].RowState != DataRowState.Deleted && string.IsNullOrEmpty(dt.Rows[i][col].ToString()) && allowNull == false) {
@@ -301,8 +286,8 @@ namespace Common {
 
                   // 如果在Grid上面找不到這個欄位，就不檢查
                   if (column != null) {
-                     string caption = column.Caption.Trim().Replace("\r\n", "");
-                     MessageDisplay.Warning(string.Format(warnText, i + 1, caption));
+                     string caption = column.Caption.Trim().Replace("\r\n" , "");
+                     MessageDisplay.Warning(string.Format(warnText , i + 1 , caption));
 
                      gv.FocusedColumn = column;
                      gv.FocusedRowHandle = i;
@@ -317,24 +302,24 @@ namespace Common {
          return true;
       }
 
-      public static bool CheckRequired(VGridControl gridControl, string[] allowColumn = null) {
+      public static bool CheckRequired(VGridControl gridControl , string[] allowColumn = null) {
          DataTable dt = (DataTable)gridControl.DataSource;
          VGridRows columnList = gridControl.Rows;
 
-         for (int i = 0; i < dt.Rows.Count; i++) {
+         for (int i = 0 ; i < dt.Rows.Count ; i++) {
             foreach (DataColumn col in dt.Columns) {
                bool allowNull = false;
 
                if (allowColumn != null) {
-                  allowNull = Array.IndexOf(allowColumn, col.ColumnName) >= 0;
+                  allowNull = Array.IndexOf(allowColumn , col.ColumnName) >= 0;
                }
 
                if (dt.Rows[i].RowState != DataRowState.Deleted && string.IsNullOrEmpty(dt.Rows[i][col].ToString()) && allowNull == false) {
                   string warnText = "還有第{0}筆資料[{1}]尚未填寫!";
                   var column = columnList.ColumnByFieldName(col.ColumnName);
 
-                  string caption = column.Properties.Caption.Trim().Replace("\r\n", "");
-                  MessageDisplay.Warning(string.Format(warnText, i + 1, caption));
+                  string caption = column.Properties.Caption.Trim().Replace("\r\n" , "");
+                  MessageDisplay.Warning(string.Format(warnText , i + 1 , caption));
 
                   gridControl.FocusedRow = columnList.GetRowByFieldName(col.ColumnName);
                   gridControl.FocusedRecord = 2;

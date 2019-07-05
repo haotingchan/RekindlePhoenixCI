@@ -30,6 +30,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
       RepositoryItemLookUpEdit lupPriceFluc;
       ReportHelper _ReportHelper;
       private D51070 dao51070;
+      string systemType;
 
       public W51070(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
@@ -73,11 +74,25 @@ namespace PhoenixCI.FormUI.Prefix5 {
          return ResultStatus.Success;
       }
 
+      protected override ResultStatus Retrieve() {
+         try {
+
+            wf_retrieve();
+
+            return ResultStatus.Success;
+
+         } catch (Exception ex) {
+            WriteLog(ex);
+         }
+         return ResultStatus.Fail;
+      }
+
       //RadioButton 判斷
       private int wf_retrieve() {
          try {
 
-            string ls_dw_name, ls_date, systemType;
+            string ls_dw_name, ls_date;
+            systemType = "";
             if (gbMarket.EditValue.AsString() == "rbMarket1") {
                ls_dw_name = "";
                if (gbType.EditValue.AsString() == "rbTypeFut") {
@@ -154,6 +169,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             gvMain.Columns["OP_TYPE"].AppearanceCell.ForeColor = Color.Red;
             gvMain.Columns["SLT_KIND_ID"].VisibleIndex = 1;
             gvMain.Columns["SLT_PRICE_FLUC"].AppearanceCell.ForeColor = Color.Red;
+            gvMain.Columns["SLT_PRICE_FLUC"].AppearanceCell.TextOptions.HAlignment = HorzAlignment.Center;
 
             gvMain.BestFitColumns();
             GridHelper.SetCommonGrid(gvMain);
@@ -189,7 +205,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
             }
 
             dtChange = dtCurrent.GetChanges();
-            string ls_dw_name, ls_date, systemType;
+            string ls_dw_name, ls_date;
+            systemType = "";
             if (gbMarket.EditValue.AsString() == "rbMarket1") {
                ls_dw_name = "";
                if (gbType.EditValue.AsString() == "rbTypeFut") {
@@ -263,6 +280,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
             string leftMemo = labTradeDate.Text;
             _ReportHelper.LeftMemo = leftMemo;
+            _ReportHelper.ReportTitle = this.Text + systemType;
 
             _ReportHelper.Print();
             _ReportHelper.Export(FileType.PDF , _ReportHelper.FilePath);
@@ -321,10 +339,10 @@ namespace PhoenixCI.FormUI.Prefix5 {
             case ("SLT_SPREAD_MULTI"):
             case ("SLT_SPREAD_MAX"):
             case ("SLT_VALID_QNTY"):
-               e.Appearance.BackColor = Color.White;
+               e.Appearance.BackColor = GridHelper.DEFAULT;
                break;
             default:
-               e.Appearance.BackColor = Color.Azure;
+               e.Appearance.BackColor = GridHelper.LOCKBG;
                break;
          }//switch (e.Column.FieldName) {
       }
