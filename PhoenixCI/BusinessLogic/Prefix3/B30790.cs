@@ -100,7 +100,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
 
                //TX振幅
                if (row["KIND_ID"].AsString() == "TXF") {
-                  workbook.Worksheets[1 - 1].Cells[$"E{rowIndex}"].SetValue(row["AVG_TX_HIGH_LOW"]);
+                  workbook.Worksheets[1 - 1].Rows[rowIndex][5 - 1].SetValue(row["AVG_TX_HIGH_LOW"]);
                }
                //量
                int seqNO = row["SEQ_NO"].AsInt();

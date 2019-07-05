@@ -116,7 +116,7 @@ namespace PhoenixCI.FormUI.Prefix7
                break;
          }
          //選取儲存路徑
-         saveFilePath = PbFunc.wf_GetFileSaveName($@"MarketMaker{lsType}_{lsRtn}-{ldStart.ToString("yyyyMMdd")}-{ldEnd.ToString("yyyyMMdd")}.xls");
+         saveFilePath = PbFunc.wf_GetFileSaveName($@"MarketMaker{lsType}_{lsRtn}-{ldStart.ToString("yyyyMMdd")}-{ldEnd.ToString("yyyyMMdd")}.xlsx");
          if (string.IsNullOrEmpty(saveFilePath)) {
             return false;
          }
@@ -179,7 +179,7 @@ namespace PhoenixCI.FormUI.Prefix7
                default:
                   break;
             }
-            WriteLog("轉出檔案:" + saveFilePath, "Info", "E");
+            WriteLog("轉出檔案:" + saveFilePath, "E");
 
             if (string.IsNullOrEmpty(message.OutputShowMessage))
                return ResultStatus.Fail;

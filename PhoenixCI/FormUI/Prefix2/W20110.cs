@@ -249,7 +249,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 string subType, settleDate, rtnStr;
                 DataView view;
                 DataTable dtTemp;
-                //如果資料表(AMIFU)沒資料
+                //這邊會去撈AMIFU的資料，沒資料就把紀錄在PRT上面的商品每個都新增一筆資料
                 if (dtAMIFU.Rows.Count == 0) {
                     //PB: wf_insert_all_zero()
                     for (i = 0; i < dtRPT.Rows.Count; i++) {
@@ -257,7 +257,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                         settleDate = dtRPT.Rows[i]["RPT_VALUE_2"].AsString();
                         seqNo = dtRPT.Rows[i]["RPT_SEQ_NO"].AsInt();
                         if (settleDate == "000000") {
-                            settleDate = "指數";
+                            settleDate = "指數"; //000000畫面上要顯示為指數
                         }
                         InsertRow(kindId, settleDate, seqNo);
                     }
@@ -328,7 +328,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                 #endregion
 
                 dtGrid = (DataTable)gcMain.DataSource;
-                //補沒有轉入商品之空白
+                //補沒有轉入商品之空白(AMIFU有缺的，從RPT那邊補)
                 if (ddlType.Text == "16:15收盤") {
                     DataView dv = dtRPT.AsDataView();
                     dv.RowFilter = "RPT_VALUE_4 <> '7'";

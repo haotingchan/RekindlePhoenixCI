@@ -148,10 +148,10 @@ namespace PhoenixCI.FormUI.Prefix5 {
             Worksheet worksheet = workbook.Worksheets[sheetNo];
 
             //3.3寫入檔頭
-            worksheet.Cells[3 , 0].Value += System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+            worksheet.Cells[3 , 0].Value += DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
             worksheet.Cells[3 , 3].Value += txtStartMonth.Text.Replace("/" , "");
             worksheet.Cells[3 , 5].Value += txtEndMonth.Text.Replace("/" , "");
-            worksheet.Cells[3 , 7].Value = "資料更新時間 : " + dt.Rows[0]["FEETRD_UPD_TIME"].AsDateTime(System.DateTime.Now).ToString("yyyy/MM/dd HH:mm:ss");
+            worksheet.Cells[3 , 7].Value = "資料更新時間 : " + dt.Rows[0]["FEETRD_UPD_TIME"].AsDateTime(DateTime.Now).ToString("yyyy/MM/dd HH:mm:ss");
 
             //3.4寫入明細
             //ken,預先做好一堆空白行數,但是如果筆數超過預設空白行數,會把最後的統計那行覆蓋掉
@@ -217,8 +217,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
          return ResultStatus.Fail;
       }
 
-
-      private void rgpType_EditValueChanged(object sender , System.EventArgs e) {
+      private void rgpType_EditValueChanged(object sender , EventArgs e) {
          if (rgpType.SelectedIndex == 0) {
             labProdType.Visible = true;
             cbxProdType.Visible = true;

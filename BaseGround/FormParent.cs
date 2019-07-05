@@ -1108,7 +1108,7 @@ namespace BaseGround {
       /// logType=Info,此參數才有效(I = change data, E = export, R = query, P = print, X = execute)
       /// </param>
       /// <param name="showMsg">true=顯示錯誤訊息,false=不顯示</param>
-      public void WriteLog(string msg, string logType = "Info", string operationType = "", bool showMsg = false) {
+      public void WriteLog(string msg, string logType = "Info", string operationType = " ", bool showMsg = false) {
          bool isNeedWriteFile = false;
          string dbErrorMsg = "";
 
@@ -1127,8 +1127,8 @@ namespace BaseGround {
                   isNeedWriteFile = true;
                   break;
             }
-            //ken,LOGF_KEY_DATA長度要取前100字元,但是logf.LOGF_KEY_DATA型態為VARCHAR2 (100 Byte),如果有中文會算2byte...先取前80吧
-            new LOGF().Insert(GlobalInfo.USER_ID, _ProgramID, msg.SubStr(0, 80), operationType);
+            //LOGF_KEY_DATA長度要取前100字元,但是logf.LOGF_KEY_DATA型態為VARCHAR2 (100 Byte),如果有中文會算2byte...
+            new LOGF().Insert(GlobalInfo.USER_ID, _ProgramID, msg.SubStr(0, 50), operationType);
          } catch (Exception ex2) {
             // write log to db failed , ready write file to local
             isNeedWriteFile = true;

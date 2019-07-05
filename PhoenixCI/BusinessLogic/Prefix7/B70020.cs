@@ -70,7 +70,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
             dt.Columns["SO"].ColumnName = "賣一般委託";
             dt.Columns["SQ"].ColumnName = "賣報價委託";
             dt.Columns["MARKET_CODE"].ColumnName = "交易時段";
-            
+
             SaveExcel(dt);
          }
          catch (Exception ex) {
@@ -89,11 +89,11 @@ namespace PhoenixCI.BusinessLogic.Prefix7
       {
          try {
             DataTable dtAM8 = dao70020.ListAM8(startDate, endDate, lsMarketCode);
-            if (dtAM8.Rows.Count<=0) {
+            if (dtAM8.Rows.Count <= 0) {
                return MessageDisplay.MSG_NO_DATA;
             }
             DataView dsDv = dtAM8.AsDataView();
-            dsDv.Sort = "AM8_YMD,AM8_PROD_TYPE,AM8_FCM_NO,AM8_PARAM_KEY,qnty_8 Desc,qnty_2 Desc";
+            dsDv.Sort = "AM8_YMD,AM8_PROD_TYPE,AM8_FCM_NO,AM8_PARAM_KEY,MARKET_CODE";
             dtAM8 = dsDv.ToTable();
             dtAM8.Columns["AM8_YMD"].ColumnName = "日期";
             dtAM8.Columns["AM8_PROD_TYPE"].ColumnName = "商品別";
@@ -111,7 +111,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
          return MessageDisplay.MSG_OK;
       }
       /// <summary>
-      /// 判斷資料量選擇要存檔的格式(xls|txt)
+      /// 判斷資料量選擇要存檔的格式(xlsx|txt)
       /// </summary>
       /// <param name="dataTable">要輸出的資料</param>
       private void SaveExcel(DataTable dataTable)
@@ -122,19 +122,24 @@ namespace PhoenixCI.BusinessLogic.Prefix7
             wb.Worksheets[0].Name = SheetName(_saveFilePath);
             //存檔
             if (dataTable.Rows.Count > 0) {
-               if (dataTable.Rows.Count <= 65536) {
-                  wb.SaveDocument(_saveFilePath, DocumentFormat.Xls);
-               }
-               else {
-                  wb.SaveDocument(_saveFilePath, DocumentFormat.Text);
-               }
+               wb.SaveDocument(_saveFilePath, DocumentFormat.Xlsx);
+               //if (dataTable.Rows.Count <= 65536) {
+               //   wb.SaveDocument(_saveFilePath, DocumentFormat.Xlsx);
+               //}
+               //else {
+               //   wb.SaveDocument(_saveFilePath.Substring(0, _saveFilePath.Length - 5) + ".txt", DocumentFormat.Text);
+               //}
             }
          }
          catch (Exception ex) {
-            throw new Exception( "saveExcel:"+ ex.Message);
+            throw new Exception("saveExcel:" + ex.Message);
          }
       }
-
+      /// <summary>
+      /// 判斷工作表名稱不超過31個字
+      /// </summary>
+      /// <param name="filePath"></param>
+      /// <returns></returns>
       private string SheetName(string filePath)
       {
          string filename = Path.GetFileNameWithoutExtension(filePath);
