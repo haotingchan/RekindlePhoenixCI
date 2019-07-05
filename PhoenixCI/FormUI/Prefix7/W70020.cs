@@ -116,7 +116,7 @@ namespace PhoenixCI.FormUI.Prefix7
                break;
          }
          //選取儲存路徑
-         saveFilePath = PbFunc.wf_GetFileSaveName($@"MarketMaker{lsType}_{lsRtn}-{ldStart.ToString("yyyyMMdd")}-{ldEnd.ToString("yyyyMMdd")}.xls");
+         saveFilePath = PbFunc.wf_GetFileSaveName($@"MarketMaker{lsType}_{lsRtn}-{ldStart.ToString("yyyyMMdd")}-{ldEnd.ToString("yyyyMMdd")}.xlsx");
          if (string.IsNullOrEmpty(saveFilePath)) {
             return false;
          }
