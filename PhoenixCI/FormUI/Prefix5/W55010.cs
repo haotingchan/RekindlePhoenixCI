@@ -163,7 +163,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
          if (ii_ole_row < li_ole_row_tol) {
             worksheet.Rows.Remove(ii_ole_row + 1 , li_ole_row_tol - ii_ole_row);
          }
-         //worksheet.Range["A1"].Select();
+         worksheet.Range["A1"].Select();
+         worksheet.ScrollToRow(0);
 
          //儲存及關閉檔案
          workbook.SaveDocument(excelDestinationPath);
@@ -224,7 +225,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
          if (ii_ole_row < li_ole_row_tol) {
             worksheet.Rows.Remove(ii_ole_row + 1 , li_ole_row_tol - ii_ole_row);
          }
-         //worksheet.Range["A1"].Select();
+         worksheet.Range["A1"].Select();
+         worksheet.ScrollToRow(0);
 
          //儲存及關閉檔案
          workbook.SaveDocument(excelDestinationPath);
