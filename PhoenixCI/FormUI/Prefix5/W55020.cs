@@ -55,7 +55,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
          rgpType_EditValueChanged(rgpType , null);//觸發事件
          rgpType.EnterMoveNextControl = true;
 
-         DataTable dtProdType = new APDK().ListAll();//前面[全部/期貨/選擇權]+APDK_PROD_TYPE/PDK_KIND_ID
+         DataTable dtProdType = new APDK().dddw_pdk_kind_id();//前面[全部/期貨/選擇權]+apdk_prod_type/pdk_kind_id/cp_display
          cbxProdType.SetDataTable(dtProdType , "PDK_KIND_ID" , textEditStyles: TextEditStyles.DisableTextEditor);
          cbxProdType.ItemIndex = 0;//直接預設為[全部]
 
