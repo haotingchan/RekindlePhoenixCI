@@ -179,7 +179,7 @@ namespace PhoenixCI.FormUI.Prefix7
                default:
                   break;
             }
-            WriteLog("轉出檔案:" + saveFilePath, "Info", "E");
+            WriteLog("轉出檔案:" + saveFilePath, "E");
 
             if (string.IsNullOrEmpty(message.OutputShowMessage))
                return ResultStatus.Fail;
