@@ -8,7 +8,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
       public W35090(string programID, string programName) : base(programID, programName) {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
-         txtDate.DateTimeValue = GlobalInfo.OCF_DATE;
 
          ExportShow.Hide();
       }

@@ -10,7 +10,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
          this.Text = _ProgramID + "─" + _ProgramName;
          txtDate.DateTimeValue = GlobalInfo.OCF_DATE;
 
-         ExportShow.Hide();
       }
 
       protected override ResultStatus AfterOpen() {

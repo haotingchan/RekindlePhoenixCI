@@ -171,6 +171,39 @@ namespace PhoenixCI.FormUI.Prefix5 {
             gvMain.Columns["SLT_PRICE_FLUC"].AppearanceCell.ForeColor = Color.Red;
             gvMain.Columns["SLT_PRICE_FLUC"].AppearanceCell.TextOptions.HAlignment = HorzAlignment.Center;
 
+            //1.5 設定欄位format格式
+            RepositoryItemTextEdit spread = new RepositoryItemTextEdit();
+            gcMain.RepositoryItems.Add(spread);
+            gvMain.Columns["SLT_SPREAD"].ColumnEdit = spread;
+            spread.DisplayFormat.FormatType = FormatType.Numeric;
+            spread.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+            spread.DisplayFormat.FormatString = "########0.####";
+            spread.Mask.EditMask = "########0.####";
+            spread.MaxLength = 14;
+
+            RepositoryItemTextEdit multi = new RepositoryItemTextEdit();
+            gcMain.RepositoryItems.Add(multi);
+            gvMain.Columns["SLT_SPREAD_MULTI"].ColumnEdit = multi;
+            multi.DisplayFormat.FormatType = FormatType.Numeric;
+            multi.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+            multi.DisplayFormat.FormatString = "#######0.####";
+            multi.Mask.EditMask = "#######0.####";
+            multi.MaxLength = 13;
+
+            RepositoryItemTextEdit max = new RepositoryItemTextEdit();
+            gcMain.RepositoryItems.Add(max);
+            gvMain.Columns["SLT_SPREAD_MAX"].ColumnEdit = max;
+            max.DisplayFormat.FormatType = FormatType.Numeric;
+            max.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
+            max.DisplayFormat.FormatString = "#######0.####";
+            max.Mask.EditMask = "#######0.####";
+            max.MaxLength = 13;
+
+            RepositoryItemTextEdit qnty = new RepositoryItemTextEdit();
+            gcMain.RepositoryItems.Add(qnty);
+            gvMain.Columns["SLT_VALID_QNTY"].ColumnEdit = qnty;
+            qnty.MaxLength = 9;
+
             gvMain.BestFitColumns();
             GridHelper.SetCommonGrid(gvMain);
             gvMain.Columns["OP_TYPE"].Width = 25;

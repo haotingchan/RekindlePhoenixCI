@@ -8,9 +8,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
       public W35040(string programID, string programName) : base(programID, programName) {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
-         txtDate.DateTimeValue = GlobalInfo.OCF_DATE;
+         txtAftStartYM.DateTimeValue = GlobalInfo.OCF_DATE;
+         ddlScCode.Text = "全部";
 
-         ExportShow.Hide();
+         labMsg.Hide();
       }
 
       protected override ResultStatus AfterOpen() {
@@ -26,5 +27,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
          return ResultStatus.Success;
       }
+
    }
 }
