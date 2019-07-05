@@ -86,6 +86,7 @@
             this.TXN_ID_ORG});
             this.gvMain.GridControl = this.gcMain;
             this.gvMain.Name = "gvMain";
+            this.gvMain.OptionsView.ColumnHeaderAutoHeight = DevExpress.Utils.DefaultBoolean.False;
             // 
             // TXN_ID
             // 
