@@ -3,7 +3,6 @@ using DataObjects.Dao.Together.SpecificDao;
 using System;
 using System.Data;
 using DevExpress.Spreadsheet;
-using BaseGround.Shared;
 using System.IO;
 /// <summary>
 /// john,20190329,每月報局交易量報表(國內期貨暨選擇權)
@@ -15,9 +14,21 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    /// </summary>
    public class B30780
    {
+      /// <summary>
+      /// 檔案輸出路徑
+      /// </summary>
       private readonly string _lsFile;
+      /// <summary>
+      /// 交易日期 月份
+      /// </summary>
       private readonly string _emMonthText;
+      /// <summary>
+      /// 交易時段
+      /// </summary>
       private readonly string _lsMarketCode;
+      /// <summary>
+      /// 最大交易日
+      /// </summary>
       private readonly DateTime _emEndDateText;
       private D30780 dao30780;
 

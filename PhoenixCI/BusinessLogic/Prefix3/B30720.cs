@@ -15,10 +15,25 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    /// </summary>
    public class B30720
    {
+      /// <summary>
+      /// 檔案輸出路徑
+      /// </summary>
       private readonly string _lsFile;
+      /// <summary>
+      /// 交易日期 月份
+      /// </summary>
       private readonly string _emMonthText;
+      /// <summary>
+      /// 年
+      /// </summary>
       private readonly string _sleYearText;
+      /// <summary>
+      /// 交易時段
+      /// </summary>
       private readonly string _rgMarketVal;
+      /// <summary>
+      /// 月報/年報
+      /// </summary>
       private readonly string _rgDateVal;
 
       public B30720(string lsFile, string emMonth, string sleYear, string DateEditValue ,string MarketEditValue)

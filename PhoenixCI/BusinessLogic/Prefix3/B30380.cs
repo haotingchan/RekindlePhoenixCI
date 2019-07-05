@@ -14,7 +14,13 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    /// </summary>
    public class B30380
    {
+      /// <summary>
+      /// 檔案輸出路徑
+      /// </summary>
       private readonly string _lsFile;
+      /// <summary>
+      /// 交易日期 月份
+      /// </summary>
       private readonly string _emMonthText;
 
       /// <summary>
@@ -62,20 +68,18 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                   ldtYMD = row["AI3_DATE"].AsDateTime();
                   RowIndex = RowIndex + 1;
                   addRowCount++;
-                  worksheet.Rows[RowIndex][1 - 1].Value = ldtYMD.ToString("MM/dd");
+                  worksheet.Rows[RowIndex][1 - 1].Value = ldtYMD.ToString("MM/dd");//日期
                }
-               worksheet.Rows[RowIndex][2 - 1].Value = row["AI3_CLOSE_PRICE"].AsDecimal();
-               worksheet.Rows[RowIndex][4 - 1].Value = row["AI3_M_QNTY"].AsDecimal();
-               worksheet.Rows[RowIndex][5 - 1].Value = row["AI3_OI"].AsDecimal();
-               worksheet.Rows[RowIndex][6 - 1].Value = row["AI3_INDEX"].AsDecimal();
-               worksheet.Rows[RowIndex][8 - 1].Value = row["AI3_AMOUNT"].AsDecimal();
+               worksheet.Rows[RowIndex][2 - 1].Value = row["AI3_CLOSE_PRICE"].AsDecimal();//臺股期貨指數(TX)
+               worksheet.Rows[RowIndex][4 - 1].Value = row["AI3_M_QNTY"].AsDecimal();//臺股期貨總成交量(註①)
+               worksheet.Rows[RowIndex][5 - 1].Value = row["AI3_OI"].AsDecimal();//臺股期貨總未平倉量(註①)
+               worksheet.Rows[RowIndex][6 - 1].Value = row["AI3_INDEX"].AsDecimal();//臺股現貨指數(TAIEX)
+               worksheet.Rows[RowIndex][8 - 1].Value = row["AI3_AMOUNT"].AsDecimal();//成交值      (億元)
             }
             //刪除空白列
             if (RowTotal > addRowCount) {
-               //worksheet.Rows.Remove(RowIndex + 1, RowTotal - addRowCount);
                worksheet.Range[$"{RowIndex + 2}:{RowTotal + 2}"].Clear();//清空沒有必要的數值
-               worksheet.Rows.Hide(RowIndex + 1, RowIndex + (RowTotal - addRowCount));
-               //worksheet.Range[$"{RowIndex + 2}:{RowTotal + 2}"].Delete();
+               worksheet.Rows.Hide(RowIndex + 1, RowIndex + (RowTotal - addRowCount));//隱藏代替刪除
             }
 
          }
@@ -126,20 +130,18 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                   ldtYMD = row["AI3_DATE"].AsDateTime();
                   RowIndex = RowIndex + 1;
                   addRowCount++;
-                  worksheet.Rows[RowIndex][1 - 1].Value = ldtYMD.ToString("MM/dd");
-                  worksheet.Rows[RowIndex][4 - 1].Value = row["AI3_M_QNTY"].AsDecimal();
-                  worksheet.Rows[RowIndex][5 - 1].Value = row["AI3_OI"].AsDecimal();
+                  worksheet.Rows[RowIndex][1 - 1].Value = ldtYMD.ToString("MM/dd");//日期
+                  worksheet.Rows[RowIndex][4 - 1].Value = row["AI3_M_QNTY"].AsDecimal();//總成交量
+                  worksheet.Rows[RowIndex][5 - 1].Value = row["AI3_OI"].AsDecimal();//總未平倉量
                }
-               worksheet.Rows[RowIndex][2 - 1].Value = row["AI3_CLOSE_PRICE"].AsDecimal();
-               worksheet.Rows[RowIndex][6 - 1].Value = row["AI3_INDEX"].AsDecimal();
-               worksheet.Rows[RowIndex][10 - 1].Value = row["AI3_M_QNTY_FITX"].AsDecimal();
+               worksheet.Rows[RowIndex][2 - 1].Value = row["AI3_CLOSE_PRICE"].AsDecimal();//期貨指數
+               worksheet.Rows[RowIndex][6 - 1].Value = row["AI3_INDEX"].AsDecimal();//現貨指數
+               worksheet.Rows[RowIndex][10 - 1].Value = row["AI3_M_QNTY_FITX"].AsDecimal();//臺指量
             }
             //刪除空白列
             if (RowTotal > addRowCount) {
-               //worksheet.Rows.Remove(RowIndex + 1, RowTotal - addRowCount);
                worksheet.Range[$"{RowIndex + 2}:{RowTotal + 2}"].Clear();//清空沒有必要的數值
-               worksheet.Rows.Hide(RowIndex + 1, RowIndex + (RowTotal - addRowCount));
-               //worksheet.Range[$"{RowIndex + 2}:{RowTotal + 2}"].Delete();
+               worksheet.Rows.Hide(RowIndex + 1, RowIndex + (RowTotal - addRowCount));//隱藏代替刪除
             }
 
          }

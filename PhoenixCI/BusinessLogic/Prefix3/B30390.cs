@@ -21,7 +21,13 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    /// </summary>
    public class B30390
    {
+      /// <summary>
+      /// 檔案輸出路徑
+      /// </summary>
       private readonly string _lsFile;
+      /// <summary>
+      /// 交易日期 月份
+      /// </summary>
       private readonly string _emMonthText;
 
       /// <summary>
@@ -70,12 +76,12 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                   ldtYMD = row["AI3_DATE"].AsDateTime();
                   RowIndex = RowIndex + 1;
                   addRowCount++;
-                  worksheet.Rows[RowIndex][1 - 1].Value = ldtYMD.ToString("MM/dd");
+                  worksheet.Rows[RowIndex][1 - 1].Value = ldtYMD.ToString("MM/dd");//日期
                }
-               worksheet.Rows[RowIndex][2 - 1].Value = row["AI3_CLOSE_PRICE"].AsDecimal();
-               worksheet.Rows[RowIndex][4 - 1].Value = row["AI3_M_QNTY"].AsDecimal();
-               worksheet.Rows[RowIndex][5 - 1].Value = row["AI3_OI"].AsDecimal();
-               worksheet.Rows[RowIndex][6 - 1].Value = row["AI3_INDEX"].AsDecimal();
+               worksheet.Rows[RowIndex][2 - 1].Value = row["AI3_CLOSE_PRICE"].AsDecimal();//臺灣50期貨指數
+               worksheet.Rows[RowIndex][4 - 1].Value = row["AI3_M_QNTY"].AsDecimal();//臺灣50期貨總成交量
+               worksheet.Rows[RowIndex][5 - 1].Value = row["AI3_OI"].AsDecimal();//臺灣50期貨總未平倉量
+               worksheet.Rows[RowIndex][6 - 1].Value = row["AI3_INDEX"].AsDecimal();//臺灣50現貨指數
             }
             //刪除空白列
             if (RowTotal > addRowCount) {

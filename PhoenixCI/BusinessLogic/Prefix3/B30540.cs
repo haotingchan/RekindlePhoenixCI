@@ -15,8 +15,14 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    /// </summary>
    public class B30540
    {
+      /// <summary>
+      /// 檔案輸出路徑
+      /// </summary>
       private readonly string _lsFile;
-      private string _emMonthText;
+      /// <summary>
+      /// 交易日期 月份
+      /// </summary>
+      private readonly string _emMonthText;
 
       /// <summary>
       /// 
@@ -29,6 +35,11 @@ namespace PhoenixCI.BusinessLogic.Prefix3
          _emMonthText = datetime;
       }
 
+      /// <summary>
+      /// 判斷 期貨自營/期貨經紀 買權(Calls)或賣權(Puts)的欄位
+      /// </summary>
+      /// <param name="row">datarow AM2_PC_CODE</param>
+      /// <returns></returns>
       private static int IDFGtype(DataRow row)
       {
          int columnIndex = 0;
@@ -46,6 +57,14 @@ namespace PhoenixCI.BusinessLogic.Prefix3
          return columnIndex;
       }
 
+      /// <summary>
+      /// 判斷要填入未沖銷契約數買權(Calls)或賣權(Puts)的欄位
+      /// </summary>
+      /// <param name="RowIndex"></param>
+      /// <param name="worksheet"></param>
+      /// <param name="dtAI2"></param>
+      /// <param name="lsYMD"></param>
+      /// <param name="pcCode">C(Calls)/P(Puts)</param>
       private static void OImethod(int RowIndex, Worksheet worksheet, DataTable dtAI2, string lsYMD, string pcCode)
       {
          int foundIndex = dtAI2.Rows.IndexOf(dtAI2.Select($@"ai2_ymd ='{lsYMD}' and ai2_pc_code='{pcCode}'").FirstOrDefault());
@@ -82,7 +101,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             worksheet.Range["A1"].Select();
 
             //總列數,隱藏於A5
-            int rowTotal = RowIndex + worksheet.Cells["A5"].Value.AsInt();
+            int rowTol = RowIndex + worksheet.Cells["A5"].Value.AsInt();
 
             //起始年份,隱藏於B5
             string firstYear = worksheet.Cells["B5"].Value.AsString();
@@ -116,7 +135,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                   /* 最後一列時 */
                   if (lsYMD == endYMD) {
                      rowEndIndex = RowIndex;
-                     RowIndex = rowTotal;
+                     RowIndex = rowTol;
                   }
                   /* 年度資料 */
                   if (lsYMD.Length == 4) {
@@ -139,14 +158,14 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                   worksheet.Rows[RowIndex][columnIndex].Value = row["AM2_M_QNTY"].AsDecimal();
                }
                else {
-                  worksheet.Rows[rowTotal][columnIndex].Value = row["AM2_M_QNTY"].AsDecimal();
+                  worksheet.Rows[rowTol][columnIndex].Value = row["AM2_M_QNTY"].AsDecimal();
                }
                
             }//foreach (DataRow row in dt.Rows)
 
             //刪除空白列
-            if (rowTotal > rowEndIndex) {
-               worksheet.Range[$"{rowEndIndex + 1}:{rowTotal + 1 - 1}"].Delete(DeleteMode.EntireRow);
+            if (rowTol > rowEndIndex) {
+               worksheet.Range[$"{rowEndIndex + 1}:{rowTol + 1 - 1}"].Delete(DeleteMode.EntireRow);
                worksheet.ScrollTo(0, 0);//直接滾動到最上面，不然看起來很像少行數
             }
             

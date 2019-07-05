@@ -1,16 +1,9 @@
-﻿using BaseGround.Shared;
-using Common;
-using DataObjects.Dao.Together;
+﻿using Common;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 /// <summary>
 /// 20190327,john,盤後交易時段分時交易量分布
 /// </summary>
@@ -22,10 +15,25 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    public class B30790
    {
       private readonly string _lsFile;
+      /// <summary>
+      /// 分時交易量起始日期
+      /// </summary>
       private string _startDateText;
+      /// <summary>
+      /// 分時交易量訖止日期
+      /// </summary>
       private string _endDateText;
+      /// <summary>
+      /// TX震幅起始日期
+      /// </summary>
       private string _txStartDateText;
+      /// <summary>
+      /// TX震幅訖止日期
+      /// </summary>
       private string _txEndDateText;
+      /// <summary>
+      /// DataLayer
+      /// </summary>
       D30790 dao30790;
 
       /// <summary>

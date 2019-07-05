@@ -16,8 +16,17 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    /// </summary>
    public class B30505
    {
+      /// <summary>
+      /// 檔案輸出路徑
+      /// </summary>
       private readonly string _lsFile;
+      /// <summary>
+      /// 日期 起始日期
+      /// </summary>
       private string _startDateText;
+      /// <summary>
+      /// 日期 迄止日期
+      /// </summary>
       private string _endDateText;
       /// <summary>
       /// 
@@ -31,7 +40,11 @@ namespace PhoenixCI.BusinessLogic.Prefix3
          _startDateText = StartDate;
          _endDateText = EndDate;
       }
-
+      /// <summary>
+      /// 建立Csv檔案
+      /// </summary>
+      /// <param name="saveFilePath">輸出路徑</param>
+      /// <returns></returns>
       private string CreateCsvFile(string saveFilePath)
       {
          //避免重複寫入
@@ -54,7 +67,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       {
          try {
             Workbook wb = new Workbook();
-            wb.Options.Export.Csv.WritePreamble = true;
+            wb.Options.Export.Csv.WritePreamble = true;//預設的Csv輸出中文會是亂碼
             wb.Worksheets[0].Import(dataTable, true, 1, 0);
             wb.Worksheets[0].Name = SheetName(_lsFile);
             //string lsStr = lsTab + lsRptId + lsRptName;
@@ -66,7 +79,11 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             throw ex;
          }
       }
-
+      /// <summary>
+      /// 工作表名稱
+      /// </summary>
+      /// <param name="filePath"></param>
+      /// <returns></returns>
       private string SheetName(string filePath)
       {
          string filename = Path.GetFileNameWithoutExtension(filePath);

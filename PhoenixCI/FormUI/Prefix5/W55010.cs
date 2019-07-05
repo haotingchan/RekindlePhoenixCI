@@ -152,7 +152,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
             worksheet.Cells[ii_ole_row , 4].Value = dtContent.Rows[x]["feetrd_disc_qnty"].AsInt();
             worksheet.Cells[ii_ole_row , 5].Value = dtContent.Rows[x]["disc_rate"].AsDouble();
             worksheet.Cells[ii_ole_row , 6].Value = dtContent.Rows[x]["disc_amt"].AsDecimal();
-
+            worksheet.Cells[ii_ole_row , 7].Value = dtContent.Rows[x]["feetrd_disc_qnty_ah"].AsInt();
+            worksheet.Cells[ii_ole_row , 8].Value = dtContent.Rows[x]["disc_rate_ah"].AsDouble();
+            worksheet.Cells[ii_ole_row , 9].Value = dtContent.Rows[x]["disc_amt_ah"].AsDecimal();
+            worksheet.Cells[ii_ole_row , 10].Value = dtContent.Rows[x]["feetrd_disc_qnty_sum"].AsInt();
+            worksheet.Cells[ii_ole_row , 11].Value = dtContent.Rows[x]["disc_amt_sum"].AsDecimal();
          }
 
          //刪除空白列
@@ -209,7 +213,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
             worksheet.Cells[ii_ole_row , 5].Value = dtContent.Rows[x]["feetrd_disc_qnty"].AsDecimal();
             worksheet.Cells[ii_ole_row , 6].Value = dtContent.Rows[x]["disc_rate"].AsDecimal();
             worksheet.Cells[ii_ole_row , 7].Value = dtContent.Rows[x]["disc_amt"].AsDecimal();
-
+            worksheet.Cells[ii_ole_row , 8].Value = dtContent.Rows[x]["feetrd_disc_qnty_ah"].AsInt();
+            worksheet.Cells[ii_ole_row , 9].Value = dtContent.Rows[x]["disc_rate_ah"].AsDouble();
+            worksheet.Cells[ii_ole_row , 10].Value = dtContent.Rows[x]["disc_amt_ah"].AsDecimal();
+            worksheet.Cells[ii_ole_row , 11].Value = dtContent.Rows[x]["feetrd_disc_qnty_sum"].AsInt();
+            worksheet.Cells[ii_ole_row , 12].Value = dtContent.Rows[x]["disc_amt_sum"].AsDecimal();
          }
 
          //刪除空白列

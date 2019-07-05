@@ -23,6 +23,9 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    public class B30393
    {
       private readonly Workbook _workbook;
+      /// <summary>
+      /// 交易日期 月份
+      /// </summary>
       private readonly string _emMonthText;
       private readonly AI2 daoAI2;
       private readonly AI3 daoAI3;
@@ -86,17 +89,17 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                   ldtYMD = row["AI3_DATE"].AsDateTime();
                   RowIndex = RowIndex + 1;
                   addRowCount++;
-                  worksheet.Rows[RowIndex][1 - 1].Value = ldtYMD.ToString("MM/dd");
+                  worksheet.Rows[RowIndex][1 - 1].Value = ldtYMD.ToString("MM/dd");//日期
                }
                //if  not isnull(ld_val) then  iole_1.application.activecell(ii_ole_row, 3).value = ids_1.getitemdecimal(i, "ai3_close_price") - ids_1.getitemdecimal(i, "ai3_last_close_price")
                //pb這段只會在Excel隱藏的欄位執行成功
                if (RowIndex == 2 && row["AI3_LAST_CLOSE_PRICE"] != DBNull.Value)
-                  worksheet.Rows[RowIndex][3 - 1].Value = row["AI3_CLOSE_PRICE"].AsDecimal() - row["AI3_LAST_CLOSE_PRICE"].AsDecimal();
-               worksheet.Rows[RowIndex][2 - 1].Value = row["AI3_CLOSE_PRICE"].AsDecimal();
-               worksheet.Rows[RowIndex][4 - 1].Value = row["AI3_M_QNTY"].AsDecimal();
-               worksheet.Rows[RowIndex][5 - 1].Value = row["AI3_OI"].AsDecimal();
-               worksheet.Rows[RowIndex][6 - 1].Value = row["AI3_INDEX"].AsDecimal();
-               System.Threading.Thread.Sleep(0);
+                  worksheet.Rows[RowIndex][3 - 1].Value = row["AI3_CLOSE_PRICE"].AsDecimal() - row["AI3_LAST_CLOSE_PRICE"].AsDecimal();//C
+
+               worksheet.Rows[RowIndex][2 - 1].Value = row["AI3_CLOSE_PRICE"].AsDecimal();//B
+               worksheet.Rows[RowIndex][4 - 1].Value = row["AI3_M_QNTY"].AsDecimal();//D
+               worksheet.Rows[RowIndex][5 - 1].Value = row["AI3_OI"].AsDecimal();//E
+               worksheet.Rows[RowIndex][6 - 1].Value = row["AI3_INDEX"].AsDecimal();//F
             }
             //刪除空白列
             if (RowTotal > addRowCount) {
@@ -139,7 +142,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       }
 
       /// <summary>
-      /// wf_30393_1abc
+      /// wf_30393_1abc aka 30398 Wf30333()
       /// </summary>
       /// <param name="IsKindID">商品代號</param>
       /// <param name="SheetName">工作表</param>
