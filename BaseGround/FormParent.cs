@@ -1108,7 +1108,7 @@ namespace BaseGround {
       /// logType=Info,此參數才有效(I = change data, E = export, R = query, P = print, X = execute)
       /// </param>
       /// <param name="showMsg">true=顯示錯誤訊息,false=不顯示</param>
-      public void WriteLog(string msg, string logType = "Info", string operationType = "", bool showMsg = false) {
+      public void WriteLog(string msg, string logType = "Info", string operationType = " ", bool showMsg = false) {
          bool isNeedWriteFile = false;
          string dbErrorMsg = "";
 
