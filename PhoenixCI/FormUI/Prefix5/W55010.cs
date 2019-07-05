@@ -140,7 +140,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
          li_ole_row_tol = ii_ole_row + li_datacount;
          DateTime today = DateTime.Now;
          worksheet.Cells[3 , 0].Value += today.ToString("yyyy/MM/dd hh:mm:ss");
-         worksheet.Cells[3 , 4].Value += txtToDate.Text.Replace("/" , "");
+         worksheet.Cells[3 , 4].Value += txtTo;
 
          for (int x = 0 ; x < dtContent.Rows.Count ; x++) {
 
