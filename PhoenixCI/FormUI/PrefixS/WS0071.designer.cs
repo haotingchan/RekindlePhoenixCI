@@ -232,6 +232,8 @@
          // 
          // SPAN_PARAM_CLASS
          // 
+         this.SPAN_PARAM_CLASS.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.SPAN_PARAM_CLASS.AppearanceHeader.Options.UseBackColor = true;
          this.SPAN_PARAM_CLASS.Caption = "類別";
          this.SPAN_PARAM_CLASS.FieldName = "SPAN_PARAM_CLASS";
          this.SPAN_PARAM_CLASS.Name = "SPAN_PARAM_CLASS";
@@ -240,6 +242,8 @@
          // 
          // SPAN_PARAM_CC
          // 
+         this.SPAN_PARAM_CC.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.SPAN_PARAM_CC.AppearanceHeader.Options.UseBackColor = true;
          this.SPAN_PARAM_CC.Caption = "商品組合";
          this.SPAN_PARAM_CC.FieldName = "SPAN_PARAM_CC";
          this.SPAN_PARAM_CC.Name = "SPAN_PARAM_CC";
@@ -248,6 +252,8 @@
          // 
          // SPAN_PARAM_TYPE
          // 
+         this.SPAN_PARAM_TYPE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.SPAN_PARAM_TYPE.AppearanceHeader.Options.UseBackColor = true;
          this.SPAN_PARAM_TYPE.Caption = "設定方式";
          this.SPAN_PARAM_TYPE.FieldName = "SPAN_PARAM_TYPE";
          this.SPAN_PARAM_TYPE.Name = "SPAN_PARAM_TYPE";
@@ -256,6 +262,8 @@
          // 
          // SPAN_PARAM_VALUE
          // 
+         this.SPAN_PARAM_VALUE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.SPAN_PARAM_VALUE.AppearanceHeader.Options.UseBackColor = true;
          this.SPAN_PARAM_VALUE.Caption = "設定值";
          this.SPAN_PARAM_VALUE.FieldName = "SPAN_PARAM_VALUE";
          this.SPAN_PARAM_VALUE.Name = "SPAN_PARAM_VALUE";
@@ -264,6 +272,8 @@
          // 
          // SPAN_PARAM_EXPIRY
          // 
+         this.SPAN_PARAM_EXPIRY.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.SPAN_PARAM_EXPIRY.AppearanceHeader.Options.UseBackColor = true;
          this.SPAN_PARAM_EXPIRY.Caption = "到期商品設定";
          this.SPAN_PARAM_EXPIRY.ColumnEdit = this.repositoryItemCheckEdit1;
          this.SPAN_PARAM_EXPIRY.FieldName = "SPAN_PARAM_EXPIRY";
@@ -282,6 +292,8 @@
          // 
          // SPAN_PARAM_VOL_TYPE
          // 
+         this.SPAN_PARAM_VOL_TYPE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.SPAN_PARAM_VOL_TYPE.AppearanceHeader.Options.UseBackColor = true;
          this.SPAN_PARAM_VOL_TYPE.Caption = "波動度設定";
          this.SPAN_PARAM_VOL_TYPE.FieldName = "SPAN_PARAM_VOL_TYPE";
          this.SPAN_PARAM_VOL_TYPE.Name = "SPAN_PARAM_VOL_TYPE";
@@ -290,6 +302,8 @@
          // 
          // SPAN_PARAM_VOL_VALUE
          // 
+         this.SPAN_PARAM_VOL_VALUE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.SPAN_PARAM_VOL_VALUE.AppearanceHeader.Options.UseBackColor = true;
          this.SPAN_PARAM_VOL_VALUE.Caption = "設定值(%)";
          this.SPAN_PARAM_VOL_VALUE.ColumnEdit = this.repositoryItemTextEdit1;
          this.SPAN_PARAM_VOL_VALUE.FieldName = "SPAN_PARAM_VOL_VALUE";

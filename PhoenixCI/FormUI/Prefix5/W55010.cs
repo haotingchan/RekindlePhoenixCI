@@ -9,7 +9,7 @@ using System;
 using System.Data;
 
 namespace PhoenixCI.FormUI.Prefix5 {
-   //Winnni,2019/01/10 調整邏輯
+   //Winni,2019/01/10 調整邏輯
    public partial class W55010 : FormParent {
       private D55010 dao55010;
 
@@ -55,7 +55,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
          }
          #endregion
 
-
          int li_run_times; //單月報表需抓取資料庫的次數(月份數) 可先設定200806-200808
          DateTime ldt_ym;
          int sYear = txtFromDate.Text.SubStr(0 , 4).AsInt(); //起年
@@ -91,11 +90,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
                ldt_ym = ldt_ym.AddDays(1 - ldt_ym.Day);
                ldt_ym = ldt_ym.AddDays(32);
                //資料月份
-               txtToDate.Text = ldt_ym.ToString("yyyy/MM");
+               string dataMonth = ldt_ym.ToString("yyyyMM");
                //em_data_month.text = string(ldt_ym , 'yyyy/mm');
 
                //跑單月填表
-               flag = SingleMonthReport();
+               flag = SingleMonthReport(dataMonth, dataMonth);
                if (!flag)
                   return ResultStatus.Fail;
             }
@@ -112,7 +111,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
          return ResultStatus.Success;
       }
 
-      private bool SingleMonthReport() {
+      private bool SingleMonthReport(string txtFrom , string txtTo) {
 
          int li_ole_row_tol, li_datacount;
          int ii_ole_row = 5;
@@ -121,7 +120,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
          #region Excel
 
          //讀取資料
-         DataTable dtContent = dao55010.ListDataSingleMonth(txtFromDate.FormatValue , txtToDate.FormatValue);
+         DataTable dtContent = dao55010.ListDataSingleMonth(txtFrom , txtTo);
          if (dtContent.Rows.Count == 0) {
             MessageDisplay.Info(string.Format("{0},{1},無任何資料!" , txtFromDate.Text , this.Text) , GlobalInfo.ResultText);
             return false;
@@ -153,7 +152,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
             worksheet.Cells[ii_ole_row , 4].Value = dtContent.Rows[x]["feetrd_disc_qnty"].AsInt();
             worksheet.Cells[ii_ole_row , 5].Value = dtContent.Rows[x]["disc_rate"].AsDouble();
             worksheet.Cells[ii_ole_row , 6].Value = dtContent.Rows[x]["disc_amt"].AsDecimal();
-
+            worksheet.Cells[ii_ole_row , 7].Value = dtContent.Rows[x]["feetrd_disc_qnty_ah"].AsInt();
+            worksheet.Cells[ii_ole_row , 8].Value = dtContent.Rows[x]["disc_rate_ah"].AsDouble();
+            worksheet.Cells[ii_ole_row , 9].Value = dtContent.Rows[x]["disc_amt_ah"].AsDecimal();
+            worksheet.Cells[ii_ole_row , 10].Value = dtContent.Rows[x]["feetrd_disc_qnty_sum"].AsInt();
+            worksheet.Cells[ii_ole_row , 11].Value = dtContent.Rows[x]["disc_amt_sum"].AsDecimal();
          }
 
          //刪除空白列
@@ -210,7 +213,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
             worksheet.Cells[ii_ole_row , 5].Value = dtContent.Rows[x]["feetrd_disc_qnty"].AsDecimal();
             worksheet.Cells[ii_ole_row , 6].Value = dtContent.Rows[x]["disc_rate"].AsDecimal();
             worksheet.Cells[ii_ole_row , 7].Value = dtContent.Rows[x]["disc_amt"].AsDecimal();
-
+            worksheet.Cells[ii_ole_row , 8].Value = dtContent.Rows[x]["feetrd_disc_qnty_ah"].AsInt();
+            worksheet.Cells[ii_ole_row , 9].Value = dtContent.Rows[x]["disc_rate_ah"].AsDouble();
+            worksheet.Cells[ii_ole_row , 10].Value = dtContent.Rows[x]["disc_amt_ah"].AsDecimal();
+            worksheet.Cells[ii_ole_row , 11].Value = dtContent.Rows[x]["feetrd_disc_qnty_sum"].AsInt();
+            worksheet.Cells[ii_ole_row , 12].Value = dtContent.Rows[x]["disc_amt_sum"].AsDecimal();
          }
 
          //刪除空白列

@@ -6,12 +6,17 @@ using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together;
+using DataObjects.Dao.Together.SpecificDao;
 using DataObjects.Dao.Together.TableDao;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraEditors.Repository;
+using DevExpress.XtraGrid;
 using DevExpress.XtraGrid.Views.Base;
+using DevExpress.XtraGrid.Views.Grid;
 using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 
 namespace PhoenixCI.FormUI.PrefixZ
 {
@@ -26,6 +31,10 @@ namespace PhoenixCI.FormUI.PrefixZ
             InitializeComponent();
 
             GridHelper.SetCommonGrid(gvMain);
+            gvMain.AppearancePrint.HeaderPanel.Font = new Font("標楷體", 10);
+            gvMain.AppearancePrint.Row.Font = new Font("標楷體", 10);
+            gvMain.ViewCaptionHeight = 30;
+
             PrintableComponent = gcMain;
             this.Text = _ProgramID + "─" + _ProgramName;
 
@@ -141,9 +150,7 @@ namespace PhoenixCI.FormUI.PrefixZ
                     DataTable dtDelete = dt.GetChanges(DataRowState.Deleted);
                     DataTable dtChange = dt.GetChanges(DataRowState.Modified);
 
-                    new TXN().UpdateData(dt);
-
-
+                    List<string> txnList = new List<string>();
                     #region 刪除作業代號
                     //刪除代號一併刪除相關權限
                     if (dtDelete != null)
@@ -152,10 +159,11 @@ namespace PhoenixCI.FormUI.PrefixZ
                         {
                             string txnId = row["TXN_ID", DataRowVersion.Original].AsString();
                             string txnType = row["TXN_TYPE", DataRowVersion.Original].AsString();
+
                             if (txnType == "F")
                             {
+                                txnList.Add(txnId);
                                 bool result = daoLOGUTP.InsertByUTPAndUPF(txnId, GlobalInfo.USER_DPT_ID, GlobalInfo.USER_ID, GlobalInfo.USER_NAME, "D");
-                                result = daoUTP.DeleteUTPByTxnId(txnId);
                             }
                         }
                     }
@@ -173,16 +181,29 @@ namespace PhoenixCI.FormUI.PrefixZ
 
                             if (txnId != txnIdOrg && txnType == "F")
                             {
+                                txnList.Add(txnIdOrg);
                                 bool result = daoLOGUTP.InsertByUTPAndUPF(txnIdOrg, GlobalInfo.USER_DPT_ID, GlobalInfo.USER_ID, GlobalInfo.USER_NAME, "D");
-                                result = daoUTP.DeleteUTPByTxnId(txnIdOrg);
                             }
                         }
                     }
 
-
                     #endregion 變更作業代號
 
-                    PrintOrExportChangedByKen(gcMain, dtAdd, dtDelete, dtChange,true,true);
+                    if (txnList.Count >0)
+                    {
+                        DataTable dtDeleteUtp = new DZ0020().ListUTPByTxn(txnList);
+                        if (dtDeleteUtp.Rows.Count >0)
+                        {
+                            GridControl gcUtp = new GridControl();
+                            gcUtp.DataSource = dtDeleteUtp;
+                            gcUtp.MainView = new GridView(gcUtp);
+                            DeleteUtpPrint(gcUtp);
+                            bool result = daoUTP.DeleteUTPByTxnId(txnList);
+                        }
+                    }
+                    new TXN().UpdateData(dt);
+
+                    AfterSaveForPrint(gcMain, dtAdd, dtDelete, dtChange);
                     _IsPreventFlowPrint = true;
                     _IsPreventFlowExport = true;
                 }
@@ -219,11 +240,26 @@ namespace PhoenixCI.FormUI.PrefixZ
 
         protected override ResultStatus Print(ReportHelper reportHelper)
         {
-            CommonReportLandscapeA4 report = new CommonReportLandscapeA4();
-            reportHelper.Create(report);
+            try
+            {
+                ReportHelper _ReportHelper = new ReportHelper(gcMain, _ProgramID, this.Text);
+                CommonReportLandscapeA4 reportLandscape = new CommonReportLandscapeA4();//設定為橫向列印
+                
 
-            base.Print(reportHelper);
-            return ResultStatus.Success;
+                reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
+                _ReportHelper.IsHandlePersonVisible = false;
+                _ReportHelper.IsManagerVisible = false;
+                _ReportHelper.Create(reportLandscape);
+                _ReportHelper.Print();
+                _ReportHelper.Export(FileType.PDF, _ReportHelper.FilePath);
+
+                return ResultStatus.Success;
+            }
+            catch (Exception ex)
+            {
+                WriteLog(ex);
+            }
+            return ResultStatus.Fail;
         }
 
         protected override ResultStatus InsertRow()
@@ -294,6 +330,91 @@ namespace PhoenixCI.FormUI.PrefixZ
             }
             gvMain.Focus();
             gvMain.FocusedColumn = gvMain.Columns[0];
+        }
+        /// <summary>
+        /// 將新增、刪除、變更的紀錄分別都列印或匯出出來(橫式A4)
+        /// </summary>
+        /// <param name="gridControl"></param>
+        /// <param name="ChangedForAdded"></param>
+        /// <param name="ChangedForDeleted"></param>
+        /// <param name="ChangedForModified"></param>
+        protected void AfterSaveForPrint(GridControl gridControl, DataTable ChangedForAdded,
+            DataTable ChangedForDeleted, DataTable ChangedForModified)
+        {
+            GridControl gridControlPrint = GridHelper.CloneGrid(gridControl);
+            
+            string _ReportTitle = _ProgramID + "─" + _ProgramName + GlobalInfo.REPORT_TITLE_MEMO;
+            ReportHelper reportHelper = new ReportHelper(gridControl, _ProgramID, _ReportTitle);
+            CommonReportLandscapeA4 reportLandscape = new CommonReportLandscapeA4(); //橫向A4
+            reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
+            reportHelper.IsHandlePersonVisible = true;
+            reportHelper.IsManagerVisible = true;
+            reportHelper.Create(reportLandscape);
+
+
+            if (ChangedForAdded != null)
+                if (ChangedForAdded.Rows.Count != 0)
+                {
+                    gridControlPrint.DataSource = ChangedForAdded;
+                    reportHelper.PrintableComponent = gridControlPrint;
+                    reportHelper.ReportTitle = _ReportTitle + "─" + "新增";
+                    reportHelper.Print();
+                    reportHelper.Export(FileType.PDF, reportHelper.FilePath);
+                }
+
+            if (ChangedForDeleted != null)
+                if (ChangedForDeleted.Rows.Count != 0)
+                {
+                    DataTable dtTemp = ChangedForDeleted.Clone();
+
+                    int rowIndex = 0;
+                    foreach (DataRow dr in ChangedForDeleted.Rows)
+                    {
+                        DataRow drNewDelete = dtTemp.NewRow();
+                        for (int colIndex = 0; colIndex < ChangedForDeleted.Columns.Count; colIndex++)
+                        {
+                            drNewDelete[colIndex] = dr[colIndex, DataRowVersion.Original];
+                        }
+                        dtTemp.Rows.Add(drNewDelete);
+                        rowIndex++;
+                    }
+
+                    gridControlPrint.DataSource = dtTemp.AsDataView();
+                    reportHelper.PrintableComponent = gridControlPrint;
+                    reportHelper.ReportTitle = _ReportTitle + "─" + "刪除";
+                    reportHelper.Print();
+                    reportHelper.Export(FileType.PDF, reportHelper.FilePath);
+                }
+
+            if (ChangedForModified != null)
+                if (ChangedForModified.Rows.Count != 0)
+                {
+                    gridControlPrint.DataSource = ChangedForModified;
+                    reportHelper.PrintableComponent = gridControlPrint;
+                    reportHelper.ReportTitle = _ReportTitle + "─" + "變更";
+                    reportHelper.Print();
+                    reportHelper.Export(FileType.PDF, reportHelper.FilePath);
+                }
+        }
+
+        /// <summary>
+        /// 列印刪除的作業相關權限
+        /// </summary>
+        protected void DeleteUtpPrint(GridControl gridControl) {
+            try
+            {
+                ((GridView)gridControl.MainView).AppearancePrint.HeaderPanel.Font = new Font("標楷體", 10);
+                ((GridView)gridControl.MainView).AppearancePrint.Row.Font = new Font("標楷體", 10);
+                ((GridView)gridControl.MainView).OptionsView.AllowCellMerge = true;
+                ((GridView)gridControl.MainView).OptionsView.BestFitMode = GridBestFitMode.Full;
+                ((GridView)gridControl.MainView).BestFitColumns();
+                ReportHelper _ReportHelper = new ReportHelper(gridControl, _ProgramID + "_1", this.Text+"_權限刪除");
+                base.Print(_ReportHelper);
+            }
+            catch (Exception ex)
+            {
+                WriteLog(ex);
+            }
         }
     }
 }
