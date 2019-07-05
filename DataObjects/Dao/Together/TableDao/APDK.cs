@@ -48,6 +48,41 @@ order by s ,apdk_prod_type , pdk_kind_id";
          return dtResult;
       }
 
+      /// <summary>
+      /// d_pdk_kind_id_o
+      /// dw:dddw_pdk_kind_id
+      /// </summary>
+      /// <returns>前面[全部/期貨/選擇權]+apdk_prod_type/pdk_kind_id/cp_display</returns>
+      public DataTable dddw_pdk_kind_id() {
+
+         string sql = @"
+select 
+    a.apdk_prod_type,
+    a.pdk_kind_id,
+    a.pdk_kind_id as cp_display
+from (
+    select '4' as s,
+    apdk_prod_type as apdk_prod_type,
+    apdk_kind_id as pdk_kind_id,
+    apdk_market_code as market_code
+from ci.apdk  
+where apdk_prod_type in ('F','O')
+group by apdk_prod_type,apdk_kind_id ,apdk_market_code 
+union
+    select '1','ALL','全部','-1' from dual
+union
+    select '2','FUT','期貨','-1' from dual
+union
+    select '3','OPT','選擇權','-1' from dual
+) a
+order by s ,apdk_prod_type , pdk_kind_id
+";
+
+         DataTable dtResult = db.GetDataTable(sql , null);
+
+         return dtResult;
+      }
+
 
       /// <summary>
       /// CI.APDK (已經固定一些過濾條件)

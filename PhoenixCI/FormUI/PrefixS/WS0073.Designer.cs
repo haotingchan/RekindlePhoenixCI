@@ -190,6 +190,8 @@
          // 
          // SPAN_MARGIN_SPN
          // 
+         this.SPAN_MARGIN_SPN.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.SPAN_MARGIN_SPN.AppearanceHeader.Options.UseBackColor = true;
          this.SPAN_MARGIN_SPN.Caption = "參數設定";
          this.SPAN_MARGIN_SPN.FieldName = "SPAN_MARGIN_SPN";
          this.SPAN_MARGIN_SPN.Name = "SPAN_MARGIN_SPN";
@@ -198,6 +200,8 @@
          // 
          // SPAN_MARGIN_SPN_PATH
          // 
+         this.SPAN_MARGIN_SPN_PATH.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.SPAN_MARGIN_SPN_PATH.AppearanceHeader.Options.UseBackColor = true;
          this.SPAN_MARGIN_SPN_PATH.Caption = "參數檔案路徑";
          this.SPAN_MARGIN_SPN_PATH.FieldName = "SPAN_MARGIN_SPN_PATH";
          this.SPAN_MARGIN_SPN_PATH.Name = "SPAN_MARGIN_SPN_PATH";
@@ -206,6 +210,8 @@
          // 
          // SPAN_MARGIN_POS
          // 
+         this.SPAN_MARGIN_POS.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.SPAN_MARGIN_POS.AppearanceHeader.Options.UseBackColor = true;
          this.SPAN_MARGIN_POS.Caption = "部位檔案";
          this.SPAN_MARGIN_POS.FieldName = "SPAN_MARGIN_POS";
          this.SPAN_MARGIN_POS.Name = "SPAN_MARGIN_POS";
@@ -214,6 +220,8 @@
          // 
          // SPAN_MARGIN_RATIO
          // 
+         this.SPAN_MARGIN_RATIO.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.SPAN_MARGIN_RATIO.AppearanceHeader.Options.UseBackColor = true;
          this.SPAN_MARGIN_RATIO.Caption = "結構比";
          this.SPAN_MARGIN_RATIO.FieldName = "SPAN_MARGIN_RATIO";
          this.SPAN_MARGIN_RATIO.Name = "SPAN_MARGIN_RATIO";

@@ -69,19 +69,13 @@
          this.panTabGrid = new System.Windows.Forms.Panel();
          this.gc_ZISP = new DevExpress.XtraGrid.GridControl();
          this.gv_ZISP = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridView();
-         this.gridBand2 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.SPAN_ZISP_PROD_ID = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-         this.gridBand3 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.SPAN_ZISP_COM_PROD1 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-         this.gridBand7 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.SPAN_ZISP_COM_PROD2 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-         this.gridBand4 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.SPAN_ZISP_CREDIT = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.repositoryItemTextEdit5 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-         this.gridBand5 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.SPAN_ZISP_DPSR1 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.SPAN_ZISP_DPSR2 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-         this.band10 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.SPAN_ZISP_PRIORITY = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.repositoryItemTextEdit6 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
          this.SPAN_ZISP_USER_ID = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -124,6 +118,12 @@
          this.SOM_btnClear = new DevExpress.XtraEditors.SimpleButton();
          this.SOM_btnAdd = new DevExpress.XtraEditors.SimpleButton();
          this.SOM_btnDel = new DevExpress.XtraEditors.SimpleButton();
+         this.gridBand2 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+         this.gridBand3 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+         this.gridBand7 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+         this.gridBand4 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+         this.gridBand5 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+         this.band10 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          this.panFilter.SuspendLayout();
@@ -183,7 +183,7 @@
          this.panFilter.Controls.Add(this.lbl1);
          this.panFilter.Controls.Add(this.labDate);
          this.panFilter.Dock = System.Windows.Forms.DockStyle.Top;
-         this.panFilter.Font = new System.Drawing.Font("PMingLiU", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.panFilter.Font = new System.Drawing.Font("新細明體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.panFilter.Location = new System.Drawing.Point(12, 12);
          this.panFilter.Name = "panFilter";
          this.panFilter.Size = new System.Drawing.Size(1123, 93);
@@ -270,7 +270,7 @@
          // 
          this.panMain.Controls.Add(this.SpanTabControl);
          this.panMain.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.panMain.Font = new System.Drawing.Font("PMingLiU", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.panMain.Font = new System.Drawing.Font("新細明體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.panMain.Location = new System.Drawing.Point(12, 105);
          this.panMain.Name = "panMain";
          this.panMain.Size = new System.Drawing.Size(1123, 464);
@@ -359,6 +359,8 @@
          // 
          // PSR_SPAN_CONTENT_CLASS
          // 
+         this.PSR_SPAN_CONTENT_CLASS.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.PSR_SPAN_CONTENT_CLASS.AppearanceHeader.Options.UseBackColor = true;
          this.PSR_SPAN_CONTENT_CLASS.Caption = "類別";
          this.PSR_SPAN_CONTENT_CLASS.FieldName = "SPAN_CONTENT_CLASS";
          this.PSR_SPAN_CONTENT_CLASS.Name = "PSR_SPAN_CONTENT_CLASS";
@@ -367,6 +369,8 @@
          // 
          // PSR_SPAN_CONTENT_CC
          // 
+         this.PSR_SPAN_CONTENT_CC.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.PSR_SPAN_CONTENT_CC.AppearanceHeader.Options.UseBackColor = true;
          this.PSR_SPAN_CONTENT_CC.Caption = "商品組合";
          this.PSR_SPAN_CONTENT_CC.FieldName = "SPAN_CONTENT_CC";
          this.PSR_SPAN_CONTENT_CC.Name = "PSR_SPAN_CONTENT_CC";
@@ -375,6 +379,8 @@
          // 
          // PSR_SPAN_CONTENT_TYPE
          // 
+         this.PSR_SPAN_CONTENT_TYPE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.PSR_SPAN_CONTENT_TYPE.AppearanceHeader.Options.UseBackColor = true;
          this.PSR_SPAN_CONTENT_TYPE.Caption = "設定方式";
          this.PSR_SPAN_CONTENT_TYPE.FieldName = "SPAN_CONTENT_TYPE";
          this.PSR_SPAN_CONTENT_TYPE.Name = "PSR_SPAN_CONTENT_TYPE";
@@ -383,6 +389,8 @@
          // 
          // PSR_SPAN_CONTENT_VALUE
          // 
+         this.PSR_SPAN_CONTENT_VALUE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.PSR_SPAN_CONTENT_VALUE.AppearanceHeader.Options.UseBackColor = true;
          this.PSR_SPAN_CONTENT_VALUE.Caption = "設定值";
          this.PSR_SPAN_CONTENT_VALUE.ColumnEdit = this.repositoryItemTextEdit1;
          this.PSR_SPAN_CONTENT_VALUE.FieldName = "SPAN_CONTENT_VALUE";
@@ -451,7 +459,7 @@
          this.tab_IMS.Controls.Add(this.gc_IMS);
          this.tab_IMS.Controls.Add(this.panel2);
          this.tab_IMS.Name = "tab_IMS";
-         this.tab_IMS.Size = new System.Drawing.Size(808, 372);
+         this.tab_IMS.Size = new System.Drawing.Size(1111, 405);
          this.tab_IMS.Text = "B. 跨月價差設定";
          // 
          // gc_IMS
@@ -463,7 +471,7 @@
          this.gc_IMS.Name = "gc_IMS";
          this.gc_IMS.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit2});
-         this.gc_IMS.Size = new System.Drawing.Size(808, 295);
+         this.gc_IMS.Size = new System.Drawing.Size(1111, 328);
          this.gc_IMS.TabIndex = 7;
          this.gc_IMS.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_IMS});
@@ -491,6 +499,8 @@
          // 
          // gridColumn2
          // 
+         this.gridColumn2.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.gridColumn2.AppearanceHeader.Options.UseBackColor = true;
          this.gridColumn2.Caption = "類別";
          this.gridColumn2.FieldName = "SPAN_CONTENT_CLASS";
          this.gridColumn2.Name = "gridColumn2";
@@ -499,6 +509,8 @@
          // 
          // gridColumn3
          // 
+         this.gridColumn3.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.gridColumn3.AppearanceHeader.Options.UseBackColor = true;
          this.gridColumn3.Caption = "商品組合";
          this.gridColumn3.FieldName = "SPAN_CONTENT_CC";
          this.gridColumn3.Name = "gridColumn3";
@@ -507,6 +519,8 @@
          // 
          // INTERMONTH_SPAN_CONTENT_TYPE
          // 
+         this.INTERMONTH_SPAN_CONTENT_TYPE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.INTERMONTH_SPAN_CONTENT_TYPE.AppearanceHeader.Options.UseBackColor = true;
          this.INTERMONTH_SPAN_CONTENT_TYPE.Caption = "設定方式";
          this.INTERMONTH_SPAN_CONTENT_TYPE.FieldName = "SPAN_CONTENT_TYPE";
          this.INTERMONTH_SPAN_CONTENT_TYPE.Name = "INTERMONTH_SPAN_CONTENT_TYPE";
@@ -515,6 +529,8 @@
          // 
          // gridColumn5
          // 
+         this.gridColumn5.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.gridColumn5.AppearanceHeader.Options.UseBackColor = true;
          this.gridColumn5.Caption = "設定值";
          this.gridColumn5.ColumnEdit = this.repositoryItemTextEdit2;
          this.gridColumn5.FieldName = "SPAN_CONTENT_VALUE";
@@ -556,7 +572,7 @@
          this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
          this.panel2.Location = new System.Drawing.Point(0, 0);
          this.panel2.Name = "panel2";
-         this.panel2.Size = new System.Drawing.Size(808, 77);
+         this.panel2.Size = new System.Drawing.Size(1111, 77);
          this.panel2.TabIndex = 6;
          // 
          // IMS_btnClear
@@ -591,7 +607,7 @@
          this.tab_ZISP.Controls.Add(this.panTabGrid);
          this.tab_ZISP.Controls.Add(this.panTabButtonBar);
          this.tab_ZISP.Name = "tab_ZISP";
-         this.tab_ZISP.Size = new System.Drawing.Size(808, 372);
+         this.tab_ZISP.Size = new System.Drawing.Size(1111, 405);
          this.tab_ZISP.Text = "C. 跨商品價差設定";
          // 
          // panTabGrid
@@ -600,7 +616,7 @@
          this.panTabGrid.Dock = System.Windows.Forms.DockStyle.Fill;
          this.panTabGrid.Location = new System.Drawing.Point(0, 77);
          this.panTabGrid.Name = "panTabGrid";
-         this.panTabGrid.Size = new System.Drawing.Size(808, 295);
+         this.panTabGrid.Size = new System.Drawing.Size(1111, 328);
          this.panTabGrid.TabIndex = 5;
          // 
          // gc_ZISP
@@ -613,7 +629,7 @@
          this.gc_ZISP.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit5,
             this.repositoryItemTextEdit6});
-         this.gc_ZISP.Size = new System.Drawing.Size(808, 295);
+         this.gc_ZISP.Size = new System.Drawing.Size(1111, 328);
          this.gc_ZISP.TabIndex = 0;
          this.gc_ZISP.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_ZISP});
@@ -647,30 +663,16 @@
          this.gv_ZISP.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gvZISP_ShowingEditor);
          this.gv_ZISP.InitNewRow += new DevExpress.XtraGrid.Views.Grid.InitNewRowEventHandler(this.gvZISP_InitNewRow);
          // 
-         // gridBand2
-         // 
-         this.gridBand2.Caption = "群組類別";
-         this.gridBand2.Columns.Add(this.SPAN_ZISP_PROD_ID);
-         this.gridBand2.Name = "gridBand2";
-         this.gridBand2.VisibleIndex = 0;
-         this.gridBand2.Width = 188;
-         // 
          // SPAN_ZISP_PROD_ID
          // 
+         this.SPAN_ZISP_PROD_ID.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.SPAN_ZISP_PROD_ID.AppearanceHeader.Options.UseBackColor = true;
          this.SPAN_ZISP_PROD_ID.Caption = "群組類別";
          this.SPAN_ZISP_PROD_ID.FieldName = "SPAN_ZISP_PROD_ID";
          this.SPAN_ZISP_PROD_ID.Name = "SPAN_ZISP_PROD_ID";
          this.SPAN_ZISP_PROD_ID.OptionsColumn.ShowCaption = false;
          this.SPAN_ZISP_PROD_ID.Visible = true;
          this.SPAN_ZISP_PROD_ID.Width = 188;
-         // 
-         // gridBand3
-         // 
-         this.gridBand3.Caption = "Leg1";
-         this.gridBand3.Columns.Add(this.SPAN_ZISP_COM_PROD1);
-         this.gridBand3.Name = "gridBand3";
-         this.gridBand3.VisibleIndex = 1;
-         this.gridBand3.Width = 188;
          // 
          // SPAN_ZISP_COM_PROD1
          // 
@@ -681,14 +683,6 @@
          this.SPAN_ZISP_COM_PROD1.Visible = true;
          this.SPAN_ZISP_COM_PROD1.Width = 188;
          // 
-         // gridBand7
-         // 
-         this.gridBand7.Caption = "Leg2";
-         this.gridBand7.Columns.Add(this.SPAN_ZISP_COM_PROD2);
-         this.gridBand7.Name = "gridBand7";
-         this.gridBand7.VisibleIndex = 2;
-         this.gridBand7.Width = 188;
-         // 
          // SPAN_ZISP_COM_PROD2
          // 
          this.SPAN_ZISP_COM_PROD2.Caption = "Leg2";
@@ -697,14 +691,6 @@
          this.SPAN_ZISP_COM_PROD2.OptionsColumn.ShowCaption = false;
          this.SPAN_ZISP_COM_PROD2.Visible = true;
          this.SPAN_ZISP_COM_PROD2.Width = 188;
-         // 
-         // gridBand4
-         // 
-         this.gridBand4.Caption = "跨商品價差折抵率";
-         this.gridBand4.Columns.Add(this.SPAN_ZISP_CREDIT);
-         this.gridBand4.Name = "gridBand4";
-         this.gridBand4.VisibleIndex = 3;
-         this.gridBand4.Width = 188;
          // 
          // SPAN_ZISP_CREDIT
          // 
@@ -725,15 +711,6 @@
          this.repositoryItemTextEdit5.Mask.ShowPlaceHolders = false;
          this.repositoryItemTextEdit5.MaxLength = 4;
          this.repositoryItemTextEdit5.Name = "repositoryItemTextEdit5";
-         // 
-         // gridBand5
-         // 
-         this.gridBand5.Caption = "契約價值耗用比率";
-         this.gridBand5.Columns.Add(this.SPAN_ZISP_DPSR1);
-         this.gridBand5.Columns.Add(this.SPAN_ZISP_DPSR2);
-         this.gridBand5.Name = "gridBand5";
-         this.gridBand5.VisibleIndex = 4;
-         this.gridBand5.Width = 289;
          // 
          // SPAN_ZISP_DPSR1
          // 
@@ -758,14 +735,6 @@
          this.SPAN_ZISP_DPSR2.OptionsColumn.ShowCaption = false;
          this.SPAN_ZISP_DPSR2.Visible = true;
          this.SPAN_ZISP_DPSR2.Width = 138;
-         // 
-         // band10
-         // 
-         this.band10.Caption = "優先順序";
-         this.band10.Columns.Add(this.SPAN_ZISP_PRIORITY);
-         this.band10.Name = "band10";
-         this.band10.VisibleIndex = 5;
-         this.band10.Width = 75;
          // 
          // SPAN_ZISP_PRIORITY
          // 
@@ -811,7 +780,7 @@
          this.panTabButtonBar.Dock = System.Windows.Forms.DockStyle.Top;
          this.panTabButtonBar.Location = new System.Drawing.Point(0, 0);
          this.panTabButtonBar.Name = "panTabButtonBar";
-         this.panTabButtonBar.Size = new System.Drawing.Size(808, 77);
+         this.panTabButtonBar.Size = new System.Drawing.Size(1111, 77);
          this.panTabButtonBar.TabIndex = 4;
          // 
          // ZISP_btnClear
@@ -855,7 +824,7 @@
          this.tab_VSR.Controls.Add(this.gc_VSR);
          this.tab_VSR.Controls.Add(this.panel3);
          this.tab_VSR.Name = "tab_VSR";
-         this.tab_VSR.Size = new System.Drawing.Size(808, 372);
+         this.tab_VSR.Size = new System.Drawing.Size(1111, 405);
          this.tab_VSR.Text = "D. VSR設定";
          // 
          // gc_VSR
@@ -867,7 +836,7 @@
          this.gc_VSR.Name = "gc_VSR";
          this.gc_VSR.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit3});
-         this.gc_VSR.Size = new System.Drawing.Size(808, 295);
+         this.gc_VSR.Size = new System.Drawing.Size(1111, 328);
          this.gc_VSR.TabIndex = 9;
          this.gc_VSR.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_VSR});
@@ -895,6 +864,8 @@
          // 
          // gridColumn10
          // 
+         this.gridColumn10.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.gridColumn10.AppearanceHeader.Options.UseBackColor = true;
          this.gridColumn10.Caption = "類別";
          this.gridColumn10.FieldName = "SPAN_CONTENT_CLASS";
          this.gridColumn10.Name = "gridColumn10";
@@ -903,6 +874,8 @@
          // 
          // gridColumn11
          // 
+         this.gridColumn11.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.gridColumn11.AppearanceHeader.Options.UseBackColor = true;
          this.gridColumn11.Caption = "商品組合";
          this.gridColumn11.FieldName = "SPAN_CONTENT_CC";
          this.gridColumn11.Name = "gridColumn11";
@@ -911,6 +884,8 @@
          // 
          // VSR_SPAN_CONTENT_TYPE
          // 
+         this.VSR_SPAN_CONTENT_TYPE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.VSR_SPAN_CONTENT_TYPE.AppearanceHeader.Options.UseBackColor = true;
          this.VSR_SPAN_CONTENT_TYPE.Caption = "設定方式";
          this.VSR_SPAN_CONTENT_TYPE.FieldName = "SPAN_CONTENT_TYPE";
          this.VSR_SPAN_CONTENT_TYPE.Name = "VSR_SPAN_CONTENT_TYPE";
@@ -919,6 +894,8 @@
          // 
          // gridColumn13
          // 
+         this.gridColumn13.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.gridColumn13.AppearanceHeader.Options.UseBackColor = true;
          this.gridColumn13.Caption = "設定值";
          this.gridColumn13.ColumnEdit = this.repositoryItemTextEdit3;
          this.gridColumn13.FieldName = "SPAN_CONTENT_VALUE";
@@ -960,7 +937,7 @@
          this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
          this.panel3.Location = new System.Drawing.Point(0, 0);
          this.panel3.Name = "panel3";
-         this.panel3.Size = new System.Drawing.Size(808, 77);
+         this.panel3.Size = new System.Drawing.Size(1111, 77);
          this.panel3.TabIndex = 8;
          // 
          // VSR_btnClear
@@ -995,7 +972,7 @@
          this.tab_SOM.Controls.Add(this.gc_SOM);
          this.tab_SOM.Controls.Add(this.panel4);
          this.tab_SOM.Name = "tab_SOM";
-         this.tab_SOM.Size = new System.Drawing.Size(808, 372);
+         this.tab_SOM.Size = new System.Drawing.Size(1111, 405);
          this.tab_SOM.Text = "E. SOM設定";
          // 
          // gc_SOM
@@ -1007,7 +984,7 @@
          this.gc_SOM.Name = "gc_SOM";
          this.gc_SOM.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit4});
-         this.gc_SOM.Size = new System.Drawing.Size(808, 295);
+         this.gc_SOM.Size = new System.Drawing.Size(1111, 328);
          this.gc_SOM.TabIndex = 11;
          this.gc_SOM.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gv_SOM});
@@ -1035,6 +1012,8 @@
          // 
          // gridColumn18
          // 
+         this.gridColumn18.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.gridColumn18.AppearanceHeader.Options.UseBackColor = true;
          this.gridColumn18.Caption = "類別";
          this.gridColumn18.FieldName = "SPAN_CONTENT_CLASS";
          this.gridColumn18.Name = "gridColumn18";
@@ -1043,6 +1022,8 @@
          // 
          // gridColumn19
          // 
+         this.gridColumn19.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.gridColumn19.AppearanceHeader.Options.UseBackColor = true;
          this.gridColumn19.Caption = "商品組合";
          this.gridColumn19.FieldName = "SPAN_CONTENT_CC";
          this.gridColumn19.Name = "gridColumn19";
@@ -1051,6 +1032,8 @@
          // 
          // SOM_SPAN_CONTENT_TYPE
          // 
+         this.SOM_SPAN_CONTENT_TYPE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.SOM_SPAN_CONTENT_TYPE.AppearanceHeader.Options.UseBackColor = true;
          this.SOM_SPAN_CONTENT_TYPE.Caption = "設定方式";
          this.SOM_SPAN_CONTENT_TYPE.FieldName = "SPAN_CONTENT_TYPE";
          this.SOM_SPAN_CONTENT_TYPE.Name = "SOM_SPAN_CONTENT_TYPE";
@@ -1059,6 +1042,8 @@
          // 
          // gridColumn21
          // 
+         this.gridColumn21.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.gridColumn21.AppearanceHeader.Options.UseBackColor = true;
          this.gridColumn21.Caption = "設定值";
          this.gridColumn21.ColumnEdit = this.repositoryItemTextEdit4;
          this.gridColumn21.FieldName = "SPAN_CONTENT_VALUE";
@@ -1100,7 +1085,7 @@
          this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
          this.panel4.Location = new System.Drawing.Point(0, 0);
          this.panel4.Name = "panel4";
-         this.panel4.Size = new System.Drawing.Size(808, 77);
+         this.panel4.Size = new System.Drawing.Size(1111, 77);
          this.panel4.TabIndex = 10;
          // 
          // SOM_btnClear
@@ -1129,6 +1114,67 @@
          this.SOM_btnDel.TabIndex = 2;
          this.SOM_btnDel.Text = "刪除";
          this.SOM_btnDel.Click += new System.EventHandler(this.btnDel_Click);
+         // 
+         // gridBand2
+         // 
+         this.gridBand2.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.gridBand2.AppearanceHeader.Options.UseBackColor = true;
+         this.gridBand2.Caption = "群組類別";
+         this.gridBand2.Columns.Add(this.SPAN_ZISP_PROD_ID);
+         this.gridBand2.Name = "gridBand2";
+         this.gridBand2.VisibleIndex = 0;
+         this.gridBand2.Width = 188;
+         // 
+         // gridBand3
+         // 
+         this.gridBand3.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.gridBand3.AppearanceHeader.Options.UseBackColor = true;
+         this.gridBand3.Caption = "Leg1";
+         this.gridBand3.Columns.Add(this.SPAN_ZISP_COM_PROD1);
+         this.gridBand3.Name = "gridBand3";
+         this.gridBand3.VisibleIndex = 1;
+         this.gridBand3.Width = 188;
+         // 
+         // gridBand7
+         // 
+         this.gridBand7.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.gridBand7.AppearanceHeader.Options.UseBackColor = true;
+         this.gridBand7.Caption = "Leg2";
+         this.gridBand7.Columns.Add(this.SPAN_ZISP_COM_PROD2);
+         this.gridBand7.Name = "gridBand7";
+         this.gridBand7.VisibleIndex = 2;
+         this.gridBand7.Width = 188;
+         // 
+         // gridBand4
+         // 
+         this.gridBand4.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.gridBand4.AppearanceHeader.Options.UseBackColor = true;
+         this.gridBand4.Caption = "跨商品價差折抵率";
+         this.gridBand4.Columns.Add(this.SPAN_ZISP_CREDIT);
+         this.gridBand4.Name = "gridBand4";
+         this.gridBand4.VisibleIndex = 3;
+         this.gridBand4.Width = 188;
+         // 
+         // gridBand5
+         // 
+         this.gridBand5.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.gridBand5.AppearanceHeader.Options.UseBackColor = true;
+         this.gridBand5.Caption = "契約價值耗用比率";
+         this.gridBand5.Columns.Add(this.SPAN_ZISP_DPSR1);
+         this.gridBand5.Columns.Add(this.SPAN_ZISP_DPSR2);
+         this.gridBand5.Name = "gridBand5";
+         this.gridBand5.VisibleIndex = 4;
+         this.gridBand5.Width = 289;
+         // 
+         // band10
+         // 
+         this.band10.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.band10.AppearanceHeader.Options.UseBackColor = true;
+         this.band10.Caption = "優先順序";
+         this.band10.Columns.Add(this.SPAN_ZISP_PRIORITY);
+         this.band10.Name = "band10";
+         this.band10.VisibleIndex = 5;
+         this.band10.Width = 75;
          // 
          // WS0072
          // 
@@ -1276,12 +1322,12 @@
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn SPAN_ZISP_USER_ID;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn SPAN_ZISP_W_TIME;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn IS_NEWROW;
+      private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit6;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand2;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand3;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand7;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand4;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand5;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand band10;
-      private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit6;
    }
 }
