@@ -15,8 +15,14 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    /// </summary>
    public class B30550
    {
+      /// <summary>
+      /// 檔案輸出路徑
+      /// </summary>
       private readonly string _lsFile;
-      private string _emMonthText;
+      /// <summary>
+      /// 交易日期 月份
+      /// </summary>
+      private readonly string _emMonthText;
 
       /// <summary>
       /// 
@@ -29,6 +35,11 @@ namespace PhoenixCI.BusinessLogic.Prefix3
          _emMonthText = datetime;
       }
 
+      /// <summary>
+      /// 判斷要填入買權(Calls)或賣權(Puts)的欄位
+      /// </summary>
+      /// <param name="row">datarow AM2_PC_CODE</param>
+      /// <returns></returns>
       private static int IDFGtype(DataRow row)
       {
          int columnIndex = 0;

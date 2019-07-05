@@ -1,16 +1,12 @@
 ﻿using BaseGround.Shared;
 using Common;
-using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 /// <summary>
 /// 20190313,john,最佳1檔加權平均委託買賣數量統計表(週) 
 /// </summary>
@@ -21,8 +17,17 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    /// </summary>
    public class B30508
    {
-      private string _lsFile;
+      /// <summary>
+      /// 檔案輸出路徑
+      /// </summary>
+      private readonly string _lsFile;
+      /// <summary>
+      /// 日期 起始日期
+      /// </summary>
       private string _startDateText;
+      /// <summary>
+      /// 日期 迄止日期
+      /// </summary>
       private string _endDateText;
       /// <summary>
       /// 
@@ -36,7 +41,11 @@ namespace PhoenixCI.BusinessLogic.Prefix3
          _startDateText = StartDate;
          _endDateText = EndDate;
       }
-
+      /// <summary>
+      /// 建立Csv檔案
+      /// </summary>
+      /// <param name="saveFilePath">輸出路徑</param>
+      /// <returns></returns>
       private string CreateCsvFile(string saveFilePath)
       {
          //避免重複寫入
@@ -104,7 +113,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       }
 
       /// <summary>
-      /// wf_30508()
+      /// wf_30508() 產出兩個Csv檔案
       /// </summary>
       /// <returns></returns>
       public string Wf30508()
@@ -123,24 +132,27 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             if (dt.Rows.Count <= 0) {
                return $"{startDate.ToShortDateString()}～{endDate.ToShortDateString()},{lsRptId}－{lsRptName}無任何資料!";
             }
-            //產生檔案
+            //產生30508(買)檔案
             CreateCsvFile(_lsFile);
             string lsSellFile = _lsFile.Replace("30508(買)", "30508(賣)");
+            //產生30508(賣)檔案
             CreateCsvFile(lsSellFile);
 
             /*統計表*/
             string lsTab = ",";
             //表頭
             string lsStr = lsTab + lsRptId + lsRptName;
-            WriteFile(_lsFile, lsStr);
-            
+            WriteFile(_lsFile, lsStr);//30508(買)
+
             lsStr = lsTab + lsRptId + "股票期貨最近月份契約最佳1檔加權平均委託賣出數量週資料統計表";
-            WriteFile(lsSellFile, lsStr);
+            WriteFile(lsSellFile, lsStr);//30508(賣)
             lsStr = "排序" + lsTab + "商品代碼" + lsTab + "商品名稱";
             foreach (DataRow row in AI2dt.Rows) {
                lsStr = lsStr + lsTab + $"{row["startDate"].AsDateTime().ToString("yyyy/MM/dd")}～{row["endDate"].AsDateTime().ToString("yyyy/MM/dd")}";
             }
+            //30508(買)
             WriteFile(_lsFile, lsStr);//FileWrite(li_FileNum, ls_str)
+            //30508(賣)
             WriteFile(lsSellFile, lsStr);//FileWrite(li_FileNum2, ls_str)
             lsStr = string.Empty;
 
@@ -161,12 +173,16 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                      k = k + newdt.AsEnumerable().Select(q => q.Field<string>("BST1_KIND_ID")).Count();
                   }
                   else {
+                     //30508(買)
                      lsStr = lsStr + lsTab + "0";
+                     //30508(賣)
                      lsSellStr = lsSellStr + lsTab + "0";
                   }
                }//foreach (DataRow AI2row in AI2dt.Rows)
                k = k - 1;
+               //30508(買)
                WriteFile(_lsFile, lsStr);//FileWrite(li_FileNum, ls_str)
+               //30508(賣)
                WriteFile(lsSellFile, lsSellStr);//FileWrite(li_FileNum2, ls_str2)
             }//for (int k = 0; k < dt.Rows.Count; k++)
          }

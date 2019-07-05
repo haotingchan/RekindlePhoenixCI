@@ -17,7 +17,10 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    public class B30398
    {
       private readonly Workbook _workbook;
-      private string _emMonthText;
+      /// <summary>
+      /// 交易日期 月份
+      /// </summary>
+      private readonly string _emMonthText;
       private readonly AI3 daoAI3;
       private readonly AM2 daoAM2;
 
@@ -123,13 +126,13 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                   ldtYMD = row["AI3_DATE"].AsDateTime();
                   RowIndex = RowIndex + 1;
                   addRowCount++;
-                  worksheet.Rows[RowIndex][1 - 1].Value = ldtYMD.ToString("MM/dd");
+                  worksheet.Rows[RowIndex][1 - 1].Value = ldtYMD.ToString("MM/dd");//日期
                }
 
-               worksheet.Rows[RowIndex][2 - 1].Value = row["AI3_CLOSE_PRICE"].AsDecimal();
-               worksheet.Rows[RowIndex][4 - 1].Value = row["AI3_M_QNTY"].AsDecimal();
-               worksheet.Rows[RowIndex][5 - 1].Value = row["AI3_OI"].AsDecimal();
-               worksheet.Rows[RowIndex][6 - 1].Value = row["AI3_INDEX"].AsDecimal();
+               worksheet.Rows[RowIndex][2 - 1].Value = row["AI3_CLOSE_PRICE"].AsDecimal();//櫃買價格
+               worksheet.Rows[RowIndex][4 - 1].Value = row["AI3_M_QNTY"].AsDecimal();//櫃買期貨總成交量
+               worksheet.Rows[RowIndex][5 - 1].Value = row["AI3_OI"].AsDecimal();//櫃買期貨總未平倉量
+               worksheet.Rows[RowIndex][6 - 1].Value = row["AI3_INDEX"].AsDecimal();//現貨價格
             }
             //刪除空白列
             if (RowTotal > addRowCount) {
@@ -184,12 +187,11 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                //判斷欄位
                int columnIndex = IDFGtype(row);
 
-               worksheet.Rows[RowIndex][columnIndex].Value = row["AM2_M_QNTY"].AsDecimal();
+               worksheet.Rows[RowIndex][columnIndex].Value = row["AM2_M_QNTY"].AsDecimal();//買 or 賣
             }
             //刪除空白列
             if (RowTotal > addRowCount) {
-               //worksheet.Rows.Remove(RowIndex + 1, RowTotal - addRowCount);
-               worksheet.Rows.Hide(RowIndex + 1, RowIndex + (RowTotal - addRowCount));
+               worksheet.Rows.Hide(RowIndex + 1, RowIndex + (RowTotal - addRowCount));//隱藏代替刪除，這樣就不用再重新抓取圖表範圍
                worksheet.ScrollTo(0, 0);//直接滾動到最上面，不然看起來很像少行數
             }
 

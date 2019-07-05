@@ -25,7 +25,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
          b30398 = new B30398(_workbook, datetime);
       }
       /// <summary>
-      /// wf_30331
+      /// wf_30331 aka 30398 Wf30331()
       /// </summary>
       /// <param name="IsKindID">商品代號</param>
       /// <param name="SheetName">工作表</param>
@@ -50,7 +50,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       }
 
       /// <summary>
-      /// wf_30333()
+      /// wf_30333() aka 30398 Wf30333()
       /// </summary>
       /// <param name="IsKindID">商品代號</param>
       /// <param name="SheetName">工作表</param>

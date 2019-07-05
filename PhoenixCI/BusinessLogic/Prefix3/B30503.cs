@@ -15,10 +15,25 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    /// </summary>
    public class B30503
    {
+      /// <summary>
+      /// 檔案輸出路徑
+      /// </summary>
       private readonly string _lsFile;
+      /// <summary>
+      /// 日期 起始月份
+      /// </summary>
       private string _startYmDateText;
+      /// <summary>
+      /// 日期 迄止月份
+      /// </summary>
       private string _endYmDateText;
+      /// <summary>
+      /// 預設報表路徑
+      /// </summary>
       private readonly string _GlobalDefaultPath;
+      /// <summary>
+      /// Data_Layer
+      /// </summary>
       private D30503 dao30503;
       /// <summary>
       /// 
@@ -36,6 +51,11 @@ namespace PhoenixCI.BusinessLogic.Prefix3
          dao30503 =new D30503();
       }
 
+      /// <summary>
+      /// 建立Csv檔案
+      /// </summary>
+      /// <param name="saveFilePath">輸出路徑</param>
+      /// <returns></returns>
       private string CreateCsvFile(string saveFilePath)
       {
          //避免重複寫入
@@ -60,8 +80,8 @@ namespace PhoenixCI.BusinessLogic.Prefix3
          string saveFilePath = CreateCsvFile(Path.Combine(_GlobalDefaultPath, $@"30504_{DateTime.Now.ToString("yyyy.MM.dd")}-{DateTime.Now.ToString("HH.mm.ss")}.csv"));
          try {
             Workbook wb = new Workbook();
-            wb.Options.Export.Csv.WritePreamble = true;
-            wb.Worksheets[0].Import(dataTable, true, 1, 0);
+            wb.Options.Export.Csv.WritePreamble = true;//預設的Csv輸出中文會是亂碼
+            wb.Worksheets[0].Import(dataTable, true, 1, 0);//從title以下開始輸出
             wb.Worksheets[0].Name = SheetName(saveFilePath);
             //string lsStr = lsTab + lsRptId + lsRptName;
             wb.Worksheets[0].Cells["B1"].Value= $"30504股票期貨最近月份契約買賣價差日資料";
@@ -74,7 +94,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
          }
       }
       /// <summary>
-      /// 
+      /// Csv內容
       /// </summary>
       /// <param name="AI2dt"></param>
       /// <param name="dt"></param>
@@ -84,6 +104,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
       {
          /*統計表*/
          DataTable workTable = new DataTable();
+         //表頭
          //lsStr = "排序" + lsTab + "商品代碼" + lsTab + "商品名稱";
          workTable.Columns.Add("排序", typeof(string));
          workTable.Columns.Add("商品代碼", typeof(string));
@@ -93,6 +114,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             workTable.Columns.Add(dateColStr, typeof(string));
          }
 
+         //內容
          int seqNO = 0;
          for (int k = 0; k < dt.Rows.Count; k++) {
             seqNO = seqNO + 1;
@@ -119,7 +141,11 @@ namespace PhoenixCI.BusinessLogic.Prefix3
 
          return workTable;
       }//private static DataTable DtData(DataTable AI2dt, DataTable dt)
-
+      /// <summary>
+      /// 工作表名稱
+      /// </summary>
+      /// <param name="filePath"></param>
+      /// <returns></returns>
       private string SheetName(string filePath)
       {
          string filename = Path.GetFileNameWithoutExtension(filePath);
@@ -158,7 +184,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             for (int k=0;k<AI2dt.Rows.Count;k++) {
                DataRow dr = AI2dt.Rows[k];
                DateTime ai2YMD = dr["AI2_YMD"].AsDateTime("yyyyMM");
-               worksheet.Rows[2 - 1][k + 3 ].Value = $"{ai2YMD.Year}年{ai2YMD.Month}月";
+               worksheet.Rows[2 - 1][k + 3 ].Value = $"{ai2YMD.Year}年{ai2YMD.Month}月";//D
             }
 
             int rowIndex = 2-1;
@@ -169,14 +195,14 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                   lskindID = dr["SPRD1_KIND_ID"].AsString();
                   rowIndex = rowIndex + 1;
                   seqNO = seqNO + 1;
-                  worksheet.Rows[rowIndex][1 - 1].SetValue(seqNO);
-                  worksheet.Rows[rowIndex][2 - 1].SetValue(lskindID);
-                  worksheet.Rows[rowIndex][3 - 1].SetValue(dr["PDK_NAME"].AsString());
+                  worksheet.Rows[rowIndex][1 - 1].SetValue(seqNO);//排序
+                  worksheet.Rows[rowIndex][2 - 1].SetValue(lskindID);//商品代碼
+                  worksheet.Rows[rowIndex][3 - 1].SetValue(dr["PDK_NAME"].AsString());//商品名稱
                }
                int foundIndex = AI2dt.Rows.IndexOf(AI2dt.Select($"AI2_YMD = '{dr["SPRD1_YMD"].AsString()}'").FirstOrDefault());
                if (foundIndex > -1) {
                   foundIndex = foundIndex + 3;
-                  worksheet.Rows[rowIndex][foundIndex].SetValue(dr["DIFF"]);
+                  worksheet.Rows[rowIndex][foundIndex].SetValue(dr["DIFF"]);//D
                }
             }//foreach (DataRow dr in dt.Rows)
 

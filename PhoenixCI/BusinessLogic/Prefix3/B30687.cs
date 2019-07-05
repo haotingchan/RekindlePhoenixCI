@@ -14,20 +14,41 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    /// </summary>
    public class B30687
    {
+      /// <summary>
+      /// DataLayer
+      /// </summary>
       private D30687 dao30687;
+      /// <summary>
+      /// 檔案輸出路徑
+      /// </summary>
       private readonly string _saveFilePath;
+      /// <summary>
+      /// 盤別選項
+      /// </summary>
       private readonly int _rgTimeSelIndex;
+      /// <summary>
+      /// 時段選項
+      /// </summary>
       private readonly int _rgMarketSelIndex;
-      private readonly string _startDateTxt;
-      private readonly string _endDateTxt;
+      /// <summary>
+      /// 日期 起始日期
+      /// </summary>
+      private string _startDateText;
+      /// <summary>
+      /// 日期 迄止日期
+      /// </summary>
+      private string _endDateText;
+      /// <summary>
+      /// 商品
+      /// </summary>
       private readonly string _PridIDTxt;
 
       public B30687(string path, string StartDate, string EndDate, string AsPridID, int rgMarket, int rgTime)
       {
          dao30687 = new D30687();
          _saveFilePath = CreateCsvFile(path);
-         _startDateTxt = StartDate;
-         _endDateTxt = EndDate;
+         _startDateText = StartDate;
+         _endDateText = EndDate;
          _PridIDTxt = AsPridID;
          _rgMarketSelIndex = rgMarket;
          _rgTimeSelIndex = rgTime;
@@ -70,7 +91,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
                   break;
             }
             //資料來源
-            DataTable dt = dao30687.ListRuNewData(_startDateTxt.Replace("/", ""), _endDateTxt.Replace("/", ""), $"%{_PridIDTxt}%", lsMarketCode, lsDataType);
+            DataTable dt = dao30687.ListRuNewData(_startDateText.Replace("/", ""), _endDateText.Replace("/", ""), $"%{_PridIDTxt}%", lsMarketCode, lsDataType);
 
             dt.Columns["FTPRICELOGS_MARKET_CODE"].ColumnName = "盤別:0一般/1夜盤";
             dt.Columns["FTPRICELOGS_YMD"].ColumnName = "日期";

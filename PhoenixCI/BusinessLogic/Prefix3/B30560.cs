@@ -1,12 +1,9 @@
 ﻿using BaseGround.Shared;
 using Common;
-using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
-using DevExpress.Spreadsheet.Charts;
 using System;
 using System.Data;
-using System.IO;
 using System.Linq;
 /// <summary>
 /// 20190318,john,國內股票選擇權交易概況表
@@ -18,8 +15,14 @@ namespace PhoenixCI.BusinessLogic.Prefix3
    /// </summary>
    public class B30560
    {
+      /// <summary>
+      /// 檔案輸出路徑
+      /// </summary>
       private readonly string _lsFile;
-      private string _emMonthText;
+      /// <summary>
+      /// 交易日期 月份
+      /// </summary>
+      private readonly string _emMonthText;
 
       /// <summary>
       /// 
@@ -32,6 +35,11 @@ namespace PhoenixCI.BusinessLogic.Prefix3
          _emMonthText = datetime;
       }
 
+      /// <summary>
+      /// 判斷 期貨自營/期貨經紀 買權(Calls)或賣權(Puts)的欄位
+      /// </summary>
+      /// <param name="row">datarow AM2_PC_CODE</param>
+      /// <returns></returns>
       private static int IDFGtype(DataRow row)
       {
          int columnIndex = 0;
@@ -49,6 +57,14 @@ namespace PhoenixCI.BusinessLogic.Prefix3
          return columnIndex;
       }
 
+      /// <summary>
+      /// 判斷要填入未沖銷契約數買權(Calls)或賣權(Puts)的欄位
+      /// </summary>
+      /// <param name="RowIndex"></param>
+      /// <param name="worksheet"></param>
+      /// <param name="dtAI2"></param>
+      /// <param name="lsYMD"></param>
+      /// <param name="pcCode">C(Calls)/P(Puts)</param>
       private static void OImethod(int RowIndex, Worksheet worksheet, DataTable dtAI2, string lsYMD, string pcCode)
       {
          int foundIndex = dtAI2.Rows.IndexOf(dtAI2.Select($@"ai2_ymd ='{lsYMD}' and ai2_pc_code='{pcCode}'").FirstOrDefault());
