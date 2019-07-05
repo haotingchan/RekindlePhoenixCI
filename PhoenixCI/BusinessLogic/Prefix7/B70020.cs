@@ -93,7 +93,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                return MessageDisplay.MSG_NO_DATA;
             }
             DataView dsDv = dtAM8.AsDataView();
-            dsDv.Sort = "AM8_YMD,AM8_PROD_TYPE,AM8_FCM_NO,AM8_PARAM_KEY,qnty_8 Desc,qnty_2 Desc";
+            dsDv.Sort = "AM8_YMD,AM8_PROD_TYPE,AM8_FCM_NO,AM8_PARAM_KEY,MARKET_CODE";
             dtAM8 = dsDv.ToTable();
             dtAM8.Columns["AM8_YMD"].ColumnName = "日期";
             dtAM8.Columns["AM8_PROD_TYPE"].ColumnName = "商品別";
@@ -122,19 +122,24 @@ namespace PhoenixCI.BusinessLogic.Prefix7
             wb.Worksheets[0].Name = SheetName(_saveFilePath);
             //存檔
             if (dataTable.Rows.Count > 0) {
-               if (dataTable.Rows.Count <= 65536) {
-                  wb.SaveDocument(_saveFilePath, DocumentFormat.Xlsx);
-               }
-               else {
-                  wb.SaveDocument(_saveFilePath.Substring(0, _saveFilePath.Length - 5) + ".txt", DocumentFormat.Text);
-               }
+               wb.SaveDocument(_saveFilePath, DocumentFormat.Xlsx);
+               //if (dataTable.Rows.Count <= 65536) {
+               //   wb.SaveDocument(_saveFilePath, DocumentFormat.Xlsx);
+               //}
+               //else {
+               //   wb.SaveDocument(_saveFilePath.Substring(0, _saveFilePath.Length - 5) + ".txt", DocumentFormat.Text);
+               //}
             }
          }
          catch (Exception ex) {
             throw new Exception("saveExcel:" + ex.Message);
          }
       }
-
+      /// <summary>
+      /// 判斷工作表名稱不超過31個字
+      /// </summary>
+      /// <param name="filePath"></param>
+      /// <returns></returns>
       private string SheetName(string filePath)
       {
          string filename = Path.GetFileNameWithoutExtension(filePath);
