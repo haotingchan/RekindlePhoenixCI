@@ -48,8 +48,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
          //2.設定下拉選單
          //2.1先讀取db
          DataTable dt = new ABRK().ListAll2();//第一行空白+ABRK_NO/ABRK_NAME/cp_display
-         cbxFcmStartNo.SetDataTable(dt , "ABRK_NO" , "CP_DISPLAY2" , TextEditStyles.DisableTextEditor , " ");
-         cbxFcmEndNo.SetDataTable(dt , "ABRK_NO" , "CP_DISPLAY2" , TextEditStyles.DisableTextEditor , " ");
+         cbxFcmStartNo.SetDataTable(dt , "ABRK_NO" , "CP_DISPLAY" , TextEditStyles.DisableTextEditor , " ");
+         cbxFcmEndNo.SetDataTable(dt , "ABRK_NO" , "CP_DISPLAY" , TextEditStyles.DisableTextEditor , " ");
 
          rgpType.SelectedIndex = 0;//直接預設為第一個選項
          rgpType_EditValueChanged(rgpType , null);//觸發事件

@@ -88,11 +88,11 @@
          this.grpxDescription.Controls.Add(this.ddlAdjType);
          this.grpxDescription.Controls.Add(this.txtDate);
          this.grpxDescription.Controls.Add(this.lblDate);
-         this.grpxDescription.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.grpxDescription.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.grpxDescription.ForeColor = System.Drawing.Color.Navy;
-         this.grpxDescription.Location = new System.Drawing.Point(3, 22);
+         this.grpxDescription.Location = new System.Drawing.Point(17, 22);
          this.grpxDescription.Name = "grpxDescription";
-         this.grpxDescription.Size = new System.Drawing.Size(583, 328);
+         this.grpxDescription.Size = new System.Drawing.Size(569, 328);
          this.grpxDescription.TabIndex = 13;
          this.grpxDescription.TabStop = false;
          this.grpxDescription.Text = "請輸入交易日期";
@@ -121,8 +121,10 @@
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem(5, "Group2(16:15)"),
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem(7, "Group3(18:15)")});
          this.MarketTimes.Location = new System.Drawing.Point(15, 29);
+         this.MarketTimes.LookAndFeel.SkinName = "Office 2013";
+         this.MarketTimes.LookAndFeel.UseDefaultLookAndFeel = false;
          this.MarketTimes.Name = "MarketTimes";
-         this.MarketTimes.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+         this.MarketTimes.SelectionMode = System.Windows.Forms.SelectionMode.None;
          this.MarketTimes.Size = new System.Drawing.Size(161, 95);
          this.MarketTimes.TabIndex = 25;
          // 
@@ -165,7 +167,7 @@
          // label2
          // 
          this.label2.AutoSize = true;
-         this.label2.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.label2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.label2.ForeColor = System.Drawing.Color.Black;
          this.label2.Location = new System.Drawing.Point(11, 132);
          this.label2.Name = "label2";
@@ -226,7 +228,7 @@
          // label1
          // 
          this.label1.AutoSize = true;
-         this.label1.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.label1.ForeColor = System.Drawing.Color.Black;
          this.label1.Location = new System.Drawing.Point(37, 49);
          this.label1.Name = "label1";
@@ -274,7 +276,7 @@
          // lblDate
          // 
          this.lblDate.AutoSize = true;
-         this.lblDate.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.lblDate.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.lblDate.ForeColor = System.Drawing.Color.Black;
          this.lblDate.Location = new System.Drawing.Point(37, 84);
          this.lblDate.Name = "lblDate";
