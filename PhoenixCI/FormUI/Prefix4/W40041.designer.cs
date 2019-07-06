@@ -25,6 +25,8 @@
         private void InitializeComponent() {
          this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
          this.grpxDescription = new System.Windows.Forms.GroupBox();
+         this.label4 = new System.Windows.Forms.Label();
+         this.ModelTypies = new DevExpress.XtraEditors.CheckedListBoxControl();
          this.radioGroup1 = new DevExpress.XtraEditors.RadioGroup();
          this.oswGrpLookItem = new DevExpress.XtraEditors.LookUpEdit();
          this.label1 = new System.Windows.Forms.Label();
@@ -40,12 +42,11 @@
          this.gcMain = new DevExpress.XtraGrid.GridControl();
          this.gvMain = new DevExpress.XtraGrid.Views.Grid.GridView();
          this.repositoryItemButtonEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit();
-         this.ModelTypies = new DevExpress.XtraEditors.CheckedListBoxControl();
-         this.label4 = new System.Windows.Forms.Label();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
          this.grpxDescription.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.ModelTypies)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.radioGroup1.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.oswGrpLookItem.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.prodLookItem.Properties)).BeginInit();
@@ -55,7 +56,6 @@
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemButtonEdit1)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.ModelTypies)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -81,6 +81,7 @@
          // grpxDescription
          // 
          this.grpxDescription.AutoSize = true;
+         this.grpxDescription.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
          this.grpxDescription.Controls.Add(this.label4);
          this.grpxDescription.Controls.Add(this.ModelTypies);
          this.grpxDescription.Controls.Add(this.radioGroup1);
@@ -97,17 +98,50 @@
          this.grpxDescription.TabStop = false;
          this.grpxDescription.Text = "請輸入交易日期";
          // 
+         // label4
+         // 
+         this.label4.AutoSize = true;
+         this.label4.Location = new System.Drawing.Point(37, 162);
+         this.label4.Name = "label4";
+         this.label4.Size = new System.Drawing.Size(61, 20);
+         this.label4.TabIndex = 74;
+         this.label4.Text = "模型 ：";
+         // 
+         // ModelTypies
+         // 
+         this.ModelTypies.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.ModelTypies.Appearance.Options.UseBackColor = true;
+         this.ModelTypies.Items.AddRange(new DevExpress.XtraEditors.Controls.CheckedListBoxItem[] {
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("S", "SMA", System.Windows.Forms.CheckState.Checked),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("s", "FUT-SMA", System.Windows.Forms.CheckState.Checked),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("M", "MAXVol"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("m", "FUT-MAXVol"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("E", "EWMA"),
+            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("e", "FUT-EWMA")});
+         this.ModelTypies.Location = new System.Drawing.Point(41, 185);
+         this.ModelTypies.LookAndFeel.SkinName = "Office 2013";
+         this.ModelTypies.LookAndFeel.UseDefaultLookAndFeel = false;
+         this.ModelTypies.MultiColumn = true;
+         this.ModelTypies.Name = "ModelTypies";
+         this.ModelTypies.Size = new System.Drawing.Size(410, 58);
+         this.ModelTypies.SortOrder = System.Windows.Forms.SortOrder.Descending;
+         this.ModelTypies.TabIndex = 17;
+         // 
          // radioGroup1
          // 
          this.radioGroup1.Location = new System.Drawing.Point(40, 260);
          this.radioGroup1.MenuManager = this.ribbonControl;
          this.radioGroup1.Name = "radioGroup1";
+         this.radioGroup1.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.radioGroup1.Properties.Appearance.Options.UseBackColor = true;
          this.radioGroup1.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Default;
          this.radioGroup1.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
             new DevExpress.XtraEditors.Controls.RadioGroupItem("ALL", "全選"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("Cancel", "全取消"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("Index", "全選指數類"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("ETF", "全選ETF")});
+         this.radioGroup1.Properties.LookAndFeel.SkinName = "Visual Studio 2013 Light";
+         this.radioGroup1.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.radioGroup1.Properties.EditValueChanged += new System.EventHandler(this.radioGroup1_Properties_EditValueChanged);
          this.radioGroup1.Size = new System.Drawing.Size(411, 37);
          this.radioGroup1.TabIndex = 73;
@@ -138,6 +172,8 @@
          // 
          this.prodLookItem.Location = new System.Drawing.Point(160, 85);
          this.prodLookItem.Name = "prodLookItem";
+         this.prodLookItem.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+         this.prodLookItem.Properties.Appearance.Options.UseBackColor = true;
          this.prodLookItem.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
          this.prodLookItem.Properties.AppearanceDisabled.Options.UseBackColor = true;
          this.prodLookItem.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
@@ -259,31 +295,6 @@
             new DevExpress.XtraEditors.Controls.EditorButton()});
          this.repositoryItemButtonEdit1.Name = "repositoryItemButtonEdit1";
          // 
-         // ModelTypies
-         // 
-         this.ModelTypies.Items.AddRange(new DevExpress.XtraEditors.Controls.CheckedListBoxItem[] {
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("S", "SMA", System.Windows.Forms.CheckState.Checked),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("s", "FUT-SMA", System.Windows.Forms.CheckState.Checked),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("M", "MAXVol"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("m", "FUT-MAXVol"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("E", "EWMA"),
-            new DevExpress.XtraEditors.Controls.CheckedListBoxItem("e", "FUT-EWMA")});
-         this.ModelTypies.Location = new System.Drawing.Point(41, 185);
-         this.ModelTypies.MultiColumn = true;
-         this.ModelTypies.Name = "ModelTypies";
-         this.ModelTypies.Size = new System.Drawing.Size(410, 58);
-         this.ModelTypies.SortOrder = System.Windows.Forms.SortOrder.Descending;
-         this.ModelTypies.TabIndex = 17;
-         // 
-         // label4
-         // 
-         this.label4.AutoSize = true;
-         this.label4.Location = new System.Drawing.Point(37, 162);
-         this.label4.Name = "label4";
-         this.label4.Size = new System.Drawing.Size(61, 20);
-         this.label4.TabIndex = 74;
-         this.label4.Text = "模型 ：";
-         // 
          // W40041
          // 
          this.Appearance.Options.UseFont = true;
@@ -301,6 +312,7 @@
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
          this.grpxDescription.ResumeLayout(false);
          this.grpxDescription.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.ModelTypies)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.radioGroup1.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.oswGrpLookItem.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.prodLookItem.Properties)).EndInit();
@@ -311,7 +323,6 @@
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemButtonEdit1)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.ModelTypies)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 

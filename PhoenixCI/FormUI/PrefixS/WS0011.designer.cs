@@ -91,6 +91,9 @@
          // 
          // panelControl1
          // 
+         this.panelControl1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.panelControl1.Appearance.Options.UseBackColor = true;
+         this.panelControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.panelControl1.Controls.Add(this.label4);
          this.panelControl1.Controls.Add(this.adjustmentRadioGroup);
          this.panelControl1.Controls.Add(this.groupControl1);
@@ -116,7 +119,7 @@
          this.adjustmentRadioGroup.Location = new System.Drawing.Point(554, 12);
          this.adjustmentRadioGroup.Name = "adjustmentRadioGroup";
          this.adjustmentRadioGroup.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
-         this.adjustmentRadioGroup.Properties.Appearance.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.adjustmentRadioGroup.Properties.Appearance.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.adjustmentRadioGroup.Properties.Appearance.Options.UseBackColor = true;
          this.adjustmentRadioGroup.Properties.Appearance.Options.UseFont = true;
          this.adjustmentRadioGroup.Properties.ItemHorzAlignment = DevExpress.XtraEditors.RadioItemHorzAlignment.Near;
@@ -135,6 +138,7 @@
          // 
          // groupControl1
          // 
+         this.groupControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.groupControl1.Controls.Add(this.radioGroup3);
          this.groupControl1.Controls.Add(this.radioGroup2);
          this.groupControl1.Controls.Add(this.radioGroup1);
@@ -144,18 +148,18 @@
          this.groupControl1.Controls.Add(this.label2);
          this.groupControl1.Controls.Add(this.txtDate1);
          this.groupControl1.Controls.Add(this.label1);
-         this.groupControl1.Location = new System.Drawing.Point(5, 55);
+         this.groupControl1.Location = new System.Drawing.Point(5, 47);
          this.groupControl1.Name = "groupControl1";
          this.groupControl1.ShowCaption = false;
-         this.groupControl1.Size = new System.Drawing.Size(485, 117);
+         this.groupControl1.Size = new System.Drawing.Size(496, 140);
          this.groupControl1.TabIndex = 19;
          // 
          // radioGroup3
          // 
-         this.radioGroup3.Location = new System.Drawing.Point(391, -5);
+         this.radioGroup3.Location = new System.Drawing.Point(391, 9);
          this.radioGroup3.Name = "radioGroup3";
          this.radioGroup3.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
-         this.radioGroup3.Properties.Appearance.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.radioGroup3.Properties.Appearance.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.radioGroup3.Properties.Appearance.Options.UseBackColor = true;
          this.radioGroup3.Properties.Appearance.Options.UseFont = true;
          this.radioGroup3.Properties.ItemHorzAlignment = DevExpress.XtraEditors.RadioItemHorzAlignment.Near;
@@ -168,10 +172,10 @@
          // 
          // radioGroup2
          // 
-         this.radioGroup2.Location = new System.Drawing.Point(290, -6);
+         this.radioGroup2.Location = new System.Drawing.Point(290, 8);
          this.radioGroup2.Name = "radioGroup2";
          this.radioGroup2.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
-         this.radioGroup2.Properties.Appearance.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.radioGroup2.Properties.Appearance.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.radioGroup2.Properties.Appearance.Options.UseBackColor = true;
          this.radioGroup2.Properties.Appearance.Options.UseFont = true;
          this.radioGroup2.Properties.ItemHorzAlignment = DevExpress.XtraEditors.RadioItemHorzAlignment.Near;
@@ -184,10 +188,10 @@
          // 
          // radioGroup1
          // 
-         this.radioGroup1.Location = new System.Drawing.Point(190, -5);
+         this.radioGroup1.Location = new System.Drawing.Point(190, 9);
          this.radioGroup1.Name = "radioGroup1";
          this.radioGroup1.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
-         this.radioGroup1.Properties.Appearance.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.radioGroup1.Properties.Appearance.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.radioGroup1.Properties.Appearance.Options.UseBackColor = true;
          this.radioGroup1.Properties.Appearance.Options.UseFont = true;
          this.radioGroup1.Properties.ItemHorzAlignment = DevExpress.XtraEditors.RadioItemHorzAlignment.Near;
@@ -203,7 +207,7 @@
          this.txtDate3.DateTimeValue = new System.DateTime(2018, 1, 1, 0, 0, 0, 0);
          this.txtDate3.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtDate3.EditValue = "2018/01/01";
-         this.txtDate3.Location = new System.Drawing.Point(84, 74);
+         this.txtDate3.Location = new System.Drawing.Point(84, 92);
          this.txtDate3.Name = "txtDate3";
          this.txtDate3.Properties.DisplayFormat.FormatString = "yyyyMMdd";
          this.txtDate3.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
@@ -220,7 +224,7 @@
          // label3
          // 
          this.label3.AutoSize = true;
-         this.label3.Location = new System.Drawing.Point(5, 77);
+         this.label3.Location = new System.Drawing.Point(5, 95);
          this.label3.Name = "label3";
          this.label3.Size = new System.Drawing.Size(73, 20);
          this.label3.TabIndex = 24;
@@ -231,7 +235,7 @@
          this.txtDate2.DateTimeValue = new System.DateTime(2018, 1, 1, 0, 0, 0, 0);
          this.txtDate2.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtDate2.EditValue = "2018/01/01";
-         this.txtDate2.Location = new System.Drawing.Point(84, 38);
+         this.txtDate2.Location = new System.Drawing.Point(84, 54);
          this.txtDate2.Name = "txtDate2";
          this.txtDate2.Properties.DisplayFormat.FormatString = "yyyyMMdd";
          this.txtDate2.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
@@ -248,7 +252,7 @@
          // label2
          // 
          this.label2.AutoSize = true;
-         this.label2.Location = new System.Drawing.Point(5, 41);
+         this.label2.Location = new System.Drawing.Point(5, 57);
          this.label2.Name = "label2";
          this.label2.Size = new System.Drawing.Size(73, 20);
          this.label2.TabIndex = 22;
@@ -259,7 +263,7 @@
          this.txtDate1.DateTimeValue = new System.DateTime(2018, 1, 1, 0, 0, 0, 0);
          this.txtDate1.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtDate1.EditValue = "2018/01/01";
-         this.txtDate1.Location = new System.Drawing.Point(84, 5);
+         this.txtDate1.Location = new System.Drawing.Point(84, 17);
          this.txtDate1.Name = "txtDate1";
          this.txtDate1.Properties.DisplayFormat.FormatString = "yyyyMMdd";
          this.txtDate1.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
@@ -276,7 +280,7 @@
          // label1
          // 
          this.label1.AutoSize = true;
-         this.label1.Location = new System.Drawing.Point(5, 8);
+         this.label1.Location = new System.Drawing.Point(5, 20);
          this.label1.Name = "label1";
          this.label1.Size = new System.Drawing.Size(73, 20);
          this.label1.TabIndex = 20;
@@ -338,7 +342,7 @@
          this.gvMain.Appearance.HeaderPanel.Options.UseTextOptions = true;
          this.gvMain.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.gvMain.Appearance.HeaderPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.gvMain.AppearancePrint.GroupRow.Font = new System.Drawing.Font("Microsoft YaHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+         this.gvMain.AppearancePrint.GroupRow.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
          this.gvMain.AppearancePrint.GroupRow.Options.UseFont = true;
          this.gvMain.AppearancePrint.HeaderPanel.Options.UseTextOptions = true;
          this.gvMain.AppearancePrint.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -368,6 +372,8 @@
          // 
          this.GROUP_TYPE.AppearanceCell.Options.UseTextOptions = true;
          this.GROUP_TYPE.AppearanceCell.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
+         this.GROUP_TYPE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.GROUP_TYPE.AppearanceHeader.Options.UseBackColor = true;
          this.GROUP_TYPE.AppearanceHeader.Options.UseTextOptions = true;
          this.GROUP_TYPE.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.GROUP_TYPE.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
@@ -385,6 +391,8 @@
          this.MG1_DATE.AppearanceCell.Options.UseBackColor = true;
          this.MG1_DATE.AppearanceCell.Options.UseTextOptions = true;
          this.MG1_DATE.AppearanceCell.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
+         this.MG1_DATE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.MG1_DATE.AppearanceHeader.Options.UseBackColor = true;
          this.MG1_DATE.AppearanceHeader.Options.UseTextOptions = true;
          this.MG1_DATE.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.MG1_DATE.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
@@ -403,6 +411,8 @@
          this.MG1_KIND_ID.AppearanceCell.Options.UseBackColor = true;
          this.MG1_KIND_ID.AppearanceCell.Options.UseTextOptions = true;
          this.MG1_KIND_ID.AppearanceCell.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
+         this.MG1_KIND_ID.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.MG1_KIND_ID.AppearanceHeader.Options.UseBackColor = true;
          this.MG1_KIND_ID.AppearanceHeader.Options.UseTextOptions = true;
          this.MG1_KIND_ID.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.MG1_KIND_ID.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
@@ -419,6 +429,8 @@
          // 
          this.MG1_CHANGE_RANGE.AppearanceCell.BackColor = System.Drawing.Color.Silver;
          this.MG1_CHANGE_RANGE.AppearanceCell.Options.UseBackColor = true;
+         this.MG1_CHANGE_RANGE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.MG1_CHANGE_RANGE.AppearanceHeader.Options.UseBackColor = true;
          this.MG1_CHANGE_RANGE.AppearanceHeader.Options.UseTextOptions = true;
          this.MG1_CHANGE_RANGE.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.MG1_CHANGE_RANGE.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
@@ -435,6 +447,8 @@
          // 
          this.MG1_CUR_CM.AppearanceCell.BackColor = System.Drawing.Color.Silver;
          this.MG1_CUR_CM.AppearanceCell.Options.UseBackColor = true;
+         this.MG1_CUR_CM.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.MG1_CUR_CM.AppearanceHeader.Options.UseBackColor = true;
          this.MG1_CUR_CM.AppearanceHeader.Options.UseTextOptions = true;
          this.MG1_CUR_CM.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.MG1_CUR_CM.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
@@ -452,6 +466,8 @@
          // 
          this.MG1_CM.AppearanceCell.BackColor = System.Drawing.Color.Silver;
          this.MG1_CM.AppearanceCell.Options.UseBackColor = true;
+         this.MG1_CM.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.MG1_CM.AppearanceHeader.Options.UseBackColor = true;
          this.MG1_CM.AppearanceHeader.Options.UseTextOptions = true;
          this.MG1_CM.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.MG1_CM.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
@@ -467,6 +483,8 @@
          // 
          // USER_CM
          // 
+         this.USER_CM.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.USER_CM.AppearanceHeader.Options.UseBackColor = true;
          this.USER_CM.AppearanceHeader.Options.UseTextOptions = true;
          this.USER_CM.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.USER_CM.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
@@ -489,6 +507,8 @@
          // 
          // MG2_SPAN_CODE
          // 
+         this.MG2_SPAN_CODE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.MG2_SPAN_CODE.AppearanceHeader.Options.UseBackColor = true;
          this.MG2_SPAN_CODE.AppearanceHeader.Options.UseTextOptions = true;
          this.MG2_SPAN_CODE.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.MG2_SPAN_CODE.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;

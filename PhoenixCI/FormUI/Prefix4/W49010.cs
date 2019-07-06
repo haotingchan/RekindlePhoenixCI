@@ -289,9 +289,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                reportHelper.ReportTitle = this.Text + "─" + "(已確認)";
             }
 
-            CommonReportLandscapeA3 report = new CommonReportLandscapeA3(); //設定為橫向列印
+            CommonReportLandscapeA4 report = new CommonReportLandscapeA4(); //設定為橫向列印
             report.printableComponentContainerMain.PrintableComponent = gcMain;
-            reportHelper.FooterMemo = "         備    註：已下市契約之最小風險價格係數一律為空白；有效契約之最小風險價格係數不可為空白。";
+            reportHelper.FooterMemo = "備    註：已下市契約之最小風險價格係數一律為空白；有效契約之最小風險價格係數不可為空白。";
             reportHelper.Create(report);
 
             //base.Print(reportHelper);

@@ -37,7 +37,6 @@
          this.ReportTitle = new DevExpress.XtraReports.Parameters.Parameter();
          this.BottomMargin = new DevExpress.XtraReports.UI.BottomMarginBand();
          this.PageHeader = new DevExpress.XtraReports.UI.PageHeaderBand();
-         this.xrSubreportMain = new DevExpress.XtraReports.UI.XRSubreport();
          this.LeftMemo = new DevExpress.XtraReports.Parameters.Parameter();
          this.PageFooter = new DevExpress.XtraReports.UI.PageFooterBand();
          this.ReportFooter = new DevExpress.XtraReports.UI.ReportFooterBand();
@@ -50,6 +49,7 @@
          this.lblDoubleConfirmDescription = new DevExpress.XtraReports.UI.XRLabel();
          this.lblHandlingDescription = new DevExpress.XtraReports.UI.XRLabel();
          this.lblManagerDescription = new DevExpress.XtraReports.UI.XRLabel();
+         this.xrSubreportMain = new DevExpress.XtraReports.UI.XRSubreport();
          this.xrSubreportFooter = new DevExpress.XtraReports.UI.XRSubreport();
          ((System.ComponentModel.ISupportInitialize)(this.xrTableFooter)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
@@ -111,18 +111,6 @@
          this.PageHeader.HeightF = 44.7917F;
          this.PageHeader.Name = "PageHeader";
          // 
-         // xrSubreportMain
-         // 
-         this.xrSubreportMain.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
-         this.xrSubreportMain.Name = "xrSubreportMain";
-         this.xrSubreportMain.ParameterBindings.Add(new DevExpress.XtraReports.UI.ParameterBinding("ReportTitle", this.ReportTitle));
-         this.xrSubreportMain.ParameterBindings.Add(new DevExpress.XtraReports.UI.ParameterBinding("UserName", this.UserName));
-         this.xrSubreportMain.ParameterBindings.Add(new DevExpress.XtraReports.UI.ParameterBinding("OcfDate", this.OcfDate));
-         this.xrSubreportMain.ParameterBindings.Add(new DevExpress.XtraReports.UI.ParameterBinding("ReportID", this.ReportID));
-         this.xrSubreportMain.ParameterBindings.Add(new DevExpress.XtraReports.UI.ParameterBinding("LeftMemo", this.LeftMemo));
-         this.xrSubreportMain.ReportSource = new BaseGround.Report.ReportHeader();
-         this.xrSubreportMain.SizeF = new System.Drawing.SizeF(787F, 44.7917F);
-         // 
          // LeftMemo
          // 
          this.LeftMemo.Name = "LeftMemo";
@@ -138,7 +126,9 @@
             this.xrSubreportFooter,
             this.xrTableFooter});
          this.ReportFooter.HeightF = 185.9584F;
+         this.ReportFooter.KeepTogether = true;
          this.ReportFooter.Name = "ReportFooter";
+         this.ReportFooter.PageBreak = DevExpress.XtraReports.UI.PageBreak.AfterBand;
          // 
          // xrTableFooter
          // 
@@ -166,7 +156,8 @@
          // 
          // lblMemo
          // 
-         this.lblMemo.Font = new System.Drawing.Font("DFKai-SB", 12F);
+         this.lblMemo.AutoWidth = true;
+         this.lblMemo.Font = new System.Drawing.Font("標楷體", 12F);
          this.lblMemo.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
          this.lblMemo.Multiline = true;
          this.lblMemo.Name = "lblMemo";
@@ -193,7 +184,7 @@
          // 
          // lblDoubleConfirmDescription
          // 
-         this.lblDoubleConfirmDescription.Font = new System.Drawing.Font("DFKai-SB", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+         this.lblDoubleConfirmDescription.Font = new System.Drawing.Font("標楷體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
          this.lblDoubleConfirmDescription.LocationFloat = new DevExpress.Utils.PointFloat(366.3752F, 10.00001F);
          this.lblDoubleConfirmDescription.Name = "lblDoubleConfirmDescription";
          this.lblDoubleConfirmDescription.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -206,7 +197,7 @@
          // 
          // lblHandlingDescription
          // 
-         this.lblHandlingDescription.Font = new System.Drawing.Font("DFKai-SB", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+         this.lblHandlingDescription.Font = new System.Drawing.Font("標楷體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
          this.lblHandlingDescription.LocationFloat = new DevExpress.Utils.PointFloat(237.625F, 10.00001F);
          this.lblHandlingDescription.Name = "lblHandlingDescription";
          this.lblHandlingDescription.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -218,7 +209,7 @@
          // 
          // lblManagerDescription
          // 
-         this.lblManagerDescription.Font = new System.Drawing.Font("DFKai-SB", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+         this.lblManagerDescription.Font = new System.Drawing.Font("標楷體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
          this.lblManagerDescription.LocationFloat = new DevExpress.Utils.PointFloat(499.0833F, 10.00001F);
          this.lblManagerDescription.Name = "lblManagerDescription";
          this.lblManagerDescription.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -227,6 +218,18 @@
          this.lblManagerDescription.StylePriority.UseTextAlignment = false;
          this.lblManagerDescription.Text = "主管：";
          this.lblManagerDescription.TextAlignment = DevExpress.XtraPrinting.TextAlignment.BottomLeft;
+         // 
+         // xrSubreportMain
+         // 
+         this.xrSubreportMain.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
+         this.xrSubreportMain.Name = "xrSubreportMain";
+         this.xrSubreportMain.ParameterBindings.Add(new DevExpress.XtraReports.UI.ParameterBinding("ReportTitle", this.ReportTitle));
+         this.xrSubreportMain.ParameterBindings.Add(new DevExpress.XtraReports.UI.ParameterBinding("UserName", this.UserName));
+         this.xrSubreportMain.ParameterBindings.Add(new DevExpress.XtraReports.UI.ParameterBinding("OcfDate", this.OcfDate));
+         this.xrSubreportMain.ParameterBindings.Add(new DevExpress.XtraReports.UI.ParameterBinding("ReportID", this.ReportID));
+         this.xrSubreportMain.ParameterBindings.Add(new DevExpress.XtraReports.UI.ParameterBinding("LeftMemo", this.LeftMemo));
+         this.xrSubreportMain.ReportSource = new BaseGround.Report.ReportHeader();
+         this.xrSubreportMain.SizeF = new System.Drawing.SizeF(787F, 44.7917F);
          // 
          // xrSubreportFooter
          // 
