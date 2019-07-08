@@ -14,16 +14,16 @@ using System.Drawing;
 using System;
 using BaseGround.Shared;
 using System.Collections.Generic;
-using System.Data.OracleClient;
 using DataObjects.Dao.Together.TableDao;
 using DevExpress.XtraGrid;
 using System.Linq;
-using System.Text;
-
+/// <summary>
+/// 20190123,john,51030 造市者限制設定
+/// </summary>
 namespace PhoenixCI.FormUI.Prefix5
 {
    /// <summary>
-   /// 20190123,john,51030 造市者限制設定
+   /// 造市者限制設定
    /// </summary>
    public partial class W51030 : FormParent
    {
@@ -31,23 +31,19 @@ namespace PhoenixCI.FormUI.Prefix5
       /// <summary>
       /// 交易時段
       /// </summary>
-      private readonly string MARKET_CODE = "MMF_MARKET_CODE";
+      private const string MARKET_CODE = "MMF_MARKET_CODE";
       /// <summary>
       /// 期貨/選擇權
       /// </summary>
-      private readonly string PROD_TYPE = "MMF_PROD_TYPE";
+      private const string PROD_TYPE = "MMF_PROD_TYPE";
       /// <summary>
       /// 商品類別
       /// </summary>
-      private readonly string PARAM_KEY = "MMF_PARAM_KEY";
-      /// <summary>
-      /// 週六豁免造市
-      /// </summary>
-      //private readonly string CP_FLAG = "MMF_SAT_CP_FLAG";
+      private const string PARAM_KEY = "MMF_PARAM_KEY";
       /// <summary>
       /// 報價規定判斷方式MMF_CP_KIND
       /// </summary>
-      private readonly string CP_KIND = "MMF_CP_KIND";
+      private const string CP_KIND = "MMF_CP_KIND";
       private APDK daoAPDK;
       private COD daoCOD;
       private D51030 dao51030;
@@ -64,10 +60,6 @@ namespace PhoenixCI.FormUI.Prefix5
       /// 商品類別
       /// </summary>
       private RepositoryItemLookUpEdit PARAM_KEY_LookUpEdit;
-      /// <summary>
-      /// 週六豁免造市
-      /// </summary>
-      //private RepositoryItemLookUpEdit CP_FLAG_LookUpEdit;
       /// <summary>
       /// 報價規定判斷方式
       /// </summary>
@@ -89,13 +81,13 @@ namespace PhoenixCI.FormUI.Prefix5
 
          //交易時段
          dic = new Dictionary<string, string>() { { "0", "一般" }, { "1", "夜盤" } };
-         DataTable mk_code = setcolItem(dic);
+         DataTable mk_code = SetcolItem(dic);
          MARKET_CODE_LookUpEdit = new RepositoryItemLookUpEdit();
          MARKET_CODE_LookUpEdit.SetColumnLookUp(mk_code, "ID", "Desc");
          MMF_MARKET_CODE.ColumnEdit = MARKET_CODE_LookUpEdit;
          //期貨/選擇權
          dic = new Dictionary<string, string>() { { "F", "F" }, { "O", "O" } };
-         DataTable mmfType = setcolItem(dic);
+         DataTable mmfType = SetcolItem(dic);
          PROD_TYPE_LookUpEdit = new RepositoryItemLookUpEdit();
          PROD_TYPE_LookUpEdit.SetColumnLookUp(mmfType, "ID", "Desc");
          MMF_PROD_TYPE.ColumnEdit = PROD_TYPE_LookUpEdit;
@@ -120,7 +112,7 @@ namespace PhoenixCI.FormUI.Prefix5
             }
             dic.Add(codid, string.Format("({0}){1}", codid, dr["COD_DESC"].AsString()));
          }
-         DataTable mmfKIND = setcolItem(dic);
+         DataTable mmfKIND = SetcolItem(dic);
          CP_KIND_LookUpEdit = new RepositoryItemLookUpEdit();
          CP_KIND_LookUpEdit.SetColumnLookUp(mmfKIND, "ID", "Desc");
          MMF_CP_KIND.ColumnEdit = CP_KIND_LookUpEdit;
@@ -130,7 +122,7 @@ namespace PhoenixCI.FormUI.Prefix5
       /// </summary>
       /// <param name="dic">陣列</param>
       /// <returns></returns>
-      private DataTable setcolItem(Dictionary<string, string> dic)
+      private DataTable SetcolItem(Dictionary<string, string> dic)
       {
          DataTable dt = new DataTable();
          dt.Columns.Add("ID");
@@ -188,7 +180,7 @@ namespace PhoenixCI.FormUI.Prefix5
          GridView gv = sender as GridView;
          string Is_NewRow = gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
              gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"]).ToString();
-
+         //判斷該資料行是否可以編輯
          if (gv.IsNewItemRow(gv.FocusedRowHandle) || Is_NewRow == "1") {
             e.Cancel = false;
             gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"], 1);
@@ -208,19 +200,26 @@ namespace PhoenixCI.FormUI.Prefix5
          GridView gv = sender as GridView;
          string isNewRow = gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
               gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]).ToString();
-
+         //可編輯和不可編輯的顏色切換(白/灰)
          if (e.Column.FieldName == MARKET_CODE ||
              e.Column.FieldName == PROD_TYPE ||
              e.Column.FieldName == PARAM_KEY) {
             e.Appearance.BackColor = isNewRow == "1" ? Color.White : Color.FromArgb(224, 224, 224);
          }
+         //[報價規定判斷方式]不等於某個選項字體為藍色
          if (e.Column.FieldName == CP_KIND) {
             int value = gv.GetRowCellValue(e.RowHandle, MMF_CP_KIND).AsInt();
+            //不是選擇"(3)回應比例 & 時間 & 量"這個選項字體一律為藍色
             if (value != 3)
                e.Appearance.ForeColor = Color.FromArgb(0, 0, 255);
          }
       }
 
+      /// <summary>
+      /// 存檔前檢查
+      /// </summary>
+      /// <param name="dt">要檢查的資料</param>
+      /// <returns></returns>
       private bool SaveBefore(DataTable dt)
       {
          string lsType, lsVal1, lsVal2, lsVal3, lsVal4, lsVal5;
@@ -237,14 +236,14 @@ namespace PhoenixCI.FormUI.Prefix5
                if (string.IsNullOrEmpty(marketCode)) {
                   MessageDisplay.Error("「交易時段」必須要選取值！");
                   //set Focused
-                  setFocused(dt, dr, MARKET_CODE);
+                  SetFocused(dt, dr, MARKET_CODE);
                   return false;
                }
                string paramKey = dr[PARAM_KEY].AsString();
                if (string.IsNullOrEmpty(paramKey)) {
                   MessageDisplay.Error("「商品類別」必須要選取值！");
                   //set Focused
-                  setFocused(dt, dr, PARAM_KEY);
+                  SetFocused(dt, dr, PARAM_KEY);
                   return false;
                }
 
@@ -254,7 +253,7 @@ namespace PhoenixCI.FormUI.Prefix5
               && r.Field<string>(PARAM_KEY).AsString() == paramKey).Count();
                if (valueCount >= 2) {
                   MessageDisplay.Error($"交易時段:{(marketCode == "0" ? "[一般]" : "[夜盤]")}與商品類別:[{paramKey}] 不得重複新增!");
-                  setFocused(dt, dr, PARAM_KEY);
+                  SetFocused(dt, dr, PARAM_KEY);
                   return false;
                }
 
@@ -262,28 +261,28 @@ namespace PhoenixCI.FormUI.Prefix5
                if (string.IsNullOrEmpty(dr["MMF_RESP_RATIO"].AsString())) {
                   MessageDisplay.Warning("「必須回應詢價比(%)」必須要輸入值！");
                   //set Focused
-                  setFocused(dt, dr, "MMF_RESP_RATIO");
+                  SetFocused(dt, dr, "MMF_RESP_RATIO");
                   return false;
                }
                //最低造市量
                if (string.IsNullOrEmpty(dr["MMF_QNTY_LOW"].AsString())) {
                   MessageDisplay.Warning("「最低造市量」必須要輸入值！");
                   //set Focused
-                  setFocused(dt, dr, "MMF_QNTY_LOW");
+                  SetFocused(dt, dr, "MMF_QNTY_LOW");
                   return false;
                }
                //報價有效量比率
                if (string.IsNullOrEmpty(dr["MMF_QUOTE_VALID_RATE"].AsString())) {
                   MessageDisplay.Warning("「報價有效量比率」必須要輸入值！");
                   //set Focused
-                  setFocused(dt, dr, "MMF_QUOTE_VALID_RATE");
+                  SetFocused(dt, dr, "MMF_QUOTE_VALID_RATE");
                   return false;
                }
                //報價每日平均維持分鐘
                if (string.IsNullOrEmpty(dr["MMF_AVG_TIME"].AsString())) {
                   MessageDisplay.Warning("「報價每日平均維持分鐘」必須要輸入值！");
                   //set Focused
-                  setFocused(dt, dr, "MMF_AVG_TIME");
+                  SetFocused(dt, dr, "MMF_AVG_TIME");
                   return false;
                }
                //寫LOGV
@@ -303,7 +302,13 @@ namespace PhoenixCI.FormUI.Prefix5
          return true;
       }
 
-      private void setFocused(DataTable dt, DataRow dr, string colName)
+      /// <summary>
+      /// 設定GridView的Focuse
+      /// </summary>
+      /// <param name="dt"></param>
+      /// <param name="dr"></param>
+      /// <param name="colName"></param>
+      private void SetFocused(DataTable dt, DataRow dr, string colName)
       {
          gvMain.FocusedRowHandle = dt.Rows.IndexOf(dr);
          gvMain.FocusedColumn = gvMain.Columns[colName];
@@ -314,16 +319,18 @@ namespace PhoenixCI.FormUI.Prefix5
       /// 分別將新增刪除修改的資料列印出來
       /// </summary>
       /// <param name="gridControl">GridControl</param>
-      /// <param name="ChangedForAdded">新增的資料</param>
-      /// <param name="ChangedForDeleted">刪除的資料</param>
-      /// <param name="ChangedForModified">修改的資料</param>
+      /// <param name="dt">修改後的資料</param>
       /// <param name="IsHandlePersonVisible"></param>
       /// <param name="IsManagerVisible"></param>
-      private void PrintOrExportChanged(GridControl gridControl, DataTable ChangedForAdded,
-    DataTable ChangedForDeleted, DataTable ChangedForModified, bool IsHandlePersonVisible = false, bool IsManagerVisible = false)
+      private void PrintOrExportChanged(GridControl gridControl, DataTable dt, bool IsHandlePersonVisible = false, bool IsManagerVisible = false)
       {
+         if (dt.GetChanges() == null)
+            return;
          string reportTitle = _ProgramID + "─" + _ProgramName + GlobalInfo.REPORT_TITLE_MEMO;
          CommonReportLandscapeA4 reportLandscapeA4 = new CommonReportLandscapeA4();//設定為橫向列印
+         DataTable ChangedForDeleted = dt.GetChanges(DataRowState.Deleted);//刪除的資料
+         DataTable ChangedForAdded = dt.GetChanges(DataRowState.Added);//新增的資料
+         DataTable ChangedForModified = dt.GetChanges(DataRowState.Modified);//修改的資料
 
          if (ChangedForAdded != null)
             if (ChangedForAdded.Rows.Count != 0) {
@@ -343,8 +350,16 @@ namespace PhoenixCI.FormUI.Prefix5
 
                int rowIndex = 0;
                foreach (DataRow dr in ChangedForDeleted.Rows) {
+                  //紀錄刪除前的資料
                   DataRow drNewDelete = dtTemp.NewRow();
                   for (int colIndex = 0; colIndex < ChangedForDeleted.Columns.Count; colIndex++) {
+                     //更新刪除時間
+                     if (ChangedForDeleted.Columns[colIndex].ColumnName== "MMF_W_USER_ID"||
+                        ChangedForDeleted.Columns[colIndex].ColumnName == "MMF_W_TIME") {
+                        drNewDelete["MMF_W_USER_ID"] = GlobalInfo.USER_ID;
+                        drNewDelete["MMF_W_TIME"] = DateTime.Now;
+                        continue;
+                     }
                      drNewDelete[colIndex] = dr[colIndex, DataRowVersion.Original];
                   }
                   dtTemp.Rows.Add(drNewDelete);
@@ -369,9 +384,8 @@ namespace PhoenixCI.FormUI.Prefix5
                ReportHelper reportHelper = new ReportHelper(gridControlPrint, _ProgramID, reportTitle);
                reportHelper.PrintableComponent = gridControlPrint;
                reportHelper.ReportTitle = reportTitle + "─" + "變更";
-               ModifyPrint(reportHelper,reportLandscapeA4);
+               ModifyPrint(reportHelper, reportLandscapeA4);
             }
-         
       }
 
       /// <summary>
@@ -406,6 +420,7 @@ namespace PhoenixCI.FormUI.Prefix5
             }
             // 寫入DB
             foreach (DataRow dr in dt.Rows) {
+               //紀錄更動時間
                if (dr.RowState != DataRowState.Deleted &&
                   (dr.RowState == DataRowState.Added || dr.RowState == DataRowState.Modified)
                   ) {
@@ -413,7 +428,8 @@ namespace PhoenixCI.FormUI.Prefix5
                   dr["MMF_W_USER_ID"] = GlobalInfo.USER_ID;
                }
             }
-
+            gcMain.DataSource = dt;
+            dtChange = dt.GetChanges();
             try {
                dao51030.UpdateMMF(dt);
             }
@@ -422,7 +438,7 @@ namespace PhoenixCI.FormUI.Prefix5
                return ResultStatus.Fail;
             }
             //列印新增、刪除、修改
-            PrintOrExportChanged(gcMain, dtForAdd, dtDeleteChange, dtForModified);
+            PrintOrExportChanged(gcMain, dtChange);
 
             return ResultStatus.Success;
          }
@@ -449,9 +465,8 @@ namespace PhoenixCI.FormUI.Prefix5
                }
             }
 
-            reportHelper.LeftMemo = Memo.ToString();
+            reportHelper.FooterMemo = Memo.ToString();
             */
-            //reportHelper.LeftMemo = printMemo.Text;
             reportHelper.FooterMemo = printMemo.Text;
             reportHelper.Create(reportLandscapeA4);
             reportHelper.Print();
@@ -488,8 +503,6 @@ namespace PhoenixCI.FormUI.Prefix5
 
          //直接讀取資料
          Retrieve();
-         //Header上色
-         //CustomDrawColumnHeader(gcMain,gvMain);
 
          return ResultStatus.Success;
       }
@@ -500,5 +513,6 @@ namespace PhoenixCI.FormUI.Prefix5
          Retrieve();
          return ResultStatus.Success;
       }
+      
    }
 }

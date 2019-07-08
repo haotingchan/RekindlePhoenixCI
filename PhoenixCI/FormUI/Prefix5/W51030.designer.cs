@@ -229,7 +229,7 @@
          this.t2.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.t2.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
          this.t2.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.t2.Caption = "期貨/選擇權";
+         this.t2.Caption = "期貨/\n選擇權";
          this.t2.Columns.Add(this.MMF_PROD_TYPE);
          this.t2.Name = "t2";
          this.t2.VisibleIndex = 1;
@@ -742,7 +742,7 @@
          this.printMemo.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.printMemo.Location = new System.Drawing.Point(14, 69);
          this.printMemo.Name = "printMemo";
-         this.printMemo.Size = new System.Drawing.Size(1414, 112);
+         this.printMemo.Size = new System.Drawing.Size(559, 192);
          this.printMemo.TabIndex = 10;
          this.printMemo.Text = resources.GetString("printMemo.Text");
          this.printMemo.Visible = false;
