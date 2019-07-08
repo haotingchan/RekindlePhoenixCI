@@ -183,6 +183,7 @@
          this.gvMain.GridControl = this.gcMain;
          this.gvMain.Name = "gvMain";
          this.gvMain.OptionsCustomization.AllowSort = false;
+         this.gvMain.OptionsPrint.AllowMultilineHeaders = true;
          this.gvMain.OptionsPrint.PrintHeader = false;
          this.gvMain.OptionsView.ColumnAutoWidth = false;
          this.gvMain.OptionsView.ShowColumnHeaders = false;
@@ -198,7 +199,7 @@
          this.t1.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.t1.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
          this.t1.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.t1.Caption = "  交易   時段";
+         this.t1.Caption = "交易\n時段";
          this.t1.Columns.Add(this.MMF_MARKET_CODE);
          this.t1.Name = "t1";
          this.t1.RowCount = 3;
@@ -228,7 +229,7 @@
          this.t2.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.t2.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
          this.t2.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.t2.Caption = "期貨/選擇權";
+         this.t2.Caption = "期貨/\n選擇權";
          this.t2.Columns.Add(this.MMF_PROD_TYPE);
          this.t2.Name = "t2";
          this.t2.VisibleIndex = 1;
@@ -257,7 +258,7 @@
          this.t3.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.t3.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
          this.t3.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.t3.Caption = "    商品     類別";
+         this.t3.Caption = "商品\n類別";
          this.t3.Columns.Add(this.MMF_PARAM_KEY);
          this.t3.Name = "t3";
          this.t3.VisibleIndex = 2;
@@ -297,7 +298,7 @@
          this.t4.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.t4.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
          this.t4.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.t4.Caption = "  報價   回應詢價  時限";
+         this.t4.Caption = "報價\n回應詢價\n時限";
          this.t4.Columns.Add(this.MMF_RESP_TIME);
          this.t4.Name = "t4";
          this.t4.OptionsBand.FixedWidth = true;
@@ -333,7 +334,7 @@
          this.t5.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.t5.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
          this.t5.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.t5.Caption = "報價維持時間";
+         this.t5.Caption = "報價\n維持\n時間";
          this.t5.Columns.Add(this.MMF_QUOTE_DURATION);
          this.t5.Name = "t5";
          this.t5.VisibleIndex = 4;
@@ -366,7 +367,7 @@
          this.t6.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.t6.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
          this.t6.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.t6.Caption = "必需回應詢價比例(%)";
+         this.t6.Caption = "必需回應\n詢價比例\n(%)";
          this.t6.Columns.Add(this.MMF_RESP_RATIO);
          this.t6.Name = "t6";
          this.t6.VisibleIndex = 5;
@@ -401,7 +402,7 @@
          this.t7.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.t7.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
          this.t7.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.t7.Caption = "最低  平均  造市量";
+         this.t7.Caption = "最低\n平均\n造市量";
          this.t7.Columns.Add(this.MMF_QNTY_LOW);
          this.t7.Name = "t7";
          this.t7.VisibleIndex = 6;
@@ -434,7 +435,7 @@
          this.t8.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.t8.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
          this.t8.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.t8.Caption = " 報價 有效量   比率";
+         this.t8.Caption = " 報價\n有效量\n比率";
          this.t8.Columns.Add(this.MMF_QUOTE_VALID_RATE);
          this.t8.Name = "t8";
          this.t8.VisibleIndex = 7;
@@ -471,7 +472,7 @@
          this.t9.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.t9.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
          this.t9.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.t9.Caption = "報價每日平均維持分鐘";
+         this.t9.Caption = "報價每日\n平均維持\n分鐘";
          this.t9.Columns.Add(this.MMF_AVG_TIME);
          this.t9.Name = "t9";
          this.t9.VisibleIndex = 8;
@@ -504,7 +505,7 @@
          this.t10.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.t10.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
          this.t10.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.t10.Caption = "詢價筆數未達(含)不算成績";
+         this.t10.Caption = "詢價筆數\n未達(含)\n不算成績";
          this.t10.Columns.Add(this.MMF_RFC_MIN_CNT);
          this.t10.Name = "t10";
          this.t10.VisibleIndex = 9;
@@ -537,7 +538,7 @@
          this.t11.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.t11.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
          this.t11.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.t11.Caption = "計算成績終止時間";
+         this.t11.Caption = "計算成績\n終止時間";
          this.t11.Columns.Add(this.MMF_END_TIME);
          this.t11.Name = "t11";
          this.t11.VisibleIndex = 10;
@@ -545,6 +546,8 @@
          // 
          // MMF_END_TIME
          // 
+         this.MMF_END_TIME.AppearanceCell.Options.UseTextOptions = true;
+         this.MMF_END_TIME.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
          this.MMF_END_TIME.Caption = "計算成績終止時間";
          this.MMF_END_TIME.ColumnEdit = this.END_TIMETextEdit;
          this.MMF_END_TIME.FieldName = "MMF_END_TIME";
@@ -567,7 +570,7 @@
          this.t12.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.t12.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
          this.t12.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.t12.Caption = "報價規定判斷方式";
+         this.t12.Caption = "報價規定\n判斷方式";
          this.t12.Columns.Add(this.MMF_CP_KIND);
          this.t12.Name = "t12";
          this.t12.VisibleIndex = 11;
@@ -661,7 +664,7 @@
          this.label2.Name = "label2";
          this.label2.Size = new System.Drawing.Size(573, 37);
          this.label2.TabIndex = 6;
-         this.label2.Text = "eg. XIF最近2個月份契約，平均每個契約每日買賣雙邊報價時間須達1小時以上，就要設定成「120分鐘」，判斷公司：sum(2個月份報價維持分鐘數) ≧ 120";
+         this.label2.Text = "eg. XIF最近2個月份契約，平均每個契約每日買賣雙邊報價時間須達1小時以上，就要設定成「120分鐘」，判斷公式：sum(2個月份報價維持分鐘數) ≧ 120";
          // 
          // label1
          // 
@@ -739,7 +742,7 @@
          this.printMemo.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.printMemo.Location = new System.Drawing.Point(14, 69);
          this.printMemo.Name = "printMemo";
-         this.printMemo.Size = new System.Drawing.Size(1030, 128);
+         this.printMemo.Size = new System.Drawing.Size(559, 192);
          this.printMemo.TabIndex = 10;
          this.printMemo.Text = resources.GetString("printMemo.Text");
          this.printMemo.Visible = false;
