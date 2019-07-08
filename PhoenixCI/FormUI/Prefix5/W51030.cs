@@ -83,6 +83,7 @@ namespace PhoenixCI.FormUI.Prefix5
          GridHelper.SetCommonGrid(gvMain);
          //設定BandGrid字體，預設字體中文字只會顯示方塊
          gvMain.AppearancePrint.BandPanel.Font = new Font("Microsoft YaHei", 10);
+         gvMain.AppearancePrint.Row.Font = new Font("Microsoft YaHei", 9);
          //設定要列印的Grid
          PrintableComponent = gcMain;
 
@@ -333,10 +334,7 @@ namespace PhoenixCI.FormUI.Prefix5
                reportHelper.IsHandlePersonVisible = IsHandlePersonVisible;
                reportHelper.IsManagerVisible = IsManagerVisible;
                reportHelper.ReportTitle = reportTitle + "─" + "新增";
-
-               reportHelper.Create(reportLandscapeA4);
-               reportHelper.Print();
-               reportHelper.Export(FileType.PDF, reportHelper.FilePath);
+               ModifyPrint(reportHelper, reportLandscapeA4);
             }
 
          if (ChangedForDeleted != null)
@@ -360,10 +358,7 @@ namespace PhoenixCI.FormUI.Prefix5
                reportHelper.IsManagerVisible = IsManagerVisible;
                reportHelper.PrintableComponent = gridControlPrint;
                reportHelper.ReportTitle = reportTitle + "─" + "刪除";
-
-               reportHelper.Create(reportLandscapeA4);
-               reportHelper.Print();
-               reportHelper.Export(FileType.PDF, reportHelper.FilePath);
+               ModifyPrint(reportHelper, reportLandscapeA4);
             }
 
          if (ChangedForModified != null)
@@ -374,11 +369,24 @@ namespace PhoenixCI.FormUI.Prefix5
                ReportHelper reportHelper = new ReportHelper(gridControlPrint, _ProgramID, reportTitle);
                reportHelper.PrintableComponent = gridControlPrint;
                reportHelper.ReportTitle = reportTitle + "─" + "變更";
-
-               reportHelper.Create(reportLandscapeA4);
-               reportHelper.Print();
-               reportHelper.Export(FileType.PDF, reportHelper.FilePath);
+               ModifyPrint(reportHelper,reportLandscapeA4);
             }
+         
+      }
+
+      /// <summary>
+      /// 新增刪除修改後的列印
+      /// </summary>
+      /// <param name="reportHelper"></param>
+      /// <param name="reportLandscapeA4"></param>
+      private void ModifyPrint(ReportHelper reportHelper, CommonReportLandscapeA4 reportLandscapeA4)
+      {
+         if (reportHelper == null)
+            return;
+         reportHelper.FooterMemo = printMemo.Text;
+         reportHelper.Create(reportLandscapeA4);
+         reportHelper.Print();
+         reportHelper.Export(FileType.PDF, reportHelper.FilePath);
       }
 
       protected override ResultStatus Save(PokeBall poke)
@@ -398,7 +406,9 @@ namespace PhoenixCI.FormUI.Prefix5
             }
             // 寫入DB
             foreach (DataRow dr in dt.Rows) {
-               if (dr.RowState != DataRowState.Deleted) {
+               if (dr.RowState != DataRowState.Deleted &&
+                  (dr.RowState == DataRowState.Added || dr.RowState == DataRowState.Modified)
+                  ) {
                   dr["MMF_W_TIME"] = DateTime.Now;
                   dr["MMF_W_USER_ID"] = GlobalInfo.USER_ID;
                }
@@ -442,6 +452,7 @@ namespace PhoenixCI.FormUI.Prefix5
             reportHelper.LeftMemo = Memo.ToString();
             */
             //reportHelper.LeftMemo = printMemo.Text;
+            reportHelper.FooterMemo = printMemo.Text;
             reportHelper.Create(reportLandscapeA4);
             reportHelper.Print();
 
