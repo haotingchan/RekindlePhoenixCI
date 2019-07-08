@@ -1,12 +1,10 @@
 ﻿using BaseGround.Shared;
 using Common;
-using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
 using System.Data;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Text;
 /// <summary>
@@ -244,12 +242,20 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             //本日檢核結果表
             int rowIndex = 7;
             foreach (DataRow row in dt.Rows) {
+               //判斷3個模組是否皆為達標
+               bool changeFlag = row["SMA_CHANGE_FLAG"].AsString() == "Y" ||
+                  row["EWMA_CHANGE_FLAG"].AsString() == "Y" ||
+                  row["MAXV_CHANGE_FLAG"].AsString() == "Y";
+               //若碰上3個模組的flag皆不為Y，2、3、4項下的內容文字為白色
+               if (!changeFlag) {
+                  worksheet.Range[$"I{rowIndex}:S{rowIndex}"].Font.Color = Color.White;
+               }
+
+               //商品
                worksheet.Cells[$"B{rowIndex}"].SetValue(row["DATA_KIND_ID"]);
 
                #region 1.各項指標計算結算保證金變動幅度
-               if (row["SMA_CHANGE_FLAG"].AsString() == "Y" || 
-                  row["EWMA_CHANGE_FLAG"].AsString() == "Y" || 
-                  row["MAXV_CHANGE_FLAG"].AsString() == "Y"){
+               if (changeFlag) {
                   //1.簡單移動平均法(SMA)
                   worksheet.Cells[$"C{rowIndex}"].SetValue(row["SMA_CHANGE_RANGE"]);
                   worksheet.Cells[$"D{rowIndex}"].SetValue(row["SMA_DAY_CNT"]);
@@ -261,13 +267,6 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                   worksheet.Cells[$"H{rowIndex}"].SetValue(row["MAXV_DAY_CNT"]);
                }
                #endregion
-
-               //若碰上3個模組的flag皆不為Y，2、3、4項下的內容文字為白色
-               if (row["SMA_CHANGE_FLAG"].AsString() != "Y" &&
-                  row["EWMA_CHANGE_FLAG"].AsString() != "Y" &&
-                  row["MAXV_CHANGE_FLAG"].AsString() != "Y") {
-                  worksheet.Range[$"I{rowIndex}:Q{rowIndex}"].Font.Color = Color.White;
-               }
 
                #region 2.未沖銷部位數
                //當日未沖銷部位數及比例
@@ -293,12 +292,16 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                #region 4.與國外水準相較
                //原始保證金占本日契約價值比率
                worksheet.Cells[$"N{rowIndex}"].SetValue(row["CUR_IM_RATE"]);
-               worksheet.Cells[$"O{rowIndex}"].SetValue(row["ADJ_IM_RATE"]);
-               worksheet.Cells[$"P{rowIndex}"].SetValue(row["F_RATE"]);
-               worksheet.Cells[$"Q{rowIndex}"].SetValue(row["F_EXCHANGE"]);
+               if (changeFlag) {
+                  worksheet.Cells[$"O{rowIndex}"].SetValue(row["SMA_ADJ_IM_RATE"]);//調整後原始保證金占比SMA
+                  worksheet.Cells[$"P{rowIndex}"].SetValue(row["EWMA_ADJ_IM_RATE"]);//調整後原始保證金占比EWMA
+                  worksheet.Cells[$"Q{rowIndex}"].SetValue(row["MAXV_ADJ_IM_RATE"]);//調整後原始保證金占比MAXV
+               }
+               worksheet.Cells[$"R{rowIndex}"].SetValue(row["F_RATE"]);
+               worksheet.Cells[$"S{rowIndex}"].SetValue(row["F_EXCHANGE"]);
                #endregion
 
-               rowIndex++;
+               rowIndex++;//換下一行
             }
             //save
             worksheet.ScrollTo(0, 0);
@@ -352,8 +355,8 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                worksheet.Cells[$"F{rowIndex}"].SetValue(row["PID_NAME"]);
 
                #region 1.各項指標計算結算保證金變動幅度
-               if(row["SMA_CHANGE_FLAG"].AsString() == "Y" || 
-                  row["EWMA_CHANGE_FLAG"].AsString() == "Y" || 
+               if (row["SMA_CHANGE_FLAG"].AsString() == "Y" ||
+                  row["EWMA_CHANGE_FLAG"].AsString() == "Y" ||
                   row["MAXV_CHANGE_FLAG"].AsString() == "Y") {
                   //1.簡單移動平均法(SMA)
                   worksheet.Cells[$"G{rowIndex}"].SetValue(row["SMA_CHANGE_RANGE"]);
@@ -413,7 +416,56 @@ namespace PhoenixCI.BusinessLogic.Prefix4
          return MessageDisplay.MSG_OK;
       }
 
+      /// <summary>
+      /// sheet 3
+      /// </summary>
+      /// <returns></returns>
+      public string Wf40040SPAN()
+      {
+         Workbook workbook = new Workbook();
+         try {
+            workbook.LoadDocument(_lsFile);
+            Worksheet worksheet = workbook.Worksheets[(int)SheetName.SheetSPAN];
+            DateTime emdate = _emDateText.AsDateTime("yyyy/MM/dd");
+            worksheet.Cells["M2"].Value = emdate.ToLongDateString();
+            DateTime startDate = worksheet.Cells["K2"].Value.AsDateTime();
 
+            //1.本日波動度偵測全距(VSR)變動狀況
+            //讀取資料
+            DataTable dtSV = dao40040.ListSpanSvData(emdate, startDate, $"{_oswGrpVal}%");
+            worksheet.Import(dtSV, false, 5, 2);
+
+            //2.本日契約價值耗用比率(Delta Per Spread Ratio )變動狀況
+            //讀取資料
+            DataTable dtSD = dao40040.ListSpanSdData(emdate, startDate, $"{_oswGrpVal}%");
+            foreach (DataRow row in dtSD.Rows) {
+               int rowIndex = row["RPT_ROW"].AsInt() - 1;
+               int colIndex = row["RPT_COL"].AsInt() - 1;
+               if (row["SP1_CHANGE_FLAG"].AsString() == "Y") {
+                  worksheet.Rows[rowIndex][colIndex].SetValue(row["SP1_CHANGE_RANGE"]);
+                  worksheet.Rows[rowIndex][colIndex + 1].SetValue(row["DAY_CNT"]);
+               }
+            }
+
+            worksheet.ScrollTo(0, 0);
+         }
+         catch (Exception ex) {
+#if DEBUG
+            throw new Exception($"Wf40040SPAN:" + ex.Message);
+#else
+            throw ex;
+#endif
+         }
+         finally {
+            workbook.SaveDocument(_lsFile);//save
+         }
+         return MessageDisplay.MSG_OK;
+      }
+
+      /// <summary>
+      /// 7/2上線前的版本 可供新需求的邏輯參考
+      /// </summary>
+      /// <returns></returns>
       public string Wf40040()
       {
          Workbook workbook = new Workbook();
@@ -605,7 +657,10 @@ namespace PhoenixCI.BusinessLogic.Prefix4
          }
          return MessageDisplay.MSG_OK;
       }
-
+      /// <summary>
+      /// 7/2上線前的版本 可供新需求的邏輯參考
+      /// </summary>
+      /// <returns></returns>
       public string Wf40040ETF()
       {
          Workbook workbook = new Workbook();
@@ -756,47 +811,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
          return MessageDisplay.MSG_OK;
       }
 
-      public string Wf40040SPAN()
-      {
-         Workbook workbook = new Workbook();
-         try {
-            workbook.LoadDocument(_lsFile);
-            Worksheet worksheet = workbook.Worksheets[(int)SheetName.SheetSPAN];
-            DateTime emdate = _emDateText.AsDateTime("yyyy/MM/dd");
-            worksheet.Cells["M2"].Value = emdate.ToLongDateString();
-            DateTime startDate = worksheet.Cells["K2"].Value.AsDateTime();
 
-            //1.本日波動度偵測全距(VSR)變動狀況
-            //讀取資料
-            DataTable dtSV = dao40040.ListSpanSvData(emdate, startDate, $"{_oswGrpVal}%");
-            worksheet.Import(dtSV, false, 5, 2);
-
-            //2.本日契約價值耗用比率(Delta Per Spread Ratio )變動狀況
-            //讀取資料
-            DataTable dtSD = dao40040.ListSpanSdData(emdate, startDate, $"{_oswGrpVal}%");
-            foreach (DataRow row in dtSD.Rows) {
-               int rowIndex = row["RPT_ROW"].AsInt() - 1;
-               int colIndex = row["RPT_COL"].AsInt() - 1;
-               if (row["SP1_CHANGE_FLAG"].AsString() == "Y") {
-                  worksheet.Rows[rowIndex][colIndex].SetValue(row["SP1_CHANGE_RANGE"]);
-                  worksheet.Rows[rowIndex][colIndex + 1].SetValue(row["DAY_CNT"]);
-               }
-            }
-
-            worksheet.ScrollTo(0, 0);
-         }
-         catch (Exception ex) {
-#if DEBUG
-            throw new Exception($"Wf40040SPAN:" + ex.Message);
-#else
-            throw ex;
-#endif
-         }
-         finally {
-            workbook.SaveDocument(_lsFile);//save
-         }
-         return MessageDisplay.MSG_OK;
-      }
 
 
    }
