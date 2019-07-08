@@ -109,10 +109,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
                flag = 0;
                //2. 複製檔案 & 開啟檔案 (因檔案需因MarketCode更動，所以另外寫)
-               string originalFilePath = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH , _ProgramID + "." + FileType.XLS.ToString().ToLower());
+               string originalFilePath = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH , _ProgramID + "." + FileType.XLSX.ToString().ToLower());
 
                string destinationFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH ,
-                   _ProgramID + "_" + tempMarketCode + "_" + DateTime.Now.ToString("yyyy.MM.dd") + "-" + DateTime.Now.ToString("HH.mm.ss") + "." + FileType.XLS.ToString().ToLower());
+                   _ProgramID + "_" + tempMarketCode + "_" + DateTime.Now.ToString("yyyy.MM.dd") + "-" + DateTime.Now.ToString("HH.mm.ss") + "." + FileType.XLSX.ToString().ToLower());
 
                File.Copy(originalFilePath , destinationFilePath , true);
 
