@@ -27,10 +27,10 @@
         private void InitializeComponent() {
          this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
          this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
+         this.label1 = new System.Windows.Forms.Label();
          this.txtDate = new BaseGround.Widget.TextDateEdit();
          this.label3 = new System.Windows.Forms.Label();
-         this.label1 = new System.Windows.Forms.Label();
-         this.ddlScCode = new DevExpress.XtraEditors.LookUpEdit();
+         this.ddlScCode = new DevExpress.XtraEditors.ComboBoxEdit();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -75,6 +75,16 @@
          this.panelControl2.Size = new System.Drawing.Size(781, 77);
          this.panelControl2.TabIndex = 15;
          // 
+         // label1
+         // 
+         this.label1.AutoSize = true;
+         this.label1.ForeColor = System.Drawing.Color.Black;
+         this.label1.Location = new System.Drawing.Point(243, 29);
+         this.label1.Name = "label1";
+         this.label1.Size = new System.Drawing.Size(57, 20);
+         this.label1.TabIndex = 5;
+         this.label1.Text = "資料：";
+         // 
          // txtDate
          // 
          this.txtDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
@@ -105,32 +115,24 @@
          this.label3.TabIndex = 4;
          this.label3.Text = "交易日期：";
          // 
-         // label1
-         // 
-         this.label1.AutoSize = true;
-         this.label1.ForeColor = System.Drawing.Color.Black;
-         this.label1.Location = new System.Drawing.Point(243, 29);
-         this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(57, 20);
-         this.label1.TabIndex = 5;
-         this.label1.Text = "資料：";
-         // 
          // ddlScCode
          // 
-         this.ddlScCode.Location = new System.Drawing.Point(297, 26);
+         this.ddlScCode.Location = new System.Drawing.Point(296, 26);
+         this.ddlScCode.MenuManager = this.ribbonControl;
          this.ddlScCode.Name = "ddlScCode";
          this.ddlScCode.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
          this.ddlScCode.Properties.Appearance.Options.UseBackColor = true;
-         this.ddlScCode.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-         this.ddlScCode.Properties.AppearanceDisabled.Options.UseBackColor = true;
          this.ddlScCode.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.ddlScCode.Properties.Items.AddRange(new object[] {
+            "CNH DEPO RATE (路透代碼CNHF=)",
+            "CNH SWAP POINTS (路透代碼CNHF=)",
+            "CNH Volatility (路透代碼CNHVOL=)",
+            "USD DEPO RATE (路透代碼USDD=)"});
          this.ddlScCode.Properties.LookAndFeel.SkinName = "The Bezier";
          this.ddlScCode.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
-         this.ddlScCode.Properties.NullText = "";
-         this.ddlScCode.Properties.PopupSizeable = false;
          this.ddlScCode.Size = new System.Drawing.Size(352, 26);
-         this.ddlScCode.TabIndex = 6;
+         this.ddlScCode.TabIndex = 87;
          // 
          // W35060
          // 
@@ -164,6 +166,6 @@
       private System.Windows.Forms.Label label1;
       private BaseGround.Widget.TextDateEdit txtDate;
       private System.Windows.Forms.Label label3;
-      private DevExpress.XtraEditors.LookUpEdit ddlScCode;
+      private DevExpress.XtraEditors.ComboBoxEdit ddlScCode;
    }
 }

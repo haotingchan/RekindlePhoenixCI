@@ -29,7 +29,6 @@
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
          this.labMsg = new System.Windows.Forms.Label();
          this.panFilter = new System.Windows.Forms.GroupBox();
-         this.ddlScCode = new DevExpress.XtraEditors.LookUpEdit();
          this.textEdit1 = new DevExpress.XtraEditors.TextEdit();
          this.txtKind1 = new DevExpress.XtraEditors.TextEdit();
          this.gbMarket = new DevExpress.XtraEditors.RadioGroup();
@@ -41,18 +40,19 @@
          this.label6 = new System.Windows.Forms.Label();
          this.label8 = new System.Windows.Forms.Label();
          this.label9 = new System.Windows.Forms.Label();
+         this.ddlScCode = new DevExpress.XtraEditors.ComboBoxEdit();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
          this.r_frame.SuspendLayout();
          this.panFilter.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.ddlScCode.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtKind1.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtAftEndYM.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtAftStartYM.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.ddlScCode.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -121,25 +121,6 @@
          this.panFilter.TabIndex = 6;
          this.panFilter.TabStop = false;
          this.panFilter.Text = "請輸入交易日期";
-         // 
-         // ddlScCode
-         // 
-         this.ddlScCode.Location = new System.Drawing.Point(122, 177);
-         this.ddlScCode.Name = "ddlScCode";
-         this.ddlScCode.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-         this.ddlScCode.Properties.Appearance.Options.UseBackColor = true;
-         this.ddlScCode.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-         this.ddlScCode.Properties.AppearanceDisabled.Options.UseBackColor = true;
-         this.ddlScCode.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.ddlScCode.Properties.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Name1", "全部")});
-         this.ddlScCode.Properties.LookAndFeel.SkinName = "The Bezier";
-         this.ddlScCode.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
-         this.ddlScCode.Properties.NullText = "";
-         this.ddlScCode.Properties.PopupSizeable = false;
-         this.ddlScCode.Size = new System.Drawing.Size(150, 26);
-         this.ddlScCode.TabIndex = 84;
          // 
          // textEdit1
          // 
@@ -276,6 +257,24 @@
          this.label9.TabIndex = 2;
          this.label9.Text = "商品：";
          // 
+         // ddlScCode
+         // 
+         this.ddlScCode.Location = new System.Drawing.Point(122, 177);
+         this.ddlScCode.MenuManager = this.ribbonControl;
+         this.ddlScCode.Name = "ddlScCode";
+         this.ddlScCode.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+         this.ddlScCode.Properties.Appearance.Options.UseBackColor = true;
+         this.ddlScCode.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.ddlScCode.Properties.Items.AddRange(new object[] {
+            "全部",
+            "10元",
+            "非10元"});
+         this.ddlScCode.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.ddlScCode.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
+         this.ddlScCode.Size = new System.Drawing.Size(150, 26);
+         this.ddlScCode.TabIndex = 86;
+         // 
          // W35040
          // 
          this.Appearance.Options.UseFont = true;
@@ -296,12 +295,12 @@
          this.r_frame.PerformLayout();
          this.panFilter.ResumeLayout(false);
          this.panFilter.PerformLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.ddlScCode.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtKind1.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtAftEndYM.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtAftStartYM.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.ddlScCode.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -324,6 +323,6 @@
       private System.Windows.Forms.Label label9;
       private DevExpress.XtraEditors.TextEdit textEdit1;
       private DevExpress.XtraEditors.TextEdit txtKind1;
-      private DevExpress.XtraEditors.LookUpEdit ddlScCode;
+      private DevExpress.XtraEditors.ComboBoxEdit ddlScCode;
    }
 }

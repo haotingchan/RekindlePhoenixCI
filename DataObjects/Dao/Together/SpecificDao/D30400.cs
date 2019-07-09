@@ -220,18 +220,18 @@ ORDER BY AI2_KIND_ID_2 , AI2_YMD , AI2_PC_CODE
             };
 
          string sql = @"
-SELECT 
-    AI3_DATE,   
-    AI3_CLOSE_PRICE,  
-    AI3_INDEX,   
-    AI3_AMOUNT,
-    AI3_M_QNTY,
-    AI3_OI  
-FROM CI.AI3  
-WHERE AI3_KIND_ID LIKE :kindId
-AND AI3_DATE >= TO_DATE(:startDate,'yyyy/mm/dd')  
-AND AI3_DATE <= TO_DATE(:endDate ,'yyyy/mm/dd')  
-ORDER BY AI3_DATE
+select 
+    ai3_date,   
+    ai3_close_price,  
+    ai3_index,   
+    ai3_amount,
+    ai3_m_qnty,
+    ai3_oi  
+from ci.ai3  
+where trim(ai3_kind_id) = :kindid
+and ai3_date >= to_date(:startdate,'yyyy/mm/dd')  
+and ai3_date <= to_date(:enddate ,'yyyy/mm/dd')  
+order by ai3_date
 ";
          DataTable dtResult = db.GetDataTable(sql , parms);
          return dtResult;
