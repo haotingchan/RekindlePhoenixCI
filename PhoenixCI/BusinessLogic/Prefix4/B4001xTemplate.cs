@@ -3,9 +3,7 @@ using Common;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -156,6 +154,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
 
             StringBuilder ItemOne = new StringBuilder();
             StringBuilder ItemTwo = new StringBuilder();
+            StringBuilder ItemThree = new StringBuilder();
             string kindIdOut = "";
 
             foreach (DataRow dr in dt.Rows) {
@@ -190,12 +189,19 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                               .Where(r => r.Field<object>("MGT2_KIND_ID_OUT").AsString() == kindIdOut
                               && r.Field<object>("MG1_MODEL_TYPE").AsString() == "M"
                               && r.Field<object>("MG1_CHANGE_FLAG").AsString() == "Y").Any();
+                  bool yEWMA = dt.AsEnumerable().AsParallel().WithDegreeOfParallelism(2)
+                              .Where(r => r.Field<object>("MGT2_KIND_ID_OUT").AsString() == kindIdOut
+                              && r.Field<object>("MG1_MODEL_TYPE").AsString() == "E"
+                              && r.Field<object>("MG1_CHANGE_FLAG").AsString() == "Y").Any();
                   //1.以SMA及MAX計算之保證金變動幅度均未達 10% 得調整標準
                   ItemOne.Append(!ySMA && !yMAX ? "■" : "□");
                   ItemOne.Append(kindIdOut + "　");
-                  //2.以SMA或MAX計算之保證金變動幅度已達 10%得調整標準
-                  ItemTwo.Append(ySMA || yMAX ? "■" : "□");
+                  //2.以EWMA計算保證金變動幅度已達 10%得調整標準，且進位後金額改變
+                  ItemTwo.Append(yEWMA ? "■" : "□");
                   ItemTwo.Append(kindIdOut + "　");
+                  //3.以SMA或MAX計算之保證金變動幅度已達 10%得調整標準
+                  ItemThree.Append(ySMA || yMAX ? "■" : "□");
+                  ItemThree.Append(kindIdOut + "　");
                }//if (!string.IsNullOrEmpty(dr["MG1_PROD_TYPE"].AsString()))
 
             }//foreach (DataRow dr in dt.Rows)
@@ -206,6 +212,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                int dist = FutWorkItemCellDist();
                worksheet.Cells[$"B{itemRowIndex}"].Value = ItemOne.ToString();
                worksheet.Cells[$"B{itemRowIndex + dist}"].Value = ItemTwo.ToString();
+               worksheet.Cells[$"B{itemRowIndex + dist*2}"].Value = ItemThree.ToString();
             }
 
             worksheet.ScrollTo(0, 0);
@@ -246,6 +253,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
 
             StringBuilder ItemOne = new StringBuilder();
             StringBuilder ItemTwo = new StringBuilder();
+            StringBuilder ItemThree = new StringBuilder();
             string kindIdOut = "";
             foreach (DataRow dr in dt.Rows) {
                //一、現行收取保證金金額：CDEFGH
@@ -286,12 +294,19 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                               .Where(r => r.Field<object>("MGT2_KIND_ID_OUT").AsString() == kindIdOut
                               && r.Field<object>("MG1_MODEL_TYPE").AsString() == "M"
                               && r.Field<object>("MG1_CHANGE_FLAG").AsString() == "Y").Any();
+                  bool yEWMA = dt.AsEnumerable().AsParallel().WithDegreeOfParallelism(2)
+                              .Where(r => r.Field<object>("MGT2_KIND_ID_OUT").AsString() == kindIdOut
+                              && r.Field<object>("MG1_MODEL_TYPE").AsString() == "E"
+                              && r.Field<object>("MG1_CHANGE_FLAG").AsString() == "Y").Any();
                   //1.以SMA及MAX計算之保證金變動幅度均未達 10% 得調整標準
                   ItemOne.Append(!ySMA && !yMAX ? "■" : "□");
                   ItemOne.Append(kindIdOut + "　");
-                  //2.以SMA或MAX計算之保證金變動幅度已達 10%得調整標準
-                  ItemTwo.Append(ySMA || yMAX ? "■" : "□");
+                  //2.以EWMA計算保證金變動幅度已達 10%得調整標準，且進位後金額改變
+                  ItemTwo.Append(yEWMA ? "■" : "□");
                   ItemTwo.Append(kindIdOut + "　");
+                  //3.以SMA或MAX計算之保證金變動幅度已達 10%得調整標準
+                  ItemThree.Append(ySMA || yMAX ? "■" : "□");
+                  ItemThree.Append(kindIdOut + "　");
                }//四、	作業事項
 
             }//foreach (DataRow dr in dt.Rows) 
@@ -303,6 +318,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                int dist = OptWorkItemCellDist();
                worksheet.Cells[$"B{itemRowIndex}"].Value = ItemOne.ToString();
                worksheet.Cells[$"B{itemRowIndex + dist}"].Value = ItemTwo.ToString();
+               worksheet.Cells[$"B{itemRowIndex + dist * 2}"].Value = ItemThree.ToString();
             }
 
             //save
