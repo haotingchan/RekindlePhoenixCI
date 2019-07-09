@@ -26,21 +26,23 @@
         /// </summary>
         private void InitializeComponent() {
          this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
+         this.r_frame = new DevExpress.XtraEditors.PanelControl();
+         this.ExportShow = new System.Windows.Forms.Label();
          this.grpxDescription = new System.Windows.Forms.GroupBox();
          this.txtDate = new BaseGround.Widget.TextDateEdit();
          this.lblDate = new System.Windows.Forms.Label();
-         this.ExportShow = new System.Windows.Forms.Label();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
+         this.r_frame.SuspendLayout();
          this.grpxDescription.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
          // 
-         this.panParent.Controls.Add(this.grpxDescription);
-         this.panParent.Controls.Add(this.ExportShow);
+         this.panParent.Controls.Add(this.r_frame);
          this.panParent.Size = new System.Drawing.Size(697, 491);
          // 
          // ribbonControl
@@ -57,15 +59,40 @@
          this.panelControl1.Size = new System.Drawing.Size(697, 491);
          this.panelControl1.TabIndex = 0;
          // 
+         // r_frame
+         // 
+         this.r_frame.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.r_frame.Appearance.Options.UseBackColor = true;
+         this.r_frame.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+         this.r_frame.Controls.Add(this.ExportShow);
+         this.r_frame.Controls.Add(this.grpxDescription);
+         this.r_frame.Location = new System.Drawing.Point(30, 30);
+         this.r_frame.Name = "r_frame";
+         this.r_frame.Size = new System.Drawing.Size(400, 175);
+         this.r_frame.TabIndex = 79;
+         // 
+         // ExportShow
+         // 
+         this.ExportShow.AutoSize = true;
+         this.ExportShow.ForeColor = System.Drawing.Color.Blue;
+         this.ExportShow.Location = new System.Drawing.Point(15, 125);
+         this.ExportShow.MaximumSize = new System.Drawing.Size(360, 120);
+         this.ExportShow.Name = "ExportShow";
+         this.ExportShow.Size = new System.Drawing.Size(85, 20);
+         this.ExportShow.TabIndex = 84;
+         this.ExportShow.Text = "開始轉檔...";
+         this.ExportShow.Visible = false;
+         // 
          // grpxDescription
          // 
-         this.grpxDescription.AutoSize = true;
          this.grpxDescription.Controls.Add(this.txtDate);
          this.grpxDescription.Controls.Add(this.lblDate);
-         this.grpxDescription.Location = new System.Drawing.Point(21, 21);
+         this.grpxDescription.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
+         this.grpxDescription.ForeColor = System.Drawing.Color.Navy;
+         this.grpxDescription.Location = new System.Drawing.Point(20, 15);
          this.grpxDescription.Name = "grpxDescription";
-         this.grpxDescription.Size = new System.Drawing.Size(404, 120);
-         this.grpxDescription.TabIndex = 13;
+         this.grpxDescription.Size = new System.Drawing.Size(360, 100);
+         this.grpxDescription.TabIndex = 76;
          this.grpxDescription.TabStop = false;
          this.grpxDescription.Text = "請輸入交易日期";
          // 
@@ -73,37 +100,32 @@
          // 
          this.txtDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
          this.txtDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtDate.EditValue = "2018/12";
+         this.txtDate.EditValue = "2018/12/01";
          this.txtDate.EnterMoveNextControl = true;
-         this.txtDate.Location = new System.Drawing.Point(128, 42);
+         this.txtDate.Location = new System.Drawing.Point(92, 42);
          this.txtDate.MenuManager = this.ribbonControl;
          this.txtDate.Name = "txtDate";
          this.txtDate.Properties.Appearance.Options.UseTextOptions = true;
          this.txtDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtDate.Properties.Mask.EditMask = "yyyy/MM/dd";
-         this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+         this.txtDate.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.txtDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.txtDate.Properties.Mask.ShowPlaceHolders = false;
          this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtDate.Size = new System.Drawing.Size(144, 26);
-         this.txtDate.TabIndex = 15;
+         this.txtDate.Size = new System.Drawing.Size(100, 26);
+         this.txtDate.TabIndex = 80;
          this.txtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
          // lblDate
          // 
          this.lblDate.AutoSize = true;
-         this.lblDate.Location = new System.Drawing.Point(37, 46);
+         this.lblDate.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
+         this.lblDate.ForeColor = System.Drawing.Color.Black;
+         this.lblDate.Location = new System.Drawing.Point(37, 45);
          this.lblDate.Name = "lblDate";
-         this.lblDate.Size = new System.Drawing.Size(57, 20);
-         this.lblDate.TabIndex = 2;
+         this.lblDate.Size = new System.Drawing.Size(58, 21);
+         this.lblDate.TabIndex = 83;
          this.lblDate.Text = "日期：";
-         // 
-         // ExportShow
-         // 
-         this.ExportShow.AutoSize = true;
-         this.ExportShow.Location = new System.Drawing.Point(16, 144);
-         this.ExportShow.Name = "ExportShow";
-         this.ExportShow.Size = new System.Drawing.Size(54, 20);
-         this.ExportShow.TabIndex = 14;
-         this.ExportShow.Text = "label1";
          // 
          // W35010
          // 
@@ -118,9 +140,11 @@
          this.Controls.SetChildIndex(this.panelControl1, 0);
          this.Controls.SetChildIndex(this.panParent, 0);
          this.panParent.ResumeLayout(false);
-         this.panParent.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.r_frame)).EndInit();
+         this.r_frame.ResumeLayout(false);
+         this.r_frame.PerformLayout();
          this.grpxDescription.ResumeLayout(false);
          this.grpxDescription.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).EndInit();
@@ -132,9 +156,10 @@
         #endregion
 
         private DevExpress.XtraEditors.PanelControl panelControl1;
-        private System.Windows.Forms.GroupBox grpxDescription;
-        private System.Windows.Forms.Label lblDate;
-        private System.Windows.Forms.Label ExportShow;
-        private BaseGround.Widget.TextDateEdit txtDate;
-    }
+      private DevExpress.XtraEditors.PanelControl r_frame;
+      private System.Windows.Forms.Label ExportShow;
+      private System.Windows.Forms.GroupBox grpxDescription;
+      private System.Windows.Forms.Label lblDate;
+      private BaseGround.Widget.TextDateEdit txtDate;
+   }
 }

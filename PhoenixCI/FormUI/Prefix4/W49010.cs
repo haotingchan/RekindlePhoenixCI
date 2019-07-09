@@ -277,21 +277,27 @@ namespace PhoenixCI.FormUI.Prefix4 {
          try {
             GridControl gridControlPrint = GridHelper.CloneGrid(gridControl);
 
-            ReportHelper reportHelper = new ReportHelper(gridControl , _ProgramID , this.Text);
-            reportHelper.IsHandlePersonVisible = IsHandlePersonVisible;
-            reportHelper.IsManagerVisible = IsManagerVisible;
+            ReportHelper reportHelper = new ReportHelper(gridControl , _ProgramID , this.Text);           
 
             gridControlPrint.DataSource = dtChange;
             //reportHelper.PrintableComponent = gridControlPrint; // 加這行bands會不見
             if (printSetp == 1) {
                reportHelper.ReportTitle = this.Text + "─" + "(確認單)";
+               reportHelper.IsHandlePersonVisible = IsHandlePersonVisible;
+               reportHelper.IsManagerVisible = IsManagerVisible;
             } else {
                reportHelper.ReportTitle = this.Text + "─" + "(已確認)";
+               reportHelper.IsHandlePersonVisible = false;
+               reportHelper.IsManagerVisible = false;
             }
 
             CommonReportLandscapeA4 report = new CommonReportLandscapeA4(); //設定為橫向列印
             report.printableComponentContainerMain.PrintableComponent = gcMain;
-            reportHelper.FooterMemo = "備    註：已下市契約之最小風險價格係數一律為空白；有效契約之最小風險價格係數不可為空白。";
+            if (printSetp == 1) {
+               reportHelper.FooterMemo = "備    註：已下市契約之最小風險價格係數一律為空白；有效契約之最小風險價格係數不可為空白。";
+            } else {
+               reportHelper.FooterMemo = null;
+            } 
             reportHelper.Create(report);
 
             //base.Print(reportHelper);
