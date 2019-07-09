@@ -4,11 +4,8 @@ using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 /// <summary>
 /// john,20190422,收盤前保證金試算表
 /// </summary>
@@ -19,7 +16,9 @@ namespace PhoenixCI.BusinessLogic.Prefix4
    /// </summary>
    public class B40042
    {
-
+      /// <summary>
+      /// DataLayer
+      /// </summary>
       private readonly D40042 dao40042;
       /// <summary>
       /// 輸出Excel檔案路徑
@@ -29,7 +28,9 @@ namespace PhoenixCI.BusinessLogic.Prefix4
       /// 輸入的日期 yyyy/MM/dd
       /// </summary>
       private readonly string _emDateText;
-
+      /// <summary>
+      /// UserID
+      /// </summary>
       private readonly string _gsUserID;
 
       private readonly B40011 b40011;
@@ -54,6 +55,10 @@ namespace PhoenixCI.BusinessLogic.Prefix4
          b40013 = new B40013("40042_40013", FilePath, emDate);
       }
 
+      /// <summary>
+      /// d_40042資料
+      /// </summary>
+      /// <returns></returns>
       public DataTable GetDataList()
       {
          DataTable dt = dao40042.List40042();
@@ -65,6 +70,11 @@ namespace PhoenixCI.BusinessLogic.Prefix4
          return dt;
       }
 
+      /// <summary>
+      /// 狀態
+      /// </summary>
+      /// <param name="DateTxt"></param>
+      /// <returns></returns>
       public string Status(string DateTxt)
       {
          string status = "";
@@ -77,31 +87,55 @@ namespace PhoenixCI.BusinessLogic.Prefix4
          return status;
       }
 
+      /// <summary>
+      /// wf_40011_1() aka b40011.WfFutureSheet()
+      /// </summary>
+      /// <returns></returns>
       public string Wf40011Fut()
       {
          return b40011.WfFutureSheet();
       }
 
+      /// <summary>
+      /// wf_40011_2() aka b40011.WfOptionSheet()
+      /// </summary>
+      /// <returns></returns>
       public string Wf40011Opt()
       {
          return b40011.WfOptionSheet();
       }
 
+      /// <summary>
+      /// wf_40012_1() aka b40012.WfFutureSheet()
+      /// </summary>
+      /// <returns></returns>
       public string Wf40012Fut()
       {
          return b40012.WfFutureSheet(2);
       }
 
+      /// <summary>
+      /// wf_40012_2() aka b40012.WfOptionSheet()
+      /// </summary>
+      /// <returns></returns>
       public string Wf40012Opt()
       {
          return b40012.WfOptionSheet(3);
       }
 
+      /// <summary>
+      /// wf_40013_1() aka b40013.WfFutureSheet()
+      /// </summary>
+      /// <returns></returns>
       public string Wf40013Fut()
       {
          return b40013.WfFutureSheet(4);
       }
 
+      /// <summary>
+      /// wf_43032()
+      /// </summary>
+      /// <returns></returns>
       public string Wf40042()
       {
          //切換Sheet

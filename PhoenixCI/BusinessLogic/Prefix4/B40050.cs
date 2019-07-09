@@ -1,6 +1,5 @@
 ﻿using BaseGround.Shared;
 using Common;
-using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
 using System.Data;
@@ -15,8 +14,17 @@ namespace PhoenixCI.BusinessLogic.Prefix4
    /// </summary>
    public class B40050
    {
+      /// <summary>
+      /// 檔案輸出路徑
+      /// </summary>
       private readonly string _lsFile;
+      /// <summary>
+      /// 在W40050傳進來的DataTable
+      /// </summary>
       private readonly DataTable _Data;
+      /// <summary>
+      /// 查詢次數
+      /// </summary>
       private readonly int _emCount;
 
       public B40050(string FilePath, DataTable dataTable, int emCount)
@@ -26,7 +34,13 @@ namespace PhoenixCI.BusinessLogic.Prefix4
          _Data = dataTable;
       }
 
-
+      /// <summary>
+      /// 依照查詢次數決定顯示數量
+      /// </summary>
+      /// <param name="tolCount">查詢次數</param>
+      /// <param name="k">迴圈變數</param>
+      /// <param name="grpCount">個別商品別筆數</param>
+      /// <returns></returns>
       private static int GrpCount(int tolCount, int k, int grpCount)
       {
          if (grpCount > 0 && grpCount > tolCount) {
@@ -34,7 +48,6 @@ namespace PhoenixCI.BusinessLogic.Prefix4
          }
          return k;
       }
-
 
       private void Wf40053Fut(Worksheet worksheet, DataTable dt)
       {
@@ -63,15 +76,15 @@ namespace PhoenixCI.BusinessLogic.Prefix4
 
             RowIndex = RowIndex + 1;
 
-            worksheet.Cells[$"A{RowIndex}"].SetValue(row["CNT"]);
-            worksheet.Cells[$"B{RowIndex}"].SetValue(row["MG4_DATE"]);
-            worksheet.Cells[$"C{RowIndex}"].SetValue(row["MG4_KIND_ID"]);
-            worksheet.Cells[$"D{RowIndex}"].SetValue(row["APDK_NAME"]);
-            worksheet.Cells[$"E{RowIndex}"].SetValue(row["APDK_STOCK_ID"]);
-            worksheet.Cells[$"F{RowIndex}"].SetValue(row["PID_NAME"]);
-            worksheet.Cells[$"G{RowIndex}"].SetValue(row["MG4_CM"]);
-            worksheet.Cells[$"H{RowIndex}"].SetValue(row["MG4_MM"]);
-            worksheet.Cells[$"I{RowIndex}"].SetValue(row["MG4_IM"]);
+            worksheet.Cells[$"A{RowIndex}"].SetValue(row["CNT"]);//次數
+            worksheet.Cells[$"B{RowIndex}"].SetValue(row["MG4_DATE"]);//日期
+            worksheet.Cells[$"C{RowIndex}"].SetValue(row["MG4_KIND_ID"]);//股票期貨英文代碼
+            worksheet.Cells[$"D{RowIndex}"].SetValue(row["APDK_NAME"]);//股票期貨中文簡稱
+            worksheet.Cells[$"E{RowIndex}"].SetValue(row["APDK_STOCK_ID"]);//股票期貨標的證券代號
+            worksheet.Cells[$"F{RowIndex}"].SetValue(row["PID_NAME"]);//上市上櫃類別
+            worksheet.Cells[$"G{RowIndex}"].SetValue(row["MG4_CM"]);//結算保證金
+            worksheet.Cells[$"H{RowIndex}"].SetValue(row["MG4_MM"]);//維持保證金
+            worksheet.Cells[$"I{RowIndex}"].SetValue(row["MG4_IM"]);//原始保證金
 
             if (row["CNT"].AsInt() != 0) {
                worksheet.Cells[$"J{RowIndex}"].Formula = string.Format("=IF(C{0}=C{1},(G{0}-G{1})/G{1},\"\")", RowIndex, RowIndex - 1);
@@ -154,6 +167,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             if (dt.Rows.Count <= 0) {
                return MessageDisplay.MSG_OK;
             }
+            //查詢次數，9999代表全部
             int tolCount = _emCount == 0 ? 9999 : _emCount;
 
             string kindID = "";
@@ -162,7 +176,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                DataRow row = dt.Rows[k];
                if (kindID != row["MG4_KIND_ID"].AsString()) {
                   kindID = row["MG4_KIND_ID"].AsString();
-
+                  //每個商品別數量
                   int grpCount = row["CP_CNT"].AsInt();
 
                   bgColor = bgColor != ColorDecimal ? ColorDecimal : 16777215;//灰底or白底
@@ -174,17 +188,17 @@ namespace PhoenixCI.BusinessLogic.Prefix4
 
                RowIndex = RowIndex + 1;
 
-               worksheet.Cells[$"A{RowIndex}"].SetValue(row["CNT"]);
-               worksheet.Cells[$"B{RowIndex}"].SetValue(row["MG4_DATE"]);
-               worksheet.Cells[$"C{RowIndex}"].SetValue(row["MG4_KIND_ID"]);
-               worksheet.Cells[$"D{RowIndex}"].SetValue(row["MG4_CM"]);
-               worksheet.Cells[$"E{RowIndex}"].SetValue(row["MG4_MM"]);
-               worksheet.Cells[$"F{RowIndex}"].SetValue(row["MG4_IM"]);
+               worksheet.Cells[$"A{RowIndex}"].SetValue(row["CNT"]);//次數
+               worksheet.Cells[$"B{RowIndex}"].SetValue(row["MG4_DATE"]);//日期
+               worksheet.Cells[$"C{RowIndex}"].SetValue(row["MG4_KIND_ID"]);//商品別
+               worksheet.Cells[$"D{RowIndex}"].SetValue(row["MG4_CM"]);//結算保證金
+               worksheet.Cells[$"E{RowIndex}"].SetValue(row["MG4_MM"]);//維持保證金
+               worksheet.Cells[$"F{RowIndex}"].SetValue(row["MG4_IM"]);//原始保證金
 
                if (row["CNT"].AsInt() != 0) {
-                  worksheet.Cells[$"G{RowIndex}"].Formula = string.Format("=IF(C{0}=C{1},(D{0}-D{1})/D{1},\"\")", RowIndex, RowIndex - 1);
-                  worksheet.Cells[$"H{RowIndex}"].Formula = string.Format("=IF(C{0}=C{1},(E{0}-E{1})/E{1},\"\")", RowIndex, RowIndex - 1);
-                  worksheet.Cells[$"I{RowIndex}"].Formula = string.Format("=IF(C{0}=C{1},(F{0}-F{1})/F{1},\"\")", RowIndex, RowIndex - 1);
+                  worksheet.Cells[$"G{RowIndex}"].Formula = string.Format("=IF(C{0}=C{1},(D{0}-D{1})/D{1},\"\")", RowIndex, RowIndex - 1);//結算保證金調整幅度
+                  worksheet.Cells[$"H{RowIndex}"].Formula = string.Format("=IF(C{0}=C{1},(E{0}-E{1})/E{1},\"\")", RowIndex, RowIndex - 1);//維持保證金調整幅度
+                  worksheet.Cells[$"I{RowIndex}"].Formula = string.Format("=IF(C{0}=C{1},(F{0}-F{1})/F{1},\"\")", RowIndex, RowIndex - 1);//原始保證金調整幅度
                }
 
             }//for (int k = 0; k < dt.Rows.Count; k++)
@@ -222,6 +236,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             if (dt.Rows.Count <= 0) {
                return MessageDisplay.MSG_OK;
             }
+            //查詢次數，9999代表全部
             int tolCount = _emCount == 0 ? 9999 : _emCount;
 
             string kindID = "";
@@ -230,7 +245,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                DataRow row = dt.Rows[k];
                if (kindID != row["MG4_KIND_ID"].AsString()) {
                   kindID = row["MG4_KIND_ID"].AsString();
-
+                  //每個商品別數量
                   int grpCount = row["CP_CNT"].AsInt();
 
                   bgColor = bgColor != ColorDecimal ? ColorDecimal : 16777215;//灰底or白底
@@ -242,21 +257,21 @@ namespace PhoenixCI.BusinessLogic.Prefix4
 
                RowIndex = RowIndex + 1;
 
-               worksheet.Cells[$"A{RowIndex}"].SetValue(row["CNT"]);
-               worksheet.Cells[$"B{RowIndex}"].SetValue(row["MG4_DATE"]);
-               worksheet.Cells[$"C{RowIndex}"].SetValue(row["MG4_KIND_ID"]);
-               worksheet.Cells[$"D{RowIndex}"].SetValue("A值");
-               worksheet.Cells[$"E{RowIndex}"].SetValue(row["MG4_CM"]);
-               worksheet.Cells[$"F{RowIndex}"].SetValue(row["MG4_MM"]);
-               worksheet.Cells[$"G{RowIndex}"].SetValue(row["MG4_IM"]);
-               worksheet.Cells[$"H{RowIndex}"].SetValue("B值");
-               worksheet.Cells[$"I{RowIndex}"].SetValue(row["MG4_CM_B"]);
-               worksheet.Cells[$"J{RowIndex}"].SetValue(row["MG4_MM_B"]);
-               worksheet.Cells[$"K{RowIndex}"].SetValue(row["MG4_IM_B"]);
+               worksheet.Cells[$"A{RowIndex}"].SetValue(row["CNT"]);//次數
+               worksheet.Cells[$"B{RowIndex}"].SetValue(row["MG4_DATE"]);//日期
+               worksheet.Cells[$"C{RowIndex}"].SetValue(row["MG4_KIND_ID"]);//商品別
+               worksheet.Cells[$"D{RowIndex}"].SetValue("A值");//保證金別
+               worksheet.Cells[$"E{RowIndex}"].SetValue(row["MG4_CM"]);//結算保證金
+               worksheet.Cells[$"F{RowIndex}"].SetValue(row["MG4_MM"]);//維持保證金
+               worksheet.Cells[$"G{RowIndex}"].SetValue(row["MG4_IM"]);//原始保證金
+               worksheet.Cells[$"H{RowIndex}"].SetValue("B值");//保證金別
+               worksheet.Cells[$"I{RowIndex}"].SetValue(row["MG4_CM_B"]);//結算保證金
+               worksheet.Cells[$"J{RowIndex}"].SetValue(row["MG4_MM_B"]);//維持保證金
+               worksheet.Cells[$"K{RowIndex}"].SetValue(row["MG4_IM_B"]);//原始保證金
                if (row["CNT"].AsInt() != 0) {
-                  worksheet.Cells[$"L{RowIndex}"].Formula = string.Format("=(E{0}-E{1})/E{1}", RowIndex, RowIndex - 1);
-                  worksheet.Cells[$"M{RowIndex}"].Formula = string.Format("=(F{0}-F{1})/F{1}", RowIndex, RowIndex - 1);
-                  worksheet.Cells[$"N{RowIndex}"].Formula = string.Format("=(G{0}-G{1})/G{1}", RowIndex, RowIndex - 1);
+                  worksheet.Cells[$"L{RowIndex}"].Formula = string.Format("=(E{0}-E{1})/E{1}", RowIndex, RowIndex - 1);//結算保證金調整幅度
+                  worksheet.Cells[$"M{RowIndex}"].Formula = string.Format("=(F{0}-F{1})/F{1}", RowIndex, RowIndex - 1);//維持保證金調整幅度
+                  worksheet.Cells[$"N{RowIndex}"].Formula = string.Format("=(G{0}-G{1})/G{1}", RowIndex, RowIndex - 1);//原始保證金調整幅度
                }
 
             }//for (int k = 0; k < dt.Rows.Count; k++)

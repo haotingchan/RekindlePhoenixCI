@@ -8,7 +8,6 @@ using PhoenixCI.BusinessLogic.Prefix4;
 using System.IO;
 using Common;
 using System.Data;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DataObjects.Dao.Together;
@@ -23,6 +22,9 @@ namespace PhoenixCI.FormUI.Prefix4
    public partial class W40011 : FormParent
    {
       private B40011 b40011;
+      /// <summary>
+      /// 存檔路徑
+      /// </summary>
       private string _saveFilePath;
 
       public W40011(string programID, string programName) : base(programID, programName)
@@ -30,16 +32,10 @@ namespace PhoenixCI.FormUI.Prefix4
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
 
+         //預設交易時段
          OCFG daoOCFG = new OCFG();
          oswGrpLookItem.SetDataTable(daoOCFG.ListAll(), "OSW_GRP", "OSW_GRP_NAME", DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor, null);
          oswGrpLookItem.EditValue = daoOCFG.f_gen_osw_grp();
-      }
-
-      public override ResultStatus BeforeOpen()
-      {
-         base.BeforeOpen();
-
-         return ResultStatus.Success;
       }
 
       protected override ResultStatus Open()
@@ -50,14 +46,7 @@ namespace PhoenixCI.FormUI.Prefix4
 #else
          emDate.DateTimeValue = DateTime.Now;
 #endif
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus AfterOpen()
-      {
-         base.AfterOpen();
          emDate.Focus();
-
          return ResultStatus.Success;
       }
 
@@ -69,6 +58,10 @@ namespace PhoenixCI.FormUI.Prefix4
          return ResultStatus.Success;
       }
 
+      /// <summary>
+      /// 轉檔前檢查日期格式
+      /// </summary>
+      /// <returns></returns>
       private bool StartExport()
       {
          if (!emDate.IsDate(emDate.Text, "日期輸入錯誤")) {
@@ -102,6 +95,9 @@ namespace PhoenixCI.FormUI.Prefix4
          return true;
       }
 
+      /// <summary>
+      /// 轉檔後清除文字訊息
+      /// </summary>
       protected void EndExport()
       {
          stMsgTxt.Text = "";
@@ -111,6 +107,10 @@ namespace PhoenixCI.FormUI.Prefix4
          stMsgTxt.Visible = false;
       }
 
+      /// <summary>
+      /// show出訊息在label
+      /// </summary>
+      /// <param name="msg"></param>
       protected void ShowMsg(string msg)
       {
          stMsgTxt.Visible = true;
@@ -129,13 +129,6 @@ namespace PhoenixCI.FormUI.Prefix4
          return true;
       }
 
-      private string OutputShowMessage {
-         set {
-            if (value != MessageDisplay.MSG_OK)
-               MessageDisplay.Info(value);
-         }
-      }
-
       protected override ResultStatus Export()
       {
          if (!StartExport()) {
@@ -143,21 +136,23 @@ namespace PhoenixCI.FormUI.Prefix4
             return ResultStatus.Fail;
          }
          try {
+            MessageDisplay message = new MessageDisplay();
             //Sheet : rpt_future
             ShowMsg($"{_ProgramID}_1－保證金狀況表 轉檔中...");
-            OutputShowMessage = b40011.WfFutureSheet();
+            message.OutputShowMessage = b40011.WfFutureSheet();
             //Sheet : rpt_option
             ShowMsg($"{_ProgramID}_2－保證金狀況表 轉檔中...");
-            OutputShowMessage = b40011.WfOptionSheet();
+            message.OutputShowMessage = b40011.WfOptionSheet();
             //Sheet : fut_3index
             ShowMsg("40011_stat－保證金狀況表 轉檔中...");
-            OutputShowMessage = b40011.WfStat("F", "fut_3index");
+            message.OutputShowMessage = b40011.WfStat("F", "fut_3index");
             //Sheet : opt_3index
             ShowMsg("40011_stat－保證金狀況表 轉檔中...");
-            OutputShowMessage = b40011.WfStat("O", "opt_3index");
+            message.OutputShowMessage = b40011.WfStat("O", "opt_3index");
          }
          catch (Exception ex) {
-            File.Delete(_saveFilePath);
+            if (File.Exists(_saveFilePath))
+               File.Delete(_saveFilePath);
             WriteLog(ex);
             return ResultStatus.Fail;
          }

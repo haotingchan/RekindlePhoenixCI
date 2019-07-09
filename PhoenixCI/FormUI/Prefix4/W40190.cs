@@ -25,13 +25,6 @@ namespace PhoenixCI.FormUI.Prefix4
          this.Text = _ProgramID + "─" + _ProgramName;
       }
 
-      public override ResultStatus BeforeOpen()
-      {
-         base.BeforeOpen();
-
-         return ResultStatus.Success;
-      }
-
       protected override ResultStatus Open()
       {
          base.Open();
@@ -40,12 +33,6 @@ namespace PhoenixCI.FormUI.Prefix4
 #else
             emDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
 #endif
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus AfterOpen()
-      {
-         base.AfterOpen();
          emDate.Focus();
          return ResultStatus.Success;
       }
@@ -58,6 +45,10 @@ namespace PhoenixCI.FormUI.Prefix4
          return ResultStatus.Success;
       }
 
+      /// <summary>
+      /// 轉檔前檢查日期格式
+      /// </summary>
+      /// <returns></returns>
       private bool StartExport()
       {
          if (!emDate.IsDate(emDate.Text, "日期輸入錯誤")) {
@@ -75,7 +66,10 @@ namespace PhoenixCI.FormUI.Prefix4
          return true;
       }
 
-      protected void EndExport()
+      /// <summary>
+      /// 轉檔後清除文字訊息
+      /// </summary>
+      private void EndExport()
       {
          stMsgTxt.Text = "轉檔完成!";
          this.Cursor = Cursors.Arrow;
@@ -84,7 +78,11 @@ namespace PhoenixCI.FormUI.Prefix4
          stMsgTxt.Visible = false;
       }
 
-      protected void ShowMsg(string msg)
+      /// <summary>
+      /// show出訊息在label
+      /// </summary>
+      /// <param name="msg"></param>
+      private void ShowMsg(string msg)
       {
          stMsgTxt.Text = msg;
          this.Refresh();

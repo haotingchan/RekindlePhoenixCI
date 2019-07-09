@@ -8,8 +8,6 @@ using PhoenixCI.BusinessLogic.Prefix4;
 using DataObjects.Dao.Together;
 using System.IO;
 using Common;
-using DataObjects.Dao.Together.SpecificDao;
-using System.Data;
 /// <summary>
 /// john,20190416,保證金調整檢核表
 /// </summary>
@@ -21,35 +19,25 @@ namespace PhoenixCI.FormUI.Prefix4
    public partial class W40040 : FormParent
    {
       private B40040 b40040;
+      /// <summary>
+      /// 檔案輸出路徑
+      /// </summary>
       private string _saveFilePath;
 
       public W40040(string programID, string programName) : base(programID, programName)
       {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
-
+         //預設交易時段
          OCFG daoOCFG = new OCFG();
          oswGrpLookItem.SetDataTable(daoOCFG.ListAll(), "OSW_GRP", "OSW_GRP_NAME", DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor, null);
          oswGrpLookItem.EditValue = daoOCFG.f_gen_osw_grp();
-      }
-
-      public override ResultStatus BeforeOpen()
-      {
-         base.BeforeOpen();
-
-         return ResultStatus.Success;
       }
 
       protected override ResultStatus Open()
       {
          base.Open();
          emDate.Text = DateTime.Now.ToString("yyyy/MM/dd");
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus AfterOpen()
-      {
-         base.AfterOpen();
          emDate.Focus();
          return ResultStatus.Success;
       }
@@ -62,19 +50,21 @@ namespace PhoenixCI.FormUI.Prefix4
          return ResultStatus.Success;
       }
 
+      /// <summary>
+      /// 轉檔前檢查日期格式
+      /// </summary>
+      /// <returns></returns>
       private bool StartExport()
       {
          if (!emDate.IsDate(emDate.Text, CheckDate.Start)) {
             //is_chk = "Y";
             return false;
          }
-
-         
+         //交易時段
          string oswGrp = oswGrpLookItem.EditValue.AsString();
-         
 
-         string chkAi2 ="";
-         if (oswGrp=="1"|| oswGrp=="%") {
+         string chkAi2 = "";
+         if (oswGrp == "1" || oswGrp == "%") {
             chkAi2 = PbFunc.f_chk_ai2(emDate.Text.Replace("/", ""), oswGrp, "N", oswGrpLookItem.SelectedText, 2);
          }
          else if (oswGrp == "5" || oswGrp == "%") {
@@ -88,7 +78,7 @@ namespace PhoenixCI.FormUI.Prefix4
 
          stMsgTxt.Visible = true;
 
-         
+
          _saveFilePath = PbFunc.wf_copy_file(_ProgramID, "40040");
          b40040 = new B40040(_saveFilePath, emDate.Text, oswGrp);
 
@@ -99,6 +89,9 @@ namespace PhoenixCI.FormUI.Prefix4
          return true;
       }
 
+      /// <summary>
+      /// 轉檔後清除文字訊息
+      /// </summary>
       protected void EndExport()
       {
          stMsgTxt.Text = "轉檔完成!";
@@ -108,6 +101,10 @@ namespace PhoenixCI.FormUI.Prefix4
          stMsgTxt.Visible = false;
       }
 
+      /// <summary>
+      /// show出訊息在label
+      /// </summary>
+      /// <param name="msg"></param>
       protected void ShowMsg(string msg)
       {
          stMsgTxt.Text = msg;
@@ -115,32 +112,24 @@ namespace PhoenixCI.FormUI.Prefix4
          Thread.Sleep(5);
       }
 
-      private string OutputShowMessage {
-         set {
-            if (value == MessageDisplay.MSG_NO_DATA) {
-               value = MessageDisplay.MSG_NO_DATA;
-            }else if (value != MessageDisplay.MSG_OK)
-               MessageDisplay.Info(value);
-         }
-      }
-
-
       protected override ResultStatus Export()
       {
          if (!StartExport()) {
             return ResultStatus.Fail;
          }
          try {
+            MessageDisplay message = new MessageDisplay();
             //轉檔
             ShowMsg($"{_ProgramID}－保證金調整檢核表 轉檔中...");
-            OutputShowMessage = b40040.WfSheetOne();
+            message.OutputShowMessage = b40040.WfSheetOne();
             ShowMsg($"{_ProgramID}－保證金調整檢核表 轉檔中...");
-            OutputShowMessage = b40040.WfSheetTwo();
+            message.OutputShowMessage = b40040.WfSheetTwo();
             ShowMsg($"{_ProgramID}_SPAN－SPAN參數檔檢核結果 轉檔中...");
-            OutputShowMessage = b40040.Wf40040SPAN();
+            message.OutputShowMessage = b40040.Wf40040SPAN();
          }
          catch (Exception ex) {
-            File.Delete(_saveFilePath);
+            if (File.Exists(_saveFilePath))
+               File.Delete(_saveFilePath);
             WriteLog(ex);
             return ResultStatus.Fail;
          }

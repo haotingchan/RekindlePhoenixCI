@@ -37,12 +37,6 @@ namespace PhoenixCI.FormUI.Prefix4
       {
          base.Open();
          emDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus AfterOpen()
-      {
-         base.AfterOpen();
          emDate.Focus();
          return ResultStatus.Success;
       }
@@ -55,6 +49,10 @@ namespace PhoenixCI.FormUI.Prefix4
          return ResultStatus.Success;
       }
 
+      /// <summary>
+      /// 轉檔前檢查日期格式
+      /// </summary>
+      /// <returns></returns>
       private bool StartExport()
       {
          if (!emDate.IsDate(emDate.Text, CheckDate.Start)) {
@@ -72,6 +70,9 @@ namespace PhoenixCI.FormUI.Prefix4
          return true;
       }
 
+      /// <summary>
+      /// 轉檔後清除文字訊息
+      /// </summary>
       protected void EndExport()
       {
          stMsgTxt.Text = "轉檔完成!";
@@ -81,6 +82,10 @@ namespace PhoenixCI.FormUI.Prefix4
          stMsgTxt.Visible = false;
       }
 
+      /// <summary>
+      /// show出訊息在label
+      /// </summary>
+      /// <param name="msg"></param>
       protected void ShowMsg(string msg)
       {
          stMsgTxt.Visible = true;

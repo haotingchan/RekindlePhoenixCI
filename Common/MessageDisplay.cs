@@ -47,7 +47,7 @@ namespace Common {
       /// </summary>
       protected string _msg;
       /// <summary>
-      /// show文字訊息
+      /// show文字訊息，紀錄處理完成的狀態，如果是MessageDisplay.MSG_OK以外的訊息則為空值
       /// </summary>
       public string OutputShowMessage {
          set {

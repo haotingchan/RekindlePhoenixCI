@@ -3,7 +3,6 @@ using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
 using System.Data;
-using System.IO;
 using System.Linq;
 /// <summary>
 /// 20190320,john,標的證券為受益憑證之上市證券保證金狀況表
@@ -15,9 +14,18 @@ namespace PhoenixCI.BusinessLogic.Prefix4
    /// </summary>
    public class B43030
    {
+      /// <summary>
+      /// 檔案輸出路徑
+      /// </summary>
       private readonly string _lsFile;
+      /// <summary>
+      /// 交易日期
+      /// </summary>
       private readonly string _emDateText;
-      private D43030 dao43030;
+      /// <summary>
+      /// DataLayer
+      /// </summary>
+      private readonly D43030 dao43030;
 
       /// <summary>
       /// 

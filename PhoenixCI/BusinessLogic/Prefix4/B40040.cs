@@ -17,9 +17,21 @@ namespace PhoenixCI.BusinessLogic.Prefix4
    /// </summary>
    public class B40040
    {
+      /// <summary>
+      /// 檔案輸出路徑
+      /// </summary>
       private readonly string _lsFile;
+      /// <summary>
+      /// 交易日期
+      /// </summary>
       private readonly string _emDateText;
+      /// <summary>
+      /// 交易時段
+      /// </summary>
       private readonly string _oswGrpVal;
+      /// <summary>
+      /// DataLayer
+      /// </summary>
       private readonly D40040 dao40040;
 
       public B40040(string FilePath, string emDate, string oswGrpLookItemVal)
