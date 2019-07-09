@@ -144,10 +144,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //1.設定一些變數,把邏輯直接寫在該變數屬性內
             List<string> listCode = new List<string>();//多筆,用逗號分隔
             if (cbxProd.Items[0].CheckState == CheckState.Checked) {
-               listCode.Add("1");
+               listCode.Add("'1'");
             }
             if (cbxProd.Items[1].CheckState == CheckState.Checked) {
-               listCode.Add("5");
+               listCode.Add("'5'");
             }
 
             DataTable dtTemp = new SPNT1().ListData();
