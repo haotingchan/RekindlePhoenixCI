@@ -379,7 +379,7 @@ and mgt2_kind_id= rpt_value
             ":as_ymd", as_ymd
          };
 
-         string as_osw_grp = string.Join(",", oswGrps.ToArray());
+         string as_osw_grp = string.Join(",", oswGrps.ToArray()).Replace("\"" , "");
 
          string sql = string.Format(@"
 select mgr4_ymd,

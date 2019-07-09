@@ -9,7 +9,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
          txtAftStartYM.DateTimeValue = GlobalInfo.OCF_DATE;
-         ddlScCode.Text = "全部";
+         ddlScCode.SelectedIndex = 0;
 
          labMsg.Hide();
       }

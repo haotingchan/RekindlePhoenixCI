@@ -26,29 +26,29 @@
         /// </summary>
         private void InitializeComponent() {
          this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
-         this.exportType = new DevExpress.XtraEditors.LookUpEdit();
          this.txtDate = new BaseGround.Widget.TextDateEdit();
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
-         this.ExportShow = new System.Windows.Forms.Label();
+         this.grpxDescription = new System.Windows.Forms.GroupBox();
+         this.exportType = new DevExpress.XtraEditors.ComboBoxEdit();
          this.groupBox1 = new System.Windows.Forms.GroupBox();
          this.label6 = new System.Windows.Forms.Label();
          this.txt = new DevExpress.XtraEditors.TextEdit();
          this.label7 = new System.Windows.Forms.Label();
+         this.label1 = new System.Windows.Forms.Label();
          this.groupBox2 = new System.Windows.Forms.GroupBox();
          this.label4 = new System.Windows.Forms.Label();
-         this.label1 = new System.Windows.Forms.Label();
-         this.grpxDescription = new System.Windows.Forms.GroupBox();
+         this.ExportShow = new System.Windows.Forms.Label();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.exportType.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
          this.r_frame.SuspendLayout();
+         this.grpxDescription.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.exportType.Properties)).BeginInit();
          this.groupBox1.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.txt.Properties)).BeginInit();
          this.groupBox2.SuspendLayout();
-         this.grpxDescription.SuspendLayout();
          this.SuspendLayout();
          // 
          // panParent
@@ -70,19 +70,6 @@
          this.panelControl1.Name = "panelControl1";
          this.panelControl1.Size = new System.Drawing.Size(1088, 717);
          this.panelControl1.TabIndex = 0;
-         // 
-         // exportType
-         // 
-         this.exportType.Location = new System.Drawing.Point(152, 269);
-         this.exportType.Name = "exportType";
-         this.exportType.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-         this.exportType.Properties.AppearanceDisabled.Options.UseBackColor = true;
-         this.exportType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.exportType.Properties.NullText = "";
-         this.exportType.Properties.PopupSizeable = false;
-         this.exportType.Size = new System.Drawing.Size(150, 26);
-         this.exportType.TabIndex = 68;
          // 
          // txtDate
          // 
@@ -115,17 +102,39 @@
          this.r_frame.Size = new System.Drawing.Size(438, 362);
          this.r_frame.TabIndex = 82;
          // 
-         // ExportShow
+         // grpxDescription
          // 
-         this.ExportShow.AutoSize = true;
-         this.ExportShow.ForeColor = System.Drawing.Color.Blue;
-         this.ExportShow.Location = new System.Drawing.Point(26, 400);
-         this.ExportShow.MaximumSize = new System.Drawing.Size(360, 120);
-         this.ExportShow.Name = "ExportShow";
-         this.ExportShow.Size = new System.Drawing.Size(85, 20);
-         this.ExportShow.TabIndex = 80;
-         this.ExportShow.Text = "開始轉檔...";
-         this.ExportShow.Visible = false;
+         this.grpxDescription.AutoSize = true;
+         this.grpxDescription.Controls.Add(this.exportType);
+         this.grpxDescription.Controls.Add(this.groupBox1);
+         this.grpxDescription.Controls.Add(this.label1);
+         this.grpxDescription.Controls.Add(this.groupBox2);
+         this.grpxDescription.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
+         this.grpxDescription.ForeColor = System.Drawing.Color.Navy;
+         this.grpxDescription.Location = new System.Drawing.Point(15, 20);
+         this.grpxDescription.Name = "grpxDescription";
+         this.grpxDescription.Size = new System.Drawing.Size(407, 323);
+         this.grpxDescription.TabIndex = 16;
+         this.grpxDescription.TabStop = false;
+         this.grpxDescription.Text = "請輸入交易日期";
+         // 
+         // exportType
+         // 
+         this.exportType.Location = new System.Drawing.Point(152, 269);
+         this.exportType.MenuManager = this.ribbonControl;
+         this.exportType.Name = "exportType";
+         this.exportType.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+         this.exportType.Properties.Appearance.Options.UseBackColor = true;
+         this.exportType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.exportType.Properties.Items.AddRange(new object[] {
+            "增及減併列",
+            "新增",
+            "減少"});
+         this.exportType.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.exportType.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
+         this.exportType.Size = new System.Drawing.Size(150, 26);
+         this.exportType.TabIndex = 83;
          // 
          // groupBox1
          // 
@@ -171,6 +180,17 @@
          this.label7.TabIndex = 2;
          this.label7.Text = "年度+季別：";
          // 
+         // label1
+         // 
+         this.label1.AutoSize = true;
+         this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
+         this.label1.ForeColor = System.Drawing.Color.Black;
+         this.label1.Location = new System.Drawing.Point(61, 272);
+         this.label1.Name = "label1";
+         this.label1.Size = new System.Drawing.Size(94, 21);
+         this.label1.TabIndex = 16;
+         this.label1.Text = "報表類別 ：";
+         // 
          // groupBox2
          // 
          this.groupBox2.AutoSize = true;
@@ -195,32 +215,17 @@
          this.label4.TabIndex = 2;
          this.label4.Text = "日期：";
          // 
-         // label1
+         // ExportShow
          // 
-         this.label1.AutoSize = true;
-         this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
-         this.label1.ForeColor = System.Drawing.Color.Black;
-         this.label1.Location = new System.Drawing.Point(61, 272);
-         this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(94, 21);
-         this.label1.TabIndex = 16;
-         this.label1.Text = "報表類別 ：";
-         // 
-         // grpxDescription
-         // 
-         this.grpxDescription.AutoSize = true;
-         this.grpxDescription.Controls.Add(this.exportType);
-         this.grpxDescription.Controls.Add(this.groupBox1);
-         this.grpxDescription.Controls.Add(this.label1);
-         this.grpxDescription.Controls.Add(this.groupBox2);
-         this.grpxDescription.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
-         this.grpxDescription.ForeColor = System.Drawing.Color.Navy;
-         this.grpxDescription.Location = new System.Drawing.Point(15, 20);
-         this.grpxDescription.Name = "grpxDescription";
-         this.grpxDescription.Size = new System.Drawing.Size(407, 323);
-         this.grpxDescription.TabIndex = 16;
-         this.grpxDescription.TabStop = false;
-         this.grpxDescription.Text = "請輸入交易日期";
+         this.ExportShow.AutoSize = true;
+         this.ExportShow.ForeColor = System.Drawing.Color.Blue;
+         this.ExportShow.Location = new System.Drawing.Point(26, 400);
+         this.ExportShow.MaximumSize = new System.Drawing.Size(360, 120);
+         this.ExportShow.Name = "ExportShow";
+         this.ExportShow.Size = new System.Drawing.Size(85, 20);
+         this.ExportShow.TabIndex = 80;
+         this.ExportShow.Text = "開始轉檔...";
+         this.ExportShow.Visible = false;
          // 
          // W35020
          // 
@@ -238,18 +243,18 @@
          this.panParent.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.exportType.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).EndInit();
          this.r_frame.ResumeLayout(false);
          this.r_frame.PerformLayout();
+         this.grpxDescription.ResumeLayout(false);
+         this.grpxDescription.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.exportType.Properties)).EndInit();
          this.groupBox1.ResumeLayout(false);
          this.groupBox1.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.txt.Properties)).EndInit();
          this.groupBox2.ResumeLayout(false);
          this.groupBox2.PerformLayout();
-         this.grpxDescription.ResumeLayout(false);
-         this.grpxDescription.PerformLayout();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -259,7 +264,6 @@
 
         private DevExpress.XtraEditors.PanelControl panelControl1;
         private BaseGround.Widget.TextDateEdit txtDate;
-        private DevExpress.XtraEditors.LookUpEdit exportType;
       private System.Windows.Forms.Label ExportShow;
       private DevExpress.XtraEditors.PanelControl r_frame;
       private System.Windows.Forms.GroupBox groupBox1;
@@ -270,5 +274,6 @@
       private System.Windows.Forms.Label label1;
       private System.Windows.Forms.GroupBox groupBox2;
       private System.Windows.Forms.Label label4;
+      private DevExpress.XtraEditors.ComboBoxEdit exportType;
    }
 }
