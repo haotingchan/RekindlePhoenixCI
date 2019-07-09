@@ -353,13 +353,13 @@ namespace PhoenixCI.FormUI.Prefix5
                   //紀錄刪除前的資料
                   DataRow drNewDelete = dtTemp.NewRow();
                   for (int colIndex = 0; colIndex < ChangedForDeleted.Columns.Count; colIndex++) {
-                     //更新刪除時間
-                     if (ChangedForDeleted.Columns[colIndex].ColumnName== "MMF_W_USER_ID"||
-                        ChangedForDeleted.Columns[colIndex].ColumnName == "MMF_W_TIME") {
-                        drNewDelete["MMF_W_USER_ID"] = GlobalInfo.USER_ID;
-                        drNewDelete["MMF_W_TIME"] = DateTime.Now;
-                        continue;
-                     }
+                     ////更新刪除時間
+                     //if (ChangedForDeleted.Columns[colIndex].ColumnName== "MMF_W_USER_ID"||
+                     //   ChangedForDeleted.Columns[colIndex].ColumnName == "MMF_W_TIME") {
+                     //   drNewDelete["MMF_W_USER_ID"] = GlobalInfo.USER_ID;
+                     //   drNewDelete["MMF_W_TIME"] = DateTime.Now;
+                     //   continue;
+                     //}
                      drNewDelete[colIndex] = dr[colIndex, DataRowVersion.Original];
                   }
                   dtTemp.Rows.Add(drNewDelete);
