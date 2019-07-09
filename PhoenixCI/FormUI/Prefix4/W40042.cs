@@ -9,7 +9,6 @@ using System.IO;
 using Common;
 using DevExpress.XtraGrid.Views.Grid;
 using System.Data;
-using DevExpress.Utils.Drawing;
 using System.Drawing;
 using DevExpress.XtraEditors.Repository;
 using DataObjects.Dao.Together;
@@ -24,8 +23,13 @@ namespace PhoenixCI.FormUI.Prefix4
    public partial class W40042 : FormParent
    {
       private B40042 b40042;
-
+      /// <summary>
+      /// 空元件(替代非TextEditor)
+      /// </summary>
       private RepositoryItemButtonEdit emptyEditor;
+      /// <summary>
+      /// 時段選單
+      /// </summary>
       private RepositoryItemLookUpEdit OSW_GRP_LookUpEdit;
 
       public W40042(string programID, string programName) : base(programID, programName)
@@ -56,10 +60,11 @@ namespace PhoenixCI.FormUI.Prefix4
          CreateEmptyItem();
          b40042 = new B40042();
          Retrieve();
-
+         //抓取交易日期
          string emdate = gvMain.GetRowCellValue(0, gvMain.Columns["DT_DATE"]).AsDateTime().ToString("yyyy/MM/dd");
-
+         //交易日期
          DateLabel.Text = emdate;
+         //狀態顯示
          StatusLabel.Text = b40042.Status(emdate);
 #if DEBUG
          //DateLabel.Text = "2018/10/12";
@@ -89,6 +94,10 @@ namespace PhoenixCI.FormUI.Prefix4
          return ResultStatus.Success;
       }
 
+      /// <summary>
+      /// 轉檔前檢查
+      /// </summary>
+      /// <returns></returns>
       private bool StartExport()
       {
          stMsgTxt.Visible = true;
@@ -98,20 +107,23 @@ namespace PhoenixCI.FormUI.Prefix4
          Thread.Sleep(5);
 
          DataTable dt = (DataTable)gcMain.DataSource;
+         MessageDisplay message = new MessageDisplay();
 #if DEBUG
-         string msg = b40042.ExportBeforeCheck(dt, GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH);
+         message.OutputShowMessage = b40042.ExportBeforeCheck(dt, GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH);
 #else
-         string msg = b40042.ExportBeforeCheck(dt);
+         message.OutputShowMessage = b40042.ExportBeforeCheck(dt);
 #endif
 
-         OutputShowMessage = msg;
-         if (msg != MessageDisplay.MSG_OK) {
+         if (string.IsNullOrEmpty(message.OutputShowMessage)) {
             return false;
          }
 
          return true;
       }
 
+      /// <summary>
+      /// 轉檔後清除文字訊息
+      /// </summary>
       protected void EndExport()
       {
          stMsgTxt.Text = "";
@@ -121,6 +133,10 @@ namespace PhoenixCI.FormUI.Prefix4
          stMsgTxt.Visible = false;
       }
 
+      /// <summary>
+      /// show出訊息在label
+      /// </summary>
+      /// <param name="msg"></param>
       protected void ShowMsg(string msg)
       {
          stMsgTxt.Text = msg;
@@ -138,13 +154,6 @@ namespace PhoenixCI.FormUI.Prefix4
          return true;
       }
 
-      private string OutputShowMessage {
-         set {
-            if (value != MessageDisplay.MSG_OK)
-               MessageDisplay.Info(value);
-         }
-      }
-
       protected override ResultStatus Export()
       {
 
@@ -154,22 +163,24 @@ namespace PhoenixCI.FormUI.Prefix4
                return ResultStatus.Fail;
             }
             b40042 = new B40042(saveFilePath, DateLabel.Text, GlobalInfo.USER_ID);
+            MessageDisplay message = new MessageDisplay();
 
             ShowMsg($"{_ProgramID}_mg1－股票期貨保證金狀況表－標的證券為受益憑證 轉檔中...");
-            OutputShowMessage = b40042.Wf40042();
+            message.OutputShowMessage = b40042.Wf40042();
             ShowMsg($"{_ProgramID}_40011_1－保證金狀況表 轉檔中...");
-            OutputShowMessage = b40042.Wf40011Fut();
+            message.OutputShowMessage = b40042.Wf40011Fut();
             ShowMsg($"{_ProgramID}_40011_2－保證金狀況表 轉檔中...");
-            OutputShowMessage = b40042.Wf40011Opt();
+            message.OutputShowMessage = b40042.Wf40011Opt();
             ShowMsg($"{_ProgramID}_40012_1－保證金狀況表 轉檔中...");
-            OutputShowMessage = b40042.Wf40012Fut();
+            message.OutputShowMessage = b40042.Wf40012Fut();
             ShowMsg($"{_ProgramID}_40012_2－保證金狀況表 轉檔中...");
-            OutputShowMessage = b40042.Wf40012Opt();
+            message.OutputShowMessage = b40042.Wf40012Opt();
             ShowMsg($"{_ProgramID}_40013_1－保證金狀況表 轉檔中...");
-            OutputShowMessage = b40042.Wf40013Fut();
+            message.OutputShowMessage = b40042.Wf40013Fut();
          }
          catch (Exception ex) {
-            File.Delete(saveFilePath);
+            if (File.Exists(saveFilePath))
+               File.Delete(saveFilePath);
             WriteLog(ex);
             return ResultStatus.Fail;
          }
@@ -282,8 +293,8 @@ namespace PhoenixCI.FormUI.Prefix4
          Color colorMint = Color.FromArgb(192, 220, 192);//綠背景色
 
          switch (e.Column.FieldName) {
-            case "AI5_SETTLE_PRICE":
-               var fkindid = view.GetRowCellValue(index, view.Columns["F_KIND_ID"]);
+            case "AI5_SETTLE_PRICE"://近月份期貨價格
+               var fkindid = view.GetRowCellValue(index, view.Columns["F_KIND_ID"]);//契約代碼
                if (!string.IsNullOrEmpty(fkindid.AsString())) {
                   e.Appearance.BackColor = Color.White;
                }
@@ -291,7 +302,7 @@ namespace PhoenixCI.FormUI.Prefix4
                   e.Appearance.BackColor = colorMint;
                }
                break;
-            case "TFXM1_SFD_FPR":
+            case "TFXM1_SFD_FPR"://標的現貨收盤價格
                var flag = view.GetRowCellValue(index, view.Columns["SFD_UPD_FLAG"]).AsString();
                if (flag == "Y") {
                   e.Appearance.BackColor = Color.White;

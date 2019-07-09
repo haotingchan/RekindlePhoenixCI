@@ -1,16 +1,9 @@
-﻿using BaseGround.Shared;
-using Common;
-using DataObjects.Dao.Together;
+﻿using Common;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 /// <summary>
 /// 20190312,john,指數類期貨及現貨資料下載
 /// </summary>
@@ -21,9 +14,18 @@ namespace PhoenixCI.BusinessLogic.Prefix4
    /// </summary>
    public class B40200
    {
-      private string lsFile;
-      private string startDateText;
-      private string endDateText;
+      /// <summary>
+      /// 檔案輸出路徑
+      /// </summary>
+      private readonly string _lsFile;
+      /// <summary>
+      /// 日期 起始日期
+      /// </summary>
+      private readonly string _startDateText;
+      /// <summary>
+      /// 日期 迄止日期
+      /// </summary>
+      private readonly string _endDateText;
 
       /// <summary>
       /// 
@@ -31,9 +33,9 @@ namespace PhoenixCI.BusinessLogic.Prefix4
       /// <param name="FilePath">Excel_Template</param>
       public B40200(string FilePath,string StartDate,string EndDate)
       {
-         lsFile = FilePath;
-         startDateText = StartDate;
-         endDateText = EndDate;
+         _lsFile = FilePath;
+         _startDateText = StartDate;
+         _endDateText = EndDate;
       }
       /// <summary>
       /// wf_40200()
@@ -46,11 +48,11 @@ namespace PhoenixCI.BusinessLogic.Prefix4
       {
          Workbook workbook = new Workbook();
          try {
-            DateTime startDate = startDateText.AsDateTime();
-            DateTime endDate = endDateText.AsDateTime();
+            DateTime startDate = _startDateText.AsDateTime();
+            DateTime endDate = _endDateText.AsDateTime();
             
             //切換Sheet
-            workbook.LoadDocument(lsFile);
+            workbook.LoadDocument(_lsFile);
             Worksheet worksheet = workbook.Worksheets[SheetName];
 
             //讀取資料
@@ -108,7 +110,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             throw ex;
          }
          finally {
-            workbook.SaveDocument(lsFile);
+            workbook.SaveDocument(_lsFile);
          }
 
          return MessageDisplay.MSG_OK;

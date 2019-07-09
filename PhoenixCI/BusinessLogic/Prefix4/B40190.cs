@@ -5,7 +5,6 @@ using DevExpress.Spreadsheet;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.IO;
 using System.Linq;
 using System.Text;
 /// <summary>
@@ -18,8 +17,17 @@ namespace PhoenixCI.BusinessLogic.Prefix4
    /// </summary>
    public class B40190
    {
+      /// <summary>
+      /// 檔案輸出路徑
+      /// </summary>
       private readonly string _lsFile;
+      /// <summary>
+      /// 交易日期
+      /// </summary>
       private readonly string _emDateText;
+      /// <summary>
+      /// DataLayer
+      /// </summary>
       private readonly D40190 dao40190;
 
       /// <summary>

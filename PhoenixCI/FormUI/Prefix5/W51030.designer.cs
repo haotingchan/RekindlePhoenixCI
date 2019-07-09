@@ -435,7 +435,7 @@
          this.t8.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.t8.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
          this.t8.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.t8.Caption = " 報價\n有效量\n比率";
+         this.t8.Caption = "報價\n有效量\n比率";
          this.t8.Columns.Add(this.MMF_QUOTE_VALID_RATE);
          this.t8.Name = "t8";
          this.t8.VisibleIndex = 7;

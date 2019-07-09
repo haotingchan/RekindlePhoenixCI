@@ -2,7 +2,6 @@
 using System.Windows.Forms;
 using BaseGround;
 using BusinessObjects.Enums;
-using BaseGround.Report;
 using Common;
 using BaseGround.Shared;
 using System.Threading;
@@ -26,24 +25,11 @@ namespace PhoenixCI.FormUI.Prefix4
          this.Text = _ProgramID + "─" + _ProgramName;
       }
 
-      public override ResultStatus BeforeOpen()
-      {
-         base.BeforeOpen();
-
-         return ResultStatus.Success;
-      }
-
       protected override ResultStatus Open()
       {
          base.Open();
          emStartDate.Text = DateTime.Today.ToString("yyyy/MM/dd");
          emEndDate.Text = DateTime.Today.ToString("yyyy/MM/dd");
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus AfterOpen()
-      {
-         base.AfterOpen();
          emStartDate.Focus();
          return ResultStatus.Success;
       }
@@ -56,6 +42,10 @@ namespace PhoenixCI.FormUI.Prefix4
          return ResultStatus.Success;
       }
 
+      /// <summary>
+      /// 轉檔前檢查日期格式
+      /// </summary>
+      /// <returns></returns>
       private bool StartExport()
       {
          if (!emStartDate.IsDate(emStartDate.Text, CheckDate.Start)) {
@@ -77,6 +67,9 @@ namespace PhoenixCI.FormUI.Prefix4
          return true;
       }
 
+      /// <summary>
+      /// 轉檔後清除文字訊息
+      /// </summary>
       protected void EndExport()
       {
          stMsgTxt.Text = "轉檔完成!";
@@ -86,6 +79,10 @@ namespace PhoenixCI.FormUI.Prefix4
          stMsgTxt.Visible = false;
       }
 
+      /// <summary>
+      /// show出訊息在label
+      /// </summary>
+      /// <param name="msg"></param>
       protected void ShowMsg(string msg)
       {
          stMsgTxt.Visible = true;
@@ -94,42 +91,35 @@ namespace PhoenixCI.FormUI.Prefix4
          Thread.Sleep(5);
       }
 
-      private string OutputShowMessage {
-         set {
-            if (value != MessageDisplay.MSG_OK)
-               MessageDisplay.Info(value);
-         }
-      }
-
       protected override ResultStatus Export()
       {
          if (!StartExport()) {
             return ResultStatus.Fail;
          }
          string saveFilePath = PbFunc.wf_copy_file(_ProgramID, "40200");
-         string msg;
+         MessageDisplay message = new MessageDisplay();
          try {
             b40200 = new B40200(saveFilePath, emStartDate.Text, emEndDate.Text);
 
-
             ShowMsg("40200－指數類期貨價格及現貨資料下載 轉檔中...");
-            msg = b40200.Wf40200();
-            OutputShowMessage = msg;
+            message.OutputShowMessage = b40200.Wf40200();
+            if (string.IsNullOrEmpty(message.OutputShowMessage)) {
+               ShowMsg("轉檔有錯誤!");
+               if (File.Exists(saveFilePath))
+                  File.Delete(saveFilePath);
+               return ResultStatus.Fail;
+            }
          }
          catch (Exception ex) {
             ShowMsg("轉檔有錯誤!");
             this.Cursor = Cursors.Arrow;
+            if (File.Exists(saveFilePath))
+               File.Delete(saveFilePath);
             WriteLog(ex);
             return ResultStatus.Fail;
          }
          finally {
             EndExport();
-         }
-
-         if (msg != MessageDisplay.MSG_OK) {
-            ShowMsg("轉檔有錯誤!");
-            File.Delete(saveFilePath);
-            return ResultStatus.Fail;
          }
 
          return ResultStatus.Success;

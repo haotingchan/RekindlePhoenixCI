@@ -1,6 +1,5 @@
 ﻿using BaseGround.Shared;
 using Common;
-using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
 using System.Data;
@@ -15,8 +14,17 @@ namespace PhoenixCI.BusinessLogic.Prefix4
    /// </summary>
    public class B40060
    {
+      /// <summary>
+      /// 檔案輸出路徑
+      /// </summary>
       private readonly string _lsFile;
+      /// <summary>
+      /// 在W40050傳進來的DataTable
+      /// </summary>
       private readonly DataTable _Data;
+      /// <summary>
+      /// 查詢次數
+      /// </summary>
       private readonly int _emCount;
 
       public B40060(string FilePath, DataTable dataTable, int emCount)
@@ -26,6 +34,13 @@ namespace PhoenixCI.BusinessLogic.Prefix4
          _Data = dataTable;
       }
 
+      /// <summary>
+      /// 依照查詢次數決定顯示數量
+      /// </summary>
+      /// <param name="tolCount">查詢次數</param>
+      /// <param name="k">迴圈變數</param>
+      /// <param name="grpCount">個別商品別筆數</param>
+      /// <returns></returns>
       private static int GrpCount(int tolCount, int k, int grpCount)
       {
          if (grpCount > 0 && grpCount > tolCount) {
@@ -81,8 +96,6 @@ namespace PhoenixCI.BusinessLogic.Prefix4
          }//for (int k = 0; k < dt.Rows.Count; k++)
          worksheet.Rows.Remove(RowIndex, dt.Rows.Count);
       }
-
-      
 
       /// <summary>
       /// wf_40061()

@@ -1,16 +1,9 @@
-﻿using BaseGround.Shared;
-using Common;
-using DataObjects.Dao.Together;
+﻿using Common;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 /// <summary>
 /// 20190321,john,股票類(ETF)期貨價格及現貨資料下載
 /// </summary>
@@ -21,9 +14,18 @@ namespace PhoenixCI.BusinessLogic.Prefix4
    /// </summary>
    public class B43033
    {
+      /// <summary>
+      /// 檔案輸出路徑
+      /// </summary>
       private readonly string _lsFile;
-      private string _startDateText;
-      private string _endDateText;
+      /// <summary>
+      /// 日期 起始日期
+      /// </summary>
+      private readonly string _startDateText;
+      /// <summary>
+      /// 日期 迄止日期
+      /// </summary>
+      private readonly string _endDateText;
 
       /// <summary>
       /// 
