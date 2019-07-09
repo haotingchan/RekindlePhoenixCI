@@ -1,12 +1,6 @@
-﻿using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
+﻿using System.Drawing;
 using DevExpress.XtraReports.UI;
 using System.Data;
-using DevExpress.Data;
-using DevExpress.XtraGrid.Views.Grid;
-using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraPrinting;
 using System.Collections.Generic;
 using Common;
@@ -28,17 +22,19 @@ namespace BaseGround.Report
          InitializeComponent();
          this.DataSource = gridData;
          this.DataMember = gridData.TableName;
-
+         //計算整體報表寬度
          int colwidthSum = caption.Select(x => x.CellWidth).Sum();
-
+         //欄位總數
          int colCount = caption.Count;
-         int pagewidth = (PageWidth - (Margins.Left + Margins.Right));
+         int pagewidth = PageWidth - (Margins.Left + Margins.Right);
+         //無設置寬度每個欄位寬度平均
          int colWidth = pagewidth / colCount;
          PageHeadertable = new XRTable();
          XRTableRow PageHeaderRow = new XRTableRow();
          Detailtable = new XRTable();
          XRTableRow DetailRow = new XRTableRow();
          foreach (var col in caption) {
+            //報表標頭
             XRTableCell PageHeaderCel = new XRTableCell();
             int cellwidth = col?.CellWidth == null ? colWidth.AsInt() : col.CellWidth;
             PageHeaderCel.Width = cellwidth;
@@ -49,6 +45,8 @@ namespace BaseGround.Report
             PageHeaderCel.Text = col.Caption;
             PageHeaderCel.Font = new Font(Font.FontFamily, col.HeaderFontSize, Font.Style, Font.Unit);
             PageHeaderRow.Cells.Add(PageHeaderCel);
+
+            //報表內容
             XRTableCell DetailCel = new XRTableCell();
             DetailCel.Width = cellwidth;
             DetailCel.Font = new Font(Font.FontFamily, col.DetailRowFontSize, Font.Style, Font.Unit);
@@ -78,7 +76,10 @@ namespace BaseGround.Report
          Bands[BandKind.PageHeader].Controls.Add(PageHeadertable);
          Bands[BandKind.Detail].Controls.Add(Detailtable);
       }
-
+      /// <summary>
+      /// 設置報表底下說明
+      /// </summary>
+      /// <param name="memo"></param>
       public void SetMemoInPageFooter(string memo)
       {
          XRTable xrTableFooter = new XRTable();
