@@ -348,7 +348,8 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             DataTable dtETF = dao40040.List40040SP(emdate, _oswGrpVal);
             //dt.Filter("PDK_PARAM_KEY in ('ETF','ETC')").Sort("RPT_SEQ_NO, DATA_KIND_ID");
             DataTable dt = dtETF.Filter("PDK_PARAM_KEY in ('ETF','ETC')").Sort("RPT_SEQ_NO, DATA_KIND_ID");
-            if (dt.Rows.Count <= 0) {
+            int rowCount = dt.Rows.Count;
+            if (rowCount <= 0) {
                return MessageDisplay.MSG_NO_DATA;
             }
 
@@ -412,6 +413,9 @@ namespace PhoenixCI.BusinessLogic.Prefix4
 
                rowIndex++;
             }
+            //刪除
+            if (rowCount < 50)
+               worksheet.Range[$"{rowIndex}:{56}"].Delete();
             //save
             worksheet.ScrollTo(0, 0);
          }
