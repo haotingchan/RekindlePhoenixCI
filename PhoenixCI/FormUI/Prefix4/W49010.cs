@@ -67,11 +67,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             gvMain.AppearancePrint.BandPanel.Options.UseTextOptions = true;
             gvMain.AppearancePrint.BandPanel.TextOptions.WordWrap = WordWrap.Wrap;
-            gvMain.AppearancePrint.BandPanel.Font = new Font("Microsoft YaHei" , 11);
+            gvMain.AppearancePrint.BandPanel.Font = new Font("Microsoft YaHei" , 10);
 
-            gvMain.AppearancePrint.Row.Font = new Font("Microsoft YaHei" , 11);
+            gvMain.AppearancePrint.Row.Font = new Font("Microsoft YaHei" , 10);
             gvMain.OptionsPrint.AllowMultilineHeaders = true;
-            gvMain.AppearancePrint.GroupRow.Font = new Font("Microsoft YaHei" , 11);
+            gvMain.AppearancePrint.GroupRow.Font = new Font("Microsoft YaHei" , 10);
 
             gvMain.BestFitColumns();
             GridHelper.SetCommonGrid(gvMain);

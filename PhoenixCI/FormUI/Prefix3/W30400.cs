@@ -340,9 +340,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
             string eDate = PbFunc.f_get_end_day("AI3" , strKindId , txtMon.Text).ToString("yyyy/MM/dd"); //抓當月最後交易日
 
             //2. 讀取資料
-            if (strKindId != "%") {
-               strKindId += "%";
-            }
             DataTable dt30404 = dao30400.Get30404Data(strKindId , sDate , eDate);
             if (dt30404.Rows.Count <= 0) {
                MessageDisplay.Info(String.Format("{0}~{1},30404 - {2},無任何資料!" , sDate , eDate , rptName) , GlobalInfo.ResultText);

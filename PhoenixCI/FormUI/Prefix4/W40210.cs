@@ -142,7 +142,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             labMsg.Visible = true;
             ShowMsg("訊息：資料轉出中........");
             //1.設定一些變數,把邏輯直接寫在該變數屬性內
-            List<string> listCode = new List<string>();//多筆,用逗號分隔
+            List<string> listCode = new List<string>();//多筆,用逗號分隔            
             if (cbxProd.Items[0].CheckState == CheckState.Checked) {
                listCode.Add("'1'");
             }
@@ -560,6 +560,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             string reportName = "期貨契約PSR";
             ShowMsg(reportId + '－' + reportName + " 轉檔中...");
             //1.get dataTable
+            string as_osw_grp = string.Join("," , is_code.ToArray()).Replace("\"" , "");
+            WriteLog(as_osw_grp , "info" , " " , false , true);
             DataTable dtTarget = dao40210.d_40210_6(is_eymd , is_code);
 
             if (dtTarget.Rows.Count <= 0) {
