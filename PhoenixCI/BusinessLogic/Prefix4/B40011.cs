@@ -1,15 +1,12 @@
-﻿using BaseGround.Shared;
-using Common;
+﻿using Common;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 /// <summary>
-/// john,20190410,保證金狀況表 (Group1)
+/// john,20190710,保證金狀況表 (Group1)
 /// </summary>
 namespace PhoenixCI.BusinessLogic.Prefix4
 {
@@ -60,6 +57,8 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             StringBuilder ItemOne = new StringBuilder();
             StringBuilder ItemTwo = new StringBuilder();
             StringBuilder ItemThree = new StringBuilder();
+            StringBuilder ItemFour = new StringBuilder();
+            StringBuilder ItemFive = new StringBuilder();
 
             string kindIdOut = "";
 
@@ -90,27 +89,42 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                   }
                }//if (R2rowIndex > 0)
 
-               //四、	作業事項
+               //三、	作業事項
                if (!string.IsNullOrEmpty(dr["MG1_PROD_TYPE"].AsString()) && kindIdOut != dr["MGT2_KIND_ID_OUT"].AsString()) {
 
                   kindIdOut = dr["MGT2_KIND_ID_OUT"].AsString();
-
-                  //2.參考現貨資料，以SMA或MAX計算之保證金變動幅度已達 10%得調整標準，且進位後金額改變，建議事項如「保證金調整審核會議紀錄」。
                   //MG1_MODEL_TYPE大寫
+                  //2.參考現貨資料，以EWMA計算之保證金變動幅度已達 10%得調整標準。
+                  bool optEWMAchangFlag = dt.AsEnumerable().AsParallel().WithDegreeOfParallelism(2)
+                     .Where(r => r.Field<object>("MGT2_KIND_ID_OUT").AsString().Contains(kindIdOut)
+                     && (r.Field<object>("MG1_MODEL_TYPE").AsString() == "E")
+                     && r.Field<object>("MG1_CHANGE_FLAG").AsString() == "Y").Any();
+                  ItemTwo.Append(optEWMAchangFlag ? "■" : "□");
+                  ItemTwo.Append(kindIdOut + "　");
+                  //3.參考現貨資料，以SMA或MAX計算之保證金變動幅度已達 10%得調整標準，且進位後金額改變，建議事項如「保證金調整審核會議紀錄」。
                   bool optChangFlag = dt.AsEnumerable().AsParallel().WithDegreeOfParallelism(2)
                      .Where(r => r.Field<object>("MGT2_KIND_ID_OUT").AsString().Contains(kindIdOut)
                      && (r.Field<object>("MG1_MODEL_TYPE").AsString() == "M" || r.Field<object>("MG1_MODEL_TYPE").AsString() == "S")
                      && r.Field<object>("MG1_CHANGE_FLAG").AsString() == "Y").Any();
-                  ItemTwo.Append(optChangFlag ? "■" : "□");
-                  ItemTwo.Append(kindIdOut + "　");
-                  //3.參考期貨資料，以SMA或MAX計算之保證金變動幅度已達 10%得調整標準，且進位後金額改變，建議事項如「保證金調整審核會議紀錄」。
+                  ItemThree.Append(optChangFlag ? "■" : "□");
+                  ItemThree.Append(kindIdOut + "　");
+
                   //MG1_MODEL_TYPE小寫
+                  //4.參考期貨資料，以EWMA計算之保證金變動幅度已達 10%得調整標準。
+                  bool futEWMAchangFlag = dt.AsEnumerable().AsParallel().WithDegreeOfParallelism(2)
+                     .Where(r => r.Field<object>("MGT2_KIND_ID_OUT").AsString().Contains(kindIdOut)
+                     && (r.Field<object>("MG1_MODEL_TYPE").AsString() == "e")
+                     && r.Field<object>("MG1_CHANGE_FLAG").AsString() == "Y").Any();
+                  ItemFour.Append(futEWMAchangFlag ? "■" : "□");
+                  ItemFour.Append(kindIdOut + "　");
+                  //5.參考期貨資料，以SMA或MAX計算之保證金變動幅度已達 10%得調整標準，且進位後金額改變，建議事項如「保證金調整審核會議紀錄」。
                   bool futChangFlag = dt.AsEnumerable().AsParallel().WithDegreeOfParallelism(2)
                      .Where(r => r.Field<object>("MGT2_KIND_ID_OUT").AsString().Contains(kindIdOut)
                      && (r.Field<object>("MG1_MODEL_TYPE").AsString() == "m" || r.Field<object>("MG1_MODEL_TYPE").AsString() == "s")
                      && r.Field<object>("MG1_CHANGE_FLAG").AsString() == "Y").Any();
-                  ItemThree.Append(futChangFlag ? "■" : "□");
-                  ItemThree.Append(kindIdOut + "　");
+                  ItemFive.Append(futChangFlag ? "■" : "□");
+                  ItemFive.Append(kindIdOut + "　");
+
                   //1.以SMA及MAX計算之保證金變動幅度均未達 10% 得調整標準，或雖達得調整標準但進位後金額不變，風險保證金（A值）及風險保證金最低值（B值）維持現行收取標準.
                   ItemOne.Append(!optChangFlag && !futChangFlag ? "■" : "□");
                   ItemOne.Append(kindIdOut + "　");
@@ -119,7 +133,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
 
             }//foreach (DataRow dr in dt.Rows) 
 
-            //四、	作業事項
+            //三、	作業事項
 
             int itemRowIndex = dao.GetRptLV(_TxnID, SheetTwo);
             if (itemRowIndex > 0) {
@@ -127,6 +141,8 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                worksheet.Cells[$"B{itemRowIndex}"].Value = ItemOne.ToString();
                worksheet.Cells[$"B{itemRowIndex + dist}"].Value = ItemTwo.ToString();
                worksheet.Cells[$"B{itemRowIndex + dist * 2}"].Value = ItemThree.ToString();
+               worksheet.Cells[$"B{itemRowIndex + dist * 3}"].Value = ItemFour.ToString();
+               worksheet.Cells[$"B{itemRowIndex + dist * 4}"].Value = ItemFive.ToString();
             }
 
             //save
@@ -144,7 +160,6 @@ namespace PhoenixCI.BusinessLogic.Prefix4
          }
          return MessageDisplay.MSG_OK;
       }
-
 
    }
 }
