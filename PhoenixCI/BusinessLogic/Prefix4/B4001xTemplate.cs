@@ -177,7 +177,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                }//if (R2rowIndex > 0 && dr["MG1_KIND_ID"].AsString() != "SGX02")
 
 
-               //四、	作業事項
+               //三、	作業事項
                if (!string.IsNullOrEmpty(dr["MG1_PROD_TYPE"].AsString())
                   && kindIdOut != dr["MGT2_KIND_ID_OUT"].AsString()) {
                   kindIdOut = dr["MGT2_KIND_ID_OUT"].AsString();
@@ -206,7 +206,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
 
             }//foreach (DataRow dr in dt.Rows)
 
-            //四、	作業事項
+            //三、	作業事項
             int itemRowIndex = dao.GetRptLV(_TxnID, SheetOne);
             if (itemRowIndex > 0) {
                int dist = FutWorkItemCellDist();
@@ -282,7 +282,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                   }
                }//if (R2rowIndex > 0)
 
-               //四、	作業事項
+               //三、	作業事項
                if (!string.IsNullOrEmpty(dr["MG1_PROD_TYPE"].AsString())
                   && kindIdOut != dr["MGT2_KIND_ID_OUT"].AsString()) {
                   kindIdOut = dr["MGT2_KIND_ID_OUT"].AsString();
@@ -307,12 +307,11 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                   //3.以SMA或MAX計算之保證金變動幅度已達 10%得調整標準
                   ItemThree.Append(ySMA || yMAX ? "■" : "□");
                   ItemThree.Append(kindIdOut + "　");
-               }//四、	作業事項
+               }//三、	作業事項
 
             }//foreach (DataRow dr in dt.Rows) 
 
-            //四、	作業事項
-
+            //三、	作業事項
             int itemRowIndex = dao.GetRptLV(_TxnID, SheetTwo);
             if (itemRowIndex > 0) {
                int dist = OptWorkItemCellDist();

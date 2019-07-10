@@ -1,15 +1,12 @@
-﻿using BaseGround.Shared;
-using Common;
+﻿using Common;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 /// <summary>
-/// john,20190410,保證金狀況表 (Group1)
+/// john,20190710,保證金狀況表 (Group1)
 /// </summary>
 namespace PhoenixCI.BusinessLogic.Prefix4
 {
@@ -92,7 +89,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
                   }
                }//if (R2rowIndex > 0)
 
-               //四、	作業事項
+               //三、	作業事項
                if (!string.IsNullOrEmpty(dr["MG1_PROD_TYPE"].AsString()) && kindIdOut != dr["MGT2_KIND_ID_OUT"].AsString()) {
 
                   kindIdOut = dr["MGT2_KIND_ID_OUT"].AsString();
@@ -136,7 +133,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
 
             }//foreach (DataRow dr in dt.Rows) 
 
-            //四、	作業事項
+            //三、	作業事項
 
             int itemRowIndex = dao.GetRptLV(_TxnID, SheetTwo);
             if (itemRowIndex > 0) {
