@@ -2,8 +2,6 @@
 using System.Windows.Forms;
 using BaseGround;
 using BusinessObjects.Enums;
-using BaseGround.Report;
-using PhoenixCI.Shared;
 using Common;
 using BaseGround.Shared;
 using System.Threading;
@@ -20,19 +18,13 @@ namespace PhoenixCI.FormUI.Prefix7
    public partial class W70040 : FormParent
    {
       private B700xxFunc B700xxFunc;
-      string logText, saveFilePath, startYMD, endYMD, sumType, isProdType, isKindId2, isParamKey;
+      string logText, saveFilePath, startYMD, endYMD, sumType, lsKindId2;
       public W70040(string programID, string programName) : base(programID, programName)
       {
          InitializeComponent();
 
          this.Text = _ProgramID + "─" + _ProgramName;
          B700xxFunc = new B700xxFunc();
-      }
-      public override ResultStatus BeforeOpen()
-      {
-         base.BeforeOpen();
-
-         return ResultStatus.Success;
       }
 
       protected override ResultStatus Open()
@@ -49,13 +41,6 @@ namespace PhoenixCI.FormUI.Prefix7
 
          emStartYear.Text = GlobalInfo.OCF_DATE.ToString("yyyy");
          emEndYear.Text = GlobalInfo.OCF_DATE.ToString("yyyy");
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus AfterOpen()
-      {
-         base.AfterOpen();
-
          return ResultStatus.Success;
       }
 
@@ -145,22 +130,21 @@ namespace PhoenixCI.FormUI.Prefix7
          }
 
          saveFilePath = _ProgramID + "_" + lsType + "(" + startYMD + "-" + endYMD + ")";
-         //商品別
+         //期別
          switch (rgPeriod.EditValue) {
-            case "rb_txw":
-               isKindId2 = "TXW%";
+            case "rb_txw"://一週到期契約
+               lsKindId2 = "TXW%";
                saveFilePath = saveFilePath + "W";
                break;
-            case "rb_txo":
-               isKindId2 = "TXO%";
+            case "rb_txo"://一般天期契約
+               lsKindId2 = "TXO%";
                saveFilePath = saveFilePath + "S";
                break;
-            default:
-               isKindId2 = "%";
+            default://所有天期契約
+               lsKindId2 = "%";
                break;
          }
-         isParamKey = "TXO";
-         isProdType = "O";
+         
          /*點選儲存檔案之目錄*/
          saveFilePath = PbFunc.wf_GetFileSaveName(saveFilePath + ".csv");
          if (string.IsNullOrEmpty(saveFilePath)) {
@@ -194,11 +178,13 @@ namespace PhoenixCI.FormUI.Prefix7
          }
          MessageDisplay message = new MessageDisplay();
          try {
+            const string lsParamKey = "TXO";
+            const string lsProdType = "O";
             if (rgDate.EditValue.Equals("rb_week")) {
-               message.OutputShowMessage = B700xxFunc.F70010WeekW(saveFilePath, startYMD, endYMD, sumType, isKindId2, isParamKey, isProdType);
+               message.OutputShowMessage = B700xxFunc.F70010WeekW(saveFilePath, startYMD, endYMD, sumType, lsKindId2, lsParamKey, lsProdType);
             }//if (rgDate.EditValue.Equals("rb_week"))
             else {
-               message.OutputShowMessage = B700xxFunc.F70010YmdW(saveFilePath, startYMD, endYMD, sumType, isKindId2, isParamKey, isProdType);
+               message.OutputShowMessage = B700xxFunc.F70010YmdW(saveFilePath, startYMD, endYMD, sumType, lsKindId2, lsParamKey, lsProdType);
             }
 
             if (string.IsNullOrEmpty(message.OutputShowMessage))

@@ -2,8 +2,6 @@
 using System.Windows.Forms;
 using BaseGround;
 using BusinessObjects.Enums;
-using BaseGround.Report;
-using PhoenixCI.Shared;
 using BaseGround.Shared;
 using System.Threading;
 using Common;
@@ -20,19 +18,13 @@ namespace PhoenixCI.FormUI.Prefix7
    public partial class W70050 : FormParent
    {
       private B700xxFunc b700xxFunc;
-      string logText, saveFilePath, startYMD, endYMD, sumType, isProdType, isKindId2, isParamKey;
+      string logText, saveFilePath, startYMD, endYMD, sumType, lsKindId2;
       public W70050(string programID, string programName) : base(programID, programName)
       {
          InitializeComponent();
 
          this.Text = _ProgramID + "─" + _ProgramName;
          b700xxFunc = new B700xxFunc();
-      }
-      public override ResultStatus BeforeOpen()
-      {
-         base.BeforeOpen();
-
-         return ResultStatus.Success;
       }
 
       protected override ResultStatus Open()
@@ -49,13 +41,6 @@ namespace PhoenixCI.FormUI.Prefix7
 
          emStartYear.Text = GlobalInfo.OCF_DATE.ToString("yyyy");
          emEndYear.Text = GlobalInfo.OCF_DATE.ToString("yyyy");
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus AfterOpen()
-      {
-         base.AfterOpen();
-
          return ResultStatus.Success;
       }
 
@@ -148,19 +133,18 @@ namespace PhoenixCI.FormUI.Prefix7
          //商品別
          switch (rgPeriod.EditValue) {
             case "rb_txw":
-               isKindId2 = "MXW%";
+               lsKindId2 = "MXW%";
                saveFilePath = saveFilePath + "W";
                break;
             case "rb_txo":
-               isKindId2 = "MXF%";
+               lsKindId2 = "MXF%";
                saveFilePath = saveFilePath + "S";
                break;
             default:
-               isKindId2 = "%";
+               lsKindId2 = "%";
                break;
          }
-         isParamKey = "MXF";
-         isProdType = "F";
+         
          /*點選儲存檔案之目錄*/
          saveFilePath = PbFunc.wf_GetFileSaveName(saveFilePath + ".csv");
          if (string.IsNullOrEmpty(saveFilePath)) {
@@ -194,11 +178,13 @@ namespace PhoenixCI.FormUI.Prefix7
          }
          MessageDisplay message = new MessageDisplay();
          try {
+            const string lsParamKey = "MXF";
+            const string lsProdType = "F";
             if (rgDate.EditValue.Equals("rb_week")) {
-               message.OutputShowMessage = b700xxFunc.F70010WeekW(saveFilePath, startYMD, endYMD, sumType, isKindId2, isParamKey, isProdType);
+               message.OutputShowMessage = b700xxFunc.F70010WeekW(saveFilePath, startYMD, endYMD, sumType, lsKindId2, lsParamKey, lsProdType);
             }//if (rgDate.EditValue.Equals("rb_week"))
             else {
-               message.OutputShowMessage = b700xxFunc.F70010YmdW(saveFilePath, startYMD, endYMD, sumType, isKindId2, isParamKey, isProdType);
+               message.OutputShowMessage = b700xxFunc.F70010YmdW(saveFilePath, startYMD, endYMD, sumType, lsKindId2, lsParamKey, lsProdType);
             }
 
             if (string.IsNullOrEmpty(message.OutputShowMessage))

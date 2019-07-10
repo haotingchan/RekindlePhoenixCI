@@ -2,8 +2,6 @@
 using System.Windows.Forms;
 using BaseGround;
 using BusinessObjects.Enums;
-using BaseGround.Report;
-using PhoenixCI.Shared;
 using DataObjects.Dao.Together.SpecificDao;
 using Common;
 using BaseGround.Shared;
@@ -31,24 +29,11 @@ namespace PhoenixCI.FormUI.Prefix7
          dao70020 = new D70020();
       }
 
-      public override ResultStatus BeforeOpen()
-      {
-         base.BeforeOpen();
-
-         return ResultStatus.Success;
-      }
-
       protected override ResultStatus Open()
       {
          base.Open();
          emStartDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/") + "01";
          emEndDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus AfterOpen()
-      {
-         base.AfterOpen();
          emStartDate.Focus();
          return ResultStatus.Success;
       }

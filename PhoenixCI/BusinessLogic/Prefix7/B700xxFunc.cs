@@ -1,5 +1,4 @@
-﻿using BaseGround;
-using BaseGround.Shared;
+﻿using BaseGround.Shared;
 using Common;
 using Common.Helper;
 using DataObjects.Dao.Together;
@@ -403,9 +402,9 @@ namespace PhoenixCI.BusinessLogic.Prefix7
       /// <param name="lsStartYMD">起始日期</param>
       /// <param name="lsEndYMD">終止日期</param>
       /// <param name="lsSumType">統計別:D日,M月,Y年</param>
-      /// <param name="lsKindId2">商品別:F期貨,O選擇權</param>
+      /// <param name="lsKindId2">期別:一週到期契約,一般天到期契約,所有天到期契約</param>
       /// <param name="lsParamKey">商品</param>
-      /// <param name="lsProdType"></param>
+      /// <param name="lsProdType">F期貨,O選擇權</param>
       /// <returns></returns>
       public string F70010WeekW(string SaveFilePath, string lsStartYMD, string lsEndYMD, string lsSumType, string lsKindId2, string lsParamKey, string lsProdType)
       {
@@ -497,7 +496,8 @@ namespace PhoenixCI.BusinessLogic.Prefix7
             DataTable newDsYMD = dtYMD;
 
             int ParamKeyCount = 0;
-            int arrayLen = 2 + dtYMD.Rows.Count * (newdtPK.Rows.Count + 1) + 1;//期貨商代號+名稱+商品+小計+市佔率
+            int prodCount = lsKindId2 == "%" ? (newdtPK.Rows.Count + 1) :1;//商品群
+            int arrayLen = 2 + (dtYMD.Rows.Count * prodCount) + 1;//期貨商代號+名稱+商品群+小計+市佔率
             object[] headerRow = new object[arrayLen];
             object[] subtitleRow = new object[arrayLen];
 
@@ -771,7 +771,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
 
                         workTable = new DataTable();
 
-                        arrayLen = 2 + newDsYMD.Rows.Count * (newdtPK.Rows.Count + 1);//期貨商代號+名稱+商品+小計
+                        arrayLen = 2 + newDsYMD.Rows.Count * (newdtPK.Rows.Count + 1);//期貨商代號+名稱+商品群+小計
                         if (selectEng)
                            arrayLen = arrayLen - 1;//-名稱
                      }
@@ -783,9 +783,9 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                            .Where(r => r.Field<object>("am0_ymd").AsString().SubStr(6, 2).AsInt() > 15).CopyToDataTable();
 
                         workTable = new DataTable();
-                        arrayLen = 2 + newDsYMD.Rows.Count * (newdtPK.Rows.Count + 1) + 1;//期貨商代號+名稱+商品+小計+市佔率
+                        arrayLen = 2 + newDsYMD.Rows.Count * (newdtPK.Rows.Count + 1) + 1;//期貨商代號+名稱+商品群+小計+市佔率
                         if (selectEng)
-                           arrayLen = arrayLen - 1;//-名稱=期貨商代號+商品+小計+市佔率
+                           arrayLen = arrayLen - 1;//-名稱=期貨商代號+商品群+小計+市佔率
                      }
                      //Parallel PLinq搜尋出來的資料不會按照順序 所以最後要重新排序
                      if (newDsYMD.Rows.Count > 0 && newDt.Rows.Count > 0) {
@@ -796,12 +796,12 @@ namespace PhoenixCI.BusinessLogic.Prefix7
                   }//if (liArea == 2)
                   else {
                      if (lsSumType != "Y")
-                        arrayLen = 2 + dtYMD.Rows.Count * (newdtPK.Rows.Count + 1) + 1;//期貨商代號+名稱+商品+小計+市佔率
+                        arrayLen = 2 + dtYMD.Rows.Count * (newdtPK.Rows.Count + 1) + 1;//期貨商代號+名稱+商品群+小計+市佔率
                      else
-                        arrayLen = 2 + dtYMD.Rows.Count * (newdtPK.Rows.Count + 1);//期貨商代號+名稱+商品+小計
+                        arrayLen = 2 + dtYMD.Rows.Count * (newdtPK.Rows.Count + 1);//期貨商代號+名稱+商品群+小計
 
                      if (selectEng)
-                        arrayLen = arrayLen - 1;//-名稱=期貨商代號+商品+小計
+                        arrayLen = arrayLen - 1;//-名稱=期貨商代號+商品群+小計
                   }
 
                   int ParamKeyCount = 0;
@@ -1111,7 +1111,7 @@ namespace PhoenixCI.BusinessLogic.Prefix7
             DataTable newDt = dt;
 
             int ParamKeyCount = 0;
-            int arrayLen = 2 + dtYMD.Rows.Count * (newdtPK.Rows.Count + 1) + 1;//期貨商代號+名稱+商品+小計+市佔率
+            int arrayLen = 2 + dtYMD.Rows.Count * (newdtPK.Rows.Count + 1) + 1;//期貨商代號+名稱+商品群+小計+市佔率
             object[] headerRow = new object[arrayLen];
             object[] subtitleRow = new object[arrayLen];
             workTable.Columns.Add(ParamKeyCount.AsString(), typeof(string));

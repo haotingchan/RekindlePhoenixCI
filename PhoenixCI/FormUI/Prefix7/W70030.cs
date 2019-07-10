@@ -3,8 +3,6 @@ using System.Data;
 using System.Windows.Forms;
 using BaseGround;
 using BusinessObjects.Enums;
-using BaseGround.Report;
-using PhoenixCI.Shared;
 using DataObjects.Dao.Together.SpecificDao;
 using System.Threading;
 using BaseGround.Shared;
@@ -30,23 +28,10 @@ namespace PhoenixCI.FormUI.Prefix7
          this.Text = _ProgramID + "─" + _ProgramName;
          dao70030 = new D70030();
       }
-      public override ResultStatus BeforeOpen()
-      {
-         base.BeforeOpen();
-
-         return ResultStatus.Success;
-      }
 
       protected override ResultStatus Open()
       {
          base.Open();
-         emMonth.Focus();
-         return ResultStatus.Success;
-      }
-
-      protected override ResultStatus AfterOpen()
-      {
-         base.AfterOpen();
          emMonth.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
          emMonth.Focus();
          return ResultStatus.Success;
@@ -72,7 +57,7 @@ namespace PhoenixCI.FormUI.Prefix7
          return true;
       }
 
-      protected void EndExport()
+      private void EndExport()
       {
          stMsgTxt.Text = "轉檔完成!";
          this.Cursor = Cursors.Arrow;

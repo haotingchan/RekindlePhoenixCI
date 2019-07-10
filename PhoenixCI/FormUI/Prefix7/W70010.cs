@@ -2,10 +2,8 @@
 using System.Windows.Forms;
 using BaseGround;
 using BusinessObjects.Enums;
-using BaseGround.Report;
 using BaseGround.Shared;
 using Common;
-using PhoenixCI.Shared;
 using DataObjects.Dao.Together.SpecificDao;
 using System.Threading;
 using PhoenixCI.BusinessLogic.Prefix7;
@@ -22,7 +20,7 @@ namespace PhoenixCI.FormUI.Prefix7
    {
       private B70010 b70010;
       private D70010 dao70010;
-      string logText, saveFilePath, isSymd, isEymd, sumType, isProdType, isMarketCode;
+      string logText, saveFilePath, lsSymd, lsEymd, sumType, lsProdType, lsMarketCode;
       public W70010(string programID, string programName) : base(programID, programName)
       {
          InitializeComponent();
@@ -89,8 +87,8 @@ namespace PhoenixCI.FormUI.Prefix7
                ldStart = Convert.ToDateTime(emStartDate.Text);
                ldEnd = Convert.ToDateTime(emEndDate.Text);
 
-               isSymd = emStartDate.Text.Replace("/", "").SubStr(0, 8);
-               isEymd = emEndDate.Text.Replace("/", "").SubStr(0, 8);
+               lsSymd = emStartDate.Text.Replace("/", "").SubStr(0, 8);
+               lsEymd = emEndDate.Text.Replace("/", "").SubStr(0, 8);
                lsType = "Daily";
                sumType = "D";
 
@@ -109,8 +107,8 @@ namespace PhoenixCI.FormUI.Prefix7
                ldStart = Convert.ToDateTime(emStartDate1.Text);
                ldEnd = Convert.ToDateTime(emEndDate1.Text);
 
-               isSymd = emStartDate1.Text.Replace("/", "").SubStr(0, 8);
-               isEymd = emEndDate1.Text.Replace("/", "").SubStr(0, 8);
+               lsSymd = emStartDate1.Text.Replace("/", "").SubStr(0, 8);
+               lsEymd = emEndDate1.Text.Replace("/", "").SubStr(0, 8);
                lsType = "Weekly";
                sumType = "D";
 
@@ -129,20 +127,20 @@ namespace PhoenixCI.FormUI.Prefix7
                if (ldEnd.Month != PbFunc.Right(emStartMth.Text, 2).AsInt()) {
                   ldEnd = PbFunc.relativedate(ldEnd, -ldEnd.Day);
                }
-               isSymd = emStartMth.Text.Replace("/", "").SubStr(0, 6);
-               isEymd = emEndMth.Text.Replace("/", "").SubStr(0, 6);
+               lsSymd = emStartMth.Text.Replace("/", "").SubStr(0, 6);
+               lsEymd = emEndMth.Text.Replace("/", "").SubStr(0, 6);
                lsType = "Monthly";
                sumType = "M";
 
-               logText = isSymd + "至" + isEymd + " 交易量";
+               logText = lsSymd + "至" + lsEymd + " 交易量";
                break;
             case "rb_year":
                //年
-               isSymd = emStartYear.Text;
-               isEymd = emEndYear.Text;
+               lsSymd = emStartYear.Text;
+               lsEymd = emEndYear.Text;
                lsType = "Yearly";
                sumType = "Y";
-               logText = isSymd + "至" + isEymd + " 交易量";
+               logText = lsSymd + "至" + lsEymd + " 交易量";
                break;
             default:
                break;
@@ -151,11 +149,11 @@ namespace PhoenixCI.FormUI.Prefix7
          //商品別
          if (rbTMU.EditValue.Equals("rb_options")) {
             lsType = lsType + "_OPT";
-            isProdType = "O";
+            lsProdType = "O";
          }
          else {
             lsType = lsType + "_FUT";
-            isProdType = "F";
+            lsProdType = "F";
          }
          //ids_1.dataobject = "d_"+gs_txn_id
          if (cbxEng.Checked) {
@@ -165,20 +163,20 @@ namespace PhoenixCI.FormUI.Prefix7
          //交易時段
          switch (rgTime.EditValue) {
             case "rb_market0":
-               isMarketCode = "0";
+               lsMarketCode = "0";
                lsType = lsType + "_day";
                break;
             case "rb_market1":
-               isMarketCode = "1";
+               lsMarketCode = "1";
                lsType = lsType + "_night";
                break;
             default:
-               isMarketCode = "%";
+               lsMarketCode = "%";
                break;
          }
 
          /*點選儲存檔案之目錄*/
-         saveFilePath = PbFunc.wf_GetFileSaveName(lsType + "(" + isSymd + "-" + isEymd + ").csv");
+         saveFilePath = PbFunc.wf_GetFileSaveName(lsType + "(" + lsSymd + "-" + lsEymd + ").csv");
          if (string.IsNullOrEmpty(saveFilePath)) {
             return false;
          }
@@ -194,7 +192,7 @@ namespace PhoenixCI.FormUI.Prefix7
          return true;
       }
 
-      protected void EndExport()
+      private void EndExport()
       {
          stMsgTxt.Text = "轉檔完成!";
          this.Cursor = Cursors.Arrow;
@@ -211,7 +209,7 @@ namespace PhoenixCI.FormUI.Prefix7
 
          try {
             MessageDisplay message = new MessageDisplay();
-            message.OutputShowMessage = b70010.F70010ByMarketCodeExport(rgDate.EditValue.AsString(), saveFilePath, isSymd, isEymd, sumType, isProdType, isMarketCode, cbxEng.Checked);
+            message.OutputShowMessage = b70010.F70010ByMarketCodeExport(rgDate.EditValue.AsString(), saveFilePath, lsSymd, lsEymd, sumType, lsProdType, lsMarketCode, cbxEng.Checked);
 
             if (string.IsNullOrEmpty(message.OutputShowMessage))
                return ResultStatus.Fail;
