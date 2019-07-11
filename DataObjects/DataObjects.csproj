@@ -120,6 +120,7 @@
     <Compile Include="Dao\Together\SpecificDao\D30360.cs" />
     <Compile Include="Dao\Together\SpecificDao\D30392.cs" />
     <Compile Include="Dao\Together\SpecificDao\D30400.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D30418.cs" />
     <Compile Include="Dao\Together\SpecificDao\D30503.cs" />
     <Compile Include="Dao\Together\SpecificDao\D30506.cs" />
     <Compile Include="Dao\Together\SpecificDao\D30395.cs" />

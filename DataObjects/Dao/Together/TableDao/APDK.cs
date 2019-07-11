@@ -267,11 +267,41 @@ order by APDK_PROD_TYPE , APDK_PARAM_KEY", marketCode);
          return dtResult;
       }
 
-      /// <summary>
-      /// CI.APDK 契約類別 B－ C－商品類 E－匯率類 I－指數類 R－利率類 S－股票類
-      /// </summary>
-      /// <returns>前面空一行+APDK_PROD_SUBTYPE/PROD_SUBTYPE_NAME/cp_display</returns>
-      public DataTable ListProdSubType() {
+        /// <summary>
+        /// CI.APDK (已經固定一些過濾條件)
+        /// </summary>
+        /// <returns></returns>
+        public DataTable ListParamKeyAndProd()
+        {
+
+            string sql = @"
+                                    SELECT * FROM(            
+                                                SELECT APDK_PROD_TYPE,
+                                                APDK_PARAM_KEY,
+                                                '999' AS SEQ_NO
+                                                FROM CI.APDK
+                                                WHERE APDK_PROD_TYPE IN ('F','O')
+                                                GROUP BY APDK_PROD_TYPE,APDK_PARAM_KEY
+                                                UNION
+                                                    SELECT '%','全部','0' FROM DUAL
+                                                UNION
+                                                    SELECT 'F','期貨','1' FROM DUAL
+                                                UNION
+                                                    SELECT 'O','選擇權','2' FROM DUAL
+                                    )A                
+                                    ORDER BY SEQ_NO,APDK_PROD_TYPE , APDK_PARAM_KEY
+                                    ";
+
+            DataTable dtResult = db.GetDataTable(sql, null);
+
+            return dtResult;
+        }
+
+        /// <summary>
+        /// CI.APDK 契約類別 B－ C－商品類 E－匯率類 I－指數類 R－利率類 S－股票類
+        /// </summary>
+        /// <returns>前面空一行+APDK_PROD_SUBTYPE/PROD_SUBTYPE_NAME/cp_display</returns>
+        public DataTable ListProdSubType() {
 
          //B－ C－商品類 E－匯率類 I－指數類 R－利率類 S－股票類
 
