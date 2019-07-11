@@ -210,7 +210,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     ws43020.Cells[rowStart + f, 13].SetValue(dr["MG1_CP_CM"]);
                     ws43020.Cells[rowStart + f, 14].SetValue(dr["MG1_CUR_CM"]);
                     ws43020.Cells[rowStart + f, 15].SetValue(dr["MG1_CHANGE_RANGE"]);
-                    //ws43020.Cells[rowStart + f, 16].SetValue(dr["MG1_CHANGE_FLAG"]);
+                    ws43020.Cells[rowStart + f, 16].SetValue(dr["MG1_CHANGE_FLAG"]);
                     f++;
                 }//foreach (DataRow dr in dt43020.Rows)
                 dt43020 = dao43020.d_43020(txtSDate.DateTimeValue.ToString("yyyyMMdd"), oswGrp, "M");
