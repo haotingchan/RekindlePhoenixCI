@@ -209,67 +209,33 @@ namespace PhoenixCI.FormUI.Prefix4
             this.Cursor = Cursors.WaitCursor;
             ShowMsg($"EWMA 計算中...");
 
-            DataRow dataRow = null;
+            //DataRow dataRow = null;
 
             //讀取每個商品的EWMA
             int k = 0;
-            //平行處理每個商品
-            var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount / 2 };
-            Parallel.ForEach(dt.AsEnumerable(), options, (dr, state) => {
+            foreach (DataRow dr in dt.Rows) {
                string kindID = dr["MG1_KIND_ID"].AsString();
+               ShowMsg($"EWMA_{kindID} 計算中...");
                //複製template
                filepath = CopyWemaTemplateFile(kindID);
                //記錄所產商品的檔案路徑
                pathList[k++] = filepath;
                //產出經Excel計算後的資料
-               dataRow = b40010.ComputeEWMA(filepath, kindID);
-
-               if (dataRow == null)
-                  return;
-
-               //每筆計算後的資料暫存至DataTable
-               dtMGR2.ImportRow(dataRow);
-            });
-
-            //foreach (DataRow dr in dt.Rows) {
-            //   string kindID = dr["MG1_KIND_ID"].AsString();
-            //   ShowMsg($"EWMA_{kindID} 計算中...");
-            //   //複製template
-            //   filepath = CopyWemaTemplateFile(kindID);
-            //   //記錄所產商品的檔案路徑
-            //   pathList[k++] = filepath;
-            //   //產出經Excel計算後的資料
-            //   dataRow = b40010.ComputeEWMA(filepath, kindID);
-            //   Thread.Sleep(0);
-
-            //   if (dataRow == null)
-            //      continue;
-
-            //   //每筆計算後的資料暫存至DataTable
-            //   dtMGR2.ImportRow(dataRow);
-            //}
-
-            if (dtMGR2.Rows.Count > 0) {
-               ShowMsg($"EWMA 寫入資料庫...");
-               //儲存至DB並呼叫SP
-               b40010.MGR2SaveToDB(dtMGR2, oswGrp);
-               MessageDisplay.Info(MessageDisplay.MSG_IMPORT);
+               b40010.ComputeEWMA(filepath, kindID);
+               Thread.Sleep(0);
             }
-            else {
-               //刪除空檔案
-               foreach (string path in pathList) {
-                  if (File.Exists(path))
-                     File.Delete(path);
-               }
-               MessageDisplay.Info(NoDataMessage);
-            }
+            
+            //呼叫SP
+            ShowMsg($"EWMA 寫入資料庫...");
+            b40010.ExecuteSP(oswGrp);
+            MessageDisplay.Info(MessageDisplay.MSG_IMPORT);
 
          }
          catch (Exception ex) {
-            //foreach (string path in pathList) {
-            //   if (File.Exists(path))
-            //      File.Delete(path);
-            //}
+            foreach (string path in pathList) {
+               if (File.Exists(path))
+                  File.Delete(path);
+            }
             WriteLog(ex);
          }
          finally {
