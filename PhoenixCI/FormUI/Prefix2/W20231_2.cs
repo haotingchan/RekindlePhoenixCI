@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Windows.Forms;
 using BaseGround;
 using Common;
-using DevExpress.XtraEditors.Repository;
 using DataObjects.Dao.Together.SpecificDao;
 using BusinessObjects.Enums;
 using DevExpress.XtraGrid.Views.Grid;
@@ -15,11 +12,6 @@ using BaseGround.Report;
 using BusinessObjects;
 using DataObjects.Dao.Together;
 using DevExpress.XtraEditors.Controls;
-using System.IO;
-using PhoenixCI.BusinessLogic.Prefix2;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Linq;
 
 /// <summary>
 /// John, 2019/5/13
@@ -303,8 +295,9 @@ namespace PhoenixCI.FormUI.Prefix2
                      dr[col.ColumnName] = insertDr[col.ColumnName].AsDateTime("yyyy/MM/dd");
                      continue;
                   }
-                  //檢查該欄位是否填寫資料
-                  if (insertDr[col.ColumnName] == DBNull.Value && gvMain.Columns[col.ColumnName] != null) {
+                  //檢查該欄位是否填寫資料 同時確認gvMain.Columns[col.ColumnName]是否有這欄位
+                  if ((insertDr[col.ColumnName] == DBNull.Value || string.IsNullOrEmpty(insertDr[col.ColumnName].ToString())) &&
+                     gvMain.Columns[col.ColumnName] != null) {
                      MessageDisplay.Warning($"[{gvMain.Columns[col.ColumnName].Caption}]資料未填寫完成，請確認!!");
                      SetFocused(insertData, insertDr, col.ColumnName);
                      return ResultStatus.FailButNext;
