@@ -55,8 +55,8 @@
          this.APDK_CURRENCY_TYPE = new DevExpress.XtraGrid.Columns.GridColumn();
          this.ApdkCurrencyTypeLookUpEdit = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
          this.pkTextEdit = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-         this.repositoryItemLookUpEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
          this.ApdkParamKeyLookUpEditF = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
+         this.repositoryItemLookUpEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
          this.panelControl1.SuspendLayout();
@@ -78,8 +78,8 @@
          ((System.ComponentModel.ISupportInitialize)(this.ApdkMarketCloseLookUpEdit)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.ApdkCurrencyTypeLookUpEdit)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.pkTextEdit)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemLookUpEdit1)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.ApdkParamKeyLookUpEditF)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemLookUpEdit1)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -290,7 +290,7 @@
          this.APDK_PARAM_KEY.AppearanceHeader.BorderColor = System.Drawing.Color.Silver;
          this.APDK_PARAM_KEY.AppearanceHeader.Options.UseTextOptions = true;
          this.APDK_PARAM_KEY.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.APDK_PARAM_KEY.Caption = "    商品    對照類別";
+         this.APDK_PARAM_KEY.Caption = "商品\n對照類別";
          this.APDK_PARAM_KEY.ColumnEdit = this.ApdkParamKeyLookUpEditC;
          this.APDK_PARAM_KEY.FieldName = "APDK_PARAM_KEY";
          this.APDK_PARAM_KEY.MaxWidth = 85;
@@ -324,7 +324,7 @@
          // 
          this.APDK_KIND_ID.AppearanceHeader.BackColor = System.Drawing.Color.Aqua;
          this.APDK_KIND_ID.AppearanceHeader.BorderColor = System.Drawing.Color.Silver;
-         this.APDK_KIND_ID.Caption = " 商品  (3碼)";
+         this.APDK_KIND_ID.Caption = "商品\n(3碼)";
          this.APDK_KIND_ID.ColumnEdit = this.KindIDTextEdit;
          this.APDK_KIND_ID.FieldName = "APDK_KIND_ID";
          this.APDK_KIND_ID.MaxWidth = 60;
@@ -442,7 +442,7 @@
          // 
          // APDK_UNDERLYING_MARKET
          // 
-         this.APDK_UNDERLYING_MARKET.Caption = "   現貨    市場";
+         this.APDK_UNDERLYING_MARKET.Caption = "現貨\n市場";
          this.APDK_UNDERLYING_MARKET.ColumnEdit = this.ApdkUnderlyingMarketLookUpEdit;
          this.APDK_UNDERLYING_MARKET.FieldName = "APDK_UNDERLYING_MARKET";
          this.APDK_UNDERLYING_MARKET.MaxWidth = 70;
@@ -472,7 +472,7 @@
          // 
          // APDK_KIND_GRP2
          // 
-         this.APDK_KIND_GRP2.Caption = "群組  (2碼)";
+         this.APDK_KIND_GRP2.Caption = "群組\n(2碼)";
          this.APDK_KIND_GRP2.ColumnEdit = this.ApdkKindGrp2TextEdit;
          this.APDK_KIND_GRP2.FieldName = "APDK_KIND_GRP2";
          this.APDK_KIND_GRP2.MaxWidth = 60;
@@ -491,7 +491,7 @@
          // 
          // APDK_REMARK
          // 
-         this.APDK_REMARK.Caption = "  一般/   小型";
+         this.APDK_REMARK.Caption = "一般/\n小型";
          this.APDK_REMARK.ColumnEdit = this.ApdkRemarkLookUpEdit;
          this.APDK_REMARK.FieldName = "APDK_REMARK";
          this.APDK_REMARK.MaxWidth = 70;
@@ -575,6 +575,21 @@
          this.pkTextEdit.MaxLength = 7;
          this.pkTextEdit.Name = "pkTextEdit";
          // 
+         // ApdkParamKeyLookUpEditF
+         // 
+         this.ApdkParamKeyLookUpEditF.AllowNullInput = DevExpress.Utils.DefaultBoolean.False;
+         this.ApdkParamKeyLookUpEditF.AutoHeight = false;
+         this.ApdkParamKeyLookUpEditF.BestFitMode = DevExpress.XtraEditors.Controls.BestFitMode.BestFit;
+         this.ApdkParamKeyLookUpEditF.BestFitRowCount = 2;
+         this.ApdkParamKeyLookUpEditF.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Flat;
+         this.ApdkParamKeyLookUpEditF.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.ApdkParamKeyLookUpEditF.ButtonsStyle = DevExpress.XtraEditors.Controls.BorderStyles.Style3D;
+         this.ApdkParamKeyLookUpEditF.DropDownRows = 2;
+         this.ApdkParamKeyLookUpEditF.MaxLength = 7;
+         this.ApdkParamKeyLookUpEditF.Name = "ApdkParamKeyLookUpEditF";
+         this.ApdkParamKeyLookUpEditF.NullText = "";
+         // 
          // repositoryItemLookUpEdit1
          // 
          this.repositoryItemLookUpEdit1.AcceptEditorTextAsNewValue = DevExpress.Utils.DefaultBoolean.False;
@@ -594,21 +609,6 @@
          this.repositoryItemLookUpEdit1.ShowFooter = false;
          this.repositoryItemLookUpEdit1.ShowHeader = false;
          this.repositoryItemLookUpEdit1.UseDropDownRowsAsMaxCount = true;
-         // 
-         // ApdkParamKeyLookUpEditF
-         // 
-         this.ApdkParamKeyLookUpEditF.AllowNullInput = DevExpress.Utils.DefaultBoolean.False;
-         this.ApdkParamKeyLookUpEditF.AutoHeight = false;
-         this.ApdkParamKeyLookUpEditF.BestFitMode = DevExpress.XtraEditors.Controls.BestFitMode.BestFit;
-         this.ApdkParamKeyLookUpEditF.BestFitRowCount = 2;
-         this.ApdkParamKeyLookUpEditF.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Flat;
-         this.ApdkParamKeyLookUpEditF.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.ApdkParamKeyLookUpEditF.ButtonsStyle = DevExpress.XtraEditors.Controls.BorderStyles.Style3D;
-         this.ApdkParamKeyLookUpEditF.DropDownRows = 2;
-         this.ApdkParamKeyLookUpEditF.MaxLength = 7;
-         this.ApdkParamKeyLookUpEditF.Name = "ApdkParamKeyLookUpEditF";
-         this.ApdkParamKeyLookUpEditF.NullText = "";
          // 
          // W20231_2
          // 
@@ -648,8 +648,8 @@
          ((System.ComponentModel.ISupportInitialize)(this.ApdkMarketCloseLookUpEdit)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.ApdkCurrencyTypeLookUpEdit)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.pkTextEdit)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemLookUpEdit1)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.ApdkParamKeyLookUpEditF)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemLookUpEdit1)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
