@@ -1,23 +1,21 @@
-﻿using System;
-using System.Data;
-using BaseGround;
-using Common;
-using BusinessObjects.Enums;
-using BusinessObjects;
-using DevExpress.Spreadsheet;
+﻿using BaseGround;
 using BaseGround.Report;
+using BaseGround.Shared;
+using BusinessObjects.Enums;
+using Common;
 using DataObjects.Dao.Together.SpecificDao;
-using System.Windows.Forms;
-using System.Text;
+using DevExpress.Spreadsheet;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
-using BaseGround.Shared;
-/// <summary>
-/// Lukas, 2018/12/13
-/// </summary>
-namespace PhoenixCI.FormUI.Prefix5 {
+using System.Windows.Forms;
+
+namespace PhoenixCI.FormUI.Prefix5
+{
     /// <summary>
     /// 50072 獎勵活動報價期貨商明細加總日報表
     /// 有寫到的功能：Export
@@ -91,7 +89,12 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 //讀取資料
                 DataTable dtContent = dao50072.ListData(txtFromDate.FormatValue, txtToDate.FormatValue);
                 if (dtContent.Rows.Count == 0) {
-                    MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromDate.Text, this.Text));
+                    MessageDisplay.Info(string.Format("{0} - {1}, {2} - {3},無任何資料!", txtFromDate.Text, txtToDate.Text, rptId, rptName));
+                }
+                DataTable dtValidContent = dao50072.ListData_valid(txtFromDate.FormatValue, txtToDate.FormatValue);
+                if (dtValidContent.Rows.Count == 0)
+                {
+                    MessageDisplay.Info(string.Format("{0} - {1}, {2} - {3},無任何資料!", txtFromDate.Text, txtToDate.Text, rptId, "合格報價資料"));
                 }
 
                 //複製檔案
@@ -101,26 +104,41 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 //填資料
                 Workbook workbook = new Workbook();
                 workbook.LoadDocument(file);
-                Worksheet worksheet = workbook.Worksheets[0];
+                Worksheet worksheet0 = workbook.Worksheets[0];
+                Worksheet worksheet2 = workbook.Worksheets[2];
 
+                //50072
                 for (i = 0; i < dtContent.Rows.Count; i++) {
 
                     int rowNum = i + 2;
 
-                    worksheet.Cells[rowNum, 0].Value = dtContent.Rows[i]["mc_date"].AsString();
-                    worksheet.Cells[rowNum, 1].Value = dtContent.Rows[i]["fut_id"].AsString();
-                    worksheet.Cells[rowNum, 2].Value = dtContent.Rows[i]["acctno"].AsString();
-                    worksheet.Cells[rowNum, 3].Value = dtContent.Rows[i]["param_key"].AsString();
-                    worksheet.Cells[rowNum, 4].SetValue(dtContent.Rows[i]["valid_cnt"]);
-                    worksheet.Cells[rowNum, 5].SetValue(dtContent.Rows[i]["valid_time"]);
-                    worksheet.Cells[rowNum, 6].SetValue(dtContent.Rows[i]["valid_result"]);
-                    worksheet.Cells[rowNum, 7].SetValue(dtContent.Rows[i]["qty"]);
-                    worksheet.Cells[rowNum, 8].SetValue(dtContent.Rows[i]["nqty"]);
-                    worksheet.Cells[rowNum, 9].Value = dtContent.Rows[i]["prod_type"].AsString();
-                    worksheet.Cells[rowNum, 10].SetValue(dtContent.Rows[i]["drank"]);
-
+                    worksheet0.Cells[rowNum, 0].Value = dtContent.Rows[i]["mc_date"].AsString();
+                    worksheet0.Cells[rowNum, 1].Value = dtContent.Rows[i]["fut_id"].AsString();
+                    worksheet0.Cells[rowNum, 2].Value = dtContent.Rows[i]["acctno"].AsString();
+                    worksheet0.Cells[rowNum, 3].Value = dtContent.Rows[i]["param_key"].AsString();
+                    worksheet0.Cells[rowNum, 4].SetValue(dtContent.Rows[i]["valid_cnt"]);
+                    worksheet0.Cells[rowNum, 5].SetValue(dtContent.Rows[i]["valid_time"]);
+                    worksheet0.Cells[rowNum, 6].SetValue(dtContent.Rows[i]["valid_result"]);
+                    worksheet0.Cells[rowNum, 7].SetValue(dtContent.Rows[i]["qty"]);
+                    worksheet0.Cells[rowNum, 8].SetValue(dtContent.Rows[i]["nqty"]);
+                    worksheet0.Cells[rowNum, 9].Value = dtContent.Rows[i]["prod_type"].AsString();
+                    worksheet0.Cells[rowNum, 10].SetValue(dtContent.Rows[i]["drank"]);
                 }
-                //workbook.SaveDocument(excelDestinationPath);
+
+                //合格報價資料
+                for (i = 0; i < dtValidContent.Rows.Count; i++) {
+
+                    int rowNum = i + 1;
+
+                    worksheet2.Cells[rowNum, 0].Value = dtValidContent.Rows[i]["mc_date"].AsString();
+                    worksheet2.Cells[rowNum, 1].Value = dtValidContent.Rows[i]["fut_id"].AsString();
+                    worksheet2.Cells[rowNum, 2].Value = dtValidContent.Rows[i]["acctno"].AsString();
+                    worksheet2.Cells[rowNum, 3].Value = dtValidContent.Rows[i]["activity_type"].AsString();
+                    worksheet2.Cells[rowNum, 4].Value = dtValidContent.Rows[i]["kind_id"].AsString();
+                    worksheet2.Cells[rowNum, 5].SetValue(dtValidContent.Rows[i]["valid_time"]);
+                    worksheet2.Cells[rowNum, 6].Value = dtValidContent.Rows[i]["prod_type"].AsString();
+                    worksheet2.Cells[rowNum, 7].Value = dtValidContent.Rows[i]["market_close"].AsString();
+                }
 
                 #endregion
 
@@ -133,7 +151,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 string asEymEtf = txtToDate.Text.Replace("/", "").Substring(0, 6);
                 DataTable dtContentETF = dao50072.ListData_etf(asSymEtf, asEymEtf);
                 if (dtContentETF.Rows.Count == 0) {
-                    MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromDate.Text, this.Text));
+                    MessageDisplay.Info(string.Format("{0} - {1}, {2} - {3},無任何資料!", txtFromDate.Text, txtToDate.Text, rptId, "ETF"));
                 }
                 else {
                 //存CSV
@@ -165,7 +183,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 string asEymTxf = txtToDate.Text.Replace("/", "").Substring(0, 6);
                 DataTable dtContentTXF = dao50072.ListData_txf(asSymTxf, asEymTxf);
                 if (dtContentTXF.Rows.Count == 0) {
-                    MessageDisplay.Info(string.Format("{0},{1},無任何資料!", txtFromDate.Text, this.Text));
+                    MessageDisplay.Info(string.Format("{0} - {1}, {2} - {3},無任何資料!", txtFromDate.Text, txtToDate.Text, rptId, "TXF"));
                 }
                 else {
                 //存CSV
@@ -195,12 +213,12 @@ namespace PhoenixCI.FormUI.Prefix5 {
                 #endregion
 
                 //若所有Sheet皆無資料時，刪除檔案
-                if (dtContent.Rows.Count == 0) {
+                if (dtContent.Rows.Count == 0 && dtValidContent.Rows.Count == 0) {
                     try {
                         workbook = null;
-                        System.IO.File.Delete(file);
-                        //System.IO.File.Delete(etfFileName);
-                        //System.IO.File.Delete(txfFileName);
+                        File.Delete(file);
+                        //File.Delete(etfFileName);
+                        //File.Delete(txfFileName);
                     }
                     catch (Exception) {
                         //
