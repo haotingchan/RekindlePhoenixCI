@@ -336,7 +336,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
       /// <param name="ws30053o"></param>
       protected bool wf30053o(int rowIndex , Worksheet ws) {
          string rptName = "2表", rptId = "30053";
-         int col, delRow, row;
+         int col, delRow, oleRow, row;
          Range delRange;
 
          ShowMsg(rptId + '－' + rptName + " 轉檔中...");
@@ -351,17 +351,17 @@ namespace PhoenixCI.FormUI.Prefix3 {
          //填資料
          ws.Cells[0 , 9].Value = date;
          delRow = 0;
+         oleRow = 0;
          foreach (DataRow dr in dt30053o.Rows) {
             rowIndex = dr["RPT_SEQ_NO"].AsInt() + dr["SEQ_NO"].AsInt() - 1 - 1;
             //刪除列:無短天期
             if (dr["AMIF_KIND_ID"] == DBNull.Value) {
                row = dr["RPT_DEL_ROW"].AsInt();
                if (row > 0) {
+                  oleRow = dr["RPT_SEQ_NO"].AsInt();
                   delRow = dr["RPT_DEL_ROW"].AsInt();
-                  string tmp = ws.Cells[rowIndex + 1 , 0].Value.AsString();
-                  delRange = ws.Range[(rowIndex + 1).ToString() + ":" + (rowIndex + row).ToString()];
+                  delRange = ws.Range[oleRow.ToString() + ":" + (oleRow + delRow - 1).ToString()];
                   delRange.Delete(DeleteMode.EntireRow);
-                  ws.Cells[rowIndex + row + 1 , 0].Value = tmp;
                   continue;
                }
             }
