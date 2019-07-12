@@ -131,6 +131,7 @@ namespace PhoenixCI.FormUI.Prefix2
          returnTable = dao20231.List20231(_cpYMD);
 
          if (returnTable.Rows.Count <= 0) {
+            gcMain.Visible = false;
             MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
             return ResultStatus.Success;
          }
