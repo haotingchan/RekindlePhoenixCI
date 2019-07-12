@@ -1,12 +1,8 @@
 ﻿using OnePiece;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DataObjects.Dao.Together.SpecificDao {
+namespace DataObjects.Dao.Together.SpecificDao
+{
 
     public class D50072 {
 
@@ -55,23 +51,16 @@ namespace DataObjects.Dao.Together.SpecificDao {
             return dtResult;
         }
 
-        public DataTable ListData_mtx(string as_symd, string as_eymd) {
+        public DataTable ListData_valid(string as_symd, string as_eymd) {
 
             object[] parms = {
                 "@as_symd", as_symd,
                 "@as_eymd", as_eymd
             };
 
-            string sql = @"SELECT REWARD.RWD_AUCTION_ACCUM.YYMMDD,   
-                           REWARD.RWD_AUCTION_ACCUM.FCM_NO,   
-                           REWARD.RWD_AUCTION_ACCUM.ACC_NO,   
-                           REWARD.RWD_AUCTION_ACCUM.AUCTION_RATE,   
-                           REWARD.RWD_AUCTION_ACCUM.BUY_KEEP_TIME,   
-                           REWARD.RWD_AUCTION_ACCUM.SELL_KEEP_TIME,   
-                           REWARD.RWD_AUCTION_ACCUM.MATCH_RATE  
-                           FROM REWARD.RWD_AUCTION_ACCUM   
-	                       WHERE YYMMDD BETWEEN @as_symd AND @as_eymd
-                           order by yymmdd, fcm_no, acc_no";
+            string sql = @"select * from reward.RWD_VALID_QUOTE 
+                           where MC_DATE between @as_symd AND @as_eymd
+                           order by MC_DATE, FUT_ID, ACCTNO, ACTIVITY_TYPE, KIND_ID";
 
             DataTable dtResult = db.GetDataTable(sql, parms);
 
