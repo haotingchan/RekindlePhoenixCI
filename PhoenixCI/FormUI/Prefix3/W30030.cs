@@ -1,30 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using BaseGround;
-using BusinessObjects.Enums;
+﻿using BaseGround;
 using BaseGround.Shared;
+using BusinessObjects.Enums;
 using Common;
-using DevExpress.Spreadsheet;
 using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
+using DevExpress.Spreadsheet;
+using System;
+using System.Data;
 
 /// <summary>
 /// Lukas, 2019/2/27
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix3 {
 
-    /// <summary>
-    /// 30030 當月,當年度日均量表
-    /// </summary>
-    public partial class W30030 : FormParent {
+   /// <summary>
+   /// 30030 當月,當年度日均量表
+   /// </summary>
+   public partial class W30030 : FormParent {
 
         private RPT daoRPT;
         private D30030 dao30030;
@@ -304,10 +296,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
             // 讀取資料
             // 計算當月最後一日
             if (eymd.SubStr(4, 2) == "12") {
-                ym = (eymd.SubStr(4, 2).AsInt() + 1).AsString() + "01";
+                ym = (eymd.SubStr(0, 4).AsInt() + 1).AsString() + "01";
             }
             else {
-                ym = eymd.SubStr(0, 4) + ("0" + (eymd.SubStr(4, 2).AsInt() + 1).AsString()).SubStr(0, 2);
+                ym = eymd.SubStr(0, 4) + ("0" + (eymd.SubStr(4, 2).AsInt() + 1).AsString()).SubStr(1, 2);
             }
             ym = PbFunc.relativedate((ym.SubStr(0, 4) + "/" + ym.SubStr(4, 2) + "/01").AsDateTime("yyyy/MM/dd"), -1).ToString("yyyyMMdd");
             DataTable dt30034 = dao30030.d_30034(txtSDate.Text.SubStr(0, 4) + "0101",
