@@ -24,6 +24,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
       private OCFG daoOCFG;
       private RPT daoRPT;
       private D30010 dao30010;
+      private int flag;
 
       public W30010(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
@@ -79,14 +80,21 @@ namespace PhoenixCI.FormUI.Prefix3 {
       }
 
       protected void ShowMsg(string msg) {
-         lblProcessing.Text = msg;
+         labMsg.Text = msg;
          this.Refresh();
          Thread.Sleep(5);
       }
 
       protected override ResultStatus Export() {
          try {
-            lblProcessing.Visible = true;
+            //ready
+            panFilter.Enabled = false;
+            labMsg.Visible = true;
+            labMsg.Text = "開始轉檔...";
+            this.Cursor = Cursors.WaitCursor;
+            this.Refresh();
+            Thread.Sleep(5);
+
             string rptId, file, rptName = "",
                      cpYmd = txtSDate.DateTimeValue.ToString("yyyyMMdd");
 
@@ -97,7 +105,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             string rtnStr, grp;
             if (ddlType.Text == "16:15收盤") {
                grp = "1";
-               DialogResult result = MessageDisplay.Choose("盤別為「16:15收盤」，請問是否繼續轉出報表？");
+               DialogResult result = MessageDisplay.Choose("盤別為「16:15收盤」，請問是否繼續轉出報表？" , MessageBoxDefaultButton.Button2 , GlobalInfo.QuestionText);
                if (result == DialogResult.No) {
                   ShowMsg("已取消轉檔...");
                   return ResultStatus.Fail;
@@ -121,9 +129,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
                //check JSW
                rtnStr = PbFunc.f_get_jsw_seq(_ProgramID , "E" , seq , txtSDate.DateTimeValue , "0");
                if (rtnStr != "") {
-                  DialogResult result = MessageDisplay.Choose(" 統計資料未轉入完畢,是否要繼續?");
+                  DialogResult result = MessageDisplay.Choose(" 統計資料未轉入完畢,是否要繼續?" , MessageBoxDefaultButton.Button2 , GlobalInfo.QuestionText);
                   if (result == DialogResult.No) {
-                     lblProcessing.Visible = false;
                      return ResultStatus.Fail;
                   }
                }
@@ -132,7 +139,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //判斷20110作業已完成
             rtnInt = dao30010.check20110(txtSDate.Text);
             if (rtnInt == 0) {
-               DialogResult result = MessageDisplay.Choose("無 " + txtSDate.Text + " 現貨資料 (資料來自20110作業)，" + 
+               DialogResult result = MessageDisplay.Choose("無 " + txtSDate.Text + " 現貨資料 (資料來自20110作業)，" +
                   Environment.NewLine + "請問是否繼續轉出報表？" , MessageBoxDefaultButton.Button2 , GlobalInfo.QuestionText);
                if (result == DialogResult.No) {
                   ShowMsg("已取消轉檔...");
@@ -150,6 +157,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //開啟檔案
             Workbook workbook = new Workbook();
             workbook.LoadDocument(file);
+            flag = 0;
 
             //切換Sheet
             Worksheet ws30011 = workbook.Worksheets["30011"];
@@ -210,17 +218,29 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //Eurex
             wf_30016(ws30014);
 
+            if (flag <= 0) {
+               File.Delete(file);
+               return ResultStatus.Fail;
+            }
+
             //存檔
             ws30014.ScrollToRow(0);
             ws30013.ScrollToRow(0);
             ws30011.ScrollToRow(0);
             workbook.SaveDocument(file);
             ShowMsg("轉檔完成");
+            return ResultStatus.Success;
+
          } catch (Exception ex) {
             MessageDisplay.Error("輸出錯誤");
-            throw ex;
+            WriteLog(ex);
+         } finally {
+            panFilter.Enabled = true;
+            labMsg.Text = "";
+            labMsg.Visible = false;
+            this.Cursor = Cursors.Arrow;
          }
-         return ResultStatus.Success;
+         return ResultStatus.Fail;
       }
 
       /// <summary>
@@ -243,9 +263,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
             DataTable dt30012 = dao30010.d_30012(txtSDate.DateTimeValue);
             if (dt30012.Rows.Count == 0) {
                MessageDisplay.Info(txtSDate.Text + "," + rptId + '－' + rptName + ",無任何資料!");
-               lblProcessing.Visible = false;
+               labMsg.Visible = false;
                return;
             }
+            flag++;
 
             //填資料
             foreach (DataRow dr in dt30012.Rows) {
@@ -330,7 +351,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             DataTable dt30011 = dao30010.d_30011(txtSDate.DateTimeValue);
             if (dt30011.Rows.Count == 0) {
                MessageDisplay.Info(txtSDate.Text + "," + rptId + '－' + rptName + ",無任何資料!");
-               lblProcessing.Visible = false;
+               labMsg.Visible = false;
                return;
             }
 
@@ -339,9 +360,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
             DataTable dtRPT = daoRPT.ListAllByTXD_ID(rptId);
             if (dtRPT.Rows.Count == 0) {
                MessageDisplay.Info(rptId + '－' + "RPT無任何資料!");
-               lblProcessing.Visible = false;
+               labMsg.Visible = false;
                return;
             }
+            flag++;
 
             //填資料
             mxwCnt = 0;
@@ -516,9 +538,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
          DataTable dt30014 = dao30010.d_30014(txtSDate.DateTimeValue);
          if (dt30014.Rows.Count == 0) {
             MessageDisplay.Info(txtSDate.Text + "," + rptId + '－' + rptName + ",無任何資料!");
-            lblProcessing.Visible = false;
+            labMsg.Visible = false;
             return;
          }
+         flag++;
 
          //填資料
          foreach (DataRow dr in dt30014.Rows) {
@@ -558,9 +581,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
          DataTable dt30015 = dao30010.d_30015(ldtDate);
          if (dt30015.Rows.Count == 0) {
             MessageDisplay.Info(ldtDate.ToString("yyyy/MM/dd") + "(前營業日)開戶資料未轉入(功能28610)，或請轉入後重新執行此功能!");
-            lblProcessing.Visible = false;
+            labMsg.Visible = false;
             return;
          }
+         flag++;
 
          //填資料
          /* 只會有1筆 */
@@ -608,9 +632,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
          //讀取資料
          DataTable dt30016 = dao30010.d_30016(txtSDate.DateTimeValue);
          if (dt30016.Rows.Count == 0) {
-            lblProcessing.Visible = false;
+            labMsg.Visible = false;
             return;
          }
+         flag++;
 
          //填資料
          int add = 55 - 1;

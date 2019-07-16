@@ -129,7 +129,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
                //check JSW
                rtnStr = PbFunc.f_get_jsw_seq(_ProgramID , "E" , seq , txtSDate.DateTimeValue , "0");
                if (rtnStr != "") {
-                  DialogResult result = MessageDisplay.Choose(" 統計資料未轉入完畢,是否要繼續?");
+                  DialogResult result = MessageDisplay.Choose(txtSDate.Text +
+                     "統計資料未轉入完畢，請確認監視批次「AIG5402」執行完成，再按「是」繼續，若選「否」則會跳過作業不執行。" ,
+                     MessageBoxDefaultButton.Button2 , GlobalInfo.QuestionText);
+
                   if (result == DialogResult.No) {
                      lblProcessing.Visible = false;
                      return ResultStatus.Fail;
