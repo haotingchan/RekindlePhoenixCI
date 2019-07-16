@@ -1,32 +1,28 @@
-﻿using System;
+﻿using BaseGround;
+using BaseGround.Report;
+using BaseGround.Shared;
+using BusinessObjects;
+using BusinessObjects.Enums;
+using Common;
+using DataObjects.Dao.Together;
+using DataObjects.Dao.Together.SpecificDao;
+using DataObjects.Dao.Together.TableDao;
+using DevExpress.XtraEditors.Controls;
+using DevExpress.XtraEditors.Repository;
+using DevExpress.XtraGrid.Views.Base;
+using DevExpress.XtraGrid.Views.Grid;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using BaseGround;
-using DataObjects.Dao.Together.SpecificDao;
-using DataObjects.Dao.Together.TableDao;
-using DevExpress.XtraEditors.Repository;
-using Common;
-using BusinessObjects.Enums;
-using BaseGround.Shared;
-using DevExpress.XtraEditors.Controls;
-using DataObjects.Dao.Together;
-using BusinessObjects;
-using BaseGround.Report;
-using DevExpress.XtraGrid.Views.Grid;
-using DevExpress.XtraGrid.Views.Base;
 
 /// <summary>
 /// Lukas, 2019/5/13
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix4 {
-    public partial class W40074 : FormParent {
+   public partial class W40074 : FormParent {
 
         #region 全域變數
         /// <summary>
@@ -205,7 +201,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 ymd = txtSDate.DateTimeValue.ToString("yyyyMMdd");
                 DataTable dtMGD2 = dao40071.d_40071(ymd, isAdjType);
                 if (dtMGD2.Rows.Count == 0) {
-                    MessageDisplay.Error("無任何資料！");
+                    MessageDisplay.Info("無任何資料！");
                     gcMain.DataSource = dao40074.d_40074();
                     //若無資料，預設新增一筆設定資料
                     InsertRow();
@@ -397,7 +393,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         ******************************************/
                         DataTable dtSet = dao40071.IsSetOnSameDay(kindID, this.ymd, isAdjType);
                         if (dtSet.Rows.Count == 0) {
-                            MessageDisplay.Error("MGD2 " + kindID + " 無任何資料！");
+                            MessageDisplay.Info("MGD2 " + kindID + " 無任何資料！");
                             return ResultStatus.FailButNext;
                         }
                         count = dtSet.Rows[0]["LI_COUNT"].AsInt();

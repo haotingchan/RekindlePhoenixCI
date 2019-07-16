@@ -1,31 +1,28 @@
-﻿using System;
+﻿using BaseGround;
+using BaseGround.Report;
+using BaseGround.Shared;
+using BusinessObjects;
+using BusinessObjects.Enums;
+using Common;
+using DataObjects.Dao.Together.SpecificDao;
+using DataObjects.Dao.Together.TableDao;
+using DevExpress.XtraEditors.Controls;
+using DevExpress.XtraEditors.Repository;
+using DevExpress.XtraGrid.Views.Base;
+using DevExpress.XtraGrid.Views.Grid;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using BaseGround;
-using DataObjects.Dao.Together.SpecificDao;
-using DataObjects.Dao.Together.TableDao;
-using Common;
-using DevExpress.XtraEditors.Repository;
-using BusinessObjects.Enums;
-using BaseGround.Shared;
-using DevExpress.XtraEditors.Controls;
-using DevExpress.XtraGrid.Views.Grid;
-using DevExpress.XtraGrid.Views.Base;
-using BusinessObjects;
-using BaseGround.Report;
 
 /// <summary>
 /// Lukas, 2019/5/13
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix4 {
-    public partial class W40073 : FormParent {
+   public partial class W40073 : FormParent {
 
         /// <summary>
         /// 調整類型 0一般 1長假 2處置股票 3股票
@@ -147,7 +144,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                 ymd = txtSDate.DateTimeValue.ToString("yyyyMMdd");
                 DataTable dtMGD2 = dao40071.d_40071(ymd, isAdjType);
                 if (dtMGD2.Rows.Count == 0) {
-                    MessageDisplay.Error("無任何資料！");
+                    MessageDisplay.Info("無任何資料！");
                     gcMain.DataSource = dao40071.d_40073();
                     //若無資料，預設新增一筆設定資料
                     InsertRow();
@@ -351,7 +348,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         ******************************************/
                         DataTable dtSet = dao40071.IsSetOnSameDay(kindID, ymd, isAdjType);
                         if (dtSet.Rows.Count == 0) {
-                            MessageDisplay.Error("MGD2 " + kindID + " 無任何資料！");
+                            MessageDisplay.Info("MGD2 " + kindID + " 無任何資料！");
                             return ResultStatus.FailButNext;
                         }
                         count = dtSet.Rows[0]["LI_COUNT"].AsInt();
@@ -502,7 +499,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                 _ReportHelper.Print();//如果有夜盤會特別標註
                 _ReportHelper.Export(FileType.PDF, _ReportHelper.FilePath);
-                MessageDisplay.Info("報表儲存完成!");
+                //MessageDisplay.Info("報表儲存完成!");
                 return ResultStatus.Success;
             }
             catch (Exception ex) {
