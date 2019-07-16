@@ -11,6 +11,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using DataObjects.Dao.Together;
+using DataObjects;
 /// <summary>
 /// john,20190410,保證金狀況表 (Group1) 
 /// </summary>
@@ -47,6 +48,11 @@ namespace PhoenixCI.FormUI.Prefix4
          emDate.DateTimeValue = DateTime.Now;
 #endif
          emDate.Focus();
+
+            if (GlobalInfo.USER_ID.ToUpper() == GlobalDaoSetting.GetConnectionInfo.ConnectionName)
+            {
+                chkOnlyExport.Visible = true;
+            }
          return ResultStatus.Success;
       }
 
@@ -221,13 +227,16 @@ namespace PhoenixCI.FormUI.Prefix4
                //記錄所產商品的檔案路徑
                pathList[k++] = filepath;
                //產出經Excel計算後的資料
-               b40010.ComputeEWMA(filepath, kindID);
+               b40010.ComputeEWMA(filepath, kindID, chkOnlyExport.Checked);
                Thread.Sleep(0);
             }
-            
-            //呼叫SP
-            ShowMsg($"EWMA 寫入資料庫...");
-            b40010.ExecuteSP(oswGrp);
+            if (chkOnlyExport.Checked == false)
+            {
+                //呼叫SP
+                ShowMsg($"EWMA 寫入資料庫...");
+                b40010.ExecuteSP(oswGrp);
+            }
+
             MessageDisplay.Info(MessageDisplay.MSG_IMPORT);
 
          }

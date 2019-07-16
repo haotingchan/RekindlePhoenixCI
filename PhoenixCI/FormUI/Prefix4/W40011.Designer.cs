@@ -27,218 +27,232 @@
       /// </summary>
       private void InitializeComponent()
       {
-         this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
-         this.EWMAbtn = new System.Windows.Forms.Button();
-         this.r_frame = new DevExpress.XtraEditors.PanelControl();
-         this.stMsgTxt = new System.Windows.Forms.Label();
-         this.gb1_label = new System.Windows.Forms.Label();
-         this.gb_1 = new DevExpress.XtraEditors.PanelControl();
-         this.emDate = new BaseGround.Widget.TextDateEdit();
-         this.stDate = new System.Windows.Forms.Label();
-         this.textEdit1 = new DevExpress.XtraEditors.TextEdit();
-         this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
-         this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
-         this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
-         this.oswGrpLookItem = new DevExpress.XtraEditors.LookUpEdit();
-         ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
-         this.panelControl2.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
-         this.r_frame.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.gb_1)).BeginInit();
-         this.gb_1.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.emDate.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.oswGrpLookItem.Properties)).BeginInit();
-         this.SuspendLayout();
-         // 
-         // panParent
-         // 
-         this.panParent.Size = new System.Drawing.Size(763, 272);
-         // 
-         // ribbonControl
-         // 
-         this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(763, 30);
-         this.ribbonControl.Toolbar.ShowCustomizeItem = false;
-         // 
-         // panelControl2
-         // 
-         this.panelControl2.Controls.Add(this.oswGrpLookItem);
-         this.panelControl2.Controls.Add(this.EWMAbtn);
-         this.panelControl2.Controls.Add(this.r_frame);
-         this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.panelControl2.Location = new System.Drawing.Point(0, 30);
-         this.panelControl2.Name = "panelControl2";
-         this.panelControl2.Size = new System.Drawing.Size(763, 272);
-         this.panelControl2.TabIndex = 1;
-         // 
-         // EWMAbtn
-         // 
-         this.EWMAbtn.Location = new System.Drawing.Point(543, 107);
-         this.EWMAbtn.Name = "EWMAbtn";
-         this.EWMAbtn.Size = new System.Drawing.Size(106, 37);
-         this.EWMAbtn.TabIndex = 5;
-         this.EWMAbtn.Text = "EWMA計算";
-         this.EWMAbtn.UseVisualStyleBackColor = true;
-         this.EWMAbtn.Click += new System.EventHandler(this.EWMAbtn_Click);
-         // 
-         // r_frame
-         // 
-         this.r_frame.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
-         this.r_frame.Appearance.Options.UseBackColor = true;
-         this.r_frame.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-         this.r_frame.Controls.Add(this.stMsgTxt);
-         this.r_frame.Controls.Add(this.gb1_label);
-         this.r_frame.Controls.Add(this.gb_1);
-         this.r_frame.Location = new System.Drawing.Point(30, 27);
-         this.r_frame.Name = "r_frame";
-         this.r_frame.Size = new System.Drawing.Size(461, 193);
-         this.r_frame.TabIndex = 1;
-         // 
-         // stMsgTxt
-         // 
-         this.stMsgTxt.AutoSize = true;
-         this.stMsgTxt.Font = new System.Drawing.Font("微軟正黑體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.stMsgTxt.ForeColor = System.Drawing.Color.Blue;
-         this.stMsgTxt.Location = new System.Drawing.Point(34, 138);
-         this.stMsgTxt.Name = "stMsgTxt";
-         this.stMsgTxt.Size = new System.Drawing.Size(153, 19);
-         this.stMsgTxt.TabIndex = 1;
-         this.stMsgTxt.Text = "訊息：資料轉出中........";
-         this.stMsgTxt.Visible = false;
-         // 
-         // gb1_label
-         // 
-         this.gb1_label.AutoSize = true;
-         this.gb1_label.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
-         this.gb1_label.ForeColor = System.Drawing.Color.Navy;
-         this.gb1_label.Location = new System.Drawing.Point(34, 14);
-         this.gb1_label.Name = "gb1_label";
-         this.gb1_label.Size = new System.Drawing.Size(122, 21);
-         this.gb1_label.TabIndex = 0;
-         this.gb1_label.Text = "請輸入交易日期";
-         // 
-         // gb_1
-         // 
-         this.gb_1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
-         this.gb_1.Appearance.Options.UseBackColor = true;
-         this.gb_1.Appearance.Options.UseTextOptions = true;
-         this.gb_1.Appearance.TextOptions.Trimming = DevExpress.Utils.Trimming.Word;
-         this.gb_1.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.gb_1.Controls.Add(this.emDate);
-         this.gb_1.Controls.Add(this.stDate);
-         this.gb_1.Location = new System.Drawing.Point(28, 25);
-         this.gb_1.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
-         this.gb_1.LookAndFeel.UseDefaultLookAndFeel = false;
-         this.gb_1.Name = "gb_1";
-         this.gb_1.Size = new System.Drawing.Size(406, 92);
-         this.gb_1.TabIndex = 0;
-         // 
-         // emDate
-         // 
-         this.emDate.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
-         this.emDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.emDate.EditValue = "2019/01/01";
-         this.emDate.Location = new System.Drawing.Point(100, 33);
-         this.emDate.Name = "emDate";
-         this.emDate.Properties.Appearance.Options.UseTextOptions = true;
-         this.emDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.emDate.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.emDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
-         this.emDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-         this.emDate.Properties.Mask.ShowPlaceHolders = false;
-         this.emDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.emDate.Size = new System.Drawing.Size(95, 28);
-         this.emDate.TabIndex = 4;
-         this.emDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
-         // 
-         // stDate
-         // 
-         this.stDate.AutoSize = true;
-         this.stDate.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
-         this.stDate.Location = new System.Drawing.Point(45, 37);
-         this.stDate.Name = "stDate";
-         this.stDate.Size = new System.Drawing.Size(58, 21);
-         this.stDate.TabIndex = 1;
-         this.stDate.Text = "日期：";
-         // 
-         // textEdit1
-         // 
-         this.textEdit1.Location = new System.Drawing.Point(5, 5);
-         this.textEdit1.MenuManager = this.ribbonControl;
-         this.textEdit1.Name = "textEdit1";
-         this.textEdit1.Size = new System.Drawing.Size(111, 26);
-         this.textEdit1.TabIndex = 4;
-         // 
-         // layoutControlItem1
-         // 
-         this.layoutControlItem1.Location = new System.Drawing.Point(0, 0);
-         this.layoutControlItem1.Name = "layoutControlItem1";
-         this.layoutControlItem1.Size = new System.Drawing.Size(0, 0);
-         this.layoutControlItem1.TextSize = new System.Drawing.Size(50, 20);
-         // 
-         // layoutControlGroup1
-         // 
-         this.layoutControlGroup1.AppearanceGroup.BackColor = System.Drawing.Color.Transparent;
-         this.layoutControlGroup1.AppearanceGroup.Options.UseBackColor = true;
-         this.layoutControlGroup1.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
-         this.layoutControlGroup1.GroupBordersVisible = false;
-         this.layoutControlGroup1.Location = new System.Drawing.Point(0, 0);
-         this.layoutControlGroup1.Name = "Root";
-         this.layoutControlGroup1.OptionsItemText.TextToControlDistance = 5;
-         this.layoutControlGroup1.Size = new System.Drawing.Size(189, 36);
-         this.layoutControlGroup1.TextVisible = false;
-         // 
-         // layoutControlItem3
-         // 
-         this.layoutControlItem3.Location = new System.Drawing.Point(0, 0);
-         this.layoutControlItem3.Name = "layoutControlItem3";
-         this.layoutControlItem3.Size = new System.Drawing.Size(0, 0);
-         this.layoutControlItem3.TextSize = new System.Drawing.Size(50, 20);
-         // 
-         // oswGrpLookItem
-         // 
-         this.oswGrpLookItem.Location = new System.Drawing.Point(523, 65);
-         this.oswGrpLookItem.MenuManager = this.ribbonControl;
-         this.oswGrpLookItem.Name = "oswGrpLookItem";
-         this.oswGrpLookItem.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
+            this.oswGrpLookItem = new DevExpress.XtraEditors.LookUpEdit();
+            this.EWMAbtn = new System.Windows.Forms.Button();
+            this.r_frame = new DevExpress.XtraEditors.PanelControl();
+            this.stMsgTxt = new System.Windows.Forms.Label();
+            this.gb1_label = new System.Windows.Forms.Label();
+            this.gb_1 = new DevExpress.XtraEditors.PanelControl();
+            this.emDate = new BaseGround.Widget.TextDateEdit();
+            this.stDate = new System.Windows.Forms.Label();
+            this.textEdit1 = new DevExpress.XtraEditors.TextEdit();
+            this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
+            this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.chkOnlyExport = new DevExpress.XtraEditors.CheckEdit();
+            ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
+            this.panelControl2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.oswGrpLookItem.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
+            this.r_frame.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gb_1)).BeginInit();
+            this.gb_1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.emDate.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chkOnlyExport.Properties)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // panParent
+            // 
+            this.panParent.Size = new System.Drawing.Size(763, 272);
+            // 
+            // ribbonControl
+            // 
+            this.ribbonControl.ExpandCollapseItem.Id = 0;
+            this.ribbonControl.Size = new System.Drawing.Size(763, 30);
+            this.ribbonControl.Toolbar.ShowCustomizeItem = false;
+            // 
+            // panelControl2
+            // 
+            this.panelControl2.Controls.Add(this.chkOnlyExport);
+            this.panelControl2.Controls.Add(this.oswGrpLookItem);
+            this.panelControl2.Controls.Add(this.EWMAbtn);
+            this.panelControl2.Controls.Add(this.r_frame);
+            this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelControl2.Location = new System.Drawing.Point(0, 30);
+            this.panelControl2.Name = "panelControl2";
+            this.panelControl2.Size = new System.Drawing.Size(763, 272);
+            this.panelControl2.TabIndex = 1;
+            // 
+            // oswGrpLookItem
+            // 
+            this.oswGrpLookItem.Location = new System.Drawing.Point(523, 65);
+            this.oswGrpLookItem.MenuManager = this.ribbonControl;
+            this.oswGrpLookItem.Name = "oswGrpLookItem";
+            this.oswGrpLookItem.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.oswGrpLookItem.Size = new System.Drawing.Size(156, 26);
-         this.oswGrpLookItem.TabIndex = 6;
-         // 
-         // W40011
-         // 
-         this.Appearance.Options.UseFont = true;
-         this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
-         this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(763, 302);
-         this.Controls.Add(this.panelControl2);
-         this.Name = "W40011";
-         this.Text = "W40011";
-         this.Controls.SetChildIndex(this.ribbonControl, 0);
-         this.Controls.SetChildIndex(this.panParent, 0);
-         this.Controls.SetChildIndex(this.panelControl2, 0);
-         ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
-         this.panelControl2.ResumeLayout(false);
-         ((System.ComponentModel.ISupportInitialize)(this.r_frame)).EndInit();
-         this.r_frame.ResumeLayout(false);
-         this.r_frame.PerformLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.gb_1)).EndInit();
-         this.gb_1.ResumeLayout(false);
-         this.gb_1.PerformLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.emDate.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.oswGrpLookItem.Properties)).EndInit();
-         this.ResumeLayout(false);
-         this.PerformLayout();
+            this.oswGrpLookItem.Size = new System.Drawing.Size(156, 26);
+            this.oswGrpLookItem.TabIndex = 6;
+            // 
+            // EWMAbtn
+            // 
+            this.EWMAbtn.Location = new System.Drawing.Point(543, 107);
+            this.EWMAbtn.Name = "EWMAbtn";
+            this.EWMAbtn.Size = new System.Drawing.Size(106, 37);
+            this.EWMAbtn.TabIndex = 5;
+            this.EWMAbtn.Text = "EWMA計算";
+            this.EWMAbtn.UseVisualStyleBackColor = true;
+            this.EWMAbtn.Click += new System.EventHandler(this.EWMAbtn_Click);
+            // 
+            // r_frame
+            // 
+            this.r_frame.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+            this.r_frame.Appearance.Options.UseBackColor = true;
+            this.r_frame.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.r_frame.Controls.Add(this.stMsgTxt);
+            this.r_frame.Controls.Add(this.gb1_label);
+            this.r_frame.Controls.Add(this.gb_1);
+            this.r_frame.Location = new System.Drawing.Point(30, 27);
+            this.r_frame.Name = "r_frame";
+            this.r_frame.Size = new System.Drawing.Size(461, 193);
+            this.r_frame.TabIndex = 1;
+            // 
+            // stMsgTxt
+            // 
+            this.stMsgTxt.AutoSize = true;
+            this.stMsgTxt.Font = new System.Drawing.Font("微軟正黑體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.stMsgTxt.ForeColor = System.Drawing.Color.Blue;
+            this.stMsgTxt.Location = new System.Drawing.Point(34, 138);
+            this.stMsgTxt.Name = "stMsgTxt";
+            this.stMsgTxt.Size = new System.Drawing.Size(153, 19);
+            this.stMsgTxt.TabIndex = 1;
+            this.stMsgTxt.Text = "訊息：資料轉出中........";
+            this.stMsgTxt.Visible = false;
+            // 
+            // gb1_label
+            // 
+            this.gb1_label.AutoSize = true;
+            this.gb1_label.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
+            this.gb1_label.ForeColor = System.Drawing.Color.Navy;
+            this.gb1_label.Location = new System.Drawing.Point(34, 14);
+            this.gb1_label.Name = "gb1_label";
+            this.gb1_label.Size = new System.Drawing.Size(122, 21);
+            this.gb1_label.TabIndex = 0;
+            this.gb1_label.Text = "請輸入交易日期";
+            // 
+            // gb_1
+            // 
+            this.gb_1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+            this.gb_1.Appearance.Options.UseBackColor = true;
+            this.gb_1.Appearance.Options.UseTextOptions = true;
+            this.gb_1.Appearance.TextOptions.Trimming = DevExpress.Utils.Trimming.Word;
+            this.gb_1.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.gb_1.Controls.Add(this.emDate);
+            this.gb_1.Controls.Add(this.stDate);
+            this.gb_1.Location = new System.Drawing.Point(28, 25);
+            this.gb_1.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
+            this.gb_1.LookAndFeel.UseDefaultLookAndFeel = false;
+            this.gb_1.Name = "gb_1";
+            this.gb_1.Size = new System.Drawing.Size(406, 92);
+            this.gb_1.TabIndex = 0;
+            // 
+            // emDate
+            // 
+            this.emDate.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
+            this.emDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+            this.emDate.EditValue = "2019/01/01";
+            this.emDate.Location = new System.Drawing.Point(100, 33);
+            this.emDate.Name = "emDate";
+            this.emDate.Properties.Appearance.Options.UseTextOptions = true;
+            this.emDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.emDate.Properties.EditFormat.FormatString = "yyyy/MM/dd";
+            this.emDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+            this.emDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.emDate.Properties.Mask.ShowPlaceHolders = false;
+            this.emDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+            this.emDate.Size = new System.Drawing.Size(95, 28);
+            this.emDate.TabIndex = 4;
+            this.emDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
+            // 
+            // stDate
+            // 
+            this.stDate.AutoSize = true;
+            this.stDate.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
+            this.stDate.Location = new System.Drawing.Point(45, 37);
+            this.stDate.Name = "stDate";
+            this.stDate.Size = new System.Drawing.Size(58, 21);
+            this.stDate.TabIndex = 1;
+            this.stDate.Text = "日期：";
+            // 
+            // textEdit1
+            // 
+            this.textEdit1.Location = new System.Drawing.Point(5, 5);
+            this.textEdit1.MenuManager = this.ribbonControl;
+            this.textEdit1.Name = "textEdit1";
+            this.textEdit1.Size = new System.Drawing.Size(111, 26);
+            this.textEdit1.TabIndex = 4;
+            // 
+            // layoutControlItem1
+            // 
+            this.layoutControlItem1.Location = new System.Drawing.Point(0, 0);
+            this.layoutControlItem1.Name = "layoutControlItem1";
+            this.layoutControlItem1.Size = new System.Drawing.Size(0, 0);
+            this.layoutControlItem1.TextSize = new System.Drawing.Size(50, 20);
+            // 
+            // layoutControlGroup1
+            // 
+            this.layoutControlGroup1.AppearanceGroup.BackColor = System.Drawing.Color.Transparent;
+            this.layoutControlGroup1.AppearanceGroup.Options.UseBackColor = true;
+            this.layoutControlGroup1.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
+            this.layoutControlGroup1.GroupBordersVisible = false;
+            this.layoutControlGroup1.Location = new System.Drawing.Point(0, 0);
+            this.layoutControlGroup1.Name = "Root";
+            this.layoutControlGroup1.OptionsItemText.TextToControlDistance = 5;
+            this.layoutControlGroup1.Size = new System.Drawing.Size(189, 36);
+            this.layoutControlGroup1.TextVisible = false;
+            // 
+            // layoutControlItem3
+            // 
+            this.layoutControlItem3.Location = new System.Drawing.Point(0, 0);
+            this.layoutControlItem3.Name = "layoutControlItem3";
+            this.layoutControlItem3.Size = new System.Drawing.Size(0, 0);
+            this.layoutControlItem3.TextSize = new System.Drawing.Size(50, 20);
+            // 
+            // chkOnlyExport
+            // 
+            this.chkOnlyExport.Location = new System.Drawing.Point(543, 150);
+            this.chkOnlyExport.MenuManager = this.ribbonControl;
+            this.chkOnlyExport.Name = "chkOnlyExport";
+            this.chkOnlyExport.Properties.Caption = "只轉報表";
+            this.chkOnlyExport.Size = new System.Drawing.Size(106, 24);
+            this.chkOnlyExport.TabIndex = 7;
+            this.chkOnlyExport.Visible = false;
+            // 
+            // W40011
+            // 
+            this.Appearance.Options.UseFont = true;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(763, 302);
+            this.Controls.Add(this.panelControl2);
+            this.Name = "W40011";
+            this.Text = "W40011";
+            this.Controls.SetChildIndex(this.ribbonControl, 0);
+            this.Controls.SetChildIndex(this.panParent, 0);
+            this.Controls.SetChildIndex(this.panelControl2, 0);
+            ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
+            this.panelControl2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.oswGrpLookItem.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.r_frame)).EndInit();
+            this.r_frame.ResumeLayout(false);
+            this.r_frame.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gb_1)).EndInit();
+            this.gb_1.ResumeLayout(false);
+            this.gb_1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.emDate.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chkOnlyExport.Properties)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
       }
 
@@ -256,5 +270,6 @@
       private System.Windows.Forms.Label stDate;
       private System.Windows.Forms.Button EWMAbtn;
       private DevExpress.XtraEditors.LookUpEdit oswGrpLookItem;
-   }
+        private DevExpress.XtraEditors.CheckEdit chkOnlyExport;
+    }
 }
