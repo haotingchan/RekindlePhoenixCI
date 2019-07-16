@@ -131,7 +131,7 @@
          this.grpxDescription.Controls.Add(this.label1);
          this.grpxDescription.Controls.Add(this.txtMonth);
          this.grpxDescription.Controls.Add(this.lblDate);
-         this.grpxDescription.Location = new System.Drawing.Point(15, 8);
+         this.grpxDescription.Location = new System.Drawing.Point(13, 6);
          this.grpxDescription.Name = "grpxDescription";
          this.grpxDescription.Size = new System.Drawing.Size(587, 158);
          this.grpxDescription.TabIndex = 8;
@@ -181,7 +181,7 @@
          // 
          this.lblProcessing.AutoSize = true;
          this.lblProcessing.ForeColor = System.Drawing.Color.Blue;
-         this.lblProcessing.Location = new System.Drawing.Point(12, 169);
+         this.lblProcessing.Location = new System.Drawing.Point(10, 167);
          this.lblProcessing.Name = "lblProcessing";
          this.lblProcessing.Size = new System.Drawing.Size(85, 20);
          this.lblProcessing.TabIndex = 10;
@@ -190,6 +190,9 @@
          // 
          // panelControl1
          // 
+         this.panelControl1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.panelControl1.Appearance.Options.UseBackColor = true;
+         this.panelControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.panelControl1.Controls.Add(this.grpxDescription);
          this.panelControl1.Controls.Add(this.lblProcessing);
          this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;

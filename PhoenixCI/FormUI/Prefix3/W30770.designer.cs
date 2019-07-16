@@ -204,7 +204,6 @@
          this.ddlOswGrp.Properties.PopupSizeable = false;
          this.ddlOswGrp.Size = new System.Drawing.Size(150, 26);
          this.ddlOswGrp.TabIndex = 6;
-         this.ddlOswGrp.Visible = false;
          // 
          // r_frame
          // 
