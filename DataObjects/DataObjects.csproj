@@ -227,6 +227,7 @@
     <Compile Include="Dao\Together\SpecificDao\D49080.cs" />
     <Compile Include="Dao\Together\SpecificDao\D40030.cs" />
     <Compile Include="Dao\Together\SpecificDao\D50020.cs" />
+    <Compile Include="Dao\Together\SpecificDao\D55070.cs" />
     <Compile Include="Dao\Together\SpecificDao\DP00xx.cs" />
     <Compile Include="Dao\Together\SpecificDao\D50030.cs" />
     <Compile Include="Dao\Together\SpecificDao\D50031.cs" />
@@ -298,6 +299,7 @@
     <Compile Include="Dao\Together\TableDao\AM2F.cs" />
     <Compile Include="Dao\Together\TableDao\AM7.cs" />
     <Compile Include="Dao\Together\TableDao\AM7T.cs" />
+    <Compile Include="Dao\Together\TableDao\BLP_OPTVOL.cs" />
     <Compile Include="Dao\Together\TableDao\AP.cs" />
     <Compile Include="Dao\Together\TableDao\HCPR.cs" />
     <Compile Include="Dao\Together\TableDao\AMIF.cs" />

@@ -288,7 +288,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
       /// 新增EWMA計算按鈕，產出資料，並將excel計算資料回寫資料庫
       /// </summary>
       /// <returns></returns>
-      public string ComputeEWMA(string FilePath, string KindID)
+      public string ComputeEWMA(string FilePath, string KindID,bool isOnlyExport)
       {
          Workbook workbook = new Workbook();
          try {
@@ -332,15 +332,19 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             //save
             workbook.SaveDocument(FilePath);
 
-            //3.確認有無相同資料存在
-            DataTable MGR2_SMA = dao40010.ListMGR2_SMA(lsDate, KindID);
-            SaveMGR2smaTypeE(DataTableModify(MGR2_SMA), worksheet);
-            //MODEL_TYPE = 'E'
-            DataTable MGR1_SMAe = dao40010.ListMGR1_SMA("E", lsDate, KindID);
-            SaveMGR1smaTypeE(DataTableModify(MGR1_SMAe), worksheet);
-            //MODEL_TYPE = 3
-            DataTable MGR1_SMA3 = dao40010.ListMGR1_SMA("3", lsDate, KindID);
-            SaveMGR1smaType3(DataTableModify(MGR1_SMA3), worksheet);
+            if (isOnlyExport == false)
+            {
+                //3.確認有無相同資料存在
+                DataTable MGR2_SMA = dao40010.ListMGR2_SMA(lsDate, KindID);
+                SaveMGR2smaTypeE(DataTableModify(MGR2_SMA), worksheet);
+                //MODEL_TYPE = 'E'
+                DataTable MGR1_SMAe = dao40010.ListMGR1_SMA("E", lsDate, KindID);
+                SaveMGR1smaTypeE(DataTableModify(MGR1_SMAe), worksheet);
+                //MODEL_TYPE = 3
+                DataTable MGR1_SMA3 = dao40010.ListMGR1_SMA("3", lsDate, KindID);
+                SaveMGR1smaType3(DataTableModify(MGR1_SMA3), worksheet);
+            }
+
          }
          catch (Exception ex) {
 #if DEBUG
