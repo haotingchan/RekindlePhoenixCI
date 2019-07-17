@@ -8,6 +8,7 @@ using DevExpress.Spreadsheet;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -20,6 +21,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
    /// </summary>
    public partial class W40210 : FormParent {
       private D40210 dao40210;
+      private int flag;
 
       #region 抓取畫面值(主要用在縮寫)
       /// <summary>
@@ -167,6 +169,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             string excelDestinationPath = PbFunc.wf_copy_file(_ProgramID , _ProgramID , "");
             Workbook workbook = new Workbook();
             workbook.LoadDocument(excelDestinationPath);
+            flag = 0;
 
             //3.write sheet data
             if (cbxProd.Items[0].CheckState == CheckState.Checked
@@ -198,16 +201,18 @@ namespace PhoenixCI.FormUI.Prefix4 {
             if (cbxProd.Items[3].CheckState == CheckState.Checked)
                wf_40210_1(workbook , "ETC" , StartDate , EndDate , chi_150 , chi_180 , v365 , TotalDayCount);
 
+            if (flag <= 0) {
+               File.Delete(excelDestinationPath);
+               return ResultStatus.Fail;
+            } else {
+               //存檔
+               workbook.SaveDocument(excelDestinationPath);
+               ShowMsg("轉檔完成");
+               if (FlagAdmin)
+                  System.Diagnostics.Process.Start(excelDestinationPath);
+               return ResultStatus.Success;
+            }
 
-
-            //存檔
-            workbook.SaveDocument(excelDestinationPath);
-            ShowMsg("轉檔完成");
-            if (FlagAdmin)
-               System.Diagnostics.Process.Start(excelDestinationPath);
-
-
-            return ResultStatus.Success;
          } catch (Exception ex) {
             ShowMsg("轉檔錯誤");
             WriteLog(ex);
@@ -312,7 +317,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                worksheet.Cells[rowBegin + rowIndex , colIndex].SetValue(dr["return_rate"]);
             }//foreach(DataRow dr in dtDetail.Rows){
 
-
+            flag++;
             return ResultStatus.Success;
          } catch (Exception ex) {
             WriteLog(ex);
@@ -349,6 +354,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             worksheet.Import(dtTarget , false , 1 , 0);
 
             worksheet.ScrollTo(0 , 0);
+            flag++;
             return ResultStatus.Success;
          } catch (Exception ex) {
             WriteLog(ex);
@@ -402,6 +408,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }//foreach(DataRow dr in dtTarget.Rows){
 
             worksheet.ScrollTo(0 , 0);
+            flag++;
+
             return ResultStatus.Success;
          } catch (Exception ex) {
             WriteLog(ex);
@@ -484,6 +492,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }//foreach(DataRow dr in dtDetail.Rows){
 
             worksheet.ScrollTo(0 , 0);
+            flag++;
+
             return ResultStatus.Success;
          } catch (Exception ex) {
             WriteLog(ex);
@@ -540,6 +550,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }//foreach(DataRow dr in dtTarget.Rows){
 
             worksheet.ScrollTo(0 , 0);
+            flag++;
+
             return ResultStatus.Success;
          } catch (Exception ex) {
             WriteLog(ex);
@@ -580,6 +592,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }//foreach(DataRow dr in dtTarget.Rows){
 
             worksheet.ScrollTo(0 , 0);
+            flag++;
+
             return ResultStatus.Success;
          } catch (Exception ex) {
             WriteLog(ex);
@@ -645,6 +659,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }//foreach(DataRow dr in dtDetail.Rows){
 
             worksheet.ScrollTo(0 , 0);
+            flag++;
+
             return ResultStatus.Success;
          } catch (Exception ex) {
             WriteLog(ex);
@@ -732,6 +748,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }//foreach(DataRow dr in dtDetail.Rows){
 
             worksheet.ScrollTo(0 , 0);
+            flag++;
+
             return ResultStatus.Success;
          } catch (Exception ex) {
             WriteLog(ex);
