@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 
 namespace PhoenixCI.FormUI.PrefixZ
 {
@@ -31,6 +32,7 @@ namespace PhoenixCI.FormUI.PrefixZ
             InitializeComponent();
 
             GridHelper.SetCommonGrid(gvMain);
+
             gvMain.AppearancePrint.HeaderPanel.Font = new Font("標楷體", 10);
             gvMain.AppearancePrint.Row.Font = new Font("標楷體", 10);
             gvMain.ViewCaptionHeight = 30;
@@ -123,7 +125,7 @@ namespace PhoenixCI.FormUI.PrefixZ
                 }
             }
 
-            string[] allowNullColumnList = { "TXN_RMARK", "TXN_AUDIT"};
+            string[] allowNullColumnList = { "TXN_RMARK", "TXN_AUDIT","OP_TYPE"};
             if (!GridHelper.CheckRequired(gcMain, allowNullColumnList))
             {
                 return ResultStatus.FailButNext;
@@ -148,7 +150,12 @@ namespace PhoenixCI.FormUI.PrefixZ
 
                     DataTable dtAdd = dt.GetChanges(DataRowState.Added);
                     DataTable dtDelete = dt.GetChanges(DataRowState.Deleted);
-                    DataTable dtChange = dt.GetChanges(DataRowState.Modified);
+                    DataTable dtChange = dt.Clone();
+                    var change = dt.GetChanges(DataRowState.Modified).AsEnumerable().Where(row => row.Field<string>("OP_TYPE") == "U");
+                    if (change.Any())
+                    {
+                        dtChange = change.CopyToDataTable<DataRow>();
+                    }
 
                     List<string> txnList = new List<string>();
                     #region 刪除作業代號
@@ -275,6 +282,7 @@ namespace PhoenixCI.FormUI.PrefixZ
             drNew["TXN_W_TIME"] = DateTime.Now;
             drNew["TXN_EXTEND"] = "N";
             drNew["TXN_DEFAULT"] = "N";
+            drNew["OP_TYPE"] = "I";
 
             dt.Rows.InsertAt(drNew, focusIndex);
             gcMain.DataSource = dt;
@@ -414,6 +422,14 @@ namespace PhoenixCI.FormUI.PrefixZ
             catch (Exception ex)
             {
                 WriteLog(ex);
+            }
+        }
+
+        private void gvMain_CellValueChanged(object sender, CellValueChangedEventArgs e)
+        {
+            if (e.Column != TXN_SEQ_NO && string.IsNullOrEmpty(gvMain.GetRowCellValue(e.RowHandle,OP_TYPE).AsString()))
+            {
+                gvMain.SetRowCellValue(e.RowHandle, OP_TYPE, "U");
             }
         }
     }

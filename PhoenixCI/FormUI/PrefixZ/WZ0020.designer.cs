@@ -41,6 +41,7 @@
             this.TXN_RMARK = new DevExpress.XtraGrid.Columns.GridColumn();
             this.TXN_W_TIME = new DevExpress.XtraGrid.Columns.GridColumn();
             this.TXN_ID_ORG = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.OP_TYPE = new DevExpress.XtraGrid.Columns.GridColumn();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
@@ -83,10 +84,12 @@
             this.TXN_DEFAULT,
             this.TXN_RMARK,
             this.TXN_W_TIME,
-            this.TXN_ID_ORG});
+            this.TXN_ID_ORG,
+            this.OP_TYPE});
             this.gvMain.GridControl = this.gcMain;
             this.gvMain.Name = "gvMain";
             this.gvMain.OptionsView.ColumnHeaderAutoHeight = DevExpress.Utils.DefaultBoolean.False;
+            this.gvMain.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gvMain_CellValueChanged);
             // 
             // TXN_ID
             // 
@@ -214,6 +217,12 @@
             this.TXN_ID_ORG.FieldName = "TXN_ID";
             this.TXN_ID_ORG.Name = "TXN_ID_ORG";
             // 
+            // OP_TYPE
+            // 
+            this.OP_TYPE.Caption = "OP_TYPE";
+            this.OP_TYPE.FieldName = "OP_TYPE";
+            this.OP_TYPE.Name = "OP_TYPE";
+            // 
             // WZ0020
             // 
             this.Appearance.Options.UseFont = true;
@@ -246,5 +255,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn TXN_PARENT_ID;
         private DevExpress.XtraGrid.Columns.GridColumn TXN_SEQ_NO;
         private DevExpress.XtraGrid.Columns.GridColumn TXN_EXTEND;
+        private DevExpress.XtraGrid.Columns.GridColumn OP_TYPE;
     }
 }

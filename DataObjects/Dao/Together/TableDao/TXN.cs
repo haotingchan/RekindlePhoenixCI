@@ -19,7 +19,7 @@ namespace DataObjects.Dao.Together
 
             string sql =
                 @"
-                    SELECT  CI.TXN.*,TXN_ID AS TXN_ID_ORG
+                    SELECT  CI.TXN.*,TXN_ID AS TXN_ID_ORG,'' AS OP_TYPE
                     FROM    CI.TXN
                     ORDER BY TXN_SEQ_NO,TXN_ID
                 ";
