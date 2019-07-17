@@ -340,13 +340,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
          }
          #endregion
 
-         //if (flag <= 0) {
-         //   File.Delete(file);
-         //   return ResultStatus.Fail;
-         //} else {
+         if (flag <= 0) {
+            File.Delete(file);
+            return ResultStatus.Fail;
+         } else {
             workbook.SaveDocument(file);
             return ResultStatus.Success;
-         //}
+         }
 
       }
    }
