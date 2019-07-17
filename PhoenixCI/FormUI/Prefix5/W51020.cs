@@ -1,18 +1,19 @@
-﻿using System.Data;
-using BaseGround;
-using DataObjects.Dao.Together;
-using DevExpress.XtraEditors.Repository;
+﻿using BaseGround;
 using BaseGround.Report;
-using DevExpress.XtraEditors.Controls;
-using BusinessObjects.Enums;
-using DataObjects.Dao.Together.SpecificDao;
-using DevExpress.XtraGrid.Views.Grid;
-using BusinessObjects;
-using System.ComponentModel;
-using Common;
-using System.Drawing;
 using BaseGround.Shared;
+using BusinessObjects;
+using BusinessObjects.Enums;
+using Common;
+using DataObjects.Dao.Together;
+using DataObjects.Dao.Together.SpecificDao;
+using DevExpress.XtraEditors.Controls;
+using DevExpress.XtraEditors.Repository;
+using DevExpress.XtraGrid;
+using DevExpress.XtraGrid.Views.Grid;
 using System;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
 
 /// <summary>
 /// david 2019/03/18
@@ -28,7 +29,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
       private RepositoryItemLookUpEdit _RepLookUpEdit;
       private RepositoryItemLookUpEdit _RepLookUpEdit2;
 
-      public W51020(string programID, string programName) : base(programID, programName) {
+      public W51020(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
          dao51020 = new D51020();
          daoCOD = new COD();
@@ -39,15 +40,15 @@ namespace PhoenixCI.FormUI.Prefix5 {
          #region Set Drop Down Lsit
          //交易時段 價平月份 兩個欄位要換成LookUpEdit
          _RepLookUpEdit = new RepositoryItemLookUpEdit();
-         DataTable cbxCPKindSource = daoCOD.ListByCol2("MMFT", "MMFT_CP_KIND");
-         cbxCPKindSource.Rows.Add("", "");
-         _RepLookUpEdit.SetColumnLookUp(cbxCPKindSource, "COD_ID", "COD_DESC", TextEditStyles.DisableTextEditor, "");
+         DataTable cbxCPKindSource = daoCOD.ListByCol2("MMFT" , "MMFT_CP_KIND");
+         cbxCPKindSource.Rows.Add("" , "");
+         _RepLookUpEdit.SetColumnLookUp(cbxCPKindSource , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
          gcMain.RepositoryItems.Add(_RepLookUpEdit);
          MMFT_CP_KIND.ColumnEdit = _RepLookUpEdit;
 
          _RepLookUpEdit2 = new RepositoryItemLookUpEdit();
-         DataTable cbxMarketCodeSource = daoCOD.ListByCol2("MMFT", "MMFT_MARKET_CODE");
-         _RepLookUpEdit2.SetColumnLookUp(cbxMarketCodeSource, "COD_ID", "COD_DESC", TextEditStyles.DisableTextEditor, "");
+         DataTable cbxMarketCodeSource = daoCOD.ListByCol2("MMFT" , "MMFT_MARKET_CODE");
+         _RepLookUpEdit2.SetColumnLookUp(cbxMarketCodeSource , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
          gcMain.RepositoryItems.Add(_RepLookUpEdit2);
          MMFT_MARKET_CODE.ColumnEdit = _RepLookUpEdit2;
          #endregion
@@ -100,27 +101,91 @@ namespace PhoenixCI.FormUI.Prefix5 {
             }
 
             //列印新增 刪除 修改 的資料
-            PrintOrExportChangedByKen(gcMain, dtForAdd, dtForDeleted, dtForModified);
+            AfterSaveForPrint(gcMain , dtForAdd , dtForDeleted , dtForModified);
+            //PrintOrExportChangedByKen(gcMain, dtForAdd, dtForDeleted, dtForModified);
          } catch (Exception ex) {
             MessageDisplay.Error("儲存錯誤");
-            WriteLog(ex, "", false);
+            WriteLog(ex , "" , false);
             return ResultStatus.Fail;
          }
          return ResultStatus.Success;
       }
 
+      /// <summary>
+      /// 將新增、刪除、變更的紀錄分別都列印或匯出出來(橫式A4)
+      /// </summary>
+      /// <param name="gridControl"></param>
+      /// <param name="ChangedForAdded"></param>
+      /// <param name="ChangedForDeleted"></param>
+      /// <param name="ChangedForModified"></param>
+      protected void AfterSaveForPrint(GridControl gridControl , DataTable ChangedForAdded ,
+          DataTable ChangedForDeleted , DataTable ChangedForModified , bool IsHandlePersonVisible = true , bool IsManagerVisible = true) {
+         GridControl gridControlPrint = GridHelper.CloneGrid(gridControl);
+
+         string _ReportTitle = _ProgramID + "─" + _ProgramName + GlobalInfo.REPORT_TITLE_MEMO;
+         ReportHelper reportHelper = new ReportHelper(gridControl , _ProgramID , _ReportTitle);
+         CommonReportLandscapeA4 reportLandscape = new CommonReportLandscapeA4(); //橫向A4
+         reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
+
+         reportLandscape.IsHandlePersonVisible = IsHandlePersonVisible;
+         reportLandscape.IsManagerVisible = IsManagerVisible;
+         reportHelper.Create(reportLandscape);
+
+         if (ChangedForAdded != null)
+            if (ChangedForAdded.Rows.Count != 0) {
+               gridControlPrint.DataSource = ChangedForAdded;
+               reportHelper.PrintableComponent = gridControlPrint;
+               reportHelper.ReportTitle = _ReportTitle + "─" + "新增";
+
+               reportHelper.Print();
+               reportHelper.Export(FileType.PDF , reportHelper.FilePath);
+            }
+
+         if (ChangedForDeleted != null)
+            if (ChangedForDeleted.Rows.Count != 0) {
+               DataTable dtTemp = ChangedForDeleted.Clone();
+
+               int rowIndex = 0;
+               foreach (DataRow dr in ChangedForDeleted.Rows) {
+                  DataRow drNewDelete = dtTemp.NewRow();
+                  for (int colIndex = 0 ; colIndex < ChangedForDeleted.Columns.Count ; colIndex++) {
+                     drNewDelete[colIndex] = dr[colIndex , DataRowVersion.Original];
+                  }
+                  dtTemp.Rows.Add(drNewDelete);
+                  rowIndex++;
+               }
+
+               gridControlPrint.DataSource = dtTemp.AsDataView();
+               reportHelper.PrintableComponent = gridControlPrint;
+               reportHelper.ReportTitle = _ReportTitle + "─" + "刪除";
+
+               reportHelper.Print();
+               reportHelper.Export(FileType.PDF , reportHelper.FilePath);
+            }
+
+         if (ChangedForModified != null)
+            if (ChangedForModified.Rows.Count != 0) {
+               gridControlPrint.DataSource = ChangedForModified;
+               reportHelper.PrintableComponent = gridControlPrint;
+               reportHelper.ReportTitle = _ReportTitle + "─" + "變更";
+
+               reportHelper.Print();
+               reportHelper.Export(FileType.PDF , reportHelper.FilePath);
+            }
+      }
+
       protected override ResultStatus Print(ReportHelper reportHelper) {
          try {
             string footerMemo = "";
-            string txtFilePath = System.IO.Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH, _ProgramID + ".txt");
-            using (System.IO.TextReader tr = new System.IO.StreamReader(txtFilePath, System.Text.Encoding.Default)) {
+            string txtFilePath = System.IO.Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH , _ProgramID + ".txt");
+            using (System.IO.TextReader tr = new System.IO.StreamReader(txtFilePath , System.Text.Encoding.Default)) {
                string line = "";
                while ((line = tr.ReadLine()) != null) {
                   footerMemo += line + Environment.NewLine;
                }
             }
 
-            ReportHelper _ReportHelper = new ReportHelper(gcMain, _ProgramID, this.Text);
+            ReportHelper _ReportHelper = new ReportHelper(gcMain , _ProgramID , this.Text);
             CommonReportLandscapeA4 reportLandscape = new CommonReportLandscapeA4();//設定為橫向列印
             reportLandscape.printableComponentContainerMain.PrintableComponent = gcMain;
             reportLandscape.IsHandlePersonVisible = false;
@@ -129,7 +194,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             _ReportHelper.Create(reportLandscape);
 
             _ReportHelper.Print();//如果有夜盤會特別標註
-            _ReportHelper.Export(FileType.PDF, _ReportHelper.FilePath);
+            _ReportHelper.Export(FileType.PDF , _ReportHelper.FilePath);
 
             return ResultStatus.Success;
          } catch (Exception ex) {
@@ -159,20 +224,20 @@ namespace PhoenixCI.FormUI.Prefix5 {
       /// </summary>
       /// <param name="sender"></param>
       /// <param name="e"></param>
-      private void gvMain_ShowingEditor(object sender, CancelEventArgs e) {
+      private void gvMain_ShowingEditor(object sender , CancelEventArgs e) {
          GridView gv = sender as GridView;
-         string Is_NewRow = gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["IS_NEWROW"]) == null ? "0" :
-             gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["IS_NEWROW"]).ToString();
+         string Is_NewRow = gv.GetRowCellValue(gv.FocusedRowHandle , gv.Columns["IS_NEWROW"]) == null ? "0" :
+             gv.GetRowCellValue(gv.FocusedRowHandle , gv.Columns["IS_NEWROW"]).ToString();
 
          if (gv.IsNewItemRow(gv.FocusedRowHandle) || Is_NewRow == "1") {
             e.Cancel = false;
-            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["IS_NEWROW"], 1);
+            gv.SetRowCellValue(gv.FocusedRowHandle , gv.Columns["IS_NEWROW"] , 1);
          } else if (gv.FocusedColumn.FieldName == disableCol ||
               gv.FocusedColumn.FieldName == disableCol2) {
             e.Cancel = true;
          }
-         gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["MMFT_END_S"], 0);
-         gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["MMFT_END_E"], 0);
+         gv.SetRowCellValue(gv.FocusedRowHandle , gv.Columns["MMFT_END_S"] , 0);
+         gv.SetRowCellValue(gv.FocusedRowHandle , gv.Columns["MMFT_END_E"] , 0);
       }
 
       /// <summary>
@@ -180,10 +245,10 @@ namespace PhoenixCI.FormUI.Prefix5 {
       /// </summary>
       /// <param name="sender"></param>
       /// <param name="e"></param>
-      private void gvMain_RowCellStyle(object sender, RowCellStyleEventArgs e) {
+      private void gvMain_RowCellStyle(object sender , RowCellStyleEventArgs e) {
          GridView gv = sender as GridView;
-         string Is_NewRow = gv.GetRowCellValue(e.RowHandle, gv.Columns["IS_NEWROW"]) == null ? "0" :
-              gv.GetRowCellValue(e.RowHandle, gv.Columns["IS_NEWROW"]).ToString();
+         string Is_NewRow = gv.GetRowCellValue(e.RowHandle , gv.Columns["IS_NEWROW"]) == null ? "0" :
+              gv.GetRowCellValue(e.RowHandle , gv.Columns["IS_NEWROW"]).ToString();
 
          if (e.Column.FieldName == disableCol ||
              e.Column.FieldName == disableCol2) {
@@ -196,10 +261,10 @@ namespace PhoenixCI.FormUI.Prefix5 {
       /// </summary>
       /// <param name="sender"></param>
       /// <param name="e"></param>
-      private void gvMain_InitNewRow(object sender, InitNewRowEventArgs e) {
+      private void gvMain_InitNewRow(object sender , InitNewRowEventArgs e) {
          GridView gv = sender as GridView;
          //新增列, 將IS_NEWROW =1
-         gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["IS_NEWROW"], 1);
+         gv.SetRowCellValue(gv.FocusedRowHandle , gv.Columns["IS_NEWROW"] , 1);
       }
    }
 }

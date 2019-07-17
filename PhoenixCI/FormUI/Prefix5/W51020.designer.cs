@@ -215,6 +215,7 @@
          this.gvMain.GridControl = this.gcMain;
          this.gvMain.Name = "gvMain";
          this.gvMain.OptionsCustomization.AllowSort = false;
+         this.gvMain.OptionsView.ColumnAutoWidth = false;
          this.gvMain.OptionsView.ShowGroupPanel = false;
          this.gvMain.RowCellStyle += new DevExpress.XtraGrid.Views.Grid.RowCellStyleEventHandler(this.gvMain_RowCellStyle);
          this.gvMain.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gvMain_ShowingEditor);
