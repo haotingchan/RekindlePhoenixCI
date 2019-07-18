@@ -37,9 +37,11 @@
          this.ReportTitle = new DevExpress.XtraReports.Parameters.Parameter();
          this.BottomMargin = new DevExpress.XtraReports.UI.BottomMarginBand();
          this.PageHeader = new DevExpress.XtraReports.UI.PageHeaderBand();
+         this.xrSubreportMain = new DevExpress.XtraReports.UI.XRSubreport();
          this.LeftMemo = new DevExpress.XtraReports.Parameters.Parameter();
          this.PageFooter = new DevExpress.XtraReports.UI.PageFooterBand();
          this.ReportFooter = new DevExpress.XtraReports.UI.ReportFooterBand();
+         this.xrSubreportFooter = new DevExpress.XtraReports.UI.XRSubreport();
          this.xrTableFooter = new DevExpress.XtraReports.UI.XRTable();
          this.xrTableRowMemo = new DevExpress.XtraReports.UI.XRTableRow();
          this.xrTableCellMemo = new DevExpress.XtraReports.UI.XRTableCell();
@@ -49,8 +51,6 @@
          this.lblDoubleConfirmDescription = new DevExpress.XtraReports.UI.XRLabel();
          this.lblHandlingDescription = new DevExpress.XtraReports.UI.XRLabel();
          this.lblManagerDescription = new DevExpress.XtraReports.UI.XRLabel();
-         this.xrSubreportMain = new DevExpress.XtraReports.UI.XRSubreport();
-         this.xrSubreportFooter = new DevExpress.XtraReports.UI.XRSubreport();
          ((System.ComponentModel.ISupportInitialize)(this.xrTableFooter)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
          // 
@@ -62,6 +62,7 @@
          this.Detail.KeepTogether = true;
          this.Detail.Name = "Detail";
          this.Detail.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100F);
+         this.Detail.PageBreak = DevExpress.XtraReports.UI.PageBreak.AfterBandExceptLastEntry;
          this.Detail.StylePriority.UseFont = false;
          this.Detail.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
          // 
@@ -111,14 +112,33 @@
          this.PageHeader.HeightF = 44.7917F;
          this.PageHeader.Name = "PageHeader";
          // 
+         // xrSubreportMain
+         // 
+         this.xrSubreportMain.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
+         this.xrSubreportMain.Name = "xrSubreportMain";
+         this.xrSubreportMain.ParameterBindings.Add(new DevExpress.XtraReports.UI.ParameterBinding("ReportTitle", this.ReportTitle));
+         this.xrSubreportMain.ParameterBindings.Add(new DevExpress.XtraReports.UI.ParameterBinding("UserName", this.UserName));
+         this.xrSubreportMain.ParameterBindings.Add(new DevExpress.XtraReports.UI.ParameterBinding("OcfDate", this.OcfDate));
+         this.xrSubreportMain.ParameterBindings.Add(new DevExpress.XtraReports.UI.ParameterBinding("ReportID", this.ReportID));
+         this.xrSubreportMain.ParameterBindings.Add(new DevExpress.XtraReports.UI.ParameterBinding("LeftMemo", this.LeftMemo));
+         this.xrSubreportMain.ReportSource = new BaseGround.Report.ReportHeader();
+         this.xrSubreportMain.SizeF = new System.Drawing.SizeF(787F, 44.7917F);
+         // 
          // LeftMemo
          // 
          this.LeftMemo.Name = "LeftMemo";
          // 
          // PageFooter
          // 
+         this.PageFooter.Borders = ((DevExpress.XtraPrinting.BorderSide)((((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Top) 
+            | DevExpress.XtraPrinting.BorderSide.Right) 
+            | DevExpress.XtraPrinting.BorderSide.Bottom)));
+         this.PageFooter.BorderWidth = 3F;
          this.PageFooter.HeightF = 37.5F;
          this.PageFooter.Name = "PageFooter";
+         this.PageFooter.PrintOn = ((DevExpress.XtraReports.UI.PrintOnPages)((DevExpress.XtraReports.UI.PrintOnPages.NotWithReportHeader | DevExpress.XtraReports.UI.PrintOnPages.NotWithReportFooter)));
+         this.PageFooter.StylePriority.UseBorders = false;
+         this.PageFooter.StylePriority.UseBorderWidth = false;
          // 
          // ReportFooter
          // 
@@ -129,6 +149,13 @@
          this.ReportFooter.KeepTogether = true;
          this.ReportFooter.Name = "ReportFooter";
          this.ReportFooter.PageBreak = DevExpress.XtraReports.UI.PageBreak.AfterBand;
+         // 
+         // xrSubreportFooter
+         // 
+         this.xrSubreportFooter.LocationFloat = new DevExpress.Utils.PointFloat(9.999998F, 22.66668F);
+         this.xrSubreportFooter.Name = "xrSubreportFooter";
+         this.xrSubreportFooter.ReportSource = new BaseGround.Report.ReportFooter();
+         this.xrSubreportFooter.SizeF = new System.Drawing.SizeF(767.0001F, 67.95832F);
          // 
          // xrTableFooter
          // 
@@ -219,25 +246,6 @@
          this.lblManagerDescription.Text = "主管：";
          this.lblManagerDescription.TextAlignment = DevExpress.XtraPrinting.TextAlignment.BottomLeft;
          // 
-         // xrSubreportMain
-         // 
-         this.xrSubreportMain.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
-         this.xrSubreportMain.Name = "xrSubreportMain";
-         this.xrSubreportMain.ParameterBindings.Add(new DevExpress.XtraReports.UI.ParameterBinding("ReportTitle", this.ReportTitle));
-         this.xrSubreportMain.ParameterBindings.Add(new DevExpress.XtraReports.UI.ParameterBinding("UserName", this.UserName));
-         this.xrSubreportMain.ParameterBindings.Add(new DevExpress.XtraReports.UI.ParameterBinding("OcfDate", this.OcfDate));
-         this.xrSubreportMain.ParameterBindings.Add(new DevExpress.XtraReports.UI.ParameterBinding("ReportID", this.ReportID));
-         this.xrSubreportMain.ParameterBindings.Add(new DevExpress.XtraReports.UI.ParameterBinding("LeftMemo", this.LeftMemo));
-         this.xrSubreportMain.ReportSource = new BaseGround.Report.ReportHeader();
-         this.xrSubreportMain.SizeF = new System.Drawing.SizeF(787F, 44.7917F);
-         // 
-         // xrSubreportFooter
-         // 
-         this.xrSubreportFooter.LocationFloat = new DevExpress.Utils.PointFloat(9.999998F, 22.66668F);
-         this.xrSubreportFooter.Name = "xrSubreportFooter";
-         this.xrSubreportFooter.ReportSource = new BaseGround.Report.ReportFooter();
-         this.xrSubreportFooter.SizeF = new System.Drawing.SizeF(767.0001F, 67.95832F);
-         // 
          // CommonReportPortraitA4
          // 
          this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
@@ -248,6 +256,7 @@
             this.PageFooter,
             this.ReportFooter});
          this.Bookmark = "myBookmark";
+         this.BorderColor = System.Drawing.Color.Maroon;
          this.DisplayName = "myDisplayName";
          this.Margins = new System.Drawing.Printing.Margins(20, 20, 20, 20);
          this.PageHeight = 1169;

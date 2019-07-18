@@ -158,7 +158,6 @@
          this.gvMain.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Flat;
          this.gvMain.GridControl = this.gcMain;
          this.gvMain.Name = "gvMain";
-         this.gvMain.OptionsPrint.AutoWidth = false;
          this.gvMain.OptionsView.ColumnAutoWidth = false;
          this.gvMain.OptionsView.ShowGroupPanel = false;
          // 

@@ -160,6 +160,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gvMain.AppearancePrint.Row.Font = new Font("Microsoft YaHei" , 11);
             gvMain.OptionsPrint.AllowMultilineHeaders = true;
             gvMain.AppearancePrint.GroupRow.Font = new Font("Microsoft YaHei" , 11);
+            gvMain.AppearancePrint.Row.TextOptions.HAlignment = HorzAlignment.Center;
 
             //3.2設定每個欄位的caption
             gvMain.SetColumnCaption("CPR_DATA_NUM" , "次數");
@@ -175,7 +176,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             priceRiskRate.DisplayFormat.FormatType = FormatType.Numeric;
             priceRiskRate.DisplayFormat.FormatString = "P";
 
-            gvMain.SetColumnCaption("CPR_APPROVAL_DATE" , $"核定{Environment.NewLine}日期");
+            gvMain.SetColumnCaption("CPR_APPROVAL_DATE" , "核定日期");
 
             gvMain.SetColumnCaption("CPR_APPROVAL_NUMBER" , "核定文號及日期");
             gvMain.SetColumnCaption("CPR_REMARK" , "備註");
