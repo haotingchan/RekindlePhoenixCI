@@ -26,7 +26,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
       private RepositoryItemLookUpEdit _RepLookUpEdit;
       private RepositoryItemLookUpEdit _RepLookUpEdit2;
 
-      public W51010(string programID, string programName) : base(programID, programName) {
+      public W51010(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
 
          dao51010 = new D51010();
@@ -42,7 +42,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                                         new LookupItem() { ValueMember = "H", DisplayMember = "H:假日"}};
 
          _RepLookUpEdit = new RepositoryItemLookUpEdit();
-         _RepLookUpEdit.SetColumnLookUp(workTime, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor, null);
+         _RepLookUpEdit.SetColumnLookUp(workTime , "ValueMember" , "DisplayMember" , TextEditStyles.DisableTextEditor , null);
          gcMain.RepositoryItems.Add(_RepLookUpEdit);
          DTS_DATE_TYPE.ColumnEdit = _RepLookUpEdit;
 
@@ -51,7 +51,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
                                         new LookupItem() { ValueMember = "N", DisplayMember = "N"}};
 
          _RepLookUpEdit2 = new RepositoryItemLookUpEdit();
-         _RepLookUpEdit2.SetColumnLookUp(isTransation, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor, null);
+         _RepLookUpEdit2.SetColumnLookUp(isTransation , "ValueMember" , "DisplayMember" , TextEditStyles.DisableTextEditor , null);
          gcMain.RepositoryItems.Add(_RepLookUpEdit2);
          DTS_WORK.ColumnEdit = _RepLookUpEdit2;
 
@@ -62,7 +62,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
          base.Retrieve(gcMain);
          DataTable returnTable = new DataTable();
 
-         returnTable = dao51010.GetData(TXTStartDate.DateTimeValue.ToString("yyyyMMdd"), TXTEndDate.DateTimeValue.ToString("yyyyMMdd"));
+         returnTable = dao51010.GetData(TXTStartDate.DateTimeValue.ToString("yyyyMMdd") , TXTEndDate.DateTimeValue.ToString("yyyyMMdd"));
          if (returnTable.Rows.Count == 0) {
             MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
          }
@@ -93,8 +93,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
                return ResultStatus.FailButNext;
             }
 
-            //檢查重複key 值
-            if (!checkDuplicate(dt.GetChanges(DataRowState.Added))) return ResultStatus.FailButNext;
+            DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
+            if (dtForAdd != null) {
+               //檢查重複key值
+               if (!checkDuplicate(dt.GetChanges(DataRowState.Added))) return ResultStatus.FailButNext;
+            }
 
             ResultData result = dao51010.UpdateData(dt);
             if (result.Status == ResultStatus.Fail) {
@@ -110,10 +113,10 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
       protected override ResultStatus Print(ReportHelper reportHelper) {
          try {
-            ReportHelper _ReportHelper = new ReportHelper(gcMain, _ProgramID, this.Text);
+            ReportHelper _ReportHelper = new ReportHelper(gcMain , _ProgramID , this.Text);
             _ReportHelper.LeftMemo = "查詢日期 : " + TXTStartDate.DateTimeValue.ToShortDateString() + "~" + TXTEndDate.DateTimeValue.ToShortDateString();
             _ReportHelper.Print();//如果有夜盤會特別標註
-            _ReportHelper.Export(FileType.PDF, _ReportHelper.FilePath);
+            _ReportHelper.Export(FileType.PDF , _ReportHelper.FilePath);
 
             return ResultStatus.Success;
          } catch (Exception ex) {
@@ -173,32 +176,32 @@ namespace PhoenixCI.FormUI.Prefix5 {
          return true;
       }
 
-      private void gvMain_ShowingEditor(object sender, CancelEventArgs e) {
+      private void gvMain_ShowingEditor(object sender , CancelEventArgs e) {
          GridView gv = sender as GridView;
-         string Is_NewRow = gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["IS_NEWROW"]) == null ? "0" :
-              gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["IS_NEWROW"]).ToString();
+         string Is_NewRow = gv.GetRowCellValue(gv.FocusedRowHandle , gv.Columns["IS_NEWROW"]) == null ? "0" :
+              gv.GetRowCellValue(gv.FocusedRowHandle , gv.Columns["IS_NEWROW"]).ToString();
 
          if (gv.IsNewItemRow(gv.FocusedRowHandle) || Is_NewRow == "1") {
             e.Cancel = false;
-            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["IS_NEWROW"], 1);
+            gv.SetRowCellValue(gv.FocusedRowHandle , gv.Columns["IS_NEWROW"] , 1);
          } else if (gv.FocusedColumn.FieldName == disableCol) {
             e.Cancel = true;
          }
       }
 
-      private void gvMain_RowCellStyle(object sender, RowCellStyleEventArgs e) {
+      private void gvMain_RowCellStyle(object sender , RowCellStyleEventArgs e) {
          GridView gv = sender as GridView;
-         string Is_NewRow = gv.GetRowCellValue(e.RowHandle, gv.Columns["IS_NEWROW"]) == null ? "0" :
-              gv.GetRowCellValue(e.RowHandle, gv.Columns["IS_NEWROW"]).ToString();
+         string Is_NewRow = gv.GetRowCellValue(e.RowHandle , gv.Columns["IS_NEWROW"]) == null ? "0" :
+              gv.GetRowCellValue(e.RowHandle , gv.Columns["IS_NEWROW"]).ToString();
 
          if (e.Column.FieldName == disableCol) {
             e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.Silver;
          }
       }
 
-      private void gvMain_InitNewRow(object sender, InitNewRowEventArgs e) {
+      private void gvMain_InitNewRow(object sender , InitNewRowEventArgs e) {
          GridView gv = sender as GridView;
-         gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["IS_NEWROW"], 1);
+         gv.SetRowCellValue(gv.FocusedRowHandle , gv.Columns["IS_NEWROW"] , 1);
       }
    }
 }
