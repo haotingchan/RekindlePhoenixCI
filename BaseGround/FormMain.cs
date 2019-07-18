@@ -125,6 +125,10 @@ namespace BaseGround {
             toolStripStatusLabelVersionNum.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
             this.Text = "交易資訊統計管理系統";
+            if (GlobalDaoSetting.GetConnectionInfo.ConnectionName != "CI")
+            {
+                this.Text += " (測試)";
+            }
         }
 
         public FormMain(string txnID, string txnName) {
@@ -136,6 +140,10 @@ namespace BaseGround {
             toolStripStatusLabelVersionNum.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
             this.Text = "交易資訊統計管理系統";
+            if (GlobalDaoSetting.GetConnectionInfo.ConnectionName != "CI")
+            {
+                this.Text += " (測試)";
+            }
 
             OpenForm(txnID, txnName).CloseBox = false;
             scSearch.Visible = false;
