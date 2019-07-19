@@ -102,22 +102,22 @@ namespace PhoenixCI.FormUI.Prefix5 {
          #region //資料表內的資料不乾淨,比下拉選單項目還多,必須先做資料合併在設定到下拉選單中
          DataView view = new DataView(dao50120.GetData(txtMonth.Text.Replace("/" , "")));
          DataTable dtTemp = view.ToTable(true , "MPDF_KIND_ID");
-         if (dtTemp.Rows.Count != 0) {
-            dtTemp.Columns[0].ColumnName = "APDK_KIND_ID";
-            DataColumn dataColumn = new DataColumn("CP_DISPLAY");
-            dtTemp.Columns.Add(dataColumn);
-            foreach (DataRow dr in dtTemp.Rows) {
-               dr[0] = dr[0].AsString();
-               dr[1] = dr[0];
-            }
-            dtTemp.PrimaryKey = new DataColumn[] { dtTemp.Columns["CP_DISPLAY"] };
-            dtActId.PrimaryKey = new DataColumn[] { dtActId.Columns["CP_DISPLAY"] };
-            dtTemp.Merge(dtActId , false);
-            dtActId = dtTemp;
-         }
+         //if (dtTemp.Rows.Count != 0) {
+         //   dtTemp.Columns[0].ColumnName = "APDK_KIND_ID";
+         //   DataColumn dataColumn = new DataColumn("CP_DISPLAY");
+         //   dtTemp.Columns.Add(dataColumn);
+         //   foreach (DataRow dr in dtTemp.Rows) {
+         //      dr[0] = dr[0].AsString();
+         //      dr[1] = dr[0];
+         //   }
+         //   dtTemp.PrimaryKey = new DataColumn[] { dtTemp.Columns["CP_DISPLAY"] };
+         //   dtActId.PrimaryKey = new DataColumn[] { dtActId.Columns["CP_DISPLAY"] };
+         //   dtTemp.Merge(dtActId , false);
+         //   dtActId = dtTemp;
+         //}
          _RepLookUpEdit3.AcceptEditorTextAsNewValue = DevExpress.Utils.DefaultBoolean.True;
-         _RepLookUpEdit3.ProcessNewValue += _RepLookUpEdit3_ProcessNewValue;//開放輸入下拉選單沒有的資訊
-         _RepLookUpEdit3.SetColumnLookUp(dtActId , "APDK_KIND_ID" , "CP_DISPLAY" , TextEditStyles.DisableTextEditor , "");
+         _RepLookUpEdit3.ProcessNewValue += _RepLookUpEdit3_ProcessNewValue;//開放輸入下拉選單沒有的資訊       
+         _RepLookUpEdit3.SetColumnLookUp(dtActId , "APDK_KIND_ID" , "CP_DISPLAY" , TextEditStyles.Standard , "");
          gcMain.RepositoryItems.Add(_RepLookUpEdit3);
          MPDF_KIND_ID.ColumnEdit = _RepLookUpEdit3;
          #endregion
@@ -186,19 +186,19 @@ namespace PhoenixCI.FormUI.Prefix5 {
          #region //資料表內的資料不乾淨,比下拉選單項目還多,必須先做資料合併在設定到下拉選單中
          DataView view = new DataView(returnTable);
          DataTable dtTemp = view.ToTable(true , "MPDF_KIND_ID");
-         if (dtTemp.Rows.Count != 0) {
-            dtTemp.Columns[0].ColumnName = "APDK_KIND_ID";
-            DataColumn dataColumn = new DataColumn("CP_DISPLAY");
-            dtTemp.Columns.Add(dataColumn);
-            foreach (DataRow dr in dtTemp.Rows) {
-               dr[0] = dr[0].AsString();
-               dr[1] = dr[0];
-            }
-            dtTemp.PrimaryKey = new DataColumn[] { dtTemp.Columns["CP_DISPLAY"] };
-            dtActId.PrimaryKey = new DataColumn[] { dtActId.Columns["CP_DISPLAY"] };
-            dtTemp.Merge(dtActId , false);
-            dtActId = dtTemp;
-         }
+         //if (dtTemp.Rows.Count != 0) {
+         //   dtTemp.Columns[0].ColumnName = "APDK_KIND_ID";
+         //   DataColumn dataColumn = new DataColumn("CP_DISPLAY");
+         //   dtTemp.Columns.Add(dataColumn);
+         //   foreach (DataRow dr in dtTemp.Rows) {
+         //      dr[0] = dr[0].AsString();
+         //      dr[1] = dr[0];
+         //   }
+         //   dtTemp.PrimaryKey = new DataColumn[] { dtTemp.Columns["CP_DISPLAY"] };
+         //   dtActId.PrimaryKey = new DataColumn[] { dtActId.Columns["CP_DISPLAY"] };
+         //   dtTemp.Merge(dtActId , false);
+         //   dtActId = dtTemp;
+         //}
          _RepLookUpEdit3.AcceptEditorTextAsNewValue = DevExpress.Utils.DefaultBoolean.True;
          _RepLookUpEdit3.ProcessNewValue += _RepLookUpEdit3_ProcessNewValue;//開放輸入下拉選單沒有的資訊
          _RepLookUpEdit3.SetColumnLookUp(dtActId , "APDK_KIND_ID" , "CP_DISPLAY" , TextEditStyles.DisableTextEditor , "");

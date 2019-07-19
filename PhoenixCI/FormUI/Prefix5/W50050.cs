@@ -178,6 +178,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
             if (defaultTable.Rows.Count <= 0) {
                MessageDisplay.Info(MessageDisplay.MSG_NO_DATA , GlobalInfo.ResultText);
                _ToolBtnExport.Enabled = false;
+               gcMain.Visible = false;
+               gcMain.DataSource = null;
                this.Cursor = Cursors.Arrow;
                return ResultStatus.Fail;
             }
@@ -266,34 +268,34 @@ namespace PhoenixCI.FormUI.Prefix5 {
                   e.DisplayText = "價平";
                   break;
                case 1:
-                  e.DisplayText = "價外第一檔";
+                  e.DisplayText = "價外第1檔";
                   break;
                case 2:
-                  e.DisplayText = "價外第二檔";
+                  e.DisplayText = "價外第2檔";
                   break;
                case 3:
-                  e.DisplayText = "價外第三檔";
+                  e.DisplayText = "價外第3檔";
                   break;
                case 4:
-                  e.DisplayText = "價外第四檔";
+                  e.DisplayText = "價外第4檔";
                   break;
                case 5:
-                  e.DisplayText = "價外第五檔";
+                  e.DisplayText = "價外第5檔";
                   break;
                case -1:
-                  e.DisplayText = "價內第一檔";
+                  e.DisplayText = "價內第1檔";
                   break;
                case -2:
-                  e.DisplayText = "價內第二檔";
+                  e.DisplayText = "價內第2檔";
                   break;
                case -3:
-                  e.DisplayText = "價內第三檔";
+                  e.DisplayText = "價內第3檔";
                   break;
                case -4:
-                  e.DisplayText = "價內第四檔";
+                  e.DisplayText = "價內第4檔";
                   break;
                case -5:
-                  e.DisplayText = "價內第五檔";
+                  e.DisplayText = "價內第5檔";
                   break;
             }
 

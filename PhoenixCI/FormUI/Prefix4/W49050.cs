@@ -37,7 +37,29 @@ namespace PhoenixCI.FormUI.Prefix4 {
          base.Open();
          try {
 
-            Retrieve();
+            //Retrieve();
+
+            DataTable dt = dao49050.GetDataList();
+            if (dt.Rows.Count <= 0) {
+               InsertRow();
+            }
+
+            //1. 設定欄位
+            RepositoryItemTextEdit memo = new RepositoryItemTextEdit(); //說明
+            gcMain.RepositoryItems.Add(memo);
+            gvMain.Columns["MGT3_MEMO"].ColumnEdit = memo;
+            memo.MaxLength = 30;
+
+            //2. 設定gvMain
+            gcMain.Visible = true;
+            gcMain.DataSource = dt;
+            gvMain.BestFitColumns();
+            GridHelper.SetCommonGrid(gvMain);
+            gvMain.Columns["MGT3_MEMO"].Width = 600;
+            gvMain.Columns["MGT3_DATE_FM"].Width = 120;
+            gvMain.Columns["MGT3_DATE_TO"].Width = 120;
+            gcMain.Focus();
+
             return ResultStatus.Success;
          } catch (Exception ex) {
             WriteLog(ex);
@@ -72,14 +94,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
             #endregion
 
-            DataTable dt = dao49050.GetDataList();
-            if (dt.Rows.Count == 0) {
-               MessageDisplay.Info(MessageDisplay.MSG_NO_DATA , GlobalInfo.ResultText);
-               InsertRow();
-            }
-
             //0.check (沒有資料時,則自動新增一筆)
+            DataTable dt = dao49050.GetDataList();
             if (dt.Rows.Count <= 0) {
+               MessageDisplay.Info(MessageDisplay.MSG_NO_DATA , GlobalInfo.ResultText);
                InsertRow();
             }
 
