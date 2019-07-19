@@ -133,7 +133,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          base.AfterOpen();
 
          txtEndDate.DateTimeValue = GlobalInfo.OCF_DATE;
-         txtStartDate.EditValue = txtEndDate.DateTimeValue;
+         txtStartDate.DateTimeValue = txtEndDate.DateTimeValue;
 
 #if DEBUG
          txtStartDate.DateTimeValue = DateTime.ParseExact("2017/10/11" , "yyyy/MM/dd" , null);

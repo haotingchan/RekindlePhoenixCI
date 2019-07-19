@@ -210,11 +210,11 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
          this.ddlb_2.Properties.Items.AddRange(new object[] {
             " ",
-            "價內第5檔",
-            "價內第4檔",
-            "價內第3檔",
-            "價內第2檔",
             "價內第1檔",
+            "價內第2檔",
+            "價內第3檔",
+            "價內第4檔",
+            "價內第5檔",
             "價外第1檔",
             "價外第2檔",
             "價外第3檔",
@@ -286,7 +286,7 @@
          this.label8.Name = "label8";
          this.label8.Size = new System.Drawing.Size(105, 20);
          this.label8.TabIndex = 90;
-         this.label8.Text = "檔內外檔數：";
+         this.label8.Text = "價內外檔數：";
          // 
          // label7
          // 
@@ -458,6 +458,8 @@
          // 
          // AMMD_KIND_ID
          // 
+         this.AMMD_KIND_ID.AppearanceCell.Options.UseTextOptions = true;
+         this.AMMD_KIND_ID.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.AMMD_KIND_ID.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
          this.AMMD_KIND_ID.AppearanceHeader.Options.UseBackColor = true;
          this.AMMD_KIND_ID.Caption = "商品";
@@ -480,6 +482,8 @@
          // 
          // AMMD_PC_CODE
          // 
+         this.AMMD_PC_CODE.AppearanceCell.Options.UseTextOptions = true;
+         this.AMMD_PC_CODE.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.AMMD_PC_CODE.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
          this.AMMD_PC_CODE.AppearanceHeader.Options.UseBackColor = true;
          this.AMMD_PC_CODE.Caption = "買賣權";

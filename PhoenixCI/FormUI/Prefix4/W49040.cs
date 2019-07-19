@@ -292,6 +292,20 @@ namespace PhoenixCI.FormUI.Prefix4 {
                //e.Column.OptionsColumn.AllowFocus = Is_NewRow == "1" ? true : false;
                e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.FromArgb(192 , 192 , 192);
                break;
+            case ("MGT4_M_MULTI"):
+            case ("MGT4_I_MULTI"):
+            case ("MGT4_DIGITAL"):
+            case ("MGT4_M_DIGITAL"):
+               e.Column.AppearanceHeader.Options.UseFont = true;
+               e.Column.AppearanceHeader.BackColor = System.Drawing.Color.Transparent;
+               e.Column.AppearanceHeader.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(128)))) , ((int)(((byte)(255)))) , ((int)(((byte)(255)))));
+               e.Column.AppearanceHeader.Font = new System.Drawing.Font("微軟正黑體" , 12F , System.Drawing.FontStyle.Regular , System.Drawing.GraphicsUnit.Point , ((byte)(136)));
+               e.Column.AppearanceHeader.ForeColor = System.Drawing.Color.Blue;
+               e.Column.AppearanceHeader.Options.UseBackColor = true;
+               e.Column.AppearanceHeader.Options.UseFont = true;
+               e.Column.AppearanceHeader.Options.UseForeColor = true;
+               e.Column.AppearanceHeader.Options.UseTextOptions = true;
+               break;
             default:
                e.Appearance.BackColor = Color.White;
                break;
