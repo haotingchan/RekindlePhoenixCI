@@ -20,6 +20,11 @@ namespace BaseGround
             this.InputLanguageChanged += new InputLanguageChangedEventHandler(languageChange);   // 輸入法改變時呼叫 
             txtID.ImeMode = System.Windows.Forms.ImeMode.OnHalf; // 預設txtID的輸入法為半型
             txtPassword.ImeMode = System.Windows.Forms.ImeMode.OnHalf; // 預設txtPassword的輸入法為半型
+
+            if (GlobalDaoSetting.GetConnectionInfo.ConnectionName != "CI")
+            {
+                this.Text += " (測試)";
+            }
         }
 
         private void languageChange(Object sender, InputLanguageChangedEventArgs e) {

@@ -125,6 +125,10 @@ namespace BaseGround {
             toolStripStatusLabelVersionNum.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
             this.Text = "交易資訊統計管理系統";
+            if (GlobalDaoSetting.GetConnectionInfo.ConnectionName != "CI")
+            {
+                this.Text += " (測試)";
+            }
         }
 
         public FormMain(string txnID, string txnName) {
@@ -136,6 +140,10 @@ namespace BaseGround {
             toolStripStatusLabelVersionNum.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
             this.Text = "交易資訊統計管理系統";
+            if (GlobalDaoSetting.GetConnectionInfo.ConnectionName != "CI")
+            {
+                this.Text += " (測試)";
+            }
 
             OpenForm(txnID, txnName).CloseBox = false;
             scSearch.Visible = false;
@@ -207,6 +215,11 @@ namespace BaseGround {
         }
 
         public FormParent OpenForm(string txn_id, string txn_name) {
+            if (txn_id == "Z2010")
+            {
+                OpenForm();
+                return null;
+            }
             var dllIndividual = Assembly.LoadFile(Application.ExecutablePath);
             string typeFormat = "{0}.FormUI.Prefix{1}.W{2}";
             Type myType = dllIndividual.GetType(string.Format(typeFormat, Path.GetFileNameWithoutExtension(Application.ExecutablePath), txn_id.Substring(0, 1), txn_id));
@@ -238,6 +251,19 @@ namespace BaseGround {
                 formInstance.Show();
             }
 
+            return formInstance;
+        }
+
+        private LinkStartUpload.FormMain OpenForm() {
+            LinkStartUpload.FormMain formInstance = new LinkStartUpload.FormMain();
+            formInstance.MdiParent = this;
+            formInstance.FormClosed += new FormClosedEventHandler(Child_FormClosed);
+            formInstance.Icon = (Icon)Icon.Clone();
+            //formInstance.BackColor = Color.FromArgb(192, 220, 192);
+            formInstance.StartPosition = FormStartPosition.Manual;
+            formInstance.WindowState = FormWindowState.Maximized;
+
+            formInstance.Show();
             return formInstance;
         }
 

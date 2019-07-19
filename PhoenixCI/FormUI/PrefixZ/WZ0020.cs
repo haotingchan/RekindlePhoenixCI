@@ -418,6 +418,7 @@ namespace PhoenixCI.FormUI.PrefixZ
                 ((GridView)gridControl.MainView).BestFitColumns();
                 ReportHelper _ReportHelper = new ReportHelper(gridControl, _ProgramID + "_1", this.Text+"_權限刪除");
                 base.Print(_ReportHelper);
+                _ReportHelper.Export(FileType.PDF, _ReportHelper.FilePath);
             }
             catch (Exception ex)
             {
