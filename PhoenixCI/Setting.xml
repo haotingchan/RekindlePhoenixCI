@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Setting>
+  <System>PhoenixCI</System>
+
   <Database>
     <!--交易資訊系統資料庫-->
     <CiUserAp>
@@ -54,6 +56,25 @@
     <LogSeverity>Info</LogSeverity>
   </Log>
 
+  <Uploads>
+
+    <Item>
+      <DisplayName>EXE</DisplayName>
+      <ConnectionName>CIN_USER_AP</ConnectionName>
+      <SystemName>PhoenixCI</SystemName>
+      <Type>D</Type>
+      <Filters>exe,dll,config,txt</Filters>
+    </Item>
+    <Item>
+      <DisplayName>Template</DisplayName>
+      <ConnectionName>CIN_USER_AP</ConnectionName>
+      <SystemName>PhoenixCI</SystemName>
+      <Type>X</Type>
+      <Filters>xls,xlsx,xlsm,ifd,rtf</Filters>
+    </Item>
+
+  </Uploads>
+
 
 
   <ConnectionStrings>
@@ -99,35 +120,9 @@
 
   <!--下載程式用-->
   <Download>
-    <FileName>version.xml</FileName>
-    <Type>XML</Type>
-    <!--這裡要填的是上面Setting的Database的Tag的Name-->
-    <Database>Futures</Database>
-    <PBcodeType>O</PBcodeType>
-    <StartFileName>future.exe</StartFileName>
+    <ConnectionName>CIN_USER_AP</ConnectionName>
+    <ProgramBeOpenedAfterDownload>PhoenixCI.exe</ProgramBeOpenedAfterDownload>
+    <Type>D,X</Type>
   </Download>
 
-  <!--Upload上傳程式的下拉選單用-->
-  <SysCode>
-    <Sys>
-      <Database>Futures</Database>
-      <Name>FutureDay</Name>
-      <PBcodeType>O</PBcodeType>
-    </Sys>
-    <Sys>
-      <Database>Options</Database>
-      <Name>option_online</Name>
-      <PBcodeType>O</PBcodeType>
-    </Sys>
-    <Sys>
-      <Database>Futures_AH</Database>
-      <Name>FutureDay_night</Name>
-      <PBcodeType>O</PBcodeType>
-    </Sys>
-    <Sys>
-      <Database>Options_AH</Database>
-      <Name>option_online_night</Name>
-      <PBcodeType>O</PBcodeType>
-    </Sys>
-  </SysCode>
 </Setting>

@@ -218,7 +218,7 @@ namespace BaseGround {
             if (txn_id == "Z2010")
             {
                 OpenForm();
-                return null;
+                return new FormParent();
             }
             var dllIndividual = Assembly.LoadFile(Application.ExecutablePath);
             string typeFormat = "{0}.FormUI.Prefix{1}.W{2}";
