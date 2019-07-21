@@ -33,6 +33,8 @@
          this.lblDate = new System.Windows.Forms.Label();
          this.ExportShow = new System.Windows.Forms.Label();
          this.panel1 = new System.Windows.Forms.Panel();
+         this.groupAdmin = new System.Windows.Forms.GroupBox();
+         this.chkTxt = new System.Windows.Forms.CheckBox();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -40,10 +42,12 @@
          ((System.ComponentModel.ISupportInitialize)(this.ddlAdjType.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).BeginInit();
          this.panel1.SuspendLayout();
+         this.groupAdmin.SuspendLayout();
          this.SuspendLayout();
          // 
          // panParent
          // 
+         this.panParent.Controls.Add(this.groupAdmin);
          this.panParent.Controls.Add(this.panel1);
          this.panParent.Size = new System.Drawing.Size(713, 499);
          // 
@@ -68,7 +72,7 @@
          this.grpxDescription.Controls.Add(this.ddlAdjType);
          this.grpxDescription.Controls.Add(this.txtDate);
          this.grpxDescription.Controls.Add(this.lblDate);
-         this.grpxDescription.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.grpxDescription.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.grpxDescription.ForeColor = System.Drawing.Color.Navy;
          this.grpxDescription.Location = new System.Drawing.Point(14, 21);
          this.grpxDescription.Name = "grpxDescription";
@@ -153,6 +157,26 @@
          this.panel1.Size = new System.Drawing.Size(433, 224);
          this.panel1.TabIndex = 15;
          // 
+         // groupAdmin
+         // 
+         this.groupAdmin.Controls.Add(this.chkTxt);
+         this.groupAdmin.Location = new System.Drawing.Point(488, 93);
+         this.groupAdmin.Name = "groupAdmin";
+         this.groupAdmin.Size = new System.Drawing.Size(130, 70);
+         this.groupAdmin.TabIndex = 82;
+         this.groupAdmin.TabStop = false;
+         this.groupAdmin.Text = "管理者測試";
+         // 
+         // chkTxt
+         // 
+         this.chkTxt.AutoSize = true;
+         this.chkTxt.Location = new System.Drawing.Point(19, 28);
+         this.chkTxt.Name = "chkTxt";
+         this.chkTxt.Size = new System.Drawing.Size(92, 24);
+         this.chkTxt.TabIndex = 1;
+         this.chkTxt.Text = "寫文字檔";
+         this.chkTxt.UseVisualStyleBackColor = true;
+         // 
          // W40100
          // 
          this.Appearance.Options.UseFont = true;
@@ -174,6 +198,8 @@
          ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).EndInit();
          this.panel1.ResumeLayout(false);
          this.panel1.PerformLayout();
+         this.groupAdmin.ResumeLayout(false);
+         this.groupAdmin.PerformLayout();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -189,5 +215,7 @@
       private System.Windows.Forms.Label label1;
       public BaseGround.Widget.TextDateEdit txtDate;
       private System.Windows.Forms.Panel panel1;
+      private System.Windows.Forms.GroupBox groupAdmin;
+      private System.Windows.Forms.CheckBox chkTxt;
    }
 }

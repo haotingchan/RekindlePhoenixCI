@@ -254,9 +254,9 @@
          this.label4.AutoSize = true;
          this.label4.Location = new System.Drawing.Point(13, 108);
          this.label4.Name = "label4";
-         this.label4.Size = new System.Drawing.Size(85, 20);
+         this.label4.Size = new System.Drawing.Size(78, 20);
          this.label4.TabIndex = 6;
-         this.label4.Text = "二碼商品 : ";
+         this.label4.Text = "2碼商品 : ";
          // 
          // Prod_ct
          // 

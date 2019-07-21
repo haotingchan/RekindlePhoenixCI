@@ -11,18 +11,15 @@ using System.IO;
 /// <summary>
 /// john,20190128,交易量資料轉檔作業
 /// </summary>
-namespace PhoenixCI.FormUI.Prefix7
-{
+namespace PhoenixCI.FormUI.Prefix7 {
    /// <summary>
    /// 交易量資料轉檔作業
    /// </summary>
-   public partial class W70010 : FormParent
-   {
+   public partial class W70010 : FormParent {
       private B70010 b70010;
       private D70010 dao70010;
       string logText, saveFilePath, lsSymd, lsEymd, sumType, lsProdType, lsMarketCode;
-      public W70010(string programID, string programName) : base(programID, programName)
-      {
+      public W70010(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
 
          this.Text = _ProgramID + "─" + _ProgramName;
@@ -30,8 +27,7 @@ namespace PhoenixCI.FormUI.Prefix7
          dao70010 = new D70010();
       }
 
-      protected override ResultStatus Open()
-      {
+      protected override ResultStatus Open() {
          base.Open();
          //日期
          emStartDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/01");
@@ -50,45 +46,48 @@ namespace PhoenixCI.FormUI.Prefix7
          emStartYear.Text = GlobalInfo.OCF_DATE.ToString("yyyy");
          emEndYear.Text = GlobalInfo.OCF_DATE.ToString("yyyy");
 
+         if (!FlagAdmin) {
+            cbxEng.Visible = false;
+         } else {
+            cbxEng.Visible = true;
+         }
+
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus AfterOpen()
-      {
+      protected override ResultStatus AfterOpen() {
          base.AfterOpen();
          //cbx_eng.Visible = true;
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus ActivatedForm()
-      {
+      protected override ResultStatus ActivatedForm() {
          base.ActivatedForm();
 
          _ToolBtnExport.Enabled = true;
          return ResultStatus.Success;
       }
 
-      private bool StartExport()
-      {
+      private bool StartExport() {
          /* 條件值檢核*/
          DateTime ldStart, ldEnd;
          string lsType = "";
          switch (rgDate.EditValue) {
             case "rb_day":
                //週
-               if (!emStartDate.IsDate(emStartDate.Text, CheckDate.Start)
-                  || !emEndDate.IsDate(emEndDate.Text, CheckDate.End)) {
+               if (!emStartDate.IsDate(emStartDate.Text , CheckDate.Start)
+                  || !emEndDate.IsDate(emEndDate.Text , CheckDate.End)) {
                   return false;
                }
-               if (string.Compare(emStartDate.Text, emEndDate.Text) > 0) {
-                  MessageDisplay.Error(GlobalInfo.ErrorText, CheckDate.Datedif);
+               if (string.Compare(emStartDate.Text , emEndDate.Text) > 0) {
+                  MessageDisplay.Error(GlobalInfo.ErrorText , CheckDate.Datedif);
                   return false;
                }
                ldStart = Convert.ToDateTime(emStartDate.Text);
                ldEnd = Convert.ToDateTime(emEndDate.Text);
 
-               lsSymd = emStartDate.Text.Replace("/", "").SubStr(0, 8);
-               lsEymd = emEndDate.Text.Replace("/", "").SubStr(0, 8);
+               lsSymd = emStartDate.Text.Replace("/" , "").SubStr(0 , 8);
+               lsEymd = emEndDate.Text.Replace("/" , "").SubStr(0 , 8);
                lsType = "Daily";
                sumType = "D";
 
@@ -96,19 +95,19 @@ namespace PhoenixCI.FormUI.Prefix7
                break;
             case "rb_week":
                //週
-               if (!emStartDate1.IsDate(emStartDate1.Text, CheckDate.Start)
-                  || !emEndDate1.IsDate(emEndDate1.Text, CheckDate.End)) {
+               if (!emStartDate1.IsDate(emStartDate1.Text , CheckDate.Start)
+                  || !emEndDate1.IsDate(emEndDate1.Text , CheckDate.End)) {
                   return false;
                }
-               if (string.Compare(emStartDate1.Text, emEndDate1.Text) > 0) {
-                  MessageDisplay.Error(GlobalInfo.ErrorText, CheckDate.Datedif);
+               if (string.Compare(emStartDate1.Text , emEndDate1.Text) > 0) {
+                  MessageDisplay.Error(GlobalInfo.ErrorText , CheckDate.Datedif);
                   return false;
                }
                ldStart = Convert.ToDateTime(emStartDate1.Text);
                ldEnd = Convert.ToDateTime(emEndDate1.Text);
 
-               lsSymd = emStartDate1.Text.Replace("/", "").SubStr(0, 8);
-               lsEymd = emEndDate1.Text.Replace("/", "").SubStr(0, 8);
+               lsSymd = emStartDate1.Text.Replace("/" , "").SubStr(0 , 8);
+               lsEymd = emEndDate1.Text.Replace("/" , "").SubStr(0 , 8);
                lsType = "Weekly";
                sumType = "D";
 
@@ -118,17 +117,17 @@ namespace PhoenixCI.FormUI.Prefix7
                //月
                string Smth = this.emStartMth.Text + "/01";
                string Emth = this.emEndMth.Text + "/01";
-               if (!this.emStartMth.IsDate(Smth, CheckDate.Start)
-                  || !this.emEndMth.IsDate(Emth, CheckDate.End)) {
+               if (!this.emStartMth.IsDate(Smth , CheckDate.Start)
+                  || !this.emEndMth.IsDate(Emth , CheckDate.End)) {
                   return false;
                }
                ldStart = Convert.ToDateTime(Smth);
-               ldEnd = PbFunc.relativedate(Convert.ToDateTime(Emth), 31);
-               if (ldEnd.Month != PbFunc.Right(emStartMth.Text, 2).AsInt()) {
-                  ldEnd = PbFunc.relativedate(ldEnd, -ldEnd.Day);
+               ldEnd = PbFunc.relativedate(Convert.ToDateTime(Emth) , 31);
+               if (ldEnd.Month != PbFunc.Right(emStartMth.Text , 2).AsInt()) {
+                  ldEnd = PbFunc.relativedate(ldEnd , -ldEnd.Day);
                }
-               lsSymd = emStartMth.Text.Replace("/", "").SubStr(0, 6);
-               lsEymd = emEndMth.Text.Replace("/", "").SubStr(0, 6);
+               lsSymd = emStartMth.Text.Replace("/" , "").SubStr(0 , 6);
+               lsEymd = emEndMth.Text.Replace("/" , "").SubStr(0 , 6);
                lsType = "Monthly";
                sumType = "M";
 
@@ -150,8 +149,7 @@ namespace PhoenixCI.FormUI.Prefix7
          if (rbTMU.EditValue.Equals("rb_options")) {
             lsType = lsType + "_OPT";
             lsProdType = "O";
-         }
-         else {
+         } else {
             lsType = lsType + "_FUT";
             lsProdType = "F";
          }
@@ -192,8 +190,7 @@ namespace PhoenixCI.FormUI.Prefix7
          return true;
       }
 
-      private void EndExport()
-      {
+      private void EndExport() {
          stMsgTxt.Text = "轉檔完成!";
          this.Cursor = Cursors.Arrow;
          this.Refresh();
@@ -201,35 +198,31 @@ namespace PhoenixCI.FormUI.Prefix7
          stMsgTxt.Visible = false;
       }
 
-      protected override ResultStatus Export()
-      {
+      protected override ResultStatus Export() {
          if (!StartExport()) {
             return ResultStatus.Fail;
          }
 
          try {
             MessageDisplay message = new MessageDisplay();
-            message.OutputShowMessage = b70010.F70010ByMarketCodeExport(rgDate.EditValue.AsString(), saveFilePath, lsSymd, lsEymd, sumType, lsProdType, lsMarketCode, cbxEng.Checked);
+            message.OutputShowMessage = b70010.F70010ByMarketCodeExport(rgDate.EditValue.AsString() , saveFilePath , lsSymd , lsEymd , sumType , lsProdType , lsMarketCode , cbxEng.Checked);
 
             if (string.IsNullOrEmpty(message.OutputShowMessage))
                return ResultStatus.Fail;
 
-         }
-         catch (Exception ex) {
+         } catch (Exception ex) {
             if (File.Exists(saveFilePath))
                File.Delete(saveFilePath);
             WriteLog(ex);
             return ResultStatus.Fail;
-         }
-         finally {
+         } finally {
             EndExport();
          }
 
          return ResultStatus.Success;
       }
 
-      private void rgDate_SelectedIndexChanged(object sender, EventArgs e)
-      {
+      private void rgDate_SelectedIndexChanged(object sender , EventArgs e) {
          DevExpress.XtraEditors.RadioGroup rb = sender as DevExpress.XtraEditors.RadioGroup;
          if (rb == null) return;
          switch (rb.EditValue.ToString()) {

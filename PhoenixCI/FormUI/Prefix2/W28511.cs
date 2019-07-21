@@ -31,11 +31,18 @@ namespace PhoenixCI.FormUI.Prefix2 {
          daoAM21F = new AM21F();
          dao28511 = new D28511();
          this.Text = _ProgramID + "─" + _ProgramName;
-         txtMonth.DateTimeValue = GlobalInfo.OCF_DATE;         
+         txtMonth.DateTimeValue = GlobalInfo.OCF_DATE;
       }
 
       protected override ResultStatus Open() {
          base.Open();
+
+         //隱藏一些開發用的資訊和測試按鈕
+         if (!FlagAdmin) {
+            btnSp.Visible = false;
+         } else {
+            btnSp.Visible = true; //功能尚未實作
+         }
 
          return ResultStatus.Success;
       }
@@ -145,7 +152,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             PokeBall pb = new PokeBall();
             gcMain.DataSource = dtReadTxt;
             Save(pb);
-            Run(pb); 
+            Run(pb);
 
          } catch (Exception ex) {
             MessageBox.Show(ex.Message);

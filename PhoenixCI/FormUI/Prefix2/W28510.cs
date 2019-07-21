@@ -37,6 +37,13 @@ namespace PhoenixCI.FormUI.Prefix2 {
       protected override ResultStatus Open() {
          base.Open();
 
+         //隱藏一些開發用的資訊和測試按鈕
+         if (!FlagAdmin) {
+            btnSp.Visible = false;
+         } else {
+            btnSp.Visible = true; //功能尚未實作
+         }
+
          return ResultStatus.Success;
       }
 

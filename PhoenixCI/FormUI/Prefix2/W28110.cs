@@ -66,12 +66,15 @@ namespace PhoenixCI.FormUI.Prefix2 {
 
          txtDate.DateTimeValue = GlobalInfo.OCF_DATE;
 
-#if DEBUG
-         if (FlagAdmin) {
+         //隱藏一些開發用的資訊和測試按鈕
+         if (!FlagAdmin) {
+            btnStwd.Visible = false;
+            btnSp.Visible = false;
+         } else {
             btnStwd.Visible = true;
             btnSp.Visible = true;
          }
-#endif
+
          return ResultStatus.Success;
       }
 
@@ -634,7 +637,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
       #region Click Event
       private void btnStwd_Click(object sender , EventArgs e) {
          daoSTWD.DeleteByDate(DateYmd);
-         dao28110.InsertDataByUser("I0001" , DateYmd); // userId "I0001" 暫時使用
+         dao28110.InsertDataByUser(GlobalInfo.USER_ID , DateYmd);
       }
 
       private void btnSp_Click(object sender , EventArgs e) {

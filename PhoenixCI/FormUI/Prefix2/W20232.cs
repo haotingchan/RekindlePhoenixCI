@@ -32,6 +32,18 @@ namespace PhoenixCI.FormUI.Prefix2 {
          dao20232 = new D20232();
       }
 
+      protected override ResultStatus Open() {
+         base.Open();
+
+         //隱藏一些開發用的資訊和測試按鈕
+         if (!FlagAdmin) {
+            chkTest.Visible = false;
+         } else {
+            chkTest.Visible = true;
+         }
+         return ResultStatus.Success;
+      }
+
       protected override ResultStatus ActivatedForm() {
          base.ActivatedForm();
 

@@ -44,7 +44,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
       protected override ResultStatus AfterOpen() {
          base.AfterOpen();
-         if (FlagAdmin) {
+         if (!FlagAdmin) {
+            cbxAfter.Visible = false;
+         } else {
             cbxAfter.Visible = true;
          }
          return ResultStatus.Success;

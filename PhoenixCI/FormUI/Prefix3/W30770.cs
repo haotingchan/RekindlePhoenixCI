@@ -136,8 +136,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
          ddlOswGrp.ItemIndex = 1;// % = 13:45 - 18:15
 
-         if (FlagAdmin)
+         if (!FlagAdmin) {
+            ddlOswGrp.Visible = false;
+         } else {
             ddlOswGrp.Visible = true;
+         }
 
          return ResultStatus.Success;
       }
@@ -509,7 +512,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
                   Decimal cp_grp_m_qnty = dr["cp_grp_m_qnty"].AsDecimal();
                   Decimal cp_grp_tot_qnty = dr["cp_grp_tot_qnty"].AsDecimal();
-                  Decimal groupCount = (gridName == GridName.First ? cp_grp_m_qnty : Math.Round(cp_grp_m_qnty / day_cnt , 4,MidpointRounding.AwayFromZero));
+                  Decimal groupCount = (gridName == GridName.First ? cp_grp_m_qnty : Math.Round(cp_grp_m_qnty / day_cnt , 4 , MidpointRounding.AwayFromZero));
                   Decimal groupTotalCount = (gridName == GridName.First ? cp_grp_tot_qnty : Math.Round(cp_grp_tot_qnty / day_cnt , 4 , MidpointRounding.AwayFromZero));
 
                   ws.Cells[rowIndex , colStart2].Value = groupCount;

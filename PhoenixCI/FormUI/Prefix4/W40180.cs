@@ -62,7 +62,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
             dwMsg.SetDataTable(dtMsg , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor);
             dwMsg.ItemIndex = 0;
 
-            if (FlagAdmin) {
+            if (!FlagAdmin) {
+               chkTxt.Visible = false;
+            } else {
                chkTxt.Visible = true;
             }
 

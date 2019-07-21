@@ -6,6 +6,7 @@ using Common;
 using DataObjects.Dao.Together.SpecificDao;
 using DataObjects.Dao.Together.TableDao;
 using DevExpress.XtraEditors.Repository;
+using DevExpress.XtraGrid;
 using DevExpress.XtraGrid.Views.Grid;
 using System;
 using System.ComponentModel;
@@ -37,12 +38,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          base.Open();
          try {
 
-            //Retrieve();
-
             DataTable dt = dao49050.GetDataList();
-            if (dt.Rows.Count <= 0) {
-               InsertRow();
-            }
 
             //1. 設定欄位
             RepositoryItemTextEdit memo = new RepositoryItemTextEdit(); //說明
@@ -59,6 +55,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gvMain.Columns["MGT3_DATE_FM"].Width = 120;
             gvMain.Columns["MGT3_DATE_TO"].Width = 120;
             gcMain.Focus();
+
+            if (dt.Rows.Count <= 0) {
+               InsertRow();
+            }
 
             return ResultStatus.Success;
          } catch (Exception ex) {
@@ -94,12 +94,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
             #endregion
 
-            //0.check (沒有資料時,則自動新增一筆)
             DataTable dt = dao49050.GetDataList();
-            if (dt.Rows.Count <= 0) {
-               MessageDisplay.Info(MessageDisplay.MSG_NO_DATA , GlobalInfo.ResultText);
-               InsertRow();
-            }
 
             //1. 設定欄位
             RepositoryItemTextEdit memo = new RepositoryItemTextEdit(); //說明
@@ -117,6 +112,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gvMain.Columns["MGT3_DATE_TO"].Width = 120;
             gcMain.Focus();
 
+            //3.check (沒有資料時,則自動新增一筆)，放在gcMain.DataSource = dt後面才能帶入column
+            if (dt.Rows.Count <= 0) {
+               MessageDisplay.Info(MessageDisplay.MSG_NO_DATA , GlobalInfo.ResultText);
+               InsertRow();
+            }
+
             return ResultStatus.Success;
          } catch (Exception ex) {
             WriteLog(ex);
@@ -126,6 +127,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
       protected override ResultStatus Save(PokeBall pokeBall) {
          try {
+
             DataTable dtCurrent = (DataTable)gcMain.DataSource;
             gvMain.CloseEditor();
             gvMain.UpdateCurrentRow();
@@ -134,6 +136,20 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DataTable dtForAdd = dtCurrent.GetChanges(DataRowState.Added);
             DataTable dtForModified = dtCurrent.GetChanges(DataRowState.Modified);
             DataTable dtForDeleted = dtCurrent.GetChanges(DataRowState.Deleted);
+
+            if (dtCurrent != null) {
+               foreach (DataRow drCheck in dtCurrent.Rows) {
+                  for (int w = 0 ; w < dtCurrent.Rows.Count ; w++) {
+                     int x = dtCurrent.Columns.Count;
+                     for (int y = 0 ; y < x ; y++) {
+                        if (string.IsNullOrEmpty(drCheck[y].AsString())) {
+                           MessageDisplay.Error("資料尚未填寫完成" , GlobalInfo.ErrorText);
+                           return ResultStatus.FailButNext;
+                        }
+                     }
+                  }
+               }
+            }
 
             if (dtChange == null) {
                MessageDisplay.Warning("沒有變更資料,不需要存檔!" , GlobalInfo.WarningText);
@@ -154,7 +170,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             dtChange = dtCurrent.GetChanges();
             ResultData result = new MGT3().UpdateData(dtChange);
             if (result.Status == ResultStatus.Fail) {
-               return ResultStatus.Fail;
+               MessageDisplay.Error("儲存失敗" , GlobalInfo.ErrorText);
+               return ResultStatus.FailButNext;
             }
 
          } catch (Exception ex) {
@@ -178,14 +195,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       protected override ResultStatus InsertRow() {
-         //DataTable dt = (DataTable)gcMain.DataSource;
-         //gvMain.AddNewRow();
+         DataTable dt = (DataTable)gcMain.DataSource;
+         gvMain.AddNewRow();
 
-         //gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["IS_NEWROW"] , 1);
+         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["IS_NEWROW"] , 1);
 
-         //gvMain.Focus();
-         //gvMain.FocusedColumn = gvMain.Columns[0];
-         base.InsertRow(gvMain);
+         //base.InsertRow(gvMain);
          gvMain.Focus();
          gvMain.FocusedColumn = gvMain.VisibleColumns[0];
 

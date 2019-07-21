@@ -424,7 +424,7 @@
          this.label3.Name = "label3";
          this.label3.Size = new System.Drawing.Size(148, 21);
          this.label3.TabIndex = 101;
-         this.label3.Text = "商品代號：第1支腳";
+         this.label3.Text = "到期月序：第1支腳";
          // 
          // label8
          // 

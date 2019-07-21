@@ -63,7 +63,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
          try {
             if (!FlagAdmin) {
                cbxRate.Visible = false;
+            } else {
+               cbxRate.Visible = true;
             }
+
             decimal ld_cm_rate1, ld_cm_rate2, ld_cm_rate3;
             //最高%
             ld_cm_rate1 = dao42011.GetCmRate();

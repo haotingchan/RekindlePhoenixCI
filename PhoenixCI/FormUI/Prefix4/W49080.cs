@@ -28,10 +28,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
       RepositoryItemLookUpEdit lupTfxmPid;
       private D49080 dao49080;
+      private string _ReportTitle;
 
       public W49080(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
+         _ReportTitle = this.Text;
 
          dao49080 = new D49080();
       }
@@ -208,53 +210,45 @@ namespace PhoenixCI.FormUI.Prefix4 {
                return ResultStatus.Fail;
             }
 
+            DataTable dtTemp = dtForDeleted.Clone();
+
             //隱藏欄位賦值
             foreach (DataRow dr in dtCurrent.Rows) {
-               //if (dr.RowState == DataRowState.Added || dr.RowState == DataRowState.Modified) {
-               //   dr["TFXMSE_W_TIME"] = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:fffffff");
-               //   dr["TFXMSE_W_USER_ID"] = GlobalInfo.USER_ID;
-               //}
+               if (dr.RowState == DataRowState.Added || dr.RowState == DataRowState.Modified) {
+                  dr["TFXMSE_W_TIME"] = DateTime.Now;
+                  dr["TFXMSE_W_USER_ID"] = GlobalInfo.USER_ID;
 
-               {
-                  if (dr.RowState == DataRowState.Added || dr.RowState == DataRowState.Modified) {
-                     dr["TFXMSE_W_TIME"] = DateTime.Now;
-                     dr["TFXMSE_W_USER_ID"] = GlobalInfo.USER_ID;
+                  if (dr.RowState == DataRowState.Added) {
+                     foreach (DataRow drAdd in dtForAdd.Rows) {
+                        drAdd["TFXMSE_W_TIME"] = DateTime.Now;
+                        drAdd["TFXMSE_W_USER_ID"] = GlobalInfo.USER_ID;
+                     }
+                  }
 
-                     //if (dr.RowState == DataRowState.Added) {
-                     //   foreach (DataRow drAdd in dtForAdd.Rows) {
-                     //      drAdd["TFXMSE_W_TIME"] = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
-                     //      drAdd["TFXMSE_W_USER_ID"] = GlobalInfo.USER_ID;
-                     //   }
-                     //   gvMain.SetRowCellValue(gvMain.FocusedRowHandle , "TFXMSE_W_TIME" , DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
-                     //   gvMain.SetRowCellValue(gvMain.FocusedRowHandle , "TFXMSE_W_USER_ID" , GlobalInfo.USER_ID);
-                     //   gvMain.CloseEditor();
-                     //   gvMain.UpdateCurrentRow();
-                     //}
+                  if (dr.RowState == DataRowState.Modified) {
+                     foreach (DataRow drMod in dtForModified.Rows) {
+                        drMod["TFXMSE_W_TIME"] = DateTime.Now;
+                        drMod["TFXMSE_W_USER_ID"] = GlobalInfo.USER_ID;
+                     }
+                  }
+               } else if (dr.RowState == DataRowState.Deleted) {
 
-                     //if (dr.RowState == DataRowState.Modified) {
-                     //   foreach (DataRow drMod in dtForModified.Rows) {
-                     //      drMod["TFXMSE_W_TIME"] = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
-                     //      drMod["TFXMSE_W_USER_ID"] = GlobalInfo.USER_ID;
-                     //   }
-                     //   gvMain.SetRowCellValue(gvMain.FocusedRowHandle , "TFXMSE_W_TIME" , DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
-                     //   gvMain.SetRowCellValue(gvMain.FocusedRowHandle , "TFXMSE_W_USER_ID" , GlobalInfo.USER_ID);
-                     //   gvMain.CloseEditor();
-                     //   gvMain.UpdateCurrentRow();
-                     //}
+                  int rowIndex = 0;
+                  foreach (DataRow drDel in dtForDeleted.Rows) {
+                     DataRow drNewDelete = dtTemp.NewRow();
+                     for (int colIndex = 0 ; colIndex < dtForDeleted.Columns.Count ; colIndex++) {
+                        drNewDelete[colIndex] = drDel[colIndex , DataRowVersion.Original];
+                     }
+                     dtTemp.Rows.Add(drNewDelete);
+                     rowIndex++;
+                  }
 
-                     //if (dr.RowState == DataRowState.Deleted) {
-                     //   dr.Delete();
-                     //}
+                  foreach (DataRow drTempDel in dtTemp.Rows) {
+                     drTempDel["TFXMSE_W_TIME"] = DateTime.Now;
+                     drTempDel["TFXMSE_W_USER_ID"] = GlobalInfo.USER_ID;
                   }
                }
             }
-
-            //DataTable dtCloned = dtCurrent.Clone();
-            //dtCloned.Columns["TFXMSE_W_TIME"].DataType = typeof(DateTime);
-            //foreach (DataRow row in dtCurrent.Rows) {
-            //    if (row.RowState == DataRowState.Deleted) continue;
-            //    dtCloned.ImportRow(row);
-            //}
 
             ResultData result = new TFXMSE().UpdateData(dtCurrent);
             if (result.Status == ResultStatus.Fail) {
@@ -262,7 +256,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                return ResultStatus.FailButNext;
             }
 
-            PrintOrExportChangedByKen(gcMain , dtForAdd , dtForDeleted , dtForModified);
+            PrintOrExportChangedByKen(gcMain , dtForAdd , dtTemp , dtForModified);
 
          } catch (Exception ex) {
             MessageDisplay.Error("儲存錯誤" , GlobalInfo.ErrorText);
@@ -270,6 +264,54 @@ namespace PhoenixCI.FormUI.Prefix4 {
             return ResultStatus.FailButNext;
          }
          return ResultStatus.Success;
+      }
+
+      /// <summary>
+      /// 將新增、刪除、變更的紀錄分別都列印或匯出出來
+      /// </summary>
+      /// <param name="gridControl"></param>
+      /// <param name="ChangedForAdded"></param>
+      /// <param name="ChangedForDeleted"></param>
+      /// <param name="ChangedForModified"></param>
+      protected void PrintOrExportChangedByKen(GridControl gridControl , DataTable ChangedForAdded ,
+          DataTable ChangedForDeleted , DataTable ChangedForModified , bool IsHandlePersonVisible = true , bool IsManagerVisible = true) {
+         GridControl gridControlPrint = GridHelper.CloneGrid(gridControl);
+
+         ReportHelper reportHelper = new ReportHelper(gridControl , _ProgramID , _ReportTitle);
+         reportHelper.IsHandlePersonVisible = IsHandlePersonVisible;
+         reportHelper.IsManagerVisible = IsManagerVisible;
+
+         if (ChangedForAdded != null)
+            if (ChangedForAdded.Rows.Count != 0) {
+               gridControlPrint.DataSource = ChangedForAdded;
+               reportHelper.PrintableComponent = gridControlPrint;
+               reportHelper.ReportTitle = _ReportTitle + "─" + "新增";
+
+               reportHelper.Print();
+               reportHelper.Export(FileType.PDF , reportHelper.FilePath);
+            }
+
+         if (ChangedForDeleted != null)
+            if (ChangedForDeleted.Rows.Count != 0) {
+               gridControlPrint.DataSource = ChangedForDeleted;
+               reportHelper.PrintableComponent = gridControlPrint;
+               reportHelper.ReportTitle = _ReportTitle + "─" + "刪除";
+
+               reportHelper.Print();
+               reportHelper.Export(FileType.PDF , reportHelper.FilePath);
+            }
+
+         if (ChangedForModified != null)
+            if (ChangedForModified.Rows.Count != 0) {
+               gridControlPrint.DataSource = ChangedForModified;
+               reportHelper.PrintableComponent = gridControlPrint;
+               reportHelper.ReportTitle = _ReportTitle + "─" + "變更";
+
+               reportHelper.Print();
+               reportHelper.Export(FileType.PDF , reportHelper.FilePath);
+            }
+
+         MessageDisplay.Info(MessageDisplay.MSG_PRINT , GlobalInfo.ResultText);
       }
 
       protected override ResultStatus Print(ReportHelper reportHelper) {

@@ -37,6 +37,14 @@ namespace PhoenixCI.FormUI.Prefix5 {
       protected override ResultStatus Open() {
          base.Open();
 
+         if (!FlagAdmin) {
+            labProdType.Visible = false;
+            cbxProdType.Visible = false;
+         } else {
+            labProdType.Visible = true;
+            cbxProdType.Visible = true;
+         }
+
          //1.設定初始年月yyyy/MM
          txtStartMonth.DateTimeValue = GlobalInfo.OCF_DATE;
          txtStartMonth.EnterMoveNextControl = true;
@@ -58,7 +66,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
          DataTable dtProdType = new APDK().dddw_pdk_kind_id();//前面[全部/期貨/選擇權]+apdk_prod_type/pdk_kind_id/cp_display
          cbxProdType.SetDataTable(dtProdType , "PDK_KIND_ID" , textEditStyles: TextEditStyles.DisableTextEditor);
          cbxProdType.ItemIndex = 0;//直接預設為[全部]
-
 
          return ResultStatus.Success;
       }

@@ -69,8 +69,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
          //[契約]下拉選單
          _RepLookUpEdit3 = new RepositoryItemLookUpEdit();
-         DataTable dtActId = daoAPDK.ListAll2();
-         Extension.SetColumnLookUp(_RepLookUpEdit3 , dtActId , "APDK_KIND_ID" , "CP_DISPLAY" , TextEditStyles.Standard , "");
+         //DataTable dtActId = daoAPDK.ListAll2();
+         DataTable dtMerge = dao50120.GetMergeData(txtMonth.Text.Replace("/" , ""));
+         Extension.SetColumnLookUp(_RepLookUpEdit3 , dtMerge , "MPDF_KIND_ID" , "CP_DISPLAY" , TextEditStyles.Standard , "");
          gcMain.RepositoryItems.Add(_RepLookUpEdit3);
 
          return ResultStatus.Success;
@@ -80,13 +81,12 @@ namespace PhoenixCI.FormUI.Prefix5 {
          base.AfterOpen();
 
          //先確認有沒有資料(這邊不直接下Retrieve是為了不跳錯誤訊息)
-         DataTable dtCheck = dao50120.GetData(txtMonth.Text.Replace("/" , ""));
+         DataTable dtCheck = dao50120.GetMergeData(txtMonth.Text.Replace("/" , ""));
 
          //沒有新增資料時,則自動新增一筆內容
          if (dtCheck.Rows.Count <= 0) {
             InsertRow();
          } else {
-            dtCheck.Columns.Add("PROD_TYPE" , typeof(string));
             dtCheck.Columns.Add("Is_NewRow" , typeof(string));
             gcMain.DataSource = dtCheck;
             gcMain.Focus();
@@ -110,13 +110,12 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
       protected override ResultStatus Retrieve() {
 
-         DataTable returnTable = dao50120.GetData(txtMonth.Text.Replace("/" , "")); //MPDF的資料
+         DataTable returnTable = dao50120.GetMergeData(txtMonth.Text.Replace("/" , "")); //MPDF的資料
          if (returnTable.Rows.Count <= 0) {
             MessageDisplay.Info(GlobalInfo.MsgNoData , MessageDisplay.MSG_OK);
             InsertRow();
          }
 
-         returnTable.Columns.Add("PROD_TYPE" , typeof(string));
          returnTable.Columns.Add("Is_NewRow" , typeof(string));
 
          gcMain.RepositoryItems.Add(_RepLookUpEdit);
@@ -191,8 +190,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
       protected override ResultStatus InsertRow() {
          base.InsertRow(gvMain);
-
+         //DataTable dt = (DataTable)gvMain.DataSource;
          //dtInsertUse = daoAPDK.ListAll2(); //純APDK選單
+
          _RepLookUpEdit3 = new RepositoryItemLookUpEdit();
          _RepLookUpEdit3.SetColumnLookUp(dtInsertUse , "APDK_KIND_ID" , "CP_DISPLAY" , TextEditStyles.Standard , "");
          gcMain.RepositoryItems.Add(_RepLookUpEdit3);
@@ -261,7 +261,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
          } else {
             e.Cancel = true;
          }
-
       }
 
       private void gvMain_RowCellStyle(object sender , RowCellStyleEventArgs e) {
@@ -274,8 +273,21 @@ namespace PhoenixCI.FormUI.Prefix5 {
          if (e.Column.FieldName != "MPDF_EFF_DATE") {
             if (Is_NewRow == "1") {
                e.Appearance.BackColor = Color.White;
+               //if (e.Column.FieldName != "MPDF_KIND_ID") {
+               //   _RepLookUpEdit3 = new RepositoryItemLookUpEdit();
+               //   _RepLookUpEdit3.SetColumnLookUp(dtInsertUse , "APDK_KIND_ID" , "CP_DISPLAY" , TextEditStyles.Standard , "");
+               //   gcMain.RepositoryItems.Add(_RepLookUpEdit3);
+               //   MPDF_KIND_ID.ColumnEdit = _RepLookUpEdit3;
+               //}
             } else {
                e.Appearance.BackColor = Color.FromArgb(224 , 224 , 224);
+               //if (e.Column.FieldName != "MPDF_KIND_ID") {
+               //   DataTable dtMer = dao50120.GetMergeData(txtMonth.Text.Replace("/" , ""));
+               //   _RepLookUpEdit3 = new RepositoryItemLookUpEdit();
+               //   _RepLookUpEdit3.SetColumnLookUp(dtMer , "APDK_KIND_ID" , "CP_DISPLAY" , TextEditStyles.Standard , "");
+               //   gcMain.RepositoryItems.Add(_RepLookUpEdit3);
+               //   MPDF_KIND_ID.ColumnEdit = _RepLookUpEdit3;
+               //}
             }
          }
       }

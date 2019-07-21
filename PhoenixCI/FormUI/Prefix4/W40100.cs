@@ -61,6 +61,19 @@ namespace PhoenixCI.FormUI.Prefix4 {
          ExportShow.Hide();
       }
 
+      protected override ResultStatus Open() {
+         base.Open();
+
+         if (!FlagAdmin) { //此管理者測試功能並未實作
+            groupAdmin.Visible = false;
+            chkTxt.Visible = false;
+         } else {
+            groupAdmin.Visible = true;
+            chkTxt.Visible = true;
+         }
+         return ResultStatus.Success;
+      }
+
       protected override ResultStatus Export() {
          ExportShow.Text = "轉檔中...";
          ExportShow.Show();

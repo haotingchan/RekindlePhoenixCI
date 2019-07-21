@@ -46,16 +46,12 @@
          this.SubMsg = new DevExpress.XtraGrid.Columns.GridColumn();
          this.Msg = new DevExpress.XtraGrid.Columns.GridColumn();
          this.panel1 = new System.Windows.Forms.Panel();
+         this.panDiff = new System.Windows.Forms.GroupBox();
+         this.label3 = new System.Windows.Forms.Label();
+         this.label2 = new System.Windows.Forms.Label();
+         this.labAvgDateN = new System.Windows.Forms.Label();
+         this.labAvgDate = new System.Windows.Forms.Label();
          this.panFilter = new System.Windows.Forms.GroupBox();
-         this.labLastWeek = new System.Windows.Forms.Label();
-         this.panNormal = new System.Windows.Forms.GroupBox();
-         this.lbl1 = new System.Windows.Forms.Label();
-         this.labThisWeek = new System.Windows.Forms.Label();
-         this.txtThisStartDate = new BaseGround.Widget.TextDateEdit();
-         this.label1 = new System.Windows.Forms.Label();
-         this.txtThisEndDate = new BaseGround.Widget.TextDateEdit();
-         this.labPercStartDate = new System.Windows.Forms.Label();
-         this.labDesc1 = new System.Windows.Forms.Label();
          this.panNight = new System.Windows.Forms.GroupBox();
          this.labDesc2 = new System.Windows.Forms.Label();
          this.txtRateStartDateN = new BaseGround.Widget.TextDateEdit();
@@ -68,12 +64,16 @@
          this.label8 = new System.Windows.Forms.Label();
          this.labLastWeekN = new System.Windows.Forms.Label();
          this.txtLastEndDateN = new BaseGround.Widget.TextDateEdit();
+         this.panNormal = new System.Windows.Forms.GroupBox();
+         this.labDesc1 = new System.Windows.Forms.Label();
+         this.labPercStartDate = new System.Windows.Forms.Label();
+         this.txtThisStartDate = new BaseGround.Widget.TextDateEdit();
+         this.label1 = new System.Windows.Forms.Label();
+         this.txtThisEndDate = new BaseGround.Widget.TextDateEdit();
+         this.labThisWeek = new System.Windows.Forms.Label();
+         this.lbl1 = new System.Windows.Forms.Label();
+         this.labLastWeek = new System.Windows.Forms.Label();
          this.panProd = new System.Windows.Forms.GroupBox();
-         this.panDiff = new System.Windows.Forms.GroupBox();
-         this.labAvgDate = new System.Windows.Forms.Label();
-         this.labAvgDateN = new System.Windows.Forms.Label();
-         this.label2 = new System.Windows.Forms.Label();
-         this.label3 = new System.Windows.Forms.Label();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtRateStartDate.Properties)).BeginInit();
@@ -89,18 +89,18 @@
          ((System.ComponentModel.ISupportInitialize)(this.gcMsg)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMsg)).BeginInit();
          this.panel1.SuspendLayout();
+         this.panDiff.SuspendLayout();
          this.panFilter.SuspendLayout();
-         this.panNormal.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.txtThisStartDate.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtThisEndDate.Properties)).BeginInit();
          this.panNight.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.txtRateStartDateN.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtThisStartDateN.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtThisEndDateN.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtLastStartDateN.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtLastEndDateN.Properties)).BeginInit();
+         this.panNormal.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.txtThisStartDate.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtThisEndDate.Properties)).BeginInit();
          this.panProd.SuspendLayout();
-         this.panDiff.SuspendLayout();
          this.SuspendLayout();
          // 
          // panParent
@@ -375,7 +375,7 @@
          this.btnTest.Name = "btnTest";
          this.btnTest.Size = new System.Drawing.Size(395, 28);
          this.btnTest.TabIndex = 14;
-         this.btnTest.Text = "轉波動度及振幅現貨資料 to csv";
+         this.btnTest.Text = "轉波動度及振幅現貨資料";
          this.btnTest.UseVisualStyleBackColor = true;
          this.btnTest.Visible = false;
          this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
@@ -456,6 +456,66 @@
          this.panel1.Size = new System.Drawing.Size(900, 703);
          this.panel1.TabIndex = 16;
          // 
+         // panDiff
+         // 
+         this.panDiff.AutoSize = true;
+         this.panDiff.Controls.Add(this.label3);
+         this.panDiff.Controls.Add(this.label2);
+         this.panDiff.Controls.Add(this.txtDiffStartDateN);
+         this.panDiff.Controls.Add(this.txtDiffStartDate);
+         this.panDiff.Controls.Add(this.labAvgDateN);
+         this.panDiff.Controls.Add(this.labAvgDate);
+         this.panDiff.Controls.Add(this.txtDiffEndDateN);
+         this.panDiff.Controls.Add(this.txtDiffEndDate);
+         this.panDiff.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.panDiff.ForeColor = System.Drawing.Color.Navy;
+         this.panDiff.Location = new System.Drawing.Point(476, 259);
+         this.panDiff.Name = "panDiff";
+         this.panDiff.Size = new System.Drawing.Size(401, 136);
+         this.panDiff.TabIndex = 25;
+         this.panDiff.TabStop = false;
+         this.panDiff.Text = "夜盤與日盤平均OI差異";
+         // 
+         // label3
+         // 
+         this.label3.AutoSize = true;
+         this.label3.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.label3.Location = new System.Drawing.Point(218, 82);
+         this.label3.Name = "label3";
+         this.label3.Size = new System.Drawing.Size(22, 21);
+         this.label3.TabIndex = 28;
+         this.label3.Text = "~";
+         // 
+         // label2
+         // 
+         this.label2.AutoSize = true;
+         this.label2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.label2.Location = new System.Drawing.Point(218, 39);
+         this.label2.Name = "label2";
+         this.label2.Size = new System.Drawing.Size(22, 21);
+         this.label2.TabIndex = 26;
+         this.label2.Text = "~";
+         // 
+         // labAvgDateN
+         // 
+         this.labAvgDateN.AutoSize = true;
+         this.labAvgDateN.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+         this.labAvgDateN.Location = new System.Drawing.Point(59, 82);
+         this.labAvgDateN.Name = "labAvgDateN";
+         this.labAvgDateN.Size = new System.Drawing.Size(58, 21);
+         this.labAvgDateN.TabIndex = 27;
+         this.labAvgDateN.Text = "夜盤：";
+         // 
+         // labAvgDate
+         // 
+         this.labAvgDate.AutoSize = true;
+         this.labAvgDate.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+         this.labAvgDate.Location = new System.Drawing.Point(59, 39);
+         this.labAvgDate.Name = "labAvgDate";
+         this.labAvgDate.Size = new System.Drawing.Size(58, 21);
+         this.labAvgDate.TabIndex = 26;
+         this.labAvgDate.Text = "日盤：";
+         // 
          // panFilter
          // 
          this.panFilter.AutoSize = true;
@@ -470,132 +530,6 @@
          this.panFilter.TabIndex = 13;
          this.panFilter.TabStop = false;
          this.panFilter.Text = "請輸入交易日期";
-         // 
-         // labLastWeek
-         // 
-         this.labLastWeek.AutoSize = true;
-         this.labLastWeek.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-         this.labLastWeek.Location = new System.Drawing.Point(28, 32);
-         this.labLastWeek.Name = "labLastWeek";
-         this.labLastWeek.Size = new System.Drawing.Size(58, 21);
-         this.labLastWeek.TabIndex = 2;
-         this.labLastWeek.Text = "上週：";
-         // 
-         // panNormal
-         // 
-         this.panNormal.AutoSize = true;
-         this.panNormal.Controls.Add(this.labDesc1);
-         this.panNormal.Controls.Add(this.txtRateStartDate);
-         this.panNormal.Controls.Add(this.labPercStartDate);
-         this.panNormal.Controls.Add(this.txtThisStartDate);
-         this.panNormal.Controls.Add(this.label1);
-         this.panNormal.Controls.Add(this.txtThisEndDate);
-         this.panNormal.Controls.Add(this.labThisWeek);
-         this.panNormal.Controls.Add(this.txtLastStartDate);
-         this.panNormal.Controls.Add(this.lbl1);
-         this.panNormal.Controls.Add(this.labLastWeek);
-         this.panNormal.Controls.Add(this.txtLastEndDate);
-         this.panNormal.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.panNormal.ForeColor = System.Drawing.Color.Navy;
-         this.panNormal.Location = new System.Drawing.Point(22, 25);
-         this.panNormal.Name = "panNormal";
-         this.panNormal.Size = new System.Drawing.Size(376, 189);
-         this.panNormal.TabIndex = 14;
-         this.panNormal.TabStop = false;
-         this.panNormal.Text = "一般交易";
-         // 
-         // lbl1
-         // 
-         this.lbl1.AutoSize = true;
-         this.lbl1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.lbl1.Location = new System.Drawing.Point(183, 32);
-         this.lbl1.Name = "lbl1";
-         this.lbl1.Size = new System.Drawing.Size(22, 21);
-         this.lbl1.TabIndex = 19;
-         this.lbl1.Text = "~";
-         // 
-         // labThisWeek
-         // 
-         this.labThisWeek.AutoSize = true;
-         this.labThisWeek.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-         this.labThisWeek.Location = new System.Drawing.Point(28, 79);
-         this.labThisWeek.Name = "labThisWeek";
-         this.labThisWeek.Size = new System.Drawing.Size(58, 21);
-         this.labThisWeek.TabIndex = 20;
-         this.labThisWeek.Text = "本週：";
-         // 
-         // txtThisStartDate
-         // 
-         this.txtThisStartDate.DateTimeValue = new System.DateTime(((long)(0)));
-         this.txtThisStartDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtThisStartDate.EditValue = "";
-         this.txtThisStartDate.EnterMoveNextControl = true;
-         this.txtThisStartDate.Location = new System.Drawing.Point(82, 79);
-         this.txtThisStartDate.Name = "txtThisStartDate";
-         this.txtThisStartDate.Properties.Appearance.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.txtThisStartDate.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
-         this.txtThisStartDate.Properties.Appearance.Options.UseFont = true;
-         this.txtThisStartDate.Properties.Appearance.Options.UseForeColor = true;
-         this.txtThisStartDate.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtThisStartDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
-         this.txtThisStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-         this.txtThisStartDate.Properties.Mask.ShowPlaceHolders = false;
-         this.txtThisStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtThisStartDate.Size = new System.Drawing.Size(100, 22);
-         this.txtThisStartDate.TabIndex = 21;
-         this.txtThisStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-         // 
-         // label1
-         // 
-         this.label1.AutoSize = true;
-         this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.label1.Location = new System.Drawing.Point(183, 79);
-         this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(22, 21);
-         this.label1.TabIndex = 23;
-         this.label1.Text = "~";
-         // 
-         // txtThisEndDate
-         // 
-         this.txtThisEndDate.DateTimeValue = new System.DateTime(((long)(0)));
-         this.txtThisEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtThisEndDate.EditValue = "";
-         this.txtThisEndDate.EnterMoveNextControl = true;
-         this.txtThisEndDate.Location = new System.Drawing.Point(204, 79);
-         this.txtThisEndDate.Name = "txtThisEndDate";
-         this.txtThisEndDate.Properties.Appearance.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.txtThisEndDate.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
-         this.txtThisEndDate.Properties.Appearance.Options.UseFont = true;
-         this.txtThisEndDate.Properties.Appearance.Options.UseForeColor = true;
-         this.txtThisEndDate.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtThisEndDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
-         this.txtThisEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-         this.txtThisEndDate.Properties.Mask.ShowPlaceHolders = false;
-         this.txtThisEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtThisEndDate.Size = new System.Drawing.Size(100, 22);
-         this.txtThisEndDate.TabIndex = 22;
-         this.txtThisEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-         // 
-         // labPercStartDate
-         // 
-         this.labPercStartDate.AutoSize = true;
-         this.labPercStartDate.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-         this.labPercStartDate.Location = new System.Drawing.Point(28, 123);
-         this.labPercStartDate.Name = "labPercStartDate";
-         this.labPercStartDate.Size = new System.Drawing.Size(218, 21);
-         this.labPercStartDate.TabIndex = 24;
-         this.labPercStartDate.Text = "夜盤占日盤交易量比重起日：";
-         // 
-         // labDesc1
-         // 
-         this.labDesc1.AutoSize = true;
-         this.labDesc1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.labDesc1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-         this.labDesc1.Location = new System.Drawing.Point(24, 144);
-         this.labDesc1.Name = "labDesc1";
-         this.labDesc1.Size = new System.Drawing.Size(201, 20);
-         this.labDesc1.TabIndex = 25;
-         this.labDesc1.Text = "（夜盤交易人結構亦相同）";
          // 
          // panNight
          // 
@@ -786,6 +720,132 @@
          this.txtLastEndDateN.TabIndex = 1;
          this.txtLastEndDateN.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
+         // panNormal
+         // 
+         this.panNormal.AutoSize = true;
+         this.panNormal.Controls.Add(this.labDesc1);
+         this.panNormal.Controls.Add(this.txtRateStartDate);
+         this.panNormal.Controls.Add(this.labPercStartDate);
+         this.panNormal.Controls.Add(this.txtThisStartDate);
+         this.panNormal.Controls.Add(this.label1);
+         this.panNormal.Controls.Add(this.txtThisEndDate);
+         this.panNormal.Controls.Add(this.labThisWeek);
+         this.panNormal.Controls.Add(this.txtLastStartDate);
+         this.panNormal.Controls.Add(this.lbl1);
+         this.panNormal.Controls.Add(this.labLastWeek);
+         this.panNormal.Controls.Add(this.txtLastEndDate);
+         this.panNormal.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.panNormal.ForeColor = System.Drawing.Color.Navy;
+         this.panNormal.Location = new System.Drawing.Point(22, 25);
+         this.panNormal.Name = "panNormal";
+         this.panNormal.Size = new System.Drawing.Size(376, 189);
+         this.panNormal.TabIndex = 14;
+         this.panNormal.TabStop = false;
+         this.panNormal.Text = "一般交易";
+         // 
+         // labDesc1
+         // 
+         this.labDesc1.AutoSize = true;
+         this.labDesc1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.labDesc1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+         this.labDesc1.Location = new System.Drawing.Point(24, 144);
+         this.labDesc1.Name = "labDesc1";
+         this.labDesc1.Size = new System.Drawing.Size(201, 20);
+         this.labDesc1.TabIndex = 25;
+         this.labDesc1.Text = "（夜盤交易人結構亦相同）";
+         // 
+         // labPercStartDate
+         // 
+         this.labPercStartDate.AutoSize = true;
+         this.labPercStartDate.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+         this.labPercStartDate.Location = new System.Drawing.Point(28, 123);
+         this.labPercStartDate.Name = "labPercStartDate";
+         this.labPercStartDate.Size = new System.Drawing.Size(218, 21);
+         this.labPercStartDate.TabIndex = 24;
+         this.labPercStartDate.Text = "夜盤占日盤交易量比重起日：";
+         // 
+         // txtThisStartDate
+         // 
+         this.txtThisStartDate.DateTimeValue = new System.DateTime(((long)(0)));
+         this.txtThisStartDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtThisStartDate.EditValue = "";
+         this.txtThisStartDate.EnterMoveNextControl = true;
+         this.txtThisStartDate.Location = new System.Drawing.Point(82, 79);
+         this.txtThisStartDate.Name = "txtThisStartDate";
+         this.txtThisStartDate.Properties.Appearance.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.txtThisStartDate.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
+         this.txtThisStartDate.Properties.Appearance.Options.UseFont = true;
+         this.txtThisStartDate.Properties.Appearance.Options.UseForeColor = true;
+         this.txtThisStartDate.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.txtThisStartDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtThisStartDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.txtThisStartDate.Properties.Mask.ShowPlaceHolders = false;
+         this.txtThisStartDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtThisStartDate.Size = new System.Drawing.Size(100, 22);
+         this.txtThisStartDate.TabIndex = 21;
+         this.txtThisStartDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         // 
+         // label1
+         // 
+         this.label1.AutoSize = true;
+         this.label1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.label1.Location = new System.Drawing.Point(183, 79);
+         this.label1.Name = "label1";
+         this.label1.Size = new System.Drawing.Size(22, 21);
+         this.label1.TabIndex = 23;
+         this.label1.Text = "~";
+         // 
+         // txtThisEndDate
+         // 
+         this.txtThisEndDate.DateTimeValue = new System.DateTime(((long)(0)));
+         this.txtThisEndDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtThisEndDate.EditValue = "";
+         this.txtThisEndDate.EnterMoveNextControl = true;
+         this.txtThisEndDate.Location = new System.Drawing.Point(204, 79);
+         this.txtThisEndDate.Name = "txtThisEndDate";
+         this.txtThisEndDate.Properties.Appearance.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.txtThisEndDate.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
+         this.txtThisEndDate.Properties.Appearance.Options.UseFont = true;
+         this.txtThisEndDate.Properties.Appearance.Options.UseForeColor = true;
+         this.txtThisEndDate.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.txtThisEndDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtThisEndDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.txtThisEndDate.Properties.Mask.ShowPlaceHolders = false;
+         this.txtThisEndDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtThisEndDate.Size = new System.Drawing.Size(100, 22);
+         this.txtThisEndDate.TabIndex = 22;
+         this.txtThisEndDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         // 
+         // labThisWeek
+         // 
+         this.labThisWeek.AutoSize = true;
+         this.labThisWeek.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+         this.labThisWeek.Location = new System.Drawing.Point(28, 79);
+         this.labThisWeek.Name = "labThisWeek";
+         this.labThisWeek.Size = new System.Drawing.Size(58, 21);
+         this.labThisWeek.TabIndex = 20;
+         this.labThisWeek.Text = "本週：";
+         // 
+         // lbl1
+         // 
+         this.lbl1.AutoSize = true;
+         this.lbl1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.lbl1.Location = new System.Drawing.Point(183, 32);
+         this.lbl1.Name = "lbl1";
+         this.lbl1.Size = new System.Drawing.Size(22, 21);
+         this.lbl1.TabIndex = 19;
+         this.lbl1.Text = "~";
+         // 
+         // labLastWeek
+         // 
+         this.labLastWeek.AutoSize = true;
+         this.labLastWeek.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+         this.labLastWeek.Location = new System.Drawing.Point(28, 32);
+         this.labLastWeek.Name = "labLastWeek";
+         this.labLastWeek.Size = new System.Drawing.Size(58, 21);
+         this.labLastWeek.TabIndex = 2;
+         this.labLastWeek.Text = "上週：";
+         // 
          // panProd
          // 
          this.panProd.AutoSize = true;
@@ -798,66 +858,6 @@
          this.panProd.TabIndex = 24;
          this.panProd.TabStop = false;
          this.panProd.Text = "請選擇標的名稱";
-         // 
-         // panDiff
-         // 
-         this.panDiff.AutoSize = true;
-         this.panDiff.Controls.Add(this.label3);
-         this.panDiff.Controls.Add(this.label2);
-         this.panDiff.Controls.Add(this.txtDiffStartDateN);
-         this.panDiff.Controls.Add(this.txtDiffStartDate);
-         this.panDiff.Controls.Add(this.labAvgDateN);
-         this.panDiff.Controls.Add(this.labAvgDate);
-         this.panDiff.Controls.Add(this.txtDiffEndDateN);
-         this.panDiff.Controls.Add(this.txtDiffEndDate);
-         this.panDiff.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.panDiff.ForeColor = System.Drawing.Color.Navy;
-         this.panDiff.Location = new System.Drawing.Point(476, 259);
-         this.panDiff.Name = "panDiff";
-         this.panDiff.Size = new System.Drawing.Size(401, 132);
-         this.panDiff.TabIndex = 25;
-         this.panDiff.TabStop = false;
-         this.panDiff.Text = "夜盤與日盤平均OI差異";
-         // 
-         // labAvgDate
-         // 
-         this.labAvgDate.AutoSize = true;
-         this.labAvgDate.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-         this.labAvgDate.Location = new System.Drawing.Point(59, 39);
-         this.labAvgDate.Name = "labAvgDate";
-         this.labAvgDate.Size = new System.Drawing.Size(58, 21);
-         this.labAvgDate.TabIndex = 26;
-         this.labAvgDate.Text = "日盤：";
-         // 
-         // labAvgDateN
-         // 
-         this.labAvgDateN.AutoSize = true;
-         this.labAvgDateN.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-         this.labAvgDateN.Location = new System.Drawing.Point(59, 82);
-         this.labAvgDateN.Name = "labAvgDateN";
-         this.labAvgDateN.Size = new System.Drawing.Size(58, 21);
-         this.labAvgDateN.TabIndex = 27;
-         this.labAvgDateN.Text = "夜盤：";
-         // 
-         // label2
-         // 
-         this.label2.AutoSize = true;
-         this.label2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.label2.Location = new System.Drawing.Point(218, 39);
-         this.label2.Name = "label2";
-         this.label2.Size = new System.Drawing.Size(22, 21);
-         this.label2.TabIndex = 26;
-         this.label2.Text = "~";
-         // 
-         // label3
-         // 
-         this.label3.AutoSize = true;
-         this.label3.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-         this.label3.Location = new System.Drawing.Point(218, 82);
-         this.label3.Name = "label3";
-         this.label3.Size = new System.Drawing.Size(22, 21);
-         this.label3.TabIndex = 28;
-         this.label3.Text = "~";
          // 
          // W30690
          // 
@@ -883,12 +883,10 @@
          ((System.ComponentModel.ISupportInitialize)(this.gvMsg)).EndInit();
          this.panel1.ResumeLayout(false);
          this.panel1.PerformLayout();
+         this.panDiff.ResumeLayout(false);
+         this.panDiff.PerformLayout();
          this.panFilter.ResumeLayout(false);
          this.panFilter.PerformLayout();
-         this.panNormal.ResumeLayout(false);
-         this.panNormal.PerformLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.txtThisStartDate.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtThisEndDate.Properties)).EndInit();
          this.panNight.ResumeLayout(false);
          this.panNight.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.txtRateStartDateN.Properties)).EndInit();
@@ -896,9 +894,11 @@
          ((System.ComponentModel.ISupportInitialize)(this.txtThisEndDateN.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtLastStartDateN.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtLastEndDateN.Properties)).EndInit();
+         this.panNormal.ResumeLayout(false);
+         this.panNormal.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.txtThisStartDate.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtThisEndDate.Properties)).EndInit();
          this.panProd.ResumeLayout(false);
-         this.panDiff.ResumeLayout(false);
-         this.panDiff.PerformLayout();
          this.ResumeLayout(false);
          this.PerformLayout();
 

@@ -10,8 +10,6 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 
-//TODO : (CIN)servername登入才會看到[管理者測試]的選項
-
 /// <summary>
 /// Winni, 2019/04/30
 /// </summary>
@@ -30,6 +28,19 @@ namespace PhoenixCI.FormUI.Prefix4 {
          dao40021 = new D40021();
       }
 
+      protected override ResultStatus Open() {
+         base.Open();
+
+         if (!FlagAdmin) {
+            groupAdmin.Visible = false;
+            chkTxt.Visible = false;
+         } else {
+            groupAdmin.Visible = true;
+            chkTxt.Visible = true;
+         }
+         return ResultStatus.Success;
+      }
+
       protected override ResultStatus ActivatedForm() {
          base.ActivatedForm();
 
@@ -41,11 +52,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
          txtDate.DateTimeValue = DateTime.ParseExact("2018/10/11" , "yyyy/MM/dd" , null);
          this.Text += "(開啟測試模式)";
 #endif
-
-         if (FlagAdmin) {
-            groupAdmin.Visible = true;
-            chkTxt.Visible = true;
-         }
 
          return ResultStatus.Success;
       }
@@ -99,7 +105,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             bool result1 = false, result2 = false;
 
             //資料儲存至Table
-            if (chkTxt.Checked = true) {
+            if (chkTxt.CheckState == CheckState.Checked) {
                result1 = wf_40021(workbook);
                if (ls_logf == "Y") {
                   //wf_logt("40021");

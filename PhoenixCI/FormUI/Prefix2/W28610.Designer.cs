@@ -36,6 +36,7 @@
          this.AB1_ACCU_COUNT = new DevExpress.XtraGrid.Columns.GridColumn();
          this.AB1_TRADE_COUNT = new DevExpress.XtraGrid.Columns.GridColumn();
          this.AB1_COUNT = new DevExpress.XtraGrid.Columns.GridColumn();
+         this.btnSp = new System.Windows.Forms.Button();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          this.grpxDescription.SuspendLayout();
@@ -116,6 +117,7 @@
          this.panelControl1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
          this.panelControl1.Appearance.Options.UseBackColor = true;
          this.panelControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+         this.panelControl1.Controls.Add(this.btnSp);
          this.panelControl1.Controls.Add(this.grpxDescription);
          this.panelControl1.Controls.Add(this.lblProcessing);
          this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -200,6 +202,15 @@
          this.AB1_COUNT.Visible = true;
          this.AB1_COUNT.VisibleIndex = 4;
          // 
+         // btnSp
+         // 
+         this.btnSp.Location = new System.Drawing.Point(356, 16);
+         this.btnSp.Name = "btnSp";
+         this.btnSp.Size = new System.Drawing.Size(86, 41);
+         this.btnSp.TabIndex = 15;
+         this.btnSp.Text = "SP";
+         this.btnSp.UseVisualStyleBackColor = true;
+         // 
          // W28610
          // 
          this.Appearance.Options.UseFont = true;
@@ -245,5 +256,6 @@
       private DevExpress.XtraGrid.Columns.GridColumn AB1_TRADE_COUNT;
       private DevExpress.XtraGrid.Columns.GridColumn AB1_COUNT;
       private BaseGround.Widget.TextDateEdit txtMonth;
+      private System.Windows.Forms.Button btnSp;
    }
 }

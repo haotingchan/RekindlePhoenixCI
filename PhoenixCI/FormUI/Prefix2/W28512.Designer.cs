@@ -102,6 +102,7 @@
          this.AM2F_SPOS13 = new DevExpress.XtraGrid.Columns.GridColumn();
          this.AM2F_L_BPOS13 = new DevExpress.XtraGrid.Columns.GridColumn();
          this.AM2F_L_SPOS13 = new DevExpress.XtraGrid.Columns.GridColumn();
+         this.btnSp = new System.Windows.Forms.Button();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          this.grpxDescription.SuspendLayout();
@@ -193,6 +194,7 @@
          this.panelControl1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
          this.panelControl1.Appearance.Options.UseBackColor = true;
          this.panelControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+         this.panelControl1.Controls.Add(this.btnSp);
          this.panelControl1.Controls.Add(this.grpxDescription);
          this.panelControl1.Controls.Add(this.lblProcessing);
          this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -862,6 +864,15 @@
          this.AM2F_L_SPOS13.Visible = true;
          this.AM2F_L_SPOS13.VisibleIndex = 69;
          // 
+         // btnSp
+         // 
+         this.btnSp.Location = new System.Drawing.Point(618, 16);
+         this.btnSp.Name = "btnSp";
+         this.btnSp.Size = new System.Drawing.Size(86, 41);
+         this.btnSp.TabIndex = 14;
+         this.btnSp.Text = "SP";
+         this.btnSp.UseVisualStyleBackColor = true;
+         // 
          // W28512
          // 
          this.Appearance.Options.UseFont = true;
@@ -973,5 +984,6 @@
       private System.Windows.Forms.Label label1;
       private DevExpress.XtraGrid.Columns.GridColumn AM2F_YMD;
       private DevExpress.XtraGrid.Columns.GridColumn AM2F_MARKET_CODE;
+      private System.Windows.Forms.Button btnSp;
    }
 }

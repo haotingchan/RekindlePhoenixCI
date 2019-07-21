@@ -15,13 +15,11 @@ using DataObjects.Dao.Together;
 /// <summary>
 /// john,20190422,收盤前保證金試算表
 /// </summary>
-namespace PhoenixCI.FormUI.Prefix4
-{
+namespace PhoenixCI.FormUI.Prefix4 {
    /// <summary>
    /// john,20190422,收盤前保證金試算表 
    /// </summary>
-   public partial class W40042 : FormParent
-   {
+   public partial class W40042 : FormParent {
       private B40042 b40042;
       /// <summary>
       /// 空元件(替代非TextEditor)
@@ -32,36 +30,32 @@ namespace PhoenixCI.FormUI.Prefix4
       /// </summary>
       private RepositoryItemLookUpEdit OSW_GRP_LookUpEdit;
 
-      public W40042(string programID, string programName) : base(programID, programName)
-      {
+      public W40042(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
       }
 
-      protected override ResultStatus Retrieve()
-      {
+      protected override ResultStatus Retrieve() {
          try {
             gcMain.DataSource = b40042.GetDataList();
-         }
-         catch (Exception ex) {
+         } catch (Exception ex) {
             WriteLog(ex);
          }
 
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Open()
-      {
+      protected override ResultStatus Open() {
          base.Open();
 
          OSW_GRP_LookUpEdit = new RepositoryItemLookUpEdit();
-         OSW_GRP_LookUpEdit.SetColumnLookUp(new OCFG().ListAll(), "OSW_GRP", "OSW_GRP_NAME", DevExpress.XtraEditors.Controls.TextEditStyles.Standard, null);
+         OSW_GRP_LookUpEdit.SetColumnLookUp(new OCFG().ListAll() , "OSW_GRP" , "OSW_GRP_NAME" , DevExpress.XtraEditors.Controls.TextEditStyles.Standard , null);
          OSW_GRP.ColumnEdit = OSW_GRP_LookUpEdit;
          CreateEmptyItem();
          b40042 = new B40042();
          Retrieve();
          //抓取交易日期
-         string emdate = gvMain.GetRowCellValue(0, gvMain.Columns["DT_DATE"]).AsDateTime().ToString("yyyy/MM/dd");
+         string emdate = gvMain.GetRowCellValue(0 , gvMain.Columns["DT_DATE"]).AsDateTime().ToString("yyyy/MM/dd");
          //交易日期
          DateLabel.Text = emdate;
          //狀態顯示
@@ -70,24 +64,28 @@ namespace PhoenixCI.FormUI.Prefix4
          //DateLabel.Text = "2018/10/12";
          TestBtn.Visible = true;
 #endif
+         if (!FlagAdmin) {
+            TestBtn.Visible = false;
+         } else {
+            TestBtn.Visible = true;
+         }
+
          return ResultStatus.Success;
       }
 
       /// <summary>
       /// 創建RepositoryItem空元件 取代CheckBox欄位時使用
       /// </summary>
-      private void CreateEmptyItem()
-      {
+      private void CreateEmptyItem() {
          emptyEditor = new RepositoryItemButtonEdit();
          emptyEditor.Buttons.Clear();
          emptyEditor.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.HideTextEditor;
-         emptyEditor.Appearance.BackColor = Color.FromArgb(192, 220, 192);
+         emptyEditor.Appearance.BackColor = Color.FromArgb(192 , 220 , 192);
          emptyEditor.ReadOnly = true;
          gcMain.RepositoryItems.Add(emptyEditor);
       }
 
-      protected override ResultStatus ActivatedForm()
-      {
+      protected override ResultStatus ActivatedForm() {
          base.ActivatedForm();
 
          _ToolBtnExport.Enabled = true;
@@ -98,8 +96,7 @@ namespace PhoenixCI.FormUI.Prefix4
       /// 轉檔前檢查
       /// </summary>
       /// <returns></returns>
-      private bool StartExport()
-      {
+      private bool StartExport() {
          stMsgTxt.Visible = true;
          stMsgTxt.Text = "開始轉檔...";
          this.Cursor = Cursors.WaitCursor;
@@ -124,8 +121,7 @@ namespace PhoenixCI.FormUI.Prefix4
       /// <summary>
       /// 轉檔後清除文字訊息
       /// </summary>
-      protected void EndExport()
-      {
+      protected void EndExport() {
          stMsgTxt.Text = "";
          this.Cursor = Cursors.Arrow;
          this.Refresh();
@@ -137,15 +133,13 @@ namespace PhoenixCI.FormUI.Prefix4
       /// show出訊息在label
       /// </summary>
       /// <param name="msg"></param>
-      protected void ShowMsg(string msg)
-      {
+      protected void ShowMsg(string msg) {
          stMsgTxt.Text = msg;
          this.Refresh();
          Thread.Sleep(5);
       }
 
-      private bool OutputChooseMessage(string str)
-      {
+      private bool OutputChooseMessage(string str) {
          DialogResult ChooseResult = MessageDisplay.Choose(str);
          if (ChooseResult == DialogResult.No) {
             EndExport();
@@ -154,15 +148,14 @@ namespace PhoenixCI.FormUI.Prefix4
          return true;
       }
 
-      protected override ResultStatus Export()
-      {
+      protected override ResultStatus Export() {
 
-         string saveFilePath = PbFunc.wf_copy_file(_ProgramID, _ProgramID);
+         string saveFilePath = PbFunc.wf_copy_file(_ProgramID , _ProgramID);
          try {
             if (!StartExport()) {
                return ResultStatus.Fail;
             }
-            b40042 = new B40042(saveFilePath, DateLabel.Text, GlobalInfo.USER_ID);
+            b40042 = new B40042(saveFilePath , DateLabel.Text , GlobalInfo.USER_ID);
             MessageDisplay message = new MessageDisplay();
 
             ShowMsg($"{_ProgramID}_mg1－股票期貨保證金狀況表－標的證券為受益憑證 轉檔中...");
@@ -177,14 +170,12 @@ namespace PhoenixCI.FormUI.Prefix4
             message.OutputShowMessage = b40042.Wf40012Opt();
             ShowMsg($"{_ProgramID}_40013_1－保證金狀況表 轉檔中...");
             message.OutputShowMessage = b40042.Wf40013Fut();
-         }
-         catch (Exception ex) {
+         } catch (Exception ex) {
             if (File.Exists(saveFilePath))
                File.Delete(saveFilePath);
             WriteLog(ex);
             return ResultStatus.Fail;
-         }
-         finally {
+         } finally {
             EndExport();
          }
 
@@ -196,37 +187,33 @@ namespace PhoenixCI.FormUI.Prefix4
       /// </summary>
       /// <param name="sender"></param>
       /// <param name="e"></param>
-      private void gvMain_ShowingEditor(object sender, System.ComponentModel.CancelEventArgs e)
-      {
+      private void gvMain_ShowingEditor(object sender , System.ComponentModel.CancelEventArgs e) {
          GridView view = (GridView)sender;
          switch (view.FocusedColumn.FieldName) {
             case "AI5_SETTLE_PRICE":
             case "F_CHOOSE":
-               var fkindid = view.GetRowCellValue(view.FocusedRowHandle, view.Columns["F_KIND_ID"]);
+               var fkindid = view.GetRowCellValue(view.FocusedRowHandle , view.Columns["F_KIND_ID"]);
                if (!string.IsNullOrEmpty(fkindid.AsString())) {
                   e.Cancel = false;
-               }
-               else {
+               } else {
                   e.Cancel = true;
                }
                break;
             case "TFXM1_SFD_FPR":
-               var flag = view.GetRowCellValue(view.FocusedRowHandle, view.Columns["SFD_UPD_FLAG"]).AsString();
+               var flag = view.GetRowCellValue(view.FocusedRowHandle , view.Columns["SFD_UPD_FLAG"]).AsString();
                if (flag == "Y") {
                   e.Cancel = false;
-               }
-               else {
+               } else {
                   e.Cancel = true;
                }
                break;
             case "O_CHOOSE":
             case "O_KIND_ID":
             case "O_PDK_NAME":
-               var okindid = view.GetRowCellValue(view.FocusedRowHandle, view.Columns["O_KIND_ID"]);
+               var okindid = view.GetRowCellValue(view.FocusedRowHandle , view.Columns["O_KIND_ID"]);
                if (!string.IsNullOrEmpty(okindid.AsString())) {
                   e.Cancel = false;
-               }
-               else {
+               } else {
                   e.Cancel = true;
                }
                break;
@@ -238,43 +225,38 @@ namespace PhoenixCI.FormUI.Prefix4
       /// </summary>
       /// <param name="sender"></param>
       /// <param name="e"></param>
-      private void gvMain_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e)
-      {
+      private void gvMain_CustomRowCellEdit(object sender , CustomRowCellEditEventArgs e) {
          GridView view = (GridView)sender;
          int index = e.RowHandle;
-         var FutKindid = view.GetRowCellValue(index, view.Columns["F_KIND_ID"]);
-         var OptKindid = view.GetRowCellValue(index, view.Columns["O_KIND_ID"]);
+         var FutKindid = view.GetRowCellValue(index , view.Columns["F_KIND_ID"]);
+         var OptKindid = view.GetRowCellValue(index , view.Columns["O_KIND_ID"]);
          switch (e.Column.FieldName) {
             case "AI5_SETTLE_PRICE":
                if (!string.IsNullOrEmpty(FutKindid.AsString())) {
                   e.RepositoryItem = repositorySettlePriceTextEdit;
-               }
-               else {
+               } else {
                   e.RepositoryItem = null;
                }
                break;
             case "TFXM1_SFD_FPR":
-               string flag = view.GetRowCellValue(index, view.Columns["SFD_UPD_FLAG"]).AsString();
+               string flag = view.GetRowCellValue(index , view.Columns["SFD_UPD_FLAG"]).AsString();
                if (flag == "Y") {
                   e.RepositoryItem = repositorySfdPriceTextEdit;
-               }
-               else {
+               } else {
                   e.RepositoryItem = null;
                }
                break;
             case "F_CHOOSE":
                if (!string.IsNullOrEmpty(FutKindid.AsString())) {
                   e.RepositoryItem = repositoryFutCheckEdit1;
-               }
-               else {
+               } else {
                   e.RepositoryItem = emptyEditor;
                }
                break;
             case "O_CHOOSE":
                if (!string.IsNullOrEmpty(OptKindid.AsString())) {
                   e.RepositoryItem = repositoryOptCheckEdit1;
-               }
-               else {
+               } else {
                   e.RepositoryItem = emptyEditor;
                }
                break;
@@ -286,28 +268,25 @@ namespace PhoenixCI.FormUI.Prefix4
       /// </summary>
       /// <param name="sender"></param>
       /// <param name="e"></param>
-      private void gvMain_RowCellStyle(object sender, RowCellStyleEventArgs e)
-      {
+      private void gvMain_RowCellStyle(object sender , RowCellStyleEventArgs e) {
          GridView view = (GridView)sender;
          int index = e.RowHandle;
-         Color colorMint = Color.FromArgb(192, 220, 192);//綠背景色
+         Color colorMint = Color.FromArgb(192 , 220 , 192);//綠背景色
 
          switch (e.Column.FieldName) {
             case "AI5_SETTLE_PRICE"://近月份期貨價格
-               var fkindid = view.GetRowCellValue(index, view.Columns["F_KIND_ID"]);//契約代碼
+               var fkindid = view.GetRowCellValue(index , view.Columns["F_KIND_ID"]);//契約代碼
                if (!string.IsNullOrEmpty(fkindid.AsString())) {
                   e.Appearance.BackColor = Color.White;
-               }
-               else {
+               } else {
                   e.Appearance.BackColor = colorMint;
                }
                break;
             case "TFXM1_SFD_FPR"://標的現貨收盤價格
-               var flag = view.GetRowCellValue(index, view.Columns["SFD_UPD_FLAG"]).AsString();
+               var flag = view.GetRowCellValue(index , view.Columns["SFD_UPD_FLAG"]).AsString();
                if (flag == "Y") {
                   e.Appearance.BackColor = Color.White;
-               }
-               else {
+               } else {
                   e.Appearance.BackColor = colorMint;
                }
                break;
@@ -319,27 +298,25 @@ namespace PhoenixCI.FormUI.Prefix4
       /// </summary>
       /// <param name="sender"></param>
       /// <param name="e"></param>
-      private void radioGroup1_EditValueChanged(object sender, EventArgs e)
-      {
+      private void radioGroup1_EditValueChanged(object sender , EventArgs e) {
          int rowCount = gvMain.DataRowCount;
 
          if (rowCount <= 0)
             return;
          //全選 or 全取消
          if (radioGroup1.EditValue.Equals("rb_sel_all")) {
-            for (int k = 0; k < rowCount; k++) {
-               if (!string.IsNullOrEmpty(gvMain.GetRowCellValue(k, gvMain.Columns["F_KIND_ID"]).AsString())) {
-                  gvMain.SetRowCellValue(k, gvMain.Columns["F_CHOOSE"], "Y");
+            for (int k = 0 ; k < rowCount ; k++) {
+               if (!string.IsNullOrEmpty(gvMain.GetRowCellValue(k , gvMain.Columns["F_KIND_ID"]).AsString())) {
+                  gvMain.SetRowCellValue(k , gvMain.Columns["F_CHOOSE"] , "Y");
                }
-               if (!string.IsNullOrEmpty(gvMain.GetRowCellValue(k, gvMain.Columns["O_KIND_ID"]).AsString())) {
-                  gvMain.SetRowCellValue(k, gvMain.Columns["O_CHOOSE"], "Y");
+               if (!string.IsNullOrEmpty(gvMain.GetRowCellValue(k , gvMain.Columns["O_KIND_ID"]).AsString())) {
+                  gvMain.SetRowCellValue(k , gvMain.Columns["O_CHOOSE"] , "Y");
                }
             }
-         }
-         else {
-            for (int k = 0; k < rowCount; k++) {
-               gvMain.SetRowCellValue(k, gvMain.Columns["F_CHOOSE"], "N");
-               gvMain.SetRowCellValue(k, gvMain.Columns["O_CHOOSE"], "N");
+         } else {
+            for (int k = 0 ; k < rowCount ; k++) {
+               gvMain.SetRowCellValue(k , gvMain.Columns["F_CHOOSE"] , "N");
+               gvMain.SetRowCellValue(k , gvMain.Columns["O_CHOOSE"] , "N");
             }
          }
 
@@ -350,17 +327,16 @@ namespace PhoenixCI.FormUI.Prefix4
       /// </summary>
       /// <param name="sender"></param>
       /// <param name="e"></param>
-      private void TestBtn_Click(object sender, EventArgs e)
-      {
+      private void TestBtn_Click(object sender , EventArgs e) {
          DataTable dt = b40042.GetDataList();
          int rowCnt = dt.Rows.Count;
          if (rowCnt <= 0)
             return;
 
          //近月份期貨價格和標的證券收盤價格 不可為0 要測試這兩個欄位不等於0 所以塞入不為0的值
-         for (int k = 0; k < rowCnt; k++) {
-            gvMain.SetRowCellValue(k, gvMain.Columns["AI5_SETTLE_PRICE"], dt.Rows[k]["TFXMSPF_IPR"].AsDecimal() - 0.2m);
-            gvMain.SetRowCellValue(k, gvMain.Columns["TFXM1_SFD_FPR"], dt.Rows[k]["TFXMSPF_IPR"].AsDecimal() - 0.1m);
+         for (int k = 0 ; k < rowCnt ; k++) {
+            gvMain.SetRowCellValue(k , gvMain.Columns["AI5_SETTLE_PRICE"] , dt.Rows[k]["TFXMSPF_IPR"].AsDecimal() - 0.2m);
+            gvMain.SetRowCellValue(k , gvMain.Columns["TFXM1_SFD_FPR"] , dt.Rows[k]["TFXMSPF_IPR"].AsDecimal() - 0.1m);
          }
       }
    }

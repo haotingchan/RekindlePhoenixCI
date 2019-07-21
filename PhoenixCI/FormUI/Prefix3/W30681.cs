@@ -248,7 +248,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             DataTable dtTarget = dao30681.d_30681_s_new(txtStartDate.DateTimeValue , txtEndDate.DateTimeValue , ddlScCode.EditValue.AsString() ,
                                                         txtKind1.Text , txtKind2.Text , Mth1 , Mth2);
             if (dtTarget.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0},{1}－{2},無任何資料!" , txtStartDate.DateTimeValue.ToString("yyyyMM") , reportId , ReportName), GlobalInfo.ResultText);
+               MessageDisplay.Info(string.Format("{0},{1}－{2},無任何資料!" , txtStartDate.DateTimeValue.ToString("yyyyMM") , reportId , ReportName) , GlobalInfo.ResultText);
                return ResultStatus.Fail;
             }
 
@@ -274,7 +274,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                                                         txtKind1.Text , txtKind2.Text , Mth1 , Mth2 ,
                                                         ddlOsfOrderType.EditValue.AsString() , ddlOsfOrderCond.EditValue.AsString() , DetailLevelList , IsLevelNull);
             if (dtTarget.Rows.Count <= 0) {
-               MessageDisplay.Info(string.Format("{0},{1}－{2},無任何資料!" , txtStartDate.DateTimeValue.ToString("yyyyMM") , reportId , ReportName), GlobalInfo.ResultText);
+               MessageDisplay.Info(string.Format("{0},{1}－{2},無任何資料!" , txtStartDate.DateTimeValue.ToString("yyyyMM") , reportId , ReportName) , GlobalInfo.ResultText);
                return ResultStatus.Fail;
             }
 
@@ -388,10 +388,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
          gcExport.ExportToCsv(filename , options);
 
+#if DEBUG
          if (FlagAdmin)
             System.Diagnostics.Process.Start(filename);
+#endif
       }
-
       private void rdoReportType_SelectedIndexChanged(object sender , EventArgs e) {
          bool IsEnable = (sender as DevExpress.XtraEditors.RadioGroup).SelectedIndex == 0 ? false : true;
 
