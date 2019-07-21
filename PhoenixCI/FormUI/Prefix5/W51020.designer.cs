@@ -73,12 +73,12 @@
          // 
          // panParent
          // 
-         this.panParent.Size = new System.Drawing.Size(1379, 708);
+         this.panParent.Size = new System.Drawing.Size(1224, 708);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(1379, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(1224, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // panelControl2
@@ -87,7 +87,7 @@
          this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
          this.panelControl2.Location = new System.Drawing.Point(0, 550);
          this.panelControl2.Name = "panelControl2";
-         this.panelControl2.Size = new System.Drawing.Size(1379, 188);
+         this.panelControl2.Size = new System.Drawing.Size(1224, 188);
          this.panelControl2.TabIndex = 1;
          // 
          // panel1
@@ -101,7 +101,7 @@
          this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
          this.panel1.Location = new System.Drawing.Point(2, 2);
          this.panel1.Name = "panel1";
-         this.panel1.Size = new System.Drawing.Size(1375, 184);
+         this.panel1.Size = new System.Drawing.Size(1220, 184);
          this.panel1.TabIndex = 16;
          // 
          // label5
@@ -118,7 +118,7 @@
          // label4
          // 
          this.label4.AutoSize = true;
-         this.label4.Location = new System.Drawing.Point(949, 120);
+         this.label4.Location = new System.Drawing.Point(791, 120);
          this.label4.Name = "label4";
          this.label4.Size = new System.Drawing.Size(389, 180);
          this.label4.TabIndex = 14;
@@ -141,7 +141,7 @@
          // 
          this.label3.AutoSize = true;
          this.label3.ForeColor = System.Drawing.Color.Blue;
-         this.label3.Location = new System.Drawing.Point(949, 19);
+         this.label3.Location = new System.Drawing.Point(791, 19);
          this.label3.Name = "label3";
          this.label3.Size = new System.Drawing.Size(413, 20);
          this.label3.TabIndex = 13;
@@ -167,13 +167,14 @@
          this.panelControl1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
          this.panelControl1.Location = new System.Drawing.Point(0, 30);
          this.panelControl1.Name = "panelControl1";
-         this.panelControl1.Size = new System.Drawing.Size(1379, 520);
+         this.panelControl1.Size = new System.Drawing.Size(1224, 520);
          this.panelControl1.TabIndex = 0;
          // 
          // gcMain
          // 
          this.gcMain.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-         this.gcMain.Location = new System.Drawing.Point(2, 2);
+         this.gcMain.Dock = System.Windows.Forms.DockStyle.Fill;
+         this.gcMain.Location = new System.Drawing.Point(0, 0);
          this.gcMain.MainView = this.gvMain;
          this.gcMain.Name = "gcMain";
          this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
@@ -181,7 +182,7 @@
             this.repositoryItemTextEdit2,
             this.repositoryItemTextEdit3,
             this.repositoryItemTextEdit4});
-         this.gcMain.Size = new System.Drawing.Size(1375, 516);
+         this.gcMain.Size = new System.Drawing.Size(1224, 520);
          this.gcMain.TabIndex = 6;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -236,7 +237,7 @@
          this.MMFT_MARKET_CODE.Name = "MMFT_MARKET_CODE";
          this.MMFT_MARKET_CODE.Visible = true;
          this.MMFT_MARKET_CODE.VisibleIndex = 0;
-         this.MMFT_MARKET_CODE.Width = 128;
+         this.MMFT_MARKET_CODE.Width = 85;
          // 
          // repositoryItemTextEdit2
          // 
@@ -259,7 +260,7 @@
          this.MMFT_ID.Name = "MMFT_ID";
          this.MMFT_ID.Visible = true;
          this.MMFT_ID.VisibleIndex = 1;
-         this.MMFT_ID.Width = 127;
+         this.MMFT_ID.Width = 86;
          // 
          // MMFT_KIND_ID
          // 
@@ -274,7 +275,7 @@
          this.MMFT_KIND_ID.Name = "MMFT_KIND_ID";
          this.MMFT_KIND_ID.Visible = true;
          this.MMFT_KIND_ID.VisibleIndex = 2;
-         this.MMFT_KIND_ID.Width = 127;
+         this.MMFT_KIND_ID.Width = 85;
          // 
          // repositoryItemTextEdit3
          // 
@@ -295,7 +296,7 @@
          this.MMFT_BEGIN_MTH.Name = "MMFT_BEGIN_MTH";
          this.MMFT_BEGIN_MTH.Visible = true;
          this.MMFT_BEGIN_MTH.VisibleIndex = 3;
-         this.MMFT_BEGIN_MTH.Width = 182;
+         this.MMFT_BEGIN_MTH.Width = 125;
          // 
          // repositoryItemTextEdit1
          // 
@@ -318,7 +319,7 @@
          this.MMFT_MTH_CNT.Name = "MMFT_MTH_CNT";
          this.MMFT_MTH_CNT.Visible = true;
          this.MMFT_MTH_CNT.VisibleIndex = 4;
-         this.MMFT_MTH_CNT.Width = 158;
+         this.MMFT_MTH_CNT.Width = 129;
          // 
          // MMFT_IN_CNT
          // 
@@ -333,7 +334,7 @@
          this.MMFT_IN_CNT.Name = "MMFT_IN_CNT";
          this.MMFT_IN_CNT.Visible = true;
          this.MMFT_IN_CNT.VisibleIndex = 5;
-         this.MMFT_IN_CNT.Width = 119;
+         this.MMFT_IN_CNT.Width = 94;
          // 
          // MMFT_OUT_CNT
          // 
@@ -348,7 +349,7 @@
          this.MMFT_OUT_CNT.Name = "MMFT_OUT_CNT";
          this.MMFT_OUT_CNT.Visible = true;
          this.MMFT_OUT_CNT.VisibleIndex = 6;
-         this.MMFT_OUT_CNT.Width = 119;
+         this.MMFT_OUT_CNT.Width = 97;
          // 
          // MMFT_AVG_CNT
          // 
@@ -363,7 +364,7 @@
          this.MMFT_AVG_CNT.Name = "MMFT_AVG_CNT";
          this.MMFT_AVG_CNT.Visible = true;
          this.MMFT_AVG_CNT.VisibleIndex = 7;
-         this.MMFT_AVG_CNT.Width = 134;
+         this.MMFT_AVG_CNT.Width = 106;
          // 
          // MMFT_PROD_TYPE
          // 
@@ -380,7 +381,7 @@
          this.MMFT_PROD_TYPE.Name = "MMFT_PROD_TYPE";
          this.MMFT_PROD_TYPE.Visible = true;
          this.MMFT_PROD_TYPE.VisibleIndex = 8;
-         this.MMFT_PROD_TYPE.Width = 119;
+         this.MMFT_PROD_TYPE.Width = 90;
          // 
          // repositoryItemTextEdit4
          // 
@@ -403,7 +404,7 @@
          this.MMFT_REF_KIND_ID.Name = "MMFT_REF_KIND_ID";
          this.MMFT_REF_KIND_ID.Visible = true;
          this.MMFT_REF_KIND_ID.VisibleIndex = 9;
-         this.MMFT_REF_KIND_ID.Width = 119;
+         this.MMFT_REF_KIND_ID.Width = 88;
          // 
          // MMFT_CP_KIND
          // 
@@ -417,7 +418,7 @@
          this.MMFT_CP_KIND.Name = "MMFT_CP_KIND";
          this.MMFT_CP_KIND.Visible = true;
          this.MMFT_CP_KIND.VisibleIndex = 10;
-         this.MMFT_CP_KIND.Width = 125;
+         this.MMFT_CP_KIND.Width = 98;
          // 
          // MMFT_END_S
          // 
@@ -450,7 +451,7 @@
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(1379, 738);
+         this.ClientSize = new System.Drawing.Size(1224, 738);
          this.Controls.Add(this.panelControl2);
          this.Controls.Add(this.panelControl1);
          this.Name = "W51020";

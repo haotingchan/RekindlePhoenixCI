@@ -65,6 +65,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
          }
          gcMain.DataSource = returnTable;
 
+         gvMain.BestFitColumns();
          gcMain.Focus();
 
          return ResultStatus.Success;
@@ -184,6 +185,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
                   footerMemo += line + Environment.NewLine;
                }
             }
+
+            gvMain.BestFitColumns(); //避免列印時字被吃掉
 
             ReportHelper _ReportHelper = new ReportHelper(gcMain , _ProgramID , this.Text);
             CommonReportLandscapeA4 reportLandscape = new CommonReportLandscapeA4();//設定為橫向列印

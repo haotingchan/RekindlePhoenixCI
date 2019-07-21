@@ -28,10 +28,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
    /// </summary>
    public partial class W49061 : FormParent {
 
-      RepositoryItemLookUpEdit lupKind;
-      RepositoryItemLookUpEdit lupForeign;
-      RepositoryItemLookUpEdit lupCurrency;
-      RepositoryItemLookUpEdit lupAmt;
+      private RepositoryItemLookUpEdit lupKind;
+      private RepositoryItemLookUpEdit lupForeign;
+      private RepositoryItemLookUpEdit lupCurrency;
+      private RepositoryItemLookUpEdit lupAmt;
 
       public W49061(string programID , string programName) : base(programID , programName) {
          InitializeComponent();

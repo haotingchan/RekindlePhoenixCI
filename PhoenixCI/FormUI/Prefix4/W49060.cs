@@ -413,11 +413,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
       protected override ResultStatus InsertRow() {
 
-         DataTable dt = new MG8().ListData(StartDate , EndDate);
-         DataTable dtTemp = dt.Clone();
-         gcMain.DataSource = dtTemp;
-
-         base.InsertRow(gvMain);
+         DataTable dt = (DataTable)gcMain.DataSource;
+         gvMain.AddNewRow();
 
          gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MG8_EFFECT_YMD"] , DateTime.Now.ToString("yyyy/MM/dd"));
          gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MG8_ISSUE_YMD"] , DateTime.Now.ToString("yyyy/MM/dd"));
