@@ -33,6 +33,7 @@
          System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
          this.accordionMenu = new BaseGround.AccordionControlEx();
          this.accordionElemtnt1 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
+         this.accordionControlElement1 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
          this.accordionElemtnt2 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
          this.accordionElemtnt3 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
          this.accordionElemtnt4 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
@@ -87,7 +88,6 @@
          this.sidePanelMenu = new DevExpress.XtraEditors.SidePanel();
          this.sidePanelTool = new DevExpress.XtraEditors.SidePanel();
          this.sidePanelStatus = new DevExpress.XtraEditors.SidePanel();
-         this.accordionControlElement1 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
          ((System.ComponentModel.ISupportInitialize)(this.accordionMenu)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.scSearch.Properties)).BeginInit();
          this.panSearch.SuspendLayout();
@@ -156,6 +156,11 @@
          this.accordionElemtnt1.Name = "accordionElemtnt1";
          this.accordionElemtnt1.Tag = "1";
          this.accordionElemtnt1.Text = "[1] OP作業";
+         // 
+         // accordionControlElement1
+         // 
+         this.accordionControlElement1.Name = "accordionControlElement1";
+         this.accordionControlElement1.Text = "Element1";
          // 
          // accordionElemtnt2
          // 
@@ -228,6 +233,7 @@
          this.scSearch.Client = this.accordionMenu;
          this.scSearch.Dock = System.Windows.Forms.DockStyle.Right;
          this.scSearch.EditValue = "";
+         this.scSearch.ImeMode = System.Windows.Forms.ImeMode.Disable;
          this.scSearch.Location = new System.Drawing.Point(99, 8);
          this.scSearch.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
          this.scSearch.Name = "scSearch";
@@ -719,11 +725,6 @@
          this.sidePanelStatus.Size = new System.Drawing.Size(808, 32);
          this.sidePanelStatus.TabIndex = 23;
          this.sidePanelStatus.Text = "sidePanel1";
-         // 
-         // accordionControlElement1
-         // 
-         this.accordionControlElement1.Name = "accordionControlElement1";
-         this.accordionControlElement1.Text = "Element1";
          // 
          // FormMain
          // 
