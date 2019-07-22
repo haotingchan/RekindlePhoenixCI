@@ -140,8 +140,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             if (dtCurrent != null) {
                foreach (DataRow drCheck in dtCurrent.Rows) {
                   for (int w = 0 ; w < dtCurrent.Rows.Count ; w++) {
-                     int x = dtCurrent.Columns.Count;
-                     for (int y = 0 ; y < x ; y++) {
+                     //int x = dtCurrent.Columns.Count;
+                     for (int y = 0 ; y < 3 ; y++) {
                         if (string.IsNullOrEmpty(drCheck[y].AsString())) {
                            MessageDisplay.Error("資料尚未填寫完成" , GlobalInfo.ErrorText);
                            return ResultStatus.FailButNext;

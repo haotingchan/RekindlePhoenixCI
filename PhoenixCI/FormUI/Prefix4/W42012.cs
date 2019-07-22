@@ -30,6 +30,32 @@ namespace PhoenixCI.FormUI.Prefix4 {
       private D42011 dao42011;//有幾段共用的sql
       private D42012 dao42012;
 
+      /// <summary>
+      /// 1. 風險價格係數平均值8.5%
+      /// </summary>
+      private string _CON1 = "8.5";
+
+      /// <summary>
+      /// 2. 風險價格係數平均值10.5%
+      /// </summary>
+      private string _CON2 = "10.5";
+
+      /// <summary>
+      /// 3. 風險價格係數平均值13.5%
+      /// </summary>
+      private string _CON3 = "13.5";
+
+      /// <summary>
+      /// 4. 現行結算保證金適用比例(%) - 1.0 %
+      /// </summary>
+      private string _CON4 = "1.0";
+
+      /// <summary>
+      /// 5. 風險價格係數高於15%
+      /// </summary>
+      private string _CON5 = "15";
+
+
       public W42012(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
@@ -164,9 +190,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   //表首
                   //使用RichTextString才能保留原本設定的格式
                   RichTextString richText = new RichTextString();
+                  RichTextString richText1 = new RichTextString();
+                  RichTextString richText2 = new RichTextString();
                   richText = ws.Cells[2 , 2].GetRichText();
                   f = richText.Text.IndexOf("10%") + 1;
-                  if (f > 0) richText.Characters(f - 1 , 3).Text = txtRange.Text + "%";
+                  if (f > 0) {
+                     richText.Characters(f - 1 , 3).Text = txtRange.Text + "%";
+                  }
                   ws.Cells[startRow , 2].SetRichText(richText);
                }
             } else {
@@ -183,29 +213,29 @@ namespace PhoenixCI.FormUI.Prefix4 {
             startRow = startRow - minusRow;
 
             if (cbx2.Checked) {
-               if (txtRange.Text != "8.5" || txtRate2.Text != "10.5" || txtRate3.Text != "13.5" || txtRate4.Text != "1.0" || lblCmRate.Text != "15") {
+               if (txtRange.Text != _CON1 || txtRate2.Text != _CON2 || txtRate3.Text != _CON3 || txtRate4.Text != _CON4 || lblCmRate.Text != _CON5) {
                   //表首
                   RichTextString richText = new RichTextString();
                   richText = ws.Cells[startRow , 2].GetRichText();
 
-                  if (txtRange.Text != "8.5") {
-                     f = richText.Text.IndexOf("8.5 %") + 1;
+                  if (txtRange.Text != _CON1) {
+                     f = richText.Text.IndexOf(_CON1 + " %") + 1;
                      if (f > 0) richText.Characters(f - 1 , 5).Text = txtRate1.Text + "%";
                   }
-                  if (txtRate2.Text != "10.5") {
-                     f = richText.Text.IndexOf("10.5 %") + 1;
+                  if (txtRate2.Text != _CON2) {
+                     f = richText.Text.IndexOf(_CON2 + " %") + 1;
                      if (f > 0) richText.Characters(f - 1 , 6).Text = txtRate2.Text + "%";
                   }
-                  if (txtRate3.Text != "13.5") {
-                     f = richText.Text.IndexOf("13.5 %") + 1;
+                  if (txtRate3.Text != _CON3) {
+                     f = richText.Text.IndexOf(_CON3 + " %") + 1;
                      if (f > 0) richText.Characters(f - 1 , 6).Text = txtRate3.Text + "%";
                   }
-                  if (txtRate4.Text != "1.0") {
-                     f = richText.Text.IndexOf("1.0 %") + 1;
+                  if (txtRate4.Text != _CON4) {
+                     f = richText.Text.IndexOf(_CON4 + " %") + 1;
                      if (f > 0) richText.Characters(f - 1 , 5).Text = txtRate4.Text + "%";
                   }
-                  if (lblCmRate.Text != "15") {
-                     f = richText.Text.IndexOf("15%") + 1;
+                  if (lblCmRate.Text != _CON5) {
+                     f = richText.Text.IndexOf(_CON5 + "%") + 1;
                      if (f > 0) richText.Characters(f - 1 , 5).Text = lblCmRate.Text + "%";
                   }
                   ws.Cells[startRow , 2].SetRichText(richText);
@@ -298,29 +328,29 @@ namespace PhoenixCI.FormUI.Prefix4 {
             totalRow = 1000;
             rowIndex = startRow;
             if (cbx2.Checked) {
-               if (txtRange.Text != "8.5" || txtRate2.Text != "10.5" || txtRate3.Text != "13.5" || txtRate4.Text != "1.0" || lblCmRate.Text != "15") {
+               if (txtRange.Text != _CON1 || txtRate2.Text != _CON2 || txtRate3.Text != _CON3 || txtRate4.Text != _CON4 || lblCmRate.Text != _CON5) {
                   //表頭
                   RichTextString richText = new RichTextString();
                   richText = ws.Cells[rowIndex - 3 , 2].GetRichText();
 
-                  if (txtRange.Text != "8.5") {
-                     f = richText.Text.IndexOf("8.5 %") + 1;
+                  if (txtRange.Text != _CON1) {
+                     f = richText.Text.IndexOf(_CON1 + " %") + 1;
                      if (f > 0) richText.Characters(f - 1 , 5).Text = txtRate1.Text + "%";
                   }
-                  if (txtRate2.Text != "10.5") {
-                     f = richText.Text.IndexOf("10.5 %") + 1;
+                  if (txtRate2.Text != _CON2) {
+                     f = richText.Text.IndexOf(_CON2 + " %") + 1;
                      if (f > 0) richText.Characters(f - 1 , 6).Text = txtRate2.Text + "%";
                   }
-                  if (txtRate3.Text != "13.5") {
-                     f = richText.Text.IndexOf("13.5 %") + 1;
+                  if (txtRate3.Text != _CON3) {
+                     f = richText.Text.IndexOf(_CON3 + " %") + 1;
                      if (f > 0) richText.Characters(f - 1 , 6).Text = txtRate3.Text + "%";
                   }
-                  if (txtRate4.Text != "1.0") {
-                     f = richText.Text.IndexOf("1.0 %") + 1;
+                  if (txtRate4.Text != _CON4) {
+                     f = richText.Text.IndexOf(_CON4 + " %") + 1;
                      if (f > 0) richText.Characters(f - 1 , 5).Text = txtRate4.Text + "%";
                   }
-                  if (lblCmRate.Text != "15") {
-                     f = richText.Text.IndexOf("15%") + 1;
+                  if (lblCmRate.Text != _CON5) {
+                     f = richText.Text.IndexOf(_CON5 + "%") + 1;
                      if (f > 0) richText.Characters(f - 1 , 5).Text = lblCmRate.Text + "%";
                   }
                   ws.Cells[rowIndex - 3 , 2].SetRichText(richText);
