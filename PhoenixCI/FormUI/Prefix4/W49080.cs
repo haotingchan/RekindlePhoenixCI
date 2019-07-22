@@ -210,7 +210,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
                return ResultStatus.Fail;
             }
 
-            DataTable dtTemp = dtForDeleted.Clone();
+            DataTable dtTemp = new DataTable();
+            if (dtForDeleted != null) {
+               dtTemp = dtForDeleted.Clone();
+            }
 
             //隱藏欄位賦值
             foreach (DataRow dr in dtCurrent.Rows) {
