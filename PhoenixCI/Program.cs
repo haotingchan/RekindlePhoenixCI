@@ -53,7 +53,7 @@ namespace CI {
 
          string reportDirectoryPath = "";
 
-        if (GlobalDaoSetting.GetConnectionInfo.ConnectionName == "CIN2")
+        if (GlobalDaoSetting.GetConnectionInfo.ConnectionName == "CIN2" || Application.StartupPath.IndexOf(@"C:\CI") < 0)
         {
             reportDirectoryPath = Path.Combine(Application.StartupPath, "Report", DateTime.Now.ToString("yyyyMMdd"));
         }
