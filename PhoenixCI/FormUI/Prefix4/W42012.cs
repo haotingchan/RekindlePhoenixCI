@@ -1,21 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using BaseGround;
+using BaseGround.Shared;
+using BusinessObjects.Enums;
+using Common;
+using DataObjects.Dao.Together.SpecificDao;
+using DevExpress.Spreadsheet;
+using System;
 using System.Data;
 using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using BaseGround;
-using DataObjects.Dao.Together.SpecificDao;
-using BusinessObjects.Enums;
-using DataObjects.Dao.Together.TableDao;
-using Common;
 using System.Threading;
-using BaseGround.Shared;
-using DevExpress.Spreadsheet;
+using System.Windows.Forms;
 
 /// <summary>
 /// Lukas, 2019/4/15
@@ -190,12 +183,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   //表首
                   //使用RichTextString才能保留原本設定的格式
                   RichTextString richText = new RichTextString();
-                  RichTextString richText1 = new RichTextString();
-                  RichTextString richText2 = new RichTextString();
                   richText = ws.Cells[2 , 2].GetRichText();
                   f = richText.Text.IndexOf("10%") + 1;
                   if (f > 0) {
                      richText.Characters(f - 1 , 3).Text = txtRange.Text + "%";
+                     richText.Characters(f - 1 , txtRange.Text.Length).Font.Color = Color.Red;
                   }
                   ws.Cells[startRow , 2].SetRichText(richText);
                }
@@ -220,23 +212,38 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                   if (txtRange.Text != _CON1) {
                      f = richText.Text.IndexOf(_CON1 + " %") + 1;
-                     if (f > 0) richText.Characters(f - 1 , 5).Text = txtRate1.Text + "%";
+                     if (f > 0) {
+                        richText.Characters(f - 1 , 5).Text = txtRate1.Text + "%";
+                        richText.Characters(f - 1 , txtRate1.Text.Length).Font.Color = Color.Red;
+                     }
                   }
                   if (txtRate2.Text != _CON2) {
                      f = richText.Text.IndexOf(_CON2 + " %") + 1;
-                     if (f > 0) richText.Characters(f - 1 , 6).Text = txtRate2.Text + "%";
+                     if (f > 0) {
+                        richText.Characters(f - 1 , 6).Text = txtRate2.Text + "%";
+                        richText.Characters(f - 1 , txtRate2.Text.Length).Font.Color = Color.Red;
+                     }
                   }
                   if (txtRate3.Text != _CON3) {
                      f = richText.Text.IndexOf(_CON3 + " %") + 1;
-                     if (f > 0) richText.Characters(f - 1 , 6).Text = txtRate3.Text + "%";
+                     if (f > 0) {
+                        richText.Characters(f - 1 , 6).Text = txtRate3.Text + "%";
+                        richText.Characters(f - 1 , txtRate3.Text.Length).Font.Color = Color.Red;
+                     }
                   }
                   if (txtRate4.Text != _CON4) {
                      f = richText.Text.IndexOf(_CON4 + " %") + 1;
-                     if (f > 0) richText.Characters(f - 1 , 5).Text = txtRate4.Text + "%";
+                     if (f > 0) {
+                        richText.Characters(f - 1 , 5).Text = txtRate4.Text + "%";
+                        richText.Characters(f - 1 , txtRate4.Text.Length).Font.Color = Color.Red;
+                     }
                   }
                   if (lblCmRate.Text != _CON5) {
                      f = richText.Text.IndexOf(_CON5 + "%") + 1;
-                     if (f > 0) richText.Characters(f - 1 , 5).Text = lblCmRate.Text + "%";
+                     if (f > 0) {
+                        richText.Characters(f - 1 , 5).Text = lblCmRate.Text + "%";
+                        richText.Characters(f - 1 , lblCmRate.Text.Length).Font.Color = Color.Red;
+                     }
                   }
                   ws.Cells[startRow , 2].SetRichText(richText);
                }
@@ -263,8 +270,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   richText = ws.Cells[rowIndex - 3 , 2].GetRichText();
 
                   f = richText.Text.IndexOf("10%") + 1;
-                  if (f > 0) richText.Characters(f - 1 , 3).Text = txtRange.Text + "%";
-                  ws.Cells[rowIndex - 3 , 2].SetRichText(richText);
+                  if (f > 0) {
+                     richText.Characters(f - 1 , 3).Text = txtRange.Text + "%";
+                     richText.Characters(f - 1 , txtRange.Text.Length).Font.Color = Color.Red;
+                     ws.Cells[rowIndex - 3 , 2].SetRichText(richText);
+                  }
                }
                if (cbxRate.Checked) {
                   DataView dv = dt42012.AsDataView();
@@ -335,23 +345,38 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                   if (txtRange.Text != _CON1) {
                      f = richText.Text.IndexOf(_CON1 + " %") + 1;
-                     if (f > 0) richText.Characters(f - 1 , 5).Text = txtRate1.Text + "%";
+                     if (f > 0) {
+                        richText.Characters(f - 1 , 5).Text = txtRate1.Text + "%";
+                        richText.Characters(f - 1 , txtRate1.Text.Length).Font.Color = Color.Red;
+                     }
                   }
                   if (txtRate2.Text != _CON2) {
                      f = richText.Text.IndexOf(_CON2 + " %") + 1;
-                     if (f > 0) richText.Characters(f - 1 , 6).Text = txtRate2.Text + "%";
+                     if (f > 0) {
+                        richText.Characters(f - 1 , 6).Text = txtRate2.Text + "%";
+                        richText.Characters(f - 1 , txtRate2.Text.Length).Font.Color = Color.Red;
+                     }
                   }
                   if (txtRate3.Text != _CON3) {
                      f = richText.Text.IndexOf(_CON3 + " %") + 1;
-                     if (f > 0) richText.Characters(f - 1 , 6).Text = txtRate3.Text + "%";
+                     if (f > 0) {
+                        richText.Characters(f - 1 , 6).Text = txtRate3.Text + "%";
+                        richText.Characters(f - 1 , txtRate3.Text.Length).Font.Color = Color.Red;
+                     }
                   }
                   if (txtRate4.Text != _CON4) {
                      f = richText.Text.IndexOf(_CON4 + " %") + 1;
-                     if (f > 0) richText.Characters(f - 1 , 5).Text = txtRate4.Text + "%";
+                     if (f > 0) {
+                        richText.Characters(f - 1 , 5).Text = txtRate4.Text + "%";
+                        richText.Characters(f - 1 , txtRate4.Text.Length).Font.Color = Color.Red;
+                     }
                   }
                   if (lblCmRate.Text != _CON5) {
                      f = richText.Text.IndexOf(_CON5 + "%") + 1;
-                     if (f > 0) richText.Characters(f - 1 , 5).Text = lblCmRate.Text + "%";
+                     if (f > 0) {
+                        richText.Characters(f - 1 , 5).Text = lblCmRate.Text + "%";
+                        richText.Characters(f - 1 , lblCmRate.Text.Length).Font.Color = Color.Red;
+                     }
                   }
                   ws.Cells[rowIndex - 3 , 2].SetRichText(richText);
                   if (!cbx1.Checked) ws.Cells[rowIndex - 3 , 1].Value = "1";
