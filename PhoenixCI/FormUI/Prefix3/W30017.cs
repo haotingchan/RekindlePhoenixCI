@@ -477,8 +477,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             lsStr = lsStr + "【日均量" + ldQnty.ToString("#,##0.##") + "口(";
             lsStr = lsStr + "期貨日均量" + ldFutQnty.ToString("#,##0.##") + "口，占比:" + (ldFutQnty / ldQnty * 100).ToString("#0.0#") + "%、";
             lsStr = lsStr + "選擇權日均量" + ldOptQnty.ToString("#,##0.##") + "口，占比:" + (100 - (ldFutQnty / ldQnty * 100)).ToString("#0.0#") + "%)】";
-            ldRate = dt30017downall.Rows[liAll]["AI8_YEAR_QNTY"].AsInt() / dt30017downall.Rows[liAll]["AI8_LAST_ALL_YEAR_QNTY"].AsInt() * 100;
-            lsStr = lsStr + "的" + ldRate.ToString("#0.0#") + "%。";
+            ldRate = Math.Round(dt30017downall.Rows[liAll]["AI8_YEAR_QNTY"].AsDecimal() / dt30017downall.Rows[liAll]["AI8_LAST_ALL_YEAR_QNTY"].AsDecimal() * 100 , 2 , MidpointRounding.AwayFromZero);
+            lsStr = lsStr + "的" + ldRate.ToString("#0.##") + "%。";
             lsStr = lsStr + "\r" + "\n";
 
             //
