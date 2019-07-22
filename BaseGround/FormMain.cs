@@ -108,8 +108,8 @@ namespace BaseGround {
                      if (parent == txnId) {
                         item.Elements.Add(subItem);
                      }
-                     //Austin 測試環境不可點選維護作業
-                     if (GlobalDaoSetting.GetConnectionInfo.ConnectionName != "CI") {
+                     //Austin 正式環境不可點選維護作業
+                     if (GlobalDaoSetting.GetConnectionInfo.ConnectionName == "CI") {
                         if (maintainItem.Contains(Id))
                            subItem.Enabled = false;
                      }
@@ -117,8 +117,8 @@ namespace BaseGround {
                }
 
                group.Elements.Add(item);
-               //Austin 測試環境不可點選維護作業
-               if (GlobalDaoSetting.GetConnectionInfo.ConnectionName != "CI") {
+               //Austin 正式環境不可點選維護作業
+               if (GlobalDaoSetting.GetConnectionInfo.ConnectionName == "CI") {
                   if (maintainItem.Contains(txnId))
                      item.Enabled = false;
                }
