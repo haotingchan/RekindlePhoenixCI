@@ -141,14 +141,30 @@ namespace PhoenixCI.FormUI.Prefix4 {
                foreach (DataRow drCnange in dtChange.Rows) {
                   if (drCnange.RowState == DataRowState.Deleted) {
                      continue;
-                  } else {
-                     foreach (DataRow drCheck in dtChange.Rows) {
-                        for (int w = 0 ; w < dtCurrent.Rows.Count ; w++) {
-                           //int x = dtCurrent.Columns.Count;
-                           for (int y = 0 ; y < 3 ; y++) {
-                              if (string.IsNullOrEmpty(drCheck[y].AsString())) {
-                                 MessageDisplay.Error("資料尚未填寫完成" , GlobalInfo.ErrorText);
-                                 return ResultStatus.FailButNext;
+                  }
+
+                  if (drCnange.RowState == DataRowState.Added || drCnange.RowState == DataRowState.Modified) {
+                     if (dtForAdd != null) {
+                        foreach (DataRow drAdd in dtForAdd.Rows) {
+                           for (int w = 0 ; w < dtForAdd.Rows.Count ; w++) {
+                              for (int y = 0 ; y < 3 ; y++) {
+                                 if (string.IsNullOrEmpty(drAdd[y].AsString())) {
+                                    MessageDisplay.Error("資料尚未填寫完成" , GlobalInfo.ErrorText);
+                                    return ResultStatus.FailButNext;
+                                 }
+                              }
+                           }
+                        }
+                     }
+
+                     if (dtForModified != null) {
+                        foreach (DataRow drMod in dtForModified.Rows) {
+                           for (int w = 0 ; w < dtForModified.Rows.Count ; w++) {
+                              for (int y = 0 ; y < 3 ; y++) {
+                                 if (string.IsNullOrEmpty(drMod[y].AsString())) {
+                                    MessageDisplay.Error("資料尚未填寫完成" , GlobalInfo.ErrorText);
+                                    return ResultStatus.FailButNext;
+                                 }
                               }
                            }
                         }
