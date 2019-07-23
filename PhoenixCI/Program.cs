@@ -7,8 +7,10 @@ using CI;
 using Common;
 using Common.Config;
 using DataObjects;
+using DataObjects.Dao.Together;
 using Log;
 using System;
+using System.Data;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
@@ -94,6 +96,14 @@ namespace CI {
 
             GlobalInfo.USER_ID = userID;
             GlobalInfo.USER_NAME = userName;
+                if (userID.ToUpper() == GlobalDaoSetting.GetConnectionInfo.ConnectionName)
+                {
+                    GlobalInfo.USER_DPT_ID = " ";
+                }
+                else {
+                    DataTable user = new UPF().ListDataByUserId(userID);
+                    GlobalInfo.USER_DPT_ID = user.Rows[0]["UPF_DPT_ID"].AsString();
+                }
             Application.Run(new FormMain(txnID, txnName));
          } else {
 #if DEBUG
