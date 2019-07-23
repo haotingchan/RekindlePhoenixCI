@@ -41,7 +41,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
             txtStartYMD.DateTimeValue = GlobalInfo.OCF_DATE.AddDays(-GlobalInfo.OCF_DATE.Day + 1); //取得當月第1天
             txtEndYMD.DateTimeValue = GlobalInfo.OCF_DATE;
 
-            ddlProd.SelectedIndex = 0;
+            DataTable dtProd = new CODW().ListLookUpEdit("30592" , "30592_KIND_ID");
+            Extension.SetDataTable(ddlProd , dtProd , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
+            ddlProd.ItemIndex = 0;
 
             return ResultStatus.Success;
          } catch (Exception ex) {
@@ -209,7 +211,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //全部 or 單一商品
             string prod = ddlProd.Text.SubStr(0 , 1);
             if (prod != "%") {
-               dtFilter = dt.Filter("apdk_param_key ='" + ddlProd.EditValue.AsString() + "'"); //單一商品
+               dtFilter = dt.Filter("apdk_param_key ='" + ddlProd.Text + "'"); //單一商品
             } else {
                dtFilter = dt.Copy();
             }
@@ -391,7 +393,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
       #endregion
 
       private void ddlProd_EditValueChanged(object sender , EventArgs e) {
-         if (ddlProd.EditValue.AsString() == "RHF" || ddlProd.EditValue.AsString() == "RTF" || ddlProd.EditValue.AsString() == "%(全部)") {
+         if (ddlProd.Text.AsString() == "RHF" || ddlProd.Text.AsString() == "RTF" || ddlProd.Text.AsString() == "%(全部)") {
             chkGroup.Items[6].Enabled = true;
          } else {
             chkGroup.Items[6].Enabled = false;

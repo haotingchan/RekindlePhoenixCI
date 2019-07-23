@@ -24,7 +24,6 @@
       /// </summary>
       private void InitializeComponent() {
          this.chkGroup = new DevExpress.XtraEditors.CheckedListBoxControl();
-         this.ddlProd = new DevExpress.XtraEditors.ComboBoxEdit();
          this.label2 = new System.Windows.Forms.Label();
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
          this.labMsg = new System.Windows.Forms.Label();
@@ -36,16 +35,17 @@
          this.txtStartYMD = new BaseGround.Widget.TextDateEdit();
          this.label8 = new System.Windows.Forms.Label();
          this.label9 = new System.Windows.Forms.Label();
+         this.ddlProd = new DevExpress.XtraEditors.LookUpEdit();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.chkGroup)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.ddlProd.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
          this.r_frame.SuspendLayout();
          this.panFilter.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtEndYMD.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtStartYMD.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.ddlProd.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -84,27 +84,6 @@
          this.chkGroup.Size = new System.Drawing.Size(362, 218);
          this.chkGroup.TabIndex = 4;
          // 
-         // ddlProd
-         // 
-         this.ddlProd.Location = new System.Drawing.Point(92, 87);
-         this.ddlProd.MenuManager = this.ribbonControl;
-         this.ddlProd.Name = "ddlProd";
-         this.ddlProd.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-         this.ddlProd.Properties.Appearance.Options.UseBackColor = true;
-         this.ddlProd.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.ddlProd.Properties.Items.AddRange(new object[] {
-            "%(全部)",
-            "RHF",
-            "RTF",
-            "XEF",
-            "XJF"});
-         this.ddlProd.Properties.LookAndFeel.SkinName = "The Bezier";
-         this.ddlProd.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
-         this.ddlProd.Size = new System.Drawing.Size(131, 26);
-         this.ddlProd.TabIndex = 3;
-         this.ddlProd.EditValueChanged += new System.EventHandler(this.ddlProd_EditValueChanged);
-         // 
          // label2
          // 
          this.label2.AutoSize = true;
@@ -142,9 +121,9 @@
          // panFilter
          // 
          this.panFilter.AutoSize = true;
+         this.panFilter.Controls.Add(this.ddlProd);
          this.panFilter.Controls.Add(this.label2);
          this.panFilter.Controls.Add(this.chkGroup);
-         this.panFilter.Controls.Add(this.ddlProd);
          this.panFilter.Controls.Add(this.gbMarket);
          this.panFilter.Controls.Add(this.label11);
          this.panFilter.Controls.Add(this.label10);
@@ -260,6 +239,24 @@
          this.label9.TabIndex = 2;
          this.label9.Text = "日期：";
          // 
+         // ddlProd
+         // 
+         this.ddlProd.Location = new System.Drawing.Point(92, 87);
+         this.ddlProd.MenuManager = this.ribbonControl;
+         this.ddlProd.Name = "ddlProd";
+         this.ddlProd.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+         this.ddlProd.Properties.Appearance.Options.UseBackColor = true;
+         this.ddlProd.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.ddlProd.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.ddlProd.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
+         this.ddlProd.Properties.NullText = "";
+         this.ddlProd.Properties.PopupSizeable = false;
+         this.ddlProd.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
+         this.ddlProd.Size = new System.Drawing.Size(131, 26);
+         this.ddlProd.TabIndex = 3;
+         this.ddlProd.EditValueChanged += new System.EventHandler(this.ddlProd_EditValueChanged);
+         // 
          // W30592
          // 
          this.Appearance.Options.UseFont = true;
@@ -271,7 +268,6 @@
          this.panParent.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.chkGroup)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.ddlProd.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).EndInit();
          this.r_frame.ResumeLayout(false);
          this.r_frame.PerformLayout();
@@ -280,6 +276,7 @@
          ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtEndYMD.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtStartYMD.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.ddlProd.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -288,7 +285,6 @@
       #endregion
       private DevExpress.XtraEditors.CheckedListBoxControl chkGroup;
       private System.Windows.Forms.Label label2;
-      private DevExpress.XtraEditors.ComboBoxEdit ddlProd;
       private DevExpress.XtraEditors.PanelControl r_frame;
       private System.Windows.Forms.Label labMsg;
       private System.Windows.Forms.GroupBox panFilter;
@@ -299,5 +295,6 @@
       private BaseGround.Widget.TextDateEdit txtStartYMD;
       private System.Windows.Forms.Label label8;
       private System.Windows.Forms.Label label9;
+      private DevExpress.XtraEditors.LookUpEdit ddlProd;
    }
 }

@@ -1,24 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using BaseGround;
-using BusinessObjects.Enums;
+﻿using BaseGround;
 using BaseGround.Shared;
-using DevExpress.XtraEditors.Controls;
-using System.Threading;
-using DataObjects.Dao.Together;
+using BusinessObjects.Enums;
 using Common;
-using DevExpress.Spreadsheet;
-using System.IO;
-using DataObjects.Dao.Together.SpecificDao;
 using Common.Helper;
+using DataObjects.Dao.Together;
+using DataObjects.Dao.Together.SpecificDao;
+using DevExpress.Spreadsheet;
+using DevExpress.XtraEditors.Controls;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Threading;
+using System.Windows.Forms;
 
 /// <summary>
 /// Lukas, 2019/4/9
@@ -47,10 +41,12 @@ namespace PhoenixCI.FormUI.Prefix3 {
          txtSDate.Text = "2018/10/15";
 #endif
          //盤別下拉選單
-         List<LookupItem> ddlb_grp = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = "1", DisplayMember = "16:15收盤"},
-                                        new LookupItem() { ValueMember = "2", DisplayMember = "全部收盤" }};
-         Extension.SetDataTable(ddlType , ddlb_grp , "ValueMember" , "DisplayMember" , TextEditStyles.DisableTextEditor , "");
+         //List<LookupItem> ddlb_grp = new List<LookupItem>(){
+         //                               new LookupItem() { ValueMember = "1", DisplayMember = "16:15收盤"},
+         //                               new LookupItem() { ValueMember = "2", DisplayMember = "全部收盤" }};
+         DataTable ddlb_grp = new CODW().ListLookUpEdit("30053" , "30053_DDLB_GRP");
+         Extension.SetDataTable(ddlType , ddlb_grp , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
+         ddlType.ItemIndex = 1;
 
          return ResultStatus.Success;
       }
