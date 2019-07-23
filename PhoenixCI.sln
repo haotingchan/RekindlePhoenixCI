@@ -31,8 +31,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseGround", "BaseGround\Ba
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document", "Document", "{DABA5DCE-9E26-4E8C-A5EB-E2E061AEB4C3}"
 	ProjectSection(SolutionItems) = preProject
+		..\..\..\..\Desktop\期交所使用\CI資料相關20190708\CODW.sql = ..\..\..\..\Desktop\期交所使用\CI資料相關20190708\CODW.sql
 		Document\Dot Net C# CodingStyle.doc = Document\Dot Net C# CodingStyle.doc
 		Document\ProjectCI_URL.txt = Document\ProjectCI_URL.txt
+		..\..\..\..\Desktop\期交所使用\CI資料相關20190708\RPTX2.sql = ..\..\..\..\Desktop\期交所使用\CI資料相關20190708\RPTX2.sql
 		Document\統計程式用SQL.sql = Document\統計程式用SQL.sql
 	EndProjectSection
 EndProject

@@ -10,15 +10,15 @@ using System.Threading.Tasks;
 /// Lukas, 2019/3/6
 /// </summary>
 namespace DataObjects.Dao.Together.SpecificDao {
-    public class D30017:DataGate {
+   public class D30017 : DataGate {
 
-        public DataTable check20110(string ls_ymd) {
+      public DataTable check20110(string ls_ymd) {
 
-            object[] parms = {
+         object[] parms = {
                 ":ls_ymd", ls_ymd
             };
 
-            string sql =
+         string sql =
 @"
 select nvl(sum(case when AI8_DATA_SOURCE = 'U' then 1 else 0 end),0) as li_tfxm_cnt,
            nvl(sum(case when AI8_DATA_SOURCE = 'T' and AI8_PROD_TYPE = 'F' then 1 else 0 end),0) as li_fut_cnt,
@@ -27,18 +27,18 @@ select nvl(sum(case when AI8_DATA_SOURCE = 'U' then 1 else 0 end),0) as li_tfxm_
  from ci.AI8
 where AI8_YMD = :ls_ymd
 ";
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        public DataTable d_30017(string as_ymd) {
+      public DataTable d_30017(string as_ymd) {
 
-            object[] parms = {
+         object[] parms = {
                 ":as_ymd", as_ymd
             };
 
-            string sql =
+         string sql =
 @"
 select AI8_DATA_SOURCE,AI8_PROD_TYPE,AI8_PROD_SUBTYPE,AI8_PARAM_KEY,AI8_KIND_ID2,
         AI8_CLOSE_PRICE,AI8_UP_DOWN_VAL, 
@@ -81,18 +81,18 @@ select AI8_DATA_SOURCE,AI8_PROD_TYPE,AI8_PROD_SUBTYPE,AI8_PARAM_KEY,AI8_KIND_ID2
    and AI8_PARAM_KEY = AI2_PARAM_KEY(+)
  order by rpt_seq_no
 ";
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        public DataTable d_30017_all(string as_ymd) {
+      public DataTable d_30017_all(string as_ymd) {
 
-            object[] parms = {
+         object[] parms = {
                 ":as_ymd", as_ymd
             };
 
-            string sql =
+         string sql =
 @"
 select AI8_DATA_SOURCE,AI8_PROD_TYPE,AI8_PROD_SUBTYPE,AI8_PARAM_KEY,AI8_KIND_ID2,
           AI8_CLOSE_PRICE,AI8_UP_DOWN_VAL, 
@@ -130,18 +130,18 @@ where AI8_YMD = :as_ymd
    and AI8_PARAM_KEY = AM7T_PARAM_KEY(+)
 order by rpt_seq_no
 ";
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        public DataTable d_30017_up(string as_ymd) {
+      public DataTable d_30017_up(string as_ymd) {
 
-            object[] parms = {
+         object[] parms = {
                 ":as_ymd", as_ymd
             };
 
-            string sql =
+         string sql =
 @"
 select AI8_DATA_SOURCE,AI8_PARAM_KEY,AI8_KIND_ID2,
           AI8_CLOSE_PRICE,AI8_UP_DOWN_VAL, 
@@ -162,58 +162,58 @@ where AI8_YMD = :as_ymd
    --and AI8_KIND_ID2 = rpt_kind_id2(+)
 order by rpt_seq_no
 ";
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        public decimal? txfAvgQnty(string ls_ymd) {
+      public decimal? txfAvgQnty(string ls_ymd) {
 
-            object[] parms = {
+         object[] parms = {
                 ":ls_ymd", ls_ymd
             };
 
-            string sql =
+         string sql =
 @"
 select AM7T_TFXM_YEAR_AVG_QNTY --into :ld_val 
   from ci.AM7T
  where AM7T_Y = :ls_ymd
   and AM7T_PARAM_KEY = 'TXF'
 ";
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
-            decimal? rtn = string.IsNullOrEmpty(dtResult.Rows[0]["AM7T_TFXM_YEAR_AVG_QNTY"].AsString()) ? null : (decimal?)dtResult.Rows[0]["AM7T_TFXM_YEAR_AVG_QNTY"].AsDecimal();
+         decimal? rtn = string.IsNullOrEmpty(dtResult.Rows[0]["AM7T_TFXM_YEAR_AVG_QNTY"].AsString()) ? null : (decimal?)dtResult.Rows[0]["AM7T_TFXM_YEAR_AVG_QNTY"].AsDecimal();
 
-            return rtn;
-        }
+         return rtn;
+      }
 
-        public decimal? gtfAvgQnty(string ls_ymd) {
+      public decimal? gtfAvgQnty(string ls_ymd) {
 
-            object[] parms = {
+         object[] parms = {
                 ":ls_ymd", ls_ymd
             };
 
-            string sql =
+         string sql =
 @"
 select AM7T_TFXM_YEAR_AVG_QNTY --into :ld_val 
   from ci.AM7T
  where AM7T_Y = :ls_ymd
   and AM7T_PARAM_KEY = 'GTF'
 ";
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
-            decimal? rtn = string.IsNullOrEmpty(dtResult.Rows[0]["AM7T_TFXM_YEAR_AVG_QNTY"].AsString()) ? null : (decimal?)dtResult.Rows[0]["AM7T_TFXM_YEAR_AVG_QNTY"].AsDecimal();
+         decimal? rtn = string.IsNullOrEmpty(dtResult.Rows[0]["AM7T_TFXM_YEAR_AVG_QNTY"].AsString()) ? null : (decimal?)dtResult.Rows[0]["AM7T_TFXM_YEAR_AVG_QNTY"].AsDecimal();
 
-            return rtn;
-        }
+         return rtn;
+      }
 
-        public DataTable d_30017down_all(string as_ymd) {
+      public DataTable d_30017down_all(string as_ymd) {
 
-            object[] parms = {
+         object[] parms = {
                 ":as_ymd", as_ymd
             };
 
-            string sql =
+         string sql =
 @"
 select AI8_PROD_TYPE,
          ROUND(AI8_MTH_QNTY / AI8_MTH_DAYS,0) as AVG_MTH,
@@ -236,36 +236,39 @@ where AI8_YMD = :as_ymd
     and AI8_DATA_SOURCE = 'T'  
     and AI8_PROD_SUBTYPE = ' '
 ";
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        public int am7tDayCount(string ls_str) {
+      public int am7tDayCount(string ls_str) {
 
-            object[] parms = {
+         object[] parms = {
                 ":ls_str", ls_str
             };
 
-            string sql =
+         string sql =
 @"
 SELECT AM7T_DAY_COUNT --into :li_days 
  FROM CI.AM7T
 WHERE AM7T_Y = :ls_str
   AND AM7T_PARAM_KEY = 'TXO'
 ";
-            DataTable dtResult = db.GetDataTable(sql, parms);
-
+         DataTable dtResult = db.GetDataTable(sql , parms);
+         if (dtResult.Rows.Count == 0) {
+            return 0;
+         } else {
             return dtResult.Rows[0]["AM7T_DAY_COUNT"].AsInt();
-        }
+         }
+      }
 
-        public DataTable d_30017down(string as_ymd) {
+      public DataTable d_30017down(string as_ymd) {
 
-            object[] parms = {
+         object[] parms = {
                 ":as_ymd", as_ymd
             };
 
-            string sql =
+         string sql =
 @"
 select AI8_PROD_TYPE,
          ROUND(AI8_MTH_QNTY / AI8_MTH_DAYS,0) as AVG_MTH,
@@ -284,9 +287,9 @@ where AI8_YMD = :as_ymd
     and AI8_PROD_SUBTYPE = ' '
 order by AI8_PROD_TYPE
 ";
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
-            return dtResult;
-        }
-    }
+         return dtResult;
+      }
+   }
 }

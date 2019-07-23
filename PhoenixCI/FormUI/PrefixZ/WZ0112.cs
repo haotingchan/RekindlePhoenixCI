@@ -188,6 +188,8 @@ namespace PhoenixCI.FormUI.PrefixZ
         {
             _ReportHelper = reportHelper;
             CommonReportPortraitA4 report = new CommonReportPortraitA4();
+            _ReportHelper.IsHandlePersonVisible = true;
+            _ReportHelper.IsManagerVisible = true;
             _ReportHelper.Create(report);
             _ReportHelper.AddHeaderBottomInfo("設定作業項目權限：" + ddlTxnId.EditValue.AsString());
 
