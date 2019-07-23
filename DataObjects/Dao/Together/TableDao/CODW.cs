@@ -8,10 +8,10 @@ namespace DataObjects.Dao.Together {
     /// <summary>
     /// 就是lookup檔,每個功能有自己的參照資訊,之後會亂
     /// </summary>
-    public class CODWW {
+    public class CODW {
         private Db db;
 
-        public CODWW() {
+        public CODW() {
             db = GlobalDaoSetting.DB;
         }
 
@@ -20,10 +20,10 @@ namespace DataObjects.Dao.Together {
         /// </summary>
         /// <param name="CODW_TXN_ID"></param>
         /// <returns>CODW_id/CODW_desc/cp_display</returns>
-        public DataTable ListByTxn(string CODWW_TXN_ID) {
+        public DataTable ListByTxn(string CODW_TXN_ID) {
             object[] parms =
             {
-                ":CODWW_TXN_ID", CODWW_TXN_ID
+                ":CODW_TXN_ID", CODW_TXN_ID
             };
 
             string sql = @"
