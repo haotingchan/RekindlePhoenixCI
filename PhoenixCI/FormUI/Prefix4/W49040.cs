@@ -127,7 +127,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                gvMain.Columns[dc.ColumnName].OptionsColumn.AllowMerge = DefaultBoolean.False;
 
                //設定欄位header顏色
-               if (dc.ColumnName == "MGT4_KIND_ID") {
+               if (dc.ColumnName == "MGT4_KIND_ID" || dc.ColumnName == "MGT4_TYPE") {
                   gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = GridHelper.PK;
                } else {
                   gvMain.Columns[dc.ColumnName].AppearanceHeader.BackColor = GridHelper.NORMAL;
