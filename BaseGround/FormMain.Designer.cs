@@ -33,7 +33,6 @@
          System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
          this.accordionMenu = new BaseGround.AccordionControlEx();
          this.accordionElemtnt1 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
-         this.accordionControlElement1 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
          this.accordionElemtnt2 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
          this.accordionElemtnt3 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
          this.accordionElemtnt4 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
@@ -151,16 +150,9 @@
          // 
          // accordionElemtnt1
          // 
-         this.accordionElemtnt1.Elements.AddRange(new DevExpress.XtraBars.Navigation.AccordionControlElement[] {
-            this.accordionControlElement1});
          this.accordionElemtnt1.Name = "accordionElemtnt1";
          this.accordionElemtnt1.Tag = "1";
          this.accordionElemtnt1.Text = "[1] OP作業";
-         // 
-         // accordionControlElement1
-         // 
-         this.accordionControlElement1.Name = "accordionControlElement1";
-         this.accordionControlElement1.Text = "Element1";
          // 
          // accordionElemtnt2
          // 
@@ -827,6 +819,5 @@
         private DevExpress.XtraBars.BarMdiChildrenListItem barMdiChild;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelVersion;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelVersionNum;
-      private DevExpress.XtraBars.Navigation.AccordionControlElement accordionControlElement1;
    }
 }

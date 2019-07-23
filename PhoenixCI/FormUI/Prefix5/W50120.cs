@@ -9,6 +9,7 @@ using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraGrid;
+using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
 using System;
 using System.ComponentModel;
@@ -42,6 +43,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
          GridHelper.SetCommonGrid(gvMain);
 
          txtMonth.DateTimeValue = GlobalInfo.OCF_DATE;
+         txtMonth.Focus();
+         txtMonth.ImeMode = ImeMode.Disable;
          dao50120 = new D50120();
          daoABRK = new ABRK();
          daoCOD = new COD();
@@ -69,9 +72,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
          //[契約]下拉選單
          _RepLookUpEdit3 = new RepositoryItemLookUpEdit();
-         //DataTable dtActId = daoAPDK.ListAll2();
+         DataTable dtActId = daoAPDK.ListAll2();
          DataTable dtMerge = dao50120.GetMergeData(txtMonth.Text.Replace("/" , ""));
-         Extension.SetColumnLookUp(_RepLookUpEdit3 , dtMerge , "MPDF_KIND_ID" , "CP_DISPLAY" , TextEditStyles.Standard , "");
+         Extension.SetColumnLookUp(_RepLookUpEdit3 , dtMerge, "MPDF_KIND_ID" , "CP_DISPLAY" , TextEditStyles.Standard , "");
          gcMain.RepositoryItems.Add(_RepLookUpEdit3);
 
          return ResultStatus.Success;
@@ -190,43 +193,10 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
       protected override ResultStatus InsertRow() {
          base.InsertRow(gvMain);
-         //DataTable dt = (DataTable)gvMain.DataSource;
-         //dtInsertUse = daoAPDK.ListAll2(); //純APDK選單
-
-         _RepLookUpEdit3 = new RepositoryItemLookUpEdit();
-         _RepLookUpEdit3.SetColumnLookUp(dtInsertUse , "APDK_KIND_ID" , "CP_DISPLAY" , TextEditStyles.Standard , "");
-         gcMain.RepositoryItems.Add(_RepLookUpEdit3);
-         MPDF_KIND_ID.ColumnEdit = _RepLookUpEdit3;
-         
          gvMain.Focus();
          gvMain.FocusedColumn = gvMain.Columns[0];
 
          return ResultStatus.Success;
-      }
-
-      /// <summary>
-      /// 給[契約]下拉選單賦予新值並加入到原本的清單中
-      /// </summary>
-      /// <param name="sender"></param>
-      /// <param name="e"></param>
-      private void _RepLookUpEdit3_ProcessNewValue(object sender , ProcessNewValueEventArgs e) {
-         if (e.DisplayValue == null || string.Empty.Equals(e.DisplayValue))
-            return;
-
-         DataRow dr = dtInsertUse.NewRow();
-         dr["APDK_KIND_ID"] = e.DisplayValue;
-         dr["CP_DISPLAY"] = e.DisplayValue;
-         dr["TEMP_PROD_TYPE"] = dr["APDK_PROD_TYPE"];
-         dtInsertUse.Rows.Add(dr);
-
-         gvMain.SetRowCellValue(GridControl.NewItemRowHandle , gvMain.Columns["MPDF_KIND_ID"] , e.DisplayValue);
-
-         e.Handled = true;
-
-         _RepLookUpEdit3 = new RepositoryItemLookUpEdit();
-         _RepLookUpEdit3.SetColumnLookUp(dtInsertUse , "APDK_KIND_ID" , "CP_DISPLAY" , TextEditStyles.Standard , "");
-         gcMain.RepositoryItems.Add(_RepLookUpEdit3);
-         MPDF_KIND_ID.ColumnEdit = _RepLookUpEdit3;       
       }
 
       #region GridControl事件
@@ -251,9 +221,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
          if (gv.IsNewItemRow(gv.FocusedRowHandle) || Is_NewRow == "1") {
             e.Cancel = false;
             gv.SetRowCellValue(gv.FocusedRowHandle , gv.Columns["Is_NewRow"] , 1);
-            if (gv.FocusedColumn.Name == "MPDF_KIND_ID") {
-               _RepLookUpEdit3.ProcessNewValue += _RepLookUpEdit3_ProcessNewValue;
-            }
          }
          //既有資料除了生效日期之外不能編輯
          else if (gv.FocusedColumn.Name == "MPDF_EFF_DATE") {
@@ -307,6 +274,14 @@ namespace PhoenixCI.FormUI.Prefix5 {
          }
       }
 
+      private void gvMain_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e) {
+         GridView view = sender as GridView;
+         if (e.Column.FieldName == "MPDF_KIND_ID" && e.RowHandle == gvMain.FocusedRowHandle) {
+            RepositoryItemLookUpEdit _RepLookUpEdit4 = new RepositoryItemLookUpEdit();
+            _RepLookUpEdit4.SetColumnLookUp(dtInsertUse, "MPDF_KIND_ID", "CP_DISPLAY", TextEditStyles.Standard, "-");
+            e.RepositoryItem = _RepLookUpEdit4;
+         }
+      }
       #endregion
 
       protected override ResultStatus DeleteRow() {
@@ -321,5 +296,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
          return ResultStatus.Success;
       }
 
+      
    }
 }

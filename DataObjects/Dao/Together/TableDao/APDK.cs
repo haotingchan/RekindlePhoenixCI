@@ -91,7 +91,7 @@ order by s ,apdk_prod_type , pdk_kind_id
       public DataTable ListAll2() {
 
          string sql = @"
-select a.APDK_PROD_TYPE,a.APDK_KIND_ID,a.APDK_NAME,
+select a.APDK_PROD_TYPE,a.APDK_KIND_ID,trim(a.APDK_KIND_ID) as MPDF_KIND_ID,a.APDK_NAME,
 (case when trim(apdk_name) is null then trim(apdk_kind_id)
      else trim(apdk_kind_id)||'('||trim(apdk_name)||')' end) as cp_display
 from (

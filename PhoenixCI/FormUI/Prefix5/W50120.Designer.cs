@@ -53,13 +53,13 @@
          // panParent
          // 
          this.panParent.Controls.Add(this.gcMain);
-         this.panParent.Location = new System.Drawing.Point(0, 100);
-         this.panParent.Size = new System.Drawing.Size(1055, 644);
+         this.panParent.Location = new System.Drawing.Point(0, 102);
+         this.panParent.Size = new System.Drawing.Size(1063, 646);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(1055, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(1063, 32);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // panelControl1
@@ -72,11 +72,11 @@
          this.panelControl1.Controls.Add(this.lblDate);
          this.panelControl1.Controls.Add(this.txtMonth);
          this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
-         this.panelControl1.Location = new System.Drawing.Point(0, 30);
+         this.panelControl1.Location = new System.Drawing.Point(0, 32);
          this.panelControl1.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
          this.panelControl1.LookAndFeel.UseDefaultLookAndFeel = false;
          this.panelControl1.Name = "panelControl1";
-         this.panelControl1.Size = new System.Drawing.Size(1055, 70);
+         this.panelControl1.Size = new System.Drawing.Size(1063, 70);
          this.panelControl1.TabIndex = 0;
          // 
          // lblDate
@@ -112,9 +112,9 @@
          // panelControl2
          // 
          this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.panelControl2.Location = new System.Drawing.Point(0, 100);
+         this.panelControl2.Location = new System.Drawing.Point(0, 102);
          this.panelControl2.Name = "panelControl2";
-         this.panelControl2.Size = new System.Drawing.Size(1055, 644);
+         this.panelControl2.Size = new System.Drawing.Size(1063, 646);
          this.panelControl2.TabIndex = 1;
          // 
          // gcMain
@@ -127,7 +127,7 @@
          this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit1,
             this.repositoryItemTextEdit2});
-         this.gcMain.Size = new System.Drawing.Size(1031, 620);
+         this.gcMain.Size = new System.Drawing.Size(1039, 622);
          this.gcMain.TabIndex = 0;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -147,6 +147,7 @@
          this.gvMain.OptionsView.ColumnAutoWidth = false;
          this.gvMain.OptionsView.ShowGroupPanel = false;
          this.gvMain.RowCellStyle += new DevExpress.XtraGrid.Views.Grid.RowCellStyleEventHandler(this.gvMain_RowCellStyle);
+         this.gvMain.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gvMain_CustomRowCellEdit);
          this.gvMain.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gvMain_ShowingEditor);
          this.gvMain.InitNewRow += new DevExpress.XtraGrid.Views.Grid.InitNewRowEventHandler(this.gvMain_InitNewRow);
          this.gvMain.FocusedColumnChanged += new DevExpress.XtraGrid.Views.Base.FocusedColumnChangedEventHandler(this.gvMain_FocusedColumnChanged);
@@ -258,7 +259,7 @@
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(1055, 744);
+         this.ClientSize = new System.Drawing.Size(1063, 748);
          this.Controls.Add(this.panelControl2);
          this.Controls.Add(this.panelControl1);
          this.Name = "W50120";
