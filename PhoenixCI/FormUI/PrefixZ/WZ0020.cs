@@ -50,10 +50,10 @@ namespace PhoenixCI.FormUI.PrefixZ
             TXN_DEFAULT.ColumnEdit = repCheck;
             TXN_EXTEND.ColumnEdit = repCheck;
 
-            DataTable dtType = new COD().ListByTxn("TXN");
+            DataTable dtType = new CODW().ListByTxn("TXN");
 
             RepositoryItemLookUpEdit cbxType = new RepositoryItemLookUpEdit();
-            cbxType.SetColumnLookUp(dtType, "COD_ID", "COD_DESC", TextEditStyles.DisableTextEditor, "");
+            cbxType.SetColumnLookUp(dtType, "CODW_ID", "CODW_DESC", TextEditStyles.DisableTextEditor, "");
             TXN_TYPE.ColumnEdit = cbxType;
             TXN_TYPE.ShowButtonMode = ShowButtonModeEnum.ShowAlways;
 
