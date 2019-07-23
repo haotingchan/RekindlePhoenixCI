@@ -165,6 +165,36 @@ namespace DataObjects.Dao.Together {
 
          DataTable dtResult = db.GetDataTable(sql, parms);
 
+            return dtResult;
+        }
+
+      /// <summary>
+      /// for all lookupedit from ci.codw 
+      /// </summary>
+      /// <param name="CODW_TXN_ID">功能代號</param>
+      /// <param name="CODW_COL_ID"></param>
+      /// <returns>codw_id/codw_desc/codw_seq_no</returns>
+      public DataTable ListLookUpEdit(string CODW_TXN_ID , string CODW_COL_ID) {
+
+         object[] parms =
+{
+                ":CODW_TXN_ID", CODW_TXN_ID,
+                ":CODW_COL_ID", CODW_COL_ID
+            };
+
+         string sql = @"
+select 
+    trim(codw_id) as codw_id,
+    trim(codw_desc) as codw_desc,
+    codw_seq_no
+from ci.codw
+where trim(codw_txn_id) = :codw_txn_id
+and trim(codw_col_id) = :codw_col_id
+order by codw_seq_no
+";
+
+         DataTable dtResult = db.GetDataTable(sql , parms);
+
          return dtResult;
       }
    }

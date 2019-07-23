@@ -38,10 +38,12 @@ namespace PhoenixCI.FormUI.Prefix3 {
          txtSDate.DateTimeValue = GlobalInfo.OCF_DATE;
 
          //盤別下拉選單
-         List<LookupItem> ddlb_grp = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = "1", DisplayMember = "16:15收盤"},
-                                        new LookupItem() { ValueMember = "2", DisplayMember = "全部收盤" }};
-         Extension.SetDataTable(ddlType , ddlb_grp , "ValueMember" , "DisplayMember" , TextEditStyles.DisableTextEditor , "");
+         //List<LookupItem> ddlb_grp = new List<LookupItem>(){
+         //                               new LookupItem() { ValueMember = "1", DisplayMember = "16:15收盤"},
+         //                               new LookupItem() { ValueMember = "2", DisplayMember = "全部收盤" }};
+         DataTable ddlb_grp = new CODW().ListLookUpEdit("30010", "30010_DDLB_GRP");
+         Extension.SetDataTable(ddlType , ddlb_grp , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
+         ddlType.ItemIndex = 1;
 
          return ResultStatus.Success;
       }

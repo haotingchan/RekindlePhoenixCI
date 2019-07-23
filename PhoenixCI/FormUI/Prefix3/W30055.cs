@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.IO;
-using System.Threading;
-using BaseGround;
+﻿using BaseGround;
 using BaseGround.Shared;
 using BusinessObjects.Enums;
 using Common;
@@ -13,6 +8,11 @@ using DataObjects.Dao.Together.SpecificDao;
 using DataObjects.Dao.Together.TableDao;
 using DevExpress.Spreadsheet;
 using DevExpress.XtraEditors.Controls;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Threading;
 
 /// <summary>
 /// ken 2019/4/2
@@ -53,10 +53,12 @@ namespace PhoenixCI.FormUI.Prefix3 {
          txtSDate.DateTimeValue = GlobalInfo.OCF_DATE;
 
          //盤別下拉選單
-         List<LookupItem> lstType = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = "1", DisplayMember = "16:15收盤"},
-                                        new LookupItem() { ValueMember = "2", DisplayMember = "全部收盤" }};
-         Extension.SetDataTable(ddlType , lstType , "ValueMember" , "DisplayMember" , TextEditStyles.DisableTextEditor , "");
+         //List<LookupItem> lstType = new List<LookupItem>(){
+         //                               new LookupItem() { ValueMember = "1", DisplayMember = "16:15收盤"},
+         //                               new LookupItem() { ValueMember = "2", DisplayMember = "全部收盤" }};
+         DataTable lstType = new CODW().ListLookUpEdit("30055" , "30055_DDLB_GRP");
+         Extension.SetDataTable(ddlType , lstType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
+         ddlType.ItemIndex = 1;
 
          return ResultStatus.Success;
       }
