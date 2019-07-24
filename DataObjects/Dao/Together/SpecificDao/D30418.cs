@@ -161,7 +161,7 @@ namespace DataObjects.Dao.Together.SpecificDao
                                 (SELECT APDK_PARAM_KEY,APDK_PROD_TYPE FROM CI.APDK GROUP BY APDK_PARAM_KEY,APDK_PROD_TYPE)A
                                 WHERE B.PRODID = A.APDK_PARAM_KEY
                                 {0} 
-                                ORDER BY A.APDK_PROD_TYPE,B.PRODID
+                                ORDER BY OCFDATE,A.APDK_PROD_TYPE,B.PRODID
                                 ", filter);
 
 
