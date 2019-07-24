@@ -1,10 +1,12 @@
 ﻿using ActionService;
 using BaseGround;
 using BaseGround.Report;
+using BaseGround.Shared;
 using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together;
+using DevExpress.XtraEditors.Controls;
 using PhoenixCI.Widget;
 using System;
 using System.Data;
@@ -36,8 +38,9 @@ namespace PhoenixCI.FormUI.PrefixZ
         protected override ResultStatus Open()
         {
             base.Open();
-
-            DropDownList.LookUpItemUserIdAndName(ddlUserId);
+         DataTable dtType = new CODW().ListLookUpEdit("Z0111", "LOGUTP_TYPE");
+         Extension.SetDataTable(ddlUserId, dtType, "CODW_ID", "CODW_DESC", TextEditStyles.DisableTextEditor);
+         //DropDownList.LookUpItemUserIdAndName(ddlUserId);
 
 
             txtStartDate.DateTimeValue = GlobalInfo.OCF_DATE;
