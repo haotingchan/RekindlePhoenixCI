@@ -58,16 +58,18 @@ namespace PhoenixCI.FormUI.Prefix4 {
 #endif
 
          //1.契約類別 下拉選單
-         DataTable dtSubType = new COD().ListByCol("48010" , "PDK_SUBTYPE         " , "全選" , "%"); //第一行全選 + COD_ID / COD_DESC / COD_SEQ_NO
-                                                                                                   //ken,特殊,再往上新增一筆 
-         DataRow drTemp = dtSubType.NewRow();
-         drTemp["COD_ID"] = " ";
-         drTemp["COD_DESC"] = ChooseSingleKind;
-         drTemp["COD_SEQ_NO"] = -1;
-         dtSubType.Rows.InsertAt(drTemp , 0);
-         Extension.SetDataTable(ddlSubType , dtSubType , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
+         //DataTable dtSubType = new COD().ListByCol("48010" , "PDK_SUBTYPE         " , "全選" , "%"); //第一行全選 + COD_ID / COD_DESC / COD_SEQ_NO
+         //                                                                                          //ken,特殊,再往上新增一筆 
+         //DataRow drTemp = dtSubType.NewRow();
+         //drTemp["COD_ID"] = " ";
+         //drTemp["COD_DESC"] = ChooseSingleKind;
+         //drTemp["COD_SEQ_NO"] = -1;
+         //dtSubType.Rows.InsertAt(drTemp , 0);
 
-         lupSubType.SetColumnLookUp(dtSubType , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , null);
+         DataTable dtSubType = new CODW().ListLookUpEdit("48010" , "48010_PDK_SUBTYPE");
+         Extension.SetDataTable(ddlSubType , dtSubType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
+
+         lupSubType.SetColumnLookUp(dtSubType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          gcMain.RepositoryItems.Add(lupSubType);
 
          //ken,設定選單事件
@@ -79,18 +81,22 @@ namespace PhoenixCI.FormUI.Prefix4 {
          Extension.SetDataTable(ddlKind , dtKind , "MGT2_KIND_ID" , "MGT2_KIND_ID" , TextEditStyles.DisableTextEditor , "");
 
          //3.資料內容 下拉選單
-         List<LookupItem> lstData = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = "KeyInfo", DisplayMember = "1.重點資料"},
-                                        new LookupItem() { ValueMember = "Detail", DisplayMember = "2.明細資料" }};
-         Extension.SetDataTable(ddlData , lstData , "ValueMember" , "DisplayMember" , TextEditStyles.DisableTextEditor , "");
+         //List<LookupItem> lstData = new List<LookupItem>(){
+         //                               new LookupItem() { ValueMember = "KeyInfo", DisplayMember = "1.重點資料"},
+         //                               new LookupItem() { ValueMember = "Detail", DisplayMember = "2.明細資料" }};
+
+         DataTable dtData = new CODW().ListLookUpEdit("48010" , "48010_DATA_TYPE");
+         Extension.SetDataTable(ddlData , dtData , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
          //ken,設定選單事件
          this.ddlData.EditValueChanged += new System.EventHandler(this.ddlData_EditValueChanged);
 
          //4.排序方式 下拉選單
-         List<LookupItem> lstSort = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = "DATE", DisplayMember = "1.依系統生效日期排序"},
-                                        new LookupItem() { ValueMember = "KIND", DisplayMember = "2.依契約類別排序" }};
-         Extension.SetDataTable(ddlSort , lstSort , "ValueMember" , "DisplayMember" , TextEditStyles.DisableTextEditor , "");
+         //List<LookupItem> lstSort = new List<LookupItem>(){
+         //                               new LookupItem() { ValueMember = "DATE", DisplayMember = "1.依系統生效日期排序"},
+         //                               new LookupItem() { ValueMember = "KIND", DisplayMember = "2.依契約類別排序" }};
+
+         DataTable dtSort = new CODW().ListLookUpEdit("48010" , "48010_SORT_TYPE");
+         Extension.SetDataTable(ddlSort , dtSort , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
 
          return ResultStatus.Success;
       }

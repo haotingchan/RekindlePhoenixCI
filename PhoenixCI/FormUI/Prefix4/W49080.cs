@@ -45,8 +45,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
             lupTfxmPid = new RepositoryItemLookUpEdit();
 
             //商品
-            DataTable dtTfxmPid = new COD().ListByCol2("TFXM" , "TFXM_PID");
-            Extension.SetColumnLookUp(lupTfxmPid , dtTfxmPid , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
+            //DataTable dtTfxmPid = new COD().ListByCol2("TFXM" , "TFXM_PID");
+            DataTable dtTfxmPid = new CODW().ListLookUpEdit("49080" , "49080_TFXM_PID");
+            Extension.SetColumnLookUp(lupTfxmPid , dtTfxmPid , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
             gcMain.RepositoryItems.Add(lupTfxmPid);
 
             Retrieve();

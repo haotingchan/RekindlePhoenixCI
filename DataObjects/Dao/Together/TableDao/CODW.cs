@@ -192,6 +192,17 @@ namespace DataObjects.Dao.Together {
                         ORDER BY codw_seq_no
                         ";
 
+         string sql = @"
+select 
+   trim(codw_id) as codw_id,
+   trim(codw_desc) as codw_desc,
+   codw_seq_no,
+   '('|| trim(codw_id) ||')'|| trim(codw_desc) as cp_display
+from ci.codw
+where trim(codw_txn_id) = :CODW_TXN_ID
+and trim(codw_col_id) = :CODW_COL_ID
+order by codw_seq_no
+";
          DataTable dtResult = db.GetDataTable(sql , parms);
 
          return dtResult;

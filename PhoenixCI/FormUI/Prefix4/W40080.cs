@@ -21,6 +21,7 @@ using System.Linq;
 using System.ComponentModel;
 using System.Drawing;
 using DevExpress.XtraGrid;
+using DataObjects.Dao.Together;
 
 namespace PhoenixCI.FormUI.Prefix4 {
    public partial class W40080 : FormParent {
@@ -65,15 +66,17 @@ namespace PhoenixCI.FormUI.Prefix4 {
          SP2_ADJ_CODE.ColumnEdit.Appearance.TextOptions.HAlignment = HorzAlignment.Center;
 
          //設定依條件選擇狀態的下拉選單
-         List<LookupItem> adjustType = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = "none", DisplayMember = "全取消"},
-                                        new LookupItem() { ValueMember = "indes", DisplayMember = "全選指數類" },
-                                        new LookupItem() { ValueMember = "all", DisplayMember = "全選"},
-                                        new LookupItem() { ValueMember = "StcEtc", DisplayMember = "全選STC,ETC" },
-                                        new LookupItem() { ValueMember = "1", DisplayMember = "全選Group1"},
-                                        new LookupItem() { ValueMember = "2", DisplayMember = "全選Group2" }};
-         Extension.SetDataTable(ddlAdjust , adjustType , "ValueMember" , "DisplayMember" , TextEditStyles.DisableTextEditor , "");
-         ddlAdjust.EditValue = "none";
+         //List<LookupItem> adjustType = new List<LookupItem>(){
+         //                               new LookupItem() { ValueMember = "none", DisplayMember = "全取消"},
+         //                               new LookupItem() { ValueMember = "indes", DisplayMember = "全選指數類" },
+         //                               new LookupItem() { ValueMember = "all", DisplayMember = "全選"},
+         //                               new LookupItem() { ValueMember = "StcEtc", DisplayMember = "全選STC,ETC" },
+         //                               new LookupItem() { ValueMember = "1", DisplayMember = "全選Group1"},
+         //                               new LookupItem() { ValueMember = "2", DisplayMember = "全選Group2" }};
+
+         DataTable dtAdjustType = new CODW().ListLookUpEdit("40080" , "40080_DDL_ADJUST");
+         Extension.SetDataTable(ddlAdjust , dtAdjustType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
+         ddlAdjust.ItemIndex = 0; // none
 
          return ResultStatus.Success;
       }
@@ -486,7 +489,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          if (gvMain.GetRowCellValue(ai_row , "SP2_ADJ_CODE").AsString() == "Y") {
             if (osw_grp == "1") {
                if (txtDate1.Text == "1901/01/01") {
-                  MessageDisplay.Error("請先輸入" + labG1.Text,GlobalInfo.ErrorText);
+                  MessageDisplay.Error("請先輸入" + labG1.Text , GlobalInfo.ErrorText);
                   return "N";
                }
                gvMain.SetRowCellValue(ai_row , "ISSUE_BEGIN_YMD" , txtDate1.DateTimeValue.ToString("yyyyMMdd"));

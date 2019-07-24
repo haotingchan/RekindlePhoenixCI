@@ -61,9 +61,12 @@ namespace PhoenixCI.FormUI.Prefix6 {
 
          txtStartDate.EditValue = GlobalInfo.OCF_DATE.Year + "/01/01";
          txtEndDate.DateTimeValue = GlobalInfo.OCF_DATE;
+
          //設定 dw_index
-         DataTable dwSource = daoCOD.ListByCol(_ProgramID , "PID-IDSTK" , "全部" , "%");
-         Extension.SetDataTable(dw_index , dwSource , "COD_SEQ_NO" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
+         //DataTable dwSource = daoCOD.ListByCol(_ProgramID , "PID-IDSTK" , "全部" , "%");
+         DataTable dwSource = new CODW().ListLookUpEdit("60420" , "60420_PID_IDSTK");
+         Extension.SetDataTable(dw_index , dwSource , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
+         dw_index.ItemIndex = 0;
          return ResultStatus.Success;
       }
 

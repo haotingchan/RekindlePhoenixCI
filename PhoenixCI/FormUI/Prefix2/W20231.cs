@@ -1,33 +1,31 @@
-﻿using System;
+﻿using BaseGround;
+using BaseGround.Report;
+using BaseGround.Shared;
+using BusinessObjects;
+using BusinessObjects.Enums;
+using Common;
+using DataObjects.Dao.Together;
+using DataObjects.Dao.Together.SpecificDao;
+using DevExpress.XtraEditors.Controls;
+using DevExpress.XtraGrid.Views.Grid;
+using PhoenixCI.BusinessLogic.Prefix2;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Windows.Forms;
-using BaseGround;
-using Common;
-using DataObjects.Dao.Together.SpecificDao;
-using BusinessObjects.Enums;
-using DevExpress.XtraGrid.Views.Grid;
-using BaseGround.Shared;
-using BaseGround.Report;
-using BusinessObjects;
-using DataObjects.Dao.Together;
-using DevExpress.XtraEditors.Controls;
 using System.IO;
-using PhoenixCI.BusinessLogic.Prefix2;
 using System.Threading;
+using System.Windows.Forms;
 
 /// <summary>
 /// John, 2019/5/6
 /// </summary>
-namespace PhoenixCI.FormUI.Prefix2
-{
+namespace PhoenixCI.FormUI.Prefix2 {
    /// <summary>
    /// 20231 部位限制個股類標的轉入
    /// </summary>
-   public partial class W20231 : FormParent
-   {
+   public partial class W20231 : FormParent {
       #region 全域變數
       private D20231 dao20231;
       /// <summary>
@@ -40,8 +38,7 @@ namespace PhoenixCI.FormUI.Prefix2
       private string _IsPdkYMD;
       #endregion
 
-      public W20231(string programID, string programName) : base(programID, programName)
-      {
+      public W20231(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
          GridHelper.SetCommonGrid(gvMain);
@@ -51,27 +48,47 @@ namespace PhoenixCI.FormUI.Prefix2
          //統一設定下拉選單TextEditStyles
          TextEditStyles textEditStyles = TextEditStyles.DisableTextEditor;
          //期貨
-         List<LookupItem> futList = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = " ", DisplayMember = " "},
-                                        new LookupItem() { ValueMember = "F", DisplayMember = "○" }};
-         Pls4FutLookUpEdit.SetColumnLookUp(futList, "ValueMember", "DisplayMember", textEditStyles, null);
+         //List<LookupItem> futList = new List<LookupItem>(){
+         //                               new LookupItem() { ValueMember = " ", DisplayMember = " "},
+         //                               new LookupItem() { ValueMember = "F", DisplayMember = "○" }};
+
+         DataTable dtFut = new CODW().ListLookUpEdit("20231" , "20231_PLS4_FUT");
+         foreach (DataRow dr in dtFut.Rows) {
+            if (dr["CODW_ID"].AsString() == "N") {
+               dr["CODW_ID"] = " ";
+            }
+         }
+         Pls4FutLookUpEdit.SetColumnLookUp(dtFut , "CODW_ID" , "CODW_DESC" , textEditStyles , null);
          PLS4_FUT.ColumnEdit = Pls4FutLookUpEdit;
          //選擇權
-         List<LookupItem> optList = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = " ", DisplayMember = " "},
-                                        new LookupItem() { ValueMember = "O", DisplayMember = "○" }};
-         Pls4OptLookUpEdit.SetColumnLookUp(optList, "ValueMember", "DisplayMember", textEditStyles, null);
+         //List<LookupItem> optList = new List<LookupItem>(){
+         //                               new LookupItem() { ValueMember = " ", DisplayMember = " "},
+         //                               new LookupItem() { ValueMember = "O", DisplayMember = "○" }};
+
+         DataTable dtOpt = new CODW().ListLookUpEdit("20231" , "20231_PLS4_OPT");
+         foreach (DataRow dr in dtOpt.Rows) {
+            if (dr["CODW_ID"].AsString() == "N") {
+               dr["CODW_ID"] = " ";
+            }
+         }
+         Pls4OptLookUpEdit.SetColumnLookUp(dtOpt , "CODW_ID" , "CODW_DESC" , textEditStyles , null);
          PLS4_OPT.ColumnEdit = Pls4OptLookUpEdit;
          //商品類別
-         List<LookupItem> codeList = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = "I", DisplayMember = "新增"},
-                                        new LookupItem() { ValueMember = "M", DisplayMember = "小型"},
-                                        new LookupItem() { ValueMember = "N", DisplayMember = " " }};
-         Pls4StatusCodeLookUpEdit.SetColumnLookUp(codeList, "ValueMember", "DisplayMember", textEditStyles, null);
+         //List<LookupItem> codeList = new List<LookupItem>(){
+         //                               new LookupItem() { ValueMember = "I", DisplayMember = "新增"},
+         //                               new LookupItem() { ValueMember = "M", DisplayMember = "小型"},
+         //                               new LookupItem() { ValueMember = "N", DisplayMember = " " }};
+
+         DataTable dtCode = new CODW().ListLookUpEdit("20231" , "PLS4_STATUS_CODE");
+         Pls4StatusCodeLookUpEdit.SetColumnLookUp(dtCode , "CODW_ID" , "CODW_DESC" , textEditStyles , null);
          PLS4_STATUS_CODE.ColumnEdit = Pls4StatusCodeLookUpEdit;
+
          //上市/上櫃
-         Pls4PidLookUpEdit.SetColumnLookUp(new COD().ListByCol("TFXM", "TFXM_PID"), "COD_ID", "COD_DESC", textEditStyles, null);
+         //Pls4PidLookUpEdit.SetColumnLookUp(new COD().ListByCol("TFXM", "TFXM_PID"), "COD_ID", "COD_DESC", textEditStyles, null);
+         DataTable dtTFXM = new CODW().ListLookUpEdit("20231" , "20231_TFXM_PID");
+         Pls4PidLookUpEdit.SetColumnLookUp(dtTFXM , "CODW_ID" , "CODW_DESC" , textEditStyles , null);
          PLS4_PID.ColumnEdit = Pls4PidLookUpEdit;
+
          //預設隱藏DataGridView
          gcMain.Visible = false;
 
@@ -81,16 +98,15 @@ namespace PhoenixCI.FormUI.Prefix2
       /// 確認日期 有資料時清除PLS4相關日期資料
       /// </summary>
       /// <returns></returns>
-      private bool WfChkDate()
-      {
+      private bool WfChkDate() {
          //確認：比對日期
-         if (!emProdDate.IsDate(emProdDate.Text, "「比對期貨/選擇權商品基準日期」非正確日期格式")) {
+         if (!emProdDate.IsDate(emProdDate.Text , "「比對期貨/選擇權商品基準日期」非正確日期格式")) {
             return false;
          }
 
          string lsYMD;
          //確認：計算日期
-         lsYMD = emDate.Text.Replace("/", "");
+         lsYMD = emDate.Text.Replace("/" , "");
          DialogResult ChooseResult = MessageDisplay.Choose($"請確認「計算日期 :{emDate.Text}」是否正確?");
          if (ChooseResult == DialogResult.No) {
             return false;
@@ -109,25 +125,24 @@ namespace PhoenixCI.FormUI.Prefix2
             if (ChooseResult1 == DialogResult.No) {
                return false;
             }
-            DialogResult ChooseResult2 = MessageBox.Show($"「計算日期 :{emDate.Text}」資料確定刪除?", "注意", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+            DialogResult ChooseResult2 = MessageBox.Show($"「計算日期 :{emDate.Text}」資料確定刪除?" , "注意" , MessageBoxButtons.OKCancel , MessageBoxIcon.Information);
             if (ChooseResult2 == DialogResult.Cancel) {
                return false;
             }
             //刪除相關日期條件已存在的資料
             dao20231.DeletePLS4(lsYMD);
          }
-         
-         DialogResult ChooseResult3 = MessageBox.Show($"請確認「比對期貨/選擇權商品基準日期 :{emDate.Text}」是否正確?", "注意", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+
+         DialogResult ChooseResult3 = MessageBox.Show($"請確認「比對期貨/選擇權商品基準日期 :{emDate.Text}」是否正確?" , "注意" , MessageBoxButtons.OKCancel , MessageBoxIcon.Information);
          if (ChooseResult3 == DialogResult.Cancel) {
             return false;
          }
          return true;
       }
 
-      protected override ResultStatus Retrieve()
-      {
+      protected override ResultStatus Retrieve() {
          DataTable returnTable = new DataTable();
-         _cpYMD = emDate.Text.Replace("/", "");
+         _cpYMD = emDate.Text.Replace("/" , "");
          returnTable = dao20231.List20231(_cpYMD);
 
          if (returnTable.Rows.Count <= 0) {
@@ -149,7 +164,7 @@ namespace PhoenixCI.FormUI.Prefix2
          //流水號欄寬
          gvMain.IndicatorWidth = 60;
 
-         returnTable.Columns.Add("Is_NewRow", typeof(string));
+         returnTable.Columns.Add("Is_NewRow" , typeof(string));
          gcMain.DataSource = returnTable;
 
          gcMain.Focus();
@@ -157,8 +172,7 @@ namespace PhoenixCI.FormUI.Prefix2
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus InsertRow()
-      {
+      protected override ResultStatus InsertRow() {
          int focusIndex = gvMain.GetFocusedDataSourceRowIndex();
          gvMain.CloseEditor();//必須先做close edit, like dt.AcceptChanges();
 
@@ -168,7 +182,7 @@ namespace PhoenixCI.FormUI.Prefix2
 
          drNew["Is_NewRow"] = 1;
          if (string.IsNullOrEmpty(_cpYMD)) {
-            _cpYMD = emDate.Text.Replace("/", "");
+            _cpYMD = emDate.Text.Replace("/" , "");
          }
          drNew["PLS4_YMD"] = _cpYMD;
          drNew["PLS4_KIND_ID2"] = "";
@@ -176,51 +190,45 @@ namespace PhoenixCI.FormUI.Prefix2
          drNew["PLS4_OPT"] = "";
          drNew["PLS4_PID"] = "";
 
-         dt.Rows.InsertAt(drNew, focusIndex);
+         dt.Rows.InsertAt(drNew , focusIndex);
          gcMain.DataSource = dt;//重新設定給grid,雖然會更新但是速度太快,畫面不會閃爍
          gvMain.FocusedRowHandle = focusIndex;//原本的focusRowHandle會記住之前的位置,其實只是往上一行
          gvMain.FocusedColumn = gvMain.Columns[1];
          return ResultStatus.Success;
       }
 
-      private void gvMain_ShowingEditor(object sender, CancelEventArgs e)
-      {
+      private void gvMain_ShowingEditor(object sender , CancelEventArgs e) {
          GridView gv = sender as GridView;
-         string Is_NewRow = gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
-             gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"]).ToString();
+         string Is_NewRow = gv.GetRowCellValue(gv.FocusedRowHandle , gv.Columns["Is_NewRow"]) == null ? "0" :
+             gv.GetRowCellValue(gv.FocusedRowHandle , gv.Columns["Is_NewRow"]).ToString();
 
          //判斷哪些欄位可以編輯
          if (gv.IsNewItemRow(gv.FocusedRowHandle) || Is_NewRow == "1") {
             e.Cancel = false;
-            gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"], 1);
-         }
-         else if (gv.FocusedColumn.FieldName == "PLS4_SID") {
+            gv.SetRowCellValue(gv.FocusedRowHandle , gv.Columns["Is_NewRow"] , 1);
+         } else if (gv.FocusedColumn.FieldName == "PLS4_SID") {
             e.Cancel = true;
-         }
-         else {
+         } else {
             e.Cancel = false;
          }
       }
 
-      private void gvMain_RowCellStyle(object sender, RowCellStyleEventArgs e)
-      {
+      private void gvMain_RowCellStyle(object sender , RowCellStyleEventArgs e) {
          GridView gv = sender as GridView;
-         string isNewRow = gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
-              gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]).ToString();
+         string isNewRow = gv.GetRowCellValue(e.RowHandle , gv.Columns["Is_NewRow"]) == null ? "0" :
+              gv.GetRowCellValue(e.RowHandle , gv.Columns["Is_NewRow"]).ToString();
          //新增時顏色轉為白底
          if (e.Column.FieldName == "PLS4_SID" || e.Column.FieldName == "PLS4_KIND_ID2")
-            e.Appearance.BackColor = isNewRow == "1" ? Color.White : Color.FromArgb(224, 224, 224);
+            e.Appearance.BackColor = isNewRow == "1" ? Color.White : Color.FromArgb(224 , 224 , 224);
       }
 
-      private void SetFocused(DataTable dt, DataRow dr, string colName)
-      {
+      private void SetFocused(DataTable dt , DataRow dr , string colName) {
          gvMain.FocusedRowHandle = dt.Rows.IndexOf(dr);
          gvMain.FocusedColumn = gvMain.Columns[colName];
          gvMain.ShowEditor();
       }
 
-      protected override ResultStatus Save(PokeBall poke)
-      {
+      protected override ResultStatus Save(PokeBall poke) {
          gvMain.CloseEditor();
          gvMain.UpdateCurrentRow();
 
@@ -246,40 +254,34 @@ namespace PhoenixCI.FormUI.Prefix2
                // 寫入DB
                ResultData myResultData = dao20231.UpdatePLS4(dt);
                //產出txt檔案
-               Common.Helper.ExportHelper.ToText(dt, Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, "20231.txt"));
-            }
-            catch (Exception ex) {
+               Common.Helper.ExportHelper.ToText(dt , Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , "20231.txt"));
+            } catch (Exception ex) {
                WriteLog(ex);
             }
             return ResultStatus.Success;
-         }
-         else {
-            MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+         } else {
+            MessageBox.Show("沒有變更資料,不需要存檔!" , "注意" , MessageBoxButtons.OK , MessageBoxIcon.Exclamation);
          }
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Print(ReportHelper ReportHelper)
-      {
+      protected override ResultStatus Print(ReportHelper ReportHelper) {
          try {
-            ReportHelper reportHelper = new ReportHelper(gcMain, _ProgramID, _ProgramID + _ProgramName);
+            ReportHelper reportHelper = new ReportHelper(gcMain , _ProgramID , _ProgramID + _ProgramName);
             reportHelper.Print();//列印
 
-         }
-         catch (Exception ex) {
+         } catch (Exception ex) {
             throw ex;
          }
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus DeleteRow()
-      {
+      protected override ResultStatus DeleteRow() {
          base.DeleteRow(gvMain);
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus ActivatedForm()
-      {
+      protected override ResultStatus ActivatedForm() {
          base.ActivatedForm();
 
          _ToolBtnRetrieve.Enabled = true;
@@ -288,8 +290,7 @@ namespace PhoenixCI.FormUI.Prefix2
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Open()
-      {
+      protected override ResultStatus Open() {
          base.Open();
          emDate.Text = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
 #if DEBUG
@@ -303,15 +304,14 @@ namespace PhoenixCI.FormUI.Prefix2
       /// 這功能user沒什麼在使用 用pb測試也發現這功能怪怪的 所以邏輯就照pb翻
       /// </summary>
       /// <returns></returns>
-      protected override ResultStatus Import()
-      {
-         Stream openFile = PbFunc.wf_getfileopenname("20231.txt", "*.txt (*.txt)|*.txt");
+      protected override ResultStatus Import() {
+         Stream openFile = PbFunc.wf_getfileopenname("20231.txt" , "*.txt (*.txt)|*.txt");
          if (openFile == null) {
             return ResultStatus.Fail;
          }
 
-         DataTable dtReadTxt = dao20231.List20231(emDate.Text.Replace("/", "")).Clone();
-         DataTable dt = new B20231().TxtWriteToDataTable(openFile, dtReadTxt);
+         DataTable dtReadTxt = dao20231.List20231(emDate.Text.Replace("/" , "")).Clone();
+         DataTable dt = new B20231().TxtWriteToDataTable(openFile , dtReadTxt);
          if (dt.Rows.Count > 0) {
             DateTime dateTime = dt.Rows[0][0].AsDateTime("yyyyMMdd");
             if (dateTime != DateTime.MinValue) {
@@ -322,7 +322,7 @@ namespace PhoenixCI.FormUI.Prefix2
          ShowMsg("開始轉檔...");
 
          bool IsDone = WfChkDate();
-         DataTable chkData = dao20231.List20231(emDate.Text.Replace("/", ""));
+         DataTable chkData = dao20231.List20231(emDate.Text.Replace("/" , ""));
          if (chkData.Rows.Count <= 0) {
             MessageDisplay.Info("轉入筆數為０!");
             return ResultStatus.Fail;
@@ -339,8 +339,8 @@ namespace PhoenixCI.FormUI.Prefix2
          ResultData myResultData = dao20231.UpdatePLS4(dt);
          //期貨/選擇權
          gcMain.BeginUpdate();
-         string lsymd = emDate.Text.Replace("/", "");
-         string lspdkymd = emProdDate.Text.Replace("/", "");
+         string lsymd = emDate.Text.Replace("/" , "");
+         string lspdkymd = emProdDate.Text.Replace("/" , "");
          DataTable dtHPDK = dao20231.ListHpdkData(lspdkymd);
          foreach (DataRow dr in chkData.Rows) {
             dr["PLS4_YMD"] = lsymd;
@@ -351,8 +351,7 @@ namespace PhoenixCI.FormUI.Prefix2
             if (lirtn > -1) {
                dr["PLS4_FUT"] = dtHPDK.Rows[lirtn]["PLS4_FUT"];
                dr["PLS4_OPT"] = dtHPDK.Rows[lirtn]["PLS4_OPT"];
-            }
-            else {
+            } else {
                dr["PLS4_FUT"] = "";
                dr["PLS4_OPT"] = "";
             }
@@ -366,10 +365,10 @@ namespace PhoenixCI.FormUI.Prefix2
          PLS4_KIND_ID2.AppearanceCell.BackColor = Color.White;
 
          //存檔 這段也怪怪的 PB 根本就沒有寫入任何路徑在is_save_file這個變數
-         string filepath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, "");
+         string filepath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , "");
          gvMain.ExportToXlsx(filepath);
          //Write LOGF
-         WriteLog("轉出檔案:" + filepath, "E");
+         WriteLog("轉出檔案:" + filepath , "E");
          EndExport();
          return ResultStatus.Success;
       }
@@ -378,8 +377,7 @@ namespace PhoenixCI.FormUI.Prefix2
       /// show出訊息在label
       /// </summary>
       /// <param name="msg"></param>
-      protected void ShowMsg(string msg)
-      {
+      protected void ShowMsg(string msg) {
          stMsgTxt.Visible = true;
          stMsgTxt.Text = msg;
          this.Refresh();
@@ -389,8 +387,7 @@ namespace PhoenixCI.FormUI.Prefix2
       /// <summary>
       /// 轉檔後清除文字訊息
       /// </summary>
-      protected void EndExport()
-      {
+      protected void EndExport() {
          stMsgTxt.Text = "";
          this.Cursor = Cursors.Arrow;
          this.Refresh();
@@ -398,20 +395,19 @@ namespace PhoenixCI.FormUI.Prefix2
          stMsgTxt.Visible = false;
       }
 
-      private void gvMain_CustomDrawRowIndicator(object sender, RowIndicatorCustomDrawEventArgs e)
-      {
+      private void gvMain_CustomDrawRowIndicator(object sender , RowIndicatorCustomDrawEventArgs e) {
          //編排流水號
-         e.Appearance.DrawBackground(e.Cache, e.Bounds);
+         e.Appearance.DrawBackground(e.Cache , e.Bounds);
          if (e.Info.Kind == DevExpress.Utils.Drawing.IndicatorKind.Header) {
-            e.Appearance.BackColor = Color.FromArgb(192, 220, 192);
-            e.Appearance.DrawString(e.Cache, "流水號", e.Bounds);
+            e.Appearance.BackColor = Color.FromArgb(192 , 220 , 192);
+            e.Appearance.DrawString(e.Cache , "流水號" , e.Bounds);
             e.Appearance.ForeColor = Color.Black;
             //e.Appearance.BorderColor = Color.Black;
 
             e.Handled = true;
          }
          if (e.Info.IsRowIndicator && e.RowHandle >= 0) {
-            e.Appearance.BackColor = Color.FromArgb(192, 220, 192);
+            e.Appearance.BackColor = Color.FromArgb(192 , 220 , 192);
             e.Info.DisplayText = (e.RowHandle + 1).ToString();
             e.Appearance.ForeColor = Color.Black;
             //e.Appearance.BorderColor = Color.Black;
@@ -419,26 +415,25 @@ namespace PhoenixCI.FormUI.Prefix2
 
       }
 
-      private void btnCopy_Click(object sender, EventArgs e)
-      {
+      private void btnCopy_Click(object sender , EventArgs e) {
          bool IsDone = WfChkDate();
          //確認
          if (!IsDone) {
             return;
          }
          gcMain.BeginUpdate();
-         string lsymd = emDate.Text.Replace("/", "");
-         string lspdkymd = emProdDate.Text.Replace("/", "");
+         string lsymd = emDate.Text.Replace("/" , "");
+         string lspdkymd = emProdDate.Text.Replace("/" , "");
          DataTable insertData = dao20231.ListHpdkData(lspdkymd);
          DataTable data = dao20231.List20231(lsymd).Clone();//dw_1.reset(); InsertData寫入List20231
 
          //判斷新增行列
-         data.Columns.Add("Is_NewRow", typeof(string));
+         data.Columns.Add("Is_NewRow" , typeof(string));
 
          if (insertData.Rows.Count > 0) {
-            for (int k = 0; k < insertData.Rows.Count; k++) {
+            for (int k = 0 ; k < insertData.Rows.Count ; k++) {
                data.Rows.Add(data.NewRow());
-               for (int j = 0; j < insertData.Columns.Count; j++) {
+               for (int j = 0 ; j < insertData.Columns.Count ; j++) {
                   data.Rows[k][j] = insertData.Rows[k][j];
                   data.Rows[k]["PLS4_YMD"] = lsymd;
                   data.Rows[k]["PLS4_PDK_YMD"] = lspdkymd;
@@ -455,21 +450,19 @@ namespace PhoenixCI.FormUI.Prefix2
       /// </summary>
       /// <param name="sender"></param>
       /// <param name="e"></param>
-      private void btnAdd_Click(object sender, EventArgs e)
-      {
+      private void btnAdd_Click(object sender , EventArgs e) {
          FormMain frmMain = (FormMain)this.MdiParent;
-         frmMain.OpenForm($"{_ProgramID}_2", _ProgramName);
+         frmMain.OpenForm($"{_ProgramID}_2" , _ProgramName);
       }
 
-      private void gvMain_RowClick(object sender, RowClickEventArgs e)
-      {
+      private void gvMain_RowClick(object sender , RowClickEventArgs e) {
          if (e.RowHandle < 0 || gvMain.Columns.Count == 0) {
             return;
          }
          //點擊資料列 預設是focuse到個股商品2碼 如為可編輯狀態則focuse到股票代號
          gvMain.FocusedColumn = gvMain.Columns["PLS4_KIND_ID2"];//個股商品2碼
-         string Is_NewRow = gvMain.GetRowCellValue(gvMain.FocusedRowHandle, gvMain.Columns["Is_NewRow"]) == null ? "0" :
-             gvMain.GetRowCellValue(gvMain.FocusedRowHandle, gvMain.Columns["Is_NewRow"]).ToString();
+         string Is_NewRow = gvMain.GetRowCellValue(gvMain.FocusedRowHandle , gvMain.Columns["Is_NewRow"]) == null ? "0" :
+             gvMain.GetRowCellValue(gvMain.FocusedRowHandle , gvMain.Columns["Is_NewRow"]).ToString();
          if (Is_NewRow == "1") {
             gvMain.FocusedColumn = gvMain.Columns["PLS4_SID"];//股票代號
          }
@@ -477,26 +470,23 @@ namespace PhoenixCI.FormUI.Prefix2
          gvMain.ShowEditor();
       }
 
-      private void gvMain_CustomRowCellEditForEditing(object sender, CustomRowCellEditEventArgs e)
-      {
+      private void gvMain_CustomRowCellEditForEditing(object sender , CustomRowCellEditEventArgs e) {
          GridView gv = sender as GridView;
-         string isNewRow = gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
-              gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]).ToString();
+         string isNewRow = gv.GetRowCellValue(e.RowHandle , gv.Columns["Is_NewRow"]) == null ? "0" :
+              gv.GetRowCellValue(e.RowHandle , gv.Columns["Is_NewRow"]).ToString();
          //isNewRow=1是新增、新增代表可編輯 其餘皆不可編輯
          switch (e.Column.FieldName) {
             case "PLS4_SID"://股票代號
                if (isNewRow == "1") {
                   e.RepositoryItem = SIDdefTextEdit;//白底、可編輯
-               }
-               else {
+               } else {
                   e.RepositoryItem = SIDTextEdit;//灰底、不可編輯
                }
                break;
             case "PLS4_KIND_ID2"://個股商品2碼
                if (isNewRow == "1") {
                   e.RepositoryItem = kindIDdefTextEdit;//白底、可編輯
-               }
-               else {
+               } else {
                   e.RepositoryItem = KindIDTextEdit;//灰底、不可編輯
                }
                break;

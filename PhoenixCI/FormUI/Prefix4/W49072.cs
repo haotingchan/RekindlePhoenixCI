@@ -39,9 +39,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             dao49072 = new D49072();
 
             //商品
-            COD cod = new COD();
-            DataTable dtSpnt1 = cod.ListByTxn("SPNT1");
-            Extension.SetColumnLookUp(lupSpnt1 , dtSpnt1 , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
+            CODW codw = new CODW();
+            //DataTable dtSpnt1 = cod.ListByTxn("SPNT1");
+            DataTable dtSpnt1 = codw.ListLookUpEdit("49072", "49072_SPNT1_TYPE");
+            Extension.SetColumnLookUp(lupSpnt1 , dtSpnt1 , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
             gcMain.RepositoryItems.Add(lupSpnt1);
 
             Retrieve();

@@ -29,8 +29,6 @@
          this.txtStartDate = new BaseGround.Widget.TextDateEdit();
          this.sle_1 = new DevExpress.XtraEditors.TextEdit();
          this.label1 = new System.Windows.Forms.Label();
-         this.ddlb_2 = new DevExpress.XtraEditors.ComboBoxEdit();
-         this.ddlb_1 = new DevExpress.XtraEditors.ComboBoxEdit();
          this.dwProd = new DevExpress.XtraEditors.LookUpEdit();
          this.dwBrkno = new DevExpress.XtraEditors.LookUpEdit();
          this.label9 = new System.Windows.Forms.Label();
@@ -61,6 +59,8 @@
          this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
          this.AMMD_DATE = new DevExpress.XtraGrid.Columns.GridColumn();
          this.repositoryItemTextEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+         this.ddlb_1 = new DevExpress.XtraEditors.LookUpEdit();
+         this.ddlb_2 = new DevExpress.XtraEditors.LookUpEdit();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panFilter)).BeginInit();
@@ -69,8 +69,6 @@
          ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.sle_1.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.ddlb_2.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.ddlb_1.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.dwProd.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.dwBrkno.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).BeginInit();
@@ -81,6 +79,8 @@
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.ddlb_1.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.ddlb_2.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -105,8 +105,6 @@
          this.panFilter.Controls.Add(this.txtStartDate);
          this.panFilter.Controls.Add(this.sle_1);
          this.panFilter.Controls.Add(this.label1);
-         this.panFilter.Controls.Add(this.ddlb_2);
-         this.panFilter.Controls.Add(this.ddlb_1);
          this.panFilter.Controls.Add(this.dwProd);
          this.panFilter.Controls.Add(this.dwBrkno);
          this.panFilter.Controls.Add(this.label9);
@@ -119,6 +117,8 @@
          this.panFilter.Controls.Add(this.label3);
          this.panFilter.Controls.Add(this.label2);
          this.panFilter.Controls.Add(this.txtStartTime);
+         this.panFilter.Controls.Add(this.ddlb_1);
+         this.panFilter.Controls.Add(this.ddlb_2);
          this.panFilter.Dock = System.Windows.Forms.DockStyle.Top;
          this.panFilter.Location = new System.Drawing.Point(12, 12);
          this.panFilter.Name = "panFilter";
@@ -198,53 +198,6 @@
          this.label1.Size = new System.Drawing.Size(81, 20);
          this.label1.TabIndex = 82;
          this.label1.Text = "(yyyymm)";
-         // 
-         // ddlb_2
-         // 
-         this.ddlb_2.Location = new System.Drawing.Point(883, 62);
-         this.ddlb_2.MenuManager = this.ribbonControl;
-         this.ddlb_2.Name = "ddlb_2";
-         this.ddlb_2.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-         this.ddlb_2.Properties.Appearance.Options.UseBackColor = true;
-         this.ddlb_2.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.ddlb_2.Properties.Items.AddRange(new object[] {
-            " ",
-            "價內第1檔",
-            "價內第2檔",
-            "價內第3檔",
-            "價內第4檔",
-            "價內第5檔",
-            "價外第1檔",
-            "價外第2檔",
-            "價外第3檔",
-            "價外第4檔",
-            "價外第5檔",
-            "價平"});
-         this.ddlb_2.Properties.LookAndFeel.SkinName = "The Bezier";
-         this.ddlb_2.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
-         this.ddlb_2.Properties.PopupSizeable = true;
-         this.ddlb_2.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-         this.ddlb_2.Size = new System.Drawing.Size(171, 26);
-         this.ddlb_2.TabIndex = 9;
-         // 
-         // ddlb_1
-         // 
-         this.ddlb_1.Location = new System.Drawing.Point(649, 62);
-         this.ddlb_1.MenuManager = this.ribbonControl;
-         this.ddlb_1.Name = "ddlb_1";
-         this.ddlb_1.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-         this.ddlb_1.Properties.Appearance.Options.UseBackColor = true;
-         this.ddlb_1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.ddlb_1.Properties.Items.AddRange(new object[] {
-            " ",
-            "買權",
-            "賣權"});
-         this.ddlb_1.Properties.LookAndFeel.SkinName = "The Bezier";
-         this.ddlb_1.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
-         this.ddlb_1.Size = new System.Drawing.Size(93, 26);
-         this.ddlb_1.TabIndex = 7;
          // 
          // dwProd
          // 
@@ -582,6 +535,38 @@
          this.repositoryItemTextEdit2.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
          this.repositoryItemTextEdit2.Name = "repositoryItemTextEdit2";
          // 
+         // ddlb_1
+         // 
+         this.ddlb_1.Location = new System.Drawing.Point(649, 62);
+         this.ddlb_1.MenuManager = this.ribbonControl;
+         this.ddlb_1.Name = "ddlb_1";
+         this.ddlb_1.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+         this.ddlb_1.Properties.Appearance.Options.UseBackColor = true;
+         this.ddlb_1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.ddlb_1.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.ddlb_1.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
+         this.ddlb_1.Properties.NullText = "";
+         this.ddlb_1.Properties.PopupSizeable = false;
+         this.ddlb_1.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
+         this.ddlb_1.Size = new System.Drawing.Size(93, 26);
+         this.ddlb_1.TabIndex = 7;
+         // 
+         // ddlb_2
+         // 
+         this.ddlb_2.Location = new System.Drawing.Point(883, 62);
+         this.ddlb_2.MenuManager = this.ribbonControl;
+         this.ddlb_2.Name = "ddlb_2";
+         this.ddlb_2.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+         this.ddlb_2.Properties.Appearance.Options.UseBackColor = true;
+         this.ddlb_2.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.ddlb_2.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.ddlb_2.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
+         this.ddlb_2.Properties.NullText = "";
+         this.ddlb_2.Size = new System.Drawing.Size(171, 26);
+         this.ddlb_2.TabIndex = 9;
+         // 
          // W50050
          // 
          this.Appearance.Options.UseFont = true;
@@ -599,8 +584,6 @@
          ((System.ComponentModel.ISupportInitialize)(this.txtEndDate.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtStartDate.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.sle_1.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.ddlb_2.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.ddlb_1.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.dwProd.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.dwBrkno.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).EndInit();
@@ -611,6 +594,8 @@
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.ddlb_1.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.ddlb_2.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -629,8 +614,6 @@
       private System.Windows.Forms.Label label5;
       private DevExpress.XtraEditors.LookUpEdit dwBrkno;
       private DevExpress.XtraEditors.LookUpEdit dwProd;
-      private DevExpress.XtraEditors.ComboBoxEdit ddlb_1;
-      private DevExpress.XtraEditors.ComboBoxEdit ddlb_2;
       private DevExpress.XtraEditors.PanelControl panelGrid;
       private DevExpress.XtraEditors.TextEdit sle_1;
       private System.Windows.Forms.Label label1;
@@ -655,5 +638,7 @@
       private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit1;
       private DevExpress.XtraGrid.Columns.GridColumn AMMD_DATE;
       private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit2;
+      private DevExpress.XtraEditors.LookUpEdit ddlb_1;
+      private DevExpress.XtraEditors.LookUpEdit ddlb_2;
    }
 }

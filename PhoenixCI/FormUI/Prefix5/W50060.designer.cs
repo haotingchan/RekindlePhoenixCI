@@ -32,7 +32,6 @@
          this.sle_1 = new DevExpress.XtraEditors.TextEdit();
          this.dw_prod_kd = new DevExpress.XtraEditors.LookUpEdit();
          this.dw_sbrkno = new DevExpress.XtraEditors.LookUpEdit();
-         this.ddlb_1 = new DevExpress.XtraEditors.ComboBoxEdit();
          this.sle_2 = new DevExpress.XtraEditors.TextEdit();
          this.label8 = new System.Windows.Forms.Label();
          this.label7 = new System.Windows.Forms.Label();
@@ -59,6 +58,7 @@
          this.AMMD_W_TIME = new DevExpress.XtraGrid.Columns.GridColumn();
          this.AMMD_DATE = new DevExpress.XtraGrid.Columns.GridColumn();
          this.panFilter = new DevExpress.XtraEditors.PanelControl();
+         this.ddlb_1 = new DevExpress.XtraEditors.LookUpEdit();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtEndTime.Properties)).BeginInit();
@@ -69,13 +69,13 @@
          ((System.ComponentModel.ISupportInitialize)(this.sle_1.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.dw_prod_kd.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.dw_sbrkno.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.ddlb_1.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.sle_2.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl3)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panFilter)).BeginInit();
          this.panFilter.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.ddlb_1.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -226,24 +226,6 @@
          this.dw_sbrkno.Properties.PopupSizeable = false;
          this.dw_sbrkno.Size = new System.Drawing.Size(365, 26);
          this.dw_sbrkno.TabIndex = 5;
-         // 
-         // ddlb_1
-         // 
-         this.ddlb_1.Location = new System.Drawing.Point(649, 62);
-         this.ddlb_1.MenuManager = this.ribbonControl;
-         this.ddlb_1.Name = "ddlb_1";
-         this.ddlb_1.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-         this.ddlb_1.Properties.Appearance.Options.UseBackColor = true;
-         this.ddlb_1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.ddlb_1.Properties.Items.AddRange(new object[] {
-            " ",
-            "買權",
-            "賣權"});
-         this.ddlb_1.Properties.LookAndFeel.SkinName = "The Bezier";
-         this.ddlb_1.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
-         this.ddlb_1.Size = new System.Drawing.Size(117, 26);
-         this.ddlb_1.TabIndex = 7;
          // 
          // sle_2
          // 
@@ -559,6 +541,23 @@
          this.panFilter.Size = new System.Drawing.Size(1016, 150);
          this.panFilter.TabIndex = 79;
          // 
+         // ddlb_1
+         // 
+         this.ddlb_1.Location = new System.Drawing.Point(649, 62);
+         this.ddlb_1.MenuManager = this.ribbonControl;
+         this.ddlb_1.Name = "ddlb_1";
+         this.ddlb_1.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+         this.ddlb_1.Properties.Appearance.Options.UseBackColor = true;
+         this.ddlb_1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.ddlb_1.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.ddlb_1.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
+         this.ddlb_1.Properties.NullText = "";
+         this.ddlb_1.Properties.PopupSizeable = false;
+         this.ddlb_1.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
+         this.ddlb_1.Size = new System.Drawing.Size(117, 26);
+         this.ddlb_1.TabIndex = 7;
+         // 
          // W50060
          // 
          this.Appearance.Options.UseFont = true;
@@ -581,7 +580,6 @@
          ((System.ComponentModel.ISupportInitialize)(this.sle_1.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.dw_prod_kd.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.dw_sbrkno.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.ddlb_1.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.sle_2.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl3)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
@@ -589,6 +587,7 @@
          ((System.ComponentModel.ISupportInitialize)(this.panFilter)).EndInit();
          this.panFilter.ResumeLayout(false);
          this.panFilter.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.ddlb_1.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -600,7 +599,6 @@
       private DevExpress.XtraEditors.LookUpEdit dw_prod_kd;
       private DevExpress.XtraEditors.LookUpEdit dw_sbrkno;
       protected DevExpress.XtraEditors.RadioGroup gbMarket;
-      private DevExpress.XtraEditors.ComboBoxEdit ddlb_1;
       private DevExpress.XtraEditors.TextEdit sle_2;
       private System.Windows.Forms.Label label8;
       private System.Windows.Forms.Label label7;
@@ -631,5 +629,6 @@
       private System.Windows.Forms.Label label9;
       private DevExpress.XtraGrid.Columns.GridColumn AMMD_DATE;
       private DevExpress.XtraEditors.PanelControl panFilter;
+      private DevExpress.XtraEditors.LookUpEdit ddlb_1;
    }
 }

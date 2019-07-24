@@ -113,18 +113,20 @@ namespace PhoenixCI.FormUI.Prefix3 {
          //                               new LookupItem() { ValueMember = "%", DisplayMember = "% (全部)"},
          //                               new LookupItem() { ValueMember = "S%", DisplayMember = "S (單式)" },
          //                               new LookupItem() { ValueMember = "C%", DisplayMember = "C (複式)" }};
-         DataTable lstScCode = new CODW().ListLookUpEdit("30681", "30681_DDLB_SC");
+         DataTable lstScCode = new CODW().ListLookUpEdit("30681" , "30681_DDLB_SC");
          Extension.SetDataTable(ddlScCode , lstScCode , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor);
          ddlScCode.ItemIndex = 0;
 
          //設定 委託單方式 下拉選單
-         DataTable dtOsfOrderType = new COD().ListByCol3("OSF" , "OSF_ORDER_TYPE" , "全部" , "%");
-         Extension.SetDataTable(ddlOsfOrderType , dtOsfOrderType , "COD_ID" , "CP_DISPLAY" , TextEditStyles.DisableTextEditor);
+         //DataTable dtOsfOrderType = new COD().ListByCol3("OSF" , "OSF_ORDER_TYPE" , "全部" , "%");
+         DataTable dtOsfOrderType = new CODW().ListLookUpEdit("30681" , "OSF_ORDER_TYPE");
+         Extension.SetDataTable(ddlOsfOrderType , dtOsfOrderType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor);
          ddlOsfOrderType.ItemIndex = 0;
 
          //設定 委託單條件 下拉選單
-         DataTable dtOsfOrderCond = new COD().ListByCol3("OSF" , "OSF_ORDER_COND" , "全部" , "%");
-         Extension.SetDataTable(ddlOsfOrderCond , dtOsfOrderCond , "COD_ID" , "CP_DISPLAY" , TextEditStyles.DisableTextEditor);
+         //DataTable dtOsfOrderCond = new COD().ListByCol3("OSF" , "OSF_ORDER_COND" , "全部" , "%");
+         DataTable dtOsfOrderCond = new CODW().ListLookUpEdit("30681" , "OSF_ORDER_COND");
+         Extension.SetDataTable(ddlOsfOrderCond , dtOsfOrderCond , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor);
          ddlOsfOrderCond.ItemIndex = 0;
 
          return ResultStatus.Success;

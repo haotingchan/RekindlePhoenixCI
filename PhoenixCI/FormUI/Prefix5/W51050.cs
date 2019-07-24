@@ -4,6 +4,7 @@ using BaseGround.Shared;
 using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
+using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DataObjects.Dao.Together.TableDao;
 using DevExpress.XtraEditors.Controls;
@@ -38,10 +39,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
             lupMarketCode = new RepositoryItemLookUpEdit();
 
             //商品狀態
-            List<LookupItem> dtMarketCode = new List<LookupItem>(){
-                                            new LookupItem() { ValueMember = "0", DisplayMember = "一般"},
-                                            new LookupItem() { ValueMember = "1", DisplayMember = "夜盤"}};
-            lupMarketCode.SetColumnLookUp(dtMarketCode , "ValueMember" , "DisplayMember" , TextEditStyles.DisableTextEditor , null);
+            //List<LookupItem> dtMarketCode = new List<LookupItem>(){
+            //                                new LookupItem() { ValueMember = "0", DisplayMember = "一般"},
+            //                                new LookupItem() { ValueMember = "1", DisplayMember = "夜盤"}};
+            DataTable dtMarketCode = new CODW().ListLookUpEdit("51050" , "51050_MARKET_CODE");
+            lupMarketCode.SetColumnLookUp(dtMarketCode , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
             gcMain.RepositoryItems.Add(lupMarketCode);
 
             Retrieve();

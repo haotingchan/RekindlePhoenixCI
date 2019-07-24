@@ -2,6 +2,7 @@
 using BaseGround.Shared;
 using BusinessObjects.Enums;
 using Common;
+using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using DevExpress.XtraEditors.Controls;
@@ -13,8 +14,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
-
-//TODO : (CIN)servername登入才會看到ddlOswGrp下拉選單
 
 /// <summary>
 /// ken,2019/3/26
@@ -108,11 +107,12 @@ namespace PhoenixCI.FormUI.Prefix3 {
          base.Open();
 
          //設定 營業時間 下拉選單
-         List<LookupItem> lstType = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = "5%", DisplayMember = "13:45 - 16:15"},
-                                        new LookupItem() { ValueMember = "%", DisplayMember = "13:45 - 18:15" },
-                                        new LookupItem() { ValueMember = "7%", DisplayMember = "16:15 - 18:15" }};
-         Extension.SetDataTable(ddlOswGrp , lstType , "ValueMember" , "DisplayMember" , TextEditStyles.DisableTextEditor , "");
+         //List<LookupItem> lstType = new List<LookupItem>(){
+         //                               new LookupItem() { ValueMember = "5%", DisplayMember = "13:45 - 16:15"},
+         //                               new LookupItem() { ValueMember = "%", DisplayMember = "13:45 - 18:15" },
+         //                               new LookupItem() { ValueMember = "7%", DisplayMember = "16:15 - 18:15" }};
+         DataTable dtType = new CODW().ListLookUpEdit("30770" , "30770_DDLB_OSW_GRP");
+         Extension.SetDataTable(ddlOswGrp , dtType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
 
          return ResultStatus.Success;
       }

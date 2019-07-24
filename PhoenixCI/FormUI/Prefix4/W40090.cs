@@ -53,15 +53,16 @@ namespace PhoenixCI.FormUI.Prefix4 {
          this.Text = _ProgramID + "─" + _ProgramName;
          txtDate.DateTimeValue = GlobalInfo.OCF_DATE;
          //設定 下拉選單
-         List<LookupItem> lstType = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = "0B", DisplayMember = "一般 / 股票"},
-                                        new LookupItem() { ValueMember = "1B", DisplayMember = "長假調整" },
-                                        new LookupItem() { ValueMember = "1E", DisplayMember = "長假回調" },
-                                        new LookupItem() { ValueMember = "2B", DisplayMember = "處置股票調整"}};
+         //List<LookupItem> lstType = new List<LookupItem>(){
+         //                               new LookupItem() { ValueMember = "0B", DisplayMember = "一般 / 股票"},
+         //                               new LookupItem() { ValueMember = "1B", DisplayMember = "長假調整" },
+         //                               new LookupItem() { ValueMember = "1E", DisplayMember = "長假回調" },
+         //                               new LookupItem() { ValueMember = "2B", DisplayMember = "處置股票調整"}};
 
+         DataTable dtType = new CODW().ListLookUpEdit("40090" , "40090_DW_ADJ");
          //設定下拉選單
-         ddlAdjType.SetDataTable(lstType , "ValueMember" , "DisplayMember" , TextEditStyles.DisableTextEditor , null);
-         ddlAdjType.EditValue = "0B";
+         ddlAdjType.SetDataTable(dtType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
+         ddlAdjType.ItemIndex = 0; // 0B
 
          ExportShow.Hide();
 

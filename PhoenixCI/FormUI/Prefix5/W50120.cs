@@ -8,8 +8,6 @@ using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraEditors.Repository;
-using DevExpress.XtraGrid;
-using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
 using System;
 using System.ComponentModel;
@@ -66,15 +64,16 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
          //[狀態]下拉選單
          _RepLookUpEdit2 = new RepositoryItemLookUpEdit();
-         DataTable dtCOD = daoCOD.ListByTxn("50120");
-         Extension.SetColumnLookUp(_RepLookUpEdit2 , dtCOD , "COD_ID" , "CP_DISPLAY" , TextEditStyles.DisableTextEditor , "");
+         //DataTable dtCOD = daoCOD.ListByTxn("50120");
+         DataTable dtCODW = new CODW().ListLookUpEdit2("50120" , "50120_MPDF_STATUS"); //用有組合欄位的
+         Extension.SetColumnLookUp(_RepLookUpEdit2 , dtCODW , "CODW_ID" , "CP_DISPLAY" , TextEditStyles.DisableTextEditor , "");
          gcMain.RepositoryItems.Add(_RepLookUpEdit2);
 
          //[契約]下拉選單
          _RepLookUpEdit3 = new RepositoryItemLookUpEdit();
          DataTable dtActId = daoAPDK.ListAll2();
          DataTable dtMerge = dao50120.GetMergeData(txtMonth.Text.Replace("/" , ""));
-         Extension.SetColumnLookUp(_RepLookUpEdit3 , dtMerge, "MPDF_KIND_ID" , "CP_DISPLAY" , TextEditStyles.Standard , "");
+         Extension.SetColumnLookUp(_RepLookUpEdit3 , dtMerge , "MPDF_KIND_ID" , "CP_DISPLAY" , TextEditStyles.Standard , "");
          gcMain.RepositoryItems.Add(_RepLookUpEdit3);
 
          return ResultStatus.Success;
@@ -274,11 +273,11 @@ namespace PhoenixCI.FormUI.Prefix5 {
          }
       }
 
-      private void gvMain_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e) {
+      private void gvMain_CustomRowCellEdit(object sender , CustomRowCellEditEventArgs e) {
          GridView view = sender as GridView;
          if (e.Column.FieldName == "MPDF_KIND_ID" && e.RowHandle == gvMain.FocusedRowHandle) {
             RepositoryItemLookUpEdit _RepLookUpEdit4 = new RepositoryItemLookUpEdit();
-            _RepLookUpEdit4.SetColumnLookUp(dtInsertUse, "MPDF_KIND_ID", "CP_DISPLAY", TextEditStyles.Standard, "-");
+            _RepLookUpEdit4.SetColumnLookUp(dtInsertUse , "MPDF_KIND_ID" , "CP_DISPLAY" , TextEditStyles.Standard , "-");
             e.RepositoryItem = _RepLookUpEdit4;
          }
       }
@@ -296,6 +295,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
          return ResultStatus.Success;
       }
 
-      
+
    }
 }
