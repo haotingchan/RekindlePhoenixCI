@@ -16,19 +16,16 @@ using DevExpress.XtraEditors.Controls;
 /// <summary>
 /// John, 2019/5/13
 /// </summary>
-namespace PhoenixCI.FormUI.Prefix2
-{
+namespace PhoenixCI.FormUI.Prefix2 {
    /// <summary>
    /// 20231_apdk 部位限制個股類標的轉入 新增apdk table資料
    /// </summary>
-   public partial class W20231_2 : FormParent
-   {
+   public partial class W20231_2 : FormParent {
       #region 全域變數
       private D20231 dao20231;
       #endregion
 
-      public W20231_2(string programID, string programName) : base(programID, programName)
-      {
+      public W20231_2(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
          this.Text = "20231 ─ " + _ProgramName + " 新增個股契約基本資料";
 
@@ -42,7 +39,7 @@ namespace PhoenixCI.FormUI.Prefix2
          //商品子類別
          ApdkProdSubtype();
          //商品對照類別
-         ApdkParamKey();
+         //ApdkParamKey();
          //上市/上櫃
          UnderlyingMarket();
          //一般/小型
@@ -58,97 +55,107 @@ namespace PhoenixCI.FormUI.Prefix2
       /// <summary>
       /// 設定List LookupItem變數項目
       /// </summary>
-      private void SetOtherLookupItem()
-      {
+      private void SetOtherLookupItem() {
          //STF	STF/ETF	ETF/
-         List<LookupItem> StfList = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = "STF", DisplayMember = "STF" },
-                                        new LookupItem() { ValueMember = "ETF", DisplayMember = "ETF" }};
-         ApdkParamKeyLookUpEditF.SetColumnLookUp(StfList, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor, null);
+         //List<LookupItem> StfList = new List<LookupItem>(){
+         //                               new LookupItem() { ValueMember = "STF", DisplayMember = "STF" },
+         //                               new LookupItem() { ValueMember = "ETF", DisplayMember = "ETF" }};
+
+         DataTable dtStfList = new CODW().ListLookUpEdit("20231_2" , "PROD_TYPE_FILTER_1");
+         ApdkParamKeyLookUpEditF.SetColumnLookUp(dtStfList , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
 
          //STC	STC/ETC	ETC/
-         List<LookupItem> StcList = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = "STC", DisplayMember = "STC" },
-                                        new LookupItem() { ValueMember = "ETC", DisplayMember = "ETC" }};
-         ApdkParamKeyLookUpEditC.SetColumnLookUp(StcList, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor, null);
+         //List<LookupItem> StcList = new List<LookupItem>(){
+         //                               new LookupItem() { ValueMember = "STC", DisplayMember = "STC" },
+         //                               new LookupItem() { ValueMember = "ETC", DisplayMember = "ETC" }};
 
+         DataTable dtStcList = new CODW().ListLookUpEdit("20231_2" , "PROD_TYPE_FILTER_2");
+         ApdkParamKeyLookUpEditC.SetColumnLookUp(dtStcList , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
       }
 
       /// <summary>
-      /// 欄位
+      /// 幣別欄位
       /// </summary>
-      private void ApdkCurrencyType()
-      {
-         ApdkCurrencyTypeLookUpEdit.SetColumnLookUp(new COD().ListByCurrency(), "CURRENCY_TYPE", "CURRENCY_NAME", TextEditStyles.DisableTextEditor, null);
+      private void ApdkCurrencyType() {
+         DataTable dtCurrency = new CODW().ListLookUpEdit("20231_2" , "20231_CURRENCY_TYPE");
+         //ApdkCurrencyTypeLookUpEdit.SetColumnLookUp(new COD().ListByCurrency() , "CURRENCY_TYPE" , "CURRENCY_NAME" , TextEditStyles.DisableTextEditor , null);
+         ApdkCurrencyTypeLookUpEdit.SetColumnLookUp(dtCurrency , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          APDK_CURRENCY_TYPE.ColumnEdit = ApdkCurrencyTypeLookUpEdit;
       }
 
       /// <summary>
       /// 盤別欄位
       /// </summary>
-      private void ApdkMarketClose()
-      {
-         ApdkMarketCloseLookUpEdit.SetColumnLookUp(new OCFG().ListAll(), "OSW_GRP", "OSW_GRP_NAME", TextEditStyles.DisableTextEditor, null);
+      private void ApdkMarketClose() {
+         ApdkMarketCloseLookUpEdit.SetColumnLookUp(new OCFG().ListAll() , "OSW_GRP" , "OSW_GRP_NAME" , TextEditStyles.DisableTextEditor , null);
          APDK_MARKET_CLOSE.ColumnEdit = ApdkMarketCloseLookUpEdit;
       }
 
       /// <summary>
       /// 一般/小型 欄位
       /// </summary>
-      private void ApdkRemark()
-      {
-         List<LookupItem> remarkList = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = " ", DisplayMember = "一般"},
-                                        new LookupItem() { ValueMember = "M", DisplayMember = "小型"},
-                                        new LookupItem() { ValueMember = " ", DisplayMember = " " }};
-         ApdkRemarkLookUpEdit.SetColumnLookUp(remarkList, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor, null);
+      private void ApdkRemark() {
+         //List<LookupItem> remarkList = new List<LookupItem>(){
+         //                               new LookupItem() { ValueMember = " ", DisplayMember = "一般"},
+         //                               new LookupItem() { ValueMember = "M", DisplayMember = "小型"},
+         //                               new LookupItem() { ValueMember = " ", DisplayMember = " " }};
+
+         DataTable dtRemarkList = new CODW().ListLookUpEdit("20231_2" , "APDK_REMARK");
+         foreach (DataRow dr in dtRemarkList.Rows) {
+            if (dr["CODW_ID"].AsString() == "N") {
+               dr["CODW_ID"] = " ";
+            }
+         }
+         ApdkRemarkLookUpEdit.SetColumnLookUp(dtRemarkList , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          APDK_REMARK.ColumnEdit = ApdkRemarkLookUpEdit;
       }
 
       /// <summary>
       /// 上市/上櫃欄位
       /// </summary>
-      private void UnderlyingMarket()
-      {
-         List<LookupItem> UnderlyingMarketList = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = "1", DisplayMember = "上市"},
-                                        new LookupItem() { ValueMember = "2", DisplayMember = "上櫃"},
-                                        new LookupItem() { ValueMember = " ", DisplayMember = " " }};
-         ApdkUnderlyingMarketLookUpEdit.SetColumnLookUp(UnderlyingMarketList, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor, null);
+      private void UnderlyingMarket() {
+         //List<LookupItem> UnderlyingMarketList = new List<LookupItem>(){
+         //                               new LookupItem() { ValueMember = "1", DisplayMember = "上市"},
+         //                               new LookupItem() { ValueMember = "2", DisplayMember = "上櫃"},
+         //                               new LookupItem() { ValueMember = " ", DisplayMember = " " }};
+
+         DataTable dtUnderlyingMarketList = new CODW().ListLookUpEdit("20231_2" , "UNDERLYING_MARKET");
+         ApdkUnderlyingMarketLookUpEdit.SetColumnLookUp(dtUnderlyingMarketList , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          APDK_UNDERLYING_MARKET.ColumnEdit = ApdkUnderlyingMarketLookUpEdit;
       }
 
       /// <summary>
       /// 商品對照類別欄位
       /// </summary>
-      private void ApdkParamKey()
-      {
-         List<LookupItem> pkList = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = " ", DisplayMember = " " }};
-         ApdkParamKeyLookUpEditC.SetColumnLookUp(pkList, "ValueMember", "DisplayMember", TextEditStyles.Standard, null);
-         APDK_PARAM_KEY.ColumnEdit = ApdkParamKeyLookUpEditC;
-      }
+      //private void ApdkParamKey() {
+      //   List<LookupItem> pkList = new List<LookupItem>(){
+      //                                  new LookupItem() { ValueMember = " ", DisplayMember = " " }};
+      //   ApdkParamKeyLookUpEdit.SetColumnLookUp(pkList , "ValueMember" , "DisplayMember" , TextEditStyles.Standard , null);
+      //   APDK_PARAM_KEY.ColumnEdit = ApdkParamKeyLookUpEdit;
+      //}
 
       /// <summary>
       /// 商品子類別欄位
       /// </summary>
-      private void ApdkProdSubtype()
-      {
-         DataTable apdkListCol = new COD().ListByCol("APDK", "APDK_PROD_SUBTYPE");
-         apdkListCol.Rows.RemoveAt(0);
-         ApdkProdSubtypeLookUpEdit.SetColumnLookUp(apdkListCol, "COD_ID", "COD_DESC", TextEditStyles.DisableTextEditor, null);
+      private void ApdkProdSubtype() {
+         //DataTable apdkListCol = new COD().ListByCol("APDK" , "APDK_PROD_SUBTYPE");
+         //apdkListCol.Rows.RemoveAt(0);
+
+         DataTable apdkListCol = new CODW().ListLookUpEdit("20231_2" , "APDK_PROD_SUBTYPE");
+         ApdkProdSubtypeLookUpEdit.SetColumnLookUp(apdkListCol , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          APDK_PROD_SUBTYPE.ColumnEdit = ApdkProdSubtypeLookUpEdit;
       }
 
       /// <summary>
       /// 系統欄位
       /// </summary>
-      private void ApdkProdType()
-      {
-         List<LookupItem> typelist = new List<LookupItem>(){
-            new LookupItem() { ValueMember = "F", DisplayMember = "期貨" },
-            new LookupItem() { ValueMember = "O", DisplayMember = "選擇權"}};
-         ApdkProdTypeLookUpEdit.SetColumnLookUp(typelist, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor, null);
+      private void ApdkProdType() {
+         //List<LookupItem> typelist = new List<LookupItem>(){
+         //   new LookupItem() { ValueMember = "F", DisplayMember = "期貨" },
+         //   new LookupItem() { ValueMember = "O", DisplayMember = "選擇權"}};
+
+         DataTable dtTypelist = new CODW().ListLookUpEdit("20231_2" , "APDK_PROD_TYPE");
+         ApdkProdTypeLookUpEdit.SetColumnLookUp(dtTypelist , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          APDK_PROD_TYPE.ColumnEdit = ApdkProdTypeLookUpEdit;
       }
 
@@ -156,8 +163,7 @@ namespace PhoenixCI.FormUI.Prefix2
       /// Enabled(存檔/刪除/列印) GridView按鈕
       /// </summary>
       /// <param name="flag"></param>
-      private void EnabledGridViewBtn(bool flag)
-      {
+      private void EnabledGridViewBtn(bool flag) {
          gcMain.Visible = flag;
          _ToolBtnSave.Enabled = flag;
          _ToolBtnDel.Enabled = flag;
@@ -167,8 +173,7 @@ namespace PhoenixCI.FormUI.Prefix2
       /// <summary>
       /// 沒有新增資料時,則自動新增內容
       /// </summary>
-      private void StartShowGridView()
-      {
+      private void StartShowGridView() {
          DataTable data = StartGridViewData();
          //沒有新增資料時,則自動新增內容
          if (data.Rows.Count == 0) {
@@ -184,13 +189,12 @@ namespace PhoenixCI.FormUI.Prefix2
       /// 存檔前再把型別轉回datatime
       /// </summary>
       /// <returns></returns>
-      private DataTable StartGridViewData()
-      {
+      private DataTable StartGridViewData() {
          DataTable returnTable = dao20231.ListApdkData();
          DataTable dtCloned = dao20231.ListApdkData().Clone();
          //編輯 時間格式轉為字串
          dtCloned.Columns["APDK_BEGIN_DATE"].DataType = typeof(string);
-         for (int k = 0; k < returnTable.Rows.Count; k++) {
+         for (int k = 0 ; k < returnTable.Rows.Count ; k++) {
             dtCloned.Rows.Add(dtCloned.NewRow());
             foreach (DataColumn col in returnTable.Columns) {
                if (col.ColumnName == "APDK_BEGIN_DATE") {
@@ -205,8 +209,7 @@ namespace PhoenixCI.FormUI.Prefix2
          return dtCloned;
       }
 
-      protected override ResultStatus Retrieve()
-      {
+      protected override ResultStatus Retrieve() {
          base.Retrieve(gcMain);
          DataTable returnTable = dao20231.ListApdkData();
          //沒有資料時,則隱藏GridView
@@ -214,8 +217,7 @@ namespace PhoenixCI.FormUI.Prefix2
             EnabledGridViewBtn(false);
             MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
             return ResultStatus.Success;
-         }
-         else {
+         } else {
             EnabledGridViewBtn(true);
          }
 
@@ -224,8 +226,7 @@ namespace PhoenixCI.FormUI.Prefix2
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus InsertRow()
-      {
+      protected override ResultStatus InsertRow() {
          //隱藏GridView時 按下新增同時顯示GridView
          if (gcMain.Visible == false) {
             StartShowGridView();
@@ -241,7 +242,7 @@ namespace PhoenixCI.FormUI.Prefix2
             return ResultStatus.FailButNext;
          }
 
-         dt.Rows.InsertAt(dt.NewRow(), focusIndex);
+         dt.Rows.InsertAt(dt.NewRow() , focusIndex);
          gcMain.DataSource = dt;//重新設定給grid,雖然會更新但是速度太快,畫面不會閃爍
          gvMain.FocusedRowHandle = focusIndex;//原本的focusRowHandle會記住之前的位置,其實只是往上一行
          gvMain.FocusedColumn = gvMain.Columns[0];
@@ -254,15 +255,13 @@ namespace PhoenixCI.FormUI.Prefix2
       /// <param name="dt"></param>
       /// <param name="dr"></param>
       /// <param name="colName"></param>
-      private void SetFocused(DataTable dt, DataRow dr, string colName)
-      {
+      private void SetFocused(DataTable dt , DataRow dr , string colName) {
          gvMain.FocusedRowHandle = dt.Rows.IndexOf(dr);
          gvMain.FocusedColumn = gvMain.Columns[colName];
          gvMain.ShowEditor();
       }
 
-      protected override ResultStatus Save(PokeBall poke)
-      {
+      protected override ResultStatus Save(PokeBall poke) {
          gvMain.CloseEditor();
          gvMain.UpdateCurrentRow();
 
@@ -278,7 +277,7 @@ namespace PhoenixCI.FormUI.Prefix2
             //轉換原資料表型態
             DataTable insertData = dt;
             DataTable data = dao20231.ListApdkData().Clone();//dw_1.reset()
-            for (int k = 0; k < insertData.Rows.Count; k++) {
+            for (int k = 0 ; k < insertData.Rows.Count ; k++) {
                DataRow insertDr = insertData.Rows[k];
 
                data.Rows.Add(data.NewRow());
@@ -287,9 +286,9 @@ namespace PhoenixCI.FormUI.Prefix2
                   //APDK_BEGIN_DATE String 轉 Date
                   if (col.ColumnName == "APDK_BEGIN_DATE") {
                      DateTime dateTime;
-                     if (!DateTime.TryParse(insertDr["APDK_BEGIN_DATE"].ToString(), out dateTime)) {
+                     if (!DateTime.TryParse(insertDr["APDK_BEGIN_DATE"].ToString() , out dateTime)) {
                         MessageDisplay.Error(insertDr["APDK_BEGIN_DATE"].ToString() + "日期格式錯誤!");
-                        SetFocused(insertData, insertDr, "APDK_BEGIN_DATE");
+                        SetFocused(insertData , insertDr , "APDK_BEGIN_DATE");
                         return ResultStatus.FailButNext;
                      }
                      dr[col.ColumnName] = insertDr[col.ColumnName].AsDateTime("yyyy/MM/dd");
@@ -299,7 +298,7 @@ namespace PhoenixCI.FormUI.Prefix2
                   if ((insertDr[col.ColumnName] == DBNull.Value || string.IsNullOrEmpty(insertDr[col.ColumnName].ToString())) &&
                      gvMain.Columns[col.ColumnName] != null) {
                      MessageDisplay.Warning($"[{gvMain.Columns[col.ColumnName].Caption}]資料未填寫完成，請確認!!");
-                     SetFocused(insertData, insertDr, col.ColumnName);
+                     SetFocused(insertData , insertDr , col.ColumnName);
                      return ResultStatus.FailButNext;
                   }
                   dr[col.ColumnName] = insertDr[col.ColumnName];
@@ -310,7 +309,7 @@ namespace PhoenixCI.FormUI.Prefix2
 
             //填補剩餘必填欄位
             foreach (DataRow dr in data.Rows) {
-               string kindidsub2 = dr["APDK_KIND_ID"].AsString().SubStr(0, 2);
+               string kindidsub2 = dr["APDK_KIND_ID"].AsString().SubStr(0 , 2);
                dr["APDK_KIND_ID_STO"] = kindidsub2;
                dr["APDK_QUOTE_CODE"] = "Y";
                dr["APDK_KIND_ID2"] = kindidsub2;
@@ -325,16 +324,14 @@ namespace PhoenixCI.FormUI.Prefix2
                try {
                   //儲存至DB
                   ResultData myResultData = dao20231.UpdateAPDK(data);
-               }
-               catch (Exception ex) {
+               } catch (Exception ex) {
                   WriteLog(ex);
                }
                //存檔完列印結果
-               ReportHelper ReportHelper = new ReportHelper(gcMain, "20231", "[20231] 部位限制個股類標的轉入－新增個股契約基本資料");
+               ReportHelper ReportHelper = new ReportHelper(gcMain , "20231" , "[20231] 部位限制個股類標的轉入－新增個股契約基本資料");
                Print(ReportHelper);
-            }
-            else {
-               MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            } else {
+               MessageBox.Show("沒有變更資料,不需要存檔!" , "注意" , MessageBoxButtons.OK , MessageBoxIcon.Exclamation);
             }
 
          }
@@ -342,38 +339,33 @@ namespace PhoenixCI.FormUI.Prefix2
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus COMPLETE()
-      {
+      protected override ResultStatus COMPLETE() {
          //不做任何事
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Print(ReportHelper ReportHelper)
-      {
+      protected override ResultStatus Print(ReportHelper ReportHelper) {
          try {
-            ReportHelper = new ReportHelper(gcMain, "20231", "[20231] 部位限制個股類標的轉入－新增個股契約基本資料");
+            ReportHelper = new ReportHelper(gcMain , "20231" , "[20231] 部位限制個股類標的轉入－新增個股契約基本資料");
             CommonReportLandscapeA4 reportLandscape = new CommonReportLandscapeA4();//設定為橫向列印
             reportLandscape.IsHandlePersonVisible = false;
             reportLandscape.IsManagerVisible = false;
             ReportHelper.Create(reportLandscape);
             ReportHelper.Print();
-            ReportHelper.Export(FileType.PDF, ReportHelper.FilePath);
+            ReportHelper.Export(FileType.PDF , ReportHelper.FilePath);
 
-         }
-         catch (Exception ex) {
+         } catch (Exception ex) {
             throw ex;
          }
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus DeleteRow()
-      {
+      protected override ResultStatus DeleteRow() {
          base.DeleteRow(gvMain);
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus ActivatedForm()
-      {
+      protected override ResultStatus ActivatedForm() {
          base.ActivatedForm();
 
          _ToolBtnRetrieve.Enabled = true;
@@ -383,25 +375,22 @@ namespace PhoenixCI.FormUI.Prefix2
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Open()
-      {
+      protected override ResultStatus Open() {
          base.Open();
          //進入程式就直接載入GridView
          StartShowGridView();
          return ResultStatus.Success;
       }
 
-      private void gvMain_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
-      {
+      private void gvMain_CellValueChanged(object sender , DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e) {
          GridView gv = sender as GridView;
          switch (e.Column.FieldName) {
             //原PB設計[開始交易日期]輸入後檢查日期格式 只跳警示訊息 在按存檔時又會檢查一次
             case "APDK_BEGIN_DATE":
                DateTime dateTime;
-               if (DateTime.TryParse(e.Value.ToString(), out dateTime)) {
+               if (DateTime.TryParse(e.Value.ToString() , out dateTime)) {
                   return;
-               }
-               else {
+               } else {
                   MessageDisplay.Warning(e.Value.ToString() + "日期格式錯誤!");
                   gv.FocusedRowHandle = e.RowHandle;
                   gv.FocusedColumn = gv.Columns[e.Column.FieldName];
@@ -412,12 +401,11 @@ namespace PhoenixCI.FormUI.Prefix2
             case "APDK_PROD_SUBTYPE":
             case "APDK_KIND_ID":
                //[商品子類別]不等於股票類[商品對照類別]自動帶入[商品3碼]的值
-               if (gv.GetRowCellValue(e.RowHandle, gv.Columns["APDK_PROD_SUBTYPE"]).AsString() != "S") {
-                  gv.SetRowCellValue(e.RowHandle, gv.Columns["APDK_PARAM_KEY"], gv.GetRowCellValue(e.RowHandle, gv.Columns["APDK_KIND_ID"]));
-               }
-               else {
+               if (gv.GetRowCellValue(e.RowHandle , gv.Columns["APDK_PROD_SUBTYPE"]).AsString() != "S") {
+                  gv.SetRowCellValue(e.RowHandle , gv.Columns["APDK_PARAM_KEY"] , gv.GetRowCellValue(e.RowHandle , gv.Columns["APDK_KIND_ID"]));
+               } else {
                   //[商品子類別]等於股票類[商品對照類別]選擇前先清空
-                  gv.SetRowCellValue(e.RowHandle, gv.Columns["APDK_PARAM_KEY"], DBNull.Value);
+                  gv.SetRowCellValue(e.RowHandle , gv.Columns["APDK_PARAM_KEY"] , DBNull.Value);
                }
                return;
             default:
@@ -425,25 +413,24 @@ namespace PhoenixCI.FormUI.Prefix2
          }
       }
 
-      private void gvMain_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e)
-      {
+      private void gvMain_CustomRowCellEdit(object sender , CustomRowCellEditEventArgs e) {
          GridView gv = sender as GridView;
          switch (e.Column.FieldName) {
             case "APDK_PARAM_KEY"://[商品對照類別]
                //[商品子類別]選擇為股票且[系統]選擇為期貨
-               if (gv.GetRowCellValue(e.RowHandle, gv.Columns["APDK_PROD_SUBTYPE"]).AsString() == "S"
-                  && gv.GetRowCellValue(e.RowHandle, gv.Columns["APDK_PROD_TYPE"]).AsString() == "F") {
+               if (gv.GetRowCellValue(e.RowHandle , gv.Columns["APDK_PROD_SUBTYPE"]).AsString() == "S"
+                  && gv.GetRowCellValue(e.RowHandle , gv.Columns["APDK_PROD_TYPE"]).AsString() == "F") {
                   e.RepositoryItem = ApdkParamKeyLookUpEditF;//期貨下拉選單
                }
                //[商品子類別]選擇為股票且[系統]選擇"不"為期貨
-               if (gv.GetRowCellValue(e.RowHandle, gv.Columns["APDK_PROD_SUBTYPE"]).AsString() == "S"
-                  && gv.GetRowCellValue(e.RowHandle, gv.Columns["APDK_PROD_TYPE"]).AsString() != "F") {
+               if (gv.GetRowCellValue(e.RowHandle , gv.Columns["APDK_PROD_SUBTYPE"]).AsString() == "S"
+                  && gv.GetRowCellValue(e.RowHandle , gv.Columns["APDK_PROD_TYPE"]).AsString() != "F") {
                   e.RepositoryItem = ApdkParamKeyLookUpEditC;//選擇權下拉選單
                }
                //[商品子類別]選擇股票以外的選項[商品對照類別]帶入[商品(3碼)]欄位的值
-               if (gv.GetRowCellValue(e.RowHandle, gv.Columns["APDK_PROD_SUBTYPE"]).AsString() != "S") {
-                  string kindid = gv.GetRowCellValue(e.RowHandle, gv.Columns["APDK_KIND_ID"]).AsString();
-                  gv.SetRowCellValue(e.RowHandle, gv.Columns["APDK_PARAM_KEY"], kindid);
+               if (gv.GetRowCellValue(e.RowHandle , gv.Columns["APDK_PROD_SUBTYPE"]).AsString() != "S") {
+                  string kindid = gv.GetRowCellValue(e.RowHandle , gv.Columns["APDK_KIND_ID"]).AsString();
+                  gv.SetRowCellValue(e.RowHandle , gv.Columns["APDK_PARAM_KEY"] , kindid);
                   e.RepositoryItem = pkTextEdit;//更換元件為TextEdit
                }
                break;
@@ -455,8 +442,7 @@ namespace PhoenixCI.FormUI.Prefix2
       /// </summary>
       /// <param name="sender"></param>
       /// <param name="e"></param>
-      private void ApdkProdSubtypeLookUpEdit_EditValueChanged(object sender, EventArgs e)
-      {
+      private void ApdkProdSubtypeLookUpEdit_EditValueChanged(object sender , EventArgs e) {
          gvMain.FocusedColumn = gvMain.Columns["APDK_PARAM_KEY"];
          gvMain.ShowEditor();
       }
@@ -466,8 +452,7 @@ namespace PhoenixCI.FormUI.Prefix2
       /// </summary>
       /// <param name="sender"></param>
       /// <param name="e"></param>
-      private void ApdkProdTypeLookUpEdit_EditValueChanged(object sender, EventArgs e)
-      {
+      private void ApdkProdTypeLookUpEdit_EditValueChanged(object sender , EventArgs e) {
          gvMain.FocusedColumn = gvMain.Columns["APDK_PARAM_KEY"];
          gvMain.ShowEditor();
       }

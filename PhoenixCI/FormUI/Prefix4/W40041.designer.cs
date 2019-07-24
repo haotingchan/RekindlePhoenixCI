@@ -180,7 +180,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
          this.prodLookItem.Properties.NullText = "";
          this.prodLookItem.Properties.PopupSizeable = false;
-         this.prodLookItem.Size = new System.Drawing.Size(150, 26);
+         this.prodLookItem.Size = new System.Drawing.Size(291, 26);
          this.prodLookItem.TabIndex = 70;
          // 
          // label2

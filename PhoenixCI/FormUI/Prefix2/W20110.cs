@@ -100,10 +100,12 @@ namespace PhoenixCI.FormUI.Prefix2 {
          gcMain.RepositoryItems.Add(ddlProd);
          AMIF_KIND_ID.ColumnEdit = ddlProd;
          //盤別下拉選單
-         List<LookupItem> ddlb_grp = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = "1", DisplayMember = "16:15收盤"},
-                                        new LookupItem() { ValueMember = "2", DisplayMember = "全部收盤" }};
-         Extension.SetDataTable(ddlType , ddlb_grp , "ValueMember" , "DisplayMember" , TextEditStyles.DisableTextEditor , "");
+         //List<LookupItem> ddlb_grp = new List<LookupItem>(){
+         //                               new LookupItem() { ValueMember = "1", DisplayMember = "16:15收盤"},
+         //                               new LookupItem() { ValueMember = "2", DisplayMember = "全部收盤" }};
+
+         DataTable dtGrp = new CODW().ListLookUpEdit("20110", "20110_DDLB_GRP");
+         Extension.SetDataTable(ddlType , dtGrp , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
          #endregion
 
 #if DEBUG

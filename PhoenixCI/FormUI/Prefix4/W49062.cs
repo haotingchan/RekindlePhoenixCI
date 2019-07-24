@@ -2,6 +2,7 @@
 using BaseGround.Shared;
 using BusinessObjects.Enums;
 using Common;
+using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DevExpress.Spreadsheet;
 using DevExpress.XtraEditors.Controls;
@@ -73,8 +74,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
             dwFId.ItemIndex = 0;
 
             //契約種類
-            DataTable dtKindId = dao49062.GetMgt8KindFIdList(); //kind_type/kind_name/cod_seq_no 3 fields 
-            dwKindId.SetDataTable(dtKindId , "KIND_TYPE" , "KIND_NAME" , TextEditStyles.DisableTextEditor);
+            //DataTable dtKindId = dao49062.GetMgt8KindFIdList(); //kind_type/kind_name/cod_seq_no 3 fields 
+            DataTable dtKindId = new CODW().ListLookUpEdit("49062", "49062_KIND_TYPE") ; //kind_type/kind_name/cod_seq_no 3 fields 
+            dwKindId.SetDataTable(dtKindId , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor);
             dwKindId.ItemIndex = 0;
 
             return ResultStatus.Success;

@@ -4,6 +4,7 @@ using BaseGround.Shared;
 using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
+using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DataObjects.Dao.Together.TableDao;
 using DevExpress.Utils;
@@ -47,18 +48,32 @@ namespace PhoenixCI.FormUI.Prefix4 {
             lupDataType = new RepositoryItemLookUpEdit();
 
             //收盤群組
-            List<LookupItem> dtOswGrp = new List<LookupItem>(){
-                                            new LookupItem() { ValueMember = " ", DisplayMember = " "},
-                                            new LookupItem() { ValueMember = "1", DisplayMember = "Group 1"},
-                                            new LookupItem() { ValueMember = "5", DisplayMember = "Group 2"}};
-            lupOswGrp.SetColumnLookUp(dtOswGrp , "ValueMember" , "DisplayMember" , TextEditStyles.DisableTextEditor , null);
+            //List<LookupItem> dtOswGrp = new List<LookupItem>(){
+            //                                new LookupItem() { ValueMember = " ", DisplayMember = " "},
+            //                                new LookupItem() { ValueMember = "1", DisplayMember = "Group 1"},
+            //                                new LookupItem() { ValueMember = "5", DisplayMember = "Group 2"}};
+
+            DataTable dtOswGrp = new CODW().ListLookUpEdit("49070", "49070_OSW_GRP");
+            foreach (DataRow dr in dtOswGrp.Rows) {
+               if (dr["CODW_ID"].AsString() == "0") {
+                  dr["CODW_ID"] = " ";
+               }
+            }
+            lupOswGrp.SetColumnLookUp(dtOswGrp , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
             gcMain.RepositoryItems.Add(lupOswGrp);
 
             //商品狀態
-            List<LookupItem> dtDataType = new List<LookupItem>(){
-                                            new LookupItem() { ValueMember = " ", DisplayMember = " "},
-                                            new LookupItem() { ValueMember = "E", DisplayMember = "下市"}};
-            lupDataType.SetColumnLookUp(dtDataType , "ValueMember" , "DisplayMember" , TextEditStyles.DisableTextEditor , null);
+            //List<LookupItem> dtDataType = new List<LookupItem>(){
+            //                                new LookupItem() { ValueMember = " ", DisplayMember = " "},
+            //                                new LookupItem() { ValueMember = "E", DisplayMember = "下市"}};
+
+            DataTable dtDataType = new CODW().ListLookUpEdit("49070" , "49070_DATA_TYPE");
+            foreach (DataRow dr in dtOswGrp.Rows) {
+               if (dr["CODW_ID"].AsString() == "N") {
+                  dr["CODW_ID"] = " ";
+               }
+            }
+            lupDataType.SetColumnLookUp(dtDataType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
             gcMain.RepositoryItems.Add(lupDataType);
 
             Retrieve();

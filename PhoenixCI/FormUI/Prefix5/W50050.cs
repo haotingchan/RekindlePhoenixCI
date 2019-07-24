@@ -54,6 +54,24 @@ namespace PhoenixCI.FormUI.Prefix5 {
          DataTable dtProd = new APDK().ListAll3();//第一行空白+ abrk_abrk_name/cp_display
          dwProd.SetDataTable(dtProd , "PDK_KIND_ID" , "PDK_KIND_ID" , TextEditStyles.DisableTextEditor , "");
 
+         //買賣權
+         DataTable dtCP = new CODW().ListLookUpEdit("50050" , "50050_DDLB_1");
+         foreach (DataRow dr in dtCP.Rows) {
+            if (dr["CODW_ID"].AsString() == "N") {
+               dr["CODW_ID"] = " ";
+            }
+         }
+         ddlb_1.SetDataTable(dtCP , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
+
+         //檔內外檔數
+         DataTable dtOI = new CODW().ListLookUpEdit("50050" , "50050_DDLB_2");
+         foreach (DataRow dr in dtOI.Rows) {
+            if (dr["CODW_ID"].AsString() == "none") {
+               dr["CODW_ID"] = " ";
+            }
+         }
+         ddlb_2.SetDataTable(dtOI , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
+
          return ResultStatus.Success;
       }
 

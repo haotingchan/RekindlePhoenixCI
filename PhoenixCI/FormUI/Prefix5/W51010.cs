@@ -14,6 +14,7 @@ using DevExpress.XtraEditors.Controls;
 using System.Drawing;
 using System.Linq;
 using System.Collections.Generic;
+using DataObjects.Dao.Together;
 
 /// <summary>
 /// david 2019/03/18
@@ -37,21 +38,23 @@ namespace PhoenixCI.FormUI.Prefix5 {
          this.Text = _ProgramID + "─" + _ProgramName;
 
          //日期類別 是否交易 兩個欄位要換成LookUpEdit
-         List<LookupItem> workTime = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = "W", DisplayMember = "W:上班日"},
-                                        new LookupItem() { ValueMember = "H", DisplayMember = "H:假日"}};
+         //List<LookupItem> workTime = new List<LookupItem>(){
+         //                               new LookupItem() { ValueMember = "W", DisplayMember = "W:上班日"},
+         //                               new LookupItem() { ValueMember = "H", DisplayMember = "H:假日"}};
 
+         DataTable dtWorkTime = new CODW().ListLookUpEdit("51010" , "51010_DTS_DATE_TYPE");
          _RepLookUpEdit = new RepositoryItemLookUpEdit();
-         _RepLookUpEdit.SetColumnLookUp(workTime , "ValueMember" , "DisplayMember" , TextEditStyles.DisableTextEditor , null);
+         _RepLookUpEdit.SetColumnLookUp(dtWorkTime , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          gcMain.RepositoryItems.Add(_RepLookUpEdit);
          DTS_DATE_TYPE.ColumnEdit = _RepLookUpEdit;
 
-         List<LookupItem> isTransation = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = "Y", DisplayMember = "Y"},
-                                        new LookupItem() { ValueMember = "N", DisplayMember = "N"}};
+         //List<LookupItem> isTransation = new List<LookupItem>(){
+         //                               new LookupItem() { ValueMember = "Y", DisplayMember = "Y"},
+         //                               new LookupItem() { ValueMember = "N", DisplayMember = "N"}};
 
+         DataTable dtTransation = new CODW().ListLookUpEdit("51010" , "51010_DTS_WORK");
          _RepLookUpEdit2 = new RepositoryItemLookUpEdit();
-         _RepLookUpEdit2.SetColumnLookUp(isTransation , "ValueMember" , "DisplayMember" , TextEditStyles.DisableTextEditor , null);
+         _RepLookUpEdit2.SetColumnLookUp(dtTransation , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          gcMain.RepositoryItems.Add(_RepLookUpEdit2);
          DTS_WORK.ColumnEdit = _RepLookUpEdit2;
 

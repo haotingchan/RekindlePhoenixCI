@@ -4,6 +4,7 @@ using BaseGround.Shared;
 using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
+using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DataObjects.Dao.Together.TableDao;
 using DevExpress.XtraEditors.Controls;
@@ -80,12 +81,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          #region 下拉選單設定
          //調整倍數下拉選單
-         List<LookupItem> rateList = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = "1.5", DisplayMember = "1.5"},
-                                        new LookupItem() { ValueMember = "2", DisplayMember = "2"},
-                                        new LookupItem() { ValueMember = "3", DisplayMember = "3" }};
+         //List<LookupItem> rateList = new List<LookupItem>(){
+         //                               new LookupItem() { ValueMember = "1.5", DisplayMember = "1.5"},
+         //                               new LookupItem() { ValueMember = "2", DisplayMember = "2"},
+         //                               new LookupItem() { ValueMember = "3", DisplayMember = "3" }};
+
+         DataTable dtRateList = new CODW().ListLookUpEdit("40072" , "40072_RATE");
          rateLookUpEdit = new RepositoryItemLookUpEdit();
-         rateLookUpEdit.SetColumnLookUp(rateList , "ValueMember" , "DisplayMember" , TextEditStyles.DisableTextEditor , null);
+         rateLookUpEdit.SetColumnLookUp(dtRateList , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          gcMain.RepositoryItems.Add(rateLookUpEdit);
          RATE_INPUT.ColumnEdit = rateLookUpEdit;
 

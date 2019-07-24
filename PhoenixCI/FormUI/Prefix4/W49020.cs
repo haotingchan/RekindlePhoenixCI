@@ -53,42 +53,46 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             #region 下拉選單設定
             //商品別
-            List<LookupItem> prodTypeList = new List<LookupItem>(){
-                                            new LookupItem() { ValueMember = "F", DisplayMember = "F：期貨"},
-                                            new LookupItem() { ValueMember = "O", DisplayMember = "O：選擇權"}};
+            //List<LookupItem> prodTypeList = new List<LookupItem>(){
+            //                                new LookupItem() { ValueMember = "F", DisplayMember = "F：期貨"},
+            //                                new LookupItem() { ValueMember = "O", DisplayMember = "O：選擇權"}};
             lupProdType = new RepositoryItemLookUpEdit();
-            lupProdType.SetColumnLookUp(prodTypeList , "ValueMember" , "DisplayMember" , TextEditStyles.DisableTextEditor , null);
+            DataTable dtProdType = new CODW().ListLookUpEdit("49020", "49020_PROD_TYPE");
+            lupProdType.SetColumnLookUp(dtProdType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
             gcMain.RepositoryItems.Add(lupProdType);
 
             //契約類別
             lupProdSubtypeCod = new RepositoryItemLookUpEdit();
-            DataTable dtProdSubtypeCod = cod.ListByCol2("49020" , "PDK_SUBTYPE");
-            Extension.SetColumnLookUp(lupProdSubtypeCod , dtProdSubtypeCod , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
+            //DataTable dtProdSubtypeCod = cod.ListByCol2("49020" , "PDK_SUBTYPE");
+            DataTable dtProdSubtypeCod = new CODW().ListLookUpEdit("49020" , "49020_PDK_SUBTYPE");
+            Extension.SetColumnLookUp(lupProdSubtypeCod , dtProdSubtypeCod , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
             gcMain.RepositoryItems.Add(lupProdSubtypeCod);
 
-
-            //商品狀態 (改成讀cod)
+            //商品狀態
             lupDataType = new RepositoryItemLookUpEdit();
-            DataTable dataTypeList = cod.ListByCol("49020" , "MGT2_DATA_TYPE");
-            Extension.SetColumnLookUp(lupDataType , dataTypeList , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
+            //DataTable dataTypeList = cod.ListByCol("49020" , "MGT2_DATA_TYPE");
+            DataTable dataTypeList = new CODW().ListLookUpEdit("49020" , "49020_DATA_TYPE");
+            Extension.SetColumnLookUp(lupDataType , dataTypeList , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
             gcMain.RepositoryItems.Add(lupDataType);
 
             //風險價格係數計算方式
             lupCpKind = new RepositoryItemLookUpEdit();
-            DataTable dtCpKind = dao49020.GetCpKind("MGT2" , "MGT2_CP_KIND");
-            Extension.SetColumnLookUp(lupCpKind , dtCpKind , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
+            //DataTable dtCpKind = dao49020.GetCpKind("MGT2" , "MGT2_CP_KIND");
+            DataTable dtCpKind = new CODW().ListLookUpEdit("49020" , "MGT2_CP_KIND");
+            Extension.SetColumnLookUp(lupCpKind , dtCpKind , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
             gcMain.RepositoryItems.Add(lupCpKind);
 
             //國內/國外類別
-            //此處國內/外下拉清單 於CI.MGT2參數為(國內 : " "  國外: "Y") CI.COD參數為(國內 : ""  國外: "Y")
+            //此處國內/外下拉清單 於CI.MGT2參數為(國內 : " "  國外: "Y") CI.CODW參數為(國內 : "N"  國外: "Y")
             lupAbroad = new RepositoryItemLookUpEdit();
-            DataTable dtAbroad = cod.ListByCol2("MGT2" , "MGT2_ABROAD");
+            //DataTable dtAbroad = cod.ListByCol2("MGT2" , "MGT2_ABROAD");
+            DataTable dtAbroad = new CODW().ListLookUpEdit("49020" , "49020_MGT2_ABROAD");
             foreach (DataRow dr in dtAbroad.Rows) {
-               if (dr["cod_id"] == DBNull.Value) {
-                  dr["cod_id"] = " ";
+               if (dr["CODW_ID"].AsString() == "N") {
+                  dr["CODW_ID"] = " ";
                }
             }
-            Extension.SetColumnLookUp(lupAbroad , dtAbroad , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
+            Extension.SetColumnLookUp(lupAbroad , dtAbroad , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
             gcMain.RepositoryItems.Add(lupAbroad);
             #endregion
 

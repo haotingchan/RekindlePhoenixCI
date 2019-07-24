@@ -37,8 +37,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             dao48030 = new D48030();
 
-            DataTable dtSubType = new COD().ListByCol("48010" , "PDK_SUBTYPE" , "全選" , "%");
-            cbxSubType.SetDataTable(dtSubType , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor);
+            //DataTable dtSubType = new COD().ListByCol("48010" , "PDK_SUBTYPE" , "全選" , "%");
+            DataTable dtSubType = new CODW().ListLookUpEdit("48030" , "48030_PDK_SUBTYPE");
+            cbxSubType.SetDataTable(dtSubType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor);
 
          } catch (Exception ex) {
             WriteLog(ex);

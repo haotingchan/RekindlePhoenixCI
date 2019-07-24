@@ -4,6 +4,7 @@ using BaseGround.Shared;
 using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
+using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DataObjects.Dao.Together.TableDao;
 using DevExpress.Utils;
@@ -50,8 +51,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
             dao49010 = new D49010();
 
             //契約類別
-            DataTable dtProdSubtype = dao49010.GetDdlProdSubtype();
-            Extension.SetColumnLookUp(lupProdSubtype , dtProdSubtype , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor);
+            //DataTable dtProdSubtype = dao49010.GetDdlProdSubtype();
+            DataTable dtProdSubtype = new CODW().ListLookUpEdit("49010", "49010_PDK_SUBTYPE");
+            Extension.SetColumnLookUp(lupProdSubtype , dtProdSubtype , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor);
             gcMain.RepositoryItems.Add(lupProdSubtype);
 
             //契約代號

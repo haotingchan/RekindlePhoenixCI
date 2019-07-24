@@ -189,15 +189,76 @@ from (
 
          string sql = @"
 select 
-    trim(codw_id) as codw_id,
-    trim(codw_desc) as codw_desc,
-    codw_seq_no
+   trim(codw_id) as codw_id,
+   trim(codw_desc) as codw_desc,
+   codw_seq_no
 from ci.codw
-where trim(codw_txn_id) = :codw_txn_id
-and trim(codw_col_id) = :codw_col_id
+where trim(codw_txn_id) = :CODW_TXN_ID
+and trim(codw_col_id) = :CODW_COL_ID
 order by codw_seq_no
 ";
 
+         DataTable dtResult = db.GetDataTable(sql , parms);
+
+         return dtResult;
+      }
+
+      /// <summary>
+      /// lookupedit from ci.codw (加入組合欄位)
+      /// </summary>
+      /// <param name="CODW_TXN_ID">功能代號</param>
+      /// <param name="CODW_COL_ID"></param>
+      /// <returns>codw_id/codw_desc/codw_seq_no/cp_display</returns>
+      public DataTable ListLookUpEdit2(string CODW_TXN_ID , string CODW_COL_ID) {
+
+         object[] parms =
+{
+                ":CODW_TXN_ID", CODW_TXN_ID,
+                ":CODW_COL_ID", CODW_COL_ID
+            };
+
+         string sql = @"
+select 
+   trim(codw_id) as codw_id,
+   trim(codw_desc) as codw_desc,
+   codw_seq_no,
+   trim(codw_id) || ' : ' || trim(codw_desc) as cp_display
+from ci.codw
+where trim(codw_txn_id) = :CODW_TXN_ID
+and trim(codw_col_id) = :CODW_COL_ID
+order by codw_seq_no
+
+";
+         DataTable dtResult = db.GetDataTable(sql , parms);
+
+         return dtResult;
+      }
+
+      /// <summary>
+      /// lookupedit from ci.codw (加入組合欄位)
+      /// </summary>
+      /// <param name="CODW_TXN_ID">功能代號</param>
+      /// <param name="CODW_COL_ID"></param>
+      /// <returns>codw_id/codw_desc/codw_seq_no/cp_display</returns>
+      public DataTable ListLookUpEdit3(string CODW_TXN_ID , string CODW_COL_ID) {
+
+         object[] parms =
+{
+                ":CODW_TXN_ID", CODW_TXN_ID,
+                ":CODW_COL_ID", CODW_COL_ID
+            };
+
+         string sql = @"
+select 
+   trim(codw_id) as codw_id,
+   trim(codw_desc) as codw_desc,
+   codw_seq_no,
+   '('|| trim(codw_id) ||')'|| trim(codw_desc) as cp_display
+from ci.codw
+where trim(codw_txn_id) = :CODW_TXN_ID
+and trim(codw_col_id) = :CODW_COL_ID
+order by codw_seq_no
+";
          DataTable dtResult = db.GetDataTable(sql , parms);
 
          return dtResult;

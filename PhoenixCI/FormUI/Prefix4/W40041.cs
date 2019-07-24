@@ -30,15 +30,17 @@ namespace PhoenixCI.FormUI.Prefix4 {
          this.Text = _ProgramID + "─" + _ProgramName;
          txtDate.DateTimeValue = DateTime.Now;
 
-         oswGrpLookItem.SetDataTable(new OCFG().ListAll() , "OSW_GRP" , "OSW_GRP_NAME" , DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor , null);
-         oswGrpLookItem.EditValue = "1";
+         oswGrpLookItem.SetDataTable(new OCFG().ListAll() , "OSW_GRP" , "OSW_GRP_NAME" , TextEditStyles.DisableTextEditor , null);
+         oswGrpLookItem.ItemIndex = 0;
 
          //設定 下拉選單
-         List<LookupItem> prodGrp = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = "Y", DisplayMember = "1-當日達得調整標準之契約"},
-                                        new LookupItem() { ValueMember = "%", DisplayMember = "%-全部契約" }};
-         prodLookItem.SetDataTable(prodGrp , "ValueMember" , "DisplayMember" , DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor , null);
-         prodLookItem.EditValue = "Y";
+         //List<LookupItem> prodGrp = new List<LookupItem>(){
+         //                               new LookupItem() { ValueMember = "Y", DisplayMember = "1-當日達得調整標準之契約"},
+         //                               new LookupItem() { ValueMember = "%", DisplayMember = "%-全部契約" }};
+
+         DataTable dtProd = new CODW().ListLookUpEdit("40041" , "40041_DATA_TYPE");
+         prodLookItem.SetDataTable(dtProd , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
+         prodLookItem.ItemIndex = 0; // Y
 
 #if DEBUG
          txtDate.DateTimeValue = ("2018/11/01").AsDateTime();

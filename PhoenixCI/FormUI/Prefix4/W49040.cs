@@ -4,6 +4,7 @@ using BaseGround.Shared;
 using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
+using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.TableDao;
 using DevExpress.Utils;
 using DevExpress.XtraEditors.Controls;
@@ -42,23 +43,24 @@ namespace PhoenixCI.FormUI.Prefix4 {
          lupType = new RepositoryItemLookUpEdit();
 
          //dropdownlist
-         DataTable dtDropType = new DataTable();
-         dtDropType.Columns.Add("PARAM_KEY" , typeof(string));
-         dtDropType.Columns.Add("CP_DISPLAY" , typeof(string));
-         DataRow row1 = dtDropType.NewRow();
-         row1["PARAM_KEY"] = "-";
-         row1["CP_DISPLAY"] = "無";
-         dtDropType.Rows.Add(row1);
-         DataRow row2 = dtDropType.NewRow();
-         row2["PARAM_KEY"] = "A";
-         row2["CP_DISPLAY"] = "A值";
-         dtDropType.Rows.Add(row2);
-         DataRow row3 = dtDropType.NewRow();
-         row3["PARAM_KEY"] = "B";
-         row3["CP_DISPLAY"] = "B值";
-         dtDropType.Rows.Add(row3);
+         //DataTable dtDropType = new DataTable();
+         //dtDropType.Columns.Add("PARAM_KEY" , typeof(string));
+         //dtDropType.Columns.Add("CP_DISPLAY" , typeof(string));
+         //DataRow row1 = dtDropType.NewRow();
+         //row1["PARAM_KEY"] = "-";
+         //row1["CP_DISPLAY"] = "無";
+         //dtDropType.Rows.Add(row1);
+         //DataRow row2 = dtDropType.NewRow();
+         //row2["PARAM_KEY"] = "A";
+         //row2["CP_DISPLAY"] = "A值";
+         //dtDropType.Rows.Add(row2);
+         //DataRow row3 = dtDropType.NewRow();
+         //row3["PARAM_KEY"] = "B";
+         //row3["CP_DISPLAY"] = "B值";
+         //dtDropType.Rows.Add(row3);
 
-         Extension.SetColumnLookUp(lupType , dtDropType , "PARAM_KEY" , "CP_DISPLAY" , TextEditStyles.DisableTextEditor , "");
+         DataTable dtDropType = new CODW().ListLookUpEdit("49040", "49040_MGT4_TYPE");
+         Extension.SetColumnLookUp(lupType , dtDropType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
          gcMain.RepositoryItems.Add(lupType);
 
          Retrieve();

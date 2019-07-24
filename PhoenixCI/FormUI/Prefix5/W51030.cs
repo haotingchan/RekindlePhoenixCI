@@ -80,41 +80,46 @@ namespace PhoenixCI.FormUI.Prefix5
          PrintableComponent = gcMain;
 
          //交易時段
-         dic = new Dictionary<string, string>() { { "0", "一般" }, { "1", "夜盤" } };
-         DataTable mk_code = SetcolItem(dic);
+         //dic = new Dictionary<string, string>() { { "0", "一般" }, { "1", "夜盤" } };
+         //DataTable mk_code = SetcolItem(dic);
          MARKET_CODE_LookUpEdit = new RepositoryItemLookUpEdit();
-         MARKET_CODE_LookUpEdit.SetColumnLookUp(mk_code, "ID", "Desc");
+         DataTable mk_code = new CODW().ListLookUpEdit("51030" , "51030_MARKET_CODE");
+         MARKET_CODE_LookUpEdit.SetColumnLookUp(mk_code, "CODW_ID", "CODW_DESC");
          MMF_MARKET_CODE.ColumnEdit = MARKET_CODE_LookUpEdit;
          //期貨/選擇權
-         dic = new Dictionary<string, string>() { { "F", "F" }, { "O", "O" } };
-         DataTable mmfType = SetcolItem(dic);
+         //dic = new Dictionary<string, string>() { { "F", "F" }, { "O", "O" } };
+         //DataTable mmfType = SetcolItem(dic);
          PROD_TYPE_LookUpEdit = new RepositoryItemLookUpEdit();
-         PROD_TYPE_LookUpEdit.SetColumnLookUp(mmfType, "ID", "Desc");
+         DataTable mmfType = new CODW().ListLookUpEdit("51030" , "51030_PROD_TYPE");
+         PROD_TYPE_LookUpEdit.SetColumnLookUp(mmfType, "CODW_ID" , "CODW_DESC");
          MMF_PROD_TYPE.ColumnEdit = PROD_TYPE_LookUpEdit;
          //商品類別
          daoAPDK = new APDK();
          PARAM_KEY_LookUpEdit = new RepositoryItemLookUpEdit();
          PARAM_KEY_LookUpEdit.SetColumnLookUp(daoAPDK.ListParamKey(), "APDK_PARAM_KEY", "APDK_PARAM_KEY");
          MMF_PARAM_KEY.ColumnEdit = PARAM_KEY_LookUpEdit;
+
          //-週六豁免造市-此功能移除 
          /*dic = new Dictionary<string, string>() { { "", "" }, { "N", "豁免" } };
          DataTable CP_FLAG = setcolItem(dic);
          CP_FLAG_LookUpEdit = new RepositoryItemLookUpEdit();
          CP_FLAG_LookUpEdit.SetColumnLookUp(CP_FLAG, "ID", "Desc");
          MMF_SAT_CP_FLAG.ColumnEdit = CP_FLAG_LookUpEdit;*/
+
          //報價規定判斷方式
-         daoCOD = new COD();
-         dic = new Dictionary<string, string>();
-         foreach (DataRow dr in daoCOD.ListByCol("MMF", CP_KIND).Rows) {
-            string codid = dr["COD_ID"].AsString();
-            if (string.IsNullOrEmpty(codid)) {
-               continue;
-            }
-            dic.Add(codid, string.Format("({0}){1}", codid, dr["COD_DESC"].AsString()));
-         }
-         DataTable mmfKIND = SetcolItem(dic);
+         //daoCOD = new COD();
+         //dic = new Dictionary<string, string>();
+         //foreach (DataRow dr in daoCOD.ListByCol("MMF", CP_KIND).Rows) {
+         //   string codid = dr["COD_ID"].AsString();
+         //   if (string.IsNullOrEmpty(codid)) {
+         //      continue;
+         //   }
+         //   dic.Add(codid, string.Format("({0}){1}", codid, dr["COD_DESC"].AsString()));
+         //}
+         //DataTable mmfKIND = SetcolItem(dic);
          CP_KIND_LookUpEdit = new RepositoryItemLookUpEdit();
-         CP_KIND_LookUpEdit.SetColumnLookUp(mmfKIND, "ID", "Desc");
+         DataTable mmfKIND = new CODW().ListLookUpEdit3("51030" , "51030_CP_KIND");
+         CP_KIND_LookUpEdit.SetColumnLookUp(mmfKIND, "CODW_ID" , "CP_DISPLAY");
          MMF_CP_KIND.ColumnEdit = CP_KIND_LookUpEdit;
       }
       /// <summary>
@@ -122,19 +127,19 @@ namespace PhoenixCI.FormUI.Prefix5
       /// </summary>
       /// <param name="dic">陣列</param>
       /// <returns></returns>
-      private DataTable SetcolItem(Dictionary<string, string> dic)
-      {
-         DataTable dt = new DataTable();
-         dt.Columns.Add("ID");
-         dt.Columns.Add("Desc");
-         foreach (var str in dic) {
-            DataRow rows = dt.NewRow();
-            rows["ID"] = str.Key;
-            rows["Desc"] = str.Value;
-            dt.Rows.Add(rows);
-         }
-         return dt;
-      }
+      //private DataTable SetcolItem(Dictionary<string, string> dic)
+      //{
+      //   DataTable dt = new DataTable();
+      //   dt.Columns.Add("ID");
+      //   dt.Columns.Add("Desc");
+      //   foreach (var str in dic) {
+      //      DataRow rows = dt.NewRow();
+      //      rows["ID"] = str.Key;
+      //      rows["Desc"] = str.Value;
+      //      dt.Rows.Add(rows);
+      //   }
+      //   return dt;
+      //}
 
       protected override ResultStatus Retrieve()
       {
