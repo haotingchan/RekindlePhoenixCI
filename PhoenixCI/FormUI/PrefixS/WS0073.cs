@@ -18,7 +18,7 @@ using DevExpress.XtraEditors;
 namespace PhoenixCI.FormUI.PrefixS {
    public partial class WS0073 : FormParent {
       protected DS0073 daoS0073;
-      protected COD daoCod;
+      protected CODW daoCodw;
       protected string fmYmd;
       protected string toYmd;
       protected DateTime maxYmd;
@@ -29,7 +29,7 @@ namespace PhoenixCI.FormUI.PrefixS {
       public WS0073(string programID, string programName) : base(programID, programName) {
          InitializeComponent();
          daoS0073 = new DS0073();
-         daoCod = new COD();
+         daoCodw = new CODW();
          GridHelper.SetCommonGrid(gvMain);
          _IsProcessRunAsync = true;//非同步執行
 
@@ -38,71 +38,71 @@ namespace PhoenixCI.FormUI.PrefixS {
          #region Set DropDownList
          //參數設定 參數路徑檔案 部位檔案 三個欄位要換成LookUpEdit
          //參數檔案
-         DataTable dtParam = daoCod.ListByCol2("S0073", "SPAN_MARGIN_SPN");
+         DataTable dtParam = daoCodw.ListByCol2("S0073", "SPAN_MARGIN_SPN");
          DataTable dtParamData = daoS0073.GetMarginUserData();//DB現有資料
          DataTable dtTempParam = dtParam.Clone();
          //部位檔案
-         DataTable dtMarginPos = daoCod.ListByCol2("S0073", "SPAN_MARGIN_POS");
+         DataTable dtMarginPos = daoCodw.ListByCol2("S0073", "SPAN_MARGIN_POS");
          DataTable dtTempMarginPos = dtMarginPos.Clone();
          //參數檔案路徑設定
          DataTable dtSpnPath = new DataTable();
-         dtSpnPath.Columns.Add("COD_ID");
-         dtSpnPath.Columns.Add("COD_DESC");
+         dtSpnPath.Columns.Add("CODW_ID");
+         dtSpnPath.Columns.Add("CODW_DESC");
          dtSpnPath.Columns.Add("CP_DISPLAY");
          DataTable dtTempSpnPath = dtSpnPath.Clone();
          //參數設定下拉選單
          string[] spnParms = { "D:\\SPAN_TEST\\SPN\\", "D:\\SPAN_TEST\\UNZIP\\" };
          for (int i = 0; i < spnParms.Count(); i++) {
             dtSpnPath.Rows.Add();
-            dtSpnPath.Rows[i].SetField("COD_ID", spnParms[i]);
-            dtSpnPath.Rows[i].SetField("COD_DESC", spnParms[i]);
+            dtSpnPath.Rows[i].SetField("CODW_ID", spnParms[i]);
+            dtSpnPath.Rows[i].SetField("CODW_DESC", spnParms[i]);
             dtSpnPath.Rows[i].SetField("CP_DISPLAY", spnParms[i]);
          }
 
          for (int i = 0; i < dtParamData.Rows.Count; i++) {
             //參數檔案
             dtTempParam.Rows.Add();
-            dtTempParam.Rows[i].SetField("COD_ID", dtParamData.Rows[i]["span_margin_spn"]);
-            dtTempParam.Rows[i].SetField("COD_DESC", dtParamData.Rows[i]["span_margin_spn"]);
+            dtTempParam.Rows[i].SetField("CODW_ID", dtParamData.Rows[i]["span_margin_spn"]);
+            dtTempParam.Rows[i].SetField("CODW_DESC", dtParamData.Rows[i]["span_margin_spn"]);
             dtTempParam.Rows[i].SetField("CP_DISPLAY", dtParamData.Rows[i]["span_margin_spn"]);
 
             //部位檔案
             dtTempMarginPos.Rows.Add();
-            dtTempMarginPos.Rows[i].SetField("COD_ID", dtParamData.Rows[i]["span_margin_pos"]);
-            dtTempMarginPos.Rows[i].SetField("COD_DESC", dtParamData.Rows[i]["span_margin_pos"]);
+            dtTempMarginPos.Rows[i].SetField("CODW_ID", dtParamData.Rows[i]["span_margin_pos"]);
+            dtTempMarginPos.Rows[i].SetField("CODW_DESC", dtParamData.Rows[i]["span_margin_pos"]);
             dtTempMarginPos.Rows[i].SetField("CP_DISPLAY", dtParamData.Rows[i]["span_margin_pos"]);
 
             //參數檔案路徑設定
             dtTempSpnPath.Rows.Add();
-            dtTempSpnPath.Rows[i].SetField("COD_ID", dtParamData.Rows[i]["span_margin_spn_path"]);
-            dtTempSpnPath.Rows[i].SetField("COD_DESC", dtParamData.Rows[i]["span_margin_spn_path"]);
+            dtTempSpnPath.Rows[i].SetField("CODW_ID", dtParamData.Rows[i]["span_margin_spn_path"]);
+            dtTempSpnPath.Rows[i].SetField("CODW_DESC", dtParamData.Rows[i]["span_margin_spn_path"]);
             dtTempSpnPath.Rows[i].SetField("CP_DISPLAY", dtParamData.Rows[i]["span_margin_spn_path"]);
          }
          //參數檔案
-         dtTempParam.PrimaryKey = new DataColumn[] { dtTempParam.Columns["COD_ID"] };
-         dtParam.PrimaryKey = new DataColumn[] { dtParam.Columns["COD_ID"] };
+         dtTempParam.PrimaryKey = new DataColumn[] { dtTempParam.Columns["CODW_ID"] };
+         dtParam.PrimaryKey = new DataColumn[] { dtParam.Columns["CODW_ID"] };
          dtParam.Merge(dtTempParam, false);
          RepositoryItemLookUpEdit cbxParam = new RepositoryItemLookUpEdit();
-         cbxParam.SetColumnLookUp(dtParam, "COD_ID", "COD_DESC");
+         cbxParam.SetColumnLookUp(dtParam, "CODW_ID", "CODW_DESC");
          cbxParam.ProcessNewValue += new ProcessNewValueEventHandler(cbxParam_ProcessNewValue);
          gcMain.RepositoryItems.Add(cbxParam);
          SPAN_MARGIN_SPN.ColumnEdit = cbxParam;
 
          //部位檔案
-         dtTempMarginPos.PrimaryKey = new DataColumn[] { dtTempMarginPos.Columns["COD_ID"] };
-         dtMarginPos.PrimaryKey = new DataColumn[] { dtMarginPos.Columns["COD_ID"] };
+         dtTempMarginPos.PrimaryKey = new DataColumn[] { dtTempMarginPos.Columns["CODW_ID"] };
+         dtMarginPos.PrimaryKey = new DataColumn[] { dtMarginPos.Columns["CODW_ID"] };
          dtMarginPos.Merge(dtTempMarginPos, false);
          RepositoryItemLookUpEdit cbxMarginPos = new RepositoryItemLookUpEdit();
-         cbxMarginPos.SetColumnLookUp(dtMarginPos, "COD_ID", "COD_DESC");
+         cbxMarginPos.SetColumnLookUp(dtMarginPos, "CODW_ID", "CODW_DESC");
          gcMain.RepositoryItems.Add(cbxMarginPos);
          SPAN_MARGIN_POS.ColumnEdit = cbxMarginPos;
 
          //參數檔案路徑設定
-         dtTempSpnPath.PrimaryKey = new DataColumn[] { dtTempSpnPath.Columns["COD_ID"] };
-         dtSpnPath.PrimaryKey = new DataColumn[] { dtSpnPath.Columns["COD_ID"] };
+         dtTempSpnPath.PrimaryKey = new DataColumn[] { dtTempSpnPath.Columns["CODW_ID"] };
+         dtSpnPath.PrimaryKey = new DataColumn[] { dtSpnPath.Columns["CODW_ID"] };
          dtSpnPath.Merge(dtTempSpnPath, false);
          RepositoryItemLookUpEdit cbxSpnPath = new RepositoryItemLookUpEdit();
-         cbxSpnPath.SetColumnLookUp(dtSpnPath, "COD_ID", "COD_DESC");
+         cbxSpnPath.SetColumnLookUp(dtSpnPath, "CODW_ID", "CODW_DESC");
          gcMain.RepositoryItems.Add(cbxSpnPath);
          SPAN_MARGIN_SPN_PATH.ColumnEdit = cbxSpnPath;
          #endregion

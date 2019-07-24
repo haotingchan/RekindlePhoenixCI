@@ -27,7 +27,7 @@ namespace PhoenixCI.FormUI.PrefixS {
    /// </summary>
    public partial class WS0072 : FormParent {
       protected DS0072 daoS0072;
-      protected COD daoCod;
+      protected CODW daoCodw;
       protected string is_fm_ymd;
       protected string is_to_ymd;
       protected DateTime is_max_ymd;
@@ -49,7 +49,7 @@ namespace PhoenixCI.FormUI.PrefixS {
             GridHelper.SetCommonGrid(gv);
          }
          daoS0072 = new DS0072();
-         daoCod = new COD();
+         daoCodw = new CODW();
 
          //設定初始年月
          setDatePeriod();
@@ -88,9 +88,9 @@ namespace PhoenixCI.FormUI.PrefixS {
             gv.Columns["SPAN_CONTENT_CLASS"].ColumnEdit = cbxProdType;
             gv.Columns["SPAN_CONTENT_CC"].ColumnEdit = cbxProd;
 
-            DataTable dtContentType = daoCod.ListByCol2("S0072", $"{modules1[i]}_CONTENT_TYPE");
+            DataTable dtContentType = daoCodw.ListByCol2("S0072", $"{modules1[i]}_CONTENT_TYPE");
             RepositoryItemLookUpEdit cbxContentType = new RepositoryItemLookUpEdit();
-            cbxContentType.SetColumnLookUp(dtContentType, "COD_ID", "COD_DESC", TextEditStyles.DisableTextEditor);
+            cbxContentType.SetColumnLookUp(dtContentType, "CODW_ID", "CODW_DESC", TextEditStyles.DisableTextEditor);
             gc_PSR.RepositoryItems.Add(cbxContentType);
             gv.Columns["SPAN_CONTENT_TYPE"].ColumnEdit = cbxContentType;
 
@@ -417,17 +417,17 @@ namespace PhoenixCI.FormUI.PrefixS {
       /// <param name="sender"></param>
       /// <param name="e"></param>
       private void SpanTabControl_SelectedPageChanged(object sender, DevExpress.XtraTab.TabPageChangedEventArgs e) {
-         if (e.Page.Name != "tab_ZISP") {
-            string module = e.Page.Name.Split('_')[1];
+         if (e.Page.Name != "C") {
+            string module = e.Page.Name;
             ////IMS DB 存 INTERMONTH
             //if (module == "IMS") module = "INTERMONTH";
 
-            string cod_col_id = module + "_CONTENT_TYPE";
+            string cod_col_id = "SPAN_CONTENT_TYPE_"+module;
 
             //取得資料
-            DataTable dtContentType = daoCod.ListByCol2("S0072", cod_col_id);
+            DataTable dtContentType = daoCodw.ListByCol2("S0072"+module, cod_col_id);
             RepositoryItemLookUpEdit cbxContentType = new RepositoryItemLookUpEdit();
-            cbxContentType.SetColumnLookUp(dtContentType, "COD_ID", "COD_DESC", TextEditStyles.DisableTextEditor);
+            cbxContentType.SetColumnLookUp(dtContentType, "CODW_ID", "CODW_DESC", TextEditStyles.DisableTextEditor);
 
             GridView gv = GetGridView(module);
             GridColumn column = gv.Columns[3]; //設定方式欄位
@@ -442,6 +442,23 @@ namespace PhoenixCI.FormUI.PrefixS {
       /// <param name="modeuleName"></param>
       /// <returns></returns>
       private GridView GetGridView(string modeuleName) {
+         switch (modeuleName) {
+            case "A":
+               modeuleName = "PSR";
+               break;
+            case "B":
+               modeuleName = "IMS";
+               break;
+            case "C":
+               modeuleName = "ZISP";
+               break;
+            case "D":
+               modeuleName = "VSR";
+               break;
+            case "E":
+               modeuleName = "SOM";
+               break;
+         }
          Control[] gridControls = this.Controls.Find("gc_" + modeuleName, true);
          GridControl gc = (GridControl)gridControls[0];
          return gc.MainView as GridView;

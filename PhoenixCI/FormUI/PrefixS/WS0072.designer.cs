@@ -32,7 +32,7 @@
          this.labDate = new System.Windows.Forms.Label();
          this.panMain = new System.Windows.Forms.GroupBox();
          this.SpanTabControl = new DevExpress.XtraTab.XtraTabControl();
-         this.tab_PSR = new DevExpress.XtraTab.XtraTabPage();
+         this.A = new DevExpress.XtraTab.XtraTabPage();
          this.panPSRgrid = new System.Windows.Forms.Panel();
          this.gc_PSR = new DevExpress.XtraGrid.GridControl();
          this.gv_PSR = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -49,7 +49,7 @@
          this.PSR_btnClear = new DevExpress.XtraEditors.SimpleButton();
          this.PSR_btnAdd = new DevExpress.XtraEditors.SimpleButton();
          this.PSR_btnDel = new DevExpress.XtraEditors.SimpleButton();
-         this.tab_IMS = new DevExpress.XtraTab.XtraTabPage();
+         this.B = new DevExpress.XtraTab.XtraTabPage();
          this.gc_IMS = new DevExpress.XtraGrid.GridControl();
          this.gv_IMS = new DevExpress.XtraGrid.Views.Grid.GridView();
          this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -65,17 +65,23 @@
          this.IMS_btnClear = new DevExpress.XtraEditors.SimpleButton();
          this.IMS_Add = new DevExpress.XtraEditors.SimpleButton();
          this.IMS_btnDel = new DevExpress.XtraEditors.SimpleButton();
-         this.tab_ZISP = new DevExpress.XtraTab.XtraTabPage();
+         this.C = new DevExpress.XtraTab.XtraTabPage();
          this.panTabGrid = new System.Windows.Forms.Panel();
          this.gc_ZISP = new DevExpress.XtraGrid.GridControl();
          this.gv_ZISP = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridView();
+         this.gridBand2 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.SPAN_ZISP_PROD_ID = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+         this.gridBand3 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.SPAN_ZISP_COM_PROD1 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+         this.gridBand7 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.SPAN_ZISP_COM_PROD2 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+         this.gridBand4 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.SPAN_ZISP_CREDIT = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.repositoryItemTextEdit5 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+         this.gridBand5 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.SPAN_ZISP_DPSR1 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.SPAN_ZISP_DPSR2 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+         this.band10 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.SPAN_ZISP_PRIORITY = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.repositoryItemTextEdit6 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
          this.SPAN_ZISP_USER_ID = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -86,7 +92,7 @@
          this.btnLoad = new DevExpress.XtraEditors.SimpleButton();
          this.ZISP_btnAdd = new DevExpress.XtraEditors.SimpleButton();
          this.ZISP_btnDel = new DevExpress.XtraEditors.SimpleButton();
-         this.tab_VSR = new DevExpress.XtraTab.XtraTabPage();
+         this.D = new DevExpress.XtraTab.XtraTabPage();
          this.gc_VSR = new DevExpress.XtraGrid.GridControl();
          this.gv_VSR = new DevExpress.XtraGrid.Views.Grid.GridView();
          this.gridColumn9 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -102,7 +108,7 @@
          this.VSR_btnClear = new DevExpress.XtraEditors.SimpleButton();
          this.VSR_btnAdd = new DevExpress.XtraEditors.SimpleButton();
          this.VSR_btnDel = new DevExpress.XtraEditors.SimpleButton();
-         this.tab_SOM = new DevExpress.XtraTab.XtraTabPage();
+         this.E = new DevExpress.XtraTab.XtraTabPage();
          this.gc_SOM = new DevExpress.XtraGrid.GridControl();
          this.gv_SOM = new DevExpress.XtraGrid.Views.Grid.GridView();
          this.gridColumn17 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -118,12 +124,6 @@
          this.SOM_btnClear = new DevExpress.XtraEditors.SimpleButton();
          this.SOM_btnAdd = new DevExpress.XtraEditors.SimpleButton();
          this.SOM_btnDel = new DevExpress.XtraEditors.SimpleButton();
-         this.gridBand2 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand3 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand7 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand4 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand5 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.band10 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          this.panFilter.SuspendLayout();
@@ -132,30 +132,30 @@
          this.panMain.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.SpanTabControl)).BeginInit();
          this.SpanTabControl.SuspendLayout();
-         this.tab_PSR.SuspendLayout();
+         this.A.SuspendLayout();
          this.panPSRgrid.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gc_PSR)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gv_PSR)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
          this.panel1.SuspendLayout();
-         this.tab_IMS.SuspendLayout();
+         this.B.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gc_IMS)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gv_IMS)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).BeginInit();
          this.panel2.SuspendLayout();
-         this.tab_ZISP.SuspendLayout();
+         this.C.SuspendLayout();
          this.panTabGrid.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gc_ZISP)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gv_ZISP)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit5)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit6)).BeginInit();
          this.panTabButtonBar.SuspendLayout();
-         this.tab_VSR.SuspendLayout();
+         this.D.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gc_VSR)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gv_VSR)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit3)).BeginInit();
          this.panel3.SuspendLayout();
-         this.tab_SOM.SuspendLayout();
+         this.E.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gc_SOM)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gv_SOM)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit4)).BeginInit();
@@ -282,24 +282,24 @@
          this.SpanTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
          this.SpanTabControl.Location = new System.Drawing.Point(3, 21);
          this.SpanTabControl.Name = "SpanTabControl";
-         this.SpanTabControl.SelectedTabPage = this.tab_PSR;
+         this.SpanTabControl.SelectedTabPage = this.A;
          this.SpanTabControl.Size = new System.Drawing.Size(1117, 440);
          this.SpanTabControl.TabIndex = 2;
          this.SpanTabControl.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
-            this.tab_PSR,
-            this.tab_IMS,
-            this.tab_ZISP,
-            this.tab_VSR,
-            this.tab_SOM});
+            this.A,
+            this.B,
+            this.C,
+            this.D,
+            this.E});
          this.SpanTabControl.SelectedPageChanged += new DevExpress.XtraTab.TabPageChangedEventHandler(this.SpanTabControl_SelectedPageChanged);
          // 
-         // tab_PSR
+         // A
          // 
-         this.tab_PSR.Controls.Add(this.panPSRgrid);
-         this.tab_PSR.Controls.Add(this.panel1);
-         this.tab_PSR.Name = "tab_PSR";
-         this.tab_PSR.Size = new System.Drawing.Size(1111, 405);
-         this.tab_PSR.Text = "A. PSR設定";
+         this.A.Controls.Add(this.panPSRgrid);
+         this.A.Controls.Add(this.panel1);
+         this.A.Name = "A";
+         this.A.Size = new System.Drawing.Size(1111, 405);
+         this.A.Text = "A. PSR設定";
          // 
          // panPSRgrid
          // 
@@ -454,13 +454,13 @@
          this.PSR_btnDel.Text = "刪除";
          this.PSR_btnDel.Click += new System.EventHandler(this.btnDel_Click);
          // 
-         // tab_IMS
+         // B
          // 
-         this.tab_IMS.Controls.Add(this.gc_IMS);
-         this.tab_IMS.Controls.Add(this.panel2);
-         this.tab_IMS.Name = "tab_IMS";
-         this.tab_IMS.Size = new System.Drawing.Size(1111, 405);
-         this.tab_IMS.Text = "B. 跨月價差設定";
+         this.B.Controls.Add(this.gc_IMS);
+         this.B.Controls.Add(this.panel2);
+         this.B.Name = "B";
+         this.B.Size = new System.Drawing.Size(1111, 405);
+         this.B.Text = "B. 跨月價差設定";
          // 
          // gc_IMS
          // 
@@ -602,13 +602,13 @@
          this.IMS_btnDel.Text = "刪除";
          this.IMS_btnDel.Click += new System.EventHandler(this.btnDel_Click);
          // 
-         // tab_ZISP
+         // C
          // 
-         this.tab_ZISP.Controls.Add(this.panTabGrid);
-         this.tab_ZISP.Controls.Add(this.panTabButtonBar);
-         this.tab_ZISP.Name = "tab_ZISP";
-         this.tab_ZISP.Size = new System.Drawing.Size(1111, 405);
-         this.tab_ZISP.Text = "C. 跨商品價差設定";
+         this.C.Controls.Add(this.panTabGrid);
+         this.C.Controls.Add(this.panTabButtonBar);
+         this.C.Name = "C";
+         this.C.Size = new System.Drawing.Size(1111, 405);
+         this.C.Text = "C. 跨商品價差設定";
          // 
          // panTabGrid
          // 
@@ -663,6 +663,16 @@
          this.gv_ZISP.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.gvZISP_ShowingEditor);
          this.gv_ZISP.InitNewRow += new DevExpress.XtraGrid.Views.Grid.InitNewRowEventHandler(this.gvZISP_InitNewRow);
          // 
+         // gridBand2
+         // 
+         this.gridBand2.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.gridBand2.AppearanceHeader.Options.UseBackColor = true;
+         this.gridBand2.Caption = "群組類別";
+         this.gridBand2.Columns.Add(this.SPAN_ZISP_PROD_ID);
+         this.gridBand2.Name = "gridBand2";
+         this.gridBand2.VisibleIndex = 0;
+         this.gridBand2.Width = 188;
+         // 
          // SPAN_ZISP_PROD_ID
          // 
          this.SPAN_ZISP_PROD_ID.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
@@ -674,6 +684,16 @@
          this.SPAN_ZISP_PROD_ID.Visible = true;
          this.SPAN_ZISP_PROD_ID.Width = 188;
          // 
+         // gridBand3
+         // 
+         this.gridBand3.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.gridBand3.AppearanceHeader.Options.UseBackColor = true;
+         this.gridBand3.Caption = "Leg1";
+         this.gridBand3.Columns.Add(this.SPAN_ZISP_COM_PROD1);
+         this.gridBand3.Name = "gridBand3";
+         this.gridBand3.VisibleIndex = 1;
+         this.gridBand3.Width = 188;
+         // 
          // SPAN_ZISP_COM_PROD1
          // 
          this.SPAN_ZISP_COM_PROD1.Caption = "Leg1";
@@ -683,6 +703,16 @@
          this.SPAN_ZISP_COM_PROD1.Visible = true;
          this.SPAN_ZISP_COM_PROD1.Width = 188;
          // 
+         // gridBand7
+         // 
+         this.gridBand7.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.gridBand7.AppearanceHeader.Options.UseBackColor = true;
+         this.gridBand7.Caption = "Leg2";
+         this.gridBand7.Columns.Add(this.SPAN_ZISP_COM_PROD2);
+         this.gridBand7.Name = "gridBand7";
+         this.gridBand7.VisibleIndex = 2;
+         this.gridBand7.Width = 188;
+         // 
          // SPAN_ZISP_COM_PROD2
          // 
          this.SPAN_ZISP_COM_PROD2.Caption = "Leg2";
@@ -691,6 +721,16 @@
          this.SPAN_ZISP_COM_PROD2.OptionsColumn.ShowCaption = false;
          this.SPAN_ZISP_COM_PROD2.Visible = true;
          this.SPAN_ZISP_COM_PROD2.Width = 188;
+         // 
+         // gridBand4
+         // 
+         this.gridBand4.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.gridBand4.AppearanceHeader.Options.UseBackColor = true;
+         this.gridBand4.Caption = "跨商品價差折抵率";
+         this.gridBand4.Columns.Add(this.SPAN_ZISP_CREDIT);
+         this.gridBand4.Name = "gridBand4";
+         this.gridBand4.VisibleIndex = 3;
+         this.gridBand4.Width = 188;
          // 
          // SPAN_ZISP_CREDIT
          // 
@@ -711,6 +751,17 @@
          this.repositoryItemTextEdit5.Mask.ShowPlaceHolders = false;
          this.repositoryItemTextEdit5.MaxLength = 4;
          this.repositoryItemTextEdit5.Name = "repositoryItemTextEdit5";
+         // 
+         // gridBand5
+         // 
+         this.gridBand5.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.gridBand5.AppearanceHeader.Options.UseBackColor = true;
+         this.gridBand5.Caption = "契約價值耗用比率";
+         this.gridBand5.Columns.Add(this.SPAN_ZISP_DPSR1);
+         this.gridBand5.Columns.Add(this.SPAN_ZISP_DPSR2);
+         this.gridBand5.Name = "gridBand5";
+         this.gridBand5.VisibleIndex = 4;
+         this.gridBand5.Width = 289;
          // 
          // SPAN_ZISP_DPSR1
          // 
@@ -735,6 +786,16 @@
          this.SPAN_ZISP_DPSR2.OptionsColumn.ShowCaption = false;
          this.SPAN_ZISP_DPSR2.Visible = true;
          this.SPAN_ZISP_DPSR2.Width = 138;
+         // 
+         // band10
+         // 
+         this.band10.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.band10.AppearanceHeader.Options.UseBackColor = true;
+         this.band10.Caption = "優先順序";
+         this.band10.Columns.Add(this.SPAN_ZISP_PRIORITY);
+         this.band10.Name = "band10";
+         this.band10.VisibleIndex = 5;
+         this.band10.Width = 75;
          // 
          // SPAN_ZISP_PRIORITY
          // 
@@ -819,13 +880,13 @@
          this.ZISP_btnDel.Text = "刪除";
          this.ZISP_btnDel.Click += new System.EventHandler(this.btnDel_Click);
          // 
-         // tab_VSR
+         // D
          // 
-         this.tab_VSR.Controls.Add(this.gc_VSR);
-         this.tab_VSR.Controls.Add(this.panel3);
-         this.tab_VSR.Name = "tab_VSR";
-         this.tab_VSR.Size = new System.Drawing.Size(1111, 405);
-         this.tab_VSR.Text = "D. VSR設定";
+         this.D.Controls.Add(this.gc_VSR);
+         this.D.Controls.Add(this.panel3);
+         this.D.Name = "D";
+         this.D.Size = new System.Drawing.Size(1111, 405);
+         this.D.Text = "D. VSR設定";
          // 
          // gc_VSR
          // 
@@ -967,13 +1028,13 @@
          this.VSR_btnDel.Text = "刪除";
          this.VSR_btnDel.Click += new System.EventHandler(this.btnDel_Click);
          // 
-         // tab_SOM
+         // E
          // 
-         this.tab_SOM.Controls.Add(this.gc_SOM);
-         this.tab_SOM.Controls.Add(this.panel4);
-         this.tab_SOM.Name = "tab_SOM";
-         this.tab_SOM.Size = new System.Drawing.Size(1111, 405);
-         this.tab_SOM.Text = "E. SOM設定";
+         this.E.Controls.Add(this.gc_SOM);
+         this.E.Controls.Add(this.panel4);
+         this.E.Name = "E";
+         this.E.Size = new System.Drawing.Size(1111, 405);
+         this.E.Text = "E. SOM設定";
          // 
          // gc_SOM
          // 
@@ -1115,67 +1176,6 @@
          this.SOM_btnDel.Text = "刪除";
          this.SOM_btnDel.Click += new System.EventHandler(this.btnDel_Click);
          // 
-         // gridBand2
-         // 
-         this.gridBand2.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.gridBand2.AppearanceHeader.Options.UseBackColor = true;
-         this.gridBand2.Caption = "群組類別";
-         this.gridBand2.Columns.Add(this.SPAN_ZISP_PROD_ID);
-         this.gridBand2.Name = "gridBand2";
-         this.gridBand2.VisibleIndex = 0;
-         this.gridBand2.Width = 188;
-         // 
-         // gridBand3
-         // 
-         this.gridBand3.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.gridBand3.AppearanceHeader.Options.UseBackColor = true;
-         this.gridBand3.Caption = "Leg1";
-         this.gridBand3.Columns.Add(this.SPAN_ZISP_COM_PROD1);
-         this.gridBand3.Name = "gridBand3";
-         this.gridBand3.VisibleIndex = 1;
-         this.gridBand3.Width = 188;
-         // 
-         // gridBand7
-         // 
-         this.gridBand7.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.gridBand7.AppearanceHeader.Options.UseBackColor = true;
-         this.gridBand7.Caption = "Leg2";
-         this.gridBand7.Columns.Add(this.SPAN_ZISP_COM_PROD2);
-         this.gridBand7.Name = "gridBand7";
-         this.gridBand7.VisibleIndex = 2;
-         this.gridBand7.Width = 188;
-         // 
-         // gridBand4
-         // 
-         this.gridBand4.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.gridBand4.AppearanceHeader.Options.UseBackColor = true;
-         this.gridBand4.Caption = "跨商品價差折抵率";
-         this.gridBand4.Columns.Add(this.SPAN_ZISP_CREDIT);
-         this.gridBand4.Name = "gridBand4";
-         this.gridBand4.VisibleIndex = 3;
-         this.gridBand4.Width = 188;
-         // 
-         // gridBand5
-         // 
-         this.gridBand5.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.gridBand5.AppearanceHeader.Options.UseBackColor = true;
-         this.gridBand5.Caption = "契約價值耗用比率";
-         this.gridBand5.Columns.Add(this.SPAN_ZISP_DPSR1);
-         this.gridBand5.Columns.Add(this.SPAN_ZISP_DPSR2);
-         this.gridBand5.Name = "gridBand5";
-         this.gridBand5.VisibleIndex = 4;
-         this.gridBand5.Width = 289;
-         // 
-         // band10
-         // 
-         this.band10.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.band10.AppearanceHeader.Options.UseBackColor = true;
-         this.band10.Caption = "優先順序";
-         this.band10.Columns.Add(this.SPAN_ZISP_PRIORITY);
-         this.band10.Name = "band10";
-         this.band10.VisibleIndex = 5;
-         this.band10.Width = 75;
-         // 
          // WS0072
          // 
          this.Appearance.Options.UseFont = true;
@@ -1193,30 +1193,30 @@
          this.panMain.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.SpanTabControl)).EndInit();
          this.SpanTabControl.ResumeLayout(false);
-         this.tab_PSR.ResumeLayout(false);
+         this.A.ResumeLayout(false);
          this.panPSRgrid.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.gc_PSR)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gv_PSR)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
          this.panel1.ResumeLayout(false);
-         this.tab_IMS.ResumeLayout(false);
+         this.B.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.gc_IMS)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gv_IMS)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).EndInit();
          this.panel2.ResumeLayout(false);
-         this.tab_ZISP.ResumeLayout(false);
+         this.C.ResumeLayout(false);
          this.panTabGrid.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.gc_ZISP)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gv_ZISP)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit5)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit6)).EndInit();
          this.panTabButtonBar.ResumeLayout(false);
-         this.tab_VSR.ResumeLayout(false);
+         this.D.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.gc_VSR)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gv_VSR)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit3)).EndInit();
          this.panel3.ResumeLayout(false);
-         this.tab_SOM.ResumeLayout(false);
+         this.E.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.gc_SOM)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gv_SOM)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit4)).EndInit();
@@ -1234,15 +1234,15 @@
         private System.Windows.Forms.Label labDate;
       private System.Windows.Forms.GroupBox panMain;
       private DevExpress.XtraTab.XtraTabControl SpanTabControl;
-      private DevExpress.XtraTab.XtraTabPage tab_PSR;
-      private DevExpress.XtraTab.XtraTabPage tab_IMS;
-      private DevExpress.XtraTab.XtraTabPage tab_ZISP;
+      private DevExpress.XtraTab.XtraTabPage A;
+      private DevExpress.XtraTab.XtraTabPage B;
+      private DevExpress.XtraTab.XtraTabPage C;
       private DevExpress.XtraEditors.SimpleButton btnLoad;
       private DevExpress.XtraEditors.SimpleButton ZISP_btnDel;
       private DevExpress.XtraEditors.SimpleButton ZISP_btnAdd;
       private DevExpress.XtraEditors.SimpleButton ZISP_btnClear;
-      private DevExpress.XtraTab.XtraTabPage tab_VSR;
-      private DevExpress.XtraTab.XtraTabPage tab_SOM;
+      private DevExpress.XtraTab.XtraTabPage D;
+      private DevExpress.XtraTab.XtraTabPage E;
       private System.Windows.Forms.Label labSpanDesc;
       private System.Windows.Forms.Panel panTabGrid;
       private System.Windows.Forms.Panel panTabButtonBar;

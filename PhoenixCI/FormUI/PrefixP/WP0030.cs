@@ -43,17 +43,20 @@ namespace PhoenixCI.FormUI.PrefixP {
             txtEndDate.Text = "%";
 
             //下拉選單(系統別)
-            List<LookupItem> ddlbSystem = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = "W", DisplayMember = "W：網際網路"},
-                                        new LookupItem() { ValueMember = "V", DisplayMember = "V：語音查詢" }};
-            Extension.SetDataTable(ddlbType, ddlbSystem, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor, null);
+            //List<LookupItem> ddlbSystem = new List<LookupItem>(){
+             //                           new LookupItem() { ValueMember = "W", DisplayMember = "W：網際網路"},
+             //                           new LookupItem() { ValueMember = "V", DisplayMember = "V：語音查詢" }};
+            DataTable dtType = new CODW().ListLookUpEdit("P0030", "P0030_DDLB_1");
+            Extension.SetDataTable(ddlbType, dtType, "CODW_ID", "CODW_DESC", TextEditStyles.DisableTextEditor, null);
             ddlbType.EditValue = "W";
 
             //下拉選單(類別)
             List<LookupItem> ddlbCatagroy = new List<LookupItem>(){
                                         new LookupItem() { ValueMember = "I", DisplayMember = "I：依交易人查明細"},
                                         new LookupItem() { ValueMember = "F", DisplayMember = "F：依期貨商合計" }};
-            Extension.SetDataTable(ddlbCate, ddlbCatagroy, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor, null);
+            dtType = new CODW().ListLookUpEdit("P0030", "P0030_DDLB_3");
+            //Extension.SetDataTable(ddlbCate, ddlbCatagroy, "ValueMember", "DisplayMember", TextEditStyles.DisableTextEditor, null);
+            Extension.SetDataTable(ddlbCate, dtType, "CODW_ID", "CODW_DESC", TextEditStyles.DisableTextEditor, null);
             ddlbCate.EditValue = "I";
 
          } catch (Exception ex) {

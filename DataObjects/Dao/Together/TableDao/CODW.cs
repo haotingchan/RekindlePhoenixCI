@@ -182,16 +182,15 @@ namespace DataObjects.Dao.Together {
                 ":CODW_COL_ID", CODW_COL_ID
             };
 
-         string sql = @"
-select 
-    trim(codw_id) as codw_id,
-    trim(codw_desc) as codw_desc,
-    codw_seq_no
-from ci.codw
-where trim(codw_txn_id) = :codw_txn_id
-and trim(codw_col_id) = :codw_col_id
-order by codw_seq_no
-";
+         string sql = @"SELECT 
+                            TRIM(codw_id) AS codw_id,
+                            TRIM(codw_desc) AS codw_desc,
+                            codw_seq_no
+                        FROM ci.codw
+                        WHERE trim(codw_txn_id) = :codw_txn_id
+                        AND trim(codw_col_id) = :codw_col_id
+                        ORDER BY codw_seq_no
+                        ";
 
          DataTable dtResult = db.GetDataTable(sql , parms);
 

@@ -21,7 +21,7 @@ using System.Linq;
 namespace PhoenixCI.FormUI.PrefixS {
    public partial class WS0071 : FormParent {
       protected DS0071 daoS0071;
-      protected COD daoCod;
+      protected CODW daoCodw;
       protected string fmYmd;
       protected string toYmd;
       protected DateTime maxYmd;
@@ -33,7 +33,7 @@ namespace PhoenixCI.FormUI.PrefixS {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
          daoS0071 = new DS0071();
-         daoCod = new COD();
+         daoCodw = new CODW();
          GridHelper.SetCommonGrid(gvMain);
          _IsProcessRunAsync = true;//非同步執行
 
@@ -60,42 +60,42 @@ namespace PhoenixCI.FormUI.PrefixS {
          #region Set Drop Down Lsit
          //設定方式
          RepositoryItemLookUpEdit cbxParamType = new RepositoryItemLookUpEdit();
-         DataTable cbxParamTypeSource = daoCod.ListByCol2("S0070", "SPAN_PARAM_TYPE");
-         cbxParamType.SetColumnLookUp(cbxParamTypeSource, "COD_ID", "COD_DESC", TextEditStyles.DisableTextEditor, "");
+         DataTable cbxParamTypeSource = daoCodw.ListByCol2("S0070", "SPAN_PARAM_TYPE");
+         cbxParamType.SetColumnLookUp(cbxParamTypeSource, "CODW_ID", "CODW_DESC", TextEditStyles.DisableTextEditor, "");
          gcMain.RepositoryItems.Add(cbxParamType);
          SPAN_PARAM_TYPE.ColumnEdit = cbxParamType;
 
          //設定值 要顯示user自己輸入的值
          RepositoryItemLookUpEdit cbxParamValue = new RepositoryItemLookUpEdit();
-         DataTable cbxParamValueSource = daoCod.ListByCol2("S0070", "SPAN_PARAM_VALUE");
+         DataTable cbxParamValueSource = daoCodw.ListByCol2("S0070", "SPAN_PARAM_VALUE");
          DataTable dtParamValueData = daoS0071.GetParamData("PL", GlobalInfo.USER_ID);//DB現有資料
          DataTable dtTempParamValue = cbxParamValueSource.Clone();
          for (int i = 0; i < dtParamValueData.Rows.Count; i++) {
             //參數檔案
             dtTempParamValue.Rows.Add();
-            dtTempParamValue.Rows[i].SetField("COD_ID", dtParamValueData.Rows[i]["span_param_value"]);
-            dtTempParamValue.Rows[i].SetField("COD_DESC", dtParamValueData.Rows[i]["span_param_value"]);
+            dtTempParamValue.Rows[i].SetField("CODW_ID", dtParamValueData.Rows[i]["span_param_value"]);
+            dtTempParamValue.Rows[i].SetField("CODW_DESC", dtParamValueData.Rows[i]["span_param_value"]);
             dtTempParamValue.Rows[i].SetField("CP_DISPLAY", dtParamValueData.Rows[i]["span_param_value"]);
 
             //CODID = 4 時 顯示 "最大漲跌停"
-            if (dtTempParamValue.Rows[i]["COD_ID"].AsString() == "4") {
-               dtTempParamValue.Rows[i].SetField("COD_DESC", "最大漲跌停");
+            if (dtTempParamValue.Rows[i]["CODW_ID"].AsString() == "4") {
+               dtTempParamValue.Rows[i].SetField("CODW_DESC", "最大漲跌停");
             }
          }
          DataView dtDistinc = new DataView(dtTempParamValue);
          dtTempParamValue = dtDistinc.ToTable(true);
-         dtTempParamValue.PrimaryKey = new DataColumn[] { dtTempParamValue.Columns["COD_ID"] };
-         cbxParamValueSource.PrimaryKey = new DataColumn[] { cbxParamValueSource.Columns["COD_ID"] };
+         dtTempParamValue.PrimaryKey = new DataColumn[] { dtTempParamValue.Columns["CODW_ID"] };
+         cbxParamValueSource.PrimaryKey = new DataColumn[] { cbxParamValueSource.Columns["CODW_ID"] };
          cbxParamValueSource.Merge(dtTempParamValue, false);
-         cbxParamValue.SetColumnLookUp(cbxParamValueSource, "COD_ID", "COD_DESC", TextEditStyles.Standard, "");
+         cbxParamValue.SetColumnLookUp(cbxParamValueSource, "CODW_ID", "CODW_DESC", TextEditStyles.Standard, "");
          cbxParamValue.ProcessNewValue += new ProcessNewValueEventHandler(cbxParamValue_ProcessNewValue);
          gcMain.RepositoryItems.Add(cbxParamValue);
          SPAN_PARAM_VALUE.ColumnEdit = cbxParamValue;
 
          //波動度設定
          RepositoryItemLookUpEdit cbxParamVolType = new RepositoryItemLookUpEdit();
-         DataTable cbxParamVolTypeSource = daoCod.ListByCol2("S0070", "SPAN_PARAM_VOL_TYPE");
-         cbxParamVolType.SetColumnLookUp(cbxParamVolTypeSource, "COD_ID", "COD_DESC", TextEditStyles.DisableTextEditor, "");
+         DataTable cbxParamVolTypeSource = daoCodw.ListByCol2("S0070", "SPAN_PARAM_VOL_TYPE");
+         cbxParamVolType.SetColumnLookUp(cbxParamVolTypeSource, "CODW_ID", "CODW_DESC", TextEditStyles.DisableTextEditor, "");
          gcMain.RepositoryItems.Add(cbxParamVolType);
          SPAN_PARAM_VOL_TYPE.ColumnEdit = cbxParamVolType;
 
