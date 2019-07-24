@@ -57,7 +57,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //                                new LookupItem() { ValueMember = "F", DisplayMember = "F：期貨"},
             //                                new LookupItem() { ValueMember = "O", DisplayMember = "O：選擇權"}};
             lupProdType = new RepositoryItemLookUpEdit();
-            DataTable dtProdType = new CODW().ListLookUpEdit("49020", "49020_PROD_TYPE");
+            DataTable dtProdType = new CODW().ListLookUpEdit("49020" , "49020_PROD_TYPE");
             lupProdType.SetColumnLookUp(dtProdType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
             gcMain.RepositoryItems.Add(lupProdType);
 
@@ -72,6 +72,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             lupDataType = new RepositoryItemLookUpEdit();
             //DataTable dataTypeList = cod.ListByCol("49020" , "MGT2_DATA_TYPE");
             DataTable dataTypeList = new CODW().ListLookUpEdit("49020" , "49020_DATA_TYPE");
+            foreach (DataRow dr in dataTypeList.Rows) {
+               if (dr["CODW_ID"].AsString() == "none") {
+                  dr["CODW_ID"] = " ";
+               }
+            }
             Extension.SetColumnLookUp(lupDataType , dataTypeList , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
             gcMain.RepositoryItems.Add(lupDataType);
 
@@ -79,6 +84,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             lupCpKind = new RepositoryItemLookUpEdit();
             //DataTable dtCpKind = dao49020.GetCpKind("MGT2" , "MGT2_CP_KIND");
             DataTable dtCpKind = new CODW().ListLookUpEdit("49020" , "MGT2_CP_KIND");
+            foreach (DataRow dr in dtCpKind.Rows) {
+               if (dr["CODW_ID"].AsString() == "none") {
+                  dr["CODW_ID"] = " ";
+               }
+            }
             Extension.SetColumnLookUp(lupCpKind , dtCpKind , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
             gcMain.RepositoryItems.Add(lupCpKind);
 

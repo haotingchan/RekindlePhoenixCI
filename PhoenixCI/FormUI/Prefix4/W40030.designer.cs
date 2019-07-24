@@ -114,6 +114,7 @@
          // 
          // MarketTimes
          // 
+         this.MarketTimes.CheckOnClick = true;
          this.MarketTimes.HorzScrollStep = 3;
          this.MarketTimes.ItemHeight = 28;
          this.MarketTimes.Items.AddRange(new DevExpress.XtraEditors.Controls.CheckedListBoxItem[] {
