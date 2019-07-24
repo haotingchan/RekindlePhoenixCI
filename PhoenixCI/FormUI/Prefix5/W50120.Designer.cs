@@ -85,7 +85,7 @@
          this.lblDate.BackColor = System.Drawing.Color.Transparent;
          this.lblDate.Location = new System.Drawing.Point(19, 24);
          this.lblDate.Name = "lblDate";
-         this.lblDate.Size = new System.Drawing.Size(57, 20);
+         this.lblDate.Size = new System.Drawing.Size(43, 14);
          this.lblDate.TabIndex = 7;
          this.lblDate.Text = "年月：";
          // 
@@ -105,7 +105,7 @@
          this.txtMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.txtMonth.Properties.Mask.ShowPlaceHolders = false;
          this.txtMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtMonth.Size = new System.Drawing.Size(100, 28);
+         this.txtMonth.Size = new System.Drawing.Size(100, 22);
          this.txtMonth.TabIndex = 6;
          this.txtMonth.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
