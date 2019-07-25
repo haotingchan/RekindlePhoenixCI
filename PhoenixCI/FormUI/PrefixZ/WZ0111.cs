@@ -1,153 +1,130 @@
-﻿using ActionService;
-using BaseGround;
+﻿using BaseGround;
 using BaseGround.Report;
-using BaseGround.Shared;
 using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together;
-using DevExpress.XtraEditors.Controls;
 using PhoenixCI.Widget;
 using System;
-using System.Data;
 
-namespace PhoenixCI.FormUI.PrefixZ
-{
-    public partial class WZ0111 : FormParent
-    {
+namespace PhoenixCI.FormUI.PrefixZ {
+   public partial class WZ0111 : FormParent {
       private LOGUTP daoLOGUTP;
 
-      public WZ0111(string programID, string programName) : base(programID, programName)
-        {
-            InitializeComponent();
+      public WZ0111(string programID , string programName) : base(programID , programName) {
+         InitializeComponent();
 
-            GridHelper.SetCommonGrid(gvMain);
-            PrintableComponent = gcMain;
-            this.Text = _ProgramID + "─" + _ProgramName;
+         GridHelper.SetCommonGrid(gvMain);
+         PrintableComponent = gcMain;
+         this.Text = _ProgramID + "─" + _ProgramName;
 
          daoLOGUTP = new LOGUTP();
       }
 
-        public override ResultStatus BeforeOpen()
-        {
-            base.BeforeOpen();
+      public override ResultStatus BeforeOpen() {
+         base.BeforeOpen();
 
-            return ResultStatus.Success;
-        }
+         return ResultStatus.Success;
+      }
 
-        protected override ResultStatus Open()
-        {
-            base.Open();
-         DataTable dtType = new CODW().ListLookUpEdit("Z0111", "LOGUTP_TYPE");
-         Extension.SetDataTable(ddlUserId, dtType, "CODW_ID", "CODW_DESC", TextEditStyles.DisableTextEditor);
-         //DropDownList.LookUpItemUserIdAndName(ddlUserId);
+      protected override ResultStatus Open() {
+         base.Open();
+
+         DropDownList.LookUpItemUserIdAndName(ddlUserId);
 
 
-            txtStartDate.DateTimeValue = GlobalInfo.OCF_DATE;
-            txtEndDate.DateTimeValue = GlobalInfo.OCF_DATE;
+         txtStartDate.DateTimeValue = GlobalInfo.OCF_DATE;
+         txtEndDate.DateTimeValue = GlobalInfo.OCF_DATE;
 
-            return ResultStatus.Success;
-        }
+         return ResultStatus.Success;
+      }
 
-        protected override ResultStatus AfterOpen()
-        {
-            base.AfterOpen();
+      protected override ResultStatus AfterOpen() {
+         base.AfterOpen();
 
-            return ResultStatus.Success;
-        }
+         return ResultStatus.Success;
+      }
 
-        protected override ResultStatus ActivatedForm()
-        {
-            base.ActivatedForm();
+      protected override ResultStatus ActivatedForm() {
+         base.ActivatedForm();
 
-            _ToolBtnRetrieve.Enabled = true;
-            _ToolBtnPrintAll.Enabled = true;
+         _ToolBtnRetrieve.Enabled = true;
+         _ToolBtnPrintAll.Enabled = true;
 
-            return ResultStatus.Success;
-        }
+         return ResultStatus.Success;
+      }
 
-        protected override ResultStatus Retrieve()
-        {
-            base.Retrieve(gcMain);
+      protected override ResultStatus Retrieve() {
+         base.Retrieve(gcMain);
 
-            string userId = ddlUserId.EditValue.AsString();
-            DateTime startDate = txtStartDate.DateTimeValue;
-            DateTime endDate = txtEndDate.DateTimeValue;
-            gcMain.DataSource = daoLOGUTP.ListDataByUser(startDate, endDate, userId);
-            gvMain.TrimAllCell();
+         string userId = ddlUserId.EditValue.AsString();
+         DateTime startDate = txtStartDate.DateTimeValue;
+         DateTime endDate = txtEndDate.DateTimeValue;
+         gcMain.DataSource = daoLOGUTP.ListDataByUser(startDate , endDate , userId);
+         gvMain.TrimAllCell();
 
-            return ResultStatus.Success;
-        }
+         return ResultStatus.Success;
+      }
 
-        protected override ResultStatus CheckShield()
-        {
-            base.CheckShield(gcMain);
-            return ResultStatus.Success;
-        }
+      protected override ResultStatus CheckShield() {
+         base.CheckShield(gcMain);
+         return ResultStatus.Success;
+      }
 
-        protected override ResultStatus Save(PokeBall pokeBall)
-        {
-            base.Save(gcMain);
+      protected override ResultStatus Save(PokeBall pokeBall) {
+         base.Save(gcMain);
 
-            return ResultStatus.Success;
-        }
+         return ResultStatus.Success;
+      }
 
-        protected override ResultStatus Run(PokeBall args)
-        {
-            base.Run(gcMain);
+      protected override ResultStatus Run(PokeBall args) {
+         base.Run(gcMain);
 
-            return ResultStatus.Success;
-        }
+         return ResultStatus.Success;
+      }
 
-        protected override ResultStatus Import()
-        {
-            base.Import(gcMain);
+      protected override ResultStatus Import() {
+         base.Import(gcMain);
 
-            return ResultStatus.Success;
-        }
+         return ResultStatus.Success;
+      }
 
-        protected override ResultStatus Export()
-        {
-            base.Export(gcMain);
+      protected override ResultStatus Export() {
+         base.Export(gcMain);
 
-            return ResultStatus.Success;
-        }
+         return ResultStatus.Success;
+      }
 
-        protected override ResultStatus Print(ReportHelper reportHelper)
-        {
-            base.Print(reportHelper);
+      protected override ResultStatus Print(ReportHelper reportHelper) {
+         base.Print(reportHelper);
 
-            return ResultStatus.Success;
-        }
+         return ResultStatus.Success;
+      }
 
-        public override void ProcessPrintAll(ReportHelper reportHelper)
-        {
-            CommonReportLandscapeA4 report = new CommonReportLandscapeA4();
-            report.IsHandlePersonVisible = false;
-            report.IsManagerVisible = false;
-            reportHelper.Create(report);
+      public override void ProcessPrintAll(ReportHelper reportHelper) {
+         CommonReportLandscapeA4 report = new CommonReportLandscapeA4();
+         report.IsHandlePersonVisible = false;
+         report.IsManagerVisible = false;
+         reportHelper.Create(report);
 
-            base.Print(reportHelper);
-            MessageDisplay.Info(MessageDisplay.MSG_PRINT);
-        }
+         base.Print(reportHelper);
+         MessageDisplay.Info(MessageDisplay.MSG_PRINT);
+      }
 
-        protected override ResultStatus InsertRow()
-        {
-            base.InsertRow(gvMain);
+      protected override ResultStatus InsertRow() {
+         base.InsertRow(gvMain);
 
-            return ResultStatus.Success;
-        }
+         return ResultStatus.Success;
+      }
 
-        protected override ResultStatus DeleteRow()
-        {
-            base.DeleteRow(gvMain);
+      protected override ResultStatus DeleteRow() {
+         base.DeleteRow(gvMain);
 
-            return ResultStatus.Success;
-        }
+         return ResultStatus.Success;
+      }
 
-        protected override ResultStatus BeforeClose()
-        {
-            return base.BeforeClose();
-        }
-    }
+      protected override ResultStatus BeforeClose() {
+         return base.BeforeClose();
+      }
+   }
 }
