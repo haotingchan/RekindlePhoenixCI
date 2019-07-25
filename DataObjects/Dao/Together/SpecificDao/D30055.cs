@@ -318,7 +318,8 @@ from (
       and t.btinoivl4_prodid = rpt_kind_id(+)
 ) m
 where nvl(m.rpt_seq_no,'0')<>'0'
-order by rpt_seq_no , cp_seq_no , btinoivl3f_acc_type desc , pc_code
+--order by rpt_seq_no , cp_seq_no , btinoivl3f_acc_type desc , pc_code
+order by rpt_seq_no , cp_seq_no , btinoivl3f_acc_type
 ";
          DataTable dtResult = db.GetDataTable(sql, parms);
 
