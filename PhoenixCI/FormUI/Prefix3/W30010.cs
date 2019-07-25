@@ -41,7 +41,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          //List<LookupItem> ddlb_grp = new List<LookupItem>(){
          //                               new LookupItem() { ValueMember = "1", DisplayMember = "16:15收盤"},
          //                               new LookupItem() { ValueMember = "2", DisplayMember = "全部收盤" }};
-         DataTable ddlb_grp = new CODW().ListLookUpEdit("30010", "30010_DDLB_GRP");
+         DataTable ddlb_grp = new CODW().ListLookUpEdit("30010" , "30010_DDLB_GRP");
          Extension.SetDataTable(ddlType , ddlb_grp , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
          ddlType.ItemIndex = 1;
 
@@ -602,14 +602,18 @@ namespace PhoenixCI.FormUI.Prefix3 {
          //成交值
          rowIndex = rowIndex + 4;
          ldtDate = txtSDate.DateTimeValue;
-         decimal amt;
+         decimal amt1;
          date = txtSDate.DateTimeValue.ToString("yyyyMMdd");
-         amt = dao30010.get30015Amt_1(date);
-         amt = Math.Round(amt / 100000000 / 2 , 2 , MidpointRounding.AwayFromZero);
-         ws30014.Cells[rowIndex , 0].Value = amt;
+         amt1 = dao30010.get30015Amt_1(date);
+         amt1 = Math.Round(amt1 / 100000000 / 2 , 2 , MidpointRounding.AwayFromZero);
+         ws30014.Cells[rowIndex , 0].Value = amt1;
 
-         amt = dao30010.get30015Amt_2(ldtDate);
-         ws30014.Cells[rowIndex , 3].Value = amt;
+         decimal amt2;
+         amt2 = dao30010.get30015Amt_2(ldtDate); //PB這邊看起來若傳回的值為0，就跟前面的值會一樣
+         if (amt2 == 0) {
+            amt2 = amt1;
+         }
+         ws30014.Cells[rowIndex , 3].Value = amt2;
       }
 
       /// <summary>
@@ -666,7 +670,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
       /// <returns></returns>
       private string wfCopy30010(string fileName , string grp) {
 
-         string template = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH , fileName + ".xls");
+         string template = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH , fileName + ".xlsx");
          if (!File.Exists(template)) {
             MessageDisplay.Error("無此檔案「" + template + "」!");
             return "";
@@ -675,15 +679,15 @@ namespace PhoenixCI.FormUI.Prefix3 {
          lsFilename = "動態報導" + (txtSDate.DateTimeValue.Year - 1911) + "." +
                       txtSDate.DateTimeValue.Month + "." + txtSDate.DateTimeValue.Day;
          if (grp == "1") {
-            lsFilename = lsFilename + "(16時15分收盤)" + ".xls";
+            lsFilename = lsFilename + "(16時15分收盤)" + ".xlsx";
          } else {
-            lsFilename = lsFilename + "(全部收盤)" + ".xls";
+            lsFilename = lsFilename + "(全部收盤)" + ".xlsx";
          }
          bool lbChk;
          string file = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , lsFilename);
          lbChk = File.Exists(file);
          if (lbChk) {
-            File.Move(file , file + "_bak_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".xls");
+            File.Move(file , file + "_bak_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".xlsx");
          }
          try {
             File.Copy(template , file , false);

@@ -185,10 +185,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
 
             //1.複製檔案 & 開啟檔案
-            string originalFilePath = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH , _ProgramID + "." + FileType.XLS.ToString().ToLower());
+            string originalFilePath = Path.Combine(GlobalInfo.DEFAULT_EXCEL_TEMPLATE_DIRECTORY_PATH , _ProgramID + "." + FileType.XLSX.ToString().ToLower());
 
             string destinationFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH ,
-                _ProgramID + "_" + tempMarketCode + "_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss.") + FileType.XLS.ToString().ToLower());
+                _ProgramID + "_" + tempMarketCode + "_" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss.") + FileType.XLSX.ToString().ToLower());
 
             File.Copy(originalFilePath , destinationFilePath , true);
 

@@ -12,8 +12,6 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 
-//TODO : (CIN)servername登入才會看到chkTest選項(決定是否產txt檔) 
-
 /// <summary>
 /// Winni, 2019/04/17
 /// </summary>
@@ -166,6 +164,10 @@ namespace PhoenixCI.FormUI.Prefix2 {
                }
             }
 
+            if (dt.Rows.Count <= 0) {
+               return ResultStatus.Fail;
+            }
+
             gvMain.Columns.Clear();
             gvMain.OptionsBehavior.AutoPopulateColumns = true;
             gcMain.DataSource = dt;
@@ -303,7 +305,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             Worksheet worksheet = workbook.Worksheets[0];
 
             string tmp = worksheet.Cells[1 , 0].Value.AsString().Replace("民" , "").Replace("國" , "").Replace("年" , "").Replace("月" , "");
-            string tmpDate = (tmp.Substring(0 , 3).AsInt() + 1911).AsString() + tmp.Substring(3 , 2);
+            string tmpDate = (tmp.Substring(0 , 3).AsInt() + 1911).AsString() + tmp.Substring(3 , 2).Trim().PadLeft(3,'0').SubStr(1,2);
             if (tmpDate != txtDate) {
                MessageDisplay.Error(string.Format("轉檔檔案之年月= {0} ,與輸入條件= {1} 不符" , tmpDate , txtDate) , GlobalInfo.ErrorText);
                return null;
@@ -373,7 +375,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                                     CheckedListBoxItem chkItem) {
          try {
 
-            xtraOpenFileDialog1.Filter = "Excel | *.xls | Excelx | *.xlsx"; // file types, that will be allowed to upload
+            xtraOpenFileDialog1.Filter = "Excel | *.xls | Excelx | *.xlsx | All files (*.*)| (*.*) "; // file types, that will be allowed to upload
             xtraOpenFileDialog1.Multiselect = false; // allow/deny user to upload more than one file at a time
 
             //上櫃資料__請輸入交易日期 , 範本檔名稱=成交彙總表10710
