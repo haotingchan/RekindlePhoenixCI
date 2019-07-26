@@ -62,7 +62,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             base.AfterOpen();
 
             //先確認有沒有資料(這邊不直接下Retrieve是為了不跳錯誤訊息)
-            DataTable dtCheck = daoAM7M.ListAllByDate(txtMonth.Text);
+            DataTable dtCheck = daoAM7M.ListAllByDate(txtMonth.FormatValue);
             dtForDeleted = dtCheck.Clone();
             //沒有新增資料時,則自動新增內容
             if (dtCheck.Rows.Count == 0) {
