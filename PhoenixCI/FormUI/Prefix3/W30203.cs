@@ -1,24 +1,20 @@
-﻿using System;
+﻿using BaseGround;
+using BaseGround.Report;
+using BaseGround.Shared;
+using BusinessObjects;
+using BusinessObjects.Enums;
+using Common;
+using DataObjects.Dao.Together;
+using DataObjects.Dao.Together.SpecificDao;
+using DevExpress.XtraEditors.Repository;
+using DevExpress.XtraGrid.Views.Base;
+using DevExpress.XtraGrid.Views.Grid;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using BaseGround;
-using DataObjects.Dao.Together.SpecificDao;
-using BusinessObjects.Enums;
-using Common;
-using BaseGround.Shared;
-using DevExpress.XtraEditors.Repository;
-using DevExpress.XtraGrid.Views.Grid;
-using BusinessObjects;
-using DevExpress.XtraGrid.Views.Base;
-using BaseGround.Report;
-using DataObjects.Dao.Together;
 
 /// <summary>
 /// Lukas, 2019/3/13
@@ -93,6 +89,15 @@ namespace PhoenixCI.FormUI.Prefix3 {
             bandPL1_NATURE_LEGAL.Caption = "針對須調降之商品" + Environment.NewLine + "再增加檢視標準後";
             bandPL1B_ADJ.Caption = Environment.NewLine + "本次擬調整狀態";
             #endregion
+
+            gcMain.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
+            gcMain.LookAndFeel.UseDefaultLookAndFeel = false;
+            gvMain.OptionsSelection.EnableAppearanceFocusedRow = false;
+            gvMain.OptionsSelection.EnableAppearanceFocusedCell = false;
+            gcGBF.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
+            gcGBF.LookAndFeel.UseDefaultLookAndFeel = false;
+            gvGBF.OptionsSelection.EnableAppearanceFocusedRow = false;
+            gvGBF.OptionsSelection.EnableAppearanceFocusedCell = false;
          } catch (Exception ex) {
             throw ex;
          }
@@ -171,11 +176,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
             } else {
                lblEff.Text = "";
             }
+
             DataTable dt30203PL2 = dao30203.d_30203_pl2(lsYmd);
             if (dt30203PL2.Rows.Count == 0) {
                MessageDisplay.Info("PL2無任何資料!");
                return ResultStatus.Fail;
             }
+
             if (dtPostDate.Rows[0]["LI_COUNT"].AsInt() <= 0) return ResultStatus.Fail;
             DialogResult result = MessageDisplay.Choose("已確認資料，按「是」讀取已存檔資料，按「否」為重新產製資料");
             if (result == DialogResult.No) return ResultStatus.Fail;
@@ -198,15 +205,15 @@ namespace PhoenixCI.FormUI.Prefix3 {
                }
                gvMain.SetRowCellValue(found , "PL1_YMD" , dr["PL2_YMD"].AsString());
                gvMain.SetRowCellValue(found , "PL1_KIND_ID" , dr["PL2_KIND_ID"].ToString());
-               gvMain.SetRowCellValue(found , "PL1_NATURE" , dr["PL2_NATURE"].AsInt());
-               gvMain.SetRowCellValue(found , "PL1_LEGAL" , dr["PL2_LEGAL"].AsInt());
-               gvMain.SetRowCellValue(found , "PL1_999" , dr["PL2_999"].AsInt());
+               gvMain.SetRowCellValue(found , "PL1_NATURE" , dr["PL2_NATURE"]);
+               gvMain.SetRowCellValue(found , "PL1_LEGAL" , dr["PL2_LEGAL"]);
+               gvMain.SetRowCellValue(found , "PL1_999" , dr["PL2_999"]);
                gvMain.SetRowCellValue(found , "PL1_NATURE_ADJ" , dr["PL2_NATURE_ADJ"].ToString());
                gvMain.SetRowCellValue(found , "PL1_LEGAL_ADJ" , dr["PL2_LEGAL_ADJ"].ToString());
                gvMain.SetRowCellValue(found , "PL1_999_ADJ" , dr["PL2_999_ADJ"].ToString());
-               gvMain.SetRowCellValue(found , "PL1_CUR_NATURE" , dr["PL2_PREV_NATURE"].AsInt());
-               gvMain.SetRowCellValue(found , "PL1_CUR_LEGAL" , dr["PL2_PREV_LEGAL"].AsInt());
-               gvMain.SetRowCellValue(found , "PL1_CUR_999" , dr["PL2_PREV_999"].AsInt());
+               gvMain.SetRowCellValue(found , "PL1_CUR_NATURE" , dr["PL2_PREV_NATURE"]);
+               gvMain.SetRowCellValue(found , "PL1_CUR_LEGAL" , dr["PL2_PREV_LEGAL"]);
+               gvMain.SetRowCellValue(found , "PL1_CUR_999" , dr["PL2_PREV_999"]);
             }
 
             DataTable dt30203PL2B = dao30203.d_30203_pl2b(lsYmd);
@@ -235,8 +242,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
                   gvGBF.SetRowCellValue(found , "PL1B_ADJ" , dr["PL2B_ADJ"].ToString());
                }
             }
+
          } catch (Exception ex) {
-            throw ex;
+            WriteLog(ex);
          }
 
          return ResultStatus.Success;
@@ -248,7 +256,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             gvMain.Focus();
             gvMain.FocusedColumn = gvMain.Columns[0];
          } catch (Exception ex) {
-            throw ex;
+            WriteLog(ex);
          }
          return ResultStatus.Success;
       }
@@ -258,7 +266,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             base.DeleteRow(gvMain);
          } catch (Exception ex) {
             MessageDisplay.Error("刪除資料列錯誤");
-            throw ex;
+            WriteLog(ex);
          }
          return ResultStatus.Success;
       }
@@ -420,7 +428,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
          } catch (Exception ex) {
             MessageDisplay.Error(showMsg);
-            throw ex;
+            WriteLog(ex);
          }
          return ResultStatus.Success;
       }
@@ -434,7 +442,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             base.Print(_ReportHelper);
          } catch (Exception ex) {
-            throw ex;
+            WriteLog(ex);
          }
          return ResultStatus.Success;
       }

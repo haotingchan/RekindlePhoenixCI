@@ -298,6 +298,7 @@
     <Compile Include="Dao\Together\TableDao\AM22F.cs" />
     <Compile Include="Dao\Together\TableDao\AM2F.cs" />
     <Compile Include="Dao\Together\TableDao\AM7.cs" />
+    <Compile Include="Dao\Together\TableDao\AM7M.cs" />
     <Compile Include="Dao\Together\TableDao\AM7T.cs" />
     <Compile Include="Dao\Together\TableDao\BLP_OPTVOL.cs" />
     <Compile Include="Dao\Together\TableDao\AP.cs" />

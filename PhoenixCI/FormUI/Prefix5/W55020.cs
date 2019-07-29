@@ -225,12 +225,14 @@ namespace PhoenixCI.FormUI.Prefix5 {
       }
 
       private void rgpType_EditValueChanged(object sender , EventArgs e) {
-         if (rgpType.SelectedIndex == 0) {
-            labProdType.Visible = true;
-            cbxProdType.Visible = true;
-         } else {
-            labProdType.Visible = false;
-            cbxProdType.Visible = false;
+         if (FlagAdmin) {
+            if (rgpType.SelectedIndex == 0) {
+               labProdType.Visible = true;
+               cbxProdType.Visible = true;
+            } else {
+               labProdType.Visible = false;
+               cbxProdType.Visible = false;
+            }
          }
       }
 

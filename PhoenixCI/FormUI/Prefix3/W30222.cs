@@ -1,24 +1,21 @@
-﻿using System;
+﻿using BaseGround;
+using BaseGround.Report;
+using BaseGround.Shared;
+using BusinessObjects;
+using BusinessObjects.Enums;
+using Common;
+using DataObjects.Dao.Together;
+using DataObjects.Dao.Together.SpecificDao;
+using DevExpress.XtraEditors.Controls;
+using DevExpress.XtraEditors.Repository;
+using DevExpress.XtraGrid.Views.Grid;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using BaseGround;
-using BusinessObjects.Enums;
-using BaseGround.Shared;
-using DataObjects.Dao.Together.SpecificDao;
-using Common;
-using DevExpress.XtraEditors.Repository;
-using BaseGround.Report;
-using DevExpress.XtraGrid.Views.Grid;
-using BusinessObjects;
-using DataObjects.Dao.Together;
-using DevExpress.XtraEditors.Controls;
 
 /// <summary>
 /// Lukas, 2019/3/18
@@ -197,6 +194,12 @@ namespace PhoenixCI.FormUI.Prefix3 {
                   dtGridView.Rows[found]["COMPUTE_1"] = " ";
                }
             }//foreach (DataRow dr in dt30222PLS2.Rows)
+
+            gcMain.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
+            gcMain.LookAndFeel.UseDefaultLookAndFeel = false;
+            gvMain.OptionsSelection.EnableAppearanceFocusedRow = false;
+            gvMain.OptionsSelection.EnableAppearanceFocusedCell = false;
+
             gcMain.DataSource = dtGridView;
          }
          catch (Exception ex) {
