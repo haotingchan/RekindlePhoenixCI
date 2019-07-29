@@ -23,6 +23,7 @@
       /// the contents of this method with the code editor.
       /// </summary>
       private void InitializeComponent() {
+         this.components = new System.ComponentModel.Container();
          this.labMsg = new System.Windows.Forms.Label();
          this.panFilter = new System.Windows.Forms.GroupBox();
          this.btn33 = new DevExpress.XtraEditors.SimpleButton();
@@ -38,7 +39,7 @@
          this.label9 = new System.Windows.Forms.Label();
          this.txtEnd = new DevExpress.XtraEditors.TextEdit();
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
-         this.xtraOpenFileDialog1 = new DevExpress.XtraEditors.XtraOpenFileDialog();
+         this.xtraOpenFileDialog1 = new DevExpress.XtraEditors.XtraOpenFileDialog(this.components);
          this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
          this.groupBox1 = new System.Windows.Forms.GroupBox();
          this.lblDate = new System.Windows.Forms.Label();

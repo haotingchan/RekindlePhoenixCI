@@ -10,6 +10,7 @@ using DevExpress.XtraEditors.Controls;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
@@ -37,6 +38,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          base.Open();
          //日期
          txtSDate.DateTimeValue = GlobalInfo.OCF_DATE;
+         System.Globalization.TaiwanCalendar TC = new System.Globalization.TaiwanCalendar();
 #if DEBUG
          txtSDate.Text = "2018/10/15";
 #endif
@@ -98,7 +100,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
             lblProcessing.Visible = true;
             ShowMsg("開始轉檔...");
             string rptId, file, rptName = "";
-            date = txtSDate.DateTimeValue.Year + "年" + txtSDate.DateTimeValue.Month + "月" + txtSDate.DateTimeValue.Day + "日";
+
+            TaiwanCalendar TC = new TaiwanCalendar();
+            date = TC.GetYear(txtSDate.DateTimeValue) + "年" + txtSDate.DateTimeValue.Month + "月" + txtSDate.DateTimeValue.Day + "日";
 
             #region ue_export_before
             //判斷盤別
@@ -296,6 +300,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
          //Common.Helper.ExportHelper.ToText(dt30053f, etfFileName, txtref);
 
          //填資料
+         Range range = ws.Range["H1:J1"];
+         range.NumberFormat = "@";
          ws.Cells[0 , 7].Value = date;
          delRow = 0;
          foreach (DataRow dr in dt30053f.Rows) {
@@ -348,6 +354,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
          }
 
          //填資料
+         Range range = ws.Range["J1:L1"];
+         range.NumberFormat = "@";
          ws.Cells[0 , 9].Value = date;
          delRow = 0;
          oleRow = 0;
@@ -404,6 +412,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
          }
 
          //填資料
+         Range range2 = ws.Range["J1:L1"];
+         range2.NumberFormat = "@";
          ws.Cells[0 , 9].Value = date;
          int row, col;
          DataView dv = dt30053stc.AsDataView();
@@ -456,6 +466,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             return false;
          }
          //填資料
+         Range range = ws.Range["J1:L1"];
+         range.NumberFormat = "@";
          ws.Cells[0 , 9].Value = date;
          ws.Import(dt30053stfNear , false , 2 , 0);
          ws.ScrollToRow(0);
@@ -502,6 +514,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             return false;
          }
          //填資料
+         Range range = ws.Range["E1:G1"];
+         range.NumberFormat = "@";
          ws.Cells[0 , 4].Value = date;
          ws.Import(dt30053StfTop40 , false , 2 , 0);
          ws.ScrollToRow(0);
@@ -548,6 +562,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             return false;
          }
          //填資料
+         Range range = ws.Range["F1:H1"];
+         range.NumberFormat = "@";
          ws.Cells[0 , 5].Value = date;
          ws.Import(dt30053StcTop10 , false , 2 , 0);
          ws.ScrollToRow(0);
@@ -571,6 +587,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             return false;
          }
          //填資料
+         Range range = ws.Range["F1:H1"];
+         range.NumberFormat = "@";
          ws.Cells[0 , 5].Value = date;
          ws.Import(dt30053EtcTop20 , false , 2 , 0);
          ws.ScrollToRow(0);
@@ -594,6 +612,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             return false;
          }
          //填資料
+         Range range = ws.Range["F1:H1"];
+         range.NumberFormat = "@";
          ws.Cells[0 , 5].Value = date;
          ws.Import(dt30053RhoTop20 , false , 2 , 0);
          ws.ScrollToRow(0);
@@ -617,6 +637,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             return false;
          }
          //填資料
+         Range range = ws.Range["F1:H1"];
+         range.NumberFormat = "@";
          ws.Cells[0 , 5].Value = date;
          ws.Import(dt30053RtoTop20 , false , 2 , 0);
          ws.ScrollToRow(0);

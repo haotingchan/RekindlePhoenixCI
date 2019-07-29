@@ -204,47 +204,70 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             //1.設定初始年月yyyy/MM
             //1.1取得資料庫內最大日期
-            DateTime ocfDate = GlobalInfo.OCF_DATE;
+            //DateTime ocfDate = GlobalInfo.OCF_DATE;
 
-            DateTime ls_ymd = DateTime.Now.AddDays(-30);
-            DateTime aocfMaxDate = new AOCF().GetMaxDate(ls_ymd.ToString("yyyyMMdd") , "");
-            if (aocfMaxDate != default(DateTime)) {
-               ls_ymd = aocfMaxDate.AddDays(-1);
-               ocfDate = ls_ymd;
+            //DateTime ls_ymd = DateTime.Now.AddDays(-30);
+            //DateTime aocfMaxDate = new AOCF().GetMaxDate(ls_ymd.ToString("yyyyMMdd") , "");
+            //if (aocfMaxDate != default(DateTime)) {
+            //   ls_ymd = aocfMaxDate.AddDays(-1);
+            //   ocfDate = ls_ymd;
+            //}
+
+            DateTime em_date = new DateTime();
+            string ls_ymd = DateTime.Now.AddDays(-30).ToString("yyyyMMdd");
+            DateTime temp = new AOCF().GetMaxDate("" , ls_ymd);
+            if (temp != default(DateTime)) {
+               em_date = temp.AddDays(-1);
             }
 
 #if DEBUG
             //ken test
-            ocfDate = DateTime.ParseExact("2019/05/19", "yyyy/MM/dd", null);
-            this.Text += "(開啟測試模式),ocfDate=2018/11/16";
+            //ocfDate = DateTime.ParseExact("2019/05/19" , "yyyy/MM/dd" , null);
+            //this.Text += "(開啟測試模式),ocfDate=2018/11/16";
 #endif
 
             //1.2一般交易
-            txtThisEndDate.Text = ocfDate.ToString("yyyy/MM/dd");//本週
-            txtThisStartDate.Text = ocfDate.AddDays(-6).ToString("yyyy/MM/dd");//本週
-            txtLastEndDate.Text = ocfDate.AddDays(-7).ToString("yyyy/MM/dd");//上週
-            txtLastStartDate.Text = ocfDate.AddDays(-13).ToString("yyyy/MM/dd");//上週
-            txtRateStartDate.Text = ocfDate.ToString("yyyy/01/01"); //夜盤占日盤交易量比重起日
+            //本週
+            txtThisEndDate.DateTimeValue = em_date;
+            txtThisStartDate.DateTimeValue = em_date.AddDays(-6);
+            //上週
+            txtLastEndDate.DateTimeValue = txtThisStartDate.DateTimeValue.AddDays(-1);
+            txtLastStartDate.DateTimeValue = txtLastEndDate.DateTimeValue.AddDays(-6);
+            txtRateStartDate.DateTimeValue = DateTime.ParseExact(em_date.Year.AsString() + "0101" , "yyyyMMdd" , null);
+
+            //txtThisEndDate.Text = ocfDate.ToString("yyyy/MM/dd");//本週
+            //txtThisStartDate.Text = ocfDate.AddDays(-6).ToString("yyyy/MM/dd");//本週
+            //txtLastEndDate.Text = ocfDate.AddDays(-7).ToString("yyyy/MM/dd");//上週
+            //txtLastStartDate.Text = ocfDate.AddDays(-13).ToString("yyyy/MM/dd");//上週
+            //txtRateStartDate.Text = ocfDate.ToString("yyyy/01/01"); //夜盤占日盤交易量比重起日
 
             //1.3盤後交易
-            txtLastEndDateN.Text = txtLastEndDate.Text;
-            txtLastStartDateN.Text = txtLastStartDate.Text;
-            txtThisEndDateN.Text = txtThisEndDate.Text;
-            txtThisStartDateN.Text = txtThisStartDate.Text;
-            txtRateStartDateN.Text = txtRateStartDate.Text;
+            //本週
+            txtThisEndDateN.DateTimeValue = em_date;
+            txtThisStartDateN.DateTimeValue = em_date.AddDays(-6);
+            //上週
+            txtLastEndDateN.DateTimeValue = txtThisStartDate.DateTimeValue.AddDays(-1);
+            txtLastStartDateN.DateTimeValue = txtLastEndDate.DateTimeValue.AddDays(-6);
+            txtRateStartDateN.DateTimeValue = DateTime.ParseExact(em_date.Year.AsString() + "0101" , "yyyyMMdd" , null);
+
+            //txtLastEndDateN.Text = txtLastEndDate.Text;
+            //txtLastStartDateN.Text = txtLastStartDate.Text;
+            //txtThisEndDateN.Text = txtThisEndDate.Text;
+            //txtThisStartDateN.Text = txtThisStartDate.Text;
+            //txtRateStartDateN.Text = txtRateStartDate.Text;
 
             //1.4夜盤與日盤平均OI差異
             //日盤起日
-            DateTime aocfMinDate = new AOCF().GetMinDate(ocfDate.ToString("yyyy0101") , ">=");
-            txtDiffStartDate.Text = aocfMinDate.ToString("yyyy/MM/dd");
+            DateTime aocfMinDate = new AOCF().GetMinDate(em_date.Year.AsString() + "0101" , ">=");
+            txtDiffStartDate.DateTimeValue = aocfMinDate;
             //夜盤起日 = 日盤起日 + 1
-            aocfMinDate = new AOCF().GetMinDate(aocfMinDate.ToString("yyyyMMdd") , ">");
-            txtDiffStartDateN.Text = aocfMinDate.ToString("yyyy/MM/dd");
+            DateTime aocfMinDate2 = new AOCF().GetMinDate(aocfMinDate.ToString("yyyyMMdd") , ">");
+            txtDiffStartDateN.DateTimeValue = aocfMinDate2;
             //夜盤迄日
-            txtDiffEndDateN.Text = txtThisEndDate.Text;
+            txtDiffEndDateN.DateTimeValue = em_date;
             //日盤迄日 = 夜盤迄日 - 1
-            aocfMaxDate = new AOCF().GetMaxDate("" , ocfDate.ToString("yyyyMMdd"));
-            txtDiffEndDate.Text = aocfMaxDate.ToString("yyyy/MM/dd");
+            DateTime aocfMaxDate = new AOCF().GetMaxDate("" , txtDiffEndDateN.DateTimeValue.ToString("yyyyMMdd"));
+            txtDiffEndDate.DateTimeValue = aocfMaxDate;
 
 
 
@@ -254,9 +277,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
 #if DEBUG
             //ken test
-            gvMain.SetRowCellValue(0, "CPR_SELECT", "Y");
-            gvMain.SetRowCellValue(2, "CPR_SELECT", "Y");
-            gvMain.SetRowCellValue(4, "CPR_SELECT", "Y");
+            gvMain.SetRowCellValue(0 , "CPR_SELECT" , "Y");
+            gvMain.SetRowCellValue(2 , "CPR_SELECT" , "Y");
+            gvMain.SetRowCellValue(4 , "CPR_SELECT" , "Y");
 #endif
 
             //3.setup test button

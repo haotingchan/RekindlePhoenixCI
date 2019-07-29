@@ -98,49 +98,48 @@ namespace PhoenixCI.FormUI.Prefix2 {
       /// 確認日期 有資料時清除PLS4相關日期資料
       /// </summary>
       /// <returns></returns>
-      private bool WfChkDate() {
-         //確認：比對日期
-         if (!emProdDate.IsDate(emProdDate.Text , "「比對期貨/選擇權商品基準日期」非正確日期格式")) {
-            return false;
-         }
+      private string WfChkDate() {
 
          string lsYMD;
          //確認：計算日期
          lsYMD = emDate.Text.Replace("/" , "");
          DialogResult ChooseResult = MessageDisplay.Choose($"請確認「計算日期 :{emDate.Text}」是否正確?");
          if (ChooseResult == DialogResult.No) {
-            return false;
+            return "E";
          }
 
-         //重新讀取資料
-         Retrieve();
-         DataTable dt = (DataTable)gcMain.DataSource;
-
-         if (dt == null) {
-            return false;
-         }
-
-         if (dt.Rows.Count > 0) {
+         //刪除舊有資料
+         DataTable data = dao20231.List20231(lsYMD);
+         if (data.Rows.Count > 0) {
             DialogResult ChooseResult1 = MessageDisplay.Choose($"「計算日期 :{emDate.Text}」資料已存在,是否刪除?");
             if (ChooseResult1 == DialogResult.No) {
-               return false;
+               return "E";
             }
+
             DialogResult ChooseResult2 = MessageBox.Show($"「計算日期 :{emDate.Text}」資料確定刪除?" , "注意" , MessageBoxButtons.OKCancel , MessageBoxIcon.Information);
             if (ChooseResult2 == DialogResult.Cancel) {
-               return false;
+               return "E";
             }
+
             //刪除相關日期條件已存在的資料
             dao20231.DeletePLS4(lsYMD);
          }
 
+         //確認：比對日期
+         if (!emProdDate.IsDate(emProdDate.Text , "「比對期貨/選擇權商品基準日期」非正確日期格式")) {
+            return "E";
+         }
+
          DialogResult ChooseResult3 = MessageBox.Show($"請確認「比對期貨/選擇權商品基準日期 :{emDate.Text}」是否正確?" , "注意" , MessageBoxButtons.OKCancel , MessageBoxIcon.Information);
          if (ChooseResult3 == DialogResult.Cancel) {
-            return false;
+            return "E";
          }
-         return true;
+
+         return "";
       }
 
       protected override ResultStatus Retrieve() {
+         gcMain.DataSource = null;
          DataTable returnTable = new DataTable();
          _cpYMD = emDate.Text.Replace("/" , "");
          returnTable = dao20231.List20231(_cpYMD);
@@ -148,7 +147,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
          if (returnTable.Rows.Count <= 0) {
             gcMain.Visible = false;
             MessageDisplay.Info(MessageDisplay.MSG_NO_DATA);
-            return ResultStatus.Success;
+            return ResultStatus.FailButNext;
          }
          if (!string.IsNullOrEmpty(returnTable.Rows[0]["PLS4_PDK_YMD"].AsString())) {
             _IsPdkYMD = returnTable.Rows[0]["PLS4_PDK_YMD"].AsString();
@@ -176,6 +175,14 @@ namespace PhoenixCI.FormUI.Prefix2 {
          int focusIndex = gvMain.GetFocusedDataSourceRowIndex();
          gvMain.CloseEditor();//必須先做close edit, like dt.AcceptChanges();
 
+         if (gcMain.DataSource == null) {
+            DataTable dtEmpty = dao20231.List20231(emDate.Text.Replace("/" , "")).Clone();
+            dtEmpty.Columns.Add("Is_NewRow" , typeof(string));
+            gcMain.DataSource = dtEmpty;
+            focusIndex = 0;
+            gcMain.Visible = true;
+         }
+
          //新增一行並做初始值設定
          DataTable dt = (DataTable)gcMain.DataSource;
          DataRow drNew = dt.NewRow();
@@ -194,6 +201,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
          gcMain.DataSource = dt;//重新設定給grid,雖然會更新但是速度太快,畫面不會閃爍
          gvMain.FocusedRowHandle = focusIndex;//原本的focusRowHandle會記住之前的位置,其實只是往上一行
          gvMain.FocusedColumn = gvMain.Columns[1];
+
          return ResultStatus.Success;
       }
 
@@ -321,20 +329,21 @@ namespace PhoenixCI.FormUI.Prefix2 {
 
          ShowMsg("開始轉檔...");
 
-         bool IsDone = WfChkDate();
+         string IsDone = "";
+         IsDone = WfChkDate();
          DataTable chkData = dao20231.List20231(emDate.Text.Replace("/" , ""));
          if (chkData.Rows.Count <= 0) {
             MessageDisplay.Info("轉入筆數為０!");
             return ResultStatus.Fail;
          }
          //確認
-         if (!IsDone) {
+         if (!string.IsNullOrEmpty(IsDone)) {
             return ResultStatus.Fail;
          }
-         if (IsDone) {
-            //TODO PB確認階段以後的邏輯有問題 需要等期交所確認真正需求
-            return ResultStatus.Success;
-         }
+         //if (IsDone) {
+         //   //TODO PB確認階段以後的邏輯有問題 需要等期交所確認真正需求
+         //   return ResultStatus.Success;
+         //}
          //轉入資料
          ResultData myResultData = dao20231.UpdatePLS4(dt);
          //期貨/選擇權
@@ -366,6 +375,9 @@ namespace PhoenixCI.FormUI.Prefix2 {
 
          //存檔 這段也怪怪的 PB 根本就沒有寫入任何路徑在is_save_file這個變數
          string filepath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , "");
+         if (string.IsNullOrEmpty(filepath)) {
+            return ResultStatus.Fail;
+         }
          gvMain.ExportToXlsx(filepath);
          //Write LOGF
          WriteLog("轉出檔案:" + filepath , "E");
@@ -416,9 +428,10 @@ namespace PhoenixCI.FormUI.Prefix2 {
       }
 
       private void btnCopy_Click(object sender , EventArgs e) {
-         bool IsDone = WfChkDate();
+         string IsDone = "";
+         IsDone = WfChkDate();
          //確認
-         if (!IsDone) {
+         if (!string.IsNullOrEmpty(IsDone)) {
             return;
          }
          gcMain.BeginUpdate();
@@ -442,6 +455,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             }
          }
          gcMain.DataSource = data;
+         gcMain.Visible = true;
          gcMain.EndUpdate();
       }
 

@@ -111,6 +111,11 @@ namespace PhoenixCI.FormUI.Prefix2 {
                dt.Columns.Add(dc);
             }
             DataTable csvDt = OpenCSV(txtPath1.Text , dt , Encoding.Default);
+            if (csvDt == null) {
+               //MessageDisplay.Error("請先關閉欲匯入之csv檔再執行匯入動作!" , GlobalInfo.ErrorText);
+               //txtPath1.BackColor = Color.Red;
+               return;
+            }
             daoINOTC1 = new INOTC1();
             DataTable targetDt = daoINOTC1.ListAll();
             type = csvDt.Rows[2]["Col5"].AsString();
@@ -143,7 +148,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                   if (val.IndexOf(",") > 0) {
                      val.Replace("," , "");
                   }
-                  if (j == 3) {
+                  if (j == 2) {
                      val = (val.AsDecimal() * 1000).AsString();
                   }
                   targetDt.Rows[targetDt.Rows.Count - 1][j] = val.AsDecimal();
@@ -269,22 +274,29 @@ namespace PhoenixCI.FormUI.Prefix2 {
       /// <param name="encoding">CSV編碼格式</param>
       /// <returns></returns>
       private DataTable OpenCSV(string filePath , DataTable dt , Encoding encoding) {
-
-         var csv = File.ReadAllText(filePath , encoding);
-         foreach (var line in CsvReader.ParseLines(csv)) {
-            string newLine = line;
-            if (line.SubStr(line.Length - 1 , 1) == ",") {
-               newLine = line.Remove(line.Length - 1 , 1);
+         try {
+            var csv = File.ReadAllText(filePath , encoding);
+            foreach (var line in CsvReader.ParseLines(csv)) {
+               string newLine = line;
+               if (line.SubStr(line.Length - 1 , 1) == ",") {
+                  newLine = line.Remove(line.Length - 1 , 1);
+               }
+               string[] strArray = CsvReader.ParseFields(newLine).ToArray();
+               int columnCount = strArray.Length;
+               DataRow dr = dt.NewRow();
+               for (int j = 0 ; j < columnCount ; j++) {
+                  dr[j] = strArray[j].Replace("\"" , "");
+               }
+               dt.Rows.Add(dr);
             }
-            string[] strArray = CsvReader.ParseFields(newLine).ToArray();
-            int columnCount = strArray.Length;
-            DataRow dr = dt.NewRow();
-            for (int j = 0 ; j < columnCount ; j++) {
-               dr[j] = strArray[j].Replace("\"" , "");
-            }
-            dt.Rows.Add(dr);
+            return dt;
+         } catch (Exception ex) {
+            WriteLog(ex , "" , false);
+            MessageDisplay.Error("請先關閉欲匯入之csv檔再執行匯入動作!" , GlobalInfo.ErrorText);
+            txtPath1.BackColor = Color.Red;
+            return null;
          }
-         return dt;
+
       }
    }
 }
