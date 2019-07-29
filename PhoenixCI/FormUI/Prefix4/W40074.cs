@@ -584,6 +584,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          gv.UpdateCurrentRow();
          string prodType, prodSubtype, paramKey, abroad;
          DataTable dtKind = new DataTable();
+         RepositoryItemLookUpEdit _kind = new RepositoryItemLookUpEdit();
          ymd = txtSDate.DateTimeValue.ToString("yyyyMMdd");
          if (e.Column.FieldName == "KIND_ID") {
             prodSubtype = gv.GetRowCellValue(e.RowHandle , "PROD_SUBTYPE").AsString();
@@ -593,21 +594,22 @@ namespace PhoenixCI.FormUI.Prefix4 {
             if (prodSubtype == "S") {
                if (gv.GetRowCellValue(e.RowHandle , "ADJ_CODE").AsString() == "D") {
                   dtKind = dao40071.dddw_pdk_kind_id_40071(ymd , paramKey);
-                  kindIDLookUpEdit.SetColumnLookUp(dtKind , "KIND_ID" , "KIND_ID" , TextEditStyles.Standard , null);
-                  gcMain.RepositoryItems.Add(kindIDLookUpEdit);
-                  e.RepositoryItem = kindIDLookUpEdit;
+
+                  _kind.SetColumnLookUp(dtKind , "KIND_ID" , "KIND_ID" , TextEditStyles.Standard , null);
+                  gcMain.RepositoryItems.Add(_kind);
+                  e.RepositoryItem = _kind;
                }
                if (gv.GetRowCellValue(e.RowHandle , "ADJ_CODE").AsString() == "Y") {
                   dtKind = dao40074.dddw_pdk_kind_id_40074(paramKey);
-                  kindIDLookUpEdit.SetColumnLookUp(dtKind , "KIND_ID" , "KIND_ID" , TextEditStyles.Standard , null);
-                  gcMain.RepositoryItems.Add(kindIDLookUpEdit);
-                  e.RepositoryItem = kindIDLookUpEdit;
+                  _kind.SetColumnLookUp(dtKind , "KIND_ID" , "KIND_ID" , TextEditStyles.Standard , null);
+                  gcMain.RepositoryItems.Add(_kind);
+                  e.RepositoryItem = _kind;
                }
             } else {
                dtKind = dao40071.dddw_mgt2_kind(prodSubtype + "%" , abroad);
-               kindIDLookUpEdit.SetColumnLookUp(dtKind , "KIND_ID" , "KIND_ID" , TextEditStyles.Standard , null);
-               gcMain.RepositoryItems.Add(kindIDLookUpEdit);
-               e.RepositoryItem = kindIDLookUpEdit;
+               _kind.SetColumnLookUp(dtKind , "KIND_ID" , "KIND_ID" , TextEditStyles.Standard , null);
+               gcMain.RepositoryItems.Add(_kind);
+               e.RepositoryItem = _kind;
             }
             if (dtKind.Rows.Count > 0) {
                DataRow drKind = dtKind.Select("KIND_ID = '" + e.CellValue.ToString() + "'").FirstOrDefault();
@@ -804,6 +806,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
          }
       }
+
       #endregion
 
       /// <summary>

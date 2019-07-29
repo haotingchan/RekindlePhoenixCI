@@ -41,6 +41,8 @@
          this.label3 = new System.Windows.Forms.Label();
          this.label2 = new System.Windows.Forms.Label();
          this.txtStartTime = new DevExpress.XtraEditors.TextEdit();
+         this.ddlb_1 = new DevExpress.XtraEditors.LookUpEdit();
+         this.ddlb_2 = new DevExpress.XtraEditors.LookUpEdit();
          this.panelGrid = new DevExpress.XtraEditors.PanelControl();
          this.gcMain = new DevExpress.XtraGrid.GridControl();
          this.gvMain = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -59,8 +61,6 @@
          this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
          this.AMMD_DATE = new DevExpress.XtraGrid.Columns.GridColumn();
          this.repositoryItemTextEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-         this.ddlb_1 = new DevExpress.XtraEditors.LookUpEdit();
-         this.ddlb_2 = new DevExpress.XtraEditors.LookUpEdit();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panFilter)).BeginInit();
@@ -73,26 +73,27 @@
          ((System.ComponentModel.ISupportInitialize)(this.dwBrkno.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtStartTime.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.ddlb_1.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.ddlb_2.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelGrid)).BeginInit();
          this.panelGrid.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.ddlb_1.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.ddlb_2.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
          // 
          this.panParent.Controls.Add(this.panelGrid);
          this.panParent.Controls.Add(this.panFilter);
-         this.panParent.Size = new System.Drawing.Size(1110, 655);
+         this.panParent.Location = new System.Drawing.Point(0, 32);
+         this.panParent.Size = new System.Drawing.Size(1118, 657);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(1110, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(1118, 32);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // panFilter
@@ -122,7 +123,7 @@
          this.panFilter.Dock = System.Windows.Forms.DockStyle.Top;
          this.panFilter.Location = new System.Drawing.Point(12, 12);
          this.panFilter.Name = "panFilter";
-         this.panFilter.Size = new System.Drawing.Size(1086, 150);
+         this.panFilter.Size = new System.Drawing.Size(1094, 150);
          this.panFilter.TabIndex = 78;
          // 
          // txtEndTime
@@ -327,6 +328,38 @@
          this.txtStartTime.Size = new System.Drawing.Size(68, 26);
          this.txtStartTime.TabIndex = 1;
          // 
+         // ddlb_1
+         // 
+         this.ddlb_1.Location = new System.Drawing.Point(649, 62);
+         this.ddlb_1.MenuManager = this.ribbonControl;
+         this.ddlb_1.Name = "ddlb_1";
+         this.ddlb_1.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+         this.ddlb_1.Properties.Appearance.Options.UseBackColor = true;
+         this.ddlb_1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.ddlb_1.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.ddlb_1.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
+         this.ddlb_1.Properties.NullText = "";
+         this.ddlb_1.Properties.PopupSizeable = false;
+         this.ddlb_1.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
+         this.ddlb_1.Size = new System.Drawing.Size(93, 26);
+         this.ddlb_1.TabIndex = 7;
+         // 
+         // ddlb_2
+         // 
+         this.ddlb_2.Location = new System.Drawing.Point(883, 62);
+         this.ddlb_2.MenuManager = this.ribbonControl;
+         this.ddlb_2.Name = "ddlb_2";
+         this.ddlb_2.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+         this.ddlb_2.Properties.Appearance.Options.UseBackColor = true;
+         this.ddlb_2.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.ddlb_2.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.ddlb_2.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
+         this.ddlb_2.Properties.NullText = "";
+         this.ddlb_2.Size = new System.Drawing.Size(171, 26);
+         this.ddlb_2.TabIndex = 9;
+         // 
          // panelGrid
          // 
          this.panelGrid.Appearance.BackColor = System.Drawing.Color.White;
@@ -336,7 +369,7 @@
          this.panelGrid.Dock = System.Windows.Forms.DockStyle.Fill;
          this.panelGrid.Location = new System.Drawing.Point(12, 162);
          this.panelGrid.Name = "panelGrid";
-         this.panelGrid.Size = new System.Drawing.Size(1086, 481);
+         this.panelGrid.Size = new System.Drawing.Size(1094, 483);
          this.panelGrid.TabIndex = 79;
          // 
          // gcMain
@@ -348,7 +381,7 @@
          this.gcMain.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit1,
             this.repositoryItemTextEdit2});
-         this.gcMain.Size = new System.Drawing.Size(1086, 481);
+         this.gcMain.Size = new System.Drawing.Size(1094, 483);
          this.gcMain.TabIndex = 2;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -535,44 +568,12 @@
          this.repositoryItemTextEdit2.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
          this.repositoryItemTextEdit2.Name = "repositoryItemTextEdit2";
          // 
-         // ddlb_1
-         // 
-         this.ddlb_1.Location = new System.Drawing.Point(649, 62);
-         this.ddlb_1.MenuManager = this.ribbonControl;
-         this.ddlb_1.Name = "ddlb_1";
-         this.ddlb_1.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-         this.ddlb_1.Properties.Appearance.Options.UseBackColor = true;
-         this.ddlb_1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.ddlb_1.Properties.LookAndFeel.SkinName = "The Bezier";
-         this.ddlb_1.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
-         this.ddlb_1.Properties.NullText = "";
-         this.ddlb_1.Properties.PopupSizeable = false;
-         this.ddlb_1.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
-         this.ddlb_1.Size = new System.Drawing.Size(93, 26);
-         this.ddlb_1.TabIndex = 7;
-         // 
-         // ddlb_2
-         // 
-         this.ddlb_2.Location = new System.Drawing.Point(883, 62);
-         this.ddlb_2.MenuManager = this.ribbonControl;
-         this.ddlb_2.Name = "ddlb_2";
-         this.ddlb_2.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-         this.ddlb_2.Properties.Appearance.Options.UseBackColor = true;
-         this.ddlb_2.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.ddlb_2.Properties.LookAndFeel.SkinName = "The Bezier";
-         this.ddlb_2.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
-         this.ddlb_2.Properties.NullText = "";
-         this.ddlb_2.Size = new System.Drawing.Size(171, 26);
-         this.ddlb_2.TabIndex = 9;
-         // 
          // W50050
          // 
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(1110, 685);
+         this.ClientSize = new System.Drawing.Size(1118, 689);
          this.Name = "W50050";
          this.Text = "W500500";
          this.panParent.ResumeLayout(false);
@@ -588,14 +589,14 @@
          ((System.ComponentModel.ISupportInitialize)(this.dwBrkno.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtStartTime.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.ddlb_1.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.ddlb_2.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelGrid)).EndInit();
          this.panelGrid.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit2)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.ddlb_1.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.ddlb_2.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 

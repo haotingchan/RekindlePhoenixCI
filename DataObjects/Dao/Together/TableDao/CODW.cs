@@ -176,8 +176,7 @@ namespace DataObjects.Dao.Together {
       /// <returns>codw_id/codw_desc/codw_seq_no</returns>
       public DataTable ListLookUpEdit(string CODW_TXN_ID , string CODW_COL_ID) {
 
-         object[] parms =
-{
+         object[] parms ={
                 ":CODW_TXN_ID", CODW_TXN_ID,
                 ":CODW_COL_ID", CODW_COL_ID
             };
