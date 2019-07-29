@@ -228,7 +228,7 @@ order by AI2_YMD
       /// <param name="ai2_sum_type"></param>
       /// <param name="ai2_param_key"></param>
       /// <returns></returns>
-      public DateTime GetLastDate(DateTime ai2_ymd , string ai2_sum_type = "D" , string ai2_param_key = "TXF%", string ai2_prod_subtype = "%") {
+      public DateTime GetLastDate(DateTime ai2_ymd , string ai2_sum_type = "D" , string ai2_param_key = "TXF%" , string ai2_prod_subtype = "%") {
          object[] parms = {
                 ":ai2_ymd", ai2_ymd,
                 ":ai2_sum_type", ai2_sum_type,
@@ -244,6 +244,32 @@ and ai2_param_key like :ai2_param_key
 and ai2_prod_subtype like :ai2_prod_subtype
 and ai2_ymd < to_char(:ai2_ymd,'yyyymmdd')
 and ai2_ymd >= to_char(:ai2_ymd-32,'yyyymmdd')
+";
+
+         string temp = db.ExecuteScalar(sql , CommandType.Text , parms);
+         DateTime result = DateTime.MinValue;
+         DateTime.TryParseExact(temp , "yyyyMMdd" , null , System.Globalization.DateTimeStyles.AllowWhiteSpaces , out result);
+         return result;
+      }
+
+      /// <summary>
+      /// 抓取前一天,return DateTime (ken,多增加下限時間,加快查詢效率)
+      /// </summary>
+      /// <param name="ai2_ymd">datetime</param>
+      /// <param name="ai2_sum_type"></param>
+      /// <param name="ai2_param_key"></param>
+      /// <returns></returns>
+      public DateTime GetLastDate2(DateTime ai2_ymd) {
+         object[] parms = {
+                ":ai2_ymd", ai2_ymd
+            };
+
+         string sql = @"
+select max(ai2_ymd) as idt_last_date
+from ci.ai2
+where ai2_ymd < to_char(:ai2_ymd,'yyyymmdd')
+and ai2_sum_type = 'D'
+and ai2_param_key = 'TXF'
 ";
 
          string temp = db.ExecuteScalar(sql , CommandType.Text , parms);
@@ -317,7 +343,7 @@ and ai2_ymd <= :endDate
       /// <param name="ls_ymd"></param>
       /// <param name="ls_grp"></param>
       /// <returns></returns>
-      public int GetJobStatus(string ls_ymd, string ls_grp) {
+      public int GetJobStatus(string ls_ymd , string ls_grp) {
          object[] parms =
          {
                 ":ls_ymd", ls_ymd,
@@ -333,10 +359,10 @@ and ai2_ymd <= :endDate
 			and AI2_KIND_ID = APDK_KIND_ID
 			and APDK_MARKET_CLOSE like :ls_grp||'%'";
 
-         string res = db.ExecuteScalar(sql, CommandType.Text, parms);
+         string res = db.ExecuteScalar(sql , CommandType.Text , parms);
 
          int tmp = 0;
-         int.TryParse(res, out tmp);
+         int.TryParse(res , out tmp);
 
          return tmp;
       }
@@ -351,8 +377,7 @@ and ai2_ymd <= :endDate
       /// <param name="startDate"></param>
       /// <param name="endDate"></param>
       /// <returns>string yyyy/MM/dd</returns>
-      public string GetLastSumTypeDate(string AI2_SUM_TYPE, string AI2_SUM_SUBTYPE, string AI2_PROD_SUBTYPE, DateTime ld_date_last)
-      {
+      public string GetLastSumTypeDate(string AI2_SUM_TYPE , string AI2_SUM_SUBTYPE , string AI2_PROD_SUBTYPE , DateTime ld_date_last) {
          object[] parms =
          {
                 ":AI2_SUM_TYPE", AI2_SUM_TYPE,
@@ -371,7 +396,7 @@ and ai2_ymd <= :endDate
                   and AI2_YMD < to_char(:ld_date_last,'yyyymmdd')
                   and AI2_YMD >= to_char(:ld_date_last-32,'yyyymmdd') 
 ";
-         string res = db.ExecuteScalar(sql, CommandType.Text, parms);
+         string res = db.ExecuteScalar(sql , CommandType.Text , parms);
          return res;
       }
    }

@@ -113,7 +113,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             DataTable csvDt = OpenCSV(txtPath1.Text , dt , Encoding.Default);
             if (csvDt == null) {
                //MessageDisplay.Error("請先關閉欲匯入之csv檔再執行匯入動作!" , GlobalInfo.ErrorText);
-               //txtPath1.BackColor = Color.Red;
+               txtPath1.BackColor = Color.Red;
                return;
             }
             daoINOTC1 = new INOTC1();
@@ -198,6 +198,10 @@ namespace PhoenixCI.FormUI.Prefix2 {
                dt.Columns.Add(dc);
             }
             DataTable csvDt = OpenCSV(txtPath2.Text , dt , Encoding.Default);
+            if (csvDt == null) {
+               txtPath2.BackColor = Color.Red;
+               return;
+            }
             daoINTWSE1 = new INTWSE1();
             DataTable targetDt = daoINTWSE1.ListAll();
             type = csvDt.Rows[1]["Col5"].AsString();
@@ -293,7 +297,6 @@ namespace PhoenixCI.FormUI.Prefix2 {
          } catch (Exception ex) {
             WriteLog(ex , "" , false);
             MessageDisplay.Error("請先關閉欲匯入之csv檔再執行匯入動作!" , GlobalInfo.ErrorText);
-            txtPath1.BackColor = Color.Red;
             return null;
          }
 
