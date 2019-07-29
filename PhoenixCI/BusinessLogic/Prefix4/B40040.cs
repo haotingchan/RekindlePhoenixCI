@@ -247,8 +247,9 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             //dt.Filter("ISNULL(PDK_PARAM_KEY,'') not in ('ETF','ETC')").Sort("RPT_SEQ_NO, DATA_KIND_ID");
             //DataTable dt = dtNotETF.AsEnumerable().Where(r => r.Field<object>("PDK_PARAM_KEY").AsString()!="ETF" && r.Field<object>("PDK_PARAM_KEY").AsString() != "ETC").CopyToDataTable().Sort("RPT_SEQ_NO, DATA_KIND_ID");
             DataTable dt = dtNotETF.Filter("ISNULL(PDK_PARAM_KEY,'') not in ('ETF','ETC')").Sort("RPT_SEQ_NO, DATA_KIND_ID");
-            if (dt.Rows.Count <= 0) {
-               return MessageDisplay.MSG_NO_DATA;
+            int rowCount = dt.Rows.Count;
+            if (rowCount <= 0) {
+               return string.Format(MessageDisplay.MSG_NO_DATA_MULTI, _emDateText.AsString("yyyy/MM/dd"), "", "保證金調整檢核表");
             }
 
             //本日檢核結果表
@@ -315,6 +316,8 @@ namespace PhoenixCI.BusinessLogic.Prefix4
 
                rowIndex++;//換下一行
             }
+            if (rowCount < 35)
+               worksheet.Range[$"{rowIndex}:{41}"].Delete();
             //save
             worksheet.ScrollTo(0, 0);
          }
@@ -350,7 +353,7 @@ namespace PhoenixCI.BusinessLogic.Prefix4
             DataTable dt = dtETF.Filter("PDK_PARAM_KEY in ('ETF','ETC')").Sort("RPT_SEQ_NO, DATA_KIND_ID");
             int rowCount = dt.Rows.Count;
             if (rowCount <= 0) {
-               return MessageDisplay.MSG_NO_DATA;
+                    return string.Format(MessageDisplay.MSG_NO_DATA_MULTI, _emDateText.AsString("yyyy/MM/dd"), "", "保證金調整檢核表(ETF_ETC類)"); 
             }
 
             //本日檢核結果表
