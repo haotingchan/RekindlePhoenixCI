@@ -24,6 +24,7 @@
         /// </summary>
         private void InitializeComponent() {
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
+            this.txtMonth = new BaseGround.Widget.TextDateEdit();
             this.lblDate = new System.Windows.Forms.Label();
             this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
             this.gcMain = new DevExpress.XtraGrid.GridControl();
@@ -36,42 +37,63 @@
             this.AM7M_PROD_TYPE = new DevExpress.XtraGrid.Columns.GridColumn();
             this.AM7M_PROD_SUBTYPE = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Is_NewRow = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.txtMonth = new BaseGround.Widget.TextDateEdit();
+            this.lblNote = new System.Windows.Forms.Label();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMonth.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtMonth.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // panParent
             // 
             this.panParent.Controls.Add(this.gcMain);
-            this.panParent.Location = new System.Drawing.Point(0, 97);
-            this.panParent.Size = new System.Drawing.Size(778, 501);
+            this.panParent.Location = new System.Drawing.Point(0, 100);
+            this.panParent.Size = new System.Drawing.Size(778, 498);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(778, 27);
+            this.ribbonControl.Size = new System.Drawing.Size(778, 30);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // panelControl1
             // 
             this.panelControl1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
             this.panelControl1.Appearance.Options.UseBackColor = true;
+            this.panelControl1.Controls.Add(this.lblNote);
             this.panelControl1.Controls.Add(this.txtMonth);
             this.panelControl1.Controls.Add(this.lblDate);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelControl1.Location = new System.Drawing.Point(0, 27);
+            this.panelControl1.Location = new System.Drawing.Point(0, 30);
             this.panelControl1.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
             this.panelControl1.LookAndFeel.UseDefaultLookAndFeel = false;
             this.panelControl1.Name = "panelControl1";
             this.panelControl1.Size = new System.Drawing.Size(778, 70);
             this.panelControl1.TabIndex = 0;
+            // 
+            // txtMonth
+            // 
+            this.txtMonth.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+            this.txtMonth.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
+            this.txtMonth.EditValue = "2018/12";
+            this.txtMonth.EnterMoveNextControl = true;
+            this.txtMonth.Location = new System.Drawing.Point(78, 22);
+            this.txtMonth.MenuManager = this.ribbonControl;
+            this.txtMonth.Name = "txtMonth";
+            this.txtMonth.Properties.Appearance.Options.UseTextOptions = true;
+            this.txtMonth.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtMonth.Properties.EditFormat.FormatString = "yyyyMM";
+            this.txtMonth.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])";
+            this.txtMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtMonth.Properties.Mask.ShowPlaceHolders = false;
+            this.txtMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
+            this.txtMonth.Size = new System.Drawing.Size(87, 28);
+            this.txtMonth.TabIndex = 19;
+            this.txtMonth.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // lblDate
             // 
@@ -79,16 +101,16 @@
             this.lblDate.BackColor = System.Drawing.Color.Transparent;
             this.lblDate.Location = new System.Drawing.Point(29, 26);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(43, 14);
+            this.lblDate.Size = new System.Drawing.Size(57, 20);
             this.lblDate.TabIndex = 18;
-            this.lblDate.Text = "年度：";
+            this.lblDate.Text = "年月：";
             // 
             // panelControl2
             // 
             this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelControl2.Location = new System.Drawing.Point(0, 97);
+            this.panelControl2.Location = new System.Drawing.Point(0, 100);
             this.panelControl2.Name = "panelControl2";
-            this.panelControl2.Size = new System.Drawing.Size(778, 501);
+            this.panelControl2.Size = new System.Drawing.Size(778, 498);
             this.panelControl2.TabIndex = 1;
             // 
             // gcMain
@@ -98,7 +120,7 @@
             this.gcMain.MainView = this.gvMain;
             this.gcMain.MenuManager = this.ribbonControl;
             this.gcMain.Name = "gcMain";
-            this.gcMain.Size = new System.Drawing.Size(754, 477);
+            this.gcMain.Size = new System.Drawing.Size(754, 474);
             this.gcMain.TabIndex = 0;
             this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
@@ -203,25 +225,15 @@
             this.Is_NewRow.FieldName = "Is_NewRow";
             this.Is_NewRow.Name = "Is_NewRow";
             // 
-            // txtMonth
+            // lblNote
             // 
-            this.txtMonth.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-            this.txtMonth.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
-            this.txtMonth.EditValue = "2018/12";
-            this.txtMonth.EnterMoveNextControl = true;
-            this.txtMonth.Location = new System.Drawing.Point(78, 22);
-            this.txtMonth.MenuManager = this.ribbonControl;
-            this.txtMonth.Name = "txtMonth";
-            this.txtMonth.Properties.Appearance.Options.UseTextOptions = true;
-            this.txtMonth.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.txtMonth.Properties.EditFormat.FormatString = "yyyyMM";
-            this.txtMonth.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])";
-            this.txtMonth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-            this.txtMonth.Properties.Mask.ShowPlaceHolders = false;
-            this.txtMonth.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.txtMonth.Size = new System.Drawing.Size(87, 22);
-            this.txtMonth.TabIndex = 19;
-            this.txtMonth.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+            this.lblNote.AutoSize = true;
+            this.lblNote.BackColor = System.Drawing.Color.Transparent;
+            this.lblNote.Location = new System.Drawing.Point(171, 26);
+            this.lblNote.Name = "lblNote";
+            this.lblNote.Size = new System.Drawing.Size(182, 20);
+            this.lblNote.TabIndex = 20;
+            this.lblNote.Text = "備註：資料從20430轉入";
             // 
             // W20431
             // 
@@ -242,10 +254,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
             this.panelControl1.ResumeLayout(false);
             this.panelControl1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMonth.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtMonth.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -267,5 +279,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn AM7M_PROD_SUBTYPE;
         private DevExpress.XtraGrid.Columns.GridColumn Is_NewRow;
         private BaseGround.Widget.TextDateEdit txtMonth;
+        private System.Windows.Forms.Label lblNote;
     }
 }

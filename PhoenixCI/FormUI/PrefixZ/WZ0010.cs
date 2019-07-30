@@ -394,25 +394,32 @@ namespace PhoenixCI.FormUI.PrefixZ
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
-            GridControl gridControlPrint = GridHelper.CloneGrid(gcMain);
+            if (((DataTable)gcMain.DataSource).Rows.Count > 0)
+            {
+                GridControl gridControlPrint = GridHelper.CloneGrid(gcMain);
 
-            string originReportTitle = this.Text;
+                string originReportTitle = this.Text;
 
-            ReportHelper reportHelper;
+                ReportHelper reportHelper;
 
-            DataTable dt = ((DataView)gvMain.DataSource).ToTable().Clone();
-            dt.ImportRow(((DataRowView)gvMain.GetFocusedRow()).Row);
+                DataTable dt = ((DataView)gvMain.DataSource).ToTable().Clone();
+                dt.ImportRow(((DataRowView)gvMain.GetFocusedRow()).Row);
+                reportHelper = PrintOrExportSetting();
+                reportHelper.IsHandlePersonVisible = true;
+                reportHelper.IsManagerVisible = true;
+                gridControlPrint.DataSource = dt;
+                reportHelper.ReportTitle = originReportTitle;
 
-            reportHelper = PrintOrExportSetting();
-            reportHelper.IsHandlePersonVisible = true;
-            reportHelper.IsManagerVisible = true;
-            gridControlPrint.DataSource = dt;
-            reportHelper.ReportTitle = originReportTitle;
+                reportHelper.Create(GenerateReport(gridControlPrint));
 
-            reportHelper.Create(GenerateReport(gridControlPrint));
+                Print(reportHelper);
+                Export(reportHelper);
+            }
+            else
+            {
+                MessageDisplay.Info("無補印資料");
+            }
 
-            Print(reportHelper);
-            Export(reportHelper);
         }
     }
 }
