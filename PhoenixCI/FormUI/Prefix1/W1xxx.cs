@@ -15,6 +15,7 @@ namespace PhoenixCI.FormUI.Prefix1
 {
     public partial class W1xxx : FormParent
     {
+        private string OCF_TYPE;
         public W1xxx() {
             InitializeComponent();
         }
@@ -37,7 +38,7 @@ namespace PhoenixCI.FormUI.Prefix1
 
             gcMain.RepositoryItems.Add(repCheck);
             gcol_gcMain_TXF_DEFAULT.ColumnEdit = repCheck;
-
+            OCF_TYPE = txtOcfDate.DateType == BaseGround.Widget.TextDateEdit.DateTypeItem.Month ? "M" : "D";
             _IsProcessRunAsync = true;
         }
 
@@ -55,9 +56,11 @@ namespace PhoenixCI.FormUI.Prefix1
 
             //txtPrevOcfDate.DateTimeValue = GlobalInfo.OCF_PREV_DATE;
             txtOcfDate.DateTimeValue = PbFunc.f_ocf_date(0, _DB_TYPE).AsDateTime(); //GlobalInfo.OCF_DATE;
-
-            gcMain.DataSource   = servicePrefix1.ListTxfByTxn(_ProgramID).Trim();
-            gcLogsp.DataSource  = servicePrefix1.ListLogsp(txtOcfDate.DateTimeValue, _ProgramID).Trim();
+            if (OCF_TYPE == "D")
+            {
+                gcMain.DataSource = servicePrefix1.ListTxfByTxn(_ProgramID).Trim();
+                gcLogsp.DataSource = servicePrefix1.ListLogsp(txtOcfDate.DateTimeValue, _ProgramID).Trim();
+            }
 
             return ResultStatus.Success;
         }
@@ -87,17 +90,19 @@ namespace PhoenixCI.FormUI.Prefix1
         protected override ResultStatus Retrieve()
         {
             base.Retrieve(gcMain);
-
-            DataTable dtLogSP = servicePrefix1.ListLogsp(txtOcfDate.DateTimeValue, _ProgramID).Trim();
-            gcLogsp.DataSource = dtLogSP;
-            if (dtLogSP.Rows.Count == 0)
+            if (OCF_TYPE == "D")
             {
-                MessageDisplay.Info(GlobalInfo.MsgNoData);
-                xtraTabControl.SelectedTabPage = xtraTabPageMain;
-            }
-            else
-            {
-                xtraTabControl.SelectedTabPage = xtraTabPageQuery;
+                DataTable dtLogSP = servicePrefix1.ListLogsp(txtOcfDate.DateTimeValue, _ProgramID).Trim();
+                gcLogsp.DataSource = dtLogSP;
+                if (dtLogSP.Rows.Count == 0)
+                {
+                    MessageDisplay.Info(GlobalInfo.MsgNoData);
+                    xtraTabControl.SelectedTabPage = xtraTabPageMain;
+                }
+                else
+                {
+                    xtraTabControl.SelectedTabPage = xtraTabPageQuery;
+                }
             }
 
             return ResultStatus.Success;
@@ -125,6 +130,7 @@ namespace PhoenixCI.FormUI.Prefix1
                 args.GridControlMain = gcMain;
                 args.GridControlSecond = gcLogsp;
                 args.OcfDate = Convert.ToDateTime(txtOcfDate.Text);
+                args.OcfType = OCF_TYPE;
             }));
 
             ResultStatus result = base.RunAsync(args);

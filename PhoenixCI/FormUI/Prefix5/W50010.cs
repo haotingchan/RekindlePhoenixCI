@@ -99,6 +99,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
       /// </summary>
       public string matketTime {
          get {
+                string str = MarketTime.EditValue.AsString();
             return MarketTime.EditValue.AsString();
          }
       }

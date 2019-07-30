@@ -394,15 +394,6 @@ namespace BaseGround {
       }
 
       protected virtual ResultStatus RunBefore(PokeBall args) {
-         string inputDate = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
-         string nowDate = DateTime.Now.ToString("yyyy/MM/dd");
-
-         if (inputDate != nowDate) {
-            if (MessageDisplay.Choose("交易日期(" + inputDate + ") 不等於今日(" + nowDate + ")，是否要繼續?") == DialogResult.No) {
-               return ResultStatus.Fail;
-            }
-         }
-
          GridView gv = (GridView)args.GridControlMain.MainView;
          string txfServer = gv.GetRowCellValue(1 , "TXF_SERVER").AsString();
          if (txfServer != GlobalDaoSetting.GetConnectionInfo.ConnectionName) {
@@ -410,11 +401,38 @@ namespace BaseGround {
             return ResultStatus.Fail;
          }
 
-         if (servicePrefix1.HasLogspDone(Convert.ToDateTime(inputDate) , _ProgramID)) {
-            if (MessageDisplay.Choose(_ProgramID + " 作業 " + inputDate + "「曾經」執行過，\n是否要繼續？\n\n★★★建議先執行 [預覽] 確認執行狀態") == DialogResult.No) {
-               return ResultStatus.Fail;
+        if (args.OcfType == "D")
+        {
+            string inputDate = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
+            string nowDate = DateTime.Now.ToString("yyyy/MM/dd");
+
+            if (inputDate != nowDate)
+            {
+                if (MessageDisplay.Choose("交易日期(" + inputDate + ") 不等於今日(" + nowDate + ")，是否要繼續?") == DialogResult.No)
+                {
+                    return ResultStatus.Fail;
+                }
             }
-         }
+            if (servicePrefix1.HasLogspDone(Convert.ToDateTime(inputDate), _ProgramID))
+            {
+                if (MessageDisplay.Choose(_ProgramID + " 作業 " + inputDate + "「曾經」執行過，\n是否要繼續？\n\n★★★建議先執行 [預覽] 確認執行狀態") == DialogResult.No)
+                {
+                    return ResultStatus.Fail;
+                }
+            }
+        }
+        else if (args.OcfType == "M") {
+            string inputDate = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
+            string nowDate = DateTime.Now.ToString("yyyy/MM");
+
+            if (inputDate != nowDate)
+            {
+                if (MessageDisplay.Choose("月份(" + inputDate + ") 不等於本月(" + nowDate + ")，是否要繼續?") == DialogResult.No)
+                {
+                    return ResultStatus.Fail;
+                }
+            }
+        }
 
          GridHelper.AcceptText(args.GridControlMain);
 
@@ -447,8 +465,11 @@ namespace BaseGround {
 
          GridView gv = (GridView)args.GridControlMain.MainView;
 
-         DataTable dtLOGSPForRuned = servicePrefix1.ListLogspForRunned(args.OcfDate , _ProgramID);
-         DataView dvLOGSPForRuned = new DataView(dtLOGSPForRuned);
+
+        DataTable dtLOGSPForRuned = servicePrefix1.ListLogspForRunned(args.OcfDate, _ProgramID);
+        DataView dvLOGSPForRuned = new DataView(dtLOGSPForRuned);
+
+
 
          servicePrefix1.SetTXF1(" " , _ProgramID);
 
@@ -464,6 +485,8 @@ namespace BaseGround {
             string TXF_REDO = gv.GetRowCellValue(i , "TXF_REDO").AsString();
             string TXF_ARG = gv.GetRowCellValue(i , "TXF_ARG").AsString();
             string TXF_PERIOD = gv.GetRowCellValue(i , "TXF_PERIOD").AsString();
+            string TXF_SERVICE = gv.GetRowCellValue(i , "TXF_SERVICE").AsString();
+            string TXF_FOLDER = gv.GetRowCellValue(i , "TXF_FOLDER").AsString();
             args.TXF_TID = TXF_TID;
             args.TXF_TID_NAME = TXF_TID_NAME;
 
@@ -477,15 +500,22 @@ namespace BaseGround {
                DateTime LOGSP_END_TIME = new DateTime();
                string LOGSP_MSG = "";
 
-               //判斷是否可重覆執行
-               if (TXF_REDO == "N") {
-                  dvLOGSPForRuned.RowFilter = "LOGSP_TID='" + TXF_TID + "' AND NOT ISNULL(LOGSP_BEGIN_TIME)";
-                  if (dvLOGSPForRuned.Count != 0) {
-                     if (MessageDisplay.Choose(TXF_TID + " ★★★曾經執行過且不可重覆執行，是否強迫繼續執行 ?") == DialogResult.No) {
-                        return ResultStatus.Fail;
-                     }
-                  }
-               }
+                if (args.OcfType == "D")
+                {
+                    //判斷是否可重覆執行
+                    if (TXF_REDO == "N")
+                    {
+                        dvLOGSPForRuned.RowFilter = "LOGSP_TID='" + TXF_TID + "' AND NOT ISNULL(LOGSP_BEGIN_TIME)";
+                        if (dvLOGSPForRuned.Count != 0)
+                        {
+                            if (MessageDisplay.Choose(TXF_TID + " ★★★曾經執行過且不可重覆執行，是否強迫繼續執行 ?") == DialogResult.No)
+                            {
+                                return ResultStatus.Fail;
+                            }
+                        }
+                    }
+                }
+
                #region 開始執行
                LOGSP_BEGIN_TIME = DateTime.Now;
 
@@ -513,38 +543,49 @@ namespace BaseGround {
 
                   }
                   LOGSP_END_TIME = DateTime.Now;
-                  servicePrefix1.SaveLogsp(LOGSP_DATE , LOGSP_TXN_ID , LOGSP_SEQ_NO , LOGSP_TID , LOGSP_TID_NAME , LOGSP_BEGIN_TIME , LOGSP_END_TIME , LOGSP_MSG);
-                  continue;
+                    if (args.OcfType == "D")
+                    {
+                        servicePrefix1.SaveLogsp(LOGSP_DATE, LOGSP_TXN_ID, LOGSP_SEQ_NO, LOGSP_TID, LOGSP_TID_NAME, LOGSP_BEGIN_TIME, LOGSP_END_TIME, LOGSP_MSG);
+                    }
+                    continue;
                }
 
 
                //開始前執行特別的Function
                string rtnText = RunBeforeEveryItem(args);
                if (!string.IsNullOrEmpty(rtnText)) {
-                  if (PbFunc.Left(rtnText , 4) == "不需執行") {
-                     LOGSP_MSG = "完成! (" + rtnText + ")";
-                     gv.SetRowCellValue(i , "ERR_MSG" , LOGSP_MSG);
-                     gv.SetRowCellValue(i , "TXF_DEFAULT" , 0);
-                     LOGSP_END_TIME = DateTime.Now;
-                     servicePrefix1.SaveLogsp(LOGSP_DATE , LOGSP_TXN_ID , LOGSP_SEQ_NO , LOGSP_TID , LOGSP_TID_NAME , LOGSP_BEGIN_TIME , LOGSP_END_TIME , LOGSP_MSG);
-                  } else {
-                     if (MessageDisplay.Choose($"{rtnText}是否強迫繼續執行?" , MessageBoxDefaultButton.Button2).AsInt() == 2) {
-                        gv.SetRowCellValue(i , "ERR_MSG" , rtnText);
-                        continue;
-                     }
-                  }
+                        if (PbFunc.Left(rtnText, 4) == "不需執行")
+                        {
+                            LOGSP_MSG = "完成! (" + rtnText + ")";
+                            gv.SetRowCellValue(i, "ERR_MSG", LOGSP_MSG);
+                            gv.SetRowCellValue(i, "TXF_DEFAULT", 0);
+                            LOGSP_END_TIME = DateTime.Now;
+                            if (args.OcfType == "D")
+                            {
+                                servicePrefix1.SaveLogsp(LOGSP_DATE, LOGSP_TXN_ID, LOGSP_SEQ_NO, LOGSP_TID, LOGSP_TID_NAME, LOGSP_BEGIN_TIME, LOGSP_END_TIME, LOGSP_MSG);
+                            }
+                        }
+                        else
+                        {
+                            if (MessageDisplay.Choose($"{rtnText}是否強迫繼續執行?", MessageBoxDefaultButton.Button2).AsInt() == 2)
+                            {
+                                gv.SetRowCellValue(i, "ERR_MSG", rtnText);
+                                continue;
+                            }
+                        }
                }
 
                //記錄正在執行
                servicePrefix1.SetTXF1(TXF_TID , _ProgramID);
-
-               servicePrefix1.SaveLogs(LOGSP_DATE , TXF_TID , DateTime.Now , GlobalInfo.USER_ID , "開始執行");
-
+                if (args.OcfType == "D")
+                {
+                    servicePrefix1.SaveLogs(LOGSP_DATE, TXF_TID, DateTime.Now, GlobalInfo.USER_ID, "開始執行");
+                }
                ResultData resultData = new ResultData();
 
                switch (TXF_TYPE) {
                   case "I":
-                     resultData = serviceCommon.ExecuteInfoWorkFlow(TXF_TID , UserProgInfo);
+                     resultData = serviceCommon.ExecuteInfoWorkFlow(TXF_TID , UserProgInfo, TXF_FOLDER, TXF_SERVICE);
                      break;
 
                   case "S":
@@ -621,9 +662,10 @@ namespace BaseGround {
                   LOGSP_MSG = "執行正常完成!";
                } else {
                   LOGSP_MSG = "作業執行失敗!";
-
-                  servicePrefix1.SaveLogsp(LOGSP_DATE , LOGSP_TXN_ID , LOGSP_SEQ_NO , LOGSP_TID , LOGSP_TID_NAME , LOGSP_BEGIN_TIME , LOGSP_END_TIME , LOGSP_MSG);
-
+                    if (args.OcfType == "D")
+                    {
+                        servicePrefix1.SaveLogsp(LOGSP_DATE, LOGSP_TXN_ID, LOGSP_SEQ_NO, LOGSP_TID, LOGSP_TID_NAME, LOGSP_BEGIN_TIME, LOGSP_END_TIME, LOGSP_MSG);
+                    }
                   MessageDisplay.Error("序號" + LOGSP_SEQ_NO + "的" + LOGSP_TID + "," + LOGSP_MSG);
 
                   this.Invoke(new MethodInvoker(() => {
@@ -636,10 +678,11 @@ namespace BaseGround {
 
 
                this.Invoke(new MethodInvoker(() => { gv.SetRowCellValue(i , "ERR_MSG" , LOGSP_MSG); }));
-
-               servicePrefix1.SaveLogsp(LOGSP_DATE , LOGSP_TXN_ID , LOGSP_SEQ_NO , LOGSP_TID , LOGSP_TID_NAME , LOGSP_BEGIN_TIME , LOGSP_END_TIME , LOGSP_MSG);
-               servicePrefix1.SaveLogs(LOGSP_DATE , TXF_TID , DateTime.Now , GlobalInfo.USER_ID , "執行完畢");
-
+                if (args.OcfType == "D")
+                {
+                    servicePrefix1.SaveLogsp(LOGSP_DATE, LOGSP_TXN_ID, LOGSP_SEQ_NO, LOGSP_TID, LOGSP_TID_NAME, LOGSP_BEGIN_TIME, LOGSP_END_TIME, LOGSP_MSG);
+                    servicePrefix1.SaveLogs(LOGSP_DATE, TXF_TID, DateTime.Now, GlobalInfo.USER_ID, "執行完畢");
+                }
                #endregion 開始執行
 
                #region 執行特別的程式

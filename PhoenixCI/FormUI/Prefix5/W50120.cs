@@ -274,12 +274,16 @@ namespace PhoenixCI.FormUI.Prefix5 {
       }
 
       private void gvMain_CustomRowCellEdit(object sender , CustomRowCellEditEventArgs e) {
-         GridView view = sender as GridView;
-         if (e.Column.FieldName == "MPDF_KIND_ID" && e.RowHandle == gvMain.FocusedRowHandle) {
-            RepositoryItemLookUpEdit _RepLookUpEdit4 = new RepositoryItemLookUpEdit();
-            _RepLookUpEdit4.SetColumnLookUp(dtInsertUse , "MPDF_KIND_ID" , "CP_DISPLAY" , TextEditStyles.Standard , "-");
-            e.RepositoryItem = _RepLookUpEdit4;
-         }
+         GridView gv = sender as GridView;
+            string Is_NewRow = gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"]) == null ? "0" : gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"]).ToString();
+            if (Is_NewRow == "1") {
+
+                if (e.Column.FieldName == "MPDF_KIND_ID" && e.RowHandle == gvMain.FocusedRowHandle) {
+                    RepositoryItemLookUpEdit _RepLookUpEdit4 = new RepositoryItemLookUpEdit();
+                    _RepLookUpEdit4.SetColumnLookUp(dtInsertUse, "MPDF_KIND_ID", "CP_DISPLAY", TextEditStyles.Standard, "-");
+                    e.RepositoryItem = _RepLookUpEdit4;
+                }
+            }
       }
       #endregion
 

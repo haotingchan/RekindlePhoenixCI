@@ -27,8 +27,8 @@ namespace DataObjects.Dao.Together.SpecificDao {
 
             string sql =
 @"
-SELECT PL1_YMD AS PL2_EFFECTIVE_YMD,
-         PL1_YMD,
+SELECT PL1_YMD ,
+        -- PL1_YMD as PL1_YMD1 ,
          PL1_KIND_ID,   
          PL1_NATURE,   
          PL1_LEGAL,   
@@ -227,7 +227,7 @@ select nvl(APDK_PROD_TYPE,' ') as prod_type,
        nvl(APDK_PROD_SUBTYPE,' ') as  prod_subtype
 --into :ls_prod_type,:ls_prod_subtype
 from ci.APDK
-where APDK_KIND_ID = :ls_kind_id;
+where APDK_KIND_ID = :ls_kind_id
 ";
             DataTable dtResult = db.GetDataTable(sql, parms);
 

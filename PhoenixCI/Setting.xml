@@ -5,7 +5,7 @@
   <Database>
     <!--交易資訊系統資料庫-->
     <CiUserAp>
-      <ConnectionName>CIN_USER_AP</ConnectionName>
+      <ConnectionName>CIN</ConnectionName>
       <InitialCatalog>CI</InitialCatalog>
     </CiUserAp>
 
@@ -47,9 +47,9 @@
 
     <POSOnwer>
       <ConnectionName>POS_ONWER</ConnectionName>
-      <InitialCatalog>192.168.88.51</InitialCatalog>
+      <InitialCatalog>192.168.167.70</InitialCatalog>
     </POSOnwer>
-    
+
   </Database>
 
   <Log>
@@ -60,14 +60,14 @@
 
     <Item>
       <DisplayName>EXE</DisplayName>
-      <ConnectionName>CIN_USER_AP</ConnectionName>
+      <ConnectionName>CIN</ConnectionName>
       <SystemName>PhoenixCI</SystemName>
       <Type>D</Type>
       <Filters>exe,dll,config,txt</Filters>
     </Item>
     <Item>
       <DisplayName>Template</DisplayName>
-      <ConnectionName>CIN_USER_AP</ConnectionName>
+      <ConnectionName>CIN</ConnectionName>
       <SystemName>PhoenixCI</SystemName>
       <Type>X</Type>
       <Filters>xls,xlsx,xlsm,ifd,rtf</Filters>
@@ -80,38 +80,38 @@
   <ConnectionStrings>
     <!--測試環境區段-->
     <Connection>
-      <Name>CIN_USER_AP</Name>
-      <ConnectionString>Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.88.51)(PORT=1521)))(CONNECT_DATA=(SID=CI)));User Id=CI;Password=orcl;</ConnectionString>
+      <Name>CIN</Name>
+      <ConnectionString>Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.167.70)(PORT=1521)))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=CI)));User Id=user_ap;Password=user_aptest;</ConnectionString>
       <ProviderName>Oracle.ManagedDataAccess.Client</ProviderName>
     </Connection>
     <Connection>
       <Name>CIN_CI</Name>
-      <ConnectionString>Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.88.51)(PORT=1521)))(CONNECT_DATA=(SID=CI)));User Id=CI;Password=orcl;</ConnectionString>
+      <ConnectionString>Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.167.70)(PORT=1521)))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=CI)));User Id=ci;Password=citest;</ConnectionString>
       <ProviderName>Oracle.ManagedDataAccess.Client</ProviderName>
     </Connection>
     <Connection>
       <Name>CIN_FUT</Name>
-      <ConnectionString>Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.88.51)(PORT=1521)))(CONNECT_DATA=(SID=CI)));User Id=CI;Password=orcl;</ConnectionString>
+      <ConnectionString>Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.167.70)(PORT=1521)))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=CI)));User Id=fut;Password=futtest;</ConnectionString>
       <ProviderName>Oracle.ManagedDataAccess.Client</ProviderName>
     </Connection>
     <Connection>
       <Name>CIN_OPT</Name>
-      <ConnectionString>Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.88.51)(PORT=1521)))(CONNECT_DATA=(SID=CI)));User Id=CI;Password=orcl;</ConnectionString>
+      <ConnectionString>Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.167.70)(PORT=1521)))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=CI)));User Id=opt;Password=opttest;</ConnectionString>
       <ProviderName>Oracle.ManagedDataAccess.Client</ProviderName>
     </Connection>
     <Connection>
       <Name>CIN_FUT_AH</Name>
-      <ConnectionString>Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.88.51)(PORT=1521)))(CONNECT_DATA=(SID=CI)));User Id=CI;Password=orcl;</ConnectionString>
+      <ConnectionString>Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.167.70)(PORT=1521)))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=CI)));User Id=futAH;Password=futAHtest;</ConnectionString>
       <ProviderName>Oracle.ManagedDataAccess.Client</ProviderName>
     </Connection>
     <Connection>
       <Name>CIN_OPT_AH</Name>
-      <ConnectionString>Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.88.51)(PORT=1521)))(CONNECT_DATA=(SID=CI)));User Id=CI;Password=orcl;</ConnectionString>
+      <ConnectionString>Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.167.70)(PORT=1521)))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=CI)));User Id=optAH;Password=optAHtest;</ConnectionString>
       <ProviderName>Oracle.ManagedDataAccess.Client</ProviderName>
     </Connection>
     <Connection>
       <Name>CIN_MONIT</Name>
-      <ConnectionString>Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.88.51)(PORT=1521)))(CONNECT_DATA=(SID=CI)));User Id=CI;Password=orcl;</ConnectionString>
+      <ConnectionString>Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.167.70)(PORT=1521)))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=CI)));User Id=monit;Password=monittest;</ConnectionString>
       <ProviderName>Oracle.ManagedDataAccess.Client</ProviderName>
     </Connection>
     <!--正式環境區段-->
@@ -119,10 +119,10 @@
   </ConnectionStrings>
 
   <!--下載程式用-->
+  <!--交易資訊-->
   <Download>
-    <ConnectionName>CIN_USER_AP</ConnectionName>
+    <ConnectionName>CIN</ConnectionName>
     <ProgramBeOpenedAfterDownload>PhoenixCI.exe</ProgramBeOpenedAfterDownload>
     <Type>D,X</Type>
   </Download>
-
 </Setting>
