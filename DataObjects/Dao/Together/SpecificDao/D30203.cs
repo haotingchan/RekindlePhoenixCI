@@ -227,7 +227,7 @@ select nvl(APDK_PROD_TYPE,' ') as prod_type,
        nvl(APDK_PROD_SUBTYPE,' ') as  prod_subtype
 --into :ls_prod_type,:ls_prod_subtype
 from ci.APDK
-where APDK_KIND_ID = :ls_kind_id;
+where APDK_KIND_ID = :ls_kind_id
 ";
             DataTable dtResult = db.GetDataTable(sql, parms);
 
