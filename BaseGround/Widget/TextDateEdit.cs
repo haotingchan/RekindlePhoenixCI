@@ -59,7 +59,7 @@ namespace BaseGround.Widget {
 
       [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
       public new RepositoryItemTextDateEdit Properties => base.Properties as RepositoryItemTextDateEdit;
-
+      
       public override string EditorTypeName => RepositoryItemTextDateEdit.CustomEditName;
 
       private DateTypeItem _DateType;

@@ -29,7 +29,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
       protected ReportHelper _ReportHelper;
       private RepositoryItemLookUpEdit _RepLookUpEdit;
 
-      public W20420(string programID , string programName) : base(programID , programName) {
+      public W20420(string programID, string programName) : base(programID, programName) {
+         
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
          GridHelper.SetCommonGrid(gvMain);
@@ -39,8 +40,6 @@ namespace PhoenixCI.FormUI.Prefix2 {
 
       protected override ResultStatus Open() {
          base.Open();
-
-
          return ResultStatus.Success;
       }
 
@@ -50,11 +49,11 @@ namespace PhoenixCI.FormUI.Prefix2 {
          //設定下拉選單
          //報表別
          DataTable dtTxnId = dao20420.dddw_idfg_txn_id();
-         Extension.SetDataTable(dw_txn_id , dtTxnId , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
+         Extension.SetDataTable(dw_txn_id, dtTxnId, "COD_ID", "COD_DESC", TextEditStyles.DisableTextEditor, "");
          //身分碼歸屬
          DataTable dtType = dao20420.dddw_idfg_type();
          _RepLookUpEdit = new RepositoryItemLookUpEdit();
-         Extension.SetColumnLookUp(_RepLookUpEdit , dtType , "COD_ID" , "CP_DISPLAY" , TextEditStyles.DisableTextEditor , "");
+         Extension.SetColumnLookUp(_RepLookUpEdit, dtType, "COD_ID", "CP_DISPLAY", TextEditStyles.DisableTextEditor, "");
          gcMain.RepositoryItems.Add(_RepLookUpEdit);
          IDFG_TYPE.ColumnEdit = _RepLookUpEdit;
 
@@ -84,11 +83,11 @@ namespace PhoenixCI.FormUI.Prefix2 {
          DataTable returnTable = dao20420.ListAllByTxnId(dw_txn_id.EditValue.AsString());
 
          if (returnTable.Rows.Count == 0) {
-            MessageBox.Show("無任何資料" , "訊息" , MessageBoxButtons.OK , MessageBoxIcon.Information);
+            MessageBox.Show("無任何資料", "訊息", MessageBoxButtons.OK, MessageBoxIcon.Information);
             return ResultStatus.Fail;
          }
 
-         returnTable.Columns.Add("Is_NewRow" , typeof(string));
+         returnTable.Columns.Add("Is_NewRow", typeof(string));
          gcMain.DataSource = returnTable;
          gcMain.Focus();
 
@@ -99,7 +98,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
 
          if (gvMain.RowCount == 0) {
             DataTable dtEmpty = dao20420.ListAllByTxnId("");
-            dtEmpty.Columns.Add("Is_NewRow" , typeof(string));
+            dtEmpty.Columns.Add("Is_NewRow", typeof(string));
             gcMain.DataSource = dtEmpty;
          }
 
@@ -117,29 +116,32 @@ namespace PhoenixCI.FormUI.Prefix2 {
       }
 
       protected override ResultStatus Save(PokeBall pokeBall) {
-         base.Save(gcMain);
+         //base.Save(gcMain);
 
          DataTable dt = (DataTable)gcMain.DataSource;
          DataTable dtChange = dt.GetChanges();
 
          if (dtChange == null) {
-            MessageBox.Show("沒有變更資料,不需要存檔!" , "注意" , MessageBoxButtons.OK , MessageBoxIcon.Exclamation);
+            MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             return ResultStatus.Fail;
          }
          if (dtChange.Rows.Count == 0) {
-            MessageBox.Show("沒有變更資料,不需要存檔!" , "注意" , MessageBoxButtons.OK , MessageBoxIcon.Exclamation);
+            MessageBox.Show("沒有變更資料,不需要存檔!", "注意", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             return ResultStatus.Fail;
          }
 
          //取得idfg_table_id
-         string idfgTableId = dt.Rows[0]["IDFG_TABLE_ID"].AsString();
-
+         //string idfgTableId = "";
+         //if () {
+         //   idfgTableId = dt.Rows[0]["IDFG_TABLE_ID"].AsString();
+         //}
          //賦值
          foreach (DataRow dr in dt.Rows) {
+
             if (dr.RowState == DataRowState.Added) {
                dr["IDFG_W_TIME"] = DateTime.Now;
                dr["IDFG_W_USER_ID"] = GlobalInfo.USER_ID;
-               dr["IDFG_TABLE_ID"] = idfgTableId;
+               dr["IDFG_TABLE_ID"] = dt.Rows[0]["IDFG_TABLE_ID"].AsString();
             }
          }
 
@@ -150,7 +152,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
                MessageDisplay.Error("更新資料庫IDFG錯誤! ");
                return ResultStatus.Fail;
             }
-         } catch (Exception ex) {
+         }
+         catch (Exception ex) {
             MessageBox.Show(ex.Message);
             return ResultStatus.Fail;
          }
@@ -186,21 +189,21 @@ namespace PhoenixCI.FormUI.Prefix2 {
          this.Cursor = Cursors.WaitCursor;
          //開一張空的table來轉成CSV
          DataTable dtCSV = new DataTable();
-         DataColumn dcType = new DataColumn("ACC_GRP" , typeof(string));
-         DataColumn dcCode = new DataColumn("ACC_CODE" , typeof(string));
+         DataColumn dcType = new DataColumn("ACC_GRP", typeof(string));
+         DataColumn dcCode = new DataColumn("ACC_CODE", typeof(string));
          dtCSV.Columns.Add(dcType);
          dtCSV.Columns.Add(dcCode);
-         dtCSV.Rows.Add("身份碼歸屬" , "身份碼");
-         for (int i = 0 ; i < gvMain.RowCount ; i++) {
+         dtCSV.Rows.Add("身份碼歸屬", "身份碼");
+         for (int i = 0; i < gvMain.RowCount; i++) {
             dtCSV.Rows.Add();
-            dtCSV.Rows[i + 1]["ACC_GRP"] = IDFG_TYPE.ColumnEdit.GetDisplayText(gvMain.GetRowCellValue(i , gvMain.Columns["IDFG_TYPE"])).AsString();
-            dtCSV.Rows[i + 1]["ACC_CODE"] = gvMain.GetRowCellValue(i , gvMain.Columns["IDFG_ACC_CODE"]).AsString();
+            dtCSV.Rows[i + 1]["ACC_GRP"] = IDFG_TYPE.ColumnEdit.GetDisplayText(gvMain.GetRowCellValue(i, gvMain.Columns["IDFG_TYPE"])).AsString();
+            dtCSV.Rows[i + 1]["ACC_CODE"] = gvMain.GetRowCellValue(i, gvMain.Columns["IDFG_ACC_CODE"]).AsString();
          }
          //存CSV (ps:輸出csv 都用ascii)
          ExportOptions csvref = new ExportOptions();
          csvref.HasHeader = false;
          csvref.Encoding = Encoding.GetEncoding(950);//ASCII
-         Common.Helper.ExportHelper.ToCsv(dtCSV , save.FileName , csvref);
+         Common.Helper.ExportHelper.ToCsv(dtCSV, save.FileName, csvref);
 #if DEBUG
          //存完直接開檔檢視
          System.Diagnostics.Process.Start(save.FileName);
@@ -225,50 +228,52 @@ namespace PhoenixCI.FormUI.Prefix2 {
       /// </summary>
       /// <param name="sender"></param>
       /// <param name="e"></param>
-      private void dw_txn_id_EditValueChanged(object sender , EventArgs e) {
+      private void dw_txn_id_EditValueChanged(object sender, EventArgs e) {
          gcMain.DataSource = null;
          gcMain.RefreshDataSource();
 
          DataTable dtType = dao20420.dddw_idfg_type(dw_txn_id.EditValue.AsString());
-         Extension.SetColumnLookUp(_RepLookUpEdit , dtType , "COD_ID" , "CP_DISPLAY" , TextEditStyles.DisableTextEditor , "");
+         Extension.SetColumnLookUp(_RepLookUpEdit, dtType, "COD_ID", "CP_DISPLAY", TextEditStyles.DisableTextEditor, "");
          gcMain.RepositoryItems.Add(_RepLookUpEdit);
          IDFG_TYPE.ColumnEdit = _RepLookUpEdit;
       }
 
       #region GridControl事件
 
-      private void gvMain_InitNewRow(object sender , InitNewRowEventArgs e) {
+      private void gvMain_InitNewRow(object sender, InitNewRowEventArgs e) {
          GridView gv = sender as GridView;
-         gv.SetRowCellValue(gv.FocusedRowHandle , gv.Columns["Is_NewRow"] , 1);
+         gv.SetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"], 1);
       }
 
-      private void gvMain_ShowingEditor(object sender , CancelEventArgs e) {
+      private void gvMain_ShowingEditor(object sender, CancelEventArgs e) {
          GridView gv = sender as GridView;
-         string Is_NewRow = gv.GetRowCellValue(gv.FocusedRowHandle , gv.Columns["Is_NewRow"]) == null ? "0" :
-              gv.GetRowCellValue(gv.FocusedRowHandle , gv.Columns["Is_NewRow"]).ToString();
+         string Is_NewRow = gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
+              gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["Is_NewRow"]).ToString();
          if (gv.IsNewItemRow(gv.FocusedRowHandle) || Is_NewRow == "1") {
             e.Cancel = false;
-         } else {
+         }
+         else {
             e.Cancel = true;
          }
       }
 
-      private void gvMain_RowCellStyle(object sender , RowCellStyleEventArgs e) {
+      private void gvMain_RowCellStyle(object sender, RowCellStyleEventArgs e) {
          GridView gv = sender as GridView;
-         string Is_NewRow = gv.GetRowCellValue(e.RowHandle , gv.Columns["Is_NewRow"]) == null ? "0" :
-                            gv.GetRowCellValue(e.RowHandle , gv.Columns["Is_NewRow"]).ToString();
+         string Is_NewRow = gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]) == null ? "0" :
+                            gv.GetRowCellValue(e.RowHandle, gv.Columns["Is_NewRow"]).ToString();
          //描述每個欄位,在is_newRow時候要顯示的顏色
          //當該欄位不可編輯時,設定為灰色 Color.FromArgb(192,192,192)
          switch (e.Column.FieldName) {
             case ("IDFG_TYPE"):
                if (Is_NewRow == "1") {
                   e.Appearance.BackColor = Color.White;
-               } else {
-                  e.Appearance.BackColor = e.CellValue.AsString() == null ? Color.FromArgb(192 , 220 , 192) : Color.FromArgb(224 , 224 , 224);
+               }
+               else {
+                  e.Appearance.BackColor = e.CellValue.AsString() == null ? Color.FromArgb(192, 220, 192) : Color.FromArgb(224, 224, 224);
                }
                break;
             case ("IDFG_ACC_CODE"):
-               e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.FromArgb(224 , 224 , 224);
+               e.Appearance.BackColor = Is_NewRow == "1" ? Color.White : Color.FromArgb(224, 224, 224);
                break;
             default:
                break;

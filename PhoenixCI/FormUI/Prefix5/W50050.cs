@@ -42,8 +42,12 @@ namespace PhoenixCI.FormUI.Prefix5 {
          //1. 設定時間初始值
          txtStartDate.DateTimeValue = GlobalInfo.OCF_DATE;
          txtEndDate.DateTimeValue = GlobalInfo.OCF_DATE;
+         txtStartDate.ImeMode = ImeMode.Disable;
+         txtEndDate.ImeMode = ImeMode.Disable;
          txtStartTime.EditValue = "08:45";
+         txtStartTime.ImeMode = ImeMode.Disable;
          txtEndTime.EditValue = "13:45";
+         txtEndTime.ImeMode = ImeMode.Disable;
 
          //2. 設定下拉選單
          //造市者

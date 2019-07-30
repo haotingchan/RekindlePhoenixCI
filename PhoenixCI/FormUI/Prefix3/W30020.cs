@@ -32,6 +32,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
         public W30020(string programID, string programName) : base(programID, programName) {
             InitializeComponent();
             this.Text = _ProgramID + "─" + _ProgramName;
+         txtEDate.ImeMode = ImeMode.Disable;
+         txtSDate.ImeMode = ImeMode.Disable;
         }
 
         protected override ResultStatus Open() {

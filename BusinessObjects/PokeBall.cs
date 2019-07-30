@@ -18,5 +18,7 @@ namespace BusinessObjects
         public GridControl GridControlSecond;
 
         public DateTime OcfDate;
+
+        public string OcfType;
     }
 }

@@ -1,6 +1,7 @@
 ﻿
 using BusinessObjects;
 using BusinessObjects.Enums;
+using Common;
 using DataObjects.Dao;
 using DataObjects.Dao.Together;
 using System;
@@ -19,6 +20,7 @@ namespace ActionService.DbDirect {
         private UPF daoUPF;
         private DPT daoDPT;
         private RPT daoRPT;
+        private TXFP daoTXFP;
 
         public ServiceCommon() {
             daoOCF = new OCF();
@@ -30,6 +32,7 @@ namespace ActionService.DbDirect {
             daoUPF = new UPF();
             daoDPT = new DPT();
             daoRPT = new RPT();
+            daoTXFP = new TXFP();
         }
         /// <summary>
         /// 判斷在JSW這個TABLE裡面有沒有權限
@@ -125,11 +128,32 @@ namespace ActionService.DbDirect {
             return daoDataGate.ExecuteStoredProcedure(sql, dbParmsEx, hasReturnParameter);
         }
 
-        public ResultData ExecuteInfoWorkFlow(string workFlowName, UserProgInfo userProgInfo) {
+        public ResultData ExecuteInfoWorkFlow(string workFlowName, UserProgInfo userProgInfo,string folder,string service) {
+            string key = "infa";
+            int seq = string.IsNullOrEmpty(service) ? 1 : 2;
+
+            DataTable dt = daoTXFP.ListDataByKeyAndSeq(key,seq);
             ResultData result = new ResultData();
 
-            string workingDirectory = @"C:\infa8\server\bin\";
-            string command = "pmcmd startworkflow -service IS_Taifex -domain Domain_Taifex -user pbusr1 -password pbusr1 -folder CI -wait " + workFlowName;
+            string workingDirectory = dt.Rows[0]["ls_exec_file"].AsString();
+            string domainFile = dt.Rows[0]["ls_domains_file"].AsString();
+            string domain = dt.Rows[0]["ls_domain"].AsString();
+            service = seq  == 1 ? dt.Rows[0]["ls_server"].AsString() : service;
+            string user = dt.Rows[0]["ls_str1"].AsString();
+            string pwd = dt.Rows[0]["ls_str2"].AsString();
+            string command = $@"
+                                                    SET RunUsr=  {user}   
+                                                    SET RunPasswd=  {pwd} 
+                                                    SET INFA_LANGUAGE=en   	
+                                                    SET INFA_DOMAINS_FILE=  {domainFile}
+                                                    {workingDirectory}   startworkflow  
+                                                    -service   {service}
+                                                    -domain   {domain} 
+                                                    -uv RunUsr  
+                                                    -pv RunPasswd  
+                                                    -folder   {folder}
+                                                    -wait   {workFlowName}		                                             
+                                            ";
 
             ProcessStartInfo processInfo = new ProcessStartInfo("cmd.exe", "/c " + command);
 

@@ -38,7 +38,37 @@ namespace DataObjects.Dao.Together {
          return dtResult;
       }
 
-      public DbConnection GetConnection(string conn , string ls_db) {
+        public DataTable ListDataByKeyAndSeq(string ini_key,int seq )
+        {
+            object[] parms =
+            {
+                ":ini_key",ini_key,
+                "li_seq_no",seq
+            };
+
+            #region sql
+
+            string sql =
+                @"
+                    select trim(TXFP_PARAM1) as ls_str1,
+                                trim(TXFP_PARAM2) as ls_str2,
+                                trim(TXFP_PARAM3) as ls_exec_file,
+                                trim(TXFP_PARAM4) as ls_domains_file,
+                                trim(TXFP_PARAM5) as ls_server,
+                                trim(TXFP_PARAM6) as ls_domain
+                                from ci.TXFP 
+                                where TXFP_TXN_ID = :ini_key 
+                                and TXFP_SEQ_NO = :li_seq_no
+                ";
+
+            #endregion sql
+
+            DataTable dtResult = db.GetDataTable(sql, parms);
+
+            return dtResult;
+        }
+
+        public DbConnection GetConnection(string conn , string ls_db) {
          try {
             db = new Db(conn , "Oracle.ManagedDataAccess.Client" , ls_db);
             db.dbConnection = db.CreateConnection();

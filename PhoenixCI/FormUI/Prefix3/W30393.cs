@@ -127,18 +127,21 @@ namespace PhoenixCI.FormUI.Prefix3
             OutputShowMessage = b30393.Wf30393abc("RHF", "data_30393_1abc");
 
             //RTF
+            b30393 = new B30393(workbook, emMonth.Text);
             ShowMsg("30393－「RTF」期貨契約價量資料 轉檔中...");
             OutputShowMessage = b30393.Wf30393(StartDate, EndDate, "RTF", "30393_2(RTF)");
             ShowMsg("30397－「黃金」期貨契約價量資料(買賣方比重) 轉檔中...");
             OutputShowMessage = b30393.Wf30393abc("RTF", "data_30393_2abc");
 
             //XEF
+            b30393 = new B30393(workbook, emMonth.Text);
             ShowMsg("30393－「XEF」期貨契約價量資料 轉檔中...");
             OutputShowMessage = b30393.Wf30393(StartDate, EndDate, "XEF", "30393_3(XEF)");
             ShowMsg("30397－「黃金」期貨契約價量資料(買賣方比重) 轉檔中...");
             OutputShowMessage = b30393.Wf30393abc("XEF", "data_30393_3abc");
 
             //XJF
+            b30393 = new B30393(workbook, emMonth.Text);
             ShowMsg("30393－「XJF」期貨契約價量資料 轉檔中...");
             OutputShowMessage = b30393.Wf30393(StartDate, EndDate, "XJF", "30393_4(XJF)");
             ShowMsg("30397－「黃金」期貨契約價量資料(買賣方比重) 轉檔中...");
@@ -153,6 +156,7 @@ namespace PhoenixCI.FormUI.Prefix3
          finally {
             //存檔
             workbook.SaveDocument(lsFile);
+            workbook.Dispose();
             EndExport();
          }
          return ResultStatus.Success;
