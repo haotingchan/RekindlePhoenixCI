@@ -27,6 +27,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
       private OCFG daoOCFG;
       private D30053 dao30053;
       private string date;
+      private int flag;
+      private string file;
 
       public W30053(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
@@ -58,13 +60,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //決定盤別下拉選單
             daoOCFG = new OCFG();
             if (daoOCFG.f_get_txn_osw_grp(_ProgramID) == "5") {
-               ddlType.EditValue = "1";
+               ddlType.ItemIndex = 0;
             } else {
-               ddlType.EditValue = "2";
+               ddlType.ItemIndex = 1;
             }
 
          } catch (Exception ex) {
-            throw ex;
+            WriteLog(ex);
          }
          return ResultStatus.Success;
       }
@@ -99,7 +101,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             Thread.Sleep(5);
             lblProcessing.Visible = true;
             ShowMsg("開始轉檔...");
-            string rptId, file, rptName = "";
+            string rptId, rptName = "";
 
             TaiwanCalendar TC = new TaiwanCalendar();
             date = TC.GetYear(txtSDate.DateTimeValue) + "年" + txtSDate.DateTimeValue.Month + "月" + txtSDate.DateTimeValue.Day + "日";
@@ -150,6 +152,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //開啟檔案
             Workbook workbook = new Workbook();
             workbook.LoadDocument(file);
+            flag = 0;
 
             //切換Sheet
             Worksheet ws = workbook.Worksheets["期貨"];
@@ -203,6 +206,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
             if (!wf30053rtoTop20(ws)) return showEmailMsg(cbxNews.Checked);
 
             #endregion
+
+            if (flag <= 0) {
+               File.Delete(file);
+               return ResultStatus.Fail;
+            }
 
             //存檔
             workbook.SaveDocument(file);
@@ -330,6 +338,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //ws.Rows.Hide(ii_ole_row - li_del_row, (ii_ole_row + 1) - li_del_row);
          }
          ws.ScrollToRow(0);
+         flag++;
          return true;
       }
 
@@ -377,6 +386,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
          }
          ws.ScrollToRow(0);
+         flag++;
          return true;
       }
 
@@ -446,6 +456,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             range.Delete(DeleteMode.EntireRow);
          }
          ws.ScrollToRow(0);
+         flag++;
          return true;
       }
 
@@ -471,6 +482,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          ws.Cells[0 , 9].Value = date;
          ws.Import(dt30053stfNear , false , 2 , 0);
          ws.ScrollToRow(0);
+         flag++;
          return true;
       }
 
@@ -494,6 +506,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          ws.Cells[0 , 9].Value = date;
          ws.Import(dt30053ctee50 , false , 2 , 0);
          ws.ScrollToRow(0);
+         flag++;
          return true;
       }
 
@@ -519,6 +532,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          ws.Cells[0 , 4].Value = date;
          ws.Import(dt30053StfTop40 , false , 2 , 0);
          ws.ScrollToRow(0);
+         flag++;
          return true;
       }
 
@@ -542,6 +556,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          //ws.Cells[0, 5].Value = date;
          ws.Import(dt30053EtfTop10 , false , 2 , 0);
          ws.ScrollToRow(0);
+         flag++;
          return true;
       }
 
@@ -567,6 +582,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          ws.Cells[0 , 5].Value = date;
          ws.Import(dt30053StcTop10 , false , 2 , 0);
          ws.ScrollToRow(0);
+         flag++;
          return true;
       }
 
@@ -592,6 +608,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          ws.Cells[0 , 5].Value = date;
          ws.Import(dt30053EtcTop20 , false , 2 , 0);
          ws.ScrollToRow(0);
+         flag++;
          return true;
       }
 
@@ -617,6 +634,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          ws.Cells[0 , 5].Value = date;
          ws.Import(dt30053RhoTop20 , false , 2 , 0);
          ws.ScrollToRow(0);
+         flag++;
          return true;
       }
 
@@ -642,6 +660,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          ws.Cells[0 , 5].Value = date;
          ws.Import(dt30053RtoTop20 , false , 2 , 0);
          ws.ScrollToRow(0);
+         flag++;
          return true;
       }
 
@@ -650,9 +669,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
       /// </summary>
       /// <param name="sendEmail"></param>
       protected ResultStatus showEmailMsg(bool sendEmail) {
-         if (sendEmail)
+         if (!sendEmail) {
             MessageDisplay.Warning("產出檔案有異常資訊，請通知系統負責人！");
-
+            File.Delete(file);
+         }
          return ResultStatus.Fail;
       }
    }

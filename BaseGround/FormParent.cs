@@ -1173,7 +1173,8 @@ namespace BaseGround {
                   break;
             }
             //LOGF_KEY_DATA長度要取前100字元,但是logf.LOGF_KEY_DATA型態為VARCHAR2 (100 Byte),如果有中文會算2byte...
-            new LOGF().Insert(GlobalInfo.USER_ID , _ProgramID , msg.SubStr(0 , 50) , operationType);
+            string msgC = "[C#]" + msg;
+            new LOGF().Insert(GlobalInfo.USER_ID , _ProgramID , msgC.SubStr(0 , 50) , operationType);
          } catch (Exception ex2) {
             // write log to db failed , ready write file to local
             isNeedWriteFile = true;
