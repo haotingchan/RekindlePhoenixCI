@@ -82,6 +82,11 @@ namespace PhoenixCI.FormUI.Prefix2 {
          DataTable dtCode = new CODW().ListLookUpEdit("20231" , "PLS4_STATUS_CODE");
          Pls4StatusCodeLookUpEdit.SetColumnLookUp(dtCode , "CODW_ID" , "CODW_DESC" , textEditStyles , null);
          PLS4_STATUS_CODE.ColumnEdit = Pls4StatusCodeLookUpEdit;
+         foreach (DataRow dr in dtCode.Rows) {
+            if (dr["CODW_ID"].AsString() == "N") {
+               dr["CODW_ID"] = " ";
+            }
+         }
 
          //上市/上櫃
          //Pls4PidLookUpEdit.SetColumnLookUp(new COD().ListByCol("TFXM", "TFXM_PID"), "COD_ID", "COD_DESC", textEditStyles, null);
@@ -193,8 +198,9 @@ namespace PhoenixCI.FormUI.Prefix2 {
          }
          drNew["PLS4_YMD"] = _cpYMD;
          drNew["PLS4_KIND_ID2"] = "";
-         drNew["PLS4_FUT"] = "";
-         drNew["PLS4_OPT"] = "";
+         drNew["PLS4_FUT"] = " ";
+         drNew["PLS4_OPT"] = " ";
+         drNew["PLS4_STATUS_CODE"] = "N";
          drNew["PLS4_PID"] = "";
 
          dt.Rows.InsertAt(drNew , focusIndex);
@@ -242,6 +248,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
 
          DataTable dt = (DataTable)gcMain.DataSource;
          DataTable dtChange = dt.GetChanges();
+         DataTable dtAdd = dt.GetChanges(DataRowState.Added);
          DataTable dtDeleteChange = dt.GetChanges(DataRowState.Deleted);
 
          int getDeleteCount = dtDeleteChange != null ? dtDeleteChange.Rows.Count : 0;
@@ -254,6 +261,17 @@ namespace PhoenixCI.FormUI.Prefix2 {
                   dr["PLS4_W_USER_ID"] = GlobalInfo.USER_ID;
                   dr["PLS4_W_TIME"] = DateTime.Now;
                   dr["PLS4_PDK_YMD"] = _IsPdkYMD;
+               }
+
+               if (dr.RowState == DataRowState.Added) {
+                  dr["PLS4_W_USER_ID"] = GlobalInfo.USER_ID;
+                  dr["PLS4_W_TIME"] = DateTime.Now;
+                  dr["PLS4_PDK_YMD"] = _IsPdkYMD;
+                  if (string.IsNullOrEmpty(dr["PLS4_SID"].AsString()) || string.IsNullOrEmpty(dr["PLS4_KIND_ID2"].AsString()) ||
+                        string.IsNullOrEmpty(dr["PLS4_PID"].AsString())) {
+                     MessageDisplay.Info("資料尚未填寫完成!");
+                     return ResultStatus.FailButNext;
+                  }
                }
             }
          }
