@@ -27,8 +27,8 @@ namespace DataObjects.Dao.Together.SpecificDao {
 
             string sql =
 @"
-SELECT PL1_YMD AS PL2_EFFECTIVE_YMD,
-         PL1_YMD,
+SELECT PL1_YMD ,
+        -- PL1_YMD as PL1_YMD1 ,
          PL1_KIND_ID,   
          PL1_NATURE,   
          PL1_LEGAL,   

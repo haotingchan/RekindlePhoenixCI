@@ -103,9 +103,14 @@
             this.PL1_MAX_MONTH_CNT = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.PL1_MAX_TYPE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.PL1_MAX_QNTY = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.PL1_YMD = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.PL1_YMD1 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.PL1_PROD_TYPE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.PL1_PROD_SUBTYPE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.PL1_YMD = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.PL1_UPD_TIME = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.PL1_UPD_USER_ID = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
@@ -722,7 +727,12 @@
             this.PL1_MAX_MONTH_CNT,
             this.PL1_MAX_TYPE,
             this.PL1_MAX_QNTY,
-            this.PL1_YMD});
+            this.PL1_YMD,
+            this.PL1_YMD1,
+            this.PL1_PROD_TYPE,
+            this.PL1_PROD_SUBTYPE,
+            this.PL1_UPD_TIME,
+            this.PL1_UPD_USER_ID});
             this.gvMain.GridControl = this.gcMain;
             this.gvMain.Name = "gvMain";
             this.gvMain.OptionsPrint.PrintHeader = false;
@@ -1105,6 +1115,42 @@
             this.PL1_MAX_QNTY.Name = "PL1_MAX_QNTY";
             this.PL1_MAX_QNTY.Width = 112;
             // 
+            // PL1_YMD
+            // 
+            this.PL1_YMD.Caption = "PL1_YMD";
+            this.PL1_YMD.FieldName = "PL1_YMD";
+            this.PL1_YMD.MinWidth = 27;
+            this.PL1_YMD.Name = "PL1_YMD";
+            this.PL1_YMD.Visible = true;
+            this.PL1_YMD.Width = 102;
+            // 
+            // PL1_YMD1
+            // 
+            this.PL1_YMD1.Caption = "PL1_YMD1";
+            this.PL1_YMD1.FieldName = "PL1_YMD1";
+            this.PL1_YMD1.MinWidth = 27;
+            this.PL1_YMD1.Name = "PL1_YMD1";
+            this.PL1_YMD1.Visible = true;
+            this.PL1_YMD1.Width = 102;
+            // 
+            // PL1_PROD_TYPE
+            // 
+            this.PL1_PROD_TYPE.Caption = "PL1_PROD_TYPE";
+            this.PL1_PROD_TYPE.FieldName = "PL1_PROD_TYPE";
+            this.PL1_PROD_TYPE.MinWidth = 27;
+            this.PL1_PROD_TYPE.Name = "PL1_PROD_TYPE";
+            this.PL1_PROD_TYPE.Visible = true;
+            this.PL1_PROD_TYPE.Width = 102;
+            // 
+            // PL1_PROD_SUBTYPE
+            // 
+            this.PL1_PROD_SUBTYPE.Caption = "PL1_PROD_SUBTYPE";
+            this.PL1_PROD_SUBTYPE.FieldName = "PL1_PROD_SUBTYPE";
+            this.PL1_PROD_SUBTYPE.MinWidth = 27;
+            this.PL1_PROD_SUBTYPE.Name = "PL1_PROD_SUBTYPE";
+            this.PL1_PROD_SUBTYPE.Visible = true;
+            this.PL1_PROD_SUBTYPE.Width = 102;
+            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.gcGBF);
@@ -1123,13 +1169,23 @@
             this.panel2.Size = new System.Drawing.Size(1125, 486);
             this.panel2.TabIndex = 4;
             // 
-            // PL1_YMD
+            // PL1_UPD_TIME
             // 
-            this.PL1_YMD.Caption = "PL1_YMD";
-            this.PL1_YMD.FieldName = "PL1_YMD";
-            this.PL1_YMD.MinWidth = 27;
-            this.PL1_YMD.Name = "PL1_YMD";
-            this.PL1_YMD.Width = 102;
+            this.PL1_UPD_TIME.Caption = "PL1_UPD_TIME";
+            this.PL1_UPD_TIME.FieldName = "PL1_UPD_TIME";
+            this.PL1_UPD_TIME.MinWidth = 27;
+            this.PL1_UPD_TIME.Name = "PL1_UPD_TIME";
+            this.PL1_UPD_TIME.Visible = true;
+            this.PL1_UPD_TIME.Width = 102;
+            // 
+            // PL1_UPD_USER_ID
+            // 
+            this.PL1_UPD_USER_ID.Caption = "PL1_UPD_USER_ID";
+            this.PL1_UPD_USER_ID.FieldName = "PL1_UPD_USER_ID";
+            this.PL1_UPD_USER_ID.MinWidth = 27;
+            this.PL1_UPD_USER_ID.Name = "PL1_UPD_USER_ID";
+            this.PL1_UPD_USER_ID.Visible = true;
+            this.PL1_UPD_USER_ID.Width = 102;
             // 
             // W30203
             // 
@@ -1235,20 +1291,25 @@
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand bandPL1B_999_NEARBY_MTH;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand bandPL1B_999_TOT;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand bandPL1B_ADJ;
-      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand2;
-      private DevExpress.XtraGrid.Views.BandedGrid.GridBand bandCur;
-      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand21;
-      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand22;
-      private DevExpress.XtraGrid.Views.BandedGrid.GridBand bandCP;
-      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand24;
-      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand25;
-      private DevExpress.XtraGrid.Views.BandedGrid.GridBand bandCompute1;
-      private DevExpress.XtraGrid.Views.BandedGrid.GridBand bandPL1_NATURE_LEGAL;
-      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand28;
-      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand29;
-      private DevExpress.XtraGrid.Views.BandedGrid.GridBand bandADJ;
-      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand31;
-      private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand32;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn PL1_YMD;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand2;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand bandCur;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand21;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand22;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand bandCP;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand24;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand25;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand bandCompute1;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand bandPL1_NATURE_LEGAL;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand28;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand29;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand bandADJ;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand31;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand32;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn PL1_YMD1;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn PL1_PROD_TYPE;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn PL1_PROD_SUBTYPE;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn PL1_UPD_TIME;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn PL1_UPD_USER_ID;
     }
 }

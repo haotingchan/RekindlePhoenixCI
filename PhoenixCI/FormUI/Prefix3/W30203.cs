@@ -374,7 +374,6 @@ namespace PhoenixCI.FormUI.Prefix3
                     {
                         dtPLLOG.Rows.Add();
                         dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_YMD"] = gvMain.GetRowCellValue(i, "PL1_YMD").AsString();
-                        //dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_YMD"] = txtDate.Text.Replace("/", "").AsString();
                         dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_KIND_ID"] = gvMain.GetRowCellValue(i, "PL1_KIND_ID").AsString();
                         dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_DATA_TYPE"] = "N";
                         dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_ORG_VALUE"] = gvMain.GetRowCellValue(i, "PL1_NATURE_ORG").AsDecimal().AsString();
@@ -398,6 +397,7 @@ namespace PhoenixCI.FormUI.Prefix3
                     }
                 }
                 // 寫入DB
+                int count = dtPLLOG.Rows.Count;
                 ResultData myResultData = dao30203.updatePLLOG(dtPLLOG);
                 #endregion
 
