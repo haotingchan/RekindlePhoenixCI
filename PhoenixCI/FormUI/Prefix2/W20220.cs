@@ -54,7 +54,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             //ptRow2["ID"] = "O";
             //ptRow2["DESC"] = "選擇權";
             //dtProd_Type.Rows.Add(ptRow2);
-            DataTable dtProd_Type = new CODW().ListLookUpEdit("20220" , "PLT1_PROD_TYPE");
+            DataTable dtProd_Type = new CODW().ListLookUpEdit("APDK" , "APDK_PROD_TYPE");
             Extension.SetColumnLookUp(_RepLookUpEdit_Type , dtProd_Type , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
             gcMain.RepositoryItems.Add(_RepLookUpEdit_Type);
             PLT1_PROD_TYPE.ColumnEdit = _RepLookUpEdit_Type;

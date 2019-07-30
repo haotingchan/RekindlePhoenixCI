@@ -53,7 +53,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //                                new LookupItem() { ValueMember = "1", DisplayMember = "Group 1"},
             //                                new LookupItem() { ValueMember = "5", DisplayMember = "Group 2"}};
 
-            DataTable dtOswGrp = new CODW().ListLookUpEdit("49070", "49070_OSW_GRP");
+            DataTable dtOswGrp = new CODW().ListLookUpEdit("49070", "OSW_GRP");
             foreach (DataRow dr in dtOswGrp.Rows) {
                if (dr["CODW_ID"].AsString() == "0") {
                   dr["CODW_ID"] = " ";
@@ -67,7 +67,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //                                new LookupItem() { ValueMember = " ", DisplayMember = " "},
             //                                new LookupItem() { ValueMember = "E", DisplayMember = "下市"}};
 
-            DataTable dtDataType = new CODW().ListLookUpEdit("49070" , "49070_DATA_TYPE");
+            DataTable dtDataType = new CODW().ListLookUpEdit("49070" , "DATA_TYPE");
             foreach (DataRow dr in dtOswGrp.Rows) {
                if (dr["CODW_ID"].AsString() == "N") {
                   dr["CODW_ID"] = " ";

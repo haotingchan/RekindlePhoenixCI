@@ -74,7 +74,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          //                               new LookupItem() { ValueMember = "1", DisplayMember = "全選Group1"},
          //                               new LookupItem() { ValueMember = "2", DisplayMember = "全選Group2" }};
 
-         DataTable dtAdjustType = new CODW().ListLookUpEdit("40080" , "40080_DDL_ADJUST");
+         DataTable dtAdjustType = new CODW().ListLookUpEdit("40080" , "DDL_ADJUST");
          Extension.SetDataTable(ddlAdjust , dtAdjustType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
          ddlAdjust.ItemIndex = 0; // none
 

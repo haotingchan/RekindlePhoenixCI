@@ -52,7 +52,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             //契約類別
             //DataTable dtProdSubtype = dao49010.GetDdlProdSubtype();
-            DataTable dtProdSubtype = new CODW().ListLookUpEdit("49010", "49010_PDK_SUBTYPE");
+            DataTable dtProdSubtype = new CODW().ListLookUpEdit("APDK" , "APDK_PROD_SUBTYPE");
             Extension.SetColumnLookUp(lupProdSubtype , dtProdSubtype , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor);
             gcMain.RepositoryItems.Add(lupProdSubtype);
 

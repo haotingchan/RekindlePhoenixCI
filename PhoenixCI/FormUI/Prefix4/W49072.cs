@@ -41,7 +41,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //商品
             CODW codw = new CODW();
             //DataTable dtSpnt1 = cod.ListByTxn("SPNT1");
-            DataTable dtSpnt1 = codw.ListLookUpEdit("49072", "49072_SPNT1_TYPE");
+            DataTable dtSpnt1 = codw.ListLookUpEdit("49072", "SPNT1_TYPE");
             Extension.SetColumnLookUp(lupSpnt1 , dtSpnt1 , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
             gcMain.RepositoryItems.Add(lupSpnt1);
 

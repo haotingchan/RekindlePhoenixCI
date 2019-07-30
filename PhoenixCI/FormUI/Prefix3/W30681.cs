@@ -113,7 +113,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          //                               new LookupItem() { ValueMember = "%", DisplayMember = "% (全部)"},
          //                               new LookupItem() { ValueMember = "S%", DisplayMember = "S (單式)" },
          //                               new LookupItem() { ValueMember = "C%", DisplayMember = "C (複式)" }};
-         DataTable lstScCode = new CODW().ListLookUpEdit("30681" , "30681_DDLB_SC");
+         DataTable lstScCode = new CODW().ListLookUpEdit("30681" , "DDLB_SC");
          Extension.SetDataTable(ddlScCode , lstScCode , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor);
          ddlScCode.ItemIndex = 0;
 

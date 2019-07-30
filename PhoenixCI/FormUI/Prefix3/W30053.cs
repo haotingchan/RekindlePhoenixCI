@@ -48,7 +48,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          //List<LookupItem> ddlb_grp = new List<LookupItem>(){
          //                               new LookupItem() { ValueMember = "1", DisplayMember = "16:15收盤"},
          //                               new LookupItem() { ValueMember = "2", DisplayMember = "全部收盤" }};
-         DataTable ddlb_grp = new CODW().ListLookUpEdit("30053" , "30053_DDLB_GRP");
+         DataTable ddlb_grp = new CODW().ListLookUpEdit("GRP" , "GRP_NO");
          Extension.SetDataTable(ddlType , ddlb_grp , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
          ddlType.ItemIndex = 1;
 

@@ -46,7 +46,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             //商品
             //DataTable dtTfxmPid = new COD().ListByCol2("TFXM" , "TFXM_PID");
-            DataTable dtTfxmPid = new CODW().ListLookUpEdit("49080" , "49080_TFXM_PID");
+            DataTable dtTfxmPid = new CODW().ListLookUpEdit("APDK" , "UNDERLYING_MARKET    ");
             Extension.SetColumnLookUp(lupTfxmPid , dtTfxmPid , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
             gcMain.RepositoryItems.Add(lupTfxmPid);
 

@@ -59,7 +59,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          //                               new LookupItem() { ValueMember = "1E", DisplayMember = "長假回調" },
          //                               new LookupItem() { ValueMember = "2B", DisplayMember = "處置股票調整"}};
 
-         DataTable dtType = new CODW().ListLookUpEdit("40090" , "40090_DW_ADJ");
+         DataTable dtType = new CODW().ListLookUpEdit("MGD2" , "MGD2_ADJ_TYPE");
          //設定下拉選單
          ddlAdjType.SetDataTable(dtType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          ddlAdjType.ItemIndex = 0; // 0B

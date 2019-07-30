@@ -41,7 +41,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             txtStartYMD.DateTimeValue = GlobalInfo.OCF_DATE.AddDays(-GlobalInfo.OCF_DATE.Day + 1); //取得當月第1天
             txtEndYMD.DateTimeValue = GlobalInfo.OCF_DATE;
 
-            DataTable dtProd = new CODW().ListLookUpEdit("30592" , "30592_KIND_ID");
+            DataTable dtProd = new CODW().ListLookUpEdit("30592" , "KIND_ID");
             Extension.SetDataTable(ddlProd , dtProd , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
             ddlProd.ItemIndex = 0;
 

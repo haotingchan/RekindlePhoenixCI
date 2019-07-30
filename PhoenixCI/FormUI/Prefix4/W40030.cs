@@ -64,18 +64,18 @@ namespace PhoenixCI.FormUI.Prefix4 {
          //                               new LookupItem() { ValueMember = "1E", DisplayMember = "長假回調" },
          //                               new LookupItem() { ValueMember = "3B", DisplayMember = "股票"}};
 
-         DataTable dtType = new CODW().ListLookUpEdit("40030" , "40030_DW_ADJ");
+         DataTable dtType = new CODW().ListLookUpEdit("40030" , "MGD2_ADJ_TYPE");
 
-         //設定 下拉選單
-         //List <LookupItem> marketTimeList = new List<LookupItem>(){
-         //                               new LookupItem() { ValueMember = "1", DisplayMember = "Group1(13:45)"},
-         //                               new LookupItem() { ValueMember = "5", DisplayMember = "Group2(16:15)" }};
-         DataTable dtMarketTime = new CODW().ListLookUpEdit("40030" , "40030_ETC_VSR");
+         //設定 下拉選單(這裡要改回Radio Button 目前應該會壞掉)
+         List<LookupItem> marketTimeList = new List<LookupItem>(){
+                                        new LookupItem() { ValueMember = "1", DisplayMember = "Group1(13:45)"},
+                                        new LookupItem() { ValueMember = "5", DisplayMember = "Group2(16:15)" }};
+         //DataTable dtMarketTime = new CODW().ListLookUpEdit("40030" , "40030_ETC_VSR");
 
          //設定下拉選單
          ddlAdjType.SetDataTable(dtType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          ddlAdjType.ItemIndex = 0; //0B
-         ETCSelect.SetDataTable(dtMarketTime , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
+         ETCSelect.SetDataTable(marketTimeList , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          ETCSelect.ItemIndex = 0; //1
 
          MarketTimes.SetItemChecked(0 , true);

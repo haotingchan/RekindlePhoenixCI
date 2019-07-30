@@ -104,7 +104,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
          //                               new LookupItem() { ValueMember = "1", DisplayMember = "16:15收盤"},
          //                               new LookupItem() { ValueMember = "2", DisplayMember = "全部收盤" }};
 
-         DataTable dtGrp = new CODW().ListLookUpEdit("20110", "20110_DDLB_GRP");
+         DataTable dtGrp = new CODW().ListLookUpEdit("GRP" , "GRP_NO");
          Extension.SetDataTable(ddlType , dtGrp , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
          #endregion
 

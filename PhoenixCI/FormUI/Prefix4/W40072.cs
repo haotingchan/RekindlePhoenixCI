@@ -86,7 +86,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          //                               new LookupItem() { ValueMember = "2", DisplayMember = "2"},
          //                               new LookupItem() { ValueMember = "3", DisplayMember = "3" }};
 
-         DataTable dtRateList = new CODW().ListLookUpEdit("40072" , "40072_RATE");
+         DataTable dtRateList = new CODW().ListLookUpEdit("40072" , "RATE");
          rateLookUpEdit = new RepositoryItemLookUpEdit();
          rateLookUpEdit.SetColumnLookUp(dtRateList , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          gcMain.RepositoryItems.Add(rateLookUpEdit);

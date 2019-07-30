@@ -111,7 +111,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          //                               new LookupItem() { ValueMember = "5%", DisplayMember = "13:45 - 16:15"},
          //                               new LookupItem() { ValueMember = "%", DisplayMember = "13:45 - 18:15" },
          //                               new LookupItem() { ValueMember = "7%", DisplayMember = "16:15 - 18:15" }};
-         DataTable dtType = new CODW().ListLookUpEdit("30770" , "30770_DDLB_OSW_GRP");
+         DataTable dtType = new CODW().ListLookUpEdit("30770" , "DDLB_OSW_GRP");
          Extension.SetDataTable(ddlOswGrp , dtType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
 
          return ResultStatus.Success;

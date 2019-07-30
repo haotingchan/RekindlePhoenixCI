@@ -52,7 +52,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
          //                               new LookupItem() { ValueMember = " ", DisplayMember = " "},
          //                               new LookupItem() { ValueMember = "F", DisplayMember = "○" }};
 
-         DataTable dtFut = new CODW().ListLookUpEdit("20231" , "20231_PLS4_FUT");
+         DataTable dtFut = new CODW().ListLookUpEdit("20231" , "PLS4_FUT");
          foreach (DataRow dr in dtFut.Rows) {
             if (dr["CODW_ID"].AsString() == "N") {
                dr["CODW_ID"] = " ";
@@ -65,7 +65,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
          //                               new LookupItem() { ValueMember = " ", DisplayMember = " "},
          //                               new LookupItem() { ValueMember = "O", DisplayMember = "○" }};
 
-         DataTable dtOpt = new CODW().ListLookUpEdit("20231" , "20231_PLS4_OPT");
+         DataTable dtOpt = new CODW().ListLookUpEdit("20231" , "PLS4_OPT");
          foreach (DataRow dr in dtOpt.Rows) {
             if (dr["CODW_ID"].AsString() == "N") {
                dr["CODW_ID"] = " ";
@@ -90,7 +90,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
 
          //上市/上櫃
          //Pls4PidLookUpEdit.SetColumnLookUp(new COD().ListByCol("TFXM", "TFXM_PID"), "COD_ID", "COD_DESC", textEditStyles, null);
-         DataTable dtTFXM = new CODW().ListLookUpEdit("20231" , "20231_TFXM_PID");
+         DataTable dtTFXM = new CODW().ListLookUpEdit("APDK" , "UNDERLYING_MARKET");
          Pls4PidLookUpEdit.SetColumnLookUp(dtTFXM , "CODW_ID" , "CODW_DESC" , textEditStyles , null);
          PLS4_PID.ColumnEdit = Pls4PidLookUpEdit;
 

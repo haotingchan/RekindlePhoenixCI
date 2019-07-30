@@ -41,7 +41,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
          //交易時段 價平月份 兩個欄位要換成LookUpEdit
          _RepLookUpEdit = new RepositoryItemLookUpEdit();
          //DataTable cbxCPKindSource = daoCOD.ListByCol2("MMFT" , "MMFT_CP_KIND");
-         DataTable dtCPKindSource = new CODW().ListLookUpEdit("51020" , "51020_CP_KIND");
+         DataTable dtCPKindSource = new CODW().ListLookUpEdit("51020" , "CP_KIND");
          foreach (DataRow dr in dtCPKindSource.Rows) {
             if (dr["CODW_ID"].AsString() == "N") {
                dr["CODW_ID"] = " ";
@@ -54,7 +54,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
          _RepLookUpEdit2 = new RepositoryItemLookUpEdit();
          //DataTable cbxMarketCodeSource = daoCOD.ListByCol2("MMFT" , "MMFT_MARKET_CODE");
-         DataTable dtMarketCodeSource = new CODW().ListLookUpEdit("51020" , "51020_MARKET_CODE");
+         DataTable dtMarketCodeSource = new CODW().ListLookUpEdit("MMF" , "MMF_MARKET_CODE");
          _RepLookUpEdit2.SetColumnLookUp(dtMarketCodeSource , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
          gcMain.RepositoryItems.Add(_RepLookUpEdit2);
          MMFT_MARKET_CODE.ColumnEdit = _RepLookUpEdit2;

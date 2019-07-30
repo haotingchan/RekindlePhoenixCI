@@ -56,7 +56,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          //List<LookupItem> lstType = new List<LookupItem>(){
          //                               new LookupItem() { ValueMember = "1", DisplayMember = "16:15收盤"},
          //                               new LookupItem() { ValueMember = "2", DisplayMember = "全部收盤" }};
-         DataTable lstType = new CODW().ListLookUpEdit("30055" , "30055_DDLB_GRP");
+         DataTable lstType = new CODW().ListLookUpEdit("GRP" , "GRP_NO");
          Extension.SetDataTable(ddlType , lstType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
          ddlType.ItemIndex = 1;
 

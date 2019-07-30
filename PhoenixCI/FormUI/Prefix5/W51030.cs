@@ -83,14 +83,14 @@ namespace PhoenixCI.FormUI.Prefix5
          //dic = new Dictionary<string, string>() { { "0", "一般" }, { "1", "夜盤" } };
          //DataTable mk_code = SetcolItem(dic);
          MARKET_CODE_LookUpEdit = new RepositoryItemLookUpEdit();
-         DataTable mk_code = new CODW().ListLookUpEdit("51030" , "51030_MARKET_CODE");
+         DataTable mk_code = new CODW().ListLookUpEdit("MMF" , "MMF_MARKET_CODE");
          MARKET_CODE_LookUpEdit.SetColumnLookUp(mk_code, "CODW_ID", "CODW_DESC");
          MMF_MARKET_CODE.ColumnEdit = MARKET_CODE_LookUpEdit;
          //期貨/選擇權
          //dic = new Dictionary<string, string>() { { "F", "F" }, { "O", "O" } };
          //DataTable mmfType = SetcolItem(dic);
          PROD_TYPE_LookUpEdit = new RepositoryItemLookUpEdit();
-         DataTable mmfType = new CODW().ListLookUpEdit("51030" , "51030_PROD_TYPE");
+         DataTable mmfType = new CODW().ListLookUpEdit("APDK" , "APDK_PROD_TYPE");
          PROD_TYPE_LookUpEdit.SetColumnLookUp(mmfType, "CODW_ID" , "CODW_DESC");
          MMF_PROD_TYPE.ColumnEdit = PROD_TYPE_LookUpEdit;
          //商品類別
@@ -118,7 +118,7 @@ namespace PhoenixCI.FormUI.Prefix5
          //}
          //DataTable mmfKIND = SetcolItem(dic);
          CP_KIND_LookUpEdit = new RepositoryItemLookUpEdit();
-         DataTable mmfKIND = new CODW().ListLookUpEdit3("51030" , "51030_CP_KIND");
+         DataTable mmfKIND = new CODW().ListLookUpEdit3("51030" , "CP_KIND");
          CP_KIND_LookUpEdit.SetColumnLookUp(mmfKIND, "CODW_ID" , "CP_DISPLAY");
          MMF_CP_KIND.ColumnEdit = CP_KIND_LookUpEdit;
       }

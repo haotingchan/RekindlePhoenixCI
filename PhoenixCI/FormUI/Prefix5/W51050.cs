@@ -42,7 +42,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             //List<LookupItem> dtMarketCode = new List<LookupItem>(){
             //                                new LookupItem() { ValueMember = "0", DisplayMember = "一般"},
             //                                new LookupItem() { ValueMember = "1", DisplayMember = "夜盤"}};
-            DataTable dtMarketCode = new CODW().ListLookUpEdit("51050" , "51050_MARKET_CODE");
+            DataTable dtMarketCode = new CODW().ListLookUpEdit("MMF" , "MMF_MARKET_CODE");
             lupMarketCode.SetColumnLookUp(dtMarketCode , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
             gcMain.RepositoryItems.Add(lupMarketCode);
 

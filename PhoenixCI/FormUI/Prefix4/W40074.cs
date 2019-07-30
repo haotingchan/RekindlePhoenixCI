@@ -109,7 +109,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          //                            new LookupItem() { ValueMember = "Y", DisplayMember = "上市"},
          //                            new LookupItem() { ValueMember = "D", DisplayMember = "下市"}};
 
-         DataTable dtStatusList = new CODW().ListLookUpEdit("40074" , "40074_ADJ_CODE");
+         DataTable dtStatusList = new CODW().ListLookUpEdit("40074" , "ADJ_CODE");
          statusLookUpEdit = new RepositoryItemLookUpEdit();
          statusLookUpEdit.SetColumnLookUp(dtStatusList , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          gcMain.RepositoryItems.Add(statusLookUpEdit);
@@ -119,7 +119,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          //                               new LookupItem() { ValueMember = "F", DisplayMember = "金額"},
          //                               new LookupItem() { ValueMember = "P", DisplayMember = "百分比"}};
 
-         DataTable dtTypeList = new CODW().ListLookUpEdit("40074" , "40074_AMT_TYPE");
+         DataTable dtTypeList = new CODW().ListLookUpEdit("40074" , "AMT_TYPE");
          typeLookUpEdit = new RepositoryItemLookUpEdit();
          typeLookUpEdit.SetColumnLookUp(dtTypeList , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          gcMain.RepositoryItems.Add(typeLookUpEdit);
@@ -133,7 +133,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          //幣別下拉選單
          //DataTable dtCurrency = daoCOD.ListByCurrency();
-         DataTable dtCurrency = new CODW().ListLookUpEdit("40074" , "40074_CURRENCY_TYPE");
+         DataTable dtCurrency = new CODW().ListLookUpEdit("APDK" , "APDK_CURRENCY_TYPE");
          currencyTypeLookUpEdit = new RepositoryItemLookUpEdit();
          currencyTypeLookUpEdit.SetColumnLookUp(dtCurrency , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          gcMain.RepositoryItems.Add(currencyTypeLookUpEdit);

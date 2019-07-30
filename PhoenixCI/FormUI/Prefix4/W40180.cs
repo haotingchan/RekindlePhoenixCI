@@ -59,7 +59,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             //2. 設定dropdownlist(頻率)
             //DataTable dtMsg = daoCOD.ListByTxn("40180");
-            DataTable dtMsg = new CODW().ListLookUpEdit("40180" , "40180_MSG_TYPE");
+            DataTable dtMsg = new CODW().ListLookUpEdit("40180" , "MSG_TYPE");
             dwMsg.SetDataTable(dtMsg , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor);
             dwMsg.ItemIndex = 0;
 

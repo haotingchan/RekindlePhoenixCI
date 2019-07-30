@@ -64,7 +64,7 @@ namespace PhoenixCI.FormUI.Prefix6 {
 
          //設定 dw_index
          //DataTable dwSource = daoCOD.ListByCol(_ProgramID , "PID-IDSTK" , "全部" , "%");
-         DataTable dwSource = new CODW().ListLookUpEdit("60420" , "60420_PID_IDSTK");
+         DataTable dwSource = new CODW().ListLookUpEdit("60420" , "PID_IDSTK");
          Extension.SetDataTable(dw_index , dwSource , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
          dw_index.ItemIndex = 0;
          return ResultStatus.Success;

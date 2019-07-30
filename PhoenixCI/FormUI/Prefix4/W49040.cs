@@ -59,7 +59,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          //row3["CP_DISPLAY"] = "B值";
          //dtDropType.Rows.Add(row3);
 
-         DataTable dtDropType = new CODW().ListLookUpEdit("49040", "49040_MGT4_TYPE");
+         DataTable dtDropType = new CODW().ListLookUpEdit("49040", "MGT4_TYPE");
          Extension.SetColumnLookUp(lupType , dtDropType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
          gcMain.RepositoryItems.Add(lupType);
 
