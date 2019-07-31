@@ -38,7 +38,6 @@ namespace PhoenixCI.FormUI.Prefix1
 
             gcMain.RepositoryItems.Add(repCheck);
             gcol_gcMain_TXF_DEFAULT.ColumnEdit = repCheck;
-            OCF_TYPE = txtOcfDate.DateType == BaseGround.Widget.TextDateEdit.DateTypeItem.Month ? "M" : "D";
             _IsProcessRunAsync = true;
         }
 
@@ -56,10 +55,16 @@ namespace PhoenixCI.FormUI.Prefix1
 
             //txtPrevOcfDate.DateTimeValue = GlobalInfo.OCF_PREV_DATE;
             txtOcfDate.DateTimeValue = PbFunc.f_ocf_date(0, _DB_TYPE).AsDateTime(); //GlobalInfo.OCF_DATE;
+            OCF_TYPE = txtOcfDate.DateType == BaseGround.Widget.TextDateEdit.DateTypeItem.Month ? "M" : "D";
+
+            gcMain.DataSource = servicePrefix1.ListTxfByTxn(_ProgramID).Trim();
+
             if (OCF_TYPE == "D")
             {
-                gcMain.DataSource = servicePrefix1.ListTxfByTxn(_ProgramID).Trim();
                 gcLogsp.DataSource = servicePrefix1.ListLogsp(txtOcfDate.DateTimeValue, _ProgramID).Trim();
+            }
+            else {
+                xtraTabPageQuery.PageVisible = false;
             }
 
             return ResultStatus.Success;

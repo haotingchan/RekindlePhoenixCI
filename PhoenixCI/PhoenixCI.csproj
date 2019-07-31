@@ -196,6 +196,12 @@
     <Compile Include="BusinessLogic\Prefix7\B70010.cs" />
     <Compile Include="BusinessLogic\Prefix7\B70020.cs" />
     <Compile Include="BusinessLogic\Prefix7\B700xxFunc.cs" />
+    <Compile Include="FormUI\Prefix1\W11010.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix1\W11010.designer.cs">
+      <DependentUpon>W11010.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormUI\Prefix1\W10013.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -237,12 +243,6 @@
     </Compile>
     <Compile Include="FormUI\Prefix1\W10009.Designer.cs">
       <DependentUpon>W10009.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormUI\Prefix1\W11010.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormUI\Prefix1\W11010.Designer.cs">
-      <DependentUpon>W11010.cs</DependentUpon>
     </Compile>
     <Compile Include="FormUI\Prefix1\W10053.cs">
       <SubType>Form</SubType>
@@ -1818,6 +1818,9 @@
     <Compile Include="Shared\ReportExportFunc.cs" />
     <Compile Include="Shared\ReturnMessageClass.cs" />
     <Compile Include="Widget\DropDownList.cs" />
+    <EmbeddedResource Include="FormUI\Prefix1\W11010.resx">
+      <DependentUpon>W11010.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix1\W10009.resx">
       <DependentUpon>W10009.cs</DependentUpon>
     </EmbeddedResource>
@@ -1829,9 +1832,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix1\W10002.resx">
       <DependentUpon>W10002.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormUI\Prefix1\W11010.resx">
-      <DependentUpon>W11010.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix1\W1xxx.resx">
       <DependentUpon>W1xxx.cs</DependentUpon>

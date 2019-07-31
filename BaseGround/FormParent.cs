@@ -585,7 +585,8 @@ namespace BaseGround {
 
                switch (TXF_TYPE) {
                   case "I":
-                     resultData = serviceCommon.ExecuteInfoWorkFlow(TXF_TID , UserProgInfo, TXF_FOLDER, TXF_SERVICE);
+                     string fileName = $@"{GlobalInfo.DEFAULT_BATCH_ErrSP_DIRECTORY_PATH}\{TXF_SERVER}_{TXF_TXN_ID}_{TXF_SEQ_NO}_infor";
+                     resultData = serviceCommon.ExecuteInfoWorkFlow(TXF_TID , UserProgInfo, TXF_FOLDER, TXF_SERVICE, fileName);
                      break;
 
                   case "S":
@@ -707,7 +708,7 @@ namespace BaseGround {
             }
 
          }
-         // servicePrefix1.setOCF();
+         //servicePrefix1.setOCF();
 
          //全部結束
          servicePrefix1.SetTXF1(" " , _ProgramID);

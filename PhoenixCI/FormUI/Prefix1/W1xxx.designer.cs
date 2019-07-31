@@ -190,7 +190,7 @@
             // 
             this.xtraTabPageQuery.Controls.Add(this.gcLogsp);
             this.xtraTabPageQuery.Name = "xtraTabPageQuery";
-            this.xtraTabPageQuery.Size = new System.Drawing.Size(811, 415);
+            this.xtraTabPageQuery.Size = new System.Drawing.Size(1071, 598);
             this.xtraTabPageQuery.Text = "執行結果";
             // 
             // gcLogsp
@@ -199,7 +199,7 @@
             this.gcLogsp.Location = new System.Drawing.Point(0, 0);
             this.gcLogsp.MainView = this.gvSpLog;
             this.gcLogsp.Name = "gcLogsp";
-            this.gcLogsp.Size = new System.Drawing.Size(811, 415);
+            this.gcLogsp.Size = new System.Drawing.Size(1071, 598);
             this.gcLogsp.TabIndex = 1;
             this.gcLogsp.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvSpLog});

@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ActionService.Extensions;
+using BaseGround;
+using BaseGround.Report;
+using BaseGround.Shared;
+using BusinessObjects;
+using BusinessObjects.Enums;
+using Common;
+using DevExpress.XtraEditors.Repository;
+using System;
 using System.Windows.Forms;
 
 namespace PhoenixCI.FormUI.Prefix1
@@ -14,7 +15,23 @@ namespace PhoenixCI.FormUI.Prefix1
     {
         public W11010(string programID, string programName) : base(programID, programName)
         {
-            _DB_TYPE = "ci";
+            InitializeComponent();
+            _DB_TYPE = "monit";
+        }
+
+        protected override ResultStatus Open()
+        {
+            if (DesignMode) return ResultStatus.Success;
+            base.Open();
+            return ResultStatus.Success;
+        }
+
+        protected override ResultStatus RunBefore(PokeBall args)
+        {
+            base.RunBefore(args);
+
+
+            return base.RunBefore(args);
         }
     }
 }

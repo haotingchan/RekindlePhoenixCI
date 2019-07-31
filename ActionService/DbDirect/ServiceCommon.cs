@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.IO;
+using System.Windows.Forms;
 
 namespace ActionService.DbDirect {
     public class ServiceCommon {
@@ -128,7 +130,7 @@ namespace ActionService.DbDirect {
             return daoDataGate.ExecuteStoredProcedure(sql, dbParmsEx, hasReturnParameter);
         }
 
-        public ResultData ExecuteInfoWorkFlow(string workFlowName, UserProgInfo userProgInfo,string folder,string service) {
+        public ResultData ExecuteInfoWorkFlow(string workFlowName, UserProgInfo userProgInfo,string folder,string service,string bkFileName) {
             string key = "infa";
             int seq = string.IsNullOrEmpty(service) ? 1 : 2;
 
@@ -141,19 +143,17 @@ namespace ActionService.DbDirect {
             service = seq  == 1 ? dt.Rows[0]["ls_server"].AsString() : service;
             string user = dt.Rows[0]["ls_str1"].AsString();
             string pwd = dt.Rows[0]["ls_str2"].AsString();
-            string command = $@"
-                                                    SET RunUsr=  {user}   
-                                                    SET RunPasswd=  {pwd} 
-                                                    SET INFA_LANGUAGE=en   	
-                                                    SET INFA_DOMAINS_FILE=  {domainFile}
-                                                    {workingDirectory}   startworkflow  
-                                                    -service   {service}
-                                                    -domain   {domain} 
-                                                    -uv RunUsr  
-                                                    -pv RunPasswd  
-                                                    -folder   {folder}
-                                                    -wait   {workFlowName}		                                             
-                                            ";
+            string language = seq == 1 ? "" : "\nSET INFA_LANGUAGE=en";
+             
+            string command = $@"{workingDirectory} startworkflow -service {service} -domain {domain} -uv {user} -pv {pwd} -folder {folder} -wait {workFlowName} ";
+            /*        
+        $@"
+        SET RunUsr={user}
+        SET RunPasswd={pwd}{language}
+        SET INFA_DOMAINS_FILE={domainFile}
+        {workingDirectory} startworkflow -service {service} -domain {domain} -uv RunUsr -pv RunPasswd -folder {folder} -wait {workFlowName}
+        echo return status = %errorlevel% >{bkFileName}.err
+        ";*/
 
             ProcessStartInfo processInfo = new ProcessStartInfo("cmd.exe", "/c " + command);
 
@@ -178,24 +178,29 @@ namespace ActionService.DbDirect {
 
             logStr += "Output:" + myOutput + Environment.NewLine;
 
-            if (myOutput.ToUpper().IndexOf("ERROR") != -1) {
+            if (myOutput.ToUpper().IndexOf("ERROR") != -1)
+            {
                 isError = true;
             }
 
-            if (myError != "") {
+            if (myError != "")
+            {
                 logStr += "Error:" + myOutput + Environment.NewLine;
                 isError = true;
             }
 
-            if (process.ExitCode != 0) {
+            if (process.ExitCode != 0)
+            {
                 logStr += "ExitCode:" + process.ExitCode;
                 isError = true;
             }
 
-            if (isError) {
+            if (isError)
+            {
                 result.Status = ResultStatus.Fail;
             }
-            else {
+            else
+            {
                 result.Status = ResultStatus.Success;
             }
 
