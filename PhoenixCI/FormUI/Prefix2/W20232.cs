@@ -128,7 +128,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
                   }
                   #endregion
 
-                  dt.Merge(dt_1);
+                  //dt.Merge(dt_1);
                }//if (item.CheckState == CheckState.Checked)
             }//foreach (CheckedListBoxItem item in chkGroup1.Items)
 
@@ -160,19 +160,19 @@ namespace PhoenixCI.FormUI.Prefix2 {
                   }
                   #endregion
 
-                  dt.Merge(dt_2);
+                  //dt.Merge(dt_2);
                }
             }
 
-            if (dt.Rows.Count <= 0) {
-               return ResultStatus.Fail;
-            }
+            //if (dt.Rows.Count <= 0) {
+            //   return ResultStatus.Fail;
+            //}
 
-            gvMain.Columns.Clear();
-            gvMain.OptionsBehavior.AutoPopulateColumns = true;
-            gcMain.DataSource = dt;
-            gvMain.BestFitColumns();
-            GridHelper.SetCommonGrid(gvMain);
+            //gvMain.Columns.Clear();
+            //gvMain.OptionsBehavior.AutoPopulateColumns = true;
+            //gcMain.DataSource = dt;
+            //gvMain.BestFitColumns();
+            //GridHelper.SetCommonGrid(gvMain);
 
             return ResultStatus.Success;
          } catch (Exception ex) {
