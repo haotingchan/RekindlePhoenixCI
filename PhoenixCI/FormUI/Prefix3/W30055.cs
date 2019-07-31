@@ -233,14 +233,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                //PbFunc.f_send_email(reportId, "01", sender, recipient, cc, title, " ", excelDestinationPath);
                //is_chk = f_send_email(reportId, "01", ls_sender, ls_recipient, ls_cc, ls_title, " ", gs_savereport_path + ls_file)
 
-            } else {
-               //不寄信就直接打開產生好的excel做檢查
-               System.Diagnostics.Process.Start(excelDestinationPath);
-            }//if (cbxNews.Checked) {
-
-
-
-
+            }
 
             #region //3.產生TJF檔案
 
@@ -286,10 +279,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                //PbFunc.f_send_email(txnId, "01", sender, recipient, cc, title, " ", excelDestinationPath);
                //is_chk = f_send_email(txnId, "01", ls_sender, ls_recipient, ls_cc, ls_title, " ", gs_savereport_path + ls_file)
 
-            } else {
-               //不寄信就直接打開產生好的excel做檢查
-               System.Diagnostics.Process.Start(excelDestinationPath);
-            }//if (cbxTJF.Checked) {
+            }
             #endregion
 
 
@@ -452,6 +442,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          return true;
       }
 
+
       /// <summary>
       /// 2.4 主要指數期貨大額交易人未平倉部位一覽表 (三大法人=外商/投信/自營商)
       /// 2.4 台指選擇權十大交易人未平倉部位一覽表 (三大法人=外商/投信/自營商)
@@ -536,6 +527,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
          int futureCount = 0;
          int optionCount = 0;
          foreach (DataRow dr in dtBig.Rows) {
+            // "大額交易人"的Month Type如果超過 6位數, 不可以寫入excel裡面(期貨的資料量太少,不適合寫入excel) 
+            if (dr["toi1_prod_type"].AsString() == "F" && dr["month_type"].AsString().Length > 6) continue;
             int rpt_seq_no = dr["rpt_seq_no"].AsInt() - 1;
             int cp_seq_no = dr["cp_seq_no"].AsInt();
             string pcCode = dr["toi1_pc_code"].AsString();
@@ -856,11 +849,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
          showMsg(sheetName , sheetSubTitle , dtFuture.Rows.Count.ToString());
          return true;
       }
-
-
-
-
-
 
 
       #region 顯示匯出訊息的相關函數
