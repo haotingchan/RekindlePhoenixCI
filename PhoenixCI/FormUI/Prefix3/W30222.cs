@@ -32,11 +32,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
       private D30203 dao30203;
       private RepositoryItemLookUpEdit statusLookUpEdit;
       private RepositoryItemLookUpEdit levelLookUpEdit;
-      private Dictionary<string, string> dictAdj;
-      private Dictionary<string, string> dictLevel;
+      private Dictionary<string , string> dictAdj;
+      private Dictionary<string , string> dictLevel;
       private ReportHelper _ReportHelper;
 
-      public W30222(string programID, string programName) : base(programID, programName) {
+      public W30222(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
          GridHelper.SetCommonGrid(gvMain);
@@ -75,19 +75,19 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //「調整情形」欄位的下拉選單
             // dictAdj = new Dictionary<string, string>() { { " ", "不變" }, { "+", "提高" }, { "-", "降低" }, { "*", "新增" } };
             //DataTable dtStatus = setColItem(dictAdj);
-            DataTable dtType = new CODW().ListLookUpEdit("30222", "PLS1_LEVEL_ADJ");
+            DataTable dtType = new CODW().ListLookUpEdit("30222" , "PLS1_LEVEL_ADJ");
             statusLookUpEdit = new RepositoryItemLookUpEdit();
-            statusLookUpEdit.SetColumnLookUp(dtType, "CODW_ID", "CODW_DESC", TextEditStyles.DisableTextEditor, null);
+            statusLookUpEdit.SetColumnLookUp(dtType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
             //statusLookUpEdit.SetColumnLookUp(dictAdj, "Key", "Value");
             PLS1_LEVEL_ADJ.ColumnEdit = statusLookUpEdit;
 
             //「調整後部位限制級距」欄位的下拉選單
             //dictLevel = new Dictionary<string, string>() { { "1", "1" }, { "2", "2" }, { "3", "3" } };
             //DataTable dtLevel = setColItem(dictLevel);
-            dtType = new CODW().ListLookUpEdit("30222", "PLS1_CP_LEVEL");
+            dtType = new CODW().ListLookUpEdit("30222" , "PLS1_CP_LEVEL");
             levelLookUpEdit = new RepositoryItemLookUpEdit();
             //levelLookUpEdit.SetColumnLookUp(dictLevel, "Key", "Value");
-            levelLookUpEdit.SetColumnLookUp(dtType, "CODW_ID", "CODW_DESC", TextEditStyles.DisableTextEditor, null);
+            levelLookUpEdit.SetColumnLookUp(dtType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
             PLS1_CP_LEVEL.ColumnEdit = levelLookUpEdit;
 
             //BandedColumnCaption換行
@@ -98,8 +98,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             //自動調整欄寬
             gvMain.BestFitColumns();
-         }
-         catch (Exception ex) {
+         } catch (Exception ex) {
             throw ex;
          }
          return ResultStatus.Success;
@@ -110,15 +109,14 @@ namespace PhoenixCI.FormUI.Prefix3 {
          try {
             gcMain.DataSource = null;//清空grid
                                      //1. 讀取資料
-            string ymd = txtDate.Text.Replace("/", "");
+            string ymd = txtDate.Text.Replace("/" , "");
 
             DataTable dt30222 = dao30222.d_30222(ymd);
             if (dt30222.Rows.Count == 0) {
                MessageDisplay.Info("PLS1無任何資料!");
                gcMain.DataSource = dt30222;//空的還是要放進Grid，因為後面可能要塞資料
-            }
-            else {
-               dt30222.Columns.Add("Is_NewRow", typeof(string));
+            } else {
+               dt30222.Columns.Add("Is_NewRow" , typeof(string));
                gcMain.DataSource = dt30222;
                gcMain.Focus();
             }
@@ -138,8 +136,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                txtEffDate.DateTimeValue = raiseYmd;
                txtEffDateLower.DateTimeValue = lowerYmd;
                lblEff.Text = "（已確認）";
-            }
-            else {
+            } else {
                txtEffDate.Text = "1901/01/01";
                txtEffDateLower.Text = "1901/01/01";
                lblEff.Text = "";
@@ -179,7 +176,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                   dtGridView.Rows[found]["PLS1_LEVEL_ADJ"] = "-";
                }
                //for 	j = 2 to 16
-               for (int k = 1; k < 16; k++) {
+               for (int k = 1 ; k < 16 ; k++) {
                   dtGridView.Rows[found][k] = dr[k];
                }
 
@@ -189,8 +186,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                //計算欄位COMPUTE_1: if( pls1_kind_id2 <> kind_grp2 ,'小型',' ')
                if (dtGridView.Rows[found]["KIND_GRP2"] != DBNull.Value && dtGridView.Rows[found]["PLS1_KIND_ID2"].AsString() != dtGridView.Rows[found]["KIND_GRP2"].AsString()) {
                   dtGridView.Rows[found]["COMPUTE_1"] = "小型";
-               }
-               else {
+               } else {
                   dtGridView.Rows[found]["COMPUTE_1"] = " ";
                }
             }//foreach (DataRow dr in dt30222PLS2.Rows)
@@ -201,10 +197,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
             gvMain.OptionsSelection.EnableAppearanceFocusedCell = false;
 
             gcMain.DataSource = dtGridView;
-         }
-         catch (Exception ex) {
+         } catch (Exception ex) {
             MessageDisplay.Error("讀取錯誤");
-            WriteLog(ex, "", false);
+            WriteLog(ex , "" , false);
          }
          return ResultStatus.Success;
       }
@@ -256,7 +251,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             string ymd, effYmd, effYmdLower;
             bool delResult = false;
             //3. 判斷是否有已確認之資料
-            ymd = txtDate.Text.Replace("/", "");
+            ymd = txtDate.Text.Replace("/" , "");
             f = dao30222.checkData(ymd);
             if (f > 0) {
                DialogResult result = MessageDisplay.Choose("已確認,是否刪除舊有資料?");
@@ -272,20 +267,19 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
             //4. 新增PLS2
             showMsg = "確認資料(PLS2)更新資料庫錯誤! ";
-            effYmd = txtEffDate.Text.Replace("/", "");
-            effYmdLower = txtEffDateLower.Text.Replace("/", "");
+            effYmd = txtEffDate.Text.Replace("/" , "");
+            effYmdLower = txtEffDateLower.Text.Replace("/" , "");
             DataTable dtPLS2 = dao30222.d_30222_pls2(ymd);
             dtPLS2.Clear();
             foreach (DataRow dr in dtGridView.Rows) {
                DataRow drNew = dtPLS2.NewRow();
                if (dr["PLS1_LEVEL_ADJ"].ToString() == "-") {
                   drNew["PLS2_EFFECTIVE_YMD"] = effYmdLower;
-               }
-               else {
+               } else {
                   drNew["PLS2_EFFECTIVE_YMD"] = effYmd;
                }
                //for 	j = 2 to 16
-               for (int k = 1; k < 16; k++) {
+               for (int k = 1 ; k < 16 ; k++) {
                   drNew[k] = dr[k];
                }
                //drNew["PLS2_YMD"] = dr["PLS1_YMD"];
@@ -312,8 +306,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
             //5. 寫入DB
             myResultData = dao30222.updatePLS2(dtPLS2);
-         }
-         catch (Exception ex) {
+         } catch (Exception ex) {
             MessageDisplay.Error(showMsg);
             throw ex;
          }
@@ -323,8 +316,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
       protected override ResultStatus DeleteRow() {
          try {
             base.DeleteRow(gvMain);
-         }
-         catch (Exception ex) {
+         } catch (Exception ex) {
             MessageDisplay.Error("刪除資料列錯誤");
             throw ex;
          }
@@ -339,8 +331,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             _ReportHelper.Create(report);
 
             base.Print(_ReportHelper);
-         }
-         catch (Exception ex) {
+         } catch (Exception ex) {
             throw ex;
          }
          return ResultStatus.Success;
@@ -353,23 +344,21 @@ namespace PhoenixCI.FormUI.Prefix3 {
       /// </summary>
       /// <param name="sender"></param>
       /// <param name="e"></param>
-      private void gvMain_ShowingEditor(object sender, CancelEventArgs e) {
+      private void gvMain_ShowingEditor(object sender , CancelEventArgs e) {
          try {
             GridView gv = sender as GridView;
             int pls1Qnty, pls1Stkout;
-            if (gv.GetRowCellValue(gv.FocusedRowHandle, "PLS1_QNTY") != DBNull.Value) {
-               pls1Qnty = gv.GetRowCellValue(gv.FocusedRowHandle, "PLS1_QNTY").AsInt();
-            }
-            else {
+            if (gv.GetRowCellValue(gv.FocusedRowHandle , "PLS1_QNTY") != DBNull.Value) {
+               pls1Qnty = gv.GetRowCellValue(gv.FocusedRowHandle , "PLS1_QNTY").AsInt();
+            } else {
                pls1Qnty = 0;
             }
-            if (gv.GetRowCellValue(gv.FocusedRowHandle, "PLS1_STKOUT") != DBNull.Value) {
-               pls1Stkout = gv.GetRowCellValue(gv.FocusedRowHandle, "PLS1_STKOUT").AsInt();
-            }
-            else {
+            if (gv.GetRowCellValue(gv.FocusedRowHandle , "PLS1_STKOUT") != DBNull.Value) {
+               pls1Stkout = gv.GetRowCellValue(gv.FocusedRowHandle , "PLS1_STKOUT").AsInt();
+            } else {
                pls1Stkout = 0;
             }
-            string opType = gv.GetRowCellValue(gv.FocusedRowHandle, "OP_TYPE").AsString();
+            string opType = gv.GetRowCellValue(gv.FocusedRowHandle , "OP_TYPE").AsString();
 
             //編輯狀態時,設定可以編輯的欄位( e.Cancel = false 等於可以編輯)
             switch (gv.FocusedColumn.Name) {
@@ -384,8 +373,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                   if (opType == "P" ||
                       pls1Qnty == 0 && pls1Stkout == 0) {
                      e.Cancel = true;
-                  }
-                  else {
+                  } else {
                      e.Cancel = false;
                   }
                   break;
@@ -393,9 +381,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
                   e.Cancel = true;
                   break;
             }
-         }
-         catch (Exception ex) {
-            WriteLog(ex, "", false);
+         } catch (Exception ex) {
+            WriteLog(ex , "" , false);
          }
       }
 
@@ -404,45 +391,42 @@ namespace PhoenixCI.FormUI.Prefix3 {
       /// </summary>
       /// <param name="sender"></param>
       /// <param name="e"></param>
-      private void gvMain_RowCellStyle(object sender, RowCellStyleEventArgs e) {
+      private void gvMain_RowCellStyle(object sender , RowCellStyleEventArgs e) {
          try {
             //要用RowHandle不要用FocusedRowHandle
             GridView gv = sender as GridView;
 
-            string pls1LevelOrg = gv.GetRowCellValue(e.RowHandle, gv.Columns["PLS1_LEVEL_ORG"]).AsString();
+            string pls1LevelOrg = gv.GetRowCellValue(e.RowHandle , gv.Columns["PLS1_LEVEL_ORG"]).AsString();
             //if( PLS1_KIND_ID2 <> KIND_GRP2) 則整列變色
-            string pls1KindId = gv.GetRowCellValue(e.RowHandle, "PLS1_KIND_ID2").AsString();
-            string grp2 = gv.GetRowCellValue(e.RowHandle, "KIND_GRP2").AsString();
+            string pls1KindId = gv.GetRowCellValue(e.RowHandle , "PLS1_KIND_ID2").AsString();
+            string grp2 = gv.GetRowCellValue(e.RowHandle , "KIND_GRP2").AsString();
             int pls1Qnty, pls1Stkout;
-            if (gv.GetRowCellValue(e.RowHandle, "PLS1_QNTY") != DBNull.Value) {
-               pls1Qnty = gv.GetRowCellValue(e.RowHandle, "PLS1_QNTY").AsInt();
-            }
-            else {
+            if (gv.GetRowCellValue(e.RowHandle , "PLS1_QNTY") != DBNull.Value) {
+               pls1Qnty = gv.GetRowCellValue(e.RowHandle , "PLS1_QNTY").AsInt();
+            } else {
                pls1Qnty = -1;
             }
-            if (gv.GetRowCellValue(e.RowHandle, "PLS1_STKOUT") != DBNull.Value) {
-               pls1Stkout = gv.GetRowCellValue(e.RowHandle, "PLS1_STKOUT").AsInt();
-            }
-            else {
+            if (gv.GetRowCellValue(e.RowHandle , "PLS1_STKOUT") != DBNull.Value) {
+               pls1Stkout = gv.GetRowCellValue(e.RowHandle , "PLS1_STKOUT").AsInt();
+            } else {
                pls1Stkout = -1;
             }
-            string opType = gv.GetRowCellValue(e.RowHandle, "OP_TYPE").AsString();
+            string opType = gv.GetRowCellValue(e.RowHandle , "OP_TYPE").AsString();
             //描述每個欄位,在is_newRow時候要顯示的顏色
             //當該欄位不可編輯時,設定為Mint Color.FromArgb(192,220,192)
             switch (e.Column.FieldName) {
                case ("PLS1_CP_LEVEL"):
                   if (grp2 != null && pls1KindId != grp2) {
-                     e.Appearance.BackColor = Color.FromArgb(255, 168, 255);
+                     e.Appearance.BackColor = Color.FromArgb(255 , 168 , 255);
                   }
                   if (pls1LevelOrg != null &&
-                      pls1LevelOrg != gv.GetRowCellValue(e.RowHandle, gv.Columns["PLS1_CP_LEVEL"]).AsString()) {
-                     e.Appearance.BackColor = Color.FromArgb(255, 168, 255);
-                  }
-                  else if (opType == "P" ||
-                           pls1Qnty == 0 && pls1Stkout == 0) {
-                     e.Appearance.BackColor = Color.FromArgb(224, 224, 224);
-                  }
-                  else {
+                      pls1LevelOrg != gv.GetRowCellValue(e.RowHandle , gv.Columns["PLS1_CP_LEVEL"]).AsString()) {
+                     e.Appearance.BackColor = Color.FromArgb(255 , 168 , 255);
+                  } else if (opType == "P" ||
+                             pls1Qnty == 0 && pls1Stkout == 0) {
+                     e.Appearance.BackColor = Color.FromArgb(224 , 224 , 224);
+                     e.Appearance.ForeColor = Color.FromArgb(224 , 224 , 224); //字體改為回灰色，視覺看起來沒有顯示值
+                  } else {
                      e.Appearance.BackColor = Color.White;
                   }
                   break;
@@ -451,23 +435,21 @@ namespace PhoenixCI.FormUI.Prefix3 {
                case ("PLS1_CP_999"):
                case ("PLS1_LEVEL_ADJ"):
                   if (pls1LevelOrg != null &&
-                      pls1LevelOrg != gv.GetRowCellValue(e.RowHandle, gv.Columns["PLS1_CP_LEVEL"]).AsString()) {
-                     e.Appearance.BackColor = Color.FromArgb(255, 168, 255);
-                  }
-                  else {
-                     e.Appearance.BackColor = Color.FromArgb(224, 224, 224);
+                      pls1LevelOrg != gv.GetRowCellValue(e.RowHandle , gv.Columns["PLS1_CP_LEVEL"]).AsString()) {
+                     e.Appearance.BackColor = Color.FromArgb(255 , 168 , 255);
+                  } else {
+                     e.Appearance.BackColor = Color.FromArgb(224 , 224 , 224);
                   }
                   if (grp2 != null && pls1KindId != grp2) {
-                     e.Appearance.BackColor = Color.FromArgb(255, 168, 255);
+                     e.Appearance.BackColor = Color.FromArgb(255 , 168 , 255);
                   }
                   break;
                default:
-                  e.Appearance.BackColor = (grp2 != null && pls1KindId != grp2) ? Color.FromArgb(255, 168, 255) : Color.FromArgb(224, 224, 224);
+                  e.Appearance.BackColor = (grp2 != null && pls1KindId != grp2) ? Color.FromArgb(255 , 168 , 255) : Color.FromArgb(224 , 224 , 224);
                   break;
             }//switch (e.Column.FieldName) {
-         }
-         catch (Exception ex) {
-            WriteLog(ex, "", false);
+         } catch (Exception ex) {
+            WriteLog(ex , "" , false);
          }
       }
 
@@ -477,50 +459,44 @@ namespace PhoenixCI.FormUI.Prefix3 {
       /// </summary>
       /// <param name="sender"></param>
       /// <param name="e"></param>
-      private void gvMain_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e) {
+      private void gvMain_CellValueChanged(object sender , DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e) {
          try {
             GridView gv = sender as GridView;
             int data;
             switch (e.Column.FieldName) {
                case "PLS1_CP_LEVEL":
-                  data = gv.GetRowCellValue(e.RowHandle, "PLS1_CP_LEVEL").AsInt();
+                  data = gv.GetRowCellValue(e.RowHandle , "PLS1_CP_LEVEL").AsInt();
                   DataTable dtPLST1 = dao30222.SetPLST1LevelData(data);
                   if (dtPLST1.Rows.Count == 0) {
                      MessageDisplay.Error("PLST1無任何資料!");
                      return;
                   }
-                  gv.SetRowCellValue(e.RowHandle, "PLS1_CP_NATURE", dtPLST1.Rows[0]["PLST1_NATURE"]);
-                  gv.SetRowCellValue(e.RowHandle, "PLS1_CP_LEGAL", dtPLST1.Rows[0]["PLST1_LEGAL"]);
-                  gv.SetRowCellValue(e.RowHandle, "PLS1_CP_999", dtPLST1.Rows[0]["PLST1_999"]);
-                  if (gv.GetRowCellValue(e.RowHandle, "PLS1_CUR_LEVEL").AsInt() > data) {
-                     gv.SetRowCellValue(e.RowHandle, "PLS1_LEVEL_ADJ", "+");
-                  }
-                  else if (gv.GetRowCellValue(e.RowHandle, "PLS1_CUR_LEVEL").AsInt() < data) {
-                     gv.SetRowCellValue(e.RowHandle, "PLS1_LEVEL_ADJ", "-");
-                  }
-                  else {
-                     gv.SetRowCellValue(e.RowHandle, "PLS1_LEVEL_ADJ", " ");
+                  gv.SetRowCellValue(e.RowHandle , "PLS1_CP_NATURE" , dtPLST1.Rows[0]["PLST1_NATURE"]);
+                  gv.SetRowCellValue(e.RowHandle , "PLS1_CP_LEGAL" , dtPLST1.Rows[0]["PLST1_LEGAL"]);
+                  gv.SetRowCellValue(e.RowHandle , "PLS1_CP_999" , dtPLST1.Rows[0]["PLST1_999"]);
+                  if (gv.GetRowCellValue(e.RowHandle , "PLS1_CUR_LEVEL").AsInt() > data) {
+                     gv.SetRowCellValue(e.RowHandle , "PLS1_LEVEL_ADJ" , "+");
+                  } else if (gv.GetRowCellValue(e.RowHandle , "PLS1_CUR_LEVEL").AsInt() < data) {
+                     gv.SetRowCellValue(e.RowHandle , "PLS1_LEVEL_ADJ" , "-");
+                  } else {
+                     gv.SetRowCellValue(e.RowHandle , "PLS1_LEVEL_ADJ" , " ");
                   }
                   break;
                case "PLS1_CUR_LEVEL":
-                  data = gv.GetRowCellValue(e.RowHandle, "PLS1_CUR_LEVEL").AsInt();
+                  data = gv.GetRowCellValue(e.RowHandle , "PLS1_CUR_LEVEL").AsInt();
                   if (data.AsString() == "") {
-                     gv.SetRowCellValue(e.RowHandle, "PLS1_LEVEL_ADJ", "*");
-                  }
-                  else if (data > gv.GetRowCellValue(e.RowHandle, "PLS1_CP_LEVEL").AsInt()) {
-                     gv.SetRowCellValue(e.RowHandle, "PLS1_LEVEL_ADJ", "+");
-                  }
-                  else if (data < gv.GetRowCellValue(e.RowHandle, "PLS1_CP_LEVEL").AsInt()) {
-                     gv.SetRowCellValue(e.RowHandle, "PLS1_LEVEL_ADJ", "-");
-                  }
-                  else {
-                     gv.SetRowCellValue(e.RowHandle, "PLS1_LEVEL_ADJ", " ");
+                     gv.SetRowCellValue(e.RowHandle , "PLS1_LEVEL_ADJ" , "*");
+                  } else if (data > gv.GetRowCellValue(e.RowHandle , "PLS1_CP_LEVEL").AsInt()) {
+                     gv.SetRowCellValue(e.RowHandle , "PLS1_LEVEL_ADJ" , "+");
+                  } else if (data < gv.GetRowCellValue(e.RowHandle , "PLS1_CP_LEVEL").AsInt()) {
+                     gv.SetRowCellValue(e.RowHandle , "PLS1_LEVEL_ADJ" , "-");
+                  } else {
+                     gv.SetRowCellValue(e.RowHandle , "PLS1_LEVEL_ADJ" , " ");
                   }
                   break;
             }
-         }
-         catch (Exception ex) {
-            WriteLog(ex, "", false);
+         } catch (Exception ex) {
+            WriteLog(ex , "" , false);
          }
       }
 
@@ -531,14 +507,14 @@ namespace PhoenixCI.FormUI.Prefix3 {
       /// </summary>
       /// <param name="sender"></param>
       /// <param name="e"></param>
-      private void btnPrev_Click(object sender, EventArgs e) {
+      private void btnPrev_Click(object sender , EventArgs e) {
          try {
             if (gvMain.RowCount == 0) {
                DataTable dt30222 = dao30222.d_30222("");//給一個空的，才能不讀取直接加入前次公告資料
-               dt30222.Columns.Add("Is_NewRow", typeof(string));
+               dt30222.Columns.Add("Is_NewRow" , typeof(string));
                gcMain.DataSource = dt30222;
             }
-            string ymd = txtDate.Text.Replace("/", "");
+            string ymd = txtDate.Text.Replace("/" , "");
             gvMain.CloseEditor();
             DataTable dtGridView = (DataTable)gcMain.DataSource;
             DataView dv;
@@ -551,7 +527,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                gcMain.DataSource = dtSorted;
                return;
             }
-            for (int f = 0; f < dtPrev.Rows.Count; f++) {
+            for (int f = 0 ; f < dtPrev.Rows.Count ; f++) {
                DataRow dr = dtPrev.Rows[f];
                DataRow drNew = dtGridView.NewRow();
                drNew["PLS1_YMD"] = ymd;
@@ -586,8 +562,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
                if (dr["PLS2_KIND_GRP2"] != DBNull.Value &&
                    dr["PLS2_KIND_ID2"].AsString() != dr["PLS2_KIND_GRP2"].AsString()) {
                   drNew["COMPUTE_1"] = "小型";
-               }
-               else {
+               } else {
                   drNew["COMPUTE_1"] = " ";
                }
 
@@ -597,10 +572,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
             dv.Sort = "PLS1_KIND_ID2";
             dtSorted = dv.ToTable();
             gcMain.DataSource = dtSorted;
-         }
-         catch (Exception ex) {
+         } catch (Exception ex) {
             MessageDisplay.Error("加入前次公告資料錯誤");
-            WriteLog(ex, "", false);
+            WriteLog(ex , "" , false);
          }
       }
    }
