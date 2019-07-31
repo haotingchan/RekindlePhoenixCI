@@ -47,6 +47,7 @@ order by mgt2_seq_no";
 
          string AssemblyName = type.Namespace.Split('.')[0];//最後compile出來的dll名稱
          string className = type.FullName + name;//完整的class路徑
+         //className = type.FullName;
 
          // 這裡就是Reflection，直接依照className實體化具體類別
          return (IGridData)Assembly.Load(AssemblyName).CreateInstance(className);

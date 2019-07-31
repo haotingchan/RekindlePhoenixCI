@@ -86,7 +86,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
          DataTable dtData = new CODW().ListLookUpEdit("HCPR" , "DATA_TYPE");
          Extension.SetDataTable(ddlData , dtData , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
-
+         
          //ken,設定選單事件
          this.ddlData.EditValueChanged += new System.EventHandler(this.ddlData_EditValueChanged);
 
@@ -147,7 +147,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }//if (ddlSubType.Text == ChooseSingleKind) {
 
             //2.改成彈性工廠寫法(KeyInfo撈9顯示6個欄位,Detail撈13顯示10個欄位)
-            I48020GridData gridData = dao48020.CreateGridData(dao48020.GetType() , ddlData.EditValue.AsString());
+            string datatype = ddlData.EditValue.AsString() =="1"? "KeyInfo" : "Detail";
+            I48020GridData gridData = dao48020.CreateGridData(dao48020.GetType() , datatype);
             DateTime startDate = DateTime.ParseExact(txtSDate.Text + "/01/01" , "yyyy/MM/dd" , null);
             DateTime endDate = DateTime.ParseExact(txtEDate.Text + "/12/31" , "yyyy/MM/dd" , null);
             Q48020 q48020 = new Q48020(startDate , endDate , subType , kindId , ddlSort.EditValue.AsString());
@@ -195,7 +196,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gvMain.Columns["MGT2_SEQ_NO"].Visible = false;//ken,從頭到尾都沒用到...
             gvMain.Columns["PROD_TYPE"].Visible = false;
 
-            if (ddlData.EditValue.AsString() == "KeyInfo") {
+            //if (ddlData.EditValue.AsString() == "KeyInfo") {
+            if (datatype == "KeyInfo") { 
                gvMain.Columns["CPR_APPROVAL_NUMBER"].Visible = false;
                gvMain.Columns["CPR_REMARK"].Visible = false;
                gvMain.Columns["CPR_W_TIME"].Visible = false;
@@ -264,8 +266,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DateTime endDate = DateTime.ParseExact(txtEDate.Text + "/12/31" , "yyyy/MM/dd" , null);
 
             DataTable dtExport = dao48020.ListAll2(startDate , endDate , subType , kindId , ddlSort.EditValue.AsString() , "Y");
-
-            if (ddlData.EditValue.AsString() == "KeyInfo") {
+            string datatype = ddlData.EditValue.AsString() == "1" ? "KeyInfo" : "Detail";
+            if (datatype == "KeyInfo") {
                dtExport.Columns.Remove("CPR_APPROVAL_NUMBER");
                dtExport.Columns.Remove("CPR_REMARK");
                dtExport.Columns.Remove("CPR_W_TIME");
@@ -284,7 +286,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gvExport.BestFitColumns();
 
             //2.2設定caption
-            if (ddlData.EditValue.AsString() == "KeyInfo") {
+            if (datatype == "KeyInfo") {
                gvExport.SetColumnCaption("CPR_DATA_NUM" , "次數");
                gvExport.SetColumnCaption("CPR_PROD_SUBTYPE" , "契約類別");
                gvExport.SetColumnCaption("CPR_KIND_ID" , "契約代號");
@@ -346,8 +348,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //reportHelper.IsPrintedFromPrintButton = true;
 
             ReportHelper _ReportHelper = reportHelper;
-
-            if (ddlData.EditValue.AsString() == "KeyInfo") {
+            string datatype = ddlData.EditValue.AsString() == "1" ? "KeyInfo" : "Detail";
+            if (datatype == "KeyInfo") {
                //重點資料
                CommonReportPortraitA4 reportPortrait = new CommonReportPortraitA4();//設定為直向列印
                reportPortrait.printableComponentContainerMain.PrintableComponent = gcMain;
