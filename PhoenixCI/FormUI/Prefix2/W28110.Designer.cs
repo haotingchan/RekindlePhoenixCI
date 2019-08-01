@@ -30,8 +30,6 @@
          this.panFilter = new System.Windows.Forms.GroupBox();
          this.txtDate = new BaseGround.Widget.TextDateEdit();
          this.label9 = new System.Windows.Forms.Label();
-         this.btnSp = new System.Windows.Forms.Button();
-         this.btnStwd = new System.Windows.Forms.Button();
          this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
          this.gcMain = new DevExpress.XtraGrid.GridControl();
          this.gvMain = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -84,8 +82,6 @@
          // panelControl1
          // 
          this.panelControl1.Controls.Add(this.r_frame);
-         this.panelControl1.Controls.Add(this.btnSp);
-         this.panelControl1.Controls.Add(this.btnStwd);
          this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
          this.panelControl1.Location = new System.Drawing.Point(0, 30);
          this.panelControl1.Name = "panelControl1";
@@ -146,26 +142,6 @@
          this.label9.Name = "label9";
          this.label9.Size = new System.Drawing.Size(0, 21);
          this.label9.TabIndex = 86;
-         // 
-         // btnSp
-         // 
-         this.btnSp.Location = new System.Drawing.Point(537, 85);
-         this.btnSp.Name = "btnSp";
-         this.btnSp.Size = new System.Drawing.Size(86, 41);
-         this.btnSp.TabIndex = 2;
-         this.btnSp.Text = "SP";
-         this.btnSp.UseVisualStyleBackColor = true;
-         this.btnSp.Click += new System.EventHandler(this.btnSp_Click);
-         // 
-         // btnStwd
-         // 
-         this.btnStwd.Location = new System.Drawing.Point(434, 85);
-         this.btnStwd.Name = "btnStwd";
-         this.btnStwd.Size = new System.Drawing.Size(86, 41);
-         this.btnStwd.TabIndex = 1;
-         this.btnStwd.Text = "STWD";
-         this.btnStwd.UseVisualStyleBackColor = true;
-         this.btnStwd.Click += new System.EventHandler(this.btnStwd_Click);
          // 
          // panelControl2
          // 
@@ -237,8 +213,6 @@
       private DevExpress.XtraGrid.Views.Grid.GridView gvMain;
       private DevExpress.XtraEditors.PanelControl panelControl1;
       private DevExpress.XtraEditors.PanelControl panelControl2;
-      private System.Windows.Forms.Button btnSp;
-      private System.Windows.Forms.Button btnStwd;
       private DevExpress.XtraEditors.PanelControl r_frame;
       private System.Windows.Forms.GroupBox panFilter;
       private System.Windows.Forms.Label label9;

@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Threading;
+using System.Windows.Forms;
 
 /// <summary>
 /// ken 2019/4/2
@@ -26,6 +27,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
       protected D30055 dao30055;
       protected AMIF amif;
       protected AI2 ai2;
+      private string is_chk = "Y";
+      private int flag;
 
       public W30055(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
@@ -136,57 +139,68 @@ namespace PhoenixCI.FormUI.Prefix3 {
             Workbook workbook = new Workbook();
             workbook.LoadDocument(excelDestinationPath);
             Worksheet ws = workbook.Worksheets[0];
-
+            flag = 0;
 
             //2.1 今日台指期收盤指數
             flowStepDesc = "2.1 今日台指期收盤指數";
-            if (!wf_30055_a(ws , tradeDate , closePrice)) return showEmailMsg(cbxNews.Checked);
+            //if (!wf_30055_a(ws , tradeDate , closePrice)) return showEmailMsg(cbxNews.Checked);
+            if (is_chk == "Y") wf_30055_a(ws , tradeDate , closePrice);
 
             //2.2 主要指數期貨商品行情表
             flowStepDesc = "2.2 主要指數期貨商品行情表";
-            if (!wf_30055_b(ws , tradeDate , lastTradeDate)) return showEmailMsg(cbxNews.Checked);
+            //if (!wf_30055_b(ws , tradeDate , lastTradeDate)) return showEmailMsg(cbxNews.Checked);
+            if (is_chk == "Y") wf_30055_b(ws , tradeDate , lastTradeDate);
 
             //2.3 台指選擇權(近月及一週到期)主要序列行情表
             flowStepDesc = "2.3 台指選擇權(近月及一週到期)主要序列行情表";
-            if (!wf_30055_tx(ws , tradeDate , haveTradeTxw , closePrice)) return showEmailMsg(cbxNews.Checked);
+            //if (!wf_30055_tx(ws , tradeDate , haveTradeTxw , closePrice)) return showEmailMsg(cbxNews.Checked);
+            if (is_chk == "Y") wf_30055_tx(ws , tradeDate , haveTradeTxw , closePrice);
 
 
             //2.4 主要指數期貨大額交易人未平倉部位一覽表 (三大法人=外商/投信/自營商)
             //2.4 台指選擇權十大交易人未平倉部位一覽表 (三大法人=外商/投信/自營商)
             flowStepDesc = "2.4 主要指數期貨大額交易人未平倉部位一覽表 (三大法人)";
-            if (!wf_30055_three_keep(ws , tradeDate , lastTradeDate)) return showEmailMsg(cbxNews.Checked);
+            //if (!wf_30055_three_keep(ws , tradeDate , lastTradeDate)) return showEmailMsg(cbxNews.Checked);
+            if (is_chk == "Y") wf_30055_three_keep(ws , tradeDate , lastTradeDate);
 
 
             //2.5 主要指數期貨大額交易人未平倉部位一覽表 (大額交易人=十大交易人(近月)+十大交易人(所有月份))
             //2.5 台指選擇權十大交易人未平倉部位一覽表 (大額交易人=十大交易人(近月)+十大交易人(所有月份))
             flowStepDesc = "2.5 主要指數期貨大額交易人未平倉部位一覽表 (大額交易人)";
-            if (!wf_30055_big_keep(ws , tradeDate , lastTradeDate)) return showEmailMsg(cbxNews.Checked);
+            //if (!wf_30055_big_keep(ws , tradeDate , lastTradeDate)) return showEmailMsg(cbxNews.Checked);
+            if (is_chk == "Y") wf_30055_big_keep(ws , tradeDate , lastTradeDate);
 
 
 
             //2.6 主要股票(不含ETF)期貨行情表（依未平倉量） = STF
             //2.6 主要ETF期貨行情表（依未平倉量）= ETF
             flowStepDesc = "2.6 主要股票 期貨/ETF 商品行情表（依未平倉量）";
-            if (!wf_30055_stf(ws , tradeDate , lastTradeDate , "STF")) return showEmailMsg(cbxNews.Checked);
-            if (!wf_30055_stf(ws , tradeDate , lastTradeDate , "ETF")) return showEmailMsg(cbxNews.Checked);
+            //if (!wf_30055_stf(ws , tradeDate , lastTradeDate , "STF")) return showEmailMsg(cbxNews.Checked);
+            if (is_chk == "Y") wf_30055_stf(ws , tradeDate , lastTradeDate , "STF");
+            //if (!wf_30055_stf(ws , tradeDate , lastTradeDate , "ETF")) return showEmailMsg(cbxNews.Checked);
+            if (is_chk == "Y") wf_30055_stf(ws , tradeDate , lastTradeDate , "ETF");
 
             //2.7 主要ETF選擇權(近月價平)序列行情表
             flowStepDesc = "2.7 主要ETF選擇權(近月價平)序列行情表";
-            if (!wf_30055_etc(ws , tradeDate , "ETC")) return showEmailMsg(cbxNews.Checked);
+            //if (!wf_30055_etc(ws , tradeDate , "ETC")) return showEmailMsg(cbxNews.Checked);
+            if (is_chk == "Y") wf_30055_etc(ws , tradeDate , "ETC");
 
 
             //2.8 匯率期貨行情表
             flowStepDesc = "2.8 匯率期貨行情表";
-            if (!wf_30055_prod_subtype(ws , tradeDate , "E")) return showEmailMsg(cbxNews.Checked);
+            //if (!wf_30055_prod_subtype(ws , tradeDate , "E")) return showEmailMsg(cbxNews.Checked);
+            if (is_chk == "Y") wf_30055_prod_subtype(ws , tradeDate , "E");
 
             //2.9 人民幣匯率選擇權主要序列行情表(依成交量) RHF,RTF
             //ken,template是隱藏的grid,嗯
             flowStepDesc = "2.9 人民幣匯率選擇權主要序列行情表(依成交量) RHF,RTF";
-            if (!wf_30055_rho(ws , tradeDate)) return showEmailMsg(cbxNews.Checked);
+            //if (!wf_30055_rho(ws , tradeDate)) return showEmailMsg(cbxNews.Checked);
+            if (is_chk == "Y") wf_30055_rho(ws , tradeDate);
 
             //2.10 商品期貨行情表 GDF,TGF,BRF
             flowStepDesc = "2.10 商品期貨行情表 (美元黃金期貨/臺幣黃金期貨/布蘭特原油期貨)GDF,TGF,BRF";
-            if (!wf_30055_prod_subtype(ws , tradeDate , "C")) return showEmailMsg(cbxNews.Checked);
+            //if (!wf_30055_prod_subtype(ws , tradeDate , "C")) return showEmailMsg(cbxNews.Checked);
+            if (is_chk == "Y") wf_30055_prod_subtype(ws , tradeDate , "C");
 
             //2.11 刪除列
             flowStepDesc = "2.11 刪除列";
@@ -195,14 +209,19 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //2.12 股票期貨週
             flowStepDesc = "2.12 股票期貨週";
             ws = workbook.Worksheets[1];//切換到第二個sheet
-            if (!wf_30055_weekly(ws , tradeDate)) return showEmailMsg(cbxNews.Checked);
+            //if (!wf_30055_weekly(ws , tradeDate)) return showEmailMsg(cbxNews.Checked);
+            if (is_chk == "Y") wf_30055_weekly(ws , tradeDate);
 
             //2.13 先存檔
-            flowStepDesc = "2.13 Save file";
-            ws = workbook.Worksheets[0];
-            ws.Range["A1"].Select();
-            ws.ScrollToRow(0);
-            workbook.SaveDocument(excelDestinationPath);
+            if (flag <= 0) {
+               File.Delete(excelDestinationPath);
+            } else {
+               flowStepDesc = "2.13 Save file";
+               ws = workbook.Worksheets[0];
+               ws.Range["A1"].Select();
+               ws.ScrollToRow(0);
+               workbook.SaveDocument(excelDestinationPath);
+            }
 
             //2.14 email news
             flowStepDesc = "2.14 email news";
@@ -216,23 +235,15 @@ namespace PhoenixCI.FormUI.Prefix3 {
                   string TXEMAIL_CC = dtTxemail.Rows[0]["TXEMAIL_CC"].AsString();
                   string TXEMAIL_TITLE = dtTxemail.Rows[0]["TXEMAIL_TITLE"].AsString();
                   string TXEMAIL_TEXT = dtTxemail.Rows[0]["TXEMAIL_TEXT"].AsString();
-
-                  TXEMAIL_TITLE = txtSDate.DateTimeValue.ToString("yyyyMMdd") + TXEMAIL_TITLE;
-                  MailHelper.SendEmail(TXEMAIL_SENDER , TXEMAIL_RECIPIENTS , TXEMAIL_CC , TXEMAIL_TITLE , TXEMAIL_TEXT , excelDestinationPath);
+                  try {
+                     TXEMAIL_TITLE = txtSDate.DateTimeValue.ToString("yyyyMMdd") + TXEMAIL_TITLE;
+                     MailHelper.SendEmail(TXEMAIL_SENDER , TXEMAIL_RECIPIENTS , TXEMAIL_CC , TXEMAIL_TITLE , TXEMAIL_TEXT , excelDestinationPath);
+                  } catch (Exception ex) {
+                     is_chk = "E";
+                     MessageDisplay.Warning("產出檔案有異常資訊，請通知系統負責人！");
+                     return ResultStatus.Fail;
+                  }
                }
-
-
-               //return txemail_sender, txemail_recipients, txemail_cc, txemail_title
-               //     DataTable dtEmail = new TXEMAIL().ListData(reportId, 1);
-               //string sender = dtEmail.Rows[0]["txemail_sender"].AsString();
-               //string recipient = dtEmail.Rows[0]["txemail_recipients"].AsString();
-               //string cc = dtEmail.Rows[0]["txemail_cc"].AsString();
-               //string title = tradeDate.ToString("yyyyMMdd") + dtEmail.Rows[0]["txemail_title"].AsString();
-
-               //TODO:write f_send_email
-               //PbFunc.f_send_email(reportId, "01", sender, recipient, cc, title, " ", excelDestinationPath);
-               //is_chk = f_send_email(reportId, "01", ls_sender, ls_recipient, ls_cc, ls_title, " ", gs_savereport_path + ls_file)
-
             }
 
             #region //3.產生TJF檔案
@@ -245,10 +256,18 @@ namespace PhoenixCI.FormUI.Prefix3 {
             ws = workbook.Worksheets[0];
 
             //3.2
-            if (!wf_30055_tjf(ws , tradeDate , lastTradeDate)) return showEmailMsg(cbxNews.Checked);
+            //if (!wf_30055_tjf(ws , tradeDate , lastTradeDate)) return showEmailMsg(cbxNews.Checked);
+            bool result = false;
+            if (is_chk == "Y") {
+               result = wf_30055_tjf(ws , tradeDate , lastTradeDate);
+            }
 
             //3.3 儲存及關閉檔案
-            workbook.SaveDocument(excelDestinationPath);
+            if (!result) {
+               File.Delete(excelDestinationPath);
+            } else {
+               workbook.SaveDocument(excelDestinationPath);
+            }
 
             //3.4 email
             if (cbxTJF.Checked) {
@@ -263,22 +282,14 @@ namespace PhoenixCI.FormUI.Prefix3 {
                   string TXEMAIL_TEXT = dtTxemail.Rows[0]["TXEMAIL_TEXT"].AsString();
 
                   TXEMAIL_TITLE = txtSDate.DateTimeValue.ToString("yyyyMMdd") + TXEMAIL_TITLE;
-                  MailHelper.SendEmail(TXEMAIL_SENDER , TXEMAIL_RECIPIENTS , TXEMAIL_CC , TXEMAIL_TITLE , TXEMAIL_TEXT , excelDestinationPath);
+                  try {
+                     MailHelper.SendEmail(TXEMAIL_SENDER , TXEMAIL_RECIPIENTS , TXEMAIL_CC , TXEMAIL_TITLE , TXEMAIL_TEXT , excelDestinationPath);
+                  } catch (Exception ex) {
+                     is_chk = "E";
+                     MessageDisplay.Warning("產出檔案有異常資訊，請通知系統負責人！");
+                     return ResultStatus.Fail;
+                  }
                }
-
-
-               //return txemail_sender, txemail_recipients, txemail_cc, txemail_title
-
-               //DataTable dtEmail = new TXEMAIL().ListData(txnId, 1);
-               //string sender = dtEmail.Rows[0]["txemail_sender"].AsString();
-               //string recipient = dtEmail.Rows[0]["txemail_recipients"].AsString();
-               //string cc = dtEmail.Rows[0]["txemail_cc"].AsString();
-               //string title = tradeDate.ToString("yyyyMMdd") + dtEmail.Rows[0]["txemail_title"].AsString();
-
-               //TODO:write f_send_email
-               //PbFunc.f_send_email(txnId, "01", sender, recipient, cc, title, " ", excelDestinationPath);
-               //is_chk = f_send_email(txnId, "01", ls_sender, ls_recipient, ls_cc, ls_title, " ", gs_savereport_path + ls_file)
-
             }
             #endregion
 
@@ -287,14 +298,15 @@ namespace PhoenixCI.FormUI.Prefix3 {
          } catch (Exception ex) {
             WriteLog(ex , flowStepDesc);
          } finally {
+            this.Cursor = Cursors.Arrow;
             panFilter.Enabled = true;
             labMsg.Text = "";
             labMsg.Visible = false;
+            this.Refresh();
+            Thread.Sleep(5);
          }
          return ResultStatus.Fail;
       }
-
-
 
       /// <summary>
       /// 2.1今日台指期收盤指數
@@ -339,6 +351,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          ws.Cells[2 , 1].Value = ll_m_qnty.AsDecimal();
 
          showMsg(sheetName , sheetSubTitle , "完成");
+         flag++;
          return true;
       }
 
@@ -373,6 +386,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          }
 
          showMsg(sheetName , sheetSubTitle , dtFuture.Rows.Count.ToString());
+         flag++;
          return true;
       }
 
@@ -439,6 +453,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          }//foreach (DataRow dr in dtOption.Rows) {
 
          showMsg(sheetName , sheetSubTitle , dtOption.Rows.Count.ToString());
+         flag++;
          return true;
       }
 
@@ -501,6 +516,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          //2.4 台指選擇權十大交易人未平倉部位一覽表 (三大法人=外商/投信/自營商)
          showMsg(sheetName , "主要指數期貨大額交易人未平倉部位一覽表 (三大法人)" , futureCount.ToString());
          showMsg(sheetName , "台指選擇權十大交易人未平倉部位一覽表 (三大法人)" , optionCount.ToString());
+         flag++;
          return true;
       }
 
@@ -565,6 +581,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          showMsg(sheetName , "主要指數期貨大額交易人未平倉部位一覽表 (大額交易人)" , futureCount.ToString());
          showMsg(sheetName , "台指選擇權十大交易人未平倉部位一覽表 (大額交易人)" , optionCount.ToString());
          showMsg(sheetName , sheetSubTitle , dtBig.Rows.Count.ToString());
+         flag++;
          return true;
       }
 
@@ -614,6 +631,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
 
          showMsg(sheetName , sheetSubTitle , dtKind.Rows.Count.ToString());
+         flag++;
          return true;
       }
 
@@ -656,6 +674,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          ws.Import(dtKind , false , rowBegin , 0);
 
          showMsg(sheetName , sheetSubTitle , dtKind.Rows.Count.ToString());
+         flag++;
          return true;
       }
 
@@ -696,6 +715,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          ws.Import(dtFuture , false , rowBegin , 2);
 
          showMsg(sheetName , sheetSubTitle , dtFuture.Rows.Count.ToString());
+         flag++;
          return true;
       }
 
@@ -733,10 +753,15 @@ namespace PhoenixCI.FormUI.Prefix3 {
             string pdk_name = dtKind.Rows[k]["pdk_name"].AsString();
             dtKind.Rows[k]["pdk_name"] = RemoveString(pdk_name , "選擇權");
          }//foreach (DataRow dr in dtKind.Rows) {
+         dtKind.Columns.Remove("amif_kind_id");
+         dtKind.Columns.Remove("amif_settle_date");
+         dtKind.Columns.Remove("m_qnty");
+         dtKind.Columns.Remove("oi");
 
          ws.Import(dtKind , false , rowBegin , 0);
 
          showMsg(sheetName , sheetSubTitle , dtKind.Rows.Count.ToString());
+         flag++;
          return true;
       }
 
@@ -772,8 +797,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //主要指數期貨商品行情表
             ws.Rows.Remove(mxw_seq_no - 1 , 1); //(只刪除一行 name=一周)
          }//if (haveTradeTxw) {
-
-
       }
 
       /// <summary>
@@ -808,6 +831,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          ws.Import(dtWeek , false , 3 , 0);
 
          showMsg(sheetName , sheetSubTitle , dtWeek.Rows.Count.ToString());
+         flag++;
          return true;
       }
 
@@ -945,17 +969,16 @@ namespace PhoenixCI.FormUI.Prefix3 {
             return source;
       }
 
-      /// <summary>
-      /// 只要發生錯誤,而且有勾選email news,則show message box
-      /// </summary>
-      /// <param name="sendEmail"></param>
-      protected ResultStatus showEmailMsg(bool sendEmail) {
-         if (sendEmail)
-            MessageDisplay.Warning("產出檔案有異常資訊，請通知系統負責人！" , GlobalInfo.WarningText);
+      ///// <summary>
+      ///// 只要發生錯誤,而且有勾選email news,則show message box
+      ///// </summary>
+      ///// <param name="sendEmail"></param>
+      //protected ResultStatus showEmailMsg(bool sendEmail) {
+      //   if (sendEmail)
+      //      MessageDisplay.Warning("產出檔案有異常資訊，請通知系統負責人！" , GlobalInfo.WarningText);
 
-         return ResultStatus.Fail;
-      }
-
+      //   return ResultStatus.Fail;
+      //}
 
    }
 }
