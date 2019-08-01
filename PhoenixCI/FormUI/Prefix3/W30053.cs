@@ -29,6 +29,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
       private string date;
       private int flag;
       private string file;
+      private string is_chk = "Y";
 
       public W30053(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
@@ -161,49 +162,60 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             int rowIndex = 1;
             //1.期貨
-            if (!wf30053f(grp , rowIndex , ws)) return showEmailMsg(cbxNews.Checked);
+            //if (!wf30053f(grp , rowIndex , ws)) return showEmailMsg(cbxNews.Checked);
+            if (is_chk == "Y") wf30053f(grp , rowIndex , ws);
 
             //2.選擇權
             rowIndex = rowIndex + 3;
             ws = workbook.Worksheets["選擇權"];
-            if (!wf30053o(rowIndex , ws)) return showEmailMsg(cbxNews.Checked);
+            //if (!wf30053o(rowIndex , ws)) return showEmailMsg(cbxNews.Checked);
+            if (is_chk == "Y") wf30053o(rowIndex , ws);
 
             //3.股票選擇權
             rowIndex = rowIndex + 3;
             ws = workbook.Worksheets["股票選擇權"];
-            if (!wf30053stc(rowIndex , ws)) return showEmailMsg(cbxNews.Checked);
+            //if (!wf30053stc(rowIndex , ws)) return showEmailMsg(cbxNews.Checked);
+            if (is_chk == "Y") wf30053stc(rowIndex , ws);
 
             //4.股票期貨(For工商時報)
             //5.股票期貨(For工商時報)50
             rowIndex = rowIndex + 3;
             ws = workbook.Worksheets["股票期貨(For工商時報)"];
-            if (!wf30053stfNear(ws)) return showEmailMsg(cbxNews.Checked);
+            //if (!wf30053stfNear(ws)) return showEmailMsg(cbxNews.Checked);
+            if (is_chk == "Y") wf30053stfNear(ws);
             ws = workbook.Worksheets["股票期貨(For工商時報) 50大"];
-            if (!wfCtee50(ws)) return showEmailMsg(cbxNews.Checked);
+            //if (!wfCtee50(ws)) return showEmailMsg(cbxNews.Checked);
+            if (is_chk == "Y") wfCtee50(ws);
 
             //6.股票期貨Top10檔(For聯合晚報)
             ws = workbook.Worksheets["股票期貨Top10檔(For經濟日報)"];
-            if (!wf30053stfTop10(ws)) return showEmailMsg(cbxNews.Checked);
+            //if (!wf30053stfTop10(ws)) return showEmailMsg(cbxNews.Checked);
+            if (is_chk == "Y") wf30053stfTop10(ws);
 
             //7.ETF期貨Top10檔
             ws = workbook.Worksheets["ETF期貨Top10檔"];
-            if (!wf30053etfTop10(ws)) return showEmailMsg(cbxNews.Checked);
+            //if (!wf30053etfTop10(ws)) return showEmailMsg(cbxNews.Checked);
+            if (is_chk == "Y") wf30053etfTop10(ws);
 
             //8.股票選擇權TOP10檔(For聯合晚報)
             ws = workbook.Worksheets["股票選擇權TOP10檔(For聯合晚報)"];
-            if (!wf30053stcTop10(ws)) return showEmailMsg(cbxNews.Checked);
+            //if (!wf30053stcTop10(ws)) return showEmailMsg(cbxNews.Checked);
+            if (is_chk == "Y") wf30053stcTop10(ws);
 
             //9.ETF選擇權前20大行情表
             ws = workbook.Worksheets["ETF選擇權TOP20檔"];
-            if (!wf30053etcTop20(ws)) return showEmailMsg(cbxNews.Checked);
+            //if (!wf30053etcTop20(ws)) return showEmailMsg(cbxNews.Checked);
+            if (is_chk == "Y") wf30053etcTop20(ws);
 
             //10.美元兌人民幣選擇權前20大行情表
             ws = workbook.Worksheets["美元兌人民幣選擇權(RHO)TOP20檔"];
-            if (!wf30053rhoTop20(ws)) return showEmailMsg(cbxNews.Checked);
+            //if (!wf30053rhoTop20(ws)) return showEmailMsg(cbxNews.Checked);
+            if (is_chk == "Y") wf30053rhoTop20(ws);
 
             //11.小型美元兌人民幣選擇權前20大行情表
             ws = workbook.Worksheets["小型美元兌人民幣選擇權(RTO)TOP20檔"];
-            if (!wf30053rtoTop20(ws)) return showEmailMsg(cbxNews.Checked);
+            //if (!wf30053rtoTop20(ws)) return showEmailMsg(cbxNews.Checked);
+            if (is_chk == "Y") wf30053rtoTop20(ws);
 
             #endregion
 
@@ -229,14 +241,21 @@ namespace PhoenixCI.FormUI.Prefix3 {
                   string TXEMAIL_TEXT = dtTxemail.Rows[0]["TXEMAIL_TEXT"].AsString();
 
                   TXEMAIL_TITLE = txtSDate.DateTimeValue.ToString("yyyyMMdd") + TXEMAIL_TITLE;
-                  MailHelper.SendEmail(TXEMAIL_SENDER , TXEMAIL_RECIPIENTS , TXEMAIL_CC , TXEMAIL_TITLE , TXEMAIL_TEXT , file);
+                  try {
+                     MailHelper.SendEmail(TXEMAIL_SENDER , TXEMAIL_RECIPIENTS , TXEMAIL_CC , TXEMAIL_TITLE , TXEMAIL_TEXT , file);
+                  } catch (Exception ex) {
+                     is_chk = "E";
+                     MessageDisplay.Warning("產出檔案有異常資訊，請通知系統負責人！");
+                     return ResultStatus.Fail;
+                  }
                }
             }
          } catch (Exception ex) {
             MessageDisplay.Error("輸出錯誤");
-            throw ex;
+            WriteLog(ex);
          } finally {
             this.Cursor = Cursors.Arrow;
+            lblProcessing.Visible = false;
             this.Refresh();
             Thread.Sleep(5);
          }
@@ -300,6 +319,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
             return false;
          }
 
+         Range check = ws.Range["B3:J48"];
+         if (string.IsNullOrEmpty(check.Value.AsString())) {
+            return false;
+         }
+
          //把table存成txt(先拿掉)
          //etfFileName = "d:\temp\a.txt";
          //ExportOptions txtref = new ExportOptions();
@@ -359,6 +383,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
          if (dt30053o.Rows.Count == 0) {
             MessageDisplay.Info(txtSDate.Text + "," + rptId + '－' + rptName + ",無任何資料!");
             lblProcessing.Visible = false;
+            return false;
+         }
+
+         Range check = ws.Range["B3:L36"];
+         if (string.IsNullOrEmpty(check.Value.AsString())) {
             return false;
          }
 
@@ -664,16 +693,15 @@ namespace PhoenixCI.FormUI.Prefix3 {
          return true;
       }
 
-      /// <summary>
-      /// 只要發生錯誤,而且有勾選email news,則show message box
-      /// </summary>
-      /// <param name="sendEmail"></param>
-      protected ResultStatus showEmailMsg(bool sendEmail) {
-         if (!sendEmail) {
-            MessageDisplay.Warning("產出檔案有異常資訊，請通知系統負責人！");
-            File.Delete(file);
-         }
-         return ResultStatus.Fail;
-      }
+      ///// <summary>
+      ///// 只要發生錯誤,而且有勾選email news,則show message box
+      ///// </summary>
+      ///// <param name="sendEmail"></param>
+      //protected ResultStatus showEmailMsg(string sendEmail) {
+      //   if (sendEmail != "Y") {
+      //      MessageDisplay.Warning("產出檔案有異常資訊，請通知系統負責人！");
+      //   }
+      //   return ResultStatus.Fail;
+      //}
    }
 }
