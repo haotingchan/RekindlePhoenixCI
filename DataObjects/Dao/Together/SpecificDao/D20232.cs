@@ -199,6 +199,25 @@ and pls3_pid = :as_pls3_pid
             }
         }
 
+      /// <summary>
+      /// 按下[刪除]，刪除STW的OCF DATE資料
+      /// </summary>
+      /// <param name="as_ym">yyyyMM</param>
+      /// <returns></returns>
+      public int DeleteStw(string as_ymd) {
+         object[] parms = {
+                ":as_ymd", as_ymd
+            };
 
-    }
+         string sql = @"
+delete ci.stw
+where stw_ymd = :as_ymd
+";
+
+         int res = db.ExecuteSQL(sql , parms);
+
+         return res;
+      }
+
+   }
 }

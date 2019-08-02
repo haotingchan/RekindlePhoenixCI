@@ -305,7 +305,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             Worksheet worksheet = workbook.Worksheets[0];
 
             string tmp = worksheet.Cells[1 , 0].Value.AsString().Replace("民" , "").Replace("國" , "").Replace("年" , "").Replace("月" , "");
-            string tmpDate = (tmp.Substring(0 , 3).AsInt() + 1911).AsString() + tmp.Substring(3 , 2).Trim().PadLeft(3,'0').SubStr(1,2);
+            string tmpDate = (tmp.Substring(0 , 3).AsInt() + 1911).AsString() + tmp.Substring(3 , 2).Trim().PadLeft(3 , '0').SubStr(1 , 2);
             if (tmpDate != txtDate) {
                MessageDisplay.Error(string.Format("轉檔檔案之年月= {0} ,與輸入條件= {1} 不符" , tmpDate , txtDate) , GlobalInfo.ErrorText);
                return null;
@@ -400,6 +400,22 @@ namespace PhoenixCI.FormUI.Prefix2 {
          } catch (Exception ex) {
             WriteLog(ex);
          }
+      }
+
+      protected override ResultStatus DeleteRow() {
+         string ls_rtn = GlobalInfo.OCF_DATE.ToString("yyyyMMdd");
+         DialogResult result = MessageDisplay.Choose($"請問確定要刪除{GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd")}資料嗎?" , MessageBoxDefaultButton.Button2);
+         if (result == DialogResult.Yes) {
+            int res = dao20232.DeleteStw(ls_rtn);
+            if (res <= 0) {
+               MessageDisplay.Error($"刪除 {GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd")} 資料失敗" , GlobalInfo.ErrorText);
+               WriteLog($"sqlca.sqlcode= {res}");
+               return ResultStatus.Fail;
+            } else {
+               MessageDisplay.Info("刪除完成!" , GlobalInfo.ResultText);
+            }
+         }
+         return ResultStatus.Success;
       }
 
 

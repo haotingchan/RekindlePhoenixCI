@@ -162,7 +162,10 @@ namespace Common {
          };
       }
 
-
+      public static void ChangeImeMode(GridControl gridControl) {
+         GridView gv = (GridView)gridControl.MainView;
+         gv.ActiveEditor.ImeMode = ImeMode.Off;
+      }
 
       public static void AddModifyCheckMark(GridControl gridControl , RepositoryItemCheckEdit repCheck , GridColumn MODIFY_MARK) {
          GridView gv = (GridView)gridControl.MainView;
