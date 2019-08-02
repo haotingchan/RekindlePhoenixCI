@@ -11,13 +11,12 @@ namespace DataObjects.Dao.Together.SpecificDao {
       /// <param name="name"></param>
       /// <returns></returns>
       public IGridData50010 CreateGridData(Type type, string name) {
+            string AssemblyName = type.Namespace.Split('.')[0];//最後compile出來的dll名稱
+            string className = type.FullName + name;//完整的class路徑
 
-         string AssemblyName = type.Namespace.Split('.')[0];//最後compile出來的dll名稱
-         string className = type.FullName + name;//完整的class路徑
-
-         // 這裡就是Reflection，直接依照className實體化具體類別
-         return (IGridData50010)Assembly.Load(AssemblyName).CreateInstance(className);
-      }
+            // 這裡就是Reflection，直接依照className實體化具體類別
+            return (IGridData50010)Assembly.Load(AssemblyName).CreateInstance(className);
+        }
 
    }
 
@@ -28,10 +27,11 @@ namespace DataObjects.Dao.Together.SpecificDao {
       public string ProdSort { get; set; }
       public string FcmRange { get; set; }
       public DateTime TxtDate { get; set; }
+      public bool PrintOrder { get; set; } //true -->造市者; false -->商品
 
-      public Q50010(DateTime txtDate, string paramKey, string kindIdSt, string kindIdO, string prodSort, string fcmSNo, string fcmENo) {
+        public Q50010(DateTime txtDate, string paramKey, string kindIdSt, string kindIdO, string prodSort, string fcmSNo, string fcmENo,bool printOrder) {
 
-         if (CheckValue(paramKey)) {
+        if (CheckValue(paramKey)) {
             ParamKey = string.IsNullOrEmpty(paramKey) ? "" :
                   "and ammd_PARAM_KEY ='" + paramKey + "'";
          }
@@ -63,7 +63,8 @@ namespace DataObjects.Dao.Together.SpecificDao {
 
          FcmRange = fcmSNo + fcmENo;
          TxtDate = txtDate;
-      }
+         PrintOrder = printOrder;
+        }
 
       protected virtual bool CheckValue(string str) {
 
@@ -103,13 +104,13 @@ namespace DataObjects.Dao.Together.SpecificDao {
 
    public class D50010O : DataGate, IGridData50010 {
       public DataTable GetData(Q50010 queryArgs) {
-
          object[] parms = {
                 ":as_sort_type", "F",
                 ":adt_date", queryArgs.TxtDate,
             };
+        string sql;
 
-         string sql = string.Format(@"  SELECT AMMD_BRK_NO, 
+        sql = string.Format(@"  SELECT AMMD_BRK_NO, 
             BRK_ABBR_NAME,AMMD_ACC_NO, 
           AMMD_PROD_TYPE,
         TRIM(AMMD_PROD_ID) as AMMD_PROD_ID,   
@@ -155,10 +156,9 @@ namespace DataObjects.Dao.Together.SpecificDao {
          {2}
          {3}
          {4}
-         order by cp_group1 , cp_group2 , ammd_w_time)",
-         queryArgs.ParamKey, queryArgs.KindIdSt, queryArgs.KindIdO, queryArgs.FcmRange, queryArgs.ProdSort);
-
-         return db.GetDataTable(sql, parms);
+         order by cp_group1,cp_group2  , ammd_w_time)",
+                queryArgs.ParamKey, queryArgs.KindIdSt, queryArgs.KindIdO, queryArgs.FcmRange, queryArgs.ProdSort);
+                return db.GetDataTable(sql, parms);
       }
    }
 
