@@ -23,7 +23,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
    public partial class W30592 : FormParent {
 
       protected D30592 dao30592;
-      protected COD daoCod;
       private int flag;
 
       public W30592(string programID , string programName) : base(programID , programName) {
@@ -31,7 +30,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
          this.Text = _ProgramID + "─" + _ProgramName;
 
          dao30592 = new D30592();
-         daoCod = new COD();
       }
 
       protected override ResultStatus Open() {

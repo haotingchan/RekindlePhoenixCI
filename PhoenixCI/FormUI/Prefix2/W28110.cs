@@ -65,16 +65,6 @@ namespace PhoenixCI.FormUI.Prefix2 {
          base.Open();
 
          txtDate.DateTimeValue = GlobalInfo.OCF_DATE;
-
-         //隱藏一些開發用的資訊和測試按鈕
-         if (!FlagAdmin) {
-            btnStwd.Visible = false;
-            btnSp.Visible = false;
-         } else {
-            btnStwd.Visible = true;
-            btnSp.Visible = true;
-         }
-
          return ResultStatus.Success;
       }
 
@@ -633,28 +623,6 @@ namespace PhoenixCI.FormUI.Prefix2 {
 
          return "";
       }
-
-      #region Click Event
-      private void btnStwd_Click(object sender , EventArgs e) {
-         daoSTWD.DeleteByDate(DateYmd);
-         dao28110.InsertDataByUser(GlobalInfo.USER_ID , DateYmd);
-      }
-
-      private void btnSp_Click(object sender , EventArgs e) {
-         //轉完資料後執行SP
-         string prodType = "M";
-         DateTime dateTime = txtDate.DateTimeValue;
-         int rtn;
-
-         if (dao28110.ExecuteSP(dateTime , prodType , "ci.sp_H_stt_AI3").Status != ResultStatus.Success) {
-            MessageBox.Show("執行SP(sp_H_stt_AI3)錯誤! " , "注意" , MessageBoxButtons.OK , MessageBoxIcon.Stop);
-            WriteLog("執行SP(sp_H_stt_AI3)錯誤!" , "Error");
-         } else {
-            rtn = 0;
-         }
-         WriteLog("執行sp_H_stt_AI3");
-      }
-      #endregion
 
       /// <summary>
       /// 決定哪些欄位無法編輯的事件

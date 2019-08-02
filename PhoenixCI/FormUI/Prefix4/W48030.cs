@@ -39,6 +39,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             //DataTable dtSubType = new COD().ListByCol("48010" , "PDK_SUBTYPE" , "全選" , "%");
             DataTable dtSubType = new CODW().ListLookUpEdit("HCPR" , "CPR_PROD_SUBTYPE");
+            dtSubType.Rows.RemoveAt(0);
+            foreach (DataRow dr in dtSubType.Rows) {
+               if (dr["CODW_ID"].AsString() == "all") {
+                  dr["CODW_ID"] = "%";
+               }
+            }
             cbxSubType.SetDataTable(dtSubType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor);
 
          } catch (Exception ex) {
