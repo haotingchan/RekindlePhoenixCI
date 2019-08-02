@@ -1727,6 +1727,12 @@
     <Compile Include="FormUI\PrefixS\WS0073.designer.cs">
       <DependentUpon>WS0073.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormUI\PrefixZ\WZ0998.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\PrefixZ\WZ0998.designer.cs">
+      <DependentUpon>WZ0998.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormUI\PrefixZ\WZ0112.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -2567,6 +2573,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\PrefixS\WS0073.resx">
       <DependentUpon>WS0073.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\PrefixZ\WZ0998.resx">
+      <DependentUpon>WZ0998.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\PrefixZ\WZ0112.resx">
       <DependentUpon>WZ0112.cs</DependentUpon>
