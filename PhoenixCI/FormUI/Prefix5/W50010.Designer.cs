@@ -37,9 +37,7 @@
             this.gcExport = new DevExpress.XtraGrid.GridControl();
             this.gvExport = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.PrintSort = new DevExpress.XtraEditors.LookUpEdit();
-            this.label10 = new System.Windows.Forms.Label();
             this.MarketTime = new DevExpress.XtraEditors.LookUpEdit();
-            this.label9 = new System.Windows.Forms.Label();
             this.TxtDate = new BaseGround.Widget.TextDateEdit();
             this.label7 = new System.Windows.Forms.Label();
             this.Txt_prod_sort = new DevExpress.XtraEditors.TextEdit();
@@ -104,9 +102,7 @@
             this.panelControl1.Controls.Add(this.groupBoxMarketTime);
             this.panelControl1.Controls.Add(this.gcExport);
             this.panelControl1.Controls.Add(this.PrintSort);
-            this.panelControl1.Controls.Add(this.label10);
             this.panelControl1.Controls.Add(this.MarketTime);
-            this.panelControl1.Controls.Add(this.label9);
             this.panelControl1.Controls.Add(this.TxtDate);
             this.panelControl1.Controls.Add(this.label7);
             this.panelControl1.Controls.Add(this.Txt_prod_sort);
@@ -131,7 +127,7 @@
             // 
             this.groupBoxPrintSort.Controls.Add(this.radioPrintSort2);
             this.groupBoxPrintSort.Controls.Add(this.radioPrintSort1);
-            this.groupBoxPrintSort.Location = new System.Drawing.Point(565, 124);
+            this.groupBoxPrintSort.Location = new System.Drawing.Point(575, 111);
             this.groupBoxPrintSort.Name = "groupBoxPrintSort";
             this.groupBoxPrintSort.Size = new System.Drawing.Size(124, 100);
             this.groupBoxPrintSort.TabIndex = 22;
@@ -164,7 +160,7 @@
             // 
             this.groupBoxMarketTime.Controls.Add(this.radioMarketTime2);
             this.groupBoxMarketTime.Controls.Add(this.radioMarketTime1);
-            this.groupBoxMarketTime.Location = new System.Drawing.Point(433, 124);
+            this.groupBoxMarketTime.Location = new System.Drawing.Point(429, 111);
             this.groupBoxMarketTime.Name = "groupBoxMarketTime";
             this.groupBoxMarketTime.Size = new System.Drawing.Size(126, 100);
             this.groupBoxMarketTime.TabIndex = 21;
@@ -219,15 +215,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.PrintSort.Size = new System.Drawing.Size(111, 36);
             this.PrintSort.TabIndex = 19;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(279, 159);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(117, 28);
-            this.label10.TabIndex = 18;
-            this.label10.Text = "列印順序 : ";
+            this.PrintSort.Visible = false;
             // 
             // MarketTime
             // 
@@ -238,15 +226,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.MarketTime.Size = new System.Drawing.Size(106, 36);
             this.MarketTime.TabIndex = 17;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(279, 89);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(117, 28);
-            this.label9.TabIndex = 16;
-            this.label9.Text = "交易時段 : ";
+            this.MarketTime.Visible = false;
             // 
             // TxtDate
             // 
@@ -496,9 +476,7 @@
       private DevExpress.XtraEditors.PanelControl panelControl2;
       private System.Windows.Forms.Label label1;
       private DevExpress.XtraEditors.LookUpEdit PrintSort;
-      private System.Windows.Forms.Label label10;
       private DevExpress.XtraEditors.LookUpEdit MarketTime;
-      private System.Windows.Forms.Label label9;
       private BaseGround.Widget.TextDateEdit TxtDate;
       private System.Windows.Forms.Label label7;
       private DevExpress.XtraEditors.TextEdit Txt_prod_sort;

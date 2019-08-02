@@ -27,8 +27,8 @@ namespace DataObjects.Dao.Together.SpecificDao {
 
             string sql =
 @"
-SELECT PL1_YMD ,
-        -- PL1_YMD as PL1_YMD1 ,
+SELECT 
+       PL1_YMD  ,
          PL1_KIND_ID,   
          PL1_NATURE,   
          PL1_LEGAL,   
@@ -406,7 +406,7 @@ FROM CI.PL2B";
         public ResultData updatePL1(DataTable inputData) {
             string sql = @"
 SELECT 
-PL1_YMD,          
+PL1_YMD ,          
 PL1_PROD_TYPE,    
 PL1_PROD_SUBTYPE, 
 PL1_KIND_ID,      

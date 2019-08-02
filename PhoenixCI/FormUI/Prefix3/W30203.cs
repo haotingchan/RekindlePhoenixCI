@@ -142,12 +142,14 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
       protected override ResultStatus Retrieve() {
 
-         try {
-            dao30203 = new D30203();
-            gcMain.Visible = false;
-            string lsYmd;
-            int found;
-            lsYmd = txtDate.Text.Replace("/" , "");
+            try
+            {
+                gcMain.DataSource = null;
+
+                dao30203 = new D30203();
+                string lsYmd;
+                int found;
+                lsYmd = txtDate.Text.Replace("/", "");
 
             DataTable dt30203 = dao30203.d_30203(lsYmd);
             if (dt30203.Rows.Count == 0) {
@@ -288,71 +290,84 @@ namespace PhoenixCI.FormUI.Prefix3 {
          gvGBF.CloseEditor();
          gvMain.CloseEditor();
 
-         string showMsg = "";
-         //1. 寫LOG到ci.PLLOG
-         try {
-            showMsg = "異動紀錄(PLLOG)更新資料庫錯誤! ";
-            DataTable dtPLLOG = dao30203.d_30203_pllog();
-            int i;
-            string ls_prod_type, ls_prod_subtype, ls_kind_id;
-            for (i = 0 ; i < gvMain.RowCount ; i++) {
-               if (gvMain.GetRowCellValue(i , "Is_NewRow").AsString() == "1") {
-                  ls_kind_id = gvMain.GetRowCellValue(i , "PL1_KIND_ID").AsString();
-                  DataTable dtProdType = dao30203.ProdType(ls_kind_id);
-                  if (dtProdType.Rows.Count == 0) {
-                     MessageDisplay.Error("商品 " + ls_kind_id + " 無商品基本資料，無法新增!");
-                     return ResultStatus.Fail;
-                  }
-                  ls_prod_type = dtProdType.Rows[0]["PROD_TYPE"].AsString();
-                  ls_prod_subtype = dtProdType.Rows[0]["PROD_SUBTYPE"].AsString();
+            string showMsg = "";
+            //1. 寫LOG到ci.PLLOG
+            try
+            {
+                showMsg = "異動紀錄(PLLOG)更新資料庫錯誤! ";
+                DataTable dtPLLOG = dao30203.d_30203_pllog();
+                int i;
+                string ls_prod_type, ls_prod_subtype, ls_kind_id;
+                for (i = 0; i < gvMain.RowCount; i++)
+                {
+                    if (gvMain.GetRowCellValue(i, "Is_NewRow").AsString() == "1")
+                    {
+                        ls_kind_id = gvMain.GetRowCellValue(i, "PL1_KIND_ID").AsString();
+                        DataTable dtProdType = dao30203.ProdType(ls_kind_id);
+                        if (dtProdType.Rows.Count == 0)
+                        {
+                            MessageDisplay.Error("商品 " + ls_kind_id + " 無商品基本資料，無法新增!");
+                            return ResultStatus.Fail;
+                        }
+                        ls_prod_type = dtProdType.Rows[0]["PROD_TYPE"].AsString();
+                        ls_prod_subtype = dtProdType.Rows[0]["PROD_SUBTYPE"].AsString();
 
-                  gvMain.SetRowCellValue(i , "PL1_YMD" , txtDate.Text.Replace("/" , "").AsString());
-                  gvMain.SetRowCellValue(i , "PL1_PROD_TYPE" , ls_prod_type);
-                  gvMain.SetRowCellValue(i , "PL1_PROD_SUBTYPE" , ls_prod_subtype);
-                  gvMain.SetRowCellValue(i , "PL1_999" , gvMain.GetRowCellValue(i , "PL1_LEGAL").AsDecimal() * 3);
-                  gvMain.SetRowCellValue(i , "PL1_CUR_NATURE" , 0);
-                  gvMain.SetRowCellValue(i , "PL1_CUR_LEGAL" , 0);
-                  gvMain.SetRowCellValue(i , "PL1_CUR_999" , gvMain.GetRowCellValue(i , "PL1_CUR_LEGAL").AsDecimal() * 3);
-                  gvMain.SetRowCellValue(i , "PL1_PREV_AVG_QNTY" , 0);
-                  gvMain.SetRowCellValue(i , "PL1_PREV_AVG_OI" , 0);
-                  gvMain.SetRowCellValue(i , "PL1_AVG_QNTY" , 0);
-                  gvMain.SetRowCellValue(i , "PL1_AVG_OI" , 0);
-                  gvMain.SetRowCellValue(i , "PL1_CHANGE_RANGE" , 0);
-                  gvMain.SetRowCellValue(i , "PL1_CP_999" , gvMain.GetRowCellValue(i , "PL1_CP_LEGAL").AsDecimal() * 3);
-                  gvMain.SetRowCellValue(i , "PL1_999_ADJ" , "+");
-                  gvMain.SetRowCellValue(i , "PL1_UPD_TIME" , DateTime.Now);
-                  gvMain.SetRowCellValue(i , "PL1_UPD_USER_ID" , GlobalInfo.USER_ID);
-               }
-               if (gvMain.GetRowCellValue(i , "PL1_NATURE").AsDecimal() == gvMain.GetRowCellValue(i , "PL1_NATURE_ORG").AsDecimal() &&
-                   gvMain.GetRowCellValue(i , "PL1_LEGAL").AsDecimal() == gvMain.GetRowCellValue(i , "PL1_LEGAL_ORG").AsDecimal()) continue;
-               if (gvMain.GetRowCellValue(i , "PL1_NATURE").AsDecimal() != gvMain.GetRowCellValue(i , "PL1_NATURE_ORG").AsDecimal()) {
-                  dtPLLOG.Rows.Add();
-                  dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_YMD"] = gvMain.GetRowCellValue(i , "PL1_YMD").AsString();
-                  dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_KIND_ID"] = gvMain.GetRowCellValue(i , "PL1_KIND_ID").AsString();
-                  dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_DATA_TYPE"] = "N";
-                  dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_ORG_VALUE"] = gvMain.GetRowCellValue(i , "PL1_NATURE_ORG").AsDecimal().AsString();
-                  dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_UPD_VALUE"] = gvMain.GetRowCellValue(i , "PL1_NATURE").AsDecimal().AsString();
-                  dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_W_TIME"] = DateTime.Now;
-                  dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_W_USER_ID"] = GlobalInfo.USER_ID;
-               }
-               if (gvMain.GetRowCellValue(i , "PL1_LEGAL").AsDecimal() != gvMain.GetRowCellValue(i , "PL1_LEGAL_ORG").AsDecimal()) {
-                  dtPLLOG.Rows.Add();
-                  dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_YMD"] = gvMain.GetRowCellValue(i , "PL1_YMD").AsString();
-                  //dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_YMD"] = txtDate.Text.Replace("/", "").AsString();
-                  dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_KIND_ID"] = gvMain.GetRowCellValue(i , "PL1_KIND_ID").AsString();
-                  dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_DATA_TYPE"] = "E";
-                  dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_ORG_VALUE"] = gvMain.GetRowCellValue(i , "PL1_LEGAL_ORG").AsDecimal().AsString();
-                  dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_UPD_VALUE"] = gvMain.GetRowCellValue(i , "PL1_LEGAL").AsDecimal().AsString();
-                  dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_W_TIME"] = DateTime.Now;
-                  dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_W_USER_ID"] = GlobalInfo.USER_ID;
+                        //gvMain.SetRowCellValue(i, "PL1_YMD", txtDate.Text.Replace("/", "").AsString());
+                        gvMain.SetRowCellValue(i, "PL1_YMD", "20181228");
+                        gvMain.SetRowCellValue(i, "PL1_PROD_TYPE", ls_prod_type);
+                        gvMain.SetRowCellValue(i, "PL1_PROD_SUBTYPE", ls_prod_subtype);
+                        gvMain.SetRowCellValue(i, "PL1_999", gvMain.GetRowCellValue(i, "PL1_LEGAL").AsDecimal() * 3);
+                        gvMain.SetRowCellValue(i, "PL1_CUR_NATURE", 0);
+                        gvMain.SetRowCellValue(i, "PL1_CUR_LEGAL", 0);
+                        gvMain.SetRowCellValue(i, "PL1_CUR_999", gvMain.GetRowCellValue(i, "PL1_CUR_LEGAL").AsDecimal() * 3);
+                        gvMain.SetRowCellValue(i, "PL1_PREV_AVG_QNTY", 0);
+                        gvMain.SetRowCellValue(i, "PL1_PREV_AVG_OI", 0);
+                        gvMain.SetRowCellValue(i, "PL1_AVG_QNTY", 0);
+                        gvMain.SetRowCellValue(i, "PL1_AVG_OI", 0);
+                        gvMain.SetRowCellValue(i, "PL1_CHANGE_RANGE", 0);
+                        gvMain.SetRowCellValue(i, "PL1_CP_999", gvMain.GetRowCellValue(i, "PL1_CP_LEGAL").AsDecimal() * 3);
+                        gvMain.SetRowCellValue(i, "PL1_999_ADJ", "+");
+                        gvMain.SetRowCellValue(i, "PL1_UPD_TIME", DateTime.Now);
+                        gvMain.SetRowCellValue(i, "PL1_UPD_USER_ID", GlobalInfo.USER_ID);
+                        //下列需確認
+                        gvMain.SetRowCellValue(i, "PL1_NATURE_ADJ", "+");
+                        gvMain.SetRowCellValue(i, "PL1_LEGAL_ADJ", "+");
+                    }
+                    if (gvMain.GetRowCellValue(i, "PL1_NATURE").AsDecimal() == gvMain.GetRowCellValue(i, "PL1_NATURE_ORG").AsDecimal() &&
+                        gvMain.GetRowCellValue(i, "PL1_LEGAL").AsDecimal() == gvMain.GetRowCellValue(i, "PL1_LEGAL_ORG").AsDecimal())
+                    {
+                        continue;
+                    }
+                    if (gvMain.GetRowCellValue(i, "PL1_NATURE").AsDecimal() != gvMain.GetRowCellValue(i, "PL1_NATURE_ORG").AsDecimal())
+                    {
+                        dtPLLOG.Rows.Add();
+                        //dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_YMD"] = gvMain.GetRowCellValue(i, "PL1_YMD").AsString();
+                        dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_YMD"] = txtDate.Text.Replace("/", "").AsString();
+                        dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_KIND_ID"] = gvMain.GetRowCellValue(i, "PL1_KIND_ID").AsString();
+                        dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_DATA_TYPE"] = "N";
+                        dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_ORG_VALUE"] = gvMain.GetRowCellValue(i, "PL1_NATURE_ORG").AsDecimal().AsString();
+                        dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_UPD_VALUE"] = gvMain.GetRowCellValue(i, "PL1_NATURE").AsDecimal().AsString();
+                        dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_W_TIME"] = DateTime.Now;
+                        dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_W_USER_ID"] = GlobalInfo.USER_ID;
+                    }
+                    if (gvMain.GetRowCellValue(i, "PL1_LEGAL").AsDecimal() != gvMain.GetRowCellValue(i, "PL1_LEGAL_ORG").AsDecimal())
+                    {
+                        dtPLLOG.Rows.Add();
+                        //dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_YMD"] = gvMain.GetRowCellValue(i, "PL1_YMD").AsString();
+                        dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_YMD"] = txtDate.Text.Replace("/", "").AsString();
+                        dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_KIND_ID"] = gvMain.GetRowCellValue(i, "PL1_KIND_ID").AsString();
+                        dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_DATA_TYPE"] = "E";
+                        dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_ORG_VALUE"] = gvMain.GetRowCellValue(i, "PL1_LEGAL_ORG").AsDecimal().AsString();
+                        dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_UPD_VALUE"] = gvMain.GetRowCellValue(i, "PL1_LEGAL").AsDecimal().AsString();
+                        dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_W_TIME"] = DateTime.Now;
+                        dtPLLOG.Rows[dtPLLOG.Rows.Count - 1]["PLLOG_W_USER_ID"] = GlobalInfo.USER_ID;
 
-                  gvMain.SetRowCellValue(i , "PL1_999" , gvMain.GetRowCellValue(i , "PL1_LEGAL").AsDecimal() * 3);
-               }
-            }
-            // 寫入DB
-            int count = dtPLLOG.Rows.Count;
-            ResultData myResultData = dao30203.updatePLLOG(dtPLLOG);
-            #endregion
+                        gvMain.SetRowCellValue(i, "PL1_999", gvMain.GetRowCellValue(i, "PL1_LEGAL").AsDecimal() * 3);
+                    }
+                }
+                // 寫入DB
+                ResultData myResultData = dao30203.updatePLLOG(dtPLLOG);
+                #endregion
 
             string ls_ymd, ls_eff_ymd, ls_eff_ymd_lower;
             bool delResult = false;
@@ -373,32 +388,37 @@ namespace PhoenixCI.FormUI.Prefix3 {
                return ResultStatus.Fail;
             }
 
-            //3. 新增 PL2
-            showMsg = "確認資料(PL2)更新資料庫錯誤! ";
-            DataTable dtInsertPL2 = dao30203.d_30203_pl2(ls_ymd);
-            for (i = 0 ; i < gvMain.RowCount ; i++) {
-               dtInsertPL2.Rows.Add();
-               if (gvMain.GetRowCellValue(i , "PL1_NATURE_ADJ").AsString() == "-") {
-                  dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_EFFECTIVE_YMD"] = ls_eff_ymd_lower;
-               } else {
-                  dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_EFFECTIVE_YMD"] = ls_eff_ymd;
-               }
-               dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_YMD"] = gvMain.GetRowCellValue(i , "PL1_YMD").AsString();
-               dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_KIND_ID"] = gvMain.GetRowCellValue(i , "PL1_KIND_ID").ToString();
-               dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_NATURE"] = gvMain.GetRowCellValue(i , "PL1_NATURE").AsInt();
-               dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_LEGAL"] = gvMain.GetRowCellValue(i , "PL1_LEGAL").AsInt();
-               dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_999"] = gvMain.GetRowCellValue(i , "PL1_999").AsInt();
-               dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_NATURE_ADJ"] = gvMain.GetRowCellValue(i , "PL1_NATURE_ADJ").ToString();
-               dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_LEGAL_ADJ"] = gvMain.GetRowCellValue(i , "PL1_LEGAL_ADJ").ToString();
-               dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_999_ADJ"] = gvMain.GetRowCellValue(i , "PL1_999_ADJ").ToString();
-               dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_PREV_NATURE"] = gvMain.GetRowCellValue(i , "PL1_CUR_NATURE").AsInt();
-               dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_PREV_LEGAL"] = gvMain.GetRowCellValue(i , "PL1_CUR_LEGAL").AsInt();
-               dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_PREV_999"] = gvMain.GetRowCellValue(i , "PL1_CUR_999").AsInt();
-               dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_W_TIME"] = DateTime.Now;
-               dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_W_USER_ID"] = GlobalInfo.USER_ID;
-            }
-            // 寫入DB
-            myResultData = dao30203.updatePL2(dtInsertPL2);
+                //3. 新增 PL2
+                showMsg = "確認資料(PL2)更新資料庫錯誤! ";
+                DataTable dtInsertPL2 = dao30203.d_30203_pl2(ls_ymd);
+                for (i = 0; i < gvMain.RowCount; i++)
+                {
+                    dtInsertPL2.Rows.Add();
+                    if (gvMain.GetRowCellValue(i, "PL1_NATURE_ADJ").AsString() == "-")
+                    {
+                        dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_EFFECTIVE_YMD"] = ls_eff_ymd_lower;
+                    }
+                    else
+                    {
+                        dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_EFFECTIVE_YMD"] = ls_eff_ymd;
+                    }
+                    //dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_YMD"] = gvMain.GetRowCellValue(i, "PL1_YMD").AsString();
+                    dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_YMD"] = txtDate.Text.Replace("/", "").AsString();
+                    dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_KIND_ID"] = gvMain.GetRowCellValue(i, "PL1_KIND_ID").ToString();
+                    dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_NATURE"] = gvMain.GetRowCellValue(i, "PL1_NATURE").AsInt();
+                    dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_LEGAL"] = gvMain.GetRowCellValue(i, "PL1_LEGAL").AsInt();
+                    dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_999"] = gvMain.GetRowCellValue(i, "PL1_999").AsInt();
+                    dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_NATURE_ADJ"] = gvMain.GetRowCellValue(i, "PL1_NATURE_ADJ").ToString();
+                    dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_LEGAL_ADJ"] = gvMain.GetRowCellValue(i, "PL1_LEGAL_ADJ").ToString();
+                    dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_999_ADJ"] = gvMain.GetRowCellValue(i, "PL1_999_ADJ").ToString();
+                    dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_PREV_NATURE"] = gvMain.GetRowCellValue(i, "PL1_CUR_NATURE").AsInt();
+                    dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_PREV_LEGAL"] = gvMain.GetRowCellValue(i, "PL1_CUR_LEGAL").AsInt();
+                    dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_PREV_999"] = gvMain.GetRowCellValue(i, "PL1_CUR_999").AsInt();
+                    dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_W_TIME"] = DateTime.Now;
+                    dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_W_USER_ID"] = GlobalInfo.USER_ID;
+                }
+                // 寫入DB
+                myResultData = dao30203.updatePL2(dtInsertPL2);
 
             //4. 新增 PL2B
             showMsg = "確認資料(PL2B)更新資料庫錯誤! ";
@@ -427,17 +447,18 @@ namespace PhoenixCI.FormUI.Prefix3 {
             // 寫入DB
             myResultData = dao30203.updatePL2B(dtInsertPL2B);
 
-            //5. 更新 PL1 (gvMain資料，gvGBF不需寫入DB)
-            showMsg = "確認資料(PL1)更新資料庫錯誤! ";
-            DataTable dtPL1 = (DataTable)gcMain.DataSource;
-            myResultData = dao30203.updatePL1(dtPL1);
-
-         } catch (Exception ex) {
-            MessageDisplay.Error(showMsg);
-            WriteLog(ex);
-         }
-         return ResultStatus.Success;
-      }
+                //5. 更新 PL1 (gvMain資料，gvGBF不需寫入DB)
+                showMsg = "確認資料(PL1)更新資料庫錯誤! ";
+                DataTable dtPL1 = gcMain.DataSource as DataTable;
+                myResultData = dao30203.updatePL1(dtPL1);
+            }
+            catch (Exception ex)
+            {
+                MessageDisplay.Error(showMsg);
+                WriteLog(ex);
+            }
+            return ResultStatus.Success;
+        }
 
       protected override ResultStatus Print(ReportHelper reportHelper) {
          try {
