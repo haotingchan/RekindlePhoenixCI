@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using BusinessObjects;
+using Common;
 using OnePiece;
 using System;
 using System.Data;
@@ -33,13 +34,39 @@ namespace DataObjects.Dao.Together {
          return dtResult;
       }
 
-      /// <summary>
-      /// Lukas, 2019/1/30
-      /// from PB: ci_fun.d_rpt
-      /// </summary>
-      /// <param name="as_txd_id"></param>
-      /// <returns></returns>
-      public DataTable ListAllByTXD_ID(string as_txd_id) {
+        public DataTable ListData(string RPT_TXN_ID,string RPT_TXD_ID)
+        {
+            object[] parms =
+            {
+                "@RPT_TXN_ID", RPT_TXN_ID,
+                "@RPT_TXD_ID", RPT_TXD_ID
+            };
+
+            #region sql
+
+            string sql =
+                @"
+                    SELECT  *
+                    FROM    CI.RPT
+                    WHERE   RPT_TXN_ID like @RPT_TXN_ID
+                    AND RPT_TXD_ID like @RPT_TXD_ID
+                    ORDER BY RPT_TXN_ID,RPT_TXD_ID,RPT_SEQ_NO,RPT_VALUE
+                ";
+
+            #endregion sql
+
+            DataTable dtResult = db.GetDataTable(sql, parms);
+
+            return dtResult;
+        }
+
+        /// <summary>
+        /// Lukas, 2019/1/30
+        /// from PB: ci_fun.d_rpt
+        /// </summary>
+        /// <param name="as_txd_id"></param>
+        /// <returns></returns>
+        public DataTable ListAllByTXD_ID(string as_txd_id) {
 
          object[] parms =
          {
@@ -125,5 +152,15 @@ and rpt_txd_id = :rpt_txd_id
          string res = db.ExecuteScalar(sql, CommandType.Text, parms);
          return res;
       }
-   }
+
+        public ResultData UpdateData(DataTable inputData)
+        {
+
+            string sql = @"
+                    SELECT  *
+                    FROM    CI.RPT
+            ";
+            return db.UpdateOracleDB(inputData, sql);
+        }
+    }
 }
