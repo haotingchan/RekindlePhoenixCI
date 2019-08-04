@@ -22,6 +22,10 @@ using System.Windows.Forms;
 /// <summary>
 /// 依照類別 產生 rtf 會議記錄, 選擇一般時, 多一份excel
 /// Test Data 3B 20181228 / 1B 20190129 / 1E 20190129 / 0B 20190212
+/// 0B	一般
+/// 1B  長假調整
+/// 1E	長假回調
+/// 2B  股票
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix4 {
    public partial class W40030 : FormParent {
@@ -51,7 +55,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
          txtDate.DateTimeValue = DateTime.Now;
-
+        
          foreach (CheckedListBoxItem c in MarketTimes.Items) {
             TextDateEdit control = (TextDateEdit)this.Controls.Find("txtDate" + c.Value.AsString() , true).FirstOrDefault();
             control.DateTimeValue = DateTime.Now;
@@ -64,13 +68,17 @@ namespace PhoenixCI.FormUI.Prefix4 {
          //                               new LookupItem() { ValueMember = "1E", DisplayMember = "長假回調" },
          //                               new LookupItem() { ValueMember = "3B", DisplayMember = "股票"}};
 
-         DataTable dtType = new CODW().ListLookUpEdit("40030" , "40030_DW_ADJ");
+         //DataTable dtType = new CODW().ListLookUpEdit("40030" , "40030_DW_ADJ");
+         DataTable dtType = new CODW().ListLookUpEdit("40030" , "MGD2_ADJ_TYPE");
 
          //設定 下拉選單
          //List <LookupItem> marketTimeList = new List<LookupItem>(){
          //                               new LookupItem() { ValueMember = "1", DisplayMember = "Group1(13:45)"},
          //                               new LookupItem() { ValueMember = "5", DisplayMember = "Group2(16:15)" }};
          DataTable dtMarketTime = new CODW().ListLookUpEdit("40030" , "40030_ETC_VSR");
+
+         /// TODO: CODW資料表的資料是最新的嗎？怎麼會和code的參數設定對映不起來，所以下拉式選單都沒出來。
+
 
          //設定下拉選單
          ddlAdjType.SetDataTable(dtType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
@@ -85,9 +93,16 @@ namespace PhoenixCI.FormUI.Prefix4 {
 #endif
 
          ExportShow.Hide();
-      }
 
-      protected override ResultStatus Export() {
+        }
+
+        protected override ResultStatus AfterOpen()
+        {
+            _ToolBtnExport.Enabled = true;
+            return base.AfterOpen();
+        }
+
+        protected override ResultStatus Export() {
          ExportShow.Text = "轉檔中...";
          ExportShow.Show();
          try {
