@@ -118,7 +118,7 @@ FROM {0}.OCF", _dbType);
             return list;
         }
 
-        public ResultData UpdateCI()
+        public bool UpdateCI()
         {   
             #region sql
 
@@ -130,24 +130,47 @@ FROM {0}.OCF", _dbType);
                             CASE WHEN F.OCF_DATE > O.OCF_DATE THEN O.OCF_NEXT_DATE ELSE F.OCF_NEXT_DATE END AS OCF_NEXT_DATE,
                             F.OCF_OPEN_TIME,
                             F.OCF_CLOSE_TIME 
-                FROM  FUT.OCF F,OPT.OCF O,CI.OCF C
+                FROM  FUT.OCF F,OPT.OCF O
                 ";
 
             string sql =
                 @"
-                  SELECT
-                                 OCF_DATE,   
-                                 OCF_PREV_DATE,   
-                                 OCF_NEXT_DATE,   
-                                 OCF_OPEN_TIME,   
-                                 OCF_CLOSE_TIME
-                    FROM   ci.OCF  
+                  UPDATE CI.OCF SET 
+                                 OCF_DATE = @OCF_DATE,   
+                                 OCF_PREV_DATE = @OCF_PREV_DATE,   
+                                 OCF_NEXT_DATE = @OCF_NEXT_DATE,   
+                                 OCF_OPEN_TIME = @ OCF_OPEN_TIME,   
+                                 OCF_CLOSE_TIME = @OCF_CLOSE_TIME
                 ";
 
             #endregion sql
             DataTable dtResult = db.GetDataTable(sql1, null);
 
-            return db.UpdateOracleDB(dtResult, sql);
+            if (dtResult.Rows.Count > 0) 
+            {
+                object[] parms =
+                {
+                "@OCF_DATE", dtResult.Rows[0]["OCF_DATE"],
+                "@OCF_PREV_DATE", dtResult.Rows[0]["OCF_PREV_DATE"],
+                "@OCF_NEXT_DATE", dtResult.Rows[0]["OCF_NEXT_DATE"],
+                "@OCF_OPEN_TIME", dtResult.Rows[0]["OCF_OPEN_TIME"],
+                "@OCF_CLOSE_TIME", dtResult.Rows[0]["OCF_CLOSE_TIME"]
+                };
+
+
+                int executeResult = db.ExecuteSQL(sql, parms);
+
+                if (executeResult > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return false;
         }
+
     }
 }

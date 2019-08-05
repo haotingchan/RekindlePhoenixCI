@@ -5,6 +5,7 @@ using BaseGround.Shared;
 using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
+using DataObjects.Dao.Together;
 using DevExpress.XtraEditors.Repository;
 using System;
 using System.Windows.Forms;
@@ -16,7 +17,7 @@ namespace PhoenixCI.FormUI.Prefix1
         public W11010(string programID, string programName) : base(programID, programName)
         {
             InitializeComponent();
-            _DB_TYPE = "monit";
+            _DB_TYPE = "ci";
         }
 
         protected override ResultStatus Open()
@@ -28,9 +29,7 @@ namespace PhoenixCI.FormUI.Prefix1
 
         protected override ResultStatus RunBefore(PokeBall args)
         {
-            base.RunBefore(args);
-
-
+            new APARG().Update(_ProgramID, txtOcfDate.FormatValue, GlobalInfo.USER_ID);
             return base.RunBefore(args);
         }
     }

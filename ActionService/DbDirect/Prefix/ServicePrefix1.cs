@@ -32,6 +32,8 @@ namespace ActionServiceW.DbDirect.Prefix
             daoOCF = new OCF();
         }
 
+        
+
         public DataTable ListTxfByTxn(string TXF_TXN_ID)
         {
             return daoTXF.ListDataByTxn(TXF_TXN_ID);
@@ -90,7 +92,7 @@ namespace ActionServiceW.DbDirect.Prefix
         public bool SetTXF1(string TXF_TID,string TXF_TXN_ID) {
             return daoTXF1.UpdateTid(TXF_TID,TXF_TXN_ID);
         }
-        public ResultData setOCF()
+        public bool setOCF()
         {
             return daoOCF.UpdateCI();
         }

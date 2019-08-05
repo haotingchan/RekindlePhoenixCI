@@ -487,6 +487,7 @@ namespace BaseGround {
             string TXF_PERIOD = gv.GetRowCellValue(i , "TXF_PERIOD").AsString();
             string TXF_SERVICE = gv.GetRowCellValue(i , "TXF_SERVICE").AsString();
             string TXF_FOLDER = gv.GetRowCellValue(i , "TXF_FOLDER").AsString();
+            string TXF_AP_NAME = gv.GetRowCellValue(i, "TXF_AP_NAME").AsString();
             args.TXF_TID = TXF_TID;
             args.TXF_TID_NAME = TXF_TID_NAME;
 
@@ -582,11 +583,11 @@ namespace BaseGround {
                     servicePrefix1.SaveLogs(LOGSP_DATE, TXF_TID, DateTime.Now, GlobalInfo.USER_ID, "開始執行");
                 }
                ResultData resultData = new ResultData();
-
+               string fileName = "";
                switch (TXF_TYPE) {
                   case "I":
-                     string fileName = $@"{GlobalInfo.DEFAULT_BATCH_ErrSP_DIRECTORY_PATH}\{TXF_SERVER}_{TXF_TXN_ID}_{TXF_SEQ_NO}_infor";
-                     resultData = serviceCommon.ExecuteInfoWorkFlow(TXF_TID , UserProgInfo, TXF_FOLDER, TXF_SERVICE, fileName);
+                     fileName = $@"{GlobalInfo.DEFAULT_BATCH_ErrSP_DIRECTORY_PATH}\{TXF_SERVER}_{TXF_TXN_ID}_{TXF_SEQ_NO}_infor";
+                     resultData = serviceCommon.ExecuteInfoWorkFlow(TXF_TID , UserProgInfo, TXF_FOLDER, TXF_SERVICE, TXF_AP_NAME,fileName);
                      break;
 
                   case "S":
@@ -668,7 +669,7 @@ namespace BaseGround {
                         servicePrefix1.SaveLogsp(LOGSP_DATE, LOGSP_TXN_ID, LOGSP_SEQ_NO, LOGSP_TID, LOGSP_TID_NAME, LOGSP_BEGIN_TIME, LOGSP_END_TIME, LOGSP_MSG);
                     }
                   MessageDisplay.Error("序號" + LOGSP_SEQ_NO + "的" + LOGSP_TID + "," + LOGSP_MSG);
-
+                  
                   this.Invoke(new MethodInvoker(() => {
                      SplashScreenManager.CloseForm();
                      gv.SetRowCellValue(i , "ERR_MSG" , LOGSP_MSG);
@@ -706,9 +707,12 @@ namespace BaseGround {
                // 沒勾選項目的話清空狀態
                this.Invoke(new MethodInvoker(() => { gv.SetRowCellValue(i , "ERR_MSG" , ""); }));
             }
-
+            if (i == gv.RowCount -1)
+            {
+                    servicePrefix1.setOCF();
+            }
          }
-         //servicePrefix1.setOCF();
+
 
          //全部結束
          servicePrefix1.SetTXF1(" " , _ProgramID);
