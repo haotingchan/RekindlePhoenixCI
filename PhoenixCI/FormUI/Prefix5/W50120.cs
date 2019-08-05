@@ -29,7 +29,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
       private ABRK daoABRK;
       private APDK daoAPDK;
       protected DataTable dtInsertUse;
-      private COD daoCOD;
       private RepositoryItemLookUpEdit _RepLookUpEdit;
       private RepositoryItemLookUpEdit _RepLookUpEdit2;
       private RepositoryItemLookUpEdit _RepLookUpEdit3;
@@ -45,7 +44,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
          txtMonth.ImeMode = ImeMode.Disable;
          dao50120 = new D50120();
          daoABRK = new ABRK();
-         daoCOD = new COD();
          daoAPDK = new APDK();
          dtInsertUse = daoAPDK.ListAll2();
          dtInsertUse.Columns.Add("TEMP_PROD_TYPE");

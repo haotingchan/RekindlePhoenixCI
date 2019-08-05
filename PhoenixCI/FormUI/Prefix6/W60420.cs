@@ -24,7 +24,6 @@ namespace PhoenixCI.FormUI.Prefix6 {
    public partial class W60420 : FormParent {
 
       private D60420 dao60420;
-      private COD daoCOD;
 
       public W60420(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
@@ -56,7 +55,6 @@ namespace PhoenixCI.FormUI.Prefix6 {
       }
 
       protected override ResultStatus AfterOpen() {
-         daoCOD = new COD();
          base.AfterOpen();
 
          txtStartDate.EditValue = GlobalInfo.OCF_DATE.Year + "/01/01";
