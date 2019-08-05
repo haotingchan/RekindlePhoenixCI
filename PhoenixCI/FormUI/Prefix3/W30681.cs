@@ -120,12 +120,38 @@ namespace PhoenixCI.FormUI.Prefix3 {
          //設定 委託單方式 下拉選單
          //DataTable dtOsfOrderType = new COD().ListByCol3("OSF" , "OSF_ORDER_TYPE" , "全部" , "%");
          DataTable dtOsfOrderType = new CODW().ListLookUpEdit("30681" , "OSF_ORDER_TYPE");
+         foreach (DataRow dr in dtOsfOrderType.Rows) {
+            switch (dr["CODW_ID"].AsString()) {
+               case "M":
+                  dr["CODW_DESC"] = "M (市價)";
+                  break;
+               case "L":
+                  dr["CODW_DESC"] = "L (限價)";
+                  break;
+               case "3":
+                  dr["CODW_DESC"] = "3 (MWP)";
+                  break;
+            }
+         }
          Extension.SetDataTable(ddlOsfOrderType , dtOsfOrderType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor);
          ddlOsfOrderType.ItemIndex = 0;
 
          //設定 委託單條件 下拉選單
          //DataTable dtOsfOrderCond = new COD().ListByCol3("OSF" , "OSF_ORDER_COND" , "全部" , "%");
          DataTable dtOsfOrderCond = new CODW().ListLookUpEdit("30681" , "OSF_ORDER_COND");
+         foreach (DataRow dr in dtOsfOrderCond.Rows) {
+            switch (dr["CODW_ID"].AsString()) {
+               case "I":
+                  dr["CODW_DESC"] = "I (IOC)";
+                  break;
+               case "F":
+                  dr["CODW_DESC"] = "F (FOK)";
+                  break;
+               case "R":
+                  dr["CODW_DESC"] = "R (ROD)";
+                  break;
+            }
+         }
          Extension.SetDataTable(ddlOsfOrderCond , dtOsfOrderCond , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor);
          ddlOsfOrderCond.ItemIndex = 0;
 
