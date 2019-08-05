@@ -443,5 +443,51 @@ FROM CI.PL1";
             return db.UpdateOracleDB(inputData, sql);
         }
 
+        public DataTable d_30203_PL1Insert(string as_ymd)
+        {
+            object[] parms = {
+                ":as_ymd", as_ymd
+            };
+            string sql = @"
+SELECT 
+PL1_YMD ,          
+PL1_PROD_TYPE,    
+PL1_PROD_SUBTYPE, 
+PL1_KIND_ID,      
+PL1_PREV_AVG_QNTY,
+
+PL1_PREV_AVG_OI,  
+PL1_AVG_QNTY,     
+PL1_AVG_OI,       
+PL1_CHANGE_RANGE, 
+PL1_CUR_NATURE, 
+
+PL1_CUR_LEGAL,    
+PL1_CUR_999,      
+PL1_CP_NATURE,    
+PL1_CP_LEGAL,     
+PL1_CP_999,    
+
+PL1_MAX_MONTH_CNT,
+PL1_MAX_TYPE,     
+PL1_MAX_QNTY,     
+PL1_NATURE,       
+PL1_LEGAL,   
+
+PL1_999,          
+PL1_NATURE_ADJ,   
+PL1_LEGAL_ADJ,    
+PL1_999_ADJ,      
+PL1_UPD_TIME,    
+
+PL1_UPD_USER_ID  
+
+FROM CI.PL1  WHERE PL1_YMD = :AS_YMD";
+
+            DataTable dtResult = db.GetDataTable(sql, parms);
+
+            return dtResult;
+        }
+
     }
 }
