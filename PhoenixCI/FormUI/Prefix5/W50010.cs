@@ -439,8 +439,11 @@ namespace PhoenixCI.FormUI.Prefix5
         /// <param name="e"></param>
         private void EditValueChanged(object sender, EventArgs e)
         {
-            _ToolBtnExport.Enabled = false;
-            _ToolBtnPrintAll.Enabled = false;
+            if (_ToolBtnExport != null && _ToolBtnPrintAll != null)
+            {
+                _ToolBtnExport.Enabled = false;
+                _ToolBtnPrintAll.Enabled = false;
+            }
         }
 
     }
