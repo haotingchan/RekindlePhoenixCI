@@ -1,17 +1,14 @@
 ﻿using System.Data;
 
-/// <summary>
-/// Winni, 2019/3/5
-/// </summary>
 namespace DataObjects.Dao.Together.TableDao {
    public class VOLS : DataGate {
 
       /// <summary>
-      /// for W30680 (d_30680_3)
+      /// for W30680 (for d_30680_3, 30685)
       /// </summary>
       /// <param name="startDate">yyyyMMdd</param>
       /// <param name="endDate">yyyyMMdd</param>
-      /// <param name="type">V/H/I (30680預設帶入V)</param>
+      /// <param name="type">V/H/I/J (30680預設帶入V)</param>
       /// <param name="isTitle">是否有表頭</param>
       /// <returns></returns>
       public DataTable GetDataByDate(string startDate , string endDate , string type = "V" , string isTitle = "N") {
