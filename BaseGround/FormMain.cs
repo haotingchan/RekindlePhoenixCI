@@ -272,7 +272,7 @@ namespace BaseGround {
             formInstance.Dock = DockStyle.Fill;
             formInstance.AutoScaleMode = AutoScaleMode.None;
             formInstance.Show();
-            formInstance.Focus();
+            //formInstance.Focus();
          }
 
          return formInstance;
