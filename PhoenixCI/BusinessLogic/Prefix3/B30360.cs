@@ -263,7 +263,7 @@ namespace PhoenixCI.BusinessLogic.Prefix3
             //當月第1天交易日
             DateTime StartDate = new DateTime(_emMonthText.AsDateTime().Year, _emMonthText.AsDateTime().Month, 01);
             //抓當月最後交易日
-            DateTime EndDate = new DateTime(_emMonthText.AsDateTime().Year, _emMonthText.AsDateTime().Month, 31);
+            DateTime EndDate = StartDate.AddMonths(1).AddDays(-StartDate.AddMonths(1).Day);
             string lastDate=dao30360.GetMaxLastDay30366(StartDate, EndDate);
             //讀取資料
             DataTable dt = dao30360.Get30366Data("O", StartDate.ToString("yyyyMMdd"), lastDate);
