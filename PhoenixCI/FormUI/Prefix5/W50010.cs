@@ -168,6 +168,7 @@ namespace PhoenixCI.FormUI.Prefix5
             radioPrintSort2.Click += EditValueChanged;
             Txt_prod_sort.EditValueChanged += EditValueChanged;
             TxtDate.EditValueChanged += EditValueChanged;
+            DoMarketTimeDifferentSeting(); //add by tom
         }
 
         protected override ResultStatus Retrieve()
@@ -353,7 +354,7 @@ namespace PhoenixCI.FormUI.Prefix5
         private void MarketTime_EditValueChanged(object sender, EventArgs e)
         {
             //LookUpEdit lookupItem = sender as LookUpEdit;
-            string marktCodeFilter = "AND APDK_MARKET_CODE in ('1',' ')";
+            //string marktCodeFilter = "AND APDK_MARKET_CODE in ('1',' ')";
 
             //if (lookupItem.EditValue.AsString() == "AH") {
             //   Prod_ct.SetDataTable(daoAPDK.ListParamKey(marktCodeFilter) , "APDK_PARAM_KEY" , "APDK_PARAM_KEY" , TextEditStyles.DisableTextEditor , null);
@@ -364,24 +365,39 @@ namespace PhoenixCI.FormUI.Prefix5
             //   Kind_id_st.SetDataTable(daoAPDK.ListKind2() , "APDK_KIND_ID_STO" , "APDK_KIND_ID_STO" , TextEditStyles.DisableTextEditor , null);
             //   Kind_id_O.SetDataTable(daoAPDK.ListKindId() , "APDK_KIND_ID" , "APDK_KIND_ID" , TextEditStyles.DisableTextEditor , null);
             //}
-            if (radioMarketTime1.Checked)
-            {
-                Prod_ct.SetDataTable(daoAPDK.ListParamKey(marktCodeFilter), "APDK_PARAM_KEY", "APDK_PARAM_KEY", TextEditStyles.DisableTextEditor, null);
-                Kind_id_st.SetDataTable(daoAPDK.ListKind2(marktCodeFilter), "APDK_KIND_ID_STO", "APDK_KIND_ID_STO", TextEditStyles.DisableTextEditor, null);
-                Kind_id_O.SetDataTable(daoAPDK.ListKindId(marktCodeFilter), "APDK_KIND_ID", "APDK_KIND_ID", TextEditStyles.DisableTextEditor, null);
-            }
-            else
+            DoMarketTimeDifferentSeting();
+           
+            //Prod_ct.EditValue = " ";
+            //Kind_id_st.EditValue = " ";
+            //Kind_id_O.EditValue = " ";
+
+            //_ToolBtnExport.Enabled = false;
+            //_ToolBtnPrintAll.Enabled = false;
+        }
+        private void DoMarketTimeDifferentSeting()
+        {
+            string marktCodeFilter = "AND APDK_MARKET_CODE in ('1',' ')";
+            if (radioMarketTime1.Checked) //一般
             {
                 Prod_ct.SetDataTable(daoAPDK.ListParamKey(), "APDK_PARAM_KEY", "APDK_PARAM_KEY", TextEditStyles.DisableTextEditor, null);
                 Kind_id_st.SetDataTable(daoAPDK.ListKind2(), "APDK_KIND_ID_STO", "APDK_KIND_ID_STO", TextEditStyles.DisableTextEditor, null);
                 Kind_id_O.SetDataTable(daoAPDK.ListKindId(), "APDK_KIND_ID", "APDK_KIND_ID", TextEditStyles.DisableTextEditor, null);
             }
+            else //盤後
+            {
+                Prod_ct.SetDataTable(daoAPDK.ListParamKey(marktCodeFilter), "APDK_PARAM_KEY", "APDK_PARAM_KEY", TextEditStyles.DisableTextEditor, null);
+                Kind_id_st.SetDataTable(daoAPDK.ListKind2(marktCodeFilter), "APDK_KIND_ID_STO", "APDK_KIND_ID_STO", TextEditStyles.DisableTextEditor, null);
+                Kind_id_O.SetDataTable(daoAPDK.ListKindId(marktCodeFilter), "APDK_KIND_ID", "APDK_KIND_ID", TextEditStyles.DisableTextEditor, null);
+            }
             Prod_ct.EditValue = " ";
             Kind_id_st.EditValue = " ";
             Kind_id_O.EditValue = " ";
 
-            _ToolBtnExport.Enabled = false;
-            _ToolBtnPrintAll.Enabled = false;
+            if (_ToolBtnExport!=null && _ToolBtnPrintAll != null)
+            {
+                _ToolBtnExport.Enabled = false;
+                _ToolBtnPrintAll.Enabled = false;
+            }
         }
 
         /// <summary>
@@ -423,8 +439,11 @@ namespace PhoenixCI.FormUI.Prefix5
         /// <param name="e"></param>
         private void EditValueChanged(object sender, EventArgs e)
         {
-            _ToolBtnExport.Enabled = false;
-            _ToolBtnPrintAll.Enabled = false;
+            if (_ToolBtnExport != null && _ToolBtnPrintAll != null)
+            {
+                _ToolBtnExport.Enabled = false;
+                _ToolBtnPrintAll.Enabled = false;
+            }
         }
 
     }

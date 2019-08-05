@@ -38,7 +38,6 @@ namespace PhoenixCI.FormUI.Prefix2 {
       private RPT daoRPT;
       private AMIF daoAMIF;
       private STWD daoSTWD;
-      private COD daoCOD;
       private APDK daoAPDK;
       protected DataTable dtCheck;
       protected DataTable dtProd;
@@ -952,7 +951,6 @@ namespace PhoenixCI.FormUI.Prefix2 {
       /// 取得JTW商品的日本網站資料
       /// </summary>
       private void JpxGetFile() {
-         daoCOD = new COD();
          //下載
          string ymd = txtDate.DateTimeValue.ToString("yyyyMMdd");
          //執行批次檔

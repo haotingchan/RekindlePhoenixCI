@@ -35,7 +35,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
       private RepositoryItemLookUpEdit lupCpKind; //風險價格係數計算方式
       private RepositoryItemLookUpEdit lupAbroad; //國內/國外類別
 
-      private COD cod;
       private D49020 dao49020;
       #endregion
 
@@ -43,7 +42,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
 
-         cod = new COD();
          dao49020 = new D49020();
       }
 
