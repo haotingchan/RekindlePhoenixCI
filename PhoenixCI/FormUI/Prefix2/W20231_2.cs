@@ -79,6 +79,11 @@ namespace PhoenixCI.FormUI.Prefix2 {
       private void ApdkCurrencyType() {
          DataTable dtCurrency = new CODW().ListLookUpEdit("APDK" , "APDK_CURRENCY_TYPE");
          //ApdkCurrencyTypeLookUpEdit.SetColumnLookUp(new COD().ListByCurrency() , "CURRENCY_TYPE" , "CURRENCY_NAME" , TextEditStyles.DisableTextEditor , null);
+         foreach (DataRow dr in dtCurrency.Rows) {
+            if (dr["CODW_ID"].AsString() == "1") {
+               dr["CODW_DESC"] = "新臺幣元";
+            }
+         }
          ApdkCurrencyTypeLookUpEdit.SetColumnLookUp(dtCurrency , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          APDK_CURRENCY_TYPE.ColumnEdit = ApdkCurrencyTypeLookUpEdit;
       }

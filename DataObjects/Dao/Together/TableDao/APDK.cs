@@ -202,18 +202,29 @@ order by apdk_kind_id_sto", filter);
       /// </summary>
       /// <returns>前面空一行+APDK_KIND_ID_STO/MARKET_CODE</returns>
       public DataTable ListKindId(string marketCode="") {
+//mark by tom
+//         string sql = string.Format(@"
+//SELECT APDK_KIND_ID ,MAX(APDK_MARKET_CODE) AS MARKET_CODE
+//    FROM ci.APDK  
+// where APDK_PROD_TYPE in ('F','O') 
+//{0}
+//GROUP BY APDK_KIND_ID  
+//UNION
+//  SELECT ' ',' '
+//    FROM DUAL", marketCode);
 
-         string sql = string.Format(@"
-SELECT APDK_KIND_ID ,MAX(APDK_MARKET_CODE) AS MARKET_CODE
+            string sql = string.Format(@"
+SELECT APDK_PROD_TYPE,APDK_KIND_ID ,max(APDK_MARKET_CODE) AS MARKET_CODE
     FROM ci.APDK  
  where APDK_PROD_TYPE in ('F','O') 
 {0}
-GROUP BY APDK_KIND_ID  
+GROUP BY APDK_PROD_TYPE,APDK_KIND_ID
 UNION
-  SELECT ' ',' '
-    FROM DUAL", marketCode);
+SELECT ' ','',' '
+FROM DUAL
+order by apdk_prod_type , APDK_KIND_ID", marketCode);
 
-         DataTable dtResult = db.GetDataTable(sql, null);
+            DataTable dtResult = db.GetDataTable(sql, null);
 
          return dtResult;
       }
