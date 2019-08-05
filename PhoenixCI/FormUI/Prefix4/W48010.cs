@@ -67,6 +67,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
          //dtSubType.Rows.InsertAt(drTemp , 0);
 
          DataTable dtSubType = new CODW().ListLookUpEdit("HCPR", "CPR_PROD_SUBTYPE");
+         foreach (DataRow dr in dtSubType.Rows) {
+            if (dr["CODW_ID"].AsString() == "all") {
+               dr["CODW_ID"] = "%";
+            } else if(dr["CODW_ID"].AsString() == "one") {
+               dr["CODW_ID"] = " ";
+            }
+         }
          Extension.SetDataTable(ddlSubType, dtSubType, "CODW_ID", "CODW_DESC", TextEditStyles.DisableTextEditor, "");
 
          lupSubType.SetColumnLookUp(dtSubType, "CODW_ID", "CODW_DESC", TextEditStyles.DisableTextEditor, null);
@@ -96,6 +103,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
          //                               new LookupItem() { ValueMember = "KIND", DisplayMember = "2.依契約類別排序" }};
 
          DataTable dtSort = new CODW().ListLookUpEdit("HCPR", "SORT_TYPE");
+         foreach (DataRow dr in dtSort.Rows) {
+            if (dr["CODW_ID"].AsString() == "1") {
+               dr["CODW_ID"] = "DATE";
+            } else {
+               dr["CODW_ID"] = "KIND";
+            }
+         }
          Extension.SetDataTable(ddlSort, dtSort, "CODW_ID", "CODW_DESC", TextEditStyles.DisableTextEditor, "");
 
          return ResultStatus.Success;
