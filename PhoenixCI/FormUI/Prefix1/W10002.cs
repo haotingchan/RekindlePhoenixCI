@@ -29,8 +29,6 @@ namespace PhoenixCI.FormUI.Prefix1
 
         protected override ResultStatus RunBefore(PokeBall args)
         {
-            base.RunBefore(args);
-
 
             return base.RunBefore(args);
         }

@@ -11,11 +11,9 @@ using DataObjects.Dao.Together.SpecificDao;
 namespace PhoenixCI.FormUI.Prefix3 {
    public partial class W35020 : FormParent {
       private D35020 dao35020;
-      private COD daoCod;
 
       public W35020(string programID , string programName) : base(programID , programName) {
          dao35020 = new D35020();
-         daoCod = new COD();
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
 

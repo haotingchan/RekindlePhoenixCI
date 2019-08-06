@@ -46,7 +46,6 @@ namespace PhoenixCI.FormUI.Prefix4
         private MGD2L daoMGD2L;
         private MGRT1 daoMGRT1;
         private MOCF daoMOCF;
-        private COD daoCOD;
         private OCFG daoOCFG;
         private RepositoryItemLookUpEdit statusLookUpEdit;
         private RepositoryItemLookUpEdit typeLookUpEdit;
@@ -88,7 +87,6 @@ namespace PhoenixCI.FormUI.Prefix4
             daoMGD2L = new MGD2L();
             daoMGRT1 = new MGRT1();
             daoMOCF = new MOCF();
-            daoCOD = new COD();
             daoOCFG = new OCFG();
             dtFLevel = daoMGRT1.dddw_mgrt1("F");//先讀，後面在不同的地方會用到
             dtOLevel = daoMGRT1.dddw_mgrt1("O");//先讀，後面在不同的地方會用到
