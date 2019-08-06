@@ -108,6 +108,7 @@ namespace PhoenixCI.FormUI.Prefix3
                 //撈資料
                 if (gbType.EditValue.AsString() == "rbCBOE")
                 {
+                    #region CBOE
                     rptName = "CBOE";
                     DataTable dtContent = daoVPR.ListByMarket(StartDate, EndDate, 'C', 'C');
                     if (dtContent.Rows.Count <= 0)
@@ -129,9 +130,11 @@ namespace PhoenixCI.FormUI.Prefix3
                     {
                         dt.Rows[i]["VPR_DATA_TIME"] = Convert.ToDateTime(dtContent.Rows[i]["VPR_DATA_TIME"]).ToString("yyyy/MM/dd HH:mm:ss:fff");
                     }
+                    #endregion
                 }
                 else
                 {
+                    #region VIX
                     if (gbReport.EditValue.AsString() == "rbStatistics")
                     {
                         rptName = "JVVIXVolAvg";
@@ -148,6 +151,7 @@ namespace PhoenixCI.FormUI.Prefix3
                         MessageDisplay.Info(string.Format("{0},{1},{2}無任何資料!", txtStartDate.Text + "-" + txtEndDate.Text, this.Text, rptName), GlobalInfo.ResultText);
                         return ResultStatus.Fail;
                     }
+                    #endregion
                 }
 
                 //存Csv
