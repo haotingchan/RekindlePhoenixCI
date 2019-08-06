@@ -640,8 +640,9 @@ namespace PhoenixCI.FormUI.Prefix4
         private void gvMain_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e)
         {
             GridView gv = sender as GridView;
-            gv.CloseEditor();
-            gv.UpdateCurrentRow();
+            //mark by tom
+            //gv.CloseEditor();
+            //gv.UpdateCurrentRow();
             string prodType, prodSubtype, paramKey, abroad;
             DataTable dtKind = new DataTable();
             RepositoryItemLookUpEdit _kind = new RepositoryItemLookUpEdit();
@@ -728,6 +729,7 @@ namespace PhoenixCI.FormUI.Prefix4
             string prodType = gv.GetRowCellValue(gv.FocusedRowHandle, "PROD_TYPE").ToString();
             string prodSubtype = gv.GetRowCellValue(gv.FocusedRowHandle, "PROD_SUBTYPE").ToString();
             string cndParamKey = gv.GetRowCellValue(gv.FocusedRowHandle, "CND_PARAM_KEY").ToString();
+            string AMT_TYPEKey = gv.GetRowCellValue(gv.FocusedRowHandle, "AMT_TYPE").ToString();
             //string op_type = gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["OP_TYPE"]) == null ? "I" :
             //     gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["OP_TYPE"]).ToString();
             if (gv.FocusedColumn.Name == "CM_B" ||
@@ -740,7 +742,8 @@ namespace PhoenixCI.FormUI.Prefix4
                 gv.FocusedColumn.Name == "M_LEVEL")
             {
                 e.Cancel = prodSubtype != "S" ? true : false;
-                if (cndParamKey.IndexOf("ST%") >= 0) e.Cancel = false;
+                //if (cndParamKey.IndexOf("ST%") >= 0 ) e.Cancel = false;  //mark by tom
+                if (cndParamKey.IndexOf("ST%") >= 0 && AMT_TYPEKey.Equals("P")) e.Cancel = false;
             }
             //if (gv.FocusedColumn.Name == "PROD_SEQ_NO") e.Cancel = op_type == "I" ? false : true;
         }
@@ -865,7 +868,6 @@ namespace PhoenixCI.FormUI.Prefix4
             int found = -1;
             ymd = txtSDate.DateTimeValue.ToString("yyyyMMdd");
             paramKey = gv.GetRowCellValue(e.RowHandle, "CND_PARAM_KEY").AsString();
-            string str = e.Column.Name;
             if (e.Column.Name == "KIND_ID")
             {
                 //商品那欄除了下拉選單已外也可手動key入，key入後會檢查是否正確
@@ -874,6 +876,7 @@ namespace PhoenixCI.FormUI.Prefix4
                 prodSubtype = gv.GetRowCellValue(e.RowHandle, "PROD_SUBTYPE").AsString();
                 abroad = gv.GetRowCellValue(e.RowHandle, "ABROAD").ToString();
                 kindID = gv.GetRowCellValue(e.RowHandle, "KIND_ID").AsString();
+
                 if (kindID != "")
                 {
                     DataTable dtKindCheck = new DataTable();
@@ -964,7 +967,7 @@ namespace PhoenixCI.FormUI.Prefix4
             {
                 string amtType = view.GetListSourceRowCellValue(e.ListSourceRowIndex, "AMT_TYPE").AsString();
                 string prodseqType = view.GetListSourceRowCellValue(e.ListSourceRowIndex, "PROD_SEQ_NO").AsString();
-                if (amtType == null && prodseqType == null) return; //防呆
+                if (amtType == null || prodseqType == null) return; //防呆
                 if (prodseqType.Equals("6") || prodseqType.Equals("7")) //針對[個股類/ETF]處理
                     switch (amtType)
                     {
