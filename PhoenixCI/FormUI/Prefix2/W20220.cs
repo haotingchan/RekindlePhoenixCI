@@ -169,13 +169,22 @@ namespace PhoenixCI.FormUI.Prefix2 {
             }
             //更新主要Table
             else {
-               ResultData myResultData = dao20220.updatePLT1(dt);
+               foreach (DataRow dr in dtChange.Rows) {
+                  if (string.IsNullOrEmpty(dr["PLT1_PROD_TYPE"].AsString()) || string.IsNullOrEmpty(dr["PLT1_PROD_SUBTYPE"].AsString()) ||
+                        string.IsNullOrEmpty(dr["PLT1_QNTY_MIN"].AsString()) || string.IsNullOrEmpty(dr["PLT1_PROD_SUBPLT1_QNTY_MAXTYPE"].AsString()) ||
+                        string.IsNullOrEmpty(dr["PLT1_MULTIPLE"].AsString())) {
+                     MessageDisplay.Info("資料尚未填寫完成!");                    
+                  } else {
+                     ResultData myResultData = dao20220.updatePLT1(dt);
+                     return ResultStatus.Success;
+                  }
+               }
             }
          } catch (Exception ex) {
             MessageDisplay.Error("存檔失敗");
-            throw ex;
+            WriteLog(ex);
          }
-         return ResultStatus.Success;
+         return ResultStatus.FailButNext;
       }
 
 
