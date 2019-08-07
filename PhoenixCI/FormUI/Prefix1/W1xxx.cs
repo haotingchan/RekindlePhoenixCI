@@ -54,19 +54,15 @@ namespace PhoenixCI.FormUI.Prefix1
             base.Open();
 
             //txtPrevOcfDate.DateTimeValue = GlobalInfo.OCF_PREV_DATE;
+            
             txtOcfDate.DateTimeValue = PbFunc.f_ocf_date(0, _DB_TYPE).AsDateTime(); //GlobalInfo.OCF_DATE;
             OCF_TYPE = txtOcfDate.DateType == BaseGround.Widget.TextDateEdit.DateTypeItem.Month ? "M" : "D";
 
             gcMain.DataSource = servicePrefix1.ListTxfByTxn(_ProgramID).Trim();
 
-            if (OCF_TYPE == "D")
-            {
-                gcLogsp.DataSource = servicePrefix1.ListLogsp(txtOcfDate.DateTimeValue, _ProgramID).Trim();
-            }
-            else {
-                xtraTabPageQuery.PageVisible = false;
-            }
-
+            gcLogsp.DataSource = servicePrefix1.ListLogsp(txtOcfDate.DateTimeValue, _ProgramID,OCF_TYPE).Trim();
+            gvSpLog.AppearancePrint.HeaderPanel.Font = new Font("標楷體", 10);
+            gvSpLog.AppearancePrint.Row.Font = new Font("標楷體", 10);
             return ResultStatus.Success;
         }
 
@@ -95,20 +91,19 @@ namespace PhoenixCI.FormUI.Prefix1
         protected override ResultStatus Retrieve()
         {
             base.Retrieve(gcMain);
-            if (OCF_TYPE == "D")
+
+            DataTable dtLogSP = servicePrefix1.ListLogsp(txtOcfDate.DateTimeValue, _ProgramID,OCF_TYPE).Trim();
+            gcLogsp.DataSource = dtLogSP;
+            if (dtLogSP.Rows.Count == 0)
             {
-                DataTable dtLogSP = servicePrefix1.ListLogsp(txtOcfDate.DateTimeValue, _ProgramID).Trim();
-                gcLogsp.DataSource = dtLogSP;
-                if (dtLogSP.Rows.Count == 0)
-                {
-                    MessageDisplay.Info(GlobalInfo.MsgNoData);
-                    xtraTabControl.SelectedTabPage = xtraTabPageMain;
-                }
-                else
-                {
-                    xtraTabControl.SelectedTabPage = xtraTabPageQuery;
-                }
+                MessageDisplay.Info(GlobalInfo.MsgNoData);
+                xtraTabControl.SelectedTabPage = xtraTabPageMain;
             }
+            else
+            {
+                xtraTabControl.SelectedTabPage = xtraTabPageQuery;
+            }
+
 
             return ResultStatus.Success;
         }
@@ -123,8 +118,7 @@ namespace PhoenixCI.FormUI.Prefix1
         protected override ResultStatus RunBefore(PokeBall args)
         {
             args.GridControlMain = gcMain;
-            args.OcfDate = Convert.ToDateTime(txtOcfDate.Text);
-            
+            args.OcfDate = txtOcfDate.DateTimeValue;
 
             return base.RunBefore(args);
         }
@@ -134,7 +128,7 @@ namespace PhoenixCI.FormUI.Prefix1
             this.BeginInvoke(new MethodInvoker(() => {
                 args.GridControlMain = gcMain;
                 args.GridControlSecond = gcLogsp;
-                args.OcfDate = Convert.ToDateTime(txtOcfDate.Text);
+                args.OcfDate = txtOcfDate.DateTimeValue;
                 args.OcfType = OCF_TYPE;
             }));
 
@@ -169,6 +163,9 @@ namespace PhoenixCI.FormUI.Prefix1
         protected override ResultStatus Print(ReportHelper reportHelper)
         {
             Retrieve();
+            CommonReportLandscapeA4 report = new CommonReportLandscapeA4();
+            reportHelper.Create(report);
+            
             base.Print(reportHelper);
 
             return ResultStatus.Success;

@@ -33,6 +33,7 @@
             this.gcol_gcMain_TXF_DEFAULT = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gcol_gcMain_TXF_SEQ_NO = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gcol_gcMain_TXF_TID_NAME = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gcol_gcMain_TXF_DESC = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gcol_gcMain_TXF_TID = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gcol_gcMain_ERR_MSG = new DevExpress.XtraGrid.Columns.GridColumn();
             this.xtraTabControl = new DevExpress.XtraTab.XtraTabControl();
@@ -96,6 +97,7 @@
             this.gcol_gcMain_TXF_DEFAULT,
             this.gcol_gcMain_TXF_SEQ_NO,
             this.gcol_gcMain_TXF_TID_NAME,
+            this.gcol_gcMain_TXF_DESC,
             this.gcol_gcMain_TXF_TID,
             this.gcol_gcMain_ERR_MSG});
             this.gvMain.GridControl = this.gcMain;
@@ -112,7 +114,7 @@
             this.gcol_gcMain_TXF_DEFAULT.Name = "gcol_gcMain_TXF_DEFAULT";
             this.gcol_gcMain_TXF_DEFAULT.Visible = true;
             this.gcol_gcMain_TXF_DEFAULT.VisibleIndex = 0;
-            this.gcol_gcMain_TXF_DEFAULT.Width = 52;
+            this.gcol_gcMain_TXF_DEFAULT.Width = 77;
             // 
             // gcol_gcMain_TXF_SEQ_NO
             // 
@@ -126,7 +128,7 @@
             this.gcol_gcMain_TXF_SEQ_NO.OptionsColumn.AllowEdit = false;
             this.gcol_gcMain_TXF_SEQ_NO.Visible = true;
             this.gcol_gcMain_TXF_SEQ_NO.VisibleIndex = 1;
-            this.gcol_gcMain_TXF_SEQ_NO.Width = 52;
+            this.gcol_gcMain_TXF_SEQ_NO.Width = 77;
             // 
             // gcol_gcMain_TXF_TID_NAME
             // 
@@ -138,7 +140,18 @@
             this.gcol_gcMain_TXF_TID_NAME.OptionsColumn.AllowEdit = false;
             this.gcol_gcMain_TXF_TID_NAME.Visible = true;
             this.gcol_gcMain_TXF_TID_NAME.VisibleIndex = 2;
-            this.gcol_gcMain_TXF_TID_NAME.Width = 308;
+            this.gcol_gcMain_TXF_TID_NAME.Width = 459;
+            // 
+            // gcol_gcMain_TXF_DESC
+            // 
+            this.gcol_gcMain_TXF_DESC.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.gcol_gcMain_TXF_DESC.AppearanceHeader.Options.UseBackColor = true;
+            this.gcol_gcMain_TXF_DESC.Caption = "代號";
+            this.gcol_gcMain_TXF_DESC.FieldName = "TXF_DESC";
+            this.gcol_gcMain_TXF_DESC.Name = "gcol_gcMain_TXF_DESC";
+            this.gcol_gcMain_TXF_DESC.Visible = true;
+            this.gcol_gcMain_TXF_DESC.VisibleIndex = 3;
+            this.gcol_gcMain_TXF_DESC.Width = 280;
             // 
             // gcol_gcMain_TXF_TID
             // 
@@ -148,8 +161,6 @@
             this.gcol_gcMain_TXF_TID.FieldName = "TXF_TID";
             this.gcol_gcMain_TXF_TID.Name = "gcol_gcMain_TXF_TID";
             this.gcol_gcMain_TXF_TID.OptionsColumn.AllowEdit = false;
-            this.gcol_gcMain_TXF_TID.Visible = true;
-            this.gcol_gcMain_TXF_TID.VisibleIndex = 3;
             this.gcol_gcMain_TXF_TID.Width = 281;
             // 
             // gcol_gcMain_ERR_MSG
@@ -162,7 +173,7 @@
             this.gcol_gcMain_ERR_MSG.OptionsColumn.AllowEdit = false;
             this.gcol_gcMain_ERR_MSG.Visible = true;
             this.gcol_gcMain_ERR_MSG.VisibleIndex = 4;
-            this.gcol_gcMain_ERR_MSG.Width = 219;
+            this.gcol_gcMain_ERR_MSG.Width = 160;
             // 
             // xtraTabControl
             // 
@@ -230,7 +241,7 @@
             this.gcol_gcLogsp_LOGSP_DATE.Name = "gcol_gcLogsp_LOGSP_DATE";
             this.gcol_gcLogsp_LOGSP_DATE.Visible = true;
             this.gcol_gcLogsp_LOGSP_DATE.VisibleIndex = 0;
-            this.gcol_gcLogsp_LOGSP_DATE.Width = 72;
+            this.gcol_gcLogsp_LOGSP_DATE.Width = 73;
             // 
             // gcol_gcLogsp_LOGSP_SEQ_NO
             // 
@@ -242,26 +253,27 @@
             this.gcol_gcLogsp_LOGSP_SEQ_NO.Name = "gcol_gcLogsp_LOGSP_SEQ_NO";
             this.gcol_gcLogsp_LOGSP_SEQ_NO.Visible = true;
             this.gcol_gcLogsp_LOGSP_SEQ_NO.VisibleIndex = 1;
-            this.gcol_gcLogsp_LOGSP_SEQ_NO.Width = 50;
+            this.gcol_gcLogsp_LOGSP_SEQ_NO.Width = 46;
             // 
             // gcol_gcLogsp_LOGSP_TID
             // 
             this.gcol_gcLogsp_LOGSP_TID.Caption = "批次作業代號";
             this.gcol_gcLogsp_LOGSP_TID.FieldName = "LOGSP_TID";
-            this.gcol_gcLogsp_LOGSP_TID.MaxWidth = 200;
+            this.gcol_gcLogsp_LOGSP_TID.MaxWidth = 300;
             this.gcol_gcLogsp_LOGSP_TID.Name = "gcol_gcLogsp_LOGSP_TID";
             this.gcol_gcLogsp_LOGSP_TID.Visible = true;
             this.gcol_gcLogsp_LOGSP_TID.VisibleIndex = 2;
-            this.gcol_gcLogsp_LOGSP_TID.Width = 187;
+            this.gcol_gcLogsp_LOGSP_TID.Width = 280;
             // 
             // gcol_gcLogsp_LOGSP_TID_NAME
             // 
             this.gcol_gcLogsp_LOGSP_TID_NAME.Caption = "批次名稱";
             this.gcol_gcLogsp_LOGSP_TID_NAME.FieldName = "LOGSP_TID_NAME";
+            this.gcol_gcLogsp_LOGSP_TID_NAME.MinWidth = 300;
             this.gcol_gcLogsp_LOGSP_TID_NAME.Name = "gcol_gcLogsp_LOGSP_TID_NAME";
             this.gcol_gcLogsp_LOGSP_TID_NAME.Visible = true;
             this.gcol_gcLogsp_LOGSP_TID_NAME.VisibleIndex = 3;
-            this.gcol_gcLogsp_LOGSP_TID_NAME.Width = 276;
+            this.gcol_gcLogsp_LOGSP_TID_NAME.Width = 300;
             // 
             // gcol_gcLogsp_LOGSP_BEGIN_TIME
             // 
@@ -270,10 +282,11 @@
             this.gcol_gcLogsp_LOGSP_BEGIN_TIME.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.gcol_gcLogsp_LOGSP_BEGIN_TIME.FieldName = "LOGSP_BEGIN_TIME";
             this.gcol_gcLogsp_LOGSP_BEGIN_TIME.MaxWidth = 160;
+            this.gcol_gcLogsp_LOGSP_BEGIN_TIME.MinWidth = 135;
             this.gcol_gcLogsp_LOGSP_BEGIN_TIME.Name = "gcol_gcLogsp_LOGSP_BEGIN_TIME";
             this.gcol_gcLogsp_LOGSP_BEGIN_TIME.Visible = true;
             this.gcol_gcLogsp_LOGSP_BEGIN_TIME.VisibleIndex = 4;
-            this.gcol_gcLogsp_LOGSP_BEGIN_TIME.Width = 120;
+            this.gcol_gcLogsp_LOGSP_BEGIN_TIME.Width = 135;
             // 
             // gcol_gcLogsp_LOGSP_END_TIME
             // 
@@ -282,10 +295,11 @@
             this.gcol_gcLogsp_LOGSP_END_TIME.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.gcol_gcLogsp_LOGSP_END_TIME.FieldName = "LOGSP_END_TIME";
             this.gcol_gcLogsp_LOGSP_END_TIME.MaxWidth = 160;
+            this.gcol_gcLogsp_LOGSP_END_TIME.MinWidth = 135;
             this.gcol_gcLogsp_LOGSP_END_TIME.Name = "gcol_gcLogsp_LOGSP_END_TIME";
             this.gcol_gcLogsp_LOGSP_END_TIME.Visible = true;
             this.gcol_gcLogsp_LOGSP_END_TIME.VisibleIndex = 5;
-            this.gcol_gcLogsp_LOGSP_END_TIME.Width = 120;
+            this.gcol_gcLogsp_LOGSP_END_TIME.Width = 135;
             // 
             // gcol_gcLogsp_LOGSP_MSG
             // 
@@ -294,7 +308,7 @@
             this.gcol_gcLogsp_LOGSP_MSG.Name = "gcol_gcLogsp_LOGSP_MSG";
             this.gcol_gcLogsp_LOGSP_MSG.Visible = true;
             this.gcol_gcLogsp_LOGSP_MSG.VisibleIndex = 6;
-            this.gcol_gcLogsp_LOGSP_MSG.Width = 129;
+            this.gcol_gcLogsp_LOGSP_MSG.Width = 137;
             // 
             // lblOcfDate
             // 
@@ -395,5 +409,6 @@
         private System.Windows.Forms.Button btnSelectAll;
         protected BaseGround.Widget.TextDateEdit txtOcfDate;
         protected System.Windows.Forms.Label lblOcfDate;
+        private DevExpress.XtraGrid.Columns.GridColumn gcol_gcMain_TXF_DESC;
     }
 }

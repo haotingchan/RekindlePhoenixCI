@@ -35,9 +35,7 @@
             // 
             // txtOcfDate
             // 
-            this.txtOcfDate.DateTimeValue = new System.DateTime(2019, 07, 1, 0, 0, 0, 0);
             this.txtOcfDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Month;
-            this.txtOcfDate.EditValue = "2019/07";
             this.txtOcfDate.Location = new System.Drawing.Point(78, 37);
             this.txtOcfDate.Properties.Appearance.Options.UseTextOptions = true;
             this.txtOcfDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;

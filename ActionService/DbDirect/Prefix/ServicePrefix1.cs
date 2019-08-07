@@ -44,14 +44,29 @@ namespace ActionServiceW.DbDirect.Prefix
             return daoTXEMAIL.ListData(TXEMAIL_TXN_ID, TXEMAIL_SEQ_NO);
         }
 
-        public DataTable ListLogsp(DateTime LOGSP_DATE, string TXN_ID)
+        public DataTable ListLogsp(DateTime LOGSP_DATE, string TXN_ID,string OCF_TYPE)
         {
-            return daoLOGSP.ListData(LOGSP_DATE, TXN_ID, LogspQueryType.All);
+            if (OCF_TYPE == "D")
+            {
+                return daoLOGSP.ListData(LOGSP_DATE, TXN_ID, LogspQueryType.All);
+            }
+            else
+            {
+                return daoLOGSP.ListDataByMonth(LOGSP_DATE, TXN_ID, LogspQueryType.All);
+            }
+            
         }
 
-        public DataTable ListLogspForRunned(DateTime LOGSP_DATE, string TXN_ID)
+        public DataTable ListLogspForRunned(DateTime LOGSP_DATE, string TXN_ID,string OCF_TYPE)
         {
-            return daoLOGSP.ListData(LOGSP_DATE, TXN_ID, LogspQueryType.Runned);
+            if (OCF_TYPE == "D")
+            {
+                return daoLOGSP.ListData(LOGSP_DATE, TXN_ID, LogspQueryType.Runned);
+            }
+            else
+            {
+                return daoLOGSP.ListDataByMonth(LOGSP_DATE, TXN_ID, LogspQueryType.Runned);
+            }
         }
 
         public DataTable ListJrf(string JRF_TXN_TID, string JRF_TXF_TID)
@@ -75,9 +90,16 @@ namespace ActionServiceW.DbDirect.Prefix
             }
         }
 
-        public bool SaveLogsp(DateTime LOGSP_DATE, string LOGSP_TXN_ID, int LOGSP_SEQ_NO, string LOGSP_TID, string LOGSP_TID_NAME, DateTime LOGSP_BEGIN_TIME, DateTime LOGSP_END_TIME, string LOGSP_MSG)
+        public bool SaveLogsp(DateTime LOGSP_DATE, string LOGSP_TXN_ID, int LOGSP_SEQ_NO, string LOGSP_TID, string LOGSP_TID_NAME, DateTime LOGSP_BEGIN_TIME, DateTime LOGSP_END_TIME, string LOGSP_MSG,string OCF_TYPE)
         {
-            return daoLOGSP.Save(LOGSP_DATE, LOGSP_TXN_ID, LOGSP_SEQ_NO, LOGSP_TID, LOGSP_TID_NAME, LOGSP_BEGIN_TIME, LOGSP_END_TIME, LOGSP_MSG);
+            if (OCF_TYPE == "D")
+            {
+                return daoLOGSP.Save(LOGSP_DATE, LOGSP_TXN_ID, LOGSP_SEQ_NO, LOGSP_TID, LOGSP_TID_NAME, LOGSP_BEGIN_TIME, LOGSP_END_TIME, LOGSP_MSG);
+            }
+            else
+            {
+                return daoLOGSP.SaveByMonth(LOGSP_DATE, LOGSP_TXN_ID, LOGSP_SEQ_NO, LOGSP_TID, LOGSP_TID_NAME, LOGSP_BEGIN_TIME, LOGSP_END_TIME, LOGSP_MSG);
+            }
         }
 
         public bool SaveLogs(DateTime LOGSP_DATE, string LOGS_TXD_ID,DateTime LOGS_W_TIME, string LOGS_W_USER_ID, string LOGS_ERR_TXT)
