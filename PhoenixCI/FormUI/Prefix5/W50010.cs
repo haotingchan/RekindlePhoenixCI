@@ -291,8 +291,9 @@ namespace PhoenixCI.FormUI.Prefix5
                 }
 
                 gvExport.Columns["AMMD_RESULT"].DisplayFormat.FormatType = FormatType.Numeric;
-                gvExport.Columns["AMMD_RESULT"].DisplayFormat.FormatString = "d2";
-                gvExport.Columns["AMMD_KEEP_TIME"].DisplayFormat.FormatString = "d2";
+                gvExport.Columns["AMMD_RESULT"].DisplayFormat.FormatString = "d";
+                gvExport.Columns["AMMD_KEEP_TIME"].DisplayFormat.FormatType = FormatType.Numeric;
+                gvExport.Columns["AMMD_KEEP_TIME"].DisplayFormat.FormatString = "d";
 
                 gvExport.Columns["AMMD_W_TIME"].DisplayFormat.FormatType = FormatType.DateTime;
                 gvExport.Columns["AMMD_W_TIME"].DisplayFormat.FormatString = "yyyy/MM/dd HH:mm:ss:fff";
