@@ -5,6 +5,7 @@ using BaseGround.Shared;
 using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
+using DataObjects;
 using DevExpress.XtraEditors.Repository;
 using System;
 using System.Data;
@@ -117,8 +118,52 @@ namespace PhoenixCI.FormUI.Prefix1
 
         protected override ResultStatus RunBefore(PokeBall args)
         {
-            args.GridControlMain = gcMain;
-            args.OcfDate = txtOcfDate.DateTimeValue;
+
+            string txfServer = gvMain.GetRowCellValue(1, "TXF_SERVER").AsString();
+            if (txfServer != GlobalDaoSetting.GetConnectionInfo.ConnectionName)
+            {
+                MessageDisplay.Warning("作業Server(" + txfServer + ") 不等於連線Server(" + GlobalDaoSetting.GetConnectionInfo.ConnectionName + ")");
+                return ResultStatus.Fail;
+            }
+
+            string inputDate = txtOcfDate.Text;
+            string nowDate = DateTime.Now.ToString(txtOcfDate.Properties.EditFormat.FormatString);
+
+            if (OCF_TYPE == "D")
+            {
+                if (inputDate != nowDate)
+                {
+                    if (MessageDisplay.Choose("交易日期(" + inputDate + ") 不等於今日(" + nowDate + ")，是否要繼續?") == DialogResult.No)
+                    {
+                        return ResultStatus.Fail;
+                    }
+                }
+                if (servicePrefix1.HasLogspDone(Convert.ToDateTime(inputDate), _ProgramID))
+                {
+                    if (MessageDisplay.Choose(_ProgramID + " 作業 " + inputDate + "「曾經」執行過，\n是否要繼續？\n\n★★★建議先執行 [預覽] 確認執行狀態") == DialogResult.No)
+                    {
+                        return ResultStatus.Fail;
+                    }
+                }
+
+                if (!servicePrefix1.setOCF(txtOcfDate.DateTimeValue, _DB_TYPE, GlobalInfo.USER_ID))
+                {
+                    return ResultStatus.Fail;
+                }
+            }
+            else if (OCF_TYPE == "M")
+            {
+                if (inputDate != nowDate)
+                {
+                    if (MessageDisplay.Choose("月份(" + inputDate + ") 不等於本月(" + nowDate + ")，是否要繼續?") == DialogResult.No)
+                    {
+                        return ResultStatus.Fail;
+                    }
+                }
+            }
+
+
+            GridHelper.AcceptText(gcMain);
 
             return base.RunBefore(args);
         }

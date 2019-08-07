@@ -146,8 +146,7 @@ namespace ActionService.DbDirect {
             string pwd = dt.Rows[0]["ls_str2"].AsString();
             string language = seq == 1 ? "" : "\nSET INFA_LANGUAGE=en";
 
-            string command = //$@"pmcmd startworkflow -service {service} -domain {domain} -uv {user} -pv {pwd} -folder {folder} -wait {workFlowName} ";
-
+            string command = 
 $@"SET RunUsr={user}
 SET RunPasswd={pwd}{language}
 SET INFA_DOMAINS_FILE={domainFile}
@@ -155,7 +154,6 @@ SET INFA_DOMAINS_FILE={domainFile}
 echo return status = %errorlevel% >{bkFileName}.err
 exit /b %errorlevel%
 ";
-            //echo return status = %errorlevel% >{bkFileName}.err
             string batFile = $"{bkFileName}.bat";
             System.IO.File.WriteAllText(batFile, command);
 
@@ -181,8 +179,7 @@ exit /b %errorlevel%
             if (isError)
             {
                 SystemSounds.Beep.Play();
-                //result.returnString = $"Service：{service}, Folder：{folder}, WorkFlow：{workFlowName}, Code Description：{code}";
-                MessageDisplay.Error($"請通知「{apName}」 Informatica 作業執行失敗!\n請查詢 {bkFileName}.err 錯誤訊息說明\nService：{service}\nFolder：{folder}\nWorkFlow：{workFlowName}\nCode Description：{code} = {codeDesc}");
+                result.returnString = $"請通知「{apName}」 Informatica 作業執行失敗!\n請查詢 {bkFileName}.err 錯誤訊息說明\nService：{service}\nFolder：{folder}\nWorkFlow：{workFlowName}\nCode Description：{code} = {codeDesc}";
                 result.Status = ResultStatus.Fail;
             }
             else
