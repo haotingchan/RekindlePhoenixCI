@@ -374,8 +374,14 @@ namespace PhoenixCI.FormUI.Prefix3
                         gvMain.SetRowCellValue(i, "PL1_999_ADJ", "+");
                         gvMain.SetRowCellValue(i, "PL1_UPD_TIME", DateTime.Now);
                         gvMain.SetRowCellValue(i, "PL1_UPD_USER_ID", GlobalInfo.USER_ID);
-                        gvMain.SetRowCellValue(i, "PL1_NATURE_ADJ", "+"); //需確認 by tom
-                        gvMain.SetRowCellValue(i, "PL1_LEGAL_ADJ", "+");  //需確認 by tom
+                        if(gvMain.GetRowCellValue(i, "PL1_NATURE_ADJ").AsString().Equals(""))
+                            gvMain.SetRowCellValue(i, "PL1_NATURE_ADJ", " "); 
+                        else
+                            gvMain.SetRowCellValue(i, "PL1_NATURE_ADJ", gvMain.GetRowCellValue(i, "PL1_NATURE_ADJ").AsString()); 
+                        if(gvMain.GetRowCellValue(i, "PL1_LEGAL_ADJ").AsString().Equals(""))
+                            gvMain.SetRowCellValue(i, "PL1_LEGAL_ADJ", " ");  
+                        else
+                            gvMain.SetRowCellValue(i, "PL1_LEGAL_ADJ", gvMain.GetRowCellValue(i, "PL1_LEGAL_ADJ").AsString()); 
 
                         //下列add by Tom
                         PL1NewRowCount++;
@@ -397,8 +403,8 @@ namespace PhoenixCI.FormUI.Prefix3
                         dtPL1Insert.Rows[dtPL1Insert.Rows.Count - 1]["PL1_UPD_TIME"] = gvMain.GetRowCellValue(i, "PL1_UPD_TIME");
                         dtPL1Insert.Rows[dtPL1Insert.Rows.Count - 1]["PL1_UPD_USER_ID"] = gvMain.GetRowCellValue(i, "PL1_UPD_USER_ID");
                         dtPL1Insert.Rows[dtPL1Insert.Rows.Count - 1]["PL1_999_ADJ"] = "+";
-                        dtPL1Insert.Rows[dtPL1Insert.Rows.Count - 1]["PL1_NATURE_ADJ"] = "+";//需確認 by tom
-                        dtPL1Insert.Rows[dtPL1Insert.Rows.Count - 1]["PL1_LEGAL_ADJ"] = "+";//需確認 by tom
+                        dtPL1Insert.Rows[dtPL1Insert.Rows.Count - 1]["PL1_NATURE_ADJ"] = gvMain.GetRowCellValue(i, "PL1_NATURE_ADJ");
+                        dtPL1Insert.Rows[dtPL1Insert.Rows.Count - 1]["PL1_LEGAL_ADJ"] = gvMain.GetRowCellValue(i, "PL1_LEGAL_ADJ");
                         dtPL1Insert.Rows[dtPL1Insert.Rows.Count - 1]["PL1_NATURE"] = gvMain.GetRowCellValue(i, "PL1_NATURE").AsDecimal();
                         dtPL1Insert.Rows[dtPL1Insert.Rows.Count - 1]["PL1_CP_NATURE"] = gvMain.GetRowCellValue(i, "PL1_CP_NATURE").AsDecimal();
                         dtPL1Insert.Rows[dtPL1Insert.Rows.Count - 1]["PL1_CP_LEGAL"] = gvMain.GetRowCellValue(i, "PL1_CP_LEGAL").AsDecimal();
@@ -493,8 +499,8 @@ namespace PhoenixCI.FormUI.Prefix3
                     if (gvMain.GetRowCellValue(i, "Is_NewRow").AsString() == "1")//add by tom
                     {
                         dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_999_ADJ"] = "+";
-                        dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_NATURE_ADJ"] = "+";//需確認
-                        dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_LEGAL_ADJ"] = "+";//需確認
+                        dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_NATURE_ADJ"] = gvMain.GetRowCellValue(i, "PL1_NATURE_ADJ");
+                        dtInsertPL2.Rows[dtInsertPL2.Rows.Count - 1]["PL2_LEGAL_ADJ"] = gvMain.GetRowCellValue(i, "PL1_LEGAL_ADJ");
                     }
                 }
                 // 寫入DB
