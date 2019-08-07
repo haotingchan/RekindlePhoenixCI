@@ -89,10 +89,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //「調整後部位限制級距」欄位的下拉選單
             //dictLevel = new Dictionary<string, string>() { { "1", "1" }, { "2", "2" }, { "3", "3" } };
             //DataTable dtLevel = setColItem(dictLevel);
-            dtType = new CODW().ListLookUpEdit("30222" , "PLS1_CP_LEVEL");
+            //dtType = new CODW().ListLookUpEdit("30222" , "PLS1_CP_LEVEL");
+            dtType = dao30222.GetPlst1Level();
             levelLookUpEdit = new RepositoryItemLookUpEdit();
             //levelLookUpEdit.SetColumnLookUp(dictLevel, "Key", "Value");
-            levelLookUpEdit.SetColumnLookUp(dtType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
+            levelLookUpEdit.SetColumnLookUp(dtType , "PLST1_LEVEL" , "PLST1_LEVEL" , TextEditStyles.DisableTextEditor , null);
             PLS1_CP_LEVEL.ColumnEdit = levelLookUpEdit;
 
             //BandedColumnCaption換行
