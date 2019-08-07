@@ -218,8 +218,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                return ResultStatus.Fail;
             }
 
-            if (FlagAdmin)
-               System.Diagnostics.Process.Start(filePath);
+            //if (FlagAdmin)
+            //   System.Diagnostics.Process.Start(filePath);
 
             return ResultStatus.Success;
          } catch (Exception ex) {
