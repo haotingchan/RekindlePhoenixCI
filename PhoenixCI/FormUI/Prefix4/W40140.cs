@@ -110,8 +110,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             labMsg.Visible = false;
 
 #if DEBUG
-            if (FlagAdmin)
-               System.Diagnostics.Process.Start(excelDestinationPath);
+            //if (FlagAdmin)
+            //   System.Diagnostics.Process.Start(excelDestinationPath);
 #endif
             return ResultStatus.Success;
 
@@ -360,8 +360,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                return false;
             }
 
-            if (FlagAdmin)
-               System.Diagnostics.Process.Start(filePath);
+            //if (FlagAdmin)
+            //   System.Diagnostics.Process.Start(filePath);
 
             return true;
          } catch (Exception ex) {

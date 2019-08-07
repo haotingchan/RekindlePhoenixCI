@@ -114,6 +114,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
          //                               new LookupItem() { ValueMember = "S%", DisplayMember = "S (單式)" },
          //                               new LookupItem() { ValueMember = "C%", DisplayMember = "C (複式)" }};
          DataTable lstScCode = new CODW().ListLookUpEdit("30681" , "DDLB_SC");
+         foreach (DataRow dr in lstScCode.Rows) {
+            if (dr["CODW_ID"].AsString() == "A") {
+               dr["CODW_ID"] = "%";
+            }
+         }
          Extension.SetDataTable(ddlScCode , lstScCode , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor);
          ddlScCode.ItemIndex = 0;
 
@@ -122,6 +127,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
          DataTable dtOsfOrderType = new CODW().ListLookUpEdit("30681" , "OSF_ORDER_TYPE");
          foreach (DataRow dr in dtOsfOrderType.Rows) {
             switch (dr["CODW_ID"].AsString()) {
+               case "A":
+                  dr["CODW_ID"] = "%";
+                  break;
                case "M":
                   dr["CODW_DESC"] = "M (市價)";
                   break;
@@ -141,6 +149,9 @@ namespace PhoenixCI.FormUI.Prefix3 {
          DataTable dtOsfOrderCond = new CODW().ListLookUpEdit("30681" , "OSF_ORDER_COND");
          foreach (DataRow dr in dtOsfOrderCond.Rows) {
             switch (dr["CODW_ID"].AsString()) {
+               case "A":
+                  dr["CODW_ID"] = "%";
+                  break;
                case "I":
                   dr["CODW_DESC"] = "I (IOC)";
                   break;

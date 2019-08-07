@@ -211,12 +211,25 @@ select max(case when PLS2_LEVEL_ADJ = '-' then PLS2_EFFECTIVE_YMD else ' ' end) 
             return dtResult;
         }
 
-        /// <summary>
-        /// 判斷是否有已確認之資料
-        /// </summary>
-        /// <param name="ls_eff_ymd">yyyyMMdd</param>
-        /// <returns></returns>
-        public int checkData(string ls_eff_ymd) {
+      public DataTable GetPlst1Level() {
+
+         string sql =
+@"
+select 
+    plst1_level 
+from ci.plst1
+";
+         DataTable dtResult = db.GetDataTable(sql , null);
+
+         return dtResult;
+      }
+
+      /// <summary>
+      /// 判斷是否有已確認之資料
+      /// </summary>
+      /// <param name="ls_eff_ymd">yyyyMMdd</param>
+      /// <returns></returns>
+      public int checkData(string ls_eff_ymd) {
 
             object[] parms = {
                 ":ls_eff_ymd",ls_eff_ymd
