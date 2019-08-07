@@ -177,7 +177,7 @@ namespace PhoenixCI.FormUI.Prefix5
 
             string[] showColCaption = {"期貨商", $"期貨商{Environment.NewLine}名稱", "帳號","",$"商品{Environment.NewLine}名稱",
                                     $"報價{Environment.NewLine}時間", $"最接近報價{Environment.NewLine}詢價時間","",
-                                    $"尋報價{Environment.NewLine}時間差(秒)", $"報價維持{Environment.NewLine}時間(秒)",
+                                    $"詢報價{Environment.NewLine}時間差(秒)", $"報價維持{Environment.NewLine}時間(秒)",
                                     $"報價{Environment.NewLine}有效", $"計入維持{Environment.NewLine}時間(秒)", $"價差{Environment.NewLine}權數",
                                     $"數量{Environment.NewLine}權數", $"標的{Environment.NewLine}權數","績效",$"報價{Environment.NewLine}單別","" };
 
@@ -426,7 +426,8 @@ namespace PhoenixCI.FormUI.Prefix5
             string datatype;
             if (radioMarketTime1.Checked) datatype = radioMarketTime1.Text; //"一般"
             else datatype = radioMarketTime2.Text;                         //"盤後"
-                                                                           //string printMemo = "報表條件: " + fcm + prodGroup + prodCt + kindIdSt + marketTime + prodId;
+            datatype += "交易時段,";
+            //string printMemo = "報表條件: " + fcm + prodGroup + prodCt + kindIdSt + marketTime + prodId;
             string printMemo = "報表條件: " + fcm + prodGroup + prodCt + kindIdSt + datatype + prodId;
             printMemo = printMemo.TrimEnd(',');
             return printMemo;

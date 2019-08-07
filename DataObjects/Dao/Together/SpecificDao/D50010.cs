@@ -121,10 +121,12 @@ namespace DataObjects.Dao.Together.SpecificDao {
          m_second, 
          cp_valid,
          AMMD_KEEP_TIME,
-         AMMD_WEIGHT_P,
+         --AMMD_WEIGHT_P, by tom@20190807
+          to_char(AMMD_WEIGHT_P) as AMMD_WEIGHT_P,
          AMMD_WEIGHT_Q,
          AMMD_WEIGHT_KIND,
-         AMMD_RESULT,
+         --AMMD_RESULT, by tom@20190807
+         to_char(AMMD_RESULT) as AMMD_RESULT,
          AMMD_OQ_CODE,
          AMMD_Q_NO from (
  SELECT  case when :as_sort_type ='F' then ammd_brk_no || ammd_acc_no else ammd_prod_type || ammd_prod_id end as  cp_group1,  
