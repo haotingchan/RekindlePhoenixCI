@@ -53,6 +53,7 @@
             this.gcol_gcLogsp_LOGSP_BEGIN_TIME = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gcol_gcLogsp_LOGSP_END_TIME = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gcol_gcLogsp_LOGSP_MSG = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.textDateEdit1 = new BaseGround.Widget.TextDateEdit();
             this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
@@ -65,10 +66,12 @@
             this.xtraTabPageQuery.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gcLogsp)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvSpLog)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textDateEdit1.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // panParent
             // 
+            this.panParent.Controls.Add(this.textDateEdit1);
             this.panParent.Controls.Add(this.xtraTabControl);
             this.panParent.Controls.Add(this.txtOcfDate);
             this.panParent.Controls.Add(this.txtPrevOcfDate);
@@ -201,8 +204,10 @@
             this.txtPrevOcfDate.Location = new System.Drawing.Point(126, 10);
             this.txtPrevOcfDate.MenuManager = this.ribbonControl;
             this.txtPrevOcfDate.Name = "txtPrevOcfDate";
+            this.txtPrevOcfDate.Properties.EditFormat.FormatString = "yyyy/MM/dd";
             this.txtPrevOcfDate.Properties.Mask.EditMask = "yyyy/MM/dd";
             this.txtPrevOcfDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtPrevOcfDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtPrevOcfDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtPrevOcfDate.Size = new System.Drawing.Size(100, 26);
             this.txtPrevOcfDate.TabIndex = 10;
@@ -216,8 +221,10 @@
             this.txtOcfDate.Location = new System.Drawing.Point(126, 49);
             this.txtOcfDate.MenuManager = this.ribbonControl;
             this.txtOcfDate.Name = "txtOcfDate";
+            this.txtOcfDate.Properties.EditFormat.FormatString = "yyyy/MM/dd";
             this.txtOcfDate.Properties.Mask.EditMask = "yyyy/MM/dd";
             this.txtOcfDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtOcfDate.Properties.Mask.ShowPlaceHolders = false;
             this.txtOcfDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             this.txtOcfDate.Size = new System.Drawing.Size(100, 26);
             this.txtOcfDate.TabIndex = 11;
@@ -344,13 +351,32 @@
             this.gcol_gcLogsp_LOGSP_MSG.VisibleIndex = 6;
             this.gcol_gcLogsp_LOGSP_MSG.Width = 117;
             // 
-            // W10002
+            // textDateEdit1
+            // 
+            this.textDateEdit1.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
+            this.textDateEdit1.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Year;
+            this.textDateEdit1.EditValue = "2019/12/01";
+            this.textDateEdit1.Location = new System.Drawing.Point(554, 28);
+            this.textDateEdit1.MenuManager = this.ribbonControl;
+            this.textDateEdit1.Name = "textDateEdit1";
+            this.textDateEdit1.Properties.Appearance.Options.UseTextOptions = true;
+            this.textDateEdit1.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.textDateEdit1.Properties.Mask.EditMask = "[1-9]\\d{3}";
+            this.textDateEdit1.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
+            this.textDateEdit1.Properties.Mask.ShowPlaceHolders = false;
+            this.textDateEdit1.Properties.Mask.UseMaskAsDisplayFormat = true;
+            this.textDateEdit1.Properties.MaxLength = 4;
+            this.textDateEdit1.Size = new System.Drawing.Size(100, 26);
+            this.textDateEdit1.TabIndex = 14;
+            this.textDateEdit1.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
+            // 
+            // W10014
             // 
             this.Appearance.Options.UseFont = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1104, 761);
-            this.Name = "W10002";
+            this.Name = "W10014";
             this.Text = "FormChild";
             this.panParent.ResumeLayout(false);
             this.panParent.PerformLayout();
@@ -365,6 +391,7 @@
             this.xtraTabPageQuery.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gcLogsp)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvSpLog)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textDateEdit1.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -400,5 +427,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn gcol_gcLogsp_LOGSP_BEGIN_TIME;
         private DevExpress.XtraGrid.Columns.GridColumn gcol_gcLogsp_LOGSP_END_TIME;
         public DevExpress.XtraGrid.Columns.GridColumn gcol_gcLogsp_LOGSP_MSG;
+        private BaseGround.Widget.TextDateEdit textDateEdit1;
     }
 }

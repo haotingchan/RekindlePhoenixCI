@@ -49,7 +49,7 @@ namespace PhoenixCI.FormUI.Prefix1
             txtOcfDate.DateTimeValue = GlobalInfo.OCF_DATE;
 
             gcMain.DataSource   = servicePrefix1.ListTxfByTxn(_ProgramID).Trim();
-            gcLogsp.DataSource  = servicePrefix1.ListLogsp(txtOcfDate.DateTimeValue, _ProgramID).Trim();
+            gcLogsp.DataSource  = servicePrefix1.ListLogsp(txtOcfDate.DateTimeValue, _ProgramID,"D").Trim();
 
             return ResultStatus.Success;
         }
@@ -82,7 +82,7 @@ namespace PhoenixCI.FormUI.Prefix1
 
             xtraTabControl.SelectedTabPage = xtraTabPageQuery;
 
-            gcLogsp.DataSource = servicePrefix1.ListLogsp(txtOcfDate.DateTimeValue, _ProgramID).Trim();
+            gcLogsp.DataSource = servicePrefix1.ListLogsp(txtOcfDate.DateTimeValue, _ProgramID,"D").Trim();
 
             return ResultStatus.Success;
         }

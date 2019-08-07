@@ -449,6 +449,11 @@ namespace BaseGround {
          return ResultStatus.Success;
       }
 
+        /// <summary>
+        /// 1系列功能使用
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
       protected virtual ResultStatus RunAsync(PokeBall args) {
          this.Invoke(new MethodInvoker(() => {
             FormWait formWait = new FormWait();
@@ -466,7 +471,7 @@ namespace BaseGround {
          GridView gv = (GridView)args.GridControlMain.MainView;
 
 
-        DataTable dtLOGSPForRuned = servicePrefix1.ListLogspForRunned(args.OcfDate, _ProgramID);
+        DataTable dtLOGSPForRuned = servicePrefix1.ListLogspForRunned(args.OcfDate, _ProgramID, args.OcfType);
         DataView dvLOGSPForRuned = new DataView(dtLOGSPForRuned);
 
 
@@ -481,6 +486,7 @@ namespace BaseGround {
             string TXF_TYPE = gv.GetRowCellValue(i , "TXF_TYPE").AsString();
             string TXF_TID = gv.GetRowCellValue(i , "TXF_TID").AsString();
             string TXF_TID_NAME = gv.GetRowCellValue(i , "TXF_TID_NAME").AsString();
+            string TXF_DESC = gv.GetRowCellValue(i , "TXF_DESC").AsString();
             string TXF_DEFAULT = gv.GetRowCellValue(i , "TXF_DEFAULT").AsString();
             string TXF_REDO = gv.GetRowCellValue(i , "TXF_REDO").AsString();
             string TXF_ARG = gv.GetRowCellValue(i , "TXF_ARG").AsString();
@@ -495,27 +501,26 @@ namespace BaseGround {
                DateTime LOGSP_DATE = args.OcfDate;
                string LOGSP_TXN_ID = _ProgramID;
                int LOGSP_SEQ_NO = TXF_SEQ_NO;
-               string LOGSP_TID = TXF_TID;
+               string LOGSP_TID = TXF_DESC;
                string LOGSP_TID_NAME = TXF_TID_NAME;
                DateTime LOGSP_BEGIN_TIME = new DateTime();
                DateTime LOGSP_END_TIME = new DateTime();
                string LOGSP_MSG = "";
 
-                if (args.OcfType == "D")
+
+                //判斷是否可重覆執行
+                if (TXF_REDO == "N")
                 {
-                    //判斷是否可重覆執行
-                    if (TXF_REDO == "N")
+                    dvLOGSPForRuned.RowFilter = "LOGSP_TID='" + LOGSP_TID + "' AND NOT ISNULL(LOGSP_BEGIN_TIME)";
+                    if (dvLOGSPForRuned.Count != 0)
                     {
-                        dvLOGSPForRuned.RowFilter = "LOGSP_TID='" + TXF_TID + "' AND NOT ISNULL(LOGSP_BEGIN_TIME)";
-                        if (dvLOGSPForRuned.Count != 0)
+                        if (MessageDisplay.Choose(TXF_TID + " ★★★曾經執行過且不可重覆執行，是否強迫繼續執行 ?") == DialogResult.No)
                         {
-                            if (MessageDisplay.Choose(TXF_TID + " ★★★曾經執行過且不可重覆執行，是否強迫繼續執行 ?") == DialogResult.No)
-                            {
-                                return ResultStatus.Fail;
-                            }
+                            return ResultStatus.Fail;
                         }
                     }
                 }
+                
 
                #region 開始執行
                LOGSP_BEGIN_TIME = DateTime.Now;
@@ -544,10 +549,8 @@ namespace BaseGround {
 
                   }
                   LOGSP_END_TIME = DateTime.Now;
-                    if (args.OcfType == "D")
-                    {
-                        servicePrefix1.SaveLogsp(LOGSP_DATE, LOGSP_TXN_ID, LOGSP_SEQ_NO, LOGSP_TID, LOGSP_TID_NAME, LOGSP_BEGIN_TIME, LOGSP_END_TIME, LOGSP_MSG);
-                    }
+
+                  servicePrefix1.SaveLogsp(LOGSP_DATE, LOGSP_TXN_ID, LOGSP_SEQ_NO, LOGSP_TID, LOGSP_TID_NAME, LOGSP_BEGIN_TIME, LOGSP_END_TIME, LOGSP_MSG, args.OcfType);
                     continue;
                }
 
@@ -561,10 +564,9 @@ namespace BaseGround {
                             gv.SetRowCellValue(i, "ERR_MSG", LOGSP_MSG);
                             gv.SetRowCellValue(i, "TXF_DEFAULT", 0);
                             LOGSP_END_TIME = DateTime.Now;
-                            if (args.OcfType == "D")
-                            {
-                                servicePrefix1.SaveLogsp(LOGSP_DATE, LOGSP_TXN_ID, LOGSP_SEQ_NO, LOGSP_TID, LOGSP_TID_NAME, LOGSP_BEGIN_TIME, LOGSP_END_TIME, LOGSP_MSG);
-                            }
+
+                            servicePrefix1.SaveLogsp(LOGSP_DATE, LOGSP_TXN_ID, LOGSP_SEQ_NO, LOGSP_TID, LOGSP_TID_NAME, LOGSP_BEGIN_TIME, LOGSP_END_TIME, LOGSP_MSG,args.OcfType);
+
                         }
                         else
                         {
@@ -578,18 +580,18 @@ namespace BaseGround {
 
                //記錄正在執行
                servicePrefix1.SetTXF1(TXF_TID , _ProgramID);
-                if (args.OcfType == "D")
-                {
-                    servicePrefix1.SaveLogs(LOGSP_DATE, TXF_TID, DateTime.Now, GlobalInfo.USER_ID, "開始執行");
-                }
+
+               servicePrefix1.SaveLogs(LOGSP_DATE, TXF_TID, DateTime.Now, GlobalInfo.USER_ID, "開始執行");
+
                ResultData resultData = new ResultData();
                string fileName = "";
                switch (TXF_TYPE) {
+                   //Informatica
                   case "I":
                      fileName = $@"{GlobalInfo.DEFAULT_BATCH_ErrSP_DIRECTORY_PATH}\{TXF_SERVER}_{TXF_TXN_ID}_{TXF_SEQ_NO}_infor";
                      resultData = serviceCommon.ExecuteInfoWorkFlow(TXF_TID , UserProgInfo, TXF_FOLDER, TXF_SERVICE, TXF_AP_NAME,fileName);
                      break;
-
+                   //SP
                   case "S":
                      List<DbParameterEx> listParams = null;
 
@@ -648,7 +650,7 @@ namespace BaseGround {
                      }
 
                      break;
-
+                   //視窗功能
                   case "W":
                      this.Invoke(new MethodInvoker(() => { resultData.Status = ExecuteForm(args); }));
 
@@ -664,10 +666,9 @@ namespace BaseGround {
                   LOGSP_MSG = "執行正常完成!";
                } else {
                   LOGSP_MSG = "作業執行失敗!";
-                    if (args.OcfType == "D")
-                    {
-                        servicePrefix1.SaveLogsp(LOGSP_DATE, LOGSP_TXN_ID, LOGSP_SEQ_NO, LOGSP_TID, LOGSP_TID_NAME, LOGSP_BEGIN_TIME, LOGSP_END_TIME, LOGSP_MSG);
-                    }
+
+                  servicePrefix1.SaveLogsp(LOGSP_DATE, LOGSP_TXN_ID, LOGSP_SEQ_NO, LOGSP_TID, LOGSP_TID_NAME, LOGSP_BEGIN_TIME, LOGSP_END_TIME, LOGSP_MSG, args.OcfType);
+
                   MessageDisplay.Error("序號" + LOGSP_SEQ_NO + "的" + LOGSP_TID + "," + LOGSP_MSG);
                   
                   this.Invoke(new MethodInvoker(() => {
@@ -678,13 +679,11 @@ namespace BaseGround {
                   return ResultStatus.Fail;
                }
 
-
                this.Invoke(new MethodInvoker(() => { gv.SetRowCellValue(i , "ERR_MSG" , LOGSP_MSG); }));
-                if (args.OcfType == "D")
-                {
-                    servicePrefix1.SaveLogsp(LOGSP_DATE, LOGSP_TXN_ID, LOGSP_SEQ_NO, LOGSP_TID, LOGSP_TID_NAME, LOGSP_BEGIN_TIME, LOGSP_END_TIME, LOGSP_MSG);
-                    servicePrefix1.SaveLogs(LOGSP_DATE, TXF_TID, DateTime.Now, GlobalInfo.USER_ID, "執行完畢");
-                }
+
+                servicePrefix1.SaveLogsp(LOGSP_DATE, LOGSP_TXN_ID, LOGSP_SEQ_NO, LOGSP_TID, LOGSP_TID_NAME, LOGSP_BEGIN_TIME, LOGSP_END_TIME, LOGSP_MSG, args.OcfType);
+                servicePrefix1.SaveLogs(LOGSP_DATE, TXF_TID, DateTime.Now, GlobalInfo.USER_ID, "執行完畢");
+
                #endregion 開始執行
 
                #region 執行特別的程式
@@ -707,7 +706,7 @@ namespace BaseGround {
                // 沒勾選項目的話清空狀態
                this.Invoke(new MethodInvoker(() => { gv.SetRowCellValue(i , "ERR_MSG" , ""); }));
             }
-            if (i == gv.RowCount -1)
+            if (i == gv.RowCount -1 && args.OcfType == "D")
             {
                     servicePrefix1.setOCF();
             }

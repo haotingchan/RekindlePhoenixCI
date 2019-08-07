@@ -154,6 +154,11 @@ namespace BaseGround {
          }
       }
 
+        /// <summary>
+        /// PB call Net使用
+        /// </summary>
+        /// <param name="txnID"></param>
+        /// <param name="txnName"></param>
       public FormMain(string txnID, string txnName) {
          InitializeComponent();
 
