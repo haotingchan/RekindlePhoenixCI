@@ -1,4 +1,5 @@
-﻿using BusinessObjects;
+﻿using BaseGround;
+using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
 using System;
@@ -20,21 +21,21 @@ namespace PhoenixCI.FormUI.Prefix1
             InitializeComponent();
             _DB_TYPE = "fut";
         }
-
-        protected override ResultStatus RunAfterEveryItem(PokeBall args)
+        protected override ResultData ExecuteForm(PokeBall args)
         {
-            base.RunAfterEveryItem(args);
-
-            if (args.TXF_TID == "w_30053")
+            ResultData resultData = new ResultData();
+            switch (args.TXF_TID)
             {
-                // 等30053完成再來寫
-            }
-            else if (args.TXF_TID == "w_30055")
-            {
-                // 等30055完成再來寫
+                case "w_30053":
+                    break;
+                case "w_30055":
+
+                    break;
             }
 
-            return ResultStatus.Success;
+            resultData = base.ExecuteForm(args);
+
+            return resultData;
         }
     }
 }

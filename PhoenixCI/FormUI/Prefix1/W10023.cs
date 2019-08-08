@@ -23,20 +23,25 @@ namespace PhoenixCI.FormUI.Prefix1
 
         protected override string RunBeforeEveryItem(PokeBall args)
         {
-            base.RunBeforeEveryItem(args);
+            string rtn = "";
             switch (args.TXF_TID)
             {
                 case "sp_O_gen_T_TPROD_FUT":
-
+                    DataTable dtLogSP = servicePrefix1.ListLogsp(txtOcfDate.DateTimeValue, "sp_F_gen_MTF0", "D");
+                    if (dtLogSP.Rows.Count > 0)
+                    {
+                        if (dtLogSP.Rows[0]["LOGSP_END_TIME"] == null)
+                        {
+                            rtn = $"{args.TXF_TID} 需待「10012 - sp_F_gen_MTF0」完成才可執行!";
+                        }
+                    }
                     break;
                 case "wf_CI_1002205":
                     break;
-                case "sp_H_upd_AMM0_Month":
-                        
-                    break;
             }
+            base.RunBeforeEveryItem(args);
 
-            return "";
+            return rtn;
         }
 
     }

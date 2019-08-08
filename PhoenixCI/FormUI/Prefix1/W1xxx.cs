@@ -205,6 +205,16 @@ namespace PhoenixCI.FormUI.Prefix1
             return ResultStatus.Success;
         }
 
+        protected override ResultData ExecuteForm(PokeBall args)
+        {
+            ResultData resultData = base.ExecuteForm(args);
+            FormParent form = ((FormParent)resultData.ReturnObject);
+            resultData.Status = form.ProcessExport();
+            form.Close();
+
+            return resultData;
+        }
+
         protected override ResultStatus Print(ReportHelper reportHelper)
         {
             Retrieve();
@@ -263,5 +273,6 @@ namespace PhoenixCI.FormUI.Prefix1
                 PrintableComponent = gcLogsp;
             }
         }
+
     }
 }

@@ -292,7 +292,7 @@ namespace BaseGround {
          }
       }
 
-      public void ProcessExport() {
+      public ResultStatus ProcessExport() {
          string startTime = DateTime.Now.ToString("HH:mm:ss");
 
          try {
@@ -303,14 +303,15 @@ namespace BaseGround {
                if (result == ResultStatus.Success)
                   ExportAfter(startTime);
             } else {
-               return;
+               return ResultStatus.Fail;
             }
          } catch (Exception ex) {
             WriteLog(ex);
          }
+          return ResultStatus.Success;
       }
 
-      public virtual void ProcessPrintAll(ReportHelper reportHelper) {
+        public virtual void ProcessPrintAll(ReportHelper reportHelper) {
          reportHelper = PrintOrExportSetting();
          reportHelper.IsPrintedFromPrintButton = true;
          Print(reportHelper);
@@ -614,7 +615,7 @@ namespace BaseGround {
                      break;
                    //視窗功能
                   case "W":
-                     this.Invoke(new MethodInvoker(() => { resultData.Status = ExecuteForm(args); }));
+                     this.Invoke(new MethodInvoker(() => { resultData.Status = ExecuteForm(args).Status; }));
 
                      break;
 
@@ -684,7 +685,8 @@ namespace BaseGround {
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus ExecuteForm(PokeBall args) {
+      protected virtual ResultData ExecuteForm(PokeBall args) {
+         ResultData resultData = new ResultData();
          var dllIndividual = Assembly.LoadFile(Application.ExecutablePath);
          string typeFormat = "{0}.FormUI.Prefix{1}.W{2}";
          string txnId = args.TXF_TID.Substring(2 , 5);
@@ -705,7 +707,9 @@ namespace BaseGround {
             formInstance.WindowState = FormWindowState.Maximized;
             formInstance.Show();
          }
-         return ResultStatus.Success;
+         resultData.ReturnObject = formInstance;
+         resultData.Status = ResultStatus.Success;
+         return resultData;
       }
 
       protected virtual ResultStatus RunAfterEveryItem(PokeBall args) {
