@@ -615,7 +615,7 @@ namespace BaseGround {
                      break;
                    //視窗功能
                   case "W":
-                     this.Invoke(new MethodInvoker(() => { resultData.Status = ExecuteForm(args).Status; }));
+                     this.Invoke(new MethodInvoker(() => { resultData = ExecuteForm(args); }));
 
                      break;
 
