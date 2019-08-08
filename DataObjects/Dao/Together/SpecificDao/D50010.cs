@@ -121,7 +121,7 @@ namespace DataObjects.Dao.Together.SpecificDao {
          m_second, 
          cp_valid,
          AMMD_KEEP_TIME, 
-         AMMD_WEIGHT_P
+         AMMD_WEIGHT_P,
          AMMD_WEIGHT_Q,
          AMMD_WEIGHT_KIND,
          AMMD_RESULT,
