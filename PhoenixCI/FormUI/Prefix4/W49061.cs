@@ -32,11 +32,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
       private RepositoryItemLookUpEdit lupForeign;
       private RepositoryItemLookUpEdit lupCurrency;
       private RepositoryItemLookUpEdit lupAmt;
+      private CODW daoCodw;
 
       public W49061(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
          GridHelper.SetCommonGrid(gvMain);
+
+         daoCodw = new CODW();
       }
 
       protected override ResultStatus Open() {
@@ -47,11 +50,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
             lupCurrency = new RepositoryItemLookUpEdit();
             lupAmt = new RepositoryItemLookUpEdit();
 
-            COD cod = new COD();
-
             //商品類別
             //DataTable dtKind = cod.ListByCol("MGT8" , "MGT8_KIND_TYPE" , " " , "  ");
-            DataTable dtKind = new CODW().ListLookUpEdit("49061" , "49061_MGT8_KIND_TYPE");
+            DataTable dtKind = daoCodw.ListLookUpEdit("MGT8" , "MGT8_KIND_TYPE");
             Extension.SetColumnLookUp(lupKind , dtKind , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
             gcMain.RepositoryItems.Add(lupKind);
 
@@ -60,7 +61,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //                                new LookupItem() { ValueMember = " ", DisplayMember = "國內"},
             //                                new LookupItem() { ValueMember = "Y", DisplayMember = "國外"}};
             //lupForeign = new RepositoryItemLookUpEdit();
-            DataTable dtForeign = new CODW().ListLookUpEdit("49061" , "49061_MGT2_ABROAD");
+            DataTable dtForeign = daoCodw.ListLookUpEdit("MGT2" , "MGT2_ABROAD");
             foreach (DataRow dr in dtForeign.Rows) {
                if (dr["CODW_ID"].AsString() == "N") {
                   dr["CODW_ID"] = " ";
@@ -71,7 +72,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             //幣別
             //DataTable dtCurrency = cod.ListByCol2("EXRT" , "EXRT_CURRENCY_TYPE");
-            DataTable dtCurrency = new CODW().ListLookUpEdit("49061" , "49061_CURRENCY_TYPE");
+            DataTable dtCurrency = daoCodw.ListLookUpEdit("APDK" , "APDK_CURRENCY_TYPE");
             Extension.SetColumnLookUp(lupCurrency , dtCurrency , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
             gcMain.RepositoryItems.Add(lupCurrency);
 
@@ -80,7 +81,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //                                new LookupItem() { ValueMember = "P", DisplayMember = "比例"},
             //                                new LookupItem() { ValueMember = "A", DisplayMember = "金額"}};
             //lupForeign = new RepositoryItemLookUpEdit();
-            DataTable dtAmt = new CODW().ListLookUpEdit("49061" , "49061_AMT_TYPE");
+            DataTable dtAmt = daoCodw.ListLookUpEdit("49061" , "49061_AMT_TYPE");
             lupAmt.SetColumnLookUp(dtAmt , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
             gcMain.RepositoryItems.Add(lupAmt);
 

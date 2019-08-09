@@ -60,7 +60,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
          //    lookUpDt.Rows[i].SetField("COD_DESC", spnParms[i]);
          //}
 
-         DataTable lookUpDt = new CODW().ListLookUpEdit("20130" , "20130_F_ID");
+         DataTable lookUpDt = new CODW().ListLookUpEdit("20130" , "F_ID");
          Extension.SetColumnLookUp(_RepLookUpEdit , lookUpDt , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
          gcMain.RepositoryItems.Add(_RepLookUpEdit);
          AM12_F_ID.ColumnEdit = _RepLookUpEdit;

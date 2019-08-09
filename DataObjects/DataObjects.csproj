@@ -317,6 +317,7 @@
     <Compile Include="Dao\Together\TableDao\INTWSE1.cs" />
     <Compile Include="Dao\Together\TableDao\JLOG.cs" />
     <Compile Include="Dao\Together\TableDao\JRF.cs" />
+    <Compile Include="Dao\Together\TableDao\APARG.cs" />
     <Compile Include="Dao\Together\TableDao\LOGS.cs" />
     <Compile Include="Dao\Together\TableDao\LOGSP.cs" />
     <Compile Include="Dao\Together\TableDao\AOCF.cs" />
@@ -331,6 +332,7 @@
     <Compile Include="Dao\Together\TableDao\MG8.cs" />
     <Compile Include="Dao\Together\TableDao\MGT4.cs" />
     <Compile Include="Dao\Together\TableDao\MOCF.cs" />
+    <Compile Include="Dao\Together\TableDao\OCFUPD.cs" />
     <Compile Include="Dao\Together\TableDao\REWARD\R_MARKET_STF_EXCL.cs" />
     <Compile Include="Dao\Together\TableDao\SPNT1.cs" />
     <Compile Include="Dao\Together\TableDao\SPNT2.cs" />

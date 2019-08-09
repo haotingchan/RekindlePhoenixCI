@@ -85,7 +85,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          //                            new LookupItem() { ValueMember = "1", DisplayMember = "季評估"},
          //                            new LookupItem() { ValueMember = "2", DisplayMember = "機動評估"}};
 
-         DataTable dtCauseList = new CODW().ListLookUpEdit("40073" , "40073_ADJ_RSN");
+         DataTable dtCauseList = new CODW().ListLookUpEdit("40073" , "ADJ_RSN");
          causeLookUpEdit = new RepositoryItemLookUpEdit();
          causeLookUpEdit.SetColumnLookUp(dtCauseList , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          gcMain.RepositoryItems.Add(causeLookUpEdit);

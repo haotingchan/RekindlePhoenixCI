@@ -77,8 +77,13 @@ namespace PhoenixCI.FormUI.Prefix2 {
       /// 幣別欄位
       /// </summary>
       private void ApdkCurrencyType() {
-         DataTable dtCurrency = new CODW().ListLookUpEdit("20231_2" , "20231_CURRENCY_TYPE");
+         DataTable dtCurrency = new CODW().ListLookUpEdit("APDK" , "APDK_CURRENCY_TYPE");
          //ApdkCurrencyTypeLookUpEdit.SetColumnLookUp(new COD().ListByCurrency() , "CURRENCY_TYPE" , "CURRENCY_NAME" , TextEditStyles.DisableTextEditor , null);
+         foreach (DataRow dr in dtCurrency.Rows) {
+            if (dr["CODW_ID"].AsString() == "1") {
+               dr["CODW_DESC"] = "新臺幣元";
+            }
+         }
          ApdkCurrencyTypeLookUpEdit.SetColumnLookUp(dtCurrency , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          APDK_CURRENCY_TYPE.ColumnEdit = ApdkCurrencyTypeLookUpEdit;
       }
@@ -119,7 +124,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
          //                               new LookupItem() { ValueMember = "2", DisplayMember = "上櫃"},
          //                               new LookupItem() { ValueMember = " ", DisplayMember = " " }};
 
-         DataTable dtUnderlyingMarketList = new CODW().ListLookUpEdit("20231_2" , "UNDERLYING_MARKET");
+         DataTable dtUnderlyingMarketList = new CODW().ListLookUpEdit("APDK" , "UNDERLYING_MARKET");
          ApdkUnderlyingMarketLookUpEdit.SetColumnLookUp(dtUnderlyingMarketList , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          APDK_UNDERLYING_MARKET.ColumnEdit = ApdkUnderlyingMarketLookUpEdit;
       }
@@ -141,7 +146,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
          //DataTable apdkListCol = new COD().ListByCol("APDK" , "APDK_PROD_SUBTYPE");
          //apdkListCol.Rows.RemoveAt(0);
 
-         DataTable apdkListCol = new CODW().ListLookUpEdit("20231_2" , "APDK_PROD_SUBTYPE");
+         DataTable apdkListCol = new CODW().ListLookUpEdit("APDK" , "APDK_PROD_SUBTYPE");
          ApdkProdSubtypeLookUpEdit.SetColumnLookUp(apdkListCol , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          APDK_PROD_SUBTYPE.ColumnEdit = ApdkProdSubtypeLookUpEdit;
       }
@@ -154,7 +159,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
          //   new LookupItem() { ValueMember = "F", DisplayMember = "期貨" },
          //   new LookupItem() { ValueMember = "O", DisplayMember = "選擇權"}};
 
-         DataTable dtTypelist = new CODW().ListLookUpEdit("20231_2" , "APDK_PROD_TYPE");
+         DataTable dtTypelist = new CODW().ListLookUpEdit("APDK" , "APDK_PROD_TYPE");
          ApdkProdTypeLookUpEdit.SetColumnLookUp(dtTypelist , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          APDK_PROD_TYPE.ColumnEdit = ApdkProdTypeLookUpEdit;
       }

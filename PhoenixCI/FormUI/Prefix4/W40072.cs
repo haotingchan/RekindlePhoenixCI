@@ -86,7 +86,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          //                               new LookupItem() { ValueMember = "2", DisplayMember = "2"},
          //                               new LookupItem() { ValueMember = "3", DisplayMember = "3" }};
 
-         DataTable dtRateList = new CODW().ListLookUpEdit("40072" , "40072_RATE");
+         DataTable dtRateList = new CODW().ListLookUpEdit("40072" , "RATE");
          rateLookUpEdit = new RepositoryItemLookUpEdit();
          rateLookUpEdit.SetColumnLookUp(dtRateList , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          gcMain.RepositoryItems.Add(rateLookUpEdit);
@@ -733,9 +733,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             }
 
             //處置期間首日+1個月
-            mocfYmd = PbFunc.relativedate(implBeginYmd.AsDateTime() , 30).ToString("yyyyMMdd");
+            DateTime tmp = DateTime.ParseExact(implBeginYmd,"yyyyMMdd",null);
+            mocfYmd = PbFunc.relativedate(tmp, 30).ToString("yyyyMMdd");
             /*次一營業日*/
-            implBeginYmd = implBeginYmd.AsDateTime().ToString("yyyyMMdd");
+            //implBeginYmd = implBeginYmd.AsDateTime().ToString("yyyyMMdd");
             issueBeginYmd = daoMOCF.GetNextTradeDay(implBeginYmd , mocfYmd);
 
             //終止生效日為處置期間迄日

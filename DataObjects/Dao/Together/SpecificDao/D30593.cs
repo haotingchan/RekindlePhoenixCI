@@ -32,7 +32,8 @@ SELECT APDK_YMD,APDK_PARAM_KEY,
          FROM
              (SELECT APDK_PARAM_KEY
                   from CI.APDK
-              WHERE APDK_PARAM_KEY in ('TJF','I5F','UDF','SPF')
+              WHERE APDK_PROD_SUBTYPE = 'I' 
+				AND APDK_UNDERLYING_MARKET >'2'
                group by APDK_PARAM_KEY),
              (SELECT AI2_YMD
                 FROM CI.AI2
@@ -40,7 +41,13 @@ SELECT APDK_YMD,APDK_PARAM_KEY,
                  AND AI2_YMD <= :as_eymd
                  AND AI2_SUM_TYPE = 'D'
                  AND AI2_PROD_TYPE = 'F'
-                 AND AI2_PARAM_KEY in ('TJF','I5F','UDF','SPF')
+                 AND AI2_PARAM_KEY in (
+						SELECT APDK_PARAM_KEY
+									from CI.APDK
+							  WHERE APDK_PROD_SUBTYPE = 'I' 
+							AND APDK_UNDERLYING_MARKET >'2' 
+								group by APDK_PARAM_KEY
+                )
                  AND AI2_SUM_SUBTYPE = '3' 
                GROUP BY AI2_YMD)),
        (SELECT AA2_YMD,AA2_PARAM_KEY,
@@ -50,7 +57,13 @@ SELECT APDK_YMD,APDK_PARAM_KEY,
          WHERE AA2_YMD >= :as_symd
            and AA2_YMD <= :as_eymd
            and AA2_PROD_tYPE = 'F'
-           AND AA2_PARAM_KEY in ('TJF','I5F','UDF','SPF')
+           AND AA2_PARAM_KEY in (
+						SELECT APDK_PARAM_KEY
+									from CI.APDK
+							  WHERE APDK_PROD_SUBTYPE = 'I' 
+							AND APDK_UNDERLYING_MARKET >'2' 
+								group by APDK_PARAM_KEY
+            )
            AND AA2_MARKET_CODE LIKE trim(:as_market_code)||'%'
          GROUP BY AA2_YMD,AA2_PARAM_KEY),
        --ID數AB4(全部期別999
@@ -60,7 +73,13 @@ SELECT APDK_YMD,APDK_PARAM_KEY,
          WHERE AB4_DATE >= TO_DATE(:as_symd,'YYYYMMDD')
            and AB4_DATE <= TO_DATE(:as_eymd,'YYYYMMDD')
            and AB4_PROD_TYPE = 'F'
-           and AB4_PARAM_KEY in ('TJF','I5F','UDF','SPF')
+           and AB4_PARAM_KEY in (
+						SELECT APDK_PARAM_KEY
+									from CI.APDK
+							  WHERE APDK_PROD_SUBTYPE = 'I' 
+							AND APDK_UNDERLYING_MARKET >'2' 
+								group by APDK_PARAM_KEY
+            )
            and AB4_KIND_ID = '999'          
            AND (AB4_MARKET_CODE = :as_market_code  or AB4_MARKET_CODE = ' ')),
        --戶數AM9(全部期別999)
@@ -70,7 +89,13 @@ SELECT APDK_YMD,APDK_PARAM_KEY,
          WHERE AM9_YMD >= :as_symd
            and AM9_YMD <= :as_eymd
            and AM9_PROD_TYPE = 'F'
-           and AM9_PARAM_KEY in ('TJF','I5F','UDF','SPF')
+           and AM9_PARAM_KEY in (
+						SELECT APDK_PARAM_KEY
+									from CI.APDK
+							  WHERE APDK_PROD_SUBTYPE = 'I' 
+							AND APDK_UNDERLYING_MARKET >'2' 
+								group by APDK_PARAM_KEY
+            )
            and AM9_PARAM_KEY = AM9_KIND_ID2 
            AND (AM9_MARKET_CODE = :as_market_code or AM9_MARKET_CODE = ' ')),
        --成交筆數AM10
@@ -80,7 +105,13 @@ SELECT APDK_YMD,APDK_PARAM_KEY,
          WHERE AM10_YMD >= :as_symd
            and AM10_YMD <= :as_eymd
            AND AM10_PROD_TYPE = 'F'
-           AND AM10_PARAM_KEY in ('TJF','I5F','UDF','SPF')
+           AND AM10_PARAM_KEY in (
+						SELECT APDK_PARAM_KEY
+									from CI.APDK
+							  WHERE APDK_PROD_SUBTYPE = 'I' 
+							AND APDK_UNDERLYING_MARKET >'2' 
+								group by APDK_PARAM_KEY
+            )
            AND AM10_MARKET_CODE LIKE trim(:as_market_code)||'%'
          GROUP BY AM10_YMD,AM10_PARAM_KEY),
        --未平倉量及成交量AI2
@@ -94,7 +125,13 @@ SELECT APDK_YMD,APDK_PARAM_KEY,
            AND AI2_YMD <= :as_eymd
            AND AI2_SUM_TYPE = 'D'
            AND AI2_PROD_TYPE = 'F'
-           AND AI2_PARAM_KEY in ('TJF','I5F','UDF','SPF')
+           AND AI2_PARAM_KEY in (
+						SELECT APDK_PARAM_KEY
+									from CI.APDK
+							  WHERE APDK_PROD_SUBTYPE = 'I' 
+							AND APDK_UNDERLYING_MARKET >'2' 
+								group by APDK_PARAM_KEY
+            )
            AND AI2_SUM_SUBTYPE = '3' 
          GROUP BY AI2_YMD,AI2_PARAM_KEY)
       --交易人類別AM2

@@ -38,7 +38,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          //                               new LookupItem() { ValueMember = "Y", DisplayMember = "1-當日達得調整標準之契約"},
          //                               new LookupItem() { ValueMember = "%", DisplayMember = "%-全部契約" }};
 
-         DataTable dtProd = new CODW().ListLookUpEdit("40041" , "40041_DATA_TYPE");
+         DataTable dtProd = new CODW().ListLookUpEdit("40041" , "DATA_TYPE");
          prodLookItem.SetDataTable(dtProd , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          prodLookItem.ItemIndex = 0; // Y
 

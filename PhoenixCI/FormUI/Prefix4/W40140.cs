@@ -110,8 +110,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             labMsg.Visible = false;
 
 #if DEBUG
-            if (FlagAdmin)
-               System.Diagnostics.Process.Start(excelDestinationPath);
+            //if (FlagAdmin)
+            //   System.Diagnostics.Process.Start(excelDestinationPath);
 #endif
             return ResultStatus.Success;
 
@@ -202,11 +202,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
                strIm = dtGold.Rows[0]["mgd2_im"].AsDecimal().AsString();
                if (dtGDF.Rows.Count > 0) {
                   decimal mgd2Im = dtGDF.Rows[0]["mgd2_im"].AsDecimal();
-                  decimal mgd2CurCm = dtGDF.Rows[0]["mgd2_cur_cm"].AsDecimal();
-                  decimal mgd2Cm = dtGDF.Rows[0]["mgd2_cm"].AsDecimal();
+                  decimal mgd2CurCm = dtGDF.Rows[0]["mgd2_cur_im"].AsDecimal();
+                  decimal mgd2Cm = dtGDF.Rows[0]["mgd2_im_c"].AsDecimal();
                   string mgt2AbbrName = dtGDF.Rows[0]["mgt2_abbr_name"].AsString();
 
-                  txt += "本次調整將美元計價" + mgt2AbbrName + "結算保證金金額由原先" +
+                  txt += "本次調整將美元計價" + mgt2AbbrName + "原始保證金金額由原先" +
                            string.Format("{0:N0}" , Math.Round(mgd2CurCm , 0 , MidpointRounding.AwayFromZero)) + "美元向";
 
                   if (mgd2CurCm > mgd2Cm) {
@@ -227,15 +227,15 @@ namespace PhoenixCI.FormUI.Prefix4 {
             if (dtGold.Rows.Count > 0) {
                DataTable dtTGF = dtGold.Filter("mgd2_kind_id='TGF'");
                if (dtTGF.Rows.Count > 0) {
-                  decimal mgd2CurCm = dtTGF.Rows[0]["mgd2_cur_cm"].AsDecimal();
-                  decimal mgd2Cm = dtTGF.Rows[0]["mgd2_cm"].AsDecimal();
+                  decimal mgd2CurCm = dtTGF.Rows[0]["mgd2_cur_im"].AsDecimal();
+                  decimal mgd2Cm = dtTGF.Rows[0]["mgd2_im_c"].AsDecimal();
                   string mgt2AbbrName = dtTGF.Rows[0]["mgt2_abbr_name"].AsString();
 
                   if (dataGoldNum > 0) {
                      txt += "；";
                   }
 
-                  txt += "新臺幣計價" + mgt2AbbrName + "結算保證金金額由原先" +
+                  txt += "新臺幣計價" + mgt2AbbrName + "原始保證金金額由原先" +
                            string.Format("{0:N0}" , Math.Round(mgd2CurCm , 0 , MidpointRounding.AwayFromZero)) + "元向";
 
                   if (mgd2CurCm > mgd2Cm) {
@@ -360,8 +360,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                return false;
             }
 
-            if (FlagAdmin)
-               System.Diagnostics.Process.Start(filePath);
+            //if (FlagAdmin)
+            //   System.Diagnostics.Process.Start(filePath);
 
             return true;
          } catch (Exception ex) {

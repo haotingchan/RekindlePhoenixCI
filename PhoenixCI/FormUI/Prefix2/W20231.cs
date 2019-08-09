@@ -52,7 +52,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
          //                               new LookupItem() { ValueMember = " ", DisplayMember = " "},
          //                               new LookupItem() { ValueMember = "F", DisplayMember = "○" }};
 
-         DataTable dtFut = new CODW().ListLookUpEdit("20231" , "20231_PLS4_FUT");
+         DataTable dtFut = new CODW().ListLookUpEdit("20231" , "PLS4_FUT");
          foreach (DataRow dr in dtFut.Rows) {
             if (dr["CODW_ID"].AsString() == "N") {
                dr["CODW_ID"] = " ";
@@ -65,7 +65,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
          //                               new LookupItem() { ValueMember = " ", DisplayMember = " "},
          //                               new LookupItem() { ValueMember = "O", DisplayMember = "○" }};
 
-         DataTable dtOpt = new CODW().ListLookUpEdit("20231" , "20231_PLS4_OPT");
+         DataTable dtOpt = new CODW().ListLookUpEdit("20231" , "PLS4_OPT");
          foreach (DataRow dr in dtOpt.Rows) {
             if (dr["CODW_ID"].AsString() == "N") {
                dr["CODW_ID"] = " ";
@@ -90,7 +90,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
 
          //上市/上櫃
          //Pls4PidLookUpEdit.SetColumnLookUp(new COD().ListByCol("TFXM", "TFXM_PID"), "COD_ID", "COD_DESC", textEditStyles, null);
-         DataTable dtTFXM = new CODW().ListLookUpEdit("20231" , "20231_TFXM_PID");
+         DataTable dtTFXM = new CODW().ListLookUpEdit("APDK" , "UNDERLYING_MARKET");
          Pls4PidLookUpEdit.SetColumnLookUp(dtTFXM , "CODW_ID" , "CODW_DESC" , textEditStyles , null);
          PLS4_PID.ColumnEdit = Pls4PidLookUpEdit;
 
@@ -251,10 +251,16 @@ namespace PhoenixCI.FormUI.Prefix2 {
          DataTable dtAdd = dt.GetChanges(DataRowState.Added);
          DataTable dtDeleteChange = dt.GetChanges(DataRowState.Deleted);
 
-         int getDeleteCount = dtDeleteChange != null ? dtDeleteChange.Rows.Count : 0;
-         //存檔前檢查
-         if (getDeleteCount == 0 && dtChange != null)//無法經由資料列存取已刪除的資料列資訊。
-         {
+         if (dtChange == null) {
+            MessageDisplay.Warning("沒有變更資料,不需要存檔!" , GlobalInfo.WarningText);
+            return ResultStatus.Fail;
+         }
+         if (dtChange.Rows.Count == 0) {
+            MessageDisplay.Warning("沒有變更資料,不需要存檔!" , GlobalInfo.WarningText);
+            return ResultStatus.Fail;
+         }
+
+         if (dtChange != null) {
             //更新變動日期與使用者ID
             foreach (DataRow dr in dt.Rows) {
                if (dr.RowState == DataRowState.Modified) {
@@ -273,9 +279,10 @@ namespace PhoenixCI.FormUI.Prefix2 {
                      return ResultStatus.FailButNext;
                   }
                }
+
+               if (dr.RowState == DataRowState.Deleted) continue;
             }
-         }
-         if (dtChange != null) {
+
             try {
                // 寫入DB
                ResultData myResultData = dao20231.UpdatePLS4(dt);
@@ -283,10 +290,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
                Common.Helper.ExportHelper.ToText(dt , Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH , "20231.txt"));
             } catch (Exception ex) {
                WriteLog(ex);
+               return ResultStatus.Fail;
             }
-            return ResultStatus.Success;
-         } else {
-            MessageBox.Show("沒有變更資料,不需要存檔!" , "注意" , MessageBoxButtons.OK , MessageBoxIcon.Exclamation);
          }
          return ResultStatus.Success;
       }

@@ -162,8 +162,6 @@ namespace Common {
          };
       }
 
-
-
       public static void AddModifyCheckMark(GridControl gridControl , RepositoryItemCheckEdit repCheck , GridColumn MODIFY_MARK) {
          GridView gv = (GridView)gridControl.MainView;
          MODIFY_MARK.OptionsColumn.AllowEdit = false;

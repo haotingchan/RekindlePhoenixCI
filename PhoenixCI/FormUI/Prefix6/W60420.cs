@@ -24,7 +24,6 @@ namespace PhoenixCI.FormUI.Prefix6 {
    public partial class W60420 : FormParent {
 
       private D60420 dao60420;
-      private COD daoCOD;
 
       public W60420(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
@@ -56,7 +55,6 @@ namespace PhoenixCI.FormUI.Prefix6 {
       }
 
       protected override ResultStatus AfterOpen() {
-         daoCOD = new COD();
          base.AfterOpen();
 
          txtStartDate.EditValue = GlobalInfo.OCF_DATE.Year + "/01/01";
@@ -64,7 +62,7 @@ namespace PhoenixCI.FormUI.Prefix6 {
 
          //設定 dw_index
          //DataTable dwSource = daoCOD.ListByCol(_ProgramID , "PID-IDSTK" , "全部" , "%");
-         DataTable dwSource = new CODW().ListLookUpEdit("60420" , "60420_PID_IDSTK");
+         DataTable dwSource = new CODW().ListLookUpEdit("60420" , "PID_IDSTK");
          Extension.SetDataTable(dw_index , dwSource , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
          dw_index.ItemIndex = 0;
          return ResultStatus.Success;

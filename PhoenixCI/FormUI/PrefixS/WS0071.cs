@@ -60,14 +60,14 @@ namespace PhoenixCI.FormUI.PrefixS {
          #region Set Drop Down Lsit
          //設定方式
          RepositoryItemLookUpEdit cbxParamType = new RepositoryItemLookUpEdit();
-         DataTable cbxParamTypeSource = daoCodw.ListByCol2("S0070", "SPAN_PARAM_TYPE");
+         DataTable cbxParamTypeSource = daoCodw.ListByCol2("SPAN_PAR" , "SPAN_PARAM_TYPE");
          cbxParamType.SetColumnLookUp(cbxParamTypeSource, "CODW_ID", "CODW_DESC", TextEditStyles.DisableTextEditor, "");
          gcMain.RepositoryItems.Add(cbxParamType);
          SPAN_PARAM_TYPE.ColumnEdit = cbxParamType;
 
          //設定值 要顯示user自己輸入的值
          RepositoryItemLookUpEdit cbxParamValue = new RepositoryItemLookUpEdit();
-         DataTable cbxParamValueSource = daoCodw.ListByCol2("S0070", "SPAN_PARAM_VALUE");
+         DataTable cbxParamValueSource = daoCodw.ListByCol2("SPAN_PAR" , "SPAN_PARAM_VALUE");
          DataTable dtParamValueData = daoS0071.GetParamData("PL", GlobalInfo.USER_ID);//DB現有資料
          DataTable dtTempParamValue = cbxParamValueSource.Clone();
          for (int i = 0; i < dtParamValueData.Rows.Count; i++) {
@@ -94,7 +94,7 @@ namespace PhoenixCI.FormUI.PrefixS {
 
          //波動度設定
          RepositoryItemLookUpEdit cbxParamVolType = new RepositoryItemLookUpEdit();
-         DataTable cbxParamVolTypeSource = daoCodw.ListByCol2("S0070", "SPAN_PARAM_VOL_TYPE");
+         DataTable cbxParamVolTypeSource = daoCodw.ListByCol2("SPAN_PAR" , "SPAN_PARAM_VOL_TYPE");
          cbxParamVolType.SetColumnLookUp(cbxParamVolTypeSource, "CODW_ID", "CODW_DESC", TextEditStyles.DisableTextEditor, "");
          gcMain.RepositoryItems.Add(cbxParamVolType);
          SPAN_PARAM_VOL_TYPE.ColumnEdit = cbxParamVolType;

@@ -30,9 +30,17 @@ namespace PhoenixCI.FormUI.Prefix1
         protected override ResultStatus RunBefore(PokeBall args)
         {
             base.RunBefore(args);
+            if (!servicePrefix1.setPrevOCF(txtPrevOcfDate.DateTimeValue,_DB_TYPE,GlobalInfo.USER_ID))
+            {
+                return ResultStatus.Fail;
+            }
 
-
-            return base.RunBefore(args);
+            //主要為monit,但有選擇權的項目
+            if (!servicePrefix1.setOCF(txtOcfDate.DateTimeValue, "opt", GlobalInfo.USER_ID))
+            {
+                return ResultStatus.Fail;
+            }
+            return ResultStatus.Success;
         }
     }
 }

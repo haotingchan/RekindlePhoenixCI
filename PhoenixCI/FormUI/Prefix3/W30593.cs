@@ -23,14 +23,12 @@ namespace PhoenixCI.FormUI.Prefix3 {
    public partial class W30593 : FormParent {
 
       protected D30593 dao30593;
-      protected COD daoCod;
 
       public W30593(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
 
          dao30593 = new D30593();
-         daoCod = new COD();
       }
 
       protected override ResultStatus Open() {
@@ -40,7 +38,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             txtStartYMD.DateTimeValue = GlobalInfo.OCF_DATE.AddDays(-GlobalInfo.OCF_DATE.Day + 1); //取得當月第1天
             txtEndYMD.DateTimeValue = GlobalInfo.OCF_DATE;
 
-            DataTable dtProd = new CODW().ListLookUpEdit("30593" , "30593_KIND_ID");
+            DataTable dtProd = new CODW().ListLookUpEdit("30593" , "KIND_ID");
             Extension.SetDataTable(ddlProd , dtProd , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
             ddlProd.ItemIndex = 0;
 

@@ -28,7 +28,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
    public partial class W40180 : FormParent {
 
       private D40180 dao40180;
-      private COD daoCOD;
       private TXFP daoTXFP;
       List<string> is_adj_type;
       List<string> is_adj_type_rtn;
@@ -38,7 +37,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
          this.Text = _ProgramID + "─" + _ProgramName;
 
          dao40180 = new D40180();
-         daoCOD = new COD();
          daoTXFP = new TXFP();
          is_adj_type = new List<string>();
          is_adj_type_rtn = new List<string>();
@@ -59,7 +57,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             //2. 設定dropdownlist(頻率)
             //DataTable dtMsg = daoCOD.ListByTxn("40180");
-            DataTable dtMsg = new CODW().ListLookUpEdit("40180" , "40180_MSG_TYPE");
+            DataTable dtMsg = new CODW().ListLookUpEdit("40180" , "MSG_TYPE");
             dwMsg.SetDataTable(dtMsg , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor);
             dwMsg.ItemIndex = 0;
 

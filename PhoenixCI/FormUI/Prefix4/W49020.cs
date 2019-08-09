@@ -35,7 +35,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
       private RepositoryItemLookUpEdit lupCpKind; //風險價格係數計算方式
       private RepositoryItemLookUpEdit lupAbroad; //國內/國外類別
 
-      private COD cod;
       private D49020 dao49020;
       #endregion
 
@@ -43,7 +42,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
 
-         cod = new COD();
          dao49020 = new D49020();
       }
 
@@ -57,21 +55,21 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //                                new LookupItem() { ValueMember = "F", DisplayMember = "F：期貨"},
             //                                new LookupItem() { ValueMember = "O", DisplayMember = "O：選擇權"}};
             lupProdType = new RepositoryItemLookUpEdit();
-            DataTable dtProdType = new CODW().ListLookUpEdit("49020" , "49020_PROD_TYPE");
+            DataTable dtProdType = new CODW().ListLookUpEdit("APDK" , "APDK_PROD_TYPE");
             lupProdType.SetColumnLookUp(dtProdType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
             gcMain.RepositoryItems.Add(lupProdType);
 
             //契約類別
             lupProdSubtypeCod = new RepositoryItemLookUpEdit();
             //DataTable dtProdSubtypeCod = cod.ListByCol2("49020" , "PDK_SUBTYPE");
-            DataTable dtProdSubtypeCod = new CODW().ListLookUpEdit("49020" , "49020_PDK_SUBTYPE");
+            DataTable dtProdSubtypeCod = new CODW().ListLookUpEdit("APDK" , "APDK_PROD_SUBTYPE");
             Extension.SetColumnLookUp(lupProdSubtypeCod , dtProdSubtypeCod , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
             gcMain.RepositoryItems.Add(lupProdSubtypeCod);
 
             //商品狀態
             lupDataType = new RepositoryItemLookUpEdit();
             //DataTable dataTypeList = cod.ListByCol("49020" , "MGT2_DATA_TYPE");
-            DataTable dataTypeList = new CODW().ListLookUpEdit("49020" , "49020_DATA_TYPE");
+            DataTable dataTypeList = new CODW().ListLookUpEdit("49020" , "DATA_TYPE");
             foreach (DataRow dr in dataTypeList.Rows) {
                if (dr["CODW_ID"].AsString() == "none") {
                   dr["CODW_ID"] = " ";
@@ -96,7 +94,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             //此處國內/外下拉清單 於CI.MGT2參數為(國內 : " "  國外: "Y") CI.CODW參數為(國內 : "N"  國外: "Y")
             lupAbroad = new RepositoryItemLookUpEdit();
             //DataTable dtAbroad = cod.ListByCol2("MGT2" , "MGT2_ABROAD");
-            DataTable dtAbroad = new CODW().ListLookUpEdit("49020" , "49020_MGT2_ABROAD");
+            DataTable dtAbroad = new CODW().ListLookUpEdit("MGT2" , "MGT2_ABROAD");
             foreach (DataRow dr in dtAbroad.Rows) {
                if (dr["CODW_ID"].AsString() == "N") {
                   dr["CODW_ID"] = " ";

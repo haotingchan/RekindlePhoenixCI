@@ -16,6 +16,7 @@ namespace PhoenixCI.FormUI.Prefix1
 
         public W10022(string programID, string programName) : base(programID, programName)
         {
+            InitializeComponent();
             _DB_TYPE = "opt";
         }
 

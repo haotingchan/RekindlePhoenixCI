@@ -67,7 +67,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          //                            new LookupItem() { ValueMember = "a", DisplayMember = "任一model達調整標準" },
          //                            new LookupItem() { ValueMember = "%", DisplayMember = "全部商品" }};
 
-         DataTable dtModelType = new CODW().ListLookUpEdit("40070" , "40070_MODEL_ID");
+         DataTable dtModelType = new CODW().ListLookUpEdit("40070" , "MODEL_ID");
          Extension.SetDataTable(ddlModel , dtModelType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
          ddlModel.ItemIndex = 0; // S
 
@@ -81,7 +81,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          //                               new LookupItem() { ValueMember = "2", DisplayMember = "全選Group2" },
          //                               new LookupItem() { ValueMember = "3", DisplayMember = "全選Group3" }};
 
-         DataTable dtAdjustType = new CODW().ListLookUpEdit("40070" , "40070_DDL_ADJUST");
+         DataTable dtAdjustType = new CODW().ListLookUpEdit("40070" , "DDL_ADJUST");
          Extension.SetDataTable(ddlAdjust , dtAdjustType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
          ddlAdjust.ItemIndex = 0; // none
          #endregion

@@ -75,7 +75,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             //契約種類
             //DataTable dtKindId = dao49062.GetMgt8KindFIdList(); //kind_type/kind_name/cod_seq_no 3 fields 
-            DataTable dtKindId = new CODW().ListLookUpEdit("49062", "49062_KIND_TYPE") ; //kind_type/kind_name/cod_seq_no 3 fields 
+            DataTable dtKindId = new CODW().ListLookUpEdit("MGT8" , "MGT8_KIND_TYPE") ; //kind_type/kind_name/cod_seq_no 3 fields 
             dwKindId.SetDataTable(dtKindId , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor);
             dwKindId.ItemIndex = 0;
 

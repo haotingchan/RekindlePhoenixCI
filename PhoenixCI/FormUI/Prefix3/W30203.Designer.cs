@@ -103,14 +103,19 @@
             this.PL1_MAX_MONTH_CNT = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.PL1_MAX_TYPE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.PL1_MAX_QNTY = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.PL1_YMD = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.PL1_YMD1 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.PL1_PROD_TYPE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.PL1_PROD_SUBTYPE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.PL1_UPD_TIME = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.PL1_UPD_USER_ID = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.PL1_PREV_AVG_QNTY = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.PL1_PREV_AVG_OI = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.PL1_AVG_QNTY = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.PL1_AVG_OI = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.PL1_CHANGE_RANGE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.PL1_CP_999 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.PL1_YMD = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
@@ -727,12 +732,17 @@
             this.PL1_MAX_MONTH_CNT,
             this.PL1_MAX_TYPE,
             this.PL1_MAX_QNTY,
-            this.PL1_YMD,
-            this.PL1_YMD1,
             this.PL1_PROD_TYPE,
             this.PL1_PROD_SUBTYPE,
             this.PL1_UPD_TIME,
-            this.PL1_UPD_USER_ID});
+            this.PL1_UPD_USER_ID,
+            this.PL1_PREV_AVG_QNTY,
+            this.PL1_PREV_AVG_OI,
+            this.PL1_AVG_QNTY,
+            this.PL1_AVG_OI,
+            this.PL1_CHANGE_RANGE,
+            this.PL1_CP_999,
+            this.PL1_YMD});
             this.gvMain.GridControl = this.gcMain;
             this.gvMain.Name = "gvMain";
             this.gvMain.OptionsPrint.PrintHeader = false;
@@ -1115,24 +1125,6 @@
             this.PL1_MAX_QNTY.Name = "PL1_MAX_QNTY";
             this.PL1_MAX_QNTY.Width = 112;
             // 
-            // PL1_YMD
-            // 
-            this.PL1_YMD.Caption = "PL1_YMD";
-            this.PL1_YMD.FieldName = "PL1_YMD";
-            this.PL1_YMD.MinWidth = 27;
-            this.PL1_YMD.Name = "PL1_YMD";
-            this.PL1_YMD.Visible = true;
-            this.PL1_YMD.Width = 102;
-            // 
-            // PL1_YMD1
-            // 
-            this.PL1_YMD1.Caption = "PL1_YMD1";
-            this.PL1_YMD1.FieldName = "PL1_YMD1";
-            this.PL1_YMD1.MinWidth = 27;
-            this.PL1_YMD1.Name = "PL1_YMD1";
-            this.PL1_YMD1.Visible = true;
-            this.PL1_YMD1.Width = 102;
-            // 
             // PL1_PROD_TYPE
             // 
             this.PL1_PROD_TYPE.Caption = "PL1_PROD_TYPE";
@@ -1150,6 +1142,78 @@
             this.PL1_PROD_SUBTYPE.Name = "PL1_PROD_SUBTYPE";
             this.PL1_PROD_SUBTYPE.Visible = true;
             this.PL1_PROD_SUBTYPE.Width = 102;
+            // 
+            // PL1_UPD_TIME
+            // 
+            this.PL1_UPD_TIME.Caption = "PL1_UPD_TIME";
+            this.PL1_UPD_TIME.FieldName = "PL1_UPD_TIME";
+            this.PL1_UPD_TIME.MinWidth = 27;
+            this.PL1_UPD_TIME.Name = "PL1_UPD_TIME";
+            this.PL1_UPD_TIME.Visible = true;
+            this.PL1_UPD_TIME.Width = 102;
+            // 
+            // PL1_UPD_USER_ID
+            // 
+            this.PL1_UPD_USER_ID.Caption = "PL1_UPD_USER_ID";
+            this.PL1_UPD_USER_ID.FieldName = "PL1_UPD_USER_ID";
+            this.PL1_UPD_USER_ID.MinWidth = 27;
+            this.PL1_UPD_USER_ID.Name = "PL1_UPD_USER_ID";
+            this.PL1_UPD_USER_ID.Visible = true;
+            this.PL1_UPD_USER_ID.Width = 102;
+            // 
+            // PL1_PREV_AVG_QNTY
+            // 
+            this.PL1_PREV_AVG_QNTY.Caption = "PL1_PREV_AVG_QNTY";
+            this.PL1_PREV_AVG_QNTY.FieldName = "PL1_PREV_AVG_QNTY";
+            this.PL1_PREV_AVG_QNTY.MinWidth = 27;
+            this.PL1_PREV_AVG_QNTY.Name = "PL1_PREV_AVG_QNTY";
+            this.PL1_PREV_AVG_QNTY.Visible = true;
+            this.PL1_PREV_AVG_QNTY.Width = 102;
+            // 
+            // PL1_PREV_AVG_OI
+            // 
+            this.PL1_PREV_AVG_OI.Caption = "PL1_PREV_AVG_OI";
+            this.PL1_PREV_AVG_OI.FieldName = "PL1_PREV_AVG_OI";
+            this.PL1_PREV_AVG_OI.MinWidth = 27;
+            this.PL1_PREV_AVG_OI.Name = "PL1_PREV_AVG_OI";
+            this.PL1_PREV_AVG_OI.Visible = true;
+            this.PL1_PREV_AVG_OI.Width = 102;
+            // 
+            // PL1_AVG_QNTY
+            // 
+            this.PL1_AVG_QNTY.Caption = "PL1_AVG_QNTY";
+            this.PL1_AVG_QNTY.FieldName = "PL1_AVG_QNTY";
+            this.PL1_AVG_QNTY.MinWidth = 27;
+            this.PL1_AVG_QNTY.Name = "PL1_AVG_QNTY";
+            this.PL1_AVG_QNTY.Visible = true;
+            this.PL1_AVG_QNTY.Width = 102;
+            // 
+            // PL1_AVG_OI
+            // 
+            this.PL1_AVG_OI.Caption = "PL1_AVG_OI";
+            this.PL1_AVG_OI.FieldName = "PL1_AVG_OI";
+            this.PL1_AVG_OI.MinWidth = 27;
+            this.PL1_AVG_OI.Name = "PL1_AVG_OI";
+            this.PL1_AVG_OI.Visible = true;
+            this.PL1_AVG_OI.Width = 102;
+            // 
+            // PL1_CHANGE_RANGE
+            // 
+            this.PL1_CHANGE_RANGE.Caption = "PL1_CHANGE_RANGE";
+            this.PL1_CHANGE_RANGE.FieldName = "PL1_CHANGE_RANGE";
+            this.PL1_CHANGE_RANGE.MinWidth = 27;
+            this.PL1_CHANGE_RANGE.Name = "PL1_CHANGE_RANGE";
+            this.PL1_CHANGE_RANGE.Visible = true;
+            this.PL1_CHANGE_RANGE.Width = 102;
+            // 
+            // PL1_CP_999
+            // 
+            this.PL1_CP_999.Caption = "PL1_CP_999";
+            this.PL1_CP_999.FieldName = "PL1_CP_999";
+            this.PL1_CP_999.MinWidth = 27;
+            this.PL1_CP_999.Name = "PL1_CP_999";
+            this.PL1_CP_999.Visible = true;
+            this.PL1_CP_999.Width = 102;
             // 
             // panel1
             // 
@@ -1169,23 +1233,14 @@
             this.panel2.Size = new System.Drawing.Size(1125, 486);
             this.panel2.TabIndex = 4;
             // 
-            // PL1_UPD_TIME
+            // PL1_YMD
             // 
-            this.PL1_UPD_TIME.Caption = "PL1_UPD_TIME";
-            this.PL1_UPD_TIME.FieldName = "PL1_UPD_TIME";
-            this.PL1_UPD_TIME.MinWidth = 27;
-            this.PL1_UPD_TIME.Name = "PL1_UPD_TIME";
-            this.PL1_UPD_TIME.Visible = true;
-            this.PL1_UPD_TIME.Width = 102;
-            // 
-            // PL1_UPD_USER_ID
-            // 
-            this.PL1_UPD_USER_ID.Caption = "PL1_UPD_USER_ID";
-            this.PL1_UPD_USER_ID.FieldName = "PL1_UPD_USER_ID";
-            this.PL1_UPD_USER_ID.MinWidth = 27;
-            this.PL1_UPD_USER_ID.Name = "PL1_UPD_USER_ID";
-            this.PL1_UPD_USER_ID.Visible = true;
-            this.PL1_UPD_USER_ID.Width = 102;
+            this.PL1_YMD.Caption = "PL1_YMD";
+            this.PL1_YMD.FieldName = "PL1_YMD";
+            this.PL1_YMD.MinWidth = 27;
+            this.PL1_YMD.Name = "PL1_YMD";
+            this.PL1_YMD.Visible = true;
+            this.PL1_YMD.Width = 102;
             // 
             // W30203
             // 
@@ -1291,7 +1346,6 @@
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand bandPL1B_999_NEARBY_MTH;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand bandPL1B_999_TOT;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand bandPL1B_ADJ;
-        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn PL1_YMD;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand2;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand bandCur;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand21;
@@ -1306,10 +1360,16 @@
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand bandADJ;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand31;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand32;
-        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn PL1_YMD1;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn PL1_PROD_TYPE;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn PL1_PROD_SUBTYPE;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn PL1_UPD_TIME;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn PL1_UPD_USER_ID;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn PL1_PREV_AVG_QNTY;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn PL1_PREV_AVG_OI;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn PL1_AVG_QNTY;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn PL1_AVG_OI;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn PL1_CHANGE_RANGE;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn PL1_CP_999;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn PL1_YMD;
     }
 }

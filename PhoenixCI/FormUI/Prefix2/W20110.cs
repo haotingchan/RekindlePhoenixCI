@@ -38,7 +38,6 @@ namespace PhoenixCI.FormUI.Prefix2 {
       private RPT daoRPT;
       private AMIF daoAMIF;
       private STWD daoSTWD;
-      private COD daoCOD;
       private APDK daoAPDK;
       protected DataTable dtCheck;
       protected DataTable dtProd;
@@ -104,7 +103,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
          //                               new LookupItem() { ValueMember = "1", DisplayMember = "16:15收盤"},
          //                               new LookupItem() { ValueMember = "2", DisplayMember = "全部收盤" }};
 
-         DataTable dtGrp = new CODW().ListLookUpEdit("20110", "20110_DDLB_GRP");
+         DataTable dtGrp = new CODW().ListLookUpEdit("GRP" , "GRP_NO");
          Extension.SetDataTable(ddlType , dtGrp , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
          #endregion
 
@@ -952,7 +951,6 @@ namespace PhoenixCI.FormUI.Prefix2 {
       /// 取得JTW商品的日本網站資料
       /// </summary>
       private void JpxGetFile() {
-         daoCOD = new COD();
          //下載
          string ymd = txtDate.DateTimeValue.ToString("yyyyMMdd");
          //執行批次檔

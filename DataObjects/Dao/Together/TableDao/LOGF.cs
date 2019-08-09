@@ -19,7 +19,7 @@ namespace DataObjects.Dao.Together
                 "@LOGF_TIME", DateTime.Now,
                 "@LOGF_USER_ID",LOGF_USER_ID,
                 "@LOGF_TXN_ID",LOGF_TXN_ID,
-                "@LOGF_KEY_DATA",LOGF_KEY_DATA,
+                "@LOGF_KEY_DATA","[C#]"+LOGF_KEY_DATA,
                 "@LOGF_JOB_TYPE",LOGF_JOB_TYPE
             };
 

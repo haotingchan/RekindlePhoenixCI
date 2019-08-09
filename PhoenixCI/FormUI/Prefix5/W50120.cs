@@ -29,7 +29,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
       private ABRK daoABRK;
       private APDK daoAPDK;
       protected DataTable dtInsertUse;
-      private COD daoCOD;
       private RepositoryItemLookUpEdit _RepLookUpEdit;
       private RepositoryItemLookUpEdit _RepLookUpEdit2;
       private RepositoryItemLookUpEdit _RepLookUpEdit3;
@@ -45,7 +44,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
          txtMonth.ImeMode = ImeMode.Disable;
          dao50120 = new D50120();
          daoABRK = new ABRK();
-         daoCOD = new COD();
          daoAPDK = new APDK();
          dtInsertUse = daoAPDK.ListAll2();
          dtInsertUse.Columns.Add("TEMP_PROD_TYPE");
@@ -65,7 +63,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
          //[狀態]下拉選單
          _RepLookUpEdit2 = new RepositoryItemLookUpEdit();
          //DataTable dtCOD = daoCOD.ListByTxn("50120");
-         DataTable dtCODW = new CODW().ListLookUpEdit2("50120" , "50120_MPDF_STATUS"); //用有組合欄位的
+         DataTable dtCODW = new CODW().ListLookUpEdit2("50120" , "MPDF_STATUS"); //用有組合欄位的
          Extension.SetColumnLookUp(_RepLookUpEdit2 , dtCODW , "CODW_ID" , "CP_DISPLAY" , TextEditStyles.DisableTextEditor , "");
          gcMain.RepositoryItems.Add(_RepLookUpEdit2);
 

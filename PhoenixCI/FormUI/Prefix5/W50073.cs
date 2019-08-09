@@ -68,7 +68,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             //cbxActId.GetNotInListValue += CbxActId_GetNotInListValue;//假的,DevExpress沒實作
             //cbxActId.AcceptEditorTextAsNewValue = DevExpress.Utils.DefaultBoolean.True;
             //cbxActId.ProcessNewValue += CbxActId_ProcessNewValue;//開放輸入下拉選單沒有的資訊
-            DataTable dtActId = new CODW().ListLookUpEdit("50073" , "50073_ACTIVITY_ID");
+            DataTable dtActId = new CODW().ListLookUpEdit("50073" , "ACTIVITY_ID");
             cbxActId.SetColumnLookUp(dtActId , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
             gcMain.RepositoryItems.Add(cbxActId);
             RWD_REF_OMNI_ACTIVITY_ID.ColumnEdit = cbxActId;

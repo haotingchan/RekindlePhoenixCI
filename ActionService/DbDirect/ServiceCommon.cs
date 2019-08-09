@@ -8,6 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.IO;
+using System.Media;
+using System.Windows.Forms;
 
 namespace ActionService.DbDirect {
     public class ServiceCommon {
@@ -128,79 +131,136 @@ namespace ActionService.DbDirect {
             return daoDataGate.ExecuteStoredProcedure(sql, dbParmsEx, hasReturnParameter);
         }
 
-        public ResultData ExecuteInfoWorkFlow(string workFlowName, UserProgInfo userProgInfo,string folder,string service) {
+        public ResultData ExecuteInfoWorkFlow(string workFlowName, UserProgInfo userProgInfo, string folder, string service, string apName, string bkFileName) {
             string key = "infa";
             int seq = string.IsNullOrEmpty(service) ? 1 : 2;
 
-            DataTable dt = daoTXFP.ListDataByKeyAndSeq(key,seq);
+            DataTable dt = daoTXFP.ListDataByKeyAndSeq(key, seq);
             ResultData result = new ResultData();
 
             string workingDirectory = dt.Rows[0]["ls_exec_file"].AsString();
             string domainFile = dt.Rows[0]["ls_domains_file"].AsString();
             string domain = dt.Rows[0]["ls_domain"].AsString();
-            service = seq  == 1 ? dt.Rows[0]["ls_server"].AsString() : service;
+            service = seq == 1 ? dt.Rows[0]["ls_server"].AsString() : service;
             string user = dt.Rows[0]["ls_str1"].AsString();
             string pwd = dt.Rows[0]["ls_str2"].AsString();
-            string command = $@"
-                                                    SET RunUsr=  {user}   
-                                                    SET RunPasswd=  {pwd} 
-                                                    SET INFA_LANGUAGE=en   	
-                                                    SET INFA_DOMAINS_FILE=  {domainFile}
-                                                    {workingDirectory}   startworkflow  
-                                                    -service   {service}
-                                                    -domain   {domain} 
-                                                    -uv RunUsr  
-                                                    -pv RunPasswd  
-                                                    -folder   {folder}
-                                                    -wait   {workFlowName}		                                             
-                                            ";
+            string language = seq == 1 ? "" : "\nSET INFA_LANGUAGE=en";
 
-            ProcessStartInfo processInfo = new ProcessStartInfo("cmd.exe", "/c " + command);
+            string command = 
+$@"SET RunUsr={user}
+SET RunPasswd={pwd}{language}
+SET INFA_DOMAINS_FILE={domainFile}
+{workingDirectory} startworkflow -service {service} -domain {domain} -uv RunUsr -pv RunPasswd -folder {folder} -wait {workFlowName} > {bkFileName}.log
+echo return status = %errorlevel% >{bkFileName}.err
+exit /b %errorlevel%
+";
+            string batFile = $"{bkFileName}.bat";
+            System.IO.File.WriteAllText(batFile, command);
 
-            processInfo.WorkingDirectory = workingDirectory;
-            processInfo.RedirectStandardOutput = true;
-            processInfo.RedirectStandardError = true;
-            processInfo.RedirectStandardInput = true;
-            processInfo.UseShellExecute = false;
-            processInfo.CreateNoWindow = true;
-
-            string logStr = "";
-            logStr += "開始執行Workflow，指令為:" + command;
-
-            Process process = Process.Start(processInfo);
-
-            string myOutput = process.StandardOutput.ReadToEnd();
-            string myError = process.StandardError.ReadToEnd();
-
+            Process process = new Process();
+            process.StartInfo.FileName = batFile;
+            process.StartInfo.CreateNoWindow = true;
+            process.StartInfo.UseShellExecute = false;
+            process.Start();
             process.WaitForExit();
+            int code;
+            code = process.ExitCode;
+
+            string codeDesc = getInfaCodeDesc(code);
 
             bool isError = false;
 
-            logStr += "Output:" + myOutput + Environment.NewLine;
 
-            if (myOutput.ToUpper().IndexOf("ERROR") != -1) {
+            if (process.ExitCode != 0)
+            {
                 isError = true;
             }
 
-            if (myError != "") {
-                logStr += "Error:" + myOutput + Environment.NewLine;
-                isError = true;
-            }
-
-            if (process.ExitCode != 0) {
-                logStr += "ExitCode:" + process.ExitCode;
-                isError = true;
-            }
-
-            if (isError) {
+            if (isError)
+            {
+                SystemSounds.Beep.Play();
+                result.returnString = $"請通知「{apName}」 Informatica 作業執行失敗!\n請查詢 {bkFileName}.err 錯誤訊息說明\nService：{service}\nFolder：{folder}\nWorkFlow：{workFlowName}\nCode Description：{code} = {codeDesc}";
                 result.Status = ResultStatus.Fail;
             }
-            else {
+            else
+            {
+                File.Delete(batFile);
                 result.Status = ResultStatus.Success;
             }
 
             return result;
         }
+
+        public string getInfaCodeDesc(int code) {
+            string desc = "";
+            switch (code) {
+                case 0:
+                    desc = "Workflow ran successfully";
+                    break;
+                case 1:
+                    desc = "Cannot connect to Power Center server";
+                    break;
+                case 2:
+                    desc = "Workflow or folder does not exist";
+                    break;
+                case 3:
+                    desc = "An error occurred in starting or running the workflow";
+                    break;
+                case 4:
+                    desc = "Usage error";
+                    break;
+                case 5:
+                    desc = "Internal pmcmd error";
+                    break;
+                case 7:
+                    desc = "Invalid Username Password";
+                    break;
+                case 8:
+                    desc = "You do not have permission to perform this task";
+                    break;
+                case 9:
+                    desc = "Connection timed out";
+                    break;
+                case 13:
+                    desc = "Username environment variable not defined";
+                    break;
+                case 14:
+                    desc = "Password environment variable not defined";
+                    break;
+                case 15:
+                    desc = "Username environment variable missing";
+                    break;
+                case 16:
+                    desc = "Password environment variable missing";
+                    break;
+                case 17:
+                    desc = "Parameter file doesnot exist";
+                    break;
+                case 18:
+                    desc = "Initial value missing from parameter file";
+                    break;
+                case 20:
+                    desc = "Repository error occurred. Pls check repository server and database are running";
+                    break;
+                case 21:
+                    desc = "PowerCenter server shutting down";
+                    break;
+                case 22:
+                    desc = "Workflow not unique. Please enter folder name";
+                    break;
+                case 23:
+                    desc = "No data available";
+                    break;
+                case 24:
+                    desc = "Out of memory";
+                    break;
+                case 25:
+                    desc = "Command cancelled";
+                    break;
+            }
+            return desc;
+        }
+
 
         public DataTable ListDataForUserIDAndUserName() {
             return daoUPF.ListDataForUserIDAndUserName();

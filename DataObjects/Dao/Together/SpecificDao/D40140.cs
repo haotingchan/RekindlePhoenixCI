@@ -35,8 +35,9 @@ namespace DataObjects.Dao.Together.SpecificDao {
 
          string sql = @"
 select 
-   mgd2_cur_cm,   
-   mgd2_cm,   
+   --原本結算保證金改為原始保證金
+   mgd2_cur_im,   
+   mgd2_im as mgd2_im_c,   
    mgd2_adj_rate,   
    mgd2_im,   
    mgd2_kind_id,   

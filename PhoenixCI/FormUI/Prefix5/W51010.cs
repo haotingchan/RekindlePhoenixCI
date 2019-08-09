@@ -42,7 +42,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
          //                               new LookupItem() { ValueMember = "W", DisplayMember = "W:上班日"},
          //                               new LookupItem() { ValueMember = "H", DisplayMember = "H:假日"}};
 
-         DataTable dtWorkTime = new CODW().ListLookUpEdit("51010" , "51010_DTS_DATE_TYPE");
+         DataTable dtWorkTime = new CODW().ListLookUpEdit("51010" , "DTS_DATE_TYPE");
          _RepLookUpEdit = new RepositoryItemLookUpEdit();
          _RepLookUpEdit.SetColumnLookUp(dtWorkTime , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          gcMain.RepositoryItems.Add(_RepLookUpEdit);
@@ -52,7 +52,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
          //                               new LookupItem() { ValueMember = "Y", DisplayMember = "Y"},
          //                               new LookupItem() { ValueMember = "N", DisplayMember = "N"}};
 
-         DataTable dtTransation = new CODW().ListLookUpEdit("51010" , "51010_DTS_WORK");
+         DataTable dtTransation = new CODW().ListLookUpEdit("51010" , "DTS_WORK");
          _RepLookUpEdit2 = new RepositoryItemLookUpEdit();
          _RepLookUpEdit2.SetColumnLookUp(dtTransation , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          gcMain.RepositoryItems.Add(_RepLookUpEdit2);

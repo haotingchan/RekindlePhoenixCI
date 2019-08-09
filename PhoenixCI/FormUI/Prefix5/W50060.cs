@@ -52,7 +52,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
          dw_prod_kd.SetDataTable(dtProd , "PDK_KIND_ID" , "PDK_KIND_ID" , TextEditStyles.DisableTextEditor , " ");
 
          //買賣權
-         DataTable dtCP = new CODW().ListLookUpEdit("50060" , "50060_DDLB_1");
+         DataTable dtCP = new CODW().ListLookUpEdit("50060" , "DDLB_1");
          foreach (DataRow dr in dtCP.Rows) {
             if (dr["CODW_ID"].AsString() == "N") {
                dr["CODW_ID"] = " ";
