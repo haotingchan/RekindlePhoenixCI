@@ -25,7 +25,7 @@ using System.Windows.Forms;
 /// 0B	一般
 /// 1B  長假調整
 /// 1E	長假回調
-/// 2B  股票
+/// 3B  股票
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix4 {
    public partial class W40030 : FormParent {
@@ -41,8 +41,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       /// <summary>
-      /// 一般/股票, 長假調整, 長假回調, 處置股票調整
-      /// 0B / 1B / 1E / 2B
+      /// 一般/股票, 長假調整, 長假回調, 股票
+      /// 0B / 1B / 1E / 3B
       /// </summary>
       public string AdjType {
          get {
@@ -55,7 +55,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
          txtDate.DateTimeValue = DateTime.Now;
-        
          foreach (CheckedListBoxItem c in MarketTimes.Items) {
             TextDateEdit control = (TextDateEdit)this.Controls.Find("txtDate" + c.Value.AsString() , true).FirstOrDefault();
             control.DateTimeValue = DateTime.Now;
@@ -67,24 +66,20 @@ namespace PhoenixCI.FormUI.Prefix4 {
          //                               new LookupItem() { ValueMember = "1B", DisplayMember = "長假調整" },
          //                               new LookupItem() { ValueMember = "1E", DisplayMember = "長假回調" },
          //                               new LookupItem() { ValueMember = "3B", DisplayMember = "股票"}};
-
          DataTable dtType = new CODW().ListLookUpEdit("40030" , "MGD2_ADJ_TYPE");
 
-         //設定 下拉選單(這裡要改回Radio Button 目前應該會壞掉)
-         List<LookupItem> marketTimeList = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = "1", DisplayMember = "Group1(13:45)"},
-                                        new LookupItem() { ValueMember = "5", DisplayMember = "Group2(16:15)" }};
-         //DataTable dtMarketTime = new CODW().ListLookUpEdit("40030" , "40030_ETC_VSR");
-
-         /// TODO: CODW資料表的資料是最新的嗎？怎麼會和code的參數設定對映不起來，所以下拉式選單都沒出來。
-
+         //List<LookupItem> dtMarketTime = new List<LookupItem>(){
+         //                               new LookupItem() { ValueMember = "1", DisplayMember = "有"},
+         //                               new LookupItem() { ValueMember = "2", DisplayMember = "無" }};
+         DataTable dtMarketTime = new CODW().ListLookUpEdit("40030" , "40030_ETC_VSR");
 
          //設定下拉選單
          ddlAdjType.SetDataTable(dtType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          ddlAdjType.ItemIndex = 0; //0B
-         ETCSelect.SetDataTable(marketTimeList , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
+         ddlAdjType.Properties.DropDownRows = dtType.Rows.Count;
+         ETCSelect.SetDataTable(dtMarketTime, "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          ETCSelect.ItemIndex = 0; //1
-
+         ETCSelect.Properties.DropDownRows = dtMarketTime.Rows.Count;
          MarketTimes.SetItemChecked(0 , true);
 #if DEBUG
          txtDate.DateTimeValue = "2018/12/28".AsDateTime("yyyy/MM/dd");
@@ -2835,7 +2830,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   }
 
                   List<string> riskList = new List<string>();
-                  drsTemp.ForEach(r => riskList.Add(r.Field<double>("m_cp_ri").AsPercent(2)));
+                  drsTemp.ForEach(r => riskList.Add(r.Field<double>("m_cp_risk").AsPercent(2)));
 
                   List<string> minRiskList = new List<string>();
                   //指數類
@@ -2859,12 +2854,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   if (drsTemp.Count > 0) {
                      drsTemp.ForEach(r => minRiskList.Add($"原油類契約為{r.Field<double>("m_min_risk").AsPercent(1)}"));
                   }
-
+                  
                   tmpStr = string.Format("({0}) 本公司{1}之保證金變動幅度達10%，主係因期貨或現貨指數近期大幅上漲所致，" +
                         "然前揭契約之實際風險價格係數近期未見有明顯擴大之情事，且{2}之實際風險價格係數分別為{3}，仍較現行之最小風險價格係數({4})為低sk。" ,
-                        ChineseNumber[++point] , GenArrayTxt(wfKindIdE(drsTemp.CopyToDataTable())) , checkedDate.AsTaiwanDateTime("{0}/{1}/{2}" , 3) ,
+                        ChineseNumber[++point] , GenArrayTxt(wfKindIdE(dtTemp)) , checkedDate.AsTaiwanDateTime("{0}/{1}/{2}" , 3) ,
                         GenArrayTxt(riskList) , GenArrayTxt(minRiskList));
-
+                        
                   SetInnerText(tmpStr , true , 4.11f , 1.25f);
                }
             }//if (drsTemp.Count > 0)
