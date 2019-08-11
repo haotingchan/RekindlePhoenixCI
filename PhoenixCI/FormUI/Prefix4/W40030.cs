@@ -1484,6 +1484,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         continue;
                   }
 
+                  //+新規則：倘各商品採SMA、EWMA、MAX任一方式計算之結算保證金變動幅度達所設定標準以上(目前訂10%)則顯示。
+
                   if (drsTemp.Count > 0) {
                      DataTable dtTemp = drsTemp.CopyToDataTable();
                      dtTemp = dtTemp.Sort("SEQ_NO ASC, PROD_TYPE ASC, KIND_GRP2 ASC, KIND_ID ASC, AB_TYPE ASC");//排序
