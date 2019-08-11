@@ -292,7 +292,7 @@ namespace BaseGround {
          }
       }
 
-      public void ProcessExport() {
+      public ResultStatus ProcessExport() {
          string startTime = DateTime.Now.ToString("HH:mm:ss");
 
          try {
@@ -303,14 +303,15 @@ namespace BaseGround {
                if (result == ResultStatus.Success)
                   ExportAfter(startTime);
             } else {
-               return;
+               return ResultStatus.Fail;
             }
          } catch (Exception ex) {
             WriteLog(ex);
          }
+          return ResultStatus.Success;
       }
 
-      public virtual void ProcessPrintAll(ReportHelper reportHelper) {
+        public virtual void ProcessPrintAll(ReportHelper reportHelper) {
          reportHelper = PrintOrExportSetting();
          reportHelper.IsPrintedFromPrintButton = true;
          Print(reportHelper);
@@ -394,47 +395,6 @@ namespace BaseGround {
       }
 
       protected virtual ResultStatus RunBefore(PokeBall args) {
-         GridView gv = (GridView)args.GridControlMain.MainView;
-         string txfServer = gv.GetRowCellValue(1 , "TXF_SERVER").AsString();
-         if (txfServer != GlobalDaoSetting.GetConnectionInfo.ConnectionName) {
-            MessageDisplay.Warning("作業Server(" + txfServer + ") 不等於連線Server(" + GlobalDaoSetting.GetConnectionInfo.ConnectionName + ")");
-            return ResultStatus.Fail;
-         }
-
-        if (args.OcfType == "D")
-        {
-            string inputDate = GlobalInfo.OCF_DATE.ToString("yyyy/MM/dd");
-            string nowDate = DateTime.Now.ToString("yyyy/MM/dd");
-
-            if (inputDate != nowDate)
-            {
-                if (MessageDisplay.Choose("交易日期(" + inputDate + ") 不等於今日(" + nowDate + ")，是否要繼續?") == DialogResult.No)
-                {
-                    return ResultStatus.Fail;
-                }
-            }
-            if (servicePrefix1.HasLogspDone(Convert.ToDateTime(inputDate), _ProgramID))
-            {
-                if (MessageDisplay.Choose(_ProgramID + " 作業 " + inputDate + "「曾經」執行過，\n是否要繼續？\n\n★★★建議先執行 [預覽] 確認執行狀態") == DialogResult.No)
-                {
-                    return ResultStatus.Fail;
-                }
-            }
-        }
-        else if (args.OcfType == "M") {
-            string inputDate = GlobalInfo.OCF_DATE.ToString("yyyy/MM");
-            string nowDate = DateTime.Now.ToString("yyyy/MM");
-
-            if (inputDate != nowDate)
-            {
-                if (MessageDisplay.Choose("月份(" + inputDate + ") 不等於本月(" + nowDate + ")，是否要繼續?") == DialogResult.No)
-                {
-                    return ResultStatus.Fail;
-                }
-            }
-        }
-
-         GridHelper.AcceptText(args.GridControlMain);
 
          return ResultStatus.Success;
       }
@@ -646,13 +606,16 @@ namespace BaseGround {
                         resultData = serviceCommon.ExecuteStoredProcedure(connectionInfo , string.Format("{0}.{1}" , TXF_DB , TXF_TID) , listParams , true);
                      } catch (Exception ex) {
                         resultData.Status = ResultStatus.Fail;
-                        MessageDisplay.Error(ex.Message);
+                        string msg = 
+                        fileName = $@"{GlobalInfo.DEFAULT_BATCH_ErrSP_DIRECTORY_PATH}\{TXF_SERVER}_{TXF_TXN_ID}_{TXF_SEQ_NO}.err";
+                        System.IO.File.WriteAllText(fileName, ex.Message);
+                        resultData.returnString = $"請通知「{TXF_AP_NAME}」 作業執行失敗!\n{ex.Message}";
                      }
 
                      break;
                    //視窗功能
                   case "W":
-                     this.Invoke(new MethodInvoker(() => { resultData.Status = ExecuteForm(args); }));
+                     this.Invoke(new MethodInvoker(() => { resultData = ExecuteForm(args); }));
 
                      break;
 
@@ -669,7 +632,8 @@ namespace BaseGround {
 
                   servicePrefix1.SaveLogsp(LOGSP_DATE, LOGSP_TXN_ID, LOGSP_SEQ_NO, LOGSP_TID, LOGSP_TID_NAME, LOGSP_BEGIN_TIME, LOGSP_END_TIME, LOGSP_MSG, args.OcfType);
 
-                  MessageDisplay.Error("序號" + LOGSP_SEQ_NO + "的" + LOGSP_TID + "," + LOGSP_MSG);
+                  //MessageDisplay.Error("序號" + LOGSP_SEQ_NO + "的" + LOGSP_TID + "," + LOGSP_MSG);
+                  MessageDisplay.Error(resultData.returnString);
                   
                   this.Invoke(new MethodInvoker(() => {
                      SplashScreenManager.CloseForm();
@@ -708,7 +672,7 @@ namespace BaseGround {
             }
             if (i == gv.RowCount -1 && args.OcfType == "D")
             {
-                    servicePrefix1.setOCF();
+                    servicePrefix1.setCIOCF();
             }
          }
 
@@ -721,7 +685,8 @@ namespace BaseGround {
          return ResultStatus.Success;
       }
 
-      protected virtual ResultStatus ExecuteForm(PokeBall args) {
+      protected virtual ResultData ExecuteForm(PokeBall args) {
+         ResultData resultData = new ResultData();
          var dllIndividual = Assembly.LoadFile(Application.ExecutablePath);
          string typeFormat = "{0}.FormUI.Prefix{1}.W{2}";
          string txnId = args.TXF_TID.Substring(2 , 5);
@@ -742,7 +707,9 @@ namespace BaseGround {
             formInstance.WindowState = FormWindowState.Maximized;
             formInstance.Show();
          }
-         return ResultStatus.Success;
+         resultData.ReturnObject = formInstance;
+         resultData.Status = ResultStatus.Success;
+         return resultData;
       }
 
       protected virtual ResultStatus RunAfterEveryItem(PokeBall args) {

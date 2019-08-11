@@ -1,5 +1,8 @@
 ﻿
+using ActionService.DbDirect;
 using BusinessObjects;
+using Common;
+using Common.Config;
 using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using System;
@@ -19,6 +22,9 @@ namespace ActionServiceW.DbDirect.Prefix
         private JSW daoJSW;
         private JRF daoJRF;
         private OCF daoOCF;
+        private ServiceCommon serviceCommon;
+        private OCFUPD daoFutAHOCFUPD;
+        private OCFUPD daoOptAHOCFUPD;
 
         public ServicePrefix1()
         {
@@ -30,6 +36,11 @@ namespace ActionServiceW.DbDirect.Prefix
             daoTXF2 = new TXF2();
             daoJRF = new JRF();
             daoOCF = new OCF();
+            serviceCommon = new ServiceCommon();
+            daoFutAHOCFUPD = new OCFUPD("futAH");
+            daoOptAHOCFUPD = new OCFUPD("optAH");
+
+
         }
 
         
@@ -114,9 +125,55 @@ namespace ActionServiceW.DbDirect.Prefix
         public bool SetTXF1(string TXF_TID,string TXF_TXN_ID) {
             return daoTXF1.UpdateTid(TXF_TID,TXF_TXN_ID);
         }
-        public bool setOCF()
+        public bool setCIOCF()
         {
             return daoOCF.UpdateCI();
+        }
+
+        public bool setOCF(DateTime OCF_DATE,string DB_TYPE,string USER_ID)
+        {
+            OCF ocf = new OCF(DB_TYPE);
+            BO_OCF boOCF = ocf.GetOCF();
+            if (boOCF == null)
+            {
+                MessageDisplay.Error("交易日期檔(OCF)讀取錯誤!");
+                return false;
+            }
+
+            if (DB_TYPE == "futAH" || DB_TYPE == "optAH")
+            {
+                if (MessageDisplay.Choose($"請確定交易日期({boOCF.OCF_DATE.AsString("yyyy/MM/dd")}) 沒有例外而遞延日期？\r\n（eg.颱風,災害...）") == System.Windows.Forms.DialogResult.No)
+                {
+                    return false;
+                }
+            }
+
+            //清除異動紀錄檔
+            daoFutAHOCFUPD.Delete();
+            daoOptAHOCFUPD.Delete();
+
+            if (DB_TYPE == "futAH")
+            {
+                daoFutAHOCFUPD.Insert(boOCF.OCF_PREV_DATE, boOCF.OCF_DATE, OCF_DATE, USER_ID);
+                ConnectionInfo connectionInfo = SettingDragons.Instance.GetConnectionInfo(DB_TYPE);
+                ResultData resultData = serviceCommon.ExecuteStoredProcedure(connectionInfo, "futAH.sp_FAH_chg_OCF_Hdata", null, false);
+            }
+            else if (DB_TYPE == "optAH") {
+                daoOptAHOCFUPD.Insert(boOCF.OCF_PREV_DATE, boOCF.OCF_DATE, OCF_DATE, USER_ID);
+                ConnectionInfo connectionInfo = SettingDragons.Instance.GetConnectionInfo(DB_TYPE);
+                ResultData resultData = serviceCommon.ExecuteStoredProcedure(connectionInfo, "optAH.sp_OAH_chg_OCF_Hdata", null, false);
+            }
+
+            //更新OCF_DATE
+            return ocf.UpdateDate(OCF_DATE);
+        }
+
+        public bool setPrevOCF(DateTime OCF_PREV_DATE, string DB_TYPE, string USER_ID)
+        {
+            OCF ocf = new OCF(DB_TYPE);
+
+            //更新OCF_DATE
+            return ocf.UpdatePrevDate(OCF_PREV_DATE);
         }
 
         public DataTable CheckTXF2(string TXF2_TXN_ID,string TXF2_TID) {

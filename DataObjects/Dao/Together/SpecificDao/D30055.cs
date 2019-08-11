@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Data;
 
 /// <summary>
@@ -638,5 +639,123 @@ where rpt_txn_id = '30055'
          return dtResult;
       }
 
-   }
+        /// <summary>
+        /// 檢查期貨三大法人資料已轉入
+        /// </summary>
+        /// <param name="BTINOIVL3F_OCFDATE"></param>
+        /// <returns></returns>
+        public int GetBTINOIVL3FCount(DateTime BTINOIVL3F_OCFDATE)
+        {
+            object[] parms = {
+                "@BTINOIVL3F_OCFDATE", BTINOIVL3F_OCFDATE
+            };
+
+            string sql = @"
+                    SELECT COUNT(*) as COUNT
+                    FROM CI.M_BTINOIVL3F T
+                    WHERE T.BTINOIVL3F_OCFDATE = @BTINOIVL3F_OCFDATE
+                    AND T.BTINOIVL3F_PRODID IN ('TXF','EXF','FXF')
+            ";
+            DataTable dtResult = db.GetDataTable(sql, parms);
+
+            return dtResult.Rows[0]["COUNT"].AsInt();
+        }
+
+        /// <summary>
+        /// 檢查選擇權三大法人資料已轉入
+        /// </summary>
+        /// <param name="BTINOIVL4_OCFDATE"></param>
+        /// <returns></returns>
+        public int GetBTINOIVL4Count(DateTime BTINOIVL4_OCFDATE)
+        {
+            object[] parms = {
+                "@BTINOIVL4_OCFDATE", BTINOIVL4_OCFDATE
+            };
+
+            string sql = @"
+                    SELECT COUNT(*)  as COUNT
+                    FROM CI.M_BTINOIVL4 T
+                    WHERE T.BTINOIVL4_OCFDATE = @BTINOIVL4_OCFDATE
+                    AND T.BTINOIVL4_PRODID = 'TXO'
+            ";
+            DataTable dtResult = db.GetDataTable(sql, parms);
+
+            return dtResult.Rows[0]["COUNT"].AsInt();
+        }
+
+        public int GetTOI1Count(DateTime TOI1_DATE)
+        {
+            object[] parms = {
+                "@TOI1_DATE", TOI1_DATE
+            };
+
+            string sql = @"
+                    SELECT COUNT(*)  as COUNT
+                    FROM CI.TOI1 T
+                    WHERE TOI1_DATE = @TOI1_DATE
+                    AND TOI1_SEQ_NO <> 0 AND TOI1_SEQ_NO <= 10
+            ";
+            DataTable dtResult = db.GetDataTable(sql, parms);
+
+            return dtResult.Rows[0]["COUNT"].AsInt();
+        }
+
+        /// <summary>
+        /// /期貨/選擇權行情
+        /// </summary>
+        /// <param name="AMIF_DATE"></param>
+        /// <param name="AMIF_OSW_GRP"></param>
+        /// <returns></returns>
+        public int GetAMIFCount(DateTime AMIF_DATE,string AMIF_PROD_TYPE, int AMIF_OSW_GRP)
+        {
+            object[] parms = {
+                "@AMIF_DATE", AMIF_DATE,
+                "@AMIF_PROD_TYPE",AMIF_PROD_TYPE,
+                "@AMIF_OSW_GRP",AMIF_OSW_GRP
+            };
+
+            string sql = @"
+                    SELECT COUNT(*) as COUNT
+                    FROM CI.AMIF
+                    WHERE AMIF_DATE = @AMIF_DATE
+                    AND AMIF_PROD_TYPE = @AMIF_PROD_TYPE
+                    AND AMIF_DATA_SOURCE = 'T'
+                    AND AMIF_OSW_GRP = @AMIF_OSW_GRP
+            ";
+            DataTable dtResult = db.GetDataTable(sql, parms);
+
+            return dtResult.Rows[0]["COUNT"].AsInt();
+        }
+
+        /// <summary>
+        /// 期貨/選擇權未平倉量
+        /// </summary>
+        /// <param name="AI2_YMD"></param>
+        /// <param name="AI2_PROD_TYPE"></param>
+        /// <param name="APDK_MARKET_CLOSE"></param>
+        /// <returns></returns>
+        public int GetAI2Count(DateTime AI2_YMD, string AI2_PROD_TYPE, int APDK_MARKET_CLOSE)
+        {
+            object[] parms = {
+                "@AI2_YMD", AI2_YMD,
+                "@AI2_PROD_TYPE",AI2_PROD_TYPE,
+                "@APDK_MARKET_CLOSE",APDK_MARKET_CLOSE
+            };
+
+            string sql = @"
+                SELECT COUNT(*)  as COUNT
+                FROM CI.AI2 ,CI.APDK
+                WHERE AI2_YMD = TO_CHAR(@AI2_YMD,'YYYYMMDD')
+                AND AI2_SUM_TYPE = 'D'
+                AND AI2_SUM_SUBTYPE = '3'
+                AND AI2_PROD_TYPE = @AI2_PROD_TYPE
+                AND AI2_PARAM_KEY = APDK_PARAM_KEY
+                AND APDK_MARKET_CLOSE = @APDK_MARKET_CLOSE
+            ";
+            DataTable dtResult = db.GetDataTable(sql, parms);
+
+            return dtResult.Rows[0]["COUNT"].AsInt();
+        }
+
+    }
 }
