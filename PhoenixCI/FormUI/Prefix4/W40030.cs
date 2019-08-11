@@ -702,12 +702,24 @@ namespace PhoenixCI.FormUI.Prefix4 {
             Doc.InsertSingleLineText(WordTableCell.Range.Start , str);
          }
 
-         /// <summary>
-         /// 表頭
-         /// </summary>
-         /// <param name="strList"></param>
-         /// <param name="rowIndex"></param>
-         protected virtual void SetTableTitle(string[] strList , int rowIndex) {
+            /// <summary>
+            /// 設定表格內文(\r\n)
+            /// </summary>
+            /// <param name="rowIndex">第幾列</param>
+            /// <param name="colIndex">第幾行</param>
+            /// <param name="str">寫入文字</param>
+            protected virtual void SetTableRNStr(int rowIndex, int colIndex, string str)
+            {
+                WordTableCell = WordTable[rowIndex, colIndex];
+                Doc.InsertText(WordTableCell.Range.Start, str);
+            }
+
+            /// <summary>
+            /// 表頭
+            /// </summary>
+            /// <param name="strList"></param>
+            /// <param name="rowIndex"></param>
+            protected virtual void SetTableTitle(string[] strList , int rowIndex) {
 
             int k = 0;
             foreach (string str in strList) {
@@ -715,13 +727,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
                WordTableCell.PreferredWidthType = WidthType.Fixed;
                WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2f);
 
-               Doc.InsertSingleLineText(WordTableCell.Range.Start , strList[k]);
+               Doc.InsertText(WordTableCell.Range.Start , strList[k]);
 
                WordTableCell = WordTable[rowIndex , k + 4];
                WordTableCell.PreferredWidthType = WidthType.Fixed;
                WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2f);
 
-               Doc.InsertSingleLineText(WordTableCell.Range.Start , strList[k]);
+               Doc.InsertText(WordTableCell.Range.Start , strList[k]);
                k++;
             }
          }
@@ -4270,11 +4282,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             Doc.AppendText(Environment.NewLine);
 
             CreateTable(Doc , 2 , 7);
-            string[] firstRowColName = new string[] { "契約名稱" , "交易日期" , "保證金變動幅度" , "適用風險價格係數" , "近月合約結算價/標的證券收盤價" };
+            string[] firstRowColName = new string[] { "契約名稱" , "交易日期" , "保證金\r\n變動幅度" , "適用風險\r\n價格係數" , "近月合約結算價/標的證券收盤價" };
 
             int c = 0;
             foreach (string col in firstRowColName) {
-               SetTableStr(0 , c , col);
+               SetTableRNStr(0 , c , col);
                WordTableCell.PreferredWidthType = WidthType.Fixed;
                WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2f);
                WordTableCell.VerticalAlignment = TableCellVerticalAlignment.Center;
@@ -4285,7 +4297,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             SetTableStr(0 , 5 , "未沖銷部位數及成交量");
             WordTable.MergeCells(WordTableCell , WordTable[0 , 6]);
 
-            SetTableStr(1 , 5 , "未沖銷部位數");
+            SetTableRNStr(1 , 5 , "未沖銷\r\n部位數");
             WordTable[1, 5].PreferredWidthType = WidthType.Fixed;
             WordTable[1, 5].PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.7f);
             WordTableCell.VerticalAlignment = TableCellVerticalAlignment.Center;
@@ -4357,7 +4369,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             WordTableCell.VerticalAlignment = TableCellVerticalAlignment.Center;
             WordTable.MergeCells(WordTableCell , WordTable[2 , 0]);
 
-            SetTableStr(0 , 1 , "股票期貨中文簡稱");
+            SetTableRNStr(0 , 1 , "股票期貨\r\n中文簡稱");
             WordTableCell.PreferredWidthType = WidthType.Fixed;
             WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.9f);
             WordTable.MergeCells(WordTableCell , WordTable[2 , 1]);
@@ -4369,22 +4381,22 @@ namespace PhoenixCI.FormUI.Prefix4 {
             WordTable.MergeCells(WordTable[0 , 4] , WordTable[0 , 5]);
             WordTable.MergeCells(WordTable[0 , 2] , WordTable[0 , 3]);
 
-            SetTableStr(1 , 2 , "本日30天期風險價格係數");
+            SetTableRNStr(1 , 2 , "本日\r\n30天期風險價格係數");
             WordTableCell.PreferredWidthType = WidthType.Fixed;
             WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.08f);
             WordTable.MergeCells(WordTableCell , WordTable[2 , 2]);
 
 
-            SetTableStr(1 , 3 , "本日風險價格係數平均值");
+            SetTableStr(1 , 3 , "本日\r\n風險價格係數平均值");
             WordTableCell.PreferredWidthType = WidthType.Fixed;
             WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.9f);
             WordTable.MergeCells(WordTableCell , WordTable[2 , 3]);
 
-            SetTableStr(1 , 4 , "本日收盤價/結算價");
-            SetTableStr(1 , 6 , "本日未沖銷部位數");
+            SetTableRNStr(1 , 4 , "本日\r\n收盤價/結算價");
+            SetTableRNStr(1 , 6 , "本日\r\n未沖銷部位數");
             WordTableCell.PreferredWidthType = WidthType.Fixed;
             WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.6f);
-            SetTableStr(1 , 7 , "本日成交量");
+            SetTableRNStr(1 , 7 , "本日\r\n成交量");
             WordTableCell.PreferredWidthType = WidthType.Fixed;
             WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.6f);
             WordTable.MergeCells(WordTableCell , WordTable[2 , 7]);
@@ -4393,10 +4405,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             SetTableStr(2 , 4 , "現貨");
             WordTable[2,4].PreferredWidthType = WidthType.Fixed;
-            WordTable[2, 4].PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(0.8f);
+            WordTable[2, 4].PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(0.9f);
             SetTableStr(2 , 5 , "現貨");
             WordTable[2, 5].PreferredWidthType = WidthType.Fixed;
-            WordTable[2, 5].PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(0.8f);
+            WordTable[2, 5].PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(0.9f);
 
                 string[] colName = new string[] { "t_30_rate" , "mgr2_day_rate" , "tfxm1_price" , "ai5_price" , "ai2_oi" , "ai2_m_qnty" };
             string[] fieldFormat = new string[] { "%" , "%" , "#,##0.##" , "#,##0.##" , "#,##0" , "#,##0" };
@@ -4508,7 +4520,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             AfterAdjustTitle = "調整後保證金金額";
             BeforeAdjustTitle = "調整前保證金金額";
             NumberFormat = "#,##0.##";
-            TableTitle = new string[] { "原始保證金金額" , "維持保證金金額" , "結算保證金金額" };
+            TableTitle = new string[] { "原始保證金\r\n金額" , "維持保證金\r\n金額" , "結算保證金\r\n金額" };
             RowName = new[] { "保證金" };
 
             StockName = "，股票期貨標的證券代號 ";
