@@ -2291,7 +2291,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             #endregion
 
             #region 五
-            SetInnerText($"({ChineseNumber[++node]}) 結算保證金占契約總值比例與國際主要交易所比較：" , true , 4.11f , 1.25f);
+            SetInnerText($"({ChineseNumber[++node]}) 原始保證金占契約總值比例與國際主要交易所比較：" , true , 4.11f , 1.25f);
             //特殊處理, 排除以下幾檔
             dtIndex = dtIndex.Select("kind_id <>'RTF' and kind_id <>'MXF' and kind_id <>'TGF' and prod_type <>'O'").CopyToDataTable();
             dtIndex = dtIndex.Sort("SEQ_NO ASC, PROD_TYPE ASC, KIND_GRP2 ASC, KIND_ID ASC, AB_TYPE ASC");
@@ -2307,8 +2307,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   string str2 = GetSpot(kindId , "TAIFEX" , "m");
                   tmpStr = dtIndex.Rows.Count > 0 ? $"{++fifthNode}. " : "  ";
 
-                  tmpStr += $"現行本公司{kindId}結算保證金占契約總值比例{str1}，倘{checkedDate.AsTaiwanDateTime("{0}/{1}/{2}" , 3)}" +
-                           $"依說明二調整，則本公司{kindId}結算保證金占契約總值比例{str2}。";
+                  tmpStr += $"現行本公司{kindId}原始保證金占契約總值比例{str1}，倘{checkedDate.AsTaiwanDateTime("{0}/{1}/{2}" , 3)}" +
+                           $"依說明二調整，則本公司{kindId}原始保證金占契約總值比例{str2}。";
 
                   SetInnerText(tmpStr , true , 4.17f , 0.6f);
 
@@ -4689,7 +4689,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             ColCount = 5;
             TableName = "本公司臺股期貨期貨保證金占契約價值比與國際主要交易所比較表";
             FieldFormat = new string[] { "#,##0.##" , "%" , "%" , "#,##0.##" , "%" , "%" };
-            RowTitle = new string[] { "臺股期貨契約結算保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
+            RowTitle = new string[] { "臺股期貨契約原始保證金", "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
             ColTtile = new string[] { $"TAIFEX{Characters.LineBreak}TXF{Characters.LineBreak}(新臺幣元)",
                                       $"SGX{Characters.LineBreak}摩臺指期貨{Characters.LineBreak}(美元)"};
          }
@@ -4707,7 +4707,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             RowCount = 3;
             ColCount = 5;
             TableName = "本公司布蘭特原油期貨保證金占契約價值比與國際主要交易所比較表";
-            RowTitle = new string[] { "布蘭特原油期貨契約結算保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
+            RowTitle = new string[] { "布蘭特原油期貨契約原始保證金", "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
             FieldFormat = new string[] { "#,##0.##" , "%" , "%" , "#,##0.##" , "%" , "%" };
             ColTtile = new string[] { $"TAIFEX{Characters.LineBreak}BRF{Characters.LineBreak}(新臺幣元)",
                                     $"ICE{Characters.LineBreak}Brent Crude Futures{Characters.LineBreak}(美元)"};
@@ -4727,7 +4727,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             ColCount = 7;
             TableName = "本公司東證期貨保證金占契約價值比與國際主要交易所比較表";
             FieldFormat = new string[] { "#,##0.##" , "%" , "%" , "#,##0.##" , "%" , "%" };
-            RowTitle = new string[] { "東證期貨契約結算保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
+            RowTitle = new string[] { "東證期貨契約原始保證金", "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
             ColTtile = new string[] { $"TAIFEX{Characters.LineBreak}TJF{Characters.LineBreak}(新臺幣元)",
                                       $"JPX TOPIX{Characters.LineBreak}Futures{Characters.LineBreak}(日幣)",
                                       $"JPX mini TOPIX{Characters.LineBreak}Futures{Characters.LineBreak}(日幣)"};
@@ -4747,7 +4747,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             ColCount = 5;
             TableName = "本公司Nifty50期貨保證金占契約價值比與國際主要交易所比較表";
             FieldFormat = new string[] { "#,##0.##" , "%" , "%" , "#,##0.##" , "%" , "%" };
-            RowTitle = new string[] { "Nifty50期貨契約結算保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
+            RowTitle = new string[] { "Nifty50期貨契約原始保證金", "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
             ColTtile = new string[] { $"TAIFEX{Characters.LineBreak}I5F{Characters.LineBreak}(新臺幣元)",
                                       $"SGX{Characters.LineBreak}(美元)"};
          }
@@ -4766,7 +4766,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             ColCount = 5;
             TableName = "本公司美國道瓊期貨保證金占契約價值比與國際主要交易所比較表";
             FieldFormat = new string[] { "#,##0.##" , "%" , "%" , "#,##0.##" , "%" , "%" };
-            RowTitle = new string[] { "道瓊期貨契約結算保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
+            RowTitle = new string[] { "道瓊期貨契約原始保證金", "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
             ColTtile = new string[] { $"TAIFEX{Characters.LineBreak}UDF{Characters.LineBreak}(新臺幣元)",
                                       $"CME{Characters.LineBreak}E-mini Dow($5){Characters.LineBreak}Futures{Characters.LineBreak}(美元)"};
          }
@@ -4785,7 +4785,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             ColCount = 5;
             TableName = "本公司美國標普500期貨保證金占契約價值比與國際主要交易所比較表";
             FieldFormat = new string[] { "#,##0.##" , "%" , "%" , "#,##0.##" , "%" , "%" };
-            RowTitle = new string[] { "標普500期貨契約結算保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
+            RowTitle = new string[] { "標普500期貨契約原始保證金", "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
             ColTtile = new string[] { $"TAIFEX{Characters.LineBreak}SPF{Characters.LineBreak}(新臺幣元)",
                                       $"CME{Characters.LineBreak}E-mini S&P{Characters.LineBreak}500 Futures{Characters.LineBreak}(美元)"};
          }
@@ -4804,7 +4804,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             ColCount = 5;
             TableName = "本公司美國那斯達克100期貨保證金占契約價值比與國際主要交易所";
             FieldFormat = new string[] { "#,##0.##" , "%" , "%" , "#,##0.##" , "%" , "%" };
-            RowTitle = new string[] { "美國那斯達克100期貨契約結算保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
+            RowTitle = new string[] { "美國那斯達克100期貨契約原始保證金", "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
             ColTtile = new string[] { $"TAIFEX{Characters.LineBreak}UNF{Characters.LineBreak}(新臺幣元)",
                                       $"CME{Characters.LineBreak}E-mini{Characters.LineBreak}NASDAQ{Characters.LineBreak}100 Futures{Characters.LineBreak}(美元)"};
          }
@@ -4844,7 +4844,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                                        "本公司{0}黃金期貨保證金與國際主要黃金交易所保證金比較表" };
 
             FieldFormat = new string[] { "#,##0.##" , "%" , "%" };
-            RowTitle = new string[] { "黃金期貨契約結算保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
+            RowTitle = new string[] { "黃金期貨契約原始保證金", "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
             ColTtile = new string[] { "交易所",
                                       $"GDF{Characters.LineBreak}TAIFEX{Characters.LineBreak}(美元)",
                                       $"TGF{Characters.LineBreak}TAIFEX{Characters.LineBreak}(新臺幣元)",
@@ -4880,7 +4880,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                                        "本公司{0}英鎊兌美元匯率期貨保證金與國際主要交易所保證金比較表" };
 
             FieldFormat = new string[] { "#,##0.##" , "%" , "%" };
-            RowTitle = new string[] { $"英鎊兌美元{Characters.LineBreak}匯率期貨契約{Characters.LineBreak}結算保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
+            RowTitle = new string[] { $"英鎊兌美元{Characters.LineBreak}匯率期貨契約{Characters.LineBreak}原始保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
             ColTtile = new string[] { "交易所",
                                       $"XBF{Characters.LineBreak}TAIFEX",
                                       $"CME{Characters.LineBreak}"};
@@ -4913,7 +4913,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                                        "本公司{0}歐元兌美元匯率期貨保證金與國際主要交易所保證金比較表" };
 
             FieldFormat = new string[] { "#,##0.##" , "%" , "%" };
-            RowTitle = new string[] { $"歐元兌美元{Characters.LineBreak}匯率期貨契約{Characters.LineBreak}結算保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
+            RowTitle = new string[] { $"歐元兌美元{Characters.LineBreak}匯率期貨契約{Characters.LineBreak}原始保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
             ColTtile = new string[] { "交易所",
                                       $"XEF{Characters.LineBreak}TAIFEX",
                                       $"CME{Characters.LineBreak}"};
@@ -4946,7 +4946,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                                        "本公司{0}美元兌日圓匯率期貨保證金與國際主要交易所保證金比較表" };
 
             FieldFormat = new string[] { "#,##0.##" , "%" , "%" };
-            RowTitle = new string[] { $"美元兌日圓{Characters.LineBreak}匯率期貨契約{Characters.LineBreak}結算保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
+            RowTitle = new string[] { $"美元兌日圓{Characters.LineBreak}匯率期貨契約{Characters.LineBreak}原始保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
             ColTtile = new string[] { "交易所",
                                       $"XJF{Characters.LineBreak}TAIFEX",
                                       $"SGX{Characters.LineBreak}"};
@@ -4979,7 +4979,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                                        "本公司{0}澳幣兌美元匯率期貨保證金與國際主要交易所保證金比較表" };
 
             FieldFormat = new string[] { "#,##0.##" , "%" , "%" };
-            RowTitle = new string[] { $"澳幣兌美元{Characters.LineBreak}匯率期貨契約{Characters.LineBreak}結算保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
+            RowTitle = new string[] { $"澳幣兌美元{Characters.LineBreak}匯率期貨契約{Characters.LineBreak}原始保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
             ColTtile = new string[] { "交易所",
                                       $"XAF{Characters.LineBreak}TAIFEX",
                                       $"CME{Characters.LineBreak}"};
@@ -5012,7 +5012,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                                        "本公司{0}美元兌人民幣匯率期貨保證金與國際主要交易所保證金比較表" };
 
             FieldFormat = new string[] { "#,##0.##" , "%" , "%" };
-            RowTitle = new string[] { $"美元兌人民幣{Characters.LineBreak}匯率期貨契約{Characters.LineBreak}結算保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
+            RowTitle = new string[] { $"美元兌人民幣{Characters.LineBreak}匯率期貨契約{Characters.LineBreak}原始保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
             ColTtile = new string[] { "交易所",
                                       $"RHF{Characters.LineBreak}TAIFEX",
                                       $"RTF{Characters.LineBreak}TAIFEX",
