@@ -55,6 +55,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
          txtDate.DateTimeValue = DateTime.Now;
+
          foreach (CheckedListBoxItem c in MarketTimes.Items) {
             TextDateEdit control = (TextDateEdit)this.Controls.Find("txtDate" + c.Value.AsString() , true).FirstOrDefault();
             control.DateTimeValue = DateTime.Now;
@@ -68,18 +69,18 @@ namespace PhoenixCI.FormUI.Prefix4 {
          //                               new LookupItem() { ValueMember = "3B", DisplayMember = "股票"}};
          DataTable dtType = new CODW().ListLookUpEdit("40030" , "MGD2_ADJ_TYPE");
 
-         //List<LookupItem> dtMarketTime = new List<LookupItem>(){
+         //List<LookupItem> dtETC = new List<LookupItem>(){
          //                               new LookupItem() { ValueMember = "1", DisplayMember = "有"},
          //                               new LookupItem() { ValueMember = "2", DisplayMember = "無" }};
-         DataTable dtMarketTime = new CODW().ListLookUpEdit("40030" , "40030_ETC_VSR");
+         DataTable dtETC = new CODW().ListLookUpEdit("40030" , "40030_ETC_VSR");
 
          //設定下拉選單
          ddlAdjType.SetDataTable(dtType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          ddlAdjType.ItemIndex = 0; //0B
          ddlAdjType.Properties.DropDownRows = dtType.Rows.Count;
-         ETCSelect.SetDataTable(dtMarketTime, "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
+         ETCSelect.SetDataTable(dtETC, "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          ETCSelect.ItemIndex = 0; //1
-         ETCSelect.Properties.DropDownRows = dtMarketTime.Rows.Count;
+         ETCSelect.Properties.DropDownRows = dtETC.Rows.Count;
          MarketTimes.SetItemChecked(0 , true);
 #if DEBUG
          txtDate.DateTimeValue = "2018/12/28".AsDateTime("yyyy/MM/dd");
@@ -614,7 +615,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             WordTable = doc.Tables.Create(doc.Range.End , rowCount , colCount);
             WordTable.TableAlignment = TableRowAlignment.Right;
             WordTable.PreferredWidthType = WidthType.Fixed;
-            WordTable.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(17f);
+            WordTable.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(14f);
             ParagraphProps = doc.BeginUpdateParagraphs(WordTable.Range);
 
             // 預設Table內容都全部置中
@@ -630,7 +631,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             tableProp.FontSize = 11;
             doc.EndUpdateCharacters(tableProp);
 
-            // 垂直置中
+           // 垂直置中
             WordTable.ForEachCell((c , i , j) => {
                c.VerticalAlignment = TableCellVerticalAlignment.Center;
             });
@@ -642,15 +643,19 @@ namespace PhoenixCI.FormUI.Prefix4 {
          protected virtual void SetTableColTitle(string prodName , string[] colTitle , string afterAdjustTitle , string beforeAdjustTitle) {
             SetTableStr(0 , 0 , prodName);
             WordTableCell.PreferredWidthType = WidthType.Fixed;
-            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.65f);
+            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.5f);
             WordTableCell.VerticalAlignment = TableCellVerticalAlignment.Center;
             WordTable.MergeCells(WordTableCell , WordTable[1 , 0]);
 
             SetTableStr(0 , 1 , afterAdjustTitle);
             WordTable.MergeCells(WordTableCell , WordTable[0 , 3]);
+            WordTable[0, 1].PreferredWidthType = WidthType.Fixed;
+            WordTable[0, 1].PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(5f);
 
             SetTableStr(0 , 2 , beforeAdjustTitle);
             WordTable.MergeCells(WordTableCell , WordTable[0 , 4]);
+            WordTable[0, 2].PreferredWidthType = WidthType.Fixed;
+            WordTable[0, 2].PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(5f);
 
             SetTableTitle(colTitle , 1);
          }
@@ -708,13 +713,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
             foreach (string str in strList) {
                WordTableCell = WordTable[rowIndex , k + 1];
                WordTableCell.PreferredWidthType = WidthType.Fixed;
-               WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.3f);
+               WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2f);
 
                Doc.InsertSingleLineText(WordTableCell.Range.Start , strList[k]);
 
                WordTableCell = WordTable[rowIndex , k + 4];
                WordTableCell.PreferredWidthType = WidthType.Fixed;
-               WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.3f);
+               WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2f);
 
                Doc.InsertSingleLineText(WordTableCell.Range.Start , strList[k]);
                k++;
@@ -1346,6 +1351,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                TableRow tableRow = WordTable.Rows.Append();
 
                WordTableCell = tableRow.FirstCell;
+               WordTableCell.PreferredWidthType = WidthType.Fixed;
+               WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.5f);
+
                Doc.InsertSingleLineText(WordTableCell.Range.Start , rowName);
 
                //特殊處理, 選擇權時有AB值, k=1 跑保證金或A值, k>1 跑B值
@@ -1355,8 +1363,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                int i = 1;
                foreach (string col in colNameList) {
                   Doc.InsertSingleLineText(WordTable[tableRow.Index , i].Range.Start , !decimal.Equals(dr[col].AsDecimal() , 0) ?
-                     dr[col].AsPercent(2) : string.Empty);
-
+                  dr[col].AsPercent(2) : string.Empty);
                   i++;
                }
                k++;
@@ -1870,11 +1877,20 @@ namespace PhoenixCI.FormUI.Prefix4 {
             SetInnerText(tmpStr);
 
             //說明二
-            SetInnerText("二、本次保證金倘經調整，其金額變動如下：");
+            SetInnerText("二、經以簡單移動平均法(SMA)、加權指數移動平均(EWMA)、簡單移動平均法_日內變動(MAX)方式試算上開契約結算保證金之變動幅度如下：");
+            String info01 = "(一)臺股期貨契約(TX)結算保證金變動幅度分別為 - 18.5 %、-13.3 % 及14.2 %。";
+            SetInnerText(info01, true, 4.11f, 1.25f);
+            String info02 = "(二)臺指選擇權契約(TXO)結算保證金採現貨資料計算之變動幅度分別為 - 15.0 %、-15.0 % 及 - 8.7 %，及採期貨資料計算是變動幅度分別為 - 15.2 %、-9.9 % 及18.7 %。";
+            SetInnerText(info02, true, 4.11f, 1.25f);
+            String info03 = "(三)電子期貨契約(TE)結算保證金變動幅度分別為11.9 %、32.9 % 及27.7 %。";
+            SetInnerText(info03, true, 4.11f, 1.25f);
+            String info04 = "(四)電子選擇權契約(TEO)結算保證金採現貨資料計算之變動幅度分別為2.7 %、21.9 % 及15.4 %。";
+            SetInnerText(info04, true, 4.11f, 1.25f);
+             
             DrowTable(dtTemp);
 
             //說明三
-            SetInnerText("三、本公司上開契約保證金調整之考量因素，請詳保證金調整檢核表，如附件。");
+            SetInnerText("三、基於穩健保守及貼近國際同類商品保證金水準之原則，建議TX及TXO採加權指數移動平均(EWMA)調整保證金，TE及採簡單移動平均法(SMA)調整保證金，TF、XI及TEO採簡單移動平均法_日內變動(MAX)調整保證金其金額變動如下：");
 
             //說明四、公債類
             List<DataRow> drsDebt = dtTemp.Select("prod_subtype = 'B' and data_ymd = '" + checkedDate.ToString("yyyyMMdd") + "'").ToList();
