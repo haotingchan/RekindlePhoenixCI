@@ -4137,15 +4137,18 @@ namespace PhoenixCI.FormUI.Prefix4 {
             CreateTable(Doc , IkindInfo.RowCount , IkindInfo.ColCount);
 
             SetTableStr(0 , 0 , IkindInfo.TableName);
-            WordTableCell.PreferredWidthType = WidthType.Fixed;
-            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.65f);
+            //WordTableCell.PreferredWidthType = WidthType.Fixed;
+            //WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.6f);
             WordTableCell.VerticalAlignment = TableCellVerticalAlignment.Center;
             WordTable.MergeCells(WordTableCell , WordTable[0 , IkindInfo.ColCount - 1]);
 
             SetTableStr(1 , 0 , "交易所");
+            WordTable[1, 0].PreferredWidthType = WidthType.Fixed;
+            WordTable[1, 0].PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.8f);
             WordTable.MergeCells(WordTableCell , WordTable[2 , 0]);
 
             SetTableStr(1 , 1 , "現行比例");
+            WordTable[1, 1].PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.6f);
             SetTableStr(1 , IkindInfo.ColTtile.Length + 1 , "調整後");
 
             WordTable.MergeCells(WordTableCell , WordTable[1 , IkindInfo.ColTtile.Length * 2]);
@@ -4156,7 +4159,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             foreach (string str in IkindInfo.ColTtile) {
                WordTableCell = WordTable[2 , k];
                WordTableCell.PreferredWidthType = WidthType.Fixed;
-               WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.4f);
+               WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.8f);
 
                Doc.InsertSingleLineText(WordTableCell.Range.Start , str);
                k++;
@@ -4165,7 +4168,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             foreach (string str in IkindInfo.ColTtile) {
                WordTableCell = WordTable[2 , k];
                WordTableCell.PreferredWidthType = WidthType.Fixed;
-               WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.4f);
+               WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.8f);
 
                Doc.InsertSingleLineText(WordTableCell.Range.Start , str);
                k++;
@@ -4273,7 +4276,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             foreach (string col in firstRowColName) {
                SetTableStr(0 , c , col);
                WordTableCell.PreferredWidthType = WidthType.Fixed;
-               WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.65f);
+               WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2f);
                WordTableCell.VerticalAlignment = TableCellVerticalAlignment.Center;
                WordTable.MergeCells(WordTableCell , WordTable[1 , c]);
                c++;
@@ -4283,11 +4286,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
             WordTable.MergeCells(WordTableCell , WordTable[0 , 6]);
 
             SetTableStr(1 , 5 , "未沖銷部位數");
-            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.53f);
+            WordTable[1, 5].PreferredWidthType = WidthType.Fixed;
+            WordTable[1, 5].PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.7f);
             WordTableCell.VerticalAlignment = TableCellVerticalAlignment.Center;
 
             SetTableStr(1 , 6 , "成交量");
-            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.22f);
+            WordTable[1, 6].PreferredWidthType = WidthType.Fixed;
+            WordTable[1, 6].PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.7f);
             WordTableCell.VerticalAlignment = TableCellVerticalAlignment.Center;
 
             string[] dbcols = new string[] { "adj_rate" , "m_day_risk" , "m_price" , "i_oi" , "i_qnty" };
