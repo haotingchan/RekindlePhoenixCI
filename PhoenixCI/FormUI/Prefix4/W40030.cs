@@ -4353,7 +4353,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             SetTableStr(0 , 0 , "股票期貨英文代碼");
             WordTableCell.PreferredWidthType = WidthType.Fixed;
-            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.03f);
+            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.6f);
             WordTableCell.VerticalAlignment = TableCellVerticalAlignment.Center;
             WordTable.MergeCells(WordTableCell , WordTable[2 , 0]);
 
@@ -4383,18 +4383,22 @@ namespace PhoenixCI.FormUI.Prefix4 {
             SetTableStr(1 , 4 , "本日收盤價/結算價");
             SetTableStr(1 , 6 , "本日未沖銷部位數");
             WordTableCell.PreferredWidthType = WidthType.Fixed;
-            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.08f);
+            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.6f);
             SetTableStr(1 , 7 , "本日成交量");
             WordTableCell.PreferredWidthType = WidthType.Fixed;
-            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.9f);
+            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.6f);
             WordTable.MergeCells(WordTableCell , WordTable[2 , 7]);
             WordTable.MergeCells(WordTable[1 , 6] , WordTable[2 , 6]);
             WordTable.MergeCells(WordTable[1 , 4] , WordTable[1 , 5]);
 
             SetTableStr(2 , 4 , "現貨");
+            WordTable[2,4].PreferredWidthType = WidthType.Fixed;
+            WordTable[2, 4].PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(0.8f);
             SetTableStr(2 , 5 , "現貨");
+            WordTable[2, 5].PreferredWidthType = WidthType.Fixed;
+            WordTable[2, 5].PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(0.8f);
 
-            string[] colName = new string[] { "t_30_rate" , "mgr2_day_rate" , "tfxm1_price" , "ai5_price" , "ai2_oi" , "ai2_m_qnty" };
+                string[] colName = new string[] { "t_30_rate" , "mgr2_day_rate" , "tfxm1_price" , "ai5_price" , "ai2_oi" , "ai2_m_qnty" };
             string[] fieldFormat = new string[] { "%" , "%" , "#,##0.##" , "#,##0.##" , "#,##0" , "#,##0" };
 
             foreach (DataRow dr in dtSTF.Rows) {
