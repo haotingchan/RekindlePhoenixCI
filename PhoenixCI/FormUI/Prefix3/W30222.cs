@@ -162,7 +162,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
                return ResultStatus.Fail;
             }
 
-
             //gvMain.CloseEditor();
             //DataTable dtGridView = (DataTable)gcMain.DataSource;
             ////dtGridView.PrimaryKey = new DataColumn[] { dtGridView.Columns["PLS1_KIND_ID2"] };
@@ -217,6 +216,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
                dt30222.Rows[found]["PLS1_W_TIME"] = DateTime.Now;
                dt30222.Rows[found]["PLS1_W_USER_ID"] = GlobalInfo.USER_ID;
+
+               //計算欄位COMPUTE_1: if( pls1_kind_id2 <> kind_grp2 ,'小型',' ')
+               if (dt30222.Rows[found]["KIND_GRP2"] != DBNull.Value && dt30222.Rows[found]["PLS1_KIND_ID2"].AsString() != dt30222.Rows[found]["KIND_GRP2"].AsString()) {
+                  dt30222.Rows[found]["COMPUTE_1"] = "小型";
+               } else {
+                  dt30222.Rows[found]["COMPUTE_1"] = " ";
+               }
             }
 
             gcMain.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
@@ -270,7 +276,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
 
             //2. 寫入DB
-            ResultData myResultData = dao30203.updatePLLOG(dtPLLOG);
+            ResultData myResultData = dao30203.updatePLLOG2(dtPLLOG);
             #endregion
             showMsg = "PLS1更新資料庫錯誤! ";
             myResultData = dao30222.updatePLS1(dtGridView);//更新PLS1
