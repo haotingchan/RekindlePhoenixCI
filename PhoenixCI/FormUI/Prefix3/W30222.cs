@@ -32,8 +32,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
       private D30203 dao30203;
       private RepositoryItemLookUpEdit statusLookUpEdit;
       private RepositoryItemLookUpEdit levelLookUpEdit;
-      private Dictionary<string , string> dictAdj;
-      private Dictionary<string , string> dictLevel;
       private ReportHelper _ReportHelper;
 
       public W30222(string programID , string programName) : base(programID , programName) {
@@ -73,26 +71,14 @@ namespace PhoenixCI.FormUI.Prefix3 {
 #endif
 
             //「調整情形」欄位的下拉選單
-            // dictAdj = new Dictionary<string, string>() { { " ", "不變" }, { "+", "提高" }, { "-", "降低" }, { "*", "新增" } };
-            //DataTable dtStatus = setColItem(dictAdj);
             DataTable dtType = new CODW().ListLookUpEdit("30222" , "PLS1_LEVEL_ADJ");
-            foreach (DataRow dr in dtType.Rows) {
-               if (dr["CODW_ID"].AsString() == "S") {
-                  dr["CODW_ID"] = " ";
-               }
-            }
             statusLookUpEdit = new RepositoryItemLookUpEdit();
             statusLookUpEdit.SetColumnLookUp(dtType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
-            //statusLookUpEdit.SetColumnLookUp(dictAdj, "Key", "Value");
             PLS1_LEVEL_ADJ.ColumnEdit = statusLookUpEdit;
 
             //「調整後部位限制級距」欄位的下拉選單
-            //dictLevel = new Dictionary<string, string>() { { "1", "1" }, { "2", "2" }, { "3", "3" } };
-            //DataTable dtLevel = setColItem(dictLevel);
-            //dtType = new CODW().ListLookUpEdit("30222" , "PLS1_CP_LEVEL");
             dtType = dao30222.GetPlst1Level();
             levelLookUpEdit = new RepositoryItemLookUpEdit();
-            //levelLookUpEdit.SetColumnLookUp(dictLevel, "Key", "Value");
             levelLookUpEdit.SetColumnLookUp(dtType , "PLST1_LEVEL" , "PLST1_LEVEL" , TextEditStyles.DisableTextEditor , null);
             PLS1_CP_LEVEL.ColumnEdit = levelLookUpEdit;
 

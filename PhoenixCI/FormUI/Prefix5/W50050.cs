@@ -60,20 +60,10 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
          //買賣權
          DataTable dtCP = new CODW().ListLookUpEdit("50050" , "DDLB_1");
-         foreach (DataRow dr in dtCP.Rows) {
-            if (dr["CODW_ID"].AsString() == "N") {
-               dr["CODW_ID"] = " ";
-            }
-         }
          ddlb_1.SetDataTable(dtCP , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
 
          //檔內外檔數
          DataTable dtOI = new CODW().ListLookUpEdit("50050" , "DDLB_2");
-         foreach (DataRow dr in dtOI.Rows) {
-            if (dr["CODW_ID"].AsString() == "none") {
-               dr["CODW_ID"] = " ";
-            }
-         }
          ddlb_2.SetDataTable(dtOI , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
 
          return ResultStatus.Success;

@@ -101,7 +101,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
             //2. 設定dropdownlist
             //商品
-            DataTable dtParamKey = new APDK_PARAM().ListAll2();//前面[% – 全部]+PARAM_KEY/PARAM_NAME/PARAM_PROD_TYPE/cp_display
+            DataTable dtParamKey = new APDK_PARAM().ListAll2(_ProgramID);//前面[% – 全部]+PARAM_KEY/PARAM_NAME/PARAM_PROD_TYPE/cp_display
             dwParamKey.SetDataTable(dtParamKey , "PARAM_KEY" , "CP_DISPLAY" , TextEditStyles.DisableTextEditor);
             dwParamKey.ItemIndex = 0;
 

@@ -40,20 +40,13 @@ namespace PhoenixCI.FormUI.Prefix5 {
          #region Set Drop Down Lsit
          //交易時段 價平月份 兩個欄位要換成LookUpEdit
          _RepLookUpEdit = new RepositoryItemLookUpEdit();
-         //DataTable cbxCPKindSource = daoCOD.ListByCol2("MMFT" , "MMFT_CP_KIND");
          DataTable dtCPKindSource = daoCODW.ListLookUpEdit("51020" , "CP_KIND");
-         foreach (DataRow dr in dtCPKindSource.Rows) {
-            if (dr["CODW_ID"].AsString() == "N") {
-               dr["CODW_ID"] = " ";
-            }
-         }
          //cbxCPKindSource.Rows.Add("" , "");
          _RepLookUpEdit.SetColumnLookUp(dtCPKindSource , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
          gcMain.RepositoryItems.Add(_RepLookUpEdit);
          MMFT_CP_KIND.ColumnEdit = _RepLookUpEdit;
 
          _RepLookUpEdit2 = new RepositoryItemLookUpEdit();
-         //DataTable cbxMarketCodeSource = daoCOD.ListByCol2("MMFT" , "MMFT_MARKET_CODE");
          DataTable dtMarketCodeSource = daoCODW.ListLookUpEdit("MMF" , "MMF_MARKET_CODE");
          _RepLookUpEdit2.SetColumnLookUp(dtMarketCodeSource , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
          gcMain.RepositoryItems.Add(_RepLookUpEdit2);

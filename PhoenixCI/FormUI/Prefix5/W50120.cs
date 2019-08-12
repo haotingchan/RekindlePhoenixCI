@@ -63,8 +63,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
          //[狀態]下拉選單
          _RepLookUpEdit2 = new RepositoryItemLookUpEdit();
          //DataTable dtCOD = daoCOD.ListByTxn("50120");
-         DataTable dtCODW = new CODW().ListLookUpEdit2("50120" , "MPDF_STATUS"); //用有組合欄位的
-         Extension.SetColumnLookUp(_RepLookUpEdit2 , dtCODW , "CODW_ID" , "CP_DISPLAY" , TextEditStyles.DisableTextEditor , "");
+         DataTable dtCODW = new CODW().ListLookUpEdit("50120" , "MPDF_STATUS");
+         Extension.SetColumnLookUp(_RepLookUpEdit2 , dtCODW , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
          gcMain.RepositoryItems.Add(_RepLookUpEdit2);
 
          //[契約]下拉選單
