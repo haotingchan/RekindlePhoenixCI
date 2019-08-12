@@ -51,7 +51,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
          txtDate.EditValue = GlobalInfo.OCF_DATE.Year;
 
          RepositoryItemLookUpEdit _RepLookUpEdit = new RepositoryItemLookUpEdit();
-         DataTable lookUpDt = daoAPDK_PARAM.ListAll2();
+         DataTable lookUpDt = daoAPDK_PARAM.ListAll2(_ProgramID);
          Extension.SetColumnLookUp(_RepLookUpEdit , lookUpDt , "PARAM_KEY" , "CP_DISPLAY" , TextEditStyles.DisableTextEditor , "");
          gcMain.RepositoryItems.Add(_RepLookUpEdit);
          AM7T_PARAM_KEY.ColumnEdit = _RepLookUpEdit;

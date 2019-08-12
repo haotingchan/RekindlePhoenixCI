@@ -91,7 +91,7 @@ SELECT A.*, CASE WHEN pls1_kind_id2 <> kind_grp2 THEN '小型' ELSE ' ' END as C
                 F.APDK_KIND_ID2 = O.APDK_KIND_ID2 )   
    WHERE CI.PLS1.PLS1_YMD = :AS_YMD    
     AND  PLS1_KIND_ID2 = KIND_GRP2(+) 
-   ORDER BY KIND_GRP2, PLS1_KIND_ID2) A
+   ORDER BY KIND_GRP2 NULLS FIRST, PLS1_KIND_ID2) A
 ";
             DataTable dtResult = db.GetDataTable(sql, parms);
 
@@ -211,12 +211,25 @@ select max(case when PLS2_LEVEL_ADJ = '-' then PLS2_EFFECTIVE_YMD else ' ' end) 
             return dtResult;
         }
 
-        /// <summary>
-        /// 判斷是否有已確認之資料
-        /// </summary>
-        /// <param name="ls_eff_ymd">yyyyMMdd</param>
-        /// <returns></returns>
-        public int checkData(string ls_eff_ymd) {
+      public DataTable GetPlst1Level() {
+
+         string sql =
+@"
+select 
+    plst1_level 
+from ci.plst1
+";
+         DataTable dtResult = db.GetDataTable(sql , null);
+
+         return dtResult;
+      }
+
+      /// <summary>
+      /// 判斷是否有已確認之資料
+      /// </summary>
+      /// <param name="ls_eff_ymd">yyyyMMdd</param>
+      /// <returns></returns>
+      public int checkData(string ls_eff_ymd) {
 
             object[] parms = {
                 ":ls_eff_ymd",ls_eff_ymd

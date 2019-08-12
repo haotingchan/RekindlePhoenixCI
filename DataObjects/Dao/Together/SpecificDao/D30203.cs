@@ -11,21 +11,21 @@ using System.Threading.Tasks;
 /// </summary>
 namespace DataObjects.Dao.Together.SpecificDao {
 
-    public class D30203 : DataGate {
+   public class D30203 : DataGate {
 
-        /// <summary>
-        /// Table: PL1
-        /// data for gcMain
-        /// </summary>
-        /// <param name="as_ymd">yyyyMMdd</param>
-        /// <returns></returns>
-        public DataTable d_30203(string as_ymd) {
+      /// <summary>
+      /// Table: PL1
+      /// data for gcMain
+      /// </summary>
+      /// <param name="as_ymd">yyyyMMdd</param>
+      /// <returns></returns>
+      public DataTable d_30203(string as_ymd) {
 
-            object[] parms = {
+         object[] parms = {
                 ":as_ymd", as_ymd
             };
 
-            string sql =
+         string sql =
 @"
 SELECT 
        PL1_YMD  ,
@@ -59,19 +59,19 @@ SELECT
      and trim(PL1_KIND_ID) = trim(RPT_VALUE(+))
    ORDER BY RPT_SEQ_NO
 ";
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        /// <summary>
-        /// Table: PL1B
-        /// data for gcGBF
-        /// </summary>
-        /// <returns></returns>
-        public DataTable d_30203_gbf() {
+      /// <summary>
+      /// Table: PL1B
+      /// data for gcGBF
+      /// </summary>
+      /// <returns></returns>
+      public DataTable d_30203_gbf() {
 
-            string sql =
+         string sql =
 @"
 SELECT '        ' AS PL2_EFFECTIVE_YMD,
        '        ' AS PL1B_YMD,
@@ -91,18 +91,18 @@ SELECT '        ' AS PL2_EFFECTIVE_YMD,
        ' ' AS PL1B_ADJ
 FROM ci.PL1B
 ";
-            DataTable dtResult = db.GetDataTable(sql, null);
+         DataTable dtResult = db.GetDataTable(sql , null);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        public DataTable PostDate(string ls_ymd) {
+      public DataTable PostDate(string ls_ymd) {
 
-            object[] parms = {
+         object[] parms = {
                 ":ls_ymd", ls_ymd
             };
 
-            string sql =
+         string sql =
 @"
 select max(case when PL2_NATURE_ADJ = '-' or PL2_LEGAL_ADJ = '-' or PL2_999_ADJ = '-'  then PL2_EFFECTIVE_YMD else ' ' end) as LOWER_YMD,
            max(case when PL2_NATURE_ADJ <> '-' and PL2_LEGAL_ADJ <> '-' and PL2_999_ADJ <> '-' then PL2_EFFECTIVE_YMD else ' ' end) as RAISE_YMD,
@@ -111,23 +111,23 @@ select max(case when PL2_NATURE_ADJ = '-' or PL2_LEGAL_ADJ = '-' or PL2_999_ADJ 
   from ci.PL2
  where PL2_YMD = :ls_ymd
 ";
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        /// <summary>
-        /// Table: PL2
-        /// </summary>
-        /// <param name="as_ymd">yyyyMMdd</param>
-        /// <returns></returns>
-        public DataTable d_30203_pl2(string as_ymd) {
+      /// <summary>
+      /// Table: PL2
+      /// </summary>
+      /// <param name="as_ymd">yyyyMMdd</param>
+      /// <returns></returns>
+      public DataTable d_30203_pl2(string as_ymd) {
 
-            object[] parms = {
+         object[] parms = {
                 ":as_ymd", as_ymd
             };
 
-            string sql =
+         string sql =
 @"
 SELECT
     PL2_EFFECTIVE_YMD,
@@ -147,23 +147,23 @@ SELECT
 FROM CI.PL2
 WHERE PL2_YMD=:AS_YMD
 ";
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        /// <summary>
-        /// Table: PL2B
-        /// </summary>
-        /// <param name="as_ymd"yyyyMMdd></param>
-        /// <returns></returns>
-        public DataTable d_30203_pl2b(string as_ymd) {
+      /// <summary>
+      /// Table: PL2B
+      /// </summary>
+      /// <param name="as_ymd"yyyyMMdd></param>
+      /// <returns></returns>
+      public DataTable d_30203_pl2b(string as_ymd) {
 
-            object[] parms = {
+         object[] parms = {
                 ":as_ymd", as_ymd
             };
 
-            string sql =
+         string sql =
 @"
 SELECT
     PL2B_EFFECTIVE_YMD, 
@@ -187,18 +187,18 @@ SELECT
 FROM CI.PL2B
 WHERE PL2B_YMD = :AS_YMD
 ";
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        /// <summary>
-        /// Table: PLLOG
-        /// </summary>
-        /// <returns></returns>
-        public DataTable d_30203_pllog() {
+      /// <summary>
+      /// Table: PLLOG
+      /// </summary>
+      /// <returns></returns>
+      public DataTable d_30203_pllog() {
 
-            string sql =
+         string sql =
 @"
 SELECT
     PLLOG_YMD, 
@@ -210,18 +210,18 @@ SELECT
     PLLOG_W_USER_ID
 FROM CI.PLLOG
 ";
-            DataTable dtResult = db.GetDataTable(sql, null);
+         DataTable dtResult = db.GetDataTable(sql , null);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        public DataTable ProdType(string ls_kind_id) {
+      public DataTable ProdType(string ls_kind_id) {
 
-            object[] parms = {
+         object[] parms = {
                 ":ls_kind_id", ls_kind_id
             };
 
-            string sql =
+         string sql =
 @"
 select nvl(APDK_PROD_TYPE,' ') as prod_type,
        nvl(APDK_PROD_SUBTYPE,' ') as  prod_subtype
@@ -229,112 +229,124 @@ select nvl(APDK_PROD_TYPE,' ') as prod_type,
 from ci.APDK
 where APDK_KIND_ID = :ls_kind_id
 ";
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        /// <summary>
-        /// 刪除PL2的資料
-        /// </summary>
-        /// <param name="ls_ymd">yyyyMMdd</param>
-        /// <returns></returns>
-        public bool DeletePL2ByDate(string ls_ymd) {
-            object[] parms =
-            {
+      /// <summary>
+      /// 刪除PL2的資料
+      /// </summary>
+      /// <param name="ls_ymd">yyyyMMdd</param>
+      /// <returns></returns>
+      public bool DeletePL2ByDate(string ls_ymd) {
+         object[] parms =
+         {
                 ":ls_ymd", ls_ymd
             };
 
-            #region sql
+         #region sql
 
-            string sql =
+         string sql =
 @"
 delete ci.PL2
 where PL2_YMD = :ls_ymd
 ";
 
-            #endregion sql
+         #endregion sql
 
-            try {
-                int executeResult = db.ExecuteSQLForTransaction(sql, parms);
+         try {
+            int executeResult = db.ExecuteSQLForTransaction(sql , parms);
 
-                if (executeResult >= 0) {
-                    return true;
-                }
-                else {
-                    return false;
-                    //throw new Exception("PL2刪除失敗");
-                }
+            if (executeResult >= 0) {
+               return true;
+            } else {
+               return false;
+               //throw new Exception("PL2刪除失敗");
             }
-            catch (Exception ex) {
-                throw ex;
-            }
-        }
+         } catch (Exception ex) {
+            throw ex;
+         }
+      }
 
-        /// <summary>
-        /// 刪除PL2B的資料
-        /// </summary>
-        /// <param name="ls_ymd">yyyyMMdd</param>
-        /// <returns></returns>
-        public bool DeletePL2BByDate(string ls_ymd) {
-            object[] parms =
-            {
+      /// <summary>
+      /// 刪除PL2B的資料
+      /// </summary>
+      /// <param name="ls_ymd">yyyyMMdd</param>
+      /// <returns></returns>
+      public bool DeletePL2BByDate(string ls_ymd) {
+         object[] parms =
+         {
                 ":ls_ymd", ls_ymd
             };
 
-            #region sql
+         #region sql
 
-            string sql =
+         string sql =
 @"
 delete ci.PL2B
 where PL2B_YMD = :ls_ymd
 ";
 
-            #endregion sql
-            try {
-                int executeResult = db.ExecuteSQLForTransaction(sql, parms);
+         #endregion sql
+         try {
+            int executeResult = db.ExecuteSQLForTransaction(sql , parms);
 
-                if (executeResult >= 0) {
-                    return true;
-                }
-                else {
-                    return false;
-                    //throw new Exception("PL2B刪除失敗");
-                }
+            if (executeResult >= 0) {
+               return true;
+            } else {
+               return false;
+               //throw new Exception("PL2B刪除失敗");
             }
-            catch (Exception ex) {
-                throw ex;
-            }
-        }
+         } catch (Exception ex) {
+            throw ex;
+         }
+      }
 
-        public ResultData updatePLLOG(DataTable inputData) {
+      public ResultData updatePLLOG(DataTable inputData) {
 
-            string tableName = "CI.PLLOG";
-            string keysColumnList = "PLLOG_YMD, PLLOG_KIND_ID, PLLOG_DATA_TYPE, PLLOG_W_TIME";
-            string insertColumnList = @"PLLOG_YMD, 
+         string tableName = "CI.PLLOG";
+         string keysColumnList = "PLLOG_YMD, PLLOG_KIND_ID, PLLOG_DATA_TYPE, PLLOG_W_TIME";
+         string insertColumnList = @"PLLOG_YMD, 
                                         PLLOG_KIND_ID, 
                                         PLLOG_DATA_TYPE,
                                         PLLOG_ORG_VALUE,
                                         PLLOG_UPD_VALUE,
                                         PLLOG_W_TIME,
                                         PLLOG_W_USER_ID";
-            string updateColumnList = insertColumnList;
-            try {
+         string updateColumnList = insertColumnList;
+         try {
 
-                //update to DB
-                return SaveForAll(inputData, tableName, insertColumnList, updateColumnList, keysColumnList);
+            //update to DB
+            return SaveForAll(inputData , tableName , insertColumnList , updateColumnList , keysColumnList);
 
-            }
-            catch (Exception ex) {
-                throw ex;
-            }
-        }
+         } catch (Exception ex) {
+            throw ex;
+         }
+      }
 
-        public ResultData updatePLLOG_test(DataTable inputData) {
+      public ResultData updatePLLOG2(DataTable inputData) {
 
-            try {
+         string sql = @"
+SELECT
+    PLLOG_YMD, 
+    PLLOG_KIND_ID, 
+    PLLOG_DATA_TYPE, 
+    PLLOG_ORG_VALUE, 
+    PLLOG_UPD_VALUE, 
+    PLLOG_W_TIME, 
+    PLLOG_W_USER_ID
+FROM CI.PLLOG
+";
 
-                string sql = @"select PLLOG_YMD, 
+         return db.UpdateOracleDB(inputData , sql);
+      }
+
+      public ResultData updatePLLOG_test(DataTable inputData) {
+
+         try {
+
+            string sql = @"select PLLOG_YMD, 
                             PLLOG_KIND_ID, 
                             PLLOG_DATA_TYPE,
                             PLLOG_ORG_VALUE,
@@ -342,21 +354,20 @@ where PL2B_YMD = :ls_ymd
                             PLLOG_W_TIME,
                             PLLOG_W_USER_ID from CI.PLLOG";
 
-                inputData.PrimaryKey = new DataColumn[] {inputData.Columns["PLLOG_YMD"],
+            inputData.PrimaryKey = new DataColumn[] {inputData.Columns["PLLOG_YMD"],
                                                         inputData.Columns["PLLOG_KIND_ID"],
                                                         inputData.Columns["PLLOG_DATA_TYPE"],
                                                         inputData.Columns["PLLOG_W_TIME"]};
 
-                return db.UpdateOracleDB(inputData, sql);
+            return db.UpdateOracleDB(inputData , sql);
 
-            }
-            catch (Exception ex) {
-                throw ex;
-            }
-        }
+         } catch (Exception ex) {
+            throw ex;
+         }
+      }
 
-        public ResultData updatePL2(DataTable inputData) {
-            string sql = @"
+      public ResultData updatePL2(DataTable inputData) {
+         string sql = @"
 SELECT 
     PL2_EFFECTIVE_YMD,
     PL2_YMD,    
@@ -374,11 +385,11 @@ SELECT
     PL2_W_USER_ID    
 FROM CI.PL2";
 
-            return db.UpdateOracleDB(inputData, sql);
-        }
+         return db.UpdateOracleDB(inputData , sql);
+      }
 
-        public ResultData updatePL2B(DataTable inputData) {
-            string sql = @"
+      public ResultData updatePL2B(DataTable inputData) {
+         string sql = @"
 SELECT 
     PL2B_EFFECTIVE_YMD,        
     PL2B_YMD,                 
@@ -400,11 +411,11 @@ SELECT
     PL2B_W_USER_ID            
 FROM CI.PL2B";
 
-            return db.UpdateOracleDB(inputData, sql);
-        }
+         return db.UpdateOracleDB(inputData , sql);
+      }
 
-        public ResultData updatePL1(DataTable inputData) {
-            string sql = @"
+      public ResultData updatePL1(DataTable inputData) {
+         string sql = @"
 SELECT 
 PL1_YMD ,          
 PL1_PROD_TYPE,    
@@ -440,15 +451,14 @@ PL1_UPD_USER_ID
 
 FROM CI.PL1";
 
-            return db.UpdateOracleDB(inputData, sql);
-        }
+         return db.UpdateOracleDB(inputData , sql);
+      }
 
-        public DataTable d_30203_PL1Insert(string as_ymd)
-        {
-            object[] parms = {
+      public DataTable d_30203_PL1Insert(string as_ymd) {
+         object[] parms = {
                 ":as_ymd", as_ymd
             };
-            string sql = @"
+         string sql = @"
 SELECT 
 PL1_YMD ,          
 PL1_PROD_TYPE,    
@@ -484,10 +494,10 @@ PL1_UPD_USER_ID
 
 FROM CI.PL1  WHERE PL1_YMD = :AS_YMD";
 
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-    }
+   }
 }

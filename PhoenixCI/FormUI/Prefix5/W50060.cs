@@ -53,11 +53,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
          //買賣權
          DataTable dtCP = new CODW().ListLookUpEdit("50060" , "DDLB_1");
-         foreach (DataRow dr in dtCP.Rows) {
-            if (dr["CODW_ID"].AsString() == "N") {
-               dr["CODW_ID"] = " ";
-            }
-         }
          ddlb_1.SetDataTable(dtCP , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
 
          return ResultStatus.Success;

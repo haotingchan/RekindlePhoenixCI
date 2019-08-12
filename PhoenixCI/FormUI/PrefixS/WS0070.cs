@@ -83,25 +83,25 @@ namespace PhoenixCI.FormUI.PrefixS {
          //設定值
          RepositoryItemLookUpEdit cbxParamValue = new RepositoryItemLookUpEdit();
          DataTable cbxParamValueSource = daoCodw.ListByCol2("SPAN_PAR" , "SPAN_PARAM_VALUE");
-         DataTable dtParamValueData = daoS0070.GetParamData("ST", "%");//DB現有資料
-         DataTable dtTempParamValue = cbxParamValueSource.Clone();
-         for (int i = 0; i < dtParamValueData.Rows.Count; i++) {
-            //參數檔案
-            dtTempParamValue.Rows.Add();
-            dtTempParamValue.Rows[i].SetField("CODW_ID", dtParamValueData.Rows[i]["span_param_value"]);
-            dtTempParamValue.Rows[i].SetField("CODW_DESC", dtParamValueData.Rows[i]["span_param_value"]);
-            dtTempParamValue.Rows[i].SetField("CP_DISPLAY", dtParamValueData.Rows[i]["span_param_value"]);
+         //DataTable dtParamValueData = daoS0070.GetParamData("ST", "%");//DB現有資料
+         //DataTable dtTempParamValue = cbxParamValueSource.Clone();
+         //for (int i = 0; i < dtParamValueData.Rows.Count; i++) {
+         //   //參數檔案
+         //   dtTempParamValue.Rows.Add();
+         //   dtTempParamValue.Rows[i].SetField("CODW_ID", dtParamValueData.Rows[i]["span_param_value"]);
+         //   dtTempParamValue.Rows[i].SetField("CODW_DESC", dtParamValueData.Rows[i]["span_param_value"]);
+         //   dtTempParamValue.Rows[i].SetField("CP_DISPLAY", dtParamValueData.Rows[i]["span_param_value"]);
 
-            //CODID = 4 時 顯示 "最大漲跌停"
-            if (dtTempParamValue.Rows[i]["CODW_ID"].AsString() == "4") {
-               dtTempParamValue.Rows[i].SetField("CODW_DESC", "最大漲跌停");
-            }
-         }
-         DataView dtDistinc = new DataView(dtTempParamValue);
-         dtTempParamValue = dtDistinc.ToTable(true);
-         dtTempParamValue.PrimaryKey = new DataColumn[] { dtTempParamValue.Columns["COD_ID"] };
-         cbxParamValueSource.PrimaryKey = new DataColumn[] { cbxParamValueSource.Columns["COD_ID"] };
-         cbxParamValueSource.Merge(dtTempParamValue, false);
+         //   //CODID = 4 時 顯示 "最大漲跌停"
+         //   if (dtTempParamValue.Rows[i]["CODW_ID"].AsString() == "4") {
+         //      dtTempParamValue.Rows[i].SetField("CODW_DESC", "最大漲跌停");
+         //   }
+         //}
+         //DataView dtDistinc = new DataView(dtTempParamValue);
+         //dtTempParamValue = dtDistinc.ToTable(true);
+         //dtTempParamValue.PrimaryKey = new DataColumn[] { dtTempParamValue.Columns["COD_ID"] };
+         //cbxParamValueSource.PrimaryKey = new DataColumn[] { cbxParamValueSource.Columns["COD_ID"] };
+         //cbxParamValueSource.Merge(dtTempParamValue, false);
          cbxParamValue.SetColumnLookUp(cbxParamValueSource, "CODW_ID", "CODW_DESC", TextEditStyles.Standard, "");
          cbxParamValue.ProcessNewValue += new ProcessNewValueEventHandler(cbxParamValue_ProcessNewValue);
          gcPresTest.RepositoryItems.Add(cbxParamValue);

@@ -1,6 +1,6 @@
 ﻿namespace PhoenixCI.FormUI.Prefix1
 {
-    partial class W11010
+    partial class W11020
     {
         /// <summary>
         /// Required designer variable.
@@ -57,13 +57,13 @@
             this.ribbonControl.ExpandCollapseItem.Id = 0;
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
-            // W11010
+            // W11020
             // 
             this.Appearance.Options.UseFont = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1104, 761);
-            this.Name = "W11010";
+            this.Name = "W11020";
             ((System.ComponentModel.ISupportInitialize)(this.txtOcfDate.Properties)).EndInit();
             this.panParent.ResumeLayout(false);
             this.panParent.PerformLayout();

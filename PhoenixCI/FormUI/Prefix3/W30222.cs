@@ -32,8 +32,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
       private D30203 dao30203;
       private RepositoryItemLookUpEdit statusLookUpEdit;
       private RepositoryItemLookUpEdit levelLookUpEdit;
-      private Dictionary<string , string> dictAdj;
-      private Dictionary<string , string> dictLevel;
       private ReportHelper _ReportHelper;
 
       public W30222(string programID , string programName) : base(programID , programName) {
@@ -73,21 +71,15 @@ namespace PhoenixCI.FormUI.Prefix3 {
 #endif
 
             //「調整情形」欄位的下拉選單
-            // dictAdj = new Dictionary<string, string>() { { " ", "不變" }, { "+", "提高" }, { "-", "降低" }, { "*", "新增" } };
-            //DataTable dtStatus = setColItem(dictAdj);
             DataTable dtType = new CODW().ListLookUpEdit("30222" , "PLS1_LEVEL_ADJ");
             statusLookUpEdit = new RepositoryItemLookUpEdit();
             statusLookUpEdit.SetColumnLookUp(dtType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
-            //statusLookUpEdit.SetColumnLookUp(dictAdj, "Key", "Value");
             PLS1_LEVEL_ADJ.ColumnEdit = statusLookUpEdit;
 
             //「調整後部位限制級距」欄位的下拉選單
-            //dictLevel = new Dictionary<string, string>() { { "1", "1" }, { "2", "2" }, { "3", "3" } };
-            //DataTable dtLevel = setColItem(dictLevel);
-            dtType = new CODW().ListLookUpEdit("30222" , "PLS1_CP_LEVEL");
+            dtType = dao30222.GetPlst1Level();
             levelLookUpEdit = new RepositoryItemLookUpEdit();
-            //levelLookUpEdit.SetColumnLookUp(dictLevel, "Key", "Value");
-            levelLookUpEdit.SetColumnLookUp(dtType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
+            levelLookUpEdit.SetColumnLookUp(dtType , "PLST1_LEVEL" , "PLST1_LEVEL" , TextEditStyles.DisableTextEditor , null);
             PLS1_CP_LEVEL.ColumnEdit = levelLookUpEdit;
 
             //BandedColumnCaption換行
@@ -156,47 +148,75 @@ namespace PhoenixCI.FormUI.Prefix3 {
                return ResultStatus.Fail;
             }
 
+            //gvMain.CloseEditor();
+            //DataTable dtGridView = (DataTable)gcMain.DataSource;
+            ////dtGridView.PrimaryKey = new DataColumn[] { dtGridView.Columns["PLS1_KIND_ID2"] };
+            //DataView dvMain = dtGridView.AsDataView();
+            //dvMain.Sort = "PLS1_KIND_ID2";
+            //dtGridView = dvMain.ToTable();
+            //foreach (DataRow dr in dt30222PLS2.Rows) {
+            //   //此時gridview的資料還沒被動過，原本要在gridview中查找(datawindow.find)的資料直接在datasource查找即可
+            //   int found = dtGridView.Rows.IndexOf(dtGridView.Select("PLS1_KIND_ID2='" + dr["PLS2_KIND_ID2"].ToString() + "'").FirstOrDefault());
+            //   if (found < 0) {
+            //      dtGridView.Rows.Add();
+            //      found = dtGridView.Rows.Count - 1;
+            //   }
+            //   //DataRow drFound = dtGridView.Rows[found];
 
-            gvMain.CloseEditor();
-            DataTable dtGridView = (DataTable)gcMain.DataSource;
-            //dtGridView.PrimaryKey = new DataColumn[] { dtGridView.Columns["PLS1_KIND_ID2"] };
-            DataView dvMain = dtGridView.AsDataView();
-            dvMain.Sort = "PLS1_KIND_ID2";
-            dtGridView = dvMain.ToTable();
+            //   if (dr["PLS2_EFFECTIVE_YMD"].AsString() == lowerYmd.ToString("yyyyMMdd")) {
+            //      dtGridView.Rows[found]["PLS1_LEVEL_ADJ"] = "-";
+            //   }
+            //   //for 	j = 2 to 16
+            //   for (int k = 1 ; k < 16 ; k++) {
+            //      dtGridView.Rows[found][k] = dr[k];
+            //   }
+
+            //   dtGridView.Rows[found]["PLS1_W_TIME"] = DateTime.Now;
+            //   dtGridView.Rows[found]["PLS1_W_USER_ID"] = GlobalInfo.USER_ID;
+
+            //   //計算欄位COMPUTE_1: if( pls1_kind_id2 <> kind_grp2 ,'小型',' ')
+            //   if (dtGridView.Rows[found]["KIND_GRP2"] != DBNull.Value && dtGridView.Rows[found]["PLS1_KIND_ID2"].AsString() != dtGridView.Rows[found]["KIND_GRP2"].AsString()) {
+            //      dtGridView.Rows[found]["COMPUTE_1"] = "小型";
+            //   } else {
+            //      dtGridView.Rows[found]["COMPUTE_1"] = " ";
+            //   }
+            //}//foreach (DataRow dr in dt30222PLS2.Rows)
+
+            int w = -1;
             foreach (DataRow dr in dt30222PLS2.Rows) {
-               //此時gridview的資料還沒被動過，原本要在gridview中查找(datawindow.find)的資料直接在datasource查找即可
-               int found = dtGridView.Rows.IndexOf(dtGridView.Select("PLS1_KIND_ID2='" + dr["PLS2_KIND_ID2"].ToString() + "'").FirstOrDefault());
+               w++;
+               int found = dt30222.Rows.IndexOf(dt30222.Select("PLS1_KIND_ID2='" + dt30222PLS2.Rows[w]["PLS2_KIND_ID2"].AsString() + "'").FirstOrDefault());
                if (found < 0) {
-                  dtGridView.Rows.Add();
-                  found = dtGridView.Rows.Count - 1;
-               }
-               //DataRow drFound = dtGridView.Rows[found];
-
-               if (dr["PLS2_EFFECTIVE_YMD"].AsString() == lowerYmd.ToString("yyyyMMdd")) {
-                  dtGridView.Rows[found]["PLS1_LEVEL_ADJ"] = "-";
-               }
-               //for 	j = 2 to 16
-               for (int k = 1 ; k < 16 ; k++) {
-                  dtGridView.Rows[found][k] = dr[k];
+                  DataRow drNew = dt30222.NewRow();
+                  dt30222.Rows.Add(drNew);
+                  found = dt30222.Rows.Count - 1;
                }
 
-               dtGridView.Rows[found]["PLS1_W_TIME"] = DateTime.Now;
-               dtGridView.Rows[found]["PLS1_W_USER_ID"] = GlobalInfo.USER_ID;
+               if (dt30222PLS2.Rows[w]["PLS2_EFFECTIVE_YMD"].AsString() == txtEffDateLower.DateTimeValue.ToString("yyyyMMdd")) {
+                  dt30222.Rows[found]["PLS1_LEVEL_ADJ"] = "-";
+               }
+
+               for (int x = 1 ; x < 16 ; x++) {
+                  dt30222.Rows[found][x] = dt30222PLS2.Rows[w][x];
+               }
+
+               dt30222.Rows[found]["PLS1_W_TIME"] = DateTime.Now;
+               dt30222.Rows[found]["PLS1_W_USER_ID"] = GlobalInfo.USER_ID;
 
                //計算欄位COMPUTE_1: if( pls1_kind_id2 <> kind_grp2 ,'小型',' ')
-               if (dtGridView.Rows[found]["KIND_GRP2"] != DBNull.Value && dtGridView.Rows[found]["PLS1_KIND_ID2"].AsString() != dtGridView.Rows[found]["KIND_GRP2"].AsString()) {
-                  dtGridView.Rows[found]["COMPUTE_1"] = "小型";
+               if (dt30222.Rows[found]["KIND_GRP2"] != DBNull.Value && dt30222.Rows[found]["PLS1_KIND_ID2"].AsString() != dt30222.Rows[found]["KIND_GRP2"].AsString()) {
+                  dt30222.Rows[found]["COMPUTE_1"] = "小型";
                } else {
-                  dtGridView.Rows[found]["COMPUTE_1"] = " ";
+                  dt30222.Rows[found]["COMPUTE_1"] = " ";
                }
-            }//foreach (DataRow dr in dt30222PLS2.Rows)
+            }
 
             gcMain.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
             gcMain.LookAndFeel.UseDefaultLookAndFeel = false;
             gvMain.OptionsSelection.EnableAppearanceFocusedRow = false;
             gvMain.OptionsSelection.EnableAppearanceFocusedCell = false;
 
-            gcMain.DataSource = dtGridView;
+            gcMain.DataSource = dt30222;
          } catch (Exception ex) {
             MessageDisplay.Error("讀取錯誤");
             WriteLog(ex , "" , false);
@@ -242,7 +262,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
 
             //2. 寫入DB
-            ResultData myResultData = dao30203.updatePLLOG(dtPLLOG);
+            ResultData myResultData = dao30203.updatePLLOG2(dtPLLOG);
             #endregion
             showMsg = "PLS1更新資料庫錯誤! ";
             myResultData = dao30222.updatePLS1(dtGridView);//更新PLS1
@@ -318,7 +338,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
             base.DeleteRow(gvMain);
          } catch (Exception ex) {
             MessageDisplay.Error("刪除資料列錯誤");
-            throw ex;
+            WriteLog(ex);
          }
          return ResultStatus.Success;
       }

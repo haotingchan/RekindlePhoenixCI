@@ -47,7 +47,7 @@ namespace PhoenixCI.FormUI.Prefix5
       private APDK daoAPDK;
       private D51030 dao51030;
       private CODW daoCODW;
-      private Dictionary<string, string> dic;
+
       /// <summary>
       /// 交易時段
       /// </summary>
@@ -119,28 +119,10 @@ namespace PhoenixCI.FormUI.Prefix5
          //}
          //DataTable mmfKIND = SetcolItem(dic);
          CP_KIND_LookUpEdit = new RepositoryItemLookUpEdit();
-         DataTable mmfKIND = daoCODW.ListLookUpEdit3("51030" , "CP_KIND");
-         CP_KIND_LookUpEdit.SetColumnLookUp(mmfKIND, "CODW_ID" , "CP_DISPLAY");
+         DataTable mmfKIND = daoCODW.ListLookUpEdit("51030" , "CP_KIND");
+         CP_KIND_LookUpEdit.SetColumnLookUp(mmfKIND, "CODW_ID" , "CODW_DESC");
          MMF_CP_KIND.ColumnEdit = CP_KIND_LookUpEdit;
       }
-      /// <summary>
-      /// 自訂下拉式選項
-      /// </summary>
-      /// <param name="dic">陣列</param>
-      /// <returns></returns>
-      //private DataTable SetcolItem(Dictionary<string, string> dic)
-      //{
-      //   DataTable dt = new DataTable();
-      //   dt.Columns.Add("ID");
-      //   dt.Columns.Add("Desc");
-      //   foreach (var str in dic) {
-      //      DataRow rows = dt.NewRow();
-      //      rows["ID"] = str.Key;
-      //      rows["Desc"] = str.Value;
-      //      dt.Rows.Add(rows);
-      //   }
-      //   return dt;
-      //}
 
       protected override ResultStatus Retrieve()
       {

@@ -172,5 +172,68 @@ FROM {0}.OCF", _dbType);
             return false;
         }
 
+        /// <summary>
+        /// 更新OCF_DATE
+        /// </summary>
+        /// <param name="OCF_DATE"></param>
+        /// <returns></returns>
+        public bool UpdateDate(DateTime OCF_DATE)
+        {
+            object[] parms =
+            {
+                "@OCF_DATE", OCF_DATE
+            };
+
+            #region sql
+
+            string sql = String.Format(
+                @"
+                  UPDATE {0}.OCF SET OCF_DATE = @OCF_DATE
+                ",_dbType);
+
+            #endregion sql
+
+            int executeResult = db.ExecuteSQL(sql, parms);
+
+            if (executeResult > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+        public bool UpdatePrevDate(DateTime OCF_PREV_DATE)
+        {
+            object[] parms =
+            {
+                "@OCF_PREV_DATE", OCF_PREV_DATE
+            };
+
+            #region sql
+
+            string sql = String.Format(
+                @"
+                  UPDATE {0}.OCF SET OCF_PREV_DATE = @OCF_PREV_DATE
+                ", _dbType);
+
+            #endregion sql
+
+            int executeResult = db.ExecuteSQL(sql, parms);
+
+            if (executeResult > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
     }
 }

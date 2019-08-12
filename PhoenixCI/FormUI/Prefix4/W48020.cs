@@ -10,7 +10,6 @@ using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraPrinting;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
@@ -51,31 +50,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
          txtSDate.EditValue = GlobalInfo.OCF_DATE;
          lupSubType = new RepositoryItemLookUpEdit();
 
-#if DEBUG
-         //txtSDate.DateTimeValue = DateTime.ParseExact("2018/06/15", "yyyy/MM/dd", null);
-         //this.Text += "(開啟測試模式),ocfDate=2018/06/15";
-#endif
-
-         //1.契約類別 下拉選單(ken,用48010帶入才可以...)
-         //DataTable dtSubType = new COD().ListByCol("48010" , "PDK_SUBTYPE         " , "全選" , "%"); //第一行全選 + COD_ID / COD_DESC / COD_SEQ_NO
-         //ken,特殊,再往上新增一筆 
-         //DataRow drTemp = dtSubType.NewRow();
-         //drTemp["COD_ID"] = " ";
-         //drTemp["COD_DESC"] = ChooseSingleKind;
-         //drTemp["COD_SEQ_NO"] = -1;
-         //dtSubType.Rows.InsertAt(drTemp , 0);
-         //Extension.SetDataTable(ddlSubType , dtSubType , "COD_ID" , "COD_DESC" , TextEditStyles.DisableTextEditor , "");
-
-         DataTable dtSubType = new CODW().ListLookUpEdit("HCPR" , "CPR_PROD_SUBTYPE");
-         foreach (DataRow dr in dtSubType.Rows) {
-            if (dr["CODW_ID"].AsString() == "all") {
-               dr["CODW_ID"] = "%";
-            } else if (dr["CODW_ID"].AsString() == "one") {
-               dr["CODW_ID"] = " ";
-            }
-         }
-         Extension.SetDataTable(ddlSubType , dtSubType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
-
+         //1.契約類別 下拉選單
+         DataTable dtSubType = new CODW().ListLookUpEdit("HCPR" , "CPR_PROD_SUBTYPE"); // 全選：'%' / 單一契約：' '
+         Extension.SetDataTable(ddlSubType , dtSubType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor);
          lupSubType.SetColumnLookUp(dtSubType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          gcMain.RepositoryItems.Add(lupSubType);
 
@@ -87,29 +64,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
          Extension.SetDataTable(ddlKind , dtKind , "MGT2_KIND_ID" , "MGT2_KIND_ID" , TextEditStyles.DisableTextEditor , "");
 
          //3.資料內容 下拉選單
-         //List<LookupItem> lstData = new List<LookupItem>(){
-         //                               new LookupItem() { ValueMember = "KeyInfo", DisplayMember = "1.重點資料"},
-         //                               new LookupItem() { ValueMember = "Detail", DisplayMember = "2.明細資料" }};
-
          DataTable dtData = new CODW().ListLookUpEdit("HCPR" , "DATA_TYPE");
          Extension.SetDataTable(ddlData , dtData , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
-         
+
          //ken,設定選單事件
          this.ddlData.EditValueChanged += new System.EventHandler(this.ddlData_EditValueChanged);
 
          //4.排序方式 下拉選單
-         //List<LookupItem> lstSort = new List<LookupItem>(){
-         //                               new LookupItem() { ValueMember = "DATE", DisplayMember = "1.依系統生效日期排序"},
-         //                               new LookupItem() { ValueMember = "KIND", DisplayMember = "2.依契約類別排序" }};
-
          DataTable dtSort = new CODW().ListLookUpEdit("HCPR" , "SORT_TYPE");
-         foreach (DataRow dr in dtSort.Rows) {
-            if (dr["CODW_ID"].AsString() == "1") {
-               dr["CODW_ID"] = "DATE";
-            } else {
-               dr["CODW_ID"] = "KIND";
-            }
-         }
          Extension.SetDataTable(ddlSort , dtSort , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
 
          return ResultStatus.Success;
@@ -158,10 +120,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
             if (ddlSubType.Text == ChooseSingleKind) {
                subType = "%";
                kindId = ddlKind.EditValue.AsString() + "%";
-            }//if (ddlSubType.Text == ChooseSingleKind) {
+            }
 
             //2.改成彈性工廠寫法(KeyInfo撈9顯示6個欄位,Detail撈13顯示10個欄位)
-            string datatype = ddlData.EditValue.AsString() =="1"? "KeyInfo" : "Detail";
+            string datatype = ddlData.EditValue.AsString();
             I48020GridData gridData = dao48020.CreateGridData(dao48020.GetType() , datatype);
             DateTime startDate = DateTime.ParseExact(txtSDate.Text + "/01/01" , "yyyy/MM/dd" , null);
             DateTime endDate = DateTime.ParseExact(txtEDate.Text + "/12/31" , "yyyy/MM/dd" , null);
@@ -206,12 +168,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gvMain.SetColumnCaption("CPR_W_USER_ID" , "異動人員");
 
             //3.3設定隱藏欄位
-            //gvMain.Columns["CPR_PROD_SUBTYPE"].Visible = false;
             gvMain.Columns["MGT2_SEQ_NO"].Visible = false;//ken,從頭到尾都沒用到...
             gvMain.Columns["PROD_TYPE"].Visible = false;
 
-            //if (ddlData.EditValue.AsString() == "KeyInfo") {
-            if (datatype == "KeyInfo") { 
+            //if (ddlData.EditValue.AsString() == "KeyInfo") 
+            if (datatype == "KeyInfo") {
                gvMain.Columns["CPR_APPROVAL_NUMBER"].Visible = false;
                gvMain.Columns["CPR_REMARK"].Visible = false;
                gvMain.Columns["CPR_W_TIME"].Visible = false;
@@ -280,7 +241,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             DateTime endDate = DateTime.ParseExact(txtEDate.Text + "/12/31" , "yyyy/MM/dd" , null);
 
             DataTable dtExport = dao48020.ListAll2(startDate , endDate , subType , kindId , ddlSort.EditValue.AsString() , "Y");
-            string datatype = ddlData.EditValue.AsString() == "1" ? "KeyInfo" : "Detail";
+            string datatype = ddlData.EditValue.AsString();
             if (datatype == "KeyInfo") {
                dtExport.Columns.Remove("CPR_APPROVAL_NUMBER");
                dtExport.Columns.Remove("CPR_REMARK");
@@ -356,13 +317,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
       protected override ResultStatus Print(ReportHelper reportHelper) {
          try {
-            //ReportHelper reportHelper = new ReportHelper(PrintableComponent, _ReportID, _ReportTitle);
-            //reportHelper.FilePath = _DefaultFileNamePath;
-            //reportHelper.FileType = FileType.PDF;
-            //reportHelper.IsPrintedFromPrintButton = true;
-
             ReportHelper _ReportHelper = reportHelper;
-            string datatype = ddlData.EditValue.AsString() == "1" ? "KeyInfo" : "Detail";
+            string datatype = ddlData.EditValue.AsString();
             if (datatype == "KeyInfo") {
                //重點資料
                CommonReportPortraitA4 reportPortrait = new CommonReportPortraitA4();//設定為直向列印

@@ -5,6 +5,7 @@ using BaseGround.Shared;
 using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
+using DataObjects;
 using DevExpress.XtraEditors.Repository;
 using System;
 using System.Data;
@@ -54,19 +55,15 @@ namespace PhoenixCI.FormUI.Prefix1
             base.Open();
 
             //txtPrevOcfDate.DateTimeValue = GlobalInfo.OCF_PREV_DATE;
+            
             txtOcfDate.DateTimeValue = PbFunc.f_ocf_date(0, _DB_TYPE).AsDateTime(); //GlobalInfo.OCF_DATE;
             OCF_TYPE = txtOcfDate.DateType == BaseGround.Widget.TextDateEdit.DateTypeItem.Month ? "M" : "D";
 
             gcMain.DataSource = servicePrefix1.ListTxfByTxn(_ProgramID).Trim();
 
-            if (OCF_TYPE == "D")
-            {
-                gcLogsp.DataSource = servicePrefix1.ListLogsp(txtOcfDate.DateTimeValue, _ProgramID).Trim();
-            }
-            else {
-                xtraTabPageQuery.PageVisible = false;
-            }
-
+            gcLogsp.DataSource = servicePrefix1.ListLogsp(txtOcfDate.DateTimeValue, _ProgramID,OCF_TYPE).Trim();
+            gvSpLog.AppearancePrint.HeaderPanel.Font = new Font("標楷體", 10);
+            gvSpLog.AppearancePrint.Row.Font = new Font("標楷體", 10);
             return ResultStatus.Success;
         }
 
@@ -95,20 +92,19 @@ namespace PhoenixCI.FormUI.Prefix1
         protected override ResultStatus Retrieve()
         {
             base.Retrieve(gcMain);
-            if (OCF_TYPE == "D")
+
+            DataTable dtLogSP = servicePrefix1.ListLogsp(txtOcfDate.DateTimeValue, _ProgramID,OCF_TYPE).Trim();
+            gcLogsp.DataSource = dtLogSP;
+            if (dtLogSP.Rows.Count == 0)
             {
-                DataTable dtLogSP = servicePrefix1.ListLogsp(txtOcfDate.DateTimeValue, _ProgramID).Trim();
-                gcLogsp.DataSource = dtLogSP;
-                if (dtLogSP.Rows.Count == 0)
-                {
-                    MessageDisplay.Info(GlobalInfo.MsgNoData);
-                    xtraTabControl.SelectedTabPage = xtraTabPageMain;
-                }
-                else
-                {
-                    xtraTabControl.SelectedTabPage = xtraTabPageQuery;
-                }
+                MessageDisplay.Info(GlobalInfo.MsgNoData);
+                xtraTabControl.SelectedTabPage = xtraTabPageMain;
             }
+            else
+            {
+                xtraTabControl.SelectedTabPage = xtraTabPageQuery;
+            }
+
 
             return ResultStatus.Success;
         }
@@ -122,9 +118,52 @@ namespace PhoenixCI.FormUI.Prefix1
 
         protected override ResultStatus RunBefore(PokeBall args)
         {
-            args.GridControlMain = gcMain;
-            args.OcfDate = Convert.ToDateTime(txtOcfDate.Text);
-            
+
+            string txfServer = gvMain.GetRowCellValue(1, "TXF_SERVER").AsString();
+            if (txfServer != GlobalDaoSetting.GetConnectionInfo.ConnectionName)
+            {
+                MessageDisplay.Warning("作業Server(" + txfServer + ") 不等於連線Server(" + GlobalDaoSetting.GetConnectionInfo.ConnectionName + ")");
+                return ResultStatus.Fail;
+            }
+
+            string inputDate = txtOcfDate.Text;
+            string nowDate = DateTime.Now.ToString(txtOcfDate.Properties.EditFormat.FormatString);
+
+            if (OCF_TYPE == "D")
+            {
+                if (inputDate != nowDate)
+                {
+                    if (MessageDisplay.Choose("交易日期(" + inputDate + ") 不等於今日(" + nowDate + ")，是否要繼續?") == DialogResult.No)
+                    {
+                        return ResultStatus.Fail;
+                    }
+                }
+                if (servicePrefix1.HasLogspDone(Convert.ToDateTime(inputDate), _ProgramID))
+                {
+                    if (MessageDisplay.Choose(_ProgramID + " 作業 " + inputDate + "「曾經」執行過，\n是否要繼續？\n\n★★★建議先執行 [預覽] 確認執行狀態") == DialogResult.No)
+                    {
+                        return ResultStatus.Fail;
+                    }
+                }
+
+                if (!servicePrefix1.setOCF(txtOcfDate.DateTimeValue, _DB_TYPE, GlobalInfo.USER_ID))
+                {
+                    return ResultStatus.Fail;
+                }
+            }
+            else if (OCF_TYPE == "M")
+            {
+                if (inputDate != nowDate)
+                {
+                    if (MessageDisplay.Choose("月份(" + inputDate + ") 不等於本月(" + nowDate + ")，是否要繼續?") == DialogResult.No)
+                    {
+                        return ResultStatus.Fail;
+                    }
+                }
+            }
+
+
+            GridHelper.AcceptText(gcMain);
 
             return base.RunBefore(args);
         }
@@ -134,7 +173,7 @@ namespace PhoenixCI.FormUI.Prefix1
             this.BeginInvoke(new MethodInvoker(() => {
                 args.GridControlMain = gcMain;
                 args.GridControlSecond = gcLogsp;
-                args.OcfDate = Convert.ToDateTime(txtOcfDate.Text);
+                args.OcfDate = txtOcfDate.DateTimeValue;
                 args.OcfType = OCF_TYPE;
             }));
 
@@ -166,9 +205,22 @@ namespace PhoenixCI.FormUI.Prefix1
             return ResultStatus.Success;
         }
 
+        protected override ResultData ExecuteForm(PokeBall args)
+        {
+            ResultData resultData = base.ExecuteForm(args);
+            FormParent form = ((FormParent)resultData.ReturnObject);
+            resultData.Status = form.ProcessExport();
+            form.Close();
+
+            return resultData;
+        }
+
         protected override ResultStatus Print(ReportHelper reportHelper)
         {
             Retrieve();
+            CommonReportLandscapeA4 report = new CommonReportLandscapeA4();
+            reportHelper.Create(report);
+            
             base.Print(reportHelper);
 
             return ResultStatus.Success;
@@ -221,5 +273,6 @@ namespace PhoenixCI.FormUI.Prefix1
                 PrintableComponent = gcLogsp;
             }
         }
+
     }
 }

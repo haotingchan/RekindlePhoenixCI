@@ -1,5 +1,4 @@
-﻿using BaseGround;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,14 +10,12 @@ using System.Windows.Forms;
 
 namespace PhoenixCI.FormUI.Prefix1
 {
-    public partial class W10022 : W1xxx
+    public partial class W1002A : W1xxx
     {
-
-        public W10022(string programID, string programName) : base(programID, programName)
+        public W1002A(string programID, string programName) : base(programID, programName)
         {
             InitializeComponent();
-            _DB_TYPE = "opt";
+            _DB_TYPE = "optAH";
         }
-
     }
 }

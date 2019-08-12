@@ -70,11 +70,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
             lupDataType = new RepositoryItemLookUpEdit();
             //DataTable dataTypeList = cod.ListByCol("49020" , "MGT2_DATA_TYPE");
             DataTable dataTypeList = new CODW().ListLookUpEdit("49020" , "DATA_TYPE");
-            foreach (DataRow dr in dataTypeList.Rows) {
-               if (dr["CODW_ID"].AsString() == "none") {
-                  dr["CODW_ID"] = " ";
-               }
-            }
             Extension.SetColumnLookUp(lupDataType , dataTypeList , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
             gcMain.RepositoryItems.Add(lupDataType);
 
@@ -82,24 +77,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
             lupCpKind = new RepositoryItemLookUpEdit();
             //DataTable dtCpKind = dao49020.GetCpKind("MGT2" , "MGT2_CP_KIND");
             DataTable dtCpKind = new CODW().ListLookUpEdit("49020" , "MGT2_CP_KIND");
-            foreach (DataRow dr in dtCpKind.Rows) {
-               if (dr["CODW_ID"].AsString() == "none") {
-                  dr["CODW_ID"] = " ";
-               }
-            }
             Extension.SetColumnLookUp(lupCpKind , dtCpKind , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
             gcMain.RepositoryItems.Add(lupCpKind);
 
             //國內/國外類別
-            //此處國內/外下拉清單 於CI.MGT2參數為(國內 : " "  國外: "Y") CI.CODW參數為(國內 : "N"  國外: "Y")
             lupAbroad = new RepositoryItemLookUpEdit();
-            //DataTable dtAbroad = cod.ListByCol2("MGT2" , "MGT2_ABROAD");
             DataTable dtAbroad = new CODW().ListLookUpEdit("MGT2" , "MGT2_ABROAD");
-            foreach (DataRow dr in dtAbroad.Rows) {
-               if (dr["CODW_ID"].AsString() == "N") {
-                  dr["CODW_ID"] = " ";
-               }
-            }
             Extension.SetColumnLookUp(lupAbroad , dtAbroad , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
             gcMain.RepositoryItems.Add(lupAbroad);
             #endregion

@@ -106,12 +106,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
          //                               new LookupItem() { ValueMember = " ", DisplayMember = " " }};
 
          DataTable dtRemarkList = new CODW().ListLookUpEdit("20231_2" , "APDK_REMARK");
-         foreach (DataRow dr in dtRemarkList.Rows) {
-            if (dr["CODW_ID"].AsString() == "N") {
-               dr["CODW_ID"] = " ";
-            }
-         }
-         ApdkRemarkLookUpEdit.SetColumnLookUp(dtRemarkList , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
+         ApdkRemarkLookUpEdit.SetColumnLookUp(dtRemarkList , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor);
          APDK_REMARK.ColumnEdit = ApdkRemarkLookUpEdit;
       }
 

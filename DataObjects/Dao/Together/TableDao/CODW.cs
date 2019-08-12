@@ -32,7 +32,7 @@ namespace DataObjects.Dao.Together {
                            FROM CI.CODW  
                            WHERE CODW_TXN_ID = :CODW_TXN_ID";
 
-         DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
          return dtResult;
       }
@@ -45,7 +45,7 @@ namespace DataObjects.Dao.Together {
       /// <param name="FirstRowText">自行定義新增的第一個item的Text</param>
       /// <param name="FirstRowValue">自行定義新增的第一個item的Value</param>
       /// <returns>第一行空白+CODW_ID/CODW_DESC/CODW_SEQ_NO</returns>
-      public DataTable ListByCol(string CODW_TXN_ID, string CODW_COL_ID, string FirstRowText = " ", string FirstRowValue = " ") {
+      public DataTable ListByCol(string CODW_TXN_ID , string CODW_COL_ID , string FirstRowText = " " , string FirstRowValue = " ") {
          object[] parms =
          {
                 ":CODW_TXN_ID", CODW_TXN_ID,
@@ -53,10 +53,10 @@ namespace DataObjects.Dao.Together {
             };
 
          //ken,簡易防止sql injection(基本上這兩個值不應該從UI傳進來)
-         string tmp = FirstRowText.Length > 20 ? FirstRowText.Substring(0, 20) : FirstRowText;
-         string firstRowText = tmp.Replace("'", "").Replace("--", "").Replace(";", "");
-         string tmp2 = FirstRowValue.Length > 20 ? FirstRowValue.Substring(0, 20) : FirstRowValue;
-         string firstRowValue = tmp2.Replace("'", "").Replace("--", "").Replace(";", "");
+         string tmp = FirstRowText.Length > 20 ? FirstRowText.Substring(0 , 20) : FirstRowText;
+         string firstRowText = tmp.Replace("'" , "").Replace("--" , "").Replace(";" , "");
+         string tmp2 = FirstRowValue.Length > 20 ? FirstRowValue.Substring(0 , 20) : FirstRowValue;
+         string firstRowValue = tmp2.Replace("'" , "").Replace("--" , "").Replace(";" , "");
 
          string sql = string.Format(@"SELECT TRIM(CODW_ID) AS CODW_ID,
                                      TRIM(CODW_DESC) AS CODW_DESC,
@@ -66,9 +66,9 @@ namespace DataObjects.Dao.Together {
                                     AND CODW_COL_ID = :CODW_COL_ID
                                     UNION ALL
                                     SELECT '{0}','{1}',0 FROM DUAL
-                                    order by CODW_seq_no", FirstRowValue, FirstRowText);
+                                    order by CODW_seq_no" , FirstRowValue , FirstRowText);
 
-         DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
          return dtResult;
       }
@@ -79,7 +79,7 @@ namespace DataObjects.Dao.Together {
       /// <param name="CODW_TXN_ID"></param>
       /// <param name="CODW_COL_ID"></param>
       /// <returns>CODW_ID/CODW_DESC/CODW_SEQ_NO/cp_display</returns>
-      public DataTable ListByCol2(string CODW_TXN_ID, string CODW_COL_ID) {
+      public DataTable ListByCol2(string CODW_TXN_ID , string CODW_COL_ID) {
 
          object[] parms =
 {
@@ -101,7 +101,7 @@ namespace DataObjects.Dao.Together {
                         ) a   
                         order by CODW_seq_no";
 
-         DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
          return dtResult;
       }
@@ -114,7 +114,7 @@ namespace DataObjects.Dao.Together {
       /// <param name="FirstRowText"></param>
       /// <param name="FirstRowValue"></param>
       /// <returns>CODW_id / cp_display</returns>
-      public DataTable ListByCol3(string CODW_TXN_ID, string CODW_COL_ID, string FirstRowText = " ", string FirstRowValue = " ") {
+      public DataTable ListByCol3(string CODW_TXN_ID , string CODW_COL_ID , string FirstRowText = " " , string FirstRowValue = " ") {
          object[] parms =
          {
             ":CODW_TXN_ID", CODW_TXN_ID,
@@ -122,10 +122,10 @@ namespace DataObjects.Dao.Together {
          };
 
          //ken,簡易防止sql injection(基本上這兩個值不應該從UI傳進來)
-         string tmp = FirstRowText.Length > 20 ? FirstRowText.Substring(0, 20) : FirstRowText;
-         string firstRowText = tmp.Replace("'", "").Replace("--", "").Replace(";", "");
-         string tmp2 = FirstRowValue.Length > 20 ? FirstRowValue.Substring(0, 20) : FirstRowValue;
-         string firstRowValue = tmp2.Replace("'", "").Replace("--", "").Replace(";", "");
+         string tmp = FirstRowText.Length > 20 ? FirstRowText.Substring(0 , 20) : FirstRowText;
+         string firstRowText = tmp.Replace("'" , "").Replace("--" , "").Replace(";" , "");
+         string tmp2 = FirstRowValue.Length > 20 ? FirstRowValue.Substring(0 , 20) : FirstRowValue;
+         string firstRowValue = tmp2.Replace("'" , "").Replace("--" , "").Replace(";" , "");
 
          string sql = string.Format(@"SELECT CODW_id,
                                      CODW_id||' ('||CODW_desc||')' as cp_display
@@ -139,9 +139,9 @@ namespace DataObjects.Dao.Together {
                                      UNION ALL
                                      SELECT '{0}','{1}',0 from dual
                                      ORDER BY CODW_seq_no
-                                 )", FirstRowValue, FirstRowText);
+                                 )" , FirstRowValue , FirstRowText);
 
-         DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
          return dtResult;
       }
@@ -149,7 +149,7 @@ namespace DataObjects.Dao.Together {
       /// 幣別選單
       /// </summary>
       /// <returns></returns>
-      public DataTable ListByCurrency(string CODW_TXN_ID = "EXRT", string CODW_COL_ID = "EXRT_CURRENCY_TYPE") {
+      public DataTable ListByCurrency(string CODW_TXN_ID = "EXRT" , string CODW_COL_ID = "EXRT_CURRENCY_TYPE") {
          object[] parms =
          {
             ":CODW_TXN_ID", CODW_TXN_ID,
@@ -163,10 +163,10 @@ namespace DataObjects.Dao.Together {
                           AND CODW_COL_ID = :CODW_COL_ID
                         ORDER BY CODW_SEQ_NO";
 
-         DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
       /// <summary>
       /// for all lookupedit from ci.codw 
@@ -183,76 +183,15 @@ namespace DataObjects.Dao.Together {
 
          string sql = @"
 select 
-   trim(codw_id) as codw_id,
-   trim(codw_desc) as codw_desc,
+   codw_id,
+   codw_desc,
    codw_seq_no
 from ci.codw
-where trim(codw_txn_id) = :CODW_TXN_ID
-and trim(codw_col_id) = :CODW_COL_ID
+where codw_txn_id = :CODW_TXN_ID
+and codw_col_id = :CODW_COL_ID
 order by codw_seq_no
 ";
 
-         DataTable dtResult = db.GetDataTable(sql , parms);
-
-         return dtResult;
-      }
-
-      /// <summary>
-      /// lookupedit from ci.codw (加入組合欄位)
-      /// </summary>
-      /// <param name="CODW_TXN_ID">功能代號</param>
-      /// <param name="CODW_COL_ID"></param>
-      /// <returns>codw_id/codw_desc/codw_seq_no/cp_display</returns>
-      public DataTable ListLookUpEdit2(string CODW_TXN_ID , string CODW_COL_ID) {
-
-         object[] parms =
-{
-                ":CODW_TXN_ID", CODW_TXN_ID,
-                ":CODW_COL_ID", CODW_COL_ID
-            };
-
-         string sql = @"
-select 
-   trim(codw_id) as codw_id,
-   trim(codw_desc) as codw_desc,
-   codw_seq_no,
-   trim(codw_id) || ' : ' || trim(codw_desc) as cp_display
-from ci.codw
-where trim(codw_txn_id) = :CODW_TXN_ID
-and trim(codw_col_id) = :CODW_COL_ID
-order by codw_seq_no
-
-";
-         DataTable dtResult = db.GetDataTable(sql , parms);
-
-         return dtResult;
-      }
-
-      /// <summary>
-      /// lookupedit from ci.codw (加入組合欄位)
-      /// </summary>
-      /// <param name="CODW_TXN_ID">功能代號</param>
-      /// <param name="CODW_COL_ID"></param>
-      /// <returns>codw_id/codw_desc/codw_seq_no/cp_display</returns>
-      public DataTable ListLookUpEdit3(string CODW_TXN_ID , string CODW_COL_ID) {
-
-         object[] parms =
-{
-                ":CODW_TXN_ID", CODW_TXN_ID,
-                ":CODW_COL_ID", CODW_COL_ID
-            };
-
-         string sql = @"
-select 
-   trim(codw_id) as codw_id,
-   trim(codw_desc) as codw_desc,
-   codw_seq_no,
-   '('|| trim(codw_id) ||')'|| trim(codw_desc) as cp_display
-from ci.codw
-where trim(codw_txn_id) = :CODW_TXN_ID
-and trim(codw_col_id) = :CODW_COL_ID
-order by codw_seq_no
-";
          DataTable dtResult = db.GetDataTable(sql , parms);
 
          return dtResult;

@@ -56,17 +56,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             Extension.SetColumnLookUp(lupKind , dtKind , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
             gcMain.RepositoryItems.Add(lupKind);
 
-            //國內外 CI.CODW參數為(國內 : "N"  國外: "Y")
-            //List<LookupItem> dtForeign = new List<LookupItem>(){
-            //                                new LookupItem() { ValueMember = " ", DisplayMember = "國內"},
-            //                                new LookupItem() { ValueMember = "Y", DisplayMember = "國外"}};
-            //lupForeign = new RepositoryItemLookUpEdit();
+            //國內外 
             DataTable dtForeign = daoCodw.ListLookUpEdit("MGT2" , "MGT2_ABROAD");
-            foreach (DataRow dr in dtForeign.Rows) {
-               if (dr["CODW_ID"].AsString() == "N") {
-                  dr["CODW_ID"] = " ";
-               }
-            }
             lupForeign.SetColumnLookUp(dtForeign , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
             gcMain.RepositoryItems.Add(lupForeign);
 
@@ -77,11 +68,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gcMain.RepositoryItems.Add(lupCurrency);
 
             //金額類型
-            //List<LookupItem> dtAmt = new List<LookupItem>(){
-            //                                new LookupItem() { ValueMember = "P", DisplayMember = "比例"},
-            //                                new LookupItem() { ValueMember = "A", DisplayMember = "金額"}};
-            //lupForeign = new RepositoryItemLookUpEdit();
-            DataTable dtAmt = daoCodw.ListLookUpEdit("49061" , "49061_AMT_TYPE");
+            DataTable dtAmt = daoCodw.ListLookUpEdit("49061" , "AMT_TYPE");
             lupAmt.SetColumnLookUp(dtAmt , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
             gcMain.RepositoryItems.Add(lupAmt);
 
@@ -246,22 +233,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   } else if (string.IsNullOrEmpty(dr["MGT8_KIND_TYPE"].AsString())) {
                      dr["MGT8_KIND_TYPE"] = " ";
                   }
-
-                  //else {
-                  //   MessageDisplay.Warning("新增資料欄位不可為空!",GlobalInfo.WarningText);
-                  //   return ResultStatus.FailButNext;
-                  //}
-
-                  if (dr["MGT8_FOREIGN"].AsString() == "D") {
-                     dr["MGT8_FOREIGN"] = " ";
-                  }
                }
                if (dr.RowState == DataRowState.Modified) {
                   dr["MGT8_W_TIME"] = DateTime.Now;
                   dr["MGT8_W_USER_ID"] = GlobalInfo.USER_ID;
-                  if (dr["MGT8_FOREIGN"].AsString() == "D") {
-                     dr["MGT8_FOREIGN"] = " ";
-                  }
                }
             }
 

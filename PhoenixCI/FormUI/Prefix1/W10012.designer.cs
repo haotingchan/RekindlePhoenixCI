@@ -28,17 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
+            ((System.ComponentModel.ISupportInitialize)(this.txtOcfDate.Properties)).BeginInit();
+            this.panParent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             this.SuspendLayout();
             // 
-            // panParent
+            // txtOcfDate
             // 
-            this.panParent.Size = new System.Drawing.Size(1104, 731);
+            this.txtOcfDate.Properties.Appearance.Options.UseTextOptions = true;
+            this.txtOcfDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtOcfDate.Properties.EditFormat.FormatString = "yyyy/MM/dd";
+            this.txtOcfDate.Properties.Mask.EditMask = "yyyy/MM/dd";
+            this.txtOcfDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.DateTimeAdvancingCaret;
+            this.txtOcfDate.Properties.Mask.ShowPlaceHolders = false;
+            this.txtOcfDate.Properties.Mask.UseMaskAsDisplayFormat = true;
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(1104, 30);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // W10012
@@ -48,7 +55,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1104, 761);
             this.Name = "W10012";
-            this.Text = "FormChild";
+            this.Text = "W10012";
+            ((System.ComponentModel.ISupportInitialize)(this.txtOcfDate.Properties)).EndInit();
+            this.panParent.ResumeLayout(false);
+            this.panParent.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

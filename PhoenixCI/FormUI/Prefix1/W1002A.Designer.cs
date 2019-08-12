@@ -1,6 +1,6 @@
 ﻿namespace PhoenixCI.FormUI.Prefix1
 {
-    partial class W10014
+    partial class W1002A
     {
         /// <summary>
         /// Required designer variable.
@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "W10014";
+            this.Text = "W1002A";
         }
 
         #endregion

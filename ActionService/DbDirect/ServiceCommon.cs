@@ -146,16 +146,14 @@ namespace ActionService.DbDirect {
             string pwd = dt.Rows[0]["ls_str2"].AsString();
             string language = seq == 1 ? "" : "\nSET INFA_LANGUAGE=en";
 
-            string command = //$@"pmcmd startworkflow -service {service} -domain {domain} -uv {user} -pv {pwd} -folder {folder} -wait {workFlowName} ";
-
+            string command = 
 $@"SET RunUsr={user}
 SET RunPasswd={pwd}{language}
 SET INFA_DOMAINS_FILE={domainFile}
-{workingDirectory} startworkflow -service {service} -domain {domain} -uv RunUsr -pv RunPasswd -folder {folder} -wait {workFlowName}
+{workingDirectory} startworkflow -service {service} -domain {domain} -uv RunUsr -pv RunPasswd -folder {folder} -wait {workFlowName} > {bkFileName}.log
 echo return status = %errorlevel% >{bkFileName}.err
 exit /b %errorlevel%
 ";
-            //echo return status = %errorlevel% >{bkFileName}.err
             string batFile = $"{bkFileName}.bat";
             System.IO.File.WriteAllText(batFile, command);
 
@@ -170,46 +168,23 @@ exit /b %errorlevel%
 
             string codeDesc = getInfaCodeDesc(code);
 
-            //string logStr = "";
-            //logStr += "開始執行Workflow，指令為:" + command;
-
-            //Process process = Process.Start(processInfo);
-
-            //string myOutput = process.StandardOutput.ReadToEnd();
-            //string myError = process.StandardError.ReadToEnd();
-
-            //process.WaitForExit();
-
-            //MessageDisplay.Info(code.AsString());
             bool isError = false;
 
-            //logStr += "Output:" + myOutput + Environment.NewLine;
-
-            //if (myOutput.ToUpper().IndexOf("ERROR") != -1)
-            //{
-            //    isError = true;
-            //}
-
-            //if (myError != "")
-            //{
-            //    logStr += "Error:" + myOutput + Environment.NewLine;
-            //    isError = true;
-            //}
 
             if (process.ExitCode != 0)
             {
-                //logStr += "ExitCode:" + process.ExitCode;
                 isError = true;
             }
 
             if (isError)
             {
                 SystemSounds.Beep.Play();
-                MessageDisplay.Error($"請通知「{apName}」 Informatica 作業執行失敗!\n請查詢 {bkFileName}.err 錯誤訊息說明\nService：{service}\nFolder：{folder}\nWorkFlow：{workFlowName}\nCode Description：{code} = {codeDesc}");
+                result.returnString = $"請通知「{apName}」 Informatica 作業執行失敗!\n請查詢 {bkFileName}.err 錯誤訊息說明\nService：{service}\nFolder：{folder}\nWorkFlow：{workFlowName}\nCode Description：{code} = {codeDesc}";
                 result.Status = ResultStatus.Fail;
             }
             else
             {
+                File.Delete(batFile);
                 result.Status = ResultStatus.Success;
             }
 
