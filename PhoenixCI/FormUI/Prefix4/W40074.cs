@@ -728,6 +728,7 @@ namespace PhoenixCI.FormUI.Prefix4
             string prodSubtype = gv.GetRowCellValue(gv.FocusedRowHandle, "PROD_SUBTYPE").ToString();
             string cndParamKey = gv.GetRowCellValue(gv.FocusedRowHandle, "CND_PARAM_KEY").ToString();
             string AMT_TYPEKey = gv.GetRowCellValue(gv.FocusedRowHandle, "AMT_TYPE").ToString();
+            string PROD_SEQ_NOKey = gv.GetRowCellValue(gv.FocusedRowHandle, "PROD_SEQ_NO").ToString();
             //string op_type = gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["OP_TYPE"]) == null ? "I" :
             //     gv.GetRowCellValue(gv.FocusedRowHandle, gv.Columns["OP_TYPE"]).ToString();
             if (gv.FocusedColumn.Name == "CM_B" ||
@@ -737,11 +738,21 @@ namespace PhoenixCI.FormUI.Prefix4
                 e.Cancel = prodType == "F" ? true : false;
             }
             if (gv.FocusedColumn.Name == "STOCK_ID" ||
-                gv.FocusedColumn.Name == "M_LEVEL")
+                gv.FocusedColumn.Name == "M_LEVEL" || gv.FocusedColumn.Name == "AMT_TYPE")
             {
-                e.Cancel = prodSubtype != "S" ? true : false;
-                //if (cndParamKey.IndexOf("ST%") >= 0 ) e.Cancel = false;  //mark by tom
-                if (cndParamKey.IndexOf("ST%") >= 0 && AMT_TYPEKey.Equals("P")) e.Cancel = false;
+                //e.Cancel = prodSubtype != "S" ? true : false;
+                if(!PROD_SEQ_NOKey.Equals("6") && !PROD_SEQ_NOKey.Equals("7") && !gv.FocusedColumn.Name.Equals("AMT_TYPE") ) e.Cancel = true;
+                else if (PROD_SEQ_NOKey.Equals("7") && (gv.FocusedColumn.Name == "M_LEVEL"|| gv.FocusedColumn.Name == "AMT_TYPE"))
+                {
+                    if(gv.FocusedColumn.Name == "AMT_TYPE") gv.SetFocusedValue("F");//金額-->F ; 百分比-->P
+                    e.Cancel = true;
+                }
+                else if (PROD_SEQ_NOKey.Equals("6") &&  gv.FocusedColumn.Name == "AMT_TYPE")
+                {
+                    if (gv.FocusedColumn.Name == "AMT_TYPE") gv.SetFocusedValue("P");//金額-->F ; 百分比-->P
+                    e.Cancel = true;
+                }
+                //if (cndParamKey.IndexOf("ST%") >= 0 ) e.Cancel = false; 
             }
             //if (gv.FocusedColumn.Name == "PROD_SEQ_NO") e.Cancel = op_type == "I" ? false : true;
         }
@@ -874,7 +885,6 @@ namespace PhoenixCI.FormUI.Prefix4
                 prodSubtype = gv.GetRowCellValue(e.RowHandle, "PROD_SUBTYPE").AsString();
                 abroad = gv.GetRowCellValue(e.RowHandle, "ABROAD").ToString();
                 kindID = gv.GetRowCellValue(e.RowHandle, "KIND_ID").AsString();
-
                 if (kindID != "")
                 {
                     DataTable dtKindCheck = new DataTable();
@@ -960,24 +970,45 @@ namespace PhoenixCI.FormUI.Prefix4
                 }
             }
             //add by tom
-            //20190801 羅瑩 [個股類/ETF] 百分比有級距 金額沒有級距
-            if ((e.Column.FieldName == "M_LEVEL" || e.Column.FieldName == "STOCK_ID") && e.ListSourceRowIndex != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
-            {
-                string amtType = view.GetListSourceRowCellValue(e.ListSourceRowIndex, "AMT_TYPE").AsString();
-                string prodseqType = view.GetListSourceRowCellValue(e.ListSourceRowIndex, "PROD_SEQ_NO").AsString();
-                if (amtType == null || prodseqType == null) return; //防呆
-                if (prodseqType.Equals("6") || prodseqType.Equals("7")) //針對[個股類/ETF]處理
-                    switch (amtType)
-                    {
-                        //金額-->F ; 百分比-->P
-                        case "P":
-                            //do nothing
-                            break;
-                        case "F":
-                            e.DisplayText = "";
-                            break;
-                    }
-            }
+            //if ((e.Column.FieldName == "M_LEVEL" || e.Column.FieldName == "STOCK_ID" || e.Column.FieldName == "AMT_TYPE") 
+            //    && e.ListSourceRowIndex != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
+            //{
+            //    string amtType = view.GetListSourceRowCellValue(e.ListSourceRowIndex, "AMT_TYPE").AsString();
+            //    string prodseqType = view.GetListSourceRowCellValue(e.ListSourceRowIndex, "PROD_SEQ_NO").AsString();
+            //    if (amtType == null || prodseqType == null) return; //防呆
+            //    if (prodseqType.Equals("6")) //針對[個股類]處理
+            //    {
+            //        if (e.Column.FieldName == "M_LEVEL" || e.Column.FieldName == "amtType")
+            //        {
+            //            switch (amtType)
+            //            {
+            //                //金額-->F ; 百分比-->P
+            //                case "F":
+            //                    //do nothing
+            //                    break;
+            //                case "P":
+            //                    e.DisplayText = "";
+            //                    break;
+            //            }
+            //        }
+            //    }
+            //    else if (prodseqType.Equals("7"))//針對[ETF類]處理
+            //    {
+            //        if (e.Column.FieldName == "M_LEVEL")
+            //        {
+            //            switch (amtType)
+            //            {
+            //                //金額-->F ; 百分比-->P
+            //                case "P":
+            //                    //do nothing
+            //                    break;
+            //                case "F":
+            //                    e.DisplayText = "";
+            //                    break;
+            //            }
+            //        }
+            //    }
+            //}
         }
     }
 }
