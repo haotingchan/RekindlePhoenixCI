@@ -88,7 +88,8 @@ namespace PhoenixCI.FormUI.PrefixS {
             gv.Columns["SPAN_CONTENT_CLASS"].ColumnEdit = cbxProdType;
             gv.Columns["SPAN_CONTENT_CC"].ColumnEdit = cbxProd;
 
-            DataTable dtContentType = daoCodw.ListByCol2("S0072", $"{modules1[i]}_CONTENT_TYPE");
+            //DataTable dtContentType = daoCodw.ListByCol2("S0072", $"{modules1[i]}_CONTENT_TYPE");
+            DataTable dtContentType = daoCodw.ListLookUpEdit($"S0072{modules1[i]}" , $"SPAN_CONTENT_TYPE_{modules1[i]}");
             RepositoryItemLookUpEdit cbxContentType = new RepositoryItemLookUpEdit();
             cbxContentType.SetColumnLookUp(dtContentType, "CODW_ID", "CODW_DESC", TextEditStyles.DisableTextEditor);
             gc_PSR.RepositoryItems.Add(cbxContentType);
@@ -425,7 +426,7 @@ namespace PhoenixCI.FormUI.PrefixS {
             string cod_col_id = "SPAN_CONTENT_TYPE_"+module;
 
             //取得資料
-            DataTable dtContentType = daoCodw.ListByCol2("S0072"+module, cod_col_id);
+            DataTable dtContentType = daoCodw.ListLookUpEdit("S0072"+module, cod_col_id);
             RepositoryItemLookUpEdit cbxContentType = new RepositoryItemLookUpEdit();
             cbxContentType.SetColumnLookUp(dtContentType, "CODW_ID", "CODW_DESC", TextEditStyles.DisableTextEditor);
 

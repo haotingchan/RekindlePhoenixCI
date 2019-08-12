@@ -233,7 +233,6 @@
          this.t2.Columns.Add(this.MMF_PROD_TYPE);
          this.t2.Name = "t2";
          this.t2.VisibleIndex = 1;
-         this.t2.Width = 56;
          // 
          // MMF_PROD_TYPE
          // 
@@ -248,7 +247,7 @@
          this.MMF_PROD_TYPE.OptionsColumn.ShowCaption = false;
          this.MMF_PROD_TYPE.ShowButtonMode = DevExpress.XtraGrid.Views.Base.ShowButtonModeEnum.ShowAlways;
          this.MMF_PROD_TYPE.Visible = true;
-         this.MMF_PROD_TYPE.Width = 56;
+         this.MMF_PROD_TYPE.Width = 70;
          // 
          // t3
          // 
@@ -574,7 +573,7 @@
          this.t12.Columns.Add(this.MMF_CP_KIND);
          this.t12.Name = "t12";
          this.t12.VisibleIndex = 11;
-         this.t12.Width = 205;
+         this.t12.Width = 250;
          // 
          // MMF_CP_KIND
          // 
@@ -587,7 +586,7 @@
          this.MMF_CP_KIND.OptionsColumn.ShowCaption = false;
          this.MMF_CP_KIND.ShowButtonMode = DevExpress.XtraGrid.Views.Base.ShowButtonModeEnum.ShowAlways;
          this.MMF_CP_KIND.Visible = true;
-         this.MMF_CP_KIND.Width = 205;
+         this.MMF_CP_KIND.Width = 250;
          // 
          // mmf_w
          // 

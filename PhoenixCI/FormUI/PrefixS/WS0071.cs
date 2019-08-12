@@ -60,33 +60,33 @@ namespace PhoenixCI.FormUI.PrefixS {
          #region Set Drop Down Lsit
          //設定方式
          RepositoryItemLookUpEdit cbxParamType = new RepositoryItemLookUpEdit();
-         DataTable cbxParamTypeSource = daoCodw.ListByCol2("SPAN_PAR" , "SPAN_PARAM_TYPE");
+         DataTable cbxParamTypeSource = daoCodw.ListLookUpEdit("SPAN_PAR" , "SPAN_PARAM_TYPE");
          cbxParamType.SetColumnLookUp(cbxParamTypeSource, "CODW_ID", "CODW_DESC", TextEditStyles.DisableTextEditor, "");
          gcMain.RepositoryItems.Add(cbxParamType);
          SPAN_PARAM_TYPE.ColumnEdit = cbxParamType;
 
          //設定值 要顯示user自己輸入的值
          RepositoryItemLookUpEdit cbxParamValue = new RepositoryItemLookUpEdit();
-         DataTable cbxParamValueSource = daoCodw.ListByCol2("SPAN_PAR" , "SPAN_PARAM_VALUE");
-         DataTable dtParamValueData = daoS0071.GetParamData("PL", GlobalInfo.USER_ID);//DB現有資料
-         DataTable dtTempParamValue = cbxParamValueSource.Clone();
-         for (int i = 0; i < dtParamValueData.Rows.Count; i++) {
-            //參數檔案
-            dtTempParamValue.Rows.Add();
-            dtTempParamValue.Rows[i].SetField("CODW_ID", dtParamValueData.Rows[i]["span_param_value"]);
-            dtTempParamValue.Rows[i].SetField("CODW_DESC", dtParamValueData.Rows[i]["span_param_value"]);
-            dtTempParamValue.Rows[i].SetField("CP_DISPLAY", dtParamValueData.Rows[i]["span_param_value"]);
+         DataTable cbxParamValueSource = daoCodw.ListLookUpEdit("SPAN_PAR" , "SPAN_PARAM_VALUE");
+         //DataTable dtParamValueData = daoS0071.GetParamData("PL", GlobalInfo.USER_ID);//DB現有資料
+         //DataTable dtTempParamValue = cbxParamValueSource.Clone();
+         //for (int i = 0; i < dtParamValueData.Rows.Count; i++) {
+         //   //參數檔案
+         //   dtTempParamValue.Rows.Add();
+         //   dtTempParamValue.Rows[i].SetField("CODW_ID", dtParamValueData.Rows[i]["span_param_value"]);
+         //   dtTempParamValue.Rows[i].SetField("CODW_DESC", dtParamValueData.Rows[i]["span_param_value"]);
+         //   dtTempParamValue.Rows[i].SetField("CP_DISPLAY", dtParamValueData.Rows[i]["span_param_value"]);
 
-            //CODID = 4 時 顯示 "最大漲跌停"
-            if (dtTempParamValue.Rows[i]["CODW_ID"].AsString() == "4") {
-               dtTempParamValue.Rows[i].SetField("CODW_DESC", "最大漲跌停");
-            }
-         }
-         DataView dtDistinc = new DataView(dtTempParamValue);
-         dtTempParamValue = dtDistinc.ToTable(true);
-         dtTempParamValue.PrimaryKey = new DataColumn[] { dtTempParamValue.Columns["CODW_ID"] };
-         cbxParamValueSource.PrimaryKey = new DataColumn[] { cbxParamValueSource.Columns["CODW_ID"] };
-         cbxParamValueSource.Merge(dtTempParamValue, false);
+         //   //CODID = 4 時 顯示 "最大漲跌停"
+         //   if (dtTempParamValue.Rows[i]["CODW_ID"].AsString() == "4") {
+         //      dtTempParamValue.Rows[i].SetField("CODW_DESC", "最大漲跌停");
+         //   }
+         //}
+         //DataView dtDistinc = new DataView(dtTempParamValue);
+         //dtTempParamValue = dtDistinc.ToTable(true);
+         //dtTempParamValue.PrimaryKey = new DataColumn[] { dtTempParamValue.Columns["CODW_ID"] };
+         //cbxParamValueSource.PrimaryKey = new DataColumn[] { cbxParamValueSource.Columns["CODW_ID"] };
+         //cbxParamValueSource.Merge(dtTempParamValue, false);
          cbxParamValue.SetColumnLookUp(cbxParamValueSource, "CODW_ID", "CODW_DESC", TextEditStyles.Standard, "");
          cbxParamValue.ProcessNewValue += new ProcessNewValueEventHandler(cbxParamValue_ProcessNewValue);
          gcMain.RepositoryItems.Add(cbxParamValue);
@@ -94,7 +94,7 @@ namespace PhoenixCI.FormUI.PrefixS {
 
          //波動度設定
          RepositoryItemLookUpEdit cbxParamVolType = new RepositoryItemLookUpEdit();
-         DataTable cbxParamVolTypeSource = daoCodw.ListByCol2("SPAN_PAR" , "SPAN_PARAM_VOL_TYPE");
+         DataTable cbxParamVolTypeSource = daoCodw.ListLookUpEdit("SPAN_PAR" , "SPAN_PARAM_VOL_TYPE");
          cbxParamVolType.SetColumnLookUp(cbxParamVolTypeSource, "CODW_ID", "CODW_DESC", TextEditStyles.DisableTextEditor, "");
          gcMain.RepositoryItems.Add(cbxParamVolType);
          SPAN_PARAM_VOL_TYPE.ColumnEdit = cbxParamVolType;

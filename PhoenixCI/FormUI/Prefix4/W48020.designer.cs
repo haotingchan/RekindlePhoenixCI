@@ -278,6 +278,8 @@
          // 
          this.ddlSort.Location = new System.Drawing.Point(435, 62);
          this.ddlSort.Name = "ddlSort";
+         this.ddlSort.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+         this.ddlSort.Properties.Appearance.Options.UseBackColor = true;
          this.ddlSort.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
          this.ddlSort.Properties.AppearanceDisabled.Options.UseBackColor = true;
          this.ddlSort.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
@@ -303,6 +305,8 @@
          // 
          this.ddlData.Location = new System.Drawing.Point(101, 107);
          this.ddlData.Name = "ddlData";
+         this.ddlData.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+         this.ddlData.Properties.Appearance.Options.UseBackColor = true;
          this.ddlData.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
          this.ddlData.Properties.AppearanceDisabled.Options.UseBackColor = true;
          this.ddlData.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {

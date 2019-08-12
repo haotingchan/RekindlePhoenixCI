@@ -31,28 +31,28 @@
          this.label1 = new System.Windows.Forms.Label();
          this.gcMain = new DevExpress.XtraGrid.GridControl();
          this.gvMain = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridView();
+         this.gridBand1 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.CPR_PROD_SUBTYPE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+         this.gridBand2 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.CPR_KIND_ID = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+         this.gridBand3 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.CPR_EFFECTIVE_DATE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.repositoryItemDateEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemDateEdit();
+         this.gridBand4 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+         this.gridBand9 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.CPR_PRICE_RISK_RATE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+         this.gridBand5 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.CPR_APPROVAL_DATE = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+         this.gridBand6 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.CPR_APPROVAL_NUMBER = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+         this.gridBand7 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.CPR_REMARK = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+         this.gridBand8 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.CPR_W_TIME = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.repositoryItemDateEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemDateEdit();
          this.CPR_W_USER_ID = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.CPR_DATA_NUM = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.IS_NEWROW = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-         this.gridBand1 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand2 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand3 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand4 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand9 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand5 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand6 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand7 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-         this.gridBand8 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -67,7 +67,7 @@
          // 
          // panParent
          // 
-         this.panParent.BackColor = System.Drawing.Color.MintCream;
+         this.panParent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(236)))), ((int)(((byte)(239)))));
          this.panParent.Controls.Add(this.gcMain);
          this.panParent.Location = new System.Drawing.Point(0, 95);
          this.panParent.Size = new System.Drawing.Size(1236, 588);
@@ -144,6 +144,20 @@
          this.gvMain.Name = "gvMain";
          this.gvMain.OptionsPrint.PrintHeader = false;
          // 
+         // gridBand1
+         // 
+         this.gridBand1.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.gridBand1.AppearanceHeader.Options.UseBackColor = true;
+         this.gridBand1.AppearanceHeader.Options.UseTextOptions = true;
+         this.gridBand1.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.gridBand1.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+         this.gridBand1.Caption = "契約類別";
+         this.gridBand1.Columns.Add(this.CPR_PROD_SUBTYPE);
+         this.gridBand1.Name = "gridBand1";
+         this.gridBand1.OptionsBand.FixedWidth = true;
+         this.gridBand1.VisibleIndex = 0;
+         this.gridBand1.Width = 100;
+         // 
          // CPR_PROD_SUBTYPE
          // 
          this.CPR_PROD_SUBTYPE.Caption = "CPR_PROD_SUBTYPE";
@@ -152,6 +166,18 @@
          this.CPR_PROD_SUBTYPE.Visible = true;
          this.CPR_PROD_SUBTYPE.Width = 100;
          // 
+         // gridBand2
+         // 
+         this.gridBand2.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.gridBand2.AppearanceHeader.Options.UseBackColor = true;
+         this.gridBand2.AppearanceHeader.Options.UseTextOptions = true;
+         this.gridBand2.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.gridBand2.Caption = "契約代號";
+         this.gridBand2.Columns.Add(this.CPR_KIND_ID);
+         this.gridBand2.Name = "gridBand2";
+         this.gridBand2.VisibleIndex = 1;
+         this.gridBand2.Width = 113;
+         // 
          // CPR_KIND_ID
          // 
          this.CPR_KIND_ID.Caption = "CPR_KIND_ID";
@@ -159,6 +185,18 @@
          this.CPR_KIND_ID.Name = "CPR_KIND_ID";
          this.CPR_KIND_ID.Visible = true;
          this.CPR_KIND_ID.Width = 113;
+         // 
+         // gridBand3
+         // 
+         this.gridBand3.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.gridBand3.AppearanceHeader.Options.UseBackColor = true;
+         this.gridBand3.AppearanceHeader.Options.UseTextOptions = true;
+         this.gridBand3.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.gridBand3.Caption = "系統生效日";
+         this.gridBand3.Columns.Add(this.CPR_EFFECTIVE_DATE);
+         this.gridBand3.Name = "gridBand3";
+         this.gridBand3.VisibleIndex = 2;
+         this.gridBand3.Width = 120;
          // 
          // CPR_EFFECTIVE_DATE
          // 
@@ -184,6 +222,38 @@
          this.repositoryItemDateEdit1.MinValue = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
          this.repositoryItemDateEdit1.Name = "repositoryItemDateEdit1";
          // 
+         // gridBand4
+         // 
+         this.gridBand4.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.gridBand4.AppearanceHeader.Options.UseBackColor = true;
+         this.gridBand4.AppearanceHeader.Options.UseTextOptions = true;
+         this.gridBand4.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.gridBand4.Caption = "最小風險價格係數";
+         this.gridBand4.Children.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.GridBand[] {
+            this.gridBand9});
+         this.gridBand4.Name = "gridBand4";
+         this.gridBand4.VisibleIndex = 3;
+         this.gridBand4.Width = 171;
+         // 
+         // gridBand9
+         // 
+         this.gridBand9.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.gridBand9.AppearanceHeader.Font = new System.Drawing.Font("微軟正黑體", 8F);
+         this.gridBand9.AppearanceHeader.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+         this.gridBand9.AppearanceHeader.Options.UseBackColor = true;
+         this.gridBand9.AppearanceHeader.Options.UseFont = true;
+         this.gridBand9.AppearanceHeader.Options.UseForeColor = true;
+         this.gridBand9.AppearanceHeader.Options.UseTextOptions = true;
+         this.gridBand9.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.gridBand9.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+         this.gridBand9.Caption = "(輸入方式：如3.5%，則輸入0.035)";
+         this.gridBand9.Columns.Add(this.CPR_PRICE_RISK_RATE);
+         this.gridBand9.Name = "gridBand9";
+         this.gridBand9.OptionsBand.FixedWidth = true;
+         this.gridBand9.RowCount = 2;
+         this.gridBand9.VisibleIndex = 0;
+         this.gridBand9.Width = 171;
+         // 
          // CPR_PRICE_RISK_RATE
          // 
          this.CPR_PRICE_RISK_RATE.Caption = "CPR_PRICE_RISK_RATE";
@@ -191,6 +261,18 @@
          this.CPR_PRICE_RISK_RATE.Name = "CPR_PRICE_RISK_RATE";
          this.CPR_PRICE_RISK_RATE.Visible = true;
          this.CPR_PRICE_RISK_RATE.Width = 171;
+         // 
+         // gridBand5
+         // 
+         this.gridBand5.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.gridBand5.AppearanceHeader.Options.UseBackColor = true;
+         this.gridBand5.AppearanceHeader.Options.UseTextOptions = true;
+         this.gridBand5.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.gridBand5.Caption = "核定日期";
+         this.gridBand5.Columns.Add(this.CPR_APPROVAL_DATE);
+         this.gridBand5.Name = "gridBand5";
+         this.gridBand5.VisibleIndex = 4;
+         this.gridBand5.Width = 120;
          // 
          // CPR_APPROVAL_DATE
          // 
@@ -203,6 +285,18 @@
          this.CPR_APPROVAL_DATE.Visible = true;
          this.CPR_APPROVAL_DATE.Width = 120;
          // 
+         // gridBand6
+         // 
+         this.gridBand6.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.gridBand6.AppearanceHeader.Options.UseBackColor = true;
+         this.gridBand6.AppearanceHeader.Options.UseTextOptions = true;
+         this.gridBand6.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.gridBand6.Caption = "核定文號及日期";
+         this.gridBand6.Columns.Add(this.CPR_APPROVAL_NUMBER);
+         this.gridBand6.Name = "gridBand6";
+         this.gridBand6.VisibleIndex = 5;
+         this.gridBand6.Width = 155;
+         // 
          // CPR_APPROVAL_NUMBER
          // 
          this.CPR_APPROVAL_NUMBER.Caption = "CPR_APPROVAL_NUMBER";
@@ -211,6 +305,18 @@
          this.CPR_APPROVAL_NUMBER.Visible = true;
          this.CPR_APPROVAL_NUMBER.Width = 155;
          // 
+         // gridBand7
+         // 
+         this.gridBand7.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.gridBand7.AppearanceHeader.Options.UseBackColor = true;
+         this.gridBand7.AppearanceHeader.Options.UseTextOptions = true;
+         this.gridBand7.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.gridBand7.Caption = "備註";
+         this.gridBand7.Columns.Add(this.CPR_REMARK);
+         this.gridBand7.Name = "gridBand7";
+         this.gridBand7.VisibleIndex = 6;
+         this.gridBand7.Width = 155;
+         // 
          // CPR_REMARK
          // 
          this.CPR_REMARK.Caption = "CPR_REMARK";
@@ -218,6 +324,19 @@
          this.CPR_REMARK.Name = "CPR_REMARK";
          this.CPR_REMARK.Visible = true;
          this.CPR_REMARK.Width = 155;
+         // 
+         // gridBand8
+         // 
+         this.gridBand8.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+         this.gridBand8.AppearanceHeader.Options.UseBackColor = true;
+         this.gridBand8.AppearanceHeader.Options.UseTextOptions = true;
+         this.gridBand8.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.gridBand8.Caption = "異動時點紀錄";
+         this.gridBand8.Columns.Add(this.CPR_W_TIME);
+         this.gridBand8.Columns.Add(this.CPR_W_USER_ID);
+         this.gridBand8.Name = "gridBand8";
+         this.gridBand8.VisibleIndex = 7;
+         this.gridBand8.Width = 260;
          // 
          // CPR_W_TIME
          // 
@@ -259,125 +378,6 @@
          this.IS_NEWROW.Caption = "IS_NEWROW";
          this.IS_NEWROW.FieldName = "IS_NEWROW";
          this.IS_NEWROW.Name = "IS_NEWROW";
-         // 
-         // gridBand1
-         // 
-         this.gridBand1.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.gridBand1.AppearanceHeader.Options.UseBackColor = true;
-         this.gridBand1.AppearanceHeader.Options.UseTextOptions = true;
-         this.gridBand1.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.gridBand1.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.gridBand1.Caption = "契約類別";
-         this.gridBand1.Columns.Add(this.CPR_PROD_SUBTYPE);
-         this.gridBand1.Name = "gridBand1";
-         this.gridBand1.OptionsBand.FixedWidth = true;
-         this.gridBand1.VisibleIndex = 0;
-         this.gridBand1.Width = 100;
-         // 
-         // gridBand2
-         // 
-         this.gridBand2.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.gridBand2.AppearanceHeader.Options.UseBackColor = true;
-         this.gridBand2.AppearanceHeader.Options.UseTextOptions = true;
-         this.gridBand2.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.gridBand2.Caption = "契約代號";
-         this.gridBand2.Columns.Add(this.CPR_KIND_ID);
-         this.gridBand2.Name = "gridBand2";
-         this.gridBand2.VisibleIndex = 1;
-         this.gridBand2.Width = 113;
-         // 
-         // gridBand3
-         // 
-         this.gridBand3.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.gridBand3.AppearanceHeader.Options.UseBackColor = true;
-         this.gridBand3.AppearanceHeader.Options.UseTextOptions = true;
-         this.gridBand3.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.gridBand3.Caption = "系統生效日";
-         this.gridBand3.Columns.Add(this.CPR_EFFECTIVE_DATE);
-         this.gridBand3.Name = "gridBand3";
-         this.gridBand3.VisibleIndex = 2;
-         this.gridBand3.Width = 120;
-         // 
-         // gridBand4
-         // 
-         this.gridBand4.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.gridBand4.AppearanceHeader.Options.UseBackColor = true;
-         this.gridBand4.AppearanceHeader.Options.UseTextOptions = true;
-         this.gridBand4.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.gridBand4.Caption = "最小風險價格係數";
-         this.gridBand4.Children.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.GridBand[] {
-            this.gridBand9});
-         this.gridBand4.Name = "gridBand4";
-         this.gridBand4.VisibleIndex = 3;
-         this.gridBand4.Width = 171;
-         // 
-         // gridBand9
-         // 
-         this.gridBand9.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.gridBand9.AppearanceHeader.Font = new System.Drawing.Font("微軟正黑體", 8F);
-         this.gridBand9.AppearanceHeader.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-         this.gridBand9.AppearanceHeader.Options.UseBackColor = true;
-         this.gridBand9.AppearanceHeader.Options.UseFont = true;
-         this.gridBand9.AppearanceHeader.Options.UseForeColor = true;
-         this.gridBand9.AppearanceHeader.Options.UseTextOptions = true;
-         this.gridBand9.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.gridBand9.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.gridBand9.Caption = "(輸入方式：如3.5%，則輸入0.035)";
-         this.gridBand9.Columns.Add(this.CPR_PRICE_RISK_RATE);
-         this.gridBand9.Name = "gridBand9";
-         this.gridBand9.OptionsBand.FixedWidth = true;
-         this.gridBand9.RowCount = 2;
-         this.gridBand9.VisibleIndex = 0;
-         this.gridBand9.Width = 171;
-         // 
-         // gridBand5
-         // 
-         this.gridBand5.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.gridBand5.AppearanceHeader.Options.UseBackColor = true;
-         this.gridBand5.AppearanceHeader.Options.UseTextOptions = true;
-         this.gridBand5.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.gridBand5.Caption = "核定日期";
-         this.gridBand5.Columns.Add(this.CPR_APPROVAL_DATE);
-         this.gridBand5.Name = "gridBand5";
-         this.gridBand5.VisibleIndex = 4;
-         this.gridBand5.Width = 120;
-         // 
-         // gridBand6
-         // 
-         this.gridBand6.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.gridBand6.AppearanceHeader.Options.UseBackColor = true;
-         this.gridBand6.AppearanceHeader.Options.UseTextOptions = true;
-         this.gridBand6.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.gridBand6.Caption = "核定文號及日期";
-         this.gridBand6.Columns.Add(this.CPR_APPROVAL_NUMBER);
-         this.gridBand6.Name = "gridBand6";
-         this.gridBand6.VisibleIndex = 5;
-         this.gridBand6.Width = 155;
-         // 
-         // gridBand7
-         // 
-         this.gridBand7.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.gridBand7.AppearanceHeader.Options.UseBackColor = true;
-         this.gridBand7.AppearanceHeader.Options.UseTextOptions = true;
-         this.gridBand7.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.gridBand7.Caption = "備註";
-         this.gridBand7.Columns.Add(this.CPR_REMARK);
-         this.gridBand7.Name = "gridBand7";
-         this.gridBand7.VisibleIndex = 6;
-         this.gridBand7.Width = 155;
-         // 
-         // gridBand8
-         // 
-         this.gridBand8.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-         this.gridBand8.AppearanceHeader.Options.UseBackColor = true;
-         this.gridBand8.AppearanceHeader.Options.UseTextOptions = true;
-         this.gridBand8.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.gridBand8.Caption = "異動時點紀錄";
-         this.gridBand8.Columns.Add(this.CPR_W_TIME);
-         this.gridBand8.Columns.Add(this.CPR_W_USER_ID);
-         this.gridBand8.Name = "gridBand8";
-         this.gridBand8.VisibleIndex = 7;
-         this.gridBand8.Width = 260;
          // 
          // W49010
          // 

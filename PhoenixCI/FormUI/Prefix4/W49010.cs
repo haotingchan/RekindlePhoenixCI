@@ -51,7 +51,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
             dao49010 = new D49010();
 
             //契約類別
-            //DataTable dtProdSubtype = dao49010.GetDdlProdSubtype();
             DataTable dtProdSubtype = new CODW().ListLookUpEdit("APDK" , "APDK_PROD_SUBTYPE");
             Extension.SetColumnLookUp(lupProdSubtype , dtProdSubtype , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor);
             gcMain.RepositoryItems.Add(lupProdSubtype);
@@ -102,13 +101,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
       protected override ResultStatus AfterOpen() {
          base.AfterOpen();
-
-         ////先確認有沒有資料(這邊不直接下Retrieve是為了不跳錯誤訊息)
-         //DataTable dtAll = dao49010.GetDataList();
-         //DataTable dt = dtAll.Clone();
-
-         ////不跑retrieve，直接新增row
-         //InsertRow();
 
          return ResultStatus.Success;
       }
@@ -175,10 +167,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                }
             } //foreach (DataRow dr in dtCurrent.Rows)
-            //dtChange = dtChange.GetChanges();
-
-            //GridHelper.SetCommonGrid(gvMain);
-            //gvMain.BestFitColumns();
 
             printStep = 1; //跑儲存前確認單
             CheckPrint(gcMain , dtChange , printStep);
@@ -208,11 +196,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             gvMain.AppearancePrint.BandPanel.Options.UseTextOptions = true;
             gvMain.AppearancePrint.BandPanel.TextOptions.WordWrap = WordWrap.Wrap;
-            gvMain.AppearancePrint.BandPanel.Font = new Font("Microsoft YaHei" , 11);
+            gvMain.AppearancePrint.BandPanel.Font = new Font("Microsoft YaHei" , 10);
 
-            gvMain.AppearancePrint.Row.Font = new Font("Microsoft YaHei" , 11);
+            gvMain.AppearancePrint.Row.Font = new Font("Microsoft YaHei" , 10);
             gvMain.OptionsPrint.AllowMultilineHeaders = true;
-            gvMain.AppearancePrint.GroupRow.Font = new Font("Microsoft YaHei" , 11);
+            gvMain.AppearancePrint.GroupRow.Font = new Font("Microsoft YaHei" , 10);
 
             gvMain.BestFitColumns();
             GridHelper.SetCommonGrid(gvMain);
@@ -242,7 +230,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
          gvMain.AddNewRow();
          gvMain.OptionsView.RowAutoHeight = true; //整個grid設定要開，不然設定column會無效
 
-         //RepositoryItemTextDateEdit wTime = new RepositoryItemTextDateEdit();
          RepositoryItemMemoEdit can = new RepositoryItemMemoEdit();
          RepositoryItemMemoEdit remark = new RepositoryItemMemoEdit();
 

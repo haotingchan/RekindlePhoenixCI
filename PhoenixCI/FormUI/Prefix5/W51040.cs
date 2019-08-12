@@ -68,7 +68,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
          //_RepLookUpEdit.NullText = "";
          //LookUpColumnInfoCollection singleCol2 = _RepLookUpEdit.Columns;
          //singleCol2.Add(new LookUpColumnInfo("DESC"));
-         DataTable dtProd_Type = new CODW().ListLookUpEdit("51040" , "51040_PROD_TYPE");
+         DataTable dtProd_Type = new CODW().ListLookUpEdit("APDK" , "APDK_PROD_TYPE");
          Extension.SetColumnLookUp(_RepLookUpEdit , dtProd_Type , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
          gcMain.RepositoryItems.Add(_RepLookUpEdit);
          MMWK_PROD_TYPE.ColumnEdit = _RepLookUpEdit;
