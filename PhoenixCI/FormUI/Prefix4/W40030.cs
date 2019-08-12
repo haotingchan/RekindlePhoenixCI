@@ -22,6 +22,10 @@ using System.Windows.Forms;
 /// <summary>
 /// 依照類別 產生 rtf 會議記錄, 選擇一般時, 多一份excel
 /// Test Data 3B 20181228 / 1B 20190129 / 1E 20190129 / 0B 20190212
+/// 0B	一般
+/// 1B  長假調整
+/// 1E	長假回調
+/// 3B  股票
 /// </summary>
 namespace PhoenixCI.FormUI.Prefix4 {
    public partial class W40030 : FormParent {
@@ -37,8 +41,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
       }
 
       /// <summary>
-      /// 一般/股票, 長假調整, 長假回調, 處置股票調整
-      /// 0B / 1B / 1E / 2B
+      /// 一般/股票, 長假調整, 長假回調, 股票
+      /// 0B / 1B / 1E / 3B
       /// </summary>
       public string AdjType {
          get {
@@ -63,21 +67,20 @@ namespace PhoenixCI.FormUI.Prefix4 {
          //                               new LookupItem() { ValueMember = "1B", DisplayMember = "長假調整" },
          //                               new LookupItem() { ValueMember = "1E", DisplayMember = "長假回調" },
          //                               new LookupItem() { ValueMember = "3B", DisplayMember = "股票"}};
-
          DataTable dtType = new CODW().ListLookUpEdit("40030" , "MGD2_ADJ_TYPE");
 
-         //設定 下拉選單(這裡要改回Radio Button 目前應該會壞掉)
-         List<LookupItem> marketTimeList = new List<LookupItem>(){
-                                        new LookupItem() { ValueMember = "1", DisplayMember = "Group1(13:45)"},
-                                        new LookupItem() { ValueMember = "5", DisplayMember = "Group2(16:15)" }};
-         //DataTable dtMarketTime = new CODW().ListLookUpEdit("40030" , "40030_ETC_VSR");
+         //List<LookupItem> dtETC = new List<LookupItem>(){
+         //                               new LookupItem() { ValueMember = "1", DisplayMember = "有"},
+         //                               new LookupItem() { ValueMember = "2", DisplayMember = "無" }};
+         DataTable dtETC = new CODW().ListLookUpEdit("40030" , "40030_ETC_VSR");
 
          //設定下拉選單
          ddlAdjType.SetDataTable(dtType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          ddlAdjType.ItemIndex = 0; //0B
-         ETCSelect.SetDataTable(marketTimeList , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
+         ddlAdjType.Properties.DropDownRows = dtType.Rows.Count;
+         ETCSelect.SetDataTable(dtETC, "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
          ETCSelect.ItemIndex = 0; //1
-
+         ETCSelect.Properties.DropDownRows = dtETC.Rows.Count;
          MarketTimes.SetItemChecked(0 , true);
 #if DEBUG
          txtDate.DateTimeValue = "2018/12/28".AsDateTime("yyyy/MM/dd");
@@ -85,9 +88,16 @@ namespace PhoenixCI.FormUI.Prefix4 {
 #endif
 
          ExportShow.Hide();
-      }
 
-      protected override ResultStatus Export() {
+        }
+
+        protected override ResultStatus AfterOpen()
+        {
+            _ToolBtnExport.Enabled = true;
+            return base.AfterOpen();
+        }
+
+        protected override ResultStatus Export() {
          ExportShow.Text = "轉檔中...";
          ExportShow.Show();
          try {
@@ -605,7 +615,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             WordTable = doc.Tables.Create(doc.Range.End , rowCount , colCount);
             WordTable.TableAlignment = TableRowAlignment.Right;
             WordTable.PreferredWidthType = WidthType.Fixed;
-            WordTable.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(17f);
+            WordTable.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(14f);
             ParagraphProps = doc.BeginUpdateParagraphs(WordTable.Range);
 
             // 預設Table內容都全部置中
@@ -621,7 +631,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             tableProp.FontSize = 11;
             doc.EndUpdateCharacters(tableProp);
 
-            // 垂直置中
+           // 垂直置中
             WordTable.ForEachCell((c , i , j) => {
                c.VerticalAlignment = TableCellVerticalAlignment.Center;
             });
@@ -633,15 +643,19 @@ namespace PhoenixCI.FormUI.Prefix4 {
          protected virtual void SetTableColTitle(string prodName , string[] colTitle , string afterAdjustTitle , string beforeAdjustTitle) {
             SetTableStr(0 , 0 , prodName);
             WordTableCell.PreferredWidthType = WidthType.Fixed;
-            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.65f);
+            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.5f);
             WordTableCell.VerticalAlignment = TableCellVerticalAlignment.Center;
             WordTable.MergeCells(WordTableCell , WordTable[1 , 0]);
 
             SetTableStr(0 , 1 , afterAdjustTitle);
             WordTable.MergeCells(WordTableCell , WordTable[0 , 3]);
+            WordTable[0, 1].PreferredWidthType = WidthType.Fixed;
+            WordTable[0, 1].PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(5f);
 
             SetTableStr(0 , 2 , beforeAdjustTitle);
             WordTable.MergeCells(WordTableCell , WordTable[0 , 4]);
+            WordTable[0, 2].PreferredWidthType = WidthType.Fixed;
+            WordTable[0, 2].PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(5f);
 
             SetTableTitle(colTitle , 1);
          }
@@ -688,26 +702,38 @@ namespace PhoenixCI.FormUI.Prefix4 {
             Doc.InsertSingleLineText(WordTableCell.Range.Start , str);
          }
 
-         /// <summary>
-         /// 表頭
-         /// </summary>
-         /// <param name="strList"></param>
-         /// <param name="rowIndex"></param>
-         protected virtual void SetTableTitle(string[] strList , int rowIndex) {
+            /// <summary>
+            /// 設定表格內文(\r\n)
+            /// </summary>
+            /// <param name="rowIndex">第幾列</param>
+            /// <param name="colIndex">第幾行</param>
+            /// <param name="str">寫入文字</param>
+            protected virtual void SetTableRNStr(int rowIndex, int colIndex, string str)
+            {
+                WordTableCell = WordTable[rowIndex, colIndex];
+                Doc.InsertText(WordTableCell.Range.Start, str);
+            }
+
+            /// <summary>
+            /// 表頭
+            /// </summary>
+            /// <param name="strList"></param>
+            /// <param name="rowIndex"></param>
+            protected virtual void SetTableTitle(string[] strList , int rowIndex) {
 
             int k = 0;
             foreach (string str in strList) {
                WordTableCell = WordTable[rowIndex , k + 1];
                WordTableCell.PreferredWidthType = WidthType.Fixed;
-               WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.3f);
+               WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2f);
 
-               Doc.InsertSingleLineText(WordTableCell.Range.Start , strList[k]);
+               Doc.InsertText(WordTableCell.Range.Start , strList[k]);
 
                WordTableCell = WordTable[rowIndex , k + 4];
                WordTableCell.PreferredWidthType = WidthType.Fixed;
-               WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.3f);
+               WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2f);
 
-               Doc.InsertSingleLineText(WordTableCell.Range.Start , strList[k]);
+               Doc.InsertText(WordTableCell.Range.Start , strList[k]);
                k++;
             }
          }
@@ -1337,6 +1363,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                TableRow tableRow = WordTable.Rows.Append();
 
                WordTableCell = tableRow.FirstCell;
+               WordTableCell.PreferredWidthType = WidthType.Fixed;
+               WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.5f);
+
                Doc.InsertSingleLineText(WordTableCell.Range.Start , rowName);
 
                //特殊處理, 選擇權時有AB值, k=1 跑保證金或A值, k>1 跑B值
@@ -1346,8 +1375,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                int i = 1;
                foreach (string col in colNameList) {
                   Doc.InsertSingleLineText(WordTable[tableRow.Index , i].Range.Start , !decimal.Equals(dr[col].AsDecimal() , 0) ?
-                     dr[col].AsPercent(2) : string.Empty);
-
+                  dr[col].AsPercent(2) : string.Empty);
                   i++;
                }
                k++;
@@ -1455,6 +1483,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      if (CheckedItems.Exists(i => i.CheckedDate == c.CheckedDate))
                         continue;
                   }
+
+                  //+新規則：倘各商品採SMA、EWMA、MAX任一方式計算之結算保證金變動幅度達所設定標準以上(目前訂10%)則顯示。
 
                   if (drsTemp.Count > 0) {
                      DataTable dtTemp = drsTemp.CopyToDataTable();
@@ -1861,11 +1891,20 @@ namespace PhoenixCI.FormUI.Prefix4 {
             SetInnerText(tmpStr);
 
             //說明二
-            SetInnerText("二、本次保證金倘經調整，其金額變動如下：");
+            SetInnerText("二、經以簡單移動平均法(SMA)、加權指數移動平均(EWMA)、簡單移動平均法_日內變動(MAX)方式試算上開契約結算保證金之變動幅度如下：");
+            String info01 = "(一)臺股期貨契約(TX)結算保證金變動幅度分別為 - 18.5 %、-13.3 % 及14.2 %。";
+            SetInnerText(info01, true, 4.11f, 1.25f);
+            String info02 = "(二)臺指選擇權契約(TXO)結算保證金採現貨資料計算之變動幅度分別為 - 15.0 %、-15.0 % 及 - 8.7 %，及採期貨資料計算是變動幅度分別為 - 15.2 %、-9.9 % 及18.7 %。";
+            SetInnerText(info02, true, 4.11f, 1.25f);
+            String info03 = "(三)電子期貨契約(TE)結算保證金變動幅度分別為11.9 %、32.9 % 及27.7 %。";
+            SetInnerText(info03, true, 4.11f, 1.25f);
+            String info04 = "(四)電子選擇權契約(TEO)結算保證金採現貨資料計算之變動幅度分別為2.7 %、21.9 % 及15.4 %。";
+            SetInnerText(info04, true, 4.11f, 1.25f);
+             
             DrowTable(dtTemp);
 
             //說明三
-            SetInnerText("三、本公司上開契約保證金調整之考量因素，請詳保證金調整檢核表，如附件。");
+            SetInnerText("三、基於穩健保守及貼近國際同類商品保證金水準之原則，建議TX及TXO採加權指數移動平均(EWMA)調整保證金，TE及採簡單移動平均法(SMA)調整保證金，TF、XI及TEO採簡單移動平均法_日內變動(MAX)調整保證金其金額變動如下：");
 
             //說明四、公債類
             List<DataRow> drsDebt = dtTemp.Select("prod_subtype = 'B' and data_ymd = '" + checkedDate.ToString("yyyyMMdd") + "'").ToList();
@@ -2254,7 +2293,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             #endregion
 
             #region 五
-            SetInnerText($"({ChineseNumber[++node]}) 結算保證金占契約總值比例與國際主要交易所比較：" , true , 4.11f , 1.25f);
+            SetInnerText($"({ChineseNumber[++node]}) 原始保證金占契約總值比例與國際主要交易所比較：" , true , 4.11f , 1.25f);
             //特殊處理, 排除以下幾檔
             dtIndex = dtIndex.Select("kind_id <>'RTF' and kind_id <>'MXF' and kind_id <>'TGF' and prod_type <>'O'").CopyToDataTable();
             dtIndex = dtIndex.Sort("SEQ_NO ASC, PROD_TYPE ASC, KIND_GRP2 ASC, KIND_ID ASC, AB_TYPE ASC");
@@ -2270,8 +2309,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   string str2 = GetSpot(kindId , "TAIFEX" , "m");
                   tmpStr = dtIndex.Rows.Count > 0 ? $"{++fifthNode}. " : "  ";
 
-                  tmpStr += $"現行本公司{kindId}結算保證金占契約總值比例{str1}，倘{checkedDate.AsTaiwanDateTime("{0}/{1}/{2}" , 3)}" +
-                           $"依說明二調整，則本公司{kindId}結算保證金占契約總值比例{str2}。";
+                  tmpStr += $"現行本公司{kindId}原始保證金占契約總值比例{str1}，倘{checkedDate.AsTaiwanDateTime("{0}/{1}/{2}" , 3)}" +
+                           $"依說明二調整，則本公司{kindId}原始保證金占契約總值比例{str2}。";
 
                   SetInnerText(tmpStr , true , 4.17f , 0.6f);
 
@@ -2821,7 +2860,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   }
 
                   List<string> riskList = new List<string>();
-                  drsTemp.ForEach(r => riskList.Add(r.Field<double>("m_cp_ri").AsPercent(2)));
+                  drsTemp.ForEach(r => riskList.Add(r.Field<double>("m_cp_risk").AsPercent(2)));
 
                   List<string> minRiskList = new List<string>();
                   //指數類
@@ -2845,12 +2884,12 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   if (drsTemp.Count > 0) {
                      drsTemp.ForEach(r => minRiskList.Add($"原油類契約為{r.Field<double>("m_min_risk").AsPercent(1)}"));
                   }
-
+                  
                   tmpStr = string.Format("({0}) 本公司{1}之保證金變動幅度達10%，主係因期貨或現貨指數近期大幅上漲所致，" +
                         "然前揭契約之實際風險價格係數近期未見有明顯擴大之情事，且{2}之實際風險價格係數分別為{3}，仍較現行之最小風險價格係數({4})為低sk。" ,
-                        ChineseNumber[++point] , GenArrayTxt(wfKindIdE(drsTemp.CopyToDataTable())) , checkedDate.AsTaiwanDateTime("{0}/{1}/{2}" , 3) ,
+                        ChineseNumber[++point] , GenArrayTxt(wfKindIdE(dtTemp)) , checkedDate.AsTaiwanDateTime("{0}/{1}/{2}" , 3) ,
                         GenArrayTxt(riskList) , GenArrayTxt(minRiskList));
-
+                        
                   SetInnerText(tmpStr , true , 4.11f , 1.25f);
                }
             }//if (drsTemp.Count > 0)
@@ -4112,15 +4151,18 @@ namespace PhoenixCI.FormUI.Prefix4 {
             CreateTable(Doc , IkindInfo.RowCount , IkindInfo.ColCount);
 
             SetTableStr(0 , 0 , IkindInfo.TableName);
-            WordTableCell.PreferredWidthType = WidthType.Fixed;
-            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.65f);
+            //WordTableCell.PreferredWidthType = WidthType.Fixed;
+            //WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.6f);
             WordTableCell.VerticalAlignment = TableCellVerticalAlignment.Center;
             WordTable.MergeCells(WordTableCell , WordTable[0 , IkindInfo.ColCount - 1]);
 
             SetTableStr(1 , 0 , "交易所");
+            WordTable[1, 0].PreferredWidthType = WidthType.Fixed;
+            WordTable[1, 0].PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.8f);
             WordTable.MergeCells(WordTableCell , WordTable[2 , 0]);
 
             SetTableStr(1 , 1 , "現行比例");
+            WordTable[1, 1].PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.6f);
             SetTableStr(1 , IkindInfo.ColTtile.Length + 1 , "調整後");
 
             WordTable.MergeCells(WordTableCell , WordTable[1 , IkindInfo.ColTtile.Length * 2]);
@@ -4131,7 +4173,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             foreach (string str in IkindInfo.ColTtile) {
                WordTableCell = WordTable[2 , k];
                WordTableCell.PreferredWidthType = WidthType.Fixed;
-               WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.4f);
+               WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.8f);
 
                Doc.InsertSingleLineText(WordTableCell.Range.Start , str);
                k++;
@@ -4140,7 +4182,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             foreach (string str in IkindInfo.ColTtile) {
                WordTableCell = WordTable[2 , k];
                WordTableCell.PreferredWidthType = WidthType.Fixed;
-               WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.4f);
+               WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.8f);
 
                Doc.InsertSingleLineText(WordTableCell.Range.Start , str);
                k++;
@@ -4242,13 +4284,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
             Doc.AppendText(Environment.NewLine);
 
             CreateTable(Doc , 2 , 7);
-            string[] firstRowColName = new string[] { "契約名稱" , "交易日期" , "保證金變動幅度" , "適用風險價格係數" , "近月合約結算價/標的證券收盤價" };
+            string[] firstRowColName = new string[] { "契約名稱" , "交易日期" , "保證金\r\n變動幅度" , "適用風險\r\n價格係數" , "近月合約結算價/標的證券收盤價" };
 
             int c = 0;
             foreach (string col in firstRowColName) {
-               SetTableStr(0 , c , col);
+               SetTableRNStr(0 , c , col);
                WordTableCell.PreferredWidthType = WidthType.Fixed;
-               WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.65f);
+               WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2f);
                WordTableCell.VerticalAlignment = TableCellVerticalAlignment.Center;
                WordTable.MergeCells(WordTableCell , WordTable[1 , c]);
                c++;
@@ -4257,12 +4299,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
             SetTableStr(0 , 5 , "未沖銷部位數及成交量");
             WordTable.MergeCells(WordTableCell , WordTable[0 , 6]);
 
-            SetTableStr(1 , 5 , "未沖銷部位數");
-            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.53f);
+            SetTableRNStr(1 , 5 , "未沖銷\r\n部位數");
+            WordTable[1, 5].PreferredWidthType = WidthType.Fixed;
+            WordTable[1, 5].PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.7f);
             WordTableCell.VerticalAlignment = TableCellVerticalAlignment.Center;
 
             SetTableStr(1 , 6 , "成交量");
-            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.22f);
+            WordTable[1, 6].PreferredWidthType = WidthType.Fixed;
+            WordTable[1, 6].PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.7f);
             WordTableCell.VerticalAlignment = TableCellVerticalAlignment.Center;
 
             string[] dbcols = new string[] { "adj_rate" , "m_day_risk" , "m_price" , "i_oi" , "i_qnty" };
@@ -4323,11 +4367,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             SetTableStr(0 , 0 , "股票期貨英文代碼");
             WordTableCell.PreferredWidthType = WidthType.Fixed;
-            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.03f);
+            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.6f);
             WordTableCell.VerticalAlignment = TableCellVerticalAlignment.Center;
             WordTable.MergeCells(WordTableCell , WordTable[2 , 0]);
 
-            SetTableStr(0 , 1 , "股票期貨中文簡稱");
+            SetTableRNStr(0 , 1 , "股票期貨\r\n中文簡稱");
             WordTableCell.PreferredWidthType = WidthType.Fixed;
             WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.9f);
             WordTable.MergeCells(WordTableCell , WordTable[2 , 1]);
@@ -4339,32 +4383,36 @@ namespace PhoenixCI.FormUI.Prefix4 {
             WordTable.MergeCells(WordTable[0 , 4] , WordTable[0 , 5]);
             WordTable.MergeCells(WordTable[0 , 2] , WordTable[0 , 3]);
 
-            SetTableStr(1 , 2 , "本日30天期風險價格係數");
+            SetTableRNStr(1 , 2 , "本日\r\n30天期風險價格係數");
             WordTableCell.PreferredWidthType = WidthType.Fixed;
             WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.08f);
             WordTable.MergeCells(WordTableCell , WordTable[2 , 2]);
 
 
-            SetTableStr(1 , 3 , "本日風險價格係數平均值");
+            SetTableStr(1 , 3 , "本日\r\n風險價格係數平均值");
             WordTableCell.PreferredWidthType = WidthType.Fixed;
             WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.9f);
             WordTable.MergeCells(WordTableCell , WordTable[2 , 3]);
 
-            SetTableStr(1 , 4 , "本日收盤價/結算價");
-            SetTableStr(1 , 6 , "本日未沖銷部位數");
+            SetTableRNStr(1 , 4 , "本日\r\n收盤價/結算價");
+            SetTableRNStr(1 , 6 , "本日\r\n未沖銷部位數");
             WordTableCell.PreferredWidthType = WidthType.Fixed;
-            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(2.08f);
-            SetTableStr(1 , 7 , "本日成交量");
+            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.6f);
+            SetTableRNStr(1 , 7 , "本日\r\n成交量");
             WordTableCell.PreferredWidthType = WidthType.Fixed;
-            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.9f);
+            WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.6f);
             WordTable.MergeCells(WordTableCell , WordTable[2 , 7]);
             WordTable.MergeCells(WordTable[1 , 6] , WordTable[2 , 6]);
             WordTable.MergeCells(WordTable[1 , 4] , WordTable[1 , 5]);
 
             SetTableStr(2 , 4 , "現貨");
+            WordTable[2,4].PreferredWidthType = WidthType.Fixed;
+            WordTable[2, 4].PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(0.9f);
             SetTableStr(2 , 5 , "現貨");
+            WordTable[2, 5].PreferredWidthType = WidthType.Fixed;
+            WordTable[2, 5].PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(0.9f);
 
-            string[] colName = new string[] { "t_30_rate" , "mgr2_day_rate" , "tfxm1_price" , "ai5_price" , "ai2_oi" , "ai2_m_qnty" };
+                string[] colName = new string[] { "t_30_rate" , "mgr2_day_rate" , "tfxm1_price" , "ai5_price" , "ai2_oi" , "ai2_m_qnty" };
             string[] fieldFormat = new string[] { "%" , "%" , "#,##0.##" , "#,##0.##" , "#,##0" , "#,##0" };
 
             foreach (DataRow dr in dtSTF.Rows) {
@@ -4474,7 +4522,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             AfterAdjustTitle = "調整後保證金金額";
             BeforeAdjustTitle = "調整前保證金金額";
             NumberFormat = "#,##0.##";
-            TableTitle = new string[] { "原始保證金金額" , "維持保證金金額" , "結算保證金金額" };
+            TableTitle = new string[] { "原始保證金\r\n金額" , "維持保證金\r\n金額" , "結算保證金\r\n金額" };
             RowName = new[] { "保證金" };
 
             StockName = "，股票期貨標的證券代號 ";
@@ -4643,7 +4691,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             ColCount = 5;
             TableName = "本公司臺股期貨期貨保證金占契約價值比與國際主要交易所比較表";
             FieldFormat = new string[] { "#,##0.##" , "%" , "%" , "#,##0.##" , "%" , "%" };
-            RowTitle = new string[] { "臺股期貨契約結算保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
+            RowTitle = new string[] { "臺股期貨契約原始保證金", "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
             ColTtile = new string[] { $"TAIFEX{Characters.LineBreak}TXF{Characters.LineBreak}(新臺幣元)",
                                       $"SGX{Characters.LineBreak}摩臺指期貨{Characters.LineBreak}(美元)"};
          }
@@ -4661,7 +4709,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             RowCount = 3;
             ColCount = 5;
             TableName = "本公司布蘭特原油期貨保證金占契約價值比與國際主要交易所比較表";
-            RowTitle = new string[] { "布蘭特原油期貨契約結算保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
+            RowTitle = new string[] { "布蘭特原油期貨契約原始保證金", "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
             FieldFormat = new string[] { "#,##0.##" , "%" , "%" , "#,##0.##" , "%" , "%" };
             ColTtile = new string[] { $"TAIFEX{Characters.LineBreak}BRF{Characters.LineBreak}(新臺幣元)",
                                     $"ICE{Characters.LineBreak}Brent Crude Futures{Characters.LineBreak}(美元)"};
@@ -4681,7 +4729,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             ColCount = 7;
             TableName = "本公司東證期貨保證金占契約價值比與國際主要交易所比較表";
             FieldFormat = new string[] { "#,##0.##" , "%" , "%" , "#,##0.##" , "%" , "%" };
-            RowTitle = new string[] { "東證期貨契約結算保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
+            RowTitle = new string[] { "東證期貨契約原始保證金", "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
             ColTtile = new string[] { $"TAIFEX{Characters.LineBreak}TJF{Characters.LineBreak}(新臺幣元)",
                                       $"JPX TOPIX{Characters.LineBreak}Futures{Characters.LineBreak}(日幣)",
                                       $"JPX mini TOPIX{Characters.LineBreak}Futures{Characters.LineBreak}(日幣)"};
@@ -4701,7 +4749,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             ColCount = 5;
             TableName = "本公司Nifty50期貨保證金占契約價值比與國際主要交易所比較表";
             FieldFormat = new string[] { "#,##0.##" , "%" , "%" , "#,##0.##" , "%" , "%" };
-            RowTitle = new string[] { "Nifty50期貨契約結算保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
+            RowTitle = new string[] { "Nifty50期貨契約原始保證金", "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
             ColTtile = new string[] { $"TAIFEX{Characters.LineBreak}I5F{Characters.LineBreak}(新臺幣元)",
                                       $"SGX{Characters.LineBreak}(美元)"};
          }
@@ -4720,7 +4768,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             ColCount = 5;
             TableName = "本公司美國道瓊期貨保證金占契約價值比與國際主要交易所比較表";
             FieldFormat = new string[] { "#,##0.##" , "%" , "%" , "#,##0.##" , "%" , "%" };
-            RowTitle = new string[] { "道瓊期貨契約結算保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
+            RowTitle = new string[] { "道瓊期貨契約原始保證金", "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
             ColTtile = new string[] { $"TAIFEX{Characters.LineBreak}UDF{Characters.LineBreak}(新臺幣元)",
                                       $"CME{Characters.LineBreak}E-mini Dow($5){Characters.LineBreak}Futures{Characters.LineBreak}(美元)"};
          }
@@ -4739,7 +4787,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             ColCount = 5;
             TableName = "本公司美國標普500期貨保證金占契約價值比與國際主要交易所比較表";
             FieldFormat = new string[] { "#,##0.##" , "%" , "%" , "#,##0.##" , "%" , "%" };
-            RowTitle = new string[] { "標普500期貨契約結算保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
+            RowTitle = new string[] { "標普500期貨契約原始保證金", "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
             ColTtile = new string[] { $"TAIFEX{Characters.LineBreak}SPF{Characters.LineBreak}(新臺幣元)",
                                       $"CME{Characters.LineBreak}E-mini S&P{Characters.LineBreak}500 Futures{Characters.LineBreak}(美元)"};
          }
@@ -4758,7 +4806,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             ColCount = 5;
             TableName = "本公司美國那斯達克100期貨保證金占契約價值比與國際主要交易所";
             FieldFormat = new string[] { "#,##0.##" , "%" , "%" , "#,##0.##" , "%" , "%" };
-            RowTitle = new string[] { "美國那斯達克100期貨契約結算保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
+            RowTitle = new string[] { "美國那斯達克100期貨契約原始保證金", "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
             ColTtile = new string[] { $"TAIFEX{Characters.LineBreak}UNF{Characters.LineBreak}(新臺幣元)",
                                       $"CME{Characters.LineBreak}E-mini{Characters.LineBreak}NASDAQ{Characters.LineBreak}100 Futures{Characters.LineBreak}(美元)"};
          }
@@ -4798,7 +4846,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                                        "本公司{0}黃金期貨保證金與國際主要黃金交易所保證金比較表" };
 
             FieldFormat = new string[] { "#,##0.##" , "%" , "%" };
-            RowTitle = new string[] { "黃金期貨契約結算保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
+            RowTitle = new string[] { "黃金期貨契約原始保證金", "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
             ColTtile = new string[] { "交易所",
                                       $"GDF{Characters.LineBreak}TAIFEX{Characters.LineBreak}(美元)",
                                       $"TGF{Characters.LineBreak}TAIFEX{Characters.LineBreak}(新臺幣元)",
@@ -4834,7 +4882,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                                        "本公司{0}英鎊兌美元匯率期貨保證金與國際主要交易所保證金比較表" };
 
             FieldFormat = new string[] { "#,##0.##" , "%" , "%" };
-            RowTitle = new string[] { $"英鎊兌美元{Characters.LineBreak}匯率期貨契約{Characters.LineBreak}結算保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
+            RowTitle = new string[] { $"英鎊兌美元{Characters.LineBreak}匯率期貨契約{Characters.LineBreak}原始保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
             ColTtile = new string[] { "交易所",
                                       $"XBF{Characters.LineBreak}TAIFEX",
                                       $"CME{Characters.LineBreak}"};
@@ -4867,7 +4915,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                                        "本公司{0}歐元兌美元匯率期貨保證金與國際主要交易所保證金比較表" };
 
             FieldFormat = new string[] { "#,##0.##" , "%" , "%" };
-            RowTitle = new string[] { $"歐元兌美元{Characters.LineBreak}匯率期貨契約{Characters.LineBreak}結算保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
+            RowTitle = new string[] { $"歐元兌美元{Characters.LineBreak}匯率期貨契約{Characters.LineBreak}原始保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
             ColTtile = new string[] { "交易所",
                                       $"XEF{Characters.LineBreak}TAIFEX",
                                       $"CME{Characters.LineBreak}"};
@@ -4900,7 +4948,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                                        "本公司{0}美元兌日圓匯率期貨保證金與國際主要交易所保證金比較表" };
 
             FieldFormat = new string[] { "#,##0.##" , "%" , "%" };
-            RowTitle = new string[] { $"美元兌日圓{Characters.LineBreak}匯率期貨契約{Characters.LineBreak}結算保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
+            RowTitle = new string[] { $"美元兌日圓{Characters.LineBreak}匯率期貨契約{Characters.LineBreak}原始保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
             ColTtile = new string[] { "交易所",
                                       $"XJF{Characters.LineBreak}TAIFEX",
                                       $"SGX{Characters.LineBreak}"};
@@ -4933,7 +4981,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                                        "本公司{0}澳幣兌美元匯率期貨保證金與國際主要交易所保證金比較表" };
 
             FieldFormat = new string[] { "#,##0.##" , "%" , "%" };
-            RowTitle = new string[] { $"澳幣兌美元{Characters.LineBreak}匯率期貨契約{Characters.LineBreak}結算保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
+            RowTitle = new string[] { $"澳幣兌美元{Characters.LineBreak}匯率期貨契約{Characters.LineBreak}原始保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
             ColTtile = new string[] { "交易所",
                                       $"XAF{Characters.LineBreak}TAIFEX",
                                       $"CME{Characters.LineBreak}"};
@@ -4966,7 +5014,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                                        "本公司{0}美元兌人民幣匯率期貨保證金與國際主要交易所保證金比較表" };
 
             FieldFormat = new string[] { "#,##0.##" , "%" , "%" };
-            RowTitle = new string[] { $"美元兌人民幣{Characters.LineBreak}匯率期貨契約{Characters.LineBreak}結算保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
+            RowTitle = new string[] { $"美元兌人民幣{Characters.LineBreak}匯率期貨契約{Characters.LineBreak}原始保證金" , "結算保證金占契約總值比例" , "原始保證金占契約總值比例" };
             ColTtile = new string[] { "交易所",
                                       $"RHF{Characters.LineBreak}TAIFEX",
                                       $"RTF{Characters.LineBreak}TAIFEX",
