@@ -105,17 +105,17 @@ namespace PhoenixCI.FormUI.Prefix4 {
             bool result1 = false, result2 = false;
 
             //資料儲存至Table
-            if (chkTxt.CheckState == CheckState.Checked) {
-               result1 = wf_40021(workbook);
-               if (ls_logf == "Y") {
-                  //wf_logt("40021");
+            result1 = wf_40021(workbook);
+            //if (chkTxt.CheckState == CheckState.Checked) {
+            //   result1 = wf_40021(workbook);
+            //   if (ls_logf == "Y") {
+            //      //wf_logt("40021");
 
-                  //is_log_time = is_log_time + " - " + string(now())
-                  //f_write_logf(is_txn_id , 'T' , txd_id + ',' + is_log_time)
-                  //is_log_time = string(now())
-               }
-            }
-
+            //      //is_log_time = is_log_time + " - " + string(now())
+            //      //f_write_logf(is_txn_id , 'T' , txd_id + ',' + is_log_time)
+            //      //is_log_time = string(now())
+            //   }
+            //}
 
             //Sheet:Span參數日狀況表(一)(二)(三)
             result2 = wf_40020_7(workbook);
