@@ -19,6 +19,16 @@ using System.Windows.Forms;
 
 namespace BaseGround {
    public partial class FormMain : DevExpress.XtraBars.Ribbon.RibbonForm {
+      string[] maintainItem = new string[] {"20110","20112","20130","20140","20220","20230","20231"
+                                                   ,"20232","20233","20310","20320","20330","20340","20410"
+                                                   ,"20420","20430","25010","28110","28510","28511","28512"
+                                                   ,"28610","28620","28630","40070","40080","49010","49020"
+                                                   ,"49030","49040","49050","49060","49061","49062","49070"
+                                                   ,"49080","50073","50120","51010","51020","51030","51040"
+                                                   ,"51050","51060","51070","S0011","S0012","S0070","S0071"
+                                                   ,"S0072","S0073","30201","30202","30203","30204","30205"
+                                                   ,"30220","30221","30222","30223","30224","30290" };
+
       public FormMain() {
          InitializeComponent();
          TXN daoTXN = new TXN();
@@ -30,15 +40,7 @@ namespace BaseGround {
             dt = Task.Run(() => daoTXN.ListTxnByUser(GlobalInfo.USER_ID)).Result;
             //dt = Task.Run(() => daoTXN.ListData()).Result;
          }
-         string[] maintainItem = new string[] {"20110","20112","20130","20140","20220","20230","20231"
-                                                   ,"20232","20233","20310","20320","20330","20340","20410"
-                                                   ,"20420","20430","25010","28110","28510","28511","28512"
-                                                   ,"28610","28620","28630","40070","40080","49010","49020"
-                                                   ,"49030","49040","49050","49060","49061","49062","49070"
-                                                   ,"49080","50073","50120","51010","51020","51030","51040"
-                                                   ,"51050","51060","51070","S0011","S0012","S0070","S0071"
-                                                   ,"S0072","S0073","30201","30202","30203","30204","30205"
-                                                   ,"30220","30221","30222","30223","30224","30290" };
+         
 
          AccordionControlElement item = null;
          string txnId = "";
@@ -242,6 +244,15 @@ namespace BaseGround {
       }
 
       public FormParent OpenForm(string txn_id, string txn_name) {
+         //Austin 20190813 平行測試期間正式環境不開放維護功能
+         if(GlobalDaoSetting.GetConnectionInfo.ConnectionName == "CI") {
+            if (maintainItem.Contains(txn_id)) {
+               MessageDisplay.Normal("維護功能暫不使用!");
+               accordionMenu.Focus();
+               accordionMenu.KeyNavHelperEx.SelectedElement = accordionMenu.SelectedElement;
+               return null;
+            }
+         }
          if (txn_id == "Z2010") {
             OpenForm();
             return new FormParent();
@@ -366,7 +377,6 @@ namespace BaseGround {
 
       private void AccordionMenu_DoubleClick(object sender, EventArgs e) {
          var element = ((AccordionControl)sender).SelectedElement;
-
          if (element != null && element.Style == ElementStyle.Item) {
             ItemData itemData = ((ItemData)element.Tag);
             OpenForm(itemData.TXN_ID, itemData.TXN_NAME);
