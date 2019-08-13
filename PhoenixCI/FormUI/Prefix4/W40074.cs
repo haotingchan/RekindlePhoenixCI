@@ -491,7 +491,8 @@ namespace PhoenixCI.FormUI.Prefix4
                     if (opType != " ")
                     {
                         kindID = dr["KIND_ID"].AsString();
-                        stockID = dr["KIND_ID"].AsString();
+                        //stockID = dr["KIND_ID"].AsString();
+                        stockID = dr["STOCK_ID"].AsString();
 
                         //刪除已存在資料
                         if (daoMGD2.DeleteMGD2(this.ymd, isAdjType, stockID, kindID) < 0)
@@ -737,6 +738,10 @@ namespace PhoenixCI.FormUI.Prefix4
             {
                 e.Cancel = prodType == "F" ? true : false;
             }
+            //20190812
+            //個股只有百分比, 有代號, 也有級距
+            //ETF只有金額, 有代號, 無級距
+            //其餘有百分比/金額, 無代號, 無級距
             if (gv.FocusedColumn.Name == "STOCK_ID" ||
                 gv.FocusedColumn.Name == "M_LEVEL" || gv.FocusedColumn.Name == "AMT_TYPE")
             {
@@ -796,7 +801,7 @@ namespace PhoenixCI.FormUI.Prefix4
                 //如果改變商品類
                 DataRow dr = dtProdType.Select("prod_seq_no = '" + e.Value.AsString() + "'")[0];
                 gv.SetRowCellValue(e.RowHandle, "KIND_ID", "");
-                gv.SetRowCellValue(e.RowHandle, "STOCK_ID", " ");
+                gv.SetRowCellValue(e.RowHandle, "STOCK_ID", "");
                 gv.SetRowCellValue(e.RowHandle, "M_LEVEL", "");
                 gv.SetRowCellValue(e.RowHandle, "PROD_SUBTYPE", dr["CND_PROD_SUBTYPE"]);
                 gv.SetRowCellValue(e.RowHandle, "CND_PARAM_KEY", dr["CND_PARAM_KEY"]);
@@ -969,46 +974,6 @@ namespace PhoenixCI.FormUI.Prefix4
                     default: e.DisplayText = string.Format("{0:#,###}", value); break;
                 }
             }
-            //add by tom
-            //if ((e.Column.FieldName == "M_LEVEL" || e.Column.FieldName == "STOCK_ID" || e.Column.FieldName == "AMT_TYPE") 
-            //    && e.ListSourceRowIndex != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
-            //{
-            //    string amtType = view.GetListSourceRowCellValue(e.ListSourceRowIndex, "AMT_TYPE").AsString();
-            //    string prodseqType = view.GetListSourceRowCellValue(e.ListSourceRowIndex, "PROD_SEQ_NO").AsString();
-            //    if (amtType == null || prodseqType == null) return; //防呆
-            //    if (prodseqType.Equals("6")) //針對[個股類]處理
-            //    {
-            //        if (e.Column.FieldName == "M_LEVEL" || e.Column.FieldName == "amtType")
-            //        {
-            //            switch (amtType)
-            //            {
-            //                //金額-->F ; 百分比-->P
-            //                case "F":
-            //                    //do nothing
-            //                    break;
-            //                case "P":
-            //                    e.DisplayText = "";
-            //                    break;
-            //            }
-            //        }
-            //    }
-            //    else if (prodseqType.Equals("7"))//針對[ETF類]處理
-            //    {
-            //        if (e.Column.FieldName == "M_LEVEL")
-            //        {
-            //            switch (amtType)
-            //            {
-            //                //金額-->F ; 百分比-->P
-            //                case "P":
-            //                    //do nothing
-            //                    break;
-            //                case "F":
-            //                    e.DisplayText = "";
-            //                    break;
-            //            }
-            //        }
-            //    }
-            //}
         }
     }
 }
