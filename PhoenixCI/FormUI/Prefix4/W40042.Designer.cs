@@ -44,6 +44,7 @@
          this.O_PDK_NAME = new DevExpress.XtraGrid.Columns.GridColumn();
          this.OSW_GRP = new DevExpress.XtraGrid.Columns.GridColumn();
          this.SFD_UPD_FLAG = new DevExpress.XtraGrid.Columns.GridColumn();
+         this.DT_DATE = new DevExpress.XtraGrid.Columns.GridColumn();
          this.repositorySettlePriceTextEdit = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
          this.repositorySfdPriceTextEdit = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
          this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
@@ -62,7 +63,6 @@
          this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
          this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
          this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
-         this.DT_DATE = new DevExpress.XtraGrid.Columns.GridColumn();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
          this.panelControl2.SuspendLayout();
@@ -121,10 +121,10 @@
          // gcMain
          // 
          this.gcMain.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.gcMain.EmbeddedNavigator.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+         this.gcMain.EmbeddedNavigator.Appearance.BackColor = System.Drawing.Color.White;
          this.gcMain.EmbeddedNavigator.Appearance.Options.UseBackColor = true;
          this.gcMain.Location = new System.Drawing.Point(30, 0);
-         this.gcMain.LookAndFeel.SkinMaskColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+         this.gcMain.LookAndFeel.SkinMaskColor = System.Drawing.Color.White;
          this.gcMain.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
          this.gcMain.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gcMain.MainView = this.gvMain;
@@ -142,8 +142,6 @@
          // 
          // gvMain
          // 
-         this.gvMain.Appearance.Empty.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.gvMain.Appearance.Empty.Options.UseBackColor = true;
          this.gvMain.Appearance.FocusedCell.BackColor = System.Drawing.Color.Transparent;
          this.gvMain.Appearance.FocusedCell.Options.UseBackColor = true;
          this.gvMain.Appearance.FocusedRow.BackColor = System.Drawing.Color.Transparent;
@@ -156,8 +154,6 @@
          this.gvMain.Appearance.HeaderPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
          this.gvMain.Appearance.HorzLine.BackColor = System.Drawing.Color.Black;
          this.gvMain.Appearance.HorzLine.Options.UseBackColor = true;
-         this.gvMain.Appearance.Row.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.gvMain.Appearance.Row.Options.UseBackColor = true;
          this.gvMain.Appearance.Row.Options.UseTextOptions = true;
          this.gvMain.Appearance.Row.TextOptions.Trimming = DevExpress.Utils.Trimming.Word;
          this.gvMain.Appearance.VertLine.BackColor = System.Drawing.Color.Black;
@@ -198,8 +194,6 @@
          // 
          // repositoryFutCheckEdit1
          // 
-         this.repositoryFutCheckEdit1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.repositoryFutCheckEdit1.Appearance.Options.UseBackColor = true;
          this.repositoryFutCheckEdit1.AutoHeight = false;
          this.repositoryFutCheckEdit1.Name = "repositoryFutCheckEdit1";
          this.repositoryFutCheckEdit1.ValueChecked = "Y";
@@ -273,8 +267,6 @@
          // 
          // repositoryOptCheckEdit1
          // 
-         this.repositoryOptCheckEdit1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.repositoryOptCheckEdit1.Appearance.Options.UseBackColor = true;
          this.repositoryOptCheckEdit1.AutoHeight = false;
          this.repositoryOptCheckEdit1.Name = "repositoryOptCheckEdit1";
          this.repositoryOptCheckEdit1.ValueChecked = "Y";
@@ -318,6 +310,14 @@
          this.SFD_UPD_FLAG.FieldName = "SFD_UPD_FLAG";
          this.SFD_UPD_FLAG.Name = "SFD_UPD_FLAG";
          this.SFD_UPD_FLAG.OptionsColumn.ShowCaption = false;
+         // 
+         // DT_DATE
+         // 
+         this.DT_DATE.Caption = "DT_DATE";
+         this.DT_DATE.DisplayFormat.FormatString = "yyyy/MM/dd";
+         this.DT_DATE.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+         this.DT_DATE.FieldName = "DT_DATE";
+         this.DT_DATE.Name = "DT_DATE";
          // 
          // repositorySettlePriceTextEdit
          // 
@@ -481,17 +481,19 @@
          // radioGroup1
          // 
          this.radioGroup1.EditValue = "rb_revoke_all";
-         this.radioGroup1.Location = new System.Drawing.Point(30, 172);
+         this.radioGroup1.Location = new System.Drawing.Point(30, 174);
          this.radioGroup1.MenuManager = this.ribbonControl;
          this.radioGroup1.Name = "radioGroup1";
          this.radioGroup1.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
          this.radioGroup1.Properties.Appearance.Options.UseBackColor = true;
-         this.radioGroup1.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
+         this.radioGroup1.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
          this.radioGroup1.Properties.Columns = 2;
          this.radioGroup1.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Default;
          this.radioGroup1.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_sel_all", "全選"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_revoke_all", "全取消")});
+         this.radioGroup1.Properties.LookAndFeel.SkinName = "Visual Studio 2013 Light";
+         this.radioGroup1.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.radioGroup1.Size = new System.Drawing.Size(156, 32);
          this.radioGroup1.TabIndex = 1;
          this.radioGroup1.EditValueChanged += new System.EventHandler(this.radioGroup1_EditValueChanged);
@@ -529,14 +531,6 @@
          this.layoutControlItem3.Name = "layoutControlItem3";
          this.layoutControlItem3.Size = new System.Drawing.Size(0, 0);
          this.layoutControlItem3.TextSize = new System.Drawing.Size(50, 20);
-         // 
-         // DT_DATE
-         // 
-         this.DT_DATE.Caption = "DT_DATE";
-         this.DT_DATE.DisplayFormat.FormatString = "yyyy/MM/dd";
-         this.DT_DATE.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-         this.DT_DATE.FieldName = "DT_DATE";
-         this.DT_DATE.Name = "DT_DATE";
          // 
          // W40042
          // 

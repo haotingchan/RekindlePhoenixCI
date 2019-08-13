@@ -72,7 +72,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          //List<LookupItem> dtETC = new List<LookupItem>(){
          //                               new LookupItem() { ValueMember = "1", DisplayMember = "有"},
          //                               new LookupItem() { ValueMember = "2", DisplayMember = "無" }};
-         DataTable dtETC = new CODW().ListLookUpEdit("40030" , "40030_ETC_VSR");
+         DataTable dtETC = new CODW().ListLookUpEdit("40030" , "ETC_VSR");
 
          //設定下拉選單
          ddlAdjType.SetDataTable(dtType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);

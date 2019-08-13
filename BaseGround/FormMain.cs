@@ -271,13 +271,11 @@ namespace BaseGround {
             formInstance.RibbonAlwaysAtBack = false;
             formInstance.FormClosed += new FormClosedEventHandler(Child_FormClosed);
             formInstance.Icon = (Icon)Icon.Clone();
-            formInstance.BackColor = Color.FromArgb(192, 220, 192);
             formInstance.StartPosition = FormStartPosition.Manual;
             formInstance.WindowState = FormWindowState.Maximized;
             formInstance.Dock = DockStyle.Fill;
             formInstance.AutoScaleMode = AutoScaleMode.None;
             formInstance.Show();
-            //formInstance.Focus();
          }
 
          return formInstance;

@@ -419,7 +419,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
          //編排流水號
          e.Appearance.DrawBackground(e.Cache , e.Bounds);
          if (e.Info.Kind == DevExpress.Utils.Drawing.IndicatorKind.Header) {
-            e.Appearance.BackColor = Color.FromArgb(192 , 220 , 192);
+            e.Appearance.BackColor = Color.White;
             e.Appearance.DrawString(e.Cache , "流水號" , e.Bounds);
             e.Appearance.ForeColor = Color.Black;
             //e.Appearance.BorderColor = Color.Black;
@@ -427,7 +427,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
             e.Handled = true;
          }
          if (e.Info.IsRowIndicator && e.RowHandle >= 0) {
-            e.Appearance.BackColor = Color.FromArgb(192 , 220 , 192);
+            e.Appearance.BackColor = Color.White;
             e.Info.DisplayText = (e.RowHandle + 1).ToString();
             e.Appearance.ForeColor = Color.Black;
             //e.Appearance.BorderColor = Color.Black;

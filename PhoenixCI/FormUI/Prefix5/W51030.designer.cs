@@ -98,7 +98,7 @@
          // 
          // panParent
          // 
-         this.panParent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+         this.panParent.BackColor = System.Drawing.SystemColors.Control;
          this.panParent.Controls.Add(this.panelControl2);
          this.panParent.Controls.Add(this.panelControl1);
          this.panParent.Size = new System.Drawing.Size(1359, 716);
@@ -718,7 +718,7 @@
          // 
          // panelControl1
          // 
-         this.panelControl1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+         this.panelControl1.Appearance.BackColor = System.Drawing.Color.Transparent;
          this.panelControl1.Appearance.Options.UseBackColor = true;
          this.panelControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.panelControl1.Controls.Add(this.label1);

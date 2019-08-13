@@ -80,7 +80,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          emptyEditor = new RepositoryItemButtonEdit();
          emptyEditor.Buttons.Clear();
          emptyEditor.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.HideTextEditor;
-         emptyEditor.Appearance.BackColor = Color.FromArgb(192 , 220 , 192);
+         emptyEditor.Appearance.BackColor = Color.LightGray;
          emptyEditor.ReadOnly = true;
          gcMain.RepositoryItems.Add(emptyEditor);
       }
@@ -106,7 +106,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          DataTable dt = (DataTable)gcMain.DataSource;
          MessageDisplay message = new MessageDisplay();
 #if DEBUG
-         message.OutputShowMessage = b40042.ExportBeforeCheck(dt, GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH);
+         message.OutputShowMessage = b40042.ExportBeforeCheck(dt , GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH);
 #else
          message.OutputShowMessage = b40042.ExportBeforeCheck(dt);
 #endif
@@ -271,7 +271,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
       private void gvMain_RowCellStyle(object sender , RowCellStyleEventArgs e) {
          GridView view = (GridView)sender;
          int index = e.RowHandle;
-         Color colorMint = Color.FromArgb(192 , 220 , 192);//綠背景色
+         Color colorMint = Color.LightGray;
 
          switch (e.Column.FieldName) {
             case "AI5_SETTLE_PRICE"://近月份期貨價格

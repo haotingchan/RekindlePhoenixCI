@@ -95,6 +95,9 @@
          // 
          // panelControl1
          // 
+         this.panelControl1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.panelControl1.Appearance.Options.UseBackColor = true;
+         this.panelControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.panelControl1.Controls.Add(this.label4);
          this.panelControl1.Controls.Add(this.adjustmentRadioGroup);
          this.panelControl1.Controls.Add(this.groupControl1);
@@ -109,7 +112,7 @@
          // label4
          // 
          this.label4.AutoSize = true;
-         this.label4.Location = new System.Drawing.Point(507, 12);
+         this.label4.Location = new System.Drawing.Point(551, 10);
          this.label4.Name = "label4";
          this.label4.Size = new System.Drawing.Size(41, 20);
          this.label4.TabIndex = 20;
@@ -117,13 +120,14 @@
          // 
          // adjustmentRadioGroup
          // 
-         this.adjustmentRadioGroup.Location = new System.Drawing.Point(554, 12);
+         this.adjustmentRadioGroup.Location = new System.Drawing.Point(555, 36);
          this.adjustmentRadioGroup.Name = "adjustmentRadioGroup";
          this.adjustmentRadioGroup.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
-         this.adjustmentRadioGroup.Properties.Appearance.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.adjustmentRadioGroup.Properties.Appearance.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.adjustmentRadioGroup.Properties.Appearance.Options.UseBackColor = true;
          this.adjustmentRadioGroup.Properties.Appearance.Options.UseFont = true;
-         this.adjustmentRadioGroup.Properties.ItemHorzAlignment = DevExpress.XtraEditors.RadioItemHorzAlignment.Near;
+         this.adjustmentRadioGroup.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+         this.adjustmentRadioGroup.Properties.GlyphAlignment = DevExpress.Utils.HorzAlignment.Default;
          this.adjustmentRadioGroup.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
             new DevExpress.XtraEditors.Controls.RadioGroupItem("Clear", "全取消"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("AllSelect", "全選"),
@@ -133,12 +137,17 @@
             new DevExpress.XtraEditors.Controls.RadioGroupItem("2", "全選Group 2"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("3", "全選Group 3")});
          this.adjustmentRadioGroup.Properties.ItemsLayout = DevExpress.XtraEditors.RadioGroupItemsLayout.Flow;
-         this.adjustmentRadioGroup.Size = new System.Drawing.Size(242, 160);
+         this.adjustmentRadioGroup.Properties.LookAndFeel.SkinName = "Visual Studio 2013 Light";
+         this.adjustmentRadioGroup.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
+         this.adjustmentRadioGroup.Size = new System.Drawing.Size(223, 149);
          this.adjustmentRadioGroup.TabIndex = 1;
          this.adjustmentRadioGroup.SelectedIndexChanged += new System.EventHandler(this.adjustmentRadioGroup_SelectedIndexChanged);
          // 
          // groupControl1
          // 
+         this.groupControl1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.groupControl1.Appearance.Options.UseBackColor = true;
+         this.groupControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.groupControl1.Controls.Add(this.radioGroup3);
          this.groupControl1.Controls.Add(this.radioGroup2);
          this.groupControl1.Controls.Add(this.radioGroup1);
@@ -148,57 +157,66 @@
          this.groupControl1.Controls.Add(this.label2);
          this.groupControl1.Controls.Add(this.txtDate1);
          this.groupControl1.Controls.Add(this.label1);
-         this.groupControl1.Location = new System.Drawing.Point(5, 55);
+         this.groupControl1.Location = new System.Drawing.Point(33, 45);
          this.groupControl1.Name = "groupControl1";
          this.groupControl1.ShowCaption = false;
-         this.groupControl1.Size = new System.Drawing.Size(485, 117);
+         this.groupControl1.Size = new System.Drawing.Size(496, 140);
          this.groupControl1.TabIndex = 19;
          // 
          // radioGroup3
          // 
-         this.radioGroup3.Location = new System.Drawing.Point(391, -5);
+         this.radioGroup3.Location = new System.Drawing.Point(396, 9);
          this.radioGroup3.Name = "radioGroup3";
          this.radioGroup3.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
-         this.radioGroup3.Properties.Appearance.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.radioGroup3.Properties.Appearance.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.radioGroup3.Properties.Appearance.Options.UseBackColor = true;
          this.radioGroup3.Properties.Appearance.Options.UseFont = true;
+         this.radioGroup3.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
          this.radioGroup3.Properties.ItemHorzAlignment = DevExpress.XtraEditors.RadioItemHorzAlignment.Near;
          this.radioGroup3.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
             new DevExpress.XtraEditors.Controls.RadioGroupItem(((short)(31)), "Group 3"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem(((short)(32)), "Group 3"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem(((short)(33)), "Group 3")});
+         this.radioGroup3.Properties.LookAndFeel.SkinName = "Visual Studio 2013 Light";
+         this.radioGroup3.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.radioGroup3.Size = new System.Drawing.Size(94, 122);
          this.radioGroup3.TabIndex = 26;
          // 
          // radioGroup2
          // 
-         this.radioGroup2.Location = new System.Drawing.Point(290, -6);
+         this.radioGroup2.Location = new System.Drawing.Point(295, 8);
          this.radioGroup2.Name = "radioGroup2";
          this.radioGroup2.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
-         this.radioGroup2.Properties.Appearance.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.radioGroup2.Properties.Appearance.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.radioGroup2.Properties.Appearance.Options.UseBackColor = true;
          this.radioGroup2.Properties.Appearance.Options.UseFont = true;
+         this.radioGroup2.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
          this.radioGroup2.Properties.ItemHorzAlignment = DevExpress.XtraEditors.RadioItemHorzAlignment.Near;
          this.radioGroup2.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
             new DevExpress.XtraEditors.Controls.RadioGroupItem(((short)(21)), "Group 2"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem(((short)(22)), "Group 2"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem(((short)(23)), "Group 2")});
+         this.radioGroup2.Properties.LookAndFeel.SkinName = "Visual Studio 2013 Light";
+         this.radioGroup2.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.radioGroup2.Size = new System.Drawing.Size(94, 123);
          this.radioGroup2.TabIndex = 25;
          // 
          // radioGroup1
          // 
-         this.radioGroup1.Location = new System.Drawing.Point(190, -5);
+         this.radioGroup1.Location = new System.Drawing.Point(195, 9);
          this.radioGroup1.Name = "radioGroup1";
          this.radioGroup1.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
-         this.radioGroup1.Properties.Appearance.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.radioGroup1.Properties.Appearance.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.radioGroup1.Properties.Appearance.Options.UseBackColor = true;
          this.radioGroup1.Properties.Appearance.Options.UseFont = true;
+         this.radioGroup1.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
          this.radioGroup1.Properties.ItemHorzAlignment = DevExpress.XtraEditors.RadioItemHorzAlignment.Near;
          this.radioGroup1.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
             new DevExpress.XtraEditors.Controls.RadioGroupItem(((short)(11)), "Group 1"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem(((short)(12)), "Group 1"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem(((short)(13)), "Group 1")});
+         this.radioGroup1.Properties.LookAndFeel.SkinName = "Visual Studio 2013 Light";
+         this.radioGroup1.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.radioGroup1.Size = new System.Drawing.Size(94, 122);
          this.radioGroup1.TabIndex = 0;
          // 
@@ -207,7 +225,7 @@
          this.txtDate3.DateTimeValue = new System.DateTime(2018, 1, 1, 0, 0, 0, 0);
          this.txtDate3.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtDate3.EditValue = "2018/01/01";
-         this.txtDate3.Location = new System.Drawing.Point(84, 74);
+         this.txtDate3.Location = new System.Drawing.Point(89, 88);
          this.txtDate3.Name = "txtDate3";
          this.txtDate3.Properties.DisplayFormat.FormatString = "yyyyMMdd";
          this.txtDate3.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
@@ -224,7 +242,7 @@
          // label3
          // 
          this.label3.AutoSize = true;
-         this.label3.Location = new System.Drawing.Point(5, 77);
+         this.label3.Location = new System.Drawing.Point(8, 89);
          this.label3.Name = "label3";
          this.label3.Size = new System.Drawing.Size(73, 20);
          this.label3.TabIndex = 24;
@@ -235,7 +253,7 @@
          this.txtDate2.DateTimeValue = new System.DateTime(2018, 1, 1, 0, 0, 0, 0);
          this.txtDate2.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtDate2.EditValue = "2018/01/01";
-         this.txtDate2.Location = new System.Drawing.Point(84, 38);
+         this.txtDate2.Location = new System.Drawing.Point(89, 52);
          this.txtDate2.Name = "txtDate2";
          this.txtDate2.Properties.DisplayFormat.FormatString = "yyyyMMdd";
          this.txtDate2.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
@@ -252,7 +270,7 @@
          // label2
          // 
          this.label2.AutoSize = true;
-         this.label2.Location = new System.Drawing.Point(5, 41);
+         this.label2.Location = new System.Drawing.Point(8, 53);
          this.label2.Name = "label2";
          this.label2.Size = new System.Drawing.Size(73, 20);
          this.label2.TabIndex = 22;
@@ -263,7 +281,7 @@
          this.txtDate1.DateTimeValue = new System.DateTime(2018, 1, 1, 0, 0, 0, 0);
          this.txtDate1.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtDate1.EditValue = "2018/01/01";
-         this.txtDate1.Location = new System.Drawing.Point(84, 5);
+         this.txtDate1.Location = new System.Drawing.Point(89, 19);
          this.txtDate1.Name = "txtDate1";
          this.txtDate1.Properties.DisplayFormat.FormatString = "yyyyMMdd";
          this.txtDate1.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
@@ -280,7 +298,7 @@
          // label1
          // 
          this.label1.AutoSize = true;
-         this.label1.Location = new System.Drawing.Point(5, 8);
+         this.label1.Location = new System.Drawing.Point(8, 20);
          this.label1.Name = "label1";
          this.label1.Size = new System.Drawing.Size(73, 20);
          this.label1.TabIndex = 20;
@@ -291,7 +309,7 @@
          this.txtCountDate.DateTimeValue = new System.DateTime(2018, 1, 1, 0, 0, 0, 0);
          this.txtCountDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtCountDate.EditValue = "2018/01/01";
-         this.txtCountDate.Location = new System.Drawing.Point(89, 15);
+         this.txtCountDate.Location = new System.Drawing.Point(122, 10);
          this.txtCountDate.Name = "txtCountDate";
          this.txtCountDate.Properties.DisplayFormat.FormatString = "yyyyMMdd";
          this.txtCountDate.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
@@ -308,7 +326,7 @@
          // labDate
          // 
          this.labDate.AutoSize = true;
-         this.labDate.Location = new System.Drawing.Point(10, 18);
+         this.labDate.Location = new System.Drawing.Point(41, 13);
          this.labDate.Name = "labDate";
          this.labDate.Size = new System.Drawing.Size(73, 20);
          this.labDate.TabIndex = 18;
@@ -339,14 +357,14 @@
          // 
          // gvMain
          // 
-         this.gvMain.AppearancePrint.GroupRow.Font = new System.Drawing.Font("Microsoft YaHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+         this.gvMain.AppearancePrint.GroupRow.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
          this.gvMain.AppearancePrint.GroupRow.Options.UseFont = true;
          this.gvMain.AppearancePrint.HeaderPanel.Options.UseTextOptions = true;
          this.gvMain.AppearancePrint.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.gvMain.AppearancePrint.HeaderPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-         this.gvMain.AppearancePrint.Preview.Font = new System.Drawing.Font("Microsoft YaHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+         this.gvMain.AppearancePrint.Preview.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
          this.gvMain.AppearancePrint.Preview.Options.UseFont = true;
-         this.gvMain.AppearancePrint.Row.Font = new System.Drawing.Font("Microsoft YaHei", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+         this.gvMain.AppearancePrint.Row.Font = new System.Drawing.Font("微软雅黑", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
          this.gvMain.AppearancePrint.Row.Options.UseFont = true;
          this.gvMain.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.GROUP_TYPE,

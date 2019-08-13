@@ -28,6 +28,7 @@
       private void InitializeComponent()
       {
          this.panel1 = new System.Windows.Forms.Panel();
+         this.emDate = new DevExpress.XtraEditors.TextEdit();
          this.stMsgTxt = new System.Windows.Forms.Label();
          this.YMDlookUpEdit = new DevExpress.XtraEditors.LookUpEdit();
          this.label2 = new System.Windows.Forms.Label();
@@ -72,15 +73,14 @@
          this.PLP13_MMK_LAST = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
          this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
          this.panel2 = new System.Windows.Forms.Panel();
-         this.emDate = new DevExpress.XtraEditors.TextEdit();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          this.panel1.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.emDate.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.YMDlookUpEdit.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
          this.panel2.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.emDate.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -108,6 +108,25 @@
          this.panel1.Size = new System.Drawing.Size(1197, 141);
          this.panel1.TabIndex = 6;
          // 
+         // emDate
+         // 
+         this.emDate.EditValue = "0000/00/00";
+         this.emDate.Location = new System.Drawing.Point(121, 48);
+         this.emDate.MenuManager = this.ribbonControl;
+         this.emDate.Name = "emDate";
+         this.emDate.Properties.Appearance.Options.UseTextOptions = true;
+         this.emDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.emDate.Properties.EditFormat.FormatString = "yyyy/MM/dd";
+         this.emDate.Properties.Mask.EditMask = "\\d\\d\\d\\d/\\d\\d/\\d\\d";
+         this.emDate.Properties.Mask.IgnoreMaskBlank = false;
+         this.emDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
+         this.emDate.Properties.Mask.PlaceHolder = '0';
+         this.emDate.Properties.Mask.ShowPlaceHolders = false;
+         this.emDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.emDate.Size = new System.Drawing.Size(100, 26);
+         this.emDate.TabIndex = 1;
+         this.emDate.EditValueChanged += new System.EventHandler(this.emDate_Leave);
+         // 
          // stMsgTxt
          // 
          this.stMsgTxt.AutoSize = true;
@@ -126,6 +145,8 @@
          this.YMDlookUpEdit.Name = "YMDlookUpEdit";
          this.YMDlookUpEdit.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.YMDlookUpEdit.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.YMDlookUpEdit.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.YMDlookUpEdit.Size = new System.Drawing.Size(100, 26);
          this.YMDlookUpEdit.TabIndex = 3;
          // 
@@ -207,9 +228,7 @@
          // 
          // gridBand1
          // 
-         this.gridBand1.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.gridBand1.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
-         this.gridBand1.AppearanceHeader.Options.UseBackColor = true;
          this.gridBand1.AppearanceHeader.Options.UseBorderColor = true;
          this.gridBand1.Children.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.GridBand[] {
             this.t1,
@@ -221,9 +240,7 @@
          // 
          // t1
          // 
-         this.t1.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.t1.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
-         this.t1.AppearanceHeader.Options.UseBackColor = true;
          this.t1.AppearanceHeader.Options.UseBorderColor = true;
          this.t1.AppearanceHeader.Options.UseTextOptions = true;
          this.t1.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -237,10 +254,6 @@
          // 
          // PLP13_FUT
          // 
-         this.PLP13_FUT.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_FUT.AppearanceCell.Options.UseBackColor = true;
-         this.PLP13_FUT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_FUT.AppearanceHeader.Options.UseBackColor = true;
          this.PLP13_FUT.Caption = "期貨";
          this.PLP13_FUT.FieldName = "PLP13_FUT";
          this.PLP13_FUT.MinWidth = 30;
@@ -251,8 +264,6 @@
          // 
          // t2
          // 
-         this.t2.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.t2.AppearanceHeader.Options.UseBackColor = true;
          this.t2.AppearanceHeader.Options.UseTextOptions = true;
          this.t2.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.t2.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Bottom;
@@ -265,10 +276,6 @@
          // 
          // PLP13_OPT
          // 
-         this.PLP13_OPT.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_OPT.AppearanceCell.Options.UseBackColor = true;
-         this.PLP13_OPT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_OPT.AppearanceHeader.Options.UseBackColor = true;
          this.PLP13_OPT.Caption = "選擇權";
          this.PLP13_OPT.FieldName = "PLP13_OPT";
          this.PLP13_OPT.MinWidth = 30;
@@ -279,8 +286,6 @@
          // 
          // t3
          // 
-         this.t3.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.t3.AppearanceHeader.Options.UseBackColor = true;
          this.t3.AppearanceHeader.Options.UseTextOptions = true;
          this.t3.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.t3.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
@@ -293,10 +298,6 @@
          // 
          // PLP13_KIND_ID2
          // 
-         this.PLP13_KIND_ID2.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_KIND_ID2.AppearanceCell.Options.UseBackColor = true;
-         this.PLP13_KIND_ID2.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_KIND_ID2.AppearanceHeader.Options.UseBackColor = true;
          this.PLP13_KIND_ID2.Caption = "商品";
          this.PLP13_KIND_ID2.FieldName = "PLP13_KIND_ID2";
          this.PLP13_KIND_ID2.MinWidth = 30;
@@ -307,9 +308,7 @@
          // 
          // SumMonth
          // 
-         this.SumMonth.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.SumMonth.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
-         this.SumMonth.AppearanceHeader.Options.UseBackColor = true;
          this.SumMonth.AppearanceHeader.Options.UseBorderColor = true;
          this.SumMonth.AppearanceHeader.Options.UseTextOptions = true;
          this.SumMonth.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -327,9 +326,7 @@
          // 
          // t4
          // 
-         this.t4.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.t4.AppearanceHeader.ForeColor = System.Drawing.Color.Black;
-         this.t4.AppearanceHeader.Options.UseBackColor = true;
          this.t4.AppearanceHeader.Options.UseFont = true;
          this.t4.AppearanceHeader.Options.UseForeColor = true;
          this.t4.AppearanceHeader.Options.UseTextOptions = true;
@@ -345,10 +342,6 @@
          // 
          // PLP13_NATURE_TOT
          // 
-         this.PLP13_NATURE_TOT.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_NATURE_TOT.AppearanceCell.Options.UseBackColor = true;
-         this.PLP13_NATURE_TOT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_NATURE_TOT.AppearanceHeader.Options.UseBackColor = true;
          this.PLP13_NATURE_TOT.Caption = "自然人";
          this.PLP13_NATURE_TOT.FieldName = "PLP13_NATURE_TOT";
          this.PLP13_NATURE_TOT.MinWidth = 30;
@@ -359,9 +352,7 @@
          // 
          // t5
          // 
-         this.t5.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.t5.AppearanceHeader.ForeColor = System.Drawing.Color.Black;
-         this.t5.AppearanceHeader.Options.UseBackColor = true;
          this.t5.AppearanceHeader.Options.UseFont = true;
          this.t5.AppearanceHeader.Options.UseForeColor = true;
          this.t5.AppearanceHeader.Options.UseTextOptions = true;
@@ -376,10 +367,6 @@
          // 
          // PLP13_LEGAL_TOT
          // 
-         this.PLP13_LEGAL_TOT.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_LEGAL_TOT.AppearanceCell.Options.UseBackColor = true;
-         this.PLP13_LEGAL_TOT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_LEGAL_TOT.AppearanceHeader.Options.UseBackColor = true;
          this.PLP13_LEGAL_TOT.Caption = "法人";
          this.PLP13_LEGAL_TOT.FieldName = "PLP13_LEGAL_TOT";
          this.PLP13_LEGAL_TOT.MinWidth = 30;
@@ -390,8 +377,6 @@
          // 
          // t6
          // 
-         this.t6.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.t6.AppearanceHeader.Options.UseBackColor = true;
          this.t6.AppearanceHeader.Options.UseTextOptions = true;
          this.t6.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.t6.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
@@ -404,10 +389,6 @@
          // 
          // PLP13_999_TOT
          // 
-         this.PLP13_999_TOT.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_999_TOT.AppearanceCell.Options.UseBackColor = true;
-         this.PLP13_999_TOT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_999_TOT.AppearanceHeader.Options.UseBackColor = true;
          this.PLP13_999_TOT.Caption = "自營商";
          this.PLP13_999_TOT.FieldName = "PLP13_999_TOT";
          this.PLP13_999_TOT.MinWidth = 30;
@@ -418,8 +399,6 @@
          // 
          // t7
          // 
-         this.t7.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.t7.AppearanceHeader.Options.UseBackColor = true;
          this.t7.AppearanceHeader.Options.UseTextOptions = true;
          this.t7.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.t7.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
@@ -432,10 +411,6 @@
          // 
          // PLP13_MMK_TOT
          // 
-         this.PLP13_MMK_TOT.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_MMK_TOT.AppearanceCell.Options.UseBackColor = true;
-         this.PLP13_MMK_TOT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_MMK_TOT.AppearanceHeader.Options.UseBackColor = true;
          this.PLP13_MMK_TOT.Caption = "造市者";
          this.PLP13_MMK_TOT.FieldName = "PLP13_MMK_TOT";
          this.PLP13_MMK_TOT.MinWidth = 30;
@@ -446,8 +421,6 @@
          // 
          // SingleMonth
          // 
-         this.SingleMonth.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.SingleMonth.AppearanceHeader.Options.UseBackColor = true;
          this.SingleMonth.AppearanceHeader.Options.UseTextOptions = true;
          this.SingleMonth.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.SingleMonth.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
@@ -463,8 +436,6 @@
          // 
          // t8
          // 
-         this.t8.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.t8.AppearanceHeader.Options.UseBackColor = true;
          this.t8.AppearanceHeader.Options.UseTextOptions = true;
          this.t8.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.t8.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
@@ -477,10 +448,6 @@
          // 
          // PLP13_NATURE_MTH
          // 
-         this.PLP13_NATURE_MTH.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_NATURE_MTH.AppearanceCell.Options.UseBackColor = true;
-         this.PLP13_NATURE_MTH.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_NATURE_MTH.AppearanceHeader.Options.UseBackColor = true;
          this.PLP13_NATURE_MTH.Caption = "自然人";
          this.PLP13_NATURE_MTH.FieldName = "PLP13_NATURE_MTH";
          this.PLP13_NATURE_MTH.MinWidth = 30;
@@ -491,8 +458,6 @@
          // 
          // t9
          // 
-         this.t9.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.t9.AppearanceHeader.Options.UseBackColor = true;
          this.t9.AppearanceHeader.Options.UseTextOptions = true;
          this.t9.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.t9.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
@@ -505,10 +470,6 @@
          // 
          // PLP13_LEGAL_MTH
          // 
-         this.PLP13_LEGAL_MTH.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_LEGAL_MTH.AppearanceCell.Options.UseBackColor = true;
-         this.PLP13_LEGAL_MTH.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_LEGAL_MTH.AppearanceHeader.Options.UseBackColor = true;
          this.PLP13_LEGAL_MTH.Caption = "法人";
          this.PLP13_LEGAL_MTH.FieldName = "PLP13_LEGAL_MTH";
          this.PLP13_LEGAL_MTH.MinWidth = 30;
@@ -519,8 +480,6 @@
          // 
          // t10
          // 
-         this.t10.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.t10.AppearanceHeader.Options.UseBackColor = true;
          this.t10.AppearanceHeader.Options.UseTextOptions = true;
          this.t10.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.t10.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
@@ -533,10 +492,6 @@
          // 
          // PLP13_999_MTH
          // 
-         this.PLP13_999_MTH.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_999_MTH.AppearanceCell.Options.UseBackColor = true;
-         this.PLP13_999_MTH.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_999_MTH.AppearanceHeader.Options.UseBackColor = true;
          this.PLP13_999_MTH.Caption = "自營商";
          this.PLP13_999_MTH.FieldName = "PLP13_999_MTH";
          this.PLP13_999_MTH.MinWidth = 30;
@@ -547,8 +502,6 @@
          // 
          // t11
          // 
-         this.t11.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.t11.AppearanceHeader.Options.UseBackColor = true;
          this.t11.AppearanceHeader.Options.UseTextOptions = true;
          this.t11.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.t11.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
@@ -561,10 +514,6 @@
          // 
          // PLP13_MMK_MTH
          // 
-         this.PLP13_MMK_MTH.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_MMK_MTH.AppearanceCell.Options.UseBackColor = true;
-         this.PLP13_MMK_MTH.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_MMK_MTH.AppearanceHeader.Options.UseBackColor = true;
          this.PLP13_MMK_MTH.Caption = "造市者";
          this.PLP13_MMK_MTH.FieldName = "PLP13_MMK_MTH";
          this.PLP13_MMK_MTH.Name = "PLP13_MMK_MTH";
@@ -590,8 +539,6 @@
          // 
          // gridBand2
          // 
-         this.gridBand2.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.gridBand2.AppearanceHeader.Options.UseBackColor = true;
          this.gridBand2.AppearanceHeader.Options.UseBorderColor = true;
          this.gridBand2.AppearanceHeader.Options.UseTextOptions = true;
          this.gridBand2.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -609,8 +556,6 @@
          // 
          // gridBand3
          // 
-         this.gridBand3.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.gridBand3.AppearanceHeader.Options.UseBackColor = true;
          this.gridBand3.AppearanceHeader.Options.UseTextOptions = true;
          this.gridBand3.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.gridBand3.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
@@ -623,10 +568,6 @@
          // 
          // PLP13_NATURE_LAST
          // 
-         this.PLP13_NATURE_LAST.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_NATURE_LAST.AppearanceCell.Options.UseBackColor = true;
-         this.PLP13_NATURE_LAST.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_NATURE_LAST.AppearanceHeader.Options.UseBackColor = true;
          this.PLP13_NATURE_LAST.Caption = "自然人";
          this.PLP13_NATURE_LAST.FieldName = "PLP13_NATURE_LAST";
          this.PLP13_NATURE_LAST.MinWidth = 30;
@@ -637,8 +578,6 @@
          // 
          // gridBand4
          // 
-         this.gridBand4.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.gridBand4.AppearanceHeader.Options.UseBackColor = true;
          this.gridBand4.AppearanceHeader.Options.UseTextOptions = true;
          this.gridBand4.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.gridBand4.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
@@ -651,10 +590,6 @@
          // 
          // PLP13_LEGAL_LAST
          // 
-         this.PLP13_LEGAL_LAST.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_LEGAL_LAST.AppearanceCell.Options.UseBackColor = true;
-         this.PLP13_LEGAL_LAST.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_LEGAL_LAST.AppearanceHeader.Options.UseBackColor = true;
          this.PLP13_LEGAL_LAST.Caption = "法人";
          this.PLP13_LEGAL_LAST.FieldName = "PLP13_LEGAL_LAST";
          this.PLP13_LEGAL_LAST.Name = "PLP13_LEGAL_LAST";
@@ -664,8 +599,6 @@
          // 
          // gridBand5
          // 
-         this.gridBand5.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.gridBand5.AppearanceHeader.Options.UseBackColor = true;
          this.gridBand5.AppearanceHeader.Options.UseTextOptions = true;
          this.gridBand5.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.gridBand5.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
@@ -678,10 +611,6 @@
          // 
          // PLP13_999_LAST
          // 
-         this.PLP13_999_LAST.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_999_LAST.AppearanceCell.Options.UseBackColor = true;
-         this.PLP13_999_LAST.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_999_LAST.AppearanceHeader.Options.UseBackColor = true;
          this.PLP13_999_LAST.Caption = "自營商";
          this.PLP13_999_LAST.FieldName = "PLP13_999_LAST";
          this.PLP13_999_LAST.Name = "PLP13_999_LAST";
@@ -691,8 +620,6 @@
          // 
          // gridBand6
          // 
-         this.gridBand6.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.gridBand6.AppearanceHeader.Options.UseBackColor = true;
          this.gridBand6.AppearanceHeader.Options.UseTextOptions = true;
          this.gridBand6.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
          this.gridBand6.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
@@ -705,10 +632,6 @@
          // 
          // PLP13_MMK_LAST
          // 
-         this.PLP13_MMK_LAST.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_MMK_LAST.AppearanceCell.Options.UseBackColor = true;
-         this.PLP13_MMK_LAST.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.PLP13_MMK_LAST.AppearanceHeader.Options.UseBackColor = true;
          this.PLP13_MMK_LAST.Caption = "造市者";
          this.PLP13_MMK_LAST.FieldName = "PLP13_MMK_LAST";
          this.PLP13_MMK_LAST.Name = "PLP13_MMK_LAST";
@@ -731,25 +654,6 @@
          this.panel2.Size = new System.Drawing.Size(1197, 516);
          this.panel2.TabIndex = 7;
          // 
-         // emDate
-         // 
-         this.emDate.EditValue = "0000/00/00";
-         this.emDate.Location = new System.Drawing.Point(121, 48);
-         this.emDate.MenuManager = this.ribbonControl;
-         this.emDate.Name = "emDate";
-         this.emDate.Properties.Appearance.Options.UseTextOptions = true;
-         this.emDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.emDate.Properties.EditFormat.FormatString = "yyyy/MM/dd";
-         this.emDate.Properties.Mask.EditMask = "\\d\\d\\d\\d/\\d\\d/\\d\\d";
-         this.emDate.Properties.Mask.IgnoreMaskBlank = false;
-         this.emDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Regular;
-         this.emDate.Properties.Mask.PlaceHolder = '0';
-         this.emDate.Properties.Mask.ShowPlaceHolders = false;
-         this.emDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.emDate.Size = new System.Drawing.Size(100, 26);
-         this.emDate.TabIndex = 1;
-         this.emDate.EditValueChanged += new System.EventHandler(this.emDate_Leave);
-         // 
          // W30290
          // 
          this.Appearance.Options.UseFont = true;
@@ -767,12 +671,12 @@
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
          this.panel1.ResumeLayout(false);
          this.panel1.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.emDate.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.YMDlookUpEdit.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gcMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvMain)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
          this.panel2.ResumeLayout(false);
-         ((System.ComponentModel.ISupportInitialize)(this.emDate.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -805,6 +709,7 @@
       private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
       private System.Windows.Forms.Panel panel2;
       private System.Windows.Forms.Label stMsgTxt;
+      private DevExpress.XtraEditors.TextEdit emDate;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand1;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand t1;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand t2;
@@ -825,6 +730,5 @@
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand4;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand5;
       private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand6;
-      private DevExpress.XtraEditors.TextEdit emDate;
    }
 }

@@ -221,7 +221,6 @@
          // 
          // panel2
          // 
-         this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.panel2.Controls.Add(this.gcMain);
          this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
          this.panel2.Location = new System.Drawing.Point(0, 125);

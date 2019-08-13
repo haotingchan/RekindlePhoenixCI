@@ -306,13 +306,9 @@
          // 
          // gvMain
          // 
-         this.gvMain.Appearance.Empty.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.gvMain.Appearance.Empty.Options.UseBackColor = true;
          this.gvMain.Appearance.HeaderPanel.BackColor = System.Drawing.Color.Cyan;
          this.gvMain.Appearance.HeaderPanel.Options.UseBackColor = true;
-         this.gvMain.Appearance.Row.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.gvMain.Appearance.Row.BorderColor = System.Drawing.Color.Black;
-         this.gvMain.Appearance.Row.Options.UseBackColor = true;
          this.gvMain.Appearance.Row.Options.UseBorderColor = true;
          this.gvMain.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Flat;
          this.gvMain.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {

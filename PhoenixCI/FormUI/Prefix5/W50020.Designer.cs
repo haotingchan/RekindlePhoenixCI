@@ -75,9 +75,9 @@
          this.dwEbrkno = new DevExpress.XtraEditors.LookUpEdit();
          this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
          this.AprkNoGrp = new DevExpress.XtraLayout.LayoutControlGroup();
-         this.st2 = new DevExpress.XtraLayout.LayoutControlItem();
          this.st1 = new DevExpress.XtraLayout.LayoutControlItem();
          this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
+         this.st2 = new DevExpress.XtraLayout.LayoutControlItem();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.dw1)).BeginInit();
          this.dw1.SuspendLayout();
@@ -131,10 +131,10 @@
          ((System.ComponentModel.ISupportInitialize)(this.dwEbrkno.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.AprkNoGrp)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.st2)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.st1)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
          this.panelControl1.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.st2)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -227,6 +227,8 @@
          this.gbPrintSort.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_mmk", "造市者"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_prod", "商品")});
+         this.gbPrintSort.Properties.LookAndFeel.SkinName = "Visual Studio 2013 Light";
+         this.gbPrintSort.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbPrintSort.Size = new System.Drawing.Size(80, 53);
          this.gbPrintSort.TabIndex = 0;
          // 
@@ -264,6 +266,8 @@
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gdate", "分日期"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gnodate", "不分日期"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_detail", "明細")});
+         this.gbDetial.Properties.LookAndFeel.SkinName = "Visual Studio 2013 Light";
+         this.gbDetial.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbDetial.Size = new System.Drawing.Size(186, 55);
          this.gbDetial.TabIndex = 0;
          // 
@@ -305,6 +309,8 @@
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gkind2", "商品(2碼)"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gkind", "商品(3碼)"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gprod", "序列")});
+         this.gbGroup.Properties.LookAndFeel.SkinName = "Visual Studio 2013 Light";
+         this.gbGroup.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbGroup.Size = new System.Drawing.Size(123, 130);
          this.gbGroup.TabIndex = 0;
          // 
@@ -341,6 +347,8 @@
          this.gbMarket.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_market_0", "一般"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_market_1", "盤後")});
+         this.gbMarket.Properties.LookAndFeel.SkinName = "Visual Studio 2013 Light";
+         this.gbMarket.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbMarket.Size = new System.Drawing.Size(63, 54);
          this.gbMarket.TabIndex = 0;
          // 
@@ -579,6 +587,8 @@
          this.gbReportType.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_month", ""),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_date", "")});
+         this.gbReportType.Properties.LookAndFeel.SkinName = "Visual Studio 2013 Light";
+         this.gbReportType.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbReportType.Size = new System.Drawing.Size(21, 80);
          this.gbReportType.TabIndex = 8;
          // 
@@ -711,8 +721,8 @@
          // 
          // dataLayoutControl1
          // 
-         this.dataLayoutControl1.Controls.Add(this.dwSbrkno);
          this.dataLayoutControl1.Controls.Add(this.dwEbrkno);
+         this.dataLayoutControl1.Controls.Add(this.dwSbrkno);
          this.dataLayoutControl1.DataMember = "ABRK";
          this.dataLayoutControl1.Location = new System.Drawing.Point(5, 5);
          this.dataLayoutControl1.LookAndFeel.SkinMaskColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
@@ -766,15 +776,6 @@
          this.AprkNoGrp.Name = "ABRK_NO_grp";
          this.AprkNoGrp.Size = new System.Drawing.Size(680, 33);
          // 
-         // st2
-         // 
-         this.st2.Control = this.dwSbrkno;
-         this.st2.Location = new System.Drawing.Point(0, 0);
-         this.st2.Name = "st_2";
-         this.st2.Size = new System.Drawing.Size(373, 33);
-         this.st2.Text = "期貨商代號";
-         this.st2.TextSize = new System.Drawing.Size(80, 20);
-         // 
          // st1
          // 
          this.st1.Control = this.dwEbrkno;
@@ -800,6 +801,15 @@
          this.panelControl1.Name = "panelControl1";
          this.panelControl1.Size = new System.Drawing.Size(945, 633);
          this.panelControl1.TabIndex = 1;
+         // 
+         // st2
+         // 
+         this.st2.Control = this.dwSbrkno;
+         this.st2.Location = new System.Drawing.Point(0, 0);
+         this.st2.Name = "st_2";
+         this.st2.Size = new System.Drawing.Size(373, 33);
+         this.st2.Text = "期貨商代號";
+         this.st2.TextSize = new System.Drawing.Size(80, 20);
          // 
          // W50020
          // 
@@ -868,11 +878,11 @@
          ((System.ComponentModel.ISupportInitialize)(this.dwEbrkno.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.AprkNoGrp)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.st2)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.st1)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
          this.panelControl1.ResumeLayout(false);
          this.panelControl1.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.st2)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -903,7 +913,6 @@
       protected DevExpress.XtraEditors.RadioGroup gbDetial;
       protected DevExpress.XtraEditors.RadioGroup gbGroup;
       protected DevExpress.XtraEditors.RadioGroup gbMarket;
-      protected DevExpress.XtraLayout.LayoutControlItem st2;
       protected DevExpress.XtraEditors.LabelControl stMsgTxt;
       private DevExpress.XtraLayout.LayoutControl layoutControl2;
       private BaseGround.Widget.TextDateEdit emEndDate;
@@ -931,5 +940,6 @@
       private System.Windows.Forms.Label gb4Label;
       private System.Windows.Forms.Label gb3Label;
       private DevExpress.XtraEditors.PanelControl panelControl1;
+      protected DevExpress.XtraLayout.LayoutControlItem st2;
    }
 }

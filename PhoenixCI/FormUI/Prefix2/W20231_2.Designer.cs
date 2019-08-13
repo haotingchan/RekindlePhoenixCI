@@ -117,7 +117,7 @@
          // 
          // panelControl2
          // 
-         this.panelControl2.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+         this.panelControl2.Appearance.BackColor = System.Drawing.SystemColors.Control;
          this.panelControl2.Appearance.Options.UseBackColor = true;
          this.panelControl2.Controls.Add(this.gcMain);
          this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -164,8 +164,6 @@
          // 
          // gvMain
          // 
-         this.gvMain.Appearance.Empty.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.gvMain.Appearance.Empty.Options.UseBackColor = true;
          this.gvMain.Appearance.FocusedCell.BackColor = System.Drawing.Color.Transparent;
          this.gvMain.Appearance.FocusedCell.Options.UseBackColor = true;
          this.gvMain.Appearance.FocusedRow.BackColor = System.Drawing.Color.Transparent;

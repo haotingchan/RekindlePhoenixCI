@@ -114,6 +114,9 @@
          // 
          // MarketTimes
          // 
+         this.MarketTimes.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+         this.MarketTimes.Appearance.Options.UseBackColor = true;
+         this.MarketTimes.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
          this.MarketTimes.CheckOnClick = true;
          this.MarketTimes.HorzScrollStep = 3;
          this.MarketTimes.ItemHeight = 28;
@@ -121,12 +124,12 @@
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem(1, "Group1(13:45)"),
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem(5, "Group2(16:15)"),
             new DevExpress.XtraEditors.Controls.CheckedListBoxItem(7, "Group3(18:15)")});
-         this.MarketTimes.Location = new System.Drawing.Point(15, 29);
+         this.MarketTimes.Location = new System.Drawing.Point(35, 30);
          this.MarketTimes.LookAndFeel.SkinName = "Office 2013";
          this.MarketTimes.LookAndFeel.UseDefaultLookAndFeel = false;
          this.MarketTimes.Name = "MarketTimes";
          this.MarketTimes.SelectionMode = System.Windows.Forms.SelectionMode.None;
-         this.MarketTimes.Size = new System.Drawing.Size(161, 95);
+         this.MarketTimes.Size = new System.Drawing.Size(143, 86);
          this.MarketTimes.TabIndex = 25;
          // 
          // txtDate1
@@ -151,7 +154,7 @@
          // 
          // ETCSelect
          // 
-         this.ETCSelect.Location = new System.Drawing.Point(182, 126);
+         this.ETCSelect.Location = new System.Drawing.Point(182, 124);
          this.ETCSelect.Name = "ETCSelect";
          this.ETCSelect.Properties.Appearance.BackColor = System.Drawing.Color.White;
          this.ETCSelect.Properties.Appearance.Options.UseBackColor = true;
@@ -160,6 +163,8 @@
          this.ETCSelect.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
          this.ETCSelect.Properties.DropDownRows = 5;
+         this.ETCSelect.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.ETCSelect.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.ETCSelect.Properties.NullText = "";
          this.ETCSelect.Properties.PopupSizeable = false;
          this.ETCSelect.Size = new System.Drawing.Size(144, 26);
@@ -170,7 +175,7 @@
          this.label2.AutoSize = true;
          this.label2.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.label2.ForeColor = System.Drawing.Color.Black;
-         this.label2.Location = new System.Drawing.Point(11, 132);
+         this.label2.Location = new System.Drawing.Point(28, 127);
          this.label2.Name = "label2";
          this.label2.Size = new System.Drawing.Size(106, 21);
          this.label2.TabIndex = 18;
@@ -202,7 +207,7 @@
          this.txtDate7.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtDate7.EditValue = "2018/12/01";
          this.txtDate7.EnterMoveNextControl = true;
-         this.txtDate7.Location = new System.Drawing.Point(182, 90);
+         this.txtDate7.Location = new System.Drawing.Point(182, 88);
          this.txtDate7.MenuManager = this.ribbonControl;
          this.txtDate7.Name = "txtDate7";
          this.txtDate7.Properties.Appearance.Options.UseTextOptions = true;
@@ -248,6 +253,8 @@
          this.ddlAdjType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
          this.ddlAdjType.Properties.DropDownRows = 5;
+         this.ddlAdjType.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.ddlAdjType.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.ddlAdjType.Properties.NullText = "";
          this.ddlAdjType.Properties.PopupSizeable = false;
          this.ddlAdjType.Size = new System.Drawing.Size(144, 26);

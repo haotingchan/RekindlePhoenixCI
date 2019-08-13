@@ -26,6 +26,7 @@
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
          this.labMsg = new System.Windows.Forms.Label();
          this.panFilter = new System.Windows.Forms.GroupBox();
+         this.ddlProd = new DevExpress.XtraEditors.LookUpEdit();
          this.label3 = new System.Windows.Forms.Label();
          this.chkGroup = new DevExpress.XtraEditors.CheckedListBoxControl();
          this.gbMarket = new DevExpress.XtraEditors.RadioGroup();
@@ -35,17 +36,16 @@
          this.txtStartYMD = new BaseGround.Widget.TextDateEdit();
          this.label5 = new System.Windows.Forms.Label();
          this.label6 = new System.Windows.Forms.Label();
-         this.ddlProd = new DevExpress.XtraEditors.LookUpEdit();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
          this.r_frame.SuspendLayout();
          this.panFilter.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.ddlProd.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.chkGroup)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtEndYMD.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtStartYMD.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.ddlProd.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
@@ -86,6 +86,7 @@
          // panFilter
          // 
          this.panFilter.AutoSize = true;
+         this.panFilter.Controls.Add(this.ddlProd);
          this.panFilter.Controls.Add(this.label3);
          this.panFilter.Controls.Add(this.chkGroup);
          this.panFilter.Controls.Add(this.gbMarket);
@@ -95,7 +96,6 @@
          this.panFilter.Controls.Add(this.txtStartYMD);
          this.panFilter.Controls.Add(this.label5);
          this.panFilter.Controls.Add(this.label6);
-         this.panFilter.Controls.Add(this.ddlProd);
          this.panFilter.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
          this.panFilter.ForeColor = System.Drawing.Color.Navy;
          this.panFilter.Location = new System.Drawing.Point(20, 15);
@@ -104,6 +104,23 @@
          this.panFilter.TabIndex = 6;
          this.panFilter.TabStop = false;
          this.panFilter.Text = "請輸入交易日期";
+         // 
+         // ddlProd
+         // 
+         this.ddlProd.Location = new System.Drawing.Point(92, 87);
+         this.ddlProd.MenuManager = this.ribbonControl;
+         this.ddlProd.Name = "ddlProd";
+         this.ddlProd.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+         this.ddlProd.Properties.Appearance.Options.UseBackColor = true;
+         this.ddlProd.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.ddlProd.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.ddlProd.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
+         this.ddlProd.Properties.NullText = "";
+         this.ddlProd.Properties.PopupSizeable = false;
+         this.ddlProd.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
+         this.ddlProd.Size = new System.Drawing.Size(131, 26);
+         this.ddlProd.TabIndex = 3;
          // 
          // label3
          // 
@@ -238,23 +255,6 @@
          this.label6.TabIndex = 2;
          this.label6.Text = "日期：";
          // 
-         // ddlProd
-         // 
-         this.ddlProd.Location = new System.Drawing.Point(92, 87);
-         this.ddlProd.MenuManager = this.ribbonControl;
-         this.ddlProd.Name = "ddlProd";
-         this.ddlProd.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-         this.ddlProd.Properties.Appearance.Options.UseBackColor = true;
-         this.ddlProd.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.ddlProd.Properties.LookAndFeel.SkinName = "The Bezier";
-         this.ddlProd.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
-         this.ddlProd.Properties.NullText = "";
-         this.ddlProd.Properties.PopupSizeable = false;
-         this.ddlProd.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
-         this.ddlProd.Size = new System.Drawing.Size(131, 26);
-         this.ddlProd.TabIndex = 3;
-         // 
          // W30593
          // 
          this.Appearance.Options.UseFont = true;
@@ -270,11 +270,11 @@
          this.r_frame.PerformLayout();
          this.panFilter.ResumeLayout(false);
          this.panFilter.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.ddlProd.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.chkGroup)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gbMarket.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtEndYMD.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtStartYMD.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.ddlProd.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 

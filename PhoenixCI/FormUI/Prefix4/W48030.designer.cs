@@ -23,6 +23,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+         DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
          this.panFirst = new System.Windows.Forms.GroupBox();
          this.txtEndDate = new BaseGround.Widget.TextDateEdit();
          this.label1 = new System.Windows.Forms.Label();
@@ -35,7 +36,6 @@
          this.gcDate = new DevExpress.XtraGrid.GridControl();
          this.gvDate = new DevExpress.XtraGrid.Views.Grid.GridView();
          this.AI2_SELECT = new DevExpress.XtraGrid.Columns.GridColumn();
-         this.repositoryItemCheckEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
          this.MON_DIFF = new DevExpress.XtraGrid.Columns.GridColumn();
          this.SDATE = new DevExpress.XtraGrid.Columns.GridColumn();
          this.EDATE = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -72,7 +72,7 @@
          ((System.ComponentModel.ISupportInitialize)(this.chkModel)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gcDate)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvDate)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit2)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(repositoryItemCheckEdit2)).BeginInit();
          this.panSecond.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.cbxSubType.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.gcKind)).BeginInit();
@@ -244,22 +244,16 @@
          this.gcDate.MainView = this.gvDate;
          this.gcDate.MenuManager = this.ribbonControl;
          this.gcDate.Name = "gcDate";
-         this.gcDate.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
-            this.repositoryItemCheckEdit2});
-         this.gcDate.Size = new System.Drawing.Size(389, 174);
+         this.gcDate.Size = new System.Drawing.Size(389, 169);
          this.gcDate.TabIndex = 6;
          this.gcDate.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvDate});
          // 
          // gvDate
          // 
-         this.gvDate.Appearance.Empty.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.gvDate.Appearance.Empty.Options.UseBackColor = true;
          this.gvDate.Appearance.HeaderPanel.BackColor = System.Drawing.Color.Cyan;
          this.gvDate.Appearance.HeaderPanel.Options.UseBackColor = true;
-         this.gvDate.Appearance.Row.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.gvDate.Appearance.Row.BorderColor = System.Drawing.Color.Black;
-         this.gvDate.Appearance.Row.Options.UseBackColor = true;
          this.gvDate.Appearance.Row.Options.UseBorderColor = true;
          this.gvDate.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Flat;
          this.gvDate.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
@@ -278,18 +272,15 @@
          this.AI2_SELECT.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
          this.AI2_SELECT.AppearanceHeader.Options.UseBackColor = true;
          this.AI2_SELECT.Caption = "勾選";
-         this.AI2_SELECT.ColumnEdit = this.repositoryItemCheckEdit2;
+         repositoryItemCheckEdit2.AutoWidth = true;
+         repositoryItemCheckEdit2.Name = "repositoryItemCheckEdit2";
+         repositoryItemCheckEdit2.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
+         repositoryItemCheckEdit2.ValueChecked = "Y";
+         repositoryItemCheckEdit2.ValueUnchecked = "N";
+         this.AI2_SELECT.ColumnEdit = repositoryItemCheckEdit2;
          this.AI2_SELECT.FieldName = "AI2_SELECT";
          this.AI2_SELECT.Name = "AI2_SELECT";
          this.AI2_SELECT.Width = 39;
-         // 
-         // repositoryItemCheckEdit2
-         // 
-         this.repositoryItemCheckEdit2.AutoWidth = true;
-         this.repositoryItemCheckEdit2.Name = "repositoryItemCheckEdit2";
-         this.repositoryItemCheckEdit2.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
-         this.repositoryItemCheckEdit2.ValueChecked = "Y";
-         this.repositoryItemCheckEdit2.ValueUnchecked = "N";
          // 
          // MON_DIFF
          // 
@@ -455,13 +446,9 @@
          // 
          // gvKind
          // 
-         this.gvKind.Appearance.Empty.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.gvKind.Appearance.Empty.Options.UseBackColor = true;
          this.gvKind.Appearance.HeaderPanel.BackColor = System.Drawing.Color.Cyan;
          this.gvKind.Appearance.HeaderPanel.Options.UseBackColor = true;
-         this.gvKind.Appearance.Row.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.gvKind.Appearance.Row.BorderColor = System.Drawing.Color.Black;
-         this.gvKind.Appearance.Row.Options.UseBackColor = true;
          this.gvKind.Appearance.Row.Options.UseBorderColor = true;
          this.gvKind.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Flat;
          this.gvKind.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
@@ -643,7 +630,7 @@
          ((System.ComponentModel.ISupportInitialize)(this.chkModel)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gcDate)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.gvDate)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit2)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(repositoryItemCheckEdit2)).EndInit();
          this.panSecond.ResumeLayout(false);
          this.panSecond.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.cbxSubType.Properties)).EndInit();
@@ -675,7 +662,6 @@
         private DevExpress.XtraGrid.GridControl gcDate;
         private DevExpress.XtraGrid.Views.Grid.GridView gvDate;
         private DevExpress.XtraGrid.Columns.GridColumn AI2_SELECT;
-        private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit2;
         private DevExpress.XtraGrid.Columns.GridColumn MON_DIFF;
         private DevExpress.XtraGrid.Columns.GridColumn SDATE;
         private System.Windows.Forms.Button btnClearAll;

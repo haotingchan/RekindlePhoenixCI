@@ -239,13 +239,9 @@
          // 
          // gvDate
          // 
-         this.gvDate.Appearance.Empty.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.gvDate.Appearance.Empty.Options.UseBackColor = true;
          this.gvDate.Appearance.HeaderPanel.BackColor = System.Drawing.Color.Cyan;
          this.gvDate.Appearance.HeaderPanel.Options.UseBackColor = true;
-         this.gvDate.Appearance.Row.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.gvDate.Appearance.Row.BorderColor = System.Drawing.Color.Black;
-         this.gvDate.Appearance.Row.Options.UseBackColor = true;
          this.gvDate.Appearance.Row.Options.UseBorderColor = true;
          this.gvDate.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Flat;
          this.gvDate.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
@@ -443,13 +439,9 @@
          // 
          // gvKind
          // 
-         this.gvKind.Appearance.Empty.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.gvKind.Appearance.Empty.Options.UseBackColor = true;
          this.gvKind.Appearance.HeaderPanel.BackColor = System.Drawing.Color.Cyan;
          this.gvKind.Appearance.HeaderPanel.Options.UseBackColor = true;
-         this.gvKind.Appearance.Row.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.gvKind.Appearance.Row.BorderColor = System.Drawing.Color.Black;
-         this.gvKind.Appearance.Row.Options.UseBackColor = true;
          this.gvKind.Appearance.Row.Options.UseBorderColor = true;
          this.gvKind.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Flat;
          this.gvKind.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {

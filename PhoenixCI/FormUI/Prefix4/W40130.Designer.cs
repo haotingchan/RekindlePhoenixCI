@@ -27,23 +27,23 @@
          this.panFilter = new System.Windows.Forms.GroupBox();
          this.txtDate = new BaseGround.Widget.TextDateEdit();
          this.label1 = new System.Windows.Forms.Label();
-         this.dwKindId = new DevExpress.XtraEditors.LookUpEdit();
          this.labKind = new System.Windows.Forms.Label();
          this.label9 = new System.Windows.Forms.Label();
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
+         this.dwKindId = new DevExpress.XtraEditors.LookUpEdit();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          this.panFilter.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.dwKindId.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
          this.r_frame.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.dwKindId.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
          // 
          this.panParent.Controls.Add(this.r_frame);
-         this.panParent.Size = new System.Drawing.Size(550, 221);
+         this.panParent.Size = new System.Drawing.Size(550, 240);
          // 
          // ribbonControl
          // 
@@ -56,6 +56,7 @@
          this.labMsg.AutoSize = true;
          this.labMsg.ForeColor = System.Drawing.Color.Blue;
          this.labMsg.Location = new System.Drawing.Point(20, 159);
+         this.labMsg.MaximumSize = new System.Drawing.Size(470, 120);
          this.labMsg.Name = "labMsg";
          this.labMsg.Size = new System.Drawing.Size(85, 20);
          this.labMsg.TabIndex = 10;
@@ -64,9 +65,9 @@
          // 
          // panFilter
          // 
+         this.panFilter.Controls.Add(this.dwKindId);
          this.panFilter.Controls.Add(this.txtDate);
          this.panFilter.Controls.Add(this.label1);
-         this.panFilter.Controls.Add(this.dwKindId);
          this.panFilter.Controls.Add(this.labKind);
          this.panFilter.Controls.Add(this.label9);
          this.panFilter.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
@@ -109,22 +110,6 @@
          this.label1.TabIndex = 83;
          this.label1.Text = "日期：";
          // 
-         // dwKindId
-         // 
-         this.dwKindId.Location = new System.Drawing.Point(91, 74);
-         this.dwKindId.Name = "dwKindId";
-         this.dwKindId.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-         this.dwKindId.Properties.Appearance.Options.UseBackColor = true;
-         this.dwKindId.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-         this.dwKindId.Properties.AppearanceDisabled.Options.UseBackColor = true;
-         this.dwKindId.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.dwKindId.Properties.ButtonsStyle = DevExpress.XtraEditors.Controls.BorderStyles.Flat;
-         this.dwKindId.Properties.NullText = "";
-         this.dwKindId.Properties.PopupSizeable = false;
-         this.dwKindId.Size = new System.Drawing.Size(274, 26);
-         this.dwKindId.TabIndex = 1;
-         // 
          // labKind
          // 
          this.labKind.AutoSize = true;
@@ -153,15 +138,27 @@
          this.r_frame.Controls.Add(this.labMsg);
          this.r_frame.Location = new System.Drawing.Point(15, 15);
          this.r_frame.Name = "r_frame";
-         this.r_frame.Size = new System.Drawing.Size(519, 188);
+         this.r_frame.Size = new System.Drawing.Size(519, 207);
          this.r_frame.TabIndex = 77;
+         // 
+         // dwKindId
+         // 
+         this.dwKindId.Location = new System.Drawing.Point(91, 74);
+         this.dwKindId.MenuManager = this.ribbonControl;
+         this.dwKindId.Name = "dwKindId";
+         this.dwKindId.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.dwKindId.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.dwKindId.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
+         this.dwKindId.Size = new System.Drawing.Size(285, 26);
+         this.dwKindId.TabIndex = 88;
          // 
          // W40130
          // 
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(550, 251);
+         this.ClientSize = new System.Drawing.Size(550, 270);
          this.Name = "W40130";
          this.Text = "W40130";
          this.panParent.ResumeLayout(false);
@@ -169,10 +166,10 @@
          this.panFilter.ResumeLayout(false);
          this.panFilter.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.dwKindId.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).EndInit();
          this.r_frame.ResumeLayout(false);
          this.r_frame.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.dwKindId.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 
@@ -181,11 +178,11 @@
       #endregion
       private System.Windows.Forms.Label labMsg;
       private System.Windows.Forms.GroupBox panFilter;
-      private DevExpress.XtraEditors.LookUpEdit dwKindId;
       private System.Windows.Forms.Label labKind;
       private System.Windows.Forms.Label label9;
       private DevExpress.XtraEditors.PanelControl r_frame;
       private System.Windows.Forms.Label label1;
       private BaseGround.Widget.TextDateEdit txtDate;
+      private DevExpress.XtraEditors.LookUpEdit dwKindId;
    }
 }

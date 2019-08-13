@@ -78,12 +78,12 @@
          // 
          // panParent
          // 
-         this.panParent.Size = new System.Drawing.Size(1069, 691);
+         this.panParent.Size = new System.Drawing.Size(1069, 693);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(1069, 32);
+         this.ribbonControl.Size = new System.Drawing.Size(1069, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // panelControl1
@@ -100,7 +100,7 @@
          this.panelControl1.Controls.Add(this.emDate);
          this.panelControl1.Controls.Add(this.emProdDate);
          this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
-         this.panelControl1.Location = new System.Drawing.Point(0, 32);
+         this.panelControl1.Location = new System.Drawing.Point(0, 30);
          this.panelControl1.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
          this.panelControl1.LookAndFeel.UseDefaultLookAndFeel = false;
          this.panelControl1.Name = "panelControl1";
@@ -112,7 +112,7 @@
          this.stMsgTxt.AutoSize = true;
          this.stMsgTxt.Location = new System.Drawing.Point(375, 73);
          this.stMsgTxt.Name = "stMsgTxt";
-         this.stMsgTxt.Size = new System.Drawing.Size(0, 14);
+         this.stMsgTxt.Size = new System.Drawing.Size(0, 20);
          this.stMsgTxt.TabIndex = 9999;
          this.stMsgTxt.Visible = false;
          // 
@@ -194,7 +194,7 @@
          this.emDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
          this.emDate.Properties.Mask.ShowPlaceHolders = false;
          this.emDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.emDate.Size = new System.Drawing.Size(105, 22);
+         this.emDate.Size = new System.Drawing.Size(105, 28);
          this.emDate.TabIndex = 1;
          this.emDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
          // 
@@ -213,20 +213,20 @@
          this.emProdDate.Properties.Mask.PlaceHolder = '0';
          this.emProdDate.Properties.Mask.ShowPlaceHolders = false;
          this.emProdDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.emProdDate.Size = new System.Drawing.Size(105, 22);
+         this.emProdDate.Size = new System.Drawing.Size(105, 28);
          this.emProdDate.TabIndex = 2;
          // 
          // panelControl2
          // 
-         this.panelControl2.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
+         this.panelControl2.Appearance.BackColor = System.Drawing.SystemColors.Control;
          this.panelControl2.Appearance.Options.UseBackColor = true;
          this.panelControl2.Controls.Add(this.gcMain);
          this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.panelControl2.Location = new System.Drawing.Point(0, 139);
+         this.panelControl2.Location = new System.Drawing.Point(0, 137);
          this.panelControl2.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
          this.panelControl2.LookAndFeel.UseDefaultLookAndFeel = false;
          this.panelControl2.Name = "panelControl2";
-         this.panelControl2.Size = new System.Drawing.Size(1069, 584);
+         this.panelControl2.Size = new System.Drawing.Size(1069, 586);
          this.panelControl2.TabIndex = 1;
          // 
          // gcMain
@@ -252,20 +252,16 @@
             this.Pls4PidLookUpEdit,
             this.SIDdefTextEdit,
             this.kindIDdefTextEdit});
-         this.gcMain.Size = new System.Drawing.Size(1063, 578);
+         this.gcMain.Size = new System.Drawing.Size(1063, 580);
          this.gcMain.TabIndex = 5;
          this.gcMain.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gvMain});
          // 
          // gvMain
          // 
-         this.gvMain.Appearance.Empty.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
-         this.gvMain.Appearance.Empty.Options.UseBackColor = true;
          this.gvMain.Appearance.FocusedCell.BackColor = System.Drawing.Color.Transparent;
          this.gvMain.Appearance.FocusedCell.Options.UseBackColor = true;
-         this.gvMain.Appearance.HeaderPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.gvMain.Appearance.HeaderPanel.BorderColor = System.Drawing.Color.Black;
-         this.gvMain.Appearance.HeaderPanel.Options.UseBackColor = true;
          this.gvMain.Appearance.HeaderPanel.Options.UseBorderColor = true;
          this.gvMain.Appearance.HorzLine.BackColor = System.Drawing.Color.Black;
          this.gvMain.Appearance.HorzLine.Options.UseBackColor = true;
@@ -299,14 +295,10 @@
          // 
          // PLS4_YMD
          // 
-         this.PLS4_YMD.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.PLS4_YMD.AppearanceCell.BorderColor = System.Drawing.Color.Black;
-         this.PLS4_YMD.AppearanceCell.Options.UseBackColor = true;
          this.PLS4_YMD.AppearanceCell.Options.UseBorderColor = true;
-         this.PLS4_YMD.AppearanceHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(220)))), ((int)(((byte)(192)))));
          this.PLS4_YMD.AppearanceHeader.BorderColor = System.Drawing.Color.Black;
          this.PLS4_YMD.AppearanceHeader.ForeColor = System.Drawing.Color.Black;
-         this.PLS4_YMD.AppearanceHeader.Options.UseBackColor = true;
          this.PLS4_YMD.AppearanceHeader.Options.UseBorderColor = true;
          this.PLS4_YMD.AppearanceHeader.Options.UseForeColor = true;
          this.PLS4_YMD.AppearanceHeader.Options.UseTextOptions = true;

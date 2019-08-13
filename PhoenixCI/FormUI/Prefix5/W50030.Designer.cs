@@ -227,6 +227,8 @@
          this.gbPrintSort.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_mmk", "造市者"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_prod", "商品")});
+         this.gbPrintSort.Properties.LookAndFeel.SkinName = "Visual Studio 2013 Light";
+         this.gbPrintSort.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbPrintSort.Size = new System.Drawing.Size(80, 53);
          this.gbPrintSort.TabIndex = 0;
          // 
@@ -263,6 +265,8 @@
          this.gbDetial.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gdate", "分日期"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gnodate", "不分日期")});
+         this.gbDetial.Properties.LookAndFeel.SkinName = "Visual Studio 2013 Light";
+         this.gbDetial.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbDetial.Size = new System.Drawing.Size(89, 55);
          this.gbDetial.TabIndex = 0;
          // 
@@ -304,6 +308,8 @@
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gkind2", "商品(2碼)"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gkind", "商品(3碼)"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_gprod", "序列")});
+         this.gbGroup.Properties.LookAndFeel.SkinName = "Visual Studio 2013 Light";
+         this.gbGroup.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbGroup.Size = new System.Drawing.Size(123, 130);
          this.gbGroup.TabIndex = 0;
          // 
@@ -340,6 +346,8 @@
          this.gbMarket.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_market_0", "一般"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_market_1", "盤後")});
+         this.gbMarket.Properties.LookAndFeel.SkinName = "Visual Studio 2013 Light";
+         this.gbMarket.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbMarket.Size = new System.Drawing.Size(63, 54);
          this.gbMarket.TabIndex = 0;
          // 
@@ -578,6 +586,8 @@
          this.gbReportType.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_month", ""),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("rb_date", "")});
+         this.gbReportType.Properties.LookAndFeel.SkinName = "Visual Studio 2013 Light";
+         this.gbReportType.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.gbReportType.Size = new System.Drawing.Size(21, 80);
          this.gbReportType.TabIndex = 8;
          // 
