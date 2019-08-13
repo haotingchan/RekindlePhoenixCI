@@ -5,11 +5,19 @@ using BaseGround.Shared;
 using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
+using Common.Config;
+using Common.Helper;
 using DataObjects;
 using DevExpress.XtraEditors.Repository;
+using DevExpress.XtraGrid.Views.Grid;
+using DevExpress.XtraSplashScreen;
+using Log;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace PhoenixCI.FormUI.Prefix1
@@ -168,33 +176,393 @@ namespace PhoenixCI.FormUI.Prefix1
             return base.RunBefore(args);
         }
 
+        //protected override ResultStatus Run(PokeBall args)
+        //{
+        //    this.BeginInvoke(new MethodInvoker(() => {
+        //        args.GridControlMain = gcMain;
+        //        args.GridControlSecond = gcLogsp;
+        //        args.OcfDate = txtOcfDate.DateTimeValue;
+        //        args.OcfType = OCF_TYPE;
+        //    }));
+
+        //    ResultStatus result = base.RunAsync(args);
+
+        //    return result;
+        //}
+
+        /// <summary>
+        /// 1系列功能使用
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         protected override ResultStatus Run(PokeBall args)
         {
-            this.BeginInvoke(new MethodInvoker(() => {
-                args.GridControlMain = gcMain;
-                args.GridControlSecond = gcLogsp;
-                args.OcfDate = txtOcfDate.DateTimeValue;
-                args.OcfType = OCF_TYPE;
+            DateTime OcfDate = txtOcfDate.DateTimeValue;
+            this.Invoke(new MethodInvoker(() => {
+                FormWait formWait = new FormWait();
+
+                SplashScreenManager.ShowForm(this, typeof(FormWait), true, true);
+
+                //SplashScreenManager.ShowForm(this , typeof(FormWait) , true , true , SplashFormStartPosition.Manual , pointWait , ParentFormState.Locked);
             }));
 
-            ResultStatus result = base.RunAsync(args);
+            GridView gv = gvMain;
 
-            return result;
+
+            DataTable dtLOGSPForRuned = servicePrefix1.ListLogspForRunned(OcfDate, _ProgramID, OCF_TYPE);
+            DataView dvLOGSPForRuned = new DataView(dtLOGSPForRuned);
+
+
+
+            servicePrefix1.SetTXF1(" ", _ProgramID);
+
+            for (int i = 0; i < gv.RowCount; i++)
+            {
+                string TXF_SERVER = gv.GetRowCellValue(i, "TXF_SERVER").AsString();
+                string TXF_DB = gv.GetRowCellValue(i, "TXF_DB").AsString();
+                string TXF_TXN_ID = gv.GetRowCellValue(i, "TXF_TXN_ID").AsString();
+                int TXF_SEQ_NO = gv.GetRowCellValue(i, "TXF_SEQ_NO").AsInt();
+                string TXF_TYPE = gv.GetRowCellValue(i, "TXF_TYPE").AsString();
+                string TXF_TID = gv.GetRowCellValue(i, "TXF_TID").AsString();
+                string TXF_TID_NAME = gv.GetRowCellValue(i, "TXF_TID_NAME").AsString();
+                string TXF_DESC = gv.GetRowCellValue(i, "TXF_DESC").AsString();
+                string TXF_DEFAULT = gv.GetRowCellValue(i, "TXF_DEFAULT").AsString();
+                string TXF_REDO = gv.GetRowCellValue(i, "TXF_REDO").AsString();
+                string TXF_ARG = gv.GetRowCellValue(i, "TXF_ARG").AsString();
+                string TXF_PERIOD = gv.GetRowCellValue(i, "TXF_PERIOD").AsString();
+                string TXF_SERVICE = gv.GetRowCellValue(i, "TXF_SERVICE").AsString();
+                string TXF_FOLDER = gv.GetRowCellValue(i, "TXF_FOLDER").AsString();
+                string TXF_AP_NAME = gv.GetRowCellValue(i, "TXF_AP_NAME").AsString();
+                args.TXF_TID = TXF_TID;
+                args.TXF_TID_NAME = TXF_TID_NAME;
+
+                if (TXF_DEFAULT == "1")
+                {
+                    DateTime LOGSP_DATE = OcfDate;
+                    string LOGSP_TXN_ID = _ProgramID;
+                    int LOGSP_SEQ_NO = TXF_SEQ_NO;
+                    string LOGSP_TID = TXF_DESC;
+                    string LOGSP_TID_NAME = TXF_TID_NAME;
+                    DateTime LOGSP_BEGIN_TIME = new DateTime();
+                    DateTime LOGSP_END_TIME = new DateTime();
+                    string LOGSP_MSG = "";
+
+
+                    //判斷是否可重覆執行
+                    if (TXF_REDO == "N")
+                    {
+                        dvLOGSPForRuned.RowFilter = "LOGSP_TID='" + LOGSP_TID + "' AND NOT ISNULL(LOGSP_BEGIN_TIME)";
+                        if (dvLOGSPForRuned.Count != 0)
+                        {
+                            if (MessageDisplay.Choose(TXF_TID + " ★★★曾經執行過且不可重覆執行，是否強迫繼續執行 ?") == DialogResult.No)
+                            {
+                                return ResultStatus.Fail;
+                            }
+                        }
+                    }
+
+
+                    #region 開始執行
+                    LOGSP_BEGIN_TIME = DateTime.Now;
+
+                    string nextYmd = PbFunc.f_ocf_date(2, _DB_TYPE);
+                    if (!string.IsNullOrEmpty(TXF_PERIOD))
+                    {
+                        switch (TXF_PERIOD)
+                        {
+                            case "M"://月底執行
+                                if (OcfDate.ToString("yyyyMM") == PbFunc.Left(nextYmd, 6))
+                                {
+                                    LOGSP_MSG = "完成! (今日非月底，不需執行)";
+                                    this.Invoke(new MethodInvoker(() => { gv.SetRowCellValue(i, "TXF_DEFAULT", 0); }));
+                                }
+                                break;
+                            case "W"://週最後一天執行
+                                if (Convert.ToInt32(OcfDate.DayOfWeek) < Convert.ToInt32(nextYmd.AsDateTime("yyyyMMdd").DayOfWeek))
+                                {
+                                    LOGSP_MSG = "完成! (今日非本週最後1天，不需執行)";
+                                    this.Invoke(new MethodInvoker(() => { gv.SetRowCellValue(i, "TXF_DEFAULT", 0); }));
+                                }
+                                break;
+                            case "Y"://年底執行
+                                if (OcfDate.ToString("yyyy") == PbFunc.Left(nextYmd, 4))
+                                {
+                                    LOGSP_MSG = "完成! (今日非本年度最後1日，不需執行)";
+                                    this.Invoke(new MethodInvoker(() => { gv.SetRowCellValue(i, "TXF_DEFAULT", 0); }));
+                                }
+                                break;
+
+                        }
+                        LOGSP_END_TIME = DateTime.Now;
+
+                        servicePrefix1.SaveLogsp(LOGSP_DATE, LOGSP_TXN_ID, LOGSP_SEQ_NO, LOGSP_TID, LOGSP_TID_NAME, LOGSP_BEGIN_TIME, LOGSP_END_TIME, LOGSP_MSG, OCF_TYPE);
+                        continue;
+                    }
+
+
+                    //開始前執行特別的Function
+                    string rtnText = RunBeforeEveryItem(args);
+                    if (!string.IsNullOrEmpty(rtnText))
+                    {
+                        if (PbFunc.Left(rtnText, 4) == "不需執行")
+                        {
+                            LOGSP_MSG = "完成! (" + rtnText + ")";
+                            gv.SetRowCellValue(i, "ERR_MSG", LOGSP_MSG);
+                            gv.SetRowCellValue(i, "TXF_DEFAULT", 0);
+                            LOGSP_END_TIME = DateTime.Now;
+
+                            servicePrefix1.SaveLogsp(LOGSP_DATE, LOGSP_TXN_ID, LOGSP_SEQ_NO, LOGSP_TID, LOGSP_TID_NAME, LOGSP_BEGIN_TIME, LOGSP_END_TIME, LOGSP_MSG, OCF_TYPE);
+
+                        }
+                        else
+                        {
+                            if (MessageDisplay.Choose($"{rtnText}是否強迫繼續執行?", MessageBoxDefaultButton.Button2).AsInt() == 2)
+                            {
+                                gv.SetRowCellValue(i, "ERR_MSG", rtnText);
+                                continue;
+                            }
+                        }
+                    }
+
+                    //記錄正在執行
+                    servicePrefix1.SetTXF1(TXF_TID, _ProgramID);
+
+                    servicePrefix1.SaveLogs(LOGSP_DATE, TXF_TID, DateTime.Now, GlobalInfo.USER_ID, "開始執行");
+
+                    ResultData resultData = new ResultData();
+                    string fileName = "";
+                    switch (TXF_TYPE)
+                    {
+                        //Informatica
+                        case "I":
+                            fileName = $@"{GlobalInfo.DEFAULT_BATCH_ErrSP_DIRECTORY_PATH}\{TXF_SERVER}_{TXF_TXN_ID}_{TXF_SEQ_NO}_infor";
+                            resultData = serviceCommon.ExecuteInfoWorkFlow(TXF_TID, UserProgInfo, TXF_FOLDER, TXF_SERVICE, TXF_AP_NAME, fileName);
+                            break;
+                        //SP
+                        case "S":
+                            List<DbParameterEx> listParams = null;
+
+                            // 如果這個SP有參數的話
+                            if (TXF_ARG == "Y")
+                            {
+                                DataTable dtTXFPARM = serviceCommon.ListTXFPARM(TXF_SERVER, TXF_DB, TXF_TXN_ID, TXF_TID);
+
+                                if (dtTXFPARM.Rows.Count > 0)
+                                {
+                                    listParams = new List<DbParameterEx>();
+                                }
+
+                                foreach (DataRow row in dtTXFPARM.Rows)
+                                {
+                                    string TXFPARM_ARG = row["TXFPARM_ARG"].AsString();
+                                    string TXFPARM_ARG_TYPE = row["TXFPARM_ARG_TYPE"].AsString();
+                                    string TXFPARM_DEFAULT = row["TXFPARM_DEFAULT"].AsString();
+
+                                    DbParameterEx paramEx;
+
+                                    switch (TXFPARM_ARG)
+                                    {
+                                        case "":
+                                            paramEx = new DbParameterEx("", TXFPARM_DEFAULT);
+                                            listParams.Add(paramEx);
+                                            break;
+
+                                        case "em_ymd":
+                                            paramEx = new DbParameterEx("", OcfDate.ToString("yyyyMMdd"));
+                                            listParams.Add(paramEx);
+                                            break;
+
+                                        case "em_ym":
+                                            paramEx = new DbParameterEx("", OcfDate.ToString("yyyyMM"));
+                                            listParams.Add(paramEx);
+                                            break;
+
+                                        case "em_date":
+                                            paramEx = new DbParameterEx();
+                                            paramEx.DbType = DbTypeEx.Date;
+                                            paramEx.Name = "";
+                                            paramEx.Value = OcfDate;
+                                            listParams.Add(paramEx);
+                                            break;
+
+                                        default:
+                                            break;
+                                    }
+                                }
+                            }
+
+                            ConnectionInfo connectionInfo = SettingDragons.Instance.GetConnectionInfo(TXF_DB);
+
+                            try
+                            {
+                                resultData = serviceCommon.ExecuteStoredProcedure(connectionInfo, string.Format("{0}.{1}", TXF_DB, TXF_TID), listParams, true);
+                            }
+                            catch (Exception ex)
+                            {
+                                resultData.Status = ResultStatus.Fail;
+                                string msg =
+                                fileName = $@"{GlobalInfo.DEFAULT_BATCH_ErrSP_DIRECTORY_PATH}\{TXF_SERVER}_{TXF_TXN_ID}_{TXF_SEQ_NO}.err";
+                                System.IO.File.WriteAllText(fileName, ex.Message);
+                                resultData.returnString = $"請通知「{TXF_AP_NAME}」 作業執行失敗!\n{ex.Message}";
+                            }
+
+                            break;
+                        //視窗功能
+                        case "W":
+                            this.Invoke(new MethodInvoker(() => { resultData = ExecuteForm(args); }));
+
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    LOGSP_END_TIME = DateTime.Now;
+
+                    if (resultData.Status == ResultStatus.Success)
+                    {
+                        LOGSP_MSG = "執行正常完成!";
+                    }
+                    else
+                    {
+                        LOGSP_MSG = "作業執行失敗!";
+
+                        servicePrefix1.SaveLogsp(LOGSP_DATE, LOGSP_TXN_ID, LOGSP_SEQ_NO, LOGSP_TID, LOGSP_TID_NAME, LOGSP_BEGIN_TIME, LOGSP_END_TIME, LOGSP_MSG, OCF_TYPE);
+
+                        //MessageDisplay.Error("序號" + LOGSP_SEQ_NO + "的" + LOGSP_TID + "," + LOGSP_MSG);
+                        MessageDisplay.Error(resultData.returnString);
+
+                        this.Invoke(new MethodInvoker(() => {
+                            SplashScreenManager.CloseForm();
+                            gv.SetRowCellValue(i, "ERR_MSG", LOGSP_MSG);
+                        }));
+
+                        return ResultStatus.Fail;
+                    }
+
+                    this.Invoke(new MethodInvoker(() => { gv.SetRowCellValue(i, "ERR_MSG", LOGSP_MSG); }));
+
+                    servicePrefix1.SaveLogsp(LOGSP_DATE, LOGSP_TXN_ID, LOGSP_SEQ_NO, LOGSP_TID, LOGSP_TID_NAME, LOGSP_BEGIN_TIME, LOGSP_END_TIME, LOGSP_MSG, OCF_TYPE);
+                    servicePrefix1.SaveLogs(LOGSP_DATE, TXF_TID, DateTime.Now, GlobalInfo.USER_ID, "執行完畢");
+
+                    #endregion 開始執行
+
+                    #region 執行特別的程式
+
+
+                    this.Invoke(new MethodInvoker(() => { RunAfterEveryItem(args); }));
+
+                    #endregion 執行特別的程式
+
+                    //流程時間控制
+                    DataTable dtJRF = servicePrefix1.ListJrf(_ProgramID, TXF_TID);
+                    if (dtJRF.Rows.Count > 0)
+                    {
+                        string JRF_DO_TXN_ID = dtJRF.Rows[0]["JRF_DO_TXN_ID"].AsString();
+                        string JRF_DO_JOB_TYPE = dtJRF.Rows[0]["JRF_DO_TXN_ID"].AsString();
+                        string JRF_DO_SEQ_NO = dtJRF.Rows[0]["JRF_DO_TXN_ID"].AsString();
+                        string JRF_SW_CODE = dtJRF.Rows[0]["JRF_DO_TXN_ID"].AsString();
+                        servicePrefix1.UpdateJsw(JRF_DO_TXN_ID, JRF_DO_JOB_TYPE, JRF_DO_SEQ_NO, JRF_SW_CODE, OcfDate, DateTime.Now, GlobalInfo.USER_ID);
+                    }
+                }
+                else
+                {
+                    // 沒勾選項目的話清空狀態
+                    this.Invoke(new MethodInvoker(() => { gv.SetRowCellValue(i, "ERR_MSG", ""); }));
+                }
+                if (i == gv.RowCount - 1 && OCF_TYPE == "D")
+                {
+                    servicePrefix1.setCIOCF();
+                }
+            }
+
+
+            //全部結束
+            servicePrefix1.SetTXF1(" ", _ProgramID);
+
+            this.Invoke(new MethodInvoker(() => { SplashScreenManager.CloseForm(); }));
+
+            return ResultStatus.Success;
         }
 
-        protected override string RunBeforeEveryItem(PokeBall args)
+        protected virtual ResultData ExecuteForm(PokeBall args)
         {
-            base.RunBeforeEveryItem(args);
+            ResultData resultData = new ResultData();
+            var dllIndividual = Assembly.LoadFile(Application.ExecutablePath);
+            string typeFormat = "{0}.FormUI.Prefix{1}.W{2}";
+            string txnId = args.TXF_TID.Substring(2, 5);
+            Type myType = dllIndividual.GetType(string.Format(typeFormat, Path.GetFileNameWithoutExtension(Application.ExecutablePath), txnId.Substring(0, 1), txnId));
+
+            if (myType == null)
+            {
+                MessageDisplay.Error("無此程式");
+            }
+
+            object myObj = Activator.CreateInstance(myType, txnId, args.TXF_TID_NAME);
+
+            FormParent formInstance = (FormParent)myObj;
+
+
+            if (formInstance.BeforeOpen() == ResultStatus.Success)
+            {
+                formInstance.MdiParent = this.MdiParent;
+                formInstance.StartPosition = FormStartPosition.Manual;
+                formInstance.WindowState = FormWindowState.Maximized;
+                formInstance.Show();
+            }
+            
+
+            resultData.Status = formInstance.ProcessExport();
+            formInstance.Close();
+
+            return resultData;
+        }
+
+        protected virtual ResultStatus RunAfterEveryItem(PokeBall args)
+        {
+            if (args.TXF_TID == "wf_CI_CIOPF")
+            {
+                DataTable dtTxemail = servicePrefix1.ListTxemail(_ProgramID, 1);
+
+                if (dtTxemail.Rows.Count != 0)
+                {
+                    string TXEMAIL_SENDER = dtTxemail.Rows[0]["TXEMAIL_SENDER"].AsString();
+                    string TXEMAIL_RECIPIENTS = dtTxemail.Rows[0]["TXEMAIL_RECIPIENTS"].AsString();
+                    string TXEMAIL_CC = dtTxemail.Rows[0]["TXEMAIL_CC"].AsString();
+                    string TXEMAIL_TITLE = dtTxemail.Rows[0]["TXEMAIL_TITLE"].AsString();
+                    string TXEMAIL_TEXT = dtTxemail.Rows[0]["TXEMAIL_TEXT"].AsString();
+
+                    string attachmentFilePath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, _ProgramID + ".csv");
+
+                    this.Invoke(new MethodInvoker(() => {
+                        // 先把結果產生出csv檔，再用成附件寄出去
+                        Retrieve();
+                        
+                        gvSpLog.OptionsPrint.ShowPrintExportProgress = false;
+                        gvSpLog.ExportToCsv(attachmentFilePath);
+                    }));
+                    MailHelper.SendEmail(TXEMAIL_SENDER, TXEMAIL_RECIPIENTS, TXEMAIL_CC, TXEMAIL_TITLE, TXEMAIL_TEXT, attachmentFilePath);
+                }
+            }
+            return ResultStatus.Success;
+        }
+
+        protected virtual string RunBeforeEveryItem(PokeBall args)
+        {
+            DataTable dt = servicePrefix1.CheckTXF2(_ProgramID, args.TXF_TID);
+            if (dt.Rows.Count > 0)
+            {
+                string runTid = dt.Rows[0]["TXF1_TID"].AsString();
+                do
+                {
+                    SingletonLogger.Instance.Info(GlobalInfo.USER_ID, _ProgramID, $"{args.TXF_TID} wait：{runTid}", "S");
+                } while (args.TXF_TID == runTid);
+            }
+            SingletonLogger.Instance.Info(GlobalInfo.USER_ID, _ProgramID, $"{args.TXF_TID} nowait：{args.TXF_TID}", "S");
 
             return "";
         }
 
-        protected override ResultStatus RunAfterEveryItem(PokeBall args)
-        {
-            base.RunAfterEveryItem(args);
-
-            return ResultStatus.Success;
-        }
 
         protected override ResultStatus RunAfter(PokeBall args)
         {
@@ -203,16 +571,6 @@ namespace PhoenixCI.FormUI.Prefix1
             Retrieve();
 
             return ResultStatus.Success;
-        }
-
-        protected override ResultData ExecuteForm(PokeBall args)
-        {
-            ResultData resultData = base.ExecuteForm(args);
-            FormParent form = ((FormParent)resultData.ReturnObject);
-            resultData.Status = form.ProcessExport();
-            form.Close();
-
-            return resultData;
         }
 
         protected override ResultStatus Print(ReportHelper reportHelper)
