@@ -736,6 +736,7 @@ namespace BaseGround
       }
 
       private void FormParent_SizeChanged(object sender , EventArgs e) {
+            /*
          if (MdiParent != null) {
             if (this.WindowState == FormWindowState.Maximized) {
                ((FormMain)MdiParent).standaloneBarDockControlMdi.Visible = true;
@@ -743,6 +744,7 @@ namespace BaseGround
                ((FormMain)MdiParent).standaloneBarDockControlMdi.Visible = false;
             }
          }
+         */
       }
 
       /// <summary>
