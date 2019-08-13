@@ -27,6 +27,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
       protected D30055 dao30055;
       protected AMIF amif;
       protected AI2 ai2;
+      protected OCFG daoOCFG;
       private string is_chk = "Y";
       private int flag;
 
@@ -70,6 +71,12 @@ namespace PhoenixCI.FormUI.Prefix3 {
          base.AfterOpen();
 
          //比對現在時間,如果小於晚上6: 15(時段7),則回傳"5", 否則回傳"%"
+         daoOCFG = new OCFG();
+         //if (daoOCFG.f_get_txn_osw_grp(_ProgramID) == "5") {
+         //   ddlType.ItemIndex = 0;
+         //} else {
+         //   ddlType.ItemIndex = 1;
+         //}
          if (PbFunc.f_get_txn_osw_grp() == "5") {
             ddlType.ItemIndex = 0;
          } else {

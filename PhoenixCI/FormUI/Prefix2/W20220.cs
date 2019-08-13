@@ -31,8 +31,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
 
       public W20220(string programID , string programName) : base(programID , programName) {
          InitializeComponent();
-         this.Text = _ProgramID + "─" + _ProgramName;
-         _IsPreventFlowPrint = false;
+         this.Text = _ProgramID + "─" + _ProgramName;         
          GridHelper.SetCommonGrid(gvMain);
          PrintableComponent = gcMain;
       }
@@ -154,7 +153,6 @@ namespace PhoenixCI.FormUI.Prefix2 {
 
       protected override ResultStatus Save(PokeBall pokeBall) {
          try {
-            base.Save(gcMain);
 
             DataTable dt = (DataTable)gcMain.DataSource;
             DataTable dtChange = dt.GetChanges();
@@ -167,24 +165,37 @@ namespace PhoenixCI.FormUI.Prefix2 {
                MessageBox.Show("沒有變更資料,不需要存檔!" , "注意" , MessageBoxButtons.OK , MessageBoxIcon.Exclamation);
                return ResultStatus.Fail;
             }
+
+            DataTable dtForAdd = dt.GetChanges(DataRowState.Added);
+            if (dtForAdd != null) {
+               //檢查重複key值
+               if (!checkDuplicate(dt.GetChanges(DataRowState.Added))) return ResultStatus.FailButNext;
+            }
+
             //更新主要Table
-            else {
-               foreach (DataRow dr in dtChange.Rows) {
-                  if (string.IsNullOrEmpty(dr["PLT1_PROD_TYPE"].AsString()) || string.IsNullOrEmpty(dr["PLT1_PROD_SUBTYPE"].AsString()) ||
-                        string.IsNullOrEmpty(dr["PLT1_QNTY_MIN"].AsString()) || string.IsNullOrEmpty(dr["PLT1_PROD_SUBPLT1_QNTY_MAXTYPE"].AsString()) ||
-                        string.IsNullOrEmpty(dr["PLT1_MULTIPLE"].AsString())) {
-                     MessageDisplay.Info("資料尚未填寫完成!");                    
+            foreach (DataRow dr in dtChange.Rows) {
+               if (dr.RowState == DataRowState.Added || dr.RowState == DataRowState.Modified) {
+                  if (string.IsNullOrEmpty(dr["PLT1_QNTY_MIN"].AsString()) || string.IsNullOrEmpty(dr["PLT1_QNTY_MAX"].AsString()) ||
+                                         string.IsNullOrEmpty(dr["PLT1_MULTIPLE"].AsString())) {
+                     MessageDisplay.Info("資料尚未填寫完成!");
+                     return ResultStatus.FailButNext;
                   } else {
                      ResultData myResultData = dao20220.updatePLT1(dt);
-                     return ResultStatus.Success;
+                     if (myResultData.Status == ResultStatus.Fail) {
+                        return ResultStatus.Fail;
+                     } else {
+                        _IsPreventFlowPrint = false; //若有update成功才會跳列印PDF視窗
+                     }
                   }
                }
             }
+
          } catch (Exception ex) {
             MessageDisplay.Error("存檔失敗");
             WriteLog(ex);
+            return ResultStatus.FailButNext;
          }
-         return ResultStatus.FailButNext;
+         return ResultStatus.Success;
       }
 
 
@@ -223,6 +234,28 @@ namespace PhoenixCI.FormUI.Prefix2 {
             throw ex;
          }
          return ResultStatus.Success;
+      }
+
+      /// <summary>
+      /// 檢查新增資料是否違反重複Key值
+      /// </summary>
+      /// <param name="dtAdd">新增data</param>
+      /// <returns></returns>
+      private bool checkDuplicate(DataTable dtAdd) {
+
+         foreach (DataRow dr in dtAdd.Rows) {
+            string prodType = dr["PLT1_PROD_TYPE"].AsString();
+            string prodSubtype = dr["PLT1_PROD_SUBTYPE"].AsString();
+            string qntyMin = dr["PLT1_QNTY_MIN"].AsString();
+            string qntyMax = dr["PLT1_QNTY_MAX"].AsString();
+            int dtCount = dao20220.GetDuplicate(prodType , prodSubtype , qntyMin , qntyMax);
+
+            if (dtCount > 0) {
+               MessageDisplay.Error("不可設定重複資料!");
+               return false;
+            }
+         }
+         return true;
       }
 
       #region GridControl事件

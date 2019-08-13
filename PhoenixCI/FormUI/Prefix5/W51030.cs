@@ -69,6 +69,7 @@ namespace PhoenixCI.FormUI.Prefix5
       public W51030(string programID, string programName) : base(programID, programName)
       {
          InitializeComponent();
+         this.Text = _ProgramID + "─" + _ProgramName;
          dao51030 = new D51030();
          daoCODW = new CODW();
 
@@ -88,8 +89,6 @@ namespace PhoenixCI.FormUI.Prefix5
          MARKET_CODE_LookUpEdit.SetColumnLookUp(mk_code, "CODW_ID", "CODW_DESC");
          MMF_MARKET_CODE.ColumnEdit = MARKET_CODE_LookUpEdit;
          //期貨/選擇權
-         //dic = new Dictionary<string, string>() { { "F", "F" }, { "O", "O" } };
-         //DataTable mmfType = SetcolItem(dic);
          PROD_TYPE_LookUpEdit = new RepositoryItemLookUpEdit();
          DataTable mmfType = daoCODW.ListLookUpEdit("APDK" , "APDK_PROD_TYPE");
          PROD_TYPE_LookUpEdit.SetColumnLookUp(mmfType, "CODW_ID" , "CODW_DESC");
@@ -108,16 +107,6 @@ namespace PhoenixCI.FormUI.Prefix5
          MMF_SAT_CP_FLAG.ColumnEdit = CP_FLAG_LookUpEdit;*/
 
          //報價規定判斷方式
-         //daoCOD = new COD();
-         //dic = new Dictionary<string, string>();
-         //foreach (DataRow dr in daoCOD.ListByCol("MMF", CP_KIND).Rows) {
-         //   string codid = dr["COD_ID"].AsString();
-         //   if (string.IsNullOrEmpty(codid)) {
-         //      continue;
-         //   }
-         //   dic.Add(codid, string.Format("({0}){1}", codid, dr["COD_DESC"].AsString()));
-         //}
-         //DataTable mmfKIND = SetcolItem(dic);
          CP_KIND_LookUpEdit = new RepositoryItemLookUpEdit();
          DataTable mmfKIND = daoCODW.ListLookUpEdit("51030" , "CP_KIND");
          CP_KIND_LookUpEdit.SetColumnLookUp(mmfKIND, "CODW_ID" , "CODW_DESC");

@@ -173,24 +173,43 @@ namespace DataObjects.Dao.Together {
       /// </summary>
       /// <param name="CODW_TXN_ID">功能代號</param>
       /// <param name="CODW_COL_ID"></param>
+      /// <param name="programID"></param>
       /// <returns>codw_id/codw_desc/codw_seq_no</returns>
-      public DataTable ListLookUpEdit(string CODW_TXN_ID , string CODW_COL_ID) {
+      public DataTable ListLookUpEdit(string CODW_TXN_ID , string CODW_COL_ID , string programID = "") {
 
          object[] parms ={
                 ":CODW_TXN_ID", CODW_TXN_ID,
                 ":CODW_COL_ID", CODW_COL_ID
             };
 
-         string sql = @"
+         string addSql = "";
+
+         switch (programID) {
+            case "48010":
+            case "48020":
+               addSql = " union select  '%' as codw_id, '全選' as codw_desc , 0 as codw_seq_no from dual " +
+                  " union select ' ' as codw_id, '選單一契約' as codw_desc, -1 as codw_seq_no from dual ";
+               break;
+            case "48030":
+            case "48040":
+               addSql = " union select '%' as codw_id, '全選' as codw_desc , 0 as codw_seq_no from dual ";
+               break;
+            case "49062":
+               addSql = " union select '%' as codw_id, '全部' as codw_desc , 0 as codw_seq_no from dual ";
+               break;
+         }
+
+         string sql = string.Format(@"
 select 
    codw_id,
    codw_desc,
    codw_seq_no
 from ci.codw
 where codw_txn_id = :CODW_TXN_ID
-and codw_col_id = :CODW_COL_ID
+and codw_col_id = :CODW_COL_ID 
+{0}
 order by codw_seq_no
-";
+" , addSql);
 
          DataTable dtResult = db.GetDataTable(sql , parms);
 

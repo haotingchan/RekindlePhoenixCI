@@ -78,7 +78,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          }
 
          if (prodLookItem.EditValue.AsString() == "Y") {
-            dt = dt.Select("MG1_KIND_ID <> 'GBF' and MG1_KIND_ID <> 'CPF'").CopyToDataTable();
+            dt = dt.Select("MG1_KIND_ID <> 'GBF' and MG1_KIND_ID <> 'CPF'").CopyToDataTable().Sort("MG1_SEQ_NO, MG1_KIND_ID");
          }
 
          gcMain.DataSource = dt;

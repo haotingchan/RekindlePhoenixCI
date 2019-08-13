@@ -89,7 +89,7 @@ namespace PhoenixCI.FormUI.PrefixS {
             gv.Columns["SPAN_CONTENT_CC"].ColumnEdit = cbxProd;
 
             //DataTable dtContentType = daoCodw.ListByCol2("S0072", $"{modules1[i]}_CONTENT_TYPE");
-            DataTable dtContentType = daoCodw.ListLookUpEdit($"S0072{modules1[i]}" , $"SPAN_CONTENT_TYPE_{modules1[i]}");
+            DataTable dtContentType = daoCodw.ListLookUpEdit("S0072A" , $"SPAN_CONTENT_TYPE_A");
             RepositoryItemLookUpEdit cbxContentType = new RepositoryItemLookUpEdit();
             cbxContentType.SetColumnLookUp(dtContentType, "CODW_ID", "CODW_DESC", TextEditStyles.DisableTextEditor);
             gc_PSR.RepositoryItems.Add(cbxContentType);

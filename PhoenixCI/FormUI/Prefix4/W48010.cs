@@ -57,7 +57,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 #endif
 
          //1.契約類別 下拉選單
-         DataTable dtSubType = new CODW().ListLookUpEdit("HCPR" , "CPR_PROD_SUBTYPE"); // 全選：'%' / 單一契約：' '
+         DataTable dtSubType = new CODW().ListLookUpEdit("APDK" , "APDK_PROD_SUBTYPE" , _ProgramID); // 全選：'%' / 單一契約：' '
          Extension.SetDataTable(ddlSubType , dtSubType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor);
 
          lupSubType.SetColumnLookUp(dtSubType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , null);
