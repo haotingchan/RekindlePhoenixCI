@@ -2,6 +2,7 @@
 using BaseGround.Shared;
 using BusinessObjects.Enums;
 using Common;
+using DataObjects.Dao.Together;
 using DataObjects.Dao.Together.SpecificDao;
 using DataObjects.Dao.Together.TableDao;
 using DevExpress.XtraGrid.Views.Grid;
@@ -549,78 +550,59 @@ namespace PhoenixCI.FormUI.Prefix2 {
          }
          WriteLog("執行sp_U_gen_H_TDT(" + prodType + ")" , "Info" , "E");
 
-         if (txnId == "20110") {
-            prodType = "J";
-            if (dao20110.sp_U_gen_H_TDT(date , prodType).Status != ResultStatus.Success) {
-               MessageBox.Show("執行SP(sp_U_gen_H_TDT(" + prodType + "))錯誤! " , "錯誤訊息" , MessageBoxButtons.OK , MessageBoxIcon.Stop);
+         //Austin 20190813 判斷AOCF該日如無交易不轉統計資料
+         AOCF daoAOCF = new AOCF();
+         string sdate = date.ToString("yyyyMMdd");
+         int AOCFcount = daoAOCF.GetAOCFDates(sdate,sdate);
+         if (AOCFcount > 0) {
+            /*******************
+            轉統計資料AI3
+            *******************/
+            if (dao20110.sp_H_stt_AI3(date).Status != ResultStatus.Success) {
+               MessageBox.Show("執行SP(sp_H_stt_AI3)錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                return "E";
-            } else {
+            }
+            else {
                rtn = 0;
             }
-            WriteLog("執行sp_U_gen_H_TDT(" + prodType + ")" , "Info" , "E");
+            WriteLog("執行sp_H_stt_AI3", "Info", "E");
 
-            //JTX 日統計AI2
-            if (dao20110.sp_U_stt_H_AI2_Day(date , prodType).Status != ResultStatus.Success) {
-               MessageBox.Show("執行SP(sp_U_stt_H_AI2_Day)錯誤! " , "錯誤訊息" , MessageBoxButtons.OK , MessageBoxIcon.Stop);
+            /*******************
+            更新AI6 (震幅波動度)
+            *******************/
+            if (dao20110.sp_H_gen_AI6(date).Status != ResultStatus.Success) {
+               MessageBox.Show("執行SP(sp_H_gen_AI6)錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                return "E";
-            } else {
+            }
+            else {
                rtn = 0;
             }
-            WriteLog("執行sp_U_stt_H_AI2_Day" , "Info" , "E");
+            WriteLog("執行sp_H_gen_AI6", "Info", "E");
 
-            //JTX 月統計AI2
-            if (dao20110.sp_U_stt_H_AI2_Month(date , prodType).Status != ResultStatus.Success) {
-               MessageBox.Show("執行SP(sp_U_stt_H_AI2_Month)錯誤! " , "錯誤訊息" , MessageBoxButtons.OK , MessageBoxIcon.Stop);
+            /*******************
+            更新AA3
+            *******************/
+            if (dao20110.sp_H_upd_AA3(date).Status != ResultStatus.Success) {
+               MessageBox.Show("執行SP(sp_H_upd_AA3)錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                return "E";
-            } else {
+            }
+            else {
                rtn = 0;
             }
-            WriteLog("執行sp_U_stt_H_AI2_Month" , "Info" , "E");
-         }
-         /*******************
-         轉統計資料AI3
-         *******************/
-         if (dao20110.sp_H_stt_AI3(date).Status != ResultStatus.Success) {
-            MessageBox.Show("執行SP(sp_H_stt_AI3)錯誤! " , "錯誤訊息" , MessageBoxButtons.OK , MessageBoxIcon.Stop);
-            return "E";
-         } else {
-            rtn = 0;
-         }
-         WriteLog("執行sp_H_stt_AI3" , "Info" , "E");
+            WriteLog("執行sp_H_upd_AA3", "Info", "E");
 
-         /*******************
-         更新AI6 (震幅波動度)
-         *******************/
-         if (dao20110.sp_H_gen_AI6(date).Status != ResultStatus.Success) {
-            MessageBox.Show("執行SP(sp_H_gen_AI6)錯誤! " , "錯誤訊息" , MessageBoxButtons.OK , MessageBoxIcon.Stop);
-            return "E";
-         } else {
-            rtn = 0;
+            /*******************
+            更新AI8
+            *******************/
+            if (dao20110.sp_H_gen_H_AI8(date).Status != ResultStatus.Success) {
+               MessageBox.Show("執行SP(sp_H_gen_H_AI8)錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+               return "E";
+            }
+            else {
+               rtn = 0;
+            }
+            WriteLog("執行sp_H_gen_H_AI8", "Info", "E");
          }
-         WriteLog("執行sp_H_gen_AI6" , "Info" , "E");
-
-         /*******************
-         更新AA3
-         *******************/
-         if (dao20110.sp_H_upd_AA3(date).Status != ResultStatus.Success) {
-            MessageBox.Show("執行SP(sp_H_upd_AA3)錯誤! " , "錯誤訊息" , MessageBoxButtons.OK , MessageBoxIcon.Stop);
-            return "E";
-         } else {
-            rtn = 0;
-         }
-         WriteLog("執行sp_H_upd_AA3" , "Info" , "E");
-
-         /*******************
-         更新AI8
-         *******************/
-         if (dao20110.sp_H_gen_H_AI8(date).Status != ResultStatus.Success) {
-            MessageBox.Show("執行SP(sp_H_gen_H_AI8)錯誤! " , "錯誤訊息" , MessageBoxButtons.OK , MessageBoxIcon.Stop);
-            return "E";
-         } else {
-            rtn = 0;
-         }
-         WriteLog("執行sp_H_gen_H_AI8" , "Info" , "E");
-
          return "";
       }
 
