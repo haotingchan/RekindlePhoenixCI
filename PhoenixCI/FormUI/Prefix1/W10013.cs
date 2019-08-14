@@ -30,15 +30,29 @@ namespace PhoenixCI.FormUI.Prefix1
             DateTime ocfDate = txtOcfDate.DateTimeValue;
             ResultData resultData = new ResultData();
             int oswGrp = 5;
+            
             switch (args.TXF_TID)
             {
                 case "w_30053":
-                    string rtnStr = PbFunc.f_get_jsw_seq(_ProgramID, "E", 17 , ocfDate, "0");
-                    if (rtnStr != "")
+                    int seq;
+                    //判斷統計資料轉檔已完成
+                    for (int f = 1; f <= 2; f++)
                     {
-                        resultData.returnString = $"{txtOcfDate.Text}統計資料未轉入完畢，請確認監視批次「AIG5402」執行完成。";
-                        resultData.Status = ResultStatus.Fail;
-                        return resultData;
+                        if (f == 1)
+                        {
+                            seq = 13;
+                        }
+                        else
+                        {
+                            seq = 23;
+                        }
+                        string rtnStr = PbFunc.f_get_jsw_seq("30053", "E", seq, ocfDate, "0");
+                        if (rtnStr != "")
+                        {
+                            resultData.returnString = $"{txtOcfDate.Text}統計資料未轉入完畢，請確認監視批次「AIG5402」執行完成。";
+                            resultData.Status = ResultStatus.Fail;
+                            return resultData;
+                        }
                     }
                     break;
                 case "w_30055":
@@ -99,10 +113,20 @@ namespace PhoenixCI.FormUI.Prefix1
                     }
                     break;
             }
-
             resultData = base.ExecuteForm(args);
+            
 
             return resultData;
+        }
+
+        protected override void ExecuteFormBefore(FormParent formInstance,PokeBall args)
+        {
+            ((CheckBox)formInstance.Controls.Find("cbxNews", true)[0]).Checked = true;
+
+            if (args.TXF_TID == "w_30055")
+            {
+                ((CheckBox)formInstance.Controls.Find("cbxTJF", true)[0]).Checked = true;
+            }
         }
     }
 }

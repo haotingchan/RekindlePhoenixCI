@@ -510,12 +510,17 @@ namespace PhoenixCI.FormUI.Prefix1
                 formInstance.WindowState = FormWindowState.Maximized;
                 formInstance.Show();
             }
-            
 
+            ExecuteFormBefore(formInstance,args);
             resultData.Status = formInstance.ProcessExport();
             formInstance.Close();
 
             return resultData;
+        }
+
+        protected virtual void ExecuteFormBefore(FormParent formInstance, PokeBall args)
+        {
+
         }
 
         protected virtual ResultStatus RunAfterEveryItem(PokeBall args)
