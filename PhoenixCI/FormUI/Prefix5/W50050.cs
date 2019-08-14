@@ -59,7 +59,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
          dwProd.SetDataTable(dtProd , "PDK_KIND_ID" , "PDK_KIND_ID" , TextEditStyles.DisableTextEditor , "");
 
          //買賣權
-         DataTable dtCP = new CODW().ListLookUpEdit("50050" , "DDLB_1");
+         DataTable dtCP = new CODW().ListLookUpEdit("AMMD" , "AMMD_PC_CODE");
          ddlb_1.SetDataTable(dtCP , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
 
          //檔內外檔數
