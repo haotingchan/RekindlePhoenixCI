@@ -169,8 +169,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //4. save
             workbook.SaveDocument(excelDestinationPath);
 
-            if (FlagAdmin)
-               System.Diagnostics.Process.Start(excelDestinationPath);
+            //if (FlagAdmin)
+            //   System.Diagnostics.Process.Start(excelDestinationPath);
 
             return ResultStatus.Success;
          } catch (Exception ex) {

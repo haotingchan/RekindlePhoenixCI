@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Data;
 
-/// <summary>
-/// ken,2019/4/9
-/// </summary>
 namespace DataObjects.Dao.Together.SpecificDao {
    /// <summary>
    /// 成交價偏離幅度統計表
@@ -27,7 +24,8 @@ namespace DataObjects.Dao.Together.SpecificDao {
                                       string as_kind_id1,
                                       string as_kind_id2,
                                       int as_mth_seq1,
-                                      int as_mth_seq2) {
+                                      int as_mth_seq2,
+                                      bool procNewTab) {
 
          object[] parms = {
                 ":as_fm_date", as_fm_date,
@@ -39,7 +37,9 @@ namespace DataObjects.Dao.Together.SpecificDao {
                 ":as_mth_seq2", as_mth_seq2
             };
 
-         string sql = @"
+         string newTabFields = procNewTab ? @", ftprices_level8 as ""級距8"", ftprices_level9 as ""級距9"", ftprices_level10 as ""級距10""" : "";
+
+         string sql = string.Format(@"
 select ftprices_market_code as ""交易時段: 0一般 / 1夜盤"",   
    to_char(ftprices_trade_date,'yyyy/mm/dd hh24:mi:ss') as ""交易日期"",   
    ftprices_prod_type as ""F期貨 / O選擇權"",   
@@ -58,7 +58,7 @@ select ftprices_market_code as ""交易時段: 0一般 / 1夜盤"",
    ftprices_level5 as ""級距5"",   
    ftprices_level6 as ""級距6"",   
 
-   ftprices_level7 as ""級距7""  
+   ftprices_level7 as ""級距7"" {0} 
 from ci.ftprices  
 where ftprices_trade_date >= :as_fm_date
 and ftprices_trade_date <= :as_to_date
@@ -69,7 +69,7 @@ and ftprices_kind_id2 like :as_kind_id2
 and (:as_mth_seq1 = 99 or ftprices_mth_seq1 = :as_mth_seq1)
 and (:as_mth_seq2 = 99 or ftprices_mth_seq2 = :as_mth_seq2)
 order by ftprices_market_code , ftprices_trade_date , ftprices_prod_type , ftprices_prod_id     
-";
+", newTabFields);
 
          DataTable dtResult = db.GetDataTable(sql, parms);
 

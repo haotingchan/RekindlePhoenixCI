@@ -450,8 +450,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             workbook.SaveDocument(excelDestinationPath);
 
 #if DEBUG
-            if (FlagAdmin)
-               System.Diagnostics.Process.Start(excelDestinationPath);
+            //if (FlagAdmin)
+            //   System.Diagnostics.Process.Start(excelDestinationPath);
 #endif
             return ResultStatus.Success;
          } catch (Exception ex) {
@@ -1586,7 +1586,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          csvref.Encoding = System.Text.Encoding.GetEncoding(950);//ASCII
          Common.Helper.ExportHelper.ToCsv(dt , etfFileName , csvref);
 
-         System.Diagnostics.Process.Start(etfFileName);
+         //System.Diagnostics.Process.Start(etfFileName);
       }
 
       #region 顯示匯出訊息的相關函數

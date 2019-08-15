@@ -196,8 +196,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
             gvPrint.SetColumnCaption(dc.ColumnName , showColCaption[dtTarget.Columns.IndexOf(dc)]);
             gvPrint.Columns[dc.ColumnName].OptionsColumn.AllowEdit = false;
             gvPrint.Columns[dc.ColumnName].AppearanceHeader.TextOptions.WordWrap = WordWrap.Wrap;
+            gvPrint.Columns[dc.ColumnName].AppearanceCell.TextOptions.WordWrap = WordWrap.Wrap;
             gvPrint.Columns[dc.ColumnName].OptionsColumn.AllowMerge = DefaultBoolean.False;
-            gvPrint.Columns[dc.ColumnName].AppearanceCell.Font = new Font("微軟正黑體" , 10f); //列印的字體大小
+            gvPrint.Columns[dc.ColumnName].AppearanceCell.Font = new Font("微軟正黑體" , 9f); //列印的字體大小
 
             //前4個欄位合併 (一樣的值不顯示)
             if (dc.Ordinal < 5) {

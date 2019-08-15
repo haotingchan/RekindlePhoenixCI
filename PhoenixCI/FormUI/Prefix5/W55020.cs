@@ -210,8 +210,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
             //存檔
             workbook.SaveDocument(excelDestinationPath);
-            if (FlagAdmin)
-               System.Diagnostics.Process.Start(excelDestinationPath);
+            //if (FlagAdmin)
+            //   System.Diagnostics.Process.Start(excelDestinationPath);
 
             return ResultStatus.Success;
          } catch (Exception ex) {
