@@ -79,8 +79,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             workbook.SaveDocument(excelDestinationPath);
             labMsg.Visible = false;
 
-            if (FlagAdmin)
-               System.Diagnostics.Process.Start(excelDestinationPath);
+            //if (FlagAdmin)
+            //   System.Diagnostics.Process.Start(excelDestinationPath);
 
             return ResultStatus.Success;
 

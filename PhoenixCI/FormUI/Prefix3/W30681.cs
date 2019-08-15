@@ -468,7 +468,8 @@ namespace PhoenixCI.FormUI.Prefix3
                                                           string.Format("{0}_{1}.csv", reportId, DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss")));
 
                 //1.get dataTable
-                DataTable dtTarget = dao30681.d_30681_s_new(StartDate.DateTimeValue, EndDate.DateTimeValue, DDLScCode, Kind1, Kind2, Mth1, Mth2);
+                DataTable dtTarget = dao30681.d_30681_s_new(StartDate.DateTimeValue, EndDate.DateTimeValue, DDLScCode, Kind1, Kind2, Mth1, Mth2,
+                                                            xtraTabControl.SelectedTabPage.Name == NewTabName);
                 if (dtTarget.Rows.Count <= 0)
                 {
                     MessageDisplay.Info(string.Format("{0},{1}－{2},無任何資料!", StartDate.DateTimeValue.ToString("yyyyMM"), reportId, ReportName), GlobalInfo.ResultText);
@@ -646,8 +647,8 @@ namespace PhoenixCI.FormUI.Prefix3
             }
 
 #if DEBUG
-            if (FlagAdmin)
-                System.Diagnostics.Process.Start(filename);
+            //if (FlagAdmin)
+            //    System.Diagnostics.Process.Start(filename);
 #endif
         }
         private void rdoReportType_SelectedIndexChanged(object sender, EventArgs e)
