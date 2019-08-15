@@ -1013,6 +1013,12 @@
     <Compile Include="FormUI\Prefix3\W30290.designer.cs">
       <DependentUpon>W30290.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormUI\Prefix4\W40014.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40014.Designer.cs">
+      <DependentUpon>W40014.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormUI\Prefix4\W40022.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -2229,6 +2235,9 @@
     <EmbeddedResource Include="FormUI\Prefix3\W30290.resx">
       <DependentUpon>W30290.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W40014.resx">
+      <DependentUpon>W40014.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix4\W40022.resx">
       <DependentUpon>W40022.cs</DependentUpon>
     </EmbeddedResource>
@@ -3218,6 +3227,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\40013old.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\40014.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\40021.xlsx">

@@ -39,6 +39,27 @@ order by sort_key";
         }
 
         /// <summary>
+        /// CI.OCFG (OCFG_MARKET_CODE = '0')
+        /// </summary>
+        /// <returns>osw_grp/osw_grp_name/sort_key</returns>
+        public DataTable ListAllTime()
+        {
+
+            string sql = @"
+SELECT TRIM(OCFG_OSW_GRP) as osw_grp,
+'Group'|| (case OCFG_OSW_GRP when '1' then '1' when '5' then '2' when '7' then '3' else ' ' end) || to_char(OCFG_CLOSE_TIME,' (hh24:mi)') as osw_grp_name , 
+to_char(OCFG_CLOSE_TIME,'hh24mi') as sort_key,
+OCFG_CLOSE_TIME
+from ci.OCFG
+WHERE OCFG_MARKET_CODE = '0'
+order by sort_key";
+
+            DataTable dtResult = db.GetDataTable(sql, null);
+
+            return dtResult;
+        }
+
+        /// <summary>
         /// CI.OCFG (WHERE OCFG_OSW_GRP IN ('1','5'))
         /// </summary>
         /// <returns>osw_grp/osw_grp_name/sort_key</returns>

@@ -289,16 +289,18 @@ order by APDK_PROD_TYPE , APDK_PARAM_KEY", marketCode);
                                     SELECT * FROM(            
                                                 SELECT APDK_PROD_TYPE,
                                                 APDK_PARAM_KEY,
-                                                '999' AS SEQ_NO
+                                               CASE APDK_PARAM_KEY WHEN 'TXF ' THEN '0' ELSE '999' END AS SEQ_NO
                                                 FROM CI.APDK
                                                 WHERE APDK_PROD_TYPE IN ('F','O')
                                                 GROUP BY APDK_PROD_TYPE,APDK_PARAM_KEY
                                                 UNION
-                                                    SELECT '%','全部','0' FROM DUAL
+                                                    SELECT '%','全部(區分各契約)','1' FROM DUAL
                                                 UNION
-                                                    SELECT 'F','期貨','1' FROM DUAL
+                                                    SELECT 'F','期貨','2' FROM DUAL
                                                 UNION
-                                                    SELECT 'O','選擇權','2' FROM DUAL
+                                                    SELECT 'O','選擇權','3' FROM DUAL
+                                                UNION
+                                                    SELECT 'O','總表','4' FROM DUAL                                                    
                                     )A                
                                     ORDER BY SEQ_NO,APDK_PROD_TYPE , APDK_PARAM_KEY
                                     ";
