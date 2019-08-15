@@ -74,6 +74,7 @@ namespace PhoenixCI.FormUI.Prefix4
         private DataTable dtOLevel;//選擇權級距
         private DataTable dtDel;//存放刪除的資料
         private DataTable dtProdType;//商品類
+        private bool SaveFlag;//用於delete row後, 是曾經執行save function. 
         #endregion
 
         public W40074(string programID, string programName) : base(programID, programName)
@@ -96,6 +97,7 @@ namespace PhoenixCI.FormUI.Prefix4
             GridHelper.SetCommonGrid(gvMain);
             gvMain.AppearancePrint.BandPanel.Font = new Font("Microsoft YaHei", 10);
             gvMain.AppearancePrint.BandPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            SaveFlag = true; 
         }
 
         protected override ResultStatus Open()
@@ -198,6 +200,7 @@ namespace PhoenixCI.FormUI.Prefix4
             {
                 //清空Grid
                 gcMain.DataSource = null;
+                SetSaveFlagValue();
                 //日期檢核
                 if (txtSDate.Text == "1901/01/01")
                 {
@@ -302,9 +305,14 @@ namespace PhoenixCI.FormUI.Prefix4
             gvMain.CloseEditor();
 
             if (!ConfirmToDelete(gvMain.FocusedRowHandle + 1)) { return ResultStatus.Fail; }
-            DataTable dtBackUp = (DataTable)gcMain.DataSource;
-            dtDel = dtBackUp.Clone();
-            dtDel.ImportRow(dtBackUp.Rows[gvMain.FocusedRowHandle]);
+            if (SaveFlag)
+            {
+                dtDel.Clear();
+                DataTable dtBackUp = (DataTable)gcMain.DataSource;
+                dtDel = dtBackUp.Clone();
+                SaveFlag = false;
+            }
+            dtDel.ImportRow(gvMain.GetFocusedDataRow());
             gvMain.DeleteSelectedRows();
 
             return ResultStatus.Success;
@@ -332,7 +340,6 @@ namespace PhoenixCI.FormUI.Prefix4
                     MessageDisplay.Warning("沒有變更資料,不需要存檔!");
                     return ResultStatus.FailButNext;
                 }
-
                 DataTable dtMGD2; //ids_mgd2
                 DataTable dtMGD2Log = dao40071.d_40071_log(); //ids_old 
                 dtMGD2Log.Clear(); //只取schema
@@ -604,9 +611,11 @@ namespace PhoenixCI.FormUI.Prefix4
             }
             catch (Exception ex)
             {
+                SetSaveFlagValue();
                 MessageDisplay.Error("儲存錯誤");
                 throw ex;
             }
+            SetSaveFlagValue();
             return ResultStatus.Success;
 
         }
@@ -635,6 +644,11 @@ namespace PhoenixCI.FormUI.Prefix4
             return ResultStatus.Fail;
         }
 
+        private void SetSaveFlagValue()
+        {
+            SaveFlag = true;
+            dtDel.Clear();
+        }
         #region GridView Events
         private void gvMain_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e)
         {
