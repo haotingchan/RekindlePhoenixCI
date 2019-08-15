@@ -646,8 +646,8 @@ namespace PhoenixCI.FormUI.Prefix3
             }
 
 #if DEBUG
-            if (FlagAdmin)
-                System.Diagnostics.Process.Start(filename);
+            //if (FlagAdmin)
+            //    System.Diagnostics.Process.Start(filename);
 #endif
         }
         private void rdoReportType_SelectedIndexChanged(object sender, EventArgs e)

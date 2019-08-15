@@ -208,8 +208,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                //存檔
                workbook.SaveDocument(excelDestinationPath);
                ShowMsg("轉檔完成");
-               if (FlagAdmin)
-                  System.Diagnostics.Process.Start(excelDestinationPath);
+               //if (FlagAdmin)
+               //   System.Diagnostics.Process.Start(excelDestinationPath);
                return ResultStatus.Success;
             }
 

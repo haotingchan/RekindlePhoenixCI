@@ -132,11 +132,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
          txtEndMonth.Text = "2019/05";
          txtStartDate.Text = "2019/05/01";
          txtEndDate.Text = "2019/05/21";
-         ddlOswGrp.ItemIndex = 2;
+         ddlOswGrp.ItemIndex = 3;
          this.Text += "(開啟測試模式)";
 #endif
 
-         ddlOswGrp.ItemIndex = 1;// % = 13:45 - 18:15
+         ddlOswGrp.ItemIndex = 3;// % = 13:45 - 18:15
 
          if (!FlagAdmin) {
             ddlOswGrp.Visible = false;
@@ -240,8 +240,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //存檔
             workbook.SaveDocument(excelDestinationPath);
 
-            if (FlagAdmin)
-               System.Diagnostics.Process.Start(excelDestinationPath);
+            //if (FlagAdmin)
+            //   System.Diagnostics.Process.Start(excelDestinationPath);
 
             return ResultStatus.Success;
          } catch (Exception ex) {
@@ -281,6 +281,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
          int colStart2 = cp_max_seq_no + 1;
          int colStart3 = (cp_max_seq_no * 2) + 2;
          int rowIndex = 0;
+
+         if (oswGrp == "ALL") {
+            oswGrp = "13:45 - 18:15";
+         }
 
          ws.Cells[rowIndex , colStart1 + 1].Value = oswGrp + "交易量";
          ws.Cells[rowIndex + 2 , colStart2].Value = "小計";
@@ -454,6 +458,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
                   ws.Cells[rowIndex + 2 , 0].Value = "名稱";
                }
             }
+
+            if (oswGrpText == "ALL") {
+               oswGrpText = "13:45 - 18:15";
+            }
+
             ws.Cells[rowIndex , colStart1 + 1].Value = oswGrpText + "交易量";
             ws.Cells[rowIndex , colStart2 + 1].Value = "一般交易時段交易量";
             ws.Cells[rowIndex , colStart3 + 1].Value = "延長交易時段交易量比重";

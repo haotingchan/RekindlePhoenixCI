@@ -121,8 +121,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
             labMsg.Visible = false;
 
             //測試時直接開檔
-            if (FlagAdmin)
-               System.Diagnostics.Process.Start(excelDestinationPath);
+            //if (FlagAdmin)
+            //   System.Diagnostics.Process.Start(excelDestinationPath);
 
             return ResultStatus.Success;
          } catch (Exception ex) {
