@@ -746,15 +746,13 @@ namespace PhoenixCI.FormUI.Prefix4
                 gv.FocusedColumn.Name == "M_LEVEL" || gv.FocusedColumn.Name == "AMT_TYPE")
             {
                 //e.Cancel = prodSubtype != "S" ? true : false;
-                if(!PROD_SEQ_NOKey.Equals("6") && !PROD_SEQ_NOKey.Equals("7") && !gv.FocusedColumn.Name.Equals("AMT_TYPE") ) e.Cancel = true;
-                else if (PROD_SEQ_NOKey.Equals("7") && (gv.FocusedColumn.Name == "M_LEVEL"|| gv.FocusedColumn.Name == "AMT_TYPE"))
+                if (!PROD_SEQ_NOKey.Equals("6") && !PROD_SEQ_NOKey.Equals("7") && !gv.FocusedColumn.Name.Equals("AMT_TYPE")) e.Cancel = true;
+                else if (PROD_SEQ_NOKey.Equals("7") && (gv.FocusedColumn.Name == "M_LEVEL" || gv.FocusedColumn.Name == "AMT_TYPE"))
                 {
-                    if(gv.FocusedColumn.Name == "AMT_TYPE") gv.SetFocusedValue("F");//金額-->F ; 百分比-->P
                     e.Cancel = true;
                 }
-                else if (PROD_SEQ_NOKey.Equals("6") &&  gv.FocusedColumn.Name == "AMT_TYPE")
+                else if (PROD_SEQ_NOKey.Equals("6") && gv.FocusedColumn.Name == "AMT_TYPE")
                 {
-                    if (gv.FocusedColumn.Name == "AMT_TYPE") gv.SetFocusedValue("P");//金額-->F ; 百分比-->P
                     e.Cancel = true;
                 }
                 //if (cndParamKey.IndexOf("ST%") >= 0 ) e.Cancel = false; 
@@ -806,6 +804,10 @@ namespace PhoenixCI.FormUI.Prefix4
                 gv.SetRowCellValue(e.RowHandle, "PROD_SUBTYPE", dr["CND_PROD_SUBTYPE"]);
                 gv.SetRowCellValue(e.RowHandle, "CND_PARAM_KEY", dr["CND_PARAM_KEY"]);
                 gv.SetRowCellValue(e.RowHandle, "ABROAD", dr["CND_ABROAD"]);
+                if (e.Value.ToString().Equals("6"))
+                    gv.SetRowCellValue(e.RowHandle, "AMT_TYPE", "P");
+                else if (e.Value.ToString().Equals("7"))
+                    gv.SetRowCellValue(e.RowHandle, "AMT_TYPE", "F");
             }
             if (e.Column.Name == "KIND_ID")
             {
