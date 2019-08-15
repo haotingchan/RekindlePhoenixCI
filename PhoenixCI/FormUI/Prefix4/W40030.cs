@@ -30,11 +30,58 @@ using System.Windows.Forms;
 namespace PhoenixCI.FormUI.Prefix4 {
    public partial class W40030 : FormParent {
 
-      #region Get UI Value
-      /// <summary>
-      /// yyyyMMdd
-      /// </summary>
-      public string TxtDate {
+        /// <summary>
+        /// Margin Change 保證金變動量
+        /// </summary>
+        private class MC
+        {
+            public double SMA;    //現貨資料基準
+            public double EWMA;   //現貨資料基準
+            public double MAX;    //現貨資料基準
+            public double fSMA;   //期貨資料基準
+            public double fEWMA;  //期貨資料基準
+            public double fMAX;   //期貨資料基準
+            public MC()
+            {
+                SMA = 0;
+                EWMA = 0;
+                MAX = 0;
+                fSMA = 0;
+                fEWMA = 0;
+                fMAX = 0;
+
+            }
+            public String ptSMA()
+            {   //轉成百分比字串顯示
+                return string.Format("{0:0.00%}", SMA);
+            }
+            public String ptEWMA()
+            {   //轉成百分比字串顯示
+                return string.Format("{0:0.00%}", EWMA);
+            }
+            public String ptMAX()
+            {   //轉成百分比字串顯示
+                return string.Format("{0:0.00%}", MAX);
+            }
+            public String ptfSMA()
+            {   //轉成百分比字串顯示
+                return string.Format("{0:0.00%}", fSMA);
+            }
+            public String ptfEWMA()
+            {   //轉成百分比字串顯示
+                return string.Format("{0:0.00%}", fEWMA);
+            }
+            public String ptfMAX()
+            {   //轉成百分比字串顯示
+                return string.Format("{0:0.00%}", fMAX);
+            }
+        }
+
+        #region Get UI Value
+        /// <summary>
+        /// yyyyMMdd
+        /// </summary>
+        public string TxtDate {
          get {
             return txtDate.DateTimeValue.ToString("yyyyMMdd");
          }
@@ -86,7 +133,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
          txtDate.DateTimeValue = "2018/12/28".AsDateTime("yyyy/MM/dd");
          ddlAdjType.ItemIndex = 0;
 #endif
-
          ExportShow.Hide();
 
         }
@@ -1367,7 +1413,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                WordTableCell.PreferredWidth = DevExpress.Office.Utils.Units.CentimetersToDocumentsF(1.5f);
 
                Doc.InsertSingleLineText(WordTableCell.Range.Start , rowName);
-
+                    
                //特殊處理, 選擇權時有AB值, k=1 跑保證金或A值, k>1 跑B值
                string[] colNameList = k == 1 ? iAmtProd.DbColName : iAmtProd.DbColNameB;
                string numberFormat = k == 1 ? iAmtProd.NumberFormat : iAmtProd.NumberFormatB;
@@ -1418,6 +1464,50 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             ChineseNumber = new string[] { "零" , "一" , "二" , "三" , "四" , "五" , "六" , "七" , "八" , "九" , "十" };
          }
+
+        public String no2Char(int number)
+        {
+            string[] n = { "零", "一", "二", "三", "四", "五", "六", "七", "八", "九" };
+            string[] d = { "", "十", "佰", "仟" };
+            string[] u = { "", "萬", "億", "兆", "京", "垓" };
+
+            string str = "";
+            int ui = 0;
+            Int64 f;
+            string fs;
+            while (number > 0)
+            {
+                int di = 0;
+                f = number % 10000;
+                fs = "";
+                while (f > 0)
+                {
+                    if (f % 10 > 0) {
+                        if (n[f % 10] == "一" && d[di] == "十")
+                        {
+                            fs =  d[di] + fs;
+                        }
+                        else
+                        {
+                            fs = n[f % 10] + d[di] + fs;
+                        }
+                    }
+                    else if (fs.Length > 0 && fs[0].ToString() != n[0])
+                        fs = n[0] + fs;
+                    f /= 10;
+                    di++;
+                }
+                    number /= 10000;
+                if (fs.Length > 0)
+                {
+                    str = fs + u[ui] + str;
+                    if ((di < 4) & (number > 0))
+                        str = n[0] + str;
+                }
+                ui++;
+            }
+            return str;
+        }
 
          public override ReturnMessageClass Export() {
             ReturnMessageClass msg = new ReturnMessageClass();
@@ -1881,7 +1971,30 @@ namespace PhoenixCI.FormUI.Prefix4 {
          protected virtual void SetFirstCaseDesc(DataTable dtTemp , DateTime checkedDate) {
             string tmpStr = "";
             int licnt = 3;
-
+            //準備SMA、EWMA、MAX值
+            Dictionary<string, MC> mcDic = new Dictionary<string, MC>();
+            foreach (DataRow dr in dtTemp.Rows)
+            {
+                String aa = dr.ToString();
+                MC mc = new MC();
+                if (dr["PROD_TYPE"].ToString() == "F")
+                {
+                    mc.SMA  = Dao40030.getSMA(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString());
+                    mc.EWMA = Dao40030.getEWMA(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString());
+                    mc.MAX  = Dao40030.getMax(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString());
+                }
+                if (dr["PROD_TYPE"].ToString() == "O")
+                {
+                    mc.SMA   = Dao40030.getOptSMA(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString(), dr["AB_TYPE"].ToString());
+                    mc.EWMA  = Dao40030.getOptEWMA(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString(), dr["AB_TYPE"].ToString());
+                    mc.MAX   = Dao40030.getOptMax(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString(), dr["AB_TYPE"].ToString());
+                    mc.fSMA  = Dao40030.getOptfSMA(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString(), dr["AB_TYPE"].ToString());
+                    mc.fEWMA = Dao40030.getOptfEWMA(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString(), dr["AB_TYPE"].ToString());
+                    mc.fMAX  = Dao40030.getOptfMax(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString(), dr["AB_TYPE"].ToString());
+                }
+                mcDic.Add(dr["KIND_ID"].ToString(), mc);
+            }
+      
             SetSubjectText($"說　　明：");
 
             //說明一
@@ -1891,20 +2004,32 @@ namespace PhoenixCI.FormUI.Prefix4 {
             SetInnerText(tmpStr);
 
             //說明二
+            int icnt = 0;
             SetInnerText("二、經以簡單移動平均法(SMA)、加權指數移動平均(EWMA)、簡單移動平均法_日內變動(MAX)方式試算上開契約結算保證金之變動幅度如下：");
-            String info01 = "(一)臺股期貨契約(TX)結算保證金變動幅度分別為 - 18.5 %、-13.3 % 及14.2 %。";
-            SetInnerText(info01, true, 4.11f, 1.25f);
-            String info02 = "(二)臺指選擇權契約(TXO)結算保證金採現貨資料計算之變動幅度分別為 - 15.0 %、-15.0 % 及 - 8.7 %，及採期貨資料計算是變動幅度分別為 - 15.2 %、-9.9 % 及18.7 %。";
-            SetInnerText(info02, true, 4.11f, 1.25f);
-            String info03 = "(三)電子期貨契約(TE)結算保證金變動幅度分別為11.9 %、32.9 % 及27.7 %。";
-            SetInnerText(info03, true, 4.11f, 1.25f);
-            String info04 = "(四)電子選擇權契約(TEO)結算保證金採現貨資料計算之變動幅度分別為2.7 %、21.9 % 及15.4 %。";
-            SetInnerText(info04, true, 4.11f, 1.25f);
-             
-            DrowTable(dtTemp);
-
+            foreach (DataRow dr in dtTemp.Rows)
+            {
+                    String info="";
+                    if (dr["PROD_TYPE"].ToString() == "F")
+                    {
+                        info = string.Format("({0}){1}結算保證金變動幅度分別為 {2}、{3} 及{4}。", no2Char(++icnt), dr["KIND_ABBR_NAME"].ToString().Trim(), mcDic[dr["KIND_ID"].ToString()].ptSMA(), mcDic[dr["KIND_ID"].ToString()].ptEWMA(), mcDic[dr["KIND_ID"].ToString()].ptMAX());
+                    }
+                    if (dr["PROD_TYPE"].ToString() == "O")
+                    {
+                        if (mcDic[dr["KIND_ID"].ToString()].fSMA==0 && mcDic[dr["KIND_ID"].ToString()].fEWMA==0 && mcDic[dr["KIND_ID"].ToString()].fMAX == 0)
+                        {
+                            info = string.Format("({0}){1}結算保證金變動幅度分別為 {2}、{3} 及{4}。", no2Char(++icnt), dr["KIND_ABBR_NAME"].ToString().Trim(), mcDic[dr["KIND_ID"].ToString()].ptSMA(), mcDic[dr["KIND_ID"].ToString()].ptEWMA(), mcDic[dr["KIND_ID"].ToString()].ptMAX());
+                        }
+                        else
+                        {
+                            info = string.Format("({0}){1}結算保證金變動幅度分別為 {2}、{3} 及{4}，及採期貨資料計算是變動幅度分別為 {5}、{6} 及 {7}。", no2Char(++icnt), dr["KIND_ABBR_NAME"].ToString().Trim(), mcDic[dr["KIND_ID"].ToString()].ptSMA(), mcDic[dr["KIND_ID"].ToString()].ptEWMA(), mcDic[dr["KIND_ID"].ToString()].ptMAX(), mcDic[dr["KIND_ID"].ToString()].ptfSMA(), mcDic[dr["KIND_ID"].ToString()].ptfEWMA(), mcDic[dr["KIND_ID"].ToString()].ptfMAX());
+                        }
+                    }
+                    SetInnerText(info, true, 4.11f, 1.25f);
+                }
+           
             //說明三
             SetInnerText("三、基於穩健保守及貼近國際同類商品保證金水準之原則，建議TX及TXO採加權指數移動平均(EWMA)調整保證金，TE及採簡單移動平均法(SMA)調整保證金，TF、XI及TEO採簡單移動平均法_日內變動(MAX)調整保證金其金額變動如下：");
+            DrowTable(dtTemp);
 
             //說明四、公債類
             List<DataRow> drsDebt = dtTemp.Select("prod_subtype = 'B' and data_ymd = '" + checkedDate.ToString("yyyyMMdd") + "'").ToList();
