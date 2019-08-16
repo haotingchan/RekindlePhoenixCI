@@ -127,6 +127,7 @@ namespace BaseGround
                _UserProgInfo = new UserProgInfo();
                _UserProgInfo.UserID = GlobalInfo.USER_ID;
                _UserProgInfo.TxnID = _ProgramID;
+               _UserProgInfo.TxnName = _ProgramName;     // 20190815 中文模糊查詢
             }
 
             return _UserProgInfo;
