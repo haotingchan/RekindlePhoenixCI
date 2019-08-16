@@ -26,6 +26,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
       private D30770 dao30770;
       private OCFG daoOCFG;
+      private string OswGrp = "%"; //下拉選單取消，統一讀全部(%)
 
       public enum SheetType {
          [Description("期貨日明細")]
@@ -78,20 +79,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
       }
 
       /// <summary>
-      /// 5% or % or 7%
-      /// </summary>
-      public string OswGrp {
-         get {
-            return ddlOswGrp.EditValue.ToString();
-         }
-      }
-
-      /// <summary>
-      /// OswGrpText
+      /// 讀table ci.ocfg的盤別期間
       /// </summary>
       public string OswGrpText {
          get {
-            return ddlOswGrp.Text;
+            return dao30770.GetOcfgTimePeriod();
          }
       }
       #endregion
@@ -106,15 +98,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
       protected override ResultStatus Open() {
          base.Open();
-
-         //設定 營業時間 下拉選單
-         //List<LookupItem> lstType = new List<LookupItem>(){
-         //                               new LookupItem() { ValueMember = "5%", DisplayMember = "13:45 - 16:15"},
-         //                               new LookupItem() { ValueMember = "%", DisplayMember = "13:45 - 18:15" },
-         //                               new LookupItem() { ValueMember = "7%", DisplayMember = "16:15 - 18:15" }};
-         daoOCFG = new OCFG();
-         DataTable dtType = daoOCFG.ListAll();
-         Extension.SetDataTable(ddlOswGrp , dtType , "OSW_GRP" , "OSW_GRP_NAME" , TextEditStyles.DisableTextEditor , "");
 
          return ResultStatus.Success;
       }
@@ -132,17 +115,8 @@ namespace PhoenixCI.FormUI.Prefix3 {
          txtEndMonth.Text = "2019/05";
          txtStartDate.Text = "2019/05/01";
          txtEndDate.Text = "2019/05/21";
-         ddlOswGrp.ItemIndex = 3;
          this.Text += "(開啟測試模式)";
 #endif
-
-         ddlOswGrp.ItemIndex = 3;// % = 13:45 - 18:15
-
-         if (!FlagAdmin) {
-            ddlOswGrp.Visible = false;
-         } else {
-            ddlOswGrp.Visible = true;
-         }
 
          return ResultStatus.Success;
       }
@@ -163,8 +137,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
          return ResultStatus.Success;
       }
-
-
+   
       protected override ResultStatus Export() {
          try {
 
@@ -282,10 +255,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
          int colStart3 = (cp_max_seq_no * 2) + 2;
          int rowIndex = 0;
 
-         if (oswGrp == "ALL") {
-            oswGrp = "13:45 - 18:15";
-         }
-
          ws.Cells[rowIndex , colStart1 + 1].Value = oswGrp + "交易量";
          ws.Cells[rowIndex + 2 , colStart2].Value = "小計";
          ws.Cells[rowIndex , colStart2 + 1].Value = "一般交易時段交易量";
@@ -359,9 +328,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
          }//foreach (DataRow dr in dtTemp.Rows) {
 
       }
-
-
-
 
       public interface IReportData {
          //DataTable GetData();
@@ -459,10 +425,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
                }
             }
 
-            if (oswGrpText == "ALL") {
-               oswGrpText = "13:45 - 18:15";
-            }
-
             ws.Cells[rowIndex , colStart1 + 1].Value = oswGrpText + "交易量";
             ws.Cells[rowIndex , colStart2 + 1].Value = "一般交易時段交易量";
             ws.Cells[rowIndex , colStart3 + 1].Value = "延長交易時段交易量比重";
@@ -557,8 +519,6 @@ namespace PhoenixCI.FormUI.Prefix3 {
          }//protected virtual void ExportGrid(Worksheet ws, DataTable dtTemp, GridName gridName,int rowIndex,string oswGrp) {
 
       }
-
-
 
       public class FutureDay : Report30770 {
 

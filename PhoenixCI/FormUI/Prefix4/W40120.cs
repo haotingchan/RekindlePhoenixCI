@@ -3,9 +3,12 @@ using BaseGround.Shared;
 using BusinessObjects.Enums;
 using Common;
 using DataObjects.Dao.Together.SpecificDao;
+using DevExpress.XtraSplashScreen;
+using DevExpress.XtraWaitForm;
 using System;
 using System.Data;
 using System.IO;
+using System.Windows.Forms;
 
 /// <summary>
 /// Winni, 2019/3/12
@@ -47,9 +50,23 @@ namespace PhoenixCI.FormUI.Prefix4 {
             labMsg.Text = "訊息：資料轉出中........";
             this.Refresh();
 
+            //SplashScreenManager.ShowForm(this , typeof(FormWait) , true , true);
+            //SplashScreenManager.CloseForm();
+
+            this.Invoke(new MethodInvoker(() => {
+               FormWait formWait = new FormWait();
+
+               SplashScreenManager.ShowForm(this , typeof(FormWait) , true , true);
+
+               //SplashScreenManager.ShowForm(this , typeof(FormWait) , true , true , SplashFormStartPosition.Manual , pointWait , ParentFormState.Locked);
+            }));
+
+
+
             //1.2 get data
             DataTable dt = new D40120().ListData(txtStartDate.DateTimeValue);
             if (dt.Rows.Count <= 0) {
+               SplashScreenManager.CloseForm();
                MessageDisplay.Info(string.Format("{0},{1}文字說明,讀取「案由一契約名稱」無任何資料!" , txtStartDate.Text , _ProgramID) , GlobalInfo.ResultText);
                return ResultStatus.Fail;
             }
@@ -73,7 +90,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   pos++;
                   string abbrName = dr["mgt2_abbr_name"].AsString();
                   string kindIdOut = dr["mgt2_kind_id_out"].AsString();
-                  Decimal changeRange = Math.Round(dr["mgd2_adj_rate"].AsDecimal() * 100 , 1,MidpointRounding.AwayFromZero);
+                  Decimal changeRange = Math.Round(dr["mgd2_adj_rate"].AsDecimal() * 100 , 1 , MidpointRounding.AwayFromZero);
                   string kindId = dr["mgd2_kind_id"].AsString();
 
                   resFuture += abbrName;
@@ -133,7 +150,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                   for (int k = 0 ; k < dtFuture.Rows.Count ; k++) {
                      string kindIdOut = dtFuture.Rows[k]["mgt2_kind_id_out"].AsString();
-                     Decimal changeRange = Math.Round(dtFuture.Rows[k]["mgd2_adj_rate"].AsDecimal() * 100 , 1,MidpointRounding.AwayFromZero);
+                     Decimal changeRange = Math.Round(dtFuture.Rows[k]["mgd2_adj_rate"].AsDecimal() * 100 , 1 , MidpointRounding.AwayFromZero);
                      tempFuture += kindIdOut + "：" + changeRange + "%";
                      if (k == dtFuture.Rows.Count - 2) {
                         tempFuture += "及";
@@ -155,7 +172,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                }//while (ldt_date != DateTime.MinValue) {
                #endregion
 
-               Decimal mg1_change_cond = Math.Round(dtFuture.Rows[dtFuture.Rows.Count - 1]["mg1_change_cond"].AsDecimal() * 100 , 0,MidpointRounding.AwayFromZero);
+               Decimal mg1_change_cond = Math.Round(dtFuture.Rows[dtFuture.Rows.Count - 1]["mg1_change_cond"].AsDecimal() * 100 , 0 , MidpointRounding.AwayFromZero);
                ls_txt_end = string.Format("其變動幅分達{0}%以上且進位後金額改變，依本公司結算保證金收取方式及標準規定，已達得調整保證金之標準。" ,
                                            mg1_change_cond.ToString());
             }//if (dtFuture.Rows.Count > 0) {
@@ -173,7 +190,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   pos++;
                   string abbrName = dr["mgt2_abbr_name"].AsString();
                   string kindIdOut = dr["mgt2_kind_id_out"].AsString();
-                  Decimal changeRange = Math.Round(dr["mgd2_adj_rate"].AsDecimal() * 100 , 1,MidpointRounding.AwayFromZero);
+                  Decimal changeRange = Math.Round(dr["mgd2_adj_rate"].AsDecimal() * 100 , 1 , MidpointRounding.AwayFromZero);
 
                   resOption += abbrName;
                   tempFutureOption += kindIdOut + "：" + changeRange.ToString() + "%";
@@ -199,7 +216,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                resOption += tempFutureOption + "，";
 
-               Decimal mg1_change_cond = Math.Round(dtOption.Rows[dtOption.Rows.Count - 1]["mg1_change_cond"].AsDecimal() * 100 , 0,MidpointRounding.AwayFromZero);
+               Decimal mg1_change_cond = Math.Round(dtOption.Rows[dtOption.Rows.Count - 1]["mg1_change_cond"].AsDecimal() * 100 , 0 , MidpointRounding.AwayFromZero);
                ls_txt_end = string.Format("其變動幅分達{0}%以上且進位後金額改變，依本公司結算保證金收取方式及標準規定，已達得調整保證金之標準。" ,
                                                mg1_change_cond.ToString());
 
@@ -217,6 +234,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!" , GlobalInfo.ErrorText);
                return ResultStatus.Fail;
             }
+
+            //SplashScreenManager.CloseForm();
 
             //if (FlagAdmin)
             //   System.Diagnostics.Process.Start(filePath);
