@@ -16,7 +16,7 @@ using BaseGround.Widget;
 namespace PhoenixCI.FormUI.PrefixS {
    public partial class WS0011 : FormParent {
       private DS0011 daoS0011;
-      private int countGroup = 3;//設定群組數
+      private int countGroup = 2;//設定群組數
 
       public WS0011(string programID, string programName) : base(programID, programName) {
          InitializeComponent();
@@ -189,16 +189,16 @@ namespace PhoenixCI.FormUI.PrefixS {
                }
                break;
             }
-            case "3": {
-               for (int i = 0; i < gvMain.DataRowCount; i++) {
-                  if (gvMain.GetRowCellValue(i, "GROUP_TYPE").AsString() == "3") {
-                     gvMain.SetRowCellValue(i, "MG2_SPAN_CODE", "Y");
-                  } else {
-                     gvMain.SetRowCellValue(i, "MG2_SPAN_CODE", " ");
-                  }
-               }
-               break;
-            }
+            //case "3": {
+            //   for (int i = 0; i < gvMain.DataRowCount; i++) {
+            //      if (gvMain.GetRowCellValue(i, "GROUP_TYPE").AsString() == "3") {
+            //         gvMain.SetRowCellValue(i, "MG2_SPAN_CODE", "Y");
+            //      } else {
+            //         gvMain.SetRowCellValue(i, "MG2_SPAN_CODE", " ");
+            //      }
+            //   }
+            //   break;
+            //}
             case "ETF": {
                for (int i = 0; i < gvMain.DataRowCount; i++) {
                   if (gvMain.GetRowCellValue(i, "MG1_PROD_SUBTYPE").AsString() == "S") {
