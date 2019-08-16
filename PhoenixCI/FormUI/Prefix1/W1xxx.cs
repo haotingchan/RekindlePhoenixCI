@@ -447,10 +447,14 @@ namespace PhoenixCI.FormUI.Prefix1
 
                     #endregion 開始執行
 
+
                     #region 執行特別的程式
 
 
-                    this.Invoke(new MethodInvoker(() => { RunAfterEveryItem(args); }));
+                    this.Invoke(new MethodInvoker(() => {
+                        gv.SetRowCellValue(i, "TXF_DEFAULT", 0);
+                        RunAfterEveryItem(args);
+                    }));
 
                     #endregion 執行特別的程式
 
@@ -510,7 +514,7 @@ namespace PhoenixCI.FormUI.Prefix1
                 formInstance.WindowState = FormWindowState.Maximized;
                 formInstance.Show();
             }
-
+            formInstance.IsPreventFlowExportAfter = true;
             ExecuteFormBefore(formInstance,args);
             resultData.Status = formInstance.ProcessExport();
             formInstance.Close();

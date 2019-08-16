@@ -37,7 +37,9 @@ namespace PhoenixCI.FormUI.Prefix1
                     }
                     break;
                 case "wf_CI_1002205":
+                    //全部wf_70010('%')
 
+                    //日盤wf_70010('0')
                     break;
             }
             base.RunBeforeEveryItem(args);

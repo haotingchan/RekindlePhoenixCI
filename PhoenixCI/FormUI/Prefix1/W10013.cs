@@ -1,5 +1,6 @@
 ﻿using BaseGround;
 using BaseGround.Shared;
+using BaseGround.Widget;
 using BusinessObjects;
 using BusinessObjects.Enums;
 using Common;
@@ -122,6 +123,7 @@ namespace PhoenixCI.FormUI.Prefix1
         protected override void ExecuteFormBefore(FormParent formInstance,PokeBall args)
         {
             ((CheckBox)formInstance.Controls.Find("cbxNews", true)[0]).Checked = true;
+            ((TextDateEdit)formInstance.Controls.Find("txtSDate", true)[0]).DateTimeValue = txtOcfDate.DateTimeValue;
 
             if (args.TXF_TID == "w_30055")
             {

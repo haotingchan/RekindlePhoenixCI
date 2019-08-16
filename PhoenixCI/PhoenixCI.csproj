@@ -1848,21 +1848,6 @@
     <Compile Include="Shared\ReportExportFunc.cs" />
     <Compile Include="Shared\ReturnMessageClass.cs" />
     <Compile Include="Widget\DropDownList.cs" />
-    <EmbeddedResource Include="FormUI\Prefix1\W11020.resx">
-      <DependentUpon>W11020.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormUI\Prefix1\W11010.resx">
-      <DependentUpon>W11010.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormUI\Prefix1\W10012.resx">
-      <DependentUpon>W10012.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormUI\Prefix1\W10002.resx">
-      <DependentUpon>W10002.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormUI\Prefix1\W1xxx.resx">
-      <DependentUpon>W1xxx.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix2\W20110.resx">
       <DependentUpon>W20110.cs</DependentUpon>
     </EmbeddedResource>
