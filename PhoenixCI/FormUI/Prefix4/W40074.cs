@@ -97,7 +97,7 @@ namespace PhoenixCI.FormUI.Prefix4
             GridHelper.SetCommonGrid(gvMain);
             gvMain.AppearancePrint.BandPanel.Font = new Font("Microsoft YaHei", 10);
             gvMain.AppearancePrint.BandPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            SaveFlag = true; 
+            SaveFlag = true;
         }
 
         protected override ResultStatus Open()
@@ -352,7 +352,7 @@ namespace PhoenixCI.FormUI.Prefix4
                 {
                     if (dr.RowState == DataRowState.Deleted) continue;
                     opType = dr["OP_TYPE"].ToString();
-                    stockID = dr["STOCK_ID"].AsString();
+                    stockID = dr["STOCK_ID"].ToString();
                     kindID = dr["KIND_ID"].AsString();
                     level = dr["M_LEVEL"].AsString();
 
@@ -499,7 +499,7 @@ namespace PhoenixCI.FormUI.Prefix4
                     {
                         kindID = dr["KIND_ID"].AsString();
                         //stockID = dr["KIND_ID"].AsString();
-                        stockID = dr["STOCK_ID"].AsString();
+                        stockID = dr["STOCK_ID"].ToString();
 
                         //刪除已存在資料
                         if (daoMGD2.DeleteMGD2(this.ymd, isAdjType, stockID, kindID) < 0)
@@ -568,7 +568,7 @@ namespace PhoenixCI.FormUI.Prefix4
                 foreach (DataRow drDel in dtDel.Rows)
                 {
                     kindID = drDel["KIND_ID"].AsString();
-                    stockID = drDel["STOCK_ID"].AsString();
+                    stockID = drDel["STOCK_ID"].ToString();
                     if (daoMGD2.DeleteMGD2(this.ymd, isAdjType, stockID, kindID) < 0)
                     {
                         MessageDisplay.Error("MGD2資料刪除失敗");
@@ -813,7 +813,8 @@ namespace PhoenixCI.FormUI.Prefix4
                 //如果改變商品類
                 DataRow dr = dtProdType.Select("prod_seq_no = '" + e.Value.AsString() + "'")[0];
                 gv.SetRowCellValue(e.RowHandle, "KIND_ID", "");
-                gv.SetRowCellValue(e.RowHandle, "STOCK_ID", "");
+                if (!e.Value.Equals("6") && !e.Value.Equals("7"))
+                    gv.SetRowCellValue(e.RowHandle, "STOCK_ID", " ");
                 gv.SetRowCellValue(e.RowHandle, "M_LEVEL", "");
                 gv.SetRowCellValue(e.RowHandle, "PROD_SUBTYPE", dr["CND_PROD_SUBTYPE"]);
                 gv.SetRowCellValue(e.RowHandle, "CND_PARAM_KEY", dr["CND_PARAM_KEY"]);
