@@ -154,7 +154,7 @@ namespace BaseGround {
          if (GlobalDaoSetting.GetConnectionInfo.ConnectionName != "CI") {
             this.Text += " (測試)";
          }
-         this.scSearch.ImeMode = System.Windows.Forms.ImeMode.OnHalf;
+         this.scSearch.ImeMode = System.Windows.Forms.ImeMode.Off;
          this.scSearch.Properties.FilterCondition = DevExpress.Data.Filtering.FilterCondition.Contains;
 
 
