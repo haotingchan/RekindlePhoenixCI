@@ -53,7 +53,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
 
          //買賣權
          DataTable dtCP = new CODW().ListLookUpEdit("AMMD" , "AMMD_PC_CODE");
-         ddlb_1.SetDataTable(dtCP , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
+         ddlb_1.SetDataTable(dtCP , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor);
+         ddlb_1.ItemIndex = 0;
 
          return ResultStatus.Success;
       }
@@ -108,14 +109,7 @@ namespace PhoenixCI.FormUI.Prefix5 {
             ls_prod_kind_id = string.IsNullOrEmpty(dw_prod_kd.EditValue.AsString()) ? "%" : dw_prod_kd.EditValue.AsString();
 
             //買賣權
-            ls_pc_code = ddlb_1.Text.Trim();
-            if (string.IsNullOrEmpty(ls_pc_code)) {
-               ls_pc_code = "%";
-            } else if (ls_pc_code == "買權") {
-               ls_pc_code = "C";
-            } else if (ls_pc_code == "賣權") {
-               ls_pc_code = "P";
-            }
+            ls_pc_code = ddlb_1.EditValue.AsString();
 
             //契約月份
             ls_settle_date = string.IsNullOrEmpty(sle_1.Text.Trim()) ? "%" : sle_1.Text.Trim().Replace("/" , "");
