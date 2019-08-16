@@ -192,6 +192,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
             gvMain.Columns[dc.ColumnName].AppearanceCell.TextOptions.WordWrap = WordWrap.Wrap;
             gvMain.Columns[dc.ColumnName].OptionsColumn.AllowMerge = DefaultBoolean.False;
             gvMain.Columns[dc.ColumnName].AppearanceCell.Font = new Font("微軟正黑體" , 11f); //電腦畫面的字體大小
+            if (dc.ColumnName == "AMMD_ACC_NO" || dc.ColumnName == "AMMD_W_TIME") {
+               gvMain.Columns[dc.ColumnName].AppearanceCell.TextOptions.HAlignment = HorzAlignment.Center;//設定帳號、報價時間置中
+            }
 
             gvPrint.SetColumnCaption(dc.ColumnName , showColCaption[dtTarget.Columns.IndexOf(dc)]);
             gvPrint.Columns[dc.ColumnName].OptionsColumn.AllowEdit = false;
@@ -199,6 +202,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
             gvPrint.Columns[dc.ColumnName].AppearanceCell.TextOptions.WordWrap = WordWrap.Wrap;
             gvPrint.Columns[dc.ColumnName].OptionsColumn.AllowMerge = DefaultBoolean.False;
             gvPrint.Columns[dc.ColumnName].AppearanceCell.Font = new Font("微軟正黑體" , 9f); //列印的字體大小
+            if (dc.ColumnName == "AMMD_ACC_NO" || dc.ColumnName == "AMMD_W_TIME") {
+               gvPrint.Columns[dc.ColumnName].AppearanceCell.TextOptions.HAlignment = HorzAlignment.Center;//設定帳號、報價時間置中
+            }
 
             //前4個欄位合併 (一樣的值不顯示)
             if (dc.Ordinal < 5) {
