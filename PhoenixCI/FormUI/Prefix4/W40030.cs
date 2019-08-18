@@ -1458,7 +1458,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
          protected virtual DataTable DtSpan { get; set; }
          protected virtual DataTable DtSpanTable { get; set; }
          protected virtual string[] ChineseNumber { get; set; }
-
+         private float ChangeRate=0.10f; //結算保證金變動幅度(10%)
          public ExportWord0B(string txtdate , string adjtype , string programId , List<CheckedItem> checkeditems) :
                      base(txtdate , adjtype , programId , checkeditems) {
 
@@ -1605,7 +1605,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     List<String> items = new List<String>();
                     foreach (DataRow dr in dtTemp.Rows)
                     {
-                        if (mcDic[dr["KIND_ID"].ToString()].MAX > 0.1 || mcDic[dr["KIND_ID"].ToString()].EWMA > 0.1 || mcDic[dr["KIND_ID"].ToString()].SMA > 0.1)
+                        //
+                        if (Math.Abs(mcDic[dr["KIND_ID"].ToString()].MAX) >= ChangeRate || Math.Abs(mcDic[dr["KIND_ID"].ToString()].EWMA) >= ChangeRate || Math.Abs(mcDic[dr["KIND_ID"].ToString()].SMA) >= ChangeRate)
                             items.Add(dr["KIND_ID"].ToString());
                     }
                     int i = 0;
@@ -1779,7 +1780,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
                     List<String> items = new List<String>();
                     foreach (DataRow dr in dtTemp.Rows)
                     {
-                        if (mcDic[dr["KIND_ID"].ToString()].MAX > 0.1 || mcDic[dr["KIND_ID"].ToString()].EWMA > 0.1 || mcDic[dr["KIND_ID"].ToString()].SMA > 0.1)
+                        if (Math.Abs(mcDic[dr["KIND_ID"].ToString()].MAX) >= ChangeRate || Math.Abs(mcDic[dr["KIND_ID"].ToString()].EWMA) >= ChangeRate || Math.Abs(mcDic[dr["KIND_ID"].ToString()].SMA) >= ChangeRate)
                             items.Add(dr["KIND_ID"].ToString());
                     }
                     int i = 0;
