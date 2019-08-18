@@ -60,10 +60,15 @@ namespace BaseGround
       /// </summary>
       protected bool _IsPreventFlowExport = true;
 
+        /// <summary>
+        /// 防止接下來的ExportAfter事件觸發
+        /// </summary>
+      public bool IsPreventFlowExportAfter = false;
+
       /// <summary>
       /// 執行功能是否要非同步
       /// </summary>
-      protected bool _IsProcessRunAsync = false;
+        protected bool _IsProcessRunAsync = false;
 
       /// <summary>
       /// DB Owner
@@ -122,6 +127,7 @@ namespace BaseGround
                _UserProgInfo = new UserProgInfo();
                _UserProgInfo.UserID = GlobalInfo.USER_ID;
                _UserProgInfo.TxnID = _ProgramID;
+               _UserProgInfo.TxnName = _ProgramName;     // 20190815 中文模糊查詢
             }
 
             return _UserProgInfo;
@@ -298,7 +304,7 @@ namespace BaseGround
                WriteLog("Export" , "Operation" , "E");
                ResultStatus result = Export();
 
-               if (result == ResultStatus.Success)
+               if (result == ResultStatus.Success && !IsPreventFlowExportAfter)
                   ExportAfter(startTime);
             } else {
                return ResultStatus.Fail;

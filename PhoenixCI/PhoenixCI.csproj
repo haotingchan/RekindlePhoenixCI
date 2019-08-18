@@ -1013,6 +1013,12 @@
     <Compile Include="FormUI\Prefix3\W30290.designer.cs">
       <DependentUpon>W30290.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormUI\Prefix4\W40014.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormUI\Prefix4\W40014.Designer.cs">
+      <DependentUpon>W40014.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormUI\Prefix4\W40022.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1842,21 +1848,6 @@
     <Compile Include="Shared\ReportExportFunc.cs" />
     <Compile Include="Shared\ReturnMessageClass.cs" />
     <Compile Include="Widget\DropDownList.cs" />
-    <EmbeddedResource Include="FormUI\Prefix1\W11020.resx">
-      <DependentUpon>W11020.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormUI\Prefix1\W11010.resx">
-      <DependentUpon>W11010.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormUI\Prefix1\W10012.resx">
-      <DependentUpon>W10012.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormUI\Prefix1\W10002.resx">
-      <DependentUpon>W10002.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormUI\Prefix1\W1xxx.resx">
-      <DependentUpon>W1xxx.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix2\W20110.resx">
       <DependentUpon>W20110.cs</DependentUpon>
     </EmbeddedResource>
@@ -2228,6 +2219,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix3\W30290.resx">
       <DependentUpon>W30290.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUI\Prefix4\W40014.resx">
+      <DependentUpon>W40014.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormUI\Prefix4\W40022.resx">
       <DependentUpon>W40022.cs</DependentUpon>
@@ -3218,6 +3212,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\40013old.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel_Template\40014.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Excel_Template\40021.xlsx">

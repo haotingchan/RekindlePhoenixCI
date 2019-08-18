@@ -1,6 +1,6 @@
 ﻿namespace PhoenixCI.FormUI.Prefix4
 {
-   partial class W40040
+   partial class W40014
    {
       /// <summary>
       /// Required designer variable.
@@ -29,41 +29,40 @@
       {
             this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
             this.r_frame = new DevExpress.XtraEditors.PanelControl();
-            this.gp1Label = new System.Windows.Forms.Label();
             this.stMsgTxt = new System.Windows.Forms.Label();
             this.gb1_label = new System.Windows.Forms.Label();
-            this.gb = new DevExpress.XtraEditors.PanelControl();
-            this.oswGrpLookItem = new DevExpress.XtraEditors.LookUpEdit();
-            this.emDate = new BaseGround.Widget.TextDateEdit();
-            this.stOswGrp = new System.Windows.Forms.Label();
+            this.gb_1 = new DevExpress.XtraEditors.PanelControl();
+            this.txtDate = new BaseGround.Widget.TextDateEdit();
             this.stDate = new System.Windows.Forms.Label();
             this.textEdit1 = new DevExpress.XtraEditors.TextEdit();
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.oswGrpLookItem = new DevExpress.XtraEditors.LookUpEdit();
+            this.stOswGrp = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
             this.panelControl2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
             this.r_frame.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gb)).BeginInit();
-            this.gb.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.oswGrpLookItem.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.emDate.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gb_1)).BeginInit();
+            this.gb_1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.oswGrpLookItem.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // panParent
             // 
-            this.panParent.Size = new System.Drawing.Size(813, 403);
+            this.panParent.Size = new System.Drawing.Size(532, 255);
             // 
             // ribbonControl
             // 
             this.ribbonControl.ExpandCollapseItem.Id = 0;
-            this.ribbonControl.Size = new System.Drawing.Size(813, 30);
+            this.ribbonControl.Size = new System.Drawing.Size(532, 30);
             this.ribbonControl.Toolbar.ShowCustomizeItem = false;
             // 
             // panelControl2
@@ -72,7 +71,7 @@
             this.panelControl2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelControl2.Location = new System.Drawing.Point(0, 30);
             this.panelControl2.Name = "panelControl2";
-            this.panelControl2.Size = new System.Drawing.Size(813, 403);
+            this.panelControl2.Size = new System.Drawing.Size(532, 255);
             this.panelControl2.TabIndex = 1;
             // 
             // r_frame
@@ -80,32 +79,20 @@
             this.r_frame.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
             this.r_frame.Appearance.Options.UseBackColor = true;
             this.r_frame.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.r_frame.Controls.Add(this.gp1Label);
             this.r_frame.Controls.Add(this.stMsgTxt);
             this.r_frame.Controls.Add(this.gb1_label);
-            this.r_frame.Controls.Add(this.gb);
+            this.r_frame.Controls.Add(this.gb_1);
             this.r_frame.Location = new System.Drawing.Point(30, 27);
             this.r_frame.Name = "r_frame";
-            this.r_frame.Size = new System.Drawing.Size(562, 279);
+            this.r_frame.Size = new System.Drawing.Size(461, 193);
             this.r_frame.TabIndex = 1;
-            // 
-            // gp1Label
-            // 
-            this.gp1Label.AutoSize = true;
-            this.gp1Label.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
-            this.gp1Label.ForeColor = System.Drawing.Color.Red;
-            this.gp1Label.Location = new System.Drawing.Point(34, 180);
-            this.gp1Label.Name = "gp1Label";
-            this.gp1Label.Size = new System.Drawing.Size(468, 42);
-            this.gp1Label.TabIndex = 2;
-            this.gp1Label.Text = "1.\t各盤收盤後執行本作業前，請先執行40011 EWMA計算功能。\r\n2.\t國外商品價格採前一日16:00最新成交價。";
             // 
             // stMsgTxt
             // 
             this.stMsgTxt.AutoSize = true;
             this.stMsgTxt.Font = new System.Drawing.Font("微軟正黑體", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.stMsgTxt.ForeColor = System.Drawing.Color.Blue;
-            this.stMsgTxt.Location = new System.Drawing.Point(24, 231);
+            this.stMsgTxt.Location = new System.Drawing.Point(34, 161);
             this.stMsgTxt.Name = "stMsgTxt";
             this.stMsgTxt.Size = new System.Drawing.Size(153, 19);
             this.stMsgTxt.TabIndex = 1;
@@ -123,61 +110,41 @@
             this.gb1_label.TabIndex = 0;
             this.gb1_label.Text = "請輸入交易日期";
             // 
-            // gb
+            // gb_1
             // 
-            this.gb.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
-            this.gb.Appearance.Options.UseBackColor = true;
-            this.gb.Appearance.Options.UseTextOptions = true;
-            this.gb.Appearance.TextOptions.Trimming = DevExpress.Utils.Trimming.Word;
-            this.gb.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            this.gb.Controls.Add(this.oswGrpLookItem);
-            this.gb.Controls.Add(this.emDate);
-            this.gb.Controls.Add(this.stOswGrp);
-            this.gb.Controls.Add(this.stDate);
-            this.gb.Location = new System.Drawing.Point(28, 25);
-            this.gb.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
-            this.gb.LookAndFeel.UseDefaultLookAndFeel = false;
-            this.gb.Name = "gb";
-            this.gb.Size = new System.Drawing.Size(498, 135);
-            this.gb.TabIndex = 0;
+            this.gb_1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
+            this.gb_1.Appearance.Options.UseBackColor = true;
+            this.gb_1.Appearance.Options.UseTextOptions = true;
+            this.gb_1.Appearance.TextOptions.Trimming = DevExpress.Utils.Trimming.Word;
+            this.gb_1.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.gb_1.Controls.Add(this.oswGrpLookItem);
+            this.gb_1.Controls.Add(this.stOswGrp);
+            this.gb_1.Controls.Add(this.txtDate);
+            this.gb_1.Controls.Add(this.stDate);
+            this.gb_1.Location = new System.Drawing.Point(28, 25);
+            this.gb_1.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
+            this.gb_1.LookAndFeel.UseDefaultLookAndFeel = false;
+            this.gb_1.Name = "gb_1";
+            this.gb_1.Size = new System.Drawing.Size(406, 133);
+            this.gb_1.TabIndex = 0;
             // 
-            // oswGrpLookItem
+            // txtDate
             // 
-            this.oswGrpLookItem.Location = new System.Drawing.Point(160, 73);
-            this.oswGrpLookItem.MenuManager = this.ribbonControl;
-            this.oswGrpLookItem.Name = "oswGrpLookItem";
-            this.oswGrpLookItem.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.oswGrpLookItem.Size = new System.Drawing.Size(161, 28);
-            this.oswGrpLookItem.TabIndex = 6;
-            // 
-            // emDate
-            // 
-            this.emDate.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
-            this.emDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-            this.emDate.EditValue = "2019/01/01";
-            this.emDate.Location = new System.Drawing.Point(98, 34);
-            this.emDate.Name = "emDate";
-            this.emDate.Properties.Appearance.Options.UseTextOptions = true;
-            this.emDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.emDate.Properties.EditFormat.FormatString = "yyyy/MM/dd";
-            this.emDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
-            this.emDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-            this.emDate.Properties.Mask.ShowPlaceHolders = false;
-            this.emDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-            this.emDate.Size = new System.Drawing.Size(95, 28);
-            this.emDate.TabIndex = 4;
-            this.emDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePromptAndLiterals;
-            // 
-            // stOswGrp
-            // 
-            this.stOswGrp.AutoSize = true;
-            this.stOswGrp.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
-            this.stOswGrp.Location = new System.Drawing.Point(45, 77);
-            this.stOswGrp.Name = "stOswGrp";
-            this.stOswGrp.Size = new System.Drawing.Size(122, 21);
-            this.stOswGrp.TabIndex = 1;
-            this.stOswGrp.Text = "商品交易時段：";
+            this.txtDate.DateTimeValue = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
+            this.txtDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+            this.txtDate.EditValue = "2019/01/01";
+            this.txtDate.Location = new System.Drawing.Point(100, 33);
+            this.txtDate.Name = "txtDate";
+            this.txtDate.Properties.Appearance.Options.UseTextOptions = true;
+            this.txtDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtDate.Properties.EditFormat.FormatString = "yyyyMMdd";
+            this.txtDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+            this.txtDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.txtDate.Properties.Mask.ShowPlaceHolders = false;
+            this.txtDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+            this.txtDate.Size = new System.Drawing.Size(95, 28);
+            this.txtDate.TabIndex = 4;
+            this.txtDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
             // 
             // stDate
             // 
@@ -223,15 +190,35 @@
             this.layoutControlItem3.Size = new System.Drawing.Size(0, 0);
             this.layoutControlItem3.TextSize = new System.Drawing.Size(50, 20);
             // 
-            // W40040
+            // oswGrpLookItem
+            // 
+            this.oswGrpLookItem.Location = new System.Drawing.Point(160, 81);
+            this.oswGrpLookItem.MenuManager = this.ribbonControl;
+            this.oswGrpLookItem.Name = "oswGrpLookItem";
+            this.oswGrpLookItem.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.oswGrpLookItem.Size = new System.Drawing.Size(161, 28);
+            this.oswGrpLookItem.TabIndex = 8;
+            // 
+            // stOswGrp
+            // 
+            this.stOswGrp.AutoSize = true;
+            this.stOswGrp.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
+            this.stOswGrp.Location = new System.Drawing.Point(45, 85);
+            this.stOswGrp.Name = "stOswGrp";
+            this.stOswGrp.Size = new System.Drawing.Size(122, 21);
+            this.stOswGrp.TabIndex = 7;
+            this.stOswGrp.Text = "商品交易時段：";
+            // 
+            // W40014
             // 
             this.Appearance.Options.UseFont = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(813, 433);
+            this.ClientSize = new System.Drawing.Size(532, 285);
             this.Controls.Add(this.panelControl2);
-            this.Name = "W40040";
-            this.Text = "W40040";
+            this.Name = "W40014";
+            this.Text = "W40014";
             this.Controls.SetChildIndex(this.ribbonControl, 0);
             this.Controls.SetChildIndex(this.panParent, 0);
             this.Controls.SetChildIndex(this.panelControl2, 0);
@@ -241,15 +228,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.r_frame)).EndInit();
             this.r_frame.ResumeLayout(false);
             this.r_frame.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gb)).EndInit();
-            this.gb.ResumeLayout(false);
-            this.gb.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.oswGrpLookItem.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.emDate.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gb_1)).EndInit();
+            this.gb_1.ResumeLayout(false);
+            this.gb_1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtDate.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.oswGrpLookItem.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -260,15 +247,14 @@
       private DevExpress.XtraEditors.PanelControl r_frame;
       private System.Windows.Forms.Label stMsgTxt;
       private System.Windows.Forms.Label gb1_label;
-      private DevExpress.XtraEditors.PanelControl gb;
+      private DevExpress.XtraEditors.PanelControl gb_1;
       private DevExpress.XtraEditors.TextEdit textEdit1;
+      private BaseGround.Widget.TextDateEdit txtDate;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
       private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup1;
       private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
       private System.Windows.Forms.Label stDate;
-      private System.Windows.Forms.Label stOswGrp;
-      private DevExpress.XtraEditors.LookUpEdit oswGrpLookItem;
-      private BaseGround.Widget.TextDateEdit emDate;
-      private System.Windows.Forms.Label gp1Label;
-   }
+        private DevExpress.XtraEditors.LookUpEdit oswGrpLookItem;
+        private System.Windows.Forms.Label stOswGrp;
+    }
 }

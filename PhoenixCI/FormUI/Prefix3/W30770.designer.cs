@@ -29,7 +29,6 @@
          this.txtStartMonth = new BaseGround.Widget.TextDateEdit();
          this.rdoGroup = new DevExpress.XtraEditors.RadioGroup();
          this.chkGroup = new DevExpress.XtraEditors.CheckedListBoxControl();
-         this.ddlOswGrp = new DevExpress.XtraEditors.LookUpEdit();
          this.r_frame = new DevExpress.XtraEditors.PanelControl();
          this.labMsg = new System.Windows.Forms.Label();
          this.panFilter = new System.Windows.Forms.GroupBox();
@@ -44,7 +43,6 @@
          ((System.ComponentModel.ISupportInitialize)(this.txtStartMonth.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.rdoGroup.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.chkGroup)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.ddlOswGrp.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).BeginInit();
          this.r_frame.SuspendLayout();
          this.panFilter.SuspendLayout();
@@ -54,13 +52,12 @@
          // panParent
          // 
          this.panParent.Controls.Add(this.r_frame);
-         this.panParent.Controls.Add(this.ddlOswGrp);
-         this.panParent.Size = new System.Drawing.Size(630, 370);
+         this.panParent.Size = new System.Drawing.Size(464, 368);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(630, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(464, 32);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // txtEndDate
@@ -189,22 +186,6 @@
          this.chkGroup.Size = new System.Drawing.Size(74, 87);
          this.chkGroup.TabIndex = 0;
          // 
-         // ddlOswGrp
-         // 
-         this.ddlOswGrp.Location = new System.Drawing.Point(449, 87);
-         this.ddlOswGrp.Name = "ddlOswGrp";
-         this.ddlOswGrp.Properties.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-         this.ddlOswGrp.Properties.AppearanceDisabled.Options.UseBackColor = true;
-         this.ddlOswGrp.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-         this.ddlOswGrp.Properties.DropDownRows = 5;
-         this.ddlOswGrp.Properties.LookAndFeel.SkinName = "The Bezier";
-         this.ddlOswGrp.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
-         this.ddlOswGrp.Properties.NullText = "";
-         this.ddlOswGrp.Properties.PopupSizeable = false;
-         this.ddlOswGrp.Size = new System.Drawing.Size(150, 26);
-         this.ddlOswGrp.TabIndex = 6;
-         // 
          // r_frame
          // 
          this.r_frame.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
@@ -284,7 +265,7 @@
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(630, 400);
+         this.ClientSize = new System.Drawing.Size(464, 400);
          this.Name = "W30770";
          this.Text = "W30770";
          this.panParent.ResumeLayout(false);
@@ -295,7 +276,6 @@
          ((System.ComponentModel.ISupportInitialize)(this.txtStartMonth.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.rdoGroup.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.chkGroup)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.ddlOswGrp.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.r_frame)).EndInit();
          this.r_frame.ResumeLayout(false);
          this.r_frame.PerformLayout();
@@ -310,7 +290,6 @@
       #endregion
       private DevExpress.XtraEditors.CheckedListBoxControl chkGroup;
         protected DevExpress.XtraEditors.RadioGroup rdoGroup;
-        private DevExpress.XtraEditors.LookUpEdit ddlOswGrp;
       private BaseGround.Widget.TextDateEdit txtEndMonth;
       private BaseGround.Widget.TextDateEdit txtStartMonth;
       private BaseGround.Widget.TextDateEdit txtEndDate;

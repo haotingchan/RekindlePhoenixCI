@@ -14,8 +14,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-//TODO : (CIN)servername登入才會看到STWD,SP Button 
-
 /// <summary>
 /// Winni, 2019/02/12
 /// </summary>
@@ -49,7 +47,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
          InitializeComponent();
          this.Text = _ProgramID + "─" + _ProgramName;
 
-         GridHelper.SetCommonGrid(gvMain);
+         gcMain.Visible = false;
 
          daoSTW = new STW();
          daoSTWD = new STWD();
@@ -58,10 +56,6 @@ namespace PhoenixCI.FormUI.Prefix2 {
          dao20110 = new D20110();
       }
 
-      /// <summary>
-      /// 需判斷帳號是否為FlagAdmin
-      /// </summary>
-      /// <returns></returns>
       protected override ResultStatus Open() {
          base.Open();
 
@@ -69,10 +63,6 @@ namespace PhoenixCI.FormUI.Prefix2 {
          return ResultStatus.Success;
       }
 
-      /// <summary>
-      /// 有用到的Icon
-      /// </summary>
-      /// <returns></returns>
       protected override ResultStatus ActivatedForm() {
          base.ActivatedForm();
 
@@ -325,7 +315,6 @@ namespace PhoenixCI.FormUI.Prefix2 {
                }
 
                resultStatus = daoSTW.UpdateData(dt).Status;
-               Retrieve();
             }
 
             //20100402 最後交易日OI清為0(當日若出現一筆結算價為0,有可能是最後結算日,將履約年月最小的一筆資料OI清為0)
@@ -553,55 +542,51 @@ namespace PhoenixCI.FormUI.Prefix2 {
          //Austin 20190813 判斷AOCF該日如無交易不轉統計資料
          AOCF daoAOCF = new AOCF();
          string sdate = date.ToString("yyyyMMdd");
-         int AOCFcount = daoAOCF.GetAOCFDates(sdate,sdate);
+         int AOCFcount = daoAOCF.GetAOCFDates(sdate , sdate);
          if (AOCFcount > 0) {
             /*******************
             轉統計資料AI3
             *******************/
             if (dao20110.sp_H_stt_AI3(date).Status != ResultStatus.Success) {
-               MessageBox.Show("執行SP(sp_H_stt_AI3)錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+               MessageBox.Show("執行SP(sp_H_stt_AI3)錯誤! " , "錯誤訊息" , MessageBoxButtons.OK , MessageBoxIcon.Stop);
                return "E";
-            }
-            else {
+            } else {
                rtn = 0;
             }
-            WriteLog("執行sp_H_stt_AI3", "Info", "E");
+            WriteLog("執行sp_H_stt_AI3" , "Info" , "E");
 
             /*******************
             更新AI6 (震幅波動度)
             *******************/
             if (dao20110.sp_H_gen_AI6(date).Status != ResultStatus.Success) {
-               MessageBox.Show("執行SP(sp_H_gen_AI6)錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+               MessageBox.Show("執行SP(sp_H_gen_AI6)錯誤! " , "錯誤訊息" , MessageBoxButtons.OK , MessageBoxIcon.Stop);
                return "E";
-            }
-            else {
+            } else {
                rtn = 0;
             }
-            WriteLog("執行sp_H_gen_AI6", "Info", "E");
+            WriteLog("執行sp_H_gen_AI6" , "Info" , "E");
 
             /*******************
             更新AA3
             *******************/
             if (dao20110.sp_H_upd_AA3(date).Status != ResultStatus.Success) {
-               MessageBox.Show("執行SP(sp_H_upd_AA3)錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+               MessageBox.Show("執行SP(sp_H_upd_AA3)錯誤! " , "錯誤訊息" , MessageBoxButtons.OK , MessageBoxIcon.Stop);
                return "E";
-            }
-            else {
+            } else {
                rtn = 0;
             }
-            WriteLog("執行sp_H_upd_AA3", "Info", "E");
+            WriteLog("執行sp_H_upd_AA3" , "Info" , "E");
 
             /*******************
             更新AI8
             *******************/
             if (dao20110.sp_H_gen_H_AI8(date).Status != ResultStatus.Success) {
-               MessageBox.Show("執行SP(sp_H_gen_H_AI8)錯誤! ", "錯誤訊息", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+               MessageBox.Show("執行SP(sp_H_gen_H_AI8)錯誤! " , "錯誤訊息" , MessageBoxButtons.OK , MessageBoxIcon.Stop);
                return "E";
-            }
-            else {
+            } else {
                rtn = 0;
             }
-            WriteLog("執行sp_H_gen_H_AI8", "Info", "E");
+            WriteLog("執行sp_H_gen_H_AI8" , "Info" , "E");
          }
          return "";
       }

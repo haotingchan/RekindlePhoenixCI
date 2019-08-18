@@ -1,35 +1,38 @@
 ﻿using System;
 using System.Data;
 
-/// <summary>
-/// ken,2019/4/9
-/// </summary>
-namespace DataObjects.Dao.Together.SpecificDao {
-   /// <summary>
-   /// 成交價偏離幅度統計表
-   /// </summary>
-   public class D30681 : DataGate {
+namespace DataObjects.Dao.Together.SpecificDao
+{
+    /// <summary>
+    /// 成交價偏離幅度統計表
+    /// </summary>
+    public class D30681 : DataGate
+    {
+        private const string Equal = "=";
+        private const string NotEqual = "<>";
 
-      /// <summary>
-      /// get ftprices data, return 16 fields
-      /// </summary>
-      /// <param name="as_fm_date"></param>
-      /// <param name="as_to_date"></param>
-      /// <param name="as_sc_code"></param>
-      /// <param name="as_kind_id1"></param>
-      /// <param name="as_kind_id2"></param>
-      /// <param name="as_mth_seq1"></param>
-      /// <param name="as_mth_seq2"></param>
-      /// <returns></returns>
-      public DataTable d_30681_s_new(DateTime as_fm_date,
+        /// <summary>
+        /// get ftprices data, return 16 fields
+        /// </summary>
+        /// <param name="as_fm_date"></param>
+        /// <param name="as_to_date"></param>
+        /// <param name="as_sc_code"></param>
+        /// <param name="as_kind_id1"></param>
+        /// <param name="as_kind_id2"></param>
+        /// <param name="as_mth_seq1"></param>
+        /// <param name="as_mth_seq2"></param>
+        /// <returns></returns>
+        public DataTable d_30681_s_new(DateTime as_fm_date,
                                       DateTime as_to_date,
                                       string as_sc_code,
                                       string as_kind_id1,
                                       string as_kind_id2,
                                       int as_mth_seq1,
-                                      int as_mth_seq2) {
+                                      int as_mth_seq2,
+                                      bool procOriTab)
+        {
 
-         object[] parms = {
+            object[] parms = {
                 ":as_fm_date", as_fm_date,
                 ":as_to_date", as_to_date,
                 ":as_sc_code", as_sc_code,
@@ -39,7 +42,10 @@ namespace DataObjects.Dao.Together.SpecificDao {
                 ":as_mth_seq2", as_mth_seq2
             };
 
-         string sql = @"
+            string newTabFields = procOriTab ? "" : @", ftprices_level8 as ""級距8"", ftprices_level9 as ""級距9"", ftprices_level10 as ""級距10""";
+            string subTypeCond = procOriTab ? NotEqual : Equal;
+
+            string sql = string.Format(@"
 select ftprices_market_code as ""交易時段: 0一般 / 1夜盤"",   
    to_char(ftprices_trade_date,'yyyy/mm/dd hh24:mi:ss') as ""交易日期"",   
    ftprices_prod_type as ""F期貨 / O選擇權"",   
@@ -58,44 +64,47 @@ select ftprices_market_code as ""交易時段: 0一般 / 1夜盤"",
    ftprices_level5 as ""級距5"",   
    ftprices_level6 as ""級距6"",   
 
-   ftprices_level7 as ""級距7""  
-from ci.ftprices  
+   ftprices_level7 as ""級距7"" {0} 
+from ci.ftprices, ci.apdk  
 where ftprices_trade_date >= :as_fm_date
 and ftprices_trade_date <= :as_to_date
 and ftprices_prod_type = 'F'
+and ftprices_kind_id1 = apdk_kind_id
+and apdk_prod_subtype {1} 'E'
 and ftprices_sc_code like :as_sc_code
 and ftprices_kind_id1 like :as_kind_id1
 and ftprices_kind_id2 like :as_kind_id2
 and (:as_mth_seq1 = 99 or ftprices_mth_seq1 = :as_mth_seq1)
 and (:as_mth_seq2 = 99 or ftprices_mth_seq2 = :as_mth_seq2)
 order by ftprices_market_code , ftprices_trade_date , ftprices_prod_type , ftprices_prod_id     
-";
+", newTabFields, subTypeCond);
 
-         DataTable dtResult = db.GetDataTable(sql, parms);
+            DataTable dtResult = db.GetDataTable(sql, parms);
 
-         return dtResult;
-      }
+            return dtResult;
+        }
 
-      /// <summary>
-      /// get tprices data, return 16 fields
-      /// </summary>
-      /// <param name="as_fm_date"></param>
-      /// <param name="as_to_date"></param>
-      /// <param name="as_sc_code"></param>
-      /// <param name="as_kind_id1"></param>
-      /// <param name="as_kind_id2"></param>
-      /// <param name="as_mth_seq1"></param>
-      /// <param name="as_mth_seq2"></param>
-      /// <returns></returns>
-      public DataTable d_30681_s(DateTime as_fm_date,
-                                      DateTime as_to_date,
-                                      string as_sc_code,
-                                      string as_kind_id1,
-                                      string as_kind_id2,
-                                      int as_mth_seq1,
-                                      int as_mth_seq2) {
+        /// <summary>
+        /// get tprices data, return 16 fields
+        /// </summary>
+        /// <param name="as_fm_date"></param>
+        /// <param name="as_to_date"></param>
+        /// <param name="as_sc_code"></param>
+        /// <param name="as_kind_id1"></param>
+        /// <param name="as_kind_id2"></param>
+        /// <param name="as_mth_seq1"></param>
+        /// <param name="as_mth_seq2"></param>
+        /// <returns></returns>
+        public DataTable d_30681_s(DateTime as_fm_date,
+                                        DateTime as_to_date,
+                                        string as_sc_code,
+                                        string as_kind_id1,
+                                        string as_kind_id2,
+                                        int as_mth_seq1,
+                                        int as_mth_seq2)
+        {
 
-         object[] parms = {
+            object[] parms = {
                 ":as_fm_date", as_fm_date,
                 ":as_to_date", as_to_date,
                 ":as_sc_code", as_sc_code,
@@ -105,7 +114,7 @@ order by ftprices_market_code , ftprices_trade_date , ftprices_prod_type , ftpri
                 ":as_mth_seq2", as_mth_seq2
             };
 
-         string sql = @"
+            string sql = @"
 select tprices_market_code as ""交易時段: 0一般 / 1夜盤"",   
    to_char(tprices_trade_date,'yyyy/mm/dd hh24:mi:ss') as ""交易日期"",   
    tprices_prod_type as ""F期貨 / O選擇權"",   
@@ -137,43 +146,45 @@ and (:as_mth_seq2 = 99 or tprices_mth_seq2 = :as_mth_seq2)
 order by tprices_market_code , tprices_trade_date , tprices_prod_type , tprices_prod_id     
 ";
 
-         DataTable dtResult = db.GetDataTable(sql, parms);
+            DataTable dtResult = db.GetDataTable(sql, parms);
 
-         return dtResult;
-      }
-
-
+            return dtResult;
+        }
 
 
 
-      /// <summary>
-      /// get ftpriced data, return 22 fields
-      /// </summary>
-      /// <param name="as_fm_date"></param>
-      /// <param name="as_to_date"></param>
-      /// <param name="as_sc_code"></param>
-      /// <param name="as_kind_id1"></param>
-      /// <param name="as_kind_id2"></param>
-      /// <param name="as_mth_seq1"></param>
-      /// <param name="as_mth_seq2"></param>
-      /// <param name="as_order_type"></param>
-      /// <param name="as_order_cond"></param>
-      /// <param name="as_level_list">陣列轉字串,直接傳入字串,用逗號分開</param>
-      /// <param name="as_null"></param>
-      /// <returns></returns>
-      public DataTable d_30681_d_new(DateTime as_fm_date,
-                                      DateTime as_to_date,
-                                      string as_sc_code,
-                                      string as_kind_id1,
-                                      string as_kind_id2,
-                                      int as_mth_seq1,
-                                      int as_mth_seq2,
-                                      string as_order_type,
-                                      string as_order_cond,
-                                      string as_level_list,
-                                      string as_null) {
 
-         object[] parms = {
+
+        /// <summary>
+        /// get ftpriced data, return 22 fields
+        /// </summary>
+        /// <param name="as_fm_date"></param>
+        /// <param name="as_to_date"></param>
+        /// <param name="as_sc_code"></param>
+        /// <param name="as_kind_id1"></param>
+        /// <param name="as_kind_id2"></param>
+        /// <param name="as_mth_seq1"></param>
+        /// <param name="as_mth_seq2"></param>
+        /// <param name="as_order_type"></param>
+        /// <param name="as_order_cond"></param>
+        /// <param name="as_level_list">陣列轉字串,直接傳入字串,用逗號分開</param>
+        /// <param name="as_null"></param>
+        /// <returns></returns>
+        public DataTable d_30681_d_new(DateTime as_fm_date,
+                                        DateTime as_to_date,
+                                        string as_sc_code,
+                                        string as_kind_id1,
+                                        string as_kind_id2,
+                                        int as_mth_seq1,
+                                        int as_mth_seq2,
+                                        string as_order_type,
+                                        string as_order_cond,
+                                        string as_level_list,
+                                        string as_null,
+                                        bool procOriTab)
+        {
+
+            object[] parms = {
                 ":as_fm_date", as_fm_date,
                 ":as_to_date", as_to_date,
                 ":as_sc_code", as_sc_code,
@@ -186,10 +197,11 @@ order by tprices_market_code , tprices_trade_date , tprices_prod_type , tprices_
                 ":as_null", as_null
             };
 
-         //ken,如果陣列字串為空,sql會出錯,所以有值才輸出where條件
-         string temp = string.IsNullOrEmpty(as_level_list) ? "" : "ftpriced_level in (" + as_level_list + ") or ";
+            //ken,如果陣列字串為空,sql會出錯,所以有值才輸出where條件
+            string temp = string.IsNullOrEmpty(as_level_list) ? "" : "ftpriced_level in (" + as_level_list + ") or ";
+            string subTypeCond = procOriTab ? NotEqual : Equal;
 
-         string sql = string.Format(@"
+            string sql = string.Format(@"
 select to_char(ftpriced_trade_date,'yyyy/mm/dd hh24:mi:ss') as ""交易日期"",   
     ftpriced_market_code as ""交易時段: 0一般 / 1夜盤"",  
     ftpriced_prod_type as ""F期貨 / O選擇權"",   
@@ -216,10 +228,12 @@ select to_char(ftpriced_trade_date,'yyyy/mm/dd hh24:mi:ss') as ""交易日期"",
      
     ftpriced_price as ""基準價格"",
     ftpriced_level as ""級距""
-from ci.ftpriced  
+from ci.ftpriced, ci.apdk  
 where ftpriced_trade_date >= :as_fm_date
 and ftpriced_trade_date <= :as_to_date
 and ftpriced_prod_type = 'F'
+and ftpriced_kind_id1 = apdk_kind_id
+and apdk_prod_subtype {1} 'E'
 and ftpriced_sc_code like :as_sc_code
 and nvl(ftpriced_kind_id1,' ') like :as_kind_id1
 and nvl(ftpriced_kind_id2,' ') like :as_kind_id2
@@ -229,41 +243,42 @@ and nvl(ftpriced_order_type,' ') like :as_order_type
 and nvl(ftpriced_order_cond,' ') like :as_order_cond
 and ( {0} (:as_null = 'Y' and ftpriced_level is null) )
 order by ftpriced_trade_date , ftpriced_market_code , ftpriced_prod_type , ftpriced_m_time
-", temp);
+", temp, subTypeCond);
 
-         DataTable dtResult = db.GetDataTable(sql, parms);
+            DataTable dtResult = db.GetDataTable(sql, parms);
 
-         return dtResult;
-      }
+            return dtResult;
+        }
 
-      /// <summary>
-      /// get tpriced data, return 22 fields
-      /// </summary>
-      /// <param name="as_fm_date"></param>
-      /// <param name="as_to_date"></param>
-      /// <param name="as_sc_code"></param>
-      /// <param name="as_kind_id1"></param>
-      /// <param name="as_kind_id2"></param>
-      /// <param name="as_mth_seq1"></param>
-      /// <param name="as_mth_seq2"></param>
-      /// <param name="as_order_type"></param>
-      /// <param name="as_order_cond"></param>
-      /// <param name="as_level_list">陣列轉字串,直接傳入字串,用逗號分開</param>
-      /// <param name="as_null"></param>
-      /// <returns></returns>
-      public DataTable d_30681_d(DateTime as_fm_date,
-                                 DateTime as_to_date,
-                                 string as_sc_code,
-                                 string as_kind_id1,
-                                 string as_kind_id2,
-                                 int as_mth_seq1,
-                                 int as_mth_seq2,
-                                 string as_order_type,
-                                 string as_order_cond,
-                                 string as_level_list,
-                                 string as_null) {
+        /// <summary>
+        /// get tpriced data, return 22 fields
+        /// </summary>
+        /// <param name="as_fm_date"></param>
+        /// <param name="as_to_date"></param>
+        /// <param name="as_sc_code"></param>
+        /// <param name="as_kind_id1"></param>
+        /// <param name="as_kind_id2"></param>
+        /// <param name="as_mth_seq1"></param>
+        /// <param name="as_mth_seq2"></param>
+        /// <param name="as_order_type"></param>
+        /// <param name="as_order_cond"></param>
+        /// <param name="as_level_list">陣列轉字串,直接傳入字串,用逗號分開</param>
+        /// <param name="as_null"></param>
+        /// <returns></returns>
+        public DataTable d_30681_d(DateTime as_fm_date,
+                                   DateTime as_to_date,
+                                   string as_sc_code,
+                                   string as_kind_id1,
+                                   string as_kind_id2,
+                                   int as_mth_seq1,
+                                   int as_mth_seq2,
+                                   string as_order_type,
+                                   string as_order_cond,
+                                   string as_level_list,
+                                   string as_null)
+        {
 
-         object[] parms = {
+            object[] parms = {
                 ":as_fm_date", as_fm_date,
                 ":as_to_date", as_to_date,
                 ":as_sc_code", as_sc_code,
@@ -276,10 +291,10 @@ order by ftpriced_trade_date , ftpriced_market_code , ftpriced_prod_type , ftpri
                 ":as_null", as_null
             };
 
-         //ken,如果陣列字串為空,sql會出錯,所以有值才輸出where條件
-         string temp = string.IsNullOrEmpty(as_level_list) ? "" : "tpriced_level in (" + as_level_list + ") or ";
+            //ken,如果陣列字串為空,sql會出錯,所以有值才輸出where條件
+            string temp = string.IsNullOrEmpty(as_level_list) ? "" : "tpriced_level in (" + as_level_list + ") or ";
 
-         string sql = string.Format(@"
+            string sql = string.Format(@"
 select to_char(tpriced_trade_date,'yyyy/mm/dd hh24:mi:ss') as ""交易日期"",   
     tpriced_market_code as ""交易時段: 0一般 / 1夜盤"",  
     tpriced_prod_type as ""F期貨 / O選擇權"",   
@@ -321,39 +336,41 @@ and ( {0} (:as_null = 'Y' and tpriced_level is null) )
 order by tpriced_trade_date , tpriced_market_code , tpriced_prod_type , tpriced_m_time
 ", temp);
 
-         DataTable dtResult = db.GetDataTable(sql, parms);
+            DataTable dtResult = db.GetDataTable(sql, parms);
 
-         return dtResult;
-      }
+            return dtResult;
+        }
 
-      /// <summary>
-      /// get tpricemtf+tpriced data, return 30 fields
-      /// </summary>
-      /// <param name="as_fm_date"></param>
-      /// <param name="as_to_date"></param>
-      /// <param name="as_sc_code"></param>
-      /// <param name="as_kind_id1"></param>
-      /// <param name="as_kind_id2"></param>
-      /// <param name="as_mth_seq1"></param>
-      /// <param name="as_mth_seq2"></param>
-      /// <param name="as_order_type"></param>
-      /// <param name="as_order_cond"></param>
-      /// <param name="as_level_list">陣列轉字串,直接傳入字串,用逗號分開</param>
-      /// <param name="as_null"></param>
-      /// <returns></returns>
-      public DataTable d_30681_d_mtf_new(DateTime as_fm_date,
-                                      DateTime as_to_date,
-                                      string as_sc_code,
-                                      string as_kind_id1,
-                                      string as_kind_id2,
-                                      int as_mth_seq1,
-                                      int as_mth_seq2,
-                                      string as_order_type,
-                                      string as_order_cond,
-                                      string as_level_list,
-                                      string as_null) {
+        /// <summary>
+        /// get tpricemtf+tpriced data, return 30 fields
+        /// </summary>
+        /// <param name="as_fm_date"></param>
+        /// <param name="as_to_date"></param>
+        /// <param name="as_sc_code"></param>
+        /// <param name="as_kind_id1"></param>
+        /// <param name="as_kind_id2"></param>
+        /// <param name="as_mth_seq1"></param>
+        /// <param name="as_mth_seq2"></param>
+        /// <param name="as_order_type"></param>
+        /// <param name="as_order_cond"></param>
+        /// <param name="as_level_list">陣列轉字串,直接傳入字串,用逗號分開</param>
+        /// <param name="as_null"></param>
+        /// <returns></returns>
+        public DataTable d_30681_d_mtf_new(DateTime as_fm_date,
+                                        DateTime as_to_date,
+                                        string as_sc_code,
+                                        string as_kind_id1,
+                                        string as_kind_id2,
+                                        int as_mth_seq1,
+                                        int as_mth_seq2,
+                                        string as_order_type,
+                                        string as_order_cond,
+                                        string as_level_list,
+                                        string as_null,
+                                        bool procOriTab)
+        {
 
-         object[] parms = {
+            object[] parms = {
                 ":as_fm_date", as_fm_date,
                 ":as_to_date", as_to_date,
                 ":as_sc_code", as_sc_code,
@@ -366,10 +383,11 @@ order by tpriced_trade_date , tpriced_market_code , tpriced_prod_type , tpriced_
                 ":as_null", as_null
             };
 
-         //ken,如果陣列字串為空,sql會出錯,所以有值才輸出where條件
-         string temp = string.IsNullOrEmpty(as_level_list) ? "" : "ftpriced_level in (" + as_level_list + ") or ";
+            //ken,如果陣列字串為空,sql會出錯,所以有值才輸出where條件
+            string temp = string.IsNullOrEmpty(as_level_list) ? "" : "ftpriced_level in (" + as_level_list + ") or ";
+            string subTypeCond = procOriTab ? NotEqual : Equal;
 
-         string sql = string.Format(@"
+            string sql = string.Format(@"
 select to_char(ftpricemtf_trade_date,'yyyy/mm/dd hh24:mi:ss') as ""交易日期"",
    ftpricemtf_market_code as ""交易時段: 0一般 / 1夜盤"",
    ftpricemtf_prod_type as ""F期貨 / O選擇權"",
@@ -405,7 +423,7 @@ select to_char(ftpricemtf_trade_date,'yyyy/mm/dd hh24:mi:ss') as ""交易日期"
    ftpricemtf_acc_no as ""投資人帳號"",
    ftpricemtf_tprice as ""基準價格"",
    ftpricemtf_level as ""級距""
-from ci.ftpricemtf,
+from ci.ftpricemtf, ci.apdk,
    (select ftpriced_trade_date,   
             ftpriced_market_code,   
             ftpriced_prod_type,   
@@ -432,42 +450,45 @@ from ci.ftpricemtf,
      and ftpricemtf_market_code = ftpriced_market_code
      and ftpricemtf_prod_type = ftpriced_prod_type
      and ftpricemtf_m_inst = ftpriced_m_inst
+     and ftpricemtf_kind_id1 = apdk_kind_id
+     and apdk_prod_subtype {1} 'E'
 order by ftpricemtf_trade_date , ftpricemtf_market_code , ftpricemtf_prod_type , ftpricemtf_orig_time , ftpricemtf_seq_no  
-", temp);
+", temp, subTypeCond);
 
-         DataTable dtResult = db.GetDataTable(sql, parms);
+            DataTable dtResult = db.GetDataTable(sql, parms);
 
-         return dtResult;
-      }
+            return dtResult;
+        }
 
-      /// <summary>
-      /// get tpricemtf+tpriced data, return 30 fields
-      /// </summary>
-      /// <param name="as_fm_date"></param>
-      /// <param name="as_to_date"></param>
-      /// <param name="as_sc_code"></param>
-      /// <param name="as_kind_id1"></param>
-      /// <param name="as_kind_id2"></param>
-      /// <param name="as_mth_seq1"></param>
-      /// <param name="as_mth_seq2"></param>
-      /// <param name="as_order_type"></param>
-      /// <param name="as_order_cond"></param>
-      /// <param name="as_level_list">陣列轉字串,直接傳入字串,用逗號分開</param>
-      /// <param name="as_null"></param>
-      /// <returns></returns>
-      public DataTable d_30681_d_mtf(DateTime as_fm_date,
-                                      DateTime as_to_date,
-                                      string as_sc_code,
-                                      string as_kind_id1,
-                                      string as_kind_id2,
-                                      int as_mth_seq1,
-                                      int as_mth_seq2,
-                                      string as_order_type,
-                                      string as_order_cond,
-                                      string as_level_list,
-                                      string as_null) {
+        /// <summary>
+        /// get tpricemtf+tpriced data, return 30 fields
+        /// </summary>
+        /// <param name="as_fm_date"></param>
+        /// <param name="as_to_date"></param>
+        /// <param name="as_sc_code"></param>
+        /// <param name="as_kind_id1"></param>
+        /// <param name="as_kind_id2"></param>
+        /// <param name="as_mth_seq1"></param>
+        /// <param name="as_mth_seq2"></param>
+        /// <param name="as_order_type"></param>
+        /// <param name="as_order_cond"></param>
+        /// <param name="as_level_list">陣列轉字串,直接傳入字串,用逗號分開</param>
+        /// <param name="as_null"></param>
+        /// <returns></returns>
+        public DataTable d_30681_d_mtf(DateTime as_fm_date,
+                                        DateTime as_to_date,
+                                        string as_sc_code,
+                                        string as_kind_id1,
+                                        string as_kind_id2,
+                                        int as_mth_seq1,
+                                        int as_mth_seq2,
+                                        string as_order_type,
+                                        string as_order_cond,
+                                        string as_level_list,
+                                        string as_null)
+        {
 
-         object[] parms = {
+            object[] parms = {
                 ":as_fm_date", as_fm_date,
                 ":as_to_date", as_to_date,
                 ":as_sc_code", as_sc_code,
@@ -479,11 +500,11 @@ order by ftpricemtf_trade_date , ftpricemtf_market_code , ftpricemtf_prod_type ,
                 ":as_order_cond", as_order_cond,
                 ":as_null", as_null
             };
-         
-         //ken,如果陣列字串為空,sql會出錯,所以有值才輸出where條件
-         string temp = string.IsNullOrEmpty(as_level_list) ? "" : "tpriced_level in (" + as_level_list + ") or ";
 
-         string sql = string.Format(@"
+            //ken,如果陣列字串為空,sql會出錯,所以有值才輸出where條件
+            string temp = string.IsNullOrEmpty(as_level_list) ? "" : "tpriced_level in (" + as_level_list + ") or ";
+
+            string sql = string.Format(@"
 select to_char(tpricemtf_trade_date,'yyyy/mm/dd hh24:mi:ss') as ""交易日期"",
    tpricemtf_market_code as ""交易時段: 0一般 / 1夜盤"",
    tpricemtf_prod_type as ""F期貨 / O選擇權"",
@@ -549,13 +570,13 @@ from ci.tpricemtf,
 order by tpricemtf_trade_date , tpricemtf_market_code , tpricemtf_prod_type , tpricemtf_orig_time , tpricemtf_seq_no     
 ", temp);
 
-         DataTable dtResult = db.GetDataTable(sql, parms);
+            DataTable dtResult = db.GetDataTable(sql, parms);
 
-         return dtResult;
-      }
+            return dtResult;
+        }
 
 
-   }
+    }
 
 
 }

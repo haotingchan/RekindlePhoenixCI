@@ -59,8 +59,9 @@ namespace PhoenixCI.FormUI.Prefix5 {
          dwProd.SetDataTable(dtProd , "PDK_KIND_ID" , "PDK_KIND_ID" , TextEditStyles.DisableTextEditor , "");
 
          //買賣權
-         DataTable dtCP = new CODW().ListLookUpEdit("50050" , "DDLB_1");
-         ddlb_1.SetDataTable(dtCP , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
+         DataTable dtCP = new CODW().ListLookUpEdit("AMMD" , "AMMD_PC_CODE");
+         ddlb_1.SetDataTable(dtCP , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor);
+         ddlb_1.ItemIndex = 0;
 
          //檔內外檔數
          DataTable dtOI = new CODW().ListLookUpEdit("50050" , "DDLB_2");
@@ -118,70 +119,17 @@ namespace PhoenixCI.FormUI.Prefix5 {
             prodKindId = string.IsNullOrEmpty(dwProd.EditValue.AsString()) ? "%" : dwProd.EditValue.AsString();
 
             //買賣權
-            pcCode = ddlb_1.Text.Trim();
-            if (string.IsNullOrEmpty(pcCode)) {
-               pcCode = "%";
-            } else if (pcCode == "買權") {
-               pcCode = "C";
-            } else if (pcCode == "賣權") {
-               pcCode = "P";
-            }
+            pcCode = ddlb_1.EditValue.AsString();
 
             //契約月份
             settleDate = string.IsNullOrEmpty(sle_1.Text.Trim()) ? "%" : sle_1.Text.Trim().Replace("/" , "");
-            //settleDate = "201811";
 
             //價內外檔數
-            ls_p_seq_no = ddlb_2.Text.Trim();
-            switch (ls_p_seq_no) {
-               case "價內第5檔":
-                  li_p_seq_no1 = -5;
-                  li_p_seq_no2 = -5;
-                  break;
-               case "價內第4檔":
-                  li_p_seq_no1 = -4;
-                  li_p_seq_no2 = -4;
-                  break;
-               case "價內第3檔":
-                  li_p_seq_no1 = -3;
-                  li_p_seq_no2 = -3;
-                  break;
-               case "價內第2檔":
-                  li_p_seq_no1 = -2;
-                  li_p_seq_no2 = -2;
-                  break;
-               case "價內第1檔":
-                  li_p_seq_no1 = -1;
-                  li_p_seq_no2 = -1;
-                  break;
-               case "價平":
-                  li_p_seq_no1 = 0;
-                  li_p_seq_no2 = 0;
-                  break;
-               case "價外第1檔":
-                  li_p_seq_no1 = 1;
-                  li_p_seq_no2 = 1;
-                  break;
-               case "價外第2檔":
-                  li_p_seq_no1 = 2;
-                  li_p_seq_no2 = 2;
-                  break;
-               case "價外第3檔":
-                  li_p_seq_no1 = 3;
-                  li_p_seq_no2 = 3;
-                  break;
-               case "價外第4檔":
-                  li_p_seq_no1 = 4;
-                  li_p_seq_no2 = 4;
-                  break;
-               case "價外第5檔":
-                  li_p_seq_no1 = 5;
-                  li_p_seq_no2 = 5;
-                  break;
-               default:
-                  li_p_seq_no1 = -5;
-                  li_p_seq_no2 = 5;
-                  break;
+            if (string.IsNullOrEmpty(ddlb_2.Text)) {
+               li_p_seq_no1 = -5;
+               li_p_seq_no2 = 5;
+            } else {
+               li_p_seq_no1 = li_p_seq_no2 = ddlb_2.EditValue.AsInt();
             }
 
             DataTable defaultTable = dao50050.ListAll(brkNo , accNo , time1 , time2 , prodKindId , settleDate ,

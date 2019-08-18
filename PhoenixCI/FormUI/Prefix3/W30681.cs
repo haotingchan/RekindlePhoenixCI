@@ -18,6 +18,7 @@ namespace PhoenixCI.FormUI.Prefix3
     public partial class W30681 : FormParent
     {
         private D30681 dao30681;
+        private bool IsProcOriTab;
         private const string ReportName = "成交價偏離幅度統計表";
         private const string OriTabName = "xtraTabPageOri"; //非匯率期貨類
         private const string NewTabName = "xtraTabPageNew"; //匯率期貨類
@@ -30,7 +31,7 @@ namespace PhoenixCI.FormUI.Prefix3
         {
             get
             {
-                if (xtraTabControl.SelectedTabPage.Name == OriTabName)
+                if (IsProcOriTab)
                 {
                     return rdoSource.EditValue.AsString();
                 }
@@ -48,7 +49,7 @@ namespace PhoenixCI.FormUI.Prefix3
         {
             get
             {
-                if (xtraTabControl.SelectedTabPage.Name == OriTabName)
+                if (IsProcOriTab)
                 {
                     return rdoReportType.EditValue.AsString();
                 }
@@ -66,7 +67,7 @@ namespace PhoenixCI.FormUI.Prefix3
         {
             get
             {
-                if (xtraTabControl.SelectedTabPage.Name == OriTabName)
+                if (IsProcOriTab)
                 {
                     return txtKind1.Text;
                 }
@@ -84,7 +85,7 @@ namespace PhoenixCI.FormUI.Prefix3
         {
             get
             {
-                if (xtraTabControl.SelectedTabPage.Name == OriTabName)
+                if (IsProcOriTab)
                 {
                     return txtKind2.Text;
                 }
@@ -102,7 +103,7 @@ namespace PhoenixCI.FormUI.Prefix3
         {
             get
             {
-                if (xtraTabControl.SelectedTabPage.Name == OriTabName)
+                if (IsProcOriTab)
                 {
                     return txtMth1.EditValue.AsInt(99);
                 }
@@ -120,7 +121,7 @@ namespace PhoenixCI.FormUI.Prefix3
         {
             get
             {
-                if (xtraTabControl.SelectedTabPage.Name == OriTabName)
+                if (IsProcOriTab)
                 {
                     return txtMth2.EditValue.AsInt(99);
                 }
@@ -140,7 +141,7 @@ namespace PhoenixCI.FormUI.Prefix3
             {
                 int max;
                 DevExpress.XtraEditors.CheckedListBoxControl chkBox;
-                if (xtraTabControl.SelectedTabPage.Name == OriTabName)
+                if (IsProcOriTab)
                 {
                     chkBox = chkLevel;
                     max = 7;
@@ -171,7 +172,7 @@ namespace PhoenixCI.FormUI.Prefix3
         {
             get
             {
-                if (xtraTabControl.SelectedTabPage.Name == OriTabName && chkLevel.Items[7].CheckState == System.Windows.Forms.CheckState.Checked)
+                if (IsProcOriTab && chkLevel.Items[7].CheckState == System.Windows.Forms.CheckState.Checked)
                 {
                     return "Y";
                 }
@@ -189,7 +190,7 @@ namespace PhoenixCI.FormUI.Prefix3
         {
             get
             {
-                if (xtraTabControl.SelectedTabPage.Name == OriTabName)
+                if (IsProcOriTab)
                 {
                     return txtStartDate;
                 }
@@ -207,7 +208,7 @@ namespace PhoenixCI.FormUI.Prefix3
         {
             get
             {
-                if (xtraTabControl.SelectedTabPage.Name == OriTabName)
+                if (IsProcOriTab)
                 {
                     return txtEndDate;
                 }
@@ -225,7 +226,7 @@ namespace PhoenixCI.FormUI.Prefix3
         {
             get
             {
-                if (xtraTabControl.SelectedTabPage.Name == OriTabName)
+                if (IsProcOriTab)
                 {
                     return ddlScCode.EditValue.AsString();
                 }
@@ -243,7 +244,7 @@ namespace PhoenixCI.FormUI.Prefix3
         {
             get
             {
-                if (xtraTabControl.SelectedTabPage.Name == OriTabName)
+                if (IsProcOriTab)
                 {
                     return ddlOsfOrderType.EditValue.AsString();
                 }
@@ -261,7 +262,7 @@ namespace PhoenixCI.FormUI.Prefix3
         {
             get
             {
-                if (xtraTabControl.SelectedTabPage.Name == OriTabName)
+                if (IsProcOriTab)
                 {
                     return ddlOsfOrderCond.EditValue.AsString();
                 }
@@ -386,6 +387,8 @@ namespace PhoenixCI.FormUI.Prefix3
                 this.Refresh();
                 ResultStatus res = ResultStatus.Fail;
 
+                IsProcOriTab = xtraTabControl.SelectedTabPage.Name == OriTabName ? true : false;
+
                 if (ReportType == "Summary")
                 {
                     //統計,會輸出一個csv檔案
@@ -468,7 +471,7 @@ namespace PhoenixCI.FormUI.Prefix3
                                                           string.Format("{0}_{1}.csv", reportId, DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss")));
 
                 //1.get dataTable
-                DataTable dtTarget = dao30681.d_30681_s_new(StartDate.DateTimeValue, EndDate.DateTimeValue, DDLScCode, Kind1, Kind2, Mth1, Mth2);
+                DataTable dtTarget = dao30681.d_30681_s_new(StartDate.DateTimeValue, EndDate.DateTimeValue, DDLScCode, Kind1, Kind2, Mth1, Mth2, IsProcOriTab);
                 if (dtTarget.Rows.Count <= 0)
                 {
                     MessageDisplay.Info(string.Format("{0},{1}－{2},無任何資料!", StartDate.DateTimeValue.ToString("yyyyMM"), reportId, ReportName), GlobalInfo.ResultText);
@@ -527,7 +530,7 @@ namespace PhoenixCI.FormUI.Prefix3
 
                 //1.get dataTable
                 DataTable dtTarget = dao30681.d_30681_d_new(StartDate.DateTimeValue, EndDate.DateTimeValue, DDLScCode, Kind1, Kind2, Mth1, Mth2,
-                                                            DDLOsfOrderType, DDLOsfOrderCond, DetailLevelList, IsLevelNull);
+                                                            DDLOsfOrderType, DDLOsfOrderCond, DetailLevelList, IsLevelNull, IsProcOriTab);
                 if (dtTarget.Rows.Count <= 0)
                 {
                     MessageDisplay.Info(string.Format("{0},{1}－{2},無任何資料!", StartDate.DateTimeValue.ToString("yyyyMM"), reportId, ReportName), GlobalInfo.ResultText);
@@ -586,7 +589,7 @@ namespace PhoenixCI.FormUI.Prefix3
 
                 //1.get dataTable
                 DataTable dtTarget = dao30681.d_30681_d_mtf_new(StartDate.DateTimeValue, EndDate.DateTimeValue, DDLScCode, Kind1, Kind2, Mth1, Mth2,
-                                                               DDLOsfOrderType, DDLOsfOrderCond, DetailLevelList, IsLevelNull);
+                                                               DDLOsfOrderType, DDLOsfOrderCond, DetailLevelList, IsLevelNull, IsProcOriTab);
                 if (dtTarget.Rows.Count <= 0)
                 {
                     //MessageDisplay.Info(string.Format("{0},{1}－{2},無任何資料!", txtStartDate.DateTimeValue.ToString("yyyyMM"), reportId, ReportName),GlobalInfo.ResultText);
@@ -613,7 +616,7 @@ namespace PhoenixCI.FormUI.Prefix3
         protected void ExportCsv(DataTable dtTarget, string filename)
         {
             //2.設定gvExport
-            if (xtraTabControl.SelectedTabPage.Name == OriTabName)
+            if (IsProcOriTab)
             {
                 gvExport.Columns.Clear();
                 gvExport.OptionsBehavior.AutoPopulateColumns = true;
@@ -636,7 +639,7 @@ namespace PhoenixCI.FormUI.Prefix3
 
             //ken,pb的時間輸出格式為 mm/dd/yy hh24:mi:ss ,直接在sql語法調整比較快
 
-            if (xtraTabControl.SelectedTabPage.Name == OriTabName)
+            if (IsProcOriTab)
             {
                 gcExport.ExportToCsv(filename, options);
             }
@@ -646,8 +649,8 @@ namespace PhoenixCI.FormUI.Prefix3
             }
 
 #if DEBUG
-            if (FlagAdmin)
-                System.Diagnostics.Process.Start(filename);
+            //if (FlagAdmin)
+            //    System.Diagnostics.Process.Start(filename);
 #endif
         }
         private void rdoReportType_SelectedIndexChanged(object sender, EventArgs e)

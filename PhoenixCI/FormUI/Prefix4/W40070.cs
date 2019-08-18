@@ -58,29 +58,15 @@ namespace PhoenixCI.FormUI.Prefix4 {
          //先隨便給個日期
          txtDateG1.Text = "1901/01/01";
          txtDateG5.Text = "1901/01/01";
-         txtDateG7.Text = "1901/01/01";
+         //txtDateG7.Text = "1901/01/01"; //拔除Group3
 
          #region DropDownList
          //設定調整商品條件下拉選單
-         //List<LookupItem> modelType = new List<LookupItem>(){
-         //                            new LookupItem() { ValueMember = "S", DisplayMember = "SMA達調整標準"},
-         //                            new LookupItem() { ValueMember = "a", DisplayMember = "任一model達調整標準" },
-         //                            new LookupItem() { ValueMember = "%", DisplayMember = "全部商品" }};
-
          DataTable dtModelType = new CODW().ListLookUpEdit("40070" , "MODEL_ID");
          Extension.SetDataTable(ddlModel , dtModelType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
          ddlModel.ItemIndex = 0; // S
 
          //設定依條件選擇狀態的下拉選單
-         //List<LookupItem> adjustType = new List<LookupItem>(){
-         //                               new LookupItem() { ValueMember = "none", DisplayMember = "全取消"},
-         //                               new LookupItem() { ValueMember = "indes", DisplayMember = "全選指數類" },
-         //                               new LookupItem() { ValueMember = "all", DisplayMember = "全選"},
-         //                               new LookupItem() { ValueMember = "ETF", DisplayMember = "全選ETF" },
-         //                               new LookupItem() { ValueMember = "1", DisplayMember = "全選Group1"},
-         //                               new LookupItem() { ValueMember = "2", DisplayMember = "全選Group2" },
-         //                               new LookupItem() { ValueMember = "3", DisplayMember = "全選Group3" }};
-
          DataTable dtAdjustType = new CODW().ListLookUpEdit("40070" , "DDL_ADJUST");
          Extension.SetDataTable(ddlAdjust , dtAdjustType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
          ddlAdjust.ItemIndex = 0; // none
@@ -200,7 +186,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             gvMain.ExpandAllGroups();
 
             //設定三個Group的生效日期
-            string validDateG1, validDateG5, validDateG7;
+            string validDateG1, validDateG5;
             int found;
             //Group1
             found = dtFiltered.Rows.IndexOf(dtFiltered.Select("osw_grp='1' and issue_begin_ymd is not null ").FirstOrDefault());
@@ -218,14 +204,14 @@ namespace PhoenixCI.FormUI.Prefix4 {
                txtDateG5.DateTimeValue = PbFunc.f_get_ocf_next_n_day(txtSDate.DateTimeValue , 2);
             }
             validDateG5 = txtDateG5.Text;
-            //Group2
-            found = dtFiltered.Rows.IndexOf(dtFiltered.Select("osw_grp='7' and issue_begin_ymd is not null ").FirstOrDefault());
-            if (found > -1) {
-               txtDateG7.DateTimeValue = dtFiltered.Rows[found]["ISSUE_BEGIN_YMD"].AsDateTime("yyyyMMdd");
-            } else {
-               txtDateG7.DateTimeValue = PbFunc.f_get_ocf_next_n_day(txtSDate.DateTimeValue , 2);
-            }
-            validDateG7 = txtDateG7.Text;
+            //Group3 
+            //found = dtFiltered.Rows.IndexOf(dtFiltered.Select("osw_grp='7' and issue_begin_ymd is not null ").FirstOrDefault());
+            //if (found > -1) {
+            //   txtDateG7.DateTimeValue = dtFiltered.Rows[found]["ISSUE_BEGIN_YMD"].AsDateTime("yyyyMMdd");
+            //} else {
+            //   txtDateG7.DateTimeValue = PbFunc.f_get_ocf_next_n_day(txtSDate.DateTimeValue , 2);
+            //}
+            //validDateG7 = txtDateG7.Text;
          } catch (Exception ex) {
             MessageDisplay.Error("讀取錯誤");
             throw ex;
@@ -677,9 +663,9 @@ namespace PhoenixCI.FormUI.Prefix4 {
                   case "5":
                      gv.SetRowCellValue(e.RowHandle , "ISSUE_BEGIN_YMD" , txtDateG5.DateTimeValue.ToString("yyyyMMdd"));
                      break;
-                  case "7":
-                     gv.SetRowCellValue(e.RowHandle , "ISSUE_BEGIN_YMD" , txtDateG7.DateTimeValue.ToString("yyyyMMdd"));
-                     break;
+                  //case "7":
+                  //   gv.SetRowCellValue(e.RowHandle , "ISSUE_BEGIN_YMD" , txtDateG7.DateTimeValue.ToString("yyyyMMdd"));
+                  //   break;
                   default:
                      gv.SetRowCellValue(e.RowHandle , "ISSUE_BEGIN_YMD" , txtDateG1.DateTimeValue.ToString("yyyyMMdd"));
                      break;
@@ -851,13 +837,13 @@ namespace PhoenixCI.FormUI.Prefix4 {
                }
                gvMain.SetRowCellValue(ai_row , "ISSUE_BEGIN_YMD" , txtDateG5.DateTimeValue.ToString("yyyyMMdd"));
             }
-            if (osw_grp == "7") {
-               if (txtDateG7.Text == "1901/01/01") {
-                  MessageDisplay.Error("請先輸入" + lblG3.Text);
-                  return "N";
-               }
-               gvMain.SetRowCellValue(ai_row , "ISSUE_BEGIN_YMD" , txtDateG7.DateTimeValue.ToString("yyyyMMdd"));
-            }
+            //if (osw_grp == "7") {
+            //   if (txtDateG7.Text == "1901/01/01") {
+            //      MessageDisplay.Error("請先輸入" + lblG3.Text);
+            //      return "N";
+            //   }
+            //   gvMain.SetRowCellValue(ai_row , "ISSUE_BEGIN_YMD" , txtDateG7.DateTimeValue.ToString("yyyyMMdd"));
+            //}
          } else {
             if (gvMain.GetRowCellValue(ai_row , "ISSUE_BEGIN_YMD").AsString() != null) {
                gvMain.SetRowCellValue(ai_row , "ISSUE_BEGIN_YMD" , nullYmd);

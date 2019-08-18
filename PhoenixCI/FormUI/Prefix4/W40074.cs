@@ -74,6 +74,7 @@ namespace PhoenixCI.FormUI.Prefix4
         private DataTable dtOLevel;//選擇權級距
         private DataTable dtDel;//存放刪除的資料
         private DataTable dtProdType;//商品類
+        private bool SaveFlag;//用於delete row後, 是曾經執行save function. 
         #endregion
 
         public W40074(string programID, string programName) : base(programID, programName)
@@ -96,6 +97,7 @@ namespace PhoenixCI.FormUI.Prefix4
             GridHelper.SetCommonGrid(gvMain);
             gvMain.AppearancePrint.BandPanel.Font = new Font("Microsoft YaHei", 10);
             gvMain.AppearancePrint.BandPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            SaveFlag = true;
         }
 
         protected override ResultStatus Open()
@@ -198,6 +200,7 @@ namespace PhoenixCI.FormUI.Prefix4
             {
                 //清空Grid
                 gcMain.DataSource = null;
+                SetSaveFlagValue();
                 //日期檢核
                 if (txtSDate.Text == "1901/01/01")
                 {
@@ -302,9 +305,14 @@ namespace PhoenixCI.FormUI.Prefix4
             gvMain.CloseEditor();
 
             if (!ConfirmToDelete(gvMain.FocusedRowHandle + 1)) { return ResultStatus.Fail; }
-            DataTable dtBackUp = (DataTable)gcMain.DataSource;
-            dtDel = dtBackUp.Clone();
-            dtDel.ImportRow(dtBackUp.Rows[gvMain.FocusedRowHandle]);
+            if (SaveFlag)
+            {
+                dtDel.Clear();
+                DataTable dtBackUp = (DataTable)gcMain.DataSource;
+                dtDel = dtBackUp.Clone();
+                SaveFlag = false;
+            }
+            dtDel.ImportRow(gvMain.GetFocusedDataRow());
             gvMain.DeleteSelectedRows();
 
             return ResultStatus.Success;
@@ -332,7 +340,6 @@ namespace PhoenixCI.FormUI.Prefix4
                     MessageDisplay.Warning("沒有變更資料,不需要存檔!");
                     return ResultStatus.FailButNext;
                 }
-
                 DataTable dtMGD2; //ids_mgd2
                 DataTable dtMGD2Log = dao40071.d_40071_log(); //ids_old 
                 dtMGD2Log.Clear(); //只取schema
@@ -345,7 +352,7 @@ namespace PhoenixCI.FormUI.Prefix4
                 {
                     if (dr.RowState == DataRowState.Deleted) continue;
                     opType = dr["OP_TYPE"].ToString();
-                    stockID = dr["STOCK_ID"].AsString();
+                    stockID = dr["STOCK_ID"].ToString();
                     kindID = dr["KIND_ID"].AsString();
                     level = dr["M_LEVEL"].AsString();
 
@@ -492,7 +499,7 @@ namespace PhoenixCI.FormUI.Prefix4
                     {
                         kindID = dr["KIND_ID"].AsString();
                         //stockID = dr["KIND_ID"].AsString();
-                        stockID = dr["STOCK_ID"].AsString();
+                        stockID = dr["STOCK_ID"].ToString();
 
                         //刪除已存在資料
                         if (daoMGD2.DeleteMGD2(this.ymd, isAdjType, stockID, kindID) < 0)
@@ -561,7 +568,7 @@ namespace PhoenixCI.FormUI.Prefix4
                 foreach (DataRow drDel in dtDel.Rows)
                 {
                     kindID = drDel["KIND_ID"].AsString();
-                    stockID = drDel["STOCK_ID"].AsString();
+                    stockID = drDel["STOCK_ID"].ToString();
                     if (daoMGD2.DeleteMGD2(this.ymd, isAdjType, stockID, kindID) < 0)
                     {
                         MessageDisplay.Error("MGD2資料刪除失敗");
@@ -604,9 +611,11 @@ namespace PhoenixCI.FormUI.Prefix4
             }
             catch (Exception ex)
             {
+                SetSaveFlagValue();
                 MessageDisplay.Error("儲存錯誤");
                 throw ex;
             }
+            SetSaveFlagValue();
             return ResultStatus.Success;
 
         }
@@ -635,6 +644,11 @@ namespace PhoenixCI.FormUI.Prefix4
             return ResultStatus.Fail;
         }
 
+        private void SetSaveFlagValue()
+        {
+            SaveFlag = true;
+            dtDel.Clear();
+        }
         #region GridView Events
         private void gvMain_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e)
         {
@@ -746,15 +760,13 @@ namespace PhoenixCI.FormUI.Prefix4
                 gv.FocusedColumn.Name == "M_LEVEL" || gv.FocusedColumn.Name == "AMT_TYPE")
             {
                 //e.Cancel = prodSubtype != "S" ? true : false;
-                if(!PROD_SEQ_NOKey.Equals("6") && !PROD_SEQ_NOKey.Equals("7") && !gv.FocusedColumn.Name.Equals("AMT_TYPE") ) e.Cancel = true;
-                else if (PROD_SEQ_NOKey.Equals("7") && (gv.FocusedColumn.Name == "M_LEVEL"|| gv.FocusedColumn.Name == "AMT_TYPE"))
+                if (!PROD_SEQ_NOKey.Equals("6") && !PROD_SEQ_NOKey.Equals("7") && !gv.FocusedColumn.Name.Equals("AMT_TYPE")) e.Cancel = true;
+                else if (PROD_SEQ_NOKey.Equals("7") && (gv.FocusedColumn.Name == "M_LEVEL" || gv.FocusedColumn.Name == "AMT_TYPE"))
                 {
-                    if(gv.FocusedColumn.Name == "AMT_TYPE") gv.SetFocusedValue("F");//金額-->F ; 百分比-->P
                     e.Cancel = true;
                 }
-                else if (PROD_SEQ_NOKey.Equals("6") &&  gv.FocusedColumn.Name == "AMT_TYPE")
+                else if (PROD_SEQ_NOKey.Equals("6") && gv.FocusedColumn.Name == "AMT_TYPE")
                 {
-                    if (gv.FocusedColumn.Name == "AMT_TYPE") gv.SetFocusedValue("P");//金額-->F ; 百分比-->P
                     e.Cancel = true;
                 }
                 //if (cndParamKey.IndexOf("ST%") >= 0 ) e.Cancel = false; 
@@ -801,11 +813,16 @@ namespace PhoenixCI.FormUI.Prefix4
                 //如果改變商品類
                 DataRow dr = dtProdType.Select("prod_seq_no = '" + e.Value.AsString() + "'")[0];
                 gv.SetRowCellValue(e.RowHandle, "KIND_ID", "");
-                gv.SetRowCellValue(e.RowHandle, "STOCK_ID", "");
+                if (!e.Value.Equals("6") && !e.Value.Equals("7"))
+                    gv.SetRowCellValue(e.RowHandle, "STOCK_ID", " ");
                 gv.SetRowCellValue(e.RowHandle, "M_LEVEL", "");
                 gv.SetRowCellValue(e.RowHandle, "PROD_SUBTYPE", dr["CND_PROD_SUBTYPE"]);
                 gv.SetRowCellValue(e.RowHandle, "CND_PARAM_KEY", dr["CND_PARAM_KEY"]);
                 gv.SetRowCellValue(e.RowHandle, "ABROAD", dr["CND_ABROAD"]);
+                if (e.Value.ToString().Equals("6"))
+                    gv.SetRowCellValue(e.RowHandle, "AMT_TYPE", "P");
+                else if (e.Value.ToString().Equals("7"))
+                    gv.SetRowCellValue(e.RowHandle, "AMT_TYPE", "F");
             }
             if (e.Column.Name == "KIND_ID")
             {

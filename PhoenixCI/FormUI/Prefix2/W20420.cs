@@ -206,7 +206,7 @@ namespace PhoenixCI.FormUI.Prefix2 {
          Common.Helper.ExportHelper.ToCsv(dtCSV, save.FileName, csvref);
 #if DEBUG
          //存完直接開檔檢視
-         System.Diagnostics.Process.Start(save.FileName);
+         //System.Diagnostics.Process.Start(save.FileName);
 #endif
          this.Cursor = Cursors.Arrow;
          return ResultStatus.Success;

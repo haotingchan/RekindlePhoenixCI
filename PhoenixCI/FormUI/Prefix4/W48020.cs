@@ -301,8 +301,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
             options.ShowGridLines = true;
             gvExport.ExportToXlsx(excelDestinationPath , options);
 
-            if (FlagAdmin)
-               System.Diagnostics.Process.Start(excelDestinationPath);
+            //if (FlagAdmin)
+            //   System.Diagnostics.Process.Start(excelDestinationPath);
 
             return ResultStatus.Success;
          } catch (Exception ex) {

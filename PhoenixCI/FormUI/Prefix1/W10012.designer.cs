@@ -55,7 +55,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1104, 761);
             this.Name = "W10012";
-            this.Text = "W10012";
             ((System.ComponentModel.ISupportInitialize)(this.txtOcfDate.Properties)).EndInit();
             this.panParent.ResumeLayout(false);
             this.panParent.PerformLayout();
@@ -66,8 +65,5 @@
         }
 
         #endregion
-        public DevExpress.XtraGrid.Columns.GridColumn UPF_USER_ID;
-        public DevExpress.XtraGrid.Columns.GridColumn UPF_EMPLOYEE_ID;
-        public DevExpress.XtraGrid.Columns.GridColumn UPF_DPT_ID;
     }
 }
