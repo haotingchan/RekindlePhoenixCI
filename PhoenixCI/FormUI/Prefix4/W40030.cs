@@ -1522,8 +1522,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
                   OswGrp = c.CheckedValue.AsString() + "%";
 
-                  if (CheckedItems.Count == 3) {
-                     if (CheckedItems[0].CheckedDate == CheckedItems[1].CheckedDate && CheckedItems[0].CheckedDate == CheckedItems[2].CheckedDate)
+                  if (CheckedItems.Count == 2) {
+                     if (CheckedItems[0].CheckedDate == CheckedItems[1].CheckedDate)
                         OswGrp = "%";
                   }
 
@@ -1542,8 +1542,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         return msg;
                      }
 
-                     if (CheckedItems.Count == 3) {
-                        if (CheckedItems[0].CheckedDate == CheckedItems[1].CheckedDate && CheckedItems[0].CheckedDate == CheckedItems[2].CheckedDate)
+                     if (CheckedItems.Count == 2) {
+                        if (CheckedItems[0].CheckedDate == CheckedItems[1].CheckedDate)
                            break;
                      }
                   }
@@ -1574,17 +1574,55 @@ namespace PhoenixCI.FormUI.Prefix4 {
                         continue;
                   }
 
-                  //+新規則：倘各商品採SMA、EWMA、MAX任一方式計算之結算保證金變動幅度達所設定標準以上(目前訂10%)則顯示。
-
                   if (drsTemp.Count > 0) {
                      DataTable dtTemp = drsTemp.CopyToDataTable();
                      dtTemp = dtTemp.Sort("SEQ_NO ASC, PROD_TYPE ASC, KIND_GRP2 ASC, KIND_ID ASC, AB_TYPE ASC");//排序
 
-                     //案由一後文字
-                     SetCase(++caseNo , "檢陳本公司{0}保證金調整案，謹提請討論。" , GenArrayTxt(wfKindIdC(dtTemp)));
+                    //+新規則：倘各商品採SMA、EWMA、MAX任一方式計算之結算保證金變動幅度達所設定標準以上(目前訂10%)則顯示。
+                    Dictionary<string, MC> mcDic = new Dictionary<string, MC>();
+                    foreach (DataRow dr in dtTemp.Rows)
+                    {
+                        String aa = dr.ToString();
+                        MC mc = new MC();
+                        if (dr["PROD_TYPE"].ToString() == "F")
+                        {
+                            mc.SMA = Dao40030.getSMA(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString());
+                            mc.EWMA = Dao40030.getEWMA(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString());
+                            mc.MAX = Dao40030.getMax(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString());
+                        }
+                        if (dr["PROD_TYPE"].ToString() == "O")
+                        {
+                            mc.SMA = Dao40030.getOptSMA(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString(), dr["AB_TYPE"].ToString());
+                            mc.EWMA = Dao40030.getOptEWMA(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString(), dr["AB_TYPE"].ToString());
+                            mc.MAX = Dao40030.getOptMax(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString(), dr["AB_TYPE"].ToString());
+                            mc.fSMA = Dao40030.getOptfSMA(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString(), dr["AB_TYPE"].ToString());
+                            mc.fEWMA = Dao40030.getOptfEWMA(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString(), dr["AB_TYPE"].ToString());
+                            mc.fMAX = Dao40030.getOptfMax(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString(), dr["AB_TYPE"].ToString());
+                        }
+                        mcDic.Add(dr["KIND_ID"].ToString(), mc);
+                    }
+
+                    List<String> items = new List<String>();
+                    foreach (DataRow dr in dtTemp.Rows)
+                    {
+                        if (mcDic[dr["KIND_ID"].ToString()].MAX > 0.1 || mcDic[dr["KIND_ID"].ToString()].EWMA > 0.1 || mcDic[dr["KIND_ID"].ToString()].SMA > 0.1)
+                            items.Add(dr["KIND_ID"].ToString());
+                    }
+                    int i = 0;
+                    while (i < dtTemp.Rows.Count)
+                    {
+                         if (!items.Contains(dtTemp.Rows[i]["KIND_ID"].ToString())){
+                            dtTemp.Rows.RemoveAt(i);
+                            continue;
+                        }
+                        i++;
+                    }
+
+                    //案由一後文字
+                    SetCase(++caseNo , "檢陳本公司{0}保證金調整案，謹提請討論。" , GenArrayTxt(wfKindIdC(dtTemp)));
 
                      //案由一下說明文
-                     SetFirstCaseDesc(dtTemp , c.CheckedDate);
+                     SetFirstCaseDesc(dtTemp , c.CheckedDate,  mcDic);
 
                      //案由一決議
                      SetFirstCaseResult(dtTemp , c.CheckedDate);
@@ -1714,11 +1752,52 @@ namespace PhoenixCI.FormUI.Prefix4 {
                      DataTable dtTemp = drsTemp.CopyToDataTable();
                      dtTemp = dtTemp.Sort("SEQ_NO ASC, PROD_TYPE ASC, KIND_GRP2 ASC, KIND_ID ASC, AB_TYPE ASC");
 
-                     //案由一後文字
-                     SetCase(++caseNo , "檢陳本公司{0}保證金調整案，謹提請討論。" , GenArrayTxt(wfKindIdC(dtTemp)));
+                    //+新規則：倘各商品採SMA、EWMA、MAX任一方式計算之結算保證金變動幅度達所設定標準以上(目前訂10%)則顯示。
+                    Dictionary<string, MC> mcDic = new Dictionary<string, MC>();
+                    foreach (DataRow dr in dtTemp.Rows)
+                    {
+                        String aa = dr.ToString();
+                        MC mc = new MC();
+                        if (dr["PROD_TYPE"].ToString() == "F")
+                        {
+                            mc.SMA = Dao40030.getSMA(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString());
+                            mc.EWMA = Dao40030.getEWMA(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString());
+                            mc.MAX = Dao40030.getMax(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString());
+                        }
+                        if (dr["PROD_TYPE"].ToString() == "O")
+                        {
+                            mc.SMA = Dao40030.getOptSMA(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString(), dr["AB_TYPE"].ToString());
+                            mc.EWMA = Dao40030.getOptEWMA(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString(), dr["AB_TYPE"].ToString());
+                            mc.MAX = Dao40030.getOptMax(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString(), dr["AB_TYPE"].ToString());
+                            mc.fSMA = Dao40030.getOptfSMA(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString(), dr["AB_TYPE"].ToString());
+                            mc.fEWMA = Dao40030.getOptfEWMA(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString(), dr["AB_TYPE"].ToString());
+                            mc.fMAX = Dao40030.getOptfMax(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString(), dr["AB_TYPE"].ToString());
+                        }
+                        mcDic.Add(dr["KIND_ID"].ToString(), mc);
+                    }
+
+                    List<String> items = new List<String>();
+                    foreach (DataRow dr in dtTemp.Rows)
+                    {
+                        if (mcDic[dr["KIND_ID"].ToString()].MAX > 0.1 || mcDic[dr["KIND_ID"].ToString()].EWMA > 0.1 || mcDic[dr["KIND_ID"].ToString()].SMA > 0.1)
+                            items.Add(dr["KIND_ID"].ToString());
+                    }
+                    int i = 0;
+                    while (i < dtTemp.Rows.Count)
+                    {
+                        if (!items.Contains(dtTemp.Rows[i]["KIND_ID"].ToString()))
+                        {
+                            dtTemp.Rows.RemoveAt(i);
+                            continue;
+                        }
+                        i++;
+                    }
+
+                    //案由一後文字
+                    SetCase(++caseNo , "檢陳本公司{0}保證金調整案，謹提請討論。" , GenArrayTxt(wfKindIdC(dtTemp)));
 
                      //案由一下說明文
-                     SetFirstCaseDesc(dtTemp , c.CheckedDate);
+                     SetFirstCaseDesc(dtTemp , c.CheckedDate, mcDic);
                   }
                }
 
@@ -1886,8 +1965,8 @@ namespace PhoenixCI.FormUI.Prefix4 {
                OswGrp = c.CheckedValue.AsString();
                searchDate = c.CheckedDate;
 
-               if (CheckedItems.Count == 3) {
-                  if (CheckedItems[0].CheckedDate == CheckedItems[1].CheckedDate && CheckedItems[0].CheckedDate == CheckedItems[2].CheckedDate) {
+               if (CheckedItems.Count == 2) {
+                  if (CheckedItems[0].CheckedDate == CheckedItems[1].CheckedDate) {
                      searchDate = CheckedItems.FirstOrDefault().CheckedDate;
                      OswGrp = "%";
                   }
@@ -1968,32 +2047,11 @@ namespace PhoenixCI.FormUI.Prefix4 {
          /// </summary>
          /// <param name="dtTemp"></param>
          /// <param name="checkedDate"></param>
-         protected virtual void SetFirstCaseDesc(DataTable dtTemp , DateTime checkedDate) {
+         protected virtual void SetFirstCaseDesc(DataTable dtTemp , DateTime checkedDate, Dictionary<string, MC> mcDic) {
             string tmpStr = "";
             int licnt = 3;
             //準備SMA、EWMA、MAX值
-            Dictionary<string, MC> mcDic = new Dictionary<string, MC>();
-            foreach (DataRow dr in dtTemp.Rows)
-            {
-                String aa = dr.ToString();
-                MC mc = new MC();
-                if (dr["PROD_TYPE"].ToString() == "F")
-                {
-                    mc.SMA  = Dao40030.getSMA(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString());
-                    mc.EWMA = Dao40030.getEWMA(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString());
-                    mc.MAX  = Dao40030.getMax(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString());
-                }
-                if (dr["PROD_TYPE"].ToString() == "O")
-                {
-                    mc.SMA   = Dao40030.getOptSMA(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString(), dr["AB_TYPE"].ToString());
-                    mc.EWMA  = Dao40030.getOptEWMA(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString(), dr["AB_TYPE"].ToString());
-                    mc.MAX   = Dao40030.getOptMax(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString(), dr["AB_TYPE"].ToString());
-                    mc.fSMA  = Dao40030.getOptfSMA(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString(), dr["AB_TYPE"].ToString());
-                    mc.fEWMA = Dao40030.getOptfEWMA(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString(), dr["AB_TYPE"].ToString());
-                    mc.fMAX  = Dao40030.getOptfMax(dr["DATA_YMD"].ToString(), dr["KIND_ID"].ToString(), dr["AB_TYPE"].ToString());
-                }
-                mcDic.Add(dr["KIND_ID"].ToString(), mc);
-            }
+           
       
             SetSubjectText($"說　　明：");
 
@@ -2008,24 +2066,24 @@ namespace PhoenixCI.FormUI.Prefix4 {
             SetInnerText("二、經以簡單移動平均法(SMA)、加權指數移動平均(EWMA)、簡單移動平均法_日內變動(MAX)方式試算上開契約結算保證金之變動幅度如下：");
             foreach (DataRow dr in dtTemp.Rows)
             {
-                    String info="";
-                    if (dr["PROD_TYPE"].ToString() == "F")
+                String info="";
+                if (dr["PROD_TYPE"].ToString() == "F")
+                {
+                    info = string.Format("({0}){1}結算保證金變動幅度分別為 {2}、{3} 及{4}。", no2Char(++icnt), dr["KIND_ABBR_NAME"].ToString().Trim(), mcDic[dr["KIND_ID"].ToString()].ptSMA(), mcDic[dr["KIND_ID"].ToString()].ptEWMA(), mcDic[dr["KIND_ID"].ToString()].ptMAX());
+                }
+                if (dr["PROD_TYPE"].ToString() == "O")
+                {
+                    if (mcDic[dr["KIND_ID"].ToString()].fSMA==0 && mcDic[dr["KIND_ID"].ToString()].fEWMA==0 && mcDic[dr["KIND_ID"].ToString()].fMAX == 0)
                     {
                         info = string.Format("({0}){1}結算保證金變動幅度分別為 {2}、{3} 及{4}。", no2Char(++icnt), dr["KIND_ABBR_NAME"].ToString().Trim(), mcDic[dr["KIND_ID"].ToString()].ptSMA(), mcDic[dr["KIND_ID"].ToString()].ptEWMA(), mcDic[dr["KIND_ID"].ToString()].ptMAX());
                     }
-                    if (dr["PROD_TYPE"].ToString() == "O")
+                    else
                     {
-                        if (mcDic[dr["KIND_ID"].ToString()].fSMA==0 && mcDic[dr["KIND_ID"].ToString()].fEWMA==0 && mcDic[dr["KIND_ID"].ToString()].fMAX == 0)
-                        {
-                            info = string.Format("({0}){1}結算保證金變動幅度分別為 {2}、{3} 及{4}。", no2Char(++icnt), dr["KIND_ABBR_NAME"].ToString().Trim(), mcDic[dr["KIND_ID"].ToString()].ptSMA(), mcDic[dr["KIND_ID"].ToString()].ptEWMA(), mcDic[dr["KIND_ID"].ToString()].ptMAX());
-                        }
-                        else
-                        {
-                            info = string.Format("({0}){1}結算保證金變動幅度分別為 {2}、{3} 及{4}，及採期貨資料計算是變動幅度分別為 {5}、{6} 及 {7}。", no2Char(++icnt), dr["KIND_ABBR_NAME"].ToString().Trim(), mcDic[dr["KIND_ID"].ToString()].ptSMA(), mcDic[dr["KIND_ID"].ToString()].ptEWMA(), mcDic[dr["KIND_ID"].ToString()].ptMAX(), mcDic[dr["KIND_ID"].ToString()].ptfSMA(), mcDic[dr["KIND_ID"].ToString()].ptfEWMA(), mcDic[dr["KIND_ID"].ToString()].ptfMAX());
-                        }
+                        info = string.Format("({0}){1}結算保證金變動幅度分別為 {2}、{3} 及{4}，及採期貨資料計算是變動幅度分別為 {5}、{6} 及 {7}。", no2Char(++icnt), dr["KIND_ABBR_NAME"].ToString().Trim(), mcDic[dr["KIND_ID"].ToString()].ptSMA(), mcDic[dr["KIND_ID"].ToString()].ptEWMA(), mcDic[dr["KIND_ID"].ToString()].ptMAX(), mcDic[dr["KIND_ID"].ToString()].ptfSMA(), mcDic[dr["KIND_ID"].ToString()].ptfEWMA(), mcDic[dr["KIND_ID"].ToString()].ptfMAX());
                     }
-                    SetInnerText(info, true, 4.11f, 1.25f);
                 }
+                SetInnerText(info, true, 4.11f, 1.25f);
+            }
            
             //說明三
             SetInnerText("三、基於穩健保守及貼近國際同類商品保證金水準之原則，建議TX及TXO採加權指數移動平均(EWMA)調整保證金，TE及採簡單移動平均法(SMA)調整保證金，TF、XI及TEO採簡單移動平均法_日內變動(MAX)調整保證金其金額變動如下：");
