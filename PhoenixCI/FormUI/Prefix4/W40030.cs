@@ -5162,5 +5162,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
          public DateTime CheckedDate { get; set; }
          public string ETCSelected { get; set; }
       }
-   }
+
+        private void MarketTimes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+    }
 }
