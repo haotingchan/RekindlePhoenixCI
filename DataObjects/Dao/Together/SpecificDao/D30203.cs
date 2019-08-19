@@ -324,8 +324,39 @@ where PL2B_YMD = :ls_ymd
             throw ex;
          }
       }
+        public ResultData updatePLLOG2_30222use(DataTable inputData)
+        {
+            string tableName = "CI.PLLOG";
+            string keysColumnList = @"PLLOG_YMD, 
+    PLLOG_KIND_ID, 
+    PLLOG_DATA_TYPE, 
+    PLLOG_ORG_VALUE, 
+    PLLOG_UPD_VALUE, 
+    PLLOG_W_TIME, 
+    PLLOG_W_USER_ID";
+            string insertColumnList = @"PLLOG_YMD, 
+    PLLOG_KIND_ID, 
+    PLLOG_DATA_TYPE, 
+    PLLOG_ORG_VALUE, 
+    PLLOG_UPD_VALUE, 
+    PLLOG_W_TIME, 
+    PLLOG_W_USER_ID";
 
-      public ResultData updatePLLOG2(DataTable inputData) {
+            string updateColumnList = insertColumnList;
+            try
+            {
+                //update to DB
+                return SaveForChanged(inputData, tableName, insertColumnList, updateColumnList, keysColumnList);
+            }
+            catch (Exception ex)
+            {
+                string str = ex.ToString().TrimEnd();
+                if (str.Contains("無資料需要儲存"))
+                    return null;
+                else throw ex;
+            }
+        }
+            public ResultData updatePLLOG2(DataTable inputData) {
 
          string sql = @"
 SELECT

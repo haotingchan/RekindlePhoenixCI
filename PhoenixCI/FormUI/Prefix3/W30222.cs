@@ -294,7 +294,7 @@ namespace PhoenixCI.FormUI.Prefix3
                 }
 
                 //2. 寫入DB
-                ResultData myResultData = dao30203.updatePLLOG2(dtPLLOG);
+                ResultData myResultData = dao30203.updatePLLOG2_30222use(dtPLLOG);
                 #endregion
                 showMsg = "PLS1更新資料庫錯誤! ";
                 myResultData = dao30222.updatePLS1(dtGridView);//更新PLS1
