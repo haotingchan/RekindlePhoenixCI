@@ -50,41 +50,49 @@ namespace DataObjects.Dao.Together
                                    MGC1_CP_COMBI_CNT,
                                    MGC1_NATURE_COMBI_CNT,
                                    MGC1_NATURE_OI,
+                                   MGC1_1DAY_RATE,
                                    MGC1_CP_RATE,
-                                   MGC1_5DAY_AVG_RATE,
                                    MGCD1_R_DAY_CNT,
                                    MGC1_CUR_RATE,
                                    MGC1_RATE,
                                    MGC1_CHANGE_FLAG,
                                    DAYS_CP_ACC_CNT,
                                    DAYS_CP_COMBI_CNT,
-                                   DAYS_CP_RATE
+                                   DAYS_RATE,
+                                   TOP5_ACC_CNT,
+                                   TOP5_COMBI_CNT,
+                                   TOP5_RATE
                                    FROM CI.MGC1 M,CI.APDK ,CI.MGCD1,
                                    (
-                                           SELECT MGC1_KIND_ID,
-                                            WMSYS.WM_CONCAT(MGC1_CP_ACC_CNT) DAYS_CP_ACC_CNT ,
-                                            WMSYS.WM_CONCAT(MGC1_CP_COMBI_CNT) DAYS_CP_COMBI_CNT,
-                                            WMSYS.WM_CONCAT(MGC1_CP_RATE*100 || '%' || '(' || to_char(to_date(MGC1_YMD,'yyyymmdd'),'mm/dd') || ')') DAYS_CP_RATE
-                                            FROM
-                                            (
-                                               SELECT row_number() over (partition BY MGC1_KIND_ID order by MGC1_YMD) rownumber ,
-                                               MGC1_YMD,MGC1_KIND_ID, MGC1_CP_ACC_CNT,MGC1_CP_COMBI_CNT,MGC1_CP_RATE
-                                               FROM ci.MGC1 
-                                               WHERE MGC1_CP_KIND = @MGC1_CP_KIND
-                                               AND MGC1_OSW_GRP like @MGC1_OSW_GRP
-                                               AND MGC1_YMD >= MGC1_5DAY_YMD
-                                               AND MGC1_YMD <= @MGC1_YMD
-                                           )
-                                           GROUP BY MGC1_KIND_ID                                   
-                                   )A
+                                            SELECT  MGC1_KIND_ID,
+                                                            LISTAGG(MGC1_CP_ACC_CNT, '、') WITHIN GROUP (ORDER BY MGC1_YMD) DAYS_CP_ACC_CNT ,
+                                                            LISTAGG(MGC1_CP_COMBI_CNT,'、')  WITHIN GROUP (ORDER BY MGC1_YMD) DAYS_CP_COMBI_CNT,
+                                                            LISTAGG(MGC1_1DAY_RATE*100 || '%' || '(' || to_char(to_date(MGC1_YMD,'yyyymmdd'),'mm/dd') || ')','、')  WITHIN GROUP (ORDER BY MGC1_YMD) DAYS_RATE
+                                            FROM CI.MGC1
+                                            WHERE MGC1_CP_KIND = @MGC1_CP_KIND
+                                            AND MGC1_OSW_GRP like @MGC1_OSW_GRP
+                                            AND MGC1_YMD >= MGC1_5DAY_YMD
+                                            AND MGC1_YMD <= @MGC1_YMD
+                                            GROUP BY MGC1_KIND_ID                                  
+                                   )A,
+                                   (
+                                            SELECT            MGC5_KIND_ID2,
+                                                                    LISTAGG(MGC5_ACC_CNT, '、') WITHIN GROUP (ORDER BY MGC5_SEQ_NO) AS TOP5_ACC_CNT,
+                                                                    LISTAGG(MGC5_COMBI_CNT, '、') WITHIN GROUP (ORDER BY MGC5_SEQ_NO) AS TOP5_COMBI_CNT,
+                                                                    LISTAGG(MGC5_COMBI_RATE*100|| '%'|| '(' || to_char(to_date(MGC5_COMBI_RATE_YMD,'yyyymmdd'),'mm/dd') || ')', '、') WITHIN GROUP (ORDER BY MGC5_SEQ_NO) AS TOP5_RATE
+                                            FROM            CI.MGC5
+                                            WHERE           MGC5_YMD = @MGC1_YMD
+                                            GROUP BY    MGC5_KIND_ID2
+                                    )B
                                    WHERE MGC1_CP_KIND = @MGC1_CP_KIND
                                    AND M.MGC1_YMD = @MGC1_YMD
                                    AND M.MGC1_OSW_GRP LIKE @MGC1_OSW_GRP
-                                   AND M.MGC1_KIND_ID = APDK_KIND_ID
+                                   AND M.MGC1_KIND_ID = TRIM(APDK_KIND_ID)
                                    AND M.MGC1_YMD = MGCD1_YMD(+)
                                    AND M.MGC1_KIND_ID = MGCD1_KIND_ID(+)
                                    AND M.MGC1_CP_KIND = MGCD1_CP_KIND(+)
                                    AND M.MGC1_KIND_ID = A.MGC1_KIND_ID(+)
+                                   AND M.MGC1_KIND_ID2 = B.MGC5_KIND_ID2(+)
                                    ORDER BY M.MGC1_KIND_ID
             ";
 

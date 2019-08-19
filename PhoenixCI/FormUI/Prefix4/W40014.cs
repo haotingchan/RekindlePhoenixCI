@@ -64,7 +64,7 @@ namespace PhoenixCI.FormUI.Prefix4
             return false;
          }
 
-
+         stMsgTxt.Visible = true;
          stMsgTxt.Text = "開始轉檔...";
          this.Cursor = Cursors.WaitCursor;
          this.Refresh();
@@ -170,7 +170,7 @@ namespace PhoenixCI.FormUI.Prefix4
 
             string note = "";
             foreach (DataRow row in dt.Rows) {
-                note = $"戶數：{row["DAYS_CP_ACC_CNT"]}\n組數：{row["DAYS_CP_COMBI_CNT"]}\n比例(日期)：{row["DAYS_CP_RATE"]}".Replace(",","、");
+                
 
                 worksheet.Rows[rowIndex][1].SetValue(row["MGC1_KIND_ID"].AsString());
                 worksheet.Rows[rowIndex][2].SetValue(row["APDK_NAME"].AsString());
@@ -183,11 +183,15 @@ namespace PhoenixCI.FormUI.Prefix4
                         worksheet.Rows[1][12].SetValue(txtDate.Text);
                         worksheet.Rows[rowIndex][5].SetValue(row["MGC1_NATURE_COMBI_CNT"]);
                         worksheet.Rows[rowIndex][6].SetValue(row["MGC1_NATURE_OI"]);
-                        worksheet.Rows[rowIndex][7].SetValue(row["MGC1_CP_RATE"]);
-                        worksheet.Rows[rowIndex][8].SetValue(row["MGC1_5DAY_AVG_RATE"]);
+                        worksheet.Rows[rowIndex][7].SetValue(row["MGC1_1DAY_RATE"]);
+                        worksheet.Rows[rowIndex][8].SetValue(row["MGC1_CP_RATE"]);
                         worksheet.Rows[rowIndex][9].SetValue(row["MGCD1_R_DAY_CNT"]);
                         worksheet.Rows[rowIndex][10].SetValue(row["MGC1_CUR_RATE"]);
                         worksheet.Rows[rowIndex][11].SetValue(row["MGC1_RATE"]);
+                        if (row["MGCD1_R_DAY_CNT"].AsDecimal() > 0)
+                        {
+                            note = $"戶數：{row["DAYS_CP_ACC_CNT"]}\n組數：{row["DAYS_CP_COMBI_CNT"]}\n比例(日期)：{row["DAYS_RATE"]}";
+                        }
                         worksheet.Rows[rowIndex][12].SetValue(note);
                         break;
                     case "R":
@@ -196,6 +200,7 @@ namespace PhoenixCI.FormUI.Prefix4
                         worksheet.Rows[rowIndex][6].SetValue(row["MGC1_CUR_RATE"]);
                         worksheet.Rows[rowIndex][7].SetValue(row["MGC1_RATE"]);
                         worksheet.Rows[rowIndex][8].SetValue(row["MGC1_CHANGE_FLAG"].AsString());
+                        note = $"戶數：{row["TOP5_ACC_CNT"]}\n組數：{row["TOP5_COMBI_CNT"]}\n比例(日期)：{row["TOP5_RATE"]}";
                         worksheet.Rows[rowIndex][9].SetValue(note);
                         break;
                 }
