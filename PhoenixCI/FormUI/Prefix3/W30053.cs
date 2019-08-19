@@ -42,9 +42,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          //日期
          txtSDate.DateTimeValue = GlobalInfo.OCF_DATE;
          System.Globalization.TaiwanCalendar TC = new System.Globalization.TaiwanCalendar();
-#if DEBUG
-         txtSDate.Text = "2018/10/15";
-#endif
+
          //盤別下拉選單
          //List<LookupItem> ddlb_grp = new List<LookupItem>(){
          //                               new LookupItem() { ValueMember = "1", DisplayMember = "16:15收盤"},
@@ -320,10 +318,10 @@ namespace PhoenixCI.FormUI.Prefix3 {
             return false;
          }
 
-         Range check = ws.Range["B3:J48"];
-         if (string.IsNullOrEmpty(check.Value.AsString())) {
-            return false;
-         }
+         //Range check = ws.Range["B3:J48"];
+         //if (string.IsNullOrEmpty(check.Value.AsString())) {
+         //   return false;
+         //}
 
          //把table存成txt(先拿掉)
          //etfFileName = "d:\temp\a.txt";
@@ -380,15 +378,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
          ShowMsg(rptId + '－' + rptName + " 轉檔中...");
          //讀取資料
+
          DataTable dt30053o = dao30053.d_30053_o(txtSDate.DateTimeValue);
          if (dt30053o.Rows.Count == 0) {
             MessageDisplay.Info(txtSDate.Text + "," + rptId + '－' + rptName + ",無任何資料!");
             lblProcessing.Visible = false;
-            return false;
-         }
-
-         Range check = ws.Range["B3:L36"];
-         if (string.IsNullOrEmpty(check.Value.AsString())) {
             return false;
          }
 
@@ -415,6 +409,12 @@ namespace PhoenixCI.FormUI.Prefix3 {
                ws.Cells[rowIndex - delRow , col].SetValue(dr[col]);
             }
          }
+
+         Range check = ws.Range["B3:L36"];
+         if (string.IsNullOrEmpty(check.Value.AsString())) {
+            return false;
+         }
+
          ws.ScrollToRow(0);
          flag++;
          return true;
