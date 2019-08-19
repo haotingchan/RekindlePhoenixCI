@@ -43,12 +43,12 @@
          // panParent
          // 
          this.panParent.Controls.Add(this.r_frame);
-         this.panParent.Size = new System.Drawing.Size(645, 405);
+         this.panParent.Size = new System.Drawing.Size(590, 365);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(645, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(590, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // panFilter
@@ -155,7 +155,7 @@
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(645, 435);
+         this.ClientSize = new System.Drawing.Size(590, 395);
          this.Name = "W30201";
          this.Text = "W30201";
          this.panParent.ResumeLayout(false);

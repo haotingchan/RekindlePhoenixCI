@@ -62,12 +62,43 @@ order by mgd2_ymd , mgt2_seq_no , mgd2_kind_id
             return dtResult;
         }
 
-        /// <summary>
-        /// get mgt2 data, return mgt2_group_kind_id/mgt2_prod_type/mgt2_kind_id/mgt2_kind_id_out/mgt2_abbr_name/mgt2_name
-        /// </summary>
-        /// <param name="as_group">if null, use '%'</param>
-        /// <returns></returns>
-        public DataTable ListMgt2ByKindId(string as_group) {
+      /// <summary>
+      /// get mg1/mg2/mgt2 data, return 9 fields
+      /// </summary>
+      /// <param name="ad_date"></param>
+      /// <returns></returns>
+      public DataTable ListData2(DateTime ad_date) {
+
+         object[] parms = {
+                ":ad_date", ad_date
+            };
+
+         string sql = @"
+SELECT MGD2_KIND_ID,
+APDK_NAME,
+MGD2_CM,
+MGD2_CUR_CM,
+MGD2_IM,
+MGD2_CUR_IM,
+MGD2_ADJ_RATE,
+--MGD2_IM_RATE無條件進位到小數點第三位
+ceil(((MGD2_IM-MGD2_CUR_IM)/NULLIF(MGD2_CUR_IM, 0))* 1000)/1000  AS MGD2_IM_RATE
+FROM ci.MGD2,ci.APDK
+WHERE MGD2_ISSUE_BEGIN_YMD = to_char(:ad_date,'YYYYMMDD')
+AND MGD2_KIND_ID = APDK_KIND_ID
+";
+
+         DataTable dtResult = db.GetDataTable(sql , parms);
+
+         return dtResult;
+      }
+
+      /// <summary>
+      /// get mgt2 data, return mgt2_group_kind_id/mgt2_prod_type/mgt2_kind_id/mgt2_kind_id_out/mgt2_abbr_name/mgt2_name
+      /// </summary>
+      /// <param name="as_group">if null, use '%'</param>
+      /// <returns></returns>
+      public DataTable ListMgt2ByKindId(string as_group) {
 
             object[] parms = {
                 ":as_group", as_group

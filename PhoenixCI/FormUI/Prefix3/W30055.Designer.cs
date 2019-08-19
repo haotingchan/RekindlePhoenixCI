@@ -74,8 +74,6 @@
          // 
          // gvMsg
          // 
-         this.gvMsg.Appearance.Empty.BackColor = System.Drawing.Color.Azure;
-         this.gvMsg.Appearance.Empty.Options.UseBackColor = true;
          this.gvMsg.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
          this.gvMsg.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.SheetName,
@@ -144,11 +142,11 @@
          // cbxNews
          // 
          this.cbxNews.AutoSize = true;
-         this.cbxNews.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.cbxNews.Font = new System.Drawing.Font("微軟正黑體", 12F);
          this.cbxNews.ForeColor = System.Drawing.Color.Black;
-         this.cbxNews.Location = new System.Drawing.Point(41, 167);
+         this.cbxNews.Location = new System.Drawing.Point(43, 163);
          this.cbxNews.Name = "cbxNews";
-         this.cbxNews.Size = new System.Drawing.Size(127, 20);
+         this.cbxNews.Size = new System.Drawing.Size(133, 24);
          this.cbxNews.TabIndex = 3;
          this.cbxNews.Text = "Email寄送報社";
          this.cbxNews.UseVisualStyleBackColor = true;
@@ -156,11 +154,11 @@
          // cbxTJF
          // 
          this.cbxTJF.AutoSize = true;
-         this.cbxTJF.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.cbxTJF.Font = new System.Drawing.Font("微軟正黑體", 12F);
          this.cbxTJF.ForeColor = System.Drawing.Color.Black;
-         this.cbxTJF.Location = new System.Drawing.Point(41, 137);
+         this.cbxTJF.Location = new System.Drawing.Point(43, 133);
          this.cbxTJF.Name = "cbxTJF";
-         this.cbxTJF.Size = new System.Drawing.Size(175, 20);
+         this.cbxTJF.Size = new System.Drawing.Size(181, 24);
          this.cbxTJF.TabIndex = 2;
          this.cbxTJF.Text = "Email寄送日本交易所";
          this.cbxTJF.UseVisualStyleBackColor = true;
@@ -176,6 +174,8 @@
          this.ddlType.Properties.Appearance.Options.UseForeColor = true;
          this.ddlType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.ddlType.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.ddlType.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.ddlType.Size = new System.Drawing.Size(150, 26);
          this.ddlType.TabIndex = 1;
          // 
@@ -188,7 +188,7 @@
          this.r_frame.Controls.Add(this.panFilter);
          this.r_frame.Location = new System.Drawing.Point(30, 30);
          this.r_frame.Name = "r_frame";
-         this.r_frame.Size = new System.Drawing.Size(500, 290);
+         this.r_frame.Size = new System.Drawing.Size(425, 290);
          this.r_frame.TabIndex = 80;
          // 
          // labMsg
@@ -196,7 +196,7 @@
          this.labMsg.AutoSize = true;
          this.labMsg.ForeColor = System.Drawing.Color.Blue;
          this.labMsg.Location = new System.Drawing.Point(15, 240);
-         this.labMsg.MaximumSize = new System.Drawing.Size(460, 120);
+         this.labMsg.MaximumSize = new System.Drawing.Size(385, 120);
          this.labMsg.Name = "labMsg";
          this.labMsg.Size = new System.Drawing.Size(85, 20);
          this.labMsg.TabIndex = 80;
@@ -206,17 +206,17 @@
          // panFilter
          // 
          this.panFilter.AutoSize = true;
+         this.panFilter.Controls.Add(this.ddlType);
          this.panFilter.Controls.Add(this.cbxNews);
          this.panFilter.Controls.Add(this.labType);
          this.panFilter.Controls.Add(this.cbxTJF);
          this.panFilter.Controls.Add(this.txtSDate);
-         this.panFilter.Controls.Add(this.ddlType);
          this.panFilter.Controls.Add(this.labDate);
          this.panFilter.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
          this.panFilter.ForeColor = System.Drawing.Color.Navy;
          this.panFilter.Location = new System.Drawing.Point(20, 15);
          this.panFilter.Name = "panFilter";
-         this.panFilter.Size = new System.Drawing.Size(460, 215);
+         this.panFilter.Size = new System.Drawing.Size(385, 215);
          this.panFilter.TabIndex = 6;
          this.panFilter.TabStop = false;
          this.panFilter.Text = "請輸入交易日期";

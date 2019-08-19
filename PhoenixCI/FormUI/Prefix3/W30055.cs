@@ -63,6 +63,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          DataTable lstType = new CODW().ListLookUpEdit("GRP" , "GRP_NO");
          Extension.SetDataTable(ddlType , lstType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
          ddlType.ItemIndex = 1;
+         ddlType.Properties.DropDownRows = lstType.Rows.Count;
 
          return ResultStatus.Success;
       }

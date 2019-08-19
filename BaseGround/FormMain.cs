@@ -287,7 +287,7 @@ namespace BaseGround {
             formInstance.FormClosed += new FormClosedEventHandler(Child_FormClosed);
             formInstance.Icon = (Icon)Icon.Clone();
             formInstance.StartPosition = FormStartPosition.Manual;
-            formInstance.WindowState = FormWindowState.Maximized;
+            //formInstance.WindowState = FormWindowState.Maximized;
             formInstance.Dock = DockStyle.Fill;
             formInstance.AutoScaleMode = AutoScaleMode.None;
             formInstance.Show();

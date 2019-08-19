@@ -42,20 +42,20 @@
          // panParent
          // 
          this.panParent.Controls.Add(this.panelControl);
-         this.panParent.Location = new System.Drawing.Point(0, 32);
-         this.panParent.Size = new System.Drawing.Size(846, 555);
+         this.panParent.Size = new System.Drawing.Size(600, 340);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(846, 32);
+         this.ribbonControl.Size = new System.Drawing.Size(600, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // lblProcessing
          // 
          this.lblProcessing.AutoSize = true;
          this.lblProcessing.ForeColor = System.Drawing.Color.Blue;
-         this.lblProcessing.Location = new System.Drawing.Point(10, 144);
+         this.lblProcessing.Location = new System.Drawing.Point(15, 145);
+         this.lblProcessing.MaximumSize = new System.Drawing.Size(400, 120);
          this.lblProcessing.Name = "lblProcessing";
          this.lblProcessing.Size = new System.Drawing.Size(85, 20);
          this.lblProcessing.TabIndex = 12;
@@ -72,9 +72,9 @@
          this.grpxDescription.Controls.Add(this.lblDate);
          this.grpxDescription.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.grpxDescription.ForeColor = System.Drawing.Color.Navy;
-         this.grpxDescription.Location = new System.Drawing.Point(15, 15);
+         this.grpxDescription.Location = new System.Drawing.Point(20, 15);
          this.grpxDescription.Name = "grpxDescription";
-         this.grpxDescription.Size = new System.Drawing.Size(404, 126);
+         this.grpxDescription.Size = new System.Drawing.Size(400, 120);
          this.grpxDescription.TabIndex = 11;
          this.grpxDescription.TabStop = false;
          this.grpxDescription.Text = "請輸入交易日期";
@@ -85,7 +85,7 @@
          this.txtEDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtEDate.EditValue = "2018/12/01";
          this.txtEDate.EnterMoveNextControl = true;
-         this.txtEDate.Location = new System.Drawing.Point(237, 50);
+         this.txtEDate.Location = new System.Drawing.Point(233, 53);
          this.txtEDate.MenuManager = this.ribbonControl;
          this.txtEDate.Name = "txtEDate";
          this.txtEDate.Properties.Appearance.Options.UseTextOptions = true;
@@ -105,7 +105,7 @@
          this.txtSDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtSDate.EditValue = "2018/12/01";
          this.txtSDate.EnterMoveNextControl = true;
-         this.txtSDate.Location = new System.Drawing.Point(100, 50);
+         this.txtSDate.Location = new System.Drawing.Point(99, 53);
          this.txtSDate.MenuManager = this.ribbonControl;
          this.txtSDate.Name = "txtSDate";
          this.txtSDate.Properties.Appearance.Options.UseTextOptions = true;
@@ -123,7 +123,7 @@
          // 
          this.label1.AutoSize = true;
          this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-         this.label1.Location = new System.Drawing.Point(206, 50);
+         this.label1.Location = new System.Drawing.Point(205, 56);
          this.label1.Name = "label1";
          this.label1.Size = new System.Drawing.Size(26, 21);
          this.label1.TabIndex = 6;
@@ -133,7 +133,7 @@
          // 
          this.lblDate.AutoSize = true;
          this.lblDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-         this.lblDate.Location = new System.Drawing.Point(37, 53);
+         this.lblDate.Location = new System.Drawing.Point(44, 56);
          this.lblDate.Name = "lblDate";
          this.lblDate.Size = new System.Drawing.Size(58, 21);
          this.lblDate.TabIndex = 2;
@@ -149,7 +149,7 @@
          this.panelControl.Location = new System.Drawing.Point(30, 30);
          this.panelControl.Margin = new System.Windows.Forms.Padding(15);
          this.panelControl.Name = "panelControl";
-         this.panelControl.Size = new System.Drawing.Size(442, 171);
+         this.panelControl.Size = new System.Drawing.Size(440, 195);
          this.panelControl.TabIndex = 19;
          // 
          // W30020
@@ -157,7 +157,7 @@
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(846, 587);
+         this.ClientSize = new System.Drawing.Size(600, 370);
          this.Name = "W30020";
          this.Text = "W30020";
          this.panParent.ResumeLayout(false);

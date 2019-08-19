@@ -42,12 +42,12 @@
          // panParent
          // 
          this.panParent.Controls.Add(this.panelControl);
-         this.panParent.Size = new System.Drawing.Size(924, 617);
+         this.panParent.Size = new System.Drawing.Size(645, 405);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(924, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(645, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // panFilter
@@ -57,18 +57,18 @@
          this.panFilter.Controls.Add(this.labType);
          this.panFilter.Controls.Add(this.txtSDate);
          this.panFilter.Controls.Add(this.labDate);
-         this.panFilter.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+         this.panFilter.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
          this.panFilter.ForeColor = System.Drawing.Color.Navy;
-         this.panFilter.Location = new System.Drawing.Point(15, 15);
+         this.panFilter.Location = new System.Drawing.Point(20, 15);
          this.panFilter.Name = "panFilter";
-         this.panFilter.Size = new System.Drawing.Size(360, 169);
+         this.panFilter.Size = new System.Drawing.Size(345, 150);
          this.panFilter.TabIndex = 26;
          this.panFilter.TabStop = false;
          this.panFilter.Text = "請輸入交易日期";
          // 
          // ddlType
          // 
-         this.ddlType.Location = new System.Drawing.Point(93, 99);
+         this.ddlType.Location = new System.Drawing.Point(93, 87);
          this.ddlType.MenuManager = this.ribbonControl;
          this.ddlType.Name = "ddlType";
          this.ddlType.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
@@ -77,6 +77,8 @@
          this.ddlType.Properties.Appearance.Options.UseForeColor = true;
          this.ddlType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+         this.ddlType.Properties.LookAndFeel.SkinName = "The Bezier";
+         this.ddlType.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.ddlType.Size = new System.Drawing.Size(150, 26);
          this.ddlType.TabIndex = 1;
          // 
@@ -84,9 +86,9 @@
          // 
          this.labType.AutoSize = true;
          this.labType.ForeColor = System.Drawing.Color.Black;
-         this.labType.Location = new System.Drawing.Point(30, 102);
+         this.labType.Location = new System.Drawing.Point(37, 90);
          this.labType.Name = "labType";
-         this.labType.Size = new System.Drawing.Size(59, 16);
+         this.labType.Size = new System.Drawing.Size(58, 21);
          this.labType.TabIndex = 14;
          this.labType.Text = "盤別：";
          // 
@@ -96,7 +98,7 @@
          this.txtSDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
          this.txtSDate.EditValue = "2018/12/01";
          this.txtSDate.EnterMoveNextControl = true;
-         this.txtSDate.Location = new System.Drawing.Point(93, 58);
+         this.txtSDate.Location = new System.Drawing.Point(93, 42);
          this.txtSDate.MenuManager = this.ribbonControl;
          this.txtSDate.Name = "txtSDate";
          this.txtSDate.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
@@ -116,9 +118,9 @@
          // 
          this.labDate.AutoSize = true;
          this.labDate.ForeColor = System.Drawing.Color.Black;
-         this.labDate.Location = new System.Drawing.Point(30, 61);
+         this.labDate.Location = new System.Drawing.Point(37, 45);
          this.labDate.Name = "labDate";
-         this.labDate.Size = new System.Drawing.Size(59, 16);
+         this.labDate.Size = new System.Drawing.Size(58, 21);
          this.labDate.TabIndex = 12;
          this.labDate.Text = "日期：";
          // 
@@ -126,7 +128,8 @@
          // 
          this.labMsg.AutoSize = true;
          this.labMsg.ForeColor = System.Drawing.Color.Blue;
-         this.labMsg.Location = new System.Drawing.Point(10, 187);
+         this.labMsg.Location = new System.Drawing.Point(15, 175);
+         this.labMsg.MaximumSize = new System.Drawing.Size(345, 120);
          this.labMsg.Name = "labMsg";
          this.labMsg.Size = new System.Drawing.Size(85, 20);
          this.labMsg.TabIndex = 31;
@@ -143,7 +146,7 @@
          this.panelControl.Location = new System.Drawing.Point(30, 30);
          this.panelControl.Margin = new System.Windows.Forms.Padding(15);
          this.panelControl.Name = "panelControl";
-         this.panelControl.Size = new System.Drawing.Size(388, 215);
+         this.panelControl.Size = new System.Drawing.Size(385, 225);
          this.panelControl.TabIndex = 32;
          // 
          // W30010
@@ -151,7 +154,7 @@
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(924, 647);
+         this.ClientSize = new System.Drawing.Size(645, 435);
          this.Name = "W30010";
          this.Text = "W30010";
          this.panParent.ResumeLayout(false);

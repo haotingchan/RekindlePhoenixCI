@@ -34,43 +34,43 @@
          this.label8 = new System.Windows.Forms.Label();
          this.label9 = new System.Windows.Forms.Label();
          this.grpxDescription = new System.Windows.Forms.GroupBox();
+         this.txtEDate = new BaseGround.Widget.TextDateEdit();
+         this.txtSDate = new BaseGround.Widget.TextDateEdit();
+         this.label4 = new System.Windows.Forms.Label();
          this.txtRank = new DevExpress.XtraEditors.TextEdit();
          this.rgpData = new DevExpress.XtraEditors.RadioGroup();
          this.rgpType = new DevExpress.XtraEditors.RadioGroup();
          this.rgpMarket = new DevExpress.XtraEditors.RadioGroup();
          this.panelControl = new DevExpress.XtraEditors.PanelControl();
-         this.txtEDate = new BaseGround.Widget.TextDateEdit();
-         this.txtSDate = new BaseGround.Widget.TextDateEdit();
-         this.label4 = new System.Windows.Forms.Label();
          this.panParent.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).BeginInit();
          this.grpxDescription.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.txtEDate.Properties)).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtRank.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.rgpData.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.rgpType.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.rgpMarket.Properties)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.panelControl)).BeginInit();
          this.panelControl.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.txtEDate.Properties)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).BeginInit();
          this.SuspendLayout();
          // 
          // panParent
          // 
          this.panParent.Controls.Add(this.panelControl);
-         this.panParent.Size = new System.Drawing.Size(974, 700);
+         this.panParent.Size = new System.Drawing.Size(600, 515);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(974, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(600, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // lblProcessing
          // 
          this.lblProcessing.AutoSize = true;
          this.lblProcessing.ForeColor = System.Drawing.Color.Blue;
-         this.lblProcessing.Location = new System.Drawing.Point(11, 339);
+         this.lblProcessing.Location = new System.Drawing.Point(15, 345);
          this.lblProcessing.MaximumSize = new System.Drawing.Size(430, 120);
          this.lblProcessing.Name = "lblProcessing";
          this.lblProcessing.Size = new System.Drawing.Size(85, 20);
@@ -200,12 +200,61 @@
          this.grpxDescription.Controls.Add(this.lblDate);
          this.grpxDescription.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.grpxDescription.ForeColor = System.Drawing.Color.Navy;
-         this.grpxDescription.Location = new System.Drawing.Point(15, 15);
+         this.grpxDescription.Location = new System.Drawing.Point(20, 15);
          this.grpxDescription.Name = "grpxDescription";
-         this.grpxDescription.Size = new System.Drawing.Size(430, 319);
+         this.grpxDescription.Size = new System.Drawing.Size(430, 320);
          this.grpxDescription.TabIndex = 29;
          this.grpxDescription.TabStop = false;
          this.grpxDescription.Text = "請輸入交易日期";
+         // 
+         // txtEDate
+         // 
+         this.txtEDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtEDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtEDate.EditValue = "2018/12/01";
+         this.txtEDate.EnterMoveNextControl = true;
+         this.txtEDate.Location = new System.Drawing.Point(228, 49);
+         this.txtEDate.MenuManager = this.ribbonControl;
+         this.txtEDate.Name = "txtEDate";
+         this.txtEDate.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtEDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtEDate.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.txtEDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtEDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.txtEDate.Properties.Mask.ShowPlaceHolders = false;
+         this.txtEDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtEDate.Size = new System.Drawing.Size(100, 26);
+         this.txtEDate.TabIndex = 33;
+         this.txtEDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         // 
+         // txtSDate
+         // 
+         this.txtSDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
+         this.txtSDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
+         this.txtSDate.EditValue = "2018/12/01";
+         this.txtSDate.EnterMoveNextControl = true;
+         this.txtSDate.Location = new System.Drawing.Point(100, 49);
+         this.txtSDate.MenuManager = this.ribbonControl;
+         this.txtSDate.Name = "txtSDate";
+         this.txtSDate.Properties.Appearance.Options.UseTextOptions = true;
+         this.txtSDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+         this.txtSDate.Properties.EditFormat.FormatString = "yyyyMMdd";
+         this.txtSDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
+         this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+         this.txtSDate.Properties.Mask.ShowPlaceHolders = false;
+         this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
+         this.txtSDate.Size = new System.Drawing.Size(100, 26);
+         this.txtSDate.TabIndex = 32;
+         this.txtSDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
+         // 
+         // label4
+         // 
+         this.label4.AutoSize = true;
+         this.label4.Location = new System.Drawing.Point(202, 52);
+         this.label4.Name = "label4";
+         this.label4.Size = new System.Drawing.Size(26, 21);
+         this.label4.TabIndex = 34;
+         this.label4.Text = "～";
          // 
          // txtRank
          // 
@@ -290,70 +339,23 @@
          this.panelControl.Location = new System.Drawing.Point(30, 30);
          this.panelControl.Margin = new System.Windows.Forms.Padding(15);
          this.panelControl.Name = "panelControl";
-         this.panelControl.Size = new System.Drawing.Size(459, 382);
+         this.panelControl.Size = new System.Drawing.Size(470, 395);
          this.panelControl.TabIndex = 31;
-         // 
-         // txtEDate
-         // 
-         this.txtEDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtEDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtEDate.EditValue = "2018/12/01";
-         this.txtEDate.EnterMoveNextControl = true;
-         this.txtEDate.Location = new System.Drawing.Point(228, 49);
-         this.txtEDate.MenuManager = this.ribbonControl;
-         this.txtEDate.Name = "txtEDate";
-         this.txtEDate.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtEDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtEDate.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtEDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
-         this.txtEDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-         this.txtEDate.Properties.Mask.ShowPlaceHolders = false;
-         this.txtEDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtEDate.Size = new System.Drawing.Size(100, 26);
-         this.txtEDate.TabIndex = 33;
-         this.txtEDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-         // 
-         // txtSDate
-         // 
-         this.txtSDate.DateTimeValue = new System.DateTime(2018, 12, 1, 0, 0, 0, 0);
-         this.txtSDate.DateType = BaseGround.Widget.TextDateEdit.DateTypeItem.Date;
-         this.txtSDate.EditValue = "2018/12/01";
-         this.txtSDate.EnterMoveNextControl = true;
-         this.txtSDate.Location = new System.Drawing.Point(100, 49);
-         this.txtSDate.MenuManager = this.ribbonControl;
-         this.txtSDate.Name = "txtSDate";
-         this.txtSDate.Properties.Appearance.Options.UseTextOptions = true;
-         this.txtSDate.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-         this.txtSDate.Properties.EditFormat.FormatString = "yyyyMMdd";
-         this.txtSDate.Properties.Mask.EditMask = "[1-9]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])";
-         this.txtSDate.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
-         this.txtSDate.Properties.Mask.ShowPlaceHolders = false;
-         this.txtSDate.Properties.Mask.UseMaskAsDisplayFormat = true;
-         this.txtSDate.Size = new System.Drawing.Size(100, 26);
-         this.txtSDate.TabIndex = 32;
-         this.txtSDate.TextMaskFormat = BaseGround.Widget.TextDateEdit.TextMaskFormatItem.IncludePrompt;
-         // 
-         // label4
-         // 
-         this.label4.AutoSize = true;
-         this.label4.Location = new System.Drawing.Point(202, 52);
-         this.label4.Name = "label4";
-         this.label4.Size = new System.Drawing.Size(26, 21);
-         this.label4.TabIndex = 34;
-         this.label4.Text = "～";
          // 
          // W30080
          // 
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(974, 730);
+         this.ClientSize = new System.Drawing.Size(600, 545);
          this.Name = "W30080";
          this.Text = "W30080";
          this.panParent.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.ribbonControl)).EndInit();
          this.grpxDescription.ResumeLayout(false);
          this.grpxDescription.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.txtEDate.Properties)).EndInit();
+         ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.txtRank.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.rgpData.Properties)).EndInit();
          ((System.ComponentModel.ISupportInitialize)(this.rgpType.Properties)).EndInit();
@@ -361,8 +363,6 @@
          ((System.ComponentModel.ISupportInitialize)(this.panelControl)).EndInit();
          this.panelControl.ResumeLayout(false);
          this.panelControl.PerformLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.txtEDate.Properties)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txtSDate.Properties)).EndInit();
          this.ResumeLayout(false);
          this.PerformLayout();
 

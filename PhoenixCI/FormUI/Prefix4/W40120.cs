@@ -8,6 +8,7 @@ using DevExpress.XtraWaitForm;
 using System;
 using System.Data;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 
 /// <summary>
@@ -65,6 +66,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
 
             //1.2 get data
             DataTable dt = new D40120().ListData(txtStartDate.DateTimeValue);
+            DataTable dt1 = new D40120().ListData2(txtStartDate.DateTimeValue);//新的SQL
             if (dt.Rows.Count <= 0) {
                SplashScreenManager.CloseForm();
                MessageDisplay.Info(string.Format("{0},{1}文字說明,讀取「案由一契約名稱」無任何資料!" , txtStartDate.Text , _ProgramID) , GlobalInfo.ResultText);
@@ -235,7 +237,10 @@ namespace PhoenixCI.FormUI.Prefix4 {
                return ResultStatus.Fail;
             }
 
-            //SplashScreenManager.CloseForm();
+            SplashScreenManager.Default.SetWaitFormCaption("請燒等");
+            SplashScreenManager.Default.SetWaitFormDescription("訊息：資料轉出中........12345");
+            Thread.Sleep(2500);
+            SplashScreenManager.CloseForm();
 
             //if (FlagAdmin)
             //   System.Diagnostics.Process.Start(filePath);

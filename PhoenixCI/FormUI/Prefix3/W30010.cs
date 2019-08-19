@@ -44,6 +44,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
          DataTable ddlb_grp = new CODW().ListLookUpEdit("GRP" , "GRP_NO");
          Extension.SetDataTable(ddlType , ddlb_grp , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
          ddlType.ItemIndex = 1;
+         ddlType.Properties.DropDownRows = ddlb_grp.Rows.Count;
 
          return ResultStatus.Success;
       }
