@@ -542,26 +542,35 @@ namespace PhoenixCI.FormUI.Prefix3 {
       /// <param name="sender"></param>
       /// <param name="e"></param>
       private void gvMain_CellValueChanging(object sender , DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e) {
-         try {
-            GridView gv = sender as GridView;
-            int data;
-            if (e.Column.Name == "PLS1_CP_LEVEL") {
-               data = e.Value.AsInt();
-               DataTable dtPLST1 = dao30222.SetPLST1LevelData(data);
-               if (dtPLST1.Rows.Count == 0) {
-                  MessageDisplay.Error("PLST1無任何資料!");
-                  return;
-               }
-               gv.SetRowCellValue(e.RowHandle , "PLS1_CP_NATURE" , dtPLST1.Rows[0]["PLST1_NATURE"]);
-               gv.SetRowCellValue(e.RowHandle , "PLS1_CP_LEGAL" , dtPLST1.Rows[0]["PLST1_LEGAL"]);
-               gv.SetRowCellValue(e.RowHandle , "PLS1_CP_999" , dtPLST1.Rows[0]["PLST1_999"]);
-               if (gv.GetRowCellValue(e.RowHandle , "PLS1_CUR_LEVEL").AsInt() > data) {
-                  gv.SetRowCellValue(e.RowHandle , "PLS1_LEVEL_ADJ" , "+");
-               } else if (gv.GetRowCellValue(e.RowHandle , "PLS1_CUR_LEVEL").AsInt() < data) {
-                  gv.SetRowCellValue(e.RowHandle , "PLS1_LEVEL_ADJ" , "-");
-               } else {
-                  gv.SetRowCellValue(e.RowHandle , "PLS1_LEVEL_ADJ" , " ");
-               }
+            try
+            {
+                GridView gv = sender as GridView;
+                int data;
+                if (e.Column.Name == "PLS1_CP_LEVEL")
+                {
+                    data = e.Value.AsInt();
+                    DataTable dtPLST1 = dao30222.SetPLST1LevelData(data);
+                    if (dtPLST1.Rows.Count == 0)
+                    {
+                        MessageDisplay.Error("PLST1無任何資料!");
+                        return;
+                    }
+                    gv.SetRowCellValue(e.RowHandle, "PLS1_CP_NATURE", dtPLST1.Rows[0]["PLST1_NATURE"]);
+                    gv.SetRowCellValue(e.RowHandle, "PLS1_CP_LEGAL", dtPLST1.Rows[0]["PLST1_LEGAL"]);
+                    gv.SetRowCellValue(e.RowHandle, "PLS1_CP_999", dtPLST1.Rows[0]["PLST1_999"]);
+                    if (gv.GetRowCellValue(e.RowHandle, "PLS1_CUR_LEVEL").AsInt() > data)
+                    {
+                        gv.SetRowCellValue(e.RowHandle, "PLS1_LEVEL_ADJ", "+");
+                    }
+                    else if (gv.GetRowCellValue(e.RowHandle, "PLS1_CUR_LEVEL").AsInt() < data)
+                    {
+                        gv.SetRowCellValue(e.RowHandle, "PLS1_LEVEL_ADJ", "-");
+                    }
+                    else
+                    {
+                        gv.SetRowCellValue(e.RowHandle, "PLS1_LEVEL_ADJ", " ");
+                    }
+                }
             }
             catch (Exception ex)
             {
