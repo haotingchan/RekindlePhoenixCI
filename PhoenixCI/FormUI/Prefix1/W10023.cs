@@ -1,5 +1,6 @@
 ﻿
 using BaseGround;
+using BaseGround.Shared;
 using BusinessObjects;
 using PhoenixCI.BusinessLogic.Prefix7;
 using System;
@@ -53,12 +54,55 @@ namespace PhoenixCI.FormUI.Prefix1
         }
 
         private void wf_70010(string marketCode) {
-            string saveFilePath;
-            string fileName;
-            string fileFlag="";
-            string symd = txtOcfDate.DateTimeValue.ToString("yyyyMM01");
+
+            DateTime edate = txtOcfDate.DateTimeValue;
+            #region 日
+            string symd = edate.ToString("yyyyMM01");
             string eymd = txtOcfDate.FormatValue;
-            switch (marketCode) {
+            createFile(symd, eymd, "D", "Daily", marketCode);
+            #endregion
+
+            string nextYmd = PbFunc.f_ocf_date(2, _DB_TYPE);
+            DateTime nextDate = DateTime.ParseExact(nextYmd, "yyyyMMdd", null);
+            DayOfWeek nextYmdDayNum = nextDate.DayOfWeek;
+
+            #region 月
+            nextYmd = nextYmd.Substring(0, 6);
+            symd = edate.ToString("yyyy01");
+            eymd = edate.ToString("yyyyMM");
+            // 當下營業日換月份時,才產出月檔
+            if (eymd != nextYmd)
+            {
+                createFile(symd, eymd, "M", "Monthly", marketCode);
+            }
+            #endregion
+
+            #region 週
+            DayOfWeek dayNum = edate.DayOfWeek;
+            eymd = txtOcfDate.FormatValue;
+            symd = "";
+            if (dayNum > nextYmdDayNum && Math.Abs(new TimeSpan(edate.Ticks - nextDate.Ticks).Days) >6)
+            {
+                createFile(symd, eymd, "D", "Weekly", marketCode);
+            }
+            #endregion
+
+            #region 年
+            eymd = edate.ToString("yyyy");
+            nextYmd = nextYmd.Substring(0,4);
+            if (eymd != nextYmd)
+            {
+                symd = (int.Parse(eymd) - 9).ToString();
+                createFile(symd, eymd, "Y", "Yearly", marketCode);
+            }
+            #endregion
+        }
+
+        public void createFile(string symd,string eymd,string sumType,string dataType,string marketCode) {
+            string fileFlag = "";
+            string param = "1002205";
+            switch (marketCode)
+            {
                 case "0":
                     fileFlag = "_day";
                     break;
@@ -69,33 +113,39 @@ namespace PhoenixCI.FormUI.Prefix1
                     fileFlag = "";
                     break;
             }
-            #region 日
-            fileName = $@"\Daily_OPT{fileFlag}.csv";
-            saveFilePath = GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH + fileName;
-            b700xxFunc.F70010YmdByMarketCode(saveFilePath, symd, eymd, "D", "O", marketCode);
+
+
+            string fileName = $@"\{dataType}_OPT{fileFlag}.csv";
+            string saveFilePath = GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH + fileName;
+
+            //中文版
+            if (dataType == "Weekly")
+            {
+                b700xxFunc.F70010WeekByMarketCode(saveFilePath, symd, eymd, sumType, "O", marketCode);
+            }
+            else
+            {
+                b700xxFunc.F70010YmdByMarketCode(saveFilePath, symd, eymd, sumType, "O", marketCode);
+            }
+            ExecuteFile(param, fileName);
+            ExecuteFile(param, $@"\{dataType}_OPT{fileFlag}_OpenData.csv");
+            if (dataType == "Daily")
+            {
+                ExecuteFile(param, $@"\{dataType}_OPT{fileFlag}_W_OpenData.csv");
+            }
 
             //英文版
-            fileName = $@"\Daily_OPT{fileFlag}_eng.csv";
+            fileName = $@"\{dataType}_OPT{fileFlag}_eng.csv";
             saveFilePath = GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH + fileName;
-            b700xxFunc.F70010YmdByMarketCode(saveFilePath, symd, eymd, "D", "O", marketCode,true);
-            #endregion
-
-            #region 月
-            //string nextYmd = ;
-            eymd = txtOcfDate.DateTimeValue.ToString("yyyyMM");
-            symd = symd.Substring(0, 6);
-            // 當下營業日換月份時,才產出月檔
-            if (symd.IndexOf(eymd)<0)
+            if (dataType == "Weekly")
             {
-                fileName = $@"Monthly_OPT{fileFlag}.csv";
-                saveFilePath = GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH + fileName;
-                b700xxFunc.F70010YmdByMarketCode(saveFilePath, symd, eymd, "M", "O", marketCode);
-
-                fileName = $@"Monthly_OPT{fileFlag}_eng.csv";
-                saveFilePath = GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH + fileName;
-                b700xxFunc.F70010YmdByMarketCode(saveFilePath, symd, eymd, "M", "O", marketCode,true);
+                b700xxFunc.F70010WeekByMarketCode(saveFilePath, symd, eymd, sumType, "O", marketCode, true);
             }
-            #endregion
+            else
+            {
+                b700xxFunc.F70010YmdByMarketCode(saveFilePath, symd, eymd, sumType, "O", marketCode, true);
+            }
+            ExecuteFile(param, fileName);
         }
 
     }

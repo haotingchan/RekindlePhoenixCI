@@ -8,6 +8,7 @@ using Common;
 using Common.Config;
 using Common.Helper;
 using DataObjects;
+using DataObjects.Dao.Together;
 using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraSplashScreen;
@@ -17,7 +18,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.Net;
 using System.Reflection;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace PhoenixCI.FormUI.Prefix1
@@ -25,6 +28,7 @@ namespace PhoenixCI.FormUI.Prefix1
     public partial class W1xxx : FormParent
     {
         private string OCF_TYPE;
+        private TXFP daoTXFP;
         public W1xxx() {
             InitializeComponent();
         }
@@ -48,6 +52,8 @@ namespace PhoenixCI.FormUI.Prefix1
             gcMain.RepositoryItems.Add(repCheck);
             gcol_gcMain_TXF_DEFAULT.ColumnEdit = repCheck;
             _IsProcessRunAsync = true;
+
+            daoTXFP = new TXFP();
         }
 
         public override ResultStatus BeforeOpen()
@@ -639,6 +645,58 @@ namespace PhoenixCI.FormUI.Prefix1
                 Retrieve();
                 PrintableComponent = gcLogsp;
             }
+        }
+
+        public ResultStatus ExecuteFile(string param, string fileName)
+        {
+            try
+            {
+                //取得網路磁碟機路徑、帳密
+                DataTable dtInfo = daoTXFP.GetPathAccPwd("file", param);
+                string userId = dtInfo.Rows[0]["ls_user"].AsString();
+                string pwd = dtInfo.Rows[0]["ls_pwd"].AsString();
+                string targetPath = dtInfo.Rows[0]["is_path"].AsString();
+                pwd = PbFunc.f_decode(pwd);
+
+                string txtPath = Path.Combine(GlobalInfo.DEFAULT_REPORT_DIRECTORY_PATH, fileName.Replace("\\",""));
+
+                //執行f_netdragon
+                int li_rtn = Go("N", userId, pwd, txtPath, targetPath + "\\" + fileName, "Y");
+                if (li_rtn != 1)
+                {
+                    MessageDisplay.Error($"執行 {_ProgramID} 傳送檔案{fileName}失敗!", GlobalInfo.ErrorText);
+                    return ResultStatus.Fail;
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteLog(ex);
+                return ResultStatus.Fail;
+            }
+
+            return ResultStatus.Success;
+        }
+
+        public static int Go(string domain, string userName, string password, string pathSourceFile, string pathTargetFile, string isOutputReadyFile)
+        {
+            int num = 0;
+            NetworkCredential credentials = new NetworkCredential(userName, password);
+            string directoryName = Path.GetDirectoryName(pathTargetFile);
+            try
+            {
+                using (new ConnectSharedFolder(directoryName, credentials))
+                {
+                    File.Copy(pathSourceFile, pathTargetFile, true);
+                    Thread.Sleep(100);
+                    num = 1;
+                }
+            }
+            catch (Exception exception1)
+            {
+                MessageBox.Show(exception1.Message);
+                num = -1;
+            }
+            return num;
         }
 
     }
