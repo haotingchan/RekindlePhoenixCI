@@ -103,8 +103,8 @@ namespace PhoenixCI.FormUI.Prefix2 {
          //                               new LookupItem() { ValueMember = "1", DisplayMember = "16:15收盤"},
          //                               new LookupItem() { ValueMember = "2", DisplayMember = "全部收盤" }};
 
-         DataTable dtGrp = new CODW().ListLookUpEdit("GRP" , "GRP_NO");
-         Extension.SetDataTable(ddlType , dtGrp , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
+         //DataTable dtGrp = new CODW().ListLookUpEdit("GRP" , "GRP_NO");
+         //Extension.SetDataTable(ddlType , dtGrp , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
          #endregion
 
 #if DEBUG
@@ -152,12 +152,12 @@ namespace PhoenixCI.FormUI.Prefix2 {
          gcMain.Focus();
 
          //call OCFG的f_get_txn_osw_grp
-         if (daoOCFG.f_get_txn_osw_grp(_ProgramID) == "1" ||
-             daoOCFG.f_get_txn_osw_grp(_ProgramID) == "5") {
-            ddlType.ItemIndex = 0;
-         } else {
-            ddlType.ItemIndex = 1;
-         }
+         //if (daoOCFG.f_get_txn_osw_grp(_ProgramID) == "1" ||
+         //    daoOCFG.f_get_txn_osw_grp(_ProgramID) == "5") {
+         //   ddlType.ItemIndex = 0;
+         //} else {
+         //   ddlType.ItemIndex = 1;
+         //}
 
          return ResultStatus.Success;
       }
@@ -330,11 +330,11 @@ namespace PhoenixCI.FormUI.Prefix2 {
 
             dtGrid = (DataTable)gcMain.DataSource;
             //補沒有轉入商品之空白(AMIFU有缺的，從RPT那邊補)
-            if (ddlType.Text == "16:15收盤") {
-               DataView dv = dtRPT.AsDataView();
-               dv.RowFilter = "RPT_VALUE_4 <> '7'";
-               dtRPT = dv.ToTable();
-            }
+            //if (ddlType.Text == "16:15收盤") {
+            //   DataView dv = dtRPT.AsDataView();
+            //   dv.RowFilter = "RPT_VALUE_4 <> '7'";
+            //   dtRPT = dv.ToTable();
+            //}
             for (i = 0 ; i < dtRPT.Rows.Count ; i++) {
                kindId = dtRPT.Rows[i]["RPT_VALUE"].AsString();
                settleDate = dtRPT.Rows[i]["RPT_VALUE_2"].AsString();

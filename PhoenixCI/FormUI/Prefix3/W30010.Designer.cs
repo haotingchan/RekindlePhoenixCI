@@ -81,6 +81,7 @@
          this.ddlType.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.ddlType.Size = new System.Drawing.Size(150, 26);
          this.ddlType.TabIndex = 1;
+         this.ddlType.Visible = false;
          // 
          // labType
          // 
@@ -91,6 +92,7 @@
          this.labType.Size = new System.Drawing.Size(58, 21);
          this.labType.TabIndex = 14;
          this.labType.Text = "盤別：";
+         this.labType.Visible = false;
          // 
          // txtSDate
          // 

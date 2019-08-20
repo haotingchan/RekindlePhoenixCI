@@ -41,29 +41,29 @@ namespace PhoenixCI.FormUI.Prefix3 {
          //List<LookupItem> ddlb_grp = new List<LookupItem>(){
          //                               new LookupItem() { ValueMember = "1", DisplayMember = "16:15收盤"},
          //                               new LookupItem() { ValueMember = "2", DisplayMember = "全部收盤" }};
-         DataTable ddlb_grp = new CODW().ListLookUpEdit("GRP" , "GRP_NO");
-         Extension.SetDataTable(ddlType , ddlb_grp , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
-         ddlType.ItemIndex = 1;
-         ddlType.Properties.DropDownRows = ddlb_grp.Rows.Count;
+         //DataTable ddlb_grp = new CODW().ListLookUpEdit("GRP" , "GRP_NO");
+         //Extension.SetDataTable(ddlType , ddlb_grp , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
+         //ddlType.ItemIndex = 1;
+         //ddlType.Properties.DropDownRows = ddlb_grp.Rows.Count;
 
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus AfterOpen() {
-         try {
-            //決定盤別下拉選單
-            daoOCFG = new OCFG();
-            if (daoOCFG.f_get_txn_osw_grp(_ProgramID) == "5") {
-               ddlType.EditValue = "1";
-            } else {
-               ddlType.EditValue = "2";
-            }
+      //protected override ResultStatus AfterOpen() {
+      //   try {
+      //      //決定盤別下拉選單
+      //      daoOCFG = new OCFG();
+      //      if (daoOCFG.f_get_txn_osw_grp(_ProgramID) == "5") {
+      //         ddlType.EditValue = "1";
+      //      } else {
+      //         ddlType.EditValue = "2";
+      //      }
 
-         } catch (Exception ex) {
-            throw ex;
-         }
-         return ResultStatus.Success;
-      }
+      //   } catch (Exception ex) {
+      //      throw ex;
+      //   }
+      //   return ResultStatus.Success;
+      //}
 
       protected override ResultStatus ActivatedForm() {
          base.ActivatedForm();
@@ -106,29 +106,30 @@ namespace PhoenixCI.FormUI.Prefix3 {
             //判斷盤別
             int rtnInt, seq;
             string rtnStr, grp;
-            if (ddlType.Text == "16:15收盤") {
-               grp = "1";
-               DialogResult result = MessageDisplay.Choose("盤別為「16:15收盤」，請問是否繼續轉出報表？" , MessageBoxDefaultButton.Button2 , GlobalInfo.QuestionText);
-               if (result == DialogResult.No) {
-                  ShowMsg("已取消轉檔...");
-                  return ResultStatus.Fail;
-               }
-            } else {
-               grp = "2";
-            }
+            //if (ddlType.Text == "16:15收盤") {
+            //   grp = "1";
+            //   DialogResult result = MessageDisplay.Choose("盤別為「16:15收盤」，請問是否繼續轉出報表？" , MessageBoxDefaultButton.Button2 , GlobalInfo.QuestionText);
+            //   if (result == DialogResult.No) {
+            //      ShowMsg("已取消轉檔...");
+            //      return ResultStatus.Fail;
+            //   }
+            //} else {
+            //   grp = "2";
+            //}
+            grp = "2";
 
             //判斷統計資料轉檔已完成
             for (int f = 1 ; f <= 2 ; f++) {
-               if (grp == "1") {
-                  if (f == 1) {
-                     seq = 13;
-                  } else {
-                     seq = 23;
-                  }
-               } else {
-                  seq = 17;
-                  f = 2;
-               }
+               //if (grp == "1") {
+               //   if (f == 1) {
+               //      seq = 13;
+               //   } else {
+               //      seq = 23;
+               //   }
+               //} else {
+               seq = 17;
+               f = 2;
+               //}
                //check JSW
                rtnStr = PbFunc.f_get_jsw_seq(_ProgramID , "E" , seq , txtSDate.DateTimeValue , "0");
                if (rtnStr != "") {

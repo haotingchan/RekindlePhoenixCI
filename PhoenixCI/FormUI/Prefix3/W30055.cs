@@ -27,7 +27,7 @@ namespace PhoenixCI.FormUI.Prefix3 {
       protected D30055 dao30055;
       protected AMIF amif;
       protected AI2 ai2;
-      protected OCFG daoOCFG;
+      //protected OCFG daoOCFG;
       private string is_chk = "Y";
       private int flag;
 
@@ -60,38 +60,33 @@ namespace PhoenixCI.FormUI.Prefix3 {
          //List<LookupItem> lstType = new List<LookupItem>(){
          //                               new LookupItem() { ValueMember = "1", DisplayMember = "16:15收盤"},
          //                               new LookupItem() { ValueMember = "2", DisplayMember = "全部收盤" }};
-         DataTable lstType = new CODW().ListLookUpEdit("GRP" , "GRP_NO");
-         Extension.SetDataTable(ddlType , lstType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
-         ddlType.ItemIndex = 1;
-         ddlType.Properties.DropDownRows = lstType.Rows.Count;
+         //DataTable lstType = new CODW().ListLookUpEdit("GRP" , "GRP_NO");
+         //Extension.SetDataTable(ddlType , lstType , "CODW_ID" , "CODW_DESC" , TextEditStyles.DisableTextEditor , "");
+         //ddlType.ItemIndex = 1;
+         //ddlType.Properties.DropDownRows = lstType.Rows.Count;
 
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus AfterOpen() {
-         base.AfterOpen();
+      //      protected override ResultStatus AfterOpen() {
+      //         base.AfterOpen();
 
-         //比對現在時間,如果小於晚上6: 15(時段7),則回傳"5", 否則回傳"%"
-         daoOCFG = new OCFG();
-         //if (daoOCFG.f_get_txn_osw_grp(_ProgramID) == "5") {
-         //   ddlType.ItemIndex = 0;
-         //} else {
-         //   ddlType.ItemIndex = 1;
-         //}
-         if (PbFunc.f_get_txn_osw_grp() == "5") {
-            ddlType.ItemIndex = 0;
-         } else {
-            ddlType.ItemIndex = 1;
-         }
+      //         //比對現在時間,如果小於晚上6: 15(時段7),則回傳"5", 否則回傳"%"
+      //         daoOCFG = new OCFG();
+      //         if (PbFunc.f_get_txn_osw_grp() == "5") {
+      //            ddlType.ItemIndex = 0;
+      //         } else {
+      //            ddlType.ItemIndex = 1;
+      //         }
 
-#if DEBUG
-         txtSDate.DateTimeValue = DateTime.ParseExact("2018/10/11" , "yyyy/MM/dd" , null);
-         ddlType.ItemIndex = 0;
-         this.Text += "(開啟測試模式),ocfDate=2018/10/11";
-#endif
+      //#if DEBUG
+      //         txtSDate.DateTimeValue = DateTime.ParseExact("2018/10/11" , "yyyy/MM/dd" , null);
+      //         ddlType.ItemIndex = 0;
+      //         this.Text += "(開啟測試模式),ocfDate=2018/10/11";
+      //#endif
 
-         return ResultStatus.Success;
-      }
+      //         return ResultStatus.Success;
+      //      }
 
       protected override ResultStatus ActivatedForm() {
          base.ActivatedForm();
@@ -137,9 +132,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
             }
 
             //1.2 copy template xls to target path
-            string tempOutputDate = (ddlType.Text == "全部收盤" ? "全部收盤" : "16時15分收盤");//ken,檔名不能有冒號,所以無法直接用下拉選單text
+            //string tempOutputDate = (ddlType.Text == "全部收盤" ? "全部收盤" : "16時15分收盤");//ken,檔名不能有冒號,所以無法直接用下拉選單text
+            string tempOutputDate = "全部收盤";
             string targetFileName = string.Format("{0}新版行情表({1}).xlsx" , tradeDate.ToString("yyyyMMdd") , tempOutputDate);
-            string reportId = "30055_" + (ddlType.ItemIndex + 1).ToString();//後面還會用到
+            //string reportId = "30055_" + (ddlType.ItemIndex + 1).ToString();//後面還會用到
+            string reportId = "30055_2";
             string excelDestinationPath = wf_copy_file(reportId , targetFileName);
             if (excelDestinationPath == "") return ResultStatus.Fail;//當copy file發生錯誤,直接離開(這裡檔案名稱會重複,所以容易造成檔案開始時無法move造成失敗)
 

@@ -144,7 +144,7 @@
          this.cbxNews.AutoSize = true;
          this.cbxNews.Font = new System.Drawing.Font("微軟正黑體", 12F);
          this.cbxNews.ForeColor = System.Drawing.Color.Black;
-         this.cbxNews.Location = new System.Drawing.Point(43, 163);
+         this.cbxNews.Location = new System.Drawing.Point(43, 114);
          this.cbxNews.Name = "cbxNews";
          this.cbxNews.Size = new System.Drawing.Size(133, 24);
          this.cbxNews.TabIndex = 3;
@@ -156,7 +156,7 @@
          this.cbxTJF.AutoSize = true;
          this.cbxTJF.Font = new System.Drawing.Font("微軟正黑體", 12F);
          this.cbxTJF.ForeColor = System.Drawing.Color.Black;
-         this.cbxTJF.Location = new System.Drawing.Point(43, 133);
+         this.cbxTJF.Location = new System.Drawing.Point(43, 84);
          this.cbxTJF.Name = "cbxTJF";
          this.cbxTJF.Size = new System.Drawing.Size(181, 24);
          this.cbxTJF.TabIndex = 2;
@@ -165,7 +165,7 @@
          // 
          // ddlType
          // 
-         this.ddlType.Location = new System.Drawing.Point(92, 87);
+         this.ddlType.Location = new System.Drawing.Point(92, 144);
          this.ddlType.MenuManager = this.ribbonControl;
          this.ddlType.Name = "ddlType";
          this.ddlType.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
@@ -178,6 +178,7 @@
          this.ddlType.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.ddlType.Size = new System.Drawing.Size(150, 26);
          this.ddlType.TabIndex = 1;
+         this.ddlType.Visible = false;
          // 
          // r_frame
          // 
@@ -225,11 +226,12 @@
          // 
          this.labType.AutoSize = true;
          this.labType.ForeColor = System.Drawing.Color.Black;
-         this.labType.Location = new System.Drawing.Point(37, 90);
+         this.labType.Location = new System.Drawing.Point(37, 147);
          this.labType.Name = "labType";
          this.labType.Size = new System.Drawing.Size(58, 21);
          this.labType.TabIndex = 3;
          this.labType.Text = "盤別：";
+         this.labType.Visible = false;
          // 
          // labDate
          // 

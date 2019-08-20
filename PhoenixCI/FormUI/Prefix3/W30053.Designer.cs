@@ -68,8 +68,8 @@
          this.panFilter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(202)))), ((int)(((byte)(240)))));
          this.panFilter.Controls.Add(this.cbxNews);
          this.panFilter.Controls.Add(this.ddlType);
-         this.panFilter.Controls.Add(this.labType);
          this.panFilter.Controls.Add(this.txtSDate);
+         this.panFilter.Controls.Add(this.labType);
          this.panFilter.Controls.Add(this.labDate);
          this.panFilter.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Bold);
          this.panFilter.ForeColor = System.Drawing.Color.Navy;
@@ -85,7 +85,7 @@
          this.cbxNews.AutoSize = true;
          this.cbxNews.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
          this.cbxNews.ForeColor = System.Drawing.Color.Black;
-         this.cbxNews.Location = new System.Drawing.Point(43, 135);
+         this.cbxNews.Location = new System.Drawing.Point(44, 83);
          this.cbxNews.Name = "cbxNews";
          this.cbxNews.Size = new System.Drawing.Size(133, 24);
          this.cbxNews.TabIndex = 15;
@@ -94,7 +94,7 @@
          // 
          // ddlType
          // 
-         this.ddlType.Location = new System.Drawing.Point(93, 87);
+         this.ddlType.Location = new System.Drawing.Point(94, 131);
          this.ddlType.MenuManager = this.ribbonControl;
          this.ddlType.Name = "ddlType";
          this.ddlType.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
@@ -107,16 +107,18 @@
          this.ddlType.Properties.LookAndFeel.UseDefaultLookAndFeel = false;
          this.ddlType.Size = new System.Drawing.Size(150, 26);
          this.ddlType.TabIndex = 1;
+         this.ddlType.Visible = false;
          // 
          // labType
          // 
          this.labType.AutoSize = true;
          this.labType.ForeColor = System.Drawing.Color.Black;
-         this.labType.Location = new System.Drawing.Point(37, 90);
+         this.labType.Location = new System.Drawing.Point(38, 134);
          this.labType.Name = "labType";
          this.labType.Size = new System.Drawing.Size(58, 21);
          this.labType.TabIndex = 14;
          this.labType.Text = "盤別：";
+         this.labType.Visible = false;
          // 
          // txtSDate
          // 
