@@ -57,12 +57,12 @@
          this.panParent.Controls.Add(this.panelControl);
          this.panParent.Controls.Add(this.txtPrevEymd);
          this.panParent.Controls.Add(this.cbxDB);
-         this.panParent.Size = new System.Drawing.Size(941, 637);
+         this.panParent.Size = new System.Drawing.Size(740, 505);
          // 
          // ribbonControl
          // 
          this.ribbonControl.ExpandCollapseItem.Id = 0;
-         this.ribbonControl.Size = new System.Drawing.Size(941, 30);
+         this.ribbonControl.Size = new System.Drawing.Size(740, 30);
          this.ribbonControl.Toolbar.ShowCustomizeItem = false;
          // 
          // lblProcessing
@@ -307,7 +307,7 @@
          this.Appearance.Options.UseFont = true;
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.ClientSize = new System.Drawing.Size(941, 667);
+         this.ClientSize = new System.Drawing.Size(740, 535);
          this.Name = "W30221";
          this.Text = "W30221";
          this.panParent.ResumeLayout(false);

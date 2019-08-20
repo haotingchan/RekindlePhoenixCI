@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 /// Lukas, 2019/5/15
 /// </summary>
 namespace DataObjects.Dao.Together.SpecificDao {
-    public class D40074 : DataGate {
+   public class D40074 : DataGate {
 
-        public DataTable d_40074() {
+      public DataTable d_40074() {
 
-            string sql =
+         string sql =
 @"
 SELECT
     MGD2_PROD_TYPE as PROD_TYPE,      
@@ -49,21 +49,41 @@ WHERE MGD2_YMD = ''
   AND RPT_SEQ_NO = COD_SEQ_NO
 ORDER BY SEQ_NO, KIND_ID
 ";
-            DataTable dtResult = db.GetDataTable(sql, null);
+         DataTable dtResult = db.GetDataTable(sql , null);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        public int getProd(string as_kind_id, string as_prod_subtype) {
-            string sql = "";
-            object[] parms = {
+      public string GetMaxAOCF(string year) {
+         object[] parms = {
+                ":year", year
+            };
+
+         string sql =
+@"
+SELECT MAX(OCF_YMD) as MAXAOCF 
+FROM ci.AOCF 
+WHERE SUBSTR(OCF_YMD,0,4) = :year
+";
+
+         string maxDay = "";
+         DataTable dtResult = db.GetDataTable(sql , parms);
+         if (dtResult.Rows.Count != 0) {
+            maxDay = dtResult.Rows[0]["MAXAOCF"].AsString();
+         }
+         return maxDay;
+      }
+
+      public int getProd(string as_kind_id , string as_prod_subtype) {
+         string sql = "";
+         object[] parms = {
                 ":as_prod_subtype", as_prod_subtype,
                 ":as_kind_id", as_kind_id
             };
 
-            if (as_prod_subtype == "I") {
+         if (as_prod_subtype == "I") {
 
-                sql =
+            sql =
 @"
 SELECT COD_SEQ_NO as li_prod_seq
 		FROM ci.COD,ci.RPT,ci.MGT2 
@@ -77,11 +97,10 @@ SELECT COD_SEQ_NO as li_prod_seq
 		  AND MGT2_ABROAD = RPT_VALUE_3
 		  AND MGT2_KIND_ID = :as_kind_id
 ";
-            }
-            else if (as_prod_subtype == "S") {
+         } else if (as_prod_subtype == "S") {
 
 
-                sql =
+            sql =
 @"
 SELECT COD_SEQ_NO as li_prod_seq
 		FROM ci.COD,ci.RPT ,ci.APDK
@@ -94,9 +113,8 @@ SELECT COD_SEQ_NO as li_prod_seq
 		  AND SUBSTR(APDK_PARAM_KEY,1,2) = SUBSTR(RPT_VALUE_2,1,2)								  
 		  AND APDK_KIND_ID = :as_kind_id
 ";
-            }
-            else {
-                sql =
+         } else {
+            sql =
 @"
 SELECT COD_SEQ_NO as li_prod_seq
 		FROM ci.COD,ci.RPT 
@@ -107,25 +125,24 @@ SELECT COD_SEQ_NO as li_prod_seq
 		  AND RPT_SEQ_NO = COD_SEQ_NO
 		  AND RPT_VALUE = :as_prod_subtype
 ";
-            }
+         }
 
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
-            if (dtResult.Rows.Count == 0) {
-                return 0;
-            }
-            else {
-                return dtResult.Rows[0]["LI_PROD_SEQ"].AsInt();
-            }
-        }
+         if (dtResult.Rows.Count == 0) {
+            return 0;
+         } else {
+            return dtResult.Rows[0]["LI_PROD_SEQ"].AsInt();
+         }
+      }
 
-        public DataTable checkProd(string ls_kind_id) {
+      public DataTable checkProd(string ls_kind_id) {
 
-            object[] parms = {
+         object[] parms = {
                 ":ls_kind_id", ls_kind_id
             };
 
-            string sql =
+         string sql =
 @"
 				SELECT count(*) as li_count,
                    MAX(trim(APDK_CURRENCY_TYPE)) as ls_currency_type,
@@ -133,18 +150,18 @@ SELECT COD_SEQ_NO as li_prod_seq
 				FROM ci.APDK 
 				WHERE APDK_KIND_ID = :ls_kind_id
 ";
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
-            return dtResult;
-        }
+         return dtResult;
+      }
 
-        public DataTable dddw_pdk_kind_id_40074(string as_param_key) {
+      public DataTable dddw_pdk_kind_id_40074(string as_param_key) {
 
-            object[] parms = {
+         object[] parms = {
                 ":as_param_key", as_param_key
             };
 
-            string sql =
+         string sql =
 @"
 SELECT APDK_KIND_ID AS KIND_ID,
        APDK_NAME,
@@ -157,9 +174,9 @@ SELECT APDK_KIND_ID AS KIND_ID,
    AND APDK_PARAM_KEY = MGT2_KIND_ID
  ORDER BY apdk_kind_id
 ";
-            DataTable dtResult = db.GetDataTable(sql, parms);
+         DataTable dtResult = db.GetDataTable(sql , parms);
 
-            return dtResult;
-        }
-    }
+         return dtResult;
+      }
+   }
 }

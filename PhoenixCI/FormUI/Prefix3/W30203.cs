@@ -60,9 +60,12 @@ namespace PhoenixCI.FormUI.Prefix3 {
             statusLookUpEdit.LookAndFeel.UseDefaultLookAndFeel = false;
             statusLookUpEdit.UseDropDownRowsAsMaxCount = true;
             PL1B_ADJ.ColumnEdit = statusLookUpEdit;
+            PL1B_ADJ.ShowButtonMode = ShowButtonModeEnum.ShowAlways;
             PL1_NATURE_ADJ.ColumnEdit = statusLookUpEdit;
+            PL1_NATURE_ADJ.ShowButtonMode = ShowButtonModeEnum.ShowAlways;
             PL1_LEGAL_ADJ.ColumnEdit = statusLookUpEdit;
-            
+            PL1_LEGAL_ADJ.ShowButtonMode = ShowButtonModeEnum.ShowAlways;
+
 
             #region BandedColumnCaption換行
             //gvGBF
