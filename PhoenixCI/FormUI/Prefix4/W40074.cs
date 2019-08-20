@@ -332,7 +332,7 @@ namespace PhoenixCI.FormUI.Prefix4 {
             foreach (DataRow dr in dtGrid.Rows) {
                if (dr.RowState == DataRowState.Deleted) continue;
                opType = dr["OP_TYPE"].ToString();
-               stockID = dr["STOCK_ID"].ToString();
+               stockID = dr["STOCK_ID"].AsString();
                kindID = dr["KIND_ID"].AsString();
                level = dr["M_LEVEL"].AsString();
 
