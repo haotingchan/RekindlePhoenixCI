@@ -69,11 +69,14 @@ namespace PhoenixCI.FormUI.Prefix3
             try
             {
                 base.Open();
-                txtDate.DateTimeValue = GlobalInfo.OCF_DATE;
-                txtEffDate.Text = "1901/01/01";
-                txtEffDateLower.Text = "1901/01/01";
+                //txtDate.DateTimeValue = GlobalInfo.OCF_DATE;
+                //txtEffDateB.Text = "1901/01/01";
+                //txtEffDateLowerB.Text = "1901/01/01";
+                txtEffDate.setTextValue("1901/01/01");
+                txtEffDateLower.setTextValue("1901/01/01");
 #if DEBUG
-                txtDate.EditValue = "2018/12/28";
+                //txtDate.EditValue = "2018/12/28";
+                textDayNew.setTextValue("2018/12/28");
 #endif
 
                 //「調整情形」欄位的下拉選單
@@ -111,8 +114,8 @@ namespace PhoenixCI.FormUI.Prefix3
             {
                 gcMain.DataSource = null;//清空grid
                                          //1. 讀取資料
-                string ymd = txtDate.Text.Replace("/", "");
-
+                //string ymd = txtDate.Text.Replace("/", "");
+                string ymd = textDayNew.getTextValue().Replace("/", "");
                 DataTable dt30222 = dao30222.d_30222(ymd);
                 if (dt30222.Rows.Count == 0)
                 {
@@ -140,14 +143,16 @@ namespace PhoenixCI.FormUI.Prefix3
 
                 if (raiseYmd != default(DateTime))
                 {
-                    txtEffDate.DateTimeValue = raiseYmd;
-                    txtEffDateLower.DateTimeValue = lowerYmd;
+                    //txtEffDateB.DateTimeValue = raiseYmd;
+                    //txtEffDateLowerB.DateTimeValue = lowerYmd;
                     lblEff.Text = "（已確認）";
                 }
                 else
                 {
-                    txtEffDate.Text = "1901/01/01";
-                    txtEffDateLower.Text = "1901/01/01";
+                    //txtEffDateB.Text = "1901/01/01";
+                    //txtEffDateLowerB.Text = "1901/01/01";
+                    txtEffDate.setTextValue("1901/01/01");
+                    txtEffDateLower.setTextValue("1901/01/01");
                     lblEff.Text = "";
                 }
 
@@ -212,7 +217,8 @@ namespace PhoenixCI.FormUI.Prefix3
                         found = dt30222.Rows.Count - 1;
                     }
 
-                    if (dt30222PLS2.Rows[w]["PLS2_EFFECTIVE_YMD"].AsString() == txtEffDateLower.DateTimeValue.ToString("yyyyMMdd"))
+                    //if (dt30222PLS2.Rows[w]["PLS2_EFFECTIVE_YMD"].AsString() == txtEffDateLowerB.DateTimeValue.ToString("yyyyMMdd"))
+                    if (dt30222PLS2.Rows[w]["PLS2_EFFECTIVE_YMD"].AsString() == txtEffDateLower.ToString().Replace("/",""))
                     {
                         dt30222.Rows[found]["PLS1_LEVEL_ADJ"] = "-";
                     }
@@ -263,12 +269,14 @@ namespace PhoenixCI.FormUI.Prefix3
                 gvMain.CloseEditor();
 
                 //0. 確認是否填入正確公告日期
-                if (txtEffDate.Text == "1901/01/01")
+                //if (txtEffDateB.Text == "1901/01/01")
+                if (txtEffDate.getTextValue() == "1901/01/01")
                 {
                     MessageDisplay.Error("提高－公告日期非正確日期!");
                     return ResultStatus.Fail;
                 }
-                if (txtEffDateLower.Text == "1901/01/01")
+                //if (txtEffDateLowerB.Text == "1901/01/01")
+                if (txtEffDateLower.getTextValue() == "1901/01/01")
                 {
                     MessageDisplay.Error("降低－公告日期非正確日期!");
                     return ResultStatus.Fail;
@@ -303,7 +311,8 @@ namespace PhoenixCI.FormUI.Prefix3
                 string ymd, effYmd, effYmdLower;
                 bool delResult = false;
                 //3. 判斷是否有已確認之資料
-                ymd = txtDate.Text.Replace("/", "");
+                //ymd = txtDate.Text.Replace("/", "");
+                ymd = textDayNew.getTextValue().Replace("/", "");
                 f = dao30222.checkData(ymd);
                 if (f > 0)
                 {
@@ -321,8 +330,10 @@ namespace PhoenixCI.FormUI.Prefix3
                 }
                 //4. 新增PLS2
                 showMsg = "確認資料(PLS2)更新資料庫錯誤! ";
-                effYmd = txtEffDate.Text.Replace("/", "");
-                effYmdLower = txtEffDateLower.Text.Replace("/", "");
+                //effYmd = txtEffDateB.Text.Replace("/", "");
+                //effYmdLower = txtEffDateLowerB.Text.Replace("/", "");
+                effYmd = txtEffDate.getTextValue().Replace("/", "");
+                effYmdLower = txtEffDateLower.getTextValue().Replace("/", "");
                 DataTable dtPLS2 = dao30222.d_30222_pls2(ymd);
                 dtPLS2.Clear();
                 foreach (DataRow dr in dtGridView.Rows)
@@ -656,7 +667,8 @@ namespace PhoenixCI.FormUI.Prefix3
                     dt30222.Columns.Add("Is_NewRow", typeof(string));
                     gcMain.DataSource = dt30222;
                 }
-                string ymd = txtDate.Text.Replace("/", "");
+                //string ymd = txtDate.Text.Replace("/", "");
+                string ymd = textDayNew.getTextValue().Replace("/", "");
                 gvMain.CloseEditor();
                 DataTable dtGridView = (DataTable)gcMain.DataSource;
                 DataView dv;
